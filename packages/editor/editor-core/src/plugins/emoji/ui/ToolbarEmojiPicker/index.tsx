@@ -1,25 +1,19 @@
 import * as React from 'react';
 import { PureComponent, ReactElement } from 'react';
 import * as ReactDOM from 'react-dom';
-import { PluginKey } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { Popup } from '@atlaskit/editor-common';
 import EmojiIcon from '@atlaskit/icon/glyph/editor/emoji';
-import {
-  EmojiPicker as AkEmojiPicker,
-  EmojiProvider,
-  EmojiId,
-} from '@atlaskit/emoji';
+import { EmojiPicker, EmojiProvider, EmojiId } from '@atlaskit/emoji';
 import { analyticsDecorator as analytics } from '../../../../analytics';
 import ToolbarButton from '../../../../ui/ToolbarButton';
-import { EmojiState } from '../../pm-plugins/main';
+import { insertEmoji } from '../../pm-plugins/actions';
 import { OuterContainer } from './styles';
 
 export interface Props {
   isReducedSpacing?: boolean;
   isDisabled?: boolean;
   editorView: EditorView;
-  pluginKey: PluginKey;
   emojiProvider: Promise<EmojiProvider>;
   /**
    * The number of secondary toolbar buttons between and including ToolbarEmojiPicker and the right edge of the editor
@@ -46,30 +40,16 @@ const isDetachedElement = el => !document.body.contains(el);
 export default class ToolbarEmojiPicker extends PureComponent<Props, State> {
   private pickerRef: ReactElement<any>;
   private buttonRef: ReactElement<any>;
-  private pluginState?: EmojiState;
 
   state: State = {
     isOpen: false,
   };
 
-  componentWillMount() {
-    this.setPluginState(this.props);
-  }
-
   componentDidMount() {
     this.state.button = ReactDOM.findDOMNode(this.buttonRef) as HTMLElement;
-    if (this.pluginState) {
-      this.pluginState.subscribe(this.handlePluginStateChange);
-    }
-    // Keymapping must be added here at the document level as editor focus is lost
+    // Key mapping must be added here at the document level as editor focus is lost
     // when the picker opens so plugins/emojis/keymaps.ts will not register ESC
     document.addEventListener('keydown', this.handleEscape);
-  }
-
-  componentWillReceiveProps(props) {
-    if (!this.pluginState && props.pluginKey) {
-      this.setPluginState(props);
-    }
   }
 
   componentDidUpdate() {
@@ -81,9 +61,6 @@ export default class ToolbarEmojiPicker extends PureComponent<Props, State> {
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleEscape);
-    if (this.pluginState) {
-      this.pluginState.unsubscribe(this.handlePluginStateChange);
-    }
   }
 
   handleEscape = e => {
@@ -91,34 +68,6 @@ export default class ToolbarEmojiPicker extends PureComponent<Props, State> {
     if (this.state.isOpen && (e.which === 27 || e.keyCode === 27)) {
       this.close();
     }
-  };
-
-  private setPluginState(props: Props) {
-    const { editorView, pluginKey } = props;
-
-    if (!editorView) {
-      return;
-    }
-
-    const pluginState = pluginKey.getState(editorView.state);
-
-    if (pluginState) {
-      this.pluginState = pluginState;
-      pluginState.subscribe(this.handlePluginStateChange);
-      this.handlePluginStateChange(pluginState);
-    }
-  }
-
-  private handlePluginStateChange = (pluginState: EmojiState) => {
-    const disabled = !pluginState.isEnabled();
-    const newState: any = {
-      disabled,
-    };
-    if (disabled) {
-      // Ensure closed if disabled, so it does reappear later
-      newState.isOpen = false;
-    }
-    this.setState(newState);
   };
 
   private handleButtonRef = (ref): void => {
@@ -135,16 +84,12 @@ export default class ToolbarEmojiPicker extends PureComponent<Props, State> {
   };
 
   private close = () => {
-    this.setState({
-      isOpen: false,
-    });
+    this.setState({ isOpen: false });
   };
 
   private toggleOpen = () => {
     const { isOpen } = this.state;
-    this.setState({
-      isOpen: !isOpen,
-    });
+    this.setState({ isOpen: !isOpen });
   };
 
   private handleClickOutside = e => {
@@ -183,7 +128,7 @@ export default class ToolbarEmojiPicker extends PureComponent<Props, State> {
         boundariesElement={popupsBoundariesElement}
         scrollableElement={popupsScrollableElement}
       >
-        <AkEmojiPicker
+        <EmojiPicker
           emojiProvider={emojiProvider}
           onSelection={this.handleSelectedEmoji}
           onPickerRef={this.onPickerRef}
@@ -216,9 +161,12 @@ export default class ToolbarEmojiPicker extends PureComponent<Props, State> {
   }
 
   @analytics('atlassian.editor.emoji.button')
-  private handleSelectedEmoji = (emojiId: EmojiId): boolean => {
-    if (this.state.isOpen && this.pluginState) {
-      this.pluginState.insertEmoji(emojiId);
+  private handleSelectedEmoji = (emoji: EmojiId): boolean => {
+    if (this.state.isOpen) {
+      const {
+        editorView: { state, dispatch },
+      } = this.props;
+      insertEmoji(emoji)(state, dispatch);
       this.close();
       return true;
     }
