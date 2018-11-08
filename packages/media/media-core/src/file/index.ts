@@ -26,17 +26,40 @@ export class FileFetcher {
 
   getFileState(id: string, options?: GetFileOptions): Observable<FileState> {
     const key = FileStreamCache.createKey(id, options);
+    const collection = options && options.collectionName;
+    const fileState = fileStreamsCache.get(key);
 
-    return fileStreamsCache.getOrInsert(key, () => {
-      const collection = options && options.collectionName;
+    if (!fileState) {
       const fileStream$ = publishReplay<FileState>(1)(
         this.createDownloadFileStream(id, collection),
       );
-
       fileStream$.connect();
+      fileStreamsCache.set(key, fileStream$);
 
       return fileStream$;
+    }
+
+    const subscribtion = fileState.subscribe({
+      next: currentState => {
+        if (
+          currentState.status === 'processed' ||
+          currentState.status === 'error' ||
+          currentState.status === 'failed-processing'
+        ) {
+          setImmediate(() => subscribtion.unsubscribe());
+        } else {
+          // TODO: we should initiate the polling once, currently it happens everytime we ask for fileState
+          const fileStream$ = publishReplay<FileState>(1)(
+            this.createDownloadFileStream(id, collection, currentState),
+          );
+          fileStream$.connect();
+          fileStreamsCache.set(key, fileStream$);
+          setImmediate(() => subscribtion.unsubscribe());
+        }
+      },
     });
+
+    return fileState;
   }
 
   getArtifactURL(
@@ -54,19 +77,26 @@ export class FileFetcher {
   private createDownloadFileStream = (
     id: string,
     collection?: string,
+    initialState?: FileState,
   ): Observable<FileState> => {
     return Observable.create(async (observer: Observer<FileState>) => {
       let timeoutId: number;
 
-      const fetchFile = async () => {
+      const fetchFile = async (initialState?: FileState) => {
         try {
           const response = await this.mediaStore.getFile(id, { collection });
           const fileState = mapMediaFileToFileState(response);
 
-          observer.next(fileState);
+          observer.next({
+            ...initialState,
+            ...fileState,
+          });
 
           if (fileState.status === 'processing') {
-            timeoutId = window.setTimeout(fetchFile, POLLING_INTERVAL);
+            timeoutId = window.setTimeout(
+              () => fetchFile(initialState),
+              POLLING_INTERVAL,
+            );
           } else {
             observer.complete();
           }
@@ -75,7 +105,7 @@ export class FileFetcher {
         }
       };
 
-      fetchFile();
+      fetchFile(initialState);
 
       return () => {
         window.clearTimeout(timeoutId);

@@ -22,6 +22,7 @@ import {
   UploadEndEventPayload,
   UploadsStartEventPayload,
   UploadPreviewUpdateEventPayload,
+  UploadProcessingEventPayload,
 } from '../src/domain/uploadEvent';
 
 const context = createUploadContext();
@@ -63,7 +64,12 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
   private createPopup() {
     popup.on('uploads-start', this.onUploadsStart);
     popup.on('upload-end', this.onUploadEnd);
+    popup.on('upload-processing', this.onUploadProcessing);
   }
+
+  onUploadProcessing = (data: UploadProcessingEventPayload) => {
+    console.log('onUploadProcessing', data);
+  };
 
   onUploadsStart = (data: UploadsStartEventPayload) => {
     const { files } = this.state;
@@ -80,7 +86,7 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
     const { uploadingFiles } = this.state;
     const { file } = data;
     const index = uploadingFiles.indexOf(file.upfrontId);
-
+    console.log('onUploadEnd', data);
     if (index > -1) {
       uploadingFiles.splice(index, 1);
 
