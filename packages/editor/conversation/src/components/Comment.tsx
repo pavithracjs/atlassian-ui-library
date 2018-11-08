@@ -31,6 +31,7 @@ export interface Props extends SharedProps {
 export interface State {
   isEditing?: boolean;
   isReplying?: boolean;
+  hasDraft?: boolean;
   lastDispatch?: {
     handler: any;
     args: any[];
@@ -182,6 +183,10 @@ export default class Comment extends React.Component<Props, State> {
       actionSubjectId: actionSubjectIds.cancelButton,
     });
 
+    if (this.props.onCancel) {
+      this.props.onCancel();
+    }
+
     this.setState({
       isReplying: false,
     });
@@ -266,6 +271,10 @@ export default class Comment extends React.Component<Props, State> {
     this.props.sendAnalyticsEvent({
       actionSubjectId: actionSubjectIds.cancelButton,
     });
+
+    if (this.props.onCancel) {
+      this.props.onCancel();
+    }
 
     this.setState({
       isEditing: false,
@@ -426,7 +435,7 @@ export default class Comment extends React.Component<Props, State> {
   private renderEditor() {
     const { isReplying } = this.state;
     if (!isReplying) {
-      return null;
+      // return null;
     }
 
     const {
@@ -438,6 +447,8 @@ export default class Comment extends React.Component<Props, State> {
       onEditorClose,
       onEditorOpen,
     } = this.props;
+
+    // console.log(renderEditor.props);
 
     return (
       <Editor
