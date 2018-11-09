@@ -11,7 +11,7 @@ import { enterKeyCommand } from '../../../../plugins/lists/commands';
 
 describe('enterKeyCommand', () => {
   it('should not outdent a list when list item has visible content', () => {
-    const timestamp = Date.now();
+    const timestamp = Date.now().toString();
     const { editorView } = createEditor({
       doc: doc(
         ol(li(p('text')), li(p('{<>}', hardBreak(), date({ timestamp })))),

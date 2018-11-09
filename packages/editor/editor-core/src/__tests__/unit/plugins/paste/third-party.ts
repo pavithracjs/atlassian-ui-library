@@ -12,7 +12,6 @@ import reactSyntaxHighlighterHTML from './__third-party__/react-syntax-highlight
 import vsCodeMultiLine from './__third-party__/vs-code/multi-line/html';
 import vsCodeSingleLine from './__third-party__/vs-code/single-line/html';
 
-import { toJSON } from '../../../../utils';
 import {
   createEditor,
   doc,
@@ -39,7 +38,7 @@ describe('paste plugin: third-party', () => {
       html: appleTextHTML,
       plain: appleTextPlain,
     });
-    expect(toJSON(editorView.state.doc)).toMatchDocSnapshot();
+    expect(editorView.state.doc).toMatchDocSnapshot();
   });
 
   it('should handle pasting content from Confluence', () => {
@@ -48,7 +47,7 @@ describe('paste plugin: third-party', () => {
       html: confluenceTextHTML,
       plain: confluenceTextPlain,
     });
-    expect(toJSON(editorView.state.doc)).toMatchDocSnapshot();
+    expect(editorView.state.doc).toMatchDocSnapshot();
   });
 
   it('should handle pasting content from Dropbox Paper', () => {
@@ -57,7 +56,7 @@ describe('paste plugin: third-party', () => {
       html: dropboxTextHTML,
       plain: dropboxTextPlain,
     });
-    expect(toJSON(editorView.state.doc)).toMatchDocSnapshot();
+    expect(editorView.state.doc).toMatchDocSnapshot();
   });
 
   it('should handle pasting content from Google Docs', () => {
@@ -66,7 +65,7 @@ describe('paste plugin: third-party', () => {
       html: googleTextHTML,
       plain: googleTextPlain,
     });
-    expect(toJSON(editorView.state.doc)).toMatchDocSnapshot();
+    expect(editorView.state.doc).toMatchDocSnapshot();
   });
 
   describe('`Microsoft Word`: ', () => {
@@ -84,7 +83,7 @@ describe('paste plugin: third-party', () => {
 
       dispatchPasteEvent(editorView, eventPayload);
 
-      expect(toJSON(editorView.state.doc)).toMatchDocSnapshot();
+      expect(editorView.state.doc).toMatchDocSnapshot();
     });
 
     it('should ignore image on clipboard', () => {
@@ -101,7 +100,7 @@ describe('paste plugin: third-party', () => {
     dispatchPasteEvent(editorView, {
       html: reactSyntaxHighlighterHTML,
     });
-    expect(toJSON(editorView.state.doc)).toMatchDocSnapshot();
+    expect(editorView.state.doc).toMatchDocSnapshot();
   });
 
   it('should convert multiple lines to a code-block when pasting content from Visual Studio Code', () => {
@@ -110,7 +109,7 @@ describe('paste plugin: third-party', () => {
       html: vsCodeMultiLine,
     });
 
-    expect(toJSON(editorView.state.doc)).toMatchDocSnapshot();
+    expect(editorView.state.doc).toMatchDocSnapshot();
   });
 
   it('should convert single line to a code mark when pasting content from Visual Studio Code', () => {
@@ -119,6 +118,6 @@ describe('paste plugin: third-party', () => {
       html: vsCodeSingleLine,
     });
 
-    expect(toJSON(editorView.state.doc)).toMatchDocSnapshot();
+    expect(editorView.state.doc).toMatchDocSnapshot();
   });
 });

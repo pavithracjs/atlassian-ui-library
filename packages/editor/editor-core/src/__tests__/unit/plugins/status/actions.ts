@@ -43,7 +43,6 @@ describe('status plugin: actions', () => {
       expect(editorView.state.doc).toEqualDocument(
         doc(
           p(
-            '',
             status({
               color: 'green',
               text: 'Done',

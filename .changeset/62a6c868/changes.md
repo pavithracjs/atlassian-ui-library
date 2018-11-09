@@ -1,0 +1,1 @@
+- ED-5607 Validate ADF inside toMatchDocSnapshot

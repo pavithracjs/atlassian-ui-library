@@ -207,18 +207,22 @@ describe('text-formatting input rules', () => {
       trackEvent = jest.fn();
       const { editorView } = editor(doc(p(mentionQuery()('@o{<>}'))));
       typeText(editorView, 'it');
+
       expect(editorView.state.doc).toEqualDocument(
         doc(p(mentionQuery()('@oit{<>}'))),
+        { skipAdfValidation: true },
       );
 
       typeText(editorView, "'s");
       expect(editorView.state.doc).toEqualDocument(
         doc(p(mentionQuery()("@oit's{<>}"))),
+        { skipAdfValidation: true },
       );
 
       typeText(editorView, "'");
       expect(editorView.state.doc).toEqualDocument(
         doc(p(mentionQuery()("@oit's'{<>}"))),
+        { skipAdfValidation: true },
       );
     });
 
@@ -635,7 +639,7 @@ describe('text-formatting input rules', () => {
     });
 
     describe('combination of regex should autoformat', () => {
-      // conbining autoformatting
+      // combining autoformatting
       autoformatCombinations(['~~__test__', '~~'], strike(strong('test')));
       autoformatCombinations(['*__test__', '*'], em(strong('test')));
       autoformatCombinations(['~~**test**', '~~'], strike(strong('test')));
@@ -795,6 +799,7 @@ describe('text-formatting input rules', () => {
         insertText(editorView, '*', sel);
         expect(editorView.state.doc).toEqualDocument(
           doc(p(strong('start'), strong(mentioned), strong('end'))),
+          { skipAdfValidation: true },
         );
       });
     });

@@ -287,7 +287,7 @@ describe('table plugin', () => {
 
         expect(
           removeTableFromLastChild(sliceFragment.child(1), 1, sliceFragment),
-        ).toEqualDocument(tableNode);
+        ).toEqualDocument(tableNode, { skipAdfValidation: true });
       });
     });
 

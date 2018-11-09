@@ -1,5 +1,7 @@
 jest.mock('@atlaskit/media-picker');
 
+import { ErrorReportingHandler } from '@atlaskit/editor-common';
+import { randomId } from '@atlaskit/editor-test-helpers';
 import {
   MediaPicker,
   Popup,
@@ -14,7 +16,6 @@ import {
   StoryBookAuthProvider,
   userAuthProvider,
 } from '@atlaskit/media-test-helpers';
-import { randomId } from '@atlaskit/editor-test-helpers';
 
 import {
   DefaultMediaStateManager,
@@ -25,7 +26,6 @@ import PickerFacade, {
   PickerType,
   PickerFacadeConfig,
 } from '../../../../plugins/media/picker-facade';
-import { ErrorReportingHandler } from '@atlaskit/editor-common';
 
 describe('Media PickerFacade', () => {
   const errorReporter: ErrorReportingHandler = {

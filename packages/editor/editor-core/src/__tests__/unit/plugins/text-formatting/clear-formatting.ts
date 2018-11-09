@@ -124,7 +124,7 @@ describe('clear-formatting', () => {
     });
 
     it(`should clear text color if present`, () => {
-      const blackText = textColor({ color: '#FFFFFF' });
+      const blackText = textColor({ color: '#ffffff' });
       const { editorView } = editor(doc(p(blackText('t{<}ex{>}t'))));
 
       clearFormatting()(editorView.state, editorView.dispatch);

@@ -182,8 +182,8 @@ export class MediaPluginState {
     this.allowsUploads = !!this.mediaProvider.uploadContext;
     const { view, allowsUploads } = this;
 
-    // make sure editable DOM node is mounted
-    if (view.dom.parentNode) {
+    // make sure editable DOM node is mounted and also the plugin is not destroyed
+    if (view.dom.parentNode && !this.destroyed) {
       // make PM plugin aware of the state change to update UI during 'apply' hook
       view.dispatch(view.state.tr.setMeta(stateKey, { allowsUploads }));
     }

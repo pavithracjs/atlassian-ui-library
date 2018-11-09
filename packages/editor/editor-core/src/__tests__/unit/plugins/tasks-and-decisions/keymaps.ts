@@ -48,7 +48,10 @@ describe('tasks and decisions - keymaps', () => {
       list: decisionList,
       item: decisionItem,
       listProps: { localId: 'local-uuid' },
-      itemProps: { localId: 'local-uuid' },
+      itemProps: {
+        localId: 'local-uuid',
+        state: 'DECIDED',
+      },
     },
   ];
   scenarios.forEach(({ name, list, item, listProps, itemProps }) => {

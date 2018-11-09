@@ -997,7 +997,7 @@ describe('media-files', () => {
       editorView.destroy();
     });
 
-    it('apends media group to empty paragraph in an empty code block', () => {
+    it('appends media group to empty paragraph in an empty code block', () => {
       const { editorView } = editor(doc(code_block()('{<>}')));
 
       insertMediaGroupNode(
@@ -1023,7 +1023,7 @@ describe('media-files', () => {
       editorView.destroy();
     });
 
-    it('apends media group to empty paragraph in an empty heading', () => {
+    it('appends media group to empty paragraph in an empty heading', () => {
       const { editorView } = editor(doc(h1('{<>}')));
 
       insertMediaGroupNode(

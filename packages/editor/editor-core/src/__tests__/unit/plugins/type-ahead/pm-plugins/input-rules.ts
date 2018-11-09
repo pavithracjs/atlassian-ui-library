@@ -18,6 +18,7 @@ describe('typeAhead input rules', () => {
     insertText(editorView, '/', sel);
     expect(editorView.state.doc).toEqualDocument(
       doc(p(typeAheadQuery({ trigger: '/' })('/'))),
+      { skipAdfValidation: true },
     );
   });
 
@@ -31,6 +32,7 @@ describe('typeAhead input rules', () => {
     insertText(editorView, '/', sel);
     expect(editorView.state.doc).toEqualDocument(
       doc(p('.', '{<>}', typeAheadQuery({ trigger: '/' })('/'))),
+      { skipAdfValidation: true },
     );
   });
 
@@ -56,6 +58,7 @@ describe('typeAhead input rules', () => {
 
     expect(editorView.state.doc).toEqualDocument(
       doc(p(em('hello '), em(typeAheadQuery({ trigger: '/' })('/')))),
+      { skipAdfValidation: true },
     );
   });
 });

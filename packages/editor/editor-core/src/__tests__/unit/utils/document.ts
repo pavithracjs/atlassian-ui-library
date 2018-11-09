@@ -154,7 +154,7 @@ describe(name, () => {
       { name: 'doc', node: doc(p('some new content'))(schema) as any },
       { name: 'text', node: text('text', schema) as any },
       {
-        name: 'block',
+        name: 'code-block',
         node: code_block({ language: 'javascript' })('content')(schema) as any,
       },
       {
@@ -166,12 +166,12 @@ describe(name, () => {
     successCases.forEach(({ name, node }) => {
       it(`Case: ${name} – should accept JSON version of a prosemirror node`, () => {
         const result = processRawValue(schema, node.toJSON());
-        expect(result).toEqualDocument(node);
+        expect(result).toEqualDocument(node, { skipAdfValidation: true });
       });
 
       it(`Case: ${name} – should accept stringified JSON version of a prosemirror node`, () => {
         const result = processRawValue(schema, JSON.stringify(node.toJSON()));
-        expect(result).toEqualDocument(node);
+        expect(result).toEqualDocument(node, { skipAdfValidation: true });
       });
     });
 

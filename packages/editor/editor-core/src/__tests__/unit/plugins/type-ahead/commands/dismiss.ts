@@ -25,6 +25,7 @@ describe('dismissCommand', () => {
         p('Bar'),
         p('/query'),
       ),
+      { skipAdfValidation: true },
     );
   });
 

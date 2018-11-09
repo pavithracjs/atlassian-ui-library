@@ -170,7 +170,6 @@ export const codeBlock: NodeSpec = {
         }
         return false;
       },
-      // @see ED-5682
       getContent: (dom: HTMLElement, schema: Schema) => {
         const code = Array.from(dom.children)
           .map(child => child.textContent)

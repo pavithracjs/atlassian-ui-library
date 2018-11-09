@@ -1,10 +1,11 @@
 /* eslint-disable */
 import 'jest-styled-components';
-import snakeCase from 'snake-case';
 import { toMatchSnapshot } from 'jest-snapshot';
 import { configureToMatchImageSnapshot } from 'jest-image-snapshot';
 import * as emotion from 'emotion';
 import { createSerializer } from 'jest-emotion';
+import { validator } from './packages/editor/adf-utils';
+import { toJSON } from './packages/editor/editor-core/src/utils';
 
 let consoleError;
 let consoleWarn;
@@ -20,7 +21,7 @@ if (!global.WEBSITE_ENV) {
   global.WEBSITE_ENV = 'local';
 }
 
-// Node promise rejection are now logged for debbugging
+// Node promise rejection are now logged for debugging
 process.on('unhandledRejection', reason => {
   console.log('REJECTION', reason);
 });
@@ -103,32 +104,24 @@ if (typeof window !== 'undefined' && !('cancelAnimationFrame' in window)) {
   };
 }
 
-function isNodeOrFragment(thing) {
-  // Using a simple `instanceof` check is intentionally avoided here to make
-  // this code agnostic to a specific instance of a Schema.
-  return thing && typeof thing.eq === 'function';
-}
+const walk = fn => node => {
+  const { content = [], ...rest } = node;
+  const transformedNode = fn(rest);
+  const walkWithFn = walk(fn);
+  if (content.length) {
+    transformedNode.content = content.map(walkWithFn);
+  }
+  return transformedNode;
+};
 
-function transformDoc(fn) {
-  return doc => {
-    const walk = fn => node => {
-      const { content = [], ...rest } = node;
-      const transformedNode = fn(rest);
-      const walkWithFn = walk(fn);
-      if (content.length) {
-        transformedNode.content = content.map(walkWithFn);
-      }
-      return transformedNode;
-    };
-    return walk(fn)(doc);
-  };
-}
+const transformDoc = fn => doc => walk(fn)(doc);
 
 const hasLocalId = type =>
   type === 'taskItem' ||
   type === 'taskList' ||
   type === 'decisionItem' ||
-  type === 'decisionList';
+  type === 'decisionList' ||
+  type === 'status';
 
 const removeIdsFromDoc = transformDoc(node => {
   /**
@@ -166,9 +159,15 @@ const removeIdsFromDoc = transformDoc(node => {
   return node;
 });
 
+const removeFirstWord = sentence =>
+  sentence
+    .split(' ')
+    .slice(1)
+    .join(' ');
+
 /* eslint-disable no-undef */
 expect.extend({
-  toEqualDocument(actual, expected) {
+  toEqualDocument(actual, expected, options = {}) {
     // Because schema is created dynamically, expected value is a function (schema) => PMNode;
     // That's why this magic is necessary. It simplifies writing assertions, so
     // instead of expect(doc).toEqualDocument(doc(p())(schema)) we can just do:
@@ -190,19 +189,42 @@ expect.extend({
         actual,
         expected,
         name: 'toEqualDocument',
-        message:
+        message: () =>
           'Expected both values to be instance of prosemirror-model Node.',
       };
     }
 
-    if (expected.type.schema !== actual.type.schema) {
+    const actualSchema = actual.type.schema;
+    if (expected.type.schema !== actualSchema) {
       return {
         pass: false,
         actual,
         expected,
         name: 'toEqualDocument',
-        message: 'Expected both values to be using the same schema.',
+        message: () => 'Expected both values to be using the same schema.',
       };
+    }
+
+    const { skipAdfValidation = false } = options;
+    if (!skipAdfValidation) {
+      const nodes = Object.keys(actualSchema.nodes);
+      const marks = Object.keys(actualSchema.marks);
+
+      const validate = validator(nodes, marks, {
+        allowPrivateAttributes: true,
+      });
+
+      try {
+        validate(toJSON(actual));
+      } catch (error) {
+        return {
+          pass: false,
+          actual,
+          expected,
+          name: 'toEqualDocument',
+          message: () => error.message,
+        };
+      }
     }
 
     const pass = this.equals(actual.toJSON(), expected.toJSON());
@@ -239,18 +261,28 @@ expect.extend({
   toMatchDocSnapshot(actual) {
     const { currentTestName, snapshotState } = this;
 
-    const removeFirstWord = sentence =>
-      sentence
-        .split(' ')
-        .slice(1)
-        .join(' ');
-
     // this change is to ensure we are mentioning test file name only once in snapshot file
     // for integration tests only
     const newTestName = removeFirstWord(currentTestName);
 
     // remove ids that may change from the document so snapshots are repeatable
     const transformedDoc = removeIdsFromDoc(actual);
+
+    const validate = validator(undefined, undefined, {
+      allowPrivateAttributes: true,
+    });
+
+    try {
+      validate(toJSON(transformDoc));
+    } catch (error) {
+      return {
+        pass: false,
+        actual,
+        expected: null,
+        name: 'toMatchDocSnapshot',
+        message: () => error.message,
+      };
+    }
 
     // since the test runner fires off multiple browsers for a single test, map each snapshot to the same one
     // (otherwise we'll try to create as many snapshots as there are browsers)

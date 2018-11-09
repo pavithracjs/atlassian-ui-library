@@ -655,6 +655,7 @@ describe('mentions', () => {
 
       expect(editorView.state.doc).toEqualDocument(
         doc(p(mentionQuery({ active: true })('@os{<>}'))),
+        { skipAdfValidation: true },
       );
       editorView.destroy();
     });

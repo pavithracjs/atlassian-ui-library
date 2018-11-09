@@ -133,7 +133,7 @@ describe('layout', () => {
 
       expect(
         removeLayoutFromLastChild(sliceFragment.child(1), 1, sliceFragment),
-      ).toEqualDocument(layout);
+      ).toEqualDocument(layout, { skipAdfValidation: true });
     });
   });
 
