@@ -202,6 +202,7 @@ export default class Editor extends React.Component<Props, State> {
               key="feedback"
               packageName={packageName}
               packageVersion={packageVersion}
+              product="conversations"
             />,
             <ToolbarHelp key="help" />,
           ]
