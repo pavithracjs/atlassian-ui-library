@@ -1,4 +1,8 @@
-import { selectByTextAndClick, getSelectorForTableCell } from '../_utils';
+import {
+  selectByTextAndClick,
+  getSelectorForTableCell,
+  evaluateClick,
+} from '../_utils';
 
 import { messages as insertBlockMessages } from '../../../plugins/insert-block/ui/ToolbarInsertBlock';
 import { TableCssClassName as ClassName } from '../../../plugins/table/types';
@@ -83,7 +87,7 @@ export const insertRowOrColumn = async (page, type, atIndex: number) => {
   const buttonSelector = `.${buttonWrapSelector}:nth-child(${atIndex}) .${insertSelector}`;
   await page.hover(buttonSelector);
   await page.waitForSelector(buttonSelector);
-  await page.click(buttonSelector);
+  await evaluateClick(page, buttonSelector);
 };
 
 export const deleteRow = async (page, atIndex = 1) => {

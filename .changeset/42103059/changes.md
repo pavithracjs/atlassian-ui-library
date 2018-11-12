@@ -1,0 +1,1 @@
+- ED-5688 Fixed table VR tests
