@@ -1,0 +1,1 @@
+- Changed codeblock to use version of react-syntax-highlighter that lazy loads all the languages. This negates any penalty to supporting n amount of languages.
