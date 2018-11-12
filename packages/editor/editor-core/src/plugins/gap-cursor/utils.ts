@@ -5,6 +5,7 @@ import { tableMarginTop } from '@atlaskit/editor-common';
 
 import { GapCursorSelection, Side } from './selection';
 import { TableCssClassName } from '../table/types';
+import { tableInsertColumnButtonSize } from '../table/ui/styles';
 
 // we don't show gap cursor for those nodes
 const INGORED_NODES = [
@@ -64,6 +65,22 @@ const isNodeViewWrapper = (node?: HTMLElement | null): boolean => {
     node.className.indexOf('-content-wrap') !== -1
   );
 };
+
+function getBreakoutModeFromTargetNode(node: PMNode): string {
+  if (node.attrs.layout) {
+    return node.attrs.layout;
+  }
+
+  if (node.marks && node.marks.length) {
+    return (
+      node.marks.find(mark => mark.type.name === 'breakout') || {
+        attrs: { mode: '' },
+      }
+    ).attrs.mode;
+  }
+
+  return '';
+}
 
 // incapsulated this hack into a separate util function
 export const fixCursorAlignment = (view: EditorView) => {
@@ -154,14 +171,16 @@ export const fixCursorAlignment = (view: EditorView) => {
 
   // table nodeView margin fix
   if (targetNode.type === schema.nodes.table) {
-    height -= tableMarginTop;
-    marginTop = tableMarginTop;
+    const tableFullMarginTop = tableMarginTop + tableInsertColumnButtonSize / 2;
+    height -= tableFullMarginTop;
+    marginTop = tableFullMarginTop;
     gapCursorRef.style.paddingLeft = `${paddingLeft}px`;
   }
 
   // breakout mode
-  if (/full-width|wide/i.test(targetNode.attrs.layout)) {
-    gapCursorRef.setAttribute('layout', targetNode.attrs.layout);
+  const breakoutMode = getBreakoutModeFromTargetNode(targetNode);
+  if (/full-width|wide/i.test(breakoutMode)) {
+    gapCursorRef.setAttribute('layout', breakoutMode);
   }
 
   // mediaSingle with layout="wrap-left" or "wrap-right"
