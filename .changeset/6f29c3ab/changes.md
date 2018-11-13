@@ -1,0 +1,1 @@
+- ED-5041: Gap cursor doesn't render outside wide and breakout items
