@@ -1,9 +1,9 @@
 import { keyframes } from 'styled-components';
 
 const gapCursorBlink = keyframes`
-to {
-  visibility: hidden;
-}
+  to {
+    visibility: hidden;
+  }
 `;
 
 const gapCursor = '.ProseMirror-gapcursor';
@@ -62,7 +62,7 @@ export const gapCursorStyles = `
         margin-top: 0;
       }
     }
-    &.ProseMirror-focused ${gapCursor} {
+    &.ProseMirror-focused ${gapCursor}, &.pm-table-resizing ${gapCursor} {
       display: block;
     }
   }
