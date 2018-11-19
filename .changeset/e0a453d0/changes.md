@@ -1,0 +1,1 @@
+- ED-5702: Enable new table resizing behaviour by default
