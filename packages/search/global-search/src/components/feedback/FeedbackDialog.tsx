@@ -58,7 +58,7 @@ export default class FeedbackDialog extends React.Component<Props> {
         autoFocus
       >
         <p>
-          Thank you for taking the time to write about your Confluence search
+          Thank you for taking the time to write about your Jira search
           experience. We guarantee we’ll read all feedback and consider it
           carefully!
         </p>

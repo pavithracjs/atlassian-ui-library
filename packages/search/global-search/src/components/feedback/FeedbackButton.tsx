@@ -10,8 +10,9 @@ import { colors } from '@atlaskit/theme';
 // Positions the button at the top right of the drawer
 const AboveSearchInputPositionHack = styled.div`
   position: absolute;
-  top: 32px;
-  right: 32px;
+  top: 20px;
+  right: 48px;
+  z-index: 100;
 `;
 
 export interface Props {
