@@ -1,13 +1,22 @@
 import * as React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
-import { Vector2, Rectangle, FileInfo } from '@atlaskit/media-ui';
+jest.mock('@atlaskit/media-ui', () => {
+  const original = require.requireActual('@atlaskit/media-ui');
+
+  return {
+    ...original,
+    getOrientation: jest.fn(),
+    loadImage: jest.fn(),
+  };
+});
 import {
-  nextTick,
-  mockCanvas,
-  mockLoadImage,
-  mockLoadImageError,
-  unMockLoadImage,
-} from '@atlaskit/media-test-helpers';
+  Rectangle,
+  FileInfo,
+  Vector2,
+  getOrientation,
+  loadImage,
+} from '@atlaskit/media-ui';
+import { nextTick, mockCanvas } from '@atlaskit/media-test-helpers';
 
 jest.mock('../../image-placer/util', () => ({
   getCanvas: mockCanvas,
@@ -59,7 +68,23 @@ const zoomSteps = 100;
 /* rounding errors require normalisation to 5 decimal places to match
     note: we only trim decimal places, we don't round/ceil/floor */
 const round = (num: number) => parseFloat(num.toFixed(5));
+const mockLoadImage = (
+  naturalWidth: number,
+  naturalHeight: number,
+  orientation: number = 1,
+) => {
+  (getOrientation as jest.Mock).mockResolvedValue(orientation);
+  (loadImage as jest.Mock).mockResolvedValue({ naturalWidth, naturalHeight });
+};
 
+const mockLoadImageError = (
+  errorMessage: string = 'some-image-failed-to-load-reason',
+) => {
+  (getOrientation as jest.Mock).mockResolvedValue(1);
+  (loadImage as jest.Mock).mockImplementation(() => {
+    throw new Error(errorMessage);
+  });
+};
 const setup = (
   props: Partial<ImagePlacerProps> = defaultProps,
   imageSourceWidth?: number,
@@ -557,10 +582,6 @@ describe('Image Placer', () => {
       defaultProps.containerHeight,
     );
 
-    afterEach(() => {
-      unMockLoadImage();
-    });
-
     it('should return null if error occurs when loading image during image initialisation', async () => {
       mockLoadImageError();
 
@@ -594,11 +615,6 @@ describe('Image Placer', () => {
     describe('Rotate imageSourceRect when Exif orientation', () => {
       const shortSide = mediumSize;
       const longSide = largeSize;
-
-      afterEach(() => {
-        unMockLoadImage();
-      });
-
       const tearUp = async (orientation: number) => {
         mockLoadImage(shortSide, longSide, orientation);
         const imageInfo = await initialiseImagePreview(
