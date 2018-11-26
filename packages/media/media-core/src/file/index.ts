@@ -151,7 +151,7 @@ export class FileFetcher {
             });
           }
         },
-        onId: id => {
+        onId: (id, occurrenceKey) => {
           fileId = id;
           const key = FileStreamCache.createKey(fileId, { collectionName });
           fileStreamsCache.set(key, subject);
@@ -162,6 +162,7 @@ export class FileFetcher {
               mediaType,
               mimeType,
               id: fileId,
+              occurrenceKey,
               progress: 0,
               status: 'uploading',
               preview,
