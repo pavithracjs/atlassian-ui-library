@@ -1,0 +1,17 @@
+{
+  "fieldMatch": {
+    "author": "Atlassian Pty Ltd",
+    "license": "Apache-2.0"
+  },
+  "fields": [
+    "types",
+    "module"
+  ],
+  "customPaths": [
+    "dist/package.json"
+  ],
+  "peerDependencyResolution": {
+    "react": ">=16.0.0",
+    "react-dom": ">=16.0.0"
+  }
+}

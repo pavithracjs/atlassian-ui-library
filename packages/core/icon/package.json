@@ -57,5 +57,8 @@
   "keywords": [
     "atlaskit",
     "ui"
-  ]
+  ],
+  "packageVerify": {
+    "fieldMatch": {}
+  }
 }
