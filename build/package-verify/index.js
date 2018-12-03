@@ -42,7 +42,7 @@ async function verifyPackage(package) {
 
   /**
    * Run a couple of simple checks to ensure package.json exists
-   * The main and module (if defiend) field exists.
+   * The main and module (if defined) field exists.
    */
   const files = ['package.json', package.config.main];
 
@@ -55,13 +55,17 @@ async function verifyPackage(package) {
 
 async function installDependencies(cwd, peerDependencies = [], tarballs = []) {
   if (tarballs.length !== 1) {
-    return Promise.reject(`More than one tarball was found: ${tarballs}`);
+    return Promise.reject(
+      `More than one tarball was found: ${JSON.stringify(tarballs)}`,
+    );
   }
 
   const peerDeps = Object.keys(peerDependencies).map(
     dep => `${dep}@${peerDependencies[dep]}`,
   );
 
+  // We should only have one tarball.
+  // its only an array becuase of the globbing
   const tarball = tarballs[0];
   return await spawn('yarn', ['add', ...peerDeps, `file:${tarball}`], {
     cwd,
