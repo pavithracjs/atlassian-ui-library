@@ -1,69 +1,85 @@
-const {
-  getChangedPackagesSinceMaster,
-} = require('@atlaskit/build-utils/packages');
+const packages = require('@atlaskit/build-utils/packages');
+const { promisify } = require('util');
 const path = require('path');
 const bolt = require('bolt');
-const { promisify } = require('util');
 const fs = require('fs');
 const os = require('os');
 const globby = require('globby');
-const spawndamnit = require('spawndamnit');
-const git = require('../utils/git');
 
-async function getNewFSChangesets(cwd) {
-  const projectRoot = (await bolt.getProject({ cwd: process.cwd() })).dir;
-  const paths = await git.getChangedChangesetFilesSinceMaster();
-
-  // $ExpectError
-  return paths.map(filePath => require(path.join(projectRoot, filePath)));
-}
+const { spawn } = require('./spawn');
 
 async function run() {
   try {
-    const changedPackages = await getChangedPackagesSinceMaster();
+    const changedPackages = await packages.getChangedPackagesSinceMaster();
 
     // Real
-    // changedPackages.forEach(async pkg => await verifyPackage(pkg));
+    // await changedPackages.forEach(async pkg => await verifyPackage(pkg));
     // Testing
-    await verifyPackage(changedPackages[0]);
+    await verifyPackage(
+      changedPackages.find(pkg => pkg.name === '@atlaskit/button'),
+    );
   } catch (e) {
-    console.log(e);
+    console.log(e.message);
+    process.exit(1);
   }
 }
 
 run();
 
 async function verifyPackage(package) {
-  await bolt.workspacesExec({
+  await bolt.workspaceExec({
+    pkgName: package.name,
     command: 'npm',
     commandArgs: ['pack'],
-    spawnOpts: {},
-    filterOpts: {
-      onlyFs: package.relativeDir,
-    },
   });
 
-  const tmpdir = await promisify(fs.mkdtemp)(`${os.tmpdir()}${path.sep}`);
-
-  const tarballs = await globby([`${package.dir}/*.tgz`]);
-  await Promise.all(
-    tarballs.map(
-      async tarball => await spawn('yarn', ['add', tarball], { cwd: tmpdir }),
-    ),
+  const tmpdir = await promisify(fs.mkdtemp)(
+    path.join(os.tmpdir(), 'bolt-package-verify-'),
   );
 
-  // Debug
-  const files = await promisify(fs.readdir)(tmpdir);
-  console.log({ tmpdir, files });
+  const tarballs = await globby(`${package.dir}/*.tgz`);
+  await installDependencies(tmpdir, package.config.peerDependencies, tarballs);
+
+  /**
+   * Run a couple of simple checks to ensure package.json exists
+   * The main and module (if defiend) field exists.
+   */
+  const files = ['package.json', package.config.main];
+
+  if (package.config.module) {
+    files.push(package.config.module);
+  }
+
+  await exists(path.join(tmpdir, 'node_modules', package.name), files);
 }
 
-function spawn(...args) {
-  const child = spawndamnit(...args);
-  child.on('stdout', log());
-  child.on('stderr', log('error'));
-  return child;
+async function installDependencies(cwd, peerDependencies = [], tarballs = []) {
+  if (tarballs.length !== 1) {
+    return Promise.reject(`More than one tarball was found: ${tarballs}`);
+  }
+
+  const peerDeps = Object.keys(peerDependencies).map(
+    dep => `${dep}@${peerDependencies[dep]}`,
+  );
+
+  const tarball = tarballs[0];
+  return await spawn('yarn', ['add', ...peerDeps, `file:${tarball}`], {
+    cwd,
+  });
 }
 
-const log = (type = 'log') => data =>
-  // eslint-disable-next-line
-  console[type](data.toString());
+/**
+ * Run a simple check to see if we can access certain files
+ * TODO raise an error if not found.
+ */
+async function exists(base, files = []) {
+  await files.forEach(async file => {
+    const absolutePath = path.join(base, file);
+    try {
+      await promisify(fs.access)(absolutePath);
+      console.log(`${absolutePath} exists!`);
+    } catch (e) {
+      console.error(`${absolutePath} not found`);
+    }
+  });
+}
