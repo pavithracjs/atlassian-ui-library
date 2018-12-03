@@ -7,6 +7,7 @@ const { promisify } = require('util');
 const fs = require('fs');
 const os = require('os');
 const globby = require('globby');
+const spawndamnit = require('spawndamnit');
 const git = require('../utils/git');
 
 async function getNewFSChangesets(cwd) {
@@ -45,13 +46,24 @@ async function verifyPackage(package) {
   const tmpdir = await promisify(fs.mkdtemp)(`${os.tmpdir()}${path.sep}`);
 
   const tarballs = await globby([`${package.dir}/*.tgz`]);
+  await Promise.all(
+    tarballs.map(
+      async tarball => await spawn('yarn', ['add', tarball], { cwd: tmpdir }),
+    ),
+  );
 
-  tarballs.forEach(tarball => {
-    const parsedTarball = path.parse(tarball);
-    fs.copyFileSync(tarball, `${tmpdir}/${parsedTarball.base}`);
-  });
-
+  // Debug
   const files = await promisify(fs.readdir)(tmpdir);
-
-  console.log({ files });
+  console.log({ tmpdir, files });
 }
+
+function spawn(...args) {
+  const child = spawndamnit(...args);
+  child.on('stdout', log());
+  child.on('stderr', log('error'));
+  return child;
+}
+
+const log = (type = 'log') => data =>
+  // eslint-disable-next-line
+  console[type](data.toString());
