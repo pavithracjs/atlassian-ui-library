@@ -1,10 +1,10 @@
 const { promisify } = require('util');
 const path = require('path');
 const bolt = require('bolt');
-const fs = require('fs');
 const os = require('os');
 const globby = require('globby');
 const meow = require('meow');
+const fs = require('fs-extra')
 
 const { spawn } = require('./spawn');
 
@@ -60,14 +60,15 @@ async function installDependencies(cwd, peerDependencies = [], tarballs = []) {
     );
   }
 
+
+
   const peerDeps = Object.keys(peerDependencies).map(
     dep => `${dep}@${peerDependencies[dep]}`,
   );
-
   // We should only have one tarball.
   // its only an array becuase of the globbing
   const tarball = tarballs[0];
-  await spawn('npm', ['install', ...peerDeps, `file:${tarball}`], {
+  await spawn('yarn', ['add', ...peerDeps, `file:${tarball}`], {
     cwd,
   });
 
@@ -81,14 +82,17 @@ async function installDependencies(cwd, peerDependencies = [], tarballs = []) {
       'jest',
       'babel-preset-env',
       'babel-preset-react',
-      'react-dom',
+      'react-dom'
     ],
     {
       cwd,
     },
   );
 
-  return await spawn('npm', ['install'], { cwd });
+  await spawn('npm', ['install'], { cwd });
+
+  fs.copySync("./build/package-verify/templates/", cwd);
+
 }
 
 /**
@@ -106,3 +110,4 @@ async function exists(base, files = []) {
     }
   });
 }
+
