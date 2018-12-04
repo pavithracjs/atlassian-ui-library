@@ -1,23 +1,23 @@
-const packages = require('@atlaskit/build-utils/packages');
 const { promisify } = require('util');
 const path = require('path');
 const bolt = require('bolt');
 const fs = require('fs');
 const os = require('os');
 const globby = require('globby');
+const meow = require('meow');
 
 const { spawn } = require('./spawn');
 
+const cli = meow();
+
 async function run() {
   try {
-    const changedPackages = await packages.getChangedPackagesSinceMaster();
-
-    // Real
-    // await changedPackages.forEach(async pkg => await verifyPackage(pkg));
-    // Testing
-    await verifyPackage(
-      changedPackages.find(pkg => pkg.name === '@atlaskit/button'),
+    const workspaces = await bolt.getWorkspaces();
+    const packages = workspaces.filter(
+      workspace => cli.input.indexOf(workspace.name) !== -1,
     );
+
+    packages.forEach(async pkg => await verifyPackage(pkg));
   } catch (e) {
     console.log(e.message);
     process.exit(1);
@@ -30,7 +30,7 @@ async function verifyPackage(package) {
   await bolt.workspaceExec({
     pkgName: package.name,
     command: 'npm',
-    commandArgs: ['pack'],
+    commandArgs: ['pack', package.name],
   });
 
   const tmpdir = await promisify(fs.mkdtemp)(
@@ -67,11 +67,11 @@ async function installDependencies(cwd, peerDependencies = [], tarballs = []) {
   // We should only have one tarball.
   // its only an array becuase of the globbing
   const tarball = tarballs[0];
-  await spawn('yarn', ['add', ...peerDeps, `file:${tarball}`], {
+  await spawn('npm', ['install', ...peerDeps, `file:${tarball}`], {
     cwd,
   });
 
-  return await spawn('yarn', ['install'], { cwd });
+  return await spawn('npm', ['install'], { cwd });
 }
 
 /**
