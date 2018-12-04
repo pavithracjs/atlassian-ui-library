@@ -4,7 +4,7 @@ const bolt = require('bolt');
 const os = require('os');
 const globby = require('globby');
 const meow = require('meow');
-const fs = require('fs-extra')
+const fs = require('fs-extra');
 
 const { spawn } = require('./spawn');
 
@@ -60,8 +60,6 @@ async function installDependencies(cwd, peerDependencies = [], tarballs = []) {
     );
   }
 
-
-
   const peerDeps = Object.keys(peerDependencies).map(
     dep => `${dep}@${peerDependencies[dep]}`,
   );
@@ -82,7 +80,7 @@ async function installDependencies(cwd, peerDependencies = [], tarballs = []) {
       'jest',
       'babel-preset-env',
       'babel-preset-react',
-      'react-dom'
+      'react-dom',
     ],
     {
       cwd,
@@ -91,8 +89,9 @@ async function installDependencies(cwd, peerDependencies = [], tarballs = []) {
 
   await spawn('npm', ['install'], { cwd });
 
-  fs.copySync("./build/package-verify/templates/", cwd);
+  fs.copySync('./build/package-verify/templates/', cwd);
 
+  await spawn('./node_modules/jest/bin/jest.js', { cwd });
 }
 
 /**
@@ -110,4 +109,3 @@ async function exists(base, files = []) {
     }
   });
 }
-

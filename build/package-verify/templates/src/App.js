@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { asdasda } from '@atlaskit/button';
+import Button from '@atlaskit/button';
 
 class App extends Component {
   render() {
