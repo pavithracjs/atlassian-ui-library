@@ -67,9 +67,11 @@ async function installDependencies(cwd, peerDependencies = [], tarballs = []) {
   // We should only have one tarball.
   // its only an array becuase of the globbing
   const tarball = tarballs[0];
-  return await spawn('yarn', ['add', ...peerDeps, `file:${tarball}`], {
+  await spawn('yarn', ['add', ...peerDeps, `file:${tarball}`], {
     cwd,
   });
+
+  return await spawn('yarn', ['install'], { cwd });
 }
 
 /**
