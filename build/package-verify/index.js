@@ -71,6 +71,23 @@ async function installDependencies(cwd, peerDependencies = [], tarballs = []) {
     cwd,
   });
 
+  // Set up for testing in local pkg
+  await spawn(
+    'npm',
+    [
+      'install',
+      'https://registry.npmjs.org/@pgleeson/enzyme/-/enzyme-3.3.7.tgz',
+      'https://registry.npmjs.org/@pgleeson/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.1.7.tgz',
+      'jest',
+      'babel-preset-env',
+      'babel-preset-react',
+      'react-dom',
+    ],
+    {
+      cwd,
+    },
+  );
+
   return await spawn('npm', ['install'], { cwd });
 }
 
