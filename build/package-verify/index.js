@@ -8,7 +8,19 @@ const fs = require('fs-extra');
 
 const { spawn } = require('./spawn');
 
-const cli = meow();
+const cli = meow({
+  string: ['config'],
+});
+
+const DEFAULT_CONFIG = {
+  fields: ['main', 'module'],
+
+  webpackConfig: {
+    entry: 'main',
+  },
+
+  typecheck: ['types'],
+};
 
 async function run() {
   try {
@@ -17,7 +29,11 @@ async function run() {
       workspace => cli.input.indexOf(workspace.name) !== -1,
     );
 
-    packages.forEach(async pkg => await verifyPackage(pkg));
+    const config = cli.flags.config
+      ? JSON.parse(fs.readFileSync(cli.flags.config))
+      : DEFAULT_CONFIG;
+
+    packages.forEach(async pkg => await verifyPackage(pkg, config));
   } catch (e) {
     console.log(e.message);
     process.exit(1);
@@ -26,7 +42,7 @@ async function run() {
 
 run();
 
-async function verifyPackage(package) {
+async function verifyPackage(package, config) {
   await bolt.workspaceExec({
     pkgName: package.name,
     command: 'npm',
@@ -44,11 +60,16 @@ async function verifyPackage(package) {
    * Run a couple of simple checks to ensure package.json exists
    * The main and module (if defined) field exists.
    */
-  const files = ['package.json', package.config.main];
 
-  if (package.config.module) {
-    files.push(package.config.module);
-  }
+  const files = ['package.json'];
+
+  config.fields.forEach(field => {
+    if (typeof field === 'string') {
+      files.push(package.config[field]);
+    }
+
+    // TODO: support key: value comparison against package.json fields
+  });
 
   await exists(path.join(tmpdir, 'node_modules', package.name), files);
 }
@@ -104,8 +125,10 @@ async function exists(base, files = []) {
     try {
       await promisify(fs.access)(absolutePath);
       console.log(`${absolutePath} exists!`);
+      return true;
     } catch (e) {
       console.error(`${absolutePath} not found`);
+      return false;
     }
   });
 }
