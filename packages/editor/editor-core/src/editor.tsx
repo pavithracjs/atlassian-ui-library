@@ -21,6 +21,10 @@ import { nextMajorVersion } from './version';
 import { Context as CardContext } from '@atlaskit/smart-card';
 import { createContextAdapter } from './nodeviews';
 
+// AtlaskitThemeProvider is deprecated, we can switch later
+// @ts-ignore TS type def for theme is wrong.
+import { AtlaskitThemeProvider } from '@atlaskit/theme';
+
 export * from './types';
 
 type Context = {
@@ -277,6 +281,7 @@ export default class Editor extends React.Component<EditorProps, {}> {
   };
 
   render() {
+    const { mode } = this.props;
     const Component = getUiComponent(this.props.appearance!);
 
     const overriddenEditorProps = {
@@ -285,78 +290,87 @@ export default class Editor extends React.Component<EditorProps, {}> {
     };
 
     const editor = (
-      <WidthProvider>
-        <EditorContext editorActions={this.editorActions}>
-          <WithCreateAnalyticsEvent
-            render={createAnalyticsEvent => (
-              <ContextAdapter>
-                <PortalProvider
-                  render={portalProviderAPI => (
-                    <>
-                      <ReactEditorView
-                        editorProps={overriddenEditorProps}
-                        createAnalyticsEvent={createAnalyticsEvent}
-                        portalProviderAPI={portalProviderAPI}
-                        providerFactory={this.providerFactory}
-                        onEditorCreated={this.onEditorCreated}
-                        onEditorDestroyed={this.onEditorDestroyed}
-                        disabled={this.props.disabled}
-                        render={({ editor, view, eventDispatcher, config }) => (
-                          <BaseTheme
-                            dynamicTextSizing={
-                              this.props.allowDynamicTextSizing
-                            }
-                          >
-                            <Component
-                              disabled={this.props.disabled}
-                              editorActions={this.editorActions}
-                              editorDOMElement={editor}
-                              editorView={view}
-                              providerFactory={this.providerFactory}
-                              eventDispatcher={eventDispatcher}
-                              maxHeight={this.props.maxHeight}
-                              onSave={
-                                this.props.onSave ? this.handleSave : undefined
+      <AtlaskitThemeProvider mode={mode || 'light'}>
+        <WidthProvider>
+          <EditorContext editorActions={this.editorActions}>
+            <WithCreateAnalyticsEvent
+              render={createAnalyticsEvent => (
+                <ContextAdapter>
+                  <PortalProvider
+                    render={portalProviderAPI => (
+                      <>
+                        <ReactEditorView
+                          editorProps={overriddenEditorProps}
+                          createAnalyticsEvent={createAnalyticsEvent}
+                          portalProviderAPI={portalProviderAPI}
+                          providerFactory={this.providerFactory}
+                          onEditorCreated={this.onEditorCreated}
+                          onEditorDestroyed={this.onEditorDestroyed}
+                          disabled={this.props.disabled}
+                          render={({
+                            editor,
+                            view,
+                            eventDispatcher,
+                            config,
+                          }) => (
+                            <BaseTheme
+                              dynamicTextSizing={
+                                this.props.allowDynamicTextSizing
                               }
-                              onCancel={this.props.onCancel}
-                              popupsMountPoint={this.props.popupsMountPoint}
-                              popupsBoundariesElement={
-                                this.props.popupsBoundariesElement
-                              }
-                              contentComponents={config.contentComponents}
-                              primaryToolbarComponents={
-                                config.primaryToolbarComponents
-                              }
-                              secondaryToolbarComponents={
-                                config.secondaryToolbarComponents
-                              }
-                              insertMenuItems={this.props.insertMenuItems}
-                              customContentComponents={
-                                this.props.contentComponents
-                              }
-                              customPrimaryToolbarComponents={
-                                this.props.primaryToolbarComponents
-                              }
-                              customSecondaryToolbarComponents={
-                                this.props.secondaryToolbarComponents
-                              }
-                              addonToolbarComponents={
-                                this.props.addonToolbarComponents
-                              }
-                              collabEdit={this.props.collabEdit}
-                            />
-                          </BaseTheme>
-                        )}
-                      />
-                      <PortalRenderer portalProviderAPI={portalProviderAPI} />
-                    </>
-                  )}
-                />
-              </ContextAdapter>
-            )}
-          />
-        </EditorContext>
-      </WidthProvider>
+                            >
+                              <Component
+                                disabled={this.props.disabled}
+                                editorActions={this.editorActions}
+                                editorDOMElement={editor}
+                                editorView={view}
+                                providerFactory={this.providerFactory}
+                                eventDispatcher={eventDispatcher}
+                                maxHeight={this.props.maxHeight}
+                                onSave={
+                                  this.props.onSave
+                                    ? this.handleSave
+                                    : undefined
+                                }
+                                onCancel={this.props.onCancel}
+                                popupsMountPoint={this.props.popupsMountPoint}
+                                popupsBoundariesElement={
+                                  this.props.popupsBoundariesElement
+                                }
+                                contentComponents={config.contentComponents}
+                                primaryToolbarComponents={
+                                  config.primaryToolbarComponents
+                                }
+                                secondaryToolbarComponents={
+                                  config.secondaryToolbarComponents
+                                }
+                                insertMenuItems={this.props.insertMenuItems}
+                                customContentComponents={
+                                  this.props.contentComponents
+                                }
+                                customPrimaryToolbarComponents={
+                                  this.props.primaryToolbarComponents
+                                }
+                                customSecondaryToolbarComponents={
+                                  this.props.secondaryToolbarComponents
+                                }
+                                addonToolbarComponents={
+                                  this.props.addonToolbarComponents
+                                }
+                                collabEdit={this.props.collabEdit}
+                              />
+                            </BaseTheme>
+                          )}
+                        />
+                        <PortalRenderer portalProviderAPI={portalProviderAPI} />
+                      </>
+                    )}
+                  />
+                </ContextAdapter>
+              )}
+            />
+          </EditorContext>
+        </WidthProvider>
+      </AtlaskitThemeProvider>
     );
 
     return this.context.intl ? (

@@ -245,4 +245,7 @@ export interface EditorProps {
 
   // Set to provide your extensions handlers.
   extensionHandlers?: ExtensionHandlers;
+
+  // Dark or light mode.
+  mode?: 'light' | 'dark';
 }

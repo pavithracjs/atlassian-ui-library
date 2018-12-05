@@ -22,9 +22,10 @@ import { exampleDocument } from '../../../editor-core/example-helpers/example-do
 // example-helpers/example-document';
 // packages/editor/editor-core/example-helpers/example-document.ts
 
+type Theme = 'light' | 'dark';
 //import { parseLocationSearch } from '../utils';
 const params = {
-  theme: 'dark',
+  theme: 'dark' as Theme,
 };
 //parseLocationSearch();
 
@@ -64,7 +65,6 @@ class EditorWithState extends Editor {
 
 export default function mobileEditor(props) {
   return (
-    <AtlaskitThemeProvider mode={(params && params.theme) || 'light'}>
     <EditorWithState
       appearance="mobile"
       mentionProvider={MentionProvider}
@@ -89,7 +89,7 @@ export default function mobileEditor(props) {
       allowRule={true}
       allowStatus={true}
       taskDecisionProvider={Promise.resolve(TaskDecisionProvider())}
+      mode={params && params.theme}
     />
-    </AtlaskitThemeProvider>
   );
 }
