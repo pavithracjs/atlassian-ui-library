@@ -2,6 +2,9 @@ import * as React from 'react';
 import { EditorView } from 'prosemirror-view';
 import { Editor } from '@atlaskit/editor-core';
 
+// AtlaskitThemeProvider is deprecated, we can switch later
+// @ts-ignore TS type def for theme is wrong.
+import { AtlaskitThemeProvider } from '@atlaskit/theme';
 import { toNativeBridge } from './web-to-native';
 import WebBridgeImpl from './native-to-web';
 import MobilePicker from './MobileMediaPicker';
@@ -15,6 +18,15 @@ import {
   TaskDecisionProvider,
   MockEmojiProvider,
 } from '../providers';
+import { exampleDocument } from '../../../editor-core/example-helpers/example-document';
+// example-helpers/example-document';
+// packages/editor/editor-core/example-helpers/example-document.ts
+
+//import { parseLocationSearch } from '../utils';
+const params = {
+  theme: 'dark',
+};
+//parseLocationSearch();
 
 export const bridge: WebBridgeImpl = ((window as any).bridge = new WebBridgeImpl());
 
@@ -52,6 +64,7 @@ class EditorWithState extends Editor {
 
 export default function mobileEditor(props) {
   return (
+    <AtlaskitThemeProvider mode={(params && params.theme) || 'light'}>
     <EditorWithState
       appearance="mobile"
       mentionProvider={MentionProvider}
@@ -77,5 +90,6 @@ export default function mobileEditor(props) {
       allowStatus={true}
       taskDecisionProvider={Promise.resolve(TaskDecisionProvider())}
     />
+    </AtlaskitThemeProvider>
   );
 }
