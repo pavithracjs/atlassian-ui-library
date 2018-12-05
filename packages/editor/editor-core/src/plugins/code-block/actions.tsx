@@ -1,4 +1,4 @@
-import { setParentNodeMarkup, removeParentNodeOfType } from 'prosemirror-utils';
+import { removeParentNodeOfType, setParentNodeMarkup } from 'prosemirror-utils';
 import { Command } from '../../types';
 import { CodeBlockAttrs } from '@atlaskit/adf-schema';
 
@@ -14,7 +14,7 @@ export const removeCodeBlock: Command = (state, dispatch) => {
   return true;
 };
 
-export const changeLanguage = (language: string): Command => (
+export const changeLanguage = (language: string, pos): Command => (
   state,
   dispatch,
 ) => {

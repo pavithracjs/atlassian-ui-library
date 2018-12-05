@@ -9,7 +9,6 @@ import { FloatingToolbarItem } from '../types';
 import { compareArrays } from '../utils';
 import Button from './Button';
 import Dropdown from './Dropdown';
-import Select, { SelectOption } from './Select';
 import Separator from './Separator';
 import Input from './Input';
 import { ProviderFactory } from '@atlaskit/editor-common';
@@ -122,24 +121,6 @@ export default class Toolbar extends Component<Props> {
                       mountPoint={popupsMountPoint}
                       boundariesElement={popupsBoundariesElement}
                       scrollableElement={popupsScrollableElement}
-                    />
-                  );
-
-                case 'select':
-                  return (
-                    <Select
-                      key={idx}
-                      dispatchCommand={dispatchCommand}
-                      options={item.options}
-                      hideExpandIcon={item.hideExpandIcon}
-                      mountPoint={popupsMountPoint}
-                      boundariesElement={popupsBoundariesElement}
-                      scrollableElement={popupsScrollableElement}
-                      defaultValue={item.defaultValue}
-                      placeholder={item.placeholder}
-                      onChange={(selected: SelectOption) =>
-                        dispatchCommand(item.onChange(selected))
-                      }
                     />
                   );
 

@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { borderRadius, colors } from '@atlaskit/theme';
+import { borderRadius, colors, fontFamily } from '@atlaskit/theme';
 import {
   blockNodesVerticalMargin,
   akEditorTableCellMinWidth,
@@ -8,6 +8,7 @@ import { akEditorCodeFontFamily, akEditorCodeBlockPadding } from '../../styles';
 
 export const codeBlockStyles = css`
   .ProseMirror .code-block {
+    position: relative;
     font-family: ${akEditorCodeFontFamily};
     background: ${colors.N20};
     border-radius: ${borderRadius()}px;
@@ -53,6 +54,46 @@ export const codeBlockStyles = css`
         display: inline-block;
         min-width: 100%;
         tab-size: 4;
+      }
+    }
+
+    .code-language-picker-trigger {
+      position: absolute;
+      opacity: 0;
+      font-size: 12px;
+      font-family: ${fontFamily()};
+      transition: opacity 0.2s cubic-bezier(0.19, 1, 0.22, 1),
+        background-color 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+      padding: 0 9px;
+      border-radius: ${borderRadius()}px;
+      top: 12px;
+      right: 16px;
+      color: ${colors.N300};
+      background-color: ${colors.N30};
+
+      &:hover {
+        background-color: ${colors.N40};
+      }
+    }
+
+    .code-language-picker {
+      position: absolute;
+      opacity: 0;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      width: 100%;
+      z-index: 1;
+      pointer-events: all;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &:hover {
+      .code-language-picker-trigger {
+        opacity: 1;
       }
     }
 
