@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { borderRadius, colors } from '@atlaskit/theme';
+import { borderRadius, colors, themed } from '@atlaskit/theme';
 import styled from 'styled-components';
 
 export type Color = 'grey' | 'red' | 'blue' | 'green' | 'purple' | 'yellow';
@@ -9,9 +9,13 @@ export type Props = React.HTMLProps<HTMLSpanElement> & {
   color?: Color;
 };
 
-export const resolveColors = (color?: Color): [string, string, string] => {
+export const resolveColors = (props: Props): [string, string, string] => {
+  const { color } = props;
   if (!color || color === 'grey') {
-    return [colors.N30A, colors.N800, colors.N40];
+    const background = themed({ light: colors.N30A, dark: colors.DN50 });
+    const color = themed({ light: colors.N800, dark: colors.DN800 });
+    const hoverBackground = themed({ light: colors.N40, dark: colors.DN60 });
+    return [background(props), color(props), hoverBackground(props)];
   }
 
   const letter = color.toUpperCase().charAt(0);
@@ -32,7 +36,7 @@ export const DateLozenge = styled.span`
   cursor: ${(props: Props) => (props.onClick ? 'pointer' : 'unset')};
 
   ${(props: Props) => {
-    const [background, color, hoverBackground] = resolveColors(props.color);
+    const [background, color, hoverBackground] = resolveColors(props);
     return `
       background: ${background};
       color: ${color};
