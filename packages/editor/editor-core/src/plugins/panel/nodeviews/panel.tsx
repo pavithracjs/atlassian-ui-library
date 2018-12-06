@@ -49,12 +49,12 @@ const lightIconColor = {
 };
 
 const darkIconColor = {
-  info: colors.B400,
-  note: colors.P400,
-  tip: colors.G400,
-  success: colors.G400,
-  warning: colors.Y400,
-  error: colors.R400,
+  info: colors.B200,
+  note: colors.P200,
+  tip: colors.G200,
+  success: colors.G200,
+  warning: colors.Y200,
+  error: colors.R200,
 };
 const darkTextColor = {
   info: colors.B75,
