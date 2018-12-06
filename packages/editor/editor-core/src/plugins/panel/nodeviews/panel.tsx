@@ -30,6 +30,14 @@ const darkPanelColor = {
   warning: colors.Y500,
   error: colors.R500,
 };
+const darkPanelBorderColor = {
+  info: colors.B300,
+  note: colors.P300,
+  tip: colors.G300,
+  success: colors.G300,
+  warning: colors.Y300,
+  error: colors.R300,
+};
 
 const lightIconColor = {
   info: colors.B400,
@@ -48,11 +56,13 @@ const darkIconColor = {
   warning: colors.Y400,
   error: colors.R400,
 };
-
-const iconColor = (color: PanelType, props: PanelComponentProps) => {
-  return themed({ light: lightIconColor[color], dark: darkIconColor[color] })(
-    props,
-  );
+const darkTextColor = {
+  info: colors.B75,
+  note: colors.P75,
+  tip: colors.G75,
+  success: colors.G75,
+  warning: colors.Y75,
+  error: colors.R75,
 };
 
 const panelIcons = {
@@ -78,18 +88,40 @@ export type PanelComponentProps = {
 type PanelWrapperProps = React.HTMLProps<HTMLDivElement> & {
   panelType: PanelType;
 };
+type IconWrapperProps = React.HTMLProps<HTMLDivElement> & {
+  panelType: PanelType;
+};
 
 export const PanelWrapper = styled.div`
   ${(props: PanelWrapperProps) => {
     // Hexadecimal RGBA
     // https://stackoverflow.com/questions/7015302/css-hexadecimal-rgba
     // Addind the 0xA3 on the end as that is 163, which is 163/256 ~= 0.64, 64% opacity
+    const panelType = props.panelType;
     const transparency = 'A3';
-    const light = lightPanelColor[props.panelType];
-    const dark = darkPanelColor[props.panelType] + transparency;
+    const light = lightPanelColor[panelType];
+    const dark = darkPanelColor[panelType] + transparency;
+    const darkText = darkTextColor[panelType];
     const background = themed({ light, dark })(props);
+    const darkBorder = '2px solid ' + darkPanelBorderColor[panelType];
+    const border = themed({ light: 'none', dark: darkBorder })(props);
+    const text = themed({ light: 'inherit', dark: darkText })(props);
     return `
       background: ${background};
+      border: ${border}
+      color: ${text}
+    `;
+  }};
+` as React.ComponentType<PanelWrapperProps>;
+
+export const IconWrapper = styled.div`
+  ${(props: IconWrapperProps) => {
+    const panelType = props.panelType;
+    const light = lightIconColor[panelType];
+    const dark = darkIconColor[panelType];
+    const color = themed({ light, dark })(props);
+    return `
+      color: ${color};
     `;
   }};
 ` as React.ComponentType<PanelWrapperProps>;
@@ -105,12 +137,9 @@ class PanelComponent extends React.Component<PanelComponentProps> {
 
     return (
       <PanelWrapper panelType={panelType} className="ak-editor-panel">
-        <span
-          style={{ color: iconColor(panelType, this.props) }}
-          className="ak-editor-panel__icon"
-        >
+        <IconWrapper panelType={panelType} className="ak-editor-panel__icon">
           <Icon label={`Panel ${panelType}`} />
-        </span>
+        </IconWrapper>
         <div className="ak-editor-panel__content" ref={forwardRef as any} />
       </PanelWrapper>
     );
