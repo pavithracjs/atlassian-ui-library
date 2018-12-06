@@ -1,6 +1,7 @@
 /* tslint:disable:variable-name */
 import styled, { keyframes } from 'styled-components';
 import { center } from '@atlaskit/media-ui';
+import { colors, themed } from '@atlaskit/theme';
 import { akColorN20 } from '@atlaskit/util-shared-styles';
 import { CardDimensions } from '../..';
 
@@ -23,8 +24,9 @@ export interface WrapperProps {
 }
 
 export const Wrapper = styled.div`
-  ${center} background: ${akColorN20};
-  color: #cfd4db;
+  ${center} background: ${props =>
+  themed({ light: colors.N20, dark: '#FF0000' })};
+  color: ${props => themed({ light: '#cfd4db', dark: '#00FF00' })};
   border-radius: inherit;
   max-height: 100%;
   max-width: 100%;
