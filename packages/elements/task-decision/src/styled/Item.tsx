@@ -2,7 +2,7 @@ import styled from 'styled-components';
 // @ts-ignore: unused variable
 // prettier-ignore
 import { HTMLAttributes, ClassAttributes, ComponentClass } from 'react';
-import { borderRadius, gridSize, colors } from '@atlaskit/theme';
+import { borderRadius, gridSize, colors, themed } from '@atlaskit/theme';
 
 const akGridSize = gridSize();
 
@@ -16,31 +16,37 @@ export const ContentWrapper: ComponentClass<
 `;
 
 export const Wrapper: ComponentClass<
-  HTMLAttributes<{}> & { theme?: any }
+  HTMLAttributes<{}> & { appearance?: any }
 > = styled.div`
   display: flex;
   flex-direction: ${props =>
     props.theme.appearance === 'card' ? 'column' : 'row'};
 
   line-height: 20px;
-  background-color: ${colors.N30A};
   border-radius: ${borderRadius()}px;
   margin: ${akGridSize}px 0;
   padding: ${akGridSize}px ${akGridSize}px;
   min-height: 36px;
   box-sizing: border-box;
   box-shadow: ${props =>
-    props.theme.appearance === 'card'
+    props.appearance.appearance === 'card'
       ? `0 1px 1px ${colors.N50A}, 0 0 1px 0 ${colors.N60A}`
       : 'none'};
 
   &:hover {
     box-shadow: ${props =>
-      props.theme.appearance === 'card'
+      props.appearance.appearance === 'card'
         ? `0 4px 8px -2px ${colors.N60A}, 0 0 1px ${colors.N60A}`
         : 'none'};
     transition: box-shadow 0.2s ease-in-out;
   }
+
+  ${props => {
+    const background = themed({ light: colors.N30A, dark: colors.DN50 })(props);
+    return `
+      background-color: ${background};
+  `;
+  }};
 `;
 
 export const ParticipantWrapper: ComponentClass<
