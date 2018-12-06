@@ -17,6 +17,7 @@ import {
   MentionProvider,
   TaskDecisionProvider,
   MockEmojiProvider,
+  EmojiProvider,
 } from '../providers';
 import { exampleDocument } from '../../../editor-core/example-helpers/example-document';
 // example-helpers/example-document';
@@ -68,7 +69,8 @@ export default function mobileEditor(props) {
     <EditorWithState
       appearance="mobile"
       mentionProvider={MentionProvider}
-      emojiProvider={Promise.resolve(MockEmojiProvider)}
+      // emojiProvider={Promise.resolve(MockEmojiProvider)}
+      emojiProvider={EmojiProvider}
       media={{
         customMediaPicker: new MobilePicker(),
         provider: props.mediaProvider || MediaProvider,
