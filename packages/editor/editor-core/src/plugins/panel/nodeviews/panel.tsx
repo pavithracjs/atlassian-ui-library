@@ -22,6 +22,7 @@ const lightPanelColor = {
   error: colors.R50,
 };
 
+const darkPanelOpacity = 0.64;
 const darkPanelColor = {
   info: colors.B500,
   note: colors.P500,
@@ -92,15 +93,22 @@ type IconWrapperProps = React.HTMLProps<HTMLDivElement> & {
   panelType: PanelType;
 };
 
+/*
+Converts hex in form of '#123456' to an rgba string
+*/
+const hexToRGBA = (hex: string, opacity: number) => {
+  const channels = [hex.slice(1, 3), hex.slice(3, 5), hex.slice(5, 7)]
+    .map(s => `0x${s}`)
+    .map(s => parseInt(s));
+
+  return `rgba(${channels[0]}, ${channels[1]}, ${channels[2]}, ${opacity})`;
+};
+
 export const PanelWrapper = styled.div`
   ${(props: PanelWrapperProps) => {
-    // Hexadecimal RGBA
-    // https://stackoverflow.com/questions/7015302/css-hexadecimal-rgba
-    // Addind the 0xA3 on the end as that is 163, which is 163/256 ~= 0.64, 64% opacity
     const panelType = props.panelType;
-    const transparency = 'A3';
     const light = lightPanelColor[panelType];
-    const dark = darkPanelColor[panelType] + transparency;
+    const dark = hexToRGBA(darkPanelColor[panelType], darkPanelOpacity);
     const darkText = darkTextColor[panelType];
     const background = themed({ light, dark })(props);
     const darkBorder = '2px solid ' + darkPanelBorderColor[panelType];
