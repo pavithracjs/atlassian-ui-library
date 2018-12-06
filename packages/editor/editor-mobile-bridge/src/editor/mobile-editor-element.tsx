@@ -22,12 +22,12 @@ import { exampleDocument } from '../../../editor-core/example-helpers/example-do
 // example-helpers/example-document';
 // packages/editor/editor-core/example-helpers/example-document.ts
 
-type Theme = 'light' | 'dark';
-//import { parseLocationSearch } from '../utils';
-const params = {
-  theme: 'dark' as Theme,
-};
-//parseLocationSearch();
+// type Theme = 'light' | 'dark';
+import { parseLocationSearch } from '../bridge-utils';
+const params = parseLocationSearch();
+// {
+//   theme: 'dark' as Theme,
+// };
 
 export const bridge: WebBridgeImpl = ((window as any).bridge = new WebBridgeImpl());
 
