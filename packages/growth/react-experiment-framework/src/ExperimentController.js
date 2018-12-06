@@ -7,11 +7,13 @@ import type {
   EnrollmentDetails,
   Experiments,
   ExperimentEnrollmentConfig,
+  ExperimentEnrollmentOptions,
   ResolverPromises,
 } from './types';
 
 type Props = {
   experimentEnrollmentConfig: ExperimentEnrollmentConfig,
+  experimentEnrollmentOptions?: ExperimentEnrollmentOptions,
   children?: Element<any>,
 };
 
@@ -48,12 +50,15 @@ class ExperimentController extends Component<Props, State> {
   }
 
   resolveEnrollmentForExperiment(experimentKey: ExperimentKey) {
-    const { experimentEnrollmentConfig } = this.props;
+    const {
+      experimentEnrollmentConfig,
+      experimentEnrollmentOptions,
+    } = this.props;
 
     const enrollmentResolver = experimentEnrollmentConfig[experimentKey];
 
     // updates context after resolving
-    const enrollmentPromise = enrollmentResolver();
+    const enrollmentPromise = enrollmentResolver(experimentEnrollmentOptions);
 
     enrollmentPromise.then((enrollmentDetails: EnrollmentDetails) => {
       this.setState({
@@ -74,10 +79,17 @@ class ExperimentController extends Component<Props, State> {
 
   render() {
     const { experiments } = this.state;
-    const { children } = this.props;
+    const { children, experimentEnrollmentOptions } = this.props;
 
     return (
-      <ExperimentProvider value={experiments}>{children}</ExperimentProvider>
+      <ExperimentProvider
+        value={{
+          context: experiments,
+          options: experimentEnrollmentOptions,
+        }}
+      >
+        {children}
+      </ExperimentProvider>
     );
   }
 }

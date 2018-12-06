@@ -1,19 +1,20 @@
 // @flow
 
 import { Component } from 'react';
-import type { ExposureDetails } from './types';
+import type { ExposureDetails, ExperimentEnrollmentOptions } from './types';
 
 type Props = {
   exposureDetails: ExposureDetails,
   onExposure: (exposureDetails: ExposureDetails) => void,
+  options?: ExperimentEnrollmentOptions,
 };
 
 export default class CohortTracker extends Component<Props> {
   static displayName = 'CohortTracker';
 
   componentDidMount() {
-    const { exposureDetails, onExposure } = this.props;
-    onExposure(exposureDetails);
+    const { exposureDetails, options, onExposure } = this.props;
+    onExposure(exposureDetails, options);
   }
 
   render() {

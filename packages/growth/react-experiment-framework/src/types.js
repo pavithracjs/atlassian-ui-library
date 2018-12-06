@@ -24,6 +24,10 @@ export type ExperimentEnrollmentConfig = {
   [ExperimentKey]: ExperimentEnrollmentResolver,
 };
 
+export type ExperimentEnrollmentOptions = {
+  [string]: any,
+};
+
 export type ExposureDetails = EnrollmentDetails & {
   experimentKey: ExperimentKey,
 };

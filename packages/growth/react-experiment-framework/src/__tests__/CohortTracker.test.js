@@ -10,6 +10,7 @@ configure({ adapter: new Adapter() });
 
 describe('CohortTracker', () => {
   let mockExposureDetails;
+  let mockEnrollmentOptions;
   let mockOnExposure;
 
   beforeEach(() => {
@@ -18,6 +19,7 @@ describe('CohortTracker', () => {
       experimentKey: 'myExperimentKey',
       isEligible: true,
     };
+    mockEnrollmentOptions = undefined;
 
     mockOnExposure = jest.fn();
   });
@@ -30,7 +32,10 @@ describe('CohortTracker', () => {
       />,
     );
 
-    expect(mockOnExposure).toBeCalledWith(mockExposureDetails);
+    expect(mockOnExposure).toBeCalledWith(
+      mockExposureDetails,
+      mockEnrollmentOptions,
+    );
   });
 
   it('should not have a presence in the dom', () => {

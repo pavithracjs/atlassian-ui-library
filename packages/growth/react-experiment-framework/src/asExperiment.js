@@ -4,7 +4,11 @@ import React, { Component, type ComponentType, Fragment } from 'react';
 
 import CohortTracker from './CohortTracker';
 import { ExperimentConsumer } from './ExperimentContext';
-import type { Experiments, ExposureDetails } from './types';
+import type {
+  Experiments,
+  ExposureDetails,
+  ExperimentEnrollmentOptions,
+} from './types';
 
 type State = {
   forceFallback: boolean,
@@ -19,8 +23,11 @@ export default function asExperiment(
   experimentComponentMap: ExperimentComponentMap,
   experimentKey: string,
   callbacks: {
-    onError: (error: Error) => void,
-    onExposure: (exposureDetails: ExposureDetails) => void,
+    onError: (error: Error, options: ExperimentEnrollmentOptions) => void,
+    onExposure: (
+      exposureDetails: ExposureDetails,
+      options: ExperimentEnrollmentOptions,
+    ) => void,
   },
   LoadingComponent?: ?ComponentType<any>,
 ) {
@@ -31,7 +38,10 @@ export default function asExperiment(
       forceFallback: false,
     };
 
-    onReceiveContext = (context: Experiments) => {
+    onReceiveContext = (
+      context: Experiments,
+      options: ExperimentEnrollmentOptions,
+    ) => {
       const { forceFallback } = this.state;
       const { onExposure } = callbacks;
 
@@ -88,6 +98,7 @@ export default function asExperiment(
           <View {...this.props} key="experimentView" />
           <CohortTracker
             exposureDetails={exposureDetails}
+            options={options}
             onExposure={onExposure}
             key="cohortTracker"
           />
@@ -113,7 +124,7 @@ export default function asExperiment(
     render() {
       return (
         <ExperimentConsumer>
-          {context => this.onReceiveContext(context)}
+          {({ context, options }) => this.onReceiveContext(context, options)}
         </ExperimentConsumer>
       );
     }

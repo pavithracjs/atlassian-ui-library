@@ -7,7 +7,11 @@ import Adapter from 'enzyme-adapter-react-16';
 
 import { ExperimentProvider } from '../ExperimentContext';
 import asExperiment from '../asExperiment';
-import type { ExperimentEnrollmentResolver, Experiments } from '../types';
+import type {
+  ExperimentEnrollmentResolver,
+  Experiments,
+  ExperimentEnrollmentOptions,
+} from '../types';
 import CohortTracker from '../CohortTracker';
 
 const createDumbComponent = (componentName: string) => {
@@ -30,7 +34,11 @@ configure({ adapter: new Adapter() });
 
 describe('asExperiment', () => {
   let enrollmentResolver: ExperimentEnrollmentResolver;
-  let experiments: Experiments;
+  let enrollmentOptions;
+  let experiments: {
+    context: Experiments,
+    options: ExperimentEnrollmentOptions,
+  };
   let componentMap;
   let callbacks;
   let onError;
@@ -41,12 +49,16 @@ describe('asExperiment', () => {
 
   beforeEach(() => {
     enrollmentResolver = jest.fn();
+    enrollmentOptions = {};
 
     experiments = {
-      myExperimentKey: {
-        isEnrollmentDecided: false,
-        enrollmentResolver,
+      context: {
+        myExperimentKey: {
+          isEnrollmentDecided: false,
+          enrollmentResolver,
+        },
       },
+      options: enrollmentOptions,
     };
 
     ControlComponent = createDumbComponent('control');
@@ -112,14 +124,17 @@ describe('asExperiment', () => {
   describe('Control & eligible', () => {
     beforeEach(() => {
       experiments = {
-        myExperimentKey: {
-          isEnrollmentDecided: true,
-          enrollmentResolver,
-          enrollmentDetails: {
-            cohort: 'control',
-            isEligible: true,
+        context: {
+          myExperimentKey: {
+            isEnrollmentDecided: true,
+            enrollmentResolver,
+            enrollmentDetails: {
+              cohort: 'control',
+              isEligible: true,
+            },
           },
         },
+        options: enrollmentOptions,
       };
     });
 
@@ -170,14 +185,17 @@ describe('asExperiment', () => {
   describe('Variant & eligible', () => {
     beforeEach(() => {
       experiments = {
-        myExperimentKey: {
-          isEnrollmentDecided: true,
-          enrollmentResolver,
-          enrollmentDetails: {
-            cohort: 'variant',
-            isEligible: true,
+        context: {
+          myExperimentKey: {
+            isEnrollmentDecided: true,
+            enrollmentResolver,
+            enrollmentDetails: {
+              cohort: 'variant',
+              isEligible: true,
+            },
           },
         },
+        options: enrollmentOptions,
       };
     });
 
@@ -228,15 +246,18 @@ describe('asExperiment', () => {
   describe('Variant & ineligible', () => {
     beforeEach(() => {
       experiments = {
-        myExperimentKey: {
-          isEnrollmentDecided: true,
-          enrollmentResolver,
-          enrollmentDetails: {
-            cohort: 'variant',
-            isEligible: false,
-            ineligibilityReasons: ['no-permission'],
+        context: {
+          myExperimentKey: {
+            isEnrollmentDecided: true,
+            enrollmentResolver,
+            enrollmentDetails: {
+              cohort: 'variant',
+              isEligible: false,
+              ineligibilityReasons: ['no-permission'],
+            },
           },
         },
+        options: enrollmentOptions,
       };
     });
 
@@ -296,14 +317,17 @@ describe('asExperiment', () => {
 
       beforeEach(() => {
         experiments = {
-          myExperimentKey: {
-            isEnrollmentDecided: true,
-            enrollmentResolver,
-            enrollmentDetails: {
-              cohort: 'variant',
-              isEligible: true,
+          context: {
+            myExperimentKey: {
+              isEnrollmentDecided: true,
+              enrollmentResolver,
+              enrollmentDetails: {
+                cohort: 'variant',
+                isEligible: true,
+              },
             },
           },
+          options: enrollmentOptions,
         };
 
         componentMap = {
@@ -427,10 +451,13 @@ describe('asExperiment', () => {
     describe('Missing enrollment details after resolving enrollment', () => {
       beforeEach(() => {
         experiments = {
-          myExperimentKey: {
-            isEnrollmentDecided: true,
-            enrollmentResolver,
+          context: {
+            myExperimentKey: {
+              isEnrollmentDecided: true,
+              enrollmentResolver,
+            },
           },
+          options: enrollmentOptions,
         };
       });
 
@@ -492,12 +519,14 @@ describe('asExperiment', () => {
     describe('Enrollment resolved to a cohort without a mapping to a component', () => {
       beforeEach(() => {
         experiments = {
-          myExperimentKey: {
-            isEnrollmentDecided: true,
-            enrollmentResolver,
-            enrollmentDetails: {
-              cohort: 'nonExistentCohort',
-              isEligible: true,
+          context: {
+            myExperimentKey: {
+              isEnrollmentDecided: true,
+              enrollmentResolver,
+              enrollmentDetails: {
+                cohort: 'nonExistentCohort',
+                isEligible: true,
+              },
             },
           },
         };
