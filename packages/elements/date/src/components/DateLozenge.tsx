@@ -12,7 +12,7 @@ export type Props = React.HTMLProps<HTMLSpanElement> & {
 export const resolveColors = (props: Props): [string, string, string] => {
   const { color } = props;
   if (!color || color === 'grey') {
-    const background = themed({ light: colors.N30A, dark: colors.DN50 });
+    const background = themed({ light: colors.N30A, dark: colors.DN70 });
     const color = themed({ light: colors.N800, dark: colors.DN800 });
     const hoverBackground = themed({ light: colors.N40, dark: colors.DN60 });
     return [background(props), color(props), hoverBackground(props)];

@@ -43,8 +43,10 @@ export const Wrapper: ComponentClass<
 
   ${props => {
     const background = themed({ light: colors.N30A, dark: colors.DN50 })(props);
+    const borderColor = themed({ light: 'none', dark: colors.DN60 })(props);
     return `
       background-color: ${background};
+      border: 1px solid ${borderColor};
   `;
   }};
 `;

@@ -32,12 +32,12 @@ const darkPanelColor = {
   error: colors.R500,
 };
 const darkPanelBorderColor = {
-  info: colors.B300,
-  note: colors.P300,
-  tip: colors.G300,
-  success: colors.G300,
-  warning: colors.Y300,
-  error: colors.R300,
+  info: colors.B400,
+  note: colors.P400,
+  tip: colors.G400,
+  success: colors.G400,
+  warning: colors.Y400,
+  error: colors.R400,
 };
 
 const lightIconColor = {
@@ -50,11 +50,11 @@ const lightIconColor = {
 };
 
 const darkIconColor = {
-  info: colors.B200,
-  note: colors.P200,
+  info: colors.B100,
+  note: colors.P100,
   tip: colors.G200,
   success: colors.G200,
-  warning: colors.Y200,
+  warning: colors.Y100,
   error: colors.R200,
 };
 const darkTextColor = {
@@ -111,7 +111,7 @@ export const PanelWrapper = styled.div`
     const dark = hexToRGBA(darkPanelColor[panelType], darkPanelOpacity);
     const darkText = darkTextColor[panelType];
     const background = themed({ light, dark })(props);
-    const darkBorder = '2px solid ' + darkPanelBorderColor[panelType];
+    const darkBorder = '1px solid ' + darkPanelBorderColor[panelType];
     const border = themed({ light: 'none', dark: darkBorder })(props);
     const text = themed({ light: 'inherit', dark: darkText })(props);
     return `
