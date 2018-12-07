@@ -85,10 +85,6 @@ export const breakpointStyles = ({ breakpointSize }: BreakpointProps) => {
           font-size: 14px;
         }
 
-        .wrapper, .img-wrapper {
-          border-radius: 2px;
-        }
-
         .overlay {
           padding: 24px;
         }
