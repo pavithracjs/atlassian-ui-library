@@ -17,6 +17,7 @@ import {
 import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
 import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
 import Spinner from '@atlaskit/spinner';
+import { themed } from '@atlaskit/theme';
 
 import {
   CODE_MACRO,
@@ -31,16 +32,17 @@ import {
 } from '../example-helpers/cxhtml-test-data';
 import { ConfluenceTransformer } from '../src';
 
-// tslint:disable-next-line:variable-name
-export const TitleInput = styled.input`
+export const TitleInput: any = styled.input`
   border: none;
   outline: none;
   font-size: 2.07142857em;
   margin: 0 0 21px;
   padding: 0;
+  background-color: inherit;
+  color: ${themed({ light: 'black', dark: colors.DN900 })};
 
   &::placeholder {
-    color: ${colors.N80};
+    color: ${colors.N90};
   }
 `;
 TitleInput.displayName = 'TitleInput';

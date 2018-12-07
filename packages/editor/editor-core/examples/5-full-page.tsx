@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import * as React from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
-import { colors } from '@atlaskit/theme';
 
 import Editor, { EditorProps } from './../src/editor';
 import EditorContext from './../src/ui/EditorContext';
@@ -21,21 +20,9 @@ import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
 import { extensionHandlers } from '../example-helpers/extension-handlers';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
+import { TitleInput } from '../example-helpers/styles';
 import { DevTools } from '../example-helpers/DevTools';
 import { EditorActions } from './../src';
-
-export const TitleInput: any = styled.input`
-  border: none;
-  outline: none;
-  font-size: 2.07142857em;
-  margin: 0 0 21px;
-  padding: 0;
-
-  &::placeholder {
-    color: ${colors.N90};
-  }
-`;
-TitleInput.displayName = 'TitleInput';
 
 /**
  * +-------------------------------+
@@ -57,7 +44,6 @@ Wrapper.displayName = 'Wrapper';
 export const Content: any = styled.div`
   padding: 0 20px;
   height: 100%;
-  background: #fff;
   box-sizing: border-box;
 `;
 Content.displayName = 'Content';

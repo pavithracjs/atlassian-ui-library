@@ -3,7 +3,7 @@ import styled from 'styled-components';
 // prettier-ignore
 import { HTMLAttributes, ClassAttributes, ComponentClass } from 'react';
 
-import { colors, gridSize } from '@atlaskit/theme';
+import { colors, gridSize, themed } from '@atlaskit/theme';
 
 // tslint:disable-next-line:variable-name
 export const Content: ComponentClass<HTMLAttributes<{}>> = styled.div`
@@ -39,5 +39,19 @@ export const ButtonGroup: ComponentClass<HTMLAttributes<{}>> = styled.span`
 
   & > button {
     margin-left: ${gridSize() / 2}px;
+  }
+`;
+
+export const TitleInput: any = styled.input`
+  border: none;
+  outline: none;
+  font-size: 2.07142857em;
+  margin: 0 0 21px;
+  padding: 0;
+  background-color: inherit;
+  color: ${themed({ light: 'black', dark: colors.DN900 })};
+
+  &::placeholder {
+    color: ${colors.N90};
   }
 `;

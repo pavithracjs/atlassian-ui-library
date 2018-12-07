@@ -22,6 +22,7 @@ export const TitleInput: any = styled.input`
   font-size: 2.07142857em;
   margin: 0 0 21px;
   padding: 0;
+  background-color: inherit;
 
   &::placeholder {
     color: ${colors.N80};
