@@ -12,6 +12,7 @@ import ReactNodeView from '../../../nodeviews/ReactNodeView';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { PanelType } from '../../../../../editor-common';
 import styled from 'styled-components';
+import { hexToRgba } from '@atlaskit/editor-common';
 
 const lightPanelColor = {
   info: colors.B50,
@@ -93,22 +94,11 @@ type IconWrapperProps = React.HTMLProps<HTMLDivElement> & {
   panelType: PanelType;
 };
 
-/*
-Converts hex in form of '#123456' to an rgba string
-*/
-const hexToRGBA = (hex: string, opacity: number) => {
-  const channels = [hex.slice(1, 3), hex.slice(3, 5), hex.slice(5, 7)]
-    .map(s => `0x${s}`)
-    .map(s => parseInt(s));
-
-  return `rgba(${channels[0]}, ${channels[1]}, ${channels[2]}, ${opacity})`;
-};
-
 export const PanelWrapper = styled.div`
   ${(props: PanelWrapperProps) => {
     const panelType = props.panelType;
     const light = lightPanelColor[panelType];
-    const dark = hexToRGBA(darkPanelColor[panelType], darkPanelOpacity);
+    const dark = hexToRgba(darkPanelColor[panelType], darkPanelOpacity);
     const darkText = darkTextColor[panelType];
     const background = themed({ light, dark })(props);
     const darkBorder = '1px solid ' + darkPanelBorderColor[panelType];
