@@ -31,6 +31,7 @@ import {
   handleFocus,
   handleClick,
   handleTripleClick,
+  handleLongPress,
 } from '../event-handlers';
 import {
   findControlsHoverDecoration,
@@ -58,6 +59,8 @@ export enum ACTIONS {
   SHOW_INSERT_COLUMN_BUTTON,
   SHOW_INSERT_ROW_BUTTON,
   HIDE_INSERT_COLUMN_OR_ROW_BUTTON,
+  LONG_PRESS,
+  LONG_PRESS_CANCEL,
 }
 
 export const createPlugin = (
@@ -96,6 +99,7 @@ export const createPlugin = (
           isInDanger,
           insertColumnButtonIndex,
           insertRowButtonIndex,
+          longPressEvent,
         } = data;
 
         let pluginState = { ..._pluginState };
@@ -168,6 +172,10 @@ export const createPlugin = (
 
           case ACTIONS.HIDE_INSERT_COLUMN_OR_ROW_BUTTON:
             return handleHideInsertColumnOrRowButton(pluginState, dispatch);
+
+          case ACTIONS.LONG_PRESS:
+          case ACTIONS.LONG_PRESS_CANCEL:
+            return handleLongPress(longPressEvent)(pluginState, dispatch);
 
           default:
             break;

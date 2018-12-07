@@ -14,13 +14,15 @@ import TableComponent from './TableComponent';
 import WithPluginState from '../../../ui/WithPluginState';
 import { pluginKey as widthPluginKey } from '../../width';
 import { pluginKey, getPluginState } from '../pm-plugins/main';
-import { pluginKey as tableResizingPluginKey } from '../pm-plugins/table-resizing/index';
+import { pluginKey as tableResizingPluginKey } from '../pm-plugins/table-resizing';
+import { pluginKey as tableDraggingPluginKey } from '../pm-plugins/table-dragging';
 import { pluginConfig as getPluginConfig } from '../index';
 
 export interface Props {
   node: PmNode;
   view: EditorView;
   allowColumnResizing?: boolean;
+  allowDragging?: boolean;
   cellMinWidth?: number;
   portalProviderAPI: PortalProviderAPI;
   getPos: () => number;
@@ -88,6 +90,7 @@ export default class TableView extends ReactNodeView {
           containerWidth: widthPluginKey,
           pluginState: pluginKey,
           tableResizingPluginState: tableResizingPluginKey,
+          tableDraggingPluginState: tableDraggingPluginKey,
         }}
         editorView={props.view}
         render={pluginStates => (
@@ -169,12 +172,13 @@ export const createTableView = (portalProviderAPI: PortalProviderAPI) => (
   getPos,
 ): NodeView => {
   const { pluginConfig } = getPluginState(view.state);
-  const { allowColumnResizing } = getPluginConfig(pluginConfig);
+  const { allowColumnResizing, allowDragging } = getPluginConfig(pluginConfig);
 
   return new TableView({
     node,
     view,
     allowColumnResizing,
+    allowDragging,
     portalProviderAPI,
     getPos,
   }).init();

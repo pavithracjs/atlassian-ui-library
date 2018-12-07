@@ -107,12 +107,16 @@ export const getRowClassNames = (
   selection: Selection,
   hoveredRows: number[] = [],
   isInDanger?: boolean,
+  isDraggable?: boolean,
 ): string => {
   const classNames: string[] = [];
   if (isRowSelected(index)(selection) || hoveredRows.indexOf(index) > -1) {
     classNames.push('active');
     if (isInDanger) {
       classNames.push('danger');
+    }
+    if (isDraggable) {
+      classNames.push('draggable');
     }
   }
   return classNames.join(' ');

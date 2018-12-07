@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { Component } from 'react';
+import { Component, MouseEvent } from 'react';
 import { EditorView } from 'prosemirror-view';
 import { isCellSelection } from 'prosemirror-utils';
 import {
   clearHoverSelection,
   insertRow,
   deleteSelectedRows,
+  longPress,
+  cancelLongPress,
 } from '../../../actions';
 import InsertButton from '../InsertButton';
 import DeleteButton from '../DeleteButton';
@@ -17,6 +19,8 @@ import {
   getRowDeleteButtonParams,
   getRowsParams,
   getRowClassNames,
+  startLongPress,
+  clearLongPress,
 } from '../../../utils';
 import { TableCssClassName as ClassName } from '../../../types';
 import tableMessages from '../../messages';
@@ -29,9 +33,19 @@ export interface Props {
   hoveredRows?: number[];
   isInDanger?: boolean;
   insertRowButtonIndex?: number;
+  draggedRow?: number;
 }
 
-export default class RowControls extends Component<Props, any> {
+export interface State {
+  longPressHandler?: number;
+}
+
+export default class RowControls extends Component<Props, State> {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   render() {
     const {
       editorView,
@@ -39,6 +53,7 @@ export default class RowControls extends Component<Props, any> {
       insertRowButtonIndex,
       hoveredRows,
       isInDanger,
+      draggedRow,
     } = this.props;
     if (!tableRef) {
       return null;
@@ -60,6 +75,7 @@ export default class RowControls extends Component<Props, any> {
                 selection,
                 hoveredRows,
                 isInDanger,
+                draggedRow === startIndex,
               )}`}
               key={startIndex}
               style={{ height }}
@@ -67,8 +83,11 @@ export default class RowControls extends Component<Props, any> {
               <button
                 type="button"
                 className={ClassName.CONTROLS_BUTTON}
-                onMouseDown={() => this.props.selectRow(startIndex)}
                 onMouseOver={() => this.props.hoverRows([startIndex])}
+                onMouseDown={(event: MouseEvent) =>
+                  this.handleMouseDown(startIndex, event)
+                }
+                onMouseUp={this.handleMouseUp}
                 onMouseOut={this.clearHoverSelection}
               >
                 {!isCellSelection(selection) && (
@@ -111,6 +130,28 @@ export default class RowControls extends Component<Props, any> {
       </div>
     );
   }
+
+  private handleMouseDown = (row: number, event: MouseEvent) => {
+    const { clientX, clientY } = event;
+    const { editorView, selectRow } = this.props;
+    const { state, dispatch } = editorView;
+
+    selectRow(row);
+
+    startLongPress(this.state, this.setState.bind(this), () =>
+      longPress({ clientX, clientY, rowIndex: row })(state, dispatch),
+    );
+  };
+
+  private handleMouseUp = () => {
+    const {
+      editorView: { state, dispatch },
+    } = this.props;
+
+    clearLongPress(this.state, this.setState.bind(this), () =>
+      cancelLongPress()(state, dispatch),
+    );
+  };
 
   private clearHoverSelection = () => {
     const { state, dispatch } = this.props.editorView;

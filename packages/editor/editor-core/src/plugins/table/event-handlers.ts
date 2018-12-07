@@ -5,6 +5,9 @@ import { TableMap, cellAround } from 'prosemirror-tables';
 import { Node as PmNode } from 'prosemirror-model';
 import { browser } from '@atlaskit/editor-common';
 
+import { TablePluginState, LongPressEvent } from './types';
+import { pluginKey } from './pm-plugins/main';
+
 import {
   isElementInTableCell,
   setNodeSelection,
@@ -19,6 +22,8 @@ import {
   handleShiftSelection,
   hideInsertColumnOrRowButton,
 } from './actions';
+
+import { Dispatch } from '../../event-dispatcher';
 
 export const handleBlur = (view: EditorView, event): boolean => {
   const { state, dispatch } = view;
@@ -148,4 +153,16 @@ export const handleMouseDown = (
   }
 
   return false;
+};
+
+export const handleLongPress = (longPressEvent?: LongPressEvent) => (
+  pluginState: TablePluginState,
+  dispatch: Dispatch,
+): TablePluginState => {
+  const nextPluginState = {
+    ...pluginState,
+    longPressEvent,
+  };
+  dispatch(pluginKey, nextPluginState);
+  return nextPluginState;
 };

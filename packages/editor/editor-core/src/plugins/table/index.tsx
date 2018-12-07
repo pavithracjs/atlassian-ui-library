@@ -13,10 +13,15 @@ import LayoutButton from './ui/LayoutButton';
 import { EditorPlugin } from '../../types';
 import WithPluginState from '../../ui/WithPluginState';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
-import { PluginConfig, PermittedLayoutsDescriptor } from './types';
+import {
+  PluginConfig,
+  PermittedLayoutsDescriptor,
+  RowsColumnsDraggingPlugin,
+} from './types';
 import { createPlugin, pluginKey } from './pm-plugins/main';
 import { keymapPlugin } from './pm-plugins/keymap';
 import { createPlugin as createFlexiResizingPlugin } from './pm-plugins/table-resizing';
+import { createPlugin as createDraggingPlugin } from './pm-plugins/table-dragging';
 import { getToolbarConfig } from './toolbar';
 import { ColumnResizingPlugin } from './types';
 import FloatingContextualMenu from './ui/FloatingContextualMenu';
@@ -82,6 +87,15 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
                 handleWidth: HANDLE_WIDTH,
                 cellMinWidth: CELL_MIN_WIDTH,
               } as ColumnResizingPlugin)
+            : undefined;
+        },
+      },
+      {
+        name: 'tablePMRowColDragging',
+        plugin: ({ dispatch, props: { allowTables } }) => {
+          const { allowDragging } = pluginConfig(allowTables);
+          return allowDragging
+            ? createDraggingPlugin(dispatch, {} as RowsColumnsDraggingPlugin)
             : undefined;
         },
       },

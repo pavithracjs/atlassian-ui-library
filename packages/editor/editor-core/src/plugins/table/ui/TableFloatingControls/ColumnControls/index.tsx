@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Component, SyntheticEvent } from 'react';
+import { Component, MouseEvent, SyntheticEvent } from 'react';
 import { EditorView } from 'prosemirror-view';
 import { Selection } from 'prosemirror-state';
 import { isCellSelection } from 'prosemirror-utils';
@@ -15,6 +15,8 @@ import {
   getColumnsParams,
   getColumnClassNames,
   ColumnParams,
+  startLongPress,
+  clearLongPress,
 } from '../../../utils';
 import {
   clearHoverSelection,
@@ -22,6 +24,8 @@ import {
   insertColumn,
   deleteSelectedColumns,
   selectColumn,
+  longPress,
+  cancelLongPress,
 } from '../../../actions';
 import { TableCssClassName as ClassName } from '../../../types';
 import tableMessages from '../../messages';
@@ -34,9 +38,19 @@ export interface Props {
   numberOfColumns?: number;
   selection?: Selection;
   tableRef?: HTMLTableElement;
+  draggedCol?: number;
 }
 
-export default class ColumnControls extends Component<Props, any> {
+export interface State {
+  longPressHandler?: number;
+}
+
+export default class ColumnControls extends Component<Props, State> {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   shouldComponentUpdate(nextProps) {
     const {
       tableRef,
@@ -45,6 +59,7 @@ export default class ColumnControls extends Component<Props, any> {
       hoveredColumns,
       insertColumnButtonIndex,
       isInDanger,
+      draggedCol,
     } = this.props;
 
     if (nextProps.tableRef) {
@@ -64,6 +79,7 @@ export default class ColumnControls extends Component<Props, any> {
       isInDanger !== nextProps.isInDanger ||
       numberOfColumns !== nextProps.numberOfColumns ||
       hoveredColumns !== nextProps.hoveredColumns ||
+      draggedCol !== nextProps.draggedCol ||
       isSelectionUpdated(selection!, nextProps.selection)
     );
   }
@@ -75,6 +91,7 @@ export default class ColumnControls extends Component<Props, any> {
       insertColumnButtonIndex,
       hoveredColumns,
       isInDanger,
+      draggedCol,
     } = this.props;
     if (!tableRef || !tableRef.querySelector('tr')) {
       return null;
@@ -102,6 +119,7 @@ export default class ColumnControls extends Component<Props, any> {
                     selection,
                     hoveredColumns,
                     isInDanger,
+                    draggedCol === startIndex,
                   )}`}
                   key={startIndex}
                   style={{ width }}
@@ -110,8 +128,11 @@ export default class ColumnControls extends Component<Props, any> {
                   <button
                     type="button"
                     className={ClassName.CONTROLS_BUTTON}
-                    onMouseDown={() => this.selectColumn(startIndex)}
                     onMouseOver={() => this.hoverColumns([startIndex])}
+                    onMouseDown={(event: MouseEvent) =>
+                      this.handleMouseDown(startIndex, event)
+                    }
+                    onMouseUp={this.handleMouseUp}
                     onMouseOut={this.clearHoverSelection}
                   >
                     {!isCellSelection(selection) && (
@@ -164,14 +185,31 @@ export default class ColumnControls extends Component<Props, any> {
     this.clearHoverSelection();
   };
 
-  private selectColumn = (column: number) => {
+  private handleMouseDown = (column: number, event: MouseEvent) => {
+    const { clientX, clientY } = event;
     const { editorView } = this.props;
     const { state, dispatch } = editorView;
+
     // fix for issue ED-4665
     if (browser.ie_version === 11) {
       (editorView.dom as HTMLElement).blur();
     }
+
     selectColumn(column)(state, dispatch);
+
+    startLongPress(this.state, this.setState.bind(this), () =>
+      longPress({ clientX, clientY, colIndex: column })(state, dispatch),
+    );
+  };
+
+  private handleMouseUp = () => {
+    const {
+      editorView: { state, dispatch },
+    } = this.props;
+
+    clearLongPress(this.state, this.setState.bind(this), () =>
+      cancelLongPress()(state, dispatch),
+    );
   };
 
   private hoverColumns = (columns: number[], danger?: boolean) => {

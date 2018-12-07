@@ -33,6 +33,9 @@ const {
   N200,
   N0,
   R500,
+  Y50,
+  Y75,
+  Y300,
 } = colors;
 
 export const tableToolbarColor = N20;
@@ -44,6 +47,9 @@ export const tableBorderSelectedColor = B300;
 export const tableCellDeleteColor = R50;
 export const tableBorderDeleteColor = R300;
 export const tableToolbarDeleteColor = R75;
+export const tableCellDraggableColor = Y50;
+export const tableBorderDraggableColor = Y300;
+export const tableToolbarDraggableColor = Y75;
 
 export const tableToolbarSize = akEditorTableToolbarSize;
 export const tableBorderRadiusSize = 3;
@@ -111,6 +117,12 @@ const HeaderButton = (css?: string) => `
   .danger .${ClassName.CONTROLS_BUTTON} {
     background-color: ${tableToolbarDeleteColor};
     border-color: ${tableBorderDeleteColor};
+    position: relative;
+    z-index: ${akEditorUnitZIndex};
+  }
+  .draggable .${ClassName.CONTROLS_BUTTON} {
+    background-color: ${tableToolbarDraggableColor};
+    border-color: ${tableBorderDraggableColor};
     position: relative;
     z-index: ${akEditorUnitZIndex};
   }
@@ -467,6 +479,13 @@ export const tableStyles = css`
           position: relative;
           z-index: ${akEditorUnitZIndex};
         }
+        .${ClassName.NUMBERED_COLUMN_BUTTON}.draggable {
+          background-color: ${tableToolbarDraggableColor};
+          border: 1px solid ${tableBorderDraggableColor};
+          color: ${R500};
+          position: relative;
+          z-index: ${akEditorUnitZIndex};
+        }
       }
       /* scroll shadows */
       .${ClassName.TABLE_RIGHT_SHADOW},
@@ -531,8 +550,15 @@ export const tableStyles = css`
       .${ClassName.HOVERED_CELL}.danger {
         border: 1px solid ${tableBorderDeleteColor};
       }
+      .${ClassName.SELECTED_CELL}.draggable,
+      .${ClassName.HOVERED_CELL}.draggable {
+        border: 1px solid ${tableBorderDraggableColor};
+      }
       .${ClassName.SELECTED_CELL}.danger::after {
         background: ${tableCellDeleteColor};
+      }
+      .${ClassName.SELECTED_CELL}.draggable::after {
+        background: ${tableCellDraggableColor};
       }
     }
     .${ClassName.COLUMN_CONTROLS_WRAPPER},
@@ -659,6 +685,14 @@ export const tableFullPageEditorStyles = css`
     }
     .${ClassName.SELECTED_CELL}.danger:after {
       background: ${tableCellDeleteColor};
+    }
+    .${ClassName.SELECTED_CELL}.draggable,
+      .${ClassName.HOVERED_CELL}.draggable {
+      border: 1px solid ${tableBorderDraggableColor};
+      background: ${tableCellDraggableColor};
+    }
+    .${ClassName.SELECTED_CELL}.draggable:after {
+      background: ${tableCellDraggableColor};
     }
     margin-left: 0;
     margin-right: 0;

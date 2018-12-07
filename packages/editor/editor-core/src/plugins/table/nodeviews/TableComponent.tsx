@@ -17,6 +17,7 @@ import {
   scaleTable,
   setColumnWidths,
 } from '../pm-plugins/table-resizing';
+import { DraggingState, Mode } from '../pm-plugins/table-dragging';
 
 import { TablePluginState, TableCssClassName as ClassName } from '../types';
 import * as classnames from 'classnames';
@@ -34,12 +35,14 @@ export interface ComponentProps extends Props {
   view: EditorView;
   node: PmNode;
   allowColumnResizing: boolean;
+  allowDragging: boolean;
   onComponentMount: () => void;
   contentDOM: (element: HTMLElement | undefined) => void;
 
   containerWidth: WidthPluginState;
   pluginState: TablePluginState;
   tableResizingPluginState?: ResizeState;
+  tableDraggingPluginState?: DraggingState;
   width: number;
 }
 
@@ -121,6 +124,7 @@ class TableComponent extends React.Component<ComponentProps> {
       node,
       pluginState,
       tableResizingPluginState,
+      tableDraggingPluginState,
       width,
     } = this.props;
 
@@ -142,6 +146,20 @@ class TableComponent extends React.Component<ComponentProps> {
       this.table === pluginState.tableRef &&
       (!tableResizingPluginState || !tableResizingPluginState.dragging);
     const { scroll } = this.state;
+    const draggedRow =
+      tableDraggingPluginState &&
+      tableDraggingPluginState.mode === Mode.ROW &&
+      tableDraggingPluginState.index &&
+      tableDraggingPluginState.index > -1
+        ? tableDraggingPluginState.index
+        : undefined;
+    const draggedCol =
+      tableDraggingPluginState &&
+      tableDraggingPluginState.mode === Mode.COLUMN &&
+      tableDraggingPluginState.index &&
+      tableDraggingPluginState.index > -1
+        ? tableDraggingPluginState.index
+        : undefined;
 
     const rowControls = [
       <div
@@ -165,6 +183,7 @@ class TableComponent extends React.Component<ComponentProps> {
           tableHeight={tableRef ? tableRef.offsetHeight : undefined}
           insertColumnButtonIndex={insertColumnButtonIndex}
           insertRowButtonIndex={insertRowButtonIndex}
+          draggedRow={draggedRow}
         />
       </div>,
     ];
@@ -181,6 +200,7 @@ class TableComponent extends React.Component<ComponentProps> {
           selection={view.state.selection}
           numberOfColumns={node.firstChild!.childCount}
           insertColumnButtonIndex={insertColumnButtonIndex}
+          draggedCol={draggedCol}
         />
       </div>,
     ];

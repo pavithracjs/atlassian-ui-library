@@ -19,6 +19,7 @@ export interface PluginConfig {
   stickToolbarToBottom?: boolean;
   permittedLayouts?: PermittedLayoutsDescriptor;
   allowControls?: boolean;
+  allowDragging?: boolean;
 }
 
 export interface TablePluginState {
@@ -38,6 +39,7 @@ export interface TablePluginState {
   isInDanger?: boolean;
   insertColumnButtonIndex?: number;
   insertRowButtonIndex?: number;
+  longPressEvent?: LongPressEvent;
 }
 
 export interface CellRect {
@@ -47,14 +49,25 @@ export interface CellRect {
   bottom: number;
 }
 
+export interface LongPressEvent {
+  clientX: number;
+  clientY: number;
+  pos?: number;
+  rowIndex?: number;
+  colIndex?: number;
+}
+
 export interface ColumnResizingPlugin {
   handleWidth?: number;
   cellMinWidth?: number;
   lastColumnResizable?: boolean;
 }
 
+export interface RowsColumnsDraggingPlugin {}
+
 export const TableDecorations = {
   CONTROLS_HOVER: 'CONTROLS_HOVER',
+  DRAG_MARK: 'DRAG_MARK',
 };
 const clPrefix = 'pm-table-';
 

@@ -23,6 +23,7 @@ export interface Props {
   hoveredRows?: number[];
   insertColumnButtonIndex?: number;
   insertRowButtonIndex?: number;
+  draggedRow?: number;
 }
 
 export default class TableFloatingControls extends Component<Props> {
@@ -39,6 +40,7 @@ export default class TableFloatingControls extends Component<Props> {
       tableActive,
       insertColumnButtonIndex,
       insertRowButtonIndex,
+      draggedRow,
     } = this.props;
     return (
       tableRef !== nextProps.tableRef ||
@@ -51,6 +53,7 @@ export default class TableFloatingControls extends Component<Props> {
       isHeaderRowEnabled !== nextProps.isHeaderRowEnabled ||
       isHeaderColumnEnabled !== nextProps.isHeaderColumnEnabled ||
       isNumberColumnEnabled !== nextProps.isNumberColumnEnabled ||
+      draggedRow !== nextProps.draggedRow ||
       isSelectionUpdated(selection!, nextProps.selection)
     );
   }
@@ -68,6 +71,7 @@ export default class TableFloatingControls extends Component<Props> {
       hoveredRows,
       insertColumnButtonIndex,
       insertRowButtonIndex,
+      draggedRow,
     } = this.props;
 
     if (!tableRef) {
@@ -106,6 +110,7 @@ export default class TableFloatingControls extends Component<Props> {
           isInDanger={isInDanger}
           selectRow={this.selectRow}
           insertRowButtonIndex={insertRowButtonIndex}
+          draggedRow={draggedRow}
         />
       </div>
     );

@@ -123,6 +123,7 @@ export const getColumnClassNames = (
   selection: Selection,
   hoveredColumns: number[] = [],
   isInDanger?: boolean,
+  isDraggable?: boolean,
 ): string => {
   const classNames: string[] = [];
   if (
@@ -132,6 +133,9 @@ export const getColumnClassNames = (
     classNames.push('active');
     if (isInDanger) {
       classNames.push('danger');
+    }
+    if (isDraggable) {
+      classNames.push('draggable');
     }
   }
   return classNames.join(' ');

@@ -13,3 +13,4 @@ export {
   hasTableBeenResized,
   insertColgroupFromNode,
 } from './colgroup';
+export * from './longpress';

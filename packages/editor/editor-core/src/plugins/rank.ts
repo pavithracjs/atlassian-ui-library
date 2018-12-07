@@ -45,6 +45,7 @@ export default {
     'table',
     'tableKeymap',
     'hyperlinkInputRule',
+    'tablePMRowColDragging',
     'tablePMColResizing',
     'hyperlinkKeymap',
     'tableColResizing',

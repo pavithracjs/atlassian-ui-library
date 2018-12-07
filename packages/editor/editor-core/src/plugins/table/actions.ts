@@ -47,7 +47,7 @@ import { Command } from '../../types';
 import { analyticsService } from '../../analytics';
 import { outdentList } from '../lists/commands';
 import { mapSlice } from '../../utils/slice';
-import { TableCssClassName as ClassName } from './types';
+import { TableCssClassName as ClassName, LongPressEvent } from './types';
 import { closestElement } from '../../utils';
 
 export const clearHoverSelection: Command = (
@@ -924,4 +924,35 @@ export const handleShiftSelection = (event: MouseEvent): Command => (
   }
 
   return false;
+};
+
+export const longPress = (longPressEvent: LongPressEvent): Command => (
+  state: EditorState,
+  dispatch: (tr: Transaction) => void,
+): boolean => {
+  const { tr } = state;
+  dispatch(
+    tr
+      .setMeta(pluginKey, {
+        action: ACTIONS.LONG_PRESS,
+        data: { longPressEvent },
+      })
+      .setMeta('addToHistory', false),
+  );
+  return true;
+};
+
+export const cancelLongPress = (): Command => (
+  state: EditorState,
+  dispatch: (tr: Transaction) => void,
+): boolean => {
+  const { tr } = state;
+  dispatch(
+    tr
+      .setMeta(pluginKey, {
+        action: ACTIONS.LONG_PRESS_CANCEL,
+      })
+      .setMeta('addToHistory', false),
+  );
+  return true;
 };
