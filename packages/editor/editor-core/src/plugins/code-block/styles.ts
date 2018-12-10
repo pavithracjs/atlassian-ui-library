@@ -8,7 +8,7 @@ import { akEditorCodeFontFamily, akEditorCodeBlockPadding } from '../../styles';
 
 export const codeBlockStyles = css`
   .ProseMirror .code-block {
-    background: ${props => themed({ light: colors.N20, dark: colors.DN50 })}
+    background: ${themed({ light: colors.N20, dark: colors.DN50 })}
     font-family: ${akEditorCodeFontFamily};
     border-radius: ${borderRadius()}px;
     font-size: 14px;
@@ -19,8 +19,10 @@ export const codeBlockStyles = css`
     min-width: ${akEditorTableCellMinWidth}px;
 
     .line-number-gutter {
-      background-color: ${props =>
-        themed({ light: 'rgba(9, 30, 66, 0.04)', dark: colors.DN40 })}
+      background-color: ${themed({
+        light: 'rgba(9, 30, 66, 0.04)',
+        dark: colors.DN40,
+      })}
       color: ${colors.N300};
       text-align: right;
       user-select: none;
@@ -41,7 +43,7 @@ export const codeBlockStyles = css`
     }
 
     .code-content {
-      color: ${props => themed({ light: colors.N800, dark: colors.DN500 })}
+      color: ${themed({ light: colors.N800, dark: colors.DN500 })}
       padding: ${akEditorCodeBlockPadding} 16px;
       overflow: auto;
       display: flex;
