@@ -41,14 +41,8 @@ export const Wrapper: ComponentClass<
     transition: box-shadow 0.2s ease-in-out;
   }
 
-  ${props => {
-    const background = themed({ light: colors.N30A, dark: colors.DN50 })(props);
-    const borderColor = themed({ light: 'none', dark: colors.DN60 })(props);
-    return `
-      background-color: ${background};
-      border: 1px solid ${borderColor};
-  `;
-  }};
+  background-color: ${themed({ light: colors.N30A, dark: colors.DN50 })};
+  border: 1px solid: ${themed({ light: 'none', dark: colors.DN60 })};
 `;
 
 export const ParticipantWrapper: ComponentClass<

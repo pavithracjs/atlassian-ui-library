@@ -29,13 +29,12 @@ export const CheckBoxWrapper: ComponentClass<HTMLAttributes<{}>> = styled.span`
       cursor: pointer;
 
       &::after {
-        background: ${props => themed({ light: colors.NO, dark: colors.DN10 })}
+        background: ${themed({ light: colors.NO, dark: colors.DN10 })}
         background-size: 16px;
         border-radius: 3px;
         border-style: solid;
         border-width: 1px;
-        border-color: ${props =>
-          themed({ light: colors.N50, dark: colors.DN70 })}
+        border-color: ${themed({ light: colors.N50, dark: colors.DN70 })}
         box-sizing: border-box;
         content: '';
         height: 16px;
@@ -48,7 +47,7 @@ export const CheckBoxWrapper: ComponentClass<HTMLAttributes<{}>> = styled.span`
       }
     }
     &:not([disabled]) + label:hover::after {
-      background: ${props => themed({ light: colors.N30, dark: colors.B75 })}
+      background: ${themed({ light: colors.N30, dark: colors.B75 })}
       transition: border 0.2s ease-in-out;
     }
     &[disabled] + label {
