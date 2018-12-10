@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ReactRenderer as Renderer } from '@atlaskit/renderer';
-
+// @ts-ignore
+import { AtlaskitThemeProvider } from '@atlaskit/theme';
 import DecisionItem from '../src/components/DecisionItem';
 import {
   MessageContainer,
@@ -9,10 +10,6 @@ import {
   document,
   getParticipants,
 } from '../example-helpers/story-utils';
-
-// AtlaskitThemeProvider is deprecated, we can switch later
-// @ts-ignore TS type def for theme is wrong.
-import { AtlaskitThemeProvider } from '@atlaskit/theme';
 
 export default () => (
   <AtlaskitThemeProvider mode={'dark'}>

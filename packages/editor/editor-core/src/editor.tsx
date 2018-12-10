@@ -21,8 +21,7 @@ import { nextMajorVersion } from './version';
 import { Context as CardContext } from '@atlaskit/smart-card';
 import { createContextAdapter } from './nodeviews';
 
-// AtlaskitThemeProvider is deprecated, we can switch later
-// @ts-ignore TS type def for theme is wrong.
+// @ts-ignore
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
 
 export * from './types';

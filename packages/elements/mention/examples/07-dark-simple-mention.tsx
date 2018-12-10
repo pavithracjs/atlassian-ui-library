@@ -2,13 +2,12 @@ import * as React from 'react';
 import Mention from '../src/components/Mention';
 import { AnalyticsListener } from '@atlaskit/analytics';
 import { AnalyticsListener as AnalyticsListenerNext } from '@atlaskit/analytics-next';
+// @ts-ignore
+import { AtlaskitThemeProvider } from '@atlaskit/theme';
 import debug from '../src/util/logger';
 import { onMentionEvent } from '../example-helpers/index';
 import { mockMentionData as mentionData } from '../src/__tests__/unit/_test-helpers';
 import { ELEMENTS_CHANNEL } from '../src/constants';
-// AtlaskitThemeProvider is deprecated, we can switch later
-// @ts-ignore TS type def for theme is wrong.
-import { AtlaskitThemeProvider } from '@atlaskit/theme';
 
 const padding = { padding: '10px' };
 

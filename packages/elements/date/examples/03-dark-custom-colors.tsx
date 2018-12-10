@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Date, Color } from '../src';
-// AtlaskitThemeProvider is deprecated, we can switch later
-// @ts-ignore TS type def for theme is wrong.
+// @ts-ignore
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
+import { Date, Color } from '../src';
 
 const DateInParagraph = ({ color }: { color?: Color }) => (
   <p>
