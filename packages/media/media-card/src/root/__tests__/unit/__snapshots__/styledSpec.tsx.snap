@@ -66,11 +66,6 @@ exports[`Root Wrapper File should apply breakpoint rules bassed on breakpointSiz
   font-size: 14px;
 }
 
-.c0 .wrapper,
-.c0 .img-wrapper {
-  border-radius: 2px;
-}
-
 .c0 .overlay {
   padding: 24px;
 }
