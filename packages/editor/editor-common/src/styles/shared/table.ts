@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { fontSize, themed, colors } from '@atlaskit/theme';
+import { fontSize, themed } from '@atlaskit/theme';
 import { TableLayout } from '../../schema';
 import {
   akEditorTableBorder,
