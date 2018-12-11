@@ -10,17 +10,17 @@ export interface MentionStyleProps {
 const mentionStyle = {};
 mentionStyle[MentionType.SELF] = {
   background: themed({ light: colors.B400, dark: colors.B200 }),
-  // background: themed({ light: "#FF0000", dark: "#00FF00"}),
   border: 'transparent',
-  text: colors.DN30,
+  text: themed({ light: colors.N20, dark: colors.DN30 }),
 };
 mentionStyle[MentionType.RESTRICTED] = {
   background: 'transparent',
-  border: colors.DN80,
-  text: colors.DN100,
+  border: themed({ light: colors.N500, dark: colors.DN80 }),
+  text: themed({ light: colors.N500, dark: colors.DN100 }),
 };
+
 mentionStyle[MentionType.DEFAULT] = {
-  background: themed({ light: colors.N30A, dark: colors.DN70 }),
+  background: themed({ light: colors.N30A, dark: colors.DN80 }),
   border: 'transparent',
   text: themed({ light: colors.N500, dark: colors.DN800 }),
 };
