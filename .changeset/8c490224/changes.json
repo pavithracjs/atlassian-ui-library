@@ -1,0 +1,18 @@
+{
+  "releases": [
+    { "name": "@atlaskit/date", "type": "minor" },
+    { "name": "@atlaskit/mention", "type": "minor" },
+    { "name": "@atlaskit/task-decision", "type": "minor" }
+  ],
+  "dependents": [
+    {
+      "name": "@atlaskit/editor-core",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/date",
+        "@atlaskit/mention",
+        "@atlaskit/task-decision"
+      ]
+    }
+  ]
+}
