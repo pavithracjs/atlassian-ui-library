@@ -24,7 +24,7 @@ export interface WrapperProps {
 
 export const Wrapper = styled.div`
   ${center} background: ${themed({ light: colors.N20, dark: colors.DN50 })};
-  color: ${themed({ light: '#cfd4db', dark: colors.DN100 })};
+  color: ${themed({ light: colors.N50, dark: colors.DN100 })};
   border-radius: inherit;
   max-height: 100%;
   max-width: 100%;
