@@ -9,17 +9,28 @@ export type Props = React.HTMLProps<HTMLSpanElement> & {
   color?: Color;
 };
 
-export const resolveColors = (props: Props): [string, string, string] => {
-  const { color } = props;
+export const resolveColors = (
+  color?: Color,
+): { light: [string, string, string]; dark: [string, string, string] } => {
   if (!color || color === 'grey') {
-    const background = themed({ light: colors.N30A, dark: colors.DN70 });
-    const color = themed({ light: colors.N800, dark: colors.DN800 });
-    const hoverBackground = themed({ light: colors.N40, dark: colors.DN60 });
-    return [background(props), color(props), hoverBackground(props)];
+    return {
+      light: [colors.N30A, colors.N800, colors.N40],
+      dark: [colors.DN70, colors.DN800, colors.DN60],
+    };
   }
-
   const letter = color.toUpperCase().charAt(0);
-  return [colors[`${letter}50`], colors[`${letter}500`], colors[`${letter}75`]];
+  return {
+    light: [
+      colors[`${letter}50`],
+      colors[`${letter}500`],
+      colors[`${letter}75`],
+    ],
+    dark: [
+      colors[`${letter}50`],
+      colors[`${letter}500`],
+      colors[`${letter}75`],
+    ],
+  };
 };
 
 /**
@@ -36,12 +47,12 @@ export const DateLozenge = styled.span`
   cursor: ${(props: Props) => (props.onClick ? 'pointer' : 'unset')};
 
   ${(props: Props) => {
-    const [background, color, hoverBackground] = resolveColors(props);
+    const { light, dark } = resolveColors(props.color);
     return `
-      background: ${background};
-      color: ${color};
+      background: ${themed({ light: light[0], dark: dark[0] })(props)};
+      color: ${themed({ light: light[1], dark: dark[1] })(props)};
       &:hover {
-        background: ${hoverBackground};
+        background: ${themed({ light: light[2], dark: dark[2] })(props)};
       }
     `;
   }};
