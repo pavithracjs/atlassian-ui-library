@@ -9,9 +9,10 @@ export type Props = React.HTMLProps<HTMLSpanElement> & {
   color?: Color;
 };
 
+type ColoursTuple = [string, string, string];
 export const resolveColors = (
   color?: Color,
-): { light: [string, string, string]; dark: [string, string, string] } => {
+): { light: ColoursTuple; dark: ColoursTuple } => {
   if (!color || color === 'grey') {
     return {
       light: [colors.N30A, colors.N800, colors.N40],
@@ -19,17 +20,14 @@ export const resolveColors = (
     };
   }
   const letter = color.toUpperCase().charAt(0);
+  const resolvedColors: ColoursTuple = [
+    colors[`${letter}50`],
+    colors[`${letter}500`],
+    colors[`${letter}75`],
+  ];
   return {
-    light: [
-      colors[`${letter}50`],
-      colors[`${letter}500`],
-      colors[`${letter}75`],
-    ],
-    dark: [
-      colors[`${letter}50`],
-      colors[`${letter}500`],
-      colors[`${letter}75`],
-    ],
+    light: resolvedColors,
+    dark: resolvedColors,
   };
 };
 
@@ -47,7 +45,7 @@ export const DateLozenge = styled.span`
   cursor: ${(props: Props) => (props.onClick ? 'pointer' : 'unset')};
 
   ${(props: Props) => {
-    const [background, color, hoverBackground] = themed(
+    const [background, color, hoverBackground]: ColoursTuple = themed(
       resolveColors(props.color),
     )(props);
     return `
