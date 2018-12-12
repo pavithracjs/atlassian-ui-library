@@ -45,6 +45,8 @@ export const Wrapper: ComponentClass<WrapperProps> = styled(Root)`
   ${getShadowAttribute}
   ${getCursorAttribute}
   ${borderRadius}
+  background: ${themed({ light: '#FFF', dark: colors.DN50 })};
+
   line-height: normal;
   position: relative;
 
