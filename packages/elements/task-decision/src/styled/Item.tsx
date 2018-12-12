@@ -3,6 +3,7 @@ import styled from 'styled-components';
 // prettier-ignore
 import { HTMLAttributes, ClassAttributes, ComponentClass } from 'react';
 import { borderRadius, gridSize, colors, themed } from '@atlaskit/theme';
+import { Appearance } from '../types';
 
 const akGridSize = gridSize();
 
@@ -16,11 +17,10 @@ export const ContentWrapper: ComponentClass<
 `;
 
 export const Wrapper: ComponentClass<
-  HTMLAttributes<{}> & { appearance?: any }
+  HTMLAttributes<{}> & { appearance?: Appearance }
 > = styled.div`
   display: flex;
-  flex-direction: ${props =>
-    props.theme.appearance === 'card' ? 'column' : 'row'};
+  flex-direction: ${props => (props.appearance === 'card' ? 'column' : 'row')};
 
   line-height: 20px;
   border-radius: ${borderRadius()}px;
@@ -29,13 +29,13 @@ export const Wrapper: ComponentClass<
   min-height: 36px;
   box-sizing: border-box;
   box-shadow: ${props =>
-    props.appearance.appearance === 'card'
+    props.appearance === 'card'
       ? `0 1px 1px ${colors.N50A}, 0 0 1px 0 ${colors.N60A}`
       : 'none'};
 
   &:hover {
     box-shadow: ${props =>
-      props.appearance.appearance === 'card'
+      props.appearance === 'card'
         ? `0 4px 8px -2px ${colors.N60A}, 0 0 1px ${colors.N60A}`
         : 'none'};
     transition: box-shadow 0.2s ease-in-out;
