@@ -3,9 +3,37 @@ import { Plugin } from 'prosemirror-state';
 import * as keymaps from '../../../keymaps';
 import { arrow, deleteNode } from '../actions';
 import { Direction } from '../direction';
+import { Command } from '../../../types';
+import { setTextSelection } from 'prosemirror-utils';
+import { GapCursorSelection } from '../selection';
+
+const enterKeyCommand: Command = (state, dispatch): boolean => {
+  const { listItem, paragraph, bulletList, orderedList } = state.schema.nodes;
+  const { $to, $from } = state.selection;
+  if (state.selection instanceof GapCursorSelection) {
+    const wrapper = $from.node($from.depth - 1);
+    // Only create a new list item if we're inside a list
+    if (
+      (wrapper && wrapper.type === bulletList) ||
+      wrapper.type === orderedList
+    ) {
+      const tr = state.tr.insert(
+        $to.pos + 1,
+        listItem.createChecked({}, paragraph.createChecked()),
+      );
+      if (dispatch) {
+        dispatch(setTextSelection($to.pos + 3)(tr));
+      }
+      return true;
+    }
+  }
+  return false;
+};
 
 export default function keymapPlugin(): Plugin {
   const map = {};
+
+  keymaps.bindKeymapWithCommand(keymaps.enter.common!, enterKeyCommand, map);
 
   keymaps.bindKeymapWithCommand(
     keymaps.moveLeft.common!,

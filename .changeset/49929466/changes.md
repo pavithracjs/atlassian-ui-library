@@ -1,0 +1,1 @@
+- ED-5835 Disable double-enter code block exiting and fix code block behaviour in lists

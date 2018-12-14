@@ -190,14 +190,17 @@ export const enterKeyCommand: Command = (state, dispatch): boolean => {
   const { selection } = state;
   if (selection.empty) {
     const { $from } = selection;
-    const { listItem } = state.schema.nodes;
+    const { listItem, codeBlock } = state.schema.nodes;
     const node = $from.node($from.depth);
     const wrapper = $from.node($from.depth - 1);
 
     if (wrapper && wrapper.type === listItem) {
       /** Check if the wrapper has any visible content */
       const wrapperHasContent = hasVisibleContent(wrapper);
-      if (isEmptyNode(node) && !wrapperHasContent) {
+      if (
+        node.type === codeBlock ||
+        (isEmptyNode(node) && !wrapperHasContent)
+      ) {
         return outdentList()(state, dispatch);
       } else {
         return splitListItem(listItem)(state, dispatch);

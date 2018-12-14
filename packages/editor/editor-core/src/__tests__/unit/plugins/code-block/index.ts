@@ -115,7 +115,7 @@ describe('code-block', () => {
     });
     describe('keyMaps', () => {
       describe('when Enter key is pressed', () => {
-        it('a new paragraph should be created in code block', () => {
+        it('one newline should be created in code block', () => {
           const { editorView } = editor(doc(code_block()('text{<>}')));
           sendKeyToPm(editorView, 'Enter');
           expect(editorView.state.doc).toEqualDocument(
@@ -125,12 +125,12 @@ describe('code-block', () => {
       });
 
       describe('when Enter key is pressed twice', () => {
-        it('a new paragraph should be created outside code block', () => {
+        it('a two newlines should be created in code block', () => {
           const { editorView } = editor(doc(code_block()('text{<>}')));
           sendKeyToPm(editorView, 'Enter');
           sendKeyToPm(editorView, 'Enter');
           expect(editorView.state.doc).toEqualDocument(
-            doc(code_block()('text'), p()),
+            doc(code_block()('text\n\n')),
           );
         });
       });
