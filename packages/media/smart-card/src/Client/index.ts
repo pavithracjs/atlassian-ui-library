@@ -10,6 +10,7 @@ import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 import { delay } from 'rxjs/operators/delay';
 import { takeUntil } from 'rxjs/operators/takeUntil';
 import { filter } from 'rxjs/operators/filter';
+import { mergeAll } from 'rxjs/operators/mergeAll';
 import { mergeMap } from 'rxjs/operators/mergeMap';
 import { tap } from 'rxjs/operators/tap';
 import { catchError } from 'rxjs/operators/catchError';
@@ -155,7 +156,7 @@ export class Client implements Client {
   cacheLifespan: number;
   store: Store<ObjectState>;
   loadingStateDelay: number;
-  urlsToResolve$: Subject<ClientAction>;
+  urlsToProcess$: Subject<ClientAction>;
 
   constructor(config?: ClientConfig) {
     this.cacheLifespan =
@@ -164,39 +165,36 @@ export class Client implements Client {
       (config && config.getNowTimeFn) || Date.now,
     );
     this.loadingStateDelay = (config && config.loadingStateDelay) || 800;
-    this.urlsToResolve$ = new Subject<ClientAction>();
+    this.urlsToProcess$ = new Subject<ClientAction>();
 
-    const unique$ = this.urlsToResolve$.pipe(distinctUntilChanged());
-
-    const fetchData = <A extends ClientAction>(res: {
-      cmd: A;
-      entry: StateWatch<ObjectState> | undefined;
-    }) => {
-      const data$ = this.startStreaming(res.cmd.url);
+    const fetchData = (url: string) => {
+      const data$ = this.startStreaming(url);
       const resolving$ = of(<ResolvingState>{ status: 'resolving' }).pipe(
         delay(this.loadingStateDelay),
         takeUntil(data$),
       );
-      return merge(resolving$, data$).pipe(
-        map(state => ({ cmd: res.cmd, state })),
-      );
+      return merge(resolving$, data$).pipe(map(state => ({ url, state })));
     };
 
-    unique$
+    const uniqueUrlsToProcess$ = this.urlsToProcess$.pipe(
+      distinctUntilChanged(),
+    );
+
+    uniqueUrlsToProcess$
       .pipe(
         filter(cmd => cmd.type === 'RESOLVE'),
         map(cmd => ({
-          cmd: cmd as ResolveAction,
+          url: cmd.url,
           entry: this.store.get(cmd.url),
         })),
-        filter(res => res.entry !== undefined && res.entry.hasExpired()),
-        mergeMap(rec => fetchData<ResolveAction>(rec)),
+        filter(({ entry }) => entry !== undefined && entry.hasExpired()),
+        mergeMap(({ url }) => fetchData(url)),
       )
-      .subscribe(rec => {
-        this.store.set(rec.cmd.url, rec.state, this.cacheLifespan);
+      .subscribe(({ url, state }) => {
+        this.store.set(url, state, this.cacheLifespan);
       });
 
-    unique$
+    uniqueUrlsToProcess$
       .pipe(
         filter(cmd => cmd.type === 'RELOAD'),
         map(cmd => ({
@@ -204,35 +202,24 @@ export class Client implements Client {
           entry: this.store.get(cmd.url),
         })),
         tap(rec => this.store.get(rec.cmd.url)!.invalidate()),
-        mergeMap(rec => fetchData<ReloadAction>(rec)),
-        tap(rec => this.store.set(rec.cmd.url, rec.state, this.cacheLifespan)),
+        mergeMap(rec =>
+          fetchData(rec.cmd.url).pipe(
+            tap(rec => this.store.set(rec.url, rec.state, this.cacheLifespan)),
+            map(() => rec),
+          ),
+        ),
         mergeMap(rec =>
           from(
             getUrlsToReload(this.store, rec.cmd.definitionIdFromCard).filter(
-              otherUrl => otherUrl !== rec.cmd.url,
+              urlToReload => urlToReload !== rec.cmd.url,
             ),
-          ).pipe(mergeMap(x => fetchData(x))),
+          ),
         ),
+        mergeMap(url => fetchData(url)),
       )
-      .subscribe();
-
-    // const entry = this.store.get(url);
-
-    // if (entry && entry.hasExpired()) {
-    //   const data$ = this.startStreaming(url);
-    //   const resolving$ = of(<ResolvingState>{ status: 'resolving' }).pipe(
-    //     delay(this.loadingStateDelay),
-    //     takeUntil(data$),
-    //   );
-
-    //   merge(resolving$, data$).subscribe(state => {
-    //     this.store.set(url, state, this.cacheLifespan);
-
-    //     if (cb) {
-    //       cb();
-    //     }
-    //   });
-    // }
+      .subscribe(({ url, state }) => {
+        this.store.set(url, state, this.cacheLifespan);
+      });
   }
 
   fetchData(objectUrl: string): Promise<ResolveResponse> {
@@ -285,29 +272,18 @@ export class Client implements Client {
       throw new Error('Please, register a smart card before calling get()');
     }
 
-    this.urlsToResolve$.next({
+    this.urlsToProcess$.next({
       type: 'RESOLVE',
       url,
     });
   }
 
   reload(url: string, definitionIdFromCard?: string) {
-    //this.store.get(url)!.invalidate();
-
-    this.urlsToResolve$.next({
+    this.urlsToProcess$.next({
       type: 'RELOAD',
       url,
       definitionIdFromCard,
     });
-
-    // this.resolve(urlToReload, () => {
-    //   getUrlsToReload(this.store, definitionIdFromCard)
-    //     .filter(otherUrl => otherUrl !== urlToReload)
-    //     .forEach(otherUrl => {
-    //       this.store.get(otherUrl)!.invalidate();
-    //       this.resolve(otherUrl);
-    //     });
-    // });
   }
 }
 
