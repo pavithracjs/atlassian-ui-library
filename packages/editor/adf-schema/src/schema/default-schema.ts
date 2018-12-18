@@ -59,6 +59,7 @@ export const defaultSchema: Schema = createSchema({
     'mentionQuery',
     'emojiQuery',
     'textColor',
+    'annotation',
     'confluenceInlineComment',
     'breakout',
     'alignment',
