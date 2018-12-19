@@ -1,0 +1,1 @@
+- ED-5723: Enables typeahead support for mobile editor
