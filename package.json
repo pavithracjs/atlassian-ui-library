@@ -277,6 +277,7 @@
     "@types/redux": "^3.6.0",
     "@types/sinon-chai": "^2.7.27",
     "@types/uuid": "^3.4.4",
+    "@types/xmldom": "^0.1.29",
     "abortcontroller-polyfill": "^1.1.9",
     "adf-builder": "^3.2.0",
     "ajv": "^4.11.3",
@@ -488,6 +489,7 @@
     "uuid-validate": "^0.0.3",
     "video-snapshot": "^1.0.2",
     "webpack-cli": "^3.1.0",
+    "xmldom": "^0.1.27",
     "xregexp": "^4.1.1"
   },
   "resolutions": {

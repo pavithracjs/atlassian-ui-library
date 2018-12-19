@@ -20,8 +20,10 @@
   "dependencies": {
     "@atlaskit/adf-schema": "^1.0.0",
     "@atlaskit/editor-common": "^25.0.0",
+    "@types/xmldom": "^0.1.29",
     "collapse-whitespace": "^1.1.6",
-    "prosemirror-model": "^1.6.1"
+    "prosemirror-model": "^1.6.1",
+    "xmldom": "^0.1.27"
   },
   "peerDependencies": {
     "react": "^16.4.0"

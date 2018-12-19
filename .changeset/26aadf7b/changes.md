@@ -1,0 +1,1 @@
+- Change out window.DOMParser for the isomorphic version to fix SSR
