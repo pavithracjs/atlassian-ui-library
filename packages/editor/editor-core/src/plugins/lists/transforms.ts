@@ -1,7 +1,8 @@
-import { Fragment, NodeRange, Slice } from 'prosemirror-model';
+import { Fragment, NodeRange, Slice, ResolvedPos } from 'prosemirror-model';
 import { EditorState, Transaction, TextSelection } from 'prosemirror-state';
 import { liftTarget, ReplaceAroundStep } from 'prosemirror-transform';
 import { getListLiftTarget } from './utils';
+import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
 
 function liftListItem(
   state: EditorState,
@@ -77,16 +78,30 @@ export function liftFollowingList(
   return tr;
 }
 
-// The function will list paragraphs in selection out to level 1 below root list.
+// Find the nearest ancestor list depth
+export function ancestorListDepth(pos: ResolvedPos, nodes): number | undefined {
+  const { bulletList, orderedList } = nodes;
+  const closest = findParentNodeOfTypeClosestToPos(pos, [
+    orderedList,
+    bulletList,
+  ]);
+  return closest ? closest.depth : undefined;
+}
+
+// The function will lift paragraphs in selection out to level 1 below root list.
 export function liftSelectionList(
   state: EditorState,
   tr: Transaction,
 ): Transaction {
-  const { from, to } = state.selection;
+  const { $from, $to } = state.selection;
   const { paragraph } = state.schema.nodes;
   const listCol: any[] = [];
-  tr.doc.nodesBetween(from, to, (node, pos) => {
-    if (node.type === paragraph) {
+
+  const from = $from.before(ancestorListDepth($from, state.schema.nodes));
+  const to = $to.after(ancestorListDepth($to, state.schema.nodes));
+
+  tr.doc.nodesBetween(from, to - 2, (node, pos) => {
+    if (node && node.type === paragraph) {
       listCol.push({ node, pos });
     }
   });

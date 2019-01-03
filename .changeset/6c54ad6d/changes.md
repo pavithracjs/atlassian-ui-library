@@ -1,0 +1,1 @@
+- ED-5741 Toggling list type will change entire list
