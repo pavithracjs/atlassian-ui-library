@@ -16,7 +16,7 @@ import { MediaType, MediaSingleLayout } from '@atlaskit/adf-schema';
 import { ErrorReporter } from '@atlaskit/editor-common';
 
 import analyticsService from '../../../analytics/service';
-import { isImage, SetAttrsStep } from '../../../utils';
+import { isImage } from '../../../utils';
 import { Dispatch } from '../../../event-dispatcher';
 import { ProsemirrorGetPosHandler } from '../../../nodeviews';
 import { EditorAppearance } from '../../../types/editor-props';
@@ -605,6 +605,7 @@ export class MediaPluginState {
     };
   }
 
+<<<<<<< HEAD
   updateMediaNodeAttrs = (
     id: string,
     attrs: object,
@@ -630,6 +631,8 @@ export class MediaPluginState {
     );
   };
 
+=======
+>>>>>>> Add actual upfront id and change end to upload-processing
   private collectionFromProvider(): string | undefined {
     return (
       this.mediaProvider &&
@@ -639,9 +642,6 @@ export class MediaPluginState {
   }
 
   private handleMediaState = async (state: MediaState) => {
-    const isMediaSingle =
-      isImage(state.fileMimeType) && !!this.view.state.schema.nodes.mediaSingle;
-
     switch (state.status) {
       case 'error':
         this.removeNodeById(state);
@@ -652,20 +652,8 @@ export class MediaPluginState {
         }
         break;
 
-      case 'preview':
-        let attrs: { id?: string; collection?: string } = {
-          id: state.publicId || state.id,
-        };
-
-        if (typeof state.collection === 'string') {
-          attrs.collection = state.collection;
-        }
-
-        this.updateMediaNodeAttrs(state.id, attrs, isMediaSingle);
-        delete this.mediaGroupNodes[state.id];
-        break;
-
       case 'ready':
+        delete this.mediaGroupNodes[state.id];
         this.stateManager.off(state.id, this.handleMediaState);
         break;
     }
