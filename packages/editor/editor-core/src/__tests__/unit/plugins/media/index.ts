@@ -1,5 +1,4 @@
 import * as assert from 'assert';
-import { undo } from 'prosemirror-history';
 import { EditorView } from 'prosemirror-view';
 
 import { ProviderFactory } from '@atlaskit/editor-common';
@@ -166,7 +165,6 @@ describe('Media plugin', () => {
           {
             id: '1',
             fileMimeType: 'image/jpeg',
-            fileId: Promise.resolve('foo'),
             fileName: 'foo.jpg',
             fileSize: 100,
             dimensions: {
@@ -180,7 +178,6 @@ describe('Media plugin', () => {
           {
             id: '2',
             fileMimeType: 'image/png',
-            fileId: Promise.resolve('bar'),
             fileName: 'bar.png',
             fileSize: 200,
             dimensions: {
@@ -193,25 +190,13 @@ describe('Media plugin', () => {
         pluginState.insertFiles(foo);
         pluginState.insertFiles(bar);
 
-        pluginState.stateManager.updateState('1', {
-          ...foo[0],
-          status: 'preview',
-          publicId: 'foo',
-        });
-
-        pluginState.stateManager.updateState('2', {
-          ...bar[0],
-          status: 'preview',
-          publicId: 'bar',
-        });
-
         expect(editorView.state.doc).toEqualDocument(
           doc(
             mediaSingle({
               layout: 'center',
             })(
               media({
-                id: 'foo',
+                id: '1',
                 __key: '1',
                 type: 'file',
                 collection: testCollectionName,
@@ -226,7 +211,7 @@ describe('Media plugin', () => {
               layout: 'center',
             })(
               media({
-                id: 'bar',
+                id: '2',
                 __key: '2',
                 type: 'file',
                 collection: testCollectionName,
@@ -359,7 +344,6 @@ describe('Media plugin', () => {
             fileSize: 200,
             fileMimeType: 'pdf',
             dimensions: { width: 200, height: 200 },
-            fileId: Promise.resolve('lala'),
           },
         ];
 
@@ -370,7 +354,6 @@ describe('Media plugin', () => {
             fileSize: 200,
             fileMimeType: 'image/png',
             dimensions: { width: 200, height: 200 },
-            fileId: Promise.resolve('bar'),
           },
         ];
 
@@ -380,21 +363,18 @@ describe('Media plugin', () => {
         pluginState.stateManager.updateState(id1, {
           ...lala[0],
           status: 'preview',
-          publicId: 'lala',
         });
 
         pluginState.stateManager.updateState(id2, {
           ...bar[0],
-
           status: 'preview',
-          publicId: 'bar',
         });
 
         expect(editorView.state.doc).toEqualDocument(
           doc(
             mediaGroup(
               media({
-                id: 'lala',
+                id: id1,
                 __key: id1,
                 type: 'file',
                 __fileMimeType: 'pdf',
@@ -405,7 +385,7 @@ describe('Media plugin', () => {
             ),
             mediaSingle({ layout: 'center' })(
               media({
-                id: 'bar',
+                id: id2,
                 __key: id2,
                 __fileName: 'bar.png',
                 __fileSize: 200,
@@ -428,9 +408,9 @@ describe('Media plugin', () => {
         await mediaProvider;
 
         pluginState.insertFiles([
-          { id: 'foo', fileMimeType: 'pdf', fileId: Promise.resolve('id1') },
-          { id: 'bar', fileMimeType: 'pdf', fileId: Promise.resolve('id2') },
-          { id: 'foobar', fileMimeType: 'pdf', fileId: Promise.resolve('id3') },
+          { id: 'foo', fileMimeType: 'pdf' },
+          { id: 'bar', fileMimeType: 'pdf' },
+          { id: 'foobar', fileMimeType: 'pdf' },
         ]);
 
         expect(editorView.state.doc).toEqualDocument(
@@ -463,126 +443,6 @@ describe('Media plugin', () => {
         );
       });
     });
-  });
-
-  it('should swap temporary id with public id', async () => {
-    const { editorView, pluginState } = editor(doc(p(), p('{<>}')));
-
-    const tempFileId = `temporary:${randomId()}`;
-
-    // wait until mediaProvider has been set
-    const provider = await mediaProvider;
-    // wait until mediaProvider's uploadContext has been set
-    await provider.uploadContext;
-
-    const publicId = 'public-id';
-    const fileState = [
-      { id: tempFileId, fileId: Promise.resolve('hello'), fileMimeType: 'pdf' },
-    ];
-
-    pluginState.insertFiles(fileState);
-    expect(editorView.state.doc).toEqualDocument(
-      doc(
-        p(),
-        mediaGroup(
-          media({
-            id: tempFileId,
-            __key: tempFileId,
-            type: 'file',
-            __fileMimeType: 'pdf',
-            collection: testCollectionName,
-          })(),
-        ),
-        p(),
-      ),
-    );
-
-    pluginState.stateManager.updateState(tempFileId, {
-      ...fileState[0],
-      status: 'preview',
-      publicId,
-    });
-
-    expect(editorView.state.doc).toEqualDocument(
-      doc(
-        p(),
-        mediaGroup(
-          media({
-            id: publicId,
-            __key: tempFileId,
-            type: 'file',
-            __fileMimeType: 'pdf',
-            collection: testCollectionName,
-          })(),
-        ),
-        p(),
-      ),
-    );
-
-    pluginState.destroy();
-  });
-
-  it('should not revert to temporary media nodes after upload finished and we undo', async () => {
-    const { editorView, pluginState } = editor(doc(p(), p('{<>}')));
-    const collectionFromProvider = jest.spyOn(
-      pluginState,
-      'collectionFromProvider' as any,
-    );
-    collectionFromProvider.mockImplementation(() => testCollectionName);
-    const tempFileId = `temporary:${randomId()}`;
-
-    // wait until mediaProvider has been set
-    const provider = await mediaProvider;
-    // wait until mediaProvider's uploadContext has been set
-    await provider.uploadContext;
-
-    pluginState.insertFiles([
-      { id: tempFileId, fileId: Promise.resolve('id') },
-    ]);
-
-    expect(editorView.state.doc).toEqualDocument(
-      doc(
-        p(),
-        mediaGroup(
-          media({
-            id: tempFileId,
-            __key: tempFileId,
-            type: 'file',
-            collection: testCollectionName,
-          })(),
-        ),
-        p(),
-      ),
-    );
-
-    // mark the upload as finished, triggering replacement of media node
-    stateManager.updateState(tempFileId, {
-      publicId: tempFileId,
-      status: 'preview',
-    });
-
-    expect(editorView.state.doc).toEqualDocument(
-      doc(
-        p(),
-        mediaGroup(
-          media({
-            id: tempFileId,
-            __key: tempFileId,
-            type: 'file',
-            collection: testCollectionName,
-          })(),
-        ),
-        p(),
-      ),
-    );
-
-    // undo last change
-    expect(undo(editorView.state, editorView.dispatch)).toBe(true);
-
-    expect(editorView.state.doc).toEqualDocument(doc(p(), p()));
-    collectionFromProvider.mockRestore();
-
-    pluginState.destroy();
   });
 
   it('should set new pickers exactly when new media provider is set', async () => {
@@ -932,10 +792,10 @@ describe('Media plugin', () => {
 
     const spy = jest.spyOn(editorView, 'focus');
 
-    pluginState.insertFiles([{ id: 'foo', fileId: Promise.resolve('id') }]);
+    pluginState.insertFiles([{ id: 'foo' }]);
     expect(spy).toHaveBeenCalled();
 
-    pluginState.insertFiles([{ id: 'bar', fileId: Promise.resolve('id') }]);
+    pluginState.insertFiles([{ id: 'bar' }]);
     expect(editorView.state.doc).toEqualDocument(
       doc(
         mediaGroup(
@@ -971,7 +831,6 @@ describe('Media plugin', () => {
     pluginState.insertFiles([
       {
         id: temporaryFileId,
-        fileId: Promise.resolve('id'),
         status: 'preview',
         fileName: 'foo.png',
         fileSize: 1234,
