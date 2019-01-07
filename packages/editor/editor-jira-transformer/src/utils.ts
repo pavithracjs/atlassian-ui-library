@@ -317,7 +317,7 @@ export function convert(
           ) {
             const pre = node.querySelector('pre');
 
-            if (!pre) {
+            if (!pre || Object.keys(pre).length === 0) {
               return null;
             }
 
