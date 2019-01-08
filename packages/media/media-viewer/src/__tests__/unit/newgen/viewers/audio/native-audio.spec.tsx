@@ -1,8 +1,9 @@
+jest.mock('../../utils/isIE.spec', () => true);
+
 import * as util from '../../../../../newgen/utils';
 const constructAuthTokenUrlSpy = jest.spyOn(util, 'constructAuthTokenUrl');
 
 import * as React from 'react';
-import { mount } from 'enzyme';
 import { createContext } from '../../../_stubs';
 import { Auth, ProcessedFileState } from '@atlaskit/media-core';
 import {
@@ -48,7 +49,6 @@ function createFixture(
   const context = createContext({ authPromise });
   const el = mountWithIntlContext(
     <AudioViewer
-      featureFlags={{ customVideoPlayer: false }}
       context={context}
       item={item || audioItem}
       collectionName={collectionName}
@@ -171,7 +171,7 @@ describe('Audio viewer', () => {
       async function createAutoPlayFixture(previewCount: number) {
         const authPromise = Promise.resolve({ token, clientId, baseUrl });
         const context = createContext({ authPromise });
-        const el = mount(
+        const el = mountWithIntlContext(
           <AudioViewer
             context={context}
             item={audioItem}
@@ -187,12 +187,12 @@ describe('Audio viewer', () => {
 
       it('should auto play when it is the first preview', async () => {
         const el = await createAutoPlayFixture(0);
-        expect(el.find({ autoPlay: true })).toHaveLength(2);
+        expect(el.find('Video').prop('autoPlay')).toBeTruthy();
       });
 
       it('should not auto play when it is not the first preview', async () => {
         const el = await createAutoPlayFixture(1);
-        expect(el.find({ autoPlay: true })).toHaveLength(0);
+        expect(el.find({ isAutoPlay: true })).toHaveLength(0);
       });
     });
   });
