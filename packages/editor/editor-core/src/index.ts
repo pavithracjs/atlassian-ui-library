@@ -86,3 +86,4 @@ export {
   PortalProviderAPI,
   PortalRenderer,
 } from './ui/PortalProvider';
+export { test } from './image';
