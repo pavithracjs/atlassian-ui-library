@@ -9,3 +9,4 @@ export { RendererContext } from './react';
 export { ADFEncoder } from './utils';
 
 export { renderDocument, renderNodes } from './render-document';
+export { test } from './image';
