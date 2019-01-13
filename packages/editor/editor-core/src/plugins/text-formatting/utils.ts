@@ -5,6 +5,8 @@ import {
   FORMATTING_MARK_TYPES,
   FORMATTING_NODE_TYPES,
 } from './commands/clear-formatting';
+import { CellSelection } from 'prosemirror-tables';
+import { findParentNodeOfType } from 'prosemirror-utils';
 
 export const nodeLen = (node: Node): number => {
   return node.nodeType === 3 && node.nodeValue
@@ -143,7 +145,23 @@ export const anyMarkActive = (
 ): boolean => {
   const { $from, from, to, empty } = state.selection;
   if (empty) {
-    return !!markType.isInSet(state.storedMarks || $from.marks());
+    const { tableHeader, tableCell } = state.schema.nodes;
+    const cell = findParentNodeOfType([tableHeader, tableCell])(
+      state.selection,
+    );
+    return (
+      !!markType.isInSet(state.storedMarks || $from.marks()) ||
+      (!!cell && cell.node.attrs.initialMarks.indexOf(markType.name) > -1)
+    );
+  }
+  if (state.selection instanceof CellSelection) {
+    let active = false;
+    state.selection.forEachCell(cell => {
+      if (cell.attrs.initialMarks.indexOf(markType.name) > -1) {
+        active = true;
+      }
+    });
+    return active;
   }
   return state.doc.rangeHasMark(from, to, markType);
 };
