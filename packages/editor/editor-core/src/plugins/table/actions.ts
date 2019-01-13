@@ -15,8 +15,6 @@ import {
   findTable,
   getCellsInColumn,
   getCellsInRow,
-  addColumnAt,
-  addRowAt,
   isCellSelection,
   removeTable,
   removeSelectedColumns,
@@ -35,6 +33,7 @@ import {
   getSelectionRangeInColumn,
   getSelectionRect,
 } from 'prosemirror-utils';
+import { addRowAt, addColumnAt } from './pm-utils';
 import { getPluginState, pluginKey, ACTIONS } from './pm-plugins/main';
 import {
   checkIfHeaderRowEnabled,
@@ -275,7 +274,11 @@ export const setCellAttr = (name: string, value: any): Command => (
 
 export const insertColumn = (column: number): Command => (state, dispatch) => {
   const tr = addColumnAt(column)(state.tr);
-  const table = findTable(tr.selection)!;
+  const table = findTable(tr.selection);
+  if (!table) {
+    debugger;
+    return false;
+  }
   // move the cursor to the newly created column
   const pos = TableMap.get(table.node).positionAt(0, column, table.node);
   if (dispatch) {
@@ -289,13 +292,7 @@ export const insertColumn = (column: number): Command => (state, dispatch) => {
 
 export const insertRow = (row: number): Command => (state, dispatch) => {
   clearHoverSelection(state, dispatch);
-
-  // Dont clone the header row
-  const headerRowEnabled = checkIfHeaderRowEnabled(state);
-  const clonePreviousRow =
-    (headerRowEnabled && row > 1) || (!headerRowEnabled && row >= 0);
-
-  const tr = addRowAt(row, clonePreviousRow)(state.tr);
+  const tr = addRowAt(row)(state.tr);
 
   const table = findTable(tr.selection)!;
   // move the cursor to the newly created row

@@ -36,6 +36,7 @@ import {
   findControlsHoverDecoration,
   fixTables,
   normalizeSelection,
+  applyInitialMarks,
 } from '../utils';
 
 export const pluginKey = new PluginKey('tablePlugin');
@@ -192,10 +193,10 @@ export const createPlugin = (
         return fixTables(handleCut(tr, oldState, newState));
       }
       if (transactions.find(tr => tr.docChanged)) {
-        return fixTables(newState.tr);
+        return applyInitialMarks(fixTables(newState.tr));
       }
       if (transactions.find(tr => tr.selectionSet)) {
-        return normalizeSelection(newState.tr);
+        return applyInitialMarks(normalizeSelection(newState.tr));
       }
     },
     view: (editorView: EditorView) => {

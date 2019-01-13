@@ -30,12 +30,16 @@ const getCellAttrs = (dom: HTMLElement) => {
       ? widthAttr.split(',').map(str => Number(str))
       : null;
   const colspan = Number(dom.getAttribute('colspan') || 1);
+  const initialMarks = JSON.parse(
+    dom.getAttribute('data-initialMarks') || '[]',
+  );
 
   return {
     colspan,
     rowspan: Number(dom.getAttribute('rowspan') || 1),
     colwidth: width && width.length === colspan ? width : null,
     background: dom.style.backgroundColor || null,
+    initialMarks,
   };
 };
 
@@ -44,6 +48,7 @@ export const setCellAttrs = (node: PmNode, cell?: HTMLElement) => {
     colspan?: number;
     rowspan?: number;
     style?: string;
+    initialMarks?: string;
   } = {};
   const colspan = cell ? parseInt(cell.getAttribute('colspan') || '1', 10) : 1;
   const rowspan = cell ? parseInt(cell.getAttribute('rowspan') || '1', 10) : 1;
@@ -81,6 +86,10 @@ export const setCellAttrs = (node: PmNode, cell?: HTMLElement) => {
 
       attrs.style = `${attrs.style || ''}background-color: ${color};`;
     }
+  }
+
+  if (node.attrs.initialMarks) {
+    attrs.initialMarks = JSON.stringify(node.attrs.initialMarks);
   }
 
   return attrs;
@@ -195,6 +204,7 @@ export interface CellAttributes {
   rowspan?: number;
   colwidth?: number[];
   background?: string;
+  initialMarks?: string[];
 }
 
 // TODO: Fix any, potential issue. ED-5048
@@ -255,6 +265,7 @@ const cellAttrs = {
   rowspan: { default: 1 },
   colwidth: { default: null },
   background: { default: null },
+  initialMarks: { default: [] },
 };
 
 export const tableCell = {
@@ -288,7 +299,10 @@ export const toJSONTableCell = (node: PmNode) => ({
 export const tableHeader = {
   content:
     '(paragraph | panel | blockquote | orderedList | bulletList | rule | heading | codeBlock | mediaGroup | mediaSingle  | applicationCard | decisionList | taskList | blockCard | extension)+',
-  attrs: cellAttrs,
+  attrs: {
+    ...cellAttrs,
+    initialMarks: { default: ['strong'] },
+  },
   tableRole: 'header_cell',
   isolating: true,
   marks: 'alignment',

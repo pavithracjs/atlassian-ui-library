@@ -1,11 +1,46 @@
 import { TextSelection, Selection } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { toggleMark } from 'prosemirror-commands';
+import { MarkType } from 'prosemirror-model';
+import { findParentNodeOfType } from 'prosemirror-utils';
+import { toggleMark as toggleMarkDefault } from 'prosemirror-commands';
 import { removeIgnoredNodesLeft, hasCode } from '../utils';
 import { markActive } from '../utils';
 import { transformToCodeAction } from './transform-to-code';
 import { analyticsService } from '../../../analytics';
 import { Command } from '../../../types';
+
+export const toggleMark = (
+  markType: MarkType,
+  attrs?: { [key: string]: any },
+): Command => (state, dispatch) => {
+  const { schema } = state;
+  const { tableHeader, tableCell } = schema.nodes;
+  const cell = findParentNodeOfType([tableHeader, tableCell])(state.selection);
+  if (
+    !dispatch ||
+    !state.selection.empty ||
+    !cell ||
+    !cell.node.attrs.initialMarks ||
+    cell.node.attrs.initialMarks.indexOf(markType.name) === -1
+  ) {
+    return toggleMarkDefault(markType, attrs)(state, dispatch);
+  }
+
+  const cellAttrs = {
+    ...cell.node.attrs,
+    initialMarks: cell.node.attrs.initialMarks.filter(
+      mark => mark !== markType.name,
+    ),
+  };
+
+  dispatch(
+    state.tr
+      .removeStoredMark(markType)
+      .setNodeMarkup(cell.pos, cell.node.type, cellAttrs),
+  );
+
+  return true;
+};
 
 export const moveRight = (): Command => {
   return (state, dispatch) => {

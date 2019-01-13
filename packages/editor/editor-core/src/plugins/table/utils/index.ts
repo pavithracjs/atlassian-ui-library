@@ -7,6 +7,7 @@ export * from './dom';
 export * from './column-controls';
 export * from './row-controls';
 export * from './fix-tables';
+export * from './initial-marks';
 export {
   generateColgroup,
   renderColgroupFromNode,
