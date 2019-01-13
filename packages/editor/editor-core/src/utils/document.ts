@@ -211,13 +211,13 @@ export function processRawValue(
           return entity;
         }
 
-        if (options.allowUnsupportedBlock) {
-          fireAnalyticsEvent(entity, error);
-          return wrapWithUnsupported(entity);
-        } else if (options.allowUnsupportedInline) {
-          fireAnalyticsEvent(entity, error, 'inline');
-          return wrapWithUnsupported(entity, 'inline');
-        }
+        // if (options.allowUnsupportedBlock) {
+        //   fireAnalyticsEvent(entity, error);
+        //   return wrapWithUnsupported(entity);
+        // } else if (options.allowUnsupportedInline) {
+        //   fireAnalyticsEvent(entity, error, 'inline');
+        //   return wrapWithUnsupported(entity, 'inline');
+        // }
 
         return entity;
       },

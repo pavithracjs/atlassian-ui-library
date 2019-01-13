@@ -39,6 +39,7 @@ export const defaultSchema: Schema = createSchema({
     'unknownBlock',
     'date',
     'status',
+    'slider',
     'placeholder',
     'layoutSection',
     'layoutColumn',

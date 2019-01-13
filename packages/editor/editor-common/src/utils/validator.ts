@@ -761,6 +761,14 @@ export const getValidNode = (
             if (attrs.colwidth && Array.isArray(attrs.colwidth)) {
               cellAttrs.colwidth = attrs.colwidth;
             }
+
+            if (attrs.initialMarks && Array.isArray(attrs.initialMarks)) {
+              cellAttrs.initialMarks = attrs.initialMarks;
+            }
+
+            if (attrs.cellType) {
+              cellAttrs.cellType = attrs.cellType;
+            }
           }
 
           return {
@@ -770,6 +778,9 @@ export const getValidNode = (
           };
         }
         break;
+      }
+      case 'slider': {
+        return { type, attrs, content };
       }
       case 'image': {
         if (attrs && attrs.src) {

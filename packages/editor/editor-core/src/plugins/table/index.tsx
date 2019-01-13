@@ -3,7 +3,13 @@ import { tableEditing } from 'prosemirror-tables';
 import { createTable } from 'prosemirror-utils';
 import TableIcon from '@atlaskit/icon/glyph/editor/table';
 import { tableCellMinWidth } from '@atlaskit/editor-common';
-import { table, tableCell, tableHeader, tableRow } from '@atlaskit/adf-schema';
+import {
+  table,
+  tableCell,
+  tableHeader,
+  tableRow,
+  slider,
+} from '@atlaskit/adf-schema';
 
 import LayoutButton from './ui/LayoutButton';
 import { EditorPlugin } from '../../types';
@@ -16,8 +22,13 @@ import {
   createPlugin as createFlexiResizingPlugin,
   pluginKey as tableResizingPluginKey,
 } from './pm-plugins/table-resizing';
+import {
+  createColumnTypesPlugin,
+  pluginKey as columnTypesPluginKey,
+} from './pm-plugins/column-types';
 import { getToolbarConfig } from './toolbar';
 import { ColumnResizingPlugin } from './types';
+import ColumnTypesMenu from './ui/ColumnTypesMenu';
 import FloatingContextualMenu from './ui/FloatingContextualMenu';
 import { isLayoutSupported } from './utils';
 
@@ -49,6 +60,7 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
       { name: 'tableHeader', node: tableHeader },
       { name: 'tableRow', node: tableRow },
       { name: 'tableCell', node: tableCell },
+      { name: 'slider', node: slider },
     ];
   },
 
@@ -70,6 +82,11 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
             appearance,
           );
         },
+      },
+      {
+        name: 'columnTypes',
+        plugin: ({ dispatch, portalProviderAPI }) =>
+          createColumnTypesPlugin(dispatch, portalProviderAPI),
       },
       {
         name: 'tablePMColResizing',
@@ -101,34 +118,49 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
       <WithPluginState
         plugins={{
           pluginState: pluginKey,
+          columnTypesState: columnTypesPluginKey,
           tableResizingPluginState: tableResizingPluginKey,
         }}
-        render={({ pluginState, tableResizingPluginState }) => (
-          <>
-            <FloatingContextualMenu
-              editorView={editorView}
-              mountPoint={popupsMountPoint}
-              boundariesElement={popupsBoundariesElement}
-              targetCellPosition={pluginState.targetCellPosition}
-              isOpen={pluginState.isContextualMenuOpen}
-              pluginConfig={pluginState.pluginConfig}
-            />
-            {appearance === 'full-page' &&
-              isLayoutSupported(editorView.state) && (
-                <LayoutButton
-                  editorView={editorView}
-                  mountPoint={popupsMountPoint}
-                  boundariesElement={popupsBoundariesElement}
-                  scrollableElement={popupsScrollableElement}
-                  targetRef={pluginState.tableFloatingToolbarTarget}
-                  isResizing={
-                    !!tableResizingPluginState &&
-                    !!tableResizingPluginState.dragging
-                  }
-                />
-              )}
-          </>
-        )}
+        render={({
+          pluginState,
+          columnTypesState,
+          tableResizingPluginState,
+        }) => {
+          return (
+            <>
+              <FloatingContextualMenu
+                editorView={editorView}
+                mountPoint={popupsMountPoint}
+                boundariesElement={popupsBoundariesElement}
+                targetCellPosition={pluginState.targetCellPosition}
+                isOpen={pluginState.isContextualMenuOpen}
+                pluginConfig={pluginState.pluginConfig}
+              />
+              {appearance === 'full-page' &&
+                isLayoutSupported(editorView.state) && (
+                  <LayoutButton
+                    editorView={editorView}
+                    mountPoint={popupsMountPoint}
+                    boundariesElement={popupsBoundariesElement}
+                    scrollableElement={popupsScrollableElement}
+                    targetRef={pluginState.tableFloatingToolbarTarget}
+                    isResizing={
+                      !!tableResizingPluginState &&
+                      !!tableResizingPluginState.dragging
+                    }
+                  />
+                )}
+              <ColumnTypesMenu
+                editorView={editorView}
+                mountPoint={popupsMountPoint}
+                boundariesElement={popupsBoundariesElement}
+                scrollableElement={popupsScrollableElement}
+                isOpen={columnTypesState.isMenuOpen}
+                columnIndex={columnTypesState.columnIndex}
+              />
+            </>
+          );
+        }}
       />
     );
   },

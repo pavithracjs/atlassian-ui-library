@@ -123,6 +123,7 @@ export default {
     'layoutColumn',
     'inlineCard',
     'blockCard',
+    'slider',
   ],
   marks: [
     // Inline marks

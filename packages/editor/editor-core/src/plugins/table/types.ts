@@ -105,6 +105,14 @@ export const TableCssClassName = {
   CONTEXTUAL_MENU_ICON: `${clPrefix}contextual-submenu-icon`,
 
   CELL_NODEVIEW_WRAPPER: `${clPrefix}cell-nodeview-wrapper`,
+  CELL_NODEVIEW_CONTENT: `${clPrefix}cell-nodeview-content`,
+  CELL_NODEVIEW_CONTENT_DOM: `${clPrefix}cell-nodeview-content-dom`,
+  CELL_NODEVIEW_COLUMN_TYPES_BUTTON: `${clPrefix}cell-nodeview-column_types_button`,
+
+  COLUMN_TYPES_SETTINGS_MENU: `${clPrefix}column-types-settings_menu`,
+  COLUMN_TYPES_SETTINGS_MENU_BUTTONS_WRAP: `${clPrefix}column-types-settings_menu-buttons-wrap`,
+  COLUMN_TYPES_SETTINGS_MENU_ALLOW_CREATE_WRAP: `${clPrefix}column-types-settings_menu-allow-create-wrap`,
+  COLUMN_TYPES_SETTINGS_MENU_TITLE: `${clPrefix}column-types-settings_menu-title`,
 
   // come from prosemirror-table
   COLUMN_RESIZE_HANDLE: 'column-resize-handle',
