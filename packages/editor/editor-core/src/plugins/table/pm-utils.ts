@@ -221,6 +221,7 @@ const cloneColumnAt = insertColumnIndex => tr => {
             rowCells[i] = schema.nodes[prevCopyCell.type.name].createAndFill(
               {
                 ...prevCopyCell.attrs,
+                cellType: 'normal',
                 colspan: prevCopyCell.attrs.colspan + 1,
                 colwidth: prevCopyCell.attrs.colwidth ? [48] : null,
               },
@@ -239,6 +240,7 @@ const cloneColumnAt = insertColumnIndex => tr => {
       const newCell = schema.nodes[copyCell.node.type.name].createAndFill(
         {
           ...copyCell.node.attrs,
+          cellType: 'normal',
           colspan: 1,
           colwidth: copyCell.node.attrs.colwidth ? [48] : null,
         },

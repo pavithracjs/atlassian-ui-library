@@ -1,6 +1,6 @@
 import { TextSelection, Selection } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { MarkType, Node as PMNode } from 'prosemirror-model';
+import { MarkType } from 'prosemirror-model';
 import { findParentNodeOfType } from 'prosemirror-utils';
 import { toggleMark as toggleMarkDefault } from 'prosemirror-commands';
 import { removeIgnoredNodesLeft, hasCode } from '../utils';
@@ -9,19 +9,6 @@ import { transformToCodeAction } from './transform-to-code';
 import { analyticsService } from '../../../analytics';
 import { Command } from '../../../types';
 import { CellSelection } from 'prosemirror-tables';
-
-const toggleCellInitialMark = (markType: MarkType, cell: PMNode) => {
-  const { initialMarks } = cell.attrs;
-  return {
-    ...cell.attrs,
-    initialMarks:
-      initialMarks.indexOf(markType.name) > -1
-        ? initialMarks.filter(mark => mark !== markType.name)
-        : initialMarks
-            .filter(mark => mark !== markType.name)
-            .concat([markType.name]),
-  };
-};
 
 export const toggleMark = (
   markType: MarkType,
