@@ -25,6 +25,7 @@ class InlineDialog extends Component<Props, {}> {
     onContentFocus: () => {},
     onClose: () => {},
     placement: 'bottom-start',
+    styles: {},
   };
 
   containerRef: ?HTMLElement = null;
@@ -81,6 +82,7 @@ class InlineDialog extends Component<Props, {}> {
       onContentBlur,
       onContentFocus,
       onContentClick,
+      styles,
     } = this.props;
 
     const popper = isOpen ? (
@@ -95,7 +97,7 @@ class InlineDialog extends Component<Props, {}> {
               this.containerRef = node;
               ref(node);
             }}
-            style={style}
+            style={{ ...style, ...styles }}
           >
             {content}
           </Container>
