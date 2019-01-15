@@ -1,8 +1,16 @@
-import { doc, p, ul, li, ol, strong } from '@atlaskit/editor-test-helpers';
+import {
+  doc,
+  p,
+  ul,
+  li,
+  ol,
+  strong,
+  code_block,
+} from '@atlaskit/editor-test-helpers';
 import { checkParseEncodeRoundTrips } from './_test-helpers';
 import { createJIRASchema } from '@atlaskit/adf-schema';
 
-const schema = createJIRASchema({ allowLists: true });
+const schema = createJIRASchema({ allowLists: true, allowCodeBlock: true });
 
 describe('JIRATransformer', () => {
   describe('lists', () => {
@@ -97,6 +105,22 @@ describe('JIRATransformer', () => {
           li(p('one')),
           li(
             p('two'),
+            ol(li(p('two.one')), li(p('two.two')), li(p('two.three'))),
+          ),
+          li(p('three')),
+        ),
+      ),
+    );
+
+    checkParseEncodeRoundTrips(
+      'list with code-block',
+      schema,
+      '<ul class="alternate" type="disc"><li data-parent="ul">one</li><li data-parent="ul"><div class="code panel"><div class="codeContent panelContent"><pre class="code-javascript">var foo = "bar";</pre></div></div><ol><li data-parent="ol">two.one</li><li data-parent="ol">two.two</li><li data-parent="ol">two.three</li></ol></li><li data-parent="ul">three</li></ul>',
+      doc(
+        ul(
+          li(p('one')),
+          li(
+            code_block({ language: 'javascript' })('var foo = "bar";'),
             ol(li(p('two.one')), li(p('two.two')), li(p('two.three'))),
           ),
           li(p('three')),

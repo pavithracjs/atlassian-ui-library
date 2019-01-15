@@ -1,0 +1,1 @@
+- ED-6017 Code blocks in lists blows up when saving in Jira

@@ -378,9 +378,11 @@ export class JIRATransformer implements Transformer<string> {
           }
 
           elem.appendChild(list);
-        } else {
+        } else if (childNode.type === this.schema.nodes.paragraph) {
           // Strip the paragraph node from the list item.
           elem.appendChild(this.encodeFragment((childNode as PMNode).content));
+        } else {
+          elem.appendChild(this.encodeNode(childNode));
         }
       });
     }
