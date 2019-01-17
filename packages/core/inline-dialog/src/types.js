@@ -36,5 +36,4 @@ export type Props = {
   onClose: ({ isOpen: false, event: any }) => void,
   /** Where the dialog should appear, relative to the contents of the children. */
   placement: Placement,
-  styles: { [string]: string | number },
 };
