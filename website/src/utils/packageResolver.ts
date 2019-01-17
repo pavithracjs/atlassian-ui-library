@@ -63,7 +63,7 @@ export const getLoaderUrl = (
       \n  packageId: ${String(packageId)}
       \n  exampleId: ${String(exampleId)}
     `);
-    return null;
+    return;
   }
   return `/examples.html?groupId=${groupId}&packageId=${packageId}&exampleId=${exampleId}`;
 };

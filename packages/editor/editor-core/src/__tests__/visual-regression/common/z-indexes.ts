@@ -10,7 +10,7 @@ import * as adf from './__fixtures__/noData-adf.json';
 
 // TODO - add ADF before loading stuff
 describe('z-indexes:', () => {
-  let page;
+  let page: any;
 
   beforeAll(async () => {
     // @ts-ignore

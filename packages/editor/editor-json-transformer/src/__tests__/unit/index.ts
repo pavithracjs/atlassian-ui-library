@@ -60,6 +60,7 @@ describe('JSONTransformer:', () => {
   const createEditor = createEditorFactory();
 
   beforeAll(() => {
+    // @ts-ignore
     global['fetch'] = () => Promise.resolve();
   });
 

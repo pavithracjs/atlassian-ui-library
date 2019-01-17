@@ -5,6 +5,7 @@ import GlobalQuickSearchWithAnalytics, {
   Props,
 } from '../../components/GlobalQuickSearch';
 import * as AnalyticsHelper from '../../util/analytics-event-helper';
+import { CreateAnalyticsEventFn } from '../../components/analytics/types';
 
 const noop = () => {};
 const DEFAULT_PROPS = {
@@ -70,9 +71,27 @@ describe('GlobalQuickSearch', () => {
 
   describe('Search result events', () => {
     const searchSessionId = 'random-session-id';
-    let fireHighlightEventSpy;
-    let fireSearchResultSelectedEventSpy;
-    let fireAdvancedSearchSelectedEventSpy;
+    let fireHighlightEventSpy: jest.SpyInstance<
+      (
+        eventData: AnalyticsHelper.KeyboardControlEvent,
+        searchSessionId: string,
+        createAnalyticsEvent?: CreateAnalyticsEventFn | undefined,
+      ) => void
+    >;
+    let fireSearchResultSelectedEventSpy: jest.SpyInstance<
+      (
+        eventData: AnalyticsHelper.SelectedSearchResultEvent,
+        searchSessionId: string,
+        createAnalyticsEvent?: CreateAnalyticsEventFn | undefined,
+      ) => void
+    >;
+    let fireAdvancedSearchSelectedEventSpy: jest.SpyInstance<
+      (
+        eventData: AnalyticsHelper.AdvancedSearchSelectedEvent,
+        searchSessionId: string,
+        createAnalyticsEvent?: CreateAnalyticsEventFn | undefined,
+      ) => void
+    >;
     beforeEach(() => {
       fireHighlightEventSpy = jest.spyOn(
         AnalyticsHelper,

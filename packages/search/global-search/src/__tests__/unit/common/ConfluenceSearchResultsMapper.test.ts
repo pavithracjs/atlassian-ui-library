@@ -28,7 +28,7 @@ type TestParam = {
       peopleCount,
       objectsCount,
       spacesCount,
-    }): ConfluenceResultsMap => ({
+    }: any): ConfluenceResultsMap => ({
       people: peopleCount && [...Array(peopleCount)].map(makePersonResult),
       objects:
         objectsCount &&

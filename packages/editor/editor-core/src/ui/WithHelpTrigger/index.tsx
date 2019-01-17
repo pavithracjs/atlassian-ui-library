@@ -13,7 +13,10 @@ import {
 } from '../../plugins/analytics';
 import { createDispatch } from '../../event-dispatcher';
 
-export default class WithHelpTrigger extends React.Component<any, any> {
+export default class WithHelpTrigger extends React.Component<
+  { render: (openHelp: () => void) => React.ReactNode },
+  any
+> {
   static contextTypes = {
     editorActions: PropTypes.object.isRequired,
   };

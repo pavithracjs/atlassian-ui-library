@@ -870,17 +870,21 @@ describe('ConfluenceTransformer: encode - parse:', () => {
       });
 
       describe('when language is set', () => {
-        Object.keys(LANGUAGE_MAP).forEach(languageName => {
-          check(
-            `with language "${languageName}"`,
-            `<ac:structured-macro ac:name="code"><ac:parameter ac:name="language">${
-              LANGUAGE_MAP[languageName]
-            }</ac:parameter><ac:plain-text-body><![CDATA[some code]]></ac:plain-text-body></ac:structured-macro>`,
-            doc(
-              code_block({ language: LANGUAGE_MAP[languageName] })('some code'),
-            ),
-          );
-        });
+        (Object.keys(LANGUAGE_MAP) as Array<keyof typeof LANGUAGE_MAP>).forEach(
+          languageName => {
+            check(
+              `with language "${languageName}"`,
+              `<ac:structured-macro ac:name="code"><ac:parameter ac:name="language">${
+                LANGUAGE_MAP[languageName]
+              }</ac:parameter><ac:plain-text-body><![CDATA[some code]]></ac:plain-text-body></ac:structured-macro>`,
+              doc(
+                code_block({ language: LANGUAGE_MAP[languageName] })(
+                  'some code',
+                ),
+              ),
+            );
+          },
+        );
       });
 
       describe('when pasted from Editor', () => {
@@ -1065,7 +1069,9 @@ describe('ConfluenceTransformer: encode - parse:', () => {
         macroMetadata,
       },
     };
-    const paramsAsCXHTML = Object.keys(macroParams).map(
+    const paramsAsCXHTML = (Object.keys(macroParams) as Array<
+      keyof typeof macroParams
+    >).map(
       key =>
         `<ac:parameter ac:name="${key}">${
           macroParams[key].value

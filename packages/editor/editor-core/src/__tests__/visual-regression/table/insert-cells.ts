@@ -9,7 +9,7 @@ import {
 import { animationFrame } from '../../__helpers/page-objects/_editor';
 
 describe('Snapshot Test: table insert/delete', () => {
-  let page;
+  let page: any;
   const tolerance = 0.01;
   beforeAll(async () => {
     // @ts-ignore

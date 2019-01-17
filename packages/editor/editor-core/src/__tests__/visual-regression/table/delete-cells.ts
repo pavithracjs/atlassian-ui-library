@@ -8,7 +8,7 @@ import {
 import { animationFrame } from '../../__helpers/page-objects/_editor';
 
 describe('Delete in table:', () => {
-  let page;
+  let page: any;
 
   describe(`Full page`, () => {
     const threshold = 0.01;
