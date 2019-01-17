@@ -20,7 +20,7 @@ export const Container = styled.div`
   box-sizing: content-box; /* do not set this to border-box or it will break the overflow handling */
   color: ${textColor};
   max-height: ${math.multiply(gridSize, 56)}px;
-  max-width: ${({ style }) => style.maxWidth || math.multiply(gridSize, 56)}px;
+  max-width: ${math.multiply(gridSize, 56)}px;
   padding: ${math.multiply(gridSize, 2)}px ${math.multiply(gridSize, 3)}px;
   z-index: ${layers.dialog};
 
