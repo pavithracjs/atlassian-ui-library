@@ -11,6 +11,10 @@ export default class TabContent extends Component<TabContentComponentProvided> {
   };
   render() {
     const { data, elementProps } = this.props;
-    return <TabPane {...elementProps}>{data.content}</TabPane>;
+    return (
+      <TabPane {...elementProps}>
+        <div style={{ width: '100%' }}>{data.content}</div>
+      </TabPane>
+    );
   }
 }
