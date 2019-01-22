@@ -18,12 +18,26 @@ export default md`
     />
   )}
 
+  Tab content is contained in a flexbox; note that as a result block elements will be 
+  rendered as if they were inline.
+
+  ${(
+    <Example
+      packageName="@atlaskit/tabs"
+      Component={require('../examples/90-consistent-layout').default}
+      title="Basic"
+      source={require('!!raw-loader!../examples/90-consistent-layout')}
+    />
+  )}
+
   ${(
     <Props
       heading="Tabs Props"
       props={require('!!extract-react-types-loader!../src/components/Tabs')}
     />
   )}
+
+
 
   ### Tab Content Provided Props
 
