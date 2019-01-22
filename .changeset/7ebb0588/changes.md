@@ -1,0 +1,1 @@
+- Adds a components prop to be able to set custom elements
