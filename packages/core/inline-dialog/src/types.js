@@ -1,5 +1,5 @@
 // @flow
-import { type Node } from 'react';
+import { type Node, type ElementType } from 'react';
 
 export type Placement =
   | 'auto-start'
@@ -23,6 +23,10 @@ export type Props = {
   children: Node,
   /** The elements to be displayed within the InlineDialog. */
   content: Node,
+  /** Object describing internal components. Use this to swap out the default components. */
+  components: {
+    Container?: ElementType,
+  },
   /** Sets whether to show or hide the dialog. */
   isOpen: boolean,
   /** Function called when you lose focus on the object. */

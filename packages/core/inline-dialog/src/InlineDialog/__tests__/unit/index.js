@@ -2,6 +2,7 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { Popper } from '@atlaskit/popper';
+import styled from 'styled-components';
 
 import InlineDialogWithAnalytics from '../../..';
 import { InlineDialogWithoutAnalytics as InlineDialog } from '../..';
@@ -41,7 +42,32 @@ describe('inline-dialog', () => {
 
     it('should not render content if isOpen is not set', () => {
       const wrapper = mount(<InlineDialog content={content} />);
-      expect(wrapper.find('#content').exists()).toBe(false);
+      expect(wrapper.find('#someContent').exists()).toBe(false);
+    });
+  });
+
+  describe('components prop', () => {
+    const CustomContainer = styled.div`
+      background-color: red;
+    `;
+
+    it('it should render a custom Container if `isOpen` is set', () => {
+      const wrapper = mount(
+        <InlineDialog isOpen components={{ Container: CustomContainer }} />,
+      );
+      expect(wrapper.find(CustomContainer).exists()).toBe(true);
+    });
+
+    it('it should not render a custom Container if `isOpen` is not set', () => {
+      const wrapper = mount(
+        <InlineDialog components={{ Container: CustomContainer }} />,
+      );
+      expect(wrapper.find(CustomContainer).exists()).toBe(false);
+    });
+
+    it('it should render the default container if components not set', () => {
+      const wrapper = mount(<InlineDialog isOpen components={{}} />);
+      expect(wrapper.find(Container).exists()).toBe(true);
     });
   });
 

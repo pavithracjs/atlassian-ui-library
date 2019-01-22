@@ -25,6 +25,17 @@ export default md`
     />
   )}
 
+  The example below demonstrates how to replace the internal Container component of \`InlineDialog\` to achieve a more customised appearance.
+
+  ${(
+    <Example
+      packageName="@atlaskit/inline-dialog"
+      Component={require('../examples/06-custom-component').default}
+      title="Custom"
+      source={require('!!raw-loader!../examples/06-custom-component')}
+    />
+  )}
+
   ${(
     <Props
       heading="InlineDialog Props"

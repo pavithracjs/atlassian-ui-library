@@ -13,12 +13,13 @@ import {
   name as packageName,
   version as packageVersion,
 } from '../../package.json';
-import { Container } from './styled';
+import { Container as DefaultContainer } from './styled';
 
 class InlineDialog extends Component<Props, {}> {
   static defaultProps = {
     children: null,
     content: null,
+    components: {},
     isOpen: false,
     onContentBlur: () => {},
     onContentClick: () => {},
@@ -78,10 +79,13 @@ class InlineDialog extends Component<Props, {}> {
       placement,
       isOpen,
       content,
+      components,
       onContentBlur,
       onContentFocus,
       onContentClick,
     } = this.props;
+
+    const { Container = DefaultContainer } = components;
 
     const popper = isOpen ? (
       <Popper placement={placement}>
