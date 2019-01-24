@@ -240,7 +240,7 @@ class DatePicker extends Component<Props, State> {
   };
 
   onSelectInput = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    let value = e.target.value;
+    const { value } = e.target;
     const { dateFormat, parseInputValue } = this.props;
 
     if (value) {
@@ -249,9 +249,7 @@ class DatePicker extends Component<Props, State> {
       if (isValid(parsed)) {
         // We format the parsed date to YYYY-MM-DD here because
         // this is the format expected by the @atlaskit/calendar component
-        const calendarFormat = 'YYYY-MM-DD';
-        value = format(parsed, calendarFormat);
-        this.triggerChange(value);
+        this.setState({ view: format(parsed, 'YYYY-MM-DD') });
       }
     }
 
@@ -259,9 +257,9 @@ class DatePicker extends Component<Props, State> {
   };
 
   onSelectKeyDown = (e: SyntheticKeyboardEvent<HTMLInputElement>) => {
-    const { key } = e;
+    const { key, target } = e;
+    const { view, selectedValue } = this.getState();
     const dir = arrowKeys[key];
-    const { view } = this.getState();
 
     if (dir) {
       // Calendar will not exist if it's not open and this also doubles as a
@@ -271,16 +269,22 @@ class DatePicker extends Component<Props, State> {
         if (dir === 'left' || dir === 'right') {
           e.preventDefault();
         }
+
         this.calendar.navigate(dir);
-      } else if (dir === 'down' || dir === 'up') {
+      }
+
+      if (dir === 'down' || dir === 'up') {
         this.setState({ isOpen: true });
       }
     } else if (key === 'Escape') {
       this.setState({ isOpen: false });
-    } else if (key === 'Backspace') {
+    } else if (
+      key === 'Backspace' &&
+      selectedValue &&
+      target.value.length < 1
+    ) {
       this.setState({ selectedValue: '' });
       this.triggerChange('');
-
       // Dates may be disabled
     } else if (!this.isDateDisabled(view)) {
       if (key === 'Enter') {
@@ -328,6 +332,12 @@ class DatePicker extends Component<Props, State> {
     backgroundColor: 'transparent',
     padding: '1px',
   });
+
+  isValidDate(value: string): boolean {
+    const date = this.props.parseInputValue(value, this.props.dateFormat);
+
+    return isValid(date);
+  }
 
   render() {
     const {
