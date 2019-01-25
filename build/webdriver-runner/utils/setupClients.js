@@ -37,9 +37,9 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
     },
     safari: {
       os: 'OS X',
-      os_version: 'High Sierra',
-      browserName: 'Safari',
-      browser_version: '11.0',
+      os_version: 'Mojave',
+      browserName: 'safari',
+      browser_version: '12.0',
       resolution: '1920x1080',
     },
     edge: {
@@ -60,7 +60,7 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
   const launchKeys = Object.keys(launchers);
   const options = launchKeys.map(launchKey => {
     const option = {
-      desiredCapabilities: {
+      capabilities: {
         os: launchers[launchKey].os,
         os_version: launchers[launchKey].os_version,
         browserName: launchers[launchKey].browserName,
@@ -77,9 +77,10 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
       user: process.env.BROWSERSTACK_USERNAME,
       key: process.env.BROWSERSTACK_KEY,
       waitforTimeout: 3000,
+      logLevel: 'warn',
     };
-    const driver = webdriverio.remote(option);
-    return { driver: driver, isReady: false };
+
+    return { driverOptions: option };
   });
 
   return options;
@@ -92,13 +93,13 @@ function setLocalClients() /*: Array<?Object>*/ {
   if (process.env.WATCH === 'true') isHeadless === 'false';
   const options = {
     port,
-    desiredCapabilities: {
+    capabilities: {
       browserName: 'chrome',
       chromeOptions: isHeadless ? { args: ['--headless'] } : { args: [] },
     },
   };
-  const driver = webdriverio.remote(options);
-  return [{ driver: driver, isReady: false }];
+
+  return [{ driverOptions: options }];
 }
 
 module.exports = { setLocalClients, setBrowserStackClients };

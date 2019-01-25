@@ -7,6 +7,8 @@
  * teardown for webdriver tests .
  */
 
+const webdriverio = require('webdriverio');
+
 // increase default jasmine timeout not to fail on webdriver tests as tests run can
 // take a while depending on the number of threads executing.
 
@@ -22,23 +24,21 @@ if (isBrowserStack) {
   clients = setupClients.setLocalClients();
 }
 
-const launchClient = async client => {
-  if (
-    client &&
-    (client.isReady ||
-      (client.driver.requestHandler && client.driver.requestHandler.sessionID))
-  ) {
-    return;
+const launchDriver = async client => {
+  if (client && client.driver && client.driver.sessionId) {
+    return client.driver;
   }
 
-  client.isReady = true;
-  return await client.driver.init();
+  const driver = await webdriverio.remote(client.driverOptions);
+  client.driver = driver;
+
+  return driver;
 };
 
 const endSession = async client => {
-  if (client && client.isReady) {
-    client.isReady = false;
-    await client.driver.end();
+  if (client && client.driver && client.driver.sessionId) {
+    await client.driver.deleteSession();
+    client.driver = undefined;
   }
 };
 
@@ -58,34 +58,40 @@ function BrowserTestCase(...args /*:Array<any> */) {
   describe(testFileName, () => {
     let testsToRun = [];
 
-    for (const client of clients) {
-      if (!client) {
-        continue;
-      }
-
-      const browserName = client.driver.desiredCapabilities.browserName.toLowerCase();
-
-      if (skipForBrowser.skip.includes(browserName)) {
-        continue;
-      }
-
-      testsToRun.push(async (fn, ...args) => {
-        client.driver.desiredCapabilities.name = testFileName;
-        await launchClient(client);
-        try {
-          await fn(client.driver, ...args);
-        } catch (err) {
-          console.error(
-            `[Browser: ${browserName}]\n[Test: ${testname}]\n${err.message}`,
-          );
-          throw err;
+    beforeAll(async () => {
+      for (const client of clients) {
+        if (!client) {
+          continue;
         }
-      });
-    }
 
-    testRun(testname, async (...args) => {
-      await Promise.all(testsToRun.map(f => f(testFn, ...args)));
+        const browserName = client.driverOptions.capabilities.browserName.toLowerCase();
+        if (skipForBrowser.skip.includes(browserName)) {
+          continue;
+        }
+
+        testsToRun.push(async (fn, ...args) => {
+          client.driverOptions.capabilities.name = testFileName;
+          // console.log({driver, testFileName});
+          try {
+            const driver = await launchDriver(client);
+            await fn(driver, ...args);
+          } catch (err) {
+            console.error(
+              `[Browser: ${browserName}]\n[Test: ${testname}]\n${err.message}`,
+            );
+            throw err;
+          }
+        });
+      }
+
+      return Promise.resolve();
     });
+
+    testRun(
+      testname,
+      async (...args) =>
+        await Promise.all(testsToRun.map(f => f(testFn, ...args))),
+    );
   });
 }
 

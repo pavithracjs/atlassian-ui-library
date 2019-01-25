@@ -164,8 +164,8 @@ export const insertMedia = async (
   const mediaCardCount = get$$Length(existingMediaCards) + filenames.length;
 
   // Workaround - we need to use different wait methods depending on where we are running.
-  if (browser.browser.desiredCapabilities) {
-    await browser.browser.waitUntil(async () => {
+  if (typeof browser.getOS !== 'undefined') {
+    await browser.waitUntil(async () => {
       const mediaCards = await browser.$$(mediaCardSelector);
 
       // media picker can still be displayed after inserting an image after some small time

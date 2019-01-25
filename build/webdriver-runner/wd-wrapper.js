@@ -14,12 +14,21 @@ export class JSHandle {
     this.selector = selector;
   }
 
+  async getElem() {
+    if (!this.elem) {
+      this.elem = await this.browser.$(selector);
+    }
+
+    return this.elem;
+  }
+
   asElement() {
     return new ElementHandle(this.browser, this.selector);
   }
 
-  getProperty(propertyName) {
-    return this.browser.getAttribute(this.selector, propertyName);
+  async getProperty(propertyName) {
+    const elem = await this.getElem();
+    return this.elem.getAttribute(propertyName);
   }
 
   dispose = TODO;
@@ -68,39 +77,40 @@ export default class Page {
   }
 
   $$(selector) {
-    return this.browser.elements(selector);
+    return this.browser.$$(selector);
   }
 
   $eval(selector, pageFunction) {
-    return this.browser
-      .execute(
-        `return (${pageFunction}(document.querySelector("${selector}")))`,
-      )
-      .then(obj => obj.value);
+    return this.browser.execute(
+      `return (${pageFunction}(document.querySelector("${selector}")))`,
+    );
   }
 
   count(selector) {
     return this.$$(selector).then(function(result) {
-      return result.value.length;
+      return result.length;
     });
   }
 
   async type(selector, text) {
+    const elem = await this.browser.$(selector);
     if (Array.isArray(text)) {
       for (let t of text) {
-        await this.browser.addValue(selector, t);
+        await elem.addValue(t);
       }
     } else {
-      await this.browser.addValue(selector, text);
+      await elem.addValue(text);
     }
   }
 
-  setValue(selector, text) {
-    return this.browser.setValue(selector, text);
+  async setValue(selector, text) {
+    const elem = await this.browser.$(selector);
+    return elem.setValue(text);
   }
 
-  click(selector) {
-    return this.browser.click(selector);
+  async click(selector) {
+    const elem = await this.browser.$(selector);
+    return elem.click();
   }
 
   keys(value) {
@@ -112,12 +122,18 @@ export default class Page {
   }
 
   // Get
-  getProperty(selector, cssProperty) {
-    return this.browser.getCssProperty(selector, cssProperty);
+  async getProperty(selector, cssProperty) {
+    const elem = await this.browser.$(selector);
+    return elem.getCSSProperty(cssProperty);
   }
 
-  getLocation(selector, property) {
-    return this.browser.getLocation(selector, property);
+  async getLocation(selector, property) {
+    const elem = await this.browser.$(selector);
+    return elem.getLocation(property);
+  }
+
+  getSession() {
+    return this.browser.getSession();
   }
 
   url() {
@@ -135,7 +151,7 @@ export default class Page {
   checkConsoleErrors() {
     // Console errors can only be checked in Chrome
     if (this.isBrowser('chrome') && this.browser.log('browser').value) {
-      this.browser.logs('browser').value.forEach(val => {
+      this.browser.getLogs('browser').forEach(val => {
         assert.notEqual(
           val.level,
           'SEVERE',
@@ -149,7 +165,7 @@ export default class Page {
       return document
         .querySelector(selector)
         .trigger({ type: 'keydown', which: 8 });
-    });
+    }, selector);
   }
 
   // To be replaced by those puppeeter functions
@@ -158,53 +174,68 @@ export default class Page {
   //  keyboard.up('Shift');
 
   //will need to have wrapper for these once moved to puppeteer
-  getText(selector) {
+  async getText(selector) {
     // replace with await page.evaluate(() => document.querySelector('p').textContent)
     // for puppteer
-    return this.browser.getText(selector);
+    const elem = await this.browser.$(selector);
+    return elem.getText();
   }
 
-  getBrowserName() {
-    return this.browser.desiredCapabilities.browserName;
+  async getBrowserName() {
+    const caps = await this.getSession();
+    return caps.browserName;
+  }
+
+  async getOS() {
+    const caps = await this.getSession();
+    return caps.os;
   }
 
   isBrowser(browserName) {
     return this.getBrowserName() === browserName;
   }
 
-  getCssProperty(selector, cssProperty) {
-    return this.browser.getCssProperty(selector, cssProperty);
+  async getCssProperty(selector, cssProperty) {
+    const elem = await this.browser.$(selector);
+    return elem.getCSSProperty(cssProperty);
   }
 
   getElementSize(selector) {
     return this.browser.getElementSize(selector);
   }
 
-  getHTML(selector) {
-    return this.browser.getHTML(selector);
-  }
-  isEnabled(selector) {
-    return this.browser.isEnabled(selector);
-  }
-  isExisting(selector) {
-    return this.browser.isExisting(selector);
+  async getHTML(selector) {
+    const elem = await this.browser.$(selector);
+    return elem.getHTML();
   }
 
-  isVisible(selector) {
-    return this.browser.isVisible(selector);
+  async isEnabled(selector) {
+    const elem = await this.browser.$(selector);
+    return elem.isEnabled();
   }
 
-  hasFocus(selector) {
-    return this.browser.hasFocus(selector);
+  async isExisting(selector) {
+    const elem = await this.browser.$(selector);
+    return elem.isExisting();
+  }
+
+  async isVisible(selector) {
+    const elem = await this.browser.$(selector);
+    return elem.isDisplayed();
+  }
+
+  async hasFocus(selector) {
+    const elem = await this.browser.$(selector);
+    return elem.isFocused();
   }
 
   log(type) {
-    return this.browser.log(type);
+    return this.browser.getLogs(type);
   }
 
-  paste(selector) {
+  async paste(selector) {
     let keys;
-    if (this.browser.desiredCapabilities.os === 'Windows') {
+    if (this.getOS() === 'Windows') {
       keys = ['Control', 'v'];
     } else if (this.isBrowser('chrome')) {
       // Workaround for https://bugs.chromium.org/p/chromedriver/issues/detail?id=30
@@ -212,12 +243,13 @@ export default class Page {
     } else {
       keys = ['Command', 'v'];
     }
-    return this.browser.addValue(selector, keys);
+    const elem = await this.browser.$(selector);
+    return elem.addValue(keys);
   }
 
-  copy(selector) {
+  async copy(selector) {
     let keys;
-    if (this.browser.desiredCapabilities.os === 'Windows') {
+    if (this.getOS() === 'Windows') {
       keys = ['Control', 'c'];
     } else if (this.isBrowser('chrome')) {
       // Workaround for https://bugs.chromium.org/p/chromedriver/issues/detail?id=30
@@ -225,23 +257,26 @@ export default class Page {
     } else {
       keys = ['Command', 'c'];
     }
-    return this.browser.addValue(selector, keys);
+    const elem = await this.browser.$(selector);
+    return elem.addValue(keys);
   }
 
   // Wait
-  waitForSelector(selector, options = {}) {
-    return this.browser.waitForExist(selector, options.timeout || WAIT_TIMEOUT);
+  async waitForSelector(selector, options = {}) {
+    const elem = await this.browser.$(selector);
+    return elem.waitForExist(options.timeout || WAIT_TIMEOUT);
   }
 
-  waitForVisible(selector, options = {}) {
-    return this.browser.waitForVisible(
-      selector,
+  async waitForVisible(selector, options = {}) {
+    const elem = await this.browser.$(selector);
+    return elem.waitForDisplayed(
       options.timeout || WAIT_TIMEOUT,
+      options.reverse || false,
     );
   }
 
-  waitFor(selector, ms, reverse) {
-    return this.browser.waitForVisible(selector, ms, reverse);
+  waitFor(selector, timeout, reverse) {
+    return this.waitForVisible(selector, { timeout, reverse });
   }
 
   waitUntil(predicate) {
@@ -249,12 +284,8 @@ export default class Page {
   }
 
   // Window
-  setViewPort(size, type) {
-    return this.browser.setViewPort(size, type);
-  }
-
-  chooseFile(selector, localPath) {
-    return this.browser.chooseFile(selector, localPath);
+  setViewPort(size) {
+    return this.browser.setWindowSize(size.width, size.height);
   }
 
   mockDate(timestamp, timezoneOffset) {
