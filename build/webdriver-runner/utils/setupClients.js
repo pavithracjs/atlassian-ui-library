@@ -42,13 +42,14 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
       browser_version: '12.0',
       resolution: '1920x1080',
     },
-    edge: {
-      os: 'Windows',
-      os_version: '10',
-      browserName: 'edge',
-      browser_version: '17',
-      resolution: '1440x900',
-    },
+    // @see https://github.com/webdriverio/webdriverio/issues/3324
+    // edge: {
+    //   os: 'Windows',
+    //   os_version: '10',
+    //   browserName: 'edge',
+    //   browser_version: '17',
+    //   resolution: '1440x900',
+    // },
   };
   if (process.env.LANDKID) {
     delete launchers.safari;
