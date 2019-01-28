@@ -71,7 +71,6 @@ function BrowserTestCase(...args /*:Array<any> */) {
 
         testsToRun.push(async (fn, ...args) => {
           client.driverOptions.capabilities.name = testFileName;
-          // console.log({driver, testFileName});
           try {
             const driver = await launchDriver(client);
             await fn(driver, ...args);

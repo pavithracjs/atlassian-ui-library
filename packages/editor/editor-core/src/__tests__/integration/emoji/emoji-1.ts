@@ -96,6 +96,7 @@ BrowserTestCase(
 */
 
 // skipping safari since char    is stored in snapshot
+//
 // skipping firefox as it doesn't handle ArrowLeft on webdriver
 // unable to navigate between emojis on IE - file issue
 // Edge: ED-4908

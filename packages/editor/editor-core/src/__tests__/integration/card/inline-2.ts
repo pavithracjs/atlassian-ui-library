@@ -14,7 +14,7 @@ import {
 // osx moves to top of document
 const moveUp = (page, selector) => {
   let keys;
-  if (page.browser.desiredCapabilities.os === 'Windows') {
+  if (page.browser.capabilities.platformName.toLowerCase() === 'windows') {
     keys = ['Control', 'ArrowUp'];
   } else {
     keys = ['Command', 'ArrowUp'];
