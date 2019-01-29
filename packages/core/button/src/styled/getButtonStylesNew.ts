@@ -1,16 +1,6 @@
 import { css } from 'styled-components';
 import { borderRadius, fontSize, gridSize, math } from '@atlaskit/theme';
 
-const mapState = ({ disabled, isActive, isFocus, isHover, isSelected }) => {
-  if (disabled) return 'disabled';
-  if (isSelected && isFocus) return 'focusSelected';
-  if (isSelected) return 'selected';
-  if (isActive) return 'active';
-  if (isHover) return 'hover';
-  if (isFocus) return 'focus';
-  return 'default';
-};
-
 export default (props: any) => {
   const baseSize = fontSize(props);
   const buttonHeight = `${math.divide(math.multiply(gridSize, 4), baseSize)(
@@ -58,12 +48,12 @@ export default (props: any) => {
   if (props.isFocus) transitionDuration = '0s, 0.2s';
 
   /** Disabled */
-  if (props.disabled) cursor = 'not-allowed';
+  if (props.isDisabled) cursor = 'not-allowed';
 
   return css`
     align-items: baseline;
     background: ${props.background};
-    border-radius: ${borderRadius};
+    border-radius: ${borderRadius}px;
     border-width: 0;
     box-sizing: border-box;
     color: ${props.color} !important;
