@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { colors } from '@atlaskit/theme';
-import Button from '../src';
+import Button from '../src/components/ButtonNew';
 
 const nachosBase = {
   paddingTop: '6px',
