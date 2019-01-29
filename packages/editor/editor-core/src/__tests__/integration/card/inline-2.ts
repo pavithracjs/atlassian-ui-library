@@ -14,12 +14,12 @@ import {
 // osx moves to top of document
 const moveUp = (page, selector) => {
   let keys;
-  if (page.browser.capabilities.platformName.toLowerCase() === 'windows') {
-    keys = ['Control', 'ArrowUp'];
+  if (page.getOS() === 'windows') {
+    keys = ['Control Left', 'ArrowUp'];
   } else {
     keys = ['Command', 'ArrowUp'];
   }
-  return page.browser.addValue(selector, keys);
+  return page.type(selector, keys);
 };
 
 BrowserTestCase(

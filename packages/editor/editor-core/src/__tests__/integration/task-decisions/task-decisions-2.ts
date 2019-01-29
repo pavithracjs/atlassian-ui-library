@@ -9,9 +9,11 @@ import {
   insertMentionUsingClick,
   editable,
   gotoEditor,
+  insertMenuItem,
 } from '../_helpers';
 
 export const loadActionButton = '[aria-label="Action item"]';
+import { messages } from '../../../plugins/insert-block/ui/ToolbarInsertBlock';
 
 /*
  * Safari adds special characters that end up in the snapshot
@@ -71,9 +73,10 @@ BrowserTestCase(
   async client => {
     const browser = new Page(client);
     await gotoEditor(browser);
-    await browser.click(loadActionButton);
-    await browser.waitForSelector('ol span + div');
-    await browser.click('ol span + div');
+    await insertMenuItem(browser, messages.action.defaultMessage);
+    // await browser.click(loadActionButton);
+    // await browser.waitForSelector('ol span + div');
+    // await browser.click('ol span + div');
     await browser.type(editable, 'adding action');
     const doc = await browser.$eval(editable, getDocFromElement);
     expect(doc).toMatchDocSnapshot();

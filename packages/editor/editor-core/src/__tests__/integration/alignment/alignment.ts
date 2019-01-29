@@ -16,7 +16,7 @@ const headingh1 = 'div[role="group"] h1';
 
 BrowserTestCase(
   'alignment: should be able to add alignment to paragraphs',
-  { skip: [] },
+  { skip: ['safari'] },
   async client => {
     const page = new Page(client);
     await page.goto(fullpage.path);
@@ -35,7 +35,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'alignment: should be able to add alignment to headings',
-  { skip: [] },
+  { skip: ['safari'] },
   async client => {
     const page = new Page(client);
     await page.goto(fullpage.path);
@@ -58,7 +58,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'alignment: disabled when inside special nodes',
-  { skip: [] },
+  { skip: ['safari'] },
   async client => {
     const page = new Page(client);
     await page.goto(fullpage.path);
@@ -74,7 +74,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'alignment: disabled when editor is disabled',
-  { skip: [] },
+  { skip: ['safari'] },
   async client => {
     const page = new Page(client);
     await page.goto(fullpageDisabled.path);

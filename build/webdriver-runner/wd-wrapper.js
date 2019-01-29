@@ -4,82 +4,7 @@
 
 const WAIT_TIMEOUT = 5000;
 
-const UNICODE_CHARACTERS = {
-  NULL: '\uE000',
-  Unidentified: '\uE000',
-  Cancel: '\uE001',
-  Help: '\uE002',
-  'Back space': '\uE003',
-  Backspace: '\uE003',
-  Tab: '\uE004',
-  Clear: '\uE005',
-  Return: '\uE006',
-  Enter: '\uE007',
-  Shift: '\uE008',
-  'Control Left': '\uE009',
-  'Control Right': '\uE051',
-  Alt: '\uE00A',
-  Pause: '\uE00B',
-  Escape: '\uE00C',
-  Space: '\uE00D',
-  ' ': '\uE00D',
-  Pageup: '\uE00E',
-  PageUp: '\uE00E',
-  Page_Up: '\uE00E',
-  Pagedown: '\uE00F',
-  PageDown: '\uE00F',
-  Page_Down: '\uE00F',
-  End: '\uE010',
-  Home: '\uE011',
-  'Left arrow': '\uE012',
-  Arrow_Left: '\uE012',
-  ArrowLeft: '\uE012',
-  'Up arrow': '\uE013',
-  Arrow_Up: '\uE013',
-  ArrowUp: '\uE013',
-  'Right arrow': '\uE014',
-  Arrow_Right: '\uE014',
-  ArrowRight: '\uE014',
-  'Down arrow': '\uE015',
-  Arrow_Down: '\uE015',
-  ArrowDown: '\uE015',
-  Insert: '\uE016',
-  Delete: '\uE017',
-  Semicolon: '\uE018',
-  Equals: '\uE019',
-  'Numpad 0': '\uE01A',
-  'Numpad 1': '\uE01B',
-  'Numpad 2': '\uE01C',
-  'Numpad 3': '\uE01D',
-  'Numpad 4': '\uE01E',
-  'Numpad 5': '\uE01F',
-  'Numpad 6': '\uE020',
-  'Numpad 7': '\uE021',
-  'Numpad 8': '\uE022',
-  'Numpad 9': '\uE023',
-  Multiply: '\uE024',
-  Add: '\uE025',
-  Separator: '\uE026',
-  Subtract: '\uE027',
-  Decimal: '\uE028',
-  Divide: '\uE029',
-  F1: '\uE031',
-  F2: '\uE032',
-  F3: '\uE033',
-  F4: '\uE034',
-  F5: '\uE035',
-  F6: '\uE036',
-  F7: '\uE037',
-  F8: '\uE038',
-  F9: '\uE039',
-  F10: '\uE03A',
-  F11: '\uE03B',
-  F12: '\uE03C',
-  Command: '\uE03D',
-  Meta: '\uE03D',
-  Zenkaku_Hankaku: '\uE040',
-  ZenkakuHankaku: '\uE040',
-};
+const { UNICODE_CHARACTERS } = require('webdriverio/build/constants');
 
 const TODO = () => {
   throw new Error('To be implemented!');
@@ -191,6 +116,11 @@ export default class Page {
     return elem.setValue(text);
   }
 
+  async addValue(selector, text) {
+    const elem = await this.browser.$(selector);
+    return elem.addValue(text);
+  }
+
   async click(selector) {
     const elem = await this.browser.$(selector);
     return elem.click();
@@ -264,15 +194,28 @@ export default class Page {
     return elem.getText();
   }
 
-  async getBrowserName() {
+  getBrowserName() {
     return this.browser.capabilities.browserName.toLowerCase();
   }
 
-  async getOS() {
-    return this.browser.capabilities.platformName.toLowerCase();
+  getOS() {
+    if (this.browser.capabilities.platformName) {
+      return this.browser.capabilities.platformName.toLowerCase();
+    }
+
+    if (this.browser.capabilities.platform === 'XP') {
+      return 'windows';
+    }
+
+    if (this.browser.capabilities.os) {
+      return this.browser.capabilities.os.toLowerCase();
+    }
+
+    return '';
   }
 
   isBrowser(browserName) {
+    console.log(this.getBrowserName(), browserName);
     return this.getBrowserName() === browserName.toLowerCase();
   }
 
@@ -314,32 +257,32 @@ export default class Page {
     return this.browser.getLogs(type);
   }
 
-  async paste(selector) {
+  async paste() {
     let keys;
-    if (this.getOS() === 'windows') {
-      keys = ['Control', 'v'];
-    } else if (this.isBrowser('chrome')) {
+    if (this.isBrowser('chrome')) {
       // Workaround for https://bugs.chromium.org/p/chromedriver/issues/detail?id=30
-      keys = ['Shift', 'Insert'];
+      keys = ['Shift', 'Insert', 'Shift'];
+    } else if (this.getOS() === 'windows') {
+      keys = ['Control Left', 'v'];
     } else {
       keys = ['Command', 'v'];
     }
-    const elem = await this.browser.$(selector);
-    return elem.addValue(keys);
+
+    return this.browser.keys(keys);
   }
 
-  async copy(selector) {
+  async copy() {
     let keys;
     if (this.getOS() === 'windows') {
-      keys = ['Control', 'c'];
+      keys = ['Control Left', 'c'];
     } else if (this.isBrowser('chrome')) {
       // Workaround for https://bugs.chromium.org/p/chromedriver/issues/detail?id=30
-      keys = ['Control', 'Insert'];
+      keys = ['Control Left', 'Insert'];
     } else {
       keys = ['Command', 'c'];
     }
-    const elem = await this.browser.$(selector);
-    return elem.addValue(keys);
+
+    return this.browser.keys(keys);
   }
 
   // Wait

@@ -34,7 +34,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'mention-3.ts: should not insert on space if multiple exact nickname match',
-  { skip: ['ie'] },
+  { skip: ['ie', 'safari'] },
   async client => {
     const browser = new Page(client);
     await gotoEditor(browser);
@@ -61,11 +61,11 @@ BrowserTestCase(
     await browser.waitForSelector(typeAheadPicker);
     await browser.type(editable, 'Carolyn');
     // Wait until there is only one mention left in picker.
-    await browser.browser.waitUntil(async () => {
+    await browser.waitUntil(async () => {
       const mentionsInPicker = await browser.$$(
         `${typeAheadPicker} [data-mention-name]`,
       );
-      return mentionsInPicker.value.length === 1;
+      return mentionsInPicker.length === 1;
     });
     await browser.type(editable, ' text ');
     const doc = await browser.$eval(editable, getDocFromElement);
@@ -108,7 +108,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'mention-3.ts: users with same first name should not be selected if space',
-  { skip: ['ie'] },
+  { skip: ['ie', 'safari'] },
   async client => {
     const browser = new Page(client);
     await gotoEditor(browser);

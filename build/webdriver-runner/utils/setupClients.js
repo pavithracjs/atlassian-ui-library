@@ -47,7 +47,7 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
     //   os: 'Windows',
     //   os_version: '10',
     //   browserName: 'edge',
-    //   browser_version: '17',
+    //   browser_version: '18',
     //   resolution: '1440x900',
     // },
   };
