@@ -29,7 +29,12 @@ import {
   EmptyViewWithFixedHeight,
 } from '../styled/EmptyBody';
 
-import { Table, Caption, PaginationWrapper } from '../styled/DynamicTable';
+import {
+  Table,
+  Caption,
+  TableWrapper,
+  PaginationWrapper,
+} from '../styled/DynamicTable';
 
 import type {
   StatelessProps as Props,
@@ -196,7 +201,7 @@ class DynamicTable extends Component<Props, State> {
     const canRank = isRankable && !sortKey;
 
     return (
-      <div style={{ flex: '1 0 auto' }}>
+      <TableWrapper>
         <LoadingContainerAdvanced
           isLoading={isLoading && rowsExist}
           spinnerSize={spinnerSize}
@@ -243,7 +248,7 @@ class DynamicTable extends Component<Props, State> {
             {emptyBody}
           </LoadingContainer>
         )}
-      </div>
+      </TableWrapper>
     );
   }
 }

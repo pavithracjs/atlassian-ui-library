@@ -28,6 +28,10 @@ export const Caption = styled.caption`
   text-align: left;
 `;
 
+export const TableWrapper = styled.div`
+  flex: 1 0 auto;
+`;
+
 export const PaginationWrapper = styled.div`
   display: flex;
   justify-content: center;
