@@ -10,8 +10,22 @@ const nachosBase = {
 };
 
 const background = {
-  default: { light: colors.N30, dark: 'black' },
-  primary: { light: colors.G300, dark: 'black' },
+  default: {
+    default: { light: colors.N30, dark: 'black' },
+    hover: { light: colors.N20A, dark: colors.DN70 },
+    active: { light: colors.B500, dark: colors.B200 },
+    disabled: { light: colors.N20A, dark: colors.DN70 },
+    selected: { light: colors.N700, dark: colors.DN0 },
+    focusSelected: { light: colors.N700, dark: colors.DN0 },
+  },
+  primary: {
+    default: { light: colors.G300, dark: 'black' },
+    hover: { light: colors.N20A, dark: colors.DN70 },
+    active: { light: colors.B500, dark: colors.B200 },
+    disabled: { light: colors.N20A, dark: colors.DN70 },
+    selected: { light: colors.N700, dark: colors.DN0 },
+    focusSelected: { light: colors.N700, dark: colors.DN0 },
+  },
 };
 
 const borderColor = {
@@ -19,24 +33,28 @@ const borderColor = {
   primary: { light: colors.G500, dark: 'black' },
 };
 
-const NButton = nProps => (
+const NButton = nachosProps => (
   <Button
-    theme={(adgTheme, { appearance, mode }) => ({
+    theme={(adgTheme, { appearance, mode, state }) => ({
       ...adgTheme,
       ...nachosBase,
-      background: background[appearance][mode],
+      background: background[appearance][state][mode],
       borderColor: borderColor[appearance][mode],
     })}
-    {...nProps}
+    {...nachosProps}
   />
 );
 
 export default () => (
   <div>
     <h3>Nachos Button</h3>
-    <NButton appearance="primary">Nachos</NButton>
+    <NButton appearance="primary" isDisabled>
+      Nachos
+    </NButton>
 
-    {/* <h3>ADG Button</h3>
-    <Button>ADG</Button> */}
+    <h3>ADG Button</h3>
+    <Button appearance="primary" isDisabled>
+      ADG
+    </Button>
   </div>
 );
