@@ -1,0 +1,1 @@
+- Added flex to the div wrapping the Dynamic Table, allowing consistent behaviour inside flexboxes.
