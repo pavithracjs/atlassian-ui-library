@@ -196,7 +196,7 @@ class DynamicTable extends Component<Props, State> {
     const canRank = isRankable && !sortKey;
 
     return (
-      <div>
+      <div style={{ flex: '1 0 auto' }}>
         <LoadingContainerAdvanced
           isLoading={isLoading && rowsExist}
           spinnerSize={spinnerSize}
