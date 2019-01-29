@@ -53,7 +53,7 @@ const hex2rgba = (hex: string, alpha = 1) => {
 export const background = {
   default: {
     default: { light: colors.N20A, dark: colors.DN70 },
-    hover: { light: colors.N20A, dark: colors.DN70 },
+    hover: { light: colors.N30A, dark: colors.DN60 },
     active: { light: hex2rgba(colors.B75, 0.6), dark: colors.B75 },
     disabled: { light: colors.N20A, dark: colors.DN70 },
     selected: { light: colors.N700, dark: colors.DN0 },
@@ -61,7 +61,7 @@ export const background = {
   },
   primary: {
     default: { light: colors.B400, dark: colors.B100 },
-    hover: { light: colors.N20A, dark: colors.DN70 },
+    hover: { light: colors.B300, dark: colors.B75 },
     active: { light: colors.B500, dark: colors.B200 },
     disabled: { light: colors.N20A, dark: colors.DN70 },
     selected: { light: colors.N700, dark: colors.DN0 },
@@ -70,13 +70,26 @@ export const background = {
 };
 
 export const color = {
-  default: { light: colors.N400, dark: colors.DN400 },
-  primary: { light: colors.N0, dark: colors.DN30 },
+  default: {
+    default: { light: colors.N400, dark: colors.DN400 },
+    active: { light: colors.B400, dark: colors.B400 },
+    disabled: { light: colors.N70, dark: colors.DN30 },
+    selected: { light: colors.N20, dark: colors.DN400 },
+    focusSelected: { light: colors.N20, dark: colors.DN400 },
+  },
+  primary: {
+    default: { light: colors.N0, dark: colors.DN30 },
+    disabled: { light: colors.N70, dark: colors.DN30 },
+    selected: { light: colors.N20, dark: colors.DN400 },
+    focusSelected: { light: colors.N20, dark: colors.DN400 },
+  },
 };
 
 export const Theme = createTheme<ThemeTokens, ThemeProps>(
   ({ appearance = 'default', mode = 'light', state = 'default' }) => ({
-    background: background[appearance][state][mode],
-    color: color[appearance][mode],
+    background: background[appearance]
+      ? background[appearance][state][mode]
+      : null,
+    color: color[appearance] ? color[appearance][state][mode] : null,
   }),
 );
