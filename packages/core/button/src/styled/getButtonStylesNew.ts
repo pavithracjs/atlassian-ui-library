@@ -20,7 +20,7 @@ export default (props: any) => {
   let transitionDuration = '0.1s, 0.15s';
   let verticalAlign = 'middle';
 
-  let boxShadow = props.boxShadow || `0 0 0 2px ${props.boxShadowColor}`;
+  let boxShadow = `0 0 0 2px ${props.boxShadowColor}`;
 
   /** Spacing: Compact */
   if (props.spacing === 'compact') {
@@ -78,12 +78,12 @@ export default (props: any) => {
     vertical-align: ${verticalAlign};
     white-space: nowrap;
     width: ${props.fit ? '100%' : 'auto'};
-    box-shadow: ${boxShadow}
+    box-shadow: ${boxShadow};
     &::-moz-focus-inner {
       border: 0;
       margin: 0;
       padding: 0;
     }
-    ${props.isLoading ? 'pointer-events: none' : null}
+    ${props.isLoading ? 'pointer-events: none;' : null}
   `;
 };
