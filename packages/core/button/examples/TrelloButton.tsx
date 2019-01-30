@@ -1,37 +1,39 @@
 import * as React from 'react';
 import Button from '../src/components/ButtonNew';
-import {
-  base as nachosBase,
-  background,
-  borderColor,
-  fontWeight,
-  color,
-  border,
-} from '../src/styled/Nachos/styles';
+import nachosTheme, { nachosBase } from '../src/styled/Nachos/styles';
+import { applyPropertyStyle } from '../src/themeNew';
+
+const properties = [
+  'background',
+  'borderColor',
+  'fontWeight',
+  'color',
+  'border',
+  'boxShadow',
+];
 
 const NButton = nachosProps => (
   <Button
-    theme={(adgTheme, { appearance = 'default', state = 'default' }) => ({
-      ...adgTheme,
-      ...nachosBase,
-      background: background[appearance] ? background[appearance][state] : null,
-      borderColor: borderColor[appearance]
-        ? borderColor[appearance][state]
-        : null,
-      fontWeight: fontWeight[appearance] ? fontWeight[appearance][state] : null,
-      color: color[appearance] ? color[appearance][state] : null,
-      border: border[appearance] ? border[appearance][state] : null,
-    })}
+    theme={(adgTheme, tokens) => {
+      return {
+        ...adgTheme,
+        ...nachosBase,
+        ...properties.reduce((acc, v) => {
+          acc[v] = applyPropertyStyle(v, tokens, nachosTheme);
+          return acc;
+        }, {}),
+      };
+    }}
     {...nachosProps}
   />
 );
 
 export default () => (
-  <div>
+  <div style={{ margin: 20 }}>
     <h3>Nachos Button</h3>
-    <NButton appearance="primary">Nachos</NButton>
+    <NButton appearance="primary">Button</NButton>
 
     <h3>ADG Button</h3>
-    <Button appearance="primary">ADG</Button>
+    <Button appearance="default">Button</Button>
   </div>
 );
