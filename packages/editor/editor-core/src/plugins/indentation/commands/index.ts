@@ -1,15 +1,28 @@
-import { Node as PmNode, Schema } from 'prosemirror-model';
+import { Node as PmNode } from 'prosemirror-model';
+import { EditorState } from 'prosemirror-state';
 import { IndentationMarkAttributes } from '@atlaskit/adf-schema';
 import { toggleBlockMark } from '../../../commands';
 import { Command } from '../../../types/command';
 
-const isIndentationAllowed = (schema: Schema, node: PmNode, parent: PmNode) => {
+const isIndentationAllowed = (
+  state: EditorState,
+  node: PmNode,
+  parent: PmNode,
+) => {
   const {
-    nodes: { paragraph, heading },
+    nodes: { paragraph, heading, bulletList, orderedList, codeBlock },
     marks: { alignment },
-  } = schema;
+  } = state.schema;
 
-  if ([paragraph, heading].indexOf(node.type) > -1) {
+  /**
+   * This function gets nodes in top-down order. So in case of a `codeBlock`
+   * inside `list` we need to bail early.
+   */
+  if (state.selection.$anchor.node().type === codeBlock) {
+    return false;
+  }
+
+  if ([paragraph, heading, bulletList, orderedList].indexOf(node.type) > -1) {
     if (alignment) {
       const hasAlignment = node.marks.filter(
         mark => mark.type === alignment,

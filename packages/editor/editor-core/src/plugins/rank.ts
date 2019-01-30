@@ -24,13 +24,13 @@ export default {
     'typeAhead',
     'typeAheadKeymap',
     'typeAheadInputRule',
-    // This should be always after `typeAheadKeymap` & `emojiKeymap`
-    'indentationKeymap',
     'lists',
     'textColor',
     'alignmentPlugin',
     'listsInputRule',
     'listsKeymap',
+    // This should be always after `typeAheadKeymap`, `emojiKeymap` & `listsKeymap`
+    'indentationKeymap',
     'codeBlock',
     'codeBlockIDEKeyBindings',
     'codeBlockKeyMap',

@@ -14,8 +14,8 @@ export default {
       items: [
         [
           'paragraph_with_no_marks',
-          'bulletList',
-          'orderedList',
+          'bulletList_with_no_marks',
+          'orderedList_with_no_marks',
           'heading_with_no_marks',
         ],
       ],

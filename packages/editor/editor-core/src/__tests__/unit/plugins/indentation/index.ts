@@ -3,10 +3,14 @@ import {
   p,
   createEditorFactory,
   h1,
+  ol,
+  li,
+  panel,
   blockquote,
   indentation,
   sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
+import { TextSelection } from 'prosemirror-state';
 
 import * as indentationCommands from '../../../../plugins/indentation/commands';
 
@@ -19,8 +23,10 @@ describe('indentation', () => {
     createEditor({
       doc,
       editorProps: {
-        allowTextAlignment: true,
+        allowLists: true,
+        allowPanel: true,
         allowIndentation: true,
+        allowTextAlignment: true,
       },
     });
 
@@ -75,6 +81,15 @@ describe('indentation', () => {
       indent(state, dispatch);
       expect(editorView.state.doc).toEqualDocument(
         doc(indentation({ level: 6 })(p('hello'))),
+      );
+    });
+
+    it('should indent a list', () => {
+      const { editorView } = editor(doc(ol(li(p('one{<>}')), li(p('two')))));
+      const { dispatch, state } = editorView;
+      indent(state, dispatch);
+      expect(editorView.state.doc).toEqualDocument(
+        doc(indentation({ level: 1 })(ol(li(p('one{<>}')), li(p('two'))))),
       );
     });
   });
@@ -140,36 +155,155 @@ describe('indentation', () => {
       outdent(state, dispatch);
       expect(editorView.state.doc).toEqualDocument(doc(p('hello')));
     });
+
+    it('should outdent a list', () => {
+      const { editorView } = editor(
+        doc(indentation({ level: 1 })(ol(li(p('one{<>}')), li(p('two'))))),
+      );
+      const { dispatch, state } = editorView;
+      outdent(state, dispatch);
+      expect(editorView.state.doc).toEqualDocument(
+        doc(ol(li(p('one{<>}')), li(p('two')))),
+      );
+    });
   });
 
   describe('keymap', () => {
-    it('calls indent command on Tab', () => {
-      const indentMock = jest.fn();
-      jest.spyOn(indentationCommands, 'indent').mockImplementation(indentMock);
-      const { editorView } = editor(doc(p('{<>}')));
+    let indentMock;
+    let outdentMock;
 
-      expect(indentMock).toHaveBeenCalledTimes(0);
-      sendKeyToPm(editorView, 'Tab');
-      expect(indentMock).toHaveBeenCalledTimes(1);
+    beforeAll(() => {
+      indentMock = jest.spyOn(indentationCommands, 'indent');
+      outdentMock = jest.spyOn(indentationCommands, 'outdent');
     });
 
-    it('calls outdent command on Shift + Tab', () => {
-      const outdentMock = jest.fn();
-      jest
-        .spyOn(indentationCommands, 'outdent')
-        .mockImplementation(outdentMock);
-      const { editorView } = editor(doc(p('{<>}')));
-
-      expect(outdentMock).toHaveBeenCalledTimes(0);
-      sendKeyToPm(editorView, 'Shift-Tab');
-      expect(outdentMock).toHaveBeenCalledTimes(1);
+    beforeEach(() => {
+      indentMock.mockReset();
+      outdentMock.mockReset();
     });
 
-    it('calls outdent command on Backspace at the start of node', () => {
-      const outdentMock = jest.fn();
-      jest
-        .spyOn(indentationCommands, 'outdent')
-        .mockImplementation(outdentMock);
+    afterAll(() => {
+      indentMock.mockRestore();
+      outdentMock.mockRestore();
+    });
+
+    describe('indent on Tab', () => {
+      it('should fire when inside a paragraph', () => {
+        const { editorView } = editor(doc(p('{<>}')));
+
+        expect(indentMock).toHaveBeenCalledTimes(0);
+        sendKeyToPm(editorView, 'Tab');
+        expect(indentMock).toHaveBeenCalledTimes(1);
+      });
+
+      it('should fire when inside the first list item', () => {
+        const { editorView } = editor(doc(ol(li(p('one{<>}')))));
+
+        expect(indentMock).toHaveBeenCalledTimes(0);
+        sendKeyToPm(editorView, 'Tab');
+        expect(indentMock).toHaveBeenCalledTimes(1);
+      });
+
+      it('should fire when selection contains the first list item', () => {
+        const { editorView } = editor(doc(ol(li(p('one')), li(p('two')))));
+
+        editorView.dispatch(
+          editorView.state.tr.setSelection(
+            TextSelection.create(editorView.state.doc, 4, 12),
+          ),
+        );
+
+        expect(indentMock).toHaveBeenCalledTimes(0);
+        sendKeyToPm(editorView, 'Tab');
+        expect(indentMock).toHaveBeenCalledTimes(1);
+      });
+
+      it('should not fire when not inside the first list item', () => {
+        const { editorView } = editor(doc(ol(li(p('one')), li(p('two{<>}')))));
+
+        sendKeyToPm(editorView, 'Tab');
+        expect(indentMock).toHaveBeenCalledTimes(0);
+      });
+
+      it('should not fire if the list is not in top level', () => {
+        const { editorView } = editor(doc(panel()(ol(li(p('one{<>}'))))));
+
+        sendKeyToPm(editorView, 'Tab');
+        expect(indentMock).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    describe('outdent on Shift + Tab', () => {
+      it('should fire when inside a paragraph', () => {
+        const { editorView } = editor(doc(p('{<>}')));
+
+        expect(outdentMock).toHaveBeenCalledTimes(0);
+        sendKeyToPm(editorView, 'Shift-Tab');
+        expect(outdentMock).toHaveBeenCalledTimes(1);
+      });
+
+      it('should fire when inside the first list item with indentation', () => {
+        const { editorView } = editor(
+          doc(indentation({ level: 1 })(ol(li(p('one{<>}'))))),
+        );
+
+        expect(outdentMock).toHaveBeenCalledTimes(0);
+        sendKeyToPm(editorView, 'Shift-Tab');
+        expect(outdentMock).toHaveBeenCalledTimes(1);
+      });
+
+      it('should note fire when inside the first list item without indentation', () => {
+        const { editorView } = editor(doc(ol(li(p('one{<>}')))));
+
+        sendKeyToPm(editorView, 'Shift-Tab');
+        expect(outdentMock).toHaveBeenCalledTimes(0);
+      });
+
+      it('should fire when selection contains the first list item with indentation', () => {
+        const { editorView } = editor(
+          doc(indentation({ level: 1 })(ol(li(p('one')), li(p('two'))))),
+        );
+
+        editorView.dispatch(
+          editorView.state.tr.setSelection(
+            TextSelection.create(editorView.state.doc, 4, 12),
+          ),
+        );
+
+        expect(outdentMock).toHaveBeenCalledTimes(0);
+        sendKeyToPm(editorView, 'Shift-Tab');
+        expect(outdentMock).toHaveBeenCalledTimes(1);
+      });
+
+      it('should fire when selection contains the first list item without indentation', () => {
+        const { editorView } = editor(doc(ol(li(p('one')), li(p('two')))));
+
+        editorView.dispatch(
+          editorView.state.tr.setSelection(
+            TextSelection.create(editorView.state.doc, 4, 12),
+          ),
+        );
+
+        sendKeyToPm(editorView, 'Shift-Tab');
+        expect(outdentMock).toHaveBeenCalledTimes(0);
+      });
+
+      it('should not fire when not inside the first list item', () => {
+        const { editorView } = editor(doc(ol(li(p('one')), li(p('two{<>}')))));
+
+        sendKeyToPm(editorView, 'Shift-Tab');
+        expect(outdentMock).toHaveBeenCalledTimes(0);
+      });
+
+      it('should not fire if the list is not in top level', () => {
+        const { editorView } = editor(doc(panel()(ol(li(p('one{<>}'))))));
+
+        sendKeyToPm(editorView, 'Shift-Tab');
+        expect(outdentMock).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    it('should call outdent command on Backspace at the start of node', () => {
       const { editorView } = editor(doc(p('{<>}hello')));
 
       expect(outdentMock).toHaveBeenCalledTimes(0);
@@ -178,10 +312,6 @@ describe('indentation', () => {
     });
 
     it('should not call outdent command on Backspace if not at the start of node', () => {
-      const outdentMock = jest.fn();
-      jest
-        .spyOn(indentationCommands, 'outdent')
-        .mockImplementation(outdentMock);
       const { editorView } = editor(doc(p('h{<>}ello')));
 
       expect(outdentMock).toHaveBeenCalledTimes(0);

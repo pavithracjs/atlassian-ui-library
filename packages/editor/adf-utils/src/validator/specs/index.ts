@@ -22,6 +22,10 @@ export {
   default as paragraph_with_indentation,
 } from './paragraph_with_indentation';
 export { default as bulletList } from './bulletList';
+export {
+  default as bulletList_with_no_marks,
+} from './bulletList_with_no_marks';
+export { default as bulletList_with_marks } from './bulletList_with_marks';
 export { default as media } from './media';
 export { default as mediaSingle } from './mediaSingle';
 export { default as text } from './text';
@@ -30,6 +34,10 @@ export { default as codeBlock_with_no_marks } from './codeBlock_with_no_marks';
 export { default as codeBlock_with_marks } from './codeBlock_with_marks';
 export { default as listItem } from './listItem';
 export { default as orderedList } from './orderedList';
+export {
+  default as orderedList_with_no_marks,
+} from './orderedList_with_no_marks';
+export { default as orderedList_with_marks } from './orderedList_with_marks';
 export { default as heading } from './heading';
 export { default as heading_with_no_marks } from './heading_with_no_marks';
 export { default as heading_with_alignment } from './heading_with_alignment';

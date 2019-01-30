@@ -7,10 +7,10 @@ export default {
         ['paragraph_with_no_marks', 'mediaSingle', 'codeBlock_with_no_marks'],
         [
           'paragraph_with_no_marks',
-          'bulletList',
+          'bulletList_with_no_marks',
           'mediaSingle',
           'codeBlock_with_no_marks',
-          'orderedList',
+          'orderedList_with_no_marks',
         ],
       ],
       minItems: 1,

@@ -431,6 +431,9 @@
             "$ref": "#/definitions/listItem_node"
           },
           "minItems": 1
+        },
+        "marks": {
+          "type": "array"
         }
       },
       "required": [
@@ -438,6 +441,42 @@
         "content"
       ],
       "additionalProperties": false
+    },
+    "bulletList_with_no_marks_node": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/bulletList_node"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "marks": {
+              "type": "array",
+              "maxItems": 0
+            }
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "bulletList_with_marks_node": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/bulletList_node"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "marks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/indentation_mark"
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      ]
     },
     "media_node": {
       "type": "object",
@@ -704,7 +743,7 @@
                   "$ref": "#/definitions/paragraph_with_no_marks_node"
                 },
                 {
-                  "$ref": "#/definitions/bulletList_node"
+                  "$ref": "#/definitions/bulletList_with_no_marks_node"
                 },
                 {
                   "$ref": "#/definitions/mediaSingle_node"
@@ -713,7 +752,7 @@
                   "$ref": "#/definitions/codeBlock_with_no_marks_node"
                 },
                 {
-                  "$ref": "#/definitions/orderedList_node"
+                  "$ref": "#/definitions/orderedList_with_no_marks_node"
                 }
               ]
             }
@@ -761,6 +800,42 @@
         "content"
       ],
       "additionalProperties": false
+    },
+    "orderedList_with_no_marks_node": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/orderedList_node"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "marks": {
+              "type": "array",
+              "maxItems": 0
+            }
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "orderedList_with_marks_node": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/orderedList_node"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "marks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/indentation_mark"
+              }
+            }
+          },
+          "additionalProperties": true
+        }
+      ]
     },
     "heading_node": {
       "type": "object",
@@ -890,10 +965,10 @@
                 "$ref": "#/definitions/paragraph_with_no_marks_node"
               },
               {
-                "$ref": "#/definitions/bulletList_node"
+                "$ref": "#/definitions/bulletList_with_no_marks_node"
               },
               {
-                "$ref": "#/definitions/orderedList_node"
+                "$ref": "#/definitions/orderedList_with_no_marks_node"
               },
               {
                 "$ref": "#/definitions/heading_with_no_marks_node"
@@ -2055,7 +2130,7 @@
           "$ref": "#/definitions/paragraph_with_indentation_node"
         },
         {
-          "$ref": "#/definitions/bulletList_node"
+          "$ref": "#/definitions/bulletList_with_no_marks_node"
         },
         {
           "$ref": "#/definitions/mediaSingle_node"
@@ -2064,7 +2139,7 @@
           "$ref": "#/definitions/codeBlock_with_no_marks_node"
         },
         {
-          "$ref": "#/definitions/orderedList_node"
+          "$ref": "#/definitions/orderedList_with_no_marks_node"
         },
         {
           "$ref": "#/definitions/heading_with_no_marks_node"
@@ -2124,7 +2199,7 @@
             "$ref": "#/definitions/paragraph_with_indentation_node"
           },
           {
-            "$ref": "#/definitions/bulletList_node"
+            "$ref": "#/definitions/bulletList_with_no_marks_node"
           },
           {
             "$ref": "#/definitions/mediaSingle_node"
@@ -2133,7 +2208,7 @@
             "$ref": "#/definitions/codeBlock_with_no_marks_node"
           },
           {
-            "$ref": "#/definitions/orderedList_node"
+            "$ref": "#/definitions/orderedList_with_no_marks_node"
           },
           {
             "$ref": "#/definitions/heading_with_no_marks_node"
@@ -2183,7 +2258,7 @@
             "$ref": "#/definitions/paragraph_with_no_marks_node"
           },
           {
-            "$ref": "#/definitions/bulletList_node"
+            "$ref": "#/definitions/bulletList_with_no_marks_node"
           },
           {
             "$ref": "#/definitions/mediaSingle_node"
@@ -2192,7 +2267,7 @@
             "$ref": "#/definitions/codeBlock_with_no_marks_node"
           },
           {
-            "$ref": "#/definitions/orderedList_node"
+            "$ref": "#/definitions/orderedList_with_no_marks_node"
           },
           {
             "$ref": "#/definitions/heading_with_no_marks_node"
@@ -2368,7 +2443,10 @@
                 "$ref": "#/definitions/paragraph_with_indentation_node"
               },
               {
-                "$ref": "#/definitions/bulletList_node"
+                "$ref": "#/definitions/bulletList_with_no_marks_node"
+              },
+              {
+                "$ref": "#/definitions/bulletList_with_marks_node"
               },
               {
                 "$ref": "#/definitions/mediaSingle_node"
@@ -2380,7 +2458,10 @@
                 "$ref": "#/definitions/codeBlock_with_marks_node"
               },
               {
-                "$ref": "#/definitions/orderedList_node"
+                "$ref": "#/definitions/orderedList_with_no_marks_node"
+              },
+              {
+                "$ref": "#/definitions/orderedList_with_marks_node"
               },
               {
                 "$ref": "#/definitions/heading_with_no_marks_node"

@@ -28,7 +28,7 @@
       "attrs": {
         "order": 3
       },
-      "marks": []
+      "marks": [{"type": "indentation", "level": 2}]
     }
   ]
 }

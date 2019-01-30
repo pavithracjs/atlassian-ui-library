@@ -13,6 +13,10 @@ import {
   hasParentNodeOfType,
   findPositionOfNodeBefore,
 } from 'prosemirror-utils';
+
+import { Command } from '../../types';
+import { isRangeOfType } from '../../utils';
+import { removeBlockMarks } from '../../utils/mark';
 import { isEmptyNode, hasVisibleContent } from '../../utils/document';
 import {
   filter,
@@ -20,10 +24,8 @@ import {
   isFirstChildOfParent,
   findCutBefore,
 } from '../../utils/commands';
-import { isRangeOfType } from '../../utils';
-import { liftFollowingList, liftSelectionList } from './transforms';
-import { Command } from '../../types';
 import { GapCursorSelection } from '../gap-cursor';
+import { liftFollowingList, liftSelectionList } from './transforms';
 
 const maxIndentation = 5;
 
@@ -188,6 +190,26 @@ const canOutdent = (state: EditorState): boolean => {
   );
 };
 
+const isOutermostFirstListItem = (state: EditorState): boolean => {
+  const { listItem, doc } = state.schema.nodes;
+  const { $from } = state.selection;
+
+  if ($from.depth < 3) {
+    return false;
+  }
+
+  const list = $from.node($from.depth - 2);
+
+  return (
+    $from.node($from.depth - 1).type === listItem &&
+    // Only indent/outdent first level list
+    (!list.attrs.level || list.attrs.level < 1) &&
+    // Only indent/outdent if we are inside the first child
+    $from.index($from.depth - 2) === 0 &&
+    $from.node($from.depth - 3).type === doc
+  );
+};
+
 export const enterKeyCommand: Command = (state, dispatch): boolean => {
   const { selection } = state;
   if (selection.empty) {
@@ -308,8 +330,18 @@ function splitListItem(itemType) {
 export function outdentList(): Command {
   return function(state, dispatch) {
     const { listItem } = state.schema.nodes;
+    const { indentation } = state.schema.marks;
     const { $from, $to } = state.selection;
+
     if (isInsideListItem(state)) {
+      if (isOutermostFirstListItem(state)) {
+        const list = $from.node($from.depth - 2);
+        // If there's any indentation mark then outdent (NOTE: This is Block mark outdent)
+        if (list.marks.some(m => m.type === indentation)) {
+          return false;
+        }
+      }
+
       // if we're backspacing at the start of a list item, unindent it
       // take the the range of nodes we might be lifting
 
@@ -394,7 +426,7 @@ export function indentList(): Command {
       );
       /*
       - Record initial list indentation
-      - Keep going forward in document until indentation of the node is < than the initial 
+      - Keep going forward in document until indentation of the node is < than the initial
       - If indentation is EVER > max indentation, return true and don't sink the list
       */
       let currentIndentationLevel;
@@ -413,6 +445,11 @@ export function indentList(): Command {
         }
         currentPos++;
       } while (currentIndentationLevel >= initialIndentationLevel);
+
+      if (isOutermostFirstListItem(state)) {
+        return false;
+      }
+
       baseListCommand.sinkListItem(listItem)(state, dispatch);
       return true;
     }
@@ -597,12 +634,18 @@ export function toggleListCommand(
       // Untoggles list
       return liftListItems()(state, dispatch);
     } else {
+      // Remove alignment and indentation block marks
+      const { alignment, indentation } = state.schema.marks;
+      const removeMark = removeBlockMarks(state, [alignment, indentation]);
+      if (removeMark) {
+        view.dispatch(removeMark);
+      }
+
       // Wraps selection in list and converts list type e.g. bullet_list -> ordered_list if needed
       if (!isRangeOfSingleType) {
-        liftListItems()(state, dispatch);
-        state = view.state;
+        liftListItems()(view.state, dispatch);
       }
-      return wrapInList(state.schema.nodes[listType])(state, dispatch);
+      return wrapInList(state.schema.nodes[listType])(view.state, dispatch);
     }
   };
 }

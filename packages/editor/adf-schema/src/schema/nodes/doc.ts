@@ -7,8 +7,14 @@ import {
   ParagraphWithMarksDefinition as ParagraphWithMarks,
 } from './paragraph';
 import { BlockQuoteDefinition as Blockquote } from './blockquote';
-import { OrderedListDefinition as OrderedList } from './ordered-list';
-import { BulletListDefinition as BulletList } from './bullet-list';
+import {
+  OrderedListDefinition as OrderedList,
+  OrderedListWithMarksDefinition as OrderedListWithMarks,
+} from './ordered-list';
+import {
+  BulletListDefinition as BulletList,
+  BulletListWithMarksDefinition as BulletListWithMarks,
+} from './bullet-list';
 import { RuleDefinition as Rule } from './rule';
 import {
   HeadingDefinition as Heading,
@@ -196,7 +202,13 @@ export interface DocNode {
   /**
    * @allowUnsupportedBlock true
    */
-  content: Array<BlockContent | LayoutSection | CodeBlockWithMarks>;
+  content: Array<
+    | BlockContent
+    | LayoutSection
+    | CodeBlockWithMarks
+    | BulletListWithMarks
+    | OrderedListWithMarks
+  >;
 }
 
 export const doc: NodeSpec = {

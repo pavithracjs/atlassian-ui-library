@@ -3,7 +3,6 @@ import {
   Node as PMNode,
   NodeType,
   MarkType,
-  Schema,
 } from 'prosemirror-model';
 import {
   EditorState,
@@ -11,9 +10,11 @@ import {
   TextSelection,
   Transaction,
 } from 'prosemirror-state';
+import { EditorView } from 'prosemirror-view';
+import { closeHistory } from 'prosemirror-history';
+
 import { canMoveDown, canMoveUp } from '../utils';
 import { Command } from '../types';
-import { EditorView } from 'prosemirror-view';
 
 export function preventDefault(): Command {
   return function(state, dispatch) {
@@ -238,7 +239,7 @@ export const toggleBlockMark = <T = object>(
   getAttrs: ((prevAttrs?: T) => T | undefined | false),
   allowedBlocks?:
     | Array<NodeType>
-    | ((schema: Schema, node: PMNode, parent: PMNode) => boolean),
+    | ((state: EditorState, node: PMNode, parent: PMNode) => boolean),
 ): Command => (state, dispatch) => {
   const { from, to } = state.selection;
 
@@ -254,7 +255,7 @@ export const toggleBlockMark = <T = object>(
       (!allowedBlocks ||
         (Array.isArray(allowedBlocks)
           ? allowedBlocks.indexOf(node.type) > -1
-          : allowedBlocks(state.schema, node, parent))) &&
+          : allowedBlocks(state, node, parent))) &&
       parent.type.allowsMarkType(markType)
     ) {
       const oldMarks = node.marks.filter(mark => mark.type === markType);
@@ -278,7 +279,7 @@ export const toggleBlockMark = <T = object>(
 
   if (markApplied && tr.docChanged) {
     if (dispatch) {
-      dispatch(tr.scrollIntoView());
+      dispatch(closeHistory(tr).scrollIntoView());
     }
     return true;
   }
