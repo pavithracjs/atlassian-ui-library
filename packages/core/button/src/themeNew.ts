@@ -115,8 +115,8 @@ export function applyPropertyStyle(
 const properties = ['color', 'background'];
 
 export const Theme = createTheme<ThemeTokens, ThemeProps>(tokens =>
-  properties.reduce((acc, v) => {
-    acc[v] = applyPropertyStyle(v, tokens, baseTheme);
+  properties.reduce((acc, p) => {
+    acc[p] = applyPropertyStyle(p, tokens, baseTheme);
     return acc;
   }, {}),
 );

@@ -1,11 +1,10 @@
-import { colors } from '@atlaskit/theme';
+import { colors, codeFontFamily } from '@atlaskit/theme';
 import nachosColors from './colors';
 
 export const nachosBase = {
-  paddingTop: '6px',
-  paddingBottom: '6px',
-  paddingLeft: '12px',
-  paddingRight: '12px',
+  padding: '6px 12px',
+  lineHeight: '20px',
+  height: '32px',
 };
 
 export default {
@@ -39,7 +38,7 @@ export default {
     default: {
       default: { light: `0 1px 0 0 ${colors.N40A}` },
       hover: { light: `0 1px 0 0 ${colors.N50A}` },
-      active: { light: `0 1px 0 0 ${colors.N900}` },
+      active: { light: 'none' },
     },
     primary: {
       default: { light: `0 1px 0 0 ${nachosColors['green-900']}` },
@@ -49,6 +48,9 @@ export default {
     },
     danger: {
       default: { light: `0 1px 0 0 ${nachosColors['red-900']}` },
+    },
+    disabled: {
+      default: { light: 'none' },
     },
   },
 
@@ -84,11 +86,20 @@ export default {
 
   color: {
     default: {
-      default: { light: colors.N0 },
+      default: { light: colors.N700 },
       active: { light: colors.N0 },
     },
+    primary: {
+      default: { light: colors.N0 },
+    },
+    subtle: {
+      default: { light: colors.N700 },
+    },
+    danger: {
+      default: { light: colors.N0 },
+    },
     disabled: {
-      default: { light: colors.N30 },
+      default: { light: colors.N70 },
     },
   },
 
