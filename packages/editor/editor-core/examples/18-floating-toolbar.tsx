@@ -108,6 +108,27 @@ const DROPDOWNS: Array<FloatingToolbarItem<Function>> = [
   },
   {
     type: 'dropdown',
+    title: 'Red dropdown',
+    options: [
+      {
+        title: 'Header row',
+        selected: false,
+        onClick: () => {},
+      },
+      {
+        title: 'Header column',
+        selected: true,
+        onClick: () => {},
+      },
+      {
+        title: 'Number column',
+        selected: false,
+        onClick: () => {},
+      },
+    ],
+  },
+  {
+    type: 'dropdown',
     title: 'Green dropdown',
     icon: GreenIcon,
     options: {
@@ -130,7 +151,7 @@ const DROPDOWNS: Array<FloatingToolbarItem<Function>> = [
 
 export default class Example extends Component {
   state = {
-    active: 'buttons',
+    active: 'dropdowns',
   };
 
   render() {

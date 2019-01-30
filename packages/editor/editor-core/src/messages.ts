@@ -4,19 +4,19 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   layoutFixedWidth: {
     id: 'fabric.editor.layoutFixedWidth',
-    defaultMessage: 'Center',
+    defaultMessage: 'Set width as fixed (680px)',
     description:
       'Display your element (image, table, extension, etc) as standard width',
   },
   layoutWide: {
     id: 'fabric.editor.layoutWide',
-    defaultMessage: 'Wide',
+    defaultMessage: 'Set width as flexible (3/4 screen)',
     description:
       'Display your element (image, table, extension, etc) wider than normal',
   },
   layoutFullWidth: {
     id: 'fabric.editor.layoutFullWidth',
-    defaultMessage: 'Full width',
+    defaultMessage: 'Set width as flexible (full screen)',
     description:
       'Display your element (image, table, extension, etc) as full width',
   },
