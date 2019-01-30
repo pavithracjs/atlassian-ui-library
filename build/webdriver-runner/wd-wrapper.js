@@ -215,7 +215,6 @@ export default class Page {
   }
 
   isBrowser(browserName) {
-    console.log(this.getBrowserName(), browserName);
     return this.getBrowserName() === browserName.toLowerCase();
   }
 
@@ -257,7 +256,7 @@ export default class Page {
     return this.browser.getLogs(type);
   }
 
-  async paste() {
+  paste() {
     let keys;
     if (this.isBrowser('chrome')) {
       // Workaround for https://bugs.chromium.org/p/chromedriver/issues/detail?id=30
@@ -271,7 +270,7 @@ export default class Page {
     return this.browser.keys(keys);
   }
 
-  async copy() {
+  copy() {
     let keys;
     if (this.getOS() === 'windows') {
       keys = ['Control Left', 'c'];
