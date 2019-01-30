@@ -20,6 +20,8 @@ export default (props: any) => {
   let transitionDuration = '0.1s, 0.15s';
   let verticalAlign = 'middle';
 
+  let boxShadow = props.boxShadow || `0 0 0 2px ${props.boxShadowColor}`;
+
   /** Spacing: Compact */
   if (props.spacing === 'compact') {
     height = compactButtonHeight;
@@ -54,6 +56,7 @@ export default (props: any) => {
     align-items: baseline;
     background: ${props.background};
     border-radius: ${borderRadius}px;
+    border-bottom: ${props.borderBottom}px;
     border-width: 0;
     box-sizing: border-box;
     color: ${props.color} !important;
@@ -61,6 +64,7 @@ export default (props: any) => {
     display: inline-flex;
     font-size: inherit;
     font-style: normal;
+    font-weight: ${props.fontWeight};
     height: ${height};
     line-height: ${lineHeight};
     margin: 0;
@@ -74,7 +78,7 @@ export default (props: any) => {
     vertical-align: ${verticalAlign};
     white-space: nowrap;
     width: ${props.fit ? '100%' : 'auto'};
-    box-shadow: 0 0 0 2px ${props.boxShadowColor};
+    box-shadow: ${boxShadow}
     &::-moz-focus-inner {
       border: 0;
       margin: 0;
