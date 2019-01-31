@@ -89,7 +89,7 @@ export function applyPropertyStyle(
   {
     appearance = 'default',
     state = 'default',
-    mode,
+    mode = 'light',
   }: { appearance: string; state: string; mode: string },
   theme: any,
 ) {

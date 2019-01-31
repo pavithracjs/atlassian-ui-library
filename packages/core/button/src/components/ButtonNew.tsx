@@ -3,18 +3,16 @@ import styled from 'styled-components';
 import GlobalTheme, { ThemeProp } from '@atlaskit/theme';
 import { Theme, ThemeAppearance, ThemeTokens, ThemeProps } from '../themeNew';
 import getButtonStyles from '../styled/getButtonStylesNew';
+import { ButtonProps } from '../types';
+import ButtonWrapper from '../styled/ButtonWrapper';
+import ButtonContent from '../styled/ButtonContent';
+import LoadingSpinner from '../styled/LoadingSpinner';
+import IconWrapper from '../styled/IconWrapper';
 
-type State = {
-  isHover: false;
-};
-
-type Props = {
-  /** Affects the visual style of the button. */
-  appearance: ThemeAppearance;
-  /** The value displayed within the button. */
-  children: number | string;
-  /** The theme the component should use. */
-  theme?: ThemeProp<ThemeTokens, ThemeProps>;
+export type ButtonState = {
+  isHover: boolean;
+  isActive: boolean;
+  isFocus: boolean;
 };
 
 const StyledButton = styled.button`
@@ -38,7 +36,7 @@ const mapAttributesToState = ({
   return 'default';
 };
 
-export default class Button extends React.Component<State, Props> {
+export default class Button extends React.Component<ButtonProps, ButtonState> {
   state = {
     isActive: false,
     isFocus: false,
@@ -74,10 +72,36 @@ export default class Button extends React.Component<State, Props> {
     }
   };
 
+  isInteractive = () => !this.props.isDisabled && !this.props.isLoading;
+
+  // Swallow click events when the button is disabled
+  // to prevent inner child clicks bubbling up.
+  onInnerClick: React.MouseEventHandler<HTMLButtonElement> = e => {
+    if (!this.isInteractive()) e.stopPropagation();
+    return true;
+  };
+
   render() {
     const { state } = this;
-    const { appearance, theme, children, isSelected, isDisabled } = this.props;
+    const {
+      appearance,
+      children,
+      iconAfter,
+      iconBefore,
+      isDisabled,
+      isLoading,
+      isSelected,
+      shouldFitContainer,
+      spacing,
+      theme,
+    } = this.props;
     const attributes = { ...state, isSelected, isDisabled };
+
+    const iconIsOnlyChild: boolean = !!(
+      (iconBefore && !iconAfter && !children) ||
+      (iconAfter && !iconBefore && !children)
+    );
+
     return (
       <Theme.Provider value={theme}>
         <GlobalTheme.Consumer>
@@ -100,7 +124,44 @@ export default class Button extends React.Component<State, Props> {
                   isDisabled={isDisabled}
                   {...tokens}
                 >
-                  {children}
+                  <ButtonWrapper
+                    onClick={this.onInnerClick}
+                    fit={!!shouldFitContainer}
+                  >
+                    {isLoading && (
+                      <LoadingSpinner
+                        spacing={spacing}
+                        appearance={appearance}
+                        isSelected={isSelected}
+                        isDisabled={isDisabled}
+                      />
+                    )}
+                    {iconBefore && (
+                      <IconWrapper
+                        isLoading={isLoading}
+                        spacing={spacing}
+                        isOnlyChild={iconIsOnlyChild}
+                      >
+                        {iconBefore}
+                      </IconWrapper>
+                    )}
+                    <ButtonContent
+                      isLoading={isLoading}
+                      followsIcon={!!iconBefore}
+                      spacing={spacing}
+                    >
+                      {children}
+                    </ButtonContent>
+                    {iconAfter && (
+                      <IconWrapper
+                        isLoading={isLoading}
+                        spacing={spacing}
+                        isOnlyChild={iconIsOnlyChild}
+                      >
+                        {iconAfter}
+                      </IconWrapper>
+                    )}
+                  </ButtonWrapper>
                 </StyledButton>
               )}
             </Theme.Consumer>

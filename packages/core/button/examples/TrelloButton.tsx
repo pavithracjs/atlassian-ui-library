@@ -3,12 +3,15 @@ import Button from '../src/components/ButtonNew';
 import nachosTheme, { nachosBase } from '../src/styled/Nachos/styles';
 import { applyPropertyStyle } from '../src/themeNew';
 import styled from 'styled-components';
+import { StrideIcon } from '@atlaskit/logo';
+
+const Icon = <StrideIcon label="Test icon" size="small" />;
 
 const ButtonWrapper = styled.div`
-  margin: 10px;
-  width: 80px;
-  height: 200px;
   display: flex;
+  width: 120px;
+  margin: 10px;
+  height: 200px;
   flex-wrap: wrap;
 `;
 
@@ -19,6 +22,7 @@ const properties = [
   'color',
   'border',
   'boxShadow',
+  'cursor',
 ];
 
 const NButton = nachosProps => (
@@ -41,8 +45,12 @@ export default () => (
   <div style={{ margin: 20 }}>
     <h3>Nachos Button</h3>
     <ButtonWrapper>
-      <NButton appearance="default">Button</NButton>
-      <NButton appearance="primary">Button</NButton>
+      <NButton iconBefore={Icon} appearance="default">
+        Button
+      </NButton>
+      <NButton iconAfter={Icon} appearance="primary">
+        Button
+      </NButton>
       <NButton appearance="subtle">Button</NButton>
       <NButton appearance="danger">Button</NButton>
       <NButton appearance="disabled">Button</NButton>
@@ -53,7 +61,9 @@ export default () => (
       <Button appearance="primary">Button</Button>
       <Button appearance="subtle">Button</Button>
       <Button appearance="danger">Button</Button>
-      <Button appearance="warning">Button</Button>
+      <Button isDisabled appearance="warning">
+        Button
+      </Button>
     </ButtonWrapper>
   </div>
 );
