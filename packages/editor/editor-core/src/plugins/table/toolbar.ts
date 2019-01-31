@@ -1,6 +1,5 @@
 import { defineMessages } from 'react-intl';
 import RemoveIcon from '@atlaskit/icon/glyph/editor/remove';
-import SettingsIcon from '@atlaskit/icon/glyph/editor/settings';
 
 import commonMessages from '../../messages';
 import { Command } from '../../types';
@@ -15,19 +14,7 @@ import {
   pluginKey as tableResizingPluginKey,
   ResizeState,
 } from './pm-plugins/table-resizing/index';
-import {
-  hoverTable,
-  deleteTable,
-  clearHoverSelection,
-  toggleHeaderRow,
-  toggleHeaderColumn,
-  toggleNumberColumn,
-} from './actions';
-import {
-  checkIfHeaderRowEnabled,
-  checkIfHeaderColumnEnabled,
-  checkIfNumberColumnEnabled,
-} from './utils';
+import { hoverTable, deleteTable, clearHoverSelection } from './actions';
 
 export const messages = defineMessages({
   tableOptions: {
@@ -75,58 +62,11 @@ export const getToolbarConfig: FloatingToolbarHandler = (
     tableState.tableNode &&
     tableState.pluginConfig
   ) {
-    const { pluginConfig } = tableState;
     return {
       title: 'Table floating controls',
       getDomRef: () => tableState.tableFloatingToolbarTarget!,
       nodeType: state.schema.nodes.table,
       items: [
-        {
-          type: 'dropdown',
-          title: formatMessage(messages.tableOptions),
-          icon: SettingsIcon,
-          hidden: !(
-            pluginConfig.allowHeaderRow && pluginConfig.allowHeaderColumn
-          ),
-          options: [
-            {
-              title: formatMessage(messages.headerRow),
-              onClick: withAnalytics(
-                toggleHeaderRow,
-                'atlassian.editor.format.table.toggleHeaderRow.button',
-              ),
-              selected: checkIfHeaderRowEnabled(state),
-              hidden: !pluginConfig.allowHeaderRow,
-            },
-            {
-              title: formatMessage(messages.headerColumn),
-              onClick: withAnalytics(
-                toggleHeaderColumn,
-                'atlassian.editor.format.table.toggleHeaderColumn.button',
-              ),
-              selected: checkIfHeaderColumnEnabled(state),
-              hidden: !pluginConfig.allowHeaderColumn,
-            },
-            {
-              title: formatMessage(messages.numberedColumn),
-              selected: checkIfNumberColumnEnabled(state),
-              onClick: withAnalytics(
-                toggleNumberColumn,
-                'atlassian.editor.format.table.toggleNumberColumn.button',
-              ),
-              hidden: !pluginConfig.allowNumberColumn,
-            },
-          ],
-        },
-        {
-          type: 'separator',
-          hidden: !(
-            pluginConfig.allowBackgroundColor &&
-            pluginConfig.allowHeaderRow &&
-            pluginConfig.allowHeaderColumn &&
-            pluginConfig.allowMergeCells
-          ),
-        },
         {
           type: 'button',
           appearance: 'danger',

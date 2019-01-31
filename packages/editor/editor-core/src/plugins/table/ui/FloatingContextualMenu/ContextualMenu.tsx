@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
+import styled from 'styled-components';
 import { defineMessages, injectIntl, InjectedIntlProps } from 'react-intl';
 import { EditorView } from 'prosemirror-view';
 import { splitCell, mergeCells } from 'prosemirror-tables';
@@ -8,6 +9,7 @@ import {
   tableBackgroundColorPalette,
   tableBackgroundBorderColors,
 } from '@atlaskit/adf-schema';
+import EditorDoneIcon from '@atlaskit/icon/glyph/editor/done';
 
 import {
   hoverColumns,
@@ -20,6 +22,8 @@ import {
   deleteRows,
   emptyMultipleCells,
   setMultipleCellAttrs,
+  toggleHeaderRow,
+  toggleHeaderColumn,
 } from '../../actions';
 import { CellRect, TableCssClassName as ClassName } from '../../types';
 import { contextualMenuDropdownWidth } from '../styles';
@@ -31,6 +35,16 @@ import {
 } from '../../../../analytics';
 import ColorPalette from '../../../../ui/ColorPalette';
 import tableMessages from '../messages';
+import {
+  checkIfHeaderRowEnabled,
+  checkIfHeaderColumnEnabled,
+} from '../../utils';
+
+const Spacer = styled.span`
+  display: flex;
+  flex: 1;
+  padding: 8px;
+`;
 
 export const messages = defineMessages({
   cellBackground: {
@@ -134,6 +148,42 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
     } = this.props;
     const items: any[] = [];
     const { isSubmenuOpen } = this.state;
+
+    const selectedColumnIndex = getSelectedColumnIndexes(selectionRect);
+    const selectedRowIndex = getSelectedRowIndexes(selectionRect);
+
+    if (selectedRowIndex.length === 1 && selectedRowIndex[0] === 0) {
+      items.push({
+        content: 'Header row',
+        value: { name: 'header_row' },
+        elemAfter: checkIfHeaderRowEnabled(state) ? (
+          <EditorDoneIcon
+            primaryColor={colors.N400}
+            size="small"
+            label="Header row enabled"
+          />
+        ) : (
+          <Spacer />
+        ),
+      });
+    }
+
+    if (selectedColumnIndex.length === 1 && selectedColumnIndex[0] === 0) {
+      items.push({
+        content: 'Header column',
+        value: { name: 'header_column' },
+        elemAfter: checkIfHeaderColumnEnabled(state) ? (
+          <EditorDoneIcon
+            primaryColor={colors.N400}
+            size="small"
+            label="Header column enabled"
+          />
+        ) : (
+          <Spacer />
+        ),
+      });
+    }
+
     if (allowBackgroundColor) {
       const node =
         isOpen && targetCellPosition
@@ -259,6 +309,18 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
       case 'delete_row':
         analytics.trackEvent('atlassian.editor.format.table.delete_row.button');
         deleteRows(getSelectedRowIndexes(selectionRect))(state, dispatch);
+        this.toggleOpen();
+        break;
+      case 'header_row':
+        analytics.trackEvent('atlassian.editor.format.table.header_row.button');
+        toggleHeaderRow(state, dispatch);
+        this.toggleOpen();
+        break;
+      case 'header_column':
+        analytics.trackEvent(
+          'atlassian.editor.format.table.header_column.button',
+        );
+        toggleHeaderColumn(state, dispatch);
         this.toggleOpen();
         break;
     }
