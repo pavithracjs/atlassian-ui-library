@@ -1,0 +1,6 @@
+- [ ] Backwards compat for `theme` prop
+- [ ] Fallbacks for appearance styles
+- [ ] Link & custom components
+- [ ] Tests (esp. for Theming)
+- [ ] Refactoring
+- [ ] Tokens && Theme naming conflict rectified

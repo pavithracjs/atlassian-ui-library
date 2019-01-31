@@ -1,39 +1,20 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import GlobalTheme, { ThemeProp } from '@atlaskit/theme';
-import { Theme, ThemeAppearance, ThemeTokens, ThemeProps } from '../themeNew';
-import getButtonStyles from '../styled/getButtonStylesNew';
+import { Theme } from '../themeNew';
+import { mapAttributesToState } from './utils';
+import {
+  ButtonContent,
+  ButtonWrapper,
+  IconWrapper,
+  LoadingSpinner,
+  StyledButton,
+} from '../styled';
 import { ButtonProps } from '../types';
-import ButtonWrapper from '../styled/ButtonWrapper';
-import ButtonContent from '../styled/ButtonContent';
-import LoadingSpinner from '../styled/LoadingSpinner';
-import IconWrapper from '../styled/IconWrapper';
 
 export type ButtonState = {
   isHover: boolean;
   isActive: boolean;
   isFocus: boolean;
-};
-
-const StyledButton = styled.button`
-  ${getButtonStyles};
-`;
-StyledButton.displayName = 'StyledButton';
-
-const mapAttributesToState = ({
-  isDisabled,
-  isActive,
-  isFocus,
-  isHover,
-  isSelected,
-}) => {
-  if (isDisabled) return 'disabled';
-  if (isSelected && isFocus) return 'focusSelected';
-  if (isSelected) return 'selected';
-  if (isActive) return 'active';
-  if (isHover) return 'hover';
-  if (isFocus) return 'focus';
-  return 'default';
 };
 
 export default class Button extends React.Component<ButtonProps, ButtonState> {
