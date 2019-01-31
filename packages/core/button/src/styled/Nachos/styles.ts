@@ -1,7 +1,13 @@
-import { colors, codeFontFamily } from '@atlaskit/theme';
+import { colors } from '@atlaskit/theme';
 import nachosColors from './colors';
 
-export const nachosBase = {
+type NachosBase = {
+  padding: string;
+  lineHeight: string;
+  height: string;
+};
+
+export const nachosBase: NachosBase = {
   padding: '6px 12px',
   lineHeight: '20px',
   height: '32px',
@@ -111,6 +117,15 @@ export default {
     },
     disabled: {
       default: { light: 'none' },
+    },
+  },
+
+  cursor: {
+    default: {
+      default: { light: 'pointer' },
+    },
+    disabled: {
+      default: { light: 'not-allowed' },
     },
   },
 };

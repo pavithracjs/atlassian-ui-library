@@ -11,7 +11,7 @@ export default (props: any) => {
     baseSize,
   )(props)}em`;
 
-  let cursor = 'default';
+  let cursor = props.cursor || 'default';
   let padding = `0 ${gridSize(props)}px`;
   let height = buttonHeight;
   let lineHeight = buttonHeight;
@@ -20,7 +20,7 @@ export default (props: any) => {
   let transitionDuration = '0.1s, 0.15s';
   let verticalAlign = 'middle';
 
-  let boxShadow = `0 0 0 2px ${props.boxShadowColor}`;
+  let boxShadow = props.boxShadow || `0 0 0 2px ${props.boxShadowColor}`;
 
   /** Spacing: Compact */
   if (props.spacing === 'compact') {
