@@ -1,9 +1,8 @@
 import * as React from 'react';
-import Button from '../src/components/ButtonNew';
-import nachosTheme, { nachosBase } from '../src/styled/Nachos/styles';
-import { applyPropertyStyle } from '../src/themeNew';
 import styled from 'styled-components';
 import { StrideIcon } from '@atlaskit/logo';
+import Button from '../src/components/ButtonNew';
+import NButton from './Nachos/NachosButton';
 
 const Icon = <StrideIcon label="Test icon" size="small" />;
 
@@ -15,39 +14,11 @@ const ButtonWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const properties = [
-  'background',
-  'borderColor',
-  'fontWeight',
-  'color',
-  'border',
-  'boxShadow',
-  'cursor',
-];
-
-const NButton = nachosProps => (
-  <Button
-    theme={(adgTheme, tokens) => {
-      return {
-        ...adgTheme,
-        ...nachosBase,
-        ...properties.reduce((acc, p) => {
-          acc[p] = applyPropertyStyle(p, tokens, nachosTheme);
-          return acc;
-        }, {}),
-      };
-    }}
-    {...nachosProps}
-  />
-);
-
 export default () => (
   <div style={{ margin: 20 }}>
     <h3>Nachos Button</h3>
     <ButtonWrapper>
-      <NButton iconBefore={Icon} appearance="default">
-        Button
-      </NButton>
+      <NButton iconBefore={Icon}>Button</NButton>
       <NButton iconAfter={Icon} appearance="primary">
         Button
       </NButton>

@@ -1,4 +1,4 @@
-export default {
+export const nachosColors = {
   'blue-50': '#E4F0F6',
   'blue-100': '#BCD9EA',
   'blue-200': '#8BBDD9',

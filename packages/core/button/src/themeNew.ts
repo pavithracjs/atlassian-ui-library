@@ -1,21 +1,9 @@
 import { colors, createTheme } from '@atlaskit/theme';
+import { tokenApplicator } from './components/utils';
+import { hex2rgba } from './styled/utils';
+import { BaseTheme, ThemeProps, ThemeTokens } from './types';
 
-export type ThemeAppearance = 'default' | 'primary';
-
-export type ThemeMode = 'dark' | 'light';
-
-export type ThemeProps = {
-  appearance: ThemeAppearance;
-  mode: ThemeMode;
-  state: string;
-};
-
-export type ThemeTokens = {
-  background: string;
-  color: string;
-};
-
-export const baseTheme = {
+export const baseTheme: BaseTheme = {
   background: {
     default: {
       default: { light: colors.N20A, dark: colors.DN70 },
@@ -51,39 +39,6 @@ export const baseTheme = {
   },
 };
 
-/**
- * Convert a hex colour code to RGBA.
- * @param {String} hex Hex colour code.
- * @param {Number} alpha Optional alpha value (defaults to 1).
- */
-function hex2rgba(hex: string, alpha = 1) {
-  if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
-    let colorArr = hex.substring(1).split('');
-
-    if (colorArr.length === 3) {
-      colorArr = [
-        colorArr[0],
-        colorArr[0],
-        colorArr[1],
-        colorArr[1],
-        colorArr[2],
-        colorArr[2],
-      ];
-    }
-
-    const color = `0x${colorArr.join('')}`;
-
-    // FIXME: `>>` operand can validly take a string value
-    const r = ((color as any) >> 16) & 255;
-    const g = ((color as any) >> 8) & 255;
-    const b = (color as any) & 255;
-
-    return `rgba(${[r, g, b].join(',')}, ${alpha})`;
-  }
-
-  throw new Error('Bad Hex');
-}
-
 export function applyPropertyStyle(
   property: string,
   {
@@ -113,10 +68,6 @@ export function applyPropertyStyle(
 }
 
 const properties = ['color', 'background'];
-
-export const Theme = createTheme<ThemeTokens, ThemeProps>(tokens =>
-  properties.reduce((acc, p) => {
-    acc[p] = applyPropertyStyle(p, tokens, baseTheme);
-    return acc;
-  }, {}),
-);
+export const Theme = createTheme<ThemeTokens, ThemeProps>(themeProps => ({
+  ...tokenApplicator(properties, themeProps, baseTheme),
+}));

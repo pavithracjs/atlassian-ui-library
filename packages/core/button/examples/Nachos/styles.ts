@@ -1,5 +1,6 @@
 import { colors } from '@atlaskit/theme';
-import nachosColors from './colors';
+import { nachosColors } from './colors';
+import { BaseTheme } from '../../src/types';
 
 type NachosBase = {
   padding: string;
@@ -13,7 +14,7 @@ export const nachosBase: NachosBase = {
   height: '32px',
 };
 
-export default {
+export default <BaseTheme>{
   background: {
     default: {
       default: { light: colors.N30 },
@@ -110,6 +111,9 @@ export default {
   },
 
   border: {
+    default: {
+      default: { light: 'none' },
+    },
     subtle: {
       default: { light: 'none' },
       hover: { light: 'none' },
