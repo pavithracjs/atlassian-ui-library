@@ -1,6 +1,5 @@
-import styled from 'styled-components';
-
 import * as React from 'react';
+import styled, { injectGlobal } from 'styled-components';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import { colors } from '@atlaskit/theme';
 
@@ -23,6 +22,13 @@ import { extensionHandlers } from '../example-helpers/extension-handlers';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
 import { DevTools } from '../example-helpers/DevTools';
 import { EditorActions } from './../src';
+
+// eslint-disable-next-line
+injectGlobal`
+  body {
+    background: white !important;
+  }
+`;
 
 export const TitleInput: any = styled.input`
   border: none;

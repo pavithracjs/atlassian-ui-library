@@ -81,7 +81,7 @@ export default class Dropdown extends Component<Props> {
     if (selected !== undefined) {
       return selected ? (
         <EditorDoneIcon
-          primaryColor={colors.B400}
+          primaryColor={colors.N20}
           size="small"
           label="test question"
         />
