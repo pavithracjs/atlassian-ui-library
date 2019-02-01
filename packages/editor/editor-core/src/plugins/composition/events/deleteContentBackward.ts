@@ -1,8 +1,6 @@
 import { TextSelection, Selection } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 
-import { InputEvent } from '../index';
-
 // Nodes that PM needs a hand deleting when composing.
 const deletableNodes = ['emoji', 'mention'];
 
@@ -14,12 +12,30 @@ const deletableNodes = ['emoji', 'mention'];
  * certain nodes. We can remove these when PM has better composition support.
  * @see https://github.com/ProseMirror/prosemirror/issues/543
  */
-export const patchDeleteContentBackward = (
-  view: EditorView,
-  event: InputEvent,
-) => {
+export function patchDeleteContentBackward(view: EditorView) {
   const { state, dispatch } = view;
   const { $from } = state.selection;
+
+  if (
+    $from.nodeBefore &&
+    $from.nodeBefore.type.name === 'text' &&
+    $from.nodeBefore.nodeSize == 1 &&
+    $from.nodeBefore.textContent === ' '
+  ) {
+    /**
+     * If text has length of 1, let's delete it manually
+     */
+    const tr = state.tr;
+    dispatch(
+      tr
+        .delete($from.pos - 1, $from.pos)
+        .setSelection(
+          Selection.near(tr.doc.resolve(tr.mapping.map($from.pos - 1))),
+        ),
+    );
+
+    return true;
+  }
 
   /**
    * If text contains marks, composition events won't delete any characters.
@@ -29,7 +45,6 @@ export const patchDeleteContentBackward = (
     $from.nodeBefore.type.name === 'text' &&
     $from.nodeBefore.marks.length
   ) {
-    event.preventDefault();
     const tr = state.tr;
     dispatch(
       tr
@@ -50,7 +65,6 @@ export const patchDeleteContentBackward = (
     $from.nodeBefore &&
     deletableNodes.indexOf($from.nodeBefore.type.name) !== -1
   ) {
-    event.preventDefault();
     const tr = state.tr;
     dispatch(
       tr
@@ -75,10 +89,9 @@ export const patchDeleteContentBackward = (
     $from.nodeAfter &&
     deletableNodes.indexOf($from.nodeAfter.type.name) !== -1
   ) {
-    event.preventDefault();
     dispatch(state.tr.deleteSelection());
     return true;
   }
 
   return false;
-};
+}

@@ -66,7 +66,7 @@ describe('composition events', () => {
       expect(editorView.state.doc).toEqualDocument(doc(p('')));
     });
 
-    it('shouldnt delete `nodeBefore` if its not a node.', () => {
+    it('should delete `nodeBefore` if its a space character.', () => {
       const { editorView } = editor(
         doc(
           p(
@@ -79,10 +79,7 @@ describe('composition events', () => {
       deleteContentBackward(editorView);
       expect(editorView.state.doc).toEqualDocument(
         doc(
-          p(
-            emoji({ shortName: ':slight_smile:', id: '1f642', text: '🙂' })(),
-            ' ',
-          ),
+          p(emoji({ shortName: ':slight_smile:', id: '1f642', text: '🙂' })()),
         ),
       );
     });

@@ -37,13 +37,9 @@ export const createPlugin = () =>
          * certain nodes. We can remove these when PM has better composition support.
          * @see https://github.com/ProseMirror/prosemirror/issues/543
          */
-        beforeinput: (view, event: any) => {
-          if (event.inputType === 'deleteContentBackward') {
-            return patchDeleteContentBackward(view, event);
-          }
-
-          return true;
-        },
+        beforeinput: (view, event: any) =>
+          event.inputType === 'deleteContentBackward' &&
+          patchDeleteContentBackward(view),
       },
     },
   });
