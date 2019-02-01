@@ -28,13 +28,13 @@ import {
   checkIfHeaderColumnEnabled,
   checkIfHeaderRowEnabled,
 } from '../utils';
+import { autoSizeTable } from '../actions';
 import { WidthPluginState } from '../../width';
 
 export interface ComponentProps extends Props {
   view: EditorView;
   node: PmNode;
   allowColumnResizing: boolean;
-  onComponentMount: () => void;
   contentDOM: (element: HTMLElement | undefined) => void;
 
   containerWidth: WidthPluginState;
@@ -72,9 +72,7 @@ class TableComponent extends React.Component<ComponentProps> {
   }
 
   componentDidMount() {
-    const { onComponentMount, allowColumnResizing } = this.props;
-
-    onComponentMount();
+    const { allowColumnResizing } = this.props;
 
     if (allowColumnResizing && this.wrapper && !isIE11) {
       this.wrapper.addEventListener('scroll', this.handleScrollDebounced);
@@ -110,7 +108,9 @@ class TableComponent extends React.Component<ComponentProps> {
   componentDidUpdate(prevProps) {
     updateRightShadow(this.wrapper, this.table, this.rightShadow);
 
-    if (this.props.allowColumnResizing && this.table) {
+    if (this.props.node.attrs.__autoSize) {
+      this.handleAutoSize();
+    } else if (this.props.allowColumnResizing && this.table) {
       this.handleTableResizing(prevProps);
     }
   }
@@ -240,12 +240,14 @@ class TableComponent extends React.Component<ComponentProps> {
 
     const prevColCount = prevProps.node.firstChild!.childCount;
     const currentColCount = node.firstChild!.childCount;
-
     if (
       prevColCount !== currentColCount ||
       prevAttrs.layout !== currentAttrs.layout ||
       prevAttrs.isNumberColumnEnabled !== currentAttrs.isNumberColumnEnabled ||
-      prevProps.containerWidth !== containerWidth
+      prevAttrs.__autoSize !== currentAttrs.__autoSize ||
+      prevProps.containerWidth !== containerWidth ||
+      // Force resizing when another collab session changes the table size.
+      prevProps.node.eq(this.props.node) === false
     ) {
       scaleTable(
         view,
@@ -268,6 +270,14 @@ class TableComponent extends React.Component<ComponentProps> {
       }));
     }
   }
+
+  private handleAutoSize = () => {
+    if (this.table) {
+      const { view, node, getPos } = this.props;
+      const { state, dispatch } = view;
+      autoSizeTable(node, this.table, getPos())(state, dispatch);
+    }
+  };
 }
 
 export const updateRightShadow = (

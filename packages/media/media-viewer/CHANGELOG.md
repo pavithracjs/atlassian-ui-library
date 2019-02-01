@@ -1,5 +1,25 @@
 # @atlaskit/media-viewer
 
+## 35.1.0
+- [minor] [a74d635f1c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a74d635f1c):
+
+  - Remove feedback button
+
+## 35.0.0
+- Updated dependencies [69c8d0c19c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c8d0c19c):
+  - @atlaskit/media-card@52.0.0
+  - @atlaskit/media-test-helpers@20.1.0
+  - @atlaskit/media-store@9.1.5
+  - @atlaskit/media-core@27.0.0
+
+## 34.0.2
+- Updated dependencies [07a187bb30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/07a187bb30):
+  - @atlaskit/media-card@51.0.2
+  - @atlaskit/media-core@26.2.1
+  - @atlaskit/media-store@9.1.4
+  - @atlaskit/media-ui@8.2.6
+  - @atlaskit/media-test-helpers@20.0.0
+
 ## 34.0.1
 - Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
   - @atlaskit/docs@6.0.1

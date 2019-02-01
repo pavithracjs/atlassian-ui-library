@@ -29,8 +29,10 @@ export type UserPickerProps = {
   onFocus?: OnPicker;
   /** Callback for when the field loses focus. */
   onBlur?: OnPicker;
+  /** Callback for when the value/s in the picker is cleared. */
+  onClear?: OnPicker;
   /** Appearance of the user picker. */
-  appearance?: 'normal' | 'compact';
+  appearance?: Appearance;
   /** Display the picker with a subtle style. */
   subtle?: boolean;
   /** Default value for the field to be used on initial render. */
@@ -102,11 +104,12 @@ export interface Team extends OptionData {
   avatarUrl?: string;
   description?: string;
   memberCount?: number;
+  includesYou?: boolean;
   highlight?: TeamHighlight;
   type: 'team';
 }
 
-export type Value = OptionData | Array<OptionData> | null | undefined;
+export type Value = OptionData | OptionData[] | null | undefined;
 
 export type ActionTypes =
   | 'select-option'
@@ -157,3 +160,5 @@ export type AtlasKitSelectChange = (
     action: ActionTypes;
   },
 ) => void;
+
+export type Appearance = 'normal' | 'compact';

@@ -1,5 +1,6 @@
 export default {
   plugins: [
+    'compositionPlugin',
     'inlineCursorTargetPlugin',
     'focusHandlerPlugin',
     'submitEditor',
@@ -52,6 +53,7 @@ export default {
     'tableColResizing',
     'blockTypeKeyMap',
     'tableEditing',
+    'filterStepsPlugin',
     'pmCollab',
     'collab',
     'ruleInputRule',

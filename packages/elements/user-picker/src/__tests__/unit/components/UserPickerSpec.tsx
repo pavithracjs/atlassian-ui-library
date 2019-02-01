@@ -4,7 +4,7 @@ jest.mock('../../../components/styles', () => ({
 
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import Select from '@atlaskit/select';
-import { mount, shallow } from 'enzyme';
+import { mount, ReactWrapper, shallow } from 'enzyme';
 import * as debounce from 'lodash.debounce';
 import * as React from 'react';
 import { getStyles } from '../../../components/styles';
@@ -13,7 +13,14 @@ import {
   optionToSelectableOption,
   optionToSelectableOptions,
 } from '../../../components/utils';
-import { Option, User, UserPickerProps, UserType } from '../../../types';
+import {
+  Option,
+  User,
+  OptionData,
+  UserPickerProps,
+  UserType,
+  Team,
+} from '../../../types';
 
 describe('UserPicker', () => {
   const shallowUserPicker = (props: Partial<UserPickerProps> = {}) =>
@@ -48,12 +55,6 @@ describe('UserPicker', () => {
     const component = shallowUserPicker({ isDisabled: true });
     const select = component.find(Select);
     expect(select.prop('isDisabled')).toEqual(true);
-  });
-
-  it('should set width', () => {
-    shallowUserPicker({ width: 500 });
-
-    expect(getStyles).toHaveBeenCalledWith(500);
   });
 
   it('should set custom placeholder', () => {
@@ -92,6 +93,16 @@ describe('UserPicker', () => {
     expect(onSelection).toHaveBeenCalledWith(options[0]);
   });
 
+  it('should trigger props.onClear if onChange with clear action', () => {
+    const onClear = jest.fn();
+    const component = shallowUserPicker({ onClear });
+
+    const select = component.find(Select);
+    select.simulate('change', userOptions[0], { action: 'clear' });
+
+    expect(onClear).toHaveBeenCalled();
+  });
+
   it('should call onFocus handler', () => {
     const onFocus = jest.fn();
     const component = shallowUserPicker({ onFocus });
@@ -106,6 +117,35 @@ describe('UserPicker', () => {
 
     component.simulate('blur');
     expect(onBlur).toHaveBeenCalled();
+  });
+
+  describe('getStyles/appearance', () => {
+    it('should set width', () => {
+      shallowUserPicker({ width: 500 });
+
+      expect(getStyles).toHaveBeenCalledWith(500);
+    });
+
+    it('should infer normal appearance if single picker', () => {
+      const component = shallowUserPicker();
+
+      expect(component.find(Select).prop('appearance')).toEqual('normal');
+    });
+
+    it('should infer compact appearance if multi picker', () => {
+      const component = shallowUserPicker({ isMulti: true });
+
+      expect(component.find(Select).prop('appearance')).toEqual('compact');
+    });
+
+    it('should pass in appearance that comes from props', () => {
+      const component = shallowUserPicker({
+        isMulti: true,
+        appearance: 'normal',
+      });
+
+      expect(component.find(Select).prop('appearance')).toEqual('normal');
+    });
   });
 
   describe('Multiple users select', () => {
@@ -214,6 +254,14 @@ describe('UserPicker', () => {
       it('should call props.onInputChange', () => {
         const onInputChange = jest.fn();
         const component = shallowUserPicker({ onInputChange });
+        const select = component.find(Select);
+        select.simulate('inputChange', 'some text', { action: 'input-change' });
+        expect(onInputChange).toHaveBeenCalled();
+      });
+
+      it('should call props.onInputChange with controlled search', () => {
+        const onInputChange = jest.fn();
+        const component = shallowUserPicker({ onInputChange, search: 'text' });
         const select = component.find(Select);
         select.simulate('inputChange', 'some text', { action: 'input-change' });
         expect(onInputChange).toHaveBeenCalled();
@@ -461,9 +509,67 @@ describe('UserPicker', () => {
     expect(preventDefault).toHaveBeenCalledTimes(0);
   });
 
+  describe('teams', () => {
+    const teamOptions: Team[] = [
+      {
+        id: 'team-123',
+        name: 'The A team',
+        type: 'team',
+        memberCount: 1,
+      },
+      {
+        id: 'team-abc',
+        name: 'The B team',
+        type: 'team',
+        includesYou: true,
+      },
+    ];
+
+    const selectableTeamOptions: Option[] = optionToSelectableOptions(
+      teamOptions,
+    );
+
+    const mixedOptions: OptionData[] = (options as OptionData[]).concat(
+      teamOptions,
+    );
+    const selectableMixedOptions: Option[] = optionToSelectableOptions(
+      mixedOptions,
+    );
+
+    it('should render select with only teams', () => {
+      const component = shallowUserPicker({ options: teamOptions });
+      const select = component.find(Select);
+      expect(select.prop('options')).toEqual(selectableTeamOptions);
+    });
+
+    it('should render select with both teams and users', () => {
+      const component = shallowUserPicker({ options: mixedOptions });
+      const select = component.find(Select);
+      expect(select.prop('options')).toEqual(selectableMixedOptions);
+    });
+
+    it('should be able to multi-select a mix of users and teams', () => {
+      const onChange = jest.fn();
+      const component = shallowUserPicker({
+        options: mixedOptions,
+        isMulti: true,
+        onChange,
+      });
+
+      component.find(Select).simulate('change', selectableMixedOptions, {
+        action: 'select-option',
+      });
+
+      expect(onChange).toHaveBeenCalledWith(
+        [mixedOptions[0], mixedOptions[1], mixedOptions[2], mixedOptions[3]],
+        'select-option',
+      );
+    });
+  });
+
   describe('analytics', () => {
     const onEvent = jest.fn();
-    let component;
+    let component: ReactWrapper;
 
     const AnalyticsTestComponent = (props: Partial<UserPickerProps>) => (
       <AnalyticsListener channel="fabric-elements" onEvent={onEvent}>
@@ -515,7 +621,7 @@ describe('UserPicker', () => {
       input.simulate('keyDown', { keyCode: 40 });
       input.simulate('keyDown', { keyCode: 38 });
       input.simulate('keyDown', { keyCode: 13 });
-      component.find(Select).prop('onChange')(
+      component.find<any>(Select).prop('onChange')(
         optionToSelectableOption(options[0]),
         {
           action: 'select-option',
@@ -554,7 +660,7 @@ describe('UserPicker', () => {
       input.simulate('keyDown', { keyCode: 40 });
       input.simulate('keyDown', { keyCode: 40 });
       input.simulate('keyDown', { keyCode: 38 });
-      component.find(Select).prop('onChange')(
+      component.find<any>(Select).prop('onChange')(
         optionToSelectableOption(options[0]),
         {
           action: 'select-option',
@@ -588,7 +694,7 @@ describe('UserPicker', () => {
     it('should trigger cleared event', () => {
       const input = component.find('input');
       input.simulate('focus');
-      component.find(Select).prop('onChange')(
+      component.find<any>(Select).prop('onChange')(
         optionToSelectableOption(options[0]),
         {
           action: 'clear',
@@ -618,7 +724,7 @@ describe('UserPicker', () => {
       component.setProps({ isMulti: true });
       const input = component.find('input');
       input.simulate('focus');
-      component.find(Select).prop('onChange')([], {
+      component.find<any>(Select).prop('onChange')([], {
         action: 'remove-value',
         removedValue: optionToSelectableOption(options[0]),
       });
