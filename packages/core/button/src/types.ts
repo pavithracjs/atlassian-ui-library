@@ -94,13 +94,6 @@ export type ThemeProps = {
   state: string;
 };
 
-export type BaseTheme = {
-  [key: string]: {
-    [key: string]: AppearanceStates;
-    default: AppearanceStates;
-  };
-};
-
 export type AppearanceStates = {
   default: { light: string; dark?: string };
   hover?: { light: string; dark?: string };
