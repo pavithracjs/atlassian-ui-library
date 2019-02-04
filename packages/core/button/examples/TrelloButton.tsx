@@ -18,13 +18,15 @@ export default () => (
   <div style={{ margin: 20 }}>
     <h3>Nachos Button</h3>
     <ButtonWrapper>
-      <NButton iconBefore={Icon}>Button</NButton>
+      <NButton iconBefore={Icon} appearance="default">
+        Button
+      </NButton>
       <NButton iconAfter={Icon} appearance="primary">
         Button
       </NButton>
-      <NButton appearance="subtle">Button</NButton>
+      {/* <NButton appearance="subtle">Button</NButton> */}
       <NButton appearance="danger">Button</NButton>
-      <NButton appearance="disabled">Button</NButton>
+      {/* <NButton appearance="disabled">Button</NButton> */}
     </ButtonWrapper>
     <h3>ADG Button</h3>
     <ButtonWrapper>

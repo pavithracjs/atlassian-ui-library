@@ -2,6 +2,7 @@ import { colors, createTheme } from '@atlaskit/theme';
 import { tokenApplicator } from './components/utils';
 import { hex2rgba } from './styled/utils';
 import { BaseTheme, ThemeProps, ThemeTokens } from './types';
+import getButtonStyles from './styled/getButtonStylesUnified';
 
 export const baseTheme: BaseTheme = {
   background: {
@@ -68,6 +69,14 @@ export function applyPropertyStyle(
 }
 
 const properties = ['color', 'background'];
-export const Theme = createTheme<ThemeTokens, ThemeProps>(themeProps => ({
-  ...tokenApplicator(properties, themeProps, baseTheme),
-}));
+export const Theme = createTheme<ThemeTokens, ThemeProps>(themeProps => {
+  console.log('themeProps output', getButtonStyles(themeProps));
+  console.log(
+    'tokenApplicator output',
+    tokenApplicator(properties, themeProps, baseTheme),
+  );
+  return {
+    ...getButtonStyles(themeProps),
+    ...tokenApplicator(properties, themeProps, baseTheme),
+  };
+});
