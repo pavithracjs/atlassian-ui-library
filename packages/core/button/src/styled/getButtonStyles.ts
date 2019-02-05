@@ -66,6 +66,7 @@ const getBoxShadow = ({
 
 const baseStyles = {
   alignItems: 'baseline',
+  borderWidth: 0,
   boxSizing: 'border-box',
   display: 'inline-flex',
   fontSize: 'inherit',
@@ -114,18 +115,18 @@ export default (props: any) => {
     transitionDuration: getTransitionDuration(props),
     verticalAlign: getVerticalAlign(props),
     boxShadow: getBoxShadow(props),
-    borderRadius: borderRadius(), //px
-    borderBottom: props.borderBottom, //px
-    borderWidth: 0,
+    borderRadius: `${borderRadius()}px`,
+    borderBottom: `${props.borderBottom}px`,
     fontWeight: props.fontWeight,
     textDecoration: getTextDecoration(props),
     width: props.fit ? '100%' : 'auto',
 
-    // &::-moz-focus-inner {
-    //   border: 0,
-    //   margin: 0,
-    //   padding: 0,
-    // }
+    // Does this even work??
+    '&::-moz-focus-inner': {
+      border: 0,
+      margin: 0,
+      padding: 0,
+    },
     pointerEvents: props.isLoading ? 'pointer-events: none;' : null,
   };
 
