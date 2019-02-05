@@ -1,209 +1,133 @@
-import { css } from 'styled-components';
 import { borderRadius, fontSize, gridSize, math } from '@atlaskit/theme';
-import themeDefinitions from './themeDefinitions';
-import { themeNamespace } from '../theme';
-import getButtonProps from '../components/getButtonProps';
+import { applyPropertyStyle, baseTheme } from '../theme';
 
-// TODO: Type correctly when @atlaskit/theme is typescript
+type Spacing = 'compact' | 'default' | 'none';
 
-const getProvidedTheme = ({ theme }: StyleProps) =>
-  (theme && theme[themeNamespace]) || {};
-
-type StyleProps = Partial<ReturnType<typeof getButtonProps>> & {
-  theme?: any;
+const getBackground = (props: any) => {
+  return applyPropertyStyle('background', props, baseTheme);
 };
 
-const getAppearanceProperty = (
-  property: string,
-  appearance: string | undefined,
-  providedTheme: any,
-  inBuiltTheme: any,
-) => {
-  const defaultAppearanceStyles = inBuiltTheme.default;
-
-  if (!appearance) {
-    return defaultAppearanceStyles[property];
-  }
-
-  const providedAppearanceStyles = providedTheme[appearance];
-  const inBuiltAppearanceStyles = inBuiltTheme[appearance];
-
-  return (
-    (providedAppearanceStyles && providedAppearanceStyles[property]) ||
-    (inBuiltAppearanceStyles && inBuiltAppearanceStyles[property]) ||
-    defaultAppearanceStyles[property]
-  );
+const getColor = (props: any) => {
+  return applyPropertyStyle('color', props, baseTheme);
 };
 
-const getState = ({
-  disabled,
-  isActive,
-  isFocus,
-  isHover,
-  isSelected,
-}: StyleProps) => {
-  if (disabled) {
-    return 'disabled';
-  }
-  if (isSelected && isFocus) {
-    return 'focusSelected';
-  }
-  if (isSelected) {
-    return 'selected';
-  }
-  if (isActive) {
-    return 'active';
-  }
-  if (isHover) {
-    return 'hover';
-  }
-  if (isFocus) {
-    return 'focus';
-  }
-  return 'default';
+// TODO when back from lunch.
+const getBoxShadowColor = (props: any) => {
+  return applyPropertyStyle('boxShadowColor', props, baseTheme);
 };
 
-export const getPropertyAppearance = (
-  property: string,
-  props: StyleProps = {},
-  definitions: any = themeDefinitions,
-) => {
-  const { appearance } = props;
-  const { fallbacks, theme: inBuiltTheme } = definitions;
-  const providedTheme = getProvidedTheme(props);
-
-  const propertyStyles = getAppearanceProperty(
-    property,
-    appearance,
-    providedTheme,
-    inBuiltTheme,
-  );
-
-  if (!propertyStyles) {
-    return fallbacks[property] || 'initial';
-  }
-
-  const state = getState(props);
-
-  return propertyStyles[state] || propertyStyles.default || fallbacks[property];
+const getTextDecoration = (props: any) => {
+  return applyPropertyStyle('textDecoration', props, baseTheme);
 };
 
-export default function getButtonStyles(props: StyleProps) {
-  // $FlowFixMe - should be fixed when theme work is done
+const getCursor = ({ state = 'default' }: { state: string }) => {
+  let cursor = 'default';
+  if (state === 'hover') cursor = 'pointer';
+  if (state === 'disabled') cursor = 'not-allowed';
+  return cursor;
+};
+
+const getPadding = (props: any) => {
+  let padding = `0 ${gridSize(props)}px`;
+  if (props.spacing === 'none') padding = '0';
+  return padding;
+};
+
+const getTransition = ({ state = 'default' }: { state: string }) => {
+  let transition =
+    'background 0.1s ease-out, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38)';
+  if (state === 'hover') {
+    transition =
+      'background 0s ease-out, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38)';
+  }
+  return transition;
+};
+
+const getTransitionDuration = ({ state = 'default' }: { state: string }) => {
+  let transitionDuration = '0.1s, 0.15s';
+  if (state === 'active') transitionDuration = '0s';
+  if (state === 'focus') transitionDuration = '0s, 0.2s';
+  return transitionDuration;
+};
+
+const getVerticalAlign = ({ spacing = 'default' }: { spacing: Spacing }) => {
+  return spacing === 'none' ? 'baseline' : 'middle';
+};
+
+const getBoxShadow = ({
+  boxShadow,
+  boxShadowColor,
+}: {
+  boxShadow: string;
+  boxShadowColor: string;
+}) => {
+  return boxShadow || `0 0 0 2px ${boxShadowColor}`;
+};
+
+const baseStyles = {
+  alignItems: 'baseline',
+  boxSizing: 'border-box',
+  display: 'inline-flex',
+  fontSize: 'inherit',
+  fontStyle: 'normal',
+  margin: 0,
+  maxWidth: '100%',
+  outline: 'none !important',
+  textAlign: 'center',
+  whiteSpace: 'nowrap',
+};
+
+export default (props: any) => {
   const baseSize = fontSize(props);
-  const buttonHeight = `${math.divide(math.multiply(gridSize, 4), baseSize)(
-    props,
-  )}em`;
   const compactButtonHeight = `${math.divide(
     math.multiply(gridSize, 3),
     baseSize,
   )(props)}em`;
+  const buttonHeight = `${math.divide(math.multiply(gridSize, 4), baseSize)(
+    props,
+  )}em`;
 
-  /**
-   * Variable styles
-   */
-  let cursor = 'default';
-  let height = buttonHeight;
-  let lineHeight = buttonHeight;
-  let outline = 'none';
-  // $FlowFixMe - should be fixed when theme work is done
-  let padding = `0 ${gridSize(props)}px`;
-  let transitionDuration = '0.1s, 0.15s';
-  let transition =
-    'background 0.1s ease-out, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38)';
-  let verticalAlign = 'middle';
-  let width = 'auto';
+  const getHeight = ({ spacing = 'default' }: { spacing: Spacing }) => {
+    let height = buttonHeight;
+    if (spacing === 'compact') height = compactButtonHeight;
+    if (spacing === 'none') height = 'auto';
+    return height;
+  };
 
-  /**
-   * Appearance + Theme styles
-   */
-  const background = getPropertyAppearance('background', props);
-  const color = getPropertyAppearance('color', props);
-  const boxShadowColor = getPropertyAppearance('boxShadowColor', props);
-  const boxShadow = boxShadowColor
-    ? css`
-        box-shadow: 0 0 0 2px ${boxShadowColor};
-      `
-    : null;
-  const textDecoration = getPropertyAppearance('textDecoration', props);
+  const getLineHeight = ({ spacing = 'default' }: { spacing: Spacing }) => {
+    let lineHeight = buttonHeight;
+    if (spacing === 'compact') lineHeight = compactButtonHeight;
+    if (spacing === 'none') lineHeight = 'inherit';
+    return lineHeight;
+  };
 
-  // Spacing: Compact
-  if (props.spacing === 'compact') {
-    height = compactButtonHeight;
-    lineHeight = compactButtonHeight;
-  }
+  const styleProps = {
+    ...baseStyles,
+    background: getBackground(props),
+    boxShadowColor: getBoxShadowColor(props),
+    color: `${getColor(props)} !important`,
+    cursor: getCursor(props),
+    padding: getPadding(props),
+    height: getHeight(props),
+    lineHeight: getLineHeight(props),
+    transition: getTransition(props),
+    transitionDuration: getTransitionDuration(props),
+    verticalAlign: getVerticalAlign(props),
+    boxShadow: getBoxShadow(props),
+    borderRadius: borderRadius(), //px
+    borderBottom: props.borderBottom, //px
+    borderWidth: 0,
+    fontWeight: props.fontWeight,
+    textDecoration: getTextDecoration(props),
+    width: props.fit ? '100%' : 'auto',
 
-  // Spacing: None
-  if (props.spacing === 'none') {
-    height = 'auto';
-    lineHeight = 'inherit';
-    padding = '0';
-    verticalAlign = 'baseline';
-  }
+    // &::-moz-focus-inner {
+    //   border: 0,
+    //   margin: 0,
+    //   padding: 0,
+    // }
+    pointerEvents: props.isLoading ? 'pointer-events: none;' : null,
+  };
 
-  // Interaction: Hover
-  if (props.isHover) {
-    cursor = 'pointer';
-    transition =
-      'background 0s ease-out, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38)';
-  }
-
-  // Interaction: Active
-  if (props.isActive) {
-    transitionDuration = '0s';
-  }
-
-  // Interaction: Focus
-  if (props.isFocus) {
-    outline = 'none';
-    transitionDuration = '0s, 0.2s';
-  }
-
-  // Disabled
-  if (props.disabled) {
-    cursor = 'not-allowed';
-  }
-
-  // Loading
-  const isLoadingStyles = (p: StyleProps) =>
-    p.isLoading ? 'pointer-events: none;' : null;
-
-  // Fit to parent width
-  if (props.fit) {
-    width = '100%';
-  }
-
-  /* Note use of !important to override the ThemeReset on anchor tag styles */
-
-  return css<StyleProps>`
-    align-items: baseline;
-    background: ${background};
-    border-radius: ${borderRadius}px;
-    border-width: 0;
-    box-sizing: border-box;
-    color: ${color} !important;
-    cursor: ${cursor};
-    display: inline-flex;
-    font-size: inherit;
-    font-style: normal;
-    height: ${height};
-    line-height: ${lineHeight};
-    margin: 0;
-    max-width: 100%;
-    outline: ${outline} !important;
-    padding: ${padding};
-    text-align: center;
-    text-decoration: ${textDecoration};
-    transition: ${transition};
-    transition-duration: ${transitionDuration};
-    vertical-align: ${verticalAlign};
-    white-space: nowrap;
-    width: ${width};
-    ${boxShadow} &::-moz-focus-inner {
-      border: 0;
-      margin: 0;
-      padding: 0;
-    }
-    ${isLoadingStyles};
-  `;
-}
+  return styleProps;
+};

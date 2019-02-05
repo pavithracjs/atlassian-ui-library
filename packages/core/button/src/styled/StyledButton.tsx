@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import getButtonStyles from '../styled/getButtonStylesNew';
 
 const StyledButton = styled.button`
-  ${getButtonStyles};
+  ${p => p.styles}
 `;
 StyledButton.displayName = 'StyledButton';
 

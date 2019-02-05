@@ -7,7 +7,7 @@ type NachosBase = {
   height: string;
 };
 
-export const nachosBase: NachosBase = {
+const nachosBase: NachosBase = {
   padding: '6px 12px',
   lineHeight: '20px',
   height: '32px',
@@ -89,6 +89,10 @@ export const button = {
 
 const getBackground = (background, { appearance, state }) => {
   if (appearance === 'disabled') return background[appearance];
+
+  if (!background[appearance]) {
+    return background.default[state];
+  }
   return background[appearance][state];
 };
 
@@ -97,24 +101,43 @@ const getBoxShadow = (boxShadow, { appearance, state }) => {
   return boxShadow[appearance];
 };
 
-const getBorderColor = (borderColor, { appearance, state }) =>
-  borderColor[appearance][state];
+const getBorderColor = (borderColor, { appearance, state }) => {
+  if (!borderColor[appearance] || !borderColor[appearance][state]) {
+    return borderColor.default.default;
+  }
+  return borderColor[appearance][state];
+};
 
-const getfontWeight = (fontWeight, { appearance, state }) => fontWeight[state];
+const getFontWeight = (fontWeight, { appearance }) => {
+  if (!fontWeight[appearance]) return fontWeight.default;
+  return fontWeight[appearance];
+};
 
-const getCursor = (cursor, { state }) => cursor[state];
+const getCursor = (cursor, { state }) => {
+  if (!cursor[state]) return cursor.default;
+  return cursor[state];
+};
 
 const getColor = (color, { appearance, state }) => {
-  if (appearance === 'default') return color[appearance][state];
+  if (appearance === 'default') {
+    if (!color[appearance][state]) {
+      return color.default.default;
+    }
+    return color[appearance][state];
+  }
+  if (!color[appearance]) {
+    return color.default.default;
+  }
   return color[appearance];
 };
 
-export const getButtonStyles = props => ({
+export default props => ({
+  ...nachosBase,
   border: button.border,
   background: getBackground(button.background, props),
   borderColor: getBorderColor(button.borderColor, props),
   boxShadow: getBoxShadow(button.boxShadow, props),
   color: getColor(button.color, props),
   cursor: getCursor(button.cursor, props),
-  fontWeight: getfontWeight(button.fontWeight, props),
+  fontWeight: getFontWeight(button.fontWeight, props),
 });
