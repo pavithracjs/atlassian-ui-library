@@ -1,0 +1,1 @@
+- ED-6102: fixed deleting inline nodes on mobile
