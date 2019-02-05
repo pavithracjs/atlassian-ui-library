@@ -90,8 +90,8 @@ export type ThemeTokens = {};
 
 export type ThemeProps = {
   appearance: string;
-  mode: ThemeMode;
   state: string;
+  mode?: ThemeMode;
 };
 
 export type AppearanceStates = {
@@ -102,9 +102,3 @@ export type AppearanceStates = {
   selected?: { light: string; dark?: string };
   focusSelected?: { light: string; dark?: string };
 };
-
-// ThemeTokens refer to the properties to be applied to a component
-// ie, padding, border, background
-
-// ThemeProps refer to the properties of the theme itself
-// ie, appearance, mode, state

@@ -1,5 +1,5 @@
 import { ThemeProps } from '../types';
-import { applyPropertyStyle } from '../themeNew';
+import { applyPropertyStyle } from '../theme';
 
 const initialTokens: { [key: string]: string } = {};
 
