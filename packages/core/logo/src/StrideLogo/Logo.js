@@ -2,11 +2,12 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import uuid from 'uuid';
+import memoize from 'memoize-one';
 
 import { type Props, DefaultProps } from '../constants';
 import Wrapper from '../Wrapper';
 
-const svg = (iconGradientStart: string, iconGradientStop: string) => {
+const svg = memoize((iconGradientStart: string, iconGradientStop: string) => {
   const id = uuid();
   return `<canvas height="32" width="97" aria-hidden="true"></canvas>
   <svg viewBox="0 0 97 32" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
@@ -24,7 +25,7 @@ const svg = (iconGradientStart: string, iconGradientStop: string) => {
       <path d="M23.6521739,25.0759821 L14.6886957,6 L6.66434783,6 L16.1321739,25.5372321 C16.3109114,25.9036978 16.6694737,26.1340777 17.0608696,26.1339286 L23.0365217,26.1339286 C23.2760081,26.1312811 23.49736,25.9991651 23.6224471,25.7842135 C23.7475342,25.5692619 23.7587644,25.301705 23.6521739,25.0759821 Z" fill="currentColor"></path>
     </g>
   </svg>`;
-};
+});
 
 export default class StrideLogo extends Component<Props> {
   static defaultProps = DefaultProps;

@@ -2,11 +2,12 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import uuid from 'uuid';
+import memoize from 'memoize-one';
 
 import { type Props, DefaultProps } from '../constants';
 import Wrapper from '../Wrapper';
 
-const svg = (iconGradientStart: string, iconGradientStop: string) => {
+const svg = memoize((iconGradientStart: string, iconGradientStop: string) => {
   const id = uuid();
   return `<canvas height="32" width="158" aria-hidden="true"></canvas>
   <svg viewBox="0 0 158 32" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
@@ -30,7 +31,7 @@ const svg = (iconGradientStart: string, iconGradientStop: string) => {
       <path d="M22.7130274,10.4325806 C22.9567774,10.0564516 23.2305274,9.62 23.4630274,9.27225806 C23.6711329,8.93949274 23.5594135,8.51032964 23.2117774,8.30709677 L18.3367774,5.4683871 C18.1633186,5.35902032 17.9495842,5.32289142 17.7468362,5.36866556 C17.5440883,5.4144397 17.3706168,5.53798759 17.2680274,5.70967742 C17.0730274,6.0183871 16.8217774,6.41935484 16.5480274,6.84870968 C14.6167774,9.86483871 12.6742774,9.49580645 9.17177736,7.91322581 L4.35302736,5.7416129 C4.16995613,5.65916098 3.95940527,5.65035674 3.76936133,5.71720675 C3.5793174,5.78405675 3.42597321,5.92086501 3.34427736,6.09645161 L1.02302736,11.0641935 C0.85902727,11.4189952 1.02590019,11.8326965 1.39802736,11.993871 C2.41802736,12.4480645 4.44677736,13.3529032 6.27302736,14.1867742 C12.8580274,17.1993548 18.4417774,17.0006452 22.7130274,10.4325806 Z" fill="url(#${id}-2)"></path>
     </g>
   </svg>`;
-};
+});
 
 export default class ConfluenceLogo extends Component<Props> {
   static defaultProps = DefaultProps;

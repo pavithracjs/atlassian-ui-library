@@ -2,11 +2,12 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import uuid from 'uuid';
+import memoize from 'memoize-one';
 
 import { type Props, DefaultProps } from '../constants';
 import Wrapper from '../Wrapper';
 
-const svg = (iconGradientStart: string, iconGradientStop: string) => {
+const svg = memoize((iconGradientStart: string, iconGradientStop: string) => {
   const id = uuid();
   return `<canvas height="32" width="32" aria-hidden="true"></canvas>
   <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
@@ -23,7 +24,7 @@ const svg = (iconGradientStart: string, iconGradientStop: string) => {
       <path d="M9.93632602,13.3906651 L4.07411881,25.1153419 C4.02453136,25.214648 4.00065592,25.3199886 4,25.4238861 L4,25.4332001 C4.00183657,25.6884836 4.14338381,25.9335348 4.38738555,26.0555357 C4.48472387,26.1042049 4.59216334,26.1295233 4.70091465,26.1295233 L12.8650027,26.1295233 C13.132224,26.1358202 13.3779311,25.9840406 13.4917986,25.7420066 C15.2522842,22.1023141 14.1857605,16.5683286 11.0938912,13.2648599 C10.9303051,13.0902544 10.7250026,13 10.5271775,13 C10.2924898,13 10.0681657,13.1269858 9.93632602,13.3906651" fill="url(#${id})"></path>
     </g>
   </svg>`;
-};
+});
 
 export default class AtlassianIcon extends Component<Props> {
   static defaultProps = DefaultProps;
