@@ -11,7 +11,7 @@ import {
   TextSelection,
   Transaction,
 } from 'prosemirror-state';
-import { canMoveDown, canMoveUp } from '../utils';
+import { canMoveDown, canMoveUp, getMarks } from '../utils';
 import { Command } from '../types';
 import { EditorView } from 'prosemirror-view';
 
@@ -235,7 +235,7 @@ export const changeImageAlignment = (align): Command => (state, dispatch) => {
  */
 export const toggleBlockMark = <T = object>(
   markType: MarkType,
-  getAttrs: ((prevAttrs?: T) => T | undefined | false),
+  getAttrs: ((prevAttrs?: T, node?: PMNode) => T | undefined | false),
   allowedBlocks?:
     | Array<NodeType>
     | ((schema: Schema, node: PMNode, parent: PMNode) => boolean),
@@ -258,9 +258,9 @@ export const toggleBlockMark = <T = object>(
       parent.type.allowsMarkType(markType)
     ) {
       const oldMarks = node.marks.filter(mark => mark.type === markType);
-      const newAttrs = getAttrs(
-        oldMarks.length ? (oldMarks[0].attrs as T) : undefined,
-      );
+
+      const prevAttrs = oldMarks.length ? (oldMarks[0].attrs as T) : undefined;
+      const newAttrs = getAttrs(prevAttrs, node);
 
       if (newAttrs !== undefined) {
         tr.setNodeMarkup(
