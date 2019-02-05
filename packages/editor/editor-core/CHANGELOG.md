@@ -1,5 +1,15 @@
 # @atlaskit/editor-core
 
+## 98.2.1
+- [patch] [17107bdfb0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/17107bdfb0):
+
+  - ED-6141: remove broken tables if its not fixable
+
+## 98.2.0
+- [minor] [3fecea2975](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3fecea2975):
+
+  - ED-5933 Add analytics plugin to facilitate working with @atlaskit/analytics-next package
+
 ## 98.1.13
 - [patch] [7ce3cc56ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ce3cc56ff):
 

@@ -1,0 +1,1 @@
+- fixes error raised when hydrating a server side rendered logo
