@@ -384,36 +384,52 @@ export function outdentList(): Command {
   };
 }
 
+/**
+ * Check if we can sink the list.
+ *
+ * @param {number} initialIndentationLevel
+ * @param {EditorState} state
+ * @returns {boolean} - true if we can sink the list
+ *                    - false if we reach the max indentation level
+ */
+function canSink(initialIndentationLevel: number, state: EditorState): boolean {
+  /*
+      - Keep going forward in document until indentation of the node is < than the initial 
+      - If indentation is EVER > max indentation, return true and don't sink the list
+      */
+  let currentIndentationLevel: number;
+  let currentPos = state.tr.selection.$to.pos;
+  do {
+    const resolvedPos = state.doc.resolve(currentPos);
+    currentIndentationLevel = numberNestedLists(
+      resolvedPos,
+      state.schema.nodes,
+    );
+    if (currentIndentationLevel > maxIndentation) {
+      // Cancel sink list.
+      // If current indentation less than the initial, it won't be
+      // larger than the max, and the loop will terminate at end of this iteration
+      return false;
+    }
+    currentPos++;
+  } while (currentIndentationLevel >= initialIndentationLevel);
+
+  return true;
+}
+
 export function indentList(): Command {
   return function(state, dispatch) {
     const { listItem } = state.schema.nodes;
     if (isInsideListItem(state)) {
+      //Record initial list indentation
       const initialIndentationLevel = numberNestedLists(
         state.selection.$from,
         state.schema.nodes,
       );
-      /*
-      - Record initial list indentation
-      - Keep going forward in document until indentation of the node is < than the initial 
-      - If indentation is EVER > max indentation, return true and don't sink the list
-      */
-      let currentIndentationLevel;
-      let currentPos = state.tr.selection.$to.pos;
-      do {
-        const resolvedPos = state.doc.resolve(currentPos);
-        currentIndentationLevel = numberNestedLists(
-          resolvedPos,
-          state.schema.nodes,
-        );
-        if (currentIndentationLevel > maxIndentation) {
-          // Cancel sink list.
-          // If current indentation less than the initial, it won't be
-          // larger than the max, and the loop will terminate at end of this iteration
-          return true;
-        }
-        currentPos++;
-      } while (currentIndentationLevel >= initialIndentationLevel);
-      baseListCommand.sinkListItem(listItem)(state, dispatch);
+
+      if (canSink(initialIndentationLevel, state)) {
+        baseListCommand.sinkListItem(listItem)(state, dispatch);
+      }
       return true;
     }
     return false;
