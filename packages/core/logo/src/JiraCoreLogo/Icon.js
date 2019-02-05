@@ -2,11 +2,12 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import uuid from 'uuid';
+import memoize from 'memoize-one';
 
 import { type Props, DefaultProps } from '../constants';
 import Wrapper from '../Wrapper';
 
-const svg = (iconGradientStart: string, iconGradientStop: string) => {
+const svg = memoize((iconGradientStart: string, iconGradientStop: string) => {
   const id = uuid();
   return `<canvas height="32" width="32" aria-hidden="true"></canvas>
   <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
@@ -23,7 +24,7 @@ const svg = (iconGradientStart: string, iconGradientStop: string) => {
       <path d="M23.9969697,12.1078788 L23.9969697,4.26454545 C23.9961315,3.79791901 23.7375983,3.36992522 23.3249582,3.15205124 C22.912318,2.93417725 22.4130783,2.9620669 22.0272727,3.22454545 L2.35,16.6578788 C4.98320643,20.5274016 10.2540962,21.5307928 14.1248485,18.8993939 L23.9969697,12.1078788 Z" fill="currentColor"></path>
     </g>
   </svg>`;
-};
+});
 
 export default class JiraCoreIcon extends Component<Props> {
   static defaultProps = DefaultProps;

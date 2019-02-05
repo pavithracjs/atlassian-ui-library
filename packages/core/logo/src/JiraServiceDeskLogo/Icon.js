@@ -2,11 +2,12 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import uuid from 'uuid';
+import memoize from 'memoize-one';
 
 import { type Props, DefaultProps } from '../constants';
 import Wrapper from '../Wrapper';
 
-const svg = (iconGradientStart: string, iconGradientStop: string) => {
+const svg = memoize((iconGradientStart: string, iconGradientStop: string) => {
   const id = uuid();
   return `<canvas height="32" width="32" aria-hidden="true"></canvas>
   <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
@@ -23,7 +24,7 @@ const svg = (iconGradientStart: string, iconGradientStop: string) => {
       <path d="M14.0396053,19.0156579 L6.22105263,18.9660526 C5.75779361,18.9638923 5.33539149,18.700557 5.12950634,18.2855571 C4.92362119,17.8705572 4.96948557,17.3749106 5.24802632,17.0047368 L16.7411842,1.65 C18.4937397,2.9588453 19.6544561,4.91039056 19.9679021,7.0751719 C20.2813481,9.23995324 19.7218382,11.4405759 18.4125,13.1927632 L14.0396053,19.0156579 Z" fill="currentColor"></path>
     </g>
   </svg>`;
-};
+});
 
 export default class JiraServiceDeskIcon extends Component<Props> {
   static defaultProps = DefaultProps;

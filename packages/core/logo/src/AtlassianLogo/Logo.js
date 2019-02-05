@@ -2,11 +2,12 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import uuid from 'uuid';
+import memoize from 'memoize-one';
 
 import { type Props, DefaultProps } from '../constants';
 import Wrapper from '../Wrapper';
 
-const svg = (iconGradientStart: string, iconGradientStop: string) => {
+const svg = memoize((iconGradientStart: string, iconGradientStop: string) => {
   const id = uuid();
   return `<canvas height="32" width="190" aria-hidden="true"></canvas>
   <svg viewBox="0 0 190 32" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
@@ -32,7 +33,7 @@ const svg = (iconGradientStart: string, iconGradientStop: string) => {
       <path d="M163.256954,9.07000017 L157.378566,9.07000017 L150.705002,28.0038825 L155.802482,28.0038825 L156.748561,24.815059 C159.078603,25.4919503 161.556204,25.4919503 163.886246,24.815059 L164.832325,28.0038825 L169.930162,28.0038825 L163.256954,9.07000017 Z M160.315977,21.4007061 C159.485802,21.4006584 158.659903,21.2831148 157.863378,21.0516472 L160.315977,12.7889413 L162.768575,21.0544708 C161.971909,21.2849831 161.146014,21.4015755 160.315977,21.4007061 L160.315977,21.4007061 Z" fill="inherit"></path>
     </g>
   </svg>`;
-};
+});
 
 export default class AtlassianLogo extends Component<Props> {
   static defaultProps = DefaultProps;

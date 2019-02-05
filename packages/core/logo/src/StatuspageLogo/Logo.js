@@ -2,11 +2,12 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import uuid from 'uuid';
+import memoize from 'memoize-one';
 
 import { type Props, DefaultProps } from '../constants';
 import Wrapper from '../Wrapper';
 
-const svg = (iconGradientStart: string, iconGradientStop: string) => {
+const svg = memoize((iconGradientStart: string, iconGradientStop: string) => {
   const id = uuid();
   return `<canvas height="32" width="161" aria-hidden="true"></canvas>
   <svg viewBox="0 0 161 32" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
@@ -24,7 +25,7 @@ const svg = (iconGradientStart: string, iconGradientStop: string) => {
       <path d="M0.150296445,13.3410909 L3.11240171,16.7750909 C3.22188902,16.9011063 3.37840885,16.9789144 3.54695495,16.9911129 C3.71550104,17.0033115 3.88201085,16.9488828 4.00924381,16.84 C8.80608592,12.6363636 14.7618754,12.6363636 19.5555596,16.84 C19.6827926,16.9488828 19.8493024,17.0033115 20.0178485,16.9911129 C20.1863946,16.9789144 20.3429144,16.9011063 20.4524017,16.7750909 L23.414507,13.3410909 C23.6383491,13.0812594 23.6059055,12.6932914 23.3418754,12.4725455 C16.3818754,6.51018182 7.18292802,6.51018182 0.222928024,12.4694545 C0.0951564484,12.5755828 0.015714237,12.7270623 0.0020917901,12.8905424 C-0.0115306568,13.0540226 0.0417835359,13.2161 0.150296445,13.3410909 Z" fill="currentColor"></path>
     </g>
   </svg>`;
-};
+});
 
 export default class StatuspageLogo extends Component<Props> {
   static defaultProps = DefaultProps;
