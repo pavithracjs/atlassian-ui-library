@@ -4,6 +4,12 @@ import { toggleBlockMark } from '../../../commands';
 import { Command } from '../../../types/command';
 import { addAnalytics, AnalyticsEventPayload } from '../../analytics';
 import { Transaction } from 'prosemirror-state';
+import {
+  createAnalyticsChangesStorage,
+  getPrevIndentLevel,
+  getNewIdentLevel,
+  createAnalyticsDispatch,
+} from './utils';
 
 const MAX_INDENTATION_LEVEL = 6;
 
@@ -46,101 +52,22 @@ function createIndentationCommand(
   };
 }
 
-// Utils function to get analytcs payload values
-function getNewIdentLevel(
-  prevAttrs: IndentationMarkAttributes | undefined,
-  newAttrs: IndentationMarkAttributes | undefined | false,
-): number {
-  if (newAttrs === undefined) {
-    return prevAttrs!.level;
-  } else if (newAttrs === false) {
-    return 0;
-  }
-  return newAttrs.level;
-}
-
-function getPrevIndentLevel(
-  prevAttrs: IndentationMarkAttributes | undefined,
-): number {
-  if (prevAttrs === undefined) {
-    return 0;
-  }
-  return prevAttrs.level;
-}
-
-type IdentationChanges = {
-  node: PmNode;
-  prevAttrs: IndentationMarkAttributes | undefined;
-  newAttrs: IndentationMarkAttributes | undefined | false;
-};
-
-/**
- * Get new identation attributes wrapper to store the changes
- *
- * @param {IndentationMarkAttributes} [prevAttrs]
- * @param {PmNode} [node]
- * @returns {(IndentationMarkAttributes | undefined | false)}
- */
-function createAnalyticsChangeStorage(
-  getNewIdentationAttrs: (
-    prevAttrs?: IndentationMarkAttributes,
-    node?: PmNode,
-  ) => IndentationMarkAttributes | undefined | false,
-) {
-  const changes: IdentationChanges[] = [];
-
-  function getNewIdentationAttrsWithChangeRecorder(
-    prevAttrs?: IndentationMarkAttributes,
-    node?: PmNode,
-  ): IndentationMarkAttributes | undefined | false {
-    const newAttrs = getNewIdentationAttrs(prevAttrs, node);
-
-    changes.push({
-      node: node!,
-      prevAttrs,
-      newAttrs,
-    });
-
-    return newAttrs;
-  }
-
-  return {
-    handler: getNewIdentationAttrsWithChangeRecorder,
-    forEach: changes.forEach.bind(changes),
-  };
-}
-
 function createIndentationCommandWithAnalytics(
   getNewIdentationAttrs: (
     prevAttrs?: IndentationMarkAttributes,
     node?: PmNode,
   ) => IndentationMarkAttributes | undefined | false,
-) {
-  const storage = createAnalyticsChangeStorage(getNewIdentationAttrs);
-
-  const dispatchAnalytics = dispatch => (tr: Transaction) => {
-    storage.forEach(({ node, prevAttrs, newAttrs }) =>
-      addAnalytics(tr, {
-        action: 'formatted',
-        actionSubject: 'text',
-        actionSubjectId: 'indentation',
-        eventType: 'track',
-        attributes: {
-          inputMethod: 'keyboard',
-          direction: 'indent', //'indent' | 'outdent'
-          previousIndentationLevel: getPrevIndentLevel(prevAttrs),
-          newIndentLevel: getNewIdentLevel(prevAttrs, newAttrs),
-          indentType: node.type.name, //'paragraph' | 'list' | 'heading' | 'codeBlock'
-        },
-      } as AnalyticsEventPayload),
-    );
-    return dispatch(tr);
-  };
+  direction: 'indent' | 'outdent',
+): Command {
+  const storage = createAnalyticsChangesStorage(
+    getNewIdentationAttrs,
+    direction,
+  );
 
   const identationCommand = createIndentationCommand(storage.handler);
 
   return (state, dispatch) => {
-    return identationCommand(state, dispatchAnalytics(dispatch));
+    return identationCommand(state, createAnalyticsDispatch(storage, dispatch));
   };
 }
 
@@ -167,6 +94,7 @@ const getIndentAttributes = (
 
 export const indent: Command = createIndentationCommandWithAnalytics(
   getIndentAttributes,
+  'indent',
 );
 
 /**
@@ -191,7 +119,10 @@ const getOutdentAttributes = (
   return { level: level - 1 }; // Decrese the level on other cases
 };
 
-export const outdent: Command = createIndentationCommand(getOutdentAttributes);
+export const outdent: Command = createIndentationCommandWithAnalytics(
+  getOutdentAttributes,
+  'outdent',
+);
 
 export const removeIndentation: Command = (state, dispatch) =>
   toggleBlockMark(state.schema.marks.indentation, () => false)(state, dispatch);
