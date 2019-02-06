@@ -1,15 +1,20 @@
+type Options = { version: string };
+
 class AtlassianAnalyticsClient {
   payload: Array<{
     name: string;
     properties: Record<string, string | number | boolean>;
   }>;
   version: string;
-  constructor(options: { version: string }) {
+  constructor(options: Options) {
     this.payload = [];
     this.version = options.version;
   }
 
-  addEvent(eventName, properties: Record<string, string | number | boolean>) {
+  addEvent(
+    eventName: string,
+    properties: Record<string, string | number | boolean>,
+  ) {
     if (
       // Make sure our JSON object is flat
       Object.keys(properties).some(key => typeof properties[key] === 'object')
@@ -43,6 +48,6 @@ class AtlassianAnalyticsClient {
   }
 }
 
-export function getAtlassianAnalyticsClient(options) {
+export function getAtlassianAnalyticsClient(options: Options) {
   return new AtlassianAnalyticsClient(options);
 }
