@@ -1,5 +1,4 @@
 import * as React from 'react';
-import withDeprecationWarnings from './withDeprecationWarnings';
 import Group, { GroupItem } from '../styled/ButtonGroup';
 import { ButtonAppearances } from '../types';
 
@@ -8,7 +7,7 @@ export type ButtonGroupProps = {
   appearance?: ButtonAppearances;
 };
 
-class ButtonGroup extends React.Component<ButtonGroupProps> {
+export default class ButtonGroup extends React.Component<ButtonGroupProps> {
   render() {
     const { appearance, children } = this.props;
 
@@ -30,5 +29,3 @@ class ButtonGroup extends React.Component<ButtonGroupProps> {
     );
   }
 }
-
-export default withDeprecationWarnings(ButtonGroup);

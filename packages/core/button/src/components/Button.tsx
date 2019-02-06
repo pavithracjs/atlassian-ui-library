@@ -1,5 +1,14 @@
 import * as React from 'react';
 import { css } from 'emotion';
+import {
+  withAnalyticsEvents,
+  withAnalyticsContext,
+  createAndFireEvent,
+} from '@atlaskit/analytics-next';
+import {
+  name as packageName,
+  version as packageVersion,
+} from '../../package.json';
 import GlobalTheme, { ThemeProp } from '@atlaskit/theme';
 import { Theme } from '../theme';
 import { mapAttributesToState, filteredProps } from './utils';
@@ -17,7 +26,7 @@ export type ButtonState = {
   isFocus: boolean;
 };
 
-export default class Button extends React.Component<ButtonProps, ButtonState> {
+export class Button extends React.Component<ButtonProps, ButtonState> {
   state = {
     isActive: false,
     isFocus: false,
@@ -148,13 +157,15 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
                         {iconBefore}
                       </IconWrapper>
                     )}
-                    <ButtonContent
-                      isLoading={isLoading}
-                      followsIcon={!!iconBefore}
-                      spacing={spacing}
-                    >
-                      {children}
-                    </ButtonContent>
+                    {children && (
+                      <ButtonContent
+                        isLoading={isLoading}
+                        followsIcon={!!iconBefore}
+                        spacing={spacing}
+                      >
+                        {children}
+                      </ButtonContent>
+                    )}
                     {iconAfter && (
                       <IconWrapper
                         isLoading={isLoading}
@@ -174,3 +185,24 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
     );
   }
 }
+
+const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
+
+export default withAnalyticsContext({
+  componentName: 'button',
+  packageName,
+  packageVersion,
+})(
+  withAnalyticsEvents({
+    onClick: createAndFireEventOnAtlaskit({
+      action: 'clicked',
+      actionSubject: 'button',
+
+      attributes: {
+        componentName: 'button',
+        packageName,
+        packageVersion,
+      },
+    }),
+  })(Button),
+);
