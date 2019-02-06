@@ -7,17 +7,34 @@ import {
   getStartOfCurrentLine,
 } from './line-handling';
 import { analyticsService } from '../../../analytics';
+import { addAnalytics } from '../../analytics';
 
 export function indent(state: EditorState, dispatch) {
   const { text, start } = getLinesFromSelection(state);
   const { tr, selection } = state;
   forEachLine(text, (line, offset) => {
     const { indentText, indentToken } = getLineInfo(line);
+    const indentLevel = indentText.length / indentToken.size;
     const indentToAdd = indentToken.token.repeat(
       indentToken.size - (indentText.length % indentToken.size) ||
         indentToken.size,
     );
     tr.insertText(indentToAdd, tr.mapping.map(start + offset, -1));
+
+    addAnalytics(tr, {
+      action: 'formatted',
+      actionSubject: 'text',
+      actionSubjectId: 'indentation',
+      eventType: 'track',
+      attributes: {
+        inputMethod: 'keyboard',
+        previousIndentationLevel: indentLevel,
+        newIndentLevel: indentLevel + 1,
+        direction: 'indent',
+        indentType: 'list',
+      },
+    });
+
     if (!selection.empty) {
       tr.setSelection(
         TextSelection.create(
@@ -39,12 +56,27 @@ export function outdent(state: EditorState, dispatch) {
   forEachLine(text, (line, offset) => {
     const { indentText, indentToken } = getLineInfo(line);
     if (indentText) {
+      const indentLevel = indentText.length / indentToken.size;
       const unindentLength =
         indentText.length % indentToken.size || indentToken.size;
       tr.delete(
         tr.mapping.map(start + offset),
         tr.mapping.map(start + offset + unindentLength),
       );
+
+      addAnalytics(tr, {
+        action: 'formatted',
+        actionSubject: 'text',
+        actionSubjectId: 'indentation',
+        eventType: 'track',
+        attributes: {
+          inputMethod: 'keyboard',
+          previousIndentationLevel: indentLevel,
+          newIndentLevel: indentLevel - 1,
+          direction: 'indent',
+          indentType: 'list',
+        },
+      });
     }
   });
   dispatch(tr);
