@@ -172,15 +172,6 @@ export const baseTheme = {
       focusSelected: { light: colors.N20, dark: colors.DN400 },
     },
   },
-
-  textDecoration: {
-    link: {
-      hover: { light: 'underline', dark: 'underline' },
-    },
-    'subtle-link': {
-      hover: { light: 'underline', dark: 'underline' },
-    },
-  },
 };
 
 export function applyPropertyStyle(

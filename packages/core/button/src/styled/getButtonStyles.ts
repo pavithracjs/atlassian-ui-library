@@ -16,10 +16,6 @@ const getBoxShadowColor = (props: any) => {
   return applyPropertyStyle('boxShadowColor', props, baseTheme);
 };
 
-const getTextDecoration = (props: any) => {
-  return applyPropertyStyle('textDecoration', props, baseTheme);
-};
-
 const getCursor = ({ state = 'default' }: { state: string }) => {
   let cursor = 'default';
   if (state === 'hover') cursor = 'pointer';
@@ -75,6 +71,7 @@ const baseStyles = {
   maxWidth: '100%',
   outline: 'none !important',
   textAlign: 'center',
+  textDecoration: 'none',
   whiteSpace: 'nowrap',
 };
 
@@ -118,7 +115,6 @@ export default (props: any) => {
     borderRadius: `${borderRadius()}px`,
     borderBottom: `${props.borderBottom}px`,
     fontWeight: props.fontWeight,
-    textDecoration: getTextDecoration(props),
     width: props.fit ? '100%' : 'auto',
 
     // Does this even work??

@@ -259,6 +259,7 @@
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime": "^7.0.0",
+    "@emotion/is-prop-valid": "^0.7.3",
     "@types/bricks.js": "^1.8.0",
     "@types/bytes": "^2.4.33",
     "@types/date-fns": "^2.6.0",
