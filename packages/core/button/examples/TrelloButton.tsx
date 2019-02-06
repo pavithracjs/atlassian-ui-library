@@ -22,7 +22,7 @@ export default () => (
     </ButtonWrapper>
     <h3>ADG Button</h3>
     <ButtonWrapper>
-      <Button appearance="default">Button</Button>
+      <Button>Button</Button>
       <Button appearance="primary">Button</Button>
       <Button appearance="subtle-link">Button</Button>
       <Button appearance="warning">Button</Button>

@@ -18,12 +18,34 @@ import {
   IconWrapper,
   LoadingSpinner,
 } from '../styled';
+import { withDefaultProps } from '@atlaskit/type-helpers';
 import { ButtonProps } from '../types';
 
 export type ButtonState = {
   isHover: boolean;
   isActive: boolean;
   isFocus: boolean;
+};
+
+export const defaultProps: Pick<
+  ButtonProps,
+  | 'appearance'
+  | 'isDisabled'
+  | 'isSelected'
+  | 'isLoading'
+  | 'spacing'
+  | 'type'
+  | 'shouldFitContainer'
+  | 'autoFocus'
+> = {
+  appearance: 'default',
+  isDisabled: false,
+  isSelected: false,
+  isLoading: false,
+  spacing: 'default',
+  type: 'button',
+  shouldFitContainer: false,
+  autoFocus: false,
 };
 
 export class Button extends React.Component<ButtonProps, ButtonState> {
@@ -186,6 +208,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 }
 
+const DefaultedButton = withDefaultProps(defaultProps, Button);
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export default withAnalyticsContext({
@@ -204,5 +227,5 @@ export default withAnalyticsContext({
         packageVersion,
       },
     }),
-  })(Button),
+  })(DefaultedButton),
 );
