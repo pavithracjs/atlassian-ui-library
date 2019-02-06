@@ -84,30 +84,80 @@ export const handleClick = (view: EditorView, event): boolean => {
   return true;
 };
 
-export const handleMouseOver = (
+export const handleMouseMove = (
   view: EditorView,
   mouseEvent: Event,
 ): boolean => {
   const { state, dispatch } = view;
   const target = mouseEvent.target as HTMLElement;
+  if (target) {
+    const table = closestElement(target, 'table');
 
-  if (isInsertColumnButton(target)) {
-    return showInsertColumnButton(getIndex(target))(state, dispatch);
-  }
-  if (isInsertRowButton(target)) {
-    return showInsertRowButton(getIndex(target))(state, dispatch);
-  }
-  if (hideInsertColumnOrRowButton(state, dispatch)) {
-    return true;
+    if (!table) {
+      return false;
+    }
+
+    const colElement = (closestElement(target, 'td') ||
+      closestElement(target, 'th')) as HTMLTableDataCellElement;
+    const colIndex = colElement && colElement.cellIndex;
+    const rowElement = closestElement(target, 'tr') as HTMLTableRowElement;
+    const rowIndex = rowElement && rowElement.rowIndex;
+
+    if (rowElement && colElement) {
+      const rowRect = rowElement.getBoundingClientRect();
+      const colRect = colElement.getBoundingClientRect();
+      // const x = mouseEvent.clientX - rect.left; //x position within the element.
+      const y1 = mouseEvent.clientY - rowRect.top;
+      const x1 = mouseEvent.clientX - colRect.left;
+      const h = rowRect.height;
+      const w = colRect.width;
+      const positionRow = Math.max(rowIndex + Math.round(y1 / h), 1);
+      const positionCol = colIndex + Math.round(x1 / w);
+
+      // console.log(`MOVE row x: ${y} w: ${w} round: ${positionRow}`);
+      // console.log(`MOVE col x: ${x} w: ${w} round: ${positionCol}`);
+      const { x2, y2 } = table.dataset;
+
+      if (Number(x2) !== positionRow) {
+        table.dataset.x2 = positionRow;
+        showInsertRowButton(positionRow)(state, dispatch);
+      }
+
+      if (Number(y2) !== positionCol) {
+        table.dataset.y2 = positionCol;
+        showInsertColumnButton(positionCol)(state, dispatch);
+      }
+    }
   }
   return false;
 };
 
+export const handleMouseOver = (
+  view: EditorView,
+  mouseEvent: Event,
+): boolean => {
+  // const { state, dispatch } = view;
+
+  // if (isInsertColumnButton(target)) {
+  //   //console.log('columna aqui');
+  //   return showInsertColumnButton(getIndex(target))(state, dispatch);
+  // }
+  // if (isInsertRowButton(target)) {
+  //   // console.log('row aqui');
+  //   return showInsertRowButton(getIndex(target))(state, dispatch);
+  // }
+  // if (hideInsertColumnOrRowButton(state, dispatch)) {
+  //   return true;
+  // }
+
+  return false;
+};
+
 export const handleMouseLeave = (view: EditorView): boolean => {
-  const { state, dispatch } = view;
-  if (hideInsertColumnOrRowButton(state, dispatch)) {
-    return true;
-  }
+  // const { state, dispatch } = view;
+  // if (hideInsertColumnOrRowButton(state, dispatch)) {
+  //   return true;
+  // }
   return false;
 };
 

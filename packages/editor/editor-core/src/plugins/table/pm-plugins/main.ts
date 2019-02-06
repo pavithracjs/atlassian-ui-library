@@ -28,6 +28,7 @@ import {
   handleMouseDown,
   handleMouseOver,
   handleMouseLeave,
+  handleMouseMove,
   handleBlur,
   handleFocus,
   handleClick,
@@ -262,6 +263,7 @@ export const createPlugin = (
         mousedown: handleMouseDown,
         mouseover: handleMouseOver,
         mouseleave: handleMouseLeave,
+        mousemove: handleMouseMove,
         click: handleClick,
       },
 
