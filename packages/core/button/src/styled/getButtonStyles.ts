@@ -16,10 +16,6 @@ const getBoxShadowColor = (props: any) => {
   return applyPropertyStyle('boxShadowColor', props, baseTheme);
 };
 
-const getTextDecoration = (props: any) => {
-  return applyPropertyStyle('textDecoration', props, baseTheme);
-};
-
 const getCursor = ({ state = 'default' }: { state: string }) => {
   let cursor = 'default';
   if (state === 'hover') cursor = 'pointer';
@@ -64,17 +60,24 @@ const getBoxShadow = ({
   return boxShadow || `0 0 0 2px ${boxShadowColor}`;
 };
 
-const baseStyles = {
+const getWidth = ({ spacing, fit }: { spacing: Spacing; fit: boolean }) => {
+  let width = 'auto';
+  if (spacing === 'compact') width = '100%';
+  if (fit) width = '100%';
+  return width;
+};
+
+const staticStyles = {
   alignItems: 'baseline',
   borderWidth: 0,
   boxSizing: 'border-box',
   display: 'inline-flex',
   fontSize: 'inherit',
   fontStyle: 'normal',
-  margin: 0,
   maxWidth: '100%',
   outline: 'none !important',
   textAlign: 'center',
+  textDecoration: 'none',
   whiteSpace: 'nowrap',
 };
 
@@ -103,25 +106,21 @@ export default (props: any) => {
   };
 
   const styleProps = {
-    ...baseStyles,
+    ...staticStyles,
     background: getBackground(props),
-    boxShadowColor: getBoxShadowColor(props),
+    borderRadius: `${borderRadius()}px`,
+    boxShadow: getBoxShadow(props),
     color: `${getColor(props)} !important`,
     cursor: getCursor(props),
-    padding: getPadding(props),
+    fontWeight: props.fontWeight,
     height: getHeight(props),
     lineHeight: getLineHeight(props),
+    padding: getPadding(props),
     transition: getTransition(props),
     transitionDuration: getTransitionDuration(props),
     verticalAlign: getVerticalAlign(props),
-    boxShadow: getBoxShadow(props),
-    borderRadius: `${borderRadius()}px`,
-    borderBottom: `${props.borderBottom}px`,
-    fontWeight: props.fontWeight,
-    textDecoration: getTextDecoration(props),
-    width: props.fit ? '100%' : 'auto',
+    width: getWidth(props),
 
-    // Does this even work??
     '&::-moz-focus-inner': {
       border: 0,
       margin: 0,

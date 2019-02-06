@@ -30,6 +30,7 @@
     "@atlaskit/theme": "^7.0.1",
     "@atlaskit/type-helpers": "^2.0.0",
     "@babel/runtime": "^7.0.0",
+    "@emotion/is-prop-valid": "^0.7.3",
     "babel-runtime": "^6.26.0",
     "tslib": "^1.8.0"
   },

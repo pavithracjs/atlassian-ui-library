@@ -1,13 +1,13 @@
 import * as React from 'react';
+import { css } from 'emotion';
 import GlobalTheme, { ThemeProp } from '@atlaskit/theme';
 import { Theme } from '../theme';
-import { mapAttributesToState } from './utils';
+import { mapAttributesToState, filteredProps } from './utils';
 import {
   ButtonContent,
   ButtonWrapper,
   IconWrapper,
   LoadingSpinner,
-  StyledButton,
 } from '../styled';
 import { ButtonProps } from '../types';
 
@@ -67,6 +67,8 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
     const {
       appearance,
       children,
+      component,
+      href,
       iconAfter,
       iconBefore,
       isDisabled,
@@ -83,6 +85,27 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
       (iconAfter && !iconBefore && !children)
     );
 
+    const getElement = () => {
+      if (href) {
+        return isDisabled ? 'span' : 'a';
+      }
+      return 'button';
+    };
+
+    const StyledButton = component || getElement();
+    const specifiers = (styles: {}) => {
+      if (StyledButton === 'a') {
+        return {
+          'a&': styles,
+        };
+      } else if (StyledButton === component) {
+        return {
+          '&, a&, &:hover, &:active, &:focus': styles,
+        };
+      }
+      return styles;
+    };
+
     return (
       <Theme.Provider value={theme}>
         <GlobalTheme.Consumer>
@@ -95,16 +118,14 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
             >
               {({ button }) => (
                 <StyledButton
+                  {...filteredProps(this.props)}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
                   onMouseDown={this.onMouseDown}
                   onMouseUp={this.onMouseUp}
                   onFocus={this.onFocus}
                   onBlur={this.onBlur}
-                  isActive={state.isActive}
-                  isFocus={state.isFocus}
-                  isDisabled={isDisabled}
-                  styles={button}
+                  className={css(specifiers(button))}
                 >
                   <ButtonWrapper
                     onClick={this.onInnerClick}
