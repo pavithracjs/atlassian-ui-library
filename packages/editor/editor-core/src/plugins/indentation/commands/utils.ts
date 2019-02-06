@@ -128,8 +128,8 @@ export function createAnalyticsDispatch(
           inputMethod: 'keyboard',
           previousIndentationLevel: getPrevIndentLevel(prevAttrs),
           newIndentLevel: getNewIdentLevel(prevAttrs, newAttrs),
-          direction, //'indent' | 'outdent'
-          indentType, //'paragraph' | 'list' | 'heading' | 'codeBlock'
+          direction,
+          indentType,
         },
       });
     });

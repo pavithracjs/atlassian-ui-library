@@ -22,12 +22,15 @@ import {
 } from '../../../../plugins/lists/commands';
 import { insertMediaAsMediaSingle } from '../../../../plugins/media/utils/media-single';
 import { GapCursorSelection } from '../../../../plugins/gap-cursor';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
 
 describe('lists', () => {
   const createEditor = createEditorFactory();
+  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
 
-  const editor = (doc: any, trackEvent?: () => {}) =>
-    createEditor({
+  const editor = (doc: any, trackEvent?: () => {}) => {
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    return createEditor({
       doc,
       editorProps: {
         analyticsHandler: trackEvent,
@@ -36,8 +39,10 @@ describe('lists', () => {
         allowLists: true,
         media: { allowMediaSingle: true },
       },
+      createAnalyticsEvent,
       pluginKey,
     });
+  };
 
   const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
   const temporaryFileId = `temporary:${randomId()}`;
@@ -67,6 +72,26 @@ describe('lists', () => {
         sendKeyToPm(editorView, 'Tab');
         expect(trackEvent).toHaveBeenCalledWith(
           'atlassian.editor.format.list.indent.keyboard',
+        );
+      });
+
+      it('should call indent analytics V3 event', () => {
+        const { editorView } = editor(
+          doc(ol(li(p('text')), li(p('text{<>}')))),
+          trackEvent,
+        );
+        sendKeyToPm(editorView, 'Tab');
+        expect(createAnalyticsEvent).toHaveBeenCalledWith(
+          expect.objectContaining({
+            actionSubjectId: 'indentation',
+            attributes: {
+              inputMethod: 'keyboard',
+              previousIndentationLevel: 1,
+              newIndentLevel: 2,
+              direction: 'indent',
+              indentType: 'list',
+            },
+          }),
         );
       });
     });
@@ -371,6 +396,25 @@ describe('lists', () => {
         sendKeyToPm(editorView, 'Shift-Tab');
         expect(trackEvent).toHaveBeenCalledWith(
           'atlassian.editor.format.list.outdent.keyboard',
+        );
+      });
+      it('should call outdent analytics V3 event', () => {
+        const { editorView } = editor(
+          doc(ol(li(p('One'), ul(li(p('Two{<>}')))))),
+          trackEvent,
+        );
+        sendKeyToPm(editorView, 'Shift-Tab');
+        expect(createAnalyticsEvent).toHaveBeenCalledWith(
+          expect.objectContaining({
+            actionSubjectId: 'indentation',
+            attributes: {
+              inputMethod: 'keyboard',
+              previousIndentationLevel: 2,
+              newIndentLevel: 1,
+              direction: 'outdent',
+              indentType: 'list',
+            },
+          }),
         );
       });
     });

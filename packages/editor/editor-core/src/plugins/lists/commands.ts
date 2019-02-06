@@ -1,4 +1,10 @@
-import { ResolvedPos, Fragment, Slice } from 'prosemirror-model';
+import {
+  ResolvedPos,
+  Fragment,
+  Slice,
+  NodeRange,
+  NodeType,
+} from 'prosemirror-model';
 import {
   EditorState,
   Transaction,
@@ -20,10 +26,11 @@ import {
   isFirstChildOfParent,
   findCutBefore,
 } from '../../utils/commands';
-import { isRangeOfType } from '../../utils';
+import { isRangeOfType, compose } from '../../utils';
 import { liftFollowingList, liftSelectionList } from './transforms';
 import { Command } from '../../types';
 import { GapCursorSelection } from '../gap-cursor';
+import { withAnalytics } from '../analytics';
 
 const maxIndentation = 5;
 
@@ -305,30 +312,17 @@ function splitListItem(itemType) {
   };
 }
 
-export function outdentList(): Command {
-  return function(state, dispatch) {
-    const { listItem } = state.schema.nodes;
-    const { $from, $to } = state.selection;
-    if (isInsideListItem(state)) {
-      // if we're backspacing at the start of a list item, unindent it
-      // take the the range of nodes we might be lifting
-
-      // the predicate is for when you're backspacing a top level list item:
-      // we don't want to go up past the doc node, otherwise the range
-      // to clear will include everything
-      let range = $from.blockRange(
-        $to,
-        node => node.childCount > 0 && node.firstChild!.type === listItem,
-      );
-
-      if (!range) {
-        return false;
-      }
-
-      let tr;
-      if (
-        baseListCommand.liftListItem(listItem)(state, liftTr => (tr = liftTr))
-      ) {
+/**
+ * Merge closest bullet list blocks into one
+ *
+ * @param {NodeType} listItem
+ * @param {NodeRange} range
+ * @returns
+ */
+function mergeLists(listItem: NodeType, range: NodeRange) {
+  return (command: Command): Command => {
+    return (state, dispatch) =>
+      command(state, tr => {
         /* we now need to handle the case that we lifted a sublist out,
          * and any listItems at the current level get shifted out to
          * their own new list; e.g.:
@@ -377,9 +371,53 @@ export function outdentList(): Command {
         if (dispatch) {
           dispatch(tr.scrollIntoView());
         }
-        return true;
+      });
+  };
+}
+
+export function outdentList(): Command {
+  return function(state, dispatch) {
+    const { listItem } = state.schema.nodes;
+    const { $from, $to } = state.selection;
+    if (isInsideListItem(state)) {
+      // if we're backspacing at the start of a list item, unindent it
+      // take the the range of nodes we might be lifting
+
+      // the predicate is for when you're backspacing a top level list item:
+      // we don't want to go up past the doc node, otherwise the range
+      // to clear will include everything
+      let range = $from.blockRange(
+        $to,
+        node => node.childCount > 0 && node.firstChild!.type === listItem,
+      );
+
+      if (!range) {
+        return false;
       }
+      const initialIndentationLevel = numberNestedLists(
+        state.selection.$from,
+        state.schema.nodes,
+      );
+
+      return compose(
+        withAnalytics({
+          action: 'formatted',
+          actionSubject: 'text',
+          actionSubjectId: 'indentation',
+          eventType: 'track',
+          attributes: {
+            inputMethod: 'keyboard',
+            previousIndentationLevel: initialIndentationLevel,
+            newIndentLevel: initialIndentationLevel - 1,
+            direction: 'outdent',
+            indentType: 'list',
+          },
+        }), // 3. Send analytcs event
+        mergeLists(listItem, range), // 2. Check if I need to merge nearest list
+        baseListCommand.liftListItem, // 1. First lift list item
+      )(listItem)(state, dispatch);
     }
+
     return false;
   };
 }
@@ -421,14 +459,26 @@ export function indentList(): Command {
   return function(state, dispatch) {
     const { listItem } = state.schema.nodes;
     if (isInsideListItem(state)) {
-      //Record initial list indentation
+      // Record initial list indentation
       const initialIndentationLevel = numberNestedLists(
         state.selection.$from,
         state.schema.nodes,
       );
 
       if (canSink(initialIndentationLevel, state)) {
-        baseListCommand.sinkListItem(listItem)(state, dispatch);
+        withAnalytics({
+          action: 'formatted',
+          actionSubject: 'text',
+          actionSubjectId: 'indentation',
+          eventType: 'track',
+          attributes: {
+            inputMethod: 'keyboard',
+            previousIndentationLevel: initialIndentationLevel,
+            newIndentLevel: initialIndentationLevel + 1,
+            direction: 'indent',
+            indentType: 'list',
+          },
+        })(baseListCommand.sinkListItem(listItem))(state, dispatch);
       }
       return true;
     }

@@ -1,10 +1,24 @@
 import { Plugin, PluginKey, Transaction } from 'prosemirror-state';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
-import { EditorPlugin } from '../../types';
+import { EditorPlugin, Command } from '../../types';
 import { AnalyticsEventPayload } from './types';
 import { fireAnalyticsEvent } from './utils';
 
 export const analyticsPluginKey = new PluginKey('analyticsPlugin');
+
+export function withAnalytics(
+  payload: AnalyticsEventPayload,
+  channel?: string,
+) {
+  return (command: Command): Command => (state, dispatch) =>
+    command(state, tr => {
+      if (dispatch) {
+        dispatch(addAnalytics(tr, payload, channel));
+        return true;
+      }
+      return false;
+    });
+}
 
 export function addAnalytics(
   tr: Transaction,
