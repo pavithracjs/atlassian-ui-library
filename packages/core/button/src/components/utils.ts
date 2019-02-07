@@ -36,13 +36,18 @@ export const mapAttributesToState = ({
   return 'default';
 };
 
-export const filteredProps = (props: ButtonProps) =>
-  (Object.keys(props) as Array<keyof ButtonProps>)
-    .filter(isPropValid) // Checks for valid DOM properties.
-    .reduce(
-      (validProps, prop) => ({
-        ...validProps,
-        [prop]: props[prop],
-      }),
-      {},
-    );
+export const filteredProps = props => {
+  if (props.component) {
+    return props;
+  } else {
+    return (Object.keys(props) as Array<keyof ButtonProps>)
+      .filter(isPropValid)
+      .reduce(
+        (allProps, prop) => ({
+          ...allProps,
+          [prop]: props[prop],
+        }),
+        {},
+      );
+  }
+};
