@@ -1,5 +1,35 @@
 # @atlaskit/editor-core
 
+## 98.3.0
+- [minor] [0f3f9f0992](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f3f9f0992):
+
+  - Fix context identifiers not being passed to mention provider's calls. MentionProvider interface was updated to include the optional contextIdentifier parameter in filter and recordMentionSelection methods.
+
+## 98.2.6
+- [patch] [3305886b5a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3305886b5a):
+
+  - ED-6167: Handle extraneous column widths
+
+## 98.2.5
+- [patch] [b11848ebf8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b11848ebf8):
+
+  - [ED-6165] Fix table cell options chevron overflow.
+
+## 98.2.4
+- [patch] [65b73cc466](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/65b73cc466):
+
+  - Code split media-picker: make MediaPicker factory async and make editor use it
+
+## 98.2.3
+- [patch] [14fe1381ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/14fe1381ba):
+
+  - ED-6118: ensure media dimensions are always integers, preventing invalid ADF
+
+## 98.2.2
+- [patch] [86dcb6f814](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86dcb6f814):
+
+  - updated native status icon in Fabric editor
+
 ## 98.2.1
 - [patch] [17107bdfb0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/17107bdfb0):
 
