@@ -1,0 +1,1 @@
+- Fix changelog for user-picker
