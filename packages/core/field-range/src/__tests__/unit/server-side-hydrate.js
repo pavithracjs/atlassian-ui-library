@@ -1,16 +1,8 @@
 // @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ReactDOMServer from 'react-dom/server';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
-
-import exenv from 'exenv';
-
-jest.mock('exenv', () => ({
-  get canUseDOM() {
-    return false;
-  },
-}));
+import { ssr } from '@atlaskit/ssr';
 
 jest.spyOn(global.console, 'error');
 
@@ -18,22 +10,14 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test('should ssr then hydrate field-range correctly', async () => {
-  const [example] = await getExamplesFor('field-range');
+test('should ssr then hydrate COMPONENT correctly', async () => {
+  const [example] = await getExamplesFor('COMPONENT');
   // $StringLitteral
   const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
-  const canUseDom = jest.spyOn(exenv, 'canUseDOM', 'get');
 
-  // server-side
-  canUseDom.mockReturnValue(false);
-  const serverHTML = ReactDOMServer.renderToString(<Example />);
-
-  // client-side
-  canUseDom.mockReturnValue(true);
   const elem = document.createElement('div');
-  elem.innerHTML = serverHTML;
+  elem.innerHTML = await ssr(example.filePath);
 
   ReactDOM.hydrate(<Example />, elem);
-
-  expect(console.error).not.toBeCalled();
+  expect(console.error).not.toBeCalled(); // eslint-disable-line no-console
 });

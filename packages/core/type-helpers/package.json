@@ -24,7 +24,9 @@
   "atlaskit": {
     "internal": true
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@atlaskit/ssr": "^0.0.1"
+  },
   "keywords": [
     "atlaskit",
     "react",

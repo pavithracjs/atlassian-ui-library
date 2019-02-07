@@ -22,7 +22,8 @@
     "react": "^16.4.0"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^6.0.0"
+    "@atlaskit/docs": "^6.0.0",
+    "@atlaskit/ssr": "^0.0.1"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0"
