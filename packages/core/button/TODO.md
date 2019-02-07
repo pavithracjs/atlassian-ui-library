@@ -3,7 +3,9 @@
 - [x] Tokens && Theme naming conflict rectified
 - [x] Benchmarks. Current vs v11.x
 - [x] Appy new theme onto exisiting Button
+- [ ] Remove innerRef
 - [ ] Change examples - Non-Trello vibes
 - [ ] Reducers instead of hefty functions per styled property
-- [ ] Tests (esp. for Theming)
+- [ ] Tests: fix existing
+- [ ] Tests: Add new ones for theming
 - [ ] Refactoring

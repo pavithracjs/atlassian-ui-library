@@ -1,6 +1,6 @@
 import { colors, createTheme } from '@atlaskit/theme';
 import { hex2rgba } from './styled/utils';
-import { ThemeProps, ThemeTokens } from './types';
+import { ThemeProps, ThemeTokens, ThemeMode } from './types';
 import getButtonStyles from './styled/getButtonStyles';
 
 export const baseTheme = {
@@ -180,7 +180,7 @@ export function applyPropertyStyle(
     appearance = 'default',
     state = 'default',
     mode = 'light',
-  }: { appearance: string; state: string; mode: string },
+  }: { appearance: string; state: string; mode: ThemeMode },
   theme: any,
 ) {
   const propertyStyles = theme[property];

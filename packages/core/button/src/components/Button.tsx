@@ -9,7 +9,7 @@ import {
   name as packageName,
   version as packageVersion,
 } from '../../package.json';
-import GlobalTheme, { ThemeProp } from '@atlaskit/theme';
+import GlobalTheme from '@atlaskit/theme';
 import { Theme } from '../theme';
 import { mapAttributesToState, filteredProps } from './utils';
 import {
@@ -19,7 +19,7 @@ import {
   LoadingSpinner,
 } from '../styled';
 import { withDefaultProps } from '@atlaskit/type-helpers';
-import { ButtonProps } from '../types';
+import { ButtonProps, ThemeMode } from '../types';
 
 export type ButtonState = {
   isHover: boolean;
@@ -59,12 +59,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     this.setState({ isHover: true });
   };
 
-  onMouseLeave = () => {
+  onMouseLeave: React.MouseEventHandler = () => {
     this.setState({ isHover: false, isActive: false });
   };
 
-  onMouseDown = (e: Event) => {
-    e.preventDefault();
+  onMouseDown: React.MouseEventHandler = event => {
+    event.preventDefault();
     this.setState({ isActive: true });
   };
 
@@ -124,6 +124,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     };
 
     const StyledButton = component || getElement();
+
     const specifiers = (styles: {}) => {
       if (StyledButton === 'a') {
         return {
@@ -140,7 +141,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <Theme.Provider value={theme}>
         <GlobalTheme.Consumer>
-          {({ mode }) => (
+          {({ mode }: { mode: ThemeMode }) => (
             <Theme.Consumer
               appearance={appearance}
               mode={mode}
@@ -149,7 +150,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             >
               {({ button }) => (
                 <StyledButton
-                  {...filteredProps(this.props)}
+                  {...filteredProps(this.props, StyledButton)}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
                   onMouseDown={this.onMouseDown}

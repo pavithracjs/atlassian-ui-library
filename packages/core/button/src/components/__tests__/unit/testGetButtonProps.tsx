@@ -16,9 +16,9 @@ describe('getButtonProps', () => {
     const cmp = mount(<Button {...customProps} />);
     expect(cmp.find('button').prop('customProp')).toBeUndefined();
   });
+
   it('should add appearance props', () => {
     const cmp = mount(<Button />);
-
     expect(Object.keys(cmp.find('button').props())).toEqual(
       expect.arrayContaining([
         'onClick',
@@ -37,7 +37,6 @@ describe('getButtonProps', () => {
 
   it('should add interaction handler props', () => {
     const cmp = mount(<Button />);
-
     expect(Object.keys(cmp.find('button').props())).toEqual(
       expect.arrayContaining([
         'onBlur',
@@ -80,7 +79,6 @@ describe('getButtonProps', () => {
   it('should pass the onClick handler from props', () => {
     const onClick = () => {};
     const cmp = mount(<Button onClick={onClick} />);
-
     expect(cmp.find('button').prop('onClick')).toEqual(expect.anything());
   });
 
@@ -94,13 +92,14 @@ describe('getButtonProps', () => {
     expect(
       Object.keys(
         cmp2
-          .find('ButtonWrapper')
-          .parent()
+          .find('span')
+          .first()
           .props(),
       ),
-    ).not.toEqual(expect.arrayContaining(['href']));
+    ).not.toEqual(expect.arrayContaining(['href', 'target']));
   });
 });
+
 describe('getButtonGroupProps > ', () => {
   it('should not default appearance', () => {
     const cmp = mount(
@@ -108,6 +107,7 @@ describe('getButtonGroupProps > ', () => {
     );
     expect(cmp.find(Button).prop('appearance')).toBe('primary');
   });
+
   it('should not default to another value if changed', () => {
     const cmp = mount(
       <ButtonGroup>{<Button appearance="warning" />}</ButtonGroup>,
