@@ -172,7 +172,10 @@ export const toggleHeaderRow: Command = (state, dispatch) => {
     const from = tr.mapping.map(table.start + map.map[column]);
     const cell = table.node.child(0).child(column);
 
-    tr.setNodeMarkup(from, type, cell.attrs);
+    tr.setNodeMarkup(from, type, {
+      ...cell.attrs,
+      defaultMarks: type.defaultMarks,
+    });
   }
 
   if (dispatch) {

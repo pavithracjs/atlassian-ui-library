@@ -219,10 +219,7 @@ export interface CellAttributes {
   background?: string;
   /**
    * @stage 0
-<<<<<<< HEAD
    * @forceContentValidation true
-=======
->>>>>>> Add defaultMark attribute on tableCell schema
    */
   defaultMarks?: Array<
     Em | Strong | Code | Strike | SubSup | Underline | TextColor
@@ -285,7 +282,7 @@ const cellAttrs = {
   rowspan: { default: 1 },
   colwidth: { default: null },
   background: { default: null },
-  defaultMarks: { default: null },
+  defaultMarks: { default: [] },
 };
 
 export const tableCell = {
@@ -326,7 +323,10 @@ export const toJSONTableCell = (node: PmNode) => ({
 export const tableHeader = {
   content:
     '(paragraph | panel | blockquote | orderedList | bulletList | rule | heading | codeBlock | mediaGroup | mediaSingle  | applicationCard | decisionList | taskList | blockCard | extension)+',
-  attrs: cellAttrs,
+  attrs: {
+    ...cellAttrs,
+    defaultMarks: { default: ['strong'] },
+  },
   tableRole: 'header_cell',
   isolating: true,
   marks: 'alignment',

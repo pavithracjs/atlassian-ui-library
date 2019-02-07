@@ -33,7 +33,11 @@ import {
   handleClick,
   handleTripleClick,
 } from '../event-handlers';
-import { findControlsHoverDecoration } from '../utils';
+import {
+  findControlsHoverDecoration,
+  normalizeSelection,
+  applyDefaultMarks,
+} from '../utils';
 import { fixTables } from '../transforms';
 import { TableCssClassName as ClassName } from '../types';
 
@@ -189,10 +193,13 @@ export const createPlugin = (
       const tr = transactions.find(tr => tr.getMeta('uiEvent') === 'cut');
       if (tr) {
         // "fixTables" removes empty rows as we don't allow that in schema
-        return fixTables(handleCut(tr, oldState, newState));
+        return applyDefaultMarks(fixTables(handleCut(tr, oldState, newState)));
       }
       if (transactions.find(tr => tr.docChanged)) {
-        return fixTables(newState.tr);
+        return applyDefaultMarks(fixTables(newState.tr));
+      }
+      if (transactions.find(tr => tr.selectionSet)) {
+        return applyDefaultMarks(normalizeSelection(newState.tr));
       }
     },
     view: (editorView: EditorView) => {
