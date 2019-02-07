@@ -10,8 +10,8 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test('should ssr then hydrate COMPONENT correctly', async () => {
-  const [example] = await getExamplesFor('COMPONENT');
+test('should ssr then hydrate select correctly', async () => {
+  const [example] = await getExamplesFor('select');
   // $StringLitteral
   const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 

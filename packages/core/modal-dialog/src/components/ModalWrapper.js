@@ -147,7 +147,7 @@ class ModalWrapper extends Component<Props, State> {
     return (
       <ModalTransitionConsumer>
         {({ isOpen, onExited }) => (
-          <Portal zIndex={layers.modal()}>
+          <Portal zIndex={layers.modal()} attachToDom>
             <StackConsumer isOpen={isOpen}>
               {naturalStackIndex => (
                 <Modal
