@@ -73,7 +73,6 @@ describe('Prefetch', () => {
 
     expect(CachingConfluenceClient).toHaveBeenCalledWith(
       '/wiki',
-      '123',
       confluenceRecentItemsPromise,
     );
   });

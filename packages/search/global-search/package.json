@@ -19,7 +19,8 @@
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
   "scripts": {
     "i18n:push": "i18n-tools push --resource global-search --type ts .",
-    "i18n:pull": "rm -rf ./src/i18n && i18n-tools pull --resource global-search --type ts ."
+    "i18n:pull": "rm -rf ./src/i18n && i18n-tools pull --resource global-search --type ts .",
+    "typecheck:typescript": "tsc --noEmit --project ./tsconfig.json"
   },
   "dependencies": {
     "@atlaskit/analytics": "^6.0.0",

@@ -55,9 +55,6 @@ export const getConfluencePrefetchedData = (
     confluenceRecentItemsPromise: prefetchConfluence(confluenceClient),
     abTestPromise: crossProductSearchClient.getAbTestData(
       Scope.ConfluencePageBlogAttachment,
-      {
-        sessionId: PREFETCH_SEARCH_SESSION_ID,
-      },
     ),
     recentPeoplePromise: peopleSearchClient.getRecentPeople(),
   };

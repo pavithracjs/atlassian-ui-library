@@ -405,13 +405,13 @@ export function makeCrossProductSearchData(
   };
 }
 
-export function makeCrossProductExperimentData(): (
-  scopeNames: string[],
-) => CrossProductExperimentResponse {
+export function makeCrossProductExperimentData(
+  experimentId: string,
+): (scopeNames: string[]) => CrossProductExperimentResponse {
   const abTest = {
-    experimentId: 'experiment-1',
+    experimentId,
     controlId: 'control-id',
-    abTestId: 'abtest-id',
+    abTestId: `abTest_${experimentId}`,
   };
 
   const allScopes = [

@@ -13,7 +13,6 @@ import {
 import {
   BLOG_CLASSNAME,
   buildMockPage,
-  DUMMY_CLOUD_ID,
   DUMMY_CONFLUENCE_HOST,
   mockQuickNavResult,
   mockQuickNavSearch,
@@ -29,10 +28,7 @@ describe('ConfluenceClient', () => {
   let confluenceClient: ConfluenceClient;
 
   beforeEach(() => {
-    confluenceClient = new ConfluenceClient(
-      DUMMY_CONFLUENCE_HOST,
-      DUMMY_CLOUD_ID,
-    );
+    confluenceClient = new ConfluenceClient(DUMMY_CONFLUENCE_HOST);
   });
 
   afterEach(() => {

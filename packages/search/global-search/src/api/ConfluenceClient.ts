@@ -66,13 +66,9 @@ export interface QuickNavResult {
 
 export default class ConfluenceClientImpl implements ConfluenceClient {
   private serviceConfig: ServiceConfig;
-  private cloudId: string;
 
-  private readonly RESULT_LIMIT = 10;
-
-  constructor(url: string, cloudId: string) {
+  constructor(url: string) {
     this.serviceConfig = { url: url };
-    this.cloudId = cloudId;
   }
 
   public async searchPeopleInQuickNav(
@@ -125,10 +121,6 @@ export default class ConfluenceClientImpl implements ConfluenceClient {
   private createRecentRequestPromise<T>(path: string): Promise<Array<T>> {
     const options: RequestServiceOptions = {
       path: path,
-      queryParams: {
-        cloudId: this.cloudId,
-        limit: this.RESULT_LIMIT,
-      },
     };
 
     return utils.requestService(this.serviceConfig, options);
