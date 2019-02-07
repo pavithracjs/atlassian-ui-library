@@ -18,7 +18,7 @@ export const mapAttributesToState = ({
   return 'default';
 };
 
-export const filteredProps = (props: ButtonProps, type: React.ReactNode) => {
+export const filterProps = (props: ButtonProps, type: React.ReactNode) => {
   if (props.component) return props;
 
   // Remove `href` and `target` if component type is `span`.

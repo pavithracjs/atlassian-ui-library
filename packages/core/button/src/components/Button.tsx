@@ -11,7 +11,7 @@ import {
 } from '../../package.json';
 import GlobalTheme from '@atlaskit/theme';
 import { Theme } from '../theme';
-import { mapAttributesToState, filteredProps } from './utils';
+import { mapAttributesToState, filterProps } from './utils';
 import {
   ButtonContent,
   ButtonWrapper,
@@ -149,7 +149,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             >
               {({ button }) => (
                 <StyledButton
-                  {...filteredProps(this.props, StyledButton)}
+                  {...filterProps(this.props, StyledButton)}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
                   onMouseDown={this.onMouseDown}
