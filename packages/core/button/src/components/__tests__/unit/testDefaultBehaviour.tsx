@@ -2,18 +2,14 @@ import { mount } from 'enzyme';
 import * as React from 'react';
 import Spinner from '@atlaskit/spinner';
 import { AtlassianIcon } from '@atlaskit/logo';
-
-import Button, { ButtonBase } from '../../Button';
-import IconWrapper from '../../../styled/IconWrapper';
-import ButtonContent from '../../../styled/ButtonContent';
+import Button from '../../Button';
+import { IconWrapper, ButtonContent, ButtonWrapper } from '../../../styled';
 
 describe('ak-button/default-behaviour', () => {
-  it('button should have type="button" by default', () =>
-    expect(
-      mount(<Button />)
-        .find(ButtonBase)
-        .props().type,
-    ).toBe('button'));
+  it('button should have type="button" by default', () => {
+    const wrapper = mount(<Button />);
+    expect(wrapper.find('button').props().type).toBe('button');
+  });
 
   it('should render button if there is no href property', () => {
     const wrapper = mount(<Button />);
@@ -35,7 +31,7 @@ describe('ak-button/default-behaviour', () => {
 
   it('should render span when the button is disabled and has href property', () => {
     const wrapper = mount(<Button isDisabled href="test" />);
-    expect(wrapper.find('StyledSpan').length).toBe(1);
+    expect(wrapper.find('span').first().length).toBe(1);
     expect(wrapper.find('button').length).toBe(0);
     expect(wrapper.find('a').length).toBe(0);
   });
@@ -127,7 +123,7 @@ describe('ak-button/default-behaviour', () => {
         button
       </Button>,
     );
-    wrapper.find('button').simulate('click');
+    wrapper.find(ButtonWrapper).simulate('click');
     expect(spy).toHaveBeenCalledTimes(0);
   });
 
@@ -148,31 +144,6 @@ describe('ak-button/default-behaviour', () => {
     expect(wrapper.find('button').is('[tabIndex=0]')).toBe(true);
   });
 
-  it('should set accessibility attributes', () => {
-    expect(mount(<Button />).find('button[aria-haspopup]').length).toBe(0);
-    expect(mount(<Button />).find('button[aria-expanded]').length).toBe(0);
-    expect(mount(<Button />).find('button[aria-controls]').length).toBe(0);
-    expect(mount(<Button />).find('button[aria-label]').length).toBe(0);
-    expect(mount(<Button />).find('button[id]').length).toBe(0);
-    expect(
-      mount(<Button ariaHaspopup />).find('button[aria-haspopup=true]').length,
-    ).toBe(1);
-    expect(
-      mount(<Button ariaExpanded />).find('button[aria-expanded=true]').length,
-    ).toBe(1);
-    expect(
-      mount(<Button ariaControls="test" />).find('button[aria-controls="test"]')
-        .length,
-    ).toBe(1);
-    expect(
-      mount(<Button ariaLabel="test" />).find('button[aria-label="test"]')
-        .length,
-    ).toBe(1);
-    expect(mount(<Button id="test" />).find('button[id="test"]').length).toBe(
-      1,
-    );
-  });
-
   it('should trigger onFocus handler on focus', () => {
     const spy = jest.fn();
     const wrapper = mount(
@@ -180,7 +151,7 @@ describe('ak-button/default-behaviour', () => {
         button
       </Button>,
     );
-    const button = wrapper.find('StyledButton');
+    const button = wrapper.find('button');
     button.prop('onFocus')!({} as any);
     expect(spy).toHaveBeenCalled();
   });
@@ -257,7 +228,7 @@ describe('ak-button/default-behaviour', () => {
         button
       </Button>,
     );
-    const button = wrapper.find('StyledButton');
+    const button = wrapper.find('button');
     button.prop('onBlur')!({} as any);
     expect(spy).toHaveBeenCalled();
   });

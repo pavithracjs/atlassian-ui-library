@@ -94,7 +94,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 
   render() {
-    const { state } = this;
     const {
       appearance,
       children,
@@ -109,7 +108,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       spacing,
       theme,
     } = this.props;
-    const attributes = { ...state, isSelected, isDisabled };
+    const attributes = { ...this.state, isSelected, isDisabled };
 
     const iconIsOnlyChild: boolean = !!(
       (iconBefore && !iconAfter && !children) ||
