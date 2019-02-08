@@ -37,7 +37,7 @@ describe('ExperimentController', () => {
     );
 
     const getExperimentValueForReceiverCall = call =>
-      mockContextReceiver.mock.calls[call][0].context.myExperimentKey;
+      mockContextReceiver.mock.calls[call][0].experiments.myExperimentKey;
 
     // first call has the initial resolver, and has not decided enrollment
     expect(mockContextReceiver.mock.calls).toHaveLength(1);

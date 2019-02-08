@@ -23,42 +23,47 @@ export default function asExperiment(
   experimentComponentMap: ExperimentComponentMap,
   experimentKey: string,
   callbacks: {
-    onError: (error: Error, options: ExperimentEnrollmentOptions) => void,
+    onError: (error: Error, options?: ExperimentEnrollmentOptions) => void,
     onExposure: (
       exposureDetails: ExposureDetails,
-      options: ExperimentEnrollmentOptions,
+      options?: ExperimentEnrollmentOptions,
     ) => void,
   },
   LoadingComponent?: ?ComponentType<any>,
 ) {
+  let contextOptions;
+
   return class ExperimentSwitch extends Component<{}, State> {
     static displayName = 'ExperimentSwitch';
 
     state = {
       forceFallback: false,
+      options: undefined,
     };
 
     onReceiveContext = (
-      context: Experiments,
-      options: ExperimentEnrollmentOptions,
+      experiments: Experiments,
+      options?: ExperimentEnrollmentOptions,
     ) => {
       const { forceFallback } = this.state;
       const { onExposure } = callbacks;
+
+      contextOptions = options;
 
       if (forceFallback) {
         return this.renderFallback();
       }
 
-      if (!(experimentKey in context)) {
+      if (!(experimentKey in experiments)) {
         throw new Error(
           `Experiment Key ${experimentKey} does not exist in configuration`,
         );
       }
 
-      const experimentDetails = context[experimentKey];
+      const experimentDetails = experiments[experimentKey];
       if (!experimentDetails.isEnrollmentDecided) {
         // kick off the async check of the resolver
-        experimentDetails.enrollmentResolver();
+        experimentDetails.enrollmentResolver(options);
 
         // still waiting on whether or not to show an experiment
         if (LoadingComponent) {
@@ -109,7 +114,7 @@ export default function asExperiment(
     componentDidCatch(err: Error) {
       const { onError } = callbacks;
 
-      onError(err);
+      onError(err, contextOptions);
 
       this.setState({
         forceFallback: true,
@@ -124,7 +129,9 @@ export default function asExperiment(
     render() {
       return (
         <ExperimentConsumer>
-          {({ context, options }) => this.onReceiveContext(context, options)}
+          {({ experiments, options }) =>
+            this.onReceiveContext(experiments, options)
+          }
         </ExperimentConsumer>
       );
     }

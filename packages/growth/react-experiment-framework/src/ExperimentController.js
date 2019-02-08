@@ -84,7 +84,7 @@ class ExperimentController extends Component<Props, State> {
     return (
       <ExperimentProvider
         value={{
-          context: experiments,
+          experiments,
           options: experimentEnrollmentOptions,
         }}
       >

@@ -8,7 +8,9 @@ export type EnrollmentDetails = {
   ineligibilityReasons?: string[],
 };
 
-export type ExperimentEnrollmentResolver = () => Promise<EnrollmentDetails>;
+export type ExperimentEnrollmentResolver = (
+  options?: ExperimentEnrollmentOptions,
+) => Promise<EnrollmentDetails>;
 
 export type ExperimentDetails = {
   isEnrollmentDecided: boolean,
@@ -26,6 +28,11 @@ export type ExperimentEnrollmentConfig = {
 
 export type ExperimentEnrollmentOptions = {
   [string]: any,
+};
+
+export type ExperimentContext = {
+  experiments: Experiments,
+  options?: ExperimentEnrollmentOptions,
 };
 
 export type ExposureDetails = EnrollmentDetails & {

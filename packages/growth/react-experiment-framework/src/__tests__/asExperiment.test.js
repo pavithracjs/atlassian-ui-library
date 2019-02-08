@@ -36,8 +36,8 @@ describe('asExperiment', () => {
   let enrollmentResolver: ExperimentEnrollmentResolver;
   let enrollmentOptions;
   let experiments: {
-    context: Experiments,
-    options: ExperimentEnrollmentOptions,
+    experiments: Experiments,
+    options?: ExperimentEnrollmentOptions,
   };
   let componentMap;
   let callbacks;
@@ -52,7 +52,7 @@ describe('asExperiment', () => {
     enrollmentOptions = {};
 
     experiments = {
-      context: {
+      experiments: {
         myExperimentKey: {
           isEnrollmentDecided: false,
           enrollmentResolver,
@@ -124,7 +124,7 @@ describe('asExperiment', () => {
   describe('Control & eligible', () => {
     beforeEach(() => {
       experiments = {
-        context: {
+        experiments: {
           myExperimentKey: {
             isEnrollmentDecided: true,
             enrollmentResolver,
@@ -185,7 +185,7 @@ describe('asExperiment', () => {
   describe('Variant & eligible', () => {
     beforeEach(() => {
       experiments = {
-        context: {
+        experiments: {
           myExperimentKey: {
             isEnrollmentDecided: true,
             enrollmentResolver,
@@ -246,7 +246,7 @@ describe('asExperiment', () => {
   describe('Variant & ineligible', () => {
     beforeEach(() => {
       experiments = {
-        context: {
+        experiments: {
           myExperimentKey: {
             isEnrollmentDecided: true,
             enrollmentResolver,
@@ -317,7 +317,7 @@ describe('asExperiment', () => {
 
       beforeEach(() => {
         experiments = {
-          context: {
+          experiments: {
             myExperimentKey: {
               isEnrollmentDecided: true,
               enrollmentResolver,
@@ -371,7 +371,10 @@ describe('asExperiment', () => {
           </ExperimentProvider>,
         );
 
-        expect(onError).toBeCalledWith(new Error('Exploded'));
+        expect(onError).toBeCalledWith(
+          new Error('Exploded'),
+          experiments.options,
+        );
       });
 
       it('should not mount the cohort tracker', () => {
@@ -427,6 +430,7 @@ describe('asExperiment', () => {
           new Error(
             'Experiment Key nonExistentKey does not exist in configuration',
           ),
+          experiments.options,
         );
       });
 
@@ -451,7 +455,7 @@ describe('asExperiment', () => {
     describe('Missing enrollment details after resolving enrollment', () => {
       beforeEach(() => {
         experiments = {
-          context: {
+          experiments: {
             myExperimentKey: {
               isEnrollmentDecided: true,
               enrollmentResolver,
@@ -495,6 +499,7 @@ describe('asExperiment', () => {
           new Error(
             'Experiment myExperimentKey has missing enrollment details',
           ),
+          experiments.options,
         );
       });
 
@@ -519,7 +524,7 @@ describe('asExperiment', () => {
     describe('Enrollment resolved to a cohort without a mapping to a component', () => {
       beforeEach(() => {
         experiments = {
-          context: {
+          experiments: {
             myExperimentKey: {
               isEnrollmentDecided: true,
               enrollmentResolver,
@@ -566,6 +571,7 @@ describe('asExperiment', () => {
           new Error(
             'Cohort nonExistentCohort does not exist for experiment myExperimentKey',
           ),
+          undefined,
         );
       });
 

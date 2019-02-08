@@ -5,7 +5,10 @@ import type { ExposureDetails, ExperimentEnrollmentOptions } from './types';
 
 type Props = {
   exposureDetails: ExposureDetails,
-  onExposure: (exposureDetails: ExposureDetails) => void,
+  onExposure: (
+    exposureDetails: ExposureDetails,
+    options?: ExperimentEnrollmentOptions,
+  ) => void,
   options?: ExperimentEnrollmentOptions,
 };
 

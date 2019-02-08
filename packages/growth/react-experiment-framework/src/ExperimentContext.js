@@ -1,9 +1,11 @@
 // @flow
 
 import { createContext } from 'react';
-import type { Experiments } from './types';
+import type { ExperimentContext } from './types';
 
-const initialContext: Experiments = {};
+const initialContext: ExperimentContext = {
+  experiments: {},
+};
 const Experiment = createContext(initialContext);
 
 export const ExperimentProvider = Experiment.Provider;
