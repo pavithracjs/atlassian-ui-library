@@ -227,7 +227,7 @@ export interface CellAttributes {
    */
   defaultMarks?: Array<
     Em | Strong | Code | Strike | SubSup | Underline | TextColor
-  >;
+  > | null;
 }
 
 // TODO: Fix any, potential issue. ED-5048
@@ -312,12 +312,22 @@ export const tableCell = {
   },
 };
 
+const tableHeaderDefaultMarks = [{ type: 'strong' }];
+
 export const toJSONTableCell = (node: PmNode) => ({
   attrs: (Object.keys(node.attrs) as Array<keyof CellAttributes>).reduce<
     Record<string, any>
   >((obj, key) => {
     if (cellAttrs[key].default !== node.attrs[key]) {
       obj[key] = node.attrs[key];
+    }
+
+    if (
+      key === 'defaultMarks' &&
+      node.type.name === 'tableHeader' &&
+      obj[key] === tableHeaderDefaultMarks
+    ) {
+      delete obj[key];
     }
 
     return obj;
@@ -327,7 +337,10 @@ export const toJSONTableCell = (node: PmNode) => ({
 export const tableHeader = {
   content:
     '(paragraph | panel | blockquote | orderedList | bulletList | rule | heading | codeBlock | mediaGroup | mediaSingle  | applicationCard | decisionList | taskList | blockCard | extension)+',
-  attrs: cellAttrs,
+  attrs: {
+    ...cellAttrs,
+    defaultMarks: { default: tableHeaderDefaultMarks },
+  },
   tableRole: 'header_cell',
   isolating: true,
   marks: 'alignment',

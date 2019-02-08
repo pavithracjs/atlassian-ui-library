@@ -165,6 +165,39 @@ export const clearSelection: Command = (state, dispatch) => {
   return true;
 };
 
+type MarkDefinition = { type: string };
+const isMarkTypeEquals = (x: MarkDefinition) => (y: MarkDefinition) => {
+  return x.type === y.type;
+};
+
+const filterOutMarks = (
+  arrayOne: Array<MarkDefinition> = [],
+  arrayTwo: Array<MarkDefinition> = [],
+) => {
+  return arrayOne.filter(x => {
+    return !arrayTwo.some(isMarkTypeEquals(x));
+  });
+};
+
+const toggleDefaultMarksHeaders = (
+  cell: any,
+  tableHeader: any,
+  removeHeaderDefaultMarks: boolean,
+) => {
+  let defaultMarks = (cell && cell.attrs && cell.attrs.defaultMarks) || [];
+
+  if (removeHeaderDefaultMarks) {
+    defaultMarks = filterOutMarks(defaultMarks, tableHeaderDefaultMarks);
+  } else {
+    defaultMarks = diffArrayOfMarks(
+      defaultMarks,
+      tableHeader.defaultAttrs.defaultMarks,
+    );
+  }
+
+  return defaultMarks;
+};
+
 export const toggleHeaderRow: Command = (state, dispatch) => {
   const table = findTable(state.selection);
   if (!table) {
@@ -185,7 +218,14 @@ export const toggleHeaderRow: Command = (state, dispatch) => {
     const from = tr.mapping.map(table.start + map.map[column]);
     const cell = table.node.child(0).child(column);
 
-    tr.setNodeMarkup(from, type, cell.attrs);
+    tr.setNodeMarkup(from, type, {
+      ...cell.attrs,
+      defaultMarks: toggleDefaultMarksHeaders(
+        cell,
+        tableHeader,
+        isHeaderRowEnabled,
+      ),
+    });
   }
 
   if (dispatch) {
@@ -211,14 +251,22 @@ export const toggleHeaderColumn: Command = (state, dispatch) => {
   });
 
   const { tableHeader, tableCell } = state.schema.nodes;
-  const type = checkIfHeaderColumnEnabled(state) ? tableCell : tableHeader;
+  const isHeaderColumnEnabled = checkIfHeaderColumnEnabled(state);
+  const type = isHeaderColumnEnabled ? tableCell : tableHeader;
 
   cellsPositions.forEach(relativeCellPos => {
     const cellPos = relativeCellPos + table.start;
     const cell = tr.doc.nodeAt(cellPos);
 
     if (cell) {
-      tr.setNodeMarkup(cellPos, type, cell.attrs);
+      tr.setNodeMarkup(cellPos, type, {
+        ...cell.attrs,
+        defaultMarks: toggleDefaultMarksHeaders(
+          cell,
+          tableHeader,
+          isHeaderColumnEnabled,
+        ),
+      });
     }
   });
 
@@ -352,9 +400,19 @@ export function transformSliceToAddTableHeaders(
       if (firstRow) {
         const headerCols = [] as PMNode[];
         firstRow.forEach(oldCol => {
+          const oldDefaultMarks = oldCol.attrs.defaultMarks || [];
+          const headerDefaultMarks =
+            (tableHeader as any).defaultAttrs.defaultMarks || [];
+
           headerCols.push(
             tableHeader.createChecked(
-              oldCol.attrs,
+              {
+                ...oldCol.attrs,
+                defaultMarks: [
+                  ...filterOutMarks(oldDefaultMarks, headerDefaultMarks),
+                  ...headerDefaultMarks,
+                ],
+              },
               oldCol.content,
               oldCol.marks,
             ),
