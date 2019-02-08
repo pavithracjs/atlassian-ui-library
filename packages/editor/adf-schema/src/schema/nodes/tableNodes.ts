@@ -219,7 +219,10 @@ export interface CellAttributes {
   background?: string;
   /**
    * @stage 0
+<<<<<<< HEAD
    * @forceContentValidation true
+=======
+>>>>>>> Add defaultMark attribute on tableCell schema
    */
   defaultMarks?: Array<
     Em | Strong | Code | Strike | SubSup | Underline | TextColor

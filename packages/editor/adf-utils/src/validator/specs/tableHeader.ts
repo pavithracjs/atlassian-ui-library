@@ -24,7 +24,10 @@ export default {
               'textColor',
             ],
           ],
+<<<<<<< HEAD
           forceContentValidation: true,
+=======
+>>>>>>> Add defaultMark attribute on tableCell schema
           optional: true,
         },
       },

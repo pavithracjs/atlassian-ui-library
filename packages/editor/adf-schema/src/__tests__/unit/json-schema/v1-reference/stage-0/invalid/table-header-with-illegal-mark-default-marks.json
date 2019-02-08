@@ -15,7 +15,11 @@
                 "rowspan": 1,
                 "defaultMarks": [
                   {
+<<<<<<< HEAD
                     "type": "action"
+=======
+                    "no-a-mark": "Hello"
+>>>>>>> Add defaultMark attribute on tableCell schema
                   }
                 ]
               },
