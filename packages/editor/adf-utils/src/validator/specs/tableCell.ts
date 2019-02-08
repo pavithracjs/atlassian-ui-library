@@ -11,6 +11,21 @@ export default {
           optional: true,
         },
         background: { type: 'string', optional: true },
+        defaultMarks: {
+          type: 'array',
+          items: [
+            [
+              'em',
+              'code',
+              'strike',
+              'strong',
+              'underline',
+              'subsup',
+              'textColor',
+            ],
+          ],
+          optional: true,
+        },
       },
       optional: true,
     },
