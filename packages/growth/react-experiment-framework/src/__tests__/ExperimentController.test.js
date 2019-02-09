@@ -71,4 +71,49 @@ describe('ExperimentController', () => {
       );
     });
   });
+
+  it('should provide context with options to a consumer if present', () => {
+    const mockExperimentDetails = {
+      cohort: 'variation',
+      isEligible: true,
+    };
+    const mockExperimentEnrollmentOptions = {
+      example: 'value',
+    };
+
+    const mockExperimentResolver = jest
+      .fn()
+      .mockReturnValue(Promise.resolve(mockExperimentDetails));
+
+    const mockExperimentEnrollmentConfig = {
+      myExperimentKey: mockExperimentResolver,
+    };
+
+    const mockContextReceiver = jest.fn();
+
+    mount(
+      <ExperimentController
+        experimentEnrollmentConfig={mockExperimentEnrollmentConfig}
+        experimentEnrollmentOptions={mockExperimentEnrollmentOptions}
+      >
+        <ExperimentConsumer>
+          {context => mockContextReceiver(context)}
+        </ExperimentConsumer>
+      </ExperimentController>,
+    );
+
+    const {
+      experiments: receivedExperiments,
+      options: receivedOptions,
+    } = mockContextReceiver.mock.calls[0][0];
+
+    expect(receivedExperiments.myExperimentKey).toHaveProperty(
+      'enrollmentResolver',
+    );
+    expect(receivedExperiments.myExperimentKey).toHaveProperty(
+      'isEnrollmentDecided',
+      false,
+    );
+    expect(receivedOptions).toBe(mockExperimentEnrollmentOptions);
+  });
 });

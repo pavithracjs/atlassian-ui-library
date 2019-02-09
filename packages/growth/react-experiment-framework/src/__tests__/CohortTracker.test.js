@@ -19,7 +19,9 @@ describe('CohortTracker', () => {
       experimentKey: 'myExperimentKey',
       isEligible: true,
     };
-    mockEnrollmentOptions = undefined;
+    mockEnrollmentOptions = {
+      example: 'value',
+    };
 
     mockOnExposure = jest.fn();
   });
@@ -28,6 +30,7 @@ describe('CohortTracker', () => {
     shallow(
       <CohortTracker
         exposureDetails={mockExposureDetails}
+        options={mockEnrollmentOptions}
         onExposure={mockOnExposure}
       />,
     );
