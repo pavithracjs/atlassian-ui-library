@@ -17,6 +17,6 @@ export default (nachosProps: ButtonProps) => (
         },
       };
     }}
-    {...nachosProps} // spacing,
+    {...nachosProps}
   />
 );

@@ -9,3 +9,6 @@
 - [ ] Tests: fix existing
 - [ ] Tests: Add new ones for theming
 - [ ] Refactoring
+- [ ] `iconBefore` & `iconAfter` are borked
+- [ ] When `isLoading`, button still seems to be clickable.....
+- [ ] Nachos `disabled` appearance should have `cursor: 'not-allowed'`
