@@ -1,0 +1,1 @@
+- ED-6177 Fix remove rows/columns from context menu

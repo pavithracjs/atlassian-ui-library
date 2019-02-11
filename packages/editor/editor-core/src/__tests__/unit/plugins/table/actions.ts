@@ -17,8 +17,6 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import {
   transformSliceToAddTableHeaders,
-  deleteColumns,
-  deleteRows,
   deleteSelectedColumns,
   deleteSelectedRows,
   emptyMultipleCells,
@@ -190,19 +188,6 @@ describe('table plugin: actions', () => {
     });
   });
 
-  describe('#deleteColumns', () => {
-    it('should delete columns by indexes', () => {
-      const { editorView } = editor(
-        doc(p('text'), table()(tr(tdCursor, td({})(p('c1')), td({})(p('c2'))))),
-      );
-      const { state, dispatch } = editorView;
-      deleteColumns([0, 1])(state, dispatch);
-      expect(editorView.state.doc).toEqualDocument(
-        doc(p('text'), table()(tr(td()(p('c2'))))),
-      );
-    });
-  });
-
   describe('#deleteSelectedColumns', () => {
     describe('when some of the columns are merged', () => {
       it('should delete columns and update colspans of cells DOM nodes', () => {
@@ -270,26 +255,6 @@ describe('table plugin: actions', () => {
           expect(cell.getAttribute('rowspan')).not.toEqual('2');
         }
       });
-    });
-  });
-
-  describe('#deleteRows', () => {
-    it('should delete rows by indexes', () => {
-      const { editorView } = editor(
-        doc(
-          p('text'),
-          table()(
-            tr(td()(p('c1')), td()(p('c2'))),
-            tr(td()(p('c3')), td()(p('c4'))),
-            tr(td()(p('c5')), td()(p('c6'))),
-          ),
-        ),
-      );
-      const { state, dispatch } = editorView;
-      deleteRows([0, 1])(state, dispatch);
-      expect(editorView.state.doc).toEqualDocument(
-        doc(p('text'), table()(tr(td()(p('c5')), td()(p('c6'))))),
-      );
     });
   });
 

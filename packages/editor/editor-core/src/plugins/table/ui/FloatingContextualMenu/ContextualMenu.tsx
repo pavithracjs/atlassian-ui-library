@@ -16,8 +16,8 @@ import {
   insertColumn,
   insertRow,
   toggleContextualMenu,
-  deleteColumns,
-  deleteRows,
+  deleteSelectedRows,
+  deleteSelectedColumns,
   emptyMultipleCells,
   setMultipleCellAttrs,
 } from '../../actions';
@@ -253,12 +253,12 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
         analytics.trackEvent(
           'atlassian.editor.format.table.delete_column.button',
         );
-        deleteColumns(getSelectedColumnIndexes(selectionRect))(state, dispatch);
+        deleteSelectedColumns(state, dispatch);
         this.toggleOpen();
         break;
       case 'delete_row':
         analytics.trackEvent('atlassian.editor.format.table.delete_row.button');
-        deleteRows(getSelectedRowIndexes(selectionRect))(state, dispatch);
+        deleteSelectedRows(state, dispatch);
         this.toggleOpen();
         break;
     }
