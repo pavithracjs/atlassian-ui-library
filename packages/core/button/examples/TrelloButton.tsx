@@ -19,7 +19,7 @@ export default () => (
     <ButtonGroup>
       <NachosButton iconBefore={<AtlassianIcon />}>Button</NachosButton>
       <NachosButton appearance="primary">Button</NachosButton>
-      <NachosButton appearance="subtle">Button</NachosButton>
+      <NachosButton appearance="disabled">Button</NachosButton>
       <NachosButton appearance="danger" isLoading>
         Button
       </NachosButton>

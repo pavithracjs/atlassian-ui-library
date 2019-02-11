@@ -102,9 +102,9 @@ const getFontWeight = (fontWeight, { appearance }) => {
   return fontWeight[appearance];
 };
 
-const getCursor = (cursor, { state }) => {
-  if (!cursor[state]) return cursor.default;
-  return cursor[state];
+const getCursor = (cursor, { appearance }) => {
+  if (!cursor[appearance]) return cursor.default;
+  return cursor[appearance];
 };
 
 const getColor = (color, { appearance, state }) => {
