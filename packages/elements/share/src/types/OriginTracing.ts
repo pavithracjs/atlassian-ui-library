@@ -12,7 +12,7 @@ export type OriginTracing = {
   id: string;
   addToUrl: (link: string) => string;
   toAnalyticsAttributes: (
-    { hasGeneratedId: boolean },
+    args: { hasGeneratedId: boolean },
   ) => OriginTracingWithIdGenerated | OriginTracingForSubSequentEvents;
 };
 

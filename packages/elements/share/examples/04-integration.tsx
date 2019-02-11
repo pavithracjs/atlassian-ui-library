@@ -1,8 +1,15 @@
-import * as React from 'react';
-import { userPickerData } from '@atlaskit/util-data-test';
 import { OptionData } from '@atlaskit/user-picker';
+import { userPickerData } from '@atlaskit/util-data-test';
+import * as React from 'react';
 import { ShareDialogContainer } from '../src';
-import { Client, Content, User, MetaData, Comment } from '../src/types';
+import {
+  Client,
+  Comment,
+  Content,
+  KeysOfType,
+  MetaData,
+  User,
+} from '../src/types';
 
 type UserData = {
   avatarUrl?: string;
@@ -18,8 +25,8 @@ type UserData = {
 
 const mockOriginTracing = {
   id: 'id',
-  addToUrl: l => `${l}&atlOrigin=mockAtlOrigin`,
-  toAnalyticsAttributes: ({ hasGeneratedId }) => ({
+  addToUrl: (l: string) => `${l}&atlOrigin=mockAtlOrigin`,
+  toAnalyticsAttributes: () => ({
     originIdGenerated: 'id',
     originProduct: 'product',
   }),
@@ -37,14 +44,20 @@ const loadUserOptions = (searchText?: string): OptionData[] => {
     }))
     .filter((user: UserData) => {
       const searchTextInLowerCase = searchText.toLowerCase();
-      const propertyToMatch = ['id', 'name', 'publicName'];
+      const propertyToMatch: (KeysOfType<UserData, string | undefined>)[] = [
+        'id',
+        'name',
+        'publicName',
+      ];
 
-      return propertyToMatch.some((property: string) => {
-        return (
-          user[property] &&
-          user[property].toLowerCase().contains(searchTextInLowerCase)
-        );
-      });
+      return propertyToMatch.some(
+        (property: KeysOfType<UserData, string | undefined>) => {
+          const value = property && user[property];
+          return !!(
+            value && value.toLowerCase().includes(searchTextInLowerCase)
+          );
+        },
+      );
     });
 };
 
