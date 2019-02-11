@@ -2,18 +2,6 @@ import { colors } from '@atlaskit/theme';
 import { nachosColors } from './colors';
 import { ThemeProps } from '../../src/types';
 
-type NachosBase = {
-  padding: string;
-  lineHeight: string;
-  height: string;
-};
-
-const nachosBase: NachosBase = {
-  padding: '6px 12px',
-  lineHeight: '20px',
-  height: '32px',
-};
-
 export const button = {
   background: {
     default: {
@@ -133,7 +121,6 @@ const getColor = (color, { appearance, state }) => {
 };
 
 export default (props: ThemeProps) => ({
-  ...nachosBase,
   border: button.border,
   background: getBackground(button.background, props),
   borderColor: getBorderColor(button.borderColor, props),

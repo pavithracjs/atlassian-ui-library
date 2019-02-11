@@ -3,12 +3,12 @@
 - [x] Tokens && Theme naming conflict rectified
 - [x] Benchmarks. Current vs v11.x
 - [x] Appy new theme onto exisiting Button
+- [x] `iconBefore` & `iconAfter` are borked
 - [ ] Remove innerRef
 - [ ] Change examples - Non-Trello vibes
-- [ ] Reducers instead of hefty functions per styled property
 - [ ] Tests: fix existing
 - [ ] Tests: Add new ones for theming
 - [ ] Refactoring
-- [ ] `iconBefore` & `iconAfter` are borked
 - [ ] When `isLoading`, button still seems to be clickable.....
 - [ ] Nachos `disabled` appearance should have `cursor: 'not-allowed'`
+- [ ] Reducers instead of hefty functions per styled property
