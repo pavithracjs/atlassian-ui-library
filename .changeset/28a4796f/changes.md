@@ -1,0 +1,1 @@
+- ED-6183 fixes image wrapping issue in the editor

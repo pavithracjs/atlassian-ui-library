@@ -133,6 +133,11 @@ const ContentStyles: ComponentClass<
     padding: 0;
   }
 
+  .mediaSingleView-content-wrap {
+    display: block;
+    width: 100%;
+  }
+
 `;
 
 export default ContentStyles;
