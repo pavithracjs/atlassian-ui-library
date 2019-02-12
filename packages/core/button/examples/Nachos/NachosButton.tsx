@@ -9,7 +9,11 @@ export default (nachosProps: ButtonProps) => (
       adgTheme: Function,
       { appearance = 'default', state = 'default' }: ThemeProps,
     ) => {
-      const { button: adgButton } = adgTheme({ appearance, state });
+      const { button: adgButton } = adgTheme({
+        appearance,
+        state,
+        ...nachosProps,
+      });
       return {
         button: {
           ...adgButton,

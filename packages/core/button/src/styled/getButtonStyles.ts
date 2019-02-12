@@ -126,7 +126,7 @@ export default (props: any) => {
       margin: 0,
       padding: 0,
     },
-    pointerEvents: props.isLoading ? 'pointer-events: none;' : null,
+    ...(props.isLoading && { 'pointer-events': 'none' }),
   };
 
   return styleProps;
