@@ -142,9 +142,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         <GlobalTheme.Consumer>
           {({ mode }: { mode: ThemeMode }) => (
             <Theme.Consumer
-              appearance={appearance}
               mode={mode}
               state={mapAttributesToState(attributes)}
+              iconIsOnlyChild={iconIsOnlyChild}
               {...this.props}
             >
               {({ button }) => (

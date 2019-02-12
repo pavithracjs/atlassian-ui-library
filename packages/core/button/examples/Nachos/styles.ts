@@ -1,17 +1,6 @@
 import { colors } from '@atlaskit/theme';
 import { nachosColors } from './colors';
-
-type NachosBase = {
-  padding: string;
-  lineHeight: string;
-  height: string;
-};
-
-const nachosBase: NachosBase = {
-  padding: '6px 12px',
-  lineHeight: '20px',
-  height: '32px',
-};
+import { ThemeProps } from '../../src/types';
 
 export const button = {
   background: {
@@ -113,9 +102,9 @@ const getFontWeight = (fontWeight, { appearance }) => {
   return fontWeight[appearance];
 };
 
-const getCursor = (cursor, { state }) => {
-  if (!cursor[state]) return cursor.default;
-  return cursor[state];
+const getCursor = (cursor, { appearance }) => {
+  if (!cursor[appearance]) return cursor.default;
+  return cursor[appearance];
 };
 
 const getColor = (color, { appearance, state }) => {
@@ -131,8 +120,7 @@ const getColor = (color, { appearance, state }) => {
   return color[appearance];
 };
 
-export default props => ({
-  ...nachosBase,
+export default (props: ThemeProps) => ({
   border: button.border,
   background: getBackground(button.background, props),
   borderColor: getBorderColor(button.borderColor, props),

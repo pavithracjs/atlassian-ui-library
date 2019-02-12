@@ -1,34 +1,29 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import Button from '../src/components/Button';
-import NButton from './Nachos/NachosButton';
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  width: 120px;
-  margin: 10px;
-  height: 200px;
-  flex-wrap: wrap;
-`;
+import Button, { ButtonGroup } from '../src';
+import NachosButton from './Nachos/NachosButton';
+import { AtlassianIcon } from '@atlaskit/logo';
+import AddIcon from '@atlaskit/icon/glyph/editor/add';
 
 export default () => (
   <div style={{ margin: 20 }}>
-    <ButtonWrapper>
-      <NButton appearance="default">Button</NButton>
-      <NButton appearance="primary">Button</NButton>
-      <NButton appearance="subtle">Button</NButton>
-      <NButton appearance="danger">Button</NButton>
-      {/* <NButton appearance="disabled">Button</NButton> */}
-    </ButtonWrapper>
-    <h3>ADG Button</h3>
-    <ButtonWrapper>
-      <Button>Button</Button>
+    <h3 style={{ marginBottom: 15 }}>ADG Button</h3>
+    <ButtonGroup>
+      <Button iconBefore={<AddIcon />}>Button</Button>
       <Button appearance="primary">Button</Button>
-      <Button appearance="subtle-link">Button</Button>
       <Button appearance="warning">Button</Button>
-      <Button isDisabled appearance="warning">
+      <Button appearance="danger" isLoading>
         Button
       </Button>
-    </ButtonWrapper>
+    </ButtonGroup>
+
+    <h3 style={{ marginBottom: 15 }}>Nachos Button</h3>
+    <ButtonGroup>
+      <NachosButton iconBefore={<AddIcon />}>Button</NachosButton>
+      <NachosButton appearance="primary">Button</NachosButton>
+      <NachosButton appearance="disabled">Button</NachosButton>
+      <NachosButton appearance="danger" isLoading>
+        Button
+      </NachosButton>
+    </ButtonGroup>
   </div>
 );

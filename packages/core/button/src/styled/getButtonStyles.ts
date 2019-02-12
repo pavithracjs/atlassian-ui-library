@@ -24,8 +24,14 @@ const getCursor = ({ state = 'default' }: { state: string }) => {
 };
 
 const getPadding = (props: any) => {
-  let padding = `0 ${gridSize(props)}px`;
-  if (props.spacing === 'none') padding = '0';
+  const paddingSize = (gridSize() * 1.5) / fontSize();
+  const padLeft = props.iconBefore ? 0 : paddingSize;
+  const padRight = props.iconAfter ? 0 : paddingSize;
+
+  // TODO: RTL support
+  let padding = `0 ${padRight}em 0 ${padLeft}em`;
+
+  if (props.spacing === 'none' || props.iconIsOnlyChild) padding = '0';
   return padding;
 };
 
@@ -82,21 +88,8 @@ const staticStyles = {
 };
 
 export default (props: any) => {
-  const baseSize = fontSize(props);
-  const compactButtonHeight = `${math.divide(
-    math.multiply(gridSize, 3),
-    baseSize,
-  )(props)}em`;
-  const buttonHeight = `${math.divide(math.multiply(gridSize, 4), baseSize)(
-    props,
-  )}em`;
-
-  const getHeight = ({ spacing = 'default' }: { spacing: Spacing }) => {
-    let height = buttonHeight;
-    if (spacing === 'compact') height = compactButtonHeight;
-    if (spacing === 'none') height = 'auto';
-    return height;
-  };
+  const compactButtonHeight = `${(gridSize() * 3) / fontSize()}em`;
+  const buttonHeight = `${(gridSize() * 4) / fontSize()}em`;
 
   const getLineHeight = ({ spacing = 'default' }: { spacing: Spacing }) => {
     let lineHeight = buttonHeight;
@@ -113,7 +106,6 @@ export default (props: any) => {
     color: `${getColor(props)} !important`,
     cursor: getCursor(props),
     fontWeight: props.fontWeight,
-    height: getHeight(props),
     lineHeight: getLineHeight(props),
     padding: getPadding(props),
     transition: getTransition(props),
@@ -126,7 +118,7 @@ export default (props: any) => {
       margin: 0,
       padding: 0,
     },
-    pointerEvents: props.isLoading ? 'pointer-events: none;' : null,
+    ...(props.isLoading && { 'pointer-events': 'none' }),
   };
 
   return styleProps;
