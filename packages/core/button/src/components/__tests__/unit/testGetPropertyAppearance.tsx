@@ -1,4 +1,5 @@
 import { getPropertyAppearance } from '../../../styled/getButtonStyles';
+import { mapAttributesToState } from '../../utils';
 
 const themeDefinitions = {
   fallbacks: {
@@ -47,38 +48,6 @@ describe('getPropertyAppearance', () => {
       ),
     ).toBe(theme.default.propertyA.default));
 
-  it("should return the 'hover' value when in the hover state.", () =>
-    expect(
-      getPropertyAppearance('propertyA', { isHover: true }, themeDefinitions),
-    ).toBe(theme.default.propertyA.hover));
-
-  it("should prioritise 'active' state over 'hover' state.", () =>
-    expect(
-      getPropertyAppearance(
-        'propertyA',
-        { isActive: true, isHover: true },
-        themeDefinitions,
-      ),
-    ).toBe(theme.default.propertyA.active));
-
-  it("should prioritise 'selected' state over 'active' and 'hover' states.", () =>
-    expect(
-      getPropertyAppearance(
-        'propertyA',
-        { isActive: true, isHover: true, isSelected: true },
-        themeDefinitions,
-      ),
-    ).toBe(theme.default.propertyA.selected));
-
-  it("should prioritise 'disabled' state over all other states.", () =>
-    expect(
-      getPropertyAppearance(
-        'propertyA',
-        { disabled: true, isActive: true, isHover: true, isSelected: true },
-        themeDefinitions,
-      ),
-    ).toBe(theme.default.propertyA.disabled));
-
   it('should use the default value if the state value is not defined.', () =>
     expect(
       getPropertyAppearance(
@@ -88,4 +57,27 @@ describe('getPropertyAppearance', () => {
         themeDefinitions,
       ),
     ).toBe(theme.appearanceB.propertyA.default));
+});
+
+describe('mapAttributesToState', () => {
+  it("should return the 'hover' value when in the hover state.", () =>
+    expect(mapAttributesToState({ isHover: true })).toBe('hover'));
+
+  it("should prioritise 'active' state over 'hover' state.", () =>
+    expect(mapAttributesToState({ isActive: true, isHover: true })).toBe(
+      'active',
+    ));
+
+  it("should prioritise 'selected' state over 'active' and 'hover' states.", () =>
+    expect(
+      mapAttributesToState({ isActive: true, isHover: true, isSelected: true }),
+    ).toBe('selected'));
+
+  it("should prioritise 'disabled' state over all other states.", () =>
+    expect(
+      mapAttributesToState(
+        //TODO check 'disabled' prop as well?
+        { isDisabled: true, isActive: true, isHover: true, isSelected: true },
+      ),
+    ).toBe('disabled'));
 });
