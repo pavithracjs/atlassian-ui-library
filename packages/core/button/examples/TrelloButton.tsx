@@ -2,12 +2,13 @@ import * as React from 'react';
 import Button, { ButtonGroup } from '../src';
 import NachosButton from './Nachos/NachosButton';
 import { AtlassianIcon } from '@atlaskit/logo';
+import AddIcon from '@atlaskit/icon/glyph/editor/add';
 
 export default () => (
   <div style={{ margin: 20 }}>
     <h3 style={{ marginBottom: 15 }}>ADG Button</h3>
     <ButtonGroup>
-      <Button iconBefore={<AtlassianIcon />}>Button</Button>
+      <Button iconBefore={<AddIcon />}>Button</Button>
       <Button appearance="primary">Button</Button>
       <Button appearance="warning">Button</Button>
       <Button appearance="danger" isLoading>
@@ -17,7 +18,7 @@ export default () => (
 
     <h3 style={{ marginBottom: 15 }}>Nachos Button</h3>
     <ButtonGroup>
-      <NachosButton iconBefore={<AtlassianIcon />}>Button</NachosButton>
+      <NachosButton iconBefore={<AddIcon />}>Button</NachosButton>
       <NachosButton appearance="primary">Button</NachosButton>
       <NachosButton appearance="disabled">Button</NachosButton>
       <NachosButton appearance="danger" isLoading>
