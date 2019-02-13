@@ -1,6 +1,7 @@
 import * as React from 'react';
-import Group, { GroupItem } from '../styled/ButtonGroup';
+import { groupStyles, groupItemStyles } from '../styled/ButtonGroup';
 import { ButtonAppearances } from '../types';
+import { css } from 'emotion';
 
 export type ButtonGroupProps = {
   /** The appearance to apply to all buttons. */
@@ -12,20 +13,20 @@ export default class ButtonGroup extends React.Component<ButtonGroupProps> {
     const { appearance, children } = this.props;
 
     return (
-      <Group>
+      <div className={css(groupStyles)}>
         {React.Children.map(children, (child, idx) => {
           if (!child) {
             return null;
           }
           return (
-            <GroupItem key={idx}>
+            <div key={idx} className={css(groupItemStyles)}>
               {appearance
                 ? React.cloneElement(child as JSX.Element, { appearance })
                 : child}
-            </GroupItem>
+            </div>
           );
         })}
-      </Group>
+      </div>
     );
   }
 }

@@ -1,11 +1,10 @@
-import styled from 'styled-components';
 import { gridSize } from '@atlaskit/theme';
 
-export default styled.div`
+export const groupStyles = `
   display: inline-flex;
 `;
 
-export const GroupItem = styled.div`
+export const groupItemStyles = `
   flex: 1 0 auto;
   display: flex;
 
