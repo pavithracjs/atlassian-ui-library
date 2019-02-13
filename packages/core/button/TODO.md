@@ -7,9 +7,11 @@
 - [x] `iconBefore` & `iconAfter` are borked
 - [x] Nachos `disabled` appearance should have `cursor: 'not-allowed'`
 - [x] When `isLoading`, button still seems to be clickable.....
+- [x] Tests: Mock CSS as a way of handling emotion
+- [ ] Correct ButtonProps and deprecate old props
+- [ ] Read through / edit / amend docs
+- [ ] Type checker ✅
 - [ ] Change examples - Non-Trello vibes
 - [ ] Tests: fix existing
 - [ ] Tests: Add new ones for theming
-- [x] Tests: Mock CSS as a way of handling emotion
-- [ ] Refactoring
 - [ ] Reducers instead of hefty functions per styled property
