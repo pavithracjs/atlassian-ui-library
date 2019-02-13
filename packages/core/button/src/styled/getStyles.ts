@@ -12,11 +12,6 @@ const getColor = (props: any) => {
   return applyPropertyStyle('color', props, baseTheme);
 };
 
-// TODO when back from lunch.
-const getBoxShadowColor = (props: any) => {
-  return applyPropertyStyle('boxShadowColor', props, baseTheme);
-};
-
 const getCursor = ({ state = 'default' }: { state: string }) => {
   let cursor = 'default';
   if (state === 'hover') cursor = 'pointer';

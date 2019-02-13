@@ -7,6 +7,17 @@ import {
   getIconStyles,
 } from './styled/getStyles';
 
+type ThemeFallbacks = {
+  [index: string]: { light: string; dark: string } | string;
+  textDecoration: string;
+};
+
+export const fallbacks: ThemeFallbacks = {
+  background: { light: colors.N20A, dark: colors.DN70 },
+  color: { light: colors.N400, dark: colors.DN400 },
+  textDecoration: 'none',
+};
+
 export const baseTheme = {
   // Default appearance
   background: {
@@ -184,15 +195,17 @@ export function applyPropertyStyle(
     appearance = 'default',
     state = 'default',
     mode = 'light',
-  }: { appearance: string; state: string; mode: ThemeMode },
+  }: { appearance?: string; state?: string; mode?: ThemeMode },
   theme: any,
 ) {
   const propertyStyles = theme[property];
-  if (!propertyStyles) return;
+  if (!propertyStyles) return 'initial';
 
   // Check for relevant fallbacks.
   if (!propertyStyles[appearance]) {
-    if (!propertyStyles['default']) return;
+    if (!propertyStyles['default']) {
+      return fallbacks[property][mode] ? fallbacks[property][mode] : 'initial';
+    }
     appearance = 'default';
   }
 

@@ -2,8 +2,19 @@ import { mount } from 'enzyme';
 import * as React from 'react';
 import Spinner from '@atlaskit/spinner';
 import { AtlassianIcon } from '@atlaskit/logo';
+import * as renderer from 'react-test-renderer';
 import Button from '../../Button';
 import { IconWrapper, ButtonContent, ButtonWrapper } from '../../../styled';
+import * as Emotion from 'emotion';
+
+const originalCssFunc = Emotion.css;
+Emotion.css = jest.fn();
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  // Reset to original implementation before each test
+  Emotion.css.mockImplementation(originalCssFunc);
+});
 
 describe('ak-button/default-behaviour', () => {
   it('button should have type="button" by default', () => {
@@ -175,33 +186,29 @@ describe('ak-button/default-behaviour', () => {
       const wrapper = mount(<Button>Some text</Button>);
       expect(wrapper.find(Spinner).length).toEqual(0);
     });
-    it('set the opacity of the text to 0 when isLoading is true', () => {
-      const wrapper = mount(<Button isLoading>Some text</Button>);
-      expect(
-        wrapper
-          .find(ButtonContent)
-          .find('span')
-          .get(0).props.style.opacity,
-      ).toEqual(0);
+
+    it.only('set the opacity of the text to 0 when isLoading is true', () => {
+      let renderedTheme = {};
+      Emotion.css.mockImplementation(theme => (renderedTheme = theme));
+      mount(<Button isLoading>Some text</Button>);
+      check(<IconWrapper />);
+      expect(renderedTheme).toEqual(
+        expect.objectContaining({
+          opacity: 0,
+        }),
+      );
     });
+
     it('set the iconBefore opacity to 0 when isLoading', () => {
-      const wrapper = mount(
+      const wrapper = (
         <Button isLoading iconBefore={<AtlassianIcon />}>
           Some text
-        </Button>,
+        </Button>
       );
-
-      // console.log(wrapper.debug());
-      expect(
-        wrapper
-          .find(AtlassianIcon)
-          .parent()
-          .find('[className]')
-          .props(),
-        // .get(0)
-        // .property('opacity')
-      ).toEqual(0);
+      const Component = renderer.create(wrapper).toJSON();
+      console.log('Component', Component);
     });
+
     it('set the iconAfter opacity to 0 when isLoading', () => {
       const wrapper = mount(
         <Button isLoading iconAfter={<AtlassianIcon />}>
