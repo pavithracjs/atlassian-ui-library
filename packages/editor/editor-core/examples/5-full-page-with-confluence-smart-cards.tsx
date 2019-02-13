@@ -203,11 +203,25 @@ const demoTable = {
                       type: 'paragraph',
                       content: [
                         {
+                          type: 'text',
+                          text: 'This is just an example:',
+                        },
+                        {
                           type: 'inlineCard',
                           attrs: {
-                            url:
-                              'https://app.box.com/s/2emx282bjxpzvwa5bcz428u6imbgmasg',
+                            data: {
+                              generator: {
+                                icon:
+                                  'https://cdn4.iconfinder.com/data/icons/free-colorful-icons/360/google_docs.png',
+                              },
+                              name:
+                                'https://this-is-some.long.url/with?some-long-id=q87yd23yd8qwgdiq3idqbd3qbyudq3bjbdq',
+                            },
                           },
+                        },
+                        {
+                          type: 'text',
+                          text: 'The url will not appear in a resolved card',
                         },
                       ],
                     },
@@ -289,6 +303,32 @@ const exampleDocument = {
               type: 'strong',
             },
           ],
+        },
+      ],
+    },
+    {
+      type: 'paragraph',
+      content: [
+        {
+          type: 'text',
+          text: 'This is an inline card with the data provided (longer name)',
+        },
+        {
+          type: 'inlineCard',
+          attrs: {
+            data: {
+              generator: {
+                icon:
+                  'https://cdn4.iconfinder.com/data/icons/free-colorful-icons/360/google_docs.png',
+              },
+              name: 'The document with a very loing name and lorem ipsum in it',
+            },
+          },
+        },
+        {
+          type: 'text',
+          text: ' and let me know what you think...',
+          marks: [{ type: 'em' }],
         },
       ],
     },
