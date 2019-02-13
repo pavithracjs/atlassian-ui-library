@@ -1,5 +1,6 @@
 import { borderRadius, fontSize, gridSize, math } from '@atlaskit/theme';
 import { applyPropertyStyle, baseTheme } from '../theme';
+import { getLoadingStyle } from './utils';
 
 type Spacing = 'compact' | 'default' | 'none';
 
@@ -87,7 +88,7 @@ const staticStyles = {
   whiteSpace: 'nowrap',
 };
 
-export default (props: any) => {
+export const getButtonStyles = (props: any) => {
   const compactButtonHeight = `${(gridSize() * 3) / fontSize()}em`;
   const buttonHeight = `${(gridSize() * 4) / fontSize()}em`;
 
@@ -123,3 +124,27 @@ export default (props: any) => {
 
   return styleProps;
 };
+
+export const getSpinnerStyles = () => ({
+  display: 'flex',
+  position: 'absolute',
+  left: '50%',
+  top: '50%',
+  transform: 'translate(-50%, -50%)',
+});
+
+const getIconMargin = (props: Props) => {
+  if (props.spacing === 'none') return 0;
+  return `${gridSize() / 2}px`;
+};
+
+export const getIconStyles = props => ({
+  alignSelf: 'center',
+  display: 'flex',
+  flexShrink: 0,
+  lineHeight: 0,
+  fontSize: 0,
+  margin: getIconMargin(props),
+  userSelect: 'none',
+  ...getLoadingStyle(props),
+});

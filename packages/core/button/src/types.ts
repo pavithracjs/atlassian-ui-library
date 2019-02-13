@@ -72,7 +72,7 @@ export type ButtonProps = {
   /** Set the button to autofocus on mount. */
   autoFocus: boolean;
   // theme?: string;
-  theme?: Function;
+  theme?: () => void;
 };
 
 export type DerivedButtonProps = {

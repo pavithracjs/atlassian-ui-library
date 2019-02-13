@@ -13,7 +13,7 @@ const customButtonTheme = {
 
 const baseButtonThemeFunction = () => {
   return {
-    button: {
+    buttonStyles: {
       fontSize: 10,
       textAlign: 'center',
       width: 50,
@@ -32,11 +32,11 @@ const ThemedButton = (customProps: any) => (
       // Allow tests to skip ADG theme
       const adgButton = customProps.skipAdgTheme
         ? {}
-        : adgTheme({ appearance, state }).button;
+        : adgTheme({ appearance, state }).buttonStyles;
 
       // Merge themes
       return {
-        button: {
+        buttonStyles: {
           ...adgButton,
           ...customProps.customStyling,
         },
@@ -63,7 +63,7 @@ describe('Theme: button', () => {
 
   it('should render only styles defined in ADG theme if no custom theme passed in', () => {
     mount(<ThemedButton customAdgTheme={baseButtonThemeFunction} />);
-    expect(Emotion.css).toBeCalledWith(baseButtonThemeFunction().button);
+    expect(Emotion.css).toBeCalledWith(baseButtonThemeFunction().buttonStyles);
   });
 
   it('should favour custom theme to default ADG theme', () => {

@@ -190,11 +190,16 @@ describe('ak-button/default-behaviour', () => {
           Some text
         </Button>,
       );
+
+      // console.log(wrapper.debug());
       expect(
         wrapper
-          .find(IconWrapper)
-          .find('span')
-          .get(0).props.style.opacity,
+          .find(AtlassianIcon)
+          .parent()
+          .find('[className]')
+          .props(),
+        // .get(0)
+        // .property('opacity')
       ).toEqual(0);
     });
     it('set the iconAfter opacity to 0 when isLoading', () => {

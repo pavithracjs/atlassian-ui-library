@@ -9,15 +9,22 @@ export default (nachosProps: ButtonProps) => (
       adgTheme: Function,
       { appearance = 'default', state = 'default' }: ThemeProps,
     ) => {
-      const { button: adgButton } = adgTheme({
-        appearance,
-        state,
-        ...nachosProps,
-      });
+      const {
+        buttonStyles: adgButtonStyles,
+        spinnerStyles: adgSpinnerStyles,
+        iconStyles: adgIconStyles,
+      } = adgTheme({ appearance, state, ...nachosProps });
+
       return {
-        button: {
-          ...adgButton,
+        buttonStyles: {
+          ...adgButtonStyles,
           ...getButtonStyles({ appearance, state, ...nachosProps }),
+        },
+        spinnerStyles: {
+          ...adgSpinnerStyles,
+        },
+        iconStyles: {
+          ...adgIconStyles,
         },
       };
     }}

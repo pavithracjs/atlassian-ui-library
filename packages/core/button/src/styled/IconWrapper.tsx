@@ -1,30 +1,14 @@
 import * as React from 'react';
-import { gridSize, math } from '@atlaskit/theme';
-import { getLoadingStyle } from './utils';
+import { css } from 'emotion';
 
 type Props = {
   spacing: string;
+  styles: any;
   isOnlyChild: boolean;
   isLoading?: boolean;
+  icon: React.ReactChild;
 };
 
-const getMargin = (props: Props) => {
-  if (props.spacing === 'none') return 0;
-  return `${gridSize() / 2}px`;
-};
-
-const IconWrapper: React.StatelessComponent<Props> = props => {
-  const style: React.CSSProperties = {
-    alignSelf: 'center',
-    display: 'flex',
-    flexShrink: 0,
-    lineHeight: 0,
-    fontSize: 0,
-    margin: getMargin(props),
-    userSelect: 'none',
-    ...getLoadingStyle(props),
-  };
-  return <span style={style}>{props.children}</span>;
-};
-
-export default IconWrapper;
+export default (props: Props) => (
+  <span className={css(props.styles)}>{props.icon}</span>
+);

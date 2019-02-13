@@ -147,7 +147,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
               iconIsOnlyChild={iconIsOnlyChild}
               {...this.props}
             >
-              {({ button }) => (
+              {({ buttonStyles, spinnerStyles, iconStyles }) => (
                 <StyledButton
                   {...filterProps(this.props, StyledButton)}
                   onMouseEnter={this.onMouseEnter}
@@ -156,7 +156,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
                   onMouseUp={this.onMouseUp}
                   onFocus={this.onFocus}
                   onBlur={this.onBlur}
-                  className={css(specifiers(button))}
+                  className={css(specifiers(buttonStyles))}
                 >
                   <ButtonWrapper
                     onClick={this.onInnerClick}
@@ -168,6 +168,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
                         appearance={appearance}
                         isSelected={isSelected}
                         isDisabled={isDisabled}
+                        styles={spinnerStyles}
                       />
                     )}
                     {iconBefore && (
@@ -175,9 +176,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
                         isLoading={isLoading}
                         spacing={spacing}
                         isOnlyChild={iconIsOnlyChild}
-                      >
-                        {iconBefore}
-                      </IconWrapper>
+                        styles={iconStyles}
+                        icon={iconBefore}
+                      />
                     )}
                     {children && (
                       <ButtonContent
@@ -193,9 +194,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
                         isLoading={isLoading}
                         spacing={spacing}
                         isOnlyChild={iconIsOnlyChild}
-                      >
-                        {iconAfter}
-                      </IconWrapper>
+                        styles={iconStyles}
+                        icon={iconAfter}
+                      />
                     )}
                   </ButtonWrapper>
                 </StyledButton>
