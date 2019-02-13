@@ -8,10 +8,11 @@
 - [x] Nachos `disabled` appearance should have `cursor: 'not-allowed'`
 - [x] When `isLoading`, button still seems to be clickable.....
 - [x] Tests: Mock CSS as a way of handling emotion
+- [x] Change examples - Non-Trello vibes
+- [x] Tests: Add new ones for theming
+- [x] Remove StyledComponents from component and examples
 - [ ] Correct ButtonProps and deprecate old props
 - [ ] Read through / edit / amend docs
 - [ ] Type checker ✅
-- [ ] Change examples - Non-Trello vibes
 - [ ] Tests: fix existing
-- [ ] Tests: Add new ones for theming
 - [ ] Reducers instead of hefty functions per styled property

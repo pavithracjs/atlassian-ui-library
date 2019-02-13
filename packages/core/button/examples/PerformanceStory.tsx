@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import { css } from 'emotion';
 
 import Button from '../src';
 
@@ -15,7 +15,7 @@ class CustomComponent extends React.Component<Props> {
   }
 }
 
-const Buttons = styled.div`
+const buttonsStyle = `
   padding: 10px;
 `;
 
@@ -62,13 +62,13 @@ class PerfTest extends React.Component<{}, State> {
     for (let i = 1; i <= count; i++) {
       const buttonNumber = (i - 1) * BUTTON_COUNT;
       buttons.push(
-        <Buttons key={`buttons-${i}`}>
+        <div key={`buttons-${i}`} className={css(buttonsStyle)}>
           <Button appearance="default">Button {buttonNumber + 1}</Button>
           <Button appearance="danger">Button {buttonNumber + 2}</Button>
           <Button appearance="primary">Button {buttonNumber + 3}</Button>
           <Button appearance="warning">Button {buttonNumber + 4}</Button>
           <Button component={CustomComponent}>Button {buttonNumber + 5}</Button>
-        </Buttons>,
+        </div>,
       );
     }
     return buttons;
@@ -76,11 +76,11 @@ class PerfTest extends React.Component<{}, State> {
   render() {
     return (
       <div>
-        <Buttons>
+        <div className={css(buttonsStyle)}>
           <Button appearance="primary" onClick={this.startTest}>
             Start Test
           </Button>
-        </Buttons>
+        </div>
         <div>{this.renderButtons()}</div>
       </div>
     );

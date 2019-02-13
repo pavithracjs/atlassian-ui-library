@@ -1,11 +1,11 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import { css } from 'emotion';
 import Question from '@atlaskit/icon/glyph/question';
 import Expand from '@atlaskit/icon/glyph/arrow-down';
 
 import Button from '../src';
 
-const NarrowWrapper = styled.div`
+const narrowWrapperStyle = `
   margin: 10px;
   padding: 10px;
   width: 190px;
@@ -20,7 +20,7 @@ const NarrowWrapper = styled.div`
 `;
 
 export default () => (
-  <NarrowWrapper>
+  <div className={css(narrowWrapperStyle)}>
     <div>
       <Button appearance="primary">I am wider than my parent</Button>
     </div>
@@ -37,5 +37,5 @@ export default () => (
         I am wider than my parent
       </Button>
     </div>
-  </NarrowWrapper>
+  </div>
 );
