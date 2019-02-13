@@ -1,0 +1,1 @@
+- fix for smart-links break the text flow
