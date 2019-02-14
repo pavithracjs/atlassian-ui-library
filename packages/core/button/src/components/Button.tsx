@@ -12,12 +12,10 @@ import {
 import GlobalTheme from '@atlaskit/theme';
 import { Theme } from '../theme';
 import { mapAttributesToState, filterProps } from './utils';
-import {
-  ButtonContent,
-  ButtonWrapper,
-  IconWrapper,
-  LoadingSpinner,
-} from '../styled';
+import Content from './Content';
+import InnerWrapper from './InnerWrapper';
+import IconWrapper from './IconWrapper';
+import LoadingSpinner from './LoadingSpinner';
 import { withDefaultProps } from '@atlaskit/type-helpers';
 import { ButtonProps, ThemeMode } from '../types';
 
@@ -158,7 +156,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
                   onBlur={this.onBlur}
                   className={css(specifiers(buttonStyles))}
                 >
-                  <ButtonWrapper
+                  <InnerWrapper
                     onClick={this.onInnerClick}
                     fit={!!shouldFitContainer}
                   >
@@ -181,13 +179,13 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
                       />
                     )}
                     {children && (
-                      <ButtonContent
+                      <Content
                         isLoading={isLoading}
                         followsIcon={!!iconBefore}
                         spacing={spacing}
                       >
                         {children}
-                      </ButtonContent>
+                      </Content>
                     )}
                     {iconAfter && (
                       <IconWrapper
@@ -198,7 +196,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
                         icon={iconAfter}
                       />
                     )}
-                  </ButtonWrapper>
+                  </InnerWrapper>
                 </StyledButton>
               )}
             </Theme.Consumer>
