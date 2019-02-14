@@ -1,5 +1,5 @@
 import { Context } from '@atlaskit/media-core';
-import { UploadParams } from '@atlaskit/media-picker';
+import { MediaFile, UploadParams } from '@atlaskit/media-picker';
 
 export type MediaStateStatus =
   | 'unknown'
@@ -74,3 +74,10 @@ export interface CustomMediaPicker {
   destroy(): void;
   setUploadParams(uploadParams: UploadParams);
 }
+
+export type UploadMobileEndEventPayload = {
+  readonly file: MediaFile & {
+    readonly publicId: string;
+    readonly collectionName?: string;
+  };
+};

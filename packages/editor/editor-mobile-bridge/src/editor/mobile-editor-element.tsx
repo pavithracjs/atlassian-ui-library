@@ -52,7 +52,7 @@ class EditorWithState extends Editor {
   }
 }
 
-export default function mobileEditor() {
+export default function mobileEditor(props) {
   return (
     <EditorWithState
       appearance="mobile"
@@ -60,7 +60,7 @@ export default function mobileEditor() {
       emojiProvider={Promise.resolve(MockEmojiProvider)}
       media={{
         customMediaPicker: new MobilePicker(),
-        provider: MediaProvider,
+        provider: props.mediaProvider || MediaProvider,
         allowMediaSingle: true,
       }}
       allowLists={true}

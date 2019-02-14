@@ -72,7 +72,7 @@ export const insertMediaAsMediaSingle = (
 export const insertMediaSingleNode = (
   view: EditorView,
   mediaState: MediaState,
-  collection?: string,
+  collection: string,
 ): boolean => {
   const { state, dispatch } = view;
   const grandParent = state.selection.$from.node(-1);
@@ -97,7 +97,7 @@ export const insertMediaSingleNode = (
   return true;
 };
 
-export const createMediaSingleNode = (schema: Schema, collection?: string) => (
+export const createMediaSingleNode = (schema: Schema, collection: string) => (
   mediaState: MediaSingleState,
 ) => {
   const { id, dimensions, scaleFactor = 1 } = mediaState;

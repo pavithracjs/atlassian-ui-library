@@ -15,9 +15,14 @@ import {
   isBrowser,
 } from '@atlaskit/media-picker';
 import { Context } from '@atlaskit/media-core';
-
 import { ErrorReportingHandler } from '@atlaskit/editor-common';
-import { MediaStateManager, MediaState, CustomMediaPicker } from './types';
+
+import {
+  CustomMediaPicker,
+  MediaState,
+  MediaStateManager,
+  UploadMobileEndEventPayload,
+} from './types';
 
 export type PickerType = keyof MediaPickerComponents | 'customMediaPicker';
 export type ExtendedComponentConfigs = ComponentConfigs & {
@@ -251,18 +256,13 @@ export default class PickerFacade {
     });
   };
 
-  private handleMobileUploadEnd = (
-    event: UploadEndEventPayload & {
-      file: { readonly collectionName?: string };
-    },
-  ) => {
+  private handleMobileUploadEnd = (event: UploadMobileEndEventPayload) => {
     const { file } = event;
 
     this.stateManager.updateState(file.id, {
-      status: 'preview',
-      publicId: (file as any).publicId,
-      collection: file.collectionName,
       id: file.publicId,
+      status: 'preview',
+      collection: file.collectionName,
     });
   };
 

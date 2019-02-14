@@ -234,6 +234,10 @@ export class MediaPluginState {
     const { mediaSingle } = this.view.state.schema.nodes;
     const collection = this.collectionFromProvider();
 
+    if (typeof collection === 'undefined') {
+      return;
+    }
+
     this.allUploadsFinished = false;
 
     const imageAttachments = mediaStates.filter(media =>

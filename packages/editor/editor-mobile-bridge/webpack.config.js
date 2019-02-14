@@ -49,7 +49,6 @@ module.exports = {
     mainFields: ['atlaskit:src', 'browser', 'main'],
     extensions: ['.js', '.ts', '.tsx'],
     alias: {
-      '@atlaskit/media-picker': emptyExportPath,
       '@atlaskit/modal-dialog': emptyExportPath,
       '@atlaskit/logo': emptyExportPath,
       '@atlaskit/avatar': emptyExportPath,
