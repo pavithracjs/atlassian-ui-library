@@ -4,16 +4,10 @@ import Spinner from '@atlaskit/spinner';
 import { AtlassianIcon } from '@atlaskit/logo';
 import * as renderer from 'react-test-renderer';
 import Button from '../../Button';
-import { IconWrapper, ButtonContent, ButtonWrapper } from '../../../styled';
-import * as Emotion from 'emotion';
-
-const originalCssFunc = Emotion.css;
-Emotion.css = jest.fn();
+import IconWrapper from '../../IconWrapper';
 
 beforeEach(() => {
   jest.clearAllMocks();
-  // Reset to original implementation before each test
-  Emotion.css.mockImplementation(originalCssFunc);
 });
 
 describe('ak-button/default-behaviour', () => {
@@ -188,15 +182,24 @@ describe('ak-button/default-behaviour', () => {
     });
 
     it.only('set the opacity of the text to 0 when isLoading is true', () => {
-      let renderedTheme = {};
-      Emotion.css.mockImplementation(theme => (renderedTheme = theme));
-      mount(<Button isLoading>Some text</Button>);
-      check(<IconWrapper />);
-      expect(renderedTheme).toEqual(
-        expect.objectContaining({
-          opacity: 0,
-        }),
+      let buttonRef;
+      const wrapper = mount(
+        <div>
+          <Button ref={el => (buttonRef = el)} isLoading>
+            Some text
+          </Button>
+        </div>,
       );
+
+      // console.log('buttonRef', buttonRef);
+      const spanny = wrapper.find('span');
+      console.log(spanny.debug());
+
+      // const style = window.getComputedStyle(buttonRef);
+      // console.log(style);
+      // const tree = renderer.create(wrapper).toJSON();
+      // console.log(tree);
+      // expect(tree).toHaveStyleRule('opacity', 0);
     });
 
     it('set the iconBefore opacity to 0 when isLoading', () => {

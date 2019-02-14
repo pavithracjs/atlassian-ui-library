@@ -105,6 +105,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       shouldFitContainer,
       spacing,
       theme,
+      innerRef,
     } = this.props;
     const attributes = { ...this.state, isSelected, isDisabled };
 
@@ -147,6 +148,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             >
               {({ buttonStyles, spinnerStyles, iconStyles }) => (
                 <StyledButton
+                  ref={innerRef}
                   {...filterProps(this.props, StyledButton)}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
@@ -208,6 +210,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 }
 
 const DefaultedButton = withDefaultProps(defaultProps, Button);
+const ButtonWithForwardRef = React.forwardRef((props, ref) => (
+  <DefaultedButton {...props} innerRef={ref} />
+));
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export default withAnalyticsContext({
@@ -226,5 +231,5 @@ export default withAnalyticsContext({
         packageVersion,
       },
     }),
-  })(DefaultedButton),
+  })(ButtonWithForwardRef),
 );
