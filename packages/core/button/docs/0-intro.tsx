@@ -16,9 +16,18 @@ export default md`
   ${(
     <Example
       packageName="@atlaskit/button"
-      Component={require('../examples/ButtonAppearances').default}
+      Component={require('../examples/10-Button').default}
+      title="Basic Button"
+      source={require('!!raw-loader!../examples/10-Button')}
+    />
+  )}
+
+  ${(
+    <Example
+      packageName="@atlaskit/button"
+      Component={require('../examples/30-Appearances').default}
       title="Your Appearance Options"
-      source={require('!!raw-loader!../examples/ButtonAppearances')}
+      source={require('!!raw-loader!../examples/30-Appearances')}
     />
   )}
 
@@ -34,9 +43,9 @@ export default md`
   ${(
     <Example
       packageName="@atlaskit/button"
-      Component={require('../examples/ButtonGroupExample').default}
+      Component={require('../examples/20-ButtonGroup').default}
       title="Simple Button Group"
-      source={require('!!raw-loader!../examples/ButtonGroupExample')}
+      source={require('!!raw-loader!../examples/20-ButtonGroup')}
     />
   )}
 
