@@ -44,6 +44,7 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist/bundle'),
   },
+  devtool: mode === 'production' ? false : 'cheap-module-source-map',
   resolve: {
     mainFields: ['atlaskit:src', 'browser', 'main'],
     extensions: ['.js', '.ts', '.tsx'],

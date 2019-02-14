@@ -260,6 +260,7 @@ export default class PickerFacade {
 
     this.stateManager.updateState(file.id, {
       status: 'preview',
+      publicId: (file as any).publicId,
       collection: file.collectionName,
       id: file.publicId,
     });

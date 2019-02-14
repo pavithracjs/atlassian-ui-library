@@ -74,10 +74,6 @@ export const insertMediaSingleNode = (
   mediaState: MediaState,
   collection?: string,
 ): boolean => {
-  if (collection === undefined) {
-    return false;
-  }
-
   const { state, dispatch } = view;
   const grandParent = state.selection.$from.node(-1);
   const node = createMediaSingleNode(state.schema, collection)(
@@ -101,7 +97,7 @@ export const insertMediaSingleNode = (
   return true;
 };
 
-export const createMediaSingleNode = (schema: Schema, collection: string) => (
+export const createMediaSingleNode = (schema: Schema, collection?: string) => (
   mediaState: MediaSingleState,
 ) => {
   const { id, dimensions, scaleFactor = 1 } = mediaState;

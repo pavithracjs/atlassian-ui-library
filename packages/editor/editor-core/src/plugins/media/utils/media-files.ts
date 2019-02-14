@@ -110,7 +110,7 @@ export const insertMediaGroupNode = (
   const { media, paragraph } = schema.nodes;
 
   // Do nothing if no media found
-  if (!collection || !media || !mediaStates.length) {
+  if (!media || !mediaStates.length) {
     return;
   }
 
@@ -166,7 +166,7 @@ export const insertMediaGroupNode = (
 
 const createMediaFileNodes = (
   mediaStates: MediaState[],
-  collection: string,
+  collection: string | undefined,
   media: NodeType,
 ): PMNode[] => {
   const nodes = mediaStates.map(mediaState => {

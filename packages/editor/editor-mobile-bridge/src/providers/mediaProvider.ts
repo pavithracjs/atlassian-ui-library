@@ -1,28 +1,31 @@
-import { ContextFactory } from '@atlaskit/media-core';
+import { MediaProvider } from '@atlaskit/editor-core';
+import {
+  Auth,
+  AuthContext,
+  ContextFactory as MediaContextFactory,
+} from '@atlaskit/media-core';
+
 import { createPromise } from '../cross-platform-promise';
 import { MediaAuthConfig } from '../types';
 
-function getToken(context) {
-  return createPromise<MediaAuthConfig>(
+const getMediaToken = (context?: AuthContext): Promise<Auth> =>
+  createPromise<MediaAuthConfig>(
     'getAuth',
-    context.collectionName,
+    context && context.collectionName ? context.collectionName : undefined,
   ).submit();
-}
 
-function createMediaProvider() {
-  const createMediaContext = Promise.resolve(
-    ContextFactory.create({
-      authProvider: context => getToken(context),
+async function mediaProviderFactory(): Promise<MediaProvider> {
+  const mediaContext = Promise.resolve(
+    MediaContextFactory.create({
+      authProvider: (context?: AuthContext) => getMediaToken(context),
     }),
   );
 
-  return Promise.resolve({
-    uploadContext: createMediaContext,
-    viewContext: createMediaContext,
-    uploadParams: {
-      collection: null,
-    },
-  });
+  return {
+    uploadContext: mediaContext,
+    viewContext: mediaContext,
+    uploadParams: {}, // needs to be defined
+  };
 }
 
-export default Promise.resolve(createMediaProvider());
+export default mediaProviderFactory();

@@ -233,9 +233,6 @@ export class MediaPluginState {
     const { stateManager } = this;
     const { mediaSingle } = this.view.state.schema.nodes;
     const collection = this.collectionFromProvider();
-    if (collection === undefined) {
-      return;
-    }
 
     this.allUploadsFinished = false;
 

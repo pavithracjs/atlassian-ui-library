@@ -1,3 +1,5 @@
+import { ClientBasedAuth } from '@atlaskit/media-core';
+
 export interface ProseMirrorDOMChange {
   inDOMChange: {
     composing: boolean;
@@ -10,11 +12,8 @@ export interface ElementsConfig {
   cloudId?: string;
 }
 
-export interface MediaAuthConfig {
-  token: string;
-  collectionName: string;
-  clientId: string;
-  baseUrl: string;
+export interface MediaAuthConfig extends ClientBasedAuth {
+  collectionName?: string;
 }
 
 export interface NativeFetchResponse {
