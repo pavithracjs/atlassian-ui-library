@@ -181,4 +181,31 @@ describe('ShareForm', () => {
       defaultValue.comment,
     );
   });
+
+  it('should hide comment field with hideComment prop', () => {
+    const loadOptions = jest.fn();
+    const component = shallow(
+      <ShareForm
+        copyLink="link"
+        hideComment={true}
+        loadOptions={loadOptions}
+        title="some title"
+      />,
+    );
+
+    const akForm = component.find<any>(Form);
+    expect(akForm).toHaveLength(1);
+
+    const formProps = {};
+    const form = renderProp(akForm, 'children', { formProps })
+      .dive()
+      .find('form');
+    expect(form).toHaveLength(1);
+    expect(form.find(ShareHeader).prop('title')).toEqual('some title');
+
+    const formSection = form.find(FormSection);
+    expect(formSection).toHaveLength(1);
+
+    expect(formSection.find(CommentField)).toHaveLength(0);
+  });
 });

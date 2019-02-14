@@ -42,6 +42,7 @@ export type Props = {
   capabilitiesInfoMessage?: React.ReactNode;
   capabilities?: InvitationsCapabilitiesResponse;
   copyLink: string;
+  hideComment?: boolean;
   isSharing?: boolean;
   loadOptions?: LoadOptions;
   onLinkCopy?: (link: string) => void;
@@ -76,6 +77,7 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
       capabilities,
       shareError,
       isSharing,
+      hideComment,
     } = this.props;
     return (
       <form {...formProps}>
@@ -87,7 +89,9 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
             capabilitiesInfoMessage={capabilitiesInfoMessage}
             capabilities={capabilities}
           />
-          <CommentField defaultValue={defaultValue && defaultValue.comment} />
+          {!hideComment ? (
+            <CommentField defaultValue={defaultValue && defaultValue.comment} />
+          ) : null}
         </FormSection>
         <FormFooter>
           <LeftAlignmentContainer>

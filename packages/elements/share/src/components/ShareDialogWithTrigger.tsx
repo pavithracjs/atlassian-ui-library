@@ -151,7 +151,16 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
 
   render() {
     const { isDialogOpen, isSharing, shareError, defaultValue } = this.state;
-    const { copyLink, isDisabled, loadUserOptions, capabilities } = this.props;
+    const {
+      copyLink,
+      isDisabled,
+      loadUserOptions,
+      capabilities,
+      shouldShowCommentField,
+    } = this.props;
+
+    const showComment =
+      shouldShowCommentField === undefined ? true : shouldShowCommentField;
 
     // for performance purposes, we may want to have a lodable content i.e. ShareForm
     return (
@@ -171,6 +180,7 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
                 onShareClick={this.handleShareSubmit}
                 shareError={shareError}
                 onDismiss={this.handleFormDismiss}
+                hideComment={!showComment}
                 defaultValue={defaultValue}
                 capabilities={capabilities}
               />
