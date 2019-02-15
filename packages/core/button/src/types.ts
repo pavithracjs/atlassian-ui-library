@@ -63,8 +63,9 @@ export type ButtonProps = {
   shouldFitContainer: boolean;
   /** Set the button to autofocus on mount. */
   autoFocus: boolean;
-  // theme?: string;
-  theme?: () => void;
+  theme: () => ThemeTokens;
+  /** Forward refs */
+  innerRef?: HTMLDivElement;
 };
 
 export type DerivedButtonProps = {

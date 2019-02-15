@@ -18,6 +18,13 @@ import IconWrapper from './IconWrapper';
 import LoadingSpinner from './LoadingSpinner';
 import { withDefaultProps } from '@atlaskit/type-helpers';
 import { ButtonProps, ThemeMode } from '../types';
+import { ButtonStyles, SpinnerStyles, IconStyles } from './getStyles';
+
+type ButtonThemeStyles = {
+  buttonStyles: ButtonStyles;
+  spinnerStyles: SpinnerStyles;
+  iconStyles: IconStyles;
+};
 
 export type ButtonState = {
   isHover: boolean;
@@ -150,7 +157,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
               iconIsOnlyChild={iconIsOnlyChild}
               {...this.props}
             >
-              {({ buttonStyles, spinnerStyles, iconStyles }) => (
+              {({
+                buttonStyles,
+                spinnerStyles,
+                iconStyles,
+              }: ButtonThemeStyles) => (
                 <StyledButton
                   ref={innerRef}
                   {...filterProps(this.props, StyledButton)}
