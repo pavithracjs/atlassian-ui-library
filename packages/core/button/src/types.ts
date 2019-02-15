@@ -14,14 +14,6 @@ export type ButtonAppearances =
 export type ButtonProps = {
   /** The base styling to apply to the button. */
   appearance?: ButtonAppearances;
-  /** Pass aria-controls to underlying html button. */
-  ariaControls?: string;
-  /** Pass aria-expanded to underlying html button. */
-  ariaExpanded?: boolean;
-  /** Pass aria-label to underlying html button. */
-  ariaLabel?: string;
-  /** Pass aria-haspopup to underlying html button. */
-  ariaHaspopup?: boolean;
   /** Add a classname to the button. */
   className?: string;
   /** A custom component to use instead of the default button. */

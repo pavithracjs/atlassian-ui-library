@@ -80,3 +80,12 @@ export function hex2rgba(hex: string, alpha = 1) {
 
   throw new Error('Bad Hex');
 }
+
+export const checkDeprecations = (props: ButtonProps) => {
+  const { ariaControls, ariaExpanded, ariaLabel, ariaHaspopup } = props;
+  if (ariaControls || ariaExpanded || ariaLabel || ariaHaspopup) {
+    console.warn(
+      'Button aria* props have been deprecated, please use the React ARIA props - https://goo.gl/Qnise1',
+    );
+  }
+};

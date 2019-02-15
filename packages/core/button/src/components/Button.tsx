@@ -11,7 +11,7 @@ import {
 } from '../../package.json';
 import GlobalTheme from '@atlaskit/theme';
 import { Theme } from '../theme';
-import { mapAttributesToState, filterProps } from './utils';
+import { mapAttributesToState, filterProps, checkDeprecations } from './utils';
 import Content from './Content';
 import InnerWrapper from './InnerWrapper';
 import IconWrapper from './IconWrapper';
@@ -52,6 +52,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     isFocus: false,
     isHover: false,
   };
+
+  componentDidMount() {
+    checkDeprecations(this.props);
+  }
 
   onMouseEnter = () => {
     this.setState({ isHover: true });
