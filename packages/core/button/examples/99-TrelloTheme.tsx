@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Button, { ButtonGroup } from '../src';
 import NachosButton from './Nachos/NachosButton';
-import { AtlassianIcon } from '@atlaskit/logo';
 import AddIcon from '@atlaskit/icon/glyph/editor/add';
 
 export default () => (

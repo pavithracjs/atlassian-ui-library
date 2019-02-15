@@ -1,14 +1,7 @@
 import * as React from 'react';
 import { css } from 'emotion';
+import { IconProps } from '../types';
 
-type Props = {
-  spacing: string;
-  styles: any;
-  isOnlyChild: boolean;
-  isLoading?: boolean;
-  icon: React.ReactChild;
-};
-
-export default (props: Props) => (
+export default (props: IconProps) => (
   <span className={css(props.styles)}>{props.icon}</span>
 );
