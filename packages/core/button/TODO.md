@@ -11,6 +11,7 @@
 - [x] Change examples - Non-Trello vibes
 - [x] Tests: Add new ones for theming
 - [x] Remove StyledComponents from component and examples
+- [ ] Icon and loading slightly too the left???
 - [ ] Correct ButtonProps and deprecate old props
 - [ ] Read through / edit / amend docs
 - [ ] Type checker ✅
