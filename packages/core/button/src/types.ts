@@ -92,6 +92,20 @@ export type ThemeProps = {
   mode?: ThemeMode;
 };
 
+export interface ButtonThemeProps extends ButtonProps {
+  state: string;
+  mode?: ThemeMode;
+  iconIsOnlyChild?: boolean;
+}
+
+export type IconProps = {
+  spacing: string;
+  styles: any;
+  isOnlyChild: boolean;
+  isLoading?: boolean;
+  icon: React.ReactChild;
+};
+
 export type AppearanceStates = {
   default: { light: string; dark?: string };
   hover?: { light: string; dark?: string };

@@ -6,10 +6,10 @@ const appearances: string[] = ['primary', 'danger', 'help'];
 
 type Props = {
   spacing: string;
-  styles: any;
-  appearance?: string;
+  styles: {};
   isDisabled: boolean;
   isSelected: boolean;
+  appearance?: string;
 };
 
 export default class LoadingSpinner extends React.Component<Props> {
@@ -17,7 +17,9 @@ export default class LoadingSpinner extends React.Component<Props> {
     const { appearance, isSelected, isDisabled } = this.props;
     if (isSelected) return true;
     if (isDisabled) return false;
-    if (appearances.indexOf(appearance) != -1) return true;
+    if (appearance !== undefined) {
+      if (appearances.indexOf(appearance) != -1) return true;
+    }
     return false;
   };
 
