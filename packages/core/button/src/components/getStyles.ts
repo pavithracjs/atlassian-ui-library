@@ -124,12 +124,12 @@ export const getSpinnerStyles = () => ({
   transform: 'translate(-50%, -50%)',
 });
 
-const getIconMargin = (props: IconProps) => {
+const getIconMargin = (props: ButtonThemeProps) => {
   if (props.spacing === 'none') return 0;
   return `${gridSize() / 2}px`;
 };
 
-export const getIconStyles = (props: IconProps) => ({
+export const getIconStyles = (props: ButtonThemeProps) => ({
   alignSelf: 'center',
   display: 'flex',
   flexShrink: 0,
