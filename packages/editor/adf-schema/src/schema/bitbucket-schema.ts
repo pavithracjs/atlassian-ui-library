@@ -24,13 +24,5 @@ export const bitbucketSchema: Schema = createSchema({
     'tableHeader',
     'tableRow',
   ],
-  marks: [
-    'em',
-    'strong',
-    'strike',
-    'link',
-    'mentionQuery',
-    'emojiQuery',
-    'code',
-  ],
+  marks: ['em', 'strong', 'strike', 'link', 'code'],
 });
