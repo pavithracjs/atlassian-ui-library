@@ -1,0 +1,1 @@
+- [ED-6294] Add decoration key on resizer decoration to avoid re-rendering
