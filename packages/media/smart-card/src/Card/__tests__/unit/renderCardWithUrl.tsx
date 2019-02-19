@@ -147,7 +147,7 @@ describe('Render Card With URL', () => {
       ([obj]) => obj.attributes.reason,
     );
 
-    expect(reasons).toEqual(['unauthorized', 'potential.sensitive.data']);
+    expect(reasons).toEqual(['unauthorized', 'rejected auth']);
   });
 
   it('should track when auth dialog was closed', async () => {

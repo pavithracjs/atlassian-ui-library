@@ -240,7 +240,7 @@ export function CardWithUrlContent(props: CardWithUrlContentProps) {
                             state,
                           )
                         : connectFailedEvent(
-                            'potential.sensitive.data',
+                            err.message,
                             url,
                             state,
                           ),
