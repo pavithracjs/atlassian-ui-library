@@ -34,6 +34,8 @@ export type ButtonProps = {
   iconAfter?: React.ReactChild;
   /** Places an icon within the button, before the button's text. */
   iconBefore?: React.ReactChild;
+  /** Pass a reference on to the styled component */
+  innerRef?: (element: HTMLElement) => void;
   /** Provide a unique id to the button. */
   id?: string;
   /** Set if the button is disabled. */
@@ -92,6 +94,12 @@ export type ThemeProps = {
   mode?: ThemeMode;
 };
 
+export type ButtonThemePropsList = {
+  buttonStyles: ButtonThemeProps;
+  iconStyles: ButtonThemeProps;
+  spinnerStyles: ButtonThemeProps;
+};
+
 export interface ButtonThemeProps extends ButtonProps {
   state: string;
   mode?: ThemeMode;
@@ -104,6 +112,10 @@ export type IconProps = {
   isOnlyChild: boolean;
   isLoading?: boolean;
   icon: React.ReactChild;
+};
+
+export type ThemeFallbacks = {
+  [index: string]: { [index: string]: string };
 };
 
 export type AppearanceStates = {

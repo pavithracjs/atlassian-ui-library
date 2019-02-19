@@ -1,15 +1,16 @@
 import { colors, createTheme } from '@atlaskit/theme';
 import { hex2rgba } from './components/utils';
-import { ButtonThemeProps, ThemeTokens, ThemeMode } from './types';
+import {
+  ButtonThemeProps,
+  ThemeTokens,
+  ThemeMode,
+  ThemeFallbacks,
+} from './types';
 import {
   getButtonStyles,
   getSpinnerStyles,
   getIconStyles,
 } from './components/getStyles';
-
-type ThemeFallbacks = {
-  [index: string]: { [index: string]: string };
-};
 
 export const fallbacks: ThemeFallbacks = {
   background: { light: colors.N20A, dark: colors.DN70 },
