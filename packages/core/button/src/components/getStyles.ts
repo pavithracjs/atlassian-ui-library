@@ -1,7 +1,7 @@
-import { borderRadius, fontSize, gridSize, math } from '@atlaskit/theme';
+import { borderRadius, fontSize, gridSize } from '@atlaskit/theme';
 import { applyPropertyStyle, baseTheme } from '../theme';
 import { getLoadingStyle } from './utils';
-import { IconProps, ButtonThemeProps } from '../types';
+import { ButtonThemeProps } from '../types';
 
 type Spacing = 'compact' | 'default' | 'none';
 

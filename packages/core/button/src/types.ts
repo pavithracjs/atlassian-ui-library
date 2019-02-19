@@ -67,7 +67,6 @@ export type ButtonProps = {
   autoFocus: boolean;
   theme: () => ThemeTokens;
   /** Forward refs */
-  innerRef?: HTMLDivElement;
 };
 
 export type DerivedButtonProps = {
