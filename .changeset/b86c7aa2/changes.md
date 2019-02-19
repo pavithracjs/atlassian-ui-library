@@ -1,0 +1,1 @@
+- Log auth failure reason
