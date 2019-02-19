@@ -17,7 +17,7 @@ import InnerWrapper from './InnerWrapper';
 import IconWrapper from './IconWrapper';
 import LoadingSpinner from './LoadingSpinner';
 import { withDefaultProps } from '@atlaskit/type-helpers';
-import { ButtonProps, ButtonThemePropsList, ThemeMode } from '../types';
+import { ButtonProps, ThemeMode } from '../types';
 import { ButtonStyles, SpinnerStyles, IconStyles } from './getStyles';
 
 type ButtonThemeStyles = {
@@ -90,14 +90,14 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   onMouseUp = () => this.setState({ isActive: false });
 
-  onFocus: React.FocusEventHandler<HTMLButtonElement> = event => {
+  onFocus: React.FocusEventHandler<HTMLElement> = event => {
     this.setState({ isFocus: true });
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
 
-  onBlur: React.FocusEventHandler<HTMLButtonElement> = event => {
+  onBlur: React.FocusEventHandler<HTMLElement> = event => {
     this.setState({ isFocus: false });
     if (this.props.onBlur) {
       this.props.onBlur(event);
@@ -108,7 +108,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   // Swallow click events when the button is disabled
   // to prevent inner child clicks bubbling up.
-  onInnerClick: React.MouseEventHandler<HTMLButtonElement> = e => {
+  onInnerClick: React.MouseEventHandler<HTMLElement> = e => {
     if (!this.isInteractive()) e.stopPropagation();
     return true;
   };
@@ -117,9 +117,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   getInnerRef = (ref: HTMLElement) => {
     this.button = ref;
 
-    if (this.props.innerRef) {
-      this.props.innerRef(ref);
-    }
+    const { innerRef } = this.props;
+    if (innerRef) innerRef(ref);
   };
 
   render() {
@@ -137,6 +136,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       spacing,
       theme,
     } = this.props;
+
     const attributes = { ...this.state, isSelected, isDisabled };
 
     const iconIsOnlyChild: boolean = !!(
@@ -145,9 +145,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     );
 
     const getElement = () => {
-      if (href) {
-        return isDisabled ? 'span' : 'a';
-      }
+      if (href) return isDisabled ? 'span' : 'a';
       return 'button';
     };
 
@@ -183,16 +181,13 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
               }: ButtonThemeStyles) => (
                 <StyledButton
                   {...filterProps(this.props, StyledButton)}
-                  // {...(typeof StyledButton === 'string'
-                  //   ? { innerRef: this.getInnerRef }
-                  //   : undefined)}
+                  ref={this.getInnerRef}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
                   onMouseDown={this.onMouseDown}
                   onMouseUp={this.onMouseUp}
-                  {...(StyledButton !== 'a'
-                    ? { onFocus: this.onFocus, onBlur: this.onBlur }
-                    : {})}
+                  onFocus={this.onFocus}
+                  onBlur={this.onBlur}
                   className={cx(
                     css(specifiers(buttonStyles)),
                     this.props.className,
