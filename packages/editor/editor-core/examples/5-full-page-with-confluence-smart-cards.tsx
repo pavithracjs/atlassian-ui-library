@@ -321,7 +321,7 @@ const exampleDocument = {
                 icon:
                   'https://cdn4.iconfinder.com/data/icons/free-colorful-icons/360/google_docs.png',
               },
-              name: 'The document with a very loing name and lorem ipsum in it',
+              name: 'The document with a very long name and lorem ipsum in it',
             },
           },
         },
