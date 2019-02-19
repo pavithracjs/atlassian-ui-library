@@ -11,11 +11,11 @@
 - [x] Change examples - Non-Trello vibes
 - [x] Tests: Add new ones for theming
 - [x] Remove StyledComponents from component and examples
-- [ ] Icon and loading slightly too the left???
+- [x] Correct ButtonProps and deprecate old props
+- [ ] Icon and loading slightly to the left???
 - [ ] Fix Focus examples and changelog button on website
-- [ ] Correct ButtonProps and deprecate old props
 - [ ] Read through / edit / amend docs
 - [ ] Type checker ✅
-  - [ ] work out themeProp as in theme.ts
+- [ ] Work out themeProp as in theme.ts
 - [ ] Tests: fix existing
 - [ ] Reducers instead of hefty functions per styled property

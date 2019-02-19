@@ -11,13 +11,20 @@ import {
 } from '../../package.json';
 import GlobalTheme from '@atlaskit/theme';
 import { Theme } from '../theme';
-import { mapAttributesToState, filterProps } from './utils';
+import { mapAttributesToState, filterProps, checkDeprecations } from './utils';
 import Content from './Content';
 import InnerWrapper from './InnerWrapper';
 import IconWrapper from './IconWrapper';
 import LoadingSpinner from './LoadingSpinner';
 import { withDefaultProps } from '@atlaskit/type-helpers';
 import { ButtonProps, ButtonThemePropsList, ThemeMode } from '../types';
+import { ButtonStyles, SpinnerStyles, IconStyles } from './getStyles';
+
+type ButtonThemeStyles = {
+  buttonStyles: ButtonStyles;
+  spinnerStyles: SpinnerStyles;
+  iconStyles: IconStyles;
+};
 
 export type ButtonState = {
   isHover: boolean;
@@ -65,6 +72,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (this.props.autoFocus && this.button) {
       this.button.focus();
     }
+    checkDeprecations(this.props);
   }
 
   onMouseEnter = () => {
@@ -172,7 +180,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
                 buttonStyles,
                 spinnerStyles,
                 iconStyles,
-              }: ButtonThemePropsList) => (
+              }: ButtonThemeStyles) => (
                 <StyledButton
                   {...filterProps(this.props, StyledButton)}
                   // {...(typeof StyledButton === 'string'

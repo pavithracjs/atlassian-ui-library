@@ -2,6 +2,13 @@ import { colors } from '@atlaskit/theme';
 import { nachosColors } from './colors';
 import { ThemeProps } from '../../src/types';
 
+export type NachosAppearances =
+  | 'default'
+  | 'primary'
+  | 'subtle'
+  | 'danger'
+  | 'disabled';
+
 export const button = {
   background: {
     default: {

@@ -5,6 +5,18 @@ import { IconProps, ButtonThemeProps } from '../types';
 
 type Spacing = 'compact' | 'default' | 'none';
 
+export type ButtonStyles = {
+  [index: string]: string | number | { [index: string]: number };
+};
+
+export type SpinnerStyles = {
+  [index: string]: string;
+};
+
+export type IconStyles = {
+  [index: string]: string | number;
+};
+
 const getBackground = (props: ButtonThemeProps) => {
   return applyPropertyStyle('background', props, baseTheme);
 };
@@ -94,7 +106,7 @@ const staticStyles = {
   whiteSpace: 'nowrap',
 };
 
-export const getButtonStyles = (props: ButtonThemeProps) => {
+export const getButtonStyles = (props: ButtonThemeProps): ButtonStyles => {
   const compactButtonHeight = `${(gridSize() * 3) / fontSize()}em`;
   const buttonHeight = `${(gridSize() * 4) / fontSize()}em`;
 
@@ -105,7 +117,7 @@ export const getButtonStyles = (props: ButtonThemeProps) => {
     return lineHeight;
   };
 
-  const styleProps = {
+  return {
     ...staticStyles,
     background: getBackground(props),
     borderRadius: `${borderRadius()}px`,
@@ -127,11 +139,9 @@ export const getButtonStyles = (props: ButtonThemeProps) => {
     },
     ...(props.isLoading && { 'pointer-events': 'none' }),
   };
-
-  return styleProps;
 };
 
-export const getSpinnerStyles = () => ({
+export const getSpinnerStyles = (): SpinnerStyles => ({
   display: 'flex',
   position: 'absolute',
   left: '50%',
@@ -144,7 +154,7 @@ const getIconMargin = (props: ButtonThemeProps) => {
   return `${gridSize() / 2}px`;
 };
 
-export const getIconStyles = (props: ButtonThemeProps) => ({
+export const getIconStyles = (props: ButtonThemeProps): IconStyles => ({
   alignSelf: 'center',
   display: 'flex',
   flexShrink: 0,
