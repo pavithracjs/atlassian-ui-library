@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -17,7 +17,7 @@ import InnerWrapper from './InnerWrapper';
 import IconWrapper from './IconWrapper';
 import LoadingSpinner from './LoadingSpinner';
 import { withDefaultProps } from '@atlaskit/type-helpers';
-import { ButtonProps, ThemeMode } from '../types';
+import { ButtonProps, ButtonThemePropsList, ThemeMode } from '../types';
 
 export type ButtonState = {
   isHover: boolean;
@@ -47,11 +47,25 @@ export const defaultProps: Pick<
 };
 
 export class Button extends React.Component<ButtonProps, ButtonState> {
+  button: HTMLElement | undefined;
+
   state = {
     isActive: false,
     isFocus: false,
     isHover: false,
   };
+
+  // componentWillReceiveProps(nextProps: ButtonProps) {
+  //   if (this.props.component !== nextProps.component) {
+  //     delete this.customComponent;
+  //   }
+  // }
+
+  componentDidMount() {
+    if (this.props.autoFocus && this.button) {
+      this.button.focus();
+    }
+  }
 
   onMouseEnter = () => {
     this.setState({ isHover: true });
@@ -91,6 +105,15 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return true;
   };
 
+  // Handle innerRef for focusing button
+  getInnerRef = (ref: HTMLElement) => {
+    this.button = ref;
+
+    if (this.props.innerRef) {
+      this.props.innerRef(ref);
+    }
+  };
+
   render() {
     const {
       appearance,
@@ -105,7 +128,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       shouldFitContainer,
       spacing,
       theme,
-      innerRef,
     } = this.props;
     const attributes = { ...this.state, isSelected, isDisabled };
 
@@ -146,17 +168,27 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
               iconIsOnlyChild={iconIsOnlyChild}
               {...this.props}
             >
-              {({ buttonStyles, spinnerStyles, iconStyles }) => (
+              {({
+                buttonStyles,
+                spinnerStyles,
+                iconStyles,
+              }: ButtonThemePropsList) => (
                 <StyledButton
-                  ref={innerRef}
                   {...filterProps(this.props, StyledButton)}
+                  // {...(typeof StyledButton === 'string'
+                  //   ? { innerRef: this.getInnerRef }
+                  //   : undefined)}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
                   onMouseDown={this.onMouseDown}
                   onMouseUp={this.onMouseUp}
-                  onFocus={this.onFocus}
-                  onBlur={this.onBlur}
-                  className={css(specifiers(buttonStyles))}
+                  {...(StyledButton !== 'a'
+                    ? { onFocus: this.onFocus, onBlur: this.onBlur }
+                    : {})}
+                  className={cx(
+                    css(specifiers(buttonStyles)),
+                    this.props.className,
+                  )}
                 >
                   <InnerWrapper
                     onClick={this.onInnerClick}

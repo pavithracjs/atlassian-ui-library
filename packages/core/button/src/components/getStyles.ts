@@ -67,10 +67,16 @@ const getBoxShadow = (props: ButtonThemeProps) => {
   return `0 0 0 2px ${boxShadowColor}`;
 };
 
-const getWidth = ({ spacing, fit }: { spacing: Spacing; fit: boolean }) => {
+const getWidth = ({
+  spacing,
+  shouldFitContainer,
+}: {
+  spacing: Spacing;
+  shouldFitContainer: boolean;
+}) => {
   let width = 'auto';
   if (spacing === 'compact') width = '100%';
-  if (fit) width = '100%';
+  if (shouldFitContainer) width = '100%';
   return width;
 };
 

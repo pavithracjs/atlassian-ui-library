@@ -29,15 +29,13 @@ const LatestChange = ({
         range={changelog[0].version}
         packageName={pkgId}
       />
-      <ButtonWrapper>
-        <Btn
-          component={Link}
-          iconBefore={<Icon label="List icon" />}
-          to={`/packages/${groupId}/${pkgId}/changelog`}
-        >
-          Changelog
-        </Btn>
-      </ButtonWrapper>
+      <Button
+        component={Link}
+        iconBefore={<Icon label="List icon" />}
+        to={`/packages/${groupId}/${pkgId}/changelog`}
+      >
+        Changelog
+      </Button>
     </LogWrapper>
   );
 };
@@ -60,7 +58,7 @@ const LogWrapper = styled.div`
     }
   }
 `;
-const ButtonWrapper = styled.div`
+const Button = styled(Btn)`
   position: absolute;
   right: 0;
   top: ${math.multiply(gridSize, 3)}px;
