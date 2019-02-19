@@ -22,8 +22,17 @@ const getCursor = ({ state = 'default' }: { state: string }) => {
 
 const getPadding = (props: ButtonThemeProps) => {
   const paddingSize = (gridSize() * 1.5) / fontSize();
-  const padLeft = props.iconBefore ? 0 : paddingSize;
-  const padRight = props.iconAfter ? 0 : paddingSize;
+  let padLeft = props.iconBefore ? 0 : paddingSize;
+  let padRight = props.iconAfter ? 0 : paddingSize;
+
+  // Modifies padding while loading to center the loading spinner (while
+  // keeping dimensions the same for buttons with icons both before and after)
+  if (
+    (props.iconBefore || props.iconAfter) &&
+    !(props.iconBefore && props.iconAfter) &&
+    props.isLoading
+  )
+    padLeft = padRight = paddingSize / 2;
 
   // TODO: RTL support
   let padding = `0 ${padRight}em 0 ${padLeft}em`;
