@@ -336,8 +336,9 @@ function handleDecorations(state, cell) {
       let cellPos = map.map[index];
       let pos = start + cellPos + table.nodeAt(cellPos).nodeSize - 1;
       let dom = document.createElement('div');
+      const decorationKey = `#table-resizing-decorations-row-${row}-col-${col}`;
       dom.className = ClassName.COLUMN_RESIZE_HANDLE;
-      decorations.push(Decoration.widget(pos, dom));
+      decorations.push(Decoration.widget(pos, dom, { key: decorationKey }));
     }
   }
   return DecorationSet.create(state.doc, decorations);
