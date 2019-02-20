@@ -3,12 +3,13 @@ import { TextSelection } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { Transformer } from '@atlaskit/editor-common';
 import {
+  compose,
   getEditorValueWithMedia,
   insertFileFromDataUrl as insertFileFromUrl,
-  preprocessDoc,
   toJSON,
   processRawValue,
 } from '../utils';
+import { sanitizeNode } from '../utils/filter/node-filter';
 import { EventDispatcher } from '../event-dispatcher';
 import { safeInsert } from 'prosemirror-utils';
 
@@ -130,11 +131,19 @@ export default class EditorActions implements EditorActionsOptions {
 
   async getValue(): Promise<any | undefined> {
     const doc = await getEditorValueWithMedia(this.editorView);
-    const processedDoc = preprocessDoc(this.editorView!.state.schema, doc);
-    if (this.contentTransformer && processedDoc) {
-      return this.contentTransformer.encode(processedDoc);
+
+    if (!doc) {
+      return;
     }
-    return processedDoc ? toJSON(processedDoc) : processedDoc;
+
+    if (this.contentTransformer) {
+      return this.contentTransformer.encode(doc);
+    }
+
+    return compose(
+      sanitizeNode,
+      toJSON,
+    )(doc);
   }
 
   replaceDocument(rawValue: any, shouldScrollToBottom = true): boolean {

@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { PureComponent, FormEvent } from 'react';
-import styled from 'styled-components';
-import { gridSize } from '@atlaskit/theme';
 import { FieldTextStateless } from '@atlaskit/field-text';
+import { gridSize } from '@atlaskit/theme';
+import * as React from 'react';
+import { FormEvent, PureComponent } from 'react';
+import styled from 'styled-components';
 import ColorPalette from './internal/color-palette';
 import { Color as ColorType } from './Status';
 
@@ -15,6 +15,7 @@ export interface Props {
   text: string;
   onEnter: () => void;
   onColorClick: (value: ColorType) => void;
+  onColorHover?: (value: ColorType) => void;
   onTextChanged: (value: string) => void;
   autoFocus?: boolean;
 }
@@ -28,7 +29,7 @@ export class StatusPicker extends PureComponent<Props, any> {
   };
 
   render() {
-    const { autoFocus, text, selectedColor, onColorClick } = this.props;
+    const { text, selectedColor, onColorClick, onColorHover } = this.props;
 
     // Using <React.Fragment> instead of [] to workaround Enzyme
     // (https://github.com/airbnb/enzyme/issues/1149)
@@ -40,13 +41,17 @@ export class StatusPicker extends PureComponent<Props, any> {
             isLabelHidden={true}
             shouldFitContainer={true}
             onChange={this.onChange}
-            autoFocus={autoFocus}
             onKeyPress={this.onKeyPress}
+            compact={true}
+            innerRef={this.handleInputRef}
+            autoComplete="off"
+            isSpellCheckEnabled={false}
           />
         </FieldTextWrapper>
         <ColorPalette
           key={this.colorPaletteKey}
           onClick={onColorClick}
+          onHover={onColorHover}
           selectedColor={selectedColor}
         />
       </React.Fragment>
@@ -58,9 +63,18 @@ export class StatusPicker extends PureComponent<Props, any> {
     this.props.onTextChanged(evt.target.value);
   };
 
-  private onKeyPress = event => {
+  private onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       this.props.onEnter();
+    }
+  };
+
+  private handleInputRef = (ref: HTMLInputElement | null) => {
+    if (ref && this.props.autoFocus) {
+      // Defer to prevent editor scrolling to top (See FS-3227, also ED-2992)
+      setTimeout(() => {
+        ref.focus();
+      });
     }
   };
 }

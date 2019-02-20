@@ -8,7 +8,7 @@ import {
   NotificationCountResponse,
 } from '@atlaskit/notification-log-client';
 
-import { NotificationIndicator } from '../..';
+import NotificationIndicator from '../../NotificationIndicator';
 
 class MockNotificationLogClient extends NotificationLogClient {
   private response?: Promise<NotificationCountResponse>;
@@ -69,7 +69,7 @@ describe('NotificationIndicator', () => {
   }
 
   function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => window.setTimeout(resolve, ms));
   }
 
   function triggerVisibilityChange() {
@@ -93,6 +93,19 @@ describe('NotificationIndicator', () => {
     expect(badge.prop('value')).toEqual(5);
     expect(badge.prop('max')).toEqual(10);
     expect(badge.prop('appearance')).toEqual('primary');
+  });
+
+  it('Should render data-test-selector="NotificationIndicator"', async () => {
+    const wrapper = await renderNotificationIndicator(returnCount(5), {
+      max: 10,
+      appearance: 'primary',
+    });
+    wrapper.update();
+    const dataTestSelector = wrapper.childAt(0);
+
+    expect(dataTestSelector.prop('data-test-selector')).toEqual(
+      'NotificationIndicator',
+    );
   });
 
   it('Should not render indicator when there are no new notifications', async () => {
@@ -167,7 +180,7 @@ describe('NotificationIndicator', () => {
     wrapper.unmount();
     await timeout(5); // Wait for the next tick to complete
 
-    // Ensure setInterval has been cleared
+    // Ensure window.setInterval has been cleared
     expect(onCountUpdated.callCount).toEqual(2);
   });
 
@@ -186,13 +199,13 @@ describe('NotificationIndicator', () => {
     wrapper.update();
     expect(wrapper.state('count')).toEqual(2);
 
-    // Ensure the original setInterval has been removed
+    // Ensure the original window.setInterval has been removed
     notificationLogClient.setResponse(returnCount(3));
     wrapper.setProps({ refreshRate: 100 });
     await timeout(5); // Wait
     expect(onCountUpdated.callCount).toEqual(2);
 
-    // Ensure the new setInterval has been applied
+    // Ensure the new window.setInterval has been applied
     wrapper.setProps({ refreshRate: 1 });
     expect(onCountUpdated.callCount).toEqual(2);
     await timeout(5); // Wait for the next tick to complete

@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { ReactElement, PureComponent } from 'react';
-import { CardEvent, Identifier, LinkIdentifier } from '@atlaskit/media-card';
+import {
+  CardEvent,
+  defaultImageCardDimensions,
+  Identifier,
+} from '@atlaskit/media-card';
 import { FilmstripView } from '@atlaskit/media-filmstrip';
 import { EventHandlers, CardSurroundings } from '@atlaskit/editor-common';
 import { MediaProps } from './media';
@@ -41,6 +45,8 @@ export default class MediaGroup extends PureComponent<
           content = this.renderSingleFile(card);
           break;
         case 'link':
+          content = null;
+          break;
         default:
           content = this.renderSingleLink(card);
       }
@@ -52,11 +58,9 @@ export default class MediaGroup extends PureComponent<
 
   renderSingleFile(child: ReactElement<MediaProps>) {
     return React.cloneElement(child, {
-      resizeMode: 'full-fit',
-      cardDimensions: {
-        width: '300px',
-        height: '200px',
-      },
+      resizeMode: 'stretchy-fit',
+      cardDimensions: defaultImageCardDimensions,
+      useInlinePlayer: false,
     } as MediaProps);
   }
 
@@ -71,7 +75,7 @@ export default class MediaGroup extends PureComponent<
     surroundingItems: Identifier[],
   ) {
     return React.cloneElement(child, {
-      resizeMode: 'full-fit',
+      useInlinePlayer: false,
       eventHandlers: {
         ...child.props.eventHandlers,
         media: {
@@ -102,11 +106,11 @@ export default class MediaGroup extends PureComponent<
   renderStrip() {
     const { children } = this.props;
     const { animate, offset } = this.state;
-    const surroundingItems = React.Children.map(
-      children,
-      (child: ReactElement<MediaProps>) =>
-        this.mapMediaPropsToIdentifier(child.props),
-    );
+    const surroundingItems = React.Children.map(children, child =>
+      this.mapMediaPropsToIdentifier(
+        (child as React.ReactElement<MediaProps>).props,
+      ),
+    ).filter(identifier => !!identifier);
 
     return (
       <FilmstripView
@@ -115,11 +119,16 @@ export default class MediaGroup extends PureComponent<
         onSize={this.handleSize}
         onScroll={this.handleScroll}
       >
-        {React.Children.map(children, (child: ReactElement<MediaProps>) => {
+        {React.Children.map(children, rawChild => {
+          const child = rawChild as React.ReactElement<MediaProps>;
           switch (child.props.type) {
             case 'file':
-              return this.cloneFileCard(child, surroundingItems);
+              return this.cloneFileCard(
+                child,
+                surroundingItems as Identifier[],
+              );
             case 'link':
+              return null;
             default:
               return React.cloneElement(child);
           }
@@ -133,7 +142,7 @@ export default class MediaGroup extends PureComponent<
     type,
     occurrenceKey,
     collection,
-  }: MediaProps): Identifier {
+  }: MediaProps): Identifier | undefined {
     switch (type) {
       case 'file':
         return {
@@ -143,12 +152,7 @@ export default class MediaGroup extends PureComponent<
           collectionName: collection,
         };
       case 'link':
-        return {
-          id: id!,
-          mediaItemType: type,
-          occurrenceKey,
-          collectionName: collection,
-        } as LinkIdentifier;
+        return undefined;
       case 'external':
         return {
           id: id!,

@@ -4,12 +4,14 @@ import {
   MediaStoreCopyFileWithTokenBody,
   MediaStoreCopyFileWithTokenParams,
 } from '@atlaskit/media-store';
+import { fileStreamsCache, FileState } from '@atlaskit/media-core';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Fetcher } from '../tools/fetcher/fetcher';
 import {
   FinalizeUploadAction,
   isFinalizeUploadAction,
 } from '../actions/finalizeUpload';
-import { State, Tenant, SourceFile } from '../domain';
+import { State, SourceFile } from '../domain';
 import { mapAuthToSourceFileOwner } from '../domain/source-file';
 import { MediaFile } from '../../domain/file';
 import {
@@ -29,14 +31,7 @@ export default function(fetcher: Fetcher): Middleware {
 export function finalizeUpload(
   fetcher: Fetcher,
   store: Store<State>,
-  {
-    file,
-    uploadId,
-    source,
-    tenant,
-    replaceFileId,
-    occurrenceKey,
-  }: FinalizeUploadAction,
+  { file, uploadId, source, replaceFileId }: FinalizeUploadAction,
 ): Promise<SendUploadEventAction> {
   const { userContext } = store.getState();
   return userContext.config
@@ -47,16 +42,13 @@ export function finalizeUpload(
         ...source,
         owner,
       };
-
       const copyFileParams: CopyFileParams = {
         store,
         fetcher,
         file,
         uploadId,
         sourceFile,
-        tenant,
         replaceFileId,
-        occurrenceKey,
       };
 
       return copyFile(copyFileParams);
@@ -69,9 +61,7 @@ type CopyFileParams = {
   file: MediaFile;
   uploadId: string;
   sourceFile: SourceFile;
-  tenant: Tenant;
-  replaceFileId?: Promise<string>;
-  occurrenceKey?: string;
+  replaceFileId?: Promise<string> | string;
 };
 
 async function copyFile({
@@ -80,27 +70,26 @@ async function copyFile({
   file,
   uploadId,
   sourceFile,
-  tenant,
   replaceFileId,
-  occurrenceKey,
 }: CopyFileParams): Promise<SendUploadEventAction> {
-  const { deferredIdUpfronts } = store.getState();
+  const { deferredIdUpfronts, tenantContext, config } = store.getState();
+  const collection = config.uploadParams && config.uploadParams.collection;
   const deferred = deferredIdUpfronts[sourceFile.id];
   const mediaStore = new MediaStore({
-    authProvider: () => Promise.resolve(tenant.auth),
+    authProvider: tenantContext.config.authProvider,
   });
   const body: MediaStoreCopyFileWithTokenBody = {
     sourceFile,
   };
   const params: MediaStoreCopyFileWithTokenParams = {
-    collection: tenant.uploadParams.collection,
+    collection,
     replaceFileId: replaceFileId ? await replaceFileId : undefined,
-    occurrenceKey,
+    occurrenceKey: file.occurrenceKey,
   };
 
   return mediaStore
     .copyFileWithToken(body, params)
-    .then(destinationFile => {
+    .then(async destinationFile => {
       const { id: publicId } = destinationFile.data;
       if (deferred) {
         const { resolver } = deferred;
@@ -113,33 +102,54 @@ async function copyFile({
           event: {
             name: 'upload-processing',
             data: {
-              file: {
-                ...file,
-                publicId,
-              },
+              file,
             },
           },
           uploadId,
         }),
       );
-
+      const auth = await tenantContext.config.authProvider({
+        collectionName: collection,
+      });
       // TODO [MS-725]: replace by context.getFile
-      return fetcher.pollFile(
-        tenant.auth,
-        publicId,
-        tenant.uploadParams.collection,
-      );
+      return fetcher.pollFile(auth, publicId, collection);
     })
     .then(processedDestinationFile => {
+      const subject = fileStreamsCache.get(
+        processedDestinationFile.id,
+      ) as ReplaySubject<FileState>;
+      // We need to cast to ReplaySubject and check for "next" method since the current
+      if (subject && subject.next) {
+        const subscription = subject.subscribe({
+          next(currentState) {
+            setTimeout(() => subscription.unsubscribe(), 0);
+            setTimeout(() => {
+              const {
+                artifacts,
+                mediaType,
+                mimeType,
+                name,
+                size,
+              } = processedDestinationFile;
+              subject.next({
+                ...currentState,
+                status: 'processed',
+                artifacts,
+                mediaType,
+                mimeType,
+                name,
+                size,
+              });
+            }, 0);
+          },
+        });
+      }
       return store.dispatch(
         sendUploadEvent({
           event: {
             name: 'upload-end',
             data: {
-              file: {
-                ...file,
-                publicId: processedDestinationFile.id,
-              },
+              file,
               public: processedDestinationFile,
             },
           },

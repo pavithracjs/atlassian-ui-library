@@ -8,11 +8,13 @@ jest.mock('../../../../../newgen/viewers/image/interactive-img', () => ({
 }));
 
 import * as React from 'react';
-import { mount } from 'enzyme';
 import { ProcessedFileState } from '@atlaskit/media-core';
-import { awaitError } from '@atlaskit/media-test-helpers';
+import {
+  awaitError,
+  mountWithIntlContext,
+  fakeContext,
+} from '@atlaskit/media-test-helpers';
 import { ImageViewer } from '../../../../../newgen/viewers/image';
-import { Stubs, createContext } from '../../../_stubs';
 
 const collectionName = 'some-collection';
 const imageItem: ProcessedFileState = {
@@ -25,19 +27,12 @@ const imageItem: ProcessedFileState = {
   artifacts: {},
 };
 
-export function createFixture(
-  fetchImageBlobCancelableResponse: Promise<Blob>,
-  cancel?: Function,
-) {
-  const blobService = Stubs.blobService();
-  blobService.fetchImageBlobCancelable.mockReturnValue({
-    response: fetchImageBlobCancelableResponse || Promise.resolve(new Blob()),
-    cancel: cancel || jest.fn(),
-  });
-  const context = createContext({ blobService });
+export function createFixture(response: Promise<Blob>) {
+  const context = fakeContext();
+  (context.getImage as jest.Mock).mockReturnValue(response);
   const onClose = jest.fn();
   const onLoaded = jest.fn();
-  const el = mount(
+  const el = mountWithIntlContext(
     <ImageViewer
       context={context}
       item={imageItem}
@@ -46,7 +41,7 @@ export function createFixture(
       onLoad={onLoaded}
     />,
   );
-  return { blobService, context, el, onClose };
+  return { context, el, onClose };
 }
 
 describe('ImageViewer analytics', () => {

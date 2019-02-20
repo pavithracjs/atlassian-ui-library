@@ -1,6 +1,4 @@
 import { getExampleUrl } from '@atlaskit/visual-regression/helper';
-// import { colorPalette } from '@atlaskit/editor-common';
-
 import { insertMedia as integrationInsertMedia } from '../integration/_helpers';
 import { messages as insertBlockMessages } from '../../plugins/insert-block/ui/ToolbarInsertBlock';
 import { messages as blockTypeMessages } from '../../plugins/block-type/types';
@@ -13,10 +11,20 @@ export {
   setupMediaMocksProviders,
   editable,
   changeSelectedNodeLayout,
+  rerenderEditor,
+  setFeature,
+  toggleFeature,
 } from '../integration/_helpers';
 
-const DEFAULT_WIDTH = 800;
-const DEFAULT_HEIGHT = 600;
+export const DEFAULT_WIDTH = 800;
+export const DEFAULT_HEIGHT = 600;
+
+export const dynamicTextViewportSizes = [
+  { width: 1440, height: 4000 },
+  { width: 1280, height: 4000 },
+  { width: 768, height: 4000 },
+  { width: 1024, height: 4000 },
+];
 
 export const resetViewport = async page => {
   await page.setViewport({ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT });
@@ -25,6 +33,8 @@ export const resetViewport = async page => {
 export const escapeStr = (str: string) => {
   return `concat('${str.replace(/'/g, `', "'", '`)}', '')`;
 };
+
+export const viewportSizes = [{ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT }];
 
 export const selectByTextAndClick = async ({ page, tagName, text }) => {
   const target = await page.$x(
@@ -37,6 +47,7 @@ export const selectByTextAndClick = async ({ page, tagName, text }) => {
   }
 };
 
+// TODO: remove this gotoExample step
 export const initEditor = async (page, appearance: string) => {
   const editor = '.ProseMirror';
   const url = getExampleUrl(
@@ -62,6 +73,74 @@ export const initEditor = async (page, appearance: string) => {
       .ProseMirror { caret-color: transparent; }
       .ProseMirror-gapcursor span::after { animation-play-state: paused !important; }
     `,
+  });
+};
+
+export const deviceViewPorts = {
+  LaptopHiDPI: { width: 1440, height: 900 },
+  LaptopMDPI: { width: 1280, height: 800 },
+  iPadPro: { width: 1024, height: 1366 },
+  iPad: { width: 768, height: 1024 },
+  iPhonePlus: { width: 414, height: 736 },
+};
+
+export const enableAllEditorProps = {
+  allowPanel: true,
+  allowLists: true,
+  allowTextColor: true,
+  allowTextAlignment: true,
+  quickInsert: true,
+  allowCodeBlocks: { enableKeybindingsForIDE: true },
+  allowTables: {
+    advanced: true,
+  },
+  allowBreakout: true,
+  allowJiraIssue: true,
+  allowUnsupportedContent: true,
+  allowExtension: {
+    allowBreakout: true,
+  },
+  allowRule: true,
+  allowDate: true,
+  allowLayouts: {
+    allowBreakout: true,
+  },
+  allowIndentation: true,
+  allowTemplatePlaceholders: { allowInserting: true },
+  allowStatus: true,
+  media: true, // add true here since the testing example would handle providers
+  placeholder:
+    'Use markdown shortcuts to format your page as you type, like * for lists, # for headers, and *** for a horizontal rule.',
+  shouldFocus: false,
+  UNSAFE_cards: true,
+};
+
+async function mountEditor(page: any, props) {
+  await page.evaluate(props => {
+    (window as any).__mountEditor(props);
+  }, props);
+  await page.waitForSelector('.ProseMirror', 500);
+}
+
+export const initFullPageEditorWithAdf = async (page, adf: Object) => {
+  const url = getExampleUrl('editor', 'editor-core', 'vr-testing');
+  await page.goto(url);
+  await mountEditor(page, {
+    appearance: 'full-page',
+    defaultValue: JSON.stringify(adf),
+    primaryToolbarComponents: true,
+    contentComponents: true,
+    ...enableAllEditorProps,
+  });
+};
+
+export const initCommentEditorWithAdf = async (page, adf: Object) => {
+  const url = getExampleUrl('editor', 'editor-core', 'testing');
+  await page.goto(url);
+  await mountEditor(page, {
+    appearance: 'comment',
+    defaultValue: JSON.stringify(adf),
+    ...enableAllEditorProps,
   });
 };
 
@@ -129,7 +208,7 @@ export const insertMenuTests = [
   // Insert menu items
   // -----------------
   {
-    name: 'Block quote',
+    name: 'Quote',
     // click selector (dropdown menu or toolbar icon)
     clickSelector: insertMenuSelector,
     // menu item selector - when given, it should match item inner text
@@ -142,7 +221,7 @@ export const insertMenuTests = [
     appearance: ['full-page', 'comment'],
   },
   {
-    name: 'Code block',
+    name: 'Code snippet',
     menuItemText: blockTypeMessages.codeblock.defaultMessage,
     clickSelector: insertMenuSelector,
     nodeSelector: 'div.code-block code',
@@ -314,7 +393,7 @@ const dropdowns = [
     clickSelector: `span[aria-label="${
       insertBlockMessages.mention.defaultMessage
     }"]`,
-    nodeSelector: 'span[data-mention-query]',
+    nodeSelector: 'span[data-type-ahead-query]',
     appearance: ['full-page', 'comment', 'message'],
   },
   {
@@ -356,8 +435,12 @@ export const setTests = forInput => {
   });
 };
 
-export const snapshot = async page => {
-  const editor = await page.$('.akEditor');
+export const snapshot = async (
+  page,
+  tolerance?: number,
+  selector = '.akEditor',
+) => {
+  const editor = await page.$(selector);
 
   // Try to take a screenshot of only the editor.
   // Otherwise take the whole page.
@@ -368,12 +451,38 @@ export const snapshot = async page => {
     image = await page.screenshot();
   }
 
-  // @ts-ignore
-  expect(image).toMatchProdImageSnapshot();
+  if (tolerance !== undefined) {
+    // @ts-ignore
+    expect(image).toMatchProdImageSnapshot({
+      failureThreshold: `${tolerance}`,
+      failureThresholdType: 'percent',
+    });
+  } else {
+    // @ts-ignore
+    expect(image).toMatchProdImageSnapshot();
+  }
 };
 
 export const insertMedia = async (page, filenames = ['one.svg']) => {
   // We need to wrap this as the xpath selector used in integration tests
   // isnt valid in puppeteer
   await integrationInsertMedia(page, filenames, 'div[aria-label="%s"]');
+};
+
+// Execute the click using page.evaluate
+// There appears to be a bug in Puppeteer which causes the
+// "Node is either not visible or not an HTMLElement" error.
+// https://product-fabric.atlassian.net/browse/ED-5688
+export const evaluateClick = (page, selector) => {
+  return page.evaluate(selector => {
+    document.querySelector(selector).click();
+  }, selector);
+};
+
+export const getBoundingRect = async (page, selector) => {
+  return await page.evaluate(selector => {
+    const element = document.querySelector(selector);
+    const { x, y, width, height } = element.getBoundingClientRect();
+    return { left: x, top: y, width, height, id: element.id };
+  }, selector);
 };

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import * as React from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
-import { colors } from '@atlaskit/theme';
 
 import Editor, { EditorProps } from './../src/editor';
 import EditorContext from './../src/ui/EditorContext';
@@ -22,20 +21,8 @@ import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
 import { extensionHandlers } from '../example-helpers/extension-handlers';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
 import { DevTools } from '../example-helpers/DevTools';
+import { TitleInput } from '../example-helpers/PageElements';
 import { EditorActions } from './../src';
-
-export const TitleInput: any = styled.input`
-  border: none;
-  outline: none;
-  font-size: 2.07142857em;
-  margin: 0 0 21px;
-  padding: 0;
-
-  &::placeholder {
-    color: ${colors.N90};
-  }
-`;
-TitleInput.displayName = 'TitleInput';
 
 /**
  * +-------------------------------+
@@ -63,9 +50,14 @@ export const Content: any = styled.div`
 Content.displayName = 'Content';
 
 // tslint:disable-next-line:no-console
-const analyticsHandler = (actionName, props) => console.log(actionName, props);
+export const analyticsHandler = (actionName, props) =>
+  console.log(actionName, props);
 // tslint:disable-next-line:no-console
 const SAVE_ACTION = () => console.log('Save');
+
+export const LOCALSTORAGE_defaultDocKey = 'fabric.editor.example.full-page';
+export const LOCALSTORAGE_defaultTitleKey =
+  'fabric.editor.example.full-page.title';
 
 export const SaveAndCancelButtons = props => (
   <ButtonGroup>
@@ -77,7 +69,7 @@ export const SaveAndCancelButtons = props => (
           // tslint:disable-next-line:no-console
           console.log(value);
           localStorage.setItem(
-            'fabric.editor.example.full-page',
+            LOCALSTORAGE_defaultDocKey,
             JSON.stringify(value),
           );
         })
@@ -90,7 +82,7 @@ export const SaveAndCancelButtons = props => (
       appearance="subtle"
       onClick={() => {
         props.editorActions.clear();
-        localStorage.removeItem('fabric.editor.example.full-page');
+        localStorage.removeItem(LOCALSTORAGE_defaultDocKey);
       }}
     >
       Close
@@ -98,7 +90,7 @@ export const SaveAndCancelButtons = props => (
   </ButtonGroup>
 );
 
-export type State = { disabled: boolean };
+export type State = { disabled: boolean; title: string };
 
 export const providers = {
   emojiProvider: emoji.storyData.getEmojiResource({
@@ -120,10 +112,20 @@ export const mediaProvider = storyMediaProviderFactory({
   includeUserAuthProvider: true,
 });
 
-const quickInsertProvider = quickInsertProviderFactory();
+export const quickInsertProvider = quickInsertProviderFactory();
 
-export class ExampleEditor extends React.Component<EditorProps, State> {
-  state: State = { disabled: true };
+export interface ExampleProps {
+  onTitleChange?: (title: string) => void;
+}
+
+export class ExampleEditor extends React.Component<
+  EditorProps & ExampleProps,
+  State
+> {
+  state: State = {
+    disabled: true,
+    title: localStorage.getItem(LOCALSTORAGE_defaultTitleKey) || '',
+  };
 
   componentDidMount() {
     // tslint:disable-next-line:no-console
@@ -142,6 +144,7 @@ export class ExampleEditor extends React.Component<EditorProps, State> {
             <Editor
               appearance="full-page"
               analyticsHandler={analyticsHandler}
+              allowAnalyticsGASV3={true}
               quickInsert={{ provider: Promise.resolve(quickInsertProvider) }}
               allowCodeBlocks={{ enableKeybindingsForIDE: true }}
               allowLists={true}
@@ -161,16 +164,20 @@ export class ExampleEditor extends React.Component<EditorProps, State> {
               allowLayouts={{
                 allowBreakout: true,
               }}
-              allowGapCursor={true}
               allowTextAlignment={true}
+              allowIndentation={true}
               allowTemplatePlaceholders={{ allowInserting: true }}
               UNSAFE_cards={{
                 provider: Promise.resolve(cardProvider),
               }}
               allowStatus={true}
               {...providers}
-              media={{ provider: mediaProvider, allowMediaSingle: true }}
-              placeholder="Write something..."
+              media={{
+                provider: mediaProvider,
+                allowMediaSingle: true,
+                allowResizing: true,
+              }}
+              placeholder="Use markdown shortcuts to format your page as you type, like * for lists, # for headers, and *** for a horizontal rule."
               shouldFocus={false}
               disabled={this.state.disabled}
               defaultValue={
@@ -183,14 +190,15 @@ export class ExampleEditor extends React.Component<EditorProps, State> {
                   // tslint:disable-next-line:jsx-no-lambda
                   render={actions => (
                     <TitleInput
-                      placeholder="Give this page a title..."
+                      value={this.state.title}
+                      onChange={this.handleTitleChange}
                       // tslint:disable-next-line:jsx-no-lambda
                       innerRef={this.handleTitleRef}
                       onFocus={this.handleTitleOnFocus}
                       onBlur={this.handleTitleOnBlur}
-                      onKeyDown={(e: KeyboardEvent) =>
-                        this.onKeyPressed(e, actions)
-                      }
+                      onKeyDown={(e: KeyboardEvent) => {
+                        this.onKeyPressed(e, actions);
+                      }}
                     />
                   )}
                 />
@@ -224,6 +232,17 @@ export class ExampleEditor extends React.Component<EditorProps, State> {
     }
   };
 
+  private handleTitleChange = (e: KeyboardEvent) => {
+    const title = (e.target as HTMLInputElement).value;
+    this.setState({
+      title,
+    });
+
+    if (this.props.onTitleChange) {
+      this.props.onTitleChange(title);
+    }
+  };
+
   private handleTitleOnFocus = () => this.setState({ disabled: true });
   private handleTitleOnBlur = () => this.setState({ disabled: false });
   private handleTitleRef = (ref?: HTMLElement) => {
@@ -233,7 +252,7 @@ export class ExampleEditor extends React.Component<EditorProps, State> {
   };
 }
 
-export default function Example(props: EditorProps) {
+export default function Example(props: EditorProps & ExampleProps) {
   return (
     <EditorContext>
       <div style={{ height: '100%' }}>

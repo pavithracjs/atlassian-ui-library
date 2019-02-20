@@ -1,4 +1,8 @@
-import { selectByTextAndClick, getSelectorForTableCell } from '../_utils';
+import {
+  selectByTextAndClick,
+  getSelectorForTableCell,
+  getBoundingRect,
+} from '../_utils';
 
 import { messages as insertBlockMessages } from '../../../plugins/insert-block/ui/ToolbarInsertBlock';
 import { TableCssClassName as ClassName } from '../../../plugins/table/types';
@@ -10,6 +14,14 @@ type ResizeColumnOpts = {
   amount: number;
   // Useful if a row has a colspan and you need resize a col it spans over.
   row?: number;
+};
+
+// This fixes an issue when tests will fail with
+// "Node is either not visible or not an HTMLElement" due to the table
+// header not being visible
+const clickFirstCell = async page => {
+  await page.waitForSelector(ClassName.TOP_LEFT_CELL);
+  await page.click(ClassName.TOP_LEFT_CELL);
 };
 
 export const getSelectorForTableControl = (type, atIndex?: number) => {
@@ -79,6 +91,7 @@ export const insertRowOrColumn = async (page, type, atIndex: number) => {
     buttonWrapSelector = ClassName.COLUMN_CONTROLS_BUTTON_WRAP;
     insertSelector = ClassName.CONTROLS_INSERT_COLUMN;
   }
+  await clickFirstCell(page);
 
   const buttonSelector = `.${buttonWrapSelector}:nth-child(${atIndex}) .${insertSelector}`;
   await page.hover(buttonSelector);
@@ -106,6 +119,7 @@ export const deleteRowOrColumn = async (page, type, atIndex) => {
   const deleteButtonSelector = `.${ClassName.CONTROLS_DELETE_BUTTON_WRAP} .${
     ClassName.CONTROLS_DELETE_BUTTON
   }`;
+  await clickFirstCell(page);
   await page.click(controlSelector);
   await page.hover(deleteButtonSelector);
   await page.waitForSelector(deleteButtonSelector);
@@ -116,19 +130,11 @@ export const focusTable = async page => {
   await page.click('table td p');
 };
 
-const getCellBoundingRect = async (page, selector) => {
-  return await page.evaluate(selector => {
-    const element = document.querySelector(selector);
-    const { x, y, width, height } = element.getBoundingClientRect();
-    return { left: x, top: y, width, height, id: element.id };
-  }, selector);
-};
-
 export const resizeColumn = async (
   page,
   { colIdx, amount, row = 1 }: ResizeColumnOpts,
 ) => {
-  let cell = await getCellBoundingRect(
+  let cell = await getBoundingRect(
     page,
     getSelectorForTableCell({ row, cell: colIdx }),
   );

@@ -14,35 +14,37 @@ import languages from '../src/i18n/languages';
 import WithEditorActions from './../src/ui/WithEditorActions';
 import {
   SaveAndCancelButtons,
-  ExampleEditor,
   providers,
   mediaProvider,
+  LOCALSTORAGE_defaultDocKey,
 } from './5-full-page';
 import LanguagePicker from '../example-helpers/LanguagePicker';
 import EditorContext from './../src/ui/EditorContext';
 import { EditorAppearance } from '../src/types';
 import { EditorActions } from '../src';
 
-export type Props = {};
-export type State = {
-  locale: string;
-  messages: { [key: string]: string };
-
-  adf: object | undefined;
-  adfInput: string;
-
-  appearance: EditorAppearance;
-  showADF: boolean;
-  disabled: boolean;
-};
+import { extensionHandlers } from '../example-helpers/extension-handlers';
+import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
+import ErrorReport, { Error } from '../example-helpers/ErrorReport';
+import KitchenSinkEditor from '../example-helpers/KitchenSinkEditor';
 
 const Container = styled.div`
   display: flex;
   margin-top: 0.5em;
 `;
 
-const Column = styled.div`
+const Column: React.ComponentClass<React.HTMLAttributes<{}> & {}> = styled.div`
   flex: 1;
+`;
+
+const EditorColumn: React.ComponentClass<
+  React.HTMLAttributes<{}> & { vertical: boolean }
+> = styled.div`
+  flex: 1;
+  ${p =>
+    p.vertical
+      ? `border-right: 1px solid ${colors.N30}; min-height: 85vh`
+      : `border-bottom: 1px solid ${colors.N30}`};
 `;
 
 const Controls = styled.div`
@@ -139,26 +141,51 @@ export const Textarea: any = styled.textarea`
   border: 1px solid lightgray;
   font-family: monospace;
   font-size: 14px;
-
   padding: 1em;
-
   width: 100%;
   height: 80%;
 `;
+
+const LOCALSTORAGE_orientationKey =
+  'fabric.editor.example.kitchen-sink.orientation';
+
+export type Props = {};
+export type State = {
+  locale: string;
+  messages: { [key: string]: string };
+
+  adf: object | undefined;
+  adfInput: string;
+
+  appearance: EditorAppearance;
+  showADF: boolean;
+  disabled: boolean;
+  vertical: boolean;
+
+  errors: Array<Error>;
+  showErrors: boolean;
+  waitingToValidate: boolean;
+};
+
 export default class FullPageRendererExample extends React.Component<
   Props,
   State
 > {
-  private getDefaultADF = () => {
-    const localADF =
-      (localStorage &&
-        localStorage.getItem('fabric.editor.example.full-page')) ||
-      undefined;
+  private getJSONFromStorage = (key: string, fallback: any = undefined) => {
+    const localADF = (localStorage && localStorage.getItem(key)) || undefined;
 
-    if (localADF) {
-      return JSON.parse(localADF);
-    }
+    return localADF ? JSON.parse(localADF) : fallback;
   };
+
+  private getDefaultADF = () =>
+    this.getJSONFromStorage(LOCALSTORAGE_defaultDocKey, {
+      version: 1,
+      type: 'doc',
+      content: [],
+    });
+
+  private getDefaultOrientation = () =>
+    this.getJSONFromStorage(LOCALSTORAGE_orientationKey, { vertical: true });
 
   state: State = {
     locale: 'en',
@@ -168,9 +195,44 @@ export default class FullPageRendererExample extends React.Component<
     appearance: 'full-page',
     showADF: false,
     disabled: false,
+    vertical: this.getDefaultOrientation().vertical,
+    errors: [],
+    showErrors: false,
+    waitingToValidate: false,
   };
 
+  private dataProviders = ProviderFactory.create({
+    ...providers,
+    mediaProvider,
+  });
+
   private inputRef: HTMLTextAreaElement | null;
+  private popupMountPoint: HTMLElement | null;
+
+  showHideADF = () =>
+    this.setState(state => ({
+      showADF: !state.showADF,
+    }));
+
+  showHideErrors = () =>
+    this.setState(state => ({
+      showErrors: !state.showErrors,
+    }));
+
+  enableDisableEditor = () =>
+    this.setState(state => ({
+      disabled: !state.disabled,
+    }));
+
+  switchEditorOrientation = () => {
+    const vertical = !this.state.vertical;
+    this.setState({ vertical });
+
+    localStorage.setItem(
+      LOCALSTORAGE_orientationKey,
+      JSON.stringify({ vertical: vertical }),
+    );
+  };
 
   render() {
     const { locale, messages } = this.state;
@@ -179,6 +241,12 @@ export default class FullPageRendererExample extends React.Component<
         <WithEditorActions
           render={actions => (
             <div>
+              <div
+                ref={ref => (this.popupMountPoint = ref)}
+                style={{
+                  zIndex: 9999,
+                }}
+              />
               <Controls>
                 <Select
                   formatOptionLabel={formatAppearanceOption}
@@ -211,74 +279,74 @@ export default class FullPageRendererExample extends React.Component<
                       display: 'flex',
                     }}
                   >
+                    <Button onClick={this.switchEditorOrientation}>
+                      Display {!this.state.vertical ? 'Vertical' : 'Horizontal'}
+                    </Button>
+
                     <Button
                       appearance={this.state.disabled ? 'primary' : 'default'}
-                      onClick={() => {
-                        this.setState(state => ({
-                          disabled: !state.disabled,
-                        }));
-                      }}
+                      onClick={this.enableDisableEditor}
                     >
                       {!this.state.disabled ? 'Disable' : 'Enable'} editor
                     </Button>
 
                     <Button
+                      appearance={
+                        this.state.errors.length ? 'danger' : 'subtle'
+                      }
+                      isSelected={this.state.showErrors}
+                      onClick={this.showHideErrors}
+                      isLoading={this.state.waitingToValidate}
+                    >
+                      {this.state.errors.length} errors
+                    </Button>
+
+                    <Button
                       appearance="primary"
-                      onClick={() => {
-                        this.setState(state => ({
-                          showADF: !state.showADF,
-                        }));
-                      }}
+                      isSelected={this.state.showADF}
+                      onClick={this.showHideADF}
                     >
                       {!this.state.showADF ? 'Show' : 'Hide'} current ADF
                     </Button>
                   </Column>
                 </Container>
+                <Container>
+                  {this.state.showErrors && (
+                    <ErrorReport errors={this.state.errors} />
+                  )}
+                </Container>
               </Controls>
-              <Container>
-                <Column>
+              <Container
+                style={{
+                  flexDirection: !this.state.vertical ? 'column' : 'row',
+                }}
+              >
+                <EditorColumn vertical={this.state.vertical}>
                   <IntlProvider
                     locale={this.getLocalTag(locale)}
                     messages={messages}
                   >
-                    <ExampleEditor
-                      contentComponents={undefined}
-                      allowHelpDialog={true}
-                      quickInsert={true}
-                      allowLayouts={true}
-                      appearance={this.state.appearance}
-                      media={{
-                        provider: mediaProvider,
-                        allowMediaSingle: true,
-                        allowResizing: true,
-                      }}
-                      allowTables={{
-                        allowColumnResizing: true,
-                        allowMergeCells: true,
-                        allowNumberColumn: true,
-                        allowBackgroundColor: true,
-                        allowHeaderRow: true,
-                        allowHeaderColumn: true,
-                        permittedLayouts: 'all',
-                        stickToolbarToBottom: true,
-                        UNSAFE_allowFlexiColumnResizing: true,
-                      }}
-                      defaultValue={this.state.adf}
+                    <KitchenSinkEditor
+                      actions={actions}
+                      adf={this.state.adf}
                       disabled={this.state.disabled}
-                      onChange={() => this.onEditorChange(actions)}
+                      appearance={this.state.appearance}
+                      popupMountPoint={this.popupMountPoint || undefined}
+                      onDocumentChanged={this.onDocumentChanged}
+                      onDocumentValidated={this.onDocumentValidated}
                       primaryToolbarComponents={
-                        <>
+                        <React.Fragment>
                           <LanguagePicker
                             languages={languages}
                             locale={locale}
                             onChange={this.loadLocale}
                           />
                           <SaveAndCancelButtons editorActions={actions} />
-                        </>
+                        </React.Fragment>
                       }
                     />
                   </IntlProvider>
-                </Column>
+                </EditorColumn>
                 <Column>
                   {!this.state.showADF ? (
                     <div
@@ -289,16 +357,21 @@ export default class FullPageRendererExample extends React.Component<
                             : undefined,
                       }}
                     >
-                      <ReactRenderer
-                        document={this.state.adf}
-                        adfStage="stage0"
-                        dataProviders={ProviderFactory.create({
-                          ...providers,
-                          mediaProvider,
-                        })}
-                        // @ts-ignore
-                        appearance={this.state.appearance}
-                      />
+                      <IntlProvider
+                        locale={this.getLocalTag(locale)}
+                        messages={messages}
+                      >
+                        <SmartCardProvider>
+                          <ReactRenderer
+                            document={this.state.adf}
+                            adfStage="stage0"
+                            dataProviders={this.dataProviders}
+                            extensionHandlers={extensionHandlers}
+                            // @ts-ignore
+                            appearance={this.state.appearance}
+                          />
+                        </SmartCardProvider>
+                      </IntlProvider>
                     </div>
                   ) : (
                     <div
@@ -331,7 +404,7 @@ export default class FullPageRendererExample extends React.Component<
       return;
     }
 
-    actions.replaceDocument(this.state.adfInput);
+    actions.replaceDocument(this.state.adfInput, false);
 
     this.setState({
       showADF: false,
@@ -347,12 +420,20 @@ export default class FullPageRendererExample extends React.Component<
     const docModule = await import(`../example-helpers/${opt.value}`);
     const adf = docModule.exampleDocument;
 
-    actions.replaceDocument(adf);
+    actions.replaceDocument(adf, false);
   };
 
-  private onEditorChange = async editorActions => {
-    const adf = await editorActions.getValue();
+  private onDocumentChanged = adf => {
     this.setState({ adf, adfInput: JSON.stringify(adf, null, 2) });
+
+    // run dat validation spinner
+    if (!this.state.waitingToValidate) {
+      this.setState({ waitingToValidate: true });
+    }
+  };
+
+  private onDocumentValidated = errors => {
+    this.setState({ errors, waitingToValidate: false });
   };
 
   private handleInputChange = event => {

@@ -1,15 +1,24 @@
 import * as React from 'react';
 import EditorDateIcon from '@atlaskit/icon/glyph/editor/date';
-import { date } from '@atlaskit/editor-common';
+import { date } from '@atlaskit/adf-schema';
 import { findDomRefAtPos } from 'prosemirror-utils';
+import * as Loadable from 'react-loadable';
 
 import { EditorPlugin } from '../../types';
 import WithPluginState from '../../ui/WithPluginState';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 import { insertDate, setDatePickerAt } from './actions';
-import createDatePlugin, { DateState, pluginKey } from './plugin';
+import createDatePlugin, {
+  DateState,
+  pluginKey as datePluginKey,
+} from './plugin';
 import keymap from './keymap';
-import * as Loadable from 'react-loadable';
+
+import {
+  pluginKey as editorDisabledPluginKey,
+  EditorDisabledPluginState,
+} from '../editor-disabled';
+import { todayTimestampInUTC } from '@atlaskit/editor-common';
 
 const DatePicker = Loadable({
   loader: () =>
@@ -55,15 +64,23 @@ const datePlugin: EditorPlugin = {
     return (
       <WithPluginState
         plugins={{
-          dateState: pluginKey,
+          datePlugin: datePluginKey,
+          editorDisabledPlugin: editorDisabledPluginKey,
         }}
-        render={({ dateState = {} as DateState }) => {
-          const { showDatePickerAt } = dateState;
-
-          if (!showDatePickerAt) {
+        render={({
+          editorDisabledPlugin,
+          datePlugin,
+        }: {
+          editorDisabledPlugin: EditorDisabledPluginState;
+          datePlugin: DateState;
+        }) => {
+          const { showDatePickerAt } = datePlugin;
+          if (
+            !showDatePickerAt ||
+            (editorDisabledPlugin || {}).editorDisabled
+          ) {
             return null;
           }
-
           const element = findDomRefAtPos(
             showDatePickerAt,
             domAtPos,
@@ -93,11 +110,11 @@ const datePlugin: EditorPlugin = {
         icon: () => <EditorDateIcon label={formatMessage(messages.date)} />,
         action(insert, state) {
           const dateNode = state.schema.nodes.date.createChecked({
-            timestamp: Date.now().toString(),
+            timestamp: todayTimestampInUTC(),
           });
 
           const tr = insert(dateNode, { selectInlineNode: true });
-          return tr.setMeta(pluginKey, {
+          return tr.setMeta(datePluginKey, {
             showDatePickerAt: tr.selection.from,
           });
         },

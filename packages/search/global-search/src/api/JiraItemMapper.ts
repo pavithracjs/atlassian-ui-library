@@ -1,4 +1,6 @@
 import * as URI from 'urijs';
+import * as uuid from 'uuid';
+
 import {
   ResultType,
   AnalyticsType,
@@ -56,12 +58,10 @@ const extractSpecificAttributes = (
       };
     case 'board':
       return {
-        objectKey: 'Board',
         containerName: attributes.containerName,
       };
     case 'filter':
       return {
-        objectKey: 'Filter',
         containerName: attributes.ownerName,
       };
     case 'project':
@@ -112,6 +112,7 @@ const mapJiraItemToResultV2 = (
 
   return {
     resultId: id,
+    key: uuid(),
     name: name,
     href,
     resultType: resultType,

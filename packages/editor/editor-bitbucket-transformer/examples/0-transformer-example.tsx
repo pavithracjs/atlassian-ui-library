@@ -6,7 +6,7 @@ import {
   EditorContext,
   WithEditorActions,
 } from '@atlaskit/editor-core';
-import { taskDecision } from '@atlaskit/util-data-test';
+import { mention, taskDecision } from '@atlaskit/util-data-test';
 import { BitbucketTransformer } from '../src';
 import exampleBitbucketHTML from '../example-helpers/exampleHTML';
 import imageUploadHandler from '../../editor-core/example-helpers/imageUpload';
@@ -39,7 +39,7 @@ class TransformerPanels extends React.PureComponent<Props, State> {
   state: State = { source: exampleBitbucketHTML, output: '' };
 
   componentDidMount() {
-    setTimeout(() => {
+    window.setTimeout(() => {
       this.props.actions.replaceDocument(this.state.source);
     });
   }
@@ -73,6 +73,9 @@ class TransformerPanels extends React.PureComponent<Props, State> {
             allowCodeBlocks={true}
             allowLists={true}
             allowRule={true}
+            mentionProvider={Promise.resolve(
+              mention.storyData.resourceProvider,
+            )}
             allowTables={{ isHeaderRowRequired: true }}
             legacyImageUploadProvider={Promise.resolve(imageUploadHandler)}
             contentTransformerProvider={schema =>

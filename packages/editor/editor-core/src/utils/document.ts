@@ -1,12 +1,15 @@
-import { Node, Fragment, Schema } from 'prosemirror-model';
-import { Transaction } from 'prosemirror-state';
+import { Node, Schema } from 'prosemirror-model';
+import { Transaction, Selection } from 'prosemirror-state';
 import {
   validator,
-  Entity,
+  ADFEntity,
   VALIDATION_ERRORS,
   ValidationError,
 } from '@atlaskit/adf-utils';
 import { analyticsService } from '../analytics';
+import { ContentNodeWithPos } from 'prosemirror-utils';
+
+const FALSE_POSITIVE_MARKS = ['code', 'alignment', 'indentation'];
 
 /**
  * Checks if node is an empty paragraph.
@@ -95,44 +98,13 @@ export function isEmptyDocument(node: Node): boolean {
   return (
     nodeChild.type.name === 'paragraph' &&
     !nodeChild.childCount &&
-    nodeChild.nodeSize === 2
+    nodeChild.nodeSize === 2 &&
+    (!nodeChild.marks || nodeChild.marks.length === 0)
   );
 }
 
-export const preprocessDoc = (
-  schema: Schema,
-  origDoc: Node | undefined,
-): Node | undefined => {
-  if (!origDoc) {
-    return;
-  }
-
-  const content: Node[] = [];
-  // A flag to indicate if the element in the array is the last paragraph
-  let isLastParagraph = true;
-
-  for (let i = origDoc.content.childCount - 1; i >= 0; i--) {
-    const node = origDoc.content.child(i);
-    const { taskList, decisionList } = schema.nodes;
-    if (
-      !(
-        node.type.name === 'paragraph' &&
-        node.content.size === 0 &&
-        isLastParagraph
-      ) &&
-      ((node.type !== taskList && node.type !== decisionList) ||
-        node.textContent)
-    ) {
-      content.push(node);
-      isLastParagraph = false;
-    }
-  }
-
-  return schema.nodes.doc.create({}, Fragment.fromArray(content.reverse()));
-};
-
 function wrapWithUnsupported(
-  originalValue: Entity,
+  originalValue: ADFEntity,
   type: 'block' | 'inline' = 'block',
 ) {
   return {
@@ -142,7 +114,7 @@ function wrapWithUnsupported(
 }
 
 function fireAnalyticsEvent(
-  entity: Entity,
+  entity: ADFEntity,
   error: ValidationError,
   type: 'block' | 'inline' | 'mark' = 'block',
 ) {
@@ -190,7 +162,7 @@ export function processRawValue(
     const nodes = Object.keys(schema.nodes);
     const marks = Object.keys(schema.marks);
     const validate = validator(nodes, marks, { allowPrivateAttributes: true });
-    const emptyDoc: Entity = { type: 'doc', content: [] };
+    const emptyDoc: ADFEntity = { type: 'doc', content: [] };
 
     // ProseMirror always require a child under doc
     if (node.type === 'doc') {
@@ -207,11 +179,18 @@ export function processRawValue(
     }
 
     const { entity = emptyDoc } = validate(
-      node as Entity,
+      node as ADFEntity,
       (entity, error, options) => {
         // Remove any invalid marks
         if (marks.indexOf(entity.type) > -1) {
-          fireAnalyticsEvent(entity, error, 'mark');
+          if (
+            !(
+              error.code === VALIDATION_ERRORS.INVALID_TYPE &&
+              FALSE_POSITIVE_MARKS.indexOf(entity.type) > -1
+            )
+          ) {
+            fireAnalyticsEvent(entity, error, 'mark');
+          }
           return;
         }
 
@@ -277,4 +256,29 @@ export const getStepRange = (
   }
 
   return null;
+};
+
+/**
+ * Find the farthest node given a condition
+ * @param predicate Function to check the node
+ */
+export const findFarthestParentNode = (predicate: (node: Node) => boolean) => (
+  selection: Selection,
+): ContentNodeWithPos | null => {
+  const { $from } = selection;
+
+  let candidate: ContentNodeWithPos | null = null;
+
+  for (let i = $from.depth; i > 0; i--) {
+    const node = $from.node(i);
+    if (predicate(node)) {
+      candidate = {
+        pos: i > 0 ? $from.before(i) : 0,
+        start: $from.start(i),
+        depth: i,
+        node,
+      };
+    }
+  }
+  return candidate;
 };

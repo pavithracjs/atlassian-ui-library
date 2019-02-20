@@ -5,7 +5,7 @@ import WithPluginState from '../WithPluginState';
 import ContentStyles from '../ContentStyles';
 import { EditorAppearanceComponentProps, EditorAppearance } from '../../types';
 import { pluginKey as maxContentSizePluginKey } from '../../plugins/max-content-size';
-import { mentionPluginKey } from '../../plugins/mentions/pm-plugins/main';
+import { mentionPluginKey } from '../../plugins/mentions';
 import WithFlash from '../WithFlash';
 
 export interface MobileEditorProps {
@@ -67,6 +67,7 @@ export default class Editor extends React.Component<
       maxHeight,
       disabled,
       editorDOMElement,
+      dispatchAnalyticsEvent,
     } = this.props;
     const maxContentSizeReached =
       maxContentSize && maxContentSize.maxContentSizeReached;
@@ -85,6 +86,7 @@ export default class Editor extends React.Component<
               appearance={this.appearance}
               containerElement={this.containerElement}
               disabled={!!disabled}
+              dispatchAnalyticsEvent={dispatchAnalyticsEvent}
             />
             {editorDOMElement}
           </ContentArea>

@@ -7,6 +7,7 @@ import {
   TaskDecisionProvider,
   TaskState,
   User,
+  DecisionState,
 } from '../types';
 import { FabricElementsAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
 
@@ -26,6 +27,7 @@ export interface Props {
   showParticipants?: boolean;
   creator?: User;
   lastUpdater?: User;
+  disabled?: boolean;
 }
 
 export interface State {
@@ -37,7 +39,7 @@ export default class ResourcedTaskItem extends PureComponent<Props, State> {
   public static defaultProps: Partial<Props> = {
     appearance: 'inline',
   };
-  private mounted: boolean;
+  private mounted: boolean = false;
 
   constructor(props: Props) {
     super(props);
@@ -113,7 +115,7 @@ export default class ResourcedTaskItem extends PureComponent<Props, State> {
     }
   }
 
-  private onUpdate = (state: TaskState) => {
+  private onUpdate = (state: TaskState | DecisionState) => {
     this.setState({ isDone: state === 'DONE' });
   };
 
@@ -176,6 +178,7 @@ export default class ResourcedTaskItem extends PureComponent<Props, State> {
       showPlaceholder,
       placeholder,
       taskId,
+      disabled,
     } = this.props;
 
     return (
@@ -197,6 +200,7 @@ export default class ResourcedTaskItem extends PureComponent<Props, State> {
           placeholder={placeholder}
           creator={creator}
           lastUpdater={lastUpdater}
+          disabled={disabled}
         >
           {children}
         </TaskItem>

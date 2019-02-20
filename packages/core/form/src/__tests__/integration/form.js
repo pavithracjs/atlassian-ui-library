@@ -8,24 +8,23 @@ Those tests should be added before the release candidate*/
 import { BrowserTestCase } from '@atlaskit/webdriver-runner/runner';
 import { getExampleUrl } from '@atlaskit/webdriver-runner/utils/example';
 import Page from '@atlaskit/webdriver-runner/wd-wrapper';
-import * as assert from 'assert';
 
 /* Url to test the example */
 const urlFormCreateRepo = getExampleUrl('core', 'form', 'create-repository');
 
 /* Css selectors used for the test */
-const createForm = '[name="create-repo"]';
-const owner = 'form > div:nth-child(2) > div > div:nth-child(1)';
-const project = 'form > div:nth-child(2) > div > div:nth-child(2)';
-const repoName = '[name="repo_name"]';
-const accessLevel = 'form > div:nth-child(2) > div > div:nth-child(4)';
-const includeReadme = 'form > div:nth-child(2) > div > div:nth-child(5)';
-const createRepoBtn = 'footer > button:nth-child(1)';
-const cancelBtn = 'footer > button:nth-child(2)';
+const createForm = 'form[name="create-repo"]';
+const owner = 'div#owner-select';
+const project = 'div#project-select';
+const repoName = 'input[name="repo-name"]';
+const accessLevel = 'input[type="checkbox"][name="access-level"]';
+const includeReadme = 'div#include-readme-select';
+const createRepoBtn = 'button[type="submit"]#create-repo-button';
+const cancelBtn = 'button[type="button"]#create-repo-cancel';
 
 BrowserTestCase(
-  'form.js: Create repository form should render without errors',
-  { skip: ['safari'] }, // Safari has an issue with css / wd / puppeeter at the moment - to be investigated
+  'Create repository form should render without errors',
+  { skip: [] },
   async client => {
     const formTest = new Page(client);
     await formTest.goto(urlFormCreateRepo);
@@ -33,7 +32,7 @@ BrowserTestCase(
     const ownerIsVisible = await formTest.isVisible(owner);
     const projectIsVisible = await formTest.isVisible(project);
     const repoNameIsVisible = await formTest.isVisible(repoName);
-    const accessLevelIsVisible = await formTest.isVisible(accessLevel);
+    const accessLevelIsVisible = await formTest.isExisting(accessLevel);
     const includeReadmeIsVisible = await formTest.isVisible(includeReadme);
     const createRepoBtnIsVisible = await formTest.isVisible(createRepoBtn);
     const cancelBtnIsVisible = await formTest.isVisible(cancelBtn);
@@ -44,14 +43,6 @@ BrowserTestCase(
     expect(includeReadmeIsVisible).toBe(true);
     expect(createRepoBtnIsVisible).toBe(true);
     expect(cancelBtnIsVisible).toBe(true);
-    if (formTest.log('browser').value) {
-      formTest.log('browser').value.forEach(val => {
-        assert.notEqual(
-          val.level,
-          'SEVERE',
-          `Console errors :${val.message} when view the form`,
-        );
-      });
-    }
+    await formTest.checkConsoleErrors();
   },
 );

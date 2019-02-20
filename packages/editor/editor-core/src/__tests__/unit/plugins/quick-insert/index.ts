@@ -2,18 +2,22 @@ import { ProviderFactory } from '@atlaskit/editor-common';
 import {
   doc,
   insertText,
-  createEditor,
+  createEditorFactory,
   p,
   panel,
   sleep,
   sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
-import { pluginKey as typeAheadPluginKey } from '../../../../plugins/type-ahead/pm-plugins/main';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
 import { pluginKey as quickInsertPluginKey } from '../../../../plugins/quick-insert';
 
 describe('Quick Insert', () => {
-  const editor = (doc: any, providerFactory?: any) =>
-    createEditor({
+  const createEditor = createEditorFactory();
+  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+
+  const editor = (doc: any, providerFactory?: any) => {
+    createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });
+    return createEditor({
       doc,
       pluginKey: quickInsertPluginKey,
       providerFactory,
@@ -21,8 +25,11 @@ describe('Quick Insert', () => {
         quickInsert: true,
         allowPanel: true,
         allowCodeBlocks: true,
+        allowAnalyticsGASV3: true,
       },
+      createAnalyticsEvent,
     });
+  };
 
   it('should be able to select a quick insert items using type ahead', async () => {
     const { editorView, sel } = editor(doc(p('{<>}')));
@@ -71,26 +78,16 @@ describe('Quick Insert', () => {
     );
   });
 
-  const disabledEditor = (doc: any, providerFactory?: any) =>
-    createEditor({
-      doc,
-      pluginKey: quickInsertPluginKey,
-      providerFactory,
-      editorProps: {
-        quickInsert: false,
-        allowPanel: true,
-        allowCodeBlocks: true,
-      },
+  it('should trigger quick insert invoked analytics event when menu opened', async () => {
+    const { editorView, sel } = editor(doc(p('{<>}')));
+    insertText(editorView, '/', sel);
+
+    expect(createAnalyticsEvent).toHaveBeenCalledWith({
+      action: 'invoked',
+      actionSubject: 'typeAhead',
+      actionSubjectId: 'quickInsertTypeAhead',
+      attributes: { inputMethod: 'keyboard' },
+      eventType: 'ui',
     });
-
-  it("shouldn't start quick insert with quickInsert:false", async () => {
-    const { editorView, sel } = disabledEditor(doc(p('{<>}')));
-    insertText(editorView, '/Panel', sel);
-    await sleep(50);
-    const activePlugin = typeAheadPluginKey.get(editorView.state);
-    expect(activePlugin).not.toBe(undefined);
-
-    const pluginState = typeAheadPluginKey.getState(editorView.state);
-    expect(pluginState.items.length).toBe(0);
   });
 });

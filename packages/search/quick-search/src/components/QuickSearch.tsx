@@ -106,7 +106,7 @@ export type Props = {
   // Internal: injected by withAnalytics(). Fire a private analytics event
   firePrivateAnalyticsEvent?: FireAnalyticsEvent;
   /** React component to be used for rendering links */
-  linkComponent?: React.ComponentType;
+  linkComponent?: React.ComponentType<any>;
 };
 
 export type State = {
@@ -291,7 +291,7 @@ export class QuickSearch extends React.Component<Props, State> {
       this.flatResults,
       result.props.resultId,
     );
-    if (resultIndex) {
+    if (resultIndex !== null && +resultIndex >= 0) {
       this.flatResults.splice(resultIndex, 1);
     }
   };

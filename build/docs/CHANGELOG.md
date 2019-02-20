@@ -1,5 +1,38 @@
 # @atlaskit/docs
 
+## 6.0.2
+- [patch] [050e08173f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/050e08173f):
+
+  - Add missing import for codesandboxer
+
+## 6.0.1
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/button@10.1.2
+  - @atlaskit/icon@16.0.0
+
+## 6.0.0
+- [major] [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+
+  - Use latest version of pretty-proptypes - this is incompatible with `extract-react-types` versions under `0.15.0`
+
+## 5.2.3
+- Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+  - @atlaskit/button@10.0.4
+  - @atlaskit/code@8.2.1
+  - @atlaskit/icon@15.0.1
+  - @atlaskit/theme@7.0.0
+
+## 5.2.2
+- Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
+  - @atlaskit/button@10.0.1
+  - @atlaskit/icon@15.0.0
+
+## 5.2.1
+- Updated dependencies [6998f11](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6998f11):
+  - @atlaskit/icon@14.6.1
+  - @atlaskit/theme@6.2.1
+  - @atlaskit/button@10.0.0
+
 ## 5.2.0
 - [minor] Add ErrorBoundary to Examples so that errors in Example components don't leak out onto the containing page when embedding examples within docs. [5131102](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5131102)
 

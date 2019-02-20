@@ -1,15 +1,27 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import { EditorState, Transaction, Selection } from 'prosemirror-state';
 import { EditorView, DirectEditorProps } from 'prosemirror-view';
 import { intlShape } from 'react-intl';
 
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { ProviderFactory, Transformer } from '@atlaskit/editor-common';
 import { EventDispatcher, createDispatch } from '../event-dispatcher';
 import { processRawValue } from '../utils';
 import createPluginList from './create-plugins-list';
-import { EditorState, Transaction, Selection } from 'prosemirror-state';
-import { ProviderFactory, Transformer } from '@atlaskit/editor-common';
+import {
+  analyticsEventKey,
+  fireAnalyticsEvent,
+  AnalyticsDispatch,
+  AnalyticsEventPayload,
+} from '../plugins/analytics';
 import { EditorProps, EditorConfig, EditorPlugin } from '../types';
 import { PortalProviderAPI } from '../ui/PortalProvider';
+import {
+  pluginKey as editorDisabledPluginKey,
+  EditorDisabledPluginState,
+} from '../plugins/editor-disabled';
+
 import {
   processPluginsList,
   createSchema,
@@ -20,8 +32,10 @@ import {
 
 export interface EditorViewProps {
   editorProps: EditorProps;
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
   providerFactory: ProviderFactory;
   portalProviderAPI: PortalProviderAPI;
+  allowAnalyticsGASV3?: boolean;
   render?: (
     props: {
       editor: JSX.Element;
@@ -29,6 +43,7 @@ export interface EditorViewProps {
       config: EditorConfig;
       eventDispatcher: EventDispatcher;
       transformer?: Transformer<string>;
+      dispatchAnalyticsEvent: (payload: AnalyticsEventPayload) => void;
     },
   ) => JSX.Element;
   onEditorCreated: (
@@ -57,6 +72,9 @@ export default class ReactEditorView<T = {}> extends React.Component<
   contentTransformer?: Transformer<string>;
   config: EditorConfig;
   editorState: EditorState;
+  analyticsEventHandler: (
+    payloadChannel: { payload: AnalyticsEventPayload; channel?: string },
+  ) => void;
 
   static contextTypes = {
     getAtlaskitAnalyticsEventHandlers: PropTypes.func,
@@ -66,20 +84,84 @@ export default class ReactEditorView<T = {}> extends React.Component<
   constructor(props: EditorViewProps & T) {
     super(props);
 
-    initAnalytics(props.editorProps.analyticsHandler);
-
     this.editorState = this.createEditorState({ props, replaceDoc: true });
+
+    const { createAnalyticsEvent, allowAnalyticsGASV3 } = props;
+    if (allowAnalyticsGASV3) {
+      this.activateAnalytics(createAnalyticsEvent);
+    }
+
+    this.eventDispatcher.emit(analyticsEventKey, {
+      payload: {
+        action: 'started',
+        actionSubject: 'editor',
+        attributes: { platform: 'web' },
+        eventType: 'ui',
+      },
+    });
+    initAnalytics(props.editorProps.analyticsHandler);
   }
+
+  private broadcastDisabled = (disabled: boolean) => {
+    const editorView = this.view;
+    if (editorView) {
+      const tr = editorView.state.tr.setMeta(editorDisabledPluginKey, {
+        editorDisabled: disabled,
+      } as EditorDisabledPluginState);
+
+      tr.setMeta('isLocal', true);
+      editorView.dispatch(tr);
+    }
+  };
 
   componentWillReceiveProps(nextProps: EditorViewProps) {
     if (
       this.view &&
       this.props.editorProps.disabled !== nextProps.editorProps.disabled
     ) {
+      this.broadcastDisabled(!!nextProps.editorProps.disabled);
       // Disables the contentEditable attribute of the editor if the editor is disabled
       this.view.setProps({
         editable: state => !nextProps.editorProps.disabled,
       } as DirectEditorProps);
+    }
+
+    // Activate or deactivate analytics if change property
+    if (this.props.allowAnalyticsGASV3 !== nextProps.allowAnalyticsGASV3) {
+      if (nextProps.allowAnalyticsGASV3) {
+        this.activateAnalytics(nextProps.createAnalyticsEvent);
+      } else {
+        this.deactivateAnalytics();
+      }
+    } else {
+      // Allow analytics is the same, check if we receive a new create analytics prop
+      if (
+        this.props.allowAnalyticsGASV3 &&
+        nextProps.createAnalyticsEvent !== this.props.createAnalyticsEvent
+      ) {
+        this.deactivateAnalytics(); // Deactivate the old one
+        this.activateAnalytics(nextProps.createAnalyticsEvent); // Activate the new one
+      }
+    }
+  }
+
+  /**
+   * Deactivate analytics event handler, if exist any.
+   */
+  deactivateAnalytics() {
+    if (this.analyticsEventHandler) {
+      this.eventDispatcher.off(analyticsEventKey, this.analyticsEventHandler);
+    }
+  }
+
+  /**
+   * Create analytics event handler, if createAnalyticsEvent exist
+   * @param createAnalyticsEvent
+   */
+  activateAnalytics(createAnalyticsEvent?: CreateUIAnalyticsEventSignature) {
+    if (createAnalyticsEvent) {
+      this.analyticsEventHandler = fireAnalyticsEvent(createAnalyticsEvent);
+      this.eventDispatcher.on(analyticsEventKey, this.analyticsEventHandler);
     }
   }
 
@@ -103,8 +185,11 @@ export default class ReactEditorView<T = {}> extends React.Component<
   }
 
   // Helper to allow tests to inject plugins directly
-  getPlugins(editorProps: EditorProps): EditorPlugin[] {
-    return createPluginList(editorProps);
+  getPlugins(
+    editorProps: EditorProps,
+    createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+  ): EditorPlugin[] {
+    return createPluginList(editorProps, createAnalyticsEvent);
   }
 
   createEditorState = (options: {
@@ -127,7 +212,10 @@ export default class ReactEditorView<T = {}> extends React.Component<
     }
 
     this.config = processPluginsList(
-      this.getPlugins(options.props.editorProps),
+      this.getPlugins(
+        options.props.editorProps,
+        options.props.createAnalyticsEvent,
+      ),
       options.props.editorProps,
     );
     const schema = createSchema(this.config);
@@ -194,7 +282,6 @@ export default class ReactEditorView<T = {}> extends React.Component<
       {
         state: this.editorState,
         dispatchTransaction: (transaction: Transaction) => {
-          transaction.setMeta('isLocal', true);
           if (!this.view) {
             return;
           }
@@ -222,6 +309,10 @@ export default class ReactEditorView<T = {}> extends React.Component<
         eventDispatcher: this.eventDispatcher,
         transformer: this.contentTransformer,
       });
+
+      // Set the state of the EditorDisabled plugin to the current value
+      this.broadcastDisabled(!!this.props.editorProps.disabled);
+
       // Force React to re-render so consumers get a reference to the editor view
       this.forceUpdate();
     } else if (this.view && !node) {
@@ -239,6 +330,15 @@ export default class ReactEditorView<T = {}> extends React.Component<
     }
   };
 
+  dispatchAnalyticsEvent = (payload: AnalyticsEventPayload): void => {
+    if (this.props.allowAnalyticsGASV3 && this.eventDispatcher) {
+      const dispatch: AnalyticsDispatch = createDispatch(this.eventDispatcher);
+      dispatch(analyticsEventKey, {
+        payload,
+      });
+    }
+  };
+
   render() {
     const editor = <div key="ProseMirror" ref={this.handleEditorViewRef} />;
     return this.props.render
@@ -248,6 +348,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
           config: this.config,
           eventDispatcher: this.eventDispatcher,
           transformer: this.contentTransformer,
+          dispatchAnalyticsEvent: this.dispatchAnalyticsEvent,
         })
       : editor;
   }

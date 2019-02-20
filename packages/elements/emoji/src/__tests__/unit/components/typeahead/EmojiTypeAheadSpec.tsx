@@ -55,10 +55,12 @@ const leftClick = {
   button: 0,
 };
 
-const findEmojiItems = component =>
+const findEmojiItems = (component: ReactWrapper) =>
   component.update() && component.find(EmojiTypeAheadItem);
-const itemsVisibleCount = component => findEmojiItems(component).length;
-const itemsVisible = component => itemsVisibleCount(component) > 0;
+const itemsVisibleCount = (component: ReactWrapper) =>
+  findEmojiItems(component).length;
+const itemsVisible = (component: ReactWrapper) =>
+  itemsVisibleCount(component) > 0;
 const doneLoading = (component: ReactWrapper<TypeAheadProps, TypeAheadState>) =>
   component.update() && !component.state('loading');
 
@@ -126,7 +128,7 @@ describe('EmojiTypeAhead', () => {
   it('should choose current selection when chooseCurrentSelection called', () => {
     let choseEmoji: OptionalEmojiDescription;
     return setupTypeAhead({
-      onSelection: (emojiId, emoji) => {
+      onSelection: (_emojiId, emoji) => {
         choseEmoji = emoji;
       },
     } as Props).then(component =>
@@ -153,7 +155,7 @@ describe('EmojiTypeAhead', () => {
     let choseEmoji: OptionalEmojiDescription;
 
     return setupTypeAhead({
-      onSelection: (emojiId, emoji) => {
+      onSelection: (_emojiId, emoji) => {
         choseEmoji = emoji;
       },
     } as Props).then(component =>
@@ -202,7 +204,7 @@ describe('EmojiTypeAhead', () => {
     const emojiResourcePromise = getEmojiResourcePromise();
     return setupTypeAhead({
       emojiProvider: emojiResourcePromise,
-      onSelection: (emojiId, emoji) => {
+      onSelection: (_emojiId, emoji) => {
         choseEmoji = emoji;
       },
     }).then(component =>
@@ -423,6 +425,24 @@ describe('EmojiTypeAhead', () => {
         expect(
           itemsVisibleCount(component) > 1,
           'Multiple items match',
+        ).to.equal(true);
+        expect(onSelection.callCount, 'selected 0').to.equal(0);
+      }),
+    );
+  });
+
+  it('should not fire onSelection if a query ends in a colon and an odd number of emoji have an exact shortName match', () => {
+    const onSelection = sinon.spy();
+
+    return setupTypeAhead({
+      onSelection: onSelection as OnEmojiEvent,
+      query: ':ftfy:',
+    } as Props).then(component =>
+      waitUntil(() => doneLoading(component)).then(() => {
+        expect(
+          itemsVisibleCount(component) > 1 &&
+            itemsVisibleCount(component) % 2 === 1,
+          'An odd number of items match',
         ).to.equal(true);
         expect(onSelection.callCount, 'selected 0').to.equal(0);
       }),

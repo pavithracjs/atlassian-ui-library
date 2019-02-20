@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import { withNavigationUI } from '../../../ui-controller';
+import { withNavigationUIController } from '../../../ui-controller';
 import LayoutManager from './LayoutManager';
 import type { ConnectedLayoutManagerProps } from './types';
 
@@ -12,15 +12,19 @@ function defaultTooltipContent(isCollapsed: boolean) {
     : { text: 'Collapse', char: '[' };
 }
 
-const LayoutManagerWithNavigationUI = withNavigationUI(LayoutManager);
+const LayoutManagerWithNavigationUIController = withNavigationUIController(
+  LayoutManager,
+);
 
 export default class ConnectedLayoutManager extends Component<ConnectedLayoutManagerProps> {
   static defaultProps = {
     collapseToggleTooltipContent: defaultTooltipContent,
     experimental_flyoutOnHover: false,
+    experimental_alternateFlyoutBehaviour: false,
+    experimental_fullWidthFlyout: false,
   };
 
   render() {
-    return <LayoutManagerWithNavigationUI {...this.props} />;
+    return <LayoutManagerWithNavigationUIController {...this.props} />;
   }
 }

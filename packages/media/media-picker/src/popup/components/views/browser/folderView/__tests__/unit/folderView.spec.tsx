@@ -1,5 +1,5 @@
 import AkButton from '@atlaskit/button';
-import { shallow } from 'enzyme';
+import { ShallowWrapper, shallow } from 'enzyme';
 import * as React from 'react';
 
 import { FolderViewer, FolderViewerProps } from '../../folderView';
@@ -8,7 +8,6 @@ describe('<FolderViewr />', () => {
   const setup = () => {
     const props: FolderViewerProps = {
       path: [],
-      accounts: [],
       service: {
         accountId: 'some-service-account-id',
         name: 'google',
@@ -44,7 +43,11 @@ describe('<FolderViewr />', () => {
 
   it('should not call onLoadMoreClick handler given folder is loading', () => {
     const { props } = setup();
-    const wrapper = shallow(
+    const wrapper: ShallowWrapper<
+      FolderViewerProps,
+      {},
+      FolderViewer
+    > = shallow(
       <FolderViewer
         {...props}
         isLoading={true}
@@ -74,9 +77,11 @@ describe('<FolderViewr />', () => {
 
   it('should call onLoadMoreClick handler given next page cursor', () => {
     const { props } = setup();
-    const wrapper = shallow(
-      <FolderViewer {...props} nextCursor="some-next-cursor" />,
-    );
+    const wrapper: ShallowWrapper<
+      FolderViewerProps,
+      {},
+      FolderViewer
+    > = shallow(<FolderViewer {...props} nextCursor="some-next-cursor" />);
 
     const buttons = wrapper.find(AkButton);
     const button = buttons.first();

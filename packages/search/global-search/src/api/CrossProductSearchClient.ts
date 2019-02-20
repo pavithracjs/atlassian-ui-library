@@ -32,6 +32,10 @@ export interface CrossProductSearchResponse {
   scopes: ScopeResult[];
 }
 
+export interface CrossProductExperimentResponse {
+  scopes: Experiment[];
+}
+
 export type SearchItem = ConfluenceItem | JiraItem | PersonItem;
 
 export interface ABTest {
@@ -47,11 +51,18 @@ export interface ScopeResult {
   abTest?: ABTest; // in case of an error abTest will be undefined
 }
 
+export interface Experiment {
+  id: Scope;
+  error?: string;
+  abTest?: ABTest;
+}
+
 export interface CrossProductSearchClient {
   search(
     query: string,
     searchSession: SearchSession,
     scopes: Scope[],
+    resultLimit?: Number,
   ): Promise<CrossProductSearchResults>;
 
   getAbTestData(
@@ -83,11 +94,20 @@ export default class CrossProductSearchClientImpl
     query: string,
     searchSession: SearchSession,
     scopes: Scope[],
+    resultLimit?: Number,
   ): Promise<CrossProductSearchResults> {
-    const response = await this.makeRequest(
-      query.trim(),
-      scopes,
+    const path = 'quicksearch/v1';
+    const body = {
+      query: query,
+      cloudId: this.cloudId,
+      limit: resultLimit || this.RESULT_LIMIT,
+      scopes: scopes,
       searchSession,
+    };
+
+    const response = await this.makeRequest<CrossProductSearchResponse>(
+      path,
+      body,
     );
     return this.parseResponse(response, searchSession.sessionId);
   }
@@ -96,29 +116,31 @@ export default class CrossProductSearchClientImpl
     scope: Scope,
     searchSession: SearchSession,
   ): Promise<ABTest | undefined> {
-    const response = await this.makeRequest('', [scope], searchSession);
-    const parsedResponse = this.parseResponse(
-      response,
-      searchSession.sessionId,
-    );
-    return Promise.resolve(parsedResponse.abTest);
-  }
-
-  private async makeRequest(
-    query: string,
-    scopes: Scope[],
-    searchSession: SearchSession,
-  ): Promise<CrossProductSearchResponse> {
+    const path = 'experiment/v1';
     const body = {
-      query: query,
       cloudId: this.cloudId,
-      limit: this.RESULT_LIMIT,
-      scopes: scopes,
-      searchSession,
+      scopes: [scope],
     };
 
+    const response = await this.makeRequest<CrossProductExperimentResponse>(
+      path,
+      body,
+    );
+
+    const scopeWithAbTest: Experiment | undefined = response.scopes.find(
+      s => s.id === scope,
+    );
+
+    if (scopeWithAbTest) {
+      return Promise.resolve(scopeWithAbTest.abTest);
+    }
+
+    return Promise.resolve(undefined);
+  }
+
+  private async makeRequest<T>(path: string, body: object): Promise<T> {
     const options: RequestServiceOptions = {
-      path: 'quicksearch/v1',
+      path,
       requestInit: {
         method: 'POST',
         headers: {
@@ -128,10 +150,7 @@ export default class CrossProductSearchClientImpl
       },
     };
 
-    return utils.requestService<CrossProductSearchResponse>(
-      this.serviceConfig,
-      options,
-    );
+    return utils.requestService<T>(this.serviceConfig, options);
   }
 
   /**
@@ -174,18 +193,18 @@ export default class CrossProductSearchClientImpl
 }
 
 function mapPersonItemToResult(item: PersonItem): PersonResult {
-  const mention = item.nickName || item.displayName;
+  const mention = item.nickname || item.name;
 
   return {
     resultType: ResultType.PersonResult,
-    resultId: 'people-' + item.userId,
-    name: item.displayName,
-    href: '/people/' + item.userId,
-    avatarUrl: item.primaryPhoto,
+    resultId: 'people-' + item.account_id,
+    name: item.name,
+    href: '/people/' + item.account_id,
+    avatarUrl: item.picture,
     contentType: ContentType.Person,
     analyticsType: AnalyticsType.ResultPerson,
     mentionName: mention,
-    presenceMessage: item.title || '',
+    presenceMessage: item.job_title || '',
   };
 }
 

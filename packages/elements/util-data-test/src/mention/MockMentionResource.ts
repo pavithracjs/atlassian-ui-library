@@ -37,7 +37,7 @@ export class MockMentionResource extends AbstractMentionResource {
     const notify = (mentions: MentionsResult) => {
       if (searchTime >= this.lastReturnedSearch) {
         this.lastReturnedSearch = searchTime;
-        this._notifyListeners(mentions);
+        this._notifyListeners(mentions, { remoteSearch: true, duration: 100 });
       } else {
         const date = new Date(searchTime).toISOString().substr(17, 6);
         debug('Stale search result, skipping', date, query); // eslint-disable-line no-console, max-len
@@ -45,20 +45,21 @@ export class MockMentionResource extends AbstractMentionResource {
       this._notifyAllResultsListeners(mentions);
     };
 
-    const notifyErrors = error => {
+    const notifyErrors = (error: Error) => {
       this._notifyErrorListeners(error);
     };
 
     const minWait = this.config.minWait || 0;
     const randomTime = (this.config.maxWait || 0) - minWait;
     const waitTime = Math.random() * randomTime + minWait;
-    setTimeout(() => {
+    window.setTimeout(() => {
       let mentions;
       if (query === 'error') {
-        notifyErrors('mock-error');
+        notifyErrors(new Error('mock-error'));
         return;
       } else if (query === '401' || query === '403') {
         notifyErrors(new HttpError(parseInt(query, 10), 'get off my lawn'));
+        return;
       } else if (query) {
         mentions = search.search(query);
       } else {

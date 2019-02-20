@@ -5,8 +5,9 @@ import {
   parseLeadingKeyword,
   parseMacroKeyword,
 } from './tokenize/keyword';
-import { parseToken, TokenType, TokenErrCallback } from './tokenize';
+import { parseToken, TokenType, Context } from './tokenize';
 import { parseWhitespaceOnly } from './tokenize/whitespace';
+import { escapeHandler } from './utils/escape';
 
 const processState = {
   NEWLINE: 0,
@@ -15,12 +16,17 @@ const processState = {
   ESCAPE: 3,
 };
 
-export function parseString(
-  input: string,
-  schema: Schema,
-  ignoreTokens: TokenType[] = [],
-  tokenErrCallback?: TokenErrCallback,
-): PMNode[] {
+export function parseString({
+  input,
+  schema,
+  ignoreTokenTypes = [],
+  context,
+}: {
+  input: string;
+  schema: Schema;
+  ignoreTokenTypes: TokenType[];
+  context: Context;
+}): PMNode[] {
   let index = 0;
   let state = processState.NEWLINE;
   let buffer = '';
@@ -48,7 +54,7 @@ export function parseString(
           parseMacroKeyword(substring) ||
           parseOtherKeyword(substring);
 
-        if (match && ignoreTokens.indexOf(match.type) === -1) {
+        if (match && ignoreTokenTypes.indexOf(match.type) === -1) {
           tokenType = match.type;
           state = processState.TOKEN;
           continue;
@@ -78,7 +84,7 @@ export function parseString(
           match = parseMacroKeyword(substring) || parseOtherKeyword(substring);
         }
 
-        if (match && ignoreTokens.indexOf(match.type) === -1) {
+        if (match && ignoreTokenTypes.indexOf(match.type) === -1) {
           tokenType = match.type;
           state = processState.TOKEN;
           continue;
@@ -86,7 +92,7 @@ export function parseString(
 
         if (char === '\\') {
           state = processState.ESCAPE;
-          break;
+          continue;
         }
 
         buffer += char;
@@ -99,7 +105,7 @@ export function parseString(
           tokenType,
           index,
           schema,
-          tokenErrCallback,
+          context.tokenErrCallback,
         );
         if (token.type === 'text') {
           buffer += token.text;
@@ -118,30 +124,11 @@ export function parseString(
       }
 
       case processState.ESCAPE: {
-        /**
-         * During this state, the parser will see if the escaped
-         * char is a keyword. If it's not a valid keyword, the '\'
-         * will be included in the buffer as well
-         */
-        if (char === '\\') {
-          // '\\' is a linebreak
-          buffer += '\n';
-          state = processState.BUFFER;
-          break;
-        }
-
-        const substring = input.substring(index);
-        const match =
-          parseLeadingKeyword(substring) ||
-          parseMacroKeyword(substring) ||
-          parseOtherKeyword(substring);
-
-        if (!match) {
-          buffer += '\\';
-        }
-        buffer += char;
+        const token = escapeHandler(input, index);
+        buffer += token.text;
+        index += token.length;
         state = processState.BUFFER;
-        break;
+        continue;
       }
       default:
     }

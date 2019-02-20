@@ -1,5 +1,47 @@
 # @atlaskit/tree
 
+## 4.1.11
+- [patch] [e3b442c128](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e3b442c128):
+
+  - Adopting API changes in Icon for examples
+
+## 4.1.10
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/docs@6.0.1
+  - @atlaskit/navigation@33.3.9
+  - @atlaskit/section-message@1.0.16
+  - @atlaskit/icon@16.0.0
+
+## 4.1.9
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/icon@15.0.2
+  - @atlaskit/navigation@33.3.8
+  - @atlaskit/section-message@1.0.14
+  - @atlaskit/spinner@9.0.13
+  - @atlaskit/theme@7.0.1
+  - @atlaskit/docs@6.0.0
+
+## 4.1.8
+- Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+  - @atlaskit/docs@5.2.3
+  - @atlaskit/icon@15.0.1
+  - @atlaskit/navigation@33.3.7
+  - @atlaskit/section-message@1.0.13
+  - @atlaskit/spinner@9.0.12
+  - @atlaskit/theme@7.0.0
+
+## 4.1.7
+- Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
+  - @atlaskit/docs@5.2.2
+  - @atlaskit/navigation@33.3.6
+  - @atlaskit/section-message@1.0.12
+  - @atlaskit/icon@15.0.0
+
+## 4.1.6
+- [patch] [ce60809](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce60809):
+
+  - Replace react-beautiful-dnd-next dependency with react-beautiful-dnd@10.0.2
+
 ## 4.1.5
 - [patch] [6c250fe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6c250fe):
 

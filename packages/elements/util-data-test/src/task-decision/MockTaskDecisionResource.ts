@@ -112,9 +112,9 @@ export class MockTaskDecisionResource implements TaskDecisionProvider {
     return this.applyConfig(query, result, 'items');
   }
 
-  unsubscribeRecentUpdates(id: RecentUpdatesId) {}
+  unsubscribeRecentUpdates(_id: RecentUpdatesId) {}
 
-  notifyRecentUpdates(updateContext?: RecentUpdateContext) {}
+  notifyRecentUpdates(_updateContext?: RecentUpdateContext) {}
 
   private getNextDate() {
     // Random 15 minute chunk earlier
@@ -138,7 +138,7 @@ export class MockTaskDecisionResource implements TaskDecisionProvider {
       };
     }
     const newResult: R = {
-      [itemKey]: result[itemKey].map(item => {
+      [itemKey]: (result as any)[itemKey].map((item: any) => {
         const itemDate = this.getNextDate();
         return {
           ...item,
@@ -154,7 +154,7 @@ export class MockTaskDecisionResource implements TaskDecisionProvider {
 
     if (lag) {
       return new Promise(resolve => {
-        setTimeout(() => {
+        window.setTimeout(() => {
           resolve(newResult);
         }, lag);
       });
@@ -162,7 +162,7 @@ export class MockTaskDecisionResource implements TaskDecisionProvider {
     return Promise.resolve(newResult);
   }
 
-  getTaskState(keys: ObjectKey[]): Promise<BaseItem<TaskState>[]> {
+  getTaskState(_keys: ObjectKey[]): Promise<BaseItem<TaskState>[]> {
     return Promise.resolve([
       {
         containerAri:
@@ -200,7 +200,7 @@ export class MockTaskDecisionResource implements TaskDecisionProvider {
       resolve(state);
 
       const lag = (this.config && this.config.lag) || 0;
-      setTimeout(() => {
+      window.setTimeout(() => {
         if (this.config && this.config.error) {
           // Undo optimistic change
           this.notifyUpdated(objectKey, toggleTaskState(state));
@@ -229,7 +229,7 @@ export class MockTaskDecisionResource implements TaskDecisionProvider {
 
     this.queueItem(objectKey);
 
-    debouncedTaskStateQuery = setTimeout(() => {
+    debouncedTaskStateQuery = window.setTimeout(() => {
       this.getTaskState(Array.from(this.batchedKeys.values())).then(tasks => {
         tasks.forEach(task => {
           const { containerAri, objectAri, localId } = task;

@@ -41,41 +41,20 @@ const gridSize = gridSizeFn();
 
 const globalNavPrimaryItems = [
   {
-    key: 'jira',
-    component: ({ className, children }: *) => (
-      <UIControllerSubscriber>
-        {navigationUIController => {
-          function onClick() {
-            if (navigationUIController.state.isCollapsed) {
-              navigationUIController.expand();
-            }
-            navigationUIController.togglePeek();
-          }
-          return (
-            <button
-              className={className}
-              onClick={onClick}
-              onMouseEnter={navigationUIController.peekHint}
-              onMouseLeave={navigationUIController.unPeekHint}
-            >
-              {children}
-            </button>
-          );
-        }}
-      </UIControllerSubscriber>
-    ),
+    id: 'jira',
     icon: ({ label }: { label: string }) => (
       <JiraIcon size="medium" label={label} />
     ),
     label: 'Jira',
   },
-  { key: 'search', icon: SearchIcon },
-  { key: 'create', icon: AddIcon },
+  { id: 'search', icon: SearchIcon },
+  { id: 'create', icon: AddIcon },
 ];
 
 const globalNavSecondaryItems = [
-  { icon: QuestionCircleIcon, label: 'Help', size: 'small' },
+  { id: 'icon-123', icon: QuestionCircleIcon, label: 'Help', size: 'small' },
   {
+    id: 'icon-321',
     icon: () => (
       <Avatar
         borderColor="transparent"
@@ -195,15 +174,9 @@ function NOOP() {}
 type StatusEvents = {
   onResizeEnd: number => void,
   onResizeStart: number => void,
-  onPeekHint: () => void,
-  onUnpeekHint: () => void,
-  onPeek: () => void,
-  onUnpeek: () => void,
 };
 type NavState = {
   isCollapsed: boolean,
-  isPeekHinting: boolean,
-  isPeeking: boolean,
   isResizing: boolean,
   productNavWidth: number,
 };
@@ -223,20 +196,8 @@ class CollapseStatus extends React.Component<StatusProps> {
     onResizeStart: NOOP,
   };
   componentDidUpdate(prevProps: StatusProps) {
-    const {
-      onResizeStart,
-      onResizeEnd,
-      onPeekHint,
-      onUnpeekHint,
-      onPeek,
-      onUnpeek,
-    } = this.props;
-    const {
-      isPeekHinting,
-      isPeeking,
-      isResizing,
-      productNavWidth,
-    } = this.props.navState;
+    const { onResizeStart, onResizeEnd } = this.props;
+    const { isResizing, productNavWidth } = this.props.navState;
 
     // manual resize
     if (isResizing && !prevProps.navState.isResizing) {
@@ -244,22 +205,6 @@ class CollapseStatus extends React.Component<StatusProps> {
     }
     if (!isResizing && prevProps.navState.isResizing) {
       onResizeEnd(productNavWidth);
-    }
-
-    // hinting
-    if (isPeekHinting && !prevProps.navState.isPeekHinting) {
-      onPeekHint();
-    }
-    if (!isPeekHinting && prevProps.navState.isPeekHinting) {
-      onUnpeekHint();
-    }
-
-    // peeking
-    if (isPeeking && !prevProps.navState.isPeeking) {
-      onPeek();
-    }
-    if (!isPeeking && prevProps.navState.isPeeking) {
-      onUnpeek();
     }
   }
   render() {
@@ -319,6 +264,7 @@ type State = {
   callStack: Array<StatusEvent>,
   resizePending: boolean,
   isFlyoutAvailable: boolean,
+  isAlternateFlyoutBehaviourEnabled: boolean,
 };
 function makeKey() {
   return Math.random()
@@ -333,6 +279,7 @@ class ExtendingNavSubscriber extends React.Component<*, State> {
     boxWidth: 'auto',
     resizePending: false,
     isFlyoutAvailable: true,
+    isAlternateFlyoutBehaviourEnabled: false,
   };
   componentDidMount() {
     this.updateWidth();
@@ -388,11 +335,20 @@ class ExtendingNavSubscriber extends React.Component<*, State> {
   onFlyoutToggle = () => {
     this.setState(state => ({ isFlyoutAvailable: !state.isFlyoutAvailable }));
   };
+  onAlternateBehaviourToggle = () => {
+    this.setState(state => ({
+      isAlternateFlyoutBehaviourEnabled: !state.isAlternateFlyoutBehaviourEnabled,
+    }));
+  };
 
   render() {
-    const { boxWidth, resizePending, isFlyoutAvailable } = this.state;
+    const {
+      boxWidth,
+      resizePending,
+      isFlyoutAvailable,
+      isAlternateFlyoutBehaviourEnabled,
+    } = this.state;
     const lastTen = this.getStack();
-    console.log('navState', this.props.navState);
 
     return (
       <LayoutManager
@@ -404,14 +360,14 @@ class ExtendingNavSubscriber extends React.Component<*, State> {
         onExpandStart={this.onExpandStart}
         onExpandEnd={this.onExpandEnd}
         experimental_flyoutOnHover={isFlyoutAvailable}
+        experimental_alternateFlyoutBehaviour={
+          isAlternateFlyoutBehaviourEnabled
+        }
+        experimental_fullWidthFlyout={false}
       >
         <CollapseStatusListener
           onResizeEnd={this.onResizeEnd}
           onResizeStart={this.onResizeStart}
-          onPeek={this.onEmit('onPeek')}
-          onUnpeek={this.onEmit('onUnpeek')}
-          onPeekHint={this.onEmit('onPeekHint')}
-          onUnpeekHint={this.onEmit('onUnpeekHint')}
         />
         <div>
           <ResizeBox width={boxWidth} pending={resizePending} />
@@ -421,6 +377,11 @@ class ExtendingNavSubscriber extends React.Component<*, State> {
               <ToggleStateless
                 isChecked={isFlyoutAvailable}
                 onChange={this.onFlyoutToggle}
+              />
+              <Label label="Toggle alternate hover behaviour (experimental)" />
+              <ToggleStateless
+                isChecked={isAlternateFlyoutBehaviourEnabled}
+                onChange={this.onAlternateBehaviourToggle}
               />
             </div>
             <Logger>

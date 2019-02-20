@@ -1,49 +1,35 @@
 import { Context } from '@atlaskit/media-core';
-
-import { LocalUploadComponent, LocalUploadConfig } from '../localUpload';
+import { IntlProvider } from 'react-intl';
+import { LocalUploadComponent } from '../localUpload';
 import { whenDomReady } from '../../util/documentReady';
 import dropzoneUI from './dropzoneUI';
-import { UploadEventPayloadMap } from '../..';
-
-export interface DropzoneConfig extends LocalUploadConfig {
-  container?: HTMLElement;
-  headless?: boolean;
-}
-
-export interface DropzoneConstructor {
-  new (context: Context, dropzoneConfig: DropzoneConfig): Dropzone;
-}
-
-export interface DropzoneDragEnterEventPayload {
-  length: number;
-}
-
-export interface DropzoneDragLeaveEventPayload {
-  length: number;
-}
-
-export type DropzoneUploadEventPayloadMap = UploadEventPayloadMap & {
-  readonly drop: undefined;
-  readonly 'drag-enter': DropzoneDragEnterEventPayload;
-  readonly 'drag-leave': DropzoneDragLeaveEventPayload;
-};
+import {
+  DropzoneReactContext,
+  DropzoneUploadEventPayloadMap,
+  DropzoneConfig,
+  DropzoneDragEnterEventPayload,
+  DropzoneDragLeaveEventPayload,
+  Dropzone,
+} from '../types';
 
 const toArray = (arr: any) => [].slice.call(arr, 0);
 
-export class Dropzone extends LocalUploadComponent<
-  DropzoneUploadEventPayloadMap
-> {
+export class DropzoneImpl
+  extends LocalUploadComponent<DropzoneUploadEventPayloadMap>
+  implements Dropzone {
   private container: HTMLElement;
   private instance?: HTMLElement;
   private headless: boolean;
   private uiActive: boolean;
+  private proxyReactContext?: DropzoneReactContext;
 
   constructor(context: Context, config: DropzoneConfig = { uploadParams: {} }) {
     super(context, config);
-    const { container, headless } = config;
+    const { container, headless, proxyReactContext } = config;
     this.container = container || document.body;
     this.headless = headless || false;
     this.uiActive = false;
+    this.proxyReactContext = proxyReactContext;
   }
 
   public activate(): Promise<void> {
@@ -63,6 +49,10 @@ export class Dropzone extends LocalUploadComponent<
   }
 
   private readonly onFileDropped = (dragEvent: DragEvent) => {
+    if (!dragEvent.dataTransfer) {
+      return;
+    }
+
     dragEvent.preventDefault();
     dragEvent.stopPropagation();
     this.onDrop(dragEvent);
@@ -88,7 +78,7 @@ export class Dropzone extends LocalUploadComponent<
   private onDragOver = (e: DragEvent): void => {
     e.preventDefault();
 
-    if (this.instance && Dropzone.dragContainsFiles(e)) {
+    if (this.instance && e.dataTransfer && DropzoneImpl.dragContainsFiles(e)) {
       const dataTransfer = e.dataTransfer;
       let allowed;
 
@@ -121,11 +111,11 @@ export class Dropzone extends LocalUploadComponent<
   }
 
   private onDragLeave = (e: DragEvent): void => {
-    if (this.instance) {
+    if (this.instance && e.dataTransfer) {
       e.preventDefault();
       this.instance.classList.remove('active');
       let length = 0;
-      if (Dropzone.dragContainsFiles(e)) {
+      if (DropzoneImpl.dragContainsFiles(e)) {
         const dataTransfer = e.dataTransfer;
         length = this.getDraggedItemsLength(dataTransfer);
       }
@@ -144,14 +134,23 @@ export class Dropzone extends LocalUploadComponent<
       container.classList.add('headless-dropzone');
       return container;
     } else {
-      return dropzoneUI;
+      if (this.proxyReactContext && this.proxyReactContext.intl) {
+        const { formatMessage } = this.proxyReactContext.intl;
+
+        return dropzoneUI(formatMessage);
+      }
+      const defaultFormatMessage = new IntlProvider({
+        locale: 'en',
+      }).getChildContext().intl.formatMessage;
+
+      return dropzoneUI(defaultFormatMessage);
     }
   }
 
   private onDrop = (e: DragEvent): void => {
     const { instance } = this;
 
-    if (instance && Dropzone.dragContainsFiles(e)) {
+    if (instance && e.dataTransfer && DropzoneImpl.dragContainsFiles(e)) {
       instance.classList.remove('active');
       const dataTransfer = e.dataTransfer;
       const length = this.getDraggedItemsLength(dataTransfer);
@@ -183,6 +182,10 @@ export class Dropzone extends LocalUploadComponent<
   }
 
   private static dragContainsFiles(event: DragEvent): boolean {
+    if (!event.dataTransfer) {
+      return false;
+    }
+
     const { types } = event.dataTransfer;
 
     return toArray(types).indexOf('Files') > -1;

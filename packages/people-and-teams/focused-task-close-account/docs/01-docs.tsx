@@ -19,9 +19,9 @@ export default md`
     </SectionMessage>
   )}
 
-  ### Usage
-
   This package provides the view components required to assemble the "Right to be forgotten" drawers.
+
+  ## Usage
 
   By providing the building blocks rather than a single complete solution, a simpler and more flexible API can be provided for adjustments, customizations and data-routing.
 
@@ -29,17 +29,15 @@ export default md`
 
   For example, to assemble the "Delete user" flow, provide the DeleteUserOverviewScreen and DeleteUserContentPreviewScreen.
 
-  ### Install
-
   ${code`
 import {
   FocusedTaskCloseAccount,
   DeleteUserOverviewScreen,
   DeleteUserContentPreviewScreen,
+  DeactivateUserOverviewScreen,
 } from '@atlaskit/focused-task-close-account';
   `}
 
-### Examples
   ${(
     <Example
       packageName="@atlaskit/focused-task-close-account"
@@ -64,6 +62,15 @@ import {
       title="Single screen drawer"
       Component={require('../examples/02-SingleScreenDrawer').default}
       source={require('!!raw-loader!../examples/02-SingleScreenDrawer')}
+    />
+  )}
+
+  ${(
+    <Example
+      packageName="@atlaskit/focused-task-close-account"
+      title="Deactivate drawer"
+      Component={require('../examples/03-DeactivateDrawer').default}
+      source={require('!!raw-loader!../examples/03-DeactivateDrawer')}
     />
   )}
 

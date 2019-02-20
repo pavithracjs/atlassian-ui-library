@@ -1,5 +1,5 @@
 import { handleCloudFetchingEvent } from '../../handleCloudFetchingEvent';
-import { mockStore } from '../../../mocks';
+import { mockStore } from '@atlaskit/media-test-helpers';
 import {
   HANDLE_CLOUD_FETCHING_EVENT,
   HandleCloudFetchingEventAction,
@@ -14,7 +14,6 @@ describe('handleCloudFetchingEvent', () => {
   const bytes = 50;
   const fileSize = 1000;
   const client = { id: 'some-client-id', token: 'some-client-token' };
-  const tenant = { id: 'some-tenant-id', token: 'some-tenant-token' };
   const description = 'some-error-description';
   const deferredIdUpfronts = {};
   const upfrontId = Promise.resolve('1');
@@ -75,7 +74,7 @@ describe('handleCloudFetchingEvent', () => {
       payload: { fileId, uploadId },
     };
     const remoteUploads = {
-      'some-upload-id': { tenant },
+      'some-upload-id': {},
     };
 
     (store.getState as jest.Mock<any>).mockReturnValue({
@@ -96,11 +95,11 @@ describe('handleCloudFetchingEvent', () => {
       type: FINALIZE_UPLOAD,
       uploadId,
       file: uploadedFile,
+      replaceFileId: file.id,
       source: {
         id: fileId,
         collection: RECENTS_COLLECTION,
       },
-      tenant,
     });
   });
 

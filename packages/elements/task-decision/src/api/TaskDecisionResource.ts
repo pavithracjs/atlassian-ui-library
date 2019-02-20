@@ -124,7 +124,7 @@ export class RecentUpdates {
     }
   }
 
-  onPubSubEvent = (event, payload: ServiceItem) => {
+  onPubSubEvent = (_event: string, payload: ServiceItem) => {
     const { containerAri } = payload;
     this.notify({ containerAri });
   };
@@ -197,7 +197,7 @@ export class ItemStateManager {
     return new Promise<TaskState>((resolve, reject) => {
       this.debouncedTaskToggle.set(
         stringKey,
-        setTimeout(() => {
+        window.setTimeout(() => {
           const options: RequestServiceOptions = {
             path: 'tasks',
             requestInit: {
@@ -317,7 +317,7 @@ export class ItemStateManager {
     });
   }
 
-  onTaskUpdatedEvent = (event, payload: ServiceTask) => {
+  onTaskUpdatedEvent = (_event: string, payload: ServiceTask) => {
     const { containerAri, objectAri, localId } = payload;
     const objectKey = { containerAri, objectAri, localId };
 
@@ -390,7 +390,7 @@ export class ItemStateManager {
       clearTimeout(this.debouncedTaskStateQuery);
     }
 
-    this.debouncedTaskStateQuery = setTimeout(() => {
+    this.debouncedTaskStateQuery = window.setTimeout(() => {
       this.getTaskState(Array.from(this.batchedKeys.values())).then(tasks => {
         tasks.forEach(task => {
           const { containerAri, objectAri, localId } = task;

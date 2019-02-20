@@ -140,6 +140,31 @@ abc
 -- c
 `,
     ],
+    ['should create single list mention', '- [~someName]'],
+    [
+      'should create list of mentions with rule in middle',
+      `- [~name1]
+- [~name2]
+---- 
+abc
+- [~name3]
+-- [~name4]
+`,
+    ],
+    [
+      '[CS-617] should not ignore double and triple dash in list item',
+      `
+* list item -- 1
+* list item --- 2
+`,
+    ],
+    [
+      'should support codeBlock in listItem now',
+      `
+* item 1
+* item 2 with {code}code block{code}
+`,
+    ],
   ];
 
   for (const [testCaseDescription, markup] of testCases) {

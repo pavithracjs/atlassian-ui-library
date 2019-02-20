@@ -1,0 +1,20 @@
+{
+  "extends": "../../../tsconfig.elements.json",
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    "./docs/**/*.ts",
+    "./docs/**/*.tsx",
+    "./examples/**/*.ts",
+    "./examples/**/*.tsx"
+  ],
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "baseUrl": "./",
+    "paths": {
+      "@atlaskit/analytics-next": [
+        "node_modules/@atlaskit/analytics-next-types"
+      ]
+    }
+  }
+}

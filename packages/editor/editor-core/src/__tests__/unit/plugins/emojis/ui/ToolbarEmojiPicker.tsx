@@ -7,10 +7,9 @@ import { Popup, ProviderFactory } from '@atlaskit/editor-common';
 import {
   doc,
   p,
-  createEditor,
+  createEditorFactory,
   emoji,
   code_block,
-  mentionQuery,
 } from '@atlaskit/editor-test-helpers';
 import ToolbarEmojiPicker from '../../../../../plugins/emoji/ui/ToolbarEmojiPicker';
 import ToolbarButton from '../../../../../ui/ToolbarButton';
@@ -33,11 +32,13 @@ const grinEmojiId = {
 };
 
 describe('@atlaskit/editor-core/ui/ToolbarEmojiPicker', () => {
+  const createEditor = createEditorFactory();
+
   const providerFactory = ProviderFactory.create({ emojiProvider });
   const editor = (doc: any, analyticsHandler = () => {}) =>
     createEditor({
       doc,
-      editorPlugins: [emojiPlugin, codeBlockPlugin(), mentionsPlugin],
+      editorPlugins: [emojiPlugin, codeBlockPlugin(), mentionsPlugin()],
       editorProps: {
         analyticsHandler,
       },
@@ -94,20 +95,6 @@ describe('@atlaskit/editor-core/ui/ToolbarEmojiPicker', () => {
 
   it('should disable the ToolbarEmojiPicker when in a code block', () => {
     const { editorView } = editor(doc(code_block()('<{}>')));
-    const toolbarEmojiPicker = mount(
-      <ToolbarEmojiPicker
-        pluginKey={pluginKey}
-        emojiProvider={emojiProvider}
-        editorView={editorView}
-        numFollowingButtons={0}
-      />,
-    );
-    expect(toolbarEmojiPicker.state('disabled')).toEqual(true);
-    toolbarEmojiPicker.unmount();
-  });
-
-  it('should disable the ToolbarEmojiPicker when in an active mention query mark', () => {
-    const { editorView } = editor(doc(p(mentionQuery()('@'))));
     const toolbarEmojiPicker = mount(
       <ToolbarEmojiPicker
         pluginKey={pluginKey}

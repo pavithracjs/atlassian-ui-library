@@ -1,5 +1,5 @@
 import * as sinon from 'sinon';
-import { defaultSchema } from '@atlaskit/editor-common';
+import { defaultSchema } from '@atlaskit/adf-schema';
 import {
   doc,
   p,
@@ -7,7 +7,7 @@ import {
   tr,
   tdEmpty,
   tdCursor,
-  createEditor,
+  createEditorFactory,
 } from '@atlaskit/editor-test-helpers';
 import tablesPlugin from '../../../../plugins/table';
 import codeBlockPlugin from '../../../../plugins/code-block';
@@ -21,6 +21,8 @@ import {
 } from '../../../../plugins/table/types';
 
 describe('TableView', () => {
+  const createEditor = createEditorFactory<TablePluginState>();
+
   const editor = (doc: any, trackEvent = () => {}) => {
     const tableOptions = {
       allowNumberColumn: true,
@@ -28,7 +30,7 @@ describe('TableView', () => {
       allowHeaderColumn: true,
       permittedLayouts: 'all',
     } as PluginConfig;
-    return createEditor<TablePluginState>({
+    return createEditor({
       doc,
       editorPlugins: [
         listPlugin,
@@ -61,7 +63,7 @@ describe('TableView', () => {
       // @ts-ignore
       .stub(TableView.prototype, '_handleRef')
       .callsFake(ref => {
-        setTimeout(ref => handleRefInnerMock.call(this, ref), 0);
+        window.setTimeout(ref => handleRefInnerMock.call(this, ref), 0);
       });
 
     // create the NodeView
@@ -79,7 +81,7 @@ describe('TableView', () => {
     // ProseMirror will render the node's children into the element
     expect(tableView.contentDOM).toBeDefined();
 
-    // we shouldn't have called the mock yet, since it's behind the setTimeout
+    // we shouldn't have called the mock yet, since it's behind the window.setTimeout
     expect(handleRefInnerMock).not.toBeCalled();
 
     // run the timers through

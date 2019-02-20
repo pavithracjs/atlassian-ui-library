@@ -1,25 +1,24 @@
-import * as sinon from 'sinon';
-import { expect } from 'chai';
-
 import { waitUntil } from '@atlaskit/util-common-test';
-import { EmojiDescriptionWithVariations } from '../../../../types';
-import { isPromise } from '../../../../type-helpers';
+import { expect } from 'chai';
+import * as sinon from 'sinon';
 import MediaEmojiCache, {
   BrowserCacheStrategy,
   EmojiCacheStrategy,
   MemoryCacheStrategy,
 } from '../../../../api/media/MediaEmojiCache';
+import MediaImageLoader from '../../../../api/media/MediaImageLoader';
 import TokenManager from '../../../../api/media/TokenManager';
-
+import { frequentCategory } from '../../../../constants';
+import { isPromise } from '../../../../type-helpers';
+import { EmojiDescriptionWithVariations } from '../../../../types';
 import {
   createTokenManager,
   imageEmoji,
+  loadedAltMediaEmoji,
   loadedMediaEmoji,
   mediaEmoji,
   mediaEmojiImagePath,
-  loadedAltMediaEmoji,
 } from '../../_test-data';
-import { frequentCategory } from '../../../../constants';
 
 const restoreStub = (stub: any) => {
   if (stub.restore) {
@@ -27,10 +26,13 @@ const restoreStub = (stub: any) => {
   }
 };
 
-class MockMediaImageLoader {
-  reject: boolean;
+class MockMediaImageLoader extends MediaImageLoader {
+  reject: boolean = false;
+  constructor() {
+    super(createTokenManager());
+  }
 
-  loadMediaImage(url: string): Promise<string> {
+  loadMediaImage(_url: string): Promise<string> {
     if (this.reject) {
       return Promise.reject('Bad times');
     }
@@ -75,6 +77,7 @@ describe('MediaEmojiCache', () => {
         });
       }
       expect(false, 'cacheStrategy is a promise').to.equal(true);
+      return;
     });
 
     it('init - use MemoryCacheStrategy', () => {
@@ -92,6 +95,7 @@ describe('MediaEmojiCache', () => {
         });
       }
       expect(false, 'cacheStrategy is a promise').to.equal(true);
+      return;
     });
 
     it('cache initialised - returns cache not promise', () => {
@@ -111,6 +115,7 @@ describe('MediaEmojiCache', () => {
         });
       }
       expect(false, 'cacheStrategy is a promise').to.equal(true);
+      return;
     });
 
     it('init - first url is bad, good second', () => {
@@ -142,6 +147,7 @@ describe('MediaEmojiCache', () => {
           });
       }
       expect(false, 'cacheStrategy is a promise').to.equal(true);
+      return;
     });
   });
 
@@ -182,6 +188,7 @@ describe('MediaEmojiCache', () => {
         });
       }
       expect(false, 'emojiPromise is a promise').to.equal(true);
+      return;
     });
 
     it('media emoji - cache failed to load', () => {
@@ -198,6 +205,7 @@ describe('MediaEmojiCache', () => {
         });
       }
       expect(false, 'emojiPromise is a promise').to.equal(true);
+      return;
     });
   });
 
@@ -242,6 +250,7 @@ describe('MediaEmojiCache', () => {
         });
       }
       expect(false, 'emojiPromise is a promise').to.equal(true);
+      return;
     });
 
     it('returns false if no cache strategy', () => {
@@ -256,6 +265,7 @@ describe('MediaEmojiCache', () => {
         });
       }
       expect(false, 'emojiPromise is a promise').to.equal(true);
+      return;
     });
   });
 });
@@ -263,15 +273,15 @@ describe('MediaEmojiCache', () => {
 describe('BrowserCacheStrategy', () => {
   describe('#supported', () => {
     class MockImage {
-      src: string;
+      src!: string;
       listeners: Map<string, Function> = new Map();
-      addEventListener(type, callback) {
+      addEventListener(type: string, callback: Function) {
         this.listeners.set(type, callback);
       }
     }
-    let imageConstructorStub;
-    let mockImage;
-    let mockMediaImageLoader;
+    let imageConstructorStub: sinon.SinonStub;
+    let mockImage: MockImage;
+    let mockMediaImageLoader: MediaImageLoader;
 
     beforeEach(() => {
       mockImage = new MockImage();
@@ -294,7 +304,7 @@ describe('BrowserCacheStrategy', () => {
         expect(mockImage.src, 'Image src url').to.equal('cheese');
       });
       return waitUntil(() => !!mockImage.listeners.get('load')).then(() => {
-        mockImage.listeners.get('load')();
+        mockImage.listeners.get('load')!();
         return promise;
       });
     });
@@ -308,7 +318,7 @@ describe('BrowserCacheStrategy', () => {
         expect(mockImage.src, 'Image src url').to.equal('cheese');
       });
       return waitUntil(() => !!mockImage.listeners.get('error')).then(() => {
-        mockImage.listeners.get('error')();
+        mockImage.listeners.get('error')!();
         return promise;
       });
     });
@@ -330,7 +340,7 @@ describe('BrowserCacheStrategy', () => {
   });
 
   describe('#loadEmoji', () => {
-    let mockMediaImageLoader;
+    let mockMediaImageLoader: MockMediaImageLoader;
     let browserCacheStrategy: BrowserCacheStrategy;
 
     beforeEach(() => {
@@ -357,6 +367,7 @@ describe('BrowserCacheStrategy', () => {
           expect(cachedEmoji, 'Same emoji returned').to.deep.equal(emoji);
         });
       }
+      return;
     });
 
     it('returns undefined via Promise if uncached and error', () => {
@@ -368,6 +379,7 @@ describe('BrowserCacheStrategy', () => {
           expect(emoji, 'Emoji is undefined on load error').to.equal(undefined);
         });
       }
+      return;
     });
 
     it('returns different emoji if two different EmojiDescription have same mediaPath', () => {
@@ -390,13 +402,14 @@ describe('BrowserCacheStrategy', () => {
           ).to.deep.equal(frequentEmoji);
         });
       }
+      return;
     });
   });
 });
 
 describe('MemoryCacheStrategy', () => {
   describe('#loadEmoji', () => {
-    let mockMediaImageLoader;
+    let mockMediaImageLoader: MockMediaImageLoader;
     let memoryCacheStrategy: MemoryCacheStrategy;
 
     beforeEach(() => {
@@ -425,6 +438,7 @@ describe('MemoryCacheStrategy', () => {
           );
         });
       }
+      return;
     });
 
     it('returns undefined via Promise if uncached and error, Emoji once cached', () => {
@@ -436,6 +450,7 @@ describe('MemoryCacheStrategy', () => {
           expect(emoji, 'Emoji is undefined on load error').to.equal(undefined);
         });
       }
+      return;
     });
 
     it('returns dataURL for altRepresentation.imgPath when useAlt is passed in', () => {
@@ -458,6 +473,7 @@ describe('MemoryCacheStrategy', () => {
           );
         });
       }
+      return;
     });
 
     it('returns different emoji if two different EmojiDescription have same mediaPath', () => {
@@ -484,6 +500,7 @@ describe('MemoryCacheStrategy', () => {
           ).to.deep.equal(loadedFrequentEmoji);
         });
       }
+      return;
     });
   });
 });

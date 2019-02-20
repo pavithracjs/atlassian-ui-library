@@ -1,14 +1,14 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
+import { withTheme } from 'styled-components';
+
 import { PluginKey } from 'prosemirror-state';
-import { EditorPlugin } from '../../types';
+import { EditorPlugin, EditorAppearance } from '../../types';
+import { MediaSingleLayout } from '@atlaskit/adf-schema';
 import {
   akEditorFullPageMaxWidth,
-  akEditorWideLayoutWidth,
-  MediaSingleLayout,
-  mapBreakpointToLayoutMaxWidth,
-  getBreakpoint,
   akEditorBreakoutPadding,
+  breakoutWideScaleRatio,
 } from '@atlaskit/editor-common';
 
 import { GridPluginState, GridType } from './types';
@@ -79,7 +79,8 @@ const gutterGridLines = (
     return gridLines;
   }
 
-  const wideSpacing = (akEditorWideLayoutWidth - editorMaxWidth) / 2;
+  const wideSpacing =
+    (editorMaxWidth * breakoutWideScaleRatio - editorMaxWidth) / 2;
   sides.forEach(side => {
     gridLines.push(
       <div
@@ -134,8 +135,58 @@ const lineLengthGridLines = highlights => {
   return gridLines;
 };
 
+type Props = {
+  theme: any;
+  appearance: EditorAppearance;
+  containerElement: HTMLElement;
+  editorWidth: number;
+
+  visible: boolean;
+  gridType: GridType;
+  highlight: number[];
+};
+
+class Grid extends React.Component<Props> {
+  render() {
+    const {
+      highlight,
+      appearance,
+      theme,
+      containerElement,
+      editorWidth,
+      gridType,
+      visible,
+    } = this.props;
+    const editorMaxWidth = theme.layoutMaxWidth;
+
+    let gridLines = [
+      ...lineLengthGridLines(highlight),
+      ...gutterGridLines(appearance, editorMaxWidth, editorWidth, highlight),
+    ];
+
+    return (
+      <div className="gridParent">
+        <div
+          className={classnames(
+            'gridContainer',
+            gridType,
+            !visible ? 'hidden' : '',
+          )}
+          style={{
+            height: `${containerElement.scrollHeight}px`,
+          }}
+        >
+          {gridLines}
+        </div>
+      </div>
+    );
+  }
+}
+
+const ThemedGrid = withTheme(Grid);
+
 const gridPlugin: EditorPlugin = {
-  contentComponent: ({ editorView, appearance, containerElement }) => {
+  contentComponent: ({ editorView, appearance }) => {
     return (
       <WithPluginState
         plugins={{
@@ -153,37 +204,13 @@ const gridPlugin: EditorPlugin = {
             return null;
           }
 
-          const editorMaxWidth = mapBreakpointToLayoutMaxWidth(
-            getBreakpoint(widthState.width),
-          );
-
-          let gridLines = [
-            ...lineLengthGridLines(grid.highlight),
-            ...gutterGridLines(
-              appearance,
-              editorMaxWidth,
-              widthState.width,
-              grid.highlight,
-            ),
-          ];
-
           return (
-            <div className="gridParent">
-              <div
-                className={classnames(
-                  'gridContainer',
-                  grid.gridType,
-                  !grid.visible ? 'hidden' : '',
-                )}
-                style={{
-                  height: containerElement
-                    ? `${containerElement.scrollHeight}px`
-                    : undefined,
-                }}
-              >
-                {gridLines}
-              </div>
-            </div>
+            <ThemedGrid
+              appearance={appearance}
+              editorWidth={widthState.width}
+              containerElement={editorView.dom as HTMLElement}
+              {...grid}
+            />
           );
         }}
       />

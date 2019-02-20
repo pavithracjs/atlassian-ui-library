@@ -33,12 +33,13 @@ export interface Result {
   // optional id for the experiment that generated this result
   experimentId?: string;
   contentType: ContentType;
+  key?: string;
 }
 /**
  * Map of String keys and Array of results value, but can be empty as well
  */
-export interface GenericResultMap {
-  [key: string]: Result[];
+export interface GenericResultMap<T = Result> {
+  [key: string]: T[];
 }
 
 export type ResultsWithTiming = {

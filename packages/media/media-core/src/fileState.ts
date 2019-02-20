@@ -4,6 +4,7 @@ import {
   MediaStoreResponse,
   MediaType,
   MediaFileArtifacts,
+  MediaCollectionItemFullDetails,
 } from '@atlaskit/media-store';
 
 export type FileStatus =
@@ -13,7 +14,7 @@ export type FileStatus =
   | 'error'
   | 'failed-processing';
 export interface FilePreview {
-  blob: Blob;
+  value: Blob | string; // TODO: probably rename into "value"?
   originalDimensions?: {
     width: number;
     height: number;
@@ -28,46 +29,51 @@ export interface GetFileOptions {
 export interface UploadingFileState {
   status: 'uploading';
   id: string;
+  occurrenceKey?: string;
   name: string;
   size: number;
   progress: number;
   mediaType: MediaType;
   mimeType: string;
-  preview?: FilePreview;
+  preview?: FilePreview | Promise<FilePreview>;
 }
 export interface ProcessingFileState {
   status: 'processing';
   id: string;
+  occurrenceKey?: string;
   name: string;
   size: number;
   mediaType: MediaType;
   mimeType: string;
-  preview?: FilePreview;
+  preview?: FilePreview | Promise<FilePreview>;
 }
 
 export interface ProcessedFileState {
   status: 'processed';
   id: string;
+  occurrenceKey?: string;
   name: string;
   size: number;
   artifacts: MediaFileArtifacts;
   mediaType: MediaType;
   mimeType: string;
-  preview?: FilePreview;
+  preview?: FilePreview | Promise<FilePreview>;
 }
 export interface ProcessingFailedState {
   status: 'failed-processing';
   id: string;
+  occurrenceKey?: string;
   name: string;
   size: number;
   artifacts: Object;
   mediaType: MediaType;
   mimeType: string;
-  preview?: FilePreview;
+  preview?: FilePreview | Promise<FilePreview>;
 }
 export interface ErrorFileState {
   status: 'error';
   id: string;
+  occurrenceKey?: string;
   message?: string;
 }
 export type FileState =
@@ -143,4 +149,16 @@ export const mapMediaFileToFileState = (
         mimeType,
       } as ProcessingFailedState;
   }
+};
+
+export const mapMediaItemToFileState = (
+  id: string,
+  item: MediaCollectionItemFullDetails,
+): FileState => {
+  return mapMediaFileToFileState({
+    data: {
+      id,
+      ...item,
+    },
+  });
 };

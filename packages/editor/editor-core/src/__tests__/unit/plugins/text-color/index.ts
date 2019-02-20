@@ -3,7 +3,7 @@ import {
   code,
   textColor,
   p,
-  createEditor,
+  createEditorFactory,
   a,
   strong,
 } from '@atlaskit/editor-test-helpers';
@@ -15,8 +15,10 @@ import { changeColor } from '../../../../plugins/text-color/commands/change-colo
 import textColorPlugin from '../../../../plugins/text-color';
 
 describe('text-color', () => {
+  const createEditor = createEditorFactory<TextColorPluginState>();
+
   const editor = (doc: any) =>
-    createEditor<TextColorPluginState>({
+    createEditor({
       doc,
       editorPlugins: [textColorPlugin],
       pluginKey: textColorPluginKey,
@@ -36,8 +38,6 @@ describe('text-color', () => {
     expect(editorView.state.doc).toEqualDocument(
       doc(p(createTextColor(testColor2)('t'), 'ext')),
     );
-
-    editorView.destroy();
   });
 
   it('should expose whether textColor has any color on an empty selection', () => {
@@ -49,8 +49,6 @@ describe('text-color', () => {
 
     const updatedPluginState = textColorPluginKey.getState(editorView.state);
     expect(updatedPluginState.color).toBe(testColor2);
-
-    editorView.destroy();
   });
 
   it('should expose whether textColor has any color on a text selection', () => {
@@ -62,8 +60,6 @@ describe('text-color', () => {
 
     const updatedPluginState = textColorPluginKey.getState(editorView.state);
     expect(updatedPluginState.color).toBe(testColor1);
-
-    editorView.destroy();
   });
 
   it('exposes textColor as disabled when the mark cannot be applied', () => {
@@ -98,7 +94,7 @@ describe('text-color', () => {
       ),
     );
 
-    expect(pluginState.color).toBe(undefined);
+    expect(pluginState.color).toBe(null);
   });
 
   it('should expose no color when selection has mixed content', () => {
@@ -106,7 +102,7 @@ describe('text-color', () => {
       doc(p('{<}', createTextColor(testColor1)('te'), 'xt', '{>}')),
     );
 
-    expect(pluginState.color).toBe(undefined);
+    expect(pluginState.color).toBe(null);
   });
 
   it('should expose default color when selection has no color marks', () => {

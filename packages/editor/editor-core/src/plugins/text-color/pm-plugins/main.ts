@@ -1,6 +1,6 @@
 import { Plugin, PluginKey, Transaction, EditorState } from 'prosemirror-state';
 
-import { colorPalette, borderColorPalette } from '@atlaskit/editor-common';
+import { colorPalette, borderColorPalette } from '@atlaskit/adf-schema';
 import { colors } from '@atlaskit/theme';
 
 import { Dispatch } from '../../../event-dispatcher';
@@ -9,10 +9,12 @@ import { getDisabledState } from '../utils/disabled';
 
 export type TextColorPluginState = {
   palette: Map<string, string>;
-  borderColorPalette: Object;
+  borderColorPalette: {
+    [name: string]: string;
+  };
   defaultColor: string;
   disabled?: boolean;
-  color?: string;
+  color: string | null;
 };
 
 export type ActionHandlerParams = {
@@ -45,6 +47,7 @@ export function createInitialPluginState(
 ): TextColorPluginState {
   const defaultColor =
     (pluginConfig && pluginConfig.defaultColor) || DEFAULT_COLOR;
+
   const palette = new Map<string, string>([
     [defaultColor.color, defaultColor.label],
   ]);
@@ -104,8 +107,15 @@ export function createPlugin(
             };
         }
 
-        dispatch(pluginKey, nextState);
-        return nextState;
+        if (
+          (pluginState && pluginState.color !== nextState.color) ||
+          (pluginState && pluginState.disabled !== nextState.disabled)
+        ) {
+          dispatch(pluginKey, nextState);
+          return nextState;
+        }
+
+        return pluginState;
       },
     },
   });

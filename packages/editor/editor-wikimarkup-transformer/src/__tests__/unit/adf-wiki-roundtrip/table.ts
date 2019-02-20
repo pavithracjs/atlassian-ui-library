@@ -1,4 +1,4 @@
-import { defaultSchema } from '@atlaskit/editor-common';
+import { defaultSchema } from '@atlaskit/adf-schema';
 import WikiMarkupTransformer from '../../../index';
 
 import {
@@ -57,8 +57,9 @@ describe('ADF => WikiMarkup - Table', () => {
           td()(panel({ panelType: 'info' })(p('This is a info panel'))),
         ),
         tr(
-          td()(panel({ panelType: 'tip' })(p('This is a tip panel'))),
+          td()(panel({ panelType: 'success' })(p('This is a success panel'))),
           td()(panel({ panelType: 'warning' })(p('This is a warning panel'))),
+          td()(panel({ panelType: 'error' })(p('This is a error panel'))),
         ),
       ),
     )(defaultSchema);

@@ -1,9 +1,11 @@
-import { generateUuid as uuid } from './uuid';
-import { defaultSchema } from '../schema';
+import {
+  generateUuid as uuid,
+  defaultSchema,
+  isSafeUrl,
+  inlineNodes,
+  CellAttributes,
+} from '@atlaskit/adf-schema';
 import { Mark as PMMark, Schema } from 'prosemirror-model';
-import { isSafeUrl } from '.';
-import { inlineNodes } from '../schema';
-import { CellAttributes } from '../schema/nodes/tableNodes';
 
 export type ADFStage = 'stage0' | 'final';
 
@@ -46,6 +48,8 @@ export const markOrder = [
   'underline',
   'code',
   'confluenceInlineComment',
+  'textColor',
+  'annotation',
 ];
 
 export const isSubSupType = (type: string): type is 'sub' | 'sup' => {
@@ -502,6 +506,7 @@ export const getValidNode = (
             type,
             attrs,
             content,
+            marks,
           };
         }
         break;
@@ -653,6 +658,7 @@ export const getValidNode = (
         if (content) {
           return {
             type,
+            marks,
             content,
           };
         }
@@ -899,6 +905,12 @@ export const getValidMark = (
   if (adfStage === 'stage0') {
     switch (type) {
       case 'confluenceInlineComment': {
+        return {
+          type,
+          attrs,
+        };
+      }
+      case 'annotation': {
         return {
           type,
           attrs,

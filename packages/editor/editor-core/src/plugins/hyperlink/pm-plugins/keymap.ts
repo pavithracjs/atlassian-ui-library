@@ -1,6 +1,6 @@
 import { keymap } from 'prosemirror-keymap';
 import { Schema } from 'prosemirror-model';
-import { Plugin, EditorState, Transaction } from 'prosemirror-state';
+import { Plugin, EditorState } from 'prosemirror-state';
 import * as keymaps from '../../../keymaps';
 import { analyticsService, trackAndInvoke } from '../../../analytics';
 import { EditorProps } from '../../../types/editor-props';
@@ -8,6 +8,8 @@ import { Match, getLinkMatch } from '../utils';
 import { HyperlinkState, stateKey } from '../pm-plugins/main';
 import { showLinkToolbar, hideLinkToolbar } from '../commands';
 import { queueCards } from '../../card/pm-plugins/actions';
+import { Command } from '../../../types';
+import { INPUT_METHOD } from '../../analytics';
 
 export function createKeymapPlugin(
   schema: Schema,
@@ -20,7 +22,7 @@ export function createKeymapPlugin(
       keymaps.addLink.common!,
       trackAndInvoke(
         'atlassian.editor.format.hyperlink.keyboard',
-        showLinkToolbar(),
+        showLinkToolbar(INPUT_METHOD.SHORTCUT),
       ),
       list,
     );
@@ -57,10 +59,7 @@ export function createKeymapPlugin(
   return keymap(list);
 }
 
-function mayConvertLastWordToHyperlink(
-  state: EditorState,
-  dispatch: (tr: Transaction) => void,
-): boolean {
+const mayConvertLastWordToHyperlink: Command = (state, dispatch) => {
   const nodeBefore = state.selection.$from.nodeBefore;
   if (!nodeBefore || !nodeBefore.isText) {
     return false;
@@ -94,9 +93,11 @@ function mayConvertLastWordToHyperlink(
       'atlassian.editor.format.hyperlink.autoformatting',
     );
 
-    dispatch(tr);
+    if (dispatch) {
+      dispatch(tr);
+    }
   }
   return false;
-}
+};
 
 export default createKeymapPlugin;

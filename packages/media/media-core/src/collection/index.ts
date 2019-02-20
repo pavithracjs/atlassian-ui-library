@@ -7,9 +7,9 @@ import {
 } from '@atlaskit/media-store';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { FileItem, FileDetails, LinkItem, LinkDetails } from '../item';
+import { FileItem, FileDetails } from '../item';
 import { FileState, mapMediaFileToFileState } from '../fileState';
-import { FileStreamCache, fileStreamsCache } from '../context/fileStreamCache';
+import { fileStreamsCache } from '../context/fileStreamCache';
 
 export interface MediaCollectionFileItemDetails extends FileDetails {
   occurrenceKey: string;
@@ -17,14 +17,6 @@ export interface MediaCollectionFileItemDetails extends FileDetails {
 
 export interface MediaCollectionFileItem extends FileItem {
   details: MediaCollectionFileItemDetails;
-}
-
-export interface MediaCollectionLinkItemDetails extends LinkDetails {
-  occurrenceKey: string;
-}
-
-export interface MediaCollectionLinkItem extends LinkItem {
-  details: MediaCollectionLinkItemDetails;
 }
 
 export interface MediaCollection {
@@ -38,25 +30,9 @@ export interface CollectionCacheEntry {
   isLoadingNextPage: boolean;
   nextInclusiveStartKey?: string;
 }
+
 export type CollectionCache = {
   [collectionName: string]: CollectionCacheEntry;
-};
-
-export const mergeItems = (
-  firstPageItems: MediaCollectionItem[],
-  currentItems: MediaCollectionItem[],
-): MediaCollectionItem[] => {
-  let reachedFirst = false;
-  const firstId = currentItems[0] ? currentItems[0].id : '';
-  const newItems = firstPageItems.filter(item => {
-    if (reachedFirst) {
-      return false;
-    }
-    reachedFirst = firstId === item.id;
-    return !reachedFirst;
-  });
-
-  return [...newItems, ...currentItems];
 };
 
 export const collectionCache: CollectionCache = {};
@@ -86,18 +62,23 @@ export class CollectionFetcher {
     return subject;
   }
 
-  private populateCache(items: MediaCollectionItem[], collectionName: string) {
-    const keyOptions = { collectionName };
-
+  private populateCache(items: MediaCollectionItem[]) {
     items.forEach(item => {
-      const key = FileStreamCache.createKey(item.id, keyOptions);
       const fileStream = this.createFileStateObserver(
         item.id,
         item.details as MediaCollectionItemFullDetails,
       );
 
-      fileStreamsCache.set(key, fileStream);
+      fileStreamsCache.set(item.id, fileStream);
     });
+  }
+
+  private removeFromCache(id: string, collectionName: string) {
+    fileStreamsCache.remove(id);
+    const collectionCacheIndex = collectionCache[
+      collectionName
+    ].items.findIndex(item => item.id === id);
+    collectionCache[collectionName].items.splice(collectionCacheIndex, 1);
   }
 
   getItems(
@@ -118,18 +99,27 @@ export class CollectionFetcher {
       .then(items => {
         const { contents, nextInclusiveStartKey } = items.data;
 
-        this.populateCache(contents, collectionName);
-        collection.items = mergeItems(items.data.contents, collection.items);
-
-        // We only want to asign nextInclusiveStartKey the first time
-        if (!collection.nextInclusiveStartKey) {
-          collection.nextInclusiveStartKey = nextInclusiveStartKey;
-        }
-
+        this.populateCache(contents);
+        // It's hard to merge two together, so we just take what's came from the server.
+        // Since we load only one page > 2 pages will be ditched from the cache.
+        collection.items = items.data.contents;
+        collection.nextInclusiveStartKey = nextInclusiveStartKey;
         subject.next(collection.items);
-      });
+      })
+      .catch(error => subject.error(error));
 
     return subject;
+  }
+
+  async removeFile(id: string, collectionName: string, occurrenceKey?: string) {
+    await this.mediaStore.removeCollectionFile(
+      id,
+      collectionName,
+      occurrenceKey,
+    );
+    this.removeFromCache(id, collectionName);
+    const collection = collectionCache[collectionName];
+    collection.subject.next(collection.items);
   }
 
   async loadNextPage(
@@ -156,7 +146,7 @@ export class CollectionFetcher {
       details: 'full',
     });
     const { contents, nextInclusiveStartKey } = response.data;
-    this.populateCache(contents, collectionName);
+    this.populateCache(contents);
     const newItems = response.data.contents;
     const items = [...currentItems, ...newItems];
 

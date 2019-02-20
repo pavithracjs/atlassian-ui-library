@@ -1,5 +1,105 @@
 # @atlaskit/icon
 
+## 16.0.2
+- Updated dependencies [a2653f4453](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a2653f4453):
+  - @atlaskit/icon-priority@2.0.0
+
+## 16.0.1
+- [patch] [6b5daa8080](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6b5daa8080):
+
+  - Added the new Status icon
+
+## 16.0.0
+- [major] [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+
+  - Moved the priority icons to its own package.
+  - Check the [Upgrade Guide](https://atlaskit.atlassian.com/packages/core/icon/docs/upgrade-guide) for more information.
+- Updated dependencies [d0333acfba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d0333acfba):
+  - @atlaskit/icon-priority@1.0.0
+
+## 15.0.3
+- [patch] [1d1f6d1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1d1f6d1):
+
+  - Make icon glyphs not import metadata
+
+## 15.0.2
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/button@10.1.1
+  - @atlaskit/dynamic-table@10.0.22
+  - @atlaskit/field-text@7.0.18
+  - @atlaskit/icon-file-type@3.0.2
+  - @atlaskit/icon-object@3.0.2
+  - @atlaskit/logo@9.2.6
+  - @atlaskit/modal-dialog@7.1.1
+  - @atlaskit/section-message@1.0.14
+  - @atlaskit/theme@7.0.1
+  - @atlaskit/tooltip@12.1.13
+  - @atlaskit/docs@6.0.0
+
+## 15.0.1
+- Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+  - @atlaskit/docs@5.2.3
+  - @atlaskit/button@10.0.4
+  - @atlaskit/dynamic-table@10.0.20
+  - @atlaskit/field-text@7.0.16
+  - @atlaskit/icon-file-type@3.0.1
+  - @atlaskit/icon-object@3.0.1
+  - @atlaskit/logo@9.2.5
+  - @atlaskit/modal-dialog@7.0.14
+  - @atlaskit/section-message@1.0.13
+  - @atlaskit/tooltip@12.1.12
+  - @atlaskit/theme@7.0.0
+
+## 15.0.0
+- [major] [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
+
+  - Removed onClick prop as icon is only a presentational placeholder. Please wrap your icon in a Button or a Link component and add onClick to that instead.
+
+## 14.6.1
+- Updated dependencies [6998f11](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6998f11):
+  - @atlaskit/docs@5.2.1
+  - @atlaskit/dynamic-table@10.0.18
+  - @atlaskit/field-text@7.0.15
+  - @atlaskit/icon-file-type@2.0.1
+  - @atlaskit/icon-object@2.0.1
+  - @atlaskit/logo@9.2.4
+  - @atlaskit/modal-dialog@7.0.12
+  - @atlaskit/section-message@1.0.11
+  - @atlaskit/theme@6.2.1
+  - @atlaskit/tooltip@12.1.10
+  - @atlaskit/button@10.0.0
+
+## 14.6.0
+- [minor] [29968f4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29968f4):
+
+  - Add a menu expand icon
+
+## 14.5.0
+- [minor] [f5e26e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f5e26e1):
+
+  - Add a retry icon
+
+## 14.4.0
+- [patch] [29b160f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29b160f):
+
+  - Simplify the icons build process
+
+  Icons no longer need a custom `build` step to be accurate on npm. This
+  has come about by renaming the `es5` folder to `cjs`. If you weren't reaching
+  into our package's internals, you shouldn't notice.
+
+- [minor] [62a7c37](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/62a7c37):
+
+  - Add metadata export
+
+  In trying to align the icons packages, the core `@atlaskit/icon` package now exports
+  `metadata`, which includes information about every icon in this package.
+- Updated dependencies [b29bec1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b29bec1):
+- Updated dependencies [80304f0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80304f0):
+  - @atlaskit/icon-file-type@2.0.0
+  - @atlaskit/icon-object@2.0.0
+  - @atlaskit/icon-build-process@0.1.0
+
 ## 14.3.0
 - [minor] [dced9bf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dced9bf):
 
@@ -31,6 +131,18 @@ d):
 
 ## 14.0.0
 - [major] Remove product logo icons from icons, recommend using @atlaskit/logo instead [65c6514](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/65c6514)
+  - The following logo exports have been removed:
+    - AtlassianIcon
+    - BitbucketIcon
+    - ConfluenceIcon
+    - HipchatIcon
+    - JiraCoreIcon
+    - JiraServiceDeskIcon
+    - JiraSoftwareIcon
+    - JiraIcon
+    - StatuspageIcon
+    - StrideIcon
+  - Check the [Upgrade Guide](https://atlaskit.atlassian.com/packages/core/icon/docs/upgrade-guide) for more information.
 - [patch] Updated dependencies [709b239](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/709b239)
   - @atlaskit/icon-file-type@1.0.0
   - @atlaskit/icon-object@1.0.0

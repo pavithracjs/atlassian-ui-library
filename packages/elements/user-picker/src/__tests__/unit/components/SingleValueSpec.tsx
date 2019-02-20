@@ -6,11 +6,14 @@ import { SizeableAvatar } from '../../../components/SizeableAvatar';
 
 describe('SingleValue', () => {
   const data = {
-    user: {
+    label: 'Jace Beleren',
+    value: 'abc-123',
+    data: {
       id: 'abc-123',
       name: 'Jace Beleren',
-      nickname: 'jbeleren',
+      publicName: 'jbeleren',
       avatarUrl: 'http://avatars.atlassian.com/jace.png',
+      byline: 'teammate',
     },
   };
 
@@ -36,20 +39,7 @@ describe('SingleValue', () => {
     });
   });
 
-  it('should render SingleValue with nickname when name is not defined', () => {
-    const component = shallowSingleValue({
-      data: {
-        user: { nickname: 'jbeleren' },
-      },
-    });
-    expect(component.find(AvatarItem).props()).toMatchObject({
-      backgroundColor: 'transparent',
-      primaryText: 'jbeleren',
-      avatar: <SizeableAvatar name="jbeleren" appearance="normal" />,
-    });
-  });
-
-  it('should render Avatar as xsmall when the appearance is compact', () => {
+  it('should render SizeableAvatar when the appearance is compact', () => {
     const component = shallowSingleValue({
       selectProps: {
         appearance: 'compact',

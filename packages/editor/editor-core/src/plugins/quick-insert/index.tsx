@@ -3,12 +3,22 @@ import { Plugin, PluginKey } from 'prosemirror-state';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { analyticsService } from '../../analytics';
 import { EditorPlugin, Command } from '../../types';
+import { dedupe } from '../../utils';
 import {
   QuickInsertItem,
   QuickInsertProvider,
   QuickInsertHandler,
 } from './types';
 import { find } from './search';
+import {
+  analyticsEventKey,
+  AnalyticsDispatch,
+  ACTION,
+  ACTION_SUBJECT,
+  INPUT_METHOD,
+  EVENT_TYPE,
+  ACTION_SUBJECT_ID,
+} from '../analytics';
 
 const quickInsertPlugin: EditorPlugin = {
   name: 'quickInsert',
@@ -26,16 +36,38 @@ const quickInsertPlugin: EditorPlugin = {
   pluginsOptions: {
     typeAhead: {
       trigger: '/',
-      getItems: (query, state, intl) => {
+      getItems: (
+        query,
+        state,
+        intl,
+        { prevActive, queryChanged },
+        tr,
+        dispatch,
+      ) => {
         analyticsService.trackEvent('atlassian.editor.quickinsert.query');
-
+        if (!prevActive && queryChanged) {
+          (dispatch as AnalyticsDispatch)(analyticsEventKey, {
+            payload: {
+              action: ACTION.INVOKED,
+              actionSubject: ACTION_SUBJECT.TYPEAHEAD,
+              actionSubjectId: ACTION_SUBJECT_ID.TYPEAHEAD_QUICK_INSERT,
+              attributes: { inputMethod: INPUT_METHOD.KEYBOARD },
+              eventType: EVENT_TYPE.UI,
+            },
+          });
+        }
         const quickInsertState = pluginKey.getState(state);
         const defaultItems = processItems(quickInsertState.items, intl);
         const defaultSearch = () => find(query, defaultItems);
 
         if (quickInsertState.provider) {
           return quickInsertState.provider
-            .then(items => find(query, [...defaultItems, ...items]))
+            .then(items =>
+              find(
+                query,
+                dedupe([...defaultItems, ...items], item => item.title),
+              ),
+            )
             .catch(err => {
               // tslint:disable-next-line:no-console
               console.error(err);
@@ -82,7 +114,9 @@ const processItems = (items: Array<QuickInsertHandler>, intl: InjectedIntl) => {
 export const pluginKey = new PluginKey('quickInsertPluginKey');
 
 export const setProvider = (provider): Command => (state, dispatch) => {
-  dispatch(state.tr.setMeta(pluginKey, provider));
+  if (dispatch) {
+    dispatch(state.tr.setMeta(pluginKey, provider));
+  }
   return true;
 };
 

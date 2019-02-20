@@ -5,10 +5,15 @@ import RefreshIcon from '@atlaskit/icon/glyph/refresh';
 import DropdownMenu, { DropdownItem } from '@atlaskit/dropdown-menu';
 import SettingsIcon from '@atlaskit/icon/glyph/settings';
 import {
+  mountWithIntlContext,
+  fakeIntl,
+  nextTick,
+} from '@atlaskit/media-test-helpers';
+import {
   getComponentClassWithStore,
   mockStore,
   mockState,
-} from '../../../../mocks';
+} from '@atlaskit/media-test-helpers';
 import { Navigation, default as ConnectedNavigation } from '../../navigation';
 import {
   changeAccount,
@@ -42,9 +47,10 @@ const ConnectedNavigationWithStore = getComponentClassWithStore(
 const createConnectedComponent = () => {
   const store = mockStore();
   const dispatch = store.dispatch;
-  const component = shallow(
+  const component = mountWithIntlContext(
     <ConnectedNavigationWithStore store={store} />,
   ).find(Navigation);
+
   return { component, dispatch };
 };
 
@@ -68,7 +74,7 @@ describe('<Navigation />', () => {
     name: SERVICE_NAME_DROPBOX,
     accountId: ACCOUNT_ID_DROPBOX,
   };
-  const ACCOUNTS: ServiceAccountWithType[] = [
+  const ACCOUNTS: Promise<ServiceAccountWithType[]> = Promise.resolve([
     {
       displayName: 'me@google.com',
       id: 'meatgoogle',
@@ -93,7 +99,7 @@ describe('<Navigation />', () => {
       status: 'available',
       type: 'dropbox',
     },
-  ];
+  ] as ServiceAccountWithType[]);
   let onStartAuth = jest.fn();
   let onChangeAccount = jest.fn();
   let onUnlinkAccount = jest.fn();
@@ -156,6 +162,7 @@ describe('<Navigation />', () => {
           onChangePath={onChangePath}
           onStartAuth={onStartAuth}
           onUnlinkAccount={onUnlinkAccount}
+          intl={fakeIntl}
         />,
       );
 
@@ -190,6 +197,7 @@ describe('<Navigation />', () => {
           onChangePath={onChangePath}
           onStartAuth={onStartAuth}
           onUnlinkAccount={onUnlinkAccount}
+          intl={fakeIntl}
         />,
       );
 
@@ -207,6 +215,7 @@ describe('<Navigation />', () => {
           onChangePath={onChangePath}
           onStartAuth={onStartAuth}
           onUnlinkAccount={onUnlinkAccount}
+          intl={fakeIntl}
         />,
       );
 
@@ -222,7 +231,7 @@ describe('<Navigation />', () => {
   });
 
   describe('#getAccountsDropdownItems()', () => {
-    it('should retrieve available Google Accounts', () => {
+    it('should retrieve available Google Accounts', async () => {
       const component = shallow(
         <Navigation
           accounts={ACCOUNTS}
@@ -232,8 +241,11 @@ describe('<Navigation />', () => {
           onChangePath={onChangePath}
           onStartAuth={onStartAuth}
           onUnlinkAccount={onUnlinkAccount}
+          intl={fakeIntl}
         />,
       );
+
+      await nextTick();
 
       expect(component.find(DropdownItem).get(0).props.children.type).toEqual(
         'b',
@@ -252,7 +264,7 @@ describe('<Navigation />', () => {
       ).toEqual('Unlink Account');
     });
 
-    it('should retrieve available Dropbox Accounts', () => {
+    it('should retrieve available Dropbox Accounts', async () => {
       const component = shallow(
         <Navigation
           accounts={ACCOUNTS}
@@ -262,8 +274,11 @@ describe('<Navigation />', () => {
           onChangePath={onChangePath}
           onStartAuth={onStartAuth}
           onUnlinkAccount={onUnlinkAccount}
+          intl={fakeIntl}
         />,
       );
+
+      await nextTick();
 
       expect(component.find(DropdownItem).get(0).props.children.type).toEqual(
         'b',
@@ -282,7 +297,7 @@ describe('<Navigation />', () => {
       ).toEqual('Unlink Account');
     });
 
-    it('should switch active account when clicking on inactive one', () => {
+    it('should switch active account when clicking on inactive one', async () => {
       const component = shallow(
         <Navigation
           accounts={ACCOUNTS}
@@ -292,8 +307,11 @@ describe('<Navigation />', () => {
           onChangePath={onChangePath}
           onStartAuth={onStartAuth}
           onUnlinkAccount={onUnlinkAccount}
+          intl={fakeIntl}
         />,
       );
+
+      await nextTick();
 
       component
         .find(DropdownItem)
@@ -301,6 +319,49 @@ describe('<Navigation />', () => {
         .props.onClick(); // Find second item (inactive one)
 
       expect(onChangeAccount).toBeCalledWith('dropbox', 'youatdropbox');
+    });
+
+    it('can re-render component on new account and service', async () => {
+      const accountGoog0 = (await ACCOUNTS)[0];
+      const accountGoog1 = (await ACCOUNTS)[1];
+      const accountDb = (await ACCOUNTS)[2];
+
+      const component = shallow(
+        <Navigation
+          accounts={Promise.resolve([accountGoog0])}
+          path={PATH}
+          service={SERVICE_GOOGLE}
+          onChangeAccount={onChangeAccount}
+          onChangePath={onChangePath}
+          onStartAuth={onStartAuth}
+          onUnlinkAccount={onUnlinkAccount}
+          intl={fakeIntl}
+        />,
+      );
+
+      await nextTick();
+
+      expect(component.contains(<b>me@google.com</b>)).toBeTruthy();
+
+      component.setProps({
+        accounts: Promise.resolve([accountDb]),
+        service: SERVICE_DROPBOX,
+      });
+
+      await nextTick();
+
+      expect(component.contains(<b>me@dropbox.com</b>)).toBeTruthy();
+      expect(component.contains(<b>me@google.com</b>)).toBeFalsy();
+
+      component.setProps({
+        accounts: Promise.resolve([accountGoog0, accountGoog1]),
+        service: SERVICE_GOOGLE,
+      });
+
+      await nextTick();
+
+      expect(component.contains(<b>me@google.com</b>)).toBeTruthy();
+      expect(component.contains('you@google.com')).toBeTruthy();
     });
   });
 });

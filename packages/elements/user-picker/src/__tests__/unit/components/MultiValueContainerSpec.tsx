@@ -1,11 +1,13 @@
-import { shallow } from 'enzyme';
+import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
-  ScrollAnchor,
   MultiValueContainer,
+  ScrollAnchor,
 } from '../../../components/MultiValueContainer';
+import { renderProp } from '../_testUtils';
 
-describe('ValueContainer', () => {
+describe('MultiValueContainer', () => {
   beforeEach(() => {
     jest.useFakeTimers();
   });
@@ -13,17 +15,68 @@ describe('ValueContainer', () => {
     jest.useRealTimers();
   });
 
-  const shallowValueContainer = props =>
-    shallow(<MultiValueContainer {...props} />);
+  const selectProps = {
+    value: [1],
+    options: [1, 2, 3],
+    isLoading: false,
+    isDisabled: false,
+  };
 
-  it('should render ValueContainer with children', () => {
-    const component = shallowValueContainer({ children: 'some text' });
-    expect(
-      component
-        .children()
-        .at(0)
-        .text(),
-    ).toEqual('some text');
+  const findInput = (component: ShallowWrapper<any>) =>
+    (component.find(FormattedMessage as React.ComponentClass<any>).exists()
+      ? renderProp(
+          component.find(FormattedMessage as React.ComponentClass<any>),
+          'children',
+          'add more people...',
+        )
+      : component
+    ).find('input');
+
+  const shallowValueContainer = (props: any) =>
+    shallow(<MultiValueContainer selectProps={selectProps} {...props} />);
+
+  test.each([
+    ['add more people...', selectProps.value, false, false],
+    ['Enter more...', selectProps.value, false, true],
+    [undefined, selectProps.options, false, false],
+    [undefined, [], false, false],
+    [undefined, [], true, false],
+  ])(
+    'should set placeholder to "%s" when (value: %p, loading: %s)',
+    (placeholder, value, isLoading, override) => {
+      const component = shallowValueContainer({
+        children: [
+          <div key="placeholder">Placeholder</div>,
+          <input key="input" type="text" />,
+        ],
+        selectProps: {
+          ...selectProps,
+          value,
+          isLoading,
+          addMoreMessage: override ? placeholder : undefined,
+        },
+      });
+
+      const input = findInput(component);
+
+      expect(input.prop('placeholder')).toEqual(placeholder);
+    },
+  );
+
+  it('should not display add more placeholder if disabled', () => {
+    const component = shallowValueContainer({
+      children: [
+        <div key="placeholder">Placeholder</div>,
+        <input key="input" type="text" />,
+      ],
+      selectProps: {
+        ...selectProps,
+        isDisabled: true,
+      },
+    });
+    const input = findInput(component);
+
+    expect(input.prop('placeholder')).toBeUndefined();
   });
 
   it('should scroll to bottom when adding new items', () => {
@@ -46,7 +99,7 @@ describe('ValueContainer', () => {
     expect(scrollIntoView).toHaveBeenCalledTimes(1);
   });
 
-  it('should not scroll when removing and item', () => {
+  it('should not scroll when removing an item', () => {
     const component = shallowValueContainer({
       children: 'some text',
       getValue: jest.fn(() => [1]),

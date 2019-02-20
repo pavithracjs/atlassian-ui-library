@@ -1,5 +1,5 @@
 import {
-  createEditor,
+  createEditorFactory,
   doc,
   code_block,
   breakout,
@@ -8,10 +8,16 @@ import {
 import { setBreakoutMode } from '../../../../../plugins/breakout/commands/set-breakout-mode';
 
 describe('Breakout Commands: set-breakout-mode', () => {
+  const createEditor = createEditorFactory();
+
   it('should wrap supported node in breakout mark', () => {
     const { editorView } = createEditor({
       doc: doc(code_block()('Hel{<>}lo')),
-      editorProps: { allowCodeBlocks: true, allowBreakout: true },
+      editorProps: {
+        allowCodeBlocks: true,
+        allowBreakout: true,
+        appearance: 'full-page',
+      },
     });
 
     setBreakoutMode('wide')(editorView.state, editorView.dispatch);
@@ -24,7 +30,11 @@ describe('Breakout Commands: set-breakout-mode', () => {
   it('should not wrap unsupported node in breakout mark', () => {
     const { editorView } = createEditor({
       doc: doc(p('Hel{<>}lo')),
-      editorProps: { allowCodeBlocks: true, allowBreakout: true },
+      editorProps: {
+        allowCodeBlocks: true,
+        allowBreakout: true,
+        appearance: 'full-page',
+      },
     });
 
     setBreakoutMode('wide')(editorView.state, editorView.dispatch);
@@ -35,7 +45,11 @@ describe('Breakout Commands: set-breakout-mode', () => {
   it('should be able to change nodes breakout mode', () => {
     const { editorView } = createEditor({
       doc: doc(breakout({ mode: 'wide' })(code_block()('Hel{<>}lo'))),
-      editorProps: { allowCodeBlocks: true, allowBreakout: true },
+      editorProps: {
+        allowCodeBlocks: true,
+        allowBreakout: true,
+        appearance: 'full-page',
+      },
     });
 
     setBreakoutMode('full-width')(editorView.state, editorView.dispatch);

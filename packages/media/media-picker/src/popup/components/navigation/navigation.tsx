@@ -7,7 +7,7 @@ import DropdownMenu, {
 } from '@atlaskit/dropdown-menu';
 import RefreshIcon from '@atlaskit/icon/glyph/refresh';
 import SettingsIcon from '@atlaskit/icon/glyph/settings';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import { messages } from '@atlaskit/media-ui';
 import { requestUnlinkCloudAccount, startAuth } from '../../actions';
 import { changeCloudAccountFolder } from '../../actions/changeCloudAccountFolder';
@@ -38,7 +38,7 @@ const SERVICENAME: { [key: string]: string } = {
 };
 
 export interface NavigationStateProps {
-  readonly accounts: ServiceAccountWithType[];
+  readonly accounts: Promise<ServiceAccountWithType[]>;
   readonly path: Path;
   readonly service: ServiceAccountLink;
 }
@@ -60,19 +60,43 @@ export interface NavigationDispatchProps {
   ) => void;
 }
 
-export type NavigationProps = NavigationStateProps & NavigationDispatchProps;
+export type NavigationProps = NavigationStateProps &
+  NavigationDispatchProps &
+  InjectedIntlProps;
 
 export interface NavigationState {
   readonly dropdownOpen: boolean;
+  readonly availableAccounts: ServiceAccountWithType[];
 }
 
 export class Navigation extends Component<NavigationProps, NavigationState> {
-  constructor(props: NavigationProps) {
-    super(props);
+  state: NavigationState = {
+    dropdownOpen: false,
+    availableAccounts: [],
+  };
 
-    this.state = {
-      dropdownOpen: false,
-    };
+  async componentDidMount() {
+    const { accounts, service } = this.props;
+    const availableAccounts = (await accounts).filter(
+      account => account.type === service.name,
+    );
+    this.setState({
+      availableAccounts,
+    });
+  }
+
+  async componentDidUpdate(prevProps: NavigationProps) {
+    const { accounts, service } = this.props;
+
+    if (prevProps.service !== service) {
+      const availableAccounts = (await accounts).filter(
+        account => account.type === service.name,
+      );
+
+      this.setState({
+        availableAccounts,
+      });
+    }
   }
 
   render(): JSX.Element {
@@ -128,10 +152,12 @@ export class Navigation extends Component<NavigationProps, NavigationState> {
   };
 
   getAccountsDropdownItems() {
-    const { service, accounts } = this.props;
-    const availableAccounts = accounts.filter(
-      account => account.type === service.name,
-    );
+    const {
+      service,
+      intl: { formatMessage },
+    } = this.props;
+    const { availableAccounts } = this.state;
+
     const dropdownAccountItems = availableAccounts.map(
       ({ id, displayName, type }) => (
         <DropdownItem key={id} onClick={this.onChangeAccountHandler(type, id)}>
@@ -151,12 +177,14 @@ export class Navigation extends Component<NavigationProps, NavigationState> {
       </DropdownItem>,
     ];
 
-    // TODO [i18n][MS-1031]
     return [
-      <DropdownItemGroup key="accounts" title="Accounts">
+      <DropdownItemGroup
+        key="accounts"
+        title={formatMessage(messages.accounts)}
+      >
         {dropdownAccountItems}
       </DropdownItemGroup>,
-      <DropdownItemGroup key="actions" title="Actions">
+      <DropdownItemGroup key="actions" title={formatMessage(messages.actions)}>
         {dropdownActionItems}
       </DropdownItemGroup>,
     ];
@@ -228,8 +256,13 @@ export class Navigation extends Component<NavigationProps, NavigationState> {
   }
 }
 
-export default connect<NavigationStateProps, NavigationDispatchProps, {}>(
-  ({ accounts, view }: State) => ({
+export default connect<
+  NavigationStateProps,
+  NavigationDispatchProps,
+  {},
+  State
+>(
+  ({ accounts, view }) => ({
     accounts,
     path: view.path,
     service: view.service,
@@ -248,4 +281,4 @@ export default connect<NavigationStateProps, NavigationDispatchProps, {}>(
         }),
       ),
   }),
-)(Navigation);
+)(injectIntl(Navigation));

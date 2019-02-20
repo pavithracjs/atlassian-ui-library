@@ -1,8 +1,5 @@
-import styled from 'styled-components';
-
 import * as React from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
-import { colors } from '@atlaskit/theme';
 
 import Editor from './../src/editor';
 import EditorContext from './../src/ui/EditorContext';
@@ -12,22 +9,10 @@ import ToolsDrawer from '../example-helpers/ToolsDrawer';
 
 import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
 import { extensionHandlers } from '../example-helpers/extension-handlers';
+import { exampleDocument } from '../example-helpers/example-document';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
 import { DevTools } from '../example-helpers/DevTools';
 import { Wrapper, Content } from './5-full-page';
-
-export const TitleInput: any = styled.input`
-  border: none;
-  outline: none;
-  font-size: 2.07142857em !important;
-  margin: 0 0 21px;
-  padding: 0;
-
-  &::placeholder {
-    color: ${colors.N90};
-  }
-`;
-TitleInput.displayName = 'TitleInput';
 
 // tslint:disable-next-line:no-console
 const analyticsHandler = (actionName, props) => console.log(actionName, props);
@@ -36,6 +21,14 @@ const SAVE_ACTION = () => console.log('Save');
 
 const SaveAndCancelButtons = props => (
   <ButtonGroup>
+    <Button
+      className="loadExampleDocument"
+      onClick={() =>
+        props.editorActions.replaceDocument(exampleDocument, false)
+      }
+    >
+      Load Example
+    </Button>
     <Button
       appearance="primary"
       onClick={() =>
@@ -78,17 +71,22 @@ export class ExampleEditor extends React.Component<Props> {
               contextIdentifierProvider,
               onChange,
               disabled,
+              enabledFeatures,
             }) => (
               <Editor
                 defaultValue={this.props.defaultValue}
                 appearance="full-page"
                 analyticsHandler={analyticsHandler}
-                quickInsert={{ provider: Promise.resolve(quickInsertProvider) }}
+                allowAnalyticsGASV3={true}
+                quickInsert={{
+                  provider: Promise.resolve(quickInsertProvider),
+                }}
                 allowCodeBlocks={{ enableKeybindingsForIDE: true }}
                 allowLists={true}
                 allowBreakout={true}
                 allowTextColor={true}
                 allowTextAlignment={true}
+                allowIndentation={true}
                 allowTables={{
                   allowColumnResizing: true,
                   allowMergeCells: true,
@@ -102,13 +100,13 @@ export class ExampleEditor extends React.Component<Props> {
                 allowJiraIssue={true}
                 allowUnsupportedContent={true}
                 allowPanel={true}
+                allowStatus={true}
                 allowExtension={{
                   allowBreakout: true,
                 }}
                 allowRule={true}
                 allowDate={true}
                 allowLayouts={true}
-                allowGapCursor={true}
                 allowTemplatePlaceholders={{ allowInserting: true }}
                 UNSAFE_cards={{
                   provider: Promise.resolve(cardProvider),
@@ -119,7 +117,12 @@ export class ExampleEditor extends React.Component<Props> {
                 taskDecisionProvider={taskDecisionProvider}
                 contextIdentifierProvider={contextIdentifierProvider}
                 macroProvider={Promise.resolve(macroProvider)}
-                media={{ provider: mediaProvider, allowMediaSingle: true }}
+                media={{
+                  provider: mediaProvider,
+                  allowMediaSingle: true,
+                  allowResizing: enabledFeatures.imageResizing,
+                }}
+                allowDynamicTextSizing={enabledFeatures.dynamicTextSizing}
                 placeholder="Write something..."
                 shouldFocus={false}
                 onChange={onChange}

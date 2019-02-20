@@ -1,15 +1,17 @@
 import * as React from 'react';
-import { mount } from 'enzyme';
 import * as pdfjsLib from 'pdfjs-dist/build/pdf';
 import * as PDFJSViewer from 'pdfjs-dist/web/pdf_viewer';
 import Button from '@atlaskit/button';
 import {
   PDFRenderer,
   pdfViewerClassName,
+  Props,
+  State,
 } from '../../../../../newgen/viewers/doc/pdfRenderer';
 import { ZoomControls } from '../../../../../newgen/zoomControls';
 import { Spinner } from '../../../../../newgen/loading';
 import { ErrorMessage } from '../../../../../newgen/error';
+import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 
 function createFixture(documentPromise: Promise<any>) {
   const onClose = jest.fn();
@@ -22,7 +24,9 @@ function createFixture(documentPromise: Promise<any>) {
       firstPagePromise: new Promise(() => {}),
     };
   });
-  const el = mount(<PDFRenderer src={''} onClose={onClose} />);
+  const el = mountWithIntlContext<Props, State>(
+    <PDFRenderer src={''} onClose={onClose} />,
+  );
   return { el, onClose };
 }
 

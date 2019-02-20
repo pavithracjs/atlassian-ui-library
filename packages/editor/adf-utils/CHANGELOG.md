@@ -1,5 +1,107 @@
 # @atlaskit/adf-utils
 
+## 5.7.0
+- [minor] [4d8d759bf9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d8d759bf9):
+
+  -  [ED-6255] Migrate ADFNode type to ADFEntity
+
+## 5.6.3
+- [patch] [e83a441140](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e83a441140):
+
+  - Revert type change to width/height attributes for media node
+
+## 5.6.2
+- [patch] [09696170ec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/09696170ec):
+
+  - Bumps prosemirror-utils to 0.7.6
+
+## 5.6.1
+- [patch] [14fe1381ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/14fe1381ba):
+
+  - ED-6118: ensure media dimensions are always integers, preventing invalid ADF
+
+## 5.6.0
+- [minor] [be706e55f6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/be706e55f6):
+
+  - ED-6154 Adds `array` validation support
+
+## 5.5.0
+- [minor] [a5b5a5098e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a5b5a5098e):
+
+  - Adds index to visitor
+
+## 5.4.2
+- [patch] [76ed7f0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76ed7f0):
+
+  - Update Specs
+
+## 5.4.1
+- [patch] [57cffcb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/57cffcb):
+
+  - Need tslib
+
+## 5.4.0
+- [minor] [1205725](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1205725):
+
+  - Move schema to its own package
+
+## 5.3.4
+- Updated dependencies [80f765b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80f765b):
+  - @atlaskit/editor-common@23.0.0
+
+## 5.3.3
+- [patch] [34df084](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/34df084):
+
+  - Fix layout schema and enable breakout layouts in renderer
+
+## 5.3.2
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/docs@6.0.0
+
+## 5.3.1
+- [patch] [0a297ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a297ba):
+
+  - Packages should not be shown in the navigation, search and overview
+
+## 5.3.0
+- [minor] [a1b03d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1b03d0):
+
+  - ED-3890 Adds Indentation support on paragraphs and headings
+
+## 5.2.0
+- [minor] [94094fe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/94094fe):
+
+  - Adds support for links around images
+
+## 5.1.9
+- Updated dependencies [7e8b4b9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e8b4b9):
+  - @atlaskit/editor-common@22.0.0
+
+## 5.1.8
+- [patch] [416fbb3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/416fbb3):
+
+  - ED-3298: codeBlocks inside lists
+
+## 5.1.7
+- [patch] [409e610](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/409e610):
+
+  - Fix schema block marks name inconsistency
+
+## 5.1.6
+- [patch] [df33a8b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/df33a8b):
+
+  - Fix block marks validation
+
+## 5.1.5
+- [patch] [d3bb11f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3bb11f):
+
+  - Fixing validator for alignment marks
+
+## 5.1.4
+- [patch] [4e2a3b1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4e2a3b1):
+
+  - Fixes validating marks with multiple possible branch
+
 ## 5.1.3
 - [patch] [a1fb551](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1fb551):
 

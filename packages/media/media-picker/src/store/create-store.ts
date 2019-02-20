@@ -28,8 +28,9 @@ import { handleCloudFetchingEvent } from '../popup/middleware/handleCloudFetchin
 import searchGiphy from '../popup/middleware/searchGiphy';
 import hidePopupMiddleware from '../popup/middleware/hidePopup';
 import sendUploadEventMiddleware from '../popup/middleware/sendUploadEvent';
-import { PopupConfig, PopupUploadEventEmitter } from '../components/popup';
+import { PopupConfig, PopupUploadEventEmitter } from '../components/types';
 import analyticsProcessing from '../popup/middleware/analyticsProcessing';
+import { removeFileFromRecents } from '../popup/middleware/removeFileFromRecents';
 
 export default (
   eventEmitter: PopupUploadEventEmitter,
@@ -38,7 +39,6 @@ export default (
   config: Partial<PopupConfig>,
 ): Store<State> => {
   const userAuthProvider = userContext.config.authProvider;
-
   const redirectUrl = appConfig.html.redirectUrl;
   const fetcher = new MediaApiFetcher();
   const wsProvider = new WsProvider();
@@ -67,7 +67,7 @@ export default (
         getConnectedRemoteAccounts(fetcher) as Middleware,
         cancelUpload as Middleware,
         importFilesMiddleware(eventEmitter, wsProvider),
-        editRemoteImageMiddleware(fetcher) as Middleware,
+        editRemoteImageMiddleware() as Middleware,
         getPreviewMiddleware(),
         finalizeUploadMiddleware(fetcher),
         proxyUploadEvents as Middleware,
@@ -75,6 +75,7 @@ export default (
         searchGiphy(fetcher) as Middleware,
         hidePopupMiddleware(eventEmitter) as Middleware,
         sendUploadEventMiddleware(eventEmitter),
+        removeFileFromRecents as Middleware,
       ),
     ),
   );

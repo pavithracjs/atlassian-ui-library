@@ -10,6 +10,9 @@ export {
 } from './components/presentational/GlobalItem/primitives';
 
 export { default as GlobalNav } from './components/presentational/GlobalNav';
+export {
+  default as GlobalNavigationSkeleton,
+} from './components/presentational/GlobalNavigationSkeleton';
 export { default as Group } from './components/presentational/Group';
 export {
   default as GroupHeading,
@@ -28,12 +31,6 @@ export {
 export {
   default as MenuSection,
 } from './components/presentational/MenuSection';
-export {
-  default as PeekToggleItem,
-} from './components/presentational/PeekToggleItem';
-export {
-  default as ScrollableSectionInner,
-} from './components/presentational/ScrollableSectionInner';
 export { default as Section } from './components/presentational/Section';
 export {
   default as SectionHeading,
@@ -72,7 +69,7 @@ export { NavigationProvider } from './provider';
 export {
   UIController,
   UIControllerSubscriber,
-  withNavigationUI,
+  withNavigationUIController,
 } from './ui-controller';
 export {
   ViewController,
@@ -82,10 +79,7 @@ export {
 } from './view-controller';
 
 /** Renderer */
-export {
-  default as ViewRenderer,
-  TypedItemsRenderer as TypedViewRenderer,
-} from './renderer';
+export { default as ItemsRenderer, TypedItemsRenderer } from './renderer';
 
 /** Theme */
 export { dark, light, settings, modeGenerator, ThemeProvider } from './theme';

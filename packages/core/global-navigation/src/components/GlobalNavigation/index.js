@@ -7,6 +7,7 @@ import { NotificationIndicator } from '@atlaskit/notification-indicator';
 import { NotificationLogClient } from '@atlaskit/notification-log-client';
 import { GlobalNav } from '@atlaskit/navigation-next';
 import Drawer from '@atlaskit/drawer';
+import AtlassianSwitcher from '@atlaskit/atlassian-switcher';
 import {
   name as packageName,
   version as packageVersion,
@@ -18,37 +19,8 @@ import ScreenTracker from '../ScreenTracker';
 import { analyticsIdMap, fireDrawerDismissedEvents } from './analytics';
 import NotificationDrawerContents from '../../platform-integration';
 
-import type { GlobalNavItemData, NavItem } from '../../config/types';
+import type { NavItem } from '../../config/types';
 import type { GlobalNavigationProps, DrawerName } from './types';
-
-// TODO: Figure out a way to appease flow without this function.
-const mapToGlobalNavItem: NavItem => GlobalNavItemData = ({
-  dropdownItems,
-  icon,
-  id,
-  itemComponent,
-  label,
-  onClick,
-  tooltip,
-  component,
-  badge,
-  href,
-  size,
-  badgeCount,
-}) => ({
-  dropdownItems,
-  icon,
-  id,
-  itemComponent,
-  label,
-  onClick,
-  tooltip,
-  component,
-  badge,
-  href,
-  size,
-  badgeCount,
-});
 
 const noop = () => {};
 
@@ -56,14 +28,13 @@ const localStorage = typeof window === 'object' ? window.localStorage : {};
 
 type GlobalNavigationState = {
   [any]: boolean, // Need an indexer property to appease flow for is${capitalisedDrawerName}Open
-  isSearchDrawerOpen: boolean,
-  isNotificationDrawerOpen: boolean,
-  isStarredDrawerOpen: boolean,
-  notificationCount: number,
   isCreateDrawerOpen: boolean,
   isSearchDrawerOpen: boolean,
   isNotificationDrawerOpen: boolean,
   isStarredDrawerOpen: boolean,
+  isSettingsDrawerOpen: boolean,
+  isAtlassianSwitcherDrawerOpen: boolean,
+  notificationCount: number,
 };
 
 type DrawerInstanceState = {
@@ -86,11 +57,27 @@ export default class GlobalNavigation extends Component<
     starred: {
       isControlled: false,
     },
+    settings: {
+      isControlled: false,
+    },
     create: {
+      isControlled: false,
+    },
+    atlassianSwitcher: {
       isControlled: false,
     },
   };
   isNotificationInbuilt = false;
+  shouldRenderAtlassianSwitcher = false;
+
+  static defaultProps = {
+    enableAtlassianSwitcher: false,
+    createDrawerWidth: 'wide',
+    searchDrawerWidth: 'wide',
+    notificationDrawerWidth: 'wide',
+    starredDrawerWidth: 'wide',
+    settingsDrawerWidth: 'wide',
+  };
 
   constructor(props: GlobalNavigationProps) {
     super(props);
@@ -100,6 +87,8 @@ export default class GlobalNavigation extends Component<
       isSearchDrawerOpen: false,
       isNotificationDrawerOpen: false,
       isStarredDrawerOpen: false,
+      isSettingsDrawerOpen: false,
+      isAtlassianSwitcherDrawerOpen: false,
       notificationCount: 0,
     };
 
@@ -125,14 +114,18 @@ export default class GlobalNavigation extends Component<
 
     const {
       cloudId,
+      enableAtlassianSwitcher,
       fabricNotificationLogUrl,
       notificationDrawerContents,
+      product,
     } = this.props;
     this.isNotificationInbuilt = !!(
       !notificationDrawerContents &&
       cloudId &&
       fabricNotificationLogUrl
     );
+    this.shouldRenderAtlassianSwitcher =
+      enableAtlassianSwitcher && cloudId && product;
   }
 
   componentDidUpdate(prevProps: GlobalNavigationProps) {
@@ -160,14 +153,18 @@ export default class GlobalNavigation extends Component<
 
     const {
       cloudId,
+      enableAtlassianSwitcher,
       fabricNotificationLogUrl,
       notificationDrawerContents,
+      product,
     } = this.props;
     this.isNotificationInbuilt = !!(
       !notificationDrawerContents &&
       cloudId &&
       fabricNotificationLogUrl
     );
+    this.shouldRenderAtlassianSwitcher =
+      enableAtlassianSwitcher && cloudId && product;
   }
 
   onCountUpdating = (
@@ -294,6 +291,12 @@ export default class GlobalNavigation extends Component<
   };
 
   renderNotificationBadge = () => {
+    if (this.state.isNotificationDrawerOpen) {
+      // Unmount the badge when the drawer is open
+      // So that it can remount with the latest badgeCount when the drawer closes.
+      return null;
+    }
+
     const { cloudId, fabricNotificationLogUrl } = this.props;
     const refreshRate = this.state.notificationCount ? 180000 : 60000;
 
@@ -331,11 +334,13 @@ export default class GlobalNavigation extends Component<
       ...(productConfig[item]
         ? {
             ...(item === 'notification' && this.isNotificationInbuilt
-              ? { badge }
+              ? { id: 'notifications', badge }
               : {}),
             ...defaultConfig[item],
             ...productConfig[item],
-            ...(item === 'notification' ? { badgeCount } : {}),
+            ...(item === 'notification'
+              ? { id: 'notifications', badgeCount }
+              : {}),
           }
         : null),
     }));
@@ -344,12 +349,54 @@ export default class GlobalNavigation extends Component<
       primaryItems: navItems
         .filter(({ section }) => section === 'primary')
         .sort(({ rank: rank1 }, { rank: rank2 }) => rank1 - rank2)
-        .map(mapToGlobalNavItem),
+        .map(navItem => {
+          const { section, rank, ...props } = navItem;
+          return props;
+        }),
       secondaryItems: navItems
         .filter(({ section }) => section === 'secondary')
         .sort(({ rank: rank1 }, { rank: rank2 }) => rank1 - rank2)
-        .map(mapToGlobalNavItem),
+        .map(navItem => {
+          const { section, rank, ...props } = navItem;
+          return props;
+        }),
     };
+  };
+
+  triggerXFlow = (...triggerXFlowProps: any) => {
+    const { triggerXFlow } = this.props;
+    this.setState({
+      isAtlassianSwitcherDrawerOpen: false,
+    });
+    if (triggerXFlow) {
+      triggerXFlow(...triggerXFlowProps);
+    }
+  };
+
+  renderAtlassianSwitcherDrawerContents = () => {
+    const { product, cloudId } = this.props;
+    return (
+      <AtlassianSwitcher
+        product={product}
+        cloudId={cloudId}
+        triggerXFlow={this.triggerXFlow}
+      />
+    );
+  };
+
+  getDrawerContents = (drawerName: DrawerName) => {
+    switch (drawerName) {
+      case 'atlassianSwitcher':
+        return this.shouldRenderAtlassianSwitcher
+          ? this.renderAtlassianSwitcherDrawerContents
+          : null;
+      case 'notification':
+        return this.isNotificationInbuilt
+          ? this.renderNotificationDrawerContents
+          : this.props.notificationDrawerContents;
+      default:
+        return this.props[`${drawerName}DrawerContents`];
+    }
   };
 
   render() {
@@ -378,22 +425,28 @@ export default class GlobalNavigation extends Component<
               `should${capitalisedDrawerName}UnmountOnExit`
             ];
 
-            const DrawerContents =
-              drawerName === 'notification' && this.isNotificationInbuilt
-                ? this.renderNotificationDrawerContents
-                : this.props[`${drawerName}DrawerContents`];
+            const DrawerContents = this.getDrawerContents(drawerName);
 
             if (!DrawerContents) {
               return null;
             }
+
+            const onCloseComplete = this.props[
+              `on${capitalisedDrawerName}CloseComplete`
+            ];
 
             return (
               <Drawer
                 key={drawerName}
                 isOpen={this.state[`is${capitalisedDrawerName}Open`]}
                 onClose={this.closeDrawer(drawerName)}
+                onCloseComplete={onCloseComplete}
                 shouldUnmountOnExit={shouldUnmountOnExit}
-                width="wide"
+                width={
+                  drawerName === 'atlassianSwitcher'
+                    ? 'narrow'
+                    : this.props[`${drawerName}DrawerWidth`]
+                }
               >
                 <ScreenTracker
                   name={analyticsIdMap[drawerName]}

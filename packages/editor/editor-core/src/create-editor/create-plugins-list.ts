@@ -1,3 +1,4 @@
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
 import { EditorPlugin, EditorProps } from '../types';
 import {
   basePlugin,
@@ -45,13 +46,27 @@ import {
   statusPlugin,
   gridPlugin,
   alignment,
+  editorDisabledPlugin,
+  indentationPlugin,
+  annotationPlugin,
+  compositionPlugin,
+  analyticsPlugin,
 } from '../plugins';
 
 /**
  * Returns list of plugins that are absolutely necessary for editor to work
  */
-export function getDefaultPluginsList(props: EditorProps = {}): EditorPlugin[] {
-  return [
+export function getDefaultPluginsList(
+  props: EditorProps,
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+): EditorPlugin[] {
+  let defaultPluginList: EditorPlugin[] = [];
+
+  if (props.allowAnalyticsGASV3) {
+    defaultPluginList.push(analyticsPlugin(createAnalyticsEvent));
+  }
+
+  return defaultPluginList.concat([
     pastePlugin,
     basePlugin,
     blockTypePlugin,
@@ -62,25 +77,25 @@ export function getDefaultPluginsList(props: EditorProps = {}): EditorPlugin[] {
     widthPlugin,
     typeAheadPlugin,
     unsupportedContentPlugin,
-  ];
+    editorDisabledPlugin,
+  ]);
 }
 
 /**
  * Maps EditorProps to EditorPlugins
  */
-export default function createPluginsList(props: EditorProps): EditorPlugin[] {
-  const plugins = getDefaultPluginsList(props);
+export default function createPluginsList(
+  props: EditorProps,
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+): EditorPlugin[] {
+  const plugins = getDefaultPluginsList(props, createAnalyticsEvent);
 
-  if (props.allowBreakout) {
+  if (props.allowBreakout && props.appearance === 'full-page') {
     plugins.push(breakoutPlugin);
   }
 
   if (props.allowTextAlignment) {
     plugins.push(alignment);
-  }
-
-  if (props.quickInsert) {
-    plugins.push(quickInsertPlugin);
   }
 
   if (props.allowInlineAction) {
@@ -100,7 +115,7 @@ export default function createPluginsList(props: EditorProps): EditorPlugin[] {
   }
 
   if (props.media || props.mediaProvider) {
-    plugins.push(mediaPlugin(props.media));
+    plugins.push(mediaPlugin(props.media, props.appearance));
   }
 
   if (props.allowCodeBlocks) {
@@ -109,7 +124,7 @@ export default function createPluginsList(props: EditorProps): EditorPlugin[] {
   }
 
   if (props.mentionProvider) {
-    plugins.push(mentionsPlugin);
+    plugins.push(mentionsPlugin(createAnalyticsEvent));
   }
 
   if (props.emojiProvider) {
@@ -189,20 +204,21 @@ export default function createPluginsList(props: EditorProps): EditorPlugin[] {
     plugins.push(layoutPlugin);
   }
 
-  if (props.allowGapCursor) {
-    plugins.push(gapCursorPlugin);
-  }
-
   if (props.UNSAFE_cards) {
     plugins.push(cardPlugin);
   }
 
+  let statusMenuDisabled = true;
   if (props.allowStatus) {
-    const menuDisabled =
+    statusMenuDisabled =
       typeof props.allowStatus === 'object'
         ? props.allowStatus.menuDisabled
         : false;
-    plugins.push(statusPlugin({ menuDisabled }));
+    plugins.push(statusPlugin({ menuDisabled: statusMenuDisabled }));
+  }
+
+  if (props.allowIndentation) {
+    plugins.push(indentationPlugin);
   }
 
   // UI only plugins
@@ -210,13 +226,27 @@ export default function createPluginsList(props: EditorProps): EditorPlugin[] {
     insertBlockPlugin({
       insertMenuItems: props.insertMenuItems,
       horizontalRuleEnabled: props.allowRule,
+      nativeStatusSupported: !statusMenuDisabled,
     }),
   );
 
+  if (props.allowConfluenceInlineComment) {
+    plugins.push(annotationPlugin);
+  }
+
+  plugins.push(gapCursorPlugin);
   plugins.push(gridPlugin);
   plugins.push(submitEditorPlugin);
   plugins.push(fakeTextCursorPlugin);
   plugins.push(floatingToolbarPlugin);
+
+  if (props.appearance !== 'mobile') {
+    plugins.push(quickInsertPlugin);
+  }
+
+  if (props.appearance === 'mobile') {
+    plugins.push(compositionPlugin);
+  }
 
   if (props.appearance === 'message') {
     plugins.push(isMultilineContentPlugin);

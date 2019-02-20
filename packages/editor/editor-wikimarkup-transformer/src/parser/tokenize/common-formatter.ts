@@ -1,16 +1,18 @@
 import { Schema } from 'prosemirror-model';
-import { Token, TokenType } from './';
+import { Token, TokenType, Context } from './';
 import { linkFormat } from './links/link-format';
 import { parseNewlineOnly } from './whitespace';
 import { parseMacroKeyword } from './keyword';
 import { parseToken } from '.';
+import { escapeHandler } from '../utils/escape';
 
 export interface FormatterOption {
-  /** The opening symbol */
+  context: Context;
+  // The opening symbol
   opening: string;
-  /** The closing symbol */
+  // The closing symbol
   closing: string;
-  /** This function will be called with the rawContent */
+  // This function will be called with the rawContent
   rawContentProcessor: (raw: string, length: number) => Token;
 }
 
@@ -20,6 +22,7 @@ const processState = {
   END: 2,
   INLINE_MACRO: 3,
   LINK_FORMAT: 4,
+  ESCAPE: 5,
 };
 
 export function commonFormatter(
@@ -83,6 +86,9 @@ export function commonFormatter(
         } else if (char === '[') {
           state = processState.LINK_FORMAT;
           continue;
+        } else if (char === '\\') {
+          state = processState.ESCAPE;
+          continue;
         } else {
           buffer += char;
         }
@@ -90,6 +96,7 @@ export function commonFormatter(
       }
       case processState.END: {
         index += closingSymbolLength;
+
         // empty formatter mark is treated as normal text
         if (buffer.length === 0) {
           return fallback(input, position, openingSymbolLength);
@@ -102,21 +109,20 @@ export function commonFormatter(
          */
         if (index < input.length) {
           const charAfterEnd = input.charAt(index);
+
           if (/[a-zA-Z0-9]|[^\u0000-\u007F]/.test(charAfterEnd)) {
             buffer += charsMatchClosingSymbol;
             state = processState.BUFFER;
             continue;
           }
         }
+
         /**
          * If the closing symbol has an empty space before it,
-         * it's not a valid formatter, and we keep looking for
-         * next valid closing formatter
+         * it's not a valid formatter
          */
         if (buffer.endsWith(' ')) {
-          buffer += charsMatchClosingSymbol;
-          state = processState.BUFFER;
-          continue;
+          return fallback(input, position, openingSymbolLength);
         }
 
         return opt.rawContentProcessor(buffer, index - position);
@@ -153,7 +159,13 @@ export function commonFormatter(
          * -awesome [link|https://www.atlass-ian.com] nice
          * to be a strike through because of the '-' in link
          */
-        const token = linkFormat(input, index, schema);
+        // TODO: If necessary, delegates the context
+        const token = linkFormat({
+          input,
+          schema,
+          position: index,
+          context: {},
+        });
         if (token.type === 'text') {
           buffer += token.text;
           index += token.length;
@@ -166,6 +178,13 @@ export function commonFormatter(
           continue;
         }
         return fallback(input, position, openingSymbolLength);
+      }
+      case processState.ESCAPE: {
+        const token = escapeHandler(input, index);
+        buffer += token.text;
+        index += token.length;
+        state = processState.BUFFER;
+        continue;
       }
       default:
     }

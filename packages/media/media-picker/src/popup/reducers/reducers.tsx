@@ -25,7 +25,6 @@ import editorShowError from './editorShowError';
 import editorShowImage from './editorShowImage';
 import editorShowLoading from './editorShowLoading';
 import deselectItem from './deselectItem';
-import setTenant from './setTenant';
 import isUploading from './isUploading';
 import remoteUploadStart from './remoteUploadStart';
 import {
@@ -38,6 +37,7 @@ import hidePopup from './hidePopup';
 import startApp from './startApp';
 import setUpfrontIdDeferred from './setUpfrontIdDeferred';
 import saveCollectionItemsSubscription from './saveCollectionItemsSubscription';
+import removeFileFromRecents from './removeFileFromRecents';
 
 const reducers = combineReducers([
   fileClick,
@@ -59,13 +59,13 @@ const reducers = combineReducers([
   fileUploadEnd,
   setEventProxy,
   removeEventProxy,
+  removeFileFromRecents,
   resetView,
   editorClose,
   editorShowError,
   editorShowImage,
   editorShowLoading,
   deselectItem,
-  setTenant,
   isUploading,
   remoteUploadStart,
   giphySearchStarted,

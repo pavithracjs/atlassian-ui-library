@@ -1,5 +1,50 @@
 # @atlaskit/analytics-listeners
 
+## 4.2.0
+- [minor] [8c65a38bfc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8c65a38bfc):
+
+  - enable noImplicitAny for elements analytics packages. Fix related issues.
+
+## 4.1.5
+- [patch] [a3b8046](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a3b8046):
+
+  - Add more specific types to analytics-listener webclient type
+
+## 4.1.4
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/analytics-next@3.1.2
+  - @atlaskit/button@10.1.1
+  - @atlaskit/analytics-gas-types@3.2.3
+  - @atlaskit/analytics-namespaced-context@2.1.5
+  - @atlaskit/docs@6.0.0
+
+## 4.1.3
+- [patch] [dff4f0e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dff4f0e):
+
+  - AnalyticsListeners should accept any promise-like client
+
+## 4.1.2
+- [patch] [e981882](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e981882):
+
+  - Add media tag to analytics tags sent by media listener
+
+## 4.1.1
+- Updated dependencies [6998f11](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6998f11):
+  - @atlaskit/docs@5.2.1
+  - @atlaskit/analytics-next@3.1.1
+  - @atlaskit/button@10.0.0
+  - @atlaskit/analytics-next-types@3.1.2
+
+## 4.1.0
+- [minor] [dd0a73c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd0a73c):
+
+  - Allow consumers to pass promise of analytics web client as well as the client itself
+
+## 4.0.7
+- [patch] [1d30f7e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1d30f7e):
+
+  - Make analytics-web-client non-mandatory
+
 ## 4.0.6
 - [patch] [c525423"
 d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c525423"

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/json-schema-generator",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "private": true,
   "description": "A CLI tool for generating JSON Schema from typescript",
   "license": "Apache-2.0",
@@ -22,7 +22,7 @@
     "mkdirp": "^0.5.1",
     "prettier": "^1.14.3",
     "ts-node": "^6.1.1",
-    "typescript": "~3.0.3"
+    "typescript": "~3.1.0"
   },
   "atlaskit": {
     "internal": true

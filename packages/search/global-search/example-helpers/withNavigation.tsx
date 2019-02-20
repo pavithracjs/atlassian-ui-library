@@ -20,8 +20,19 @@ const Radio = styled.input`
 `;
 
 export interface Config {
-  hideLocale: boolean;
+  hideLocale?: boolean;
+  message?: JSX.Element;
 }
+
+const MessageContainer = styled.div`
+  position: relative;
+  z-index: 1000;
+  width: 100%;
+  margin-right: 8px;
+  margin-bottom: 10px;
+  align-contentpadding-left: 50px;
+  text-align: left;
+`;
 
 interface State {
   context: 'home' | 'jira' | 'confluence';
@@ -33,6 +44,7 @@ export default function withNavigation(
   WrappedComponent: ComponentType<Props>,
   props?: Config,
 ): ComponentType<Partial<Props>> {
+  // @ts-ignore
   return class WithNavigation extends React.Component<Props> {
     static displayName = `WithNavigation(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
@@ -99,11 +111,18 @@ export default function withNavigation(
       );
     }
 
+    renderMessage() {
+      if (!props || !props.message) {
+        return null;
+      }
+      return <MessageContainer>{props.message}</MessageContainer>;
+    }
     render() {
       const { context, locale } = this.state;
 
       return (
         <>
+          {this.renderMessage()}
           <RadioGroup>
             Context:
             <Radio

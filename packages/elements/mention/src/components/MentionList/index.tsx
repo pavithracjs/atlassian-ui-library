@@ -1,12 +1,11 @@
 import * as React from 'react';
-
-import { MentionListStyle } from './styles';
-import MentionListError from '../MentionListError';
-import MentionItem from '../MentionItem';
-import Scrollable from '../Scrollable';
 import { MentionDescription, OnMentionEvent } from '../../types';
 import debug from '../../util/logger';
-import { mouseLocation, actualMouseMove, Position } from '../../util/mouse';
+import { actualMouseMove, mouseLocation, Position } from '../../util/mouse';
+import MentionItem from '../MentionItem';
+import MentionListError from '../MentionListError';
+import Scrollable from '../Scrollable';
+import { MentionListStyle } from './styles';
 
 function wrapIndex(mentions: MentionDescription[], index: number): number {
   const len = mentions.length;
@@ -58,8 +57,8 @@ export interface Items {
 
 export default class MentionList extends React.PureComponent<Props, State> {
   private lastMousePosition: Position | undefined;
-  private scrollable: Scrollable;
-  private items: Items;
+  private scrollable?: Scrollable | null;
+  private items!: Items;
 
   constructor(props: Props) {
     super(props);
@@ -179,9 +178,13 @@ export default class MentionList extends React.PureComponent<Props, State> {
 
   private selectIndexOnHover = (
     mention: MentionDescription,
-    event: React.MouseEvent<any>,
+    event?: React.SyntheticEvent<any>,
   ) => {
-    const mousePosition = mouseLocation(event);
+    if (!event) {
+      return;
+    }
+
+    const mousePosition = mouseLocation(event as React.MouseEvent<any>);
     if (actualMouseMove(this.lastMousePosition, mousePosition)) {
       this.selectId(mention.id);
     }
@@ -240,7 +243,7 @@ export default class MentionList extends React.PureComponent<Props, State> {
     return selectedKey ? selectedKey === mention.id : index === 0;
   }
 
-  private handleScrollableRef = ref => {
+  private handleScrollableRef = (ref: Scrollable | null) => {
     this.scrollable = ref;
   };
 

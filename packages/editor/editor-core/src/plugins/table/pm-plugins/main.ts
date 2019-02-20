@@ -1,7 +1,9 @@
 import { EditorState, Plugin, PluginKey, Transaction } from 'prosemirror-state';
 import { findParentDomRefOfType } from 'prosemirror-utils';
 import { EditorView, DecorationSet } from 'prosemirror-view';
+import { browser } from '@atlaskit/editor-common';
 import { PluginConfig, TablePluginState } from '../types';
+import { EditorAppearance } from '../../../types';
 import { Dispatch } from '../../../event-dispatcher';
 import { createTableView } from '../nodeviews/table';
 import { createCellView } from '../nodeviews/cell';
@@ -36,6 +38,7 @@ import {
   fixTables,
   normalizeSelection,
 } from '../utils';
+import { TableCssClassName as ClassName } from '../types';
 
 export const pluginKey = new PluginKey('tablePlugin');
 
@@ -64,6 +67,7 @@ export const createPlugin = (
   portalProviderAPI: PortalProviderAPI,
   eventDispatcher: EventDispatcher,
   pluginConfig: PluginConfig,
+  appearance?: EditorAppearance,
 ) =>
   new Plugin({
     state: {
@@ -223,18 +227,33 @@ export const createPlugin = (
     props: {
       decorations: state => getPluginState(state).decorationSet,
 
-      handleClick: ({ state, dispatch }) => {
+      handleClick: ({ state, dispatch }, pos, event: MouseEvent) => {
         const { decorationSet } = getPluginState(state);
         if (findControlsHoverDecoration(decorationSet).length) {
           clearHoverSelection(state, dispatch);
         }
+
+        // ED-6069: workaround for Chrome given a regression introduced in prosemirror-view@1.6.8
+        // Returning true prevents that updateSelection() is getting called in the commit below:
+        // @see https://github.com/ProseMirror/prosemirror-view/commit/33fe4a8b01584f6b4103c279033dcd33e8047b95
+        if (browser.chrome && event.target) {
+          const targetClassList = (event.target as HTMLElement).classList;
+
+          if (
+            targetClassList.contains(ClassName.CONTROLS_BUTTON) ||
+            targetClassList.contains(ClassName.CONTEXTUAL_MENU_BUTTON)
+          ) {
+            return true;
+          }
+        }
+
         return false;
       },
 
       nodeViews: {
         table: createTableView(portalProviderAPI),
-        tableCell: createCellView(portalProviderAPI),
-        tableHeader: createCellView(portalProviderAPI),
+        tableCell: createCellView(portalProviderAPI, appearance),
+        tableHeader: createCellView(portalProviderAPI, appearance),
       },
 
       handleDOMEvents: {

@@ -4,6 +4,7 @@ import {
   MediaCollectionItems,
   MediaUpload,
   MediaChunksProbe,
+  MediaCollectionItemFullDetails,
 } from './models/media';
 import {
   AsapBasedAuth,
@@ -39,6 +40,10 @@ const extendImageParams = (
 ): MediaStoreGetFileImageParams => {
   return { ...defaultImageOptions, ...params };
 };
+const jsonHeaders = {
+  Accept: 'application/json',
+  'Content-Type': 'application/json',
+};
 
 export class MediaStore {
   constructor(private readonly config: MediaApiConfig) {}
@@ -50,10 +55,7 @@ export class MediaStore {
       method: 'POST',
       body: JSON.stringify({ name: collectionName }),
       authContext: { collectionName },
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
+      headers: jsonHeaders,
     }).then(mapResponseToJson);
   }
 
@@ -101,6 +103,35 @@ export class MediaStore {
     };
   }
 
+  async removeCollectionFile(
+    id: string,
+    collectionName: string,
+    occurrenceKey?: string,
+  ): Promise<void> {
+    const body = {
+      actions: [
+        {
+          action: 'remove',
+          item: {
+            type: 'file',
+            id,
+            occurrenceKey,
+          },
+        },
+      ],
+    };
+
+    await this.request(`/collection/${collectionName}`, {
+      method: 'PUT',
+      authContext: { collectionName },
+      body: JSON.stringify(body),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+
   createUpload(
     createUpTo: number = 1,
     collectionName?: string,
@@ -139,10 +170,7 @@ export class MediaStore {
       body: JSON.stringify({
         chunks,
       }),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
+      headers: jsonHeaders,
     }).then(mapResponseToJson);
   }
 
@@ -155,10 +183,19 @@ export class MediaStore {
       authContext: { collectionName: params.collection },
       params,
       body: JSON.stringify(body),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
+      headers: jsonHeaders,
+    }).then(mapResponseToJson);
+  }
+
+  touchFiles(
+    body: MediaStoreTouchFileBody,
+    params: MediaStoreTouchFileParams = {},
+  ): Promise<MediaStoreResponse<TouchedFiles>> {
+    return this.request('/upload/createWithFiles', {
+      method: 'POST',
+      headers: jsonHeaders,
+      body: JSON.stringify(body),
+      authContext: { collectionName: params.collection },
     }).then(mapResponseToJson);
   }
 
@@ -243,14 +280,38 @@ export class MediaStore {
     });
   };
 
+  // TODO [MS-1352]: add WEBP header
   getImage = (
     id: string,
     params?: MediaStoreGetFileImageParams,
+    controller?: AbortController,
   ): Promise<Blob> => {
-    return this.request(`/file/${id}/image`, {
-      params: extendImageParams(params),
-      authContext: { collectionName: params && params.collection },
-    }).then(mapResponseToBlob);
+    return this.request(
+      `/file/${id}/image`,
+      {
+        params: extendImageParams(params),
+        authContext: { collectionName: params && params.collection },
+      },
+      controller,
+    ).then(mapResponseToBlob);
+  };
+
+  getItems = (
+    ids: string[],
+    collectionName?: string,
+  ): Promise<MediaStoreResponse<ItemsPayload>> => {
+    const descriptors = ids.map(id => ({
+      type: 'file',
+      id,
+      collection: collectionName,
+    }));
+
+    return this.request('/items', {
+      method: 'POST',
+      body: JSON.stringify({ descriptors }),
+      headers: jsonHeaders,
+      authContext: { collectionName },
+    }).then(mapResponseToJson);
   };
 
   getImageMetadata = (
@@ -272,10 +333,7 @@ export class MediaStore {
       method: 'PUT',
       authContext: { collectionName },
       body: JSON.stringify(body),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
+      headers: jsonHeaders,
     }).then(mapResponseToVoid);
   }
 
@@ -287,10 +345,7 @@ export class MediaStore {
       method: 'POST',
       authContext: { collectionName: params.collection }, // Contains collection name to write to
       body: JSON.stringify(body), // Contains collection name to read from
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
+      headers: jsonHeaders,
       params, // Contains collection name to write to
     }).then(mapResponseToJson);
   }
@@ -301,20 +356,35 @@ export class MediaStore {
       method: 'GET',
       authContext: {},
     },
+    controller?: AbortController,
   ): Promise<Response> {
     const { authProvider } = this.config;
     const { method, authContext, params, headers, body } = options;
-
     const auth = await authProvider(authContext);
 
-    return request(`${auth.baseUrl}${path}`, {
-      method,
-      auth,
-      params,
-      headers,
-      body,
-    });
+    return request(
+      `${auth.baseUrl}${path}`,
+      {
+        method,
+        auth,
+        params,
+        headers,
+        body,
+      },
+      controller,
+    );
   }
+}
+
+export interface FileItem {
+  id: string;
+  type: 'file';
+  details: MediaCollectionItemFullDetails;
+  collection?: string;
+}
+
+export interface ItemsPayload {
+  items: FileItem[];
 }
 
 export type ImageMetadataArtifact = {
@@ -354,6 +424,22 @@ export type MediaStoreCreateFileParams = {
   readonly occurrenceKey?: string;
   readonly collection?: string;
 };
+
+export interface MediaStoreTouchFileParams {
+  readonly collection?: string;
+}
+
+export interface TouchFileDescriptor {
+  fileId: string;
+  collection?: string;
+  occurrenceKey?: string;
+  expireAfter?: number;
+  deletable?: boolean;
+}
+
+export interface MediaStoreTouchFileBody {
+  descriptors: TouchFileDescriptor[];
+}
 
 export type MediaStoreCreateFileFromBinaryParams = {
   readonly replaceFileId?: string;
@@ -422,6 +508,15 @@ export type AppendChunksToUploadRequestBody = {
 
   readonly hash?: string;
   readonly offset?: number;
+};
+
+export interface CreatedTouchedFile {
+  fileId: string;
+  uploadId: string;
+}
+
+export type TouchedFiles = {
+  created: CreatedTouchedFile[];
 };
 
 export interface EmptyFile {

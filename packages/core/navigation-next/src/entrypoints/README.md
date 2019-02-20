@@ -35,7 +35,10 @@ import LayoutManagerWithViewController from '@atlaskit/navigation-next/LayoutMan
 ## Exposed entrypoints
 
 - `atlaskit/navigation-next/LayoutManagerWithViewController`
-- `atlaskit/navigation-next/ViewRenderer`
+- `atlaskit/navigation-next/ItemsRenderer`
 - `atlaskit/navigation-next/SkeletonContainerView`
 - `atlaskit/navigation-next/NavigationProvider`
 - `atlaskit/navigation-next/AsyncLayoutManagerWithViewController`
+- `atlaskit/navigation-next/GlobalNavigationSkeleton`
+- `atlaskit/navigation-next/view-controller`
+- `atlaskit/navigation-next/ui-controller`

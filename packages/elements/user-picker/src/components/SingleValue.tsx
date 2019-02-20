@@ -1,7 +1,9 @@
 import { AvatarItem } from '@atlaskit/avatar';
 import * as React from 'react';
 import styled from 'styled-components';
+import { Option } from '../types';
 import { SizeableAvatar } from './SizeableAvatar';
+import { getAvatarUrl } from './utils';
 
 const AvatarItemComponent = styled.div`
   border: none;
@@ -20,26 +22,29 @@ const AvatarItemComponent = styled.div`
   }
 `;
 
-export const SingleValue = props => {
+type Props = {
+  data: Option;
+  selectProps: any;
+};
+
+export const SingleValue = (props: Props) => {
   const {
-    data: {
-      user: { avatarUrl, name, nickname },
-    },
-    selectProps: { appearance },
+    data: { label, data },
+    selectProps: { appearance, isFocused },
   } = props;
-  const displayName = name || nickname;
-  return (
+
+  return !isFocused ? (
     <AvatarItem
       backgroundColor="transparent"
       avatar={
         <SizeableAvatar
-          src={avatarUrl}
+          src={getAvatarUrl(data)}
           appearance={appearance}
-          name={displayName}
+          name={label}
         />
       }
-      primaryText={displayName}
+      primaryText={label}
       component={AvatarItemComponent}
     />
-  );
+  ) : null;
 };

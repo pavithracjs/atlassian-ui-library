@@ -1,22 +1,22 @@
-import {
-  EditorState,
-  Transaction,
-  TextSelection,
-  Selection,
-} from 'prosemirror-state';
+import { TextSelection, Selection } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { toggleMark } from 'prosemirror-commands';
-import { removeIgnoredNodesLeft, hasCode } from '../utils';
+import { hasCode } from '../utils';
 import { markActive } from '../utils';
 import { transformToCodeAction } from './transform-to-code';
 import { analyticsService } from '../../../analytics';
-
-export interface Command {
-  (state: EditorState, dispatch?: (tr: Transaction) => void): boolean;
-}
+import { Command } from '../../../types';
+import {
+  withAnalytics,
+  ACTION,
+  ACTION_SUBJECT,
+  ACTION_SUBJECT_ID,
+  EVENT_TYPE,
+  INPUT_METHOD,
+} from '../../analytics';
 
 export const moveRight = (): Command => {
-  return (state: EditorState, dispatch: (tr: Transaction) => void): boolean => {
+  return (state, dispatch) => {
     const { code } = state.schema.marks;
     const { empty, $cursor } = state.selection as TextSelection;
     if (!empty || !$cursor) {
@@ -47,13 +47,17 @@ export const moveRight = (): Command => {
 
       // entering code mark (from the left edge): don't move the cursor, just add the mark
       if (!insideCode && enteringCode) {
-        dispatch(state.tr.addStoredMark(code.create()));
+        if (dispatch) {
+          dispatch(state.tr.addStoredMark(code.create()));
+        }
         return true;
       }
 
       // exiting code mark: don't move the cursor, just remove the mark
       if (insideCode && exitingCode) {
-        dispatch(state.tr.removeStoredMark(code));
+        if (dispatch) {
+          dispatch(state.tr.removeStoredMark(code));
+        }
         return true;
       }
     }
@@ -65,7 +69,7 @@ export const moveRight = (): Command => {
 export const moveLeft = (
   view: EditorView & { cursorWrapper?: any },
 ): Command => {
-  return (state: EditorState, dispatch: (tr: Transaction) => void): boolean => {
+  return (state, dispatch) => {
     const { code } = state.schema.marks;
     const { empty, $cursor } = state.selection as TextSelection;
     if (!empty || !$cursor) {
@@ -97,23 +101,23 @@ export const moveLeft = (
         Array.isArray(storedMarks) &&
         !storedMarks.length;
 
-      // removing ignored nodes (cursor wrapper) to make sure cursor isn't stuck
-      if (view.cursorWrapper && !atLeftEdge && !atRightEdge) {
-        removeIgnoredNodesLeft(view);
-      }
-
       // at the right edge: remove code mark and move the cursor to the left
       if (!insideCode && atRightEdge) {
         const tr = state.tr.setSelection(
           Selection.near(state.doc.resolve($cursor.pos - 1)),
         );
-        dispatch(tr.removeStoredMark(code));
+
+        if (dispatch) {
+          dispatch(tr.removeStoredMark(code));
+        }
         return true;
       }
 
       // entering code mark (from right edge): don't move the cursor, just add the mark
       if (!insideCode && enteringCode) {
-        dispatch(state.tr.addStoredMark(code.create()));
+        if (dispatch) {
+          dispatch(state.tr.addStoredMark(code.create()));
+        }
         return true;
       }
 
@@ -122,7 +126,10 @@ export const moveLeft = (
         const tr = state.tr.setSelection(
           Selection.near(state.doc.resolve($cursor.pos - 1)),
         );
-        dispatch(tr.addStoredMark(code.create()));
+
+        if (dispatch) {
+          dispatch(tr.addStoredMark(code.create()));
+        }
         return true;
       }
 
@@ -132,7 +139,9 @@ export const moveLeft = (
         insideCode &&
         (exitingCode || (!$cursor.nodeBefore && isFirstChild))
       ) {
-        dispatch(state.tr.removeStoredMark(code));
+        if (dispatch) {
+          dispatch(state.tr.removeStoredMark(code));
+        }
         return true;
       }
     }
@@ -141,19 +150,14 @@ export const moveLeft = (
   };
 };
 
-// removing ignored nodes (cursor wrapper) when pressing Backspace to make sure cursor isn't stuck
-export const removeIgnoredNodes = (view: EditorView): Command => {
-  return (state: EditorState, dispatch: (tr: Transaction) => void): boolean => {
-    const { empty, $cursor } = state.selection as TextSelection;
-    if (empty && $cursor && $cursor.nodeBefore) {
-      removeIgnoredNodesLeft(view);
-    }
-    return false;
-  };
-};
+type InputMethodToolbar = INPUT_METHOD.TOOLBAR;
+type InputMethodBasic =
+  | InputMethodToolbar
+  | INPUT_METHOD.SHORTCUT
+  | INPUT_METHOD.FORMATTING;
 
 export const toggleEm = (): Command => {
-  return (state: EditorState, dispatch: (tr: Transaction) => void): boolean => {
+  return (state, dispatch) => {
     const { em } = state.schema.marks;
     if (em) {
       return toggleMark(em)(state, dispatch);
@@ -162,8 +166,23 @@ export const toggleEm = (): Command => {
   };
 };
 
+export const toggleEmWithAnalytics = ({
+  inputMethod,
+}: {
+  inputMethod: InputMethodBasic;
+}): Command =>
+  withAnalytics({
+    action: ACTION.FORMATTED,
+    actionSubject: ACTION_SUBJECT.TEXT,
+    eventType: EVENT_TYPE.TRACK,
+    actionSubjectId: ACTION_SUBJECT_ID.FORMAT_ITALIC,
+    attributes: {
+      inputMethod,
+    },
+  })(toggleEm());
+
 export const toggleStrike = (): Command => {
-  return (state: EditorState, dispatch: (tr: Transaction) => void): boolean => {
+  return (state, dispatch) => {
     const { strike } = state.schema.marks;
     if (strike) {
       return toggleMark(strike)(state, dispatch);
@@ -172,8 +191,23 @@ export const toggleStrike = (): Command => {
   };
 };
 
+export const toggleStrikeWithAnalytics = ({
+  inputMethod,
+}: {
+  inputMethod: InputMethodBasic;
+}): Command =>
+  withAnalytics({
+    action: ACTION.FORMATTED,
+    actionSubject: ACTION_SUBJECT.TEXT,
+    eventType: EVENT_TYPE.TRACK,
+    actionSubjectId: ACTION_SUBJECT_ID.FORMAT_STRIKE,
+    attributes: {
+      inputMethod,
+    },
+  })(toggleStrike());
+
 export const toggleStrong = (): Command => {
-  return (state: EditorState, dispatch: (tr: Transaction) => void): boolean => {
+  return (state, dispatch) => {
     const { strong } = state.schema.marks;
     if (strong) {
       return toggleMark(strong)(state, dispatch);
@@ -182,8 +216,23 @@ export const toggleStrong = (): Command => {
   };
 };
 
+export const toggleStrongWithAnalytics = ({
+  inputMethod,
+}: {
+  inputMethod: InputMethodBasic;
+}): Command =>
+  withAnalytics({
+    action: ACTION.FORMATTED,
+    actionSubject: ACTION_SUBJECT.TEXT,
+    eventType: EVENT_TYPE.TRACK,
+    actionSubjectId: ACTION_SUBJECT_ID.FORMAT_STRONG,
+    attributes: {
+      inputMethod,
+    },
+  })(toggleStrong());
+
 export const toggleUnderline = (): Command => {
-  return (state: EditorState, dispatch: (tr: Transaction) => void): boolean => {
+  return (state, dispatch) => {
     const { underline } = state.schema.marks;
     if (underline) {
       return toggleMark(underline)(state, dispatch);
@@ -192,8 +241,23 @@ export const toggleUnderline = (): Command => {
   };
 };
 
+export const toggleUnderlineWithAnalytics = ({
+  inputMethod,
+}: {
+  inputMethod: InputMethodBasic;
+}): Command =>
+  withAnalytics({
+    action: ACTION.FORMATTED,
+    actionSubject: ACTION_SUBJECT.TEXT,
+    eventType: EVENT_TYPE.TRACK,
+    actionSubjectId: ACTION_SUBJECT_ID.FORMAT_UNDERLINE,
+    attributes: {
+      inputMethod,
+    },
+  })(toggleUnderline());
+
 export const toggleSuperscript = (): Command => {
-  return (state: EditorState, dispatch: (tr: Transaction) => void): boolean => {
+  return (state, dispatch) => {
     const { subsup } = state.schema.marks;
     if (subsup) {
       if (markActive(state, subsup.create({ type: 'sub' }))) {
@@ -206,8 +270,19 @@ export const toggleSuperscript = (): Command => {
   };
 };
 
+export const toggleSuperscriptWithAnalytics = (): Command =>
+  withAnalytics({
+    action: ACTION.FORMATTED,
+    actionSubject: ACTION_SUBJECT.TEXT,
+    eventType: EVENT_TYPE.TRACK,
+    actionSubjectId: ACTION_SUBJECT_ID.FORMAT_SUPER,
+    attributes: {
+      inputMethod: INPUT_METHOD.TOOLBAR,
+    },
+  })(toggleSuperscript());
+
 export const toggleSubscript = (): Command => {
-  return (state: EditorState, dispatch: (tr: Transaction) => void): boolean => {
+  return (state, dispatch) => {
     const { subsup } = state.schema.marks;
     if (subsup) {
       if (markActive(state, subsup.create({ type: 'sup' }))) {
@@ -219,13 +294,26 @@ export const toggleSubscript = (): Command => {
   };
 };
 
+export const toggleSubscriptWithAnalytics = (): Command =>
+  withAnalytics({
+    action: ACTION.FORMATTED,
+    actionSubject: ACTION_SUBJECT.TEXT,
+    eventType: EVENT_TYPE.TRACK,
+    actionSubjectId: ACTION_SUBJECT_ID.FORMAT_SUB,
+    attributes: {
+      inputMethod: INPUT_METHOD.TOOLBAR,
+    },
+  })(toggleSuperscript());
+
 export const toggleCode = (): Command => {
-  return (state: EditorState, dispatch: (tr: Transaction) => void): boolean => {
+  return (state, dispatch) => {
     const { code } = state.schema.marks;
     const { from, to } = state.selection;
     if (code) {
       if (!markActive(state, code.create())) {
-        dispatch(transformToCodeAction(from, to, state.tr));
+        if (dispatch) {
+          dispatch(transformToCodeAction(from, to, state.tr));
+        }
         return true;
       }
       return toggleMark(code)(state, dispatch);
@@ -234,12 +322,27 @@ export const toggleCode = (): Command => {
   };
 };
 
-export const createInlineCodeFromTextInput = (
+export const toggleCodeWithAnalytics = ({
+  inputMethod,
+}: {
+  inputMethod: InputMethodBasic;
+}): Command =>
+  withAnalytics({
+    action: ACTION.FORMATTED,
+    actionSubject: ACTION_SUBJECT.TEXT,
+    eventType: EVENT_TYPE.TRACK,
+    actionSubjectId: ACTION_SUBJECT_ID.FORMAT_CODE,
+    attributes: {
+      inputMethod,
+    },
+  })(toggleCode());
+
+const createInlineCodeFromTextInput = (
   from: number,
   to: number,
   text: string,
 ): Command => {
-  return (state: EditorState, dispatch: (tr: Transaction) => void): boolean => {
+  return (state, dispatch) => {
     if (state.selection.empty) {
       const { nodeBefore: before } = state.doc.resolve(from);
       const { nodeAfter: after } = state.doc.resolve(to);
@@ -255,16 +358,35 @@ export const createInlineCodeFromTextInput = (
           to + 1,
           state.schema.text(text),
         );
-        dispatch(
-          transformToCodeAction(
-            tr.mapping.map(from - 1),
-            tr.mapping.map(to + 1),
-            tr,
-          ),
-        );
+
+        if (dispatch) {
+          dispatch(
+            transformToCodeAction(
+              tr.mapping.map(from - 1),
+              tr.mapping.map(to + 1),
+              tr,
+            ),
+          );
+        }
         return true;
       }
     }
     return false;
   };
+};
+
+export const createInlineCodeFromTextInputWithAnalytics = (
+  from: number,
+  to: number,
+  text: string,
+): Command => {
+  return withAnalytics({
+    action: ACTION.FORMATTED,
+    actionSubject: ACTION_SUBJECT.TEXT,
+    eventType: EVENT_TYPE.TRACK,
+    actionSubjectId: ACTION_SUBJECT_ID.FORMAT_CODE,
+    attributes: {
+      inputMethod: INPUT_METHOD.FORMATTING,
+    },
+  })(createInlineCodeFromTextInput(from, to, text));
 };

@@ -73,7 +73,65 @@ const logoLocation = {
   '@atlaskit/icon/glyph/stride': '@atlaskit/logo/dist/esm/StrideLogo/Icon',
 };
 
+const priorityIconLocation = {
+  '@atlaskit/icon/glyph/jira/blocker':
+    '@atlaskit/icon-priority/glyph/priotity-blocker',
+  '@atlaskit/icon/glyph/jira/critical':
+    '@atlaskit/icon-priority/glyph/priority-critical',
+  '@atlaskit/icon/glyph/jira/major':
+    '@atlaskit/icon-priority/glyph/priority-major',
+  '@atlaskit/icon/glyph/jira/medium':
+    '@atlaskit/icon-priority/glyph/priority-medium',
+  '@atlaskit/icon/glyph/jira/minor':
+    '@atlaskit/icon-priority/glyph/priority-minor',
+  '@atlaskit/icon/glyph/jira/trivial':
+    '@atlaskit/icon-priority/glyph/priority-trivial',
+};
+
 export default md`
+## v15.x to v16.x
+
+We have moved the priority icons to its own package.
+
+The following icons have been removed from \`@atlaskit/icons\`. They can be imported from \`@atlaskit/icon-priority\` going
+forward. The icons are:
+
+${<Table changedValues={priorityIconLocation} />}
+
+
+
+## v14.x to v15.x
+In Version 15, we removed the onClick props. Icons are not focusable elements, they are only presentational.
+We recommend to wrap them into a link or a button if you need to click on them.
+
+${code`
+import BookIcon from '@atlaskit/icon/glyph/book';
+<Button onClick={() => {}}>
+  <BookIcon
+    label="Book"
+    primaryColor={colors.N0}
+    secondaryColor={colors.B400}
+    size="small"         
+  />
+</Button>
+`}
+
+${code`
+import EmojiIcon from '@atlaskit/icon/glyph/emoji';
+<Link>
+  <EmojiIcon
+    label="Yay"
+    primaryColor={colors.N0}
+    secondaryColor={colors.P300}
+    size="medium"         
+  />
+</Link>
+`}
+
+
+
+
+## v13.x to v14.x
 Version 14 of icons resorts our icons into better locations.
 There is a full explanation below, but to start, here are the icons
 that are affected.

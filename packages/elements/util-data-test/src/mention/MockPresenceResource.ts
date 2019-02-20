@@ -37,8 +37,10 @@ export class MockPresenceResource extends AbstractPresenceResource {
     return time;
   }
 
-  refreshPresence(ids) {
-    const presences = {};
+  refreshPresence(ids: string[]) {
+    const presences: {
+      [userId: string]: { status?: string; time?: string };
+    } = {};
     for (let i = 0; i < ids.length; i++) {
       const id = ids[i];
       const status = this.getStatus();
@@ -51,7 +53,7 @@ export class MockPresenceResource extends AbstractPresenceResource {
         };
       }
     }
-    setTimeout(() => {
+    window.setTimeout(() => {
       this.notifyListeners(presences);
     }, this.getTimeout());
   }

@@ -1,15 +1,16 @@
 // @flow
 import React, { Component } from 'react';
+import Form, { Field } from '@atlaskit/form';
 import { RadioGroup } from '../src';
 import type { OptionsPropType } from '../src/types';
 
 type State = {
-  checkedValue: string | number | null,
+  value: string | number | null,
   options: OptionsPropType,
 };
 export default class StatelessExample extends Component<void, State> {
   state = {
-    checkedValue: null,
+    value: null,
     options: [
       { name: 'color2', value: 'red', label: 'Red' },
       { name: 'color2', value: 'blue', label: 'Blue' },
@@ -21,31 +22,46 @@ export default class StatelessExample extends Component<void, State> {
   setValue = (e: any) => {
     console.log(e.target.value);
     this.setState({
-      checkedValue: e.target.value,
+      value: e.target.value,
     });
   };
 
   render() {
     return (
       <div>
-        <RadioGroup
-          options={this.state.options}
-          checkedValue={this.state.checkedValue}
-          label="Pick a color (Checked state isn't managed by the component):"
-          onChange={this.setValue}
-        />
-        <div
-          style={{
-            borderStyle: 'dashed',
-            borderWidth: '1px',
-            borderColor: '#ccc',
-            padding: '0.5em',
-            color: '#ccc',
-            margin: '0.5em',
+        <Form onSubmit={data => console.log('form data', data)}>
+          {({ formProps }) => {
+            return (
+              <form {...formProps} name="form-example">
+                <Field
+                  name="color2"
+                  label="Pick a color (Checked state isn't managed by the component):"
+                  value={this.state.value}
+                >
+                  {({ fieldProps }) => (
+                    <RadioGroup
+                      {...fieldProps}
+                      options={this.state.options}
+                      onChange={this.setValue}
+                    />
+                  )}
+                </Field>
+                <div
+                  style={{
+                    borderStyle: 'dashed',
+                    borderWidth: '1px',
+                    borderColor: '#ccc',
+                    padding: '0.5em',
+                    color: '#ccc',
+                    margin: '0.5em',
+                  }}
+                >
+                  onChange called with value: {this.state.value}
+                </div>
+              </form>
+            );
           }}
-        >
-          onChange called with value: {this.state.checkedValue}
-        </div>
+        </Form>
       </div>
     );
   }

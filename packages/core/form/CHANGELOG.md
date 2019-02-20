@@ -1,5 +1,171 @@
 # @atlaskit/form
 
+## 5.1.6
+- [patch] [887c85ffdc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/887c85ffdc):
+
+  - Form now provides a `getValues` function to it's child render function. The `getValues` function returns an object containing the current value of all fields.
+
+## 5.1.5
+- Updated dependencies [06713e0a0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06713e0a0c):
+  - @atlaskit/datetime-picker@6.5.1
+  - @atlaskit/modal-dialog@7.2.3
+  - @atlaskit/select@7.0.0
+
+## 5.1.4
+- [patch] [0c0f20c9cf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c0f20c9cf):
+
+  - Fix typo in Field.js
+
+## 5.1.3
+- [patch] [a360a3d2b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a360a3d2b6):
+
+  - Bugfix: field entry in form state gets deleted when Field is unmounted
+  - Bugfix: Shallow equal check in Field works correctly across different types
+
+## 5.1.2
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/docs@6.0.1
+  - @atlaskit/button@10.1.2
+  - @atlaskit/calendar@7.0.17
+  - @atlaskit/checkbox@5.0.11
+  - @atlaskit/datetime-picker@6.3.25
+  - @atlaskit/dropdown-menu@6.1.26
+  - @atlaskit/droplist@7.0.18
+  - @atlaskit/field-radio-group@4.0.15
+  - @atlaskit/inline-edit@7.1.8
+  - @atlaskit/modal-dialog@7.2.1
+  - @atlaskit/multi-select@11.0.14
+  - @atlaskit/radio@0.4.6
+  - @atlaskit/section-message@1.0.16
+  - @atlaskit/select@6.1.19
+  - @atlaskit/single-select@6.0.12
+  - @atlaskit/toggle@5.0.15
+  - @atlaskit/tooltip@12.1.15
+  - @atlaskit/field-range@5.0.14
+  - @atlaskit/icon@16.0.0
+
+## 5.1.1
+- [patch] [58e7bc1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58e7bc1):
+
+  - Added example of Form use within a ModalDialog - no changes required
+
+## 5.1.0
+- [minor] [b36a82f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b36a82f):
+
+  - **feature:** Uses context to automatically assosiate a message to field. No upgrade changes required. Can remove fieldId prop on Message components if you are using that prop currently.
+
+## 5.0.0
+- [major] [647a46f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/647a46f):
+
+  - **Breaking:** this version is a major overhaul of the package.
+    - **Conceptual changes:** The `Form` component must be the source of truth for the form state. This means you keep track of far less state in your application.
+    - **API changes:** `Form`, `Field` and `CheckboxField` components use render props. This was done to maximise the flexiblity of the what can be rendered inside `Form` or `Field`s.
+    - **Accessibility:** Creating accessible forms is easier than ever with this release. It is straight forward to link validation messages or helper text with a field. See the examples for details.
+
+## 4.0.21
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/button@10.1.1
+  - @atlaskit/calendar@7.0.16
+  - @atlaskit/checkbox@5.0.9
+  - @atlaskit/datetime-picker@6.3.21
+  - @atlaskit/dropdown-menu@6.1.25
+  - @atlaskit/droplist@7.0.17
+  - @atlaskit/field-radio-group@4.0.14
+  - @atlaskit/field-range@5.0.12
+  - @atlaskit/field-text@7.0.18
+  - @atlaskit/field-text-area@4.0.14
+  - @atlaskit/icon@15.0.2
+  - @atlaskit/inline-edit@7.1.7
+  - @atlaskit/modal-dialog@7.1.1
+  - @atlaskit/multi-select@11.0.13
+  - @atlaskit/radio@0.4.4
+  - @atlaskit/section-message@1.0.14
+  - @atlaskit/select@6.1.13
+  - @atlaskit/single-select@6.0.11
+  - @atlaskit/theme@7.0.1
+  - @atlaskit/toggle@5.0.14
+  - @atlaskit/tooltip@12.1.13
+  - @atlaskit/docs@6.0.0
+
+## 4.0.20
+- Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+  - @atlaskit/docs@5.2.3
+  - @atlaskit/button@10.0.4
+  - @atlaskit/calendar@7.0.15
+  - @atlaskit/checkbox@5.0.8
+  - @atlaskit/datetime-picker@6.3.20
+  - @atlaskit/dropdown-menu@6.1.24
+  - @atlaskit/droplist@7.0.16
+  - @atlaskit/field-radio-group@4.0.13
+  - @atlaskit/field-range@5.0.11
+  - @atlaskit/field-text@7.0.16
+  - @atlaskit/field-text-area@4.0.13
+  - @atlaskit/icon@15.0.1
+  - @atlaskit/inline-edit@7.1.6
+  - @atlaskit/modal-dialog@7.0.14
+  - @atlaskit/multi-select@11.0.12
+  - @atlaskit/radio@0.4.3
+  - @atlaskit/section-message@1.0.13
+  - @atlaskit/select@6.1.10
+  - @atlaskit/single-select@6.0.10
+  - @atlaskit/toggle@5.0.13
+  - @atlaskit/tooltip@12.1.12
+  - @atlaskit/theme@7.0.0
+
+## 4.0.19
+- Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
+  - @atlaskit/docs@5.2.2
+  - @atlaskit/button@10.0.1
+  - @atlaskit/calendar@7.0.14
+  - @atlaskit/checkbox@5.0.7
+  - @atlaskit/datetime-picker@6.3.19
+  - @atlaskit/dropdown-menu@6.1.23
+  - @atlaskit/droplist@7.0.14
+  - @atlaskit/field-radio-group@4.0.12
+  - @atlaskit/inline-edit@7.1.5
+  - @atlaskit/modal-dialog@7.0.13
+  - @atlaskit/multi-select@11.0.11
+  - @atlaskit/radio@0.4.2
+  - @atlaskit/section-message@1.0.12
+  - @atlaskit/select@6.1.9
+  - @atlaskit/single-select@6.0.9
+  - @atlaskit/toggle@5.0.12
+  - @atlaskit/tooltip@12.1.11
+  - @atlaskit/icon@15.0.0
+
+## 4.0.18
+- Updated dependencies [6998f11](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6998f11):
+  - @atlaskit/docs@5.2.1
+  - @atlaskit/calendar@7.0.13
+  - @atlaskit/checkbox@5.0.6
+  - @atlaskit/datetime-picker@6.3.18
+  - @atlaskit/dropdown-menu@6.1.22
+  - @atlaskit/droplist@7.0.13
+  - @atlaskit/field-radio-group@4.0.11
+  - @atlaskit/field-text@7.0.15
+  - @atlaskit/field-text-area@4.0.12
+  - @atlaskit/icon@14.6.1
+  - @atlaskit/inline-edit@7.1.4
+  - @atlaskit/modal-dialog@7.0.12
+  - @atlaskit/multi-select@11.0.10
+  - @atlaskit/radio@0.4.1
+  - @atlaskit/section-message@1.0.11
+  - @atlaskit/select@6.1.8
+  - @atlaskit/single-select@6.0.8
+  - @atlaskit/theme@6.2.1
+  - @atlaskit/toggle@5.0.11
+  - @atlaskit/tooltip@12.1.10
+  - @atlaskit/field-range@5.0.9
+  - @atlaskit/button@10.0.0
+
+## 4.0.17
+- Updated dependencies [b42680b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b42680b):
+  - @atlaskit/radio@0.4.0
+
+## 4.0.16
+- Updated dependencies [8199088](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8199088):
+  - @atlaskit/radio@0.3.0
+
 ## 4.0.15
 - [patch] [e6d3f57](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6d3f57):
 

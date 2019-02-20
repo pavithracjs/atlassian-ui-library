@@ -1,5 +1,114 @@
 # @atlaskit/feedback-collector
 
+## 2.0.5
+- Updated dependencies [06713e0a0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06713e0a0c):
+  - @atlaskit/form@5.1.5
+  - @atlaskit/logo@9.2.7
+  - @atlaskit/navigation-next@4.2.3
+  - @atlaskit/modal-dialog@7.2.3
+  - @atlaskit/select@7.0.0
+
+## 2.0.4
+- [patch] [2a8536a220](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a8536a220):
+
+  - Button is no longer a peer dependency of this module
+
+## 2.0.3
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/docs@6.0.1
+  - @atlaskit/button@10.1.2
+  - @atlaskit/checkbox@5.0.11
+  - @atlaskit/flag@9.1.9
+  - @atlaskit/form@5.1.2
+  - @atlaskit/global-navigation@5.5.2
+  - @atlaskit/modal-dialog@7.2.1
+  - @atlaskit/navigation-next@4.1.2
+  - @atlaskit/section-message@1.0.16
+  - @atlaskit/select@6.1.19
+  - @atlaskit/icon@16.0.0
+
+## 2.0.2
+- [patch] [a048a85](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a048a85):
+
+  - Updated to be compatible with new Forms API
+- Updated dependencies [647a46f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/647a46f):
+  - @atlaskit/select@6.1.14
+  - @atlaskit/form@5.0.0
+
+## 2.0.1
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/button@10.1.1
+  - @atlaskit/checkbox@5.0.9
+  - @atlaskit/field-text-area@4.0.14
+  - @atlaskit/flag@9.1.8
+  - @atlaskit/form@4.0.21
+  - @atlaskit/global-navigation@5.3.8
+  - @atlaskit/icon@15.0.2
+  - @atlaskit/logo@9.2.6
+  - @atlaskit/modal-dialog@7.1.1
+  - @atlaskit/navigation-next@4.0.9
+  - @atlaskit/section-message@1.0.14
+  - @atlaskit/select@6.1.13
+  - @atlaskit/theme@7.0.1
+  - @atlaskit/docs@6.0.0
+
+## 2.0.0
+- Updated dependencies [36929ef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/36929ef):
+  - @atlaskit/button@10.1.0
+
+## 1.0.2
+- Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+  - @atlaskit/docs@5.2.3
+  - @atlaskit/button@10.0.4
+  - @atlaskit/checkbox@5.0.8
+  - @atlaskit/field-text-area@4.0.13
+  - @atlaskit/flag@9.1.7
+  - @atlaskit/form@4.0.20
+  - @atlaskit/global-navigation@5.3.6
+  - @atlaskit/icon@15.0.1
+  - @atlaskit/logo@9.2.5
+  - @atlaskit/modal-dialog@7.0.14
+  - @atlaskit/navigation-next@4.0.8
+  - @atlaskit/section-message@1.0.13
+  - @atlaskit/select@6.1.10
+  - @atlaskit/theme@7.0.0
+
+## 1.0.1
+- Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
+  - @atlaskit/docs@5.2.2
+  - @atlaskit/button@10.0.1
+  - @atlaskit/checkbox@5.0.7
+  - @atlaskit/flag@9.1.6
+  - @atlaskit/form@4.0.19
+  - @atlaskit/global-navigation@5.3.5
+  - @atlaskit/modal-dialog@7.0.13
+  - @atlaskit/navigation-next@4.0.7
+  - @atlaskit/section-message@1.0.12
+  - @atlaskit/select@6.1.9
+  - @atlaskit/icon@15.0.0
+
+## 1.0.0
+- Updated dependencies [6998f11](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6998f11):
+  - @atlaskit/docs@5.2.1
+  - @atlaskit/checkbox@5.0.6
+  - @atlaskit/field-text-area@4.0.12
+  - @atlaskit/flag@9.1.5
+  - @atlaskit/form@4.0.18
+  - @atlaskit/global-navigation@5.3.4
+  - @atlaskit/icon@14.6.1
+  - @atlaskit/logo@9.2.4
+  - @atlaskit/modal-dialog@7.0.12
+  - @atlaskit/navigation-next@4.0.6
+  - @atlaskit/section-message@1.0.11
+  - @atlaskit/select@6.1.8
+  - @atlaskit/theme@6.2.1
+  - @atlaskit/button@10.0.0
+
+## 0.2.5
+- Updated dependencies [8e753fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8e753fc):
+  - @atlaskit/global-navigation@5.3.2
+  - @atlaskit/navigation-next@4.0.0
+
 ## 0.2.4
 - [patch] [a637f5e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a637f5e):
 

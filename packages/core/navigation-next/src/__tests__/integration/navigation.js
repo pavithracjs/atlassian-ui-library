@@ -16,7 +16,8 @@ const exampleURL = getExampleUrl(
 const getByKey = key => `[data-webdriver-test-key="${key}"]`;
 
 BrowserTestCase(
-  'navigation.js: 🌏 Global navigation should render without errors',
+  '🌏 Global navigation should render without errors',
+  {},
   async client => {
     const page = new Page(client);
     const globalNav = getByKey('global-navigation');
@@ -28,12 +29,12 @@ BrowserTestCase(
     );
     expect(await page.isVisible(`${globalNav} [aria-label="Add"]`)).toBe(true);
     expect(await page.isVisible(`${globalNav} [aria-label="Help"]`)).toBe(true);
-
     await page.checkConsoleErrors();
   },
 );
 BrowserTestCase(
-  'navigation.js: 📦 Product navigation should render without errors',
+  '📦 Product navigation should render without errors',
+  {},
   async client => {
     const page = new Page(client);
     await page.goto(exampleURL);
@@ -44,12 +45,12 @@ BrowserTestCase(
     );
     expect(await page.isVisible(getByKey('product-item-projects'))).toBe(true);
     expect(await page.isVisible(getByKey('product-item-issues'))).toBe(true);
-
     await page.checkConsoleErrors();
   },
 );
 BrowserTestCase(
-  'navigation.js: 🎁 Container navigation should render without errors',
+  '🎁 Container navigation should render without errors',
+  {},
   async client => {
     const page = new Page(client);
     await page.goto(exampleURL);
@@ -58,7 +59,6 @@ BrowserTestCase(
     expect(await page.isVisible(getByKey('container-item-backlog'))).toBe(true);
     expect(await page.isVisible(getByKey('container-item-sprints'))).toBe(true);
     expect(await page.isVisible(getByKey('container-item-reports'))).toBe(true);
-
     await page.checkConsoleErrors();
   },
 );

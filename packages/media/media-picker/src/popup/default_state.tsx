@@ -7,7 +7,6 @@ export type DefaultStateKeys =
   | 'uploads'
   | 'remoteUploads'
   | 'recents'
-  | 'tenant'
   | 'view'
   | 'accounts'
   | 'selectedItems'
@@ -31,14 +30,6 @@ const defaultState: DefaultState = {
   recents: {
     items: [],
   },
-  tenant: {
-    auth: {
-      clientId: '',
-      token: '',
-      baseUrl: '',
-    },
-    uploadParams: {},
-  },
   view: {
     isVisible: false,
     service: {
@@ -52,7 +43,7 @@ const defaultState: DefaultState = {
     isUploading: false,
     isCancelling: false,
   },
-  accounts: [],
+  accounts: Promise.resolve([]),
   selectedItems: [],
   isUploading: false,
   isCancelling: false,

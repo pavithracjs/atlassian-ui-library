@@ -8,6 +8,14 @@ import {
 import { EditorState, Selection } from 'prosemirror-state';
 import { filter } from '../../utils/commands';
 import { Mark, Node } from 'prosemirror-model';
+import {
+  addAnalytics,
+  ACTION,
+  ACTION_SUBJECT,
+  INPUT_METHOD,
+  EVENT_TYPE,
+  ACTION_SUBJECT_ID,
+} from '../analytics';
 
 const isLinkAtPos = (pos: number) => (state: EditorState): boolean => {
   const text = state.doc.nodeAt(pos);
@@ -31,8 +39,12 @@ export function setLinkHref(pos: number, href: string): Command {
         pos + node.nodeSize,
         link.create({ ...mark.attrs, href: url }),
       );
+      tr.setMeta(stateKey, LinkAction.HIDE_TOOLBAR);
     }
-    dispatch(tr);
+
+    if (dispatch) {
+      dispatch(tr);
+    }
     return true;
   });
 }
@@ -46,7 +58,11 @@ export function setLinkText(pos: number, text: string): Command {
       const tr = state.tr;
       tr.insertText(text, pos, pos + node.nodeSize);
       tr.addMark(pos, pos + text.length, mark);
-      dispatch(tr);
+      tr.setMeta(stateKey, LinkAction.HIDE_TOOLBAR);
+
+      if (dispatch) {
+        dispatch(tr);
+      }
       return true;
     }
     return false;
@@ -75,7 +91,11 @@ export function insertLink(
         tr.addMark(from, to, link.create({ href: normalizeUrl(href) }));
         tr.setSelection(Selection.near(tr.doc.resolve(to)));
       }
-      dispatch(tr);
+
+      if (dispatch) {
+        tr.setMeta(stateKey, LinkAction.HIDE_TOOLBAR);
+        dispatch(tr);
+      }
       return true;
     }
     return false;
@@ -86,16 +106,33 @@ export function removeLink(pos: number): Command {
   return setLinkHref(pos, '');
 }
 
-export function showLinkToolbar(): Command {
+export function showLinkToolbar(
+  inputMethod:
+    | INPUT_METHOD.TOOLBAR
+    | INPUT_METHOD.QUICK_INSERT
+    | INPUT_METHOD.SHORTCUT = INPUT_METHOD.TOOLBAR,
+): Command {
   return function(state, dispatch) {
-    dispatch(state.tr.setMeta(stateKey, LinkAction.SHOW_INSERT_TOOLBAR));
+    if (dispatch) {
+      let tr = state.tr.setMeta(stateKey, LinkAction.SHOW_INSERT_TOOLBAR);
+      tr = addAnalytics(tr, {
+        action: ACTION.INVOKED,
+        actionSubject: ACTION_SUBJECT.TYPEAHEAD,
+        actionSubjectId: ACTION_SUBJECT_ID.TYPEAHEAD_LINK,
+        attributes: { inputMethod },
+        eventType: EVENT_TYPE.UI,
+      });
+      dispatch(tr);
+    }
     return true;
   };
 }
 
 export function hideLinkToolbar(): Command {
   return function(state, dispatch) {
-    dispatch(state.tr.setMeta(stateKey, LinkAction.HIDE_TOOLBAR));
+    if (dispatch) {
+      dispatch(state.tr.setMeta(stateKey, LinkAction.HIDE_TOOLBAR));
+    }
     return true;
   };
 }

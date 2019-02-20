@@ -1,4 +1,4 @@
-import { mockStore } from '../../../mocks';
+import { mockStore } from '@atlaskit/media-test-helpers';
 import getPreviewMiddleware, { getPreview } from '../../getPreview';
 import { sendUploadEvent } from '../../../actions/sendUploadEvent';
 import { GetPreviewAction } from '../../../actions/getPreview';
@@ -34,7 +34,7 @@ describe('getPreviewMiddleware', () => {
     (userContext.config.authProvider as jest.Mock<any>).mockReturnValue(
       Promise.resolve(auth),
     );
-    (userContext.getFile as any) = jest.fn().mockReturnValue(
+    (userContext.file.getFileState as any) = jest.fn().mockReturnValue(
       Observable.of({
         status: 'processing',
         mediaType: 'image',

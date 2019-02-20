@@ -39,21 +39,21 @@ export class MockMentionResourceWithInfoHints extends AbstractMentionResource {
       }
       this._notifyAllResultsListeners(mentions);
     };
-    const notifyInfo = info => {
+    const notifyInfo = (info: string) => {
       this._notifyInfoListeners(info);
     };
 
-    const notifyErrors = error => {
+    const notifyErrors = (error: Error) => {
       this._notifyErrorListeners(error);
     };
 
     const minWait = this.config.minWait || 0;
     const randomTime = (this.config.maxWait || 0) - minWait;
     const waitTime = Math.random() * randomTime + minWait;
-    setTimeout(() => {
-      let mentions = [];
+    window.setTimeout(() => {
+      let mentions: Array<any> = [];
       if (query === 'error') {
-        notifyErrors('mock-error');
+        notifyErrors(new Error('mock-error'));
         return;
       } else if (query && query.length >= 3) {
         mentions = search.search(query);

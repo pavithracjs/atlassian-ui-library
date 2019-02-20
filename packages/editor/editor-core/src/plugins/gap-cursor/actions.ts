@@ -1,24 +1,17 @@
-import {
-  EditorState,
-  Selection,
-  TextSelection,
-  Transaction,
-} from 'prosemirror-state';
+import { EditorState, Selection, TextSelection } from 'prosemirror-state';
 import { removeNodeBefore } from 'prosemirror-utils';
+import { findDomRefAtPos } from 'prosemirror-utils';
 import { Direction, isBackward, isForward } from './direction';
 import { GapCursorSelection, Side } from './selection';
 import { isTextBlockNearPos, isValidTargetNode } from './utils';
 import { Command } from '../../types';
-import { atTheBeginningOfDoc, atTheEndOfDoc } from '../../utils';
+import { atTheBeginningOfDoc, atTheEndOfDoc, ZWSP } from '../../utils';
 import { pluginKey } from './pm-plugins/main';
 
 export const arrow = (
   dir: Direction,
   endOfTextblock: (dir: string, state?: EditorState) => boolean,
-): Command => (
-  state: EditorState,
-  dispatch: (tr: Transaction) => void,
-): boolean => {
+): Command => (state, dispatch, view) => {
   const { doc, schema, selection, tr } = state;
 
   let $pos = isBackward(dir) ? selection.$from : selection.$to;
@@ -57,17 +50,28 @@ export const arrow = (
       (isForward(dir) && selection.side === Side.RIGHT))
   ) {
     // reverse cursor position
-    dispatch(
-      tr
-        .setSelection(
-          new GapCursorSelection(
-            $pos,
-            selection.side === Side.RIGHT ? Side.LEFT : Side.RIGHT,
-          ),
-        )
-        .scrollIntoView(),
-    );
+    if (dispatch) {
+      dispatch(
+        tr
+          .setSelection(
+            new GapCursorSelection(
+              $pos,
+              selection.side === Side.RIGHT ? Side.LEFT : Side.RIGHT,
+            ),
+          )
+          .scrollIntoView(),
+      );
+    }
     return true;
+  }
+
+  if (view) {
+    const domAtPos = view.domAtPos.bind(view);
+    const target = findDomRefAtPos($pos.pos, domAtPos) as HTMLElement;
+
+    if (target && target.textContent === ZWSP) {
+      return false;
+    }
   }
 
   const nextSelection = GapCursorSelection.findFrom(
@@ -88,44 +92,54 @@ export const arrow = (
     )
   ) {
     // reverse cursor position
-    dispatch(
-      tr
-        .setSelection(
-          new GapCursorSelection(
-            nextSelection.$from,
-            isForward(dir) ? Side.LEFT : Side.RIGHT,
-          ),
-        )
-        .scrollIntoView(),
-    );
+    if (dispatch) {
+      dispatch(
+        tr
+          .setSelection(
+            new GapCursorSelection(
+              nextSelection.$from,
+              isForward(dir) ? Side.LEFT : Side.RIGHT,
+            ),
+          )
+          .scrollIntoView(),
+      );
+    }
     return true;
   }
 
-  dispatch(tr.setSelection(nextSelection).scrollIntoView());
+  if (dispatch) {
+    dispatch(tr.setSelection(nextSelection).scrollIntoView());
+  }
   return true;
 };
 
-export const deleteNode = (dir: Direction): Command => (
-  state: EditorState,
-  dispatch: (tr: Transaction) => void,
-): boolean => {
+export const deleteNode = (dir: Direction): Command => (state, dispatch) => {
   if (state.selection instanceof GapCursorSelection) {
-    const { $from } = state.selection;
+    const { $from, $anchor } = state.selection;
     let { tr } = state;
     if (isBackward(dir)) {
+      if (state.selection.side === 'left') {
+        tr.setSelection(new GapCursorSelection($anchor, Side.RIGHT));
+        if (dispatch) {
+          dispatch(tr);
+        }
+        return true;
+      }
       tr = removeNodeBefore(state.tr);
     } else if ($from.nodeAfter) {
       tr = tr.delete($from.pos, $from.pos + $from.nodeAfter.nodeSize);
     }
-    dispatch(
-      tr
-        .setSelection(
-          Selection.near(
-            tr.doc.resolve(tr.mapping.map(state.selection.$from.pos)),
-          ),
-        )
-        .scrollIntoView(),
-    );
+    if (dispatch) {
+      dispatch(
+        tr
+          .setSelection(
+            Selection.near(
+              tr.doc.resolve(tr.mapping.map(state.selection.$from.pos)),
+            ),
+          )
+          .scrollIntoView(),
+      );
+    }
     return true;
   }
   return false;
@@ -134,14 +148,18 @@ export const deleteNode = (dir: Direction): Command => (
 export const setGapCursorAtPos = (
   position: number,
   side: Side = Side.LEFT,
-): Command => (
-  state: EditorState,
-  dispatch: (tr: Transaction) => void,
-): boolean => {
+): Command => (state, dispatch) => {
+  // @see ED-6231
+  if (position > state.doc.content.size) {
+    return false;
+  }
+
   const $pos = state.doc.resolve(position);
 
   if (GapCursorSelection.valid($pos)) {
-    dispatch(state.tr.setSelection(new GapCursorSelection($pos, side)));
+    if (dispatch) {
+      dispatch(state.tr.setSelection(new GapCursorSelection($pos, side)));
+    }
     return true;
   }
 
@@ -154,7 +172,10 @@ const captureCursorCoords = (
   event: MouseEvent,
   editorRef: HTMLElement,
   posAtCoords: (
-    coords: { left: number; top: number },
+    coords: {
+      left: number;
+      top: number;
+    },
   ) => { pos: number; inside: number } | null | void,
   state: EditorState,
 ): { position: number; side: Side } | null => {
@@ -197,12 +218,12 @@ export const setCursorForTopLevelBlocks = (
   event: MouseEvent,
   editorRef: HTMLElement,
   posAtCoords: (
-    coords: { left: number; top: number },
+    coords: {
+      left: number;
+      top: number;
+    },
   ) => { pos: number; inside: number } | null | void,
-): Command => (
-  state: EditorState,
-  dispatch: (tr: Transaction) => void,
-): boolean => {
+): Command => (state, dispatch) => {
   // plugin is disabled
   if (!pluginKey.get(state)) {
     return false;
@@ -226,11 +247,15 @@ export const setCursorForTopLevelBlocks = (
   if (isGapCursorAllowed && GapCursorSelection.valid($pos)) {
     // this forces PM to re-render the decoration node if we change the side of the gap cursor, it doesn't do it by default
     if (state.selection instanceof GapCursorSelection) {
-      dispatch(state.tr.setSelection(Selection.near($pos)));
+      if (dispatch) {
+        dispatch(state.tr.setSelection(Selection.near($pos)));
+      }
     }
-    dispatch(
-      state.tr.setSelection(new GapCursorSelection($pos, cursorCoords.side)),
-    );
+    if (dispatch) {
+      dispatch(
+        state.tr.setSelection(new GapCursorSelection($pos, cursorCoords.side)),
+      );
+    }
     return true;
   }
   // try to set text selection
@@ -241,7 +266,9 @@ export const setCursorForTopLevelBlocks = (
       true,
     );
     if (selection) {
-      dispatch(state.tr.setSelection(selection));
+      if (dispatch) {
+        dispatch(state.tr.setSelection(selection));
+      }
       return true;
     }
   }

@@ -3,10 +3,14 @@ import { AddCellArgs } from '../../interfaces';
 import { TableBuilder } from '../builder/table-builder';
 import { parseString } from '../text';
 import { normalizePMNodes } from '../utils/normalize';
-import { Token, TokenType, TokenErrCallback } from './';
+import { linkFormat } from './links/link-format';
+import { media } from './media';
+import { TokenType, TokenParser, Context } from './';
 import { parseNewlineOnly } from './whitespace';
+import { parseMacroKeyword } from './keyword';
+import { parseToken } from './';
 
-/* 
+/*
   The following are currently NOT supported
   1. Macros
   2. Escape |
@@ -22,14 +26,12 @@ const processState = {
   CLOSE_ROW: 5,
   NEW_ROW: 6,
   LINE_BREAK: 7,
+  LINK: 8,
+  MEDIA: 9,
+  MACRO: 10,
 };
 
-export function table(
-  input: string,
-  position: number,
-  schema: Schema,
-  tokenErrCallback: TokenErrCallback,
-): Token {
+export const table: TokenParser = ({ input, position, schema, context }) => {
   /**
    * The following token types will be ignored in parsing
    * the content of a table cell
@@ -62,7 +64,7 @@ export function table(
           if (!builder) {
             builder = new TableBuilder(schema);
           }
-          /* Capture empty spaces */
+          // Capture empty spaces
           index += tableMatch[1].length;
           cellStyle = tableMatch[2];
           index += tableMatch[2].length;
@@ -74,9 +76,7 @@ export function table(
         continue;
       }
       case processState.LINE_BREAK: {
-        /**
-         * If we encounter an empty line, we should end the table
-         */
+        // If we encounter an empty line, we should end the table
         const emptyLineMatch = substring.match(EMPTY_LINE_REGEXP);
         if (emptyLineMatch) {
           bufferToCells(
@@ -85,14 +85,12 @@ export function table(
             cellsBuffer,
             schema,
             ignoreTokenTypes,
-            tokenErrCallback,
+            context,
           );
           currentState = processState.END_TABLE;
           continue;
         }
-        /**
-         * If we enconter a new row
-         */
+        // If we enconter a new row
         const cellMatch = substring.match(CELL_REGEXP);
         if (cellMatch) {
           currentState = processState.CLOSE_ROW;
@@ -117,34 +115,46 @@ export function table(
 
         switch (char) {
           case '|': {
-            /**
-             * This is now end of a cell, we should wrap the buffer into a cell
-             */
+            // This is now end of a cell, we should wrap the buffer into a cell
             bufferToCells(
               cellStyle,
               buffer,
               cellsBuffer,
               schema,
               ignoreTokenTypes,
-              tokenErrCallback,
+              context,
             );
             buffer = '';
 
-            /**
-             * Update cells tyle
-             */
+            // Update cells tyle
             const cellMatch = substring.match(CELL_REGEXP);
-            /* The below if statement should aways be true, we leave it here to prevent any future code changes fall into infinite loop */
+            // The below if statement should aways be true, we leave it here to prevent any future code changes fall into infinite loop
             if (cellMatch) {
               cellStyle = cellMatch[2];
-              /* Move into the cell content */
+              // Move into the cell content
               index += cellMatch[2].length;
-              /* Remove empty spaces after new cell */
+              // Remove empty spaces after new cell
               index += cellMatch[3].length;
               continue;
             }
             break;
           }
+
+          case '[': {
+            currentState = processState.LINK;
+            continue;
+          }
+
+          case '!': {
+            currentState = processState.MEDIA;
+            continue;
+          }
+
+          case '{': {
+            currentState = processState.MACRO;
+            continue;
+          }
+
           default: {
             buffer += char;
             index++;
@@ -160,7 +170,7 @@ export function table(
           cellsBuffer,
           schema,
           ignoreTokenTypes,
-          tokenErrCallback,
+          context,
         );
         buffer = '';
         if (builder) {
@@ -178,13 +188,56 @@ export function table(
           }
           output.push(builder.buildPMNode());
         }
+
         return {
           type: 'pmnode',
           nodes: output,
           length: index - position,
         };
       }
+      case processState.MEDIA: {
+        const token = media({ input, schema, context, position: index });
+        buffer += input.substr(index, token.length);
+        index += token.length;
+        currentState = processState.BUFFER;
+        continue;
+      }
+      case processState.LINK: {
+        /**
+         * We should "fly over" the link format and we dont want
+         * -awesome [link|https://www.atlass-ian.com] nice
+         * to be a strike through because of the '-' in link
+         */
+        const token = linkFormat({ input, schema, context, position: index });
+        if (token.type === 'text') {
+          buffer += token.text;
+          index += token.length;
+          currentState = processState.BUFFER;
+          continue;
+        } else if (token.type === 'pmnode') {
+          buffer += input.substr(index, token.length);
+          index += token.length;
+          currentState = processState.BUFFER;
+          continue;
+        }
+        break;
+      }
+      case processState.MACRO: {
+        const match = parseMacroKeyword(input.substring(index));
+        if (!match) {
+          buffer += char;
+          currentState = processState.BUFFER;
+          break;
+        }
+
+        const token = parseToken(input, match.type, index, schema);
+        buffer += input.substr(index, token.length);
+        index += token.length;
+        currentState = processState.BUFFER;
+        continue;
+      }
     }
+
     index++;
   }
 
@@ -194,7 +247,7 @@ export function table(
     cellsBuffer,
     schema,
     ignoreTokenTypes,
-    tokenErrCallback,
+    context,
   );
 
   if (builder) {
@@ -209,7 +262,7 @@ export function table(
     nodes: output,
     length: index - position,
   };
-}
+};
 
 function bufferToCells(
   style: string,
@@ -217,15 +270,15 @@ function bufferToCells(
   cellsBuffer: AddCellArgs[],
   schema: Schema,
   ignoreTokenTypes: TokenType[],
-  tokenErrCallback: TokenErrCallback,
+  context: Context,
 ) {
   if (buffer.length) {
-    const contentNode = parseString(
-      buffer,
+    const contentNode = parseString({
       schema,
-      ignoreTokenTypes,
-      tokenErrCallback,
-    );
+      context,
+      ignoreTokenTypes: ignoreTokenTypes,
+      input: buffer,
+    });
     cellsBuffer.push({
       style,
       content: normalizePMNodes(contentNode, schema),

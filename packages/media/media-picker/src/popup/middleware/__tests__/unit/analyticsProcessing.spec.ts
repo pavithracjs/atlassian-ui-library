@@ -7,7 +7,7 @@ import {
 import { Action, Dispatch } from 'redux';
 import { State } from '../../../domain';
 import analyticsProcessing from '../../analyticsProcessing';
-import { mockStore } from '../../../mocks';
+import { mockStore } from '@atlaskit/media-test-helpers';
 import { showPopup } from '../../../actions/showPopup';
 import { editorShowImage } from '../../../actions/editorShowImage';
 import { searchGiphy } from '../../../actions';
@@ -42,6 +42,7 @@ const testFile1: MediaFile = {
   size: 1,
   creationDate: 1,
   type: 'type1',
+  userUpfrontId: Promise.resolve('id1'),
   upfrontId: Promise.resolve('id1'),
 };
 
@@ -445,16 +446,6 @@ describe('analyticsProcessing middleware', () => {
       {
         remoteUploads: {
           upid1: {
-            tenant: {
-              auth: {
-                baseUrl: '',
-                clientId: '',
-                token: '',
-              },
-              uploadParams: {
-                collection: '',
-              },
-            },
             timeStarted: 0,
           },
         },
@@ -472,16 +463,6 @@ describe('analyticsProcessing middleware', () => {
       {
         remoteUploads: {
           upid1: {
-            tenant: {
-              auth: {
-                baseUrl: '',
-                clientId: '',
-                token: '',
-              },
-              uploadParams: {
-                collection: '',
-              },
-            },
             timeStarted: 0,
           },
         },
@@ -503,15 +484,11 @@ describe('analyticsProcessing middleware', () => {
     };
     verifyAnalyticsCall(
       fileUploadEnd({
-        file: {
-          ...testFile1,
-          publicId: 'pubid1',
-        },
+        file: testFile1,
         public: {
           id: 'id1',
           name: 'file1',
           size: 1,
-          creationDate: 1,
           mimeType: 'type1',
           mediaType: 'image',
           processingStatus: 'succeeded',
@@ -534,20 +511,18 @@ describe('analyticsProcessing middleware', () => {
                 size: 1,
                 mimeType: 'type1',
                 upfrontId: Promise.resolve(''),
+                userUpfrontId: Promise.resolve(''),
+                userOccurrenceKey: Promise.resolve(''),
               },
             },
             events: [
               {
                 data: {
-                  file: {
-                    ...testFile1,
-                    publicId: 'pubid1',
-                  },
+                  file: testFile1,
                   public: {
                     id: 'id1',
                     name: 'file1',
                     size: 1,
-                    creationDate: 1,
                     mimeType: testFile1.type,
                     mediaType: 'image',
                     processingStatus: 'succeeded',
@@ -557,16 +532,6 @@ describe('analyticsProcessing middleware', () => {
               },
             ],
             index: 0,
-            tenant: {
-              auth: {
-                baseUrl: '',
-                clientId: '',
-                token: '',
-              },
-              uploadParams: {
-                collection: '',
-              },
-            },
             timeStarted: 0,
             progress: null,
           },
@@ -604,6 +569,8 @@ describe('analyticsProcessing middleware', () => {
                 size: 1,
                 mimeType: 'type1',
                 upfrontId: Promise.resolve(''),
+                userUpfrontId: Promise.resolve(''),
+                userOccurrenceKey: Promise.resolve(''),
               },
             },
             events: [
@@ -620,16 +587,6 @@ describe('analyticsProcessing middleware', () => {
               },
             ],
             index: 0,
-            tenant: {
-              auth: {
-                baseUrl: '',
-                clientId: '',
-                token: '',
-              },
-              uploadParams: {
-                collection: '',
-              },
-            },
             timeStarted: 0,
             progress: null,
           },

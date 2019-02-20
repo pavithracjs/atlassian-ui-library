@@ -11,17 +11,19 @@ import {
 } from '@atlaskit/media-card';
 import {
   Context,
-  MediaItem,
+  FileItem,
   FileDetails,
   getMediaTypeFromMimeType,
 } from '@atlaskit/media-core';
 import Spinner from '@atlaskit/spinner';
 import Flag, { FlagGroup } from '@atlaskit/flag';
 import AnnotateIcon from '@atlaskit/icon/glyph/media-services/annotate';
+import TrashIcon from '@atlaskit/icon/glyph/trash';
 import EditorInfoIcon from '@atlaskit/icon/glyph/error';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl';
+import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
 import { messages, InfiniteScroll } from '@atlaskit/media-ui';
-import { Browser } from '../../../../components/browser';
+import { Browser } from '../../../../components/types';
 import { isWebGLAvailable } from '../../../tools/webgl';
 import { Dropzone } from './dropzone';
 import { fileClick } from '../../../actions/fileClick';
@@ -35,9 +37,11 @@ import {
   LocalUploads,
   Recents,
   SelectedItem,
+  ServiceFile,
   State,
+  ServiceName,
 } from '../../../domain';
-import { menuEdit } from '../editor/phrases';
+import { menuDelete, menuEdit } from '../editor/phrases';
 import {
   Wrapper,
   SpinnerWrapper,
@@ -47,12 +51,24 @@ import {
   CardWrapper,
 } from './styled';
 import { RECENTS_COLLECTION } from '../../../config';
+import { removeFileFromRecents } from '../../../actions/removeFileFromRecents';
 
-const createEditCardAction = (handler: CardEventHandler): CardAction => {
+const createEditCardAction = (
+  handler: CardEventHandler,
+  label: string,
+): CardAction => {
   return {
-    label: menuEdit,
+    label,
     handler,
-    icon: <AnnotateIcon label={menuEdit} size="small" />,
+    icon: <AnnotateIcon label={menuEdit} size="medium" />,
+  };
+};
+
+const createDeleteCardAction = (handler: CardEventHandler): CardAction => {
+  return {
+    label: menuDelete,
+    handler,
+    icon: <TrashIcon label={menuDelete} size="medium" />,
   };
 };
 
@@ -73,8 +89,8 @@ export interface UploadViewStateProps {
 
 export interface UploadViewDispatchProps {
   readonly onFileClick: (
-    metadata: LocalUploadFileMetadata,
-    serviceName: string,
+    serviceFile: ServiceFile,
+    serviceName: ServiceName,
   ) => void;
   readonly onEditorShowImage: (file: FileReference, dataUri: string) => void;
   readonly onEditRemoteImage: (
@@ -86,17 +102,28 @@ export interface UploadViewDispatchProps {
     resolver: (id: string) => void,
     rejecter: Function,
   ) => void;
+  readonly removeFileFromRecents: (
+    id: string,
+    occurrenceKey?: string,
+    userFileId?: string,
+  ) => void;
 }
 
 export type UploadViewProps = UploadViewOwnProps &
   UploadViewStateProps &
-  UploadViewDispatchProps;
+  UploadViewDispatchProps &
+  InjectedIntlProps;
 
 export interface UploadViewState {
   readonly hasPopupBeenVisible: boolean;
   readonly isWebGLWarningFlagVisible: boolean;
   readonly shouldDismissWebGLWarningFlag: boolean;
   readonly isLoadingNextPage: boolean;
+  readonly deletionCandidate?: {
+    id: string;
+    occurrenceKey: string;
+    userFileId?: string;
+  };
 }
 
 export class StatelessUploadView extends Component<
@@ -121,6 +148,7 @@ export class StatelessUploadView extends Component<
     } else if (!isEmpty) {
       contentPart = this.renderRecentsView(cards);
     }
+    const confirmationDialog = this.renderDeleteConfirmation();
 
     return (
       <InfiniteScroll
@@ -130,10 +158,52 @@ export class StatelessUploadView extends Component<
         <Wrapper>
           <Dropzone isEmpty={isEmpty} mpBrowser={mpBrowser} />
           {contentPart}
+          {confirmationDialog}
         </Wrapper>
       </InfiniteScroll>
     );
   }
+
+  private renderDeleteConfirmation = () => {
+    const { deletionCandidate } = this.state;
+    const { removeFileFromRecents } = this.props;
+    const closeDialog = () => {
+      this.setState({ deletionCandidate: undefined });
+    };
+    if (deletionCandidate) {
+      const { id, occurrenceKey, userFileId } = deletionCandidate;
+      const actions = [
+        {
+          text: 'Delete permanently',
+          onClick: () => {
+            removeFileFromRecents(id, occurrenceKey, userFileId);
+            closeDialog();
+          },
+        },
+        {
+          text: 'Cancel',
+          onClick: () => {
+            closeDialog();
+          },
+        },
+      ];
+      return (
+        <ModalTransition>
+          <ModalDialog
+            width="small"
+            appearance="danger"
+            heading="Delete forever?"
+            actions={actions}
+            onClose={closeDialog}
+          >
+            This file is about to be permanently deleted. Once you delete, it's
+            gone for good.
+          </ModalDialog>
+        </ModalTransition>
+      );
+    }
+    return null;
+  };
 
   private onThresholdReachedListener = () => {
     const { isLoadingNextPage } = this.state;
@@ -196,19 +266,30 @@ export class StatelessUploadView extends Component<
       }
     };
   }
-  // TODO [i18n]
-  private renderWebGLWarningFlag = (): JSX.Element => (
-    <FlagGroup onDismissed={this.onFlagDismissed}>
-      <Flag
-        shouldDismiss={this.state.shouldDismissWebGLWarningFlag}
-        description="Your browser does not support WebGL. Use a WebGL enabled browser to annotate images."
-        icon={<EditorInfoIcon label="info" />}
-        id="webgl-warning-flag"
-        title="You're unable to annotate this image"
-        actions={[{ content: 'Learn More', onClick: this.onLearnMoreClicked }]}
-      />
-    </FlagGroup>
-  );
+
+  private renderWebGLWarningFlag = (): JSX.Element => {
+    const {
+      intl: { formatMessage },
+    } = this.props;
+
+    return (
+      <FlagGroup onDismissed={this.onFlagDismissed}>
+        <Flag
+          shouldDismiss={this.state.shouldDismissWebGLWarningFlag}
+          description={formatMessage(messages.webgl_warning_description)}
+          icon={<EditorInfoIcon label="info" />}
+          id="webgl-warning-flag"
+          title={formatMessage(messages.unable_to_annotate_image)}
+          actions={[
+            {
+              content: formatMessage(messages.learn_more),
+              onClick: this.onLearnMoreClicked,
+            },
+          ]}
+        />
+      </FlagGroup>
+    );
+  };
 
   private renderCards() {
     const recentFilesCards = this.recentFilesCards();
@@ -241,13 +322,37 @@ export class StatelessUploadView extends Component<
         ...file.metadata,
         mimeType: mediaType,
       };
-      const { id } = fileMetadata;
+      const {
+        id,
+        userOccurrenceKey,
+        userUpfrontId,
+        size,
+        name,
+        upfrontId,
+      } = fileMetadata;
       const selected = selectedUploadIds.indexOf(id) > -1;
-      const onClick = () => onFileClick(fileMetadata, 'upload');
-      const actions: CardAction[] = []; // TODO [MS-1017]: allow file annotation for uploading files
-      const { upfrontId } = file.metadata;
+      const serviceFile: ServiceFile = {
+        id,
+        mimeType: mediaType,
+        name,
+        size,
+        upfrontId,
+        occurrenceKey: fileMetadata.occurrenceKey,
+        date: 0,
+      };
+      const onClick = () => onFileClick(serviceFile, 'upload');
+      const actions: CardAction[] = [
+        createDeleteCardAction(async () => {
+          const userFileId = await userUpfrontId;
+          const occurrenceKey = await userOccurrenceKey;
+          this.setState({
+            deletionCandidate: { id, occurrenceKey, userFileId },
+          });
+        }),
+      ]; // TODO [MS-1017]: allow file annotation for uploading files
+
       const identifier: FileIdentifier = {
-        id: upfrontId,
+        id: userUpfrontId,
         mediaItemType: 'file',
       };
 
@@ -277,6 +382,7 @@ export class StatelessUploadView extends Component<
       onFileClick,
       onEditRemoteImage,
       setUpfrontIdDeferred,
+      intl: { formatMessage },
     } = this.props;
     const { items } = recents;
     const selectedRecentFiles = selectedItems
@@ -294,6 +400,7 @@ export class StatelessUploadView extends Component<
         onFileClick(
           {
             id,
+            date: 0,
             name: fileDetails.name || '',
             mimeType: fileDetails.mimeType || '',
             size: fileDetails.size || 0,
@@ -304,7 +411,7 @@ export class StatelessUploadView extends Component<
       }
     };
 
-    const editHandler: CardEventHandler = (mediaItem?: MediaItem) => {
+    const editHandler: CardEventHandler = (mediaItem?: FileItem) => {
       if (mediaItem && mediaItem.type === 'file') {
         const { id, name } = mediaItem.details;
 
@@ -326,10 +433,16 @@ export class StatelessUploadView extends Component<
     return items.map(item => {
       const { id, occurrenceKey, details } = item;
       const selected = selectedRecentFiles.indexOf(id) > -1;
-      const actions: CardAction[] = [];
+      const actions: CardAction[] = [
+        createDeleteCardAction(() => {
+          this.setState({ deletionCandidate: { id, occurrenceKey } });
+        }),
+      ];
 
       if ((details as FileDetails).mediaType === 'image') {
-        actions.push(createEditCardAction(editHandler));
+        actions.unshift(
+          createEditCardAction(editHandler, formatMessage(messages.annotate)),
+        );
       }
 
       return {
@@ -378,37 +491,24 @@ const mapStateToProps = (state: State): UploadViewStateProps => ({
 const mapDispatchToProps = (
   dispatch: Dispatch<any>,
 ): UploadViewDispatchProps => ({
-  onFileClick: (
-    { id, mimeType, name, size, upfrontId, occurrenceKey },
-    serviceName,
-  ) =>
-    dispatch(
-      fileClick(
-        {
-          date: 0,
-          id,
-          mimeType,
-          name,
-          size,
-          upfrontId,
-          occurrenceKey,
-        },
-        serviceName,
-      ),
-    ),
+  onFileClick: (serviceFile, serviceName) =>
+    dispatch(fileClick(serviceFile, serviceName)),
   onEditorShowImage: (file, dataUri) =>
     dispatch(editorShowImage(dataUri, file)),
   onEditRemoteImage: (file, collectionName) =>
     dispatch(editRemoteImage(file, collectionName)),
   setUpfrontIdDeferred: (id, resolver, rejecter) =>
     dispatch(setUpfrontIdDeferred(id, resolver, rejecter)),
+  removeFileFromRecents: (id, occurrenceKey, userFileId) =>
+    dispatch(removeFileFromRecents(id, occurrenceKey, userFileId)),
 });
 
 export default connect<
   UploadViewStateProps,
   UploadViewDispatchProps,
-  UploadViewOwnProps
+  UploadViewOwnProps,
+  State
 >(
   mapStateToProps,
   mapDispatchToProps,
-)(StatelessUploadView);
+)(injectIntl(StatelessUploadView));

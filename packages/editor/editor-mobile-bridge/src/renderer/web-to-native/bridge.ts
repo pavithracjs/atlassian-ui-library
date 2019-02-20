@@ -8,12 +8,25 @@ export interface LinkBridge {
   onLinkClick(url: string);
 }
 
-export default interface WebBridge extends LinkBridge, TaskDecisionBridge {}
+export interface RenderBridge {
+  onContentRendered();
+}
+
+export default interface WebBridge
+  extends LinkBridge,
+    TaskDecisionBridge,
+    RenderBridge {}
+
+export interface RendererBridges {
+  linkBridge?: LinkBridge;
+  taskDecisionBridge?: TaskDecisionBridge;
+  renderBridge?: RenderBridge;
+}
+
+export type RendererPluginBridges = keyof RendererBridges;
 
 declare global {
-  interface Window {
-    linkBridge?: LinkBridge;
-    taskDecisionBridge?: TaskDecisionBridge;
+  interface Window extends RendererBridges {
     webkit?: any;
   }
 }

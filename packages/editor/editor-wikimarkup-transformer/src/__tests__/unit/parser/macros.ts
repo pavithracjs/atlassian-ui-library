@@ -113,6 +113,24 @@ this is a text as well`,
       'should render macro likes {macrolike} as plain text',
       `This is plain text {macrolike}`,
     ],
+    [
+      'should render green success panel',
+      `{panel:bgColor=green}
+green
+{panel}`,
+    ],
+    [
+      'should render red error panel',
+      `{panel:bgColor=red}
+red
+{panel}`,
+    ],
+    [
+      '[CS-602] macro keyword is case insensitive',
+      `{panEl:bgColor=red}
+red
+{panEl}`,
+    ],
   ];
 
   for (const [testCaseDescription, markup] of testCases) {

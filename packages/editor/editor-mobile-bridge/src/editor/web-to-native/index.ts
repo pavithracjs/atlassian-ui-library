@@ -4,19 +4,29 @@ import {
   MentionBridge,
   PromiseBridge,
   TextFormattingBridge,
+  StatusBridge,
+  TypeAheadBridge,
 } from './bridge';
 import AndroidBridge from './android-impl';
 import IosBridge from './ios-impl';
 import DummyBridge from './dummy-impl';
 import NativeBridge from './bridge';
 
+export interface EditorBridges {
+  mentionsBridge?: MentionBridge;
+  mentionBridge?: MentionBridge;
+  textFormatBridge?: TextFormattingBridge;
+  mediaBridge?: MediaBridge;
+  promiseBridge?: PromiseBridge;
+  listBridge?: ListBridge;
+  blockFormatBridge?: TextFormattingBridge;
+  statusBridge?: StatusBridge;
+  typeAheadBridge?: TypeAheadBridge;
+}
+
+export type EditorPluginBridges = keyof EditorBridges;
 declare global {
-  interface Window {
-    mentionsBridge?: MentionBridge;
-    textFormatBridge?: TextFormattingBridge;
-    mediaBridge?: MediaBridge;
-    promiseBridge?: PromiseBridge;
-    listBridge?: ListBridge;
+  interface Window extends EditorBridges {
     webkit?: any;
   }
 }

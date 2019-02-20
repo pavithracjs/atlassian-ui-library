@@ -1,3 +1,4 @@
+import { Fragment } from 'prosemirror-model';
 import {
   EditorState,
   NodeSelection,
@@ -5,15 +6,8 @@ import {
   Selection,
 } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { uuid } from '@atlaskit/editor-common';
-import { pluginKey } from './plugin';
-import { Color as ColorType } from '@atlaskit/status';
-
-export type StatusType = {
-  color: ColorType;
-  text: string;
-  localId?: string;
-};
+import { uuid } from '@atlaskit/adf-schema';
+import { pluginKey, StatusType } from './plugin';
 
 export const DEFAULT_STATUS: StatusType = {
   text: '',
@@ -21,7 +15,7 @@ export const DEFAULT_STATUS: StatusType = {
 };
 
 export const createStatus = (showStatusPickerAtOffset = -2) => (
-  insert: (node?: Node | Object | string) => Transaction,
+  insert: (node: Node | Object | string) => Transaction,
   state: EditorState,
 ): Transaction => {
   const statusNode = state.schema.nodes.status.createChecked({
@@ -29,11 +23,17 @@ export const createStatus = (showStatusPickerAtOffset = -2) => (
     localId: uuid.generate(),
   });
 
+  const selectedStatus = statusNode.attrs;
+
   const tr = insert(statusNode);
   const showStatusPickerAt = tr.selection.from + showStatusPickerAtOffset;
   return tr
     .setSelection(NodeSelection.create(tr.doc, showStatusPickerAt))
-    .setMeta(pluginKey, { showStatusPickerAt, autoFocus: true });
+    .setMeta(pluginKey, {
+      showStatusPickerAt,
+      isNew: true,
+      selectedStatus,
+    });
 };
 
 export const updateStatus = (status?: StatusType) => (
@@ -41,26 +41,50 @@ export const updateStatus = (status?: StatusType) => (
 ): boolean => {
   const { state, dispatch } = editorView;
   const { schema } = state;
+  const selectedStatus = null;
 
-  const statusProps = { ...DEFAULT_STATUS, ...status };
+  const updatedStatus = status
+    ? Object.assign(status, {
+        text: status.text.trim(),
+        localId: status.localId || uuid.generate(),
+      })
+    : status;
+
+  const statusProps = {
+    ...DEFAULT_STATUS,
+    ...updatedStatus,
+  };
 
   let tr = state.tr;
   const { showStatusPickerAt } = pluginKey.getState(state);
 
   if (!showStatusPickerAt) {
+    // Same behaviour as quick insert (used in createStatus)
     const statusNode = schema.nodes.status.createChecked(statusProps);
-    dispatch(tr.replaceSelectionWith(statusNode).scrollIntoView());
+    const fragment = Fragment.fromArray([statusNode, state.schema.text(' ')]);
+
+    const newShowStatusPickerAt = tr.selection.from;
+    tr = tr.replaceWith(newShowStatusPickerAt, newShowStatusPickerAt, fragment);
+    tr = tr.setSelection(NodeSelection.create(tr.doc, newShowStatusPickerAt));
+    tr = tr
+      .setMeta(pluginKey, {
+        showStatusPickerAt: newShowStatusPickerAt,
+        selectedStatus,
+        isNew: true,
+      })
+      .scrollIntoView();
+    dispatch(tr);
     return true;
   }
 
   if (state.doc.nodeAt(showStatusPickerAt)) {
-    dispatch(
-      tr
-        .setNodeMarkup(showStatusPickerAt, schema.nodes.status, statusProps)
-        .setSelection(Selection.near(tr.doc.resolve(showStatusPickerAt + 1)))
-        .setMeta(pluginKey, { showStatusPickerAt })
-        .scrollIntoView(),
-    );
+    tr = tr.setNodeMarkup(showStatusPickerAt, schema.nodes.status, statusProps);
+    tr = tr.setSelection(NodeSelection.create(tr.doc, showStatusPickerAt));
+    tr = tr
+      .setMeta(pluginKey, { showStatusPickerAt, selectedStatus })
+      .scrollIntoView();
+
+    dispatch(tr);
     return true;
   }
 
@@ -72,7 +96,11 @@ export const setStatusPickerAt = (showStatusPickerAt: number | null) => (
   dispatch: (tr: Transaction) => void,
 ): boolean => {
   dispatch(
-    state.tr.setMeta(pluginKey, { showStatusPickerAt, autoFocus: false }),
+    state.tr.setMeta(pluginKey, {
+      showStatusPickerAt,
+      isNew: false,
+      selectedStatus: null,
+    }),
   );
   return true;
 };
@@ -92,10 +120,14 @@ export const commitStatusPicker = () => (editorView: EditorView) => {
   }
 
   let tr = state.tr;
-  tr = tr.setMeta(pluginKey, { showStatusPickerAt: null, autoFocus: false });
+  tr = tr.setMeta(pluginKey, {
+    showStatusPickerAt: null,
+    isNew: false,
+    selectedStatus: null,
+  });
 
   if (statusNode.attrs.text) {
-    // still has content - keep content
+    // still has content - keep content, move selection after status
     tr = tr.setSelection(
       Selection.near(state.tr.doc.resolve(showStatusPickerAt + 2)),
     );

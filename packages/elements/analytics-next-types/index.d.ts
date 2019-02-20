@@ -1,5 +1,6 @@
 // For version "3.0.0"
 import * as React from 'react';
+import { PropsInjector, SumPropsInjector } from '@atlaskit/type-helpers';
 
 /*
   UIAnalyticsEvent.js
@@ -118,9 +119,9 @@ export type WithAnalyticsContextProps = {
   analyticsContext?: ObjectType;
 };
 
-export type WithAnalyticsContextFunction = <TOwnProps>(
-  component: React.ComponentClass<TOwnProps>,
-) => React.ComponentClass<TOwnProps & WithAnalyticsContextProps>;
+export type WithAnalyticsContextFunction = PropsInjector<
+  WithAnalyticsContextProps
+>;
 
 export function withAnalyticsContext(
   defaultData?: any,
@@ -145,16 +146,19 @@ export interface EventMap<TOwnProps> {
 }
 
 export interface WithAnalyticsEventProps {
-  createAnalyticsEvent: CreateUIAnalyticsEventSignature | void;
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
 }
 
-export type WithAnalyticsEventFunction = <TOwnProps>(
-  component: React.ComponentClass<WithAnalyticsEventProps & TOwnProps>,
-) => React.ComponentClass<TOwnProps>;
+export type WithAnalyticsEventFunction = PropsInjector<WithAnalyticsEventProps>;
 
 export function withAnalyticsEvents<TOwnProps>(
   createEventMap?: EventMap<TOwnProps>,
 ): WithAnalyticsEventFunction;
+
+// Just in case your props are of Sum type, and not a Record.
+export function withAnalyticsForSumTypeProps<TOwnProps>(
+  createEventMap?: EventMap<TOwnProps>,
+): SumPropsInjector<WithAnalyticsEventProps>;
 
 /*
   createAndFireEvent.js

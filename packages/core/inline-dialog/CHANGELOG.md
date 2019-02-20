@@ -1,5 +1,63 @@
 # @atlaskit/inline-dialog
 
+## 9.0.15
+- Updated dependencies [06713e0a0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06713e0a0c):
+  - @atlaskit/datetime-picker@6.5.1
+  - @atlaskit/select@7.0.0
+
+## 9.0.14
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/docs@6.0.1
+  - @atlaskit/button@10.1.2
+  - @atlaskit/datetime-picker@6.3.25
+  - @atlaskit/select@6.1.19
+  - @atlaskit/single-select@6.0.12
+  - @atlaskit/icon@16.0.0
+
+## 9.0.13
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/analytics-next@3.1.2
+  - @atlaskit/button@10.1.1
+  - @atlaskit/datetime-picker@6.3.21
+  - @atlaskit/icon@15.0.2
+  - @atlaskit/popper@0.3.6
+  - @atlaskit/select@6.1.13
+  - @atlaskit/single-select@6.0.11
+  - @atlaskit/theme@7.0.1
+  - @atlaskit/docs@6.0.0
+
+## 9.0.12
+- Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+  - @atlaskit/docs@5.2.3
+  - @atlaskit/button@10.0.4
+  - @atlaskit/datetime-picker@6.3.20
+  - @atlaskit/icon@15.0.1
+  - @atlaskit/popper@0.3.3
+  - @atlaskit/select@6.1.10
+  - @atlaskit/single-select@6.0.10
+  - @atlaskit/theme@7.0.0
+
+## 9.0.11
+- Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
+  - @atlaskit/docs@5.2.2
+  - @atlaskit/button@10.0.1
+  - @atlaskit/datetime-picker@6.3.19
+  - @atlaskit/select@6.1.9
+  - @atlaskit/single-select@6.0.9
+  - @atlaskit/icon@15.0.0
+
+## 9.0.10
+- Updated dependencies [6998f11](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6998f11):
+  - @atlaskit/docs@5.2.1
+  - @atlaskit/analytics-next@3.1.1
+  - @atlaskit/datetime-picker@6.3.18
+  - @atlaskit/icon@14.6.1
+  - @atlaskit/popper@0.3.2
+  - @atlaskit/select@6.1.8
+  - @atlaskit/single-select@6.0.8
+  - @atlaskit/theme@6.2.1
+  - @atlaskit/button@10.0.0
+
 ## 9.0.9
 - [patch] [d296df8"
 d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d296df8"

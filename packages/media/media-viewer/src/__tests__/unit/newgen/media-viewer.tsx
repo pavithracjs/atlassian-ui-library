@@ -1,19 +1,29 @@
+const mediaViewerModule = require.requireActual(
+  '../../../newgen/analytics/media-viewer',
+);
+const mediaViewerModalEventSpy = jest.fn();
+jest.mock('../../../newgen/analytics/media-viewer', () => ({
+  ...mediaViewerModule,
+  mediaViewerModalEvent: mediaViewerModalEventSpy,
+}));
+
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { Subject } from 'rxjs/Subject';
-import { MediaItem, MediaItemType } from '@atlaskit/media-core';
+import Button from '@atlaskit/button';
+import { FileItem, MediaItemType } from '@atlaskit/media-core';
+import { KeyboardEventWithKeyCode } from '@atlaskit/media-test-helpers';
 import { createContext } from '../_stubs';
 import { Content } from '../../../newgen/content';
 import { MediaViewer } from '../../../newgen/media-viewer';
 import { CloseButtonWrapper } from '../../../newgen/styled';
 import { ErrorMessage } from '../../../newgen/error';
 import Header from '../../../newgen/header';
-import { KeyboardEventWithKeyCode } from './shortcut.spec';
 import { ItemSource, Identifier } from '../../../newgen/domain';
 
 function createFixture(items: Identifier[], identifier: Identifier) {
-  const subject = new Subject<MediaItem>();
-  const context = createContext({ subject });
+  const subject = new Subject<FileItem>();
+  const context = createContext();
   const onClose = jest.fn();
   const itemSource: ItemSource = {
     kind: 'ARRAY',
@@ -82,8 +92,15 @@ describe('<MediaViewer />', () => {
 
     expect(el.find(CloseButtonWrapper)).toHaveLength(1);
     el.find(CloseButtonWrapper)
-      .find('Button')
+      .find(Button)
       .simulate('click');
     expect(onClose).toHaveBeenCalled();
+  });
+
+  describe('Analytics', () => {
+    it('should trigger the screen event when the component loads', () => {
+      createFixture([identifier], identifier);
+      expect(mediaViewerModalEventSpy).toHaveBeenCalled();
+    });
   });
 });
