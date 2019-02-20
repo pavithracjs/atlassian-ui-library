@@ -43,6 +43,7 @@ export type EditorProduct =
   | 'jira'
   | 'confluence'
   | 'stride'
+  | 'conversations'
   | undefined;
 
 export interface Props {
