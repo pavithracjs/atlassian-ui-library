@@ -62,12 +62,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     isHover: false,
   };
 
-  // componentWillReceiveProps(nextProps: ButtonProps) {
-  //   if (this.props.component !== nextProps.component) {
-  //     delete this.customComponent;
-  //   }
-  // }
-
   componentDidMount() {
     if (this.props.autoFocus && this.button) {
       this.button.focus();
@@ -104,6 +98,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
   };
 
+  getElement = () => {
+    const { href, isDisabled } = this.props;
+    if (href) return isDisabled ? 'span' : 'a';
+    return 'button';
+  };
+
   isInteractive = () => !this.props.isDisabled && !this.props.isLoading;
 
   // Swallow click events when the button is disabled
@@ -126,7 +126,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       appearance,
       children,
       component,
-      href,
       iconAfter,
       iconBefore,
       isDisabled,
@@ -144,12 +143,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       (iconAfter && !iconBefore && !children)
     );
 
-    const getElement = () => {
-      if (href) return isDisabled ? 'span' : 'a';
-      return 'button';
-    };
-
-    const StyledButton = component || getElement();
+    const StyledButton = component || this.getElement();
 
     const specifiers = (styles: {}) => {
       if (StyledButton === 'a') {
