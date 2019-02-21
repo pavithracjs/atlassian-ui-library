@@ -67,7 +67,16 @@ export type ButtonProps = {
   shouldFitContainer: boolean;
   /** Pass in a custom theme */
   theme: () => ThemeTokens;
-  /** Forward refs */
+
+  /** DEPRECATED */
+  /** Pass aria-controls to underlying html button */
+  ariaControls?: string;
+  /** Pass aria-expanded to underlying html button */
+  ariaExpanded?: boolean;
+  /** Pass aria-label to underlying html button */
+  ariaLabel?: string;
+  /** Pass aria-haspopup to underlying html button */
+  ariaHaspopup?: boolean;
 };
 
 export type DerivedButtonProps = {

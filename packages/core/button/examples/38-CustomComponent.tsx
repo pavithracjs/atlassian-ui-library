@@ -1,13 +1,13 @@
 import * as React from 'react';
 import Switcher from '@atlaskit/icon/glyph/app-switcher';
-import Button, { filterGlobalHTMLAttributes } from '../src';
+import Button, { filterHTMLAttributes } from '../src';
 import { ButtonProps } from '../src/types';
 
 const CustomComponent = ({ innerRef, primary, ...props }: ButtonProps) => (
   <header
     ref={innerRef}
     style={{ backgroundColor: primary ? 'pink' : 'yellow' }}
-    {...filterGlobalHTMLAttributes(props)}
+    {...filterHTMLAttributes(props)}
   />
 );
 

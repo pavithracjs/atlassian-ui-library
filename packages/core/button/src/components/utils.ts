@@ -18,7 +18,7 @@ export const mapAttributesToState = ({
   return 'default';
 };
 
-export const filterGlobalHTMLAttributes = (props: ButtonProps) =>
+export const filterHTMLAttributes = (props: ButtonProps) =>
   (Object.keys(props) as Array<keyof ButtonProps>).filter(isPropValid).reduce(
     (filteredProps, prop) => ({
       ...filteredProps,
@@ -37,7 +37,7 @@ export const filterProps = (props: ButtonProps, type: React.ReactNode) => {
     newProps = rest;
   }
 
-  return filterGlobalHTMLAttributes(newProps);
+  return filterHTMLAttributes(newProps);
 };
 
 export type IsLoadingProps = {
@@ -82,15 +82,12 @@ export function hex2rgba(hex: string, alpha = 1) {
   throw new Error('Bad Hex');
 }
 
-type DeprecatedProps = {
-  ariaControls: string;
-  ariaExpanded: string;
-  ariaLabel: string;
-  ariaHaspopup: string;
-};
-
-export const checkDeprecations = (props: DeprecatedProps) => {
-  const { ariaControls, ariaExpanded, ariaLabel, ariaHaspopup } = props;
+export const checkDeprecations = ({
+  ariaControls,
+  ariaExpanded,
+  ariaLabel,
+  ariaHaspopup,
+}: ButtonProps) => {
   if (ariaControls || ariaExpanded || ariaLabel || ariaHaspopup) {
     console.warn(
       'Button aria* props have been deprecated, please use the React ARIA props - https://goo.gl/Qnise1',

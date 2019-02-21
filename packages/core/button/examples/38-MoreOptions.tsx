@@ -9,7 +9,7 @@ import Open from '@atlaskit/icon/glyph/editor/open';
 import Button, {
   ButtonProps,
   ButtonAppearances,
-  filterGlobalHTMLAttributes,
+  filterHTMLAttributes,
 } from '../src';
 
 const css = `
@@ -40,7 +40,7 @@ const css = `
 class CustomComponent extends React.Component<ButtonProps, {}> {
   render() {
     const { children, innerRef, ...props } = this.props;
-    return <div {...filterGlobalHTMLAttributes(props)}>{children}</div>;
+    return <div {...filterHTMLAttributes(props)}>{children}</div>;
   }
 }
 
