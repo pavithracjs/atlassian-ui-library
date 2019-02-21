@@ -125,7 +125,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const {
       appearance,
       children,
-      component,
+      className,
+      component: CustomComponent,
       iconAfter,
       iconBefore,
       isDisabled,
@@ -138,19 +139,23 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     const attributes = { ...this.state, isSelected, isDisabled };
 
+    const StyledButton = CustomComponent
+      ? React.forwardRef((props, ref) => (
+          <CustomComponent innerRef={ref} {...props} />
+        ))
+      : this.getElement();
+
     const iconIsOnlyChild: boolean = !!(
       (iconBefore && !iconAfter && !children) ||
       (iconAfter && !iconBefore && !children)
     );
-
-    const StyledButton = component || this.getElement();
 
     const specifiers = (styles: {}) => {
       if (StyledButton === 'a') {
         return {
           'a&': styles,
         };
-      } else if (StyledButton === component) {
+      } else if (StyledButton === CustomComponent) {
         return {
           '&, a&, &:hover, &:active, &:focus': styles,
         };
@@ -182,10 +187,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
                   onMouseUp={this.onMouseUp}
                   onFocus={this.onFocus}
                   onBlur={this.onBlur}
-                  className={cx(
-                    css(specifiers(buttonStyles)),
-                    this.props.className,
-                  )}
+                  className={cx(css(specifiers(buttonStyles)), className)}
                 >
                   <InnerWrapper
                     onClick={this.onInnerClick}

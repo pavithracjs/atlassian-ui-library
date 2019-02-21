@@ -18,6 +18,15 @@ export const mapAttributesToState = ({
   return 'default';
 };
 
+export const filterGlobalHTMLAttributes = (props: ButtonProps) =>
+  (Object.keys(props) as Array<keyof ButtonProps>).filter(isPropValid).reduce(
+    (filteredProps, prop) => ({
+      ...filteredProps,
+      [prop]: props[prop],
+    }),
+    {},
+  );
+
 export const filterProps = (props: ButtonProps, type: React.ReactNode) => {
   if (props.component) return props;
 
@@ -28,15 +37,7 @@ export const filterProps = (props: ButtonProps, type: React.ReactNode) => {
     newProps = rest;
   }
 
-  return (Object.keys(newProps) as Array<keyof ButtonProps>)
-    .filter(isPropValid)
-    .reduce(
-      (filteredProps, prop) => ({
-        ...filteredProps,
-        [prop]: newProps[prop],
-      }),
-      {},
-    );
+  return filterGlobalHTMLAttributes(newProps);
 };
 
 export type IsLoadingProps = {

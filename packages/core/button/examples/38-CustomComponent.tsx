@@ -1,29 +1,20 @@
 import * as React from 'react';
+import Switcher from '@atlaskit/icon/glyph/app-switcher';
+import Button, { filterGlobalHTMLAttributes } from '../src';
+import { ButtonProps } from '../src/types';
 
-import Button, { ButtonAppearances } from '../src';
+const CustomComponent = ({ innerRef, primary, ...props }: ButtonProps) => (
+  <header
+    ref={innerRef}
+    style={{ backgroundColor: primary ? 'pink' : 'yellow' }}
+    {...filterGlobalHTMLAttributes(props)}
+  />
+);
 
-const CustomComponent1 = props => <div {...props} />;
-const CustomComponent2 = props => <input type="range" {...props} />;
-
-export default class extends React.Component {
-  button = CustomComponent1;
-
-  timer() {
-    setTimeout(() => {
-      console.log('changed');
-      this.button = CustomComponent2;
-    }, 1000);
-  }
-
-  render() {
-    this.timer();
-    console.log('this.button', this.button);
-    return (
-      <div className="sample">
-        <Button {...this.props} component={this.button} to="/custom-link">
-          With a custom component
-        </Button>
-      </div>
-    );
-  }
-}
+export default () => (
+  <div className="sample">
+    <Button primary iconBefore={<Switcher />} component={CustomComponent}>
+      App Switcher custom component
+    </Button>
+  </div>
+);
