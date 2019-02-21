@@ -82,7 +82,14 @@ export function hex2rgba(hex: string, alpha = 1) {
   throw new Error('Bad Hex');
 }
 
-export const checkDeprecations = (props: ButtonProps) => {
+type DeprecatedProps = {
+  ariaControls: string;
+  ariaExpanded: string;
+  ariaLabel: string;
+  ariaHaspopup: string;
+};
+
+export const checkDeprecations = (props: DeprecatedProps) => {
   const { ariaControls, ariaExpanded, ariaLabel, ariaHaspopup } = props;
   if (ariaControls || ariaExpanded || ariaLabel || ariaHaspopup) {
     console.warn(
