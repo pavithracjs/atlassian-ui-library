@@ -181,26 +181,26 @@ describe('ak-button/default-behaviour', () => {
       expect(wrapper.find(Spinner).length).toEqual(0);
     });
 
-    it.only('set the opacity of the text to 0 when isLoading is true', () => {
-      let buttonRef;
-      const wrapper = mount(
-        <div>
-          <Button ref={el => (buttonRef = el)} isLoading>
-            Some text
-          </Button>
-        </div>,
-      );
+    // it.only('set the opacity of the text to 0 when isLoading is true', () => {
+    //   let buttonRef;
+    //   const wrapper = mount(
+    //     <div>
+    //       <Button ref={el => (buttonRef = el)} isLoading>
+    //         Some text
+    //       </Button>
+    //     </div>,
+    //   );
 
-      // console.log('buttonRef', buttonRef);
-      const spanny = wrapper.find('span');
-      console.log(spanny.debug());
+    //   // console.log('buttonRef', buttonRef);
+    //   const spanny = wrapper.find('span');
+    //   console.log(spanny.debug());
 
-      // const style = window.getComputedStyle(buttonRef);
-      // console.log(style);
-      // const tree = renderer.create(wrapper).toJSON();
-      // console.log(tree);
-      // expect(tree).toHaveStyleRule('opacity', 0);
-    });
+    //   // const style = window.getComputedStyle(buttonRef);
+    //   // console.log(style);
+    //   // const tree = renderer.create(wrapper).toJSON();
+    //   // console.log(tree);
+    //   // expect(tree).toHaveStyleRule('opacity', 0);
+    // });
 
     it('set the iconBefore opacity to 0 when isLoading', () => {
       const wrapper = (
