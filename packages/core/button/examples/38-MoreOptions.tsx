@@ -6,7 +6,11 @@ import Expand from '@atlaskit/icon/glyph/arrow-down';
 import Unlink from '@atlaskit/icon/glyph/editor/unlink';
 import Open from '@atlaskit/icon/glyph/editor/open';
 
-import Button, { ButtonAppearances } from '../src';
+import Button, {
+  ButtonProps,
+  ButtonAppearances,
+  filterGlobalHTMLAttributes,
+} from '../src';
 
 const css = `
   .container {
@@ -33,10 +37,10 @@ const css = `
   }
 `;
 
-class CustomComponent extends React.Component<any, {}> {
+class CustomComponent extends React.Component<ButtonProps, {}> {
   render() {
-    const { children, innerRef, ...props } = this.props; // eslint-disable-line no-unused-vars
-    return <div {...props}>{children}</div>;
+    const { children, innerRef, ...props } = this.props;
+    return <div {...filterGlobalHTMLAttributes(props)}>{children}</div>;
   }
 }
 
