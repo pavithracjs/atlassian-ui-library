@@ -1,0 +1,1 @@
+- Add a product to the analytics of conversations component
