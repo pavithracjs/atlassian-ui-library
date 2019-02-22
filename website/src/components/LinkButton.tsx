@@ -10,9 +10,9 @@ export type LinkButtonProps = {
 export default function LinkButton({ to, children }: LinkButtonProps) {
   return (
     <Button
-      component={props => {
+      component={({ className }) => {
         return (
-          <Link to={to} {...props}>
+          <Link to={to} className={className}>
             {children}
           </Link>
         );

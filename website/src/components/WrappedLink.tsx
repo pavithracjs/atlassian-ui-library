@@ -12,18 +12,21 @@ export interface LinkProps {
 
 class Link extends React.PureComponent<LinkProps, {}> {
   render() {
-    const { onClick, ...rest } = this.props;
+    const { onClick, children, className, to } = this.props;
     return (
       <BaseLink
         onClick={e => {
           if (performance.mark) {
             performance.clearMarks();
-            performance.mark(`navigate-${rest.to}`);
+            performance.mark(`navigate-${to}`);
           }
           if (onClick) onClick(e);
         }}
-        {...rest}
-      />
+        className={className}
+        to={to}
+      >
+        {children}
+      </BaseLink>
     );
   }
 }

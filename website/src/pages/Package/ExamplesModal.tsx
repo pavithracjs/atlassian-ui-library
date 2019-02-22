@@ -255,7 +255,6 @@ const ModalHeaderComp = ({
         <Tooltip content="Isolated View" position="bottom">
           <Button
             appearance="subtle"
-            component={'a'}
             iconBefore={<LinkIcon label="Link Icon" />}
             href={loaderUrl}
             target={'_blank'}
