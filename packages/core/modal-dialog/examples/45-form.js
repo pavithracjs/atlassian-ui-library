@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component, type Node } from 'react';
 import Button from '@atlaskit/button';
 
 import Form, { Field, CheckboxField } from '@atlaskit/form';
@@ -17,16 +17,29 @@ export default class AtlaskitFormDemo extends Component<{}, State> {
   close = () => this.setState({ isOpen: false });
   onFormSubmit = (data: Object) => console.log(JSON.stringify(data));
 
+  renderFormWrapper = (props: { className: string, children?: Node }) => {
+    return (
+      <Form onSubmit={this.onFormSubmit}>
+        {({ formProps }) => (
+          <form className={props.className} {...formProps}>
+            {props.children}
+          </form>
+        )}
+      </Form>
+    );
+  };
+
+  renderFooter = (props: { showKeyline: boolean }) => (
+    <ModalFooter showKeyline={props.showKeyline}>
+      <span />
+      <Button appearance="primary" type="submit">
+        Submit to Console
+      </Button>
+    </ModalFooter>
+  );
+
   render() {
     const { isOpen } = this.state;
-    const footer = props => (
-      <ModalFooter showKeyline={props.showKeyline}>
-        <span />
-        <Button appearance="primary" type="submit">
-          Submit to Console
-        </Button>
-      </ModalFooter>
-    );
 
     const radioItems = [
       { name: 'color', value: 'red', label: 'Red' },
@@ -44,16 +57,8 @@ export default class AtlaskitFormDemo extends Component<{}, State> {
               heading="Form Demo"
               onClose={this.close}
               components={{
-                Container: ({ children, className }) => (
-                  <Form onSubmit={this.onFormSubmit}>
-                    {({ formProps }) => (
-                      <form {...formProps} className={className}>
-                        {children}
-                      </form>
-                    )}
-                  </Form>
-                ),
-                Footer: footer,
+                Container: this.renderFormWrapper,
+                Footer: this.renderFooter,
               }}
             >
               <p>Enter some text then submit the form to see the response.</p>
