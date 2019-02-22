@@ -43,7 +43,7 @@ type Props = {
   */
   children?: Node,
   /**
-    Object describing internal components. Use this to swap out the default components. 
+    Object describing internal components. Use this to swap out the default components.
   */
   components: {
     Header?: ElementType,
@@ -56,7 +56,7 @@ type Props = {
   */
   header?: ElementType,
   /**
-    Deprecated, use components prop: Component to render the footer of the moda.l
+    Deprecated, use components prop: Component to render the footer of the modal.
   */
   footer?: ElementType,
   /**
@@ -249,7 +249,7 @@ export default class Content extends Component<Props, State> {
     const { showFooterKeyline, showHeaderKeyline } = this.state;
 
     return (
-      <Wrapper component={Container}>
+      <Wrapper component={<Container />}>
         {isChromeless ? (
           children
         ) : (

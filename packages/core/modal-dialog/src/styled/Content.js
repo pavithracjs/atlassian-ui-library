@@ -1,5 +1,5 @@
 // @flow
-import React, { type ElementType, type Node } from 'react';
+import { cloneElement, type ElementType, type Node } from 'react';
 import styled, { css } from 'styled-components';
 import { colors, gridSize, math, themed } from '@atlaskit/theme';
 
@@ -14,37 +14,15 @@ export const keylineHeight = 2;
 
 // Wrapper
 // ==============================
-
-const DefaultWrapperComponent = styled.div`
+export const Wrapper = styled(
+  ({ component, children, ...props }): Node =>
+    cloneElement(component, props, children),
+)`
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
   ${flexMaxHeightIEFix};
 `;
-
-export const Wrapper = ({
-  component,
-  children,
-}: {
-  component: ElementType,
-  children: Node,
-}) => {
-  let StyledComponent = DefaultWrapperComponent;
-  if (component !== 'div') {
-    // $FlowFixMe
-    StyledComponent = styled(component)`
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 auto;
-      ${flexMaxHeightIEFix};
-    `;
-  }
-  return <StyledComponent>{children}</StyledComponent>;
-};
-
-Wrapper.defaultProps = {
-  component: 'div',
-};
 
 // Header
 // ==============================
