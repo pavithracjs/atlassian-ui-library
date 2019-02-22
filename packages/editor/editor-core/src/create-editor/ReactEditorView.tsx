@@ -32,6 +32,7 @@ import {
   initAnalytics,
 } from './create-editor';
 import { analyticsPluginKey } from '../plugins/analytics/plugin';
+import { logDocument } from '../utils/document-logger';
 
 export interface EditorViewProps {
   editorProps: EditorProps;
@@ -299,8 +300,13 @@ export default class ReactEditorView<T = {}> extends React.Component<
             }
             this.editorState = editorState;
           } else {
+            const document = {
+              new: logDocument(transaction.doc),
+              prev: logDocument(transaction.docs[0]),
+            };
             analyticsService.trackEvent(
               'atlaskit.fabric.editor.invalidtransaction',
+              document,
             );
             this.eventDispatcher.emit(analyticsEventKey, {
               payload: {
@@ -311,6 +317,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
                   analyticsEventPayloads: transaction.getMeta(
                     analyticsPluginKey,
                   ),
+                  document,
                 },
               },
             });

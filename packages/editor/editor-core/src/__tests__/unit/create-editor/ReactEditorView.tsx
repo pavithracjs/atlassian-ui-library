@@ -219,9 +219,27 @@ describe(name, () => {
     });
 
     describe('when an invalid transaction is dispatched', () => {
-      let wrapper;
-      let editor;
-      let invalidTr;
+      const newDocument = `
+--------------------------------------------------------------------------------
+|0| doc                                                                      |4|
+--------------------------------------------------------------------------------
+ |1| codeBlock                                                              |3|
+ ------------------------------------------------------------------------------
+  |1| date                                                                 |2|
+  ----------------------------------------------------------------------------
+`;
+      const prevDocument = `
+--------------------------------------------------------------------------------
+|0| doc                                                                      |3|
+--------------------------------------------------------------------------------
+ |1| paragraph                                                              |2|
+ ------------------------------------------------------------------------------
+`;
+
+      const documentStructures = {
+        new: newDocument.trim(),
+        prev: prevDocument.trim(),
+      };
 
       /** dispatches an invalid transaction which adds a code block with a date node child */
       const dispatchInvalidTransaction = (tr = editor.view.state.tr) => {
@@ -233,6 +251,10 @@ describe(name, () => {
         );
         editor.view.dispatch(invalidTr);
       };
+
+      let wrapper;
+      let editor;
+      let invalidTr;
 
       beforeEach(() => {
         wrapper = mountWithIntl(
@@ -260,6 +282,7 @@ describe(name, () => {
 
         expect(analyticsService.trackEvent).toHaveBeenCalledWith(
           'atlaskit.fabric.editor.invalidtransaction',
+          documentStructures,
         );
       });
 
@@ -291,6 +314,7 @@ describe(name, () => {
                   payload: analyticsEventPayload,
                 },
               ],
+              document: documentStructures,
             },
           },
         });
