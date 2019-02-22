@@ -1,0 +1,1 @@
+- Updates pattern for using Forms in ModalDialog. Shows how to use custom container component with Modal.
