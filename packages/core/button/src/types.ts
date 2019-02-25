@@ -29,7 +29,7 @@ export type ButtonProps = {
   /** Places an icon within the button, before the button's text */
   iconBefore?: React.ReactChild;
   /** Pass a reference on to the styled component */
-  innerRef?: (element: HTMLElement) => void;
+  innerRef?: (element: HTMLElement) => React.RefObject<HTMLElement>;
   /** Provide a unique id to the button */
   id?: string;
   /** Set if the button is disabled */

@@ -140,7 +140,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const attributes = { ...this.state, isSelected, isDisabled };
 
     const StyledButton = CustomComponent
-      ? React.forwardRef((props, ref) => (
+      ? React.forwardRef((props: ButtonProps, ref: any) => (
           <CustomComponent innerRef={ref} {...props} />
         ))
       : this.getElement();
@@ -240,8 +240,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 }
 
+type T = React.Component;
+
 const DefaultedButton = withDefaultProps(defaultProps, Button);
-const ButtonWithForwardRef = React.forwardRef((props, ref) => (
+const ButtonWithForwardRef = React.forwardRef<T, ButtonProps>((props, ref) => (
   <DefaultedButton {...props} innerRef={ref} />
 ));
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
