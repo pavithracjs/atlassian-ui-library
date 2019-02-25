@@ -1,0 +1,1 @@
+- Replace @atlaskit/select with native select
