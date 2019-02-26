@@ -2,9 +2,11 @@ import {
   setViewerPayload,
   ImageViewer as ImageViewerMock,
 } from '../../mocks/_image-viewer';
-jest.mock('../../../newgen/viewers/image', () => ({
+
+const mockImageViewer = {
   ImageViewer: ImageViewerMock,
-}));
+};
+jest.mock('../../../newgen/viewers/image', () => mockImageViewer);
 
 import * as React from 'react';
 import { ReactWrapper } from 'enzyme';
@@ -12,10 +14,12 @@ import { Observable } from 'rxjs';
 import Spinner from '@atlaskit/spinner';
 import Button from '@atlaskit/button';
 import {
-  MediaItemType,
   Context,
   ProcessedFileState,
+  Identifier,
+  FileIdentifier,
 } from '@atlaskit/media-core';
+import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 import {
   ItemViewer,
   ItemViewerBase,
@@ -27,17 +31,15 @@ import { ImageViewer } from '../../../newgen/viewers/image';
 import { VideoViewer } from '../../../newgen/viewers/video';
 import { AudioViewer } from '../../../newgen/viewers/audio';
 import { DocViewer } from '../../../newgen/viewers/doc';
-import { Identifier } from '../../../newgen/domain';
 import {
   name as packageName,
   version as packageVersion,
 } from '../../../../package.json';
-import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 
-const identifier = {
+const identifier: any = {
   id: 'some-id',
   occurrenceKey: 'some-custom-occurrence-key',
-  type: 'file' as MediaItemType,
+  mediaItemType: 'file',
   collectionName: 'some-collection',
 };
 
@@ -56,7 +58,7 @@ function mountComponent(context: Context, identifier: Identifier) {
   return { el, instance };
 }
 
-function mountBaseComponent(context: Context, identifier: Identifier) {
+function mountBaseComponent(context: Context, identifier: FileIdentifier) {
   const createAnalyticsEventSpy = jest.fn();
   createAnalyticsEventSpy.mockReturnValue({ fire: jest.fn() });
   const el: ReactWrapper<
@@ -341,27 +343,6 @@ describe('<ItemViewer />', () => {
       packageName,
       packageVersion,
     };
-    it('should trigger the screen event when the preview commences', () => {
-      const context = makeFakeContext(
-        Observable.of({
-          id: identifier.id,
-          mediaType: 'unknown',
-          status: 'processed',
-        }),
-      );
-      const { createAnalyticsEventSpy } = mountBaseComponent(
-        context,
-        identifier,
-      );
-      expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
-        attributes: {
-          fileId: 'some-id',
-          ...analyticsBaseAttributes,
-        },
-        eventType: 'screen',
-        name: 'mediaViewerModal',
-      });
-    });
 
     it('should trigger analytics when the preview commences', () => {
       const context = makeFakeContext(
@@ -395,7 +376,7 @@ describe('<ItemViewer />', () => {
         context,
         identifier,
       );
-      expect(createAnalyticsEventSpy).toHaveBeenCalledTimes(3);
+      expect(createAnalyticsEventSpy).toHaveBeenCalledTimes(2);
       expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
         action: 'commenced',
         actionSubject: 'mediaFile',
@@ -407,7 +388,7 @@ describe('<ItemViewer />', () => {
         eventType: 'operational',
       });
       expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
-        action: 'loaded',
+        action: 'loadFailed',
         actionSubject: 'mediaFile',
         actionSubjectId: 'some-id',
         attributes: {
@@ -437,7 +418,7 @@ describe('<ItemViewer />', () => {
         identifier,
       );
       expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
-        action: 'loaded',
+        action: 'loadFailed',
         actionSubject: 'mediaFile',
         actionSubjectId: 'some-id',
         attributes: {
@@ -465,7 +446,7 @@ describe('<ItemViewer />', () => {
         identifier,
       );
       expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
-        action: 'loaded',
+        action: 'loadSucceeded',
         actionSubject: 'mediaFile',
         actionSubjectId: 'some-id',
         attributes: {

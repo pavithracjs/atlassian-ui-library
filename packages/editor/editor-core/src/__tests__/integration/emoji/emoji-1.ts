@@ -1,16 +1,21 @@
 import { BrowserTestCase } from '@atlaskit/webdriver-runner/runner';
-import { getDocFromElement, editable, LONG_WAIT_FOR } from '../_helpers';
-
-import { insertEmoji, emojiItem, typeahead } from './_emoji-helpers';
 import {
   mountEditor,
   goToEditorTestingExample,
 } from '../../__helpers/testing-example-helpers';
+import {
+  getDocFromElement,
+  editable,
+  LONG_WAIT_FOR,
+  insertEmoji,
+  emojiItem,
+  typeahead,
+} from '../_helpers';
 
 BrowserTestCase(
   'emoji-1.ts:should be able to see emoji if typed the name in full',
   { skip: ['safari', 'ie'] },
-  async client => {
+  async (client: any) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
     await insertEmoji(page, 'grinning');
@@ -24,7 +29,7 @@ BrowserTestCase(
 BrowserTestCase(
   'emoji-1.ts: should convert :) to emoji',
   { skip: ['ie'] },
-  async client => {
+  async (client: any) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
     // type slowly to get edge working
@@ -41,7 +46,7 @@ BrowserTestCase(
 BrowserTestCase(
   'user should not be able to see emoji inside inline code',
   { skip: ['ie'] },
-  async client => {
+  async (client: any) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
     await page.type(editable, 'type `');
@@ -55,7 +60,7 @@ BrowserTestCase(
 BrowserTestCase(
   'emoji-1.ts: should close emoji picker on Escape',
   { skip: ['firefox', 'safari', 'ie', 'edge'] },
-  async client => {
+  async (client: any) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
     await page.type(editable, 'this ');
@@ -78,7 +83,7 @@ BrowserTestCase(
 /* BrowserTestCase(
   'emoji-1.ts: should be able to click on the emoji button and select emoji',
   { skip: ['firefox', 'safari', 'ie', 'edge'] },
-  async client => {
+  async (client: any) => {
     const emojiButton = `[aria-label="${messages.emoji.defaultMessage}"]`;
     const sweatSmile = '[aria-label=":sweat_smile:"]';
     const browser = new Page(client);
@@ -100,7 +105,7 @@ BrowserTestCase(
 BrowserTestCase(
   'emoji-1.ts: should be able to navigate between emojis',
   { skip: ['firefox', 'safari', 'ie', 'edge'] },
-  async client => {
+  async (client: any) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
     await page.type(editable, 'this ');

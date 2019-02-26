@@ -28,6 +28,7 @@ import { quoteMacro } from './quote-macro';
 import { colorMacro } from './color-macro';
 import { noformatMacro } from './noformat-macro';
 import { forceLineBreak } from './force-line-break';
+import { issueKey } from './issue-key';
 
 export enum TokenType {
   ADF_MACRO = 'ADF_MACRO', // {adf}
@@ -40,6 +41,7 @@ export enum TokenType {
   LOREM_MACRO = 'LOREM_MACRO', // {loremipsum}
   QUOTE = 'QUOTE',
   STRING = 'STRING',
+  ISSUE_KEY = 'ISSUE_KEY',
   LINK_FORMAT = 'LINK_FORMAT',
   LINK_TEXT = 'LINK_TEXT',
   MEDIA = 'MEDIA',
@@ -75,13 +77,32 @@ export interface PMNodeToken {
   readonly length: number;
 }
 
+export interface InlineCardConversion {
+  [key: string]: string;
+}
+
+export interface Context {
+  readonly inlineCardConversion?: InlineCardConversion;
+  readonly issueKeyRegex?: RegExp | undefined;
+  readonly tokenErrCallback?: TokenErrCallback;
+}
+
 export type Token = TextToken | PMNodeToken;
+
 export type TokenErrCallback = (err: Error, tokenType: string) => void;
+
 export type TokenParser = (
-  input: string,
-  position: number,
-  schema: Schema,
-  tokenErrCallback?: TokenErrCallback,
+  {
+    input,
+    position,
+    schema,
+    context,
+  }: {
+    input: string;
+    position: number;
+    schema: Schema;
+    context: Context;
+  },
 ) => Token;
 
 const tokenToTokenParserMapping: {
@@ -116,6 +137,7 @@ const tokenToTokenParserMapping: {
   [TokenType.PANEL_MACRO]: panelMacro,
   [TokenType.COLOR_MACRO]: colorMacro,
   [TokenType.FORCE_LINE_BREAK]: forceLineBreak,
+  [TokenType.ISSUE_KEY]: issueKey,
 };
 
 export function parseToken(
@@ -123,15 +145,15 @@ export function parseToken(
   type: TokenType,
   position: number,
   schema: Schema,
-  errCallback?: TokenErrCallback,
+  context: Context,
 ): Token {
   const tokenParser = tokenToTokenParserMapping[type];
   if (tokenParser) {
     try {
-      return tokenParser(input, position, schema, errCallback);
+      return tokenParser({ input, position, schema, context });
     } catch (err) {
-      if (errCallback) {
-        errCallback(err, type);
+      if (context.tokenErrCallback) {
+        context.tokenErrCallback(err, type);
       }
       return fallback(input, position);
     }

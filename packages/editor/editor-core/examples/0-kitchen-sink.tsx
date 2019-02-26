@@ -12,28 +12,22 @@ import { ProviderFactory } from '@atlaskit/editor-common';
 import enMessages from '../src/i18n/en';
 import languages from '../src/i18n/languages';
 import WithEditorActions from './../src/ui/WithEditorActions';
-import Editor from './../src/editor';
 import {
   SaveAndCancelButtons,
   providers,
   mediaProvider,
-  analyticsHandler,
-  quickInsertProvider,
   LOCALSTORAGE_defaultDocKey,
 } from './5-full-page';
 import LanguagePicker from '../example-helpers/LanguagePicker';
 import EditorContext from './../src/ui/EditorContext';
 import { EditorAppearance } from '../src/types';
 import { EditorActions } from '../src';
-import {
-  cardProvider,
-  customInsertMenuItems,
-} from '@atlaskit/editor-test-helpers';
+
 import { extensionHandlers } from '../example-helpers/extension-handlers';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
-import { validator, ErrorCallback, Entity } from '@atlaskit/adf-utils';
 import ErrorReport, { Error } from '../example-helpers/ErrorReport';
-import { EditorView } from 'prosemirror-view';
+import KitchenSinkEditor from '../example-helpers/KitchenSinkEditor';
+import withSentry from '../example-helpers/withSentry';
 
 const Container = styled.div`
   display: flex;
@@ -79,11 +73,6 @@ const appearanceOptions = [
     value: 'comment',
     description:
       'should be used for things like comments where you have a field input but require a toolbar & save/cancel buttons',
-  },
-  {
-    label: 'Message',
-    value: 'message',
-    description: 'used for Stride; has now been deprecated.',
   },
   // {
   //   label: 'Inline comment',
@@ -156,8 +145,6 @@ export const Textarea: any = styled.textarea`
 const LOCALSTORAGE_orientationKey =
   'fabric.editor.example.kitchen-sink.orientation';
 
-const VALIDATION_TIMEOUT = 500;
-
 export type Props = {};
 export type State = {
   locale: string;
@@ -175,10 +162,8 @@ export type State = {
   showErrors: boolean;
   waitingToValidate: boolean;
 };
-export default class FullPageRendererExample extends React.Component<
-  Props,
-  State
-> {
+
+class FullPageRendererExample extends React.Component<Props, State> {
   private getJSONFromStorage = (key: string, fallback: any = undefined) => {
     const localADF = (localStorage && localStorage.getItem(key)) || undefined;
 
@@ -209,8 +194,6 @@ export default class FullPageRendererExample extends React.Component<
     waitingToValidate: false,
   };
 
-  private quickInsertProviderPromise = Promise.resolve(quickInsertProvider);
-  private cardProviderPromise = Promise.resolve(cardProvider);
   private dataProviders = ProviderFactory.create({
     ...providers,
     mediaProvider,
@@ -218,7 +201,6 @@ export default class FullPageRendererExample extends React.Component<
 
   private inputRef: HTMLTextAreaElement | null;
   private popupMountPoint: HTMLElement | null;
-  private validatorTimeout?: number;
 
   showHideADF = () =>
     this.setState(state => ({
@@ -337,63 +319,25 @@ export default class FullPageRendererExample extends React.Component<
                     locale={this.getLocalTag(locale)}
                     messages={messages}
                   >
-                    <SmartCardProvider>
-                      <Editor
-                        appearance={this.state.appearance}
-                        analyticsHandler={analyticsHandler}
-                        quickInsert={{
-                          provider: this.quickInsertProviderPromise,
-                        }}
-                        allowCodeBlocks={{ enableKeybindingsForIDE: true }}
-                        allowLists={true}
-                        allowTextColor={true}
-                        allowTables={{
-                          advanced: true,
-                        }}
-                        allowBreakout={true}
-                        allowJiraIssue={true}
-                        allowUnsupportedContent={true}
-                        allowPanel={true}
-                        allowExtension={{
-                          allowBreakout: true,
-                        }}
-                        allowRule={true}
-                        allowDate={true}
-                        allowLayouts={{
-                          allowBreakout: true,
-                        }}
-                        allowTextAlignment={true}
-                        allowTemplatePlaceholders={{ allowInserting: true }}
-                        UNSAFE_cards={{
-                          provider: this.cardProviderPromise,
-                        }}
-                        allowStatus={true}
-                        {...providers}
-                        media={{
-                          provider: mediaProvider,
-                          allowMediaSingle: true,
-                          allowResizing: true,
-                        }}
-                        insertMenuItems={customInsertMenuItems}
-                        extensionHandlers={extensionHandlers}
-                        placeholder="Type something here, and watch it render to the side!"
-                        shouldFocus={true}
-                        defaultValue={this.state.adf}
-                        disabled={this.state.disabled}
-                        onChange={() => this.onEditorChange(actions)}
-                        popupsMountPoint={this.popupMountPoint || undefined}
-                        primaryToolbarComponents={
-                          <>
-                            <LanguagePicker
-                              languages={languages}
-                              locale={locale}
-                              onChange={this.loadLocale}
-                            />
-                            <SaveAndCancelButtons editorActions={actions} />
-                          </>
-                        }
-                      />
-                    </SmartCardProvider>
+                    <KitchenSinkEditor
+                      actions={actions}
+                      adf={this.state.adf}
+                      disabled={this.state.disabled}
+                      appearance={this.state.appearance}
+                      popupMountPoint={this.popupMountPoint || undefined}
+                      onDocumentChanged={this.onDocumentChanged}
+                      onDocumentValidated={this.onDocumentValidated}
+                      primaryToolbarComponents={
+                        <React.Fragment>
+                          <LanguagePicker
+                            languages={languages}
+                            locale={locale}
+                            onChange={this.loadLocale}
+                          />
+                          <SaveAndCancelButtons editorActions={actions} />
+                        </React.Fragment>
+                      }
+                    />
                   </IntlProvider>
                 </EditorColumn>
                 <Column>
@@ -472,53 +416,16 @@ export default class FullPageRendererExample extends React.Component<
     actions.replaceDocument(adf, false);
   };
 
-  private onEditorChange = async (editorActions: EditorActions) => {
-    const adf = await editorActions.getValue();
+  private onDocumentChanged = adf => {
     this.setState({ adf, adfInput: JSON.stringify(adf, null, 2) });
 
-    // prepare to validate
-    const editorView = editorActions._privateGetEditorView();
-    if (!editorView) {
-      return;
-    }
-
-    if (this.validatorTimeout) {
-      window.clearTimeout(this.validatorTimeout);
-    }
-
-    this.validatorTimeout = window.setTimeout(
-      () => this.validateDocument(editorView),
-      VALIDATION_TIMEOUT,
-    );
-
+    // run dat validation spinner
     if (!this.state.waitingToValidate) {
       this.setState({ waitingToValidate: true });
     }
   };
 
-  private validateDocument = (editorView: EditorView) => {
-    if (!this.state.adf) {
-      return;
-    }
-
-    const marks = Object.keys(editorView.state.schema.marks);
-    const nodes = Object.keys(editorView.state.schema.nodes);
-    const errors: Array<Error> = [];
-
-    const errorCb: ErrorCallback = (entity, error) => {
-      errors.push({
-        entity,
-        error,
-      });
-
-      return entity;
-    };
-
-    validator(nodes, marks, {
-      mode: 'loose',
-      allowPrivateAttributes: true,
-    })(this.state.adf as Entity, errorCb);
-
+  private onDocumentValidated = errors => {
     this.setState({ errors, waitingToValidate: false });
   };
 
@@ -539,3 +446,5 @@ export default class FullPageRendererExample extends React.Component<
 
   private getLocalTag = (locale: string) => locale.substring(0, 2);
 }
+
+export default withSentry(FullPageRendererExample);

@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Context } from '@atlaskit/media-core';
+import { Context, FileIdentifier } from '@atlaskit/media-core';
 import { Subscription } from 'rxjs/Subscription';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
-import { FileIdentifier } from './domain';
 import { InlinePlayerWrapper } from './styled';
 import { CardDimensions, defaultImageCardDimensions } from '..';
 import { CardLoading } from '../utils/cardLoading';
@@ -12,6 +11,7 @@ export interface InlinePlayerProps {
   identifier: FileIdentifier;
   context: Context;
   dimensions: CardDimensions;
+  selected?: boolean;
   onError?: (error: Error) => void;
   onClick?: () => void;
 }
@@ -111,15 +111,19 @@ export class InlinePlayer extends Component<
   };
 
   render() {
-    const { onClick, dimensions } = this.props;
+    const { onClick, dimensions, selected } = this.props;
     const { fileSrc } = this.state;
 
     if (!fileSrc) {
-      return <CardLoading mediaItemType="file" dimensions={dimensions} />;
+      return <CardLoading dimensions={dimensions} />;
     }
 
     return (
-      <InlinePlayerWrapper style={this.getStyle()} onClick={onClick}>
+      <InlinePlayerWrapper
+        style={this.getStyle()}
+        selected={selected}
+        onClick={onClick}
+      >
         <CustomMediaPlayer
           type="video"
           src={fileSrc}

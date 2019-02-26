@@ -1,5 +1,17 @@
 # @atlaskit/modal-dialog
 
+## 7.2.3
+- [patch] [06713e0a0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06713e0a0c):
+
+  - popup select "target" is now a function that must resolve to a node
+
+## 7.2.2
+- [patch] [a7670c1488](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a7670c1488):
+
+  - Enabling handling focus in model-dialog by rendering component in model-dialog only after portal in model-dialog is attached to DOM.
+- Updated dependencies [27cacd44ab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/27cacd44ab):
+  - @atlaskit/portal@0.1.0
+
 ## 7.2.1
 - Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
   - @atlaskit/docs@6.0.1

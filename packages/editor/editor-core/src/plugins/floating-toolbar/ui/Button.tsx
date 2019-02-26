@@ -31,30 +31,42 @@ const editorButtonTheme = {
 
 const Button = styled(UiButton)`
   padding: 0 2px;
+
+  &[href] {
+    padding: 0 2px;
+  }
 `;
 
 export type ButtonAppearance = 'subtle' | 'danger';
 
 export interface Props {
-  title: string;
-  icon: ReactElement<any>;
+  title?: string;
+  icon?: ReactElement<any>;
+  iconAfter?: ReactElement<any>;
   onClick: React.MouseEventHandler;
   onMouseEnter?: <T>(event: MouseEvent<T>) => void;
   onMouseLeave?: <T>(event: MouseEvent<T>) => void;
   selected?: boolean;
   disabled?: boolean;
   appearance?: ButtonAppearance;
+  href?: string;
+  target?: string;
+  children?: React.ReactNode;
 }
 
 export default ({
   title,
   icon,
+  iconAfter,
   onClick,
   onMouseEnter,
   onMouseLeave,
   selected,
   disabled,
+  href,
+  target,
   appearance = 'subtle',
+  children,
 }: Props) => {
   return (
     <Tooltip content={title} hideTooltipOnClick={true} position="top">
@@ -63,13 +75,18 @@ export default ({
           <Button
             ariaLabel={title}
             spacing="compact"
+            href={href}
+            target={target}
             appearance={appearance}
             ariaHaspopup={true}
             iconBefore={icon}
+            iconAfter={iconAfter}
             onClick={onClick}
             isSelected={selected}
             isDisabled={disabled}
-          />
+          >
+            {children}
+          </Button>
         </div>
       </ThemeProvider>
     </Tooltip>

@@ -1,5 +1,37 @@
 # @atlaskit/select
 
+## 7.2.0
+- [minor] [46ffd45f21](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/46ffd45f21):
+
+  - Added ability to toggle animations in atlaskit/select, updated UserPicker to disable animations using this new behaviour
+
+## 7.1.2
+- [patch] [bcdb413cb4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bcdb413cb4):
+
+  - Encapsulate checkbox/radio option styles inside the primitive
+
+## 7.1.1
+- [patch] [896bf5bef9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/896bf5bef9):
+
+  - Fix bug breaking mobile UX, and causing menu to not be openable on touch
+
+## 7.1.0
+- [minor] [571ec20522](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/571ec20522):
+
+  - Updated react-select to 2.4.0, includes updates to BEM modifiers in options, for more information see the react-select release notes https://github.com/JedWatson/react-select/releases/tag/v2.4.0
+  - Added makeAnimated invocation back to createSelect, as multi select in modal bug has been resolved.
+  - Export makeAsyncSelect and makeCreatableSelect function from src
+
+## 7.0.0
+- [major] [06713e0a0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06713e0a0c):
+
+  - popup select "target" is now a function that must resolve to a node
+
+## 6.1.20
+- [patch] [957778f085](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/957778f085):
+
+  - Expose CheckboxOption and RadioOption from select package
+
 ## 6.1.19
 - Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
   - @atlaskit/docs@6.0.1

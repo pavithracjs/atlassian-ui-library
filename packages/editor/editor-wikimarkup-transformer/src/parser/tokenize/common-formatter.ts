@@ -1,5 +1,5 @@
 import { Schema } from 'prosemirror-model';
-import { Token, TokenType } from './';
+import { Token, TokenType, Context } from './';
 import { linkFormat } from './links/link-format';
 import { parseNewlineOnly } from './whitespace';
 import { parseMacroKeyword } from './keyword';
@@ -7,11 +7,12 @@ import { parseToken } from '.';
 import { escapeHandler } from '../utils/escape';
 
 export interface FormatterOption {
-  /** The opening symbol */
+  context: Context;
+  // The opening symbol
   opening: string;
-  /** The closing symbol */
+  // The closing symbol
   closing: string;
-  /** This function will be called with the rawContent */
+  // This function will be called with the rawContent
   rawContentProcessor: (raw: string, length: number) => Token;
 }
 
@@ -133,7 +134,11 @@ export function commonFormatter(
           state = processState.BUFFER;
           break;
         }
-        const token = parseToken(input, match.type, index, schema);
+        /**
+         * Is not a problem send an empty context because we're only checking
+         * if it has a nested macro inside.
+         */
+        const token = parseToken(input, match.type, index, schema, {});
         if (token.type === 'text') {
           buffer += token.text;
           index += token.length;
@@ -157,8 +162,16 @@ export function commonFormatter(
          * We should "fly over" the link format and we dont want
          * -awesome [link|https://www.atlass-ian.com] nice
          * to be a strike through because of the '-' in link
+         *
+         * Also, is not a problem send an empty context because we're only
+         * checking if it has a nested macro inside.
          */
-        const token = linkFormat(input, index, schema);
+        const token = linkFormat({
+          input,
+          schema,
+          position: index,
+          context: {},
+        });
         if (token.type === 'text') {
           buffer += token.text;
           index += token.length;

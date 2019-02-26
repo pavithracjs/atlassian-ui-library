@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/droplist",
-  "version": "7.0.18",
+  "version": "7.0.19",
   "description": "Droplist component",
   "license": "Apache-2.0",
   "main": "dist/cjs/index.js",
@@ -14,8 +14,9 @@
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Sean C",
-    "Charles L",
-    "Mike G"
+    "Ajay M",
+    "Daniel D",
+    "Kang C"
   ],
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
@@ -42,6 +43,7 @@
     "@atlaskit/button": "^10.1.2",
     "@atlaskit/docs": "^6.0.1",
     "@atlaskit/field-base": "^11.0.14",
+    "@atlaskit/webdriver-runner": "^0.1.0",
     "enzyme": "^3.7.0",
     "react-dom": "^16.4.2"
   },

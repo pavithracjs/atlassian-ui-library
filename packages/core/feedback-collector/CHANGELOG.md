@@ -1,5 +1,18 @@
 # @atlaskit/feedback-collector
 
+## 2.0.5
+- Updated dependencies [06713e0a0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06713e0a0c):
+  - @atlaskit/form@5.1.5
+  - @atlaskit/logo@9.2.7
+  - @atlaskit/navigation-next@4.2.3
+  - @atlaskit/modal-dialog@7.2.3
+  - @atlaskit/select@7.0.0
+
+## 2.0.4
+- [patch] [2a8536a220](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a8536a220):
+
+  - Button is no longer a peer dependency of this module
+
 ## 2.0.3
 - Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
   - @atlaskit/docs@6.0.1

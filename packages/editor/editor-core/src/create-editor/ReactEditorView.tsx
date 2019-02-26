@@ -2,12 +2,14 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { EditorState, Transaction, Selection } from 'prosemirror-state';
 import { EditorView, DirectEditorProps } from 'prosemirror-view';
+import { Node as PMNode } from 'prosemirror-model';
 import { intlShape } from 'react-intl';
-
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
 import { ProviderFactory, Transformer } from '@atlaskit/editor-common';
+
 import { EventDispatcher, createDispatch } from '../event-dispatcher';
 import { processRawValue } from '../utils';
+import { findChangedNodesFromTransaction, validateNodes } from '../utils/nodes';
 import createPluginList from './create-plugins-list';
 import {
   analyticsEventKey,
@@ -21,7 +23,7 @@ import {
   pluginKey as editorDisabledPluginKey,
   EditorDisabledPluginState,
 } from '../plugins/editor-disabled';
-
+import { analyticsService } from '../analytics';
 import {
   processPluginsList,
   createSchema,
@@ -29,12 +31,14 @@ import {
   createPMPlugins,
   initAnalytics,
 } from './create-editor';
+import { analyticsPluginKey } from '../plugins/analytics/plugin';
 
 export interface EditorViewProps {
   editorProps: EditorProps;
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
   providerFactory: ProviderFactory;
   portalProviderAPI: PortalProviderAPI;
+  allowAnalyticsGASV3?: boolean;
   render?: (
     props: {
       editor: JSX.Element;
@@ -72,7 +76,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
   config: EditorConfig;
   editorState: EditorState;
   analyticsEventHandler: (
-    { payload, channel }: { payload: AnalyticsEventPayload; channel?: string },
+    payloadChannel: { payload: AnalyticsEventPayload; channel?: string },
   ) => void;
 
   static contextTypes = {
@@ -85,10 +89,9 @@ export default class ReactEditorView<T = {}> extends React.Component<
 
     this.editorState = this.createEditorState({ props, replaceDoc: true });
 
-    const { createAnalyticsEvent } = props;
-    if (createAnalyticsEvent) {
-      this.analyticsEventHandler = fireAnalyticsEvent(createAnalyticsEvent);
-      this.eventDispatcher.on(analyticsEventKey, this.analyticsEventHandler);
+    const { createAnalyticsEvent, allowAnalyticsGASV3 } = props;
+    if (allowAnalyticsGASV3) {
+      this.activateAnalytics(createAnalyticsEvent);
     }
 
     this.eventDispatcher.emit(analyticsEventKey, {
@@ -126,12 +129,41 @@ export default class ReactEditorView<T = {}> extends React.Component<
       } as DirectEditorProps);
     }
 
-    if (nextProps.createAnalyticsEvent !== this.props.createAnalyticsEvent) {
-      this.eventDispatcher.off(analyticsEventKey, this.analyticsEventHandler);
+    // Activate or deactivate analytics if change property
+    if (this.props.allowAnalyticsGASV3 !== nextProps.allowAnalyticsGASV3) {
+      if (nextProps.allowAnalyticsGASV3) {
+        this.activateAnalytics(nextProps.createAnalyticsEvent);
+      } else {
+        this.deactivateAnalytics();
+      }
+    } else {
+      // Allow analytics is the same, check if we receive a new create analytics prop
+      if (
+        this.props.allowAnalyticsGASV3 &&
+        nextProps.createAnalyticsEvent !== this.props.createAnalyticsEvent
+      ) {
+        this.deactivateAnalytics(); // Deactivate the old one
+        this.activateAnalytics(nextProps.createAnalyticsEvent); // Activate the new one
+      }
+    }
+  }
 
-      this.analyticsEventHandler = fireAnalyticsEvent(
-        nextProps.createAnalyticsEvent,
-      );
+  /**
+   * Deactivate analytics event handler, if exist any.
+   */
+  deactivateAnalytics() {
+    if (this.analyticsEventHandler) {
+      this.eventDispatcher.off(analyticsEventKey, this.analyticsEventHandler);
+    }
+  }
+
+  /**
+   * Create analytics event handler, if createAnalyticsEvent exist
+   * @param createAnalyticsEvent
+   */
+  activateAnalytics(createAnalyticsEvent?: CreateUIAnalyticsEventSignature) {
+    if (createAnalyticsEvent) {
+      this.analyticsEventHandler = fireAnalyticsEvent(createAnalyticsEvent);
       this.eventDispatcher.on(analyticsEventKey, this.analyticsEventHandler);
     }
   }
@@ -257,12 +289,32 @@ export default class ReactEditorView<T = {}> extends React.Component<
             return;
           }
 
-          const editorState = this.view.state.apply(transaction);
-          this.view.updateState(editorState);
-          if (this.props.editorProps.onChange && transaction.docChanged) {
-            this.props.editorProps.onChange(this.view);
+          const nodes: PMNode[] = findChangedNodesFromTransaction(transaction);
+          if (validateNodes(nodes)) {
+            // go ahead and update the state now we know the transaction is good
+            const editorState = this.view.state.apply(transaction);
+            this.view.updateState(editorState);
+            if (this.props.editorProps.onChange && transaction.docChanged) {
+              this.props.editorProps.onChange(this.view);
+            }
+            this.editorState = editorState;
+          } else {
+            analyticsService.trackEvent(
+              'atlaskit.fabric.editor.invalidtransaction',
+            );
+            this.eventDispatcher.emit(analyticsEventKey, {
+              payload: {
+                action: 'dispatchedInvalidTransaction',
+                actionSubject: 'editor',
+                eventType: 'operational',
+                attributes: {
+                  analyticsEventPayloads: transaction.getMeta(
+                    analyticsPluginKey,
+                  ),
+                },
+              },
+            });
           }
-          this.editorState = editorState;
         },
         // Disables the contentEditable attribute of the editor if the editor is disabled
         editable: state => !this.props.editorProps.disabled,
@@ -302,7 +354,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
   };
 
   dispatchAnalyticsEvent = (payload: AnalyticsEventPayload): void => {
-    if (this.eventDispatcher) {
+    if (this.props.allowAnalyticsGASV3 && this.eventDispatcher) {
       const dispatch: AnalyticsDispatch = createDispatch(this.eventDispatcher);
       dispatch(analyticsEventKey, {
         payload,

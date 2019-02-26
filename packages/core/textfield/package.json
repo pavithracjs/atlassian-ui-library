@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/textfield",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Text Field Component",
   "license": "Apache-2.0",
   "main": "dist/cjs/index.js",
@@ -14,8 +14,9 @@
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Sean C",
-    "Charles L",
-    "Vito BZ"
+    "Ajay M",
+    "Daniel D",
+    "Kang C"
   ],
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {

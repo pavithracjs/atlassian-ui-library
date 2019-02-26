@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as uuid from 'uuid';
-import { Plugin, PluginKey, StateField } from 'prosemirror-state';
+import { EditorState, Plugin, PluginKey, StateField } from 'prosemirror-state';
 import {
   AnalyticsEventPayload,
   CreateUIAnalyticsEventSignature,
@@ -38,6 +38,18 @@ import {
   buildTypeAheadCancelPayload,
   buildTypeAheadRenderedPayload,
 } from './analytics';
+import {
+  addAnalytics,
+  analyticsPluginKey,
+  analyticsEventKey,
+  AnalyticsDispatch,
+  ACTION,
+  ACTION_SUBJECT,
+  INPUT_METHOD,
+  EVENT_TYPE,
+  ACTION_SUBJECT_ID,
+} from '../analytics';
+import { TypeAheadItem } from '../type-ahead/types';
 
 const mentionsPlugin = (
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
@@ -88,7 +100,7 @@ const mentionsPlugin = (
             typeAheadState: TypeAheadPluginState;
             mentionState: MentionPluginState;
           }) =>
-            !mentionState.provider ? null : (
+            !mentionState.mentionProvider ? null : (
               <ToolbarMention
                 editorView={editorView}
                 isDisabled={disabled || !typeAheadState.isAllowed}
@@ -110,7 +122,14 @@ const mentionsPlugin = (
               trigger: '@',
             });
             const mentionText = state.schema.text('@', [mark]);
-            return insert(mentionText);
+            const tr = insert(mentionText);
+            return addAnalytics(tr, {
+              action: ACTION.INVOKED,
+              actionSubject: ACTION_SUBJECT.TYPEAHEAD,
+              actionSubjectId: ACTION_SUBJECT_ID.TYPEAHEAD_MENTION,
+              attributes: { inputMethod: INPUT_METHOD.QUICK_INSERT },
+              eventType: EVENT_TYPE.UI,
+            });
           },
         },
       ],
@@ -119,45 +138,76 @@ const mentionsPlugin = (
         // Custom regex must have a capture group around trigger
         // so it's possible to use it without needing to scan through all triggers again
         customRegex: '\\(?(@)',
-        getItems(query, state, intl, { prevActive, queryChanged }) {
+        getItems(
+          query,
+          state,
+          _intl,
+          { prevActive, queryChanged },
+          tr,
+          dispatch,
+        ) {
           if (!prevActive && queryChanged) {
             analyticsService.trackEvent(
               'atlassian.fabric.mention.picker.trigger.shortcut',
             );
+            if (!tr.getMeta(analyticsPluginKey)) {
+              (dispatch as AnalyticsDispatch)(analyticsEventKey, {
+                payload: {
+                  action: ACTION.INVOKED,
+                  actionSubject: ACTION_SUBJECT.TYPEAHEAD,
+                  actionSubjectId: ACTION_SUBJECT_ID.TYPEAHEAD_MENTION,
+                  attributes: { inputMethod: INPUT_METHOD.KEYBOARD },
+                  eventType: EVENT_TYPE.UI,
+                },
+              });
+            }
           }
 
           const pluginState = getMentionPluginState(state);
           const mentions =
             !prevActive && queryChanged ? [] : pluginState.mentions || [];
 
-          if (queryChanged && pluginState.provider) {
-            pluginState.provider.filter(query || '');
+          const mentionContext = {
+            ...pluginState.contextIdentifierProvider,
+            sessionId,
+          };
+          if (queryChanged && pluginState.mentionProvider) {
+            pluginState.mentionProvider.filter(query || '', mentionContext);
           }
 
-          return mentions.map(mention => ({
-            title: mention.id,
-            render: ({ isSelected, onClick, onMouseMove }) => (
-              <MentionItem
-                mention={mention}
-                selected={isSelected}
-                onMouseMove={onMouseMove}
-                onSelection={onClick}
-              />
-            ),
-            mention,
-          }));
+          return mentions.map(
+            (mention: MentionDescription): TypeAheadItem => ({
+              title: mention.id,
+              render: ({ isSelected, onClick, onMouseMove }) => (
+                <MentionItem
+                  mention={mention}
+                  selected={isSelected}
+                  onMouseMove={onMouseMove}
+                  onSelection={onClick}
+                />
+              ),
+              mention,
+            }),
+          );
         },
         selectItem(state, item, insert, { mode }) {
           const pluginState = getMentionPluginState(state);
-          const { provider } = pluginState;
+          const { mentionProvider } = pluginState;
           const { id, name, nickname, accessLevel, userType } = item.mention;
           const renderName = nickname ? nickname : name;
           const typeAheadPluginState = typeAheadPluginKey.getState(
             state,
           ) as TypeAheadPluginState;
 
-          if (provider) {
-            provider.recordMentionSelection(item.mention);
+          const mentionContext = {
+            ...pluginState.contextIdentifierProvider,
+            sessionId,
+          };
+          if (mentionProvider) {
+            mentionProvider.recordMentionSelection(
+              item.mention,
+              mentionContext,
+            );
           }
 
           const pickerElapsedTime = typeAheadPluginState.queryStarted
@@ -173,7 +223,7 @@ const mentionsPlugin = (
               mentionee: id,
               duration: pickerElapsedTime,
               queryLength: (typeAheadPluginState.query || '').length,
-              ...(pluginState.contextIdentifier as any),
+              ...(pluginState.contextIdentifierProvider as any),
             },
           );
 
@@ -239,7 +289,10 @@ export const ACTIONS = {
   SET_CONTEXT: 'SET_CONTEXT',
 };
 
-export const setProvider = (provider): Command => (state, dispatch) => {
+export const setProvider = (provider: MentionProvider | undefined): Command => (
+  state,
+  dispatch,
+) => {
   if (dispatch) {
     dispatch(
       state.tr.setMeta(mentionPluginKey, {
@@ -251,7 +304,10 @@ export const setProvider = (provider): Command => (state, dispatch) => {
   return true;
 };
 
-export const setResults = (results): Command => (state, dispatch) => {
+export const setResults = (results: MentionDescription[]): Command => (
+  state,
+  dispatch,
+) => {
   if (dispatch) {
     dispatch(
       state.tr.setMeta(mentionPluginKey, {
@@ -263,7 +319,9 @@ export const setResults = (results): Command => (state, dispatch) => {
   return true;
 };
 
-export const setContext = (context): Command => (state, dispatch) => {
+export const setContext = (
+  context: ContextIdentifierProvider | undefined,
+): Command => (state, dispatch) => {
   if (dispatch) {
     dispatch(
       state.tr.setMeta(mentionPluginKey, {
@@ -283,13 +341,13 @@ export const setContext = (context): Command => (state, dispatch) => {
 
 export const mentionPluginKey = new PluginKey('mentionPlugin');
 
-export function getMentionPluginState(state) {
+export function getMentionPluginState(state: EditorState) {
   return mentionPluginKey.getState(state) as MentionPluginState;
 }
 
 export type MentionPluginState = {
-  provider?: MentionProvider;
-  contextIdentifier?: ContextIdentifierProvider;
+  mentionProvider?: MentionProvider;
+  contextIdentifierProvider?: ContextIdentifierProvider;
   mentions?: Array<MentionDescription>;
 };
 
@@ -320,7 +378,7 @@ function mentionPluginFactory(
           case ACTIONS.SET_PROVIDER:
             newPluginState = {
               ...pluginState,
-              provider: params.provider,
+              mentionProvider: params.provider,
             };
             dispatch(mentionPluginKey, newPluginState);
             return newPluginState;
@@ -336,7 +394,7 @@ function mentionPluginFactory(
           case ACTIONS.SET_CONTEXT:
             newPluginState = {
               ...pluginState,
-              contextIdentifier: params.context,
+              contextIdentifierProvider: params.context,
             };
             dispatch(mentionPluginKey, newPluginState);
             return newPluginState;
@@ -411,6 +469,7 @@ function mentionPluginFactory(
             );
             break;
         }
+        return;
       };
 
       providerFactory.subscribe('mentionProvider', providerHandler);

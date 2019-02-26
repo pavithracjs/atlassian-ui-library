@@ -69,8 +69,11 @@ export type MentionContextIdentifier = {
 
 export interface MentionProvider
   extends ResourceProvider<MentionDescription[]> {
-  filter(query?: string): void;
-  recordMentionSelection(mention: MentionDescription): void;
+  filter(query?: string, contextIdentifier?: MentionContextIdentifier): void;
+  recordMentionSelection(
+    mention: MentionDescription,
+    contextIdentifier?: MentionContextIdentifier,
+  ): void;
   shouldHighlightMention(mention: MentionDescription): boolean;
   isFiltering(query: string): boolean;
 }
@@ -130,7 +133,7 @@ class AbstractResource<Result> implements ResourceProvider<Result> {
 
 class AbstractMentionResource extends AbstractResource<MentionDescription[]>
   implements MentionProvider {
-  shouldHighlightMention(mention: MentionDescription): boolean {
+  shouldHighlightMention(_mention: MentionDescription): boolean {
     return false;
   }
 
@@ -140,11 +143,11 @@ class AbstractMentionResource extends AbstractResource<MentionDescription[]>
   }
 
   // eslint-disable-next-line class-methods-use-this, no-unused-vars
-  recordMentionSelection(mention: MentionDescription): void {
+  recordMentionSelection(_mention: MentionDescription): void {
     // Do nothing
   }
 
-  isFiltering(query: string): boolean {
+  isFiltering(_query: string): boolean {
     return false;
   }
 
@@ -382,7 +385,7 @@ class MentionResource extends AbstractMentionResource {
     result: MentionsResult,
     query: string,
   ): MentionsResult {
-    const mentions = result.mentions.map((mention, index) => {
+    const mentions = result.mentions.map(mention => {
       let lozenge: string | undefined;
       if (isAppMention(mention)) {
         lozenge = mention.userType;

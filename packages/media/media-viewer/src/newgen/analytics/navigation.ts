@@ -1,7 +1,7 @@
 import { GasPayload } from '@atlaskit/analytics-gas-types';
-import { context, PackageContext } from './index';
+import { Identifier, isFileIdentifier } from '@atlaskit/media-core';
+import { packageAttributes, PackageAttributes } from './index';
 import { NavigationDirection, NavigationSource } from '../navigation';
-import { Identifier } from '../domain';
 
 function actionFromDirection(direction: NavigationDirection): string {
   switch (direction) {
@@ -21,11 +21,12 @@ function inputFromSource(source: NavigationSource): string {
   }
 }
 
-function fileDetailsFromIdentifier(identifier: Identifier) {
-  return {
-    fileId: identifier.id,
-  };
-}
+const fileDetailsFromIdentifier = (identifier: Identifier) => ({
+  fileId:
+    isFileIdentifier(identifier) && typeof identifier.id === 'string'
+      ? identifier.id
+      : '',
+});
 
 export interface NavigationAttributes {
   fileId: string;
@@ -33,7 +34,7 @@ export interface NavigationAttributes {
 }
 
 export interface NavigationGasPayload extends GasPayload {
-  attributes: NavigationAttributes & PackageContext;
+  attributes: NavigationAttributes & PackageAttributes;
 }
 
 export function createNavigationEvent(
@@ -47,7 +48,7 @@ export function createNavigationEvent(
     actionSubject: 'file',
     actionSubjectId: actionFromDirection(direction),
     attributes: {
-      ...context,
+      ...packageAttributes,
       ...fileDetailsFromIdentifier(newItem),
       input: inputFromSource(source),
     },

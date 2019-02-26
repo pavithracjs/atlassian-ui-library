@@ -9,14 +9,13 @@ import {
   stateKey as mediaStateKey,
   MediaProvider,
 } from '../pm-plugins/main';
-import { Context, ImageResizeMode } from '@atlaskit/media-core';
+import { Context, ImageResizeMode, Identifier } from '@atlaskit/media-core';
 import {
   Card,
   CardDimensions,
   CardView,
   CardEventHandler,
   CardOnClickCallback,
-  Identifier,
 } from '@atlaskit/media-card';
 import { MediaType, MediaBaseAttributes } from '@atlaskit/adf-schema';
 import { withImageLoader, ImageStatus } from '@atlaskit/editor-common';
@@ -42,6 +41,7 @@ export interface MediaNodeProps extends ReactNodeProps {
   ) => void;
   editorAppearance: EditorAppearance;
   mediaProvider?: Promise<MediaProvider>;
+  viewContext?: Context;
 }
 
 export interface Props extends Partial<MediaBaseAttributes> {
@@ -57,6 +57,7 @@ export interface Props extends Partial<MediaBaseAttributes> {
   context: Context;
   disableOverlay?: boolean;
   mediaProvider?: Promise<MediaProvider>;
+  viewContext?: Context;
 }
 
 export interface MediaNodeState {
@@ -68,12 +69,6 @@ class MediaNode extends Component<
   MediaNodeState
 > {
   private pluginState: MediaPluginState;
-  private mediaProvider: MediaProvider;
-  private hasBeenMounted: boolean = false;
-
-  state: MediaNodeState = {
-    viewContext: undefined,
-  };
 
   constructor(props) {
     super(props);
@@ -84,7 +79,7 @@ class MediaNode extends Component<
   shouldComponentUpdate(nextProps, nextState) {
     if (
       this.props.selected !== nextProps.selected ||
-      this.state.viewContext !== nextState.viewContext ||
+      this.props.viewContext !== nextProps.viewContext ||
       this.props.node.attrs.id !== nextProps.node.attrs.id ||
       this.props.node.attrs.collection !== nextProps.node.attrs.collection ||
       this.props.cardDimensions !== nextProps.cardDimensions
@@ -95,34 +90,21 @@ class MediaNode extends Component<
   }
 
   componentDidMount() {
-    this.hasBeenMounted = true;
     this.handleNewNode(this.props);
-    this.updateMediaContext();
   }
 
   componentWillUnmount() {
     const { node } = this.props;
     this.pluginState.handleMediaNodeUnmount(node);
-    this.hasBeenMounted = false;
   }
 
-  componentWillReceiveProps(props) {
-    this.updateMediaContext();
-  }
-
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: Readonly<MediaNodeProps & ImageLoaderProps>) {
+    if (prevProps.node.attrs.id !== this.props.node.attrs.id) {
+      this.pluginState.handleMediaNodeUnmount(prevProps.node);
+      this.handleNewNode(this.props);
+    }
     this.pluginState.updateElement();
   }
-
-  private updateMediaContext = async () => {
-    if (this.props.mediaProvider) {
-      this.mediaProvider = await this.props.mediaProvider;
-      const viewContext = await this.mediaProvider.viewContext;
-      if (viewContext && this.hasBeenMounted) {
-        this.setState({ viewContext });
-      }
-    }
-  };
 
   render() {
     const {
@@ -132,8 +114,8 @@ class MediaNode extends Component<
       onClick,
       editorAppearance,
     } = this.props;
-    const { id, type, collection, url, __key } = node.attrs;
-    const { viewContext } = this.state;
+    const { id, type, collection, url } = node.attrs;
+    const { viewContext } = this.props;
     /**
      * On mobile we don't receive a collectionName until the `upload-end` event.
      * We don't want to render a proper card until we have a valid collection.
@@ -142,13 +124,13 @@ class MediaNode extends Component<
     const isMobile = editorAppearance === 'mobile';
     let isMobileReady = isMobile ? typeof collection === 'string' : true;
 
-    if (!viewContext || !isMobileReady) {
+    if (type !== 'external' && (!viewContext || !isMobileReady)) {
       return <CardView status="loading" dimensions={cardDimensions} />;
     }
 
     /** For new images, the media state will be loaded inside the plugin state */
-    const getState = this.pluginState.getMediaNodeState(__key);
-    const fileId = getState && getState.fileId ? getState.fileId : id;
+    const state = this.pluginState.getMediaNodeState(id);
+    const fileId = (state && state.fileId) || id;
 
     const identifier: Identifier =
       type === 'external'
@@ -165,7 +147,7 @@ class MediaNode extends Component<
 
     return (
       <Card
-        context={viewContext}
+        context={viewContext as any}
         resizeMode="stretchy-fit"
         dimensions={cardDimensions}
         identifier={identifier}

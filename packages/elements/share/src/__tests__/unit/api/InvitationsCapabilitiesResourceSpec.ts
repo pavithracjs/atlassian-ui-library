@@ -1,16 +1,16 @@
 import { utils } from '@atlaskit/util-service-support';
 import {
-  InvitationsCapabilitiesResource,
-  InvitationCapabilitiesProvider,
-  DEFAULT_INVITATIONS_CAPABILITIES_PATH,
   DEFAULT_ID_PUBLIC_FACADE_URL,
+  DEFAULT_INVITATIONS_CAPABILITIES_PATH,
+  InvitationsCapabilitiesProvider,
+  InvitationsCapabilitiesResource,
 } from '../../../api/InvitationsCapabilitiesResource';
 
 const mockCloudId = 'mockCloudId';
 
 describe('InvitationsCapabilitiesResource', () => {
-  let requestSpy;
-  let invitationsCapabilitiesResource: InvitationCapabilitiesProvider;
+  let requestSpy: jest.SpyInstance;
+  let invitationsCapabilitiesResource: InvitationsCapabilitiesProvider;
 
   beforeEach(() => {
     requestSpy = jest.spyOn(utils, 'requestService').mockResolvedValue({});

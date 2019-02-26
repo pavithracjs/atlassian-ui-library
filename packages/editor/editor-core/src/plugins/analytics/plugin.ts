@@ -1,20 +1,10 @@
-import { Plugin, PluginKey, Transaction } from 'prosemirror-state';
+import { Plugin, PluginKey } from 'prosemirror-state';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
 import { EditorPlugin } from '../../types';
 import { AnalyticsEventPayload } from './types';
 import { fireAnalyticsEvent } from './utils';
 
 export const analyticsPluginKey = new PluginKey('analyticsPlugin');
-
-export function addAnalytics(
-  tr: Transaction,
-  payload: AnalyticsEventPayload,
-  channel?: string,
-): Transaction {
-  const analyticsMeta = tr.getMeta(analyticsPluginKey) || [];
-  analyticsMeta.push({ payload, channel });
-  return tr.setMeta(analyticsPluginKey, analyticsMeta);
-}
 
 function createPlugin(createAnalyticsEvent?: CreateUIAnalyticsEventSignature) {
   if (!createAnalyticsEvent) {

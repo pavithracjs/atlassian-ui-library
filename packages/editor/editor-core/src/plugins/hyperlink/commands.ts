@@ -8,6 +8,15 @@ import {
 import { EditorState, Selection } from 'prosemirror-state';
 import { filter } from '../../utils/commands';
 import { Mark, Node } from 'prosemirror-model';
+import {
+  addAnalytics,
+  ACTION,
+  ACTION_SUBJECT,
+  INPUT_METHOD,
+  EVENT_TYPE,
+  ACTION_SUBJECT_ID,
+} from '../analytics';
+import { queueCardsFromChangedTr } from '../card/pm-plugins/doc';
 
 const isLinkAtPos = (pos: number) => (state: EditorState): boolean => {
   const text = state.doc.nodeAt(pos);
@@ -31,6 +40,7 @@ export function setLinkHref(pos: number, href: string): Command {
         pos + node.nodeSize,
         link.create({ ...mark.attrs, href: url }),
       );
+      tr.setMeta(stateKey, LinkAction.HIDE_TOOLBAR);
     }
 
     if (dispatch) {
@@ -49,6 +59,7 @@ export function setLinkText(pos: number, text: string): Command {
       const tr = state.tr;
       tr.insertText(text, pos, pos + node.nodeSize);
       tr.addMark(pos, pos + text.length, mark);
+      tr.setMeta(stateKey, LinkAction.HIDE_TOOLBAR);
 
       if (dispatch) {
         dispatch(tr);
@@ -82,7 +93,10 @@ export function insertLink(
         tr.setSelection(Selection.near(tr.doc.resolve(to)));
       }
 
+      queueCardsFromChangedTr(state, tr);
+
       if (dispatch) {
+        tr.setMeta(stateKey, LinkAction.HIDE_TOOLBAR);
         dispatch(tr);
       }
       return true;
@@ -95,10 +109,23 @@ export function removeLink(pos: number): Command {
   return setLinkHref(pos, '');
 }
 
-export function showLinkToolbar(): Command {
+export function showLinkToolbar(
+  inputMethod:
+    | INPUT_METHOD.TOOLBAR
+    | INPUT_METHOD.QUICK_INSERT
+    | INPUT_METHOD.SHORTCUT = INPUT_METHOD.TOOLBAR,
+): Command {
   return function(state, dispatch) {
     if (dispatch) {
-      dispatch(state.tr.setMeta(stateKey, LinkAction.SHOW_INSERT_TOOLBAR));
+      let tr = state.tr.setMeta(stateKey, LinkAction.SHOW_INSERT_TOOLBAR);
+      tr = addAnalytics(tr, {
+        action: ACTION.INVOKED,
+        actionSubject: ACTION_SUBJECT.TYPEAHEAD,
+        actionSubjectId: ACTION_SUBJECT_ID.TYPEAHEAD_LINK,
+        attributes: { inputMethod },
+        eventType: EVENT_TYPE.UI,
+      });
+      dispatch(tr);
     }
     return true;
   };

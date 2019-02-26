@@ -2,11 +2,17 @@ jest.mock('../../../components/styles', () => ({
   getStyles: jest.fn(),
 }));
 
+jest.mock('../../../components/creatable', () => ({
+  getCreatableProps: jest.fn(),
+}));
+
 import { AnalyticsListener } from '@atlaskit/analytics-next';
-import Select from '@atlaskit/select';
-import { mount, ReactWrapper, shallow } from 'enzyme';
+import Select, { CreatableSelect } from '@atlaskit/select';
+import { ReactWrapper } from 'enzyme';
+import { mountWithIntl, shallowWithIntl } from 'enzyme-react-intl';
 import * as debounce from 'lodash.debounce';
 import * as React from 'react';
+import { getCreatableProps } from '../../../components/creatable';
 import { getStyles } from '../../../components/styles';
 import { UserPicker } from '../../../components/UserPicker';
 import {
@@ -15,16 +21,16 @@ import {
 } from '../../../components/utils';
 import {
   Option,
-  User,
   OptionData,
+  Team,
+  User,
   UserPickerProps,
   UserType,
-  Team,
 } from '../../../types';
 
 describe('UserPicker', () => {
   const shallowUserPicker = (props: Partial<UserPickerProps> = {}) =>
-    shallow(<UserPicker {...props} />)
+    shallowWithIntl(<UserPicker {...props} />)
       .dive()
       .dive();
 
@@ -42,6 +48,10 @@ describe('UserPicker', () => {
   ];
 
   const userOptions: Option[] = optionToSelectableOptions(options);
+
+  afterEach(() => {
+    (getCreatableProps as jest.Mock).mockClear();
+  });
 
   it('should render Select', () => {
     const component = shallowUserPicker({ options });
@@ -81,6 +91,13 @@ describe('UserPicker', () => {
     select.simulate('change', userOptions[0], { action: 'select-option' });
 
     expect(onChange).toHaveBeenCalledWith(options[0], 'select-option');
+  });
+
+  it('should not hide selected users by default', () => {
+    const component = shallowUserPicker();
+
+    const select = component.find(Select);
+    expect(select.prop('hideSelectedOptions')).toBeFalsy();
   });
 
   it('should trigger props.onSelection if onChange with select-option action', () => {
@@ -167,6 +184,13 @@ describe('UserPicker', () => {
         [options[0], options[1]],
         'select-option',
       );
+    });
+
+    it('should hide selected users', () => {
+      const component = shallowUserPicker({ isMulti: true });
+
+      const select = component.find(Select);
+      expect(select.prop('hideSelectedOptions')).toBeTruthy();
     });
   });
 
@@ -368,6 +392,29 @@ describe('UserPicker', () => {
         fixedOption,
         removableOption,
       ]);
+    });
+  });
+
+  describe('props.open is true', () => {
+    it('should call loadOptions', () => {
+      const loadOptions = jest.fn(() => []);
+      shallowUserPicker({
+        open: true,
+        loadOptions,
+      });
+
+      expect(loadOptions).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call loadOptions with props.search is passed in', () => {
+      const loadOptions = jest.fn(() => []);
+      shallowUserPicker({
+        open: true,
+        loadOptions,
+        search: 'test',
+      });
+
+      expect(loadOptions).toHaveBeenCalledWith('test');
     });
   });
 
@@ -578,7 +625,7 @@ describe('UserPicker', () => {
     );
 
     beforeEach(() => {
-      component = mount(<AnalyticsTestComponent />);
+      component = mountWithIntl(<AnalyticsTestComponent />);
     });
 
     afterEach(() => {
@@ -821,6 +868,25 @@ describe('UserPicker', () => {
         });
       });
 
+      it('should not fire searched if there are no options', () => {
+        component.setProps({
+          open: true,
+        });
+        component.update();
+
+        return Promise.resolve().then(() => {
+          // Focused event
+          expect(onEvent).toHaveBeenCalledTimes(1);
+          expect(onEvent).not.toHaveBeenCalledWith(
+            expect.objectContaining({
+              payload: expect.objectContaining({
+                action: 'searched',
+              }),
+            }),
+          );
+        });
+      });
+
       it('should fire searched when options change', () => {
         component.setProps({
           open: true,
@@ -857,6 +923,16 @@ describe('UserPicker', () => {
           );
         });
       });
+    });
+  });
+
+  describe('allowEmail', () => {
+    it('should use CreatableSelect', () => {
+      const component = shallowUserPicker({ allowEmail: true });
+      const select = component.find(CreatableSelect);
+      expect(select).toHaveLength(1);
+      expect(getCreatableProps).toHaveBeenCalledTimes(1);
+      expect(getCreatableProps).toHaveBeenCalledWith(true);
     });
   });
 });

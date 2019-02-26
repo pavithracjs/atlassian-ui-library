@@ -1,8 +1,18 @@
+const mediaViewerModule = require.requireActual(
+  '../../../newgen/analytics/media-viewer',
+);
+const mediaViewerModalEventSpy = jest.fn();
+const mockMediaViewer = {
+  ...mediaViewerModule,
+  mediaViewerModalEvent: mediaViewerModalEventSpy,
+};
+jest.mock('../../../newgen/analytics/media-viewer', () => mockMediaViewer);
+
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { Subject } from 'rxjs/Subject';
 import Button from '@atlaskit/button';
-import { MediaItem, MediaItemType } from '@atlaskit/media-core';
+import { FileItem, Identifier } from '@atlaskit/media-core';
 import { KeyboardEventWithKeyCode } from '@atlaskit/media-test-helpers';
 import { createContext } from '../_stubs';
 import { Content } from '../../../newgen/content';
@@ -10,10 +20,10 @@ import { MediaViewer } from '../../../newgen/media-viewer';
 import { CloseButtonWrapper } from '../../../newgen/styled';
 import { ErrorMessage } from '../../../newgen/error';
 import Header from '../../../newgen/header';
-import { ItemSource, Identifier } from '../../../newgen/domain';
+import { ItemSource } from '../../../newgen/domain';
 
 function createFixture(items: Identifier[], identifier: Identifier) {
-  const subject = new Subject<MediaItem>();
+  const subject = new Subject<FileItem>();
   const context = createContext();
   const onClose = jest.fn();
   const itemSource: ItemSource = {
@@ -32,10 +42,10 @@ function createFixture(items: Identifier[], identifier: Identifier) {
 }
 
 describe('<MediaViewer />', () => {
-  const identifier = {
+  const identifier: Identifier = {
     id: 'some-id',
     occurrenceKey: 'some-custom-occurrence-key',
-    type: 'file' as MediaItemType,
+    mediaItemType: 'file',
   };
 
   it('should display an error if data source is not supported', () => {
@@ -67,10 +77,10 @@ describe('<MediaViewer />', () => {
   });
 
   it('the error view show close on click', () => {
-    const selectedItem = {
+    const selectedItem: Identifier = {
       id: 'some-id-2',
       occurrenceKey: 'some-custom-occurrence-key',
-      type: 'file' as MediaItemType,
+      mediaItemType: 'file',
     };
     const { el, onClose } = createFixture([], selectedItem);
     expect(el.find(ErrorMessage)).toHaveLength(1);
@@ -86,5 +96,12 @@ describe('<MediaViewer />', () => {
       .find(Button)
       .simulate('click');
     expect(onClose).toHaveBeenCalled();
+  });
+
+  describe('Analytics', () => {
+    it('should trigger the screen event when the component loads', () => {
+      createFixture([identifier], identifier);
+      expect(mediaViewerModalEventSpy).toHaveBeenCalled();
+    });
   });
 });

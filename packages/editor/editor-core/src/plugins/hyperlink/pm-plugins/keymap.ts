@@ -9,6 +9,7 @@ import { HyperlinkState, stateKey } from '../pm-plugins/main';
 import { showLinkToolbar, hideLinkToolbar } from '../commands';
 import { queueCards } from '../../card/pm-plugins/actions';
 import { Command } from '../../../types';
+import { INPUT_METHOD } from '../../analytics';
 
 export function createKeymapPlugin(
   schema: Schema,
@@ -16,16 +17,14 @@ export function createKeymapPlugin(
 ): Plugin | undefined {
   const list = {};
 
-  if (props.appearance !== 'message') {
-    keymaps.bindKeymapWithCommand(
-      keymaps.addLink.common!,
-      trackAndInvoke(
-        'atlassian.editor.format.hyperlink.keyboard',
-        showLinkToolbar(),
-      ),
-      list,
-    );
-  }
+  keymaps.bindKeymapWithCommand(
+    keymaps.addLink.common!,
+    trackAndInvoke(
+      'atlassian.editor.format.hyperlink.keyboard',
+      showLinkToolbar(INPUT_METHOD.SHORTCUT),
+    ),
+    list,
+  );
 
   keymaps.bindKeymapWithCommand(
     keymaps.enter.common!,

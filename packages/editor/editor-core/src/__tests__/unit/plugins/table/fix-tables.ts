@@ -6,6 +6,7 @@ import {
   tr,
   td,
   th,
+  tdEmpty,
 } from '@atlaskit/editor-test-helpers';
 import {
   TablePluginState,
@@ -36,42 +37,6 @@ describe('fix tables', () => {
     });
   };
 
-  describe('autoSize table', () => {
-    it('applies colwidths to cells and sets autosize to false', () => {
-      const { editorView } = editor(
-        doc(
-          table({ __autoSize: true })(
-            tr(th()(p('{<>}1')), th()(p('2')), th()(p('3'))),
-            tr(td()(p('4')), td()(p('5')), td()(p('6'))),
-            tr(td()(p('7')), td()(p('8')), td()(p('9'))),
-          ),
-        ),
-      );
-
-      expect(editorView.state.doc).toEqualDocument(
-        doc(
-          table({ __autoSize: false })(
-            tr(
-              th({ colwidth: [] })(p('1')),
-              th({ colwidth: [] })(p('2')),
-              th({ colwidth: [] })(p('3')),
-            ),
-            tr(
-              td({ colwidth: [] })(p('4')),
-              td({ colwidth: [] })(p('5')),
-              td({ colwidth: [] })(p('6')),
-            ),
-            tr(
-              td({ colwidth: [] })(p('7')),
-              td({ colwidth: [] })(p('8')),
-              td({ colwidth: [] })(p('9')),
-            ),
-          ),
-        ),
-      );
-    });
-  });
-
   describe('when document contains a table with empty rows', () => {
     it('should remove the table node', () => {
       global['fetch'] = jest.fn();
@@ -80,6 +45,68 @@ describe('fix tables', () => {
 
       expect(editorView.state.doc).toEqualDocument(doc(p('one'), p('two')));
       expect(global['fetch']).toHaveBeenCalled();
+    });
+  });
+
+  describe('removeExtraneousColumnWidths', () => {
+    it('removes unneccesary column widths', () => {
+      const { editorView } = editor(
+        doc(
+          table()(
+            tr(
+              th({ colwidth: [100, 100] })(p('{<>}1')),
+              th({ colwidth: [100, 100] })(p('2')),
+              th({ colwidth: [480] })(p('3')),
+            ),
+            tr(
+              td({ colwidth: [100, 100] })(p('4')),
+              td({ colwidth: [100, 100] })(p('5')),
+              td({ colwidth: [480] })(p('6')),
+            ),
+          ),
+        ),
+      );
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          table()(
+            tr(
+              th({ colwidth: [100] })(p('1')),
+              th({ colwidth: [100] })(p('2')),
+              th({ colwidth: [480] })(p('3')),
+            ),
+            tr(
+              td({ colwidth: [100] })(p('4')),
+              td({ colwidth: [100] })(p('5')),
+              td({ colwidth: [480] })(p('6')),
+            ),
+          ),
+        ),
+      );
+    });
+  });
+
+  describe('when minimum colspan of a column is > 1', () => {
+    it('should decrement colspans', () => {
+      const { editorView } = editor(
+        doc(
+          table({})(tr(td({})(p('{<>}')), tdEmpty)),
+          table({})(
+            tr(td({ colspan: 3 })(p('')), tdEmpty, tdEmpty),
+            tr(td({ colspan: 4 })(p('')), tdEmpty),
+          ),
+        ),
+      );
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          table({})(tr(tdEmpty, tdEmpty)),
+          table({})(
+            tr(td({})(p('')), tdEmpty, tdEmpty),
+            tr(td({ colspan: 2 })(p('')), tdEmpty),
+          ),
+        ),
+      );
     });
   });
 });

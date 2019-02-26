@@ -1,4 +1,5 @@
-import { CardEvent, Identifier } from '@atlaskit/media-card';
+import { Identifier } from '@atlaskit/media-core';
+import { CardEvent } from '@atlaskit/media-card';
 import { SyntheticEvent } from 'react';
 import { ActionMarkAction } from '@atlaskit/adf-schema';
 
@@ -25,9 +26,9 @@ export type LinkEventClickHandler = (
 export type SmartCardEventClickHandler = (url?: string) => void;
 
 export interface MentionEventHandlers {
-  onClick?: MentionEventHandler;
-  onMouseEnter?: MentionEventHandler;
-  onMouseLeave?: MentionEventHandler;
+  onClick: MentionEventHandler;
+  onMouseEnter: MentionEventHandler;
+  onMouseLeave: MentionEventHandler;
 }
 
 export interface EventHandlers {
