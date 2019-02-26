@@ -1,21 +1,14 @@
 import { borderRadius, fontSize, gridSize } from '@atlaskit/theme';
 import { applyPropertyStyle, baseTheme } from '../theme';
 import { getLoadingStyle } from './utils';
-import { ButtonThemeProps } from '../types';
+import {
+  ButtonStyles,
+  ButtonThemeProps,
+  IconStyles,
+  SpinnerStyles,
+} from '../types';
 
 type Spacing = 'compact' | 'default' | 'none';
-
-export type ButtonStyles = {
-  [index: string]: string | number | { [index: string]: number };
-};
-
-export type SpinnerStyles = {
-  [index: string]: string;
-};
-
-export type IconStyles = {
-  [index: string]: string | number;
-};
 
 const getBackground = (props: ButtonThemeProps) => {
   return applyPropertyStyle('background', props, baseTheme);

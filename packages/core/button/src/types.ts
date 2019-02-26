@@ -110,7 +110,7 @@ export interface ButtonThemeProps extends ButtonProps {
 
 export type IconProps = {
   spacing: string;
-  styles: any;
+  styles: IconStyles;
   isOnlyChild: boolean;
   isLoading?: boolean;
   icon: React.ReactChild;
@@ -127,4 +127,16 @@ export type AppearanceStates = {
   disabled?: { light: string; dark?: string };
   selected?: { light: string; dark?: string };
   focusSelected?: { light: string; dark?: string };
+};
+
+export type ButtonStyles = {
+  [index: string]: string | number | { [index: string]: number };
+};
+
+export type SpinnerStyles = {
+  [index: string]: string;
+};
+
+export type IconStyles = {
+  [index: string]: string | number;
 };

@@ -17,8 +17,13 @@ import InnerWrapper from './InnerWrapper';
 import IconWrapper from './IconWrapper';
 import LoadingSpinner from './LoadingSpinner';
 import { withDefaultProps } from '@atlaskit/type-helpers';
-import { ButtonProps, ThemeMode } from '../types';
-import { ButtonStyles, SpinnerStyles, IconStyles } from './getStyles';
+import {
+  ButtonProps,
+  ButtonStyles,
+  IconStyles,
+  SpinnerStyles,
+  ThemeMode,
+} from '../types';
 
 type ButtonThemeStyles = {
   buttonStyles: ButtonStyles;
