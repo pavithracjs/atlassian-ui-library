@@ -11,15 +11,13 @@ const customButtonTheme = {
   margin: 20,
 };
 
-const baseButtonThemeFunction = () => {
-  return {
-    buttonStyles: {
-      fontSize: 10,
-      textAlign: 'center',
-      width: 50,
-    },
-  };
-};
+const baseButtonThemeFunction = () => ({
+  buttonStyles: {
+    fontSize: 10,
+    textAlign: 'center',
+    width: 50,
+  },
+});
 
 const ThemedButton = (customProps: any) => (
   <Button
@@ -28,7 +26,9 @@ const ThemedButton = (customProps: any) => (
       { appearance = 'default', state = 'default' }: ThemeProps,
     ) => {
       // Allow tests to re-write ADG theme
-      if (customProps.customAdgTheme) adgTheme = customProps.customAdgTheme;
+      if (customProps.customAdgTheme) {
+        adgTheme = customProps.customAdgTheme;
+      }
       // Allow tests to skip ADG theme
       const adgButton = customProps.skipAdgTheme
         ? {}

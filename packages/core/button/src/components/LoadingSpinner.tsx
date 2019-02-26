@@ -22,7 +22,9 @@ export default class LoadingSpinner extends React.Component<Props> {
       return false;
     }
     if (appearance !== undefined) {
-      if (appearances.indexOf(appearance) !== -1) return true;
+      if (appearances.indexOf(appearance) !== -1) {
+        return true;
+      }
     }
     return false;
   };

@@ -213,7 +213,9 @@ export function applyPropertyStyle(
 
   // If there is no 'state' key (ie, 'hover') defined for a given appearance,
   // return the 'default' state of that appearance.
-  if (!propertyStyles[appearance][state]) state = 'default';
+  if (!propertyStyles[appearance][state]) {
+    state = 'default';
+  }
 
   const appearanceStyles = propertyStyles[appearance];
   const stateStyles = appearanceStyles[state];

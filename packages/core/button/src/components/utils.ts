@@ -103,10 +103,9 @@ export const checkDeprecations = ({
   ariaHaspopup,
 }: ButtonProps) => {
   if (ariaControls || ariaExpanded || ariaLabel || ariaHaspopup) {
-    /* eslint-disable no-console */
+    // tslint:disable-next-line
     console.warn(
       'Button aria* props have been deprecated, please use the React ARIA props - https://goo.gl/Qnise1',
     );
-    /* eslint-enable no-console */
   }
 };
