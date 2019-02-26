@@ -20,8 +20,12 @@ const getColor = (props: ButtonThemeProps) => {
 
 const getCursor = ({ state = 'default' }: { state: string }) => {
   let cursor = 'default';
-  if (state === 'hover') cursor = 'pointer';
-  if (state === 'disabled') cursor = 'not-allowed';
+  if (state === 'hover') {
+    cursor = 'pointer';
+  }
+  if (state === 'disabled') {
+    cursor = 'not-allowed';
+  }
   return cursor;
 };
 
@@ -36,13 +40,16 @@ const getPadding = (props: ButtonThemeProps) => {
     (props.iconBefore || props.iconAfter) &&
     !(props.iconBefore && props.iconAfter) &&
     props.isLoading
-  )
+  ) {
     padLeft = padRight = paddingSize / 2;
+  }
 
   // TODO: RTL support
   let padding = `0 ${padRight}em 0 ${padLeft}em`;
 
-  if (props.spacing === 'none' || props.iconIsOnlyChild) padding = '0';
+  if (props.spacing === 'none' || props.iconIsOnlyChild) {
+    padding = '0';
+  }
   return padding;
 };
 
@@ -58,8 +65,12 @@ const getTransition = ({ state = 'default' }: { state: string }) => {
 
 const getTransitionDuration = ({ state = 'default' }: { state: string }) => {
   let transitionDuration = '0.1s, 0.15s';
-  if (state === 'active') transitionDuration = '0s';
-  if (state === 'focus') transitionDuration = '0s, 0.2s';
+  if (state === 'active') {
+    transitionDuration = '0s';
+  }
+  if (state === 'focus') {
+    transitionDuration = '0s, 0.2s';
+  }
   return transitionDuration;
 };
 
@@ -80,8 +91,12 @@ const getWidth = ({
   shouldFitContainer: boolean;
 }) => {
   let width = 'auto';
-  if (spacing === 'compact') width = '100%';
-  if (shouldFitContainer) width = '100%';
+  if (spacing === 'compact') {
+    width = '100%';
+  }
+  if (shouldFitContainer) {
+    width = '100%';
+  }
   return width;
 };
 
@@ -106,8 +121,12 @@ export const getButtonStyles = (props: ButtonThemeProps): ButtonStyles => {
 
   const getLineHeight = ({ spacing = 'default' }: { spacing: Spacing }) => {
     let lineHeight = buttonHeight;
-    if (spacing === 'compact') lineHeight = compactButtonHeight;
-    if (spacing === 'none') lineHeight = 'inherit';
+    if (spacing === 'compact') {
+      lineHeight = compactButtonHeight;
+    }
+    if (spacing === 'none') {
+      lineHeight = 'inherit';
+    }
     return lineHeight;
   };
 
@@ -143,7 +162,9 @@ export const getSpinnerStyles = (): SpinnerStyles => ({
 });
 
 const getIconMargin = (props: ButtonThemeProps) => {
-  if (props.spacing === 'none') return 0;
+  if (props.spacing === 'none') {
+    return 0;
+  }
   return `${gridSize() / 2}px`;
 };
 

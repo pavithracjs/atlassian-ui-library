@@ -105,7 +105,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   getElement = () => {
     const { href, isDisabled } = this.props;
-    if (href) return isDisabled ? 'span' : 'a';
+    if (href) {
+      return isDisabled ? 'span' : 'a';
+    }
     return 'button';
   };
 
@@ -114,7 +116,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   // Swallow click events when the button is disabled
   // to prevent inner child clicks bubbling up.
   onInnerClick: React.MouseEventHandler<HTMLElement> = e => {
-    if (!this.isInteractive()) e.stopPropagation();
+    if (!this.isInteractive()) {
+      e.stopPropagation();
+    }
     return true;
   };
 
@@ -123,7 +127,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     this.button = ref;
 
     const { innerRef } = this.props;
-    if (innerRef) innerRef(ref);
+    if (innerRef) {
+      innerRef(ref);
+    }
   };
 
   render() {

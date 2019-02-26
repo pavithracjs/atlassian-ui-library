@@ -199,7 +199,9 @@ export function applyPropertyStyle(
   theme: any,
 ) {
   const propertyStyles = theme[property];
-  if (!propertyStyles) return 'initial';
+  if (!propertyStyles) {
+    return 'initial';
+  }
 
   // Check for relevant fallbacks.
   if (!propertyStyles[appearance]) {
@@ -216,7 +218,9 @@ export function applyPropertyStyle(
   const appearanceStyles = propertyStyles[appearance];
   const stateStyles = appearanceStyles[state];
 
-  if (!stateStyles) return 'inherit';
+  if (!stateStyles) {
+    return 'inherit';
+  }
   return stateStyles[mode] || appearanceStyles.default[mode];
 }
 
