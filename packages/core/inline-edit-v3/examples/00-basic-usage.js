@@ -42,14 +42,12 @@ export default class BasicExample extends Component<void, State> {
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline Edit Field"
-          editView={fieldProps => {
-            console.log(fieldProps);
-            return <TextField {...fieldProps} />;
-          }}
-          readView={fieldProps => {
-            console.log(fieldProps);
-            return <ReadViewContainer>{fieldProps.value}</ReadViewContainer>;
-          }}
+          editView={(fieldProps, ref) => (
+            <TextField {...fieldProps} ref={ref} />
+          )}
+          readView={fieldProps => (
+            <ReadViewContainer>{fieldProps.value}</ReadViewContainer>
+          )}
           onConfirm={this.onConfirm}
           onCancel={this.onCancel}
           isEditing={this.state.isEditing}

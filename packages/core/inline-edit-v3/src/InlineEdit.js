@@ -21,6 +21,7 @@ import ButtonsWrapper from './styled/ButtonsWrapper';
 import ButtonWrapper from './styled/ButtonWrapper';
 import EditButton from './styled/EditButton';
 import ReadViewContentWrapper from './styled/ReadViewContentWrapper';
+import ContentWrapper from './styled/ContentWrapper';
 
 class InlineEdit extends Component<Props, void> {
   static defaultProps: DefaultProps = {
@@ -28,6 +29,7 @@ class InlineEdit extends Component<Props, void> {
     onConfirm: () => {},
     onCancel: () => {},
     disableConfirmOnBlur: false,
+    hideActionButtons: false,
     editButtonLabel: 'Edit',
     confirmButtonLabel: 'Confirm',
     cancelButtonLabel: 'Cancel',
@@ -37,24 +39,25 @@ class InlineEdit extends Component<Props, void> {
     onReadViewHover: false,
   };
 
+  editViewRef = React.createRef();
+
   onCancelClick = (event: any) => {
     event.preventDefault();
     this.props.onCancel();
+  };
+
+  onReadViewClick = (event: any) => {
+    event.preventDefault();
+    this.props.onEditRequested();
   };
 
   /* Add hover + focus style to readView */
   renderReadView = fieldProps => {
     return (
       <ReadViewContentWrapper
-        onMouseEnter={() => {
-          console.log('mouseEnter');
-          this.setState({ onReadViewHover: true });
-        }}
-        onMouseLeave={() => {
-          console.log('mouseLeave');
-          this.setState({ onReadViewHover: false });
-        }}
-        onClick={this.props.onEditRequested}
+        onMouseEnter={() => this.setState({ onReadViewHover: true })}
+        onMouseLeave={() => this.setState({ onReadViewHover: false })}
+        onClick={this.onReadViewClick}
       >
         {this.props.readView(fieldProps)}
       </ReadViewContentWrapper>
@@ -63,13 +66,13 @@ class InlineEdit extends Component<Props, void> {
 
   /* Add focus style to editView */
   // Should we add onKeyDown listener or cloneElement with onConfirm for the child to implement confirm on enter?
-  renderEditView = fieldProps => {
+  renderEditView = (fieldProps, ref) => {
     // Add focus style
-    return this.props.editView(fieldProps);
+    return this.props.editView(fieldProps, ref);
   };
 
   renderActionButtons = () => {
-    this.props.isEditing && !this.props.areActionButtonsHidden ? (
+    return (
       <ButtonsWrapper>
         <ButtonWrapper>
           <Button
@@ -88,7 +91,13 @@ class InlineEdit extends Component<Props, void> {
           />
         </ButtonWrapper>
       </ButtonsWrapper>
-    ) : null;
+    );
+  };
+
+  componentDidUpdate = prevProps => {
+    if (this.props.isEditing && this.props.isEditing !== prevProps.isEditing) {
+      this.editViewRef.current.focus();
+    }
   };
 
   render() {
@@ -97,21 +106,25 @@ class InlineEdit extends Component<Props, void> {
       <Form onSubmit={data => this.props.onConfirm(data.inlineEdit)}>
         {({ formProps }) => (
           <form {...formProps}>
-            <Field
-              name="inlineEdit"
-              label={label}
-              defaultValue={defaultValue}
-              validate={validate}
-            >
-              {({ fieldProps }) => (
-                <div>
-                  {this.props.isEditing
-                    ? this.renderEditView(fieldProps)
-                    : this.renderReadView(fieldProps)}
-                  {this.renderActionButtons()}
-                </div>
-              )}
-            </Field>
+            <ContentWrapper>
+              <Field
+                name="inlineEdit"
+                label={label}
+                defaultValue={defaultValue}
+                validate={validate}
+              >
+                {({ fieldProps }) => (
+                  <div>
+                    {this.props.isEditing
+                      ? this.renderEditView(fieldProps, this.editViewRef)
+                      : this.renderReadView(fieldProps)}
+                  </div>
+                )}
+              </Field>
+              {this.props.isEditing &&
+                !this.props.hideActionButtons &&
+                this.renderActionButtons()}
+            </ContentWrapper>
           </form>
         )}
       </Form>
