@@ -50,16 +50,12 @@ export const Theme = createTheme<ThemeTokens, ThemeProps>(
       return {
         backgroundColor: backgroundColors.default.light,
         textColor: textColors.default.light,
-        borderRadius: '2em',
-        padding: '0.16666666666667em 0.5em',
         ...appearance,
       };
     }
     return {
       backgroundColor: backgroundColors[appearance][mode],
       textColor: textColors[appearance][mode],
-      borderRadius: '2em',
-      padding: '0.16666666666667em 0.5em',
     };
   },
 );
