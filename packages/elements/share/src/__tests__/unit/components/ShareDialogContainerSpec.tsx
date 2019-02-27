@@ -19,6 +19,7 @@ let mockRequestService: jest.Mock;
 let mockInvitationCapabilitiesResource: jest.Mock;
 let mockShareServiceClient: jest.Mock;
 const mockCloudId = 'cloudId';
+const mockDialogPlacement = 'bottom-start';
 const mockProductId = 'productId';
 const mockShareAri = 'ari';
 const mockShareLink = 'share-link';
@@ -79,6 +80,7 @@ beforeEach(() => {
       buttonStyle={mockButtonStyle}
       client={mockClient}
       cloudId={mockCloudId}
+      dialogPlacement={mockDialogPlacement}
       loadUserOptions={mockLoadUserOptions}
       originTracingFactory={mockOriginTracingFactory}
       productId={mockProductId}
@@ -105,6 +107,9 @@ describe('ShareDialogContainer', () => {
     expect(mockFormatCopyLink).toHaveBeenCalled();
     expect(shareDialogWithTrigger.prop('buttonStyle')).toEqual(mockButtonStyle);
     expect(shareDialogWithTrigger.prop('copyLink')).toEqual(mockCopyLink);
+    expect(shareDialogWithTrigger.prop('dialogPlacement')).toEqual(
+      mockDialogPlacement,
+    );
     expect(shareDialogWithTrigger.prop('loadUserOptions')).toEqual(
       mockLoadUserOptions,
     );

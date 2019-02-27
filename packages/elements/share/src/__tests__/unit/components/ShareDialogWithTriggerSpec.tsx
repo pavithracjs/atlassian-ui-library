@@ -167,6 +167,27 @@ describe('ShareDialogWithTrigger', () => {
     });
   });
 
+  describe('dialogPlacement prop', () => {
+    it('should be passed into InlineDialog component as placement prop', () => {
+      const defaultPlacement: string = 'bottom-end';
+      wrapper = shallow<ShareDialogWithTrigger>(
+        <ShareDialogWithTrigger
+          copyLink="copyLink"
+          loadUserOptions={mockLoadOptions}
+          onShareSubmit={mockOnShareSubmit}
+        />,
+      );
+      expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
+        defaultPlacement,
+      );
+      const newPlacement: string = 'bottom-start';
+      wrapper.setProps({ dialogPlacement: newPlacement });
+      expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
+        newPlacement,
+      );
+    });
+  });
+
   describe('isDisabled prop', () => {
     it('should be passed into ShareButton', () => {
       let isDisabled = false;

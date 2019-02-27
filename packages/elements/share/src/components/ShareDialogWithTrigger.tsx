@@ -35,6 +35,7 @@ export type Props = {
   capabilities?: InvitationsCapabilitiesResponse;
   children?: RenderChildren;
   copyLink: string;
+  dialogPlacement: string;
   isDisabled?: boolean;
   loadUserOptions?: LoadOptions;
   onLinkCopy?: Function;
@@ -60,6 +61,7 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
   static defaultProps = {
     buttonStyle: 'icon-only' as 'icon-only',
     isDisabled: false,
+    dialogPlacement: 'bottom-end',
     shouldCloseOnEscapePress: false,
   };
   private containerRef = React.createRef<HTMLDivElement>();
@@ -148,7 +150,13 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
 
   render() {
     const { isDialogOpen, isSharing, shareError, defaultValue } = this.state;
-    const { copyLink, isDisabled, loadUserOptions, capabilities } = this.props;
+    const {
+      capabilities,
+      copyLink,
+      dialogPlacement,
+      isDisabled,
+      loadUserOptions,
+    } = this.props;
 
     // for performance purposes, we may want to have a lodable content i.e. ShareForm
     return (
@@ -175,6 +183,7 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
           }
           isOpen={isDialogOpen}
           onClose={this.handleCloseDialog}
+          placement={dialogPlacement}
         >
           {this.props.children ? (
             this.props.children({
