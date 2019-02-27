@@ -14,6 +14,7 @@ import { messages } from '../../../i18n';
 import {
   DialogContentState,
   InvitationsCapabilitiesResponse,
+  ShareError,
 } from '../../../types';
 import { renderProp } from '../_testUtils';
 
@@ -115,11 +116,33 @@ describe('ShareForm', () => {
       const footer = form.find(FormFooter);
       expect(footer.find(Button).prop('isLoading')).toBeTruthy();
     });
+
+    it('should set isLoading prop to true to the Retry button, and hide the tooltip', () => {
+      const mockLink = 'link';
+      const mockShareError: ShareError = { message: 'error' };
+      const loadOptions = jest.fn();
+      const wrapper = shallow(
+        <ShareForm
+          copyLink={mockLink}
+          loadOptions={loadOptions}
+          shareError={mockShareError}
+          isSharing
+        />,
+      );
+
+      const akForm = wrapper.find<any>(Form);
+      const form = renderProp(akForm, 'children', { formProps: {} })
+        .dive()
+        .find('form');
+      const footer = form.find(FormFooter);
+      expect(footer.find(Tooltip)).toHaveLength(0);
+      expect(footer.find(Button).prop('isLoading')).toBeTruthy();
+    });
   });
 
   describe('shareError prop', () => {
     it('should render Retry button with an ErrorIcon and Tooltip', () => {
-      const mockShareError = { message: 'error' };
+      const mockShareError: ShareError = { message: 'error' };
       const wrapper = shallow(
         <ShareForm
           copyLink="link"

@@ -96,16 +96,18 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
           {shareError ? (
             <>
               <CenterAlignedIconWrapper>
-                <Tooltip
-                  content={
-                    <FormattedMessage {...messages.shareFailureMessage} />
-                  }
-                  position="top"
-                >
-                  <ErrorIcon label="errorIcon" primaryColor={colors.R400} />
-                </Tooltip>
+                {!isSharing && (
+                  <Tooltip
+                    content={
+                      <FormattedMessage {...messages.shareFailureMessage} />
+                    }
+                    position="top"
+                  >
+                    <ErrorIcon label="errorIcon" primaryColor={colors.R400} />
+                  </Tooltip>
+                )}
               </CenterAlignedIconWrapper>
-              <Button appearance="warning" type="submit">
+              <Button appearance="warning" type="submit" isLoading={isSharing}>
                 <strong>
                   <FormattedMessage {...messages.formRetry} />
                 </strong>
