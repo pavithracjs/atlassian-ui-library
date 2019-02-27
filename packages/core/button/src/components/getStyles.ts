@@ -1,20 +1,15 @@
 import { borderRadius, fontSize, gridSize } from '@atlaskit/theme';
 import { applyPropertyStyle, baseTheme } from '../theme';
 import { getLoadingStyle } from './utils';
-import {
-  ButtonStyles,
-  ButtonThemeProps,
-  IconStyles,
-  SpinnerStyles,
-} from '../types';
+import { ThemeProps } from '../types';
 
 type Spacing = 'compact' | 'default' | 'none';
 
-const getBackground = (props: ButtonThemeProps) => {
+const getBackground = (props: ThemeProps) => {
   return applyPropertyStyle('background', props, baseTheme);
 };
 
-const getColor = (props: ButtonThemeProps) => {
+const getColor = (props: ThemeProps) => {
   return applyPropertyStyle('color', props, baseTheme);
 };
 
@@ -29,7 +24,7 @@ const getCursor = ({ state = 'default' }: { state: string }) => {
   return cursor;
 };
 
-const getPadding = (props: ButtonThemeProps) => {
+const getPadding = (props: ThemeProps) => {
   const paddingSize = (gridSize() * 1.5) / fontSize();
   let padLeft = props.iconBefore ? 0 : paddingSize;
   let padRight = props.iconAfter ? 0 : paddingSize;
@@ -78,7 +73,7 @@ const getVerticalAlign = ({ spacing = 'default' }: { spacing: Spacing }) => {
   return spacing === 'none' ? 'baseline' : 'middle';
 };
 
-const getBoxShadow = (props: ButtonThemeProps) => {
+const getBoxShadow = (props: ThemeProps) => {
   const boxShadowColor = applyPropertyStyle('boxShadowColor', props, baseTheme);
   return `0 0 0 2px ${boxShadowColor}`;
 };
@@ -115,7 +110,7 @@ const staticStyles = {
   whiteSpace: 'nowrap',
 };
 
-export const getButtonStyles = (props: ButtonThemeProps): ButtonStyles => {
+export const getButtonStyles = (props: ThemeProps) => {
   const compactButtonHeight = `${(gridSize() * 3) / fontSize()}em`;
   const buttonHeight = `${(gridSize() * 4) / fontSize()}em`;
 
@@ -153,7 +148,7 @@ export const getButtonStyles = (props: ButtonThemeProps): ButtonStyles => {
   };
 };
 
-export const getSpinnerStyles = (): SpinnerStyles => ({
+export const getSpinnerStyles = () => ({
   display: 'flex',
   position: 'absolute',
   left: '50%',
@@ -161,14 +156,14 @@ export const getSpinnerStyles = (): SpinnerStyles => ({
   transform: 'translate(-50%, -50%)',
 });
 
-const getIconMargin = (props: ButtonThemeProps) => {
+const getIconMargin = (props: ThemeProps) => {
   if (props.spacing === 'none') {
     return 0;
   }
   return `${gridSize() / 2}px`;
 };
 
-export const getIconStyles = (props: ButtonThemeProps): IconStyles => ({
+export const getIconStyles = (props: ThemeProps) => ({
   alignSelf: 'center',
   display: 'flex',
   flexShrink: 0,

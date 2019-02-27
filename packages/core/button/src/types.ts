@@ -109,7 +109,7 @@ export interface ThemeProps extends ButtonProps {
 
 export type IconProps = {
   spacing: string;
-  styles: Object;
+  styles: any; // Needs to be CSSObject?
   isOnlyChild: boolean;
   isLoading?: boolean;
   icon: React.ReactChild;
