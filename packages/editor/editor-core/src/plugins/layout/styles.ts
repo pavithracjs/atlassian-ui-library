@@ -5,6 +5,9 @@ import { colors, gridSize } from '@atlaskit/theme';
 import {
   columnLayoutSharedStyle,
   gridMediumMaxWidth,
+  akEditorDeleteBackground,
+  akEditorDeleteBorder,
+  akEditorDeleteBorderSize,
 } from '@atlaskit/editor-common';
 
 export const layoutStyles = css`
@@ -45,6 +48,11 @@ export const layoutStyles = css`
       /* Shows the border when cursor is inside a layout */
       &.selected > * {
         border-color: ${colors.N40};
+      }
+
+      &.selected.danger > [data-layout-column] {
+        background-color: ${akEditorDeleteBackground};
+        border: ${akEditorDeleteBorderSize}px solid ${akEditorDeleteBorder};
       }
     }
   }
