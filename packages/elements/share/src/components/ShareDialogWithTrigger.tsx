@@ -91,19 +91,17 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
 
   private onTriggerClick = () => {
     // TODO: send analytics
-    if (!this.state.isDialogOpen) {
-      this.setState(
-        {
-          isDialogOpen: true,
-          ignoreIntermediateState: false,
-        },
-        () => {
-          if (this.containerRef.current) {
-            this.containerRef.current.focus();
-          }
-        },
-      );
-    }
+    this.setState(
+      {
+        isDialogOpen: !this.state.isDialogOpen,
+        ignoreIntermediateState: false,
+      },
+      () => {
+        if (this.containerRef.current) {
+          this.containerRef.current.focus();
+        }
+      },
+    );
   };
 
   private handleCloseDialog = (_: { isOpen: boolean; event: any }) => {

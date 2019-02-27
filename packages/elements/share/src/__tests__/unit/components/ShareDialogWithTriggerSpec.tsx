@@ -89,6 +89,14 @@ describe('ShareDialogWithTrigger', () => {
       mountWrapper.setState({ isDialogOpen: true });
       expect(mountWrapper.find(ShareForm).length).toBe(1);
     });
+
+    it('should be toggled if clicked on ShareButton', () => {
+      expect(wrapper.state().isDialogOpen).toEqual(false);
+      wrapper.find(ShareButton).simulate('click');
+      expect(wrapper.state().isDialogOpen).toEqual(true);
+      wrapper.find(ShareButton).simulate('click');
+      expect(wrapper.state().isDialogOpen).toEqual(false);
+    });
   });
 
   describe('buttonStyle prop', () => {
@@ -178,16 +186,6 @@ describe('ShareDialogWithTrigger', () => {
       shareButtonProps = wrapper.find(ShareButton).props();
       expect(shareButtonProps.isDisabled).toEqual(!isDisabled);
     });
-  });
-
-  describe('handleOpenDialog', () => {
-    it('should set the isDialogOpen state to true', () => {
-      expect(wrapper.state().isDialogOpen).toEqual(false);
-      wrapper.find(ShareButton).simulate('click');
-      expect(wrapper.state().isDialogOpen).toEqual(true);
-    });
-
-    it.skip('should send an analytic event', () => {});
   });
 
   describe('handleCloseDialog', () => {
