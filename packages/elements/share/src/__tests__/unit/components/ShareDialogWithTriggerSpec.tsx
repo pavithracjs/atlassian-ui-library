@@ -209,13 +209,11 @@ describe('ShareDialogWithTrigger', () => {
 
     it.skip('should send an analytic event', () => {});
 
-    it('should be trigger when the InlineDialog is closed', () => {
-      const escapeKeyDownEvent = {
-        target: document,
-        type: 'keydown',
-        key: 'Escape',
+    it('should be triggered when the InlineDialog is closed', () => {
+      const mockClickEvent: Partial<Event> = {
+        target: document.createElement('div'),
+        type: 'click',
       };
-
       const wrapper = shallow<ShareDialogWithTrigger>(
         <ShareDialogWithTrigger copyLink="copyLink" />,
       );
@@ -223,8 +221,44 @@ describe('ShareDialogWithTrigger', () => {
       expect(wrapper.state().isDialogOpen).toEqual(true);
       wrapper
         .find(InlineDialog)
-        .simulate('close', { isOpen: false, event: escapeKeyDownEvent });
+        .simulate('close', { isOpen: false, event: mockClickEvent });
       expect(wrapper.state().isDialogOpen).toEqual(false);
+    });
+  });
+
+  describe('handleKeyDown', () => {
+    it('should clear the state if an escape key is pressed down', () => {
+      const escapeKeyDownEvent = {
+        target: document,
+        type: 'keydown',
+        key: 'Escape',
+        stopPropagation: jest.fn(),
+      };
+      const mockShareData: ShareData = {
+        users: [
+          { type: 'user', id: 'id', name: 'name' },
+          { type: 'email', id: 'email', name: 'email' },
+        ],
+        comment: {
+          format: 'plain_text',
+          value: 'comment',
+        },
+      };
+      const wrapper = shallow<ShareDialogWithTrigger>(
+        <ShareDialogWithTrigger copyLink="copyLink" />,
+      );
+      wrapper.setState({
+        isDialogOpen: true,
+        ignoreIntermediateState: false,
+        defaultValue: mockShareData,
+        shareError: new Error('unable to share'),
+      });
+      wrapper.find('div').simulate('keydown', escapeKeyDownEvent);
+      expect(escapeKeyDownEvent.stopPropagation).toHaveBeenCalledTimes(1);
+      expect(wrapper.state().isDialogOpen).toBeFalsy();
+      expect(wrapper.state().ignoreIntermediateState).toBeTruthy();
+      expect(wrapper.state().defaultValue).toEqual(defaultShareContentState);
+      expect(wrapper.state().shareError).toBeUndefined();
     });
   });
 

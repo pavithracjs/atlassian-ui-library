@@ -83,6 +83,7 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
             isDialogOpen: false,
             ignoreIntermediateState: true,
             defaultValue: defaultShareContentState,
+            shareError: undefined,
           });
       }
     }
