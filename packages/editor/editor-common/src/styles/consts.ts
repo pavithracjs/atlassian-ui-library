@@ -20,6 +20,7 @@ const {
   N700,
   N900,
   R300,
+  R400,
   R50,
   R75,
   DN50,
@@ -40,6 +41,9 @@ export const akEditorPrimaryButton = B400;
 export const akEditorCodeBackground = N20;
 export const akEditorCodeBlockPadding = '12px';
 export const akEditorCodeInlinePadding = '2px 4px';
+export const akEditorDeleteBackground = R50;
+export const akEditorDeleteBorder = R300;
+export const akEditorDeleteIconColor = R400;
 export const akEditorUnitZIndex = 1;
 export const akEditorSmallZIndex = 2;
 export const akEditorGridLineZIndex = 9999;

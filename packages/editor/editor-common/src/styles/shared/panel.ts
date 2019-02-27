@@ -2,7 +2,13 @@
 // prettier-ignore
 import { css, Styles, StyledComponentClass, InterpolationFunction, ThemeProps } from 'styled-components';
 import { gridSize, borderRadius } from '@atlaskit/theme';
-import { relativeSize, akEditorTableCellMinWidth } from '../consts';
+import {
+  relativeSize,
+  akEditorTableCellMinWidth,
+  akEditorDeleteBackground,
+  akEditorDeleteBorder,
+  akEditorDeleteIconColor,
+} from '../consts';
 
 export const PanelSharedCssClassName = {
   PANEL_CONTAINER: 'ak-editor-panel',
@@ -35,6 +41,15 @@ export const panelSharedStyles = css`
     .ak-editor-panel__content {
       margin: 1px 0 1px;
       flex: 1 0 0;
+    }
+  }
+
+  & .danger .${PanelSharedCssClassName.PANEL_CONTAINER} {
+    background: ${akEditorDeleteBackground} !important;
+    border: 1px solid ${akEditorDeleteBorder};
+
+    .ak-editor-panel__icon {
+      color: ${akEditorDeleteIconColor} !important;
     }
   }
 `;
