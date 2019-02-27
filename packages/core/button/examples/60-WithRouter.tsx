@@ -4,14 +4,13 @@ import { Link, MemoryRouter } from 'react-router-dom';
 import Button from '../src';
 
 type Props = {
-  children: React.ReactChild;
-  className: string;
-  href: Link;
-  onMouseEnter: React.MouseEventHandler;
-  onMouseLeave: React.MouseEventHandler;
+  className?: string;
+  href?: string;
+  onMouseEnter?: React.MouseEventHandler;
+  onMouseLeave?: React.MouseEventHandler;
 };
 
-class RouterLink extends React.PureComponent<Props, {}> {
+class RouterLink extends React.Component<Props, {}> {
   render() {
     const {
       children,

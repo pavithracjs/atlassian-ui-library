@@ -1,11 +1,6 @@
 import { colors, createTheme } from '@atlaskit/theme';
 import { hex2rgba } from './components/utils';
-import {
-  ButtonThemeProps,
-  ThemeTokens,
-  ThemeMode,
-  ThemeFallbacks,
-} from './types';
+import { ThemeProps, ThemeTokens, ThemeMode, ThemeFallbacks } from './types';
 import {
   getButtonStyles,
   getSpinnerStyles,
@@ -226,7 +221,7 @@ export function applyPropertyStyle(
   return stateStyles[mode] || appearanceStyles.default[mode];
 }
 
-export const Theme = createTheme<ThemeTokens, ButtonThemeProps>(themeProps => ({
+export const Theme = createTheme<ThemeTokens, ThemeProps>(themeProps => ({
   buttonStyles: getButtonStyles(themeProps),
   spinnerStyles: getSpinnerStyles(),
   iconStyles: getIconStyles(themeProps),

@@ -16,20 +16,7 @@ import Content from './Content';
 import InnerWrapper from './InnerWrapper';
 import IconWrapper from './IconWrapper';
 import LoadingSpinner from './LoadingSpinner';
-import { withDefaultProps } from '@atlaskit/type-helpers';
-import {
-  ButtonProps,
-  ButtonStyles,
-  IconStyles,
-  SpinnerStyles,
-  ThemeMode,
-} from '../types';
-
-type ButtonThemeStyles = {
-  buttonStyles: ButtonStyles;
-  spinnerStyles: SpinnerStyles;
-  iconStyles: IconStyles;
-};
+import { ButtonProps, ThemeMode } from '../types';
 
 export type ButtonState = {
   isHover: boolean;
@@ -37,29 +24,20 @@ export type ButtonState = {
   isFocus: boolean;
 };
 
-export const defaultProps: Pick<
-  ButtonProps,
-  | 'appearance'
-  | 'isDisabled'
-  | 'isSelected'
-  | 'isLoading'
-  | 'spacing'
-  | 'type'
-  | 'shouldFitContainer'
-  | 'autoFocus'
-> = {
-  appearance: 'default',
-  isDisabled: false,
-  isSelected: false,
-  isLoading: false,
-  spacing: 'default',
-  type: 'button',
-  shouldFitContainer: false,
-  autoFocus: false,
-};
-
 export class Button extends React.Component<ButtonProps, ButtonState> {
-  button: HTMLElement | undefined;
+  static defaultProps: Partial<ButtonProps> = {
+    appearance: 'default',
+    isDisabled: false,
+    isSelected: false,
+    isLoading: false,
+    spacing: 'default',
+    type: 'button',
+    shouldFitContainer: false,
+    autoFocus: false,
+    theme: (current, props) => current(props),
+  };
+  // ref can be a range of things because we render button, a, span or other React components
+  button: any | undefined;
 
   state = {
     isActive: false,
@@ -68,7 +46,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 
   componentDidMount() {
-    if (this.props.autoFocus && this.button) {
+    if (this.props.autoFocus && this.button instanceof HTMLButtonElement) {
       this.button.focus();
     }
     checkDeprecations(this.props);
@@ -123,11 +101,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 
   // Handle innerRef for focusing button
-  getInnerRef = (ref: HTMLElement) => {
+  getInnerRef = (ref: any | undefined) => {
     this.button = ref;
 
     const { innerRef } = this.props;
-    if (innerRef) {
+    if (typeof innerRef === 'function') {
       innerRef(ref);
     }
   };
@@ -150,11 +128,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     const attributes = { ...this.state, isSelected, isDisabled };
 
-    const StyledButton = CustomComponent
-      ? React.forwardRef((props: ButtonProps, ref: any) => (
-          <CustomComponent innerRef={ref} {...props} />
-        ))
-      : this.getElement();
+    const StyledButton = CustomComponent || this.getElement();
 
     const iconIsOnlyChild: boolean = !!(
       (iconBefore && !iconAfter && !children) ||
@@ -184,14 +158,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
               iconIsOnlyChild={iconIsOnlyChild}
               {...this.props}
             >
-              {({
-                buttonStyles,
-                spinnerStyles,
-                iconStyles,
-              }: ButtonThemeStyles) => (
+              {({ buttonStyles, spinnerStyles, iconStyles }) => (
                 <StyledButton
                   {...filterProps(this.props, StyledButton)}
-                  ref={this.getInnerRef}
+                  {...(CustomComponent
+                    ? { innerRef: this.getInnerRef }
+                    : { ref: this.getInnerRef })}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
                   onMouseDown={this.onMouseDown}
@@ -251,13 +223,17 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 }
 
-type T = React.Component;
-
-const DefaultedButton = withDefaultProps(defaultProps, Button);
-const ButtonWithForwardRef = React.forwardRef<T, ButtonProps>((props, ref) => (
-  <DefaultedButton {...props} innerRef={ref} />
+const ButtonWithForwardRef = React.forwardRef((props: ButtonProps, ref) => (
+  <Button {...props} innerRef={ref} />
 ));
+
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
+
+export type WithDefaultProps<Props, DefaultProps> = Pick<
+  Props,
+  Exclude<keyof Props, keyof DefaultProps>
+> &
+  Partial<Pick<Props, Extract<keyof Props, keyof DefaultProps>>>;
 
 export default withAnalyticsContext({
   componentName: 'button',
@@ -275,5 +251,8 @@ export default withAnalyticsContext({
         packageVersion,
       },
     }),
+    // @ts-ignore
   })(ButtonWithForwardRef),
-);
+) as React.ComponentType<
+  WithDefaultProps<ButtonProps, typeof Button.defaultProps>
+>;

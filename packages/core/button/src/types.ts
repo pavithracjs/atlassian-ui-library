@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { UIAnalyticsEvent } from '@atlaskit/analytics-next-types';
+import { Button, WithDefaultProps } from './components/Button';
 
 export type ButtonAppearances =
   | 'default'
@@ -19,7 +20,11 @@ export type ButtonProps = {
   /** Add a classname to the button */
   className?: string;
   /** A custom component to use instead of the default button */
-  component?: React.ComponentType;
+  component?: React.ComponentType<
+    WithDefaultProps<ButtonProps, typeof Button.defaultProps> & {
+      innerRef?: (ref: HTMLElement | undefined) => void;
+    }
+  >;
   /** Name property of a linked form that the button submits when clicked */
   form?: string;
   /** Provides a url for buttons being used as a link */
@@ -28,8 +33,8 @@ export type ButtonProps = {
   iconAfter?: React.ReactChild;
   /** Places an icon within the button, before the button's text */
   iconBefore?: React.ReactChild;
-  /** Pass a reference on to the styled component */
-  innerRef?: (element: HTMLElement) => React.RefObject<HTMLElement>;
+  /** Pass a reference on to the button component */
+  innerRef?: React.Ref<HTMLElement | any | undefined>;
   /** Provide a unique id to the button */
   id?: string;
   /** Set if the button is disabled */
@@ -66,8 +71,10 @@ export type ButtonProps = {
   /** Option to fit button width to its parent width */
   shouldFitContainer: boolean;
   /** Pass in a custom theme */
-  theme: () => ThemeTokens;
-
+  theme: (
+    current: (props: ThemeProps) => ThemeTokens,
+    props: ThemeProps,
+  ) => ThemeTokens;
   /** DEPRECATED */
   /** Pass aria-controls to underlying html button */
   ariaControls?: string;
@@ -88,29 +95,21 @@ export type DerivedButtonProps = {
 
 export type ThemeMode = 'dark' | 'light';
 
-export type ThemeTokens = {};
-
-export type ThemeProps = {
-  appearance: string;
-  state: string;
-  mode?: ThemeMode;
+export type ThemeTokens = {
+  buttonStyles: Object;
+  iconStyles: Object;
+  spinnerStyles: Object;
 };
 
-export type ButtonThemePropsList = {
-  buttonStyles: ButtonThemeProps;
-  iconStyles: ButtonThemeProps;
-  spinnerStyles: ButtonThemeProps;
-};
-
-export interface ButtonThemeProps extends ButtonProps {
+export interface ThemeProps extends ButtonProps {
   state: string;
-  mode?: ThemeMode;
   iconIsOnlyChild?: boolean;
+  mode?: ThemeMode;
 }
 
 export type IconProps = {
   spacing: string;
-  styles: IconStyles;
+  styles: Object;
   isOnlyChild: boolean;
   isLoading?: boolean;
   icon: React.ReactChild;
@@ -127,16 +126,4 @@ export type AppearanceStates = {
   disabled?: { light: string; dark?: string };
   selected?: { light: string; dark?: string };
   focusSelected?: { light: string; dark?: string };
-};
-
-export type ButtonStyles = {
-  [index: string]: string | number | { [index: string]: number };
-};
-
-export type SpinnerStyles = {
-  [index: string]: string;
-};
-
-export type IconStyles = {
-  [index: string]: string | number;
 };
