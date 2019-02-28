@@ -22,6 +22,6 @@ export {
   CREATE_CONVERSATION_SUCCESS,
   CREATE_CONVERSATION_ERROR,
 } from './internal/actions';
-
+export * from './model/Conversation';
 export { default as Comment } from './containers/Comment';
 export { default as Conversation } from './containers/Conversation';
