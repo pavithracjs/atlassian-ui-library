@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ConversationContext } from '@atlaskit/media-core';
+import { ConversationContext, createMediaObjectId } from '@atlaskit/media-core';
 import { genericFileId, imageFileId } from '@atlaskit/media-test-helpers';
 import RendererDemo from '../../../editor/renderer/examples/helper/RendererDemo';
 import { MOCK_USERS } from '../../../editor/conversation/example-helpers/MockData';
@@ -78,10 +78,10 @@ const doc = {
 };
 
 // const mediaObjectId = 'ari:cloud:platform::media/demo';
-// const localId = 'mock-media-comments-1-local'
+const localId = 'mock-media-comments-1-local';
 
-// conversationProvider.create(localId, doc, {}, genericFileId.id);
-// conversationProvider.create(localId, doc, {}, imageFileId.id);
+// conversationProvider.create('', doc, {}, createMediaObjectId(genericFileId.id));
+// conversationProvider.create('', doc, {}, createMediaObjectId(imageFileId.id));
 
 // export default () => <div/>
 

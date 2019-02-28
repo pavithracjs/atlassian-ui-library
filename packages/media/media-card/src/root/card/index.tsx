@@ -14,6 +14,7 @@ import {
   isExternalImageIdentifier,
   isDifferentIdentifier,
   ConversationContext,
+  createMediaObjectId,
 } from '@atlaskit/media-core';
 import { AnalyticsContext } from '@atlaskit/analytics-next';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
@@ -496,11 +497,10 @@ export class Card extends Component<CardProps, CardState> {
     return (
       <ConversationContext.Consumer>
         {conversationProvider => {
-          // console.log({conversationProvider})
           return (
             <WithConversations
               provider={conversationProvider}
-              objectId={identifier.id}
+              objectId={createMediaObjectId(identifier.id)}
             >
               {conversations => {
                 return (
@@ -532,7 +532,8 @@ export class Card extends Component<CardProps, CardState> {
     }
     // TODO: properly handle identifier
     const conversation = conversations.find(
-      conversation => conversation.objectId === identifier.id,
+      conversation =>
+        conversation.objectId === createMediaObjectId(identifier.id),
     );
     const commentsLength =
       conversation && conversation.comments ? conversation.comments.length : 0;
