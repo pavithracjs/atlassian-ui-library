@@ -25,6 +25,7 @@
     "@atlaskit/analytics-next-types": "^3.1.2",
     "@atlaskit/button": "^10.1.2",
     "@atlaskit/conversation": "^12.1.0",
+    "@atlaskit/editor-common": "^32.4.1",
     "@atlaskit/field-range": "^5.0.14",
     "@atlaskit/icon": "^16.0.0",
     "@atlaskit/media-store": "^9.1.7",

@@ -377,4 +377,6 @@ export const CommentsSectionWrapper = styled.div`
   background: white;
   width: 400px;
   padding: 10px;
+  height: 100vh;
+  overflow: auto;
 `;

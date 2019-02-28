@@ -5,6 +5,7 @@ import {
   createMediaObjectId,
 } from '@atlaskit/media-core';
 import { Conversation } from '@atlaskit/conversation';
+import { ProviderFactory } from '@atlaskit/editor-common';
 import { CommentsSectionWrapper } from './styled';
 import { WithConversations } from '../../../media-card/src/root/card';
 
@@ -26,6 +27,10 @@ export class CommentsSection extends React.Component<Props, State> {
 
   render() {
     const { objectId } = this.state;
+    const dataProviders = new ProviderFactory();
+    const mediaProvider = {};
+    dataProviders.setProvider('mediaProvider', mediaProvider);
+
     return (
       <CommentsSectionWrapper>
         <ConversationContext.Consumer>
@@ -37,6 +42,7 @@ export class CommentsSection extends React.Component<Props, State> {
             return (
               <WithConversations objectId={objectId} provider={provider}>
                 {conversations => {
+                  console.log(conversations);
                   if (conversations.length) {
                     return conversations.map(conversation => {
                       return (
@@ -45,6 +51,7 @@ export class CommentsSection extends React.Component<Props, State> {
                           id={conversation.conversationId}
                           objectId={conversation.objectId}
                           provider={provider}
+                          dataProviders={dataProviders}
                         />
                       );
                     });
