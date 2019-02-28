@@ -32,6 +32,7 @@ import {
   initAnalytics,
 } from './create-editor';
 import { analyticsPluginKey } from '../plugins/analytics/plugin';
+import { getDocStructure } from '../utils/document-logger';
 
 export interface EditorViewProps {
   editorProps: EditorProps;
@@ -39,32 +40,26 @@ export interface EditorViewProps {
   providerFactory: ProviderFactory;
   portalProviderAPI: PortalProviderAPI;
   allowAnalyticsGASV3?: boolean;
-  render?: (
-    props: {
-      editor: JSX.Element;
-      view?: EditorView;
-      config: EditorConfig;
-      eventDispatcher: EventDispatcher;
-      transformer?: Transformer<string>;
-      dispatchAnalyticsEvent: (payload: AnalyticsEventPayload) => void;
-    },
-  ) => JSX.Element;
-  onEditorCreated: (
-    instance: {
-      view: EditorView;
-      config: EditorConfig;
-      eventDispatcher: EventDispatcher;
-      transformer?: Transformer<string>;
-    },
-  ) => void;
-  onEditorDestroyed: (
-    instance: {
-      view: EditorView;
-      config: EditorConfig;
-      eventDispatcher: EventDispatcher;
-      transformer?: Transformer<string>;
-    },
-  ) => void;
+  render?: (props: {
+    editor: JSX.Element;
+    view?: EditorView;
+    config: EditorConfig;
+    eventDispatcher: EventDispatcher;
+    transformer?: Transformer<string>;
+    dispatchAnalyticsEvent: (payload: AnalyticsEventPayload) => void;
+  }) => JSX.Element;
+  onEditorCreated: (instance: {
+    view: EditorView;
+    config: EditorConfig;
+    eventDispatcher: EventDispatcher;
+    transformer?: Transformer<string>;
+  }) => void;
+  onEditorDestroyed: (instance: {
+    view: EditorView;
+    config: EditorConfig;
+    eventDispatcher: EventDispatcher;
+    transformer?: Transformer<string>;
+  }) => void;
 }
 
 export default class ReactEditorView<T = {}> extends React.Component<
@@ -75,9 +70,10 @@ export default class ReactEditorView<T = {}> extends React.Component<
   contentTransformer?: Transformer<string>;
   config: EditorConfig;
   editorState: EditorState;
-  analyticsEventHandler: (
-    payloadChannel: { payload: AnalyticsEventPayload; channel?: string },
-  ) => void;
+  analyticsEventHandler: (payloadChannel: {
+    payload: AnalyticsEventPayload;
+    channel?: string;
+  }) => void;
 
   static contextTypes = {
     getAtlaskitAnalyticsEventHandlers: PropTypes.func,
@@ -299,8 +295,13 @@ export default class ReactEditorView<T = {}> extends React.Component<
             }
             this.editorState = editorState;
           } else {
+            const documents = {
+              new: getDocStructure(transaction.doc),
+              prev: getDocStructure(transaction.docs[0]),
+            };
             analyticsService.trackEvent(
               'atlaskit.fabric.editor.invalidtransaction',
+              { documents: JSON.stringify(documents) }, // V2 events don't support object properties
             );
             this.eventDispatcher.emit(analyticsEventKey, {
               payload: {
@@ -311,6 +312,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
                   analyticsEventPayloads: transaction.getMeta(
                     analyticsPluginKey,
                   ),
+                  documents,
                 },
               },
             });
