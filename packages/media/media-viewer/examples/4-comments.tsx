@@ -1,13 +1,16 @@
 import * as React from 'react';
-import { ConversationContext, createMediaObjectId } from '@atlaskit/media-core';
 import {
-  genericFileId,
-  imageFileId,
-  gifFileId,
-} from '@atlaskit/media-test-helpers';
+  ConversationResourceContext,
+  ConversationsContext,
+  PageConversations,
+} from '@atlaskit/media-core';
+import { imageFileId, gifFileId } from '@atlaskit/media-test-helpers';
 import RendererDemo from '../../../editor/renderer/examples/helper/RendererDemo';
 import { MOCK_USERS } from '../../../editor/conversation/example-helpers/MockData';
-import { ConversationResource } from '@atlaskit/conversation';
+import {
+  ConversationInterface,
+  ConversationResource,
+} from '@atlaskit/conversation';
 import { ConversationAuth } from '../../../editor/conversation/src/api/ConversationResource';
 
 const conversationAuthProvider = () => {
@@ -81,17 +84,49 @@ const doc = {
   ],
 };
 
-// const mediaObjectId = 'ari:cloud:platform::media/demo';
+interface State {
+  conversations: ConversationInterface[];
+}
 
-// conversationProvider.create('', doc, {}, createMediaObjectId(genericFileId.id));
-// conversationProvider.create('', doc, {}, createMediaObjectId(imageFileId.id));
+const PAGE_OBJECT_ID = 'ari:cloud:platform::conversation/media-viewer-demo';
 
-// export default () => <div/>
+export default class Example extends React.Component<{}, State> {
+  state: State = {
+    conversations: [],
+  };
 
-export default function Example() {
-  return (
-    <ConversationContext.Provider value={conversationProvider}>
-      <RendererDemo document={doc} withProviders={true} serializer="react" />
-    </ConversationContext.Provider>
-  );
+  async componentWillMount() {
+    const conversations = await conversationProvider.getConversations(
+      PAGE_OBJECT_ID,
+    );
+    this.setState({ conversations });
+  }
+
+  render() {
+    const { conversations } = this.state;
+    // TODO usubscribe on unmount
+    const usubscribe = conversationProvider.store.subscribe(() => {
+      const state = conversationProvider.store.getState();
+      if (state) {
+        console.log('subscribe callback');
+        this.setState({ conversations: state.conversations });
+      }
+    });
+
+    const pageConversations: PageConversations = {
+      conversations,
+      objectId: PAGE_OBJECT_ID,
+    };
+    return (
+      <ConversationResourceContext.Provider value={conversationProvider}>
+        <ConversationsContext.Provider value={pageConversations}>
+          <RendererDemo
+            document={doc}
+            withProviders={true}
+            serializer="react"
+          />
+        </ConversationsContext.Provider>
+      </ConversationResourceContext.Provider>
+    );
+  }
 }

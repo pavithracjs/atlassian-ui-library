@@ -1,70 +1,83 @@
 import * as React from 'react';
 import {
-  ConversationContext,
+  ConversationResourceContext,
   FileIdentifier,
-  createMediaObjectId,
+  ConversationsContext,
+  PageConversations,
 } from '@atlaskit/media-core';
 import { Conversation } from '@atlaskit/conversation';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { CommentsSectionWrapper } from './styled';
-import { WithConversations } from '../../../media-card/src/root/card';
 
 interface Props {
   identifier: FileIdentifier;
 }
 
 interface State {
-  objectId?: string;
+  fileId?: string;
 }
 
 export class CommentsSection extends React.Component<Props, State> {
   state: State = {};
 
   async componentWillMount() {
-    const objectId = await createMediaObjectId(await this.props.identifier.id);
-    this.setState({ objectId });
+    const fileId = await this.props.identifier.id;
+    this.setState({ fileId });
   }
 
   render() {
-    const { objectId } = this.state;
+    const { fileId } = this.state;
     const dataProviders = new ProviderFactory();
     const mediaProvider = {};
-    dataProviders.setProvider('mediaProvider', mediaProvider);
+    dataProviders.setProvider('mediaProvider', Promise.resolve(mediaProvider));
 
     return (
       <CommentsSectionWrapper>
-        <ConversationContext.Consumer>
+        <ConversationResourceContext.Consumer>
           {provider => {
-            if (!objectId) {
+            if (!fileId) {
               return null;
             }
 
             return (
-              <WithConversations objectId={objectId} provider={provider}>
-                {conversations => {
-                  console.log(conversations);
-                  if (conversations.length) {
-                    return conversations.map(conversation => {
-                      return (
-                        <Conversation
-                          key={conversation.conversationId}
-                          id={conversation.conversationId}
-                          objectId={conversation.objectId}
-                          provider={provider}
-                          dataProviders={dataProviders}
-                        />
-                      );
-                    });
+              <ConversationsContext.Consumer>
+                {({ conversations, objectId }: PageConversations) => {
+                  if (!objectId) {
+                    return null;
                   }
-
-                  return (
-                    <Conversation objectId={objectId} provider={provider} />
+                  const thisFileConversation = conversations.filter(
+                    convo => convo.meta.mediaFileId === fileId,
                   );
+
+                  const list = thisFileConversation.map(conversation => {
+                    return (
+                      <Conversation
+                        meta={conversation.meta}
+                        key={conversation.conversationId}
+                        id={conversation.conversationId}
+                        objectId={conversation.objectId}
+                        provider={provider}
+                        dataProviders={dataProviders}
+                      />
+                    );
+                  });
+
+                  list.push(
+                    <Conversation
+                      key="new-one"
+                      isExpanded={true}
+                      meta={{ mediaFileId: fileId }}
+                      objectId={objectId}
+                      provider={provider}
+                    />,
+                  );
+                  console.log('rendering ', list.length, 'components');
+                  return list;
                 }}
-              </WithConversations>
+              </ConversationsContext.Consumer>
             );
           }}
-        </ConversationContext.Consumer>
+        </ConversationResourceContext.Consumer>
       </CommentsSectionWrapper>
     );
   }

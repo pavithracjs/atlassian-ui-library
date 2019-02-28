@@ -13,8 +13,8 @@ import {
   isFileIdentifier,
   isExternalImageIdentifier,
   isDifferentIdentifier,
-  ConversationContext,
-  createMediaObjectId,
+  PageConversations,
+  ConversationsContext,
 } from '@atlaskit/media-core';
 import { AnalyticsContext } from '@atlaskit/analytics-next';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
@@ -489,32 +489,23 @@ export class Card extends Component<CardProps, CardState> {
 
   render() {
     const { isPlayingFile, mediaViewerSelectedItem } = this.state;
-    const { identifier } = this.props;
     const content = isPlayingFile
       ? this.renderInlinePlayer()
       : this.renderCard();
 
     return (
-      <ConversationContext.Consumer>
-        {conversationProvider => {
+      <ConversationsContext.Consumer>
+        {({ conversations }: PageConversations) => {
+          console.log('re-rendering card');
           return (
-            <WithConversations
-              provider={conversationProvider}
-              objectId={createMediaObjectId(identifier.id)}
-            >
-              {conversations => {
-                return (
-                  <>
-                    {content}
-                    {this.renderCommentsLength(conversations)}
-                    {mediaViewerSelectedItem ? this.renderMediaViewer() : null}
-                  </>
-                );
-              }}
-            </WithConversations>
+            <>
+              {content}
+              {this.renderCommentsLength(conversations)}
+              {mediaViewerSelectedItem ? this.renderMediaViewer() : null}
+            </>
           );
         }}
-      </ConversationContext.Consumer>
+      </ConversationsContext.Consumer>
     );
   }
 
@@ -526,17 +517,21 @@ export class Card extends Component<CardProps, CardState> {
   };
 
   renderCommentsLength = (conversations: ConversationInterface[]) => {
+    console.log('renderCommentsLength', conversations.length);
     const { identifier } = this.props;
     if (identifier.mediaItemType === 'external-image') {
       return null;
     }
     // TODO: properly handle identifier
-    const conversation = conversations.find(
-      conversation =>
-        conversation.objectId === createMediaObjectId(identifier.id),
+    const thisFileConvos = conversations.filter(
+      convo => convo.meta.mediaFileId === identifier.id,
     );
-    const commentsLength =
-      conversation && conversation.comments ? conversation.comments.length : 0;
+
+    const commentsLength = thisFileConvos.reduce(
+      (sum, convo) => sum + (convo.comments ? convo.comments.length : 0),
+      0,
+    );
+
     const mediaViewerSelectedItem: FileIdentifier = {
       id: identifier.id,
       mediaItemType: 'file',
