@@ -1,32 +1,33 @@
 import * as React from 'react';
-import getButtonStyles, { NachosAppearances } from './styles';
+import getButtonStyles from './styles';
 import Button from '../../src/components/Button';
-import { ButtonProps, ThemeProps } from '../../src/types';
+import { ButtonProps } from '../../src/types';
 
-export default (nachosProps: ButtonProps) => (
-  <Button theme={NachosTheme} {...nachosProps} />
+export default (props: ButtonProps) => (
+  <Button
+    theme={(
+      adgTheme,
+      { appearance = 'default', state = 'default', ...rest },
+    ) => {
+      const {
+        buttonStyles: adgButtonStyles,
+        spinnerStyles: adgSpinnerStyles,
+        iconStyles: adgIconStyles,
+      } = adgTheme({ appearance, state, ...rest });
+
+      return {
+        buttonStyles: {
+          ...adgButtonStyles,
+          ...getButtonStyles({ appearance, state, ...rest }),
+        },
+        spinnerStyles: {
+          ...adgSpinnerStyles,
+        },
+        iconStyles: {
+          ...adgIconStyles,
+        },
+      };
+    }}
+    {...props}
+  />
 );
-
-export const NachosTheme = (
-  adgTheme: Function,
-  { appearance = 'default', state = 'default', ...rest }: ThemeProps,
-) => {
-  const {
-    buttonStyles: adgButtonStyles,
-    spinnerStyles: adgSpinnerStyles,
-    iconStyles: adgIconStyles,
-  } = adgTheme({ appearance, state, ...rest });
-
-  return {
-    buttonStyles: {
-      ...adgButtonStyles,
-      ...getButtonStyles({ appearance, state, ...rest }),
-    },
-    spinnerStyles: {
-      ...adgSpinnerStyles,
-    },
-    iconStyles: {
-      ...adgIconStyles,
-    },
-  };
-};
