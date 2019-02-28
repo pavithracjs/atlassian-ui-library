@@ -1,6 +1,6 @@
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';
-import { Conversation } from '@atlaskit/conversation';
+import { Conversation, ConversationInterface } from '@atlaskit/conversation';
 import { Component, ReactNode } from 'react';
 import {
   Context,
@@ -35,7 +35,6 @@ import { extendMetadata } from '../../utils/metadata';
 import { isBigger } from '../../utils/dimensionComparer';
 import { getCardStatus } from './getCardStatus';
 import { InlinePlayer } from '../inlinePlayer';
-// import { Conversation } from '../../../../../editor/conversation/src/model';
 import { ConversationResource } from '../../../../../editor/conversation/src/api/ConversationResource';
 import { CardCommentsWrapper } from './styled';
 
@@ -497,7 +496,6 @@ export class Card extends Component<CardProps, CardState> {
                 return (
                   <>
                     {content}
-                    <Conversation />
                     {this.renderCommentsLength(conversations)}
                     {mediaViewerSelectedItem ? this.renderMediaViewer() : null}
                   </>
@@ -510,7 +508,7 @@ export class Card extends Component<CardProps, CardState> {
     );
   }
 
-  renderCommentsLength = (conversations: Conversation[]) => {
+  renderCommentsLength = (conversations: ConversationInterface[]) => {
     const { identifier } = this.props;
     // TODO: properly handle identifier
     const conversation = conversations.find(
@@ -536,11 +534,11 @@ export class Card extends Component<CardProps, CardState> {
 
 export interface WithConversationsProps {
   provider: ConversationResource;
-  children: (conversations: Conversation[]) => ReactNode;
+  children: (conversations: ConversationInterface[]) => ReactNode;
 }
 
 export interface WithConversationsState {
-  conversations?: Conversation[];
+  conversations?: ConversationInterface[];
 }
 
 export class WithConversations extends Component<
