@@ -94,11 +94,13 @@ module.exports = {
       template: path.join(__dirname, 'public/editor.html.ejs'),
       excludeChunks: ['renderer'],
       filename: 'editor.html',
+      chunksSortMode: 'none',
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public/renderer.html.ejs'),
       excludeChunks: ['editor'],
       filename: 'renderer.html',
+      chunksSortMode: 'none',
     }),
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1,

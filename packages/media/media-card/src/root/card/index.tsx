@@ -1,5 +1,6 @@
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';
+import { Conversation } from '@atlaskit/conversation';
 import { Component, ReactNode } from 'react';
 import {
   Context,
@@ -34,7 +35,7 @@ import { extendMetadata } from '../../utils/metadata';
 import { isBigger } from '../../utils/dimensionComparer';
 import { getCardStatus } from './getCardStatus';
 import { InlinePlayer } from '../inlinePlayer';
-import { Conversation } from '../../../../../editor/conversation/src/model';
+// import { Conversation } from '../../../../../editor/conversation/src/model';
 import { ConversationResource } from '../../../../../editor/conversation/src/api/ConversationResource';
 import { CardCommentsWrapper } from './styled';
 
@@ -496,6 +497,7 @@ export class Card extends Component<CardProps, CardState> {
                 return (
                   <>
                     {content}
+                    <Conversation />
                     {this.renderCommentsLength(conversations)}
                     {mediaViewerSelectedItem ? this.renderMediaViewer() : null}
                   </>

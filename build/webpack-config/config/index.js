@@ -226,6 +226,7 @@ function getPlugins(
       title: HTMLPageTitle,
       favicon: faviconPath,
       excludeChunks: ['examples'],
+      chunksSortMode: 'none',
     }),
 
     new HtmlWebpackPlugin({
@@ -234,6 +235,7 @@ function getPlugins(
       template: path.join(websiteDir, 'public/examples.html.ejs'),
       favicon: faviconPath,
       excludeChunks: ['main'],
+      chunksSortMode: 'none',
     }),
 
     new webpack.DefinePlugin({
