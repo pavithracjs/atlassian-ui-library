@@ -70,7 +70,6 @@ class MediaViewerComponent extends React.Component<Props, State> {
         <Blanket>
           {onClose && <Shortcut keyCode={27} handler={onClose} />}
           <Content onClose={onClose}>{this.renderContent()}</Content>
-          {showComments ? <CommentsSection /> : null}
         </Blanket>
       </ThemeProvider>
     );

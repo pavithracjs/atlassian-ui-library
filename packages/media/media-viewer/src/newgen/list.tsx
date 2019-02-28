@@ -7,6 +7,7 @@ import { getSelectedIndex } from './utils';
 import ErrorMessage, { createError } from './error';
 import { Navigation } from './navigation';
 import Header from './header';
+import { CommentsSection } from './comments-section';
 
 export type Props = Readonly<{
   onClose?: () => void;
@@ -73,6 +74,7 @@ export class List extends React.Component<Props, State> {
             selectedItem={selectedItem}
             onChange={this.onNavigationChange}
           />
+          {showComments ? <CommentsSection /> : null}
         </ListWrapper>
       );
     }

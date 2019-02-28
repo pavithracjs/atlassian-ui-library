@@ -516,7 +516,8 @@
   },
   "resolutions": {
     "**/@atlaskit/theme/styled-components": "^3.2.6",
-    "**/expand-range/fill-range": "2.2.3"
+    "**/expand-range/fill-range": "2.2.3",
+    "toposort": "1.0.4"
   },
   "engines": {
     "node": "^8.15.0"

@@ -123,7 +123,7 @@ export class Content extends Component<ContentProps, ContentState> {
     return (
       <ContentWrapper
         innerRef={this.saveContentWrapperRef}
-        showControls={showControls}
+        showControls={true}
         onMouseMove={this.checkMouseMovement}
         onClick={this.onClick}
       >
