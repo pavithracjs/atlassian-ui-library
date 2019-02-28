@@ -263,4 +263,9 @@ describe('ak-button/default-behaviour', () => {
     button.prop('onBlur')!({} as any);
     expect(spy).toHaveBeenCalled();
   });
+
+  it("should pass interaction state props from the component's state", () => {
+    const wrapper = mount(<Button />);
+    expect(wrapper.find('Consumer').get(1).props.state).toBe('default');
+  });
 });
