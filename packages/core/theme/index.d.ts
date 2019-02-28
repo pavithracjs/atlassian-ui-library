@@ -19,6 +19,7 @@ declare module '@atlaskit/theme' {
   export const Theme: React.ComponentType<any>;
   export const themed: any;
   export const typography: any;
+  export const AtlaskitThemeProvider: any;
   const d: any;
   export default d;
 }

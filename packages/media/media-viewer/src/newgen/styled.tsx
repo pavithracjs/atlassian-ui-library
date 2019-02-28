@@ -60,9 +60,16 @@ export interface ContentWrapperProps {
 
 export const ListWrapper = styled.div`
   width: 100%;
+  display: flex;
 `;
-
 ListWrapper.displayName = 'ListWrapper';
+
+export const ListWrapper2 = styled.div`
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+`;
+ListWrapper2.displayName = 'ListWrapper2';
 
 export const ArrowsWrapper = styled.div`
   display: flex;
@@ -364,4 +371,9 @@ export const CustomVideoPlayerWrapper = styled.div`
     height: 100vh;
     max-height: 100vh;
   }
+`;
+
+export const CommentsSectionWrapper = styled.div`
+  width: 400px;
+  padding: 10px;
 `;

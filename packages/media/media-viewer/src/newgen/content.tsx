@@ -1,13 +1,7 @@
 import * as React from 'react';
 import { Component, SyntheticEvent, ReactElement, ReactNode } from 'react';
-import CrossIcon from '@atlaskit/icon/glyph/cross';
-import Button from '@atlaskit/button';
 import { closeOnDirectClick } from './utils/closeOnDirectClick';
-import {
-  ContentWrapper,
-  CloseButtonWrapper,
-  hideControlsClassName,
-} from './styled';
+import { ContentWrapper, hideControlsClassName } from './styled';
 
 export interface ContentProps {
   onClose?: () => void;
@@ -110,8 +104,6 @@ export class Content extends Component<ContentProps, ContentState> {
   };
 
   render() {
-    const { showControls } = this.state;
-    const { onClose } = this.props;
     // We extend the children with the ability of showing the controls
     const children = React.cloneElement(
       this.props.children as ReactElement<any>,
@@ -127,13 +119,6 @@ export class Content extends Component<ContentProps, ContentState> {
         onMouseMove={this.checkMouseMovement}
         onClick={this.onClick}
       >
-        <CloseButtonWrapper className={hideControlsClassName}>
-          <Button
-            appearance={'toolbar' as any}
-            onClick={onClose}
-            iconBefore={<CrossIcon label="Close" />}
-          />
-        </CloseButtonWrapper>
         {children}
       </ContentWrapper>
     );

@@ -21,7 +21,6 @@ import { List } from './list';
 import { Collection } from './collection';
 import { Content } from './content';
 import { Blanket } from './styled';
-import { CommentsSection } from './comments-section';
 
 export type Props = Readonly<
   {
@@ -64,7 +63,6 @@ class MediaViewerComponent extends React.Component<Props, State> {
 
   render() {
     const { onClose } = this.props;
-    const { showComments } = this.state;
     const content = (
       <ThemeProvider theme={theme}>
         <Blanket>

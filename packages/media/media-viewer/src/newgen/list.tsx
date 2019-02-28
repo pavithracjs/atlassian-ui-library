@@ -1,8 +1,16 @@
 import * as React from 'react';
 import { Context, FileIdentifier } from '@atlaskit/media-core';
+import CrossIcon from '@atlaskit/icon/glyph/cross';
+import Button from '@atlaskit/button';
 import { ItemViewer } from './item-viewer';
 import { MediaViewerFeatureFlags } from './domain';
-import { HeaderWrapper, hideControlsClassName, ListWrapper } from './styled';
+import {
+  CloseButtonWrapper,
+  HeaderWrapper,
+  hideControlsClassName,
+  ListWrapper,
+  ListWrapper2,
+} from './styled';
 import { getSelectedIndex } from './utils';
 import ErrorMessage, { createError } from './error';
 import { Navigation } from './navigation';
@@ -52,29 +60,38 @@ export class List extends React.Component<Props, State> {
     } else {
       return (
         <ListWrapper>
-          <HeaderWrapper className={hideControlsClassName}>
-            <Header
-              showComments={showComments}
+          <ListWrapper2>
+            <HeaderWrapper className={hideControlsClassName}>
+              <Header
+                showComments={showComments}
+                context={context}
+                identifier={selectedItem}
+                onClose={onClose}
+                onCommentsToggle={onCommentsToggle}
+              />
+              <CloseButtonWrapper>
+                <Button
+                  appearance={'toolbar' as any}
+                  onClick={onClose}
+                  iconBefore={<CrossIcon label="Close" />}
+                />
+              </CloseButtonWrapper>
+            </HeaderWrapper>
+            <ItemViewer
+              featureFlags={featureFlags}
               context={context}
               identifier={selectedItem}
+              showControls={showControls}
               onClose={onClose}
-              onCommentsToggle={onCommentsToggle}
+              previewCount={this.state.previewCount}
             />
-          </HeaderWrapper>
-          <ItemViewer
-            featureFlags={featureFlags}
-            context={context}
-            identifier={selectedItem}
-            showControls={showControls}
-            onClose={onClose}
-            previewCount={this.state.previewCount}
-          />
-          <Navigation
-            items={items}
-            selectedItem={selectedItem}
-            onChange={this.onNavigationChange}
-          />
-          {showComments ? <CommentsSection /> : null}
+            <Navigation
+              items={items}
+              selectedItem={selectedItem}
+              onChange={this.onNavigationChange}
+            />
+          </ListWrapper2>
+          {showComments ? <CommentsSection identifier={selectedItem} /> : null}
         </ListWrapper>
       );
     }
