@@ -6,8 +6,6 @@ export const Container = styled.span`
   ${props => `
     background-color: ${props.backgroundColor};
     color: ${props.textColor};
-    border-radius: ${props.borderRadius};
-    padding: ${props.padding};
   `};
   border-radius: 2em;
   display: inline-block;
