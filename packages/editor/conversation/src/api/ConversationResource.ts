@@ -22,9 +22,15 @@ import { Comment, Conversation, User } from '../model';
 import { uuid } from '../internal/uuid';
 import { HttpError } from './HttpError';
 
+export interface ConversationAuth {
+  token: string;
+  userAri: string;
+}
+
 export interface ConversationResourceConfig {
   url: string;
   user?: User;
+  authProvider?: () => Promise<ConversationAuth>;
 }
 
 export interface ResourceProvider {
@@ -220,12 +226,16 @@ export class ConversationResource extends AbstractConversationResource {
     path: string,
     options: RequestInit = {},
   ): Promise<T> {
-    const { url } = this.config;
+    const { url, authProvider } = this.config;
+    // if (authProvider)
+    const { userAri, token } = await authProvider!();
     const fetchOptions = {
       credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        'User-Ari': userAri,
+        Authorization: `Bearer ${token}`,
       },
       ...options,
     };

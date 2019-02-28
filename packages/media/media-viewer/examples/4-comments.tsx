@@ -3,12 +3,37 @@ import { ConversationContext } from '@atlaskit/media-core';
 import { genericFileId, imageFileId } from '@atlaskit/media-test-helpers';
 import RendererDemo from '../../../editor/renderer/examples/helper/RendererDemo';
 import { MOCK_USERS } from '../../../editor/conversation/example-helpers/MockData';
-import { MockProvider as ConversationResource } from '../../../editor/conversation/example-helpers/MockProvider';
+import { ConversationResource } from '@atlaskit/conversation';
+import { ConversationAuth } from '../../../editor/conversation/src/api/ConversationResource';
+
+const conversationAuthProvider = () => {
+  const url =
+    'https://api-private.stg.atlassian.com/media-playground/api/token/user/convo';
+  let auth: Promise<ConversationAuth> | undefined;
+
+  return async () => {
+    if (auth) {
+      return auth;
+    }
+
+    auth = new Promise<ConversationAuth>(async resolve => {
+      const newAuth = await (await fetch(url, {
+        credentials: 'include',
+      })).json();
+
+      resolve(newAuth);
+    });
+
+    return auth;
+  };
+};
 
 export const conversationProvider = new ConversationResource({
-  url: 'http://mockservice/',
+  url: 'https://pf-conversation-service.us-west-2.staging.atl-paas.net',
   user: MOCK_USERS[3],
+  authProvider: conversationAuthProvider(),
 });
+
 const doc = {
   type: 'doc',
   version: 1,
@@ -51,6 +76,14 @@ const doc = {
     },
   ],
 };
+
+// const mediaObjectId = 'ari:cloud:platform::media/demo';
+// const localId = 'mock-media-comments-1-local'
+
+// conversationProvider.create(localId, doc, {}, genericFileId.id);
+// conversationProvider.create(localId, doc, {}, imageFileId.id);
+
+// export default () => <div/>
 
 export default function Example() {
   return (

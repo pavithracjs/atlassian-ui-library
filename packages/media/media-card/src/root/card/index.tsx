@@ -488,6 +488,7 @@ export class Card extends Component<CardProps, CardState> {
 
   render() {
     const { isPlayingFile, mediaViewerSelectedItem } = this.state;
+    const { identifier } = this.props;
     const content = isPlayingFile
       ? this.renderInlinePlayer()
       : this.renderCard();
@@ -495,8 +496,12 @@ export class Card extends Component<CardProps, CardState> {
     return (
       <ConversationContext.Consumer>
         {conversationProvider => {
+          // console.log({conversationProvider})
           return (
-            <WithConversations provider={conversationProvider}>
+            <WithConversations
+              provider={conversationProvider}
+              objectId={identifier.id}
+            >
               {conversations => {
                 return (
                   <>
@@ -527,7 +532,7 @@ export class Card extends Component<CardProps, CardState> {
     }
     // TODO: properly handle identifier
     const conversation = conversations.find(
-      conversation => conversation.conversationId === identifier.id,
+      conversation => conversation.objectId === identifier.id,
     );
     const commentsLength =
       conversation && conversation.comments ? conversation.comments.length : 0;
@@ -559,6 +564,7 @@ export class Card extends Component<CardProps, CardState> {
 }
 
 export interface WithConversationsProps {
+  objectId: string;
   provider: ConversationResource;
   children: (conversations: ConversationInterface[]) => ReactNode;
 }
@@ -574,14 +580,16 @@ export class WithConversations extends Component<
   state: WithConversationsState = {};
 
   componentDidMount() {
-    this.getConversations();
+    this.getConversations(this.props);
   }
 
-  getConversations = async () => {
-    const { provider } = this.props;
-    const objectId = 'ari:cloud:platform::conversation/demo'; // Unique per Confluence page
-    const conversations = await provider.getConversations(objectId); // Each associated with an image
+  componentWillReceiveProps(newProps: WithConversationsProps) {
+    this.getConversations(newProps);
+  }
 
+  getConversations = async (props: WithConversationsProps) => {
+    const { provider, objectId } = props;
+    const conversations = await provider.getConversations(objectId); // Each associated with an image
     this.setState({ conversations });
   };
 
