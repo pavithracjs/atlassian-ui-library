@@ -1,3 +1,4 @@
+import * as ReactDOM from 'react-dom';
 import * as React from 'react';
 import { Component } from 'react';
 import {
@@ -9,12 +10,12 @@ import {
   isFileIdentifier,
   isExternalImageIdentifier,
   isDifferentIdentifier,
+  ConversationContext,
 } from '@atlaskit/media-core';
 import { AnalyticsContext } from '@atlaskit/analytics-next';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
 import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
 import { Subscription } from 'rxjs/Subscription';
-import { IntlProvider } from 'react-intl';
 import { MediaViewer, MediaViewerDataSource } from '@atlaskit/media-viewer';
 import {
   CardAnalyticsContext,
@@ -416,14 +417,15 @@ export class Card extends Component<CardProps, CardState> {
     const { collectionName = '' } = identifier;
     const dataSource = this.getMediaViewerDataSource();
 
-    return (
+    return ReactDOM.createPortal(
       <MediaViewer
         collectionName={collectionName}
         dataSource={dataSource}
         context={context}
         selectedItem={mediaViewerSelectedItem}
         onClose={this.onMediaViewerClose}
-      />
+      />,
+      document.body,
     );
   };
 
@@ -482,15 +484,18 @@ export class Card extends Component<CardProps, CardState> {
       ? this.renderInlinePlayer()
       : this.renderCard();
 
-    return this.context.intl ? (
-      content
-    ) : (
-      <IntlProvider locale="en">
-        <>
-          {content}
-          {mediaViewerSelectedItem ? this.renderMediaViewer() : null}
-        </>
-      </IntlProvider>
+    return (
+      <ConversationContext.Consumer>
+        {conversationProvider => {
+          console.log(conversationProvider);
+          return (
+            <>
+              {content}
+              {mediaViewerSelectedItem ? this.renderMediaViewer() : null}
+            </>
+          );
+        }}
+      </ConversationContext.Consumer>
     );
   }
 

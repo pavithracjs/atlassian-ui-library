@@ -230,7 +230,7 @@ export default class RendererDemo extends React.Component<
       <Sidebar showSidebar={this.state.showSidebar}>
         {additionalRendererProps => (
           <div ref="root" style={{ padding: 20 }}>
-            <fieldset style={{ marginBottom: 20 }}>
+            <fieldset style={{ marginBottom: 20, display: 'none' }}>
               <legend>Input</legend>
               <textarea
                 id="renderer-value-input"

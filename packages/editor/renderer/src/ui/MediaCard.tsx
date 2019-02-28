@@ -165,12 +165,10 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
 
     return (
       <Card
+        shouldOpenMediaViewer
         identifier={identifier}
         context={context}
         dimensions={cardDimensions}
-        onClick={
-          eventHandlers && eventHandlers.media && eventHandlers.media.onClick
-        }
         resizeMode={resizeMode}
         isLazy={!isMobile}
         disableOverlay={disableOverlay}
