@@ -53,6 +53,7 @@ export interface Props extends SharedProps {
     [key: string]: any;
   };
   createAnalyticsEvent: createAnalyticsEvent;
+  isInline?: boolean;
 
   portal?: HTMLElement;
 }
@@ -183,7 +184,7 @@ export default class Conversation extends React.PureComponent<Props, State> {
       disableScrollTo,
       allowFeedbackAndHelpButtons,
     } = this.props;
-    const isInline = !!meta;
+    const { isInline = !!meta } = this.props;
     const hasConversation = !!conversation;
     const canReply = !!user && (!isInline || (isExpanded && !hasConversation));
 

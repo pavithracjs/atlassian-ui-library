@@ -9,6 +9,7 @@ export interface Conversation {
   meta: {
     [key: string]: any;
   };
+  createdAt: string;
   error?: Error;
   isMain?: boolean;
 }

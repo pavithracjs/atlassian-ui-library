@@ -23,5 +23,6 @@ export {
   CREATE_CONVERSATION_ERROR,
 } from './internal/actions';
 export { Conversation as ConversationInterface } from './model/Conversation';
+export { Comment as CommentInterface } from './model/Comment';
 export { default as Comment } from './containers/Comment';
 export { default as Conversation } from './containers/Conversation';

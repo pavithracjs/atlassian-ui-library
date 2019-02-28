@@ -106,8 +106,12 @@ export default class Example extends React.PureComponent<{}, State> {
     const conversations = await conversationProvider.getConversations(
       PAGE_OBJECT_ID,
     );
+    this.sortConversations(conversations);
     this.setState({ conversations });
   }
+
+  private sortConversations = (convs: ConversationInterface[]) =>
+    convs.sort((a, b) => +new Date(a.createdAt) - +new Date(b.createdAt));
 
   render() {
     const { conversations } = this.state;
@@ -117,6 +121,8 @@ export default class Example extends React.PureComponent<{}, State> {
       if (state) {
         // TODO This check is not taking into account edits of comments.
         if (this.state.conversations.length !== state.conversations.length) {
+          const newConversations = state.conversations;
+          this.sortConversations(newConversations);
           this.setState({ conversations: state.conversations });
         }
       }

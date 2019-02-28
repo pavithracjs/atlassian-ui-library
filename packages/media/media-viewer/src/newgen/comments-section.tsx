@@ -5,6 +5,7 @@ import {
   ConversationsContext,
   PageConversations,
 } from '@atlaskit/media-core';
+import * as uuid from 'uuid/v4';
 import { Conversation } from '@atlaskit/conversation';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { CommentsSectionWrapper } from './styled';
@@ -56,6 +57,7 @@ export class CommentsSection extends React.Component<Props, State> {
                   const list = thisFileConversation.map(conversation => {
                     return (
                       <Conversation
+                        isInline={true}
                         meta={conversation.meta}
                         key={conversation.conversationId}
                         id={conversation.conversationId}
@@ -68,8 +70,9 @@ export class CommentsSection extends React.Component<Props, State> {
 
                   list.push(
                     <Conversation
+                      noLocalIdConversation={true}
+                      isInline={false}
                       key="new-one"
-                      isExpanded={true}
                       meta={{ mediaFileId: fileId }}
                       objectId={objectId}
                       provider={provider}

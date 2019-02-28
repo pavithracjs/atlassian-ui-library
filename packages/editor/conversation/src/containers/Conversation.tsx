@@ -21,6 +21,7 @@ import { getComments, getConversation, getUser } from '../internal/selectors';
 import { uuid } from '../internal/uuid';
 import { State } from '../internal/store';
 import { User } from '../model';
+import { CommentInterface } from '../index';
 
 export interface Props extends BaseProps {
   localId: string;
@@ -33,12 +34,24 @@ export interface Props extends BaseProps {
   isExpanded?: boolean;
   onCancel?: () => void;
   provider: ResourceProvider;
+  noLocalIdConversation?: boolean;
 }
 
 const mapStateToProps = (state: State, ownProps: Props) => {
-  const { id, localId, objectId, containerId } = ownProps;
-  const conversation = getConversation(state, id || localId);
-  const comments = getComments(state, id || localId);
+  const {
+    id,
+    localId,
+    objectId,
+    containerId,
+    noLocalIdConversation,
+  } = ownProps;
+  let conversation;
+  let comments: CommentInterface[] = [];
+  if (id || (!noLocalIdConversation && localId)) {
+    conversation = getConversation(state, id || localId);
+    comments = getComments(state, id || localId);
+  }
+
   const user = getUser(state);
 
   return {
@@ -160,6 +173,8 @@ export interface ContainerProps {
     [key: string]: any;
   };
   isExpanded?: boolean;
+  isInline?: boolean;
+  noLocalIdConversation?: boolean;
   onCancel?: () => void;
   showBeforeUnloadWarning?: boolean;
   onEditorOpen?: () => void;
