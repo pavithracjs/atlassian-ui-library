@@ -8,7 +8,7 @@ export default () => (
   <div style={{ margin: 20 }}>
     <h3 style={{ marginBottom: 15 }}>ADG Button</h3>
     <ButtonGroup>
-      <Button iconBefore={<AddIcon />} isLoading>
+      <Button iconBefore={<AddIcon label="add" />} isLoading>
         Button
       </Button>
       <Button appearance="primary">Button</Button>
@@ -21,7 +21,7 @@ export default () => (
     <h3 style={{ marginBottom: 15 }}>Nachos Button</h3>
     <Theme.Provider value={NachosTheme}>
       <ButtonGroup>
-        <Button iconBefore={<AddIcon />}>Button</Button>
+        <Button iconBefore={<AddIcon label="add" />}>Button</Button>
         <Button appearance="primary">Button</Button>
         <Button appearance="disabled">Button</Button>
         <Button appearance="danger" isLoading>

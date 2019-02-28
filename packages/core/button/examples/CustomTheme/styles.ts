@@ -1,6 +1,15 @@
 import { colors } from '@atlaskit/theme';
 import { customColors } from './colors';
-import { ThemeProps } from '../../src/types';
+import { ButtonAppearances } from '../../src/types';
+
+type ButtonThemeProps = {
+  appearance: ButtonAppearances;
+  state: string;
+};
+
+type ButtonProperty = {
+  [key: string]: any;
+};
 
 export const button = {
   background: {
@@ -96,57 +105,74 @@ export const button = {
   borderRadius: '15px',
 };
 
-const getBackground = (background, { appearance, state }) => {
-  if (appearance === 'disabled') return background[appearance];
-
+const getBackground = (
+  background: ButtonProperty,
+  { appearance, state }: ButtonThemeProps,
+) => {
   if (!background[appearance]) {
     return background.default[state];
   }
   return background[appearance][state];
 };
 
-const getBoxShadow = (boxShadow, { appearance, state }) => {
+const getBoxShadow = (
+  boxShadow: ButtonProperty,
+  { appearance, state }: ButtonThemeProps,
+) => {
   if (boxShadow[appearance][state]) return boxShadow[appearance][state];
   return boxShadow[appearance];
 };
 
-const getBorderColor = (borderColor, { appearance, state }) => {
+const getBorderColor = (
+  borderColor: ButtonProperty,
+  { appearance, state }: ButtonThemeProps,
+) => {
   if (!borderColor[appearance] || !borderColor[appearance][state]) {
     return borderColor.default.default;
   }
   return borderColor[appearance][state];
 };
 
-const getFontWeight = (fontWeight, { appearance }) => {
+const getFontWeight = (
+  fontWeight: ButtonProperty,
+  { appearance }: ButtonThemeProps,
+) => {
   if (!fontWeight[appearance]) return fontWeight.default;
   return fontWeight[appearance];
 };
 
-const getCursor = (cursor, { appearance }) => {
+const getCursor = (
+  cursor: ButtonProperty,
+  { appearance }: ButtonThemeProps,
+) => {
   if (!cursor[appearance]) return cursor.default;
   return cursor[appearance];
 };
 
-const getColor = (color, { appearance }) => {
+const getColor = (color: ButtonProperty, { appearance }: ButtonThemeProps) => {
   if (!color[appearance]) {
     return color.default.default;
   }
   return color[appearance];
 };
 
-const getTransform = (transform, { appearance, state }) => {
-  if (appearance === 'disabled') return transform[appearance];
+const getTransform = (
+  transform: ButtonProperty,
+  { state }: ButtonThemeProps,
+) => {
   return transform['default'][state];
 };
 
-const getTransition = (transition, { appearance, state }) => {
-  if (appearance === 'disabled') return transition[appearance];
+const getTransition = (
+  transition: ButtonProperty,
+  { state }: ButtonThemeProps,
+) => {
   return transition['default'][state];
 };
 
-export default (props: ThemeProps) => ({
+export default (props: ButtonThemeProps) => ({
   border: button.border,
-  background: getBackground(button.background, props),
+  background: getBackground(button, props),
   borderColor: getBorderColor(button.borderColor, props),
   borderRadius: button.borderRadius,
   boxShadow: getBoxShadow(button.boxShadow, props),

@@ -1,6 +1,5 @@
 import { colors } from '@atlaskit/theme';
 import { nachosColors } from './colors';
-import { ThemeProps } from '../../src/types';
 
 export type NachosAppearances =
   | 'default'
@@ -8,6 +7,15 @@ export type NachosAppearances =
   | 'subtle'
   | 'danger'
   | 'disabled';
+
+type NachosThemeProps = {
+  appearance: NachosAppearances;
+  state: string;
+};
+
+type NachosProperty = {
+  [key: string]: any;
+};
 
 export const button = {
   background: {
@@ -83,7 +91,10 @@ export const button = {
   },
 };
 
-const getBackground = (background, { appearance, state }) => {
+const getBackground = (
+  background: NachosProperty,
+  { appearance, state }: NachosThemeProps,
+) => {
   if (appearance === 'disabled') return background[appearance];
 
   if (!background[appearance]) {
@@ -92,29 +103,44 @@ const getBackground = (background, { appearance, state }) => {
   return background[appearance][state];
 };
 
-const getBoxShadow = (boxShadow, { appearance, state }) => {
+const getBoxShadow = (
+  boxShadow: NachosProperty,
+  { appearance, state }: NachosThemeProps,
+) => {
   if (appearance === 'default') return boxShadow[appearance][state];
   return boxShadow[appearance];
 };
 
-const getBorderColor = (borderColor, { appearance, state }) => {
+const getBorderColor = (
+  borderColor: NachosProperty,
+  { appearance, state }: NachosThemeProps,
+) => {
   if (!borderColor[appearance] || !borderColor[appearance][state]) {
     return borderColor.default.default;
   }
   return borderColor[appearance][state];
 };
 
-const getFontWeight = (fontWeight, { appearance }) => {
+const getFontWeight = (
+  fontWeight: NachosProperty,
+  { appearance }: NachosThemeProps,
+) => {
   if (!fontWeight[appearance]) return fontWeight.default;
   return fontWeight[appearance];
 };
 
-const getCursor = (cursor, { appearance }) => {
+const getCursor = (
+  cursor: NachosProperty,
+  { appearance }: NachosThemeProps,
+) => {
   if (!cursor[appearance]) return cursor.default;
   return cursor[appearance];
 };
 
-const getColor = (color, { appearance, state }) => {
+const getColor = (
+  color: NachosProperty,
+  { appearance, state }: NachosThemeProps,
+) => {
   if (appearance === 'default') {
     if (!color[appearance][state]) {
       return color.default.default;
@@ -127,7 +153,7 @@ const getColor = (color, { appearance, state }) => {
   return color[appearance];
 };
 
-export default (props: ThemeProps) => ({
+export default (props: NachosThemeProps) => ({
   border: button.border,
   background: getBackground(button.background, props),
   borderColor: getBorderColor(button.borderColor, props),

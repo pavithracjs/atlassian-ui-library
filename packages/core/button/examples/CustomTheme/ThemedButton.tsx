@@ -1,24 +1,26 @@
 import * as React from 'react';
 import getButtonStyles from './styles';
-import Button from '../../src/components/Button';
-import { ButtonProps, ThemeProps } from '../../src/types';
+import { Button, WithDefaultProps } from '../../src/components/Button';
+import { ButtonProps } from '../../src/types';
 
-export default (customProps: ButtonProps) => (
+type DF = WithDefaultProps<T, typeof Button.defaultProps>;
+export interface T extends ButtonProps {
+  children?: React.ReactChild;
+}
+
+export default (props: DF) => (
   <Button
-    theme={(
-      adgTheme: Function,
-      { appearance = 'default', state = 'default' }: ThemeProps,
-    ) => {
+    theme={(adgTheme, { appearance = 'default', state = 'default' }) => {
       const {
         buttonStyles: adgButtonStyles,
         spinnerStyles: adgSpinnerStyles,
         iconStyles: adgIconStyles,
-      } = adgTheme({ appearance, state, ...customProps });
+      } = adgTheme({ appearance, state, ...props });
 
       return {
         buttonStyles: {
           ...adgButtonStyles,
-          ...getButtonStyles({ appearance, state, ...customProps }),
+          ...getButtonStyles({ appearance, state, ...props }),
         },
         spinnerStyles: {
           ...adgSpinnerStyles,
@@ -28,6 +30,6 @@ export default (customProps: ButtonProps) => (
         },
       };
     }}
-    {...customProps}
+    {...props}
   />
 );

@@ -190,8 +190,14 @@ describe('ak-button/default-behaviour', () => {
         .create(<Button isLoading>Some text</Button>)
         .toJSON();
 
-      const child = wrapper.children[0].children[1].props.style;
-      expect(child.opacity).toEqual(0);
+      const parent =
+        wrapper &&
+        wrapper.children &&
+        wrapper.children[0] &&
+        wrapper.children[0].children;
+
+      const { opacity } = parent && parent[1].props.style;
+      expect(opacity).toEqual(0);
     });
 
     it('set the iconBefore opacity to 0 when isLoading', () => {
@@ -203,7 +209,13 @@ describe('ak-button/default-behaviour', () => {
         )
         .toJSON();
 
-      const child = wrapper.children[0].children[1];
+      const parent =
+        wrapper &&
+        wrapper.children &&
+        wrapper.children[0] &&
+        wrapper.children[0].children;
+
+      const child = parent && parent[1];
       expect(child).toHaveStyleRule('opacity', '0');
     });
 
@@ -216,15 +228,27 @@ describe('ak-button/default-behaviour', () => {
         )
         .toJSON();
 
-      const child = wrapper.children[0].children[2];
+      const parent =
+        wrapper &&
+        wrapper.children &&
+        wrapper.children[0] &&
+        wrapper.children[0].children;
+
+      const child = parent && parent[2];
       expect(child).toHaveStyleRule('opacity', '0');
     });
 
     it('set the opacity of the text to 1 when isLoading is false', () => {
       const wrapper = renderer.create(<Button>Some text</Button>).toJSON();
 
-      const child = wrapper.children[0].children[0].props.style;
-      expect(child.opacity).toEqual(1);
+      const parent =
+        wrapper &&
+        wrapper.children &&
+        wrapper.children[0] &&
+        wrapper.children[0].children;
+
+      const { opacity } = parent && parent[0].props.style;
+      expect(opacity).toEqual(1);
     });
   });
 
