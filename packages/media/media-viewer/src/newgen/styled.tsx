@@ -25,6 +25,7 @@ export const blanketColor = colors.DN30;
 export const hideControlsClassName = 'mvng-hide-controls';
 
 export const Blanket = styled.div`
+  display: flex;
   position: fixed;
   top: 0;
   left: 0;
@@ -57,7 +58,9 @@ export interface ContentWrapperProps {
   showControls: boolean;
 }
 
-export const ListWrapper = styled.div``;
+export const ListWrapper = styled.div`
+  width: 100%;
+`;
 
 ListWrapper.displayName = 'ListWrapper';
 
@@ -79,13 +82,14 @@ export const CloseButtonWrapper = styled.div`
 
 export const ZoomWrapper = styled.div`
   width: 100%;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   height: 98px;
   background-image: linear-gradient(to top, #0e1624, rgba(14, 22, 36, 0));
   opacity: 0.85;
   pointer-events: none;
 `;
+ZoomWrapper.displayName = 'ZoomWrapper';
 
 export const ZoomControlsWrapper = styled.div`
   width: 100%;
@@ -114,6 +118,7 @@ const handleControlsVisibility = ({ showControls }: ContentWrapperProps) => `
 `;
 
 export const ContentWrapper = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
@@ -200,13 +205,14 @@ export const LeftHeader = styled.div`
 `;
 
 export const ImageWrapper = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   overflow: auto;
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
 `;
+ImageWrapper.displayName = 'ImageWrapper';
 
 export const BaselineExtend = styled.div`
   height: 100%;
@@ -349,6 +355,7 @@ export const DownloadButtonWrapper = styled.div`
     font-weight: bold;
   }
 `;
+DownloadButtonWrapper.displayName = 'DownloadButtonWrapper';
 
 export const CustomVideoPlayerWrapper = styled.div`
   video {

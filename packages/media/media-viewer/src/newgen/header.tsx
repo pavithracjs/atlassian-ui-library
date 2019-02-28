@@ -8,6 +8,8 @@ import {
   ProcessingFileState,
   FileIdentifier,
 } from '@atlaskit/media-core';
+import Button from '@atlaskit/button';
+import CommentIcon from '@atlaskit/icon/glyph/comment';
 import { Subscription } from 'rxjs/Subscription';
 import * as deepEqual from 'deep-equal';
 import { messages, toHumanReadableMediaSize } from '@atlaskit/media-ui';
@@ -33,8 +35,10 @@ import {
 
 export type Props = {
   readonly identifier: FileIdentifier;
+  readonly showComments: boolean;
   readonly context: Context;
   readonly onClose?: () => void;
+  readonly onCommentsToggle?: (showComments: boolean) => void;
 };
 
 export type State = {
@@ -105,11 +109,34 @@ export class Header extends React.Component<Props & InjectedIntlProps, State> {
     });
   };
 
+  private onCommentsToggle = () => {
+    const { onCommentsToggle, showComments } = this.props;
+    if (onCommentsToggle) {
+      onCommentsToggle(!showComments);
+    }
+  };
+
+  private renderToggleComments = () => {
+    const { showComments } = this.props;
+    const commentIcon = <CommentIcon label="Toggle comments section" />;
+    return (
+      <Button
+        isSelected={showComments}
+        appearance={'toolbar' as any}
+        onClick={this.onCommentsToggle}
+        iconBefore={commentIcon}
+      />
+    );
+  };
+
   render() {
     return (
       <HeaderWrapper className={hideControlsClassName}>
         <LeftHeader>{this.renderMetadata()}</LeftHeader>
-        <RightHeader>{this.renderDownload()}</RightHeader>
+        <RightHeader>
+          {this.renderToggleComments()}
+          {this.renderDownload()}
+        </RightHeader>
       </HeaderWrapper>
     );
   }

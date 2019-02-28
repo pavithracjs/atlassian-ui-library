@@ -21,6 +21,7 @@ import { List } from './list';
 import { Collection } from './collection';
 import { Content } from './content';
 import { Blanket } from './styled';
+import { CommentsSection } from './comments-section';
 
 export type Props = Readonly<
   {
@@ -32,9 +33,21 @@ export type Props = Readonly<
   } & WithAnalyticsEventProps
 >;
 
-class MediaViewerComponent extends React.Component<Props, {}> {
+interface State {
+  showComments: boolean;
+}
+
+class MediaViewerComponent extends React.Component<Props, State> {
   static contextTypes = {
     intl: intlShape,
+  };
+
+  state: State = {
+    showComments: false,
+  };
+
+  private setShowComments = (showComments: boolean) => {
+    this.setState({ showComments });
   };
 
   private fireAnalytics = (payload: GasPayload | GasScreenEventPayload) => {
@@ -51,11 +64,13 @@ class MediaViewerComponent extends React.Component<Props, {}> {
 
   render() {
     const { onClose } = this.props;
+    const { showComments } = this.state;
     const content = (
       <ThemeProvider theme={theme}>
         <Blanket>
           {onClose && <Shortcut keyCode={27} handler={onClose} />}
           <Content onClose={onClose}>{this.renderContent()}</Content>
+          {showComments ? <CommentsSection /> : null}
         </Blanket>
       </ThemeProvider>
     );
@@ -75,6 +90,7 @@ class MediaViewerComponent extends React.Component<Props, {}> {
       itemSource,
       featureFlags,
     } = this.props;
+    const { showComments } = this.state;
     const defaultSelectedItem =
       selectedItem && isFileIdentifier(selectedItem) ? selectedItem : undefined;
 
@@ -87,6 +103,8 @@ class MediaViewerComponent extends React.Component<Props, {}> {
           context={context}
           onClose={onClose}
           featureFlags={featureFlags}
+          onCommentsToggle={this.setShowComments}
+          showComments={showComments}
         />
       );
     } else if (itemSource.kind === 'ARRAY') {
@@ -102,6 +120,8 @@ class MediaViewerComponent extends React.Component<Props, {}> {
           context={context}
           onClose={onClose}
           featureFlags={featureFlags}
+          onCommentsToggle={this.setShowComments}
+          showComments={showComments}
         />
       );
     } else {

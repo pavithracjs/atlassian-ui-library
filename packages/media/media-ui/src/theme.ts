@@ -5,14 +5,21 @@ const buttonTheme = {
     background: {
       hover: themed({ light: colors.DN60 }),
       active: themed({ light: colors.B75 }),
+      selected: themed({ light: colors.DN0 }),
+      focusSelected: themed({ light: colors.DN0 }),
     },
     boxShadowColor: {
       focus: themed({ light: colors.B75 }),
+      focusSelected: themed({
+        light: colors.B75,
+      }),
     },
     color: {
       default: themed({ light: colors.DN400 }),
       active: themed({ light: colors.B400 }),
       disabled: themed({ light: colors.DN100 }),
+      selected: themed({ light: colors.DN400 }),
+      focusSelected: themed({ light: colors.DN400 }),
     },
   },
   primary: {

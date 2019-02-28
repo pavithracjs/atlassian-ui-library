@@ -16,6 +16,8 @@ export type Props = Readonly<{
   collectionName: string;
   context: Context;
   pageSize: number;
+  onCommentsToggle?: (showComments: boolean) => void;
+  showComments: boolean;
 }>;
 
 export type State = {
@@ -51,6 +53,8 @@ export class Collection extends React.Component<Props, State> {
       onClose,
       collectionName,
       showControls,
+      onCommentsToggle,
+      showComments,
     } = this.props;
 
     return this.state.items.match({
@@ -69,6 +73,8 @@ export class Collection extends React.Component<Props, State> {
             onClose={onClose}
             onNavigationChange={this.onNavigationChange}
             showControls={showControls}
+            onCommentsToggle={onCommentsToggle}
+            showComments={showComments}
           />
         );
       },

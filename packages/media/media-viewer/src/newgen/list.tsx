@@ -16,6 +16,8 @@ export type Props = Readonly<{
   defaultSelectedItem: FileIdentifier;
   items: FileIdentifier[];
   context: Context;
+  onCommentsToggle?: (showComments: boolean) => void;
+  showComments: boolean;
 }>;
 
 export type State = {
@@ -35,7 +37,14 @@ export class List extends React.Component<Props, State> {
   }
 
   renderContent(items: FileIdentifier[]) {
-    const { context, onClose, featureFlags, showControls } = this.props;
+    const {
+      context,
+      onClose,
+      featureFlags,
+      showControls,
+      showComments,
+      onCommentsToggle,
+    } = this.props;
     const { selectedItem } = this.state;
     if (getSelectedIndex(items, selectedItem) < 0) {
       return <ErrorMessage error={createError('idNotFound')} />;
@@ -44,9 +53,11 @@ export class List extends React.Component<Props, State> {
         <ListWrapper>
           <HeaderWrapper className={hideControlsClassName}>
             <Header
+              showComments={showComments}
               context={context}
               identifier={selectedItem}
               onClose={onClose}
+              onCommentsToggle={onCommentsToggle}
             />
           </HeaderWrapper>
           <ItemViewer
