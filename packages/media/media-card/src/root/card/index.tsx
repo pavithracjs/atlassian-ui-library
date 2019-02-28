@@ -487,7 +487,11 @@ export class Card extends Component<CardProps, CardState> {
     return (
       <ConversationContext.Consumer>
         {conversationProvider => {
-          console.log(conversationProvider);
+          console.log(
+            conversationProvider.getConversations(
+              'ari:cloud:platform::conversation/demo',
+            ),
+          );
           return (
             <>
               {content}

@@ -1,10 +1,13 @@
 import * as React from 'react';
-import {
-  ConversationContext,
-  conversationProvider,
-} from '@atlaskit/media-core';
+import { ConversationContext } from '@atlaskit/media-core';
 import RendererDemo from '../../../editor/renderer/examples/helper/RendererDemo';
+import { MOCK_USERS } from '../../../editor/conversation/example-helpers/MockData';
+import { MockProvider as ConversationResource } from '../../../editor/conversation/example-helpers/MockProvider';
 
+export const conversationProvider = new ConversationResource({
+  url: 'http://mockservice/',
+  user: MOCK_USERS[3],
+});
 const doc = {
   type: 'doc',
   version: 1,
