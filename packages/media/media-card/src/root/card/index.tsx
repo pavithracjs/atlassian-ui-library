@@ -590,8 +590,10 @@ export class WithConversations extends Component<
 
   getConversations = async (props: WithConversationsProps) => {
     const { provider, objectId } = props;
-    const conversations = await provider.getConversations(objectId); // Each associated with an image
-    this.setState({ conversations });
+    try {
+      const conversations = await provider.getConversations(objectId); // Each associated with an image
+      this.setState({ conversations });
+    } catch (e) {}
   };
 
   render() {
@@ -599,7 +601,7 @@ export class WithConversations extends Component<
     const { conversations } = this.state;
 
     if (!conversations) {
-      return null;
+      return children([]);
     }
 
     return children(conversations);
