@@ -226,7 +226,7 @@ export default class Editor extends React.Component<Props, State> {
 
     return (
       <AvatarSection>
-        <AkAvatar src={user && user.avatarUrl} />
+        <AkAvatar src={user && user.picture} />
       </AvatarSection>
     );
   }

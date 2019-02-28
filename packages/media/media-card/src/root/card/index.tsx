@@ -3,7 +3,7 @@ import * as React from 'react';
 import { ConversationInterface } from '@atlaskit/conversation';
 import MediaServicesAddCommentIcon from '@atlaskit/icon/glyph/media-services/add-comment';
 import Button from '@atlaskit/button';
-import { Component, ReactNode } from 'react';
+import { Component } from 'react';
 import {
   Context,
   FileDetails,
@@ -38,7 +38,6 @@ import { extendMetadata } from '../../utils/metadata';
 import { isBigger } from '../../utils/dimensionComparer';
 import { getCardStatus } from './getCardStatus';
 import { InlinePlayer } from '../inlinePlayer';
-import { ConversationResource } from '../../../../../editor/conversation/src/api/ConversationResource';
 import { CardCommentsWrapper } from './styled';
 
 export class Card extends Component<CardProps, CardState> {
@@ -496,7 +495,6 @@ export class Card extends Component<CardProps, CardState> {
     return (
       <ConversationsContext.Consumer>
         {({ conversations }: PageConversations) => {
-          console.log('re-rendering card');
           return (
             <>
               {content}
@@ -517,7 +515,6 @@ export class Card extends Component<CardProps, CardState> {
   };
 
   renderCommentsLength = (conversations: ConversationInterface[]) => {
-    console.log('renderCommentsLength', conversations.length);
     const { identifier } = this.props;
     if (identifier.mediaItemType === 'external-image') {
       return null;
@@ -558,47 +555,47 @@ export class Card extends Component<CardProps, CardState> {
     });
   };
 }
+//
+// export interface WithConversationsProps {
+//   objectId: string;
+//   provider: ConversationResource;
+//   children: (conversations: ConversationInterface[]) => ReactNode;
+// }
+//
+// export interface WithConversationsState {
+//   conversations?: ConversationInterface[];
+// }
 
-export interface WithConversationsProps {
-  objectId: string;
-  provider: ConversationResource;
-  children: (conversations: ConversationInterface[]) => ReactNode;
-}
-
-export interface WithConversationsState {
-  conversations?: ConversationInterface[];
-}
-
-export class WithConversations extends Component<
-  WithConversationsProps,
-  WithConversationsState
-> {
-  state: WithConversationsState = {};
-
-  componentDidMount() {
-    this.getConversations(this.props);
-  }
-
-  componentWillReceiveProps(newProps: WithConversationsProps) {
-    this.getConversations(newProps);
-  }
-
-  getConversations = async (props: WithConversationsProps) => {
-    const { provider, objectId } = props;
-    try {
-      const conversations = await provider.getConversations(objectId); // Each associated with an image
-      this.setState({ conversations });
-    } catch (e) {}
-  };
-
-  render() {
-    const { children } = this.props;
-    const { conversations } = this.state;
-
-    if (!conversations) {
-      return children([]);
-    }
-
-    return children(conversations);
-  }
-}
+// export class WithConversations extends Component<
+//   WithConversationsProps,
+//   WithConversationsState
+// > {
+//   state: WithConversationsState = {};
+//
+//   componentDidMount() {
+//     this.getConversations(this.props);
+//   }
+//
+//   componentWillReceiveProps(newProps: WithConversationsProps) {
+//     this.getConversations(newProps);
+//   }
+//
+//   getConversations = async (props: WithConversationsProps) => {
+//     const { provider, objectId } = props;
+//     try {
+//       const conversations = await provider.getConversations(objectId); // Each associated with an image
+//       this.setState({ conversations });
+//     } catch (e) {}
+//   };
+//
+//   render() {
+//     const { children } = this.props;
+//     const { conversations } = this.state;
+//
+//     if (!conversations) {
+//       return children([]);
+//     }
+//
+//     return children(conversations);
+//   }
+// }

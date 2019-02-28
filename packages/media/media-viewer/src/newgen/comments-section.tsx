@@ -48,6 +48,10 @@ export class CommentsSection extends React.Component<Props, State> {
                   const thisFileConversation = conversations.filter(
                     convo => convo.meta.mediaFileId === fileId,
                   );
+                  console.log(
+                    'thisFileConversation',
+                    thisFileConversation.length,
+                  );
 
                   const list = thisFileConversation.map(conversation => {
                     return (

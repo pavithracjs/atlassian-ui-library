@@ -59,7 +59,7 @@ describe('Comment', () => {
       expect(comment.first().props()).toHaveProperty(
         'avatar',
         <AkAvatar
-          src={mockComment.createdBy.avatarUrl}
+          src={mockComment.createdBy.picture}
           name={mockComment.createdBy.name}
           enableTooltip={true}
         />,

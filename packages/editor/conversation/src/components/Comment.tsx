@@ -52,10 +52,10 @@ const commentChanged = (oldComment: CommentType, newComment: CommentType) => {
 };
 
 const userChanged = (
-  oldUser: User = { id: '' },
-  newUser: User = { id: '' },
+  oldUser: User = { account_id: '' },
+  newUser: User = { account_id: '' },
 ) => {
-  return oldUser.id !== newUser.id;
+  return oldUser.account_id !== newUser.account_id;
 };
 
 const Reactions: React.ComponentClass<React.HTMLAttributes<{}>> = styled.div`
@@ -68,6 +68,7 @@ const Reactions: React.ComponentClass<React.HTMLAttributes<{}>> = styled.div`
 export default class Comment extends React.Component<Props, State> {
   constructor(props) {
     super(props);
+    console.log({ comment: props.comment });
 
     this.state = {
       isEditing: false,
@@ -482,8 +483,24 @@ export default class Comment extends React.Component<Props, State> {
         Reply
       </CommentAction>,
     ];
+    let createdByAccountId = createdBy.account_id;
+    const prefix = 'ari:cloud:identity::user/';
+    if (
+      user &&
+      createdBy &&
+      user.account_id &&
+      user.account_id.startsWith(prefix) &&
+      !createdByAccountId.startsWith(prefix)
+    ) {
+      createdByAccountId = prefix + createdByAccountId;
+    }
 
-    if (createdBy && user && user.id === createdBy.id) {
+    console.log({
+      'user.id': user && user.account_id,
+      'createdBy.account_id': createdByAccountId,
+    });
+
+    if (createdBy && user && user.account_id === createdByAccountId) {
       actions = [
         ...actions,
         <CommentAction key="edit" onClick={this.onEdit}>
@@ -587,7 +604,7 @@ export default class Comment extends React.Component<Props, State> {
         }
         avatar={
           <AkAvatar
-            src={createdBy && createdBy.avatarUrl}
+            src={createdBy && createdBy.picture}
             href={createdBy && createdBy.profileUrl}
             name={createdBy && createdBy.name}
             enableTooltip={true}

@@ -4,7 +4,7 @@ import {
   ConversationsContext,
   PageConversations,
 } from '@atlaskit/media-core';
-import { imageFileId, gifFileId } from '@atlaskit/media-test-helpers';
+import { imageFileId, smallImageFileId } from '@atlaskit/media-test-helpers';
 import RendererDemo from '../../../editor/renderer/examples/helper/RendererDemo';
 import { MOCK_USERS } from '../../../editor/conversation/example-helpers/MockData';
 import {
@@ -35,10 +35,17 @@ const conversationAuthProvider = () => {
   };
 };
 
+const authProvider = conversationAuthProvider();
 export const conversationProvider = new ConversationResource({
   url: 'https://pf-conversation-service.us-west-2.staging.atl-paas.net',
   user: MOCK_USERS[3],
-  authProvider: conversationAuthProvider(),
+  authProvider,
+});
+authProvider().then(auth => {
+  conversationProvider.updateUser({
+    ...MOCK_USERS[3],
+    account_id: auth.userAri,
+  });
 });
 
 const doc = {
@@ -54,7 +61,7 @@ const doc = {
         {
           type: 'media',
           attrs: {
-            id: gifFileId.id,
+            id: smallImageFileId.id,
             type: 'file',
             collection: 'MediaServicesSample',
             width: 250,
@@ -90,7 +97,7 @@ interface State {
 
 const PAGE_OBJECT_ID = 'ari:cloud:platform::conversation/media-viewer-demo';
 
-export default class Example extends React.Component<{}, State> {
+export default class Example extends React.PureComponent<{}, State> {
   state: State = {
     conversations: [],
   };
@@ -108,8 +115,10 @@ export default class Example extends React.Component<{}, State> {
     const usubscribe = conversationProvider.store.subscribe(() => {
       const state = conversationProvider.store.getState();
       if (state) {
-        console.log('subscribe callback');
-        this.setState({ conversations: state.conversations });
+        // TODO This check is not taking into account edits of comments.
+        if (this.state.conversations.length !== state.conversations.length) {
+          this.setState({ conversations: state.conversations });
+        }
       }
     });
 

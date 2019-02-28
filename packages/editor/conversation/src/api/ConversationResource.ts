@@ -537,7 +537,7 @@ export class ConversationResource extends AbstractConversationResource {
     const state = store.getState();
 
     return {
-      createdBy: state!.user || { id: 'unknown' },
+      createdBy: state!.user || { account_id: 'unknown' },
       createdAt: Date.now(),
       commentId: <string>uuid.generate(),
       document: {

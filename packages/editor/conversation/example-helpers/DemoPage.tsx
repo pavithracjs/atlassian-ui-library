@@ -197,7 +197,9 @@ export class Demo extends React.Component<
     const { provider } = this.props;
     const userId = item.value;
 
-    const [selectedUser] = MOCK_USERS.filter(user => user.id === userId);
+    const [selectedUser] = MOCK_USERS.filter(
+      user => user.account_id === userId,
+    );
 
     if (userId === undefined) {
       provider.updateUser(undefined);
@@ -251,9 +253,9 @@ export class Demo extends React.Component<
       items: MOCK_USERS.map((user: User) => {
         return {
           content: user.name,
-          value: user.id,
+          value: user.account_id,
           label: user.name,
-          isSelected: selectedUser.id === user.id,
+          isSelected: selectedUser.account_id === user.account_id,
         };
       }),
     };

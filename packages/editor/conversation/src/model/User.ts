@@ -1,6 +1,6 @@
 export interface User {
-  id: string; // User ARI
-  avatarUrl?: string; // URL for the user's avatar
+  account_id: string; // User ARI
+  picture?: string; // URL for the user's avatar
   name?: string; // User's name
   profileUrl?: string; // Link to the user's profile
 }
