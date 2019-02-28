@@ -36,6 +36,7 @@ import { getCardStatus } from './getCardStatus';
 import { InlinePlayer } from '../inlinePlayer';
 import { Conversation } from '../../../../../editor/conversation/src/model';
 import { ConversationResource } from '../../../../../editor/conversation/src/api/ConversationResource';
+import { CardCommentsWrapper } from './styled';
 
 export class Card extends Component<CardProps, CardState> {
   private hasBeenMounted: boolean = false;
@@ -482,7 +483,6 @@ export class Card extends Component<CardProps, CardState> {
 
   render() {
     const { isPlayingFile, mediaViewerSelectedItem } = this.state;
-    const { identifier } = this.props;
     const content = isPlayingFile
       ? this.renderInlinePlayer()
       : this.renderCard();
@@ -493,16 +493,10 @@ export class Card extends Component<CardProps, CardState> {
           return (
             <WithConversations provider={conversationProvider}>
               {conversations => {
-                // TODO: properly handle identifier
-                const conversation = conversations.find(
-                  conversation => conversation.conversationId === identifier.id,
-                );
-                if (conversation) {
-                  console.log(conversation.comments);
-                }
                 return (
                   <>
                     {content}
+                    {this.renderCommentsLength(conversations)}
                     {mediaViewerSelectedItem ? this.renderMediaViewer() : null}
                   </>
                 );
@@ -513,6 +507,22 @@ export class Card extends Component<CardProps, CardState> {
       </ConversationContext.Consumer>
     );
   }
+
+  renderCommentsLength = (conversations: Conversation[]) => {
+    const { identifier } = this.props;
+    // TODO: properly handle identifier
+    const conversation = conversations.find(
+      conversation => conversation.conversationId === identifier.id,
+    );
+    const commentsLength =
+      conversation && conversation.comments ? conversation.comments.length : 0;
+
+    if (commentsLength) {
+      return <CardCommentsWrapper>{commentsLength}</CardCommentsWrapper>;
+    }
+
+    return null;
+  };
 
   onCardInViewport = () => {
     this.setState({ isCardVisible: true }, () => {
