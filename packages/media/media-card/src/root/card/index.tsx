@@ -1,6 +1,6 @@
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';
-import { Component } from 'react';
+import { Component, ReactNode } from 'react';
 import {
   Context,
   FileDetails,
@@ -34,6 +34,8 @@ import { extendMetadata } from '../../utils/metadata';
 import { isBigger } from '../../utils/dimensionComparer';
 import { getCardStatus } from './getCardStatus';
 import { InlinePlayer } from '../inlinePlayer';
+import { Conversation } from '../../../../../editor/conversation/src/model';
+import { ConversationResource } from '../../../../../editor/conversation/src/api/ConversationResource';
 
 export class Card extends Component<CardProps, CardState> {
   private hasBeenMounted: boolean = false;
@@ -480,6 +482,7 @@ export class Card extends Component<CardProps, CardState> {
 
   render() {
     const { isPlayingFile, mediaViewerSelectedItem } = this.state;
+    const { identifier } = this.props;
     const content = isPlayingFile
       ? this.renderInlinePlayer()
       : this.renderCard();
@@ -487,16 +490,24 @@ export class Card extends Component<CardProps, CardState> {
     return (
       <ConversationContext.Consumer>
         {conversationProvider => {
-          console.log(
-            conversationProvider.getConversations(
-              'ari:cloud:platform::conversation/demo',
-            ),
-          );
           return (
-            <>
-              {content}
-              {mediaViewerSelectedItem ? this.renderMediaViewer() : null}
-            </>
+            <WithConversations provider={conversationProvider}>
+              {conversations => {
+                // TODO: properly handle identifier
+                const conversation = conversations.find(
+                  conversation => conversation.conversationId === identifier.id,
+                );
+                if (conversation) {
+                  console.log(conversation.comments);
+                }
+                return (
+                  <>
+                    {content}
+                    {mediaViewerSelectedItem ? this.renderMediaViewer() : null}
+                  </>
+                );
+              }}
+            </WithConversations>
           );
         }}
       </ConversationContext.Consumer>
@@ -509,4 +520,43 @@ export class Card extends Component<CardProps, CardState> {
       this.subscribe(identifier, context);
     });
   };
+}
+
+export interface WithConversationsProps {
+  provider: ConversationResource;
+  children: (conversations: Conversation[]) => ReactNode;
+}
+
+export interface WithConversationsState {
+  conversations?: Conversation[];
+}
+
+export class WithConversations extends Component<
+  WithConversationsProps,
+  WithConversationsState
+> {
+  state: WithConversationsState = {};
+
+  componentDidMount() {
+    this.getConversations();
+  }
+
+  getConversations = async () => {
+    const { provider } = this.props;
+    const objectId = 'ari:cloud:platform::conversation/demo'; // Unique per Confluence page
+    const conversations = await provider.getConversations(objectId); // Each associated with an image
+
+    this.setState({ conversations });
+  };
+
+  render() {
+    const { children } = this.props;
+    const { conversations } = this.state;
+
+    if (!conversations) {
+      return null;
+    }
+
+    return children(conversations);
+  }
 }

@@ -1,3 +1,4 @@
+import { genericFileId, imageFileId } from '@atlaskit/media-test-helpers';
 import { Comment, Conversation, User } from '../src/model';
 import { uuid } from '../src/internal/uuid';
 
@@ -113,6 +114,31 @@ export const mockInlineComment: Comment = {
   },
 };
 
+export const mediaComment1Conversation1: Comment = {
+  localId: 'mock-inline-comment-local',
+  commentId: 'mock-inline-comment',
+  conversationId: genericFileId.id,
+  createdBy: MOCK_USERS[0],
+  createdAt: Date.now(),
+  document: {
+    adf: {
+      version: 1,
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: 'Maybe you should actually do something here?',
+            },
+          ],
+        },
+      ],
+    },
+  },
+};
+
 export const mockReplyComment: Comment = {
   commentId: 'mock-reply-comment-1',
   parentId: 'mock-comment-1',
@@ -150,6 +176,13 @@ export const mockInlineConversation: Conversation = {
   conversationId: 'mock-inline-conversation',
   objectId: 'ari:cloud:platform::conversation/demo',
   comments: [mockInlineComment],
+  meta: { name: 'main.js', lineNumber: 3 },
+};
+
+export const mediaConversation1: Conversation = {
+  conversationId: genericFileId.id,
+  objectId: 'ari:cloud:platform::conversation/demo',
+  comments: [mediaComment1Conversation1],
   meta: { name: 'main.js', lineNumber: 3 },
 };
 

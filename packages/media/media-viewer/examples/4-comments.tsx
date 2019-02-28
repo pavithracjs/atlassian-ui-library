@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ConversationContext } from '@atlaskit/media-core';
+import { genericFileId, imageFileId } from '@atlaskit/media-test-helpers';
 import RendererDemo from '../../../editor/renderer/examples/helper/RendererDemo';
 import { MOCK_USERS } from '../../../editor/conversation/example-helpers/MockData';
 import { MockProvider as ConversationResource } from '../../../editor/conversation/example-helpers/MockProvider';
@@ -21,11 +22,29 @@ const doc = {
         {
           type: 'media',
           attrs: {
-            id: '2aa22582-ca0e-4bd4-b1bc-9369d10a0719',
+            id: genericFileId.id,
             type: 'file',
             collection: 'MediaServicesSample',
-            width: 5845,
-            height: 1243,
+            width: 250,
+            height: 30,
+          },
+        },
+      ],
+    },
+    {
+      type: 'mediaSingle',
+      attrs: {
+        layout: 'full-width',
+      },
+      content: [
+        {
+          type: 'media',
+          attrs: {
+            id: imageFileId.id,
+            type: 'file',
+            collection: 'MediaServicesSample',
+            width: 100,
+            height: 10,
           },
         },
       ],

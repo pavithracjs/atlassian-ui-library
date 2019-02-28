@@ -27,7 +27,11 @@ import {
 } from '../src/internal/actions';
 import { uuid } from '../src/internal/uuid';
 import { Comment, Conversation, User } from '../src/model';
-import { generateMockConversation, mockInlineConversation } from './MockData';
+import {
+  generateMockConversation,
+  mockInlineConversation,
+  mediaConversation1,
+} from './MockData';
 
 const MockDataProviders = {
   mentionProvider: Promise.resolve(mention.storyData.resourceProvider),
@@ -80,7 +84,11 @@ export class MockProvider extends AbstractConversationResource {
     const { dispatch } = this;
     dispatch({ type: FETCH_CONVERSATIONS_REQUEST });
 
-    const values = [generateMockConversation(), mockInlineConversation];
+    const values = [
+      generateMockConversation(),
+      mockInlineConversation,
+      mediaConversation1,
+    ];
     dispatch({ type: FETCH_CONVERSATIONS_SUCCESS, payload: values });
 
     return values;
