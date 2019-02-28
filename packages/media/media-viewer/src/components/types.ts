@@ -18,4 +18,5 @@ export interface MediaViewerProps {
   readonly onClose?: () => void;
 
   readonly featureFlags?: MediaViewerFeatureFlags;
+  readonly showComments?: boolean;
 }

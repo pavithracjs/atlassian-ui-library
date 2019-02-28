@@ -9,27 +9,28 @@ interface Props {
 }
 
 interface State {
-  objectId?: string;
+  conversationId?: string;
 }
 
 export class CommentsSection extends React.Component<Props, State> {
   state: State = {};
 
   async componentWillMount() {
-    const id = await this.props.identifier.id;
-    this.setState({ objectId: id });
+    const conversationId = await this.props.identifier.id;
+    this.setState({ conversationId });
   }
 
   render() {
-    const { objectId } = this.state;
+    const { conversationId } = this.state;
     return (
       <CommentsSectionWrapper>
         <ConversationContext.Consumer>
           {conversationResource =>
-            objectId ? (
+            conversationId ? (
               <Conversation
+                id={conversationId}
+                objectId="ari:cloud:platform::conversation/demo"
                 provider={conversationResource}
-                objectId={objectId}
               />
             ) : (
               'LOADING'

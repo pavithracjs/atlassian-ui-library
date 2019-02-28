@@ -16,6 +16,7 @@ export class MediaViewer extends Component<MediaViewerProps, MediaViewerState> {
       collectionName,
       dataSource,
       pageSize,
+      showComments,
     } = this.props;
 
     const defaultPageSize = 30;
@@ -40,6 +41,7 @@ export class MediaViewer extends Component<MediaViewerProps, MediaViewerState> {
           onClose={onClose}
           itemSource={itemSource}
           featureFlags={featureFlags}
+          showComments={showComments || false}
         />
       );
     } else if (dataSource.collectionName) {

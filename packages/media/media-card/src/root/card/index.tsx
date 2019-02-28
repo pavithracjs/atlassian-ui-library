@@ -60,6 +60,7 @@ export class Card extends Component<CardProps, CardState> {
     isCardVisible: !this.props.isLazy,
     previewOrientation: 1,
     isPlayingFile: false,
+    mediaViewerShowComments: false,
   };
 
   componentDidMount() {
@@ -334,6 +335,7 @@ export class Card extends Component<CardProps, CardState> {
         occurrenceKey: identifier.occurrenceKey,
       };
       this.setState({
+        mediaViewerShowComments: false,
         mediaViewerSelectedItem,
       });
     }
@@ -413,7 +415,7 @@ export class Card extends Component<CardProps, CardState> {
   };
 
   renderMediaViewer = () => {
-    const { mediaViewerSelectedItem } = this.state;
+    const { mediaViewerSelectedItem, mediaViewerShowComments } = this.state;
     const { context, identifier } = this.props;
     if (!mediaViewerSelectedItem || identifier.mediaItemType !== 'file') {
       return;
@@ -429,6 +431,7 @@ export class Card extends Component<CardProps, CardState> {
         context={context}
         selectedItem={mediaViewerSelectedItem}
         onClose={this.onMediaViewerClose}
+        showComments={mediaViewerShowComments}
       />,
       document.body,
     );
@@ -513,6 +516,7 @@ export class Card extends Component<CardProps, CardState> {
   onCommentButtonClick = (mediaViewerSelectedItem: FileIdentifier) => () => {
     this.setState({
       mediaViewerSelectedItem,
+      mediaViewerShowComments: true,
     });
   };
 

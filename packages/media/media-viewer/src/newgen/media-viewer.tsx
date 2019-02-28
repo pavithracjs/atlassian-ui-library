@@ -29,6 +29,7 @@ export type Props = Readonly<
     featureFlags?: MediaViewerFeatureFlags;
     context: Context;
     itemSource: ItemSource;
+    showComments: boolean;
   } & WithAnalyticsEventProps
 >;
 
@@ -42,7 +43,7 @@ class MediaViewerComponent extends React.Component<Props, State> {
   };
 
   state: State = {
-    showComments: false,
+    showComments: this.props.showComments,
   };
 
   private setShowComments = (showComments: boolean) => {

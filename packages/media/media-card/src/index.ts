@@ -140,6 +140,7 @@ export interface CardState {
   previewOrientation: number;
   isPlayingFile: boolean;
   mediaViewerSelectedItem?: Identifier;
+  mediaViewerShowComments: boolean;
   metadata?: FileDetails;
   dataURI?: string;
   progress?: number;
