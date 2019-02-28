@@ -23,22 +23,20 @@ export class CommentsSection extends React.Component<Props, State> {
   render() {
     const { objectId } = this.state;
     return (
-      <AtlaskitThemeProvider mode={'dark'}>
-        <CommentsSectionWrapper>
-          <ConversationContext.Consumer>
-            {conversationResource =>
-              objectId ? (
-                <Conversation
-                  provider={conversationResource}
-                  objectId={objectId}
-                />
-              ) : (
-                'LOADING'
-              )
-            }
-          </ConversationContext.Consumer>
-        </CommentsSectionWrapper>
-      </AtlaskitThemeProvider>
+      <CommentsSectionWrapper>
+        <ConversationContext.Consumer>
+          {conversationResource =>
+            objectId ? (
+              <Conversation
+                provider={conversationResource}
+                objectId={objectId}
+              />
+            ) : (
+              'LOADING'
+            )
+          }
+        </ConversationContext.Consumer>
+      </CommentsSectionWrapper>
     );
   }
 }

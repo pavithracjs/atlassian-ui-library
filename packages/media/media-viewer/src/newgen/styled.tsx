@@ -374,6 +374,7 @@ export const CustomVideoPlayerWrapper = styled.div`
 `;
 
 export const CommentsSectionWrapper = styled.div`
+  background: white;
   width: 400px;
   padding: 10px;
 `;
