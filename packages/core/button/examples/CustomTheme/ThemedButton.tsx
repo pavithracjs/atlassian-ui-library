@@ -1,12 +1,10 @@
 import * as React from 'react';
 import getButtonStyles from './styles';
-import { Button, WithDefaultProps } from '../../src/components/Button';
+import Button, { WithDefaultProps } from '../../src/components/Button';
 import { ButtonProps } from '../../src/types';
 
+type T = ButtonProps & { children?: React.ReactNode };
 type DF = WithDefaultProps<T, typeof Button.defaultProps>;
-export interface T extends ButtonProps {
-  children?: React.ReactNode;
-}
 
 export default (props: DF) => (
   <Button
