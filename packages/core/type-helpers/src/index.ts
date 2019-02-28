@@ -75,10 +75,10 @@ export type PropsPasser<Extra extends object = {}> = <
  * such a way that the resultant component does not accept those props any more
  */
 export type PropsInjector<InjectedProps extends object> = <
-  C extends React.ComponentClass<any>
+  C extends React.ComponentType<any>
 >(
   Component: C,
-) => React.ComponentClass<
+) => React.ComponentType<
   Omit<PropsOf<C>, keyof Shared<InjectedProps, PropsOf<C>>>
 >;
 

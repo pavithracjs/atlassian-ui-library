@@ -229,12 +229,6 @@ const ButtonWithForwardRef = React.forwardRef((props: ButtonProps, ref) => (
 
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export type WithDefaultProps<Props, DefaultProps> = Pick<
-  Props,
-  Exclude<keyof Props, keyof DefaultProps>
-> &
-  Partial<Pick<Props, Extract<keyof Props, keyof DefaultProps>>>;
-
 export default withAnalyticsContext({
   componentName: 'button',
   packageName,
@@ -251,8 +245,5 @@ export default withAnalyticsContext({
         packageVersion,
       },
     }),
-    // @ts-ignore
   })(ButtonWithForwardRef),
-) as React.ComponentType<
-  WithDefaultProps<ButtonProps, typeof Button.defaultProps>
->;
+);
