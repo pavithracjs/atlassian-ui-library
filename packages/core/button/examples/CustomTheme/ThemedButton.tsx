@@ -5,7 +5,7 @@ import { ButtonProps } from '../../src/types';
 
 type DF = WithDefaultProps<T, typeof Button.defaultProps>;
 export interface T extends ButtonProps {
-  children?: React.ReactChild;
+  children?: React.ReactNode;
 }
 
 export default (props: DF) => (

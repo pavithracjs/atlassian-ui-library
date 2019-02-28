@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button, { ButtonGroup } from '../src';
 
-const Row = props => <div style={{ padding: 8 }} {...props} />;
+const Row: React.FC = () => <div style={{ padding: 8 }} />;
 
 export default () => (
   <Row>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import getButtonStyles from './styles';
+import getButtonStyles, { NachosAppearances } from './styles';
 import Button from '../../src/components/Button';
 import { ButtonProps, ThemeProps } from '../../src/types';
 
