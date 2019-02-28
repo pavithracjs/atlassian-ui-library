@@ -1,6 +1,8 @@
 import * as ReactDOM from 'react-dom';
 import * as React from 'react';
-import { Conversation, ConversationInterface } from '@atlaskit/conversation';
+import { ConversationInterface } from '@atlaskit/conversation';
+import MediaServicesAddCommentIcon from '@atlaskit/icon/glyph/media-services/add-comment';
+import Button from '@atlaskit/button';
 import { Component, ReactNode } from 'react';
 import {
   Context,
@@ -508,20 +510,40 @@ export class Card extends Component<CardProps, CardState> {
     );
   }
 
+  onCommentButtonClick = (mediaViewerSelectedItem: FileIdentifier) => () => {
+    this.setState({
+      mediaViewerSelectedItem,
+    });
+  };
+
   renderCommentsLength = (conversations: ConversationInterface[]) => {
     const { identifier } = this.props;
+    if (identifier.mediaItemType === 'external-image') {
+      return null;
+    }
     // TODO: properly handle identifier
     const conversation = conversations.find(
       conversation => conversation.conversationId === identifier.id,
     );
     const commentsLength =
       conversation && conversation.comments ? conversation.comments.length : 0;
+    const mediaViewerSelectedItem: FileIdentifier = {
+      id: identifier.id,
+      mediaItemType: 'file',
+      collectionName: identifier.collectionName,
+      occurrenceKey: identifier.occurrenceKey,
+    };
 
-    if (commentsLength) {
-      return <CardCommentsWrapper>{commentsLength}</CardCommentsWrapper>;
-    }
-
-    return null;
+    return (
+      <CardCommentsWrapper>
+        <Button
+          onClick={this.onCommentButtonClick(mediaViewerSelectedItem)}
+          iconBefore={<MediaServicesAddCommentIcon label="comment" />}
+        >
+          {commentsLength}
+        </Button>
+      </CardCommentsWrapper>
+    );
   };
 
   onCardInViewport = () => {
