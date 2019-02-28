@@ -1,8 +1,7 @@
 import * as React from 'react';
 import Button, { ButtonGroup } from '../src';
-import { NachosTheme } from './Nachos/NachosButton';
+import NachosButton from './Nachos/NachosButton';
 import AddIcon from '@atlaskit/icon/glyph/editor/add';
-import { Theme } from '../src/theme';
 
 export default () => (
   <div style={{ margin: 20 }}>
@@ -19,15 +18,15 @@ export default () => (
     </ButtonGroup>
 
     <h3 style={{ marginBottom: 15 }}>Nachos Button</h3>
-    <Theme.Provider value={NachosTheme}>
-      <ButtonGroup>
-        <Button iconBefore={<AddIcon label="add" />}>Button</Button>
-        <Button appearance="primary">Button</Button>
-        <Button appearance="disabled">Button</Button>
-        <Button appearance="danger" isLoading>
-          Button
-        </Button>
-      </ButtonGroup>
-    </Theme.Provider>
+    <ButtonGroup>
+      <NachosButton iconBefore={<AddIcon label="add" />} isLoading>
+        Button
+      </NachosButton>
+      <NachosButton appearance="primary">Button</NachosButton>
+      <NachosButton appearance="disabled">Button</NachosButton>
+      <NachosButton appearance="danger" isLoading>
+        Button
+      </NachosButton>
+    </ButtonGroup>
   </div>
 );

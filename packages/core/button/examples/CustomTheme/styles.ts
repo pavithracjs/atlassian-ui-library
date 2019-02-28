@@ -172,7 +172,7 @@ const getTransition = (
 
 export default (props: ButtonThemeProps) => ({
   border: button.border,
-  background: getBackground(button, props),
+  background: getBackground(button.background, props),
   borderColor: getBorderColor(button.borderColor, props),
   borderRadius: button.borderRadius,
   boxShadow: getBoxShadow(button.boxShadow, props),
