@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { UIAnalyticsEvent } from '@atlaskit/analytics-next-types';
-import { Button, WithDefaultProps } from './components/Button';
 
 export type ButtonAppearances =
   | 'default'
@@ -20,11 +19,7 @@ export type ButtonProps = {
   /** Add a classname to the button */
   className?: string;
   /** A custom component to use instead of the default button */
-  component?: React.ComponentType<
-    WithDefaultProps<ButtonProps, typeof Button.defaultProps> & {
-      innerRef?: (ref: HTMLElement | undefined) => void;
-    }
-  >;
+  component?: React.ComponentType;
   /** Name property of a linked form that the button submits when clicked */
   form?: string;
   /** Provides a url for buttons being used as a link */
@@ -101,7 +96,7 @@ export type ThemeTokens = {
   spinnerStyles: Object;
 };
 
-export interface ThemeProps extends ButtonProps {
+export interface ThemeProps extends Partial<ButtonProps> {
   state: string;
   iconIsOnlyChild?: boolean;
   mode?: ThemeMode;

@@ -17,6 +17,7 @@ import InnerWrapper from './InnerWrapper';
 import IconWrapper from './IconWrapper';
 import LoadingSpinner from './LoadingSpinner';
 import { ButtonProps, ThemeMode } from '../types';
+import { withDefaultProps } from '@atlaskit/type-helpers';
 
 export type ButtonState = {
   isHover: boolean;
@@ -223,9 +224,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 }
 
-const ButtonWithForwardRef = React.forwardRef((props: ButtonProps, ref) => (
-  <Button {...props} innerRef={ref} />
-));
+const ButtonWithForwardRef = withDefaultProps(
+  Button.defaultProps,
+  React.forwardRef((props: ButtonProps, ref) => (
+    <Button {...props} innerRef={ref} />
+  )),
+);
 
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 

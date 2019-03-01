@@ -19,13 +19,13 @@ export type PropsOf<C> = C extends new (props: infer P) => React.Component
 
 export const withDefaultProps = <P, DP extends Partial<P>>(
   defaultProps: DP,
-  Component: React.ComponentClass<P>,
+  Component: React.ComponentType<P>,
 ) => {
   type NonDefaultProps = Omit<P, keyof Shared<P, DP>>;
   type DefaultedProps = Omit<P, keyof NonDefaultProps>;
   type Props = Partial<DefaultedProps> & NonDefaultProps;
   Component.defaultProps = defaultProps;
-  return (Component as any) as React.ComponentClass<Props>;
+  return (Component as any) as React.ComponentType<Props>;
 };
 
 export type ResultantProps<InjectedProps, P extends InjectedProps> = Omit<
