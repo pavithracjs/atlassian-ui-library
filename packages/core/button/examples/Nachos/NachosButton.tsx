@@ -1,12 +1,12 @@
 import * as React from 'react';
 import getButtonStyles from './styles';
-import Button, { WithDefaultProps } from '../../src/components/Button';
-import { ButtonProps } from '../../src/types';
+import Button from '../../src/components/Button';
 
-type T = ButtonProps & { children?: React.ReactNode };
-type DF = WithDefaultProps<T, typeof Button.defaultProps>;
+type Props = React.ComponentProps<typeof Button> & {
+  children?: React.ReactNode;
+};
 
-export default (props: DF) => (
+export default (props: Props) => (
   <Button
     theme={(adgTheme, { appearance = 'default', state = 'default' }) => {
       const {
