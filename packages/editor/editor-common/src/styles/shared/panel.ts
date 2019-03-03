@@ -23,6 +23,7 @@ export const panelSharedStyles = css`
     display: flex;
     align-items: baseline;
     word-break: break-word;
+    border: 1px solid transparent;
 
     .ak-editor-panel__icon {
       display: block;
@@ -46,7 +47,7 @@ export const panelSharedStyles = css`
 
   & .danger .${PanelSharedCssClassName.PANEL_CONTAINER} {
     background: ${akEditorDeleteBackground} !important;
-    border: 1px solid ${akEditorDeleteBorder};
+    border-color: ${akEditorDeleteBorder};
 
     .ak-editor-panel__icon {
       color: ${akEditorDeleteIconColor} !important;

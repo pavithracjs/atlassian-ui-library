@@ -48,11 +48,11 @@ export const layoutStyles = css`
       &.selected > * {
         border-color: ${colors.N40};
       }
-    }
 
-    ${columnLayoutSharedStyle} [data-layout-section] .danger {
-      background-color: ${akEditorDeleteBackground} !important;
-      border: 1px solid ${akEditorDeleteBorder} !important;
+      &.selected.danger > [data-layout-column] {
+        background-color: ${akEditorDeleteBackground};
+        border: 1px solid ${akEditorDeleteBorder};
+      }
     }
   }
 `;
