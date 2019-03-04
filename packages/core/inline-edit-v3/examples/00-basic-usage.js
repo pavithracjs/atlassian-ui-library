@@ -6,8 +6,9 @@ import InlineEdit from '../src';
 import ReadViewContainer from './styled/ReadViewContainer';
 
 type State = {
+  editValue: string,
+  isEditing: boolean,
   onEventResult: string,
-  editValue: string | number,
 };
 
 export default class BasicExample extends Component<void, State> {
@@ -17,7 +18,7 @@ export default class BasicExample extends Component<void, State> {
     onEventResult: 'Click on a field above to show edit view',
   };
 
-  onConfirm = value => {
+  onConfirm = (value: string) => {
     this.setState({
       onEventResult: `onConfirm called with value "${value}"`,
       editValue: value,
@@ -45,9 +46,9 @@ export default class BasicExample extends Component<void, State> {
           editView={(fieldProps, ref) => (
             <TextField {...fieldProps} ref={ref} />
           )}
-          readView={fieldProps => (
-            <ReadViewContainer>{fieldProps.value}</ReadViewContainer>
-          )}
+          readView={
+            <ReadViewContainer>{this.state.editValue}</ReadViewContainer>
+          }
           onConfirm={this.onConfirm}
           onCancel={this.onCancel}
           isEditing={this.state.isEditing}

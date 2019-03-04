@@ -1,13 +1,13 @@
 // @flow
 import { type Node } from 'react';
 
-type Props = {
+export type Props = {
   /** Label above the input */
   label?: string,
   /** Component to be shown when not in edit view */
   readView: Node,
   /** Component to be shown when editing. Should be an Atlaskit input. */
-  editView: Node,
+  editView: (any, { current: null | HTMLInputElement }) => Node,
   /** Whether the component shows the readView or the editView. */
   isEditing: boolean,
   /** The initial value of the inline edit. */
@@ -39,7 +39,7 @@ type Props = {
   cancelButtonLabel: string,
 };
 
-type DefaultProps = {
+export type DefaultProps = {
   /** Handler called when readView is clicked. */
   onEditRequested: any => mixed,
   /** Handler called editView is closed and changes are confirmed.

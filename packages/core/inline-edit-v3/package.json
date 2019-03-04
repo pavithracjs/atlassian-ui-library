@@ -23,6 +23,7 @@
     "@atlaskit/button": "^10.1.2",
     "@atlaskit/form": "^5.1.6",
     "@atlaskit/icon": "^16.0.0",
+    "@atlaskit/theme": "^7.0.5",
     "@babel/runtime": "^7.0.0",
     "classnames": "^2.2.5"
   },
