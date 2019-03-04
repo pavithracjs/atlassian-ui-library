@@ -18,8 +18,6 @@ export type Props = {
     formState: Object,
     fieldState: Object,
   ) => string | void | Promise<string | void>,
-
-  /** Contained in defaultProps */
   /** Handler called when readView is clicked. */
   onEditRequested: any => mixed,
   /** Handler called editView is closed and changes are confirmed.
@@ -27,6 +25,8 @@ export type Props = {
   onConfirm: any => mixed,
   /** Handler called when checkmark is. */
   onCancel: any => mixed,
+
+  /** Contained in defaultProps */
   /** Set whether onConfirm should be called on blur.*/
   disableConfirmOnBlur: boolean,
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
@@ -40,13 +40,6 @@ export type Props = {
 };
 
 export type DefaultProps = {
-  /** Handler called when readView is clicked. */
-  onEditRequested: any => mixed,
-  /** Handler called editView is closed and changes are confirmed.
-   * Field value is passed as an argument to this function. */
-  onConfirm: any => mixed,
-  /** Handler called when checkmark is. */
-  onCancel: any => mixed,
   /** Set whether onConfirm should be called on blur.*/
   disableConfirmOnBlur: boolean,
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */

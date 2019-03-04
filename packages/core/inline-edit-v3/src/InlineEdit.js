@@ -33,10 +33,7 @@ class InlineEdit extends Component<Props, State> {
   confirmButtonRef: null | HTMLButtonElement;
   cancelButtonRef: null | HTMLButtonElement;
 
-  static defaultProps: DefaultProps = {
-    onEditRequested: () => {},
-    onConfirm: () => {},
-    onCancel: () => {},
+  static defaultProps = {
     disableConfirmOnBlur: false,
     hideActionButtons: false,
     editButtonLabel: 'Edit',
@@ -94,7 +91,7 @@ class InlineEdit extends Component<Props, State> {
   };
 
   renderEditView = (
-    fieldProps: any,
+    fieldProps: {},
     editViewRef: { current: null | HTMLInputElement },
   ) => {
     return this.props.editView(fieldProps, editViewRef);
@@ -154,14 +151,14 @@ class InlineEdit extends Component<Props, State> {
       <Form onSubmit={data => this.props.onConfirm(data.inlineEdit)}>
         {({ formProps }) => (
           <form {...formProps}>
-            {isEditing ? (
-              <Field
-                name="inlineEdit"
-                label={label}
-                defaultValue={defaultValue}
-                validate={validate}
-              >
-                {({ fieldProps }) => (
+            <Field
+              name="inlineEdit"
+              label={label}
+              defaultValue={defaultValue}
+              validate={validate}
+            >
+              {({ fieldProps }) =>
+                isEditing ? (
                   <ContentWrapper
                     onBlur={() => this.onWrapperBlur(fieldProps.value)}
                     onFocus={this.onWrapperFocus}
@@ -171,13 +168,11 @@ class InlineEdit extends Component<Props, State> {
                     </div>
                     {!hideActionButtons && this.renderActionButtons()}
                   </ContentWrapper>
-                )}
-              </Field>
-            ) : (
-              <Field name="inlineEdit" label={label} defaultValue="">
-                {() => <div>{this.renderReadView()}</div>}
-              </Field>
-            )}
+                ) : (
+                  <div>{this.renderReadView()}</div>
+                )
+              }
+            </Field>
           </form>
         )}
       </Form>
