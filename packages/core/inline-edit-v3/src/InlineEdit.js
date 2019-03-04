@@ -59,6 +59,9 @@ class InlineEdit extends Component<Props, State> {
   };
 
   onReadViewClick = (event: any) => {
+    if (event.target.tagName.toLowerCase() === 'a') {
+      return;
+    }
     event.preventDefault();
     this.props.onEditRequested();
   };
@@ -93,9 +96,7 @@ class InlineEdit extends Component<Props, State> {
   renderEditView = (
     fieldProps: {},
     editViewRef: { current: null | HTMLInputElement },
-  ) => {
-    return this.props.editView(fieldProps, editViewRef);
-  };
+  ) => this.props.editView(fieldProps, editViewRef);
 
   renderActionButtons = () => {
     return (
