@@ -20,6 +20,7 @@ import {
   removeExtension,
 } from './actions';
 import { pluginKey, ExtensionState } from './plugin';
+import { hoverDecoration } from '../base/pm-plugins/decoration';
 
 export const messages = defineMessages({
   edit: {
@@ -113,6 +114,8 @@ export const getToolbarConfig: FloatingToolbarHandler = (
           icon: RemoveIcon,
           appearance: 'danger',
           onClick: removeExtension(),
+          onMouseEnter: hoverDecoration(true),
+          onMouseLeave: hoverDecoration(false),
           title: formatMessage(commonMessages.remove),
         },
       ],

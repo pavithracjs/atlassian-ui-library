@@ -5,11 +5,18 @@ import {
   akEditorTableCellMinWidth,
 } from '@atlaskit/editor-common';
 import { akEditorCodeFontFamily, akEditorCodeBlockPadding } from '../../styles';
+import {
+  akEditorDeleteBackground,
+  akEditorDeleteBorder,
+  akEditorDeleteIconColor,
+} from '@atlaskit/editor-common';
 
 export const codeBlockStyles = css`
   .ProseMirror .code-block {
     background: ${themed({ light: colors.N20, dark: colors.DN50 })}
     font-family: ${akEditorCodeFontFamily};
+    background: ${colors.N20};
+    border: 1px solid transparent;
     border-radius: ${borderRadius()}px;
     font-size: 14px;
     line-height: 24px;
@@ -80,5 +87,18 @@ export const codeBlockStyles = css`
   }
   .ProseMirror li > .code-block {
     margin: 0;
+  }
+
+  .ProseMirror .code-block.danger {
+    border: 1px solid ${akEditorDeleteBorder};
+
+    .line-number-gutter {
+      background-color: ${colors.R75};
+      color: ${akEditorDeleteIconColor};
+    }
+
+    .code-content {
+      background-color: ${akEditorDeleteBackground};
+    }
   }
 `;

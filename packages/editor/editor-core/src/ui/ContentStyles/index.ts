@@ -25,6 +25,11 @@ import { tasksAndDecisionsStyles } from '../../plugins/tasks-and-decisions/ui/st
 import { gridStyles } from '../../plugins/grid/styles';
 import { linkStyles } from '../../plugins/hyperlink/styles';
 
+import {
+  akEditorDeleteBackground,
+  akEditorDeleteBorder,
+} from '@atlaskit/editor-common';
+
 const ContentStyles: ComponentClass<
   HTMLAttributes<{}> & { theme: any }
 > = styled.div`
@@ -103,6 +108,12 @@ const ContentStyles: ComponentClass<
   ${gridStyles}
   ${linkStyles}
   ${blockMarksSharedStyles}
+
+  /** Selector sits globally, as .danger tag is assigned to root level node which is unaccessible from React **/
+  .danger > .extension-container {
+    background: ${akEditorDeleteBackground};
+    border: 1px solid ${akEditorDeleteBorder};
+  }
 
   .panelView-content-wrap {
     box-sizing: border-box;

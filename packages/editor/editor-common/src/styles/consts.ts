@@ -42,6 +42,7 @@ export const akEditorCodeBackground = N20;
 export const akEditorCodeBlockPadding = '12px';
 export const akEditorCodeInlinePadding = '2px 4px';
 export const akEditorDeleteBackground = R50;
+export const akEditorDeleteBackgroundShaded = R50;
 export const akEditorDeleteBorder = R300;
 export const akEditorDeleteIconColor = R400;
 export const akEditorUnitZIndex = 1;

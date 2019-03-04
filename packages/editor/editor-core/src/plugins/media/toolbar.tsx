@@ -26,6 +26,7 @@ import { EditorView } from 'prosemirror-view';
 import { Context } from '@atlaskit/media-core';
 import Button from '../floating-toolbar/ui/Button';
 import Separator from '../floating-toolbar/ui/Separator';
+import { hoverDecoration } from '../base/pm-plugins/decoration';
 
 export type IconMap = Array<
   { value: string; icon: React.ComponentClass<any> } | { value: 'separator' }
@@ -286,6 +287,8 @@ export const floatingToolbar = (
         type: 'button',
         appearance: 'danger',
         icon: RemoveIcon,
+        onMouseEnter: hoverDecoration(true),
+        onMouseLeave: hoverDecoration(false),
         title: intl.formatMessage(commonMessages.remove),
         onClick: remove,
       },
