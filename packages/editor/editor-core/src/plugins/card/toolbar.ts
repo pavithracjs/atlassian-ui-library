@@ -9,6 +9,7 @@ import { analyticsService } from '../../analytics';
 import commonMessages from '../../messages';
 import { Command } from '../../../src/types';
 import { FloatingToolbarConfig } from '../../../src/plugins/floating-toolbar/types';
+import { hoverDecoration } from '../base/pm-plugins/decoration';
 
 export const messages = defineMessages({
   block: {
@@ -143,6 +144,8 @@ export const floatingToolbar = (
         type: 'button',
         appearance: 'danger',
         icon: RemoveIcon,
+        onMouseEnter: hoverDecoration(true),
+        onMouseLeave: hoverDecoration(false),
         title: intl.formatMessage(commonMessages.remove),
         onClick: remove,
       },

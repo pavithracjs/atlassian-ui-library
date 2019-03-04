@@ -113,6 +113,9 @@ const ContentStyles: ComponentClass<
   .danger > .extension-container {
     background: ${akEditorDeleteBackground};
     border: 1px solid ${akEditorDeleteBorder};
+    .extension-overlay {
+      border-color: transparent;
+    }
   }
 
   .panelView-content-wrap {

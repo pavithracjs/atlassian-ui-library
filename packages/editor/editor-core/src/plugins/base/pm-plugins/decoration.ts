@@ -1,5 +1,10 @@
 import { DecorationSet, Decoration } from 'prosemirror-view';
-import { PluginKey, Plugin, EditorState } from 'prosemirror-state';
+import {
+  PluginKey,
+  Plugin,
+  EditorState,
+  NodeSelection,
+} from 'prosemirror-state';
 import { Command } from '../../../types';
 import {
   pluginKey as floatingToolbarPluginKey,
@@ -7,6 +12,7 @@ import {
 } from '../../floating-toolbar/index';
 import { FloatingToolbarConfig } from '../../floating-toolbar/types';
 import { findParentNodeOfType } from 'prosemirror-utils';
+import { Node } from 'prosemirror-model';
 
 export const decorationStateKey = new PluginKey('decorationPlugin');
 
@@ -32,7 +38,29 @@ export const hoverDecoration = (
     return false;
   }
 
-  const parentNode = findParentNodeOfType(config.nodeType)(state.selection);
+  let parentNode: Node;
+  let from: number;
+  if (state.selection instanceof NodeSelection) {
+    debugger;
+    parentNode = state.selection.node;
+    const nodeTypes = Array.isArray(config.nodeType)
+      ? config.nodeType
+      : [config.nodeType];
+    if (nodeTypes.indexOf(parentNode.type) < 0) {
+      return false;
+    }
+    from = state.selection.from;
+  } else {
+    const foundParentNode = findParentNodeOfType(config.nodeType)(
+      state.selection,
+    );
+    if (!foundParentNode) {
+      return false;
+    }
+    from = foundParentNode.pos;
+    parentNode = foundParentNode.node;
+  }
+
   if (!parentNode) {
     return false;
   }
@@ -43,8 +71,8 @@ export const hoverDecoration = (
         .setMeta(decorationStateKey, {
           action: add ? ACTIONS.DECORATION_ADD : ACTIONS.DECORATION_REMOVE,
           data: Decoration.node(
-            parentNode.pos,
-            parentNode.pos + parentNode.node.nodeSize,
+            from,
+            from + parentNode.nodeSize,
             {
               class: className,
             },
