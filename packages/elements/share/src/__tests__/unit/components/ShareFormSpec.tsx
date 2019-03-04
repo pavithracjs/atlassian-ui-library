@@ -102,7 +102,7 @@ describe('ShareForm', () => {
   });
 
   describe('isSharing prop', () => {
-    it('should set isLoading prop to true to the Send button', () => {
+    it('should isLoading prop to true to the Send button', () => {
       const mockLink = 'link';
       const loadOptions = jest.fn();
       const wrapper = shallow(
@@ -117,7 +117,7 @@ describe('ShareForm', () => {
       expect(footer.find(Button).prop('isLoading')).toBeTruthy();
     });
 
-    it('should set isLoading prop to true to the Retry button, and hide the tooltip', () => {
+    it('should set appearance prop to "primary" and isLoading prop to true to the Send button, and hide the tooltip', () => {
       const mockLink = 'link';
       const mockShareError: ShareError = { message: 'error' };
       const loadOptions = jest.fn();
@@ -137,6 +137,7 @@ describe('ShareForm', () => {
       const footer = form.find(FormFooter);
       expect(footer.find(Tooltip)).toHaveLength(0);
       expect(footer.find(Button).prop('isLoading')).toBeTruthy();
+      expect(footer.find(Button).prop('appearance')).toEqual('primary');
     });
   });
 

@@ -81,10 +81,10 @@ const client: Client = {
     _metaData: MetaData,
     _comment?: Comment,
   ) => {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       setTimeout(
         () =>
-          resolve({
+          reject({
             shareRequestId: 'c41e33e5-e622-4b38-80e9-a623c6e54cdd',
           }),
         3000,
@@ -94,15 +94,17 @@ const client: Client = {
 };
 
 export default () => (
-  <ShareDialogContainer
-    buttonStyle="icon-with-text"
-    client={client}
-    cloudId="12345-12345-12345-12345"
-    loadUserOptions={loadUserOptions}
-    originTracingFactory={() => mockOriginTracing}
-    productId="confluence"
-    shareAri="ari"
-    shareLink={window.location.href}
-    shareTitle="My Share"
-  />
+  <div style={{ marginLeft: '600px' }}>
+    <ShareDialogContainer
+      buttonStyle="icon-with-text"
+      client={client}
+      cloudId="12345-12345-12345-12345"
+      loadUserOptions={loadUserOptions}
+      originTracingFactory={() => mockOriginTracing}
+      productId="confluence"
+      shareAri="ari"
+      shareLink={window.location.href}
+      shareTitle="My Share"
+    />
+  </div>
 );

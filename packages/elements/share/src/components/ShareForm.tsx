@@ -63,6 +63,39 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
     }
   }
 
+  renderSubmitButton = () => {
+    const { isSharing, shareError, submitButtonLabel } = this.props;
+    const shouldShowWarning = shareError && !isSharing;
+    const buttonAppearance = !shouldShowWarning ? 'primary' : 'warning';
+    const buttonLabel = shareError ? messages.formRetry : messages.formSend;
+    const ButtonLabelWrapper =
+      buttonAppearance === 'warning' ? 'strong' : React.Fragment;
+
+    return (
+      <>
+        <CenterAlignedIconWrapper>
+          {shouldShowWarning && (
+            <Tooltip
+              content={<FormattedMessage {...messages.shareFailureMessage} />}
+              position="top"
+            >
+              <ErrorIcon label="errorIcon" primaryColor={colors.R400} />
+            </Tooltip>
+          )}
+        </CenterAlignedIconWrapper>
+        <Button
+          appearance={buttonAppearance}
+          type="submit"
+          isLoading={isSharing}
+        >
+          <ButtonLabelWrapper>
+            {submitButtonLabel || <FormattedMessage {...buttonLabel} />}
+          </ButtonLabelWrapper>
+        </Button>
+      </>
+    );
+  };
+
   render() {
     const {
       formProps,
@@ -71,11 +104,8 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
       capabilitiesInfoMessage,
       onLinkCopy,
       copyLink,
-      submitButtonLabel,
       defaultValue,
       capabilities,
-      shareError,
-      isSharing,
     } = this.props;
     return (
       <form {...formProps}>
@@ -93,31 +123,7 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
           <LeftAlignmentContainer>
             <CopyLinkButton onLinkCopy={onLinkCopy} link={copyLink} />
           </LeftAlignmentContainer>
-          {shareError ? (
-            <>
-              <CenterAlignedIconWrapper>
-                {!isSharing && (
-                  <Tooltip
-                    content={
-                      <FormattedMessage {...messages.shareFailureMessage} />
-                    }
-                    position="top"
-                  >
-                    <ErrorIcon label="errorIcon" primaryColor={colors.R400} />
-                  </Tooltip>
-                )}
-              </CenterAlignedIconWrapper>
-              <Button appearance="warning" type="submit" isLoading={isSharing}>
-                <strong>
-                  <FormattedMessage {...messages.formRetry} />
-                </strong>
-              </Button>
-            </>
-          ) : (
-            <Button appearance="primary" type="submit" isLoading={isSharing}>
-              {submitButtonLabel || <FormattedMessage {...messages.formSend} />}
-            </Button>
-          )}
+          {this.renderSubmitButton()}
         </FormFooter>
       </form>
     );
