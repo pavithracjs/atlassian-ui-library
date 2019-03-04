@@ -47,7 +47,9 @@ export default class BasicExample extends Component<void, State> {
             <TextField {...fieldProps} ref={ref} />
           )}
           readView={
-            <ReadViewContainer>{this.state.editValue}</ReadViewContainer>
+            <ReadViewContainer>
+              {this.state.editValue || 'Click to enter value'}
+            </ReadViewContainer>
           }
           onConfirm={this.onConfirm}
           onCancel={this.onCancel}

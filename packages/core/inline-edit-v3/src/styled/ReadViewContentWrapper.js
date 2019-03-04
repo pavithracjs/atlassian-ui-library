@@ -6,7 +6,6 @@ const ReadViewContentWrapper = styled.button`
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
-  border: 0;
   line-height: 1;
   margin: 0;
   padding: 0;

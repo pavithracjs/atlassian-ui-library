@@ -25,11 +25,13 @@ import ContentWrapper from './styled/ContentWrapper';
 type State = {
   onReadViewHover: boolean,
   initialValue: any,
+  wasFocusReceivedSinceLastBlur: boolean,
 };
 
 class InlineEdit extends Component<Props, State> {
   editViewRef: { current: null | HTMLInputElement };
-  formRef: { current: null | HTMLFormElement };
+  confirmButtonRef: null | HTMLButtonElement;
+  cancelButtonRef: null | HTMLButtonElement;
 
   static defaultProps: DefaultProps = {
     onEditRequested: () => {},
@@ -47,14 +49,15 @@ class InlineEdit extends Component<Props, State> {
     this.state = {
       onReadViewHover: false,
       initialValue: '',
+      wasFocusReceivedSinceLastBlur: false,
     };
 
     this.editViewRef = React.createRef();
-    this.formRef = React.createRef();
   }
 
   onCancelClick = (event: any) => {
     event.preventDefault();
+    if (this.cancelButtonRef) this.cancelButtonRef.focus();
     this.props.onCancel();
   };
 
@@ -63,11 +66,21 @@ class InlineEdit extends Component<Props, State> {
     this.props.onEditRequested();
   };
 
-  onEditViewBlur = value => {
-    if (!this.props.disableConfirmOnBlur) this.props.onConfirm(value);
+  onWrapperBlur = (value: any) => {
+    if (!this.props.disableConfirmOnBlur) {
+      this.setState({ wasFocusReceivedSinceLastBlur: false });
+      setTimeout(() => this.confirmIfUnfocused(value));
+    }
   };
 
-  /* Add hover + focus style to readView */
+  onWrapperFocus = () => {
+    this.setState({ wasFocusReceivedSinceLastBlur: true });
+  };
+
+  confirmIfUnfocused = (value: any) => {
+    if (!this.state.wasFocusReceivedSinceLastBlur) this.props.onConfirm(value);
+  };
+
   renderReadView = () => {
     return (
       <ReadViewContentWrapper
@@ -80,18 +93,11 @@ class InlineEdit extends Component<Props, State> {
     );
   };
 
-  /* Add focus style to editView */
-  // Should we add onKeyDown listener or cloneElement with onConfirm for the child to implement confirm on enter?
   renderEditView = (
     fieldProps: any,
     editViewRef: { current: null | HTMLInputElement },
   ) => {
-    // Add focus style
-    return (
-      <div onBlur={() => this.onEditViewBlur(fieldProps.value)}>
-        {this.props.editView(fieldProps, editViewRef)}
-      </div>
-    );
+    return this.props.editView(fieldProps, editViewRef);
   };
 
   renderActionButtons = () => {
@@ -103,6 +109,12 @@ class InlineEdit extends Component<Props, State> {
             type="submit"
             iconBefore={<ConfirmIcon size="small" />}
             shouldFitContainer
+            onClick={() => {
+              if (this.confirmButtonRef) this.confirmButtonRef.focus();
+            }}
+            innerRef={ref => {
+              this.confirmButtonRef = ref;
+            }}
           />
         </ButtonWrapper>
         <ButtonWrapper>
@@ -111,6 +123,9 @@ class InlineEdit extends Component<Props, State> {
             iconBefore={<CancelIcon size="small" />}
             onClick={this.onCancelClick}
             shouldFitContainer
+            innerRef={ref => {
+              this.cancelButtonRef = ref;
+            }}
           />
         </ButtonWrapper>
       </ButtonsWrapper>
@@ -139,29 +154,30 @@ class InlineEdit extends Component<Props, State> {
       <Form onSubmit={data => this.props.onConfirm(data.inlineEdit)}>
         {({ formProps }) => (
           <form {...formProps}>
-            <ContentWrapper>
-              {isEditing ? (
-                <Field
-                  name="inlineEdit"
-                  label={label}
-                  defaultValue={defaultValue}
-                  validate={validate}
-                >
-                  {({ fieldProps }) => (
-                    <>
-                      <div>
-                        {this.renderEditView(fieldProps, this.editViewRef)}
-                      </div>
-                      {!hideActionButtons && this.renderActionButtons()}
-                    </>
-                  )}
-                </Field>
-              ) : (
-                <Field name="inlineEdit" label={label} defaultValue="">
-                  {() => <div>{this.renderReadView()}</div>}
-                </Field>
-              )}
-            </ContentWrapper>
+            {isEditing ? (
+              <Field
+                name="inlineEdit"
+                label={label}
+                defaultValue={defaultValue}
+                validate={validate}
+              >
+                {({ fieldProps }) => (
+                  <ContentWrapper
+                    onBlur={() => this.onWrapperBlur(fieldProps.value)}
+                    onFocus={this.onWrapperFocus}
+                  >
+                    <div>
+                      {this.renderEditView(fieldProps, this.editViewRef)}
+                    </div>
+                    {!hideActionButtons && this.renderActionButtons()}
+                  </ContentWrapper>
+                )}
+              </Field>
+            ) : (
+              <Field name="inlineEdit" label={label} defaultValue="">
+                {() => <div>{this.renderReadView()}</div>}
+              </Field>
+            )}
           </form>
         )}
       </Form>
