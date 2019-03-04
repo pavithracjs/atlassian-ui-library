@@ -13,7 +13,7 @@ import {
 
 export const codeBlockStyles = css`
   .ProseMirror .code-block {
-    background: ${themed({ light: colors.N20, dark: colors.DN50 })}
+    background: ${themed({ light: colors.N20, dark: colors.DN50 })};
     font-family: ${akEditorCodeFontFamily};
     background: ${colors.N20};
     border: 1px solid transparent;
@@ -29,7 +29,7 @@ export const codeBlockStyles = css`
       background-color: ${themed({
         light: 'rgba(9, 30, 66, 0.04)',
         dark: colors.DN40,
-      })}
+      })};
       color: ${colors.N300};
       text-align: right;
       user-select: none;
@@ -50,7 +50,7 @@ export const codeBlockStyles = css`
     }
 
     .code-content {
-      color: ${themed({ light: colors.N800, dark: colors.DN500 })}
+      color: ${themed({ light: colors.N800, dark: colors.DN500 })};
       padding: ${akEditorCodeBlockPadding} 16px;
       overflow: auto;
       display: flex;
@@ -85,6 +85,7 @@ export const codeBlockStyles = css`
       }
     }
   }
+
   .ProseMirror li > .code-block {
     margin: 0;
   }

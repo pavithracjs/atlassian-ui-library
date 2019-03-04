@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { EditorView } from 'prosemirror-view';
-import { Plugin, PluginKey } from 'prosemirror-state';
+import { Plugin, PluginKey, EditorState } from 'prosemirror-state';
 import { findDomRefAtPos, findSelectedNodeOfType } from 'prosemirror-utils';
 import { Popup, ProviderFactory } from '@atlaskit/editor-common';
 
@@ -15,13 +15,13 @@ import {
   EditorDisabledPluginState,
 } from '../editor-disabled';
 
-const getRelevantConfig = (
-  view: EditorView,
+export const getRelevantConfig = (
+  state: EditorState,
   configs: Array<FloatingToolbarConfig>,
 ): FloatingToolbarConfig | undefined => {
   // node selections always take precedence, see if
   const selectedConfig = configs.find(
-    config => !!findSelectedNodeOfType(config.nodeType)(view.state.selection),
+    config => !!findSelectedNodeOfType(config.nodeType)(state.selection),
   );
 
   if (selectedConfig) {
@@ -41,7 +41,7 @@ const getRelevantConfig = (
   });
 
   // search up the tree from selection
-  const { $from } = view.state.selection;
+  const { $from } = state.selection;
   for (let i = $from.depth; i > 0; i--) {
     const node = $from.node(i);
 
@@ -99,7 +99,7 @@ const floatingToolbarPlugin: EditorPlugin = {
         }) => {
           const relevantConfig =
             floatingToolbarConfigs &&
-            getRelevantConfig(editorView, floatingToolbarConfigs);
+            getRelevantConfig(editorView.state, floatingToolbarConfigs);
           if (relevantConfig) {
             const {
               title,

@@ -41,7 +41,6 @@ export const hoverDecoration = (
   let parentNode: Node;
   let from: number;
   if (state.selection instanceof NodeSelection) {
-    debugger;
     parentNode = state.selection.node;
     const nodeTypes = Array.isArray(config.nodeType)
       ? config.nodeType
@@ -88,7 +87,6 @@ export const hoverDecoration = (
 export default () => {
   return new Plugin({
     key: decorationStateKey,
-
     state: {
       init: () => ({ decorations: undefined }),
       apply(tr, pluginState) {
