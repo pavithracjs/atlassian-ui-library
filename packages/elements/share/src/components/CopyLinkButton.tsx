@@ -63,8 +63,9 @@ export class CopyLinkButton extends React.Component<Props, State> {
   }
 
   private clearAutoDismiss = () => {
-    if (this.autoDismiss) {
-      this.autoDismiss = window && window.clearTimeout(this.autoDismiss);
+    if (this.autoDismiss && window) {
+      window.clearTimeout(this.autoDismiss);
+      this.autoDismiss = undefined;
     }
   };
 
