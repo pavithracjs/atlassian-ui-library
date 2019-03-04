@@ -37,7 +37,7 @@ export default class BasicExample extends Component<void, State> {
     this.setState({ isEditing: true });
   };
 
-  validate = (value: string) => {
+  validate = () => {
     // setTimeout(() => {
     //   if (value.length > )
     // })

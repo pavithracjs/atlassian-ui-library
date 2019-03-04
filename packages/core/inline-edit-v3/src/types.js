@@ -38,16 +38,3 @@ export type Props = {
   /** The text announced to screen readers when focusing on the cancel button. */
   cancelButtonLabel: string,
 };
-
-export type DefaultProps = {
-  /** Set whether onConfirm should be called on blur.*/
-  disableConfirmOnBlur: boolean,
-  /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
-  hideActionButtons: boolean,
-  /** The text announced to screen readers when focusing on the edit button. */
-  editButtonLabel: string,
-  /** The text announced to screen readers when focusing on the confirm button. */
-  confirmButtonLabel: string,
-  /** The text announced to screen readers when focusing on the cancel button. */
-  cancelButtonLabel: string,
-};

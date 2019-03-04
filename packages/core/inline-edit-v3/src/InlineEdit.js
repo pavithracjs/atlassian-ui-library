@@ -16,7 +16,7 @@ import {
   version as packageVersion,
 } from '../package.json';
 
-import type { DefaultProps, Props } from './types';
+import type { Props } from './types';
 import ButtonsWrapper from './styled/ButtonsWrapper';
 import ButtonWrapper from './styled/ButtonWrapper';
 import ReadViewContentWrapper from './styled/ReadViewContentWrapper';
@@ -151,14 +151,14 @@ class InlineEdit extends Component<Props, State> {
       <Form onSubmit={data => this.props.onConfirm(data.inlineEdit)}>
         {({ formProps }) => (
           <form {...formProps}>
-            <Field
-              name="inlineEdit"
-              label={label}
-              defaultValue={defaultValue}
-              validate={validate}
-            >
-              {({ fieldProps }) =>
-                isEditing ? (
+            {isEditing ? (
+              <Field
+                name="inlineEdit"
+                label={label}
+                defaultValue={defaultValue}
+                validate={validate}
+              >
+                {({ fieldProps }) => (
                   <ContentWrapper
                     onBlur={() => this.onWrapperBlur(fieldProps.value)}
                     onFocus={this.onWrapperFocus}
@@ -168,11 +168,13 @@ class InlineEdit extends Component<Props, State> {
                     </div>
                     {!hideActionButtons && this.renderActionButtons()}
                   </ContentWrapper>
-                ) : (
-                  <div>{this.renderReadView()}</div>
-                )
-              }
-            </Field>
+                )}
+              </Field>
+            ) : (
+              <Field name="inlineEdit" label={label} defaultValue="">
+                {() => <div>{this.renderReadView()}</div>}
+              </Field>
+            )}
           </form>
         )}
       </Form>
