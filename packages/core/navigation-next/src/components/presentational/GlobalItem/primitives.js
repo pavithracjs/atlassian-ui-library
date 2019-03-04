@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Fragment, Component } from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import Tooltip from '@atlaskit/tooltip';
 
 import { styleReducerNoOp, withGlobalTheme } from '../../../theme';

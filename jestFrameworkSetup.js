@@ -3,7 +3,7 @@ import 'jest-styled-components';
 import snakeCase from 'snake-case';
 import { toMatchSnapshot } from 'jest-snapshot';
 import { configureToMatchImageSnapshot } from 'jest-image-snapshot';
-import * as emotion from 'emotion';
+import * as emotion from '@emotion/core';
 import { createSerializer } from 'jest-emotion';
 import 'jest-localstorage-mock';
 

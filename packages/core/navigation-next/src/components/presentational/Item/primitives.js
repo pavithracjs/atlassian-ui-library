@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent, type ElementType, type Ref } from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 
 import { styleReducerNoOp, withContentTheme } from '../../../theme';
 import type { Dataset, ItemPrimitiveProps } from './types';

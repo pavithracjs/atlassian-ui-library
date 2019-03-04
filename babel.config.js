@@ -6,7 +6,12 @@ module.exports = {
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/syntax-dynamic-import',
   ],
-  presets: ['@babel/react', '@babel/flow'],
+  presets: [
+    '@babel/react',
+    '@babel/flow',
+    ['@emotion/babel-preset-css-prop', { hoist: true }],
+    ['@babel/env', { modules: false }],
+  ],
   overrides: [
     {
       test: [
@@ -15,7 +20,6 @@ module.exports = {
         './packages/core/global-navigation',
         './packages/core/select',
       ],
-      plugins: [['emotion', { hoist: true }]],
     },
   ],
   env: {

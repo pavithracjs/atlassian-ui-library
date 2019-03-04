@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 
 import { withContentTheme, styleReducerNoOp } from '../../../theme';
 import type { SkeletonItemProps } from './types';

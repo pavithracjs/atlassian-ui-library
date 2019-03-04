@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import type { Interpolation } from 'emotion';
+import type { Interpolation } from '@emotion/core';
 import { gridSize as gridSizeFn } from '@atlaskit/theme';
 
 const gridSize = gridSizeFn();

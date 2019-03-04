@@ -1,6 +1,6 @@
 // @flow
 
-import { keyframes } from 'emotion';
+import { keyframes } from '@emotion/core';
 
 import {
   transitionDuration,
