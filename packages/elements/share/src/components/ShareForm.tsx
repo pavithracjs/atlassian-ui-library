@@ -25,8 +25,12 @@ const LeftAlignmentContainer = styled.div`
 
 const CenterAlignedIconWrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-self: center;
   padding: 0 10px;
+
+  > div {
+    line-height: 1;
+  }
 `;
 
 type ShareError = {
