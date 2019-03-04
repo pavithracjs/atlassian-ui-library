@@ -51,7 +51,7 @@ export const NoPaddingButton = styled(Button)`
 export const AUTO_DISMISS_MS = AUTO_DISMISS_SECONDS * 1000;
 
 export class CopyLinkButton extends React.Component<Props, State> {
-  private autoDismiss: number | null = null;
+  private autoDismiss: number | undefined;
   private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
   state = {
@@ -64,8 +64,7 @@ export class CopyLinkButton extends React.Component<Props, State> {
 
   private clearAutoDismiss = () => {
     if (this.autoDismiss) {
-      window && window.clearTimeout(this.autoDismiss);
-      this.autoDismiss = null;
+      this.autoDismiss = window && window.clearTimeout(this.autoDismiss);
     }
   };
 

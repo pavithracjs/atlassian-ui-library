@@ -74,9 +74,9 @@ describe('CopyLinkButton', () => {
         any
       > = mountWithIntl<Props, State>(<CopyLinkButton link={mockLink} />);
       wrapper.find(NoPaddingButton).simulate('click');
-      expect(wrapper.instance().autoDismiss).not.toBeNull();
+      expect(wrapper.instance().autoDismiss).not.toBeUndefined();
       wrapper.instance().componentWillUnmount();
-      expect(wrapper.instance().autoDismiss).toBeNull();
+      expect(wrapper.instance().autoDismiss).toBeUndefined();
     });
   });
 
@@ -95,7 +95,7 @@ describe('CopyLinkButton', () => {
       wrapper.find(NoPaddingButton).simulate('click');
       expect(wrapper.find(CheckCircleIcon)).toHaveLength(1);
       expect(wrapper.find(MessageContainer)).toHaveLength(1);
-      expect(wrapper.instance().autoDismiss).not.toBeNull();
+      expect(wrapper.instance().autoDismiss).not.toBeUndefined();
 
       const clickEventOutsideMessageContainer: Partial<Event> = {
         target: document.createElement('div'),
@@ -108,7 +108,7 @@ describe('CopyLinkButton', () => {
       expect(wrapper.state().shouldShowCopiedMessage).toBeFalsy();
       expect(wrapper.find(CheckCircleIcon)).toHaveLength(0);
       expect(wrapper.find(MessageContainer)).toHaveLength(0);
-      expect(wrapper.instance().autoDismiss).toBeNull();
+      expect(wrapper.instance().autoDismiss).toBeUndefined();
     });
   });
 
