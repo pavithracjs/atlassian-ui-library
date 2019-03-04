@@ -154,6 +154,16 @@ export const updateResizeHandle = (view: EditorView) => {
   }
 };
 
+const getWidth = (element: HTMLElement): number => {
+  const rect = element.getBoundingClientRect();
+  return rect ? rect.width : element.offsetWidth;
+};
+
+const getHeight = (element: HTMLElement): number => {
+  const rect = element.getBoundingClientRect();
+  return rect ? rect.height : element.offsetHeight;
+};
+
 /**
  * Updates the column controls on resize
  */
@@ -166,12 +176,12 @@ export const updateControls = (state: EditorState) => {
   if (!tr) {
     return;
   }
-  const cols = tr.children;
+  const cols = [...tr.children];
   const wrapper = tableRef.parentElement;
   const columnControls: any = wrapper.querySelectorAll(
     `.${ClassName.COLUMN_CONTROLS_BUTTON_WRAP}`,
   );
-  const rows = tableRef.querySelectorAll('tr');
+  const rows = [...tableRef.querySelectorAll('tr')];
   const rowControls: any = wrapper.parentElement.querySelectorAll(
     `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}`,
   );
@@ -179,30 +189,19 @@ export const updateControls = (state: EditorState) => {
     ClassName.NUMBERED_COLUMN_BUTTON,
   );
 
-  const getWidth = (element: HTMLElement): number => {
-    const rect = element.getBoundingClientRect();
-    return rect ? rect.width : element.offsetWidth;
-  };
+  // Batch layout thrashing property reads together
+  const colWidths = cols.map(col => getWidth(col));
+  const rowHeights = rows.map(row => getHeight(row));
 
-  const getHeight = (element: HTMLElement): number => {
-    const rect = element.getBoundingClientRect();
-    return rect ? rect.height : element.offsetHeight;
-  };
-
-  // update column controls width on resize
-  for (let i = 0, count = columnControls.length; i < count; i++) {
-    if (cols[i]) {
-      columnControls[i].style.width = `${getWidth(cols[i]) + 1}px`;
-    }
+  // Batch layout thrashing writes together
+  for (let i = 0; i < columnControls.length; i++) {
+    columnControls[i].style.width = `${colWidths[i] + 1}px`;
   }
-  // update rows controls height on resize
-  for (let i = 0, count = rowControls.length; i < count; i++) {
-    if (rows[i]) {
-      rowControls[i].style.height = `${getHeight(rows[i]) + 1}px`;
-
-      if (numberedRows.length) {
-        numberedRows[i].style.height = `${getHeight(rows[i]) + 1}px`;
-      }
+  for (let i = 0; i < rowControls.length; i++) {
+    const height = `${rowHeights[i] + 1}px`;
+    rowControls[i].style.height = height;
+    if (numberedRows.length) {
+      numberedRows[i].style.height = height;
     }
   }
 
