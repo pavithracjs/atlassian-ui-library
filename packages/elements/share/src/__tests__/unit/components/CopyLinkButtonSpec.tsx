@@ -4,6 +4,7 @@ import InlineDialog from '@atlaskit/inline-dialog';
 import { mount } from 'enzyme';
 import * as React from 'react';
 import {
+  AUTO_DISMISS_MS,
   CopyLinkButton,
   HiddenInput,
   MessageContainer,
@@ -16,8 +17,8 @@ describe('CopyLinkButton', () => {
     showUI?: boolean,
     value?: string,
   ) => boolean;
-  let mockLink = 'link';
-  const spiedExecCommand = jest.fn();
+  let mockLink: string = 'link';
+  const spiedExecCommand: jest.Mock = jest.fn();
 
   beforeAll(() => {
     originalExecCommand = document.execCommand;
@@ -53,6 +54,16 @@ describe('CopyLinkButton', () => {
     ).toBeTruthy();
   });
 
+  describe('componentWillUnmount', () => {
+    it('should clear this.autoDismiss', () => {
+      const wrapper = mount<CopyLinkButton>(<CopyLinkButton link={mockLink} />);
+      wrapper.find(NoPaddingButton).simulate('click');
+      expect(wrapper.instance().autoDismiss).not.toBeNull();
+      wrapper.instance().componentWillUnmount();
+      expect(wrapper.instance().autoDismiss).toBeNull();
+    });
+  });
+
   describe('shouldShowCopiedMessage state', () => {
     it('should render the copied to clip board message, and dismiss the message when click outside the Inline Dialog', () => {
       const eventMap: { click: Function } = { click: () => {} };
@@ -61,19 +72,18 @@ describe('CopyLinkButton', () => {
       );
 
       const wrapper = mount<CopyLinkButton>(<CopyLinkButton link={mockLink} />);
-      wrapper.setState({
-        shouldShowCopiedMessage: true,
-      });
+      wrapper.find(NoPaddingButton).simulate('click');
       expect(wrapper.find(CheckCircleIcon)).toHaveLength(1);
       expect(wrapper.find(MessageContainer)).toHaveLength(1);
+      expect(wrapper.instance().autoDismiss).not.toBeNull();
 
-      const spiedHandleDimissCopiedMessage = jest.spyOn(
+      const spiedHandleDimissCopiedMessage: jest.SpyInstance = jest.spyOn(
         wrapper.instance(),
         'handleDismissCopiedMessage',
       );
       wrapper.instance().forceUpdate();
 
-      const clickEventOutsideMessageContainer = {
+      const clickEventOutsideMessageContainer: Partial<Event> = {
         target: document.createElement('div'),
         type: 'click',
       };
@@ -84,16 +94,21 @@ describe('CopyLinkButton', () => {
       expect(spiedHandleDimissCopiedMessage).toHaveBeenCalledTimes(1);
       expect(wrapper.find(CheckCircleIcon)).toHaveLength(0);
       expect(wrapper.find(MessageContainer)).toHaveLength(0);
+      expect(wrapper.instance().autoDismiss).toBeNull();
     });
   });
 
   describe('handleClick', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
     it('should copy the text from the HiddenInput and call onLinkCopy prop if given when the user clicks on the button', () => {
-      const spiedOnLinkCopy = jest.fn();
+      const spiedOnLinkCopy: jest.Mock = jest.fn();
       const wrapper = mount<CopyLinkButton>(
         <CopyLinkButton onLinkCopy={spiedOnLinkCopy} link={mockLink} />,
       );
-      const spiedInputSelect = jest.spyOn(
+      const spiedInputSelect: jest.SpyInstance = jest.spyOn(
         // @ts-ignore accessing private property just for testing purpose
         wrapper.instance().inputRef.current,
         'select',
@@ -104,6 +119,14 @@ describe('CopyLinkButton', () => {
       expect(spiedOnLinkCopy).toHaveBeenCalledTimes(1);
       expect(spiedOnLinkCopy.mock.calls[0][0]).toEqual(mockLink);
       expect(wrapper.state().shouldShowCopiedMessage).toBeTruthy();
+
+      jest.runOnlyPendingTimers();
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+      expect(setTimeout).toHaveBeenLastCalledWith(
+        expect.any(Function),
+        AUTO_DISMISS_MS,
+      );
+      expect(wrapper.state().shouldShowCopiedMessage).toBeFalsy();
     });
   });
 });

@@ -1,4 +1,5 @@
 import Button from '@atlaskit/button';
+import { AUTO_DISMISS_SECONDS } from '@atlaskit/flag/src/components/AutoDismissFlag';
 import CheckCircleIcon from '@atlaskit/icon/glyph/check-circle';
 import LinkFilledIcon from '@atlaskit/icon/glyph/link-filled';
 import InlineDialog from '@atlaskit/inline-dialog';
@@ -43,11 +44,25 @@ export const NoPaddingButton = styled(Button)`
   padding: 0;
 `;
 
+export const AUTO_DISMISS_MS = AUTO_DISMISS_SECONDS * 1000;
+
 export class CopyLinkButton extends React.Component<Props> {
+  private autoDismiss: number | null = null;
   private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
   state = {
     shouldShowCopiedMessage: false,
+  };
+
+  componentWillUnmount() {
+    this.clearAutoDismiss();
+  }
+
+  private clearAutoDismiss = () => {
+    if (this.autoDismiss) {
+      window && window.clearTimeout(this.autoDismiss);
+      this.autoDismiss = null;
+    }
   };
 
   private handleClick = () => {
@@ -59,10 +74,19 @@ export class CopyLinkButton extends React.Component<Props> {
     if (this.props.onLinkCopy) {
       this.props.onLinkCopy!(this.props.link);
     }
-    this.setState({ shouldShowCopiedMessage: true });
+
+    this.setState({ shouldShowCopiedMessage: true }, () => {
+      this.clearAutoDismiss();
+      this.autoDismiss =
+        window &&
+        window.setTimeout(() => {
+          this.setState({ shouldShowCopiedMessage: false });
+        }, AUTO_DISMISS_SECONDS * 1000);
+    });
   };
 
-  handleDismissCopiedMessage = () => {
+  private handleDismissCopiedMessage = () => {
+    this.clearAutoDismiss();
     this.setState({ shouldShowCopiedMessage: false });
   };
 
