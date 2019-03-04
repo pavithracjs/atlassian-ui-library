@@ -6,12 +6,7 @@ module.exports = {
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/syntax-dynamic-import',
   ],
-  presets: [
-    '@babel/react',
-    '@babel/flow',
-    ['@emotion/babel-preset-css-prop', { hoist: true }],
-    ['@babel/env', { modules: false }],
-  ],
+  presets: ['@babel/react', '@babel/flow'],
   overrides: [
     {
       test: [
@@ -29,7 +24,10 @@ module.exports = {
         ['styled-components', { minify: false }],
         'transform-dynamic-import',
       ],
-      presets: [['@babel/env', { modules: 'commonjs' }]],
+      presets: [
+        ['@babel/env', { modules: 'commonjs' }],
+        '@emotion/babel-preset-css-prop',
+      ],
       ignore: [
         '**/__mocks__',
         '**/__tests__',
@@ -42,7 +40,10 @@ module.exports = {
         '@babel/transform-runtime',
         ['styled-components', { minify: false }],
       ],
-      presets: [['@babel/env', { modules: false }]],
+      presets: [
+        ['@babel/env', { modules: false }],
+        '@emotion/babel-preset-css-prop',
+      ],
       ignore: [
         '**/__mocks__',
         '**/__tests__',
@@ -51,7 +52,7 @@ module.exports = {
       ],
     },
     test: {
-      presets: ['@babel/env'],
+      presets: ['@babel/env', '@emotion/babel-preset-css-prop'],
       // There is no @babel/ scoped transform for this plugin
       plugins: ['transform-dynamic-import'],
     },
