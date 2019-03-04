@@ -1,10 +1,18 @@
+// This works only by calling before importing InlineDialog
+import mockPopper from '../_mockPopper';
+mockPopper();
+
 import Button from '@atlaskit/button';
 import CheckCircleIcon from '@atlaskit/icon/glyph/check-circle';
 import InlineDialog from '@atlaskit/inline-dialog';
-import { mount } from 'enzyme';
+import { ReactWrapper } from 'enzyme';
+import { mountWithIntl } from '@atlaskit/editor-test-helpers';
 import * as React from 'react';
+import { InjectedIntlProps } from 'react-intl';
 import {
   AUTO_DISMISS_MS,
+  Props,
+  State,
   CopyLinkButton,
   HiddenInput,
   MessageContainer,
@@ -34,7 +42,11 @@ describe('CopyLinkButton', () => {
   });
 
   it('should render', () => {
-    const wrapper = mount<CopyLinkButton>(<CopyLinkButton link={mockLink} />);
+    const wrapper: ReactWrapper<
+      Props & InjectedIntlProps,
+      State,
+      any
+    > = mountWithIntl<Props, State>(<CopyLinkButton link={mockLink} />);
 
     const inlineDialog = wrapper.find(InlineDialog);
     expect(inlineDialog).toHaveLength(1);
@@ -56,7 +68,11 @@ describe('CopyLinkButton', () => {
 
   describe('componentWillUnmount', () => {
     it('should clear this.autoDismiss', () => {
-      const wrapper = mount<CopyLinkButton>(<CopyLinkButton link={mockLink} />);
+      const wrapper: ReactWrapper<
+        Props & InjectedIntlProps,
+        State,
+        any
+      > = mountWithIntl<Props, State>(<CopyLinkButton link={mockLink} />);
       wrapper.find(NoPaddingButton).simulate('click');
       expect(wrapper.instance().autoDismiss).not.toBeNull();
       wrapper.instance().componentWillUnmount();
@@ -71,17 +87,15 @@ describe('CopyLinkButton', () => {
         (event: 'click', cb: Function) => (eventMap[event] = cb),
       );
 
-      const wrapper = mount<CopyLinkButton>(<CopyLinkButton link={mockLink} />);
+      const wrapper: ReactWrapper<
+        Props & InjectedIntlProps,
+        State,
+        any
+      > = mountWithIntl<Props, State>(<CopyLinkButton link={mockLink} />);
       wrapper.find(NoPaddingButton).simulate('click');
       expect(wrapper.find(CheckCircleIcon)).toHaveLength(1);
       expect(wrapper.find(MessageContainer)).toHaveLength(1);
       expect(wrapper.instance().autoDismiss).not.toBeNull();
-
-      const spiedHandleDimissCopiedMessage: jest.SpyInstance = jest.spyOn(
-        wrapper.instance(),
-        'handleDismissCopiedMessage',
-      );
-      wrapper.instance().forceUpdate();
 
       const clickEventOutsideMessageContainer: Partial<Event> = {
         target: document.createElement('div'),
@@ -91,7 +105,7 @@ describe('CopyLinkButton', () => {
 
       wrapper.update();
 
-      expect(spiedHandleDimissCopiedMessage).toHaveBeenCalledTimes(1);
+      expect(wrapper.state().shouldShowCopiedMessage).toBeFalsy();
       expect(wrapper.find(CheckCircleIcon)).toHaveLength(0);
       expect(wrapper.find(MessageContainer)).toHaveLength(0);
       expect(wrapper.instance().autoDismiss).toBeNull();
@@ -105,7 +119,11 @@ describe('CopyLinkButton', () => {
 
     it('should copy the text from the HiddenInput and call onLinkCopy prop if given when the user clicks on the button', () => {
       const spiedOnLinkCopy: jest.Mock = jest.fn();
-      const wrapper = mount<CopyLinkButton>(
+      const wrapper: ReactWrapper<
+        Props & InjectedIntlProps,
+        State,
+        any
+      > = mountWithIntl<Props, State>(
         <CopyLinkButton onLinkCopy={spiedOnLinkCopy} link={mockLink} />,
       );
       const spiedInputSelect: jest.SpyInstance = jest.spyOn(

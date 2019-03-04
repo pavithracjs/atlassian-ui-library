@@ -35,9 +35,13 @@ export const HiddenInput: React.ComponentType<InputProps> = React.forwardRef(
   ),
 );
 
-type Props = {
+export type Props = {
   onLinkCopy?: (link: string) => void;
   link: string;
+};
+
+export type State = {
+  shouldShowCopiedMessage: boolean;
 };
 
 export const NoPaddingButton = styled(Button)`
@@ -46,7 +50,7 @@ export const NoPaddingButton = styled(Button)`
 
 export const AUTO_DISMISS_MS = AUTO_DISMISS_SECONDS * 1000;
 
-export class CopyLinkButton extends React.Component<Props> {
+export class CopyLinkButton extends React.Component<Props, State> {
   private autoDismiss: number | null = null;
   private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
