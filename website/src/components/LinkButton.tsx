@@ -1,22 +1,29 @@
 import * as React from 'react';
 import { Link } from './WrappedLink';
-import Button from '@atlaskit/button';
+import Button, { filterHTMLAttributes } from '@atlaskit/button';
 
 export type LinkButtonProps = {
-  to: string;
-  children: React.ReactChild;
+  [index: string]: any;
+  to: string | undefined;
+  children?: React.ReactChild;
 };
 
-export default function LinkButton({ to, children }: LinkButtonProps) {
+export default function LinkButton({
+  to,
+  children,
+  ...props
+}: LinkButtonProps) {
   return (
     <Button
-      component={({ className }) => {
-        return (
-          <Link to={to} className={className}>
-            {children}
-          </Link>
-        );
-      }}
-    />
+      component={({ href, children, ...props }) => (
+        <Link to={href} {...filterHTMLAttributes(props)}>
+          {children}
+        </Link>
+      )}
+      href={to}
+      {...props}
+    >
+      {children}
+    </Button>
   );
 }

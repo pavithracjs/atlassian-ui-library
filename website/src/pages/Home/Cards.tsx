@@ -143,9 +143,23 @@ export type CardProps = {
 
 class Card extends React.Component<CardProps> {
   render() {
-    const { icon: Icon, text, title, image, alt, ...props } = this.props;
+    const {
+      icon: Icon,
+      text,
+      title,
+      image,
+      alt,
+      href,
+      to,
+      ...props
+    } = this.props;
 
-    const LinkComponent = props.href ? ExternalCard : InternalCard;
+    let LinkComponent;
+    if (href) {
+      LinkComponent = InternalCard;
+    } else if (to) {
+      LinkComponent = ExternalCard;
+    }
 
     return (
       <LinkComponent {...props}>

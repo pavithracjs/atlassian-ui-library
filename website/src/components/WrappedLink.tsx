@@ -1,5 +1,6 @@
 import { Link as BaseLink } from 'react-router-dom';
 import * as React from 'react';
+
 export interface LinkProps {
   onClick?: (e: Event) => void;
   to: string | Record<string, string | Location> | undefined;
@@ -12,7 +13,7 @@ export interface LinkProps {
 
 class Link extends React.PureComponent<LinkProps, {}> {
   render() {
-    const { onClick, children, className, to } = this.props;
+    const { onClick, children, className, to, ...props } = this.props;
     return (
       <BaseLink
         onClick={e => {
@@ -24,6 +25,7 @@ class Link extends React.PureComponent<LinkProps, {}> {
         }}
         className={className}
         to={to}
+        {...props}
       >
         {children}
       </BaseLink>

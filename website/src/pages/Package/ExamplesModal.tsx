@@ -3,7 +3,7 @@ import { match } from 'react-router';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Redirect } from 'react-router-dom';
-import { Link } from '../../components/WrappedLink';
+import LinkButton from '../../components/LinkButton';
 import { Helmet } from 'react-helmet';
 
 import CodeIcon from '@atlaskit/icon/glyph/code';
@@ -245,9 +245,8 @@ const ModalHeaderComp = ({
           Source
         </Button>
         <Tooltip content="Fullscreen" position="bottom">
-          <Button
+          <LinkButton
             appearance="subtle"
-            component={Link}
             iconBefore={<ScreenIcon label="Screen Icon" />}
             to={toExampleUrl(groupId, packageId, exampleId)}
           />
