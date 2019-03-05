@@ -91,16 +91,18 @@ export const codeBlockStyles = css`
     margin: 0;
   }
 
-  .ProseMirror .code-block.danger {
-    border: ${akEditorDeleteBorderSize}px solid ${akEditorDeleteBorder};
+  .ProseMirror .danger.code-block,
+  .ProseMirror .danger .code-block {
+      border: ${akEditorDeleteBorderSize}px solid ${akEditorDeleteBorder};
 
-    .line-number-gutter {
-      background-color: ${colors.R75};
-      color: ${akEditorDeleteIconColor};
-    }
+      .line-number-gutter {
+        background-color: ${colors.R75};
+        color: ${akEditorDeleteIconColor};
+      }
 
-    .code-content {
-      background-color: ${akEditorDeleteBackground};
+      .code-content {
+        background-color: ${akEditorDeleteBackground};
+      }
     }
   }
 `;

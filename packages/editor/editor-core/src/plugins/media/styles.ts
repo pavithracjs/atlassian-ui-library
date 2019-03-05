@@ -4,7 +4,7 @@ import { css, Styles, StyledComponentClass } from 'styled-components';
 import {
   mediaSingleSharedStyle,
   akEditorDeleteBorder,
-  akEditorDeleteBorderSize,
+  akEditorDeleteBorderBoldSize,
   akEditorDeleteBackground,
 } from '@atlaskit/editor-common';
 import { colors } from '@atlaskit/theme';
@@ -92,7 +92,7 @@ export const mediaStyles = css`
   .danger {
     /* Media single */
     .media-single div div div::after {
-      border: ${akEditorDeleteBorderSize}px solid ${akEditorDeleteBorder};
+      border: ${akEditorDeleteBorderBoldSize}px solid ${akEditorDeleteBorder};
     }
 
     .mediaSingle-selected .mediaSingle-resize-handle-right::after,
@@ -101,17 +101,18 @@ export const mediaStyles = css`
     }
 
     /* Smart cards */
-    div div .media-card-frame::after {
-      box-shadow: 0px 0px 0px ${akEditorDeleteBorderSize}px
-        ${akEditorDeleteBorder};
-    }
     div div .media-card-frame {
       background-color: ${akEditorDeleteBackground};
+      box-shadow: 0px 0px 0px ${akEditorDeleteBorderBoldSize}px
+        ${akEditorDeleteBorder};
+    }
+    div div .media-card-frame::after {
+      box-shadow: none;
     }
 
     /* Inline smart links */
     span a {
-      box-shadow: 0px 0px 0px ${akEditorDeleteBorderSize}px
+      box-shadow: 0px 0px 0px ${akEditorDeleteBorderBoldSize}px
         ${akEditorDeleteBorder};
       background-color: ${akEditorDeleteBackground};
     }

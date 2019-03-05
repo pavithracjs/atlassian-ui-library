@@ -52,8 +52,7 @@ export const layoutStyles = css`
 
       &.selected.danger > [data-layout-column] {
         background-color: ${akEditorDeleteBackground};
-        box-shadow: inset 0px 0px 0px ${akEditorDeleteBorderSize}px
-          ${akEditorDeleteBorder};
+        border: ${akEditorDeleteBorderSize}px solid ${akEditorDeleteBorder};
       }
     }
   }

@@ -19,12 +19,9 @@ export const Wrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
   position: relative;
   vertical-align: middle;
   font-size: ${fontSize()}px;
-  border: 1px solid transparent;
 
   .ProseMirror-selectednode > & > .extension-overlay {
-    border: 2px solid ${colors.B200};
-    top: -2px;
-    left: -2px;
+    box-shadow: inset 0px 0px 0px 2px ${colors.B200};
     opacity: 1;
   }
 
