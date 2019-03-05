@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { match } from 'react-router';
 import styled from 'styled-components';
-import { Link } from '../../components/WrappedLink';
 import Loadable from '../../components/WrappedLoader';
 import { Helmet } from 'react-helmet';
 import { gridSize, colors, math } from '@atlaskit/theme';
-import Button, { filterHTMLAttributes } from '@atlaskit/button';
+import Button from '@atlaskit/button';
 import ExamplesIcon from '@atlaskit/icon/glyph/screen';
 import { AtlassianIcon } from '@atlaskit/logo';
 
