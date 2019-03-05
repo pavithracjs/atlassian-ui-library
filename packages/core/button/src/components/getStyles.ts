@@ -3,8 +3,6 @@ import { applyPropertyStyle, baseTheme } from '../theme';
 import { getLoadingStyle } from './utils';
 import { ThemeProps } from '../types';
 
-type Spacing = 'compact' | 'default' | 'none';
-
 const getBackground = (props: ThemeProps) => {
   return applyPropertyStyle('background', props, baseTheme);
 };
@@ -69,7 +67,7 @@ const getTransitionDuration = ({ state = 'default' }: { state: string }) => {
   return transitionDuration;
 };
 
-const getVerticalAlign = ({ spacing = 'default' }: { spacing: Spacing }) => {
+const getVerticalAlign = ({ spacing = 'default' }: ThemeProps) => {
   return spacing === 'none' ? 'baseline' : 'middle';
 };
 
@@ -78,13 +76,7 @@ const getBoxShadow = (props: ThemeProps) => {
   return `0 0 0 2px ${boxShadowColor}`;
 };
 
-const getWidth = ({
-  spacing,
-  shouldFitContainer,
-}: {
-  spacing: Spacing;
-  shouldFitContainer: boolean;
-}) => {
+const getWidth = ({ spacing, shouldFitContainer }: ThemeProps) => {
   let width = 'auto';
   if (spacing === 'compact') {
     width = '100%';
@@ -114,7 +106,7 @@ export const getButtonStyles = (props: ThemeProps) => {
   const compactButtonHeight = `${(gridSize() * 3) / fontSize()}em`;
   const buttonHeight = `${(gridSize() * 4) / fontSize()}em`;
 
-  const getLineHeight = ({ spacing = 'default' }: { spacing: Spacing }) => {
+  const getLineHeight = ({ spacing = 'default' }: ThemeProps) => {
     let lineHeight = buttonHeight;
     if (spacing === 'compact') {
       lineHeight = compactButtonHeight;
