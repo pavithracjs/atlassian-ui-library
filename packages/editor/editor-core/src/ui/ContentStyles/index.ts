@@ -28,6 +28,7 @@ import { linkStyles } from '../../plugins/hyperlink/styles';
 import {
   akEditorDeleteBackground,
   akEditorDeleteBorder,
+  akEditorDeleteBorderSize,
 } from '@atlaskit/editor-common';
 
 const ContentStyles: ComponentClass<
@@ -109,10 +110,10 @@ const ContentStyles: ComponentClass<
   ${linkStyles}
   ${blockMarksSharedStyles}
 
-  /** Selector sits globally, as .danger tag is assigned to root level node which is unaccessible from React **/
+  /** Global selector for extensions, as .danger tag is assigned to root level node which is unaccessible from React **/
   .danger > .extension-container {
     background: ${akEditorDeleteBackground};
-    border: 1px solid ${akEditorDeleteBorder};
+    box-shadow: inset 0px 0px 0px ${akEditorDeleteBorderSize}px ${akEditorDeleteBorder};
     .extension-overlay {
       border-color: transparent;
     }

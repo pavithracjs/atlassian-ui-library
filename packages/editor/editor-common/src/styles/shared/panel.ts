@@ -7,6 +7,7 @@ import {
   akEditorTableCellMinWidth,
   akEditorDeleteBackground,
   akEditorDeleteBorder,
+  akEditorDeleteBorderSize,
   akEditorDeleteIconColor,
 } from '../consts';
 
@@ -23,7 +24,6 @@ export const panelSharedStyles = css`
     display: flex;
     align-items: baseline;
     word-break: break-word;
-    border: 1px solid transparent;
 
     .ak-editor-panel__icon {
       display: block;
@@ -47,7 +47,8 @@ export const panelSharedStyles = css`
 
   & .danger .${PanelSharedCssClassName.PANEL_CONTAINER} {
     background: ${akEditorDeleteBackground} !important;
-    border-color: ${akEditorDeleteBorder};
+    box-shadow: inset 0px 0px 0px ${akEditorDeleteBorderSize}px
+      ${akEditorDeleteBorder};
 
     .ak-editor-panel__icon {
       color: ${akEditorDeleteIconColor} !important;

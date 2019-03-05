@@ -7,6 +7,7 @@ import {
   gridMediumMaxWidth,
   akEditorDeleteBackground,
   akEditorDeleteBorder,
+  akEditorDeleteBorderSize,
 } from '@atlaskit/editor-common';
 
 export const layoutStyles = css`
@@ -51,7 +52,8 @@ export const layoutStyles = css`
 
       &.selected.danger > [data-layout-column] {
         background-color: ${akEditorDeleteBackground};
-        border: 1px solid ${akEditorDeleteBorder};
+        box-shadow: inset 0px 0px 0px ${akEditorDeleteBorderSize}px
+          ${akEditorDeleteBorder};
       }
     }
   }

@@ -1,7 +1,12 @@
 // @ts-ignore: unused variable
 // prettier-ignore
 import { css, Styles, StyledComponentClass } from 'styled-components';
-import { mediaSingleSharedStyle } from '@atlaskit/editor-common';
+import {
+  mediaSingleSharedStyle,
+  akEditorDeleteBorder,
+  akEditorDeleteBorderSize,
+  akEditorDeleteBackground,
+} from '@atlaskit/editor-common';
 import { colors } from '@atlaskit/theme';
 
 export const mediaStyles = css`
@@ -82,6 +87,34 @@ export const mediaStyles = css`
     left: unset !important;
     width: auto !important;
     height: auto !important;
+  }
+
+  .danger {
+    /* Media single */
+    .media-single div div div::after {
+      border: ${akEditorDeleteBorderSize}px solid ${akEditorDeleteBorder};
+    }
+
+    .mediaSingle-selected .mediaSingle-resize-handle-right::after,
+    .mediaSingle-selected .mediaSingle-resize-handle-left::after {
+      background: ${akEditorDeleteBorder};
+    }
+
+    /* Smart cards */
+    div div .media-card-frame::after {
+      box-shadow: 0px 0px 0px ${akEditorDeleteBorderSize}px
+        ${akEditorDeleteBorder};
+    }
+    div div .media-card-frame {
+      background-color: ${akEditorDeleteBackground};
+    }
+
+    /* Inline smart links */
+    span a {
+      box-shadow: 0px 0px 0px ${akEditorDeleteBorderSize}px
+        ${akEditorDeleteBorder};
+      background-color: ${akEditorDeleteBackground};
+    }
   }
 `;
 
