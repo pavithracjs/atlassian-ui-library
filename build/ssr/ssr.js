@@ -1,15 +1,17 @@
-require('@babel/register');
+console.log('hello');
+const path = require('path');
+
+console.log(require.cache);
+require('@babel/register')({
+  plugins: [path.join(__dirname, 'require-transform.js')],
+  presets: ['@babel/preset-typescript'],
+  extensions: ['.js', '.jsx', '.ts', '.tsx'],
+});
 require('@babel/polyfill');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 
-const filePath = process.argv[2];
-const Example = require(filePath).default; // eslint-disable-line import/no-dynamic-require
-
-let serverHTML;
-try {
-  serverHTML = ReactDOMServer.renderToString(React.createElement(Example));
-} catch (error) {
-  process.send({ error: error.toString() });
-}
-process.send({ html: serverHTML });
+(() => {
+  const Example = require(filePath).default;
+  return ReactDOMServer.renderToString(React.createElement(Example));
+})();
