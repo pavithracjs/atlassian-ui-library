@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ReactElement, MouseEvent } from 'react';
 
 import Tooltip from '@atlaskit/tooltip';
-import UiButton, { themeNamespace } from '@atlaskit/button';
+import UiButton from '@atlaskit/button';
 import { colors, themed } from '@atlaskit/theme';
 
 import styled, { ThemeProvider } from 'styled-components';
@@ -66,25 +66,38 @@ export default ({
 }: Props) => {
   return (
     <Tooltip content={title} hideTooltipOnClick={true} position="top">
-      <ThemeProvider theme={{ [themeNamespace]: editorButtonTheme }}>
-        <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-          <Button
-            ariaLabel={title}
-            spacing="compact"
-            href={href}
-            target={target}
-            appearance={appearance}
-            ariaHaspopup={true}
-            iconBefore={icon}
-            iconAfter={iconAfter}
-            onClick={onClick}
-            isSelected={selected}
-            isDisabled={disabled}
-          >
-            {children}
-          </Button>
-        </div>
-      </ThemeProvider>
+      {/* <ThemeProvider theme={{ [themeNamespace]: editorButtonTheme }}> */}
+      <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+        <Button
+          theme={(adgTheme, { appearance = 'default', state = 'default' }) => {
+            const { buttonStyles: adgButtonStyles } = adgTheme({
+              appearance,
+              state,
+            });
+
+            return {
+              buttonStyles: {
+                ...adgButtonStyles,
+                ...editorButtonTheme[appearance][state],
+              },
+            };
+          }}
+          ariaLabel={title}
+          spacing="compact"
+          href={href}
+          target={target}
+          appearance={appearance}
+          ariaHaspopup={true}
+          iconBefore={icon}
+          iconAfter={iconAfter}
+          onClick={onClick}
+          isSelected={selected}
+          isDisabled={disabled}
+        >
+          {children}
+        </Button>
+      </div>
+      {/* </ThemeProvider> */}
     </Tooltip>
   );
 };
