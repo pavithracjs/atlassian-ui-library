@@ -38,7 +38,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     theme: (current, props) => current(props),
   };
   // ref can be a range of things because we render button, a, span or other React components
-  button: any | undefined;
+  button: React.ReactType | undefined;
 
   state = {
     isActive: false,
@@ -129,7 +129,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     const attributes = { ...this.state, isSelected, isDisabled };
 
-    const StyledButton = CustomComponent || this.getElement();
+    const StyledButton: React.ReactType = CustomComponent || this.getElement();
 
     const iconIsOnlyChild: boolean = !!(
       (iconBefore && !iconAfter && !children) ||
