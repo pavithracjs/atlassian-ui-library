@@ -16,7 +16,7 @@ import Content from './Content';
 import InnerWrapper from './InnerWrapper';
 import IconWrapper from './IconWrapper';
 import LoadingSpinner from './LoadingSpinner';
-import { ButtonProps, ThemeMode } from '../types';
+import { ButtonProps, ThemeMode, ThemeProps, ThemeTokens } from '../types';
 import { withDefaultProps } from '@atlaskit/type-helpers';
 
 export type ButtonState = {
@@ -26,7 +26,7 @@ export type ButtonState = {
 };
 
 export class Button extends React.Component<ButtonProps, ButtonState> {
-  static defaultProps: Partial<ButtonProps> = {
+  static defaultProps: ButtonProps = {
     appearance: 'default',
     isDisabled: false,
     isSelected: false,
@@ -37,6 +37,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     autoFocus: false,
     theme: (current, props) => current(props),
   };
+
   // ref can be a range of things because we render button, a, span or other React components
   button: React.ReactType | undefined;
 
@@ -113,18 +114,21 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   render() {
     const {
-      appearance,
+      appearance = 'default',
       children,
       className,
       component: CustomComponent,
       iconAfter,
       iconBefore,
-      isDisabled,
-      isLoading,
-      isSelected,
-      shouldFitContainer,
-      spacing,
-      theme,
+      isDisabled = false,
+      isLoading = false,
+      isSelected = false,
+      shouldFitContainer = false,
+      spacing = 'default',
+      theme = (
+        current: (props: ThemeProps) => ThemeTokens,
+        props: ThemeProps,
+      ) => current(props),
     } = this.props;
 
     const attributes = { ...this.state, isSelected, isDisabled };

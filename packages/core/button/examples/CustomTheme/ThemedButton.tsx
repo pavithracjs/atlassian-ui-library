@@ -1,12 +1,9 @@
 import * as React from 'react';
 import getButtonStyles from './styles';
 import Button from '../../src/components/Button';
+import { ButtonProps } from '../../src/types';
 
-type Props = React.ComponentProps<typeof Button> & {
-  children?: React.ReactNode;
-};
-
-export default (props: Props) => (
+export default (props: ButtonProps) => (
   <Button
     theme={(adgTheme, { appearance = 'default', state = 'default' }) => {
       const {
