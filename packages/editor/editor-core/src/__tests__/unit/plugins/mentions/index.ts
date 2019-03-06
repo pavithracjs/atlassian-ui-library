@@ -3,7 +3,7 @@ import {
   insertText,
   sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
-import { doc, p } from '@atlaskit/editor-test-helpers';
+import { doc, p, mention, a } from '@atlaskit/editor-test-helpers';
 import { MockMentionResource } from '@atlaskit/util-data-test';
 import { selectCurrentItem } from '../../../../plugins/type-ahead/commands/select-item';
 import { dismissCommand } from '../../../../plugins/type-ahead/commands/dismiss';
@@ -299,6 +299,38 @@ describe('mentionTypeahead', () => {
         eventType: 'ui',
       });
     });
+
+    it(
+      'should expand members when selecting a team mention ',
+      withMentionQuery('Team Beta', ({ mentionProvider, editorView }) => {
+        // select Team Beta team
+        selectCurrentItem()(editorView.state, editorView.dispatch);
+        // should expand 2 members
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            p(
+              '',
+              a({ href: 'localhost/people/team/team-2' })('Team Beta'),
+              ' (',
+              mention({
+                id: 'member-1',
+                text: '@Tung Dang',
+                userType: 'TEAM',
+                accessLevel: 'CONTAINER',
+              })(),
+              ' ',
+              mention({
+                id: 'member-2',
+                text: '@Ishan Somasiri',
+                userType: 'TEAM',
+                accessLevel: 'CONTAINER',
+              })(),
+              ')',
+            ),
+          ),
+        );
+      }),
+    );
   });
 
   describe('mentionProvider', () => {

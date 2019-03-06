@@ -4,6 +4,7 @@ export enum USER_TYPES {
   DEFAULT = 'DEFAULT',
   SPECIAL = 'SPECIAL',
   APP = 'APP',
+  TEAM = 'TEAM',
 }
 
 export type UserType = keyof typeof USER_TYPES;
