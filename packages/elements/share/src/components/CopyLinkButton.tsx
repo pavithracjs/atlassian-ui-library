@@ -46,6 +46,10 @@ export type State = {
 
 export const NoPaddingButton = styled(Button)`
   padding: 0;
+
+  > span > span:first-child {
+    margin: 0 !important;
+  }
 `;
 
 export const AUTO_DISMISS_MS = AUTO_DISMISS_SECONDS * 1000;

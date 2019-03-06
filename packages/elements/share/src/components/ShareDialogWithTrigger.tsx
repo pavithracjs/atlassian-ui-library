@@ -44,9 +44,9 @@ export type Props = {
   shouldCloseOnEscapePress?: boolean;
 };
 
-// 448px is the max-width of a inline dialog
 const InlineDialogFormWrapper = styled.div`
-  width: 448px;
+  width: 380px;
+  margin: -16px 0 10px;
 `;
 
 export const defaultShareContentState: DialogContentState = {

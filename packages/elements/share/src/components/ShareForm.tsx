@@ -1,7 +1,7 @@
 import Button from '@atlaskit/button';
 import Form, { FormFooter, FormSection } from '@atlaskit/form';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
-import { colors } from '@atlaskit/theme';
+import { colors, typography } from '@atlaskit/theme';
 import Tooltip from '@atlaskit/tooltip';
 import { LoadOptions, OptionData } from '@atlaskit/user-picker';
 import * as React from 'react';
@@ -30,6 +30,23 @@ const CenterAlignedIconWrapper = styled.div`
 
   > div {
     line-height: 1;
+  }
+`;
+
+export const FromWrapper = styled.form`
+  [class^='FormHeader__FormHeaderWrapper'] {
+    h1 {
+      ${typography.h500()}
+    }
+  }
+
+  [class^='FormSection__FormSectionWrapper'] {
+    margin-top: 0px;
+  }
+
+  [class^='Field__FieldWrapper'],
+  [class^='FormFooter__FormFooterWrapper'] {
+    margin-top: 14px;
   }
 `;
 
@@ -112,24 +129,26 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
       capabilities,
     } = this.props;
     return (
-      <form {...formProps}>
-        <ShareHeader title={title} />
-        <FormSection>
-          <UserPickerField
-            loadOptions={loadOptions}
-            defaultValue={defaultValue && defaultValue.users}
-            capabilitiesInfoMessage={capabilitiesInfoMessage}
-            capabilities={capabilities}
-          />
-          <CommentField defaultValue={defaultValue && defaultValue.comment} />
-        </FormSection>
-        <FormFooter>
-          <LeftAlignmentContainer>
-            <CopyLinkButton onLinkCopy={onLinkCopy} link={copyLink} />
-          </LeftAlignmentContainer>
-          {this.renderSubmitButton()}
-        </FormFooter>
-      </form>
+      <FromWrapper>
+        <form {...formProps}>
+          <ShareHeader title={title} />
+          <FormSection>
+            <UserPickerField
+              loadOptions={loadOptions}
+              defaultValue={defaultValue && defaultValue.users}
+              capabilitiesInfoMessage={capabilitiesInfoMessage}
+              capabilities={capabilities}
+            />
+            <CommentField defaultValue={defaultValue && defaultValue.comment} />
+          </FormSection>
+          <FormFooter>
+            <LeftAlignmentContainer>
+              <CopyLinkButton onLinkCopy={onLinkCopy} link={copyLink} />
+            </LeftAlignmentContainer>
+            {this.renderSubmitButton()}
+          </FormFooter>
+        </form>
+      </FromWrapper>
     );
   }
 }

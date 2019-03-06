@@ -95,7 +95,6 @@ describe('ShareForm', () => {
     const form = renderProp(akForm, 'children', { formProps })
       .dive()
       .find('form');
-
     const footer = form.find(FormFooter);
     const button = footer.find(Button);
     expect(button.text()).toEqual('Invite');
