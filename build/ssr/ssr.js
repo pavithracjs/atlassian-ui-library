@@ -1,7 +1,6 @@
-console.log('hello');
+jest.resetModules();
 const path = require('path');
 
-console.log(require.cache);
 require('@babel/register')({
   plugins: [path.join(__dirname, 'require-transform.js')],
   presets: ['@babel/preset-typescript'],
