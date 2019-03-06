@@ -1,13 +1,9 @@
 // @flow
 import React, { Component } from 'react';
 import InlineDialog from '@atlaskit/inline-dialog';
-
-console.log(InlineDialog);
 import { Content, ContentWrapper, ChildWrapper } from '../styled/Content';
 import ValidationElement from './ValidationElement';
 import type { FieldBaseStatelessProps } from '../types';
-
-console.log('got here');
 
 export default class FieldBaseStateless extends Component<FieldBaseStatelessProps> {
   static defaultProps = {

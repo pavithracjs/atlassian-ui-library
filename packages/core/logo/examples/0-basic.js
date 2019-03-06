@@ -33,6 +33,13 @@ import {
   StrideWordmark,
 } from '../src';
 
+let loaded = false;
+console.log('loaded');
+if (loaded) {
+  throw new Error('loading same memory');
+}
+loaded = true;
+
 export default () => (
   <div>
     <table>
