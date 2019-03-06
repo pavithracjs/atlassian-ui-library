@@ -2,10 +2,10 @@ import { colors } from '@atlaskit/theme';
 import { customColors } from './colors';
 import { ButtonAppearances } from '../../src/types';
 
-type ButtonValues = {
+interface ButtonValues {
   appearance: ButtonAppearances;
   state: string;
-};
+}
 
 type ButtonProperty = {
   [key: string]: any;
