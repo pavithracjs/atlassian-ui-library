@@ -12,11 +12,11 @@ const ssr = async example =>
     const context = vm.createContext({
       filePath: example,
       require: require,
-      jest: jest,
       __dirname: __dirname,
     });
     let html;
     try {
+      jest.resetModules();
       html = script.runInNewContext(context);
     } catch (e) {
       reject(e);

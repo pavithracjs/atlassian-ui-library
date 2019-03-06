@@ -1,4 +1,3 @@
-jest.resetModules();
 const path = require('path');
 
 require('@babel/register')({
