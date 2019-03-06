@@ -219,6 +219,7 @@ export interface CellAttributes {
   background?: string;
   /**
    * @stage 0
+   * @forceContentValidation true
    */
   defaultMarks?: Array<
     Em | Strong | Code | Strike | SubSup | Underline | TextColor

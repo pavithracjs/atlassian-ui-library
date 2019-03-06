@@ -24,6 +24,7 @@ export default {
               'textColor',
             ],
           ],
+          forceContentValidation: true,
           optional: true,
         },
       },
