@@ -12,7 +12,7 @@ import { messages } from '../i18n';
 export const MessageContainer = styled.div`
   display: flex;
   align-items: center;
-  margin: -10px -15px;
+  margin: -8px -16px;
 `;
 
 const MessageSpan = styled.span`
@@ -84,12 +84,12 @@ export class CopyLinkButton extends React.Component<Props, State> {
     }
 
     this.setState({ shouldShowCopiedMessage: true }, () => {
-      this.clearAutoDismiss();
-      this.autoDismiss =
-        window &&
-        window.setTimeout(() => {
-          this.setState({ shouldShowCopiedMessage: false });
-        }, AUTO_DISMISS_SECONDS * 1000);
+      // this.clearAutoDismiss();
+      // this.autoDismiss =
+      //   window &&
+      //   window.setTimeout(() => {
+      //     this.setState({ shouldShowCopiedMessage: false });
+      //   }, AUTO_DISMISS_SECONDS * 1000);
     });
   };
 
@@ -122,7 +122,7 @@ export class CopyLinkButton extends React.Component<Props, State> {
         >
           <NoPaddingButton
             appearance="subtle-link"
-            iconBefore={<LinkFilledIcon label="copy link icon" />}
+            iconBefore={<LinkFilledIcon label="copy link icon" size="medium" />}
             onClick={this.handleClick}
           >
             <FormattedMessage {...messages.copyLinkButtonText} />

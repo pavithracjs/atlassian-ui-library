@@ -44,9 +44,13 @@ export const FromWrapper = styled.form`
     margin-top: 0px;
   }
 
-  [class^='Field__FieldWrapper'],
   [class^='FormFooter__FormFooterWrapper'] {
-    margin-top: 14px;
+    margin-top: 12px;
+    margin-bottom: 24px;
+  }
+
+  [class^='Field__FieldWrapper']:not(:first-child) {
+    margin-top: 12px;
   }
 `;
 
