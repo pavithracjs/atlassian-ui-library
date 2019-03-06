@@ -13,6 +13,14 @@ export const spacing = {
   grid_3x: gridSize(3),
 };
 
+// Outline Tokens
+// NOT A REFERENCE TO OUTLINE STYLE PROP
+export const borderRadius = '3px';
+
+// Do we need these?
+export const scalable = 'max-width: 100%';
+export const responsive = 'width: 100%';
+
 // COLORS
 // Reds
 export const R50 = '#FFEBE6';
@@ -91,6 +99,7 @@ export const N800 = '#172B4D';
 // ATTENTION: update the tints if you update this
 export const N900 = '#091E42';
 
+// TODO: WE SHOULD GET RID OF THESE.
 // Each tint is made of N900 and an alpha channel
 export const N10A = 'rgba(9, 30, 66, 0.02)';
 export const N20A = 'rgba(9, 30, 66, 0.04)';
@@ -158,38 +167,17 @@ export const fontSizeSmall = 11;
 export const fontFamily = `-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif`;
 export const codeFontFamily = `'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace`;
 
-// FOCUS
-export const noFocusRing = 'box-shadow: none';
-export const focusRing = (
-  color = B100,
-  outlineWidth = spacing['grid_0.25x'],
-) => `
-  &:focus {
-    outline: none;
-    box-shadow: 0px 0px 0px ${outlineWidth}px ${color};
-  }
-`;
-
-// Outline Tokens
-// NOT A REFERENCE TO OUTLINE STYLE PROP
-export const borderRadius = '3px';
-// Do we need these?
-export const scalable = 'max-width: 100%';
-export const responsive = 'width: 100%';
-
 // LAYERS
 // WHAT TO DO ABOUT THIS?!
-export const layers = {
-  card: 100,
-  dialog: 200,
-  navigation: 300,
-  layer: 400,
-  blanket: 500,
-  modal: 510,
-  flag: 600,
-  spotlight: 700,
-  tooltip: 800,
-};
+export const layers100 = 100; // card
+export const layers200 = 200; // dialog
+export const layers300 = 300; // navigation
+export const layers400 = 400; // layer
+export const layers500 = 500; // blanket
+export const layers510 = 510; // modal
+export const layers600 = 600; // flag
+export const layers700 = 700; // spotlight
+export const layers800 = 800; // tooltip
 
 // Elevation
 // Cards on a board
