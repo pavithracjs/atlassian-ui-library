@@ -46,19 +46,16 @@ export default class ContentNavigation extends Component<
     return (
       <Fragment>
         <ProductNavigation>
-          {isVisible ? (
-            <NavigationAnalyticsContext
-              data={{ attributes: { navigationLayer: 'product' } }}
-            >
-              <Product />
-            </NavigationAnalyticsContext>
-          ) : null}
+          <NavigationAnalyticsContext
+            data={{ attributes: { navigationLayer: 'product' } }}
+          >
+            <Product />
+          </NavigationAnalyticsContext>
         </ProductNavigation>
         <Transition
           in={shouldRenderContainer}
           timeout={this.isMounted ? transitionDurationMs : 0}
           mountOnEnter
-          unmountOnExit
         >
           {state => (
             <ContainerNavigation

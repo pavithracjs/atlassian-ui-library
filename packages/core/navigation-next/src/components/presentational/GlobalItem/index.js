@@ -1,6 +1,6 @@
 // @flow
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 
 import { navigationItemClicked } from '../../../common/analytics';
 import InteractionStateManager from '../InteractionStateManager';
@@ -16,6 +16,23 @@ export class GlobalItemBase extends PureComponent<GlobalItemProps> {
     styles: styleReducerNoOp,
   };
 
+  componentDidMount() {
+    this.publishRef();
+  }
+
+  componentDidUpdate() {
+    this.publishRef();
+  }
+
+  node = createRef();
+
+  publishRef() {
+    const { getRef } = this.props;
+    if (typeof getRef === 'function') {
+      getRef(this.node);
+    }
+  }
+
   renderItem = (state: InteractionState) => {
     const { createAnalyticsEvent, theme, ...props } = this.props;
     return <GlobalItemPrimitive {...state} {...props} />;
@@ -30,7 +47,7 @@ export class GlobalItemBase extends PureComponent<GlobalItemProps> {
       mode.globalItem({ size }),
     );
     return (
-      <div css={itemWrapperStyles}>
+      <div css={itemWrapperStyles} ref={this.node}>
         <InteractionStateManager>{this.renderItem}</InteractionStateManager>
       </div>
     );

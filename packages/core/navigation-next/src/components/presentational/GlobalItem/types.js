@@ -1,6 +1,6 @@
 // @flow
 
-import type { ComponentType, ElementConfig, Node } from 'react';
+import type { ComponentType, ElementConfig, ElementRef, Node } from 'react';
 import type { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
 import type { StyleReducer, WithGlobalThemeProps } from '../../../theme/types';
@@ -32,6 +32,10 @@ export type GlobalItemStyles = {
 type GlobalItemIconProps = {
   label: string,
   secondaryColor: 'inherit',
+};
+
+type NonStringRef<T> = {
+  current: ElementRef<T> | null,
 };
 
 type BaseItemProps = {
@@ -66,6 +70,9 @@ type BaseItemProps = {
   /** A string/Node to render in a tooltip which will appear when the GlobalItem
    * is hovered. */
   tooltip?: Node,
+
+  /** A function to access the ref of the GlobalItem. */
+  getRef?: (node: NonStringRef<'div'>) => void,
 };
 
 export type GlobalItemRenderComponentProps = {

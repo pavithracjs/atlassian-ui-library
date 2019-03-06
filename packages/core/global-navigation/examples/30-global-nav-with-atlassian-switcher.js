@@ -86,6 +86,7 @@ const AppSwitcherComponent = itemProps => (
   />
 );
 
+const getAppSwitcherRef = node => console.log(node);
 const getGlobalNavigation = enableAtlassianSwitcher => () => (
   <AnalyticsListener
     channel="navigation"
@@ -109,6 +110,7 @@ const getGlobalNavigation = enableAtlassianSwitcher => () => (
       triggerXFlow={(...props) => {
         console.log('TRIGGERING XFLOW', props);
       }}
+      getAppSwitcherRef={getAppSwitcherRef}
     />
   </AnalyticsListener>
 );
