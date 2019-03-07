@@ -343,7 +343,10 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           isLoading: false,
         },
         async () => {
-          const {elapsedMs: experimentRequestDurationMs, abTest} = await abTestPromise;
+          const {
+            elapsedMs: experimentRequestDurationMs,
+            abTest,
+          } = await abTestPromise;
           const experimentId = abTest ? abTest.experimentId : undefined;
 
           this.fireShownPreQueryEvent(
