@@ -84,12 +84,12 @@ export class CopyLinkButton extends React.Component<Props, State> {
     }
 
     this.setState({ shouldShowCopiedMessage: true }, () => {
-      // this.clearAutoDismiss();
-      // this.autoDismiss =
-      //   window &&
-      //   window.setTimeout(() => {
-      //     this.setState({ shouldShowCopiedMessage: false });
-      //   }, AUTO_DISMISS_SECONDS * 1000);
+      this.clearAutoDismiss();
+      this.autoDismiss =
+        window &&
+        window.setTimeout(() => {
+          this.setState({ shouldShowCopiedMessage: false });
+        }, AUTO_DISMISS_SECONDS * 1000);
     });
   };
 
