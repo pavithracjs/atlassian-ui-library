@@ -13,7 +13,7 @@ export const uploadEmoji = (
     message: FormattedMessage.MessageDescriptor | undefined,
   ) => void,
   onSuccess: (emojiDescription: EmojiDescription) => void,
-  onFailure: () => void,
+  onFailure: (message: FormattedMessage.MessageDescriptor) => void,
 ) => {
   errorSetter(undefined);
   if (supportsUploadFeature(emojiProvider)) {
@@ -24,7 +24,7 @@ export const uploadEmoji = (
         errorSetter(messages.emojiUploadFailed);
         // tslint:disable-next-line no-console
         console.error('Unable to upload emoji', err);
-        onFailure();
+        onFailure(messages.emojiUploadFailed);
       });
   }
 };

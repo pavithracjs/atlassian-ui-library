@@ -9,7 +9,11 @@ import {
   EmojiDescriptionWithVariations,
 } from '../../../../types';
 import { imageEmoji, generateSkinVariation } from '../../_test-data';
-import { analyticsEmojiPrefix } from '../../../../constants';
+import { AnalyticsListener } from '@atlaskit/analytics-next';
+import {
+  toneSelectedEvent,
+  toneSelectorOpenedEvent,
+} from '../../../../analytics';
 
 const baseHandEmoji: EmojiDescription = {
   ...imageEmoji,
@@ -40,14 +44,9 @@ describe('<ToneSelector />', () => {
 
   it('should call onToneSelected on click', () => {
     const onToneSelectedSpy = sinon.spy();
-    const firePrivateAnalyticsEvent = sinon.stub();
 
     const wrapper = mount(
-      <ToneSelector
-        emoji={handEmoji}
-        onToneSelected={onToneSelectedSpy}
-        firePrivateAnalyticsEvent={firePrivateAnalyticsEvent}
-      />,
+      <ToneSelector emoji={handEmoji} onToneSelected={onToneSelectedSpy} />,
     );
 
     wrapper
@@ -55,11 +54,36 @@ describe('<ToneSelector />', () => {
       .first()
       .simulate('mousedown', { button: 0 });
     expect(onToneSelectedSpy.calledWith(0)).toEqual(true);
-    expect(
-      firePrivateAnalyticsEvent.calledWith(
-        `${analyticsEmojiPrefix}.skintone.select`,
-        { skinTone: 0 },
-      ),
-    ).toEqual(true);
+  });
+
+  it('should fire all relevant analytics', () => {
+    const onEvent = sinon.stub();
+    const onToneSelectedSpy = sinon.spy();
+
+    const wrapper = mount(
+      <AnalyticsListener channel="fabric-elements" onEvent={onEvent}>
+        <ToneSelector emoji={handEmoji} onToneSelected={onToneSelectedSpy} />
+      </AnalyticsListener>,
+    );
+
+    // Check opening event
+    expect(onEvent.getCall(0).args[0]).toHaveProperty(
+      'payload',
+      toneSelectorOpenedEvent({}),
+    );
+
+    // Select a tone
+    wrapper
+      .find(EmojiButton)
+      .first()
+      .simulate('mousedown', { button: 0 });
+    expect(onEvent.getCall(1).args[0]).toHaveProperty(
+      'payload',
+      toneSelectedEvent({ skinToneModifier: 'default' }),
+    );
+
+    // Unmount to trigger close event
+    wrapper.unmount();
+    expect(onEvent.callCount).toBe(2);
   });
 });
