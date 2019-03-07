@@ -25,6 +25,8 @@
     "@atlaskit/textfield": "^0.4.0",
     "@atlaskit/theme": "^8.0.1",
     "@babel/runtime": "^7.0.0",
+    "@emotion/core": "^10.0.9",
+    "@emotion/styled": "^10.0.7",
     "exenv": "^1.2.2",
     "prop-types": "^15.5.10",
     "raf-schd": "^2.1.0",
@@ -34,8 +36,7 @@
     "tiny-invariant": "^0.0.3"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
-    "styled-components": "^3.2.6"
+    "react": "^16.4.0"
   },
   "devDependencies": {
     "@atlaskit/avatar": "^15.0.1",

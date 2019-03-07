@@ -183,8 +183,12 @@ describe('modal-dialog', () => {
         const warnSpy = jest
           .spyOn(console, 'warn')
           .mockImplementation(() => {});
-        const node = <span>My body</span>;
-        const wrapper = mount(<ModalDialog body={() => node} onClose={noop} />);
+
+        // $FlowFixMe
+        const node = React.forwardRef((props, ref) => (
+          <span ref={ref}>My body</span>
+        ));
+        const wrapper = mount(<ModalDialog body={node} onClose={noop} />);
 
         expect(wrapper.contains(node)).toBe(true);
         expect(warnSpy).toHaveBeenCalled();
@@ -278,8 +282,9 @@ describe('modal-dialog', () => {
 
   describe('scrolling header/footer keylines', () => {
     it('should enable header keyline only when header provided', () => {
-      const CustomBody = ({ innerRef }: { innerRef: Function }) => {
-        innerRef({
+      // $FlowFixMe
+      const CustomBody = React.forwardRef((props, ref) => {
+        ref({
           addEventListener: jest.fn(),
           removeEventListener: jest.fn(),
           clientHeight: 200,
@@ -287,7 +292,8 @@ describe('modal-dialog', () => {
           scrollTop: 10,
         });
         return <div />;
-      };
+      });
+
       const wrapper = mount(<ModalDialog onClose={noop} body={CustomBody} />);
 
       const header = wrapper.find(Header);
@@ -295,16 +301,19 @@ describe('modal-dialog', () => {
     });
 
     it('should enable footer keyline only when footer provided', () => {
-      const CustomBody = ({ innerRef }: { innerRef: Function }) => {
-        innerRef({
+      // $FlowFixMe
+      const CustomBody = React.forwardRef((props, ref) => {
+        ref({
           addEventListener: jest.fn(),
           removeEventListener: jest.fn(),
           clientHeight: 100,
           scrollHeight: 200,
           scrollTop: 0,
         });
+
         return <div />;
-      };
+      });
+
       const wrapper = mount(<ModalDialog onClose={noop} body={CustomBody} />);
 
       const header = wrapper.find(Footer);
