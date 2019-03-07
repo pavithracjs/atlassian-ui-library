@@ -117,6 +117,7 @@ const ContentStyles: ComponentClass<
       .extension-overlay {
         box-shadow: inset 0px 0px 0px ${akEditorDeleteBorderBoldSize}px ${akEditorDeleteBorder} !important;
         opacity: 1;
+        transition: opacity 0s;
       }
     }
   }

@@ -18,6 +18,7 @@ import ClipboardHelper from './1-clipboard-helper';
 import { SaveAndCancelButtons } from './5-full-page';
 import { TitleInput } from '../example-helpers/PageElements';
 import mediaMockServer from '../example-helpers/media-mock';
+import { Provider } from '@atlaskit/smart-card';
 
 interface EditorInstance {
   view: EditorView;
@@ -107,11 +108,13 @@ function createEditorWindowBindings(win: Window) {
 
     ReactDOM.unmountComponentAtNode(target);
     ReactDOM.render(
-      <EditorWithState
-        insertMenuItems={customInsertMenuItems}
-        {...providers}
-        {...props}
-      />,
+      <Provider>
+        <EditorWithState
+          insertMenuItems={customInsertMenuItems}
+          {...providers}
+          {...props}
+        />
+      </Provider>,
       target,
     );
   };
