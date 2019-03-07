@@ -272,7 +272,6 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       const resultsDetails: ShownAnalyticsAttributes = buildShownEventDetails(
         ...resultsArray,
       );
-      //  TODO: Wire up experiment id here
       firePostQueryShownEvent(
         resultsDetails,
         performanceTiming,
