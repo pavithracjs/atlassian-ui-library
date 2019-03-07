@@ -5,12 +5,12 @@ import Tooltip from '@atlaskit/tooltip';
 import UiButton from '@atlaskit/button';
 import { colors, themed } from '@atlaskit/theme';
 
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import { hexToRgba } from '@atlaskit/editor-common';
 
 const editorButtonTheme = {
-  danger: {
-    background: {
+  background: {
+    danger: {
       default: themed({ light: 'inherit', dark: 'inherit' }),
       hover: themed({ light: colors.N30A, dark: colors.N30A }),
       active: themed({
@@ -18,7 +18,9 @@ const editorButtonTheme = {
         dark: hexToRgba(colors.B75, 0.6),
       }),
     },
-    color: {
+  },
+  color: {
+    danger: {
       hover: themed({ light: colors.R300, dark: colors.R300 }),
       active: themed({ light: colors.R300, dark: colors.R300 }),
     },
@@ -33,8 +35,12 @@ const Button = styled(UiButton)`
   }
 `;
 
-export type ButtonAppearance = 'subtle' | 'danger';
+const getStyle = (styles, appearance, state) => {
+  if (!styles[appearance] || !styles[appearance][state]) return 'initial';
+  return styles[appearance][state];
+};
 
+export type ButtonAppearance = 'subtle' | 'danger';
 export interface Props {
   title?: string;
   icon?: ReactElement<any>;
@@ -66,7 +72,6 @@ export default ({
 }: Props) => {
   return (
     <Tooltip content={title} hideTooltipOnClick={true} position="top">
-      {/* <ThemeProvider theme={{ [themeNamespace]: editorButtonTheme }}> */}
       <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
         <Button
           theme={(adgTheme, { appearance = 'default', state = 'default' }) => {
@@ -78,16 +83,25 @@ export default ({
             return {
               buttonStyles: {
                 ...adgButtonStyles,
-                ...editorButtonTheme[appearance][state],
+                ...{
+                  background: getStyle(
+                    editorButtonTheme.background,
+                    appearance,
+                    state,
+                  ),
+                  color: getStyle(editorButtonTheme.color, appearance, state),
+                },
               },
+              iconStyles: {},
+              spinnerStyles: {},
             };
           }}
-          ariaLabel={title}
+          aria-label={title}
           spacing="compact"
           href={href}
           target={target}
           appearance={appearance}
-          ariaHaspopup={true}
+          aria-haspopup={true}
           iconBefore={icon}
           iconAfter={iconAfter}
           onClick={onClick}
@@ -97,7 +111,6 @@ export default ({
           {children}
         </Button>
       </div>
-      {/* </ThemeProvider> */}
     </Tooltip>
   );
 };
