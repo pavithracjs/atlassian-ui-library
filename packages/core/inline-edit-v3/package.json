@@ -34,6 +34,7 @@
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/docs": "^6.0.1",
+    "@atlaskit/textarea": "^0.2.4",
     "@atlaskit/textfield": "^0.1.6",
     "enzyme": "^3.7.0",
     "react-dom": "^16.4.2"

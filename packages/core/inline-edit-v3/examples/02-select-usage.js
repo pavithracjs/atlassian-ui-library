@@ -12,18 +12,11 @@ type State = {
 };
 
 export default class BasicExample extends Component<void, State> {
-  editViewRef: { current: null | HTMLInputElement };
-
-  constructor() {
-    super();
-    this.state = {
-      isEditing: false,
-      editValue: 'Field Value',
-      onEventResult: 'Click on a field above to show edit view',
-    };
-
-    this.editViewRef = React.createRef();
-  }
+  state = {
+    isEditing: false,
+    editValue: 'Field Value',
+    onEventResult: 'Click on a field above to show edit view',
+  };
 
   onConfirm = (value: string) => {
     this.setState({
@@ -41,9 +34,7 @@ export default class BasicExample extends Component<void, State> {
   };
 
   onEditRequested = () => {
-    this.setState({ isEditing: true }, () => {
-      if (this.editViewRef.current) this.editViewRef.current.focus();
-    });
+    this.setState({ isEditing: true });
   };
 
   render() {
@@ -52,8 +43,8 @@ export default class BasicExample extends Component<void, State> {
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline Edit Field"
-          editView={fieldProps => (
-            <TextField {...fieldProps} ref={this.editViewRef} />
+          editView={(fieldProps, ref) => (
+            <TextField {...fieldProps} ref={ref} />
           )}
           readView={
             <ReadViewContainer>

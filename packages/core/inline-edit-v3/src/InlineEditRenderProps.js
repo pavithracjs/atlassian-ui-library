@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component, Node } from 'react';
 
 import {
   withAnalyticsEvents,
@@ -21,7 +21,6 @@ import ButtonsWrapper from './styled/ButtonsWrapper';
 import ButtonWrapper from './styled/ButtonWrapper';
 import ReadViewContentWrapper from './styled/ReadViewContentWrapper';
 import ContentWrapper from './styled/ContentWrapper';
-import EditButton from './styled/EditButton';
 
 type State = {
   onReadViewHover: boolean,
@@ -79,18 +78,15 @@ class InlineEdit extends Component<Props, State> {
     if (!this.state.wasFocusReceivedSinceLastBlur) this.props.onConfirm(value);
   };
 
-  renderReadView = () => {
+  renderReadView = (children: Node, isEditing: boolean) => {
     return (
-      <>
-        <EditButton type="button" onClick={this.onReadViewClick} />
-        <ReadViewContentWrapper
-          onMouseEnter={() => this.setState({ onReadViewHover: true })}
-          onMouseLeave={() => this.setState({ onReadViewHover: false })}
-          onClick={this.onReadViewClick}
-        >
-          {this.props.readView}
-        </ReadViewContentWrapper>
-      </>
+      <ReadViewContentWrapper
+        onMouseEnter={() => this.setState({ onReadViewHover: true })}
+        onMouseLeave={() => this.setState({ onReadViewHover: false })}
+        onClick={this.onReadViewClick}
+      >
+        children(isEditing)
+      </ReadViewContentWrapper>
     );
   };
 

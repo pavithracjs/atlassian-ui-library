@@ -37,6 +37,7 @@ export default class TextAreaElement extends React.Component<Props, State> {
 
   getTextAreaRef = (ref: HTMLTextAreaElement | null) => {
     this.textareaElement = ref;
+    console.log(this.props.forwardedRef);
     if (this.props.forwardedRef) {
       this.props.forwardedRef(ref);
     }

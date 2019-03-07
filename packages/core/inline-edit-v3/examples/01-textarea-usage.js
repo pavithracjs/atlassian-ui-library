@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import TextField from '@atlaskit/textfield';
+import TextArea from '@atlaskit/textarea';
 
 import InlineEdit from '../src';
 import ReadViewContainer from './styled/ReadViewContainer';
@@ -12,18 +12,13 @@ type State = {
 };
 
 export default class BasicExample extends Component<void, State> {
-  editViewRef: { current: null | HTMLInputElement };
+  editViewRef: HTMLTextAreaElement | null;
 
-  constructor() {
-    super();
-    this.state = {
-      isEditing: false,
-      editValue: 'Field Value',
-      onEventResult: 'Click on a field above to show edit view',
-    };
-
-    this.editViewRef = React.createRef();
-  }
+  state = {
+    isEditing: false,
+    editValue: 'Field Value',
+    onEventResult: 'Click on a field above to show edit view',
+  };
 
   onConfirm = (value: string) => {
     this.setState({
@@ -41,9 +36,10 @@ export default class BasicExample extends Component<void, State> {
   };
 
   onEditRequested = () => {
-    this.setState({ isEditing: true }, () => {
-      if (this.editViewRef.current) this.editViewRef.current.focus();
-    });
+    this.setState({ isEditing: true });
+    if (this.editViewRef) {
+      this.editViewRef.focus();
+    }
   };
 
   render() {
@@ -53,7 +49,12 @@ export default class BasicExample extends Component<void, State> {
           defaultValue={this.state.editValue}
           label="Inline Edit Field"
           editView={fieldProps => (
-            <TextField {...fieldProps} ref={this.editViewRef} />
+            <TextArea
+              {...fieldProps}
+              ref={(ref: any) => {
+                this.editViewRef = ref;
+              }}
+            />
           )}
           readView={
             <ReadViewContainer>
@@ -64,8 +65,8 @@ export default class BasicExample extends Component<void, State> {
           onCancel={this.onCancel}
           isEditing={this.state.isEditing}
           onEditRequested={this.onEditRequested}
+          disableConfirmOnBlur
         />
-
         <div
           style={{
             borderStyle: 'dashed',
