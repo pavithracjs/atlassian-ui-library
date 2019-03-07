@@ -106,17 +106,20 @@ function createEditorWindowBindings(win: Window) {
       props.extensionHandlers = extensionHandlers;
     }
 
-    ReactDOM.unmountComponentAtNode(target);
-    ReactDOM.render(
-      <Provider>
-        <EditorWithState
-          insertMenuItems={customInsertMenuItems}
-          {...providers}
-          {...props}
-        />
-      </Provider>,
-      target,
+    let Editor = (
+      <EditorWithState
+        insertMenuItems={customInsertMenuItems}
+        {...providers}
+        {...props}
+      />
     );
+
+    if (props && props.UNSAFE_cards) {
+      Editor = <Provider>{Editor}</Provider>;
+    }
+
+    ReactDOM.unmountComponentAtNode(target);
+    ReactDOM.render(Editor, target);
   };
 }
 

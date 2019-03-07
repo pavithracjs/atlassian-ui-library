@@ -1,13 +1,15 @@
-import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
+import { snapshot, Device, initEditorWithAdf, Appearance } from '../_utils';
 import * as adf from './__fixtures__/nested-elements.adf.json';
 import {
   tableSelectors,
   clickFirstCell,
 } from '../../__helpers/page-objects/_table';
 import { animationFrame } from '../../__helpers/page-objects/_editor';
+import { EditorTestCardProvider } from '../../../../../editor-test-helpers';
 
 describe('Danger for nested elements', () => {
   let page;
+  const cardProvider = new EditorTestCardProvider();
 
   describe(`Full page`, () => {
     const threshold = 0.01;
@@ -17,7 +19,14 @@ describe('Danger for nested elements', () => {
     });
 
     beforeEach(async () => {
-      await initFullPageEditorWithAdf(page, adf, Device.LaptopHiDPI);
+      await initEditorWithAdf(page, {
+        appearance: Appearance.fullPage,
+        adf,
+        device: Device.LaptopHiDPI,
+        editorProps: {
+          UNSAFE_cards: { provider: Promise.resolve(cardProvider) },
+        },
+      });
       await clickFirstCell(page);
       await animationFrame(page);
     });

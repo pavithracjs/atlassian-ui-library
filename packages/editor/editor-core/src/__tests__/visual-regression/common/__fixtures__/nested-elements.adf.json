@@ -85,41 +85,6 @@
                       }
                     }
                   ]
-                },
-                {
-                  "type": "paragraph",
-                  "content": [
-                    {
-                      "type": "text",
-                      "text": "text text"
-                    }
-                  ]
-                },
-                {
-                  "type": "paragraph",
-                  "content": [
-                    {
-                      "type": "inlineExtension",
-                      "attrs": {
-                        "extensionType": "com.atlassian.confluence.macro.core",
-                        "extensionKey": "inline-eh",
-                        "parameters": {
-                          "macroParams": {},
-                          "macroMetadata": {
-                            "placeholder": [
-                              {
-                                "data": {
-                                  "url": ""
-                                },
-                                "type": "icon"
-                              }
-                            ]
-                          }
-                        },
-                        "text": "Inline extension demo"
-                      }
-                    }
-                  ]
                 }
               ]
             },
@@ -137,13 +102,7 @@
                     {
                       "type": "inlineCard",
                       "attrs": {
-                        "url": "http://www.atlassian.com",
-                        "data": {
-                          "@context": "https://www.w3.org/ns/activitystreams",
-                          "@type": "Document",
-                          "name": "Welcome to Atlassian!",
-                          "url": "http://www.atlassian.com"
-                        }
+                        "url": "http://www.atlassian.com"
                       }
                     },
                     {
@@ -151,22 +110,6 @@
                       "text": " link"
                     }
                   ]
-                },
-                {
-                  "type": "paragraph",
-                  "content": []
-                },
-                {
-                  "type": "blockCard",
-                  "attrs": {
-                    "url": "http://www.atlassian.com",
-                    "data": {
-                      "@context": "https://www.w3.org/ns/activitystreams",
-                      "@type": "Document",
-                      "name": "Welcome to Atlassian!",
-                      "url": "http://www.atlassian.com"
-                    }
-                  }
                 }
               ]
             }
@@ -233,6 +176,32 @@
                           }
                         }
                       ]
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "inlineExtension",
+                      "attrs": {
+                        "extensionType": "com.atlassian.confluence.macro.core",
+                        "extensionKey": "inline-eh",
+                        "parameters": {
+                          "macroParams": {},
+                          "macroMetadata": {
+                            "placeholder": [
+                              {
+                                "data": {
+                                  "url": ""
+                                },
+                                "type": "icon"
+                              }
+                            ]
+                          }
+                        },
+                        "text": "Inline extension demo"
+                      }
                     }
                   ]
                 }
