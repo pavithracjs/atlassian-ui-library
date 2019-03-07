@@ -214,6 +214,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     requestStartTime?: number,
     experimentRequestDurationMs?: number,
     renderStartTime?: number,
+    experimentId?: string,
   ) => {
     const {
       createAnalyticsEvent,
@@ -232,9 +233,10 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       const resultsArray: Result[][] = resultMapToArray(
         getDisplayedResults(recentItems),
       );
-      const eventAttributes: ShownAnalyticsAttributes = buildShownEventDetails(
-        ...resultsArray,
-      );
+      const eventAttributes: ShownAnalyticsAttributes = {
+        experimentId,
+        ...buildShownEventDetails(...resultsArray),
+      };
 
       firePreQueryShownEvent(
         eventAttributes,
@@ -270,7 +272,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       const resultsDetails: ShownAnalyticsAttributes = buildShownEventDetails(
         ...resultsArray,
       );
-
+      //  TODO: Wire up experiment id here
       firePostQueryShownEvent(
         resultsDetails,
         performanceTiming,
@@ -341,13 +343,16 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           isLoading: false,
         },
         async () => {
-          const experimentRequestDurationMs = (await abTestPromise).elapsedMs;
+          const {elapsedMs: experimentRequestDurationMs, abTest} = await abTestPromise;
+          const experimentId = abTest ? abTest.experimentId : undefined;
+
           this.fireShownPreQueryEvent(
             this.state.searchSessionId,
             this.state.recentItems || {},
             startTime,
             experimentRequestDurationMs,
             renderStartTime,
+            experimentId,
           );
         },
       );
