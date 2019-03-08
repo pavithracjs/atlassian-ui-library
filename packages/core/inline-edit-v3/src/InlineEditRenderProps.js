@@ -16,11 +16,12 @@ import {
   version as packageVersion,
 } from '../package.json';
 
-import type { Props } from './types';
+import type { PropsRenderProps } from './types';
 import ButtonsWrapper from './styled/ButtonsWrapper';
 import ButtonWrapper from './styled/ButtonWrapper';
 import ReadViewContentWrapper from './styled/ReadViewContentWrapper';
 import ContentWrapper from './styled/ContentWrapper';
+import EditButton from './styled/EditButton';
 
 type State = {
   onReadViewHover: boolean,
@@ -28,7 +29,7 @@ type State = {
   wasFocusReceivedSinceLastBlur: boolean,
 };
 
-class InlineEdit extends Component<Props, State> {
+class InlineEdit extends Component<PropsRenderProps, State> {
   confirmButtonRef: null | HTMLButtonElement;
   cancelButtonRef: null | HTMLButtonElement;
 
@@ -40,7 +41,7 @@ class InlineEdit extends Component<Props, State> {
     cancelButtonLabel: 'Cancel',
   };
 
-  constructor(props: Props) {
+  constructor(props: PropsRenderProps) {
     super(props);
     this.state = {
       onReadViewHover: false,
@@ -78,19 +79,21 @@ class InlineEdit extends Component<Props, State> {
     if (!this.state.wasFocusReceivedSinceLastBlur) this.props.onConfirm(value);
   };
 
-  renderReadView = (children: Node, isEditing: boolean) => {
+  renderReadView = () => {
+    const { children, isEditing } = this.props;
     return (
-      <ReadViewContentWrapper
-        onMouseEnter={() => this.setState({ onReadViewHover: true })}
-        onMouseLeave={() => this.setState({ onReadViewHover: false })}
-        onClick={this.onReadViewClick}
-      >
-        children(isEditing)
-      </ReadViewContentWrapper>
+      <div style={{ lineHeight: 1 }}>
+        <EditButton type="button" onClick={this.onReadViewClick} />
+        <ReadViewContentWrapper
+          onMouseEnter={() => this.setState({ onReadViewHover: true })}
+          onMouseLeave={() => this.setState({ onReadViewHover: false })}
+          onClick={this.onReadViewClick}
+        >
+          {children(isEditing)}
+        </ReadViewContentWrapper>
+      </div>
     );
   };
-
-  renderEditView = (fieldProps: {}) => this.props.editView(fieldProps);
 
   renderActionButtons = () => {
     return (
@@ -128,9 +131,10 @@ class InlineEdit extends Component<Props, State> {
     const {
       defaultValue,
       hideActionButtons,
-      isEditing,
       label,
       validate,
+      isEditing,
+      children,
     } = this.props;
     return (
       <Form onSubmit={data => this.props.onConfirm(data.inlineEdit)}>
@@ -148,7 +152,7 @@ class InlineEdit extends Component<Props, State> {
                     onBlur={() => this.onWrapperBlur(fieldProps.value)}
                     onFocus={this.onWrapperFocus}
                   >
-                    <div>{this.renderEditView(fieldProps)}</div>
+                    {children(isEditing, fieldProps)}
                     {!hideActionButtons && this.renderActionButtons()}
                   </ContentWrapper>
                 )}

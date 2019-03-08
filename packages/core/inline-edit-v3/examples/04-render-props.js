@@ -1,8 +1,8 @@
 // @flow
-import React, { Component, Fragment } from 'react';
-import TextArea from '@atlaskit/textarea';
+import React, { Component } from 'react';
+import TextField from '@atlaskit/textfield';
 
-import InlineEdit from '../src';
+import { InlineEditRenderProps } from '../src';
 import ReadViewContainer from './styled/ReadViewContainer';
 
 type State = {
@@ -12,13 +12,18 @@ type State = {
 };
 
 export default class BasicExample extends Component<void, State> {
-  editViewRef: HTMLTextAreaElement | null;
+  editViewRef: { current: null | HTMLInputElement };
 
-  state = {
-    isEditing: false,
-    editValue: 'Field Value',
-    onEventResult: 'Click on a field above to show edit view',
-  };
+  constructor() {
+    super();
+    this.state = {
+      isEditing: false,
+      editValue: 'Field Value',
+      onEventResult: 'Click on a field above to show edit view',
+    };
+
+    this.editViewRef = React.createRef();
+  }
 
   onConfirm = (value: string) => {
     this.setState({
@@ -37,39 +42,32 @@ export default class BasicExample extends Component<void, State> {
 
   onEditRequested = () => {
     this.setState({ isEditing: true }, () => {
-      if (this.editViewRef) this.editViewRef.focus();
+      if (this.editViewRef.current) this.editViewRef.current.focus();
     });
   };
 
   render() {
     return (
       <div style={{ padding: '0 16px' }}>
-        <InlineEdit
+        <InlineEditRenderProps
           defaultValue={this.state.editValue}
           label="Inline Edit Field"
-          editView={fieldProps => (
-            <TextArea
-              {...fieldProps}
-              ref={(ref: any) => {
-                this.editViewRef = ref;
-              }}
-            />
-          )}
-          readView={
-            <ReadViewContainer>
-              {this.state.editValue.split('\n').map((value, i) => (
-                <Fragment key={i}>
-                  {value}
-                  <br />
-                </Fragment>
-              )) || 'Click to enter value'}
-            </ReadViewContainer>
-          }
           onConfirm={this.onConfirm}
           onCancel={this.onCancel}
           isEditing={this.state.isEditing}
           onEditRequested={this.onEditRequested}
-        />
+        >
+          {(isEditing, fieldProps) =>
+            isEditing ? (
+              <TextField {...fieldProps} ref={this.editViewRef} />
+            ) : (
+              <ReadViewContainer>
+                {this.state.editValue || 'Click to enter value'}
+              </ReadViewContainer>
+            )
+          }
+        </InlineEditRenderProps>
+
         <div
           style={{
             borderStyle: 'dashed',

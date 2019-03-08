@@ -28,16 +28,22 @@ export default class TextAreaElement extends React.Component<Props, State> {
 
   componentDidMount() {
     if (this.props.resize === 'smart' && this.textareaElement) {
-      // eslint-disable-next-line
-      this.setState({
-        height: `${this.textareaElement.scrollHeight}px`,
-      });
+      this.setState(
+        {
+          height: 'auto',
+        },
+        () => {
+          this.setState({
+            // @ts-ignore
+            height: `${this.textareaElement.scrollHeight}px`,
+          });
+        },
+      );
     }
   }
 
   getTextAreaRef = (ref: HTMLTextAreaElement | null) => {
     this.textareaElement = ref;
-    console.log(this.props.forwardedRef);
     if (this.props.forwardedRef) {
       this.props.forwardedRef(ref);
     }
@@ -72,10 +78,10 @@ export default class TextAreaElement extends React.Component<Props, State> {
     if (resize === 'smart') {
       return (
         <textarea
-          onChange={this.handleOnChange}
           ref={this.getTextAreaRef}
           style={{ height }}
           {...rest}
+          onChange={this.handleOnChange}
         />
       );
     }

@@ -22,6 +22,7 @@ import ButtonWrapper from './styled/ButtonWrapper';
 import ReadViewContentWrapper from './styled/ReadViewContentWrapper';
 import ContentWrapper from './styled/ContentWrapper';
 import EditButton from './styled/EditButton';
+import ReadViewWrapper from './styled/ReadViewWrapper';
 
 type State = {
   onReadViewHover: boolean,
@@ -64,6 +65,9 @@ class InlineEdit extends Component<Props, State> {
     this.props.onEditRequested();
   };
 
+  /** Unless disableConfirmOnBlur prop is true, will call confirmIfUnfocused() which
+   *  confirms the value, unless the focus is transferred to the buttons
+   */
   onWrapperBlur = (value: any) => {
     if (!this.props.disableConfirmOnBlur) {
       this.setState({ wasFocusReceivedSinceLastBlur: false });
@@ -71,6 +75,7 @@ class InlineEdit extends Component<Props, State> {
     }
   };
 
+  /** Gets called when focus is transferred to the editView, or action buttons */
   onWrapperFocus = () => {
     this.setState({ wasFocusReceivedSinceLastBlur: true });
   };
@@ -81,7 +86,7 @@ class InlineEdit extends Component<Props, State> {
 
   renderReadView = () => {
     return (
-      <>
+      <ReadViewWrapper>
         <EditButton type="button" onClick={this.onReadViewClick} />
         <ReadViewContentWrapper
           onMouseEnter={() => this.setState({ onReadViewHover: true })}
@@ -90,7 +95,7 @@ class InlineEdit extends Component<Props, State> {
         >
           {this.props.readView}
         </ReadViewContentWrapper>
-      </>
+      </ReadViewWrapper>
     );
   };
 
@@ -159,7 +164,7 @@ class InlineEdit extends Component<Props, State> {
               </Field>
             ) : (
               <Field name="inlineEdit" label={label} defaultValue="">
-                {() => <div>{this.renderReadView()}</div>}
+                {() => this.renderReadView()}
               </Field>
             )}
           </form>
