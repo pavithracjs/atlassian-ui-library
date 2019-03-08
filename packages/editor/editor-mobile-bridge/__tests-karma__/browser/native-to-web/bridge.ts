@@ -1,6 +1,6 @@
 import * as sinon from 'sinon';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 
 import { mountEditor } from './utils';
 import { toNativeBridge } from '../../../src/editor/web-to-native';
@@ -14,13 +14,14 @@ describe('NativeToWebBridge', () => {
     type: 'doc',
     content: [{ type: 'paragraph', content: [{ type: 'text', text: 'test' }] }],
   };
-  let editor: any;
+
+  let wrapper: ReactWrapper;
   beforeEach(async () => {
-    editor = mount(mobileEditor({}));
+    wrapper = mount(mobileEditor({}));
   });
 
   afterEach(() => {
-    editor.unmount();
+    wrapper.unmount();
   });
 
   it('sets content', async () => {
@@ -59,13 +60,13 @@ describe('NativeToWebBridge', () => {
 
 //TODO: ED-6534 Unskip
 describe.skip('insert media', () => {
-  let editor: any;
+  let wrapper: ReactWrapper;
   beforeEach(async () => {
-    editor = await mountEditor();
+    wrapper = await mountEditor();
   });
 
   afterEach(() => {
-    editor.unmount();
+    wrapper.unmount();
   });
 
   const contentWithMedia = {

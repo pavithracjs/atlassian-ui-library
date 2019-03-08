@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { EditorView } from 'prosemirror-view';
-import { Editor } from '@atlaskit/editor-core';
+import {
+  Editor,
+  MediaProvider as MediaProviderType,
+  EditorProps,
+} from '@atlaskit/editor-core';
 
 // @ts-ignore
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
@@ -23,6 +27,8 @@ import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 import { cardProvider } from '../providers/cardProvider';
 
 const params = parseLocationSearch();
+// @ts-ignore
+import { AtlaskitThemeProvider } from '@atlaskit/theme';
 
 export const bridge: WebBridgeImpl = ((window as any).bridge = new WebBridgeImpl());
 
@@ -59,43 +65,52 @@ class EditorWithState extends Editor {
   }
 }
 
-export default function mobileEditor(props: any) {
+type Props = EditorProps & {
+  mode?: 'light' | 'dark';
+  mediaProvider?: Promise<MediaProviderType>;
+};
+
+export default function mobileEditor(props: Props) {
+  const mode = (params && params.mode) || props.mode || 'light';
   return (
     <SmartCardProvider>
-      <EditorWithState
-        appearance="mobile"
-        mentionProvider={Promise.resolve(MentionProvider)}
-        emojiProvider={Promise.resolve(MockEmojiProvider)}
-        media={{
-          customMediaPicker: new MobilePicker(),
-          provider: props.mediaProvider || MediaProvider,
-          allowMediaSingle: true,
-        }}
-        allowLists={true}
-        onChange={() => {
-          toNativeBridge.updateText(bridge.getContent());
-        }}
-        allowPanel={true}
-        allowCodeBlocks={true}
-        allowTables={{
-          allowControls: false,
-        }}
-        UNSAFE_cards={{
-          provider: props.cardProvider || Promise.resolve(cardProvider),
-        }}
-        allowExtension={true}
-        allowTextColor={true}
-        allowDate={true}
-        allowRule={true}
-        allowStatus={true}
-        allowLayouts={{
-          allowBreakout: true,
-        }}
-        taskDecisionProvider={Promise.resolve(TaskDecisionProvider())}
-        // eg. If the URL parameter is like ?mode=dark use that, otherwise check the prop (used in example)
-        mode={(params && params.mode) || props.mode}
-        {...props}
-      />
+      // eg. If the URL parameter is like ?mode=dark use that, otherwise check
+      the prop (used in example)
+      <AtlaskitThemeProvider mode={mode}>
+        <EditorWithState
+          appearance="mobile"
+          mentionProvider={Promise.resolve(MentionProvider)}
+          emojiProvider={Promise.resolve(MockEmojiProvider)}
+          media={{
+            customMediaPicker: new MobilePicker(),
+            provider: props.mediaProvider || MediaProvider,
+            allowMediaSingle: true,
+          }}
+          allowLists={true}
+          onChange={() => {
+            toNativeBridge.updateText(bridge.getContent());
+          }}
+          allowPanel={true}
+          allowCodeBlocks={true}
+          allowTables={{
+            allowControls: false,
+          }}
+          UNSAFE_cards={{
+            provider: props.cardProvider || Promise.resolve(cardProvider),
+          }}
+          allowExtension={true}
+          allowTextColor={true}
+          allowDate={true}
+          allowRule={true}
+          allowStatus={true}
+          allowLayouts={{
+            allowBreakout: true,
+          }}
+          taskDecisionProvider={Promise.resolve(TaskDecisionProvider())}
+          // eg. If the URL parameter is like ?mode=dark use that, otherwise check the prop (used in example)
+          {...props}
+        />
+      </AtlaskitThemeProvider>
     </SmartCardProvider>
   );
 }
