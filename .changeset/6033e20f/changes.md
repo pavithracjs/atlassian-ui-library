@@ -1,0 +1,1 @@
+- Adds support for action buttons to use new theming API
