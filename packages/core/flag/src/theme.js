@@ -1,9 +1,5 @@
 // @flow
-
-import { colors, themed } from '@atlaskit/theme';
-import { themeNamespace as buttonThemeNamespace } from '@atlaskit/button';
-
-const lightButtonBackground = 'rgba(255, 255, 255, 0.08)';
+import { colors, themed, gridSize } from '@atlaskit/theme';
 
 export const flagBackgroundColor = themed('appearance', {
   error: { light: colors.R400, dark: colors.R300 },
@@ -42,66 +38,44 @@ export const flagFocusRingColor = themed('appearance', {
   warning: { light: colors.N200, dark: colors.N200 },
 });
 
-type Theme = { [string]: any };
+const lightButtonBackground = 'rgba(255, 255, 255, 0.08)';
 
-const shared = {
-  textDecoration: {
-    hover: 'underline',
-    active: 'underline',
-  },
+export const background = {
+  success: { light: lightButtonBackground, dark: colors.N30A },
+  info: { light: lightButtonBackground, dark: lightButtonBackground },
+  error: { light: lightButtonBackground, dark: colors.N30A },
+  warning: { light: colors.N30A, dark: colors.N30A },
+  normal: { light: 'none', dark: 'none' },
 };
 
-export const getFlagTheme = (theme: Theme): Theme => ({
-  ...theme,
-  [buttonThemeNamespace]: {
-    ...(theme && theme[buttonThemeNamespace]),
-    success: {
-      ...shared,
-      color: {
-        default: themed({ light: colors.N0, dark: colors.DN40 }),
-        hover: themed({ light: colors.N0, dark: colors.DN40 }),
-        active: themed({ light: colors.N0, dark: colors.DN40 }),
-      },
-      background: {
-        default: themed({ light: lightButtonBackground, dark: colors.N30A }),
-      },
-    },
-    info: {
-      ...shared,
-      color: {
-        default: themed({ light: colors.N0, dark: colors.DN600 }),
-        hover: themed({ light: colors.N0, dark: colors.DN600 }),
-        active: themed({ light: colors.N0, dark: colors.DN600 }),
-      },
-      background: {
-        default: themed({
-          light: lightButtonBackground,
-          dark: lightButtonBackground,
-        }),
-      },
-    },
-    error: {
-      ...shared,
-      color: {
-        default: themed({ light: colors.N0, dark: colors.DN600 }),
-        hover: themed({ light: colors.N0, dark: colors.DN600 }),
-        active: themed({ light: colors.N0, dark: colors.DN600 }),
-      },
-      background: {
-        default: themed({ light: lightButtonBackground, dark: colors.N30A }),
-      },
-    },
-    warning: {
-      ...shared,
-      color: {
-        default: themed({ light: colors.N700, dark: colors.DN40 }),
-        hover: themed({ light: colors.N700, dark: colors.DN40 }),
-        active: themed({ light: colors.N700, dark: colors.DN40 }),
-      },
-      background: {
-        default: themed({ light: colors.N30A, dark: colors.N30A }),
-      },
-    },
-    normal: {},
+export const color = {
+  success: { light: colors.N0, dark: colors.DN40 },
+  info: { light: colors.N0, dark: colors.DN600 },
+  error: { light: colors.N0, dark: colors.DN600 },
+  warning: { light: colors.N700, dark: colors.DN40 },
+  normal: { light: colors.B400, dark: colors.B100 },
+};
+
+const getBackground = ({ appearance = 'normal', mode = 'light' }) =>
+  background[appearance][mode];
+const getColor = ({ appearance = 'normal', mode = 'light' }) =>
+  color[appearance][mode];
+
+export const actionButtonStyles = (props: any) => ({
+  background: getBackground(props),
+  color: getColor(props),
+  width: 'auto',
+});
+
+export const getPseudos = (p: any) => ({
+  '&, a&': {
+    fontWeight: '500',
+    padding: `0 ${p.appearance === 'normal' ? 0 : gridSize()}px !important`,
+  },
+  '&:focus': {
+    boxShadow: `0 0 0 2px ${flagFocusRingColor(p)}`,
+  },
+  '&:hover, &:active': {
+    textDecoration: 'underline',
   },
 });
