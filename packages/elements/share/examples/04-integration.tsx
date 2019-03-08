@@ -3,12 +3,13 @@ import { userPickerData } from '@atlaskit/util-data-test';
 import * as React from 'react';
 import { ShareDialogContainer } from '../src';
 import {
-  Client,
   Comment,
+  ConfigResponse,
   Content,
   KeysOfType,
   MetaData,
   OriginTracing,
+  ShareClient,
   User,
 } from '../src/types';
 
@@ -62,18 +63,12 @@ const loadUserOptions = (searchText?: string): OptionData[] => {
     });
 };
 
-const client: Client = {
-  getCapabilities: () =>
-    Promise.resolve({
-      directInvite: {
-        mode: 'DOMAIN_RESTRICTED' as 'DOMAIN_RESTRICTED',
-        domains: ['atlassian.com'],
-        permittedResources: [],
-      },
-      invitePendingApproval: {
-        mode: 'NONE' as 'NONE',
-        permittedResources: [],
-      },
+const client: ShareClient = {
+  getConfig: () =>
+    Promise.resolve<ConfigResponse>({
+      mode: 'DOMAIN_BASED_INVITE',
+      allowedDomains: ['atlassian.com'],
+      allowComment: true,
     }),
   share: (
     _content: Content,
@@ -81,10 +76,10 @@ const client: Client = {
     _metaData: MetaData,
     _comment?: Comment,
   ) => {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       setTimeout(
         () =>
-          reject({
+          resolve({
             shareRequestId: 'c41e33e5-e622-4b38-80e9-a623c6e54cdd',
           }),
         3000,
@@ -94,17 +89,15 @@ const client: Client = {
 };
 
 export default () => (
-  <div style={{ marginLeft: '600px' }}>
-    <ShareDialogContainer
-      buttonStyle="icon-with-text"
-      client={client}
-      cloudId="12345-12345-12345-12345"
-      loadUserOptions={loadUserOptions}
-      originTracingFactory={() => mockOriginTracing}
-      productId="confluence"
-      shareAri="ari"
-      shareLink={window.location.href}
-      shareTitle="My Share"
-    />
-  </div>
+  <ShareDialogContainer
+    client={client}
+    cloudId="12345-12345-12345-12345"
+    loadUserOptions={loadUserOptions}
+    originTracingFactory={() => mockOriginTracing}
+    productId="confluence"
+    shareAri="ari"
+    shareLink={window.location.href}
+    shareTitle="My Share"
+    triggerButtonStyle="icon-with-text"
+  />
 );

@@ -10,9 +10,9 @@ import styled from 'styled-components';
 import { messages } from '../i18n';
 import {
   Comment,
+  ConfigResponse,
   DialogContentState,
   FormChildrenArgs,
-  InvitationsCapabilitiesResponse,
 } from '../types';
 import { CommentField } from './CommentField';
 import { CopyLinkButton } from './CopyLinkButton';
@@ -65,7 +65,7 @@ export type ShareData = {
 
 export type Props = {
   capabilitiesInfoMessage?: React.ReactNode;
-  capabilities?: InvitationsCapabilitiesResponse;
+  config?: ConfigResponse;
   copyLink: string;
   isSharing?: boolean;
   loadOptions?: LoadOptions;
@@ -130,29 +130,29 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
       onLinkCopy,
       copyLink,
       defaultValue,
-      capabilities,
+      config,
     } = this.props;
     return (
-      <FromWrapper>
-        <form {...formProps}>
-          <ShareHeader title={title} />
-          <FormSection>
-            <UserPickerField
-              loadOptions={loadOptions}
-              defaultValue={defaultValue && defaultValue.users}
-              capabilitiesInfoMessage={capabilitiesInfoMessage}
-              capabilities={capabilities}
-            />
+      <form {...formProps}>
+        <ShareHeader title={title} />
+        <FormSection>
+          <UserPickerField
+            loadOptions={loadOptions}
+            defaultValue={defaultValue && defaultValue.users}
+            capabilitiesInfoMessage={capabilitiesInfoMessage}
+            config={config}
+          />
+          {config && config.allowComment && (
             <CommentField defaultValue={defaultValue && defaultValue.comment} />
-          </FormSection>
-          <FormFooter>
-            <LeftAlignmentContainer>
-              <CopyLinkButton onLinkCopy={onLinkCopy} link={copyLink} />
-            </LeftAlignmentContainer>
-            {this.renderSubmitButton()}
-          </FormFooter>
-        </form>
-      </FromWrapper>
+          )}
+        </FormSection>
+        <FormFooter>
+          <LeftAlignmentContainer>
+            <CopyLinkButton onLinkCopy={onLinkCopy} link={copyLink} />
+          </LeftAlignmentContainer>
+          {this.renderSubmitButton()}
+        </FormFooter>
+      </form>
     );
   }
 }
