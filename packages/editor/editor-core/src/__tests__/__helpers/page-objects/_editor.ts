@@ -10,6 +10,8 @@ export const selectors = {
   codeContent: '.code-content',
 };
 
+export const MINIMUM_ACCEPTABLE_TOLERANCE = 0.02;
+
 export async function clickEditableContent(page: Page) {
   await page.waitForSelector(selectors.editor);
   await page.click(selectors.editor);
@@ -19,8 +21,20 @@ const replaceInputStr = (str: string) => {
   return `concat('${str.replace(/'/g, `', "'", '`)}', '')`;
 };
 
+const getElementPathWithText = (text: string, htmlTag: string = 'span') =>
+  `//${htmlTag}[contains(text(), ${replaceInputStr(text)})]`;
+
+export const waitForElementWithText = async (
+  page: Page,
+  text: string,
+  htmlTag = 'span',
+) => {
+  const elementPath = getElementPathWithText(text, htmlTag);
+  await page.waitForXPath(elementPath, 5000);
+};
+
 export const clickElementWithText = async ({ page, tag, text }) => {
-  const elementPath = `//${tag}[contains(text(), ${replaceInputStr(text)})]`;
+  const elementPath = getElementPathWithText(text, tag);
   await page.waitForXPath(elementPath, 5000);
   const target = await page.$x(elementPath);
   expect(target.length).toBeGreaterThan(0);
@@ -48,4 +62,25 @@ export const evaluateClick = (page, selector) => {
 export async function animationFrame(page) {
   // Give browser time to render, waitForFunction by default fires on RAF.
   await page.waitForFunction('1 === 1');
+}
+
+export async function typeInEditor(page: Page, text: string) {
+  await page.click(selectors.editor);
+  await page.type(selectors.editor, text);
+}
+
+export async function getEditorWidth(page: Page) {
+  return page.$eval(selectors.editor, el => el.clientWidth);
+}
+
+export async function disableTransition(page: Page, selector: string) {
+  const css = `
+  ${selector} {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+  }
+  `;
+  await page.addStyleTag({ content: css });
 }

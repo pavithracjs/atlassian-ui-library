@@ -1,5 +1,20 @@
 # @atlaskit/adf-schema
 
+## 1.6.2
+- [patch] [d18b085e2a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d18b085e2a):
+
+  - Integrating truly upfront ID
+
+## 1.6.1
+- [patch] [4d0c196597](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d0c196597):
+
+  - ED-6232 Fix copy-pasting a table with numbered column drops one column
+
+## 1.6.0
+- [minor] [3672ec23ef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3672ec23ef):
+
+  - [ED-5788] Add new layout Breakout button for CodeBlock and Layout
+
 ## 1.5.5
 - [patch] [356de07a87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/356de07a87):
 

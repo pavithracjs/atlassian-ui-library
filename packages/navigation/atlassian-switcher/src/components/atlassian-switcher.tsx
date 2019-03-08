@@ -1,11 +1,14 @@
 import * as React from 'react';
 import JiraSwitcher from './jira-switcher';
 import ConfluenceSwitcher from './confluence-switcher';
+import GenericSwitcher from './generic-switcher';
+import ErrorBoundary from './error-boundary';
+import { Product } from '../types';
 
 interface AtlassianSwitcherProps {
   product: string;
   cloudId: string;
-  triggerXFlow: Function;
+  triggerXFlow: (productKey: string, sourceComponent: string) => void;
 }
 
 const AtlassianSwitcher = ({
@@ -16,11 +19,17 @@ const AtlassianSwitcher = ({
 }: AtlassianSwitcherProps) => {
   let Switcher: React.ReactType;
   switch (product) {
-    case 'jira':
+    case Product.JIRA:
       Switcher = JiraSwitcher;
       break;
-    case 'confluence':
+    case Product.CONFLUENCE:
       Switcher = ConfluenceSwitcher;
+      break;
+    case Product.HOME:
+    case Product.PEOPLE:
+    case Product.SITE_ADMIN:
+    case Product.TRUSTED_ADMIN:
+      Switcher = GenericSwitcher;
       break;
     default:
       if (process.env.NODE_ENV !== 'production') {
@@ -31,7 +40,16 @@ const AtlassianSwitcher = ({
       }
       return null;
   }
-  return <Switcher cloudId={cloudId} triggerXFlow={triggerXFlow} {...props} />;
+  return (
+    <ErrorBoundary>
+      <Switcher
+        cloudId={cloudId}
+        triggerXFlow={triggerXFlow}
+        product={product}
+        {...props}
+      />
+    </ErrorBoundary>
+  );
 };
 
 export default AtlassianSwitcher;
