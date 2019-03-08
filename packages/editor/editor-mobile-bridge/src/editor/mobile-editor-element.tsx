@@ -71,11 +71,10 @@ type Props = EditorProps & {
 };
 
 export default function mobileEditor(props: Props) {
+  // eg. If the URL parameter is like ?mode=dark use that, otherwise check the prop (used in example)
   const mode = (params && params.mode) || props.mode || 'light';
   return (
     <SmartCardProvider>
-      // eg. If the URL parameter is like ?mode=dark use that, otherwise check
-      the prop (used in example)
       <AtlaskitThemeProvider mode={mode}>
         <EditorWithState
           appearance="mobile"

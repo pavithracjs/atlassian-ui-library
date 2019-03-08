@@ -14,10 +14,10 @@ export async function mountEditor() {
   const wrapper = mount(mobileEditor({ mediaProvider: mediaProvider }), {
     attachTo: place,
   });
-  
+
   const editor = wrapper.find('EditorWithState');
   await (editor.props() as any).media.provider;
-  
+
   await sleep(100);
   return wrapper;
 }
