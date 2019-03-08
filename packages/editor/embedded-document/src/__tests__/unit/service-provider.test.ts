@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import * as fetchMock from 'fetch-mock/src/client';
 import ServiceProvider from '../../provider/service-provider';
 import {
