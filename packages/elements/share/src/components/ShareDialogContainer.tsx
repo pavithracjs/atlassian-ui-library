@@ -29,6 +29,7 @@ export type Props = {
   originTracingFactory: OriginTracingFactory;
   productId: string;
   shareAri: string;
+  shareContentType: string;
   shareLink: string;
   shareTitle: string;
   shareFormTitle?: React.ReactNode;
@@ -128,6 +129,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       originTracingFactory,
       productId,
       shareAri,
+      shareContentType,
       shareLink,
       shareTitle,
     } = this.props;
@@ -136,6 +138,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       // original share link is used here
       link: shareLink,
       title: shareTitle,
+      type: shareContentType,
     };
     const metaData: MetaData = {
       productId,
