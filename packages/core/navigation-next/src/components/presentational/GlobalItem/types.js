@@ -99,7 +99,7 @@ export type BaseGlobalItemProps = {
    * element you render. */
   component?: ComponentType<GlobalItemRenderComponentProps>,
   /** A function to access the ref of the GlobalItem. */
-  getRef?: (node: NonStringRef<'div'>) => void,
+  getRef?: (node: NonStringRef<'span'>) => void,
 };
 
 export type GlobalItemProps = {

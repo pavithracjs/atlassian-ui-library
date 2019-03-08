@@ -4,6 +4,7 @@ import React, {
   Component,
   createRef,
   type ComponentType,
+  type ElementRef,
   type Node,
 } from 'react';
 import { DropdownMenuStateless } from '@atlaskit/dropdown-menu';
@@ -79,9 +80,10 @@ const ItemComponent = (props: GlobalNavItemData) => {
   return <GlobalItem {...itemProps} />;
 };
 
+type NonStringRef<T> = { current: ElementRef<T> | null };
 type ItemComponentWithRefProps = {
-  getRef: *,
-  ref: *,
+  getRef?: (NonStringRef<'span'>) => void,
+  ref?: NonStringRef<'span'>,
 };
 
 // eslint-disable-next-line react/no-multi-comp

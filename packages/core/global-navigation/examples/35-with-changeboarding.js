@@ -1,8 +1,8 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, type ElementRef } from 'react';
 import EmojiAtlassianIcon from '@atlaskit/icon/glyph/emoji/atlassian';
-import { Spotlight, SpotlightManager } from '@atlaskit/onboarding';
+import { Spotlight } from '@atlaskit/onboarding';
 import { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
 import {
   GlobalItem,
@@ -37,8 +37,13 @@ type ExampleProps = {};
 type ExampleState = {
   targetIndex: number | null,
 };
+type NonStringRef<T> = {
+  current: ElementRef<T> | null,
+};
 
-export default class extends Component<ExampleProps, ExampleState> {
+export default class Example extends Component<ExampleProps, ExampleState> {
+  $key: string;
+  $value: NonStringRef<'span'>;
   state = {
     targetIndex: null,
   };
@@ -65,33 +70,39 @@ export default class extends Component<ExampleProps, ExampleState> {
   };
 
   openChangeboarding = () => {
-    this.setState({ targetIndex: 5 });
+    this.setState({ targetIndex: 0 });
   };
 
   closeChangeboarding = () => {
     this.setState({ targetIndex: null });
   };
 
-  getRef = icon => node => {
+  getRef = (icon: string) => (node: NonStringRef<'span'>) => {
     if (node && node.current && node.current !== this[`${icon}Ref`]) {
       this[`${icon}Ref`] = node;
     }
   };
 
   targetNext = () => {
-    this.setState(currState => ({
-      targetIndex: currState.targetIndex + 1,
+    this.setState(({ targetIndex }) => ({
+      targetIndex: typeof targetIndex === 'number' ? targetIndex + 1 : null,
     }));
   };
 
   targetPrev = () => {
-    this.setState(currState => ({
-      targetIndex: currState.targetIndex - 1,
+    this.setState(({ targetIndex }) => ({
+      targetIndex: typeof targetIndex === 'number' ? targetIndex - 1 : null,
     }));
   };
 
   getTargetNode = () => {
-    const targetIcon = this.icons[this.state.targetIndex];
+    const { targetIndex } = this.state;
+
+    if (targetIndex === null) {
+      return null;
+    }
+
+    const targetIcon = this.icons[targetIndex];
 
     return this[`${targetIcon}Ref`].current;
   };
@@ -117,6 +128,7 @@ export default class extends Component<ExampleProps, ExampleState> {
 
   render() {
     const { targetIndex } = this.state;
+    const targetNode = this.getTargetNode();
     return (
       <NavigationProvider>
         <LayoutManager
@@ -129,7 +141,7 @@ export default class extends Component<ExampleProps, ExampleState> {
               Start Change boarding
             </button>
           </div>
-          {typeof targetIndex === 'number' && (
+          {typeof targetIndex === 'number' && targetNode && (
             <Spotlight
               actions={[
                 { onClick: this.closeChangeboarding, text: 'Close' },
@@ -141,13 +153,11 @@ export default class extends Component<ExampleProps, ExampleState> {
                   : []),
               ]}
               dialogPlacement="right bottom"
-              heading="This is the Global Navigation"
-              targetNode={this.getTargetNode()}
+              heading="Let's learn about the Global Navigation"
+              targetNode={targetNode}
               targetRadius={16}
             >
-              <div>{`This is the ${
-                this.icons[this.state.targetIndex]
-              } Icon`}</div>
+              <div>{`This is the ${this.icons[targetIndex]} icon`}</div>
             </Spotlight>
           )}
         </LayoutManager>
