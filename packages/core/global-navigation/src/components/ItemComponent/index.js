@@ -1,6 +1,11 @@
 // @flow
 
-import React, { Component, type ComponentType, type Node } from 'react';
+import React, {
+  Component,
+  createRef,
+  type ComponentType,
+  type Node,
+} from 'react';
 import { DropdownMenuStateless } from '@atlaskit/dropdown-menu';
 import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
 import { GlobalItem } from '@atlaskit/navigation-next';
@@ -20,6 +25,7 @@ class DropdownItem extends Component<DropdownItemProps, DropdownItemState> {
   render() {
     const { items, trigger: Trigger } = this.props;
     const { isOpen } = this.state;
+
     return (
       <DropdownMenuStateless
         appearance="tall"
@@ -73,4 +79,36 @@ const ItemComponent = (props: GlobalNavItemData) => {
   return <GlobalItem {...itemProps} />;
 };
 
-export default ItemComponent;
+type ItemComponentWithRefProps = {
+  getRef: *,
+  ref: *,
+};
+
+// eslint-disable-next-line react/no-multi-comp
+export default class ItemComponentWithRef extends Component<ItemComponentWithRefProps> {
+  node = createRef();
+
+  componentDidMount() {
+    this.publishRef();
+  }
+
+  componentDidUpdate() {
+    this.publishRef();
+  }
+
+  publishRef() {
+    const { getRef } = this.props;
+    if (typeof getRef === 'function') {
+      getRef(this.node);
+    }
+  }
+
+  render() {
+    const { ref, ...itemProps } = this.props;
+    return (
+      <span ref={this.node}>
+        <ItemComponent {...itemProps} />
+      </span>
+    );
+  }
+}

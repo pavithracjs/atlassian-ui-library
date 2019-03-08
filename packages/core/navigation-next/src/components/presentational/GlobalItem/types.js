@@ -70,9 +70,6 @@ type BaseItemProps = {
   /** A string/Node to render in a tooltip which will appear when the GlobalItem
    * is hovered. */
   tooltip?: Node,
-
-  /** A function to access the ref of the GlobalItem. */
-  getRef?: (node: NonStringRef<'div'>) => void,
 };
 
 export type GlobalItemRenderComponentProps = {
@@ -101,6 +98,8 @@ export type BaseGlobalItemProps = {
    * className, children and onClick props which should be passed on to the
    * element you render. */
   component?: ComponentType<GlobalItemRenderComponentProps>,
+  /** A function to access the ref of the GlobalItem. */
+  getRef?: (node: NonStringRef<'div'>) => void,
 };
 
 export type GlobalItemProps = {
