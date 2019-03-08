@@ -29,7 +29,7 @@ export const messages = defineMessages({
   },
 });
 
-const remove: Command = (state, dispatch) => {
+export const remove: Command = (state, dispatch) => {
   if (dispatch) {
     dispatch(removeSelectedNode(state.tr));
   }
@@ -37,7 +37,7 @@ const remove: Command = (state, dispatch) => {
   return true;
 };
 
-const visit: Command = state => {
+export const visit: Command = state => {
   if (state.selection instanceof NodeSelection) {
     const { attrs } = state.selection.node;
     const data = attrs.data || {};
