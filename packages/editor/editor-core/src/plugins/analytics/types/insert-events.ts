@@ -55,6 +55,13 @@ type InsertAEP<ActionSubjectID, Attributes> = TrackAEP<
   Attributes
 >;
 
+type InsertLineBreakAEP = TrackAEP<
+  ACTION.INSERTED,
+  ACTION_SUBJECT.TEXT,
+  ACTION_SUBJECT_ID.LINE_BREAK,
+  undefined
+>;
+
 type InsertDividerAEP = InsertAEP<
   ACTION_SUBJECT_ID.DIVIDER,
   {
@@ -116,7 +123,7 @@ type InsertActionDecisionAEP = InsertAEP<
       | INPUT_METHOD.INSERT_MENU
       | INPUT_METHOD.FORMATTING
       | INPUT_METHOD.KEYBOARD;
-    containerAri: string;
+    containerAri?: string;
     objectAri?: string;
     localId: string;
     listLocalId: string;
@@ -198,6 +205,7 @@ type InsertLinkPreviewAEP = InsertAEP<
 
 export type InsertEventPayload =
   | InsertDividerAEP
+  | InsertLineBreakAEP
   | InsertPanelAEP
   | InsertCodeBlockAEP
   | InsertTableAEP
