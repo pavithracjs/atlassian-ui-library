@@ -20,7 +20,6 @@ const AppSwitcherComponent = props => (
   />
 );
 
-const getProductRef = node => console.log(node);
 // TODO: make onClicks targets show up on page instead of console.logs
 const Global = () => (
   <GlobalNavigation
@@ -36,8 +35,6 @@ const Global = () => (
     helpItems={() => <div />}
     onSettingsClick={() => console.log('settings clicked')}
     loginHref="#login"
-    getProductRef={getProductRef}
-    getProfileRef={getProductRef}
   />
 );
 
