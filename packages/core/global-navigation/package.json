@@ -47,6 +47,7 @@
     "@atlaskit/field-radio-group": "^5.0.0",
     "@atlaskit/logo": "^10.0.0",
     "@atlaskit/modal-dialog": "^8.0.0",
+    "@atlaskit/onboarding": "^7.0.0",
     "@atlaskit/section-message": "^2.0.0",
     "@atlaskit/tag": "^7.0.0",
     "@atlaskit/toggle": "^6.0.0",
