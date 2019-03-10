@@ -37,6 +37,7 @@ import {
   findControlsHoverDecoration,
   normalizeSelection,
   applyDefaultMarks,
+  toggleMarksOnDefaultMarks,
 } from '../utils';
 import { fixTables } from '../transforms';
 import { TableCssClassName as ClassName } from '../types';
@@ -200,6 +201,10 @@ export const createPlugin = (
       }
       if (transactions.find(tr => tr.selectionSet)) {
         return applyDefaultMarks(normalizeSelection(newState.tr));
+      }
+      const storedMarkTransaction = transactions.find(tr => tr.storedMarksSet);
+      if (storedMarkTransaction) {
+        toggleMarksOnDefaultMarks(storedMarkTransaction);
       }
     },
     view: (editorView: EditorView) => {

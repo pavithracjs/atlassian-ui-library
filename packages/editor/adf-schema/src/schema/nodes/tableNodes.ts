@@ -325,7 +325,7 @@ export const tableHeader = {
     '(paragraph | panel | blockquote | orderedList | bulletList | rule | heading | codeBlock | mediaGroup | mediaSingle  | applicationCard | decisionList | taskList | blockCard | extension)+',
   attrs: {
     ...cellAttrs,
-    defaultMarks: { default: ['strong'] },
+    defaultMarks: { default: [{ type: 'strong' }] },
   },
   tableRole: 'header_cell',
   isolating: true,
