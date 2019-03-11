@@ -1,4 +1,5 @@
 import { Slice, Mark, Node, NodeType, Schema } from 'prosemirror-model';
+import { PasteSource } from '../analytics';
 
 export function isPastedFromWord(html?: string): boolean {
   return !!html && html.indexOf('urn:schemas-microsoft-com:office:word') >= 0;
@@ -32,7 +33,7 @@ export const isSingleLine = (text: string): boolean => {
   return !!text && text.trim().split('\n').length === 1;
 };
 
-export function getPasteSource(event: ClipboardEvent): string {
+export function getPasteSource(event: ClipboardEvent): PasteSource {
   const html = event.clipboardData.getData('text/html');
 
   if (isPastedFromDropboxPaper(html)) {
@@ -51,7 +52,7 @@ export function getPasteSource(event: ClipboardEvent): string {
     return 'fabric-editor';
   }
 
-  return 'other';
+  return 'uncategorized';
 }
 
 // TODO: Write JEST tests for this part

@@ -17,7 +17,6 @@ export function addAnalytics(
 }
 
 export type HigherOrderCommand = (command: Command) => Command;
-
 export function withAnalytics(
   payload:
     | AnalyticsEventPayload
