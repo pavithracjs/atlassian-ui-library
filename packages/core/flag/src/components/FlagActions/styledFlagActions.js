@@ -7,7 +7,7 @@ import { flagTextColor } from '../../theme';
 const getDivider = ({ hasDivider, useMidDot }) => css`
   display: ${hasDivider ? 'inline-block' : 'none'};
   content: "${useMidDot ? '\u00B7' : ''}";
-  width: ${useMidDot ? math.multiply(gridSize, 3) : gridSize}px;
+  width: ${useMidDot ? math.multiply(gridSize, 2) : gridSize}px;
 `;
 
 export default styled.div`

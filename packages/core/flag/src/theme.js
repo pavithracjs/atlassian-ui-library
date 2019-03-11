@@ -64,18 +64,20 @@ const getColor = ({ appearance = 'normal', mode = 'light' }) =>
 export const actionButtonStyles = (props: any) => ({
   background: getBackground(props),
   color: getColor(props),
-  width: 'auto',
 });
 
-export const getPseudos = (p: any) => ({
-  '&, a&': {
-    fontWeight: '500',
-    padding: `0 ${p.appearance === 'normal' ? 0 : gridSize()}px !important`,
-  },
-  '&:focus': {
-    boxShadow: `0 0 0 2px ${flagFocusRingColor(p)}`,
-  },
-  '&:hover, &:active': {
-    textDecoration: 'underline',
-  },
-});
+export const getPseudos = (p: any) => {
+  const padding = p.appearance === 'normal' ? gridSize() / 2 : gridSize;
+  return {
+    '&, a&': {
+      fontWeight: '500',
+      padding: `0 ${+padding}px !important`,
+    },
+    '&:focus': {
+      boxShadow: `0 0 0 2px ${flagFocusRingColor(p)}`,
+    },
+    '&:hover, &:active': {
+      textDecoration: 'underline',
+    },
+  };
+};
