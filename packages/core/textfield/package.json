@@ -19,7 +19,7 @@
     "@atlaskit/analytics-next": "^4.0.0",
     "@atlaskit/theme": "^8.0.0",
     "@babel/runtime": "^7.0.0",
-    "emotion": "^9.1.1"
+    "@emotion/core": "^10.0.7"
   },
   "peerDependencies": {
     "react": "^16.4.0"
