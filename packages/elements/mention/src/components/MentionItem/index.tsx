@@ -3,12 +3,14 @@ import LockCircleIcon from '@atlaskit/icon/glyph/lock-circle';
 import Lozenge from '@atlaskit/lozenge';
 import { colors } from '@atlaskit/theme';
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import {
   HighlightDetail,
   isRestricted,
   MentionDescription,
   OnMentionEvent,
   Presence,
+  UserType,
 } from '../../types';
 import { NoAccessLabel } from '../../util/i18n';
 import { leftClick } from '../../util/mouse';
@@ -23,6 +25,7 @@ import {
   NicknameStyle,
   RowStyle,
   TimeStyle,
+  TeamInformationStyle,
 } from './styles';
 
 type ReactComponentConstructor = new (props: any) => React.Component<any, any>;
@@ -89,6 +92,26 @@ function renderHighlight(
   );
 }
 
+function renderTeamInformation(
+  ReactComponent: ReactComponentConstructor,
+  memberCount?: number,
+  includesYou?: boolean,
+) {
+  // todo - refactor with TeamOption ?
+  // if Member count is missing, do not show the byline, regardless of the availability of includesYou
+  if (memberCount === null || typeof memberCount === 'undefined') {
+    return undefined;
+  }
+  return (
+    <ReactComponent>
+      <FormattedMessage
+        {...(memberCount > 50 ? messages.plus50Members : messages.memberCount)}
+        values={{ count: memberCount, includes: includesYou }}
+      />
+    </ReactComponent>
+  );
+}
+
 function renderLozenge(lozenge?: string) {
   if (lozenge) {
     return <Lozenge>{lozenge}</Lozenge>;
@@ -137,6 +160,8 @@ export default class MentionItem extends React.PureComponent<Props, {}> {
       nickname,
       lozenge,
       accessLevel,
+      context,
+      userType,
     } = mention;
     const { status, time } = presence || ({} as Presence);
     const restricted = isRestricted(accessLevel);
@@ -144,6 +169,32 @@ export default class MentionItem extends React.PureComponent<Props, {}> {
     const nameHighlights = highlight && highlight.name;
     const nicknameHighlights = highlight && highlight.nickname;
     const borderColor = selected ? colors.N30 : undefined;
+
+    let isTeamType: boolean;
+
+    if (userType) {
+      isTeamType = userType === UserType[UserType.TEAM];
+    } else {
+      isTeamType = false;
+    }
+
+    let bottomHighlight;
+    if (isTeamType) {
+      const includesYou = context && context.includesYou;
+      const memberCount = context && context.memberCount;
+      bottomHighlight = renderTeamInformation(
+        TeamInformationStyle,
+        memberCount,
+        includesYou,
+      );
+    } else {
+      bottomHighlight = renderHighlight(
+        NicknameStyle,
+        nickname,
+        nicknameHighlights,
+        '@',
+      );
+    }
 
     return (
       <MentionItemStyle
@@ -164,7 +215,7 @@ export default class MentionItem extends React.PureComponent<Props, {}> {
           </AvatarStyle>
           <NameSectionStyle restricted={restricted}>
             {renderHighlight(FullNameStyle, name, nameHighlights)}
-            {renderHighlight(NicknameStyle, nickname, nicknameHighlights, '@')}
+            {bottomHighlight}
           </NameSectionStyle>
           <InfoSectionStyle restricted={restricted}>
             {renderLozenge(lozenge)}
@@ -186,3 +237,20 @@ export default class MentionItem extends React.PureComponent<Props, {}> {
     );
   }
 }
+
+const messages = {
+  memberCount: {
+    id: 'fabric.elements.user-picker.team.member.count',
+    defaultMessage:
+      '{count} {count, plural, one {member} other {members}}{includes, select, true {, including you} other {}}',
+    description:
+      'Number of members in the team and whether it includes the current user',
+  },
+  plus50Members: {
+    id: 'fabric.elements.user-picker.team.member.50plus',
+    defaultMessage:
+      '50+ members{includes, select, true {, including you} other {}}',
+    description:
+      'Number of members in a team exceeds 50 and whether it includes the current user',
+  },
+};
