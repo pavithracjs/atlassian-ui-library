@@ -1,6 +1,7 @@
 // @flow
 import type { ComponentType } from 'react';
 import { colors } from '@atlaskit/theme';
+import { messaging } from '@atlaskit/design-tokens';
 import WarningIcon from '@atlaskit/icon/glyph/warning';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
 import CheckCircleIcon from '@atlaskit/icon/glyph/check-circle';
@@ -13,30 +14,34 @@ type Appearance = {
   Icon: ComponentType<*>,
 };
 
+const {
+  colors: { text, warning, destructive, info, confirmation, change },
+} = messaging;
+
 export const baseAppearanceObj: { [string]: Appearance } = {
   info: {
-    backgroundColor: colors.B50,
+    backgroundColor: info.normal.background.resting,
     Icon: InfoIcon,
-    primaryIconColor: colors.B500,
+    primaryIconColor: info.normal.icon.resting,
   },
   warning: {
-    backgroundColor: colors.Y50,
+    backgroundColor: warning.normal.background.resting,
     Icon: WarningIcon,
-    primaryIconColor: colors.Y500,
+    primaryIconColor: warning.normal.icon.resting,
   },
   error: {
-    backgroundColor: colors.R50,
+    backgroundColor: destructive.normal.background.resting,
     Icon: ErrorIcon,
-    primaryIconColor: colors.R500,
+    primaryIconColor: destructive.normal.icon.resting,
   },
   confirmation: {
-    backgroundColor: colors.G50,
+    backgroundColor: confirmation.normal.background.resting,
     Icon: CheckCircleIcon,
-    primaryIconColor: colors.G500,
+    primaryIconColor: confirmation.normal.icon.resting,
   },
   change: {
-    backgroundColor: colors.P50,
+    backgroundColor: change.normal.background.resting,
     Icon: QuestionCircleIcon,
-    primaryIconColor: colors.P500,
+    primaryIconColor: change.normal.icon.resting,
   },
 };

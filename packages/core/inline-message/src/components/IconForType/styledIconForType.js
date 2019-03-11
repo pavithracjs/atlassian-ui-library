@@ -1,6 +1,7 @@
 // @flow
 import styled from 'styled-components';
 import { colors, themed } from '@atlaskit/theme';
+import { messaging } from '@atlaskit/design-tokens';
 import { itemSpacing } from '../../constants';
 import type { IconType } from '../../types';
 
@@ -10,23 +11,30 @@ type Props = {
   isOpen: ?boolean,
 };
 
+const {
+  colors: { text, warning, destructive, info, confirmation, change },
+} = messaging;
+
 type themedType = (appearance: Props) => (string: string) => string;
 
 // $FlowFixMe - theme is not found in props
 const getBaseColor: themedType = themed('appearance', {
-  connectivity: { light: colors.B400, dark: colors.B100 },
-  confirmation: { light: colors.G300, dark: colors.G300 },
-  info: { light: colors.P300, dark: colors.P300 },
-  warning: { light: colors.Y300, dark: colors.Y300 },
-  error: { light: colors.R400, dark: colors.R400 },
+  connectivity: { light: info.normal.icon.resting, dark: colors.B100 },
+  confirmation: { light: confirmation.normal.icon.resting, dark: colors.G300 },
+  info: { light: change.normal.icon.resting, dark: colors.P300 },
+  warning: { light: warning.normal.icon.resting, dark: colors.Y300 },
+  error: { light: destructive.normal.icon.resting, dark: colors.R400 },
 });
 
 const getHoverColor: themedType = themed('appearance', {
-  connectivity: { light: colors.B300, dark: colors.B75 },
-  confirmation: { light: colors.G200, dark: colors.G200 },
-  info: { light: colors.P200, dark: colors.P200 },
-  warning: { light: colors.Y200, dark: colors.Y200 },
-  error: { light: colors.R300, dark: colors.R300 },
+  connectivity: { light: info.normal.icon.highlight, dark: colors.B75 },
+  confirmation: {
+    light: confirmation.normal.icon.highlight,
+    dark: colors.G200,
+  },
+  info: { light: change.normal.icon.highlight, dark: colors.P200 },
+  warning: { light: warning.normal.icon.highlight, dark: colors.Y200 },
+  error: { light: destructive.normal.icon.highlight, dark: colors.R300 },
 });
 
 const getColor = (props: Props) => {

@@ -59,3 +59,5 @@ export const purple = P300; // 1
 export const red = R300; // 0
 export const yellow = Y300; // 1
 export const green = G300; // 0
+
+export { default as messaging } from './messaging-tokens';

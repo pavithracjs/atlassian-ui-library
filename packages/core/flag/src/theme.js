@@ -1,16 +1,21 @@
 // @flow
 
 import { colors, themed } from '@atlaskit/theme';
+import { messaging } from '@atlaskit/design-tokens';
 import { themeNamespace as buttonThemeNamespace } from '@atlaskit/button';
+
+const {
+  colors: { text, warning, destructive, info, confirmation, change },
+} = messaging;
 
 const lightButtonBackground = 'rgba(255, 255, 255, 0.08)';
 
 export const flagBackgroundColor = themed('appearance', {
-  error: { light: colors.R400, dark: colors.R300 },
-  info: { light: colors.N500, dark: colors.N500 },
+  error: { light: destructive.bold.background.resting, dark: colors.R300 },
+  info: { light: info.bold.background.resting, dark: colors.N500 },
   normal: { light: colors.N0, dark: colors.DN50 },
-  success: { light: colors.G400, dark: colors.G300 },
-  warning: { light: colors.Y200, dark: colors.Y300 },
+  success: { light: confirmation.bold.background.resting, dark: colors.G300 },
+  warning: { light: warning.bold.background.resting, dark: colors.Y300 },
 });
 
 export const flagBorderColor = themed('appearance', {
@@ -19,11 +24,11 @@ export const flagBorderColor = themed('appearance', {
 });
 
 export const flagTextColor = themed('appearance', {
-  error: { light: colors.N0, dark: colors.DN40 },
-  info: { light: colors.N0, dark: colors.DN600 },
-  normal: { light: colors.N500, dark: colors.DN600 },
-  success: { light: colors.N0, dark: colors.DN40 },
-  warning: { light: colors.N700, dark: colors.DN40 },
+  error: { light: text.bold.resting, dark: colors.DN40 },
+  info: { light: text.bold.resting, dark: colors.DN600 },
+  normal: { light: text.normal.resting, dark: colors.DN600 },
+  success: { light: text.bold.resting, dark: colors.DN40 },
+  warning: { light: warning.bold.text.resting, dark: colors.DN40 },
 });
 
 export const flagShadowColor = themed('appearance', {
@@ -58,9 +63,9 @@ export const getFlagTheme = (theme: Theme): Theme => ({
     success: {
       ...shared,
       color: {
-        default: themed({ light: colors.N0, dark: colors.DN40 }),
-        hover: themed({ light: colors.N0, dark: colors.DN40 }),
-        active: themed({ light: colors.N0, dark: colors.DN40 }),
+        default: themed({ light: text.bold.resting, dark: colors.DN40 }),
+        hover: themed({ light: text.bold.resting, dark: colors.DN40 }),
+        active: themed({ light: text.bold.resting, dark: colors.DN40 }),
       },
       background: {
         default: themed({ light: lightButtonBackground, dark: colors.N30A }),
@@ -69,9 +74,9 @@ export const getFlagTheme = (theme: Theme): Theme => ({
     info: {
       ...shared,
       color: {
-        default: themed({ light: colors.N0, dark: colors.DN600 }),
-        hover: themed({ light: colors.N0, dark: colors.DN600 }),
-        active: themed({ light: colors.N0, dark: colors.DN600 }),
+        default: themed({ light: text.bold.resting, dark: colors.DN600 }),
+        hover: themed({ light: text.bold.resting, dark: colors.DN600 }),
+        active: themed({ light: text.bold.resting, dark: colors.DN600 }),
       },
       background: {
         default: themed({
@@ -83,9 +88,9 @@ export const getFlagTheme = (theme: Theme): Theme => ({
     error: {
       ...shared,
       color: {
-        default: themed({ light: colors.N0, dark: colors.DN600 }),
-        hover: themed({ light: colors.N0, dark: colors.DN600 }),
-        active: themed({ light: colors.N0, dark: colors.DN600 }),
+        default: themed({ light: text.bold.resting, dark: colors.DN600 }),
+        hover: themed({ light: text.bold.resting, dark: colors.DN600 }),
+        active: themed({ light: text.bold.resting, dark: colors.DN600 }),
       },
       background: {
         default: themed({ light: lightButtonBackground, dark: colors.N30A }),
@@ -94,9 +99,12 @@ export const getFlagTheme = (theme: Theme): Theme => ({
     warning: {
       ...shared,
       color: {
-        default: themed({ light: colors.N700, dark: colors.DN40 }),
-        hover: themed({ light: colors.N700, dark: colors.DN40 }),
-        active: themed({ light: colors.N700, dark: colors.DN40 }),
+        default: themed({
+          light: warning.bold.text.resting,
+          dark: colors.DN40,
+        }),
+        hover: themed({ light: warning.bold.text.resting, dark: colors.DN40 }),
+        active: themed({ light: warning.bold.text.resting, dark: colors.DN40 }),
       },
       background: {
         default: themed({ light: colors.N30A, dark: colors.N30A }),

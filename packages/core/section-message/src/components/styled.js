@@ -7,6 +7,11 @@ import {
   gridSize,
   typography,
 } from '@atlaskit/theme';
+import { messaging } from '@atlaskit/design-tokens';
+
+const {
+  colors: { text, warning, destructive, info, confirmation, change },
+} = messaging;
 
 export const Container = styled.section`
   display: flex;
@@ -40,7 +45,7 @@ export const Action = styled.li`
   display: flex;
   margin: 0;
   & + &::before {
-    color: ${colors.N500};
+    color: ${text.normal.resting};
     content: '·';
     display: inline-block;
     text-align: center;

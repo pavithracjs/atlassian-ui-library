@@ -1,6 +1,10 @@
 // @flow
 import styled, { css } from 'styled-components';
 import { colors, gridSize, math, themed } from '@atlaskit/theme';
+import { messaging } from '@atlaskit/design-tokens';
+const {
+  colors: { text, warning, destructive, info, confirmation, change },
+} = messaging;
 
 const TRANSITION_DURATION = '0.25s ease-in-out';
 
@@ -12,9 +16,9 @@ export const getMaxHeight = ({
 }) => (appearance === 'announcement' ? '88px' : '52px');
 
 export const backgroundColor = themed('appearance', {
-  error: { light: colors.R400, dark: colors.R300 },
-  warning: { light: colors.Y300, dark: colors.Y300 },
-  announcement: { light: colors.N500, dark: colors.N500 },
+  error: { light: destructive.bold.background.resting, dark: colors.R300 },
+  warning: { light: warning.bold.background.resting, dark: colors.Y300 },
+  announcement: { light: info.bold.background.resting, dark: colors.N500 },
 });
 
 export const Container = styled.div`
@@ -28,10 +32,11 @@ export const testErrorBackgroundColor = colors.R400;
 export const testErrorTextColor = colors.N0;
 
 export const textColor = themed('appearance', {
-  error: { light: colors.N0, dark: colors.DN40 },
-  warning: { light: colors.N700, dark: colors.DN40 },
-  announcement: { light: colors.N0, dark: colors.N0 },
+  error: { light: text.bold.resting, dark: colors.DN40 },
+  warning: { light: warning.bold.text.resting, dark: colors.DN40 },
+  announcement: { light: text.bold.resting, dark: colors.N0 },
 });
+
 export const Content = styled.div`
   align-items: center;
   background-color: ${backgroundColor};

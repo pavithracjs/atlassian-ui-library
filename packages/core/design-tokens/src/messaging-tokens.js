@@ -4,10 +4,14 @@ import {
   B400,
   B50,
   G200,
+  G300,
   G400,
   G50,
+  N0,
   N400,
   N500,
+  N600,
+  N700,
   P200,
   P300,
   P50,
@@ -21,17 +25,26 @@ import {
 
 export default {
   colors: {
+    text: {
+      normal: {
+        resting: N500,
+        highlight: N600,
+      },
+      bold: {
+        resting: N0,
+      },
+    },
     warning: {
       normal: {
         icon: {
           resting: Y300,
-          hightlight: Y200,
+          highlight: Y200,
         },
         background: {
           resting: Y50,
         },
         text: {
-          resting: N500
+          resting: N500,
         },
       },
       bold: {
@@ -43,8 +56,8 @@ export default {
         },
         text: {
           resting: N700,
-        }
-      }
+        },
+      },
     },
     destructive: {
       normal: {
@@ -56,8 +69,8 @@ export default {
           resting: R50,
         },
         text: {
-          resting: N500
-        }
+          resting: N500,
+        },
       },
       bold: {
         background: {
@@ -68,7 +81,7 @@ export default {
         },
         text: {
           resting: N0,
-        }
+        },
       },
     },
     info: {
@@ -81,8 +94,8 @@ export default {
           resting: B50,
         },
         text: {
-          resting: N500
-        }
+          resting: N500,
+        },
       },
       bold: {
         icon: {
@@ -93,13 +106,13 @@ export default {
         },
         text: {
           resting: N0,
-        }
-      }
+        },
+      },
     },
     confirmation: {
       normal: {
         icon: {
-          resting: G400,
+          resting: G300,
           highlight: G200,
         },
         background: {
@@ -107,7 +120,7 @@ export default {
         },
         text: {
           resting: N500,
-        }
+        },
       },
       bold: {
         icon: {
@@ -116,10 +129,10 @@ export default {
         background: {
           resting: G400,
         },
-        text:{
+        text: {
           resting: N0,
-        }
-      }
+        },
+      },
     },
     change: {
       normal: {
@@ -132,7 +145,7 @@ export default {
         },
         text: {
           resting: N500,
-        }
+        },
       },
       bold: {
         icon: {
@@ -144,8 +157,8 @@ export default {
         },
         text: {
           resting: N0,
-        }
-      }
+        },
+      },
     },
-  }
-}
+  },
+};

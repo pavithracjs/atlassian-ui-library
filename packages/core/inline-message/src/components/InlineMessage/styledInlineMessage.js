@@ -1,7 +1,12 @@
 // @flow
 import styled, { css } from 'styled-components';
 import { colors, themed } from '@atlaskit/theme';
+import { messaging } from '@atlaskit/design-tokens';
 import { itemSpacing } from '../../constants';
+
+const {
+  colors: { text, warning, destructive, info, confirmation, change },
+} = messaging;
 
 const getFocusColor = themed('appearance', {
   connectivity: { light: colors.B500, dark: colors.B200 },
@@ -31,8 +36,8 @@ export const ButtonContents = styled.div`
     `};
 `;
 
-const getTitleColor = themed({ light: colors.N600, dark: colors.DN600 });
-const getTextColor = themed({ light: colors.N300, dark: colors.DN100 });
+const getTitleColor = themed({ light: text.normal, dark: colors.DN600 });
+const getTextColor = themed({ light: text.normal, dark: colors.DN100 });
 
 export const Title = styled.span`
   color: ${getTitleColor};
