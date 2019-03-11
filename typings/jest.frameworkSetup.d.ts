@@ -7,5 +7,7 @@ declare namespace jest {
     toEqualDocument(expected: any): R;
     toMatchDocSnapshot(): R;
     toMatchProdImageSnapshot(): R;
+    toMatchSnapshotConcurrent(testCase: string): R;
+    toMatchDocSnapshotConcurrent(testCase: string): R;
   }
 }
