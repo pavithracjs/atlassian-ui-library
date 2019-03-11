@@ -1,0 +1,1 @@
+- improve the display of info panels in email renderer
