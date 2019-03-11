@@ -64,28 +64,61 @@ exports[`Renderer - EmailSerializer should align paragraph correctly 1`] = `
 <div
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;"
 >
-  <p
-    style="white-space: pre-wrap;word-wrap: break-word;"
+  <table
+    border-spacing="0px"
+    margin="0"
+    padding="0"
+    width="100%"
   >
-    Plain Paragraph
-  </p>
+    <tbody>
+      <tr>
+        <td
+          style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+        >
+          Plain Paragraph
+        </td>
+      </tr>
+    </tbody>
+  </table>
   <div
     style="width: 100%;text-align: center;"
   >
-    <p
-      style="white-space: pre-wrap;word-wrap: break-word;"
+    <table
+      border-spacing="0px"
+      margin="0"
+      padding="0"
+      width="100%"
     >
-      Paragraph with center alignment
-    </p>
+      <tbody>
+        <tr>
+          <td
+            style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+          >
+            Paragraph with center alignment
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <div
     style="width: 100%;text-align: right;"
   >
-    <p
-      style="white-space: pre-wrap;word-wrap: break-word;"
+    <table
+      border-spacing="0px"
+      margin="0"
+      padding="0"
+      width="100%"
     >
-      Paragraph with end alignment
-    </p>
+      <tbody>
+        <tr>
+          <td
+            style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+          >
+            Paragraph with end alignment
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 `;
@@ -106,11 +139,22 @@ exports[`Renderer - EmailSerializer should inline text properties correctly 1`] 
 <div
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;"
 >
-  <p
-    style="white-space: pre-wrap;word-wrap: break-word;"
+  <table
+    border-spacing="0px"
+    margin="0"
+    padding="0"
+    width="100%"
   >
-    foo
-  </p>
+    <tbody>
+      <tr>
+        <td
+          style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+        >
+          foo
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 `;
 
@@ -155,6 +199,367 @@ System.out.println("There are " + count + " values &gt;= 5");
 </div>
 `;
 
+exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
+<div
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;"
+>
+  <table
+    border-spacing="0px"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
+    font-size="14"
+    font-weight="400"
+    line-height="24px"
+    margin="0"
+    padding="0"
+    width="100%"
+  >
+    <tbody>
+      <tr>
+        <td
+          style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;border-radius: 3px;padding: 4px 12px 4px 0;-webkit-border-radius: 3px;-moz-border-radius: 3px;margin: 0px;width: 100%;"
+        >
+          <table
+            border-spacing="0px"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
+            font-size="14"
+            font-weight="400"
+            line-height="24px"
+            margin="0"
+            padding="0"
+            width="100%"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 1px 1px 1px 8px;margin: 0px;background: #DEEBFF;"
+                >
+                  <table
+                    border-spacing="0px"
+                    margin="0"
+                    padding="0"
+                    width="100%"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+                        >
+                          This is an info panel with 
+                          <span
+                            style="font-weight: bold;"
+                          >
+                            bold text
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table
+    border-spacing="0px"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
+    font-size="14"
+    font-weight="400"
+    line-height="24px"
+    margin="0"
+    padding="0"
+    width="100%"
+  >
+    <tbody>
+      <tr>
+        <td
+          style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;border-radius: 3px;padding: 4px 12px 4px 0;-webkit-border-radius: 3px;-moz-border-radius: 3px;margin: 0px;width: 100%;"
+        >
+          <table
+            border-spacing="0px"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
+            font-size="14"
+            font-weight="400"
+            line-height="24px"
+            margin="0"
+            padding="0"
+            width="100%"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 1px 1px 1px 8px;margin: 0px;background: #EAE6FF;"
+                >
+                  <table
+                    border-spacing="0px"
+                    margin="0"
+                    padding="0"
+                    width="100%"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+                        >
+                          This is a note panel with 
+                          <span
+                            style="font-weight: bold;"
+                          >
+                            bold text
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table
+    border-spacing="0px"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
+    font-size="14"
+    font-weight="400"
+    line-height="24px"
+    margin="0"
+    padding="0"
+    width="100%"
+  >
+    <tbody>
+      <tr>
+        <td
+          style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;border-radius: 3px;padding: 4px 12px 4px 0;-webkit-border-radius: 3px;-moz-border-radius: 3px;margin: 0px;width: 100%;"
+        >
+          <table
+            border-spacing="0px"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
+            font-size="14"
+            font-weight="400"
+            line-height="24px"
+            margin="0"
+            padding="0"
+            width="100%"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 1px 1px 1px 8px;margin: 0px;background: #E3FCEF;"
+                >
+                  <table
+                    border-spacing="0px"
+                    margin="0"
+                    padding="0"
+                    width="100%"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+                        >
+                          This is a tip panel with 
+                          <span
+                            style="font-weight: bold;"
+                          >
+                            bold text
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table
+    border-spacing="0px"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
+    font-size="14"
+    font-weight="400"
+    line-height="24px"
+    margin="0"
+    padding="0"
+    width="100%"
+  >
+    <tbody>
+      <tr>
+        <td
+          style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;border-radius: 3px;padding: 4px 12px 4px 0;-webkit-border-radius: 3px;-moz-border-radius: 3px;margin: 0px;width: 100%;"
+        >
+          <table
+            border-spacing="0px"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
+            font-size="14"
+            font-weight="400"
+            line-height="24px"
+            margin="0"
+            padding="0"
+            width="100%"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 1px 1px 1px 8px;margin: 0px;background: #E3FCEF;"
+                >
+                  <table
+                    border-spacing="0px"
+                    margin="0"
+                    padding="0"
+                    width="100%"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+                        >
+                          This is a success panel with 
+                          <span
+                            style="font-weight: bold;"
+                          >
+                            bold text
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table
+    border-spacing="0px"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
+    font-size="14"
+    font-weight="400"
+    line-height="24px"
+    margin="0"
+    padding="0"
+    width="100%"
+  >
+    <tbody>
+      <tr>
+        <td
+          style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;border-radius: 3px;padding: 4px 12px 4px 0;-webkit-border-radius: 3px;-moz-border-radius: 3px;margin: 0px;width: 100%;"
+        >
+          <table
+            border-spacing="0px"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
+            font-size="14"
+            font-weight="400"
+            line-height="24px"
+            margin="0"
+            padding="0"
+            width="100%"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 1px 1px 1px 8px;margin: 0px;background: #FFFAE6;"
+                >
+                  <table
+                    border-spacing="0px"
+                    margin="0"
+                    padding="0"
+                    width="100%"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+                        >
+                          This is a warning panel with 
+                          <span
+                            style="font-weight: bold;"
+                          >
+                            bold text
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table
+    border-spacing="0px"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
+    font-size="14"
+    font-weight="400"
+    line-height="24px"
+    margin="0"
+    padding="0"
+    width="100%"
+  >
+    <tbody>
+      <tr>
+        <td
+          style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;border-radius: 3px;padding: 4px 12px 4px 0;-webkit-border-radius: 3px;-moz-border-radius: 3px;margin: 0px;width: 100%;"
+        >
+          <table
+            border-spacing="0px"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
+            font-size="14"
+            font-weight="400"
+            line-height="24px"
+            margin="0"
+            padding="0"
+            width="100%"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 1px 1px 1px 8px;margin: 0px;background: #FFEBE6;"
+                >
+                  <table
+                    border-spacing="0px"
+                    margin="0"
+                    padding="0"
+                    width="100%"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+                        >
+                          This is a error panel with 
+                          <span
+                            style="font-weight: bold;"
+                          >
+                            bold text
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
 exports[`Renderer - EmailSerializer should render paragraph with indentations 1`] = `
 <div
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;"
@@ -167,11 +572,22 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
         <td
           style="padding-left: 30px;"
         >
-          <p
-            style="white-space: pre-wrap;word-wrap: break-word;"
+          <table
+            border-spacing="0px"
+            margin="0"
+            padding="0"
+            width="100%"
           >
-            Paragraph with 1 level of indentation
-          </p>
+            <tbody>
+              <tr>
+                <td
+                  style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+                >
+                  Paragraph with 1 level of indentation
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </td>
       </tr>
     </tbody>
@@ -184,11 +600,22 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
         <td
           style="padding-left: 60px;"
         >
-          <p
-            style="white-space: pre-wrap;word-wrap: break-word;"
+          <table
+            border-spacing="0px"
+            margin="0"
+            padding="0"
+            width="100%"
           >
-            Paragraph with 2 levels of indentation
-          </p>
+            <tbody>
+              <tr>
+                <td
+                  style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+                >
+                  Paragraph with 2 levels of indentation
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </td>
       </tr>
     </tbody>
@@ -201,11 +628,22 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
         <td
           style="padding-left: 90px;"
         >
-          <p
-            style="white-space: pre-wrap;word-wrap: break-word;"
+          <table
+            border-spacing="0px"
+            margin="0"
+            padding="0"
+            width="100%"
           >
-            Paragraph with 3 levels of indentation
-          </p>
+            <tbody>
+              <tr>
+                <td
+                  style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+                >
+                  Paragraph with 3 levels of indentation
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </td>
       </tr>
     </tbody>
@@ -218,11 +656,22 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
         <td
           style="padding-left: 120px;"
         >
-          <p
-            style="white-space: pre-wrap;word-wrap: break-word;"
+          <table
+            border-spacing="0px"
+            margin="0"
+            padding="0"
+            width="100%"
           >
-            Paragraph with 4 levels of indentation
-          </p>
+            <tbody>
+              <tr>
+                <td
+                  style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+                >
+                  Paragraph with 4 levels of indentation
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </td>
       </tr>
     </tbody>
@@ -235,11 +684,22 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
         <td
           style="padding-left: 150px;"
         >
-          <p
-            style="white-space: pre-wrap;word-wrap: break-word;"
+          <table
+            border-spacing="0px"
+            margin="0"
+            padding="0"
+            width="100%"
           >
-            Paragraph with 5 levels of indentation
-          </p>
+            <tbody>
+              <tr>
+                <td
+                  style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+                >
+                  Paragraph with 5 levels of indentation
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </td>
       </tr>
     </tbody>
@@ -252,11 +712,22 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
         <td
           style="padding-left: 180px;"
         >
-          <p
-            style="white-space: pre-wrap;word-wrap: break-word;"
+          <table
+            border-spacing="0px"
+            margin="0"
+            padding="0"
+            width="100%"
           >
-            Paragraph with 6 levels of indentation
-          </p>
+            <tbody>
+              <tr>
+                <td
+                  style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+                >
+                  Paragraph with 6 levels of indentation
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </td>
       </tr>
     </tbody>
@@ -268,53 +739,64 @@ exports[`Renderer - EmailSerializer should render text with em inside of a parag
 <div
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;"
 >
-  <p
-    style="white-space: pre-wrap;word-wrap: break-word;"
+  <table
+    border-spacing="0px"
+    margin="0"
+    padding="0"
+    width="100%"
   >
-    <a
-      href="https://www.atlassian.com"
-      style="border: none;background: transparent;color: #0052cc;"
-    >
-      Hello, 
-    </a>
-    <span
-      style="font-weight: bold;"
-    >
-      <a
-        href="https://www.atlassian.com"
-        style="border: none;background: transparent;color: #0052cc;"
-      >
-        World!
-      </a>
-    </span>
-     Look I can do 
-    <span
-      style="font-style: italic;"
-    >
-      italic 
-    </span>
-    <span
-      style="font-weight: bold;"
-    >
-      <span
-        style="font-style: italic;"
-      >
-        , strong 
-      </span>
-    </span>
-    <span
-      style="text-decoration: underline;"
-    >
-      <span
-        style="font-weight: bold;"
-      >
-        <span
-          style="font-style: italic;"
+    <tbody>
+      <tr>
+        <td
+          style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
         >
-          and underlined text!
-        </span>
-      </span>
-    </span>
-  </p>
+          <a
+            href="https://www.atlassian.com"
+            style="border: none;background: transparent;color: #0052cc;"
+          >
+            Hello, 
+          </a>
+          <span
+            style="font-weight: bold;"
+          >
+            <a
+              href="https://www.atlassian.com"
+              style="border: none;background: transparent;color: #0052cc;"
+            >
+              World!
+            </a>
+          </span>
+           Look I can do 
+          <span
+            style="font-style: italic;"
+          >
+            italic 
+          </span>
+          <span
+            style="font-weight: bold;"
+          >
+            <span
+              style="font-style: italic;"
+            >
+              , strong 
+            </span>
+          </span>
+          <span
+            style="text-decoration: underline;"
+          >
+            <span
+              style="font-weight: bold;"
+            >
+              <span
+                style="font-style: italic;"
+              >
+                and underlined text!
+              </span>
+            </span>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 `;

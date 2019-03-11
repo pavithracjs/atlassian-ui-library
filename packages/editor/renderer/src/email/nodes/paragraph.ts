@@ -1,12 +1,27 @@
 import { createTag, serializeStyle, applyMarks } from '../util';
 import { NodeSerializerOpts } from '../interfaces';
+import { commonStyle } from '..';
 
-const css = serializeStyle({
-  'white-space': 'pre-wrap',
-  'word-wrap': 'break-word',
+const style = serializeStyle({
+  ...commonStyle,
+  padding: `8px 8px 8px 0`,
+  '-moz-border-radius': '3px',
+  'font-size': '14px',
+  width: '100%',
+  margin: `0px`,
 });
 
+const tableStyle = {
+  ...commonStyle,
+  margin: 0,
+  padding: 0,
+  width: '100%',
+  'border-spacing': '0px',
+};
+
 export default function paragraph({ text, marks }: NodeSerializerOpts) {
-  const paragraph = createTag('p', { style: css }, text);
-  return applyMarks(marks, paragraph);
+  const paragraphTd = createTag('td', { style }, text);
+  const paragraphAsTable = createTag('table', tableStyle, paragraphTd);
+
+  return applyMarks(marks, paragraphAsTable);
 }
