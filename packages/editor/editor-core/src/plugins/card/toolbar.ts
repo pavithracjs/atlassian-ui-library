@@ -15,6 +15,8 @@ import {
   ACTION_SUBJECT,
   INPUT_METHOD,
   EVENT_TYPE,
+  addAnalytics,
+  fireAnalyticsEvent,
 } from '../analytics';
 
 export const messages = defineMessages({
@@ -37,30 +39,48 @@ export const messages = defineMessages({
 });
 
 export const removeCard: Command = (state, dispatch) => {
-  if (dispatch) {
-    dispatch(removeSelectedNode(state.tr));
+  let type;
+  if (state.selection instanceof NodeSelection) {
+    type = state.selection.node.type.name;
+  } else {
+    return false;
   }
 
   const payload: AnalyticsEventPayload = {
     action: ACTION.DELETED,
     actionSubject: ACTION_SUBJECT.LINK,
     attributes: { inputMethod: INPUT_METHOD.TOOLBAR },
+    // attributes: { inputMethod: INPUT_METHOD.TOOLBAR, displayMode: type},
     eventType: EVENT_TYPE.TRACK,
   };
 
+  if (dispatch) {
+    dispatch(addAnalytics(removeSelectedNode(state.tr), payload));
+  }
   analyticsService.trackEvent('atlassian.editor.format.card.delete.button');
   return true;
 };
 
 export const visitCardLink: Command = state => {
   if (state.selection instanceof NodeSelection) {
-    const { attrs } = state.selection.node;
+    const { attrs, type } = state.selection.node;
     const data = attrs.data || {};
     const url = attrs.url || data.url;
+        
+    const payload: AnalyticsEventPayload = {
+      // action: ACTION.VISITED,
+      actionSubject: ACTION_SUBJECT.LINK,
+      actionSubjectId: type.name,
+      eventType: EVENT_TYPE.TRACK,
+    };
 
-    // We are in edit mode here, open the smart card URL in a new window.
-    window.open(url);
+    // All card links should open in the same tab per https://product-fabric.atlassian.net/browse/MS-1583.
     analyticsService.trackEvent('atlassian.editor.format.card.visit.button');
+    fireAnalyticsEvent(payload);
+    // We are in edit mode here, open the smart card URL in a new window.
+
+    window.open(url);
+
     return true;
   }
 
