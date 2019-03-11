@@ -4,10 +4,7 @@ import {
   setProvider,
   queueCards,
 } from '../../../../plugins/card/pm-plugins/actions';
-import {
-  remove as removeCard,
-  visit as vistLink,
-} from '../../../../plugins/card/toolbar';
+import { removeCard, visitCardLink } from '../../../../plugins/card/toolbar';
 
 import {
   doc,
@@ -16,8 +13,10 @@ import {
   EditorTestCardProvider,
   inlineCard,
   blockCard,
+  a,
 } from '@atlaskit/editor-test-helpers';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { setNodeSelection } from '../../../../utils';
 
 describe('card', () => {
   const createEditor = createEditorFactory();
@@ -119,22 +118,30 @@ describe('card', () => {
 
   describe.only('analytics GAS v3', () => {
     const linkTypes = [
-      // {name: 'text', element: p},
+      {
+        name: 'text',
+        element: p(a({ href: 'http://www.atlassian.com' })('>'), ' '),
+      },
       {
         name: 'inlineCard',
-        element: inlineCard({ url: 'http://www.atlassian.com/' }),
+        element: p(
+          '{<}',
+          inlineCard({ url: 'http://www.atlassian.com/' })('{>}'),
+        ),
       },
       {
         name: 'blockCard',
-        element: blockCard({ url: 'http://www.atlassian.com/' }),
+        element: blockCard({ url: 'http://www.atlassian.com/' })(),
       },
-      // {name: 'embed', element: p},
     ];
 
     linkTypes.forEach(type => {
       describe(`delete ${type.name}`, () => {
-        it('via toobar', () => {
-          const { editorView } = editor(doc(p('{<}', type.element('{>}'))));
+        it('via toolbar', () => {
+          const { editorView } = editor(doc(type.element));
+          if (type.name === 'blockCard') {
+            setNodeSelection(editorView, 0);
+          }
 
           removeCard(editorView.state, editorView.dispatch);
           expect(createAnalyticsEvent).toHaveBeenCalledWith({
@@ -147,31 +154,25 @@ describe('card', () => {
       });
     });
 
-    // describe('fires when deleted via toolbar', () => {
+    linkTypes.forEach(type => {
+      describe(`delete ${type.name}`, () => {
+        it('via toolbar', () => {
+          const { editorView } = editor(doc(type.element));
+          if (type.name === 'blockCard') {
+            setNodeSelection(editorView, 0);
+          }
+          jest.spyOn(window, 'open').mockImplementation(() => {});
 
-    //   it('triggers for text link', () => {
-    //     const { editorView } = editor(
-    //       doc(
-    //         p(
-    //           '{<}',
-    //           inlineCard({
-    //             data: {
-    //               url: 'http://www.atlassian.com/',
-    //             },
-    //           })('{>}'),
-    //         ),
-    //       ),
-    //     );
-
-    //     removeCard(editorView.state, editorView.dispatch);
-    //     expect(createAnalyticsEvent).toHaveBeenCalledWith({
-    //       action: 'deleted',
-    //       actionSubject: 'panel',
-    //       attributes: { inputMethod: 'toolbar', displayMode: 'inlineCard' },
-    //       eventType: 'track',
-    //     });
-    //   });
-    // });
+          visitCardLink(editorView.state, editorView.dispatch);
+          expect(createAnalyticsEvent).toHaveBeenCalledWith({
+            action: 'visited',
+            actionSubjectId: type.name,
+            actionSubject: 'link',
+            eventType: 'track',
+          });
+        });
+      });
+    });
   });
 });
 

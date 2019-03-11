@@ -9,6 +9,13 @@ import { analyticsService } from '../../analytics';
 import commonMessages from '../../messages';
 import { Command } from '../../../src/types';
 import { FloatingToolbarConfig } from '../../../src/plugins/floating-toolbar/types';
+import {
+  AnalyticsEventPayload,
+  ACTION,
+  ACTION_SUBJECT,
+  INPUT_METHOD,
+  EVENT_TYPE,
+} from '../analytics';
 
 export const messages = defineMessages({
   block: {
@@ -29,15 +36,23 @@ export const messages = defineMessages({
   },
 });
 
-export const remove: Command = (state, dispatch) => {
+export const removeCard: Command = (state, dispatch) => {
   if (dispatch) {
     dispatch(removeSelectedNode(state.tr));
   }
+
+  const payload: AnalyticsEventPayload = {
+    action: ACTION.DELETED,
+    actionSubject: ACTION_SUBJECT.LINK,
+    attributes: { inputMethod: INPUT_METHOD.TOOLBAR },
+    eventType: EVENT_TYPE.TRACK,
+  };
+
   analyticsService.trackEvent('atlassian.editor.format.card.delete.button');
   return true;
 };
 
-export const visit: Command = state => {
+export const visitCardLink: Command = state => {
   if (state.selection instanceof NodeSelection) {
     const { attrs } = state.selection.node;
     const data = attrs.data || {};
@@ -136,7 +151,7 @@ export const floatingToolbar = (
         type: 'button',
         icon: OpenIcon,
         title: intl.formatMessage(commonMessages.visit),
-        onClick: visit,
+        onClick: visitCardLink,
       },
       { type: 'separator' },
       {
@@ -144,7 +159,7 @@ export const floatingToolbar = (
         appearance: 'danger',
         icon: RemoveIcon,
         title: intl.formatMessage(commonMessages.remove),
-        onClick: remove,
+        onClick: removeCard,
       },
     ],
   };

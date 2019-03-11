@@ -41,6 +41,7 @@ export const enum ACTION_SUBJECT {
   DOCUMENT = 'document',
   EDITOR = 'editor',
   PANEL = 'panel',
+  LINK = 'link',
   PICKER = 'picker',
   TEXT = 'text',
   TYPEAHEAD = 'typeAhead',
