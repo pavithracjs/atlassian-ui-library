@@ -5,26 +5,18 @@ import * as ReactDOMServer from 'react-dom/server';
 import * as exenv from 'exenv';
 import * as ReactDOM from 'react-dom';
 
-/**
- * Help class to test SSR and hidration within tests
- */
-export class SSRHelper {
-  private oldCanUseDOM: any;
+interface SSRConfig {
+  blackList?: string[];
+}
 
-  // @ts-ignore this variable is initialized in beforeAll()
-  private consoleErrorSpy: jest.SpyInstance;
+class SSRBase {
+  protected config: SSRConfig;
 
-  beforeAll() {
-    this.oldCanUseDOM = exenv.canUseDOM;
-    this.consoleErrorSpy = jest.spyOn(global.console, 'error');
+  constructor(config: SSRConfig) {
+    this.config = config;
   }
 
-  afterAll() {
-    jest.resetAllMocks();
-    (exenv as any).canUseDOM = this.oldCanUseDOM;
-  }
-
-  private renderComponent(TheComponent: any) {
+  protected renderComponent(TheComponent: any) {
     return (
       <IntlProvider locale="en">
         <TheComponent />
@@ -32,42 +24,104 @@ export class SSRHelper {
     );
   }
 
-  private renderToString(TheComponent: any) {
+  protected renderToString(TheComponent: any) {
     return ReactDOMServer.renderToString(this.renderComponent(TheComponent));
+  }
+
+  private allowExample(example: any) {
+    if (this.config.blackList) {
+      const res = this.config.blackList.filter(f =>
+        example.filePath.includes(f),
+      );
+      return res && res.length === 0;
+    }
+    return true;
+  }
+
+  async processExamples(
+    componentName: string,
+    callback: (example: any) => void,
+  ) {
+    (await getExamplesFor(componentName)).forEach((example: any) => {
+      if (this.allowExample(example)) {
+        callback(example);
+      }
+    });
+  }
+}
+
+export class SSRHelper extends SSRBase {
+  private beforeSSR() {
+    if (global) {
+      (global as any).window = {};
+    }
+  }
+
+  private afterSSR() {
+    if (global) {
+      (global as any).window = undefined;
+    }
+  }
+
+  async renderSSRAndAssert(componentName: string) {
+    this.beforeSSR();
+    try {
+      await super.processExamples(componentName, example => {
+        const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
+        expect(() => this.renderToString(Example)).not.toThrowError();
+      });
+    } finally {
+      this.afterSSR();
+    }
+  }
+}
+
+export class SSRHydrationHelper extends SSRBase {
+  private oldCanUseDOM: any;
+
+  // @ts-ignore this variable is initialized in beforeAll()
+  private consoleErrorSpy: jest.SpyInstance;
+
+  private beforeHydration() {
+    this.oldCanUseDOM = exenv.canUseDOM;
+    this.consoleErrorSpy = jest.spyOn(global.console, 'error');
+  }
+
+  private afterHydration() {
+    jest.resetAllMocks();
+    (exenv as any).canUseDOM = this.oldCanUseDOM;
   }
 
   private hydrate(TheComponent: any, elem: any) {
     ReactDOM.hydrate(this.renderComponent(TheComponent), elem);
   }
 
-  async renderSSRAndAssert(componentName: string) {
-    (await getExamplesFor(componentName)).forEach((examples: any) => {
-      const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
-      expect(() => this.renderToString(Example)).not.toThrowError();
-    });
-  }
+  async hydrateSSRAndAssert(componentName: string) {
+    this.beforeHydration();
+    try {
+      await this.processExamples(componentName, example => {
+        const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 
-  async hidrateSSRAndAssert(componentName: string) {
-    (await getExamplesFor(componentName)).forEach((examples: any) => {
-      const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
+        // server-side
+        (exenv as any).canUseDOM = false;
+        const serverHTML = this.renderToString(Example);
 
-      // server-side
-      (exenv as any).canUseDOM = false;
-      const serverHTML = this.renderToString(Example);
+        // client-side
+        (exenv as any).canUseDOM = true;
+        const elem = document.createElement('div');
+        elem.innerHTML = serverHTML;
 
-      // client-side
-      (exenv as any).canUseDOM = true;
-      const elem = document.createElement('div');
-      elem.innerHTML = serverHTML;
+        this.hydrate(Example, elem);
 
-      this.hydrate(Example, elem);
-
-      this.consoleErrorSpy.mock.calls.forEach(params => {
-        if (params.length) {
-          // HTML related warnings (can ignore)
-          expect(params[0].indexOf('Warning') === -1);
-        }
+        this.consoleErrorSpy.mock.calls.forEach(params => {
+          if (params.length) {
+            // HTML related warnings (can ignore)
+            expect(params[0].indexOf('Warning') === -1);
+          }
+        });
       });
-    });
+    } finally {
+      this.afterHydration();
+    }
   }
 }

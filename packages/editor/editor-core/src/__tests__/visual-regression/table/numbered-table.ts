@@ -7,8 +7,8 @@ import {
 import { getSelectorForTableCell } from '../../__helpers/page-objects/_table';
 import * as adf from './__fixtures__/numbered-table.adf.json';
 
-describe('Snapshot Test: numbered table', () => {
-  let page;
+describe.skip('Snapshot Test: numbered table', () => {
+  let page: any;
 
   beforeAll(async () => {
     // @ts-ignore

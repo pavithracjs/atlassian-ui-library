@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { FormattedMessage, Messages } from 'react-intl';
+
 import {
   SwitcherWrapper,
   SwitcherItem,
@@ -29,10 +31,12 @@ import {
 } from '../utils/analytics';
 import now from '../utils/performance-now';
 import TryLozenge from '../primitives/try-lozenge';
+import { FeatureFlagProps } from '../types';
 
-interface SwitcherProps {
+type SwitcherProps = {
   cloudId: string;
   triggerXFlow: (productKey: string, sourceComponent: string) => void;
+  messages: Messages;
   customLinks: ChildrenProps<CustomLinksProviderDataStructure>;
   suggestedProductLink: SuggestedProductItemType;
   recentContainers: ChildrenProps<RecentContainersDataStructure>;
@@ -40,10 +44,9 @@ interface SwitcherProps {
   managePermission: ChildrenProps<boolean>;
   addProductsPermission: ChildrenProps<boolean>;
   isXFlowEnabled: ChildrenProps<boolean>;
-}
+} & FeatureFlagProps;
 
 const getAnalyticsContext = (itemsCount: number) => ({
-  source: 'atlassianSwitcher',
   ...analyticsAttributes({
     itemsCount,
   }),
@@ -82,7 +85,9 @@ export default class Switcher extends React.Component<SwitcherProps> {
   render() {
     const {
       cloudId,
+      enableSplitJira,
       suggestedProductLink,
+      messages,
       customLinks: { isLoading: isLoadingCustomLinks, data: customLinksData },
       recentContainers: {
         isLoading: isLoadingRecentContainers,
@@ -121,11 +126,13 @@ export default class Switcher extends React.Component<SwitcherProps> {
     const isAdmin = managePermissionData;
     const hasAdminLinks = managePermissionData || addProductsPermissionData;
     const hasSuggestedLinks = !!(isXFlowEnabledData && suggestedProductLink);
-    const shouldShowManageListButton = isAdmin && customLinksData![0];
+    const shouldShowManageListButton =
+      isAdmin && customLinksData && customLinksData[0];
 
     const fixedProductLinks = getFixedProductLinks();
     const licensedProductLinks = getLicensedProductLinks(
       licenseInformationData!,
+      enableSplitJira,
     );
 
     const adminLinks = hasAdminLinks
@@ -134,7 +141,9 @@ export default class Switcher extends React.Component<SwitcherProps> {
 
     const suggestedLinks = hasSuggestedLinks ? [suggestedProductLink!] : [];
     const recentLinks = getRecentLinkItems(recentContainersData!.data);
-    const customLinks = getCustomLinkItems(customLinksData![0]);
+    const customLinks = customLinksData
+      ? getCustomLinkItems(customLinksData[0], licenseInformationData!)
+      : [];
 
     /**
      * It is essential that switchToLinks reflects the order corresponding nav items
@@ -157,7 +166,10 @@ export default class Switcher extends React.Component<SwitcherProps> {
             subject={SWITCHER_SUBJECT}
             data={{ duration: this.timeSinceMounted() }}
           />
-          <Section sectionId="switchTo" title="Switch to">
+          <Section
+            sectionId="switchTo"
+            title={<FormattedMessage {...messages.switchTo} />}
+          >
             {licensedProductLinks.map(item => (
               <NavigationAnalyticsContext
                 key={item.key}
@@ -189,7 +201,9 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   onClick={this.triggerXFlow}
                 >
                   {item.label}
-                  <TryLozenge>Try</TryLozenge>
+                  <TryLozenge>
+                    <FormattedMessage {...messages.try} />
+                  </TryLozenge>
                 </SwitcherItem>
               </NavigationAnalyticsContext>
             ))}
@@ -228,7 +242,10 @@ export default class Switcher extends React.Component<SwitcherProps> {
               </NavigationAnalyticsContext>
             ))}
           </Section>
-          <Section sectionId="recent" title="Recent">
+          <Section
+            sectionId="recent"
+            title={<FormattedMessage {...messages.recent} />}
+          >
             {recentLinks.map(
               ({ key, label, href, type, description, Icon }, idx) => (
                 <NavigationAnalyticsContext
@@ -246,7 +263,10 @@ export default class Switcher extends React.Component<SwitcherProps> {
               ),
             )}
           </Section>
-          <Section sectionId="customLinks" title="More">
+          <Section
+            sectionId="customLinks"
+            title={<FormattedMessage {...messages.more} />}
+          >
             {customLinks.map(({ label, href, Icon }, idx) => (
               // todo: id in SwitcherItem should be consumed from custom link resolver
               <NavigationAnalyticsContext
