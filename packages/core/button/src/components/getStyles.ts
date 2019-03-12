@@ -140,26 +140,18 @@ export const getSpinnerStyles = () => ({
   transform: 'translate(-50%, -50%)',
 });
 
-const getIconMargin = ({ spacing, iconBefore, iconAfter }: ThemeProps) => {
-  if (spacing === 'none' || spacing === 'compact') {
-    return 0;
+const getIconMargin = ({ spacing }: ThemeProps) => {
+  const akGridSize = gridSize();
+
+  if (spacing === 'none') {
+    return `0 ${akGridSize / 2}px`;
   }
 
-  const gs = gridSize();
-  const short = gs / 4;
-
-  let left = short;
-  let right = short;
-
-  if (iconBefore && !iconAfter) {
-    left = 3 * short;
+  if (spacing === 'compact') {
+    return `0 ${akGridSize}px`;
   }
 
-  if (!iconBefore && iconAfter) {
-    right = 3 * short;
-  }
-
-  return `${gs / 2}px  ${right}px ${gs / 2}px ${left}px`;
+  return `${akGridSize / 2}px ${akGridSize}px`;
 };
 
 export const getIconStyles = (props: ThemeProps) => ({
