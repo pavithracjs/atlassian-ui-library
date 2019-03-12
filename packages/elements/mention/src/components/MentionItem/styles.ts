@@ -58,32 +58,6 @@ export const FullNameStyle: ComponentClass<HTMLAttributes<{}>> = styled.span`
   color: ${colors.N900};
 `;
 
-export const NicknameStyle: ComponentClass<HTMLAttributes<{}>> = styled.span`
-  color: ${colors.N100};
-  font-size: 12px;
-
-  margin-top: 2px;
-
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
-export const TeamInformationStyle: ComponentClass<
-  HTMLAttributes<{}>
-> = styled.span`
-  color: ${colors.N100};
-  font-size: 12px;
-
-  margin-top: 2px;
-
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
 export const InfoSectionStyle: ComponentClass<
   HTMLAttributes<{}> & InfoSectionStyleProps
 > = styled.div`
