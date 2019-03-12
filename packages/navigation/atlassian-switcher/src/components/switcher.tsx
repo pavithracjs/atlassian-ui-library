@@ -7,6 +7,7 @@ import {
   Section,
   ManageButton,
   Skeleton,
+  ExpandLink,
 } from '../primitives';
 import {
   getLicensedProductLinks,
@@ -38,6 +39,7 @@ type SwitcherProps = {
   cloudId: string;
   triggerXFlow: (productKey: string, sourceComponent: string) => void;
   messages: Messages;
+  enableUchiLink: boolean;
   customLinks: ChildrenProps<CustomLinksProviderDataStructure>;
   suggestedProductLink: SuggestedProductItemType;
   recentContainers: ChildrenProps<RecentContainersDataStructure>;
@@ -83,12 +85,18 @@ export default class Switcher extends React.Component<SwitcherProps> {
     }
   };
 
+  getExpandHref = (hostname: string) => {
+    const isStagingInstance = hostname.indexOf('.jira-dev.com') !== -1;
+    return `//start.${isStagingInstance ? 'stg.' : ''}atlassian.com`;
+  };
+
   render() {
     const {
       cloudId,
       enableSplitJira,
       suggestedProductLink,
       messages,
+      enableUchiLink,
       customLinks: { isLoading: isLoadingCustomLinks, data: customLinksData },
       recentContainers: {
         isLoading: isLoadingRecentContainers,
@@ -169,7 +177,16 @@ export default class Switcher extends React.Component<SwitcherProps> {
           />
           <Section
             sectionId="switchTo"
-            title={<FormattedMessage {...messages.switchTo} />}
+            title={
+              enableUchiLink ? (
+                <ExpandLink
+                  href={this.getExpandHref(licenseInformationData!.hostname)}
+                  title={<FormattedMessage {...messages.switchTo} />}
+                />
+              ) : (
+                <FormattedMessage {...messages.switchTo} />
+              )
+            }
           >
             {licensedProductLinks.map(item => (
               <NavigationAnalyticsContext

@@ -37,6 +37,7 @@ const AtlassianSwitcher = ({
   cloudId,
   triggerXFlow,
   enableSplitJira = false,
+  enableUchiLink = false,
   ...props
 }: AtlassianSwitcherProps) => {
   let switcher: React.ReactElement<any>;
@@ -47,6 +48,7 @@ const AtlassianSwitcher = ({
           cloudId={cloudId}
           triggerXFlow={triggerXFlow}
           enableSplitJira={enableSplitJira}
+          enableUchiLink={enableUchiLink}
           messages={messages}
           {...props}
         />
@@ -58,6 +60,7 @@ const AtlassianSwitcher = ({
           cloudId={cloudId}
           triggerXFlow={triggerXFlow}
           enableSplitJira={enableSplitJira}
+          enableUchiLink={enableUchiLink}
           messages={messages}
           {...props}
         />
@@ -73,6 +76,7 @@ const AtlassianSwitcher = ({
           triggerXFlow={triggerXFlow}
           product={product}
           enableSplitJira={enableSplitJira}
+          enableUchiLink={enableUchiLink}
           messages={messages}
           {...props}
         />

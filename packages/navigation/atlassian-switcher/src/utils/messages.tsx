@@ -71,6 +71,12 @@ const messages = defineMessages({
     description:
       'The text of a link redirecting the user to Discover More Atlassian products',
   },
+  expand: {
+    id: 'fabric.atlassianSwitcher.expand',
+    defaultMessage: 'Expand',
+    description:
+      'The text of a link redirecting the user to the new Atlassian Home experience',
+  },
 });
 
 export const SwitchToTooltipText = (

@@ -27,4 +27,5 @@ export enum Product {
 
 export type FeatureFlagProps = {
   enableSplitJira: boolean;
+  enableUchiLink: boolean;
 };

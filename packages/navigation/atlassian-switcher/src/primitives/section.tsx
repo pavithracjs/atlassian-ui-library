@@ -15,6 +15,9 @@ const SectionTitle = styled.h1`
   text-transform: uppercase;
   margin-bottom: ${gridSize()}px;
   margin-left: ${gridSize()}px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 type SectionProps = {
