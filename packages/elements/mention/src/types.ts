@@ -29,11 +29,11 @@ export interface MentionDescription {
   inContext?: boolean;
   userType?: string;
   // Team mention can use context to store members data
-  context?: TeamContext; // todo - make this any again
+  context?: MentionDescContext;
 }
 
-interface TeamContext {
-  members: any;
+export interface MentionDescContext {
+  members: TeamMember[];
   includesYou: boolean;
   memberCount: number;
 }
@@ -81,6 +81,7 @@ export interface Team {
   members: TeamMember[];
   includesYou: boolean;
   memberCount: number;
+  highlight?: Highlight;
 }
 
 export type MentionEventHandler = (

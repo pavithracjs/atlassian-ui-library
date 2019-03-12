@@ -35,6 +35,10 @@ export default class TeamMentionResource extends MentionResource {
     this.teamMentionConfig = teamMentionConfig;
   }
 
+  getMentionConfig(): MentionResourceConfig {
+    return this.teamMentionConfig;
+  }
+
   protected async remoteSearch(
     query: string,
     contextIdentifier?: MentionContextIdentifier,
@@ -160,12 +164,14 @@ export default class TeamMentionResource extends MentionResource {
   ): MentionsResult {
     const mentions: MentionDescription[] = result.map((team: Team) => {
       return {
-        id: team.id,
+        id: this.trimTeamARI(team.id),
         avatarUrl: team.smallAvatarImageUrl,
         name: team.displayName,
         accessLevel: UserAccessLevel[UserAccessLevel.CONTAINER],
         userType: UserType[UserType.TEAM],
         query,
+        lozenge: UserType[UserType.TEAM],
+        highlight: team.highlight,
         context: {
           members: team.members,
           includesYou: team.includesYou,
@@ -175,6 +181,11 @@ export default class TeamMentionResource extends MentionResource {
     });
 
     return { mentions, query };
+  }
+
+  private trimTeamARI(teamId: string = '') {
+    const TEAM_ARI_PREFIX = 'ari:cloud:teams::team/';
+    return teamId.replace(TEAM_ARI_PREFIX, '');
   }
 
   protected async recordSelection(
