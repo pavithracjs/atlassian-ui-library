@@ -1,0 +1,1 @@
+- Align the actions in normal flag with flag text
