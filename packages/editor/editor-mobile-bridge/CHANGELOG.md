@@ -1,5 +1,23 @@
 # @atlaskit/editor-mobile-bridge
 
+## 6.13.7
+- Updated dependencies [4d17df92f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d17df92f8):
+  - @atlaskit/editor-json-transformer@4.3.4
+  - @atlaskit/editor-test-helpers@7.0.5
+  - @atlaskit/task-decision@11.3.2
+  - @atlaskit/editor-core@104.0.0
+  - @atlaskit/renderer@42.0.0
+
+## 6.13.6
+- [patch] [5e319bb725](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e319bb725):
+
+  - ED-6286: fix post-PR for media upload on mobile
+
+## 6.13.5
+- [patch] [4bb4f46a6f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4bb4f46a6f):
+
+  - ED-5603: fixed updating links on mobile
+
 ## 6.13.4
 - Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
   - @atlaskit/button@10.1.3
