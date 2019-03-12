@@ -42,11 +42,14 @@ export default ({
             return {
               buttonStyles: {
                 ...buttonStyles,
-                ...getButtonStyles({
-                  appearance,
-                  state: themeProps.state,
-                  mode: themeProps.mode,
-                }),
+                // Is there a better way to do this? We don't
+                // want to list all the appearances...
+                ...(appearance === 'danger' &&
+                  getButtonStyles({
+                    appearance,
+                    state: themeProps.state,
+                    mode: themeProps.mode,
+                  })),
               },
               ...rest,
             };
