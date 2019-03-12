@@ -19,7 +19,12 @@ export const teamMention: MentionDescription = {
   accessLevel: UserAccessLevel[UserAccessLevel.CONTAINER],
   userType: UserType[UserType.TEAM],
   context: {
-    members: {},
+    members: [
+      {
+        id: 'user-1234',
+        name: 'Test User',
+      },
+    ],
     includesYou: true,
     memberCount: 5,
   },
