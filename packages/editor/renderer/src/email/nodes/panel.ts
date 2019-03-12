@@ -62,19 +62,19 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
     width: '100%',
   });
 
-  const tableStyle = {
+  const tableStyle = serializeStyle({
     ...commonStyle,
     margin: 0,
     padding: 0,
     width: '100%',
     'border-spacing': '0px',
-  };
+  });
 
   const innerTd = createTag('td', { style: innerTdCss }, text);
-  const innerTable = createTag('table', tableStyle, innerTd);
+  const innerTable = createTag('table', { style: tableStyle }, innerTd);
 
   const outerTd = createTag('td', { style: outerTdCss }, innerTable);
-  const outerTable = createTag('table', tableStyle, outerTd);
+  const outerTable = createTag('table', { style: tableStyle }, outerTd);
 
   return outerTable;
 }
