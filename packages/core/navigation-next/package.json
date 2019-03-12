@@ -22,7 +22,7 @@
     "@atlaskit/theme": "^8.0.0",
     "@atlaskit/tooltip": "^13.0.0",
     "@babel/runtime": "^7.0.0",
-    "@emotion/core": "^10.0.7",
+    "@emotion/core": "^10.0.9",
     "chromatism": "^2.6.0",
     "deep-object-diff": "^1.1.0",
     "emotion-theming": "^10.0.7",
