@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { UserType } from '../../../types';
-import { Props } from './types';
+import { DescriptionHighlightProps } from './types';
 import UserMentionDescriptionHighlight from './UserMentionDescriptionHighlight';
 import TeamMentionDescriptionHighlight from './TeamMentionDescriptionHighlight';
 
 export default class MentionDescriptionHighlight extends React.PureComponent<
-  Props,
+  DescriptionHighlightProps,
   {}
 > {
   render() {

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Props } from './types';
+import { DescriptionHighlightProps } from './types';
 import { TeamInformationStyle } from './styles';
 
 export default class TeamMentionDescriptionHighlight extends React.PureComponent<
-  Props,
+  DescriptionHighlightProps,
   {}
 > {
   renderTeamInformation(memberCount?: number, includesYou?: boolean) {
@@ -12,9 +12,10 @@ export default class TeamMentionDescriptionHighlight extends React.PureComponent
     // will extract this to a common place
 
     // if Member count is missing, do not show the byline, regardless of the availability of includesYou
-    if (memberCount === null || typeof memberCount === 'undefined') {
-      return undefined;
+    if (typeof memberCount !== 'number') {
+      return null;
     }
+
     return (
       <TeamInformationStyle>
         <FormattedMessage

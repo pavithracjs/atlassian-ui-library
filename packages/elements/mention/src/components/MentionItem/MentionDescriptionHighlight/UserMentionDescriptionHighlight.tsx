@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Props } from './types';
+import { DescriptionHighlightProps } from './types';
 import { renderHighlight } from '../MentionHighlightHelpers';
 import { NicknameStyle } from './styles';
 
 export default class UserMentionDescriptionHighlight extends React.PureComponent<
-  Props,
+  DescriptionHighlightProps,
   {}
 > {
   render() {
