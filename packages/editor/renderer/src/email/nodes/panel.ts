@@ -1,7 +1,8 @@
-import { colors, gridSize, borderRadius } from '@atlaskit/theme';
+import { colors } from '@atlaskit/theme';
 
 import { NodeSerializerOpts } from '../interfaces';
 import { createTag, serializeStyle } from '../util';
+import { commonStyle } from '..';
 
 type PanelType = 'info' | 'note' | 'tip' | 'success' | 'warning' | 'error';
 
@@ -38,12 +39,42 @@ const config: PanelConfig = {
 
 export default function panel({ attrs, text }: NodeSerializerOpts) {
   const type: PanelType = attrs.panelType;
-  const css = serializeStyle({
-    'border-radius': `${borderRadius()}px`,
-    margin: `${gridSize() / 2}px 0`,
-    padding: `${gridSize()}px`,
+
+  const innerTdCss = serializeStyle({
+    ...commonStyle,
+    'border-radius': '3px',
+    '-webkit-border-radius': '3px',
+    '-moz-border-radius': '3px',
+    'font-size': '14px',
+    width: '100%',
+    padding: '2px 0px 2px 8px',
+    margin: `0px`,
     background: config[type] && config[type].background,
   });
 
-  return createTag('div', { style: css }, text);
+  const outerTdCss = serializeStyle({
+    ...commonStyle,
+    'border-radius': '3px',
+    padding: '4px 12px 4px 0',
+    '-webkit-border-radius': '3px',
+    '-moz-border-radius': '3px',
+    margin: '0px',
+    width: '100%',
+  });
+
+  const tableStyle = {
+    ...commonStyle,
+    margin: 0,
+    padding: 0,
+    width: '100%',
+    'border-spacing': '0px',
+  };
+
+  const innerTd = createTag('td', { style: innerTdCss }, text);
+  const innerTable = createTag('table', tableStyle, innerTd);
+
+  const outerTd = createTag('td', { style: outerTdCss }, innerTable);
+  const outerTable = createTag('table', tableStyle, outerTd);
+
+  return outerTable;
 }
