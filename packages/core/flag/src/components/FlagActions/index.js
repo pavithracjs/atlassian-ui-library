@@ -49,7 +49,8 @@ export default class FlagActions extends Component<Props, {}> {
           // with other appearance props.
           appearance={appearance === 'normal' ? 'link' : appearance}
           component={linkComponent}
-          spacing="compact"
+          // That is when the actions are link
+          spacing={appearance === 'normal' ? 'none' : 'compact'}
         >
           {action.content}
         </StyledButton>
