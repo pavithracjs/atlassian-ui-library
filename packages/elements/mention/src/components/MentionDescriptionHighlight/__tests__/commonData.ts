@@ -1,8 +1,4 @@
-import {
-  MentionDescription,
-  UserAccessLevel,
-  UserType,
-} from '../../../../types';
+import { MentionDescription, UserAccessLevel, UserType } from '../../../types';
 
 export const userMention: MentionDescription = {
   id: '12345',

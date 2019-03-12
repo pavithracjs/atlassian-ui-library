@@ -23,7 +23,7 @@ import {
   TimeStyle,
 } from './styles';
 import { renderHighlight } from './MentionHighlightHelpers';
-import MentionDescriptionHighlight from './MentionDescriptionHighlight';
+import MentionDescriptionHighlight from '../MentionDescriptionHighlight';
 
 function renderLozenge(lozenge?: string) {
   if (lozenge) {

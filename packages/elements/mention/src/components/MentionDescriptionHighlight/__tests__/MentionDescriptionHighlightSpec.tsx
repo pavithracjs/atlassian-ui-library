@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import { MentionDescription } from '../../../../types';
+import { MentionDescription } from '../../../types';
 import MentionDescriptionHighlight from '../';
 import { userMention, teamMention } from './commonData';
 
