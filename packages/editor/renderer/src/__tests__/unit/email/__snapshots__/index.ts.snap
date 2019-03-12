@@ -158,6 +158,116 @@ exports[`Renderer - EmailSerializer should inline text properties correctly 1`] 
 </div>
 `;
 
+exports[`Renderer - EmailSerializer should render block cards correctly 1`] = `
+<div
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;"
+>
+  <h3
+    style=",
+  font-size: 1.4285714285714286em;
+  font-style: inherit;
+  line-height: 1.2;
+, color: ,function (props) {
+    var theme = (0, _getTheme.default)(props);
+    return modes[theme.mode];
+  },;
+  font-weight: 500;
+  letter-spacing: -0.008em;
+  margin-top: ,28,px;"
+  >
+    blockCard with url
+  </h3>
+  <a
+    href="https://extranet.atlassian.com/pages/viewpage.action?pageId=3088533424"
+    style="border: none;background: transparent;color: #000000;text-decoration: none;"
+  >
+    <table
+      style="width: 400px;min-width: 200px;max-width: 400px;border-spacing: 0px;"
+    >
+      <tbody>
+        <tr>
+          <td
+            style="border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;padding: 2px 5px 5px 5px;margin: 0px;color: #000000;background-color: #F4F5F7;font-size: 12px;"
+          >
+            <div
+              style="width: 400px;min-width: 200px;max-width: 400px;overflow: hidden;color: #000000;font-size: 14px;font-weight: 500;text-overflow: ellipsis;white-space: nowrap;text-decoration: none;"
+            >
+              <font
+                color="#000000"
+                style="border: none;background: transparent;color: #000000;text-decoration: none;"
+              >
+                https://extranet.atlassian.com/pages/viewpage.action?pageId=3088533424
+              </font>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </a>
+  <h3
+    style=",
+  font-size: 1.4285714285714286em;
+  font-style: inherit;
+  line-height: 1.2;
+, color: ,function (props) {
+    var theme = (0, _getTheme.default)(props);
+    return modes[theme.mode];
+  },;
+  font-weight: 500;
+  letter-spacing: -0.008em;
+  margin-top: ,28,px;"
+  >
+    blockCard with data
+  </h3>
+  <a
+    href="https://extranet.atlassian.com/pages/viewpage.action?pageId=3088533424"
+    style="border: none;background: transparent;color: #000000;text-decoration: none;"
+  >
+    <table
+      style="width: 400px;min-width: 200px;max-width: 400px;border-spacing: 0px;"
+    >
+      <tbody>
+        <tr>
+          <td
+            style="border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;padding: 2px 5px 5px 5px;margin: 0px;color: #000000;background-color: #F4F5F7;font-size: 12px;"
+          >
+            <table
+              style="width: 400px;min-width: 200px;max-width: 400px;border-spacing: 0px;"
+            >
+              <tbody>
+                <tr>
+                  <td
+                    style="color: #5E6C84;font-size: 12px;line-height: 24px;"
+                  >
+                    Confluence
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    style="border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;padding: 6px 12px 12px 12px;background: #FFFFFF;font-size: 12px;line-height: 18px;border: #ebedf0 solid 1px;"
+                  >
+                    <div
+                      style="font-size: 16px;line-height: 24px;font-weight: 500;"
+                    >
+                      Founder Update 76: Hello, Trello!
+                    </div>
+                    <div
+                      style="padding: 7px 0 0 0;color: #000000;"
+                    >
+                      Today is a big day for Atlassian – we have entered into an agreement to buy Trello. (boom)
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </a>
+</div>
+`;
+
 exports[`Renderer - EmailSerializer should render codeblock correctly 1`] = `
 <div
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;"
@@ -196,6 +306,107 @@ System.out.println("There are " + count + " values &gt;= 5");
       </tbody>
     </table>
   </pre>
+</div>
+`;
+
+exports[`Renderer - EmailSerializer should render inline cards correctly 1`] = `
+<div
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;"
+>
+  <h3
+    style=",
+  font-size: 1.4285714285714286em;
+  font-style: inherit;
+  line-height: 1.2;
+, color: ,function (props) {
+    var theme = (0, _getTheme.default)(props);
+    return modes[theme.mode];
+  },;
+  font-weight: 500;
+  letter-spacing: -0.008em;
+  margin-top: ,28,px;"
+  >
+    inlineCard with url
+  </h3>
+  <table
+    border-spacing="0px"
+    margin="0"
+    padding="0"
+    width="100%"
+  >
+    <tbody>
+      <tr>
+        <td
+          style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+        >
+          Lorem ipsum
+          <a
+            href="https://extranet.atlassian.com/pages/viewpage.action?pageId=3088533424"
+            style="color: #0052CC;border: none;background: transparent;text-decoration: none;"
+          >
+            <font
+              color="#0052CC"
+              style="color: #0052CC;border: none;background: transparent;text-decoration: none;"
+            >
+              <span
+                style="border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;padding: 0px 0px 2px 0px;background-color: #e9eaee;line-height: 24px;"
+              >
+                 https://extranet.atlassian.com/pages/viewpage.action?pageId=3088533424 
+              </span>
+            </font>
+          </a>
+          dolor sit amet
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h3
+    style=",
+  font-size: 1.4285714285714286em;
+  font-style: inherit;
+  line-height: 1.2;
+, color: ,function (props) {
+    var theme = (0, _getTheme.default)(props);
+    return modes[theme.mode];
+  },;
+  font-weight: 500;
+  letter-spacing: -0.008em;
+  margin-top: ,28,px;"
+  >
+    inlineCard with data
+  </h3>
+  <table
+    border-spacing="0px"
+    margin="0"
+    padding="0"
+    width="100%"
+  >
+    <tbody>
+      <tr>
+        <td
+          style="padding: 8px 8px 8px 0;-moz-border-radius: 3px;font-size: 14px;width: 100%;margin: 0px;"
+        >
+          Lorem ipsum
+          <a
+            href="https://extranet.atlassian.com/pages/viewpage.action?pageId=3088533424"
+            style="color: #0052CC;border: none;background: transparent;text-decoration: none;"
+          >
+            <font
+              color="#0052CC"
+              style="color: #0052CC;border: none;background: transparent;text-decoration: none;"
+            >
+              <span
+                style="border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;padding: 0px 0px 2px 0px;background-color: #e9eaee;line-height: 24px;"
+              >
+                 Founder Update 76: Hello, Trello! 
+              </span>
+            </font>
+          </a>
+          dolor sit amet
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 `;
 
@@ -745,85 +956,6 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
       </tr>
     </tbody>
   </table>
-</div>
-`;
-
-exports[`Renderer - EmailSerializer should render smart cards correctly 1`] = `
-<div
-  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;"
->
-  <h3
-    style=",
-  font-size: 1.4285714285714286em;
-  font-style: inherit;
-  line-height: 1.2;
-, color: ,function (props) {
-    var theme = (0, _getTheme.default)(props);
-    return modes[theme.mode];
-  },;
-  font-weight: 500;
-  letter-spacing: -0.008em;
-  margin-top: ,28,px;"
-  >
-    inlineCard with url
-  </h3>
-  <p
-    style="white-space: pre-wrap;word-wrap: break-word;"
-  >
-    Lorem ipsum[UNKNOWN_NODE_TYPE: inlineCard]dolor sit amet
-  </p>
-  <h3
-    style=",
-  font-size: 1.4285714285714286em;
-  font-style: inherit;
-  line-height: 1.2;
-, color: ,function (props) {
-    var theme = (0, _getTheme.default)(props);
-    return modes[theme.mode];
-  },;
-  font-weight: 500;
-  letter-spacing: -0.008em;
-  margin-top: ,28,px;"
-  >
-    inlineCard with data
-  </h3>
-  <p
-    style="white-space: pre-wrap;word-wrap: break-word;"
-  >
-    Lorem ipsum[UNKNOWN_NODE_TYPE: inlineCard]dolor sit amet
-  </p>
-  <h3
-    style=",
-  font-size: 1.4285714285714286em;
-  font-style: inherit;
-  line-height: 1.2;
-, color: ,function (props) {
-    var theme = (0, _getTheme.default)(props);
-    return modes[theme.mode];
-  },;
-  font-weight: 500;
-  letter-spacing: -0.008em;
-  margin-top: ,28,px;"
-  >
-    blockCard with url
-  </h3>
-  [UNKNOWN_NODE_TYPE: blockCard]
-  <h3
-    style=",
-  font-size: 1.4285714285714286em;
-  font-style: inherit;
-  line-height: 1.2;
-, color: ,function (props) {
-    var theme = (0, _getTheme.default)(props);
-    return modes[theme.mode];
-  },;
-  font-weight: 500;
-  letter-spacing: -0.008em;
-  margin-top: ,28,px;"
-  >
-    blockCard with data
-  </h3>
-  [UNKNOWN_NODE_TYPE: blockCard]
 </div>
 `;
 

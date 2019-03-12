@@ -10,7 +10,8 @@ import * as inlineCodeProps from '../../__fixtures__/inline-code-props.adf.json'
 import * as inlineTextProps from '../../__fixtures__/inline-text-props.adf.json';
 import * as panels from '../../__fixtures__/panels.adf.json';
 import * as link from '../../__fixtures__/link.adf.json';
-import * as smartCards from '../../__fixtures__/smart-cards.adf.json';
+import * as blockCards from '../../__fixtures__/block-cards.adf.json';
+import * as inlineCards from '../../__fixtures__/inline-cards.adf.json';
 
 const render = (doc: any) => {
   const serializer = EmailSerializer.fromSchema(schema);
@@ -22,8 +23,13 @@ const render = (doc: any) => {
 };
 
 describe('Renderer - EmailSerializer', () => {
-  it('should render smart cards correctly', () => {
-    const output = render(smartCards);
+  it('should render block cards correctly', () => {
+    const output = render(blockCards);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render inline cards correctly', () => {
+    const output = render(inlineCards);
     expect(output).toMatchSnapshot();
   });
 

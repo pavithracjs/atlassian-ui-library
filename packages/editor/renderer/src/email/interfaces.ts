@@ -15,3 +15,20 @@ export interface MarkSerializerOpts {
   mark: Mark;
   text: string;
 }
+
+export interface SmartCardAttributes {
+  url: string;
+}
+
+export interface SmartCardAttributes {
+  data: {
+    '@type': string;
+    generator: {
+      '@type': string;
+      name: string;
+    };
+    name: string;
+    url: string;
+    summary: string;
+  };
+}
