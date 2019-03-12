@@ -9,7 +9,12 @@ exports[`Mention Description Highlight should render Team Mention description if
       "context": Object {
         "includesYou": true,
         "memberCount": 5,
-        "members": Object {},
+        "members": Array [
+          Object {
+            "id": "user-1234",
+            "name": "Test User",
+          },
+        ],
       },
       "id": "12345",
       "name": "Test team",

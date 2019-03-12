@@ -299,7 +299,9 @@
           "id": "member-2",
           "name": "Ishan Somasiri"
         }
-      ]
+      ],
+      "includesYou": true,
+      "memberCount": 5
     }
   },
   {
@@ -322,7 +324,9 @@
           "id": "member-2",
           "name": "Ishan Somasiri"
         }
-      ]
+      ],
+      "includesYou": false,
+      "memberCount": 7
     }
   }
 ]
