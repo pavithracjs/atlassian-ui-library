@@ -11,18 +11,13 @@ export default class MentionDescriptionHighlight extends React.PureComponent<
   render() {
     const { userType } = this.props.mention;
 
-    let isTeamType: boolean;
-    // todo - replace with a switch?
-    if (userType) {
-      isTeamType = userType === UserType[UserType.TEAM];
-    } else {
-      isTeamType = false;
-    }
-
-    if (isTeamType) {
-      return <TeamMentionDescriptionHighlight mention={this.props.mention} />;
-    } else {
-      return <UserMentionDescriptionHighlight mention={this.props.mention} />;
+    switch (userType) {
+      case UserType[UserType.TEAM]: {
+        return <TeamMentionDescriptionHighlight mention={this.props.mention} />;
+      }
+      default: {
+        return <UserMentionDescriptionHighlight mention={this.props.mention} />;
+      }
     }
   }
 }

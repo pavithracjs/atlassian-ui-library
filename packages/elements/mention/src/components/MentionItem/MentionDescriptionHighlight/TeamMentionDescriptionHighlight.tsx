@@ -44,14 +44,14 @@ export default class TeamMentionDescriptionHighlight extends React.PureComponent
 
 const messages = {
   memberCount: {
-    id: 'fabric.elements.user-picker.team.member.count',
+    id: 'fabric.elements.mentions.team.member.count',
     defaultMessage:
       '{count} {count, plural, one {member} other {members}}{includes, select, true {, including you} other {}}',
     description:
       'Number of members in the team and whether it includes the current user',
   },
   plus50Members: {
-    id: 'fabric.elements.user-picker.team.member.50plus',
+    id: 'fabric.elements.mentions.team.member.50plus',
     defaultMessage:
       '50+ members{includes, select, true {, including you} other {}}',
     description:

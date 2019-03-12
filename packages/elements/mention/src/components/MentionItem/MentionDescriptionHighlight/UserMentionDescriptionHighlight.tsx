@@ -9,7 +9,6 @@ export default class UserMentionDescriptionHighlight extends React.PureComponent
 > {
   render() {
     const { highlight, nickname } = this.props.mention;
-
     const nicknameHighlights = highlight && highlight.nickname;
 
     return renderHighlight(NicknameStyle, nickname, nicknameHighlights, '@');
