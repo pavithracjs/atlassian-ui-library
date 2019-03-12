@@ -277,6 +277,85 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
 </div>
 `;
 
+exports[`Renderer - EmailSerializer should render smart cards correctly 1`] = `
+<div
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;"
+>
+  <h3
+    style=",
+  font-size: 1.4285714285714286em;
+  font-style: inherit;
+  line-height: 1.2;
+, color: ,function (props) {
+    var theme = (0, _getTheme.default)(props);
+    return modes[theme.mode];
+  },;
+  font-weight: 500;
+  letter-spacing: -0.008em;
+  margin-top: ,28,px;"
+  >
+    inlineCard with url
+  </h3>
+  <p
+    style="white-space: pre-wrap;word-wrap: break-word;"
+  >
+    Lorem ipsum[UNKNOWN_NODE_TYPE: inlineCard]dolor sit amet
+  </p>
+  <h3
+    style=",
+  font-size: 1.4285714285714286em;
+  font-style: inherit;
+  line-height: 1.2;
+, color: ,function (props) {
+    var theme = (0, _getTheme.default)(props);
+    return modes[theme.mode];
+  },;
+  font-weight: 500;
+  letter-spacing: -0.008em;
+  margin-top: ,28,px;"
+  >
+    inlineCard with data
+  </h3>
+  <p
+    style="white-space: pre-wrap;word-wrap: break-word;"
+  >
+    Lorem ipsum[UNKNOWN_NODE_TYPE: inlineCard]dolor sit amet
+  </p>
+  <h3
+    style=",
+  font-size: 1.4285714285714286em;
+  font-style: inherit;
+  line-height: 1.2;
+, color: ,function (props) {
+    var theme = (0, _getTheme.default)(props);
+    return modes[theme.mode];
+  },;
+  font-weight: 500;
+  letter-spacing: -0.008em;
+  margin-top: ,28,px;"
+  >
+    blockCard with url
+  </h3>
+  [UNKNOWN_NODE_TYPE: blockCard]
+  <h3
+    style=",
+  font-size: 1.4285714285714286em;
+  font-style: inherit;
+  line-height: 1.2;
+, color: ,function (props) {
+    var theme = (0, _getTheme.default)(props);
+    return modes[theme.mode];
+  },;
+  font-weight: 500;
+  letter-spacing: -0.008em;
+  margin-top: ,28,px;"
+  >
+    blockCard with data
+  </h3>
+  [UNKNOWN_NODE_TYPE: blockCard]
+</div>
+`;
+
 exports[`Renderer - EmailSerializer should render text with em inside of a paragraph correctly 1`] = `
 <div
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14;font-weight: 400;line-height: 24px;"

@@ -9,6 +9,7 @@ import * as codeBlock from '../../__fixtures__/code-block.adf.json';
 import * as inlineCodeProps from '../../__fixtures__/inline-code-props.adf.json';
 import * as inlineTextProps from '../../__fixtures__/inline-text-props.adf.json';
 import * as link from '../../__fixtures__/link.adf.json';
+import * as smartCards from '../../__fixtures__/smart-cards.adf.json';
 
 const render = (doc: any) => {
   const serializer = EmailSerializer.fromSchema(schema);
@@ -20,6 +21,11 @@ const render = (doc: any) => {
 };
 
 describe('Renderer - EmailSerializer', () => {
+  it('should render smart cards correctly', () => {
+    const output = render(smartCards);
+    expect(output).toMatchSnapshot();
+  });
+
   it('should render text with em inside of a paragraph correctly', () => {
     const output = render(em);
     expect(output).toMatchSnapshot();
