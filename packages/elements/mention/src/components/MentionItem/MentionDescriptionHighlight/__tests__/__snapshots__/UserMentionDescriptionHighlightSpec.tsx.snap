@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User mention description should render User Mention description component 1`] = `
+<styled.span>
+  @
+  Test User
+</styled.span>
+`;

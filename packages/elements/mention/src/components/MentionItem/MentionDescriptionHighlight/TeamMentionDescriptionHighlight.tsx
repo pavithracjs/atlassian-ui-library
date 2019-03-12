@@ -2,25 +2,20 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Props } from './types';
 import { TeamInformationStyle } from './styles';
-import { ReactComponentConstructor } from '../MentionHighlightHelpers';
 
-function renderTeamInformation(
-  ReactComponent: ReactComponentConstructor,
-  memberCount?: number,
-  includesYou?: boolean,
-) {
+function renderTeamInformation(memberCount?: number, includesYou?: boolean) {
   // todo - refactor with TeamOption ?
   // if Member count is missing, do not show the byline, regardless of the availability of includesYou
   if (memberCount === null || typeof memberCount === 'undefined') {
     return undefined;
   }
   return (
-    <ReactComponent>
+    <TeamInformationStyle>
       <FormattedMessage
         {...(memberCount > 50 ? messages.plus50Members : messages.memberCount)}
         values={{ count: memberCount, includes: includesYou }}
       />
-    </ReactComponent>
+    </TeamInformationStyle>
   );
 }
 
@@ -34,11 +29,7 @@ export default class TeamMentionDescriptionHighlight extends React.PureComponent
     const includesYou = context && context.includesYou;
     const memberCount = context && context.memberCount;
 
-    return renderTeamInformation(
-      TeamInformationStyle,
-      memberCount,
-      includesYou,
-    );
+    return renderTeamInformation(memberCount, includesYou);
   }
 }
 
