@@ -152,7 +152,7 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
         editorView={editorView}
       />,
     );
-    expect(toolbarOption.find('button').prop('disabled')).toBe(true);
+    expect(toolbarOption.find('Button').prop('isDisabled')).toBe(true);
     toolbarOption.unmount();
   });
 
@@ -285,7 +285,7 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
         editorView={editorView}
       />,
     );
-    expect(toolbarOption.find('button').prop('disabled')).toBe(true);
+    expect(toolbarOption.find('Button').prop('isDisabled')).toBe(true);
     toolbarOption.unmount();
   });
 
