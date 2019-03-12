@@ -58,7 +58,7 @@ describe('advanced search callback', () => {
       category: 'conent',
     },
   ].forEach(({ product, Component, category }) => {
-    it(`should call on advnaced callback on ${product} component`, () => {
+    it(`should call on advanced callback on ${product} component`, () => {
       const spy = jest.fn();
       const wrapper = mountWithIntl(
         <GlobalQuickSearch
@@ -80,7 +80,7 @@ describe('advanced search callback', () => {
       };
 
       if (callback) {
-        callback(event, category, 'query');
+        callback(event, category, 'query', 'sessionId');
       }
 
       expect(spy).toBeCalledTimes(1);
@@ -88,7 +88,8 @@ describe('advanced search callback', () => {
         category,
         query: 'query',
         preventDefault: expect.any(Function),
-        orignialEvent: event,
+        originalEvent: event,
+        searchSessionId: 'sessionId',
       });
     });
 
@@ -109,7 +110,7 @@ describe('advanced search callback', () => {
       };
       const callback = wrapper.find(Component).prop('onAdvancedSearch');
       if (callback) {
-        callback(mockedEvent, category, 'query');
+        callback(mockedEvent, category, 'query', 'sessionId');
       }
 
       expect(mockedEvent.preventDefault).toBeCalledTimes(1);
