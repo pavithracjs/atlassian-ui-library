@@ -141,7 +141,7 @@ export const getSpinnerStyles = () => ({
 });
 
 const getIconMargin = ({ spacing, iconBefore, iconAfter }: ThemeProps) => {
-  if (spacing === 'none') {
+  if (spacing === 'none' || spacing === 'compact') {
     return 0;
   }
 
