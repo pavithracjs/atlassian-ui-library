@@ -2,10 +2,10 @@ import { colors } from '@atlaskit/theme';
 import { customColors } from './colors';
 import { ButtonAppearances } from '../../src/types';
 
-type ButtonThemeProps = {
+interface ButtonValues {
   appearance: ButtonAppearances;
   state: string;
-};
+}
 
 type ButtonProperty = {
   [key: string]: any;
@@ -107,7 +107,7 @@ export const button = {
 
 const getBackground = (
   background: ButtonProperty,
-  { appearance, state }: ButtonThemeProps,
+  { appearance, state }: ButtonValues,
 ) => {
   if (!background[appearance]) {
     return background.default[state];
@@ -117,7 +117,7 @@ const getBackground = (
 
 const getBoxShadow = (
   boxShadow: ButtonProperty,
-  { appearance, state }: ButtonThemeProps,
+  { appearance, state }: ButtonValues,
 ) => {
   if (boxShadow[appearance][state]) return boxShadow[appearance][state];
   return boxShadow[appearance];
@@ -125,7 +125,7 @@ const getBoxShadow = (
 
 const getBorderColor = (
   borderColor: ButtonProperty,
-  { appearance, state }: ButtonThemeProps,
+  { appearance, state }: ButtonValues,
 ) => {
   if (!borderColor[appearance] || !borderColor[appearance][state]) {
     return borderColor.default.default;
@@ -135,42 +135,33 @@ const getBorderColor = (
 
 const getFontWeight = (
   fontWeight: ButtonProperty,
-  { appearance }: ButtonThemeProps,
+  { appearance }: ButtonValues,
 ) => {
   if (!fontWeight[appearance]) return fontWeight.default;
   return fontWeight[appearance];
 };
 
-const getCursor = (
-  cursor: ButtonProperty,
-  { appearance }: ButtonThemeProps,
-) => {
+const getCursor = (cursor: ButtonProperty, { appearance }: ButtonValues) => {
   if (!cursor[appearance]) return cursor.default;
   return cursor[appearance];
 };
 
-const getColor = (color: ButtonProperty, { appearance }: ButtonThemeProps) => {
+const getColor = (color: ButtonProperty, { appearance }: ButtonValues) => {
   if (!color[appearance]) {
     return color.default.default;
   }
   return color[appearance];
 };
 
-const getTransform = (
-  transform: ButtonProperty,
-  { state }: ButtonThemeProps,
-) => {
+const getTransform = (transform: ButtonProperty, { state }: ButtonValues) => {
   return transform['default'][state];
 };
 
-const getTransition = (
-  transition: ButtonProperty,
-  { state }: ButtonThemeProps,
-) => {
+const getTransition = (transition: ButtonProperty, { state }: ButtonValues) => {
   return transition['default'][state];
 };
 
-export default (props: ButtonThemeProps) => ({
+export default (props: ButtonValues) => ({
   border: button.border,
   background: getBackground(button.background, props),
   borderColor: getBorderColor(button.borderColor, props),

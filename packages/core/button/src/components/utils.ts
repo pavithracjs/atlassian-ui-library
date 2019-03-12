@@ -30,7 +30,7 @@ export const mapAttributesToState = ({
   return 'default';
 };
 
-export const filterHTMLAttributes = (props: Object) =>
+export const filterHTMLAttributes = (props: { [key: string]: any }) =>
   (Object.keys(props) as Array<keyof ButtonProps>).filter(isPropValid).reduce(
     (filteredProps, prop) => ({
       ...filteredProps,

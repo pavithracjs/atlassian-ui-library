@@ -76,16 +76,8 @@ const getBoxShadow = (props: ThemeProps) => {
   return `0 0 0 2px ${boxShadowColor}`;
 };
 
-const getWidth = ({ spacing, shouldFitContainer }: ThemeProps) => {
-  let width = 'auto';
-  if (spacing === 'compact') {
-    width = '100%';
-  }
-  if (shouldFitContainer) {
-    width = '100%';
-  }
-  return width;
-};
+const getWidth = ({ shouldFitContainer }: ThemeProps) =>
+  shouldFitContainer ? '100%' : 'auto';
 
 const staticStyles = {
   alignItems: 'baseline',
@@ -148,11 +140,26 @@ export const getSpinnerStyles = () => ({
   transform: 'translate(-50%, -50%)',
 });
 
-const getIconMargin = (props: ThemeProps) => {
-  if (props.spacing === 'none') {
+const getIconMargin = ({ spacing, iconBefore, iconAfter }: ThemeProps) => {
+  if (spacing === 'none') {
     return 0;
   }
-  return `${gridSize() / 2}px`;
+
+  const gs = gridSize();
+  const short = gs / 4;
+
+  let left = short;
+  let right = short;
+
+  if (iconBefore && !iconAfter) {
+    left = 3 * short;
+  }
+
+  if (!iconBefore && iconAfter) {
+    right = 3 * short;
+  }
+
+  return `${gs / 2}px  ${right}px ${gs / 2}px ${left}px`;
 };
 
 export const getIconStyles = (props: ThemeProps) => ({

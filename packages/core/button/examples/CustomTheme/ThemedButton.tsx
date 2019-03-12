@@ -1,24 +1,25 @@
 import * as React from 'react';
 import getButtonStyles from './styles';
 import Button from '../../src/components/Button';
+import { ButtonProps, ButtonAppearances } from '../../src/types';
 
-type Props = React.ComponentProps<typeof Button> & {
-  children?: React.ReactNode;
-};
-
-export default (props: Props) => (
+export default (props: ButtonProps) => (
   <Button
     theme={(adgTheme, { appearance = 'default', state = 'default' }) => {
       const {
         buttonStyles: adgButtonStyles,
         spinnerStyles: adgSpinnerStyles,
         iconStyles: adgIconStyles,
-      } = adgTheme({ appearance, state, ...props });
+      } = adgTheme({ ...props, appearance, state });
 
       return {
         buttonStyles: {
           ...adgButtonStyles,
-          ...getButtonStyles({ appearance, state, ...props }),
+          ...getButtonStyles({
+            ...props,
+            appearance: appearance as ButtonAppearances,
+            state,
+          }),
         },
         spinnerStyles: {
           ...adgSpinnerStyles,
