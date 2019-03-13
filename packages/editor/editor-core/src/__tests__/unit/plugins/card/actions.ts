@@ -14,22 +14,30 @@ import {
   inlineCard,
   blockCard,
   a,
+  createAnalyticsEventMock,
+  Refs,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
 import { setNodeSelection } from '../../../../utils';
+import { EditorView } from 'prosemirror-view';
+import { AnalyticsHandler } from '../../../../analytics';
 
 describe('card', () => {
   const createEditor = createEditorFactory();
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
+  let trackEvent: AnalyticsHandler;
 
   const editor = (doc: any) => {
-    return createEditor({
+    createAnalyticsEvent = createAnalyticsEventMock();
+    const wrapper = createEditor({
       doc,
       editorPlugins: [cardPlugin],
       pluginKey,
-      createAnalyticsEvent,
-      editorProps: { allowAnalyticsGASV3: true },
+      createAnalyticsEvent: createAnalyticsEvent as any,
+      editorProps: { allowAnalyticsGASV3: true, analyticsHandler: trackEvent },
     });
+    createAnalyticsEvent.mockClear();
+    return wrapper;
   };
 
   describe('actions', () => {
@@ -116,59 +124,87 @@ describe('card', () => {
     });
   });
 
-  describe.only('analytics GAS v3', () => {
+  describe.only('analytics', () => {
+    const atlassianUrl = 'http://www.atlassian.com/';
     const linkTypes = [
       {
         name: 'text',
-        element: p(a({ href: 'http://www.atlassian.com' })('>'), ' '),
+        element: p(a({ href: atlassianUrl })('>'), 'Cool {<>}website '),
       },
       {
         name: 'inlineCard',
-        element: p(
-          '{<}',
-          inlineCard({ url: 'http://www.atlassian.com/' })('{>}'),
-        ),
+        element: p('{<}', inlineCard({ url: atlassianUrl })('{>}')),
       },
       {
         name: 'blockCard',
-        element: blockCard({ url: 'http://www.atlassian.com/' })(),
+        element: blockCard({ url: atlassianUrl })(),
       },
     ];
 
     linkTypes.forEach(type => {
-      describe(`delete ${type.name}`, () => {
-        it('via toolbar', () => {
-          const { editorView } = editor(doc(type.element));
+      describe(`Toolbar ${type.name}`, () => {
+        let editorView: EditorView;
+        let refs: Refs;
+
+        beforeEach(() => {
+          ({ editorView, refs } = editor(doc(type.element)));
           if (type.name === 'blockCard') {
             setNodeSelection(editorView, 0);
+          } else {
+            setNodeSelection(editorView, refs['<']);
           }
 
-          removeCard(editorView.state, editorView.dispatch);
-          expect(createAnalyticsEvent).toHaveBeenCalledWith({
-            action: 'deleted',
-            actionSubject: 'link',
-            attributes: { inputMethod: 'toolbar', displayMode: type.name },
-            eventType: 'track',
+          trackEvent = jest.fn();
+        });
+
+        describe('delete command', () => {
+          it('should create analytics V3 event', () => {
+            removeCard(editorView.state, editorView.dispatch);
+            expect(createAnalyticsEvent).toHaveBeenCalledWith({
+              action: 'deleted',
+              actionSubject: 'link',
+              attributes: { inputMethod: 'toolbar', displayMode: type.name },
+              eventType: 'track',
+            });
+          });
+
+          it('should track analytics V2 event', () => {
+            removeCard(editorView.state, editorView.dispatch);
+            expect(trackEvent).toHaveBeenCalledWith(
+              'atlassian.editor.format.card.delete.button',
+            );
           });
         });
-      });
-    });
 
-    linkTypes.forEach(type => {
-      describe(`delete ${type.name}`, () => {
-        it('via toolbar', () => {
-          const { editorView } = editor(doc(type.element));
-          if (type.name === 'blockCard') {
-            setNodeSelection(editorView, 0);
-          }
-          jest.spyOn(window, 'open').mockImplementation(() => {});
+        describe('visit command', () => {
+          let windowSpy: jest.MockInstance<any>;
+          beforeEach(() => {
+            windowSpy = jest.spyOn(window, 'open').mockImplementation(() => {});
+          });
 
-          visitCardLink(editorView.state, editorView.dispatch);
-          expect(createAnalyticsEvent).toHaveBeenCalledWith({
-            action: 'visited',
-            actionSubjectId: type.name,
-            actionSubject: 'link',
-            eventType: 'track',
+          afterEach(() => {
+            windowSpy.mockRestore();
+          });
+
+          it('should create analytics V3 event', () => {
+            visitCardLink(editorView.state, editorView.dispatch);
+            expect(createAnalyticsEvent).toHaveBeenCalledWith({
+              action: 'visited',
+              actionSubjectId: type.name,
+              actionSubject: 'link',
+              eventType: 'track',
+            });
+          });
+
+          it('should track anaytlics V2 event', () => {
+            visitCardLink(editorView.state, editorView.dispatch);
+            expect(trackEvent).toHaveBeenCalledWith(
+              'atlassian.editor.format.card.visit.button',
+            );
+          });
+
+          it('should open a new tab with the right url', () => {
+            expect(windowSpy).toHaveBeenCalledWith(atlassianUrl);
           });
         });
       });

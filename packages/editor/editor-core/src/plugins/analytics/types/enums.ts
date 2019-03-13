@@ -14,6 +14,7 @@ export const enum ACTION {
   STARTED = 'started',
   STOPPED = 'stopped',
   SUBSTITUTED = 'autoSubstituted',
+  VISITED = 'visited',
 }
 
 export const enum INPUT_METHOD {
