@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Page, { Grid, GridColumn } from '@atlaskit/page';
 import { Card, Client, Provider, ResolveResponse } from '..';
-import { ClientConfig } from '../src/Client';
+import { ClientConfig } from '../src/client/types';
 import {
   GithubRepository,
   BitbucketRepository,
@@ -15,9 +15,9 @@ import {
   GithubPullRequest,
   GithubSourceCodeReference,
   GithubFile,
-} from './_jsonLDExamples';
+} from '../examples-helpers/_jsonLDExamples';
 import { IntlProvider } from 'react-intl';
-import { JiraTasks } from './_jsonLDExamples/atlassian.task';
+import { JiraTasks } from '../examples-helpers/_jsonLDExamples/atlassian.task';
 
 const metaMock = {
   access: 'granted',
