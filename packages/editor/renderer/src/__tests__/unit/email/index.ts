@@ -10,6 +10,7 @@ import * as inlineCodeProps from '../../__fixtures__/inline-code-props.adf.json'
 import * as inlineTextProps from '../../__fixtures__/inline-text-props.adf.json';
 import * as panels from '../../__fixtures__/panels.adf.json';
 import * as link from '../../__fixtures__/link.adf.json';
+import * as status from '../../__fixtures__/status.adf.json';
 
 const render = (doc: any) => {
   const serializer = EmailSerializer.fromSchema(schema);
@@ -63,6 +64,11 @@ describe('Renderer - EmailSerializer', () => {
 
   it('should render link', () => {
     const output = render(link);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render status correctly', () => {
+    const output = render(status);
     expect(output).toMatchSnapshot();
   });
 });
