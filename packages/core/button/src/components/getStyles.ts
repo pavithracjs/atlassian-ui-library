@@ -3,82 +3,70 @@ import { applyPropertyStyle, baseTheme } from '../theme';
 import { getLoadingStyle } from './utils';
 import { ThemeProps } from '../types';
 
-const getBackground = (props: ThemeProps) => {
-  return applyPropertyStyle('background', props, baseTheme);
-};
+const compactButtonHeight = `${(gridSize() * 3) / fontSize()}em`;
+const buttonHeight = `${(gridSize() * 4) / fontSize()}em`;
 
-const getColor = (props: ThemeProps) => {
-  return applyPropertyStyle('color', props, baseTheme);
-};
+/** Background */
+const getBackground = (props: ThemeProps) =>
+  applyPropertyStyle('background', props, baseTheme);
 
-const getCursor = ({ state = 'default' }: { state: string }) => {
-  let cursor = 'default';
-  if (state === 'hover') {
-    cursor = 'pointer';
-  }
-  if (state === 'disabled') {
-    cursor = 'not-allowed';
-  }
-  return cursor;
-};
-
-const getPadding = (props: ThemeProps) => {
-  const paddingSize = (gridSize() * 1.5) / fontSize();
-  let padLeft = props.iconBefore ? 0 : paddingSize;
-  let padRight = props.iconAfter ? 0 : paddingSize;
-
-  // Modifies padding while loading to center the loading spinner (while
-  // keeping dimensions the same for buttons with icons both before and after)
-  if (
-    (props.iconBefore || props.iconAfter) &&
-    !(props.iconBefore && props.iconAfter) &&
-    props.isLoading
-  ) {
-    padLeft = padRight = paddingSize / 2;
-  }
-
-  // TODO: RTL support
-  let padding = `0 ${padRight}em 0 ${padLeft}em`;
-
-  if (props.spacing === 'none' || props.iconIsOnlyChild) {
-    padding = '0';
-  }
-  return padding;
-};
-
-const getTransition = ({ state = 'default' }: { state: string }) => {
-  let transition =
-    'background 0.1s ease-out, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38)';
-  if (state === 'hover') {
-    transition =
-      'background 0s ease-out, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38)';
-  }
-  return transition;
-};
-
-const getTransitionDuration = ({ state = 'default' }: { state: string }) => {
-  let transitionDuration = '0.1s, 0.15s';
-  if (state === 'active') {
-    transitionDuration = '0s';
-  }
-  if (state === 'focus') {
-    transitionDuration = '0s, 0.2s';
-  }
-  return transitionDuration;
-};
-
-const getVerticalAlign = ({ spacing = 'default' }: ThemeProps) => {
-  return spacing === 'none' ? 'baseline' : 'middle';
-};
-
+/** Box Shadow */
 const getBoxShadow = (props: ThemeProps) => {
   const boxShadowColor = applyPropertyStyle('boxShadowColor', props, baseTheme);
   return `0 0 0 2px ${boxShadowColor}`;
 };
 
+/** Color */
+const getColor = (props: ThemeProps) =>
+  applyPropertyStyle('color', props, baseTheme);
+
+/** Cursor */
+const getCursor = ({ state = 'default' }: ThemeProps) =>
+  state === 'hover'
+    ? 'pointer'
+    : state === 'disabled'
+    ? 'not-allowed'
+    : 'default';
+
+/** Height */
+const getHeight = ({ spacing = 'default' }: ThemeProps) =>
+  spacing === 'compact'
+    ? compactButtonHeight
+    : spacing === 'none'
+    ? 'auto'
+    : buttonHeight;
+
+/** Line Height */
+const getLineHeight = ({ spacing = 'default' }: ThemeProps) =>
+  spacing === 'compact'
+    ? compactButtonHeight
+    : spacing === 'none'
+    ? 'inherit'
+    : buttonHeight;
+
+/** Padding */
+const getPadding = ({ spacing = 'default' }: ThemeProps) =>
+  spacing === 'none' ? 0 : `0 ${gridSize()}px`;
+
+/** Transition */
+const getTransition = ({ state = 'default' }: ThemeProps) =>
+  state === 'hover'
+    ? 'background 0s ease-out, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38)'
+    : 'background 0.1s ease-out, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38)';
+
+/** Transition Duration */
+const getTransitionDuration = ({ state = 'default' }: ThemeProps) =>
+  state === 'active' ? '0s' : state === 'focus' ? '0s, 0.2s' : '0.1s, 0.15s';
+
+/** Vertical Align */
+const getVerticalAlign = ({ spacing = 'default' }: ThemeProps) =>
+  spacing === 'none' ? 'baseline' : 'middle';
+
+/** Width */
 const getWidth = ({ shouldFitContainer }: ThemeProps) =>
   shouldFitContainer ? '100%' : 'auto';
 
+/** Base styles */
 const staticStyles = {
   alignItems: 'baseline',
   borderWidth: 0,
@@ -94,44 +82,35 @@ const staticStyles = {
   whiteSpace: 'nowrap',
 };
 
-export const getButtonStyles = (props: ThemeProps) => {
-  const compactButtonHeight = `${(gridSize() * 3) / fontSize()}em`;
-  const buttonHeight = `${(gridSize() * 4) / fontSize()}em`;
+/**
+ * BUTTON STYLES
+ */
+export const getButtonStyles = (props: ThemeProps) => ({
+  ...staticStyles,
+  background: getBackground(props),
+  borderRadius: `${borderRadius()}px`,
+  boxShadow: getBoxShadow(props),
+  color: `${getColor(props)} !important`,
+  cursor: getCursor(props),
+  height: getHeight(props),
+  lineHeight: getLineHeight(props),
+  padding: getPadding(props),
+  transition: getTransition(props),
+  transitionDuration: getTransitionDuration(props),
+  verticalAlign: getVerticalAlign(props),
+  width: getWidth(props),
 
-  const getLineHeight = ({ spacing = 'default' }: ThemeProps) => {
-    let lineHeight = buttonHeight;
-    if (spacing === 'compact') {
-      lineHeight = compactButtonHeight;
-    }
-    if (spacing === 'none') {
-      lineHeight = 'inherit';
-    }
-    return lineHeight;
-  };
+  '&::-moz-focus-inner': {
+    border: 0,
+    margin: 0,
+    padding: 0,
+  },
+  ...(props.isLoading && { 'pointer-events': 'none' }),
+});
 
-  return {
-    ...staticStyles,
-    background: getBackground(props),
-    borderRadius: `${borderRadius()}px`,
-    boxShadow: getBoxShadow(props),
-    color: `${getColor(props)} !important`,
-    cursor: getCursor(props),
-    lineHeight: getLineHeight(props),
-    padding: getPadding(props),
-    transition: getTransition(props),
-    transitionDuration: getTransitionDuration(props),
-    verticalAlign: getVerticalAlign(props),
-    width: getWidth(props),
-
-    '&::-moz-focus-inner': {
-      border: 0,
-      margin: 0,
-      padding: 0,
-    },
-    ...(props.isLoading && { 'pointer-events': 'none' }),
-  };
-};
-
+/**
+ * SPINNER STYLES
+ */
 export const getSpinnerStyles = () => ({
   display: 'flex',
   position: 'absolute',
@@ -140,20 +119,17 @@ export const getSpinnerStyles = () => ({
   transform: 'translate(-50%, -50%)',
 });
 
-const getIconMargin = ({ spacing }: ThemeProps) => {
-  const akGridSize = gridSize();
+/** Icon Margin */
+const getIconMargin = (props: ThemeProps) =>
+  props.spacing === 'none'
+    ? 0
+    : props.iconIsOnlyChild
+    ? `0 -${gridSize() / 4}px`
+    : `0 ${gridSize() / 2}px`;
 
-  if (spacing === 'none') {
-    return `0 ${akGridSize / 2}px`;
-  }
-
-  if (spacing === 'compact') {
-    return `0 ${akGridSize}px`;
-  }
-
-  return `${akGridSize / 2}px ${akGridSize}px`;
-};
-
+/**
+ * ICON STYLES
+ */
 export const getIconStyles = (props: ThemeProps) => ({
   alignSelf: 'center',
   display: 'flex',
