@@ -2,7 +2,6 @@ import { Mark } from 'prosemirror-model';
 import { Style } from './interfaces';
 import { markSerializers } from './serializers';
 import { commonStyle } from '.';
-import { tableStyles } from '../../../editor-core/src/plugins/table/ui/styles';
 
 export const createTag = (
   tagName: string,
@@ -52,7 +51,7 @@ export const applyMarks = (marks: Mark[], text: string): string => {
 };
 
 type TableData = {
-  text: string;
+  text?: string | null;
   style: Style;
 };
 
@@ -66,27 +65,25 @@ export const createTable = (
     margin: '0px',
     padding: '0px',
     'border-spacing': '0px',
+    width: '100%',
     // Allow overriding any tableStyle, via tableStyle param
     ...tableStyle,
   });
 
+  const attrs = {
+    cellspacing: 0,
+    cellpadding: 0,
+    border: 0,
+    style,
+  };
+
   const tableRows = tableData.map(tableRow => {
     const tableColumns = tableRow.map(({ style, text }) => {
       const css = serializeStyle(style);
-      return createTag('td', { style: css }, text);
+      return createTag('td', { style: css }, text ? text : '');
     });
     return createTag('tr', {}, tableColumns.join(''));
   });
 
-  const table = createTag(
-    'table',
-    {
-      cellspacing: 0,
-      cellpadding: 0,
-      border: 0,
-      style,
-    },
-    tableRows.join(''),
-  );
-  return table;
+  return createTag('table', attrs, tableRows.join(''));
 };
