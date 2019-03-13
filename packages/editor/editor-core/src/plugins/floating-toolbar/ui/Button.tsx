@@ -42,8 +42,6 @@ export default ({
             return {
               buttonStyles: {
                 ...buttonStyles,
-                // Is there a better way to do this? We don't
-                // want to list all the appearances...
                 ...(appearance === 'danger' &&
                   getButtonStyles({
                     appearance,
