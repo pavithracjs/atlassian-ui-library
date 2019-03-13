@@ -1,27 +1,82 @@
 import * as React from 'react';
 import JiraSwitcher from './jira-switcher';
 import ConfluenceSwitcher from './confluence-switcher';
+import GenericSwitcher from './generic-switcher';
 import ErrorBoundary from './error-boundary';
+import IntlProvider from './intl-provider';
+import messages from '../utils/messages';
+import { FeatureFlagProps, Product } from '../types';
+import {
+  analyticsAttributes,
+  NavigationAnalyticsContext,
+} from '../utils/analytics';
 
-interface AtlassianSwitcherProps {
+type AtlassianSwitcherProps = {
   product: string;
   cloudId: string;
   triggerXFlow: (productKey: string, sourceComponent: string) => void;
-}
+} & Partial<FeatureFlagProps>;
+
+const getAnalyticsContext = (props: { [key: string]: any }) => ({
+  source: 'atlassianSwitcher',
+  ...analyticsAttributes({
+    featureFlags: Object.keys(props)
+      .filter(key => key.startsWith('enable'))
+      .reduce(
+        (acc, key) => ({
+          ...acc,
+          [key]: props[key],
+        }),
+        {} as { [key: string]: any },
+      ),
+  }),
+});
 
 const AtlassianSwitcher = ({
   product,
   cloudId,
   triggerXFlow,
+  enableSplitJira = false,
   ...props
 }: AtlassianSwitcherProps) => {
-  let Switcher: React.ReactType;
+  let switcher: React.ReactElement<any>;
   switch (product) {
-    case 'jira':
-      Switcher = JiraSwitcher;
+    case Product.JIRA:
+      switcher = (
+        <JiraSwitcher
+          cloudId={cloudId}
+          triggerXFlow={triggerXFlow}
+          enableSplitJira={enableSplitJira}
+          messages={messages}
+          {...props}
+        />
+      );
       break;
-    case 'confluence':
-      Switcher = ConfluenceSwitcher;
+    case Product.CONFLUENCE:
+      switcher = (
+        <ConfluenceSwitcher
+          cloudId={cloudId}
+          triggerXFlow={triggerXFlow}
+          enableSplitJira={enableSplitJira}
+          messages={messages}
+          {...props}
+        />
+      );
+      break;
+    case Product.HOME:
+    case Product.PEOPLE:
+    case Product.SITE_ADMIN:
+    case Product.TRUSTED_ADMIN:
+      switcher = (
+        <GenericSwitcher
+          cloudId={cloudId}
+          triggerXFlow={triggerXFlow}
+          product={product}
+          enableSplitJira={enableSplitJira}
+          messages={messages}
+          {...props}
+        />
+      );
       break;
     default:
       if (process.env.NODE_ENV !== 'production') {
@@ -34,7 +89,9 @@ const AtlassianSwitcher = ({
   }
   return (
     <ErrorBoundary>
-      <Switcher cloudId={cloudId} triggerXFlow={triggerXFlow} {...props} />
+      <NavigationAnalyticsContext data={getAnalyticsContext(props)}>
+        <IntlProvider>{switcher}</IntlProvider>
+      </NavigationAnalyticsContext>
     </ErrorBoundary>
   );
 };

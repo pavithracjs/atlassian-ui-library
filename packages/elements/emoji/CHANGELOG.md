@@ -1,5 +1,37 @@
 # @atlaskit/emoji
 
+## 57.0.0
+- Updated dependencies [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
+  - @atlaskit/editor-test-helpers@7.0.6
+  - @atlaskit/util-data-test@10.2.5
+  - @atlaskit/media-core@28.0.0
+
+## 56.2.1
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/button@10.1.3
+  - @atlaskit/icon@16.0.4
+  - @atlaskit/util-data-test@10.2.3
+  - @atlaskit/util-service-support@3.1.1
+  - @atlaskit/media-core@27.2.3
+  - @atlaskit/docs@7.0.0
+  - @atlaskit/analytics@5.0.0
+  - @atlaskit/field-base@12.0.0
+  - @atlaskit/layer@6.0.0
+  - @atlaskit/section-message@2.0.0
+  - @atlaskit/spinner@10.0.0
+  - @atlaskit/theme@8.0.0
+  - @atlaskit/tooltip@13.0.0
+
+## 56.2.0
+- [minor] [4072865c1c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4072865c1c):
+
+  - added SSR tests to task-decision
+
+## 56.1.0
+- [minor] [36bb743af0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/36bb743af0):
+
+  - added/cleaned up ssr tests
+
 ## 56.0.0
 - Updated dependencies [4aee5f3cec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4aee5f3cec):
   - @atlaskit/editor-test-helpers@7.0.2

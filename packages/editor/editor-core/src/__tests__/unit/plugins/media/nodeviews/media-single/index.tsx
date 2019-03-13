@@ -10,7 +10,8 @@ import {
 import { defaultSchema, MediaAttributes } from '@atlaskit/adf-schema';
 import {
   stateKey as mediaStateKey,
-  DefaultMediaStateManager,
+  MediaPluginState,
+  MediaState,
 } from '../../../../../../plugins/media/pm-plugins/main';
 import MediaSingle, {
   ReactMediaSingleNode,
@@ -20,19 +21,16 @@ import { ProviderFactory } from '@atlaskit/editor-common';
 import { EventDispatcher } from '../../../../../../event-dispatcher';
 import { PortalProviderAPI } from '../../../../../../ui/PortalProvider';
 
-const stateManager = new DefaultMediaStateManager();
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
 const getFreshMediaProvider = () =>
   storyMediaProviderFactory({
     collectionName: testCollectionName,
-    stateManager,
     includeUserAuthProvider: true,
   });
 
 describe('nodeviews/mediaSingle', () => {
-  let pluginState;
-  const stateManager = new DefaultMediaStateManager();
+  let pluginState: MediaPluginState;
   const mediaNodeAttrs = {
     id: 'foo',
     type: 'file',
@@ -51,7 +49,7 @@ describe('nodeviews/mediaSingle', () => {
   const eventDispatcher = {} as EventDispatcher;
   const getPos = jest.fn();
   const portalProviderAPI: PortalProviderAPI = {
-    render(component) {
+    render(component: () => React.ReactChild | null) {
       component();
     },
     remove() {},
@@ -61,10 +59,10 @@ describe('nodeviews/mediaSingle', () => {
   beforeEach(() => {
     const mediaProvider = getFreshMediaProvider();
     const providerFactory = ProviderFactory.create({ mediaProvider });
-    pluginState = {
+    pluginState = ({
       getMediaNodeStateStatus: (id: string) => 'ready',
       getMediaNodeState: (id: string) => {
-        return { state: 'ready' };
+        return ({ state: 'ready' } as any) as MediaState;
       },
       options: {
         allowResizing: false,
@@ -73,7 +71,7 @@ describe('nodeviews/mediaSingle', () => {
       handleMediaNodeMount: () => {},
       updateElement: jest.fn(),
       updateMediaNodeAttrs: jest.fn(),
-    };
+    } as any) as MediaPluginState;
 
     getDimensions = wrapper => (): Promise<any> => {
       if (wrapper.props().node.firstChild.attrs.type === 'external') {
@@ -85,8 +83,6 @@ describe('nodeviews/mediaSingle', () => {
         width: 100,
       });
     };
-
-    pluginState.stateManager = stateManager;
 
     jest.spyOn(mediaStateKey, 'getState').mockImplementation(() => pluginState);
   });
