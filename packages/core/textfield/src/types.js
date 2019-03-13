@@ -1,7 +1,7 @@
 // @flow
 
 import type { ThemeProp } from '@atlaskit/theme';
-import type { ElementRef } from 'react';
+import type { ElementRef, Node } from 'react';
 import type { ThemeProps, ThemeTokens } from './theme';
 
 export type InputProps = {
@@ -10,6 +10,10 @@ export type InputProps = {
    * `none` hides all field styling.
    */
   appearance?: 'standard' | 'none' | 'subtle',
+  /** Element after input in textfield. */
+  elemAfterInput?: Node,
+  /** Element before input in textfield. */
+  elemBeforeInput?: Node,
   /** Set whether the fields should expand to fill available horizontal space. */
   isCompact?: boolean,
   /** Sets the field as uneditable, with a changed hover state. */
@@ -39,6 +43,10 @@ export type TextFieldProps = {
   createAnalyticsEvent: (SyntheticEvent<>) => void,
   /** Sets a default value as input value */
   defaultValue?: string,
+  /** Element after input in textfield. */
+  elemAfterInput?: Node,
+  /** Element before input in textfield. */
+  elemBeforeInput?: Node,
   /** Applies compact styling, making the field smaller */
   isCompact: boolean,
   /** Sets the field as uneditable, with a changed hover state. */

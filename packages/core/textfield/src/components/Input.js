@@ -6,6 +6,8 @@ import type { InputProps } from '../types';
 
 export default ({
   appearance,
+  elemAfterInput,
+  elemBeforeInput,
   forwardedRef,
   isCompact,
   isDisabled,
@@ -19,6 +21,7 @@ export default ({
   ...rest
 }: InputProps) => (
   <div className={css(theme.container)}>
+    {elemBeforeInput}
     <input
       ref={forwardedRef}
       disabled={isDisabled}
@@ -27,5 +30,6 @@ export default ({
       className={css(theme.input)}
       {...rest}
     />
+    {elemAfterInput}
   </div>
 );
