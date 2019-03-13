@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Tooltip from '@atlaskit/tooltip';
 import Button from '@atlaskit/button';
-import { getButtonStyles } from './styles';
+import { getButtonStyles, baseStyles } from './styles';
 
 export type ButtonAppearance = 'subtle' | 'danger';
 export interface Props {
@@ -42,6 +42,7 @@ export default ({
             return {
               buttonStyles: {
                 ...buttonStyles,
+                ...baseStyles,
                 ...(appearance === 'danger' &&
                   getButtonStyles({
                     appearance,

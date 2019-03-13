@@ -36,6 +36,13 @@ const getStyles = (
   return property[appearance][state][mode];
 };
 
+export const baseStyles = {
+  padding: '0 2px',
+  '&[href]': {
+    padding: '0 2px',
+  },
+};
+
 export const getButtonStyles = (props: any) => ({
   background: getStyles(background, props),
   color: getStyles(color, props),
