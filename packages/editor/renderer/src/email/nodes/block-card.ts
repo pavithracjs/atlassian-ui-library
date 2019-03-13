@@ -1,18 +1,26 @@
-import { NodeSerializerOpts, SmartCardAttributes } from '../interfaces';
-import { createTag, serializeStyle } from '../util';
+import {
+  NodeSerializerOpts,
+  SmartCardWithDataAttributes,
+  SmartCardWithUrlAttributes,
+} from '../interfaces';
+import { createTag, serializeStyle, createTable } from '../util';
 
 const borderRadius = {
   'border-radius': '3px',
   '-webkit-border-radius': '3px',
   '-moz-border-radius': '3px',
 };
+
 const contentTextWithDataStyle = serializeStyle({
   padding: '7px 0 0 0',
   color: '#000000',
 });
-// const contentTextStyle = serializeStyle({padding: '3px 0 0 0', color: '#5E6C84'});
-const width = { width: '400px', 'min-width': '200px', 'max-width': '400px' };
-const tableStyle = serializeStyle({ ...width, 'border-spacing': '0px' });
+
+const blockWidth = {
+  width: '400px',
+  'min-width': '200px',
+  'max-width': '400px',
+};
 
 const linkStyle = serializeStyle({
   border: 'none',
@@ -21,23 +29,23 @@ const linkStyle = serializeStyle({
   'text-decoration': 'none',
 });
 
-const cardHeaderTdStyle = serializeStyle({
+const cardHeaderTdStyle = {
   color: '#5E6C84',
   'font-size': '12px',
   'line-height': '24px',
-});
+};
 
-const cardContentTdStyle = serializeStyle({
+const cardContentTdStyle = {
   ...borderRadius,
   padding: '6px 12px 12px 12px',
   background: '#FFFFFF',
   'font-size': '12px',
   'line-height': '18px',
   border: '#ebedf0 solid 1px',
-});
+};
 
 const headingURLStyle = serializeStyle({
-  ...width,
+  ...blockWidth,
   overflow: 'hidden',
   color: '#000000',
   'font-size': '14px',
@@ -53,66 +61,53 @@ const headingDataStyle = serializeStyle({
   'font-weight': '500',
 });
 
-const outerTdStyle = serializeStyle({
+const outerTdStyle = {
   ...borderRadius,
   padding: '2px 5px 5px 5px',
   margin: '0px',
   color: '#000000',
   'background-color': '#F4F5F7',
   'font-size': '12px',
-});
-
-const renderBlockCardWithData = (attrs: SmartCardAttributes) => {
-  const header = attrs.data.generator ? attrs.data.generator.name : '';
-  const headerTd = createTag('td', { style: cardHeaderTdStyle }, header);
-  const headerRow = createTag('tr', {}, headerTd);
-  const contentHeading = createTag(
-    'div',
-    { style: headingDataStyle },
-    attrs.data.name,
-  );
-  const contentText = createTag(
-    'div',
-    { style: contentTextWithDataStyle },
-    attrs.data.summary,
-  );
-  const contentTd = createTag(
-    'td',
-    { style: cardContentTdStyle },
-    contentHeading + contentText,
-  );
-  const contentRow = createTag('tr', {}, contentTd);
-  const blockContent = createTag(
-    'table',
-    { style: tableStyle },
-    headerRow + contentRow,
-  );
-  const outerTd = createTag('td', { style: outerTdStyle }, blockContent);
-  const outerTable = createTag('table', { style: tableStyle }, outerTd);
-  return outerTable;
 };
 
-const renderBlockCard = (attrs: SmartCardAttributes, text?: string | null) => {
-  const fontTag = createTag(
-    'font',
-    { color: '#000000', style: linkStyle },
-    text || attrs.url,
+const renderBlockCardWithData = (attrs: SmartCardWithDataAttributes) => {
+  const name = attrs.data.name;
+  const summary = attrs.data.summary;
+  const heading = createTag('div', { style: headingDataStyle }, name);
+  const text = createTag('div', { style: contentTextWithDataStyle }, summary);
+
+  const blockContent = createTable(
+    [
+      [{ style: cardHeaderTdStyle, text: attrs.data.generator.name }],
+      [{ style: cardContentTdStyle, text: `${heading}${text}` }],
+    ],
+    blockWidth,
   );
-  const contentHeading = createTag('div', { style: headingURLStyle }, fontTag);
-  // TODO: Do we need to show 'Smart Card provider missing'? find out what this means exactly.
-  // const contentText = createTag('div', {style: contentTextStyle}, 'Smart Card provider missing')
-  const td = createTag('td', { style: outerTdStyle }, contentHeading);
-  const table = createTag('table', { style: tableStyle }, td);
-  return table;
+
+  return createTable(
+    [[{ style: outerTdStyle, text: blockContent }]],
+    blockWidth,
+  );
+};
+
+const renderBlockCard = (
+  attrs: SmartCardWithUrlAttributes,
+  text?: string | null,
+) => {
+  const title = text || attrs.url;
+  const heading = createTag('div', { style: headingURLStyle }, title);
+
+  return createTable([[{ style: outerTdStyle, text: heading }]], blockWidth);
 };
 
 export default function blockCard({ attrs, text }: NodeSerializerOpts) {
   if (attrs.data) {
     const href = attrs.data.url;
-    const card = renderBlockCardWithData(attrs as SmartCardAttributes);
+    const card = renderBlockCardWithData(attrs as SmartCardWithDataAttributes);
     return href ? createTag('a', { href, style: linkStyle }, card) : card;
   }
+
   const href = attrs.url;
-  const card = renderBlockCard(attrs as SmartCardAttributes, text);
+  const card = renderBlockCard(attrs as SmartCardWithUrlAttributes, text);
   return href ? createTag('a', { href, style: linkStyle }, card) : card;
 }

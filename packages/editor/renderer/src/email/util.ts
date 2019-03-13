@@ -2,6 +2,7 @@ import { Mark } from 'prosemirror-model';
 import { Style } from './interfaces';
 import { markSerializers } from './serializers';
 import { commonStyle } from '.';
+import { tableStyles } from '../../../editor-core/src/plugins/table/ui/styles';
 
 export const createTag = (
   tagName: string,
@@ -50,19 +51,42 @@ export const applyMarks = (marks: Mark[], text: string): string => {
   return output;
 };
 
-// For older Outlook clients, padding can be worked around with tables
-export const withTable = (text: string, style: Style = {}): string => {
+type TableData = {
+  text: string;
+  style: Style;
+};
+
+export const createTable = (
+  tableData: TableData[][],
+  tableStyle: Style = {},
+): string => {
   // Tables override font size, weight and other stuff, thus we reset it here with commonStyle
-  const nullifyCss = serializeStyle({
+  const style = serializeStyle({
     ...commonStyle,
     margin: '0px',
     padding: '0px',
     'border-spacing': '0px',
+    // Allow overriding any tableStyle, via tableStyle param
+    ...tableStyle,
   });
 
-  const css = serializeStyle(style);
+  const tableRows = tableData.map(tableRow => {
+    const tableColumns = tableRow.map(({ style, text }) => {
+      const css = serializeStyle(style);
+      return createTag('td', { style: css }, text);
+    });
+    return createTag('tr', {}, tableColumns.join(''));
+  });
 
-  const td = createTag('td', { style: css }, text);
-  const table = createTag('table', { style: nullifyCss }, td);
+  const table = createTag(
+    'table',
+    {
+      cellspacing: 0,
+      cellpadding: 0,
+      border: 0,
+      style,
+    },
+    tableRows.join(''),
+  );
   return table;
 };

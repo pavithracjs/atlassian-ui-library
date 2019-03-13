@@ -16,11 +16,11 @@ export interface MarkSerializerOpts {
   text: string;
 }
 
-export interface SmartCardAttributes {
+export interface SmartCardWithUrlAttributes {
   url: string;
 }
 
-export interface SmartCardAttributes {
+export interface SmartCardWithDataAttributes {
   data: {
     '@type': string;
     generator: {
@@ -32,3 +32,7 @@ export interface SmartCardAttributes {
     summary: string;
   };
 }
+
+export type SmartCardAttributes =
+  | SmartCardWithUrlAttributes
+  | SmartCardWithDataAttributes;
