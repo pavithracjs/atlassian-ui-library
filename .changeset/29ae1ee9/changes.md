@@ -1,0 +1,1 @@
+- Adds the ability to a function to access refs in navigation-next/GlobalItem. This function is exposed in GlobalNavigation for each of the items on GlobalNav in a prop called get<X>Ref, where X is product, create etc.
