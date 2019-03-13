@@ -11,7 +11,7 @@ import {
 BrowserTestCase(
   `text-color.ts: Can change text color`,
   { skip },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
 
     await browser.goto(editor.path);
@@ -22,6 +22,6 @@ BrowserTestCase(
     await browser.type(editable, 'Colorful text');
 
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

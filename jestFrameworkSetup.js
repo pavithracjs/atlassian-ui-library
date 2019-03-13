@@ -243,7 +243,7 @@ expect.extend({
    *
    * Issue: https://github.com/facebook/jest/issues/5801
    */
-  toMatchSnapshotConcurrent(actual, testCase) {
+  toMatchCustomSnapshot(actual, testCase) {
     const fakeThis = { ...this, currentTestName: testCase };
     return toMatchSnapshot.call(fakeThis, actual);
   },
@@ -255,7 +255,7 @@ expect.extend({
    *
    * Issue: https://github.com/facebook/jest/issues/5801
    */
-  toMatchDocSnapshotConcurrent(actual, testCase) {
+  toMatchCustomDocSnapshot(actual, testCase) {
     const { snapshotState } = this;
     // remove ids that may change from the document so snapshots are repeatable
     const transformedDoc = removeIdsFromDoc(actual);

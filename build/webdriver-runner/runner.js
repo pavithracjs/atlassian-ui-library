@@ -106,15 +106,11 @@ function BrowserTestCase(
 
 expect.extend({
   toMatchDocSnapshot() {
-    throw new Error(
-      'Please use toMatchDocSnapshotConcurrent on integration tests',
-    );
+    throw new Error('Please use toMatchCustomDocSnapshot on integration tests');
   },
 
   toMatchSnapshot() {
-    throw new Error(
-      'Please use toMatchSnapshotConcurrent on integration tests',
-    );
+    throw new Error('Please use toMatchCustomSnapshot on integration tests');
   },
 });
 

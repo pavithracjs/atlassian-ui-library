@@ -28,7 +28,7 @@ import messages from '../../../messages';
 BrowserTestCase(
   'Remains in overflow on table scale to wide',
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await page.browser.windowHandleMaximize();
 
@@ -48,14 +48,14 @@ BrowserTestCase(
     await page.click(`.${TableCssClassName.LAYOUT_BUTTON}`);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'Remains in overflow on table scale to full width',
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await page.browser.windowHandleMaximize();
 
@@ -77,14 +77,14 @@ BrowserTestCase(
     });
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'Maintains the wide layout size without overflow',
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await page.browser.windowHandleMaximize();
 
@@ -103,14 +103,14 @@ BrowserTestCase(
     await page.click(`.${TableCssClassName.LAYOUT_BUTTON}`);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'Maintains the wide layout size without overflow with dynamic text sizing',
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -129,14 +129,14 @@ BrowserTestCase(
     await page.click(`.${TableCssClassName.LAYOUT_BUTTON}`);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'Maintains the full-width layout size without overflow',
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await page.browser.windowHandleMaximize();
 
@@ -157,14 +157,14 @@ BrowserTestCase(
     });
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'Maintains the default layout size without overflow when toggling through layouts',
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await page.browser.windowHandleMaximize();
 
@@ -185,14 +185,14 @@ BrowserTestCase(
     });
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'Scales down column sizes when bodied extension parent layout changes',
   { skip: ['ie', 'edge', 'firefox', 'safari'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -220,14 +220,14 @@ BrowserTestCase(
     await animationFrame(page);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'Scales down column sizes when parent layout changes breakout',
   { skip: ['ie', 'edge', 'firefox', 'safari'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -252,6 +252,6 @@ BrowserTestCase(
     await animationFrame(page);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
