@@ -15,9 +15,12 @@
   "dependencies": {
     "@atlaskit/analytics-next": "^4.0.0",
     "@atlaskit/blanket": "^8.0.0",
+    "@atlaskit/build-utils": "^2.2.0",
     "@atlaskit/docs": "^7.0.0",
     "@atlaskit/icon": "^16.0.4",
     "@atlaskit/item": "^9.0.0",
+    "@atlaskit/portal": "^0.2.0",
+    "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/theme": "^8.0.0",
     "@babel/runtime": "^7.0.0",
     "chromatism": "^2.6.0",
