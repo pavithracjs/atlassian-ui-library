@@ -25,6 +25,22 @@ export default function() {
           </div>
         }
       />
+      <label htmlFor="before-input">Another before input</label>
+      <Textfield
+        id="before-input"
+        elemBeforeInput={
+          <div
+            style={{
+              backgroundColor: '#DFE1E6',
+              height: '100%',
+              lineHeight: '36px',
+              padding: '0 10px',
+            }}
+          >
+            https://
+          </div>
+        }
+      />
     </Fragment>
   );
 }
