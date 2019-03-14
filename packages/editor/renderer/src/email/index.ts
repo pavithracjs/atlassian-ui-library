@@ -6,12 +6,20 @@ import { Serializer } from '../serializer';
 import { nodeSerializers } from './serializers';
 import { serializeStyle } from './util';
 import { calcTableColumnWidths } from '@atlaskit/adf-schema';
+import { PMNodeParent } from './interfaces';
 
-const serializeNode = (node: PMNode, serializedHTML?: string): string => {
+const serializeNode = (
+  node: PMNode,
+  serializedHTML?: string,
+  parents: PMNodeParent[] = [],
+): string => {
   // ignore nodes with unknown type
   if (!nodeSerializers[node.type.name]) {
     return `[UNKNOWN_NODE_TYPE: ${node.type.name}]`;
   }
+
+  console.log(node.type.name);
+  console.log(parents);
 
   const attrs = node.type.name === 'table' ? getTableAttrs(node) : node.attrs;
 
@@ -30,15 +38,21 @@ const getTableAttrs = (node: PMNode): any => {
   };
 };
 
-const traverseTree = (fragment: Fragment): string => {
+const traverseTree = (
+  fragment: Fragment,
+  parents: PMNodeParent[] = [],
+): string => {
   let output = '';
 
   fragment.forEach(childNode => {
     if (childNode.isLeaf) {
-      output += serializeNode(childNode);
+      output += serializeNode(childNode, undefined, parents);
     } else {
-      const innerHTML = traverseTree(childNode.content);
-      output += serializeNode(childNode, innerHTML);
+      const innerHTML = traverseTree(childNode.content, [
+        ...parents,
+        { name: childNode.type.name },
+      ]);
+      output += serializeNode(childNode, innerHTML, parents);
     }
   });
 

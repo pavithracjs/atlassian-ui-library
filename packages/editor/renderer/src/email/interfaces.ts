@@ -5,6 +5,8 @@ export type MarkSerializer = (opts: MarkSerializerOpts) => string;
 
 export type Style = { [key: string]: string | number | undefined };
 
+export type PMNodeParent = { name: string };
+
 export interface NodeSerializerOpts {
   attrs: { [key: string]: any };
   marks: Mark[];
