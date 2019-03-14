@@ -26,6 +26,7 @@ type IStepsDataType = {
 
 function sendData(payload /*: IBuildEventProperties*/) {
   const client = new StatsD({
+    // TODO: when it is working in dev, we need to target production.
     host: 'statsd.ap-southeast-2.dev.paas-inf.net',
     port: 8125,
     errorHandler(error /*: Error*/) {

@@ -51,6 +51,7 @@
     "measure": "                             measure",
     "measure:changed": "                     node build/ci-scripts/get.changed.packages.since.master.js --spaceDelimited --only='packages' | xargs -n1 -P8 yarn measure --lint",
     "measure:updateSnapshot": "              node build/ci-scripts/get.changed.packages.since.master.js --spaceDelimited --only='packages' | xargs -n1 -P8 yarn measure --updateSnapshot",
+    "send:build:data" : "                    node build/ci-script/sending.build.data.js",
     "website:start": "                       cd website && yarn start",
     "start": "                               yarn run website:start",
     "start:bitbucket": "                     yarn run website:start **/packages/bitbucket/**",
