@@ -65,10 +65,7 @@ exports[`Renderer - EmailSerializer should align paragraph correctly 1`] = `
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;"
 >
   <table
-    border-spacing="0px"
-    margin="0"
-    padding="0"
-    width="100%"
+    style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
   >
     <tbody>
       <tr>
@@ -84,10 +81,7 @@ exports[`Renderer - EmailSerializer should align paragraph correctly 1`] = `
     style="width: 100%;text-align: center;"
   >
     <table
-      border-spacing="0px"
-      margin="0"
-      padding="0"
-      width="100%"
+      style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
     >
       <tbody>
         <tr>
@@ -104,10 +98,7 @@ exports[`Renderer - EmailSerializer should align paragraph correctly 1`] = `
     style="width: 100%;text-align: right;"
   >
     <table
-      border-spacing="0px"
-      margin="0"
-      padding="0"
-      width="100%"
+      style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
     >
       <tbody>
         <tr>
@@ -140,10 +131,7 @@ exports[`Renderer - EmailSerializer should inline text properties correctly 1`] 
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;"
 >
   <table
-    border-spacing="0px"
-    margin="0"
-    padding="0"
-    width="100%"
+    style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
   >
     <tbody>
       <tr>
@@ -233,10 +221,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 2px 0px 2px 8px;margin: 0px;background: #DEEBFF;"
                 >
                   <table
-                    border-spacing="0px"
-                    margin="0"
-                    padding="0"
-                    width="100%"
+                    style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
                   >
                     <tbody>
                       <tr>
@@ -278,10 +263,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 2px 0px 2px 8px;margin: 0px;background: #EAE6FF;"
                 >
                   <table
-                    border-spacing="0px"
-                    margin="0"
-                    padding="0"
-                    width="100%"
+                    style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
                   >
                     <tbody>
                       <tr>
@@ -323,10 +305,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 2px 0px 2px 8px;margin: 0px;background: #E3FCEF;"
                 >
                   <table
-                    border-spacing="0px"
-                    margin="0"
-                    padding="0"
-                    width="100%"
+                    style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
                   >
                     <tbody>
                       <tr>
@@ -368,10 +347,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 2px 0px 2px 8px;margin: 0px;background: #E3FCEF;"
                 >
                   <table
-                    border-spacing="0px"
-                    margin="0"
-                    padding="0"
-                    width="100%"
+                    style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
                   >
                     <tbody>
                       <tr>
@@ -413,10 +389,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 2px 0px 2px 8px;margin: 0px;background: #FFFAE6;"
                 >
                   <table
-                    border-spacing="0px"
-                    margin="0"
-                    padding="0"
-                    width="100%"
+                    style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
                   >
                     <tbody>
                       <tr>
@@ -458,10 +431,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 2px 0px 2px 8px;margin: 0px;background: #FFEBE6;"
                 >
                   <table
-                    border-spacing="0px"
-                    margin="0"
-                    padding="0"
-                    width="100%"
+                    style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
                   >
                     <tbody>
                       <tr>
@@ -502,10 +472,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
           style="padding-left: 30px;"
         >
           <table
-            border-spacing="0px"
-            margin="0"
-            padding="0"
-            width="100%"
+            style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
           >
             <tbody>
               <tr>
@@ -530,10 +497,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
           style="padding-left: 60px;"
         >
           <table
-            border-spacing="0px"
-            margin="0"
-            padding="0"
-            width="100%"
+            style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
           >
             <tbody>
               <tr>
@@ -558,10 +522,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
           style="padding-left: 90px;"
         >
           <table
-            border-spacing="0px"
-            margin="0"
-            padding="0"
-            width="100%"
+            style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
           >
             <tbody>
               <tr>
@@ -586,10 +547,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
           style="padding-left: 120px;"
         >
           <table
-            border-spacing="0px"
-            margin="0"
-            padding="0"
-            width="100%"
+            style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
           >
             <tbody>
               <tr>
@@ -614,10 +572,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
           style="padding-left: 150px;"
         >
           <table
-            border-spacing="0px"
-            margin="0"
-            padding="0"
-            width="100%"
+            style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
           >
             <tbody>
               <tr>
@@ -642,10 +597,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
           style="padding-left: 180px;"
         >
           <table
-            border-spacing="0px"
-            margin="0"
-            padding="0"
-            width="100%"
+            style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
           >
             <tbody>
               <tr>
@@ -706,10 +658,7 @@ exports[`Renderer - EmailSerializer should render text with em inside of a parag
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;"
 >
   <table
-    border-spacing="0px"
-    margin="0"
-    padding="0"
-    width="100%"
+    style="margin: 0;padding: 0;width: 100%;border-spacing: 0px;"
   >
     <tbody>
       <tr>
