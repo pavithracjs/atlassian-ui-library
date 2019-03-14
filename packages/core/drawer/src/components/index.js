@@ -2,7 +2,6 @@
 
 import React, { Children, Component, Fragment, type Node } from 'react';
 import { canUseDOM } from 'exenv';
-// import { createPortal } from 'react-dom';
 import Portal from '@atlaskit/portal';
 import { ThemeProvider } from 'styled-components';
 import { TransitionGroup } from 'react-transition-group';
