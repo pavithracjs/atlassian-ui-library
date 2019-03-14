@@ -250,13 +250,10 @@ export const Theme = createTheme<ThemeTokens, ThemeProps>(props => ({
     wordWrap: 'break-word',
     verticalAlign: 'top',
     pointerEvents: props.isDisabled ? 'none' : 'auto',
-    padding: `${props.isCompact ? gridSize() / 2 : gridSize()}px ${gridSize() -
-      2}px`,
   },
   input: {
     backgroundColor: 'transparent',
     border: 0,
-    padding: 0,
     boxSizing: 'border-box',
     color: 'inherit',
     cursor: 'inherit',
@@ -264,6 +261,8 @@ export const Theme = createTheme<ThemeTokens, ThemeProps>(props => ({
     fontSize: `${fontSize()}px`,
     minWidth: '0',
     outline: 'none',
+    padding: `${props.isCompact ? gridSize() / 2 : gridSize()}px ${gridSize() -
+      2}px`,
     width: '100%',
     lineHeight: (gridSize() * 2.5) / fontSize(),
     '&[disabled]': {

@@ -8,12 +8,19 @@ export default function() {
   return (
     <Fragment>
       <label htmlFor="after-input">After input</label>
-      <Textfield id="after-input" elemAfterInput={<ErrorIcon />} />
+      <Textfield
+        id="after-input"
+        elemAfterInput={
+          <div style={{ paddingRight: '6px', lineHeight: '100%' }}>
+            <ErrorIcon />
+          </div>
+        }
+      />
       <label htmlFor="before-input">Before input</label>
       <Textfield
         id="before-input"
         elemBeforeInput={
-          <div style={{ paddingRight: '4px', lineHeight: '100%' }}>
+          <div style={{ paddingLeft: '6px', lineHeight: '100%' }}>
             <Avatar size="small" borderColor="transparent" />
           </div>
         }
