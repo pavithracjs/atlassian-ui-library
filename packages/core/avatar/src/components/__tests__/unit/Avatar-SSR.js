@@ -47,14 +47,6 @@ describe('Avatar SSR', () => {
     src: LOAD_SUCCESS_SRC,
   };
 
-  // Test the SSR render inserts the actual image src in to the generated markup
-  // to allow the images to load immediately when the DOM is parsed, before hydration occurs.
-  it('should directly render the image src for SSR', () => {
-    const actualMarkup = ReactDOMServer.renderToString(<Avatar {...avatar} />);
-
-    expect(actualMarkup).toContain(avatar.src);
-  });
-
   // verify that hydration with a failed image shows the default image again
   it('should hydrate from SSR', done => {
     avatar.src = LOAD_FAILURE_SRC;
