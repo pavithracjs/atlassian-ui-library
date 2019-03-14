@@ -1,6 +1,6 @@
 //@flow
 /* 
-WIP This codemod is not ready yet to be used on products
+WIP This codemod was build during shipit it's changes should be carefully scrutinized before shipping ;)
 */
 
 const themeIndexImports = [
