@@ -20,9 +20,10 @@ import tableHeader from './nodes/table-header';
 import tableRow from './nodes/table-row';
 import text from './nodes/text';
 import unknownBlock from './nodes/unknown-block';
+import status from './nodes/status';
 
 import code from './marks/code';
-import em from './marks/strong';
+import em from './marks/em';
 import link from './marks/link';
 import strike from './marks/strike';
 import strong from './marks/strong';
@@ -59,6 +60,7 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   taskList: renderNothing,
   text,
   unknownBlock,
+  status,
 };
 
 export const markSerializers: { [key: string]: MarkSerializer } = {
