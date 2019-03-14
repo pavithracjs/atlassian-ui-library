@@ -33,7 +33,7 @@
     "@atlaskit/media-store": "^10.0.0",
     "@atlaskit/media-ui": "^9.2.1",
     "@atlaskit/select": "^8.0.0",
-    "axios": "^0.17.1",
+    "axios": "^0.18.0",
     "enzyme": "^3.7.0",
     "exenv": "^1.2.2",
     "kakapo": "^3.3.4",

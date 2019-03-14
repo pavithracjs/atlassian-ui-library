@@ -20,5 +20,8 @@
     "npm-run": "^4.1.2",
     "projector-spawn": "^1.0.1",
     "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "axios": "^0.18.0"
   }
 }
