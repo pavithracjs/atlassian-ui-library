@@ -14,6 +14,7 @@ import {
   setLinkHref,
   insertLink,
   hideLinkToolbar,
+  visitLink,
 } from './commands';
 import { normalizeUrl } from './utils';
 import RecentList from './ui/RecentSearch';
@@ -118,7 +119,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
               icon: OpenIcon,
               target: '_blank',
               href: link,
-              onClick: () => true,
+              onClick: visitLink,
               selected: false,
               title: labelOpenLink,
             },

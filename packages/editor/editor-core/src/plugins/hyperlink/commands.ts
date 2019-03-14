@@ -15,8 +15,11 @@ import {
   INPUT_METHOD,
   EVENT_TYPE,
   ACTION_SUBJECT_ID,
+  AnalyticsEventPayload,
+  withAnalytics,
 } from '../analytics';
 import { queueCardsFromChangedTr } from '../card/pm-plugins/doc';
+import { LINK_TYPE } from '../analytics/types/node-events';
 
 export function isTextAtPos(pos: number): Predicate {
   return (state: EditorState) => {
@@ -127,8 +130,26 @@ export function insertLink(
 }
 
 export function removeLink(pos: number): Command {
-  return setLinkHref('', pos);
+  return withAnalytics({
+    action: ACTION.DELETED,
+    actionSubject: ACTION_SUBJECT.LINK,
+    eventType: EVENT_TYPE.TRACK,
+  })(setLinkHref('', pos));
 }
+
+export const visitLink: Command = (state, dispatch) => {
+  const payload: AnalyticsEventPayload = {
+    action: ACTION.VISITED,
+    actionSubject: ACTION_SUBJECT.LINK,
+    actionSubjectId: LINK_TYPE.TEXT,
+    eventType: EVENT_TYPE.TRACK,
+  };
+
+  if (dispatch) {
+    dispatch(addAnalytics(state.tr, payload));
+  }
+  return true;
+};
 
 export function showLinkToolbar(
   inputMethod:
