@@ -83,6 +83,23 @@ const items: Array<QuickInsertItem> = [
     },
   },
   {
+    title: 'Minimum width extension',
+    icon: () => <DevIcon label="dev" />,
+    action(insert) {
+      return insert({
+        type: 'extension',
+        attrs: {
+          extensionType: 'com.atlassian.confluence.macro.core',
+          extensionKey: 'block-layout-eh',
+          text: 'Minimum width block extension demo',
+          parameters: {
+            style: { minWidth: 400 },
+          },
+        },
+      });
+    },
+  },
+  {
     title: 'Lorem ipsum',
     icon: () => <DevIcon label="dev" />,
     action(insert) {
