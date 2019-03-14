@@ -1,7 +1,8 @@
 // @flow
 
 import styled, { css, keyframes } from 'styled-components';
-import { colors, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import * as colors from '@atlaskit/theme/colors';
 import type { SpinnerPhases } from '../types';
 import { SIZES_MAP } from './constants';
 
