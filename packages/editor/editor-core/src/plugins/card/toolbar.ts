@@ -16,7 +16,6 @@ import {
   INPUT_METHOD,
   EVENT_TYPE,
   addAnalytics,
-  fireAnalyticsEvent,
 } from '../analytics';
 import { LINK_TYPE } from '../analytics/types/node-events';
 

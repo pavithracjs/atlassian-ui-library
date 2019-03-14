@@ -20,12 +20,10 @@ import {
 import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
 import { setNodeSelection } from '../../../../utils';
 import { EditorView } from 'prosemirror-view';
-import { AnalyticsHandler } from '../../../../analytics';
 
 describe('card', () => {
   const createEditor = createEditorFactory();
   let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
-  let trackEvent: AnalyticsHandler;
 
   const editor = (doc: any) => {
     createAnalyticsEvent = createAnalyticsEventMock();
@@ -34,7 +32,7 @@ describe('card', () => {
       editorPlugins: [cardPlugin],
       pluginKey,
       createAnalyticsEvent: createAnalyticsEvent as any,
-      editorProps: { allowAnalyticsGASV3: true, analyticsHandler: trackEvent },
+      editorProps: { allowAnalyticsGASV3: true },
     });
     createAnalyticsEvent.mockClear();
     return wrapper;
@@ -128,10 +126,6 @@ describe('card', () => {
     const atlassianUrl = 'http://www.atlassian.com/';
     const linkTypes = [
       {
-        name: 'text',
-        element: p(a({ href: atlassianUrl })('>'), 'Cool {<>}website '),
-      },
-      {
         name: 'inlineCard',
         element: p('{<}', inlineCard({ url: atlassianUrl })('{>}')),
       },
@@ -153,13 +147,14 @@ describe('card', () => {
           } else {
             setNodeSelection(editorView, refs['<']);
           }
-
-          trackEvent = jest.fn();
         });
 
         describe('delete command', () => {
-          it('should create analytics V3 event', () => {
+          beforeEach(() => {
             removeCard(editorView.state, editorView.dispatch);
+          });
+
+          it('should create analytics V3 event', () => {
             expect(createAnalyticsEvent).toHaveBeenCalledWith({
               action: 'deleted',
               actionSubject: 'link',
@@ -167,19 +162,13 @@ describe('card', () => {
               eventType: 'track',
             });
           });
-
-          it('should track analytics V2 event', () => {
-            removeCard(editorView.state, editorView.dispatch);
-            expect(trackEvent).toHaveBeenCalledWith(
-              'atlassian.editor.format.card.delete.button',
-            );
-          });
         });
 
         describe('visit command', () => {
           let windowSpy: jest.MockInstance<any>;
           beforeEach(() => {
             windowSpy = jest.spyOn(window, 'open').mockImplementation(() => {});
+            visitCardLink(editorView.state, editorView.dispatch);
           });
 
           afterEach(() => {
@@ -187,20 +176,12 @@ describe('card', () => {
           });
 
           it('should create analytics V3 event', () => {
-            visitCardLink(editorView.state, editorView.dispatch);
             expect(createAnalyticsEvent).toHaveBeenCalledWith({
               action: 'visited',
               actionSubjectId: type.name,
               actionSubject: 'link',
               eventType: 'track',
             });
-          });
-
-          it('should track anaytlics V2 event', () => {
-            visitCardLink(editorView.state, editorView.dispatch);
-            expect(trackEvent).toHaveBeenCalledWith(
-              'atlassian.editor.format.card.visit.button',
-            );
           });
 
           it('should open a new tab with the right url', () => {
@@ -211,29 +192,3 @@ describe('card', () => {
     });
   });
 });
-
-// // @ts-ignore
-// global.open = jest.fn();
-
-// const { editorView, refs } = editor(
-//   doc(
-//     p(
-//       '{<}',
-//       inlineCard({
-//         data: {
-//           url: 'http://www.atlassian.com/',
-//         },
-//       })('{>}'),
-//     ),
-//   ),
-// );
-
-// setNodeSelection(editorView, refs['<']);
-
-// const toolbar = floatingToolbar(editorView.state, intl);
-// const visitButton = toolbar!.items.find(
-//   item => item.type === 'button' && item.title === visitTitle,
-// ) as FloatingToolbarButton<Command>;
-
-// visitButton.onClick(editorView.state, editorView.dispatch);
-// expect(open).toBeCalledWith('http://www.atlassian.com/', '_self');
