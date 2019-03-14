@@ -9,7 +9,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 
 const { createDefaultGlob } = require('./utils');
 const statsOptions = require('./statsOptions');
-const getAlternativeEntryPointAliasMap = require('./entry-point-alias-map-builder');
+const moduleResolveMapBuilder = require('@atlaskit/multi-entry-tools/module-resolve-map-builder');
 
 const baseCacheDir = path.resolve(
   __dirname,
@@ -194,7 +194,7 @@ module.exports = async function createWebpackConfig(
       mainFields: ['atlaskit:src', 'module', 'browser', 'main'],
       extensions: ['.js', '.ts', '.tsx'],
       alias: {
-        ...(await getAlternativeEntryPointAliasMap()),
+        ...(await moduleResolveMapBuilder()),
       },
     },
     resolveLoader: {
