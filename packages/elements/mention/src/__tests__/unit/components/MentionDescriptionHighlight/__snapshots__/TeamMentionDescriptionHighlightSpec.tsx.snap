@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Team mention description should render Team Mention description component 1`] = `
+.c0 {
+  color: #7A869A;
+  font-size: 12px;
+  margin-top: 2px;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+<span
+  class="c0"
+>
+  <span>
+    5 members, including you
+  </span>
+</span>
+`;
