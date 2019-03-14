@@ -175,6 +175,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
                   onMouseUp={this.onMouseUp}
                   onFocus={this.onFocus}
                   onBlur={this.onBlur}
+                  disabled={isDisabled}
                   className={cx(css(specifiers(buttonStyles)), className)}
                 >
                   <InnerWrapper
