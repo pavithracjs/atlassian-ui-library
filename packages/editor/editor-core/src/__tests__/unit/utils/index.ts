@@ -445,6 +445,20 @@ describe('@atlaskit/editore-core/utils', () => {
   });
 
   describe('#compose', () => {
+    it('should composes functions with multiple args', () => {
+      const fn1 = (val: string) => `fn1(${val})`;
+      const fn2 = (val: string) => `fn2(${val})`;
+      const fn3 = (val: string, num: number) => `fn3(${val}-${num})`;
+
+      const composedFunction = compose(
+        fn1,
+        fn2,
+        fn3,
+      );
+
+      expect(composedFunction('inner', 2)).toBe('fn1(fn2(fn3(inner-2)))');
+    });
+
     it('should compose functions right to left', () => {
       const f1 = (a: string) => `#${a}`;
       const f2 = (b: string) => `!${b}`;
