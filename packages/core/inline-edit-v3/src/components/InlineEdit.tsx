@@ -57,7 +57,9 @@ class InlineEdit extends React.Component<Props, State> {
 
   onCancelClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    if (this.cancelButtonRef) this.cancelButtonRef.focus();
+    if (this.cancelButtonRef) {
+      this.cancelButtonRef.focus();
+    }
     this.props.onCancel();
   };
 
@@ -87,7 +89,9 @@ class InlineEdit extends React.Component<Props, State> {
   };
 
   confirmIfUnfocused = (value: any) => {
-    if (!this.state.wasFocusReceivedSinceLastBlur) this.props.onConfirm(value);
+    if (!this.state.wasFocusReceivedSinceLastBlur) {
+      this.props.onConfirm(value);
+    }
   };
 
   renderReadView = () => {
@@ -118,7 +122,9 @@ class InlineEdit extends React.Component<Props, State> {
             iconBefore={<ConfirmIcon label={confirmButtonLabel} size="small" />}
             shouldFitContainer
             onClick={() => {
-              if (this.confirmButtonRef) this.confirmButtonRef.focus();
+              if (this.confirmButtonRef) {
+                this.confirmButtonRef.focus();
+              }
             }}
             innerRef={ref => {
               this.confirmButtonRef = ref;

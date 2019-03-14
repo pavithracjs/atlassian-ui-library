@@ -19,14 +19,16 @@ export interface Props {
   ) => string | void | Promise<string | void>;
   /** Handler called when readView is clicked. */
   onEditRequested: () => void;
-  /** Handler called editView is closed and changes are confirmed.
-   * Field value is passed as an argument to this function. */
+  /**
+   * Handler called editView is closed and changes are confirmed.
+   * Field value is passed as an argument to this function.
+   */
   onConfirm: (value: any) => void;
   /** Handler called when checkmark is. */
   onCancel: () => void;
 
   /** Contained in defaultProps */
-  /** Set whether onConfirm should be called on blur.*/
+  /** Set whether onConfirm should be called on blur. */
   disableConfirmOnBlur: boolean;
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
   hideActionButtons: boolean;
@@ -53,8 +55,10 @@ export type RenderChildrenProps = {
   ) => string | void | Promise<string | void>;
   /** Handler called when readView is clicked. */
   onEditRequested: () => void;
-  /** Handler called editView is closed and changes are confirmed.
-   * Field value is passed as an argument to this function. */
+  /**
+   * Handler called editView is closed and changes are confirmed.
+   * Field value is passed as an argument to this function.
+   */
   onConfirm: (value: any) => void;
   /** Handler called when checkmark is. */
   onCancel: () => void;
@@ -62,7 +66,7 @@ export type RenderChildrenProps = {
   children: (isEditing: boolean, fieldProps?: FieldProps) => React.ReactChild;
 
   /** Contained in defaultProps */
-  /** Set whether onConfirm should be called on blur.*/
+  /** Set whether onConfirm should be called on blur. */
   disableConfirmOnBlur: boolean;
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
   hideActionButtons: boolean;
@@ -86,7 +90,7 @@ export interface FormChild {
   dirty: boolean;
   submitting: boolean;
   disabled: boolean;
-  getValues: () => Record<string, any>; //?
+  getValues: () => Record<string, any>; // ?
 }
 
 export interface FieldProps {
