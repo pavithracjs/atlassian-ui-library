@@ -155,7 +155,7 @@ export default class Example extends Component<ExampleProps, ExampleState> {
               dialogPlacement="right bottom"
               heading="Let's learn about the Global Navigation"
               targetNode={targetNode}
-              targetRadius={16}
+              targetRadius={40}
             >
               <div>{`This is the ${this.icons[targetIndex]} icon`}</div>
             </Spotlight>
