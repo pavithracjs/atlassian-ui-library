@@ -277,7 +277,9 @@ export default class ToolsDrawer extends React.Component<Props & any, State> {
                                   ? 'primary'
                                   : 'default'
                               }
-                              theme="dark"
+                              theme={(current, props) =>
+                                current({ ...props, mode: 'dark' })
+                              }
                               spacing="compact"
                             >
                               {providerStateName}
@@ -292,7 +294,9 @@ export default class ToolsDrawer extends React.Component<Props & any, State> {
                   <ButtonGroup>
                     <Button
                       onClick={this.toggleDisabled}
-                      theme="dark"
+                      theme={(current, props) =>
+                        current({ ...props, mode: 'dark' })
+                      }
                       spacing="compact"
                     >
                       {this.state.editorEnabled
@@ -301,7 +305,9 @@ export default class ToolsDrawer extends React.Component<Props & any, State> {
                     </Button>
                     <Button
                       onClick={this.reloadEditor}
-                      theme="dark"
+                      theme={(current, props) =>
+                        current({ ...props, mode: 'dark' })
+                      }
                       spacing="compact"
                       className="reloadEditorButton"
                     >
@@ -314,7 +320,9 @@ export default class ToolsDrawer extends React.Component<Props & any, State> {
                       <Button
                         key={key}
                         onClick={() => this.toggleFeature(key)}
-                        theme="dark"
+                        theme={(current, props) =>
+                          current({ ...props, mode: 'dark' })
+                        }
                         spacing="compact"
                         className={`toggleFeature-${key} ${
                           this.state.enabledFeatures[key] ? 'disable' : 'enable'
@@ -330,7 +338,9 @@ export default class ToolsDrawer extends React.Component<Props & any, State> {
                       <Button
                         onClick={this.toggleMediaMock}
                         appearance={mediaMockEnabled ? 'primary' : 'default'}
-                        theme="dark"
+                        theme={(current, props) =>
+                          current({ ...props, mode: 'dark' })
+                        }
                         spacing="compact"
                         className="mediaPickerMock"
                       >
