@@ -19,8 +19,7 @@
     "@atlaskit/analytics-next": "^4.0.0",
     "@atlaskit/theme": "^8.0.0",
     "@atlaskit/tooltip": "^13.0.0",
-    "@babel/runtime": "^7.0.0",
-    "exenv": "^1.2.2"
+    "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {
     "react": "^16.4.0",
