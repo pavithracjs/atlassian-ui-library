@@ -1,5 +1,4 @@
-// @flow
-import React, { Component, Node } from 'react';
+import * as React from 'react';
 
 import {
   withAnalyticsEvents,
@@ -11,59 +10,113 @@ import ConfirmIcon from '@atlaskit/icon/glyph/check';
 import CancelIcon from '@atlaskit/icon/glyph/cross';
 import Form, { Field } from '@atlaskit/form';
 
+import { Props } from '../types';
+import ButtonsWrapper from '../styled/ButtonsWrapper';
+import ButtonWrapper from '../styled/ButtonWrapper';
+import ReadViewContentWrapper from '../styled/ReadViewContentWrapper';
+import ContentWrapper from '../styled/ContentWrapper';
+import EditButton from '../styled/EditButton';
+import ReadViewWrapper from '../styled/ReadViewWrapper';
+
 import {
   name as packageName,
   version as packageVersion,
-} from '../package.json';
+} from '../../package.json';
+import { withDefaultProps } from '@atlaskit/type-helpers';
 
-import type { PropsRenderProps } from './types';
-import ButtonsWrapper from './styled/ButtonsWrapper';
-import ButtonWrapper from './styled/ButtonWrapper';
-import ReadViewContentWrapper from './styled/ReadViewContentWrapper';
-import ContentWrapper from './styled/ContentWrapper';
-import EditButton from './styled/EditButton';
+// This should be exported from the form itself
+interface FormProps {
+  onSubmit: (e: React.FormEvent) => void;
+  ref: React.RefObject<HTMLFormElement>;
+}
 
-type State = {
-  onReadViewHover: boolean,
-  initialValue: any,
-  wasFocusReceivedSinceLastBlur: boolean,
+interface FormChild {
+  // rename me pls
+  formProps: FormProps;
+  dirty: boolean;
+  submitting: boolean;
+  disabled: boolean;
+  getValues: () => Record<string, any>; //?
+}
+
+interface FieldProps {
+  id: string;
+  isRequired: boolean;
+  isDisabled: boolean;
+  isInvalid: boolean;
+  onChange: (e: any) => any;
+  onBlur: () => any;
+  onFocus: () => any;
+  value: any;
+  'aria-invalid': 'true' | 'false';
+  'aria-labelledby': string;
+}
+
+interface Meta {
+  dirty: boolean;
+  touched: boolean;
+  valid: boolean;
+  error: any;
+  submitError: any;
+}
+
+interface FieldChild {
+  // rename
+  fieldProps: FieldProps;
+  error: any;
+  meta: Meta;
+}
+
+interface State {
+  onReadViewHover: boolean;
+  initialValue: any;
+  wasFocusReceivedSinceLastBlur: boolean;
+}
+
+const defaultProps: Pick<
+  Props,
+  | 'disableConfirmOnBlur'
+  | 'hideActionButtons'
+  | 'editButtonLabel'
+  | 'confirmButtonLabel'
+  | 'cancelButtonLabel'
+> = {
+  disableConfirmOnBlur: false,
+  hideActionButtons: false,
+  editButtonLabel: 'Edit',
+  confirmButtonLabel: 'Confirm',
+  cancelButtonLabel: 'Cancel',
 };
 
-class InlineEdit extends Component<PropsRenderProps, State> {
-  confirmButtonRef: null | HTMLButtonElement;
-  cancelButtonRef: null | HTMLButtonElement;
+class InlineEdit extends React.Component<Props, State> {
+  confirmButtonRef?: HTMLElement;
+  cancelButtonRef?: HTMLElement;
 
-  static defaultProps = {
-    disableConfirmOnBlur: false,
-    hideActionButtons: false,
-    editButtonLabel: 'Edit',
-    confirmButtonLabel: 'Confirm',
-    cancelButtonLabel: 'Cancel',
+  state = {
+    onReadViewHover: false,
+    initialValue: '',
+    wasFocusReceivedSinceLastBlur: false,
   };
 
-  constructor(props: PropsRenderProps) {
-    super(props);
-    this.state = {
-      onReadViewHover: false,
-      initialValue: '',
-      wasFocusReceivedSinceLastBlur: false,
-    };
-  }
-
-  onCancelClick = (event: any) => {
+  onCancelClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (this.cancelButtonRef) this.cancelButtonRef.focus();
     this.props.onCancel();
   };
 
-  onReadViewClick = (event: any) => {
-    if (event.target.tagName.toLowerCase() === 'a') {
-      return;
+  onReadViewClick = (
+    event: React.MouseEvent<HTMLButtonElement | HTMLDivElement>,
+  ) => {
+    const element = event.target as HTMLElement;
+    if (element.tagName.toLowerCase() !== 'a') {
+      event.preventDefault();
+      this.props.onEditRequested();
     }
-    event.preventDefault();
-    this.props.onEditRequested();
   };
 
+  /** Unless disableConfirmOnBlur prop is true, will call confirmIfUnfocused() which
+   *  confirms the value, unless the focus is transferred to the buttons
+   */
   onWrapperBlur = (value: any) => {
     if (!this.props.disableConfirmOnBlur) {
       this.setState({ wasFocusReceivedSinceLastBlur: false });
@@ -71,6 +124,7 @@ class InlineEdit extends Component<PropsRenderProps, State> {
     }
   };
 
+  /** Gets called when focus is transferred to the editView, or action buttons */
   onWrapperFocus = () => {
     this.setState({ wasFocusReceivedSinceLastBlur: true });
   };
@@ -80,29 +134,31 @@ class InlineEdit extends Component<PropsRenderProps, State> {
   };
 
   renderReadView = () => {
-    const { children, isEditing } = this.props;
     return (
-      <div style={{ lineHeight: 1 }}>
+      <ReadViewWrapper>
         <EditButton type="button" onClick={this.onReadViewClick} />
         <ReadViewContentWrapper
           onMouseEnter={() => this.setState({ onReadViewHover: true })}
           onMouseLeave={() => this.setState({ onReadViewHover: false })}
           onClick={this.onReadViewClick}
         >
-          {children(isEditing)}
+          {this.props.readView}
         </ReadViewContentWrapper>
-      </div>
+      </ReadViewWrapper>
     );
   };
 
+  renderEditView = (fieldProps: any) => this.props.editView(fieldProps);
+
   renderActionButtons = () => {
+    const { confirmButtonLabel, cancelButtonLabel } = this.props;
     return (
       <ButtonsWrapper>
         <ButtonWrapper>
           <Button
-            ariaLabel={this.props.confirmButtonLabel}
+            ariaLabel={confirmButtonLabel}
             type="submit"
-            iconBefore={<ConfirmIcon size="small" />}
+            iconBefore={<ConfirmIcon label={confirmButtonLabel} size="small" />}
             shouldFitContainer
             onClick={() => {
               if (this.confirmButtonRef) this.confirmButtonRef.focus();
@@ -114,8 +170,8 @@ class InlineEdit extends Component<PropsRenderProps, State> {
         </ButtonWrapper>
         <ButtonWrapper>
           <Button
-            ariaLabel={this.props.cancelButtonLabel}
-            iconBefore={<CancelIcon size="small" />}
+            ariaLabel={cancelButtonLabel}
+            iconBefore={<CancelIcon label={cancelButtonLabel} size="small" />}
             onClick={this.onCancelClick}
             shouldFitContainer
             innerRef={ref => {
@@ -131,14 +187,17 @@ class InlineEdit extends Component<PropsRenderProps, State> {
     const {
       defaultValue,
       hideActionButtons,
+      isEditing,
       label,
       validate,
-      isEditing,
-      children,
     } = this.props;
     return (
-      <Form onSubmit={data => this.props.onConfirm(data.inlineEdit)}>
-        {({ formProps }) => (
+      <Form
+        onSubmit={(data: { inlineEdit: any }) =>
+          this.props.onConfirm(data.inlineEdit)
+        }
+      >
+        {({ formProps }: FormChild) => (
           <form {...formProps}>
             {isEditing ? (
               <Field
@@ -147,19 +206,19 @@ class InlineEdit extends Component<PropsRenderProps, State> {
                 defaultValue={defaultValue}
                 validate={validate}
               >
-                {({ fieldProps }) => (
+                {({ fieldProps }: FieldChild) => (
                   <ContentWrapper
                     onBlur={() => this.onWrapperBlur(fieldProps.value)}
                     onFocus={this.onWrapperFocus}
                   >
-                    {children(isEditing, fieldProps)}
+                    <div>{this.renderEditView(fieldProps)}</div>
                     {!hideActionButtons && this.renderActionButtons()}
                   </ContentWrapper>
                 )}
               </Field>
             ) : (
               <Field name="inlineEdit" label={label} defaultValue="">
-                {() => <div>{this.renderReadView()}</div>}
+                {() => this.renderReadView()}
               </Field>
             )}
           </form>
@@ -169,7 +228,11 @@ class InlineEdit extends Component<PropsRenderProps, State> {
   }
 }
 
-export { InlineEdit as InlineEditWithoutAnalytics };
+export const InlineEditWithoutAnalytics = withDefaultProps(
+  defaultProps,
+  InlineEdit,
+);
+
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export default withAnalyticsContext({

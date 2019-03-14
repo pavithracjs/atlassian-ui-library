@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 
 import {
   withAnalyticsEvents,
@@ -14,25 +13,24 @@ import Form, { Field } from '@atlaskit/form';
 import {
   name as packageName,
   version as packageVersion,
-} from '../package.json';
+} from '../../package.json';
 
-import type { Props } from './types';
-import ButtonsWrapper from './styled/ButtonsWrapper';
-import ButtonWrapper from './styled/ButtonWrapper';
-import ReadViewContentWrapper from './styled/ReadViewContentWrapper';
-import ContentWrapper from './styled/ContentWrapper';
-import EditButton from './styled/EditButton';
-import ReadViewWrapper from './styled/ReadViewWrapper';
+import { PropsRenderProps } from '../types';
+import ButtonsWrapper from '../styled/ButtonsWrapper';
+import ButtonWrapper from '../styled/ButtonWrapper';
+import ReadViewContentWrapper from '../styled/ReadViewContentWrapper';
+import ContentWrapper from '../styled/ContentWrapper';
+import EditButton from '../styled/EditButton';
 
-type State = {
-  onReadViewHover: boolean,
-  initialValue: any,
-  wasFocusReceivedSinceLastBlur: boolean,
-};
+interface State {
+  onReadViewHover: boolean;
+  initialValue: any;
+  wasFocusReceivedSinceLastBlur: boolean;
+}
 
-class InlineEdit extends Component<Props, State> {
-  confirmButtonRef: null | HTMLButtonElement;
-  cancelButtonRef: null | HTMLButtonElement;
+class InlineEdit extends React.Component<PropsRenderProps, State> {
+  confirmButtonRef: HTMLButtonElement | undefined;
+  cancelButtonRef: HTMLButtonElement | undefined;
 
   static defaultProps = {
     disableConfirmOnBlur: false,
@@ -42,7 +40,7 @@ class InlineEdit extends Component<Props, State> {
     cancelButtonLabel: 'Cancel',
   };
 
-  constructor(props: Props) {
+  constructor(props: PropsRenderProps) {
     super(props);
     this.state = {
       onReadViewHover: false,
@@ -65,9 +63,6 @@ class InlineEdit extends Component<Props, State> {
     this.props.onEditRequested();
   };
 
-  /** Unless disableConfirmOnBlur prop is true, will call confirmIfUnfocused() which
-   *  confirms the value, unless the focus is transferred to the buttons
-   */
   onWrapperBlur = (value: any) => {
     if (!this.props.disableConfirmOnBlur) {
       this.setState({ wasFocusReceivedSinceLastBlur: false });
@@ -75,7 +70,6 @@ class InlineEdit extends Component<Props, State> {
     }
   };
 
-  /** Gets called when focus is transferred to the editView, or action buttons */
   onWrapperFocus = () => {
     this.setState({ wasFocusReceivedSinceLastBlur: true });
   };
@@ -85,21 +79,20 @@ class InlineEdit extends Component<Props, State> {
   };
 
   renderReadView = () => {
+    const { children, isEditing } = this.props;
     return (
-      <ReadViewWrapper>
+      <div style={{ lineHeight: 1 }}>
         <EditButton type="button" onClick={this.onReadViewClick} />
         <ReadViewContentWrapper
           onMouseEnter={() => this.setState({ onReadViewHover: true })}
           onMouseLeave={() => this.setState({ onReadViewHover: false })}
           onClick={this.onReadViewClick}
         >
-          {this.props.readView}
+          {children(isEditing)}
         </ReadViewContentWrapper>
-      </ReadViewWrapper>
+      </div>
     );
   };
-
-  renderEditView = (fieldProps: {}) => this.props.editView(fieldProps);
 
   renderActionButtons = () => {
     return (
@@ -137,9 +130,10 @@ class InlineEdit extends Component<Props, State> {
     const {
       defaultValue,
       hideActionButtons,
-      isEditing,
       label,
       validate,
+      isEditing,
+      children,
     } = this.props;
     return (
       <Form onSubmit={data => this.props.onConfirm(data.inlineEdit)}>
@@ -157,14 +151,14 @@ class InlineEdit extends Component<Props, State> {
                     onBlur={() => this.onWrapperBlur(fieldProps.value)}
                     onFocus={this.onWrapperFocus}
                   >
-                    <div>{this.renderEditView(fieldProps)}</div>
+                    {children(isEditing, fieldProps)}
                     {!hideActionButtons && this.renderActionButtons()}
                   </ContentWrapper>
                 )}
               </Field>
             ) : (
               <Field name="inlineEdit" label={label} defaultValue="">
-                {() => this.renderReadView()}
+                {() => <div>{this.renderReadView()}</div>}
               </Field>
             )}
           </form>

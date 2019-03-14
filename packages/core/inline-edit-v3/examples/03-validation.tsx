@@ -1,19 +1,16 @@
-// @flow
-import React, { Component, Fragment } from 'react';
-import TextArea from '@atlaskit/textarea';
+import * as React from 'react';
+import TextField from '@atlaskit/textfield';
 
 import InlineEdit from '../src';
 import ReadViewContainer from './styled/ReadViewContainer';
 
 type State = {
-  editValue: string,
-  isEditing: boolean,
-  onEventResult: string,
+  editValue: string;
+  isEditing: boolean;
+  onEventResult: string;
 };
 
-export default class BasicExample extends Component<void, State> {
-  editViewRef: HTMLTextAreaElement | null;
-
+export default class BasicExample extends React.Component<void, State> {
   state = {
     isEditing: false,
     editValue: 'Field Value',
@@ -36,9 +33,13 @@ export default class BasicExample extends Component<void, State> {
   };
 
   onEditRequested = () => {
-    this.setState({ isEditing: true }, () => {
-      if (this.editViewRef) this.editViewRef.focus();
-    });
+    this.setState({ isEditing: true });
+  };
+
+  validate = () => {
+    // setTimeout(() => {
+    //   if (value.length > )
+    // })
   };
 
   render() {
@@ -47,29 +48,21 @@ export default class BasicExample extends Component<void, State> {
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline Edit Field"
-          editView={fieldProps => (
-            <TextArea
-              {...fieldProps}
-              ref={(ref: any) => {
-                this.editViewRef = ref;
-              }}
-            />
+          editView={(fieldProps, ref) => (
+            <TextField {...fieldProps} ref={ref} />
           )}
           readView={
             <ReadViewContainer>
-              {this.state.editValue.split('\n').map((value, i) => (
-                <Fragment key={i}>
-                  {value}
-                  <br />
-                </Fragment>
-              )) || 'Click to enter value'}
+              {this.state.editValue || 'Click to enter value'}
             </ReadViewContainer>
           }
           onConfirm={this.onConfirm}
           onCancel={this.onCancel}
           isEditing={this.state.isEditing}
           onEditRequested={this.onEditRequested}
+          validate={this.validate}
         />
+
         <div
           style={{
             borderStyle: 'dashed',

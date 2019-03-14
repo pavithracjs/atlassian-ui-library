@@ -1,22 +1,28 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import TextField from '@atlaskit/textfield';
 
 import InlineEdit from '../src';
 import ReadViewContainer from './styled/ReadViewContainer';
 
 type State = {
-  editValue: string,
-  isEditing: boolean,
-  onEventResult: string,
+  editValue: string;
+  isEditing: boolean;
+  onEventResult: string;
 };
 
-export default class BasicExample extends Component<void, State> {
-  state = {
-    isEditing: false,
-    editValue: 'Field Value',
-    onEventResult: 'Click on a field above to show edit view',
-  };
+export default class BasicExample extends React.Component<void, State> {
+  editViewRef: { current: null | HTMLInputElement };
+
+  constructor() {
+    super();
+    this.state = {
+      isEditing: false,
+      editValue: 'Field Value',
+      onEventResult: 'Click on a field above to show edit view',
+    };
+
+    this.editViewRef = React.createRef();
+  }
 
   onConfirm = (value: string) => {
     this.setState({
@@ -34,7 +40,9 @@ export default class BasicExample extends Component<void, State> {
   };
 
   onEditRequested = () => {
-    this.setState({ isEditing: true });
+    this.setState({ isEditing: true }, () => {
+      if (this.editViewRef.current) this.editViewRef.current.focus();
+    });
   };
 
   render() {
@@ -43,8 +51,8 @@ export default class BasicExample extends Component<void, State> {
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline Edit Field"
-          editView={(fieldProps, ref) => (
-            <TextField {...fieldProps} ref={ref} />
+          editView={(fieldProps: Object) => (
+            <TextField {...fieldProps} ref={this.editViewRef} />
           )}
           readView={
             <ReadViewContainer>

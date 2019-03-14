@@ -1,76 +1,75 @@
-// @flow
-import { type Node } from 'react';
+import * as React from 'react';
 
-export type Props = {
+export interface Props {
   /** Label above the input */
-  label?: string,
+  label?: string;
   /** Component to be shown when not in edit view */
-  readView: Node,
+  readView: React.ReactChild;
   /** Component to be shown when editing. Should be an Atlaskit input. */
-  editView: (any, { current: null | HTMLInputElement }) => Node,
+  editView: (fieldProps: Object) => React.ReactChild;
   /** Whether the component shows the readView or the editView. */
-  isEditing: boolean,
+  isEditing: boolean;
   /** The initial value of the inline edit. */
-  defaultValue: any,
+  defaultValue: any;
   /** Validation function handled by final-form. */
   validate?: (
     value: any,
     formState: Object,
     fieldState: Object,
-  ) => string | void | Promise<string | void>,
+  ) => string | void | Promise<string | void>;
   /** Handler called when readView is clicked. */
-  onEditRequested: any => mixed,
+  onEditRequested: () => void;
   /** Handler called editView is closed and changes are confirmed.
    * Field value is passed as an argument to this function. */
-  onConfirm: any => mixed,
+  onConfirm: (value: any) => void;
   /** Handler called when checkmark is. */
-  onCancel: any => mixed,
+  onCancel: () => void;
 
   /** Contained in defaultProps */
   /** Set whether onConfirm should be called on blur.*/
-  disableConfirmOnBlur: boolean,
+  disableConfirmOnBlur: boolean;
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
-  hideActionButtons: boolean,
+  hideActionButtons: boolean;
   /** The text announced to screen readers when focusing on the edit button. */
-  editButtonLabel: string,
+  editButtonLabel: string;
   /** The text announced to screen readers when focusing on the confirm button. */
-  confirmButtonLabel: string,
+  confirmButtonLabel: string;
   /** The text announced to screen readers when focusing on the cancel button. */
-  cancelButtonLabel: string,
-};
+  cancelButtonLabel: string;
+}
 
 export type PropsRenderProps = {
   /** Label above the input */
-  label?: string,
+  label?: string;
   /** Whether the component shows the readView or the editView. */
-  isEditing: boolean,
+  isEditing: boolean;
   /** The initial value of the inline edit. */
-  defaultValue: any,
+  defaultValue: any;
   /** Validation function handled by final-form. */
   validate?: (
     value: any,
     formState: Object,
     fieldState: Object,
-  ) => string | void | Promise<string | void>,
+  ) => string | void | Promise<string | void>;
   /** Handler called when readView is clicked. */
-  onEditRequested: any => mixed,
+  onEditRequested: () => void;
   /** Handler called editView is closed and changes are confirmed.
    * Field value is passed as an argument to this function. */
-  onConfirm: any => mixed,
+  onConfirm: (value: any) => void;
   /** Handler called when checkmark is. */
-  onCancel: any => mixed,
+  onCancel: () => void;
   /** Elements to render inside InlineEdit */
-  children: Node,
+  children: React.ReactChild;
 
   /** Contained in defaultProps */
   /** Set whether onConfirm should be called on blur.*/
-  disableConfirmOnBlur: boolean,
+  disableConfirmOnBlur: boolean;
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
-  hideActionButtons: boolean,
+  hideActionButtons: boolean;
   /** The text announced to screen readers when focusing on the edit button. */
-  editButtonLabel: string,
+  editButtonLabel: string;
   /** The text announced to screen readers when focusing on the confirm button. */
-  confirmButtonLabel: string,
+  confirmButtonLabel: string;
   /** The text announced to screen readers when focusing on the cancel button. */
-  cancelButtonLabel: string,
+  cancelButtonLabel: string;
 };
