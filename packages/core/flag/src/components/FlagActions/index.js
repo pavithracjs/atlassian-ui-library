@@ -39,6 +39,7 @@ export default class FlagActions extends Component<Props, {}> {
         key={this.getUniqueId('flag-action')}
         hasDivider={!!index}
         useMidDot={!isBold}
+        appearance={appearance}
       >
         <StyledButton
           onClick={action.onClick}
@@ -50,7 +51,7 @@ export default class FlagActions extends Component<Props, {}> {
           appearance={appearance === 'normal' ? 'link' : appearance}
           component={linkComponent}
           // That is when the actions are link
-          spacing={appearance === 'normal' ? 'none' : 'compact'}
+          spacing={'compact'}
         >
           {action.content}
         </StyledButton>

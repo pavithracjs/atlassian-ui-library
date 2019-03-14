@@ -22,6 +22,10 @@ export default styled.div`
 `;
 
 export const Action = styled.div`
+  &:first-child {
+    margin-left: ${({ appearance }) =>
+      appearance === 'normal' ? -gridSize() / 2 : 0}px;
+  }
   &::before {
     color: ${flagTextColor};
     text-align: center;
