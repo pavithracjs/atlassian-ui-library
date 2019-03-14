@@ -1,0 +1,1 @@
+- Fix ED-6522 & ED-6046. Remove z-index from media to ensure it doesn't overlap adjacent modal layers. Ensure lists properly clear floated images.

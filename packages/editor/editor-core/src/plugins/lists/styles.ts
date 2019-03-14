@@ -27,7 +27,12 @@ export const listsStyles = css`
   }
 
   .ProseMirror li > * {
-    pointer-events: auto;
+    /*
+    Restore pointer events. We use inherit instead of auto to ensure adjacent floated
+    content remains clickable.
+    */
+    pointer-events: inherit;
+    background: rgba(123, 45, 67, 0.2);
   }
   /* Make sure li selections wrap around markers */
   li.ProseMirror-selectednode {
@@ -46,7 +51,56 @@ export const listsStyles = css`
   }
 
   /** =============== LIST INDENT STYLES ========= */
+
+  /*
+    Rules using the layout attribute, or the gapcursor selector ensure the indentation
+    is applied even if the ProseMirror injected ZWSP character cursor span is adjacent.
+    It gets injected in different locations depending on the floated media's position
+    so we cover several situations.
+  */
+  [layout='wrap-left'] + .ProseMirror-gapcursor + span {
+    + ul,
+    + ol {
+      overflow: hidden;
+      padding-left: 24px;
+    }
+  }
+  [layout='wrap-right'] + .ProseMirror-gapcursor + span {
+    + ul,
+    + ol {
+      overflow: hidden;
+    }
+  }
+  .ProseMirror-gapcursor {
+    + [layout='wrap-left'] + span {
+      + ul,
+      + ol {
+        overflow: hidden;
+        padding-left: 24px;
+      }
+    }
+    + [layout='wrap-right'] + span {
+      + ul,
+      + ol {
+        overflow: hidden;
+      }
+    }
+  }
   .ProseMirror {
+    [layout='wrap-left'] {
+      + ul,
+      + ol {
+        overflow: hidden;
+        padding-left: 24px;
+      }
+    }
+    [layout='wrap-right'] {
+      + ul,
+      + ol {
+        overflow: hidden;
+      }
+    }
+
     ul,
     ul ul ul ul,
     ul ul ul ul ul ul ul {
