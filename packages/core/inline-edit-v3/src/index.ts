@@ -1,5 +1,5 @@
 export { default } from './components/InlineEdit';
 export {
-  default as InlineEditRenderProps,
-} from './components/InlineEditRenderProps';
+  default as InlineEditRenderChildren,
+} from './components/InlineEditRenderChildren';
 export { Props as InlineEditPropTypes } from './types';

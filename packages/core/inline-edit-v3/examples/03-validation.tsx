@@ -11,11 +11,18 @@ type State = {
 };
 
 export default class BasicExample extends React.Component<void, State> {
-  state = {
-    isEditing: false,
-    editValue: 'Field Value',
-    onEventResult: 'Click on a field above to show edit view',
-  };
+  editViewRef: { current: null | HTMLInputElement };
+
+  constructor() {
+    super();
+    this.state = {
+      isEditing: false,
+      editValue: 'Field Value',
+      onEventResult: 'Click on a field above to show edit view',
+    };
+
+    this.editViewRef = React.createRef();
+  }
 
   onConfirm = (value: string) => {
     this.setState({
@@ -33,13 +40,9 @@ export default class BasicExample extends React.Component<void, State> {
   };
 
   onEditRequested = () => {
-    this.setState({ isEditing: true });
-  };
-
-  validate = () => {
-    // setTimeout(() => {
-    //   if (value.length > )
-    // })
+    this.setState({ isEditing: true }, () => {
+      if (this.editViewRef.current) this.editViewRef.current.focus();
+    });
   };
 
   render() {
@@ -48,19 +51,18 @@ export default class BasicExample extends React.Component<void, State> {
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline Edit Field"
-          editView={(fieldProps, ref) => (
-            <TextField {...fieldProps} ref={ref} />
+          editView={(fieldProps: Object) => (
+            <TextField {...fieldProps} ref={this.editViewRef} />
           )}
-          readView={
-            <ReadViewContainer>
+          readView={(isInvalid: boolean) => (
+            <ReadViewContainer isInvalid={isInvalid}>
               {this.state.editValue || 'Click to enter value'}
             </ReadViewContainer>
-          }
+          )}
           onConfirm={this.onConfirm}
           onCancel={this.onCancel}
           isEditing={this.state.isEditing}
           onEditRequested={this.onEditRequested}
-          validate={this.validate}
         />
 
         <div

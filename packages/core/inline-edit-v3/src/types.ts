@@ -4,7 +4,7 @@ export interface Props {
   /** Label above the input */
   label?: string;
   /** Component to be shown when not in edit view */
-  readView: React.ReactChild;
+  readView: (isInvalid: boolean) => React.ReactChild;
   /** Component to be shown when editing. Should be an Atlaskit input. */
   editView: (fieldProps: Object) => React.ReactChild;
   /** Whether the component shows the readView or the editView. */
@@ -38,7 +38,7 @@ export interface Props {
   cancelButtonLabel: string;
 }
 
-export type PropsRenderProps = {
+export type RenderChildrenProps = {
   /** Label above the input */
   label?: string;
   /** Whether the component shows the readView or the editView. */
@@ -59,7 +59,7 @@ export type PropsRenderProps = {
   /** Handler called when checkmark is. */
   onCancel: () => void;
   /** Elements to render inside InlineEdit */
-  children: React.ReactChild;
+  children: (isEditing: boolean, fieldProps?: FieldProps) => React.ReactChild;
 
   /** Contained in defaultProps */
   /** Set whether onConfirm should be called on blur.*/
@@ -73,3 +73,46 @@ export type PropsRenderProps = {
   /** The text announced to screen readers when focusing on the cancel button. */
   cancelButtonLabel: string;
 };
+
+// This should be exported from the form itself
+export interface FormProps {
+  onSubmit: (e: React.FormEvent) => void;
+  ref: React.RefObject<HTMLFormElement>;
+}
+
+export interface FormChild {
+  // rename me pls
+  formProps: FormProps;
+  dirty: boolean;
+  submitting: boolean;
+  disabled: boolean;
+  getValues: () => Record<string, any>; //?
+}
+
+export interface FieldProps {
+  id: string;
+  isRequired: boolean;
+  isDisabled: boolean;
+  isInvalid: boolean;
+  onChange: (e: any) => any;
+  onBlur: () => any;
+  onFocus: () => any;
+  value: any;
+  'aria-invalid': 'true' | 'false';
+  'aria-labelledby': string;
+}
+
+export interface Meta {
+  dirty: boolean;
+  touched: boolean;
+  valid: boolean;
+  error: any;
+  submitError: any;
+}
+
+export interface FieldChild {
+  // rename
+  fieldProps: FieldProps;
+  error: any;
+  meta: Meta;
+}

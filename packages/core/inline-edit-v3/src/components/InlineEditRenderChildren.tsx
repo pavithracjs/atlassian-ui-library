@@ -9,18 +9,19 @@ import Button from '@atlaskit/button';
 import ConfirmIcon from '@atlaskit/icon/glyph/check';
 import CancelIcon from '@atlaskit/icon/glyph/cross';
 import Form, { Field } from '@atlaskit/form';
+import EditButton from '../styled/EditButton';
+import { withDefaultProps } from '@atlaskit/type-helpers';
 
 import {
   name as packageName,
   version as packageVersion,
 } from '../../package.json';
 
-import { PropsRenderProps } from '../types';
+import { RenderChildrenProps, FormChild, FieldChild } from '../types';
 import ButtonsWrapper from '../styled/ButtonsWrapper';
 import ButtonWrapper from '../styled/ButtonWrapper';
 import ReadViewContentWrapper from '../styled/ReadViewContentWrapper';
 import ContentWrapper from '../styled/ContentWrapper';
-import EditButton from '../styled/EditButton';
 
 interface State {
   onReadViewHover: boolean;
@@ -28,19 +29,26 @@ interface State {
   wasFocusReceivedSinceLastBlur: boolean;
 }
 
-class InlineEdit extends React.Component<PropsRenderProps, State> {
-  confirmButtonRef: HTMLButtonElement | undefined;
-  cancelButtonRef: HTMLButtonElement | undefined;
+const defaultProps: Pick<
+  RenderChildrenProps,
+  | 'disableConfirmOnBlur'
+  | 'hideActionButtons'
+  | 'editButtonLabel'
+  | 'confirmButtonLabel'
+  | 'cancelButtonLabel'
+> = {
+  disableConfirmOnBlur: false,
+  hideActionButtons: false,
+  editButtonLabel: 'Edit',
+  confirmButtonLabel: 'Confirm',
+  cancelButtonLabel: 'Cancel',
+};
 
-  static defaultProps = {
-    disableConfirmOnBlur: false,
-    hideActionButtons: false,
-    editButtonLabel: 'Edit',
-    confirmButtonLabel: 'Confirm',
-    cancelButtonLabel: 'Cancel',
-  };
+class InlineEdit extends React.Component<RenderChildrenProps, State> {
+  confirmButtonRef?: HTMLElement;
+  cancelButtonRef?: HTMLElement;
 
-  constructor(props: PropsRenderProps) {
+  constructor(props: RenderChildrenProps) {
     super(props);
     this.state = {
       onReadViewHover: false,
@@ -95,13 +103,14 @@ class InlineEdit extends React.Component<PropsRenderProps, State> {
   };
 
   renderActionButtons = () => {
+    const { confirmButtonLabel, cancelButtonLabel } = this.props;
     return (
       <ButtonsWrapper>
         <ButtonWrapper>
           <Button
-            ariaLabel={this.props.confirmButtonLabel}
+            ariaLabel={confirmButtonLabel}
             type="submit"
-            iconBefore={<ConfirmIcon size="small" />}
+            iconBefore={<ConfirmIcon label={confirmButtonLabel} size="small" />}
             shouldFitContainer
             onClick={() => {
               if (this.confirmButtonRef) this.confirmButtonRef.focus();
@@ -113,8 +122,8 @@ class InlineEdit extends React.Component<PropsRenderProps, State> {
         </ButtonWrapper>
         <ButtonWrapper>
           <Button
-            ariaLabel={this.props.cancelButtonLabel}
-            iconBefore={<CancelIcon size="small" />}
+            ariaLabel={cancelButtonLabel}
+            iconBefore={<CancelIcon label={cancelButtonLabel} size="small" />}
             onClick={this.onCancelClick}
             shouldFitContainer
             innerRef={ref => {
@@ -137,7 +146,7 @@ class InlineEdit extends React.Component<PropsRenderProps, State> {
     } = this.props;
     return (
       <Form onSubmit={data => this.props.onConfirm(data.inlineEdit)}>
-        {({ formProps }) => (
+        {({ formProps }: FormChild) => (
           <form {...formProps}>
             {isEditing ? (
               <Field
@@ -146,7 +155,7 @@ class InlineEdit extends React.Component<PropsRenderProps, State> {
                 defaultValue={defaultValue}
                 validate={validate}
               >
-                {({ fieldProps }) => (
+                {({ fieldProps }: FieldChild) => (
                   <ContentWrapper
                     onBlur={() => this.onWrapperBlur(fieldProps.value)}
                     onFocus={this.onWrapperFocus}
@@ -168,7 +177,10 @@ class InlineEdit extends React.Component<PropsRenderProps, State> {
   }
 }
 
-export { InlineEdit as InlineEditWithoutAnalytics };
+export const InlineEditWithoutAnalytics = withDefaultProps(
+  defaultProps,
+  InlineEdit,
+);
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export default withAnalyticsContext({
@@ -198,5 +210,5 @@ export default withAnalyticsContext({
         packageVersion,
       },
     }),
-  })(InlineEdit),
+  })(InlineEditWithoutAnalytics),
 );

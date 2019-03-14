@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TextField from '@atlaskit/textfield';
 
-import { InlineEditRenderProps } from '../src';
+import { InlineEditRenderChildren } from '../src';
 import ReadViewContainer from './styled/ReadViewContainer';
 
 type State = {
@@ -48,7 +48,7 @@ export default class BasicExample extends React.Component<void, State> {
   render() {
     return (
       <div style={{ padding: '0 16px' }}>
-        <InlineEditRenderProps
+        <InlineEditRenderChildren
           defaultValue={this.state.editValue}
           label="Inline Edit Field"
           onConfirm={this.onConfirm}
@@ -65,7 +65,7 @@ export default class BasicExample extends React.Component<void, State> {
               </ReadViewContainer>
             )
           }
-        </InlineEditRenderProps>
+        </InlineEditRenderChildren>
 
         <div
           style={{

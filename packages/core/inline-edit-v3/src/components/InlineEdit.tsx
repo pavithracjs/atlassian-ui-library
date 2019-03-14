@@ -9,8 +9,9 @@ import Button from '@atlaskit/button';
 import ConfirmIcon from '@atlaskit/icon/glyph/check';
 import CancelIcon from '@atlaskit/icon/glyph/cross';
 import Form, { Field } from '@atlaskit/form';
+import { withDefaultProps } from '@atlaskit/type-helpers';
 
-import { Props } from '../types';
+import { Props, FieldChild, FormChild } from '../types';
 import ButtonsWrapper from '../styled/ButtonsWrapper';
 import ButtonWrapper from '../styled/ButtonWrapper';
 import ReadViewContentWrapper from '../styled/ReadViewContentWrapper';
@@ -22,50 +23,6 @@ import {
   name as packageName,
   version as packageVersion,
 } from '../../package.json';
-import { withDefaultProps } from '@atlaskit/type-helpers';
-
-// This should be exported from the form itself
-interface FormProps {
-  onSubmit: (e: React.FormEvent) => void;
-  ref: React.RefObject<HTMLFormElement>;
-}
-
-interface FormChild {
-  // rename me pls
-  formProps: FormProps;
-  dirty: boolean;
-  submitting: boolean;
-  disabled: boolean;
-  getValues: () => Record<string, any>; //?
-}
-
-interface FieldProps {
-  id: string;
-  isRequired: boolean;
-  isDisabled: boolean;
-  isInvalid: boolean;
-  onChange: (e: any) => any;
-  onBlur: () => any;
-  onFocus: () => any;
-  value: any;
-  'aria-invalid': 'true' | 'false';
-  'aria-labelledby': string;
-}
-
-interface Meta {
-  dirty: boolean;
-  touched: boolean;
-  valid: boolean;
-  error: any;
-  submitError: any;
-}
-
-interface FieldChild {
-  // rename
-  fieldProps: FieldProps;
-  error: any;
-  meta: Meta;
-}
 
 interface State {
   onReadViewHover: boolean;
