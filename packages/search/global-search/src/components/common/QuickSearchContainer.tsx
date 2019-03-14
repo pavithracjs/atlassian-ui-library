@@ -33,7 +33,7 @@ const DEFAULT_AB_TEST: ABTest = Object.freeze({
 });
 
 export interface SearchResultProps extends State {
-  retrySearch: Function;
+  retrySearch: () => void;
 }
 
 export interface Props {
@@ -84,13 +84,14 @@ const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
  */
 export class QuickSearchContainer extends React.Component<Props, State> {
   static defaultProps = {
-    getDisplayedResults: results => results || ({} as GenericResultMap),
+    getDisplayedResults: (results?: GenericResultMap) =>
+      results || ({} as GenericResultMap),
   };
 
   // used to terminate if component is unmounted while waiting for a promise
   unmounted: Boolean = false;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       isLoading: true,
@@ -104,7 +105,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     };
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch(error: any, info: any) {
     this.props.logger.safeError(LOGGER_NAME, 'component did catch an error', {
       error,
       info,
@@ -229,8 +230,8 @@ export class QuickSearchContainer extends React.Component<Props, State> {
   };
 
   fireShownPreQueryEvent = (
-    searchSessionId,
-    recentItems,
+    searchSessionId: string,
+    recentItems: GenericResultMap,
     abTest: ABTest,
     requestStartTime?: number,
     experimentRequestDurationMs?: number,
@@ -271,11 +272,11 @@ export class QuickSearchContainer extends React.Component<Props, State> {
   };
 
   fireShownPostQueryEvent = (
-    startTime,
-    elapsedMs,
-    searchResults,
-    timings,
-    searchSessionId,
+    startTime: number,
+    elapsedMs: number,
+    searchResults: GenericResultMap,
+    timings: Record<string, number | React.ReactText>,
+    searchSessionId: string,
     latestSearchQuery: string,
     abTest: ABTest,
   ) => {

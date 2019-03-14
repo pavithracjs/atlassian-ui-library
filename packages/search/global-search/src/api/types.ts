@@ -48,7 +48,7 @@ export interface JiraItemV1 {
 export interface JiraItemAvatar {
   url?: string;
   css?: string;
-  urls?: object;
+  urls?: Record<string, string>;
 }
 
 export interface JiraItemAttributes {
