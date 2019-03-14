@@ -740,6 +740,23 @@ describe('UserPicker', () => {
       );
     });
 
+    it('should not trigger deleted event if there was no removed value', () => {
+      component.setProps({ isMulti: true });
+      const input = component.find('input');
+      input.simulate('focus');
+      component.find<any>(Select).prop('onChange')([], {
+        action: 'pop-value',
+        removedValue: undefined,
+      });
+      expect(onEvent).not.toHaveBeenCalledWith(
+        expect.objectContaining({
+          payload: expect.objectContaining({
+            action: 'deleted',
+          }),
+        }),
+      );
+    });
+
     it('should trigger failed event', () => {
       component.setProps({
         loadOptions: () => Promise.reject(new Error('some error')),

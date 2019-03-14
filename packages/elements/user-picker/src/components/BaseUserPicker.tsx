@@ -150,7 +150,9 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         break;
       case 'remove-value':
       case 'pop-value':
-        this.fireEvent(deleteEvent, removedValue && removedValue.data);
+        if (removedValue) {
+          this.fireEvent(deleteEvent, removedValue.data);
+        }
         break;
     }
 
