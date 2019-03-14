@@ -1,5 +1,16 @@
 # @atlaskit/editor-core
 
+## 106.0.2
+- [patch] [8f1f21dd3a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f1f21dd3a):
+
+  - ED-6275: drop size and alignment when pasting images into page columns or a table
+
+## 106.0.1
+- Updated dependencies [90a14be594](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/90a14be594):
+  - @atlaskit/button@11.0.1
+  - @atlaskit/textarea@0.3.1
+  - @atlaskit/analytics-next-types@4.0.1
+
 ## 106.0.0
 - [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 
