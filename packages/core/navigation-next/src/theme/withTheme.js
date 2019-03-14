@@ -1,8 +1,7 @@
 // @flow
 
 import React, { Component, type ComponentType } from 'react';
-import { channel } from 'emotion-theming';
-import PropTypes from 'prop-types';
+import { withTheme } from 'emotion-theming';
 
 import { light } from './modes';
 import type {
@@ -12,72 +11,32 @@ import type {
   ThemeWrappedComp,
 } from './types';
 
-type State = { theme: Theme };
-
-const withTheme = <P: {}, C: ComponentType<P>>(
+const withDefaultTheme = <P: {}, C: ComponentType<P>>(
+  WrappedComponent: ComponentType<P>,
   defaultTheme: Theme,
-): (C => ThemeWrappedComp<C>) => {
-  return WrappedComponent => {
-    return class WithTheme extends Component<*, State> {
-      static contextTypes = {
-        [channel]: PropTypes.object,
-      };
+): ThemeWrappedComp<C> =>
+  class WithDefaultTheme extends Component<*, *> {
+    static displayName = `WithDefaultTheme(${WrappedComponent.displayName ||
+      WrappedComponent.name ||
+      'Component'})`;
 
-      static displayName = `WithTheme(${WrappedComponent.displayName ||
-        WrappedComponent.name ||
-        'Component'})`;
-
-      state = {
-        theme: undefined,
-      };
-
-      unsubscribeId: number;
-
-      subscribeToContext() {
-        if (this.unsubscribeId && this.unsubscribeId !== -1) {
-          return;
-        }
-
-        const themeContext = this.context[channel];
-
-        if (themeContext !== undefined) {
-          this.unsubscribeId = themeContext.subscribe(theme => {
-            this.setState({ theme });
-          });
-        }
-      }
-
-      componentWillMount() {
-        this.subscribeToContext();
-      }
-
-      componentDidUpdate() {
-        this.subscribeToContext();
-      }
-
-      componentWillUnmount() {
-        if (this.unsubscribeId && this.unsubscribeId !== -1) {
-          this.context[channel].unsubscribe(this.unsubscribeId);
-        }
-      }
-
-      render() {
-        const theme = this.state.theme || defaultTheme;
-        return <WrappedComponent theme={theme} {...this.props} />;
-      }
-    };
+    render() {
+      const theme = this.props.theme || defaultTheme;
+      return <WrappedComponent theme={theme} {...this.props} />;
+    }
   };
-};
 
 const defaultContentTheme: ProductTheme = { mode: light, context: 'container' };
 const defaultGlobalTheme: GlobalTheme = { mode: light };
 
 export const withContentTheme = <P: {}, C: ComponentType<P>>(
   WrappedComponent: C,
-): ThemeWrappedComp<C> => withTheme(defaultContentTheme)(WrappedComponent);
+): ThemeWrappedComp<C> =>
+  withTheme(withDefaultTheme(WrappedComponent, defaultContentTheme));
 
 export const withGlobalTheme = <P: {}, C: ComponentType<P>>(
   WrappedComponent: C,
-): ThemeWrappedComp<C> => withTheme(defaultGlobalTheme)(WrappedComponent);
+): ThemeWrappedComp<C> =>
+  withTheme(withDefaultTheme(WrappedComponent, defaultGlobalTheme));
 
 export default withTheme;
