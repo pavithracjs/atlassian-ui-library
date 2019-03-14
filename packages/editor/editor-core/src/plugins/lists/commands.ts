@@ -5,6 +5,7 @@ import {
   NodeRange,
   NodeType,
   Node,
+  Schema,
 } from 'prosemirror-model';
 import {
   EditorState,
@@ -427,7 +428,7 @@ export function outdentList(): Command {
           },
         }), // 3. Send analytics event
         mergeLists(listItem, range), // 2. Check if I need to merge nearest list
-        baseListCommand.liftListItem, // 1. First lift list item
+        baseListCommand.liftListItem as (nodeType: NodeType) => Command, // 1. First lift list item
       )(listItem)(state, dispatch);
     }
 
@@ -494,7 +495,7 @@ export function indentList(): Command {
               indentType: INDENT_TYPE.LIST,
             },
           }),
-          baseListCommand.sinkListItem,
+          baseListCommand.sinkListItem as (nodeType: NodeType) => Command,
         )(listItem)(state, dispatch);
       }
       return true;
