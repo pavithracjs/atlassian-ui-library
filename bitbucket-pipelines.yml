@@ -147,7 +147,7 @@ pipelines:
           - node update.build.status.with.netlify.link.js
         after-script:
           # Use to send build data to datadog
-          - node ./build/ci-scripts/sending.build.data.js
+          - cd .. && node ./build/ci-scripts/sending.build.data.js
 
   # Pipelines that can be scheduled or triggered manually.
   custom: 

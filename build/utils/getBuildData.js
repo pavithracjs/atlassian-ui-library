@@ -1,34 +1,38 @@
 //@flow
 'use strict';
+/*
+ * Utilities helper to get build data.
+ */
 const axios = require('axios');
 
-// TODO: Write more about this and try to have types
+/*::
+type IStepsDataType = {
+  step_name: string,
+  step_status: string,
+  step_duration: number,
+}
+*/
 
-// type IStepsDataType = {|
-//   step_name /*: string */,
-//   step_status /*: string */,
-//   step_duration /*: number */,
-// |}
-
-// type IBuildEventProperties = {|
-//   build_number /*: string */,
-//   build_status /*: string */,
-//   build_time /*: number */,
-//   build_number_steps /*: number */,
-//   build_type /*: string */,
-//   build_name /*: string */,
-//   build_steps /*: Array<IStepsDataType> */
-// |}
+/*:: type IBuildEventProperties = {
+  build_number : string,
+  build_status : string,
+  build_time : number,
+  build_number_steps : number,
+  build_type : string,
+  build_name : string,
+  build_steps: Array<IStepsDataType>
+}
+*/
 
 async function getPipelinesBuildData(
   repoOwner /*: string */,
   repoName /*: string */,
   buildId /*: string */,
-) /*: Promise<Object> */ {
+) /*: Promise<IBuildEventProperties> */ {
   const apiEndpoint = `https://api.bitbucket.org/2.0/repositories/${repoOwner}/${repoName}/pipelines/${buildId}`;
   const res = await axios.get(apiEndpoint);
   const build = res.data;
-  let payload = {};
+  let payload /*: $Shape<IBuildEventProperties> */ = {};
   try {
     const stepsData = await getStepsData(buildId);
     if (

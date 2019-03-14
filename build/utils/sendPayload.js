@@ -1,8 +1,30 @@
-// TODO: Write more about this and try to have types
 // @flow
+'use strict';
+/*
+ * Utilities helper to send the data to Datadog.
+ */
 const StatsD = require('hot-shots');
 
-function sendData(payload /*: Object*/) {
+/*::
+type IStepsDataType = {
+  step_name: string,
+  step_status: string,
+  step_duration: number,
+}
+*/
+
+/*:: type IBuildEventProperties = {
+  build_number : string,
+  build_status : string,
+  build_time : number,
+  build_number_steps : number,
+  build_type : string,
+  build_name : string,
+  build_steps: Array<IStepsDataType>
+}
+*/
+
+function sendData(payload /*: IBuildEventProperties*/) {
   const client = new StatsD({
     host: 'statsd.ap-southeast-2.dev.paas-inf.net',
     port: 8125,

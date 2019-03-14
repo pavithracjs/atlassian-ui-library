@@ -1,4 +1,4 @@
-// /* Script to send build data to datadog using Datadogs DogStatsD
+/* Script to send build data to datadog using Datadogs DogStatsD */
 const getPipelinesBuildData = require('../utils/getBuildData')
   .getPipelinesBuildData;
 const sendData = require('../utils/sendPayload').sendData;
