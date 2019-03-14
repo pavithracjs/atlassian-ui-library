@@ -39,9 +39,10 @@ export class MultiValueContainer extends React.PureComponent<Props, State> {
 
   componentDidUpdate() {
     const { previousValueSize, valueSize } = this.state;
-    if (valueSize > previousValueSize) {
+    const { isFocused } = this.props.selectProps;
+    if (valueSize > previousValueSize && isFocused) {
       window.setTimeout(
-        () => this.bottomAnchor && this.bottomAnchor.scrollIntoView(),
+        () => this.bottomAnchor && this.bottomAnchor.scrollIntoView(false),
       );
     }
   }
