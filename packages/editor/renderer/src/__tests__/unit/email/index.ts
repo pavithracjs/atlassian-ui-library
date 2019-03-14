@@ -25,12 +25,13 @@ describe('Renderer - EmailSerializer', () => {
     const output = render(em);
     expect(output).toMatchSnapshot();
   });
+  sdfgsdfgd;
 
   it('should align paragraph correctly', () => {
     const output = render(paragraphAlign);
     expect(output).toMatchSnapshot();
   });
-
+  sdfgsdfgsdf;
   it('should align heading correctly', () => {
     const output = render(headingAlign);
     expect(output).toMatchSnapshot();
@@ -64,5 +65,37 @@ describe('Renderer - EmailSerializer', () => {
   it('should render status correctly', () => {
     const output = render(status);
     expect(output).toMatchSnapshot();
+  });
+  it.only('should render tree', () => {
+    const output = render({
+      version: 1,
+      type: 'doc',
+      content: [
+        {
+          type: 'bulletList',
+          content: [
+            {
+              type: 'listItem',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [
+                    {
+                      type: 'status',
+                      attrs: {
+                        text: 'foo',
+                        color: 'neutral',
+                        localId: 'a505c927-6004-40b4-aa15-ff17c621bdf0',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    console.log('done');
   });
 });
