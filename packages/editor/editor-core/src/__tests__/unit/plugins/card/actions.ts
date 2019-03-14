@@ -13,7 +13,6 @@ import {
   EditorTestCardProvider,
   inlineCard,
   blockCard,
-  a,
   createAnalyticsEventMock,
   Refs,
 } from '@atlaskit/editor-test-helpers';
@@ -122,7 +121,7 @@ describe('card', () => {
     });
   });
 
-  describe.only('analytics', () => {
+  describe('analytics', () => {
     const atlassianUrl = 'http://www.atlassian.com/';
     const linkTypes = [
       {
