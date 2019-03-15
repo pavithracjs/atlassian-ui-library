@@ -76,7 +76,6 @@ export interface MentionProvider
   ): void;
   shouldHighlightMention(mention: MentionDescription): boolean;
   isFiltering(query: string): boolean;
-  getMentionConfig(): MentionResourceConfig;
 }
 
 const emptySecurityProvider = () => {
@@ -150,10 +149,6 @@ class AbstractMentionResource extends AbstractResource<MentionDescription[]>
 
   isFiltering(_query: string): boolean {
     return false;
-  }
-
-  getMentionConfig(): MentionResourceConfig {
-    throw new Error(`not yet implemented.`);
   }
 
   protected _notifyListeners(
@@ -231,9 +226,9 @@ class AbstractMentionResource extends AbstractResource<MentionDescription[]>
  * Provides a Javascript API
  */
 export class MentionResource extends AbstractMentionResource {
-  protected config: MentionResourceConfig;
-  lastReturnedSearch: number;
-  activeSearches: Set<string>;
+  private config: MentionResourceConfig;
+  private lastReturnedSearch: number;
+  private activeSearches: Set<string>;
 
   constructor(config: MentionResourceConfig) {
     super();
@@ -307,10 +302,6 @@ export class MentionResource extends AbstractMentionResource {
 
   isFiltering(query: string): boolean {
     return this.activeSearches.has(query);
-  }
-
-  getMentionConfig(): MentionResourceConfig {
-    return this.config;
   }
 
   protected verifyMentionConfig(config: MentionResourceConfig) {

@@ -4,11 +4,7 @@ import 'whatwg-fetch';
 import * as fetchMock from 'fetch-mock/src/client';
 import * as queryString from 'query-string';
 import TeamMentionResource from '../../../api/TeamMentionResource';
-import {
-  resultCr,
-  resultCraig,
-  teamResultsCraig,
-} from '../_mention-search-results';
+import { resultCr, resultCraig, teamResults } from '../_mention-search-results';
 import { MentionResourceConfig } from '../../../api/MentionResource';
 
 const baseUserUrl = 'https://bogus/users/mentions';
@@ -62,15 +58,15 @@ describe('TeamMentionResourceSpec', () => {
           mentions: resultCraig,
         },
       })
-      .mock(/\/teams\/mentions\/search\?.*q=craig(&|$)/, {
-        body: teamResultsCraig,
+      .mock(/\/teams\/mentions\/search\?.*query=craig(&|$)/, {
+        body: teamResults,
       })
       .mock(/\/users\/mentions\/search\?.*query=esoares(&|$)/, {
         body: {
           mentions: [],
         },
       })
-      .mock(/\/teams\/mentions\/search\?.*q=esoares(&|$)/, {
+      .mock(/\/teams\/mentions\/search\?.*query=esoares(&|$)/, {
         body: [],
       })
       .mock(
@@ -86,7 +82,7 @@ describe('TeamMentionResourceSpec', () => {
           }, 100);
         }),
       )
-      .mock(/\/teams\/mentions\/search\?.*q=cr(&|$)/, {
+      .mock(/\/teams\/mentions\/search\?.*query=cr(&|$)/, {
         body: [],
       })
       .mock(/\/users\/mentions\/search\?.*query=query-only-teams-fail(&|$)/, {
@@ -94,14 +90,17 @@ describe('TeamMentionResourceSpec', () => {
           mentions: resultCr,
         },
       })
-      .mock(/\/teams\/mentions\/search\?.*q=query-only-teams-fail(&|$)/, 500)
+      .mock(
+        /\/teams\/mentions\/search\?.*query=query-only-teams-fail(&|$)/,
+        500,
+      )
       .mock(
         /\/users\/mentions\/search\?.*query=query-only-users-fail(&|$)/,
         500,
       )
-      .mock(/\/teams\/mentions\/search\?.*q=query-only-users-fail(&|$)/, {
+      .mock(/\/teams\/mentions\/search\?.*query=query-only-users-fail(&|$)/, {
         body: {
-          mentions: teamResultsCraig,
+          mentions: teamResults,
         },
       });
 
@@ -118,9 +117,7 @@ describe('TeamMentionResourceSpec', () => {
   describe('#subscribe', () => {
     it('subscribe should receive updates', done => {
       resource.subscribe('craig', mentions => {
-        expect(mentions).toHaveLength(
-          resultCraig.length + teamResultsCraig.length,
-        );
+        expect(mentions).toHaveLength(resultCraig.length + teamResults.length);
 
         const queryParams = queryString.parse(
           queryString.extract(fetchMock.lastUrl()),
@@ -142,9 +139,7 @@ describe('TeamMentionResourceSpec', () => {
       let count = 0;
 
       resource.subscribe('test1', mentions => {
-        expect(mentions).toHaveLength(
-          resultCraig.length + teamResultsCraig.length,
-        );
+        expect(mentions).toHaveLength(resultCraig.length + teamResults.length);
 
         count++;
         if (count === 2) {
@@ -153,9 +148,7 @@ describe('TeamMentionResourceSpec', () => {
       });
 
       resource.subscribe('test2', mentions => {
-        expect(mentions).toHaveLength(
-          resultCraig.length + teamResultsCraig.length,
-        );
+        expect(mentions).toHaveLength(resultCraig.length + teamResults.length);
 
         count++;
         if (count === 2) {
@@ -202,7 +195,7 @@ describe('TeamMentionResourceSpec', () => {
       resource.filter('query-only-teams-fail');
 
       resource.subscribe('test2', mentions => {
-        expect(mentions).toHaveLength(teamResultsCraig.length);
+        expect(mentions).toHaveLength(teamResults.length);
         done();
       });
 

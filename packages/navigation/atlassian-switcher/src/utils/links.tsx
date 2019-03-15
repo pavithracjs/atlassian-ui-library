@@ -1,16 +1,18 @@
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage as FormattedMessageNamespace } from 'react-intl';
 
 import DiscoverFilledGlyph from '@atlaskit/icon/glyph/discover-filled';
 import SettingsGlyph from '@atlaskit/icon/glyph/settings';
 
 import {
   ConfluenceIcon,
+  JiraIcon,
   JiraSoftwareIcon,
   JiraServiceDeskIcon,
   JiraCoreIcon,
 } from '@atlaskit/logo';
-import { LicenseInformationDataStructure } from '../providers/types';
+import FormattedMessage from '../primitives/formatted-message';
+import { LicenseInformationResponse } from '../types';
 import messages from './messages';
 import JiraOpsLogo from './assets/jira-ops-logo';
 import PeopleLogo from './assets/people';
@@ -23,7 +25,7 @@ enum ProductActivationStatus {
   DEACTIVATED = 'DEACTIVATED',
 }
 
-enum ProductKey {
+export enum ProductKey {
   CONFLUENCE = 'confluence.ondemand',
   JIRA_CORE = 'jira-core.ondemand',
   JIRA_SOFTWARE = 'jira-software.ondemand',
@@ -31,8 +33,10 @@ enum ProductKey {
   JIRA_OPS = 'jira-incident-manager.ondemand',
 }
 
+const SINGLE_JIRA_PRODUCT: 'jira' = 'jira';
+
 interface MessagesDict {
-  [index: string]: FormattedMessage.MessageDescriptor;
+  [index: string]: FormattedMessageNamespace.MessageDescriptor;
 }
 
 export type SwitcherItemType = {
@@ -47,19 +51,17 @@ export type RecentItemType = SwitcherItemType & {
   description: React.ReactNode;
 };
 
-export type SuggestedProductItemType = SwitcherItemType | null;
-
 export const OBJECT_TYPE_TO_LABEL_MAP: MessagesDict = {
   'jira-project': messages.jiraProject,
   'confluence-space': messages.confluenceSpace,
 };
 
 export const PRODUCT_DATA_MAP: {
-  [productKey: string]: {
+  [productKey in ProductKey | typeof SINGLE_JIRA_PRODUCT]: {
     label: string;
     Icon: React.ComponentType<any>;
     href: string;
-  };
+  }
 } = {
   [ProductKey.CONFLUENCE]: {
     label: 'Confluence',
@@ -86,6 +88,11 @@ export const PRODUCT_DATA_MAP: {
     Icon: createIcon(JiraOpsLogo, { size: 'small' }),
     href: '/secure/BrowseProjects.jspa?selectedProjectType=ops',
   },
+  [SINGLE_JIRA_PRODUCT]: {
+    label: 'Jira',
+    Icon: createIcon(JiraIcon, { size: 'small' }),
+    href: '/secure/MyJiraHome.jspa',
+  },
 };
 
 export const getObjectTypeLabel = (type: string): React.ReactNode => {
@@ -101,32 +108,59 @@ export const getFixedProductLinks = (): SwitcherItemType[] => [
   },
 ];
 
-export const getProductLink = (productKey: string): SwitcherItemType => ({
+export const getProductLink = (
+  productKey: ProductKey | typeof SINGLE_JIRA_PRODUCT,
+): SwitcherItemType => ({
   key: productKey,
   ...PRODUCT_DATA_MAP[productKey],
 });
 
 export const getProductIsActive = (
-  { products }: LicenseInformationDataStructure,
+  { products }: LicenseInformationResponse,
   productKey: string,
 ): boolean =>
   products.hasOwnProperty(productKey) &&
   products[productKey].state === ProductActivationStatus.ACTIVE;
 
+// This function will determine which product links to render based
+// on license information and if we're separating the jira products or not
 export const getLicensedProductLinks = (
-  licenseInformationData: LicenseInformationDataStructure,
+  licenseInformationData: LicenseInformationResponse,
+  enableSplitJira: boolean,
 ): SwitcherItemType[] => {
-  return [
+  const majorJiraProducts = [
     ProductKey.JIRA_SOFTWARE,
     ProductKey.JIRA_SERVICE_DESK,
-    ProductKey.JIRA_CORE,
     ProductKey.JIRA_OPS,
-    ProductKey.CONFLUENCE,
-  ]
-    .filter((productKey: string) =>
-      getProductIsActive(licenseInformationData, productKey),
-    )
-    .map((productKey: string) => getProductLink(productKey));
+  ].filter(productKey =>
+    getProductIsActive(licenseInformationData, productKey),
+  );
+  const minorJiraProducts = [ProductKey.JIRA_CORE].filter(productKey =>
+    getProductIsActive(licenseInformationData, productKey),
+  );
+
+  let jiraProducts;
+  if (enableSplitJira) {
+    // If we enable split jira products we'll render whatever comes from license-information
+    jiraProducts = [...majorJiraProducts, ...minorJiraProducts];
+  } else if (majorJiraProducts.length > 1) {
+    // If we have more than one major jira product, we'll render only the Jira family logo
+    jiraProducts = [SINGLE_JIRA_PRODUCT];
+  } else if (majorJiraProducts.length === 1) {
+    // If we have a single jira product we will only show that single product (regardless if the instance has Jira Core or not)
+    jiraProducts = majorJiraProducts;
+  } else {
+    // If no major Jira products are present we render Jira Core if it's present in the license-information
+    jiraProducts = minorJiraProducts;
+  }
+
+  const otherProducts = [ProductKey.CONFLUENCE].filter(productKey =>
+    getProductIsActive(licenseInformationData, productKey),
+  );
+
+  return [...jiraProducts, ...otherProducts].map(productKey =>
+    getProductLink(productKey),
+  );
 };
 
 export const getAdministrationLinks = (
@@ -151,25 +185,23 @@ export const getAdministrationLinks = (
 };
 
 export const getSuggestedProductLink = (
-  licenseInformationData: LicenseInformationDataStructure | null,
-): SuggestedProductItemType => {
-  if (!licenseInformationData) {
-    return null;
-  }
+  licenseInformationData: LicenseInformationResponse,
+): SwitcherItemType[] => {
   if (!getProductIsActive(licenseInformationData, ProductKey.CONFLUENCE)) {
-    return getProductLink(ProductKey.CONFLUENCE);
+    return [getProductLink(ProductKey.CONFLUENCE)];
   }
   if (
     !getProductIsActive(licenseInformationData, ProductKey.JIRA_SERVICE_DESK)
   ) {
-    return getProductLink(ProductKey.JIRA_SERVICE_DESK);
+    return [getProductLink(ProductKey.JIRA_SERVICE_DESK)];
   }
-  return null;
+
+  return [];
 };
 
 export const getCustomLinkItems = (
   list: Array<CustomLink>,
-  licenseInformationData: LicenseInformationDataStructure,
+  licenseInformationData: LicenseInformationResponse,
 ): SwitcherItemType[] => {
   const defaultProductCustomLinks = [
     `${licenseInformationData.hostname}/secure/MyJiraHome.jspa`,

@@ -18,6 +18,9 @@ import {
   simulatePlatform,
   Platforms,
   insertText,
+  layoutSection,
+  layoutColumn,
+  breakout,
 } from '@atlaskit/editor-test-helpers';
 import {
   toggleOrderedList,
@@ -40,11 +43,14 @@ describe('lists', () => {
     return createEditor({
       doc,
       editorProps: {
+        appearance: 'full-page',
         analyticsHandler: analyticsHandler,
         allowCodeBlocks: true,
         allowAnalyticsGASV3: true,
         allowPanel: true,
         allowLists: true,
+        allowBreakout: true,
+        allowLayouts: { allowBreakout: true },
         media: { allowMediaSingle: true },
       },
       createAnalyticsEvent,
@@ -56,14 +62,17 @@ describe('lists', () => {
   const temporaryFileId = `temporary:${randomId()}`;
 
   describe('keymap', () => {
-    let trackEvent;
+    let trackEvent: jest.SpyInstance<AnalyticsHandler>;
     beforeEach(() => {
       trackEvent = jest.fn();
     });
 
     describe('when hit enter', () => {
       it('should split list item', () => {
-        const { editorView } = editor(doc(ul(li(p('text{<>}')))), trackEvent);
+        const { editorView } = editor(
+          doc(ul(li(p('text{<>}')))),
+          trackEvent as any,
+        );
         sendKeyToPm(editorView, 'Enter');
         expect(editorView.state.doc).toEqualDocument(
           doc(ul(li(p('text')), li(p()))),
@@ -108,7 +117,7 @@ describe('lists', () => {
     });
 
     describe('when hit Backspace', () => {
-      const backspaceCheck = (beforeDoc, afterDoc) => {
+      const backspaceCheck = (beforeDoc: any, afterDoc: any) => {
         const { editorView } = editor(beforeDoc);
         sendKeyToPm(editorView, 'Backspace');
 
@@ -398,7 +407,7 @@ describe('lists', () => {
       beforeEach(() => {
         ({ editorView } = editor(
           doc(ol(li(p('One'), ul(li(p('Two{<>}')))))),
-          trackEvent,
+          trackEvent as any,
         ));
         sendKeyToPm(editorView, 'Shift-Tab');
       });
@@ -771,6 +780,33 @@ describe('lists', () => {
         );
         const { editorView } = editor(
           doc(p('{<}One'), p(underline('Two')), p('Three{>}')),
+        );
+
+        toggleBulletList(editorView);
+        expect(editorView.state.doc).toEqualDocument(expectedOutput);
+      });
+
+      it('should retain breakout marks on ancestor when toggling list within a layout', () => {
+        const expectedOutput = doc(
+          breakout({ mode: 'wide' })(
+            layoutSection(
+              layoutColumn({ width: 33.33 })(p('')),
+              layoutColumn({ width: 33.33 })(ul(li(p('One')))),
+              layoutColumn({ width: 33.33 })(p('')),
+            ),
+          ),
+        );
+
+        const { editorView } = editor(
+          doc(
+            breakout({ mode: 'wide' })(
+              layoutSection(
+                layoutColumn({ width: 33.33 })(p('')),
+                layoutColumn({ width: 33.33 })(p('{<}One{>}')),
+                layoutColumn({ width: 33.33 })(p('')),
+              ),
+            ),
+          ),
         );
 
         toggleBulletList(editorView);
