@@ -38,6 +38,9 @@ class Textfield extends Component<TextFieldProps, State> {
 
   handleOnFocus = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({ isFocused: true });
+    if (this.input) {
+      this.input.focus();
+    }
     if (this.props.onFocus) {
       this.props.onFocus(e);
     }
@@ -49,12 +52,6 @@ class Textfield extends Component<TextFieldProps, State> {
       this.props.onBlur(e);
     }
   };
-
-  focus() {
-    if (this.input) {
-      this.input.focus();
-    }
-  }
 
   onMouseEnter = () => {
     this.setState({ isHovered: true });
@@ -111,7 +108,7 @@ class Textfield extends Component<TextFieldProps, State> {
                   isHovered={isHovered}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
-                  forwardedRef={forwardedRef}
+                  forwardedRef={this.setInputRef}
                   onFocus={this.handleOnFocus}
                   onBlur={this.handleOnBlur}
                 />

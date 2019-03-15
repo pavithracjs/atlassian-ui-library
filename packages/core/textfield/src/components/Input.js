@@ -17,10 +17,20 @@ export default ({
   isMonospaced,
   isReadOnly,
   isRequired,
+  onBlur,
+  onFocus,
+  onMouseEnter,
+  onMouseLeave,
   theme,
   ...rest
 }: InputProps) => (
-  <div className={css(theme.container)}>
+  <div
+    className={css(theme.container)}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
+    onClick={onFocus}
+    onBlur={onBlur}
+  >
     {elemBeforeInput}
     <input
       ref={forwardedRef}

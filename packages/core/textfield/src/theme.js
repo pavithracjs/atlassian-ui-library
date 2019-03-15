@@ -240,6 +240,7 @@ export const Theme = createTheme<ThemeTokens, ThemeProps>(props => ({
     color: props.isDisabled
       ? disabledRules[props.mode].textColor
       : componentTokens.textColor[props.mode],
+    cursor: props.isDisabled ? 'disabled' : 'text',
     display: 'flex',
     flex: '1 1 100%',
     fontSize: `${fontSize()}px`,
