@@ -33,6 +33,7 @@ async function getPipelinesBuildData(
   const res = await axios.get(apiEndpoint);
   const build = res.data;
   let payload /*: $Shape<IBuildEventProperties> */ = {};
+  console.log('Status of the build', build.state.result.name)
   try {
     const stepsData = await getStepsData(buildId);
     if (

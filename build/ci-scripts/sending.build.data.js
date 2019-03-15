@@ -10,6 +10,7 @@ const sendData = require('../utils/sendPayload').sendData;
     'atlaskit-mk-2',
     buildId,
   );
+  console.log(buildId);
   console.log(buildData);
   sendData(buildData);
 })();
