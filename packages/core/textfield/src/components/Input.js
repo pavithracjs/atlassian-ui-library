@@ -8,7 +8,7 @@ export default ({
   appearance,
   elemAfterInput,
   elemBeforeInput,
-  focusInput,
+  onMouseDown,
   forwardedRef,
   isCompact,
   isDisabled,
@@ -28,7 +28,7 @@ export default ({
     className={css(theme.container)}
     onMouseEnter={onMouseEnter}
     onMouseLeave={onMouseLeave}
-    onClick={focusInput}
+    onMouseDown={onMouseDown}
   >
     {elemBeforeInput}
     <input

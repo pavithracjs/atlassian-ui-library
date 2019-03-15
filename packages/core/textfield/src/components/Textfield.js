@@ -50,8 +50,19 @@ class Textfield extends Component<TextFieldProps, State> {
     }
   };
 
-  focus = () => {
-    if (this.input) {
+  handleOnMouseDown = (e: SyntheticMouseEvent<*>) => {
+    e.preventDefault();
+    if (this.input && document.activeElement !== this.input) {
+      this.input.focus();
+    }
+    if (this.props.onMouseDown) {
+      this.props.onMouseDown(e);
+    }
+  };
+
+  focusInput = e => {
+    e.preventDefault();
+    if (this.input && document.activeElement !== this.input) {
       this.input.focus();
     }
   };
@@ -114,7 +125,7 @@ class Textfield extends Component<TextFieldProps, State> {
                   forwardedRef={this.setInputRef}
                   onFocus={this.handleOnFocus}
                   onBlur={this.handleOnBlur}
-                  focusInput={this.focus}
+                  onMouseDown={this.handleOnMouseDown}
                 />
               )}
             </Theme.Consumer>

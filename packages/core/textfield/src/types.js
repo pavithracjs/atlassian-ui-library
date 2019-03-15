@@ -15,9 +15,11 @@ export type InputProps = {
   /** Element before input in textfield. */
   elemBeforeInput?: Node,
   /** Handler called when the input loses focus. */
-  onBlur?: (e: SyntheticEvent<>) => mixed,
+  onBlur?: (e: SyntheticEvent<HTMLInputElement>) => mixed,
   /** Handler called when the input receives focus. */
-  onFocus?: (e: SyntheticEvent<>) => mixed,
+  onFocus?: (e: SyntheticEvent<HTMLInputElement>) => mixed,
+  /** Handler called when mouse is pressed down. */
+  onMouseDown: (e: SyntheticMouseEvent<*>) => mixed,
   /** Handler called when mouse enters input. */
   onMouseEnter: () => void,
   /** Handler called when mouse leaves input. */
@@ -70,9 +72,11 @@ export type TextFieldProps = {
   /** Set required for form that the field is part of. */
   isRequired?: boolean,
   /** Handler to be called when the input loses focus. */
-  onBlur?: (e: SyntheticEvent<>) => mixed,
+  onBlur?: (e: SyntheticEvent<HTMLInputElement>) => mixed,
   /** Handler to be called when the input receives focus. */
-  onFocus?: (e: SyntheticEvent<>) => mixed,
+  onFocus?: (e: SyntheticEvent<HTMLInputElement>) => mixed,
+  /** Handler called when mouse is pressed down. */
+  onMouseDown: (e: SyntheticMouseEvent<*>) => mixed,
   /** Sets maximum width of input */
   width?: string | number,
   /** The value of the input. */
