@@ -1,4 +1,4 @@
-import { EditorView } from 'prosemirror-view';
+import { EditorViewWithComposition } from '@atlaskit/editor-common';
 import {
   Plugin,
   PluginKey,
@@ -35,13 +35,6 @@ export type PluginState = {
   queryStarted: number;
   upKeyCount: number;
   downKeyCount: number;
-};
-
-type EditorViewWithDOMChange = EditorView & {
-  inDOMChange: {
-    composing: boolean;
-    finish: (force: boolean) => void;
-  };
 };
 
 export const ACTIONS = {
@@ -200,8 +193,9 @@ export function createPlugin(
           const {
             state,
             dispatch,
-            inDOMChange: domChange,
-          } = view as EditorViewWithDOMChange;
+            composing,
+            domObserver,
+          } = view as EditorViewWithComposition;
           const { selection, schema } = state;
 
           if (
@@ -220,10 +214,10 @@ export function createPlugin(
           if (
             triggers.indexOf(event.data) !== -1 &&
             event.inputType === 'insertCompositionText' &&
-            domChange &&
-            domChange.composing
+            composing &&
+            domObserver
           ) {
-            domChange.finish(true);
+            domObserver.flush();
           }
 
           return false;
