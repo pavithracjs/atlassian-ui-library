@@ -360,7 +360,24 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     this.setState({ hoveringClearIndicator });
   };
 
-  private getOptions = (): Option[] => getOptions(this.state.options) || [];
+  private getOptions = (): Option[] => {
+    const options = getOptions(this.state.options) || [];
+    const { maxOptions, isMulti } = this.props;
+    if (maxOptions && maxOptions < options.length) {
+      const { value } = this.state;
+      let filteredOptions = options;
+      // Filter out previously selected options
+      if (isMulti && Array.isArray(value)) {
+        filteredOptions = options.filter(
+          option =>
+            value.map(item => item.data.id).indexOf(option.data.id) === -1,
+        );
+      }
+      return filteredOptions.slice(0, maxOptions);
+    }
+
+    return options;
+  };
 
   private getAppearance = (): Appearance =>
     this.props.appearance
@@ -429,7 +446,6 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         subtle={isMulti ? false : subtle}
         blurInputOnSelect={!isMulti}
         closeMenuOnSelect={!isMulti}
-        hideSelectedOptions={isMulti}
         noOptionsMessage={noOptionsMessage}
         openMenuOnFocus
         onKeyDown={this.handleKeyDown}

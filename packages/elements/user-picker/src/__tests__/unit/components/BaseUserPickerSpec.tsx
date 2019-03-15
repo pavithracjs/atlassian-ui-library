@@ -87,13 +87,6 @@ describe('BaseUserPicker', () => {
     expect(onChange).toHaveBeenCalledWith(options[0], 'select-option');
   });
 
-  it('should not hide selected users by default', () => {
-    const component = shallowUserPicker();
-
-    const select = component.find(Select);
-    expect(select.prop('hideSelectedOptions')).toBeFalsy();
-  });
-
   it('should trigger props.onSelection if onChange with select-option action', () => {
     const onSelection = jest.fn();
     const component = shallowUserPicker({ onSelection });
@@ -157,13 +150,6 @@ describe('BaseUserPicker', () => {
         [options[0], options[1]],
         'select-option',
       );
-    });
-
-    it('should hide selected users', () => {
-      const component = shallowUserPicker({ isMulti: true });
-
-      const select = component.find(Select);
-      expect(select.prop('hideSelectedOptions')).toBeTruthy();
     });
   });
 
@@ -411,6 +397,44 @@ describe('BaseUserPicker', () => {
       });
 
       expect(loadOptions).toHaveBeenCalledWith('test');
+    });
+  });
+
+  describe('maxOptions', () => {
+    it('should only pass maxOptions number of options to dropdown in single picker', () => {
+      const component = shallowUserPicker({
+        options,
+        open: true,
+        maxOptions: 1,
+      });
+
+      expect(component.prop('options')).toHaveLength(1);
+      expect(component.prop('options')[0]).toEqual(userOptions[0]);
+    });
+
+    it('should only pass #maxOptions options to dropdown in multi picker', () => {
+      const component = shallowUserPicker({
+        options,
+        open: true,
+        maxOptions: 1,
+        isMulti: true,
+      });
+
+      expect(component.prop('options')).toHaveLength(1);
+      expect(component.prop('options')[0]).toEqual(userOptions[0]);
+    });
+
+    it('should not include selected options in #maxOptions options passed to dropdown', () => {
+      const component = shallowUserPicker({
+        options,
+        value: [options[0]],
+        open: true,
+        maxOptions: 1,
+        isMulti: true,
+      });
+
+      expect(component.prop('options')).toHaveLength(1);
+      expect(component.prop('options')[0]).toEqual(userOptions[1]);
     });
   });
 

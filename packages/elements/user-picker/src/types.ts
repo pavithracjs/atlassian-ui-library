@@ -64,6 +64,8 @@ export type UserPickerProps = {
   disableInput?: boolean;
   /** Override default email validation function. */
   isValidEmail?: EmailValidator;
+  /** Cap the number of options displayed in the dropdown menu */
+  maxOptions?: number;
 };
 
 export type PopupUserPickerProps = UserPickerProps & {
