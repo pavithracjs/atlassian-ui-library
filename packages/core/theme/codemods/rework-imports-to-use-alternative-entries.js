@@ -42,7 +42,7 @@ function getConstantsImport(j, path) {
   );
 
   if (constantsSpecifierspath.length === 0) {
-    return;
+    return null;
   }
 
   return j.importDeclaration(
@@ -59,7 +59,7 @@ function getIndexImport(j, path) {
   const mainIndexSpecifierspath = path.value.specifiers.filter(indexPredicate);
 
   if (mainIndexSpecifierspath.length === 0) {
-    return;
+    return null;
   }
 
   return j.importDeclaration(
@@ -83,7 +83,6 @@ function getOtherImports(j, path) {
 
 export default function transformer(file, api) {
   const j = api.jscodeshift;
-  const akTheme = '@atlaskit/theme';
 
   return j(file.source)
     .find(j.ImportDeclaration)
