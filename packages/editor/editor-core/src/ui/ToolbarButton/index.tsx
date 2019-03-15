@@ -29,10 +29,10 @@ export default class ToolbarButton extends PureComponent<Props, {}> {
     const button = (
       <AkButton
         appearance="subtle"
-        ariaHaspopup={true}
+        aria-haspopup
         className={this.props.className}
         href={this.props.href}
-        ariaLabel={this.props.ariaLabel}
+        aria-label={this.props.ariaLabel}
         iconAfter={this.props.iconAfter}
         iconBefore={this.props.iconBefore}
         isDisabled={this.props.disabled}
@@ -41,7 +41,7 @@ export default class ToolbarButton extends PureComponent<Props, {}> {
         spacing={this.props.spacing || 'default'}
         target={this.props.target}
         theme={this.props.theme}
-        shouldFitContainer={true}
+        shouldFitContainer
       >
         {this.props.children}
       </AkButton>

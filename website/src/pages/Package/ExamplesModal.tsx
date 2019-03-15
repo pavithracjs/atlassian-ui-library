@@ -92,12 +92,6 @@ const NavInner = styled.div`
   max-height: 100%;
   overflow-y: auto;
   padding: 2px;
-
-  /* Not ideal to be overriding AkButton styles, but we don't have a link list component */
-  a {
-    margin: 2px 0 0 0;
-    width: 100%;
-  }
 `;
 
 function ExampleNavigation({
@@ -130,6 +124,17 @@ function ExampleNavigation({
                     onExampleSelected(
                       fs.normalize(filePath.replace('examples/', '')),
                     );
+                  }}
+                  theme={(current, props) => {
+                    const { buttonStyles, ...rest } = current(props);
+                    return {
+                      buttonStyles: {
+                        ...buttonStyles,
+                        width: '100%',
+                        margin: '2px 0 0 0',
+                      },
+                      ...rest,
+                    };
                   }}
                 >
                   {fs.titleize(file.id)}

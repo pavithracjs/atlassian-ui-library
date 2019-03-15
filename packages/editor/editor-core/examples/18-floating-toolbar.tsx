@@ -160,7 +160,6 @@ export default class Example extends Component {
 
   renderButton = (name: string, label: string) => (
     <Button
-      theme="dark"
       spacing="compact"
       ariaLabel={name}
       appearance={this.state.active === name ? 'primary' : 'default'}

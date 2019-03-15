@@ -20,6 +20,7 @@ class AlignmentButton extends PureComponent<Props> {
         disabled={false}
         selected={isSelected}
         title={label}
+        ariaLabel={label}
         onClick={this.onClick}
         iconBefore={content}
       />

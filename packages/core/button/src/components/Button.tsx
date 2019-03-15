@@ -8,7 +8,7 @@ import {
 import {
   name as packageName,
   version as packageVersion,
-} from '../../package.json';
+} from '../version.json';
 import GlobalTheme from '@atlaskit/theme';
 import { Theme } from '../theme';
 import { mapAttributesToState, filterProps, checkDeprecations } from './utils';
@@ -175,6 +175,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
                   onMouseUp={this.onMouseUp}
                   onFocus={this.onFocus}
                   onBlur={this.onBlur}
+                  disabled={isDisabled}
                   className={cx(css(specifiers(buttonStyles)), className)}
                 >
                   <InnerWrapper
