@@ -1,5 +1,20 @@
 # @atlaskit/editor-core
 
+## 106.0.4
+- [patch] [205b101e2b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/205b101e2b):
+
+  - ED-6230: bump prosemirror-view to 1.8.3; workaround Chrome bug with copy paste multiple images
+
+## 106.0.3
+- Updated dependencies [b684722884](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b684722884):
+  - @atlaskit/renderer@44.0.1
+  - @atlaskit/date@0.6.0
+  - @atlaskit/emoji@58.1.0
+  - @atlaskit/mention@17.1.0
+  - @atlaskit/status@0.7.0
+  - @atlaskit/task-decision@13.1.0
+  - @atlaskit/util-data-test@11.1.0
+
 ## 106.0.2
 - [patch] [8f1f21dd3a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f1f21dd3a):
 
