@@ -4,13 +4,19 @@ const getPipelinesBuildData = require('../utils/getBuildData')
 const sendData = require('../utils/sendPayload').sendData;
 
 (async () => {
-  const buildId = process.env.BITBUCKET_BUILD_NUMBER;
-  const buildData = await getPipelinesBuildData(
-    'atlassian',
-    'atlaskit-mk-2',
-    buildId,
-  );
-  console.log(buildId);
-  console.log(buildData);
-  sendData(buildData);
+  try {
+    const buildId = process.env.BITBUCKET_BUILD_NUMBER;
+    console.log(buildId);
+    const buildData = await getPipelinesBuildData(
+      'atlassian',
+      'atlaskit-mk-2',
+      buildId,
+    );
+    console.log(buildData);
+    sendData(buildData);
+  } catch (err) {
+    console.error(`You face some issues while sending data: ${err}`);
+    // It is not required to fail the step.
+    process.exit(0);
+  }
 })();
