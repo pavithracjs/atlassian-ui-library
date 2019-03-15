@@ -13,6 +13,16 @@ const TEST_ONLY_PATTERN = process.env.TEST_ONLY_PATTERN;
 // These are set by Pipelines if you are running in a parallel steps
 const STEP_IDX = Number(process.env.STEP_IDX);
 const STEPS = Number(process.env.STEPS);
+let moduleMap;
+try {
+  console.log(process.env.MODULE_MAP);
+  moduleMap = JSON.parse(process.env.MODULE_MAP);
+} catch (err) {
+  console.log(err);
+  throw new Error(
+    "Multi entry module mapping was not provided, please see test command in root package.json to see how it's passed in there.",
+  );
+}
 
 /**
  * USAGE for parallelizing: setting PARALLELIZE_TESTS to an array of globs or an array of test files when you
@@ -75,6 +85,7 @@ const config = {
   moduleFileExtensions: ['js', 'ts', 'tsx', 'json'],
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|svg)$': '<rootDir>/fileMock.js',
+    ...moduleMap,
   },
   snapshotSerializers: ['enzyme-to-json/serializer'],
   setupFiles: ['./build/jest-config/setup.js'],

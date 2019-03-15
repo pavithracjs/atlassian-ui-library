@@ -9,5 +9,8 @@
   "author": "Atlassian Pty Ltd",
   "license": "Apache-2.0",
   "dependencies": {
+  },
+  "bin": {
+    "get-multi-entry-map": "./cli.js"
   }
 }
