@@ -8,7 +8,7 @@ import {
 import {
   name as packageName,
   version as packageVersion,
-} from '../../package.json';
+} from '../version.json';
 import GlobalTheme from '@atlaskit/theme';
 import { Theme } from '../theme';
 import { mapAttributesToState, filterProps, checkDeprecations } from './utils';
