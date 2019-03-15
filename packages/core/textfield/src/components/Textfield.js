@@ -38,9 +38,6 @@ class Textfield extends Component<TextFieldProps, State> {
 
   handleOnFocus = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({ isFocused: true });
-    if (this.input) {
-      this.input.focus();
-    }
     if (this.props.onFocus) {
       this.props.onFocus(e);
     }
@@ -50,6 +47,12 @@ class Textfield extends Component<TextFieldProps, State> {
     this.setState({ isFocused: false });
     if (this.props.onBlur) {
       this.props.onBlur(e);
+    }
+  };
+
+  focus = () => {
+    if (this.input) {
+      this.input.focus();
     }
   };
 
@@ -111,6 +114,7 @@ class Textfield extends Component<TextFieldProps, State> {
                   forwardedRef={this.setInputRef}
                   onFocus={this.handleOnFocus}
                   onBlur={this.handleOnBlur}
+                  focusInput={this.focus}
                 />
               )}
             </Theme.Consumer>

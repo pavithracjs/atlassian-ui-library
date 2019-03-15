@@ -14,6 +14,14 @@ export type InputProps = {
   elemAfterInput?: Node,
   /** Element before input in textfield. */
   elemBeforeInput?: Node,
+  /** Handler called when the input loses focus. */
+  onBlur?: (e: SyntheticEvent<>) => mixed,
+  /** Handler called when the input receives focus. */
+  onFocus?: (e: SyntheticEvent<>) => mixed,
+  /** Handler called when mouse enters input. */
+  onMouseEnter: () => void,
+  /** Handler called when mouse leaves input. */
+  onMouseLeave: () => void,
   /** Set whether the fields should expand to fill available horizontal space. */
   isCompact?: boolean,
   /** Sets the field as uneditable, with a changed hover state. */
@@ -29,7 +37,7 @@ export type InputProps = {
   /** Add asterisk to label. Set required for form that the field is part of. */
   isRequired?: boolean,
   /** Forwarded ref */
-  forwardedRef: ElementRef<*>,
+  forwardedRef: (?HTMLInputElement) => void,
   theme: ThemeTokens,
 };
 
@@ -70,7 +78,7 @@ export type TextFieldProps = {
   /** The value of the input. */
   value?: string | number,
   /** This is an internal prop. Use "ref" prop to get a reference to input element. */
-  forwardedRef: ElementRef<*>,
+  forwardedRef: (?HTMLInputElement) => void,
   /** The theme the component should use. */
   theme?: ThemeProp<ThemeTokens, ThemeProps>,
 };

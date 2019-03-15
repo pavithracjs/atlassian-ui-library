@@ -8,6 +8,7 @@ export default ({
   appearance,
   elemAfterInput,
   elemBeforeInput,
+  focusInput,
   forwardedRef,
   isCompact,
   isDisabled,
@@ -17,19 +18,17 @@ export default ({
   isMonospaced,
   isReadOnly,
   isRequired,
-  onBlur,
-  onFocus,
   onMouseEnter,
   onMouseLeave,
   theme,
   ...rest
 }: InputProps) => (
+  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
   <div
     className={css(theme.container)}
     onMouseEnter={onMouseEnter}
     onMouseLeave={onMouseLeave}
-    onClick={onFocus}
-    onBlur={onBlur}
+    onClick={focusInput}
   >
     {elemBeforeInput}
     <input
