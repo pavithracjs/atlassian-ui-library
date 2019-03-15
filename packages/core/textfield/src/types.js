@@ -1,7 +1,7 @@
 // @flow
 
 import type { ThemeProp } from '@atlaskit/theme';
-import type { ElementRef, Node } from 'react';
+import type { Node } from 'react';
 import type { ThemeProps, ThemeTokens } from './theme';
 
 export type InputProps = {
