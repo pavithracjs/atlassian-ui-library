@@ -47,14 +47,14 @@ type Props = UserPickerProps &
   };
 
 class UserPickerInternal extends React.Component<Props, UserPickerState> {
-  static defaultProps: UserPickerProps = {
+  static defaultProps = {
     isMulti: false,
     subtle: false,
     isClearable: true,
   };
 
   static getDerivedStateFromProps(
-    nextProps: UserPickerProps,
+    nextProps: Partial<UserPickerProps>,
     prevState: UserPickerState,
   ) {
     const derivedState: Partial<UserPickerState> = {};

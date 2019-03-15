@@ -110,6 +110,7 @@ export default class Example extends React.PureComponent<Props, State> {
               />
             ))}
             <UserPicker
+              context={null}
               ref={this.userPickerRef}
               options={options.filter(user => value.indexOf(user) === -1)}
               value={null}

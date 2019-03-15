@@ -7,7 +7,11 @@ export default class Example extends React.Component<{}> {
     return (
       <ExampleWrapper>
         {({ loadUsers }) => (
-          <UserPicker onChange={console.log} loadOptions={loadUsers} />
+          <UserPicker
+            context={null}
+            onChange={console.log}
+            loadOptions={loadUsers}
+          />
         )}
       </ExampleWrapper>
     );

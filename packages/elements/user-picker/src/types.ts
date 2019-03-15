@@ -2,6 +2,14 @@ import * as React from 'react';
 import { EmailValidator } from './components/emailValidation';
 
 export type UserPickerProps = {
+  /**
+   * Used to configure the context string that identifies where the
+   * user picker has been mounted.
+   * The value will be passed as a data attribute for analytic events.
+   * context can be set to null if the integrator is not listening
+   * for the fired analytics.
+   */
+  context: string | null;
   /** List of users or teams to be used as options by the user picker. */
   options?: OptionData[];
   /** Width of the user picker field. It can be the amount of pixels as numbers or a string with the percentage. */

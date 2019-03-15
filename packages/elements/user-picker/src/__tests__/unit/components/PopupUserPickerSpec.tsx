@@ -13,7 +13,9 @@ import { PopupControl } from '../../../components/PopupControl';
 
 describe('PopupUserPicker', () => {
   const shallowPopupUserPicker = (props: Partial<PopupUserPickerProps> = {}) =>
-    shallowWithIntl(<PopupUserPicker target={jest.fn()} {...props} />)
+    shallowWithIntl(
+      <PopupUserPicker context={null} target={jest.fn()} {...props} />,
+    )
       .dive()
       .dive();
 

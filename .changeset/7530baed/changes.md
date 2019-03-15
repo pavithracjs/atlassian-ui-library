@@ -1,0 +1,1 @@
+- FS-3548 integrators must explicitly set the context prop in user-picker

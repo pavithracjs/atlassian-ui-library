@@ -9,6 +9,7 @@ export default class Example extends React.Component<{}> {
         <ExampleWrapper>
           {({ options, onInputChange }) => (
             <UserPicker
+              context={null}
               options={options}
               onChange={console.log}
               onInputChange={onInputChange}
