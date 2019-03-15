@@ -26,8 +26,24 @@ export const listsStyles = css`
     }
   }
 
-  .ProseMirror li > * {
-    pointer-events: auto;
+  .ProseMirror li {
+    > {
+      * {
+        /*
+        Restore pointer events. We use inherit instead of auto to ensure adjacent floated
+        content remains clickable.
+        */
+        pointer-events: inherit;
+      }
+      [layout='wrap-left'],
+      [layout='wrap-right'] {
+        /*
+        When a floated content is nested inside an li instead of adjacent to it, the inherit
+        rule doesn't work as intended so we switch to auto.
+        */
+        pointer-events: auto;
+      }
+    }
   }
   /* Make sure li selections wrap around markers */
   li.ProseMirror-selectednode {
