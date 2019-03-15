@@ -214,6 +214,16 @@ describe('BaseUserPicker', () => {
       const component = shallowUserPicker();
       expect(component.find(Select).prop('autoFocus')).toBeFalsy();
     });
+
+    it('should always autoFocus if prop set to true', () => {
+      const component = shallowUserPicker({ autoFocus: true });
+      expect(component.find(Select).prop('autoFocus')).toBeTruthy();
+    });
+
+    it('should never autoFocus if prop set to false', () => {
+      const component = shallowUserPicker({ open: true, autoFocus: false });
+      expect(component.find(Select).prop('autoFocus')).toBeFalsy();
+    });
   });
 
   describe('async load', () => {

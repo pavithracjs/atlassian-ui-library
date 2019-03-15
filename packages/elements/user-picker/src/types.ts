@@ -64,6 +64,8 @@ export type UserPickerProps = {
   disableInput?: boolean;
   /** Override default email validation function. */
   isValidEmail?: EmailValidator;
+  /** Override the internal behaviour to automatically focus the control the picker is open */
+  autoFocus?: boolean;
   /** Cap the number of options displayed in the dropdown menu */
   maxOptions?: number;
 };

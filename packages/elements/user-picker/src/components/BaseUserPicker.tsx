@@ -404,6 +404,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       pickerProps,
       SelectComponent,
       styles,
+      autoFocus,
     } = this.props;
 
     const {
@@ -419,7 +420,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       <SelectComponent
         enableAnimation={false}
         value={value}
-        autoFocus={menuIsOpen}
+        autoFocus={autoFocus !== undefined ? autoFocus : menuIsOpen}
         ref={this.handleSelectRef}
         isMulti={isMulti}
         options={this.getOptions()}
