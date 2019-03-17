@@ -1,1 +1,0 @@
-- FS-3639 fix analytics when no item is removed
