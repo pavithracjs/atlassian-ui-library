@@ -3,7 +3,7 @@ import { Logs } from '../components/ChangeLog';
 export type Changelog = { default: { default: string } | string } | string;
 
 export const divvyChangelog = (changelog: Changelog): Logs => {
-  let stringChangelog;
+  let stringChangelog = '';
   if (
     typeof changelog === 'object' &&
     typeof changelog.default === 'object' &&
@@ -11,7 +11,7 @@ export const divvyChangelog = (changelog: Changelog): Logs => {
   )
     stringChangelog = changelog.default.default;
   else if (typeof changelog === 'object' && changelog.default)
-    stringChangelog = changelog.default;
+    stringChangelog = changelog.default as string;
   else if (typeof changelog === 'string') stringChangelog = changelog;
 
   const splitToken = `__CHANGELOG_SPLIT_${Date.now()}__`;
