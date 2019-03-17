@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.0.6
+- [patch] [2f953a0738](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f953a0738):
+
+  - ED-6362: add analytics for media annotation button
+
 ## 106.0.5
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 
