@@ -1,0 +1,1 @@
+- ED-6362: add analytics for media annotation button
