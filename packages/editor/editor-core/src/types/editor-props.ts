@@ -29,6 +29,7 @@ import { CollabEditOptions } from '../plugins/collab-edit/types';
 import { CodeBlockOptions } from '../plugins/code-block';
 import { CardProvider, CardOptions } from '../plugins/card/types';
 import { QuickInsertOptions } from '../plugins/quick-insert/types';
+import { AutoformattingProvider } from '../plugins/custom-autoformat/types';
 
 export type EditorAppearance =
   | 'comment'
@@ -192,6 +193,9 @@ export interface EditorProps {
   legacyImageUploadProvider?: Promise<ImageUploadHandler>;
   mentionProvider?: Promise<MentionProvider>;
   mediaProvider?: Promise<MediaProvider>;
+
+  // Allows you to define custom autoformatting rules.
+  autoformattingProvider?: Promise<AutoformattingProvider>;
 
   // This is temporary for Confluence. **Please do not use**.
   macroProvider?: Promise<MacroProvider>;
