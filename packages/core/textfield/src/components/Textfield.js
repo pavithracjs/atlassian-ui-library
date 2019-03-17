@@ -60,13 +60,6 @@ class Textfield extends Component<TextFieldProps, State> {
     }
   };
 
-  focusInput = e => {
-    e.preventDefault();
-    if (this.input && document.activeElement !== this.input) {
-      this.input.focus();
-    }
-  };
-
   onMouseEnter = () => {
     this.setState({ isHovered: true });
   };

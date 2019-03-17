@@ -8,7 +8,6 @@ export default ({
   appearance,
   elemAfterInput,
   elemBeforeInput,
-  onMouseDown,
   forwardedRef,
   isCompact,
   isDisabled,
@@ -18,6 +17,7 @@ export default ({
   isMonospaced,
   isReadOnly,
   isRequired,
+  onMouseDown,
   onMouseEnter,
   onMouseLeave,
   theme,
@@ -26,17 +26,17 @@ export default ({
   // eslint-disable-next-line jsx-a11y/no-static-element-interactions
   <div
     className={css(theme.container)}
+    onMouseDown={onMouseDown}
     onMouseEnter={onMouseEnter}
     onMouseLeave={onMouseLeave}
-    onMouseDown={onMouseDown}
   >
     {elemBeforeInput}
     <input
+      className={css(theme.input)}
       ref={forwardedRef}
       disabled={isDisabled}
       readOnly={isReadOnly}
       required={isRequired}
-      className={css(theme.input)}
       {...rest}
     />
     {elemAfterInput}
