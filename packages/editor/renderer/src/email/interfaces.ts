@@ -20,19 +20,17 @@ export interface SmartCardWithUrlAttributes {
   url: string;
 }
 
-export interface SmartCardWithDataAttributes {
-  data: {
+interface ScData {
+  '@type': string;
+  generator: {
     '@type': string;
-    generator: {
-      '@type': string;
-      name: string;
-    };
     name: string;
-    url: string;
-    summary: string;
   };
+  name: string;
+  url: string;
+  summary: string;
 }
 
-export type SmartCardAttributes =
-  | SmartCardWithUrlAttributes
-  | SmartCardWithDataAttributes;
+export interface SmartCardWithDataAttributes {
+  data: ScData;
+}

@@ -1,4 +1,9 @@
-import { NodeSerializerOpts, SmartCardAttributes } from '../interfaces';
+import {
+  NodeSerializerOpts,
+  SmartCardWithDataAttributes,
+  SmartCardWithUrlAttributes,
+} from '../interfaces';
+
 import { createTag, serializeStyle } from '../util';
 
 const borderRadius = {
@@ -22,15 +27,25 @@ const linkStyle = serializeStyle({
 });
 
 export default function inlineCard({ attrs, text }: NodeSerializerOpts) {
-  const scAttrs = attrs as SmartCardAttributes;
+  let scAttrs: SmartCardWithDataAttributes | SmartCardWithUrlAttributes;
+  let textContent: string;
+  let href: string;
 
-  const textContent = scAttrs.data ? scAttrs.data.name : text || scAttrs.url;
+  if (attrs.data) {
+    scAttrs = attrs as SmartCardWithDataAttributes;
+    href = scAttrs.data.url;
+    textContent = scAttrs.data.name;
+  } else {
+    scAttrs = attrs as SmartCardWithUrlAttributes;
+    href = scAttrs.url;
+    textContent = scAttrs.url;
+  }
+
   const card = createTag(
     'span',
     { style: cardStyle },
     `&nbsp;${textContent}&nbsp;`,
   );
-  const href = scAttrs.data ? scAttrs.data.url : scAttrs.url;
   const fontTag = createTag(
     'font',
     { color: '#0052CC', style: linkStyle },
