@@ -1,1 +1,0 @@
-- Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js

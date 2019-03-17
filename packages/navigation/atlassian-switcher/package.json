@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/atlassian-switcher",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
   "module": "index.js",
@@ -18,17 +18,17 @@
     "Harsha Ivaturi"
   ],
   "dependencies": {
-    "@atlaskit/analytics-gas-types": "^4.0.0",
-    "@atlaskit/analytics-namespaced-context": "^3.0.0",
+    "@atlaskit/analytics-gas-types": "^4.0.1",
+    "@atlaskit/analytics-namespaced-context": "^3.0.1",
     "@atlaskit/analytics-next": "^4.0.1",
     "@atlaskit/analytics-next-types": "^4.0.0",
-    "@atlaskit/button": "^11.0.0",
+    "@atlaskit/button": "^11.0.2",
     "@atlaskit/icon": "^16.0.5",
     "@atlaskit/item": "^9.0.0",
     "@atlaskit/logo": "^10.0.1",
     "@atlaskit/lozenge": "^7.0.0",
     "@atlaskit/theme": "^8.0.1",
-    "@atlaskit/type-helpers": "^3.0.0",
+    "@atlaskit/type-helpers": "^3.0.2",
     "lodash.isequal": "^4.5.0",
     "lodash.throttle": "^4.1.1",
     "tslib": "^1.8.0"
