@@ -1,0 +1,1 @@
+- Enable UI for links inside headings
