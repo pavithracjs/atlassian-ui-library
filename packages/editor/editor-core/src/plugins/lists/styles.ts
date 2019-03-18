@@ -33,7 +33,7 @@ export const listsStyles = css`
         pointer-events: auto;
       }
       p {
-        /* Support clicking adjectent floated content */
+        /* Support clicking adjacent floated content */
         pointer-events: inherit;
       }
     }
