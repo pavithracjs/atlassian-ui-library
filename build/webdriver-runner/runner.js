@@ -69,6 +69,9 @@ afterAll(async function() {
   await Promise.all(clients.map(endSession));
 });
 
+/*::
+ type Tester<Object> = (client: any, testCase: string) => ?Promise<mixed>;
+*/
 function BrowserTestCase(
   testCase /*: string */,
   options /*: {skip?: string[]} */,
