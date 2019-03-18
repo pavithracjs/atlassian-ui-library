@@ -1,5 +1,15 @@
 # @atlaskit/user-picker
 
+## 2.0.3
+- [patch] [552843a739](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/552843a739):
+
+  - FS-3639 fix analytics when no item is removed
+
+## 2.0.2
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
 ## 2.0.1
 - [patch] [de8123519a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/de8123519a):
 

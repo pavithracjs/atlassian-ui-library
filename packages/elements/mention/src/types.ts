@@ -34,6 +34,8 @@ export interface MentionDescription {
 
 export interface MentionDescContext {
   members: TeamMember[];
+  includesYou: boolean;
+  memberCount: number;
 }
 
 export interface MentionsResult {
@@ -52,6 +54,8 @@ export interface Team {
   smallAvatarImageUrl: string;
   displayName: string;
   members: TeamMember[];
+  includesYou: boolean;
+  memberCount: number;
   highlight?: Highlight;
 }
 

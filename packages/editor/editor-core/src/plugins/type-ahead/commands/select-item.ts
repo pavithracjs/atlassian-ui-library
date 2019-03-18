@@ -85,7 +85,7 @@ export const selectItem = (
 ): Command => (state, dispatch) => {
   return withTypeAheadQueryMarkPosition(state, (start, end) => {
     const insert = (
-      maybeNode?: Node | Object | string,
+      maybeNode?: Node | Object | string | Fragment,
       opts: { selectInlineNode?: boolean } = {},
     ) => {
       let tr = state.tr;
@@ -98,10 +98,11 @@ export const selectItem = (
         return tr;
       }
 
+      const isInputFragment = maybeNode instanceof Fragment;
       let node;
       try {
         node =
-          maybeNode instanceof Node
+          maybeNode instanceof Node || isInputFragment
             ? maybeNode
             : typeof maybeNode === 'string'
             ? state.schema.text(maybeNode)
@@ -128,8 +129,10 @@ export const selectItem = (
          * Replacing a type ahead query mark with an inline node.
          *
          */
-      } else if (node.isInline) {
-        const fragment = Fragment.fromArray([node, state.schema.text(' ')]);
+      } else if (node.isInline || isInputFragment) {
+        const fragment = isInputFragment
+          ? node
+          : Fragment.fromArray([node, state.schema.text(' ')]);
 
         tr = tr.replaceWith(start, start, fragment);
 

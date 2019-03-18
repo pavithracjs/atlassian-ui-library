@@ -22,6 +22,7 @@ import Modal, {
 import { colors, elevation, gridSize } from '@atlaskit/theme';
 
 import * as fs from '../../utils/fs';
+import { File } from '../../types';
 import packageResolver, { getLoaderUrl } from '../../utils/packageResolver';
 import ExampleDisplay from '../../components/Examples/ExampleDisplay';
 import { getConfig } from '../../site';
@@ -94,15 +95,21 @@ const NavInner = styled.div`
   padding: 2px;
 `;
 
+interface ExampleNavigationProps {
+  examples: any;
+  exampleId: string;
+  groupId: string;
+  packageId: string;
+  onPackageSelected: (selected: { value: string }) => void;
+  loadingSandbox: boolean;
+  onExampleSelected: (selected: string) => void;
+}
+
 function ExampleNavigation({
   examples,
   exampleId,
-  groupId,
-  packageId,
-  onPackageSelected,
-  loadingSandbox,
   onExampleSelected,
-}) {
+}: ExampleNavigationProps) {
   const regex = /^[a-zA-Z0-9]/; // begins with letter or number, avoid "special" files
 
   return (
@@ -119,7 +126,7 @@ function ExampleNavigation({
                   appearance="subtle"
                   spacing="compact"
                   href={fs.normalize(filePath.replace('examples/', ''))}
-                  onClick={event => {
+                  onClick={(event: React.SyntheticEvent) => {
                     event.preventDefault();
                     onExampleSelected(
                       fs.normalize(filePath.replace('examples/', '')),
@@ -201,6 +208,21 @@ function toExampleUrl(
   return url;
 }
 
+interface ModalHeaderCompProps {
+  afterDeployError: any;
+  showKeyline: boolean;
+  packageId: string;
+  example: any;
+  examples: any;
+  groupId: string;
+  pkgJSON: any;
+  displayCode: boolean;
+  exampleId: string | null;
+  loaderUrl: string | null;
+  onCodeToggle: () => void;
+  close: () => void;
+}
+
 const ModalHeaderComp = ({
   afterDeployError,
   showKeyline,
@@ -214,7 +236,7 @@ const ModalHeaderComp = ({
   loaderUrl,
   onCodeToggle,
   close,
-}) => (
+}: ModalHeaderCompProps) => (
   <ModalHeader showKeyline={showKeyline}>
     <ModalTitle>{fs.titleize(packageId)} Examples</ModalTitle>
     <ModalActions>
@@ -231,7 +253,13 @@ const ModalHeaderComp = ({
               Loading...
             </Button>
           )}
-          deployButton={({ isDisabled, error }) => (
+          deployButton={({
+            isDisabled,
+            error,
+          }: {
+            isDisabled: boolean;
+            error: Error;
+          }) => (
             <Button
               type="submit"
               isDisabled={isDisabled}
@@ -345,9 +373,9 @@ export default class ExamplesModal extends React.Component<Props, State> {
       this.props.match.params.exampleId,
     );
 
-    let example;
+    let example: File;
     if (exampleId && examples) {
-      example = fs.getById(fs.getFiles(examples.children), exampleId);
+      example = fs.getById<File>(fs.getFiles(examples.children), exampleId);
     }
 
     const { displayCode } = this.state;
@@ -365,7 +393,7 @@ export default class ExamplesModal extends React.Component<Props, State> {
       <Modal
         autoFocus={false}
         components={{
-          Header: ({ showKeyline }) => (
+          Header: ({ showKeyline }: { showKeyline: boolean }) => (
             <ModalHeaderComp
               afterDeployError={null}
               showKeyline={showKeyline}
@@ -389,7 +417,7 @@ export default class ExamplesModal extends React.Component<Props, State> {
       >
         <Helmet>
           <title>
-            {`Example - ${fs.titleize(exampleId)} - ${fs.titleize(
+            {`Example - ${fs.titleize(exampleId!)} - ${fs.titleize(
               packageId,
             )} -${' '}
             ${BASE_TITLE}`}
@@ -399,7 +427,7 @@ export default class ExamplesModal extends React.Component<Props, State> {
           <ExampleNavigation
             groupId={groupId}
             packageId={packageId}
-            exampleId={exampleId}
+            exampleId={exampleId!}
             examples={examples}
             onPackageSelected={this.onPackageSelected}
             onExampleSelected={this.onExampleSelected}
@@ -434,7 +462,9 @@ export default class ExamplesModal extends React.Component<Props, State> {
               </Content>
             )}
             <FlagGroup>
-              {Object.keys(this.state.flags).map(key => this.state.flags[key])}
+              {Object.keys(this.state.flags).map(
+                (key: string) => (this.state.flags as any)[key],
+              )}
             </FlagGroup>
           </ModalContent>
         </ContentBody>

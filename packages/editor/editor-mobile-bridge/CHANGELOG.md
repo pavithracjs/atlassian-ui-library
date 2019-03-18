@@ -1,5 +1,15 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.1.3
+- Updated dependencies [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
+  - @atlaskit/form@5.2.3
+  - @atlaskit/textfield@0.4.0
+
+## 7.1.2
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
 ## 7.1.1
 - [patch] [205b101e2b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/205b101e2b):
 

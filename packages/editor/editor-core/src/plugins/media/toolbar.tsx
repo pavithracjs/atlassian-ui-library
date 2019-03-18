@@ -170,13 +170,13 @@ type AnnotationToolbarProps = {
   view?: EditorView;
 };
 
-class AnnotationToolbar extends React.Component<AnnotationToolbarProps> {
+export class AnnotationToolbar extends React.Component<AnnotationToolbarProps> {
   state = {
     isImage: false,
   };
 
   async componentDidMount() {
-    this.checkIsImage();
+    await this.checkIsImage();
   }
 
   async checkIsImage() {

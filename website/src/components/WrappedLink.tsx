@@ -2,13 +2,13 @@ import { Link as BaseLink } from 'react-router-dom';
 import * as React from 'react';
 
 export interface LinkProps {
-  onClick?: (e: Event) => void;
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
   to: string | Record<string, string | Location> | undefined;
-  theme?: any; // TODO: Type correct once theme is typed
   className?: string;
   replace?: boolean;
   style?: {};
   isSelected?: boolean;
+  children?: React.ReactNode;
 }
 
 class Link extends React.PureComponent<LinkProps, {}> {
@@ -16,7 +16,7 @@ class Link extends React.PureComponent<LinkProps, {}> {
     const { onClick, children, className, to, ...props } = this.props;
     return (
       <BaseLink
-        onClick={e => {
+        onClick={(e: React.MouseEvent<HTMLElement>) => {
           if (performance.mark) {
             performance.clearMarks();
             performance.mark(`navigate-${to}`);

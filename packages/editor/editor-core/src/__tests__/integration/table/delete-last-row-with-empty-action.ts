@@ -15,7 +15,7 @@ import {
 BrowserTestCase(
   'delete-last-row.ts: Delete last table row with empty action',
   { skip: ['ie', 'edge'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const FIRST_CELL_FROM_LAST_ROW =
       'table > tbody > tr:last-child > td:first-child';
     const page = await goToEditorTestingExample(client);
@@ -51,6 +51,6 @@ BrowserTestCase(
     await page.click(deleteButtonSelector);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

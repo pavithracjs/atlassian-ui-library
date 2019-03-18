@@ -15,7 +15,7 @@ export default function LinkButton({
 }: LinkButtonProps) {
   return (
     <Button
-      component={({ href, children, ...props }) => (
+      component={({ href, children, ...props }: LinkButtonProps) => (
         <Link to={href} {...filterHTMLAttributes(props)}>
           {children}
         </Link>
