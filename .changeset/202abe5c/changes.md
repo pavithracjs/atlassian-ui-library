@@ -1,1 +1,0 @@
-- Enable noImplicitAny for @atlaskit/focused-task-close-account

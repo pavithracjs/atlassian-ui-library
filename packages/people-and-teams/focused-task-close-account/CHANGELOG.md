@@ -1,5 +1,10 @@
 # @atlaskit/focused-task-close-account
 
+## 0.9.0
+- [minor] [524a6d207e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/524a6d207e):
+
+  - Enable noImplicitAny for @atlaskit/focused-task-close-account
+
 ## 0.8.4
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 
