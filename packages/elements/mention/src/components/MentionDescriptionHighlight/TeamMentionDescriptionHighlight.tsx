@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { DescriptionHighlightProps } from './types';
-import { TeamInformationStyle } from './styles';
+import { DescriptionHighlightStyle } from './styles';
 
 export default class TeamMentionDescriptionHighlight extends React.PureComponent<
   DescriptionHighlightProps,
@@ -17,14 +17,14 @@ export default class TeamMentionDescriptionHighlight extends React.PureComponent
     }
 
     return (
-      <TeamInformationStyle>
+      <DescriptionHighlightStyle>
         <FormattedMessage
           {...(memberCount > 50
             ? messages.plus50Members
             : messages.memberCount)}
           values={{ count: memberCount, includes: includesYou }}
         />
-      </TeamInformationStyle>
+      </DescriptionHighlightStyle>
     );
   }
 

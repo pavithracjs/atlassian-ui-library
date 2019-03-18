@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DescriptionHighlightProps } from './types';
 import { renderHighlight } from '../MentionItem/MentionHighlightHelpers';
-import { NicknameStyle } from './styles';
+import { DescriptionHighlightStyle } from './styles';
 
 export default class UserMentionDescriptionHighlight extends React.PureComponent<
   DescriptionHighlightProps,
@@ -11,6 +11,11 @@ export default class UserMentionDescriptionHighlight extends React.PureComponent
     const { highlight, nickname } = this.props.mention;
     const nicknameHighlights = highlight && highlight.nickname;
 
-    return renderHighlight(NicknameStyle, nickname, nicknameHighlights, '@');
+    return renderHighlight(
+      DescriptionHighlightStyle,
+      nickname,
+      nicknameHighlights,
+      '@',
+    );
   }
 }
