@@ -1,5 +1,4 @@
 import Button from '@atlaskit/button';
-import { AUTO_DISMISS_SECONDS } from '@atlaskit/flag/src/components/AutoDismissFlag';
 import CheckCircleIcon from '@atlaskit/icon/glyph/check-circle';
 import LinkFilledIcon from '@atlaskit/icon/glyph/link-filled';
 import InlineDialog from '@atlaskit/inline-dialog';
@@ -8,6 +7,8 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import { messages } from '../i18n';
+
+const AUTO_DISMISS_SECONDS = 8;
 
 export const MessageContainer = styled.div`
   display: flex;
