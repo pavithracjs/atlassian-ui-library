@@ -10,7 +10,7 @@ type State = {
   onEventResult: string;
 };
 
-export default class BasicExample extends React.Component<void, State> {
+export default class InlineEditExample extends React.Component<void, State> {
   editViewRef: { current: null | HTMLInputElement };
 
   constructor() {

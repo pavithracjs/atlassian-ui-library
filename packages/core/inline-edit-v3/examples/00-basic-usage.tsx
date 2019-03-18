@@ -10,7 +10,7 @@ type State = {
   onEventResult: string;
 };
 
-export default class BasicExample extends React.Component<void, State> {
+export default class InlineEditExample extends React.Component<void, State> {
   editViewRef: { current: null | HTMLInputElement };
 
   constructor() {
@@ -51,7 +51,7 @@ export default class BasicExample extends React.Component<void, State> {
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline Edit Field"
-          editView={(fieldProps: Object) => (
+          editView={fieldProps => (
             <TextField {...fieldProps} ref={this.editViewRef} />
           )}
           readView={

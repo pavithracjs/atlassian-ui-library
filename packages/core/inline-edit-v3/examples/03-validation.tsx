@@ -3,6 +3,7 @@ import TextField from '@atlaskit/textfield';
 
 import InlineEdit from '../src';
 import ReadViewContainer from './styled/ReadViewContainer';
+import { FieldProps } from '../src/types';
 
 type State = {
   editValue: string;
@@ -10,7 +11,7 @@ type State = {
   onEventResult: string;
 };
 
-export default class BasicExample extends React.Component<void, State> {
+export default class InlineEditExample extends React.Component<void, State> {
   editViewRef: { current: null | HTMLInputElement };
 
   constructor() {
@@ -51,18 +52,24 @@ export default class BasicExample extends React.Component<void, State> {
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline Edit Field"
-          editView={(fieldProps: Object) => (
+          editView={(fieldProps: FieldProps) => (
             <TextField {...fieldProps} ref={this.editViewRef} />
           )}
-          readView={(isInvalid: boolean) => (
-            <ReadViewContainer isInvalid={isInvalid}>
+          readView={
+            <ReadViewContainer>
               {this.state.editValue || 'Click to enter value'}
             </ReadViewContainer>
-          )}
+          }
           onConfirm={this.onConfirm}
           onCancel={this.onCancel}
           isEditing={this.state.isEditing}
           onEditRequested={this.onEditRequested}
+          validate={(value: string) => {
+            if (value.length < 4) {
+              return 'Not long enough';
+            }
+            return undefined;
+          }}
         />
 
         <div

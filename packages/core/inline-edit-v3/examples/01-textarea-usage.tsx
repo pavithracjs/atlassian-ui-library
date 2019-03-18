@@ -10,8 +10,8 @@ type State = {
   onEventResult: string;
 };
 
-export default class BasicExample extends React.Component<void, State> {
-  editViewRef: HTMLTextAreaElement | null;
+export default class InlineEditExample extends React.Component<void, State> {
+  editViewRef: HTMLTextAreaElement | undefined;
 
   state = {
     isEditing: false,

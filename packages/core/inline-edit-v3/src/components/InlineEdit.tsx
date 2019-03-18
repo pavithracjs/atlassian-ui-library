@@ -11,7 +11,7 @@ import CancelIcon from '@atlaskit/icon/glyph/cross';
 import Form, { Field } from '@atlaskit/form';
 import { withDefaultProps } from '@atlaskit/type-helpers';
 
-import { Props, FieldChild, FormChild } from '../types';
+import { Props, FieldChildProps, FormChildProps } from '../types';
 import ButtonsWrapper from '../styled/ButtonsWrapper';
 import ButtonWrapper from '../styled/ButtonWrapper';
 import ReadViewContentWrapper from '../styled/ReadViewContentWrapper';
@@ -26,7 +26,6 @@ import {
 
 interface State {
   onReadViewHover: boolean;
-  initialValue: any;
   wasFocusReceivedSinceLastBlur: boolean;
 }
 
@@ -51,7 +50,6 @@ class InlineEdit extends React.Component<Props, State> {
 
   state = {
     onReadViewHover: false,
-    initialValue: '',
     wasFocusReceivedSinceLastBlur: false,
   };
 
@@ -160,7 +158,7 @@ class InlineEdit extends React.Component<Props, State> {
           this.props.onConfirm(data.inlineEdit)
         }
       >
-        {({ formProps }: FormChild) => (
+        {({ formProps }: FormChildProps) => (
           <form {...formProps}>
             {isEditing ? (
               <Field
@@ -169,7 +167,7 @@ class InlineEdit extends React.Component<Props, State> {
                 defaultValue={defaultValue}
                 validate={validate}
               >
-                {({ fieldProps }: FieldChild) => (
+                {({ fieldProps }: FieldChildProps) => (
                   <ContentWrapper
                     onBlur={() => this.onWrapperBlur(fieldProps.value)}
                     onFocus={this.onWrapperFocus}

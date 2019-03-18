@@ -4,7 +4,7 @@ export interface Props {
   /** Label above the input */
   label?: string;
   /** Component to be shown when not in edit view */
-  readView: (isInvalid: boolean) => React.ReactChild;
+  readView: React.ReactChild;
   /** Component to be shown when editing. Should be an Atlaskit input. */
   editView: (fieldProps: Object) => React.ReactChild;
   /** Whether the component shows the readView or the editView. */
@@ -29,15 +29,15 @@ export interface Props {
 
   /** Contained in defaultProps */
   /** Set whether onConfirm should be called on blur. */
-  disableConfirmOnBlur: boolean;
+  disableConfirmOnBlur?: boolean;
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
-  hideActionButtons: boolean;
+  hideActionButtons?: boolean;
   /** The text announced to screen readers when focusing on the edit button. */
-  editButtonLabel: string;
+  editButtonLabel?: string;
   /** The text announced to screen readers when focusing on the confirm button. */
-  confirmButtonLabel: string;
+  confirmButtonLabel?: string;
   /** The text announced to screen readers when focusing on the cancel button. */
-  cancelButtonLabel: string;
+  cancelButtonLabel?: string;
 }
 
 export type RenderChildrenProps = {
@@ -78,19 +78,18 @@ export type RenderChildrenProps = {
   cancelButtonLabel: string;
 };
 
-// This should be exported from the form itself
+/** These interfaces will be exported from the Form package once it is converted to Typescript */
 export interface FormProps {
   onSubmit: (e: React.FormEvent) => void;
   ref: React.RefObject<HTMLFormElement>;
 }
 
-export interface FormChild {
-  // rename me pls
+export interface FormChildProps {
   formProps: FormProps;
   dirty: boolean;
   submitting: boolean;
   disabled: boolean;
-  getValues: () => Record<string, any>; // ?
+  getValues: () => {};
 }
 
 export interface FieldProps {
@@ -114,8 +113,7 @@ export interface Meta {
   submitError: any;
 }
 
-export interface FieldChild {
-  // rename
+export interface FieldChildProps {
   fieldProps: FieldProps;
   error: any;
   meta: Meta;

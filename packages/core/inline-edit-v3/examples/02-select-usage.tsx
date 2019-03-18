@@ -10,7 +10,7 @@ type State = {
   onEventResult: string;
 };
 
-export default class BasicExample extends React.Component<void, State> {
+export default class InlineEditExample extends React.Component<void, State> {
   state = {
     isEditing: false,
     editValue: 'Field Value',
@@ -42,9 +42,7 @@ export default class BasicExample extends React.Component<void, State> {
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline Edit Field"
-          editView={(fieldProps, ref) => (
-            <TextField {...fieldProps} ref={ref} />
-          )}
+          editView={fieldProps => <TextField {...fieldProps} />}
           readView={
             <ReadViewContainer>
               {this.state.editValue || 'Click to enter value'}
