@@ -31,7 +31,7 @@ const renderRows = (count: number) => {
           <ExampleWrapper>
             {({ options, onInputChange }) => (
               <UserPicker
-                context={null}
+                fieldId="example"
                 menuPortalTarget={document.body}
                 options={options}
                 onInputChange={onInputChange}

@@ -6,7 +6,7 @@ export default class Example extends React.Component<{}> {
   render() {
     return (
       <UserPicker
-        context={null}
+        fieldId="example"
         options={exampleOptions}
         isDisabled={true}
         value={exampleOptions[0]}

@@ -21,7 +21,7 @@ import { User, UserPickerProps } from '../../../types';
 
 describe('UserPicker', () => {
   const shallowUserPicker = (props: Partial<UserPickerProps> = {}) =>
-    shallowWithIntl(<UserPicker context={null} {...props} />)
+    shallowWithIntl(<UserPicker fieldId="test" {...props} />)
       .dive()
       .dive()
       .dive();

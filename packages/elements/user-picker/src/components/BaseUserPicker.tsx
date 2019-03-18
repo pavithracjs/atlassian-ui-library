@@ -363,14 +363,17 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
   private getOptions = (): Option[] => {
     const options = getOptions(this.state.options) || [];
     const { maxOptions, isMulti } = this.props;
-    if (maxOptions && maxOptions < options.length) {
+    if (maxOptions === 0) {
+      return [];
+    }
+    if (maxOptions && maxOptions > 0 && maxOptions < options.length) {
       const { value } = this.state;
       let filteredOptions = options;
       // Filter out previously selected options
       if (isMulti && Array.isArray(value)) {
+        const valueIds: string[] = value.map(item => item.data.id);
         filteredOptions = options.filter(
-          option =>
-            value.map(item => item.data.id).indexOf(option.data.id) === -1,
+          option => valueIds.indexOf(option.data.id) === -1,
         );
       }
       return filteredOptions.slice(0, maxOptions);

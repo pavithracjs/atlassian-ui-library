@@ -83,7 +83,7 @@ const createDefaultPickerAttributes = (
   props: UserPickerProps,
   session?: UserPickerSession,
 ) => ({
-  context: props.context,
+  context: props.fieldId,
   sessionId: sessionId(session),
   pickerType: pickerType(props),
 });
@@ -116,7 +116,7 @@ export const deleteEvent: EventCreator = (
   ...args: any[]
 ) =>
   createEvent('ui', 'deleted', 'userPickerItem', {
-    context: props.context,
+    context: props.fieldId,
     sessionId: sessionId(session),
     value: optionData2Analytics(args[0]),
     pickerOpen: state.menuIsOpen,

@@ -21,7 +21,7 @@ import { getComponents } from '../../../components/components';
 
 const getBasePicker = (props: Partial<UserPickerProps> = {}) => (
   <BaseUserPicker
-    context={null}
+    fieldId="test"
     SelectComponent={Select}
     styles={{}}
     components={getComponents(props.isMulti)}
@@ -423,6 +423,26 @@ describe('BaseUserPicker', () => {
       expect(component.prop('options')[0]).toEqual(userOptions[0]);
     });
 
+    it('should not display any options if maxOptions is zero', () => {
+      const component = shallowUserPicker({
+        options,
+        open: true,
+        maxOptions: 0,
+      });
+
+      expect(component.prop('options')).toHaveLength(0);
+    });
+
+    it('should ignore negative number of maxOptions', () => {
+      const component = shallowUserPicker({
+        options,
+        open: true,
+        maxOptions: -1,
+      });
+
+      expect(component.prop('options')).toHaveLength(2);
+    });
+
     it('should only pass #maxOptions options to dropdown in multi picker', () => {
       const component = shallowUserPicker({
         options,
@@ -609,7 +629,7 @@ describe('BaseUserPicker', () => {
 
     const AnalyticsTestComponent = (props: Partial<UserPickerProps>) => (
       <AnalyticsListener channel="fabric-elements" onEvent={onEvent}>
-        {getBasePicker({ ...props, context: 'assignee' })}
+        {getBasePicker(props)}
       </AnalyticsListener>
     );
 
@@ -632,7 +652,7 @@ describe('BaseUserPicker', () => {
             actionSubject: 'userPicker',
             eventType: 'ui',
             attributes: {
-              context: 'assignee',
+              context: 'test',
               sessionDuration: expect.any(Number),
               packageName: '@atlaskit/user-picker',
               packageVersion: expect.any(String),
@@ -671,7 +691,7 @@ describe('BaseUserPicker', () => {
             actionSubject: 'userPicker',
             eventType: 'ui',
             attributes: {
-              context: 'assignee',
+              context: 'test',
               sessionDuration: expect.any(Number),
               packageName: '@atlaskit/user-picker',
               packageVersion: expect.any(String),
@@ -711,7 +731,7 @@ describe('BaseUserPicker', () => {
             actionSubject: 'userPicker',
             eventType: 'ui',
             attributes: {
-              context: 'assignee',
+              context: 'test',
               sessionDuration: expect.any(Number),
               packageName: '@atlaskit/user-picker',
               packageVersion: expect.any(String),
@@ -746,7 +766,7 @@ describe('BaseUserPicker', () => {
             actionSubject: 'userPicker',
             eventType: 'ui',
             attributes: {
-              context: 'assignee',
+              context: 'test',
               packageName: '@atlaskit/user-picker',
               packageVersion: expect.any(String),
               sessionId: expect.any(String),
@@ -775,7 +795,7 @@ describe('BaseUserPicker', () => {
             actionSubject: 'userPickerItem',
             eventType: 'ui',
             attributes: {
-              context: 'assignee',
+              context: 'test',
               packageName: '@atlaskit/user-picker',
               packageVersion: expect.any(String),
               sessionId: expect.any(String),
@@ -822,7 +842,7 @@ describe('BaseUserPicker', () => {
                 actionSubject: 'userPicker',
                 eventType: 'operational',
                 attributes: {
-                  context: 'assignee',
+                  context: 'test',
                   packageName: '@atlaskit/user-picker',
                   packageVersion: expect.any(String),
                   pickerType: 'single',
@@ -850,7 +870,7 @@ describe('BaseUserPicker', () => {
                 actionSubject: 'userPicker',
                 eventType: 'operational',
                 attributes: expect.objectContaining({
-                  context: 'assignee',
+                  context: 'test',
                   packageVersion: expect.any(String),
                   packageName: '@atlaskit/user-picker',
                   sessionId: expect.any(String),
@@ -921,7 +941,7 @@ describe('BaseUserPicker', () => {
                 actionSubject: 'userPicker',
                 eventType: 'operational',
                 attributes: expect.objectContaining({
-                  context: 'assignee',
+                  context: 'test',
                   packageVersion: expect.any(String),
                   packageName: '@atlaskit/user-picker',
                   sessionId: expect.any(String),

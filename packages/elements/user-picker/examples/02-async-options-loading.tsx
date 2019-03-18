@@ -8,7 +8,7 @@ export default class Example extends React.Component<{}> {
       <ExampleWrapper>
         {({ loadUsers }) => (
           <UserPicker
-            context={null}
+            fieldId="example"
             onChange={console.log}
             loadOptions={loadUsers}
           />
