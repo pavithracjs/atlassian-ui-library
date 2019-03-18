@@ -3,7 +3,10 @@ import { ThemeProvider } from 'styled-components';
 import Item, { itemThemeNamespace } from '@atlaskit/item';
 import { colors, gridSize } from '@atlaskit/theme';
 import DocumentFilledIcon from '@atlaskit/icon/glyph/document-filled';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 
+import ShowMoreArticlesButton from './ShowMoreArticlesButton';
+import { messages } from '../../messages';
 import { ArticleItem } from '../../model/Article';
 import { ItemGroupTitle } from '../styled';
 import { ArticleContentInner } from './styled';
@@ -28,7 +31,7 @@ interface RelatedArticlesState {
 }
 
 export class RelatedArticles extends React.Component<
-  RelatedArticlesProps,
+  RelatedArticlesProps & InjectedIntlProps,
   RelatedArticlesState
 > {
   state = {
@@ -44,13 +47,18 @@ export class RelatedArticles extends React.Component<
   };
 
   render() {
-    const { relatedArticles } = this.props;
+    const {
+      intl: { formatMessage },
+      relatedArticles,
+    } = this.props;
     if (relatedArticles.length > 0) {
       return (
         <ArticleContentInner>
           <ThemeProvider theme={{ [itemThemeNamespace]: itemTheme }}>
             <>
-              <ItemGroupTitle>RELATED</ItemGroupTitle>
+              <ItemGroupTitle>
+                {formatMessage(messages.help_panel_related_article_title)}
+              </ItemGroupTitle>
 
               <RelatedArticlesList
                 relatedArticles={relatedArticles}
@@ -105,20 +113,4 @@ const RelatedArticlesList: React.SFC<RelatedArticlesListProps> = props => {
   return articlesList;
 };
 
-interface ShowMoreArticlesButtonProps {
-  showMoreToggeled: boolean;
-  toggleRelatedArticles: (event: React.MouseEvent<HTMLAnchorElement>) => void;
-}
-
-const ShowMoreArticlesButton: React.SFC<
-  ShowMoreArticlesButtonProps
-> = props => {
-  const { showMoreToggeled, toggleRelatedArticles } = props;
-  if (showMoreToggeled) {
-    return <a onClick={toggleRelatedArticles}>Show more related</a>;
-  } else {
-    return <a onClick={toggleRelatedArticles}>Show less related</a>;
-  }
-};
-
-export default RelatedArticles;
+export default injectIntl(RelatedArticles);

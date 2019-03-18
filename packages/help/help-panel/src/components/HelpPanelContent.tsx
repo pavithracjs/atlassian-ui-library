@@ -59,9 +59,9 @@ export class HelpPanelContent extends React.Component<Props, State> {
     searchResultArticleState: RequestState.done,
   };
 
-  handleOnSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleOnSearch = async value => {
     const { onSearch } = this.props;
-    const searchValue = event.target.value;
+    const searchValue = value;
 
     await this.setState({ searchValue });
 
@@ -129,7 +129,6 @@ export class HelpPanelContent extends React.Component<Props, State> {
         {this.isSearchVisible(this.state.view, this.props.onSearch) && (
           <Search
             isLoading={this.state.searchState === RequestState.loading}
-            value={this.state.searchValue}
             onSearchInput={this.handleOnSearch}
             searchResult={this.state.searchResult}
           />

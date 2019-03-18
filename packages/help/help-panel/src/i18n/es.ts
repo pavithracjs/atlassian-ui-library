@@ -1,4 +1,4 @@
 // Spanish
 export default {
-  'global_help.heading': 'Help',
+  'global_help.search.placeholder': 'Busqueda!!!',
 };
