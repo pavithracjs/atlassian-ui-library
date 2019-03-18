@@ -1,3 +1,4 @@
+export { LanguageCode } from './languages';
 export { default as zh } from './zh';
 export { default as cs } from './cs';
 export { default as da } from './da';

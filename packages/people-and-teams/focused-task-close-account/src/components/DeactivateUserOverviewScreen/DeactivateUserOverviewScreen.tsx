@@ -15,7 +15,10 @@ export class DeactivateUserOverviewScreen extends React.Component<
     isCurrentUser: false,
   };
 
-  selectAdminOrSelfCopy = (adminCopy, selfCopy) => {
+  selectAdminOrSelfCopy = (
+    adminCopy: FormattedMessage.MessageDescriptor,
+    selfCopy: FormattedMessage.MessageDescriptor,
+  ) => {
     return this.props.isCurrentUser ? selfCopy : adminCopy;
   };
 
