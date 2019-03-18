@@ -11,7 +11,6 @@ import { ProviderFactory } from '@atlaskit/editor-common';
 import { MentionProvider, MentionDescription } from '@atlaskit/mention';
 import { EditorView } from 'prosemirror-view';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
-import { MentionUserType } from '@atlaskit/adf-schema';
 
 describe('mentionTypeahead', () => {
   const createEditor = createEditorFactory();
