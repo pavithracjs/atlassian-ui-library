@@ -133,6 +133,10 @@ export default class Page {
     return this.browser.getLocation(selector, property);
   }
 
+  getAlertText() {
+    return this.browser.alertText();
+  }
+
   url() {
     return this.browser.getUrl();
   }
