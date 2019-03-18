@@ -13,8 +13,10 @@ export type UserPickerProps = {
    * The value will be passed as a data attribute for analytics.
    * Examples include "assignee", "watchers" and "share".
    *
+   *  A second usage for the fieldId is for server side rendering (SSR) where it must be a unique id per UserPicker instance.
+   *
    * fieldId can be set to null if the integrator is not listening
-   * for the analytic events.
+   * for the analytic events or does not care about SSR.
    */
   fieldId: string | null;
   /** List of users or teams to be used as options by the user picker. */
