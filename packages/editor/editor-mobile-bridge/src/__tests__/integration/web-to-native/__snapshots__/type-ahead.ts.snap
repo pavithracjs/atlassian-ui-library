@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`type-ahead.ts type-ahead.ts: Sends correct typing events 1`] = `
+exports[`type-ahead.ts: Sends correct typing events 1`] = `
 Array [
   Object {
     "query": "",

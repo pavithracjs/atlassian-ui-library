@@ -54,7 +54,7 @@ BrowserTestCase(
 BrowserTestCase(
   'mention-2.ts: user should be able remove mention on backspace',
   { skip: ['safari', 'ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -66,7 +66,7 @@ BrowserTestCase(
     await page.type(editable, ['Backspace', 'Backspace']);
     await page.waitForSelector(lozenge);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
@@ -89,7 +89,7 @@ BrowserTestCase(
 BrowserTestCase(
   'mention-2.ts: user should see space after node',
   { skip: ['safari', 'ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -98,7 +98,7 @@ BrowserTestCase(
     await insertMention(page, 'Summer');
     await page.waitForSelector('span=@Summer');
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
