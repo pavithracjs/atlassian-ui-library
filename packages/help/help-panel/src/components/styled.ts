@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { colors, gridSize } from '@atlaskit/theme';
+import { colors, gridSize, elevation } from '@atlaskit/theme';
 
 const ItemGroupTitleSize = 11;
 
@@ -15,6 +15,11 @@ export const CloseButton = styled.div`
   bottom ${2 * gridSize()}px;
   left: -${6 * gridSize()}px;
   cursor: pointer;
+  border-radius: 100%;
+  background-color: ${colors.N800}
+  ${elevation.e300};
+  height: 32px;
+  width: 32px;
 `;
 
 export const ItemGroupTitle = styled.div`
