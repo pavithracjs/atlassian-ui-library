@@ -1743,8 +1743,7 @@
               "enum": [
                 "DEFAULT",
                 "SPECIAL",
-                "APP",
-                "TEAM"
+                "APP"
               ]
             },
             "accessLevel": {
