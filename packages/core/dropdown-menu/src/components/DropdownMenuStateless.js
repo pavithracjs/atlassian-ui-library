@@ -2,7 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { Component, Fragment, type Node } from 'react';
 import { findDOMNode } from 'react-dom';
-import uuid from 'uuid/v1';
+import { uid } from 'react-uid';
 import {
   withAnalyticsEvents,
   createAndFireEvent,
@@ -14,7 +14,7 @@ import ExpandIcon from '@atlaskit/icon/glyph/chevron-down';
 import {
   name as packageName,
   version as packageVersion,
-} from '../../package.json';
+} from '../version.json';
 
 import DropdownItemFocusManager from './context/DropdownItemFocusManager';
 import DropdownItemClickManager from './context/DropdownItemClickManager';
@@ -68,7 +68,7 @@ class DropdownMenuStateless extends Component<
   };
 
   state = {
-    id: uuid(),
+    id: uid({ id: this.constructor.name }),
     autoFocusDropdownItems: false,
   };
 

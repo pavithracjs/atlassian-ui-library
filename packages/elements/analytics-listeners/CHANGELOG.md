@@ -1,5 +1,23 @@
 # @atlaskit/analytics-listeners
 
+## 5.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 5.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 4.2.1
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/button@10.1.3
+  - @atlaskit/analytics-gas-types@3.2.5
+  - @atlaskit/analytics-namespaced-context@2.2.1
+  - @atlaskit/docs@7.0.0
+  - @atlaskit/analytics-next@4.0.0
+
 ## 4.2.0
 - [minor] [8c65a38bfc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8c65a38bfc):
 

@@ -34,7 +34,8 @@ export default function buildNavGroups(
         items: children.map(doc => {
           return {
             to: `/${prefix}/${group.id}/${fs.normalize(doc.id)}`,
-            isSelected: (pathname, to) => pathname.startsWith(to),
+            isSelected: (pathname: string, to: string) =>
+              pathname.startsWith(to),
             title: fs.titleize(doc.id),
             // icon: <Icon label={`${fs.titleize(doc.id)} icon`} />,
           };

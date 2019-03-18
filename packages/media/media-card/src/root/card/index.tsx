@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { Component } from 'react';
 import {
   Context,
@@ -312,14 +313,18 @@ export class Card extends Component<CardProps, CardState> {
       analyticsEvent,
     };
 
-    if (onClick) {
+    const isVideo =
+      mediaItemDetails &&
+      (mediaItemDetails as FileDetails).mediaType === 'video';
+    // We want to block onClick because it is handled by inline video player
+    const shouldStartPlayingInline = useInlinePlayer && isVideo;
+    if (onClick && !shouldStartPlayingInline) {
       onClick(result, analyticsEvent);
     }
     if (!mediaItemDetails) {
       return;
     }
-    const { mediaType } = mediaItemDetails as FileDetails;
-    if (useInlinePlayer && mediaType === 'video') {
+    if (shouldStartPlayingInline) {
       this.setState({
         isPlayingFile: true,
       });
@@ -419,14 +424,15 @@ export class Card extends Component<CardProps, CardState> {
     const { collectionName = '' } = identifier;
     const dataSource = this.getMediaViewerDataSource();
 
-    return (
+    return ReactDOM.createPortal(
       <MediaViewer
         collectionName={collectionName}
         dataSource={dataSource}
         context={context}
         selectedItem={mediaViewerSelectedItem}
         onClose={this.onMediaViewerClose}
-      />
+      />,
+      document.body,
     );
   };
 

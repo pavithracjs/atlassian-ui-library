@@ -1,5 +1,35 @@
 # @atlaskit/focused-task-close-account
 
+## 0.8.4
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 0.8.3
+- Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+  - @atlaskit/docs@7.0.1
+  - @atlaskit/avatar@15.0.1
+  - @atlaskit/checkbox@6.0.1
+  - @atlaskit/drawer@3.0.1
+  - @atlaskit/icon@16.0.5
+  - @atlaskit/inline-dialog@10.0.1
+  - @atlaskit/section-message@2.0.1
+  - @atlaskit/theme@8.0.1
+  - @atlaskit/i18n-tools@0.5.0
+  - @atlaskit/button@11.0.0
+
+## 0.8.2
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/button@10.1.3
+  - @atlaskit/icon@16.0.4
+  - @atlaskit/docs@7.0.0
+  - @atlaskit/avatar@15.0.0
+  - @atlaskit/checkbox@6.0.0
+  - @atlaskit/drawer@3.0.0
+  - @atlaskit/inline-dialog@10.0.0
+  - @atlaskit/section-message@2.0.0
+  - @atlaskit/theme@8.0.0
+
 ## 0.8.1
 - Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
   - @atlaskit/docs@6.0.1

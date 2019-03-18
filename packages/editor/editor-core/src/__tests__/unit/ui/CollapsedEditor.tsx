@@ -1,4 +1,4 @@
-import { name } from '../../../../package.json';
+import { name } from '../../../version.json';
 import { mount } from 'enzyme';
 import * as React from 'react';
 import Editor from '../../../editor';
@@ -61,7 +61,7 @@ describe(name, () => {
 
     it('should allow setting a ref on the editor component', () => {
       let editorRef = {};
-      const setRef = ref => {
+      const setRef = (ref: Editor) => {
         editorRef = ref;
       };
       mount(

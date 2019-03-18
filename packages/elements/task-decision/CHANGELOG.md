@@ -1,5 +1,56 @@
 # @atlaskit/task-decision
 
+## 13.1.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 13.1.0
+- [minor] [b684722884](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b684722884):
+
+  - improvement of SSR tests and examples for Fabric Elements
+
+## 13.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 12.0.2
+- Updated dependencies [7261577953](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7261577953):
+  - @atlaskit/elements-test-helpers@0.3.0
+
+## 12.0.1
+- Updated dependencies [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
+  - @atlaskit/editor-common@34.0.0
+  - @atlaskit/renderer@43.0.0
+  - @atlaskit/util-data-test@10.2.5
+
+## 12.0.0
+- [major] [72c6f68226](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72c6f68226):
+
+  - removed ResourcedItemList component from task-decision
+
+## 11.3.2
+- Updated dependencies [4d17df92f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d17df92f8):
+  - @atlaskit/renderer@42.0.0
+
+## 11.3.1
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/button@10.1.3
+  - @atlaskit/icon@16.0.4
+  - @atlaskit/renderer@41.2.1
+  - @atlaskit/analytics-listeners@4.2.1
+  - @atlaskit/analytics-namespaced-context@2.2.1
+  - @atlaskit/util-data-test@10.2.3
+  - @atlaskit/util-service-support@3.1.1
+  - @atlaskit/editor-common@33.0.3
+  - @atlaskit/docs@7.0.0
+  - @atlaskit/analytics-next@4.0.0
+  - @atlaskit/avatar-group@3.0.0
+  - @atlaskit/avatar@15.0.0
+  - @atlaskit/spinner@10.0.0
+  - @atlaskit/theme@8.0.0
+
 ## 11.3.0
 - [minor] [4072865c1c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4072865c1c):
 
