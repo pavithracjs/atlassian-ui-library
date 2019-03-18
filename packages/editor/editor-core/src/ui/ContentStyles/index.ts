@@ -108,8 +108,15 @@ const ContentStyles: ComponentClass<
     box-sizing: border-box;
   }
 
-  .mediaGroupView-content-wrap ul {
-    padding: 0;
+  .mediaGroupView-content-wrap {
+    ul {
+      padding: 0;
+
+      > li > div {
+        /* Ensure nested image is selectable. */
+        pointer-events: auto;
+      }
+    }
   }
 
   /** Needed to override any cleared floats, e.g. image wrapping */

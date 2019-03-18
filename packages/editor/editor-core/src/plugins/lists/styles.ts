@@ -31,7 +31,8 @@ export const listsStyles = css`
       * {
         /*
         Restore pointer events. We use inherit instead of auto to ensure adjacent floated
-        content remains clickable.
+        content remains clickable. If your scenario isn't suitable for inherit then provide
+        your own selector (with a higher specificity) to set it as auto.
         */
         pointer-events: inherit;
       }
