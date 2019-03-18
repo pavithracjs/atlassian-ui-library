@@ -1,0 +1,1 @@
+- TEAMS-319 : Render member counts and whether team includes you in byline
