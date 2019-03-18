@@ -11,6 +11,7 @@ import { ProviderFactory } from '@atlaskit/editor-common';
 import { MentionProvider, MentionDescription } from '@atlaskit/mention';
 import { EditorView } from 'prosemirror-view';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { MentionUserType } from '@atlaskit/adf-schema';
 
 describe('mentionTypeahead', () => {
   const createEditor = createEditorFactory();
@@ -305,6 +306,10 @@ describe('mentionTypeahead', () => {
       withMentionQuery('Team Beta', ({ mentionProvider, editorView }) => {
         // select Team Beta team
         selectCurrentItem()(editorView.state, editorView.dispatch);
+        // Because we want to avoid update/change schema of mention node ATM,
+        // we explicitly cast `userType` to `MentionUserType`
+        const userType = 'TEAM' as MentionUserType;
+
         // should expand 2 members
         expect(editorView.state.doc).toEqualDocument(
           doc(
@@ -315,14 +320,14 @@ describe('mentionTypeahead', () => {
               mention({
                 id: 'member-1',
                 text: '@Tung Dang',
-                userType: 'TEAM',
+                userType,
                 accessLevel: 'CONTAINER',
               })(),
               ' ',
               mention({
                 id: 'member-2',
                 text: '@Ishan Somasiri',
-                userType: 'TEAM',
+                userType,
                 accessLevel: 'CONTAINER',
               })(),
               ')',
