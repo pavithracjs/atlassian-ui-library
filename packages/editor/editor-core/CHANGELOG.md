@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.1.0
+- [minor] [0672369fc8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0672369fc8):
+
+  - Integrate TeamMentionResource in editor-core
+
 ## 106.0.6
 - [patch] [2f953a0738](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f953a0738):
 

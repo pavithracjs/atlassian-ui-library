@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/share",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "config": {
     "access": "private"
   },
@@ -35,11 +35,9 @@
     "@atlaskit/user-picker": "^2.0.2",
     "@atlaskit/util-service-support": "^4.0.1",
     "memoize-one": "^3.0.1",
-    "styled-components": "^3.2.6"
-  },
-  "peerDependencies": {
     "react": "^16.4.0",
-    "react-intl": "^2.6.0"
+    "react-intl": "^2.6.0",
+    "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "@atlaskit/docs": "^7.0.1",
