@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/textfield",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Text Field Component",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -29,7 +29,7 @@
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/button": "^11.0.0",
     "@atlaskit/docs": "^7.0.1",
-    "@atlaskit/form": "^5.2.1",
+    "@atlaskit/form": "^5.2.3",
     "@atlaskit/icon": "^16.0.4",
     "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/visual-regression": "^0.0.1",

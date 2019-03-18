@@ -3,12 +3,13 @@ import { mount } from 'enzyme';
 import FeatureFlag, {
   LaunchDarklyClientProviderForTesting as Provider,
 } from '../../../FeatureFlag';
+import { LDClient } from 'ldclient-js';
 
 it('should get feature flag value', () => {
-  const variation = jest.fn().mockReturnValueOnce(true);
+  const variation: any = jest.fn().mockReturnValueOnce(true);
   const children = jest.fn();
   mount(
-    <Provider value={() => ({ variation })}>
+    <Provider value={(): LDClient => ({ variation } as LDClient)}>
       <FeatureFlag name="my-feature-flag">{children}</FeatureFlag>,
     </Provider>,
   );
@@ -17,10 +18,10 @@ it('should get feature flag value', () => {
 });
 
 it('should get disabled feature flag by default', () => {
-  const variation = jest.fn().mockReturnValueOnce(false);
+  const variation: any = jest.fn().mockReturnValueOnce(false);
   const children = jest.fn();
   mount(
-    <Provider value={() => ({ variation })}>
+    <Provider value={(): LDClient => ({ variation } as LDClient)}>
       <FeatureFlag name="my-feature-flag">{children}</FeatureFlag>
     </Provider>,
   );
@@ -29,10 +30,10 @@ it('should get disabled feature flag by default', () => {
 });
 
 it('should get enabled feature flag when enabledByDefault is set', () => {
-  const variation = jest.fn().mockReturnValueOnce(false);
+  const variation: any = jest.fn().mockReturnValueOnce(false);
   const children = jest.fn();
   mount(
-    <Provider value={() => ({ variation })}>
+    <Provider value={(): LDClient => ({ variation } as LDClient)}>
       <FeatureFlag name="my-feature-flag" enabledByDefault>
         {children}
       </FeatureFlag>

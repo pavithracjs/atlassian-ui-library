@@ -29,7 +29,7 @@ const getBasePicker = (props: Partial<UserPickerProps> = {}) => (
   />
 );
 
-describe('UserPicker', () => {
+describe('BaseUserPicker', () => {
   const shallowUserPicker = (props: Partial<UserPickerProps> = {}) =>
     shallowWithIntl(getBasePicker(props))
       .dive()
@@ -128,6 +128,14 @@ describe('UserPicker', () => {
 
     component.simulate('blur');
     expect(onBlur).toHaveBeenCalled();
+  });
+
+  it('should call onClose handler', () => {
+    const onClose = jest.fn();
+    const component = shallowUserPicker({ onClose });
+
+    component.simulate('close');
+    expect(onClose).toHaveBeenCalled();
   });
 
   describe('Multiple users select', () => {
@@ -737,6 +745,23 @@ describe('UserPicker', () => {
           }),
         }),
         'fabric-elements',
+      );
+    });
+
+    it('should not trigger deleted event if there was no removed value', () => {
+      component.setProps({ isMulti: true });
+      const input = component.find('input');
+      input.simulate('focus');
+      component.find<any>(Select).prop('onChange')([], {
+        action: 'pop-value',
+        removedValue: undefined,
+      });
+      expect(onEvent).not.toHaveBeenCalledWith(
+        expect.objectContaining({
+          payload: expect.objectContaining({
+            action: 'deleted',
+          }),
+        }),
       );
     });
 

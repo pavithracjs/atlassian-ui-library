@@ -9,7 +9,7 @@ import {
   BrowserTestCase(
     `insert-mediaGroup.ts: Inserts a media group on ${editor.name}`,
     { skip: ['edge', 'ie', 'safari'] },
-    async (client: any) => {
+    async (client: any, testName: string) => {
       const page = await goToEditorTestingExample(client);
       await mountEditor(page, {
         appearance: editor.appearance,
@@ -28,7 +28,7 @@ import {
       expect(await page.isVisible('.wrapper')).toBe(true);
 
       const doc = await page.$eval(editable, getDocFromElement);
-      expect(doc).toMatchDocSnapshot();
+      expect(doc).toMatchCustomDocSnapshot(testName);
     },
   );
 });

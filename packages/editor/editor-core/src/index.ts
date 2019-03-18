@@ -15,6 +15,7 @@ export {
   AbstractMentionResource,
   MentionProvider,
   MentionResource,
+  TeamMentionResource,
   PresenceProvider,
   PresenceResource,
 } from '@atlaskit/mention';

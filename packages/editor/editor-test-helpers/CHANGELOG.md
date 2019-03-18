@@ -1,5 +1,15 @@
 # @atlaskit/editor-test-helpers
 
+## 8.0.2
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 8.0.1
+- [patch] [205b101e2b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/205b101e2b):
+
+  - ED-6230: bump prosemirror-view to 1.8.3; workaround Chrome bug with copy paste multiple images
+
 ## 8.0.0
 - [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 

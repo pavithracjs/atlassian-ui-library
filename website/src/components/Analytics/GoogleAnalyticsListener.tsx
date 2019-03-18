@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ReactGA from 'react-ga';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import ttiPolyfill from 'tti-polyfill';
 import { getAtlassianAnalyticsClient } from './AtlassianAnalytics';
 import { GOOGLE_ANALYTICS_ID } from '../../constants';
@@ -104,7 +104,7 @@ export const observePerformanceMetrics = (location: string) => {
   // time to interactive, more details: https://goo.gl/OSmrPk
   ttiPolyfill
     .getFirstConsistentlyInteractive({ useMutationObserver: false })
-    .then(tti => {
+    .then((tti: number) => {
       const timing = Math.round(tti);
       sendPerformanceMetrics({
         location,
@@ -116,14 +116,13 @@ export const observePerformanceMetrics = (location: string) => {
     });
 };
 
-export type Props = {
-  gaId: string;
+export type Props = RouteComponentProps<any> & {
   children: React.ReactChild;
   location: Window['location'];
 };
 
 class GoogleAnalyticsListener extends React.Component<Props> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     ReactGA.initialize(GOOGLE_ANALYTICS_ID);
   }
@@ -146,10 +145,7 @@ class GoogleAnalyticsListener extends React.Component<Props> {
     }
     initializeGA();
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.gaId !== this.props.gaId) {
-      console.warn("You can't change the gaId one it has been initialised.");
-    }
+  componentWillReceiveProps(nextProps: Props) {
     if (nextProps.location !== this.props.location) {
       ReactGA.pageview(nextProps.location.pathname);
     }

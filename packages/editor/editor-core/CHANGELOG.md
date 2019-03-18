@@ -1,5 +1,35 @@
 # @atlaskit/editor-core
 
+## 106.1.0
+- [minor] [0672369fc8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0672369fc8):
+
+  - Integrate TeamMentionResource in editor-core
+
+## 106.0.6
+- [patch] [2f953a0738](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f953a0738):
+
+  - ED-6362: add analytics for media annotation button
+
+## 106.0.5
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 106.0.4
+- [patch] [205b101e2b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/205b101e2b):
+
+  - ED-6230: bump prosemirror-view to 1.8.3; workaround Chrome bug with copy paste multiple images
+
+## 106.0.3
+- Updated dependencies [b684722884](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b684722884):
+  - @atlaskit/renderer@44.0.1
+  - @atlaskit/date@0.6.0
+  - @atlaskit/emoji@58.1.0
+  - @atlaskit/mention@17.1.0
+  - @atlaskit/status@0.7.0
+  - @atlaskit/task-decision@13.1.0
+  - @atlaskit/util-data-test@11.1.0
+
 ## 106.0.2
 - [patch] [8f1f21dd3a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f1f21dd3a):
 

@@ -17,8 +17,8 @@
     "build:report": "yarn build --report",
     "build:no-minimize": "yarn build --no-minimize",
     "build:copy": "cp dist/index.html dist/404.html && cp -R public/* dist/",
-    "deploy:staging": "netlify deploy --dir dist/ -a $NETLIFY_TOKEN -s $NETLIFY_SITE_ID_STAGING",
-    "deploy:production": "netlify deploy --dir dist/ -a $NETLIFY_TOKEN -s $NETLIFY_SITE_ID --prod"
+    "deploy:staging": "STAGING=true node ./scripts/retry.publishing.website.js",
+    "deploy:production": "node ./scripts/retry.publishing.website.js"
   },
   "repository": "atlaskit/fabric",
   "devDependencies": {
@@ -61,7 +61,11 @@
     "@atlaskit/tooltip": "^13.0.1",
     "@atlaskit/webpack-config": "^2.0.9",
     "@babel/runtime": "^7.0.0",
+    "@types/commonmark": "^0.27.1",
+    "@types/prismjs": "^1.9.0",
     "@types/react": "^16.4.18",
+    "@types/react-helmet": "^5.0.8",
+    "@types/recompose": "^0.30.3",
     "babel-runtime": "^6.26.0",
     "codesandboxer": "^1.0.1",
     "commonmark": "^0.27.0",

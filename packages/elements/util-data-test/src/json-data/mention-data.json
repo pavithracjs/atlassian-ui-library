@@ -287,7 +287,6 @@
     "nickname":"",
     "accessLevel":"CONTAINER",
     "userType":"TEAM",
-    "lozenge":"TEAM",
     "presence": null,
     "context": {
       "members": [
@@ -299,7 +298,9 @@
           "id": "member-2",
           "name": "Ishan Somasiri"
         }
-      ]
+      ],
+      "includesYou": true,
+      "memberCount": 5
     }
   },
   {
@@ -310,7 +311,6 @@
     "nickname":"",
     "accessLevel":"CONTAINER",
     "userType":"TEAM",
-    "lozenge":"TEAM",
     "presence": null,
     "context": {
       "members": [
@@ -322,7 +322,57 @@
           "id": "member-2",
           "name": "Ishan Somasiri"
         }
-      ]
+      ],
+      "includesYou": true,
+      "memberCount": 51
+    }
+  },
+  {
+    "id":"team-3",
+    "name":"Team Gamma",
+    "mentionName":"",
+    "avatarUrl":"https://ptc-directory-sited-static.us-east-1.staging.public.atl-paas.net/teams/avatars/3.svg",
+    "nickname":"",
+    "accessLevel":"CONTAINER",
+    "userType":"TEAM",
+    "presence": null,
+    "context": {
+      "members": [
+        {
+          "id": "member-1",
+          "name": "Tung Dang"
+        },
+        {
+          "id": "member-3",
+          "name": "Micheal Thompson"
+        }
+      ],
+      "includesYou": false,
+      "memberCount": 52
+    }
+  },
+  {
+    "id":"team-4",
+    "name":"Team Delta",
+    "mentionName":"",
+    "avatarUrl":"https://ptc-directory-sited-static.us-east-1.staging.public.atl-paas.net/teams/avatars/4.svg",
+    "nickname":"",
+    "accessLevel":"CONTAINER",
+    "userType":"TEAM",
+    "presence": null,
+    "context": {
+      "members": [
+        {
+          "id": "member-1",
+          "name": "Tung Dang"
+        },
+        {
+          "id": "member-3",
+          "name": "Micheal Thompson"
+        }
+      ],
+      "includesYou": false,
+      "memberCount": 10
     }
   }
 ]

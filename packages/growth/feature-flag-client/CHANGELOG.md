@@ -1,5 +1,15 @@
 # @atlaskit/feature-flag-client
 
+## 2.1.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 2.1.0
+- [minor] [a89f1bf6cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a89f1bf6cd):
+
+  - Enable noImplicitAny for growth/feature-flag-client
+
 ## 2.0.0
 - [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 
