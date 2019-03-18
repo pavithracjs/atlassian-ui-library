@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.2.2
+- [patch] [9ce45faaf8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ce45faaf8):
+
+  - adjustments for design review
+
 ## 0.2.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 
