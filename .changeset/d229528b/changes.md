@@ -1,1 +1,0 @@
-- refactor Smart Links frontend directory structure.
