@@ -51,7 +51,11 @@ class Textfield extends Component<TextFieldProps, State> {
   };
 
   handleOnMouseDown = (e: SyntheticMouseEvent<*>) => {
-    e.preventDefault();
+    /** Running e.preventDefault() on the INPUT prevents double click behaviour */
+    // $FlowFixMe - tagName does not exist in event.target
+    if (e.target.tagName !== 'INPUT') {
+      e.preventDefault();
+    }
     if (
       this.input &&
       !this.props.isDisabled &&
