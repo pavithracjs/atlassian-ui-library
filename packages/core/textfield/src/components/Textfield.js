@@ -52,7 +52,11 @@ class Textfield extends Component<TextFieldProps, State> {
 
   handleOnMouseDown = (e: SyntheticMouseEvent<*>) => {
     e.preventDefault();
-    if (this.input && document.activeElement !== this.input) {
+    if (
+      this.input &&
+      !this.props.isDisabled &&
+      document.activeElement !== this.input
+    ) {
       this.input.focus();
     }
     if (this.props.onMouseDown) {
@@ -61,11 +65,15 @@ class Textfield extends Component<TextFieldProps, State> {
   };
 
   onMouseEnter = () => {
-    this.setState({ isHovered: true });
+    if (!this.props.isDisabled) {
+      this.setState({ isHovered: true });
+    }
   };
 
   onMouseLeave = () => {
-    this.setState({ isHovered: false });
+    if (!this.props.isDisabled) {
+      this.setState({ isHovered: false });
+    }
   };
 
   setInputRef = (input: ?HTMLInputElement) => {
