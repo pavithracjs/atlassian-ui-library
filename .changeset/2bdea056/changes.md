@@ -1,0 +1,1 @@
+- Integrate TeamMentionResource in editor-core
