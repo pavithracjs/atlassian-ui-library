@@ -240,7 +240,7 @@ export const Theme = createTheme<ThemeTokens, ThemeProps>(props => ({
     color: props.isDisabled
       ? disabledRules[props.mode].textColor
       : componentTokens.textColor[props.mode],
-    cursor: props.isDisabled ? 'disabled' : 'text',
+    cursor: props.isDisabled ? 'not-allowed' : 'text',
     display: 'flex',
     flex: '1 1 100%',
     fontSize: `${fontSize()}px`,
@@ -250,7 +250,7 @@ export const Theme = createTheme<ThemeTokens, ThemeProps>(props => ({
     transition: `background-color 0.2s ease-in-out, border-color 0.2s ease-in-out`,
     wordWrap: 'break-word',
     verticalAlign: 'top',
-    pointerEvents: props.isDisabled ? 'none' : 'auto',
+    pointerEvents: 'auto',
   },
   input: {
     backgroundColor: 'transparent',

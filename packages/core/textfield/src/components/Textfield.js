@@ -123,6 +123,7 @@ class Textfield extends Component<TextFieldProps, State> {
                 <Input
                   {...rest}
                   theme={tokens}
+                  isDisabled={isDisabled}
                   isFocused={isFocused}
                   isHovered={isHovered}
                   onMouseEnter={this.onMouseEnter}
