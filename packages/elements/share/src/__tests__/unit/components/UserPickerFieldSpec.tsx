@@ -58,7 +58,7 @@ describe('UserPickerField', () => {
     ).find(UserPicker);
     expect(userPicker).toHaveLength(1);
     expect(userPicker.props()).toMatchObject({
-      context: 'share',
+      fieldId: 'share',
       addMoreMessage: 'add more',
       onChange: fieldProps.onChange,
       value: fieldProps.value,
