@@ -4,7 +4,7 @@ import { divvyChangelog } from '../../../utils/changelog';
 import { Directory, File } from '../../../types';
 import { Log } from '../../../components/ChangeLog';
 
-function getPkg(packages, groupId, pkgId) {
+function getPkg(packages: Directory, groupId: string, pkgId: string) {
   const groups = fs.getDirectories(packages.children);
   const group = fs.getById(groups, groupId);
   const pkgs = fs.getDirectories(group.children);
@@ -23,12 +23,12 @@ const getJSON = (files: File[]) =>
   (fs.getById(files, 'package.json').exports() as any) as PackageJson;
 const getDocs = (dirs: Directory[]) => {
   const docs = fs.maybeGetById(dirs, 'docs');
-  let doc;
+  let doc: File | null = null;
   if (docs) {
-    doc = fs.find(docs, () => true);
+    doc = fs.find(docs, () => true) as File;
   }
 
-  return doc && doc.exports().then(mod => mod.default);
+  return doc && doc.exports().then((mod: any) => mod.default);
 };
 const getExamples = (dirs: Directory[]) => {
   const examples = fs.maybeGetById(dirs, 'examples');
@@ -51,7 +51,10 @@ export type PackageData = {
   error: undefined;
 };
 
-export default function fetchPackageData(groupId, pkgId): Promise<PackageData> {
+export default function fetchPackageData(
+  groupId: string,
+  pkgId: string,
+): Promise<PackageData> {
   const pkgInfo = getPkg(packages, groupId, pkgId);
   const dirs = fs.getDirectories(pkgInfo.children);
   const files = fs.getFiles(pkgInfo.children);

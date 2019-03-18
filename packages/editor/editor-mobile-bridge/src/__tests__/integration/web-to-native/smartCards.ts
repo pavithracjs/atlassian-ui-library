@@ -13,7 +13,7 @@ BrowserTestCase(
   {
     skip: ['ie', 'safari'],
   },
-  async (client: any) => {
+  async (client: any, testCase: string) => {
     let browser = new Page(client);
 
     // open up editor
@@ -32,6 +32,6 @@ BrowserTestCase(
     await browser.type(editable, ' hello ');
 
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testCase);
   },
 );
