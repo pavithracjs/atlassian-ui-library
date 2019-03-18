@@ -306,10 +306,6 @@ describe('mentionTypeahead', () => {
       withMentionQuery('Team Beta', ({ mentionProvider, editorView }) => {
         // select Team Beta team
         selectCurrentItem()(editorView.state, editorView.dispatch);
-        // Because we want to avoid update/change schema of mention node ATM,
-        // we explicitly cast `userType` to `MentionUserType`
-        const userType = 'TEAM' as MentionUserType;
-
         // should expand 2 members
         expect(editorView.state.doc).toEqualDocument(
           doc(
@@ -320,14 +316,14 @@ describe('mentionTypeahead', () => {
               mention({
                 id: 'member-1',
                 text: '@Tung Dang',
-                userType,
+                userType: 'DEFAULT',
                 accessLevel: 'CONTAINER',
               })(),
               ' ',
               mention({
                 id: 'member-2',
                 text: '@Ishan Somasiri',
-                userType,
+                userType: 'DEFAULT',
                 accessLevel: 'CONTAINER',
               })(),
               ')',

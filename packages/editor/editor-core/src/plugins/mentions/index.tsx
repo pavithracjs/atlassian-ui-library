@@ -510,7 +510,7 @@ function buildNodesForTeamMention(
   selectedMention: MentionDescription,
 ): Fragment {
   const { nodes, marks } = schema;
-  const { name, id: teamId, userType, accessLevel, context } = selectedMention;
+  const { name, id: teamId, accessLevel, context } = selectedMention;
   const teamUrl = `${window.location.host}/people/team/${teamId}`;
 
   const openBracketText = schema.text('(');
@@ -528,7 +528,7 @@ function buildNodesForTeamMention(
       text,
       id: member.id,
       accessLevel,
-      userType,
+      userType: 'DEFAULT',
     });
 
     inlineNodes.push(userMentionNode);
