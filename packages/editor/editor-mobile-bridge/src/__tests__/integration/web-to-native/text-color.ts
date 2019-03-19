@@ -11,7 +11,7 @@ import {
 BrowserTestCase(
   `text-color.ts: Can change text color`,
   { skip: skip.concat('safari') },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
     await browser.goto(editor.path);
     await browser.waitForSelector(editable);
@@ -25,6 +25,6 @@ BrowserTestCase(
       'textFormatBridge',
       'updateTextColor',
     );
-    expect(textColorPayloads).toMatchSnapshot();
+    expect(textColorPayloads).toMatchCustomSnapshot(testName);
   },
 );

@@ -5,10 +5,10 @@ import { EmailOption } from '../../../components/EmailOption';
 import { Option, OptionProps } from '../../../components/Option';
 import { TeamOption } from '../../../components/TeamOption';
 import { UserOption } from '../../../components/UserOption';
-import { Email, Team, User, UserPickerProps } from '../../../types';
+import { Email, Team, User } from '../../../types';
 
 describe('Option', () => {
-  const selectProps: UserPickerProps = {};
+  const selectProps: any = {};
 
   const shallowOption = (props: OptionProps) => shallow(<Option {...props} />);
 

@@ -33,6 +33,7 @@ export const UserPickerField: React.StatelessComponent<Props> = props => (
           {addMore => (
             <UserPicker
               {...fieldProps}
+              fieldId="share"
               loadOptions={props.loadOptions}
               isMulti
               width="100%"

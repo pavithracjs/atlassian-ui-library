@@ -1,5 +1,15 @@
 # @atlaskit/media-test-helpers
 
+## 21.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 21.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
 ## 20.1.8
 - Updated dependencies [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
   - @atlaskit/media-card@56.0.0

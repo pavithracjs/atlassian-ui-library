@@ -1,5 +1,20 @@
 # @atlaskit/button
 
+## 11.0.2
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 11.0.1
+- [patch] [90a14be594](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/90a14be594):
+
+  - Fix broken type-helpers
+
+## 11.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
 ## 10.1.3
 - Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
   - @atlaskit/icon@16.0.4

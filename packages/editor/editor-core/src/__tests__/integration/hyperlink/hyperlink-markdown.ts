@@ -8,7 +8,7 @@ import { getDocFromElement, comment, fullpage, editable } from '../_helpers';
     {
       skip: ['ie', 'edge', 'safari'],
     },
-    async (client: any) => {
+    async (client: any, testName: string) => {
       let browser = new Page(client);
       await browser.goto(editor.path);
       await browser.waitForSelector(editor.placeholder);
@@ -19,7 +19,7 @@ import { getDocFromElement, comment, fullpage, editable } from '../_helpers';
       await browser.waitForSelector('a');
 
       const doc = await browser.$eval(editable, getDocFromElement);
-      expect(doc).toMatchDocSnapshot();
+      expect(doc).toMatchCustomDocSnapshot(testName);
     },
   );
 });
