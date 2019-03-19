@@ -42,6 +42,14 @@ export const UserPickerField: React.StatelessComponent<Props> = props => (
               addMoreMessage={addMore as string}
               allowEmail={allowEmails(props.config)}
               isValidEmail={isValidEmailUsingConfig(props.config)}
+              noOptionsMessage={({ inputValue }) =>
+                (
+                  <FormattedMessage
+                    {...messages.userPickerNoOptionsMessage}
+                    values={{ inputValue, length: inputValue.length }}
+                  />
+                ) as any
+              }
             />
           )}
         </FormattedMessage>

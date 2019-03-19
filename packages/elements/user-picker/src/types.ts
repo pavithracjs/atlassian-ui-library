@@ -45,7 +45,7 @@ export type UserPickerProps = {
   /** Message to encourage the user to add more items to user picker. */
   addMoreMessage?: string;
   /** Message to be shown when the menu is open but no options are provided. */
-  noOptionsMessage?: string;
+  noOptionsMessage?: string | ((value: { inputValue: string }) => string);
   /** Controls if the user picker has a value or not. If not provided, UserPicker will control the value internally. */
   value?: Value;
   /** Disable all interactions with the picker, putting it in a read-only state. */

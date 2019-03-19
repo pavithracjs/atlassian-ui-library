@@ -38,6 +38,15 @@ export const messages = defineMessages({
     description:
       'Required error message for the user picker field in Share form.',
   },
+  userPickerNoOptionsMessage: {
+    id: 'fabric.elements.share.form.user-picker.no-options',
+    defaultMessage: `We couldn’t find any {length, select,
+          0 {results}
+          other {results for "{inputValue}"}
+      }. Invite people by using an email address.`,
+    description:
+      'Default text for share failure message displayed in the tooltip',
+  },
   shareTriggerButtonText: {
     id: 'fabric.elements.share.trigger.button.text',
     defaultMessage: 'Share',
@@ -55,7 +64,7 @@ export const messages = defineMessages({
   },
   capabilitiesInfoMessage: {
     id: 'fabric.elements.share.form.capabilities.info.message',
-    defaultMessage: 'Your Admin will be asked to approve the user invite',
+    defaultMessage: 'Your invite will be sent to an admin for approval',
     description: 'Default text for capabilities info',
   },
   shareFailureMessage: {
