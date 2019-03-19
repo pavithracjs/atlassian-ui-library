@@ -25,6 +25,7 @@ const MAX_QUERY_TEAMS = 20;
  */
 export default class TeamMentionResource extends MentionResource {
   private readonly teamMentionConfig: MentionResourceConfig;
+  private lastSearchQuery?: string = '';
 
   constructor(
     userMentionConfig: MentionResourceConfig,
@@ -36,6 +37,8 @@ export default class TeamMentionResource extends MentionResource {
   }
 
   filter(query?: string, contextIdentifier?: MentionContextIdentifier): void {
+    this.lastSearchQuery = query;
+
     if (!query) {
       this.remoteInitialStateTeamAndUsers(contextIdentifier);
     } else {
@@ -92,6 +95,11 @@ export default class TeamMentionResource extends MentionResource {
       query,
     };
     const notifyWhenOneRequestDone = (results: MentionsResult) => {
+      // just update UI for the last query string
+      if (query !== this.lastSearchQuery) {
+        return;
+      }
+
       accumulatedResults = {
         mentions: [...accumulatedResults.mentions, ...results.mentions],
         query,
