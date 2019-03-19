@@ -135,7 +135,7 @@ class InlineEdit extends React.Component<Props, State> {
     return (
       <ReadViewWrapper>
         <EditButton
-          aria-label={this.props.editButtonLabel}
+          aria-label={this.props.editButtonLabel || 'Edit'}
           type="button"
           onClick={this.onReadViewClick}
           innerRef={ref => {
@@ -165,7 +165,12 @@ class InlineEdit extends React.Component<Props, State> {
           <Button
             ariaLabel={confirmButtonLabel}
             type="submit"
-            iconBefore={<ConfirmIcon label={confirmButtonLabel} size="small" />}
+            iconBefore={
+              <ConfirmIcon
+                label={confirmButtonLabel || 'Confirm'}
+                size="small"
+              />
+            }
             shouldFitContainer
             onClick={() => {
               if (this.confirmButtonRef) {
@@ -180,7 +185,9 @@ class InlineEdit extends React.Component<Props, State> {
         <ButtonWrapper>
           <Button
             ariaLabel={cancelButtonLabel}
-            iconBefore={<CancelIcon label={cancelButtonLabel} size="small" />}
+            iconBefore={
+              <CancelIcon label={cancelButtonLabel || 'Cancel'} size="small" />
+            }
             onClick={this.onCancelClick}
             shouldFitContainer
             innerRef={ref => {
