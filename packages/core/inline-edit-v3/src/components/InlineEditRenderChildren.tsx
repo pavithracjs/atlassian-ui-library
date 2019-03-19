@@ -169,7 +169,11 @@ class InlineEdit extends React.Component<RenderChildrenProps, State> {
       children,
     } = this.props;
     return (
-      <Form onSubmit={data => this.props.onConfirm(data.inlineEdit)}>
+      <Form
+        onSubmit={(data: { inlineEdit: any }) =>
+          this.props.onConfirm(data.inlineEdit)
+        }
+      >
         {({ formProps }: FormChildProps) => (
           <form {...formProps}>
             {isEditing ? (
