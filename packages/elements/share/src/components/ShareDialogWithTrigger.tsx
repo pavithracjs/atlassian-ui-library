@@ -9,11 +9,13 @@ import { ConfigResponse, DialogContentState, ShareButtonStyle } from '../types';
 import { ShareButton } from './ShareButton';
 import { ShareForm } from './ShareForm';
 
-type RenderChildren = (args: {
-  onClick: () => void;
-  loading: boolean;
-  error?: ShareError;
-}) => React.ReactNode;
+type RenderChildren = (
+  args: {
+    onClick: () => void;
+    loading: boolean;
+    error?: ShareError;
+  },
+) => React.ReactNode;
 
 type DialogState = {
   isDialogOpen: boolean;
