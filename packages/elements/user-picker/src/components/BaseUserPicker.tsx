@@ -47,14 +47,14 @@ type Props = UserPickerProps &
   };
 
 class UserPickerInternal extends React.Component<Props, UserPickerState> {
-  static defaultProps: UserPickerProps = {
+  static defaultProps = {
     isMulti: false,
     subtle: false,
     isClearable: true,
   };
 
   static getDerivedStateFromProps(
-    nextProps: UserPickerProps,
+    nextProps: Partial<UserPickerProps>,
     prevState: UserPickerState,
   ) {
     const derivedState: Partial<UserPickerState> = {};
@@ -360,7 +360,27 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     this.setState({ hoveringClearIndicator });
   };
 
-  private getOptions = (): Option[] => getOptions(this.state.options) || [];
+  private getOptions = (): Option[] => {
+    const options = getOptions(this.state.options) || [];
+    const { maxOptions, isMulti } = this.props;
+    if (maxOptions === 0) {
+      return [];
+    }
+    if (maxOptions && maxOptions > 0 && maxOptions < options.length) {
+      const { value } = this.state;
+      let filteredOptions = options;
+      // Filter out previously selected options
+      if (isMulti && Array.isArray(value)) {
+        const valueIds: string[] = value.map(item => item.data.id);
+        filteredOptions = options.filter(
+          option => valueIds.indexOf(option.data.id) === -1,
+        );
+      }
+      return filteredOptions.slice(0, maxOptions);
+    }
+
+    return options;
+  };
 
   private getAppearance = (): Appearance =>
     this.props.appearance
@@ -387,6 +407,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       pickerProps,
       SelectComponent,
       styles,
+      autoFocus,
     } = this.props;
 
     const {
@@ -402,7 +423,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       <SelectComponent
         enableAnimation={false}
         value={value}
-        autoFocus={menuIsOpen}
+        autoFocus={autoFocus !== undefined ? autoFocus : menuIsOpen}
         ref={this.handleSelectRef}
         isMulti={isMulti}
         options={this.getOptions()}
@@ -429,7 +450,6 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         subtle={isMulti ? false : subtle}
         blurInputOnSelect={!isMulti}
         closeMenuOnSelect={!isMulti}
-        hideSelectedOptions={isMulti}
         noOptionsMessage={noOptionsMessage}
         openMenuOnFocus
         onKeyDown={this.handleKeyDown}
