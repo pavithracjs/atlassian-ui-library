@@ -35,6 +35,13 @@ import { MediaState, MediaProvider, MediaStateStatus } from '../types';
 import { insertMediaSingleNode } from '../utils/media-single';
 
 import { findDomRefAtPos } from 'prosemirror-utils';
+import {
+  withAnalytics,
+  ACTION_SUBJECT_ID,
+  ACTION_SUBJECT,
+  ACTION,
+  EVENT_TYPE,
+} from '../../../plugins/analytics';
 export { MediaState, MediaProvider, MediaStateStatus };
 
 const MEDIA_RESOLVED_STATES = ['ready', 'error', 'cancelled'];
@@ -55,7 +62,7 @@ export class MediaPluginState {
   public element?: HTMLElement;
   public layout: MediaSingleLayout = 'center';
   public mediaNodes: MediaNodeWithPosHandler[] = [];
-  public mediaGroupNodes: object = {};
+  public mediaGroupNodes: Record<string, any> = {};
   private pendingTask = Promise.resolve<MediaState | null>(null);
   public options: MediaPluginOptions;
   private view: EditorView;
@@ -190,7 +197,9 @@ export class MediaPluginState {
     const { mediaSingle } = this.view.state.schema.nodes;
 
     if (selectedContainer && selectedContainer.type === mediaSingle) {
-      newElement = this.getDomElement(this.view.domAtPos.bind(this.view));
+      newElement = this.getDomElement(this.view.domAtPos.bind(this.view)) as
+        | HTMLElement
+        | undefined;
     }
     if (this.element !== newElement) {
       this.element = newElement;
@@ -249,7 +258,7 @@ export class MediaPluginState {
       state.status && MEDIA_RESOLVED_STATES.indexOf(state.status) !== -1;
 
     if (!isEndState(mediaState)) {
-      const updater = promise => {
+      const updater = (promise: Promise<any>) => {
         // Chain the previous promise with a new one for this media item
         return new Promise<MediaState | null>((resolve, reject) => {
           const onStateChange: MediaStateEventListener = newState => {
@@ -323,7 +332,7 @@ export class MediaPluginState {
       return lastTask;
     }
 
-    const chainedPromise = this.pendingTask.then(() =>
+    const chainedPromise: Promise<any> = this.pendingTask.then(() =>
       // Call ourselves to make sure that no new pending tasks have been
       // added before the current promise has resolved.
       this.waitForPendingTasks(undefined, this.pendingTask!),
@@ -382,7 +391,7 @@ export class MediaPluginState {
   };
 
   openMediaEditor = () => {
-    const { state } = this.view;
+    const { state, dispatch } = this.view;
     const { mediaSingle } = state.schema.nodes;
 
     if (
@@ -395,7 +404,19 @@ export class MediaPluginState {
     this.editingMediaSinglePos = state.selection.from;
     this.showEditingDialog = true;
 
-    this.view.dispatch(this.view.state.tr.setMeta(stateKey, 'edit'));
+    return withAnalytics({
+      action: ACTION.CLICKED,
+      actionSubject: ACTION_SUBJECT.MEDIA,
+      actionSubjectId: ACTION_SUBJECT_ID.ANNOTATE_BUTTON,
+      eventType: EVENT_TYPE.UI,
+    })((state, dispatch) => {
+      if (dispatch) {
+        dispatch(state.tr.setMeta(stateKey, 'edit'));
+        return true;
+      }
+
+      return false;
+    })(state, dispatch);
   };
 
   closeMediaEditor = () => {
@@ -638,7 +659,7 @@ export class MediaPluginState {
     pickers.forEach(picker => picker.setUploadParams(uploadParams));
   }
 
-  private trackNewMediaEvent(pickerType) {
+  private trackNewMediaEvent(pickerType: string) {
     return (mediaState: MediaState) => {
       analyticsService.trackEvent(
         `atlassian.editor.media.file.${pickerType}`,

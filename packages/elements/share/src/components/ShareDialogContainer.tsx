@@ -23,6 +23,7 @@ export type Props = {
   buttonStyle?: ShareButtonStyle;
   client?: ShareClient;
   cloudId: string;
+  dialogPlacement?: string;
   formatCopyLink: (origin: OriginTracing, link: string) => string;
   loadUserOptions: LoadOptions;
   originTracingFactory: OriginTracingFactory;
@@ -175,6 +176,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
 
   render() {
     const {
+      dialogPlacement,
       formatCopyLink,
       loadUserOptions,
       shareLink,
@@ -188,6 +190,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       <ShareDialogWithTrigger
         config={this.state.config}
         copyLink={copyLink}
+        dialogPlacement={dialogPlacement}
         loadUserOptions={loadUserOptions}
         onLinkCopy={this.handleCopyLink}
         onShareSubmit={this.handleSubmitShare}

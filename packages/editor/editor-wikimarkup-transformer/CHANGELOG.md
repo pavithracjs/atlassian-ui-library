@@ -1,5 +1,37 @@
 # @atlaskit/editor-wikimarkup-transformer
 
+## 4.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 4.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 3.5.6
+- Updated dependencies [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
+  - @atlaskit/editor-common@34.0.0
+  - @atlaskit/editor-core@105.0.0
+  - @atlaskit/editor-test-helpers@7.0.6
+  - @atlaskit/renderer@43.0.0
+  - @atlaskit/editor-json-transformer@4.3.5
+  - @atlaskit/util-data-test@10.2.5
+
+## 3.5.5
+- Updated dependencies [4d17df92f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d17df92f8):
+  - @atlaskit/editor-json-transformer@4.3.4
+  - @atlaskit/editor-test-helpers@7.0.5
+  - @atlaskit/editor-core@104.0.0
+  - @atlaskit/renderer@42.0.0
+
+## 3.5.4
+- Updated dependencies [dbff4fdcf9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dbff4fdcf9):
+  - @atlaskit/editor-common@33.0.4
+  - @atlaskit/renderer@41.3.1
+  - @atlaskit/profilecard@8.0.0
+
 ## 3.5.3
 - Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
   - @atlaskit/editor-core@103.0.3

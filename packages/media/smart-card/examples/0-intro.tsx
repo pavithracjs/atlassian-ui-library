@@ -6,10 +6,10 @@ import Form, { Field, FormHeader } from '@atlaskit/form';
 import Textfield from '@atlaskit/textfield';
 import Button from '@atlaskit/button';
 import { Provider, Card, Client } from '../src';
-import { CardAppearance } from '../src/Card/types';
+import { CardAppearance } from '../src/view/Card/types';
 import { Checkbox } from '@atlaskit/checkbox';
 import { RadioGroup } from '@atlaskit/radio';
-import urlsJSON from './example-urls.json';
+import urlsJSON from '../examples-helpers/example-urls.json';
 
 const params =
   typeof URLSearchParams !== 'undefined'

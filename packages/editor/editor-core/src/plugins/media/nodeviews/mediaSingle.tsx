@@ -12,6 +12,7 @@ import {
   WithProviders,
   DEFAULT_IMAGE_HEIGHT,
   DEFAULT_IMAGE_WIDTH,
+  browser,
 } from '@atlaskit/editor-common';
 import { CardEvent } from '@atlaskit/media-card';
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
@@ -28,6 +29,7 @@ import { EventDispatcher } from '../../../event-dispatcher';
 import { MediaProvider } from '../types';
 import { EditorAppearance } from '../../../types';
 import { Context } from '@atlaskit/media-core';
+import { PortalProviderAPI } from '../../../ui/PortalProvider';
 
 export interface MediaSingleNodeProps {
   node: PMNode;
@@ -59,7 +61,7 @@ export default class MediaSingleNode extends Component<
     viewContext: undefined,
   };
 
-  constructor(props) {
+  constructor(props: MediaSingleNodeProps) {
     super(props);
     this.mediaPluginState = stateKey.getState(
       this.props.view.state,
@@ -121,7 +123,13 @@ export default class MediaSingleNode extends Component<
     };
   }
 
-  private onExternalImageLoaded = ({ width, height }) => {
+  private onExternalImageLoaded = ({
+    width,
+    height,
+  }: {
+    width: number;
+    height: number;
+  }) => {
     this.setState(
       {
         width,
@@ -254,6 +262,16 @@ export default class MediaSingleNode extends Component<
 class MediaSingleNodeView extends ReactNodeView {
   lastOffsetLeft = 0;
 
+  createDomRef(): HTMLElement {
+    const domRef = document.createElement('div');
+    if (browser.chrome) {
+      // workaround Chrome bug in https://product-fabric.atlassian.net/browse/ED-5379
+      // see also: https://github.com/ProseMirror/prosemirror/issues/884
+      domRef.contentEditable = 'true';
+    }
+    return domRef;
+  }
+
   render() {
     const { eventDispatcher, editorAppearance } = this.reactComponentProps;
     const mediaPluginState = stateKey.getState(
@@ -309,9 +327,9 @@ class MediaSingleNodeView extends ReactNodeView {
 }
 
 export const ReactMediaSingleNode = (
-  portalProviderAPI,
-  eventDispatcher,
-  editorAppearance,
+  portalProviderAPI: PortalProviderAPI,
+  eventDispatcher: EventDispatcher,
+  editorAppearance?: EditorAppearance,
 ) => (node: PMNode, view: EditorView, getPos: () => number) => {
   return new MediaSingleNodeView(node, view, getPos, portalProviderAPI, {
     eventDispatcher,

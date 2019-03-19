@@ -237,6 +237,46 @@ expect.extend({
     };
   },
 
+  /**
+   * The current toMatchSnapshot implementation is not deterministic
+   * with currentTestName, this is causing issues when we use on `it.concurrent`
+   * to avoid this issue we are sending the testCase by ourself.
+   *
+   * Issue: https://github.com/facebook/jest/issues/5801
+   */
+  toMatchCustomSnapshot(actual, testCase) {
+    const fakeThis = { ...this, currentTestName: testCase };
+    return toMatchSnapshot.call(fakeThis, actual);
+  },
+
+  /**
+   * The current toMatchDocSnapshot implementation is not deterministic
+   * with currentTestName, this is causing issues when we use on `it.concurrent`
+   * to avoid this issue we are sending the testCase by ourself.
+   *
+   * Issue: https://github.com/facebook/jest/issues/5801
+   */
+  toMatchCustomDocSnapshot(actual, testCase) {
+    const { snapshotState } = this;
+    // remove ids that may change from the document so snapshots are repeatable
+    const transformedDoc = removeIdsFromDoc(actual);
+
+    // since the test runner fires off multiple browsers for a single test, map each snapshot to the same one
+    // (otherwise we'll try to create as many snapshots as there are browsers)
+    const oldCounters = snapshotState._counters;
+    snapshotState._counters = Object.create(oldCounters, {
+      set: {
+        value: key => oldCounters.set(key, 1),
+      },
+      get: {
+        value: key => oldCounters.get(key),
+      },
+    });
+    const fakeThis = { ...this, currentTestName: testCase };
+    const ret = toMatchSnapshot.call(fakeThis, transformedDoc);
+    return ret;
+  },
+
   toMatchDocSnapshot(actual) {
     const { currentTestName, snapshotState } = this;
 

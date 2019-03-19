@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages } from 'react-intl';
+import FormattedMessage from '../primitives/formatted-message';
+
 import IntlProvider from '../components/intl-provider';
 
 const messages = defineMessages({
@@ -68,6 +70,25 @@ const messages = defineMessages({
     defaultMessage: 'Discover more',
     description:
       'The text of a link redirecting the user to Discover More Atlassian products',
+  },
+  errorHeading: {
+    id: 'fabric.atlassianSwitcher.errorHeading',
+    defaultMessage: 'Something went wrong',
+    description:
+      'Heading of the error screen which is shown when an unknown error happens in the Atlassian Switcher. Usually due to failed network requests.',
+  },
+  errorText: {
+    id: 'fabric.atlassianSwitcher.errorText',
+    defaultMessage:
+      'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    description:
+      'Text that is displayed when an unknown error happens in the Atlassian Switcher.',
+  },
+  errorImageAltText: {
+    id: 'fabric.atlassianSwitcher.errorImageAltText',
+    defaultMessage: 'A broken robot and a number of people busy fixing it.',
+    description:
+      'Text displayed as alt text when an error occurs in the Atlassian Switcher',
   },
 });
 

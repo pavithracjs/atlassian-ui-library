@@ -4,7 +4,6 @@ import Lozenge from '@atlaskit/lozenge';
 import { colors } from '@atlaskit/theme';
 import * as React from 'react';
 import {
-  HighlightDetail,
   isRestricted,
   MentionDescription,
   OnMentionEvent,
@@ -20,74 +19,11 @@ import {
   InfoSectionStyle,
   MentionItemStyle,
   NameSectionStyle,
-  NicknameStyle,
   RowStyle,
   TimeStyle,
 } from './styles';
-
-type ReactComponentConstructor = new (props: any) => React.Component<any, any>;
-
-interface Part {
-  value: string;
-  matches: boolean;
-}
-
-function renderHighlight(
-  ReactComponent: ReactComponentConstructor,
-  value?: string,
-  highlights?: HighlightDetail[],
-  prefix?: string,
-) {
-  if (!value) {
-    return null;
-  }
-
-  const parts: Part[] = [];
-  const prefixText = prefix || '';
-  let lastIndex = 0;
-
-  if (highlights) {
-    for (let i = 0; i < highlights.length; i++) {
-      const h = highlights[i];
-      const start = h.start;
-      const end = h.end;
-      if (start > lastIndex) {
-        parts.push({
-          value: value.substring(lastIndex, start),
-          matches: false,
-        });
-      }
-      parts.push({
-        value: value.substring(start, end + 1),
-        matches: true,
-      });
-      lastIndex = end + 1;
-    }
-    if (lastIndex < value.length) {
-      parts.push({
-        value: value.substring(lastIndex, value.length),
-        matches: false,
-      });
-    }
-  } else {
-    parts.push({
-      value,
-      matches: false,
-    });
-  }
-
-  return (
-    <ReactComponent>
-      {prefixText}
-      {parts.map((part, index) => {
-        if (part.matches) {
-          return <b key={index}>{part.value}</b>;
-        }
-        return part.value;
-      })}
-    </ReactComponent>
-  );
-}
+import { renderHighlight } from './MentionHighlightHelpers';
+import MentionDescriptionHighlight from '../MentionDescriptionHighlight';
 
 function renderLozenge(lozenge?: string) {
   if (lozenge) {
@@ -134,7 +70,6 @@ export default class MentionItem extends React.PureComponent<Props, {}> {
       presence,
       name,
       mentionName,
-      nickname,
       lozenge,
       accessLevel,
     } = mention;
@@ -142,7 +77,7 @@ export default class MentionItem extends React.PureComponent<Props, {}> {
     const restricted = isRestricted(accessLevel);
 
     const nameHighlights = highlight && highlight.name;
-    const nicknameHighlights = highlight && highlight.nickname;
+
     const borderColor = selected ? colors.N30 : undefined;
 
     return (
@@ -164,7 +99,7 @@ export default class MentionItem extends React.PureComponent<Props, {}> {
           </AvatarStyle>
           <NameSectionStyle restricted={restricted}>
             {renderHighlight(FullNameStyle, name, nameHighlights)}
-            {renderHighlight(NicknameStyle, nickname, nicknameHighlights, '@')}
+            <MentionDescriptionHighlight mention={mention} />
           </NameSectionStyle>
           <InfoSectionStyle restricted={restricted}>
             {renderLozenge(lozenge)}

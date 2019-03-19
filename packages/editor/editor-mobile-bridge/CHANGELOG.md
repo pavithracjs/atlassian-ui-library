@@ -1,5 +1,84 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.1.3
+- Updated dependencies [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
+  - @atlaskit/form@5.2.3
+  - @atlaskit/textfield@0.4.0
+
+## 7.1.2
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 7.1.1
+- [patch] [205b101e2b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/205b101e2b):
+
+  - ED-6230: bump prosemirror-view to 1.8.3; workaround Chrome bug with copy paste multiple images
+
+## 7.1.0
+- [minor] [ce221ff69e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce221ff69e):
+
+  - Add smart cards to the mobile bridge
+
+## 7.0.1
+- Updated dependencies [b684722884](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b684722884):
+  - @atlaskit/editor-core@106.0.3
+  - @atlaskit/renderer@44.0.1
+  - @atlaskit/emoji@58.1.0
+  - @atlaskit/mention@17.1.0
+  - @atlaskit/status@0.7.0
+  - @atlaskit/task-decision@13.1.0
+
+## 7.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 6.15.0
+- [minor] [29870e89f2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29870e89f2):
+
+  - Enable noImplicitAny for mobile bridge
+
+## 6.14.2
+- Updated dependencies [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
+  - @atlaskit/editor-common@34.0.0
+  - @atlaskit/editor-core@105.0.0
+  - @atlaskit/editor-test-helpers@7.0.6
+  - @atlaskit/renderer@43.0.0
+  - @atlaskit/emoji@57.0.0
+  - @atlaskit/editor-json-transformer@4.3.5
+  - @atlaskit/task-decision@12.0.1
+  - @atlaskit/media-core@28.0.0
+
+## 6.14.1
+- Updated dependencies [72c6f68226](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72c6f68226):
+  - @atlaskit/editor-core@104.1.1
+  - @atlaskit/renderer@42.0.1
+  - @atlaskit/task-decision@12.0.0
+
+## 6.14.0
+- [minor] [efc3cdd52e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/efc3cdd52e):
+
+  - ED-6354: added bridge for sending JS errors to native
+
+## 6.13.7
+- Updated dependencies [4d17df92f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d17df92f8):
+  - @atlaskit/editor-json-transformer@4.3.4
+  - @atlaskit/editor-test-helpers@7.0.5
+  - @atlaskit/task-decision@11.3.2
+  - @atlaskit/editor-core@104.0.0
+  - @atlaskit/renderer@42.0.0
+
+## 6.13.6
+- [patch] [5e319bb725](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e319bb725):
+
+  - ED-6286: fix post-PR for media upload on mobile
+
+## 6.13.5
+- [patch] [4bb4f46a6f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4bb4f46a6f):
+
+  - ED-5603: fixed updating links on mobile
+
 ## 6.13.4
 - Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
   - @atlaskit/button@10.1.3

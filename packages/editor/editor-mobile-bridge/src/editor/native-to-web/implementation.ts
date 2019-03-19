@@ -29,10 +29,12 @@ import {
   selectItem as selectTypeAheadItem,
   insertLink,
   isTextAtPos,
+  isLinkAtPos,
   setLinkHref,
   setLinkText,
 } from '@atlaskit/editor-core';
 import { EditorView } from 'prosemirror-view';
+import { EditorState } from 'prosemirror-state';
 import { JSONTransformer } from '@atlaskit/editor-json-transformer';
 import { Color as StatusColor } from '@atlaskit/status';
 
@@ -218,14 +220,30 @@ export default class WebBridgeImpl extends WebBridge
       return;
     }
 
-    [setLinkHref(url, from, to)]
+    // if cursor is on link => modify the whole link
+    const { leftBound, rightBound } = isLinkAtPos(from)(state)
+      ? {
+          leftBound: from - state.doc.resolve(from).textOffset,
+          rightBound: undefined,
+        }
+      : { leftBound: from, rightBound: to };
+
+    [setLinkHref(url, leftBound, rightBound)]
       .reduce(
         (cmds, setLinkHrefCmd) =>
           // if adding link => set link then set link text
-          // if removing link => execute this reversed
+          // if removing link => execute the same reversed
           hasValue(url)
-            ? [setLinkHrefCmd, setLinkText(text, from, to), ...cmds]
-            : [setLinkText(text, from, to), setLinkHrefCmd, ...cmds],
+            ? [
+                setLinkHrefCmd,
+                setLinkText(text, leftBound, rightBound),
+                ...cmds,
+              ]
+            : [
+                setLinkText(text, leftBound, rightBound),
+                setLinkHrefCmd,
+                ...cmds,
+              ],
         [] as Command[],
       )
       .forEach(cmd => cmd(this.editorView!.state, dispatch));
@@ -277,7 +295,8 @@ export default class WebBridgeImpl extends WebBridge
 
     selectTypeAheadItem(
       {
-        selectItem: (state, item, insert) => {
+        // TODO export insert type from editor-core.
+        selectItem: (state: EditorState, item: TypeAheadItem, insert: any) => {
           if (type === 'mention') {
             const { id, name, nickname, accessLevel, userType } = item;
             const renderName = nickname ? nickname : name;
