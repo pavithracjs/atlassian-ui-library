@@ -1,17 +1,23 @@
 // @flow
+import * as React from 'react';
 import Button from '@atlaskit/button';
-import styled, { css } from 'styled-components';
 
-const ButtonElement = styled(Button)`
-  ${({ truncationWidth }: { truncationWidth: number }) =>
-    truncationWidth
-      ? css`
-          max-width: ${truncationWidth}px !important;
-        `
-      : css`
-          flex-shrink: 1;
-          min-width: 0;
-        `};
-`;
-
-export default ButtonElement;
+// $FlowFixMe
+export default React.forwardRef((props, ref) => (
+  <Button
+    {...props}
+    ref={ref}
+    theme={(currentTheme, themeProps) => {
+      const { buttonStyles, ...rest } = currentTheme(themeProps);
+      return {
+        buttonStyles: {
+          ...buttonStyles,
+          ...(props.truncationWidth
+            ? { maxWidth: `${props.truncationWidth}px !important` }
+            : { flexShrink: 1, minWidth:0 }),
+        },
+        ...rest,
+      }
+    }}
+  />
+));

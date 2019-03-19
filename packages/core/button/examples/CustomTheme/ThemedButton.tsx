@@ -5,6 +5,7 @@ import { ButtonProps, ButtonAppearances } from '../../src/types';
 
 export default (props: ButtonProps) => (
   <Button
+    {...props}
     theme={(adgTheme, { appearance = 'default', state = 'default' }) => {
       const {
         buttonStyles: adgButtonStyles,
@@ -29,6 +30,5 @@ export default (props: ButtonProps) => (
         },
       };
     }}
-    {...props}
   />
 );
