@@ -35,7 +35,7 @@ import {
 interface State {
   onReadViewHover: boolean;
   wasFocusReceivedSinceLastBlur: boolean;
-  preventFocusOnButton: boolean;
+  preventFocusOnEditButton: boolean;
 }
 
 const defaultProps: Pick<
@@ -61,7 +61,7 @@ class InlineEdit extends React.Component<Props, State> {
   state = {
     onReadViewHover: false,
     wasFocusReceivedSinceLastBlur: false,
-    preventFocusOnButton: false,
+    preventFocusOnEditButton: false,
   };
 
   componentDidUpdate(prevProps: Props) {
@@ -71,8 +71,8 @@ class InlineEdit extends React.Component<Props, State> {
      * it is confirmed by wrapper blur
      */
     if (prevProps.isEditing && !this.props.isEditing) {
-      if (this.state.preventFocusOnButton) {
-        this.setState({ preventFocusOnButton: false });
+      if (this.state.preventFocusOnEditButton) {
+        this.setState({ preventFocusOnEditButton: false });
       } else if (this.editButtonRef) {
         this.editButtonRef.focus();
       }
@@ -118,7 +118,7 @@ class InlineEdit extends React.Component<Props, State> {
       !this.state.wasFocusReceivedSinceLastBlur &&
       this.confirmButtonRef
     ) {
-      this.setState({ preventFocusOnButton: true });
+      this.setState({ preventFocusOnEditButton: true });
       this.confirmButtonRef.click();
     }
   };
