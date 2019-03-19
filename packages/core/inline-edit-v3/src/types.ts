@@ -37,12 +37,23 @@ export interface Props {
 }
 
 export interface InlineEditableTextfieldProps {
+  /** Label above the input */
+  label?: string;
   /**
    * Handler called editView is closed and changes are confirmed.
    * Field value is passed as an argument to this function.
    */
-  onConfirm: (value: any) => void;
-
+  onConfirm: (value: string) => void;
+  /** The initial value of the inline edit. */
+  defaultValue: any;
+  /** Validation function handled by final-form. */
+  validate?: (
+    value: any,
+    formState: {},
+    fieldState: {},
+  ) => string | void | Promise<string | void>;
+  /** Text shown in read view when value is an empty string */
+  emptyValueText?: string;
   /** Set whether onConfirm should be called on blur. */
   disableConfirmOnBlur?: boolean;
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */

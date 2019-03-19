@@ -1,35 +1,47 @@
 import * as React from 'react';
 import TextField from '@atlaskit/textfield';
+import { withDefaultProps } from '@atlaskit/type-helpers';
 
-import InlineEdit from '../src';
-import ReadViewContainer from './styled/ReadViewContainer';
+import InlineEdit from './InlineEdit';
+import ReadViewContainer from '../styled/ReadViewContainer';
+import { InlineEditableTextfieldProps } from '../types';
 
 type State = {
-  editValue: string;
   isEditing: boolean;
-  onEventResult: string;
 };
 
-export default class InlineEditExample extends React.Component<void, State> {
+const defaultProps: Pick<
+  InlineEditableTextfieldProps,
+  | 'disableConfirmOnBlur'
+  | 'hideActionButtons'
+  | 'readViewFitContainerWidth'
+  | 'emptyValueText'
+> = {
+  disableConfirmOnBlur: false,
+  hideActionButtons: false,
+  readViewFitContainerWidth: false,
+  emptyValueText: 'Click to enter text',
+};
+
+class InlineEditableTextfield extends React.Component<
+  InlineEditableTextfieldProps,
+  State
+> {
   editViewRef: HTMLInputElement | undefined;
 
   state = {
     isEditing: false,
-    editValue: 'Field Value',
-    onEventResult: 'Click on a field above to show edit view',
   };
 
   onConfirm = (value: string) => {
     this.setState({
-      onEventResult: `onConfirm called with value "${value}"`,
-      editValue: value,
       isEditing: false,
     });
+    this.props.onConfirm(value);
   };
 
   onCancel = () => {
     this.setState({
-      onEventResult: `onCancel called`,
       isEditing: false,
     });
   };
@@ -44,42 +56,29 @@ export default class InlineEditExample extends React.Component<void, State> {
 
   render() {
     return (
-      <div style={{ padding: '0 16px' }}>
-        <InlineEdit
-          defaultValue={this.state.editValue}
-          label="Inline Edit Field"
-          editView={fieldProps => (
-            <TextField
-              {...fieldProps}
-              ref={(ref: HTMLInputElement) => {
-                this.editViewRef = ref;
-              }}
-            />
-          )}
-          readView={
-            <ReadViewContainer>
-              {this.state.editValue || 'Click to enter value'}
-            </ReadViewContainer>
-          }
-          onConfirm={this.onConfirm}
-          onCancel={this.onCancel}
-          isEditing={this.state.isEditing}
-          onEditRequested={this.onEditRequested}
-        />
-
-        <div
-          style={{
-            borderStyle: 'dashed',
-            borderWidth: '1px',
-            borderColor: '#ccc',
-            padding: '0.5em',
-            color: '#ccc',
-            margin: '0.5em',
-          }}
-        >
-          {this.state.onEventResult}
-        </div>
-      </div>
+      <InlineEdit
+        {...this.props}
+        defaultValue={this.props.defaultValue}
+        editView={fieldProps => (
+          <TextField
+            {...fieldProps}
+            ref={(ref: HTMLInputElement) => {
+              this.editViewRef = ref;
+            }}
+          />
+        )}
+        readView={
+          <ReadViewContainer>
+            {this.props.defaultValue || this.props.emptyValueText}
+          </ReadViewContainer>
+        }
+        onConfirm={this.onConfirm}
+        onCancel={this.onCancel}
+        isEditing={this.state.isEditing}
+        onEditRequested={this.onEditRequested}
+      />
     );
   }
 }
+
+export default withDefaultProps(defaultProps, InlineEditableTextfield);
