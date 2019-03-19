@@ -1,5 +1,5 @@
 // @flow
-import relativeDate from '../../relative-date';
+import relativeDate from '../../internal/relative-date';
 import mockGlobalDate from './helper/_mock-global-date';
 
 describe('RelativeDate', () => {

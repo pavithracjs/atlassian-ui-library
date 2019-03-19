@@ -4,7 +4,7 @@ import 'es6-promise/auto'; // 'whatwg-fetch' needs a Promise polyfill
 import fetchMock from 'fetch-mock';
 import sinon from 'sinon';
 
-import AkProfileClient, { modifyResponse } from '../../api/profile-client';
+import AkProfileClient, { modifyResponse } from '../../api/ProfileCardClient';
 
 const clientUrl = 'https://foo/';
 const clientCacheSize = 10;
