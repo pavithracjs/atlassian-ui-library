@@ -26,8 +26,6 @@ export default class extends React.Component {
   };
 
   onGetArticle = (articleId: string): Promise<Article> => {
-    console.log(`Resuqested article ID: ${articleId}`);
-
     return new Promise(resolve =>
       setTimeout(
         () =>
@@ -81,8 +79,6 @@ export default class extends React.Component {
   };
 
   onSearch = (value: string): Promise<ArticleItem[]> => {
-    console.log(`Search Value: ${value}`);
-
     return new Promise(resolve =>
       setTimeout(
         () =>
@@ -148,8 +144,6 @@ export default class extends React.Component {
         <Button type="button" onClick={this.closeDrawer}>
           Close drawer
         </Button>
-
-        {searchText}
       </div>
     );
   }

@@ -30,7 +30,6 @@ export default class GlobalHelpDrawer extends PureComponent<Props> {
 
   constructor(props: Props) {
     super(props);
-    console.log(props);
 
     this.state = {
       entered: false,

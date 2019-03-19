@@ -2,12 +2,14 @@ import * as React from 'react';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { messages } from '../../messages';
 
-interface Props {
+export interface Props {
   showMoreToggeled: boolean;
   toggleRelatedArticles: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-const ShowMoreArticlesButton: React.SFC<Props & InjectedIntlProps> = props => {
+export const ShowMoreArticlesButton: React.SFC<
+  Props & InjectedIntlProps
+> = props => {
   const {
     intl: { formatMessage },
     showMoreToggeled,
@@ -15,13 +17,13 @@ const ShowMoreArticlesButton: React.SFC<Props & InjectedIntlProps> = props => {
   } = props;
   if (showMoreToggeled) {
     return (
-      <a onClick={toggleRelatedArticles}>
+      <a onClick={toggleRelatedArticles} style={{ cursor: 'pointer' }}>
         {formatMessage(messages.help_panel_related_article_show_more)}
       </a>
     );
   } else {
     return (
-      <a onClick={toggleRelatedArticles}>
+      <a onClick={toggleRelatedArticles} style={{ cursor: 'pointer' }}>
         {formatMessage(messages.help_panel_related_article_show_less)}
       </a>
     );

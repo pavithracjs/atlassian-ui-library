@@ -76,7 +76,6 @@ export class HelpPanelContent extends React.Component<Props, State> {
             view: VIEW.SEARCH_RESULT,
           });
         } catch (error) {
-          console.log(error);
           this.setState({ searchState: RequestState.error });
         }
       }
@@ -101,7 +100,6 @@ export class HelpPanelContent extends React.Component<Props, State> {
         const article = await onGetArticle(articleId);
         this.setState({ article, articleState: RequestState.done });
       } catch (error) {
-        console.log(error);
         this.setState({ articleState: RequestState.error });
       }
     }
