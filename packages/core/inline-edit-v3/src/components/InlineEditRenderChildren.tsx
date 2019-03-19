@@ -17,7 +17,7 @@ import {
   version as packageVersion,
 } from '../../package.json';
 
-import { RenderChildrenProps, FormChild, FieldChild } from '../types';
+import { RenderChildrenProps, FormChildProps, FieldChildProps } from '../types';
 import ButtonsWrapper from '../styled/ButtonsWrapper';
 import ButtonWrapper from '../styled/ButtonWrapper';
 import ReadViewContentWrapper from '../styled/ReadViewContentWrapper';
@@ -151,7 +151,7 @@ class InlineEdit extends React.Component<RenderChildrenProps, State> {
     } = this.props;
     return (
       <Form onSubmit={data => this.props.onConfirm(data.inlineEdit)}>
-        {({ formProps }: FormChild) => (
+        {({ formProps }: FormChildProps) => (
           <form {...formProps}>
             {isEditing ? (
               <Field
@@ -160,7 +160,7 @@ class InlineEdit extends React.Component<RenderChildrenProps, State> {
                 defaultValue={defaultValue}
                 validate={validate}
               >
-                {({ fieldProps }: FieldChild) => (
+                {({ fieldProps }: FieldChildProps) => (
                   <ContentWrapper
                     onBlur={() => this.onWrapperBlur(fieldProps.value)}
                     onFocus={this.onWrapperFocus}

@@ -67,15 +67,15 @@ export type RenderChildrenProps = {
 
   /** Contained in defaultProps */
   /** Set whether onConfirm should be called on blur. */
-  disableConfirmOnBlur: boolean;
+  disableConfirmOnBlur?: boolean;
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
-  hideActionButtons: boolean;
+  hideActionButtons?: boolean;
   /** The text announced to screen readers when focusing on the edit button. */
-  editButtonLabel: string;
+  editButtonLabel?: string;
   /** The text announced to screen readers when focusing on the confirm button. */
-  confirmButtonLabel: string;
+  confirmButtonLabel?: string;
   /** The text announced to screen readers when focusing on the cancel button. */
-  cancelButtonLabel: string;
+  cancelButtonLabel?: string;
 };
 
 /** These interfaces will be exported from the Form package once it is converted to Typescript */
@@ -117,4 +117,33 @@ export interface FieldChildProps {
   fieldProps: FieldProps;
   error: any;
   meta: Meta;
+}
+
+/** This interface will be exported once Inline Dialog is converted to Typescript */
+export type Placement =
+  | 'auto-start'
+  | 'auto'
+  | 'auto-end'
+  | 'top-start'
+  | 'top'
+  | 'top-end'
+  | 'right-start'
+  | 'right'
+  | 'right-end'
+  | 'bottom-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'left-end'
+  | 'left'
+  | 'left-start';
+
+export interface InlineDialogProps {
+  children?: React.ReactChild;
+  content?: React.ReactChild;
+  isOpen?: boolean;
+  onContentBlur?: () => void;
+  onContentClick?: () => void;
+  onContentFocus?: () => void;
+  onClose?: (e: { isOpen: false; event: any }) => void;
+  placement?: Placement;
 }

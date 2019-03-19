@@ -12,7 +12,13 @@ import CancelIcon from '@atlaskit/icon/glyph/cross';
 import Form, { Field } from '@atlaskit/form';
 import { withDefaultProps } from '@atlaskit/type-helpers';
 
-import { Props, FieldChildProps, FormChildProps, FieldProps } from '../types';
+import {
+  Props,
+  FieldChildProps,
+  FormChildProps,
+  FieldProps,
+  InlineDialogProps,
+} from '../types';
 import ButtonsWrapper from '../styled/ButtonsWrapper';
 import ButtonWrapper from '../styled/ButtonWrapper';
 import ReadViewContentWrapper from '../styled/ReadViewContentWrapper';
@@ -47,7 +53,7 @@ const defaultProps: Pick<
   cancelButtonLabel: 'Cancel',
 };
 
-const InlineDialog = Loadable({
+const InlineDialog = Loadable<InlineDialogProps, {}>({
   loader: () =>
     import('@atlaskit/inline-dialog').then(module => module.default),
   loading: () => null,
