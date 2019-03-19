@@ -1,6 +1,6 @@
 //@flow
 import React, { Component, type Node } from 'react';
-import { StyledButton } from './styled';
+import Button from './styled';
 
 export type NavigatorPropsType = {
   /** This will be passed in as ariaLabel to button. This is what screen reader will read */
@@ -19,6 +19,6 @@ export type NavigatorPropsType = {
 
 export default class Navigator extends Component<NavigatorPropsType> {
   render() {
-    return <StyledButton {...this.props} appearance="subtle" spacing="none" />;
+    return <Button {...this.props} appearance="subtle" spacing="none" />;
   }
 }

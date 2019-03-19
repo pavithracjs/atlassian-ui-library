@@ -1,33 +1,33 @@
-import Tooltip from '@atlaskit/tooltip';
 import * as React from 'react';
-import { PureComponent, ReactElement } from 'react';
-import { AkButton } from './styles';
+import Tooltip from '@atlaskit/tooltip';
+import { ButtonProps } from '@atlaskit/Button';
+import Button from './styles';
 
-export interface Props {
-  className?: string;
+export interface Props extends ButtonProps {
   disabled?: boolean;
   hideTooltip?: boolean;
-  href?: string;
-  iconAfter?: ReactElement<any>;
-  iconBefore?: ReactElement<any>;
-  onClick?: (event: Event) => void;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   selected?: boolean;
-  spacing?: 'default' | 'compact' | 'none';
-  target?: string;
-  theme?: 'dark';
   title?: string;
   titlePosition?: string;
-  ariaLabel?: string;
 }
 
-export default class ToolbarButton extends PureComponent<Props, {}> {
+export default class ToolbarButton extends React.PureComponent<Props, {}> {
   static defaultProps = {
     className: '',
   };
 
+  private handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    const { disabled, onClick } = this.props;
+
+    if (!disabled && onClick) {
+      onClick(event);
+    }
+  };
+
   render() {
     const button = (
-      <AkButton
+      <Button
         appearance="subtle"
         aria-haspopup
         className={this.props.className}
@@ -44,7 +44,7 @@ export default class ToolbarButton extends PureComponent<Props, {}> {
         shouldFitContainer
       >
         {this.props.children}
-      </AkButton>
+      </Button>
     );
 
     const position = this.props.titlePosition || 'top';
@@ -62,12 +62,4 @@ export default class ToolbarButton extends PureComponent<Props, {}> {
       button
     );
   }
-
-  private handleClick = (event: Event) => {
-    const { disabled, onClick } = this.props;
-
-    if (!disabled && onClick) {
-      onClick(event);
-    }
-  };
 }

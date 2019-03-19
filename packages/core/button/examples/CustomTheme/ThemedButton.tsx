@@ -6,28 +6,18 @@ import { ButtonProps, ButtonAppearances } from '../../src/types';
 export default (props: ButtonProps) => (
   <Button
     {...props}
-    theme={(adgTheme, { appearance = 'default', state = 'default' }) => {
-      const {
-        buttonStyles: adgButtonStyles,
-        spinnerStyles: adgSpinnerStyles,
-        iconStyles: adgIconStyles,
-      } = adgTheme({ ...props, appearance, state });
-
+    theme={(currentTheme, { appearance = 'default', state = 'default' }) => {
+      const { buttonStyles, ...rest } = currentTheme({ ...props, appearance, state });
       return {
         buttonStyles: {
-          ...adgButtonStyles,
+          ...buttonStyles,
           ...getButtonStyles({
             ...props,
             appearance: appearance as ButtonAppearances,
             state,
           }),
         },
-        spinnerStyles: {
-          ...adgSpinnerStyles,
-        },
-        iconStyles: {
-          ...adgIconStyles,
-        },
+        ...rest,
       };
     }}
   />
