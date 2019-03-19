@@ -84,6 +84,7 @@ export type RenderChildrenProps = {
 export interface FormProps {
   onSubmit: (e: React.FormEvent) => void;
   ref: React.RefObject<HTMLFormElement>;
+  onKeyDown: (e: React.KeyboardEvent) => void;
 }
 
 export interface FormChildProps {

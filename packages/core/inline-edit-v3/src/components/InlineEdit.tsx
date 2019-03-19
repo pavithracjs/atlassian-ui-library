@@ -206,8 +206,16 @@ class InlineEdit extends React.Component<Props, State> {
           this.props.onConfirm(data.inlineEdit)
         }
       >
-        {({ formProps }: FormChildProps) => (
-          <form {...formProps}>
+        {({ formProps: { onKeyDown, ...rest } }: FormChildProps) => (
+          <form
+            onKeyDown={e => {
+              onKeyDown(e);
+              if (e.key === 'Esc' || e.key === 'Escape') {
+                this.props.onCancel();
+              }
+            }}
+            {...rest}
+          >
             {isEditing ? (
               <Field
                 name="inlineEdit"
