@@ -146,7 +146,9 @@ class InlineEdit extends React.Component<Props, State> {
           onMouseEnter={() => this.setState({ onReadViewHover: true })}
           onMouseLeave={() => this.setState({ onReadViewHover: false })}
           onClick={this.onReadViewClick}
-          readViewFitContainerWidth={this.props.readViewFitContainerWidth}
+          readViewFitContainerWidth={
+            this.props.readViewFitContainerWidth || false
+          }
         >
           {this.props.readView}
         </ReadViewContentWrapper>

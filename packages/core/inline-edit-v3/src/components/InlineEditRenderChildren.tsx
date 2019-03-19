@@ -92,15 +92,24 @@ class InlineEdit extends React.Component<RenderChildrenProps, State> {
   };
 
   renderReadView = () => {
-    const { children, isEditing, readViewFitContainerWidth } = this.props;
+    const {
+      children,
+      isEditing,
+      editButtonLabel,
+      readViewFitContainerWidth,
+    } = this.props;
     return (
       <div style={{ lineHeight: 1 }}>
-        <EditButton type="button" onClick={this.onReadViewClick} />
+        <EditButton
+          type="button"
+          aria-label={editButtonLabel || 'Edit'}
+          onClick={this.onReadViewClick}
+        />
         <ReadViewContentWrapper
           onMouseEnter={() => this.setState({ onReadViewHover: true })}
           onMouseLeave={() => this.setState({ onReadViewHover: false })}
           onClick={this.onReadViewClick}
-          readViewFitContainerWidth={readViewFitContainerWidth}
+          readViewFitContainerWidth={readViewFitContainerWidth || false}
         >
           {children(isEditing)}
         </ReadViewContentWrapper>
@@ -116,7 +125,12 @@ class InlineEdit extends React.Component<RenderChildrenProps, State> {
           <Button
             ariaLabel={confirmButtonLabel}
             type="submit"
-            iconBefore={<ConfirmIcon label={confirmButtonLabel} size="small" />}
+            iconBefore={
+              <ConfirmIcon
+                label={confirmButtonLabel || 'Confirm'}
+                size="small"
+              />
+            }
             shouldFitContainer
             onClick={() => {
               if (this.confirmButtonRef) {
@@ -131,7 +145,9 @@ class InlineEdit extends React.Component<RenderChildrenProps, State> {
         <ButtonWrapper>
           <Button
             ariaLabel={cancelButtonLabel}
-            iconBefore={<CancelIcon label={cancelButtonLabel} size="small" />}
+            iconBefore={
+              <CancelIcon label={cancelButtonLabel || 'Cancel'} size="small" />
+            }
             onClick={this.onCancelClick}
             shouldFitContainer
             innerRef={ref => {
