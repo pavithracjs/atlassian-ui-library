@@ -2,7 +2,7 @@ import * as React from 'react';
 import TextArea from '@atlaskit/textarea';
 
 import InlineEdit from '../src';
-import ReadViewContainer from './styled/ReadViewContainer';
+import ReadViewContainer from '../src/styled/ReadViewContainer';
 
 type State = {
   editValue: string;

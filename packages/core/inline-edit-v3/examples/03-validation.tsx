@@ -4,7 +4,7 @@ import ErrorIcon from '@atlaskit/icon/glyph/error';
 import { colors } from '@atlaskit/theme';
 
 import InlineEdit from '../src';
-import ReadViewContainer from './styled/ReadViewContainer';
+import ReadViewContainer from '../src/styled/ReadViewContainer';
 import { FieldProps } from '../src/types';
 
 type State = {

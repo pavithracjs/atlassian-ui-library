@@ -32,17 +32,26 @@ export interface Props {
   disableConfirmOnBlur?: boolean;
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
   hideActionButtons?: boolean;
-  /** The text announced to screen readers when focusing on the edit button. */
-  editButtonLabel?: string;
-  /** The text announced to screen readers when focusing on the confirm button. */
-  confirmButtonLabel?: string;
-  /** The text announced to screen readers when focusing on the cancel button. */
-  cancelButtonLabel?: string;
   /** Determines whether the read view has 100% width within its container, or whether it fits the content */
   readViewFitContainerWidth?: boolean;
 }
 
-export type RenderChildrenProps = {
+export interface InlineEditableTextfieldProps {
+  /**
+   * Handler called editView is closed and changes are confirmed.
+   * Field value is passed as an argument to this function.
+   */
+  onConfirm: (value: any) => void;
+
+  /** Set whether onConfirm should be called on blur. */
+  disableConfirmOnBlur?: boolean;
+  /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
+  hideActionButtons?: boolean;
+  /** Determines whether the read view has 100% width within its container, or whether it fits the content */
+  readViewFitContainerWidth?: boolean;
+}
+
+export interface RenderChildrenProps {
   /** Label above the input */
   label?: string;
   /** Whether the component shows the readView or the editView. */
@@ -72,15 +81,9 @@ export type RenderChildrenProps = {
   disableConfirmOnBlur?: boolean;
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
   hideActionButtons?: boolean;
-  /** The text announced to screen readers when focusing on the edit button. */
-  editButtonLabel?: string;
-  /** The text announced to screen readers when focusing on the confirm button. */
-  confirmButtonLabel?: string;
-  /** The text announced to screen readers when focusing on the cancel button. */
-  cancelButtonLabel?: string;
   /** Determines whether the read view has 100% width within its container, or whether it fits the content */
   readViewFitContainerWidth?: boolean;
-};
+}
 
 /** These interfaces will be exported from the Form package once it is converted to Typescript */
 export interface FormProps {

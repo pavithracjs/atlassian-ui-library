@@ -4,7 +4,7 @@ import Group from '@atlaskit/tag-group';
 import Tag from '@atlaskit/tag';
 
 import InlineEdit from '../src';
-import ReadViewContainer from './styled/ReadViewContainer';
+import ReadViewContainer from '../src/styled/ReadViewContainer';
 
 interface Option {
   label: string;

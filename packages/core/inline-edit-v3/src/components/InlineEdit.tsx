@@ -40,18 +40,10 @@ interface State {
 
 const defaultProps: Pick<
   Props,
-  | 'disableConfirmOnBlur'
-  | 'hideActionButtons'
-  | 'editButtonLabel'
-  | 'confirmButtonLabel'
-  | 'cancelButtonLabel'
-  | 'readViewFitContainerWidth'
+  'disableConfirmOnBlur' | 'hideActionButtons' | 'readViewFitContainerWidth'
 > = {
   disableConfirmOnBlur: false,
   hideActionButtons: false,
-  editButtonLabel: 'Edit',
-  confirmButtonLabel: 'Confirm',
-  cancelButtonLabel: 'Cancel',
   readViewFitContainerWidth: false,
 };
 
@@ -135,7 +127,7 @@ class InlineEdit extends React.Component<Props, State> {
     return (
       <ReadViewWrapper>
         <EditButton
-          aria-label={this.props.editButtonLabel || 'Edit'}
+          aria-label="Edit"
           type="button"
           onClick={this.onReadViewClick}
           innerRef={ref => {
@@ -146,9 +138,7 @@ class InlineEdit extends React.Component<Props, State> {
           onMouseEnter={() => this.setState({ onReadViewHover: true })}
           onMouseLeave={() => this.setState({ onReadViewHover: false })}
           onClick={this.onReadViewClick}
-          readViewFitContainerWidth={
-            this.props.readViewFitContainerWidth || false
-          }
+          readViewFitContainerWidth={this.props.readViewFitContainerWidth}
         >
           {this.props.readView}
         </ReadViewContentWrapper>
@@ -160,19 +150,13 @@ class InlineEdit extends React.Component<Props, State> {
     this.props.editView(fieldProps, valid);
 
   renderActionButtons = () => {
-    const { confirmButtonLabel, cancelButtonLabel } = this.props;
     return (
       <ButtonsWrapper>
         <ButtonWrapper>
           <Button
-            ariaLabel={confirmButtonLabel}
+            ariaLabel="Confirm"
             type="submit"
-            iconBefore={
-              <ConfirmIcon
-                label={confirmButtonLabel || 'Confirm'}
-                size="small"
-              />
-            }
+            iconBefore={<ConfirmIcon label="Confirm" size="small" />}
             shouldFitContainer
             onClick={() => {
               if (this.confirmButtonRef) {
@@ -186,10 +170,8 @@ class InlineEdit extends React.Component<Props, State> {
         </ButtonWrapper>
         <ButtonWrapper>
           <Button
-            ariaLabel={cancelButtonLabel}
-            iconBefore={
-              <CancelIcon label={cancelButtonLabel || 'Cancel'} size="small" />
-            }
+            ariaLabel="Cancel"
+            iconBefore={<CancelIcon label="Cancel" size="small" />}
             onClick={this.onCancelClick}
             shouldFitContainer
             innerRef={ref => {

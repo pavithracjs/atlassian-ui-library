@@ -1,8 +1,8 @@
 import * as React from 'react';
 import TextField from '@atlaskit/textfield';
 
-import { InlineEditRenderChildren } from '../src';
-import ReadViewContainer from '../src/styled/ReadViewContainer';
+import InlineEdit from '../src';
+import ReadViewContainer from './styled/ReadViewContainer';
 
 type State = {
   editValue: string;
@@ -36,36 +36,36 @@ export default class InlineEditExample extends React.Component<void, State> {
 
   onEditRequested = () => {
     this.setState({ isEditing: true }, () => {
-      if (this.editViewRef) this.editViewRef.focus();
+      if (this.editViewRef) {
+        this.editViewRef.focus();
+      }
     });
   };
 
   render() {
     return (
       <div style={{ padding: '0 16px' }}>
-        <InlineEditRenderChildren
+        <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline Edit Field"
+          editView={fieldProps => (
+            <TextField
+              {...fieldProps}
+              ref={(ref: HTMLInputElement) => {
+                this.editViewRef = ref;
+              }}
+            />
+          )}
+          readView={
+            <ReadViewContainer>
+              {this.state.editValue || 'Click to enter value'}
+            </ReadViewContainer>
+          }
           onConfirm={this.onConfirm}
           onCancel={this.onCancel}
           isEditing={this.state.isEditing}
           onEditRequested={this.onEditRequested}
-        >
-          {(isEditing, fieldProps) =>
-            isEditing ? (
-              <TextField
-                {...fieldProps}
-                ref={(ref: HTMLInputElement) => {
-                  this.editViewRef = ref;
-                }}
-              />
-            ) : (
-              <ReadViewContainer>
-                {this.state.editValue || 'Click to enter value'}
-              </ReadViewContainer>
-            )
-          }
-        </InlineEditRenderChildren>
+        />
 
         <div
           style={{
