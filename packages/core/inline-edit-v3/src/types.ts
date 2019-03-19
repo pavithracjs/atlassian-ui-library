@@ -1,8 +1,6 @@
 import * as React from 'react';
 
 export interface Props {
-  /** Label above the input */
-  label?: string;
   /** Component to be shown when not in edit view */
   readView: React.ReactChild;
   /** Component to be shown when editing. Should be an Atlaskit input. */
@@ -11,12 +9,6 @@ export interface Props {
   isEditing: boolean;
   /** The initial value of the inline edit. */
   defaultValue: any;
-  /** Validation function handled by final-form. */
-  validate?: (
-    value: any,
-    formState: {},
-    fieldState: {},
-  ) => string | void | Promise<string | void>;
   /** Handler called when readView is clicked. */
   onEditRequested: () => void;
   /**
@@ -26,6 +18,15 @@ export interface Props {
   onConfirm: (value: any) => void;
   /** Handler called when checkmark is. */
   onCancel: () => void;
+
+  /** Label above the input */
+  label?: string;
+  /** Validation function handled by final-form. */
+  validate?: (
+    value: any,
+    formState: {},
+    fieldState: {},
+  ) => string | void | Promise<string | void>;
 
   /** Contained in defaultProps */
   /** Set whether onConfirm should be called on blur. */
@@ -37,8 +38,6 @@ export interface Props {
 }
 
 export interface InlineEditableTextfieldProps {
-  /** Label above the input */
-  label?: string;
   /**
    * Handler called editView is closed and changes are confirmed.
    * Field value is passed as an argument to this function.
@@ -46,6 +45,8 @@ export interface InlineEditableTextfieldProps {
   onConfirm: (value: string) => void;
   /** The initial value of the inline edit. */
   defaultValue: any;
+  /** Label above the input */
+  label?: string;
   /** Validation function handled by final-form. */
   validate?: (
     value: any,
