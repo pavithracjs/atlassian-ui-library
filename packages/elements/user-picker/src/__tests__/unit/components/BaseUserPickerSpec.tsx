@@ -21,6 +21,7 @@ import { getComponents } from '../../../components/components';
 
 const getBasePicker = (props: Partial<UserPickerProps> = {}) => (
   <BaseUserPicker
+    fieldId="test"
     SelectComponent={Select}
     styles={{}}
     components={getComponents(props.isMulti)}
@@ -53,8 +54,10 @@ describe('BaseUserPicker', () => {
   it('should render using a Select', () => {
     const component = shallowUserPicker({ options });
     const select = component.find(Select);
+
     expect(select.prop('options')).toEqual(userOptions);
     expect(select.prop('menuPlacement')).toBeTruthy();
+    expect(select.prop('instanceId')).toEqual('test'); // match fieldId
   });
 
   it('should disable picker if isDisabled is true', () => {
@@ -85,13 +88,6 @@ describe('BaseUserPicker', () => {
     select.simulate('change', userOptions[0], { action: 'select-option' });
 
     expect(onChange).toHaveBeenCalledWith(options[0], 'select-option');
-  });
-
-  it('should not hide selected users by default', () => {
-    const component = shallowUserPicker();
-
-    const select = component.find(Select);
-    expect(select.prop('hideSelectedOptions')).toBeFalsy();
   });
 
   it('should trigger props.onSelection if onChange with select-option action', () => {
@@ -158,13 +154,6 @@ describe('BaseUserPicker', () => {
         'select-option',
       );
     });
-
-    it('should hide selected users', () => {
-      const component = shallowUserPicker({ isMulti: true });
-
-      const select = component.find(Select);
-      expect(select.prop('hideSelectedOptions')).toBeTruthy();
-    });
   });
 
   it('should set hovering clear indicator', () => {
@@ -226,6 +215,16 @@ describe('BaseUserPicker', () => {
 
     it('should not autoFocus if not open by default', () => {
       const component = shallowUserPicker();
+      expect(component.find(Select).prop('autoFocus')).toBeFalsy();
+    });
+
+    it('should always autoFocus if prop set to true', () => {
+      const component = shallowUserPicker({ autoFocus: true });
+      expect(component.find(Select).prop('autoFocus')).toBeTruthy();
+    });
+
+    it('should never autoFocus if prop set to false', () => {
+      const component = shallowUserPicker({ open: true, autoFocus: false });
       expect(component.find(Select).prop('autoFocus')).toBeFalsy();
     });
   });
@@ -414,6 +413,64 @@ describe('BaseUserPicker', () => {
     });
   });
 
+  describe('maxOptions', () => {
+    it('should only pass maxOptions number of options to dropdown in single picker', () => {
+      const component = shallowUserPicker({
+        options,
+        open: true,
+        maxOptions: 1,
+      });
+
+      expect(component.prop('options')).toHaveLength(1);
+      expect(component.prop('options')[0]).toEqual(userOptions[0]);
+    });
+
+    it('should not display any options if maxOptions is zero', () => {
+      const component = shallowUserPicker({
+        options,
+        open: true,
+        maxOptions: 0,
+      });
+
+      expect(component.prop('options')).toHaveLength(0);
+    });
+
+    it('should ignore negative number of maxOptions', () => {
+      const component = shallowUserPicker({
+        options,
+        open: true,
+        maxOptions: -1,
+      });
+
+      expect(component.prop('options')).toHaveLength(2);
+    });
+
+    it('should only pass #maxOptions options to dropdown in multi picker', () => {
+      const component = shallowUserPicker({
+        options,
+        open: true,
+        maxOptions: 1,
+        isMulti: true,
+      });
+
+      expect(component.prop('options')).toHaveLength(1);
+      expect(component.prop('options')[0]).toEqual(userOptions[0]);
+    });
+
+    it('should not include selected options in #maxOptions options passed to dropdown', () => {
+      const component = shallowUserPicker({
+        options,
+        value: [options[0]],
+        open: true,
+        maxOptions: 1,
+        isMulti: true,
+      });
+
+      expect(component.prop('options')).toHaveLength(1);
+      expect(component.prop('options')[0]).toEqual(userOptions[1]);
+    });
+  });
+
   describe('inputValue', () => {
     it('should set inputValue to empty string by default', () => {
       const component = shallowUserPicker({ value: options[0] });
@@ -597,6 +654,7 @@ describe('BaseUserPicker', () => {
             actionSubject: 'userPicker',
             eventType: 'ui',
             attributes: {
+              context: 'test',
               sessionDuration: expect.any(Number),
               packageName: '@atlaskit/user-picker',
               packageVersion: expect.any(String),
@@ -635,6 +693,7 @@ describe('BaseUserPicker', () => {
             actionSubject: 'userPicker',
             eventType: 'ui',
             attributes: {
+              context: 'test',
               sessionDuration: expect.any(Number),
               packageName: '@atlaskit/user-picker',
               packageVersion: expect.any(String),
@@ -674,6 +733,7 @@ describe('BaseUserPicker', () => {
             actionSubject: 'userPicker',
             eventType: 'ui',
             attributes: {
+              context: 'test',
               sessionDuration: expect.any(Number),
               packageName: '@atlaskit/user-picker',
               packageVersion: expect.any(String),
@@ -708,6 +768,7 @@ describe('BaseUserPicker', () => {
             actionSubject: 'userPicker',
             eventType: 'ui',
             attributes: {
+              context: 'test',
               packageName: '@atlaskit/user-picker',
               packageVersion: expect.any(String),
               sessionId: expect.any(String),
@@ -736,6 +797,7 @@ describe('BaseUserPicker', () => {
             actionSubject: 'userPickerItem',
             eventType: 'ui',
             attributes: {
+              context: 'test',
               packageName: '@atlaskit/user-picker',
               packageVersion: expect.any(String),
               sessionId: expect.any(String),
@@ -782,6 +844,7 @@ describe('BaseUserPicker', () => {
                 actionSubject: 'userPicker',
                 eventType: 'operational',
                 attributes: {
+                  context: 'test',
                   packageName: '@atlaskit/user-picker',
                   packageVersion: expect.any(String),
                   pickerType: 'single',
@@ -809,6 +872,7 @@ describe('BaseUserPicker', () => {
                 actionSubject: 'userPicker',
                 eventType: 'operational',
                 attributes: expect.objectContaining({
+                  context: 'test',
                   packageVersion: expect.any(String),
                   packageName: '@atlaskit/user-picker',
                   sessionId: expect.any(String),
@@ -879,6 +943,7 @@ describe('BaseUserPicker', () => {
                 actionSubject: 'userPicker',
                 eventType: 'operational',
                 attributes: expect.objectContaining({
+                  context: 'test',
                   packageVersion: expect.any(String),
                   packageName: '@atlaskit/user-picker',
                   sessionId: expect.any(String),

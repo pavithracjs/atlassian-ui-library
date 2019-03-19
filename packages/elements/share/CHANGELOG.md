@@ -1,5 +1,9 @@
 # @atlaskit/share
 
+## 0.2.3
+- Updated dependencies [3ea3f5ea55](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3ea3f5ea55):
+  - @atlaskit/user-picker@3.0.0
+
 ## 0.2.2
 - [patch] [9ce45faaf8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ce45faaf8):
 
