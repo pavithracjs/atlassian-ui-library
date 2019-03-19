@@ -80,7 +80,7 @@ export default class InlineEditExample extends React.Component<void, State> {
                   resolve('Enter a value longer than 6 characters');
                 }
                 resolve(undefined);
-              }, 2000);
+              }, 500);
             })
           }
         />

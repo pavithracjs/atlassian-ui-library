@@ -29,6 +29,7 @@ import {
 interface State {
   onReadViewHover: boolean;
   wasFocusReceivedSinceLastBlur: boolean;
+  preventFocusOnButton: boolean;
 }
 
 const defaultProps: Pick<
@@ -55,11 +56,28 @@ const InlineDialog = Loadable({
 class InlineEdit extends React.Component<Props, State> {
   confirmButtonRef?: HTMLElement;
   cancelButtonRef?: HTMLElement;
+  editButtonRef?: HTMLElement;
 
   state = {
     onReadViewHover: false,
     wasFocusReceivedSinceLastBlur: false,
+    preventFocusOnButton: false,
   };
+
+  componentDidUpdate(prevProps: Props) {
+    /**
+     * This logic puts the focus on the edit button after confirming using
+     * the confirm button or using the keyboard to confirm, but not when
+     * it is confirmed by wrapper blur
+     */
+    if (prevProps.isEditing && !this.props.isEditing) {
+      if (this.state.preventFocusOnButton) {
+        this.setState({ preventFocusOnButton: false });
+      } else if (this.editButtonRef) {
+        this.editButtonRef.focus();
+      }
+    }
+  }
 
   onCancelClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -100,6 +118,7 @@ class InlineEdit extends React.Component<Props, State> {
       !this.state.wasFocusReceivedSinceLastBlur &&
       this.confirmButtonRef
     ) {
+      this.setState({ preventFocusOnButton: true });
       this.confirmButtonRef.click();
     }
   };
@@ -111,6 +130,9 @@ class InlineEdit extends React.Component<Props, State> {
           aria-label={this.props.editButtonLabel}
           type="button"
           onClick={this.onReadViewClick}
+          innerRef={ref => {
+            this.editButtonRef = ref;
+          }}
         />
         <ReadViewContentWrapper
           onMouseEnter={() => this.setState({ onReadViewHover: true })}
