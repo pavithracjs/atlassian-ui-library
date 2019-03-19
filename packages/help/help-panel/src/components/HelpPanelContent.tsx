@@ -92,7 +92,7 @@ export class HelpPanelContent extends React.Component<Props, State> {
 
   getArticle = async (
     articleId: string,
-    onGetArticle: ((id: string) => Article) | undefined,
+    onGetArticle: ((id: string) => Promise<Article>) | undefined,
   ) => {
     if (onGetArticle) {
       this.setState({ articleState: RequestState.loading });

@@ -1,1 +1,2 @@
 // Romanian
+export default {};

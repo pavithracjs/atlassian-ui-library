@@ -1,1 +1,2 @@
 // Swedish
+export default {};

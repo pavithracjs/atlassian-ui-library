@@ -1,1 +1,2 @@
 // Czech
+export default {};

@@ -2,7 +2,6 @@ import * as React from 'react';
 import Button from '@atlaskit/button';
 import { HelpPanel } from '../src';
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
-import { arta } from 'react-syntax-highlighter/dist/styles';
 import { Article, ArticleItem } from '../src/model/Article';
 
 export default class extends React.Component {
@@ -125,7 +124,7 @@ export default class extends React.Component {
   };
 
   render() {
-    const { isOpen, searchText } = this.state;
+    const { isOpen } = this.state;
     return (
       <div style={{ padding: '2rem' }}>
         <LocaleIntlProvider locale={'en'}>

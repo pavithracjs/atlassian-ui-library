@@ -1,1 +1,2 @@
 // Japanese
+export default {};

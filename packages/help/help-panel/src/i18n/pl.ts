@@ -1,1 +1,2 @@
 // Polish
+export default {};

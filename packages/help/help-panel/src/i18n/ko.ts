@@ -1,1 +1,2 @@
 // Korean
+export default {};

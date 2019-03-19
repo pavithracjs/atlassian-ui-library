@@ -6,8 +6,6 @@ import { Transition } from 'react-transition-group';
 import { transitionDurationMs, transitionTimingFunction } from './constants';
 import { HelpDrawer, HelpDrawerContent } from './styled';
 
-const OnlyChild = ({ children }) => children.toArray(children)[0] || null;
-
 export interface Props {
   isOpen?: boolean;
   children?: ReactNode;
@@ -39,20 +37,24 @@ export default class GlobalHelpDrawer extends PureComponent<Props> {
   render() {
     const { isOpen, children } = this.props;
 
-    return createPortal(
-      <Transition in={isOpen} timeout={220} unmountOnExit>
-        {state => (
-          <HelpDrawer
-            style={{
-              ...defaultStyle,
-              ...transitionStyles[state],
-            }}
-          >
-            <HelpDrawerContent>{children}</HelpDrawerContent>
-          </HelpDrawer>
-        )}
-      </Transition>,
-      this.body,
-    );
+    if (this.body) {
+      return createPortal(
+        <Transition in={isOpen} timeout={220} unmountOnExit>
+          {state => (
+            <HelpDrawer
+              style={{
+                ...defaultStyle,
+                ...transitionStyles[state],
+              }}
+            >
+              <HelpDrawerContent>{children}</HelpDrawerContent>
+            </HelpDrawer>
+          )}
+        </Transition>,
+        this.body,
+      );
+    } else {
+      return null;
+    }
   }
 }

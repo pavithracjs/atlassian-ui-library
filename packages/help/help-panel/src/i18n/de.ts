@@ -1,1 +1,2 @@
 // German
+export default {};

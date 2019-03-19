@@ -1,1 +1,2 @@
 // Russian
+export default {};

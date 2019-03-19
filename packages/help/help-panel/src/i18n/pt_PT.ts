@@ -1,1 +1,2 @@
 // Portuguese (Portugal)
+export default {};

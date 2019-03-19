@@ -14,9 +14,9 @@ export interface Props {
  * @param onBtnCloseClick - Function executed when the close btn is clicked
  */
 
-const CloseButton: React.FC<Props> = ({ onBtnCloseClick }) => {
-  return onBtnCloseClick ? (
-    <StyledCloseButton onClick={onBtnCloseClick}>
+const CloseButton = (props: Props) => {
+  return props.onBtnCloseClick ? (
+    <StyledCloseButton onClick={props.onBtnCloseClick}>
       <CrossCircleIcon label="" size="large" />
     </StyledCloseButton>
   ) : null;

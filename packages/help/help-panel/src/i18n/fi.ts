@@ -1,1 +1,2 @@
 // Finnish
+export default {};

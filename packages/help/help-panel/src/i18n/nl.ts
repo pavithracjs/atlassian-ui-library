@@ -1,1 +1,2 @@
 // Dutch
+export default {};
