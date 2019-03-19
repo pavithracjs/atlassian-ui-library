@@ -47,7 +47,7 @@ export interface ButtonProps {
   /** Handler to be called on click. The second argument can be used to track analytics data. See the tutorial in the analytics-next package for details */
   onClick?: (
     e: React.MouseEvent<HTMLElement>,
-    analyticsEvent: UIAnalyticsEvent,
+    analyticsEvent?: UIAnalyticsEvent,
   ) => void;
   onMouseDown?: React.MouseEventHandler<HTMLElement>;
   onMouseEnter?: React.MouseEventHandler<HTMLElement>;
