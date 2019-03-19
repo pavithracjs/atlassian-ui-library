@@ -24,7 +24,6 @@ const selectOptions: Option[] = [
 type State = {
   editValue: Option[];
   isEditing: boolean;
-  onEventResult: string;
 };
 
 export default class InlineEditExample extends React.Component<void, State> {

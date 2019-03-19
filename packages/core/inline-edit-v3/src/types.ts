@@ -78,6 +78,8 @@ export type RenderChildrenProps = {
   confirmButtonLabel?: string;
   /** The text announced to screen readers when focusing on the cancel button. */
   cancelButtonLabel?: string;
+  /** Determines whether the read view has 100% width within its container, or whether it fits the content */
+  readViewFitContainerWidth?: boolean;
 };
 
 /** These interfaces will be exported from the Form package once it is converted to Typescript */

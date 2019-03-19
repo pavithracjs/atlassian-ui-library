@@ -36,12 +36,14 @@ const defaultProps: Pick<
   | 'editButtonLabel'
   | 'confirmButtonLabel'
   | 'cancelButtonLabel'
+  | 'readViewFitContainerWidth'
 > = {
   disableConfirmOnBlur: false,
   hideActionButtons: false,
   editButtonLabel: 'Edit',
   confirmButtonLabel: 'Confirm',
   cancelButtonLabel: 'Cancel',
+  readViewFitContainerWidth: false,
 };
 
 class InlineEdit extends React.Component<RenderChildrenProps, State> {
@@ -90,7 +92,7 @@ class InlineEdit extends React.Component<RenderChildrenProps, State> {
   };
 
   renderReadView = () => {
-    const { children, isEditing } = this.props;
+    const { children, isEditing, readViewFitContainerWidth } = this.props;
     return (
       <div style={{ lineHeight: 1 }}>
         <EditButton type="button" onClick={this.onReadViewClick} />
@@ -98,6 +100,7 @@ class InlineEdit extends React.Component<RenderChildrenProps, State> {
           onMouseEnter={() => this.setState({ onReadViewHover: true })}
           onMouseLeave={() => this.setState({ onReadViewHover: false })}
           onClick={this.onReadViewClick}
+          readViewFitContainerWidth={readViewFitContainerWidth}
         >
           {children(isEditing)}
         </ReadViewContentWrapper>
