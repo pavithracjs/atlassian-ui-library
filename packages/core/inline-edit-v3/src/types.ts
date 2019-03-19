@@ -38,6 +38,8 @@ export interface Props {
   confirmButtonLabel?: string;
   /** The text announced to screen readers when focusing on the cancel button. */
   cancelButtonLabel?: string;
+  /** Determines whether the read view has 100% width within its container, or whether it fits the content */
+  readViewFitContainerWidth?: boolean;
 }
 
 export type RenderChildrenProps = {

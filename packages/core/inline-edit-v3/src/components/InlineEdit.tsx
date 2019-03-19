@@ -45,12 +45,14 @@ const defaultProps: Pick<
   | 'editButtonLabel'
   | 'confirmButtonLabel'
   | 'cancelButtonLabel'
+  | 'readViewFitContainerWidth'
 > = {
   disableConfirmOnBlur: false,
   hideActionButtons: false,
   editButtonLabel: 'Edit',
   confirmButtonLabel: 'Confirm',
   cancelButtonLabel: 'Cancel',
+  readViewFitContainerWidth: false,
 };
 
 const InlineDialog = Loadable<InlineDialogProps, {}>({
@@ -144,6 +146,7 @@ class InlineEdit extends React.Component<Props, State> {
           onMouseEnter={() => this.setState({ onReadViewHover: true })}
           onMouseLeave={() => this.setState({ onReadViewHover: false })}
           onClick={this.onReadViewClick}
+          readViewFitContainerWidth={this.props.readViewFitContainerWidth}
         >
           {this.props.readView}
         </ReadViewContentWrapper>

@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-const ReadViewContentWrapper = styled.div`
+interface Props {
+  readViewFitContainerWidth: boolean;
+}
+
+const ReadViewContentWrapper = styled.div<Props>`
   display: inline-block;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -10,6 +14,8 @@ const ReadViewContentWrapper = styled.div`
   &:hover {
     background: #ebecf0;
   }
+  width: ${({ readViewFitContainerWidth }) =>
+    readViewFitContainerWidth ? '100%' : 'auto'};
 `;
 
 ReadViewContentWrapper.displayName = 'ReadViewContentWrapper';
