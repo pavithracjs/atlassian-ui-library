@@ -13,7 +13,8 @@ export type UserPickerProps = {
    * The value will be passed as a data attribute for analytics.
    * Examples include "assignee", "watchers" and "share".
    *
-   *  A second usage for the fieldId is for server side rendering (SSR) where it must be a unique id per UserPicker instance.
+   * A second usage for the fieldId is for server side rendering (SSR) where it must be a unique id per UserPicker
+   * instance contained in the serialized SSR content. E.g. a SPA page rendered through SSR that has multiple user pickers.
    *
    * fieldId can be set to null if the integrator is not listening
    * for the analytic events or does not care about SSR.
