@@ -19,9 +19,9 @@ export interface Props {
   isOpen: boolean;
   // Article
   articleId: string;
-  onGetArticle(id: string): Article;
+  onGetArticle(id: string): Promise<Article>;
   // Search
-  onSearch?(value: string): ArticleItem[];
+  onSearch?(value: string): Promise<ArticleItem[]>;
 }
 
 export interface State {
@@ -109,7 +109,7 @@ export class HelpPanelContent extends React.Component<Props, State> {
 
   isSearchVisible = (
     view: VIEW,
-    onSearch: ((value: string) => ArticleItem[]) | undefined,
+    onSearch: ((value: string) => Promise<ArticleItem[]>) | undefined,
   ) => {
     return onSearch && (view === VIEW.ARTICLE || view === VIEW.SEARCH_RESULT);
   };

@@ -12,9 +12,9 @@ export interface Props {
   onBtnCloseClick?(event: any): void; // If is undefined the close btn will not be displayed
   // Article
   articleId: string;
-  onGetArticle(id: string): Article;
+  onGetArticle(id: string): Promise<Article>;
   // Search
-  onSearch?(value: string): ArticleItem[];
+  onSearch?(value: string): Promise<ArticleItem[]>;
 }
 
 export class HelpPanel extends React.Component<Props> {
