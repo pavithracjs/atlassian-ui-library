@@ -1,5 +1,7 @@
 import * as React from 'react';
 import TextField from '@atlaskit/textfield';
+import ErrorIcon from '@atlaskit/icon/glyph/error';
+import { colors } from '@atlaskit/theme';
 
 import InlineEdit from '../src';
 import ReadViewContainer from './styled/ReadViewContainer';
@@ -12,18 +14,13 @@ type State = {
 };
 
 export default class InlineEditExample extends React.Component<void, State> {
-  editViewRef: { current: null | HTMLInputElement };
+  editViewRef: HTMLInputElement | undefined;
 
-  constructor() {
-    super();
-    this.state = {
-      isEditing: false,
-      editValue: 'Field Value',
-      onEventResult: 'Click on a field above to show edit view',
-    };
-
-    this.editViewRef = React.createRef();
-  }
+  state = {
+    isEditing: false,
+    editValue: 'Field Value',
+    onEventResult: 'Click on a field above to show edit view',
+  };
 
   onConfirm = (value: string) => {
     this.setState({
@@ -42,18 +39,30 @@ export default class InlineEditExample extends React.Component<void, State> {
 
   onEditRequested = () => {
     this.setState({ isEditing: true }, () => {
-      if (this.editViewRef.current) this.editViewRef.current.focus();
+      if (this.editViewRef) this.editViewRef.focus();
     });
   };
 
   render() {
     return (
-      <div style={{ padding: '0 16px' }}>
+      <div style={{ padding: '0 16px', width: '70%' }}>
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline Edit Field"
-          editView={(fieldProps: FieldProps) => (
-            <TextField {...fieldProps} ref={this.editViewRef} />
+          editView={(fieldProps: FieldProps, isInvalid) => (
+            <TextField
+              {...fieldProps}
+              ref={(ref: HTMLInputElement) => {
+                this.editViewRef = ref;
+              }}
+              elemAfterInput={
+                isInvalid && (
+                  <div style={{ paddingRight: '6px', lineHeight: '100%' }}>
+                    <ErrorIcon label="error" primaryColor={colors.R400} />
+                  </div>
+                )
+              }
+            />
           )}
           readView={
             <ReadViewContainer>
@@ -64,12 +73,16 @@ export default class InlineEditExample extends React.Component<void, State> {
           onCancel={this.onCancel}
           isEditing={this.state.isEditing}
           onEditRequested={this.onEditRequested}
-          validate={(value: string) => {
-            if (value.length < 4) {
-              return 'Not long enough';
-            }
-            return undefined;
-          }}
+          validate={(value: string) =>
+            new Promise(resolve => {
+              setTimeout(() => {
+                if (value.length <= 6) {
+                  resolve('Enter a value longer than 6 characters');
+                }
+                resolve(undefined);
+              }, 2000);
+            })
+          }
         />
 
         <div

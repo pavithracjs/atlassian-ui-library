@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Loadable from 'react-loadable';
 
 import {
   withAnalyticsEvents,
@@ -11,13 +12,14 @@ import CancelIcon from '@atlaskit/icon/glyph/cross';
 import Form, { Field } from '@atlaskit/form';
 import { withDefaultProps } from '@atlaskit/type-helpers';
 
-import { Props, FieldChildProps, FormChildProps } from '../types';
+import { Props, FieldChildProps, FormChildProps, FieldProps } from '../types';
 import ButtonsWrapper from '../styled/ButtonsWrapper';
 import ButtonWrapper from '../styled/ButtonWrapper';
 import ReadViewContentWrapper from '../styled/ReadViewContentWrapper';
 import ContentWrapper from '../styled/ContentWrapper';
 import EditButton from '../styled/EditButton';
 import ReadViewWrapper from '../styled/ReadViewWrapper';
+import InlineDialogChild from '../styled/InlineDialogChild';
 
 import {
   name as packageName,
@@ -43,6 +45,12 @@ const defaultProps: Pick<
   confirmButtonLabel: 'Confirm',
   cancelButtonLabel: 'Cancel',
 };
+
+const InlineDialog = Loadable({
+  loader: () =>
+    import('@atlaskit/inline-dialog').then(module => module.default),
+  loading: () => null,
+});
 
 class InlineEdit extends React.Component<Props, State> {
   confirmButtonRef?: HTMLElement;
@@ -74,10 +82,10 @@ class InlineEdit extends React.Component<Props, State> {
   /** Unless disableConfirmOnBlur prop is true, will call confirmIfUnfocused() which
    *  confirms the value, unless the focus is transferred to the buttons
    */
-  onWrapperBlur = (value: any) => {
+  onWrapperBlur = (isInvalid: boolean) => {
     if (!this.props.disableConfirmOnBlur) {
       this.setState({ wasFocusReceivedSinceLastBlur: false });
-      setTimeout(() => this.confirmIfUnfocused(value));
+      setTimeout(() => this.confirmIfUnfocused(isInvalid));
     }
   };
 
@@ -86,16 +94,24 @@ class InlineEdit extends React.Component<Props, State> {
     this.setState({ wasFocusReceivedSinceLastBlur: true });
   };
 
-  confirmIfUnfocused = (value: any) => {
-    if (!this.state.wasFocusReceivedSinceLastBlur) {
-      this.props.onConfirm(value);
+  confirmIfUnfocused = (isInvalid: boolean) => {
+    if (
+      !isInvalid &&
+      !this.state.wasFocusReceivedSinceLastBlur &&
+      this.confirmButtonRef
+    ) {
+      this.confirmButtonRef.click();
     }
   };
 
   renderReadView = () => {
     return (
       <ReadViewWrapper>
-        <EditButton type="button" onClick={this.onReadViewClick} />
+        <EditButton
+          aria-label={this.props.editButtonLabel}
+          type="button"
+          onClick={this.onReadViewClick}
+        />
         <ReadViewContentWrapper
           onMouseEnter={() => this.setState({ onReadViewHover: true })}
           onMouseLeave={() => this.setState({ onReadViewHover: false })}
@@ -107,7 +123,8 @@ class InlineEdit extends React.Component<Props, State> {
     );
   };
 
-  renderEditView = (fieldProps: any) => this.props.editView(fieldProps);
+  renderEditView = (fieldProps: FieldProps, valid: boolean) =>
+    this.props.editView(fieldProps, valid);
 
   renderActionButtons = () => {
     const { confirmButtonLabel, cancelButtonLabel } = this.props;
@@ -167,12 +184,23 @@ class InlineEdit extends React.Component<Props, State> {
                 defaultValue={defaultValue}
                 validate={validate}
               >
-                {({ fieldProps }: FieldChildProps) => (
+                {({ fieldProps, error }: FieldChildProps) => (
                   <ContentWrapper
-                    onBlur={() => this.onWrapperBlur(fieldProps.value)}
+                    onBlur={() => this.onWrapperBlur(fieldProps.isInvalid)}
                     onFocus={this.onWrapperFocus}
                   >
-                    <div>{this.renderEditView(fieldProps)}</div>
+                    <div>
+                      {!!error && (
+                        <InlineDialog
+                          isOpen={true}
+                          content={error}
+                          placement="right"
+                        >
+                          <InlineDialogChild />
+                        </InlineDialog>
+                      )}
+                      {this.renderEditView(fieldProps, !!error)}
+                    </div>
                     {!hideActionButtons && this.renderActionButtons()}
                   </ContentWrapper>
                 )}

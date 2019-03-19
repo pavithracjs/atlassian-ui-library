@@ -6,7 +6,7 @@ export interface Props {
   /** Component to be shown when not in edit view */
   readView: React.ReactChild;
   /** Component to be shown when editing. Should be an Atlaskit input. */
-  editView: (fieldProps: Object) => React.ReactChild;
+  editView: (fieldProps: FieldProps, isInvalid?: boolean) => React.ReactChild;
   /** Whether the component shows the readView or the editView. */
   isEditing: boolean;
   /** The initial value of the inline edit. */
@@ -14,8 +14,8 @@ export interface Props {
   /** Validation function handled by final-form. */
   validate?: (
     value: any,
-    formState: Object,
-    fieldState: Object,
+    formState: {},
+    fieldState: {},
   ) => string | void | Promise<string | void>;
   /** Handler called when readView is clicked. */
   onEditRequested: () => void;
@@ -50,8 +50,8 @@ export type RenderChildrenProps = {
   /** Validation function handled by final-form. */
   validate?: (
     value: any,
-    formState: Object,
-    fieldState: Object,
+    formState: {},
+    fieldState: {},
   ) => string | void | Promise<string | void>;
   /** Handler called when readView is clicked. */
   onEditRequested: () => void;
