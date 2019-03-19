@@ -31,14 +31,13 @@ export const Container: ComponentClass<HTMLAttributes<{}>> = styled.div`
   border-radius: ${borderRadius()};
 `;
 
-export const Image: ComponentClass<ImgHTMLAttributes<{}>> = styled.img`
+export const ImageContainer = styled.div`
   position: absolute;
   /* Is needed so image is not selected, when dragged */
   -webkit-user-select: none; /* Chrome all / Safari all */
   -moz-user-select: none; /* Firefox all */
   -ms-user-select: none; /* IE 10+ */
   user-select: none; /* Likely future */
-  border-radius: ${borderRadius()};
 `;
 
 export const containerPadding = 28;

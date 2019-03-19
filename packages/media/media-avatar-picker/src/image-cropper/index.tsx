@@ -2,17 +2,16 @@ import * as React from 'react';
 import { Component } from 'react';
 import CrossIcon from '@atlaskit/icon/glyph/cross';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { messages } from '@atlaskit/media-ui';
+import { messages, isRotated, MediaImage } from '@atlaskit/media-ui';
 import { isImageRemote } from './isImageRemote';
 import {
   CircularMask,
   Container,
   DragOverlay,
   RectMask,
-  Image,
   RemoveImageContainer,
   RemoveImageButton,
-  containerPadding,
+  containerPadding, ImageContainer,
 } from './styled';
 import { ERROR } from '../avatar-picker-dialog';
 import { CONTAINER_INNER_SIZE } from '../image-navigator';
@@ -31,6 +30,7 @@ export interface ImageCropperProp {
   top: number;
   left: number;
   imageWidth?: number;
+  imageOrientation: number,
   onDragStarted?: (x: number, y: number) => void;
   onImageSize: (width: number, height: number) => void;
   onLoad?: OnLoadHandler;
@@ -38,13 +38,19 @@ export interface ImageCropperProp {
   onImageError: (errorMessage: string) => void;
 }
 
+export interface State {
+  naturalWidth?: number;
+  naturalHeight?: number;
+}
+
 const defaultScale = 1;
 
 export class ImageCropper extends Component<
   ImageCropperProp & InjectedIntlProps,
-  {}
+  State
 > {
   private imageElement?: HTMLImageElement;
+  state: State = {}
 
   static defaultProps = {
     containerSize: CONTAINER_INNER_SIZE,
@@ -81,7 +87,9 @@ export class ImageCropper extends Component<
 
   onImageLoaded = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const image = e.target as HTMLImageElement;
-    this.props.onImageSize(image.naturalWidth, image.naturalHeight);
+    let {naturalWidth, naturalHeight} = image;
+    this.setState({ naturalWidth, naturalHeight });
+    this.props.onImageSize(naturalWidth, naturalHeight);
     this.imageElement = image;
   };
 
@@ -101,6 +109,7 @@ export class ImageCropper extends Component<
       left,
       imageSource,
       onRemoveImage,
+      imageOrientation,
       intl: { formatMessage },
     } = this.props;
     const containerStyle = {
@@ -108,28 +117,29 @@ export class ImageCropper extends Component<
       height: `${containerSize}px`,
     };
     const width = this.width ? `${this.width}px` : 'auto';
-    const imageStyle = {
+    const height = this.height ? `${this.height}px` : 'auto';
+
+
+    const imageContainerStyle = {
       width,
+      height,
       display: width === 'auto' ? 'none' : 'block',
       top: `${top}px`,
       left: `${left}px`,
     };
-    let crossOrigin: '' | 'anonymous' | 'use-credentials' | undefined;
-    try {
-      crossOrigin = isImageRemote(imageSource) ? 'anonymous' : undefined;
-    } catch (e) {
-      return null;
-    }
 
     return (
       <Container style={containerStyle}>
-        <Image
-          crossOrigin={crossOrigin}
-          src={imageSource}
-          style={imageStyle}
-          onLoad={this.onImageLoaded}
-          onError={this.onImageError}
-        />
+        <ImageContainer style={imageContainerStyle}>
+          <MediaImage
+            dataURI={imageSource}
+            crop={false}
+            stretch={true}
+            previewOrientation={imageOrientation}
+            onImageLoad={this.onImageLoaded}
+            onImageError={this.onImageError}
+          />
+        </ImageContainer>
         {isCircularMask ? <CircularMask /> : <RectMask />}
         <DragOverlay onMouseDown={this.onDragStarted} />
         <RemoveImageContainer>
@@ -150,10 +160,25 @@ export class ImageCropper extends Component<
     return imageWidth ? imageWidth * (scale || defaultScale) : 0;
   }
 
+  private get height() {
+    let { naturalHeight, naturalWidth } = this.state;
+
+    if (naturalWidth && naturalHeight) {
+      const {imageOrientation} = this.props;
+      if (isRotated(imageOrientation)) {
+        [naturalHeight, naturalWidth] = [naturalWidth, naturalHeight];
+      }
+      const width = this.width;
+      return naturalHeight * width / naturalWidth ;
+    }else{
+      return 0;
+    }
+  }
+
   export = (): string => {
     let imageData = '';
     const canvas = document.createElement('canvas');
-    const { top, left, scale, containerSize } = this.props;
+    const { top, left, scale, containerSize, imageOrientation } = this.props;
     const size = containerSize || 0;
     const scaleWithDefault = scale || 1;
     const destinationSize = Math.max(size - containerPadding * 2, 0);
@@ -164,10 +189,25 @@ export class ImageCropper extends Component<
     const context = canvas.getContext('2d');
 
     if (context && this.imageElement) {
-      const sourceLeft = (-left + containerPadding) / scaleWithDefault;
-      const sourceTop = (-top + containerPadding) / scaleWithDefault;
-      const sourceWidth = destinationSize / scaleWithDefault;
-      const sourceHeight = destinationSize / scaleWithDefault;
+      let sourceLeft = (-left + containerPadding) / scaleWithDefault;
+      let sourceTop = (-top + containerPadding) / scaleWithDefault;
+      let sourceWidth = destinationSize / scaleWithDefault;
+      let sourceHeight = destinationSize / scaleWithDefault;
+
+      if (isRotated(imageOrientation)) {
+        [sourceLeft, sourceTop] = [sourceTop, sourceLeft];
+        [sourceWidth, sourceHeight] = [sourceHeight, sourceWidth];
+      }
+
+      switch (imageOrientation) {
+        case 2: context.translate(sourceWidth, 0);     context.scale(-1,1); break;
+        case 3: context.translate(sourceWidth,sourceHeight); context.rotate(Math.PI); break;
+        case 4: context.translate(0,sourceHeight);     context.scale(1,-1); break;
+        case 5: context.rotate(0.5 * Math.PI);   context.scale(1,-1); break;
+        case 6: context.rotate(0.5 * Math.PI);   context.translate(0,-sourceHeight); break;
+        case 7: context.rotate(0.5 * Math.PI);   context.translate(sourceWidth,-sourceHeight); context.scale(-1,1); break;
+        case 8: context.rotate(-0.5 * Math.PI);  context.translate(-sourceWidth,0); break;
+      }
 
       context.drawImage(
         this.imageElement,
@@ -180,6 +220,7 @@ export class ImageCropper extends Component<
         destinationSize,
         destinationSize,
       );
+
       imageData = canvas.toDataURL();
     }
 

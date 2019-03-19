@@ -8,6 +8,7 @@ import ScaleSmallIcon from '@atlaskit/icon/glyph/media-services/scale-small';
 import ImageCropper, { OnLoadHandler } from '../image-cropper';
 import Slider from '@atlaskit/field-range';
 import Spinner from '@atlaskit/spinner';
+import { getOrientation, isRotated } from '@atlaskit/media-ui';
 import {
   Ellipsify,
   Camera,
@@ -82,6 +83,7 @@ export interface State {
   fileImageSource?: string;
   imageFile?: File;
   isDroppingFile: boolean;
+  imageOrientation: number;
 }
 
 const defaultState = {
@@ -93,6 +95,7 @@ const defaultState = {
   isDragging: false,
   fileImageSource: undefined,
   isDroppingFile: false,
+  imageOrientation: 1
 };
 
 export class ImageNavigator extends Component<
@@ -185,6 +188,10 @@ export class ImageNavigator extends Component<
    * @param height the height of the image
    */
   onImageSize = (width: number, height: number) => {
+    if (isRotated(this.state.imageOrientation)) {
+      [width, height] = [height, width];
+    }
+
     const { imageFile, imagePos } = this.state;
     const scale = this.calculateMinScale(width, height);
     // imageFile will not exist if imageSource passed through props.
@@ -205,6 +212,7 @@ export class ImageNavigator extends Component<
   };
 
   calculateMinScale(width: number, height: number): number {
+
     return Math.max(
       CONTAINER_INNER_SIZE / width,
       CONTAINER_INNER_SIZE / height,
@@ -258,8 +266,15 @@ export class ImageNavigator extends Component<
         onImageUploaded(imageFile);
       }
 
-      // TODO: [ts30] Add proper handling for null and ArrayBuffer
-      this.setState({ fileImageSource: fileImageSource as string, imageFile });
+      getOrientation(imageFile)
+        .then(imageOrientation => {
+          // TODO: [ts30] Add proper handling for null and ArrayBuffer
+          this.setState({
+            fileImageSource: fileImageSource as string,
+            imageFile,
+            imageOrientation,
+          });
+        })
     };
     reader.readAsDataURL(imageFile);
   }
@@ -392,10 +407,10 @@ export class ImageNavigator extends Component<
   };
 
   renderImageCropper(dataURI: string) {
-    const { camera, imagePos, scale, isDragging, minScale } = this.state;
+    const { camera, imagePos, scale, isDragging, minScale, imageOrientation } = this.state;
     const { onLoad, onImageError } = this.props;
     const { onDragStarted, onImageSize, onRemoveImage } = this;
-
+    // const imageWidth = isRotated(imageOrientation) ? camera.originalImg.height : camera.originalImg.width;
     return (
       <div>
         <ImageBg />
@@ -403,6 +418,7 @@ export class ImageNavigator extends Component<
           scale={scale}
           imageSource={dataURI}
           imageWidth={camera.originalImg.width}
+          imageOrientation={imageOrientation}
           containerSize={CONTAINER_SIZE}
           isCircularMask={false}
           top={imagePos.y}
