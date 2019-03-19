@@ -147,13 +147,17 @@ export class Toolbar extends Component<
 
             <Button
               appearance="primary"
-              theme="dark"
               onClick={onSave}
               autoFocus={true}
+              theme={(currentTheme: any, props: any) => currentTheme({ ...props, mode: 'dark' })}
             >
               {formatMessage(messages.save)}
             </Button>
-            <Button appearance="default" onClick={onCancel} theme="dark">
+            <Button
+              appearance="default"
+              onClick={onCancel}
+              theme={(currentTheme: any, props: any) => currentTheme({ ...props, mode: 'dark' })}
+            >
               {formatMessage(messages.cancel)}
             </Button>
           </ButtonGroup>

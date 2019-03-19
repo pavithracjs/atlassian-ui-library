@@ -6,7 +6,6 @@ import Button from './styles';
 export interface Props extends ButtonProps {
   disabled?: boolean;
   hideTooltip?: boolean;
-  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   selected?: boolean;
   title?: string;
   titlePosition?: string;
