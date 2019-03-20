@@ -1,0 +1,1 @@
+- Removed CardView and CardViewLoader from public APIs and replaced it with static CardLoading and CardError
