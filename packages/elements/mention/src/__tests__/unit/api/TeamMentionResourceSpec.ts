@@ -47,6 +47,7 @@ const FULL_CONTEXT = {
   childObjectId: 'someChildObjectId',
   sessionId: 'someSessionId',
 };
+const REQUEST_DELAY = 100;
 
 describe('TeamMentionResourceSpec', () => {
   let resource: TeamMentionResource;
@@ -59,6 +60,8 @@ describe('TeamMentionResourceSpec', () => {
   };
 
   beforeEach(() => {
+    jest.useFakeTimers();
+
     currentCount = 1;
 
     resource = new TeamMentionResource(
@@ -76,9 +79,9 @@ describe('TeamMentionResourceSpec', () => {
         /\/teams\/mentions\/search\?.*query=craig(&|$)/,
         // assume team request is slow
         new Promise(resolve => {
-          window.setTimeout(() => {
+          setTimeout(() => {
             resolve({ body: teamResults });
-          }, 100);
+          }, REQUEST_DELAY);
         }),
       )
       .mock(/\/users\/mentions\/search\?.*query=esoares(&|$)/, {
@@ -92,14 +95,14 @@ describe('TeamMentionResourceSpec', () => {
       .mock(
         /\/users\/mentions\/search\?.*query=cr(&|$)/,
         new Promise(resolve => {
-          window.setTimeout(() => {
+          setTimeout(() => {
             resolve({
               // delayed results
               body: {
                 mentions: resultCr,
               },
             });
-          }, 100);
+          }, REQUEST_DELAY);
         }),
       )
       .mock(/\/teams\/mentions\/search\?.*query=cr(&|$)/, {
@@ -127,9 +130,9 @@ describe('TeamMentionResourceSpec', () => {
         /\/users\/mentions\/search\?.*team-faster-user(&|$)/,
         // user request is slower than team request
         new Promise(resolve => {
-          window.setTimeout(() => {
+          setTimeout(() => {
             resolve({ body: { mentions: resultCraig } });
-          }, 100);
+          }, REQUEST_DELAY);
         }),
       )
       .mock(/\/teams\/mentions\/search\?.*team-faster-user(&|$)/, {
@@ -139,6 +142,7 @@ describe('TeamMentionResourceSpec', () => {
 
   afterEach(() => {
     fetchMock.restore();
+    jest.useRealTimers();
   });
 
   describe('#subscribe', () => {
@@ -171,6 +175,7 @@ describe('TeamMentionResourceSpec', () => {
       });
 
       resource.filter('craig', FULL_CONTEXT);
+      jest.runTimersToTime(REQUEST_DELAY);
     });
 
     it('subscribe should receive 1 update when team request comes first and then from user request', done => {
@@ -180,6 +185,7 @@ describe('TeamMentionResourceSpec', () => {
       });
 
       resource.filter('team-faster-user', FULL_CONTEXT);
+      jest.runTimersToTime(REQUEST_DELAY);
     });
 
     it('subscribe should receive updates with credentials omitted', done => {
@@ -246,16 +252,14 @@ describe('TeamMentionResourceSpec', () => {
   });
 
   describe('#unsubscribe', () => {
-    it('subscriber should no longer called', done => {
+    it('subscriber should no longer called', () => {
       const listener = jest.fn();
       resource.subscribe('test123', listener);
       resource.unsubscribe('test123');
       resource.filter('craig', FULL_CONTEXT);
 
-      window.setTimeout(() => {
-        expect(listener).toHaveBeenCalledTimes(0);
-        done();
-      }, 50);
+      jest.runTimersToTime(REQUEST_DELAY);
+      expect(listener).toHaveBeenCalledTimes(0);
     });
   });
 
