@@ -20,7 +20,6 @@
     "@atlaskit/icon": "^16.0.5",
     "@atlaskit/theme": "^8.0.1",
     "@babel/runtime": "^7.0.0",
-    "babel-runtime": "^6.26.0",
     "prop-types": "^15.5.10"
   },
   "peerDependencies": {
