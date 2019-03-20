@@ -87,7 +87,7 @@ const contentTypeToSection = {
   [ContentType.JiraProject]: 'projects',
 };
 
-const scopes = [Scope.JiraIssue, Scope.JiraBoardProjectFilter];
+const SCOPES = [Scope.JiraIssue, Scope.JiraBoardProjectFilter];
 
 export interface State {
   selectedAdvancedSearchType: JiraEntityTypes;
@@ -275,7 +275,7 @@ export class JiraQuickSearchContainer extends React.Component<
     sessionId: string,
   ): Promise<GenericResultMap> => {
     return this.props.crossProductSearchClient
-      .search('', { sessionId }, scopes)
+      .search('', { sessionId }, SCOPES)
       .then(xpRecentResults => ({
         objects: xpRecentResults.results.get(Scope.JiraIssue) || [],
         containers:
@@ -352,7 +352,7 @@ export class JiraQuickSearchContainer extends React.Component<
     const crossProductSearchPromise = this.props.crossProductSearchClient.search(
       query,
       { sessionId, referrerId },
-      scopes,
+      SCOPES,
       JIRA_RESULT_LIMIT,
     );
 
