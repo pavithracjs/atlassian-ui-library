@@ -63,40 +63,6 @@ export interface InlineEditableTextfieldProps {
   readViewFitContainerWidth?: boolean;
 }
 
-export interface RenderChildrenProps {
-  /** Label above the input */
-  label?: string;
-  /** Whether the component shows the readView or the editView. */
-  isEditing: boolean;
-  /** The initial value of the inline edit. */
-  defaultValue: any;
-  /** Validation function handled by final-form. */
-  validate?: (
-    value: any,
-    formState: {},
-    fieldState: {},
-  ) => string | void | Promise<string | void>;
-  /** Handler called when readView is clicked. */
-  onEditRequested: () => void;
-  /**
-   * Handler called editView is closed and changes are confirmed.
-   * Field value is passed as an argument to this function.
-   */
-  onConfirm: (value: any) => void;
-  /** Handler called when checkmark is. */
-  onCancel: () => void;
-  /** Elements to render inside InlineEdit */
-  children: (isEditing: boolean, fieldProps?: FieldProps) => React.ReactChild;
-
-  /** Contained in defaultProps */
-  /** Set whether onConfirm should be called on blur. */
-  disableConfirmOnBlur?: boolean;
-  /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
-  hideActionButtons?: boolean;
-  /** Determines whether the read view has 100% width within its container, or whether it fits the content */
-  readViewFitContainerWidth?: boolean;
-}
-
 /** These interfaces will be exported from the Form package once it is converted to Typescript */
 export interface FormProps {
   onSubmit: (e: React.FormEvent | any) => void;
