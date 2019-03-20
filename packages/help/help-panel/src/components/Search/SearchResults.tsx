@@ -1,0 +1,39 @@
+import * as React from 'react';
+import { ObjectResult } from '@atlaskit/quick-search';
+import { colors } from '@atlaskit/theme';
+import DocumentFilledIcon from '@atlaskit/icon/glyph/document-filled';
+
+import { ArticleItem } from '../../model/Article';
+import { SearchList } from './styled';
+
+export interface Props {
+  searchResult?: ArticleItem[];
+}
+
+export const SearchResults = (props: Props) => {
+  const { searchResult = [] } = props;
+
+  return (
+    <SearchList>
+      {searchResult.map(searchResultItem => {
+        return (
+          <ObjectResult
+            resultId={searchResultItem.id}
+            name={searchResultItem.title}
+            key={searchResultItem.id}
+            containerName={searchResultItem.description}
+            avatar={
+              <DocumentFilledIcon
+                primaryColor={colors.P500}
+                size="medium"
+                label={searchResultItem.title}
+              />
+            }
+          />
+        );
+      })}
+    </SearchList>
+  );
+};
+
+export default SearchResults;

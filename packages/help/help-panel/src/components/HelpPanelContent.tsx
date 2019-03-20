@@ -6,8 +6,7 @@ import { RequestState } from '../model/Resquests';
 
 import Search from './Search';
 import ArticleComponent from './Article';
-
-const MIN_CHARACTERS_FOR_SEARCH = 3;
+import { MIN_CHARACTERS_FOR_SEARCH } from './constants';
 
 export enum VIEW {
   ARTICLE,
@@ -129,6 +128,7 @@ export class HelpPanelContent extends React.Component<Props, State> {
             isLoading={this.state.searchState === RequestState.loading}
             onSearchInput={this.handleOnSearch}
             searchResult={this.state.searchResult}
+            displayResults={this.state.view === VIEW.SEARCH_RESULT}
           />
         )}
         {this.isArticleVisible(this.state.view) && (

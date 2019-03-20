@@ -1,19 +1,18 @@
 import * as React from 'react';
 import * as debounce from 'lodash.debounce';
 import { QuickSearch } from '@atlaskit/quick-search';
-import { ObjectResult } from '@atlaskit/quick-search';
-import { colors } from '@atlaskit/theme';
-import DocumentFilledIcon from '@atlaskit/icon/glyph/document-filled';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 
 import { messages } from '../../messages';
 import { ArticleItem } from '../../model/Article';
-import { SearchList } from './styled';
+import SearchResult from './SearchResults';
+import SearchResultsEmpty from './SearchResultsEmpty';
 
 export interface Props {
   isLoading?: boolean;
   onSearchInput(event: React.FormEvent<HTMLInputElement>): void;
   searchResult?: ArticleItem[];
+  displayResults: boolean;
 }
 
 export interface State {
@@ -40,6 +39,7 @@ export class Search extends React.Component<Props & InjectedIntlProps, State> {
       intl: { formatMessage },
       isLoading = false,
       searchResult = [],
+      displayResults,
     } = this.props;
 
     return (
@@ -49,27 +49,12 @@ export class Search extends React.Component<Props & InjectedIntlProps, State> {
         isLoading={isLoading}
         onSearchInput={this.handleSearchInput}
       >
-        {searchResult.length > 0 ? (
-          <SearchList>
-            {searchResult.map(searchResultItem => {
-              return (
-                <ObjectResult
-                  resultId={searchResultItem.id}
-                  name={searchResultItem.title}
-                  key={searchResultItem.id}
-                  containerName={searchResultItem.description}
-                  avatar={
-                    <DocumentFilledIcon
-                      primaryColor={colors.P500}
-                      size="medium"
-                      label={searchResultItem.title}
-                    />
-                  }
-                />
-              );
-            })}
-          </SearchList>
-        ) : null}
+        {displayResults &&
+          (searchResult.length > 0 ? (
+            <SearchResult searchResult={searchResult} />
+          ) : (
+            <SearchResultsEmpty />
+          ))}
       </QuickSearch>
     );
   }

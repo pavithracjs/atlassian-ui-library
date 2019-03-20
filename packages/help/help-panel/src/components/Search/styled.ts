@@ -14,3 +14,9 @@ export const SearchInputIcon = styled.div`
   position: absolute
   right: ${2 * gridSize()}px;
 `;
+
+export const SearchResultEmptyMessage = styled.div`
+  padding-top: ${3 * gridSize()}px;
+  text-align: center;
+  font-weight: bold;
+`;
