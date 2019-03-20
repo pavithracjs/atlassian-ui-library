@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { ThemeProps } from './theme';
 
 export interface Props {
-  /** Component to be shown when not in edit view */
+  /** Component to be shown when not in edit view. */
   readView: React.ReactChild;
   /** Component to be shown when editing. Should be an Atlaskit input. */
   editView: (fieldProps: FieldProps, isInvalid?: boolean) => React.ReactChild;
@@ -19,7 +20,9 @@ export interface Props {
   /** Handler called when checkmark is. */
   onCancel: () => void;
 
-  /** Label above the input */
+  /** The theme the component should use. */
+  themeProps: ThemeProps;
+  /** Label above the input. */
   label?: string;
   /** Validation function handled by final-form. */
   validate?: (
@@ -33,7 +36,7 @@ export interface Props {
   disableConfirmOnBlur?: boolean;
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
   hideActionButtons?: boolean;
-  /** Determines whether the read view has 100% width within its container, or whether it fits the content */
+  /** Determines whether the read view has 100% width within its container, or whether it fits the content. */
   readViewFitContainerWidth?: boolean;
 }
 
@@ -45,7 +48,7 @@ export interface InlineEditableTextfieldProps {
   onConfirm: (value: string) => void;
   /** The initial value of the inline edit. */
   defaultValue: any;
-  /** Label above the input */
+  /** Label above the input. */
   label?: string;
   /** Validation function handled by final-form. */
   validate?: (
@@ -53,13 +56,13 @@ export interface InlineEditableTextfieldProps {
     formState: {},
     fieldState: {},
   ) => string | void | Promise<string | void>;
-  /** Text shown in read view when value is an empty string */
+  /** Text shown in read view when value is an empty string. */
   emptyValueText?: string;
   /** Set whether onConfirm should be called on blur. */
   disableConfirmOnBlur?: boolean;
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
   hideActionButtons?: boolean;
-  /** Determines whether the read view has 100% width within its container, or whether it fits the content */
+  /** Determines whether the read view has 100% width within its container, or whether it fits the content. */
   readViewFitContainerWidth?: boolean;
 }
 

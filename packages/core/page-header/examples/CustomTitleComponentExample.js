@@ -5,7 +5,7 @@ import { BreadcrumbsStateless, BreadcrumbsItem } from '@atlaskit/breadcrumbs';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import TextField from '@atlaskit/textfield';
 import Select from '@atlaskit/select';
-import InlineEdit, { SingleLineTextInput } from '@atlaskit/inline-edit';
+import { InlineEditableTextfield } from '@atlaskit/inline-edit';
 
 import PageHeader from '../src';
 
@@ -37,32 +37,15 @@ const barContent = (
   </div>
 );
 
-const textStyle = {
-  fontSize: '24px',
-  fontWeight: '500',
-};
-
 const CustomTitleComponent = () => (
-  <InlineEdit
-    isLabelHidden
-    readView={
-      <SingleLineTextInput
-        style={textStyle}
-        isEditing={false}
-        value={'Editable title'}
-      />
-    }
-    editView={
-      <SingleLineTextInput
-        style={textStyle}
-        isInitiallySelected
-        isEditing
-        value={'Editable title'}
-        onChange={() => {}}
-      />
-    }
+  <InlineEditableTextfield
+    defaultValue="Editable title"
     onConfirm={() => {}}
     onCancel={() => {}}
+    theme={{
+      fontSize: '24px',
+      fontWeight: '500',
+    }}
   />
 );
 

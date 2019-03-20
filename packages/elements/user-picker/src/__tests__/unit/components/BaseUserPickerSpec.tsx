@@ -54,8 +54,10 @@ describe('BaseUserPicker', () => {
   it('should render using a Select', () => {
     const component = shallowUserPicker({ options });
     const select = component.find(Select);
+
     expect(select.prop('options')).toEqual(userOptions);
     expect(select.prop('menuPlacement')).toBeTruthy();
+    expect(select.prop('instanceId')).toEqual('test'); // match fieldId
   });
 
   it('should disable picker if isDisabled is true', () => {

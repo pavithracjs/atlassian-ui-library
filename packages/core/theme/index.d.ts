@@ -5,9 +5,12 @@ declare module '@atlaskit/theme' {
   export const createTheme: <ThemeTokens, ThemeProps>(
     theme: (props: ThemeProps) => ThemeTokens,
   ) => {
-    Consumer: React.ReactType<ThemeTokens>;
+    Consumer: React.ReactType<ThemeProps>;
     Provider: React.ReactType<{
-      value: (tokens: ThemeTokens, props: ThemeProps) => ThemeTokens;
+      value: (
+        theme: (props: ThemeProps) => ThemeTokens,
+        props: ThemeProps,
+      ) => ThemeTokens;
     }>;
   };
   export const elevation: any;

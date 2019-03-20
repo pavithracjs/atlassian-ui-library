@@ -1,5 +1,10 @@
 # @atlaskit/user-picker
 
+## 3.1.0
+- [minor] [1da59f9d31](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1da59f9d31):
+
+  - added ssr tests to user-picker
+
 ## 3.0.0
 - [major] [3ea3f5ea55](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3ea3f5ea55):
 
