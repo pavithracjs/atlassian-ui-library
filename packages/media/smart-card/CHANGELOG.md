@@ -1,5 +1,10 @@
 # @atlaskit/smart-card
 
+## 10.1.0
+- [minor] [11a6c98707](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/11a6c98707):
+
+  - refactor Smart Links frontend directory structure.
+
 ## 10.0.2
 - Updated dependencies [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
   - @atlaskit/form@5.2.3

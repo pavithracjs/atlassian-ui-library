@@ -36,7 +36,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'AK-5612 - Blanket should never be on top of the spotlight modal',
-  { skip: ['safari', 'edge', 'firefox', 'chrome'] }, // The actual issue was only occuring in IE11
+  { skip: ['safari', 'edge', 'firefox'] }, // The actual issue was only occuring in IE11
   async client => {
     const onBoardingTest = new Page(client);
     await onBoardingTest.goto(urlSpotlightBasic);

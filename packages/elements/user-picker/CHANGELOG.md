@@ -1,5 +1,10 @@
 # @atlaskit/user-picker
 
+## 3.0.0
+- [major] [3ea3f5ea55](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3ea3f5ea55):
+
+  - FS-3548 integrators must explicitly set the context prop in user-picker
+
 ## 2.0.3
 - [patch] [552843a739](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/552843a739):
 
