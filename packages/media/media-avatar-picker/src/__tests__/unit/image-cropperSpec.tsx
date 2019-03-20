@@ -5,7 +5,6 @@ import {
   Container,
   DragOverlay,
   RemoveImageButton,
-  Image,
 } from '../../image-cropper/styled';
 import { smallImage, mountWithIntlContext } from '@atlaskit/media-test-helpers';
 
@@ -36,6 +35,7 @@ describe('Image cropper', () => {
       onLoad: onLoadSpy,
       onRemoveImage: onRemoveImageSpy,
       onImageError: onImageErrorSpy,
+      imageOrientation: 1,
       ...props,
     };
     const component = mountWithIntlContext(<ImageCropper {...allProps} />);
@@ -142,7 +142,7 @@ describe('Image cropper', () => {
         imageSource: badImageURI,
       });
 
-      const onError = component.find(Image).prop('onError')!;
+      const onError = component.find('img').prop('onError');
       onError({} as React.SyntheticEvent<HTMLImageElement>);
 
       expect(onImageErrorSpy).toHaveBeenCalledTimes(1);

@@ -11,7 +11,8 @@ import {
   RectMask,
   RemoveImageContainer,
   RemoveImageButton,
-  containerPadding, ImageContainer,
+  containerPadding,
+  ImageContainer,
 } from './styled';
 import { ERROR } from '../avatar-picker-dialog';
 import { CONTAINER_INNER_SIZE } from '../image-navigator';
@@ -30,7 +31,7 @@ export interface ImageCropperProp {
   top: number;
   left: number;
   imageWidth?: number;
-  imageOrientation: number,
+  imageOrientation: number;
   onDragStarted?: (x: number, y: number) => void;
   onImageSize: (width: number, height: number) => void;
   onLoad?: OnLoadHandler;
@@ -50,7 +51,7 @@ export class ImageCropper extends Component<
   State
 > {
   private imageElement?: HTMLImageElement;
-  state: State = {}
+  state: State = {};
 
   static defaultProps = {
     containerSize: CONTAINER_INNER_SIZE,
@@ -87,7 +88,7 @@ export class ImageCropper extends Component<
 
   onImageLoaded = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const image = e.target as HTMLImageElement;
-    let {naturalWidth, naturalHeight} = image;
+    const { naturalWidth, naturalHeight } = image;
     this.setState({ naturalWidth, naturalHeight });
     this.props.onImageSize(naturalWidth, naturalHeight);
     this.imageElement = image;
@@ -118,7 +119,6 @@ export class ImageCropper extends Component<
     };
     const width = this.width ? `${this.width}px` : 'auto';
     const height = this.height ? `${this.height}px` : 'auto';
-
 
     const imageContainerStyle = {
       width,
@@ -161,18 +161,18 @@ export class ImageCropper extends Component<
   }
 
   private get height() {
-    let { naturalHeight, naturalWidth } = this.state;
-
-    if (naturalWidth && naturalHeight) {
-      const {imageOrientation} = this.props;
-      if (isRotated(imageOrientation)) {
-        [naturalHeight, naturalWidth] = [naturalWidth, naturalHeight];
-      }
-      const width = this.width;
-      return naturalHeight * width / naturalWidth ;
-    }else{
+    const { naturalHeight, naturalWidth } = this.state;
+    if (!naturalWidth || !naturalHeight) {
       return 0;
     }
+
+    const { imageOrientation } = this.props;
+
+    const [newNaturalHeight, newNaturalWidth] = isRotated(imageOrientation)
+      ? [naturalWidth, naturalHeight]
+      : [naturalHeight, naturalWidth];
+
+    return (newNaturalHeight * this.width) / newNaturalWidth;
   }
 
   export = (): string => {
@@ -200,13 +200,35 @@ export class ImageCropper extends Component<
       }
 
       switch (imageOrientation) {
-        case 2: context.translate(sourceWidth, 0);     context.scale(-1,1); break;
-        case 3: context.translate(sourceWidth,sourceHeight); context.rotate(Math.PI); break;
-        case 4: context.translate(0,sourceHeight);     context.scale(1,-1); break;
-        case 5: context.rotate(0.5 * Math.PI);   context.scale(1,-1); break;
-        case 6: context.rotate(0.5 * Math.PI);   context.translate(0,-sourceHeight); break;
-        case 7: context.rotate(0.5 * Math.PI);   context.translate(sourceWidth,-sourceHeight); context.scale(-1,1); break;
-        case 8: context.rotate(-0.5 * Math.PI);  context.translate(-sourceWidth,0); break;
+        case 2:
+          context.translate(sourceWidth, 0);
+          context.scale(-1, 1);
+          break;
+        case 3:
+          context.translate(sourceWidth, sourceHeight);
+          context.rotate(Math.PI);
+          break;
+        case 4:
+          context.translate(0, sourceHeight);
+          context.scale(1, -1);
+          break;
+        case 5:
+          context.rotate(0.5 * Math.PI);
+          context.scale(1, -1);
+          break;
+        case 6:
+          context.rotate(0.5 * Math.PI);
+          context.translate(0, -sourceHeight);
+          break;
+        case 7:
+          context.rotate(0.5 * Math.PI);
+          context.translate(sourceWidth, -sourceHeight);
+          context.scale(-1, 1);
+          break;
+        case 8:
+          context.rotate(-0.5 * Math.PI);
+          context.translate(-sourceWidth, 0);
+          break;
       }
 
       context.drawImage(
