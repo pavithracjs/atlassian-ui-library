@@ -1,1 +1,0 @@
-- Ignore tsconfig from being published 
