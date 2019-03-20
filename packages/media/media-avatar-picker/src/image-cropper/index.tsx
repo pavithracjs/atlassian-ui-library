@@ -182,53 +182,88 @@ export class ImageCropper extends Component<
     const size = containerSize || 0;
     const scaleWithDefault = scale || 1;
     const destinationSize = Math.max(size - containerPadding * 2, 0);
+    let destinationWidth = destinationSize;
+    let destinationHeight = destinationSize;
 
-    canvas.width = destinationSize;
-    canvas.height = destinationSize;
+    canvas.width = destinationWidth;
+    canvas.height = destinationHeight;
 
     const context = canvas.getContext('2d');
 
     if (context && this.imageElement) {
-      let sourceLeft = (-left + containerPadding) / scaleWithDefault;
-      let sourceTop = (-top + containerPadding) / scaleWithDefault;
-      let sourceWidth = destinationSize / scaleWithDefault;
-      let sourceHeight = destinationSize / scaleWithDefault;
+      const sourceImageWidth = this.width / scaleWithDefault;
+      const sourceImageHeight = this.height / scaleWithDefault;
+      let sourceLeft = (containerPadding - left) / scaleWithDefault;
+      let sourceTop = (containerPadding - top) / scaleWithDefault;
+      let sourceWidth = destinationWidth / scaleWithDefault;
+      let sourceHeight = destinationHeight / scaleWithDefault;
+      const sourceRight = sourceImageWidth - sourceWidth - sourceLeft;
+      const sourceBottom = sourceImageHeight - sourceHeight - sourceTop;
 
-      if (isRotated(imageOrientation)) {
-        [sourceLeft, sourceTop] = [sourceTop, sourceLeft];
-        [sourceWidth, sourceHeight] = [sourceHeight, sourceWidth];
-      }
+      const cw180 = Math.PI;
+      const cw90 = Math.PI / 2;
+      const ccw90 = -Math.PI / 2;
+
+      // Here we solve two problems:
+      // 1. At this point sourceLeft and sourceTop based on target orientation of an image.
+      //    Those represent what user has chosen as a top left corner. We need to convert
+      //    these into top and left corner of the same rect, but in original image. We will
+      //    use these new coordinates when we read from original image.
+      //
+      // 2. Perform affine transformation for canvas to orientate extracted part of an original image.
 
       switch (imageOrientation) {
         case 2:
+          [sourceLeft, sourceTop] = [sourceRight, sourceTop];
+
           context.translate(sourceWidth, 0);
           context.scale(-1, 1);
           break;
         case 3:
+          [sourceLeft, sourceTop] = [sourceRight, sourceBottom];
+
           context.translate(sourceWidth, sourceHeight);
-          context.rotate(Math.PI);
+          context.rotate(cw180);
           break;
         case 4:
+          [sourceLeft, sourceTop] = [sourceLeft, sourceBottom];
+
           context.translate(0, sourceHeight);
           context.scale(1, -1);
           break;
         case 5:
-          context.rotate(0.5 * Math.PI);
+          [sourceLeft, sourceTop] = [sourceTop, sourceLeft];
+
+          context.rotate(cw90);
           context.scale(1, -1);
           break;
         case 6:
-          context.rotate(0.5 * Math.PI);
-          context.translate(0, -sourceHeight);
+          [sourceLeft, sourceTop] = [sourceTop, sourceRight];
+
+          context.translate(destinationWidth, 0);
+          context.rotate(cw90);
           break;
         case 7:
-          context.rotate(0.5 * Math.PI);
-          context.translate(sourceWidth, -sourceHeight);
-          context.scale(-1, 1);
+          [sourceLeft, sourceTop] = [sourceBottom, sourceRight];
+
+          context.translate(destinationWidth, destinationHeight);
+          context.rotate(ccw90);
+          context.scale(1, -1);
           break;
         case 8:
-          context.rotate(-0.5 * Math.PI);
-          context.translate(-sourceWidth, 0);
+          [sourceLeft, sourceTop] = [sourceBottom, sourceLeft];
+
+          context.translate(0, destinationHeight);
+          context.rotate(ccw90);
           break;
+      }
+
+      if (isRotated(imageOrientation)) {
+        [sourceWidth, sourceHeight] = [sourceHeight, sourceWidth];
+        [destinationHeight, destinationWidth] = [
+          destinationWidth,
+          destinationHeight,
+        ];
       }
 
       context.drawImage(
@@ -239,8 +274,8 @@ export class ImageCropper extends Component<
         sourceHeight,
         0,
         0,
-        destinationSize,
-        destinationSize,
+        destinationWidth,
+        destinationHeight,
       );
 
       imageData = canvas.toDataURL();
