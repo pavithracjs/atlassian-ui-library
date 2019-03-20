@@ -64,7 +64,11 @@ const EditView = styled.input`
   }
 `;
 
-class CustomTitleComponent extends Component {
+type State = {
+  isEditing: boolean,
+};
+
+class CustomTitleComponent extends Component<{}, State> {
   state = {
     isEditing: false,
   };
