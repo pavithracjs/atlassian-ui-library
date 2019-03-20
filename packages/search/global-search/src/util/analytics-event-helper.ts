@@ -49,6 +49,7 @@ export function firePreQueryShownEvent(
   createAnalyticsEvent: CreateAnalyticsEventFn,
   experimentRequestDurationMs?: number,
   retrievedFromAggregator?: boolean,
+  abTest?: ABTest,
 ) {
   fireGasEvent(
     createAnalyticsEvent,
@@ -63,6 +64,7 @@ export function firePreQueryShownEvent(
       searchSessionId: searchSessionId,
       ...eventAttributes,
       retrievedFromAggregator,
+      ...abTest,
     },
   );
 }
@@ -145,6 +147,7 @@ export function firePostQueryShownEvent(
   searchSessionId: string,
   query: string,
   createAnalyticsEvent: CreateAnalyticsEventFn,
+  abTest?: ABTest,
 ) {
   const event = createAnalyticsEvent();
 
@@ -162,6 +165,7 @@ export function firePostQueryShownEvent(
       ...otherPerformanceTimings,
       ...resultsDetails,
       ...DEFAULT_GAS_ATTRIBUTES,
+      ...abTest,
     },
   };
   event.update(payload).fire(DEFAULT_GAS_CHANNEL);

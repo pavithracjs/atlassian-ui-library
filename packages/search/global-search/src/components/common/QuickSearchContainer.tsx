@@ -69,6 +69,7 @@ export interface State {
   keepPreQueryState: boolean;
   searchResults: GenericResultMap | null;
   recentItems: GenericResultMap | null;
+  abTest: ABTest | null;
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
@@ -93,6 +94,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       recentItems: null,
       searchResults: null,
       keepPreQueryState: true,
+      abTest: null,
     };
   }
 
@@ -155,6 +157,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
               timings || {},
               this.state.searchSessionId,
               this.state.latestSearchQuery,
+              this.state.abTest || undefined,
             );
           },
         );
@@ -178,6 +181,10 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     const startTime = performanceNow();
     const abTest = await getAbTestData(searchSessionId);
     const elapsedMs = performanceNow() - startTime;
+
+    this.setState({
+      abTest: abTest || null,
+    });
 
     return {
       elapsedMs,
@@ -214,7 +221,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     requestStartTime?: number,
     experimentRequestDurationMs?: number,
     renderStartTime?: number,
-    experimentId?: string,
+    abTest?: ABTest,
   ) => {
     const {
       createAnalyticsEvent,
@@ -234,7 +241,6 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         getDisplayedResults(recentItems),
       );
       const eventAttributes: ShownAnalyticsAttributes = {
-        experimentId,
         ...buildShownEventDetails(...resultsArray),
       };
 
@@ -246,6 +252,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         createAnalyticsEvent,
         experimentRequestDurationMs,
         !!enablePreQueryFromAggregator,
+        abTest,
       );
     }
   };
@@ -257,6 +264,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     timings,
     searchSessionId,
     latestSearchQuery: string,
+    abTest?: ABTest,
   ) => {
     const performanceTiming: PerformanceTiming = {
       startTime,
@@ -278,6 +286,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         searchSessionId,
         latestSearchQuery,
         createAnalyticsEvent,
+        abTest,
       );
     }
   };
@@ -291,6 +300,8 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     }
 
     if (newLatestSearchQuery.length === 0) {
+      const { abTest } = this.state;
+
       // reset search results so that internal state between query and results stays consistent
       this.setState(
         {
@@ -302,6 +313,10 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           this.fireShownPreQueryEvent(
             this.state.searchSessionId,
             this.state.recentItems || {},
+            undefined,
+            undefined,
+            undefined,
+            abTest || undefined,
           ),
       );
     } else {
@@ -346,7 +361,6 @@ export class QuickSearchContainer extends React.Component<Props, State> {
             elapsedMs: experimentRequestDurationMs,
             abTest,
           } = await abTestPromise;
-          const experimentId = abTest ? abTest.experimentId : undefined;
 
           this.fireShownPreQueryEvent(
             this.state.searchSessionId,
@@ -354,7 +368,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
             startTime,
             experimentRequestDurationMs,
             renderStartTime,
-            experimentId,
+            abTest,
           );
         },
       );
@@ -396,6 +410,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       searchResults,
       recentItems,
       keepPreQueryState,
+      abTest,
     } = this.state;
 
     return (
@@ -420,6 +435,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           recentItems,
           keepPreQueryState,
           searchSessionId,
+          abTest,
         })}
       </GlobalQuickSearch>
     );

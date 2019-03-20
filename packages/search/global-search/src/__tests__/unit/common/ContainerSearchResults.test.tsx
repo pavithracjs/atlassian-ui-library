@@ -186,6 +186,7 @@ const getSearchAndRecentItems = (
         containers: [],
         people: recentlyInteractedPeople,
       },
+      abTest: null,
     };
   }
   return {
@@ -200,6 +201,7 @@ const getSearchAndRecentItems = (
       spaces: [],
       people: recentlyInteractedPeople,
     },
+    abTest: null,
   };
 };
 
