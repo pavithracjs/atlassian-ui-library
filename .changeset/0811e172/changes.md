@@ -1,1 +1,0 @@
-- retreive prequery results from quick search services
