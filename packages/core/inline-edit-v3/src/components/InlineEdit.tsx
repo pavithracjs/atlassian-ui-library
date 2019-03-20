@@ -100,10 +100,10 @@ class InlineEdit extends React.Component<Props, State> {
   /** Unless disableConfirmOnBlur prop is true, will call confirmIfUnfocused() which
    *  confirms the value, unless the focus is transferred to the buttons
    */
-  onWrapperBlur = (isInvalid: boolean) => {
+  onWrapperBlur = (isInvalid: boolean, onSubmit, formRef) => {
     if (!this.props.disableConfirmOnBlur) {
       this.setState({ wasFocusReceivedSinceLastBlur: false });
-      setTimeout(() => this.confirmIfUnfocused(isInvalid));
+      setTimeout(() => this.confirmIfUnfocused(isInvalid, onSubmit, formRef));
     }
   };
 
@@ -112,14 +112,12 @@ class InlineEdit extends React.Component<Props, State> {
     this.setState({ wasFocusReceivedSinceLastBlur: true });
   };
 
-  confirmIfUnfocused = (isInvalid: boolean) => {
-    if (
-      !isInvalid &&
-      !this.state.wasFocusReceivedSinceLastBlur &&
-      this.confirmButtonRef
-    ) {
+  confirmIfUnfocused = (isInvalid: boolean, onSubmit, formRef) => {
+    if (!isInvalid && !this.state.wasFocusReceivedSinceLastBlur) {
       this.setState({ preventFocusOnEditButton: true });
-      this.confirmButtonRef.click();
+      if (formRef.current.checkValidity()) {
+        onSubmit({});
+      }
     }
   };
 
@@ -163,6 +161,9 @@ class InlineEdit extends React.Component<Props, State> {
                 this.confirmButtonRef.focus();
               }
             }}
+            onMouseDown={() => {
+              this.setState({ preventFocusOnEditButton: true });
+            }}
             innerRef={ref => {
               this.confirmButtonRef = ref;
             }}
@@ -173,6 +174,9 @@ class InlineEdit extends React.Component<Props, State> {
             ariaLabel="Cancel"
             iconBefore={<CancelIcon label="Cancel" size="small" />}
             onClick={this.onCancelClick}
+            onMouseDown={() => {
+              this.setState({ preventFocusOnEditButton: true });
+            }}
             shouldFitContainer
             innerRef={ref => {
               this.cancelButtonRef = ref;
@@ -197,7 +201,9 @@ class InlineEdit extends React.Component<Props, State> {
           this.props.onConfirm(data.inlineEdit)
         }
       >
-        {({ formProps: { onKeyDown, ...rest } }: FormChildProps) => (
+        {({
+          formProps: { onKeyDown, onSubmit, ref: formRef },
+        }: FormChildProps) => (
           <form
             onKeyDown={e => {
               onKeyDown(e);
@@ -205,7 +211,8 @@ class InlineEdit extends React.Component<Props, State> {
                 this.props.onCancel();
               }
             }}
-            {...rest}
+            onSubmit={onSubmit}
+            ref={formRef}
           >
             {isEditing ? (
               <Field
@@ -216,7 +223,13 @@ class InlineEdit extends React.Component<Props, State> {
               >
                 {({ fieldProps, error }: FieldChildProps) => (
                   <ContentWrapper
-                    onBlur={() => this.onWrapperBlur(fieldProps.isInvalid)}
+                    onBlur={() =>
+                      this.onWrapperBlur(
+                        fieldProps.isInvalid,
+                        onSubmit,
+                        formRef,
+                      )
+                    }
                     onFocus={this.onWrapperFocus}
                   >
                     <div>
