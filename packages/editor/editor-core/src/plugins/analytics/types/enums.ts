@@ -4,7 +4,9 @@ export const enum EVENT_TYPE {
 }
 
 export const enum ACTION {
+  CHANGED_TYPE = 'changedType',
   CLICKED = 'clicked',
+  DELETED = 'deleted',
   FORMATTED = 'formatted',
   INSERTED = 'inserted',
   INVOKED = 'invoked',
@@ -38,6 +40,8 @@ export const enum ACTION_SUBJECT {
   BUTTON = 'button',
   DOCUMENT = 'document',
   EDITOR = 'editor',
+  MEDIA = 'media',
+  PANEL = 'panel',
   PICKER = 'picker',
   TEXT = 'text',
   TYPEAHEAD = 'typeAhead',
@@ -45,6 +49,7 @@ export const enum ACTION_SUBJECT {
 
 export const enum ACTION_SUBJECT_ID {
   ACTION = 'action',
+  ANNOTATE_BUTTON = 'annotateButton',
   BUTTON_HELP = 'helpButton',
   BUTTON_FEEDBACK = 'feedbackButton',
   CANCEL = 'cancel',

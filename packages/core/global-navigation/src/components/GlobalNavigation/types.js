@@ -213,6 +213,15 @@ export type GlobalNavigationProps = {
   /** A function to get ref of the settings icon */
   getSettingsRef?: (node: NonStringRef<'div'>) => void,
 
+  /**
+    NOTE: This property is experimental and may be removed in a minor release.
+
+    Feature flag for Atlassian Switcher, whether to enable multiple link of
+    each jira products in atlassian switcher
+    e.g. instead of showing only Jira link, shows Jira Software and Jira Service Desk links
+  */
+  experimental_enableSplitJira?: boolean,
+
   ...$Exact<GlobalNavDrawerProps>,
 };
 

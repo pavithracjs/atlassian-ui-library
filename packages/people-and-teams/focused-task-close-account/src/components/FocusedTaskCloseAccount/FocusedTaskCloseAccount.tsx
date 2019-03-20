@@ -61,7 +61,7 @@ export class FocusedTaskCloseAccount extends React.Component<Props, State> {
     return (
       <MessagesIntlProvider>
         <Drawer
-          icon={props => <CrossIcon label="" {...props} size="medium" />}
+          icon={(props: any) => <CrossIcon label="" {...props} size="medium" />}
           isOpen={isOpen}
           onClose={onClose}
           width="full"

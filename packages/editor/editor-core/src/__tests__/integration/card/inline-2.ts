@@ -12,7 +12,7 @@ import {
 // behaviour is OS specific:
 // windows moves to next paragraph up
 // osx moves to top of document
-const moveUp = (page, selector) => {
+const moveUp = (page: any, selector: string) => {
   let keys;
   if (page.browser.desiredCapabilities.os === 'Windows') {
     keys = ['Control', 'ArrowUp'];
@@ -27,7 +27,7 @@ BrowserTestCase(
   {
     skip: ['ie', 'safari'],
   },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     let browser = new Page(client);
 
     // copy stuff to clipboard
@@ -54,6 +54,6 @@ BrowserTestCase(
     await browser.type(editable, 'more typing ');
 
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

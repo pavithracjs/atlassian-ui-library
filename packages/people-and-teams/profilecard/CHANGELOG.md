@@ -1,5 +1,27 @@
 # @atlaskit/profilecard
 
+## 8.0.2
+- Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+  - @atlaskit/docs@7.0.1
+  - @atlaskit/avatar@15.0.1
+  - @atlaskit/dynamic-table@11.0.1
+  - @atlaskit/icon@16.0.5
+  - @atlaskit/spinner@10.0.1
+  - @atlaskit/theme@8.0.1
+  - @atlaskit/i18n-tools@0.5.0
+  - @atlaskit/button@11.0.0
+  - @atlaskit/util-data-test@11.0.0
+
+## 8.0.1
+- [patch] [9a0c34d490](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9a0c34d490):
+
+  - Fixes package.json to not exclude built files
+
+## 8.0.0
+- [major] [dbff4fdcf9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dbff4fdcf9):
+
+  - Remove presence from profilecard now that users cannot use Stride to control it
+
 ## 7.0.0
 - [major] [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
 

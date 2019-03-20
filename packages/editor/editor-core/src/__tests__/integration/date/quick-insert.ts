@@ -10,9 +10,9 @@ const dateLozenge = 'span[timestamp]';
 BrowserTestCase(
   'quick-insert.ts: Insert date via quick insert',
   { skip: ['firefox', 'edge', 'ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
-    await page.mockDate(1546261200000, 11); // 1st Jan 2019 00:00 AEST / 31st Dec 2018 13:00 UTC
+    const teardownMockDate = page.mockDate(1546261200000, 11); // 1st Jan 2019 00:00 AEST / 31st Dec 2018 13:00 UTC
 
     await mountEditor(page, {
       appearance: 'full-page',
@@ -25,7 +25,9 @@ BrowserTestCase(
     await quickInsert(page, 'Date');
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
+
+    teardownMockDate();
   },
 );
 
@@ -34,7 +36,7 @@ BrowserTestCase(
   { skip: ['firefox', 'edge', 'ie'] },
   async (client: any) => {
     const page = await goToEditorTestingExample(client);
-    await page.mockDate(1546261200000, 11); // 1st Jan 2019 00:00 AEST / 31st Dec 2018 13:00 UTC
+    const teardownMockDate = page.mockDate(1546261200000, 11); // 1st Jan 2019 00:00 AEST / 31st Dec 2018 13:00 UTC
 
     await mountEditor(page, {
       appearance: 'full-page',
@@ -45,5 +47,6 @@ BrowserTestCase(
     await quickInsert(page, 'Date');
 
     expect(await page.getText(dateLozenge)).toBe('01 Jan 2019');
+    teardownMockDate();
   },
 );

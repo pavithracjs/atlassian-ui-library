@@ -28,6 +28,7 @@ export class MultiValueContainer extends React.PureComponent<Props, State> {
   }
 
   private bottomAnchor: HTMLDivElement | null = null;
+  private timeoutId: number | null = null;
 
   constructor(props: Props) {
     super(props);
@@ -39,10 +40,24 @@ export class MultiValueContainer extends React.PureComponent<Props, State> {
 
   componentDidUpdate() {
     const { previousValueSize, valueSize } = this.state;
-    if (valueSize > previousValueSize) {
-      window.setTimeout(
-        () => this.bottomAnchor && this.bottomAnchor.scrollIntoView(),
-      );
+    const { isFocused } = this.props.selectProps;
+    if (valueSize > previousValueSize && isFocused) {
+      if (this.timeoutId) {
+        window.clearTimeout(this.timeoutId);
+        this.timeoutId = null;
+      }
+      this.timeoutId = window.setTimeout(() => {
+        if (this.bottomAnchor) {
+          this.bottomAnchor.scrollIntoView(false);
+        }
+        this.timeoutId = null;
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.timeoutId) {
+      window.clearTimeout(this.timeoutId);
     }
   }
 
@@ -52,13 +67,9 @@ export class MultiValueContainer extends React.PureComponent<Props, State> {
 
   private showPlaceholder = () => {
     const {
-      selectProps: { value, options, isLoading },
+      selectProps: { value },
     } = this.props;
-    return (
-      value &&
-      options &&
-      (value.length > 0 && (value.length < options.length || isLoading))
-    );
+    return value && value.length > 0;
   };
 
   private addPlaceholder = (placeholder: string) =>

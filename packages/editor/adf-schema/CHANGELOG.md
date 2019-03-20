@@ -1,5 +1,25 @@
 # @atlaskit/adf-schema
 
+## 2.0.1
+- [patch] [205b101e2b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/205b101e2b):
+
+  - ED-6230: bump prosemirror-view to 1.8.3; workaround Chrome bug with copy paste multiple images
+
+## 2.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 1.7.1
+- [patch] [0825fbe634](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0825fbe634):
+
+  - ED-6410: remove opacity from cells background color
+
+## 1.7.0
+- [minor] [6380484429](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6380484429):
+
+  - ED-6485 Support breakout mark on layout-section. Retain breakout mark when toggling list nested within columns.
+
 ## 1.6.2
 - [patch] [d18b085e2a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d18b085e2a):
 
