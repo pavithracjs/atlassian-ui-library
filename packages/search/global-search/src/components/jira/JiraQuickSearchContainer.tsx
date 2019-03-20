@@ -271,7 +271,7 @@ export class JiraQuickSearchContainer extends React.Component<
       }));
   };
 
-  getRecentItemsFromQuickSearch = (
+  getRecentItemsFromXpsearch = (
     sessionId: string,
   ): Promise<GenericResultMap> => {
     return this.props.crossProductSearchClient
@@ -285,7 +285,7 @@ export class JiraQuickSearchContainer extends React.Component<
 
   getJiraRecentItems = (sessionId: string): Promise<GenericResultMap> => {
     const recentItemsPromise = this.props.enablePreQueryFromAggregator
-      ? this.getRecentItemsFromQuickSearch(sessionId)
+      ? this.getRecentItemsFromXpsearch(sessionId)
       : this.getRecentItemsFromJira(sessionId);
     return handlePromiseError(
       recentItemsPromise,

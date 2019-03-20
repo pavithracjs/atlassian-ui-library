@@ -139,7 +139,7 @@ export interface Props {
   onAdvancedSearch?: (e: AdvancedSearchEvent) => void;
 
   /**
-   * controls where to reterive prequery results either from aggregator or directly from the product
+   * controls where to retrieve prequery results either from aggregator or directly from the product
    */
   enablePreQueryFromAggregator?: boolean;
 }
