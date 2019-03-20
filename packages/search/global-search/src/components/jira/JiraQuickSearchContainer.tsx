@@ -71,6 +71,7 @@ export interface Props {
   disableJiraPreQueryPeopleSearch?: boolean;
   logger: Logger;
   isSendSearchTermsEnabled?: boolean;
+  enablePreQueryFromAggregator?: boolean;
   onAdvancedSearch?: (
     e: CancelableEvent,
     entity: string,
@@ -249,8 +250,8 @@ export class JiraQuickSearchContainer extends React.Component<
     }
   };
 
-  getJiraRecentItems = (sessionId: string): Promise<GenericResultMap> => {
-    const jiraRecentItemsPromise = this.props.jiraClient
+  getRecentItemsFromJira = (sessionId: string): Promise<GenericResultMap> => {
+    return this.props.jiraClient
       .getRecentItems(sessionId)
       .then(items =>
         items.reduce<GenericResultMap<JiraResult>>((acc, item) => {
@@ -268,9 +269,26 @@ export class JiraQuickSearchContainer extends React.Component<
         objects: issues,
         containers: [...boards, ...projects, ...filters],
       }));
+  };
 
+  getRecentItemsFromQuickSearch = (
+    sessionId: string,
+  ): Promise<GenericResultMap> => {
+    return this.props.crossProductSearchClient
+      .search('', { sessionId }, scopes)
+      .then(xpRecentResults => ({
+        objects: xpRecentResults.results.get(Scope.JiraIssue) || [],
+        containers:
+          xpRecentResults.results.get(Scope.JiraBoardProjectFilter) || [],
+      }));
+  };
+
+  getJiraRecentItems = (sessionId: string): Promise<GenericResultMap> => {
+    const recentItemsPromise = this.props.enablePreQueryFromAggregator
+      ? this.getRecentItemsFromQuickSearch(sessionId)
+      : this.getRecentItemsFromJira(sessionId);
     return handlePromiseError(
-      jiraRecentItemsPromise,
+      recentItemsPromise,
       {
         objects: [],
         containers: [],
