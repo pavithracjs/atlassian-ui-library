@@ -428,6 +428,7 @@ export class JiraQuickSearchContainer extends React.Component<
       createAnalyticsEvent,
       isSendSearchTermsEnabled,
       logger,
+      enablePreQueryFromAggregator,
     } = this.props;
     const { selectedResultId } = this.state;
 
@@ -450,6 +451,7 @@ export class JiraQuickSearchContainer extends React.Component<
           this.handleSelectedResultIdChanged(newId)
         }
         isSendSearchTermsEnabled={isSendSearchTermsEnabled}
+        enablePreQueryFromAggregator={enablePreQueryFromAggregator}
       />
     );
   }

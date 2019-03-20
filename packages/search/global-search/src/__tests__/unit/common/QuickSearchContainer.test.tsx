@@ -70,6 +70,7 @@ describe('QuickSearchContainer', () => {
       expect.any(String),
       defaultProps.createAnalyticsEvent,
       expect.any(Number),
+      expect.any(Boolean),
     ]);
   };
 
