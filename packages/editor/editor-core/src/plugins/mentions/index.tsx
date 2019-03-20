@@ -52,6 +52,7 @@ import {
   ACTION_SUBJECT_ID,
 } from '../analytics';
 import { TypeAheadItem } from '../type-ahead/types';
+import { isTeamType } from './utils';
 
 const mentionsPlugin = (
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
@@ -246,7 +247,7 @@ const mentionsPlugin = (
 
           sessionId = uuid();
 
-          if (mentionProvider && userType === 'TEAM') {
+          if (mentionProvider && isTeamType(userType)) {
             return insert(buildNodesForTeamMention(schema, item.mention));
           }
 
