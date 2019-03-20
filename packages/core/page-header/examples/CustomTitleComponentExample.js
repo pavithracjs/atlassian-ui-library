@@ -51,7 +51,6 @@ const ReadView = styled.div`
 const EditView = styled.input`
   font-size: 24px;
   font-weight: 500;
-  border: 0;
   box-sizing: border-box;
   cursor: inherit;
   outline: none;
