@@ -1,0 +1,1 @@
+- Fixes a bug in global-navigation caused due to a missing asset in atlassian-switcher
