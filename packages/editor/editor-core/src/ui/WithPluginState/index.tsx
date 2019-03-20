@@ -12,6 +12,7 @@ export interface State {
 export type PluginsConfig = { [name: string]: PluginKey };
 export type Context = {
   editorActions?: EditorActions;
+  editorSharedConfig?: any;
 };
 
 export interface Props {
@@ -46,6 +47,7 @@ export default class WithPluginState extends React.Component<Props, State> {
 
   static contextTypes = {
     editorActions: PropTypes.object,
+    editorSharedConfig: PropTypes.object,
   };
 
   state = {};
@@ -57,6 +59,7 @@ export default class WithPluginState extends React.Component<Props, State> {
       props.plugins,
       this.getEditorView(props, context),
     );
+    console.log(this.state, props.plugins);
   }
 
   private getEditorView(
@@ -69,7 +72,10 @@ export default class WithPluginState extends React.Component<Props, State> {
       props.editorView ||
       (context &&
         context.editorActions &&
-        context.editorActions._privateGetEditorView())
+        context.editorActions._privateGetEditorView()) ||
+      (context &&
+        context.editorSharedConfig &&
+        context.editorSharedConfig.editorView)
     );
   }
 
@@ -79,7 +85,10 @@ export default class WithPluginState extends React.Component<Props, State> {
       props.eventDispatcher ||
       (this.context &&
         this.context.editorActions &&
-        this.context.editorActions._privateGetEventDispatcher())
+        this.context.editorActions._privateGetEventDispatcher()) ||
+      (this.context &&
+        this.context.editorSharedConfig &&
+        this.context.editorSharedConfig.eventDispatcher)
     );
   }
 

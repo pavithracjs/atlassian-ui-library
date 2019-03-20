@@ -44,23 +44,26 @@ const quickInsertPlugin = (): EditorPlugin => ({
         _tr,
         dispatch,
       ) => {
-        analyticsService.trackEvent('atlassian.editor.quickinsert.query');
-        if (!prevActive && queryChanged) {
-          (dispatch as AnalyticsDispatch)(analyticsEventKey, {
-            payload: {
-              action: ACTION.INVOKED,
-              actionSubject: ACTION_SUBJECT.TYPEAHEAD,
-              actionSubjectId: ACTION_SUBJECT_ID.TYPEAHEAD_QUICK_INSERT,
-              attributes: { inputMethod: INPUT_METHOD.KEYBOARD },
-              eventType: EVENT_TYPE.UI,
-            },
-          });
-        }
+        console.log(1, intl);
+        // analyticsService.trackEvent('atlassian.editor.quickinsert.query');
+        // if (!prevActive && queryChanged) {
+        //   (dispatch as AnalyticsDispatch)(analyticsEventKey, {
+        //     payload: {
+        //       action: ACTION.INVOKED,
+        //       actionSubject: ACTION_SUBJECT.TYPEAHEAD,
+        //       actionSubjectId: ACTION_SUBJECT_ID.TYPEAHEAD_QUICK_INSERT,
+        //       attributes: { inputMethod: INPUT_METHOD.KEYBOARD },
+        //       eventType: EVENT_TYPE.UI,
+        //     },
+        //   });
+        // }
         const quickInsertState = pluginKey.getState(state);
         const defaultItems = processItems(quickInsertState.items, intl);
         const defaultSearch = () => find(query, defaultItems);
 
+        console.log(2);
         if (quickInsertState.provider) {
+          console.log(3);
           return (quickInsertState.provider as Promise<Array<QuickInsertItem>>)
             .then(items =>
               find(
@@ -74,7 +77,7 @@ const quickInsertPlugin = (): EditorPlugin => ({
               return defaultSearch();
             });
         }
-
+        console.log(4);
         return defaultSearch();
       },
       selectItem: (state, item, insert) => {
