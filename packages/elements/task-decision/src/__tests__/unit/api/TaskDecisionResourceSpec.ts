@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import * as URLSearchParams from 'url-search-params';
 import * as fetchMock from 'fetch-mock/src/client';
 import { waitUntil } from '@atlaskit/util-common-test';
