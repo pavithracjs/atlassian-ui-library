@@ -1,11 +1,13 @@
 // @flow
-import React from 'react';
+import React, { Component } from 'react';
+import styled from 'styled-components';
 
 import { BreadcrumbsStateless, BreadcrumbsItem } from '@atlaskit/breadcrumbs';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import TextField from '@atlaskit/textfield';
 import Select from '@atlaskit/select';
-import { InlineEditableTextfield } from '@atlaskit/inline-edit';
+import InlineEdit from '@atlaskit/inline-edit';
+import { colors } from '@atlaskit/theme';
 
 import PageHeader from '../src';
 
@@ -37,17 +39,71 @@ const barContent = (
   </div>
 );
 
-const CustomTitleComponent = () => (
-  <InlineEditableTextfield
-    defaultValue="Editable title"
-    onConfirm={() => {}}
-    onCancel={() => {}}
-    theme={{
-      fontSize: '24px',
-      fontWeight: '500',
-    }}
-  />
-);
+const ReadView = styled.div`
+  font-size: 24px;
+  font-weight: 500;
+  display: flex;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 8px 6px;
+`;
+
+const EditView = styled.input`
+  font-size: 24px;
+  font-weight: 500;
+  border: 0;
+  box-sizing: border-box;
+  cursor: inherit;
+  outline: none;
+  padding: 6px 6px;
+  width: 100%;
+  border: 2px solid transparent;
+  border-radius: 3px;
+
+  :focus {
+    border: 2px solid ${colors.B100};
+  }
+`;
+
+class CustomTitleComponent extends Component {
+  state = {
+    isEditing: false,
+  };
+
+  editViewRef = React.createRef();
+
+  onEditRequested = () => {
+    this.setState({ isEditing: true }, () => {
+      console.log(this.editViewRef.current);
+      if (this.editViewRef.current) {
+        this.editViewRef.current.focus();
+      }
+    });
+  };
+
+  render() {
+    return (
+      <InlineEdit
+        isEditing={this.state.isEditing}
+        readView={<ReadView>Editable title</ReadView>}
+        editView={fieldProps => (
+          <EditView
+            {...fieldProps}
+            value="Editable title"
+            innerRef={this.editViewRef}
+          />
+        )}
+        onConfirm={() => {
+          this.setState({ isEditing: false });
+        }}
+        onCancel={() => {
+          this.setState({ isEditing: false });
+        }}
+        onEditRequested={this.onEditRequested}
+      />
+    );
+  }
+}
 
 export default () => (
   <PageHeader

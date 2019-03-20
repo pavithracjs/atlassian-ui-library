@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { ThemeProps } from './theme';
 
 export interface Props {
   /** Component to be shown when not in edit view. */
@@ -20,8 +19,6 @@ export interface Props {
   /** Handler called when checkmark is. */
   onCancel: () => void;
 
-  /** The theme the component should use. */
-  themeProps: ThemeProps;
   /** Label above the input. */
   label?: string;
   /** Validation function handled by final-form. */

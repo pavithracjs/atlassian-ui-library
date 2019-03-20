@@ -19,7 +19,6 @@ import {
   FieldProps,
   InlineDialogProps,
 } from '../types';
-import Theme, { ThemeProps, ThemeTokens } from '../theme';
 import ButtonsWrapper from '../styled/ButtonsWrapper';
 import ButtonWrapper from '../styled/ButtonWrapper';
 import ReadViewContentWrapper from '../styled/ReadViewContentWrapper';
@@ -216,7 +215,6 @@ class InlineEdit extends React.Component<Props, State> {
       hideActionButtons,
       isEditing,
       label,
-      themeProps,
       validate,
     } = this.props;
     return (
@@ -238,53 +236,46 @@ class InlineEdit extends React.Component<Props, State> {
             onSubmit={onSubmit}
             ref={formRef}
           >
-            <Theme.Provider
-              value={(
-                theme: (props: ThemeProps) => ThemeTokens,
-                props: ThemeProps,
-              ) => ({ ...theme({ ...themeProps, ...props }) })}
-            >
-              {isEditing ? (
-                <Field
-                  name="inlineEdit"
-                  label={label}
-                  defaultValue={defaultValue}
-                  validate={validate}
-                >
-                  {({ fieldProps, error }: FieldChildProps) => (
-                    <ContentWrapper
-                      onBlur={() =>
-                        this.onWrapperBlur(
-                          fieldProps.isInvalid,
-                          onSubmit,
-                          formRef,
-                        )
-                      }
-                      onFocus={this.onWrapperFocus}
-                    >
-                      <div>
-                        {validate && (
-                          <InlineDialog
-                            isOpen={!!error}
-                            content={error}
-                            placement="right"
-                          >
-                            <InlineDialogChild />
-                          </InlineDialog>
-                        )}
-                        {this.renderEditView(fieldProps, !!error)}
-                      </div>
-                      {!hideActionButtons && this.renderActionButtons()}
-                    </ContentWrapper>
-                  )}
-                </Field>
-              ) : (
-                /** Field is used here only for the label */
-                <Field name="inlineEdit" label={label} defaultValue="">
-                  {() => this.renderReadView()}
-                </Field>
-              )}
-            </Theme.Provider>
+            {isEditing ? (
+              <Field
+                name="inlineEdit"
+                label={label}
+                defaultValue={defaultValue}
+                validate={validate}
+              >
+                {({ fieldProps, error }: FieldChildProps) => (
+                  <ContentWrapper
+                    onBlur={() =>
+                      this.onWrapperBlur(
+                        fieldProps.isInvalid,
+                        onSubmit,
+                        formRef,
+                      )
+                    }
+                    onFocus={this.onWrapperFocus}
+                  >
+                    <div>
+                      {validate && (
+                        <InlineDialog
+                          isOpen={!!error}
+                          content={error}
+                          placement="right"
+                        >
+                          <InlineDialogChild />
+                        </InlineDialog>
+                      )}
+                      {this.renderEditView(fieldProps, !!error)}
+                    </div>
+                    {!hideActionButtons && this.renderActionButtons()}
+                  </ContentWrapper>
+                )}
+              </Field>
+            ) : (
+              /** Field is used here only for the label */
+              <Field name="inlineEdit" label={label} defaultValue="">
+                {() => this.renderReadView()}
+              </Field>
+            )}
           </form>
         )}
       </Form>

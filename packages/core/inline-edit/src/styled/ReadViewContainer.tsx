@@ -1,21 +1,16 @@
-import * as React from 'react';
 import styled from 'styled-components';
-import Theme, { ThemeTokens } from '../theme';
+import { fontSize, gridSize } from '@atlaskit/theme';
 
-const ReadViewContainer = styled.div<ThemeTokens>`
+const ReadViewContainer = styled.div`
   display: flex;
   max-width: 100%;
   overflow: hidden;
   padding: 8px 6px;
-  font-size: ${theme => theme.fontSize}px;
-  height: ${theme => (theme.gridSize * 2.5) / theme.fontSize}em;
-  line-height: ${theme => (theme.gridSize * 2.5) / theme.fontSize};
+  font-size: ${fontSize()}px;
+  height: ${(gridSize() * 2.5) / fontSize()}em;
+  line-height: ${(gridSize() * 2.5) / fontSize()};
 `;
 
 ReadViewContainer.displayName = 'ReadViewContainer';
 
-export default (
-  <Theme.Consumer>
-    {(tokens: ThemeTokens) => <ReadViewContainer {...tokens} />}
-  </Theme.Consumer>
-);
+export default ReadViewContainer;
