@@ -132,7 +132,7 @@ See the existing issues for things to start contributing. For bigger changes, ma
 
 #### Become a contributor
 
- If this is your _first time_ to raise a pull request, you need to be added to the 'atlaskit contributor' team in order to create branches for your pull requests. To be added, create an [issue](https://bitbucket.org/atlassian/atlaskit-mk-2/issues?status=new&status=open) and include the following:
+ If this is your _first time_ to raise a pull request, you need to be added to the 'atlaskit contributor' team in order to create branches for your pull requests. To be added, create an [issue](https://ecosystem.atlassian.net/servicedesk/customer/portal/24) and include the following:
 
 1. Issue title - __"Become an Atlaskit contributor"__
 2. Your Bitbucket username and
