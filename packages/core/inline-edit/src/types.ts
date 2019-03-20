@@ -99,7 +99,7 @@ export interface RenderChildrenProps {
 
 /** These interfaces will be exported from the Form package once it is converted to Typescript */
 export interface FormProps {
-  onSubmit: (e: React.FormEvent) => void;
+  onSubmit: (e: React.FormEvent | any) => void;
   ref: React.RefObject<HTMLFormElement>;
   onKeyDown: (e: React.KeyboardEvent) => void;
 }

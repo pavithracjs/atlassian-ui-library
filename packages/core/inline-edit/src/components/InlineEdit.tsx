@@ -47,6 +47,7 @@ const defaultProps: Pick<
   readViewFitContainerWidth: false,
 };
 
+/** This means that InlineDialog is only loaded if necessary */
 const InlineDialog = Loadable<InlineDialogProps, {}>({
   loader: () =>
     import('@atlaskit/inline-dialog').then(module => module.default),
@@ -81,6 +82,7 @@ class InlineEdit extends React.Component<Props, State> {
 
   onCancelClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    /** This prevents clicking on cancel button from calling onConfirm */
     if (this.cancelButtonRef) {
       this.cancelButtonRef.focus();
     }
@@ -91,6 +93,7 @@ class InlineEdit extends React.Component<Props, State> {
     event: React.MouseEvent<HTMLButtonElement | HTMLDivElement>,
   ) => {
     const element = event.target as HTMLElement;
+    /** If a link is clicked in the read view, default action should be taken */
     if (element.tagName.toLowerCase() !== 'a') {
       event.preventDefault();
       this.props.onEditRequested();
@@ -100,9 +103,17 @@ class InlineEdit extends React.Component<Props, State> {
   /** Unless disableConfirmOnBlur prop is true, will call confirmIfUnfocused() which
    *  confirms the value, unless the focus is transferred to the buttons
    */
-  onWrapperBlur = (isInvalid: boolean, onSubmit, formRef) => {
+  onWrapperBlur = (
+    isInvalid: boolean,
+    onSubmit: (e: React.FormEvent | any) => void,
+    formRef: React.RefObject<HTMLFormElement>,
+  ) => {
     if (!this.props.disableConfirmOnBlur) {
       this.setState({ wasFocusReceivedSinceLastBlur: false });
+      /**
+       * This ensures that clicking on one of the action buttons will call
+       * onWrapperFocus before confirmIfUnfocused is called
+       */
       setTimeout(() => this.confirmIfUnfocused(isInvalid, onSubmit, formRef));
     }
   };
@@ -112,8 +123,16 @@ class InlineEdit extends React.Component<Props, State> {
     this.setState({ wasFocusReceivedSinceLastBlur: true });
   };
 
-  confirmIfUnfocused = (isInvalid: boolean, onSubmit, formRef) => {
-    if (!isInvalid && !this.state.wasFocusReceivedSinceLastBlur) {
+  confirmIfUnfocused = (
+    isInvalid: boolean,
+    onSubmit: (e: React.FormEvent | any) => void,
+    formRef: React.RefObject<HTMLFormElement>,
+  ) => {
+    if (
+      !isInvalid &&
+      !this.state.wasFocusReceivedSinceLastBlur &&
+      formRef.current
+    ) {
       this.setState({ preventFocusOnEditButton: true });
       if (formRef.current.checkValidity()) {
         onSubmit({});
@@ -157,11 +176,13 @@ class InlineEdit extends React.Component<Props, State> {
             iconBefore={<ConfirmIcon label="Confirm" size="small" />}
             shouldFitContainer
             onClick={() => {
+              /** This prevents clicking on confirm button from calling onConfirm twice */
               if (this.confirmButtonRef) {
                 this.confirmButtonRef.focus();
               }
             }}
             onMouseDown={() => {
+              /** Prevents focus on edit button only if mouse is used to click button */
               this.setState({ preventFocusOnEditButton: true });
             }}
             innerRef={ref => {
@@ -175,6 +196,7 @@ class InlineEdit extends React.Component<Props, State> {
             iconBefore={<CancelIcon label="Cancel" size="small" />}
             onClick={this.onCancelClick}
             onMouseDown={() => {
+              /** Prevents focus on edit button only if mouse is used to click button */
               this.setState({ preventFocusOnEditButton: true });
             }}
             shouldFitContainer
@@ -233,9 +255,9 @@ class InlineEdit extends React.Component<Props, State> {
                     onFocus={this.onWrapperFocus}
                   >
                     <div>
-                      {!!error && (
+                      {validate && (
                         <InlineDialog
-                          isOpen={true}
+                          isOpen={!!error}
                           content={error}
                           placement="right"
                         >
@@ -249,6 +271,7 @@ class InlineEdit extends React.Component<Props, State> {
                 )}
               </Field>
             ) : (
+              /** Field is used here only for the label */
               <Field name="inlineEdit" label={label} defaultValue="">
                 {() => this.renderReadView()}
               </Field>

@@ -1,28 +1,38 @@
 {
   "name": "@atlaskit/inline-edit",
-  "version": "8.0.1",
+  "version": "9.0.0",
   "description": "A base component used to build inline-editable components that match the Atlassian Design Guidelines",
   "license": "Apache-2.0",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "types": "index.d.ts",
+  "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/inline-edit",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
+    "Kang C",
     "Sean C",
     "Ajay M",
-    "Daniel D",
-    "Kang C"
+    "Daniel D"
   ],
+  "atlaskit": {
+    "name": "Inline Edit",
+    "team": "core"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^4.0.1",
-    "@atlaskit/button": "^11.0.0",
-    "@atlaskit/field-base": "^12.0.0",
-    "@atlaskit/icon": "^16.0.5",
-    "@atlaskit/theme": "^8.0.1",
+    "@atlaskit/analytics-next": "^4.0.0",
+    "@atlaskit/analytics-next-types": "^4.0.1",
+    "@atlaskit/button": "^11.0.1",
+    "@atlaskit/form": "^5.1.6",
+    "@atlaskit/icon": "^16.0.0",
+    "@atlaskit/inline-dialog": "^10.0.1",
+    "@atlaskit/textfield": "^0.4.0",
+    "@atlaskit/theme": "^8.0.0",
+    "@atlaskit/type-helpers": "^3.0.1",
     "@babel/runtime": "^7.0.0",
-    "classnames": "^2.2.5"
+    "react-loadable": "^5.1.0",
+    "tslib": "^1.8.0"
   },
   "peerDependencies": {
     "react": "^16.4.0",
@@ -30,14 +40,11 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/docs": "^7.0.1",
-    "@atlaskit/field-radio-group": "^5.0.1",
-    "@atlaskit/field-text": "^8.0.1",
-    "@atlaskit/input": "^5.0.0",
-    "@atlaskit/multi-select": "^12.0.1",
-    "@atlaskit/ssr": "^0.0.1",
+    "@atlaskit/docs": "^7.0.0",
+    "@atlaskit/select": "^8.0.3",
     "@atlaskit/tag": "^7.0.0",
     "@atlaskit/tag-group": "^7.0.0",
+    "@atlaskit/textarea": "^0.3.1",
     "enzyme": "^3.7.0",
     "react-dom": "^16.4.2"
   },

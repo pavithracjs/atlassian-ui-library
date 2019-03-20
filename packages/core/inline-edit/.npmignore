@@ -1,3 +1,4 @@
 src/
-example-helpers/
 examples/
+example-helpers/
+index.ts
