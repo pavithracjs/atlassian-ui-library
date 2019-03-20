@@ -11,31 +11,15 @@ const dimensions = { height: 50, width: 50 };
 
 const defaultCards = [
   {
-    title: 'Small',
+    title: 'Medium Loading',
     content: (
       <div style={divStyle}>
-        <CardLoading iconSize="small" />
+        <CardLoading />
       </div>
     ),
   },
   {
-    title: 'Medium',
-    content: (
-      <div style={divStyle}>
-        <CardLoading iconSize="medium" />
-      </div>
-    ),
-  },
-  {
-    title: 'Large',
-    content: (
-      <div style={divStyle}>
-        <CardLoading iconSize="large" />
-      </div>
-    ),
-  },
-  {
-    title: 'Error',
+    title: 'Medium Error',
     content: (
       <div style={divStyle}>
         <CardError />
@@ -46,19 +30,11 @@ const defaultCards = [
 
 const resizedCards = [
   {
-    title: 'Small',
-    content: <CardLoading dimensions={dimensions} iconSize="small" />,
+    title: 'Medium Loading',
+    content: <CardLoading dimensions={dimensions} />,
   },
   {
-    title: 'Medium',
-    content: <CardLoading dimensions={dimensions} iconSize="medium" />,
-  },
-  {
-    title: 'Large',
-    content: <CardLoading dimensions={dimensions} iconSize="large" />,
-  },
-  {
-    title: 'Error',
+    title: 'Medium Error',
     content: <CardError dimensions={dimensions} />,
   },
 ];

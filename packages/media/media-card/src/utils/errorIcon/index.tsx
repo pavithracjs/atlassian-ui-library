@@ -8,7 +8,7 @@ export class ErrorIcon extends Component<{}, {}> {
   render() {
     return (
       <ErrorIconWrapper>
-        <WarningIcon label="Error" size="small" />
+        <WarningIcon label="Error" size="medium" />
       </ErrorIconWrapper>
     );
   }
