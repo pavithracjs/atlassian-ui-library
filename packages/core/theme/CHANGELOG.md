@@ -1,5 +1,10 @@
 # @atlaskit/theme
 
+## 8.0.2
+- [patch] [5150860405](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5150860405):
+
+  - Updates Theme.Context prop type definiton
+
 ## 8.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

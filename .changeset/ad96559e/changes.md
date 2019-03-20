@@ -1,1 +1,0 @@
-- Updates Theme.Context prop type definiton
