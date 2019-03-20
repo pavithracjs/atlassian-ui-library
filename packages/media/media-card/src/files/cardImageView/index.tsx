@@ -18,7 +18,7 @@ import {
 } from './styled';
 import { isLoadingImage } from '../../utils/isLoadingImage';
 import { MediaImage } from '../../utils/mediaImage';
-import { CardLoading } from '../../utils/cardLoading';
+import { CardLoading } from '../../utils/cardStatic';
 import VidPlayIcon from '@atlaskit/icon/glyph/vid-play';
 import { shouldDisplayImageThumbnail } from '../../utils/shouldDisplayImageThumbnail';
 import { Ellipsify } from '@atlaskit/media-ui';

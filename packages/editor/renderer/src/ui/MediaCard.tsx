@@ -4,7 +4,8 @@ import {
   CardAppearance,
   CardDimensions,
   Card,
-  CardView,
+  CardLoading,
+  CardError,
   CardOnClickCallback,
 } from '@atlaskit/media-card';
 import {
@@ -74,13 +75,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
   private renderLoadingCard = () => {
     const { cardDimensions } = this.props;
 
-    return (
-      <CardView
-        status="loading"
-        mediaItemType="file"
-        dimensions={cardDimensions}
-      />
-    );
+    return <CardLoading dimensions={cardDimensions} />;
   };
 
   private renderExternal() {
@@ -150,13 +145,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     }
 
     if (!id || type !== 'file') {
-      return (
-        <CardView
-          status="error"
-          mediaItemType={type}
-          dimensions={cardDimensions}
-        />
-      );
+      return <CardError dimensions={cardDimensions} />;
     }
 
     const identifier: FileIdentifier = {

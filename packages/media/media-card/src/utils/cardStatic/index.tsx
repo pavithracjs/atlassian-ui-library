@@ -3,6 +3,7 @@ import { Component } from 'react';
 import FileIcon from '@atlaskit/icon/glyph/file';
 import { Wrapper } from './styled';
 import { CardDimensions } from '../..';
+import { ErrorIcon } from '../errorIcon';
 
 export interface LoadingCardProps {
   iconSize?: 'small' | 'medium' | 'large';
@@ -39,5 +40,20 @@ export class CardLoading extends Component<LoadingCardProps, {}> {
     const { iconSize } = this;
 
     return <FileIcon label="loading" size={iconSize} />;
+  }
+}
+
+export interface ErrorCardProps {
+  dimensions?: CardDimensions;
+}
+
+export class CardError extends Component<ErrorCardProps, {}> {
+  render() {
+    const dimensions = getDimensionsWithDefault(this.props.dimensions);
+    return <Wrapper dimensions={dimensions}>{this.icon}</Wrapper>;
+  }
+
+  get icon() {
+    return <ErrorIcon />;
   }
 }

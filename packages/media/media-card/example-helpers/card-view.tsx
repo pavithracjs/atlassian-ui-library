@@ -21,7 +21,8 @@ import {
   imageFileDetails,
   wideImage,
 } from '@atlaskit/media-test-helpers';
-import { CardView, CardAppearance, CardDimensions } from '../src';
+import { CardAppearance, CardDimensions } from '../src';
+
 import {
   actions,
   annotateCardAction,
@@ -29,6 +30,7 @@ import {
   clickHandler,
   mouseEnterHandler,
 } from './index';
+import { CardView } from '../src/root/cardView';
 
 const images = [
   wideTransparentImage,

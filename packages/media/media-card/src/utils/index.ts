@@ -3,7 +3,7 @@ export * from './fileIcon';
 export * from './cardActions';
 export * from './isRetina';
 export * from './mediaImage';
-export * from './cardLoading';
+export * from './cardStatic';
 export * from './cardDimensions';
 export * from './breakpoint';
 export * from './isValidPercentageUnit';
