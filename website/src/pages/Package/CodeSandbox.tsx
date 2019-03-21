@@ -2,13 +2,16 @@ import * as React from 'react';
 import CodeSandboxer from 'react-codesandboxer';
 import { replaceSrc } from '@atlaskit/docs';
 
-const getExampleUrl = (groupId, packageId, exampleId) =>
+const getExampleUrl = (groupId: string, packageId: string, exampleId: string) =>
   `https://bitbucket.org/atlassian/atlaskit-mk-2/raw/HEAD/packages/${groupId}/${packageId}/examples/${exampleId}`;
-const getExamplePath = (groupId, packageId, exampleId) =>
-  `packages/${groupId}/${packageId}/examples/${exampleId}`;
+const getExamplePath = (
+  groupId: string,
+  packageId: string,
+  exampleId: string,
+) => `packages/${groupId}/${packageId}/examples/${exampleId}`;
 const repoUrl = 'https://bitbucket.org/atlassian/atlaskit-mk-2';
 
-const baseFiles = (groupId, packageId, exampleId) => ({
+const baseFiles = (groupId: string, packageId: string, exampleId: string) => ({
   'index.js': {
     content: `/**
   This CodeSandbox has been automatically generated from the contents of ${getExampleUrl(
@@ -43,7 +46,11 @@ document.getElementById('root')
   We only apply this creative solution because these examples are not recommended
   usages in any case.
 */
-const cssLoaderExceptions = (pkgJSONName, groupId, packageId) => [
+const cssLoaderExceptions = (
+  pkgJSONName: string,
+  groupId: string,
+  packageId: string,
+) => [
   ['!!style-loader!css-loader!../src/bundle.css', pkgJSONName],
   [`packages/${groupId}/${packageId}/src/index.less`, pkgJSONName],
   [
@@ -91,7 +98,7 @@ export default class CodeSandbox extends React.Component<Props, State> {
         examplePath={getExamplePath(groupId, packageId, example.id)}
         example={example
           .contents()
-          .then(content => replaceSrc(content.default, pkgJSON.name))}
+          .then((content: any) => replaceSrc(content.default, pkgJSON.name))}
         pkgJSON={pkgJSON}
         name={`${pkgJSON.name}-${name}`}
         afterDeployError={afterDeployError}
@@ -119,7 +126,7 @@ export default class CodeSandbox extends React.Component<Props, State> {
         }}
         providedFiles={baseFiles(groupId, packageId, example.id)}
       >
-        {({ isLoading, error }) =>
+        {({ isLoading, error }: { isLoading: boolean; error: Error }) =>
           isLoading ? loadingButton() : deployButton({ error })
         }
       </CodeSandboxer>

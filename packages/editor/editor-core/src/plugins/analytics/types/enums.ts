@@ -40,6 +40,7 @@ export const enum ACTION_SUBJECT {
   BUTTON = 'button',
   DOCUMENT = 'document',
   EDITOR = 'editor',
+  MEDIA = 'media',
   PANEL = 'panel',
   PICKER = 'picker',
   TEXT = 'text',
@@ -48,6 +49,7 @@ export const enum ACTION_SUBJECT {
 
 export const enum ACTION_SUBJECT_ID {
   ACTION = 'action',
+  ANNOTATE_BUTTON = 'annotateButton',
   BUTTON_HELP = 'helpButton',
   BUTTON_FEEDBACK = 'feedbackButton',
   CANCEL = 'cancel',

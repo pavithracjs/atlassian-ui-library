@@ -1,5 +1,6 @@
 import sentenceCase from 'sentence-case';
 import { Directory, File } from '../types';
+export { Directory, File } from '../types';
 
 export function getDirectories(
   items: Array<Directory | File>,
@@ -53,7 +54,7 @@ export function flatMap<T>(
 ): Array<T> {
   const result: Array<T> = [];
 
-  function visit(dir, filePath) {
+  function visit(dir: Directory, filePath: string) {
     for (const item of dir.children) {
       const currPath = `${filePath}/${item.id}`;
       if (item.type === 'dir') {
@@ -73,8 +74,11 @@ export function find(
   dir: Directory,
   iteratee: (file: File | Directory, filePath: string) => boolean,
 ): File | Directory | null {
-  function visit(dir, filePath) {
-    for (const item of dir.children) {
+  function visit(
+    dir: Directory,
+    filePath: string,
+  ): File | Directory | undefined {
+    for (const item of dir.children as Array<File | Directory>) {
       const currPath = `${filePath}/${item.id}`;
       if (iteratee(item, currPath)) {
         return item;
@@ -83,6 +87,7 @@ export function find(
         if (result) return result;
       }
     }
+    return undefined;
   }
 
   return visit(dir, dir.id) || null;
@@ -122,10 +127,10 @@ export function titleize(filePath: string): string {
   return sentenceCase(normalize(filePath));
 }
 
-export function isFile(file): file is File {
-  return file && file.contents;
+export function isFile(file: File | undefined): boolean {
+  return !!(file && file.contents);
 }
 
-export function isChildren(file): file is File {
-  return file && file.children;
+export function isChildren(file: File | Directory | undefined): boolean {
+  return !!(file && (<Directory>file).children);
 }

@@ -5,8 +5,10 @@
     "./src/**/*.tsx",
     "./docs/*.ts",
     "./docs/*.tsx",
-    "./examples/*.ts",
-    "./examples/*.tsx"
+    "./examples/**/*.ts",
+    "./examples/**/*.tsx", 
+    "./examples-helpers/**/*.ts",
+    "./examples-helpers/**/*.tsx"
   ],
   "compilerOptions": {
     "baseUrl": "./",

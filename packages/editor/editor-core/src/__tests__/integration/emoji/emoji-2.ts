@@ -14,7 +14,7 @@ import {
 BrowserTestCase(
   'emoji-2.ts: should be able to use emoji inside blockquote',
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
     await page.type(editable, '> ');
@@ -22,35 +22,35 @@ BrowserTestCase(
     await insertEmoji(page, 'a');
     await page.waitForSelector(emojiItem('a'), 100);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'emoji-2.ts: should be able to use emoji inside bulletList',
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page', allowLists: true });
     await page.type(editable, '* ');
     await insertEmoji(page, 'smile');
     await page.waitForSelector(emojiItem('smile'), 1000);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'emoji-2.ts: should be able to use emoji inside orderedList',
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page', allowLists: true });
     await page.type(editable, '1. ');
     await insertEmoji(page, 'a');
     await page.waitForSelector(emojiItem('a'), 1000);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
@@ -58,7 +58,7 @@ BrowserTestCase(
 BrowserTestCase(
   'emoji-2.ts: should be able remove emoji on backspace',
   { skip: ['safari', 'ie', 'edge'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page', allowLists: true });
     await page.type(editable, 'this ');
@@ -66,7 +66,7 @@ BrowserTestCase(
     await page.waitForSelector(emojiItem('joy'), 1000);
     await page.type(editable, ['Backspace', 'Backspace']);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
@@ -75,7 +75,7 @@ BrowserTestCase(
 BrowserTestCase(
   'emoji-2.ts: should be able to select emoji by clicking inside decisions',
   { skip: ['safari', 'ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const decisions = 'span[aria-label="Decision"]';
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
@@ -85,14 +85,14 @@ BrowserTestCase(
     await page.type(editable, 'this ');
     await insertEmojiBySelect(page, 'smile');
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'emoji-2.ts: should be able to change text with emoji into decisions',
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const decisions = 'li span[aria-label="Decision"]';
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
@@ -102,6 +102,6 @@ BrowserTestCase(
     await page.waitForSelector(decisions, 1000);
     await page.isExisting(decisions);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

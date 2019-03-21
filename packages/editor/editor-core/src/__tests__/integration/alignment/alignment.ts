@@ -21,7 +21,7 @@ const alignRight = async page => {
 BrowserTestCase(
   'alignment: should be able to add alignment to paragraphs',
   { skip: [] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -31,14 +31,16 @@ BrowserTestCase(
 
     await page.type(editable, 'hello');
     await alignRight(page);
-    expect(await page.$eval(editable, getDocFromElement)).toMatchDocSnapshot();
+    expect(
+      await page.$eval(editable, getDocFromElement),
+    ).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'alignment: should be able to add alignment to headings',
   { skip: [] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -52,7 +54,9 @@ BrowserTestCase(
     await page.waitFor(headingh1);
     await page.click(headingh1);
     await alignRight(page);
-    expect(await page.$eval(editable, getDocFromElement)).toMatchDocSnapshot();
+    expect(
+      await page.$eval(editable, getDocFromElement),
+    ).toMatchCustomDocSnapshot(testName);
   },
 );
 
@@ -92,7 +96,7 @@ BrowserTestCase(
 BrowserTestCase(
   'alignment: should maintain alignment when hit return',
   { skip: [] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: 'full-page',
@@ -106,6 +110,6 @@ BrowserTestCase(
     ]);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

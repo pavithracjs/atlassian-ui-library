@@ -30,7 +30,7 @@ export const Content = styled.div`
 
 const codePaneWidth = 640;
 const transitionDuration = 200;
-const transitionDistance = {
+const transitionDistance: { [key: string]: string | number } = {
   entering: '100%',
   entered: 0,
   exiting: '100%',
@@ -60,7 +60,7 @@ export const CodeBox = styled.div`
   right: 0;
   top: ${NAVBAR_HEIGHT};
   transform: translate3d(
-    ${(p: { status: number }) => transitionDistance[p.status]},
+    ${(p: { status: string }) => transitionDistance[p.status]},
     0,
     0
   );
@@ -89,7 +89,7 @@ export const CodeContainer = ({
     appear
     timeout={transitionDuration}
   >
-    {status => {
+    {(status: string) => {
       if (status === 'exited') return null;
 
       return <CodeBox status={status}>{children}</CodeBox>;

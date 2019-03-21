@@ -1,5 +1,15 @@
 # @atlaskit/form
 
+## 5.2.3
+- Updated dependencies [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
+  - @atlaskit/modal-dialog@8.0.3
+  - @atlaskit/textfield@0.4.0
+
+## 5.2.2
+- [patch] [a1217df379](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1217df379):
+
+  - Internal changes only. Form is now compatible with ssr.
+
 ## 5.2.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

@@ -1,5 +1,15 @@
 # @atlaskit/global-navigation
 
+## 6.1.3
+- [patch] [a041506c4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a041506c4d):
+
+  - Fixes a bug in global-navigation caused due to a missing asset in atlassian-switcher
+
+## 6.1.2
+- [patch] [94acafec27](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/94acafec27):
+
+  - Adds the error page according to the designs.
+
 ## 6.1.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

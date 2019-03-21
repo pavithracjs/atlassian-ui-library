@@ -1,5 +1,9 @@
 # @atlaskit/page-header
 
+## 7.0.2
+- Updated dependencies [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
+  - @atlaskit/textfield@0.4.0
+
 ## 7.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

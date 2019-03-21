@@ -48,6 +48,7 @@ export function firePreQueryShownEvent(
   searchSessionId: string,
   createAnalyticsEvent: CreateAnalyticsEventFn,
   experimentRequestDurationMs?: number,
+  retrievedFromAggregator?: boolean,
 ) {
   fireGasEvent(
     createAnalyticsEvent,
@@ -61,6 +62,7 @@ export function firePreQueryShownEvent(
       renderTimeMs,
       searchSessionId: searchSessionId,
       ...eventAttributes,
+      retrievedFromAggregator,
     },
   );
 }

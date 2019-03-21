@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/page-header",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "description": "A React component that represents Header of an application page",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -33,7 +33,7 @@
     "@atlaskit/page": "^9.0.1",
     "@atlaskit/select": "^8.0.3",
     "@atlaskit/ssr": "^0.0.1",
-    "@atlaskit/textfield": "^0.3.1",
+    "@atlaskit/textfield": "^0.4.0",
     "@atlaskit/visual-regression": "^0.0.1",
     "enzyme": "^3.7.0",
     "react-dom": "^16.4.2",
