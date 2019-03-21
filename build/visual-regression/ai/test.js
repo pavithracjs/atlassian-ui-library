@@ -1,9 +1,17 @@
-var exec = require('child_process').spawnSync;
+var spawn = require('child_process').spawnSync;
 
-const image = `${process.cwd()}/build/visual-regression/ai/search.png`;
+const main = async () => {
+  const image = `${process.cwd()}/build/visual-regression/ai/search.png`;
+  try {
+    const { label, prediction } = await getPrediction(image);
+    console.log({ label, prediction });
+  } catch (e) {
+    console.log(e);
+  }
+};
 
-const getPrediction = async img => {
-  const child = exec('python3', [
+const getPrediction = async (img, threshold = 0.8) => {
+  const child = spawn('python3', [
     `${process.cwd()}/build/visual-regression/ai/run_model.py`,
     `--image`,
     `${img}`,
@@ -14,14 +22,17 @@ const getPrediction = async img => {
     .split(`\n`)[2]
     .split('-')[0]
     .trim();
+
   const prediction = child.output
     .toString()
     .split(`\n`)[2]
     .split('-')[1]
     .trim();
 
-  console.log(label, prediction);
-  process.on('exit', function() {
-    return { label: prediction };
-  });
+  if (prediction >= threshold) {
+    return { label, prediction };
+  }
+  return;
 };
+
+main();
