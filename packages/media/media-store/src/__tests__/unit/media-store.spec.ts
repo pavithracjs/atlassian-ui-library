@@ -1,6 +1,5 @@
 jest.mock('../../utils/checkWebpSupport');
 
-import 'whatwg-fetch';
 import * as fetchMock from 'fetch-mock';
 import { stringify } from 'query-string';
 
