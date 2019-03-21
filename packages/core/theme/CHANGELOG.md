@@ -1,5 +1,10 @@
 # @atlaskit/theme
 
+## 8.1.0
+- [minor] [a561af5fc6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a561af5fc6):
+
+  - Theme now exports top-level type definition for TS users
+
 ## 8.0.2
 - [patch] [5150860405](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5150860405):
 
