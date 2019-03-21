@@ -1,0 +1,1 @@
+- Adds missing typescript annotations
