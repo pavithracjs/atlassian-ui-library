@@ -24,5 +24,4 @@ BrowserTestCase('Search icon test', { skip: [] }, async (client: any) => {
   await homePage.click(searchIcon);
   const alert = await homePage.getAlertText();
   expect(alert).toBe('search clicked');
-  await homePage.acceptAlert();
 });
