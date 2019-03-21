@@ -5,14 +5,12 @@ import Item from '@atlaskit/item';
 import ManageButton from '../../primitives/manage-button';
 import { IntlProvider } from 'react-intl';
 import '../../../test-helpers/mock-fetch';
-import createEventStream, {
-  EventStream,
-} from '../../../test-helpers/event-stream';
+import createStream, { Stream } from '../../../test-helpers/stream';
+import { AnalyticsListener } from '@atlaskit/analytics-next';
 import {
-  AnalyticsListener,
-  UIAnalyticsEvent,
+  UIAnalyticsEventInterface,
   ObjectType,
-} from '@atlaskit/analytics-next';
+} from '@atlaskit/analytics-next-types/index';
 
 const DefaultAtlassianSwitcher = (props: any = {}) => (
   <IntlProvider locale="en">
@@ -41,13 +39,13 @@ const flattenContext = (context: ObjectType[]) =>
 
 describe('Atlassian Switcher - Component Analytics', () => {
   let wrapper: ReactWrapper;
-  let eventStream: EventStream;
+  let eventStream: Stream<UIAnalyticsEventInterface>;
   beforeEach(() => {
-    eventStream = createEventStream();
+    eventStream = createStream();
     wrapper = mount(<DefaultAtlassianSwitcher onEventFired={eventStream} />);
   });
   it('should fire "atlassianSwitcher rendered"', done => {
-    eventStream.next().then(({ payload }: UIAnalyticsEvent) => {
+    eventStream.next().then(({ payload }) => {
       expect(payload).toMatchObject({
         eventType: 'operational',
         action: 'rendered',
@@ -67,7 +65,7 @@ describe('Atlassian Switcher - Component Analytics', () => {
         item.at(0).simulate('click');
         return eventStream.next();
       })
-      .then(({ payload, context }: UIAnalyticsEvent) => {
+      .then(({ payload, context }) => {
         expect(payload).toMatchObject({
           eventType: 'ui',
           action: 'clicked',
@@ -99,7 +97,7 @@ describe('Atlassian Switcher - Component Analytics', () => {
         });
         return eventStream.next();
       })
-      .then(({ payload, context }: UIAnalyticsEvent) => {
+      .then(({ payload, context }) => {
         expect(payload).toMatchObject({
           action: 'clicked',
           actionSubject: 'button',

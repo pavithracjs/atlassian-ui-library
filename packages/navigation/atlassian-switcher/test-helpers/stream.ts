@@ -1,5 +1,3 @@
-import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
-
 interface NextOp {
   type: 'next';
   target: number;
@@ -13,18 +11,18 @@ interface SkipOp {
 
 type OpDefinition = NextOp | SkipOp;
 
-export interface EventStream {
-  (event: UIAnalyticsEvent): void;
-  next: () => Promise<UIAnalyticsEvent>;
-  skip: (skippedCalls: number) => Promise<UIAnalyticsEvent[]>;
+export interface Stream<T> {
+  (event: T): void;
+  next: () => Promise<T>;
+  skip: (skippedCalls: number) => Promise<T[]>;
 }
 
-const createEventStream: () => EventStream = () => {
+function createStream<T>(): Stream<T> {
   const operationQueue: OpDefinition[] = [];
   let currentAccept: Function;
-  const allEvents: UIAnalyticsEvent[] = [];
+  const allEvents: T[] = [];
 
-  const callback = (event: UIAnalyticsEvent) => {
+  const callback = (event: T) => {
     allEvents.push(event);
     evaluateQueueOnCallback();
   };
@@ -72,7 +70,7 @@ const createEventStream: () => EventStream = () => {
       target: getNewTarget(),
     });
 
-    return evaluateQueueOnMethod() as Promise<UIAnalyticsEvent>;
+    return evaluateQueueOnMethod() as Promise<T>;
   };
 
   callback.skip = (calls: number) => {
@@ -82,9 +80,9 @@ const createEventStream: () => EventStream = () => {
       target: getNewTarget(calls),
     });
 
-    return evaluateQueueOnMethod() as Promise<UIAnalyticsEvent[]>;
+    return evaluateQueueOnMethod() as Promise<T[]>;
   };
   return callback;
-};
+}
 
-export default createEventStream;
+export default createStream;

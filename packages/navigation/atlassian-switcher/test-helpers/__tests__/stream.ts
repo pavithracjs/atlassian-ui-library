@@ -1,9 +1,9 @@
-import createEventStream from '../event-stream';
+import createStream from '../stream';
 
 describe('event-stream', () => {
   describe('next', () => {
     it('should wait for the next call entering the stream', done => {
-      const stream = createEventStream();
+      const stream = createStream();
       const sentValue = { some: 'value' };
       stream.next().then(valueFromStream => {
         expect(valueFromStream).toBe(sentValue);
@@ -12,7 +12,7 @@ describe('event-stream', () => {
       stream(sentValue);
     });
     it('should be able to return values already sent to the stream', done => {
-      const stream = createEventStream();
+      const stream = createStream();
       const sentValue = { some: 'value' };
       stream(sentValue);
       stream.next().then(valueFromStream => {
@@ -23,7 +23,7 @@ describe('event-stream', () => {
   });
   describe('skip', () => {
     it('should be able to return the skipped values entering the stream', done => {
-      const stream = createEventStream();
+      const stream = createStream();
       const skippedValues = ['a', 'b', 'c'];
       stream.skip(3).then(resolvedSkippedValues => {
         expect(resolvedSkippedValues).toMatchObject(skippedValues);
@@ -34,7 +34,7 @@ describe('event-stream', () => {
       stream(skippedValues[2]);
     });
     it('should be able to return the skipped values already sent to the stream', done => {
-      const stream = createEventStream();
+      const stream = createStream();
       const skippedValues = ['a', 'b', 'c'];
       stream(skippedValues[0]);
       stream(skippedValues[1]);
@@ -46,7 +46,7 @@ describe('event-stream', () => {
     });
   });
   it('should both next + skip operations', done => {
-    const stream = createEventStream();
+    const stream = createStream();
     const initialValue = 'a';
     const skippedValues = ['a', 'b', 'c'];
     stream
@@ -65,7 +65,7 @@ describe('event-stream', () => {
     stream(initialValue);
   });
   it('should both skip + next operations', done => {
-    const stream = createEventStream();
+    const stream = createStream();
     const initialValue = 'a';
     const skippedValues = ['a', 'b', 'c'];
     stream
