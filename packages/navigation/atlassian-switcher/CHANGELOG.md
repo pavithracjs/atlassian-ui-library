@@ -1,5 +1,10 @@
 # @atlaskit/atlassian-switcher
 
+## 0.3.0
+- [minor] [68443e3d6f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/68443e3d6f):
+
+  - Opsgenie app switching support
+
 ## 0.2.3
 - [patch] [a041506c4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a041506c4d):
 

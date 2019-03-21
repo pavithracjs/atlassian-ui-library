@@ -1,1 +1,0 @@
-- Opsgenie app switching support
