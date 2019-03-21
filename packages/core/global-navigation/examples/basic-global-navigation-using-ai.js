@@ -2,11 +2,7 @@
 
 import React from 'react';
 import EmojiAtlassianIcon from '@atlaskit/icon/glyph/emoji/atlassian';
-import {
-  GlobalItem,
-  LayoutManager,
-  NavigationProvider,
-} from '@atlaskit/navigation-next';
+import { LayoutManager, NavigationProvider } from '@atlaskit/navigation-next';
 // import AppSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 
 import GlobalNavigation from '../src';

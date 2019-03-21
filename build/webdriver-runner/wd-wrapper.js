@@ -137,6 +137,10 @@ export default class Page {
     return this.browser.alertText();
   }
 
+  acceptAlert() {
+    return this.browser.acceptAlert();
+  }
+
   url() {
     return this.browser.getUrl();
   }
