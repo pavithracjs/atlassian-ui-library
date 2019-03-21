@@ -12,8 +12,6 @@ import {
   ObjectType,
 } from '@atlaskit/analytics-next';
 
-// jest.useFakeTimers();
-
 const DefaultAtlassianSwitcher = (props: any = {}) => (
   <IntlProvider locale="en">
     <AnalyticsListener channel="*" onEvent={props.onEventFired}>
