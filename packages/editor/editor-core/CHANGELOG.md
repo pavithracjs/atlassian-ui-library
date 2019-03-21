@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.2.0
+- [minor] [7bd786fd4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7bd786fd4d):
+
+  - TEAMS-323 : Send additional information for teams when a team is selected in a mention
+
 ## 106.1.2
 - Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
   - @atlaskit/smart-card@10.1.1
