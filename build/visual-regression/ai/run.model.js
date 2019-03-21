@@ -6,7 +6,7 @@ const { execSync } = require('child_process');
 
 (() => {
   execSync(
-    'python ./build/visual-regression/ai/run_model.py --image ./build/visual-regression/ai/search.png',
+    'python3 ./build/visual-regression/ai/run_model.py --image ./build/visual-regression/ai/search.png',
   );
   // try{
   //   pythonProcess.stdout.on('data', function(data) {
