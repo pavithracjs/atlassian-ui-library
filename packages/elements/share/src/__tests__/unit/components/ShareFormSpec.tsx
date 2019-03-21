@@ -11,7 +11,7 @@ import { ShareForm } from '../../../components/ShareForm';
 import { ShareHeader } from '../../../components/ShareHeader';
 import { UserPickerField } from '../../../components/UserPickerField';
 import { messages } from '../../../i18n';
-import { ConfigResponse, DialogContentState } from '../../../types';
+import { ConfigResponse, DialogContentState, ShareError } from '../../../types';
 import { renderProp } from '../_testUtils';
 
 describe('ShareForm', () => {
@@ -70,8 +70,10 @@ describe('ShareForm', () => {
         appearance: 'primary',
         type: 'submit',
         isLoading: false,
-        children: submitButtonLabel || (
-          <FormattedMessage {...messages.formSend} />
+        children: (
+          <>
+            {submitButtonLabel || <FormattedMessage {...messages.formSend} />}
+          </>
         ),
       });
       const copyLinkButton = footer.find(CopyLinkButton);
@@ -98,11 +100,34 @@ describe('ShareForm', () => {
       const footer = form.find(FormFooter);
       expect(footer.find(Button).prop('isLoading')).toBeTruthy();
     });
+
+    it('should set appearance prop to "primary" and isLoading prop to true to the Send button, and hide the tooltip', () => {
+      const mockLink = 'link';
+      const mockShareError: ShareError = { message: 'error' };
+      const loadOptions = jest.fn();
+      const wrapper = shallow(
+        <ShareForm
+          copyLink={mockLink}
+          loadOptions={loadOptions}
+          shareError={mockShareError}
+          isSharing
+        />,
+      );
+
+      const akForm = wrapper.find<any>(Form);
+      const form = renderProp(akForm, 'children', { formProps: {} })
+        .dive()
+        .find('form');
+      const footer = form.find(FormFooter);
+      expect(footer.find(Tooltip)).toHaveLength(0);
+      expect(footer.find(Button).prop('isLoading')).toBeTruthy();
+      expect(footer.find(Button).prop('appearance')).toEqual('primary');
+    });
   });
 
   describe('shareError prop', () => {
     it('should render Retry button with an ErrorIcon and Tooltip', () => {
-      const mockShareError = { message: 'error' };
+      const mockShareError: ShareError = { message: 'error' };
       const wrapper = shallow(
         <ShareForm
           copyLink="link"

@@ -9,7 +9,7 @@ import 'brace/ext/language_tools';
 import AceEditor from 'react-ace';
 import { Provider, Card } from '../src';
 
-import * as mockedExamples from './_jsonLDExamples';
+import * as mockedExamples from '../examples-helpers/_jsonLDExamples';
 import { IntlProvider } from 'react-intl';
 
 export interface ExampleProps {}

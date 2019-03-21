@@ -3,20 +3,38 @@ import JiraSwitcher from './jira-switcher';
 import ConfluenceSwitcher from './confluence-switcher';
 import GenericSwitcher from './generic-switcher';
 import ErrorBoundary from './error-boundary';
-import { Product } from '../types';
+import { TriggerXFlowCallback, FeatureFlagProps, Product } from '../types';
+import IntlProvider from './intl-provider';
+import messages from '../utils/messages';
+import {
+  analyticsAttributes,
+  NavigationAnalyticsContext,
+} from '../utils/analytics';
 
-interface AtlassianSwitcherProps {
+type AtlassianSwitcherProps = {
   product: string;
   cloudId: string;
-  triggerXFlow: (productKey: string, sourceComponent: string) => void;
-}
+  triggerXFlow: TriggerXFlowCallback;
+} & Partial<FeatureFlagProps>;
 
-const AtlassianSwitcher = ({
-  product,
-  cloudId,
-  triggerXFlow,
-  ...props
-}: AtlassianSwitcherProps) => {
+const getAnalyticsContext = (props: { [key: string]: any }) => ({
+  source: 'atlassianSwitcher',
+  ...analyticsAttributes({
+    featureFlags: Object.keys(props)
+      .filter(key => key.startsWith('enable'))
+      .reduce(
+        (acc, key) => ({
+          ...acc,
+          [key]: props[key],
+        }),
+        {} as object,
+      ),
+  }),
+});
+
+const AtlassianSwitcher = (props: AtlassianSwitcherProps) => {
+  const { product } = props;
+
   let Switcher: React.ReactType;
   switch (product) {
     case Product.JIRA:
@@ -25,30 +43,17 @@ const AtlassianSwitcher = ({
     case Product.CONFLUENCE:
       Switcher = ConfluenceSwitcher;
       break;
-    case Product.HOME:
-    case Product.PEOPLE:
-    case Product.SITE_ADMIN:
-    case Product.TRUSTED_ADMIN:
-      Switcher = GenericSwitcher;
-      break;
     default:
-      if (process.env.NODE_ENV !== 'production') {
-        // tslint:disable-next-line:no-console
-        console.warn(
-          `Product key ${product} provided to Atlassian Switcher doesn't have a corresponding product specific implementation.`,
-        );
-      }
-      return null;
+      Switcher = GenericSwitcher;
   }
   return (
-    <ErrorBoundary>
-      <Switcher
-        cloudId={cloudId}
-        triggerXFlow={triggerXFlow}
-        product={product}
-        {...props}
-      />
-    </ErrorBoundary>
+    <IntlProvider>
+      <NavigationAnalyticsContext data={getAnalyticsContext(props)}>
+        <ErrorBoundary messages={messages}>
+          <Switcher messages={messages} {...props} />
+        </ErrorBoundary>
+      </NavigationAnalyticsContext>
+    </IntlProvider>
   );
 };
 

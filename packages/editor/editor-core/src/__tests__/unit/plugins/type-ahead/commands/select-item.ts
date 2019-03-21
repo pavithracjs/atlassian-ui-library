@@ -1,3 +1,4 @@
+import { Fragment } from 'prosemirror-model';
 import {
   createEditorFactory,
   doc,
@@ -15,13 +16,14 @@ import {
   selectItem,
 } from '../../../../../plugins/type-ahead/commands/select-item';
 import { datePlugin, extensionPlugin } from '../../../../../plugins';
+import { TypeAheadSelectItem } from '../../../../../plugins/type-ahead/types';
 
 const createTypeAheadPlugin = ({
   getItems,
   selectItem,
 }: {
   getItems?: Function;
-  selectItem?: Function;
+  selectItem?: TypeAheadSelectItem;
 } = {}) => {
   return {
     pluginsOptions: {
@@ -34,8 +36,10 @@ const createTypeAheadPlugin = ({
         selectItem:
           selectItem !== undefined
             ? selectItem
-            : (state, item, insert) =>
-                insert(state.schema.text(`${item.title} selected`)),
+            : (((state, item, insert) =>
+                insert(
+                  state.schema.text(`${item.title} selected`),
+                )) as TypeAheadSelectItem),
       },
     },
   };
@@ -174,6 +178,34 @@ describe('typeahead plugin -> commands -> select-item', () => {
         { title: '1' },
       )(editorView.state, editorView.dispatch);
       expect(editorView.state.doc).toEqualDocument(doc(p('some text')));
+    });
+
+    it('should accept fragment', () => {
+      const plugin = createTypeAheadPlugin();
+      const { editorView } = createEditor({
+        doc: doc(p(typeAheadQuery({ trigger: '/' })('/query{<>}'))),
+        editorPlugins: [plugin, datePlugin],
+      });
+
+      selectItem(
+        {
+          trigger: '/',
+          selectItem: (state, item, insert) => {
+            const fragment = Fragment.fromArray([
+              state.schema.text('text one'),
+              state.schema.text('  '),
+              state.schema.text('text two'),
+            ]);
+            return insert(fragment);
+          },
+          getItems: () => [],
+        },
+        { title: '1' },
+      )(editorView.state, editorView.dispatch);
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(p('text one  text two')),
+      );
     });
 
     it('should not add a space when replacing a type ahead query with a text node', () => {

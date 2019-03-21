@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`links.ts currentSelection when cursor is on link 1`] = `
+exports[`currentSelection when cursor is on link 1`] = `
 Array [
   Object {
     "text": "",
@@ -13,7 +13,7 @@ Array [
 ]
 `;
 
-exports[`links.ts currentSelection when cursor is selecting a link 1`] = `
+exports[`currentSelection when cursor is selecting a link 1`] = `
 Array [
   Object {
     "text": "",
@@ -94,7 +94,7 @@ Array [
 ]
 `;
 
-exports[`links.ts currentSelection when cursor is selecting text and link 1`] = `
+exports[`currentSelection when cursor is selecting text and link 1`] = `
 Array [
   Object {
     "text": "",
@@ -223,7 +223,7 @@ Array [
 ]
 `;
 
-exports[`links.ts currentSelection when no selection 1`] = `
+exports[`currentSelection when no selection 1`] = `
 Array [
   Object {
     "text": "",
@@ -276,7 +276,7 @@ Array [
 ]
 `;
 
-exports[`links.ts currentSelection when selection 1`] = `
+exports[`currentSelection when selection 1`] = `
 Array [
   Object {
     "text": "",

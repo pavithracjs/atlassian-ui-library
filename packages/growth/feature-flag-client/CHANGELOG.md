@@ -1,5 +1,24 @@
 # @atlaskit/feature-flag-client
 
+## 2.1.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 2.1.0
+- [minor] [a89f1bf6cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a89f1bf6cd):
+
+  - Enable noImplicitAny for growth/feature-flag-client
+
+## 2.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 1.1.2
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/docs@7.0.0
+
 ## 1.1.1
 - Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
   - @atlaskit/docs@6.0.0

@@ -1,5 +1,3 @@
-// We need to import fetch polyfill for media components
-import 'whatwg-fetch';
 import * as assert from 'assert';
 import { EditorView } from 'prosemirror-view';
 
@@ -28,12 +26,12 @@ import {
   insertText,
   sendKeyToPm,
   mountWithIntl,
+  Refs,
 } from '@atlaskit/editor-test-helpers';
 
 import {
   stateKey as mediaPluginKey,
   MediaPluginState,
-  DefaultMediaStateManager,
 } from '../../../../plugins/media/pm-plugins/main';
 import { setNodeSelection, setTextSelection } from '../../../../utils';
 import { AnalyticsHandler, analyticsService } from '../../../../analytics';
@@ -46,16 +44,13 @@ import quickInsertPlugin from '../../../../plugins/quick-insert';
 import { insertMediaAsMediaSingle } from '../../../../plugins/media/utils/media-single';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
 import { temporaryMedia, temporaryMediaGroup } from './_utils';
-
 import { SmartMediaEditor } from '@atlaskit/media-editor';
 
-const stateManager = new DefaultMediaStateManager();
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
 const getFreshMediaProvider = () =>
   storyMediaProviderFactory({
     collectionName: testCollectionName,
-    stateManager,
     includeUserAuthProvider: true,
   });
 
@@ -170,34 +165,30 @@ describe('Media plugin', () => {
         const { editorView, pluginState } = editor(doc(p('')));
         await mediaProvider;
 
-        const foo = [
-          {
-            id: '1',
-            fileMimeType: 'image/jpeg',
-            fileName: 'foo.jpg',
-            fileSize: 100,
-            dimensions: {
-              height: 100,
-              width: 100,
-            },
+        const foo = {
+          id: '1',
+          fileMimeType: 'image/jpeg',
+          fileName: 'foo.jpg',
+          fileSize: 100,
+          dimensions: {
+            height: 100,
+            width: 100,
           },
-        ];
+        };
 
-        const bar = [
-          {
-            id: '2',
-            fileMimeType: 'image/png',
-            fileName: 'bar.png',
-            fileSize: 200,
-            dimensions: {
-              height: 200,
-              width: 200,
-            },
+        const bar = {
+          id: '2',
+          fileMimeType: 'image/png',
+          fileName: 'bar.png',
+          fileSize: 200,
+          dimensions: {
+            height: 200,
+            width: 200,
           },
-        ];
+        };
 
-        pluginState.insertFiles(foo);
-        pluginState.insertFiles(bar);
+        pluginState.insertFile(foo, () => {});
+        pluginState.insertFile(bar, () => {});
 
         expect(editorView.state.doc).toEqualDocument(
           doc(
@@ -336,44 +327,30 @@ describe('Media plugin', () => {
       it('inserts pdf as a media group and images as single', async () => {
         const { editorView, pluginState } = editor(doc(p('')));
         await mediaProvider;
-        const id1 = `${randomId()}`;
-        const id2 = `${randomId()}`;
-        const lala = [
-          {
-            id: id1,
-            fileName: 'lala.pdf',
-            fileSize: 200,
-            fileMimeType: 'pdf',
-            dimensions: { width: 200, height: 200 },
-          },
-        ];
+        const lala = {
+          id: 'lala',
+          fileName: 'lala.pdf',
+          fileSize: 200,
+          fileMimeType: 'pdf',
+          dimensions: { width: 200, height: 200 },
+        };
 
-        const bar = [
-          {
-            id: id2,
-            fileName: 'bar.png',
-            fileSize: 200,
-            fileMimeType: 'image/png',
-            dimensions: { width: 200, height: 200 },
-          },
-        ];
+        const bar = {
+          id: 'bar',
+          fileName: 'bar.png',
+          fileSize: 200,
+          fileMimeType: 'image/png',
+          dimensions: { width: 200, height: 200 },
+        };
 
-        pluginState.insertFiles(lala);
-        pluginState.insertFiles(bar);
-
-        pluginState.stateManager.updateState(id1, {
-          ...lala[0],
-        });
-
-        pluginState.stateManager.updateState(id2, {
-          ...bar[0],
-        });
+        pluginState.insertFile(lala, () => {});
+        pluginState.insertFile(bar, () => {});
 
         expect(editorView.state.doc).toEqualDocument(
           doc(
             mediaGroup(
               media({
-                id: id1,
+                id: 'lala',
                 type: 'file',
                 __fileMimeType: 'pdf',
                 __fileSize: 200,
@@ -383,7 +360,7 @@ describe('Media plugin', () => {
             ),
             mediaSingle({ layout: 'center' })(
               media({
-                id: id2,
+                id: 'bar',
                 __fileName: 'bar.png',
                 __fileSize: 200,
                 height: 200,
@@ -394,45 +371,6 @@ describe('Media plugin', () => {
               })(),
             ),
             p(),
-          ),
-        );
-      });
-    });
-
-    describe('when all media are non-images', () => {
-      it('should insert as media group', async () => {
-        const { editorView, pluginState } = editor(doc(p('')));
-        await mediaProvider;
-
-        pluginState.insertFiles([
-          { id: 'foo', fileMimeType: 'pdf' },
-          { id: 'bar', fileMimeType: 'pdf' },
-          { id: 'foobar', fileMimeType: 'pdf' },
-        ]);
-
-        expect(editorView.state.doc).toEqualDocument(
-          doc(
-            mediaGroup(
-              media({
-                id: 'foo',
-                type: 'file',
-                __fileMimeType: 'pdf',
-                collection: testCollectionName,
-              })(),
-              media({
-                id: 'bar',
-                type: 'file',
-                __fileMimeType: 'pdf',
-                collection: testCollectionName,
-              })(),
-              media({
-                id: 'foobar',
-                type: 'file',
-                __fileMimeType: 'pdf',
-                collection: testCollectionName,
-              })(),
-            ),
-            p(''),
           ),
         );
       });
@@ -786,10 +724,10 @@ describe('Media plugin', () => {
 
     const spy = jest.spyOn(editorView, 'focus');
 
-    pluginState.insertFiles([{ id: 'foo' }]);
+    pluginState.insertFile({ id: 'foo' }, () => {});
     expect(spy).toHaveBeenCalled();
 
-    pluginState.insertFiles([{ id: 'bar' }]);
+    pluginState.insertFile({ id: 'bar' }, () => {});
     expect(editorView.state.doc).toEqualDocument(
       doc(
         mediaGroup(
@@ -820,14 +758,16 @@ describe('Media plugin', () => {
     );
     collectionFromProvider.mockImplementation(() => testCollectionName);
 
-    pluginState.insertFiles([
+    pluginState.insertFile(
       {
         id: temporaryFileId,
+        status: 'preview',
         fileName: 'foo.png',
         fileSize: 1234,
         fileMimeType: 'pdf',
       },
-    ]);
+      () => {},
+    );
 
     expect(editorView.state.doc).toEqualDocument(
       doc(
@@ -951,7 +891,7 @@ describe('Media plugin', () => {
     const getWidgetDom = (editorView: EditorView): Node | null =>
       (editorView as any).docView.dom.querySelector('.ProseMirror-widget');
 
-    let dropzoneContainer;
+    let dropzoneContainer: HTMLElement | undefined;
 
     beforeEach(() => {
       dropzoneContainer = document.createElement('div');
@@ -974,13 +914,13 @@ describe('Media plugin', () => {
       await sleep(0);
       expect(getWidgetDom(editorView)).toBeNull();
 
-      dropzoneContainer.dispatchEvent(createDragOverOrLeaveEvent('dragover'));
+      dropzoneContainer!.dispatchEvent(createDragOverOrLeaveEvent('dragover'));
       const dragZoneDom = getWidgetDom(editorView);
       expect(dragZoneDom).toBeDefined();
       expect(dragZoneDom!.previousSibling!.textContent).toEqual('hello');
       expect(dragZoneDom!.nextSibling!.textContent).toEqual(' world');
 
-      dropzoneContainer.dispatchEvent(createDragOverOrLeaveEvent('dragleave'));
+      dropzoneContainer!.dispatchEvent(createDragOverOrLeaveEvent('dragleave'));
       // MediaPicker DropZone has a 50ms timeout on dragleave event, so we have to wait for at least 50ms
       await sleep(50);
       expect(getWidgetDom(editorView)).toBeNull();
@@ -999,7 +939,7 @@ describe('Media plugin', () => {
       await sleep(0);
       expect(getWidgetDom(editorView)).toBeNull();
 
-      dropzoneContainer.dispatchEvent(createDragOverOrLeaveEvent('dragover'));
+      dropzoneContainer!.dispatchEvent(createDragOverOrLeaveEvent('dragover'));
       const dragZoneDom = getWidgetDom(editorView);
       expect(dragZoneDom).toBeDefined();
       expect(dragZoneDom!.previousSibling!.textContent).toEqual(
@@ -1007,7 +947,7 @@ describe('Media plugin', () => {
       );
       expect(dragZoneDom!.nextSibling!.textContent).toEqual('');
 
-      dropzoneContainer.dispatchEvent(createDragOverOrLeaveEvent('dragleave'));
+      dropzoneContainer!.dispatchEvent(createDragOverOrLeaveEvent('dragleave'));
       // MediaPicker DropZone has a 50ms timeout on dragleave event, so we have to wait for at least 50ms
       await sleep(50);
       expect(getWidgetDom(editorView)).toBeNull();
@@ -1057,8 +997,8 @@ describe('Media plugin', () => {
     });
 
     describe('when cursor move from a mediaSingle node to another mediaSingle node', () => {
-      let pluginState;
-      let editorView;
+      let pluginState: MediaPluginState;
+      let editorView: EditorView;
 
       beforeEach(() => {
         const createdEditor = editor(
@@ -1098,8 +1038,8 @@ describe('Media plugin', () => {
     });
 
     describe('when cursor move to a mediaSingle node', () => {
-      let pluginState;
-      let editorView;
+      let pluginState: MediaPluginState;
+      let editorView: EditorView;
 
       beforeEach(() => {
         const createdEditor = editor(
@@ -1118,9 +1058,9 @@ describe('Media plugin', () => {
     });
 
     describe('when cursor move away from a mediaSingle node', () => {
-      let pluginState;
-      let editorView;
-      let refs;
+      let pluginState: MediaPluginState;
+      let editorView: EditorView;
+      let refs: Refs;
 
       beforeEach(() => {
         const createdEditor = editor(
@@ -1153,7 +1093,7 @@ describe('Media plugin', () => {
       const { pluginState, editorView } = editor(listDoc);
       await mediaProvider;
 
-      pluginState.insertFiles([pdfFile]);
+      pluginState.insertFile(pdfFile, () => {});
 
       expect(editorView.state.doc).toEqualDocument(
         doc(
@@ -1178,7 +1118,7 @@ describe('Media plugin', () => {
       const { pluginState, editorView } = editor(listDoc);
       await mediaProvider;
 
-      pluginState.insertFiles([pdfFile]);
+      pluginState.insertFile(pdfFile, () => {});
 
       expect(editorView.state.doc).toEqualDocument(
         doc(
@@ -1216,7 +1156,7 @@ describe('Media plugin', () => {
       const { pluginState, editorView } = editor(listDoc);
       await mediaProvider;
 
-      pluginState.insertFiles([pdfFile]);
+      pluginState.insertFile(pdfFile, () => {});
 
       expect(editorView.state.doc).toEqualDocument(
         doc(

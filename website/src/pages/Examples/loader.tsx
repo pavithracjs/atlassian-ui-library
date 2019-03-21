@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import FabricAnalyticsListeners from '@atlaskit/analytics-listeners';
+import FabricAnalyticsListeners, {
+  AnalyticsWebClient,
+} from '@atlaskit/analytics-listeners';
 import { colors } from '@atlaskit/theme';
 import Loadable from '../../components/WrappedLoader';
 import qs from 'query-string';
@@ -77,7 +79,7 @@ export default class ExamplesIFrame extends React.Component<{}, State> {
       this.state.examplesPath,
     );
     if (example && exampleId) {
-      return <ExampleLoader example={example} />;
+      return <ExampleLoader example={example as File} />;
     }
 
     return (
@@ -90,12 +92,11 @@ export default class ExamplesIFrame extends React.Component<{}, State> {
 
 // Using console.debug instead of console.log to reduce noise.
 // Chrome's default logging level excludes debug
-const mockClient = {
-  sendUIEvent: (...args) => console.debug('UI event', ...args),
-  sendOperationalEvent: (...args) =>
-    console.debug('Operational event', ...args),
-  sendTrackEvent: (...args) => console.debug('Track event', ...args),
-  sendScreenEvent: (...args) => console.debug('Screen event', ...args),
+const mockClient: AnalyticsWebClient = {
+  sendUIEvent: e => console.debug('UI event', e),
+  sendOperationalEvent: e => console.debug('Operational event', e),
+  sendTrackEvent: e => console.debug('Track event', e),
+  sendScreenEvent: e => console.debug('Screen event', e),
 };
 
 export type Metadata = {

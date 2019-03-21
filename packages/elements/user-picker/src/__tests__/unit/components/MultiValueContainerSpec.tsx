@@ -18,8 +18,8 @@ describe('MultiValueContainer', () => {
   const selectProps = {
     value: [1],
     options: [1, 2, 3],
-    isLoading: false,
     isDisabled: false,
+    isFocused: true,
   };
 
   const findInput = (component: ShallowWrapper<any>) =>
@@ -36,14 +36,13 @@ describe('MultiValueContainer', () => {
     shallow(<MultiValueContainer selectProps={selectProps} {...props} />);
 
   test.each([
-    ['add more people...', selectProps.value, false, false],
-    ['Enter more...', selectProps.value, false, true],
-    [undefined, selectProps.options, false, false],
-    [undefined, [], false, false],
-    [undefined, [], true, false],
+    ['add more people...', selectProps.value, false],
+    ['Enter more...', selectProps.value, true],
+    ['add more people...', selectProps.options, false],
+    [undefined, [], false],
   ])(
-    'should set placeholder to "%s" when (value: %p, loading: %s)',
-    (placeholder, value, isLoading, override) => {
+    'should set placeholder to "%s" when (value: %p)',
+    (placeholder, value, override) => {
       const component = shallowValueContainer({
         children: [
           <div key="placeholder">Placeholder</div>,
@@ -52,7 +51,6 @@ describe('MultiValueContainer', () => {
         selectProps: {
           ...selectProps,
           value,
-          isLoading,
           addMoreMessage: override ? placeholder : undefined,
         },
       });
@@ -79,7 +77,7 @@ describe('MultiValueContainer', () => {
     expect(input.prop('placeholder')).toBeUndefined();
   });
 
-  it('should scroll to bottom when adding new items', () => {
+  it('should scroll to bottom when adding new items and focused', () => {
     const component = shallowValueContainer({
       children: 'some text',
       getValue: jest.fn(() => []),
@@ -97,6 +95,31 @@ describe('MultiValueContainer', () => {
     expect(component.state()).toHaveProperty('previousValueSize', 0);
 
     expect(scrollIntoView).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not scroll if not in focus', () => {
+    const unfocusedSelectProps = {
+      ...selectProps,
+      isFocused: false,
+    };
+    const component = shallowValueContainer({
+      children: 'some text',
+      getValue: jest.fn(() => []),
+      selectProps: unfocusedSelectProps,
+    });
+    const scrollIntoView = jest.fn();
+    const innerRef = component.find(ScrollAnchor).prop('innerRef');
+    if (innerRef && typeof innerRef === 'function') {
+      innerRef({ scrollIntoView });
+    }
+
+    expect(component.state()).toHaveProperty('valueSize', 0);
+    component.setProps({ getValue: jest.fn(() => [1]) });
+    jest.runAllTimers();
+    expect(component.state()).toHaveProperty('valueSize', 1);
+    expect(component.state()).toHaveProperty('previousValueSize', 0);
+
+    expect(scrollIntoView).not.toHaveBeenCalled();
   });
 
   it('should not scroll when removing an item', () => {

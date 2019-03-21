@@ -15,7 +15,7 @@ import {
 BrowserTestCase(
   'delete-last-column-with-empty-action.ts: Delete last table column with empty action',
   { skip: ['ie', 'edge'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const LAST_HEADER_FROM_FIRST_ROW =
       'table > tbody > tr:first-child > th:last-child';
 
@@ -52,6 +52,6 @@ BrowserTestCase(
     await page.click(deleteButtonSelector);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

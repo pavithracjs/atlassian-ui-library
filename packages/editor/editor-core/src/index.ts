@@ -1,5 +1,5 @@
 // Used in products integration code
-export { name, version } from './version';
+export { name, version } from './version-wrapper';
 export { default as Editor } from './editor';
 export { default as EditorContext } from './ui/EditorContext';
 export { default as WithEditorActions } from './ui/WithEditorActions';
@@ -8,18 +8,14 @@ export { default as CollapsedEditor } from './ui/CollapsedEditor';
 export { default as ToolbarHelp } from './ui/ToolbarHelp';
 export { default as ToolbarFeedback } from './ui/ToolbarFeedback';
 export { EmojiResource } from '@atlaskit/emoji';
-export {
-  DefaultMediaStateManager,
-  MediaStateManager,
-  MediaProvider,
-  CustomMediaPicker,
-} from './plugins/media';
+export { MediaProvider, CustomMediaPicker } from './plugins/media';
 export { CollabEditProvider } from './plugins/collab-edit';
 export { MediaOptions } from './plugins/media';
 export {
   AbstractMentionResource,
   MentionProvider,
   MentionResource,
+  TeamMentionResource,
   PresenceProvider,
   PresenceResource,
 } from '@atlaskit/mention';

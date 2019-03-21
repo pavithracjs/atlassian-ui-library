@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { match } from 'react-router';
+import { match, RouteComponentProps } from 'react-router';
 import styled from 'styled-components';
 import { Link } from '../../components/WrappedLink';
 import Loadable from '../../components/WrappedLoader';
@@ -17,6 +17,7 @@ import MetaData from './MetaData';
 import LatestChangelog from './LatestChangelog';
 
 import * as fs from '../../utils/fs';
+import { File, Directory } from '../../types';
 
 import { Log } from '../../components/ChangeLog';
 import fetchPackageData, {
@@ -60,13 +61,15 @@ export const Sep = styled.hr`
   }
 `;
 
-export const NoDocs = props => {
+export const NoDocs = (props: { name: string }) => {
   return <div>Component "{props.name}" doesn't have any documentation.</div>;
 };
 
 export type PackageProps = {
   match: match<Record<string, string>>;
 };
+
+type Examples = (File | Directory)[] | null | undefined;
 
 export type Props = {
   description?: string;
@@ -76,10 +79,10 @@ export type Props = {
   pkg: PackageJson;
   doc?: string;
   changelog: Array<Log>;
-  examples?: any;
+  examples?: Examples;
 };
 
-function getExamplesPaths(groupId, pkgId, examples) {
+function getExamplesPaths(groupId: string, pkgId: string, examples: Examples) {
   if (!examples || !examples.length) return {};
 
   const regex = /^[a-zA-Z0-9]/; // begins with letter or number, avoid "special" files
@@ -96,7 +99,9 @@ function getExamplesPaths(groupId, pkgId, examples) {
   };
 }
 
-export default function LoadData({ match }) {
+export default function LoadData({
+  match,
+}: RouteComponentProps<{ groupId: string; pkgId: string }>) {
   const { groupId, pkgId } = match.params;
 
   const Content = Loadable({

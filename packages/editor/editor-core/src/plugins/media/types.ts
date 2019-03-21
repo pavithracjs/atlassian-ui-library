@@ -29,24 +29,10 @@ export interface MediaState {
   publicId?: string;
 }
 
-export interface MediaStateManager {
-  getState(id: string): MediaState | undefined;
-  newState(id: string, newState: Partial<MediaState>): MediaState;
-  updateState(id: string, newState: Partial<MediaState>): MediaState;
-  on(id: string, cb: (state: MediaState) => void);
-  off(id: string, cb: (state: MediaState) => void): void;
-  destroy(): void;
-}
-
 export interface FeatureFlags {}
 
 export interface MediaProvider {
   uploadParams?: UploadParams;
-
-  /**
-   * A manager notifying subscribers on changes in Media states
-   */
-  stateManager?: MediaStateManager;
 
   /**
    * Used for displaying Media Cards and downloading files.
@@ -71,10 +57,10 @@ export type Listener = (data: any) => void;
 
 export interface CustomMediaPicker {
   on(event: string, cb: Listener): void;
-  removeAllListeners(event: any);
+  removeAllListeners(event: any): void;
   emit(event: string, data: any): void;
   destroy(): void;
-  setUploadParams(uploadParams: UploadParams);
+  setUploadParams(uploadParams: UploadParams): void;
 }
 
 export type MobileUploadEndEventPayload = {

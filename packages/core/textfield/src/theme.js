@@ -240,6 +240,7 @@ export const Theme = createTheme<ThemeTokens, ThemeProps>(props => ({
     color: props.isDisabled
       ? disabledRules[props.mode].textColor
       : componentTokens.textColor[props.mode],
+    cursor: props.isDisabled ? 'not-allowed' : 'text',
     display: 'flex',
     flex: '1 1 100%',
     fontSize: `${fontSize()}px`,
@@ -249,22 +250,21 @@ export const Theme = createTheme<ThemeTokens, ThemeProps>(props => ({
     transition: `background-color 0.2s ease-in-out, border-color 0.2s ease-in-out`,
     wordWrap: 'break-word',
     verticalAlign: 'top',
-    pointerEvents: props.isDisabled ? 'none' : 'auto',
-    padding: `${props.isCompact ? gridSize() / 2 : gridSize()}px ${gridSize() -
-      2}px`,
+    pointerEvents: 'auto',
   },
   input: {
     backgroundColor: 'transparent',
     border: 0,
-    padding: 0,
-    boxSizing: 'border-box',
     color: 'inherit',
     cursor: 'inherit',
     fontFamily: props.isMonospaced ? codeFontFamily() : 'inherit',
     fontSize: `${fontSize()}px`,
     minWidth: '0',
     outline: 'none',
+    padding: `${props.isCompact ? gridSize() / 2 : gridSize()}px ${gridSize() -
+      2}px`,
     width: '100%',
+    height: `${(gridSize() * 2.5) / fontSize()}em`,
     lineHeight: (gridSize() * 2.5) / fontSize(),
     '&[disabled]': {
       // Safari puts on some difficult to remove styles, mainly for disabled inputs

@@ -1,5 +1,43 @@
 # @atlaskit/global-search
 
+## 6.1.0
+- [minor] [3d5e64b87b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d5e64b87b):
+
+  - retrieve prequery results from Xpsearch
+
+## 6.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 6.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 5.16.4
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/button@10.1.3
+  - @atlaskit/icon@16.0.4
+  - @atlaskit/icon-file-type@3.0.4
+  - @atlaskit/icon-object@3.0.4
+  - @atlaskit/analytics-gas-types@3.2.5
+  - @atlaskit/util-service-support@3.1.1
+  - @atlaskit/quick-search@5.4.1
+  - @atlaskit/docs@7.0.0
+  - @atlaskit/analytics-next@4.0.0
+  - @atlaskit/analytics@5.0.0
+  - @atlaskit/avatar@15.0.0
+  - @atlaskit/drawer@3.0.0
+  - @atlaskit/dropdown-menu@7.0.0
+  - @atlaskit/field-text-area@5.0.0
+  - @atlaskit/flag@10.0.0
+  - @atlaskit/logo@10.0.0
+  - @atlaskit/modal-dialog@8.0.0
+  - @atlaskit/navigation@34.0.0
+  - @atlaskit/page@9.0.0
+  - @atlaskit/theme@8.0.0
+
 ## 5.16.3
 - [patch] [ea6c801333](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6c801333):
 

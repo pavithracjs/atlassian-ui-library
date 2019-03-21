@@ -23,8 +23,10 @@ export default siteData;
 
 const dirs = fs.getDirectories(data.children);
 
-function isInternal(groupId, pkgId) {
-  const pkgInfo = NAV_DATA[groupId].find(a => a.name === pkgId);
+function isInternal(groupId: string, pkgId: string) {
+  const pkgInfo = NAV_DATA[groupId].find(
+    (a: { name: string }) => a.name === pkgId,
+  );
   return (
     pkgInfo &&
     pkgInfo.config &&
@@ -58,7 +60,10 @@ for (let pkg of publicPackages.children) {
 publicPackages.children = non_productsPkgs.concat(productsPkgs);
 
 export const getConfig = (groupId: string, pkgId: string) => {
-  return NAV_DATA[groupId] && NAV_DATA[groupId].find(pkg => pkg.name === pkgId);
+  return (
+    NAV_DATA[groupId] &&
+    NAV_DATA[groupId].find((pkg: { name: string }) => pkg.name === pkgId)
+  );
 };
 export const docs: Directory = fs.getById(dirs, 'docs');
 export const packages: Directory = fs.getById(dirs, 'packages');

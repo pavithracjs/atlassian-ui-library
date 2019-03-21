@@ -1,15 +1,17 @@
 import * as React from 'react';
 import EditorImageIcon from '@atlaskit/icon/glyph/editor/image';
 import { media, mediaGroup, mediaSingle } from '@atlaskit/adf-schema';
-import { EditorPlugin, EditorAppearance } from '../../types';
+import {
+  EditorPlugin,
+  EditorAppearance,
+  PMPluginFactoryParams,
+} from '../../types';
 import { SmartMediaEditor, Dimensions } from '@atlaskit/media-editor';
 import { FileIdentifier } from '@atlaskit/media-core';
 import {
   stateKey as pluginKey,
   createPlugin,
   MediaState,
-  MediaStateManager,
-  DefaultMediaStateManager,
   MediaPluginState,
 } from './pm-plugins/main';
 import keymapMediaSinglePlugin from './pm-plugins/keymap-media-single';
@@ -31,13 +33,7 @@ import {
 } from '../analytics';
 import WithPluginState from '../../ui/WithPluginState';
 
-export {
-  MediaState,
-  MediaStateManager,
-  DefaultMediaStateManager,
-  MediaProvider,
-  CustomMediaPicker,
-};
+export { MediaState, MediaProvider, CustomMediaPicker };
 
 export interface MediaOptions {
   provider?: Promise<MediaProvider>;
@@ -124,7 +120,7 @@ const mediaPlugin = (
           errorReporter,
           portalProviderAPI,
           reactContext,
-        }) =>
+        }: PMPluginFactoryParams) =>
           createPlugin(
             schema,
             {
@@ -154,7 +150,10 @@ const mediaPlugin = (
             props.appearance,
           ),
       },
-      { name: 'mediaKeymap', plugin: ({ schema }) => keymapPlugin() },
+      {
+        name: 'mediaKeymap',
+        plugin: ({ schema }: PMPluginFactoryParams) => keymapPlugin(),
+      },
     ].concat(
       options && options.allowMediaSingle
         ? {

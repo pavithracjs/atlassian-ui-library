@@ -1,4 +1,3 @@
-import { name } from '../../../package.json';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { ProviderFactory } from '@atlaskit/editor-common';
@@ -13,23 +12,20 @@ import {
 import {
   MediaPluginState,
   stateKey,
-  DefaultMediaStateManager,
 } from '../../../src/plugins/media/pm-plugins/main';
 import { insertFileFromDataUrl } from '../../../src/utils/action';
 import mediaPlugin from '../../../src/plugins/media';
 
-const stateManager = new DefaultMediaStateManager();
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 const getFreshMediaProvider = () =>
   storyMediaProviderFactory({
     collectionName: testCollectionName,
-    stateManager,
   });
 const mediaProvider = getFreshMediaProvider();
 const providerFactory = new ProviderFactory();
 providerFactory.setProvider('mediaProvider', mediaProvider);
 
-describe(name, () => {
+describe('@atlaskit/editor-core', () => {
   const createEditor = createEditorFactory<MediaPluginState>();
 
   const editor = (doc: any, uploadErrorHandler?: () => void) =>
