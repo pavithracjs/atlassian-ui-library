@@ -138,7 +138,7 @@ export default class Page {
   }
 
   acceptAlert() {
-    return this.browser.acceptAlert();
+    return this.browser.alertAccept();
   }
 
   url() {
