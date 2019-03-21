@@ -26,6 +26,7 @@ const MAX_QUERY_TEAMS = 20;
 export default class TeamMentionResource extends MentionResource {
   private readonly teamMentionConfig: MentionResourceConfig;
   private lastSearchQuery?: string = '';
+  private lastReturnedSearchTeam: number;
 
   constructor(
     userMentionConfig: MentionResourceConfig,
@@ -34,6 +35,7 @@ export default class TeamMentionResource extends MentionResource {
     super(userMentionConfig);
     this.verifyMentionConfig(teamMentionConfig);
     this.teamMentionConfig = teamMentionConfig;
+    this.lastReturnedSearchTeam = 0;
   }
 
   filter(query?: string, contextIdentifier?: MentionContextIdentifier): void {
@@ -89,12 +91,15 @@ export default class TeamMentionResource extends MentionResource {
     userRequest: Promise<MentionsResult>,
     teamRequest: Promise<Team[] | MentionsResult>,
   ) {
-    let searchTime = Date.now();
+    const searchTime = Date.now();
     let accumulatedResults: MentionsResult = {
       mentions: [],
       query,
     };
-    const notifyWhenOneRequestDone = (results: MentionsResult) => {
+    const notifyWhenOneRequestDone = (
+      results: MentionsResult,
+      hasTeamResults: boolean,
+    ) => {
       // just update UI for the last query string
       if (query !== this.lastSearchQuery) {
         return;
@@ -104,7 +109,13 @@ export default class TeamMentionResource extends MentionResource {
         mentions: [...accumulatedResults.mentions, ...results.mentions],
         query,
       };
-      this.notify(searchTime, accumulatedResults, query);
+
+      // we need to calculate different `duration` for user and team request.
+      if (hasTeamResults) {
+        this.notify(searchTime, accumulatedResults, query);
+      } else {
+        super.notify(searchTime, accumulatedResults, query);
+      }
     };
 
     let userResults;
@@ -114,7 +125,7 @@ export default class TeamMentionResource extends MentionResource {
     try {
       // user requests finishes, update the UI, don't need to wait for team requests
       userResults = await userRequest;
-      notifyWhenOneRequestDone(userResults);
+      notifyWhenOneRequestDone(userResults, false);
     } catch (error) {
       userRequestError = error;
     }
@@ -123,11 +134,11 @@ export default class TeamMentionResource extends MentionResource {
     try {
       const teamsResult = await teamRequest;
       // update search time after team results returns
-      searchTime = Date.now();
       notifyWhenOneRequestDone(
         Array.isArray(teamsResult)
           ? this.convertTeamResultToMentionResult(teamsResult, query)
           : teamsResult,
+        true,
       );
     } catch (error) {
       teamRequestError = error;
@@ -139,6 +150,20 @@ export default class TeamMentionResource extends MentionResource {
       debug('User mention request fails. ', userRequestError);
       debug('Team mention request fails. ', teamRequestError);
     }
+  }
+
+  notify(searchTime: number, mentionResult: MentionsResult, query?: string) {
+    if (searchTime > this.lastReturnedSearchTeam) {
+      this.lastReturnedSearchTeam = searchTime;
+      this._notifyListeners(mentionResult, {
+        teamMentionDuration: Date.now() - searchTime,
+      });
+    } else {
+      const date = new Date(searchTime).toISOString().substr(17, 6);
+      debug('Stale search result, skipping', date, query); // eslint-disable-line no-console, max-len
+    }
+
+    this._notifyAllResultsListeners(mentionResult);
   }
 
   private getQueryParamsOfTeamMentionConfig(
