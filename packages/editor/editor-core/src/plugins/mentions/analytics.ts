@@ -119,24 +119,16 @@ export const buildTypeAheadInsertedPayload = (
       userId: mention.id,
       upKeyCount,
       downKeyCount,
-      memberCount: getMemberCountIfTeam(mention),
-      includesYou: getIncludesYouIfTeam(mention),
+      memberCount:
+        isTeamType(mention.userType) && mention.context
+          ? mention.context.memberCount
+          : null,
+      includesYou:
+        isTeamType(mention.userType) && mention.context
+          ? mention.context.includesYou
+          : null,
     },
   );
-};
-
-const getMemberCountIfTeam = (mention: MentionDescription) => {
-  if (isTeamType(mention.userType) && mention.context) {
-    return mention.context.memberCount;
-  }
-  return null;
-};
-
-const getIncludesYouIfTeam = (mention: MentionDescription) => {
-  if (isTeamType(mention.userType) && mention.context) {
-    return mention.context.includesYou;
-  }
-  return null;
 };
 
 export const buildTypeAheadRenderedPayload = (
