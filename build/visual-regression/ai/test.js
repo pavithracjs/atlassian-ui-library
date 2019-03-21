@@ -1,12 +1,27 @@
 var exec = require('child_process').spawnSync;
 
-console.log(process.cwd());
-const child = exec('python3', [
-  `${process.cwd()}/build/visual-regression/ai/run_model.py`,
-  `--image`,
-  `${process.cwd()}/build/visual-regression/ai/search.png`,
-]);
-console.log(child.output.toString('utf8'));
-process.on('exit', function() {
-  console.log('bye');
-});
+const image = `${process.cwd()}/build/visual-regression/ai/search.png`;
+
+const getPrediction = async img => {
+  const child = exec('python3', [
+    `${process.cwd()}/build/visual-regression/ai/run_model.py`,
+    `--image`,
+    `${img}`,
+  ]);
+
+  const label = child.output
+    .toString()
+    .split(`\n`)[2]
+    .split('-')[0]
+    .trim();
+  const prediction = child.output
+    .toString()
+    .split(`\n`)[2]
+    .split('-')[1]
+    .trim();
+
+  console.log(label, prediction);
+  process.on('exit', function() {
+    return { label: prediction };
+  });
+};
