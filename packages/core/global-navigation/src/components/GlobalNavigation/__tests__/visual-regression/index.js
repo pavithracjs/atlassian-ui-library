@@ -3,6 +3,7 @@ import {
   getExamplesFor,
   getExampleUrl,
   takeScreenShot,
+  returnCssSelector,
 } from '@atlaskit/visual-regression/helper';
 
 const examples = getExamplesFor('global-navigation');
@@ -12,12 +13,12 @@ describe('Snapshot Test', () => {
     const url = getExampleUrl(
       'core',
       'global-navigation',
-      'basic-global-navigation',
+      'basic-global-navigation-using-ai',
       global.__BASEURL__,
     );
-    const image = await takeScreenShot(global.page, url);
-    //$FlowFixMe
-    expect(image).toMatchProdImageSnapshot();
+    const { page } = global;
+    await page.goto(url);
+    await returnCssSelector(global.page, 'button', 'search');
   });
 });
 // TODO: Harsha to fix NAV-225
