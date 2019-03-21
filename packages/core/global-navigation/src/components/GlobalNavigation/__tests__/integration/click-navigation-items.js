@@ -16,6 +16,10 @@ const navigationExampleUrl = getExampleUrl(
   'basic-global-navigation-using-ai',
 );
 
+// isAlertDisplay = () => {
+
+// }
+
 BrowserTestCase('Search icon test', { skip: [] }, async (client: any) => {
   const searchIcon = '#quickSearchGlobalItem';
   const homePage = new Page(client);
@@ -24,4 +28,5 @@ BrowserTestCase('Search icon test', { skip: [] }, async (client: any) => {
   await homePage.click(searchIcon);
   const alert = await homePage.getAlertText();
   expect(alert).toBe('search clicked');
+  await homePage.acceptAlert();
 });
