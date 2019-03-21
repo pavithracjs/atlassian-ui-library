@@ -1,1 +1,0 @@
-- retrieve prequery results from Xpsearch
