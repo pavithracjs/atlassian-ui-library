@@ -102,23 +102,20 @@ export class AvatarPickerDialog extends PureComponent<
   exportCroppedImage = () => '';
 
   onSaveClick = () => {
-    const {
-      imageSource,
-      onImagePicked,
-      onImagePickedDataURI,
-      onAvatarPicked,
-    } = this.props;
+    const { onImagePicked, onImagePickedDataURI, onAvatarPicked } = this.props;
     const { selectedImage, crop, selectedAvatar } = this.state;
-    const image = selectedImage
-      ? selectedImage
-      : imageSource && dataURItoFile(imageSource);
 
-    if (image) {
+    if (selectedImage) {
+      const exportedCroppedImageURI = this.exportCroppedImage();
       if (onImagePicked) {
-        onImagePicked(image, crop);
+        onImagePicked(dataURItoFile(exportedCroppedImageURI), {
+          x: 0,
+          y: 0,
+          size: crop.size,
+        });
       }
       if (onImagePickedDataURI) {
-        onImagePickedDataURI(this.exportCroppedImage());
+        onImagePickedDataURI(exportedCroppedImageURI);
       }
     } else if (selectedAvatar) {
       onAvatarPicked(selectedAvatar);
