@@ -7,18 +7,18 @@ import {
   LayoutManager,
   NavigationProvider,
 } from '@atlaskit/navigation-next';
-import AppSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
+// import AppSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 
 import GlobalNavigation from '../src';
 
-const AppSwitcherComponent = props => (
-  <GlobalItem
-    {...props}
-    icon={AppSwitcherIcon}
-    id="test"
-    onClick={() => console.log('AppSwitcher clicked')}
-  />
-);
+// const AppSwitcherComponent = props => (
+//   <GlobalItem
+//     {...props}
+//     icon={AppSwitcherIcon}
+//     id="test"
+//     onClick={() => console.log('AppSwitcher clicked')}
+//   />
+// );
 
 // TODO: make onClicks targets show up on page instead of console.logs
 const Global = () => (
