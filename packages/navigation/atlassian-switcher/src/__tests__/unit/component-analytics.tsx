@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import AtlassianSwitcher from '../../components/atlassian-switcher';
 import Item from '@atlaskit/item';
 import ManageButton from '../../primitives/manage-button';
 import { IntlProvider } from 'react-intl';
 import '../../../test-helpers/mock-fetch';
-import createEventStream from '../../../test-helpers/event-stream';
+import createEventStream, {
+  EventStream,
+} from '../../../test-helpers/event-stream';
 import {
   AnalyticsListener,
   UIAnalyticsEvent,
@@ -38,9 +40,13 @@ const flattenContext = (context: ObjectType[]) =>
   );
 
 describe('Atlassian Switcher - Component Analytics', () => {
+  let wrapper: ReactWrapper;
+  let eventStream: EventStream;
+  beforeEach(() => {
+    eventStream = createEventStream();
+    wrapper = mount(<DefaultAtlassianSwitcher onEventFired={eventStream} />);
+  });
   it('should fire "atlassianSwitcher rendered"', done => {
-    const eventStream = createEventStream();
-    mount(<DefaultAtlassianSwitcher onEventFired={eventStream} />);
     eventStream.next().then(({ payload }: UIAnalyticsEvent) => {
       expect(payload).toMatchObject({
         eventType: 'operational',
@@ -54,10 +60,6 @@ describe('Atlassian Switcher - Component Analytics', () => {
   });
 
   it('should fire "atlassianSwitcherItem clicked"', done => {
-    const eventStream = createEventStream();
-    const wrapper = mount(
-      <DefaultAtlassianSwitcher onEventFired={eventStream} />,
-    );
     eventStream
       .skip(1)
       .then(() => {
@@ -81,10 +83,6 @@ describe('Atlassian Switcher - Component Analytics', () => {
   });
 
   it('should fire "button clicked - manageListButton"', done => {
-    const eventStream = createEventStream();
-    const wrapper = mount(
-      <DefaultAtlassianSwitcher onEventFired={eventStream} />,
-    );
     eventStream
       .skip(1)
       .then(() => {

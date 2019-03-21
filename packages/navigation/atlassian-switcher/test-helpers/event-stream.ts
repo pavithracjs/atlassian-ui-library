@@ -13,7 +13,13 @@ interface SkipOp {
 
 type OpDefinition = NextOp | SkipOp;
 
-const createEventStream = () => {
+export interface EventStream {
+  (event: UIAnalyticsEvent): void;
+  next: () => Promise<UIAnalyticsEvent>;
+  skip: (skippedCalls: number) => Promise<UIAnalyticsEvent[]>;
+}
+
+const createEventStream: () => EventStream = () => {
   const operationQueue: OpDefinition[] = [];
   let currentAccept: Function;
   const allEvents: UIAnalyticsEvent[] = [];
