@@ -12,9 +12,13 @@ import {
   JiraCoreIcon,
 } from '@atlaskit/logo';
 import FormattedMessage from '../primitives/formatted-message';
-import { LicenseInformationResponse } from '../types';
+import {
+  LicenseInformationResponse,
+  ProductLicenseInformation,
+} from '../types';
 import messages from './messages';
 import JiraOpsLogo from './assets/jira-ops-logo';
+import OpsgenieLogo from './assets/opsgenie-logo';
 import PeopleLogo from './assets/people';
 import { CustomLink, RecentContainer } from '../types';
 import WorldIcon from '@atlaskit/icon/glyph/world';
@@ -31,6 +35,7 @@ export enum ProductKey {
   JIRA_SOFTWARE = 'jira-software.ondemand',
   JIRA_SERVICE_DESK = 'jira-servicedesk.ondemand',
   JIRA_OPS = 'jira-incident-manager.ondemand',
+  OPSGENIE = 'opsgenie',
 }
 
 const SINGLE_JIRA_PRODUCT: 'jira' = 'jira';
@@ -93,6 +98,11 @@ export const PRODUCT_DATA_MAP: {
     Icon: createIcon(JiraIcon, { size: 'small' }),
     href: '/secure/MyJiraHome.jspa',
   },
+  [ProductKey.OPSGENIE]: {
+    label: 'Opsgenie',
+    Icon: createIcon(OpsgenieLogo, { size: 'small' }),
+    href: 'https://app.opgsenie.com',
+  },
 };
 
 export const getObjectTypeLabel = (type: string): React.ReactNode => {
@@ -110,10 +120,29 @@ export const getFixedProductLinks = (): SwitcherItemType[] => [
 
 export const getProductLink = (
   productKey: ProductKey | typeof SINGLE_JIRA_PRODUCT,
-): SwitcherItemType => ({
-  key: productKey,
-  ...PRODUCT_DATA_MAP[productKey],
-});
+  productLicenseInformation: ProductLicenseInformation,
+): SwitcherItemType => {
+  const productLinkProperties = PRODUCT_DATA_MAP[productKey];
+
+  if (productKey === ProductKey.OPSGENIE) {
+    // Prefer applicationUrl provided by license information (TCS)
+    // Fallback to hard-coded URL
+    const href = productLicenseInformation.applicationUrl
+      ? productLicenseInformation.applicationUrl
+      : productLinkProperties.href;
+
+    return {
+      key: productKey,
+      ...productLinkProperties,
+      href,
+    };
+  }
+
+  return {
+    key: productKey,
+    ...PRODUCT_DATA_MAP[productKey],
+  };
+};
 
 export const getProductIsActive = (
   { products }: LicenseInformationResponse,
@@ -154,12 +183,12 @@ export const getLicensedProductLinks = (
     jiraProducts = minorJiraProducts;
   }
 
-  const otherProducts = [ProductKey.CONFLUENCE].filter(productKey =>
-    getProductIsActive(licenseInformationData, productKey),
+  const otherProducts = [ProductKey.CONFLUENCE, ProductKey.OPSGENIE].filter(
+    productKey => getProductIsActive(licenseInformationData, productKey),
   );
 
   return [...jiraProducts, ...otherProducts].map(productKey =>
-    getProductLink(productKey),
+    getProductLink(productKey, licenseInformationData.products[productKey]),
   );
 };
 
@@ -188,12 +217,22 @@ export const getSuggestedProductLink = (
   licenseInformationData: LicenseInformationResponse,
 ): SwitcherItemType[] => {
   if (!getProductIsActive(licenseInformationData, ProductKey.CONFLUENCE)) {
-    return [getProductLink(ProductKey.CONFLUENCE)];
+    return [
+      getProductLink(
+        ProductKey.CONFLUENCE,
+        licenseInformationData.products[ProductKey.CONFLUENCE],
+      ),
+    ];
   }
   if (
     !getProductIsActive(licenseInformationData, ProductKey.JIRA_SERVICE_DESK)
   ) {
-    return [getProductLink(ProductKey.JIRA_SERVICE_DESK)];
+    return [
+      getProductLink(
+        ProductKey.JIRA_SERVICE_DESK,
+        licenseInformationData.products[ProductKey.JIRA_SERVICE_DESK],
+      ),
+    ];
   }
 
   return [];
