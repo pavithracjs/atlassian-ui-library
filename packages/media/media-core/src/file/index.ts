@@ -15,6 +15,11 @@ import {
   TouchFileDescriptor,
   TouchedFiles,
   UploadableFileUpfrontIds,
+  AuthProvider,
+  MediaFile,
+  authToOwner,
+  MediaStoreCopyFileWithTokenBody,
+  MediaStoreCopyFileWithTokenParams,
 } from '@atlaskit/media-store';
 import * as isValidId from 'uuid-validate';
 import {
@@ -62,6 +67,17 @@ interface DataloaderKey {
   collection?: string;
 }
 
+interface Source {
+  id: string;
+  collectionName?: string;
+  authProvider: AuthProvider;
+}
+
+interface Destination {
+  collectionName?: string;
+  authProvider: AuthProvider;
+}
+
 type DataloaderResult = MediaCollectionItemFullDetails | undefined;
 
 export interface FileFetcher {
@@ -86,6 +102,10 @@ export interface FileFetcher {
     collectionName?: string,
   ): Promise<void>;
   getCurrentState(id: string): Promise<FileState>;
+  copyFileToCollection(
+    source: Source,
+    destination: Destination,
+  ): Promise<MediaFile>;
 }
 
 export class FileFetcherImpl implements FileFetcher {
@@ -365,5 +385,33 @@ export class FileFetcherImpl implements FileFetcher {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  }
+
+  public async copyFileToCollection(source: Source, destination: Destination) {
+    const { authProvider, collectionName, id } = source;
+    const {
+      authProvider: userAuthProvider,
+      collectionName: destCollectionName,
+    } = destination;
+
+    const mediaStore = new MediaStore({
+      authProvider: userAuthProvider,
+    });
+    const result = await authProvider({ collectionName });
+    const owner = authToOwner(result);
+
+    const body: MediaStoreCopyFileWithTokenBody = {
+      sourceFile: {
+        id,
+        collection: collectionName,
+        owner,
+      },
+    };
+
+    const params: MediaStoreCopyFileWithTokenParams = {
+      collection: destCollectionName,
+    };
+
+    return (await mediaStore.copyFileWithToken(body, params)).data;
   }
 }

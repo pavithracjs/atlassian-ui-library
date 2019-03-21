@@ -1,10 +1,16 @@
 import * as React from 'react';
 import { v4 as uuid } from 'uuid';
 import { Subscription } from 'rxjs/Subscription';
-import { Context, UploadableFile, FileIdentifier } from '@atlaskit/media-core';
+import {
+  Context,
+  UploadableFile,
+  FileIdentifier,
+  FileState,
+} from '@atlaskit/media-core';
 import { messages, Shortcut } from '@atlaskit/media-ui';
 import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
 import Spinner from '@atlaskit/spinner';
+
 import { intlShape, IntlProvider } from 'react-intl';
 import EditorView from './editorView/editorView';
 import { Blanket, SpinnerWrapper } from './styled';
@@ -121,6 +127,29 @@ export class SmartMediaEditor extends React.Component<
     });
   };
 
+  copyFileToUserCollection = async (fileState: FileState) => {
+    const {
+      context: {
+        config: { userAuthProvider, authProvider },
+        file,
+      },
+      identifier: { collectionName },
+    } = this.props;
+
+    if (userAuthProvider) {
+      const source = {
+        id: fileState.id,
+        collectionName,
+        authProvider,
+      };
+      const destination = {
+        collectionName: 'recents',
+        authProvider: userAuthProvider,
+      };
+      file.copyFileToCollection(source, destination);
+    }
+  };
+
   private onSave = (imageData: string, dimensions: Dimensions) => {
     const { fileName } = this;
     const {
@@ -162,9 +191,10 @@ export class SmartMediaEditor extends React.Component<
       uploadableFileUpfrontIds,
     );
     const uploadingFileStateSubscription = uploadingFileState.subscribe({
-      next: fileState => {
+      next: async fileState => {
         if (fileState.status === 'processing') {
           onFinish();
+          this.copyFileToUserCollection(fileState);
           setTimeout(() => uploadingFileStateSubscription.unsubscribe(), 0);
         } else if (
           fileState.status === 'failed-processing' ||

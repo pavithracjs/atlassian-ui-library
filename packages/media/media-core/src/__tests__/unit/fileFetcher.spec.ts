@@ -1,6 +1,8 @@
-import { MediaStore, FileItem } from '@atlaskit/media-store';
+jest.mock('@atlaskit/media-store');
+import { MediaStore, FileItem, authToOwner } from '@atlaskit/media-store';
 import * as uuid from 'uuid';
 import { FileFetcherImpl, getItemsFromKeys } from '../../file';
+import { expectFunctionToHaveBeenCalledWith } from '../../../../media-test-helpers';
 
 describe('FileFetcher', () => {
   const setup = () => {
@@ -161,6 +163,55 @@ describe('FileFetcher', () => {
         ]);
         done();
       });
+    });
+  });
+
+  describe('copyFileToCollection', () => {
+    let copyFileWithToken: any;
+    let setupData: any;
+    beforeEach(() => {
+      setupData = setup();
+      copyFileWithToken = jest
+        .fn()
+        .mockReturnValue(Promise.resolve({ data: { id: 'some-id' } }));
+      (MediaStore as any).mockImplementation(() => ({
+        copyFileWithToken,
+      }));
+      (authToOwner as any).mockImplementation((owner: any) => owner);
+    });
+
+    it('should call mediaStore.copyFileWithToken', async () => {
+      const { items, fileFetcher } = setupData;
+      const owner = {
+        asapIssuer: 'asapIssuer',
+        token: 'sometoken',
+        baseUrl: 'somebaseurl',
+      };
+      const authProvider = jest.fn().mockReturnValue(Promise.resolve(owner));
+      const userAuthProvider = jest.fn();
+
+      const source = {
+        id: items[0].id,
+        collectionName: 'someCollectionName',
+        authProvider,
+      };
+      const destination = {
+        collectionName: 'recents',
+        authProvider: userAuthProvider,
+      };
+      await fileFetcher.copyFileToCollection(source, destination);
+      expectFunctionToHaveBeenCalledWith(copyFileWithToken, [
+        {
+          sourceFile: {
+            id: source.id,
+            collection: source.collectionName,
+            owner,
+          },
+        },
+        {
+          collection: destination.collectionName,
+        },
+      ]);
     });
   });
 });

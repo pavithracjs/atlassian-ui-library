@@ -5,6 +5,7 @@ import {
   expectFunctionToHaveBeenCalledWith,
   expectToEqual,
   fakeContext,
+  getDefaultContextConfig,
 } from '@atlaskit/media-test-helpers';
 import * as uuid from 'uuid';
 import { Shortcut } from '@atlaskit/media-ui';
@@ -26,6 +27,7 @@ import {
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import EditorView, { EditorViewProps } from '../editorView/editorView';
 import ErrorView, { ErrorViewProps } from '../editorView/errorView/errorView';
+import { O_TRUNC } from 'constants';
 
 describe('Smart Media Editor', () => {
   let fileIdPromise: Promise<string>;
@@ -73,6 +75,10 @@ describe('Smart Media Editor', () => {
       .mockReturnValueOnce('uuid2')
       .mockReturnValueOnce('uuid3')
       .mockReturnValueOnce('uuid4');
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it('should call onFinish when escape pressed', () => {
@@ -154,10 +160,9 @@ describe('Smart Media Editor', () => {
     });
   });
 
-  describe('when EditorView calls onSave callback', () => {
+  describe('onSave callback', () => {
     let resultingFileStateObservable: ReplaySubject<FileState>;
-    beforeEach(async () => {
-      await forFileToBeProcessed();
+    const callEditorViewOnSaveWithCustonContext = (customContext: any) => {
       resultingFileStateObservable = new ReplaySubject<FileState>(1);
       const touchedFiles: TouchedFiles = {
         created: [
@@ -167,131 +172,178 @@ describe('Smart Media Editor', () => {
           },
         ],
       };
-      asMock(context.file.touchFiles).mockResolvedValue(touchedFiles);
-      asMock(context.file.upload).mockReturnValue(resultingFileStateObservable);
+      asMock(customContext.file.touchFiles).mockResolvedValue(touchedFiles);
+      asMock(customContext.file.upload).mockReturnValue(
+        resultingFileStateObservable,
+      );
       const editorView = component.find<EditorViewProps>(EditorView);
       const { onSave } = editorView.props();
       onSave('some-image-content', { width: 200, height: 100 });
-    });
+    };
 
-    it('should upload a file', async () => {
-      // First we touch files with client generated id
-      expectFunctionToHaveBeenCalledWith(context.file.touchFiles, [
-        [
-          {
-            fileId: 'uuid1',
-            collection: fileIdentifier.collectionName,
-          },
-        ],
-        fileIdentifier.collectionName,
-      ]);
+    describe('when EditorView calls onSave with userAuthProvider', () => {
+      beforeEach(async () => {
+        await forFileToBeProcessed();
+        const defaultConfig = getDefaultContextConfig();
+        const config = {
+          ...defaultConfig,
+          userAuthProvider: jest.fn(),
+        };
+        context = fakeContext({}, config);
+        component.setProps({
+          context,
+        });
+        callEditorViewOnSaveWithCustonContext(context);
+      });
 
-      // Then we call upload
-      const expectedUploadableFile: UploadableFile = {
-        content: 'some-image-content',
-        name: 'some-name',
-        collection: fileIdentifier.collectionName,
-      };
-      const expectedUploadableFileUpfrontIds: UploadableFileUpfrontIds = {
-        id: 'uuid1',
-        deferredUploadId: expect.anything(),
-        occurrenceKey: 'some-occurrence-key',
-      };
-      expectFunctionToHaveBeenCalledWith(context.file.upload, [
-        expectedUploadableFile,
-        undefined,
-        expectedUploadableFileUpfrontIds,
-      ]);
-      const actualUploadableFileUpfrontIds: UploadableFileUpfrontIds = asMock(
-        context.file.upload,
-      ).mock.calls[0][2];
-      const actualUploadId = await actualUploadableFileUpfrontIds.deferredUploadId;
-      expectToEqual(actualUploadId, 'some-upload-id');
-
-      // In the end we exit synchronously with new identifier
-      expectFunctionToHaveBeenCalledWith(onUploadStart, [
-        {
-          mediaItemType: 'file',
+      it('should call context.file.copyFileToCollection', async () => {
+        resultingFileStateObservable.next({
+          status: 'processing',
           id: 'uuid1',
-          collectionName: fileIdentifier.collectionName,
-        },
-        {
-          width: 200,
-          height: 100,
-        },
-      ]);
+          mediaType: 'image',
+          mimeType: 'image/gif',
+          name: 'some-name',
+          size: 42,
+          representations: {},
+        });
+        await new Promise(resolve => setTimeout(resolve, 0));
+        expect(context.file.copyFileToCollection).toHaveBeenCalledTimes(1);
+      });
     });
 
-    it('should call onFinish when new file fully uploaded (processing)', async () => {
-      resultingFileStateObservable.next({
-        status: 'processing',
-        id: 'uuid1',
-        mediaType: 'image',
-        mimeType: 'image/gif',
-        name: 'some-name',
-        size: 42,
-        representations: {},
+    describe('when EditorView calls onSave without userAuthProvider', () => {
+      beforeEach(async () => {
+        await forFileToBeProcessed();
+        callEditorViewOnSaveWithCustonContext(context);
       });
-      await new Promise(resolve => setTimeout(resolve, 0));
-      resultingFileStateObservable.next({
-        status: 'processing',
-        id: 'uuid1',
-        mediaType: 'image',
-        mimeType: 'image/gif',
-        name: 'some-name',
-        size: 42,
-        representations: {},
-      });
-      expect(onFinish).toHaveBeenCalledTimes(1);
-    });
 
-    it('should show error screen when processing-failed', async () => {
-      asMock(formatMessage).mockReturnValue('Error message');
-      resultingFileStateObservable.next({
-        status: 'failed-processing',
-        id: 'uuid1',
-        mediaType: 'image',
-        mimeType: 'image/gif',
-        name: 'some-name',
-        size: 42,
-        artifacts: [],
-        representations: {},
-      });
-      component.update();
-      expect(component.find(EditorView)).toHaveLength(0);
-      expect(component.find(ErrorView)).toHaveLength(1);
-      const errorViewProps = component.find<ErrorViewProps>(ErrorView).props();
-      expectToEqual(errorViewProps.message, 'Error message');
-    });
+      it('should upload a file', async () => {
+        // First we touch files with client generated id
+        expectFunctionToHaveBeenCalledWith(context.file.touchFiles, [
+          [
+            {
+              fileId: 'uuid1',
+              collection: fileIdentifier.collectionName,
+            },
+          ],
+          fileIdentifier.collectionName,
+        ]);
 
-    it('should show error screen when error', async () => {
-      asMock(formatMessage).mockReturnValue('Error message');
-      resultingFileStateObservable.next({
-        status: 'error',
-        id: 'uuid1',
-      });
-      component.update();
-      expect(component.find(EditorView)).toHaveLength(0);
-      expect(component.find(ErrorView)).toHaveLength(1);
-      const errorViewProps = component.find<ErrorViewProps>(ErrorView).props();
-      expectToEqual(errorViewProps.message, 'Error message');
-    });
+        // Then we call upload
+        const expectedUploadableFile: UploadableFile = {
+          content: 'some-image-content',
+          name: 'some-name',
+          collection: fileIdentifier.collectionName,
+        };
+        const expectedUploadableFileUpfrontIds: UploadableFileUpfrontIds = {
+          id: 'uuid1',
+          deferredUploadId: expect.anything(),
+          occurrenceKey: 'some-occurrence-key',
+        };
+        expectFunctionToHaveBeenCalledWith(context.file.upload, [
+          expectedUploadableFile,
+          undefined,
+          expectedUploadableFileUpfrontIds,
+        ]);
+        const actualUploadableFileUpfrontIds: UploadableFileUpfrontIds = asMock(
+          context.file.upload,
+        ).mock.calls[0][2];
+        const actualUploadId = await actualUploadableFileUpfrontIds.deferredUploadId;
+        expectToEqual(actualUploadId, 'some-upload-id');
 
-    it('should close editor when error is dismissed', () => {
-      resultingFileStateObservable.next({
-        status: 'failed-processing',
-        id: 'uuid1',
-        mediaType: 'image',
-        mimeType: 'image/gif',
-        name: 'some-name',
-        size: 42,
-        artifacts: [],
-        representations: {},
+        // In the end we exit synchronously with new identifier
+        expectFunctionToHaveBeenCalledWith(onUploadStart, [
+          {
+            mediaItemType: 'file',
+            id: 'uuid1',
+            collectionName: fileIdentifier.collectionName,
+          },
+          {
+            width: 200,
+            height: 100,
+          },
+        ]);
       });
-      component.update();
-      const errorViewProps = component.find<ErrorViewProps>(ErrorView).props();
-      errorViewProps.onCancel();
-      expect(onFinish).toHaveBeenCalled();
+
+      describe('when new file is fully uploaded (processing)', () => {
+        it('should call onFinish', async () => {
+          resultingFileStateObservable.next({
+            status: 'processing',
+            id: 'uuid1',
+            mediaType: 'image',
+            mimeType: 'image/gif',
+            name: 'some-name',
+            size: 42,
+            representations: {},
+          });
+          await new Promise(resolve => setTimeout(resolve, 0));
+          resultingFileStateObservable.next({
+            status: 'processing',
+            id: 'uuid1',
+            mediaType: 'image',
+            mimeType: 'image/gif',
+            name: 'some-name',
+            size: 42,
+            representations: {},
+          });
+          expect(onFinish).toHaveBeenCalledTimes(1);
+        });
+      });
+
+      it('should show error screen when processing-failed', async () => {
+        asMock(formatMessage).mockReturnValue('Error message');
+        resultingFileStateObservable.next({
+          status: 'failed-processing',
+          id: 'uuid1',
+          mediaType: 'image',
+          mimeType: 'image/gif',
+          name: 'some-name',
+          size: 42,
+          artifacts: [],
+          representations: {},
+        });
+        component.update();
+        expect(component.find(EditorView)).toHaveLength(0);
+        expect(component.find(ErrorView)).toHaveLength(1);
+        const errorViewProps = component
+          .find<ErrorViewProps>(ErrorView)
+          .props();
+        expectToEqual(errorViewProps.message, 'Error message');
+      });
+
+      it('should show error screen when error', async () => {
+        asMock(formatMessage).mockReturnValue('Error message');
+        resultingFileStateObservable.next({
+          status: 'error',
+          id: 'uuid1',
+        });
+        component.update();
+        expect(component.find(EditorView)).toHaveLength(0);
+        expect(component.find(ErrorView)).toHaveLength(1);
+        const errorViewProps = component
+          .find<ErrorViewProps>(ErrorView)
+          .props();
+        expectToEqual(errorViewProps.message, 'Error message');
+      });
+
+      it('should close editor when error is dismissed', () => {
+        resultingFileStateObservable.next({
+          status: 'failed-processing',
+          id: 'uuid1',
+          mediaType: 'image',
+          mimeType: 'image/gif',
+          name: 'some-name',
+          size: 42,
+          artifacts: [],
+          representations: {},
+        });
+        component.update();
+        const errorViewProps = component
+          .find<ErrorViewProps>(ErrorView)
+          .props();
+        errorViewProps.onCancel();
+        expect(onFinish).toHaveBeenCalled();
+      });
     });
   });
 
