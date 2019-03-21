@@ -1,0 +1,1 @@
+- TEAMS-323 : Send additional information for teams when a team is selected in a mention

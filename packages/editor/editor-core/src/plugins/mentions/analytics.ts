@@ -10,6 +10,7 @@ import {
   version as packageVersion,
 } from '../../version.json';
 import { SelectItemMode } from '../type-ahead/commands/select-item.js';
+import { isTeamType } from './utils';
 
 const componentName = 'mention';
 
@@ -118,6 +119,14 @@ export const buildTypeAheadInsertedPayload = (
       userId: mention.id,
       upKeyCount,
       downKeyCount,
+      memberCount:
+        isTeamType(mention.userType) && mention.context
+          ? mention.context.memberCount
+          : null,
+      includesYou:
+        isTeamType(mention.userType) && mention.context
+          ? mention.context.includesYou
+          : null,
     },
   );
 };
