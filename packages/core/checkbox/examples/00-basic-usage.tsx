@@ -1,12 +1,11 @@
-// @flow
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import { Checkbox } from '../src';
 
 type State = {
-  onChangeResult: string,
+  onChangeResult: string;
 };
 
-const BasicUsageExample = class extends PureComponent<void, State> {
+const BasicUsageExample = class extends React.PureComponent<void, State> {
   state = {
     onChangeResult: 'Check & Uncheck to trigger onChange',
   };

@@ -1,15 +1,14 @@
 /**
  * @jest-environment node
  */
-// @flow
-import React from 'react';
+import * as React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
-import ReactDOMServer from 'react-dom/server';
+import * as ReactDOMServer from 'react-dom/server';
 
 test('Checkbox server side rendering', async () => {
   (await getExamplesFor('checkbox')).forEach(examples => {
     // $StringLitteral
-    const Example = require(examples.filePath).default; // eslint-disable-line import/no-dynamic-require
+    const Example = require(examples.filePath).default; // tslint-disable-line import/no-dynamic-require
     expect(() => ReactDOMServer.renderToString(<Example />)).not.toThrowError();
   });
 });

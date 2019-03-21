@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import { Checkbox } from '../src';
 
@@ -8,15 +7,14 @@ const GroupDiv = styled.div`
   flex-direction: ${prop => prop.flexDirection};
 `;
 
-export default class CheckboxGroups extends Component<
+export default class CheckboxGroups extends React.Component<
   void,
-  { flexDirection: string },
+  { flexDirection: string }
 > {
   state = {
     flexDirection: 'column',
   };
-
-  onChange = (event: SyntheticEvent<*>) => {
+  onChange: React.FocusEventHandler<HTMLInputElement> = event => {
     switch (event.currentTarget.value) {
       case 'column':
         this.setState({

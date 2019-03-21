@@ -1,11 +1,10 @@
-// @flow
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import Button from '@atlaskit/button';
 import { Checkbox } from '../src';
 
 const formTestUrl = '//httpbin.org/get';
 
-export default class CheckboxGroupExample extends PureComponent<void> {
+export default class CheckboxGroupExample extends React.PureComponent<void> {
   render() {
     return (
       <div>

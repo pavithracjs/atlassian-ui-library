@@ -1,10 +1,9 @@
-// @flow
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import { Checkbox } from '../src';
 
 type CheckedItems = { [value: string]: boolean };
 type State = {
-  checkedItems: CheckedItems,
+  checkedItems: CheckedItems;
 };
 
 const PARENT_ID: string = 'PARENT';
@@ -24,7 +23,10 @@ const getIsParentIndeterminate = (checkedItems: CheckedItems) => {
   return checkedChildrenCount > 0 && checkedChildrenCount < 2;
 };
 
-export default class IndeterminateExample extends PureComponent<void, State> {
+export default class IndeterminateExample extends React.PureComponent<
+  void,
+  State
+> {
   state = {
     checkedItems: {
       [PARENT_ID]: false,

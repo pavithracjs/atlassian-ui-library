@@ -1,5 +1,4 @@
-// @flow
-import React from 'react';
+import * as React from 'react';
 import { md, Example, code } from '@atlaskit/docs';
 import SectionMessage from '@atlaskit/section-message';
 

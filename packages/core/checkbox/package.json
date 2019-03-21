@@ -4,7 +4,7 @@
   "description": "Checkbox component for use in forms",
   "license": "Apache-2.0",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/checkboxes",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
