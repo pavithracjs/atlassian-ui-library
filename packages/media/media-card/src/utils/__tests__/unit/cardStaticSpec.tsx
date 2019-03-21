@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import FileIcon from '@atlaskit/icon/glyph/file';
+import WarningIcon from '@atlaskit/icon/glyph/editor/warning';
 
 import { CardLoading, CardError } from '../..';
 import { getDimensionsWithDefault } from '../../cardStatic';
@@ -14,12 +15,8 @@ describe('<CardLoading />', () => {
   });
 
   it('should render icon with the right size', () => {
-    const smallLoadingCard = shallow(<CardLoading iconSize="small" />);
-    const largeLoadingCard = shallow(<CardLoading iconSize="large" />);
     const defaultLoadingSize = shallow(<CardLoading />);
 
-    expect(smallLoadingCard.find(FileIcon).props().size).toBe('small');
-    expect(largeLoadingCard.find(FileIcon).props().size).toBe('large');
     expect(defaultLoadingSize.find(FileIcon).props().size).toBe('medium');
   });
 
@@ -30,6 +27,7 @@ describe('<CardLoading />', () => {
         height: '100%',
       });
     });
+
     it('should use pixel units for provided dimensions', () => {
       expect(getDimensionsWithDefault({ width: 50, height: 50 })).toEqual({
         width: '50px',
@@ -46,6 +44,11 @@ describe('<CardError />', () => {
     expect(fileError.find(ErrorIcon)).toHaveLength(1);
   });
 
+  it('should render icon with the right size', () => {
+    const defaultLoadingSize = mount(<CardError />);
+    expect(defaultLoadingSize.find(WarningIcon).props().size).toBe('medium');
+  });
+
   describe('getDimensionsWithDefault()', () => {
     it('should use default ones when no dimensions provided', () => {
       expect(getDimensionsWithDefault()).toEqual({
@@ -53,6 +56,7 @@ describe('<CardError />', () => {
         height: '100%',
       });
     });
+
     it('should use pixel units for provided dimensions', () => {
       expect(getDimensionsWithDefault({ width: 50, height: 50 })).toEqual({
         width: '50px',
