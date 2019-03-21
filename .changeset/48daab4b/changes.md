@@ -1,0 +1,1 @@
+- Fix bug: previous size was size for isCompact, and isCompact did not do anything. Now normal textarea is slightly larger and isCompact makes it the previous size
