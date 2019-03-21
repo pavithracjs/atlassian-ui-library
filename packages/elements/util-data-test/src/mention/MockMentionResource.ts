@@ -37,11 +37,14 @@ export class MockMentionResource extends AbstractMentionResource {
     const notify = (mentions: MentionsResult) => {
       if (searchTime >= this.lastReturnedSearch) {
         this.lastReturnedSearch = searchTime;
-        this._notifyListeners(mentions, {
-          remoteSearch: true,
-          duration: query !== 'team' ? 100 : null,
-          teamMentionDuration: query === 'team' ? 200 : null,
-        });
+        let stats: { teamMentionDuration?: number; duration?: number } = {};
+        if (query === 'team') {
+          stats.teamMentionDuration = 200;
+        } else {
+          stats.duration = 100;
+        }
+
+        this._notifyListeners(mentions, stats);
       } else {
         const date = new Date(searchTime).toISOString().substr(17, 6);
         debug('Stale search result, skipping', date, query); // eslint-disable-line no-console, max-len
