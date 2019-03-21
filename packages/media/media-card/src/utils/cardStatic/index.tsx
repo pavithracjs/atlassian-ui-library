@@ -36,13 +36,23 @@ export class CardLoading extends Component<StaticCardProps, {}> {
   }
 }
 
-export class CardError extends Component<StaticCardProps, {}> {
+export interface ErrorCardProps extends StaticCardProps {
+  readonly size: 'small' | 'medium' | 'large' | 'xlarge';
+}
+
+export class CardError extends Component<ErrorCardProps, {}> {
+  static defaultProps = {
+    size: 'medium',
+  };
+
   render() {
     const dimensions = getDimensionsWithDefault(this.props.dimensions);
     return <Wrapper dimensions={dimensions}>{this.icon}</Wrapper>;
   }
 
   get icon() {
-    return <ErrorIcon />;
+    const { size } = this.props;
+
+    return <ErrorIcon size={size} />;
   }
 }

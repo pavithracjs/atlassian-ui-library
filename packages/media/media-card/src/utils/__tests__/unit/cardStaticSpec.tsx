@@ -45,8 +45,15 @@ describe('<CardError />', () => {
   });
 
   it('should render icon with the right size', () => {
-    const defaultLoadingSize = mount(<CardError />);
-    expect(defaultLoadingSize.find(WarningIcon).props().size).toBe('medium');
+    const defaultErrorSize = mount(<CardError />);
+    const mediumErrorSize = mount(<CardError size="large" />);
+    expect(defaultErrorSize.find(WarningIcon).props().size).toBe('medium');
+    expect(mediumErrorSize.find(WarningIcon).props().size).toBe('large');
+  });
+
+  it('ErrorIcon should be small by default', () => {
+    const defaultErrorIcon = mount(<ErrorIcon />);
+    expect(defaultErrorIcon.find(WarningIcon).props().size).toBe('small');
   });
 
   describe('getDimensionsWithDefault()', () => {
