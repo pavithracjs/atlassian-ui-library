@@ -1,0 +1,1 @@
+- Theme now exports top-level type definition for TS users
