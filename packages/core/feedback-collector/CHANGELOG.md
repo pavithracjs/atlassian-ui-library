@@ -1,5 +1,10 @@
 # @atlaskit/feedback-collector
 
+## 3.0.2
+- Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
+  - @atlaskit/form@5.2.4
+  - @atlaskit/textarea@0.4.0
+
 ## 3.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

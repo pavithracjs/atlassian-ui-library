@@ -1,24 +1,37 @@
-declare module '@atlaskit/theme' {
-  export const borderRadius: any;
-  export const codeFontFamily: any;
-  export const colors: Record<string, string>;
-  export const createTheme: <ThemeTokens, ThemeProps>(
-    theme: (props: ThemeProps) => ThemeTokens,
-  ) => {
-    Consumer: React.ReactType<ThemeTokens>;
-    Provider: React.ReactType<{
-      value: (tokens: ThemeTokens, props: ThemeProps) => ThemeTokens;
-    }>;
-  };
-  export const elevation: any;
-  export const fontFamily: any;
-  export const fontSize: any;
-  export const gridSize: any;
-  export const layers: any;
-  export const math: any;
-  export const Theme: React.ComponentType<any>;
-  export const themed: any;
-  export const typography: any;
-  const d: any;
-  export default d;
-}
+import * as React from 'react';
+
+export const borderRadius: () => number;
+export const codeFontFamily: () => string;
+export const noFocusRing: () => string;
+export const focusRing: (color: string, outlineWidth: number) => string;
+export const colors: Record<string, string>;
+export const elevation: any;
+export const fontFamily: any;
+export const fontSize: any;
+export const gridSize: any;
+export const layers: Record<string, () => number>;
+export const math: any;
+export const Theme: React.ComponentType<any>;
+export const themed: any;
+export const typography: any;
+
+export type ThemeProp = <ThemeTokens, ThemeProps>(
+  themeFn: (ThemeProps: ThemeProps) => ThemeTokens,
+  themeProps: ThemeProps,
+) => ThemeTokens;
+
+export class AtlaskitThemeProvider extends React.Component<ThemeProps> {}
+
+const GlobalTheme: {
+  Consumer: React.ReactType<ThemeProps>;
+  Provider: React.ReactType<{
+    value?: ThemeProp<ThemeTokens, ThemeProps>;
+    children?: React.ReactNode;
+  }>;
+};
+
+export default GlobalTheme;
+
+export const createTheme: <ThemeTokens, ThemeProps>(
+  theme: (props: ThemeProps) => ThemeTokens,
+) => GlobalTheme;
