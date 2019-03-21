@@ -25,6 +25,19 @@ export type Props = {
   capabilitiesInfoMessage?: React.ReactNode;
 };
 
+const noOptionsMessageProps = (inputValue?: string) =>
+  inputValue && inputValue.length > 0
+    ? messages.userPickerNoOptionsMessage
+    : messages.userPickerNoOptionsMessageEmptyQuery;
+
+const getNoOptionsMessage = ({ inputValue }: { inputValue: string }): any =>
+  (
+    <FormattedMessage
+      {...noOptionsMessageProps(inputValue)}
+      values={{ inputValue }}
+    />
+  ) as any;
+
 export const UserPickerField: React.StatelessComponent<Props> = props => (
   <Field name="users" validate={validate} defaultValue={props.defaultValue}>
     {({ fieldProps, error, meta: { valid } }: FieldChildrenArgs<Value>) => (
@@ -42,14 +55,7 @@ export const UserPickerField: React.StatelessComponent<Props> = props => (
               addMoreMessage={addMore as string}
               allowEmail={allowEmails(props.config)}
               isValidEmail={isValidEmailUsingConfig(props.config)}
-              noOptionsMessage={({ inputValue }) =>
-                (
-                  <FormattedMessage
-                    {...messages.userPickerNoOptionsMessage}
-                    values={{ inputValue, length: inputValue.length }}
-                  />
-                ) as any
-              }
+              noOptionsMessage={getNoOptionsMessage}
             />
           )}
         </FormattedMessage>
