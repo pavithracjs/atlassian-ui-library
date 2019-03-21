@@ -45,7 +45,7 @@ export const messages = defineMessages({
           other {results for "{inputValue}"}
       }. Invite people by using an email address.`,
     description:
-      'Default text for share failure message displayed in the tooltip',
+      'No options message displayed when the search for users returns empty.',
   },
   shareTriggerButtonText: {
     id: 'fabric.elements.share.trigger.button.text',
