@@ -47,9 +47,9 @@ export function firePreQueryShownEvent(
   renderTimeMs: number,
   searchSessionId: string,
   createAnalyticsEvent: CreateAnalyticsEventFn,
+  abTest: ABTest,
   experimentRequestDurationMs?: number,
   retrievedFromAggregator?: boolean,
-  abTest?: ABTest,
 ) {
   fireGasEvent(
     createAnalyticsEvent,
@@ -147,7 +147,7 @@ export function firePostQueryShownEvent(
   searchSessionId: string,
   query: string,
   createAnalyticsEvent: CreateAnalyticsEventFn,
-  abTest?: ABTest,
+  abTest: ABTest,
 ) {
   const event = createAnalyticsEvent();
 

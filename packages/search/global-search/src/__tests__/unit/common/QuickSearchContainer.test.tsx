@@ -12,6 +12,12 @@ import { DEVELOPMENT_LOGGER } from '../../../../example-helpers/logger';
 import { ResultsWithTiming } from '../../../model/Result';
 import { ABTest } from '../../../api/CrossProductSearchClient';
 
+const defaultABTestData = {
+  experimentId: 'test-experiement-id',
+  abTestId: 'test-abtest-id',
+  controlId: 'test-control-id',
+};
+
 const defaultProps = {
   logger: DEVELOPMENT_LOGGER,
   getSearchResultsComponent: jest.fn((props: SearchResultProps) => null),
@@ -22,7 +28,9 @@ const defaultProps = {
     (query: string, sessionId: string, startTime: number) =>
       Promise.resolve({ results: {} }),
   ),
-  getAbTestData: jest.fn((sesionId: string) => Promise.resolve(undefined)),
+  getAbTestData: jest.fn((sesionId: string) =>
+    Promise.resolve(defaultABTestData),
+  ),
   createAnalyticsEvent: jest.fn(),
   handleSearchSubmit: jest.fn(),
 };
@@ -52,7 +60,7 @@ describe('QuickSearchContainer', () => {
   let firePostQueryShownEventSpy;
   let fireExperimentExposureEventSpy;
 
-  const assertPreQueryAnalytics = recentItems => {
+  const assertPreQueryAnalytics = (recentItems, abTest) => {
     expect(firePreQueryShownEventSpy).toBeCalled();
     const lastCall =
       firePreQueryShownEventSpy.mock.calls[
@@ -69,9 +77,9 @@ describe('QuickSearchContainer', () => {
       expect.any(Number),
       expect.any(String),
       defaultProps.createAnalyticsEvent,
+      abTest,
       expect.any(Number),
       expect.any(Boolean),
-      expect.any(Object),
     ]);
   };
 
@@ -95,7 +103,7 @@ describe('QuickSearchContainer', () => {
       expect.any(String),
       query,
       defaultProps.createAnalyticsEvent,
-      undefined,
+      defaultABTestData,
     ]);
   };
 
@@ -179,7 +187,7 @@ describe('QuickSearchContainer', () => {
       isError: false,
     });
 
-    assertPreQueryAnalytics(recentItems);
+    assertPreQueryAnalytics(recentItems, abTest);
     assertExposureEventAnalytics(abTest);
   });
 

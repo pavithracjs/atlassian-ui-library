@@ -26,6 +26,12 @@ import { ABTest } from '../../api/CrossProductSearchClient';
 const resultMapToArray = (results: GenericResultMap): Result[][] =>
   objectValues(results).reduce((acc: Result[][], value) => [...acc, value], []);
 
+const DEFAULT_AB_TEST: ABTest = Object.freeze({
+  experimentId: 'default',
+  abTestId: 'default',
+  controlId: 'default',
+});
+
 export interface SearchResultProps extends State {
   retrySearch: Function;
 }
@@ -69,7 +75,7 @@ export interface State {
   keepPreQueryState: boolean;
   searchResults: GenericResultMap | null;
   recentItems: GenericResultMap | null;
-  abTest: ABTest | null;
+  abTest: ABTest;
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
@@ -94,7 +100,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       recentItems: null,
       searchResults: null,
       keepPreQueryState: true,
-      abTest: null,
+      abTest: DEFAULT_AB_TEST,
     };
   }
 
@@ -182,9 +188,11 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     const abTest = await getAbTestData(searchSessionId);
     const elapsedMs = performanceNow() - startTime;
 
-    this.setState({
-      abTest: abTest || null,
-    });
+    if (abTest) {
+      this.setState({
+        abTest,
+      });
+    }
 
     return {
       elapsedMs,
@@ -218,10 +226,10 @@ export class QuickSearchContainer extends React.Component<Props, State> {
   fireShownPreQueryEvent = (
     searchSessionId,
     recentItems,
+    abTest: ABTest,
     requestStartTime?: number,
     experimentRequestDurationMs?: number,
     renderStartTime?: number,
-    abTest?: ABTest,
   ) => {
     const {
       createAnalyticsEvent,
@@ -250,9 +258,9 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         renderTime,
         searchSessionId,
         createAnalyticsEvent,
+        abTest,
         experimentRequestDurationMs,
         !!enablePreQueryFromAggregator,
-        abTest,
       );
     }
   };
@@ -264,7 +272,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     timings,
     searchSessionId,
     latestSearchQuery: string,
-    abTest?: ABTest,
+    abTest: ABTest,
   ) => {
     const performanceTiming: PerformanceTiming = {
       startTime,
@@ -313,10 +321,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           this.fireShownPreQueryEvent(
             this.state.searchSessionId,
             this.state.recentItems || {},
-            undefined,
-            undefined,
-            undefined,
-            abTest || undefined,
+            abTest,
           ),
       );
     } else {
@@ -365,10 +370,10 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           this.fireShownPreQueryEvent(
             this.state.searchSessionId,
             this.state.recentItems || {},
+            abTest || DEFAULT_AB_TEST,
             startTime,
             experimentRequestDurationMs,
             renderStartTime,
-            abTest,
           );
         },
       );
