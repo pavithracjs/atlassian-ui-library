@@ -9,7 +9,7 @@ import {
   setTableLayout,
   getSelectorForTableCell,
 } from '../../__helpers/page-objects/_table';
-import { sleep } from '../../../../../editor-test-helpers';
+import { waitForEmojis } from '../../__helpers/page-objects/_emoji';
 
 describe('Table with block looks correct for fullpage:', () => {
   let page: any;
@@ -20,7 +20,7 @@ describe('Table with block looks correct for fullpage:', () => {
   });
 
   afterEach(async () => {
-    await sleep(50);
+    await waitForEmojis(page);
     await snapshot(page, 0.01);
   });
 
