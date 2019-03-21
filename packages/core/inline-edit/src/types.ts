@@ -1,10 +1,29 @@
 import * as React from 'react';
 
-export interface Props {
+interface CommonProps {
+  /** Label above the input. */
+  label?: string;
+  /** Validation function handled by final-form. */
+  validate?: (
+    value: any,
+    formState: {},
+    fieldState: {},
+  ) => string | void | Promise<string | void>;
+
+  /** Contained in defaultProps */
+  /** Set whether onConfirm should be called on blur. (Optional) */
+  disableConfirmOnBlur: boolean;
+  /** Sets whether the checkmark and cross are displayed in the bottom right of the field. (Optional) */
+  hideActionButtons: boolean;
+  /** Determines whether the read view has 100% width within its container, or whether it fits the content. (Optional) */
+  readViewFitContainerWidth: boolean;
+}
+
+export interface InlineEditUncontrolledProps extends CommonProps {
   /** Component to be shown when not in edit view. */
   readView: React.ReactChild;
   /** Component to be shown when editing. Should be an Atlaskit input. */
-  editView: (fieldProps: FieldProps, isInvalid?: boolean) => React.ReactChild;
+  editView: (fieldProps: FieldProps, isInvalid: boolean) => React.ReactChild;
   /** Whether the component shows the readView or the editView. */
   isEditing: boolean;
   /** The initial value of the inline edit. */
@@ -18,49 +37,39 @@ export interface Props {
   onConfirm: (value: any) => void;
   /** Handler called when checkmark is. */
   onCancel: () => void;
-
-  /** Label above the input. */
-  label?: string;
-  /** Validation function handled by final-form. */
-  validate?: (
-    value: any,
-    formState: {},
-    fieldState: {},
-  ) => string | void | Promise<string | void>;
-
-  /** Contained in defaultProps */
-  /** Set whether onConfirm should be called on blur. */
-  disableConfirmOnBlur?: boolean;
-  /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
-  hideActionButtons?: boolean;
-  /** Determines whether the read view has 100% width within its container, or whether it fits the content. */
-  readViewFitContainerWidth?: boolean;
 }
 
-export interface InlineEditableTextfieldProps {
+export interface InlineEditProps extends CommonProps {
+  /** Component to be shown when not in edit view. */
+  readView: React.ReactChild;
+  /** Component to be shown when editing. Should be an Atlaskit input. */
+  editView: (
+    editViewProps: FieldProps & { ref: (ref: any) => void },
+    isInvalid: boolean,
+  ) => React.ReactChild;
+  /**
+   * Handler called editView is closed and changes are confirmed.
+   * Field value is passed as an argument to this function.
+   */
+  onConfirm: (value: any) => void;
+  /** The initial value of the inline edit. */
+  defaultValue: any;
+  /** Determines whether isEditing begins as true. (Optional) */
+  startInEditView: boolean;
+}
+
+export interface InlineEditableTextfieldProps extends CommonProps {
   /**
    * Handler called editView is closed and changes are confirmed.
    * Field value is passed as an argument to this function.
    */
   onConfirm: (value: string) => void;
   /** The initial value of the inline edit. */
-  defaultValue: any;
-  /** Label above the input. */
-  label?: string;
-  /** Validation function handled by final-form. */
-  validate?: (
-    value: any,
-    formState: {},
-    fieldState: {},
-  ) => string | void | Promise<string | void>;
-  /** Text shown in read view when value is an empty string. */
-  emptyValueText?: string;
-  /** Set whether onConfirm should be called on blur. */
-  disableConfirmOnBlur?: boolean;
-  /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
-  hideActionButtons?: boolean;
-  /** Determines whether the read view has 100% width within its container, or whether it fits the content. */
-  readViewFitContainerWidth?: boolean;
+  defaultValue: string;
+  /** Text shown in read view when value is an empty string. (Optional) */
+  emptyValueText: string;
+  /** Determines whether isEditing begins as true. (Optional) */
+  startInEditView: boolean;
 }
 
 /** These interfaces will be exported from the Form package once it is converted to Typescript */

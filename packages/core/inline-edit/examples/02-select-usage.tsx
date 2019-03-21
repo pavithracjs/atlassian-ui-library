@@ -23,33 +23,16 @@ const selectOptions: Option[] = [
 
 type State = {
   editValue: Option[];
-  isEditing: boolean;
 };
 
 export default class InlineEditExample extends React.Component<void, State> {
-  editViewRef: HTMLInputElement | undefined;
-
   state = {
-    isEditing: false,
     editValue: [],
   };
 
   onConfirm = (value: Option[]) => {
     this.setState({
       editValue: value,
-      isEditing: false,
-    });
-  };
-
-  onCancel = () => {
-    this.setState({ isEditing: false });
-  };
-
-  onEditRequested = () => {
-    this.setState({ isEditing: true }, () => {
-      if (this.editViewRef) {
-        this.editViewRef.focus();
-      }
     });
   };
 
@@ -58,10 +41,10 @@ export default class InlineEditExample extends React.Component<void, State> {
       <div style={{ padding: '0 16px' }}>
         <InlineEdit
           defaultValue={this.state.editValue}
-          label="Inline Edit Field"
-          editView={fieldProps => (
+          label="Inline edit select"
+          editView={editViewProps => (
             <Select
-              {...fieldProps}
+              {...editViewProps}
               options={selectOptions}
               isMulti
               autoFocus
@@ -80,9 +63,6 @@ export default class InlineEditExample extends React.Component<void, State> {
             )
           }
           onConfirm={this.onConfirm}
-          onCancel={this.onCancel}
-          isEditing={this.state.isEditing}
-          onEditRequested={this.onEditRequested}
         />
       </div>
     );

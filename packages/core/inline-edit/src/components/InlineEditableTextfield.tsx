@@ -1,14 +1,12 @@
 import * as React from 'react';
 import TextField from '@atlaskit/textfield';
 import { withDefaultProps } from '@atlaskit/type-helpers';
+import ErrorIcon from '@atlaskit/icon/glyph/error';
+import { colors } from '@atlaskit/theme';
 
 import InlineEdit from './InlineEdit';
 import ReadViewContainer from '../styled/ReadViewContainer';
 import { InlineEditableTextfieldProps } from '../types';
-
-type State = {
-  isEditing: boolean;
-};
 
 const defaultProps: Pick<
   InlineEditableTextfieldProps,
@@ -16,66 +14,48 @@ const defaultProps: Pick<
   | 'hideActionButtons'
   | 'readViewFitContainerWidth'
   | 'emptyValueText'
+  | 'startInEditView'
 > = {
   disableConfirmOnBlur: false,
   hideActionButtons: false,
   readViewFitContainerWidth: false,
   emptyValueText: 'Click to enter text',
+  startInEditView: false,
 };
 
 class InlineEditableTextfield extends React.Component<
   InlineEditableTextfieldProps,
-  State
+  {}
 > {
-  editViewRef: HTMLInputElement | undefined;
-
-  state = {
-    isEditing: false,
-  };
-
   onConfirm = (value: string) => {
-    this.setState({
-      isEditing: false,
-    });
     this.props.onConfirm(value);
   };
 
-  onCancel = () => {
-    this.setState({
-      isEditing: false,
-    });
-  };
-
-  onEditRequested = () => {
-    this.setState({ isEditing: true }, () => {
-      if (this.editViewRef) {
-        this.editViewRef.focus();
-      }
-    });
-  };
-
   render() {
+    const { defaultValue, emptyValueText, startInEditView } = this.props;
     return (
       <InlineEdit
         {...this.props}
-        defaultValue={this.props.defaultValue}
-        editView={fieldProps => (
+        defaultValue={defaultValue}
+        editView={(editViewProps, isInvalid) => (
           <TextField
-            {...fieldProps}
-            ref={(ref: HTMLInputElement) => {
-              this.editViewRef = ref;
-            }}
+            {...editViewProps}
+            elemAfterInput={
+              isInvalid && (
+                <div style={{ paddingRight: '6px', lineHeight: '100%' }}>
+                  <ErrorIcon label="error" primaryColor={colors.R400} />
+                </div>
+              )
+            }
           />
         )}
         readView={
           <ReadViewContainer>
-            {this.props.defaultValue || this.props.emptyValueText}
+            {defaultValue || emptyValueText}
           </ReadViewContainer>
         }
         onConfirm={this.onConfirm}
-        onCancel={this.onCancel}
-        isEditing={this.state.isEditing}
-        onEditRequested={this.onEditRequested}
+        startInEditView={startInEditView}
       />
     );
   }
