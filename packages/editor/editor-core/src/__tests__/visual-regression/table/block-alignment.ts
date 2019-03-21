@@ -20,7 +20,7 @@ describe('Table with block looks correct for fullpage:', () => {
   });
 
   afterEach(async () => {
-    await sleep(5000);
+    await sleep(50);
     await snapshot(page, 0.01);
   });
 
