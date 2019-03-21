@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.1.2
+- Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
+  - @atlaskit/smart-card@10.1.1
+  - @atlaskit/textarea@0.4.0
+
 ## 106.1.1
 - [patch] [c604b1eb64](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c604b1eb64):
 
