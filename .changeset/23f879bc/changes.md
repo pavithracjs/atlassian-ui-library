@@ -1,0 +1,1 @@
+- Removes duplicate babel-runtime dependency

@@ -1,0 +1,45 @@
+{
+  "releases": [
+    { "name": "@atlaskit/analytics-next", "type": "patch" },
+    { "name": "@atlaskit/badge", "type": "patch" },
+    { "name": "@atlaskit/banner", "type": "patch" },
+    { "name": "@atlaskit/breadcrumbs", "type": "patch" },
+    { "name": "@atlaskit/button", "type": "patch" },
+    { "name": "@atlaskit/checkbox", "type": "patch" },
+    { "name": "@atlaskit/datetime-picker", "type": "patch" },
+    { "name": "@atlaskit/droplist", "type": "patch" },
+    { "name": "@atlaskit/empty-state", "type": "patch" },
+    { "name": "@atlaskit/field-base", "type": "patch" },
+    { "name": "@atlaskit/field-range", "type": "patch" },
+    { "name": "@atlaskit/field-text-area", "type": "patch" },
+    { "name": "@atlaskit/flag", "type": "patch" },
+    { "name": "@atlaskit/icon-file-type", "type": "patch" },
+    { "name": "@atlaskit/icon-object", "type": "patch" },
+    { "name": "@atlaskit/icon-priority", "type": "patch" },
+    { "name": "@atlaskit/icon", "type": "patch" },
+    { "name": "@atlaskit/input", "type": "patch" },
+    { "name": "@atlaskit/lozenge", "type": "patch" },
+    { "name": "@atlaskit/navigation", "type": "patch" },
+    { "name": "@atlaskit/pagination", "type": "patch" },
+    { "name": "@atlaskit/portal", "type": "patch" },
+    { "name": "@atlaskit/progress-indicator", "type": "patch" },
+    { "name": "@atlaskit/progress-tracker", "type": "patch" },
+    { "name": "@atlaskit/size-detector", "type": "patch" },
+    { "name": "@atlaskit/spinner", "type": "patch" },
+    { "name": "@atlaskit/tag-group", "type": "patch" },
+    { "name": "@atlaskit/tag", "type": "patch" }
+  ],
+  "dependents": [
+    {
+      "name": "@atlaskit/dropdown-menu",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/analytics-next",
+        "@atlaskit/button",
+        "@atlaskit/droplist",
+        "@atlaskit/icon",
+        "@atlaskit/lozenge"
+      ]
+    }
+  ]
+}
