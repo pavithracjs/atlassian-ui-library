@@ -1,10 +1,10 @@
 import * as React from 'react';
 import CrossCircleIcon from '@atlaskit/icon/glyph/cross-circle';
 import { CloseButton as StyledCloseButton } from './styled';
+import { withHelp, HelpContextInterface } from './HelpContext';
 
 export interface Props {
-  // Search
-  onBtnCloseClick?(onBtnCloseClick: React.MouseEvent<HTMLElement>): void;
+  help: HelpContextInterface;
 }
 
 /**
@@ -15,11 +15,14 @@ export interface Props {
  */
 
 const CloseButton = (props: Props) => {
-  return props.onBtnCloseClick ? (
-    <StyledCloseButton onClick={props.onBtnCloseClick}>
+  const {
+    help: { onBtnCloseClick },
+  } = props;
+  return onBtnCloseClick ? (
+    <StyledCloseButton onClick={onBtnCloseClick}>
       <CrossCircleIcon label="" size="large" />
     </StyledCloseButton>
   ) : null;
 };
 
-export default CloseButton;
+export default withHelp(CloseButton);

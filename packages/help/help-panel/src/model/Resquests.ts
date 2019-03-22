@@ -1,4 +1,4 @@
-export enum RequestState {
+export enum REQUEST_STATE {
   done,
   loading,
   error,

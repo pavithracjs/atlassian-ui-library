@@ -48,7 +48,9 @@ export default class extends React.Component {
             articleId="00"
             onGetArticle={this.onGetArticle}
             onSearch={this.onSearch}
-          />
+          >
+            <h1>Default content</h1>
+          </HelpPanel>
         </LocaleIntlProvider>
         <Button type="button" onClick={this.openDrawer}>
           Open drawer

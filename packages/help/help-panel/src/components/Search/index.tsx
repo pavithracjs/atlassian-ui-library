@@ -4,14 +4,12 @@ import { QuickSearch } from '@atlaskit/quick-search';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 
 import { messages } from '../../messages';
-import { ArticleItem } from '../../model/Article';
-import SearchResult from './SearchResults';
-import SearchResultsEmpty from './SearchResultsEmpty';
+import { REQUEST_STATE } from '../../model/Resquests';
+import { withHelp, HelpContextInterface } from '../HelpContext';
 
+import SearchContent from './SearchContent';
 export interface Props {
-  isLoading?: boolean;
-  onSearchInput(event: React.FormEvent<HTMLInputElement>): void;
-  searchResult?: ArticleItem[];
+  help: HelpContextInterface;
   displayResults: boolean;
 }
 
@@ -32,32 +30,25 @@ export class Search extends React.Component<Props & InjectedIntlProps, State> {
     this.debouncedSearch(value);
   };
 
-  debouncedSearch = debounce(this.props.onSearchInput, 350);
+  debouncedSearch = debounce(this.props.help.onSearch, 350);
 
   render() {
     const {
       intl: { formatMessage },
-      isLoading = false,
-      searchResult = [],
-      displayResults,
+      help: { searchState },
     } = this.props;
 
     return (
       <QuickSearch
         placeholder={formatMessage(messages.help_panel_search_placeholder)}
         value={this.state.value}
-        isLoading={isLoading}
+        isLoading={searchState == REQUEST_STATE.loading}
         onSearchInput={this.handleSearchInput}
       >
-        {displayResults &&
-          (searchResult.length > 0 ? (
-            <SearchResult searchResult={searchResult} />
-          ) : (
-            <SearchResultsEmpty />
-          ))}
+        <SearchContent />
       </QuickSearch>
     );
   }
 }
 
-export default injectIntl(Search);
+export default withHelp(injectIntl(Search));

@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { HelpContextProvider } from './HelpContext';
 import CloseButton from './CloseButton';
 import GlobalHelpContent from './HelpPanelContent';
 import GlobalHelpDrawer from './GlobalHelpDrawer';
@@ -7,38 +8,35 @@ import MessagesIntlProvider from './MessagesIntlProvider';
 import { Article, ArticleItem } from '../model/Article';
 
 export interface Props {
-  // Open Close Drawer
+  // Open/Closed drawer state
   isOpen: boolean;
-  onBtnCloseClick?(event: any): void; // If is undefined the close btn will not be displayed
-  // Article
-  articleId: string;
-  onGetArticle(id: string): Promise<Article>;
-  // Search
+  // Event handler for the close button. This prop is optional, if this function is not defined the close button will not be displayed
+  onBtnCloseClick?(event: any): void;
+  // Id of the article to display. This prop is optional, if is not defined the default content will be displayed
+  articleId?: string;
+  // Function used to get an article content. This prop is optional, if is not defined the default content will be displayed
+  onGetArticle?(id: string): Promise<Article>;
+  // Function used to search an article.  This prop is optional, if is not defined search input will be hidden
   onSearch?(value: string): Promise<ArticleItem[]>;
+  // Function used when the user submits the "Was this helpful" form. This prop is optional, if is not defined the "Was this helpful" section will be hidden
+  onWasHelpfulSubmit?(value: any): Promise<boolean>;
+  // Default content. This prop is optional
+  children?: React.ReactNode;
 }
 
 export class HelpPanel extends React.Component<Props> {
   render() {
-    const {
-      isOpen,
-      onGetArticle,
-      articleId,
-      onSearch,
-      onBtnCloseClick,
-    } = this.props;
+    const { children, ...rest } = this.props;
 
     return (
-      <MessagesIntlProvider>
-        <GlobalHelpDrawer isOpen={isOpen}>
-          <GlobalHelpContent
-            isOpen={isOpen}
-            articleId={articleId}
-            onGetArticle={onGetArticle}
-            onSearch={onSearch}
-          />
-          <CloseButton onBtnCloseClick={onBtnCloseClick} />
-        </GlobalHelpDrawer>
-      </MessagesIntlProvider>
+      <HelpContextProvider {...rest} defaultContent={children}>
+        <MessagesIntlProvider>
+          <GlobalHelpDrawer>
+            <GlobalHelpContent />
+            <CloseButton />
+          </GlobalHelpDrawer>
+        </MessagesIntlProvider>
+      </HelpContextProvider>
     );
   }
 }

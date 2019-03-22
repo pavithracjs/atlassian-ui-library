@@ -3,12 +3,17 @@ import { PureComponent, ReactNode } from 'react';
 import { canUseDOM } from 'exenv';
 import { createPortal } from 'react-dom';
 import { Transition } from 'react-transition-group';
+
+import { withHelp, HelpContextInterface } from '../HelpContext';
 import { transitionDurationMs, transitionTimingFunction } from './constants';
 import { HelpDrawer, HelpDrawerContent } from './styled';
 
 export interface Props {
-  isOpen?: boolean;
   children?: ReactNode;
+  help: HelpContextInterface;
+}
+export interface State {
+  entered: boolean;
 }
 
 const defaultStyle = {
@@ -23,7 +28,7 @@ const transitionStyles = {
   exited: { transform: 'translate3d(calc(100% + 60px),0,0)' },
 };
 
-export default class GlobalHelpDrawer extends PureComponent<Props> {
+export class GlobalHelpDrawer extends PureComponent<Props, State> {
   body = canUseDOM ? document.querySelector('body') : undefined;
 
   constructor(props: Props) {
@@ -35,11 +40,11 @@ export default class GlobalHelpDrawer extends PureComponent<Props> {
   }
 
   render() {
-    const { isOpen, children } = this.props;
+    const { children, help } = this.props;
 
     if (this.body) {
       return createPortal(
-        <Transition in={isOpen} timeout={220} unmountOnExit>
+        <Transition in={help.isOpen} timeout={220} unmountOnExit>
           {state => (
             <HelpDrawer
               style={{
@@ -58,3 +63,5 @@ export default class GlobalHelpDrawer extends PureComponent<Props> {
     }
   }
 }
+
+export default withHelp(GlobalHelpDrawer);

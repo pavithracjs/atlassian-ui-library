@@ -4,7 +4,7 @@ import { colors } from '@atlaskit/theme';
 import DocumentFilledIcon from '@atlaskit/icon/glyph/document-filled';
 
 import { ArticleItem } from '../../model/Article';
-import { SearchList } from './styled';
+import { SearchResultsList } from './styled';
 
 export interface Props {
   searchResult?: ArticleItem[];
@@ -14,7 +14,7 @@ export const SearchResults = (props: Props) => {
   const { searchResult = [] } = props;
 
   return (
-    <SearchList>
+    <SearchResultsList>
       {searchResult.map(searchResultItem => {
         return (
           <ObjectResult
@@ -32,7 +32,7 @@ export const SearchResults = (props: Props) => {
           />
         );
       })}
-    </SearchList>
+    </SearchResultsList>
   );
 };
 
