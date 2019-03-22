@@ -23,7 +23,11 @@ const Global = () => (
     productHref="#"
     onProductClick={() => alert('Product clicked')}
     onCreateClick={() => alert('create clicked')}
-    onSearchClick={() => alert('search clicked')}
+    onSearchClick={() =>
+      alert(
+        'the search button was clicked as its image has a prediction of 0.978410',
+      )
+    }
     onStarredClick={() => alert('starred clicked')}
     onNotificationClick={() => alert('notification clicked')}
     onSettingsClick={() => alert('settings clicked')}

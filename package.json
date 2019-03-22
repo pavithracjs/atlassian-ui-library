@@ -48,6 +48,7 @@
     "typecheck": "                           yarn run typecheck:flow && yarn run typecheck:typescript",
     "typecheck:flow": "                      flow check --max-warnings=0",
     "typecheck:typescript": "                tsc --noEmit --project ./tsconfig.typecheck.json",
+    "predictions":"                          node ./build/visual-regression/ai/run.model.js",
     "measure": "                             measure",
     "measure:changed": "                     node build/ci-scripts/get.changed.packages.since.master.js --spaceDelimited --only='packages' | xargs -n1 -P2 yarn measure --lint",
     "measure:updateSnapshot": "              node build/ci-scripts/get.changed.packages.since.master.js --spaceDelimited --only='packages' | xargs -n1 -P2 yarn measure --updateSnapshot",

@@ -1,4 +1,4 @@
-const spawn = require('child_process').spawnSync;
+var spawn = require('child_process').spawnSync;
 
 const main = async () => {
   const image = `${process.cwd()}/build/visual-regression/ai/search.png`;
@@ -29,7 +29,12 @@ const getPrediction = async (img, threshold = 0.8) => {
     .split('-')[1]
     .trim();
 
-  return { label, prediction };
+  if (prediction >= threshold) {
+    return { label, prediction };
+  }
+  return;
 };
 
 main();
+
+module.exports = { getPrediction, main };

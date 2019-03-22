@@ -7,23 +7,24 @@
 
 const glob = require('glob');
 const pageSelector = '#examples';
-const getPrediction = require('./ai/run.model');
+const getPrediction = require('./ai/run.model').getPrediction;
 
 async function getAllElements(page /*:any*/, selector /*:string*/) {
-  return page.querySelectorAll(selector);
+  return page.getElementsByTagName(selector);
 }
 
 async function createElementTableWithPredictions(
   page /*:any*/,
   selector /*:string*/,
 ) {
-  return await getAllElements(selector).map(async element => {
-    const image = await takeScreenShot(page, element);
-    const { label, prediction } = await getPrediction(image);
-    console.log('we are here', element, label, prediction);
-    // I need to return the path
-    return { element, image, label, prediction };
-  });
+  return await getAllElements(selector);
+  // return await getAllElements(selector).map(async element => {
+  //   const image = await takeScreenShot(page, element);
+  //   const { label, prediction } = await getPrediction(image);
+  //   console.log('we are here', element, label, prediction);
+  //   // I need to return the path
+  //   return { element, image, label, prediction };
+  // });
 }
 
 async function returnCssSelector(
@@ -31,9 +32,11 @@ async function returnCssSelector(
   selector /*:string*/,
   label /*:number*/,
 ) {
-  return createElementTableWithPredictions(page, selector).filter(
-    cssElement => cssElement.label,
-  );
+  console.log(selector);
+  return console.log('hello');
+  // return createElementTableWithPredictions(page, selector).filter(
+  //   cssElement => cssElement.label === label,
+  // );
 }
 
 async function takeScreenShot(page /*:any*/, url /*:string*/) {
