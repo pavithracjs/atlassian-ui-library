@@ -3,7 +3,7 @@ import {
   getExamplesFor,
   getExampleUrl,
   takeScreenShot,
-  takeElementScreenShot,
+  // takeElementScreenShot,
   // returnCssSelector,
 } from '@atlaskit/visual-regression/helper';
 
