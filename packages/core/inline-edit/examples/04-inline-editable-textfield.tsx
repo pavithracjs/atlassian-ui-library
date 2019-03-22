@@ -2,12 +2,14 @@ import * as React from 'react';
 import { InlineEditableTextfield } from '../src';
 
 interface State {
-  editValue: string;
+  firstInlineEdit: string;
+  secondInlineEdit: string;
 }
 
 export default class InlineEditExample extends React.Component<void, State> {
   state = {
-    editValue: 'Initial Value',
+    firstInlineEdit: 'First value',
+    secondInlineEdit: 'Second value',
   };
 
   validateValue = '';
@@ -31,24 +33,25 @@ export default class InlineEditExample extends React.Component<void, State> {
     });
   };
 
-  onConfirm = (value: string) => {
-    this.setState({ editValue: value });
+  onConfirm = (value: string, stateKey: string) => {
+    // @ts-ignore
+    this.setState({ [stateKey]: value });
   };
 
   render() {
     return (
       <div style={{ padding: '0 16px', width: '70%' }}>
         <InlineEditableTextfield
-          defaultValue={this.state.editValue}
+          defaultValue={this.state.firstInlineEdit}
           label="Inline edit textfield + hide action buttons (Enter to confirm, Esc to cancel) + validation"
-          onConfirm={this.onConfirm}
+          onConfirm={value => this.onConfirm(value, 'firstInlineEdit')}
           validate={this.validate}
           hideActionButtons
         />
         <InlineEditableTextfield
-          defaultValue={this.state.editValue}
+          defaultValue={this.state.secondInlineEdit}
           label="Inline edit textfield + start in edit view"
-          onConfirm={this.onConfirm}
+          onConfirm={value => this.onConfirm(value, 'secondInlineEdit')}
           startInEditView
         />
       </div>
