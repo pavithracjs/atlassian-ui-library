@@ -34,9 +34,10 @@ const launchClient = async client => {
     return;
   }
 
-  client.isReady = true;
   client.queue = new Queue(1, 100);
-  return client.driver.init();
+  return client.driver.init().then(() => {
+    client.isReady = true;
+  });
 };
 
 const endSession = async client => {
@@ -45,10 +46,11 @@ const endSession = async client => {
     await client.driver.end();
   }
 };
+
 const filename = path.basename(module.parent.filename);
 
 const initDrivers = () => {
-  const c = [];
+  const c = {};
 
   for (const client of clients) {
     if (!client) {
@@ -56,10 +58,10 @@ const initDrivers = () => {
     }
 
     client.driver.desiredCapabilities.name = filename;
-    c.push(launchClient(client));
+    c[client.browserName] = launchClient(client);
   }
 
-  return Promise.all(c);
+  return c;
 };
 
 // We need to init all driver on load this file
@@ -94,9 +96,10 @@ function BrowserTestCase(
 
       describe(client.browserName, () => {
         test.concurrent(testCase, async () => {
-          // We need to wait for the drivers be
+          // We need to wait for the driver be
           // ready to start
-          await drivers;
+          await drivers[client.browserName];
+
           // This will make sure that we will run
           // only on test case per time on
           // the same browser
