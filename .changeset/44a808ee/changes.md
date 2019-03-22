@@ -1,1 +1,0 @@
-- ED-6536: Fixes non-resized tables accidently getting a width applied.
