@@ -54,29 +54,45 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     checkDeprecations(this.props);
   }
 
-  onMouseEnter = () => {
+  isInteractive = () => !this.props.isDisabled && !this.props.isLoading;
+
+  onMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
     this.setState({ isHover: true });
+    if (this.props.onMouseEnter) {
+      this.props.onMouseEnter(e);
+    }
   };
 
-  onMouseLeave: React.MouseEventHandler = () => {
+  onMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
     this.setState({ isHover: false, isActive: false });
+    if (this.props.onMouseLeave) {
+      this.props.onMouseLeave(e);
+    }
   };
 
-  onMouseDown: React.MouseEventHandler = event => {
-    event.preventDefault();
+  onMouseDown = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
     this.setState({ isActive: true });
+    if (this.props.onMouseDown) {
+      this.props.onMouseDown(e);
+    }
   };
 
-  onMouseUp = () => this.setState({ isActive: false });
+  onMouseUp = (e: React.MouseEvent<HTMLElement>) => {
+    this.setState({ isActive: false });
+    if (this.props.onMouseUp) {
+      this.props.onMouseUp(e);
+    }
+  };
 
-  onFocus: React.FocusEventHandler<HTMLElement> = event => {
+  onFocus: React.FocusEventHandler<HTMLButtonElement> = event => {
     this.setState({ isFocus: true });
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
 
-  onBlur: React.FocusEventHandler<HTMLElement> = event => {
+  onBlur: React.FocusEventHandler<HTMLButtonElement> = event => {
     this.setState({ isFocus: false });
     if (this.props.onBlur) {
       this.props.onBlur(event);
@@ -90,8 +106,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
     return 'button';
   };
-
-  isInteractive = () => !this.props.isDisabled && !this.props.isLoading;
 
   // Swallow click events when the button is disabled
   // to prevent inner child clicks bubbling up.

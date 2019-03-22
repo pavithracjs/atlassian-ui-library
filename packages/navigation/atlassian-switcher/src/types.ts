@@ -41,12 +41,15 @@ export type FeatureFlagProps = {
 
 export type CustomLinksResponse = CustomLink[];
 
+export interface ProductLicenseInformation {
+  state: string;
+  applicationUrl?: string;
+}
+
 export interface LicenseInformationResponse {
   hostname: string;
   products: {
-    [key: string]: {
-      state: string;
-    };
+    [key: string]: ProductLicenseInformation;
   };
 }
 

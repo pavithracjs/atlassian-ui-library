@@ -1,6 +1,6 @@
 import { ContextFactory, FileState } from '@atlaskit/media-core';
 import 'es6-promise/auto'; // 'whatwg-fetch' needs a Promise polyfill
-import 'whatwg-fetch';
+
 import * as fetchMock from 'fetch-mock/src/client';
 import * as sinon from 'sinon';
 import { waitUntil } from '@atlaskit/util-common-test';
