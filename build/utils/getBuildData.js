@@ -33,9 +33,9 @@ async function getPipelinesBuildData(
   const res = await axios.get(apiEndpoint);
   const build = res.data;
   let payload /*: $Shape<IBuildEventProperties> */ = {};
-  console.log('build', build);
   try {
     const stepsData = await getStepsData(buildId);
+    console.log(stepsData);
     const buildStatus =
       process.env.BITBUCKET_EXIT_CODE === 0 ? 'SUCCESSFUL' : 'FAILED';
     if (build.state.result && stepsData) {
@@ -62,6 +62,11 @@ async function getStepsData(buildNumber /*: string*/) {
     const resp = await axios.get(url);
     return Promise.all(
       resp.data.values.map(async step => {
+        // This is done in the case, we are doing it for the last step and it is not finished.
+        const stepStatus =
+          step.state.result.name === 'IN-PROGRESS'
+            ? 'SUCCESSFUL'
+            : step.state.result.name;
         if (step.state.result) {
           return {
             step_duration: step.duration_in_seconds,
