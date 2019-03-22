@@ -1,0 +1,1 @@
+- Support using a custom menu button via new customMenu prop
