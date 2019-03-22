@@ -1,6 +1,6 @@
 import { Transaction, Selection } from 'prosemirror-state';
 import { TableMap } from 'prosemirror-tables';
-import { findTable, getSelectionRect } from 'prosemirror-utils';
+import { findTable, getSelectionRect, isRowSelected } from 'prosemirror-utils';
 import { Node as PMNode } from 'prosemirror-model';
 import { CellAttributes } from '@atlaskit/adf-schema';
 import { removeEmptyColumns } from './merge';
@@ -19,14 +19,16 @@ export const deleteRows = (
     if (rect) {
       rowsToDelete = [];
       for (let i = rect.top; i < rect.bottom; i++) {
-        // skip header row if its required
-        if (isHeaderRowRequired) {
-          const cell = table.node.nodeAt(map.map[i * map.width]);
-          if (cell && cell.type !== cell.type.schema.nodes.tableHeader) {
+        if (isRowSelected(i)(tr.selection)) {
+          // skip header row if its required
+          if (isHeaderRowRequired) {
+            const cell = table.node.nodeAt(map.map[i * map.width]);
+            if (cell && cell.type !== cell.type.schema.nodes.tableHeader) {
+              rowsToDelete.push(i);
+            }
+          } else {
             rowsToDelete.push(i);
           }
-        } else {
-          rowsToDelete.push(i);
         }
       }
     }

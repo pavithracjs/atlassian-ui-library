@@ -609,16 +609,8 @@ describe('table plugin: utils', () => {
             doc(
               p('text'),
               table()(
-                tr(
-                  td({ rowspan: 2 })(p('{<cell}a1')),
-                  td({ rowspan: 2 })(p('a2')),
-                  td({ rowspan: 2 })(p('a3')),
-                ),
-                tr(
-                  td({ rowspan: 2 })(p('c1')),
-                  td({ rowspan: 2 })(p('c2')),
-                  td({ rowspan: 2 })(p('{cell>}c3')),
-                ),
+                tr(td({})(p('{<cell}a1')), td({})(p('a2')), td({})(p('a3'))),
+                tr(td({})(p('c1')), td({})(p('c2')), td({})(p('{cell>}c3'))),
                 tr(tdEmpty, tdEmpty, tdEmpty),
               ),
             ),
@@ -629,7 +621,7 @@ describe('table plugin: utils', () => {
             rowsHeights,
             editorView.state.selection,
           )!;
-          expect(indexes).toEqual([0, 2]);
+          expect(indexes).toEqual([0, 1]);
           expect(top > 0).toBe(true);
         });
       });
@@ -797,11 +789,12 @@ describe('table plugin: utils', () => {
                 ),
               ),
             );
-            [0, 1, 2].forEach(index => {
+            const columns = [0, 1, 2];
+            columns.forEach(index => {
               const classNames = getColumnClassNames(
                 index,
                 editorView.state.selection,
-                [],
+                columns,
                 true,
               );
               expect(classNames.indexOf('danger') > -1).toBe(true);
@@ -913,17 +906,18 @@ describe('table plugin: utils', () => {
               doc(
                 p('text'),
                 table()(
-                  tr(td({})(p('{<cell}a1')), tdEmpty, tdEmpty),
+                  tr(td({})(p('{<cell}')), tdEmpty, tdEmpty),
                   tr(tdEmpty, tdEmpty, tdEmpty),
-                  tr(tdEmpty, tdEmpty, td({})(p('{cell>}c3'))),
+                  tr(tdEmpty, tdEmpty, td({})(p('{cell>}'))),
                 ),
               ),
             );
-            [0, 1, 2].forEach(index => {
+            const rows = [0, 1, 2];
+            rows.forEach(index => {
               const classNames = getRowClassNames(
                 index,
                 editorView.state.selection,
-                [],
+                rows,
                 true,
               );
               expect(classNames.indexOf('danger') > -1).toBe(true);

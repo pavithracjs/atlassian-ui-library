@@ -1,6 +1,10 @@
 import { Transaction, Selection } from 'prosemirror-state';
 import { TableMap } from 'prosemirror-tables';
-import { findTable, getSelectionRect } from 'prosemirror-utils';
+import {
+  findTable,
+  getSelectionRect,
+  isColumnSelected,
+} from 'prosemirror-utils';
 import { Node as PMNode } from 'prosemirror-model';
 import { CellAttributes } from '@atlaskit/adf-schema';
 
@@ -16,7 +20,9 @@ export const deleteColumns = (columnsToDelete: number[] = []) => (
     if (rect) {
       columnsToDelete = [];
       for (let i = rect.left; i < rect.right; i++) {
-        columnsToDelete.push(i);
+        if (isColumnSelected(i)(tr.selection)) {
+          columnsToDelete.push(i);
+        }
       }
     }
   }

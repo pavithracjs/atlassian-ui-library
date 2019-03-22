@@ -41,11 +41,17 @@ export const isRowInsertButtonVisible = (
 };
 
 export const isRowDeleteButtonVisible = (selection: Selection): boolean => {
-  if (
-    !isTableSelected(selection) &&
-    (selection instanceof CellSelection && selection.isRowSelection())
-  ) {
-    return true;
+  if (isTableSelected(selection)) {
+    return false;
+  }
+
+  const rect = getSelectionRect(selection);
+  if (rect) {
+    for (let i = rect.top; i < rect.bottom; i++) {
+      if (isRowSelected(i)(selection)) {
+        return true;
+      }
+    }
   }
 
   return false;
@@ -61,20 +67,25 @@ export const getRowDeleteButtonParams = (
   }
   let height = 0;
   let offset = 0;
+
+  const indexes: number[] = [];
+  for (let i = rect.top; i < rect.bottom; i++) {
+    if (isRowSelected(i)(selection)) {
+      indexes.push(i);
+    }
+  }
   // find the rows before the selection
-  for (let i = 0; i < rect.top; i++) {
+  for (let i = 0; i < indexes[0]; i++) {
     const rowHeight = rowsHeights[i];
     if (rowHeight) {
       offset += rowHeight - 1;
     }
   }
-  // these are the selected rows widths
-  const indexes: number[] = [];
-  for (let i = rect.top; i < rect.bottom; i++) {
+  // selected rows heights
+  for (let i = indexes[0]; i <= indexes[indexes.length - 1]; i++) {
     const rowHeight = rowsHeights[i];
     if (rowHeight) {
       height += rowHeight - 1;
-      indexes.push(i);
     }
   }
 
@@ -111,12 +122,11 @@ export const getRowClassNames = (
   isResizing?: boolean,
 ): string => {
   const classNames: string[] = [];
-  if (
-    isRowSelected(index)(selection) ||
-    (hoveredRows.indexOf(index) > -1 && !isResizing)
-  ) {
+  const isHovered = hoveredRows.indexOf(index) > -1;
+
+  if (isRowSelected(index)(selection) || (isHovered && !isResizing)) {
     classNames.push('active');
-    if (isInDanger) {
+    if (isInDanger && isHovered) {
       classNames.push('danger');
     }
   }

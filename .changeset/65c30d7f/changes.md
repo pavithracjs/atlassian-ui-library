@@ -1,0 +1,1 @@
+- ED-6511: improve columns and rows selection

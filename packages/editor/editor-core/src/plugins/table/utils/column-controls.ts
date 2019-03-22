@@ -57,11 +57,17 @@ export const isColumnInsertButtonVisible = (
 };
 
 export const isColumnDeleteButtonVisible = (selection: Selection): boolean => {
-  if (
-    !isTableSelected(selection) &&
-    (selection instanceof CellSelection && selection.isColSelection())
-  ) {
-    return true;
+  if (isTableSelected(selection)) {
+    return false;
+  }
+
+  const rect = getSelectionRect(selection);
+  if (rect) {
+    for (let i = rect.left; i < rect.right; i++) {
+      if (isColumnSelected(i)(selection)) {
+        return true;
+      }
+    }
   }
 
   return false;
@@ -77,20 +83,24 @@ export const getColumnDeleteButtonParams = (
   }
   let width = 0;
   let offset = 0;
+  const indexes: number[] = [];
+  for (let i = rect.left; i < rect.right; i++) {
+    if (isColumnSelected(i)(selection)) {
+      indexes.push(i);
+    }
+  }
   // find the columns before the selection
-  for (let i = 0; i < rect.left; i++) {
+  for (let i = 0; i < indexes[0]; i++) {
     const colWidth = columnsWidths[i];
     if (colWidth) {
       offset += colWidth - 1;
     }
   }
-  // these are the selected columns widths
-  const indexes: number[] = [];
-  for (let i = rect.left; i < rect.right; i++) {
+  // selected columns widths
+  for (let i = indexes[0]; i <= indexes[indexes.length - 1]; i++) {
     const colWidth = columnsWidths[i];
     if (colWidth) {
       width += colWidth;
-      indexes.push(i);
     }
   }
 
@@ -127,12 +137,11 @@ export const getColumnClassNames = (
   isResizing?: boolean,
 ): string => {
   const classNames: string[] = [];
-  if (
-    isColumnSelected(index)(selection) ||
-    (hoveredColumns.indexOf(index) > -1 && !isResizing)
-  ) {
+  const isHovered = hoveredColumns.indexOf(index) > -1;
+
+  if (isColumnSelected(index)(selection) || (isHovered && !isResizing)) {
     classNames.push('active');
-    if (isInDanger) {
+    if (isInDanger && isHovered) {
       classNames.push('danger');
     }
   }

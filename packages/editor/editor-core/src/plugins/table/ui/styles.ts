@@ -82,7 +82,7 @@ const InsertMarker = (css?: string) => `
 const Button = (css?: string) => `
   border-radius: ${borderRadius()}px;
   border-width: 0px;
-  display: inline-flex;
+  display: block;
   max-width: 100%;
   text-align: center;
   margin: 0px;

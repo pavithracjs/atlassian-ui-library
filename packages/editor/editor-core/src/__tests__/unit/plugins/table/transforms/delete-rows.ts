@@ -285,7 +285,7 @@ describe('table plugin -> transforms -> delete rows', () => {
             doc(
               table()(
                 tr(th({})(p('header{<cell}')), thEmpty),
-                tr(td({})(p('b1{cell>}')), tdEmpty),
+                tr(tdEmpty, td({})(p('b1{cell>}'))),
                 tr(td({})(p('c1')), tdEmpty),
               ),
             ),
