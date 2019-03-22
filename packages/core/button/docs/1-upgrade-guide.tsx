@@ -16,9 +16,9 @@ export default md`
 - The old theming API is no longer supported.
 - Styling a Button using Styled Components is no longer supported.
 - Custom components passed into Button will no longer have props filtered out for them.
-- Camel-case ARIA props have been renamed (**ariaExpanded**, **ariaHaspopup** and **ariaLabel**).
+- Camel-case ARIA props have been deprecated in favour for standard HTML aria-* attributes. 
 
-### 🔧 In-depth upgrade guide:
+### Upgrade guide
 #### Theming
 
 Button now supports the updated Theming API. Custom theming functions have access to all of Button's props, as well as the to the original ADG theme - meaning that the custom theme can
@@ -121,4 +121,13 @@ ${code`
 </Button>
 `}
 
+### ⏫ Props updated
+- theme: Returns a function containing two args; the current ADG theme and props
+- component: A React component with props filtered for using the filterHTMLAttributes utility provided
+
+### 🙅‍ Props deprecated
+- ariaControls: Please use **aria-controls** prop instead
+- ariaExpanded: Please use **aria-expanded** prop instead
+- ariaLabel: Please use **aria-label** prop instead
+- ariaHaspopup: Please use **aria-haspopup** prop instead
 `;
