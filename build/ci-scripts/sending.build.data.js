@@ -6,12 +6,13 @@ const sendData = require('../utils/sendPayload').sendData;
 (async () => {
   try {
     const buildId = process.env.BITBUCKET_BUILD_NUMBER;
-    console.log(buildId);
+    console.log('buildId :', buildId);
     const buildData = await getPipelinesBuildData(
       'atlassian',
       'atlaskit-mk-2',
       buildId,
     );
+    console.log('exit code :', process.env.BITBUCKET_EXIT_CODE);
     console.log(buildData);
     sendData(buildData);
   } catch (err) {

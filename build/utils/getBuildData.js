@@ -36,14 +36,12 @@ async function getPipelinesBuildData(
   console.log('build', build);
   try {
     const stepsData = await getStepsData(buildId);
-    if (
-      build.state.result &&
-      build.state.result.name !== 'IN-PROGRESS' &&
-      stepsData
-    ) {
+    const buildStatus =
+      process.env.BITBUCKET_EXIT_CODE === 0 ? 'SUCCESSFUL' : 'FAILED';
+    if (build.state.result && stepsData) {
       payload = {
         build_number: buildId,
-        build_status: build.state.result.name,
+        build_status: buildStatus,
         build_time: build.duration_in_seconds,
         build_type: build.target.selector.pattern || 'default',
         build_name: build.target.ref_name || build.target.selector.pattern, // In case, the build_name is undefined, we will refer it as a type
@@ -64,7 +62,7 @@ async function getStepsData(buildNumber /*: string*/) {
     const resp = await axios.get(url);
     return Promise.all(
       resp.data.values.map(async step => {
-        if (step.state.result && step.state.result.name !== 'IN-PROGRESS') {
+        if (step.state.result) {
           return {
             step_duration: step.duration_in_seconds,
             step_name: step.name || 'master', // on Master, there is no step name
