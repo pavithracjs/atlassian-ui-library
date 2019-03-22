@@ -21,6 +21,7 @@ import {
   ImageLoaderProps,
   // @ts-ignore
   ImageLoaderState,
+  ADNode,
 } from '@atlaskit/editor-common';
 import { RendererAppearance } from './Renderer';
 
@@ -129,7 +130,8 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       rendererAppearance,
       disableOverlay,
       useInlinePlayer,
-    } = this.props;
+      rendererContext,
+    } = this.props as any;
     const isMobile = rendererAppearance === 'mobile';
     const shouldPlayInline =
       useInlinePlayer !== undefined ? useInlinePlayer : true;
@@ -166,6 +168,8 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       occurrenceKey,
     };
 
+    const list = getMediaFromADF(rendererContext.adDoc);
+
     return (
       <Card
         identifier={identifier}
@@ -177,9 +181,45 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
         disableOverlay={disableOverlay}
         useInlinePlayer={isMobile ? false : shouldPlayInline}
         shouldOpenMediaViewer={shouldOpenMediaViewer}
+        mediaViewerDataSource={{ list }}
       />
     );
   }
 }
 
 export const MediaCard = withImageLoader<MediaCardProps>(MediaCardInternal);
+
+type CallBackType = (key: string, value: any) => void;
+
+function traverseADTree(root: any, callbackFunc: CallBackType) {
+  for (const nodeKey of Object.keys(root)) {
+    const nodeValue: any = root[nodeKey] as any;
+    callbackFunc(nodeKey, nodeValue);
+
+    // go deeper
+    if (nodeValue !== null && typeof nodeValue === 'object') {
+      traverseADTree(root[nodeKey] as any, callbackFunc);
+    }
+  }
+}
+
+function filterADNodesByType(root: ADNode, typeName: string): ADNode[] {
+  const results: ADNode[] = [];
+
+  traverseADTree(root, (nodeKey, nodeValue) => {
+    if (nodeValue && nodeValue.type === typeName) {
+      results.push(nodeValue as ADNode);
+    }
+  });
+
+  return results;
+}
+
+const getMediaFromADF = (adf: any): any[] => {
+  return filterADNodesByType(adf, 'media').map(({ attrs }) => ({
+    id: attrs.id,
+    mediaItemType: attrs.type,
+    collectionName: attrs.collection,
+    occurrenceKey: null, // media viewer has a strict comparison of selected item's occurrenceKey against the list of items for navigation
+  }));
+};
