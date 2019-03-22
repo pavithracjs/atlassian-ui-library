@@ -1,1 +1,0 @@
-- Remove files from package.json to publish all the files in @atlaskit/share
