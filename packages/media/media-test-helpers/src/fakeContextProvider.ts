@@ -32,7 +32,7 @@ export const fakeContext = (
     getArtifactURL: jest.fn(),
     touchFiles,
     getCurrentState: jest.fn(),
-    copyFileToCollection: jest.fn(),
+    copyFile: jest.fn(),
   } as FileFetcher;
   const defaultContext: Context = {
     getImageMetadata,

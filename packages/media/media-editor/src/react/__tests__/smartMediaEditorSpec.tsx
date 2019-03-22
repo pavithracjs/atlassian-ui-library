@@ -27,7 +27,6 @@ import {
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import EditorView, { EditorViewProps } from '../editorView/editorView';
 import ErrorView, { ErrorViewProps } from '../editorView/errorView/errorView';
-import { O_TRUNC } from 'constants';
 
 describe('Smart Media Editor', () => {
   let fileIdPromise: Promise<string>;
@@ -196,7 +195,7 @@ describe('Smart Media Editor', () => {
         callEditorViewOnSaveWithCustonContext(context);
       });
 
-      it('should call context.file.copyFileToCollection', async () => {
+      it('should call context.file.copyFile', async () => {
         resultingFileStateObservable.next({
           status: 'processing',
           id: 'uuid1',
@@ -207,7 +206,7 @@ describe('Smart Media Editor', () => {
           representations: {},
         });
         await new Promise(resolve => setTimeout(resolve, 0));
-        expect(context.file.copyFileToCollection).toHaveBeenCalledTimes(1);
+        expect(context.file.copyFile).toHaveBeenCalledTimes(1);
       });
     });
 

@@ -67,13 +67,13 @@ interface DataloaderKey {
   collection?: string;
 }
 
-interface Source {
+interface SourceFile {
   id: string;
   collectionName?: string;
   authProvider: AuthProvider;
 }
 
-interface Destination {
+interface CopyDestination {
   collectionName?: string;
   authProvider: AuthProvider;
 }
@@ -102,9 +102,9 @@ export interface FileFetcher {
     collectionName?: string,
   ): Promise<void>;
   getCurrentState(id: string): Promise<FileState>;
-  copyFileToCollection(
-    source: Source,
-    destination: Destination,
+  copyFile(
+    source: SourceFile,
+    destination: CopyDestination,
   ): Promise<MediaFile>;
 }
 
@@ -387,18 +387,18 @@ export class FileFetcherImpl implements FileFetcher {
     document.body.removeChild(link);
   }
 
-  public async copyFileToCollection(source: Source, destination: Destination) {
+  public async copyFile(source: SourceFile, destination: CopyDestination) {
     const { authProvider, collectionName, id } = source;
     const {
-      authProvider: userAuthProvider,
-      collectionName: destCollectionName,
+      authProvider: destinationAuthProvider,
+      collectionName: destinationCollectionName,
     } = destination;
 
     const mediaStore = new MediaStore({
-      authProvider: userAuthProvider,
+      authProvider: destinationAuthProvider,
     });
-    const result = await authProvider({ collectionName });
-    const owner = authToOwner(result);
+
+    const owner = authToOwner(await authProvider({ collectionName }));
 
     const body: MediaStoreCopyFileWithTokenBody = {
       sourceFile: {
@@ -409,7 +409,7 @@ export class FileFetcherImpl implements FileFetcher {
     };
 
     const params: MediaStoreCopyFileWithTokenParams = {
-      collection: destCollectionName,
+      collection: destinationCollectionName,
     };
 
     return (await mediaStore.copyFileWithToken(body, params)).data;

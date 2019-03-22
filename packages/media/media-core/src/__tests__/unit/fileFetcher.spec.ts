@@ -166,7 +166,7 @@ describe('FileFetcher', () => {
     });
   });
 
-  describe('copyFileToCollection', () => {
+  describe('copyFile', () => {
     let copyFileWithToken: any;
     let setupData: any;
     beforeEach(() => {
@@ -199,7 +199,7 @@ describe('FileFetcher', () => {
         collectionName: 'recents',
         authProvider: userAuthProvider,
       };
-      await fileFetcher.copyFileToCollection(source, destination);
+      await fileFetcher.copyFile(source, destination);
       expectFunctionToHaveBeenCalledWith(copyFileWithToken, [
         {
           sourceFile: {

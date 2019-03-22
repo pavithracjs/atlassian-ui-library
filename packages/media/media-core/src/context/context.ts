@@ -3,10 +3,6 @@ import {
   ContextConfig,
   MediaStoreGetFileImageParams,
   ImageMetadata,
-  MediaStoreCopyFileWithTokenBody,
-  MediaStoreCopyFileWithTokenParams,
-  MediaStoreResponse,
-  MediaFile,
 } from '@atlaskit/media-store';
 import { CollectionFetcher } from '../collection';
 import { FileFetcherImpl, FileFetcher } from '../file';
