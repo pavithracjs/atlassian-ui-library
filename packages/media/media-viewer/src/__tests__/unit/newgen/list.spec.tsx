@@ -59,7 +59,7 @@ describe('<List />', () => {
     expect(el.state().selectedItem).toMatchObject({ id: 'some-id-2' });
   });
 
-  it('should show an error if selected item is not found in the list', () => {
+  it('should show the item as the first item if selected item is not found in the list', () => {
     const list: FileIdentifier[] = [
       {
         id: 'some-id',
@@ -73,12 +73,35 @@ describe('<List />', () => {
       mediaItemType: 'file',
     };
     const el = createFixture({ items: list, defaultSelectedItem });
-    const errorMessage = el.find(ErrorMessage);
-    expect(errorMessage).toHaveLength(1);
-    expect(errorMessage.text()).toContain(
-      'The selected item was not found on the list.',
-    );
-    expect(errorMessage.find(Button)).toHaveLength(0);
+    expect(el.state().selectedItem).toMatchObject({ id: 'some-id-2' });
+    el.find(ArrowRightCircleIcon).simulate('click');
+    expect(el.state().selectedItem).toMatchObject({ id: 'some-id' });
+  });
+
+  it("doesn't care for occurrenceKey", () => {
+    const list: FileIdentifier[] = [
+      {
+        id: 'some-id',
+        occurrenceKey: 'some-custom-occurrence-key',
+        mediaItemType: 'file',
+      },
+      {
+        id: 'some-id-3',
+        occurrenceKey: 'some-other-occurrence-key',
+        mediaItemType: 'file',
+      },
+    ];
+    const defaultSelectedItem: FileIdentifier = {
+      id: 'some-id-2',
+      occurrenceKey: undefined,
+      mediaItemType: 'file',
+    };
+    const el = createFixture({ items: list, defaultSelectedItem });
+    expect(el.state().selectedItem).toMatchObject({ id: 'some-id-2' });
+    el.find(ArrowRightCircleIcon).simulate('click');
+    expect(el.state().selectedItem).toMatchObject({ id: 'some-id' });
+    el.find(ArrowRightCircleIcon).simulate('click');
+    expect(el.state().selectedItem).toMatchObject({ id: 'some-id-3' });
   });
 
   it('should show controls when navigation occurs', () => {

@@ -75,9 +75,5 @@ export const getSelectedIndex = (
   items: FileIdentifier[],
   selectedItem: FileIdentifier,
 ) => {
-  return items.findIndex(
-    item =>
-      item.id === selectedItem.id &&
-      item.occurrenceKey === selectedItem.occurrenceKey,
-  );
+  return items.findIndex(item => item.id === selectedItem.id);
 };

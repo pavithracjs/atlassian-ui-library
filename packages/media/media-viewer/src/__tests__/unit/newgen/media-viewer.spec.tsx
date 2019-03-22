@@ -48,11 +48,6 @@ describe('<MediaViewer />', () => {
     mediaItemType: 'file',
   };
 
-  it('should display an error if data source is not supported', () => {
-    const { el } = createFixture([], identifier);
-    expect(el.find(ErrorMessage)).toHaveLength(1);
-  });
-
   it('should close Media Viewer on click', () => {
     const { el, onClose } = createFixture([identifier], identifier);
     el.find(Content).simulate('click');
@@ -74,18 +69,6 @@ describe('<MediaViewer />', () => {
     const { el, onClose } = createFixture([identifier], identifier);
     el.find(Header).simulate('click');
     expect(onClose).not.toHaveBeenCalled();
-  });
-
-  it('the error view show close on click', () => {
-    const selectedItem: Identifier = {
-      id: 'some-id-2',
-      occurrenceKey: 'some-custom-occurrence-key',
-      mediaItemType: 'file',
-    };
-    const { el, onClose } = createFixture([], selectedItem);
-    expect(el.find(ErrorMessage)).toHaveLength(1);
-    el.find(Content).simulate('click');
-    expect(onClose).toHaveBeenCalled();
   });
 
   it('should always render the close button', () => {
