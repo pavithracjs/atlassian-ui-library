@@ -27,11 +27,11 @@ export default class InlineEditExample extends React.Component<void, State> {
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline edit validation"
-          editView={(editViewProps, isInvalid) => (
+          editView={editViewProps => (
             <TextField
               {...editViewProps}
               elemAfterInput={
-                isInvalid && (
+                editViewProps.isInvalid && (
                   <div style={{ paddingRight: '6px', lineHeight: '100%' }}>
                     <ErrorIcon label="error" primaryColor={colors.R400} />
                   </div>

@@ -163,9 +163,6 @@ class InlineEdit extends React.Component<InlineEditUncontrolledProps, State> {
     );
   };
 
-  renderEditView = (fieldProps: FieldProps, valid: boolean) =>
-    this.props.editView(fieldProps, valid);
-
   renderActionButtons = () => {
     return (
       <ButtonsWrapper>
@@ -257,14 +254,14 @@ class InlineEdit extends React.Component<InlineEditUncontrolledProps, State> {
                     <div>
                       {validate && (
                         <InlineDialog
-                          isOpen={!!error}
+                          isOpen={fieldProps.isInvalid}
                           content={error}
                           placement="right"
                         >
                           <InlineDialogChild />
                         </InlineDialog>
                       )}
-                      {this.renderEditView(fieldProps, !!error)}
+                      {this.props.editView(fieldProps)}
                     </div>
                     {!hideActionButtons && this.renderActionButtons()}
                   </ContentWrapper>

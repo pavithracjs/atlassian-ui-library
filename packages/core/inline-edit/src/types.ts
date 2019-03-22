@@ -23,7 +23,7 @@ export interface InlineEditUncontrolledProps extends CommonProps {
   /** Component to be shown when not in edit view. */
   readView: React.ReactChild;
   /** Component to be shown when editing. Should be an Atlaskit input. */
-  editView: (fieldProps: FieldProps, isInvalid: boolean) => React.ReactChild;
+  editView: (fieldProps: FieldProps) => React.ReactChild;
   /** Whether the component shows the readView or the editView. */
   isEditing: boolean;
   /** The initial value of the inline edit. */
@@ -45,7 +45,6 @@ export interface InlineEditProps extends CommonProps {
   /** Component to be shown when editing. Should be an Atlaskit input. */
   editView: (
     editViewProps: FieldProps & { ref: (ref: any) => void },
-    isInvalid: boolean,
   ) => React.ReactChild;
   /**
    * Handler called editView is closed and changes are confirmed.
