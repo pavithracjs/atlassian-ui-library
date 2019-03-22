@@ -1,5 +1,10 @@
 # @atlaskit/theme
 
+## 8.1.1
+- [patch] [7fe933beaa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7fe933beaa):
+
+  - Adds missing typescript annotations
+
 ## 8.1.0
 - [minor] [a561af5fc6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a561af5fc6):
 
