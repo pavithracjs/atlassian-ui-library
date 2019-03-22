@@ -31,7 +31,7 @@ export interface Props {
   onUploadEmoji: OnUploadEmoji;
   onCloseDelete: () => void;
   onDeleteEmoji: OnDeleteEmoji;
-  onFileChooserClicked: () => void;
+  onFileChooserClicked?: () => void;
   onOpenUpload: () => void;
 }
 

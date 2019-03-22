@@ -57,7 +57,7 @@ describe('<ToneSelector />', () => {
   });
 
   it('should fire all relevant analytics', () => {
-    const onEvent = sinon.stub();
+    const onEvent = jest.fn();
     const onToneSelectedSpy = sinon.spy();
 
     const wrapper = mount(
@@ -67,9 +67,11 @@ describe('<ToneSelector />', () => {
     );
 
     // Check opening event
-    expect(onEvent.getCall(0).args[0]).toHaveProperty(
-      'payload',
-      toneSelectorOpenedEvent({}),
+    expect(onEvent).toHaveBeenCalledWith(
+      expect.objectContaining({
+        payload: toneSelectorOpenedEvent({}),
+      }),
+      'fabric-elements',
     );
 
     // Select a tone
@@ -77,13 +79,15 @@ describe('<ToneSelector />', () => {
       .find(EmojiButton)
       .first()
       .simulate('mousedown', { button: 0 });
-    expect(onEvent.getCall(1).args[0]).toHaveProperty(
-      'payload',
-      toneSelectedEvent({ skinToneModifier: 'default' }),
+    expect(onEvent).toHaveBeenCalledWith(
+      expect.objectContaining({
+        payload: toneSelectedEvent({ skinToneModifier: 'default' }),
+      }),
+      'fabric-elements',
     );
 
-    // Unmount to trigger close event
+    // Unmount to ensure cancellation event is NOT fired
     wrapper.unmount();
-    expect(onEvent.callCount).toBe(2);
+    expect(onEvent).toHaveBeenCalledTimes(2);
   });
 });

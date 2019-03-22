@@ -36,7 +36,7 @@ import CategorySelector from './CategorySelector';
 import EmojiPickerFooter from './EmojiPickerFooter';
 import EmojiPickerList from './EmojiPickerList';
 import * as styles from './styles';
-import { createAndFireEventInElementsChannel } from '../../../../task-decision/src/analytics';
+import { createAndFireEventInElementsChannel } from '../../analytics';
 import { AnalyticsEventPayload } from '@atlaskit/analytics-next-types';
 import {
   categoryClickedEvent,
@@ -136,7 +136,7 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
 
   componentWillMount() {
     this.openTime = Date.now();
-    this.fireEvent(openedPickerEvent());
+    this.fireAnalytics(openedPickerEvent());
   }
 
   componentDidMount() {
@@ -159,7 +159,7 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
   componentWillUnmount() {
     const { emojiProvider } = this.props;
     emojiProvider.unsubscribe(this.onProviderChange);
-    this.fireEvent(
+    this.fireAnalytics(
       closedPickerEvent({ duration: this.calculateElapsedTime() }),
     );
   }
@@ -238,13 +238,13 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
           activeCategory: categoryId,
           selectedEmoji,
         } as State);
-        this.fireEvent(categoryClickedEvent({ category: categoryId }));
+        this.fireAnalytics(categoryClickedEvent({ category: categoryId }));
       }
     });
   };
 
   onFileChooserClicked = () => {
-    this.fireEvent(selectedFileEvent());
+    this.fireAnalytics(selectedFileEvent());
   };
 
   onEmojiPickerMouseLeave = () => {
@@ -259,7 +259,7 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
     });
   };
 
-  private fireEvent = (analyticsEvent: AnalyticsEventPayload) => {
+  private fireAnalytics = (analyticsEvent: AnalyticsEventPayload) => {
     const { createAnalyticsEvent } = this.props;
 
     if (createAnalyticsEvent) {
@@ -291,7 +291,7 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
       frequentlyUsedEmoji,
     );
     if (searchQuery !== this.state.query) {
-      this.fireEvent(
+      this.fireAnalytics(
         pickerSearchedEvent({
           queryLength: searchQuery.length,
           numMatches: emojiToRender.length,
@@ -413,7 +413,7 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
   };
 
   private onToneSelectorCancelled = () => {
-    this.fireEvent(toneSelectorClosedEvent());
+    this.fireAnalytics(toneSelectorClosedEvent());
   };
 
   /**
@@ -459,12 +459,12 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
       uploadErrorMessage: undefined,
       uploading: true,
     });
-    this.fireEvent(uploadBeginButton());
+    this.fireAnalytics(uploadBeginButton());
   };
 
   private onUploadEmoji = (upload: EmojiUpload, retry: boolean) => {
     const { emojiProvider } = this.props;
-    this.fireEvent(uploadConfirmButton({ retry }));
+    this.fireAnalytics(uploadConfirmButton({ retry }));
     const errorSetter = (message?: FormattedMessage.MessageDescriptor) => {
       this.setState({
         uploadErrorMessage: message,
@@ -479,14 +479,14 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
       });
       // this.loadEmoji(emojiProvider, emojiDescription);
       this.scrollToEndOfList();
-      this.fireEvent(
+      this.fireAnalytics(
         uploadSucceededEvent({
           duration: Date.now() - startTime,
         }),
       );
     };
     const onFailure = (message: FormattedMessage.MessageDescriptor) =>
-      this.fireEvent(
+      this.fireAnalytics(
         uploadFailedEvent({
           duration: Date.now() - startTime,
           reason: message.defaultMessage!,
@@ -496,13 +496,13 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
   };
 
   private onTriggerDelete = (_emojiId: EmojiId, emoji?: EmojiDescription) => {
-    this.fireEvent(deleteBeginEvent({ emojiId: _emojiId.id }));
+    this.fireAnalytics(deleteBeginEvent({ emojiId: _emojiId.id }));
     this.setState({ emojiToDelete: emoji });
   };
 
   private onCloseDelete = () => {
     const { emojiToDelete } = this.state;
-    this.fireEvent(
+    this.fireAnalytics(
       deleteCancelEvent({
         emojiId: emojiToDelete && emojiToDelete.id,
       }),
@@ -512,7 +512,7 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
 
   private onDeleteEmoji = (emoji: EmojiDescription): Promise<boolean> => {
     const { emojiToDelete, query, selectedTone } = this.state;
-    this.fireEvent(
+    this.fireAnalytics(
       deleteConfirmEvent({
         emojiId: emojiToDelete && emojiToDelete.id,
       }),
@@ -540,7 +540,7 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
       uploading: false,
       uploadErrorMessage: undefined,
     });
-    this.fireEvent(uploadCancelButton());
+    this.fireAnalytics(uploadCancelButton());
   };
 
   private getDynamicCategories(): Promise<CategoryId[]> {
@@ -568,7 +568,7 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
     const { query } = this.state;
     if (onSelection) {
       onSelection(emojiId, emoji, event);
-      this.fireEvent(
+      this.fireAnalytics(
         pickerClickedEvent({
           duration: this.calculateElapsedTime(),
           emojiId: emojiId.id || '',
