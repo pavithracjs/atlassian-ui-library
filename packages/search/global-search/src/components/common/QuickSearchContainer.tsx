@@ -163,7 +163,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
               timings || {},
               this.state.searchSessionId,
               this.state.latestSearchQuery,
-              this.state.abTest || undefined,
+              this.state.abTest,
             );
           },
         );
