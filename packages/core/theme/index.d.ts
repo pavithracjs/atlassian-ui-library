@@ -22,16 +22,19 @@ export type ThemeProp = <ThemeTokens, ThemeProps>(
 
 export class AtlaskitThemeProvider extends React.Component<ThemeProps> {}
 
-const GlobalTheme: {
-  Consumer: React.ReactType<ThemeProps>;
-  Provider: React.ReactType<{
+const Theme: {
+  Consumer: React.ComponentType<
+    ThemeProps & { children: (tokens: ThemeTokens) => React.ReactElement }
+  >;
+  Provider: React.ComponentType<{
     value?: ThemeProp<ThemeTokens, ThemeProps>;
     children?: React.ReactNode;
   }>;
 };
 
-export default GlobalTheme;
+export default Theme;
+export const GlobalTheme: Theme;
 
 export const createTheme: <ThemeTokens, ThemeProps>(
   theme: (props: ThemeProps) => ThemeTokens,
-) => GlobalTheme;
+) => Theme;
