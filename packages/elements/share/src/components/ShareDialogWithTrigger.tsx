@@ -45,7 +45,6 @@ export type Props = {
 
 const InlineDialogFormWrapper = styled.div`
   width: 352px;
-  margin: -16px 0;
 `;
 
 export const defaultShareContentState: DialogContentState = {
