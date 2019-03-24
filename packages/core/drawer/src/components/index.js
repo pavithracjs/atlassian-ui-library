@@ -25,7 +25,7 @@ const OnlyChild = ({ children }) => Children.toArray(children)[0] || null;
 
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-const createAndFireOnClick = (
+export const createAndFireOnClick = (
   createAnalyticsEvent: $PropertyType<
     WithAnalyticsEventsProps,
     'createAnalyticsEvent',

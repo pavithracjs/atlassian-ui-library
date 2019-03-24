@@ -6,7 +6,7 @@ import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-conte
 import { NotificationIndicator } from '@atlaskit/notification-indicator';
 import { NotificationLogClient } from '@atlaskit/notification-log-client';
 import { GlobalNav } from '@atlaskit/navigation-next';
-import Drawer from '@atlaskit/drawer';
+import Drawer, { createAndFireOnClick } from '@atlaskit/drawer';
 import AtlassianSwitcher, {
   AtlassianSwitcherPrefetchTrigger,
 } from '@atlaskit/atlassian-switcher';
@@ -28,6 +28,7 @@ const noop = () => {};
 
 const localStorage = typeof window === 'object' ? window.localStorage : {};
 
+console.log(createAndFireOnClick);
 type GlobalNavigationState = {
   [any]: boolean, // Need an indexer property to appease flow for is${capitalisedDrawerName}Open
   isCreateDrawerOpen: boolean,
@@ -264,34 +265,6 @@ export default class GlobalNavigation extends Component<
     }
   };
 
-  closeDrawer = (drawerName: DrawerName) => (
-    event: SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>,
-    analyticsEvent: UIAnalyticsEvent,
-  ) => {
-    const capitalisedDrawerName = this.getCapitalisedDrawerName(drawerName);
-    let onCloseCallback = noop;
-
-    if (typeof this.props[`on${capitalisedDrawerName}Close`] === 'function') {
-      onCloseCallback = this.props[`on${capitalisedDrawerName}Close`];
-    }
-
-    fireDrawerDismissedEvents(drawerName, analyticsEvent);
-
-    // Update the state only if it's a controlled drawer.
-    // componentDidMount takes care of the uncontrolled drawers
-    if (this.drawers[drawerName].isControlled) {
-      this.setState(
-        {
-          [`is${capitalisedDrawerName}Open`]: false,
-        },
-        onCloseCallback,
-      );
-    } else {
-      // invoke callback in both cases
-      onCloseCallback();
-    }
-  };
-
   CustomizedItemComponent = (props: GlobalNavItemData) => {
     if (
       this.shouldRenderAtlassianSwitcher &&
@@ -380,13 +353,44 @@ export default class GlobalNavigation extends Component<
     };
   };
 
-  triggerXFlow = (productKey: string, sourceComponent: string) => {
+  triggerXFlow = (
+    productKey: string,
+    sourceComponent: string,
+    event: SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>,
+    analyticsEvent: UIAnalyticsEvent,
+  ) => {
     const { triggerXFlow } = this.props;
-    this.setState({
-      isAtlassianSwitcherDrawerOpen: false,
-    });
+    createAndFireOnClick(analyticsEvent, 'xFlow');
     if (triggerXFlow) {
-      triggerXFlow(productKey, sourceComponent);
+      triggerXFlow(productKey, sourceComponent, 'xFlow');
+    }
+  };
+
+  closeDrawer = (drawerName: DrawerName, trigger?: string) => (
+    event: SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>,
+    analyticsEvent: UIAnalyticsEvent,
+  ) => {
+    const capitalisedDrawerName = this.getCapitalisedDrawerName(drawerName);
+    let onCloseCallback = noop;
+
+    if (typeof this.props[`on${capitalisedDrawerName}Close`] === 'function') {
+      onCloseCallback = this.props[`on${capitalisedDrawerName}Close`];
+    }
+
+    fireDrawerDismissedEvents(drawerName, analyticsEvent, trigger);
+
+    // Update the state only if it's a controlled drawer.
+    // componentDidMount takes care of the uncontrolled drawers
+    if (this.drawers[drawerName].isControlled) {
+      this.setState(
+        {
+          [`is${capitalisedDrawerName}Open`]: false,
+        },
+        onCloseCallback,
+      );
+    } else {
+      // invoke callback in both cases
+      onCloseCallback();
     }
   };
 

@@ -16,6 +16,7 @@ export const analyticsIdMap: { [drawerName: DrawerName]: string } = {
 export const fireDrawerDismissedEvents = (
   drawerName: DrawerName,
   analyticsEvent: UIAnalyticsEvent,
+  trigger?: string,
 ): void => {
   if (
     analyticsEvent.payload.attributes &&
@@ -31,9 +32,11 @@ export const fireDrawerDismissedEvents = (
     }));
     keyboardShortcutEvent.fire(NAVIGATION_CHANNEL);
   }
+
   analyticsEvent
     .update({
       actionSubjectId: analyticsIdMap[drawerName],
+      ...(trigger ? { attributes: { trigger } } : {}),
     })
     .fire(NAVIGATION_CHANNEL);
 };
