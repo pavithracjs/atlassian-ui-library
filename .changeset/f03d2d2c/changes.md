@@ -1,0 +1,1 @@
+- Move @atlaskit/logo to peer dependencies
