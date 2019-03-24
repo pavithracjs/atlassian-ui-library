@@ -63,7 +63,7 @@ async function getStepsData(buildNumber /*: string*/) {
     return Promise.all(
       resp.data.values.map(async step => {
         // This is done in the case, we are doing it for the last step and it is not finished.
-        if (step.state.result) {
+        if (step && step.state.result) {
           const stepStatus =
             step.state.result.name === 'IN-PROGRESS'
               ? 'SUCCESSFUL'

@@ -12,7 +12,6 @@ const sendData = require('../utils/sendPayload').sendData;
       'atlaskit-mk-2',
       buildId,
     );
-    console.log('exit code :', process.env.BITBUCKET_EXIT_CODE);
     console.log(buildData);
     sendData(buildData);
   } catch (err) {
