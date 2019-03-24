@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.2.1
+- [patch] [8ea5466017](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ea5466017):
+
+  - ED-6438 Fix bg in codeblock gutter
+
 ## 106.2.0
 - [minor] [7bd786fd4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7bd786fd4d):
 

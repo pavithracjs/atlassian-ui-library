@@ -1,1 +1,0 @@
-- ED-6438 Fix bg in codeblock gutter
