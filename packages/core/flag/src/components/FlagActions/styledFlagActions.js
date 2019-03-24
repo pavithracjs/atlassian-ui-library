@@ -19,13 +19,10 @@ export default styled.div`
   display: flex;
   flex-wrap: wrap;
   padding-top: ${gridSize}px;
+  transform: translateX(-${math.divide(gridSize, 2)}px);
 `;
 
 export const Action = styled.div`
-  &:first-child {
-    margin-left: ${({ appearance }) =>
-      appearance === 'normal' ? -gridSize() / 2 : 0}px;
-  }
   &::before {
     color: ${flagTextColor};
     text-align: center;
