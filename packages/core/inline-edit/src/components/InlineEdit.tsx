@@ -10,26 +10,26 @@ type State = {
 
 const defaultProps: Pick<
   InlineEditProps,
-  | 'disableConfirmOnBlur'
+  | 'keepEditViewOpenOnBlur'
   | 'hideActionButtons'
   | 'readViewFitContainerWidth'
-  | 'startInEditView'
+  | 'startWithEditViewOpen'
 > = {
-  disableConfirmOnBlur: false,
+  keepEditViewOpenOnBlur: false,
   hideActionButtons: false,
   readViewFitContainerWidth: false,
-  startInEditView: false,
+  startWithEditViewOpen: false,
 };
 
 class InlineEdit extends React.Component<InlineEditProps, State> {
   editViewRef: HTMLElement | undefined;
 
   state = {
-    isEditing: this.props.startInEditView,
+    isEditing: this.props.startWithEditViewOpen,
   };
 
   componentDidMount() {
-    if (this.props.startInEditView && this.editViewRef) {
+    if (this.props.startWithEditViewOpen && this.editViewRef) {
       this.editViewRef.focus();
     }
   }

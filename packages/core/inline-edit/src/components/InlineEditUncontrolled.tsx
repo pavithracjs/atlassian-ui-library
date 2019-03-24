@@ -16,7 +16,6 @@ import {
   InlineEditUncontrolledProps,
   FieldChildProps,
   FormChildProps,
-  FieldProps,
   InlineDialogProps,
 } from '../types';
 import ButtonsWrapper from '../styled/ButtonsWrapper';
@@ -40,9 +39,9 @@ interface State {
 
 const defaultProps: Pick<
   InlineEditUncontrolledProps,
-  'disableConfirmOnBlur' | 'hideActionButtons' | 'readViewFitContainerWidth'
+  'keepEditViewOpenOnBlur' | 'hideActionButtons' | 'readViewFitContainerWidth'
 > = {
-  disableConfirmOnBlur: false,
+  keepEditViewOpenOnBlur: false,
   hideActionButtons: false,
   readViewFitContainerWidth: false,
 };
@@ -100,7 +99,7 @@ class InlineEdit extends React.Component<InlineEditUncontrolledProps, State> {
     }
   };
 
-  /** Unless disableConfirmOnBlur prop is true, will call confirmIfUnfocused() which
+  /** Unless keepEditViewOpenOnBlur prop is true, will call confirmIfUnfocused() which
    *  confirms the value, unless the focus is transferred to the buttons
    */
   onWrapperBlur = (
@@ -108,7 +107,7 @@ class InlineEdit extends React.Component<InlineEditUncontrolledProps, State> {
     onSubmit: (e: React.FormEvent | any) => void,
     formRef: React.RefObject<HTMLFormElement>,
   ) => {
-    if (!this.props.disableConfirmOnBlur) {
+    if (!this.props.keepEditViewOpenOnBlur) {
       this.setState({ wasFocusReceivedSinceLastBlur: false });
       /**
        * This ensures that clicking on one of the action buttons will call

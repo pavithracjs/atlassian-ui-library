@@ -10,17 +10,17 @@ import { InlineEditableTextfieldProps } from '../types';
 
 const defaultProps: Pick<
   InlineEditableTextfieldProps,
-  | 'disableConfirmOnBlur'
+  | 'keepEditViewOpenOnBlur'
   | 'hideActionButtons'
   | 'readViewFitContainerWidth'
   | 'emptyValueText'
-  | 'startInEditView'
+  | 'startWithEditViewOpen'
 > = {
-  disableConfirmOnBlur: false,
+  keepEditViewOpenOnBlur: false,
   hideActionButtons: false,
   readViewFitContainerWidth: false,
   emptyValueText: 'Click to enter text',
-  startInEditView: false,
+  startWithEditViewOpen: false,
 };
 
 class InlineEditableTextfield extends React.Component<
@@ -32,7 +32,7 @@ class InlineEditableTextfield extends React.Component<
   };
 
   render() {
-    const { defaultValue, emptyValueText, startInEditView } = this.props;
+    const { defaultValue, emptyValueText, startWithEditViewOpen } = this.props;
     return (
       <InlineEdit
         {...this.props}
@@ -55,7 +55,7 @@ class InlineEditableTextfield extends React.Component<
           </ReadViewContainer>
         }
         onConfirm={this.onConfirm}
-        startInEditView={startInEditView}
+        startWithEditViewOpen={startWithEditViewOpen}
       />
     );
   }

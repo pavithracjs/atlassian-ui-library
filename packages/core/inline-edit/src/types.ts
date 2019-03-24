@@ -12,7 +12,7 @@ interface CommonProps {
 
   /** Contained in defaultProps */
   /** Set whether onConfirm should be called on blur. (Optional) */
-  disableConfirmOnBlur: boolean;
+  keepEditViewOpenOnBlur: boolean;
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. (Optional) */
   hideActionButtons: boolean;
   /** Determines whether the read view has 100% width within its container, or whether it fits the content. (Optional) */
@@ -54,7 +54,7 @@ export interface InlineEditProps extends CommonProps {
   /** The initial value of the inline edit. */
   defaultValue: any;
   /** Determines whether isEditing begins as true. (Optional) */
-  startInEditView: boolean;
+  startWithEditViewOpen: boolean;
 }
 
 export interface InlineEditableTextfieldProps extends CommonProps {
@@ -68,7 +68,7 @@ export interface InlineEditableTextfieldProps extends CommonProps {
   /** Text shown in read view when value is an empty string. (Optional) */
   emptyValueText: string;
   /** Determines whether isEditing begins as true. (Optional) */
-  startInEditView: boolean;
+  startWithEditViewOpen: boolean;
 }
 
 /** These interfaces will be exported from the Form package once it is converted to Typescript */

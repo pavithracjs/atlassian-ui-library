@@ -31,7 +31,7 @@ export default class InlineEditExample extends React.Component<void, State> {
       <div style={{ padding: '0 16px', width: '50%' }}>
         <InlineEdit
           defaultValue={this.state.editValue}
-          label="Inline edit textarea + disable confirm on blur"
+          label="Inline edit textarea + keep edit view open on blur"
           editView={editViewProps => <TextArea {...editViewProps} />}
           readView={
             <ReadViewContainer>
@@ -45,7 +45,7 @@ export default class InlineEditExample extends React.Component<void, State> {
             </ReadViewContainer>
           }
           onConfirm={this.onConfirm}
-          disableConfirmOnBlur
+          keepEditViewOpenOnBlur
           readViewFitContainerWidth
         />
       </div>
