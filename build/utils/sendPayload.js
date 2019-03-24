@@ -57,20 +57,23 @@ function sendData(payload /*: IBuildEventProperties*/) {
   });
 
   for (const step of payload.build_steps) {
-    client.gauge('build_time', step.step_duration, {
-      build_type: payload.build_type,
-      step_name: step.step_name,
-      step_status: step.step_status,
-    });
-    // Whenever there will be a step error, it will emit an event and increment a counter.
-    if (step.step_status === 'FAILED') {
-      client.event('atlaskit_step_error', step.step_name);
-      client.increment('build_error', {
+    if (step) {
+      client.gauge('build_time', step.step_duration, {
         build_type: payload.build_type,
         step_name: step.step_name,
+        step_status: step.step_status,
       });
+      // Whenever there will be a step error, it will emit an event and increment a counter.
+      if (step.step_status === 'FAILED') {
+        client.event('atlaskit_step_error', step.step_name);
+        client.increment('build_error', {
+          build_type: payload.build_type,
+          step_name: step.step_name,
+        });
+      }
     }
   }
+
   client.close(function(err /*: Error*/) {
     if (err) {
       console.log('The close did not work quite right: ', err);
