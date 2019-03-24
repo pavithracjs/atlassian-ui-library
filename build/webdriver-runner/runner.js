@@ -74,6 +74,11 @@ function BrowserTestCase(
   );
 
   describe(filename, () => {
+    if (!execClients.length) {
+      test.skip(testCase, () => {});
+      return;
+    }
+
     for (let c of execClients) {
       const client = c || {};
       const testCode = () => tester(client.driver, testCase);
