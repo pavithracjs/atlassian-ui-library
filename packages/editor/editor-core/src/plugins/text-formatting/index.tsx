@@ -101,7 +101,6 @@ const textFormatting = (options: TextFormattingOptions): EditorPlugin => ({
           clearFormattingState: clearFormattingPluginKey,
         }}
         render={({ textFormattingState, clearFormattingState }): any => {
-          console.log({ textFormattingState, clearFormattingState });
           return (
             <ButtonGroup width={isToolbarReducedSpacing ? 'small' : 'large'}>
               <ToolbarTextFormatting

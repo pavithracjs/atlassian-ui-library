@@ -59,7 +59,6 @@ export default class WithPluginState extends React.Component<Props, State> {
       props.plugins,
       this.getEditorView(props, context),
     );
-    console.log(this.state, props.plugins);
   }
 
   private getEditorView(

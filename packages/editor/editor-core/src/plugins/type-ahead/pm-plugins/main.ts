@@ -357,7 +357,6 @@ export function defaultActionHandler({
 
   try {
     const { intl } = reactContext();
-    console.log({ intl });
     typeAheadItems = typeAheadHandler.getItems(
       query,
       state,
@@ -384,7 +383,9 @@ export function defaultActionHandler({
       >);
       typeAheadItems = pluginState.items;
     }
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 
   const queryMark = findTypeAheadQuery(state);
 

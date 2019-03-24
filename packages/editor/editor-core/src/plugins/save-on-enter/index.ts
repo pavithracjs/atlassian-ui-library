@@ -77,7 +77,7 @@ const saveOnEnterPlugin = (): EditorPlugin => ({
     return [
       {
         name: 'saveOnEnter',
-        plugin: ({ props, dispatch }) => createPlugin(dispatch, props.onSave),
+        plugin: ({ dispatch }) => createPlugin(dispatch),
       },
     ];
   },

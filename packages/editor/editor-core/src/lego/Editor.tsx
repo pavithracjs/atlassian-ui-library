@@ -21,6 +21,14 @@ import { ProviderFactory, WidthProvider } from '../../../editor-common';
 import { EditorState } from 'prosemirror-state';
 import { EditorActions } from '..';
 import { processRawValue } from '../utils';
+import {
+  basePlugin,
+  placeholderPlugin,
+  editorDisabledPlugin,
+  typeAheadPlugin,
+  floatingToolbarPlugin,
+  gapCursorPlugin,
+} from '../plugins';
 
 export type EditorProps = {
   plugins?: Array<EditorPlugin>;
@@ -48,6 +56,17 @@ const {
 
 export { PresetProvider };
 
+export function corePlugins(props) {
+  return [
+    basePlugin,
+    placeholderPlugin(props.placeholder),
+    editorDisabledPlugin,
+    typeAheadPlugin,
+    floatingToolbarPlugin,
+    gapCursorPlugin,
+  ];
+}
+
 export class Editor extends React.Component<EditorProps> {
   render() {
     return (
@@ -59,7 +78,10 @@ export class Editor extends React.Component<EditorProps> {
                 <>
                   <EditorInternal
                     {...this.props}
-                    plugins={(this.props.plugins || []).concat(plugins)}
+                    plugins={corePlugins(this.props).concat(
+                      this.props.plugins || [],
+                      plugins,
+                    )}
                     portalProviderAPI={portalProviderAPI}
                   />
                   <PortalRenderer portalProviderAPI={portalProviderAPI} />
@@ -93,7 +115,7 @@ export class EditorInternal extends React.Component<EditorPropsExtended> {
 
     const eventDispatcher = new EventDispatcher();
     const dispatch = createDispatch(eventDispatcher);
-    const editorConfig = processPluginsList(this.props.plugins, {});
+    const editorConfig = processPluginsList(this.props.plugins || [], {});
     const schema = createSchema(editorConfig);
     const pmPlugins = createPMPlugins({
       editorConfig,

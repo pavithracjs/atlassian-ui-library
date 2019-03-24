@@ -7,7 +7,7 @@ import Editor, { EditorProps, EditorAppearance } from './../src/editor';
 import EditorContext from './../src/ui/EditorContext';
 import WithEditorActions from './../src/ui/WithEditorActions';
 import {
-  cardProvider,
+  // cardProvider,
   storyMediaProviderFactory,
   storyContextIdentifierProviderFactory,
   macroProvider,

@@ -442,7 +442,7 @@ function mentionPluginFactory(
     key: mentionPluginKey,
     state: {
       init() {
-        return {};
+        return { mentionProvider: maybeMentionProvider };
       },
       apply(tr, pluginState) {
         const { action, params } = tr.getMeta(mentionPluginKey) || {
@@ -576,6 +576,23 @@ function mentionPluginFactory(
         }
         return;
       };
+
+      if (maybeMentionProvider) {
+        maybeMentionProvider.subscribe(
+          'mentionPlugin',
+          (mentions, query, stats) => {
+            setResults(mentions)(editorView.state, editorView.dispatch);
+
+            fireEvent(
+              buildTypeAheadRenderedPayload(
+                stats && stats.duration,
+                mentions.map(mention => mention.id),
+                query || '',
+              ),
+            );
+          },
+        );
+      }
 
       providerFactory.subscribe('mentionProvider', providerHandler);
       providerFactory.subscribe('contextIdentifierProvider', providerHandler);

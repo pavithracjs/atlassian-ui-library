@@ -31,8 +31,7 @@ const textColorPlugin = (): EditorPlugin => ({
     return [
       {
         name: 'textColor',
-        plugin: ({ props, dispatch }) =>
-          createPlugin(dispatch, pluginConfig(props.allowTextColor)),
+        plugin: ({ dispatch }) => createPlugin(dispatch, pluginConfig()),
       },
     ];
   },
