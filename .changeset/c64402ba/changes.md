@@ -1,0 +1,1 @@
+- fix deleting multiple rows in table
