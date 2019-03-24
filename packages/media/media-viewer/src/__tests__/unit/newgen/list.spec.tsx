@@ -2,10 +2,8 @@ import * as React from 'react';
 import { Identifier, FileIdentifier } from '@atlaskit/media-core';
 import { Observable } from 'rxjs';
 import { List, Props, State } from '../../../newgen/list';
-import { ErrorMessage } from '../../../newgen/error';
 import ArrowRightCircleIcon from '@atlaskit/icon/glyph/chevron-right-circle';
 import { ItemViewer } from '../../../newgen/item-viewer';
-import Button from '@atlaskit/button';
 import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 
 function createFixture(props: Partial<Props>) {

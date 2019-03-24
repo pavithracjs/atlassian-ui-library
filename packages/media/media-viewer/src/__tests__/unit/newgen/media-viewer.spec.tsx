@@ -18,7 +18,6 @@ import { createContext } from '../_stubs';
 import { Content } from '../../../newgen/content';
 import { MediaViewer } from '../../../newgen/media-viewer';
 import { CloseButtonWrapper } from '../../../newgen/styled';
-import { ErrorMessage } from '../../../newgen/error';
 import Header from '../../../newgen/header';
 import { ItemSource } from '../../../newgen/domain';
 

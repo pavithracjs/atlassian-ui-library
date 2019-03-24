@@ -168,7 +168,10 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       occurrenceKey,
     };
 
-    const list = getMediaFromADF(rendererContext.adDoc);
+    const list =
+      rendererContext && rendererContext.adDoc
+        ? getMediaFromADF(rendererContext.adDoc)
+        : [];
 
     return (
       <Card
