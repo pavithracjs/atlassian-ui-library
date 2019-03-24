@@ -1,1 +1,1 @@
-- Align the actions in normal flag with flag text
+- Improvement: Align the flag actions with title and text for normal appearance flags
