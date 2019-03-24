@@ -7,6 +7,7 @@ import {
   unassigned,
 } from '../example-helpers';
 import { LoadOptions, OnInputChange, OptionData } from '../src/types';
+import { IntlProvider } from 'react-intl';
 
 type ChildrenProps = {
   loadUsers: LoadOptions;
@@ -63,10 +64,16 @@ export class ExampleWrapper extends React.PureComponent<
       loadUsers: this.loadUsers,
       onInputChange: this.onInputChange,
     });
-    return analytics ? (
-      <AnalyticsViewerContainer>{example}</AnalyticsViewerContainer>
-    ) : (
-      example
+    return (
+      <IntlProvider locale="en">
+        <div>
+          {analytics ? (
+            <AnalyticsViewerContainer>{example}</AnalyticsViewerContainer>
+          ) : (
+            example
+          )}
+        </div>
+      </IntlProvider>
     );
   }
 }

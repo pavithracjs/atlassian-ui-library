@@ -17,7 +17,7 @@ const clear = `span=${messages.clearFormatting.defaultMessage}`;
       editor.name
     } editor`,
     { skip: ['ie', 'safari'] },
-    async (client: any) => {
+    async (client: any, testName: string) => {
       const page = await goToEditorTestingExample(client);
       await mountEditor(page, { appearance: editor.appearance });
 
@@ -31,7 +31,7 @@ const clear = `span=${messages.clearFormatting.defaultMessage}`;
       await page.click(clear);
       await page.type(editable, 'cleared');
       const doc = await page.$eval(editable, getDocFromElement);
-      expect(doc).toMatchDocSnapshot();
+      expect(doc).toMatchCustomDocSnapshot(testName);
     },
   );
 });

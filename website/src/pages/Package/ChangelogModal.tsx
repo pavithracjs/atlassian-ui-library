@@ -13,6 +13,7 @@ import { FieldTextStateless as Input } from '@atlaskit/field-text';
 import Modal, { ModalHeader as OgModalHeader } from '@atlaskit/modal-dialog';
 
 import * as fs from '../../utils/fs';
+import { File } from '../../types';
 import Loading from '../../components/Loading';
 import Changelog, { NoMatch } from '../../components/ChangeLog';
 import { packages } from '../../site';
@@ -160,7 +161,10 @@ export default class ExamplesModal extends React.Component<Props, State> {
   render() {
     const { groupId, pkgId } = this.props.match.params;
     const filePath = `packages/${groupId}/${pkgId}/CHANGELOG.md`;
-    const found = fs.find(packages, (file, currPath) => currPath === filePath);
+    const found = fs.find(
+      packages,
+      (file, currPath) => currPath === filePath,
+    ) as File;
     const { isInvalid, range } = this.state;
 
     const Content = Loadable<{}, ResolvedChangelog>({

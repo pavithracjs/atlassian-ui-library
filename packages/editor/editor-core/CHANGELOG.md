@@ -1,5 +1,122 @@
 # @atlaskit/editor-core
 
+## 106.2.0
+- [minor] [7bd786fd4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7bd786fd4d):
+
+  - TEAMS-323 : Send additional information for teams when a team is selected in a mention
+
+## 106.1.2
+- Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
+  - @atlaskit/smart-card@10.1.1
+  - @atlaskit/textarea@0.4.0
+
+## 106.1.1
+- [patch] [c604b1eb64](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c604b1eb64):
+
+  - Fix ED-6522 & ED-6046. Remove z-index from images to ensure they doesn't overlap adjacent content. Ensure floated images remain clickable when adjacent a list.
+
+## 106.1.0
+- [minor] [0672369fc8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0672369fc8):
+
+  - Integrate TeamMentionResource in editor-core
+
+## 106.0.6
+- [patch] [2f953a0738](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f953a0738):
+
+  - ED-6362: add analytics for media annotation button
+
+## 106.0.5
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 106.0.4
+- [patch] [205b101e2b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/205b101e2b):
+
+  - ED-6230: bump prosemirror-view to 1.8.3; workaround Chrome bug with copy paste multiple images
+
+## 106.0.3
+- Updated dependencies [b684722884](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b684722884):
+  - @atlaskit/renderer@44.0.1
+  - @atlaskit/date@0.6.0
+  - @atlaskit/emoji@58.1.0
+  - @atlaskit/mention@17.1.0
+  - @atlaskit/status@0.7.0
+  - @atlaskit/task-decision@13.1.0
+  - @atlaskit/util-data-test@11.1.0
+
+## 106.0.2
+- [patch] [8f1f21dd3a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f1f21dd3a):
+
+  - ED-6275: drop size and alignment when pasting images into page columns or a table
+
+## 106.0.1
+- Updated dependencies [90a14be594](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/90a14be594):
+  - @atlaskit/button@11.0.1
+  - @atlaskit/textarea@0.3.1
+  - @atlaskit/analytics-next-types@4.0.1
+
+## 106.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+- Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+  - @atlaskit/docs@7.0.1
+  - @atlaskit/analytics-next@4.0.1
+  - @atlaskit/avatar@15.0.1
+  - @atlaskit/avatar-group@3.0.1
+  - @atlaskit/calendar@7.0.20
+  - @atlaskit/dropdown-menu@7.0.1
+  - @atlaskit/droplist@8.0.1
+  - @atlaskit/icon@16.0.5
+  - @atlaskit/logo@10.0.1
+  - @atlaskit/modal-dialog@8.0.2
+  - @atlaskit/section-message@2.0.1
+  - @atlaskit/select@8.0.3
+  - @atlaskit/spinner@10.0.1
+  - @atlaskit/theme@8.0.1
+  - @atlaskit/tooltip@13.0.1
+  - @atlaskit/editor-common@35.0.0
+  - @atlaskit/renderer@44.0.0
+  - @atlaskit/emoji@58.0.0
+  - @atlaskit/media-card@57.0.0
+  - @atlaskit/media-editor@31.0.0
+  - @atlaskit/media-filmstrip@30.0.0
+  - @atlaskit/media-picker@37.0.0
+  - @atlaskit/i18n-tools@0.5.0
+  - @atlaskit/button@11.0.0
+  - @atlaskit/textarea@0.3.0
+  - @atlaskit/adf-schema@2.0.0
+  - @atlaskit/adf-utils@6.0.0
+  - @atlaskit/editor-bitbucket-transformer@5.0.0
+  - @atlaskit/editor-json-transformer@5.0.0
+  - @atlaskit/editor-markdown-transformer@3.0.0
+  - @atlaskit/editor-test-helpers@8.0.0
+  - @atlaskit/analytics-gas-types@4.0.0
+  - @atlaskit/analytics-listeners@5.0.0
+  - @atlaskit/analytics-namespaced-context@3.0.0
+  - @atlaskit/analytics-next-types@4.0.0
+  - @atlaskit/date@0.5.0
+  - @atlaskit/mention@17.0.0
+  - @atlaskit/pubsub@4.0.0
+  - @atlaskit/status@0.6.0
+  - @atlaskit/task-decision@13.0.0
+  - @atlaskit/util-data-test@11.0.0
+  - @atlaskit/util-service-support@4.0.0
+  - @atlaskit/media-core@29.0.0
+  - @atlaskit/media-test-helpers@21.0.0
+  - @atlaskit/smart-card@10.0.0
+
+## 105.4.2
+- [patch] [57fdb39e20](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/57fdb39e20):
+
+  - ED-6512 Fix subscript
+
+## 105.4.1
+- [patch] [fb679d390f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fb679d390f):
+
+  - Add a new TeamMenioResource for @atlaskit/mention package. That allows to fetch teams data for mention from a team service (Legion service)
+
 ## 105.4.0
 - [minor] [f6345bba88](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f6345bba88):
 

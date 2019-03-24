@@ -58,6 +58,7 @@ export interface Props {
   placeholder?: string;
   selectedResultId?: string;
   onSelectedResultIdChanged?: (id: string) => void;
+  enablePreQueryFromAggregator?: boolean;
 }
 
 export interface State {
@@ -214,7 +215,11 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     experimentRequestDurationMs?: number,
     renderStartTime?: number,
   ) => {
-    const { createAnalyticsEvent, getDisplayedResults } = this.props;
+    const {
+      createAnalyticsEvent,
+      getDisplayedResults,
+      enablePreQueryFromAggregator,
+    } = this.props;
     if (createAnalyticsEvent && getDisplayedResults) {
       const elapsedMs: number = requestStartTime
         ? performanceNow() - requestStartTime
@@ -238,6 +243,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         searchSessionId,
         createAnalyticsEvent,
         experimentRequestDurationMs,
+        !!enablePreQueryFromAggregator,
       );
     }
   };

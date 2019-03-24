@@ -3,6 +3,7 @@ import { match } from 'react-router';
 import { Redirect } from 'react-router-dom';
 import Loadable from '../components/WrappedLoader';
 import * as fs from '../utils/fs';
+import { File } from '../types';
 import Page from '../components/Page';
 import Markdown from '../components/Markdown';
 import FourOhFour from './FourOhFour';
@@ -35,7 +36,8 @@ export default function Document({
   const found = fs.findNormalized(docs, filePath);
 
   const Content = Loadable<{}, ResolvedMD>({
-    loader: async () => (fs.isFile(found) ? await found.exports() : {}),
+    loader: async () =>
+      fs.isFile(found as File) ? await (found as File).exports() : {},
     loading: () => <Loading />,
     render(md) {
       const docDetails = md.default || {};
