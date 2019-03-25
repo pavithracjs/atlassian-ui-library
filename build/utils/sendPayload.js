@@ -39,7 +39,7 @@ function sendData(payload /*: IBuildEventProperties*/) {
     'atlaskit_build_pipelines_data',
     'The event related to pipelines data for Atlaskit',
   );
-
+  console.log('Sending payload data from script', payload);
   // Create increment metrics per build type: Default, Master, Landkid.
   client.increment('build_count', { build_type: payload.build_type });
 
