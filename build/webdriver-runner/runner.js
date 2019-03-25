@@ -25,48 +25,34 @@ if (isBrowserStack) {
   clients = setupClients.setLocalClients();
 }
 
-const launchClient = async client => {
+const launchClient = client => {
   if (
     client &&
-    (client.isReady ||
-      (client.driver.requestHandler && client.driver.requestHandler.sessionID))
+    (client.driver.requestHandler && client.driver.requestHandler.sessionID)
   ) {
     return;
   }
 
-  client.isReady = true;
+  client.driver.desiredCapabilities.name = filename;
   client.queue = new Queue(1, 100);
   return client.driver.init();
 };
 
-const endSession = async client => {
-  if (client && client.isReady) {
-    client.isReady = false;
-    await client.driver.end();
+const endSession = client => {
+  if (!client || !client.driver) {
+    return Promise.resolve();
   }
+
+  return client.driver.end();
 };
+
 const filename = path.basename(module.parent.filename);
 
-const initDrivers = () => {
-  const c = [];
-
-  for (const client of clients) {
-    if (!client) {
-      continue;
-    }
-
-    client.driver.desiredCapabilities.name = filename;
-    c.push(launchClient(client));
-  }
-
-  return Promise.all(c);
-};
-
-// We need to init all driver on load this file
-const drivers = initDrivers();
+const launchedDrivers = {};
+const launchedClients = [];
 
 afterAll(async function() {
-  await Promise.all(clients.map(endSession));
+  await Promise.all(launchedClients.map(endSession));
 });
 
 /*::
@@ -88,15 +74,25 @@ function BrowserTestCase(
   );
 
   describe(filename, () => {
+    if (!execClients.length) {
+      test.skip(testCase, () => {});
+      return;
+    }
+
     for (let c of execClients) {
       const client = c || {};
       const testCode = () => tester(client.driver, testCase);
+      if (!launchedDrivers[client.browserName]) {
+        launchedDrivers[client.browserName] = launchClient(client);
+        launchedClients.push(client);
+      }
 
       describe(client.browserName, () => {
         test.concurrent(testCase, async () => {
-          // We need to wait for the drivers be
+          // We need to wait for the driver be
           // ready to start
-          await drivers;
+          await launchedDrivers[client.browserName];
+
           // This will make sure that we will run
           // only on test case per time on
           // the same browser
