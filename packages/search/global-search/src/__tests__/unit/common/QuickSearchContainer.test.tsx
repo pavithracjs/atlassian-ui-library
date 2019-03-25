@@ -205,6 +205,40 @@ describe('QuickSearchContainer', () => {
     );
   });
 
+  it('should fall back to default ab test data if the experiment call fails', async () => {
+    const recentItems = {
+      recentPages: [
+        {
+          id: 'page-1',
+        },
+      ],
+    };
+
+    const defaultAbTest: ABTest = {
+      abTestId: 'default',
+      experimentId: 'default',
+      controlId: 'default',
+    };
+
+    const getRecentItems = jest.fn<Promise<ResultsWithTiming>>(() =>
+      Promise.resolve({ results: recentItems }),
+    );
+    const getAbTestData = jest.fn<Promise<ABTest>>(() =>
+      Promise.reject(new Error('everything is broken')),
+    );
+    const wrapper = mountQuickSearchContainer({
+      getRecentItems,
+      getAbTestData,
+    });
+
+    let globalQuickSearch = wrapper.find(GlobalQuickSearch);
+    await globalQuickSearch.props().onMount();
+    await wrapper.update();
+
+    assertPreQueryAnalytics(recentItems, defaultAbTest);
+    assertExposureEventAnalytics(defaultAbTest);
+  });
+
   describe('Search', () => {
     let getSearchResults;
 
