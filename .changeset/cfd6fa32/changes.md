@@ -1,1 +1,0 @@
-- Fix to package.json to allow imports to work correctly
