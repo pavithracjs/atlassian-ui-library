@@ -10,7 +10,7 @@ export default {
     }),
   },
   sessionservice: {
-    url: 'http://www.example.org/mentions/some-cloud--id',
+    url: 'http://www.example.org/mentions/some-cloud-id',
     productId: 'micros-group/confluence',
     securityProvider: () => ({
       headers: {
