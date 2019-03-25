@@ -1,5 +1,5 @@
 // @flow
 
-export { default, DrawerItemTheme } from './components';
+export { default, DrawerItemTheme, createAndFireOnClick } from './components';
 
 export * from './components/types';

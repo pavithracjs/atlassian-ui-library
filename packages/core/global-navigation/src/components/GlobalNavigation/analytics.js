@@ -35,12 +35,15 @@ export const fireDrawerDismissedEvents = (
 
   if (trigger) {
     analyticsEvent
-      .update({
-        action: 'dismissed',
-        actionSubject: 'drawer',
-        actionSubjectId: analyticsIdMap[drawerName],
-        attributes: { trigger },
-      })
+      .update(
+        analyticsEv =>
+          console.log(analyticsEv) || {
+            action: 'dismissed',
+            actionSubject: 'drawer',
+            actionSubjectId: analyticsIdMap[drawerName],
+            attributes: { ...analyticsEv.attributes, trigger },
+          },
+      )
       .fire(NAVIGATION_CHANNEL);
     return;
   }
@@ -48,6 +51,7 @@ export const fireDrawerDismissedEvents = (
   analyticsEvent
     .update({
       actionSubjectId: analyticsIdMap[drawerName],
+      ...(trigger ? { attributes: { trigger } } : {}),
     })
     .fire(NAVIGATION_CHANNEL);
 };
