@@ -245,7 +245,7 @@ export default class Example extends React.Component<Props> {
     );
   }
 
-  private inviteToEditHandler = (event: Event) => {
+  private inviteToEditHandler = (event: React.MouseEvent<HTMLElement>) => {
     console.log("'Invite to event' clicked");
   };
 }
