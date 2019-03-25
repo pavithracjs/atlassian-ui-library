@@ -1,8 +1,9 @@
 import { colors } from '@atlaskit/theme';
 
 import { NodeSerializerOpts } from '../interfaces';
-import { createTag, serializeStyle } from '../util';
+import { createTag, serializeStyle, createOutlookSpacingHackTd } from '../util';
 import { commonStyle } from '..';
+import text from './text';
 
 type PanelType = 'info' | 'note' | 'tip' | 'success' | 'warning' | 'error';
 
@@ -37,6 +38,14 @@ const config: PanelConfig = {
   },
 };
 
+const tableAttrs = {
+  align: 'left',
+  valign: 'top',
+  cellpadding: 0,
+  border: 0,
+  cellspacing: 0,
+};
+
 export default function panel({ attrs, text }: NodeSerializerOpts) {
   const type: PanelType = attrs.panelType;
 
@@ -47,7 +56,7 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
     '-moz-border-radius': '3px',
     'font-size': '14px',
     width: '100%',
-    padding: '2px 0px 2px 8px',
+    padding: '1px 0px 1px 8px',
     margin: `0px`,
     background: config[type] && config[type].background,
   });
@@ -55,7 +64,7 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
   const outerTdCss = serializeStyle({
     ...commonStyle,
     'border-radius': '3px',
-    padding: '4px 12px 4px 0',
+    padding: '8px 8px 8px 8px',
     '-webkit-border-radius': '3px',
     '-moz-border-radius': '3px',
     margin: '0px',
@@ -70,11 +79,24 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
     'border-spacing': '0px',
   });
 
-  const innerTd = createTag('td', { style: innerTdCss }, text);
-  const innerTable = createTag('table', { style: tableStyle }, innerTd);
+  const spacingHack = createOutlookSpacingHackTd(tableAttrs);
+  const innerTd = createTag('td', { ...tableAttrs, style: innerTdCss }, text);
+  const innerTable = createTag(
+    'table',
+    { ...tableAttrs, style: tableStyle },
+    spacingHack + innerTd,
+  );
 
-  const outerTd = createTag('td', { style: outerTdCss }, innerTable);
-  const outerTable = createTag('table', { style: tableStyle }, outerTd);
+  const outerTd = createTag(
+    'td',
+    { ...tableAttrs, style: outerTdCss },
+    innerTable,
+  );
+  const outerTable = createTag(
+    'table',
+    { ...tableAttrs, style: tableStyle },
+    outerTd,
+  );
 
   return outerTable;
 }

@@ -66,3 +66,30 @@ export const withTable = (text: string, style: Style = {}): string => {
   const table = createTag('table', { style: nullifyCss }, td);
   return table;
 };
+
+export const createOutlookSpacingHackTd = (
+  tdAttrs: any = {},
+  imgAttrs: any = {},
+) => {
+  const outlookSpacingHackImg = createTag('img', {
+    border: '0',
+    alt: '',
+    height: '32',
+    width: '1',
+    // this hack works without a valid URL
+    src: 'https://1x1-placeholder-transparent-image-goes-here.png',
+    style: serializeStyle({
+      display: 'block',
+    }),
+    ...imgAttrs,
+  });
+
+  return createTag(
+    'td',
+    {
+      style: serializeStyle({ 'font-size': 0 }),
+      ...tdAttrs,
+    },
+    outlookSpacingHackImg,
+  );
+};
