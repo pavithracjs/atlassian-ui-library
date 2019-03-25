@@ -77,6 +77,8 @@ function sendData(payload /*: IBuildEventProperties*/) {
   client.close(function(err /*: Error*/) {
     if (err) {
       console.log('The close did not work quite right: ', err);
+    } else {
+      console.log('The build data has been correctly sent!');
     }
   });
 }

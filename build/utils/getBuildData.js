@@ -37,6 +37,7 @@ async function getPipelinesBuildData(
     const stepsData = await getStepsData(buildId);
     const buildStatus =
       process.env.BITBUCKET_EXIT_CODE === 0 ? 'SUCCESSFUL' : 'FAILED';
+    console.log(process.env.BITBUCKET_EXIT_CODE, buildStatus);
     if (stepsData) {
       payload = {
         build_number: buildId,
