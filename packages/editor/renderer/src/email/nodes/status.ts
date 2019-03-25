@@ -65,7 +65,11 @@ export default function status({ attrs, text }: NodeSerializerOpts) {
     'max-width': '100%',
     'text-transform': 'uppercase',
     'vertical-align': 'baseline',
-    padding: '2px 4px 3px 4px',
+    padding: '0',
+    'border-top': `2px solid ${colorAttributes['background-color']}`,
+    'border-right': `4px solid ${colorAttributes['background-color']}`,
+    'border-bottom': `3px solid ${colorAttributes['background-color']}`,
+    'border-left': `4px solid ${colorAttributes['background-color']}`,
     ...colorAttributes,
   });
   return createTag('span', { style: css }, text);
