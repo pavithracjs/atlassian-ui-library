@@ -11,3 +11,4 @@ export {
   hasTableBeenResized,
   insertColgroupFromNode,
 } from './colgroup';
+export { getSelectedTableInfo, getSelectedCellInfo } from './analytics';

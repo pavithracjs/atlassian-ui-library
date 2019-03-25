@@ -36,6 +36,8 @@ export const enum INPUT_METHOD {
   SHORTCUT = 'shortcut',
   TOOLBAR = 'toolbar',
   TYPEAHEAD = 'typeAhead',
+  CONTEXT_MENU = 'contextMenu',
+  BUTTON = 'button',
 }
 
 export const enum ACTION_SUBJECT {
@@ -48,6 +50,7 @@ export const enum ACTION_SUBJECT {
   SMART_LINK = 'smartLink',
   TEXT = 'text',
   TYPEAHEAD = 'typeAhead',
+  TABLE = 'table',
 }
 
 export const enum ACTION_SUBJECT_ID {
