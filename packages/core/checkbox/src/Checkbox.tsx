@@ -73,7 +73,9 @@ class Checkbox extends React.Component<CheckboxProps, State> {
   };
 
   onChange: React.ChangeEventHandler<HTMLInputElement> = event => {
-    if (this.props.isDisabled) return null;
+    if (this.props.isDisabled) {
+      return null;
+    }
     event.persist();
     if (event.target.checked !== undefined) {
       this.setState({ isChecked: event.target.checked });
@@ -86,11 +88,15 @@ class Checkbox extends React.Component<CheckboxProps, State> {
 
   // expose blur/focus to consumers via ref
   blur = () => {
-    if (this.checkbox && this.checkbox.blur) this.checkbox.blur();
+    if (this.checkbox && this.checkbox.blur) {
+      this.checkbox.blur();
+    }
   };
 
   focus = () => {
-    if (this.checkbox && this.checkbox.focus) this.checkbox.focus();
+    if (this.checkbox && this.checkbox.focus) {
+      this.checkbox.focus();
+    }
   };
 
   onBlur = () =>
