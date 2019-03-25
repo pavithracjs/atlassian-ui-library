@@ -1,6 +1,3 @@
-// in PUG
-const testCloudId = 'DUMMY-a5a01d21-1cc3-4f29-9565-f2bb8cd969f5';
-
 // Copy this file to local-config.ts and customise.
 export default {
   asap: {
@@ -13,7 +10,7 @@ export default {
     }),
   },
   sessionservice: {
-    url: 'http://www.example.org/mentions/some-cloud-id',
+    url: 'http://www.example.org/mentions/some-cloud--id',
     productId: 'micros-group/confluence',
     securityProvider: () => ({
       headers: {
@@ -23,7 +20,7 @@ export default {
   },
   sessionServiceWithTeam: {
     user: {
-      url: `https://api-private.stg.atlassian.com/mentions/${testCloudId}`,
+      url: 'http://www.example.org/mentions/some-cloud-id',
       productId: 'micros-group/confluence',
       securityProvider: () => ({
         headers: {
@@ -32,7 +29,7 @@ export default {
       }),
     },
     team: {
-      url: 'https://api-private.stg.atlassian.com/teams/mentions',
+      url: 'http://www.example.org/teams/mentions',
       productId: 'micros-group/confluence',
       securityProvider: () => ({
         headers: {
