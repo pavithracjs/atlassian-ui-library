@@ -1,0 +1,1 @@
+- add support for block and inline smart cards in ADF to email renderer

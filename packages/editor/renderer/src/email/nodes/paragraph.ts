@@ -1,4 +1,4 @@
-import { createTag, serializeStyle, applyMarks } from '../util';
+import { applyMarks, createTag, serializeStyle } from '../util';
 import { NodeSerializerOpts } from '../interfaces';
 
 const css = serializeStyle({
