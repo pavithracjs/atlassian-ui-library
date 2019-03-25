@@ -1,0 +1,1 @@
+- ED-6526: Resize a table with breakout content
