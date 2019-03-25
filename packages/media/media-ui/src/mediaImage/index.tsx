@@ -9,9 +9,9 @@ export interface MediaImageProps {
   crop?: boolean;
   stretch?: boolean;
   previewOrientation?: number;
-  crossOrigin?: any;
-  onImageLoad?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
-  onImageError?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
+  crossOrigin?: '' | 'anonymous' | 'use-credentials';
+  onImageLoad?: (loadedImage: HTMLImageElement) => void;
+  onImageError?: () => void;
 }
 
 export interface MediaImageState {
@@ -68,7 +68,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
       imgHeight: this.imageRef.current.naturalHeight,
     });
     if (this.props.onImageLoad) {
-      this.props.onImageLoad(e);
+      this.props.onImageLoad(e.currentTarget);
     }
   };
 
