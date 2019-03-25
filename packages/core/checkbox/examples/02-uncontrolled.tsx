@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Checkbox } from '../src';
 
-type State = {
+interface State {
   onChangeResult: string;
-};
+}
 
 export default class UncontrolledExample extends React.PureComponent<
   void,
@@ -12,7 +12,7 @@ export default class UncontrolledExample extends React.PureComponent<
   state = {
     onChangeResult: 'Check & Uncheck to trigger onChange',
   };
-  onChange: React.FocusEventHandler<HTMLInputElement> = event => {
+  onChange: React.ChangeEventHandler<HTMLInputElement> = event => {
     this.setState({
       onChangeResult: `this.state.isChecked: ${String(
         event.currentTarget.checked,

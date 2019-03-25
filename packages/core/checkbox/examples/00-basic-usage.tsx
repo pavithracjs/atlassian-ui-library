@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Checkbox } from '../src';
 
-type State = {
+interface State {
   onChangeResult: string;
-};
+}
 
 const BasicUsageExample = class extends React.PureComponent<void, State> {
   state = {

@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { Checkbox } from '../src';
 
-type CheckedItems = { [value: string]: boolean };
-type State = {
+interface CheckedItems {
+  [value: string]: boolean;
+}
+interface State {
   checkedItems: CheckedItems;
-};
+}
 
 const PARENT_ID: string = 'PARENT';
 const CHILD_1_ID: string = 'CHILD1';

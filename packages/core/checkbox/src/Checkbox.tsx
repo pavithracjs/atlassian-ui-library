@@ -72,7 +72,7 @@ class Checkbox extends React.Component<CheckboxProps, State> {
     return key in this.props ? this.props[key] : this.state[key];
   };
 
-  onChange: React.FocusEventHandler<HTMLInputElement> = event => {
+  onChange: React.ChangeEventHandler<HTMLInputElement> = event => {
     if (this.props.isDisabled) return null;
     event.persist();
     if (event.target.checked !== undefined) {

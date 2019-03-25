@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Checkbox } from '../src';
 
-type State = {
+interface State {
   isChecked: boolean;
   onChangeResult: string;
-};
+}
 
 export default class ControlledExample extends React.PureComponent<
   void,

@@ -14,7 +14,7 @@ export default class CheckboxGroups extends React.Component<
   state = {
     flexDirection: 'column',
   };
-  onChange: React.FocusEventHandler<HTMLInputElement> = event => {
+  onChange: React.ChangeEventHandler<HTMLInputElement> = event => {
     switch (event.currentTarget.value) {
       case 'column':
         this.setState({
