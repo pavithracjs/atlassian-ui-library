@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/button",
-  "version": "11.0.2",
+  "version": "11.0.3",
   "description": "A React component that is a base button.",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -43,6 +43,7 @@
     "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/visual-regression": "^0.0.1",
     "enzyme": "^3.7.0",
+    "jest-in-case": "^1.0.2",
     "react-dom": "^16.4.2",
     "react-router-dom": "^4.2.2"
   }

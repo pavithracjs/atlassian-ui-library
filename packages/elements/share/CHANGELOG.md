@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.2.4
+- [patch] [8f56fe1259](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f56fe1259):
+
+  - Remove files from package.json to publish all the files in @atlaskit/share
+
 ## 0.2.3
 - Updated dependencies [3ea3f5ea55](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3ea3f5ea55):
   - @atlaskit/user-picker@3.0.0

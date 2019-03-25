@@ -1,5 +1,10 @@
 # @atlaskit/updater-cli
 
+## 2.0.1
+- [patch] [25544ecbc8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/25544ecbc8):
+
+  - Ignore tsconfig from being published
+
 ## 2.0.0
 - [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 

@@ -52,6 +52,48 @@ describe('Renderer - React/Nodes/Table', () => {
     expect(table.find(TableRow).prop('isNumberColumnEnabled')).toEqual(true);
   });
 
+  it('should NOT render a colgroup when columnWidths is an empty array', () => {
+    const columnWidths: Array<number> = [];
+
+    const table = mount(
+      <Table
+        layout="default"
+        isNumberColumnEnabled={true}
+        columnWidths={columnWidths}
+        renderWidth={renderWidth}
+      >
+        <TableRow>
+          <TableCell />
+          <TableCell />
+          <TableCell />
+        </TableRow>
+      </Table>,
+    );
+
+    expect(table.find('colgroup')).toHaveLength(0);
+  });
+
+  it('should NOT render a colgroup when columnWidths is an array of zeros', () => {
+    const columnWidths: Array<number> = [0, 0, 0];
+
+    const table = mount(
+      <Table
+        layout="default"
+        isNumberColumnEnabled={true}
+        columnWidths={columnWidths}
+        renderWidth={renderWidth}
+      >
+        <TableRow>
+          <TableCell />
+          <TableCell />
+          <TableCell />
+        </TableRow>
+      </Table>,
+    );
+
+    expect(table.find('colgroup')).toHaveLength(0);
+  });
+
   it('should render children', () => {
     const table = mount(
       <Table

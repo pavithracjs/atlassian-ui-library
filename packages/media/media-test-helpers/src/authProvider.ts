@@ -1,10 +1,9 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from 'axios';
-import { defaultCollectionName } from './collectionNames';
 import { Auth, AuthProvider, AuthContext } from '@atlaskit/media-core';
+import { defaultCollectionName } from './collectionNames';
 
 const cachedAuths: { [key: string]: Promise<Auth> } = {};
 const authProviderBaseURL =
-  'https://api-private.dev.atlassian.com/media-playground/api/';
+  'https://api-private.dev.atlassian.com/media-playground/api';
 
 export class StoryBookAuthProvider {
   static create(
@@ -12,25 +11,21 @@ export class StoryBookAuthProvider {
     access?: { [resourceUrn: string]: string[] },
   ): AuthProvider {
     const loadTenatAuth = async (collectionName: string): Promise<Auth> => {
-      const config: AxiosRequestConfig = {
-        withCredentials: true,
-        baseURL: authProviderBaseURL,
-        headers: {},
-        params: {
-          collection: collectionName,
-          environment: isAsapEnvironment ? 'asap' : '',
-        },
+      const environment = isAsapEnvironment ? 'asap' : '';
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json; charset=utf-8');
+      headers.append('Accept', 'text/plain, */*; q=0.01');
+      const config: RequestInit = {
+        method: 'POST',
+        credentials: 'include',
+        headers,
+        body: access ? JSON.stringify({ access }) : undefined,
       };
-
-      let response: AxiosResponse;
-      if (access) {
-        response = await axios.post('/token/tenant', { access }, config);
-      } else {
-        response = await axios.get('/token/tenant', config);
-      }
+      const url = `${authProviderBaseURL}/token/tenant?collection=${collectionName}&environment=${environment}`;
+      const response = fetch(url, config);
 
       // We leverage the fact, that our internal /toke/tenant API returns data in the same format as Auth
-      return response.data as Auth;
+      return (await (await response).json()) as Auth;
     };
 
     return (authContext?: AuthContext): Promise<Auth> => {

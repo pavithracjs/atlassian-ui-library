@@ -204,6 +204,51 @@ describe('mentionTypeahead', () => {
                 accessLevel: 'CONTAINER',
                 userType: 'SPECIAL',
                 userId: 'here',
+                memberCount: null,
+                includesYou: null,
+              }),
+            }),
+          );
+          expect(event.fire).toHaveBeenCalledTimes(1);
+          expect(event.fire).toHaveBeenCalledWith('fabric-elements');
+        },
+      ),
+    );
+
+    it.each([
+      ['pressed', () => selectCurrentItem('enter'), 'enter'],
+      ['clicked', () => selectCurrentItem(), undefined],
+    ])(
+      'should fire typeahead %s event for teams',
+      withMentionQuery(
+        'Team Alpha',
+        (
+          { editorView, event, createAnalyticsEvent },
+          expectedActionName,
+          selectCurrentItem,
+          keyboardKey,
+        ) => {
+          jest.clearAllMocks();
+          selectCurrentItem()(editorView.state, editorView.dispatch);
+
+          expect(createAnalyticsEvent).toHaveBeenCalledWith(
+            expect.objectContaining({
+              action: expectedActionName,
+              actionSubject: expectedActionSubject,
+              eventType: 'ui',
+              attributes: expect.objectContaining({
+                packageName: '@atlaskit/editor-core',
+                packageVersion: expect.any(String),
+                duration: expect.any(Number),
+                position: 0,
+                keyboardKey: keyboardKey,
+                queryLength: 10,
+                spaceInQuery: true,
+                accessLevel: 'CONTAINER',
+                userType: 'TEAM',
+                userId: 'team-1',
+                memberCount: 5,
+                includesYou: true,
               }),
             }),
           );
