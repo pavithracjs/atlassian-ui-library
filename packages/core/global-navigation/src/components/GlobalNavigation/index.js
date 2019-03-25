@@ -1,7 +1,10 @@
 // @flow
 
 import React, { Component, Fragment } from 'react';
-import type { UIAnalyticsEvent } from '@atlaskit/analytics-next';
+import type {
+  UIAnalyticsEvent,
+  createAndFireEvent,
+} from '@atlaskit/analytics-next';
 import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
 import { NotificationIndicator } from '@atlaskit/notification-indicator';
 import { NotificationLogClient } from '@atlaskit/notification-log-client';
@@ -28,7 +31,6 @@ const noop = () => {};
 
 const localStorage = typeof window === 'object' ? window.localStorage : {};
 
-console.log(createAndFireOnClick);
 type GlobalNavigationState = {
   [any]: boolean, // Need an indexer property to appease flow for is${capitalisedDrawerName}Open
   isCreateDrawerOpen: boolean,
@@ -360,15 +362,16 @@ export default class GlobalNavigation extends Component<
     analyticsEvent: UIAnalyticsEvent,
   ) => {
     const { triggerXFlow } = this.props;
-    createAndFireOnClick(analyticsEvent, 'xFlow');
+    this.closeDrawer('atlassianSwitcher')(event, analyticsEvent, 'xFlow');
     if (triggerXFlow) {
-      triggerXFlow(productKey, sourceComponent, 'xFlow');
+      triggerXFlow(productKey, sourceComponent);
     }
   };
 
-  closeDrawer = (drawerName: DrawerName, trigger?: string) => (
+  closeDrawer = (drawerName: DrawerName) => (
     event: SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>,
     analyticsEvent: UIAnalyticsEvent,
+    trigger?: string,
   ) => {
     const capitalisedDrawerName = this.getCapitalisedDrawerName(drawerName);
     let onCloseCallback = noop;
@@ -378,7 +381,6 @@ export default class GlobalNavigation extends Component<
     }
 
     fireDrawerDismissedEvents(drawerName, analyticsEvent, trigger);
-
     // Update the state only if it's a controlled drawer.
     // componentDidMount takes care of the uncontrolled drawers
     if (this.drawers[drawerName].isControlled) {
