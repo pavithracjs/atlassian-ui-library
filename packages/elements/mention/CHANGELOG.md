@@ -1,5 +1,10 @@
 # @atlaskit/mention
 
+## 17.4.0
+- [minor] [1affe17dc4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1affe17dc4):
+
+  - add analytics events for team mention
+
 ## 17.3.0
 - [minor] [073320a681](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/073320a681):
 

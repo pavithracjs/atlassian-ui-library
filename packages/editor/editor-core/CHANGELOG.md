@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.3.0
+- [minor] [1affe17dc4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1affe17dc4):
+
+  - add analytics events for team mention
+
 ## 106.2.3
 - [patch] [08940b66c1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08940b66c1):
 
