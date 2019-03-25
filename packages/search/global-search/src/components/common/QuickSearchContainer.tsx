@@ -26,6 +26,12 @@ import { ABTest } from '../../api/CrossProductSearchClient';
 const resultMapToArray = (results: GenericResultMap): Result[][] =>
   objectValues(results).reduce((acc: Result[][], value) => [...acc, value], []);
 
+const DEFAULT_AB_TEST: ABTest = Object.freeze({
+  experimentId: 'default',
+  abTestId: 'default',
+  controlId: 'default',
+});
+
 export interface SearchResultProps extends State {
   retrySearch: Function;
 }
@@ -69,6 +75,7 @@ export interface State {
   keepPreQueryState: boolean;
   searchResults: GenericResultMap | null;
   recentItems: GenericResultMap | null;
+  abTest: ABTest;
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
@@ -93,6 +100,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       recentItems: null,
       searchResults: null,
       keepPreQueryState: true,
+      abTest: DEFAULT_AB_TEST,
     };
   }
 
@@ -155,6 +163,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
               timings || {},
               this.state.searchSessionId,
               this.state.latestSearchQuery,
+              this.state.abTest,
             );
           },
         );
@@ -173,11 +182,22 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     }
   };
 
-  fetchAbTestData = async (searchSessionId: string) => {
+  fetchAbTestDataOrDefault = async (searchSessionId: string) => {
     const { getAbTestData } = this.props;
     const startTime = performanceNow();
-    const abTest = await getAbTestData(searchSessionId);
+
+    let abTest;
+    try {
+      abTest = (await getAbTestData(searchSessionId)) || DEFAULT_AB_TEST;
+    } catch (error) {
+      abTest = DEFAULT_AB_TEST;
+    }
+
     const elapsedMs = performanceNow() - startTime;
+
+    this.setState({
+      abTest,
+    });
 
     return {
       elapsedMs,
@@ -211,6 +231,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
   fireShownPreQueryEvent = (
     searchSessionId,
     recentItems,
+    abTest: ABTest,
     requestStartTime?: number,
     experimentRequestDurationMs?: number,
     renderStartTime?: number,
@@ -232,9 +253,9 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       const resultsArray: Result[][] = resultMapToArray(
         getDisplayedResults(recentItems),
       );
-      const eventAttributes: ShownAnalyticsAttributes = buildShownEventDetails(
-        ...resultsArray,
-      );
+      const eventAttributes: ShownAnalyticsAttributes = {
+        ...buildShownEventDetails(...resultsArray),
+      };
 
       firePreQueryShownEvent(
         eventAttributes,
@@ -242,6 +263,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         renderTime,
         searchSessionId,
         createAnalyticsEvent,
+        abTest,
         experimentRequestDurationMs,
         !!enablePreQueryFromAggregator,
       );
@@ -255,6 +277,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     timings,
     searchSessionId,
     latestSearchQuery: string,
+    abTest: ABTest,
   ) => {
     const performanceTiming: PerformanceTiming = {
       startTime,
@@ -270,13 +293,13 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       const resultsDetails: ShownAnalyticsAttributes = buildShownEventDetails(
         ...resultsArray,
       );
-
       firePostQueryShownEvent(
         resultsDetails,
         performanceTiming,
         searchSessionId,
         latestSearchQuery,
         createAnalyticsEvent,
+        abTest,
       );
     }
   };
@@ -290,6 +313,8 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     }
 
     if (newLatestSearchQuery.length === 0) {
+      const { abTest } = this.state;
+
       // reset search results so that internal state between query and results stays consistent
       this.setState(
         {
@@ -301,6 +326,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           this.fireShownPreQueryEvent(
             this.state.searchSessionId,
             this.state.recentItems || {},
+            abTest,
           ),
       );
     } else {
@@ -321,7 +347,9 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       });
     }
 
-    const abTestPromise = this.fetchAbTestData(this.state.searchSessionId);
+    const abTestPromise = this.fetchAbTestDataOrDefault(
+      this.state.searchSessionId,
+    );
     this.fireExperimentExposureEvent(
       this.state.searchSessionId,
       abTestPromise.then(({ abTest }) => abTest),
@@ -341,10 +369,15 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           isLoading: false,
         },
         async () => {
-          const experimentRequestDurationMs = (await abTestPromise).elapsedMs;
+          const {
+            elapsedMs: experimentRequestDurationMs,
+            abTest,
+          } = await abTestPromise;
+
           this.fireShownPreQueryEvent(
             this.state.searchSessionId,
             this.state.recentItems || {},
+            abTest,
             startTime,
             experimentRequestDurationMs,
             renderStartTime,
@@ -389,6 +422,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       searchResults,
       recentItems,
       keepPreQueryState,
+      abTest,
     } = this.state;
 
     return (
@@ -413,6 +447,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           recentItems,
           keepPreQueryState,
           searchSessionId,
+          abTest,
         })}
       </GlobalQuickSearch>
     );

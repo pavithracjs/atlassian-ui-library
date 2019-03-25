@@ -1,5 +1,15 @@
 # @atlaskit/renderer
 
+## 44.1.0
+- [minor] [b4ce89e3cb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b4ce89e3cb):
+
+  - improve the display of info panels in email renderer
+
+## 44.0.3
+- [patch] [abd1e85008](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/abd1e85008):
+
+  - ED-6536: Fixes non-resized tables accidently getting a width applied.
+
 ## 44.0.2
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

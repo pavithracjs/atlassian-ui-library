@@ -1,5 +1,6 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
+import * as cases from 'jest-in-case';
 import Spinner from '@atlaskit/spinner';
 import { AtlassianIcon } from '@atlaskit/logo';
 import * as renderer from 'react-test-renderer';
@@ -264,8 +265,25 @@ describe('ak-button/default-behaviour', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it("should pass interaction state props from the component's state", () => {
-    const wrapper = mount(<Button />);
-    expect(wrapper.find('Consumer').get(1).props.state).toBe('default');
-  });
+  cases(
+    'onMouse* prop is called',
+    ({ key }: { key: string }) => {
+      const spy = jest.fn();
+      const onMouseHandler = { [key]: spy };
+      const wrapper = mount(<Button {...onMouseHandler} />);
+      const button = wrapper.find('StyledButton');
+      const event = {
+        preventDefault: () => {},
+      } as React.MouseEvent<HTMLElement>;
+      // @ts-ignore
+      button.prop(key)!(event);
+      expect(spy).toHaveBeenCalled();
+    },
+    [
+      { key: 'onMouseDown' },
+      { key: 'onMouseUp' },
+      { key: 'onMouseEnter' },
+      { key: 'onMouseLeave' },
+    ],
+  );
 });

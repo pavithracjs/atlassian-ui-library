@@ -1,5 +1,10 @@
 # @atlaskit/util-data-test
 
+## 11.1.3
+- [patch] [1affe17dc4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1affe17dc4):
+
+  - add analytics events for team mention
+
 ## 11.1.2
 - [patch] [5ca3696b14](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ca3696b14):
 

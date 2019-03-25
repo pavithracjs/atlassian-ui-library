@@ -48,6 +48,10 @@ const getLineHeight = ({ spacing = 'default' }: ThemeProps) =>
 const getPadding = ({ spacing = 'default' }: ThemeProps) =>
   spacing === 'none' ? 0 : `0 ${gridSize()}px`;
 
+/** Text Decoration */
+const getTextDecoration = ({ appearance = 'default' }: ThemeProps) =>
+  appearance === 'link' || appearance === 'subtle-link' ? 'underline' : 'none';
+
 /** Transition */
 const getTransition = ({ state = 'default' }: ThemeProps) =>
   state === 'hover'
@@ -104,6 +108,10 @@ export const getButtonStyles = (props: ThemeProps) => ({
     border: 0,
     margin: 0,
     padding: 0,
+  },
+
+  '&:hover': {
+    textDecoration: getTextDecoration(props),
   },
   ...(props.isLoading && { 'pointer-events': 'none' }),
 });

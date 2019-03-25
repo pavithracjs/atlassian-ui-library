@@ -304,6 +304,10 @@ export class MentionResource extends AbstractMentionResource {
     return this.activeSearches.has(query);
   }
 
+  protected updateActiveSearches(query: string): void {
+    this.activeSearches.add(query);
+  }
+
   protected verifyMentionConfig(config: MentionResourceConfig) {
     if (!config.url) {
       throw new Error('config.url is a required parameter');

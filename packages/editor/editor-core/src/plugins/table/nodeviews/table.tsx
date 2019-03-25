@@ -147,12 +147,8 @@ export default class TableView extends ReactNodeView {
 
     const { minWidth } = contentWidth(target, target);
 
-    if (
-      this.node &&
-      elemOrWrapper &&
-      elemOrWrapper.getAttribute('data-colwidth') !== null &&
-      elemOrWrapper.offsetWidth < minWidth
-    ) {
+    // This can also trigger for a non-resized table.
+    if (this.node && elemOrWrapper && elemOrWrapper.offsetWidth < minWidth) {
       const cellPos = this.view.posAtDOM(elemOrWrapper, 0);
       handleBreakoutContent(
         this.view,
