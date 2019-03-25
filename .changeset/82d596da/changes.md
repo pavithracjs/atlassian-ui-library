@@ -1,0 +1,1 @@
+- ED-6561 Ignore empty transactions from collab provider
