@@ -20,7 +20,7 @@ export const fireDrawerDismissedEvents = (
 ): void => {
   if (
     analyticsEvent.payload.attributes &&
-    analyticsEvent.payload.attributes.trigger === 'xFlow'
+    analyticsEvent.payload.attributes.trigger === 'escKey'
   ) {
     const keyboardShortcutEvent = analyticsEvent.clone().update(() => ({
       action: 'pressed',
@@ -35,15 +35,12 @@ export const fireDrawerDismissedEvents = (
 
   if (trigger) {
     analyticsEvent
-      .update(
-        analyticsEv =>
-          console.log(analyticsEv) || {
-            action: 'dismissed',
-            actionSubject: 'drawer',
-            actionSubjectId: analyticsIdMap[drawerName],
-            attributes: { ...analyticsEv.attributes, trigger },
-          },
-      )
+      .update({
+        action: 'dismissed',
+        actionSubject: 'drawer',
+        actionSubjectId: analyticsIdMap[drawerName],
+        attributes: { trigger },
+      })
       .fire(NAVIGATION_CHANNEL);
     return;
   }

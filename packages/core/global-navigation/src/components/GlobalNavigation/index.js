@@ -1,15 +1,12 @@
 // @flow
 
 import React, { Component, Fragment } from 'react';
-import type {
-  UIAnalyticsEvent,
-  createAndFireEvent,
-} from '@atlaskit/analytics-next';
+import type { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
 import { NotificationIndicator } from '@atlaskit/notification-indicator';
 import { NotificationLogClient } from '@atlaskit/notification-log-client';
 import { GlobalNav } from '@atlaskit/navigation-next';
-import Drawer, { createAndFireOnClick } from '@atlaskit/drawer';
+import Drawer from '@atlaskit/drawer';
 import AtlassianSwitcher, {
   AtlassianSwitcherPrefetchTrigger,
 } from '@atlaskit/atlassian-switcher';
@@ -267,6 +264,34 @@ export default class GlobalNavigation extends Component<
     }
   };
 
+  closeDrawer = (drawerName: DrawerName) => (
+    event: SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>,
+    analyticsEvent: UIAnalyticsEvent,
+    trigger?: string,
+  ) => {
+    const capitalisedDrawerName = this.getCapitalisedDrawerName(drawerName);
+    let onCloseCallback = noop;
+
+    if (typeof this.props[`on${capitalisedDrawerName}Close`] === 'function') {
+      onCloseCallback = this.props[`on${capitalisedDrawerName}Close`];
+    }
+
+    fireDrawerDismissedEvents(drawerName, analyticsEvent, trigger);
+    // Update the state only if it's a controlled drawer.
+    // componentDidMount takes care of the uncontrolled drawers
+    if (this.drawers[drawerName].isControlled) {
+      this.setState(
+        {
+          [`is${capitalisedDrawerName}Open`]: false,
+        },
+        onCloseCallback,
+      );
+    } else {
+      // invoke callback in both cases
+      onCloseCallback();
+    }
+  };
+
   CustomizedItemComponent = (props: GlobalNavItemData) => {
     if (
       this.shouldRenderAtlassianSwitcher &&
@@ -365,34 +390,6 @@ export default class GlobalNavigation extends Component<
     this.closeDrawer('atlassianSwitcher')(event, analyticsEvent, 'xFlow');
     if (triggerXFlow) {
       triggerXFlow(productKey, sourceComponent);
-    }
-  };
-
-  closeDrawer = (drawerName: DrawerName) => (
-    event: SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>,
-    analyticsEvent: UIAnalyticsEvent,
-    trigger?: string,
-  ) => {
-    const capitalisedDrawerName = this.getCapitalisedDrawerName(drawerName);
-    let onCloseCallback = noop;
-
-    if (typeof this.props[`on${capitalisedDrawerName}Close`] === 'function') {
-      onCloseCallback = this.props[`on${capitalisedDrawerName}Close`];
-    }
-
-    fireDrawerDismissedEvents(drawerName, analyticsEvent, trigger);
-    // Update the state only if it's a controlled drawer.
-    // componentDidMount takes care of the uncontrolled drawers
-    if (this.drawers[drawerName].isControlled) {
-      this.setState(
-        {
-          [`is${capitalisedDrawerName}Open`]: false,
-        },
-        onCloseCallback,
-      );
-    } else {
-      // invoke callback in both cases
-      onCloseCallback();
     }
   };
 
