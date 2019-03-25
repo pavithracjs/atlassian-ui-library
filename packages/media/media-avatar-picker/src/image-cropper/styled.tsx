@@ -2,12 +2,7 @@
 
 import styled from 'styled-components';
 
-import {
-  HTMLAttributes,
-  ComponentClass,
-  ImgHTMLAttributes,
-  ButtonHTMLAttributes,
-} from 'react';
+import { HTMLAttributes, ComponentClass, ButtonHTMLAttributes } from 'react';
 import { borderRadius, colors } from '@atlaskit/theme';
 
 // Using module augmentation to add crossOrigin attribute as it does not exist yet, PR has been opened in
@@ -40,14 +35,14 @@ export const ImageContainer = styled.div`
   user-select: none; /* Likely future */
 `;
 
-export const containerPadding = 28;
+export const CONTAINER_PADDING = 28;
 
 const Mask: ComponentClass<HTMLAttributes<{}>> = styled.div`
   position: absolute;
-  top: ${containerPadding}px;
-  bottom: ${containerPadding}px;
-  left: ${containerPadding}px;
-  right: ${containerPadding}px;
+  top: ${CONTAINER_PADDING}px;
+  bottom: ${CONTAINER_PADDING}px;
+  left: ${CONTAINER_PADDING}px;
+  right: ${CONTAINER_PADDING}px;
   box-shadow: 0 0 0 100px rgba(255, 255, 255, 0.5);
 `;
 

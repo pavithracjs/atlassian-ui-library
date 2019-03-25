@@ -2,13 +2,19 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import ModalDialog from '@atlaskit/modal-dialog';
 import Button from '@atlaskit/button';
-import { smallImage, mountWithIntlContext } from '@atlaskit/media-test-helpers';
+import {
+  smallImage,
+  mountWithIntlContext,
+  asMock,
+} from '@atlaskit/media-test-helpers';
+// import { dataURItoFile } from '@atlaskit/media-ui';
+import * as MediaUI from '@atlaskit/media-ui';
+// import MediaUIModule from '@atlaskit/media-ui';
 import { Avatar } from '../../avatar-list';
 import { ImageNavigator, CONTAINER_SIZE } from '../../image-navigator';
 import { PredefinedAvatarList } from '../../predefined-avatar-list';
 import { AvatarPickerDialog } from '../../avatar-picker-dialog';
 import { DEFAULT_VISIBLE_PREDEFINED_AVATARS } from '../../avatar-picker-dialog/layout-const';
-import { dataURItoFile, fileToDataURI } from '../../util';
 import { PredefinedAvatarView } from '../../predefined-avatar-view';
 import {
   Mode,
@@ -17,6 +23,19 @@ import {
 } from '../../avatar-picker-dialog/types';
 
 describe('Avatar Picker Dialog', () => {
+  let dataURItoFile: typeof MediaUI.dataURItoFile;
+  let fileFromDataURI: File;
+
+  beforeEach(() => {
+    dataURItoFile = jest.spyOn(MediaUI, 'dataURItoFile') as any;
+    fileFromDataURI = new File([], 'some-file-name');
+    asMock(dataURItoFile).mockReturnValue(fileFromDataURI);
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   const renderWithProps = (props: Partial<AvatarPickerDialogProps>) => {
     const component = mountWithIntlContext(
       <AvatarPickerDialog
@@ -38,12 +57,10 @@ describe('Avatar Picker Dialog', () => {
     return component;
   };
 
-  const newImage = dataURItoFile(smallImage);
-
   const updateComponentWithNewImage = (component: any) => {
     // get the handler which the ImageNavigator triggers when the image loads, fire it
     const { onImageLoaded } = component.find(ImageNavigator).props();
-    onImageLoaded(newImage, { x: 0, y: 0, size: CONTAINER_SIZE });
+    onImageLoaded(fileFromDataURI, { x: 0, y: 0, size: CONTAINER_SIZE });
     component.update();
   };
 
@@ -76,7 +93,7 @@ describe('Avatar Picker Dialog', () => {
       .find({ appearance: 'primary' })
       .simulate('click');
 
-    expect(onImagePicked).toBeCalledWith(newImage, {
+    expect(onImagePicked).toBeCalledWith(fileFromDataURI, {
       x: 0,
       y: 0,
       size: CONTAINER_SIZE,
@@ -260,32 +277,6 @@ describe('Avatar Picker Dialog', () => {
         .at(0)
         .props() as React.Props<{}>).children,
     ).toBe('test-primary-text');
-  });
-
-  it('should return same File when image source is provided by default', () => {
-    const onImagePicked = jest.fn();
-
-    const component = renderWithProps({
-      imageSource: smallImage,
-      onImagePicked,
-    });
-
-    const {
-      components: { Footer: footer },
-    } = component.find(ModalDialog).props() as { components: { Footer: any } };
-
-    shallow(footer())
-      .find(Button)
-      .find({ appearance: 'primary' })
-      .simulate('click');
-
-    const savedImage = onImagePicked.mock.calls[0][0];
-    expect(onImagePicked).toBeCalled();
-    expect(savedImage).toBeInstanceOf(File);
-
-    return fileToDataURI(savedImage).then(dataURI => {
-      expect(dataURI).toBe(smallImage);
-    });
   });
 
   it('should clear selected image when cross clicked', () => {

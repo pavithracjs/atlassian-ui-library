@@ -3,7 +3,7 @@ import { PureComponent } from 'react';
 import ModalDialog, { ModalFooter } from '@atlaskit/modal-dialog';
 import Button from '@atlaskit/button';
 import { FormattedMessage, intlShape, IntlProvider } from 'react-intl';
-import { messages } from '@atlaskit/media-ui';
+import { fileToDataURI, dataURItoFile, messages } from '@atlaskit/media-ui';
 import { Avatar } from '../avatar-list';
 import ImageNavigator, { CropProperties } from '../image-navigator';
 import { PredefinedAvatarList } from '../predefined-avatar-list';
@@ -14,7 +14,6 @@ import {
   ModalFooterButtons,
 } from './styled';
 import { PredefinedAvatarView } from '../predefined-avatar-view';
-import { dataURItoFile, fileToDataURI } from '../util';
 import { CONTAINER_SIZE } from '../image-navigator/index';
 import { LoadParameters } from '../image-cropper';
 

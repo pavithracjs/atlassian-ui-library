@@ -8,8 +8,11 @@ import ScaleSmallIcon from '@atlaskit/icon/glyph/media-services/scale-small';
 import ImageCropper, { OnLoadHandler } from '../image-cropper';
 import Slider from '@atlaskit/field-range';
 import Spinner from '@atlaskit/spinner';
-import { getOrientation, isRotated } from '@atlaskit/media-ui';
 import {
+  fileToDataURI,
+  dataURItoFile,
+  getOrientation,
+  isRotated,
   Ellipsify,
   Camera,
   Rectangle,
@@ -35,7 +38,7 @@ import {
   constrainScale,
   constrainEdges,
 } from '../constraint-util';
-import { dataURItoFile, fileSizeMb } from '../util';
+import { fileSizeMb } from '../util';
 import { ERROR, MAX_SIZE_MB, ACCEPT } from '../avatar-picker-dialog';
 
 export const CONTAINER_SIZE = gridSize() * 32;
@@ -255,26 +258,23 @@ export class ImageNavigator extends Component<
     return null;
   }
 
-  readFile(imageFile: File) {
-    const reader = new FileReader();
-    reader.onload = (e: Event) => {
-      const fileImageSource = (e.target as FileReader).result;
-      const { onImageUploaded } = this.props;
+  async readFile(imageFile: File) {
+    const { onImageUploaded } = this.props;
 
-      if (onImageUploaded) {
-        onImageUploaded(imageFile);
-      }
+    const [fileImageSource, imageOrientation] = await Promise.all([
+      fileToDataURI(imageFile),
+      getOrientation(imageFile),
+    ]);
 
-      getOrientation(imageFile).then(imageOrientation => {
-        // TODO: [ts30] Add proper handling for null and ArrayBuffer
-        this.setState({
-          fileImageSource: fileImageSource as string,
-          imageFile,
-          imageOrientation,
-        });
-      });
-    };
-    reader.readAsDataURL(imageFile);
+    if (onImageUploaded) {
+      onImageUploaded(imageFile);
+    }
+
+    this.setState({
+      fileImageSource: fileImageSource as string,
+      imageFile,
+      imageOrientation,
+    });
   }
 
   // Trick to have a nice <input /> appearance
