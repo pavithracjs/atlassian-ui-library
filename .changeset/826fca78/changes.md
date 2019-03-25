@@ -1,0 +1,1 @@
+- Support images with EXIF orientation tag
