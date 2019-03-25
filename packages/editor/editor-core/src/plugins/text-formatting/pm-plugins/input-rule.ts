@@ -120,11 +120,11 @@ function addCodeMark(
   return (state, match, start, end) => {
     if (match[1] && match[1].length > 0) {
       const allowedPrefixConditions = [
-        (m: string): boolean => {
-          return m === '(';
+        (prefix: string): boolean => {
+          return prefix === '(';
         },
-        (m: string): boolean => {
-          const nodeBefore = state.doc.resolve(start + match[1].length)
+        (prefix: string): boolean => {
+          const nodeBefore = state.doc.resolve(start + prefix.length)
             .nodeBefore;
           return (
             (nodeBefore && nodeBefore.type === state.schema.nodes.hardBreak) ||
