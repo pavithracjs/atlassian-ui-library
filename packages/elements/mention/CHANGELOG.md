@@ -1,5 +1,10 @@
 # @atlaskit/mention
 
+## 17.3.0
+- [minor] [073320a681](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/073320a681):
+
+  - Improve TeamMentionResource, both team and user requests are not blocked together
+
 ## 17.2.0
 - [patch] [5ca3696b14](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ca3696b14):
 
