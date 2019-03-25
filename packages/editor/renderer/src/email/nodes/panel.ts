@@ -1,4 +1,15 @@
-import { colors } from '@atlaskit/theme';
+import {
+  B50,
+  B400,
+  R50,
+  R400,
+  Y50,
+  Y400,
+  G50,
+  G400,
+  P50,
+  P400,
+} from '@atlaskit/adf-schema';
 
 import { NodeSerializerOpts } from '../interfaces';
 import { createTag, serializeStyle } from '../util';
@@ -12,28 +23,28 @@ type PanelConfig = {
 
 const config: PanelConfig = {
   info: {
-    background: colors.B50,
-    iconColor: colors.B400,
+    background: B50,
+    iconColor: B400,
   },
   note: {
-    background: colors.P50,
-    iconColor: colors.P400,
+    background: P50,
+    iconColor: P400,
   },
   tip: {
-    background: colors.G50,
-    iconColor: colors.G400,
+    background: G50,
+    iconColor: G400,
   },
   success: {
-    background: colors.G50,
-    iconColor: colors.G400,
+    background: G50,
+    iconColor: G400,
   },
   warning: {
-    background: colors.Y50,
-    iconColor: colors.Y400,
+    background: Y50,
+    iconColor: Y400,
   },
   error: {
-    background: colors.R50,
-    iconColor: colors.R400,
+    background: R50,
+    iconColor: R400,
   },
 };
 
