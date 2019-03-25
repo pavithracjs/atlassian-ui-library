@@ -3,7 +3,6 @@ import { colors } from '@atlaskit/theme';
 import { NodeSerializerOpts } from '../interfaces';
 import { createTag, serializeStyle, createOutlookSpacingHackTd } from '../util';
 import { commonStyle } from '..';
-import text from './text';
 
 type PanelType = 'info' | 'note' | 'tip' | 'success' | 'warning' | 'error';
 
