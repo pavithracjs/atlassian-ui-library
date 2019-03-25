@@ -42,7 +42,7 @@ export class Search extends React.Component<Props & InjectedIntlProps, State> {
       <QuickSearch
         placeholder={formatMessage(messages.help_panel_search_placeholder)}
         value={this.state.value}
-        isLoading={searchState == REQUEST_STATE.loading}
+        isLoading={searchState === REQUEST_STATE.loading}
         onSearchInput={this.handleSearchInput}
       >
         <SearchContent />
