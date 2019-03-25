@@ -4,6 +4,7 @@ import Loadable from '../components/WrappedLoader';
 import { Helmet } from 'react-helmet';
 import { packages } from '../site';
 import * as fs from '../utils/fs';
+import { File } from '../types';
 import Page, { Title } from '../components/Page';
 import FourOhFour from './FourOhFour';
 import Loading from '../components/Loading';
@@ -22,7 +23,7 @@ export default function PackageDocument({
   },
 }: PackageDocumentProps) {
   const filePath = `packages/${groupId}/${pkgId}/docs/${docId}`;
-  const found = fs.findNormalized(packages, filePath);
+  const found = fs.findNormalized(packages, filePath) as File;
 
   if (!found) {
     return <FourOhFour />;

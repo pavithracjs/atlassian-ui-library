@@ -1,5 +1,5 @@
 // Used in products integration code
-export { name, version } from './version';
+export { name, version } from './version-wrapper';
 export { default as Editor } from './editor';
 export { default as EditorContext } from './ui/EditorContext';
 export { default as WithEditorActions } from './ui/WithEditorActions';
@@ -15,6 +15,7 @@ export {
   AbstractMentionResource,
   MentionProvider,
   MentionResource,
+  TeamMentionResource,
   PresenceProvider,
   PresenceResource,
 } from '@atlaskit/mention';

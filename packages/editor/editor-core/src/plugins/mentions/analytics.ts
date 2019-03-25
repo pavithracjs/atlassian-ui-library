@@ -8,8 +8,9 @@ import { isSpecialMention, MentionDescription } from '@atlaskit/mention';
 import {
   name as packageName,
   version as packageVersion,
-} from '../../../package.json';
+} from '../../version.json';
 import { SelectItemMode } from '../type-ahead/commands/select-item.js';
+import { isTeamType } from './utils';
 
 const componentName = 'mention';
 
@@ -118,6 +119,14 @@ export const buildTypeAheadInsertedPayload = (
       userId: mention.id,
       upKeyCount,
       downKeyCount,
+      memberCount:
+        isTeamType(mention.userType) && mention.context
+          ? mention.context.memberCount
+          : null,
+      includesYou:
+        isTeamType(mention.userType) && mention.context
+          ? mention.context.includesYou
+          : null,
     },
   );
 };

@@ -5,6 +5,8 @@ import type { InputProps } from '../types';
 
 export default ({
   appearance,
+  elemAfterInput,
+  elemBeforeInput,
   forwardedRef,
   isCompact,
   isDisabled,
@@ -14,10 +16,20 @@ export default ({
   isMonospaced,
   isReadOnly,
   isRequired,
+  onMouseDown,
+  onMouseEnter,
+  onMouseLeave,
   theme,
   ...rest
 }: InputProps) => (
-  <div css={theme.container}>
+  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+  <div
+    css={theme.container}
+    onMouseDown={onMouseDown}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
+  >
+    {elemBeforeInput}
     <input
       ref={forwardedRef}
       disabled={isDisabled}
@@ -26,5 +38,6 @@ export default ({
       css={theme.input}
       {...rest}
     />
+    {elemAfterInput}
   </div>
 );

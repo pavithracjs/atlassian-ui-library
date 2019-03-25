@@ -62,6 +62,11 @@ const getTableLayoutWidth = (layout: TableLayout) => {
   }
 };
 
+const isTableResized = (columnWidths: Array<number>) => {
+  const filteredWidths = columnWidths.filter(width => width !== 0);
+  return !!filteredWidths.length;
+};
+
 const fixColumnWidth = (
   columnWidth: number,
   tableWidth: number,
@@ -120,7 +125,7 @@ class Table extends React.Component<TableProps & OverflowShadowProps> {
       isNumberColumnEnabled,
       renderWidth,
     } = this.props;
-    if (!columnWidths) {
+    if (!columnWidths || !isTableResized(columnWidths)) {
       return null;
     }
 
