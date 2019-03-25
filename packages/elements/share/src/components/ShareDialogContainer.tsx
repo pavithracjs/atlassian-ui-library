@@ -59,9 +59,7 @@ const memoizedFormatCopyLink: (
  */
 export class ShareDialogContainer extends React.Component<Props, State> {
   private client: ShareClient;
-  private _isMounted: Boolean;
-
-  _isMounted = false;
+  private _isMounted = false;
 
   static defaultProps = {
     shareLink: window && window.location!.href,
