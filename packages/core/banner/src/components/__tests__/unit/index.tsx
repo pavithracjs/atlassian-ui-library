@@ -1,8 +1,6 @@
-// @flow
-
-import React from 'react';
+import * as React from 'react';
 import { mount, shallow } from 'enzyme';
-import renderer from 'react-test-renderer';
+import * as renderer from 'react-test-renderer';
 import WarningIcon from '@atlaskit/icon/glyph/warning';
 import Banner from '../../Banner';
 import {
