@@ -212,7 +212,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                     alt=""
                     border="0"
                     height="32"
-                    src="https://1x1-placeholder-transparent-image-goes-here.png"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     style="display: block;"
                     width="1"
                   />
@@ -283,7 +283,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                     alt=""
                     border="0"
                     height="32"
-                    src="https://1x1-placeholder-transparent-image-goes-here.png"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     style="display: block;"
                     width="1"
                   />
@@ -354,7 +354,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                     alt=""
                     border="0"
                     height="32"
-                    src="https://1x1-placeholder-transparent-image-goes-here.png"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     style="display: block;"
                     width="1"
                   />
@@ -425,7 +425,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                     alt=""
                     border="0"
                     height="32"
-                    src="https://1x1-placeholder-transparent-image-goes-here.png"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     style="display: block;"
                     width="1"
                   />
@@ -496,7 +496,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                     alt=""
                     border="0"
                     height="32"
-                    src="https://1x1-placeholder-transparent-image-goes-here.png"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     style="display: block;"
                     width="1"
                   />
@@ -567,7 +567,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                     alt=""
                     border="0"
                     height="32"
-                    src="https://1x1-placeholder-transparent-image-goes-here.png"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     style="display: block;"
                     width="1"
                   />

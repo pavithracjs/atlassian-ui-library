@@ -76,8 +76,9 @@ export const createOutlookSpacingHackTd = (
     alt: '',
     height: '32',
     width: '1',
-    // this hack works without a valid URL
-    src: 'https://1x1-placeholder-transparent-image-goes-here.png',
+    // seems to work well in all clients except outlook 2019 - there is a 1x1 pixel dot as it fails to render the image
+    src:
+      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
     style: serializeStyle({
       display: 'block',
     }),
