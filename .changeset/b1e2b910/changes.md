@@ -1,0 +1,1 @@
+- Banner has been internally converted to TypeScript. Typescript consumers will get static type safety. No API or behaviour changes.
