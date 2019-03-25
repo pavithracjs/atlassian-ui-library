@@ -59,6 +59,9 @@ const memoizedFormatCopyLink: (
  */
 export class ShareDialogContainer extends React.Component<Props, State> {
   private client: ShareClient;
+  private _isMounted: Boolean;
+
+  _isMounted = false;
 
   static defaultProps = {
     shareLink: window && window.location!.href,
@@ -106,15 +109,23 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    this._isMounted = true;
+
     this.fetchConfig();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   fetchConfig = () => {
     this.client
       .getConfig(this.props.productId, this.props.cloudId)
       .then((config: ConfigResponse) => {
-        // TODO: Send analytics event
-        this.setState({ config });
+        if (this._isMounted) {
+          // TODO: Send analytics event
+          this.setState({ config });
+        }
       })
       .catch(() => {
         // TODO: Send analytics event
