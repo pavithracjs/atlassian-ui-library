@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.2.2
+- [patch] [2ac4f3bf30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2ac4f3bf30):
+
+  - fix deleting multiple rows in table
+
 ## 106.2.1
 - [patch] [8ea5466017](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ea5466017):
 
