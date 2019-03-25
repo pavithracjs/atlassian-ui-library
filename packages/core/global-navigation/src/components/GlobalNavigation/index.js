@@ -1,12 +1,15 @@
 // @flow
 
 import React, { Component, Fragment } from 'react';
-import type { UIAnalyticsEvent } from '@atlaskit/analytics-next';
+import type {
+  UIAnalyticsEvent,
+  createAndFireEvent,
+} from '@atlaskit/analytics-next';
 import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
 import { NotificationIndicator } from '@atlaskit/notification-indicator';
 import { NotificationLogClient } from '@atlaskit/notification-log-client';
 import { GlobalNav } from '@atlaskit/navigation-next';
-import Drawer from '@atlaskit/drawer';
+import Drawer, { createAndFireOnClick } from '@atlaskit/drawer';
 import AtlassianSwitcher, {
   AtlassianSwitcherPrefetchTrigger,
 } from '@atlaskit/atlassian-switcher';
@@ -277,7 +280,6 @@ export default class GlobalNavigation extends Component<
     }
 
     fireDrawerDismissedEvents(drawerName, analyticsEvent, trigger);
-
     // Update the state only if it's a controlled drawer.
     // componentDidMount takes care of the uncontrolled drawers
     if (this.drawers[drawerName].isControlled) {
