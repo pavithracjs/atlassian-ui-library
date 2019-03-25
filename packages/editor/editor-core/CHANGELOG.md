@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.3.1
+- [patch] [2f4594a876](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f4594a876):
+
+  - ED-6526: Resize a table with breakout content
+
 ## 106.3.0
 - [minor] [1affe17dc4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1affe17dc4):
 
