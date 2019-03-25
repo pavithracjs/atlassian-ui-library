@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.2.5
+- [patch] [9babee9fc2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9babee9fc2):
+
+  - Fix share modal padding
+
 ## 0.2.4
 - [patch] [8f56fe1259](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f56fe1259):
 
