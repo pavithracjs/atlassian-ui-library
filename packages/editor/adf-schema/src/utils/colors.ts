@@ -10,6 +10,7 @@ import * as namedColors from 'css-color-names';
 export const R50 = '#FFEBE6';
 export const R75 = '#FFBDAD';
 export const R300 = '#FF5630';
+export const R400 = '#DE350B';
 export const R500 = '#BF2600';
 
 export const Y50 = '#FFFAE6';
@@ -20,6 +21,7 @@ export const Y500 = '#FF8B00';
 export const G50 = '#E3FCEF';
 export const G75 = '#ABF5D1';
 export const G300 = '#36B37E';
+export const G400 = '#00875A';
 export const G500 = '#006644';
 
 export const B50 = '#DEEBFF';
@@ -39,6 +41,7 @@ export const N800 = '#172B4D';
 export const P50 = '#EAE6FF';
 export const P75 = '#C0B6F2';
 export const P300 = '#6554C0';
+export const P400 = '#5243AA';
 export const P500 = '#403294';
 
 export const T50 = '#E6FCFF';
