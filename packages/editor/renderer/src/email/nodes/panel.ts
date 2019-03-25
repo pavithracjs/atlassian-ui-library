@@ -1,7 +1,7 @@
 import { colors } from '@atlaskit/theme';
 
 import { NodeSerializerOpts } from '../interfaces';
-import { createTag, serializeStyle, createOutlookSpacingHackTd } from '../util';
+import { createTag, serializeStyle } from '../util';
 import { commonStyle } from '..';
 
 type PanelType = 'info' | 'note' | 'tip' | 'success' | 'warning' | 'error';
@@ -63,7 +63,7 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
   const outerTdCss = serializeStyle({
     ...commonStyle,
     'border-radius': '3px',
-    padding: '8px 8px 8px 8px',
+    padding: '8px 8px 8px 0px',
     '-webkit-border-radius': '3px',
     '-moz-border-radius': '3px',
     margin: '0px',
@@ -78,12 +78,11 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
     'border-spacing': '0px',
   });
 
-  const spacingHack = createOutlookSpacingHackTd(tableAttrs);
   const innerTd = createTag('td', { ...tableAttrs, style: innerTdCss }, text);
   const innerTable = createTag(
     'table',
     { ...tableAttrs, style: tableStyle },
-    spacingHack + innerTd,
+    innerTd,
   );
 
   const outerTd = createTag(

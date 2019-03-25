@@ -3,7 +3,9 @@ import { NodeSerializerOpts } from '../interfaces';
 
 const css = serializeStyle({
   margin: '0',
-  padding: '7px 0px 7px 0px',
+  'margin-bottom': '7px',
+  padding: '0px',
+  'padding-top': '7px',
   'mso-line-height-rule': 'exactly',
   'line-heght': '24px',
   'font-size': '14px',
