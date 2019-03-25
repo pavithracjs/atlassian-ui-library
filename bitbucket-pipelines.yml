@@ -353,7 +353,7 @@ pipelines:
             - node ./wait.until.no.master.build.running.js
           after-script:
             # Use to send build data to datadog
-            - yarn send:build:data
+            - cd ../.. && yarn send:build:data
     # This build should only be run on the master branch, once per day.
     # It manually clears the cache and runs a very quick install node_modules.
     # We split into two steps so that one can clear the cache so that the second one starts with no cache.
