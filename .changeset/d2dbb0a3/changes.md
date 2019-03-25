@@ -1,0 +1,1 @@
+- Exported MediaImage component is removed from media-card and moved to @atlaskit/media-ui
