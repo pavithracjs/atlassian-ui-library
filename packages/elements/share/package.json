@@ -1,17 +1,13 @@
 {
   "name": "@atlaskit/share",
-  "version": "0.2.1",
+  "version": "0.2.4",
   "config": {
     "access": "private"
   },
   "description": "Fabric Share Element",
   "modules": "index.js",
-  "types": "dist/es5/types.d.ts",
+  "types": "types.d.ts",
   "atlaskit:src": "src/index.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
   "repository": {
     "type": "git",
     "url": "https://bitbucket.org/atlassian/atlaskit-mk-2"
@@ -32,14 +28,12 @@
     "@atlaskit/inline-dialog": "^10.0.1",
     "@atlaskit/theme": "^8.0.1",
     "@atlaskit/tooltip": "^13.0.1",
-    "@atlaskit/user-picker": "^2.0.2",
+    "@atlaskit/user-picker": "^3.0.0",
     "@atlaskit/util-service-support": "^4.0.1",
     "memoize-one": "^3.0.1",
-    "styled-components": "^3.2.6"
-  },
-  "peerDependencies": {
     "react": "^16.4.0",
-    "react-intl": "^2.6.0"
+    "react-intl": "^2.6.0",
+    "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "@atlaskit/docs": "^7.0.1",

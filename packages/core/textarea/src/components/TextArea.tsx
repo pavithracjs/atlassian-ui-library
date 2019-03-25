@@ -156,6 +156,7 @@ class TextAreaWithoutForwardRef extends React.Component<Props, State> {
                   resize={resize}
                   maxHeight={maxHeight}
                   appearance={appearance}
+                  isCompact={isCompact}
                   isDisabled={isDisabled}
                   isReadOnly={isReadOnly}
                   isMonospaced={isMonospaced}

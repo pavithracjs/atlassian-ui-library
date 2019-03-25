@@ -19,7 +19,7 @@ import {
 BrowserTestCase(
   'task-decision-1.ts: can paste rich text into a decision',
   { skip: ['ie', 'safari', 'edge'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
     await browser.goto(clipboardHelper);
     await browser.isVisible(clipboardInput);
@@ -35,14 +35,14 @@ BrowserTestCase(
     await browser.waitForSelector('ol');
     await browser.paste(editable);
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'task-decision-1.ts: can paste plain text into a decision',
   { skip: ['ie', 'safari'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
     await browser.goto(clipboardHelper);
     await browser.isVisible(clipboardInput);
@@ -57,7 +57,7 @@ BrowserTestCase(
     await browser.waitForSelector('ol');
     await browser.paste(editable);
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
@@ -66,7 +66,7 @@ BrowserTestCase(
 BrowserTestCase(
   'task-decision-1.ts: can type into decision',
   { skip: ['ie', 'safari', 'edge'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
     await gotoEditor(browser);
     await insertBlockMenuItem(browser, 'Decision');
@@ -74,6 +74,6 @@ BrowserTestCase(
     await browser.click('ol span + div');
     await browser.type(editable, 'adding decisions');
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

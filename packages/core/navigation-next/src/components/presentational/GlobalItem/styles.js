@@ -54,7 +54,7 @@ const sizeStyles = {
       top: `-${gridSize() / 2}px`,
     },
     itemWrapper: {
-      marginTop: `${gridSize()}px`,
+      padding: `${gridSize() / 2}px`,
     },
   },
 };

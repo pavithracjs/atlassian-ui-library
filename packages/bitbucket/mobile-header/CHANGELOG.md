@@ -1,5 +1,10 @@
 # @atlaskit/mobile-header
 
+## 2.1.0
+- [minor] [1b1adaea63](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b1adaea63):
+
+  - Support using a custom menu button via new customMenu prop
+
 ## 2.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

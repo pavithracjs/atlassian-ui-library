@@ -12,7 +12,7 @@ import {
 BrowserTestCase(
   `type-ahead.ts: Replaces typeahead mark on insert`,
   { skip },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
 
     await navigateOrClear(browser, editor.path);
@@ -36,6 +36,6 @@ BrowserTestCase(
     );
 
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

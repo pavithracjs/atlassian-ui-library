@@ -31,6 +31,7 @@ const renderRows = (count: number) => {
           <ExampleWrapper>
             {({ options, onInputChange }) => (
               <PopupUserPicker
+                fieldId="example"
                 target={({ ref }) => <button ref={ref}>Target</button>}
                 options={options}
                 onInputChange={onInputChange}

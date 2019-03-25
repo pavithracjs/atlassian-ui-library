@@ -36,6 +36,7 @@ export default class extends React.Component<{}, { cloudId: string }> {
     return (
       <GlobalQuickSearchInNavigation
         cloudId={cloudId}
+        enablePreQueryFromAggregator={true}
         {...config}
         onAdvancedSearch={e => {
           e.preventDefault();
