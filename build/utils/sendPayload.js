@@ -27,12 +27,17 @@ type IStepsDataType = {
 function sendData(payload /*: IBuildEventProperties*/) {
   const client = new StatsD({
     // TODO: when it is working in dev, we need to target production.
+    // Check if we can add a prefix.
     host: 'statsd.ap-southeast-2.dev.paas-inf.net',
     port: 8125,
     errorHandler(error /*: Error*/) {
       console.log('Socket errors caught here: ', error);
     },
-    globalTags: { env: process.env.NODE_ENV || 'Production' },
+    // obs_sfx_enable enables to send data to signalFX
+    globalTags: {
+      env: process.env.NODE_ENV || 'Production',
+      obs_sfx_enable: 'true',
+    },
   });
 
   client.event(
