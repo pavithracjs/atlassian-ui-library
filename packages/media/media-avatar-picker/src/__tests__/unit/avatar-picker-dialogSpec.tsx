@@ -7,9 +7,7 @@ import {
   mountWithIntlContext,
   asMock,
 } from '@atlaskit/media-test-helpers';
-// import { dataURItoFile } from '@atlaskit/media-ui';
 import * as MediaUI from '@atlaskit/media-ui';
-// import MediaUIModule from '@atlaskit/media-ui';
 import { Avatar } from '../../avatar-list';
 import { ImageNavigator, CONTAINER_SIZE } from '../../image-navigator';
 import { PredefinedAvatarList } from '../../predefined-avatar-list';

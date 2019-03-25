@@ -1,6 +1,3 @@
-/**
- * Only used internally ATM
- */
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Component, CSSProperties } from 'react';
@@ -76,7 +73,13 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
   };
 
   render() {
-    const { crop, stretch, dataURI, previewOrientation, crossOrigin } = this.props;
+    const {
+      crop,
+      stretch,
+      dataURI,
+      previewOrientation,
+      crossOrigin,
+    } = this.props;
     const {
       parentWidth,
       parentHeight,

@@ -5,13 +5,6 @@ import { asMock, mockCanvas } from '@atlaskit/media-test-helpers';
 import { getCanvas } from '../../util';
 import cropToDataURI, { Rect } from '../../image-cropper/crop-to-data-uri';
 
-// const getCanvasMock = mockCanvas();
-// const mockImagePlacerUtil = {
-//   fileSizeMb: 124,
-//   getCanvas: jest.fn().mockReturnValue(getCanvasMock),
-// };
-// jest.mock('../../util', () => mockImagePlacerUtil);
-
 describe('cropToDataURI()', () => {
   let mockImage: HTMLImageElement;
   let defaultImageRect: Rect;

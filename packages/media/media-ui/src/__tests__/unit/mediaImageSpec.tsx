@@ -1,7 +1,6 @@
-jest.mock('@atlaskit/media-ui');
 import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
-import { getCssFromImageOrientation, isRotated } from '@atlaskit/media-ui';
+import * as RootModule from '../..';
 import { MediaImage, MediaImageProps, MediaImageState } from '../../mediaImage';
 import { ImageComponent } from '../../mediaImage/styled';
 import {
@@ -27,6 +26,8 @@ describe('MediaImage', () => {
   const defaultTransform = {
     transform: 'translate(-50%, -50%)',
   };
+  let isRotated: typeof RootModule.isRotated;
+  let getCssFromImageOrientation: typeof RootModule.getCssFromImageOrientation;
 
   const mockImageTag = (
     component: ReactWrapper<MediaImageProps, MediaImageState>,
@@ -85,11 +86,17 @@ describe('MediaImage', () => {
   };
 
   beforeEach(() => {
+    isRotated = jest.spyOn(RootModule, 'isRotated') as any;
+    getCssFromImageOrientation = jest.spyOn(
+      RootModule,
+      'getCssFromImageOrientation',
+    ) as any;
     asMock(isRotated).mockReset();
   });
 
   afterAll(() => {
     Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
+    jest.resetAllMocks();
   });
 
   describe("when image hasn't been loaded yet", () => {
