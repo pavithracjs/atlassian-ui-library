@@ -119,8 +119,21 @@ function addCodeMark(
 ): InputRuleHandler {
   return (state, match, start, end) => {
     if (match[1] && match[1].length > 0) {
-      const nodeBefore = state.doc.resolve(start + match[1].length).nodeBefore;
-      if (!(nodeBefore && nodeBefore.type === state.schema.nodes.hardBreak)) {
+      const allowedPrefixConditions = [
+        (m: string): boolean => {
+          return m === '(';
+        },
+        (m: string): boolean => {
+          const nodeBefore = state.doc.resolve(start + match[1].length)
+            .nodeBefore;
+          return (
+            (nodeBefore && nodeBefore.type === state.schema.nodes.hardBreak) ||
+            false
+          );
+        },
+      ];
+
+      if (allowedPrefixConditions.every(condition => !condition(match[1]))) {
         return null;
       }
     }
