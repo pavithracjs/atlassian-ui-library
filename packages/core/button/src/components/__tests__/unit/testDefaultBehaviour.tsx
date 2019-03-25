@@ -270,8 +270,8 @@ describe('ak-button/default-behaviour', () => {
     ({ key }: { key: string }) => {
       const spy = jest.fn();
       const onMouseHandler = { [key]: spy };
-      const wrapper = mount(<Button {...onMouseHandler} />);
-      const button = wrapper.find('StyledButton');
+      const wrapper = mount(<Button {...onMouseHandler}>Button</Button>);
+      const button = wrapper.find('button');
       const event = {
         preventDefault: () => {},
       } as React.MouseEvent<HTMLElement>;
