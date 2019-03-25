@@ -11,6 +11,7 @@ const COMMON_EVENT_DATA = {
 };
 
 export function validateEvent(actual, expected) {
+  expect(actual.payload.attributes).toMatchObject(expected.payload.attributes);
   expect(actual).toMatchObject(expected);
 }
 
@@ -51,7 +52,12 @@ const generateResults = section => {
   return arr;
 };
 
-const getSearchResultsEvent = (type: 'pre' | 'post', sections, timings) => ({
+const getSearchResultsEvent = (
+  type: 'pre' | 'post',
+  sections,
+  timings,
+  abTest,
+) => ({
   payload: {
     action: 'shown',
     actionSubject: 'searchResults',
@@ -73,14 +79,15 @@ const getSearchResultsEvent = (type: 'pre' | 'post', sections, timings) => ({
       packageName: 'global-search',
       packageVersion: '0.0.0',
       componentName: 'GlobalQuickSearch',
+      ...abTest,
     },
   },
   ...COMMON_EVENT_DATA,
 });
-export const getPreQuerySearchResultsEvent = sections =>
-  getSearchResultsEvent('pre', sections, undefined);
-export const getPostQuerySearchResultsEvent = (sections, timings) =>
-  getSearchResultsEvent('post', sections, timings);
+export const getPreQuerySearchResultsEvent = (sections, abTest) =>
+  getSearchResultsEvent('pre', sections, undefined, abTest);
+export const getPostQuerySearchResultsEvent = (sections, timings, abTest) =>
+  getSearchResultsEvent('post', sections, timings, abTest);
 
 export const getTextEnteredEvent = ({
   queryLength,
