@@ -4,7 +4,7 @@ import { itemThemeNamespace } from '@atlaskit/item';
 import { gridSize } from '@atlaskit/theme';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 
-import { withHelp, HelpContextInterface } from '../HelpContext';
+import { ArticleItem } from '../../model/Article';
 import { messages } from '../../messages';
 import RelatedArticlesList from './RelatedArticlesList';
 import ShowMoreArticlesButton from './ShowMoreArticlesButton';
@@ -23,7 +23,7 @@ const itemTheme = {
 };
 
 interface Props {
-  help: HelpContextInterface;
+  relatedArticles?: ArticleItem[];
 }
 
 interface State {
@@ -49,44 +49,40 @@ export class RelatedArticles extends React.Component<
   render() {
     const {
       intl: { formatMessage },
-      help,
+      relatedArticles,
     } = this.props;
 
-    // If Articles is defined
-    if (help.article) {
-      const { relatedArticles } = help.article;
-      // if there are related articles
-      if (relatedArticles && relatedArticles.length > 0) {
-        // Display list of related articles
-        return (
-          <ArticleContentInner>
-            <ThemeProvider theme={{ [itemThemeNamespace]: itemTheme }}>
-              <>
-                <ItemGroupTitle>
-                  {formatMessage(messages.help_panel_related_article_title)}
-                </ItemGroupTitle>
+    // if there are related articles
+    if (relatedArticles && relatedArticles.length > 0) {
+      // Display list of related articles
+      return (
+        <ArticleContentInner>
+          <ThemeProvider theme={{ [itemThemeNamespace]: itemTheme }}>
+            <>
+              <ItemGroupTitle>
+                {formatMessage(messages.help_panel_related_article_title)}
+              </ItemGroupTitle>
 
-                <RelatedArticlesList
-                  relatedArticles={relatedArticles}
-                  numberOfArticlesToDisplay={this.getNumberOfArticlesToDisplay(
-                    this.state.showMoreToggeled,
-                  )}
+              <RelatedArticlesList
+                relatedArticles={relatedArticles}
+                numberOfArticlesToDisplay={this.getNumberOfArticlesToDisplay(
+                  this.state.showMoreToggeled,
+                )}
+              />
+              {relatedArticles.length > 3 ? (
+                <ShowMoreArticlesButton
+                  toggleRelatedArticles={this.toggleRelatedArticles}
+                  showMoreToggeled={this.state.showMoreToggeled}
                 />
-                {relatedArticles.length > 3 ? (
-                  <ShowMoreArticlesButton
-                    toggleRelatedArticles={this.toggleRelatedArticles}
-                    showMoreToggeled={this.state.showMoreToggeled}
-                  />
-                ) : null}
-              </>
-            </ThemeProvider>
-          </ArticleContentInner>
-        );
-      }
+              ) : null}
+            </>
+          </ThemeProvider>
+        </ArticleContentInner>
+      );
     }
 
     return null;
   }
 }
 
-export default withHelp(injectIntl(RelatedArticles));
+export default injectIntl(RelatedArticles);

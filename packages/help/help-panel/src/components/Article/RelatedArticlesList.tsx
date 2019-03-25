@@ -1,9 +1,8 @@
 import * as React from 'react';
-import Item from '@atlaskit/item';
-import { colors } from '@atlaskit/theme';
-import DocumentFilledIcon from '@atlaskit/icon/glyph/document-filled';
 
 import { ArticleItem } from '../../model/Article';
+
+import RelatedArticlesListItem from './RelatedArticlesListItem';
 
 interface Props {
   relatedArticles?: ArticleItem[];
@@ -12,28 +11,21 @@ interface Props {
 
 const RelatedArticlesList: React.SFC<Props> = props => {
   const { relatedArticles, numberOfArticlesToDisplay } = props;
-  let articlesList: any = [];
+
   if (relatedArticles) {
-    for (let i = 0; i < numberOfArticlesToDisplay; i++) {
-      const relatedArticle = relatedArticles[i];
-      articlesList.push(
-        <Item
-          description={relatedArticle.description}
-          key={relatedArticle.id}
-          elemBefore={
-            <DocumentFilledIcon
-              primaryColor={colors.P500}
-              size="medium"
-              label={relatedArticle.title}
-            />
-          }
-        >
-          {relatedArticle.title}
-        </Item>,
-      );
-    }
+    return relatedArticles
+      .slice(0, numberOfArticlesToDisplay)
+      .map(relatedArticle => {
+        return (
+          <RelatedArticlesListItem
+            relatedArticle={relatedArticle}
+            key={relatedArticle.id}
+          />
+        );
+      });
   }
-  return articlesList;
+
+  return null;
 };
 
 export default RelatedArticlesList;

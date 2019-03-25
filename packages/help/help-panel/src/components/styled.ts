@@ -22,6 +22,21 @@ export const CloseButton = styled.div`
   width: 32px;
 `;
 
+export const BackButton = styled.button`
+  align-items: center;
+  background: 0;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  font-size: inherit;
+  height: ${5 * gridSize()}px;
+  justify-content: left;
+  line-height: 1;
+  padding: 0 ${2 * gridSize()}px 0 0;
+  width: ${10 * gridSize()}px;
+`;
+
 export const ItemGroupTitle = styled.div`
   color: ${colors.N200};
   font-size: ${ItemGroupTitleSize}px;

@@ -33,9 +33,9 @@ export interface State {
   view: VIEW;
   defaultContent?: React.ReactNode;
   // Article
-  article: Article | null | undefined; // Article to display, if is empty the default content should be displayed
+  defaultArticle: Article | null | undefined; // Article to display, if is empty the default content should be displayed
   articleState: REQUEST_STATE;
-  history: [Article | string]; // holds all the articles ID the user has navigated
+  history: Article[]; // holds all the articles ID the user has navigated
   // Search
   searchValue: string;
   searchResult: ArticleItem[];
@@ -46,11 +46,12 @@ export interface HelpContextInterface {
   view: VIEW;
   isOpen: boolean;
   onBtnCloseClick?(onBtnCloseClick: React.MouseEvent<HTMLElement>): void;
-  article: Article | null | undefined; // Article to display, if is empty the default content should be displayed
+  defaultArticle: Article | null | undefined; // Article to display, if is empty the default content should be displayed
   articleState: REQUEST_STATE;
-  history: string[]; // holds all the articles ID the user has navigated
+  history: Article[]; // holds all the articles ID the user has navigated
   defaultContent?: React.ReactNode;
   navigateBack: void;
+  navigateTo(id: string): void;
   onWasHelpfulSubmit?(value: any): Promise<boolean>;
   onSearch: void;
   searchResult: ArticleItem[];
@@ -62,7 +63,7 @@ const defaultValues = {
   view: VIEW.DEFAULT_CONTENT,
   defaultContent: undefined,
   // Article
-  article: undefined, // Article to display, if is empty the default content should be displayed
+  defaultArticle: undefined, // Article to display, if is empty the default content should be displayed
   articleState: REQUEST_STATE.done,
   history: [], // holds all the articles ID the user has navigated
   // Search
@@ -92,18 +93,18 @@ export class HelpContextProvider extends React.Component<Props, State> {
   }
 
   async componentDidUpdate(prevProps) {
-    const { articleId, onGetArticle } = this.props;
+    const { articleId } = this.props;
     // When the drawer goes from close to open
     // and the articleId is defined, get the content of that article
     if (this.props.isOpen !== prevProps.isOpen && articleId) {
-      const article = await this.getArticle(articleId, onGetArticle);
-      this.setState({ article, view: VIEW.ARTICLE });
+      const article = await this.getArticle(articleId);
+      this.setState({ defaultArticle: article, view: VIEW.ARTICLE });
     }
   }
 
   onUrlChange(newLocation: Location) {
     if (!this.props.isOpen) {
-      console.log(newLocation.pathname);
+      // console.log(newLocation.pathname);
       // this.getArticle(newLocation.pathname);
     }
   }
@@ -121,11 +122,9 @@ export class HelpContextProvider extends React.Component<Props, State> {
         this.setState({ searchState: REQUEST_STATE.loading });
         try {
           const searchResult = await onSearch(searchValue);
-          console.log(searchResult);
           this.setState({
             searchResult,
             searchState: REQUEST_STATE.done,
-            // view: VIEW.SEARCH_RESULT,
           });
         } catch (error) {
           this.setState({ searchState: REQUEST_STATE.error });
@@ -144,11 +143,9 @@ export class HelpContextProvider extends React.Component<Props, State> {
     }
   };
 
-  getArticle = async (
-    articleId: string,
-    onGetArticle: ((id: string) => Promise<Article>) | undefined,
-  ) => {
+  getArticle = async (articleId: string) => {
     // Execute this function only if onGetArticle was defined
+    const { onGetArticle } = this.props;
     if (onGetArticle) {
       this.setState({ articleState: REQUEST_STATE.loading });
       try {
@@ -162,7 +159,20 @@ export class HelpContextProvider extends React.Component<Props, State> {
   };
 
   navigateBack = async () => {
-    console.log(`navigateBack`);
+    if (this.state.history.length > 0 && this.state.history !== undefined) {
+      this.setState(prevState => ({
+        history: [...prevState.history.slice(0, -1)],
+      }));
+    }
+  };
+
+  navigateTo = async (id: string) => {
+    const article = await this.getArticle(id);
+    if (article) {
+      this.setState(prevState => ({
+        history: [...prevState.history, article],
+      }));
+    }
   };
 
   isSearchVisible = () => {
@@ -185,6 +195,7 @@ export class HelpContextProvider extends React.Component<Props, State> {
           isSearchVisible: this.isSearchVisible,
           isArticleVisible: this.isArticleVisible,
           navigateBack: this.navigateBack,
+          navigateTo: this.navigateTo,
           onSearch: this.onSearch,
           onBtnCloseClick: this.props.onBtnCloseClick,
           onWasHelpfulSubmit: this.props.onWasHelpfulSubmit,
