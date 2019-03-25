@@ -48,7 +48,6 @@ export const fireDrawerDismissedEvents = (
   analyticsEvent
     .update({
       actionSubjectId: analyticsIdMap[drawerName],
-      ...(trigger ? { attributes: { trigger } } : {}),
     })
     .fire(NAVIGATION_CHANNEL);
 };
