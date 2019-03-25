@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.2.3
+- [patch] [08940b66c1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08940b66c1):
+
+  - ED-6561 Ignore empty transactions from collab provider
+
 ## 106.2.2
 - [patch] [2ac4f3bf30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2ac4f3bf30):
 
