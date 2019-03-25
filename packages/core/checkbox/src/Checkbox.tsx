@@ -1,6 +1,4 @@
-// @flow
-
-import React, { Component } from 'react';
+import * as React from 'react';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -17,19 +15,19 @@ import {
   CheckboxWrapper,
   RequiredIndicator,
 } from './styled/Checkbox';
-import { type CheckboxProps } from './types';
+import { CheckboxProps } from './types';
 
-type State = {|
-  isActive: boolean,
-  isChecked: boolean,
-  isFocused: boolean,
-  isHovered: boolean,
-  isMouseDown: boolean,
-|};
+interface State {
+  isActive: boolean;
+  isChecked: boolean;
+  isFocused: boolean;
+  isHovered: boolean;
+  isMouseDown: boolean;
+}
 
 const emptyTheme = {};
 
-class Checkbox extends Component<CheckboxProps, State> {
+class Checkbox extends React.Component<CheckboxProps, State> {
   static defaultProps = {
     isDisabled: false,
     isInvalid: false,
@@ -47,9 +45,7 @@ class Checkbox extends Component<CheckboxProps, State> {
         ? this.props.isChecked
         : this.props.defaultChecked,
   };
-
-  checkbox: ?HTMLInputElement;
-
+  checkbox: HTMLInputElement | null | undefined;
   actionKeys = [' '];
 
   componentDidMount() {
@@ -76,7 +72,7 @@ class Checkbox extends Component<CheckboxProps, State> {
     return key in this.props ? this.props[key] : this.state[key];
   };
 
-  onChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  onChange: React.FocusEventHandler<HTMLInputElement> = event => {
     if (this.props.isDisabled) return null;
     event.persist();
     if (event.target.checked !== undefined) {

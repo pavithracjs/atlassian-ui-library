@@ -1,4 +1,3 @@
-// @flow
 import styled, { css } from 'styled-components';
 import { colors, themed, math, gridSize } from '@atlaskit/theme';
 
@@ -14,16 +13,15 @@ export const HiddenCheckbox = styled.input`
 
 const disabledColor = themed({ light: colors.N80, dark: colors.N80 });
 
-type LabelProps = {
-  isDisabled: boolean,
-  isFullWidth: boolean,
-};
+interface LabelProps {
+  isDisabled: boolean;
+  isFullWidth: boolean;
+}
 
 export const Label = styled.label`
   align-items: flex-start;
   display: flex;
   color: ${(props: LabelProps): string =>
-    // $FlowFixMe - theme is not found in props
     props.isDisabled ? disabledColor(props) : colors.text(props)};
   ${({ isDisabled }: LabelProps) =>
     isDisabled
@@ -33,13 +31,13 @@ export const Label = styled.label`
       : ''};
 `;
 
-type IconWrapperProps = {
-  isActive: boolean,
-  isChecked: boolean,
-  isDisabled: boolean,
-  isFocused: boolean,
-  isInvalid: boolean,
-};
+interface IconWrapperProps {
+  isActive: boolean;
+  isChecked: boolean;
+  isDisabled: boolean;
+  isFocused: boolean;
+  isInvalid: boolean;
+}
 
 const borderColor = themed({ light: colors.N40, dark: colors.DN80 });
 const focusBorder = css`

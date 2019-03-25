@@ -18,6 +18,10 @@ declare module '@atlaskit/badge' {
 }
 
 declare module '@atlaskit/banner' {
+    declare module.exports: any;
+}
+
+declare module '@atlaskit/checkbox' {
   declare module.exports: any;
 }
 
