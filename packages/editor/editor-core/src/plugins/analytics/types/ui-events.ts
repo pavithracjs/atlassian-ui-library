@@ -62,6 +62,13 @@ type EditorStopAEP = UIAEP<
   }
 >;
 
+type AnnotateButtonAEP = UIAEP<
+  ACTION.CLICKED,
+  ACTION_SUBJECT.MEDIA,
+  ACTION_SUBJECT_ID.ANNOTATE_BUTTON,
+  undefined
+>;
+
 type ButtonHelpAEP = ButtonAEP<
   ACTION_SUBJECT_ID.BUTTON_HELP,
   { inputMethod: INPUT_METHOD.SHORTCUT | INPUT_METHOD.TOOLBAR }
@@ -115,6 +122,7 @@ type TypeAheadMentionAEP = TypeAheadAEP<
 export type UIEventPayload =
   | EditorStartAEP
   | EditorStopAEP
+  | AnnotateButtonAEP
   | ButtonHelpAEP
   | ButtonFeedbackAEP
   | PickerEmojiAEP

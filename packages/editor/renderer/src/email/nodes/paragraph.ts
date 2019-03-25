@@ -1,17 +1,17 @@
-import { applyMarks, createTable } from '../util';
+import { applyMarks, createTag, serializeStyle } from '../util';
 import { NodeSerializerOpts } from '../interfaces';
-import { commonStyle } from '..';
 
-const style = {
-  ...commonStyle,
-  padding: `8px 8px 8px 0`,
-  '-moz-border-radius': '3px',
+const css = serializeStyle({
+  margin: '0',
+  'margin-bottom': '7px',
+  padding: '0px',
+  'padding-top': '7px',
+  'mso-line-height-rule': 'exactly',
+  'line-heght': '24px',
   'font-size': '14px',
-  width: '100%',
-  margin: `0px`,
-};
+});
 
 export default function paragraph({ text, marks }: NodeSerializerOpts) {
-  const paragraphAsTable = createTable([[{ style, text }]]);
-  return applyMarks(marks, paragraphAsTable);
+  const paragraph = createTag('p', { style: css }, text);
+  return applyMarks(marks, paragraph);
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from '../../components/WrappedLink';
+import { Link, LinkProps } from '../../components/WrappedLink';
 import { toClass } from 'recompose';
 import {
   AkSearchDrawer,
@@ -14,13 +14,25 @@ import * as fs from '../../utils/fs';
 import { Directory } from '../../types';
 import { AtlaskitIcon } from './index';
 
-const LinkComponent = toClass(({ href, children, onClick, className }) => (
-  <Link className={className} onClick={onClick} to={href}>
-    {children}
-  </Link>
-));
+export type LinkComponentProps = LinkProps & {
+  href: string | Record<string, string | Location> | undefined;
+};
 
-const NavItem = ({ dirId, id, closeDrawer }) => (
+const LinkComponent = toClass(
+  ({ href, children, onClick, className }: LinkComponentProps) => (
+    <Link className={className} onClick={onClick} to={href}>
+      {children}
+    </Link>
+  ),
+);
+
+type NavItemProps = {
+  dirId: string;
+  id: string;
+  closeDrawer: (e: Event) => void;
+};
+
+const NavItem = ({ dirId, id, closeDrawer }: NavItemProps) => (
   <AkNavigationItem
     onClick={closeDrawer}
     href={`/packages/${dirId}/${id}`}

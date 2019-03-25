@@ -29,7 +29,7 @@ const InlineExtension = ({ node }: { node: ExtensionParams<any> }) => {
 const BlockExtension = ({ node }: { node: ExtensionParams<any> }) => {
   return (
     <FakeExtension colour="black">
-      <div style={{ minWidth: 200 }}>{node.content}</div>
+      <div style={node.parameters.style}>{node.content}</div>
     </FakeExtension>
   );
 };

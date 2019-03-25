@@ -1,13 +1,10 @@
 {
   "name": "@atlaskit/react-experiment-framework",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Experimentation React components",
   "license": "Apache-2.0",
   "module": "index.js",
   "atlaskit:src": "src/index.js",
-  "files": [
-    "dist"
-  ],
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Growth team",

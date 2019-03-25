@@ -2,7 +2,7 @@ import PeopleSearchClient, {
   SearchResult,
   GraphqlResponse,
 } from '../../api/PeopleSearchClient';
-import 'whatwg-fetch';
+
 import * as fetchMock from 'fetch-mock';
 import { AnalyticsType, ResultType, PersonResult } from '../../model/Result';
 

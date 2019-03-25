@@ -1,5 +1,15 @@
 # @atlaskit/media-ui
 
+## 10.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 10.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
 ## 9.2.3
 - [patch] [8ed53a1cbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ed53a1cbb):
 

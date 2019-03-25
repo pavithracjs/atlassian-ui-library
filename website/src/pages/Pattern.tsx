@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Loadable from '../components/WrappedLoader';
 import * as fs from '../utils/fs';
+import { File } from '../types';
 import { match } from 'react-router';
 import Page from '../components/Page';
 import FourOhFour from './FourOhFour';
@@ -17,7 +18,7 @@ export default function Pattern({
   },
 }: Props) {
   const filePath = `patterns/${patternId}`;
-  const found = fs.findNormalized(patterns, filePath);
+  const found = fs.findNormalized(patterns, filePath) as File;
 
   if (!found) {
     return <FourOhFour />;

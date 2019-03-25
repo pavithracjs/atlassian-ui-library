@@ -12,7 +12,7 @@ export type State = {
   shouldShowAnchor: boolean;
 };
 
-function dashcase(children) {
+function dashcase(children?: React.ReactChild) {
   return snakeCase(reactAddonsTextContent(children)).replace(/_/g, '-');
 }
 

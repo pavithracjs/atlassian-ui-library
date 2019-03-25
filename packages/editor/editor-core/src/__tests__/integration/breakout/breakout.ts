@@ -21,7 +21,7 @@ const centerBreakoutButtonQuery = `div[aria-label="${
 BrowserTestCase(
   'breakout: should be able to switch to wide mode',
   { skip: [] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -35,14 +35,16 @@ BrowserTestCase(
     // Switch to wide breakout mode
     await page.waitForSelector(wideBreakoutButtonQuery);
     await page.click(wideBreakoutButtonQuery);
-    expect(await page.$eval(editable, getDocFromElement)).toMatchDocSnapshot();
+    expect(
+      await page.$eval(editable, getDocFromElement),
+    ).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'breakout: should be able to switch to full-width mode',
   { skip: [] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -58,14 +60,16 @@ BrowserTestCase(
     await page.click(wideBreakoutButtonQuery);
     await page.waitForSelector(fullWidthBreakoutButtonQuery);
     await page.click(fullWidthBreakoutButtonQuery);
-    expect(await page.$eval(editable, getDocFromElement)).toMatchDocSnapshot();
+    expect(
+      await page.$eval(editable, getDocFromElement),
+    ).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'breakout: should be able to switch to center mode back',
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -85,14 +89,16 @@ BrowserTestCase(
 
     await page.waitForSelector(centerBreakoutButtonQuery);
     await page.click(centerBreakoutButtonQuery);
-    expect(await page.$eval(editable, getDocFromElement)).toMatchDocSnapshot();
+    expect(
+      await page.$eval(editable, getDocFromElement),
+    ).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'breakout: should be able to delete last character inside a "wide" codeBlock preserving the node',
   { skip: [] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -109,6 +115,8 @@ BrowserTestCase(
 
     await page.type(editable, 'a');
     await page.type(editable, 'Backspace');
-    expect(await page.$eval(editable, getDocFromElement)).toMatchDocSnapshot();
+    expect(
+      await page.$eval(editable, getDocFromElement),
+    ).toMatchCustomDocSnapshot(testName);
   },
 );

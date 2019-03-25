@@ -1,4 +1,15 @@
-import { colors } from '@atlaskit/theme';
+import {
+  B50,
+  B400,
+  R50,
+  R400,
+  Y50,
+  Y400,
+  G50,
+  G400,
+  P50,
+  P400,
+} from '@atlaskit/adf-schema';
 
 import { NodeSerializerOpts } from '../interfaces';
 import { createTable } from '../util';
@@ -12,28 +23,28 @@ type PanelConfig = {
 
 const config: PanelConfig = {
   info: {
-    background: colors.B50,
-    iconColor: colors.B400,
+    background: B50,
+    iconColor: B400,
   },
   note: {
-    background: colors.P50,
-    iconColor: colors.P400,
+    background: P50,
+    iconColor: P400,
   },
   tip: {
-    background: colors.G50,
-    iconColor: colors.G400,
+    background: G50,
+    iconColor: G400,
   },
   success: {
-    background: colors.G50,
-    iconColor: colors.G400,
+    background: G50,
+    iconColor: G400,
   },
   warning: {
-    background: colors.Y50,
-    iconColor: colors.Y400,
+    background: Y50,
+    iconColor: Y400,
   },
   error: {
-    background: colors.R50,
-    iconColor: colors.R400,
+    background: R50,
+    iconColor: R400,
   },
 };
 
@@ -47,7 +58,7 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
     '-moz-border-radius': '3px',
     'font-size': '14px',
     width: '100%',
-    padding: '2px 0px 2px 8px',
+    padding: '1px 0px 1px 8px',
     margin: `0px`,
     background: config[type] && config[type].background,
   };
@@ -55,7 +66,7 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
   const outerTdCss = {
     ...commonStyle,
     'border-radius': '3px',
-    padding: '4px 12px 4px 0',
+    padding: '8px 8px 8px 0px',
     '-webkit-border-radius': '3px',
     '-moz-border-radius': '3px',
     margin: '0px',
