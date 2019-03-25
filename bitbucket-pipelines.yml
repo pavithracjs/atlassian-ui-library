@@ -33,7 +33,7 @@ pipelines:
             - (cd build/ci-scripts && yarn restart-stopped-build)
           after-script:
             # Use to send build data to datadog
-            - yarn send:build:data
+            - cd ../.. && yarn send:build:data
           caches:
             - node
 
@@ -164,6 +164,9 @@ pipelines:
             - WEBSITE_ENV=production yarn build
             - yarn build:copy
             - yarn deploy:production
+          after-script:
+            # Use to send build data to datadog
+            - cd .. && yarn send:build:data
           caches:
             - node
 
