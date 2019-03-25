@@ -68,12 +68,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
   triggerXFlow = (event: any, analyticsEvent: UIAnalyticsEvent) => {
     const { triggerXFlow, suggestedProductLinks } = this.props;
     if (suggestedProductLinks.length) {
-      triggerXFlow(
-        suggestedProductLinks[0].key,
-        'atlassian-switcher',
-        event,
-        analyticsEvent,
-      );
+      triggerXFlow(suggestedProductLinks[0].key, 'atlassian-switcher');
     }
   };
 
