@@ -68,10 +68,19 @@ class Checkbox extends React.Component<CheckboxProps, State> {
     }
   }
 
+<<<<<<< HEAD
   onChange: React.ChangeEventHandler<HTMLInputElement> = event => {
     if (this.props.isDisabled) {
       return null;
     }
+=======
+  getProp = (key: string) => {
+    return key in this.props ? this.props[key] : this.state[key];
+  };
+
+  onChange: React.ChangeEventHandler<HTMLInputElement> = event => {
+    if (this.props.isDisabled) return null;
+>>>>>>> update: changed FocusEvent to ChangeEvent and example type to interface
     event.persist();
     if (event.target.checked !== undefined) {
       this.setState({ isChecked: event.target.checked });
