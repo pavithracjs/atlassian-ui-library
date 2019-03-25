@@ -111,6 +111,10 @@ const ORIGINAL_MOCK_DATA: MockData = {
       },
       'jira-servicedesk.ondemand': { billingPeriod: 'ANNUAL', state: 'ACTIVE' },
       'jira-software.ondemand': { billingPeriod: 'ANNUAL', state: 'ACTIVE' },
+      opsgenie: {
+        state: 'ACTIVE',
+        applicationUrl: 'https://test.app.opsgeni.us',
+      },
     },
   },
   USER_PERMISSION_DATA: {
