@@ -1,0 +1,1 @@
+- Internal changes only. Drawer uses @atlaskit/portal and is now SSR compatible.
