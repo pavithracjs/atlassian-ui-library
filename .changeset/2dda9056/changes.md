@@ -1,0 +1,1 @@
+- Improve TeamMentionResource, both team and user requests are not blocked together 

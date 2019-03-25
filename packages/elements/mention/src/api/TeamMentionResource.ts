@@ -25,6 +25,7 @@ const MAX_QUERY_TEAMS = 20;
  */
 export default class TeamMentionResource extends MentionResource {
   private readonly teamMentionConfig: MentionResourceConfig;
+  private lastSearchQuery?: string = '';
 
   constructor(
     userMentionConfig: MentionResourceConfig,
@@ -35,36 +36,35 @@ export default class TeamMentionResource extends MentionResource {
     this.teamMentionConfig = teamMentionConfig;
   }
 
-  protected async remoteSearch(
-    query: string,
-    contextIdentifier?: MentionContextIdentifier,
-  ): Promise<MentionsResult> {
-    const p1 = this.remoteUserSearch(query, contextIdentifier);
-    const p2 = this.remoteTeamSearch(query, contextIdentifier);
+  filter(query?: string, contextIdentifier?: MentionContextIdentifier): void {
+    this.lastSearchQuery = query;
 
-    const [userResults, teamResults] = await Promise.all([p1, p2]);
+    if (!query) {
+      this.remoteInitialStateTeamAndUsers(contextIdentifier);
+    } else {
+      this.updateActiveSearches(query);
 
-    // combine results of 2 requests
-    return {
-      mentions: [...userResults.mentions, ...teamResults.mentions],
-      query: userResults.query,
-    } as MentionsResult;
+      // both user and team requests start at the same time
+      const getUserPromise = this.remoteUserSearch(query, contextIdentifier);
+      const getTeamsPromise = this.remoteTeamSearch(query, contextIdentifier);
+
+      this.handleBothRequests(query, getUserPromise, getTeamsPromise);
+    }
   }
 
   /**
    * Returns the initial mention display list before a search is performed for the specified
    * container.
    */
-  protected async remoteInitialState(
+  private async remoteInitialStateTeamAndUsers(
     contextIdentifier?: MentionContextIdentifier,
-  ): Promise<MentionsResult> {
-    const query = '';
+  ) {
+    const emptyQuery = '';
     const getUserPromise = super.remoteInitialState(contextIdentifier);
 
     const queryParams: KeyValues = this.getQueryParamsOfTeamMentionConfig(
       contextIdentifier,
     );
-
     const options = {
       path: 'bootstrap',
       queryParams,
@@ -74,20 +74,71 @@ export default class TeamMentionResource extends MentionResource {
       options,
     );
 
-    const [usersResult, teamsResult] = await Promise.all([
-      getUserPromise,
-      getTeamsPromise,
-    ]);
-    const teamsMentionResult = this.convertTeamResultToMentionResult(
-      teamsResult,
-      query,
-    );
+    this.handleBothRequests(emptyQuery, getUserPromise, getTeamsPromise);
+  }
 
-    // combine results of 2 requests
-    return {
-      mentions: [...usersResult.mentions, ...teamsMentionResult.mentions],
-      query: usersResult.query,
-    } as MentionsResult;
+  /**
+   * Both user and team requests are not blocked together
+   * If users request arrives first, show users. Show teams when team request arrives.
+   * If team request arrives first, block waiting for user request, then show both
+   * If one errors, show the non-erroring one
+   * If both error, show error
+   */
+  private async handleBothRequests(
+    query: string,
+    userRequest: Promise<MentionsResult>,
+    teamRequest: Promise<Team[] | MentionsResult>,
+  ) {
+    let searchTime = Date.now();
+    let accumulatedResults: MentionsResult = {
+      mentions: [],
+      query,
+    };
+    const notifyWhenOneRequestDone = (results: MentionsResult) => {
+      // just update UI for the last query string
+      if (query !== this.lastSearchQuery) {
+        return;
+      }
+
+      accumulatedResults = {
+        mentions: [...accumulatedResults.mentions, ...results.mentions],
+        query,
+      };
+      this.notify(searchTime, accumulatedResults, query);
+    };
+
+    let userResults;
+    let userRequestError: Error | null = null;
+    let teamRequestError: Error | null = null;
+
+    try {
+      // user requests finishes, update the UI, don't need to wait for team requests
+      userResults = await userRequest;
+      notifyWhenOneRequestDone(userResults);
+    } catch (error) {
+      userRequestError = error;
+    }
+
+    // team request will wait for user request done
+    try {
+      const teamsResult = await teamRequest;
+      // update search time after team results returns
+      searchTime = Date.now();
+      notifyWhenOneRequestDone(
+        Array.isArray(teamsResult)
+          ? this.convertTeamResultToMentionResult(teamsResult, query)
+          : teamsResult,
+      );
+    } catch (error) {
+      teamRequestError = error;
+    }
+
+    // both requests fail, show one of errors in UI
+    if (userRequestError && teamRequestError) {
+      this.notifyError(userRequestError, query);
+      debug('User mention request fails. ', userRequestError);
+      debug('Team mention request fails. ', teamRequestError);
+    }
   }
 
   private getQueryParamsOfTeamMentionConfig(
@@ -111,16 +162,7 @@ export default class TeamMentionResource extends MentionResource {
     query: string,
     contextIdentifier?: MentionContextIdentifier,
   ): Promise<MentionsResult> {
-    try {
-      return super.remoteSearch(query, contextIdentifier);
-    } catch (err) {
-      debug('ak-mention-resource.remoteUserSearch', err);
-
-      return {
-        mentions: [],
-        query,
-      };
-    }
+    return super.remoteSearch(query, contextIdentifier);
   }
 
   private async remoteTeamSearch(
@@ -136,20 +178,11 @@ export default class TeamMentionResource extends MentionResource {
       },
     };
 
-    try {
-      const teamResult = await serviceUtils.requestService<Team[]>(
-        this.teamMentionConfig,
-        options,
-      );
-      return this.convertTeamResultToMentionResult(teamResult, query);
-    } catch (err) {
-      debug('ak-mention-resource.remoteTeamSearch', err);
-
-      return {
-        mentions: [],
-        query,
-      };
-    }
+    const teamResult = await serviceUtils.requestService<Team[]>(
+      this.teamMentionConfig,
+      options,
+    );
+    return this.convertTeamResultToMentionResult(teamResult, query);
   }
 
   private convertTeamResultToMentionResult(
