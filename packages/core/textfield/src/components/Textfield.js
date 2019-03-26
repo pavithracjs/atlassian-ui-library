@@ -85,10 +85,10 @@ class Textfield extends Component<TextFieldProps, State> {
 
     const { forwardedRef } = this.props;
 
-    if (typeof forwardedRef === 'object') {
+    if (forwardedRef && typeof forwardedRef === 'object') {
       forwardedRef.current = input;
     }
-    if (typeof forwardedRef === 'function') {
+    if (forwardedRef && typeof forwardedRef === 'function') {
       forwardedRef(input);
     }
   };
