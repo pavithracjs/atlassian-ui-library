@@ -9,6 +9,7 @@ import newlinePreserveMarksPlugin from './pm-plugins/newline-preserve-marks';
 import inlineCursorTargetPlugin from './pm-plugins/inline-cursor-target';
 import { plugin as reactNodeView } from './pm-plugins/react-nodeview';
 import decorationPlugin from './pm-plugins/decoration';
+import scrollGutter from './pm-plugins/scroll-gutter';
 
 const basePlugin = (appearance?: EditorAppearance): EditorPlugin => ({
   pmPlugins() {
@@ -21,6 +22,10 @@ const basePlugin = (appearance?: EditorAppearance): EditorPlugin => ({
         name: 'inlineCursorTargetPlugin',
         plugin: () =>
           appearance !== 'mobile' ? inlineCursorTargetPlugin() : undefined,
+      },
+      {
+        name: 'scrollGutterPlugin',
+        plugin: ({ props }) => scrollGutter(props.appearance),
       },
       {
         name: 'focusHandlerPlugin',

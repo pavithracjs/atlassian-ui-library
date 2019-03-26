@@ -40,11 +40,12 @@ export const Wrapper: any = styled.div`
   box-sizing: border-box;
   padding: 2px;
   height: calc(100vh - 32px);
+  /* height: 100vh; */
 `;
 Wrapper.displayName = 'Wrapper';
 
 export const Content: any = styled.div`
-  padding: 0 20px;
+  padding: 0;
   height: 100%;
   box-sizing: border-box;
 `;
