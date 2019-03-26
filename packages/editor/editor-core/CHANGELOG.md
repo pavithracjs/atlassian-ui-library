@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.5.0
+- [minor] [ea6b08700c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6b08700c):
+
+  - ED-6245: Ensure extensions scroll + overflow when they may break out of their parent container.
+
 ## 106.4.0
 - [minor] [7e164b5a6b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e164b5a6b):
 
