@@ -11,7 +11,7 @@ if (dev) {
 }
 
 require(path.join('..', dev ? 'src' : 'dist'))
-  .run()
+  .default()
   .catch(error => {
     if (typeof error === 'number') {
       process.exit(error);

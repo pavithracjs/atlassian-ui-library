@@ -1,10 +1,12 @@
 import chalk from 'chalk';
 import crypto from 'crypto';
-import envWithGuard from '../../util/env-with-guard';
 import loadFileFromGitHistory from '../../util/load-file-from-git-history';
 import getDuplicateDependenciesReport from './get-duplicate-dependencies-report';
-
-const { Bitbucket } = require('./bitbucket');
+import Bitbucket, {
+  CodeInsightsAnnotation,
+  Severity,
+  CodeInsightsReportResults,
+} from '../../reporters/bitbucket';
 
 const REPORT_KEY = 'jira.frontend.duplicates';
 
@@ -18,25 +20,38 @@ const message = (annotationCount: number) =>
     }
     `;
 
-const reportTemplate = annotationCount => ({
-  data: [],
+const reportTemplate = (annotationCount: number) => ({
   details: message(annotationCount),
   title: 'Duplicates report',
   vendor: 'Jira Frontend',
   logoUrl:
-    'https://usagetracker.us-east-1.staging.atl-paas.net/tracker/jfp-small.png?e=duplicates-report',
-  result: annotationCount === 0 ? 'PASS' : 'FAIL',
+    'https://usagetracker.us-east-1.staging.atl-paas.net/tracker/jfp-small.png?e=duplicates-report', //TODO: Remove Jira specific logo
+  result:
+    annotationCount === 0
+      ? CodeInsightsReportResults.PASS
+      : CodeInsightsReportResults.FAIL,
 });
 
-function getTargetBranchPackageJSONResolver(targetBranch) {
+function getTargetBranchPackageJSONResolver(targetBranch: string) {
   return () => loadFileFromGitHistory(targetBranch, 'package.json');
 }
 
-function getTargetBranchYarnLockResolver(targetBranch) {
+function getTargetBranchYarnLockResolver(targetBranch: string) {
   return () => loadFileFromGitHistory(targetBranch, 'yarn.lock');
 }
 
-async function getRegressedDependencies(sourceBranch, targetBranch) {
+type RegressedDepenendency = {
+  newVersions: string[];
+  name: string;
+  versions: string[];
+  isDevDependency: boolean;
+};
+export type RegressedDependencies = RegressedDepenendency[];
+
+async function getRegressedDependencies(
+  sourceBranch: string,
+  targetBranch: string,
+) {
   const [currentBranch, masterDuplicatesReport] = await Promise.all([
     getDuplicateDependenciesReport({ returnAllDependencyCounts: true }),
     getDuplicateDependenciesReport({
@@ -46,7 +61,7 @@ async function getRegressedDependencies(sourceBranch, targetBranch) {
     }),
   ]);
 
-  const regressedDependencies = currentBranch
+  const regressedDependencies: RegressedDependencies = currentBranch
     .map(branchDependencyInfo => [
       masterDuplicatesReport.find(
         ({ name }) => branchDependencyInfo.name === name,
@@ -56,15 +71,24 @@ async function getRegressedDependencies(sourceBranch, targetBranch) {
     .filter(([masterDependencyInfo, branchDependencyInfo]) => {
       const existingDependencyWithNewDupes =
         masterDependencyInfo &&
+        branchDependencyInfo &&
         branchDependencyInfo.versions.length >
           masterDependencyInfo.versions.length;
 
       const newDependencyDupedAlready =
-        !masterDependencyInfo && branchDependencyInfo.versions.length > 1;
+        !masterDependencyInfo &&
+        branchDependencyInfo &&
+        branchDependencyInfo.versions.length > 1;
 
       return existingDependencyWithNewDupes || newDependencyDupedAlready;
     })
     .map(([masterDependencyInfo, branchDependencyInfo]) => {
+      if (!branchDependencyInfo) {
+        throw new Error(
+          "This check is only here to make typescript happy, it's impossible to ever happen...",
+        );
+      }
+
       if (!masterDependencyInfo) {
         return {
           ...branchDependencyInfo,
@@ -75,7 +99,7 @@ async function getRegressedDependencies(sourceBranch, targetBranch) {
       return {
         ...branchDependencyInfo,
         newVersions: branchDependencyInfo.versions.filter(
-          version => !masterDependencyInfo.versions.includes(version),
+          version => masterDependencyInfo.versions.indexOf(version) > -1,
         ),
       };
     });
@@ -91,7 +115,7 @@ async function getRegressedDependencies(sourceBranch, targetBranch) {
       const plural = newVersions.length > 1 ? 's' : '';
       console.log(
         `${chalk.bold(name)}: ${chalk.red(
-          newVersions.length,
+          newVersions.length.toString(),
         )} extra duplicate${plural} version${plural}: ${chalk.red(
           newVersions.join(', '),
         )}`,
@@ -102,7 +126,10 @@ async function getRegressedDependencies(sourceBranch, targetBranch) {
   return regressedDependencies;
 }
 
-async function publishInsightsReport(regressedDependencies, bitbucket) {
+async function publishInsightsReport(
+  regressedDependencies: RegressedDependencies,
+  bitbucket: Bitbucket,
+) {
   // add base report
   const totalNewDuplicatesCount = regressedDependencies.reduce(
     (accumulator, currentValue) =>
@@ -115,7 +142,7 @@ async function publishInsightsReport(regressedDependencies, bitbucket) {
     reportTemplate(totalNewDuplicatesCount),
   );
 
-  const annotations = regressedDependencies.map(
+  const annotations: CodeInsightsAnnotation[] = regressedDependencies.map(
     ({ name, newVersions, isDevDependency }) => {
       const hash = crypto.createHash('sha256');
       hash.update(name, 'utf8');
@@ -127,7 +154,7 @@ async function publishInsightsReport(regressedDependencies, bitbucket) {
         } extra versions of ${name} are introduced in this change`,
         path: 'yarn.lock',
         line: 0, // file level annotation
-        severity: isDevDependency ? 'LOW' : 'HIGH',
+        severity: isDevDependency ? Severity.LOW : Severity.HIGH,
       };
     },
   );
@@ -137,11 +164,16 @@ async function publishInsightsReport(regressedDependencies, bitbucket) {
   }
 }
 
-async function main(sourceBranch, gitUrl, token, commit) {
+export default async function duplicateDependenciesReport(
+  sourceBranch: string,
+  gitUrl: string,
+  token: string,
+  commit: string,
+) {
   const bitbucket = new Bitbucket(gitUrl, token, commit);
-  const targetBranch =
-    (await bitbucket.getTargetBranch(sourceBranch)) || 'master';
-
+  //   const targetBranch =
+  //     (await bitbucket.getTargetBranch(sourceBranch)) || 'master';
+  const targetBranch = 'master';
   const regressedDependencies = await getRegressedDependencies(
     sourceBranch,
     targetBranch,
@@ -150,24 +182,13 @@ async function main(sourceBranch, gitUrl, token, commit) {
   publishInsightsReport(regressedDependencies, bitbucket);
 }
 
-interface Reporter {
-  sendReport(): boolean;
-  options: Object;
-}
+// interface Reporter {
+//   sendReport(): boolean;
+//   options: Object;
+// }
 
-interface ReportOptions {
-  reporters: Array<Reporter>;
-}
+// interface ReportOptions {
+//   reporters: Array<Reporter>;
+// }
 
-module.exports = async function DuplicatesReport() {};
-
-const sourceBranch = envWithGuard('SOURCE_BRANCH');
-const commit = envWithGuard('COMMIT');
-const token = envWithGuard('BITBUCKET_TOKEN');
-const gitUrl = envWithGuard('REPO_GIT_URL');
-
-main(sourceBranch, gitUrl, token, commit).catch(err => {
-  // catch errors but don't fail the build
-  console.error(`Failed to publish duplicate dependencies report`);
-  console.error(err);
-});
+// module.exports = async function DuplicatesReport() {};

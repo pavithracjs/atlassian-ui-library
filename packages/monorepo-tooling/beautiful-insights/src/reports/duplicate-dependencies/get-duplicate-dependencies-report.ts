@@ -1,13 +1,13 @@
 import { IPackageJSON } from '../../util/package-json';
 
-import lockfile, { ParseResult } from '@yarnpkg/lockfile';
+import { ParseResult, parse as lockFileParse } from '@yarnpkg/lockfile';
 import fs from 'fs';
 import path from 'path';
 
 const defaultPackageJSONResolver = (): Promise<string> =>
   new Promise((resolve, reject) => {
     fs.readFile(
-      path.resolve(__dirname, './package.json'),
+      path.resolve(process.cwd(), './package.json'),
       'utf8',
       (readErr, source) => {
         if (readErr) {
@@ -24,7 +24,7 @@ const defaultPackageJSONResolver = (): Promise<string> =>
 const defaultYarnLockResolver = (): Promise<string> =>
   new Promise((resolve, reject) => {
     fs.readFile(
-      path.resolve(__dirname, './package.json'),
+      path.resolve(process.cwd(), './yarn.lock'),
       'utf8',
       (readErr, source) => {
         if (readErr) {
@@ -78,7 +78,7 @@ export default async ({
 
   const yarnLock = await yarnLockResolver();
 
-  const parsedYarnLock = lockfile.parse(yarnLock);
+  const parsedYarnLock = lockFileParse(yarnLock);
 
   const reportMap = getReportMap(parsedYarnLock);
 
