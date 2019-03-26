@@ -54,7 +54,6 @@ export const PasteContents: { [P in PasteContent]: P } = {
   decisionItem: 'decisionItem',
   extension: 'extension',
   heading: 'heading',
-  mediaGroup: 'mediaGroup',
   orderedList: 'orderedList',
   panel: 'panel',
   rule: 'rule',
@@ -78,7 +77,6 @@ export type PasteContent =
   | 'decisionItem'
   | 'extension'
   | 'heading'
-  | 'mediaGroup'
   | 'mediaCard'
   | 'tableCells'
   | 'table'

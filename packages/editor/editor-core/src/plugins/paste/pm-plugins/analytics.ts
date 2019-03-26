@@ -45,20 +45,38 @@ type PastePayloadAttributes = {
 };
 
 function getContent(state: EditorState, slice: Slice): PasteContent {
-  const nameOfNode = new Set<string>();
-  slice.content.forEach((node: Node) => nameOfNode.add(node.type.name));
+  const {
+    schema: {
+      nodes: { paragraph },
+      marks: { link },
+    },
+  } = state;
+  const nodeOrMarkName = new Set<string>();
+  slice.content.forEach((node: Node, offset: number) => {
+    if (node.type === paragraph) {
+      if (node.rangeHasMark(offset, offset + node.nodeSize - 2, link)) {
+        // Check node contain link
+        nodeOrMarkName.add('url');
+        return;
+      }
+    }
+    nodeOrMarkName.add(node.type.name);
+  });
 
-  if (nameOfNode.size > 1) {
+  if (nodeOrMarkName.size > 1) {
     return PasteContents.mixed;
   }
 
-  if (nameOfNode.size === 0) {
+  if (nodeOrMarkName.size === 0) {
     return PasteContents.uncategorized;
   }
 
-  const nodeName = nameOfNode.values().next().value;
-  switch (nodeName) {
-    case 'parragraph': {
+  const type = nodeOrMarkName.values().next().value;
+  switch (type) {
+    case 'url': {
+      return PasteContents.url;
+    }
+    case 'paragraph': {
       return PasteContents.text;
     }
     case 'bulletList': {
@@ -82,9 +100,6 @@ function getContent(state: EditorState, slice: Slice): PasteContent {
     case 'rule': {
       return PasteContents.rule;
     }
-    case 'mediaGroup': {
-      return PasteContents.mediaGroup;
-    }
     case 'mediaSingle': {
       return PasteContents.mediaSingle;
     }
@@ -106,7 +121,7 @@ function getContent(state: EditorState, slice: Slice): PasteContent {
     case 'decisionItem': {
       return PasteContents.decisionItem;
     }
-    case 'taskItem': {
+    case 'taskList': {
       return PasteContents.taskItem;
     }
     case 'extension': {
