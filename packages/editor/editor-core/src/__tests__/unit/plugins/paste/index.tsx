@@ -854,7 +854,7 @@ describe('paste plugins', () => {
     });
   });
 
-  describe.only('analytics V3', () => {
+  describe('analytics V3', () => {
     function testAnalyticsPasteContentInside(
       doc: (schema: Schema) => RefsNode,
       actionSubjectId: PASTE_ACTION_SUBJECT_ID,
