@@ -6,14 +6,8 @@ const buildData = require('../../.build-data/build.json');
 
 (async () => {
   try {
-    // const buildId = process.env.BITBUCKET_BUILD_NUMBER;
-    // console.log('buildId :', buildId);
-    // console.log('buildStatus :', process.env.BITBUCKET_EXIT_CODE);
-    // const buildData = await getPipelinesBuildData(
-    //   'atlassian',
-    //   'atlaskit-mk-2',
-    //   buildId,
-    // );
+    console.log('buildId :', buildData.build_number);
+    console.log('buildStatus :', buildData.build_status);
     sendData(buildData);
   } catch (err) {
     console.error(`You face some issues while sending data: ${err}`);
