@@ -1,7 +1,16 @@
 /* Script to send write data per build */
 const fs = require('fs');
+const path = require('path');
+const util = require('util');
+
 const getPipelinesBuildData = require('../utils/getBuildData')
   .getPipelinesBuildData;
+
+const outputFilePath = path.join(process.cwd(), '.build-data', 'data.json');
+
+function writeFile(filePath, fileContents) {
+  return util.promisify(cb => fs.writeFile(filePath, fileContents, cb))();
+}
 
 (async () => {
   try {
@@ -14,14 +23,12 @@ const getPipelinesBuildData = require('../utils/getBuildData')
       buildId,
     );
 
-    await fs.writeFile(
-      process.cwd() + '/.build-data/build.json',
-      JSON.stringify(buildData),
-      function(err) {
-        if (err) throw err;
-        console.log('Your build data has been saved!');
-      },
-    );
+    await fs.writeFile(outputFilePath, JSON.stringify(buildData), function(
+      err,
+    ) {
+      if (err) throw err;
+      console.log('Your build data has been saved!');
+    });
   } catch (err) {
     console.error(`You face some issues while writing data: ${err}`);
     // It is not required to fail the step.

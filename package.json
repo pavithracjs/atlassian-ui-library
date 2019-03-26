@@ -53,7 +53,7 @@
     "measure:updateSnapshot": "              node build/ci-scripts/get.changed.packages.since.master.js --spaceDelimited --only='packages' | xargs -n1 -P2 yarn measure --updateSnapshot",
     "website:start": "                       cd website && yarn start",
     "send:build:data":"                      node build/ci-scripts/sending.build.data.js",
-    "write:build:data":"                     node build/ci-scripts/write.build.data.js",
+    "write:build:data":"                     rm -Rf ./.build-data/data.json && node build/ci-scripts/write.build.data.js",
     "start": "                               yarn run website:start",
     "start:bitbucket": "                     yarn run website:start **/packages/bitbucket/**",
     "start:confluence": "                    yarn run website:start **/packages/confluence/**",
