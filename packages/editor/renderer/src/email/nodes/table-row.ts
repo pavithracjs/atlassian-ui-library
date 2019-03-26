@@ -30,6 +30,5 @@ export default function tableRow({ text, attrs }: NodeSerializerOpts) {
     const paragraph = createTag('p', { style: pStyle }, attrs.index);
     numberedColumn = createTag('td', { style }, paragraph);
   }
-  console.log(numberedColumn);
   return createTag('tr', {}, numberedColumn + text);
 }
