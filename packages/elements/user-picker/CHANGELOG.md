@@ -1,5 +1,10 @@
 # @atlaskit/user-picker
 
+## 3.2.0
+- [minor] [b0210d7ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0210d7ccc):
+
+  - reset jest modules before hydration
+
 ## 3.1.1
 - [patch] [3161a93cdb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3161a93cdb):
 
