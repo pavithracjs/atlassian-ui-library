@@ -1,5 +1,9 @@
 # @atlaskit/button
 
+## 11.0.4
+- Updated dependencies [986c5e47c8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/986c5e47c8):
+  - @atlaskit/spinner@10.0.2
+
 ## 11.0.3
 - [patch] [59d4ab031b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59d4ab031b):
 

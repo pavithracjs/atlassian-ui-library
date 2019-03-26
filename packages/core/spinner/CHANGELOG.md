@@ -1,5 +1,10 @@
 # @atlaskit/spinner
 
+## 10.0.2
+- [patch] [986c5e47c8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/986c5e47c8):
+
+  - use <span> rather than <div> to allow the spinner to be used within <p> style tags
+
 ## 10.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

@@ -1,1 +1,0 @@
-- use <span> rather than <div> to allow the spinner to be used within <p> style tags
