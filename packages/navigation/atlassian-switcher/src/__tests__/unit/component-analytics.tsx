@@ -2,57 +2,72 @@ import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import Switcher from '../../components/switcher';
 import { MANAGE_HREF } from '../../providers/jira-data-providers';
-import { mapResultsToSwitcherProps } from '../../providers/map-results-to-switcher-props';
 import Item from '@atlaskit/item';
 import ManageButton from '../../primitives/manage-button';
 import messages from '../../utils/messages';
 import { IntlProvider } from 'react-intl';
 import '../../../test-helpers/mock-fetch';
 import createStream, { Stream } from '../../../test-helpers/stream';
-import ORIGINAL_MOCK_DATA from '../../../examples/helpers/mock-data';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import {
   UIAnalyticsEventInterface,
   ObjectType,
 } from '@atlaskit/analytics-next-types/index';
-import {
-  RecentContainersResponse,
-  LicenseInformationResponse,
-  CustomLinksResponse,
-} from '../../types';
-import { Status, ResultComplete } from '../../providers/as-data-provider';
-function wrapResult<T>(data: T): ResultComplete<T> {
-  return {
-    status: Status.COMPLETE,
-    data,
-  };
-}
-
-const getCommonDataProviderResults = () => {
-  return {
-    recentContainers: wrapResult<RecentContainersResponse>(
-      ORIGINAL_MOCK_DATA.RECENT_CONTAINERS_DATA,
-    ),
-    licenseInformation: wrapResult<LicenseInformationResponse>(
-      ORIGINAL_MOCK_DATA.LICENSE_INFORMATION_DATA,
-    ),
-    managePermission: wrapResult<boolean>(true),
-    addProductsPermission: wrapResult<boolean>(true),
-    isXFlowEnabled: wrapResult<boolean>(true),
-  };
-};
 
 const DefaultAtlassianSwitcher = (props: any = {}) => {
-  const { showManageLink, ...switcherLinks } = mapResultsToSwitcherProps(
-    props.cloudId,
-    {
-      customLinks: wrapResult<CustomLinksResponse>(
-        ORIGINAL_MOCK_DATA.CUSTOM_LINKS_DATA,
-      ),
-      ...getCommonDataProviderResults(),
-    },
-    { xflow: true, enableSplitJira: props.enableSplitJira },
-  );
+  const stubIcon = () => <span />;
+  const switcherLinks = {
+    licensedProductLinks: [
+      {
+        key: 'jira',
+        label: 'Jira',
+        Icon: stubIcon,
+        href: '/secure/MyJiraHome.jspa',
+      },
+    ],
+    suggestedProductLinks: [
+      {
+        key: 'confluence.ondemand',
+        label: 'Confluence',
+        Icon: stubIcon,
+        href: '/wiki',
+      },
+    ],
+    fixedLinks: [
+      {
+        key: 'people',
+        label: 'People',
+        Icon: stubIcon,
+        href: '/people',
+      },
+    ],
+    adminLinks: [
+      {
+        key: 'discoverMore',
+        label: 'Discover More',
+        Icon: stubIcon,
+        href: '/admin/billing/addapplication',
+      },
+    ],
+    recentLinks: [
+      {
+        key: 'recentLink',
+        label: 'Recent Container',
+        Icon: stubIcon,
+        href: '/some/recent/container',
+        type: 'container-type',
+        description: 'Container Type',
+      },
+    ],
+    customLinks: [
+      {
+        key: 'customLink',
+        label: 'Some arbitrary link',
+        Icon: stubIcon,
+        href: 'https://example.com',
+      },
+    ],
+  };
   return (
     <IntlProvider locale="en">
       <AnalyticsListener channel="*" onEvent={props.onEventFired}>
@@ -60,7 +75,7 @@ const DefaultAtlassianSwitcher = (props: any = {}) => {
           product="jira"
           cloudId="some-cloud-id"
           triggerXFlow={() => 'triggering xflow'}
-          manageLink={showManageLink ? MANAGE_HREF : undefined}
+          manageLink={MANAGE_HREF}
           messages={messages}
           {...switcherLinks}
           {...props}
@@ -100,21 +115,72 @@ describe('Atlassian Switcher - Component Analytics', () => {
     expect(payload.attributes.duration).toBeGreaterThanOrEqual(0);
   });
 
-  it('should fire "atlassianSwitcherItem clicked"', async () => {
-    await eventStream.skip(1);
-    const item = wrapper.find(Item);
-    item.at(0).simulate('click');
-    const { payload, context } = await eventStream.next();
-    expect(payload).toMatchObject({
-      eventType: 'ui',
-      action: 'clicked',
-      actionSubject: 'atlassianSwitcherItem',
-    });
-    expect(flattenContext(context)).toMatchObject({
-      group: 'switchTo',
-      itemType: 'product',
-      itemId: 'jira',
-    });
+  describe('should fire "atlassianSwitcherItem clicked"', () => {
+    const appSwitcherLinksCategories = [
+      {
+        name: 'for licensedProductLinks',
+        data: {
+          itemType: 'product',
+          itemId: 'jira',
+        },
+      },
+      {
+        name: 'for suggestedProductLinks',
+        data: {
+          itemType: 'try',
+          itemId: 'confluence.ondemand',
+        },
+      },
+      {
+        name: 'for fixedLinks',
+        data: {
+          itemType: 'product',
+          itemId: 'people',
+        },
+      },
+      {
+        name: 'for adminLinks',
+        data: {
+          itemType: 'admin',
+          itemId: 'discoverMore',
+        },
+      },
+      {
+        name: 'for recentLinks',
+        data: {
+          group: 'recent',
+          itemType: 'recent',
+          itemId: 'container-type',
+        },
+      },
+      {
+        name: 'for customLinks',
+        data: {
+          group: 'customLinks',
+          itemType: 'customLink',
+          itemId: null,
+        },
+      },
+    ];
+
+    for (let i = 0; i < appSwitcherLinksCategories.length; i++) {
+      const appSwitcherLinkCategory = appSwitcherLinksCategories[i];
+      it(appSwitcherLinkCategory.name, async () => {
+        eventStream.skip(1);
+        const item = wrapper.find(Item);
+        item.at(i).simulate('click');
+        const { payload, context } = await eventStream.next();
+        expect(payload).toMatchObject({
+          eventType: 'ui',
+          action: 'clicked',
+          actionSubject: 'atlassianSwitcherItem',
+        });
+        expect(flattenContext(context)).toMatchObject({
+          group: 'switchTo',
+          ...appSwitcherLinkCategory.data,
+        });
+      });
+    }
   });
 
   it('should fire "button clicked - manageListButton"', async () => {
