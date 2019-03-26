@@ -129,7 +129,7 @@ export function buildScreenEvent(
   screen: Screen,
   timesViewed: number,
   searchSessionId: string,
-  referralContextIdentifiers: ReferralContextIdentifiers,
+  referralContextIdentifiers?: ReferralContextIdentifiers,
 ): ScreenEventSafeGasPayload {
   return {
     action: 'viewed',

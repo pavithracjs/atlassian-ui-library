@@ -17,7 +17,7 @@ export enum ResultGroupType {
 export interface Props {
   resultsGroups: ResultsGroup[];
   type: ResultGroupType;
-  renderAdvancedSearch: (analyticsData?) => JSX.Element;
+  renderAdvancedSearch: (analyticsData?: any) => JSX.Element;
   searchSessionId: string;
   screenCounter?: ScreenCounter;
   referralContextIdentifiers?: ReferralContextIdentifiers;
@@ -25,7 +25,7 @@ export interface Props {
 
 const mapGroupsToSections = (
   resultsToShow: ResultsGroup[],
-  analyticsData,
+  analyticsData: any,
 ): JSX.Element[] => {
   return resultsToShow
     .filter(({ items }) => items && items.length)

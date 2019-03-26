@@ -38,7 +38,7 @@ export const addJiraResultQueryParams = (
   queryParams: JiraResultQueryParams,
 ) => {
   const href = new URI(url);
-  Object.keys(queryParams)
+  (Object.keys(queryParams) as Array<keyof JiraResultQueryParams>)
     .filter(key => !!queryParams[key])
     .forEach(key => {
       href.addQuery(key, queryParams[key]);
@@ -73,7 +73,10 @@ const extractSpecificAttributes = (
   return null;
 };
 
-const extractAvatarUrl = ({ url = '', urls = {} } = {}) => {
+const extractAvatarUrl = ({
+  url = '',
+  urls = {},
+}: { url?: string; urls?: Record<string, string> } = {}) => {
   if (url) {
     return url;
   }
