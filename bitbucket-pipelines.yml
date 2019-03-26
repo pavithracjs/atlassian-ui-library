@@ -145,6 +145,9 @@ pipelines:
           - yarn install
           - node download.build.artefact.for.commit.js netlify-link.txt
           - node update.build.status.with.netlify.link.js
+        after-script:
+          # Use to send build data to datadog
+          - yarn write:build:data
 
   # Pipelines that can be scheduled or triggered manually.
   custom: 
