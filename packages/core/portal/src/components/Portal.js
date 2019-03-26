@@ -8,7 +8,7 @@ type Props = {
   /* Children to render in the React Portal. */
   children: Node,
   /* The z-index of the DOM container element. */
-  zIndex: number,
+  zIndex: number | string,
 };
 
 type State = {
@@ -16,7 +16,7 @@ type State = {
   portalIsMounted: boolean,
 };
 
-const createContainer = (zIndex: number) => {
+const createContainer = (zIndex: number | string) => {
   const container = document.createElement('div');
   container.setAttribute('class', 'atlaskit-portal');
   container.setAttribute('style', `z-index: ${zIndex};`);
