@@ -1,0 +1,1 @@
+- ED-6245: Ensure extensions scroll + overflow when they may break out of their parent container.
