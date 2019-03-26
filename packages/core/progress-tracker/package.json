@@ -23,7 +23,6 @@
     "@atlaskit/page": "^9.0.0",
     "@atlaskit/theme": "^8.0.0",
     "@babel/runtime": "^7.0.0",
-    "babel-runtime": "^6.26.0",
     "react-router-dom": "^4.2.2",
     "react-transition-group": "^2.2.1"
   },
