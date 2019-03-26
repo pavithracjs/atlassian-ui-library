@@ -4,6 +4,8 @@ import Button from '@atlaskit/button';
 import ProfileCardResourced, { ProfileCard, ProfileClient } from '../..';
 import ErrorMessage from '../../components/ErrorMessage';
 
+import { ProfilecardProps } from '../../types';
+
 import {
   FullNameLabel,
   ActionButtonGroup,
@@ -22,7 +24,7 @@ jest.mock('../../components/MessagesIntlProvider', () => ({
 }));
 
 describe('Profilecard', () => {
-  const defaultProps = {
+  const defaultProps: ProfilecardProps = {
     fullName: 'full name test',
     status: 'active',
     nickname: 'jscrazy',
