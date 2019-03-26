@@ -122,7 +122,7 @@ export default (
       FY
 
        */
-      context.translate(sourceWidth, 0);
+      context.translate(destinationWidth, 0);
       context.scale(-1, 1);
       break;
     case 3:
@@ -158,7 +158,7 @@ export default (
                               FY    CY
 
        */
-      context.translate(sourceWidth, sourceHeight);
+      context.translate(destinationWidth, destinationHeight);
       context.rotate(cw180);
       break;
     case 4:
@@ -194,7 +194,7 @@ export default (
                                CY
                                FY
       */
-      context.translate(0, sourceHeight);
+      context.translate(0, destinationHeight);
       context.scale(1, -1);
       break;
     case 5:
@@ -260,7 +260,7 @@ export default (
       FY
 
        */
-      context.translate(sourceWidth, 0);
+      context.translate(destinationWidth, 0);
       context.rotate(cw90);
       break;
     case 7:
@@ -295,7 +295,7 @@ export default (
                               ↓     ↓                                             FY
                               FY    CY
       */
-      context.translate(sourceWidth, sourceHeight);
+      context.translate(destinationWidth, destinationHeight);
       context.rotate(ccw90);
       context.scale(1, -1);
       break;
@@ -332,7 +332,7 @@ export default (
                               CY
                               FY
       */
-      context.translate(0, sourceHeight);
+      context.translate(0, destinationHeight);
       context.rotate(ccw90);
       break;
   }

@@ -137,15 +137,15 @@ describe('cropToDataURI()', () => {
 
   describe('with orientation 2', () => {
     beforeEach(() => {
-      cropToDataURI(mockImage, defaultImageRect, defaultInputCropRect, 1, 2);
+      cropToDataURI(mockImage, defaultImageRect, defaultInputCropRect, 2, 2);
     });
 
     it('should use original crop coordinates', () => {
       assertCropCoordinates({
-        top: defaultExpectedCrop.top,
-        left: defaultExpectedCrop.right, // Horizontal mirror
-        width: defaultExpectedCrop.width,
-        height: defaultExpectedCrop.height,
+        top: defaultExpectedCrop.top / 2,
+        left: defaultExpectedCrop.right / 2, // Horizontal mirror
+        width: defaultExpectedCrop.width / 2,
+        height: defaultExpectedCrop.height / 2,
       });
     });
 
@@ -161,15 +161,15 @@ describe('cropToDataURI()', () => {
 
   describe('with orientation 3', () => {
     beforeEach(() => {
-      cropToDataURI(mockImage, defaultImageRect, defaultInputCropRect, 1, 3);
+      cropToDataURI(mockImage, defaultImageRect, defaultInputCropRect, 4, 3);
     });
 
     it('should use original crop coordinates', () => {
       assertCropCoordinates({
-        top: defaultExpectedCrop.bottom, // 180 flip
-        left: defaultExpectedCrop.right, // 180 flip
-        width: defaultExpectedCrop.width,
-        height: defaultExpectedCrop.height,
+        top: defaultExpectedCrop.bottom / 4, // 180 flip
+        left: defaultExpectedCrop.right / 4, // 180 flip
+        width: defaultExpectedCrop.width / 4,
+        height: defaultExpectedCrop.height / 4,
       });
     });
 
@@ -185,15 +185,15 @@ describe('cropToDataURI()', () => {
 
   describe('with orientation 4', () => {
     beforeEach(() => {
-      cropToDataURI(mockImage, defaultImageRect, defaultInputCropRect, 1, 4);
+      cropToDataURI(mockImage, defaultImageRect, defaultInputCropRect, 2, 4);
     });
 
     it('should use original crop coordinates', () => {
       assertCropCoordinates({
-        top: defaultExpectedCrop.bottom, // Vertical mirror
-        left: defaultExpectedCrop.left,
-        width: defaultExpectedCrop.width,
-        height: defaultExpectedCrop.height,
+        top: defaultExpectedCrop.bottom / 2, // Vertical mirror
+        left: defaultExpectedCrop.left / 2,
+        width: defaultExpectedCrop.width / 2,
+        height: defaultExpectedCrop.height / 2,
       });
     });
 
@@ -209,15 +209,15 @@ describe('cropToDataURI()', () => {
 
   describe('with orientation 5', () => {
     beforeEach(() => {
-      cropToDataURI(mockImage, defaultImageRect, defaultInputCropRect, 1, 5);
+      cropToDataURI(mockImage, defaultImageRect, defaultInputCropRect, 4, 5);
     });
 
     it('should use original crop coordinates', () => {
       assertCropCoordinates({
-        top: defaultExpectedCrop.left,
-        left: defaultExpectedCrop.top,
-        width: defaultExpectedCrop.height,
-        height: defaultExpectedCrop.width,
+        top: defaultExpectedCrop.left / 4,
+        left: defaultExpectedCrop.top / 4,
+        width: defaultExpectedCrop.height / 4,
+        height: defaultExpectedCrop.width / 4,
       });
     });
 
@@ -230,15 +230,15 @@ describe('cropToDataURI()', () => {
 
   describe('with orientation 6', () => {
     beforeEach(() => {
-      cropToDataURI(mockImage, defaultImageRect, defaultInputCropRect, 1, 6);
+      cropToDataURI(mockImage, defaultImageRect, defaultInputCropRect, 2, 6);
     });
 
     it('should use original crop coordinates', () => {
       assertCropCoordinates({
-        top: defaultExpectedCrop.right,
-        left: defaultExpectedCrop.top,
-        width: defaultExpectedCrop.height,
-        height: defaultExpectedCrop.width,
+        top: defaultExpectedCrop.right / 2,
+        left: defaultExpectedCrop.top / 2,
+        width: defaultExpectedCrop.height / 2,
+        height: defaultExpectedCrop.width / 2,
       });
     });
 
@@ -254,15 +254,15 @@ describe('cropToDataURI()', () => {
 
   describe('with orientation 7', () => {
     beforeEach(() => {
-      cropToDataURI(mockImage, defaultImageRect, defaultInputCropRect, 1, 7);
+      cropToDataURI(mockImage, defaultImageRect, defaultInputCropRect, 4, 7);
     });
 
     it('should use original crop coordinates', () => {
       assertCropCoordinates({
-        top: defaultExpectedCrop.right,
-        left: defaultExpectedCrop.bottom,
-        width: defaultExpectedCrop.height,
-        height: defaultExpectedCrop.width,
+        top: defaultExpectedCrop.right / 4,
+        left: defaultExpectedCrop.bottom / 4,
+        width: defaultExpectedCrop.height / 4,
+        height: defaultExpectedCrop.width / 4,
       });
     });
 
@@ -283,15 +283,15 @@ describe('cropToDataURI()', () => {
 
   describe('with orientation 8', () => {
     beforeEach(() => {
-      cropToDataURI(mockImage, defaultImageRect, defaultInputCropRect, 1, 8);
+      cropToDataURI(mockImage, defaultImageRect, defaultInputCropRect, 2, 8);
     });
 
     it('should use original crop coordinates', () => {
       assertCropCoordinates({
-        top: defaultExpectedCrop.left,
-        left: defaultExpectedCrop.bottom,
-        width: defaultExpectedCrop.height,
-        height: defaultExpectedCrop.width,
+        top: defaultExpectedCrop.left / 2,
+        left: defaultExpectedCrop.bottom / 2,
+        width: defaultExpectedCrop.height / 2,
+        height: defaultExpectedCrop.width / 2,
       });
     });
 
