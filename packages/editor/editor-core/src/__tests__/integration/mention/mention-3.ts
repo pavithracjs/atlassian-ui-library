@@ -23,7 +23,7 @@ import {
 BrowserTestCase(
   'mention-3.ts: user can click ToolbarMentionPicker and see mention',
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -34,14 +34,14 @@ BrowserTestCase(
     await page.waitForSelector(mentionId);
     await page.click(mentionId);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'mention-3.ts: should not insert on space if multiple exact nickname match',
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -56,14 +56,14 @@ BrowserTestCase(
     await page.type(editable, ' text ');
     const doc = await page.$eval(editable, getDocFromElement);
     await new Promise(resolve => setTimeout(resolve, 1000));
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'mention-3.ts: inserted if space on single match',
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -81,7 +81,7 @@ BrowserTestCase(
     });
     await page.type(editable, ' text ');
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
@@ -89,7 +89,7 @@ BrowserTestCase(
   'mention-3.ts: user should not see mention inside inline code',
   // TODO: Fix unknown character on BS
   { skip: ['safari', 'ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -99,7 +99,7 @@ BrowserTestCase(
     await insertMention(page, 'Carolyn');
     await page.type(editable, '`');
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
@@ -107,7 +107,7 @@ BrowserTestCase(
   'mention-3.ts: user should not see mention inside a code block',
   // TODO: Fix unknown character on BS
   { skip: ['safari', 'ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -119,14 +119,14 @@ BrowserTestCase(
     await page.type(editable, ['this is a code block ', '@Caro']);
     await page.type(editable, 'Return');
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'mention-3.ts: users with same first name should not be selected if space',
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -140,6 +140,6 @@ BrowserTestCase(
     await page.type(editable, ' some');
     await page.type(editable, ' text');
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

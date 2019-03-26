@@ -32,6 +32,7 @@ export type Props = {
   config?: ConfigResponse;
   children?: RenderChildren;
   copyLink: string;
+  dialogPlacement: string;
   isDisabled?: boolean;
   loadUserOptions?: LoadOptions;
   onLinkCopy?: Function;
@@ -42,9 +43,8 @@ export type Props = {
   triggerButtonStyle?: ShareButtonStyle;
 };
 
-// 448px is the max-width of a inline dialog
 const InlineDialogFormWrapper = styled.div`
-  width: 448px;
+  width: 352px;
 `;
 
 export const defaultShareContentState: DialogContentState = {
@@ -58,6 +58,7 @@ export const defaultShareContentState: DialogContentState = {
 export class ShareDialogWithTrigger extends React.Component<Props, State> {
   static defaultProps = {
     isDisabled: false,
+    dialogPlacement: 'bottom-end',
     shouldCloseOnEscapePress: false,
     triggerButtonAppearance: 'subtle',
     triggerButtonStyle: 'icon-only' as 'icon-only',
@@ -83,6 +84,7 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
             isDialogOpen: false,
             ignoreIntermediateState: true,
             defaultValue: defaultShareContentState,
+            shareError: undefined,
           });
       }
     }
@@ -90,19 +92,17 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
 
   private onTriggerClick = () => {
     // TODO: send analytics
-    if (!this.state.isDialogOpen) {
-      this.setState(
-        {
-          isDialogOpen: true,
-          ignoreIntermediateState: false,
-        },
-        () => {
-          if (this.containerRef.current) {
-            this.containerRef.current.focus();
-          }
-        },
-      );
-    }
+    this.setState(
+      {
+        isDialogOpen: !this.state.isDialogOpen,
+        ignoreIntermediateState: false,
+      },
+      () => {
+        if (this.containerRef.current) {
+          this.containerRef.current.focus();
+        }
+      },
+    );
   };
 
   private handleCloseDialog = (_: { isOpen: boolean; event: any }) => {
@@ -151,6 +151,7 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
     const { isDialogOpen, isSharing, shareError, defaultValue } = this.state;
     const {
       copyLink,
+      dialogPlacement,
       isDisabled,
       loadUserOptions,
       shareFormTitle,
@@ -185,6 +186,7 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
           }
           isOpen={isDialogOpen}
           onClose={this.handleCloseDialog}
+          placement={dialogPlacement}
         >
           {this.props.children ? (
             this.props.children({

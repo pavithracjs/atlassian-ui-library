@@ -18,7 +18,7 @@ import PatternsIcon from '@atlaskit/icon/glyph/issues';
 
 import Groups from './Groups';
 import GroupDrawer from './GroupDrawer';
-import SearchDrawer from './SearchDrawer';
+import SearchDrawer, { LinkComponentProps } from './SearchDrawer';
 import { externalPackages as packages, docs, patterns } from '../../site';
 import atlaskitLogo from '../../assets/atlaskit-logo-inverted.png';
 import atlaskitLogoMonochrome from '../../assets/atlaskit-logo-monochrome.png';
@@ -38,25 +38,33 @@ const IconWrapper = styled.div`
   justify-content: center;
   width: 40px;
 `;
-const HeaderIcon = ({ icon: Icon, color, label }) => (
+
+type IconProps = { label: string; primaryColor: string };
+type HeaderIconProps = {
+  icon: React.ComponentType<IconProps>;
+  color: string;
+  label: string;
+};
+
+const HeaderIcon = ({ icon: Icon, color, label }: HeaderIconProps) => (
   <IconWrapper color={color}>
     <Icon label={label} primaryColor={colors.N0} />
   </IconWrapper>
 );
 
-const headers = {
+const headers: { [key: string]: HeaderIconProps } = {
   docs: {
-    icon: DocumentationIcon,
+    icon: DocumentationIcon as React.ComponentType<IconProps>,
     color: colors.P300,
     label: 'Documentation',
   },
   packages: {
-    icon: PackagesIcon,
+    icon: PackagesIcon as React.ComponentType<IconProps>,
     color: colors.R300,
     label: 'Packages',
   },
   patterns: {
-    icon: PatternsIcon,
+    icon: PatternsIcon as React.ComponentType<IconProps>,
     color: colors.G300,
     label: 'Patterns',
   },
@@ -141,7 +149,12 @@ export default class Nav extends React.Component<{}, State> {
                       text={header.label}
                       href={`/${headerKey}`}
                       linkComponent={toClass(
-                        ({ href, children, className, onClick }) => (
+                        ({
+                          href,
+                          children,
+                          className,
+                          onClick,
+                        }: LinkComponentProps) => (
                           <Link
                             onClick={onClick}
                             to={href}

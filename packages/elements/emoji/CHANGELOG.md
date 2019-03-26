@@ -1,5 +1,38 @@
 # @atlaskit/emoji
 
+## 58.2.0
+- [minor] [b0210d7ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0210d7ccc):
+
+  - reset jest modules before hydration
+
+## 58.1.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 58.1.0
+- [minor] [b684722884](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b684722884):
+
+  - improvement of SSR tests and examples for Fabric Elements
+
+## 58.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+- Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+  - @atlaskit/docs@7.0.1
+  - @atlaskit/icon@16.0.5
+  - @atlaskit/section-message@2.0.1
+  - @atlaskit/spinner@10.0.1
+  - @atlaskit/theme@8.0.1
+  - @atlaskit/tooltip@13.0.1
+  - @atlaskit/i18n-tools@0.5.0
+  - @atlaskit/button@11.0.0
+  - @atlaskit/editor-test-helpers@8.0.0
+  - @atlaskit/util-data-test@11.0.0
+  - @atlaskit/util-service-support@4.0.0
+  - @atlaskit/media-core@29.0.0
+
 ## 57.0.1
 - Updated dependencies [7261577953](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7261577953):
   - @atlaskit/elements-test-helpers@0.3.0

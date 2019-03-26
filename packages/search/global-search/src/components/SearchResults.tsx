@@ -5,7 +5,7 @@ export interface Props {
   query: string;
   isError: boolean;
   isLoading: boolean;
-  retrySearch();
+  retrySearch: (e?: React.SyntheticEvent<HTMLElement>) => void;
   keepPreQueryState: boolean;
   shouldRenderNoResultsState: () => boolean;
   renderPreQueryStateComponent: () => JSX.Element;

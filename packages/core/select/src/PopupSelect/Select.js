@@ -55,6 +55,7 @@ type Props = {
     ref: ElementRef<*>,
     isOpen: boolean,
   }) => ElementType<*>,
+  handleKeyDown?: KeyboardEvent => void,
 };
 type State = {
   isOpen: boolean,
@@ -130,13 +131,17 @@ export default class PopupSelect extends PureComponent<Props, State> {
   // Event Handlers
   // ==============================
 
-  handleKeyDown = ({ key }: KeyboardEvent) => {
+  handleKeyDown = (event: KeyboardEvent) => {
+    const { key } = event;
     switch (key) {
       case 'Escape':
       case 'Esc':
         this.close();
         break;
       default:
+    }
+    if (this.props.handleKeyDown) {
+      this.props.handleKeyDown(event);
     }
   };
   handleClick = ({ target }: MouseEvent) => {
@@ -147,13 +152,13 @@ export default class PopupSelect extends PureComponent<Props, State> {
     // NOTE: Why not use the <Blanket /> component to close?
     // We don't want to interupt the user's flow. Taking this approach allows
     // user to click "through" to other elements and close the popout.
-    if (isOpen && !this.menuRef.contains(target)) {
+    if (isOpen && (this.menuRef && !this.menuRef.contains(target))) {
       this.close();
     }
 
     // open on target click -- we can't trust consumers to spread the onClick
     // property to the target
-    if (!isOpen && this.targetRef.contains(target)) {
+    if (!isOpen && (this.targetRef && this.targetRef.contains(target))) {
       this.open();
     }
   };

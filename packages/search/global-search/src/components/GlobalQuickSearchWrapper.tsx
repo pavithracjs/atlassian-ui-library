@@ -137,6 +137,11 @@ export interface Props {
    * call back, to be called when advanced search is clicked
    */
   onAdvancedSearch?: (e: AdvancedSearchEvent) => void;
+
+  /**
+   * controls where to retrieve prequery results either from aggregator or directly from the product
+   */
+  enablePreQueryFromAggregator?: boolean;
 }
 
 /**
@@ -193,9 +198,9 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps: Props, nextState: any) {
     return (
-      Object.keys({ ...nextProps, ...this.props })
+      (Object.keys({ ...nextProps, ...this.props }) as Array<keyof Props>)
         .map(key => this.props[key] !== nextProps[key])
         .reduce((acc, value) => acc || value, false) || this.state !== nextState
     );
@@ -238,6 +243,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       useCPUSForPeopleResults,
       logger,
       disableJiraPreQueryPeopleSearch,
+      enablePreQueryFromAggregator,
     } = this.props;
 
     return (
@@ -252,6 +258,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
           disableJiraPreQueryPeopleSearch={disableJiraPreQueryPeopleSearch}
           logger={logger}
           onAdvancedSearch={this.onAdvancedSearch}
+          enablePreQueryFromAggregator={enablePreQueryFromAggregator}
         />
       </MessagesIntlProvider>
     );

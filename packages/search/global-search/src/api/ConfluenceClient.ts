@@ -206,7 +206,7 @@ function quickNavResultsToResults(
   );
 
   // filter out people results
-  const isPeopleResult = result =>
+  const isPeopleResult = (result: QuickNavResult) =>
     result.className.startsWith(QUICKNAV_CLASSNAME_PERSON);
   const peopleResults = flattenedResults.filter(isPeopleResult);
 

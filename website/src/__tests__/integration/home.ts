@@ -12,7 +12,7 @@ BrowserTestCase(
   'home.js: The website home page should be displayed without errors',
   { skip: ['firefox', 'safari'] },
   // TODO: Please unskip when Editor fix this ED-5921
-  async client => {
+  async (client: any) => {
     const homeTest = new Page(client);
     await homeTest.goto(urlHome);
     await homeTest.waitForSelector(app);
