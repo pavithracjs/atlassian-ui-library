@@ -1,1 +1,0 @@
-- Enable noImplicitAny for @atlaskit/global-search
