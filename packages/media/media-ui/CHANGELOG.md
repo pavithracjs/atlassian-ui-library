@@ -1,5 +1,10 @@
 # @atlaskit/media-ui
 
+## 10.0.4
+- [patch] [62834d5210](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/62834d5210):
+
+  - update dependency version of @atlaskit/spinner
+
 ## 10.0.3
 - [patch] [9b0dd21ce7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0dd21ce7):
 

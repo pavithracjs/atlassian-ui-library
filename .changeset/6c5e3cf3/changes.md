@@ -1,1 +1,0 @@
-- update dependency version of @atlaskit/spinner
