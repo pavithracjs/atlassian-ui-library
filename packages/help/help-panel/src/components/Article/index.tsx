@@ -7,9 +7,10 @@ import { Article } from '../../model/Article';
 
 export interface Props {
   article: Article;
+  children?: any;
 }
 
-const Article = (props: Props) => {
+const Article: React.SFC<Props> = props => {
   const { article } = props;
 
   if (article) {

@@ -10,7 +10,6 @@ import { HelpDrawer, HelpDrawerContent } from './styled';
 
 export interface Props {
   children?: ReactNode;
-  help: HelpContextInterface;
 }
 export interface State {
   entered: boolean;
@@ -28,19 +27,19 @@ const transitionStyles = {
   exited: { transform: 'translate3d(calc(100% + 60px),0,0)' },
 };
 
-export class GlobalHelpDrawer extends PureComponent<Props, State> {
+export class GlobalHelpDrawer extends PureComponent<
+  Props & HelpContextInterface,
+  State
+> {
   body = canUseDOM ? document.querySelector('body') : undefined;
 
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      entered: false,
-    };
-  }
+  state = {
+    entered: false,
+  };
 
   render() {
     const { children, help } = this.props;
+    console.log(help);
 
     if (this.body) {
       return createPortal(

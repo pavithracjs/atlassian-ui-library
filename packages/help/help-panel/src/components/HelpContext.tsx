@@ -43,20 +43,24 @@ export interface State {
 }
 
 export interface HelpContextInterface {
-  view: VIEW;
-  isOpen: boolean;
-  onBtnCloseClick?(onBtnCloseClick: React.MouseEvent<HTMLElement>): void;
-  defaultArticle: Article | null | undefined; // Article to display, if is empty the default content should be displayed
-  articleState: REQUEST_STATE;
-  history: Article[]; // holds all the articles ID the user has navigated
-  defaultContent?: React.ReactNode;
-  navigateBack: void;
-  navigateTo(id: string): void;
-  onWasHelpfulSubmit?(value: any): Promise<boolean>;
-  onSearch: void;
-  searchResult: ArticleItem[];
-  searchState: REQUEST_STATE;
-  searchValue: string;
+  help: {
+    view: VIEW;
+    isOpen: boolean;
+    isSearchVisible(): boolean;
+    isArticleVisible(): boolean;
+    onBtnCloseClick?(onBtnCloseClick: React.MouseEvent<HTMLElement>): void;
+    defaultArticle: Article | null | undefined; // Article to display, if is empty the default content should be displayed
+    articleState: REQUEST_STATE;
+    history: Article[]; // holds all the articles ID the user has navigated
+    defaultContent?: React.ReactNode;
+    navigateBack(): void;
+    navigateTo(id: string): void;
+    onWasHelpfulSubmit?(value: any): Promise<boolean>;
+    onSearch(value: string): void;
+    searchResult: ArticleItem[];
+    searchState: REQUEST_STATE;
+    searchValue: string;
+  };
 }
 
 const defaultValues = {
@@ -76,7 +80,7 @@ const initialiseHelpData = data => {
   return Object.assign(defaultValues, data);
 };
 
-const HelpContext = createContext({});
+const HelpContext = createContext<Partial<HelpContextInterface>>({});
 
 export class HelpContextProvider extends React.Component<Props, State> {
   constructor(props) {
@@ -175,11 +179,14 @@ export class HelpContextProvider extends React.Component<Props, State> {
     }
   };
 
-  isSearchVisible = () => {
-    return this.state.view === VIEW.ARTICLE && this.props.onSearch;
+  isSearchVisible = (): boolean => {
+    if (this.props.onSearch) {
+      return this.state.view === VIEW.ARTICLE;
+    }
+    return false;
   };
 
-  isArticleVisible = () => {
+  isArticleVisible = (): boolean => {
     return (
       this.state.view === VIEW.ARTICLE &&
       this.state.searchValue.length <= MIN_CHARACTERS_FOR_SEARCH
@@ -190,15 +197,17 @@ export class HelpContextProvider extends React.Component<Props, State> {
     return (
       <HelpContext.Provider
         value={{
-          ...this.state,
-          isOpen: this.props.isOpen,
-          isSearchVisible: this.isSearchVisible,
-          isArticleVisible: this.isArticleVisible,
-          navigateBack: this.navigateBack,
-          navigateTo: this.navigateTo,
-          onSearch: this.onSearch,
-          onBtnCloseClick: this.props.onBtnCloseClick,
-          onWasHelpfulSubmit: this.props.onWasHelpfulSubmit,
+          help: {
+            ...this.state,
+            isOpen: this.props.isOpen,
+            isSearchVisible: this.isSearchVisible,
+            isArticleVisible: this.isArticleVisible,
+            navigateBack: this.navigateBack,
+            navigateTo: this.navigateTo,
+            onSearch: this.onSearch,
+            onBtnCloseClick: this.props.onBtnCloseClick,
+            onWasHelpfulSubmit: this.props.onWasHelpfulSubmit,
+          },
         }}
         children={this.props.children}
       />
@@ -208,17 +217,31 @@ export class HelpContextProvider extends React.Component<Props, State> {
 
 export const HelpContextConsumer = HelpContext.Consumer;
 
-export const withHelp = WrappedComponent => {
-  return class ComponentWithHelp extends React.Component {
-    static displayName = `withHelp(${WrappedComponent.displayName ||
-      WrappedComponent.name})`;
+// export const withHelp = <P extends Object>(
+//   WrappedComponent: React.ComponentType<P>,
+// ) => {
+//   return class ComponentWithHelp extends React.PureComponent<P & HelpContextInterface> {
+//     static displayName = `withHelp(${WrappedComponent.displayName ||
+//       WrappedComponent.name})`;
 
-    render() {
-      return (
-        <HelpContext.Consumer>
-          {help => <WrappedComponent {...this.props} help={help} />}
-        </HelpContext.Consumer>
-      );
-    }
-  };
-};
+//     render() {
+//       return (
+//         <HelpContext.Consumer>
+//            {({ help }) => {
+//             return <WrappedComponent {...this.props} help={help} />;
+//            }}
+//         </HelpContext.Consumer>
+//       );
+//     }
+//   };
+// };
+
+export const withHelp = <P extends Object>(
+  WrappedComponent: React.ComponentType<P>,
+) => (props: any) => (
+  <HelpContext.Consumer>
+    {({ help }) => {
+      return <WrappedComponent {...props} help={help} />;
+    }}
+  </HelpContext.Consumer>
+);

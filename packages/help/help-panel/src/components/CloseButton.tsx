@@ -3,9 +3,7 @@ import CrossCircleIcon from '@atlaskit/icon/glyph/cross-circle';
 import { CloseButton as StyledCloseButton } from './styled';
 import { withHelp, HelpContextInterface } from './HelpContext';
 
-export interface Props {
-  help: HelpContextInterface;
-}
+export interface Props {}
 
 /**
  * This function will return a CloseButton component only if the function
@@ -14,7 +12,7 @@ export interface Props {
  * @param onBtnCloseClick - Function executed when the close btn is clicked
  */
 
-const CloseButton = (props: Props) => {
+const CloseButton = (props: Props & HelpContextInterface) => {
   const {
     help: { onBtnCloseClick },
   } = props;

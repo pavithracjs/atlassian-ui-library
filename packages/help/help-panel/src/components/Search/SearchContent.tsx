@@ -7,11 +7,9 @@ import { withHelp, HelpContextInterface } from '../HelpContext';
 import SearchResult from './SearchResults';
 import SearchResultsEmpty from './SearchResultsEmpty';
 
-export interface Props {
-  help: HelpContextInterface;
-}
+export interface Props {}
 
-export const SearchContent = (props: Props) => {
+export const SearchContent = (props: Props & HelpContextInterface) => {
   const {
     help: { searchValue, searchResult, searchState },
   } = props;

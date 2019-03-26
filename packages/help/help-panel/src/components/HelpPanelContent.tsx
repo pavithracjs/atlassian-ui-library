@@ -1,16 +1,20 @@
 import * as React from 'react';
 import { withAnalytics } from '@atlaskit/analytics';
 import ArrowleftIcon from '@atlaskit/icon/glyph/arrow-left';
-import { injectIntl } from 'react-intl';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 
-import { withHelp } from './HelpContext';
+import { withHelp, HelpContextInterface } from './HelpContext';
 import { messages } from '../messages';
 
 import Search from './Search';
 import ArticleComponent from './Article';
 import { BackButton } from './styled';
 
-export const HelpPanelContent = props => {
+export interface Props {}
+
+export const HelpPanelContent = (
+  props: Props & InjectedIntlProps & HelpContextInterface,
+) => {
   const {
     help,
     intl: { formatMessage },

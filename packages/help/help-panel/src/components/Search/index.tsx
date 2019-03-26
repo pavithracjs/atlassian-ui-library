@@ -9,7 +9,6 @@ import { withHelp, HelpContextInterface } from '../HelpContext';
 
 import SearchContent from './SearchContent';
 export interface Props {
-  help: HelpContextInterface;
   displayResults: boolean;
 }
 
@@ -17,7 +16,10 @@ export interface State {
   value: string;
 }
 
-export class Search extends React.Component<Props & InjectedIntlProps, State> {
+export class Search extends React.Component<
+  Props & InjectedIntlProps & HelpContextInterface,
+  State
+> {
   state = {
     value: '',
   };

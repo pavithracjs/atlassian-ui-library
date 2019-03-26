@@ -9,11 +9,11 @@ interface Props {
   numberOfArticlesToDisplay: number;
 }
 
-const RelatedArticlesList: React.SFC<Props> = props => {
+const RelatedArticlesList: React.SFC<Props> = (props: Props) => {
   const { relatedArticles, numberOfArticlesToDisplay } = props;
 
   if (relatedArticles) {
-    return relatedArticles
+    const relatedArticlesElm = relatedArticles
       .slice(0, numberOfArticlesToDisplay)
       .map(relatedArticle => {
         return (
@@ -23,6 +23,8 @@ const RelatedArticlesList: React.SFC<Props> = props => {
           />
         );
       });
+
+    return <>{relatedArticlesElm}</>;
   }
 
   return null;

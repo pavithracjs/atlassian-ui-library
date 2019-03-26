@@ -53,7 +53,11 @@ export class RelatedArticles extends React.Component<
     } = this.props;
 
     // if there are related articles
-    if (relatedArticles && relatedArticles.length > 0) {
+    if (
+      relatedArticles &&
+      relatedArticles != null &&
+      relatedArticles.length > 0
+    ) {
       // Display list of related articles
       return (
         <ArticleContentInner>

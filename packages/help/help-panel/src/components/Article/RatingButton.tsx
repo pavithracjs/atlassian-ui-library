@@ -5,12 +5,13 @@ import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { ArticleContentInner, ArticleVoteInner } from './styled';
 import { messages } from '../../messages';
 
-interface Props {
-  help: HelpContextInterface;
-}
+interface Props {}
 
-const RatingButton = (props: Props & InjectedIntlProps) => {
-  if (props.help.onWasHelpfulSubmit) {
+const RatingButton: React.SFC<
+  Props & InjectedIntlProps & HelpContextInterface
+> = props => {
+  const { help } = props;
+  if (help.onWasHelpfulSubmit) {
     return (
       <ArticleContentInner>
         <ArticleVoteInner>
@@ -23,4 +24,4 @@ const RatingButton = (props: Props & InjectedIntlProps) => {
   return null;
 };
 
-export default withHelp(injectIntl(RatingButton));
+export default injectIntl(withHelp(RatingButton));

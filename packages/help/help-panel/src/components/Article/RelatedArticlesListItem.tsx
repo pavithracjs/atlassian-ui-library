@@ -8,12 +8,9 @@ import { ArticleItem } from '../../model/Article';
 
 interface Props {
   relatedArticle: ArticleItem;
-  help: HelpContextInterface;
 }
 
-const RelatedArticlesListItem: React.SFC<
-  Props & HelpContextInterface
-> = props => {
+const RelatedArticlesListItem = (props: Props & HelpContextInterface) => {
   const { relatedArticle, help } = props;
 
   const handleOnClick = () => {
