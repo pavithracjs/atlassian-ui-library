@@ -121,6 +121,9 @@ describe('Atlassian Switcher - Component Analytics', () => {
         data: {
           itemType: 'product',
           itemId: 'jira',
+          itemsCount: 6,
+          groupItemIndex: 0,
+          groupItemsCount: 4,
         },
       },
       {
@@ -128,6 +131,9 @@ describe('Atlassian Switcher - Component Analytics', () => {
         data: {
           itemType: 'try',
           itemId: 'confluence.ondemand',
+          itemsCount: 6,
+          groupItemIndex: 1,
+          groupItemsCount: 4,
         },
       },
       {
@@ -135,6 +141,9 @@ describe('Atlassian Switcher - Component Analytics', () => {
         data: {
           itemType: 'product',
           itemId: 'people',
+          itemsCount: 6,
+          groupItemIndex: 2,
+          groupItemsCount: 4,
         },
       },
       {
@@ -142,6 +151,9 @@ describe('Atlassian Switcher - Component Analytics', () => {
         data: {
           itemType: 'admin',
           itemId: 'discoverMore',
+          itemsCount: 6,
+          groupItemIndex: 3,
+          groupItemsCount: 4,
         },
       },
       {
@@ -150,6 +162,9 @@ describe('Atlassian Switcher - Component Analytics', () => {
           group: 'recent',
           itemType: 'recent',
           itemId: 'container-type',
+          itemsCount: 6,
+          groupItemIndex: 0,
+          groupItemsCount: 1,
         },
       },
       {
@@ -158,6 +173,9 @@ describe('Atlassian Switcher - Component Analytics', () => {
           group: 'customLinks',
           itemType: 'customLink',
           itemId: null,
+          itemsCount: 6,
+          groupItemIndex: 0,
+          groupItemsCount: 1,
         },
       },
     ];
@@ -200,8 +218,8 @@ describe('Atlassian Switcher - Component Analytics', () => {
       action: 'clicked',
       actionSubject: 'button',
     });
-    const flattenedContext = flattenContext(context);
-    expect(flattenedContext).toHaveProperty('itemsCount');
-    expect(typeof flattenedContext.itemsCount).toBe('number');
+    expect(flattenContext(context)).toMatchObject({
+      itemsCount: 6,
+    });
   });
 });
