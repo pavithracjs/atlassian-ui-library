@@ -26,6 +26,7 @@ import {
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import EditorView, { EditorViewProps } from '../editorView/editorView';
 import ErrorView, { ErrorViewProps } from '../editorView/errorView/errorView';
+import { Blanket } from '../styled';
 
 describe('Smart Media Editor', () => {
   let fileIdPromise: Promise<string>;
@@ -85,6 +86,12 @@ describe('Smart Media Editor', () => {
 
   it('should display spinner on initial render', () => {
     expect(component.find(Spinner)).toHaveLength(1);
+  });
+
+  it('should pass click even through Banket', () => {
+    const stopPropagation = jest.fn();
+    component.find(Blanket).simulate('click', { stopPropagation });
+    expect(stopPropagation).toHaveBeenCalled();
   });
 
   it('should call getFileState for given file', async () => {
