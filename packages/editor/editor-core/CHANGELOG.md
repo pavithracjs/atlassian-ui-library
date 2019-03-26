@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.4.0
+- [minor] [7e164b5a6b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e164b5a6b):
+
+  - ED-6547 Add GAS v3 analytics for smartLink
+
 ## 106.3.3
 - [patch] [aa117f5341](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa117f5341):
 

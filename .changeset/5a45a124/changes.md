@@ -1,1 +1,0 @@
-- ED-6547 Add GAS v3 analytics for smartLink
