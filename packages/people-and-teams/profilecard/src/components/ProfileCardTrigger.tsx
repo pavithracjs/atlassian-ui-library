@@ -241,8 +241,9 @@ class ProfilecardTrigger extends React.Component<
     if (this.props.children) {
       return this.renderWithTrigger();
     } else {
-      console.error('ProfileCardTrigger must have props.children');
-      return null;
+      throw new Error(
+        'Component "ProfileCardTrigger" must have "children" property',
+      );
     }
   }
 }
