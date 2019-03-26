@@ -105,7 +105,7 @@ export const checkDeprecations = ({
   if (ariaControls || ariaExpanded || ariaLabel || ariaHaspopup) {
     // tslint:disable-next-line
     console.warn(
-      'Button aria* props have been deprecated, please use the React ARIA props - https://goo.gl/Qnise1',
+      'Button aria* props have been removed, please use the React ARIA props - https://goo.gl/Qnise1',
     );
   }
 };
