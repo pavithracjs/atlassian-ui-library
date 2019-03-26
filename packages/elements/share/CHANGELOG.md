@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.2.6
+- [patch] [3161a93cdb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3161a93cdb):
+
+  - FS-3289 update share copy
+
 ## 0.2.5
 - [patch] [9babee9fc2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9babee9fc2):
 
