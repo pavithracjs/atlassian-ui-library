@@ -190,6 +190,7 @@ const generateJiraTask = (
   taskName: string,
   taskType: string,
   taskTypeName: string,
+  taskTag: { name?: string; appearance?: string } = {},
 ) => ({
   '@type': ['Object', 'atlassian:Task'],
   '@context': {
@@ -251,6 +252,7 @@ const generateJiraTask = (
     '@id': `https://www.atlassian.com/#${taskType}`,
     name: `${taskTypeName}`,
   },
+  tag: taskTag,
   taskStatus: {
     '@type': 'Link',
     href:
@@ -268,46 +270,55 @@ export const JiraSubTask = generateJiraTask(
   'Buy new trumpet',
   JIRA_SUB_TASK,
   'Sub-task',
+  { appearance: 'success' }, // shouldn't display lozenge
 );
 export const JiraStory = generateJiraTask(
   'Market next concert',
   JIRA_STORY,
   'Story',
+  { name: 'todo' }, // should display as "default"
 );
 export const JiraBug = generateJiraTask(
   'Fix audio quality of mixer',
   JIRA_BUG,
   'Bug',
+  { name: 'todo', appearance: 'default' },
 );
 export const JiraEpic = generateJiraTask(
   'Tribute to Earth Concert',
   JIRA_EPIC,
   'Epic',
+  { name: 'in progress', appearance: 'inprogress' },
 );
 export const JiraIncident = generateJiraTask(
   'Remove unauthorised crowd members',
   JIRA_INCIDENT,
   'Incident',
+  { name: 'blocked', appearance: 'removed' },
 );
 export const JiraServiceRequest = generateJiraTask(
   'Re-string instruments',
   JIRA_SERVICE_REQUEST,
   'Service Request',
+  { name: 'done', appearance: 'success' },
 );
 export const JiraChange = generateJiraTask(
   'Change album cover',
   JIRA_CHANGE,
   'Change',
+  { name: 'delayed', appearance: 'moved' },
 );
 export const JiraProblem = generateJiraTask(
   'Request Don to step teasing',
   JIRA_PROBLEM,
   'Problem',
+  { name: 'done', appearance: 'success' },
 );
 export const JiraCustomTaskType = generateJiraTask(
   'Perform at the Conga Club',
   JIRA_CUSTOM_TASK_TYPE,
   'Musician Request',
+  { name: 'done', appearance: 'success' },
 );
 
 export const JiraTasks = [
