@@ -4,6 +4,7 @@ import * as fetchMock from 'fetch-mock';
 import * as sinon from 'sinon';
 
 import ProfileClient, { modifyResponse } from '../../api/ProfileCardClient';
+import { ApiClientResponse } from '../../types';
 
 const clientUrl = 'https://foo/';
 const clientCacheSize = 10;
@@ -133,11 +134,15 @@ describe('Profilecard', () => {
           },
         };
 
-        const result = modifyResponse(data);
+        const result = modifyResponse(data as ApiClientResponse);
 
+        // @ts-ignore
         expect(result.remoteWeekdayIndex).toEqual(undefined);
+        // @ts-ignore
         expect(result.remoteWeekdayString).toEqual(undefined);
+        // @ts-ignore
         expect(result.remoteTimeString).toEqual(undefined);
+        // @ts-ignore
         expect(result.id).toEqual(undefined);
       });
 
@@ -148,7 +153,7 @@ describe('Profilecard', () => {
           },
         };
 
-        const result = modifyResponse(data);
+        const result = modifyResponse(data as ApiClientResponse);
 
         expect(result.timestring).toEqual('10:23am');
       });
@@ -162,7 +167,7 @@ describe('Profilecard', () => {
           },
         };
 
-        const result = modifyResponse(data);
+        const result = modifyResponse(data as ApiClientResponse);
 
         expect(result.timestring).toEqual('0:00pm');
       });
@@ -172,11 +177,11 @@ describe('Profilecard', () => {
           User: {
             remoteTimeString: '0:00pm',
             remoteWeekdayString: 'Mon',
-            remoteWeekdayIndex: 12,
+            remoteWeekdayIndex: '12',
           },
         };
 
-        const result = modifyResponse(data);
+        const result = modifyResponse(data as ApiClientResponse);
 
         expect(result.timestring).toEqual('Mon 0:00pm');
       });
