@@ -1,0 +1,4 @@
+{
+  "releases": [{ "name": "@atlaskit/beautiful-insights", "type": "patch" }],
+  "dependents": []
+}
