@@ -1,11 +1,11 @@
-import { colors } from '@atlaskit/theme';
+import { N20, N50 } from '@atlaskit/adf-schema';
 import { createTag, serializeStyle } from '../util';
 import { NodeSerializerOpts } from '../interfaces';
 
 const baseStyle = {
-  'background-color': colors.N20,
+  'background-color': N20,
   'background-clip': 'padding-box',
-  border: `1px solid ${colors.N50}`,
+  border: `1px solid ${N50}`,
   'border-right-width': 0,
   'border-bottom-width': 0,
   'font-weight': 'bold',
