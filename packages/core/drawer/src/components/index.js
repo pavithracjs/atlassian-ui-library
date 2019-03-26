@@ -118,7 +118,7 @@ export class DrawerBase extends Component<DrawerProps> {
       onCloseComplete,
     } = this.props;
     return (
-      <Portal>
+      <Portal zIndex="unset">
         <TransitionGroup component={OnlyChild}>
           <Fragment>
             {/* $FlowFixMe the `in` prop is internal */}
