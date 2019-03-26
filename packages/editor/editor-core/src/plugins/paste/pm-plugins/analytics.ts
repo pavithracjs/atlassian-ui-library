@@ -52,9 +52,9 @@ function getContent(state: EditorState, slice: Slice): PasteContent {
     },
   } = state;
   const nodeOrMarkName = new Set<string>();
-  slice.content.forEach((node: Node, offset: number) => {
+  slice.content.forEach((node: Node) => {
     if (node.type === paragraph) {
-      if (node.rangeHasMark(offset, offset + node.nodeSize - 2, link)) {
+      if (node.rangeHasMark(0, node.nodeSize - 2, link)) {
         // Check node contain link
         nodeOrMarkName.add('url');
         return;
