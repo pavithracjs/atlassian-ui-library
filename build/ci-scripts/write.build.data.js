@@ -5,7 +5,7 @@ const getPipelinesBuildData = require('../utils/getBuildData')
 
 (async () => {
   try {
-    const buildId = process.env.BITBUCKET_BUILD_NUMBER || 54050;
+    const buildId = process.env.BITBUCKET_BUILD_NUMBER;
     console.log('buildId :', buildId);
     console.log('buildStatus :', process.env.BITBUCKET_EXIT_CODE);
     const buildData = await getPipelinesBuildData(
