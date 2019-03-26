@@ -78,7 +78,7 @@ export const submitShare = (
       config &&
       config.allowComment &&
       data.comment &&
-      data.comment.format == 'plain_text'
+      data.comment.format === 'plain_text'
         ? data.comment.value.length
         : 0,
     isMessageEnabled: config ? config.allowComment : false,
