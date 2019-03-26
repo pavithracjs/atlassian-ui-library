@@ -161,7 +161,7 @@ describe('Smart Media Editor', () => {
 
   describe('onSave callback', () => {
     let resultingFileStateObservable: ReplaySubject<FileState>;
-    const callEditorViewOnSaveWithCustonContext = (customContext: any) => {
+    const callEditorViewOnSaveWithCustonContext = (customContext: Context) => {
       resultingFileStateObservable = new ReplaySubject<FileState>(1);
       const touchedFiles: TouchedFiles = {
         created: [

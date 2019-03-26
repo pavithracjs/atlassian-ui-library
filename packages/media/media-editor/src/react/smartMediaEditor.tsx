@@ -141,7 +141,7 @@ export class SmartMediaEditor extends React.Component<
         collectionName: 'recents',
         authProvider: userAuthProvider,
       };
-      file.copyFile(source, destination);
+      await file.copyFile(source, destination);
     }
   };
 
@@ -186,7 +186,7 @@ export class SmartMediaEditor extends React.Component<
       uploadableFileUpfrontIds,
     );
     const uploadingFileStateSubscription = uploadingFileState.subscribe({
-      next: async fileState => {
+      next: fileState => {
         if (fileState.status === 'processing') {
           onFinish();
           this.copyFileToUserCollection(fileState.id);

@@ -2,7 +2,10 @@ jest.mock('@atlaskit/media-store');
 import { MediaStore, FileItem, authToOwner } from '@atlaskit/media-store';
 import * as uuid from 'uuid';
 import { FileFetcherImpl, getItemsFromKeys } from '../../file';
-import { expectFunctionToHaveBeenCalledWith } from '@atlaskit/media-test-helpers';
+import {
+  expectFunctionToHaveBeenCalledWith,
+  asMock,
+} from '@atlaskit/media-test-helpers';
 
 describe('FileFetcher', () => {
   const setup = () => {
@@ -167,17 +170,17 @@ describe('FileFetcher', () => {
   });
 
   describe('copyFile', () => {
-    let copyFileWithToken: any;
+    let copyFileWithToken: jest.Mock<any>;
     let setupData: any;
     beforeEach(() => {
       setupData = setup();
       copyFileWithToken = jest
         .fn()
-        .mockReturnValue(Promise.resolve({ data: { id: 'some-id' } }));
-      (MediaStore as any).mockImplementation(() => ({
+        .mockResolvedValue({ data: { id: 'some-id' } });
+      asMock(MediaStore).mockImplementation(() => ({
         copyFileWithToken,
       }));
-      (authToOwner as any).mockImplementation((owner: any) => owner);
+      asMock(authToOwner).mockImplementation((owner: any) => owner);
     });
 
     it('should call mediaStore.copyFileWithToken', async () => {
