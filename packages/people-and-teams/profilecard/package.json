@@ -5,9 +5,9 @@
     "access": "public"
   },
   "description": "A React component to display a card with user information.",
+  "atlaskit:src": "src/index.ts",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
-  "types": "./index.d.ts",
+  "types": "index.d.ts",
   "scripts": {
     "build:flow": "bolt workspaces exec --only \"@atlaskit/profilecard\" -- flow-copy-source -v -i '**/__tests__/**' src dist/esm/src",
     "build:babel": "NODE_ENV=production BABEL_ENV=production:esm bolt workspaces exec --parallel  --only \"@atlaskit/profilecard\" -- babel src -d dist/esm/src --root-mode upward",
