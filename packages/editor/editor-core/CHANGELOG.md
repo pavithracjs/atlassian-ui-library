@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.6.0
+- [minor] [0781a7068c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0781a7068c):
+
+  - ED-6222 Add insertMenu insert events for: emoji picker, image picker, link typeahead, mention typeahead
+
 ## 106.5.0
 - [minor] [ea6b08700c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6b08700c):
 

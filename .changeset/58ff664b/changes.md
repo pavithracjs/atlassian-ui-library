@@ -1,1 +1,0 @@
-- ED-6222 Add insertMenu insert events for: emoji picker, image picker, link typeahead, mention typeahead
