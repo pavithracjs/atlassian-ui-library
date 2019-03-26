@@ -1,5 +1,10 @@
 # @atlaskit/spinner
 
+## 10.0.3
+- [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
+
+  - Removes duplicate babel-runtime dependency
+
 ## 10.0.2
 - [patch] [986c5e47c8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/986c5e47c8):
 

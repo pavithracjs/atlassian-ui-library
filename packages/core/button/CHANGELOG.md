@@ -1,5 +1,10 @@
 # @atlaskit/button
 
+## 11.0.5
+- [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
+
+  - Removes duplicate babel-runtime dependency
+
 ## 11.0.4
 - Updated dependencies [986c5e47c8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/986c5e47c8):
   - @atlaskit/spinner@10.0.2

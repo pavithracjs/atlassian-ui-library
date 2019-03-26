@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/icon-priority",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "A React package that contains priority icons",
   "license": "SEE LICENSE IN LICENSE",
   "main": "cjs/index.js",
@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^11.0.0",
+    "@atlaskit/button": "^11.0.5",
     "@atlaskit/docs": "^7.0.1",
     "@atlaskit/field-text": "^8.0.1",
     "@atlaskit/icon-build-process": "^0.1.0",

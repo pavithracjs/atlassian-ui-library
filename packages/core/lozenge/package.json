@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/lozenge",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "A React component that highlights status for quick recognition",
   "license": "Apache-2.0",
   "module": "index.js",

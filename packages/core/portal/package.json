@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/portal",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Atlaskit wrapper for rendering components in React portals",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -24,10 +24,10 @@
     "react-dom": "^16.4.2"
   },
   "devDependencies": {
-    "@atlaskit/button": "^11.0.0",
+    "@atlaskit/button": "^11.0.5",
     "@atlaskit/docs": "^7.0.1",
-    "@atlaskit/flag": "^10.0.1",
-    "@atlaskit/icon": "^16.0.5",
+    "@atlaskit/flag": "^10.0.2",
+    "@atlaskit/icon": "^16.0.6",
     "@atlaskit/inline-dialog": "^10.0.1",
     "@atlaskit/modal-dialog": "^8.0.2",
     "@atlaskit/onboarding": "^7.0.1",
