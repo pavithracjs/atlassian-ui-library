@@ -1,5 +1,8 @@
 import * as React from 'react';
-import ImageCropper, { ImageCropperProp } from '../../image-cropper';
+import ImageCropper, {
+  ImageCropperProp,
+  State as ImageCropperState,
+} from '../../image-cropper';
 import { ERROR } from '../../avatar-picker-dialog';
 import {
   Container,
@@ -8,6 +11,7 @@ import {
   RemoveImageButton,
 } from '../../image-cropper/styled';
 import { smallImage, mountWithIntlContext } from '@atlaskit/media-test-helpers';
+import { MediaImage } from '@atlaskit/media-ui';
 
 const imageWidth = 600;
 const imageHeight = 400;
@@ -39,7 +43,9 @@ describe('Image cropper', () => {
       imageOrientation: 1,
       ...props,
     };
-    const component = mountWithIntlContext(<ImageCropper {...allProps} />);
+    const component = mountWithIntlContext<ImageCropperProp, ImageCropperState>(
+      <ImageCropper {...allProps} />,
+    );
     const img = component.find('img');
     const imgContainer = component.find(ImageContainer);
     const container = component.find(Container);
@@ -125,11 +131,12 @@ describe('Image cropper', () => {
 
   describe('without image width', () => {
     it('should call onImageSize when image is loaded', () => {
-      const { img, onImageSizeSpy } = createComponent({ imageWidth });
+      const { component, onImageSizeSpy } = createComponent({ imageWidth });
 
-      img.simulate('load', {
-        target: { naturalWidth: imageWidth, naturalHeight: imageHeight },
-      });
+      component.find(MediaImage).props().onImageLoad!({
+        naturalWidth: imageWidth,
+        naturalHeight: imageHeight,
+      } as any);
       expect(onImageSizeSpy).toHaveBeenCalledTimes(1);
       expect(onImageSizeSpy).toHaveBeenCalledWith(imageWidth, imageHeight);
     });

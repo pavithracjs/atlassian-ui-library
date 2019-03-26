@@ -86,8 +86,7 @@ export class ImageCropper extends Component<
     }
   };
 
-  onImageLoaded = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    const image = e.target as HTMLImageElement;
+  onImageLoaded = (image: HTMLImageElement) => {
     const { naturalWidth, naturalHeight } = image;
     this.setState({ naturalWidth, naturalHeight });
     this.props.onImageSize(naturalWidth, naturalHeight);
