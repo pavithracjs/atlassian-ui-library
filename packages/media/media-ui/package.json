@@ -31,7 +31,7 @@
     "@atlaskit/icon": "^16.0.5",
     "@atlaskit/lozenge": "^7.0.0",
     "@atlaskit/page": "^9.0.1",
-    "@atlaskit/spinner": "^10.0.1",
+    "@atlaskit/spinner": "^10.0.3",
     "@atlaskit/theme": "^8.0.1",
     "@atlaskit/tooltip": "^13.0.1",
     "@types/bytes": "^2.4.33",
