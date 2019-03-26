@@ -18,7 +18,8 @@ const devices = [
   Device.iPhonePlus,
 ];
 
-describe('Snapshot Test: Media', () => {
+// https://product-fabric.atlassian.net/browse/ED-6579
+describe.skip('Snapshot Test: Media', () => {
   describe('renderer', () => {
     let page: Page;
 
