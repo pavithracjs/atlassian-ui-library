@@ -240,6 +240,13 @@ pipelines:
             - cd website
             # don't worry about deploying, this build will always be run alongside a branch build
             - yarn build
+            - cd ..
+          after-script:
+          # Extract all the diff images and store them into a folder for download.
+            - mkdir ./imageSnapshotFailures && find . -name '*-diff.png' -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+          # If a failure occurs, you can download the image snapshot of the differences.
+          artifacts: 
+            - imageSnapshotFailures/**
 
     # This will build all the packages and run bundle-analysis.
     run-bundle-analysis:
