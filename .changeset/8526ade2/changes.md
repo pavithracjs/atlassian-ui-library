@@ -1,0 +1,1 @@
+- ED-4650 Allow inline code to render after a parentheses
