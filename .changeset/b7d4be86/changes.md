@@ -1,0 +1,1 @@
+- allow the appearance of lozenges within smart link tasks to be configured
