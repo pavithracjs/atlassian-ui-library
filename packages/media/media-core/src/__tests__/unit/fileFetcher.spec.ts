@@ -2,7 +2,7 @@ jest.mock('@atlaskit/media-store');
 import { MediaStore, FileItem, authToOwner } from '@atlaskit/media-store';
 import * as uuid from 'uuid';
 import { FileFetcherImpl, getItemsFromKeys } from '../../file';
-import { expectFunctionToHaveBeenCalledWith } from '../../../../media-test-helpers';
+import { expectFunctionToHaveBeenCalledWith } from '@atlaskit/media-test-helpers';
 
 describe('FileFetcher', () => {
   const setup = () => {
