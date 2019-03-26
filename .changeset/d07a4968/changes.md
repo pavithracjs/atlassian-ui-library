@@ -1,0 +1,1 @@
+- Support object refs e.g. React.createRef()
