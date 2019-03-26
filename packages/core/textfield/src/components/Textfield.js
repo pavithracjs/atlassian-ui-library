@@ -82,8 +82,14 @@ class Textfield extends Component<TextFieldProps, State> {
 
   setInputRef = (input: ?HTMLInputElement) => {
     this.input = input;
-    if (this.props.forwardedRef) {
-      this.props.forwardedRef(input);
+
+    const { forwardedRef } = this.props;
+
+    if (typeof forwardedRef === 'object') {
+      forwardedRef.current = input;
+    }
+    if (typeof forwardedRef === 'function') {
+      forwardedRef(input);
     }
   };
 
