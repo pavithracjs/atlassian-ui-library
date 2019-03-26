@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import Button from '@atlaskit/button';
 import Tooltip from '@atlaskit/tooltip';
+import { messages } from '@atlaskit/media-ui';
 import { Tool, Color } from '../../../common';
 
 import LineWidthButton from './buttons/lineWidthButton';
@@ -14,7 +15,6 @@ import { ToolbarContainer, CenterButtons, VerticalLine } from './styles';
 import { ShapePopup, shapeTools } from './popups/shapePopup';
 import ShapeButton from './buttons/shapeButton';
 import { ButtonGroup } from './buttons/buttonGroup';
-import { messages } from '@atlaskit/media-ui';
 
 export type PopupState = 'none' | 'color' | 'lineWidth' | 'shape';
 
@@ -145,15 +145,10 @@ export class Toolbar extends Component<
 
             <VerticalLine />
 
-            <Button
-              appearance="primary"
-              theme="dark"
-              onClick={onSave}
-              autoFocus={true}
-            >
+            <Button appearance="primary" onClick={onSave} autoFocus={true}>
               {formatMessage(messages.save)}
             </Button>
-            <Button appearance="default" onClick={onCancel} theme="dark">
+            <Button appearance="default" onClick={onCancel}>
               {formatMessage(messages.cancel)}
             </Button>
           </ButtonGroup>

@@ -156,7 +156,7 @@ export const ToolIcon: ComponentClass<HTMLAttributes<{}>> = styled.div`
 ToolIcon.displayName = 'ToolIcon';
 
 // TODO This is copy paste from media-viewer
-export const Blanket: ComponentClass<HTMLAttributes<{}>> = styled.div`
+export const Blanket = styled.div`
   position: fixed;
   top: 0;
   left: 0;

@@ -3,6 +3,7 @@ import { Component } from 'react';
 import ChevronDownIcon from '@atlaskit/icon/glyph/chevron-down';
 import Tooltip from '@atlaskit/tooltip';
 import Button from '@atlaskit/button';
+import { colors } from '@atlaskit/theme';
 import {
   ColorSample,
   DropdownRightIconWrapper,
@@ -29,6 +30,7 @@ export class ColorButton extends Component<
       intl: { formatMessage },
     } = this.props;
     const { red, green, blue } = color;
+    const iconPrimaryColor = isActive ? colors.N0 : undefined;
     const style = { backgroundColor: `rgb(${red}, ${green}, ${blue})` };
 
     const iconBefore = (
@@ -38,7 +40,7 @@ export class ColorButton extends Component<
     );
     const iconAfter = (
       <DropdownRightIconWrapper>
-        <ChevronDownIcon label="chevron-icon" />
+        <ChevronDownIcon label="chevron-icon" primaryColor={iconPrimaryColor} />
       </DropdownRightIconWrapper>
     );
     return (

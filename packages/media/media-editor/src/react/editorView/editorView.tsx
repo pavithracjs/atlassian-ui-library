@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { messages } from '@atlaskit/media-ui';
+import { ThemeProvider } from 'styled-components';
 import { MediaEditor, LoadParameters } from '../mediaEditor';
 import { Tool, Color, Dimensions, ShapeParameters } from '../../common';
-import { messages } from '@atlaskit/media-ui';
 import Toolbar, { tools } from './toolbar/toolbar';
 import { EditorContainer } from './styles';
 
@@ -70,12 +71,14 @@ class EditorView extends Component<
     const refHandler = (div: HTMLDivElement) => {
       this.rootDiv = div;
     };
-
+    const theme = { __ATLASKIT_THEME__: { mode: 'dark' } };
     return (
-      <EditorContainer innerRef={refHandler}>
-        {this.renderEditor()}
-        {this.renderToolbar()}
-      </EditorContainer>
+      <ThemeProvider theme={theme}>
+        <EditorContainer innerRef={refHandler}>
+          {this.renderEditor()}
+          {this.renderToolbar()}
+        </EditorContainer>
+      </ThemeProvider>
     );
   }
 
