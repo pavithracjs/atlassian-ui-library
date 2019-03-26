@@ -1,1 +1,0 @@
-- fix warning when unmounting share doesn't cancel the async requests
