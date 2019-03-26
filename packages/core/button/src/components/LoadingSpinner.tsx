@@ -2,7 +2,7 @@ import * as React from 'react';
 import Spinner from '@atlaskit/spinner';
 import { css } from 'emotion';
 
-const appearances: string[] = ['primary', 'danger', 'help'];
+const appearances: string[] = ['primary', 'danger'];
 
 type Props = {
   spacing: string;

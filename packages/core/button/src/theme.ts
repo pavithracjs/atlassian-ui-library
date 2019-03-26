@@ -48,14 +48,6 @@ export const baseTheme = {
       selected: { light: colors.R500, dark: colors.R500 },
       focusSelected: { light: colors.R500, dark: colors.R500 },
     },
-    help: {
-      default: { light: colors.P400, dark: colors.P400 },
-      hover: { light: colors.P200, dark: colors.P200 },
-      active: { light: colors.P500, dark: colors.P500 },
-      disabled: { light: colors.N20A, dark: colors.DN70 },
-      selected: { light: colors.N700, dark: colors.DN0 },
-      focusSelected: { light: colors.R500, dark: colors.R500 },
-    },
     link: {
       default: { light: 'none', dark: 'none' },
       selected: { light: colors.N700, dark: colors.N20 },
@@ -98,10 +90,6 @@ export const baseTheme = {
     danger: {
       focus: { light: colors.R100, dark: colors.R100 },
       focusSelected: { light: colors.R100, dark: colors.R100 },
-    },
-    help: {
-      focus: { light: colors.P100, dark: colors.P100 },
-      focusSelected: { light: colors.P100, dark: colors.P100 },
     },
     link: {
       focus: { light: hex2rgba(colors.B200, 0.6), dark: colors.B75 },
@@ -150,12 +138,6 @@ export const baseTheme = {
       default: { light: colors.N0, dark: colors.N0 },
       disabled: { light: colors.N70, dark: colors.DN30 },
       selected: { light: colors.N0, dark: colors.N0 },
-      focusSelected: { light: colors.N0, dark: colors.N0 },
-    },
-    help: {
-      default: { light: colors.N0, dark: colors.N0 },
-      disabled: { light: colors.N70, dark: colors.DN30 },
-      selected: { light: colors.N20, dark: colors.DN400 },
       focusSelected: { light: colors.N0, dark: colors.N0 },
     },
     link: {

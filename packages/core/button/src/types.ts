@@ -8,8 +8,7 @@ export type ButtonAppearances =
   | 'primary'
   | 'subtle'
   | 'subtle-link'
-  | 'warning'
-  | 'help';
+  | 'warning';
 
 export interface ButtonProps {
   /** The base styling to apply to the button */

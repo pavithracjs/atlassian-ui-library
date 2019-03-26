@@ -10,7 +10,6 @@ const appearances: ButtonAppearances[] = [
   'subtle-link',
   'warning',
   'danger',
-  'help',
 ];
 
 const Table = (props: React.HTMLProps<HTMLDivElement>) => (
