@@ -78,8 +78,7 @@ export interface ProfileCardTriggerState {
   data: ProfileCardClientData | null;
 }
 
-// export type StatusTypes = 'active' | 'inactive' | 'closed';
-export type StatusTypes = string;
+export type StatusTypes = 'active' | 'inactive' | 'closed';
 
 export type StatusModifiedDateType =
   | 'noDate'
@@ -90,14 +89,14 @@ export type StatusModifiedDateType =
   | 'severalMonths'
   | 'moreThanAYear';
 
-export type ProfileCardAction = {
+export interface ProfileCardAction {
   callback?: (...args: any[]) => any;
   shouldRender?: (data: any) => boolean;
   id: string;
   label: string;
-};
+}
 
-export type ProfilecardProps = {
+export interface ProfilecardProps {
   isLoading?: boolean;
   hasError?: boolean;
   errorType?: ProfileCardErrorType;
@@ -127,12 +126,12 @@ export type ProfilecardProps = {
   disabledAccountMessage?: React.ReactNode;
   // Allow to show a status lozenge for disabled account which `status` prop is `inactive` or `closed`
   hasDisabledAccountLozenge?: boolean;
-};
+}
 
-export type MessageIntlProviderProps = {
+export interface MessageIntlProviderProps {
   children: React.ReactNode;
   intl: IntlShape;
-};
+}
 
 export type RelativeDateKeyType =
   | 'ThisWeek'
@@ -143,7 +142,7 @@ export type RelativeDateKeyType =
   | 'MoreThanAYear'
   | null;
 
-export type ProfileClient = {
+export interface ProfileClient {
   makeRequest: (
     cloudId: string,
     userId: string,
@@ -155,7 +154,7 @@ export type ProfileClient = {
     cloudId: string,
     userId: string,
   ) => Promise<ProfileCardClientData>;
-};
+}
 
 export type ProfilecardTriggerPosition =
   | 'bottom-start'
@@ -175,8 +174,14 @@ export type ProfileCardErrorType = {
   reason: 'default' | 'NotFound';
 } | null;
 
-export type AkProfileClientConfig = {
+export interface ProfileClientOptions {
   url: string;
   cacheSize?: number;
   cacheMaxAge?: number;
-};
+}
+
+export interface ProfileClientConfig extends ProfileClientOptions {
+  url: string;
+  cacheSize: number;
+  cacheMaxAge: number;
+}

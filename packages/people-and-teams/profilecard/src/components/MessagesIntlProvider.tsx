@@ -1,16 +1,17 @@
 import * as React from 'react';
-import { IntlProvider, injectIntl } from 'react-intl';
-import { getMessagesForLocale } from '../internal/i18n-util';
-import { MessageIntlProviderProps } from '../types';
+import { IntlProvider, injectIntl, InjectedIntlProps } from 'react-intl';
+import { getMessagesForLocale, LangCode } from '../internal/i18n-util';
 
-class MessagesIntlProvider extends React.PureComponent<
-  MessageIntlProviderProps
-> {
+export interface Props {
+  children: React.ReactChild;
+}
+
+class MessagesIntlProvider extends React.Component<Props & InjectedIntlProps> {
   render() {
     const { intl, children } = this.props;
 
     return (
-      <IntlProvider messages={getMessagesForLocale(intl.locale)}>
+      <IntlProvider messages={getMessagesForLocale(intl.locale as LangCode)}>
         {children}
       </IntlProvider>
     );

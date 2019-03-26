@@ -1,9 +1,63 @@
-import * as locales from '../i18n';
+import {
+  cs,
+  da,
+  de,
+  en,
+  en_GB,
+  es,
+  et,
+  fi,
+  fr,
+  hu,
+  is,
+  it,
+  ja,
+  ko,
+  nb,
+  nl,
+  pl,
+  pt_BR,
+  pt_PT,
+  ro,
+  ru,
+  sk,
+  sv,
+  zh,
+  LanguageCode,
+} from '../i18n';
 
-const localesMessagesMap = {
-  ...locales,
-  'pt-BR': locales.pt_BR, // should resolve pt-BR and pt_BR
-  'pt-PT': locales.pt_PT,
+export type LangCode = LanguageCode | 'pt-BR' | 'pt-PT';
+type LocaleMessages = { [key: string]: string };
+
+type LocaleMessagesMap = { [key in LangCode]: LocaleMessages };
+
+const localesMessagesMap: LocaleMessagesMap = {
+  cs,
+  da,
+  de,
+  en,
+  en_GB,
+  es,
+  et,
+  fi,
+  fr,
+  hu,
+  is,
+  it,
+  ja,
+  ko,
+  nb,
+  nl,
+  pl,
+  pt_BR,
+  'pt-BR': pt_BR, // should resolve pt-BR and pt_BR
+  pt_PT,
+  'pt-PT': pt_PT,
+  ro,
+  ru,
+  sk,
+  sv,
+  zh,
 };
 
 /**
@@ -16,16 +70,16 @@ const localesMessagesMap = {
  *
  * @param locale string specifying the locale like 'en_GB', or 'fr'.
  */
-export const getMessagesForLocale = (locale: string) => {
+export const getMessagesForLocale = (locale: LangCode) => {
   let messages = localesMessagesMap[locale];
 
   if (!messages) {
-    const parentLocale = locale.split(/[-_]/)[0];
+    const parentLocale = locale.split(/[-_]/)[0] as LangCode;
     messages = localesMessagesMap[parentLocale];
   }
 
   if (!messages) {
-    messages = locales.en;
+    messages = en;
   }
 
   return messages;

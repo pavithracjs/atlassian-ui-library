@@ -9,22 +9,19 @@
   "module": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "build:flow": "bolt workspaces exec --only \"@atlaskit/profilecard\" -- flow-copy-source -v -i '**/__tests__/**' src dist/esm/src",
-    "build:babel": "NODE_ENV=production BABEL_ENV=production:esm bolt workspaces exec --parallel  --only \"@atlaskit/profilecard\" -- babel src -d dist/esm/src --root-mode upward",
-    "build:for-i18n-push": "rm -rf ./dist && yarn build:flow && yarn build:babel",
-    "i18n:push": "yarn build:for-i18n-push && i18n-tools push --resource profilecard ./dist/esm",
-    "i18n:pull": "rm -rf ./src/i18n && i18n-tools pull --resource profilecard ."
+    "i18n:push": "i18n-tools push --resource profilecard . --type ts",
+    "i18n:pull": "i18n-tools pull --resource profilecard . --type ts"
   },
   "dependencies": {
     "@atlaskit/avatar": "^15.0.1",
     "@atlaskit/button": "^11.0.0",
     "@atlaskit/icon": "^16.0.5",
     "@atlaskit/layer": "^6.0.0",
-    "@atlaskit/lozenge": "^7.0.0",
+    "@atlaskit/lozenge": "^7.0.1",
     "@atlaskit/popper": "^0.4.0",
     "@atlaskit/portal": "^0.2.0",
     "@atlaskit/spinner": "^10.0.1",
-    "@atlaskit/theme": "^8.0.1",
+    "@atlaskit/theme": "^8.1.1",
     "@atlaskit/util-shared-styles": "^2.10.3",
     "react-node-resolver": "^1.0.1",
     "babel-runtime": "^6.26.0",

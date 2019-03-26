@@ -1,7 +1,8 @@
 import { LRUCache } from 'lru-fast';
 
 import {
-  AkProfileClientConfig,
+  ProfileClientOptions,
+  ProfileClientConfig,
   ApiClientResponse,
   ProfileCardClientData,
 } from '../types';
@@ -119,16 +120,16 @@ const requestService = (serviceUrl, cloudId, userId): Promise<any> => {
         });
       }
 
-      return modifyResponse(json.data);
+      return Promise.resolve(modifyResponse(json.data));
     });
   });
 };
 
 class ProfileCardClient {
-  config: AkProfileClientConfig;
+  config: ProfileClientConfig;
   cache: any;
 
-  constructor(config: AkProfileClientConfig) {
+  constructor(config: ProfileClientOptions) {
     const defaults = {
       cacheSize: 10,
       cacheMaxAge: 0,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import uid from 'uid';
 import styled from 'styled-components';
+// @ts-ignore
 import { AtlasKitThemeProvider, colors, themed } from '@atlaskit/theme';
 import { profiles } from '../../mock-helpers';
 import { ProfileCard } from '../../src';
