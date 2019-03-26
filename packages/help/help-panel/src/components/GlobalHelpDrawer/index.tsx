@@ -39,7 +39,6 @@ export class GlobalHelpDrawer extends PureComponent<
 
   render() {
     const { children, help } = this.props;
-    console.log(help);
 
     if (this.body) {
       return createPortal(

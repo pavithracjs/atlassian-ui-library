@@ -55,7 +55,7 @@ export class RelatedArticles extends React.Component<
     // if there are related articles
     if (
       relatedArticles &&
-      relatedArticles != null &&
+      relatedArticles !== null &&
       relatedArticles.length > 0
     ) {
       // Display list of related articles
