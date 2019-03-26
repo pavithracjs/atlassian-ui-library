@@ -1,0 +1,1 @@
+- Fix, and guard against, missing refs
