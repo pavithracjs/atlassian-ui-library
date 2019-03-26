@@ -1,11 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import { Popper } from '@atlaskit/popper';
 import Portal from '@atlaskit/portal';
 import { layers } from '@atlaskit/theme';
 import NodeResolver from 'react-node-resolver';
 
 import LoadingState from './LoadingState';
-import ErrorMessage from './ErrorMessage';
 import Profilecard from './ProfileCard';
 import withOuterListeners from './withOuterListeners';
 import filterActions from '../internal/filterActions';
@@ -171,25 +170,13 @@ class ProfilecardTrigger extends React.Component<
       ...this.state.data,
     };
 
-    // @FIXME figure out better way to display error state
-    // maybe putting it back into ProfileCard?!
-    // put it back!!!
-    if (this.state.hasError) {
-      return (
-        <CardElevationWrapper customElevation="none">
-          <ErrorMessage
-            errorType={this.state.error}
-            reload={this.clientFetchProfile}
-          />
-        </CardElevationWrapper>
-      );
-    }
-
     return (
       <Profilecard
         {...newProps}
         actions={this.filterActions()}
         customElevation="none"
+        hasError={this.state.hasError}
+        errorType={this.state.error}
       />
     );
   };

@@ -1,19 +1,18 @@
-// @flow
 import 'es6-promise/auto'; // 'whatwg-fetch' needs a Promise polyfill
 
-import fetchMock from 'fetch-mock';
-import sinon from 'sinon';
+import * as fetchMock from 'fetch-mock';
+import * as sinon from 'sinon';
 
-import AkProfileClient, { modifyResponse } from '../../api/ProfileCardClient';
+import ProfileClient, { modifyResponse } from '../../api/ProfileCardClient';
 
 const clientUrl = 'https://foo/';
 const clientCacheSize = 10;
 const clientCacheMaxAge = 500;
 
 describe('Profilecard', () => {
-  describe('AkProfileClient', () => {
+  describe('ProfileClient', () => {
     it('config.url is available when set on instantiation', () => {
-      const client = new AkProfileClient({
+      const client = new ProfileClient({
         url: clientUrl,
       });
 
@@ -22,7 +21,7 @@ describe('Profilecard', () => {
     });
 
     it('cache is available when cacheMaxAge is set on instantiation', () => {
-      const client = new AkProfileClient({
+      const client = new ProfileClient({
         url: clientUrl,
         cacheSize: clientCacheSize,
         cacheMaxAge: clientCacheMaxAge,
@@ -35,7 +34,7 @@ describe('Profilecard', () => {
     });
 
     it('should cap the cache at 30 days, even if you set a longer one', () => {
-      const client = new AkProfileClient({
+      const client = new ProfileClient({
         url: clientUrl,
         cacheSize: clientCacheSize,
         // 40 days
@@ -46,7 +45,7 @@ describe('Profilecard', () => {
     });
 
     describe('LRU Cache', () => {
-      const client = new AkProfileClient({
+      const client = new ProfileClient({
         url: clientUrl,
         cacheSize: clientCacheSize,
         cacheMaxAge: clientCacheMaxAge,

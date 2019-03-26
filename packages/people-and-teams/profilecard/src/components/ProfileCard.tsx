@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { colors } from '@atlaskit/theme';
 import Avatar from '@atlaskit/avatar';
@@ -30,7 +30,7 @@ import {
   SpinnerContainer,
 } from '../styled/Card';
 
-export default class Profilecard extends PureComponent<ProfilecardProps> {
+export default class Profilecard extends React.PureComponent<ProfilecardProps> {
   static defaultProps: ProfilecardProps = {
     isLoading: false,
     hasError: false,
@@ -45,19 +45,24 @@ export default class Profilecard extends PureComponent<ProfilecardProps> {
     clientFetchProfile: () => null,
   };
 
-  _timeOpen: any;
+  private timeOpen: number | null;
   clientFetchProfile: () => void;
 
   constructor(props: ProfilecardProps) {
     super(props);
 
-    this._timeOpen = null;
+    this.timeOpen = null;
 
     this.clientFetchProfile = (...args: any) => {
       this.callAnalytics('profile-card.reload', {});
       this.callClientFetchProfile(...args);
     };
   }
+
+  private durationSince = (from: number | null) => {
+    const fromParsed = from || 0;
+    return fromParsed > 0 ? Date.now() - fromParsed : null;
+  };
 
   callClientFetchProfile = (...args: any) => {
     if (this.props.clientFetchProfile) {
@@ -72,14 +77,9 @@ export default class Profilecard extends PureComponent<ProfilecardProps> {
   };
 
   componentDidMount() {
-    this._timeOpen = Date.now();
+    this.timeOpen = Date.now();
     this.callAnalytics('profile-card.view', {});
   }
-
-  _durationSince = (from: number) => {
-    const fromParsed = from || 0;
-    return fromParsed > 0 ? Date.now() - fromParsed : null;
-  };
 
   renderErrorMessage() {
     return (
@@ -105,7 +105,7 @@ export default class Profilecard extends PureComponent<ProfilecardProps> {
               onClick={(...args) => {
                 this.callAnalytics('profile-card.click', {
                   id: action.id || null,
-                  duration: this._durationSince(this._timeOpen),
+                  duration: this.durationSince(this.timeOpen),
                 });
                 if (action.callback) {
                   action.callback(...args);
@@ -264,10 +264,7 @@ export default class Profilecard extends PureComponent<ProfilecardProps> {
     const { fullName, status, customElevation } = this.props;
     let cardContent: React.ReactNode = null;
 
-    // @FIXME make sure we have the minimum of data to render a card
-    // closed users do need the public name, no?
-
-    // closed users have empty fullName field
+    // @FIXME do closed users have empty fullName field?
     const canRender = fullName || status === 'closed';
 
     if (this.props.hasError) {
@@ -284,9 +281,8 @@ export default class Profilecard extends PureComponent<ProfilecardProps> {
       const isDisabledUser = status === 'inactive' || status === 'closed';
       const actions = this.renderActionsButtons();
 
-      // @FIXME move `profile-card.loaded` to not static
       this.callAnalytics('profile-card.loaded', {
-        duration: this._durationSince(this._timeOpen),
+        duration: this.durationSince(this.timeOpen),
       });
 
       cardContent = (
@@ -309,12 +305,8 @@ export default class Profilecard extends PureComponent<ProfilecardProps> {
           </CardContent>
         </CardContainer>
       );
-    } else {
-      return null;
     }
 
-    // @FIXME <CardElevationWrapper customElevation>
-    // needs to move somewhere else
     return (
       <MessagesIntlProvider>
         <CardElevationWrapper customElevation={customElevation}>

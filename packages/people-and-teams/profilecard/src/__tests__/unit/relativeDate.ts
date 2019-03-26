@@ -1,4 +1,3 @@
-// @flow
 import relativeDate from '../../internal/relative-date';
 import mockGlobalDate from './helper/_mock-global-date';
 

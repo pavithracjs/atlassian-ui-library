@@ -92,7 +92,7 @@ export default function Example() {
       <MainStage>
         <Section>
           <h4>Loading State</h4>
-          <ProfileCard isLoading={true} />
+          <ProfileCard isLoading />
         </Section>
         <Section>
           <h4>Error State</h4>

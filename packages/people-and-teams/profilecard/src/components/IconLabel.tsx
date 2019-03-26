@@ -1,4 +1,4 @@
-import React, { PureComponent, ReactNode } from 'react';
+import * as React from 'react';
 import IconLocation from '@atlaskit/icon/glyph/location';
 import IconRecent from '@atlaskit/icon/glyph/recent';
 import IconMention from '@atlaskit/icon/glyph/mention';
@@ -21,10 +21,10 @@ const icons = {
 
 type Props = {
   icon: string;
-  children?: ReactNode;
+  children?: React.ReactNode;
 };
 
-export default class IconLabel extends PureComponent<Props> {
+export default class IconLabel extends React.PureComponent<Props> {
   static defaultProps = {
     icon: '',
   };

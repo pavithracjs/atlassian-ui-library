@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function withOuterListeners(Component: any) {
-  return class WithOutsideClick extends PureComponent<Props> {
+  return class WithOutsideClick extends React.PureComponent<Props> {
     componentDidMount() {
       if (this.props.handleClickOutside) {
         document.addEventListener('click', this.handleClick, false);

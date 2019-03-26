@@ -1,9 +1,11 @@
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import { IntlProvider, injectIntl } from 'react-intl';
 import { getMessagesForLocale } from '../internal/i18n-util';
 import { MessageIntlProviderProps } from '../types';
 
-class MessagesIntlProvider extends PureComponent<MessageIntlProviderProps> {
+class MessagesIntlProvider extends React.PureComponent<
+  MessageIntlProviderProps
+> {
   render() {
     const { intl, children } = this.props;
 

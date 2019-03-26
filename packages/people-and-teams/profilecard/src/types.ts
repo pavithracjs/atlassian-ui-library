@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import * as React from 'react';
 import { IntlShape } from 'react-intl';
 
 export type Elevation = 'e100' | 'e200' | 'e300' | 'e400' | 'e500' | 'none';
@@ -78,7 +78,8 @@ export interface ProfileCardTriggerState {
   data: ProfileCardClientData | null;
 }
 
-export type StatusTypes = 'active' | 'inactive' | 'closed';
+// export type StatusTypes = 'active' | 'inactive' | 'closed';
+export type StatusTypes = string;
 
 export type StatusModifiedDateType =
   | 'noDate'
@@ -123,13 +124,13 @@ export type ProfilecardProps = {
   // `disabledAccountMessage` should not contain react-intl components, ex: `FormattedMessage`,
   // because ProfileCard component is wrapped in its own `IntlProvider` and `FormattedMessage` will loads messages of `@atlaskit/profilecard`,
   // not from the consumer of `@atlaskit/profilecard`.
-  disabledAccountMessage?: ReactNode;
+  disabledAccountMessage?: React.ReactNode;
   // Allow to show a status lozenge for disabled account which `status` prop is `inactive` or `closed`
   hasDisabledAccountLozenge?: boolean;
 };
 
 export type MessageIntlProviderProps = {
-  children: ReactNode;
+  children: React.ReactNode;
   intl: IntlShape;
 };
 

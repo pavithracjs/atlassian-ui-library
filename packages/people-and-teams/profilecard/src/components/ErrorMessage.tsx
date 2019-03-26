@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import IconError from '@atlaskit/icon/glyph/cross-circle';
 import AkButton from '@atlaskit/button';
 
@@ -10,7 +10,7 @@ type Props = {
   errorType?: ProfileCardErrorType;
 };
 
-export default class ErrorMessage extends PureComponent<Props> {
+export default class ErrorMessage extends React.PureComponent<Props> {
   static defaultProps = {
     errorType: {
       reason: 'default',

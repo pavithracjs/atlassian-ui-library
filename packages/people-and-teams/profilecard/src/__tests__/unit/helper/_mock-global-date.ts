@@ -1,6 +1,5 @@
-// @flow
-
 // backup real global Date object
+// @ts-ignore
 const _Date = global.Date;
 
 export default {
@@ -36,6 +35,7 @@ export default {
     MockDate.UTC = _Date.UTC;
 
     MockDate.now = function now() {
+      // @ts-ignore
       return new MockDate().valueOf();
     };
 
@@ -44,11 +44,12 @@ export default {
     };
 
     MockDate.prototype = _Date.prototype;
-
+    // @ts-ignore
     global.Date = MockDate;
   },
 
   reset: function reset() {
+    // @ts-ignore
     global.Date = _Date;
   },
 };

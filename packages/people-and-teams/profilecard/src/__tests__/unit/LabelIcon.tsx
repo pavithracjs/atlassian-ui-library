@@ -1,5 +1,4 @@
-// @flow
-import React from 'react';
+import * as React from 'react';
 import { shallow, mount } from 'enzyme';
 import IconLabel from '../../components/IconLabel';
 import { DetailsLabelIcon, DetailsLabelText } from '../../styled/Card';
