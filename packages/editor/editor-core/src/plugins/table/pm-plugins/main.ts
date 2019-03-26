@@ -37,7 +37,7 @@ import {
   findControlsHoverDecoration,
   normalizeSelection,
   applyDefaultMarks,
-  toggleMarksOnDefaultMarks,
+  saveDefaultMarksInCellNode,
 } from '../utils';
 import { fixTables } from '../transforms';
 import { TableCssClassName as ClassName } from '../types';
@@ -204,7 +204,7 @@ export const createPlugin = (
       }
       const storedMarkTransaction = transactions.find(tr => tr.storedMarksSet);
       if (storedMarkTransaction) {
-        toggleMarksOnDefaultMarks(storedMarkTransaction);
+        return saveDefaultMarksInCellNode(storedMarkTransaction);
       }
     },
     view: (editorView: EditorView) => {

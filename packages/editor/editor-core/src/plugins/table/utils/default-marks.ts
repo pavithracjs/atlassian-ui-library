@@ -1,4 +1,4 @@
-import { Transaction } from 'prosemirror-state';
+import { Transaction, Selection, TextSelection } from 'prosemirror-state';
 import { Mark } from 'prosemirror-model';
 import { findParentNodeOfType } from 'prosemirror-utils';
 import { isEmptyNode } from '../../../utils/document';
@@ -21,14 +21,18 @@ export const applyDefaultMarks = (tr: Transaction) => {
     return tr;
   }
 
-  const marks: Mark[] = [];
+  const marks: Mark[] = cell.node.attrs.defaultMarks
+    .map((mark: Mark) => {
+      const { type, attrs } = mark;
+      if (typeof type.create === 'function') {
+        return type.create(attrs);
+      } else if (typeof type === 'string') {
+        return schema.marks[type].create();
+      }
 
-  cell.node.attrs.defaultMarks.forEach(mark => {
-    const { type } = mark;
-    if (schema.marks[type]) {
-      marks.push(schema.marks[type].create());
-    }
-  });
+      return null;
+    })
+    .filter((mark: Mark) => mark);
 
   if (marks.length) {
     return tr.setStoredMarks(marks);
@@ -37,64 +41,39 @@ export const applyDefaultMarks = (tr: Transaction) => {
   return tr;
 };
 
-function arrayDiffFrom(a1, a2, toEqual) {
-  const result = [];
-  const notInArr2 = [];
-  (a1 || []).forEach(arrElement => {
-    const element = a2.filter(x => toEqual(x, arrElement));
-
-    if (!element.length) {
-      result.push(arrElement);
-    } else {
-      notInArr2.push(arrElement);
-    }
-  });
-
-  return result;
-}
-
-function symmetricDifference(arr1, arr2, toEqual = (x, y) => x === y) {
-  const resultAtoB = arrayDiffFrom(arr1, arr2, toEqual);
-  const resultBtoA = arrayDiffFrom(arr2, arr1, toEqual);
-
-  return [].concat(resultAtoB, resultBtoA);
-}
-
-function blas(arr1, arr2) {
-  return arr1
-    .filter(x => !arr2.includes(x))
-    .concat(arr2.filter(x => !arr1.includes(x)));
-}
-
-export const toggleMarksOnDefaultMarks = (tr: Transaction) => {
-  if (!tr.selection.empty) {
-    return tr;
-  }
-
+export const saveDefaultMarksInCellNode = (tr: Transaction) => {
   const { schema } = tr.doc.type;
   const { tableHeader, tableCell } = schema.nodes;
   const cell = findParentNodeOfType([tableHeader, tableCell])(tr.selection);
 
-  if (
-    !cell ||
-    !cell.node.attrs.defaultMarks ||
-    !cell.node.attrs.defaultMarks.length ||
-    !isEmptyNode(cell.node)
-  ) {
+  if (!cell || !isEmptyNode(cell.node)) {
     return tr;
   }
-  const storedMarks = tr.storedMarks || [];
-  const defaultMarks = (cell.node.attrs.defaultMarks || []).map(x =>
-    schema.marks[x.type].create(),
+
+  const cellNode = cell.node;
+  const newCell = cellNode.type.createChecked(
+    {
+      ...cellNode,
+      defaultMarks: tr.storedMarks,
+    },
+    cellNode.content,
+    cellNode.marks,
   );
 
-  const difference = arrayDiffFrom(
-    defaultMarks,
-    storedMarks,
-    (x, y) => x.type === y.type,
+  tr.replaceWith(cell.pos, cell.pos + cell.node.nodeSize, newCell);
+
+  const selFrom = Selection.findFrom(tr.selection.$anchor, 1);
+  const selTo = Selection.findFrom(
+    tr.doc.resolve(cell.pos + cell.node.nodeSize),
+    -1,
+    true,
   );
 
-  console.log(storedMarks);
-  console.log(defaultMarks);
-  console.log(difference);
+  if (selFrom && selTo) {
+    return tr
+      .setSelection(new TextSelection(selFrom.$from, selTo.$to))
+      .setMeta('addToHistory', false);
+  }
+
+  return tr;
 };
