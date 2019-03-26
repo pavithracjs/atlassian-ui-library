@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.3.3
+- [patch] [aa117f5341](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa117f5341):
+
+  - fix alignment and UI for inline Smart Links.
+
 ## 106.3.2
 - [patch] [8187471d39](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8187471d39):
 

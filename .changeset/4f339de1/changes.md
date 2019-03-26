@@ -1,1 +1,0 @@
-- fix alignment and UI for inline Smart Links.
