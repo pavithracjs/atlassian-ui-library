@@ -6,7 +6,6 @@ import Item from '@atlaskit/item';
 import ManageButton from '../../primitives/manage-button';
 import messages from '../../utils/messages';
 import { IntlProvider } from 'react-intl';
-import '../../../test-helpers/mock-fetch';
 import createStream, { Stream } from '../../../test-helpers/stream';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import {
