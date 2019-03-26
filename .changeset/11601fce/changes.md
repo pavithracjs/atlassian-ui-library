@@ -1,0 +1,1 @@
+- ED-6488 Fix dark mode editor in mobile bridge

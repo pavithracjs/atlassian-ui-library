@@ -11,9 +11,13 @@ export async function mountEditor() {
   const place = document.body.appendChild(elem);
   const mediaProvider = storyMediaProviderFactory({});
   await mediaProvider;
-  const editor = mount(mobileEditor({ mediaProvider: mediaProvider }), {
+  const wrapper = mount(mobileEditor({ mediaProvider: mediaProvider }), {
     attachTo: place,
   });
+
+  const editor = wrapper.find('EditorWithState');
+  await (editor.props() as any).media.provider;
+
   await sleep(100);
-  return editor;
+  return wrapper;
 }
