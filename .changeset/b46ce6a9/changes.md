@@ -1,0 +1,1 @@
+- ED-5734: render table column control buttons for each column regardless of merged cells
