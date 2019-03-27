@@ -33,7 +33,6 @@ type RegressedDependencies = DuplicateDependencyReportEntry & {
 export type RegressedDependenciesReport = RegressedDependencies[];
 
 async function getRegressedDependencies(
-  sourceBranch: string,
   targetBranch: string,
 ): Promise<RegressedDependenciesReport> {
   const [currentBranch, masterDuplicatesReport] = await Promise.all([
@@ -92,13 +91,9 @@ async function getRegressedDependencies(
 }
 
 export default async function duplicateDependenciesReport(
-  sourceBranch: string,
   targetBranch: string,
 ): Promise<InsightsReport> {
-  const regressedDependencies = await getRegressedDependencies(
-    sourceBranch,
-    targetBranch,
-  );
+  const regressedDependencies = await getRegressedDependencies(targetBranch);
 
   // add base report
   const totalNewDuplicatesCount = regressedDependencies.reduce(

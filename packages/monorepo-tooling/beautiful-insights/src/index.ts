@@ -35,10 +35,9 @@ const HELP_MSG = `
 
    ${chalk.green('Options')}
      ${chalk.yellow('--commit')}       The commit to publish insights on [default=current head]
-     ${chalk.yellow('--branch')}       The branch to publish insights on [default=current branch]
      ${chalk.yellow('--reporters')}    The reporters to run [default=console]
      ${chalk.yellow('--gitUrl')}       The git url of the repo [default=current origin url]
-     ${chalk.yellow('--targetBranch')} The branch with which to compare the current, when git reporting is enabled can detect PR target branch. [default=master]
+     ${chalk.yellow('--targetBranch')} The branch with which to compare the current branch, when git reporting is enabled can detect PR target branch. [default=master]
 
    ${chalk.green('Reporters')}
     ${chalk.yellow('console')}        outputs insights to the console
@@ -104,10 +103,7 @@ export async function run() {
     bitbucketServerReporter,
   );
 
-  const duplicatesReport = await duplicateDependenciesReport(
-    cli.flags.branch,
-    targetBranch,
-  );
+  const duplicatesReport = await duplicateDependenciesReport(targetBranch);
 
   await Promise.all(
     reporters.map(reporter => {
