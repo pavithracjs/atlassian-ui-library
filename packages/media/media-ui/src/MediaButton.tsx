@@ -46,11 +46,11 @@ function extract(newTheme: any, props: any, appearance: any, state: any) {
     let node = root;
     [val, state, mode].forEach(item => {
       if (!node[item]) {
-        return acc;
+        return;
       }
       if (typeof node[item] !== 'object') {
         acc[val] = node[item];
-        return acc;
+        return;
       }
       node = node[item];
       return;
