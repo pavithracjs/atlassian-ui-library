@@ -1,0 +1,1 @@
+- Fix Confluence dead end screen by fixing text and removing People search button
