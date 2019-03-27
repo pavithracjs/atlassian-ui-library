@@ -1,1 +1,0 @@
-- ED-5823 Add red styling for document elements when they are selected for removal
