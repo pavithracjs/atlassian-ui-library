@@ -21,5 +21,5 @@ export * from './customMediaPlayer/timeRange';
 export * from './classNames';
 export * from './shortcut';
 export * from './formatDuration';
-export { default as theme } from './theme';
+export { default as MediaButton } from './MediaButton';
 export { default as ModalSpinner } from './modalSpinner';

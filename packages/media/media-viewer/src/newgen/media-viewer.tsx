@@ -6,8 +6,7 @@ import {
   FileIdentifier,
 } from '@atlaskit/media-core';
 import { IntlProvider, intlShape } from 'react-intl';
-import { ThemeProvider } from 'styled-components';
-import { Shortcut, theme } from '@atlaskit/media-ui';
+import { Shortcut } from '@atlaskit/media-ui';
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
 import { mediaViewerModalEvent } from './analytics/media-viewer';
@@ -52,12 +51,10 @@ class MediaViewerComponent extends React.Component<Props, {}> {
   render() {
     const { onClose } = this.props;
     const content = (
-      <ThemeProvider theme={theme}>
-        <Blanket>
-          {onClose && <Shortcut keyCode={27} handler={onClose} />}
-          <Content onClose={onClose}>{this.renderContent()}</Content>
-        </Blanket>
-      </ThemeProvider>
+      <Blanket>
+        {onClose && <Shortcut keyCode={27} handler={onClose} />}
+        <Content onClose={onClose}>{this.renderContent()}</Content>
+      </Blanket>
     );
 
     return this.context.intl ? (
