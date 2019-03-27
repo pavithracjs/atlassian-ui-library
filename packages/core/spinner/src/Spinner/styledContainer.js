@@ -53,7 +53,7 @@ export const getContainerAnimation = ({ delay, phase }: AnimationParams) => {
 
 const getSize = ({ size }: { size: number }) => `${size}px`;
 
-const Container = styled.div`
+const Container = styled.span`
   ${getContainerAnimation} display: flex;
   height: ${getSize};
   width: ${getSize};

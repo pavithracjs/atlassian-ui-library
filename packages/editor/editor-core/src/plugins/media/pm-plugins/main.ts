@@ -35,6 +35,13 @@ import { MediaState, MediaProvider, MediaStateStatus } from '../types';
 import { insertMediaSingleNode } from '../utils/media-single';
 
 import { findDomRefAtPos } from 'prosemirror-utils';
+import {
+  withAnalytics,
+  ACTION_SUBJECT_ID,
+  ACTION_SUBJECT,
+  ACTION,
+  EVENT_TYPE,
+} from '../../../plugins/analytics';
 export { MediaState, MediaProvider, MediaStateStatus };
 
 const MEDIA_RESOLVED_STATES = ['ready', 'error', 'cancelled'];
@@ -384,7 +391,7 @@ export class MediaPluginState {
   };
 
   openMediaEditor = () => {
-    const { state } = this.view;
+    const { state, dispatch } = this.view;
     const { mediaSingle } = state.schema.nodes;
 
     if (
@@ -397,7 +404,19 @@ export class MediaPluginState {
     this.editingMediaSinglePos = state.selection.from;
     this.showEditingDialog = true;
 
-    this.view.dispatch(this.view.state.tr.setMeta(stateKey, 'edit'));
+    return withAnalytics({
+      action: ACTION.CLICKED,
+      actionSubject: ACTION_SUBJECT.MEDIA,
+      actionSubjectId: ACTION_SUBJECT_ID.ANNOTATE_BUTTON,
+      eventType: EVENT_TYPE.UI,
+    })((state, dispatch) => {
+      if (dispatch) {
+        dispatch(state.tr.setMeta(stateKey, 'edit'));
+        return true;
+      }
+
+      return false;
+    })(state, dispatch);
   };
 
   closeMediaEditor = () => {

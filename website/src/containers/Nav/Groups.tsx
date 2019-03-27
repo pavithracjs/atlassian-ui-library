@@ -45,7 +45,7 @@ export default class Groups extends React.Component<GroupsProps, GroupsState> {
     nextProps: GroupsProps,
     nextContext: GroupsContext,
   ) {
-    this.resolveRoutes(nextContext.router.route.location.pathname);
+    this.resolveRoutes((nextContext.router.route as any).location.pathname);
   }
 
   resolveRoutes(pathname: string) {

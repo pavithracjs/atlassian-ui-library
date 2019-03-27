@@ -1,5 +1,23 @@
 # @atlaskit/util-data-test
 
+## 11.1.3
+- [patch] [1affe17dc4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1affe17dc4):
+
+  - add analytics events for team mention
+
+## 11.1.2
+- [patch] [5ca3696b14](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ca3696b14):
+
+  - TEAMS-319 : Render member counts and whether team includes you in byline
+- [patch] [b8b55dc6ae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b8b55dc6ae):
+
+  - TEAMS-319 : Render member counts and whether team includes you in byline
+
+## 11.1.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
 ## 11.1.0
 - [minor] [b684722884](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b684722884):
 

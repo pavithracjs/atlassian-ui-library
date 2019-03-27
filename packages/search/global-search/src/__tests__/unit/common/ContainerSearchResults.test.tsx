@@ -56,6 +56,12 @@ const boards = [
 const spaceResults = [makeConfluenceContainerResult()];
 const recentlyInteractedPeople = [makePersonResult()];
 
+const abTest = {
+  experimentId: 'test-experiement-id',
+  abTestId: 'test-abtest-id',
+  controlId: 'test-control-id',
+};
+
 const logger = mockLogger();
 const createAnalyticsEventSpy = jest.fn();
 const renderJiraQuickSearchContainer = (props: JiraProps) => {
@@ -186,6 +192,7 @@ const getSearchAndRecentItems = (
         containers: [],
         people: recentlyInteractedPeople,
       },
+      abTest,
     };
   }
   return {
@@ -200,6 +207,7 @@ const getSearchAndRecentItems = (
       spaces: [],
       people: recentlyInteractedPeople,
     },
+    abTest,
   };
 };
 

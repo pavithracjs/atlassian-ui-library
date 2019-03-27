@@ -29,13 +29,26 @@ const InlineExtension = ({ node }: { node: ExtensionParams<any> }) => {
 const BlockExtension = ({ node }: { node: ExtensionParams<any> }) => {
   return (
     <FakeExtension colour="black">
-      <div style={{ minWidth: 200 }}>{node.content}</div>
+      <div style={node.parameters.style}>{node.content}</div>
     </FakeExtension>
   );
 };
 
 const BodiedExtension = () => {
   return <FakeExtension colour="blue">Bodied extension demo</FakeExtension>;
+};
+
+const IFrameExtension = () => {
+  return (
+    <FakeExtension colour="red">
+      <div>
+        <div>
+          <iframe style={{ background: 'blue', width: 400, height: 200 }} />
+        </div>
+        <iframe style={{ background: 'yellow', width: 600, height: 300 }} />
+      </div>
+    </FakeExtension>
+  );
 };
 
 export const extensionHandlers: ExtensionHandlers = {
@@ -53,6 +66,8 @@ export const extensionHandlers: ExtensionHandlers = {
         return <BlockExtension {...macroProps} />;
       case 'block-layout-eh':
         return <BlockExtension {...macroProps} />;
+      case 'block-iframe-eh':
+        return <IFrameExtension {...macroProps} />;
       case 'bodied-eh':
         return <BodiedExtension {...macroProps} />;
       case 'inline-eh':

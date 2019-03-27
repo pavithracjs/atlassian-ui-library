@@ -1,5 +1,20 @@
 # @atlaskit/editor-common
 
+## 35.1.0
+- [minor] [ea6b08700c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6b08700c):
+
+  - ED-6245: Ensure extensions scroll + overflow when they may break out of their parent container.
+
+## 35.0.3
+- [patch] [c604b1eb64](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c604b1eb64):
+
+  - Fix ED-6522 & ED-6046. Remove z-index from images to ensure they doesn't overlap adjacent content. Ensure floated images remain clickable when adjacent a list.
+
+## 35.0.2
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
 ## 35.0.1
 - [patch] [205b101e2b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/205b101e2b):
 

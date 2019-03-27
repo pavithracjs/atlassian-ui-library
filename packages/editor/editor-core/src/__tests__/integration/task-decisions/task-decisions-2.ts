@@ -21,7 +21,7 @@ export const loadActionButton = '[aria-label="Action item"]';
 BrowserTestCase(
   'task-decision-2.ts: can paste rich text into an action',
   { skip: ['ie', 'safari', 'edge'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
     await browser.goto(clipboardHelper);
     await browser.isVisible(clipboardInput);
@@ -37,14 +37,14 @@ BrowserTestCase(
     await browser.waitForSelector('ol');
     await browser.paste(editable);
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'task-decision-2.ts: can paste plain text into an action',
   { skip: ['ie', 'safari'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
     await browser.goto(clipboardHelper);
     await browser.isVisible(clipboardInput);
@@ -59,7 +59,7 @@ BrowserTestCase(
     await browser.waitForSelector('ol');
     await browser.paste(editable);
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
@@ -68,7 +68,7 @@ BrowserTestCase(
 BrowserTestCase(
   'task-decision-2.ts: can type into decision',
   { skip: ['ie', 'safari', 'edge'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
     await gotoEditor(browser);
     await browser.click(loadActionButton);
@@ -76,14 +76,14 @@ BrowserTestCase(
     await browser.click('ol span + div');
     await browser.type(editable, 'adding action');
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'task-decision-2.ts: can insert mention into an action using click',
   { skip: ['ie', 'safari'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
     await gotoEditor(browser);
     await browser.waitFor(editable);
@@ -91,6 +91,6 @@ BrowserTestCase(
     await browser.waitForSelector('ol');
     await insertMentionUsingClick(browser, '0');
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

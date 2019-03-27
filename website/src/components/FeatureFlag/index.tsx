@@ -1,5 +1,5 @@
 import * as React from 'react';
-import LDClient from 'ldclient-js';
+import LaunchDarkly, { LDClient } from 'ldclient-js';
 import uuid from 'uuid/v4';
 import {
   LAUNCH_DARKLY_LOCAL_KEY,
@@ -7,7 +7,7 @@ import {
   LAUNCH_DARKLY_PRODUCTION_KEY,
 } from '../../constants';
 
-const clientKey = websiteEnv => {
+const clientKey = (websiteEnv: string) => {
   switch (websiteEnv) {
     case 'production':
       return LAUNCH_DARKLY_PRODUCTION_KEY;
@@ -38,12 +38,16 @@ const anonymousUser = () => ({
 // is that the client is only initialized when feature flags are needed, rather when
 // this file is loaded.
 const createClient = () => {
-  let client;
+  let client: LDClient;
   return () => {
     if (!client) {
-      client = LDClient.initialize(clientKey(WEBSITE_ENV), anonymousUser(), {
-        bootstrap: 'localStorage',
-      });
+      client = LaunchDarkly.initialize(
+        clientKey(WEBSITE_ENV),
+        anonymousUser(),
+        {
+          bootstrap: 'localStorage',
+        },
+      );
     }
     return client;
   };
@@ -53,7 +57,17 @@ const { Consumer, Provider } = React.createContext(createClient());
 
 export const LaunchDarklyClientProviderForTesting = Provider;
 
-const FeatureFlag = ({ children, name, enabledByDefault = false }) => (
+export type FeatureFlagProps = {
+  children: (p: any) => React.ReactNode | React.ReactNode[];
+  name: string;
+  enabledByDefault?: boolean;
+};
+
+const FeatureFlag = ({
+  children,
+  name,
+  enabledByDefault = false,
+}: FeatureFlagProps) => (
   <Consumer>
     {getClient => children(getClient().variation(name, enabledByDefault))}
   </Consumer>

@@ -5,13 +5,14 @@ import {
   getDocFromElement,
   fullpage,
   resizeColumn,
-  insertBlockMenuItem,
+  quickInsert,
 } from '../_helpers';
 
 import { insertColumn } from '../../__helpers/page-objects/_table';
 
 import {
   tableWithRowSpan,
+  tableNotResizedWithRowSpan,
   tableWithRowSpanAndColSpan,
   twoColFullWidthTableWithContent,
   tableWithDynamicLayoutSizing,
@@ -28,7 +29,7 @@ import { TableCssClassName } from '../../../plugins/table/types';
 BrowserTestCase(
   'Can resize normally with a rowspan in the non last column.',
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -42,14 +43,14 @@ BrowserTestCase(
     await resizeColumn(page, { cellHandlePos: 2, resizeWidth: 50 });
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'Can resize normally with a rowspan and colspan',
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -63,14 +64,14 @@ BrowserTestCase(
     await resizeColumn(page, { cellHandlePos: 22, resizeWidth: -50 });
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'Can resize normally on a full width table with content',
   { skip: ['ie', 'edge', 'firefox', 'safari'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -84,16 +85,17 @@ BrowserTestCase(
     await resizeColumn(page, { cellHandlePos: 2, resizeWidth: -100 });
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'Breakout content resizes the column',
-  // Firefox clicks the wrong cell with the TOP_LEFT_CELL
-  // Needs some digging.
+  /**
+   * FIXME: Firefox clicks the wrong cell with the TOP_LEFT_CELL, needs some digging.
+   */
   { skip: ['ie', 'firefox'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -106,17 +108,43 @@ BrowserTestCase(
     });
 
     await page.click(TableCssClassName.TOP_LEFT_CELL);
-    await insertBlockMenuItem(page, 'Block macro (EH)');
+    await quickInsert(page, 'Minimum width extension');
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  'Breakout content resizes the column on a non resized table',
+  /**
+   * FIXME: Firefox clicks the wrong cell with the TOP_LEFT_CELL, needs some digging.
+   */
+  { skip: ['ie', 'firefox', 'safari', 'edge'] },
+  async (client: any, testName: string) => {
+    const page = await goToEditorTestingExample(client);
+
+    await mountEditor(page, {
+      appearance: fullpage.appearance,
+      defaultValue: JSON.stringify(tableNotResizedWithRowSpan),
+      allowTables: {
+        advanced: true,
+      },
+      allowExtension: true,
+    });
+
+    await page.click(TableCssClassName.TOP_LEFT_CELL);
+    await quickInsert(page, 'Minimum width extension');
+
+    const doc = await page.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   `Created column should be set to ${tableNewColumnMinWidth}px`,
   { skip: ['ie', 'safari'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -130,14 +158,14 @@ BrowserTestCase(
     await insertColumn(page, 1);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   "Can't resize the last column of a table with dynamic sizing enabled.",
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await mountEditor(page, {
@@ -152,6 +180,6 @@ BrowserTestCase(
     await resizeColumn(page, { cellHandlePos: 10, resizeWidth: -100 });
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

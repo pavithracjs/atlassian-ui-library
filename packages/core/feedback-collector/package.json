@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/feedback-collector",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "config": {
     "access": "public"
   },
@@ -12,11 +12,11 @@
     "@atlaskit/button": "^11.0.0",
     "@atlaskit/checkbox": "^6.0.1",
     "@atlaskit/flag": "^10.0.1",
-    "@atlaskit/form": "^5.2.1",
+    "@atlaskit/form": "^5.2.4",
     "@atlaskit/icon": "^16.0.5",
     "@atlaskit/modal-dialog": "^8.0.2",
     "@atlaskit/select": "^8.0.3",
-    "@atlaskit/textarea": "^0.3.0",
+    "@atlaskit/textarea": "^0.4.0",
     "@atlaskit/theme": "^8.0.1",
     "@babel/runtime": "^7.0.0",
     "lodash.truncate": "^4.4.2"

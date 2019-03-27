@@ -16,14 +16,14 @@ export enum ConfluenceAdvancedSearchTypes {
 }
 
 const JIRA_ADVANCED_SEARCH_URLS = {
-  [JiraEntityTypes.Issues]: query =>
+  [JiraEntityTypes.Issues]: (query: string) =>
     `/secure/QuickSearch.jspa?searchString=${query}`,
-  [JiraEntityTypes.Boards]: query =>
+  [JiraEntityTypes.Boards]: (query: string) =>
     `/secure/ManageRapidViews.jspa?contains=${query}`,
-  [JiraEntityTypes.Filters]: query =>
+  [JiraEntityTypes.Filters]: (query: string) =>
     `/secure/ManageFilters.jspa?Search=Search&filterView=search&name=${query}`,
-  [JiraEntityTypes.Projects]: query => `/projects?contains=${query}`,
-  [JiraEntityTypes.People]: query => `/people/search?q=${query}`,
+  [JiraEntityTypes.Projects]: (query: string) => `/projects?contains=${query}`,
+  [JiraEntityTypes.People]: (query: string) => `/people/search?q=${query}`,
 };
 
 export const isAdvancedSearchResult = (resultId: string) =>
@@ -66,7 +66,7 @@ export function isEmpty<T>(array: Array<T>) {
   return array.length === 0;
 }
 
-export function objectValues(object) {
+export function objectValues(object: { [key: string]: any }) {
   return Object.keys(object || {}).map(key => object[key]);
 }
 /**

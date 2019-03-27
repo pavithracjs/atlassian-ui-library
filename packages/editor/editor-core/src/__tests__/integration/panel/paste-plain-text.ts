@@ -17,7 +17,7 @@ import { selectors } from './_utils';
 BrowserTestCase(
   'paste-plain-text.ts: Paste plain text into panel',
   { skip: ['ie', 'edge', 'safari'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await page.type(
@@ -39,6 +39,6 @@ BrowserTestCase(
     const doc = await page.$eval(editable, getDocFromElement);
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

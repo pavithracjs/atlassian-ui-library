@@ -14,7 +14,7 @@ import {
     BrowserTestCase(
       `block-nodes.ts: Inserts ${node} and results in valid ADF`,
       { skip },
-      async (client: any) => {
+      async (client: any, testName: string) => {
         const browser = new Page(client);
 
         await navigateOrClear(browser, editor.path);
@@ -22,7 +22,7 @@ import {
         await callNativeBridge(browser, 'insertBlockType', node);
 
         const doc = await browser.$eval(editable, getDocFromElement);
-        expect(doc).toMatchDocSnapshot();
+        expect(doc).toMatchCustomDocSnapshot(testName);
       },
     );
   },

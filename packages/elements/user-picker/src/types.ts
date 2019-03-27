@@ -2,6 +2,24 @@ import * as React from 'react';
 import { EmailValidator } from './components/emailValidation';
 
 export type UserPickerProps = {
+  /**
+   * Used to configure additional information regarding where the
+   * user picker has been mounted.
+   *
+   * The purpose is to give more context as to where user picker events
+   * are being fired from, as the current data may not uniquely identify
+   * which field is the source.
+   *
+   * The value will be passed as a data attribute for analytics.
+   * Examples include "assignee", "watchers" and "share".
+   *
+   * A second usage for the fieldId is for server side rendering (SSR) where it must be a unique id per UserPicker
+   * instance contained in the serialized SSR content. E.g. a SPA page rendered through SSR that has multiple user pickers.
+   *
+   * fieldId can be set to null if the integrator is not listening
+   * for the analytic events or does not care about SSR.
+   */
+  fieldId: string | null;
   /** List of users or teams to be used as options by the user picker. */
   options?: OptionData[];
   /** Width of the user picker field. It can be the amount of pixels as numbers or a string with the percentage. */
@@ -45,7 +63,7 @@ export type UserPickerProps = {
   /** Message to encourage the user to add more items to user picker. */
   addMoreMessage?: string;
   /** Message to be shown when the menu is open but no options are provided. */
-  noOptionsMessage?: string;
+  noOptionsMessage?: string | ((value: { inputValue: string }) => string);
   /** Controls if the user picker has a value or not. If not provided, UserPicker will control the value internally. */
   value?: Value;
   /** Disable all interactions with the picker, putting it in a read-only state. */
@@ -64,6 +82,10 @@ export type UserPickerProps = {
   disableInput?: boolean;
   /** Override default email validation function. */
   isValidEmail?: EmailValidator;
+  /** Override the internal behaviour to automatically focus the control when the picker is open */
+  autoFocus?: boolean;
+  /** The maximum number options to be displayed in the dropdown menu during any state of search. The value should be non-negative. */
+  maxOptions?: number;
 };
 
 export type PopupUserPickerProps = UserPickerProps & {

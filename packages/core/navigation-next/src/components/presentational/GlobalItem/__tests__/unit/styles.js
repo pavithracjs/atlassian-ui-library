@@ -76,7 +76,7 @@ describe('Navigation Next: GlobalItem styles', () => {
     });
 
     it('should have a top margin when size is small', () => {
-      expect(themeMode({ size: 'small' }).itemWrapper.marginTop).toBe('8px');
+      expect(themeMode({ size: 'small' }).itemWrapper.padding).toBe('4px');
     });
 
     it('should return correct styles when size is large', () => {

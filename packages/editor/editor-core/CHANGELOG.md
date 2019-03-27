@@ -1,5 +1,95 @@
 # @atlaskit/editor-core
 
+## 106.6.2
+- [patch] [56766ce748](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/56766ce748):
+
+  - ED-6407: improve table information density by reducing cells padding from 10px to 8px
+
+## 106.6.1
+- [patch] [92452e9323](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92452e9323):
+
+  - ED-5734: render table column control buttons for each column regardless of merged cells
+
+## 106.6.0
+- [minor] [0781a7068c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0781a7068c):
+
+  - ED-6222 Add insertMenu insert events for: emoji picker, image picker, link typeahead, mention typeahead
+
+## 106.5.0
+- [minor] [ea6b08700c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6b08700c):
+
+  - ED-6245: Ensure extensions scroll + overflow when they may break out of their parent container.
+
+## 106.4.0
+- [minor] [7e164b5a6b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e164b5a6b):
+
+  - ED-6547 Add GAS v3 analytics for smartLink
+
+## 106.3.3
+- [patch] [aa117f5341](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa117f5341):
+
+  - fix alignment and UI for inline Smart Links.
+
+## 106.3.2
+- [patch] [8187471d39](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8187471d39):
+
+  - ED-4650 Allow inline code to render after a parentheses
+
+## 106.3.1
+- [patch] [2f4594a876](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f4594a876):
+
+  - ED-6526: Resize a table with breakout content
+
+## 106.3.0
+- [minor] [1affe17dc4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1affe17dc4):
+
+  - add analytics events for team mention
+
+## 106.2.3
+- [patch] [08940b66c1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08940b66c1):
+
+  - ED-6561 Ignore empty transactions from collab provider
+
+## 106.2.2
+- [patch] [2ac4f3bf30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2ac4f3bf30):
+
+  - fix deleting multiple rows in table
+
+## 106.2.1
+- [patch] [8ea5466017](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ea5466017):
+
+  - ED-6438 Fix bg in codeblock gutter
+
+## 106.2.0
+- [minor] [7bd786fd4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7bd786fd4d):
+
+  - TEAMS-323 : Send additional information for teams when a team is selected in a mention
+
+## 106.1.2
+- Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
+  - @atlaskit/smart-card@10.1.1
+  - @atlaskit/textarea@0.4.0
+
+## 106.1.1
+- [patch] [c604b1eb64](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c604b1eb64):
+
+  - Fix ED-6522 & ED-6046. Remove z-index from images to ensure they doesn't overlap adjacent content. Ensure floated images remain clickable when adjacent a list.
+
+## 106.1.0
+- [minor] [0672369fc8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0672369fc8):
+
+  - Integrate TeamMentionResource in editor-core
+
+## 106.0.6
+- [patch] [2f953a0738](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f953a0738):
+
+  - ED-6362: add analytics for media annotation button
+
+## 106.0.5
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
 ## 106.0.4
 - [patch] [205b101e2b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/205b101e2b):
 

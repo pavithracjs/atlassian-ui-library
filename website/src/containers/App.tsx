@@ -16,8 +16,12 @@ import Document from '../pages/Document';
 import Package from '../pages/Package';
 import PackagesList from '../pages/PackagesList';
 import PackageDocument from '../pages/PackageDocument';
-import ChangelogModal from '../pages/Package/ChangelogModal';
-import ExamplesModal from '../pages/Package/ExamplesModal';
+import ChangelogModal, {
+  Props as ChangelogModalProps,
+} from '../pages/Package/ChangelogModal';
+import ExamplesModal, {
+  Props as ExamplesModalProps,
+} from '../pages/Package/ExamplesModal';
 import AnalyticsListeners from '../components/Analytics/AnalyticsListeners';
 
 import Nav from './Nav';
@@ -42,8 +46,10 @@ const AppContent = styled.div`
   flex: 1 1 auto;
 `;
 
-class ScrollToTop extends React.Component<RouteComponentProps<any>> {
-  componentDidUpdate(prevProps) {
+type ScrollToTopProps = RouteComponentProps<any>;
+
+class ScrollToTop extends React.Component<ScrollToTopProps> {
+  componentDidUpdate(prevProps: ScrollToTopProps) {
     if (this.props.location.pathname !== prevProps.location.pathname) {
       window.scrollTo(0, 0);
     }
@@ -59,7 +65,7 @@ const ScrollHandler = withRouter(ScrollToTop);
 class Boundary extends React.Component {
   state = { hasError: false };
 
-  componentDidCatch(error, info) {
+  componentDidCatch(error: Error, info: any) {
     this.setState({ hasError: true });
   }
 
@@ -84,7 +90,7 @@ export default class App extends React.Component<{}, State> {
   componentWillUnmount() {
     window.removeEventListener('keyup', this.handleKeyup);
   }
-  handleKeyup = e => {
+  handleKeyup = (e: KeyboardEvent) => {
     // We only currently allow toggling dark-mode in dev-mode. Once we have
     // landed on a proper GUI implementation, we should remove the dev-mode
     // check, shipping both the GUI and keyboard shortcut to production.
@@ -153,7 +159,7 @@ export default class App extends React.Component<{}, State> {
                             />
                             <Route
                               path="/packages/examples"
-                              component={({ location }) => (
+                              component={({ location }: any) => (
                                 <Redirect
                                   to={location.pathname.replace(
                                     '/examples',
@@ -184,7 +190,11 @@ export default class App extends React.Component<{}, State> {
                             path="/packages/:groupId/:pkgId/changelog/:semver?"
                             children={props => (
                               <ModalTransition>
-                                {props.match && <ChangelogModal {...props} />}
+                                {props.match && (
+                                  <ChangelogModal
+                                    {...props as ChangelogModalProps}
+                                  />
+                                )}
                               </ModalTransition>
                             )}
                           />
@@ -192,7 +202,11 @@ export default class App extends React.Component<{}, State> {
                             path="/packages/:groupId/:pkgId/example/:exampleId"
                             children={props => (
                               <ModalTransition>
-                                {props.match && <ExamplesModal {...props} />}
+                                {props.match && (
+                                  <ExamplesModal
+                                    {...props as ExamplesModalProps}
+                                  />
+                                )}
                               </ModalTransition>
                             )}
                           />

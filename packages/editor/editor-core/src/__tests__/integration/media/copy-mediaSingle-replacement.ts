@@ -85,7 +85,7 @@ const baseADF = {
 BrowserTestCase(
   'copy-mediaSingle-replacement.ts: Copies and pastes mediaSingle on fullpage',
   { skip: ['edge', 'ie', 'safari'] },
-  async (client: any) => {
+  async (client: any, testCase: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -109,6 +109,6 @@ BrowserTestCase(
     await page.paste(editable);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testCase);
   },
 );

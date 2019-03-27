@@ -1,13 +1,15 @@
 import * as React from 'react';
 import AnalyticsEventFiredOnMount from '../analytics/AnalyticsEventFiredOnMount';
 import { buildScreenEvent, Screen } from '../../util/analytics-util';
+import { ScreenCounter } from '../../util/ScreenCounter';
+import { ReferralContextIdentifiers } from '../GlobalQuickSearchWrapper';
 
 const getAnalyticsComponent = (
   subscreen: Screen,
-  screenCounter,
-  searchSessionId,
-  analyticsKey,
-  referralContextIdentifiers,
+  screenCounter: ScreenCounter | undefined,
+  searchSessionId: string,
+  analyticsKey: string,
+  referralContextIdentifiers?: ReferralContextIdentifiers,
 ) =>
   screenCounter ? (
     <AnalyticsEventFiredOnMount
@@ -28,6 +30,10 @@ export const PreQueryAnalyticsComponent = ({
   screenCounter,
   searchSessionId,
   referralContextIdentifiers,
+}: {
+  screenCounter?: ScreenCounter;
+  searchSessionId: string;
+  referralContextIdentifiers?: ReferralContextIdentifiers;
 }) =>
   getAnalyticsComponent(
     Screen.PRE_QUERY,
@@ -41,6 +47,10 @@ export const PostQueryAnalyticsComponent = ({
   screenCounter,
   searchSessionId,
   referralContextIdentifiers,
+}: {
+  screenCounter?: ScreenCounter;
+  searchSessionId: string;
+  referralContextIdentifiers?: ReferralContextIdentifiers;
 }) =>
   getAnalyticsComponent(
     Screen.POST_QUERY,

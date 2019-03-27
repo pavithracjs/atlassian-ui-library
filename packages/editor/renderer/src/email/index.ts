@@ -47,7 +47,7 @@ const traverseTree = (fragment: Fragment): string => {
 
 export const commonStyle = {
   'font-family': fontFamily(),
-  'font-size': fontSize(),
+  'font-size': `${fontSize()}px`,
   'font-weight': 400,
   'line-height': '24px',
 };

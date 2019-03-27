@@ -1,5 +1,25 @@
 # @atlaskit/media-ui
 
+## 10.0.4
+- [patch] [62834d5210](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/62834d5210):
+
+  - update dependency version of @atlaskit/spinner
+
+## 10.0.3
+- [patch] [9b0dd21ce7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0dd21ce7):
+
+  - allow the appearance of lozenges within smart link tasks to be configured
+
+## 10.0.2
+- [patch] [aa117f5341](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa117f5341):
+
+  - fix alignment and UI for inline Smart Links.
+
+## 10.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
 ## 10.0.0
 - [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 

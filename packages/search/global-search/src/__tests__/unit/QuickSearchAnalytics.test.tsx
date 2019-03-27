@@ -78,6 +78,12 @@ const JIRA_RECENT_ITEMS = [
   },
 ];
 
+const AB_TEST_DATA = {
+  experimentId: 'experiment-1',
+  controlId: 'control-id',
+  abTestId: 'abtest-id',
+};
+
 const getRecentItems = product =>
   product === 'jira' ? JIRA_RECENT_ITEMS : CONFLUENCE_RECENT_ITEMS;
 
@@ -162,7 +168,7 @@ const getRecentItems = product =>
         const event = onEventSpy.mock.calls[2][0];
         validateEvent(
           event,
-          getPreQuerySearchResultsEvent(getRecentItems(product)),
+          getPreQuerySearchResultsEvent(getRecentItems(product), AB_TEST_DATA),
         );
       });
 
@@ -174,11 +180,7 @@ const getRecentItems = product =>
           event,
           getExperimentExposureEvent({
             searchSessionId: expect.any(String),
-            abTest: {
-              experimentId: 'experiment-1',
-              controlId: 'control-id',
-              abTestId: 'abtest-id',
-            },
+            abTest: AB_TEST_DATA,
           }),
         );
       });
@@ -474,6 +476,7 @@ const getRecentItems = product =>
             getPostQuerySearchResultsEvent(
               expectedResults.postQueryResults,
               expectedResults.postQueryResultsTimings,
+              AB_TEST_DATA,
             ),
           );
         });
@@ -519,7 +522,10 @@ const getRecentItems = product =>
             const event = onEventSpy.mock.calls[2][0];
             validateEvent(
               event,
-              getPreQuerySearchResultsEvent(getRecentItems(product)),
+              getPreQuerySearchResultsEvent(
+                getRecentItems(product),
+                AB_TEST_DATA,
+              ),
             );
           });
         });

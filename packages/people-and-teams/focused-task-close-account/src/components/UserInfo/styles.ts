@@ -3,7 +3,7 @@ import { typography, fontSize, colors } from '@atlaskit/theme';
 
 import gridSizeTimes from '../../util/gridSizeTimes';
 
-const baseHeading = (size, lineHeight) => `
+const baseHeading = (size: number, lineHeight: number) => `
   font-size: ${size / fontSize()}em;
   font-style: inherit;
   line-height: ${lineHeight / size};
@@ -21,7 +21,6 @@ export const Avatar = styled.div`
   flex-direction: column;
   margin-left: ${gridSizeTimes(2.5)}px;
   margin-right: ${gridSizeTimes(1)}px;
-  margin-bottom: ;
 `;
 
 export const UserDetails = styled.div`

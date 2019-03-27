@@ -42,7 +42,7 @@ export function buildSubNavGroup(
     );
 }
 
-const getItemDetails = (pkg: Directory, group: Directory, pathname) => {
+const getItemDetails = (pkg: Directory, group: Directory, pathname: string) => {
   let navigationItemIcon = <CenteredIcon>•</CenteredIcon>;
   const docs = fs.maybeGetById(fs.getDirectories(pkg.children) || [], 'docs');
   const examples = fs.maybeGetById(
@@ -100,7 +100,7 @@ export type PackagesNavProps = {
   onClick?: (e: Event) => void;
 };
 
-const standardGroups = (dirs: Array<Directory>, pathname): NavGroup[] =>
+const standardGroups = (dirs: Array<Directory>, pathname: string): NavGroup[] =>
   dirs.map(group => {
     const packages = fs.getDirectories(group.children);
     return {

@@ -1,5 +1,5 @@
 import * as fetchMock from 'fetch-mock/src/client';
-import 'whatwg-fetch';
+
 import { ReactionServiceClient } from '../../../client';
 
 describe('ReactionServiceClient', () => {

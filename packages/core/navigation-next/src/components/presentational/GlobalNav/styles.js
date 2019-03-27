@@ -13,7 +13,7 @@ const baseStyles = {
   flexDirection: 'column',
   flexShrink: 0,
   justifyContent: 'space-between',
-  paddingBottom: gridSize * 3,
+  paddingBottom: `calc(${gridSize * 3 - 4}px)`,
   paddingTop: gridSize * 3,
   transition:
     'background-color 0.3s cubic-bezier(0.2, 0, 0, 1), color 0.3s cubic-bezier(0.2, 0, 0, 1)',

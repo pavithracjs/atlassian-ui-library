@@ -2,6 +2,8 @@ import { typography } from '@atlaskit/theme';
 import { NodeSerializerOpts } from '../interfaces';
 import { createTag, applyMarks } from '../util';
 
+// TODO: get rid of bottom margins
+// TODO: these are kind of broken
 const getTypoMixin = (tagName: string) => {
   switch (tagName) {
     case 'h1':
