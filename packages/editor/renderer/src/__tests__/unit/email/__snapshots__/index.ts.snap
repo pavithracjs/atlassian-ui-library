@@ -65,7 +65,7 @@ exports[`Renderer - EmailSerializer should align paragraph correctly 1`] = `
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;"
 >
   <p
-    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
   >
     Plain Paragraph
   </p>
@@ -73,7 +73,7 @@ exports[`Renderer - EmailSerializer should align paragraph correctly 1`] = `
     style="width: 100%;text-align: center;"
   >
     <p
-      style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+      style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
     >
       Paragraph with center alignment
     </p>
@@ -82,7 +82,7 @@ exports[`Renderer - EmailSerializer should align paragraph correctly 1`] = `
     style="width: 100%;text-align: right;"
   >
     <p
-      style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+      style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
     >
       Paragraph with end alignment
     </p>
@@ -115,7 +115,7 @@ exports[`Renderer - EmailSerializer should apply no mark for breakout marks 1`] 
       border="0"
       cellpadding="0"
       cellspacing="0"
-      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+      style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
     >
       <tbody>
         <tr>
@@ -154,7 +154,7 @@ exports[`Renderer - EmailSerializer should inline text properties correctly 1`] 
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;"
 >
   <p
-    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
   >
     foo
   </p>
@@ -188,7 +188,7 @@ exports[`Renderer - EmailSerializer should render block cards correctly 1`] = `
       border="0"
       cellpadding="0"
       cellspacing="0"
-      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 400px;min-width: 200px;max-width: 400px;"
+      style="margin: 0px;padding: 0px;border-spacing: 0px;width: 400px;min-width: 200px;max-width: 400px;"
     >
       <tbody>
         <tr>
@@ -228,7 +228,7 @@ exports[`Renderer - EmailSerializer should render block cards correctly 1`] = `
       border="0"
       cellpadding="0"
       cellspacing="0"
-      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 400px;min-width: 200px;max-width: 400px;"
+      style="margin: 0px;padding: 0px;border-spacing: 0px;width: 400px;min-width: 200px;max-width: 400px;"
     >
       <tbody>
         <tr>
@@ -239,7 +239,7 @@ exports[`Renderer - EmailSerializer should render block cards correctly 1`] = `
               border="0"
               cellpadding="0"
               cellspacing="0"
-              style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 400px;min-width: 200px;max-width: 400px;"
+              style="margin: 0px;padding: 0px;border-spacing: 0px;width: 400px;min-width: 200px;max-width: 400px;"
             >
               <tbody>
                 <tr>
@@ -286,7 +286,7 @@ exports[`Renderer - EmailSerializer should render codeblock correctly 1`] = `
       border="0"
       cellpadding="0"
       cellspacing="0"
-      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+      style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
     >
       <tbody>
         <tr>
@@ -339,7 +339,7 @@ exports[`Renderer - EmailSerializer should render inline cards correctly 1`] = `
     inlineCard with url
   </h3>
   <p
-    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
   >
     Lorem ipsum
     <a
@@ -375,7 +375,7 @@ exports[`Renderer - EmailSerializer should render inline cards correctly 1`] = `
     inlineCard with data
   </h3>
   <p
-    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
   >
     Lorem ipsum
     <a
@@ -423,6 +423,154 @@ exports[`Renderer - EmailSerializer should render nothing for placeholder node 1
 />
 `;
 
+exports[`Renderer - EmailSerializer should render numbered column for table 1`] = `
+<div
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;"
+>
+  <table
+    style="margin: 20px 8px;padding: 0px;border-spacing: 0px;width: auto;border: 1px solid #C1C7D0;border-collapse: collapse;"
+  >
+    <colgroup>
+      <col />
+      <col />
+      <col />
+    </colgroup>
+    <tbody>
+      <tr>
+        <td
+          style="background-color: #F4F5F7;background-clip: padding-box;border: 1px solid #C1C7D0;border-right-width: 0;border-bottom-width: 0;height: 2.5em;padding: 6px 10px;text-align: center;vertical-align: top;"
+        >
+          <p
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;color: #6B778C;"
+          />
+        </td>
+        <th
+          colspan="1"
+          rowspan="1"
+          style="background-color: #F4F5F7;background-clip: padding-box;border: 1px solid #C1C7D0;border-right-width: 0;border-bottom-width: 0;font-weight: bold;height: 2.5em;min-width: 3em;padding: 6px 10px;text-align: left;vertical-align: top;"
+        >
+          <p
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
+          >
+            a
+          </p>
+        </th>
+        <th
+          colspan="1"
+          rowspan="1"
+          style="background-color: #F4F5F7;background-clip: padding-box;border: 1px solid #C1C7D0;border-right-width: 0;border-bottom-width: 0;font-weight: bold;height: 2.5em;min-width: 3em;padding: 6px 10px;text-align: left;vertical-align: top;"
+        >
+          <p
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
+          >
+            b
+          </p>
+        </th>
+        <th
+          colspan="1"
+          rowspan="1"
+          style="background-color: #F4F5F7;background-clip: padding-box;border: 1px solid #C1C7D0;border-right-width: 0;border-bottom-width: 0;font-weight: bold;height: 2.5em;min-width: 3em;padding: 6px 10px;text-align: left;vertical-align: top;"
+        >
+          <p
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
+          >
+            c
+          </p>
+        </th>
+      </tr>
+      <tr>
+        <td
+          style="background-color: #F4F5F7;background-clip: padding-box;border: 1px solid #C1C7D0;border-right-width: 0;border-bottom-width: 0;height: 2.5em;padding: 6px 10px;text-align: center;vertical-align: top;"
+        >
+          <p
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;color: #6B778C;"
+          >
+            1
+          </p>
+        </td>
+        <td
+          colspan="1"
+          rowspan="1"
+          style="background-clip: padding-box;height: 2.5em;min-width: 3em;vertical-align: top;border: 1px solid #C1C7D0;border-right-width: 0;border-bottom-width: 0;padding: 6px 10px;background-color: null;"
+        >
+          <p
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
+          >
+            d
+          </p>
+        </td>
+        <td
+          colspan="1"
+          rowspan="1"
+          style="background-clip: padding-box;height: 2.5em;min-width: 3em;vertical-align: top;border: 1px solid #C1C7D0;border-right-width: 0;border-bottom-width: 0;padding: 6px 10px;background-color: null;"
+        >
+          <p
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
+          >
+            e
+          </p>
+        </td>
+        <td
+          colspan="1"
+          rowspan="1"
+          style="background-clip: padding-box;height: 2.5em;min-width: 3em;vertical-align: top;border: 1px solid #C1C7D0;border-right-width: 0;border-bottom-width: 0;padding: 6px 10px;background-color: null;"
+        >
+          <p
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
+          >
+            f
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td
+          style="background-color: #F4F5F7;background-clip: padding-box;border: 1px solid #C1C7D0;border-right-width: 0;border-bottom-width: 0;height: 2.5em;padding: 6px 10px;text-align: center;vertical-align: top;"
+        >
+          <p
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;color: #6B778C;"
+          >
+            2
+          </p>
+        </td>
+        <td
+          colspan="1"
+          rowspan="1"
+          style="background-clip: padding-box;height: 2.5em;min-width: 3em;vertical-align: top;border: 1px solid #C1C7D0;border-right-width: 0;border-bottom-width: 0;padding: 6px 10px;background-color: null;"
+        >
+          <p
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
+          >
+            g
+          </p>
+        </td>
+        <td
+          colspan="1"
+          rowspan="1"
+          style="background-clip: padding-box;height: 2.5em;min-width: 3em;vertical-align: top;border: 1px solid #C1C7D0;border-right-width: 0;border-bottom-width: 0;padding: 6px 10px;background-color: null;"
+        >
+          <p
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
+          >
+            h
+          </p>
+        </td>
+        <td
+          colspan="1"
+          rowspan="1"
+          style="background-clip: padding-box;height: 2.5em;min-width: 3em;vertical-align: top;border: 1px solid #C1C7D0;border-right-width: 0;border-bottom-width: 0;padding: 6px 10px;background-color: null;"
+        >
+          <p
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
+          >
+            i
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
 exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
 <div
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;"
@@ -431,7 +579,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
     border="0"
     cellpadding="0"
     cellspacing="0"
-    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
   >
     <tbody>
       <tr>
@@ -442,7 +590,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
             border="0"
             cellpadding="0"
             cellspacing="0"
-            style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
           >
             <tbody>
               <tr>
@@ -450,7 +598,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 1px 0px 1px 8px;margin: 0px;background: #DEEBFF;"
                 >
                   <p
-                    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+                    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
                   >
                     This is an info panel with 
                     <span
@@ -471,7 +619,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
     border="0"
     cellpadding="0"
     cellspacing="0"
-    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
   >
     <tbody>
       <tr>
@@ -482,7 +630,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
             border="0"
             cellpadding="0"
             cellspacing="0"
-            style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
           >
             <tbody>
               <tr>
@@ -490,7 +638,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 1px 0px 1px 8px;margin: 0px;background: #EAE6FF;"
                 >
                   <p
-                    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+                    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
                   >
                     This is a note panel with 
                     <span
@@ -511,7 +659,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
     border="0"
     cellpadding="0"
     cellspacing="0"
-    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
   >
     <tbody>
       <tr>
@@ -522,7 +670,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
             border="0"
             cellpadding="0"
             cellspacing="0"
-            style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
           >
             <tbody>
               <tr>
@@ -530,7 +678,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 1px 0px 1px 8px;margin: 0px;background: #E3FCEF;"
                 >
                   <p
-                    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+                    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
                   >
                     This is a tip panel with 
                     <span
@@ -551,7 +699,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
     border="0"
     cellpadding="0"
     cellspacing="0"
-    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
   >
     <tbody>
       <tr>
@@ -562,7 +710,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
             border="0"
             cellpadding="0"
             cellspacing="0"
-            style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
           >
             <tbody>
               <tr>
@@ -570,7 +718,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 1px 0px 1px 8px;margin: 0px;background: #E3FCEF;"
                 >
                   <p
-                    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+                    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
                   >
                     This is a success panel with 
                     <span
@@ -591,7 +739,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
     border="0"
     cellpadding="0"
     cellspacing="0"
-    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
   >
     <tbody>
       <tr>
@@ -602,7 +750,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
             border="0"
             cellpadding="0"
             cellspacing="0"
-            style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
           >
             <tbody>
               <tr>
@@ -610,7 +758,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 1px 0px 1px 8px;margin: 0px;background: #FFFAE6;"
                 >
                   <p
-                    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+                    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
                   >
                     This is a warning panel with 
                     <span
@@ -631,7 +779,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
     border="0"
     cellpadding="0"
     cellspacing="0"
-    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
   >
     <tbody>
       <tr>
@@ -642,7 +790,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
             border="0"
             cellpadding="0"
             cellspacing="0"
-            style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
           >
             <tbody>
               <tr>
@@ -650,7 +798,7 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
                   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;width: 100%;padding: 1px 0px 1px 8px;margin: 0px;background: #FFEBE6;"
                 >
                   <p
-                    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+                    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
                   >
                     This is a error panel with 
                     <span
@@ -678,7 +826,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
     border="0"
     cellpadding="0"
     cellspacing="0"
-    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
   >
     <tbody>
       <tr>
@@ -686,7 +834,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
           style="padding-left: 30px;"
         >
           <p
-            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
           >
             Paragraph with 1 level of indentation
           </p>
@@ -698,7 +846,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
     border="0"
     cellpadding="0"
     cellspacing="0"
-    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
   >
     <tbody>
       <tr>
@@ -706,7 +854,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
           style="padding-left: 60px;"
         >
           <p
-            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
           >
             Paragraph with 2 levels of indentation
           </p>
@@ -718,7 +866,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
     border="0"
     cellpadding="0"
     cellspacing="0"
-    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
   >
     <tbody>
       <tr>
@@ -726,7 +874,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
           style="padding-left: 90px;"
         >
           <p
-            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
           >
             Paragraph with 3 levels of indentation
           </p>
@@ -738,7 +886,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
     border="0"
     cellpadding="0"
     cellspacing="0"
-    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
   >
     <tbody>
       <tr>
@@ -746,7 +894,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
           style="padding-left: 120px;"
         >
           <p
-            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
           >
             Paragraph with 4 levels of indentation
           </p>
@@ -758,7 +906,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
     border="0"
     cellpadding="0"
     cellspacing="0"
-    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
   >
     <tbody>
       <tr>
@@ -766,7 +914,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
           style="padding-left: 150px;"
         >
           <p
-            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
           >
             Paragraph with 5 levels of indentation
           </p>
@@ -778,7 +926,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
     border="0"
     cellpadding="0"
     cellspacing="0"
-    style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
   >
     <tbody>
       <tr>
@@ -786,7 +934,7 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
           style="padding-left: 180px;"
         >
           <p
-            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+            style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
           >
             Paragraph with 6 levels of indentation
           </p>
@@ -839,7 +987,7 @@ exports[`Renderer - EmailSerializer should render text with em inside of a parag
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;"
 >
   <p
-    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-heght: 24px;font-size: 14px;"
+    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
   >
     <a
       href="https://www.atlassian.com"

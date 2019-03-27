@@ -33,8 +33,10 @@ export const N0 = '#FFFFFF';
 export const N20 = '#F4F5F7';
 export const N30 = '#EBECF0';
 export const N40 = '#DFE1E6';
+export const N50 = '#C1C7D0';
 export const N80 = '#97A0AF';
 export const N90 = '#8993A4';
+export const N200 = '#6B778C';
 export const N500 = '#42526E';
 export const N800 = '#172B4D';
 

@@ -1,5 +1,35 @@
 # @atlaskit/editor-core
 
+## 106.6.2
+- [patch] [56766ce748](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/56766ce748):
+
+  - ED-6407: improve table information density by reducing cells padding from 10px to 8px
+
+## 106.6.1
+- [patch] [92452e9323](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92452e9323):
+
+  - ED-5734: render table column control buttons for each column regardless of merged cells
+
+## 106.6.0
+- [minor] [0781a7068c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0781a7068c):
+
+  - ED-6222 Add insertMenu insert events for: emoji picker, image picker, link typeahead, mention typeahead
+
+## 106.5.0
+- [minor] [ea6b08700c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6b08700c):
+
+  - ED-6245: Ensure extensions scroll + overflow when they may break out of their parent container.
+
+## 106.4.0
+- [minor] [7e164b5a6b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e164b5a6b):
+
+  - ED-6547 Add GAS v3 analytics for smartLink
+
+## 106.3.3
+- [patch] [aa117f5341](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa117f5341):
+
+  - fix alignment and UI for inline Smart Links.
+
 ## 106.3.2
 - [patch] [8187471d39](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8187471d39):
 

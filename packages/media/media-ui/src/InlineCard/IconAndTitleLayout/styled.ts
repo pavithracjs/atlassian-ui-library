@@ -7,10 +7,10 @@ export const IconWrapper: ComponentClass<HTMLAttributes<{}>> = styled.span`
   margin-right: 4px;
   vertical-align: text-bottom;
   & > span {
-    height: 12px;
-    width: 12px;
+    height: 14px;
+    width: 14px;
     & > svg {
-      vertical-align: inherit;
+      vertical-align: text-top;
     }
   }
 `;

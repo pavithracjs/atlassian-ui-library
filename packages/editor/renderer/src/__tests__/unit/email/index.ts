@@ -13,6 +13,7 @@ import * as link from '../../__fixtures__/link.adf.json';
 import * as blockCards from '../../__fixtures__/block-cards.adf.json';
 import * as inlineCards from '../../__fixtures__/inline-cards.adf.json';
 import * as status from '../../__fixtures__/status.adf.json';
+import * as tableNumberedColumn from '../../__fixtures__/table-numbered-column.adf.json';
 
 import * as image from '../../__fixtures__/image.adf.json';
 import * as placeholder from '../../__fixtures__/placeholder.adf.json';
@@ -112,6 +113,11 @@ describe('Renderer - EmailSerializer', () => {
 
   it('should render status correctly', () => {
     const output = render(status);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render numbered column for table', () => {
+    const output = render(tableNumberedColumn);
     expect(output).toMatchSnapshot();
   });
 });

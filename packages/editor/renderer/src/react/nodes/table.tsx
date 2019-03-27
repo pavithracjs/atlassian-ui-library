@@ -12,8 +12,10 @@ import {
   akEditorTableLegacyCellMinWidth,
   tableCellBorderWidth,
   tableCellMinWidth,
+  overflowShadow,
+  OverflowShadowProps,
 } from '@atlaskit/editor-common';
-import overflowShadow, { OverflowShadowProps } from '../../ui/overflow-shadow';
+
 import TableHeader from './tableHeader';
 import { RendererAppearance } from '../../ui/Renderer';
 import { FullPagePadding } from '../../ui/Renderer/style';

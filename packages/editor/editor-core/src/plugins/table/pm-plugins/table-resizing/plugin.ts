@@ -87,14 +87,14 @@ export function createPlugin(
             lastColumnResizable,
           );
           if (pluginKey.getState(view.state).dragging) {
-            updateControls(view.state);
+            updateControls(view);
             updateResizeHandle(view);
           }
           return false;
         },
         mouseleave(view) {
           handleMouseLeave(view);
-          updateControls(view.state);
+          updateControls(view);
           return true;
         },
         mousedown(view, event) {

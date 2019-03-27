@@ -1,5 +1,15 @@
 # @atlaskit/renderer
 
+## 44.3.0
+- [minor] [0fea11af41](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0fea11af41):
+
+  - Email renderer supports numbered columns, adf-schema extended with colors
+
+## 44.2.1
+- [patch] [ea6b08700c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6b08700c):
+
+  - ED-6245: Ensure extensions scroll + overflow when they may break out of their parent container.
+
 ## 44.2.0
 - [minor] [d91db66a8f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d91db66a8f):
 

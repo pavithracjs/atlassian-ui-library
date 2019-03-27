@@ -9,6 +9,15 @@ import { analyticsService } from '../../analytics';
 import commonMessages from '../../messages';
 import { Command } from '../../../src/types';
 import { FloatingToolbarConfig } from '../../../src/plugins/floating-toolbar/types';
+import {
+  ACTION,
+  ACTION_SUBJECT,
+  INPUT_METHOD,
+  EVENT_TYPE,
+  addAnalytics,
+  AnalyticsEventPayload,
+  ACTION_SUBJECT_ID,
+} from '../analytics';
 
 export const messages = defineMessages({
   block: {
@@ -29,27 +38,63 @@ export const messages = defineMessages({
   },
 });
 
-const remove: Command = (state, dispatch) => {
+export const removeCard: Command = (state, dispatch) => {
+  if (!(state.selection instanceof NodeSelection)) {
+    return false;
+  }
+
+  const type = state.selection.node.type.name;
+  const payload: AnalyticsEventPayload = {
+    action: ACTION.DELETED,
+    actionSubject: ACTION_SUBJECT.SMART_LINK,
+    actionSubjectId: type as
+      | ACTION_SUBJECT_ID.CARD_INLINE
+      | ACTION_SUBJECT_ID.CARD_BLOCK,
+    attributes: {
+      inputMethod: INPUT_METHOD.TOOLBAR,
+      displayMode: type as
+        | ACTION_SUBJECT_ID.CARD_INLINE
+        | ACTION_SUBJECT_ID.CARD_BLOCK,
+    },
+    eventType: EVENT_TYPE.TRACK,
+  };
   if (dispatch) {
-    dispatch(removeSelectedNode(state.tr));
+    dispatch(addAnalytics(removeSelectedNode(state.tr), payload));
   }
   analyticsService.trackEvent('atlassian.editor.format.card.delete.button');
   return true;
 };
 
-const visit: Command = state => {
-  if (state.selection instanceof NodeSelection) {
-    const { attrs } = state.selection.node;
-    const data = attrs.data || {};
-    const url = attrs.url || data.url;
-
-    // We are in edit mode here, open the smart card URL in a new window.
-    window.open(url);
-    analyticsService.trackEvent('atlassian.editor.format.card.visit.button');
-    return true;
+export const visitCardLink: Command = (state, dispatch) => {
+  if (!(state.selection instanceof NodeSelection)) {
+    return false;
   }
 
-  return false;
+  const { attrs, type } = state.selection.node;
+  const data = attrs.data || {};
+  const url = attrs.url || data.url;
+
+  const payload: AnalyticsEventPayload = {
+    action: ACTION.VISITED,
+    actionSubject: ACTION_SUBJECT.SMART_LINK,
+    actionSubjectId: type.name as
+      | ACTION_SUBJECT_ID.CARD_INLINE
+      | ACTION_SUBJECT_ID.CARD_BLOCK,
+    attributes: {
+      inputMethod: INPUT_METHOD.TOOLBAR,
+    },
+    eventType: EVENT_TYPE.TRACK,
+  };
+
+  // All card links should open in the same tab per https://product-fabric.atlassian.net/browse/MS-1583.
+  analyticsService.trackEvent('atlassian.editor.format.card.visit.button');
+  // We are in edit mode here, open the smart card URL in a new window.
+  window.open(url);
+
+  if (dispatch) {
+    dispatch(addAnalytics(state.tr, payload));
+  }
+  return true;
 };
 
 // Temporarily disabled after https://product-fabric.atlassian.net/browse/MS-1308
@@ -136,7 +181,7 @@ export const floatingToolbar = (
         type: 'button',
         icon: OpenIcon,
         title: intl.formatMessage(commonMessages.visit),
-        onClick: visit,
+        onClick: visitCardLink,
       },
       { type: 'separator' },
       {
@@ -144,7 +189,7 @@ export const floatingToolbar = (
         appearance: 'danger',
         icon: RemoveIcon,
         title: intl.formatMessage(commonMessages.remove),
-        onClick: remove,
+        onClick: removeCard,
       },
     ],
   };

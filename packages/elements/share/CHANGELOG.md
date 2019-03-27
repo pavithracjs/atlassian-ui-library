@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.2.7
+- [patch] [26a3d443e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/26a3d443e2):
+
+  - fix warning when unmounting share doesn't cancel the async requests
+
 ## 0.2.6
 - [patch] [3161a93cdb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3161a93cdb):
 
