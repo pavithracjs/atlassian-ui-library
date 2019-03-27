@@ -1,6 +1,17 @@
 {
-  "type": "doc",
   "version": 1,
+  "type": "doc",
   "content": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "placeholder",
+          "attrs": {
+            "text": "You will never see this in an email, unless something, somewhere went terribly wrong."
+          }
+        }
+      ]
+    }
   ]
 }
