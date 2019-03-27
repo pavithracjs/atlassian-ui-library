@@ -100,6 +100,7 @@ describe(name, () => {
         'creditcard',
         'cross-circle',
         'cross',
+        'crown',
         'dashboard',
         'decision',
         'detail-view',

@@ -352,6 +352,11 @@ var _default = {
     componentName: 'CrossIcon',
     package: '@atlaskit/icon/glyph/cross'
   },
+  crown: {
+    keywords: ['crown', 'icon', 'core'],
+    componentName: 'CrownIcon',
+    package: '@atlaskit/icon/glyph/crown'
+  },
   dashboard: {
     keywords: ['dashboard', 'window', 'grid', 'icon', 'core'],
     componentName: 'DashboardIcon',

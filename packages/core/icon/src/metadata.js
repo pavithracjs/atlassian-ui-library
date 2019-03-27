@@ -346,6 +346,11 @@ export default {
     componentName: 'CrossIcon',
     package: '@atlaskit/icon/glyph/cross',
   },
+  crown: {
+    keywords: ['crown', 'premium', 'icon', 'core'],
+    componentName: 'CrownIcon',
+    package: '@atlaskit/icon/glyph/crown',
+  },
   dashboard: {
     keywords: ['dashboard', 'window', 'grid', 'icon', 'core'],
     componentName: 'DashboardIcon',
