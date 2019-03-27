@@ -10,6 +10,7 @@ import { EditorContainer } from './styles';
 import { colors } from '@atlaskit/theme';
 import { rgbToHex } from '../../util';
 import { DEFAULT_COLOR } from './toolbar/popups/colorPopup';
+import { THICKNESS_MAX } from './toolbar/popups/lineWidthPopup';
 
 const DEFAULT_WIDTH = 845;
 const DEFAULT_HEIGHT = 530;
@@ -91,7 +92,7 @@ class EditorView extends Component<
       color,
       lineWidth,
     }: ShapeParameters) => {
-      if (typeof color === 'string' && lineWidth <= 20) {
+      if (typeof color === 'string' && lineWidth <= THICKNESS_MAX) {
         // For some unknown reason core updates shapeParams with wrong params when some shape is selected
         this.setState({ color, lineWidth });
       }
