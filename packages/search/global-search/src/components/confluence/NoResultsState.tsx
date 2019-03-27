@@ -53,24 +53,6 @@ export default class NoResultsState extends React.Component<Props> {
                 }
               }}
             />
-            <SearchPeopleItem
-              analyticsData={analyticsData}
-              isCompact
-              query={query}
-              text={
-                <Button appearance="default" shouldFitContainer>
-                  <FormattedMessage {...messages.people_advanced_search} />
-                </Button>
-              }
-              onClick={({ event }) => {
-                if (this.props.onClick) {
-                  this.props.onClick(
-                    event,
-                    ConfluenceAdvancedSearchTypes.People,
-                  );
-                }
-              }}
-            />
           </Container>
         </ResultItemGroup>
       </>
