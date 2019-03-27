@@ -97,7 +97,7 @@ async function getRegressedDependencies(
       return {
         ...branchDependencyInfo,
         newVersions: branchDependencyInfo.versions.filter(
-          version => masterDependencyInfo.versions.indexOf(version) === -1,
+          version => !masterDependencyInfo.versions.includes(version),
         ),
       };
     });
