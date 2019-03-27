@@ -1,9 +1,10 @@
 {
   "name": "@atlaskit/theme",
-  "version": "8.0.2",
+  "version": "8.1.1",
   "description": "The Atlaskit theme framework",
   "license": "Apache-2.0",
   "module": "index.js",
+  "types": "index.d.ts",
   "atlaskit:src": "src/index.js",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",

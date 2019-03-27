@@ -1,5 +1,10 @@
 # @atlaskit/select
 
+## 8.0.4
+- [patch] [2a90c65e27](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a90c65e27):
+
+  - Fix, and guard against, missing refs
+
 ## 8.0.3
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

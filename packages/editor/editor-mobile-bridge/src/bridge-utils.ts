@@ -1,7 +1,7 @@
 import { toNativeBridge } from './editor/web-to-native';
 
 interface QueryParams {
-  mode?: 'dark' | 'light';
+  theme?: 'dark' | 'light';
 }
 /**
  * Send an event to which ever bridge it can find.

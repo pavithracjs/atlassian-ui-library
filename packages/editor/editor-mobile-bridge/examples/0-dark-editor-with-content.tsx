@@ -2,8 +2,6 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Editor from './../src/editor/mobile-editor-element';
 import { exampleDocument } from '../../editor-core/example-helpers/example-document';
-// @ts-ignore
-import { AtlaskitThemeProvider } from '@atlaskit/theme';
 
 export const Wrapper: any = styled.div`
   position: absolute;
@@ -20,10 +18,8 @@ Wrapper.displayName = 'Wrapper';
 
 export default function Example() {
   return (
-    <AtlaskitThemeProvider mode={'dark'}>
-      <Wrapper>
-        <Editor defaultValue={exampleDocument} mode={'dark'} />
-      </Wrapper>
-    </AtlaskitThemeProvider>
+    <Wrapper>
+      <Editor defaultValue={exampleDocument} mode={'dark'} />
+    </Wrapper>
   );
 }

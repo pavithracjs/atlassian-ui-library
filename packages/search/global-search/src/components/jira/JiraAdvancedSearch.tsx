@@ -49,15 +49,16 @@ const itemI18nKeySuffix = [
 ];
 
 const getI18nItemName = (i18nKeySuffix: string) => {
-  const id = `jira_advanced_search_${i18nKeySuffix}`;
+  const id = `jira_advanced_search_${i18nKeySuffix}` as keyof typeof messages;
   return <FormattedMessage {...messages[id]} />;
 };
 
 export default class JiraAdvancedSearch extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.enrichedAnalyticsData = props.analyticsData;
   }
+
   static defaultProps = {
     showKeyboardLozenge: false,
     showSearchIcon: false,

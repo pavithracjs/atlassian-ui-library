@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/form",
-  "version": "5.2.3",
+  "version": "5.2.4",
   "description": "Form package provides layout & validation for form fields",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -51,7 +51,7 @@
     "@atlaskit/select": "^8.0.3",
     "@atlaskit/single-select": "^7.0.1",
     "@atlaskit/ssr": "^0.0.1",
-    "@atlaskit/textarea": "^0.3.0",
+    "@atlaskit/textarea": "^0.4.0",
     "@atlaskit/textfield": "^0.4.0",
     "@atlaskit/toggle": "^6.0.1",
     "@atlaskit/tooltip": "^13.0.1",

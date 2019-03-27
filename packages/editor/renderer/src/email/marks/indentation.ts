@@ -1,5 +1,5 @@
 import { MarkSerializerOpts } from '../interfaces';
-import { withTable } from '../util';
+import { createTable } from '../util';
 
 export default function code({ mark, text }: MarkSerializerOpts) {
   // level 1 = 30px, level 2 = 60px, ...
@@ -8,5 +8,5 @@ export default function code({ mark, text }: MarkSerializerOpts) {
   };
 
   // Outlook accepts padding on <td> element, thus we wrap it with table here
-  return withTable(text, style);
+  return createTable([[{ text, style }]]);
 }

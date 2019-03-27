@@ -116,18 +116,23 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
           pluginState: pluginKey,
           tableResizingPluginState: tableResizingPluginKey,
         }}
-        render={({ pluginState, tableResizingPluginState }) => (
-          <>
-            <FloatingContextualMenu
-              editorView={editorView}
-              mountPoint={popupsMountPoint}
-              boundariesElement={popupsBoundariesElement}
-              targetCellPosition={pluginState.targetCellPosition}
-              isOpen={pluginState.isContextualMenuOpen}
-              pluginConfig={pluginState.pluginConfig}
-            />
-            {appearance === 'full-page' &&
-              isLayoutSupported(editorView.state) && (
+        render={_ => {
+          const { state } = editorView;
+          const pluginState = pluginKey.getState(state);
+          const tableResizingPluginState = tableResizingPluginKey.getState(
+            state,
+          );
+          return (
+            <>
+              <FloatingContextualMenu
+                editorView={editorView}
+                mountPoint={popupsMountPoint}
+                boundariesElement={popupsBoundariesElement}
+                targetCellPosition={pluginState.targetCellPosition}
+                isOpen={pluginState.isContextualMenuOpen}
+                pluginConfig={pluginState.pluginConfig}
+              />
+              {appearance === 'full-page' && isLayoutSupported(state) && (
                 <LayoutButton
                   editorView={editorView}
                   mountPoint={popupsMountPoint}
@@ -140,8 +145,9 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
                   }
                 />
               )}
-          </>
-        )}
+            </>
+          );
+        }}
       />
     );
   },

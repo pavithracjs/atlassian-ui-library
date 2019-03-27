@@ -9,7 +9,7 @@ import Container from './styledContainer';
 import Svg from './styledSvg';
 import type { SpinnerProps, SpinnerState } from '../types';
 
-const Outer = styled.div`
+const Outer = styled.span`
   display: inline-block;
   vertical-align: middle;
 `;

@@ -1,5 +1,25 @@
 # @atlaskit/renderer
 
+## 44.2.1
+- [patch] [ea6b08700c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6b08700c):
+
+  - ED-6245: Ensure extensions scroll + overflow when they may break out of their parent container.
+
+## 44.2.0
+- [minor] [d91db66a8f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d91db66a8f):
+
+  - add support for block and inline smart cards in ADF to email renderer
+
+## 44.1.0
+- [minor] [b4ce89e3cb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b4ce89e3cb):
+
+  - improve the display of info panels in email renderer
+
+## 44.0.3
+- [patch] [abd1e85008](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/abd1e85008):
+
+  - ED-6536: Fixes non-resized tables accidently getting a width applied.
+
 ## 44.0.2
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

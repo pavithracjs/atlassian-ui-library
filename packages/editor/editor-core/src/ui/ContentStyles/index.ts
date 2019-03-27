@@ -5,6 +5,7 @@ import {
   paragraphSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
+  shadowSharedStyle,
 } from '@atlaskit/editor-common';
 import { telepointerStyle } from '../../plugins/collab-edit/styles';
 import { gapCursorStyles } from '../../plugins/gap-cursor/styles';
@@ -43,7 +44,8 @@ const ContentStyles: ComponentClass<
     font-size: ${editorFontSize}px;
 
     ${paragraphSharedStyles};
-    ${indentationSharedStyles}
+    ${indentationSharedStyles};
+    ${shadowSharedStyle}
   }
 
   .ProseMirror-hideselection *::selection {
@@ -63,7 +65,6 @@ const ContentStyles: ComponentClass<
   }
 
   .inlineCardView-content-wrap {
-    display: inline-block;
     max-width: calc(100% - 20px);
     vertical-align: top;
     word-break: break-all;
