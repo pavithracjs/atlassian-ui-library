@@ -80,6 +80,7 @@ export async function run() {
       },
     },
   });
+
   const selectedReporters = cli.flags.reporters.split(',');
   const reporters = [];
   const [gitUrl, commit] = await Promise.all([

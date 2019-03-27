@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
 import urlParse from 'url-parse';
 import envWithGuard from '../util/env-with-guard';
 import {
@@ -10,10 +10,9 @@ import crypto from 'crypto';
 import { GitReporter } from './git-reporter';
 
 // TODO: Expose this through the CLI
-const DRY_RUN = false;
 const REPORT_KEY = 'beautiful.insights.duplicates';
 
-export type CodeInsightsAnnotation = {
+type CodeInsightsAnnotation = {
   externalId: string;
   message: string;
   path: string;
@@ -21,7 +20,7 @@ export type CodeInsightsAnnotation = {
   severity: Severity; // TODO: There are probably more?
 };
 
-export type CodeInsightsReport = {
+type CodeInsightsReport = {
   data?: object[];
   details: string;
   title: string;
@@ -83,7 +82,7 @@ export default class BitbucketServerReporter implements GitReporter {
     }/repos/${this.repo}/commits/${this.commit}/reports/${reportKey}`;
   }
 
-  request(url: string, method = 'GET', body: object | null) {
+  request(url: string, method = 'GET', body: object | null): Promise<Response> {
     const opts: RequestOptions = {
       method,
       headers: {
@@ -97,22 +96,6 @@ export default class BitbucketServerReporter implements GitReporter {
       opts.body = JSON.stringify(body);
     }
 
-    if (DRY_RUN) {
-      console.log('Dry run mode, Bitbucket reporter wanted to sent:');
-      console.log(`url: ${url}`);
-      console.log(opts);
-      return Promise.resolve({
-        ok: true,
-        status: 200,
-        text() {
-          return '';
-        },
-        json() {
-          return {};
-        },
-      });
-    }
-
     return fetch(url, opts);
   }
 
@@ -121,7 +104,6 @@ export default class BitbucketServerReporter implements GitReporter {
     report: CodeInsightsReport,
   ): Promise<void> {
     const reportUrl = this.insightsReportUrl(reportKey);
-    console.log(`PUTting report to ${reportUrl}`);
 
     report.data = [];
 
@@ -141,7 +123,6 @@ export default class BitbucketServerReporter implements GitReporter {
     annotations: CodeInsightsAnnotation[],
   ) {
     const annotationUrl = `${this.insightsReportUrl(reportKey)}/annotations`;
-    console.log(`POSTting annotations to ${annotationUrl}`);
     const response = await this.request(annotationUrl, 'POST', {
       annotations,
     });
@@ -165,10 +146,9 @@ export default class BitbucketServerReporter implements GitReporter {
       this.project
     }/repos/${this.repo}/pull-requests?limit=${limit}&start=${start}`;
 
-    console.log(`Fetch ${fetchUrl}`);
     const pullRequestsResponse = await this.request(fetchUrl, undefined, null);
 
-    return pullRequestsResponse.json() as PullRequestsApiResult;
+    return (await pullRequestsResponse.json()) as PullRequestsApiResult;
   }
 
   async getTargetBranch(sourceBranch: string): Promise<string | null> {
@@ -197,7 +177,7 @@ export default class BitbucketServerReporter implements GitReporter {
   reportTemplate(insightsReport: InsightsReport) {
     return {
       details: insightsReport.details,
-      title: 'DEV Duplicates report',
+      title: 'Duplicates report',
       vendor: 'Beautiful Insights',
       logoUrl:
         'https://usagetracker.us-east-1.staging.atl-paas.net/tracker/jfp-small.png?e=duplicates-report', // TODO: new logo
