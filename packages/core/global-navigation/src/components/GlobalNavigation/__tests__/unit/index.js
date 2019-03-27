@@ -6,10 +6,7 @@ import { mount, shallow } from 'enzyme';
 import Badge from '@atlaskit/badge';
 import { DropdownItem } from '@atlaskit/dropdown-menu';
 import Drawer from '@atlaskit/drawer';
-import AtlassianSwitcher, {
-  ConfluenceSwitcher,
-  JiraSwitcher,
-} from '@atlaskit/atlassian-switcher';
+import AtlassianSwitcher from '@atlaskit/atlassian-switcher';
 import AppSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import CreateIcon from '@atlaskit/icon/glyph/add';
@@ -938,14 +935,6 @@ describe('GlobalNavigation', () => {
         1,
       );
       expect(globalNavWrapper.children().find(AppSwitcher)).toHaveLength(0);
-    });
-
-    it('should open a Drawer with the product specific switcher', () => {
-      globalNavWrapper = getDefaultWrapper();
-      const AtlassianSwitcherIcon = globalNavWrapper.find(AppSwitcherIcon);
-      AtlassianSwitcherIcon.simulate('click');
-      expect(globalNavWrapper.find(JiraSwitcher)).toHaveLength(1);
-      expect(globalNavWrapper.find(ConfluenceSwitcher)).toHaveLength(0);
     });
 
     it('should pass the triggerXFlow callback', () => {
