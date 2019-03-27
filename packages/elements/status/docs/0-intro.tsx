@@ -12,7 +12,7 @@ This component is the implementation of the Status element in React.
 
 ## Usage
   ### Status
-  ${code`import { Status, Color } from '@atlaskit/status/item';`}
+  ${code`import { Status, Color } from '@atlaskit/status/element';`}
 
   ${(
     <Example

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Status, Color } from '../src/item';
+import { Status, Color } from '../src/element';
 
 const StatusInParagraph = ({ text, color }: { text: string; color: Color }) => (
   <p>
