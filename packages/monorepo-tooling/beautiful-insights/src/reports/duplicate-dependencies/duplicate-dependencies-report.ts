@@ -6,7 +6,7 @@ import Bitbucket, {
   CodeInsightsAnnotation,
   Severity,
   CodeInsightsReportResults,
-} from '../../reporters/bitbucket';
+} from '../../reporters/bitbucket-server';
 
 const REPORT_KEY = 'jira.frontend.duplicates';
 
