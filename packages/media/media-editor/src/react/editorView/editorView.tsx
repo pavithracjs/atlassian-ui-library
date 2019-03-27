@@ -91,7 +91,10 @@ class EditorView extends Component<
       color,
       lineWidth,
     }: ShapeParameters) => {
-      this.setState({ color, lineWidth });
+      if (typeof color === 'string' && lineWidth <= 20) {
+        // For some unknown reason core updates shapeParams with wrong params when some shape is selected
+        this.setState({ color, lineWidth });
+      }
     };
 
     const { imageUrl, onAnyEdit } = this.props;

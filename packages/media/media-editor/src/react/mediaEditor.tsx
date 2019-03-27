@@ -140,7 +140,8 @@ export class MediaEditor extends React.Component<
       if (typeof currColor === 'string' && currColor !== prevColor) {
         this.toolbar.setColor(currColor);
       }
-      if (currLineWidth !== prevLineWidth) {
+      const isCoresFlukeLineWidth = currLineWidth > 20;
+      if (currLineWidth !== prevLineWidth && !isCoresFlukeLineWidth) {
         this.toolbar.setLineWidth(currLineWidth);
       }
       if (currAddShadow !== prevAddShadow) {
