@@ -1,9 +1,11 @@
 import {
   AnalyticsContext,
-  AnalyticsEventPayload,
-  WithAnalyticsEventProps,
   withAnalyticsEvents,
 } from '@atlaskit/analytics-next';
+import {
+  AnalyticsEventPayload,
+  WithAnalyticsEventProps,
+} from '@atlaskit/analytics-next-types';
 import { ButtonAppearances } from '@atlaskit/button';
 import InlineDialog from '@atlaskit/inline-dialog';
 import { LoadOptions } from '@atlaskit/user-picker';
@@ -257,6 +259,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
   }
 }
 
-export const ShareDialogWithTrigger = withAnalyticsEvents()(
-  ShareDialogWithTriggerInternal,
-);
+export const ShareDialogWithTrigger: React.ComponentClass<
+  Props,
+  State
+> = withAnalyticsEvents()(ShareDialogWithTriggerInternal);
