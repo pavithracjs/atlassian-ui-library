@@ -1,6 +1,6 @@
 // @flow
 
-import { render, shallow } from 'enzyme';
+import { render, mount, shallow } from 'enzyme';
 import React from 'react';
 import Tooltip from '@atlaskit/tooltip';
 import GlobalNavigationItemPrimitive from '../../primitives';
@@ -41,7 +41,7 @@ describe('GlobalNavigationItemPrimitive', () => {
   });
 
   it('should render an anchor when an href prop is passed', () => {
-    const wrapper = shallowDive(
+    const wrapper = mount(
       <GlobalNavigationItemPrimitive
         {...defaultProps}
         styles={styles}
@@ -56,12 +56,10 @@ describe('GlobalNavigationItemPrimitive', () => {
       className: expect.any(String),
       href: 'www.example.com',
     });
-
-    expect(wrapper).toMatchSnapshot();
   });
 
   it('should render a button when an onClick prop is passed', () => {
-    const wrapper = shallowDive(
+    const wrapper = mount(
       <GlobalNavigationItemPrimitive
         {...defaultProps}
         styles={styles}
@@ -76,8 +74,6 @@ describe('GlobalNavigationItemPrimitive', () => {
       onClick: expect.any(Function),
       ...defaultDataset,
     });
-
-    expect(wrapper).toMatchSnapshot();
   });
 
   it('should render a CustomComponent when a component prop is passed', () => {
@@ -87,7 +83,7 @@ describe('GlobalNavigationItemPrimitive', () => {
       </button>
     );
     const onClick = () => {};
-    const wrapper = shallowDive(
+    const wrapper = mount(
       <GlobalNavigationItemPrimitive
         {...defaultProps}
         component={MyComponent}
@@ -112,12 +108,10 @@ describe('GlobalNavigationItemPrimitive', () => {
       size: 'large',
       styles,
     });
-
-    expect(wrapper).toMatchSnapshot();
   });
 
   it('should render a span if neither an href, onClick or component prop is passed', () => {
-    const wrapper = shallowDive(
+    const wrapper = mount(
       <GlobalNavigationItemPrimitive {...defaultProps} styles={styles} />,
     );
     const span = wrapper.find('span');
