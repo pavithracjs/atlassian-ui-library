@@ -23,7 +23,7 @@ declare module 'react' {
 export const Container: ComponentClass<HTMLAttributes<{}>> = styled.div`
   position: relative;
   overflow: hidden;
-  border-radius: ${borderRadius()};
+  border-radius: ${borderRadius()}px;
 `;
 
 export const ImageContainer = styled.div`
@@ -33,6 +33,7 @@ export const ImageContainer = styled.div`
   -moz-user-select: none; /* Firefox all */
   -ms-user-select: none; /* IE 10+ */
   user-select: none; /* Likely future */
+  border-radius: ${borderRadius()}px;
 `;
 
 export const CONTAINER_PADDING = 28;
@@ -47,7 +48,7 @@ const Mask: ComponentClass<HTMLAttributes<{}>> = styled.div`
 `;
 
 export const RectMask: ComponentClass<HTMLAttributes<{}>> = styled(Mask)`
-  border-radius: ${borderRadius()};
+  border-radius: ${borderRadius()}px;
 `;
 
 export const CircularMask: ComponentClass<HTMLAttributes<{}>> = styled(Mask)`
@@ -72,7 +73,7 @@ export const RemoveImageContainer: ComponentClass<
 export const RemoveImageButton: ComponentClass<
   ButtonHTMLAttributes<{}>
 > = styled.button`
-  border-radius: ${borderRadius()};
+  border-radius: ${borderRadius()}px;
   background-color: transparent;
   width: 24px;
   height: 24px;
