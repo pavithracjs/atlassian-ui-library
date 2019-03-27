@@ -97,7 +97,7 @@ async function getRegressedDependencies(
       return {
         ...branchDependencyInfo,
         newVersions: branchDependencyInfo.versions.filter(
-          version => masterDependencyInfo.versions.indexOf(version) > -1,
+          version => masterDependencyInfo.versions.indexOf(version) === -1,
         ),
       };
     });
@@ -153,7 +153,7 @@ async function publishInsightsReport(
         path: 'yarn.lock',
         line: 0, // file level annotation
         severity:
-          directVersion && isDevDependency ? Severity.LOW : Severity.HIGH,
+          !directVersion || isDevDependency ? Severity.LOW : Severity.HIGH,
       };
     },
   );
