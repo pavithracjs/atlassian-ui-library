@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.6.3
+- [patch] [97eeac260b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97eeac260b):
+
+  - ED-6137 GAS v3 Analytics events for action subject Table
+
 ## 106.6.2
 - [patch] [56766ce748](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/56766ce748):
 
