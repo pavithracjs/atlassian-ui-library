@@ -1,1 +1,0 @@
-- Bug fixes around focus geting back to editor and UI fixes around dark theme, line thickness picker and color picker (which now uses ADG colors)

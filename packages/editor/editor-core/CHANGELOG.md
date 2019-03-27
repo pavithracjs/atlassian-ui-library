@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.7.1
+- [patch] [b3c60e3c9c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b3c60e3c9c):
+
+  - Update media-editor dependency
+
 ## 106.7.0
 - [minor] [b32008359a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b32008359a):
 
