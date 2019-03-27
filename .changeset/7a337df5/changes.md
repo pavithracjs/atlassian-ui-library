@@ -1,0 +1,1 @@
+- zIndex prop now accepts string and number values. Portal consumers can now use css values like "unset" if needed.
