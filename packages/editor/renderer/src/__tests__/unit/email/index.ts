@@ -8,8 +8,12 @@ import * as em from '../../__fixtures__/em.adf.json';
 import * as codeBlock from '../../__fixtures__/code-block.adf.json';
 import * as inlineCodeProps from '../../__fixtures__/inline-code-props.adf.json';
 import * as inlineTextProps from '../../__fixtures__/inline-text-props.adf.json';
+import * as panels from '../../__fixtures__/panels.adf.json';
 import * as link from '../../__fixtures__/link.adf.json';
+import * as blockCards from '../../__fixtures__/block-cards.adf.json';
+import * as inlineCards from '../../__fixtures__/inline-cards.adf.json';
 import * as status from '../../__fixtures__/status.adf.json';
+import * as tableNumberedColumn from '../../__fixtures__/table-numbered-column.adf.json';
 
 const render = (doc: any) => {
   const serializer = EmailSerializer.fromSchema(schema);
@@ -21,8 +25,23 @@ const render = (doc: any) => {
 };
 
 describe('Renderer - EmailSerializer', () => {
+  it('should render block cards correctly', () => {
+    const output = render(blockCards);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render inline cards correctly', () => {
+    const output = render(inlineCards);
+    expect(output).toMatchSnapshot();
+  });
+
   it('should render text with em inside of a paragraph correctly', () => {
     const output = render(em);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render panels correctly', () => {
+    const output = render(panels);
     expect(output).toMatchSnapshot();
   });
 
@@ -63,6 +82,11 @@ describe('Renderer - EmailSerializer', () => {
 
   it('should render status correctly', () => {
     const output = render(status);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render numbered column for table', () => {
+    const output = render(tableNumberedColumn);
     expect(output).toMatchSnapshot();
   });
 });

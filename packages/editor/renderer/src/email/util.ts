@@ -50,19 +50,42 @@ export const applyMarks = (marks: Mark[], text: string): string => {
   return output;
 };
 
-// For older Outlook clients, padding can be worked around with tables
-export const withTable = (text: string, style: Style = {}): string => {
+type TableData = {
+  text?: string | null;
+  style: Style;
+};
+
+export const commonTableStyle = {
+  ...commonStyle,
+  margin: '0px',
+  padding: '0px',
+  'border-spacing': '0px',
+  width: '100%',
+};
+
+export const createTable = (
+  tableData: TableData[][],
+  tableStyle: Style = {},
+): string => {
   // Tables override font size, weight and other stuff, thus we reset it here with commonStyle
-  const nullifyCss = serializeStyle({
-    ...commonStyle,
-    margin: '0px',
-    padding: '0px',
-    'border-spacing': '0px',
+  const attrs = {
+    cellspacing: 0,
+    cellpadding: 0,
+    border: 0,
+    style: serializeStyle({
+      ...commonTableStyle,
+      // Allow overriding any tableStyle, via tableStyle param
+      ...tableStyle,
+    }),
+  };
+
+  const tableRows = tableData.map(tableRow => {
+    const tableColumns = tableRow.map(({ style, text }) => {
+      const css = serializeStyle(style);
+      return createTag('td', { style: css }, text ? text : '');
+    });
+    return createTag('tr', {}, tableColumns.join(''));
   });
 
-  const css = serializeStyle(style);
-
-  const td = createTag('td', { style: css }, text);
-  const table = createTag('table', { style: nullifyCss }, td);
-  return table;
+  return createTag('table', attrs, tableRows.join(''));
 };

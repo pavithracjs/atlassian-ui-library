@@ -11,10 +11,11 @@ import JiraServiceRequestIcon from '@atlaskit/icon-object/glyph/issue/16';
 import JiraChangeIcon from '@atlaskit/icon-object/glyph/changes/16';
 import JiraProblemIcon from '@atlaskit/icon-object/glyph/problem/16';
 
-import { InlineCardResolvedViewProps } from '@atlaskit/media-ui';
+import { InlineCardResolvedViewProps, LozengeColor } from '@atlaskit/media-ui';
 
 import { extractInlineViewPropsFromObject } from './extractPropsFromObject';
 import { BuildInlineProps } from './types';
+
 import {
   JIRA_GENERATOR_ID,
   JIRA_TASK,
@@ -76,15 +77,31 @@ const buildInlineTaskIcon: BuildInlineTaskProps = json => {
   };
 };
 
+const VALID_APPEARANCES: LozengeColor[] = [
+  'default',
+  'success',
+  'removed',
+  'inprogress',
+  'new',
+  'moved',
+];
+
+const isValidAppearance = (appearance: any): appearance is LozengeColor => {
+  return VALID_APPEARANCES.indexOf(appearance) !== -1;
+};
+
 const buildInlineTaskTag: BuildInlineTaskProps = json => {
   if (json.tag && json.tag.name) {
+    const { name, appearance } = json.tag;
     return {
       lozenge: {
-        appearance: 'success',
-        text: json.tag.name,
+        appearance:
+          (isValidAppearance(appearance) && appearance) || VALID_APPEARANCES[0],
+        text: name,
       },
     };
   }
+
   return {};
 };
 

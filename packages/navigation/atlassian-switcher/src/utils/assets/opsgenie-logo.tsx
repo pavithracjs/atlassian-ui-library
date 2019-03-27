@@ -19,13 +19,13 @@ export default () => {
           y2="43.2"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="#fff" />
-          <stop offset="0.15" stop-color="#fff" stop-opacity="0.98" />
-          <stop offset="0.31" stop-color="#fff" stop-opacity="0.93" />
-          <stop offset="0.48" stop-color="#fff" stop-opacity="0.84" />
-          <stop offset="0.66" stop-color="#fff" stop-opacity="0.72" />
-          <stop offset="0.84" stop-color="#fff" stop-opacity="0.56" />
-          <stop offset="1" stop-color="#fff" stop-opacity="0.4" />
+          <stop offset="0" stopColor="#fff" />
+          <stop offset="0.15" stopColor="#fff" stopOpacity="0.98" />
+          <stop offset="0.31" stopColor="#fff" stopOpacity="0.93" />
+          <stop offset="0.48" stopColor="#fff" stopOpacity="0.84" />
+          <stop offset="0.66" stopColor="#fff" stopOpacity="0.72" />
+          <stop offset="0.84" stopColor="#fff" stopOpacity="0.56" />
+          <stop offset="1" stopColor="#fff" stopOpacity="0.4" />
         </linearGradient>
         <linearGradient
           id="linear-gradient-2"
@@ -35,8 +35,8 @@ export default () => {
           y2="67.85"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="#fff" />
-          <stop offset="0.85" stop-color="#fff" stop-opacity="0.4" />
+          <stop offset="0" stopColor="#fff" />
+          <stop offset="0.85" stopColor="#fff" stopOpacity="0.4" />
         </linearGradient>
       </defs>
       <g id="Layer_2" data-name="Layer 2">

@@ -5,13 +5,14 @@ import {
   getDocFromElement,
   fullpage,
   resizeColumn,
-  insertBlockMenuItem,
+  quickInsert,
 } from '../_helpers';
 
 import { insertColumn } from '../../__helpers/page-objects/_table';
 
 import {
   tableWithRowSpan,
+  tableNotResizedWithRowSpan,
   tableWithRowSpanAndColSpan,
   twoColFullWidthTableWithContent,
   tableWithDynamicLayoutSizing,
@@ -90,8 +91,9 @@ BrowserTestCase(
 
 BrowserTestCase(
   'Breakout content resizes the column',
-  // Firefox clicks the wrong cell with the TOP_LEFT_CELL
-  // Needs some digging.
+  /**
+   * FIXME: Firefox clicks the wrong cell with the TOP_LEFT_CELL, needs some digging.
+   */
   { skip: ['ie', 'firefox'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
@@ -106,7 +108,33 @@ BrowserTestCase(
     });
 
     await page.click(TableCssClassName.TOP_LEFT_CELL);
-    await insertBlockMenuItem(page, 'Block macro (EH)');
+    await quickInsert(page, 'Minimum width extension');
+
+    const doc = await page.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  'Breakout content resizes the column on a non resized table',
+  /**
+   * FIXME: Firefox clicks the wrong cell with the TOP_LEFT_CELL, needs some digging.
+   */
+  { skip: ['ie', 'firefox', 'safari', 'edge'] },
+  async (client: any, testName: string) => {
+    const page = await goToEditorTestingExample(client);
+
+    await mountEditor(page, {
+      appearance: fullpage.appearance,
+      defaultValue: JSON.stringify(tableNotResizedWithRowSpan),
+      allowTables: {
+        advanced: true,
+      },
+      allowExtension: true,
+    });
+
+    await page.click(TableCssClassName.TOP_LEFT_CELL);
+    await quickInsert(page, 'Minimum width extension');
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);

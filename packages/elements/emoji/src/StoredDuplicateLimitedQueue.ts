@@ -62,7 +62,7 @@ export default class StoredDuplicateLimitedQueue<
    */
   private load(): void {
     const itemsJson = this.storage.getItem(this.prefixedStorageKey);
-    if (itemsJson !== null) {
+    if (itemsJson) {
       try {
         const items: T[] = JSON.parse(itemsJson);
         this.bulkEnqueue(items);

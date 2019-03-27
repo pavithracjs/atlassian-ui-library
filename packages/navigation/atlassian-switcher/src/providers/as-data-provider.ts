@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-enum Status {
+export enum Status {
   LOADING = 'loading',
   COMPLETE = 'complete',
   ERROR = 'error',

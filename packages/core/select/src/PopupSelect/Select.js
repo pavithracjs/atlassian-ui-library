@@ -152,13 +152,13 @@ export default class PopupSelect extends PureComponent<Props, State> {
     // NOTE: Why not use the <Blanket /> component to close?
     // We don't want to interupt the user's flow. Taking this approach allows
     // user to click "through" to other elements and close the popout.
-    if (isOpen && !this.menuRef.contains(target)) {
+    if (isOpen && (this.menuRef && !this.menuRef.contains(target))) {
       this.close();
     }
 
     // open on target click -- we can't trust consumers to spread the onClick
     // property to the target
-    if (!isOpen && this.targetRef.contains(target)) {
+    if (!isOpen && (this.targetRef && this.targetRef.contains(target))) {
       this.open();
     }
   };

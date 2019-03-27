@@ -71,7 +71,7 @@ module.exports = {
           cacheDirectory: true,
           babelrc: true,
           rootMode: 'upward',
-          envName: 'production:esm',
+          envName: 'production:cjs',
         },
       },
       {

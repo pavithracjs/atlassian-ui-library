@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.1.4
+- [patch] [9e97d4186b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9e97d4186b):
+
+  - ED-6488 Fix dark mode editor in mobile bridge
+
 ## 7.1.3
 - Updated dependencies [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
   - @atlaskit/form@5.2.3

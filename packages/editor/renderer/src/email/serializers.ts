@@ -1,6 +1,7 @@
 import { MarkSerializer, NodeSerializer } from './interfaces';
 
 import blockquote from './nodes/blockquote';
+import blockCard from './nodes/block-card';
 import bulletList from './nodes/bullet-list';
 import codeBlock from './nodes/code-block';
 import decisionItem from './nodes/decision-item';
@@ -8,6 +9,7 @@ import decisionList from './nodes/decision-list';
 import emoji from './nodes/emoji';
 import hardBreak from './nodes/hard-break';
 import heading from './nodes/heading';
+import inlineCard from './nodes/inline-card';
 import listItem from './nodes/list-item';
 import mention from './nodes/mention';
 import orderedList from './nodes/ordered-list';
@@ -38,12 +40,14 @@ const renderNothing = () => '';
 export const nodeSerializers: { [key: string]: NodeSerializer } = {
   bodiedExtension: renderNothing,
   blockquote,
+  blockCard,
   bulletList,
   codeBlock,
   decisionList,
   decisionItem,
   emoji,
   image: renderNothing,
+  inlineCard,
   hardBreak,
   heading,
   listItem,
