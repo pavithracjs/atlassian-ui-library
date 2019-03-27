@@ -55,6 +55,14 @@ type TableData = {
   style: Style;
 };
 
+export const commonTableStyle = {
+  ...commonStyle,
+  margin: '0px',
+  padding: '0px',
+  'border-spacing': '0px',
+  width: '100%',
+};
+
 export const createTable = (
   tableData: TableData[][],
   tableStyle: Style = {},
@@ -65,11 +73,7 @@ export const createTable = (
     cellpadding: 0,
     border: 0,
     style: serializeStyle({
-      ...commonStyle,
-      margin: '0px',
-      padding: '0px',
-      'border-spacing': '0px',
-      width: '100%',
+      ...commonTableStyle,
       // Allow overriding any tableStyle, via tableStyle param
       ...tableStyle,
     }),

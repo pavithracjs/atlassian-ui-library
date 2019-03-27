@@ -1,0 +1,1 @@
+- Email renderer supports numbered columns, adf-schema extended with colors
