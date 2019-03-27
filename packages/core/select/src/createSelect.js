@@ -289,6 +289,15 @@ export default function createSelect(WrappedComponent: ComponentType<*>) {
     }
     onSelectRef = (ref: ElementRef<*>) => {
       this.select = ref;
+
+      const { innerRef } = this.props;
+
+      if (typeof innerRef === 'object') {
+        innerRef.current = ref;
+      }
+      if (typeof innerRef === 'function') {
+        innerRef(ref);
+      }
     };
     render() {
       const {

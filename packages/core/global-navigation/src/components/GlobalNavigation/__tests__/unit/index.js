@@ -951,16 +951,38 @@ describe('GlobalNavigation', () => {
     it('should pass the triggerXFlow callback', () => {
       const productKey = 'product.key';
       const sourceComponent = 'source-component';
+      const analyticsEvent = {
+        payload: {
+          eventType: 'ui',
+          action: 'clicked',
+          actionSubject: 'atlassianSwitcherItem',
+        },
+        update: () => {
+          return analyticsEvent;
+        },
+        fire: () => {},
+      };
       globalNavWrapper = getDefaultWrapper();
       globalNavWrapper.find(AppSwitcherIcon).simulate('click');
       globalNavWrapper.find(AtlassianSwitcher).prop('triggerXFlow')(
         productKey,
         sourceComponent,
+        null,
+        analyticsEvent,
       );
       expect(triggerXFlowStub).toHaveBeenCalledWith(
         productKey,
         sourceComponent,
       );
+    });
+
+    it(`should render ScreenTracker with correct props for atlassianSwitcherDrawer drawer when drawer is open`, () => {
+      const screenTracker = globalNavWrapper.find(ScreenTracker);
+      expect(globalNavWrapper.find(ScreenTracker).exists()).toBeTruthy();
+      expect(screenTracker.props()).toEqual({
+        name: 'atlassianSwitcherDrawer',
+        isVisible: true,
+      });
     });
   });
 
@@ -1067,6 +1089,7 @@ describe('GlobalNavigation', () => {
             }),
           }),
         }),
+        undefined,
       );
     });
 

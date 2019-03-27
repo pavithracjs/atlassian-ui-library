@@ -33,11 +33,7 @@ const Title = styled.h4`
   margin-top: 0;
 `;
 
-export interface Props {
-  children: JSX.Element;
-}
-
-const Text = ({ children }) => (
+const Text = ({ children }: React.Props<any>) => (
   <TextWrapper>
     <Title>
       <FormattedMessage {...messages.no_recent_activity_title} />
@@ -46,7 +42,9 @@ const Text = ({ children }) => (
   </TextWrapper>
 );
 
-export default class NoRecentActivity extends React.Component<Props> {
+export default class NoRecentActivity extends React.Component<
+  React.Props<any>
+> {
   render() {
     return (
       <Wrapper>

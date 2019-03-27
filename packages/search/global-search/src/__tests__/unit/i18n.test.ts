@@ -13,12 +13,12 @@ describe('i18n', () => {
   });
 
   it('should resolve locale by country if territory cannot be found', () => {
-    const messages = getMessagesForLocale('fr_FR');
+    const messages = getMessagesForLocale('fr_FR' as any);
     expect(messages).toBe(fr);
   });
 
   it('should fallback to EN if locale cannot be found', () => {
-    const messages = getMessagesForLocale('HUG_HUG');
+    const messages = getMessagesForLocale('HUG_HUG' as any);
     expect(messages).toBe(en);
   });
 });

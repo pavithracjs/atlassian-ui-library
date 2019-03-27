@@ -1,5 +1,10 @@
 # @atlaskit/textfield
 
+## 0.4.1
+- [patch] [e0797c2937](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0797c2937):
+
+  - Support object refs e.g. React.createRef()
+
 ## 0.4.0
 - [minor] [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
 

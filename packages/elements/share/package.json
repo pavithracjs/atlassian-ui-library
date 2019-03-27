@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/share",
-  "version": "0.2.4",
+  "version": "0.2.7",
   "config": {
     "access": "private"
   },
@@ -28,7 +28,7 @@
     "@atlaskit/inline-dialog": "^10.0.1",
     "@atlaskit/theme": "^8.0.1",
     "@atlaskit/tooltip": "^13.0.1",
-    "@atlaskit/user-picker": "^3.0.0",
+    "@atlaskit/user-picker": "^3.1.1",
     "@atlaskit/util-service-support": "^4.0.1",
     "memoize-one": "^3.0.1",
     "react": "^16.4.0",

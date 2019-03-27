@@ -11,6 +11,7 @@ import {
 } from '../../version.json';
 import { SelectItemMode } from '../type-ahead/commands/select-item.js';
 import { isTeamType } from './utils';
+import { TeamInfoAttrAnalytics } from './index';
 
 const componentName = 'mention';
 
@@ -133,13 +134,16 @@ export const buildTypeAheadInsertedPayload = (
 
 export const buildTypeAheadRenderedPayload = (
   duration: number,
-  userIds: Array<string>,
+  userIds: Array<string> | null,
   query: string,
+  teams: TeamInfoAttrAnalytics[] | null,
 ): GasPayload => {
   const { queryLength, spaceInQuery } = extractAttributesFromQuery(query);
+  const actionSubject = userIds ? 'mentionTypeahead' : 'teamMentionTypeahead';
+
   return {
     action: 'rendered',
-    actionSubject: 'mentionTypeahead',
+    actionSubject,
     eventType: OPERATIONAL_EVENT_TYPE,
     attributes: {
       packageName,
@@ -147,6 +151,7 @@ export const buildTypeAheadRenderedPayload = (
       componentName,
       duration,
       userIds,
+      teams,
       queryLength,
       spaceInQuery,
     },
