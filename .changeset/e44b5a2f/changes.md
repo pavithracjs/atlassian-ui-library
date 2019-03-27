@@ -1,0 +1,1 @@
+- Theme TypeScript annotations are now exported as a module declaration. 
