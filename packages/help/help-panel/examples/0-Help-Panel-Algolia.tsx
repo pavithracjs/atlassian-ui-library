@@ -26,7 +26,7 @@ export default class extends React.Component {
 
   onGetArticle = async (articleId: string): Promise<Article> => {
     return new Promise((resolve, reject) => {
-      index.getObjects(['kzkHVoTKjp72azitT1Hwv'], function(err, content) {
+      index.getObjects([articleId], function(err, content) {
         if (err) {
           reject(err);
         }

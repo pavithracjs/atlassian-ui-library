@@ -10,41 +10,40 @@ export default md`
   import Button from '@atlaskit/button';
   import { HelpPanel } from '../src';
   import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
-  import { Article, ArticleItem } from '../src/model/Article';
-  import { getArticle, searchArticle } from './utils/mockData';
-  
+  import { Article } from '../src/model/Article';
+
   var client = algoliasearch('8K6J5OJIQW', '30cf79902f8439752fb34315018d3abd');
   var index = client.initIndex('dev_spike_test');
-  
+
   export default class extends React.Component {
     state = {
       isOpen: false,
       searchText: 'test',
     };
-  
+
     openDrawer = () =>
       this.setState({
         isOpen: true,
       });
-  
+
     closeDrawer = () =>
       this.setState({
         isOpen: false,
       });
-  
+
     onGetArticle = async (articleId: string): Promise<Article> => {
       return new Promise((resolve, reject) => {
-        index.getObjects(['kzkHVoTKjp72azitT1Hwv'], function(err, content) {
-          if(err){
+        index.getObjects([articleId], function(err, content) {
+          if (err) {
             reject(err);
           }
-  
+
           const article = content.results[0];
           resolve(article);
         });
       });
     };
-  
+
     render() {
       const { isOpen } = this.state;
       return (
@@ -62,7 +61,7 @@ export default md`
           <Button type="button" onClick={this.openDrawer}>
             Open drawer
           </Button>
-  
+
           <Button type="button" onClick={this.closeDrawer}>
             Close drawer
           </Button>
@@ -70,6 +69,7 @@ export default md`
       );
     }
   }
+
   
   `}
 
