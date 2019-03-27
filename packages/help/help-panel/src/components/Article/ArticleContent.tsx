@@ -10,8 +10,10 @@ const ArticleContent: React.SFC<Props> = props => {
   const { title = '', body = '' } = props;
   return (
     <ArticleContentInner>
-      {title && title !== undefined ? <h2>{title}</h2> : null}
-      {body && body !== undefined ? <p>{body}</p> : null}
+      {title && title !== undefined && <h2>{title}</h2>}
+      {body && body !== undefined && (
+        <div dangerouslySetInnerHTML={{ __html: body }} />
+      )}
     </ArticleContentInner>
   );
 };
