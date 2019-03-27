@@ -109,7 +109,9 @@ export async function run() {
     targetBranch,
   );
 
-  reporters.forEach(reporter => {
-    reporter(duplicatesReport);
-  });
+  await Promise.all(
+    reporters.map(reporter => {
+      reporter(duplicatesReport);
+    }),
+  );
 }
