@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Button from '@atlaskit/button';
 import { ButtonProps } from '@atlaskit/button/src/types';
-
 import { colors } from '@atlaskit/theme';
 
 const buttonTheme = {
@@ -58,22 +57,19 @@ function extract(newTheme, props, appearance, state) {
 export default (props: ButtonProps) => (
   <Button
     {...props}
-    theme={(currentTheme, props) => {
-      const { appearance, state, ...otherProps } = props;
+    theme={(currentTheme: any, { state, appearance, ...buttonProps }: any) => {
       const { buttonStyles, ...rest } = currentTheme({
-        otherProps,
+        ...buttonProps,
         appearance,
         state,
       });
       return {
         buttonStyles: {
           ...buttonStyles,
-          ...extract(buttonTheme, props, appearance, state),
+          ...extract(buttonTheme, buttonProps, appearance, state),
         },
         ...rest,
       };
     }}
   />
 );
-
-// export default { '@atlaskit-shared-theme/button': buttonTheme };
