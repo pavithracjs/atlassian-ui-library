@@ -21,8 +21,9 @@ const withDefaultTheme = <P: {}, C: ComponentType<P>>(
       'Component'})`;
 
     render() {
-      const theme = this.props.theme || defaultTheme;
-      return <WrappedComponent theme={theme} {...this.props} />;
+      const { theme: ctxTheme, ...rest } = this.props;
+      const theme = Object.keys(ctxTheme).length > 0 ? ctxTheme : defaultTheme;
+      return <WrappedComponent theme={theme} {...rest} />;
     }
   };
 
