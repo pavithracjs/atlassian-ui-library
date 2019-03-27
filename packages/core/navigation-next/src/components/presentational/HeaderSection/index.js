@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { gridSize as gridSizeFn } from '@atlaskit/theme';
-import { css as parseCss } from '@emotion/core';
+import { ClassNames } from '@emotion/core';
 import Section from '../Section';
 import type { HeaderSectionProps } from './types';
 
@@ -19,10 +19,16 @@ export default class HeaderSection extends Component<HeaderSectionProps> {
             paddingTop: gridSize * 2.5,
           };
 
-          return children({
-            css: headerCss,
-            className: parseCss(headerCss),
-          });
+          return (
+            <ClassNames>
+              {({ css: getClassName }) =>
+                children({
+                  css: headerCss,
+                  className: getClassName(headerCss),
+                })
+              }
+            </ClassNames>
+          );
         }}
       </Section>
     );
