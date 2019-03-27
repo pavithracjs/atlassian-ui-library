@@ -127,10 +127,18 @@ export class ImageCropper extends Component<
       left: `${left}px`,
     };
 
+    let crossOrigin: '' | 'anonymous' | 'use-credentials' | undefined;
+    try {
+      crossOrigin = isImageRemote(imageSource) ? 'anonymous' : undefined;
+    } catch (e) {
+      return null;
+    }
+
     return (
       <Container style={containerStyle}>
         <ImageContainer style={imageContainerStyle}>
           <MediaImage
+            crossOrigin={crossOrigin}
             dataURI={imageSource}
             crop={false}
             stretch={true}
