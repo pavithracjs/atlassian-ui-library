@@ -25,7 +25,7 @@ const reportTemplate = (annotationCount: number) => ({
   title: 'Duplicates report',
   vendor: 'Jira Frontend',
   logoUrl:
-    'https://usagetracker.us-east-1.staging.atl-paas.net/tracker/jfp-small.png?e=duplicates-report', //TODO: Remove Jira specific logo
+    'https://usagetracker.us-east-1.staging.atl-paas.net/tracker/jfp-small.png?e=duplicates-report', // TODO: Remove Jira specific logo
   result:
     annotationCount === 0
       ? CodeInsightsReportResults.PASS

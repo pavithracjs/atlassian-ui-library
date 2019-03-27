@@ -14,7 +14,7 @@ export type CodeInsightsAnnotation = {
   message: string;
   path: string;
   line: number;
-  severity: Severity; //TODO: There are probably more?
+  severity: Severity; // TODO: There are probably more?
 };
 
 export enum CodeInsightsReportResults {
