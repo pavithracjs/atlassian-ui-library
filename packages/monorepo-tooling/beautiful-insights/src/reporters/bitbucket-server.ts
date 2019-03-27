@@ -1,13 +1,17 @@
 import fetch from 'node-fetch';
 import urlParse from 'url-parse';
-
-export enum Severity {
-  LOW = 'LOW',
-  HIGH = 'HIGH',
-}
+import envWithGuard from '../util/env-with-guard';
+import {
+  InsightsReportResults,
+  InsightsReport,
+  Severity,
+} from '../reports/insights-report';
+import crypto from 'crypto';
+import { GitReporter } from './git-reporter';
 
 // TODO: Expose this through the CLI
 const DRY_RUN = false;
+const REPORT_KEY = 'beautiful.insights.duplicates';
 
 export type CodeInsightsAnnotation = {
   externalId: string;
@@ -17,18 +21,13 @@ export type CodeInsightsAnnotation = {
   severity: Severity; // TODO: There are probably more?
 };
 
-export enum CodeInsightsReportResults {
-  PASS = 'PASS',
-  FAIL = 'FAIL',
-}
-
 export type CodeInsightsReport = {
   data?: object[];
   details: string;
   title: string;
   vendor: string;
   logoUrl: string;
-  result: CodeInsightsReportResults;
+  result: InsightsReportResults;
 };
 
 type RequestOptions = {
@@ -60,21 +59,21 @@ type PullRequestsApiResult = {
   nextPageStart: number;
 };
 
-export default class Bitbucket {
+export default class BitbucketServerReporter implements GitReporter {
   baseUrl: string;
   project: string;
   repo: string;
   token: string;
   commit: string;
 
-  constructor(gitUrl: string, token: string, commit: string) {
+  constructor(gitUrl: string, commit: string) {
     const { hostname, pathname } = urlParse(gitUrl);
     const [, project, repo] = pathname.split('/');
 
     this.baseUrl = `https://${hostname}`;
     this.project = project;
     this.repo = repo.split('.')[0];
-    this.token = token;
+    this.token = envWithGuard('BITBUCKET_SERVER_TOKEN');
     this.commit = commit;
   }
 
@@ -117,13 +116,17 @@ export default class Bitbucket {
     return fetch(url, opts);
   }
 
-  async publishInsightsReport(reportKey: string, report: CodeInsightsReport) {
+  async _publishInsightsReport(
+    reportKey: string,
+    report: CodeInsightsReport,
+  ): Promise<void> {
     const reportUrl = this.insightsReportUrl(reportKey);
     console.log(`PUTting report to ${reportUrl}`);
 
     report.data = [];
 
     const response = await this.request(reportUrl, 'PUT', report);
+
     if (!response.ok) {
       const responseText = await response.text();
       const message = `Failed to publish report: ${
@@ -131,7 +134,6 @@ export default class Bitbucket {
       }\n${responseText}`;
       throw new Error(message);
     }
-    return response;
   }
 
   async publishInsightAnnotations(
@@ -191,4 +193,33 @@ export default class Bitbucket {
 
     return pullRequest.toRef.displayId;
   }
+
+  reportTemplate(insightsReport: InsightsReport) {
+    return {
+      details: insightsReport.details,
+      title: 'DEV Duplicates report',
+      vendor: 'Beautiful Insights',
+      logoUrl:
+        'https://usagetracker.us-east-1.staging.atl-paas.net/tracker/jfp-small.png?e=duplicates-report', // TODO: new logo
+      result: insightsReport.status,
+    };
+  }
+
+  publishInsightsReport = async (insightsReport: InsightsReport) => {
+    await this._publishInsightsReport(
+      REPORT_KEY,
+      this.reportTemplate(insightsReport),
+    );
+
+    const annotations = insightsReport.annotations.map(annotation => {
+      const hash = crypto.createHash('sha256');
+      hash.update(annotation.message, 'utf8');
+      return {
+        ...annotation,
+        externalId: `risk-${hash.digest('hex')}`,
+      };
+    });
+
+    this.publishInsightAnnotations(REPORT_KEY, annotations);
+  };
 }
