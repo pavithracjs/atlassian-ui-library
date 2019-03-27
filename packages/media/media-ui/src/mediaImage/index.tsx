@@ -62,13 +62,14 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
     if (!this.imageRef || !this.imageRef.current) {
       return;
     }
+    const { onImageLoad } = this.props;
     this.setState({
       isImageLoaded: true,
       imgWidth: this.imageRef.current.naturalWidth,
       imgHeight: this.imageRef.current.naturalHeight,
     });
-    if (this.props.onImageLoad) {
-      this.props.onImageLoad(e.currentTarget);
+    if (onImageLoad) {
+      onImageLoad(e.currentTarget);
     }
   };
 
@@ -79,6 +80,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
       dataURI,
       previewOrientation,
       crossOrigin,
+      onImageError,
     } = this.props;
     const {
       parentWidth,
@@ -419,7 +421,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
         draggable={false}
         style={style}
         onLoad={this.onImageLoad}
-        onError={this.props.onImageError}
+        onError={onImageError}
         innerRef={this.imageRef}
         src={dataURI}
         crossOrigin={crossOrigin}
