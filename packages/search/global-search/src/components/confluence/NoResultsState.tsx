@@ -7,7 +7,6 @@ import { CancelableEvent } from '@atlaskit/quick-search';
 import { messages } from '../../messages';
 import NoResults from '../NoResults';
 import SearchConfluenceItem from '../SearchConfluenceItem';
-import SearchPeopleItem from '../SearchPeopleItem';
 import { ConfluenceAdvancedSearchTypes } from '../SearchResultsUtil';
 export interface Props {
   query: string;
