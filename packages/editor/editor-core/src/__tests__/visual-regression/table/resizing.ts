@@ -33,7 +33,8 @@ describe('Snapshot Test: table resizing', () => {
     it(`snaps back to layout width after column removal`, async () => {
       await deleteColumn(page, 1);
       await animationFrame(page);
-      await snapshot(page);
+      // adding threshold since random blue selection show under table cells on selection
+      await snapshot(page, 0.002);
     });
 
     it('overflow table', async () => {
