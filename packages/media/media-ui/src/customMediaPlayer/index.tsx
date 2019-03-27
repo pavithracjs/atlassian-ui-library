@@ -15,7 +15,6 @@ import MediaPlayer, {
   VideoActions,
 } from 'react-video-renderer';
 import { colors } from '@atlaskit/theme';
-import { ThemeProvider } from 'styled-components';
 import { TimeRange } from './timeRange';
 import {
   CurrentTime,
@@ -123,7 +122,6 @@ export class CustomMediaPlayer extends Component<
     return (
       <MediaButton
         appearance={'toolbar' as any}
-        isSelected={isHDActive}
         onClick={onHDToggleClick}
         iconBefore={
           <HDIcon
