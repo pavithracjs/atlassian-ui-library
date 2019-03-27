@@ -82,7 +82,7 @@ describe('cropToDataURI()', () => {
     jest.resetAllMocks();
   });
 
-  it("should return empty string when convas' context missing", () => {
+  it("should return empty string when canvas' context missing", () => {
     asMock(getCanvas).mockReturnValue({ canvas, context: null });
     const result = cropToDataURI(
       mockImage,
