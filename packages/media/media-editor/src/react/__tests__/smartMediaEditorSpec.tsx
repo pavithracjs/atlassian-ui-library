@@ -181,12 +181,14 @@ describe('Smart Media Editor', () => {
     };
 
     describe('when EditorView calls onSave with userAuthProvider', () => {
+      let userAuthProvider: jest.Mock<any>;
       beforeEach(async () => {
         await forFileToBeProcessed();
         const defaultConfig = getDefaultContextConfig();
+        userAuthProvider = jest.fn();
         const config = {
           ...defaultConfig,
-          userAuthProvider: jest.fn(),
+          userAuthProvider,
         };
         context = fakeContext({}, config);
         component.setProps({
@@ -207,6 +209,18 @@ describe('Smart Media Editor', () => {
         });
         await new Promise(resolve => setTimeout(resolve, 0));
         expect(context.file.copyFile).toHaveBeenCalledTimes(1);
+        expectFunctionToHaveBeenCalledWith(context.file.copyFile, [
+          {
+            id: 'uuid1',
+            collection: fileIdentifier.collectionName,
+            authProvider: context.config.authProvider,
+          },
+          {
+            collection: 'recents',
+            authProvider: userAuthProvider,
+            occurrenceKey: fileIdentifier.occurrenceKey,
+          },
+        ]);
       });
     });
 

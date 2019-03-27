@@ -195,11 +195,11 @@ describe('FileFetcher', () => {
 
       const source = {
         id: items[0].id,
-        collectionName: 'someCollectionName',
+        collection: 'someCollectionName',
         authProvider,
       };
       const destination = {
-        collectionName: 'recents',
+        collection: 'recents',
         authProvider: userAuthProvider,
       };
       await fileFetcher.copyFile(source, destination);
@@ -207,12 +207,12 @@ describe('FileFetcher', () => {
         {
           sourceFile: {
             id: source.id,
-            collection: source.collectionName,
+            collection: source.collection,
             owner,
           },
         },
         {
-          collection: destination.collectionName,
+          collection: destination.collection,
         },
       ]);
     });

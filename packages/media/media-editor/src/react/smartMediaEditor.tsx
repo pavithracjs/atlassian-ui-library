@@ -128,18 +128,19 @@ export class SmartMediaEditor extends React.Component<
         config: { userAuthProvider, authProvider },
         file,
       },
-      identifier: { collectionName },
+      identifier: { collectionName, occurrenceKey },
     } = this.props;
 
     if (userAuthProvider) {
       const source = {
         id: fileId,
-        collectionName,
+        collection: collectionName,
         authProvider,
       };
       const destination = {
-        collectionName: 'recents',
+        collection: 'recents',
         authProvider: userAuthProvider,
+        occurrenceKey,
       };
       await file.copyFile(source, destination);
     }
