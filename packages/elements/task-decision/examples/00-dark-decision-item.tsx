@@ -3,11 +3,7 @@ import { ReactRenderer as Renderer } from '@atlaskit/renderer';
 // @ts-ignore
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
 import DecisionItem from '../src/components/DecisionItem';
-import {
-  MessageContainer,
-  dumpRef,
-  document,
-} from '../example-helpers/story-utils';
+import { dumpRef, document } from '../example-helpers/story-utils';
 
 export default () => (
   <AtlaskitThemeProvider mode={'dark'}>
@@ -34,12 +30,5 @@ export default () => (
 
     <h3>Simple DecisionItem with placeholder</h3>
     <DecisionItem contentRef={dumpRef} showPlaceholder={true} />
-
-    <h3>Simple DecisionItem with 1 participant, inline</h3>
-    <MessageContainer>
-      <DecisionItem contentRef={dumpRef} appearance="inline">
-        <Renderer document={document} />
-      </DecisionItem>
-    </MessageContainer>
   </AtlaskitThemeProvider>
 );
