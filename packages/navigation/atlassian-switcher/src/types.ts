@@ -1,5 +1,12 @@
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+
 export interface TriggerXFlowCallback {
-  (productKey: string, sourceComponent: string): void;
+  (
+    productKey: string,
+    sourceComponent: string,
+    event: any,
+    analyticsEvent: UIAnalyticsEventInterface,
+  ): void;
 }
 
 export interface WithCloudId {

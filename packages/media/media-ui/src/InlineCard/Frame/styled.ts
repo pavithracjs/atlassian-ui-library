@@ -1,7 +1,7 @@
 import { AnchorHTMLAttributes, ComponentClass } from 'react';
 import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
-import { borderRadius as akBorderRadius } from '@atlaskit/theme';
+import { borderRadius as akBorderRadius, elevation } from '@atlaskit/theme';
 
 export interface WrapperProps {
   isSelected?: boolean;
@@ -41,7 +41,12 @@ const isInteractive = ({ isInteractive }: WrapperProps) => {
 };
 
 const background = ({ withoutBackground }: WrapperProps) => {
-  return withoutBackground ? `` : `background-color: ${colors.N30A};`;
+  return withoutBackground
+    ? ``
+    : `
+    background-color: white; 
+    ${elevation.e100()}
+  `;
 };
 
 const isSelected = ({ isSelected }: WrapperProps) => {
@@ -76,4 +81,5 @@ export const Wrapper: ComponentClass<
   ${background};
   ${isInteractive}
   ${isSelected};
+  transition: 0.3s all ease-in-out;
 `;

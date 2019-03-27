@@ -1,4 +1,4 @@
-import { createTag, serializeStyle, applyMarks } from '../util';
+import { applyMarks, createTag, serializeStyle } from '../util';
 import { NodeSerializerOpts } from '../interfaces';
 
 const css = serializeStyle({
@@ -7,7 +7,7 @@ const css = serializeStyle({
   padding: '0px',
   'padding-top': '7px',
   'mso-line-height-rule': 'exactly',
-  'line-heght': '24px',
+  'line-height': '24px',
   'font-size': '14px',
 });
 

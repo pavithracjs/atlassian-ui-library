@@ -1,5 +1,10 @@
 # @atlaskit/mention
 
+## 17.5.0
+- [minor] [b0210d7ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0210d7ccc):
+
+  - reset jest modules before hydration
+
 ## 17.4.0
 - [minor] [1affe17dc4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1affe17dc4):
 

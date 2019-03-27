@@ -1,6 +1,7 @@
-import { withCached } from '../../with-cached';
+import { RELEASE_RESOLVED_PROMISE_DELAY, withCached } from '../../with-cached';
+jest.useFakeTimers();
 
-describe('utils/with-prefetch', () => {
+describe('utils/with-cached', () => {
   /**
    * Single call
    */
@@ -26,6 +27,8 @@ describe('utils/with-prefetch', () => {
   });
 
   it('should have cached value when promise is resolved', async () => {
+    expect.assertions(2);
+
     const fn = jest.fn(a => Promise.resolve(a));
     const wrappedFn = withCached(fn);
     const a0 = { a: 0 };
@@ -58,12 +61,16 @@ describe('utils/with-prefetch', () => {
   });
 
   it('should call original function twice if previous promise is resolved', async () => {
+    expect.assertions(4);
+
     const fn = jest.fn(a => Promise.resolve(a));
     const wrappedFn = withCached(fn);
     const foo = { foo: 1 };
 
     const p0 = wrappedFn(foo);
     await p0;
+
+    jest.advanceTimersByTime(RELEASE_RESOLVED_PROMISE_DELAY);
 
     const p1 = wrappedFn(foo);
     await p1;
@@ -99,6 +106,8 @@ describe('utils/with-prefetch', () => {
   });
 
   it('should have correct cached values for two calls after both promises resolved', async () => {
+    expect.assertions(2);
+
     const fn = jest.fn(a => Promise.resolve(a));
     const wrappedFn = withCached(fn);
     const a0 = { foo: 1 };
@@ -124,6 +133,8 @@ describe('utils/with-prefetch', () => {
     await wrappedFn(a0);
     expect(wrappedFn.cached(a0)).toBe(a0);
 
+    jest.advanceTimersByTime(RELEASE_RESOLVED_PROMISE_DELAY);
+
     fn.mockRejectedValueOnce('error');
     try {
       await wrappedFn(a0);
@@ -135,6 +146,8 @@ describe('utils/with-prefetch', () => {
   });
 
   it('should NOT cache error when promise is rejected', async () => {
+    expect.assertions(2);
+
     const fn = jest.fn(a => Promise.reject(new Error()));
     const wrappedFn = withCached(fn);
     const a0 = { a: 0 };
@@ -151,6 +164,8 @@ describe('utils/with-prefetch', () => {
    * Reset
    */
   it('should reset caches', async () => {
+    expect.assertions(4);
+
     const fn = jest.fn(a => Promise.resolve(a));
     const wrappedFn = withCached(fn);
 

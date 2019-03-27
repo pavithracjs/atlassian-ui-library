@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 6.2.0
+- [minor] [347d237b8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/347d237b8e):
+
+  - Enable noImplicitAny for @atlaskit/global-search
+
 ## 6.1.1
 - [patch] [befe3607e3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/befe3607e3):
 

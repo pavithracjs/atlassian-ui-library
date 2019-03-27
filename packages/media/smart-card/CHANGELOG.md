@@ -1,5 +1,15 @@
 # @atlaskit/smart-card
 
+## 10.2.0
+- [minor] [9b0dd21ce7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0dd21ce7):
+
+  - allow the appearance of lozenges within smart link tasks to be configured
+
+## 10.1.2
+- [patch] [aa117f5341](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa117f5341):
+
+  - fix alignment and UI for inline Smart Links.
+
 ## 10.1.1
 - Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
   - @atlaskit/form@5.2.4

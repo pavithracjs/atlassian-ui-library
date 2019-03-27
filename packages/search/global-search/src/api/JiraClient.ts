@@ -108,7 +108,7 @@ type JiraMyPermissionsResponse = {
 export default class JiraClientImpl implements JiraClient {
   private serviceConfig: ServiceConfig;
   private cloudId: string;
-  private addSessionIdToJiraResult;
+  private addSessionIdToJiraResult?: boolean;
   private canSearchUsersCache: boolean | undefined;
 
   constructor(
@@ -270,7 +270,7 @@ export default class JiraClientImpl implements JiraClient {
    * @param recentCounts
    */
   private getRecentCountQueryParam(recentCounts: RecentItemsCounts): string {
-    const keys = Object.keys(recentCounts);
+    const keys = Object.keys(recentCounts) as Array<keyof typeof recentCounts>;
 
     return keys.map(key => `${key}=${recentCounts[key]}`).join(',');
   }

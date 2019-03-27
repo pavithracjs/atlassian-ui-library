@@ -75,7 +75,7 @@ export default class CrossProductSearchClientImpl
   implements CrossProductSearchClient {
   private serviceConfig: ServiceConfig;
   private cloudId: string;
-  private addSessionIdToJiraResult;
+  private addSessionIdToJiraResult?: boolean;
 
   // result limit per scope
   private readonly RESULT_LIMIT = 10;

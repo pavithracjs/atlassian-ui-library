@@ -1,7 +1,11 @@
 import * as React from 'react';
 import rafSchedule from 'raf-schd';
-import { browser } from '@atlaskit/editor-common';
-import { shadowClassNames } from './Renderer/style';
+import { browser } from '../../utils';
+
+export const shadowClassNames = {
+  RIGHT_SHADOW: 'right-shadow',
+  LEFT_SHADOW: 'left-shadow',
+};
 
 export interface OverflowShadowProps {
   handleRef: (ref: HTMLElement | null) => void;
@@ -15,7 +19,7 @@ export interface OverflowShadowState {
 
 export interface OverflowShadowOptions {
   overflowSelector: string;
-  scrollableSelector: string;
+  scrollableSelector?: string;
 }
 
 const isIE11 = browser.ie_version === 11;
@@ -31,6 +35,7 @@ export default function overflowShadow<P extends OverflowShadowProps>(
     overflowContainer: HTMLElement | null;
     container: HTMLElement;
     scrollable: NodeList;
+    diff: number;
 
     state = {
       showLeftShadow: false,
@@ -65,9 +70,8 @@ export default function overflowShadow<P extends OverflowShadowProps>(
     };
 
     updateRightShadow = () => {
-      if (this.overflowContainer && this.scrollable.length) {
-        const scrollableWidth = this.calcualteScrollableWidth();
-        const diff = scrollableWidth - this.overflowContainer.offsetWidth;
+      if (this.overflowContainer) {
+        const diff = this.calcOverflowDiff();
         const showRightShadow =
           diff > 0 && diff > this.overflowContainer.scrollLeft;
         if (showRightShadow !== this.state.showRightShadow) {
@@ -81,7 +85,31 @@ export default function overflowShadow<P extends OverflowShadowProps>(
     handleUpdateRightShadow = rafSchedule(this.updateRightShadow);
     handleScrollDebounced = rafSchedule(this.handleScroll);
 
-    calcualteScrollableWidth = () => {
+    calcOverflowDiff = () => {
+      if (!this.overflowContainer) {
+        return 0;
+      }
+
+      const overflowContainer = document.querySelector(
+        options.overflowSelector,
+      );
+      if (
+        !this.diff ||
+        (overflowContainer &&
+          overflowContainer.isEqualNode(this.overflowContainer) === false)
+      ) {
+        const scrollableWidth = this.calcScrollableWidth();
+        this.diff = scrollableWidth;
+      }
+
+      return this.diff - this.overflowContainer.offsetWidth;
+    };
+
+    calcScrollableWidth = () => {
+      if (!this.scrollable && this.overflowContainer) {
+        return this.overflowContainer.scrollWidth;
+      }
+
       let width = 0;
       for (let i = 0; i < this.scrollable.length; i++) {
         const scrollableElement = this.scrollable[i] as HTMLElement;
@@ -98,10 +126,15 @@ export default function overflowShadow<P extends OverflowShadowProps>(
       this.overflowContainer = container.querySelector(
         options.overflowSelector,
       ) as HTMLElement;
-      this.scrollable = container.querySelectorAll(options.scrollableSelector);
 
-      if (!(this.overflowContainer && this.scrollable)) {
-        return;
+      if (!this.overflowContainer) {
+        this.overflowContainer = container;
+      }
+
+      if (options.scrollableSelector) {
+        this.scrollable = container.querySelectorAll(
+          options.scrollableSelector,
+        );
       }
 
       this.updateRightShadow();
