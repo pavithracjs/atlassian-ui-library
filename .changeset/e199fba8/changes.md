@@ -1,0 +1,1 @@
+- Adds an analytics event to track atlassian switcher dissmisals using the triggerXFlow callback

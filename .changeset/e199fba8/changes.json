@@ -1,0 +1,7 @@
+{
+  "releases": [
+    { "name": "@atlaskit/global-navigation", "type": "patch" },
+    { "name": "@atlaskit/atlassian-switcher", "type": "patch" }
+  ],
+  "dependents": []
+}
