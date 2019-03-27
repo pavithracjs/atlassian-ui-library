@@ -1,4 +1,8 @@
-import { MarkSerializer, NodeSerializer } from './interfaces';
+import {
+  MarkSerializer,
+  NodeSerializer,
+  MarkSerializerOpts,
+} from './interfaces';
 
 import blockquote from './nodes/blockquote';
 import blockCard from './nodes/block-card';
@@ -35,7 +39,8 @@ import underline from './marks/underline';
 import indentation from './marks/indentation';
 import alignment from './marks/alignment';
 
-const renderNothing = () => '';
+const renderNothing = (): string => '';
+const doNotMark = ({ text }: MarkSerializerOpts): string => text;
 
 export const nodeSerializers: { [key: string]: NodeSerializer } = {
   bodiedExtension: renderNothing,
@@ -56,6 +61,7 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   orderedList,
   panel,
   paragraph,
+  placeholder: renderNothing,
   rule,
   table,
   tableCell,
@@ -68,6 +74,10 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
 };
 
 export const markSerializers: { [key: string]: MarkSerializer } = {
+  action: doNotMark,
+  alignment,
+  annotation: doNotMark,
+  breakout: doNotMark,
   code,
   em,
   indentation,
@@ -77,5 +87,4 @@ export const markSerializers: { [key: string]: MarkSerializer } = {
   subsup,
   textColor,
   underline,
-  alignment,
 };
