@@ -1,0 +1,1 @@
+- ED-6146 Fix bug where gap cursor did not display to right of first node
