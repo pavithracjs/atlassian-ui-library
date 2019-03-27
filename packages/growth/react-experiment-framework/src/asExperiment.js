@@ -48,7 +48,8 @@ export default function asExperiment(
       const { forceFallback } = this.state;
       const { onExposure } = callbacks;
 
-      contextOptions = options;
+      contextOptions =
+        options instanceof Function ? options(experimentKey) : options;
 
       if (forceFallback) {
         return this.renderFallback();
@@ -63,7 +64,7 @@ export default function asExperiment(
       const experimentDetails = experiments[experimentKey];
       if (!experimentDetails.isEnrollmentDecided) {
         // kick off the async check of the resolver
-        experimentDetails.enrollmentResolver(options);
+        experimentDetails.enrollmentResolver(contextOptions);
 
         // still waiting on whether or not to show an experiment
         if (LoadingComponent) {
@@ -103,7 +104,7 @@ export default function asExperiment(
           <View {...this.props} key="experimentView" />
           <CohortTracker
             exposureDetails={exposureDetails}
-            options={options}
+            options={contextOptions}
             onExposure={onExposure}
             key="cohortTracker"
           />

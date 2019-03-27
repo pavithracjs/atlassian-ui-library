@@ -119,6 +119,51 @@ describe('asExperiment', () => {
       // should make the call to resolve enrollment
       expect(enrollmentResolver).toBeCalled();
     });
+
+    it('should call enrollment resolver with options object if set', () => {
+      const WrappedComponent = asExperiment(
+        componentMap,
+        'myExperimentKey',
+        callbacks,
+      );
+
+      mount(
+        <ExperimentProvider value={experiments}>
+          <WrappedComponent />
+        </ExperimentProvider>,
+      );
+
+      expect(enrollmentResolver).toBeCalledWith(enrollmentOptions);
+    });
+
+    it('should call enrollment resolver with options function object if set', () => {
+      const WrappedComponent = asExperiment(
+        componentMap,
+        'myExperimentKey',
+        callbacks,
+      );
+      const mockOptions = {
+        example: 'value',
+      };
+      const mockOptionsResolver = experimentKey => {
+        return {
+          myExperimentKey: mockOptions,
+          differentExperiment: 'this should not get returned',
+        }[experimentKey];
+      };
+      const mockExperiments = {
+        ...experiments,
+        options: mockOptionsResolver,
+      };
+
+      mount(
+        <ExperimentProvider value={mockExperiments}>
+          <WrappedComponent />
+        </ExperimentProvider>,
+      );
+
+      expect(enrollmentResolver).toBeCalledWith(mockOptions);
+    });
   });
 
   describe('Control & eligible', () => {
