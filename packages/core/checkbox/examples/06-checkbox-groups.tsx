@@ -4,12 +4,12 @@ import { Checkbox } from '../src';
 
 const GroupDiv = styled.div`
   display: flex;
-  flex-direction: ${prop => prop.flexDirection};
+  flex-direction: ${(prop: { flexDirection: string }) => prop.flexDirection};
 `;
 
 export default class CheckboxGroups extends React.Component<
   void,
-  { flexDirection: string }
+  { flexDirection?: string }
 > {
   state = {
     flexDirection: 'column',

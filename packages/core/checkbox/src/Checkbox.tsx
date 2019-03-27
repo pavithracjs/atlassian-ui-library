@@ -118,13 +118,12 @@ class Checkbox extends React.Component<CheckboxProps, State> {
 
   onMouseDown = () => this.setState({ isActive: true, isMouseDown: true });
 
-  onKeyDown = (event: KeyboardEvent) => {
+  onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (this.actionKeys.includes(event.key)) {
       this.setState({ isActive: true });
     }
   };
-
-  onKeyUp = (event: KeyboardEvent) => {
+  onKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (this.actionKeys.includes(event.key)) {
       this.setState({ isActive: false });
     }
@@ -167,7 +166,7 @@ class Checkbox extends React.Component<CheckboxProps, State> {
               type="checkbox"
               value={value}
               name={name}
-              innerRef={r => (this.checkbox = r)} // eslint-disable-line
+              innerRef={r => (this.checkbox = r)} // tslint:disable-line
               required={isRequired}
               {...rest}
             />

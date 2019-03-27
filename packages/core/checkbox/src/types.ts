@@ -1,7 +1,6 @@
-// import { type Node, type Element, Component } from 'react';
 import * as React from 'react';
 
-export type ChildrenType = Node;
+export type ChildrenType = React.ReactChild;
 export type ComponentType = React.Component<{}, {}>;
 export type ElementType = React.ReactChild;
 
@@ -27,6 +26,7 @@ export interface CheckboxIconProps {
   primaryColor?: any;
   /** Secondary color */
   secondaryColor?: any;
+  label: any;
 }
 
 export interface CheckboxProps {
@@ -55,7 +55,7 @@ export interface CheckboxProps {
    * The label to be displayed to the right of the checkbox. The label is part
    * of the clickable element to select the checkbox.
    */
-  label?: Node;
+  label?: React.ReactChild;
   /** The name of the submitted field in a checkbox. */
   name?: string;
   /**

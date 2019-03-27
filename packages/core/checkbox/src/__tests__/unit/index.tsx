@@ -22,7 +22,7 @@ describe(name, () => {
     });
 
     afterEach(() => {
-      global.console.error.mockRestore();
+      (global.console.error as any).mockRestore();
     });
     it('should not log console error on mount', () => {
       mountCheckbox({});
@@ -67,6 +67,7 @@ describe(name, () => {
     });
     it('should initially set the indeterminate state on the hidden checkbox', () => {
       const cb = mountCheckbox({ isIndeterminate: true, isChecked: false });
+      // @ts-ignore
       const element = cb.find('Checkbox').instance().checkbox;
       expect(element.indeterminate).toBe(true);
     });
@@ -76,6 +77,7 @@ describe(name, () => {
         isIndeterminate: false,
       });
 
+      // @ts-ignore
       const element = cb.find('Checkbox').instance().checkbox;
       expect(element.indeterminate).toBe(false);
 
@@ -92,11 +94,13 @@ describe(name, () => {
   describe('<Checkbox defaultChecked/>', () => {
     it('should render defaultChecked', () => {
       const cb = mountCheckbox({ defaultChecked: true });
+      // @ts-ignore
       const element = cb.find('Checkbox').instance().checkbox;
       expect(element.checked).toBe(true);
     });
     it('should render defaultChecked={undefined}', () => {
-      const cb = mountCheckbox();
+      const cb = mountCheckbox({});
+      // @ts-ignore
       const element = cb.find('Checkbox').instance().checkbox;
       expect(element.checked).toBe(false);
     });
@@ -109,8 +113,8 @@ describe('CheckboxWithAnalytics', () => {
     jest.spyOn(global.console, 'error');
   });
   afterEach(() => {
-    global.console.warn.mockRestore();
-    global.console.error.mockRestore();
+    (global.console.warn as any).mockRestore();
+    (global.console.error as any).mockRestore();
   });
 
   it('should mount without errors', () => {
