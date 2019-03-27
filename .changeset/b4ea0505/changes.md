@@ -1,1 +1,0 @@
-- ED-6407: improve table information density by reducing cells padding from 10px to 8px
