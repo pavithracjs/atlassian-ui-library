@@ -1,7 +1,9 @@
 import chalk from 'chalk';
 import crypto from 'crypto';
 import loadFileFromGitHistory from '../../util/load-file-from-git-history';
-import getDuplicateDependenciesReport from './get-duplicate-dependencies-report';
+import getDuplicateDependenciesReport, {
+  DuplicateDependencyReportEntry,
+} from './get-duplicate-dependencies-report';
 import Bitbucket, {
   CodeInsightsAnnotation,
   Severity,
@@ -40,18 +42,14 @@ function getTargetBranchYarnLockResolver(targetBranch: string) {
   return () => loadFileFromGitHistory(targetBranch, 'yarn.lock');
 }
 
-type RegressedDepenendency = {
+type RegressedDependencies = DuplicateDependencyReportEntry & {
   newVersions: string[];
-  name: string;
-  versions: string[];
-  isDevDependency: boolean;
 };
-export type RegressedDependencies = RegressedDepenendency[];
 
 async function getRegressedDependencies(
   sourceBranch: string,
   targetBranch: string,
-) {
+): Promise<RegressedDependencies[]> {
   const [currentBranch, masterDuplicatesReport] = await Promise.all([
     getDuplicateDependenciesReport({ returnAllDependencyCounts: true }),
     getDuplicateDependenciesReport({
@@ -61,7 +59,7 @@ async function getRegressedDependencies(
     }),
   ]);
 
-  const regressedDependencies: RegressedDependencies = currentBranch
+  const regressedDependencies = currentBranch
     .map(branchDependencyInfo => [
       masterDuplicatesReport.find(
         ({ name }) => branchDependencyInfo.name === name,
@@ -127,7 +125,7 @@ async function getRegressedDependencies(
 }
 
 async function publishInsightsReport(
-  regressedDependencies: RegressedDependencies,
+  regressedDependencies: RegressedDependencies[],
   bitbucket: Bitbucket,
 ) {
   // add base report
@@ -143,18 +141,19 @@ async function publishInsightsReport(
   );
 
   const annotations: CodeInsightsAnnotation[] = regressedDependencies.map(
-    ({ name, newVersions, isDevDependency }) => {
+    ({ name, newVersions, isDevDependency, directVersion }) => {
       const hash = crypto.createHash('sha256');
       hash.update(name, 'utf8');
 
       return {
-        externalId: `risk-${hash.digest('hex')}`,
+        externalId: `risk-${hash.digest('hex')}` + new Date().getTime(),
         message: `${
           newVersions.length
         } extra versions of ${name} are introduced in this change`,
         path: 'yarn.lock',
         line: 0, // file level annotation
-        severity: isDevDependency ? Severity.LOW : Severity.HIGH,
+        severity:
+          directVersion && isDevDependency ? Severity.LOW : Severity.HIGH,
       };
     },
   );
@@ -171,9 +170,9 @@ export default async function duplicateDependenciesReport(
   commit: string,
 ) {
   const bitbucket = new Bitbucket(gitUrl, token, commit);
-  //   const targetBranch =
-  //     (await bitbucket.getTargetBranch(sourceBranch)) || 'master';
-  const targetBranch = 'master';
+  const targetBranch =
+    (await bitbucket.getTargetBranch(sourceBranch)) || 'master';
+
   const regressedDependencies = await getRegressedDependencies(
     sourceBranch,
     targetBranch,
@@ -181,14 +180,3 @@ export default async function duplicateDependenciesReport(
 
   publishInsightsReport(regressedDependencies, bitbucket);
 }
-
-// interface Reporter {
-//   sendReport(): boolean;
-//   options: Object;
-// }
-
-// interface ReportOptions {
-//   reporters: Array<Reporter>;
-// }
-
-// module.exports = async function DuplicatesReport() {};
