@@ -150,6 +150,10 @@ export const hexToRgb = (hex: string) => {
 
 export const rgbToHex = ({ red, green, blue }: VeColor) => {
   return (
-    '#' + ((1 << 24) + (red << 16) + (green << 8) + blue).toString(16).slice(1)
+    '#' +
+    ((1 << 24) + (red << 16) + (green << 8) + blue)
+      .toString(16)
+      .slice(1)
+      .toLowerCase()
   );
 };

@@ -265,7 +265,9 @@ declare namespace MediaEditor {
       verticalThumb: number,
     ) => void;
     handleShapeParametersChanged: (
-      color: string,
+      red: number,
+      green: number,
+      blue: number,
       lineWidth: number,
       addShadow: boolean,
     ) => void;

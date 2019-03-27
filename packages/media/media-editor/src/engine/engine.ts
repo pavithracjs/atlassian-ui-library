@@ -15,7 +15,7 @@ import { BitmapProvider } from './core/bitmaps/bitmapProvider';
 import { BrowserTypesetter } from './core/typesetter/browserTypesetter';
 import { ContextHolder } from './core/contextHolder';
 import { TimerFactory } from './core/timerFactory';
-import { hexToRgb } from '../util';
+import { hexToRgb, rgbToHex } from '../util';
 import { DEFAULT_COLOR } from '../react/editorView/toolbar/popups/colorPopup';
 
 export type CoreErrorHandler = (message: string) => void;
@@ -182,12 +182,14 @@ export class Engine {
     this.module.bitmapProvider = bitmapProvider;
 
     this.module.handleShapeParametersChanged = (
-      color: string,
+      red: number,
+      green: number,
+      blue: number,
       lineWidth: number,
       addShadow: boolean,
     ) => {
       toolbar.updateByCore({
-        color,
+        color: rgbToHex({ red, green, blue }),
         lineWidth,
         addShadow,
       });

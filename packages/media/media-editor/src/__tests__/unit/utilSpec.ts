@@ -221,7 +221,7 @@ describe('MediaEditor Util', () => {
 
   describe('hexToRgb()', () => {
     it('should convert string with # to rgb', () => {
-      const rgb = hexToRgb('#6B778C');
+      const rgb = hexToRgb('#6b778c');
       expect(rgb).toEqual({
         red: 107,
         green: 119,
@@ -229,7 +229,7 @@ describe('MediaEditor Util', () => {
       });
     });
     it('should convert string without # to rgb', () => {
-      const rgb = hexToRgb('6B778C');
+      const rgb = hexToRgb('6b778c');
       expect(rgb).toEqual({
         red: 107,
         green: 119,

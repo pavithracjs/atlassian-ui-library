@@ -5,7 +5,7 @@ import FieldRange from '@atlaskit/field-range';
 import { LineWidthPopupContainer } from './popupStyles';
 
 export const THICKNESS_MIN = 4;
-export const THICKNESS_MAX = 20;
+export const THICKNESS_MAX = 12;
 
 export interface LineWidthPopupProps {
   readonly isOpen: boolean;

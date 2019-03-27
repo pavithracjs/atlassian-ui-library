@@ -3,21 +3,21 @@ import { Component } from 'react';
 import CheckIcon from '@atlaskit/icon/glyph/check';
 
 import { ColorSample, CheckArea } from './colorButtonStyles';
+import { PICKER_COLORS } from './colorPopup';
 
 export interface ColorButtonProps {
-  readonly border: string;
-  readonly background: string;
-  readonly currentColor: string;
+  readonly color: string;
+  readonly isSelected: boolean;
   readonly onClick: (color: string) => void;
 }
 
 export class ColorButton extends Component<ColorButtonProps> {
   render(): JSX.Element {
-    const { border, background, onClick: onColorClick } = this.props;
-    const onClick = () => onColorClick(background);
+    const { color, onClick: onColorClick } = this.props;
+    const onClick = () => onColorClick(color);
     const style = {
-      borderColor: border,
-      backgroundColor: background,
+      borderColor: PICKER_COLORS[color],
+      backgroundColor: color,
     };
 
     return (
@@ -28,9 +28,9 @@ export class ColorButton extends Component<ColorButtonProps> {
   }
 
   private checkMark(): JSX.Element | null {
-    const { background, currentColor } = this.props;
+    const { isSelected } = this.props;
 
-    if (background === currentColor) {
+    if (isSelected) {
       return (
         <CheckArea>
           <CheckIcon label="check" size="medium" />

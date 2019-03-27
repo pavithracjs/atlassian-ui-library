@@ -79,9 +79,8 @@ export class ColorPopup extends Component<ColorPopupProps> {
     return Object.keys(PICKER_COLORS).map((color, index) => (
       <ColorButton
         key={`${index}`}
-        border={PICKER_COLORS[color]}
-        background={color}
-        currentColor={currentColor}
+        color={color}
+        isSelected={currentColor.toLowerCase() === color.toLowerCase()}
         onClick={onPickColor}
       />
     ));
