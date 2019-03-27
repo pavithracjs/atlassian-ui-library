@@ -8,6 +8,7 @@ import {
 } from '../reports/insights-report';
 import crypto from 'crypto';
 import { GitReporter } from './git-reporter';
+import chalk from 'chalk';
 
 // TODO: Expose this through the CLI
 const REPORT_KEY = 'beautiful.insights.duplicates';
@@ -59,6 +60,7 @@ type PullRequestsApiResult = {
 };
 
 export default class BitbucketServerReporter implements GitReporter {
+  name = 'Bitbucket server reporter';
   baseUrl: string;
   project: string;
   repo: string;
@@ -186,10 +188,13 @@ export default class BitbucketServerReporter implements GitReporter {
   }
 
   publishInsightsReport = async (insightsReport: InsightsReport) => {
+    console.log(`[BBS reporter] publishing report`);
+
     await this._publishInsightsReport(
       REPORT_KEY,
       this.reportTemplate(insightsReport),
     );
+    console.log(chalk.green(`[BBS reporter] ✅ report published`));
 
     const annotations = insightsReport.annotations.map(annotation => {
       const hash = crypto.createHash('sha256');
@@ -200,6 +205,10 @@ export default class BitbucketServerReporter implements GitReporter {
       };
     });
 
-    this.publishInsightAnnotations(REPORT_KEY, annotations);
+    console.log(`[BBS reporter] publishing report annotations`);
+
+    await this.publishInsightAnnotations(REPORT_KEY, annotations);
+
+    console.log(chalk.green(`[BBS reporter] ✅ report annotations published`));
   };
 }

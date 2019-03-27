@@ -92,11 +92,11 @@ export async function run() {
 
   if (selectedReporters.includes('bbs')) {
     bitbucketServerReporter = new BitbucketServerReporter(gitUrl, commit);
-    reporters.push(bitbucketServerReporter.publishInsightsReport);
+    reporters.push(bitbucketServerReporter);
   }
 
   if (selectedReporters.includes('console')) {
-    reporters.push(consoleReporter);
+    reporters.push(new consoleReporter());
   }
 
   const targetBranch = await getTargetBranch(
@@ -105,10 +105,16 @@ export async function run() {
   );
 
   const duplicatesReport = await duplicateDependenciesReport(targetBranch);
-
-  await Promise.all(
-    reporters.map(reporter => {
-      reporter(duplicatesReport);
-    }),
-  );
+  for (const reporter in reporters) {
+    try {
+      await reporters[reporter].publishInsightsReport(duplicatesReport);
+    } catch (err) {
+      console.error(
+        chalk.red(
+          `Failed to use reporter ${chalk.bold(reporters[reporter].name)}`,
+        ),
+      );
+      console.error(err);
+    }
+  }
 }
