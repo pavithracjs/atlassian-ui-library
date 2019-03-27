@@ -171,7 +171,7 @@ export default class Bitbucket {
 
   async getTargetBranch(sourceBranch: string): Promise<string | null> {
     let start = 0;
-    let pullRequest = null;
+    let pullRequest: PullRequests | null = null;
     let page;
     do {
       // eslint-disable-next-line no-await-in-loop
