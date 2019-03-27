@@ -15,7 +15,7 @@ import {
 } from './styled';
 import { ERROR } from '../avatar-picker-dialog';
 import { CONTAINER_INNER_SIZE } from '../image-navigator';
-import cropToDataURI from './crop-to-data-uri';
+import { cropToDataURI } from './crop-to-data-uri';
 
 export interface LoadParameters {
   export: () => string;
