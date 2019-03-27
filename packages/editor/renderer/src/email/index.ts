@@ -4,8 +4,9 @@ import { Fragment, Node as PMNode, Schema } from 'prosemirror-model';
 
 import { Serializer } from '../serializer';
 import { nodeSerializers } from './serializers';
-import { serializeStyle } from './util';
+import styles from './styles';
 import { calcTableColumnWidths } from '@atlaskit/adf-schema';
+import * as juice from 'juice';
 
 const serializeNode = (
   node: PMNode,
@@ -82,12 +83,19 @@ export const commonStyle = {
   'line-height': '24px',
 };
 
-const wrapperCSS = serializeStyle(commonStyle);
-
 export default class EmailSerializer implements Serializer<string> {
   serializeFragment(fragment: Fragment): string {
     const innerHTML = traverseTree(fragment);
-    return `<div style="${wrapperCSS}">${innerHTML}</div>`;
+    return juice(`
+      <html>
+        <head>
+          <style>${styles}</style>
+        </head>
+        <body>
+          <div class="wrapper">${innerHTML}</div>
+        </body>
+      </html>
+      `);
   }
 
   static fromSchema(schema: Schema): EmailSerializer {

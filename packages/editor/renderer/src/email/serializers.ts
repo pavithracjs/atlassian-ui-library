@@ -27,6 +27,8 @@ import tableRow from './nodes/table-row';
 import text from './nodes/text';
 import unknownBlock from './nodes/unknown-block';
 import status from './nodes/status';
+import layoutColumn from './nodes/layoutColumn';
+import layoutSection from './nodes/layoutSection';
 
 import code from './marks/code';
 import em from './marks/em';
@@ -53,6 +55,8 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   emoji,
   image: renderNothing,
   inlineCard,
+  layoutColumn,
+  layoutSection,
   hardBreak,
   heading,
   listItem,
