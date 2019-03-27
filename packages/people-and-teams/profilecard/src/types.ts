@@ -43,9 +43,9 @@ export interface ProfileCardResourcedProps {
   cloudId: string;
   resourceClient: ProfileClient;
   actions?: ProfileCardAction[];
-  analytics?: Function;
+  analytics?: any;
   position?: ProfilecardTriggerPosition;
-  trigger?: 'click' | 'hover';
+  trigger?: TriggerType;
   children?: React.ReactNode;
   customElevation?: Elevation;
 }
@@ -63,9 +63,9 @@ export interface ProfileCardTriggerProps {
   cloudId: string;
   resourceClient: ProfileClient;
   actions?: ProfileCardAction[];
-  analytics?: Function;
+  analytics?: any;
   position?: ProfilecardTriggerPosition;
-  trigger?: 'click' | 'hover';
+  trigger?: TriggerType;
   children?: React.ReactNode;
   customElevation?: Elevation;
 }
@@ -78,7 +78,9 @@ export interface ProfileCardTriggerState {
   data: ProfileCardClientData | null;
 }
 
-export type StatusTypes = 'active' | 'inactive' | 'closed';
+export type StatusType = 'active' | 'inactive' | 'closed';
+
+export type TriggerType = 'hover' | 'click';
 
 export type StatusModifiedDateType =
   | 'noDate'
@@ -92,7 +94,7 @@ export type StatusModifiedDateType =
 export interface ProfileCardAction {
   callback?: (...args: any[]) => any;
   shouldRender?: (data: any) => boolean;
-  id: string;
+  id?: string;
   label: string;
 }
 
@@ -100,7 +102,7 @@ export interface ProfilecardProps {
   isLoading?: boolean;
   hasError?: boolean;
   errorType?: ProfileCardErrorType;
-  status?: StatusTypes;
+  status?: StatusType;
   isBot?: boolean;
   isNotMentionable?: boolean;
   avatarUrl?: string;
@@ -112,8 +114,8 @@ export interface ProfilecardProps {
   companyName?: string;
   timestring?: string;
   actions?: ProfileCardAction[];
-  clientFetchProfile?: Function;
-  analytics?: Function;
+  clientFetchProfile?: any;
+  analytics?: any;
   statusModifiedDate?: number;
   // allow to pass custom elevation, example value of this prop is: `e100`, `e200`, `e300`, `e400` and `e500`
   // Reference from `packages/core/theme/src/elevation.js` to see all valid values.

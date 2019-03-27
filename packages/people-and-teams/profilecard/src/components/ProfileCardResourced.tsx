@@ -17,9 +17,8 @@ export default class ProfilecardResourced extends React.Component<
   ProfileCardResourcedProps,
   ProfileCardResourcedState
 > {
-  static defaultProps = {
+  static defaultProps: Partial<ProfileCardResourcedProps> = {
     actions: [],
-    trigger: 'hover',
     customElevation: 'e200',
   };
 

@@ -205,7 +205,7 @@ class ProfileCardClient {
       return Promise.resolve(cache);
     }
 
-    return new Promise((resolve: Function, reject: Function) => {
+    return new Promise((resolve, reject) => {
       this.makeRequest(cloudId, userId)
         .then((data: any) => {
           if (this.cache) {

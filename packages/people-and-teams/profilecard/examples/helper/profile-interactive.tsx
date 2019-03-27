@@ -6,7 +6,7 @@ import { AtlasKitThemeProvider, colors, themed } from '@atlaskit/theme';
 import { profiles } from '../../mock-helpers';
 import { ProfileCard } from '../../src';
 
-import { StatusTypes, StatusModifiedDateType } from '../../src/types';
+import { StatusType, StatusModifiedDateType } from '../../src/types';
 
 const StoryWrapper = styled.div`
   label {
@@ -50,7 +50,7 @@ type State = {
   statusModifiedDateFieldName: StatusModifiedDateType;
 
   isBot: boolean;
-  status: StatusTypes;
+  status: StatusType;
   customElevation?: string;
   hasCustomElevation: boolean;
 
@@ -132,7 +132,7 @@ export default class ProfilecardInteractive extends Component<Props, State> {
     );
   }
 
-  createRadioStatusAttribute(attribute: StatusTypes) {
+  createRadioStatusAttribute(attribute: StatusType) {
     const id = `label-${uid()}`;
 
     return (
