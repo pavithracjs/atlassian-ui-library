@@ -146,7 +146,7 @@ async function publishInsightsReport(
       hash.update(name, 'utf8');
 
       return {
-        externalId: `risk-${hash.digest('hex')}` + new Date().getTime(),
+        externalId: `risk-${hash.digest('hex')}`,
         message: `${
           newVersions.length
         } extra versions of ${name} are introduced in this change`,
