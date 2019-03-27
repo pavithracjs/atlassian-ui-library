@@ -7,6 +7,14 @@ export type Props = {
 };
 
 export class Input extends React.Component<Props> {
+  // onKeyPress is used instead as
+  // react-select is using onKeyDown for capturing keyboard input
+  handleKeyPress = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  };
+
   render() {
     const { selectProps } = this.props;
     return (
@@ -14,6 +22,7 @@ export class Input extends React.Component<Props> {
         {...this.props}
         innerRef={this.props.innerRef}
         disabled={selectProps && selectProps.disableInput}
+        onKeyPress={this.handleKeyPress}
       />
     );
   }
