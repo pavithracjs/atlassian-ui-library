@@ -3,8 +3,6 @@
 exports[`Renderer - EmailSerializer should align heading correctly 1`] = `
 <html>
   <head>
-    
-          
     <style>
       
 @media (min-width: 600px) {
@@ -28,14 +26,8 @@ exports[`Renderer - EmailSerializer should align heading correctly 1`] = `
 }
 
     </style>
-    
-        
   </head>
-  
-        
   <body>
-    
-          
     <div
       class="wrapper"
       style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
@@ -94,10 +86,6 @@ exports[`Renderer - EmailSerializer should align heading correctly 1`] = `
         </h1>
       </div>
     </div>
-    
-        
-      
-      
   </body>
 </html>
 `;
@@ -105,8 +93,6 @@ exports[`Renderer - EmailSerializer should align heading correctly 1`] = `
 exports[`Renderer - EmailSerializer should align paragraph correctly 1`] = `
 <html>
   <head>
-    
-          
     <style>
       
 @media (min-width: 600px) {
@@ -130,14 +116,8 @@ exports[`Renderer - EmailSerializer should align paragraph correctly 1`] = `
 }
 
     </style>
-    
-        
   </head>
-  
-        
   <body>
-    
-          
     <div
       class="wrapper"
       style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
@@ -166,10 +146,6 @@ exports[`Renderer - EmailSerializer should align paragraph correctly 1`] = `
         </p>
       </div>
     </div>
-    
-        
-      
-      
   </body>
 </html>
 `;
@@ -226,8 +202,6 @@ exports[`Renderer - EmailSerializer should apply no mark for breakout marks 1`] 
 exports[`Renderer - EmailSerializer should inline code properties correctly 1`] = `
 <html>
   <head>
-    
-          
     <style>
       
 @media (min-width: 600px) {
@@ -251,14 +225,8 @@ exports[`Renderer - EmailSerializer should inline code properties correctly 1`] 
 }
 
     </style>
-    
-        
   </head>
-  
-        
   <body>
-    
-          
     <div
       class="wrapper"
       style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
@@ -269,10 +237,6 @@ exports[`Renderer - EmailSerializer should inline code properties correctly 1`] 
         const foo = bar();
       </code>
     </div>
-    
-        
-      
-      
   </body>
 </html>
 `;
@@ -280,8 +244,6 @@ exports[`Renderer - EmailSerializer should inline code properties correctly 1`] 
 exports[`Renderer - EmailSerializer should inline text properties correctly 1`] = `
 <html>
   <head>
-    
-          
     <style>
       
 @media (min-width: 600px) {
@@ -305,14 +267,8 @@ exports[`Renderer - EmailSerializer should inline text properties correctly 1`] 
 }
 
     </style>
-    
-        
   </head>
-  
-        
   <body>
-    
-          
     <div
       class="wrapper"
       style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
@@ -323,10 +279,6 @@ exports[`Renderer - EmailSerializer should inline text properties correctly 1`] 
         foo
       </p>
     </div>
-    
-        
-      
-      
   </body>
 </html>
 `;
@@ -334,8 +286,6 @@ exports[`Renderer - EmailSerializer should inline text properties correctly 1`] 
 exports[`Renderer - EmailSerializer should render block cards correctly 1`] = `
 <html>
   <head>
-    
-          
     <style>
       
 @media (min-width: 600px) {
@@ -359,14 +309,8 @@ exports[`Renderer - EmailSerializer should render block cards correctly 1`] = `
 }
 
     </style>
-    
-        
   </head>
-  
-        
   <body>
-    
-          
     <div
       class="wrapper"
       style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
@@ -482,10 +426,6 @@ exports[`Renderer - EmailSerializer should render block cards correctly 1`] = `
         </table>
       </a>
     </div>
-    
-        
-      
-      
   </body>
 </html>
 `;
@@ -493,8 +433,6 @@ exports[`Renderer - EmailSerializer should render block cards correctly 1`] = `
 exports[`Renderer - EmailSerializer should render codeblock correctly 1`] = `
 <html>
   <head>
-    
-          
     <style>
       
 @media (min-width: 600px) {
@@ -518,14 +456,8 @@ exports[`Renderer - EmailSerializer should render codeblock correctly 1`] = `
 }
 
     </style>
-    
-        
   </head>
-  
-        
   <body>
-    
-          
     <div
       class="wrapper"
       style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
@@ -569,10 +501,6 @@ System.out.println("There are " + count + " values &gt;= 5");
         </table>
       </pre>
     </div>
-    
-        
-      
-      
   </body>
 </html>
 `;
@@ -580,8 +508,6 @@ System.out.println("There are " + count + " values &gt;= 5");
 exports[`Renderer - EmailSerializer should render inline cards correctly 1`] = `
 <html>
   <head>
-    
-          
     <style>
       
 @media (min-width: 600px) {
@@ -605,14 +531,8 @@ exports[`Renderer - EmailSerializer should render inline cards correctly 1`] = `
 }
 
     </style>
-    
-        
   </head>
-  
-        
   <body>
-    
-          
     <div
       class="wrapper"
       style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
@@ -690,10 +610,6 @@ exports[`Renderer - EmailSerializer should render inline cards correctly 1`] = `
         dolor sit amet
       </p>
     </div>
-    
-        
-      
-      
   </body>
 </html>
 `;
@@ -701,8 +617,6 @@ exports[`Renderer - EmailSerializer should render inline cards correctly 1`] = `
 exports[`Renderer - EmailSerializer should render layout column and sections 1`] = `
 <html>
   <head>
-    
-          
     <style>
       
 @media (min-width: 600px) {
@@ -726,14 +640,8 @@ exports[`Renderer - EmailSerializer should render layout column and sections 1`]
 }
 
     </style>
-    
-        
   </head>
-  
-        
   <body>
-    
-          
     <div
       class="wrapper"
       style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
@@ -798,10 +706,6 @@ exports[`Renderer - EmailSerializer should render layout column and sections 1`]
         </div>
       </div>
     </div>
-    
-        
-      
-      
   </body>
 </html>
 `;
@@ -809,8 +713,6 @@ exports[`Renderer - EmailSerializer should render layout column and sections 1`]
 exports[`Renderer - EmailSerializer should render link 1`] = `
 <html>
   <head>
-    
-          
     <style>
       
 @media (min-width: 600px) {
@@ -834,14 +736,8 @@ exports[`Renderer - EmailSerializer should render link 1`] = `
 }
 
     </style>
-    
-        
   </head>
-  
-        
   <body>
-    
-          
     <div
       class="wrapper"
       style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
@@ -853,10 +749,6 @@ exports[`Renderer - EmailSerializer should render link 1`] = `
         Hello, world!
       </a>
     </div>
-    
-        
-      
-      
   </body>
 </html>
 `;
@@ -880,8 +772,6 @@ exports[`Renderer - EmailSerializer should render nothing for placeholder node 1
 exports[`Renderer - EmailSerializer should render numbered column for table 1`] = `
 <html>
   <head>
-    
-          
     <style>
       
 @media (min-width: 600px) {
@@ -905,14 +795,8 @@ exports[`Renderer - EmailSerializer should render numbered column for table 1`] 
 }
 
     </style>
-    
-        
   </head>
-  
-        
   <body>
-    
-          
     <div
       class="wrapper"
       style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
@@ -1059,10 +943,6 @@ exports[`Renderer - EmailSerializer should render numbered column for table 1`] 
         </tbody>
       </table>
     </div>
-    
-        
-      
-      
   </body>
 </html>
 `;
@@ -1070,8 +950,6 @@ exports[`Renderer - EmailSerializer should render numbered column for table 1`] 
 exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
 <html>
   <head>
-    
-          
     <style>
       
 @media (min-width: 600px) {
@@ -1095,14 +973,8 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
 }
 
     </style>
-    
-        
   </head>
-  
-        
   <body>
-    
-          
     <div
       class="wrapper"
       style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
@@ -1360,10 +1232,6 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
         </tbody>
       </table>
     </div>
-    
-        
-      
-      
   </body>
 </html>
 `;
@@ -1371,8 +1239,6 @@ exports[`Renderer - EmailSerializer should render panels correctly 1`] = `
 exports[`Renderer - EmailSerializer should render paragraph with indentations 1`] = `
 <html>
   <head>
-    
-          
     <style>
       
 @media (min-width: 600px) {
@@ -1396,14 +1262,8 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
 }
 
     </style>
-    
-        
   </head>
-  
-        
   <body>
-    
-          
     <div
       class="wrapper"
       style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
@@ -1535,10 +1395,6 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
         </tbody>
       </table>
     </div>
-    
-        
-      
-      
   </body>
 </html>
 `;
@@ -1546,8 +1402,6 @@ exports[`Renderer - EmailSerializer should render paragraph with indentations 1`
 exports[`Renderer - EmailSerializer should render status correctly 1`] = `
 <html>
   <head>
-    
-          
     <style>
       
 @media (min-width: 600px) {
@@ -1571,14 +1425,8 @@ exports[`Renderer - EmailSerializer should render status correctly 1`] = `
 }
 
     </style>
-    
-        
   </head>
-  
-        
   <body>
-    
-          
     <div
       class="wrapper"
       style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
@@ -1614,10 +1462,6 @@ exports[`Renderer - EmailSerializer should render status correctly 1`] = `
         Green
       </span>
     </div>
-    
-        
-      
-      
   </body>
 </html>
 `;
@@ -1625,8 +1469,6 @@ exports[`Renderer - EmailSerializer should render status correctly 1`] = `
 exports[`Renderer - EmailSerializer should render text with em inside of a paragraph correctly 1`] = `
 <html>
   <head>
-    
-          
     <style>
       
 @media (min-width: 600px) {
@@ -1650,14 +1492,8 @@ exports[`Renderer - EmailSerializer should render text with em inside of a parag
 }
 
     </style>
-    
-        
   </head>
-  
-        
   <body>
-    
-          
     <div
       class="wrapper"
       style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
@@ -1711,10 +1547,6 @@ exports[`Renderer - EmailSerializer should render text with em inside of a parag
         </span>
       </p>
     </div>
-    
-        
-      
-      
   </body>
 </html>
 `;
