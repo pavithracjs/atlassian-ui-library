@@ -17,7 +17,8 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/theme": "^8.0.1",
-    "@babel/runtime": "^7.0.0"
+    "@babel/runtime": "^7.0.0",
+    "@types/react-test-renderer": "^16.8.1"
   },
   "peerDependencies": {
     "react": "^16.4.0",

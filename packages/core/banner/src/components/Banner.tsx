@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Container, Content, Icon, Text, Visibility } from '../styled';
 
-type Props = {
-  /** Visual style to be used for the banner */
+interface Props {
   appearance?: 'warning' | 'error' | 'announcement';
+  /** Visual style to be used for the banner */
   /** Content to be shown next to the icon. Typically text content but can contain links. */
   children?: React.ReactNode;
   /** Icon to be shown left of the main content. Typically an Atlaskit [@atlaskit/icon](packages/core/icon) */
@@ -12,7 +12,7 @@ type Props = {
   isOpen?: boolean;
   /** Returns the inner ref of the component. This is exposed so the height can be used in page. */
   innerRef?: (element: HTMLElement) => unknown;
-};
+}
 
 class Banner extends React.Component<Props, { height: number }> {
   state = {
@@ -24,16 +24,19 @@ class Banner extends React.Component<Props, { height: number }> {
     isOpen: false,
   };
 
-  containerRef: HTMLElement | null | undefined;
+  containerRef?: HTMLElement;
 
   getHeight = () => {
-    if (this.containerRef)
+    if (this.containerRef) {
       this.setState({ height: this.containerRef.clientHeight });
+    }
   };
 
   innerRef = (ref: HTMLElement) => {
     this.containerRef = ref;
-    if (this.props.innerRef) this.props.innerRef(ref);
+    if (this.props.innerRef) {
+      this.props.innerRef(ref);
+    }
     this.getHeight();
   };
 
@@ -46,7 +49,6 @@ class Banner extends React.Component<Props, { height: number }> {
           innerRef={this.innerRef}
           appearance={appearance}
           aria-hidden={!isOpen}
-          isOpen={isOpen}
           role="alert"
         >
           <Content appearance={appearance}>

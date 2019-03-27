@@ -3,11 +3,11 @@ import { colors, gridSize, math, themed } from '@atlaskit/theme';
 
 const TRANSITION_DURATION = '0.25s ease-in-out';
 
-type Appearance = 'warning' | 'error' | 'announcement';
+type Appearance = 'warning' | 'error' | 'announcement' | undefined;
 
 interface VisibilityProps {
   bannerHeight: number;
-  isOpen: boolean;
+  isOpen?: boolean;
 }
 
 /* Container */

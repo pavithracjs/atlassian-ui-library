@@ -9,8 +9,10 @@ describe('Snapshot Test', () => {
       'core',
       'banner',
       'announcementBanner',
+      // @ts-ignore
       global.__BASEURL__,
     );
+    // @ts-ignore
     const image = await takeScreenShot(global.page, url);
     expect(image).toMatchProdImageSnapshot();
   });
