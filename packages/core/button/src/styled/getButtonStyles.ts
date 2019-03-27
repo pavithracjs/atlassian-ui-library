@@ -4,7 +4,7 @@ import themeDefinitions from './themeDefinitions';
 import { themeNamespace } from '../theme';
 import getButtonProps from '../components/getButtonProps';
 
-// TODO: Type correctly when @atlaskit/theme is typescript.
+// TODO: Type correctly when @atlaskit/theme is typescript
 
 const getProvidedTheme = ({ theme }: StyleProps) =>
   (theme && theme[themeNamespace]) || {};
