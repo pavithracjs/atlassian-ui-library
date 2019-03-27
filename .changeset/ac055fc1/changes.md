@@ -1,1 +1,0 @@
-- Bugfix: fixes z-index problem causing drawer to appear underneath navigation.
