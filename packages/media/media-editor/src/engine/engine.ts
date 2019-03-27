@@ -15,6 +15,7 @@ import { BitmapProvider } from './core/bitmaps/bitmapProvider';
 import { BrowserTypesetter } from './core/typesetter/browserTypesetter';
 import { ContextHolder } from './core/contextHolder';
 import { TimerFactory } from './core/timerFactory';
+import { hexToRgb } from '../util';
 
 export type CoreErrorHandler = (message: string) => void;
 
@@ -123,7 +124,7 @@ export class Engine {
       // https://jira.atlassian.com/browse/FIL-3997
     });
     toolbar.colorChanged.listen(color =>
-      this.veCall('update color', ve => ve.setColor(color)),
+      this.veCall('update color', ve => ve.setColor(hexToRgb(color))),
     );
     toolbar.lineWidthChanged.listen(lineWidth =>
       this.veCall('update line width', ve => ve.setLineWidth(lineWidth)),
@@ -180,14 +181,12 @@ export class Engine {
     this.module.bitmapProvider = bitmapProvider;
 
     this.module.handleShapeParametersChanged = (
-      red: number,
-      green: number,
-      blue: number,
+      color: string,
       lineWidth: number,
       addShadow: boolean,
     ) => {
       toolbar.updateByCore({
-        color: { red, green, blue },
+        color,
         lineWidth,
         addShadow,
       });
@@ -236,7 +235,7 @@ export class Engine {
     const { backImage, backImageUuid } = imageProvider;
 
     const initialParameters = {
-      shapeColor: shapeParameters.color,
+      shapeColor: hexToRgb(shapeParameters.color),
       lineWidth: shapeParameters.lineWidth,
       addShadow: shapeParameters.addShadow,
       tool: this.toVeTool(this.config.initialTool),

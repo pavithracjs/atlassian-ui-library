@@ -4,8 +4,8 @@ import { injectIntl, InjectedIntlProps } from 'react-intl';
 import Button from '@atlaskit/button';
 import Tooltip from '@atlaskit/tooltip';
 import { messages } from '@atlaskit/media-ui';
-import { Tool, Color } from '../../../common';
 
+import { Tool } from '../../../common';
 import LineWidthButton from './buttons/lineWidthButton';
 import ColorButton from './buttons/colorButton';
 import { ToolButton } from './buttons/toolButton';
@@ -29,13 +29,13 @@ export const tools: Tool[] = [
 ];
 
 export interface ToolbarProps {
-  readonly color: Color;
+  readonly color: string;
   readonly tool: Tool;
   readonly lineWidth: number;
   readonly onSave: () => void;
   readonly onCancel: () => void;
   readonly onToolChanged: (tool: Tool) => void;
-  readonly onColorChanged: (color: Color) => void;
+  readonly onColorChanged: (color: string) => void;
   readonly onLineWidthChanged: (lineWidth: number) => void;
 }
 
@@ -70,7 +70,7 @@ export class Toolbar extends Component<
     const showLineWidthPopup = popup === 'lineWidth';
     const showShapePopup = popup === 'shape';
 
-    const onPickColor = (color: Color) => {
+    const onPickColor = (color: string) => {
       onColorChanged(color);
       this.setState({ popup: 'none' });
     };

@@ -12,7 +12,14 @@ export class ContextHolder {
 
   constructor(drawingArea: DrawingArea) {
     this.canvas = drawingArea.canvas;
-    this.gl = ContextHolder.getContext(this.canvas);
+
+    const gl = ContextHolder.getContext(this.canvas);
+    if (gl) {
+      this.gl = gl;
+    } else {
+      console.error('webgl is not supported');
+      throw new Error('WEBGL is not supported');
+    }
 
     this.contextRestoredListener = () => {
       this.contextRestored.emit(drawingArea.outputSize);
@@ -36,8 +43,9 @@ export class ContextHolder {
     );
   }
 
-  static getContext(canvas: HTMLCanvasElement): WebGLRenderingContext {
-    return (canvas.getContext('webgl') ||
-      canvas.getContext('experimental-webgl')) as WebGLRenderingContext;
+  static getContext(canvas: HTMLCanvasElement): WebGLRenderingContext | null {
+    return (
+      canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+    );
   }
 }

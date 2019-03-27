@@ -88,7 +88,7 @@ describe('Smart Media Editor', () => {
     expect(component.find(Spinner)).toHaveLength(1);
   });
 
-  it('should pass click even through Banket', () => {
+  it('should pass click even through Blanket', () => {
     const stopPropagation = jest.fn();
     component.find(Blanket).simulate('click', { stopPropagation });
     expect(stopPropagation).toHaveBeenCalled();

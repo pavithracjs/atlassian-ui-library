@@ -4,9 +4,11 @@ import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { messages } from '@atlaskit/media-ui';
 import { ThemeProvider } from 'styled-components';
 import { MediaEditor, LoadParameters } from '../mediaEditor';
-import { Tool, Color, Dimensions, ShapeParameters } from '../../common';
+import { Tool, Dimensions, ShapeParameters } from '../../common';
 import Toolbar, { tools } from './toolbar/toolbar';
 import { EditorContainer } from './styles';
+import { colors } from '@atlaskit/theme';
+import { rgbToHex } from '../../util';
 
 const DEFAULT_WIDTH = 845;
 const DEFAULT_HEIGHT = 530;
@@ -28,7 +30,7 @@ export interface EditorViewProps {
 
 export interface EditorViewState {
   readonly dimensions: Dimensions;
-  readonly color: Color;
+  readonly color: string;
   readonly lineWidth: number;
   readonly tool: Tool;
 }
@@ -44,7 +46,7 @@ class EditorView extends Component<
       width: DEFAULT_WIDTH,
       height: DEFAULT_HEIGHT - TOOLBAR_HEIGHT,
     },
-    color: { red: 0xbf, green: 0x26, blue: 0x00 },
+    color: colors.R300,
     lineWidth: 8,
     tool: 'arrow',
   };
@@ -112,7 +114,7 @@ class EditorView extends Component<
   renderToolbar(): JSX.Element {
     const { tool, color, lineWidth } = this.state;
     const onToolChanged = (tool: Tool) => this.setState({ tool });
-    const onColorChanged = (color: Color) => this.setState({ color });
+    const onColorChanged = (color: string) => this.setState({ color });
     const onLineWidthChanged = (lineWidth: number) =>
       this.setState({ lineWidth });
     const onCancel = () => this.props.onCancel();
@@ -183,8 +185,13 @@ class EditorView extends Component<
     const color = localStorage.getItem(propertyColor);
     if (color) {
       try {
+        let parsedColor = JSON.parse(color);
+        if (parsedColor.red !== undefined) {
+          // Backward compatible with already stored colors in users' local storage
+          parsedColor = rgbToHex(parsedColor);
+        }
         this.setState({
-          color: JSON.parse(color),
+          color: parsedColor,
         });
       } catch (error) {
         // tslint:disable-next-line:no-console

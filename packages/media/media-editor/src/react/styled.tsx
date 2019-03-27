@@ -7,7 +7,6 @@ import {
   TextareaHTMLAttributes,
 } from 'react';
 import { layers, colors } from '@atlaskit/theme';
-import { ButtonProps } from './toolbarButtons';
 
 export interface LineWidthFrontCircleProps {
   width: number;
@@ -92,22 +91,6 @@ export const ToolbarContainer: ComponentClass<HTMLAttributes<{}>> = styled.div`
   padding: 8px;
 `;
 ToolbarContainer.displayName = 'ToolbarContainer';
-
-export const ToolbarButton: ComponentClass<
-  HTMLAttributes<{}> & ButtonProps
-> = styled.div`
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  background-color: ${(props: ButtonProps) =>
-    props.selected ? colors.N90 : 'transparent'};
-  border-radius: 4px;
-
-  &:hover {
-    background-color: ${colors.N90};
-  }
-`;
-ToolbarButton.displayName = 'ToolbarButton';
 
 export const ColorSquare: ComponentClass<HTMLAttributes<{}>> = styled.div`
   width: 20px;

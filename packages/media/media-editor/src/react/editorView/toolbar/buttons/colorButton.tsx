@@ -11,10 +11,10 @@ import {
 } from './styles';
 import { messages } from '@atlaskit/media-ui';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
-import { Color } from '../../../../common';
+import { PICKER_COLORS } from '../popups/colorPopup';
 
 export interface ColorButtonProps {
-  readonly color: Color;
+  readonly color: string;
   readonly isActive: boolean;
   readonly onClick: () => void;
 }
@@ -29,9 +29,9 @@ export class ColorButton extends Component<
       onClick,
       intl: { formatMessage },
     } = this.props;
-    const { red, green, blue } = color;
+
     const iconPrimaryColor = isActive ? colors.N0 : undefined;
-    const style = { backgroundColor: `rgb(${red}, ${green}, ${blue})` };
+    const style = { backgroundColor: color, borderColor: PICKER_COLORS[color] };
 
     const iconBefore = (
       <DropdownLeftIconWrapper>

@@ -22,7 +22,7 @@ export const ColorPopupContentWrapper: ComponentClass<
 > = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 128px;
+  width: 144px;
   padding: 8px;
   margin: -16px -24px; // Compensation for default big padding that inline dialog comes with
 `;

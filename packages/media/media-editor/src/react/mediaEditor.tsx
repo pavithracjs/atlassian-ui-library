@@ -18,7 +18,7 @@ import {
   TextDirection,
   Tool,
 } from '../common';
-import { colorSame, colorWithAlphaSame, dimensionsSame } from '../util';
+import { colorWithAlphaSame, dimensionsSame } from '../util';
 
 import {
   DefaultDrawingArea,
@@ -137,7 +137,7 @@ export class MediaEditor extends React.Component<
       addShadow: prevAddShadow,
     } = prevProps.shapeParameters;
     if (this.toolbar) {
-      if (!colorSame(currColor, prevColor)) {
+      if (currColor !== prevColor) {
         this.toolbar.setColor(currColor);
       }
       if (currLineWidth !== prevLineWidth) {

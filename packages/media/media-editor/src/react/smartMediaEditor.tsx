@@ -278,6 +278,7 @@ export class SmartMediaEditor extends React.Component<
   };
 
   renderError = (error: any) => {
+    console.log({ error });
     const { onFinish } = this.props;
     if (error instanceof Error) {
       error = error.message;
