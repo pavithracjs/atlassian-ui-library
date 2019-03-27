@@ -4,7 +4,6 @@ import DecisionList from '../../../../components/DecisionList';
 import {
   MessageContainer,
   dumpRef,
-  getParticipants,
 } from '../../../../../example-helpers/story-utils';
 
 export default () => (
@@ -33,11 +32,7 @@ export default () => (
       participants)
     </h3>
     <MessageContainer>
-      <DecisionItem
-        contentRef={dumpRef}
-        participants={getParticipants(1)}
-        appearance="inline"
-      >
+      <DecisionItem contentRef={dumpRef} appearance="inline">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua.
       </DecisionItem>

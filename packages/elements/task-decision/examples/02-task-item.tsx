@@ -4,11 +4,9 @@ import { ReactRenderer as Renderer } from '@atlaskit/renderer';
 import TaskItem from '../src/components/TaskItem';
 import {
   MessageContainer,
-  SidebarContainer,
   dumpRef,
   action,
   document,
-  getParticipants,
 } from '../example-helpers/story-utils';
 
 export default () => (
@@ -69,72 +67,5 @@ export default () => (
         showPlaceholder={true}
       />
     </MessageContainer>
-
-    <h3>
-      Simple TaskItem with 1 participant, inline (shouldn\'t render
-      participants)
-    </h3>
-    <MessageContainer>
-      <TaskItem
-        taskId="task-3"
-        contentRef={dumpRef}
-        onChange={action('onChange')}
-        participants={getParticipants(1)}
-        appearance="inline"
-      >
-        <Renderer document={document} />
-      </TaskItem>
-    </MessageContainer>
-
-    <h3>Simple TaskItem with no participants</h3>
-    <SidebarContainer>
-      <TaskItem
-        taskId="task-3"
-        contentRef={dumpRef}
-        onChange={action('onChange')}
-        appearance="card"
-      >
-        <Renderer document={document} />
-      </TaskItem>
-    </SidebarContainer>
-
-    <h3>Simple TaskItem with 1 participant</h3>
-    <SidebarContainer>
-      <TaskItem
-        taskId="task-3"
-        contentRef={dumpRef}
-        onChange={action('onChange')}
-        participants={getParticipants(1)}
-        appearance="card"
-      >
-        <Renderer document={document} />
-      </TaskItem>
-    </SidebarContainer>
-
-    <h3>Simple TaskItem with 4 participants</h3>
-    <SidebarContainer>
-      <TaskItem
-        taskId="task-3"
-        contentRef={dumpRef}
-        onChange={action('onChange')}
-        participants={getParticipants(4)}
-        appearance="card"
-      >
-        <Renderer document={document} />
-      </TaskItem>
-    </SidebarContainer>
-
-    <h3>Simple TaskItem with 5 participants</h3>
-    <SidebarContainer>
-      <TaskItem
-        taskId="task-3"
-        contentRef={dumpRef}
-        onChange={action('onChange')}
-        participants={getParticipants(5)}
-        appearance="card"
-      >
-        <Renderer document={document} />
-      </TaskItem>
-    </SidebarContainer>
   </div>
 );

@@ -4,25 +4,13 @@ import styled from 'styled-components';
 
 import { taskDecision } from '@atlaskit/util-data-test';
 
-export const {
-  getMockTaskDecisionResource,
-  document,
-  getParticipants,
-} = taskDecision;
+export const { getMockTaskDecisionResource, document } = taskDecision;
 
 export const MessageContainer: React.ComponentClass<
   React.HTMLAttributes<{}>
 > = styled.div`
   border: 10px solid #fcc;
   width: 585px;
-`;
-
-export const SidebarContainer: React.ComponentClass<
-  React.HTMLAttributes<{}>
-> = styled.div`
-  border: 10px solid #fcc;
-  width: 240px;
-  overflow-x: hidden;
 `;
 
 export const Grid: React.ComponentClass<React.HTMLAttributes<{}>> = styled.div`
