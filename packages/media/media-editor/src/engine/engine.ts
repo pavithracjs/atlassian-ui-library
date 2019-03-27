@@ -16,6 +16,7 @@ import { BrowserTypesetter } from './core/typesetter/browserTypesetter';
 import { ContextHolder } from './core/contextHolder';
 import { TimerFactory } from './core/timerFactory';
 import { hexToRgb } from '../util';
+import { DEFAULT_COLOR } from '../react/editorView/toolbar/popups/colorPopup';
 
 export type CoreErrorHandler = (message: string) => void;
 
@@ -233,9 +234,12 @@ export class Engine {
   private createVeEngine(): void {
     const { shapeParameters, drawingArea, imageProvider } = this.config;
     const { backImage, backImageUuid } = imageProvider;
-
+    const color =
+      typeof shapeParameters.color === 'string'
+        ? shapeParameters.color
+        : DEFAULT_COLOR;
     const initialParameters = {
-      shapeColor: hexToRgb(shapeParameters.color),
+      shapeColor: hexToRgb(color),
       lineWidth: shapeParameters.lineWidth,
       addShadow: shapeParameters.addShadow,
       tool: this.toVeTool(this.config.initialTool),
