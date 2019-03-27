@@ -1,14 +1,19 @@
 import { components } from '@atlaskit/select';
+import Tooltip from '@atlaskit/tooltip';
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { ClearIndicator } from '../../../components/ClearIndicator';
 
 describe('ClearIndicator', () => {
-  const shallowClearIndicator = props => shallow(<ClearIndicator {...props} />);
+  const shallowClearIndicator = (props: any) =>
+    shallow(<ClearIndicator {...props} />);
 
   it('should clear value onMouseDown', () => {
     const clearValue = jest.fn();
-    const component = shallowClearIndicator({ clearValue });
+    const component = shallowClearIndicator({
+      clearValue,
+      selectProps: { isFocused: true },
+    });
 
     const { onMouseDown } = component
       .find(components.ClearIndicator)
@@ -45,5 +50,22 @@ describe('ClearIndicator', () => {
     const stopPropagation = jest.fn();
     onMouseDown({ stopPropagation });
     expect(stopPropagation).toHaveBeenCalledTimes(0);
+  });
+
+  it('should pass in clearValueLabel to tooltip', () => {
+    const component = shallowClearIndicator({
+      selectProps: { clearValueLabel: 'test' },
+    });
+    component.simulate('hover');
+    const tooltip = component.find(Tooltip);
+    expect(tooltip).toHaveLength(1);
+    expect(tooltip.prop('content')).toEqual('test');
+  });
+
+  it('should not render tooltip if no clearValueLabel', () => {
+    const component = shallowClearIndicator({ selectProps: {} });
+    component.simulate('hover');
+    const tooltip = component.find(Tooltip);
+    expect(tooltip.prop('content')).toBeUndefined();
   });
 });

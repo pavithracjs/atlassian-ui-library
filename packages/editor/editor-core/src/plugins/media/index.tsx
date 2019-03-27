@@ -1,6 +1,6 @@
 import * as React from 'react';
 import EditorImageIcon from '@atlaskit/icon/glyph/editor/image';
-import { media, mediaGroup, mediaSingle } from '@atlaskit/editor-common';
+import { media, mediaGroup, mediaSingle } from '@atlaskit/adf-schema';
 import { EditorPlugin } from '../../types';
 import {
   stateKey as pluginKey,
@@ -20,6 +20,10 @@ import { CustomMediaPicker, MediaProvider } from './types';
 import WithPluginState from '../../ui/WithPluginState';
 import { akEditorFullPageMaxWidth } from '@atlaskit/editor-common';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
+import {
+  pluginKey as editorDisabledPluginKey,
+  EditorDisabledPluginState,
+} from '../editor-disabled';
 
 export {
   MediaState,
@@ -83,10 +87,14 @@ const mediaPlugin = (options?: MediaOptions): EditorPlugin => ({
             {
               providerFactory,
               nodeViews: {
-                mediaGroup: ReactMediaGroupNode(portalProviderAPI),
+                mediaGroup: ReactMediaGroupNode(
+                  portalProviderAPI,
+                  props.appearance,
+                ),
                 mediaSingle: ReactMediaSingleNode(
                   portalProviderAPI,
                   eventDispatcher,
+                  props.appearance,
                 ),
               },
               errorReporter,
@@ -103,7 +111,7 @@ const mediaPlugin = (options?: MediaOptions): EditorPlugin => ({
             props.appearance,
           ),
       },
-      { name: 'mediaKeymap', plugin: ({ schema }) => keymapPlugin(schema) },
+      { name: 'mediaKeymap', plugin: ({ schema }) => keymapPlugin() },
     ].concat(
       options && options.allowMediaSingle
         ? {
@@ -114,7 +122,7 @@ const mediaPlugin = (options?: MediaOptions): EditorPlugin => ({
     );
   },
 
-  contentComponent({ editorView }) {
+  contentComponent({ editorView, appearance }) {
     if (!options) {
       return null;
     }
@@ -137,16 +145,27 @@ const mediaPlugin = (options?: MediaOptions): EditorPlugin => ({
         editorView={editorView}
         plugins={{
           mediaState: pluginKey,
+          disabled: editorDisabledPluginKey,
         }}
-        render={({ mediaState }) => {
-          const { element: target, layout } = mediaState as MediaPluginState;
-          const node = mediaState.selectedMediaNode();
+        render={({
+          mediaState,
+          disabled,
+        }: {
+          mediaState: MediaPluginState;
+          disabled: EditorDisabledPluginState;
+        }) => {
+          const { element: target, layout } = mediaState;
+          const node = mediaState.selectedMediaContainerNode();
+          const isFullPage = appearance === 'full-page';
           const allowBreakout = !!(
             node &&
-            node.attrs &&
-            node.attrs.width > akEditorFullPageMaxWidth
+            node.type === mediaSingle &&
+            node.firstChild!.attrs &&
+            node.firstChild!.attrs.width > akEditorFullPageMaxWidth &&
+            isFullPage
           );
-          const allowLayout = !!mediaState.isLayoutSupported();
+          const allowLayout = isFullPage && !!mediaState.isLayoutSupported();
+          const { allowResizing } = mediaState.getMediaOptions();
           return (
             <MediaSingleEdit
               pluginState={mediaState}
@@ -154,6 +173,8 @@ const mediaPlugin = (options?: MediaOptions): EditorPlugin => ({
               allowLayout={allowLayout}
               layout={layout}
               target={target}
+              allowResizing={allowResizing}
+              editorDisabled={disabled.editorDisabled}
             />
           );
         }}
@@ -184,7 +205,7 @@ const mediaPlugin = (options?: MediaOptions): EditorPlugin => ({
         action(insert, state) {
           const pluginState = pluginKey.getState(state);
           pluginState.showMediaPicker();
-          return insert();
+          return insert('');
         },
       },
     ],

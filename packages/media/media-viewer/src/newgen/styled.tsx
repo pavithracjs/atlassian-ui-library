@@ -7,22 +7,16 @@ import { MediaType } from '@atlaskit/media-core';
 // @ts-ignore: unused variable
 // prettier-ignore
 import { HTMLAttributes, VideoHTMLAttributes, AudioHTMLAttributes, ImgHTMLAttributes, ComponentClass, ClassAttributes } from 'react';
-import {
-  akColorY200,
-  akColorP200,
-  akColorB300,
-  akBorderRadius,
-} from '@atlaskit/util-shared-styles';
-import { colors, layers } from '@atlaskit/theme';
+import { colors, layers, borderRadius } from '@atlaskit/theme';
 import { ellipsis } from '@atlaskit/media-ui';
 
 const overlayZindex = layers.modal() + 10;
 
 export const mediaTypeIconColors = {
-  image: akColorY200,
-  audio: akColorP200,
+  image: colors.Y200,
+  audio: colors.P200,
   video: '#ff7143',
-  doc: akColorB300,
+  doc: colors.B300,
   unknown: '#3dc7dc',
 };
 
@@ -223,6 +217,7 @@ export const BaselineExtend = styled.div`
 export type ImgProps = {
   canDrag: boolean;
   isDragging: boolean;
+  shouldPixelate: boolean;
 };
 
 export const Img: ComponentClass<ImgHTMLAttributes<{}> & ImgProps> = styled.img`
@@ -238,15 +233,18 @@ export const Img: ComponentClass<ImgHTMLAttributes<{}> & ImgProps> = styled.img`
       return 'auto';
     }
   }};
-  /* Prevent images from being smoothed when scaled up */
-  image-rendering: optimizeSpeed; /* Legal fallback */
-  image-rendering: -moz-crisp-edges; /* Firefox        */
-  image-rendering: -o-crisp-edges; /* Opera          */
-  image-rendering: -webkit-optimize-contrast; /* Safari         */
-  image-rendering: optimize-contrast; /* CSS3 Proposed  */
-  image-rendering: crisp-edges; /* CSS4 Proposed  */
-  image-rendering: pixelated; /* CSS4 Proposed  */
-  -ms-interpolation-mode: nearest-neighbor; /* IE8+           */
+  ${({ shouldPixelate }) =>
+    shouldPixelate
+      ? `/* Prevent images from being smoothed when scaled up */
+    image-rendering: optimizeSpeed; /* Legal fallback */
+    image-rendering: -moz-crisp-edges; /* Firefox        */
+    image-rendering: -o-crisp-edges; /* Opera          */
+    image-rendering: -webkit-optimize-contrast; /* Safari         */
+    image-rendering: optimize-contrast; /* CSS3 Proposed  */
+    image-rendering: crisp-edges; /* CSS4 Proposed  */
+    image-rendering: pixelated; /* CSS4 Proposed  */
+    -ms-interpolation-mode: nearest-neighbor; /* IE8+           */`
+      : ``}
 `;
 
 export const MedatadataTextWrapper = styled.div`
@@ -295,17 +293,27 @@ export const RightHeader = styled.div`
   }
 `;
 
+export const CustomAudioPlayerWrapper = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+`;
+
 export const AudioPlayer = styled.div`
-  border-radius: ${akBorderRadius};
+  background-color: ${blanketColor};
+  border-radius: ${borderRadius()};
   align-items: center;
   justify-content: center;
   width: 400px;
-  height: 250px;
+  height: 400px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
 `;
+
+AudioPlayer.displayName = 'AudioPlayer';
 
 export const Audio = styled.audio`
   width: 100%;
@@ -317,7 +325,8 @@ export const Audio = styled.audio`
 export const AudioCover = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: scale-down;
+  background-color: #000000;
 `;
 
 export const DefaultCoverWrapper = styled.div`
@@ -332,15 +341,20 @@ export const DefaultCoverWrapper = styled.div`
   }
 `;
 
-export const FeedbackWrapper = styled.span`
-  padding-right: 5px;
-`;
-
 export const DownloadButtonWrapper = styled.div`
   margin-top: 28px;
   text-align: center;
 
   button {
     font-weight: bold;
+  }
+`;
+
+export const CustomVideoPlayerWrapper = styled.div`
+  video {
+    flex: 1;
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
   }
 `;

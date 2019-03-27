@@ -1,11 +1,33 @@
-jest.mock('../../../../plugins/media/picker-facade');
+const removeOnCloseListener = jest.fn();
+const spies = {} as any;
+
+jest.mock('../../../../plugins/media/picker-facade', () => ({
+  default: jest.fn(pickerType => {
+    const picker: any = {
+      on: jest.fn(),
+      onClose: jest.fn().mockReturnValue(removeOnCloseListener),
+      onNewMedia: jest.fn(),
+      onDrag: jest.fn(),
+      hide: jest.fn(),
+      setUploadParams: jest.fn(),
+      show: jest.fn(),
+      deactivate: jest.fn(),
+      activate: jest.fn(),
+      destroy: jest.fn(),
+      type: 'popup',
+    };
+    picker.init = jest.fn().mockReturnValue(picker);
+    spies[pickerType] = picker;
+    return picker;
+  }),
+}));
 
 import { ProviderFactory } from '@atlaskit/editor-common';
 import {
   doc,
   p,
   randomId,
-  createEditor,
+  createEditorFactory,
   storyMediaProviderFactory,
 } from '@atlaskit/editor-test-helpers';
 
@@ -15,7 +37,6 @@ import {
   DefaultMediaStateManager,
 } from '../../../../plugins/media/pm-plugins/main';
 import mediaPlugin from '../../../../plugins/media';
-import PickerFacade from '../../../../plugins/media/picker-facade';
 
 const stateManager = new DefaultMediaStateManager();
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
@@ -31,6 +52,7 @@ const waitForPluginStateChange = async (pluginState: MediaPluginState) =>
   new Promise(resolve => pluginState.subscribe(resolve));
 
 describe('Media with mock facade', () => {
+  const createEditor = createEditorFactory<MediaPluginState>();
   const mediaProvider = getFreshMediaProvider();
   const providerFactory = ProviderFactory.create({ mediaProvider });
 
@@ -39,7 +61,7 @@ describe('Media with mock facade', () => {
     editorProps = {},
     dropzoneContainer: HTMLElement = document.body,
   ) =>
-    createEditor<MediaPluginState>({
+    createEditor({
       doc,
       editorPlugins: [
         mediaPlugin({
@@ -52,28 +74,6 @@ describe('Media with mock facade', () => {
       providerFactory,
       pluginKey: mediaPluginKey,
     });
-
-  const spies = {} as any;
-  const removeOnCloseListener = jest.fn();
-  beforeAll(() => {
-    (PickerFacade as any).mockImplementation(pickerType => {
-      const picker = {
-        on: jest.fn(),
-        onClose: jest.fn().mockReturnValue(removeOnCloseListener),
-        onNewMedia: jest.fn(),
-        onDrag: jest.fn(),
-        hide: jest.fn(),
-        setUploadParams: jest.fn(),
-        show: jest.fn(),
-        deactivate: jest.fn(),
-        activate: jest.fn(),
-        destroy: jest.fn(),
-        type: 'popup',
-      };
-      spies[pickerType] = picker;
-      return picker;
-    });
-  });
 
   it('should add an onClose event listener in popupPicker', async () => {
     const { pluginState } = editor(doc(p('{<>}')));

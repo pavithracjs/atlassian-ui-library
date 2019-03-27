@@ -1,5 +1,48 @@
 # @atlaskit/droplist
 
+## 7.0.19
+- [patch] [08d8be9370](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08d8be9370):
+
+  - Close droplist on 'Esc' key down to be compatible with IE and Edge
+
+## 7.0.18
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/docs@6.0.1
+  - @atlaskit/button@10.1.2
+  - @atlaskit/field-base@11.0.14
+  - @atlaskit/item@8.0.15
+  - @atlaskit/tooltip@12.1.15
+  - @atlaskit/icon@16.0.0
+
+## 7.0.17
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/analytics-next@3.1.2
+  - @atlaskit/button@10.1.1
+  - @atlaskit/field-base@11.0.13
+  - @atlaskit/icon@15.0.2
+  - @atlaskit/item@8.0.14
+  - @atlaskit/layer@5.0.10
+  - @atlaskit/spinner@9.0.13
+  - @atlaskit/theme@7.0.1
+  - @atlaskit/tooltip@12.1.13
+  - @atlaskit/docs@6.0.0
+
+## 7.0.16
+- Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+  - @atlaskit/docs@5.2.3
+  - @atlaskit/button@10.0.4
+  - @atlaskit/field-base@11.0.12
+  - @atlaskit/icon@15.0.1
+  - @atlaskit/item@8.0.13
+  - @atlaskit/spinner@9.0.12
+  - @atlaskit/tooltip@12.1.12
+  - @atlaskit/theme@7.0.0
+
+## 7.0.15
+- [patch] [7fbe95e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7fbe95e):
+
+  - Prevented onOpenChange from being called repeatedly when closed
+
 ## 7.0.14
 - Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
   - @atlaskit/docs@5.2.2

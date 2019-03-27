@@ -1,5 +1,153 @@
 # @atlaskit/media-test-helpers
 
+## 20.1.2
+- Updated dependencies [d5bce1ea15](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5bce1ea15):
+  - @atlaskit/media-card@52.0.4
+  - @atlaskit/media-picker@33.0.2
+  - @atlaskit/media-ui@9.0.0
+
+## 20.1.1
+- Updated dependencies [65b73cc466](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/65b73cc466):
+  - @atlaskit/media-picker@33.0.0
+
+## 20.1.0
+- [minor] [4e82fedc90](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4e82fedc90):
+
+  - Expose real id upfront for remote files in MediaPicker
+- Updated dependencies [9d881f1eb8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d881f1eb8):
+- Updated dependencies [69c8d0c19c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c8d0c19c):
+  - @atlaskit/media-picker@32.0.0
+  - @atlaskit/media-card@52.0.0
+  - @atlaskit/media-store@9.1.5
+  - @atlaskit/media-core@27.0.0
+
+## 20.0.1
+- [patch] [28353efea8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/28353efea8):
+
+  - Fix expected/actual in expectToEqual utility
+
+## 20.0.0
+- [major] [07a187bb30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/07a187bb30):
+
+  - Fetch cloud accounts only on cloud folder opening
+
+## 19.1.1
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/dropdown-menu@6.1.26
+  - @atlaskit/select@6.1.19
+  - @atlaskit/media-card@51.0.1
+  - @atlaskit/media-ui@8.2.5
+  - @atlaskit/icon@16.0.0
+
+## 19.1.0
+- [minor] [b1627a5837](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b1627a5837):
+
+  - Enable inline video player in Editor and Renderer
+- Updated dependencies [85d5d168fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85d5d168fd):
+  - @atlaskit/media-card@51.0.0
+  - @atlaskit/media-picker@31.0.0
+  - @atlaskit/media-store@9.1.3
+  - @atlaskit/media-core@26.2.0
+
+## 19.0.0
+- [major] [3ad16f3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3ad16f3):
+
+  - More jest utilities has been added: expectToEqual, expectConstructorToHaveBeenCalledWith and expectFunctionToHaveBeenCalledWith to allow for typed jest assertions. mountWithIntlContext got generics types.
+- Updated dependencies [dadef80](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dadef80):
+  - @atlaskit/media-card@50.0.0
+  - @atlaskit/media-picker@30.0.0
+  - @atlaskit/media-store@9.1.2
+  - @atlaskit/media-core@26.1.0
+
+## 18.10.0
+- [minor] [e6516fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6516fb):
+
+  - Move media mocks into right location to prevent them to be included in dist
+
+## 18.9.1
+- Updated dependencies [cbb8cb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cbb8cb5):
+  - @atlaskit/media-card@49.0.0
+  - @atlaskit/media-store@9.1.1
+  - @atlaskit/media-core@26.0.0
+
+## 18.9.0
+- [minor] [72d37fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72d37fb):
+
+  - Remove deprecated methods from media-core
+  - Use context.collection methods in MediaViewer
+  - Remove link support from media-card
+  - Remove legacy services + providers from media-core
+  - Remove link related methods from media-core
+  - Remove axios dependency
+  - Make context.getImage cancelable
+
+## 18.8.0
+- [minor] [6bc785d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6bc785d):
+
+  - default to HD video if available in video viewer
+
+## 18.7.3
+- [patch] [b677631](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b677631):
+
+  - Add new example and ensure occurrenceKey is set for all copy/withToken calls
+
+## 18.7.2
+- Updated dependencies [135ed00](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/135ed00):
+  - @atlaskit/media-core@24.7.2
+  - @atlaskit/media-store@9.0.2
+  - @atlaskit/media-card@47.0.0
+
+## 18.7.1
+- [patch] [ca16fa9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ca16fa9):
+
+  - Add SSR support to media components
+
+## 18.7.0
+- [minor] [5c06476](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5c06476):
+
+  - Add touch endpoint to mock server
+- Updated dependencies [b3738ea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b3738ea):
+- Updated dependencies [096f898](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/096f898):
+  - @atlaskit/media-card@46.0.0
+  - @atlaskit/media-store@9.0.0
+  - @atlaskit/media-core@24.7.0
+
+## 18.6.2
+- Updated dependencies [80f765b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80f765b):
+  - @atlaskit/media-card@45.0.0
+  - @atlaskit/media-store@8.5.1
+  - @atlaskit/media-core@24.6.0
+
+## 18.6.1
+- [patch] [f621523](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f621523):
+
+  - fix MediaMocker router
+
+## 18.6.0
+- [minor] [0f42ec1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f42ec1):
+
+  Use /items endpoint in media-core
+
+## 18.5.2
+- Updated dependencies [5de3574](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5de3574):
+  - @atlaskit/media-card@44.1.1
+  - @atlaskit/media-ui@8.0.0
+
+## 18.5.1
+- [patch] [0a297ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a297ba):
+
+  - Packages should not be shown in the navigation, search and overview
+
+## 18.5.0
+- [minor] [c1ea81c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c1ea81c):
+
+  - use custom video player for inline video in media-card
+
+## 18.4.0
+- [minor] [b02ffa7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b02ffa7):
+
+  - add touch event helpers and canvas mocking
+
 ## 18.3.2
 - [patch] [5a6de24](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a6de24):
 

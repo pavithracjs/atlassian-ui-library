@@ -1,5 +1,5 @@
 import fileUploadsAdd from '../../fileUploadsAdd';
-import { mockState } from '../../../mocks/index';
+import { mockState } from '@atlaskit/media-test-helpers';
 import { LocalUpload, State } from '../../../domain/index';
 import { fileUploadsStart } from '../../../actions/fileUploadsStart';
 import { MediaFile } from '../../../../domain/file';
@@ -77,14 +77,6 @@ describe('fileUploadsAdd() reducer', () => {
       timeStarted: MOCK_TIMESTAMP,
       events: [],
       index: 0,
-      tenant: {
-        auth: {
-          baseUrl: 'some-api-url',
-          clientId: 'some-tenant-client-id',
-          token: 'some-tenant-client-token',
-        },
-        uploadParams: {},
-      },
     };
     expect(newState.uploads['some-id1']).toEqual(expectedUpload);
     expect(newState.uploads['some-id2'].index).toEqual(1);

@@ -2,17 +2,24 @@ import * as React from 'react';
 import Context from '../Context';
 import { Client, ObjectState } from '../Client';
 import { v4 } from 'uuid';
+import {
+  BlockCardErroredView,
+  InlineCardErroredView,
+} from '@atlaskit/media-ui';
+import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import { GasPayload } from '@atlaskit/analytics-gas-types';
+import { ANALYTICS_CHANNEL } from '../analytics';
 
 export interface WithObjectRenderProps {
   state: ObjectState;
   reload: () => void;
 }
 
-interface InnerWithObjectProps {
+type InnerWithObjectProps = {
   client: Client;
   url: string;
   children: (renderProps: WithObjectRenderProps) => React.ReactNode;
-}
+} & WithAnalyticsEventProps;
 
 interface InnerWithObjectState {
   prevClient?: Client;
@@ -30,6 +37,13 @@ class InnerWithObject extends React.Component<
     cardState: { status: 'pending' },
   };
 
+  private fireAnalyticsEvent = (payload: GasPayload) => {
+    const { createAnalyticsEvent } = this.props;
+    if (createAnalyticsEvent) {
+      createAnalyticsEvent(payload).fire(ANALYTICS_CHANNEL);
+    }
+  };
+
   reload = () => {
     const { cardState } = this.state;
     if (
@@ -38,7 +52,7 @@ class InnerWithObject extends React.Component<
       cardState.status === 'forbidden'
     ) {
       const { client, url } = this.props;
-      client.reload(url, cardState.definitionId);
+      client.reload(url, this.fireAnalyticsEvent, cardState.definitionId);
     }
   };
 
@@ -47,7 +61,7 @@ class InnerWithObject extends React.Component<
     const [state, expired] = incoming;
 
     if (state === null || expired) {
-      return client.resolve(url);
+      return client.resolve(url, this.fireAnalyticsEvent);
     }
 
     return this.setState({
@@ -88,25 +102,55 @@ class InnerWithObject extends React.Component<
   }
 }
 
-export interface WithObjectProps {
+export type WithObjectProps = {
   client?: Client;
+  isSelected?: boolean;
+  appearance: 'block' | 'inline';
   url: string;
   children: (props: WithObjectRenderProps) => React.ReactNode;
-}
+} & WithAnalyticsEventProps;
 
 export function WithObject(props: WithObjectProps) {
-  const { client: clientFromProps, url, children } = props;
+  const {
+    client: clientFromProps,
+    url,
+    children,
+    isSelected,
+    appearance,
+    createAnalyticsEvent,
+  } = props;
   return (
     <Context.Consumer>
       {clientFromContext => {
         const client = clientFromProps || clientFromContext;
         if (!client) {
-          throw new Error(
-            '@atlaskit/smart-card: No client provided. Provide a client like <Card client={new Client()} url=""/> or <Provider client={new Client()}><Card url=""/></Provider>.',
+          // tslint:disable-next-line:no-console
+          console.error(
+            `No Smart Card client provided. Provide a client via prop <Card client={new Client()} /> or by wrapping with a provider <SmartCardProvider><Card /></SmartCardProvider>.'`,
+          );
+
+          return appearance === 'inline' ? (
+            <InlineCardErroredView
+              url={url}
+              isSelected={isSelected}
+              message="Smart Card provider missing"
+              onClick={() => window.open(url)}
+            />
+          ) : (
+            <BlockCardErroredView
+              url={url}
+              isSelected={isSelected}
+              message="Smart Card provider missing"
+              onClick={() => window.open(url)}
+            />
           );
         }
         return (
-          <InnerWithObject client={client} url={url}>
+          <InnerWithObject
+            client={client}
+            url={url}
+            createAnalyticsEvent={createAnalyticsEvent}
+          >
             {children}
           </InnerWithObject>
         );

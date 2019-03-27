@@ -5,6 +5,7 @@ import fetchMock from 'fetch-mock';
 import EmojiAtlassianIcon from '@atlaskit/icon/glyph/emoji/atlassian';
 import Button from '@atlaskit/button';
 import { LayoutManager, NavigationProvider } from '@atlaskit/navigation-next';
+import { AnalyticsListener } from '@atlaskit/analytics-next';
 
 import GlobalNavigation from '../src';
 
@@ -13,8 +14,10 @@ const cloudId = 'DUMMY-158c8204-ff3b-47c2-adbb-a0906ccc722b';
 
 const Global = ({
   resetNotificationCount,
+  updateIframeUrl,
 }: {
   resetNotificationCount: () => void,
+  updateIframeUrl: () => void,
 }) => (
   <GlobalNavigation
     productIcon={EmojiAtlassianIcon}
@@ -24,6 +27,7 @@ const Global = ({
       // setTimeout is required to let the drawer close animation end in the example.
       setTimeout(resetNotificationCount, 350);
     }}
+    onNotificationDrawerOpen={updateIframeUrl}
     cloudId={cloudId}
   />
 );
@@ -55,6 +59,20 @@ export default class GlobalNavigationWithNotificationIntegration extends Compone
     fetchMock.restore();
   }
 
+  updateIframeUrl = () => {
+    // Flow doesn't know how to deal with querySelector
+    // Therefore casting the return value to HTMLIFrameElement
+    const iFrame = ((document.querySelector(
+      'iFrame[title="Notifications"',
+    ): any): HTMLIFrameElement);
+
+    if (iFrame) {
+      // Notification URL is unreachable from the examples.
+      // Hence setting it to root
+      iFrame.src = '/';
+    }
+  };
+
   resetNotificationCount = () => {
     this.setState({
       count: 0,
@@ -72,7 +90,23 @@ export default class GlobalNavigationWithNotificationIntegration extends Compone
       <NavigationProvider>
         <LayoutManager
           globalNavigation={() => (
-            <Global resetNotificationCount={this.resetNotificationCount} />
+            <AnalyticsListener
+              channel="navigation"
+              onEvent={analyticsEvent => {
+                const { payload, context } = analyticsEvent;
+                const eventId = `${payload.actionSubject ||
+                  payload.name} ${payload.action || payload.eventType}`;
+                console.log(`Received event [${eventId}]: `, {
+                  payload,
+                  context,
+                });
+              }}
+            >
+              <Global
+                updateIframeUrl={this.updateIframeUrl}
+                resetNotificationCount={this.resetNotificationCount}
+              />
+            </AnalyticsListener>
           )}
           productNavigation={() => null}
           containerNavigation={() => null}

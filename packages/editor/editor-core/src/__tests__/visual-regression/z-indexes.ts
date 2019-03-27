@@ -2,10 +2,10 @@ import { initEditor, clearEditor, snapshot } from './_utils';
 import { messages as insertBlockMessages } from '../../plugins/insert-block/ui/ToolbarInsertBlock';
 import { messages as blockTypeMessages } from '../../plugins/block-type/ui/ToolbarBlockType';
 
+const table = `span[aria-label="${insertBlockMessages.table.defaultMessage}"]`;
+
 const insertTable = async page => {
-  await page.click(
-    `span[aria-label="${insertBlockMessages.table.defaultMessage}"`,
-  );
+  await page.click(table);
   await page.waitForSelector('table td p');
 };
 
@@ -15,7 +15,7 @@ const dropList = 'div[data-role="droplistContent"]';
 const insertBlockDropdown = `span[aria-label="${
   insertBlockMessages.insertMenu.defaultMessage
 }"]`;
-const popupPresent = 'div[data-editor-popup="true"]';
+// const popupPresent = 'div[data-editor-popup="true"]';
 const emojiButton = `span[aria-label="${
   insertBlockMessages.emoji.defaultMessage
 }"]`;
@@ -25,7 +25,8 @@ const mentionButton = `span[aria-label="${
 }"]`;
 const mentionQuery = 'span[data-type-ahead-query]';
 
-describe('Snapshot Test: z-indexes', () => {
+// TODO - add ADF before loading stuff
+describe.skip('Snapshot Test: z-indexes', () => {
   ['full-page', 'comment'].forEach(appearance => {
     let page;
 
@@ -40,7 +41,7 @@ describe('Snapshot Test: z-indexes', () => {
         await clearEditor(page);
       });
 
-      // TODO enable after fixing selctors on tables
+      // TODO enable after fixing selectors on tables
       it.skip('should always position table trash icon below dropdowns from main menu', async () => {
         await insertTable(page);
         await page.waitForSelector(removeTablePopup);
@@ -58,15 +59,6 @@ describe('Snapshot Test: z-indexes', () => {
         await page.waitForSelector(emojiPicker);
         await page.click(mentionButton);
         await page.waitForSelector(mentionQuery);
-        await snapshot(page);
-      });
-
-      it('should always position code block language picker below dropdowns from main menu', async () => {
-        await insertTable(page);
-        await page.keyboard.type('```');
-        await page.waitForSelector(popupPresent);
-        await page.click(insertBlockDropdown);
-        await page.waitForSelector(dropList);
         await snapshot(page);
       });
     });

@@ -4,6 +4,7 @@ import {
   MediaStoreResponse,
   MediaType,
   MediaFileArtifacts,
+  MediaCollectionItemFullDetails,
 } from '@atlaskit/media-store';
 
 export type FileStatus =
@@ -13,7 +14,7 @@ export type FileStatus =
   | 'error'
   | 'failed-processing';
 export interface FilePreview {
-  blob: Blob;
+  value: Blob | string; // TODO: probably rename into "value"?
   originalDimensions?: {
     width: number;
     height: number;
@@ -34,7 +35,7 @@ export interface UploadingFileState {
   progress: number;
   mediaType: MediaType;
   mimeType: string;
-  preview?: FilePreview;
+  preview?: FilePreview | Promise<FilePreview>;
 }
 export interface ProcessingFileState {
   status: 'processing';
@@ -44,7 +45,7 @@ export interface ProcessingFileState {
   size: number;
   mediaType: MediaType;
   mimeType: string;
-  preview?: FilePreview;
+  preview?: FilePreview | Promise<FilePreview>;
 }
 
 export interface ProcessedFileState {
@@ -56,7 +57,7 @@ export interface ProcessedFileState {
   artifacts: MediaFileArtifacts;
   mediaType: MediaType;
   mimeType: string;
-  preview?: FilePreview;
+  preview?: FilePreview | Promise<FilePreview>;
 }
 export interface ProcessingFailedState {
   status: 'failed-processing';
@@ -67,7 +68,7 @@ export interface ProcessingFailedState {
   artifacts: Object;
   mediaType: MediaType;
   mimeType: string;
-  preview?: FilePreview;
+  preview?: FilePreview | Promise<FilePreview>;
 }
 export interface ErrorFileState {
   status: 'error';
@@ -148,4 +149,16 @@ export const mapMediaFileToFileState = (
         mimeType,
       } as ProcessingFailedState;
   }
+};
+
+export const mapMediaItemToFileState = (
+  id: string,
+  item: MediaCollectionItemFullDetails,
+): FileState => {
+  return mapMediaFileToFileState({
+    data: {
+      id,
+      ...item,
+    },
+  });
 };

@@ -25,7 +25,7 @@ export const withDefaultProps = <P, DP extends Partial<P>>(
   type DefaultedProps = Omit<P, keyof NonDefaultProps>;
   type Props = Partial<DefaultedProps> & NonDefaultProps;
   Component.defaultProps = defaultProps;
-  return Component as React.ComponentClass<Props>;
+  return (Component as any) as React.ComponentClass<Props>;
 };
 
 export type ResultantProps<InjectedProps, P extends InjectedProps> = Omit<
@@ -81,3 +81,26 @@ export type PropsInjector<InjectedProps extends object> = <
 ) => React.ComponentClass<
   Omit<PropsOf<C>, keyof Shared<InjectedProps, PropsOf<C>>>
 >;
+
+/**
+ * Sometimes we want to utilse the power of Algebraic Data Types.
+ * Meaning, ADTs behave similarly to algebra:
+ *  - (a + b) * c === a * c + b * c
+ *  - (A | B) & T === (A & T) | (B & T).
+ *
+ * As such, if I have props for my component as a
+ * Sum type (also called variants), like this:
+ *
+ *  type Props = {a: number} | {b: string}
+ *
+ * and I want to build up NewProps by mixing-in:
+ *
+ *  type NewProps
+ *    = Props & { data: bool }
+ *    === ({a: number} & { data: bool } ) | ( {b: string} & { data: bool } )
+ */
+export type SumPropsInjector<InjectedProps extends object> = <
+  C extends React.ComponentClass<any>
+>(
+  Component: C,
+) => React.ComponentClass<PropsOf<C> & InjectedProps>;

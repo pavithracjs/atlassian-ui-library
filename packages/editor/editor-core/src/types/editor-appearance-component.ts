@@ -4,10 +4,12 @@ import { EventDispatcher } from '../event-dispatcher';
 import EditorActions from '../actions';
 import {
   UIComponentFactory,
+  ToolbarUIComponentFactory,
   ReactComponents,
   InsertMenuCustomItem,
 } from '../types';
 import { CollabEditOptions } from '../plugins/collab-edit';
+import { AnalyticsEventPayload } from '../plugins/analytics';
 
 export interface EditorAppearanceComponentProps {
   onUiReady?: (ref) => void;
@@ -20,11 +22,12 @@ export interface EditorAppearanceComponentProps {
   editorView?: EditorView;
 
   eventDispatcher?: EventDispatcher;
+  dispatchAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
 
   maxHeight?: number;
 
   contentComponents?: UIComponentFactory[];
-  primaryToolbarComponents?: UIComponentFactory[];
+  primaryToolbarComponents?: ToolbarUIComponentFactory[];
   secondaryToolbarComponents?: UIComponentFactory[];
 
   customContentComponents?: ReactComponents;

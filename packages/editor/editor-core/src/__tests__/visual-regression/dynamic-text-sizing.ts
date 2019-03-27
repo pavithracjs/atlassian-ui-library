@@ -1,18 +1,25 @@
-import { initEditor, snapshot } from './_utils';
+import {
+  initEditor,
+  snapshot,
+  toggleFeature,
+  dynamicTextViewportSizes,
+} from './_utils';
 
-describe('Snapshot Test: Dynamic Text Sizing', () => {
+const loadExampleDocument = async browser => {
+  await browser.click('.loadExampleDocument');
+};
+
+describe.skip('Snapshot Test: Dynamic Text Sizing', () => {
   let page;
   beforeAll(async () => {
     // @ts-ignore
     page = global.page;
-    await initEditor(page, 'full-page-with-dynamic-text-sizing');
+    await initEditor(page, 'full-page-with-toolbar');
+    await toggleFeature(page, 'dynamicTextSizing');
+    await loadExampleDocument(page);
   });
 
-  [
-    { width: 1440, height: 3000 },
-    { width: 1120, height: 3000 },
-    { width: 1000, height: 3000 },
-  ].forEach(size => {
+  dynamicTextViewportSizes.forEach(size => {
     it(`should correctly render ${size.width}`, async () => {
       await page.setViewport(size);
       await page.waitFor(100);

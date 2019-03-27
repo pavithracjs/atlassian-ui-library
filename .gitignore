@@ -10,7 +10,9 @@ coverage/
 junit.xml
 test-reports/
 browserstack.err
-**/__image_snapshots__/
+**/__image_snapshots__/__diff_output__/
+.measure-output/
+imageSnapshotFailures/
 
 # created by build-stats tool
 .data/
@@ -37,3 +39,6 @@ website/dist.zip
 # A file we use for pushing secrets to micros, just in case
 secrets.json
 .vs/slnx.sqlite
+
+# this is created only in deploy-branch-build-dists builds in CI
+dists/

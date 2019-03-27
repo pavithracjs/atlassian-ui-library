@@ -1,7 +1,7 @@
 import { Component, FormEvent } from 'react';
 
 export interface Props {
-  autoComplete?: 'on' | 'off';
+  autoComplete?: string;
   form?: string;
   pattern?: string;
   autoFocus?: boolean;
@@ -30,6 +30,7 @@ export interface Props {
   type?: string;
   value?: string;
   isValidationHidden?: boolean;
+  innerRef?: (node: HTMLInputElement) => void;
 }
 
 export class FieldTextStateless extends Component<Props, {}> {}

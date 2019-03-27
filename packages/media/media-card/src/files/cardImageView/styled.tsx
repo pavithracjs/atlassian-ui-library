@@ -1,11 +1,9 @@
 /* tslint:disable:variable-name */
-
 import styled from 'styled-components';
-
-import { ComponentClass } from 'react';
-import { akColorN20, akColorB200 } from '@atlaskit/util-shared-styles';
-import { Root, cardShadow } from '../../styles';
 import { borderRadius, size } from '@atlaskit/media-ui';
+import { colors, themed } from '@atlaskit/theme';
+import { Root, cardShadow } from '../../styles';
+import { getSelectedBorderStyle } from '../../styles/getSelectedBorderStyle';
 
 export interface WrapperProps {
   disableOverlay?: boolean;
@@ -25,37 +23,25 @@ const getCursorAttribute = () => {
   return 'cursor: pointer;';
 };
 
-const getBorderAttribute = (props: WrapperProps) => {
-  const { selected, selectable } = props;
-  return `border: 2px solid ${
-    selected && selectable ? akColorB200 : 'transparent'
+const getBackgroundColor = (props: WrapperProps) => {
+  const { mediaType } = props;
+  return `background: ${
+    mediaType === 'image'
+      ? 'transparent'
+      : themed({ light: colors.N20, dark: colors.DN50 })(props)
   };`;
 };
 
-const getBackgroundColor = (props: WrapperProps) => {
-  const { mediaType } = props;
-  return `background: ${mediaType === 'image' ? 'transparent' : akColorN20};`;
-};
+export const Wrapper = styled(Root)`
+  ${getShadowAttribute}
+  ${getCursorAttribute}
+  ${borderRadius}
+  background: ${themed({ light: '#FFF', dark: colors.DN50 })};
 
-export const Wrapper: ComponentClass<WrapperProps> = styled(Root)`
-  ${getShadowAttribute} ${getCursorAttribute} ${borderRadius} background: #fff;
   line-height: normal;
   position: relative;
 
-  /*
-   * Used to display the blue border around a selected card without
-   * shrinking the image OR growing the card size
-   */
-  &::after {
-    content: '';
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    box-sizing: border-box;
-    pointer-events: none;
-    ${borderRadius} ${getBorderAttribute};
-  }
+  ${getSelectedBorderStyle}
 
   ${size()} .wrapper {
     ${borderRadius};

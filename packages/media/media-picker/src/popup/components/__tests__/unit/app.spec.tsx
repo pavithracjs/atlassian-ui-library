@@ -10,7 +10,10 @@ import { State } from '../../../domain';
 import ConnectedApp, { App, AppDispatchProps } from '../../app';
 import UploadView from '../../views/upload/upload';
 import Browser from '../../views/browser/browser';
-import { getComponentClassWithStore, mockStore } from '../../../mocks';
+import {
+  getComponentClassWithStore,
+  mockStore,
+} from '@atlaskit/media-test-helpers';
 import { fileUploadsStart } from '../../../actions/fileUploadsStart';
 import { UploadParams } from '../../../../domain/config';
 import { LocalBrowserButton } from '../../views/upload/uploadButton';
@@ -310,7 +313,10 @@ describe('Connected App', () => {
   const setup = () => {
     const store = mockStore();
     const dispatch = store.dispatch;
-    const ConnectedAppWithStore = getComponentClassWithStore(ConnectedApp);
+    // TODO: Fix this
+    const ConnectedAppWithStore = getComponentClassWithStore(
+      ConnectedApp,
+    ) as any;
     const component = shallow(
       <ConnectedAppWithStore
         store={store}
@@ -380,7 +386,11 @@ describe('Connected App', () => {
       }).getState(),
       applyMiddleware(analyticsProcessing as Middleware),
     );
-    const ConnectedAppWithStore = getComponentClassWithStore(ConnectedApp);
+
+    // TODO: fix this
+    const ConnectedAppWithStore = getComponentClassWithStore(
+      ConnectedApp,
+    ) as any;
     const component = mount(
       <ConnectedAppWithStore store={store} tenantUploadParams={{}} />,
     );
@@ -420,7 +430,11 @@ describe('Connected App', () => {
         },
       }).getState(),
     );
-    const ConnectedAppWithStore = getComponentClassWithStore(ConnectedApp);
+
+    // TODO: Fix this
+    const ConnectedAppWithStore = getComponentClassWithStore(
+      ConnectedApp,
+    ) as any;
     const wrapper = mount(
       <ConnectedAppWithStore
         store={store as Store<State>}

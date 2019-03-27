@@ -1,5 +1,87 @@
 # @atlaskit/global-navigation
 
+## 5.5.3
+- [patch] [4c9a6d2187](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c9a6d2187):
+
+  - Correcting attribute name in analytics event
+
+## 5.5.2
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/docs@6.0.1
+  - @atlaskit/avatar@14.1.8
+  - @atlaskit/button@10.1.2
+  - @atlaskit/drawer@2.7.1
+  - @atlaskit/dropdown-menu@6.1.26
+  - @atlaskit/field-radio-group@4.0.15
+  - @atlaskit/modal-dialog@7.2.1
+  - @atlaskit/navigation-next@4.1.2
+  - @atlaskit/section-message@1.0.16
+  - @atlaskit/toggle@5.0.15
+  - @atlaskit/icon@16.0.0
+
+## 5.5.1
+- [patch] [a4b0717](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a4b0717):
+
+  - Updated analytics events triggered by the notification-indicator
+
+## 5.5.0
+- [minor] [52224f1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/52224f1):
+
+  - Add new properties to global-navigation to be able to inject and use new Settings drawer
+
+## 5.4.0
+- [minor] [6ce6b0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6ce6b0c):
+
+  - Support onCloseComplete
+
+## 5.3.8
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/analytics-next@3.1.2
+  - @atlaskit/avatar@14.1.7
+  - @atlaskit/badge@9.2.2
+  - @atlaskit/blanket@7.0.12
+  - @atlaskit/button@10.1.1
+  - @atlaskit/drawer@2.6.1
+  - @atlaskit/dropdown-menu@6.1.25
+  - @atlaskit/field-radio-group@4.0.14
+  - @atlaskit/icon@15.0.2
+  - @atlaskit/logo@9.2.6
+  - @atlaskit/modal-dialog@7.1.1
+  - @atlaskit/navigation-next@4.0.9
+  - @atlaskit/section-message@1.0.14
+  - @atlaskit/spinner@9.0.13
+  - @atlaskit/theme@7.0.1
+  - @atlaskit/toggle@5.0.14
+  - @atlaskit/analytics-listeners@4.1.4
+  - @atlaskit/analytics-namespaced-context@2.1.5
+  - @atlaskit/notification-indicator@4.0.6
+  - @atlaskit/notification-log-client@3.1.1
+  - @atlaskit/docs@6.0.0
+
+## 5.3.7
+- [patch] [bee7762](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bee7762):
+
+  - Fixes a double scrollbar issue that happens on windows when connected to a mouse
+
+## 5.3.6
+- Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+  - @atlaskit/docs@5.2.3
+  - @atlaskit/blanket@7.0.11
+  - @atlaskit/button@10.0.4
+  - @atlaskit/drawer@2.5.4
+  - @atlaskit/dropdown-menu@6.1.24
+  - @atlaskit/field-radio-group@4.0.13
+  - @atlaskit/icon@15.0.1
+  - @atlaskit/logo@9.2.5
+  - @atlaskit/modal-dialog@7.0.14
+  - @atlaskit/navigation-next@4.0.8
+  - @atlaskit/section-message@1.0.13
+  - @atlaskit/spinner@9.0.12
+  - @atlaskit/toggle@5.0.13
+  - @atlaskit/theme@7.0.0
+  - @atlaskit/avatar@14.1.6
+  - @atlaskit/badge@9.2.1
+
 ## 5.3.5
 - Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
   - @atlaskit/docs@5.2.2

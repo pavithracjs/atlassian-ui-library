@@ -1,4 +1,3 @@
-declare var window: any;
 import * as util from '../../../newgen/utils';
 const constructAuthTokenUrlSpy = jest.spyOn(util, 'constructAuthTokenUrl');
 
@@ -9,8 +8,7 @@ import { MediaItemType, MediaType, FileState } from '@atlaskit/media-core';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
 import { fakeIntl } from '@atlaskit/media-test-helpers';
 import { createContext } from '../_stubs';
-import { Header } from '../../../newgen/header';
-import { FeedbackButton } from '../../../newgen/feedback-button';
+import { Header, State as HeaderState } from '../../../newgen/header';
 import { MetadataFileName, MetadataSubText } from '../../../newgen/styled';
 import { LeftHeader } from '../../../newgen/styled';
 
@@ -71,7 +69,7 @@ describe('<Header />', () => {
     const context = createContext({
       getFileState: () => Observable.of(processedImageState),
     });
-    const el = mount(
+    const el = mount<{}, HeaderState>(
       <Header intl={fakeIntl} context={context} identifier={identifier} />,
     );
 
@@ -90,7 +88,7 @@ describe('<Header />', () => {
     const context = createContext({
       getFileState: () => Observable.of(processedImageState),
     });
-    const el = mount(
+    const el = mount<{}, HeaderState>(
       <Header intl={fakeIntl} context={context} identifier={identifier} />,
     );
     expect(el.state().item.status).toEqual('SUCCESSFUL');
@@ -245,42 +243,9 @@ describe('<Header />', () => {
       );
       el.update();
       el.find(DownloadIcon).simulate('click');
-      expect(context.file.downloadBinary.mock.calls[0][2]).toEqual(
-        collectionName,
-      );
-    });
-  });
-
-  describe('Feedback button', () => {
-    let jquery: any;
-
-    beforeEach(() => {
-      jquery = window.jQuery;
-    });
-
-    afterEach(() => {
-      window.jQuery = jquery;
-    });
-
-    it('should not show the feedback button if jQuery is not found in window object', () => {
-      const context = createContext({
-        getFileState: () => Observable.of(processedImageState),
-      });
-      const el = mount(
-        <Header intl={fakeIntl} context={context} identifier={identifier} />,
-      );
-      expect(el.find(FeedbackButton).html()).toBeNull();
-    });
-
-    it('should show the feedback button if jQuery is found in window object', () => {
-      const context = createContext({
-        getFileState: () => Observable.of(processedImageState),
-      });
-      window.jQuery = {};
-      const el = mount(
-        <Header intl={fakeIntl} context={context} identifier={identifier} />,
-      );
-      expect(el.find(FeedbackButton).html()).not.toBeNull();
+      expect(
+        (context.file.downloadBinary as jest.Mock).mock.calls[0][2],
+      ).toEqual(collectionName);
     });
   });
 

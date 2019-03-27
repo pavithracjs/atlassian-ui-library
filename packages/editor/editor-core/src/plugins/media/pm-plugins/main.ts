@@ -12,23 +12,19 @@ import {
 } from 'prosemirror-state';
 import { Context } from '@atlaskit/media-core';
 import { UploadParams } from '@atlaskit/media-picker';
-import {
-  MediaType,
-  MediaSingleLayout,
-  ErrorReporter,
-} from '@atlaskit/editor-common';
+import { MediaType, MediaSingleLayout } from '@atlaskit/adf-schema';
+import { ErrorReporter } from '@atlaskit/editor-common';
 
 import analyticsService from '../../../analytics/service';
 import { isImage, SetAttrsStep } from '../../../utils';
 import { Dispatch } from '../../../event-dispatcher';
 import { ProsemirrorGetPosHandler } from '../../../nodeviews';
 import { EditorAppearance } from '../../../types/editor-props';
-import DropPlaceholder from '../ui/Media/DropPlaceholder';
+import DropPlaceholder, { PlaceholderType } from '../ui/Media/DropPlaceholder';
 import { MediaPluginOptions } from '../media-plugin-options';
-import { insertMediaGroupNode, isNonImagesBanned } from '../utils/media-files';
+import { insertMediaGroupNode } from '../utils/media-files';
 import { removeMediaNode, splitMediaGroup } from '../utils/media-common';
 import PickerFacade, { PickerFacadeConfig } from '../picker-facade';
-import pickerFacadeLoader from '../picker-facade-loader';
 import {
   MediaState,
   MediaProvider,
@@ -38,7 +34,7 @@ import {
 import DefaultMediaStateManager from '../default-state-manager';
 import { insertMediaSingleNode } from '../utils/media-single';
 
-import { hasParentNodeOfType } from 'prosemirror-utils';
+import { hasParentNodeOfType, findDomRefAtPos } from 'prosemirror-utils';
 export { DefaultMediaStateManager };
 export { MediaState, MediaProvider, MediaStateStatus, MediaStateManager };
 
@@ -109,7 +105,7 @@ export class MediaPluginState {
     this.stateManager = new DefaultMediaStateManager();
     options.providerFactory.subscribe(
       'mediaProvider',
-      (name, provider: Promise<MediaProvider>) =>
+      (name, provider?: Promise<MediaProvider>) =>
         this.setMediaProvider(provider),
     );
 
@@ -142,11 +138,9 @@ export class MediaPluginState {
     }
 
     // TODO disable (not destroy!) pickers until mediaProvider is resolved
-    let Picker: typeof PickerFacade;
 
     try {
       let resolvedMediaProvider: MediaProvider = (this.mediaProvider = await mediaProvider);
-      Picker = await pickerFacadeLoader();
 
       assert(
         resolvedMediaProvider && resolvedMediaProvider.viewContext,
@@ -185,7 +179,7 @@ export class MediaPluginState {
     const { view, allowsUploads } = this;
 
     // make sure editable DOM node is mounted
-    if (view.dom.parentNode) {
+    if (!this.destroyed && view.dom.parentNode) {
       // make PM plugin aware of the state change to update UI during 'apply' hook
       view.dispatch(view.state.tr.setMeta(stateKey, { allowsUploads }));
     }
@@ -194,10 +188,10 @@ export class MediaPluginState {
       const uploadContext = await this.mediaProvider.uploadContext;
 
       if (this.mediaProvider.uploadParams && uploadContext) {
-        this.initPickers(
+        await this.initPickers(
           this.mediaProvider.uploadParams,
           uploadContext,
-          Picker,
+          PickerFacade,
           this.reactContext,
         );
       } else {
@@ -214,7 +208,10 @@ export class MediaPluginState {
 
   updateElement(): void {
     let newElement;
-    if (this.selectedMediaNode() && this.isMediaSingle()) {
+    const selectedContainer = this.selectedMediaContainerNode();
+    const { mediaSingle } = this.view.state.schema.nodes;
+
+    if (selectedContainer && selectedContainer.type === mediaSingle) {
       newElement = this.getDomElement(this.view.domAtPos.bind(this.view));
     }
     if (this.element !== newElement) {
@@ -249,19 +246,24 @@ export class MediaPluginState {
     this.notifyPluginStateSubscribers();
   }
 
-  private isMediaSingle(): boolean {
-    const { selection, schema } = this.view.state;
-    return selection.$from.parent.type === schema.nodes.mediaSingle;
-  }
-
   private getDomElement(domAtPos: EditorView['domAtPos']) {
-    const { from } = this.view.state.selection;
-    if (this.selectedMediaNode()) {
-      const { node } = domAtPos(from);
+    const { selection, schema } = this.view.state;
+    if (!(selection instanceof NodeSelection)) {
+      return;
+    }
+
+    if (selection.node.type !== schema.nodes.mediaSingle) {
+      return;
+    }
+
+    const node = findDomRefAtPos(selection.from, domAtPos);
+    if (node) {
       if (!node.childNodes.length) {
         return node.parentNode as HTMLElement | undefined;
       }
-      return (node as HTMLElement).querySelector('.wrapper') || node;
+
+      const target = (node as HTMLElement).querySelector('.wrapper') || node;
+      return target;
     }
   }
 
@@ -269,7 +271,7 @@ export class MediaPluginState {
     const { stateManager } = this;
     const { mediaSingle } = this.view.state.schema.nodes;
     const collection = this.collectionFromProvider();
-    if (typeof collection !== 'string') {
+    if (collection === undefined) {
       return;
     }
 
@@ -280,13 +282,6 @@ export class MediaPluginState {
     let nonImageAttachments = mediaStates.filter(
       media => !isImage(media.fileMimeType),
     );
-
-    const grandParentNode = this.view.state.selection.$from.node(-1);
-
-    // in case of gap cursor, selection might be at depth=0
-    if (grandParentNode && isNonImagesBanned(grandParentNode)) {
-      nonImageAttachments = [];
-    }
 
     mediaStates.forEach(mediaState => {
       this.stateManager.on(mediaState.id, this.handleMediaState);
@@ -433,7 +428,10 @@ export class MediaPluginState {
   };
 
   align = (layout: MediaSingleLayout, gridSize: number = 12): boolean => {
-    if (!this.selectedMediaNode()) {
+    const { mediaSingle } = this.view.state.schema.nodes;
+
+    const mediaSingleNode = this.selectedMediaContainerNode();
+    if (!mediaSingleNode || mediaSingleNode.type !== mediaSingle) {
       return false;
     }
 
@@ -443,13 +441,9 @@ export class MediaPluginState {
       schema,
     } = this.view.state;
 
-    const mediaSingleNode = this.view.state.doc.nodeAt(from - 1)!;
-    if (!mediaSingleNode) {
-      return false;
-    }
-
     let width = mediaSingleNode.attrs.width;
     const oldLayout: MediaSingleLayout = mediaSingleNode.attrs.layout;
+    const wrappedLayouts: MediaSingleLayout[] = ['wrap-left', 'wrap-right'];
 
     if (width) {
       const cols = Math.round((width / 100) * gridSize);
@@ -460,7 +454,6 @@ export class MediaPluginState {
         'wide',
         'full-width',
       ];
-      const wrappedLayouts: MediaSingleLayout[] = ['wrap-left', 'wrap-right'];
 
       if (
         wrappedLayouts.indexOf(oldLayout) > -1 &&
@@ -487,7 +480,7 @@ export class MediaPluginState {
     }
 
     this.view.dispatch(
-      tr.setNodeMarkup(from - 1, schema.nodes.mediaSingle, {
+      tr.setNodeMarkup(from, schema.nodes.mediaSingle, {
         ...mediaSingleNode.attrs,
         layout,
         width,
@@ -524,7 +517,7 @@ export class MediaPluginState {
         }
 
         const { node } = nodeWithPos;
-        if (node.attrs.__key === id) {
+        if (node.attrs.id === id) {
           return nodeWithPos;
         }
 
@@ -547,7 +540,7 @@ export class MediaPluginState {
     this.customPicker = undefined;
   };
 
-  private initPickers(
+  private async initPickers(
     uploadParams: UploadParams,
     context: Context,
     Picker: typeof PickerFacade,
@@ -571,44 +564,48 @@ export class MediaPluginState {
 
       if (this.options.customMediaPicker) {
         pickers.push(
-          (this.customPicker = new Picker(
+          (this.customPicker = await new Picker(
             'customMediaPicker',
             pickerFacadeConfig,
             this.options.customMediaPicker,
-          )),
+          ).init()),
         );
       } else {
         pickers.push(
-          (this.popupPicker = new Picker(
+          (this.popupPicker = await new Picker(
             // Fallback to browser picker for unauthenticated users
             context.config.userAuthProvider ? 'popup' : 'browser',
             pickerFacadeConfig,
             defaultPickerConfig,
-          )),
+          ).init()),
         );
 
         pickers.push(
-          (this.binaryPicker = new Picker(
+          (this.binaryPicker = await new Picker(
             'binary',
             pickerFacadeConfig,
             defaultPickerConfig,
-          )),
+          ).init()),
         );
 
         pickers.push(
-          (this.clipboardPicker = new Picker(
+          (this.clipboardPicker = await new Picker(
             'clipboard',
             pickerFacadeConfig,
             defaultPickerConfig,
-          )),
+          ).init()),
         );
 
         pickers.push(
-          (this.dropzonePicker = new Picker('dropzone', pickerFacadeConfig, {
-            container: this.options.customDropzoneContainer,
-            headless: true,
-            ...defaultPickerConfig,
-          })),
+          (this.dropzonePicker = await new Picker(
+            'dropzone',
+            pickerFacadeConfig,
+            {
+              container: this.options.customDropzoneContainer,
+              headless: true,
+              ...defaultPickerConfig,
+            },
+          ).init()),
         );
 
         this.dropzonePicker.onDrag(this.handleDrag);
@@ -621,10 +618,6 @@ export class MediaPluginState {
         picker.onNewMedia(this.insertFiles);
         picker.onNewMedia(this.trackNewMediaEvent(picker.type));
       });
-    }
-
-    if (this.popupPicker) {
-      this.popupPicker.hide();
     }
 
     // set new upload params for the pickers
@@ -644,7 +637,7 @@ export class MediaPluginState {
     };
   }
 
-  private updateMediaNodeAttrs = (
+  updateMediaNodeAttrs = (
     id: string,
     attrs: object,
     isMediaSingle: boolean,
@@ -696,7 +689,7 @@ export class MediaPluginState {
           id: state.publicId || state.id,
         };
 
-        if (state.collection) {
+        if (typeof state.collection === 'string') {
           attrs.collection = state.collection;
         }
 
@@ -728,24 +721,27 @@ export class MediaPluginState {
     }
   };
 
-  removeSelectedMediaNode = (): boolean => {
+  removeSelectedMediaContainer = (): boolean => {
     const { view } = this;
-    if (this.selectedMediaNode()) {
-      const { from, node } = view.state.selection as NodeSelection;
-      removeMediaNode(view, node, () => from);
-      return true;
+
+    const selectedNode = this.selectedMediaContainerNode();
+    if (!selectedNode) {
+      return false;
     }
-    return false;
+
+    let { from } = view.state.selection;
+    removeMediaNode(view, selectedNode.firstChild!, () => from + 1);
+    return true;
   };
 
-  selectedMediaNode(): Node | undefined {
+  selectedMediaContainerNode(): Node | undefined {
     const { selection, schema } = this.view.state;
     if (
       selection instanceof NodeSelection &&
-      selection.node.type === schema.nodes.media
+      (selection.node.type === schema.nodes.mediaSingle ||
+        selection.node.type === schema.nodes.mediaGroup)
     ) {
-      const node = selection.node;
-      return node;
+      return selection.node;
     }
   }
 
@@ -753,7 +749,7 @@ export class MediaPluginState {
     const { selection, schema } = this.view.state;
     if (
       selection instanceof NodeSelection &&
-      selection.node.type === schema.nodes.media
+      selection.node.type === schema.nodes.mediaSingle
     ) {
       return (
         !hasParentNodeOfType(schema.nodes.bodiedExtension)(selection) &&
@@ -793,7 +789,9 @@ const createDropPlaceholder = (editorAppearance?: EditorAppearance) => {
   const dropPlaceholder = document.createElement('div');
   if (editorAppearance === 'full-page') {
     ReactDOM.render(
-      React.createElement(DropPlaceholder, { type: 'single' }),
+      React.createElement(DropPlaceholder, { type: 'single' } as {
+        type: PlaceholderType;
+      }),
       dropPlaceholder,
     );
   } else {

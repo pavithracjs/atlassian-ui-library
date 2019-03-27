@@ -6,7 +6,7 @@ import {
   Selection,
 } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { uuid } from '@atlaskit/editor-common';
+import { uuid } from '@atlaskit/adf-schema';
 import { pluginKey, StatusType } from './plugin';
 
 export const DEFAULT_STATUS: StatusType = {
@@ -15,7 +15,7 @@ export const DEFAULT_STATUS: StatusType = {
 };
 
 export const createStatus = (showStatusPickerAtOffset = -2) => (
-  insert: (node?: Node | Object | string) => Transaction,
+  insert: (node: Node | Object | string) => Transaction,
   state: EditorState,
 ): Transaction => {
   const statusNode = state.schema.nodes.status.createChecked({
@@ -31,7 +31,7 @@ export const createStatus = (showStatusPickerAtOffset = -2) => (
     .setSelection(NodeSelection.create(tr.doc, showStatusPickerAt))
     .setMeta(pluginKey, {
       showStatusPickerAt,
-      autoFocus: true,
+      isNew: true,
       selectedStatus,
     });
 };
@@ -43,10 +43,16 @@ export const updateStatus = (status?: StatusType) => (
   const { schema } = state;
   const selectedStatus = null;
 
+  const updatedStatus = status
+    ? Object.assign(status, {
+        text: status.text.trim(),
+        localId: status.localId || uuid.generate(),
+      })
+    : status;
+
   const statusProps = {
     ...DEFAULT_STATUS,
-    localId: uuid.generate(),
-    ...status,
+    ...updatedStatus,
   };
 
   let tr = state.tr;
@@ -64,6 +70,7 @@ export const updateStatus = (status?: StatusType) => (
       .setMeta(pluginKey, {
         showStatusPickerAt: newShowStatusPickerAt,
         selectedStatus,
+        isNew: true,
       })
       .scrollIntoView();
     dispatch(tr);
@@ -91,7 +98,7 @@ export const setStatusPickerAt = (showStatusPickerAt: number | null) => (
   dispatch(
     state.tr.setMeta(pluginKey, {
       showStatusPickerAt,
-      autoFocus: false,
+      isNew: false,
       selectedStatus: null,
     }),
   );
@@ -115,7 +122,7 @@ export const commitStatusPicker = () => (editorView: EditorView) => {
   let tr = state.tr;
   tr = tr.setMeta(pluginKey, {
     showStatusPickerAt: null,
-    autoFocus: false,
+    isNew: false,
     selectedStatus: null,
   });
 

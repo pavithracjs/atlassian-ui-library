@@ -2,7 +2,9 @@ import * as React from 'react';
 import { Link } from './styled';
 
 export interface CardLinkViewProps {
-  text: string;
+  /** The text to display */
+  url: string;
+  /** The optional click handler */
   onClick?: () => void;
 }
 
@@ -17,7 +19,12 @@ export class CardLinkView extends React.Component<CardLinkViewProps> {
   };
 
   render() {
-    const { text } = this.props;
-    return <Link onClick={this.handleClick}>{text}</Link>;
+    const { url, onClick } = this.props;
+
+    const linkProps = onClick
+      ? { onClick: this.handleClick }
+      : { href: url, target: '_blank' };
+
+    return <Link {...linkProps}>{url}</Link>;
   }
 }

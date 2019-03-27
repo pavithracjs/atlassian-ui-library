@@ -6,7 +6,7 @@ import {
   createAndFireEvent,
   UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
-import Pagination from '@atlaskit/pagination';
+import ManagedPagination from './managedPagination';
 
 import {
   name as packageName,
@@ -194,9 +194,8 @@ class DynamicTable extends Component<Props, State> {
     const spinnerSize = this.getSpinnerSize();
     const emptyBody = this.renderEmptyBody();
     const canRank = isRankable && !sortKey;
-
     return (
-      <div>
+      <>
         <LoadingContainerAdvanced
           isLoading={isLoading && rowsExist}
           spinnerSize={spinnerSize}
@@ -230,7 +229,7 @@ class DynamicTable extends Component<Props, State> {
         </LoadingContainerAdvanced>
         {!totalPages ? null : (
           <PaginationWrapper>
-            <Pagination
+            <ManagedPagination
               value={page}
               onChange={this.onSetPage}
               total={totalPages}
@@ -243,7 +242,7 @@ class DynamicTable extends Component<Props, State> {
             {emptyBody}
           </LoadingContainer>
         )}
-      </div>
+      </>
     );
   }
 }

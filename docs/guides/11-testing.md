@@ -51,19 +51,24 @@ We encourage adding tests to all components on **Atlaskit**.
 For further details or a test template, please consult this [link](https://hello.atlassian.net/wiki/spaces/AtlasKit/pages/136112313/How+to+add+webdriver+browser+tests+for+components+in+Atlaskit).
 
 ### Visual regression tests
+#### Prerequisite for Visual regression tests
+- install docker as it is used to run tests locally
+- install git lfs through `brew install git-lfs`,
+- once latest master is checkout, run `yarn run enable:lfs`
+- run `git lfs pull` to pull lfs assets
+
 - visual regression tests are used to identify visual differences on **UI components** with or without **user interactions**.
 - use **Jest runner** for running the visual regression tests.
 - *visual regression tests* for packages should be structured under `<pkg>/src/__tests__/visual-regression`.
-- on local these run using jest-image-snapshot, puppeteer and chromium.
+- on local these run using docker, jest-image-snapshot, puppeteer and chromium.
 - to run all *visual regression tests* on local `yarn test:vr`.
 - to run all tests under a package on local `yarn test:vr <pkg>`.
-- on CI to run all packages in pipeline as a custom build, go to any branch, run pipeline for a branc and select **custom build:visual-regression**.
+- on CI to run all packages in pipeline as a custom build, go to any branch, run pipeline for a branch and select **custom build:visual-regression**.
 - on CI, after every chamge to master branch, it runs all the vr tests.
 
 For further details or a test template, please consult this [link](https://hello.atlassian.net/wiki/spaces/AtlasKit/pages/136113035/How+to+add+visual+regression+tests+in+Atlaskit).
 
 ### Flow tests
-
 - flow tests can be used to explicitly verify that components are being typed correctly from the consumers perspective.
 - they are especially useful for testing that HOC are typed correctly and don't result in types from the original component being lost
 - these tests are unique in that they are just code that is typechecked by flow instead of executed
@@ -74,17 +79,3 @@ it does *not* detect any flow errors from an invalid usage of your component
 - on both local and CI, these will be executed as part of flow typechecking, `yarn typecheck:flow`.
 - there is no way to only test a specific directory as flow is executed on an app level.
 - to disable specific tests, you will need to comment out code failing flow typechecking or remove/edit $ExpectError comments so they are not flagged as unused.
-
-## We use a forked version of Enzyme
-
-Why? Please [see the explanation on Github](https://github.com/petegleeson/enzyme#this-is-a-forked-version-of-enzyme-%EF%B8%8F).
-
-### Do I need to use the forked version of Enzyme?
-
-If you are using Enzyme and are rendering a component that uses the React 16.3 `forwardRef` API,
-then yes you will. We will be doing a major release for each component that is upgraded to use `forwardRef`.
-Checking the release notes is the best way to tell whether a component is using `forwardRef`.
-
-### How do I use the forked version of Enzyme?
-
-We have tried to make the fork as much of a drop in replacement as possible. See [this section on Github for instructions](https://github.com/petegleeson/enzyme#using-this-fork).

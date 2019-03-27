@@ -1,5 +1,98 @@
 # @atlaskit/navigation-next
 
+## 4.2.1
+- [patch] [967c9ed460](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/967c9ed460):
+
+  - Add IDs to all global nav items
+
+## 4.2.0
+- [minor] [092845e62c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/092845e62c):
+
+  * Fixes missing tooltip whenexperimental_alternateHoverBehaviouris set to true | [NAV-230](https://product-fabric.atlassian.net/browse/NAV-230)
+  * Fixes stacking order issue which causes some elements like InlineDialog to be chopped off when placed in the container Nav | [AK-5818](https://ecosystem.atlassian.net/browse/AK-5818)
+  * Add new FF to allow expand fly out to full width | [AK-5820](https://ecosystem.atlassian.net/servicedesk/customer/portal/24/AK-5820)
+
+## 4.1.2
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/docs@6.0.1
+  - @atlaskit/avatar@14.1.8
+  - @atlaskit/button@10.1.2
+  - @atlaskit/drawer@2.7.1
+  - @atlaskit/dropdown-menu@6.1.26
+  - @atlaskit/field-base@11.0.14
+  - @atlaskit/global-navigation@5.5.2
+  - @atlaskit/modal-dialog@7.2.1
+  - @atlaskit/onboarding@6.1.16
+  - @atlaskit/section-message@1.0.16
+  - @atlaskit/select@6.1.19
+  - @atlaskit/toggle@5.0.15
+  - @atlaskit/tooltip@12.1.15
+  - @atlaskit/icon@16.0.0
+
+## 4.1.1
+- [patch] [81b12c5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/81b12c5):
+
+  - Fixes GlobalNavigationSkeleton throwing TypeError when rendered in products with no globalNav theme
+
+## 4.1.0
+- [minor] [86aaacd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86aaacd):
+
+  - [Update flyout hover activation zone](https://product-fabric.atlassian.net/browse/NAV-197)
+  	- It is controlled by a new FF prop called `experimental_alternateFlyoutBehaviour` which defaults to false. ::NOTE:: For this feature to be enabled, it’s is necessary to have the FF  `experimental_flyoutOnHover` to be set to true.
+  - Update expand affordance icon
+
+## 4.0.10
+- [patch] [3a33b6b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3a33b6b):
+
+  - New entry point for Global Navigation Skeleton
+
+## 4.0.9
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/analytics-next@3.1.2
+  - @atlaskit/avatar@14.1.7
+  - @atlaskit/badge@9.2.2
+  - @atlaskit/button@10.1.1
+  - @atlaskit/drawer@2.6.1
+  - @atlaskit/dropdown-menu@6.1.25
+  - @atlaskit/field-base@11.0.13
+  - @atlaskit/global-navigation@5.3.8
+  - @atlaskit/icon@15.0.2
+  - @atlaskit/logo@9.2.6
+  - @atlaskit/lozenge@6.2.4
+  - @atlaskit/modal-dialog@7.1.1
+  - @atlaskit/onboarding@6.1.14
+  - @atlaskit/section-message@1.0.14
+  - @atlaskit/select@6.1.13
+  - @atlaskit/spinner@9.0.13
+  - @atlaskit/theme@7.0.1
+  - @atlaskit/toggle@5.0.14
+  - @atlaskit/tooltip@12.1.13
+  - @atlaskit/analytics-listeners@4.1.4
+  - @atlaskit/analytics-namespaced-context@2.1.5
+  - @atlaskit/docs@6.0.0
+
+## 4.0.8
+- Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+  - @atlaskit/docs@5.2.3
+  - @atlaskit/button@10.0.4
+  - @atlaskit/drawer@2.5.4
+  - @atlaskit/dropdown-menu@6.1.24
+  - @atlaskit/field-base@11.0.12
+  - @atlaskit/global-navigation@5.3.6
+  - @atlaskit/icon@15.0.1
+  - @atlaskit/logo@9.2.5
+  - @atlaskit/modal-dialog@7.0.14
+  - @atlaskit/section-message@1.0.13
+  - @atlaskit/select@6.1.10
+  - @atlaskit/spinner@9.0.12
+  - @atlaskit/toggle@5.0.13
+  - @atlaskit/tooltip@12.1.12
+  - @atlaskit/theme@7.0.0
+  - @atlaskit/avatar@14.1.6
+  - @atlaskit/badge@9.2.1
+  - @atlaskit/lozenge@6.2.3
+  - @atlaskit/onboarding@6.1.12
+
 ## 4.0.7
 - Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
   - @atlaskit/docs@5.2.2

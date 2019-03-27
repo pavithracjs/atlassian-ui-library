@@ -15,10 +15,10 @@ export default ({
   isReadOnly,
   isRequired,
   theme,
-  ...props
+  ...rest
 }: InputProps) => (
   <InputWrapper
-    {...theme.textField({ appearance })}
+    {...theme}
     appearance={appearance}
     isCompact={isCompact}
     isDisabled={isDisabled}
@@ -33,7 +33,7 @@ export default ({
       disabled={isDisabled}
       readOnly={isReadOnly}
       required={isRequired}
-      {...props}
+      {...rest}
     />
   </InputWrapper>
 );

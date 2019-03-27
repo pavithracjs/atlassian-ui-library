@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { Node as PMNode } from 'prosemirror-model';
-import { EditorView, NodeView } from 'prosemirror-view';
-import {
-  MediaSingle,
-  WithProviders,
-  MediaSingleLayout,
-} from '@atlaskit/editor-common';
+import { EditorView } from 'prosemirror-view';
+import { MediaSingleLayout } from '@atlaskit/adf-schema';
+import { MediaSingle, WithProviders } from '@atlaskit/editor-common';
+import { CardEvent } from '@atlaskit/media-card';
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
 import { stateKey, MediaPluginState } from '../pm-plugins/main';
 import ReactNodeView from '../../../nodeviews/ReactNodeView';
@@ -18,6 +16,10 @@ import { setNodeSelection } from '../../../utils';
 import ResizableMediaSingle from '../ui/ResizableMediaSingle';
 import { createDisplayGrid } from '../../../plugins/grid';
 import { EventDispatcher } from '../../../event-dispatcher';
+import { MediaProvider } from '../types';
+import { EditorAppearance } from '../../../types';
+import { browser } from '@atlaskit/editor-common';
+import { Context } from '@atlaskit/media-core';
 
 const DEFAULT_WIDTH = 250;
 const DEFAULT_HEIGHT = 200;
@@ -30,11 +32,14 @@ export interface MediaSingleNodeProps {
   selected: Function;
   getPos: () => number;
   lineLength: number;
+  editorAppearance: EditorAppearance;
+  mediaProvider?: Promise<MediaProvider>;
 }
 
 export interface MediaSingleNodeState {
   width?: number;
   height?: number;
+  viewContext?: Context;
 }
 
 export default class MediaSingleNode extends Component<
@@ -46,6 +51,7 @@ export default class MediaSingleNode extends Component<
   state = {
     height: undefined,
     width: undefined,
+    viewContext: undefined,
   };
 
   constructor(props) {
@@ -55,26 +61,57 @@ export default class MediaSingleNode extends Component<
     ) as MediaPluginState;
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
-      this.props.node.attrs.width !== nextProps.node.attrs.width ||
-      this.props.selected() !== nextProps.selected() ||
-      this.props.node.attrs.layout !== nextProps.node.attrs.layout ||
-      this.props.width !== nextProps.width ||
-      this.props.lineLength !== nextProps.lineLength ||
-      this.props.getPos !== nextProps.getPos ||
-      this.mediaChildHasUpdated(nextProps)
-    ) {
-      return true;
-    }
-    return false;
-  }
-
   componentDidUpdate() {
     const { layout } = this.props.node.attrs;
     if (this.props.selected()) {
       this.mediaPluginState.updateLayout(layout);
     }
+  }
+
+  async componentDidMount() {
+    const mediaProvider = await this.props.mediaProvider;
+    if (mediaProvider) {
+      const viewContext = await mediaProvider.viewContext;
+      this.setState({
+        viewContext,
+      });
+    }
+    const updatedDimensions = await this.getRemoteDimensions();
+    if (updatedDimensions) {
+      this.mediaPluginState.updateMediaNodeAttrs(
+        updatedDimensions.id,
+        {
+          height: updatedDimensions.height,
+          width: updatedDimensions.width,
+        },
+        true,
+      );
+    }
+  }
+
+  async getRemoteDimensions() {
+    const mediaProvider = await this.props.mediaProvider;
+    if (!mediaProvider || !this.props.node.firstChild) {
+      return false;
+    }
+    const { id, collection, height, width } = this.props.node.firstChild.attrs;
+    if (height && width) {
+      return;
+    }
+    const viewContext = await mediaProvider.viewContext;
+    const state = await viewContext.getImageMetadata(id, {
+      collection,
+    });
+
+    if (!state || !state.original) {
+      return false;
+    }
+
+    return {
+      id,
+      height: state.original.height,
+      width: state.original.width,
+    };
   }
 
   private onExternalImageLoaded = ({ width, height }) => {
@@ -89,24 +126,11 @@ export default class MediaSingleNode extends Component<
     );
   };
 
-  private mediaChildHasUpdated = nextProps => {
-    if (!this.props.node.firstChild || !nextProps.node.firstChild) {
-      return false;
-    }
-
-    return (
-      this.props.node.firstChild.attrs.collection !==
-        nextProps.node.firstChild.attrs.collection ||
-      this.props.node.firstChild.attrs.id !== nextProps.node.firstChild.attrs.id
-    );
-  };
-
-  mediaReady(mediaState) {
-    return mediaState && mediaState.status === 'ready';
-  }
-
-  selectMediaSingle = () => {
-    setNodeSelection(this.props.view, this.props.getPos() + 1);
+  selectMediaSingle = ({ event }: CardEvent) => {
+    // We need to call "stopPropagation" here in order to prevent the browser from navigating to
+    // another URL if the media node is wrapped in a link mark.
+    event.stopPropagation();
+    setNodeSelection(this.props.view, this.props.getPos());
   };
 
   updateSize = (width: number | null, layout: MediaSingleLayout) => {
@@ -130,6 +154,7 @@ export default class MediaSingleNode extends Component<
       getPos,
       node,
       view: { state },
+      editorAppearance,
     } = this.props;
 
     const { layout, width: mediaSingleWidth } = node.attrs;
@@ -149,12 +174,7 @@ export default class MediaSingleNode extends Component<
       }
     }
 
-    const mediaState = this.mediaPluginState.getMediaNodeState(
-      childNode.attrs.__key,
-    );
-
-    const isLoading = mediaState ? !this.mediaReady(mediaState) : false;
-    let canResize = !!this.mediaPluginState.options.allowResizing && !isLoading;
+    let canResize = !!this.mediaPluginState.options.allowResizing;
 
     const pos = getPos();
     if (pos) {
@@ -183,7 +203,6 @@ export default class MediaSingleNode extends Component<
       layout,
       width,
       height,
-      isLoading,
 
       containerWidth: this.props.width,
       lineLength: this.props.lineLength,
@@ -191,33 +210,28 @@ export default class MediaSingleNode extends Component<
     };
 
     const MediaChild = (
-      <WithProviders
-        providers={['mediaProvider']}
-        providerFactory={this.mediaPluginState.options.providerFactory}
-        renderNode={({ mediaProvider }) => {
-          return (
-            <MediaItem
-              node={childNode}
-              view={this.props.view}
-              getPos={this.props.getPos}
-              cardDimensions={cardDimensions}
-              mediaProvider={mediaProvider}
-              selected={selected()}
-              onClick={this.selectMediaSingle}
-              onExternalImageLoaded={this.onExternalImageLoaded}
-            />
-          );
-        }}
+      <MediaItem
+        node={childNode}
+        view={this.props.view}
+        getPos={this.props.getPos}
+        cardDimensions={cardDimensions}
+        viewContext={this.state.viewContext}
+        selected={selected()}
+        onClick={this.selectMediaSingle}
+        onExternalImageLoaded={this.onExternalImageLoaded}
+        editorAppearance={editorAppearance}
       />
     );
 
     return canResize ? (
       <ResizableMediaSingle
         {...props}
+        view={this.props.view}
         getPos={getPos}
         updateSize={this.updateSize}
         displayGrid={createDisplayGrid(this.props.eventDispatcher)}
         gridSize={12}
+        viewContext={this.state.viewContext}
         state={this.props.view.state}
         appearance={this.mediaPluginState.options.appearance}
         selected={this.props.selected()}
@@ -231,39 +245,79 @@ export default class MediaSingleNode extends Component<
 }
 
 class MediaSingleNodeView extends ReactNodeView {
-  render(props, forwardRef) {
-    const { eventDispatcher } = this.reactComponentProps;
+  lastOffsetLeft = 0;
+
+  render() {
+    const { eventDispatcher, editorAppearance } = this.reactComponentProps;
+    const mediaPluginState = stateKey.getState(
+      this.view.state,
+    ) as MediaPluginState;
+
     return (
-      <WithPluginState
-        editorView={this.view}
-        plugins={{
-          width: widthPluginKey,
-          reactNodeViewState: reactNodeViewStateKey,
-        }}
-        render={({ width, reactNodeViewState }) => {
+      <WithProviders
+        providers={['mediaProvider']}
+        providerFactory={mediaPluginState.options.providerFactory}
+        renderNode={({ mediaProvider }) => {
           return (
-            <MediaSingleNode
-              width={width.width}
-              lineLength={width.lineLength}
-              node={this.node}
-              getPos={this.getPos}
-              view={this.view}
-              selected={() => this.getPos() + 1 === reactNodeViewState}
-              eventDispatcher={eventDispatcher}
+            <WithPluginState
+              editorView={this.view}
+              plugins={{
+                width: widthPluginKey,
+                reactNodeViewState: reactNodeViewStateKey,
+              }}
+              render={({ width, reactNodeViewState }) => {
+                return (
+                  <MediaSingleNode
+                    width={width.width}
+                    lineLength={width.lineLength}
+                    node={this.node}
+                    getPos={this.getPos}
+                    mediaProvider={mediaProvider}
+                    view={this.view}
+                    selected={() => this.getPos() === reactNodeViewState}
+                    eventDispatcher={eventDispatcher}
+                    editorAppearance={editorAppearance}
+                  />
+                );
+              }}
             />
           );
         }}
       />
     );
   }
+
+  createDomRef() {
+    /**
+     * ED-5379 and https://github.com/ProseMirror/prosemirror/issues/884
+     *
+     * Workaround a Chrome bug where selecting the middle nodes of sequential leaf nodes
+     * doesn't create copy events.
+     */
+    return document.createElement(browser.chrome ? 'object' : 'div');
+  }
+
+  ignoreMutation() {
+    if (this.dom) {
+      const offsetLeft = this.dom.offsetLeft;
+
+      if (offsetLeft !== this.lastOffsetLeft) {
+        this.lastOffsetLeft = offsetLeft;
+        this.update(this.node, [], () => true);
+      }
+    }
+
+    return true;
+  }
 }
 
-export const ReactMediaSingleNode = (portalProviderAPI, eventDispatcher) => (
-  node: PMNode,
-  view: EditorView,
-  getPos: () => number,
-): NodeView => {
+export const ReactMediaSingleNode = (
+  portalProviderAPI,
+  eventDispatcher,
+  editorAppearance,
+) => (node: PMNode, view: EditorView, getPos: () => number) => {
   return new MediaSingleNodeView(node, view, getPos, portalProviderAPI, {
     eventDispatcher,
+    editorAppearance,
   }).init();
 };

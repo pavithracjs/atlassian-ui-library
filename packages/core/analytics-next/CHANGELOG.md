@@ -1,5 +1,21 @@
 # @atlaskit/analytics-next
 
+## 3.2.1
+- [patch] [8de4c3f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8de4c3f):
+
+  - Added missing export
+
+## 3.2.0
+- [minor] [c3fa0b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c3fa0b6):
+
+  - Added support for props of Sum type
+
+## 3.1.2
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/button@10.1.1
+  - @atlaskit/field-text@7.0.18
+  - @atlaskit/docs@6.0.0
+
 ## 3.1.1
 - Updated dependencies [6998f11](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6998f11):
   - @atlaskit/docs@5.2.1

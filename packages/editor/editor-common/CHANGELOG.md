@@ -1,5 +1,229 @@
 # @atlaskit/editor-common
 
+## 31.0.3
+- [patch] [50fb94a34f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/50fb94a34f):
+
+  - ED-6174: Breakout marks should be 100% of parent container
+
+## 31.0.2
+- [patch] [c82c636533](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c82c636533):
+
+  - ED-6156: limit breakout width to 1800px
+
+## 31.0.1
+- [patch] [557a2b5734](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/557a2b5734):
+
+  - ED-5788: bump prosemirror-view and prosemirror-model
+
+## 31.0.0
+- Updated dependencies [69c8d0c19c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c8d0c19c):
+  - @atlaskit/editor-test-helpers@6.3.17
+  - @atlaskit/emoji@54.0.0
+  - @atlaskit/media-card@52.0.0
+  - @atlaskit/editor-json-transformer@4.1.8
+  - @atlaskit/media-core@27.0.0
+
+## 30.0.2
+- [patch] [bfe22480d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bfe22480d0):
+
+  - ED-6056: fix zero width columns in renderer for migration tables
+
+## 30.0.1
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/editor-test-helpers@6.3.13
+  - @atlaskit/emoji@53.0.1
+  - @atlaskit/mention@16.0.1
+  - @atlaskit/media-card@51.0.1
+  - @atlaskit/profilecard@6.1.5
+  - @atlaskit/icon@16.0.0
+
+## 30.0.0
+- Updated dependencies [85d5d168fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85d5d168fd):
+  - @atlaskit/emoji@53.0.0
+  - @atlaskit/media-card@51.0.0
+  - @atlaskit/editor-json-transformer@4.1.7
+  - @atlaskit/editor-test-helpers@6.3.12
+  - @atlaskit/media-core@26.2.0
+
+## 29.0.0
+- Updated dependencies [dadef80](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dadef80):
+  - @atlaskit/emoji@52.0.0
+  - @atlaskit/media-card@50.0.0
+  - @atlaskit/editor-json-transformer@4.1.6
+  - @atlaskit/editor-test-helpers@6.3.11
+  - @atlaskit/media-core@26.1.0
+
+## 28.1.0
+- [minor] [be6313e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/be6313e):
+
+  - ED-5477 Support rendering of inline code together with other marks
+
+## 28.0.4
+- [patch] [060f2da](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/060f2da):
+
+  - ED-5991: bumped prosemirror-view to 1.6.8
+
+## 28.0.3
+- [patch] [61ce3c5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/61ce3c5):
+
+  - ED-6015 Fix bug where cursor would jump to start of mention after hitting backspace after a mention
+
+## 28.0.2
+- Updated dependencies [0c116d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c116d6):
+  - @atlaskit/editor-json-transformer@4.1.5
+  - @atlaskit/editor-test-helpers@6.3.8
+  - @atlaskit/mention@16.0.0
+
+## 28.0.1
+- [patch] [0145eef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0145eef):
+
+  - ED-5733 Update size styles for headers and paragraph to match typography document
+
+## 28.0.0
+- Updated dependencies [cbb8cb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cbb8cb5):
+  - @atlaskit/editor-test-helpers@6.3.7
+  - @atlaskit/emoji@51.0.0
+  - @atlaskit/media-card@49.0.0
+  - @atlaskit/editor-json-transformer@4.1.4
+  - @atlaskit/media-core@26.0.0
+
+## 27.0.0
+- Updated dependencies [72d37fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72d37fb):
+  - @atlaskit/editor-test-helpers@6.3.6
+  - @atlaskit/emoji@50.0.0
+  - @atlaskit/media-card@48.0.0
+  - @atlaskit/editor-json-transformer@4.1.3
+  - @atlaskit/media-core@25.0.0
+
+## 26.0.2
+- [patch] [8db5ddc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8db5ddc):
+
+  - ED-6002 Fixes overflowed layout column rendering in renderer
+
+## 26.0.1
+- [patch] [ababb4a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ababb4a):
+
+  - ED-5999: fix padding between Columns in renderer
+
+## 26.0.0
+- [major] [e858305](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e858305):
+
+  - ED-5805: Popup to support being sticky with alignX=top
+
+## 25.0.5
+- [patch] [5d4527e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5d4527e):
+
+  - Fix issue where date was not respecting user's local date for initial date selection in quick insert
+
+## 25.0.4
+- [patch] [80cadc7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80cadc7):
+
+  - ED-5861 - Fix panel style in order to render telepointers properly
+
+## 25.0.3
+- Updated dependencies [135ed00](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/135ed00):
+  - @atlaskit/media-core@24.7.2
+  - @atlaskit/media-card@47.0.0
+
+## 25.0.2
+- [patch] [ce65803](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce65803):
+
+  - Fix issue where panel icons were small in tables
+
+## 25.0.1
+- [patch] [3585da7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3585da7):
+
+  - Refactor Popup calculate position
+
+## 25.0.0
+- Updated dependencies [b3738ea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b3738ea):
+  - @atlaskit/emoji@49.0.0
+  - @atlaskit/media-card@46.0.0
+  - @atlaskit/editor-json-transformer@4.1.1
+  - @atlaskit/editor-test-helpers@6.3.4
+  - @atlaskit/media-core@24.7.0
+
+## 24.1.0
+- [minor] [b9f8a8f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b9f8a8f):
+
+  - Adding alignment options to media
+
+## 24.0.0
+- [major] [1205725](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1205725):
+
+  - Move schema to its own package
+
+## 23.0.0
+- Updated dependencies [80f765b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80f765b):
+  - @atlaskit/emoji@48.0.0
+  - @atlaskit/media-card@45.0.0
+  - @atlaskit/editor-json-transformer@4.0.25
+  - @atlaskit/editor-test-helpers@6.3.2
+  - @atlaskit/media-core@24.6.0
+
+## 22.4.2
+- [patch] [34df084](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/34df084):
+
+  - Fix layout schema and enable breakout layouts in renderer
+
+## 22.4.1
+- [patch] [a2ea6a7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a2ea6a7):
+
+  - Use indexOf instead of bespoke/custom findIndex
+
+## 22.4.0
+- [minor] [e06b553](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e06b553):
+
+  - ED-5702: default new table resizing
+
+## 22.3.2
+- [patch] [60a4609](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60a4609):
+
+  - ED-5771: fix rendering of full-width resized images
+
+## 22.3.1
+- [patch] [0a297ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a297ba):
+
+  - Packages should not be shown in the navigation, search and overview
+
+## 22.3.0
+- [minor] [a1b03d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1b03d0):
+
+  - ED-3890 Adds Indentation support on paragraphs and headings
+
+## 22.2.3
+- Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+  - @atlaskit/icon@15.0.1
+  - @atlaskit/emoji@47.0.6
+  - @atlaskit/mention@15.1.7
+  - @atlaskit/profilecard@6.1.1
+  - @atlaskit/theme@7.0.0
+
+## 22.2.2
+- [patch] [755fd19](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/755fd19):
+
+  - Fixing null state for task item copy
+
+## 22.2.1
+- [patch] [126b7b0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/126b7b0):
+
+  - fix: Inline marks do not match between editor and renderer
+
+## 22.2.0
+- [minor] [94094fe](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/94094fe):
+
+  - Adds support for links around images
+
+## 22.1.1
+- [patch] [3061b52](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3061b52):
+
+  - AK-5723 - adjust files in package.json to ensure correct publishing of dist/package.json
+
+## 22.1.0
+- [minor] [7c9dcba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c9dcba):
+
+  - Responsive wide breakout mode
+
 ## 22.0.3
 - [patch] [52606a5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/52606a5):
 

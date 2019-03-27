@@ -1,7 +1,7 @@
 import { browser } from '@atlaskit/editor-common';
 import { pluginKey } from '../../../../plugins/lists/pm-plugins/main';
 import {
-  createEditor,
+  createEditorFactory,
   sendKeyToPm,
   doc,
   h1,
@@ -24,13 +24,14 @@ import { insertMediaAsMediaSingle } from '../../../../plugins/media/utils/media-
 import { GapCursorSelection } from '../../../../plugins/gap-cursor';
 
 describe('lists', () => {
+  const createEditor = createEditorFactory();
+
   const editor = (doc: any, trackEvent?: () => {}) =>
     createEditor({
       doc,
       editorProps: {
         analyticsHandler: trackEvent,
         allowCodeBlocks: true,
-        allowGapCursor: true,
         allowPanel: true,
         allowLists: true,
         media: { allowMediaSingle: true },
@@ -912,6 +913,82 @@ describe('lists', () => {
         expect(editorView.state.selection.$from.depth).toEqual(5);
       });
 
+      it("shouldn't increase the depth of list item when Tab key press when at 6 levels indentation", () => {
+        const { editorView } = editor(
+          doc(
+            ol(
+              li(
+                p('first'),
+                ol(
+                  li(
+                    p('second'),
+                    ol(
+                      li(
+                        p('third'),
+                        ol(
+                          li(
+                            p('fourth'),
+                            ol(
+                              li(
+                                p('fifth'),
+                                ol(li(p('sixth'), p('maybe seventh{<>}'))),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+
+        expect(editorView.state.selection.$from.depth).toEqual(13);
+
+        sendKeyToPm(editorView, 'Tab');
+
+        expect(editorView.state.selection.$from.depth).toEqual(13);
+      });
+
+      it("shouldn't increase the depth of list item when Tab key press when a child list at 6 levels indentation", () => {
+        const { editorView } = editor(
+          doc(
+            ol(
+              li(
+                p('first'),
+                ol(
+                  li(
+                    p('second'),
+                    ol(
+                      li(
+                        p('third'),
+                        ol(
+                          li(
+                            p('fourth'),
+                            ol(
+                              li(p('fifth')),
+                              li(p('{<}fifth{>}'), ol(li(p('sixth')))),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+
+        expect(editorView.state.selection.$from.depth).toEqual(11);
+
+        sendKeyToPm(editorView, 'Tab');
+
+        expect(editorView.state.selection.$from.depth).toEqual(11);
+      });
+
       it('should nest the list item when Tab key press', () => {
         const { editorView } = editor(
           doc(ol(li(p('text')), li(p('te{<>}xt')), li(p('text')))),
@@ -1209,7 +1286,6 @@ describe('lists', () => {
             ),
           ),
         );
-        editorView.destroy();
       });
 
       it('should not add non images inside lists', () => {

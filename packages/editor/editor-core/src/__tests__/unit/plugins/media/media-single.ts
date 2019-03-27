@@ -4,7 +4,7 @@ import {
   mediaSingle,
   media,
   randomId,
-  createEditor,
+  createEditorFactory,
 } from '@atlaskit/editor-test-helpers';
 
 import {
@@ -26,6 +26,7 @@ const createMediaState = (
 });
 
 describe('media-single', () => {
+  const createEditor = createEditorFactory();
   const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
   const temporaryFileId = `temporary:${randomId()}`;
   const editor = (doc: any) =>
@@ -292,6 +293,33 @@ describe('media-single', () => {
               collection: testCollectionName,
               width: 50,
               height: 100,
+            })(),
+          ),
+          p(),
+        ),
+      );
+    });
+
+    it('should create a media node with integer dimensions after scaleFactor', () => {
+      const { editorView } = editor(doc(p('text{<>}')));
+
+      insertMediaSingleNode(
+        editorView,
+        { ...createMediaState(temporaryFileId), scaleFactor: 2.2 },
+        testCollectionName,
+      );
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          p('text'),
+          mediaSingle({ layout: 'center' })(
+            media({
+              id: temporaryFileId,
+              __key: temporaryFileId,
+              type: 'file',
+              collection: testCollectionName,
+              width: 45,
+              height: 91,
             })(),
           ),
           p(),

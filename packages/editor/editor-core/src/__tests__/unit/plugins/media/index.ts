@@ -6,11 +6,14 @@ import { ProviderFactory } from '@atlaskit/editor-common';
 import {
   doc,
   h1,
-  createEditor,
+  createEditorFactory,
   mediaGroup,
   mediaSingle,
   media,
   p,
+  ol,
+  ul,
+  li,
   hr,
   table,
   tr,
@@ -32,10 +35,10 @@ import {
 import { setNodeSelection, setTextSelection } from '../../../../utils';
 import { AnalyticsHandler, analyticsService } from '../../../../analytics';
 import mediaPlugin from '../../../../plugins/media';
+import listPlugin from '../../../../plugins/lists';
 import codeBlockPlugin from '../../../../plugins/code-block';
 import rulePlugin from '../../../../plugins/rule';
 import tablePlugin from '../../../../plugins/table';
-import pickerFacadeLoader from '../../../../plugins/media/picker-facade-loader';
 import { insertMediaAsMediaSingle } from '../../../../plugins/media/utils/media-single';
 
 const stateManager = new DefaultMediaStateManager();
@@ -48,11 +51,22 @@ const getFreshMediaProvider = () =>
     includeUserAuthProvider: true,
   });
 
+const pdfFile = {
+  id: `${randomId()}`,
+  fileName: 'lala.pdf',
+  fileSize: 200,
+  fileMimeType: 'pdf',
+  dimensions: { width: 200, height: 200 },
+  fileId: Promise.resolve('pdf'),
+};
+
 /**
  * Currently skipping these three failing tests
  * TODO: JEST-23 Fix these tests
  */
 describe('Media plugin', () => {
+  const createEditor = createEditorFactory<MediaPluginState>();
+
   const mediaProvider = getFreshMediaProvider();
   const temporaryFileId = `temporary:${randomId()}`;
   const providerFactory = ProviderFactory.create({ mediaProvider });
@@ -62,9 +76,10 @@ describe('Media plugin', () => {
     editorProps = {},
     dropzoneContainer: HTMLElement = document.body,
   ) =>
-    createEditor<MediaPluginState>({
+    createEditor({
       doc,
       editorPlugins: [
+        listPlugin,
         mediaPlugin({
           provider: mediaProvider,
           allowMediaSingle: true,
@@ -96,11 +111,16 @@ describe('Media plugin', () => {
     return mediaNodeWithPos!.getPos();
   };
 
-  const waitForMediaPickerReady = async (pluginState: MediaPluginState) =>
-    Promise.all([
-      new Promise(resolve => pluginState.subscribe(resolve)),
-      pickerFacadeLoader(),
-    ]);
+  const waitForMediaPickerReady = (pluginState: MediaPluginState) =>
+    new Promise(resolve => pluginState.subscribe(resolve));
+
+  const waitForAllPickersInitialised = async (
+    pluginState: MediaPluginState,
+  ) => {
+    while (pluginState.pickers.length < 4) {
+      await waitForMediaPickerReady(pluginState);
+    }
+  };
 
   afterAll(() => {
     providerFactory.destroy();
@@ -117,7 +137,8 @@ describe('Media plugin', () => {
     const provider = await mediaProvider;
     await provider.uploadContext;
 
-    await waitForMediaPickerReady(pluginState);
+    await waitForAllPickersInitialised(pluginState);
+
     expect(typeof pluginState.binaryPicker!).toBe('object');
 
     pluginState.binaryPicker!.upload = jest.fn();
@@ -313,6 +334,7 @@ describe('Media plugin', () => {
                         __fileMimeType: 'image/png',
                       })(),
                     ),
+                    p(),
                   ),
                   tdEmpty,
                   tdEmpty,
@@ -353,6 +375,7 @@ describe('Media plugin', () => {
                         __fileMimeType: 'image/png',
                       })(),
                     ),
+                    p(),
                   ),
                   tdEmpty,
                   tdEmpty,
@@ -536,7 +559,7 @@ describe('Media plugin', () => {
         p(),
       ),
     );
-    editorView.destroy();
+
     pluginState.destroy();
   });
 
@@ -599,7 +622,7 @@ describe('Media plugin', () => {
 
     expect(editorView.state.doc).toEqualDocument(doc(p(), p()));
     collectionFromProvider.mockRestore();
-    editorView.destroy();
+
     pluginState.destroy();
   });
 
@@ -607,15 +630,10 @@ describe('Media plugin', () => {
     const { pluginState } = editor(doc(h1('text{<>}')));
     expect(pluginState.pickers.length).toBe(0);
 
-    const mediaProvider1 = getFreshMediaProvider();
-    await pluginState.setMediaProvider(mediaProvider1);
-    const mediaProvider2 = getFreshMediaProvider();
-    await pluginState.setMediaProvider(mediaProvider2);
+    await getFreshMediaProvider();
+    await getFreshMediaProvider();
 
-    const resolvedMediaProvider1 = await mediaProvider1;
-    const resolvedMediaProvider2 = await mediaProvider2;
-    await resolvedMediaProvider1.uploadContext;
-    await resolvedMediaProvider2.uploadContext;
+    await waitForAllPickersInitialised(pluginState);
 
     expect(pluginState.pickers.length).toBe(4);
   });
@@ -624,17 +642,17 @@ describe('Media plugin', () => {
     const { pluginState } = editor(doc(h1('text{<>}')));
     expect(pluginState.pickers.length).toBe(0);
 
-    const mediaProvider1 = getFreshMediaProvider();
-    await pluginState.setMediaProvider(mediaProvider1);
-    const resolvedMediaProvider1 = await mediaProvider1;
-    await resolvedMediaProvider1.uploadContext;
+    await getFreshMediaProvider();
+
+    await waitForAllPickersInitialised(pluginState);
+
     const pickersAfterMediaProvider1 = pluginState.pickers;
     expect(pickersAfterMediaProvider1.length).toBe(4);
 
-    const mediaProvider2 = getFreshMediaProvider();
-    await pluginState.setMediaProvider(mediaProvider2);
-    const resolvedMediaProvider2 = await mediaProvider2;
-    await resolvedMediaProvider2.uploadContext;
+    await getFreshMediaProvider();
+
+    await waitForAllPickersInitialised(pluginState);
+
     const pickersAfterMediaProvider2 = pluginState.pickers;
 
     expect(pickersAfterMediaProvider1).toHaveLength(
@@ -645,24 +663,6 @@ describe('Media plugin', () => {
         pickersAfterMediaProvider2[i],
       );
     }
-  });
-
-  it('should hide any existing popup picker when new media provider is set', async () => {
-    const { pluginState } = editor(doc(h1('text{<>}')));
-    expect(pluginState.pickers.length).toBe(0);
-
-    const mediaProvider1 = getFreshMediaProvider();
-    await pluginState.setMediaProvider(mediaProvider1);
-    const resolvedMediaProvider1 = await mediaProvider1;
-    await resolvedMediaProvider1.uploadContext;
-
-    const spy = jest.spyOn((pluginState as any).popupPicker, 'hide');
-
-    const mediaProvider2 = getFreshMediaProvider();
-    await pluginState.setMediaProvider(mediaProvider2);
-    const resolvedMediaProvider2 = await mediaProvider2;
-    await resolvedMediaProvider2.uploadContext;
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should set new upload params for existing pickers when new media provider is set', async () => {
@@ -700,7 +700,7 @@ describe('Media plugin', () => {
     const provider = await mediaProvider;
     await provider.uploadContext;
     await provider.viewContext;
-    await waitForMediaPickerReady(pluginState);
+    await waitForAllPickersInitialised(pluginState);
     expect(typeof pluginState.binaryPicker!).toBe('object');
 
     const testFileData = {
@@ -743,7 +743,7 @@ describe('Media plugin', () => {
     const provider = await mediaProvider;
     await provider.uploadContext;
     await provider.viewContext;
-    await waitForMediaPickerReady(pluginState);
+    await waitForAllPickersInitialised(pluginState);
     expect(typeof pluginState.binaryPicker!).toBe('object');
 
     const testFileData = {
@@ -781,7 +781,7 @@ describe('Media plugin', () => {
     const provider = await mediaProvider;
     await provider.uploadContext;
     await provider.viewContext;
-    await waitForMediaPickerReady(pluginState);
+    await waitForAllPickersInitialised(pluginState);
     expect(typeof pluginState.binaryPicker!).toBe('object');
 
     const testFileData = {
@@ -817,7 +817,8 @@ describe('Media plugin', () => {
     const provider = await mediaProvider;
     await provider.uploadContext;
     await provider.viewContext;
-    await waitForMediaPickerReady(pluginState);
+    await waitForAllPickersInitialised(pluginState);
+
     expect(typeof pluginState.binaryPicker!).toBe('object');
 
     const testFileData = {
@@ -880,13 +881,13 @@ describe('Media plugin', () => {
           ),
         ),
       );
-      editorView.destroy();
+
       pluginState.destroy();
     });
   });
 
-  describe('removeSelectedMediaNode', () => {
-    describe('when selection is a media node', () => {
+  describe('removeSelectedMediaContainer', () => {
+    describe('when selection is a mediaSingle node', () => {
       it('removes node', () => {
         const deletingMediaNode = media({
           id: 'media',
@@ -894,14 +895,14 @@ describe('Media plugin', () => {
           collection: testCollectionName,
         });
         const { editorView, pluginState } = editor(
-          doc(mediaGroup(deletingMediaNode())),
+          doc(mediaSingle()(deletingMediaNode())),
         );
-        setNodeSelection(editorView, 1);
+        setNodeSelection(editorView, 0);
 
-        pluginState.removeSelectedMediaNode();
+        pluginState.removeSelectedMediaContainer();
 
         expect(editorView.state.doc).toEqualDocument(doc(p()));
-        editorView.destroy();
+
         pluginState.destroy();
       });
 
@@ -912,12 +913,12 @@ describe('Media plugin', () => {
           collection: testCollectionName,
         });
         const { editorView, pluginState } = editor(
-          doc(mediaGroup(deletingMediaNode())),
+          doc(mediaSingle()(deletingMediaNode())),
         );
-        setNodeSelection(editorView, 1);
+        setNodeSelection(editorView, 0);
 
-        expect(pluginState.removeSelectedMediaNode()).toBe(true);
-        editorView.destroy();
+        expect(pluginState.removeSelectedMediaContainer()).toBe(true);
+
         pluginState.destroy();
       });
     });
@@ -932,14 +933,14 @@ describe('Media plugin', () => {
         const { editorView, pluginState } = editor(
           doc(hr(), mediaGroup(deletingMediaNode())),
         );
-        setNodeSelection(editorView, 1);
+        setNodeSelection(editorView, 0);
 
-        pluginState.removeSelectedMediaNode();
+        pluginState.removeSelectedMediaContainer();
 
         expect(editorView.state.doc).toEqualDocument(
           doc(hr(), mediaGroup(deletingMediaNode())),
         );
-        editorView.destroy();
+
         pluginState.destroy();
       });
 
@@ -952,10 +953,10 @@ describe('Media plugin', () => {
         const { editorView, pluginState } = editor(
           doc(hr(), mediaGroup(deletingMediaNode())),
         );
-        setNodeSelection(editorView, 1);
+        setNodeSelection(editorView, 0);
 
-        expect(pluginState.removeSelectedMediaNode()).toBe(false);
-        editorView.destroy();
+        expect(pluginState.removeSelectedMediaContainer()).toBe(false);
+
         pluginState.destroy();
       });
     });
@@ -971,12 +972,12 @@ describe('Media plugin', () => {
           doc(p('hello{<>}'), mediaGroup(deletingMediaNode())),
         );
 
-        pluginState.removeSelectedMediaNode();
+        pluginState.removeSelectedMediaContainer();
 
         expect(editorView.state.doc).toEqualDocument(
           doc(p('hello'), mediaGroup(deletingMediaNode())),
         );
-        editorView.destroy();
+
         pluginState.destroy();
       });
 
@@ -990,7 +991,7 @@ describe('Media plugin', () => {
           doc(p('hello{<>}'), mediaGroup(deletingMediaNode())),
         );
 
-        expect(pluginState.removeSelectedMediaNode()).toBe(false);
+        expect(pluginState.removeSelectedMediaContainer()).toBe(false);
         pluginState.destroy();
       });
     });
@@ -1026,7 +1027,7 @@ describe('Media plugin', () => {
       ),
     );
     spy.mockRestore();
-    editorView.destroy();
+
     pluginState.destroy();
   });
 
@@ -1066,7 +1067,7 @@ describe('Media plugin', () => {
       ),
     );
     collectionFromProvider.mockRestore();
-    editorView.destroy();
+
     pluginState.destroy();
   });
 
@@ -1105,7 +1106,7 @@ describe('Media plugin', () => {
           p(),
         ),
       );
-      editorView.destroy();
+
       pluginState.destroy();
     });
 
@@ -1144,82 +1145,8 @@ describe('Media plugin', () => {
             ),
           ),
         );
-        editorView.destroy();
+
         pluginState.destroy();
-      });
-    });
-  });
-
-  describe('align', () => {
-    describe('when there is only one image in the media group', () => {
-      describe('when selection is a media node', () => {
-        it('changes media group to mediaSingle with layout', () => {
-          const { editorView, pluginState } = editor(
-            doc(
-              mediaGroup(
-                media({
-                  id: 'media',
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
-              ),
-              p('hello'),
-            ),
-          );
-
-          setNodeSelection(editorView, 1);
-
-          pluginState.align('wrap-left');
-
-          expect(editorView.state.doc).toEqualDocument(
-            doc(
-              mediaSingle({ layout: 'wrap-left' })(
-                media({
-                  id: 'media',
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
-              ),
-              p('hello'),
-            ),
-          );
-          editorView.destroy();
-          pluginState.destroy();
-        });
-      });
-
-      describe('when selection is not a media node', () => {
-        it('does nothing', () => {
-          const { editorView, pluginState } = editor(
-            doc(
-              mediaGroup(
-                media({
-                  id: 'media',
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
-              ),
-              p('hel{<>}lo'),
-            ),
-          );
-
-          pluginState.align('wide');
-
-          expect(editorView.state.doc).toEqualDocument(
-            doc(
-              mediaGroup(
-                media({
-                  id: 'media',
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
-              ),
-              p('hello'),
-            ),
-          );
-          editorView.destroy();
-          pluginState.destroy();
-        });
       });
     });
   });
@@ -1310,7 +1237,7 @@ describe('Media plugin', () => {
   });
 
   describe('element', () => {
-    describe('when cursor is on a media node of a single image', () => {
+    describe('when mediaSingle node is selected', () => {
       it('returns dom', () => {
         const { editorView, pluginState } = editor(
           doc(
@@ -1325,7 +1252,7 @@ describe('Media plugin', () => {
             ),
           ),
         );
-        setNodeSelection(editorView, 1);
+        setNodeSelection(editorView, 0);
 
         expect(pluginState.element).not.toBeUndefined();
         expect(pluginState.element!.className).toBe('wrapper');
@@ -1370,7 +1297,7 @@ describe('Media plugin', () => {
       });
     });
 
-    describe('when cursor move from a media node to another media node', () => {
+    describe('when cursor move from a mediaSingle node to another mediaSingle node', () => {
       let pluginState;
       let editorView;
 
@@ -1401,11 +1328,11 @@ describe('Media plugin', () => {
         pluginState = createdEditor.pluginState;
         editorView = createdEditor.editorView;
 
-        setNodeSelection(editorView, 1);
+        setNodeSelection(editorView, 0);
       });
 
       it('returns dom', () => {
-        setNodeSelection(editorView, 4);
+        setNodeSelection(editorView, 3);
 
         expect(pluginState.element).not.toBeUndefined();
       });
@@ -1414,13 +1341,13 @@ describe('Media plugin', () => {
         const subscriber = jest.fn();
         pluginState.subscribe(subscriber);
 
-        setNodeSelection(editorView, 4);
+        setNodeSelection(editorView, 3);
 
         expect(subscriber).toHaveBeenCalledTimes(2);
       });
     });
 
-    describe('when cursor move to a media node', () => {
+    describe('when cursor move to a mediaSingle node', () => {
       let pluginState;
       let editorView;
 
@@ -1443,7 +1370,7 @@ describe('Media plugin', () => {
       });
 
       it('returns dom', () => {
-        setNodeSelection(editorView, 1);
+        setNodeSelection(editorView, 0);
 
         expect(pluginState.element).not.toBeUndefined();
       });
@@ -1452,13 +1379,13 @@ describe('Media plugin', () => {
         const subscriber = jest.fn();
         pluginState.subscribe(subscriber);
 
-        setNodeSelection(editorView, 1);
+        setNodeSelection(editorView, 0);
 
         expect(subscriber).toHaveBeenCalledTimes(2);
       });
     });
 
-    describe('when cursor move away from a media node', () => {
+    describe('when cursor move away from a mediaSingle node', () => {
       let pluginState;
       let editorView;
       let refs;
@@ -1481,7 +1408,7 @@ describe('Media plugin', () => {
         editorView = createdEditor.editorView;
         refs = createdEditor.refs;
 
-        setNodeSelection(editorView, 1);
+        setNodeSelection(editorView, 0);
       });
 
       it('returns undefined', () => {
@@ -1567,6 +1494,109 @@ describe('Media plugin', () => {
       pluginState.updateLayout('wrap-right');
 
       expect(subscriber).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('when inserting into a list', () => {
+    it('should insert media group after orderer list', async () => {
+      const listDoc = doc(ol(li(p('text'))));
+      const { pluginState, editorView } = editor(listDoc);
+      await waitForMediaPickerReady(pluginState);
+
+      pluginState.insertFiles([pdfFile]);
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          ol(li(p('text'))),
+          mediaGroup(
+            media({
+              id: pdfFile.id,
+              __key: pdfFile.id,
+              type: 'file',
+              __fileMimeType: pdfFile.fileMimeType,
+              __fileName: pdfFile.fileName,
+              __fileSize: pdfFile.fileSize,
+              collection: testCollectionName,
+            })(),
+          ),
+          p(''),
+        ),
+      );
+    });
+
+    it('should insert media group after unorderer list', async () => {
+      const listDoc = doc(ul(li(p('text'))));
+      const { pluginState, editorView } = editor(listDoc);
+      await waitForMediaPickerReady(pluginState);
+
+      pluginState.insertFiles([pdfFile]);
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          ul(li(p('text'))),
+          mediaGroup(
+            media({
+              id: pdfFile.id,
+              __key: pdfFile.id,
+              type: 'file',
+              __fileMimeType: pdfFile.fileMimeType,
+              __fileName: pdfFile.fileName,
+              __fileSize: pdfFile.fileSize,
+              collection: testCollectionName,
+            })(),
+          ),
+          p(''),
+        ),
+      );
+    });
+
+    it('should insert media in the media group that already exist', async () => {
+      const listDoc = doc(
+        ul(li(p('te{<>}xt'))),
+        mediaGroup(
+          media({
+            id: pdfFile.id,
+            __key: pdfFile.id,
+            type: 'file',
+            __fileMimeType: pdfFile.fileMimeType,
+            __fileName: pdfFile.fileName,
+            __fileSize: pdfFile.fileSize,
+            collection: testCollectionName,
+          })(),
+        ),
+        p(''),
+      );
+      const { pluginState, editorView } = editor(listDoc);
+      await waitForMediaPickerReady(pluginState);
+
+      pluginState.insertFiles([pdfFile]);
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          ul(li(p('text'))),
+          mediaGroup(
+            media({
+              id: pdfFile.id,
+              __key: pdfFile.id,
+              type: 'file',
+              __fileMimeType: pdfFile.fileMimeType,
+              __fileName: pdfFile.fileName,
+              __fileSize: pdfFile.fileSize,
+              collection: testCollectionName,
+            })(),
+            media({
+              id: pdfFile.id,
+              __key: pdfFile.id,
+              type: 'file',
+              __fileMimeType: pdfFile.fileMimeType,
+              __fileName: pdfFile.fileName,
+              __fileSize: pdfFile.fileSize,
+              collection: testCollectionName,
+            })(),
+          ),
+          p(''),
+        ),
+      );
     });
   });
 });

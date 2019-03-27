@@ -10,7 +10,8 @@ import {
   CardAttributes,
   BreakoutMarkAttrs,
   AlignmentAttributes,
-} from '@atlaskit/editor-common';
+  IndentationMarkAttributes,
+} from '@atlaskit/adf-schema';
 import {
   Fragment,
   MarkType,
@@ -109,7 +110,7 @@ export function text(value: string, schema: Schema): RefsContentItem {
   // Helpers
   const isEven = n => n % 2 === 0;
 
-  for (const match of matches(value, /([\\]+)?{(\w+|<|>|<>)}/g)) {
+  for (const match of matches(value, /([\\]+)?{(\w+|<|>|<>|<cell|cell>)}/g)) {
     const [refToken, skipChars, refName] = match;
     let { index } = match;
 
@@ -405,9 +406,6 @@ export const blockCard = (attrs: CardAttributes) =>
 //
 // Marks
 //
-
-export const breakout = (attrs: BreakoutMarkAttrs) =>
-  markFactory(sampleSchema.marks.breakout, attrs);
 export const em = markFactory(sampleSchema.marks.em, {});
 export const subsup = (attrs: { type: string }) =>
   markFactory(sampleSchema.marks.subsup, attrs);
@@ -430,6 +428,12 @@ export const confluenceInlineComment = (attrs: { reference: string }) =>
     true,
   );
 
-/** Block marks */
+//
+// Block Marks
+//
 export const alignment = (attrs: AlignmentAttributes) =>
   markFactory(sampleSchema.marks.alignment, attrs);
+export const breakout = (attrs: BreakoutMarkAttrs) =>
+  markFactory(sampleSchema.marks.breakout, attrs);
+export const indentation = (attrs: IndentationMarkAttributes) =>
+  markFactory(sampleSchema.marks.indentation, attrs);

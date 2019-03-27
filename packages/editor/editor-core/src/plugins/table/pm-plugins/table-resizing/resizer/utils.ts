@@ -1,11 +1,11 @@
-import Column from './column';
+import ColumnState from './columnState';
 
 export interface ColIdxPair {
-  col: Column[];
+  col: ColumnState[];
   idx: number;
 }
 
-export const makeColIdxPair = (cols: Column[]) => {
+export const makeColIdxPair = (cols: ColumnState[]) => {
   return cols.map((col, idx) => {
     return { col, idx };
   });
@@ -31,9 +31,9 @@ export const findFreeCol = (colIdxObj, direction) => {
   return freeIdx;
 };
 
-export const findNextFreeCol = (colIdxObj, direction: number) => {
+export const findNextFreeCol = (colIdxObj, direction: number): number => {
   if (colIdxObj.length === 0) {
-    return null;
+    return -1;
   }
 
   if (direction < 0) {
@@ -70,13 +70,19 @@ export const getRowChildren = (row: HTMLElement) => {
   return children;
 };
 
-export const forEachCellInColumn = (
+const defaultCalculateColWidthCb = (
+  col: HTMLElement,
+  colComputedStyle: CSSStyleDeclaration,
+): number => unitToNumber(colComputedStyle.width);
+
+export const calculateColWidth = (
   table: HTMLElement,
   colIdx: number,
   calculateColWidthCb: (
     col: HTMLElement,
     colComputedStyle: CSSStyleDeclaration,
-  ) => number,
+    colSpan: number,
+  ) => number = defaultCalculateColWidthCb,
 ) => {
   const tbody = table.querySelector('tbody') as HTMLElement;
   if (tbody) {
@@ -100,15 +106,15 @@ export const forEachCellInColumn = (
     }
 
     const colComputedStyle = getComputedStyle(col);
-    const colspan = Number(col.getAttribute('colspan'));
+    const colspan = Number(col.getAttribute('colspan') || 1);
 
     if (colspan > 1) {
-      colSpanWidth = unitToNumber(colComputedStyle.width);
+      colSpanWidth = calculateColWidthCb(col, colComputedStyle, colspan);
       continue;
     }
 
     if (colComputedStyle) {
-      const colWidth = calculateColWidthCb(col, colComputedStyle);
+      const colWidth = calculateColWidthCb(col, colComputedStyle, colspan);
       maxColWidth = Math.max(colWidth, maxColWidth);
     }
   }
@@ -118,7 +124,7 @@ export const forEachCellInColumn = (
 
 export const unitToNumber = (unit: string | null) => {
   if (unit) {
-    return Number(unit.slice(0, unit.length - 2));
+    return parseFloat(unit);
   }
   return 0;
 };

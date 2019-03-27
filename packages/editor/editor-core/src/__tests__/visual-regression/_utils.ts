@@ -13,10 +13,28 @@ export {
   setupMediaMocksProviders,
   editable,
   changeSelectedNodeLayout,
+  rerenderEditor,
+  setFeature,
+  toggleFeature,
 } from '../integration/_helpers';
 
-const DEFAULT_WIDTH = 800;
-const DEFAULT_HEIGHT = 600;
+export const DEFAULT_WIDTH = 800;
+export const DEFAULT_HEIGHT = 600;
+
+const adfInputSelector = '#adf-input';
+const importAdfBtnSelector = '#import-adf';
+
+export const dynamicTextViewportSizes = [
+  { width: 1440, height: 3000 },
+  { width: 1120, height: 3000 },
+  { width: 1000, height: 3000 },
+  { width: 800, height: 3000 },
+];
+
+export const viewportSizes = [
+  ...dynamicTextViewportSizes,
+  { width: 400, height: 3000 },
+];
 
 export const resetViewport = async page => {
   await page.setViewport({ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT });
@@ -63,6 +81,24 @@ export const initEditor = async (page, appearance: string) => {
       .ProseMirror-gapcursor span::after { animation-play-state: paused !important; }
     `,
   });
+};
+
+export const initFullPageEditorWithAdf = async (page, adf: Object) => {
+  const url = getExampleUrl(
+    'editor',
+    'editor-core',
+    'full-page-with-adf-import',
+  );
+  await page.goto(url);
+
+  await page.evaluate(
+    (adfInputSelector, adf) => {
+      document.querySelector(adfInputSelector).value = JSON.stringify(adf);
+    },
+    adfInputSelector,
+    adf,
+  );
+  await page.click(importAdfBtnSelector);
 };
 
 export const clearEditor = async page => {
@@ -356,8 +392,12 @@ export const setTests = forInput => {
   });
 };
 
-export const snapshot = async (page, tolerance?: number) => {
-  const editor = await page.$('.akEditor');
+export const snapshot = async (
+  page,
+  tolerance?: number,
+  selector = '.akEditor',
+) => {
+  const editor = await page.$(selector);
 
   // Try to take a screenshot of only the editor.
   // Otherwise take the whole page.
@@ -393,5 +433,13 @@ export const insertMedia = async (page, filenames = ['one.svg']) => {
 export const evaluateClick = (page, selector) => {
   return page.evaluate(selector => {
     document.querySelector(selector).click();
+  }, selector);
+};
+
+export const getBoundingRect = async (page, selector) => {
+  return await page.evaluate(selector => {
+    const element = document.querySelector(selector);
+    const { x, y, width, height } = element.getBoundingClientRect();
+    return { left: x, top: y, width, height, id: element.id };
   }, selector);
 };

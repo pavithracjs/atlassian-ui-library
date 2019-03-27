@@ -1,5 +1,100 @@
 # @atlaskit/reactions
 
+## 15.3.4
+- Updated dependencies [69c8d0c19c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c8d0c19c):
+  - @atlaskit/editor-test-helpers@6.3.17
+  - @atlaskit/emoji@54.0.0
+  - @atlaskit/util-data-test@10.0.36
+
+## 15.3.3
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/docs@6.0.1
+  - @atlaskit/button@10.1.2
+  - @atlaskit/tooltip@12.1.15
+  - @atlaskit/editor-test-helpers@6.3.13
+  - @atlaskit/emoji@53.0.1
+  - @atlaskit/icon@16.0.0
+
+## 15.3.2
+- Updated dependencies [85d5d168fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85d5d168fd):
+  - @atlaskit/emoji@53.0.0
+  - @atlaskit/editor-test-helpers@6.3.12
+  - @atlaskit/util-data-test@10.0.34
+
+## 15.3.1
+- Updated dependencies [dadef80](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dadef80):
+  - @atlaskit/emoji@52.0.0
+  - @atlaskit/editor-test-helpers@6.3.11
+  - @atlaskit/util-data-test@10.0.33
+
+## 15.3.0
+- [minor] [e60d7aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e60d7aa):
+
+  - updated i18n translations
+
+## 15.2.2
+- Updated dependencies [cbb8cb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cbb8cb5):
+  - @atlaskit/editor-test-helpers@6.3.7
+  - @atlaskit/emoji@51.0.0
+  - @atlaskit/util-data-test@10.0.31
+
+## 15.2.1
+- Updated dependencies [72d37fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72d37fb):
+  - @atlaskit/emoji@50.0.0
+  - @atlaskit/util-data-test@10.0.30
+
+## 15.2.0
+- [minor] [277edda](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/277edda):
+
+  - replaced enzyme-react-intl with @atlaskit/editor-test-helpers
+
+## 15.1.0
+- [minor] [1296324](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1296324):
+
+  - added i18n support to reactions
+- [minor] [ccf385a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ccf385a):
+
+  - added i18n translations
+
+## 15.0.11
+- Updated dependencies [b3738ea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b3738ea):
+  - @atlaskit/emoji@49.0.0
+  - @atlaskit/util-data-test@10.0.28
+
+## 15.0.10
+- Updated dependencies [80f765b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80f765b):
+  - @atlaskit/emoji@48.0.0
+  - @atlaskit/util-data-test@10.0.26
+
+## 15.0.9
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/analytics-next@3.1.2
+  - @atlaskit/button@10.1.1
+  - @atlaskit/icon@15.0.2
+  - @atlaskit/layer@5.0.10
+  - @atlaskit/theme@7.0.1
+  - @atlaskit/tooltip@12.1.13
+  - @atlaskit/analytics-gas-types@3.2.3
+  - @atlaskit/analytics-namespaced-context@2.1.5
+  - @atlaskit/emoji@47.0.7
+  - @atlaskit/util-data-test@10.0.25
+  - @atlaskit/util-service-support@3.0.5
+  - @atlaskit/docs@6.0.0
+
+## 15.0.8
+- Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+  - @atlaskit/docs@5.2.3
+  - @atlaskit/button@10.0.4
+  - @atlaskit/icon@15.0.1
+  - @atlaskit/tooltip@12.1.12
+  - @atlaskit/emoji@47.0.6
+  - @atlaskit/theme@7.0.0
+
+## 15.0.7
+- [patch] [3061b52](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3061b52):
+
+  - AK-5723 - adjust files in package.json to ensure correct publishing of dist/package.json
+
 ## 15.0.6
 - Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
   - @atlaskit/docs@5.2.2

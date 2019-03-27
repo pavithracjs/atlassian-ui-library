@@ -7,11 +7,22 @@ jest.mock('../../../newgen/viewers/image', () => ({
 }));
 
 import * as React from 'react';
+import { ReactWrapper } from 'enzyme';
 import { Observable } from 'rxjs';
 import Spinner from '@atlaskit/spinner';
 import Button from '@atlaskit/button';
-import { MediaItemType, Context } from '@atlaskit/media-core';
-import { ItemViewer, ItemViewerBase } from '../../../newgen/item-viewer';
+import {
+  MediaItemType,
+  Context,
+  ProcessedFileState,
+} from '@atlaskit/media-core';
+import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
+import {
+  ItemViewer,
+  ItemViewerBase,
+  Props as ItemViewerBaseProps,
+  State as ItemViewerBaseState,
+} from '../../../newgen/item-viewer';
 import { ErrorMessage } from '../../../newgen/error';
 import { ImageViewer } from '../../../newgen/viewers/image';
 import { VideoViewer } from '../../../newgen/viewers/video';
@@ -22,7 +33,6 @@ import {
   name as packageName,
   version as packageVersion,
 } from '../../../../package.json';
-import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 
 const identifier = {
   id: 'some-id',
@@ -49,7 +59,10 @@ function mountComponent(context: Context, identifier: Identifier) {
 function mountBaseComponent(context: Context, identifier: Identifier) {
   const createAnalyticsEventSpy = jest.fn();
   createAnalyticsEventSpy.mockReturnValue({ fire: jest.fn() });
-  const el = mountWithIntlContext(
+  const el: ReactWrapper<
+    ItemViewerBaseProps,
+    ItemViewerBaseState
+  > = mountWithIntlContext(
     <ItemViewerBase
       createAnalyticsEvent={createAnalyticsEventSpy}
       previewCount={0}
@@ -57,7 +70,7 @@ function mountBaseComponent(context: Context, identifier: Identifier) {
       identifier={identifier}
     />,
   );
-  const instance = el.instance() as any;
+  const instance = el.instance() as ItemViewerBase;
   return { el, instance, createAnalyticsEventSpy };
 }
 
@@ -113,36 +126,6 @@ describe('<ItemViewer />', () => {
     expect(errorMessage.find(Button)).toHaveLength(1);
   });
 
-  it('should show the spinner if the item is being processed', () => {
-    const context = makeFakeContext(
-      Observable.of({
-        id: '123',
-        mediaType: 'video',
-        status: 'processing',
-      }),
-    );
-    const el = mountWithIntlContext(
-      <ItemViewer previewCount={0} context={context} identifier={identifier} />,
-    );
-    el.update();
-    expect(el.find(Spinner)).toHaveLength(1);
-  });
-
-  it('should show the spinner if the item is being uploaded', () => {
-    const context = makeFakeContext(
-      Observable.of({
-        id: '123',
-        mediaType: 'video',
-        status: 'uploading',
-      }),
-    );
-    const el = mountWithIntlContext(
-      <ItemViewer previewCount={0} context={context} identifier={identifier} />,
-    );
-    el.update();
-    expect(el.find(Spinner)).toHaveLength(1);
-  });
-
   it('should should error and download button if file is processing failed', () => {
     const context = makeFakeContext(
       Observable.of({
@@ -184,13 +167,16 @@ describe('<ItemViewer />', () => {
   });
 
   it('should show the video viewer if media type is video', () => {
-    const context = makeFakeContext(
-      Observable.of({
-        id: identifier.id,
-        mediaType: 'video',
-        status: 'processed',
-      }),
-    );
+    const state: ProcessedFileState = {
+      id: identifier.id,
+      mediaType: 'video',
+      status: 'processed',
+      mimeType: '',
+      name: '',
+      size: 1,
+      artifacts: {},
+    };
+    const context = makeFakeContext(Observable.of(state));
     const { el } = mountComponent(context, identifier);
     el.update();
     expect(el.find(VideoViewer)).toHaveLength(1);
@@ -345,7 +331,7 @@ describe('<ItemViewer />', () => {
       el.setProps({ context, identifier: identifier2 });
       el.update();
 
-      expect(el.instance().state.item.status).toEqual('PENDING');
+      expect(instance.state.item.status).toEqual('PENDING');
     });
   });
 
@@ -355,27 +341,6 @@ describe('<ItemViewer />', () => {
       packageName,
       packageVersion,
     };
-    it('should trigger the screen event when the preview commences', () => {
-      const context = makeFakeContext(
-        Observable.of({
-          id: identifier.id,
-          mediaType: 'unknown',
-          status: 'processed',
-        }),
-      );
-      const { createAnalyticsEventSpy } = mountBaseComponent(
-        context,
-        identifier,
-      );
-      expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
-        attributes: {
-          fileId: 'some-id',
-          ...analyticsBaseAttributes,
-        },
-        eventType: 'screen',
-        name: 'mediaViewerModal',
-      });
-    });
 
     it('should trigger analytics when the preview commences', () => {
       const context = makeFakeContext(
@@ -409,7 +374,7 @@ describe('<ItemViewer />', () => {
         context,
         identifier,
       );
-      expect(createAnalyticsEventSpy).toHaveBeenCalledTimes(3);
+      expect(createAnalyticsEventSpy).toHaveBeenCalledTimes(2);
       expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
         action: 'commenced',
         actionSubject: 'mediaFile',
@@ -421,7 +386,7 @@ describe('<ItemViewer />', () => {
         eventType: 'operational',
       });
       expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
-        action: 'loaded',
+        action: 'loadFailed',
         actionSubject: 'mediaFile',
         actionSubjectId: 'some-id',
         attributes: {
@@ -451,7 +416,7 @@ describe('<ItemViewer />', () => {
         identifier,
       );
       expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
-        action: 'loaded',
+        action: 'loadFailed',
         actionSubject: 'mediaFile',
         actionSubjectId: 'some-id',
         attributes: {
@@ -479,7 +444,7 @@ describe('<ItemViewer />', () => {
         identifier,
       );
       expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
-        action: 'loaded',
+        action: 'loadSucceeded',
         actionSubject: 'mediaFile',
         actionSubjectId: 'some-id',
         attributes: {

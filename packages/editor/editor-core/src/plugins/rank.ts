@@ -1,8 +1,10 @@
 export default {
   plugins: [
+    'compositionPlugin',
     'inlineCursorTargetPlugin',
     'focusHandlerPlugin',
     'submitEditor',
+    'newlinePreserveMarksPlugin',
     'imageUpload',
     'imageUploadInputRule',
     'paste',
@@ -23,6 +25,8 @@ export default {
     'typeAhead',
     'typeAheadKeymap',
     'typeAheadInputRule',
+    // This should be always after `typeAheadKeymap` & `emojiKeymap`
+    'indentationKeymap',
     'lists',
     'textColor',
     'alignmentPlugin',
@@ -50,6 +54,7 @@ export default {
     'tableColResizing',
     'blockTypeKeyMap',
     'tableEditing',
+    'filterStepsPlugin',
     'pmCollab',
     'collab',
     'ruleInputRule',
@@ -140,5 +145,7 @@ export default {
     // Block marks
     'alignment',
     'breakout',
+    'indentation',
+    'annotation',
   ],
 };

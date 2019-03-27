@@ -50,8 +50,14 @@ import {
 import performanceNow from '../../util/performance-now';
 import AdvancedIssueSearchLink from './AdvancedIssueSearchLink';
 
+const JIRA_RESULT_LIMIT = 6;
+
 const NoResultsAdvancedSearchContainer = styled.div`
   margin-top: ${4 * gridSize()}px;
+`;
+
+const BeforePreQueryStateContainer = styled.div`
+  margin-top: ${gridSize()}px;
 `;
 
 export interface Props {
@@ -61,7 +67,9 @@ export interface Props {
   jiraClient: JiraClient;
   peopleSearchClient: PeopleSearchClient;
   crossProductSearchClient: CrossProductSearchClient;
+  disableJiraPreQueryPeopleSearch?: boolean;
   logger: Logger;
+  isSendSearchTermsEnabled?: boolean;
 }
 
 const contentTypeToSection = {
@@ -100,9 +108,6 @@ export class JiraQuickSearchContainer extends React.Component<
     const query = target.value;
     redirectToJiraAdvancedSearch(this.state.selectedAdvancedSearchType, query);
   };
-
-  onAdvancedSearchChange = entityType =>
-    this.setState({ selectedAdvancedSearchType: entityType });
 
   getSearchResultsComponent = ({
     retrySearch,
@@ -144,11 +149,14 @@ export class JiraQuickSearchContainer extends React.Component<
               query={query}
               showKeyboardLozenge={!isPreQuery && !keepPreQueryState}
               showSearchIcon
-              onAdvancedSearchChange={this.onAdvancedSearchChange}
             />
           </StickyFooter>
         )}
-        renderBeforePreQueryState={() => <AdvancedIssueSearchLink />}
+        renderBeforePreQueryState={() => (
+          <BeforePreQueryStateContainer>
+            <AdvancedIssueSearchLink />
+          </BeforePreQueryStateContainer>
+        )}
         getPreQueryGroups={() => mapRecentResultsToUIGroups(recentItems)}
         getPostQueryGroups={() =>
           mapSearchResultsToUIGroups(searchResults as JiraResultsMap)
@@ -159,39 +167,47 @@ export class JiraQuickSearchContainer extends React.Component<
   };
 
   getRecentlyInteractedPeople = (): Promise<Result[]> => {
-    const peoplePromise: Promise<
-      Result[]
-    > = this.props.peopleSearchClient.getRecentPeople();
-    return handlePromiseError<Result[]>(peoplePromise, [] as Result[], error =>
-      this.props.logger.safeError(
-        LOGGER_NAME,
-        'error in recently interacted people promise',
-        error,
-      ),
-    ) as Promise<Result[]>;
+    /*
+      the following code is temporarily feature flagged for performance reasons and will be shortly reinstated.
+      https://product-fabric.atlassian.net/browse/QS-459
+    */
+    if (this.props.disableJiraPreQueryPeopleSearch) {
+      return Promise.resolve([]);
+    } else {
+      const peoplePromise: Promise<
+        Result[]
+      > = this.props.peopleSearchClient.getRecentPeople();
+      return handlePromiseError<Result[]>(
+        peoplePromise,
+        [] as Result[],
+        error =>
+          this.props.logger.safeError(
+            LOGGER_NAME,
+            'error in recently interacted people promise',
+            error,
+          ),
+      ) as Promise<Result[]>;
+    }
   };
 
   getJiraRecentItems = (sessionId: string): Promise<GenericResultMap> => {
     const jiraRecentItemsPromise = this.props.jiraClient
       .getRecentItems(sessionId)
       .then(items =>
-        items.reduce(
-          (acc: { [key: string]: JiraResult[] }, item: JiraResult) => {
-            if (item.contentType) {
-              const section = contentTypeToSection[item.contentType];
-              acc[section] = ([] as JiraResult[]).concat(
-                acc[section] || [],
-                item,
-              );
-            }
-            return acc;
-          },
-          {} as GenericResultMap,
-        ),
+        items.reduce<GenericResultMap<JiraResult>>((acc, item) => {
+          if (item.contentType) {
+            const section = contentTypeToSection[item.contentType];
+            acc[section] = ([] as JiraResult[]).concat(
+              acc[section] || [],
+              item,
+            );
+          }
+          return acc;
+        }, {}),
       )
       .then(({ issues = [], boards = [], projects = [], filters = [] }) => ({
         objects: issues,
-        containers: [...boards, ...filters, ...projects],
+        containers: [...boards, ...projects, ...filters],
       }));
 
     return handlePromiseError(
@@ -216,16 +232,24 @@ export class JiraQuickSearchContainer extends React.Component<
   };
 
   canSearchUsers = (): Promise<boolean> => {
-    return handlePromiseError(
-      this.props.jiraClient.canSearchUsers(),
-      false,
-      error =>
-        this.props.logger.safeError(
-          LOGGER_NAME,
-          'error fetching browse user permission',
-          error,
-        ),
-    );
+    /*
+      the following code is temporarily feature flagged for performance reasons and will be shortly reinstated.
+      https://product-fabric.atlassian.net/browse/QS-459
+    */
+    if (this.props.disableJiraPreQueryPeopleSearch) {
+      return Promise.resolve(false);
+    } else {
+      return handlePromiseError(
+        this.props.jiraClient.canSearchUsers(),
+        false,
+        error =>
+          this.props.logger.safeError(
+            LOGGER_NAME,
+            'error fetching browse user permission',
+            error,
+          ),
+      );
+    }
   };
 
   getRecentItems = (sessionId: string): Promise<ResultsWithTiming> => {
@@ -252,18 +276,10 @@ export class JiraQuickSearchContainer extends React.Component<
       query,
       { sessionId, referrerId },
       scopes,
+      JIRA_RESULT_LIMIT,
     );
 
-    const searchPeoplePromise = handlePromiseError(
-      this.props.peopleSearchClient.search(query),
-      [] as Result[],
-      error =>
-        this.props.logger.safeError(
-          LOGGER_NAME,
-          'error in search people promise',
-          error,
-        ),
-    );
+    const searchPeoplePromise = Promise.resolve([] as Result[]);
 
     const mapPromiseToPerformanceTime = (p: Promise<any>) =>
       p.then(() => performanceNow() - startTime);
@@ -328,7 +344,12 @@ export class JiraQuickSearchContainer extends React.Component<
   }
 
   render() {
-    const { linkComponent, createAnalyticsEvent, logger } = this.props;
+    const {
+      linkComponent,
+      createAnalyticsEvent,
+      isSendSearchTermsEnabled,
+      logger,
+    } = this.props;
     const { selectedResultId } = this.state;
 
     return (
@@ -349,6 +370,7 @@ export class JiraQuickSearchContainer extends React.Component<
         onSelectedResultIdChanged={newId =>
           this.handleSelectedResultIdChanged(newId)
         }
+        isSendSearchTermsEnabled={isSendSearchTermsEnabled}
       />
     );
   }

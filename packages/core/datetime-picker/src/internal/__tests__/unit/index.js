@@ -1,9 +1,11 @@
 // @flow
 
 import moment from 'moment';
-import { mount } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import React from 'react';
 import { parse, format } from 'date-fns';
+import Select from '@atlaskit/select';
+
 import { TimePickerWithoutAnalytics as TimePicker } from '../../../components/TimePicker';
 import { DatePickerWithoutAnalytics as DatePicker } from '../../../components/DatePicker';
 import { DateTimePickerWithoutAnalytics as DateTimePicker } from '../../../components/DateTimePicker';
@@ -16,6 +18,8 @@ import {
   parseDateIntoStateValues,
 } from '../..';
 
+import { isValid, removeSpacer, convertTo24hrTime } from '../../parseTime';
+
 test('ClearIndicator', () => {
   expect(ClearIndicator).toBe(null);
 });
@@ -25,16 +29,16 @@ test('defaultTimes', () => {
 });
 
 test('DropdownIndicator', () => {
+  const Icon = () => <i>V</i>;
+
   expect(mount(<DropdownIndicator selectProps={{}} />)).toMatchSnapshot();
   expect(
-    mount(
-      <DropdownIndicator selectProps={{ dropdownIndicatorIcon: 'asdf' }} />,
-    ),
+    mount(<DropdownIndicator selectProps={{ dropdownIndicatorIcon: Icon }} />),
   ).toMatchSnapshot();
 });
 
-// Convert our test values to the local timezone and use those as expected values so that
-// test results don't rely on a specific timezone
+// Convert our test values to the local timezone and use those as expected values
+//  so that test results don't rely on a specific timezone.
 const testISODate = parse('2018-04-12T09:30+1000');
 const testValue = format(testISODate);
 const testDateValue = format(testISODate, 'YYYY-MM-DD');
@@ -78,23 +82,6 @@ test('parseDateIntoStateValues', () => {
   });
 });
 
-test('TimePicker invalid times should be cleared', () => {
-  const timePickerWrapper = mount(
-    <TimePicker id="timepicker-1" timeIsEditable />,
-  );
-  // Simulate user entering invalid date
-  timePickerWrapper
-    .find('Control Input')
-    .simulate('focus')
-    .simulate('keydown', { key: 'a' })
-    .simulate('keydown', { key: 's' })
-    .simulate('keydown', { key: 'd' })
-    .simulate('keydown', { key: 'Enter' })
-    .simulate('blur');
-
-  expect(timePickerWrapper.state().value).toEqual('');
-});
-
 test('DatePicker default parseInputValue parses valid dates to the expected value', () => {
   const onChangeSpy = jest.fn();
   const expectedResult = '2018-01-02';
@@ -106,6 +93,8 @@ test('DatePicker default parseInputValue parses valid dates to the expected valu
   );
 
   datePickerWrapper.instance().onSelectInput({ target: { value: '01/02/18' } });
+  datePickerWrapper.first('input').simulate('keyDown', { key: 'Enter' });
+
   expect(onChangeSpy).toBeCalledWith(expectedResult);
 });
 
@@ -122,12 +111,30 @@ test('DatePicker, supplying a custom parseInputValue prop, produces the expected
   );
 
   datePickerWrapper.instance().onSelectInput({ target: { value: 'asdf' } });
+  datePickerWrapper.first('input').simulate('keyDown', { key: 'Enter' });
+
   expect(onChangeSpy).toBeCalledWith(expectedResult);
+});
+
+test('DatePicker, focused calendar date is reset on open', () => {
+  const value = '1970-01-01';
+  const datePickerWrapper = shallow(<DatePicker value={value} />);
+
+  datePickerWrapper.find(Select).simulate('focus');
+
+  expect(datePickerWrapper.state('view')).toEqual(value);
+
+  const nextValue = '1990-02-02';
+  datePickerWrapper.setProps({ value: nextValue });
+
+  datePickerWrapper.find(Select).simulate('focus');
+
+  expect(datePickerWrapper.state('view')).toEqual(nextValue);
 });
 
 test('TimePicker default parseInputValue', () => {
   const onChangeSpy = jest.fn();
-  const expectedResult = '01:30';
+  const expectedResult = '01:30am';
   const timePickerWrapper = mount(
     <TimePicker timeIsEditable onChange={onChangeSpy} />,
   );
@@ -141,7 +148,7 @@ test('TimePicker custom parseInputValue', () => {
     return new Date('1970-01-02 01:15:00');
   };
   const onChangeSpy = jest.fn();
-  const expectedResult = '01:15';
+  const expectedResult = '01:15am';
   const timePickerWrapper = mount(
     <TimePicker
       timeIsEditable
@@ -244,4 +251,48 @@ test('DatePicker, onCalendarChange if the iso date is greater than the last day 
   datePickerWrapper.instance().onCalendarChange({ iso: date });
   datePickerWrapper.update();
   expect(datePickerWrapper.instance().state.view).toEqual(fallbackDate);
+});
+
+// ParseTime
+const correctTimes = [
+  '12:45am',
+  '12:45pm',
+  '1:13pm',
+  '1',
+  '113pm',
+  '01',
+  '0113',
+  '01pm',
+];
+
+const incorrectTimes = ['watermelon', '34675y83u4534ui59', '1111111'];
+
+const convertedTimes = [
+  { hour: 0, minute: 45 },
+  { hour: 12, minute: 45 },
+  { hour: 13, minute: 13 },
+  { hour: 1, minute: 0 },
+  { hour: 13, minute: 13 },
+  { hour: 1, minute: 0 },
+  { hour: 1, minute: 13 },
+  { hour: 13, minute: 0 },
+];
+
+test('"isValid" - accept valid times.', () => {
+  correctTimes.forEach(time => {
+    expect(isValid(time)).toEqual(true);
+  });
+});
+
+test('"isValid" - reject invalid times.', () => {
+  incorrectTimes.forEach(time => {
+    expect(isValid(time)).toEqual(false);
+  });
+});
+
+test('"convertTo24hrTime" - takes a time and returns an object with parsed 24hr times', () => {
+  correctTimes.forEach((time, i) => {
+    const tester = removeSpacer(time);
+    expect(convertTo24hrTime(tester)).toEqual(convertedTimes[i]);
+  });
 });

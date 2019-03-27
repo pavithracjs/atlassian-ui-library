@@ -1,5 +1,312 @@
 # @atlaskit/renderer
 
+## 38.0.4
+- [patch] [fb61c590cf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fb61c590cf):
+
+  - ED-6173: stop renderer from sending useInlinePlayer to mediaGroup
+
+## 38.0.3
+- [patch] [a1ad76375d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1ad76375d):
+
+  - ED-6123: scale down table columns by 15if table is bigger than renderer width
+
+## 38.0.2
+- [patch] [557a2b5734](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/557a2b5734):
+
+  - ED-5788: bump prosemirror-view and prosemirror-model
+
+## 38.0.1
+- [patch] [fab72e17b1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fab72e17b1):
+
+  - ED-6122: Handle TinyMCE migrated tables, where total table width is less than defined layout
+
+## 38.0.0
+- Updated dependencies [69c8d0c19c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c8d0c19c):
+  - @atlaskit/editor-common@31.0.0
+  - @atlaskit/editor-test-helpers@6.3.17
+  - @atlaskit/media-card@52.0.0
+  - @atlaskit/media-filmstrip@26.0.0
+  - @atlaskit/media-test-helpers@20.1.0
+  - @atlaskit/editor-json-transformer@4.1.8
+  - @atlaskit/task-decision@11.1.8
+  - @atlaskit/util-data-test@10.0.36
+  - @atlaskit/media-core@27.0.0
+
+## 37.0.3
+- [patch] [e2eca7e6d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e2eca7e6d5):
+
+  - ED-6111: fixed renderer rendering unsupported content with some ADF
+
+## 37.0.2
+- Updated dependencies [07a187bb30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/07a187bb30):
+  - @atlaskit/editor-test-helpers@6.3.14
+  - @atlaskit/media-card@51.0.2
+  - @atlaskit/media-core@26.2.1
+  - @atlaskit/media-filmstrip@25.0.2
+  - @atlaskit/media-test-helpers@20.0.0
+
+## 37.0.1
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/docs@6.0.1
+  - @atlaskit/button@10.1.2
+  - @atlaskit/navigation-next@4.1.2
+  - @atlaskit/editor-common@30.0.1
+  - @atlaskit/editor-test-helpers@6.3.13
+  - @atlaskit/mention@16.0.1
+  - @atlaskit/status@0.3.2
+  - @atlaskit/task-decision@11.1.7
+  - @atlaskit/media-card@51.0.1
+  - @atlaskit/media-filmstrip@25.0.1
+  - @atlaskit/media-test-helpers@19.1.1
+  - @atlaskit/smart-card@9.4.1
+  - @atlaskit/profilecard@6.1.5
+  - @atlaskit/field-range@5.0.14
+  - @atlaskit/icon@16.0.0
+
+## 37.0.0
+- [minor] [b1627a5837](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b1627a5837):
+
+  - Enable inline video player in Editor and Renderer
+- Updated dependencies [85d5d168fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85d5d168fd):
+  - @atlaskit/editor-common@30.0.0
+  - @atlaskit/media-card@51.0.0
+  - @atlaskit/media-filmstrip@25.0.0
+  - @atlaskit/editor-json-transformer@4.1.7
+  - @atlaskit/editor-test-helpers@6.3.12
+  - @atlaskit/task-decision@11.1.6
+  - @atlaskit/util-data-test@10.0.34
+  - @atlaskit/media-test-helpers@19.1.0
+  - @atlaskit/media-core@26.2.0
+
+## 36.0.0
+- Updated dependencies [dadef80](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dadef80):
+- Updated dependencies [3ad16f3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3ad16f3):
+  - @atlaskit/editor-common@29.0.0
+  - @atlaskit/media-card@50.0.0
+  - @atlaskit/media-filmstrip@24.0.0
+  - @atlaskit/editor-json-transformer@4.1.6
+  - @atlaskit/editor-test-helpers@6.3.11
+  - @atlaskit/task-decision@11.1.5
+  - @atlaskit/util-data-test@10.0.33
+  - @atlaskit/media-test-helpers@19.0.0
+  - @atlaskit/media-core@26.1.0
+
+## 35.1.0
+- [minor] [be6313e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/be6313e):
+
+  - ED-5477 Support rendering of inline code together with other marks
+
+## 35.0.5
+- [patch] [c5ee0c8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c5ee0c8):
+
+  - Added Annotation mark to ADF, editor & renderer
+
+## 35.0.4
+- [patch] [dfdfaf2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfdfaf2):
+
+  - ED-5493 Fix Media Cards bigger in renderer than editor
+
+## 35.0.3
+- [patch] [48abc90](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/48abc90):
+
+  - Fixed date border radius in renderer
+
+## 35.0.2
+- [patch] [609d32d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/609d32d):
+
+  - ED-5966 Fix issue where renderer incorrectly displayed numbered tables without headers
+
+## 35.0.1
+- Updated dependencies [0c116d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c116d6):
+  - @atlaskit/editor-json-transformer@4.1.5
+  - @atlaskit/editor-test-helpers@6.3.8
+  - @atlaskit/editor-common@28.0.2
+  - @atlaskit/util-data-test@10.0.32
+  - @atlaskit/mention@16.0.0
+
+## 35.0.0
+- Updated dependencies [cbb8cb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cbb8cb5):
+  - @atlaskit/editor-common@28.0.0
+  - @atlaskit/editor-test-helpers@6.3.7
+  - @atlaskit/media-card@49.0.0
+  - @atlaskit/media-filmstrip@23.0.0
+  - @atlaskit/media-test-helpers@18.9.1
+  - @atlaskit/editor-json-transformer@4.1.4
+  - @atlaskit/task-decision@11.1.4
+  - @atlaskit/util-data-test@10.0.31
+  - @atlaskit/media-core@26.0.0
+
+## 34.0.0
+- Updated dependencies [72d37fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72d37fb):
+  - @atlaskit/editor-common@27.0.0
+  - @atlaskit/editor-test-helpers@6.3.6
+  - @atlaskit/media-card@48.0.0
+  - @atlaskit/media-filmstrip@22.0.0
+  - @atlaskit/editor-json-transformer@4.1.3
+  - @atlaskit/task-decision@11.1.3
+  - @atlaskit/util-data-test@10.0.30
+  - @atlaskit/media-core@25.0.0
+  - @atlaskit/media-test-helpers@18.9.0
+
+## 33.0.7
+- [patch] [8db5ddc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8db5ddc):
+
+  - ED-6002 Fixes overflowed layout column rendering in renderer
+
+## 33.0.6
+- [patch] [38f3592](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/38f3592):
+
+  - ED-5990 Fixes logic for merging marks
+
+## 33.0.5
+- [patch] [f112576](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f112576):
+
+  - ED-6001: fix react error "Maximum update depth exceeded" in renderer
+
+## 33.0.4
+- Updated dependencies [e858305](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e858305):
+  - @atlaskit/editor-json-transformer@4.1.2
+  - @atlaskit/editor-test-helpers@6.3.5
+  - @atlaskit/task-decision@11.1.2
+  - @atlaskit/editor-common@26.0.0
+
+## 33.0.3
+- Updated dependencies [00c648e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/00c648e):
+- Updated dependencies [a17bb0e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a17bb0e):
+- Updated dependencies [99f08a0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/99f08a0):
+  - @atlaskit/status@0.3.0
+
+## 33.0.2
+- [patch] [40510b0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/40510b0):
+
+  - Add panel type to fix copy-paste
+
+## 33.0.1
+- Updated dependencies [135ed00](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/135ed00):
+  - @atlaskit/editor-common@25.0.3
+  - @atlaskit/media-core@24.7.2
+  - @atlaskit/media-filmstrip@21.0.2
+  - @atlaskit/media-test-helpers@18.7.2
+  - @atlaskit/media-card@47.0.0
+
+## 33.0.0
+- Updated dependencies [b3738ea](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b3738ea):
+  - @atlaskit/editor-common@25.0.0
+  - @atlaskit/media-card@46.0.0
+  - @atlaskit/media-filmstrip@21.0.0
+  - @atlaskit/editor-json-transformer@4.1.1
+  - @atlaskit/editor-test-helpers@6.3.4
+  - @atlaskit/task-decision@11.1.1
+  - @atlaskit/util-data-test@10.0.28
+  - @atlaskit/media-test-helpers@18.7.0
+  - @atlaskit/media-core@24.7.0
+
+## 32.2.0
+- [minor] [b9f8a8f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b9f8a8f):
+
+  - Adding alignment options to media
+
+## 32.1.2
+- [patch] [95f98cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/95f98cc):
+
+  - User can click on a smart card to open a new window/tab
+
+## 32.1.1
+- [patch] [d9815ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d9815ba):
+
+  - ED-5888 Add dark mode for task-decision
+
+## 32.1.0
+- [minor] [1205725](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1205725):
+
+  - Move schema to its own package
+
+## 32.0.0
+- [patch] [8ae67fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ae67fc):
+
+  - Use stretchy-fit resizeMode for media card components instead of full-fit or undefined values;
+- Updated dependencies [80f765b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80f765b):
+  - @atlaskit/editor-common@23.0.0
+  - @atlaskit/media-card@45.0.0
+  - @atlaskit/media-filmstrip@20.0.0
+  - @atlaskit/editor-json-transformer@4.0.25
+  - @atlaskit/editor-test-helpers@6.3.2
+  - @atlaskit/task-decision@11.0.9
+  - @atlaskit/util-data-test@10.0.26
+  - @atlaskit/media-test-helpers@18.6.2
+  - @atlaskit/media-core@24.6.0
+
+## 31.1.4
+- [patch] [d3f3e19](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3f3e19):
+
+  - restored StatusContainer to editor-core, avoid re-rendering on event handlers, removed unused props in the renderer
+- [patch] [44cc61d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/44cc61d):
+
+  - added native status analytics
+
+## 31.1.3
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/button@10.1.1
+  - @atlaskit/code@8.2.2
+  - @atlaskit/field-range@5.0.12
+  - @atlaskit/icon@15.0.2
+  - @atlaskit/navigation-next@4.0.9
+  - @atlaskit/size-detector@5.0.9
+  - @atlaskit/theme@7.0.1
+  - @atlaskit/editor-json-transformer@4.0.24
+  - @atlaskit/analytics-listeners@4.1.4
+  - @atlaskit/analytics-namespaced-context@2.1.5
+  - @atlaskit/mention@15.1.8
+  - @atlaskit/status@0.2.10
+  - @atlaskit/task-decision@11.0.8
+  - @atlaskit/util-data-test@10.0.25
+  - @atlaskit/media-card@44.1.3
+  - @atlaskit/media-core@24.5.2
+  - @atlaskit/media-filmstrip@19.0.3
+  - @atlaskit/smart-card@9.0.4
+  - @atlaskit/profilecard@6.1.2
+  - @atlaskit/docs@6.0.0
+
+## 31.1.2
+- [patch] [0623610](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0623610):
+
+  - Display media singles with video inside as inline video player
+
+## 31.1.1
+- [patch] [232238c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/232238c):
+
+  - ED-5866: Turn off lazy loading for images on mobile.
+
+## 31.1.0
+- [minor] [a1b03d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1b03d0):
+
+  - ED-3890 Adds Indentation support on paragraphs and headings
+
+## 31.0.7
+- Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+  - @atlaskit/docs@5.2.3
+  - @atlaskit/button@10.0.4
+  - @atlaskit/code@8.2.1
+  - @atlaskit/field-range@5.0.11
+  - @atlaskit/icon@15.0.1
+  - @atlaskit/editor-common@22.2.3
+  - @atlaskit/mention@15.1.7
+  - @atlaskit/status@0.2.8
+  - @atlaskit/task-decision@11.0.7
+  - @atlaskit/smart-card@9.0.2
+  - @atlaskit/profilecard@6.1.1
+  - @atlaskit/theme@7.0.0
+
+## 31.0.6
+- [patch] [3061b52](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3061b52):
+
+  - AK-5723 - adjust files in package.json to ensure correct publishing of dist/package.json
+
+## 31.0.5
+- [patch] [4c0c2a0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c0c2a0):
+
+  - Fix Cards throwing Error when client is not provided.
+
 ## 31.0.4
 - Updated dependencies [df32968](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/df32968):
   - @atlaskit/editor-test-helpers@6.2.22

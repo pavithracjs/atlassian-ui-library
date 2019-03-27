@@ -1,5 +1,48 @@
 # @atlaskit/onboarding
 
+## 6.1.17
+- [patch] [d669123bbd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d669123bbd):
+
+  - Enable auto focus by rendering components only after the portal has been attached to DOM.
+- Updated dependencies [27cacd44ab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/27cacd44ab):
+  - @atlaskit/modal-dialog@7.2.2
+  - @atlaskit/portal@0.1.0
+
+## 6.1.16
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/docs@6.0.1
+  - @atlaskit/button@10.1.2
+  - @atlaskit/modal-dialog@7.2.1
+  - @atlaskit/portal@0.0.18
+  - @atlaskit/icon@16.0.0
+
+## 6.1.15
+- [patch] [6855bec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6855bec):
+
+  - Updated internal use of ModalDialog to use new composition API
+
+## 6.1.14
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/analytics-next@3.1.2
+  - @atlaskit/button@10.1.1
+  - @atlaskit/icon@15.0.2
+  - @atlaskit/modal-dialog@7.1.1
+  - @atlaskit/popper@0.3.6
+  - @atlaskit/portal@0.0.17
+  - @atlaskit/progress-indicator@5.0.11
+  - @atlaskit/theme@7.0.1
+  - @atlaskit/docs@6.0.0
+
+## 6.1.13
+- [patch] [e59562a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e59562a):
+
+  - Fix for visual bug in SpotlightCard component
+
+## 6.1.12
+- [patch] [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+
+  - Change API to experimental theming API to namespace component themes into separate contexts and make theming simpler. Update all dependant components.
+
 ## 6.1.11
 - Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
   - @atlaskit/docs@5.2.2

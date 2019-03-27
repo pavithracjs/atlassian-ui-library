@@ -1,45 +1,45 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import { PureComponent, SyntheticEvent } from 'react';
+import { FireAnalyticsEvent } from '@atlaskit/analytics';
 import * as classNames from 'classnames';
-
-import * as styles from './styles';
-
-import {
-  customCategory,
-  frequentCategory,
-  analyticsEmojiPrefix,
-} from '../../constants';
-import {
-  EmojiDescription,
-  OptionalEmojiDescription,
-  OptionalEmojiDescriptionWithVariations,
-  EmojiId,
-  EmojiSearchResult,
-  EmojiUpload,
-  OnEmojiEvent,
-  SearchOptions,
-  ToneSelection,
-} from '../../types';
-import {
-  containsEmojiId,
-  isPromise /*, isEmojiIdEqual, isEmojiLoaded*/,
-} from '../../type-helpers';
-import { SearchSort } from '../../types';
-import { getToneEmoji } from '../../util/filters';
-import { EmojiContext } from '../common/internal-types';
-import { createRecordSelectionDefault } from '../common/RecordSelectionDefault';
-import CategorySelector from './CategorySelector';
-import EmojiPickerList from './EmojiPickerList';
-import EmojiPickerFooter from './EmojiPickerFooter';
+import * as PropTypes from 'prop-types';
+import * as React from 'react';
+import { PureComponent, SyntheticEvent } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { getEmojiVariation } from '../../api/EmojiRepository';
 import {
   EmojiProvider,
   OnEmojiProviderChange,
   supportsUploadFeature,
 } from '../../api/EmojiResource';
-import { getEmojiVariation } from '../../api/EmojiRepository';
-import { FireAnalyticsEvent } from '@atlaskit/analytics';
+import {
+  analyticsEmojiPrefix,
+  customCategory,
+  frequentCategory,
+} from '../../constants';
+import {
+  containsEmojiId,
+  isPromise /*, isEmojiIdEqual, isEmojiLoaded*/,
+} from '../../type-helpers';
+import {
+  EmojiDescription,
+  EmojiId,
+  EmojiSearchResult,
+  EmojiUpload,
+  OnEmojiEvent,
+  OptionalEmojiDescription,
+  OptionalEmojiDescriptionWithVariations,
+  SearchOptions,
+  SearchSort,
+  ToneSelection,
+} from '../../types';
+import { getToneEmoji } from '../../util/filters';
+import { EmojiContext } from '../common/internal-types';
+import { uploadEmoji } from '../common/UploadEmoji';
+import { createRecordSelectionDefault } from '../common/RecordSelectionDefault';
 import { CategoryId } from './categories';
+import CategorySelector from './CategorySelector';
+import EmojiPickerFooter from './EmojiPickerFooter';
+import EmojiPickerList from './EmojiPickerList';
+import * as styles from './styles';
 
 const FREQUENTLY_USED_MAX = 16;
 
@@ -69,7 +69,7 @@ export interface State {
   selectedTone?: ToneSelection;
   toneEmoji?: OptionalEmojiDescriptionWithVariations;
   query: string;
-  uploadErrorMessage?: string;
+  uploadErrorMessage?: FormattedMessage.MessageDescriptor;
   uploadSupported: boolean;
   uploading: boolean;
   emojiToDelete?: EmojiDescription;
@@ -174,7 +174,7 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
     }
   }
 
-  onEmojiActive = (emojiId: EmojiId, emoji: EmojiDescription) => {
+  onEmojiActive = (emojiId: EmojiId, emoji?: EmojiDescription) => {
     if (this.state.selectedEmoji !== emoji) {
       this.setState({
         selectedEmoji: emoji,
@@ -187,7 +187,7 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
     }
   };
 
-  onCategoryActivated = (category: CategoryId) => {
+  onCategoryActivated = (category: CategoryId | null) => {
     if (this.state.activeCategory !== category) {
       this.setState({
         activeCategory: category,
@@ -195,8 +195,13 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
     }
   };
 
-  onCategorySelected = (categoryId: CategoryId) => {
+  onCategorySelected = (categoryId: CategoryId | null) => {
     const { emojiProvider } = this.props;
+
+    if (!categoryId) {
+      return;
+    }
+
     emojiProvider.findInCategory(categoryId).then(emojisInCategory => {
       const { disableCategories } = this.state;
       if (!disableCategories) {
@@ -433,37 +438,28 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
 
   private onUploadEmoji = (upload: EmojiUpload) => {
     const { emojiProvider } = this.props;
-    this.setState({
-      uploadErrorMessage: undefined, // clear previous errors
-    });
     this.fireAnalytics('upload.start');
-    if (supportsUploadFeature(emojiProvider)) {
-      emojiProvider
-        .uploadCustomEmoji(upload)
-        .then(emojiDescription => {
-          this.setState({
-            activeCategory: customCategory,
-            selectedEmoji: emojiDescription,
-            uploading: false,
-          });
-          // this.loadEmoji(emojiProvider, emojiDescription);
-          this.scrollToEndOfList();
-          this.fireAnalytics('upload.successful', {
-            duration: this.calculateElapsedTime(),
-          });
-        })
-        .catch(err => {
-          this.setState({
-            uploadErrorMessage: 'Upload failed',
-          });
-          // tslint:disable-next-line
-          console.error('Unable to upload emoji', err);
-          this.fireAnalytics('upload.failed');
-        });
-    }
+    const errorSetter = message =>
+      this.setState({
+        uploadErrorMessage: message,
+      });
+    const onSuccess = emojiDescription => {
+      this.setState({
+        activeCategory: customCategory,
+        selectedEmoji: emojiDescription,
+        uploading: false,
+      });
+      // this.loadEmoji(emojiProvider, emojiDescription);
+      this.scrollToEndOfList();
+      this.fireAnalytics('upload.successful', {
+        duration: this.calculateElapsedTime(),
+      });
+    };
+    const onFailure = () => this.fireAnalytics('upload.failed');
+    uploadEmoji(upload, emojiProvider, errorSetter, onSuccess, onFailure);
   };
 
-  private onTriggerDelete = (emojiId: EmojiId, emoji: EmojiDescription) => {
+  private onTriggerDelete = (emojiId: EmojiId, emoji?: EmojiDescription) => {
     this.setState({ emojiToDelete: emoji });
   };
 
@@ -557,6 +553,10 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
       this.onSelectWrapper,
     );
 
+    const formattedErrorMessage = uploadErrorMessage ? (
+      <FormattedMessage {...uploadErrorMessage} />
+    ) : null;
+
     const classes = [styles.emojiPicker];
 
     const picker = (
@@ -594,7 +594,7 @@ export default class EmojiPickerComponent extends PureComponent<Props, State> {
           toneEmoji={toneEmoji}
           uploading={uploading}
           emojiToDelete={emojiToDelete}
-          uploadErrorMessage={uploadErrorMessage}
+          uploadErrorMessage={formattedErrorMessage}
           uploadEnabled={uploadSupported && showUploadButton && !uploading}
           onUploadEmoji={this.onUploadEmoji}
           onUploadCancelled={this.onUploadCancelled}

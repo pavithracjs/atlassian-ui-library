@@ -10,15 +10,15 @@ exports[`DropdownIndicator 2`] = `
 <DropdownIndicator
   selectProps={
     Object {
-      "dropdownIndicatorIcon": "asdf",
+      "dropdownIndicatorIcon": [Function],
     }
   }
 >
-  <span
-    role="img"
-  >
-    <asdf />
-  </span>
+  <Icon>
+    <i>
+      V
+    </i>
+  </Icon>
 </DropdownIndicator>
 `;
 

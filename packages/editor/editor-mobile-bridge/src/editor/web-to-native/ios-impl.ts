@@ -1,5 +1,7 @@
-import NativeBridge from './bridge';
 import { Color as StatusColor } from '@atlaskit/status';
+import { EditorBridges, EditorPluginBridges } from './index';
+import NativeBridge from './bridge';
+import { sendToBridge } from '../../bridge-utils';
 
 export default class IosBridge implements NativeBridge {
   showMentions(query: String) {
@@ -83,22 +85,39 @@ export default class IosBridge implements NativeBridge {
     }
   }
 
-  showStatusPicker(text: string, color: StatusColor, uuid: string) {
+  showStatusPicker(
+    text: string,
+    color: StatusColor,
+    uuid: string,
+    isNew: boolean,
+  ) {
     if (window.webkit && window.webkit.messageHandlers.statusBridge) {
       window.webkit.messageHandlers.statusBridge.postMessage({
         name: 'showStatusPicker',
         text,
         color,
         uuid,
+        isNew,
       });
     }
   }
 
-  dismissStatusPicker() {
+  dismissStatusPicker(isNew: boolean) {
     if (window.webkit && window.webkit.messageHandlers.statusBridge) {
       window.webkit.messageHandlers.statusBridge.postMessage({
         name: 'dismissStatusPicker',
+        isNew,
       });
     }
   }
+
+  call<T extends EditorPluginBridges>(
+    bridge: T,
+    event: keyof Exclude<EditorBridges[T], undefined>,
+    ...args
+  ) {
+    sendToBridge(bridge, event, ...args);
+  }
+
+  updateTextColor() {}
 }

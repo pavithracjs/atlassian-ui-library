@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { ReactElement, PureComponent } from 'react';
-import { CardEvent, Identifier, LinkIdentifier } from '@atlaskit/media-card';
+import {
+  CardEvent,
+  defaultImageCardDimensions,
+  Identifier,
+  LinkIdentifier,
+} from '@atlaskit/media-card';
 import { FilmstripView } from '@atlaskit/media-filmstrip';
 import { EventHandlers, CardSurroundings } from '@atlaskit/editor-common';
 import { MediaProps } from './media';
@@ -52,11 +57,9 @@ export default class MediaGroup extends PureComponent<
 
   renderSingleFile(child: ReactElement<MediaProps>) {
     return React.cloneElement(child, {
-      resizeMode: 'full-fit',
-      cardDimensions: {
-        width: '300px',
-        height: '200px',
-      },
+      resizeMode: 'stretchy-fit',
+      cardDimensions: defaultImageCardDimensions,
+      useInlinePlayer: false,
     } as MediaProps);
   }
 
@@ -71,7 +74,7 @@ export default class MediaGroup extends PureComponent<
     surroundingItems: Identifier[],
   ) {
     return React.cloneElement(child, {
-      resizeMode: 'full-fit',
+      useInlinePlayer: false,
       eventHandlers: {
         ...child.props.eventHandlers,
         media: {
@@ -102,10 +105,10 @@ export default class MediaGroup extends PureComponent<
   renderStrip() {
     const { children } = this.props;
     const { animate, offset } = this.state;
-    const surroundingItems = React.Children.map(
-      children,
-      (child: ReactElement<MediaProps>) =>
-        this.mapMediaPropsToIdentifier(child.props),
+    const surroundingItems = React.Children.map(children, child =>
+      this.mapMediaPropsToIdentifier(
+        (child as React.ReactElement<MediaProps>).props,
+      ),
     );
 
     return (
@@ -115,7 +118,8 @@ export default class MediaGroup extends PureComponent<
         onSize={this.handleSize}
         onScroll={this.handleScroll}
       >
-        {React.Children.map(children, (child: ReactElement<MediaProps>) => {
+        {React.Children.map(children, rawChild => {
+          const child = rawChild as React.ReactElement<MediaProps>;
           switch (child.props.type) {
             case 'file':
               return this.cloneFileCard(child, surroundingItems);

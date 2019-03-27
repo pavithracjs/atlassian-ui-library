@@ -1,5 +1,4 @@
-const fetch = require('node-fetch');
-
+const fetchUrl = require('node-fetch');
 const stats = require('../dist/stats.json');
 
 // These are the known splits in the repo that we can look for.
@@ -7,6 +6,7 @@ const stats = require('../dist/stats.json');
 const knownSplits = [
   '@atlaskit-internal_editor-core_picker-facade.js',
   '@atlaskit-internal_editor-core-async.js',
+  '@atlaskit-internal_smart-media-editor.js',
   '@atlaskit-internal_media-editor-view.js',
   '@atlaskit-internal_media-viewer-pdf-viewer.js',
 ];
@@ -35,7 +35,7 @@ sendAnalyticsEvents(events)
   });
 
 function sendAnalyticsEvents(events) {
-  return fetch('https://analytics.atlassian.com/analytics/events', {
+  return fetchUrl('https://analytics.atlassian.com/analytics/events', {
     method: 'POST',
     headers: {
       Accept: 'application/json, */*',

@@ -19,7 +19,6 @@ import {
   Path,
   SelectedItem,
   ServiceAccountLink,
-  ServiceAccountWithType,
   ServiceFile,
   ServiceFolder,
   ServiceFolderItem,
@@ -62,7 +61,6 @@ const getDateString = (timestamp?: number) => {
 
 export interface FolderViewerStateProps {
   readonly path: Path;
-  readonly accounts: ServiceAccountWithType[];
   readonly service: ServiceAccountLink;
   readonly items: ServiceFolderItem[];
   readonly selectedItems: SelectedItem[];
@@ -273,10 +271,14 @@ export class FolderViewer extends Component<FolderViewerProps, {}> {
   }
 }
 
-export default connect<FolderViewerStateProps, FolderViewDispatchProps, {}>(
-  ({ view, accounts, selectedItems }: State) => ({
+export default connect<
+  FolderViewerStateProps,
+  FolderViewDispatchProps,
+  {},
+  State
+>(
+  ({ view, selectedItems }) => ({
     path: view.path,
-    accounts,
     service: view.service,
     items: view.items,
     selectedItems,

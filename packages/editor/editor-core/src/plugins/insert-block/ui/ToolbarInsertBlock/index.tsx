@@ -18,6 +18,7 @@ import EditorMoreIcon from '@atlaskit/icon/glyph/editor/more';
 import LinkIcon from '@atlaskit/icon/glyph/editor/link';
 import EmojiIcon from '@atlaskit/icon/glyph/editor/emoji';
 import DateIcon from '@atlaskit/icon/glyph/editor/date';
+import StatusIcon from '@atlaskit/icon/glyph/status';
 import PlaceholderTextIcon from '@atlaskit/icon/glyph/media-services/text';
 import LayoutTwoEqualIcon from '@atlaskit/icon/glyph/editor/layout-two-equal';
 import HorizontalRuleIcon from '@atlaskit/icon/glyph/editor/horizontal-rule';
@@ -56,25 +57,16 @@ import { createHorizontalRule } from '../../../rule/pm-plugins/input-rule';
 import { TriggerWrapper } from './styles';
 import { insertLayoutColumns } from '../../../layout/actions';
 import { insertTaskDecision } from '../../../tasks-and-decisions/commands';
-import { Command } from '../../../../commands';
+import { Command } from '../../../../types';
 import { showLinkToolbar } from '../../../hyperlink/commands';
 import { insertMentionQuery } from '../../../mentions/commands/insert-mention-query';
+import { updateStatus } from '../../../status/actions';
 
 export const messages = defineMessages({
   action: {
     id: 'fabric.editor.action',
     defaultMessage: 'Action item',
     description: 'Also known as a “task”, “to do item”, or a checklist',
-  },
-  bulletList: {
-    id: 'fabric.editor.bulletList',
-    defaultMessage: 'Bullet list',
-    description: 'Also known as a “unordered list”',
-  },
-  orderedList: {
-    id: 'fabric.editor.orderedList',
-    defaultMessage: 'Ordered list',
-    description: 'Also known as a “numbered list”',
   },
   link: {
     id: 'fabric.editor.link',
@@ -131,6 +123,12 @@ export const messages = defineMessages({
     defaultMessage: 'Columns',
     description: 'Create a multi column section or layout',
   },
+  status: {
+    id: 'fabric.editor.status',
+    defaultMessage: 'Status',
+    description:
+      'Inserts an item representing the status of an activity to task.',
+  },
   viewMore: {
     id: 'fabric.editor.viewMore',
     defaultMessage: 'View more',
@@ -172,6 +170,7 @@ export interface Props {
   linkDisabled?: boolean;
   emojiDisabled?: boolean;
   insertEmoji?: (emojiId: EmojiId) => void;
+  nativeStatusSupported?: boolean;
   popupsMountPoint?: HTMLElement;
   popupsBoundariesElement?: HTMLElement;
   popupsScrollableElement?: HTMLElement;
@@ -405,6 +404,7 @@ class ToolbarInsertBlock extends React.PureComponent<
       linkDisabled,
       emojiDisabled,
       emojiProvider,
+      nativeStatusSupported,
       insertMenuItems,
       dateEnabled,
       placeholderTextEnabled,
@@ -555,6 +555,15 @@ class ToolbarInsertBlock extends React.PureComponent<
       });
     }
 
+    if (nativeStatusSupported) {
+      const labelStatus = formatMessage(messages.status);
+      items.push({
+        content: labelStatus,
+        value: { name: 'status' },
+        elemBefore: <StatusIcon label={labelStatus} />,
+      });
+    }
+
     if (insertMenuItems) {
       items = items.concat(insertMenuItems);
       // keeping this here for backwards compatibility so confluence
@@ -603,10 +612,7 @@ class ToolbarInsertBlock extends React.PureComponent<
     (): boolean => {
       const { editorView } = this.props;
       insertDate()(editorView.state, editorView.dispatch);
-      openDatePicker(editorView.domAtPos.bind(editorView))(
-        editorView.state,
-        editorView.dispatch,
-      );
+      openDatePicker()(editorView.state, editorView.dispatch);
       return true;
     },
   );
@@ -625,6 +631,15 @@ class ToolbarInsertBlock extends React.PureComponent<
     (): boolean => {
       const { editorView } = this.props;
       insertLayoutColumns(editorView.state, editorView.dispatch);
+      return true;
+    },
+  );
+
+  private createStatus = withAnalytics(
+    'atlassian.editor.format.status.button',
+    (): boolean => {
+      const { editorView } = this.props;
+      updateStatus()(editorView);
       return true;
     },
   );
@@ -757,6 +772,9 @@ class ToolbarInsertBlock extends React.PureComponent<
         break;
       case 'layout':
         this.insertLayoutColumns();
+        break;
+      case 'status':
+        this.createStatus();
         break;
       default:
         if (item && item.onClick) {

@@ -1,17 +1,20 @@
 import * as React from 'react';
-import { Component, CSSProperties } from 'react';
+import { Component } from 'react';
 import { Context } from '@atlaskit/media-core';
+import { Subscription } from 'rxjs/Subscription';
+import { CustomMediaPlayer } from '@atlaskit/media-ui';
 import { FileIdentifier } from './domain';
 import { InlinePlayerWrapper } from './styled';
 import { CardDimensions, defaultImageCardDimensions } from '..';
-import { Subscription } from 'rxjs/Subscription';
 import { CardLoading } from '../utils/cardLoading';
 
 export interface InlinePlayerProps {
   identifier: FileIdentifier;
   context: Context;
   dimensions: CardDimensions;
+  selected?: boolean;
   onError?: (error: Error) => void;
+  onClick?: () => void;
 }
 
 export interface InlinePlayerState {
@@ -40,10 +43,10 @@ export class InlinePlayer extends Component<
       .subscribe({
         next: async state => {
           if (state.status !== 'error' && state.preview) {
-            const { blob } = state.preview;
+            const { value } = await state.preview;
 
-            if (blob.type.indexOf('video/') === 0) {
-              const fileSrc = URL.createObjectURL(state.preview.blob);
+            if (value instanceof Blob && value.type.indexOf('video/') === 0) {
+              const fileSrc = URL.createObjectURL(value);
               this.setState({ fileSrc });
               window.setTimeout(this.unsubscribe, 0);
               return;
@@ -54,9 +57,12 @@ export class InlinePlayer extends Component<
             const { artifacts } = state;
 
             try {
+              const preferedArtifact = artifacts['video_1280.mp4']
+                ? 'video_1280.mp4'
+                : 'video_640.mp4';
               const fileSrc = await context.file.getArtifactURL(
                 artifacts,
-                'video_1280.mp4',
+                preferedArtifact,
                 collectionName,
               );
 
@@ -92,25 +98,39 @@ export class InlinePlayer extends Component<
     this.revoke();
   }
 
-  get style(): CSSProperties {
-    const { width, height } = this.props.dimensions;
+  private getStyle = (): React.CSSProperties => {
+    const { dimensions } = this.props;
+    // We are given dimensions. But we can’t just blindly apply them as width and height.
+    // Because editor is giving us “maximum” dimensions (equal to what it can go to if resized to 100%
+    // of available width). And the same time we don’t want to ignore these dimensions completely,
+    // because if consumer do not constraint width/height of container we still want to stick to given dimensions.
+    // Here we put width as a style. In combination with max-width: 100%; and max-height: 100%;
+    // it would give us required effect.
     return {
-      width,
-      height,
+      width: dimensions.width,
     };
-  }
+  };
 
   render() {
+    const { onClick, dimensions, selected } = this.props;
     const { fileSrc } = this.state;
 
     if (!fileSrc) {
-      const { dimensions } = this.props;
       return <CardLoading mediaItemType="file" dimensions={dimensions} />;
     }
 
     return (
-      <InlinePlayerWrapper style={this.style}>
-        <video src={fileSrc} autoPlay controls />
+      <InlinePlayerWrapper
+        style={this.getStyle()}
+        selected={selected}
+        onClick={onClick}
+      >
+        <CustomMediaPlayer
+          type="video"
+          src={fileSrc}
+          isAutoPlay
+          isHDAvailable={false}
+        />
       </InlinePlayerWrapper>
     );
   }

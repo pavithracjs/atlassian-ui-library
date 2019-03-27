@@ -1,5 +1,73 @@
 # @atlaskit/modal-dialog
 
+## 7.2.2
+- [patch] [a7670c1488](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a7670c1488):
+
+  - Enabling handling focus in model-dialog by rendering component in model-dialog only after portal in model-dialog is attached to DOM.
+- Updated dependencies [27cacd44ab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/27cacd44ab):
+  - @atlaskit/portal@0.1.0
+
+## 7.2.1
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/docs@6.0.1
+  - @atlaskit/avatar@14.1.8
+  - @atlaskit/button@10.1.2
+  - @atlaskit/checkbox@5.0.11
+  - @atlaskit/field-radio-group@4.0.15
+  - @atlaskit/form@5.1.2
+  - @atlaskit/inline-dialog@9.0.14
+  - @atlaskit/portal@0.0.18
+  - @atlaskit/select@6.1.19
+  - @atlaskit/icon@16.0.0
+
+## 7.2.0
+- [minor] [07c4cd1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/07c4cd1):
+
+  - **Feature**: `components` prop now has an optional `container` entry that is wrapped around the header, body and footer. This provides compatibility for forms with fields in the body, and submit buttons in the footer
+  - **API changes:**
+    - The `header`, `body` and `footer` props have been deprecated; such custom components should be passed within the `components` prop instead.
+    - Custom `Body` components passed in using the new method must contain a `ref` element; this can be done using forwardRef, as seen in the `custom` example.
+  - **Documentation:** Examples have been updated to demonstrate the new container prop, as well as utilise the new composition method for custom header/body/footers.
+
+## 7.1.2
+- [patch] [2686f21](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2686f21):
+
+  - Removed example demonstrating deprecated reference behaviour
+
+## 7.1.1
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/analytics-next@3.1.2
+  - @atlaskit/avatar@14.1.7
+  - @atlaskit/blanket@7.0.12
+  - @atlaskit/button@10.1.1
+  - @atlaskit/checkbox@5.0.9
+  - @atlaskit/field-radio-group@4.0.14
+  - @atlaskit/field-text@7.0.18
+  - @atlaskit/icon@15.0.2
+  - @atlaskit/inline-dialog@9.0.13
+  - @atlaskit/portal@0.0.17
+  - @atlaskit/select@6.1.13
+  - @atlaskit/theme@7.0.1
+  - @atlaskit/docs@6.0.0
+
+## 7.1.0
+- [minor] [7f99dec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7f99dec):
+
+  - Fix usage of PopupSelect inside ModalDialog
+
+## 7.0.14
+- Updated dependencies [d13242d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13242d):
+  - @atlaskit/docs@5.2.3
+  - @atlaskit/blanket@7.0.11
+  - @atlaskit/button@10.0.4
+  - @atlaskit/checkbox@5.0.8
+  - @atlaskit/field-radio-group@4.0.13
+  - @atlaskit/field-text@7.0.16
+  - @atlaskit/icon@15.0.1
+  - @atlaskit/inline-dialog@9.0.12
+  - @atlaskit/theme@7.0.0
+  - @atlaskit/avatar@14.1.6
+
 ## 7.0.13
 - Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
   - @atlaskit/docs@5.2.2

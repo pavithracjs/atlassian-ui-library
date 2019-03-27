@@ -16,12 +16,9 @@ export const getCardStatus = (
 
   if (metadata) {
     const { size, mediaType, name } = metadata as FileDetails;
-    if (mediaType === 'image') {
+    if (mediaType === 'image' || mediaType === 'video') {
       if (status === 'complete' && !dataURI) {
         return 'processing';
-      }
-      if ((status === 'processing' || status === 'uploading') && dataURI) {
-        return 'complete';
       }
     } else if (name && size && !disableOverlay && status === 'processing') {
       // If we have enough metadata for non images, we show it

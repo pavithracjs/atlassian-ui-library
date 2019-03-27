@@ -5,7 +5,7 @@ import { emoji as emojiData } from '@atlaskit/util-data-test';
 import {
   doc,
   p,
-  createEditor,
+  createEditorFactory,
   code_block,
   decisionList,
   decisionItem,
@@ -15,7 +15,7 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { taskDecision } from '@atlaskit/util-data-test';
 import { ProviderFactory } from '@atlaskit/editor-common';
-import { uuid } from '@atlaskit/editor-common';
+import { uuid } from '@atlaskit/adf-schema';
 
 import { pluginKey as blockTypePluginKey } from '../../../../../plugins/block-type/pm-plugins/main';
 import { messages as blockTypeMessages } from '../../../../../plugins/block-type/types';
@@ -37,6 +37,7 @@ const mediaProvider: Promise<MediaProvider> = Promise.resolve({
 const providerFactory = ProviderFactory.create({ mediaProvider });
 
 describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
+  const createEditor = createEditorFactory();
   let trackEvent;
   let editorActions;
 

@@ -10,6 +10,7 @@ import AkLozenge from '@atlaskit/lozenge';
 import ErrorMessage from './components/ErrorMessage';
 import HeightTransitionWrapper from './components/HeightTransitionWrapper';
 import IconLabel from './components/IconLabel';
+import MessagesIntlProvider from './components/MessagesIntlProvider';
 import relativeDate from './relative-date';
 import presences from './internal/presences';
 import messages from './messages';
@@ -43,6 +44,7 @@ export default class Profilecard extends PureComponent<ProfilecardProps, void> {
     analytics: () => {},
     clientFetchProfile: () => {},
     presenceMessage: '',
+    hasDisabledAccountLozenge: true,
   };
 
   _timeOpen: any;
@@ -152,7 +154,12 @@ export default class Profilecard extends PureComponent<ProfilecardProps, void> {
   }
 
   renderCardDetailsForDisabledAccount() {
-    const { nickname, status, companyName } = this.props;
+    const {
+      nickname,
+      status,
+      companyName,
+      hasDisabledAccountLozenge,
+    } = this.props;
 
     return (
       <DetailsGroup>
@@ -160,16 +167,18 @@ export default class Profilecard extends PureComponent<ProfilecardProps, void> {
           {this.getDisabledAccountName()}
         </FullNameLabel>
 
-        <LozengeWrapper>
-          <AkLozenge appearance="default" isBold>
-            {status === 'inactive' && (
-              <FormattedMessage {...messages.inactiveAccountMsg} />
-            )}
-            {status === 'closed' && (
-              <FormattedMessage {...messages.closedAccountMsg} />
-            )}
-          </AkLozenge>
-        </LozengeWrapper>
+        {hasDisabledAccountLozenge && (
+          <LozengeWrapper>
+            <AkLozenge appearance="default" isBold>
+              {status === 'inactive' && (
+                <FormattedMessage {...messages.inactiveAccountMsg} />
+              )}
+              {status === 'closed' && (
+                <FormattedMessage {...messages.closedAccountMsg} />
+              )}
+            </AkLozenge>
+          </LozengeWrapper>
+        )}
 
         <DisabledInfo>{this.getDisabledAccountDesc()}</DisabledInfo>
 
@@ -199,11 +208,20 @@ export default class Profilecard extends PureComponent<ProfilecardProps, void> {
   }
 
   getDisabledAccountDesc() {
-    const { status = 'closed', statusModifiedDate } = this.props;
+    const {
+      status = 'closed',
+      statusModifiedDate,
+      disabledAccountMessage,
+    } = this.props;
     const date = statusModifiedDate
       ? new Date(statusModifiedDate * 1000)
       : null;
     const relativeDateKey = relativeDate(date);
+
+    // consumer does not want to use built-in message
+    if (disabledAccountMessage) {
+      return disabledAccountMessage;
+    }
 
     let secondSentence = null;
     if (relativeDateKey) {
@@ -259,6 +277,7 @@ export default class Profilecard extends PureComponent<ProfilecardProps, void> {
       duration: this._durationSince(this._timeOpen),
     });
     const isDisabledUser = status === 'inactive' || status === 'closed';
+    const actions = this.renderActionsButtons();
 
     return (
       <CardContainer isDisabledUser={isDisabledUser}>
@@ -271,8 +290,12 @@ export default class Profilecard extends PureComponent<ProfilecardProps, void> {
         </ProfileImage>
         <CardContent>
           {this.renderCardDetails()}
-          <ActionsFlexSpacer />
-          {this.renderActionsButtons()}
+          {actions ? (
+            <>
+              <ActionsFlexSpacer />
+              {actions}
+            </>
+          ) : null}
         </CardContent>
       </CardContainer>
     );
@@ -302,9 +325,11 @@ export default class Profilecard extends PureComponent<ProfilecardProps, void> {
     }
 
     return (
-      <HeightTransitionWrapper customElevation={customElevation}>
-        {cardContent}
-      </HeightTransitionWrapper>
+      <MessagesIntlProvider>
+        <HeightTransitionWrapper customElevation={customElevation}>
+          {cardContent}
+        </HeightTransitionWrapper>
+      </MessagesIntlProvider>
     );
   }
 }

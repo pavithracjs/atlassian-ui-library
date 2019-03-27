@@ -1,5 +1,32 @@
 # @atlaskit/portal
 
+## 0.1.0
+- [minor] [27cacd44ab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/27cacd44ab):
+
+  - Components inside Portal render after portal container element is attached to the DOM
+
+## 0.0.18
+- Updated dependencies [d7ef59d432](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d7ef59d432):
+  - @atlaskit/docs@6.0.1
+  - @atlaskit/button@10.1.2
+  - @atlaskit/flag@9.1.9
+  - @atlaskit/inline-dialog@9.0.14
+  - @atlaskit/modal-dialog@7.2.1
+  - @atlaskit/onboarding@6.1.16
+  - @atlaskit/tooltip@12.1.15
+  - @atlaskit/icon@16.0.0
+
+## 0.0.17
+- Updated dependencies [58b84fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58b84fa):
+  - @atlaskit/button@10.1.1
+  - @atlaskit/flag@9.1.8
+  - @atlaskit/icon@15.0.2
+  - @atlaskit/inline-dialog@9.0.13
+  - @atlaskit/modal-dialog@7.1.1
+  - @atlaskit/onboarding@6.1.14
+  - @atlaskit/tooltip@12.1.13
+  - @atlaskit/docs@6.0.0
+
 ## 0.0.16
 - Updated dependencies [ab9b69c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab9b69c):
   - @atlaskit/docs@5.2.2

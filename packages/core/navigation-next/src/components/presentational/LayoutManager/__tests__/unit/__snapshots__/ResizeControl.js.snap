@@ -7,8 +7,10 @@ exports[`ResizeControlBase should not render GrabArea when \`isGrabAreaDisabled\
       direction="to left"
       isBold={false}
     />
-    <Fragment>
-      <ForwardRef(WithAnalyticsContext(WithAnalyticsEvents(Tooltip)))
+    <div
+      onMouseOver={[Function]}
+    >
+      <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
         content={
           <div
             className="css-jeedki"
@@ -29,6 +31,7 @@ exports[`ResizeControlBase should not render GrabArea when \`isGrabAreaDisabled\
       >
         <Button
           hasHighlight={false}
+          hitAreaSize="large"
           innerRef={
             Object {
               "current": null,
@@ -39,8 +42,8 @@ exports[`ResizeControlBase should not render GrabArea when \`isGrabAreaDisabled\
         >
           <ChevronLeftIcon />
         </Button>
-      </ForwardRef(WithAnalyticsContext(WithAnalyticsEvents(Tooltip)))>
-    </Fragment>
+      </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
+    </div>
   </Outer>
   <LifeCycleProvider
     attributes={Object {}}
@@ -62,15 +65,17 @@ exports[`ResizeControlBase should render correctly 1`] = `
       direction="to left"
       isBold={false}
     />
-    <Fragment>
-      <GrabArea
-        isBold={false}
-        onMouseDown={[Function]}
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
-        showHandle={false}
-      />
-      <ForwardRef(WithAnalyticsContext(WithAnalyticsEvents(Tooltip)))
+    <GrabArea
+      isBold={false}
+      onMouseDown={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      showHandle={false}
+    />
+    <div
+      onMouseOver={[Function]}
+    >
+      <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
         content={
           <div
             className="css-jeedki"
@@ -91,6 +96,7 @@ exports[`ResizeControlBase should render correctly 1`] = `
       >
         <Button
           hasHighlight={false}
+          hitAreaSize="large"
           innerRef={
             Object {
               "current": null,
@@ -101,8 +107,8 @@ exports[`ResizeControlBase should render correctly 1`] = `
         >
           <ChevronLeftIcon />
         </Button>
-      </ForwardRef(WithAnalyticsContext(WithAnalyticsEvents(Tooltip)))>
-    </Fragment>
+      </WithAnalyticsContext(WithAnalyticsEvents(Tooltip))>
+    </div>
   </Outer>
   <LifeCycleProvider
     attributes={Object {}}

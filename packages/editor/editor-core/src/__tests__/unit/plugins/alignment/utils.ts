@@ -1,14 +1,8 @@
 import {
   doc,
   p,
-  createEditor,
-  h1,
+  createEditorFactory,
   alignment as alignmentMark,
-  tr,
-  table,
-  td,
-  panel,
-  code_block,
 } from '@atlaskit/editor-test-helpers';
 import {
   AlignmentPluginState,
@@ -18,15 +12,13 @@ import alignment from '../../../../plugins/alignment';
 import panelPlugin from '../../../../plugins/panel';
 import codeBlockPlugin from '../../../../plugins/code-block';
 import tablesPlugin from '../../../../plugins/table';
-import {
-  removeAlignment,
-  canApplyAlignment,
-} from '../../../../plugins/alignment/utils';
-import { Transaction } from 'prosemirror-state';
+import { removeBlockMarks } from '../../../../utils/mark';
 
 describe('alignment utils', () => {
+  const createEditor = createEditorFactory<AlignmentPluginState>();
+
   const editor = (doc: any) =>
-    createEditor<AlignmentPluginState>({
+    createEditor({
       doc,
       pluginKey: alignmentPluginKey,
       editorPlugins: [
@@ -44,46 +36,12 @@ describe('alignment utils', () => {
     const { editorView } = editor(
       doc(alignmentMark({ align: 'end' })(p('{<}hello{>}'))),
     );
-    const tr = removeAlignment(editorView.state) as Transaction;
-    editorView.dispatch(tr);
-    expect(editorView.state.doc).toEqualDocument(doc(p('hello{<>}')));
-    editorView.destroy();
-  });
-
-  describe('check disabled state', () => {
-    it('should be able to add alignment to a top level paragraph', () => {
-      const { editorView } = editor(doc(p('hello{<>}')));
-      expect(canApplyAlignment(editorView.state)).toBe(true);
-      editorView.destroy();
-    });
-
-    it('should be able to add alignment to a top level heading', () => {
-      const { editorView } = editor(doc(h1('hello{<>}')));
-      expect(canApplyAlignment(editorView.state)).toBe(true);
-      editorView.destroy();
-    });
-
-    it('should be able to add alignment inside a table cell', () => {
-      const { editorView } = editor(
-        doc(
-          p('text{<>}'),
-          table()(tr(td({})(p('hello')), td({})(p('world{<>}')))),
-        ),
-      );
-      expect(canApplyAlignment(editorView.state)).toBe(true);
-      editorView.destroy();
-    });
-
-    it('should not be able to add alignment inside a panel', () => {
-      const { editorView } = editor(doc(panel()(p('hello{<>}'))));
-      expect(canApplyAlignment(editorView.state)).toBe(false);
-      editorView.destroy();
-    });
-
-    it('should not be able to add alignment inside a panel', () => {
-      const { editorView } = editor(doc(code_block()('hello{<>}')));
-      expect(canApplyAlignment(editorView.state)).toBe(false);
-      editorView.destroy();
-    });
+    const { state, dispatch } = editorView;
+    const tr = removeBlockMarks(state, [state.schema.marks.alignment]);
+    expect(tr).toBeDefined();
+    if (tr) {
+      dispatch(tr);
+      expect(editorView.state.doc).toEqualDocument(doc(p('hello')));
+    }
   });
 });

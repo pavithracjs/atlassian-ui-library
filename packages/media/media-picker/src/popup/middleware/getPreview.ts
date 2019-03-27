@@ -54,15 +54,16 @@ export async function getPreview(
         // We need to wait for the next tick since rxjs might call "next" before returning from "subscribe"
         window.setTimeout(() => subscription.unsubscribe());
 
-        if (mediaType === 'image') {
+        if (mediaType === 'image' || mediaType === 'video') {
           const metadata = await userContext.getImageMetadata(file.id, {
             collection,
           });
           const preview = getPreviewFromMetadata(metadata);
           dispatchPreviewUpdate(store, action, preview);
         } else {
+          const blob = state.preview && (await state.preview);
           const preview: NonImagePreview = {
-            file: state.preview ? state.preview.blob : undefined,
+            file: state.preview && blob instanceof Blob ? blob : undefined,
           };
           dispatchPreviewUpdate(store, action, preview);
         }

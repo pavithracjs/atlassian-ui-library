@@ -1,18 +1,48 @@
-import { Node as PMNode, Schema, Fragment } from 'prosemirror-model';
+import { Node as PMNode, Schema, Fragment, Slice } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
 
-import { isImage } from '../../../utils';
 import {
-  insertNodesEndWithNewParagraph,
-  shouldAppendParagraphAfterBlockNode,
-} from '../../../commands';
+  isImage,
+  atTheBeginningOfBlock,
+  checkNodeDown,
+  isEmptyParagraph,
+} from '../../../utils';
 import { copyOptionalAttrsFromMediaState } from '../utils/media-common';
 import { MediaState } from '../types';
 import { safeInsert } from 'prosemirror-utils';
+import { EditorState } from 'prosemirror-state';
+import { Command } from '../../../types';
 
 export interface MediaSingleState extends MediaState {
   dimensions: { width: number; height: number };
   scaleFactor?: number;
+}
+
+function shouldAddParagraph(state: EditorState) {
+  return (
+    atTheBeginningOfBlock(state) &&
+    !checkNodeDown(state.selection, state.doc, isEmptyParagraph)
+  );
+}
+
+function insertNodesWithOptionalParagraph(nodes: PMNode[]): Command {
+  return function(state, dispatch) {
+    const { tr, schema } = state;
+    const { paragraph } = schema.nodes;
+
+    let openEnd = 0;
+    if (shouldAddParagraph(state)) {
+      nodes.push(paragraph.create());
+      openEnd = 1;
+    }
+
+    tr.replaceSelection(new Slice(Fragment.from(nodes), 0, openEnd));
+
+    if (dispatch) {
+      dispatch(tr);
+    }
+    return true;
+  };
 }
 
 export const insertMediaAsMediaSingle = (
@@ -27,13 +57,16 @@ export const insertMediaAsMediaSingle = (
   }
 
   // if not an image type media node
-  if (node.type !== media || !isImage(node.attrs.__fileMimeType)) {
+  if (
+    node.type !== media ||
+    (!isImage(node.attrs.__fileMimeType) && node.attrs.type !== 'external')
+  ) {
     return false;
   }
 
   const mediaSingleNode = mediaSingle.create({}, node);
   const nodes = [mediaSingleNode];
-  return insertNodesEndWithNewParagraph(nodes)(state, dispatch);
+  return insertNodesWithOptionalParagraph(nodes)(state, dispatch);
 };
 
 export const insertMediaSingleNode = (
@@ -41,7 +74,7 @@ export const insertMediaSingleNode = (
   mediaState: MediaState,
   collection?: string,
 ): boolean => {
-  if (typeof collection !== 'string') {
+  if (collection === undefined) {
     return false;
   }
 
@@ -54,11 +87,11 @@ export const insertMediaSingleNode = (
     grandParent && grandParent.type.validContent(Fragment.from(node));
 
   if (shouldSplit) {
-    insertNodesEndWithNewParagraph([node])(state, dispatch);
+    insertNodesWithOptionalParagraph([node])(state, dispatch);
   } else {
     dispatch(
       safeInsert(
-        shouldAppendParagraphAfterBlockNode(view.state)
+        shouldAddParagraph(view.state)
           ? Fragment.fromArray([node, state.schema.nodes.paragraph.create()])
           : node,
       )(state.tr),
@@ -82,8 +115,8 @@ export const createMediaSingleNode = (schema: Schema, collection: string) => (
     id,
     type: 'file',
     collection,
-    width: width / scaleFactor,
-    height: height / scaleFactor,
+    width: Math.round(width / scaleFactor),
+    height: Math.round(height / scaleFactor),
     __key: id,
   });
 

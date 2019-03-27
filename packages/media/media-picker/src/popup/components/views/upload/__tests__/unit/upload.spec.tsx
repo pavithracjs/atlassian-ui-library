@@ -27,7 +27,7 @@ import {
   mockState,
   getComponentClassWithStore,
   mockIsWebGLNotAvailable,
-} from '../../../../../mocks';
+} from '@atlaskit/media-test-helpers';
 
 mockIsWebGLNotAvailable(); // mock WebGL fail check before StatelessUploadView is imported
 import { isWebGLAvailable } from '../../../../../tools/webgl';
@@ -46,13 +46,14 @@ import { Dropzone } from '../../dropzone';
 
 import { SpinnerWrapper, Wrapper } from '../../styled';
 import { LocalBrowserButton } from '../../../../views/upload/uploadButton';
-import { Browser } from '../../../../../../components/browser';
+import { BrowserImpl } from '../../../../../../components/browser';
 import { menuDelete } from '../../../editor/phrases';
 import { LocalUploadFileMetadata } from '../../../../../domain/local-upload';
 
+// TODO: Fix this
 const ConnectedUploadViewWithStore = getComponentClassWithStore(
   ConnectedUploadView,
-);
+) as any;
 
 const createConnectedComponent = (
   state: State,
@@ -65,7 +66,7 @@ const createConnectedComponent = (
     <IntlProvider locale="en">
       <Provider store={store}>
         <ConnectedUploadViewWithStore
-          mpBrowser={new Browser(context) as any}
+          mpBrowser={new BrowserImpl(context) as any}
           context={context}
           recentsCollection="some-collection-name"
         />
@@ -191,7 +192,7 @@ describe('<StatelessUploadView />', () => {
               id: 'id1',
               mimeType: 'image/jpeg',
               name: 'some-file-name',
-              upfrontId,
+              userUpfrontId: upfrontId,
             },
           },
         } as LocalUpload,
@@ -264,7 +265,7 @@ describe('<StatelessUploadView />', () => {
           },
         ] as SelectedItem[],
       };
-      const component = mount(
+      const component = mount<UploadViewProps, UploadViewState>(
         getUploadViewElement(
           false,
           [],
@@ -337,7 +338,7 @@ describe('<StatelessUploadView />', () => {
     });
 
     const setup = () => {
-      const component = mount(
+      const component = mount<UploadViewProps, UploadViewState>(
         getUploadViewElement(
           false,
           [
@@ -437,14 +438,6 @@ describe('<UploadView />', () => {
           },
           index: 0,
           events: [],
-          tenant: {
-            auth: {
-              clientId: 'some-tenant-client-id',
-              token: 'some-tenant-client-token',
-              baseUrl: 'some-base-url',
-            },
-            uploadParams: {},
-          },
           progress: 0,
           timeStarted: 0,
         },

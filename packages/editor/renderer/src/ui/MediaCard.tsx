@@ -8,8 +8,8 @@ import {
   CardOnClickCallback,
 } from '@atlaskit/media-card';
 import { Context, ImageResizeMode } from '@atlaskit/media-core';
+import { MediaType } from '@atlaskit/adf-schema';
 import {
-  MediaType,
   withImageLoader,
   ImageStatus,
   // @ts-ignore
@@ -17,6 +17,7 @@ import {
   // @ts-ignore
   ImageLoaderState,
 } from '@atlaskit/editor-common';
+import { RendererAppearance } from './Renderer';
 
 export interface MediaProvider {
   viewContext?: Context;
@@ -36,9 +37,11 @@ export interface MediaCardProps {
   cardDimensions?: CardDimensions;
   resizeMode?: ImageResizeMode;
   appearance?: CardAppearance;
+  rendererAppearance?: RendererAppearance;
   occurrenceKey?: string;
   imageStatus?: ImageStatus;
   disableOverlay?: boolean;
+  useInlinePlayer?: boolean;
 }
 
 export interface State {
@@ -101,9 +104,13 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       collection,
       cardDimensions,
       resizeMode,
-      appearance,
+      rendererAppearance,
       disableOverlay,
+      useInlinePlayer,
     } = this.props;
+    const isMobile = rendererAppearance === 'mobile';
+    const shouldPlayInline =
+      useInlinePlayer !== undefined ? useInlinePlayer : true;
 
     if (type === 'external') {
       return this.renderExternal();
@@ -134,8 +141,9 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
           eventHandlers && eventHandlers.media && eventHandlers.media.onClick
         }
         resizeMode={resizeMode}
-        appearance={appearance}
+        isLazy={!isMobile}
         disableOverlay={disableOverlay}
+        useInlinePlayer={isMobile ? false : shouldPlayInline}
       />
     );
   }

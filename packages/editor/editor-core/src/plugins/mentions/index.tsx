@@ -13,14 +13,14 @@ import {
   MentionDescription,
   ELEMENTS_CHANNEL,
 } from '@atlaskit/mention';
+import { mention } from '@atlaskit/adf-schema';
 import {
-  mention,
   ProviderFactory,
   ContextIdentifierProvider,
 } from '@atlaskit/editor-common';
 
 import { analyticsService } from '../../analytics';
-import { EditorPlugin, Command } from '../../types';
+import { EditorPlugin, Command, EditorAppearance } from '../../types';
 import { Dispatch } from '../../event-dispatcher';
 import { PortalProviderAPI } from '../../ui/PortalProvider';
 import WithPluginState from '../../ui/WithPluginState';
@@ -61,12 +61,13 @@ const mentionsPlugin = (
       return [
         {
           name: 'mention',
-          plugin: ({ providerFactory, dispatch, portalProviderAPI }) =>
+          plugin: ({ providerFactory, dispatch, portalProviderAPI, props }) =>
             mentionPluginFactory(
               dispatch,
               providerFactory,
               portalProviderAPI,
               fireEvent,
+              props.appearance,
             ),
         },
       ];
@@ -87,7 +88,7 @@ const mentionsPlugin = (
             typeAheadState: TypeAheadPluginState;
             mentionState: MentionPluginState;
           }) =>
-            !mentionState.provider ? null : (
+            !mentionState.mentionProvider ? null : (
               <ToolbarMention
                 editorView={editorView}
                 isDisabled={disabled || !typeAheadState.isAllowed}
@@ -129,13 +130,16 @@ const mentionsPlugin = (
           const mentions =
             !prevActive && queryChanged ? [] : pluginState.mentions || [];
 
-          if (queryChanged && pluginState.provider) {
-            pluginState.provider.filter(query || '');
+          const mentionContext = {
+            ...pluginState.contextIdentifierProvider,
+            sessionId,
+          };
+          if (queryChanged && pluginState.mentionProvider) {
+            pluginState.mentionProvider.filter(query || '', mentionContext);
           }
 
           return mentions.map(mention => ({
-            title: mention.name || '',
-            keywords: [mention.mentionName, mention.nickname],
+            title: mention.id,
             render: ({ isSelected, onClick, onMouseMove }) => (
               <MentionItem
                 mention={mention}
@@ -149,11 +153,23 @@ const mentionsPlugin = (
         },
         selectItem(state, item, insert, { mode }) {
           const pluginState = getMentionPluginState(state);
+          const { mentionProvider } = pluginState;
           const { id, name, nickname, accessLevel, userType } = item.mention;
           const renderName = nickname ? nickname : name;
           const typeAheadPluginState = typeAheadPluginKey.getState(
             state,
           ) as TypeAheadPluginState;
+
+          const mentionContext = {
+            ...pluginState.contextIdentifierProvider,
+            sessionId,
+          };
+          if (mentionProvider) {
+            mentionProvider.recordMentionSelection(
+              item.mention,
+              mentionContext,
+            );
+          }
 
           const pickerElapsedTime = typeAheadPluginState.queryStarted
             ? Date.now() - typeAheadPluginState.queryStarted
@@ -168,7 +184,7 @@ const mentionsPlugin = (
               mentionee: id,
               duration: pickerElapsedTime,
               queryLength: (typeAheadPluginState.query || '').length,
-              ...(pluginState.contextIdentifier as any),
+              ...(pluginState.contextIdentifierProvider as any),
             },
           );
 
@@ -235,32 +251,38 @@ export const ACTIONS = {
 };
 
 export const setProvider = (provider): Command => (state, dispatch) => {
-  dispatch(
-    state.tr.setMeta(mentionPluginKey, {
-      action: ACTIONS.SET_PROVIDER,
-      params: { provider },
-    }),
-  );
+  if (dispatch) {
+    dispatch(
+      state.tr.setMeta(mentionPluginKey, {
+        action: ACTIONS.SET_PROVIDER,
+        params: { provider },
+      }),
+    );
+  }
   return true;
 };
 
 export const setResults = (results): Command => (state, dispatch) => {
-  dispatch(
-    state.tr.setMeta(mentionPluginKey, {
-      action: ACTIONS.SET_RESULTS,
-      params: { results },
-    }),
-  );
+  if (dispatch) {
+    dispatch(
+      state.tr.setMeta(mentionPluginKey, {
+        action: ACTIONS.SET_RESULTS,
+        params: { results },
+      }),
+    );
+  }
   return true;
 };
 
 export const setContext = (context): Command => (state, dispatch) => {
-  dispatch(
-    state.tr.setMeta(mentionPluginKey, {
-      action: ACTIONS.SET_CONTEXT,
-      params: { context },
-    }),
-  );
+  if (dispatch) {
+    dispatch(
+      state.tr.setMeta(mentionPluginKey, {
+        action: ACTIONS.SET_CONTEXT,
+        params: { context },
+      }),
+    );
+  }
   return true;
 };
 
@@ -277,8 +299,8 @@ export function getMentionPluginState(state) {
 }
 
 export type MentionPluginState = {
-  provider?: MentionProvider;
-  contextIdentifier?: ContextIdentifierProvider;
+  mentionProvider?: MentionProvider;
+  contextIdentifierProvider?: ContextIdentifierProvider;
   mentions?: Array<MentionDescription>;
 };
 
@@ -287,6 +309,7 @@ function mentionPluginFactory(
   providerFactory: ProviderFactory,
   portalProviderAPI: PortalProviderAPI,
   fireEvent: (payload: any) => void,
+  editorAppearance?: EditorAppearance,
 ) {
   let mentionProvider: MentionProvider;
 
@@ -308,7 +331,7 @@ function mentionPluginFactory(
           case ACTIONS.SET_PROVIDER:
             newPluginState = {
               ...pluginState,
-              provider: params.provider,
+              mentionProvider: params.provider,
             };
             dispatch(mentionPluginKey, newPluginState);
             return newPluginState;
@@ -324,7 +347,7 @@ function mentionPluginFactory(
           case ACTIONS.SET_CONTEXT:
             newPluginState = {
               ...pluginState,
-              contextIdentifier: params.context,
+              contextIdentifierProvider: params.context,
             };
             dispatch(mentionPluginKey, newPluginState);
             return newPluginState;
@@ -338,7 +361,7 @@ function mentionPluginFactory(
         mention: ReactNodeView.fromComponent(
           mentionNodeView,
           portalProviderAPI,
-          { providerFactory },
+          { providerFactory, editorAppearance },
         ),
       },
     },
@@ -356,15 +379,10 @@ function mentionPluginFactory(
               );
             }
 
-            providerPromise
-              .then((provider: MentionProvider) => {
+            (providerPromise as Promise<MentionProvider>)
+              .then(provider => {
                 if (mentionProvider) {
                   mentionProvider.unsubscribe('mentionPlugin');
-                }
-
-                // Preload mentions, and populate cache
-                if (provider) {
-                  provider.filter('');
                 }
 
                 mentionProvider = provider;
@@ -375,15 +393,13 @@ function mentionPluginFactory(
                   (mentions, query, stats) => {
                     setResults(mentions)(editorView.state, editorView.dispatch);
 
-                    if (stats && stats.remoteSearch) {
-                      fireEvent(
-                        buildTypeAheadRenderedPayload(
-                          stats.duration,
-                          mentions.map(mention => mention.id),
-                          query || '',
-                        ),
-                      );
-                    }
+                    fireEvent(
+                      buildTypeAheadRenderedPayload(
+                        stats && stats.duration,
+                        mentions.map(mention => mention.id),
+                        query || '',
+                      ),
+                    );
                   },
                 );
               })
@@ -399,9 +415,11 @@ function mentionPluginFactory(
                 editorView.dispatch,
               );
             }
-            providerPromise.then((provider: ContextIdentifierProvider) => {
-              setContext(provider)(editorView.state, editorView.dispatch);
-            });
+            (providerPromise as Promise<ContextIdentifierProvider>).then(
+              provider => {
+                setContext(provider)(editorView.state, editorView.dispatch);
+              },
+            );
             break;
         }
       };

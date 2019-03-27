@@ -20,26 +20,11 @@ import { LoadParameters } from '../image-cropper';
 
 import { DEFAULT_VISIBLE_PREDEFINED_AVATARS } from './layout-const';
 import { AVATAR_DIALOG_WIDTH, AVATAR_DIALOG_HEIGHT } from './layout-const';
-
-export interface AvatarPickerDialogProps {
-  avatars: Array<Avatar>;
-  defaultSelectedAvatar?: Avatar;
-  onAvatarPicked: (avatar: Avatar) => void;
-  imageSource?: string;
-  onImagePicked?: (file: File, crop: CropProperties) => void;
-  onImagePickedDataURI?: (dataUri: string) => void;
-  onCancel: () => void;
-  title?: string;
-  primaryButtonText?: string;
-  errorMessage?: string;
-  isLoading?: boolean;
-  predefinedAvatarsText?: string;
-}
-
-export enum Mode {
-  Cropping,
-  PredefinedAvatars,
-}
+import {
+  AvatarPickerDialogProps,
+  AvatarPickerDialogState,
+  Mode,
+} from './types';
 
 export const MAX_SIZE_MB = 10;
 
@@ -50,15 +35,6 @@ export const ERROR = {
 };
 
 export const ACCEPT = ['image/gif', 'image/jpeg', 'image/png'];
-
-export interface AvatarPickerDialogState {
-  mode: Mode;
-  selectedAvatar?: Avatar;
-  selectedImage?: File;
-  selectedImageSource?: string;
-  crop: CropProperties;
-  errorMessage?: string;
-}
 
 export class AvatarPickerDialog extends PureComponent<
   AvatarPickerDialogProps,
@@ -196,8 +172,10 @@ export class AvatarPickerDialog extends PureComponent<
       <ModalDialog
         height={`${AVATAR_DIALOG_HEIGHT}px`}
         width={`${AVATAR_DIALOG_WIDTH}px`}
-        header={this.headerContent}
-        footer={this.footerContent}
+        components={{
+          Header: this.headerContent,
+          Footer: this.footerContent,
+        }}
         onClose={this.props.onCancel}
         isOpen={true}
       >
