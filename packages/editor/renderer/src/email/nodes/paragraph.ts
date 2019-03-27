@@ -7,7 +7,7 @@ const css = serializeStyle({
   padding: '0px',
   'padding-top': '7px',
   'mso-line-height-rule': 'exactly',
-  'line-heght': '24px',
+  'line-height': '24px',
   'font-size': '14px',
 });
 

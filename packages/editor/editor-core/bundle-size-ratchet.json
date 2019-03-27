@@ -51,8 +51,8 @@
     "id": "atlaskit.editor.main",
     "name": "main",
     "stats": {
-      "size": 126504,
-      "gzipSize": 30066
+      "size": 126458,
+      "gzipSize": 30062
     }
   },
   {
@@ -99,8 +99,8 @@
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 2019949,
-      "gzipSize": 546540
+      "size": 2019903,
+      "gzipSize": 546530
     }
   },
   {

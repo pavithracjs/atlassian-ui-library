@@ -1,5 +1,15 @@
 # @atlaskit/editor-core
 
+## 106.6.2
+- [patch] [56766ce748](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/56766ce748):
+
+  - ED-6407: improve table information density by reducing cells padding from 10px to 8px
+
+## 106.6.1
+- [patch] [92452e9323](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92452e9323):
+
+  - ED-5734: render table column control buttons for each column regardless of merged cells
+
 ## 106.6.0
 - [minor] [0781a7068c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0781a7068c):
 
