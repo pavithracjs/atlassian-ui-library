@@ -1,0 +1,2 @@
+# @atlaskit/beautiful-insights
+
