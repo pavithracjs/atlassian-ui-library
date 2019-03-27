@@ -1,71 +1,227 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import asDataProvider from '../../as-data-provider';
+import { AnalyticsListener } from '@atlaskit/analytics-next';
 
 const RESOLVED_VALUE = {};
-const CHILDREN_PROP_RETURN_VALUE = 'TEST';
 const EXPECTED_ERROR_VALUE = 'ERROR';
 
 describe('as-data-provider', () => {
-  const childrenPropMock = jest.fn();
-
-  beforeEach(() => {
-    childrenPropMock.mockReturnValue(CHILDREN_PROP_RETURN_VALUE);
-    jest.useFakeTimers();
-  });
+  const childrenPropMock = jest.fn(() => null);
 
   afterEach(() => {
-    childrenPropMock.mockReset();
-    jest.clearAllTimers();
+    childrenPropMock.mockClear();
   });
 
-  it("should render what it's callback returns", () => {
+  it('should start from loading state then transition to complete', async () => {
+    expect.assertions(4);
+
     const resolvedPromise = Promise.resolve(RESOLVED_VALUE);
-    const DataProvider = asDataProvider(() => resolvedPromise);
 
-    const wrapper = shallow(<DataProvider>{childrenPropMock}</DataProvider>);
-    expect(wrapper.contains(CHILDREN_PROP_RETURN_VALUE)).toBe(true);
-    expect(childrenPropMock).toHaveBeenCalled();
-  });
+    const DataProvider = asDataProvider('test', () => resolvedPromise);
 
-  it('should send isLoading and data parameters to children render prop', () => {
-    const promise = new Promise(accept =>
-      setTimeout(() => accept(RESOLVED_VALUE), 100),
-    );
-    const DataProvider = asDataProvider(() => promise);
+    mount(<DataProvider>{childrenPropMock}</DataProvider>);
 
-    shallow(<DataProvider>{childrenPropMock}</DataProvider>);
     expect(childrenPropMock).toHaveBeenCalledTimes(1);
-    expect(childrenPropMock.mock.calls[0][0].status).toBe('loading');
-    expect(childrenPropMock.mock.calls[0][0].data).toBe(null);
-    jest.runAllTimers();
-    promise.then(() => {
-      expect(childrenPropMock).toHaveBeenCalledTimes(2);
-      expect(childrenPropMock.mock.calls[1][0].status).toBe('complete');
-      expect(childrenPropMock.mock.calls[1][0].data).toBe(RESOLVED_VALUE);
-      expect(childrenPropMock.mock.calls[1][0].error).toBe(undefined);
+    expect(childrenPropMock).toHaveBeenLastCalledWith({
+      data: null,
+      status: 'loading',
+    });
+
+    await resolvedPromise;
+    expect(childrenPropMock).toHaveBeenCalledTimes(2);
+    expect(childrenPropMock).toHaveBeenLastCalledWith({
+      data: RESOLVED_VALUE,
+      status: 'complete',
     });
   });
 
-  it('should send an error parameter when the promise rejects', () => {
-    const promise = new Promise((_, reject) =>
-      setTimeout(() => reject(EXPECTED_ERROR_VALUE), 20),
-    );
-    const DataProvider = asDataProvider(() => promise);
+  it('should start from complete state and update with fresh value', async () => {
+    expect.assertions(4);
 
-    shallow(<DataProvider>{childrenPropMock}</DataProvider>);
+    const CACHED_VALUE = 'CACHED';
+    const resolvedPromise = Promise.resolve(RESOLVED_VALUE);
+
+    const DataProvider = asDataProvider(
+      'test',
+      () => resolvedPromise,
+      () => CACHED_VALUE,
+    );
+
+    mount(<DataProvider>{childrenPropMock}</DataProvider>);
+
     expect(childrenPropMock).toHaveBeenCalledTimes(1);
-    expect(childrenPropMock.mock.calls[0][0].status).toBe('loading');
-    expect(childrenPropMock.mock.calls[0][0].data).toBe(null);
-    expect(childrenPropMock.mock.calls[0][0].error).toBe(undefined);
-    jest.runAllTimers();
-    setTimeout(() => {
-      expect(childrenPropMock).toHaveBeenCalledTimes(2);
-      expect(childrenPropMock.mock.calls[1][0].status).toBe('error');
-      expect(childrenPropMock.mock.calls[1][0].data).toBe(null);
-      expect(childrenPropMock.mock.calls[1][0].error).toBe(
-        EXPECTED_ERROR_VALUE,
-      );
-    }, 25);
+    expect(childrenPropMock).toHaveBeenLastCalledWith({
+      data: CACHED_VALUE,
+      status: 'complete',
+    });
+
+    await resolvedPromise;
+    expect(childrenPropMock).toHaveBeenCalledTimes(2);
+    expect(childrenPropMock).toHaveBeenLastCalledWith({
+      data: RESOLVED_VALUE,
+      status: 'complete',
+    });
+  });
+
+  // Error state
+
+  it('should start from complete state and NOT transition to error state', async () => {
+    expect.assertions(3);
+
+    const CACHED_VALUE = 'CACHED';
+    const rejectedPromise = Promise.reject(EXPECTED_ERROR_VALUE);
+
+    const DataProvider = asDataProvider(
+      'test',
+      () => rejectedPromise,
+      () => CACHED_VALUE,
+    );
+
+    mount(<DataProvider>{childrenPropMock}</DataProvider>);
+
+    expect(childrenPropMock).toHaveBeenCalledTimes(1);
+    expect(childrenPropMock).toHaveBeenLastCalledWith({
+      data: CACHED_VALUE,
+      status: 'complete',
+    });
+
+    try {
+      await rejectedPromise;
+    } catch (e) {}
+
+    expect(childrenPropMock).toHaveBeenCalledTimes(1); // no subsequent call expected
+  });
+
+  it('should start from loading state then transition to error state', async () => {
+    expect.assertions(4);
+
+    const rejectedPromise = Promise.reject(EXPECTED_ERROR_VALUE);
+
+    const DataProvider = asDataProvider('test', () => rejectedPromise);
+    mount(<DataProvider>{childrenPropMock}</DataProvider>);
+
+    expect(childrenPropMock).toHaveBeenCalledTimes(1);
+    expect(childrenPropMock).toHaveBeenLastCalledWith({
+      data: null,
+      status: 'loading',
+    });
+
+    try {
+      await rejectedPromise;
+    } catch (e) {}
+
+    expect(childrenPropMock).toHaveBeenCalledTimes(2);
+    expect(childrenPropMock).toHaveBeenLastCalledWith({
+      data: null,
+      status: 'error',
+      error: EXPECTED_ERROR_VALUE,
+    });
+  });
+
+  // Unmounted
+
+  it('should not transition to a different anything if unmounted', async () => {
+    expect.assertions(3);
+
+    const resolvedPromise = Promise.resolve(RESOLVED_VALUE);
+
+    const DataProvider = asDataProvider('test', () => resolvedPromise);
+
+    mount(<DataProvider>{childrenPropMock}</DataProvider>).unmount();
+
+    expect(childrenPropMock).toHaveBeenCalledTimes(1);
+    expect(childrenPropMock).toHaveBeenLastCalledWith({
+      data: null,
+      status: 'loading',
+    });
+
+    await resolvedPromise;
+    expect(childrenPropMock).toHaveBeenCalledTimes(1);
+  });
+
+  // Events
+
+  it('should fire receivedResult event', async () => {
+    expect.assertions(2);
+
+    const onEvent = jest.fn();
+    const resolvedPromise = Promise.resolve();
+
+    const DataProvider = asDataProvider('test', () => resolvedPromise);
+
+    mount(
+      <AnalyticsListener onEvent={onEvent} channel="*">
+        <DataProvider>{childrenPropMock}</DataProvider>
+      </AnalyticsListener>,
+    );
+
+    await resolvedPromise;
+    expect(onEvent).toHaveBeenCalledTimes(1);
+    expect(onEvent.mock.calls[0][0]).toMatchObject({
+      hasFired: true,
+      payload: {
+        action: 'receivedResult',
+        actionSubject: 'atlassianSwitcherDataProvider',
+        actionSubjectId: 'test',
+        attributes: { outdated: false },
+        eventType: 'operational',
+      },
+    });
+  });
+
+  it('should fire failed event', async () => {
+    expect.assertions(2);
+
+    const onEvent = jest.fn();
+    const rejectedPromise = Promise.reject();
+
+    const DataProvider = asDataProvider('test', () => rejectedPromise);
+
+    mount(
+      <AnalyticsListener onEvent={onEvent} channel="*">
+        <DataProvider>{childrenPropMock}</DataProvider>
+      </AnalyticsListener>,
+    );
+
+    try {
+      await rejectedPromise;
+    } catch (e) {}
+
+    expect(onEvent).toHaveBeenCalledTimes(1);
+    expect(onEvent.mock.calls[0][0]).toMatchObject({
+      hasFired: true,
+      payload: {
+        action: 'failed',
+        actionSubject: 'atlassianSwitcherDataProvider',
+        actionSubjectId: 'test',
+        attributes: { outdated: false },
+        eventType: 'operational',
+      },
+    });
+  });
+
+  it('should fire receivedResult event with outdated attribute', async () => {
+    expect.assertions(2);
+
+    const onEvent = jest.fn();
+    const resolvedPromise = Promise.resolve();
+
+    const DataProvider = asDataProvider('test', () => resolvedPromise);
+
+    mount(
+      <AnalyticsListener onEvent={onEvent} channel="*">
+        <DataProvider>{childrenPropMock}</DataProvider>
+      </AnalyticsListener>,
+    ).unmount();
+
+    await resolvedPromise;
+    expect(onEvent).toHaveBeenCalledTimes(1);
+    expect(onEvent.mock.calls[0][0]).toMatchObject({
+      hasFired: true,
+      payload: {
+        attributes: { outdated: true },
+      },
+    });
   });
 });
