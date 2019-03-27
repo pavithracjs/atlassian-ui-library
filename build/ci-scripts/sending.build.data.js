@@ -2,7 +2,7 @@
 const getPipelinesBuildData = require('../utils/getBuildData')
   .getPipelinesBuildData;
 const sendData = require('../utils/sendPayload').sendData;
-const buildData = require('../../.build-data/build.json');
+const buildData = require('../../.build-data/data.json');
 
 (async () => {
   try {
