@@ -1,0 +1,1 @@
+- Refactored internal components. Moved to Typescript. Updated named exports. Updated type definitions.
