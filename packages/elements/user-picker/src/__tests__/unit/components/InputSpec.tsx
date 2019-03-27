@@ -30,16 +30,15 @@ describe('ClearIndicator', () => {
     };
     const spiedPreventDefault = jest.fn();
     const component = mount(<Input {...mockedProps} />);
-    component
-      .find('input')
-      .simulate('keyPress', { key: 'a', preventDefault: spiedPreventDefault });
+    component.find('input').simulate('keyPress', {
+      key: 'a',
+      preventDefault: spiedPreventDefault,
+    });
     expect(spiedPreventDefault).not.toHaveBeenCalled();
-    component
-      .find('input')
-      .simulate('keyPress', {
-        key: 'Enter',
-        preventDefault: spiedPreventDefault,
-      });
+    component.find('input').simulate('keyPress', {
+      key: 'Enter',
+      preventDefault: spiedPreventDefault,
+    });
     expect(spiedPreventDefault).toHaveBeenCalledTimes(1);
   });
 });
