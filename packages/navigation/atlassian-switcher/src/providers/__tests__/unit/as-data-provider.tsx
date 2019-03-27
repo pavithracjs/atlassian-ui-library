@@ -14,6 +14,8 @@ describe('as-data-provider', () => {
   });
 
   it('should start from loading state then transition to complete', async () => {
+    expect.assertions(4);
+
     const resolvedPromise = Promise.resolve(RESOLVED_VALUE);
 
     const DataProvider = asDataProvider('test', () => resolvedPromise);
@@ -35,6 +37,8 @@ describe('as-data-provider', () => {
   });
 
   it('should start from complete state and update with fresh value', async () => {
+    expect.assertions(4);
+
     const CACHED_VALUE = 'CACHED';
     const resolvedPromise = Promise.resolve(RESOLVED_VALUE);
 
@@ -63,6 +67,8 @@ describe('as-data-provider', () => {
   // Error state
 
   it('should start from complete state and NOT transition to error state', async () => {
+    expect.assertions(3);
+
     const CACHED_VALUE = 'CACHED';
     const rejectedPromise = Promise.reject(EXPECTED_ERROR_VALUE);
 
@@ -88,6 +94,8 @@ describe('as-data-provider', () => {
   });
 
   it('should start from loading state then transition to error state', async () => {
+    expect.assertions(4);
+
     const rejectedPromise = Promise.reject(EXPECTED_ERROR_VALUE);
 
     const DataProvider = asDataProvider('test', () => rejectedPromise);
@@ -114,6 +122,8 @@ describe('as-data-provider', () => {
   // Unmounted
 
   it('should not transition to a different anything if unmounted', async () => {
+    expect.assertions(3);
+
     const resolvedPromise = Promise.resolve(RESOLVED_VALUE);
 
     const DataProvider = asDataProvider('test', () => resolvedPromise);
@@ -133,6 +143,8 @@ describe('as-data-provider', () => {
   // Events
 
   it('should fire receivedResult event', async () => {
+    expect.assertions(2);
+
     const onEvent = jest.fn();
     const resolvedPromise = Promise.resolve();
 
@@ -159,6 +171,8 @@ describe('as-data-provider', () => {
   });
 
   it('should fire failed event', async () => {
+    expect.assertions(2);
+
     const onEvent = jest.fn();
     const rejectedPromise = Promise.reject();
 
@@ -188,6 +202,8 @@ describe('as-data-provider', () => {
   });
 
   it('should fire receivedResult event with outdated attribute', async () => {
+    expect.assertions(2);
+
     const onEvent = jest.fn();
     const resolvedPromise = Promise.resolve();
 

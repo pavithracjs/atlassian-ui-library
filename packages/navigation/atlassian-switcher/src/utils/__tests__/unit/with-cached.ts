@@ -27,6 +27,8 @@ describe('utils/with-cached', () => {
   });
 
   it('should have cached value when promise is resolved', async () => {
+    expect.assertions(2);
+
     const fn = jest.fn(a => Promise.resolve(a));
     const wrappedFn = withCached(fn);
     const a0 = { a: 0 };
@@ -59,6 +61,8 @@ describe('utils/with-cached', () => {
   });
 
   it('should call original function twice if previous promise is resolved', async () => {
+    expect.assertions(4);
+
     const fn = jest.fn(a => Promise.resolve(a));
     const wrappedFn = withCached(fn);
     const foo = { foo: 1 };
@@ -102,6 +106,8 @@ describe('utils/with-cached', () => {
   });
 
   it('should have correct cached values for two calls after both promises resolved', async () => {
+    expect.assertions(2);
+
     const fn = jest.fn(a => Promise.resolve(a));
     const wrappedFn = withCached(fn);
     const a0 = { foo: 1 };
@@ -140,6 +146,8 @@ describe('utils/with-cached', () => {
   });
 
   it('should NOT cache error when promise is rejected', async () => {
+    expect.assertions(2);
+
     const fn = jest.fn(a => Promise.reject(new Error()));
     const wrappedFn = withCached(fn);
     const a0 = { a: 0 };
@@ -156,6 +164,8 @@ describe('utils/with-cached', () => {
    * Reset
    */
   it('should reset caches', async () => {
+    expect.assertions(4);
+
     const fn = jest.fn(a => Promise.resolve(a));
     const wrappedFn = withCached(fn);
 
