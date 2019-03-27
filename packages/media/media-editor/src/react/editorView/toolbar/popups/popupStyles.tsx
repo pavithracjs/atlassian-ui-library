@@ -12,9 +12,8 @@ export const LineWidthPopupContainer: ComponentClass<
   display: flex;
   flex-wrap: wrap;
   right: 270px;
-  width: 160px;
   padding: 9px;
-  margin: -21px -28px; // Compensation for default big padding that inline dialog comes with
+  margin: -28px -20px; // Compensation for default big padding that inline dialog comes with
 `;
 
 export const ColorPopupContentWrapper: ComponentClass<

@@ -7,7 +7,7 @@ export interface ColorWithAlpha {
 }
 
 export interface ShapeParameters {
-  color: string;
+  color: string | number; // Sometime Core set number 255 here. We should ignore this value.
   lineWidth: number;
   addShadow: boolean;
 }

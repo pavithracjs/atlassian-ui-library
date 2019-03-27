@@ -23,6 +23,7 @@ export const PICKER_COLORS: ColorCombinations = {
   [colors.N60]: colors.N40,
   [colors.N800]: colors.N200,
 };
+export const DEFAULT_COLOR = colors.R300;
 
 export interface ColorPopupProps {
   readonly isOpen: boolean;

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { FrontArea, MainArea } from './lineWidthButtonStyles';
+import { THICKNESS_MAX, THICKNESS_MIN } from '../popups/lineWidthPopup';
 
 export interface LineWidthButtonProps {
   readonly isActive: boolean;
@@ -12,23 +13,24 @@ export class LineWidthIcon extends Component<LineWidthButtonProps> {
   render() {
     const { lineWidth, isActive, onLineWidthClick } = this.props;
     const onClick = () => onLineWidthClick(lineWidth);
-
-    const map: { [key: number]: number } = {
-      4: 4,
-      8: 6,
-      12: 10,
-      16: 12,
-      20: 16,
-    };
-
+    const localMin = 4;
+    const localMax = 16;
+    const localRange = localMax - localMin;
+    const incomingRange = THICKNESS_MAX - THICKNESS_MIN;
+    let resultingLineWidth = Math.floor(
+      (lineWidth - THICKNESS_MIN) * (localRange / incomingRange) + 4,
+    );
+    if (resultingLineWidth % 2 > 0) {
+      resultingLineWidth -= 1;
+    }
     const style = {
-      width: `${map[lineWidth]}px`,
-      height: `${map[lineWidth]}px`,
-      borderRadius: `${map[lineWidth] * 2}px`,
+      width: `${resultingLineWidth}px`,
+      height: `${resultingLineWidth}px`,
+      borderRadius: `${resultingLineWidth * 2}px`,
     };
 
     const mainAreaStyle = {
-      padding: `${(18 - map[lineWidth]) / 2}px`,
+      padding: `${(18 - resultingLineWidth) / 2}px`,
     };
 
     return (

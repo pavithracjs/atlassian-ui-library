@@ -137,7 +137,7 @@ export class MediaEditor extends React.Component<
       addShadow: prevAddShadow,
     } = prevProps.shapeParameters;
     if (this.toolbar) {
-      if (currColor !== prevColor) {
+      if (typeof currColor === 'string' && currColor !== prevColor) {
         this.toolbar.setColor(currColor);
       }
       if (currLineWidth !== prevLineWidth) {

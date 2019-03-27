@@ -77,6 +77,9 @@ export class Toolbar extends Component<
 
     const onLineWidthClick = (lineWidth: number) => {
       onLineWidthChanged(lineWidth);
+    };
+
+    const onCloseInlinePopup = () => {
       this.setState({ popup: 'none' });
     };
 
@@ -116,6 +119,7 @@ export class Toolbar extends Component<
 
             <VerticalLine />
             <LineWidthPopup
+              onClose={onCloseInlinePopup}
               onLineWidthClick={onLineWidthClick}
               lineWidth={lineWidth}
               isOpen={showLineWidthPopup}

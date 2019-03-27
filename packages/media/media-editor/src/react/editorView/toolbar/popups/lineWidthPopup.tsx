@@ -1,39 +1,47 @@
 import * as React from 'react';
 import { Component } from 'react';
 import InlineDialog from '@atlaskit/inline-dialog';
+import FieldRange from '@atlaskit/field-range';
 import { LineWidthPopupContainer } from './popupStyles';
-import { LineWidthIcon } from './lineWidthIcon';
+
+export const THICKNESS_MIN = 4;
+export const THICKNESS_MAX = 20;
 
 export interface LineWidthPopupProps {
   readonly isOpen: boolean;
   readonly lineWidth: number;
   readonly onLineWidthClick: (lineWidth: number) => void;
+  readonly onClose: () => void;
 }
 
 export class LineWidthPopup extends Component<LineWidthPopupProps> {
   render() {
-    const { isOpen, children } = this.props;
+    const { isOpen, children, lineWidth, onClose } = this.props;
     const content = (
-      <LineWidthPopupContainer>{this.buttons()}</LineWidthPopupContainer>
+      <LineWidthPopupContainer>
+        <FieldRange
+          value={lineWidth}
+          step={2}
+          min={THICKNESS_MIN}
+          max={THICKNESS_MAX}
+          onChange={this.onSliderChange}
+        />
+      </LineWidthPopupContainer>
     );
     return (
-      <InlineDialog isOpen={isOpen} placement="top-start" content={content}>
+      <InlineDialog
+        onContentBlur={onClose}
+        isOpen={isOpen}
+        placement="top-start"
+        content={content}
+      >
         {children}
       </InlineDialog>
     );
   }
 
-  private buttons(): JSX.Element[] {
-    const { onLineWidthClick, lineWidth: currentLineWidth } = this.props;
-    const lineWidths = [4, 8, 12, 16, 20];
-
-    return lineWidths.map(lineWidth => (
-      <LineWidthIcon
-        key={`${lineWidth}`}
-        lineWidth={lineWidth}
-        currentLineWidth={currentLineWidth}
-        onLineWidthClick={onLineWidthClick}
-      />
-    ));
-  }
+  private onSliderChange = (value: number) => {
+    const { onLineWidthClick } = this.props;
+    onLineWidthClick(value);
+  };
 }

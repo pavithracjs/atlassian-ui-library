@@ -9,6 +9,7 @@ import Toolbar, { tools } from './toolbar/toolbar';
 import { EditorContainer } from './styles';
 import { colors } from '@atlaskit/theme';
 import { rgbToHex } from '../../util';
+import { DEFAULT_COLOR } from './toolbar/popups/colorPopup';
 
 const DEFAULT_WIDTH = 845;
 const DEFAULT_HEIGHT = 530;
@@ -189,6 +190,11 @@ class EditorView extends Component<
         if (parsedColor.red !== undefined) {
           // Backward compatible with already stored colors in users' local storage
           parsedColor = rgbToHex(parsedColor);
+        } else if (
+          typeof parsedColor !== 'string' ||
+          parsedColor.indexOf('#') !== 0
+        ) {
+          parsedColor = DEFAULT_COLOR;
         }
         this.setState({
           color: parsedColor,
