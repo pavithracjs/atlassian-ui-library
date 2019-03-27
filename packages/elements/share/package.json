@@ -22,6 +22,7 @@
   ],
   "dependencies": {
     "@atlaskit/analytics-next": "^4.0.1",
+    "@atlaskit/analytics-next-types": "^4.0.1",
     "@atlaskit/button": "^11.0.2",
     "@atlaskit/field-text-area": "^5.0.1",
     "@atlaskit/form": "^5.2.1",
@@ -37,7 +38,6 @@
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
-    "@atlaskit/analytics-next-types": "^4.0.1",
     "@atlaskit/docs": "^7.0.1",
     "@atlaskit/editor-test-helpers": "^8.0.2",
     "@atlaskit/i18n-tools": "^0.5.0",
