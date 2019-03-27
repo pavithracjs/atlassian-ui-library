@@ -1515,14 +1515,11 @@
 "@types/prettier@^1.15.2":
   version "1.16.1"
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-1.16.1.tgz#328d1c9b54402e44119398bcb6a31b7bbd606d59"
-<<<<<<< HEAD
-=======
 
 "@types/prismjs@^1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@types/prismjs/-/prismjs-1.9.0.tgz#38af9491e2f105079a443703ee675fb27371ec94"
   integrity sha512-zeh+xd2pcCvWm1XtWLR4v5pzZMybKeq6X8Q4cIZMMx8GmyKDUfJaOtw+JaONHUQt5ncKFXezl8QGIDQsSF5YfA==
->>>>>>> master
 
 "@types/prop-types@*":
   version "15.5.6"
