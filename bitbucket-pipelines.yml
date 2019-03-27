@@ -106,7 +106,7 @@ pipelines:
               - node
         - step:
             name: Visual Regression Tests
-            image: atlassianlabs/atlaskit-mk-2-vr:1.0.8
+            image: atlassianlabs/atlaskit-mk-2-vr:1.0.9
             script:
               - source ./build-setup.sh
               - git lfs pull
@@ -219,7 +219,7 @@ pipelines:
     # This will run the full suite of the visual regression tests using Docker.
     build-visual-regression:
       - step:
-          image: atlassianlabs/atlaskit-mk-2-vr:1.0.8
+          image: atlassianlabs/atlaskit-mk-2-vr:1.0.9
           script:
             - source ./build-setup.sh
             - git lfs pull
@@ -343,7 +343,7 @@ pipelines:
                 - LANDKID=true yarn test:webdriver:browserstack:changed
           - step:
               name: Running Visual Regression tests
-              image: atlassianlabs/atlaskit-mk-2-vr:1.0.8
+              image: atlassianlabs/atlaskit-mk-2-vr:1.0.9
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit

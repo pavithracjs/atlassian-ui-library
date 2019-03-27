@@ -10,4 +10,4 @@ RUN apt-get update && apt-get install -yq gconf-service libasound2  libatk-bridg
   dpkg -i dumb-init_*.deb && rm -f dumb-init_*.deb && \
   apt-get clean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
   
-RUN yarn global add puppeteer@1.10.0
+RUN yarn global add puppeteer@1.13.0
