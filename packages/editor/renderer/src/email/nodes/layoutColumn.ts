@@ -21,8 +21,11 @@ export const layoutColumnStyle = `
 export default function layoutColumn({ text, attrs }: NodeSerializerOpts) {
   let className = '';
   if (attrs) {
-    if (attrs.width === 50) className = 'twoColumnLayout';
-    else if (attrs.width === 33.33) className = 'threeColumnLayout';
+    if (attrs.width === 50) {
+      className = 'twoColumnLayout';
+    } else if (attrs.width === 33.33) {
+      className = 'threeColumnLayout';
+    }
   }
   const innerDiv = createTag('div', {}, text);
   return createTag('div', { class: className }, innerDiv);
