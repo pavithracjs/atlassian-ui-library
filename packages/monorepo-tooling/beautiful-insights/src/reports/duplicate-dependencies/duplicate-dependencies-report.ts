@@ -10,7 +10,7 @@ import Bitbucket, {
   CodeInsightsReportResults,
 } from '../../reporters/bitbucket-server';
 
-const REPORT_KEY = 'jira.frontend.duplicates';
+const REPORT_KEY = 'beautiful.insights.duplicates';
 
 const message = (annotationCount: number) =>
   `This report interprets the yarn lock file, to tell you if there are any duplicate dependencies introduced by your PR.
@@ -25,9 +25,9 @@ const message = (annotationCount: number) =>
 const reportTemplate = (annotationCount: number) => ({
   details: message(annotationCount),
   title: 'Duplicates report',
-  vendor: 'Jira Frontend',
+  vendor: 'Beautiful Insights',
   logoUrl:
-    'https://usagetracker.us-east-1.staging.atl-paas.net/tracker/jfp-small.png?e=duplicates-report', // TODO: Remove Jira specific logo
+    'https://usagetracker.us-east-1.staging.atl-paas.net/tracker/jfp-small.png?e=duplicates-report', // TODO: new logo
   result:
     annotationCount === 0
       ? CodeInsightsReportResults.PASS
