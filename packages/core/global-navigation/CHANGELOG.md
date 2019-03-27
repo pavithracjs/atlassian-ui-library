@@ -1,5 +1,10 @@
 # @atlaskit/global-navigation
 
+## 6.2.1
+- [patch] [aacc698f07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aacc698f07):
+
+  - Adds an analytics event to track atlassian switcher dissmisals using the triggerXFlow callback
+
 ## 6.2.0
 - [minor] [6d7faa9784](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6d7faa9784):
 
