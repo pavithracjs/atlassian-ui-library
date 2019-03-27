@@ -6,12 +6,12 @@ export default md`
 
   ## Usage
 
-  ### Using the AkProfilecardClient
+  ### Using the ProfileClient
 
   ${code`
-import AkProfilecardResourced, { AkProfileClient } from '@atlaskit/profilecard';
+import ProfileCardResourced, { ProfileClient } from '@atlaskit/profilecard';
 
-const profileClient = new AkProfilecardClient({
+const profileClient = new ProfileClient({
   url: 'https://directory-graphql-service/endpoint' // GraphQL service endpoint
 });
 
@@ -19,7 +19,7 @@ const analytics = (eventname, attributes) => {
   // ...
 }
 
-<AkProfilecardResourced
+<ProfileCardResourced
   cloudId="DUMMY-10ae0bf3-157e-43f7-be45-f1bb13b39048"
   userId="638454:c8dddbde-3f65-4078-946e-8f9834a3c908"
   resourceClient={profileClient}
@@ -34,22 +34,22 @@ const analytics = (eventname, attributes) => {
 />
   `}
 
-  ### Using the LRU cache of the \`AkProfilecardClient\`
+  ### Using the LRU cache of the \`ProfileClient\`
 
   ${code`
-import { AkProfileClient } from '@atlaskit/profilecard';
+import { ProfileClient } from '@atlaskit/profilecard';
 
-const profileClient = new AkProfilecardClient({
+const profileClient = new ProfileClient({
   url: 'https://directory-graphql-service/endpoint', // GraphQL service endpoint
   cacheSize: 10, // Max item capacity of the LRU cache
   cacheMaxAge: 5000, // Milliseconds
 });
   `}
 
-  ### Customising / Extending the \`AkProfilecardClient\`
+  ### Customising / Extending the \`ProfileClient\`
 
   ${code`
-import { AkProfileClient } from '@atlaskit/profilecard';
+import { ProfileClient } from '@atlaskit/profilecard';
 
 const getProfileDataFromSomewhereElse = (url, cloudId, userId) => {
   const fetchUrl = 'https://someservice.com/fetchuser?userId=' + userId;
@@ -69,7 +69,7 @@ class CustomProfileClient extends ProfileClient {
    * @returns {Promise}
    */
   makeRequest(cloudId, userId) {
-    // 'userId' and 'cloudId' are passed from 'AkProfilecardResourced'
+    // 'userId' and 'cloudId' are passed from 'ProfileCardResourced'
     // component properties.
     // The string of 'cloudId/userId' is used as cache identifier.
     //

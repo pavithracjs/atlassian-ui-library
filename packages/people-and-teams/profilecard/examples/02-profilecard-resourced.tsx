@@ -10,7 +10,7 @@ export const MainStage = styled.div`
 
 const mockClient = getMockProfileClient(10, 0);
 // With a real client this would look like:
-// const client = new AkProfileClient({ url: 'http://api/endpoint' });
+// const client = new ProfileClient({ url: 'http://api/endpoint' });
 
 export default function Example() {
   return (
