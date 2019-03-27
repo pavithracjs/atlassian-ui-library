@@ -36,19 +36,24 @@ const buttonTheme = {
   },
 };
 
-function extract(newTheme, props, appearance, state) {
+function extract(newTheme: any, props: any, appearance: any, state: any) {
   const { mode } = props;
-  if (!newTheme[appearance]) return;
+  if (!newTheme[appearance]) {
+    return;
+  }
   const root = newTheme[appearance];
-  return Object.keys(root).reduce((acc, val) => {
+  return Object.keys(root).reduce((acc: { [index: string]: string }, val) => {
     let node = root;
     [val, state, mode].forEach(item => {
-      if (!node[item]) return acc;
+      if (!node[item]) {
+        return acc;
+      }
       if (typeof node[item] !== 'object') {
         acc[val] = node[item];
         return acc;
       }
       node = node[item];
+      return;
     });
     return acc;
   }, {});
