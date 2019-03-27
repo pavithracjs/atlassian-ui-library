@@ -15,10 +15,31 @@ export interface LineWidthPopupProps {
 }
 
 export class LineWidthPopup extends Component<LineWidthPopupProps> {
+  private closeSoonTimeout?: number;
+
+  private closeSoon = () => {
+    const { onClose } = this.props;
+    this.closeSoonTimeout = window.setTimeout(onClose, 1500);
+  };
+
+  private cancelCloseSoon = () => {
+    if (this.closeSoonTimeout) {
+      window.clearTimeout(this.closeSoonTimeout);
+      this.closeSoonTimeout = undefined;
+    }
+  };
+
+  componentWillUnmount(): void {
+    this.cancelCloseSoon();
+  }
+
   render() {
     const { isOpen, children, lineWidth, onClose } = this.props;
     const content = (
-      <LineWidthPopupContainer>
+      <LineWidthPopupContainer
+        onMouseLeave={this.closeSoon}
+        onMouseEnter={this.cancelCloseSoon}
+      >
         <FieldRange
           value={lineWidth}
           step={2}

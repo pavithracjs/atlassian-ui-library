@@ -72,7 +72,6 @@ export class Toolbar extends Component<
 
     const onPickColor = (color: string) => {
       onColorChanged(color);
-      this.setState({ popup: 'none' });
     };
 
     const onLineWidthClick = (lineWidth: number) => {
@@ -134,6 +133,7 @@ export class Toolbar extends Component<
             </LineWidthPopup>
 
             <ColorPopup
+              onClose={onCloseInlinePopup}
               onPickColor={onPickColor}
               color={color}
               isOpen={showColorPopup}

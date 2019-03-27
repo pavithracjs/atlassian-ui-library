@@ -29,18 +29,45 @@ export interface ColorPopupProps {
   readonly isOpen: boolean;
   readonly color: string;
   readonly onPickColor: (color: string) => void;
+  readonly onClose: () => void;
 }
 
 export class ColorPopup extends Component<ColorPopupProps> {
+  private closeSoonTimeout?: number;
+
+  private closeSoon = () => {
+    const { onClose } = this.props;
+    this.closeSoonTimeout = window.setTimeout(onClose, 1500);
+  };
+
+  private cancelCloseSoon = () => {
+    if (this.closeSoonTimeout) {
+      window.clearTimeout(this.closeSoonTimeout);
+      this.closeSoonTimeout = undefined;
+    }
+  };
+
+  componentWillUnmount(): void {
+    this.cancelCloseSoon();
+  }
+
   render() {
-    const { isOpen, children } = this.props;
+    const { isOpen, children, onClose } = this.props;
     const content = (
-      <ColorPopupContentWrapper>
+      <ColorPopupContentWrapper
+        onMouseLeave={this.closeSoon}
+        onMouseEnter={this.cancelCloseSoon}
+      >
         {this.renderButtons()}
       </ColorPopupContentWrapper>
     );
     return (
-      <InlineDialog isOpen={isOpen} placement="top-start" content={content}>
+      <InlineDialog
+        onContentBlur={onClose}
+        isOpen={isOpen}
+        placement="top-start"
+        content={content}
+      >
         {children}
       </InlineDialog>
     );
