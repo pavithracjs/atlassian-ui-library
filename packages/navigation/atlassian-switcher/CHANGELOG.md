@@ -1,5 +1,10 @@
 # @atlaskit/atlassian-switcher
 
+## 0.3.3
+- [patch] [9cf7af0d03](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9cf7af0d03):
+
+  - Data provider analytics
+
 ## 0.3.2
 - [patch] [aacc698f07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aacc698f07):
 
