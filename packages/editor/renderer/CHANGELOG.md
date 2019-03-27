@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 44.3.0
+- [minor] [0fea11af41](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0fea11af41):
+
+  - Email renderer supports numbered columns, adf-schema extended with colors
+
 ## 44.2.1
 - [patch] [ea6b08700c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6b08700c):
 
