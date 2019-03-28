@@ -1,1 +1,0 @@
-- removed cards appearance related code used by stride 

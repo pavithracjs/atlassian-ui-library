@@ -1,5 +1,11 @@
 # @atlaskit/editor-core
 
+## 106.7.3
+- Updated dependencies [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
+  - @atlaskit/renderer@44.4.2
+  - @atlaskit/util-data-test@11.1.4
+  - @atlaskit/task-decision@14.0.0
+
 ## 106.7.2
 - Updated dependencies [97abf5e006](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97abf5e006):
   - @atlaskit/renderer@44.4.1
