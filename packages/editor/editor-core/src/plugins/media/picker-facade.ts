@@ -14,6 +14,7 @@ import {
   isPopup,
   isBinaryUploader,
   isBrowser,
+  isImagePreview,
 } from '@atlaskit/media-picker';
 import { Context } from '@atlaskit/media-core';
 
@@ -197,8 +198,9 @@ export default class PickerFacade {
     event: UploadPreviewUpdateEventPayload,
   ) => {
     let { file, preview } = event;
-    const { dimensions, scaleFactor } = preview as ImagePreview;
-
+    const { dimensions, scaleFactor } = isImagePreview(preview)
+      ? preview
+      : { dimensions: undefined, scaleFactor: undefined };
     const state: MediaState = {
       id: file.id,
       fileName: file.name,
