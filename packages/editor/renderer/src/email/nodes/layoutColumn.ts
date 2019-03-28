@@ -1,7 +1,7 @@
 import { NodeSerializerOpts } from '../interfaces';
 import { createTag } from '../util';
 
-export const layoutColumnStyle = `
+export const layoutColumnStyles = `
   @media (min-width: 600px) {
     .threeColumnLayout {
       width: 33%;

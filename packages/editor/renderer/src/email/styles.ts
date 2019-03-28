@@ -1,6 +1,6 @@
 import { fontFamily, fontSize } from '@atlaskit/theme';
 import { paragraphStyles } from './nodes/paragraph';
-import { layoutColumnStyle } from './nodes/layoutColumn';
+import { layoutColumnStyles } from './nodes/layoutColumn';
 export default `
   .wrapper {
     font-family: ${fontFamily()};
@@ -15,5 +15,5 @@ export default `
     line-height: 24px;
   }
   ${paragraphStyles}
-  ${layoutColumnStyle}
+  ${layoutColumnStyles}
 `;
