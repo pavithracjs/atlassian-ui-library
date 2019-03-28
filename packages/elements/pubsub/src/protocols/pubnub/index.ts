@@ -1,4 +1,4 @@
-import * as A from 'pubnub';
+import PubNub from 'pubnub';
 import { MessageEvent, StatusEvent, SubscribeParameters } from 'pubnub';
 import { OnEvent } from '../../apiTypes';
 import { Protocol, EventType } from '../../types';
