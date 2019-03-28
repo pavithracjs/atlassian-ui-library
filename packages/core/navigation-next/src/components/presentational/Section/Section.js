@@ -3,7 +3,7 @@
 import React, { PureComponent, type Node } from 'react';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import Transition from 'react-transition-group/Transition';
-import { ClassNames } from '@emotion/core';
+import { ClassNames, css } from '@emotion/core';
 import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
 
 import { transitionDurationMs } from '../../../common/constants';
@@ -100,17 +100,18 @@ export default class Section extends PureComponent<SectionProps, SectionState> {
                 }}
               >
                 <ClassNames>
-                  {({ css }) =>
+                  {({ css: getClassName }) =>
                     shouldGrow ? (
                       <ScrollableWrapper
-                        css={{
-                          ...styles.wrapper,
-                          ...animationStyles,
-                        }}
+                        pete="hi"
+                        css={css`
+                          ${styles.wrapper}
+                          ${animationStyles}
+                        `}
                       >
                         <ScrollableInner css={styles.inner}>
                           {children({
-                            className: css(styles.children),
+                            className: getClassName(styles.children),
                             css: styles.children,
                           })}
                         </ScrollableInner>
@@ -118,7 +119,7 @@ export default class Section extends PureComponent<SectionProps, SectionState> {
                     ) : (
                       <StaticWrapper css={animationStyles}>
                         {children({
-                          className: css(styles.children),
+                          className: getClassName(styles.children),
                           css: styles.children,
                         })}
                       </StaticWrapper>
