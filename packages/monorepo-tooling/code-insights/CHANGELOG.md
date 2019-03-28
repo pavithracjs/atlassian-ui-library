@@ -1,5 +1,10 @@
 # @atlaskit/code-insights
 
+## 1.0.0
+- [major] [dc294c47bb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dc294c47bb):
+
+  - Release first version of code-insights tool
+
 ## 0.0.3
 - [patch] [ff246f306c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff246f306c):
 

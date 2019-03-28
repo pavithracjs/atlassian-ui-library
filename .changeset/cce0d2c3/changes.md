@@ -1,1 +1,0 @@
-- Release first version of code-insights tool
