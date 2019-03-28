@@ -2,11 +2,16 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 // import InlineEdit from '../../InlineEdit';
 import InlineEditableTextfield from '../../InlineEditableTextfield';
-// import ContentWrapper from '../../../styled/ContentWrapper';
+import ContentWrapper from '../../../styled/ContentWrapper';
+import ReadViewContentWrapper from '../../../styled/ReadViewContentWrapper';
 
 const noop = () => {};
 
 describe('@atlaskit/inline-edit core', () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+  });
+
   it('should render a label when label prop is passed', () => {
     const wrapper = mount(
       <InlineEditableTextfield onConfirm={noop} defaultValue="" label="test" />,
@@ -21,59 +26,93 @@ describe('@atlaskit/inline-edit core', () => {
     expect(wrapper.find('label').length).toBe(0);
   });
 
-  // it('should keep edit view open on blur when keepEditViewOpenOnBlur prop is true', () => {
-  //   const wrapper = mount(
-  //     <InlineEditableTextfield
-  //       onConfirm={noop}
-  //       defaultValue=""
-  //       startWithEditViewOpen
-  //       // keepEditViewOpenOnBlur
-  //     />
-  //   );
-  //   const div =  wrapper.find(ContentWrapper);
-  //   div.simulate('blur');
-  //   expect(wrapper.find('input').length).toBe(0);
-  // });
+  it('should keep edit view open on blur when keepEditViewOpenOnBlur prop is true', () => {
+    const wrapper = mount(
+      <InlineEditableTextfield
+        onConfirm={noop}
+        defaultValue=""
+        startWithEditViewOpen
+        keepEditViewOpenOnBlur
+      />,
+    );
+    const div = wrapper.find(ContentWrapper);
+    div.simulate('blur');
+    jest.runOnlyPendingTimers();
+    expect(wrapper.update().find('input').length).toBe(1);
+  });
 
-  //   it('hideActionButtons');
+  it('should render action buttons', () => {
+    const wrapper = mount(
+      <InlineEditableTextfield
+        onConfirm={noop}
+        defaultValue=""
+        startWithEditViewOpen
+      />,
+    );
+    expect(wrapper.find('button').length).toBe(2);
+  });
 
-  //   it('readViewFitContainerWidth');
+  it('should not render action buttons when hideActionButtons prop is true', () => {
+    const wrapper = mount(
+      <InlineEditableTextfield
+        onConfirm={noop}
+        defaultValue=""
+        startWithEditViewOpen
+        hideActionButtons
+      />,
+    );
+    expect(wrapper.find('button').length).toBe(0);
+  });
 
-  //   it('readView');
+  it('should stretch to container width in read mode if readViewFitContainerWidth prop is true', () => {
+    const wrapper = mount(
+      <InlineEditableTextfield
+        onConfirm={noop}
+        defaultValue=""
+        readViewFitContainerWidth
+      />,
+    );
+    expect(wrapper.find(ReadViewContentWrapper)).toHaveStyleRule(
+      'width',
+      '100%',
+    );
+  });
 
-  //   it('editButton next to readview');
+  // it('readView');
 
-  //   it('editView + isEditing + defaultValue');
+  // it('editButton next to readview');
 
-  //   it('onConfirm');
+  // it('editView + isEditing + defaultValue');
 
-  //   it('startWithEditViewOpen');
+  // it('onConfirm');
 
-  //   it('validate');
+  // it('startWithEditViewOpen');
 
-  //   it('click readview')
+  // it('validate');
 
-  //   it('enter in readview');
+  // it('click readview')
 
-  //   it('click confirm button')
+  // it('enter in readview');
 
-  //   it('click cancel button')
+  // it('click confirm button')
 
-  //   it('enter in textfield')
+  // it('click cancel button')
 
-  //   it('esc in textfield')
+  // it('enter in textfield')
 
-  //   it('confirm on blur')
+  // it('esc in textfield')
 
-  //   it('darken on hover')
+  // it('confirm on blur')
 
-  //   it('focus on edit button')
+  // it('darken on hover')
 
-  //   it('stay in edit view on tab to confirm button and cancel button')
+  // it('focus on edit button')
 
-  //   it('should have aria-tags');
+  // it('stay in edit view on tab to confirm button and cancel button')
 
-  //   it('not cause console errors')
+  // it('should have aria-tags');
+
+  // it('not cause console errors')
 });
 
 // describe('@atlaskit/inline-editable-textfield', () => {
