@@ -6,7 +6,6 @@
     "plugins": [
       { "transform": "./src/transformers/xregexpTransformer.ts" }
     ],
-    "esModuleInterop": false,
     "allowJs": false,
     "alwaysStrict": false,
     "declaration": false,
