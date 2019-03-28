@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@atlaskit/website",
-  "version": "4.1.46",
+  "version": "4.1.47",
   "description": "",
   "license": "Apache-2.0",
   "author": "Atlassian Pty Ltd",
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@atlaskit/analytics-listeners": "^5.0.0",
-    "@atlaskit/badge": "^10.0.0",
+    "@atlaskit/badge": "^11.0.0",
     "@atlaskit/button": "^11.0.0",
     "@atlaskit/code": "^9.0.0",
     "@atlaskit/css-reset": "^3.0.6",

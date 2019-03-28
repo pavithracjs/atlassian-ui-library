@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-ui",
-  "version": "10.0.4",
+  "version": "10.0.5",
   "description": "Includes common components and utilities used by other media packages",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -24,7 +24,7 @@
   "dependencies": {
     "@atlaskit/avatar": "^15.0.1",
     "@atlaskit/avatar-group": "^3.0.1",
-    "@atlaskit/badge": "^10.0.0",
+    "@atlaskit/badge": "^11.0.0",
     "@atlaskit/button": "^11.0.2",
     "@atlaskit/dropdown-menu": "^7.0.1",
     "@atlaskit/field-text": "^8.0.1",

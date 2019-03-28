@@ -1,1 +1,0 @@
-- The appearance prop only accepts appearance types supported by the badge component, i.e. 'primary', 'added', 'default' etc.

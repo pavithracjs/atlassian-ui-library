@@ -1,5 +1,9 @@
 # @atlaskit/media-ui
 
+## 10.0.5
+- Updated dependencies [c95557e3ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c95557e3ff):
+  - @atlaskit/badge@11.0.0
+
 ## 10.0.4
 - [patch] [62834d5210](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/62834d5210):
 
