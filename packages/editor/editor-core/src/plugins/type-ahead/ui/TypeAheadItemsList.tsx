@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import Item, { ItemGroup, itemThemeNamespace } from '@atlaskit/item';
-import { colors, themed } from '@atlaskit/theme';
+import { colors, borderRadius, themed } from '@atlaskit/theme';
 import { TypeAheadItem } from '../types';
 
 const itemTheme = {
@@ -30,6 +30,21 @@ const itemTheme = {
     },
   },
 };
+
+const KeyHint = styled.div`
+  background-color: rgba(223, 225, 229, 0.5); /* N60 at 50% */
+  color: ${colors.N100};
+  border-radius: ${borderRadius()}px;
+  padding: 4px;
+  line-height: 12px;
+  font-size: 12px;
+  word-wrap: break-word;
+`;
+
+const ItemDescription = styled.div`
+  font-size: 12px;
+  color: grey;
+`;
 
 export type TypeAheadItemsListProps = {
   items?: Array<TypeAheadItem>;
@@ -96,6 +111,9 @@ export function TypeAheadItemsList({
               onClick={() => insertByIndex(index)}
               onMouseMove={() => setCurrentIndex(index)}
               elemBefore={item.icon ? item.icon() : null}
+              elemAfter={
+                item.keyshortcut ? <KeyHint>{item.keyshortcut}</KeyHint> : null
+              }
               isSelected={index === currentIndex}
               aria-describedby={item.title}
               ref={
@@ -105,7 +123,12 @@ export function TypeAheadItemsList({
                   : null
               }
             >
-              {item.title}
+              <div className="item-title">{item.title}</div>
+              {item.description && (
+                <ItemDescription className="item-description">
+                  {item.description}
+                </ItemDescription>
+              )}
             </Item>
           ),
         )}

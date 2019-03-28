@@ -110,8 +110,10 @@ const tasksAndDecisionsPlugin: EditorPlugin = {
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(insertBlockMessages.action),
+        description: formatMessage(insertBlockMessages.actionDescription),
         priority: 100,
         keywords: ['checkbox', 'task', 'todo'],
+        keyshortcut: '[]',
         icon: () => (
           <EditorTaskIcon label={formatMessage(insertBlockMessages.action)} />
         ),
@@ -121,7 +123,9 @@ const tasksAndDecisionsPlugin: EditorPlugin = {
       },
       {
         title: formatMessage(insertBlockMessages.decision),
+        description: formatMessage(insertBlockMessages.decisionDescription),
         priority: 900,
+        keyshortcut: '<>',
         icon: () => (
           <EditorDecisionIcon
             label={formatMessage(insertBlockMessages.decision)}

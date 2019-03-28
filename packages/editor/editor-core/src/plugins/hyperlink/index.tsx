@@ -6,6 +6,7 @@ import { createKeymapPlugin } from './pm-plugins/keymap';
 import { plugin, stateKey, LinkAction } from './pm-plugins/main';
 import fakeCursorToolbarPlugin from './pm-plugins/fake-cursor-for-toolbar';
 import EditorSuccessIcon from '@atlaskit/icon/glyph/editor/success';
+import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 import {
   addAnalytics,
   ACTION,
@@ -15,6 +16,7 @@ import {
   ACTION_SUBJECT_ID,
 } from '../analytics';
 import { getToolbarConfig } from './Toolbar';
+import { tooltip, addLink } from '../../keymaps';
 
 const hyperlinkPlugin: EditorPlugin = {
   marks() {
@@ -42,9 +44,11 @@ const hyperlinkPlugin: EditorPlugin = {
   pluginsOptions: {
     quickInsert: ({ formatMessage }) => [
       {
-        title: 'Hyperlink',
+        title: formatMessage(messages.link),
+        description: formatMessage(messages.linkDescription),
         keywords: ['url', 'link', 'hyperlink'],
         priority: 1200,
+        keyshortcut: tooltip(addLink),
         icon: () => <EditorSuccessIcon label={'Hyperlink'} />,
         action(insert, state) {
           const pos = state.selection.from;

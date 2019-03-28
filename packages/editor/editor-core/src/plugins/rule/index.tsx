@@ -36,8 +36,10 @@ const rulePlugin: EditorPlugin = {
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.horizontalRule),
+        description: formatMessage(messages.horizontalRuleDescription),
         keywords: ['horizontal rule', 'rule', 'line'],
         priority: 1200,
+        keyshortcut: '---',
         icon: () => (
           <HorizontalRuleIcon label={formatMessage(messages.horizontalRule)} />
         ),

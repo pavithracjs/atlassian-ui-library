@@ -80,14 +80,29 @@ export const messages = defineMessages({
     defaultMessage: 'Action item',
     description: 'Also known as a “task”, “to do item”, or a checklist',
   },
+  actionDescription: {
+    id: 'fabric.editor.action.description',
+    defaultMessage: 'Capture actions to move work forward.',
+    description: '',
+  },
   link: {
     id: 'fabric.editor.link',
     defaultMessage: 'Link',
     description: 'Insert a hyperlink',
   },
+  linkDescription: {
+    id: 'fabric.editor.link.description',
+    defaultMessage: 'Insert an external link.',
+    description: 'Insert a hyperlink',
+  },
   filesAndImages: {
     id: 'fabric.editor.filesAndImages',
     defaultMessage: 'Files & images',
+    description: 'Insert one or more files or images',
+  },
+  filesAndImagesDescription: {
+    id: 'fabric.editor.filesAndImages.description',
+    defaultMessage: 'Insert files locally or from the cloud.',
     description: 'Insert one or more files or images',
   },
   image: {
@@ -100,9 +115,19 @@ export const messages = defineMessages({
     defaultMessage: 'Mention',
     description: 'Reference another person in your document',
   },
+  mentionDescription: {
+    id: 'fabric.editor.mention.description',
+    defaultMessage: 'Mention somebody in your team.',
+    description: 'Reference another person in your document',
+  },
   emoji: {
     id: 'fabric.editor.emoji',
     defaultMessage: 'Emoji',
+    description: 'Insert an emoticon or smiley :-)',
+  },
+  emojiDescription: {
+    id: 'fabric.editor.emoji.description',
+    defaultMessage: 'Insert an emoji (even custom ones!).',
     description: 'Insert an emoticon or smiley :-)',
   },
   table: {
@@ -110,9 +135,19 @@ export const messages = defineMessages({
     defaultMessage: 'Table',
     description: 'Inserts a table in the document',
   },
+  tableDescription: {
+    id: 'fabric.editor.table.description',
+    defaultMessage: 'Insert a table.',
+    description: 'Inserts a table in the document',
+  },
   decision: {
     id: 'fabric.editor.decision',
     defaultMessage: 'Decision',
+    description: 'Capture a decision you’ve made',
+  },
+  decisionDescription: {
+    id: 'fabric.editor.decision.description',
+    defaultMessage: 'Capture decisions to move work forward.',
     description: 'Capture a decision you’ve made',
   },
   horizontalRule: {
@@ -120,9 +155,19 @@ export const messages = defineMessages({
     defaultMessage: 'Divider',
     description: 'A horizontal rule or divider',
   },
+  horizontalRuleDescription: {
+    id: 'fabric.editor.horizontalRule.description',
+    defaultMessage: 'Visually divide blocks with a horizontal line.',
+    description: 'A horizontal rule or divider',
+  },
   date: {
     id: 'fabric.editor.date',
     defaultMessage: 'Date',
+    description: 'Opens a date picker that lets you select a date',
+  },
+  dateDescription: {
+    id: 'fabric.editor.date.description',
+    defaultMessage: 'Insert a date inside a text.',
     description: 'Opens a date picker that lets you select a date',
   },
   placeholderText: {
@@ -135,9 +180,20 @@ export const messages = defineMessages({
     defaultMessage: 'Columns',
     description: 'Create a multi column section or layout',
   },
+  columnsDescription: {
+    id: 'fabric.editor.columns.description',
+    defaultMessage: 'Structure your page using sections.',
+    description: 'Create a multi column section or layout',
+  },
   status: {
     id: 'fabric.editor.status',
     defaultMessage: 'Status',
+    description:
+      'Inserts an item representing the status of an activity to task.',
+  },
+  statusDescription: {
+    id: 'fabric.editor.status.description',
+    defaultMessage: 'Insert a colored lozenge with text inline.',
     description:
       'Inserts an item representing the status of an activity to task.',
   },

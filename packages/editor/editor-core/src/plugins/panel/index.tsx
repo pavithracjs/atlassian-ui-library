@@ -70,6 +70,7 @@ const panelPlugin: EditorPlugin = {
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.panel),
+        description: formatMessage(messages.panelDescription),
         keywords: ['info'],
         priority: 900,
         icon: () => <InfoIcon label={formatMessage(messages.panel)} />,
@@ -79,6 +80,7 @@ const panelPlugin: EditorPlugin = {
       },
       {
         title: formatMessage(messages.notePanel),
+        description: formatMessage(messages.notePanelDescription),
         keywords: ['note'],
         priority: 1000,
         icon: () => (
@@ -90,6 +92,7 @@ const panelPlugin: EditorPlugin = {
       },
       {
         title: formatMessage(messages.successPanel),
+        description: formatMessage(messages.successPanelDescription),
         keywords: ['success', 'tip'],
         priority: 1000,
         icon: () => (
@@ -105,6 +108,7 @@ const panelPlugin: EditorPlugin = {
       },
       {
         title: formatMessage(messages.warningPanel),
+        description: formatMessage(messages.warningPanelDescription),
         keywords: ['warning'],
         priority: 1000,
         icon: () => (
@@ -120,6 +124,7 @@ const panelPlugin: EditorPlugin = {
       },
       {
         title: formatMessage(messages.errorPanel),
+        description: formatMessage(messages.errorPanelDescription),
         keywords: ['error'],
         priority: 1000,
         icon: () => (

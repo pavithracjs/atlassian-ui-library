@@ -12,6 +12,7 @@ import WithPluginState from '../../ui/WithPluginState';
 import StatusPicker from './ui/statusPicker';
 import { commitStatusPicker, updateStatus, createStatus } from './actions';
 import { keymapPlugin } from './keymap';
+import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 
 const baseStatusPlugin = (): EditorPlugin => ({
   nodes() {
@@ -83,14 +84,6 @@ const baseStatusPlugin = (): EditorPlugin => ({
   },
 });
 
-const createQuickInsertMenuItem = () => ({
-  title: 'Status',
-  priority: 700,
-  keywords: ['lozenge'],
-  icon: () => <StatusIcon label="Status" />,
-  action: createStatus(),
-});
-
 export interface StatusOptions {
   menuDisabled: boolean;
 }
@@ -103,7 +96,16 @@ const decorateWithPluginOptions = (
     return plugin;
   }
   plugin.pluginsOptions = {
-    quickInsert: [createQuickInsertMenuItem()],
+    quickInsert: ({ formatMessage }) => [
+      {
+        title: formatMessage(messages.status),
+        description: formatMessage(messages.statusDescription),
+        priority: 700,
+        keywords: ['lozenge'],
+        icon: () => <StatusIcon label="Status" />,
+        action: createStatus(),
+      },
+    ],
   };
   return plugin;
 };

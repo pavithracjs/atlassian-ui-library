@@ -19,6 +19,7 @@ import {
   ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
 } from '../analytics';
+import { tooltip, toggleBulletList, toggleOrderedList } from '../../keymaps';
 
 const listPlugin: EditorPlugin = {
   nodes() {
@@ -44,8 +45,10 @@ const listPlugin: EditorPlugin = {
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.unorderedList),
+        description: formatMessage(messages.unorderedListDescription),
         keywords: ['ul', 'unordered list'],
         priority: 1100,
+        keyshortcut: tooltip(toggleBulletList),
         icon: () => (
           <EditorBulletListIcon label={formatMessage(messages.unorderedList)} />
         ),
@@ -73,8 +76,10 @@ const listPlugin: EditorPlugin = {
       },
       {
         title: formatMessage(messages.orderedList),
+        description: formatMessage(messages.orderedListDescription),
         keywords: ['ol', 'ordered list', 'numbered list'],
         priority: 1200,
+        keyshortcut: tooltip(toggleOrderedList),
         icon: () => (
           <EditorNumberedListIcon label={formatMessage(messages.orderedList)} />
         ),

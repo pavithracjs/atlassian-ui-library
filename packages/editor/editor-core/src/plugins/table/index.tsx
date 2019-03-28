@@ -28,6 +28,7 @@ import {
   INPUT_METHOD,
   EVENT_TYPE,
 } from '../analytics';
+import { tooltip, toggleTable } from '../../keymaps';
 
 export const HANDLE_WIDTH = 6;
 
@@ -156,7 +157,9 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.table),
+        description: formatMessage(messages.tableDescription),
         priority: 600,
+        keyshortcut: tooltip(toggleTable),
         icon: () => <TableIcon label={formatMessage(messages.table)} />,
         action(insert, state) {
           const tr = insert(createTable(state.schema));

@@ -19,6 +19,7 @@ import {
   ACTION_SUBJECT,
   ACTION,
 } from '../analytics';
+import { toggleBlockQuote, tooltip } from '../../keymaps';
 
 interface BlockTypeNode {
   name: AllowedBlockTypes;
@@ -107,7 +108,9 @@ const blockType: EditorPlugin = {
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.blockquote),
+        description: formatMessage(messages.blockquoteDescription),
         priority: 1300,
+        keyshortcut: tooltip(toggleBlockQuote),
         icon: () => (
           <EditorQuoteIcon label={formatMessage(messages.blockquote)} />
         ),

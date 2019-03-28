@@ -115,7 +115,9 @@ const emojiPlugin: EditorPlugin = {
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.emoji),
+        description: formatMessage(messages.emojiDescription),
         priority: 500,
+        keyshortcut: ':',
         icon: () => <EmojiIcon label={formatMessage(messages.emoji)} />,
         action(insert, state) {
           const mark = state.schema.mark('emojiQuery');

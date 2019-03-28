@@ -105,8 +105,10 @@ const datePlugin: EditorPlugin = {
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.date),
+        description: formatMessage(messages.dateDescription),
         priority: 800,
         keywords: ['time', 'today', '/'],
+        keyshortcut: '//',
         icon: () => <EditorDateIcon label={formatMessage(messages.date)} />,
         action(insert, state) {
           const dateNode = state.schema.nodes.date.createChecked({

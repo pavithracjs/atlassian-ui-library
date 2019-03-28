@@ -124,7 +124,9 @@ const mentionsPlugin = (
       quickInsert: ({ formatMessage }) => [
         {
           title: formatMessage(messages.mention),
+          description: formatMessage(messages.mentionDescription),
           priority: 400,
+          keyshortcut: '@',
           icon: () => <MentionIcon label={formatMessage(messages.mention)} />,
           action(insert, state) {
             const mark = state.schema.mark('typeAheadQuery', {

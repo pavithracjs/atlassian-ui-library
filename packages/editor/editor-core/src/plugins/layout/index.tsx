@@ -42,6 +42,7 @@ export default {
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.columns),
+        description: formatMessage(messages.columnsDescription),
         keywords: ['layout', 'section'],
         priority: 1100,
         icon: () => (
