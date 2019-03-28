@@ -1,5 +1,10 @@
 # @atlaskit/media-card
 
+## 57.0.3
+- [patch] [d402fdb775](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d402fdb775):
+
+  - FIX ED-6584: Keep card dataURI regardless of previus state
+
 ## 57.0.2
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 
