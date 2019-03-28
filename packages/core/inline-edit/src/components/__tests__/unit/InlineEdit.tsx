@@ -29,9 +29,8 @@ describe('@atlaskit/inline-edit core', () => {
   //       // keepEditViewOpenOnBlur
   //     />
   //   );
-  //   const input = wrapper.find('input');
-  //   input.simulate('blur');
-  //   expect(wrapper.find('input').length).toBe(2);
+  //   wrapper.simulate('blur');
+  //   expect(wrapper.find('input').length).toBe(0);
   // });
 
   //   it('hideActionButtons');

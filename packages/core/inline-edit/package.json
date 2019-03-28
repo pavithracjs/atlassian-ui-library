@@ -45,6 +45,8 @@
     "@atlaskit/tag": "^7.0.0",
     "@atlaskit/tag-group": "^7.0.0",
     "@atlaskit/textarea": "^0.3.1",
+    "@atlaskit/ssr": "^0.0.1",
+    "@atlaskit/visual-regression": "^0.0.1",
     "enzyme": "^3.7.0",
     "react-dom": "^16.4.2"
   },
