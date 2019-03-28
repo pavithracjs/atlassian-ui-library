@@ -1,0 +1,1 @@
+- ED-6580 Media in editor is sized incorrectly in firefox
