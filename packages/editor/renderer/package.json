@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/renderer",
-  "version": "44.4.0",
+  "version": "44.4.1",
   "description": "Renderer component",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -23,7 +23,7 @@
     "@atlaskit/media-filmstrip": "^30.0.1",
     "@atlaskit/mention": "^17.1.1",
     "@atlaskit/smart-card": "^10.0.1",
-    "@atlaskit/status": "^0.7.1",
+    "@atlaskit/status": "^0.8.0",
     "@atlaskit/task-decision": "^13.1.1",
     "@atlaskit/theme": "^8.0.1",
     "prosemirror-model": "^1.7.0",
@@ -51,7 +51,7 @@
     "@types/puppeteer": "^1.12.1",
     "@types/react-loadable": "^5.4.1",
     "enzyme": "^3.7.0",
-    "puppeteer":"^1.13.0",
+    "puppeteer": "^1.13.0",
     "react": "^16.4.0",
     "react-live-clock": "^2.0.2",
     "sinon": "^2.2.0"
