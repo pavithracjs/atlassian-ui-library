@@ -3,7 +3,7 @@ import { Observer } from 'rxjs/Observer';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { publishReplay } from 'rxjs/operators/publishReplay';
 import uuid from 'uuid/v4';
-import * as Dataloader from 'dataloader';
+import Dataloader from 'dataloader';
 import {
   MediaStore,
   UploadableFile,
