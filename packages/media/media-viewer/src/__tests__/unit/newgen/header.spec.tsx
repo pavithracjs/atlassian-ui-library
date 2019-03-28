@@ -260,7 +260,9 @@ describe('<Header />', () => {
       el: ReactWrapper<any, any>,
       enabled: boolean,
     ) => {
-      expect(el.find({ type: 'button', isDisabled: !enabled })).toHaveLength(1);
+      expect(
+        el.find({ type: 'button', isDisabled: !enabled }).find('Button'),
+      ).toHaveLength(1);
       expect(el.find(DownloadIcon)).toHaveLength(1);
     };
 
