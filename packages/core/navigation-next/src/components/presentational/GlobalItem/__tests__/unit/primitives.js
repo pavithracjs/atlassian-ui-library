@@ -1,6 +1,6 @@
 // @flow
 
-import { render, mount, shallow } from 'enzyme';
+import { render, mount } from 'enzyme';
 import React from 'react';
 import Tooltip from '@atlaskit/tooltip';
 import GlobalNavigationItemPrimitive from '../../primitives';
@@ -8,9 +8,6 @@ import GlobalNavigationItemPrimitive from '../../primitives';
 const styles = () => ({
   itemBase: {},
 });
-
-// Required to dive inside the withGlobalTheme HOC
-const shallowDive = node => shallow(node).dive();
 
 describe('GlobalNavigationItemPrimitive', () => {
   let defaultProps;
@@ -126,7 +123,7 @@ describe('GlobalNavigationItemPrimitive', () => {
   it('should render badge and icon when badge and icon props are passed', () => {
     const MyBadge = () => <div id="badge" />;
     const MyIcon = () => <div id="icon" />;
-    const wrapper = shallowDive(
+    const wrapper = mount(
       <GlobalNavigationItemPrimitive
         {...defaultProps}
         styles={styles}
@@ -164,7 +161,7 @@ describe('GlobalNavigationItemPrimitive', () => {
   });
 
   it('should render a tooltip when a tooltip prop is passed', () => {
-    const wrapper = shallowDive(
+    const wrapper = mount(
       <GlobalNavigationItemPrimitive
         {...defaultProps}
         component={({ className, children, onClick }) => (
@@ -180,7 +177,7 @@ describe('GlobalNavigationItemPrimitive', () => {
   });
 
   it('should render a tooltip without text if element is selected', () => {
-    const wrapper = shallowDive(
+    const wrapper = mount(
       <GlobalNavigationItemPrimitive
         {...defaultProps}
         component={() => <button id="customComponent" />}
