@@ -1,6 +1,5 @@
 {
   "name": "@atlaskit/code-insights",
-  "name": "@atlaskit/beautiful-insights",
   "version": "0.0.3",
   "description": "Code insights reporting tool for FE (mono)repo's.",
   "license": "Apache-2.0",
