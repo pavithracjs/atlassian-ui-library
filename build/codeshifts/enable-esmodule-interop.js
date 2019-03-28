@@ -1,5 +1,20 @@
 // @flow
-// Press ctrl+space for code completion
+
+/*
+This codemod was used to enabled "esModuleInterop" in the AK repo
+It rewrites namespace imports (`import * as debounce`) that are actually default imports,
+to a default import. So
+
+import * as debounce from 'debounce';
+debounce();
+
+becomes:
+
+import debounce from 'debounce';
+debounce();
+
+*/
+
 export default function transformer(file, api) {
   const j = api.jscodeshift;
 
