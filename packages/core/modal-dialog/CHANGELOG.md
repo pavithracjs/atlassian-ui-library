@@ -1,5 +1,9 @@
 # @atlaskit/modal-dialog
 
+## 8.0.4
+- Updated dependencies [ce4e1b4780](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce4e1b4780):
+  - @atlaskit/portal@0.3.0
+
 ## 8.0.3
 - Updated dependencies [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
   - @atlaskit/form@5.2.3

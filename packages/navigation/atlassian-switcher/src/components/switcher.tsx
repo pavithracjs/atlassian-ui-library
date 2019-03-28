@@ -21,7 +21,7 @@ import {
 import now from '../utils/performance-now';
 import FormattedMessage from '../primitives/formatted-message';
 import TryLozenge from '../primitives/try-lozenge';
-import { TriggerXFlowCallback, FeatureFlagProps } from '../types';
+import { TriggerXFlowCallback } from '../types';
 
 type SwitcherProps = {
   messages: Messages;
@@ -34,7 +34,7 @@ type SwitcherProps = {
   recentLinks: RecentItemType[];
   customLinks: SwitcherItemType[];
   manageLink?: string;
-} & FeatureFlagProps;
+};
 
 const getAnalyticsContext = (itemsCount: number) => ({
   ...analyticsAttributes({

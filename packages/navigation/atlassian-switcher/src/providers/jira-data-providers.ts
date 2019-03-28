@@ -7,4 +7,7 @@ export const MANAGE_HREF = '/plugins/servlet/customize-application-navigator';
 const fetchCustomLinks = () =>
   fetchJson<CustomLinksResponse>(`/rest/menu/latest/appswitcher`);
 
-export const CustomLinksProvider = asDataProvider(fetchCustomLinks);
+export const CustomLinksProvider = asDataProvider(
+  'customLinks',
+  fetchCustomLinks,
+);

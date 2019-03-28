@@ -1,5 +1,9 @@
 # @atlaskit/util-data-test
 
+## 11.1.4
+- Updated dependencies [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
+  - @atlaskit/task-decision@14.0.0
+
 ## 11.1.3
 - [patch] [1affe17dc4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1affe17dc4):
 

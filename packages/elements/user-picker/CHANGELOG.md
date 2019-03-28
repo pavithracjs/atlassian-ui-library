@@ -1,5 +1,10 @@
 # @atlaskit/user-picker
 
+## 3.3.0
+- [minor] [4526b178cb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4526b178cb):
+
+  - Fixed uncaptured Enter key press on Input
+
 ## 3.2.0
 - [minor] [b0210d7ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0210d7ccc):
 

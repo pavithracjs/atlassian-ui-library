@@ -5,19 +5,19 @@ import {
   getLicensedProductLinks,
   getRecentLinkItems,
   getSuggestedProductLink,
-} from '../utils/links';
+} from './links';
 import {
   isComplete,
   isError,
   isLoading,
   ProviderResult,
-} from './as-data-provider';
+} from '../providers/as-data-provider';
 import {
   CustomLinksResponse,
   LicenseInformationResponse,
   RecentContainersResponse,
 } from '../types';
-import { createCollector } from '../utils/create-collector';
+import { createCollector } from './create-collector';
 
 function collectProductLinks(
   cloudId: string,
@@ -117,15 +117,10 @@ interface SwitcherFeatures {
   enableSplitJira: boolean;
 }
 
-const DEFAULT_FEATURES = {
-  xflow: true,
-  enableSplitJira: false,
-};
-
 export function mapResultsToSwitcherProps(
   cloudId: string,
   results: ProviderResults,
-  features: SwitcherFeatures = DEFAULT_FEATURES,
+  features: SwitcherFeatures,
 ) {
   const collect = createCollector();
 

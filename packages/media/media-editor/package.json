@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-editor",
-  "version": "31.0.1",
+  "version": "31.0.2",
   "description": "Media component for image annotations",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.tsx",
@@ -15,6 +15,7 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/button": "^11.0.2",
+    "@atlaskit/field-range": "^6.0.1",
     "@atlaskit/icon": "^16.0.5",
     "@atlaskit/inline-dialog": "^10.0.1",
     "@atlaskit/media-card": "^57.0.2",

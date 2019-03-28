@@ -38,13 +38,14 @@ const defaultYarnLockResolver = (): Promise<string> =>
     );
   });
 
-type DuplicateDependencyReportEntry = {
+export type DuplicateDependencyReportEntry = {
   name: string;
   versions: string[];
   isDevDependency: boolean;
+  directVersion: string;
 };
 
-type DuplicatesReport = DuplicateDependencyReportEntry[];
+export type DuplicatesReport = DuplicateDependencyReportEntry[];
 
 type ReportMapEntry = Set<string>;
 type PackageName = string;

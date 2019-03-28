@@ -1,5 +1,10 @@
 # @atlaskit/media-editor
 
+## 31.0.2
+- [patch] [09f9c0c698](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/09f9c0c698):
+
+  - Bug fixes around focus geting back to editor and UI fixes around dark theme, line thickness picker and color picker (which now uses ADG colors)
+
 ## 31.0.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 
