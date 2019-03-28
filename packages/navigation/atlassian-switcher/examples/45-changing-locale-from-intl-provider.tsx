@@ -5,9 +5,9 @@ import { mockEndpoints, REQUEST_FAST } from './helpers/mock-endpoints';
 import { withAnalyticsLogger } from './helpers';
 import AtlassianSwitcher from '../src';
 import { addLocaleData, IntlProvider } from 'react-intl';
-import et from 'react-intl/locale-data/et';
+import es from 'react-intl/locale-data/es';
 
-addLocaleData([...et]);
+addLocaleData([...es]);
 
 class JiraSwitcherExample extends Component {
   state = {
@@ -39,7 +39,7 @@ class JiraSwitcherExample extends Component {
 
   render() {
     return (
-      <IntlProvider locale="et">
+      <IntlProvider locale="es">
         <div style={{ padding: '2rem' }}>
           <Drawer onClose={this.onClose} isOpen={this.state.isDrawerOpen}>
             <AtlassianSwitcher

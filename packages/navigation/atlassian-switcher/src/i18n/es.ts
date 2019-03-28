@@ -6,8 +6,8 @@
  */
 // Spanish
 export default {
-  'fabric.atlassianSwitcher.switchTo': 'Switch to',
-  'fabric.atlassianSwitcher.switchToTooltip': 'Switch to …',
+  'fabric.atlassianSwitcher.switchTo': 'Ir a',
+  'fabric.atlassianSwitcher.switchToTooltip': 'Ir a …',
   'fabric.atlassianSwitcher.recent': 'Recent',
   'fabric.atlassianSwitcher.more': 'More',
   'fabric.atlassianSwitcher.try': 'Try',
@@ -17,5 +17,4 @@ export default {
   'fabric.atlassianSwitcher.people': 'People',
   'fabric.atlassianSwitcher.administration': 'Administration',
   'fabric.atlassianSwitcher.discoverMore': 'Discover more',
-  'fabric.atlassianSwitcher.expand': 'Expand',
 };

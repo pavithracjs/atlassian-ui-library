@@ -17,5 +17,4 @@ export default {
   'fabric.atlassianSwitcher.people': 'People',
   'fabric.atlassianSwitcher.administration': 'Administration',
   'fabric.atlassianSwitcher.discoverMore': 'Discover more',
-  'fabric.atlassianSwitcher.expand': 'Expand',
 };
