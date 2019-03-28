@@ -40,7 +40,7 @@ export const buttonClicked = () =>
   createEvent('ui', 'clicked', 'button', 'share');
 
 export const cancelShare = (start: number) =>
-  createEvent('ui', 'pressed', 'keyboardShortcut', 'share', {
+  createEvent('ui', 'pressed', 'keyboardShortcut', 'cancelShare', {
     source: 'shareModal',
     duration: duration(start),
   });

@@ -38,7 +38,7 @@ describe('share analytics', () => {
         eventType: 'ui',
         action: 'pressed',
         actionSubject: 'keyboardShortcut',
-        actionSubjectId: 'share',
+        actionSubjectId: 'cancelShare',
         attributes: expect.objectContaining({
           duration: expect.any(Number),
           packageVersion: expect.any(String),
