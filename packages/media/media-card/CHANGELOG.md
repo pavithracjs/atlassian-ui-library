@@ -1,5 +1,10 @@
 # @atlaskit/media-card
 
+## 58.0.0
+- [major] [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+
+  - Exported MediaImage component is removed from media-card and moved to @atlaskit/media-ui
+
 ## 57.0.3
 - [patch] [d402fdb775](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d402fdb775):
 
