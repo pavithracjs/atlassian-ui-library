@@ -18,6 +18,7 @@ export default () => (
       <div>
         <h1>default</h1>
         <ImageCropper
+          imageOrientation={1}
           imageSource={tallImage}
           imageWidth={naturalWidth}
           scale={0.08}
@@ -32,6 +33,7 @@ export default () => (
       <div>
         <h1>when image width is not set</h1>
         <ImageCropper
+          imageOrientation={1}
           imageSource={tallImage}
           scale={0.14}
           top={-50}
@@ -44,6 +46,7 @@ export default () => (
       <div>
         <h1>with custom container size</h1>
         <ImageCropper
+          imageOrientation={1}
           imageSource={tallImage}
           imageWidth={naturalWidth}
           scale={0.14}
@@ -58,6 +61,7 @@ export default () => (
       <div>
         <h1>with circular mask</h1>
         <ImageCropper
+          imageOrientation={1}
           imageSource={tallImage}
           imageWidth={naturalWidth}
           scale={0.08}

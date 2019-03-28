@@ -10,7 +10,7 @@ const getCanvasMock = mockCanvas();
 const mockImagePlacerUtil = {
   getCanvas: jest.fn().mockReturnValue(getCanvasMock),
 };
-jest.mock('../../image-placer/util', () => mockImagePlacerUtil);
+jest.mock('../../util', () => mockImagePlacerUtil);
 
 import {
   applyOrientation,

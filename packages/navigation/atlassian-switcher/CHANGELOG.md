@@ -1,5 +1,10 @@
 # @atlaskit/atlassian-switcher
 
+## 0.3.4
+- [patch] [571ad59bb7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/571ad59bb7):
+
+  - Pacakge version and feature flag analytics
+
 ## 0.3.3
 - [patch] [9cf7af0d03](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9cf7af0d03):
 

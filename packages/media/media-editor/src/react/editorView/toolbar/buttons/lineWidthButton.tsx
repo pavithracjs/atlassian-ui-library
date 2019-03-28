@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Component } from 'react';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 import Button from '@atlaskit/button';
 import ChevronDownIcon from '@atlaskit/icon/glyph/chevron-down';
 import Tooltip from '@atlaskit/tooltip';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { messages } from '@atlaskit/media-ui';
+import { colors } from '@atlaskit/theme';
 import { DropdownRightIconWrapper, DropdownLeftIconWrapper } from './styles';
 import { LineWidthIcon } from './lineWidthIcon';
-import { messages } from '@atlaskit/media-ui';
 
 export interface LineWidthButtonProps {
   readonly lineWidth: number;
@@ -24,6 +25,7 @@ export class LineWidthButton extends Component<
       onClick,
       intl: { formatMessage },
     } = this.props;
+    const iconPrimaryColor = isActive ? colors.N0 : undefined;
 
     const iconBefore = (
       <DropdownLeftIconWrapper>
@@ -36,7 +38,7 @@ export class LineWidthButton extends Component<
     );
     const iconAfter = (
       <DropdownRightIconWrapper>
-        <ChevronDownIcon label="chevron-icon" />
+        <ChevronDownIcon label="chevron-icon" primaryColor={iconPrimaryColor} />
       </DropdownRightIconWrapper>
     );
     return (

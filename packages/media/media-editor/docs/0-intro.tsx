@@ -32,11 +32,4 @@ export default md`
       props={require('!!extract-react-types-loader!../src/react/mediaEditor')}
     />
   )}
-
-  ${(
-    <Props
-      heading="Toolbar Props"
-      props={require('!!extract-react-types-loader!../src/react/toolbar')}
-    />
-  )}
 `;

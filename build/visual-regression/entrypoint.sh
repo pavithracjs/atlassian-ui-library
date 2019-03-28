@@ -16,4 +16,4 @@ fi
 CHROMIUM_ADDITIONAL_ARGS=$(echo $CHROMIUM_ADDITIONAL_ARGS | tr ',' ' ')
  
 # Start Chrome
-/usr/local/share/.config/yarn/global/node_modules/puppeteer/.local-chromium/linux-599821/chrome-linux/chrome $CHROME_ARGS 
+/usr/local/share/.config/yarn/global/node_modules/puppeteer/.local-chromium/linux-637110/chrome-linux/chrome $CHROME_ARGS 

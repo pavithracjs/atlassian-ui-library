@@ -18,6 +18,7 @@ import {
   AnalyticsEventPayload,
   ACTION_SUBJECT_ID,
 } from '../analytics';
+import { hoverDecoration } from '../base/pm-plugins/decoration';
 
 export const messages = defineMessages({
   block: {
@@ -188,6 +189,8 @@ export const floatingToolbar = (
         type: 'button',
         appearance: 'danger',
         icon: RemoveIcon,
+        onMouseEnter: hoverDecoration(true),
+        onMouseLeave: hoverDecoration(false),
         title: intl.formatMessage(commonMessages.remove),
         onClick: removeCard,
       },

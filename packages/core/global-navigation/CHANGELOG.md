@@ -1,5 +1,13 @@
 # @atlaskit/global-navigation
 
+## 6.2.2
+- Updated dependencies [987ab01f30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/987ab01f30):
+- Updated dependencies [c95557e3ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c95557e3ff):
+  - @atlaskit/notification-log-client@4.0.2
+  - @atlaskit/notification-indicator@6.0.0
+  - @atlaskit/navigation-next@5.1.1
+  - @atlaskit/badge@11.0.0
+
 ## 6.2.1
 - [patch] [aacc698f07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aacc698f07):
 

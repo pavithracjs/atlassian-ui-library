@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/onboarding",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "description": "Highlight elements of the UI to the user and display a complementary dialog.",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -17,9 +17,9 @@
   "dependencies": {
     "@atlaskit/analytics-next": "^4.0.1",
     "@atlaskit/button": "^11.0.0",
-    "@atlaskit/modal-dialog": "^8.0.2",
+    "@atlaskit/modal-dialog": "^8.0.4",
     "@atlaskit/popper": "^0.4.1",
-    "@atlaskit/portal": "^0.2.1",
+    "@atlaskit/portal": "^0.3.0",
     "@atlaskit/theme": "^8.0.1",
     "@babel/runtime": "^7.0.0",
     "memoize-one": "^3.0.1",

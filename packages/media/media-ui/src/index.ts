@@ -23,3 +23,4 @@ export * from './shortcut';
 export * from './formatDuration';
 export { default as MediaButton } from './MediaButton';
 export { default as ModalSpinner } from './modalSpinner';
+export * from './mediaImage';

@@ -1,5 +1,52 @@
 # @atlaskit/editor-core
 
+## 106.7.7
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/editor-common@35.1.3
+  - @atlaskit/renderer@44.4.3
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-editor@31.0.3
+  - @atlaskit/media-filmstrip@30.0.2
+  - @atlaskit/media-picker@37.0.3
+  - @atlaskit/media-test-helpers@21.0.3
+  - @atlaskit/media-card@58.0.0
+
+## 106.7.6
+- [patch] [acaf2abb57](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acaf2abb57):
+
+  - ED-6146 Fix bug where gap cursor did not display to right of first node
+
+## 106.7.5
+- [patch] [298bfed4e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/298bfed4e1):
+
+  - ED-6580 Media in editor is sized incorrectly in firefox
+
+## 106.7.4
+- [patch] [5320e1bdb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5320e1bdb5):
+
+  - ED-6476 Columns should show border when inactive in the Editor.
+
+## 106.7.3
+- Updated dependencies [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
+  - @atlaskit/renderer@44.4.2
+  - @atlaskit/util-data-test@11.1.4
+  - @atlaskit/task-decision@14.0.0
+
+## 106.7.2
+- Updated dependencies [97abf5e006](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97abf5e006):
+  - @atlaskit/renderer@44.4.1
+  - @atlaskit/status@0.8.0
+
+## 106.7.1
+- [patch] [b3c60e3c9c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b3c60e3c9c):
+
+  - Update media-editor dependency
+
+## 106.7.0
+- [minor] [b32008359a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b32008359a):
+
+  - ED-5823 Add red styling for document elements when they are selected for removal
+
 ## 106.6.3
 - [patch] [97eeac260b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97eeac260b):
 
