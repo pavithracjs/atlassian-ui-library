@@ -1,5 +1,10 @@
 # @atlaskit/code-insights
 
+## 1.0.1
+- [patch] [353aa4a2dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/353aa4a2dd):
+
+  - Fix bin directory in package.json
+
 ## 1.0.0
 - [major] [dc294c47bb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dc294c47bb):
 

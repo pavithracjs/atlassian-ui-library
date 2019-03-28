@@ -1,1 +1,0 @@
-- Fix bin directory in package.json
