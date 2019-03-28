@@ -3,7 +3,7 @@ import * as ts from 'typescript';
 import { writeFileSync } from 'fs';
 import { resolve, join } from 'path';
 import * as prettier from 'prettier';
-import * as mkdirp from 'mkdirp';
+import mkdirp from 'mkdirp';
 
 import JSONSchemaNode, {
   SchemaNode,

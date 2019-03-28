@@ -20,7 +20,7 @@ import { getPluginState } from '../pm-plugins/main';
 import { ResizeState, scaleTable } from '../pm-plugins/table-resizing';
 
 import { TablePluginState, TableCssClassName as ClassName } from '../types';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 const isIE11 = browser.ie_version === 11;
 
 import { Props } from './table';

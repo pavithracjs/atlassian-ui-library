@@ -5,7 +5,7 @@ import {
   getMockLastName,
 } from './mockData';
 import { JiraItem } from '../src/api/types';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 
 const issueTypeMap = {
   task: 10001,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component, FormEvent } from 'react';
 import { connect } from 'react-redux';
-import * as debounce from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import { messages } from '@atlaskit/media-ui';
 import FieldText from '@atlaskit/field-text';

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as scrollParent from 'scrollparent';
+import scrollParent from 'scrollparent';
 import styled from 'styled-components';
 import {
   createStorybookContext,

@@ -1,5 +1,5 @@
 import * as URI from 'urijs';
-import * as uuid from 'uuid';
+import uuid from 'uuid';
 
 import {
   ResultType,

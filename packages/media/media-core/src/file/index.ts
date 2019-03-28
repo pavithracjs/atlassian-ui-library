@@ -2,7 +2,7 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { publishReplay } from 'rxjs/operators/publishReplay';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 import * as Dataloader from 'dataloader';
 import {
   MediaStore,
@@ -16,7 +16,7 @@ import {
   TouchedFiles,
   UploadableFileUpfrontIds,
 } from '@atlaskit/media-store';
-import * as isValidId from 'uuid-validate';
+import isValidId from 'uuid-validate';
 import {
   FilePreview,
   FileState,

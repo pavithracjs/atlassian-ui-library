@@ -33,7 +33,8 @@
         "es2015.promise"
       ],
       "types": ["jest", "react", "enzyme", "css-color-names", "jest-styled-components", "styled-components", "linkify-it"],
-      "typeRoots": ["./typings", "./node_modules/@types"]
+      "typeRoots": ["./typings", "./node_modules/@types"],
+      "esModuleInterop": true
     },
     "files": [
       "./typings/atlaskit.d.ts",

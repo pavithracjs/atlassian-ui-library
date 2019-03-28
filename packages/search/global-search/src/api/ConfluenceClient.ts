@@ -13,7 +13,7 @@ import {
   ServiceConfig,
 } from '@atlaskit/util-service-support';
 import * as URI from 'urijs';
-import * as unescapeHtml from 'unescape';
+import unescapeHtml from 'unescape';
 
 const RECENT_PAGES_PATH: string = 'rest/recentlyviewed/1.0/recent';
 const RECENT_SPACE_PATH: string = 'rest/recentlyviewed/1.0/recent/spaces';

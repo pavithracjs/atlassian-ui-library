@@ -1,4 +1,4 @@
-import * as assert from 'assert';
+import assert from 'assert';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Node as PMNode, Schema, Node } from 'prosemirror-model';

@@ -1,5 +1,5 @@
 import { MediaStore, FileItem } from '@atlaskit/media-store';
-import * as uuid from 'uuid';
+import uuid from 'uuid';
 import { FileFetcherImpl, getItemsFromKeys } from '../../file';
 
 describe('FileFetcher', () => {

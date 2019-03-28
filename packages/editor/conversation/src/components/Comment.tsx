@@ -7,7 +7,7 @@ import AkComment, {
 import { WithProviders } from '@atlaskit/editor-common';
 import { ConnectedReactionsView } from '@atlaskit/reactions';
 import { ReactRenderer } from '@atlaskit/renderer';
-import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import * as React from 'react';
 import styled from 'styled-components';
 import { HttpError } from '../api/HttpError';
