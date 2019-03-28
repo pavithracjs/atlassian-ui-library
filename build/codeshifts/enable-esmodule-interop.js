@@ -15,7 +15,7 @@ debounce();
 
 */
 
-export default function transformer(file, api) {
+export default function transformer(file: any, api: any) {
   const j = api.jscodeshift;
 
   return j(file.source)
