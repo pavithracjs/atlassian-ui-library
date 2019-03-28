@@ -5,6 +5,7 @@ import consoleReporter from './reporters/console';
 import { GitReporter } from './reporters/git-reporter';
 import BitbucketServerReporter from './reporters/bitbucket-server';
 import { getRef, getOriginUrl } from './util/git';
+import { InsightsReporter } from './reporters/insights-reporter';
 
 type Flags = {
   commit: string;
@@ -82,7 +83,7 @@ export async function run() {
   });
 
   const selectedReporters = cli.flags.reporters.split(',');
-  const reporters = [];
+  const reporters: InsightsReporter[] = [];
   const [gitUrl, commit] = await Promise.all([
     getGitUrl(cli.flags.gitUrl),
     getCommit(cli.flags.commit),
