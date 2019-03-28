@@ -3,7 +3,6 @@ import { ReactRenderer as Renderer } from '@atlaskit/renderer';
 import TaskList from '../src/components/TaskList';
 import TaskItem from '../src/components/TaskItem';
 import {
-  MessageContainer,
   dumpRef,
   document,
   TaskStateManager,
@@ -37,15 +36,7 @@ export default () => (
             onChange={onChangeListener}
             isDone={taskStates.get('task-3')}
           >
-            Hello <b>world</b>.
-          </TaskItem>
-          <TaskItem
-            contentRef={dumpRef}
-            taskId="task-4"
-            onChange={onChangeListener}
-            isDone={taskStates.get('task-4')}
-          >
-            <Renderer document={document} />
+            Oh God Why
           </TaskItem>
         </TaskList>
       )}
@@ -67,8 +58,6 @@ export default () => (
     />
 
     <h3>Empty TaskList</h3>
-    <MessageContainer>
-      <TaskList />
-    </MessageContainer>
+    <TaskList />
   </div>
 );

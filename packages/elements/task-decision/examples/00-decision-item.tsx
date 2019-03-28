@@ -2,13 +2,7 @@ import * as React from 'react';
 import { ReactRenderer as Renderer } from '@atlaskit/renderer';
 
 import DecisionItem from '../src/components/DecisionItem';
-import {
-  MessageContainer,
-  SidebarContainer,
-  dumpRef,
-  document,
-  getParticipants,
-} from '../example-helpers/story-utils';
+import { dumpRef, document } from '../example-helpers/story-utils';
 
 export default () => (
   <div>
@@ -35,59 +29,5 @@ export default () => (
 
     <h3>Simple DecisionItem with placeholder</h3>
     <DecisionItem contentRef={dumpRef} showPlaceholder={true} />
-
-    <h3>
-      Simple DecisionItem with 1 participant, inline (shouldn't render
-      participants)
-    </h3>
-    <MessageContainer>
-      <DecisionItem
-        contentRef={dumpRef}
-        participants={getParticipants(1)}
-        appearance="inline"
-      >
-        <Renderer document={document} />
-      </DecisionItem>
-    </MessageContainer>
-
-    <h3>Simple DecisionItem with no participants</h3>
-    <SidebarContainer>
-      <DecisionItem contentRef={dumpRef} appearance="card">
-        <Renderer document={document} />
-      </DecisionItem>
-    </SidebarContainer>
-
-    <h3>Simple DecisionItem with 1 participant</h3>
-    <SidebarContainer>
-      <DecisionItem
-        contentRef={dumpRef}
-        participants={getParticipants(1)}
-        appearance="card"
-      >
-        <Renderer document={document} />
-      </DecisionItem>
-    </SidebarContainer>
-
-    <h3>Simple DecisionItem with 4 participants</h3>
-    <SidebarContainer>
-      <DecisionItem
-        contentRef={dumpRef}
-        participants={getParticipants(4)}
-        appearance="card"
-      >
-        <Renderer document={document} />
-      </DecisionItem>
-    </SidebarContainer>
-
-    <h3>Simple DecisionItem with 5 participants</h3>
-    <SidebarContainer>
-      <DecisionItem
-        contentRef={dumpRef}
-        participants={getParticipants(5)}
-        appearance="card"
-      >
-        <Renderer document={document} />
-      </DecisionItem>
-    </SidebarContainer>
   </div>
 );

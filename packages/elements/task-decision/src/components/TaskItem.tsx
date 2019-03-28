@@ -17,8 +17,6 @@ export interface Props {
   placeholder?: string;
   showPlaceholder?: boolean;
   appearance?: Appearance;
-  participants?: User[];
-  showParticipants?: boolean;
   creator?: User;
   lastUpdater?: User;
   disabled?: boolean;
@@ -87,7 +85,6 @@ export class TaskItem extends PureComponent<
       isDone,
       contentRef,
       children,
-      participants,
       placeholder,
       showPlaceholder,
       disabled,
@@ -113,7 +110,6 @@ export class TaskItem extends PureComponent<
         appearance={appearance}
         contentRef={contentRef}
         icon={icon}
-        participants={participants}
         placeholder={placeholder}
         showPlaceholder={showPlaceholder}
         attribution={this.getAttributionText()}
