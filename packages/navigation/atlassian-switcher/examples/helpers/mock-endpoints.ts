@@ -1,4 +1,4 @@
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 import ORIGINAL_MOCK_DATA, { MockData } from './mock-data';
 
 interface DataTransformer {

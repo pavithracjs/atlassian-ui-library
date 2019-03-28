@@ -3,7 +3,7 @@ import RecentSearchClient, {
   splitIssueKeyAndName,
 } from '../../api/RecentSearchClient';
 
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 import {
   JiraResult,
   AnalyticsType,
