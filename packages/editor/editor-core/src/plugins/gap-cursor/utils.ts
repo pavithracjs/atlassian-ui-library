@@ -142,7 +142,7 @@ export const fixCursorAlignment = (view: EditorView) => {
   }
   const targetNodePos =
     side === Side.LEFT ? $from.pos + 1 : findPositionOfNodeBefore(selection);
-  if (!targetNodePos) {
+  if (targetNodePos === undefined) {
     return;
   }
 
