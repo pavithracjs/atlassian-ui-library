@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.7.6
+- [patch] [acaf2abb57](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acaf2abb57):
+
+  - ED-6146 Fix bug where gap cursor did not display to right of first node
+
 ## 106.7.5
 - [patch] [298bfed4e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/298bfed4e1):
 
