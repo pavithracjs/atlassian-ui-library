@@ -12,7 +12,7 @@ import {
 BrowserTestCase(
   `bodied-insert-media.ts: Bodied Extension: Insert Media`,
   { skip: ['edge', 'ie', 'safari'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = new Page(client);
     await page.goto(fullpage.path);
 
@@ -24,6 +24,6 @@ BrowserTestCase(
     await insertMedia(page);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

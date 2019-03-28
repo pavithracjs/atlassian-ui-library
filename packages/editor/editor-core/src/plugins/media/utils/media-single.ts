@@ -9,9 +9,10 @@ import {
 } from '../../../utils';
 import { copyOptionalAttrsFromMediaState } from '../utils/media-common';
 import { MediaState } from '../types';
-import { safeInsert } from 'prosemirror-utils';
-import { EditorState } from 'prosemirror-state';
+import { safeInsert, hasParentNodeOfType } from 'prosemirror-utils';
+import { EditorState, Selection } from 'prosemirror-state';
 import { Command } from '../../../types';
+import { mapSlice } from '../../../utils/slice';
 
 export interface MediaSingleState extends MediaState {
   dimensions: { width: number; height: number };
@@ -117,9 +118,24 @@ export const createMediaSingleNode = (schema: Schema, collection: string) => (
     collection,
     width: Math.round(width / scaleFactor),
     height: Math.round(height / scaleFactor),
-    __key: id,
   });
 
   copyOptionalAttrsFromMediaState(mediaState, mediaNode);
   return mediaSingle.create({}, mediaNode);
 };
+
+export function transformSliceForMedia(slice: Slice, schema: Schema) {
+  const { mediaSingle, layoutSection, table } = schema.nodes;
+
+  return (selection: Selection) => {
+    if (hasParentNodeOfType([layoutSection, table])(selection)) {
+      return mapSlice(slice, node =>
+        node.type.name === 'mediaSingle'
+          ? mediaSingle.createChecked({}, node.content, node.marks)
+          : node,
+      );
+    }
+
+    return slice;
+  };
+}

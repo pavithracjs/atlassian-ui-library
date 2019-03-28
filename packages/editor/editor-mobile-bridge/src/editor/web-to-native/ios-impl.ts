@@ -111,10 +111,20 @@ export default class IosBridge implements NativeBridge {
     }
   }
 
+  currentSelection(text: string, url: string) {
+    if (window.webkit && window.webkit.messageHandlers.linkBridge) {
+      window.webkit.messageHandlers.linkBridge.postMessage({
+        name: 'currentSelection',
+        text,
+        url,
+      });
+    }
+  }
+
   call<T extends EditorPluginBridges>(
     bridge: T,
     event: keyof Exclude<EditorBridges[T], undefined>,
-    ...args
+    ...args: any[]
   ) {
     sendToBridge(bridge, event, ...args);
   }

@@ -1,5 +1,5 @@
 import 'es6-promise/auto'; // 'whatwg-fetch' needs a Promise polyfill
-import 'whatwg-fetch';
+
 import * as fetchMock from 'fetch-mock/src/client';
 
 import PresenceResource, {
@@ -158,7 +158,7 @@ describe('PresenceCache', () => {
     const limitedCache = new DefaultPresenceCache(-1, 5);
     limitedCache.update(testPresenceMap);
     limitedCache.update(extraPresences);
-    validPresenceData['data'].PresenceBulk.forEach(response => {
+    validPresenceData.data.PresenceBulk.forEach(response => {
       expect(limitedCache.contains(response.userId)).toBe(false);
     });
   });

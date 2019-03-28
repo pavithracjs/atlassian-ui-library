@@ -1,5 +1,104 @@
 # @atlaskit/form
 
+## 5.2.4
+- Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
+  - @atlaskit/textarea@0.4.0
+
+## 5.2.3
+- Updated dependencies [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
+  - @atlaskit/modal-dialog@8.0.3
+  - @atlaskit/textfield@0.4.0
+
+## 5.2.2
+- [patch] [a1217df379](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1217df379):
+
+  - Internal changes only. Form is now compatible with ssr.
+
+## 5.2.1
+- Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+  - @atlaskit/docs@7.0.1
+  - @atlaskit/calendar@7.0.20
+  - @atlaskit/checkbox@6.0.1
+  - @atlaskit/datetime-picker@7.0.1
+  - @atlaskit/dropdown-menu@7.0.1
+  - @atlaskit/droplist@8.0.1
+  - @atlaskit/field-radio-group@5.0.1
+  - @atlaskit/field-text@8.0.1
+  - @atlaskit/field-text-area@5.0.1
+  - @atlaskit/icon@16.0.5
+  - @atlaskit/inline-edit@8.0.1
+  - @atlaskit/modal-dialog@8.0.2
+  - @atlaskit/multi-select@12.0.1
+  - @atlaskit/radio@0.5.1
+  - @atlaskit/section-message@2.0.1
+  - @atlaskit/select@8.0.3
+  - @atlaskit/single-select@7.0.1
+  - @atlaskit/textfield@0.3.1
+  - @atlaskit/theme@8.0.1
+  - @atlaskit/toggle@6.0.1
+  - @atlaskit/tooltip@13.0.1
+  - @atlaskit/field-range@6.0.1
+  - @atlaskit/button@11.0.0
+  - @atlaskit/textarea@0.3.0
+
+## 5.2.0
+- [minor] [fe7683f9d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fe7683f9d6):
+
+  - Feature: Submit form on Cmd + Enter on Mac and Ctrl + Enter on Mac and Windows
+
+## 5.1.8
+- [patch] [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+
+  - Drop ES5 from all the flow modules
+
+  ### Dropping CJS support in all @atlaskit packages
+
+  As a breaking change, all @atlaskit packages will be dropping cjs distributions and will only distribute esm. This means all distributed code will be transpiled, but will still contain `import` and
+  `export` declarations.
+
+  The major reason for doing this is to allow us to support multiple entry points in packages, e.g:
+
+  ```js
+  import colors from `@atlaskit/theme/colors`;
+  ```
+
+  Previously this was sort of possible for consumers by doing something like:
+
+  ```js
+  import colors from `@atlaskit/theme/dist/esm/colors`;
+  ```
+
+  This has a couple of issues. 1, it treats the file system as API making internal refactors harder, we have to worry about how consumers might be using things that aren't *actually* supposed to be used. 2. We are unable to do this *internally* in @atlaskit packages. This leads to lots of packages bundling all of theme, just to use a single color, especially in situations where tree shaking fails.
+
+  To support being able to use multiple entrypoints internally, we unfortunately cannot have multiple distributions as they would need to have very different imports from of their own internal dependencies.
+
+  ES Modules are widely supported by all modern bundlers and can be worked around in node environments.
+
+  We may choose to revisit this solution in the future if we find any unintended condequences, but we see this as a pretty sane path forward which should lead to some major bundle size decreases, saner API's and simpler package architecture.
+
+  Please reach out to #fabric-build (if in Atlassian) or create an issue in [Design System Support](https://ecosystem.atlassian.net/secure/CreateIssue.jspa?pid=24670) (for external) if you have any questions or queries about this.
+
+## 5.1.7
+- Updated dependencies [e9b824bf86](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e9b824bf86):
+  - @atlaskit/modal-dialog@7.2.4
+  - @atlaskit/textfield@0.2.0
+
+## 5.1.6
+- [patch] [887c85ffdc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/887c85ffdc):
+
+  - Form now provides a `getValues` function to it's child render function. The `getValues` function returns an object containing the current value of all fields.
+
+## 5.1.5
+- Updated dependencies [06713e0a0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06713e0a0c):
+  - @atlaskit/datetime-picker@6.5.1
+  - @atlaskit/modal-dialog@7.2.3
+  - @atlaskit/select@7.0.0
+
+## 5.1.4
+- [patch] [0c0f20c9cf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0c0f20c9cf):
+
+  - Fix typo in Field.js
+
 ## 5.1.3
 - [patch] [a360a3d2b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a360a3d2b6):
 

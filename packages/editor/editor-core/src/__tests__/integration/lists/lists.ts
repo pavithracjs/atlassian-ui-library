@@ -7,7 +7,7 @@ const PM_FOCUS_SELECTOR = '.ProseMirror-focused';
 BrowserTestCase(
   `list: shouldn't change focus on tab if the list is not indentable`,
   { skip: ['ie', 'safari'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = new Page(client);
     await page.goto(fullpage.path);
     await page.waitForSelector(fullpage.placeholder);
@@ -20,7 +20,7 @@ BrowserTestCase(
     await page.type(editable, 'Tab');
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
     expect(await page.isExisting(PM_FOCUS_SELECTOR)).toBeTruthy();
   },
 );

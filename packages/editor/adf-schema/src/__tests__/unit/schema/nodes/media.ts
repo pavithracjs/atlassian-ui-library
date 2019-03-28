@@ -1,4 +1,4 @@
-import { name } from '../../../../../package.json';
+import { name } from '../../../../version.json';
 import {
   media,
   camelCaseToKebabCase,
@@ -63,6 +63,24 @@ describe(`${name}/schema media node`, () => {
     expect(mediaNode.attrs.__fileSize).toEqual(123456);
     expect(mediaNode.attrs.__fileMimeType).toEqual('image/jpeg');
     expect(mediaNode.attrs.__displayType).toEqual(null);
+  });
+
+  it('should parse width/height as number', () => {
+    const doc = fromHTML(
+      `
+    <div
+      data-node-type="media"
+      data-width="456"
+      data-height="956"
+    />
+    `,
+      schema,
+    );
+    const mediaGroup = doc.firstChild!;
+    const mediaNode = mediaGroup.firstChild!;
+
+    expect(mediaNode.attrs.width).toEqual(456);
+    expect(mediaNode.attrs.height).toEqual(956);
   });
 
   it('should parse html (with occurrenceKey)', () => {
@@ -223,6 +241,26 @@ describe(`${name}/schema media node`, () => {
         id: 'id',
         type: 'file',
         width: 0,
+      },
+    });
+  });
+
+  it('should serialize width/height as number', () => {
+    const mediaNode = schema.nodes.media.create({
+      id: 'id',
+      type: 'file',
+      collection: 'collection',
+      width: '100',
+      height: '150',
+    });
+
+    expect(toJSON(mediaNode)).toEqual({
+      attrs: {
+        collection: 'collection',
+        id: 'id',
+        type: 'file',
+        width: 100,
+        height: 150,
       },
     });
   });

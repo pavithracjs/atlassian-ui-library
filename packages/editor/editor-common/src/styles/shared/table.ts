@@ -1,21 +1,24 @@
 import { css } from 'styled-components';
 import { TableLayout } from '@atlaskit/adf-schema';
-import { fontSize } from '@atlaskit/theme';
+import { fontSize, themed } from '@atlaskit/theme';
 import {
   akEditorTableBorder,
+  akEditorTableBorderDark,
   akEditorTableToolbar,
+  akEditorTableToolbarDark,
   akEditorWideLayoutWidth,
   akEditorTableNumberColumnWidth,
   akEditorFullWidthLayoutWidth,
   akEditorBreakoutPadding,
 } from '../consts';
 import { PanelSharedCssClassName } from './panel';
-import { calcWideWidth } from '../../utils';
 
 export const tableMarginTop = 24;
 export const tableMarginBottom = 16;
 export const tableMarginSides = 8;
 export const tableCellMinWidth = 48;
+export const tableNewColumnMinWidth = 140;
+export const tableCellBorderWidth = 1;
 
 const clPrefix = 'pm-table-';
 
@@ -51,7 +54,10 @@ const tableSharedStyle = css`
   .${TableSharedCssClassName.TABLE_NODE_WRAPPER} > table {
     border-collapse: collapse;
     margin: ${tableMarginTop}px ${tableMarginSides}px 0;
-    border: 1px solid ${akEditorTableBorder};
+    border: ${tableCellBorderWidth}px solid ${themed({
+  light: akEditorTableBorder,
+  dark: akEditorTableBorderDark,
+})};
     table-layout: fixed;
     font-size: ${fontSize()}px;
     width: 100%;
@@ -75,12 +81,14 @@ const tableSharedStyle = css`
       th,
       td {
         min-width: ${tableCellMinWidth}px;
-        height: 3em;
         vertical-align: top;
-        border: 1px solid ${akEditorTableBorder};
+        border: 1px solid ${themed({
+          light: akEditorTableBorder,
+          dark: akEditorTableBorderDark,
+        })};
         border-right-width: 0;
         border-bottom-width: 0;
-        padding: 10px;
+        padding: 8px;
         /* https://stackoverflow.com/questions/7517127/borders-not-shown-in-firefox-with-border-collapse-on-table-position-relative-o */
         background-clip: padding-box;
 
@@ -90,7 +98,10 @@ const tableSharedStyle = css`
         }
       }
       th {
-        background-color: ${akEditorTableToolbar};
+        background-color: ${themed({
+          light: akEditorTableToolbar,
+          dark: akEditorTableToolbarDark,
+        })};
         text-align: left;
         & *:not(strong) {
           font-weight: normal;
@@ -119,12 +130,13 @@ export const calcTableWidth = (
         : `${akEditorFullWidthLayoutWidth}px`;
     case 'wide':
       if (containerWidth) {
-        const targetWidth =
-          containerWidth - (addControllerPadding ? akEditorBreakoutPadding : 0);
-        return calcWideWidth(containerWidth, targetWidth, `${targetWidth}px`);
-      } else {
-        return `${akEditorWideLayoutWidth}px`;
+        return `${Math.min(
+          containerWidth - (addControllerPadding ? akEditorBreakoutPadding : 0),
+          akEditorWideLayoutWidth,
+        )}px`;
       }
+
+      return `${akEditorWideLayoutWidth}px`;
     default:
       return 'inherit';
   }

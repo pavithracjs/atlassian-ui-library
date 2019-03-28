@@ -1,5 +1,71 @@
 # @atlaskit/media-core
 
+## 29.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 29.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 28.0.0
+- [major] [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
+
+  - Move checkWebpSupport util from media-core to media-store and use it to request webp from backend
+
+## 27.2.4
+- [patch] [ff3f40bc38](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff3f40bc38):
+
+  - Fix remove from cache function, which fixes issue when user is deleting recent image in media picker
+
+## 27.2.3
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/button@10.1.3
+  - @atlaskit/media-card@55.0.2
+  - @atlaskit/media-store@9.2.1
+  - @atlaskit/media-test-helpers@20.1.7
+  - @atlaskit/docs@7.0.0
+
+## 27.2.2
+- [patch] [9b0f6671ae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0f6671ae):
+
+  - ED-6244: Fix Resizable Media to allow images go smaller size than videos
+
+## 27.2.1
+- [patch] [5a01d648a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a01d648a3):
+
+  - Fixing download binary file content in Safari browsers due CORS issue "safari error [Error] Refused to display in a frame because it set 'X-Frame-Options' to 'SAMEORIGIN'."
+
+## 27.2.0
+- [patch] [6bd4c428e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6bd4c428e2):
+
+  - load image preview as soon representation is present instead of waiting for file status to be processed
+- [minor] [4aee5f3cec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4aee5f3cec):
+
+  - added representations to file metadata
+
+## 27.1.0
+- [minor] [fc6164c8c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fc6164c8c2):
+
+  - Expose Identifier type and utilities from media-core instead of media-card
+- Updated dependencies [190c4b7bd3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/190c4b7bd3):
+  - @atlaskit/media-store@9.1.7
+  - @atlaskit/media-test-helpers@20.1.5
+  - @atlaskit/media-card@54.0.0
+
+## 27.0.2
+- Updated dependencies [46dfcfbeca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/46dfcfbeca):
+  - @atlaskit/media-store@9.1.6
+  - @atlaskit/media-test-helpers@20.1.4
+  - @atlaskit/media-card@53.0.0
+
+## 27.0.1
+- [patch] [a9dc1278c4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a9dc1278c4):
+
+  - add error handling in CollectionFetcher for getItems call
+
 ## 27.0.0
 - [major] [69c8d0c19c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c8d0c19c):
 

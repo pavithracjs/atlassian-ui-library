@@ -1,8 +1,11 @@
 // @flow
 
-import type { ComponentType } from 'react';
+import type { ComponentType, ElementRef } from 'react';
 import type { DrawerWidth } from '@atlaskit/drawer';
 
+type NonStringRef<T> = {
+  current: ElementRef<T> | null,
+};
 export type DrawerContentProps = { closeDrawer: () => void };
 
 export type InitialNavigationStateShape = {
@@ -75,7 +78,7 @@ export type GlobalNavDrawerProps = {
   /** A callback function which will be fired when the notification drawer has finished its close transition. **/
   onNotificationDrawerCloseComplete?: (node: HTMLElement) => void,
 
-  /** Locale to be passed to the notification iFrame */
+  /** Locale to be passed to the notification iFrame*/
   locale?: string,
   /** Prop to let notification iframe know which product it's being rendered in*/
   product?: 'jira' | 'confluence',
@@ -135,34 +138,51 @@ export type GlobalNavigationProps = {
   productTooltip?: string,
   /** An href attribute for the product logo item. */
   productHref?: string,
+  /** A function to get ref of the product icon */
+  getProductRef?: (node: NonStringRef<'div'>) => void,
 
   /** A callback function which will be called when the product logo item is
    * clicked. If this is passed, the drawer does not show up. */
   onCreateClick?: ?() => void,
   /** The text to display in the tooltip for the create drawer item. */
   createTooltip?: string,
+  /** A function to get ref of the create icon */
+  getCreateRef?: (node: NonStringRef<'div'>) => void,
 
   /** A callback function which will be called when the starred item is clicked.
    * */
   onStarredClick?: ?() => void,
   /** The text to display in the tooltip for the starred drawer item. */
   starredTooltip?: string,
+  /** A function to get ref of the starred icon */
+  getStarredRef?: (node: NonStringRef<'div'>) => void,
 
   /** A callback function which will be called when the product logo item is
    * clicked. If this is passed, the drawer does not show up. */
   onSearchClick?: ?() => void,
   /** The text to display in the tooltip for the search drawer item. */
   searchTooltip?: string,
+  /** A function to get ref of the search icon */
+  getSearchRef?: (node: NonStringRef<'div'>) => void,
 
   /** The component to render the app switcher. */
   appSwitcherComponent?: ComponentType<*>, // AppSwitcher component
   /** The text to display in the tooltip for the app switcher item. */
   appSwitcherTooltip?: string,
+  /** A function to get ref of the appSwitcher icon */
+  getAppSwitcherRef?: (node: NonStringRef<'div'>) => void,
+
+  /** The boolean that controls whether to display the Atlassian Switcher. */
+  enableAtlassianSwitcher?: boolean,
+  /** A callback used to trigger the product implementation of XFlow */
+  triggerXFlow?: ?(productKey: string, sourceComponent: string) => void,
 
   /** The text to display in the tooltip for the help item. */
   helpTooltip?: string,
   /** A component to render into the help menu dropdown. */
   helpItems?: ComponentType<{}>,
+  /** A function to get ref of the help icon */
+  getHelpRef?: (node: NonStringRef<'div'>) => void,
 
   /** The text to display in the tooltip for the profile item. */
   profileTooltip?: string,
@@ -172,6 +192,8 @@ export type GlobalNavigationProps = {
   profileIconUrl?: string,
   /** The URL to redirect anonymous users to. */
   loginHref?: string,
+  /** A function to get ref of the profile icon */
+  getProfileRef?: (node: NonStringRef<'div'>) => void,
 
   /** A callback function which will be called when the product logo item is
    * clicked. If this is passed, the drawer does not show up. */
@@ -181,11 +203,24 @@ export type GlobalNavigationProps = {
   notificationCount?: number,
   /** The text to display in the tooltip for the notifications drawer item. */
   notificationTooltip?: string,
+  /** A function to get ref of the notification icon */
+  getNotificationRef?: (node: NonStringRef<'div'>) => void,
 
   /** A callback function which will be called when the settings item is clicked. */
   onSettingsClick?: ?() => void,
   /** The text to display in the tooltip for the settings drawer item. */
   settingsTooltip?: string,
+  /** A function to get ref of the settings icon */
+  getSettingsRef?: (node: NonStringRef<'div'>) => void,
+
+  /**
+    NOTE: This property is experimental and may be removed in a minor release.
+
+    Feature flag for Atlassian Switcher, whether to enable multiple link of
+    each jira products in atlassian switcher
+    e.g. instead of showing only Jira link, shows Jira Software and Jira Service Desk links
+  */
+  experimental_enableSplitJira?: boolean,
 
   ...$Exact<GlobalNavDrawerProps>,
 };
@@ -195,6 +230,7 @@ export type DrawerName =
   | 'notification'
   | 'starred'
   | 'create'
-  | 'settings';
+  | 'settings'
+  | 'atlassianSwitcher';
 
 export type { DrawerWidth };

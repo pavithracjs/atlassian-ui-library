@@ -1,15 +1,20 @@
 import { cellAround, TableMap } from 'prosemirror-tables';
-import { TableLayout } from '@atlaskit/adf-schema';
+import { TableLayout, CellAttributes } from '@atlaskit/adf-schema';
 import {
   calcTableWidth,
   akEditorWideLayoutWidth,
   akEditorDefaultLayoutWidth,
+  akEditorFullWidthLayoutWidth,
+  getBreakpoint,
+  mapBreakpointToLayoutMaxWidth,
 } from '@atlaskit/editor-common';
+import { EditorView } from 'prosemirror-view';
+import { ResolvedPos, NodeSpec } from 'prosemirror-model';
 
-const tableLayoutToSize = {
+export const tableLayoutToSize: Record<string, number> = {
   default: akEditorDefaultLayoutWidth,
   wide: akEditorWideLayoutWidth,
-  'full-width': undefined,
+  'full-width': akEditorFullWidthLayoutWidth,
 };
 
 /**
@@ -20,19 +25,33 @@ const tableLayoutToSize = {
 export function getLayoutSize(
   tableLayout: TableLayout,
   containerWidth: number = 0,
+  dynamicTextSizing?: boolean,
 ) {
   const calculatedTableWidth = calcTableWidth(tableLayout, containerWidth);
-  return calculatedTableWidth.endsWith('px')
-    ? Number(calculatedTableWidth.slice(0, calculatedTableWidth.length - 2))
-    : tableLayoutToSize[tableLayout] || containerWidth;
+  if (calculatedTableWidth.endsWith('px')) {
+    return parseInt(calculatedTableWidth, 10);
+  }
+
+  if (dynamicTextSizing && tableLayout === 'default') {
+    return getDefaultLayoutMaxWidth(containerWidth);
+  }
+
+  return tableLayoutToSize[tableLayout] || containerWidth;
+}
+
+export function getDefaultLayoutMaxWidth(containerWidth?: number) {
+  return mapBreakpointToLayoutMaxWidth(getBreakpoint(containerWidth));
 }
 
 /**
  * Does the current position point at a cell.
  * @param $pos
  */
-export function pointsAtCell($pos) {
-  return $pos.parent.type.spec.tableRole === 'row' && $pos.nodeAfter;
+export function pointsAtCell($pos: ResolvedPos<any>) {
+  return (
+    ($pos.parent.type.spec as NodeSpec & { tableRole: string }).tableRole ===
+      'row' && $pos.nodeAfter
+  );
 }
 
 /**
@@ -41,13 +60,23 @@ export function pointsAtCell($pos) {
  * @param event
  * @param side
  */
-export function edgeCell(view, event, side) {
-  const buffer = side === 'right' ? -5 : 5; // Fixes finicky bug where posAtCoords could return wrong pos.
-  let { pos } = view.posAtCoords({
+export function edgeCell(
+  view: EditorView,
+  event: MouseEvent,
+  side: string,
+  handleWidth: number,
+) {
+  const buffer = side === 'right' ? -handleWidth : handleWidth; // Fixes finicky bug where posAtCoords could return wrong pos.
+  let posResult = view.posAtCoords({
     left: event.clientX + buffer,
     top: event.clientY,
   });
-  let $cell = cellAround(view.state.doc.resolve(pos));
+
+  if (!posResult || !posResult.pos) {
+    return -1;
+  }
+
+  let $cell = cellAround(view.state.doc.resolve(posResult.pos));
   if (!$cell) {
     return -1;
   }
@@ -68,16 +97,20 @@ export function edgeCell(view, event, side) {
  * @param cellPos
  * @param param2
  */
-export function currentColWidth(view, cellPos, { colspan, colwidth }) {
+export function currentColWidth(
+  view: EditorView,
+  cellPos: number,
+  { colspan, colwidth }: CellAttributes,
+) {
   let width = colwidth && colwidth[colwidth.length - 1];
   if (width) {
     return width;
   }
   // Not fixed, read current width from DOM
-  let domWidth = view.domAtPos(cellPos + 1).node.offsetWidth;
-  let parts = colspan;
+  let domWidth = (view.domAtPos(cellPos + 1).node as HTMLElement).offsetWidth;
+  let parts = colspan || 0;
   if (colwidth) {
-    for (let i = 0; i < colspan; i++) {
+    for (let i = 0; i < (colspan || 0); i++) {
       if (colwidth[i]) {
         domWidth -= colwidth[i];
         parts--;
@@ -92,11 +125,11 @@ export function currentColWidth(view, cellPos, { colspan, colwidth }) {
  * Attempts to find a parent TD/TH depending on target element.
  * @param target
  */
-export function domCellAround(target) {
+export function domCellAround(target: HTMLElement | null) {
   while (target && target.nodeName !== 'TD' && target.nodeName !== 'TH') {
     target = target.classList.contains('ProseMirror')
       ? null
-      : target.parentNode;
+      : (target.parentNode as HTMLElement | null);
   }
   return target;
 }

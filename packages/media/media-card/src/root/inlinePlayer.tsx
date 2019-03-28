@@ -1,9 +1,13 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Context } from '@atlaskit/media-core';
+import {
+  Context,
+  FileIdentifier,
+  FileState,
+  MediaFileArtifacts,
+} from '@atlaskit/media-core';
 import { Subscription } from 'rxjs/Subscription';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
-import { FileIdentifier } from './domain';
 import { InlinePlayerWrapper } from './styled';
 import { CardDimensions, defaultImageCardDimensions } from '..';
 import { CardLoading } from '../utils/cardLoading';
@@ -20,6 +24,25 @@ export interface InlinePlayerProps {
 export interface InlinePlayerState {
   fileSrc?: string;
 }
+
+export const getPreferredVideoArtifact = (
+  fileState: FileState,
+): keyof MediaFileArtifacts | undefined => {
+  if (fileState.status === 'processed' || fileState.status === 'processing') {
+    const { artifacts } = fileState;
+    if (!artifacts) {
+      return undefined;
+    }
+
+    return artifacts['video_1280.mp4']
+      ? 'video_1280.mp4'
+      : artifacts['video_640.mp4']
+      ? 'video_640.mp4'
+      : undefined;
+  }
+
+  return undefined;
+};
 
 export class InlinePlayer extends Component<
   InlinePlayerProps,
@@ -53,16 +76,17 @@ export class InlinePlayer extends Component<
             }
           }
 
-          if (state.status === 'processed') {
+          if (state.status === 'processed' || state.status === 'processing') {
+            const artifactName = getPreferredVideoArtifact(state);
             const { artifacts } = state;
+            if (!artifactName || !artifacts) {
+              return;
+            }
 
             try {
-              const preferedArtifact = artifacts['video_1280.mp4']
-                ? 'video_1280.mp4'
-                : 'video_640.mp4';
               const fileSrc = await context.file.getArtifactURL(
                 artifacts,
-                preferedArtifact,
+                artifactName,
                 collectionName,
               );
 
@@ -116,7 +140,7 @@ export class InlinePlayer extends Component<
     const { fileSrc } = this.state;
 
     if (!fileSrc) {
-      return <CardLoading mediaItemType="file" dimensions={dimensions} />;
+      return <CardLoading dimensions={dimensions} />;
     }
 
     return (

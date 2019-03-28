@@ -5,7 +5,7 @@ import NativeBridge from './bridge';
 import { sendToBridge } from '../../bridge-utils';
 
 export default class DummyBridge implements NativeBridge {
-  log = (...args) => {
+  log = (...args: any[]) => {
     console.log(...args);
   };
 
@@ -43,11 +43,14 @@ export default class DummyBridge implements NativeBridge {
   dismissStatusPicker(isNew: boolean) {
     this.log(`dismissStatusPicker(isNew=${isNew})`);
   }
+  currentSelection(text: string, url: string) {
+    this.log(`currentSelection(text=${text}, url=${url})`);
+  }
 
   call<T extends EditorPluginBridges>(
     bridge: T,
     event: keyof Exclude<EditorBridges[T], undefined>,
-    ...args
+    ...args: any[]
   ) {
     sendToBridge(bridge, event, ...args);
   }

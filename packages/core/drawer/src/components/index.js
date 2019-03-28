@@ -2,7 +2,7 @@
 
 import React, { Children, Component, Fragment, type Node } from 'react';
 import { canUseDOM } from 'exenv';
-import { createPortal } from 'react-dom';
+import Portal from '@atlaskit/portal';
 import { ThemeProvider } from 'styled-components';
 import { TransitionGroup } from 'react-transition-group';
 import {
@@ -15,7 +15,7 @@ import Blanket from '@atlaskit/blanket';
 import {
   name as packageName,
   version as packageVersion,
-} from '../../package.json';
+} from '../version.json';
 import drawerItemTheme from '../theme/drawer-item-theme';
 import DrawerPrimitive from './primitives';
 import { Fade } from './transitions';
@@ -117,26 +117,27 @@ export class DrawerBase extends Component<DrawerProps> {
       shouldUnmountOnExit,
       onCloseComplete,
     } = this.props;
-    return createPortal(
-      <TransitionGroup component={OnlyChild}>
-        <Fragment>
-          {/* $FlowFixMe the `in` prop is internal */}
-          <Fade in={isOpen}>
-            <Blanket isTinted onBlanketClicked={this.handleBlanketClick} />
-          </Fade>
-          <DrawerPrimitive
-            icon={icon}
-            in={isOpen}
-            onClose={this.handleBackButtonClick}
-            onCloseComplete={onCloseComplete}
-            width={width}
-            shouldUnmountOnExit={shouldUnmountOnExit}
-          >
-            {children}
-          </DrawerPrimitive>
-        </Fragment>
-      </TransitionGroup>,
-      this.body,
+    return (
+      <Portal zIndex="unset">
+        <TransitionGroup component={OnlyChild}>
+          <Fragment>
+            {/* $FlowFixMe the `in` prop is internal */}
+            <Fade in={isOpen}>
+              <Blanket isTinted onBlanketClicked={this.handleBlanketClick} />
+            </Fade>
+            <DrawerPrimitive
+              icon={icon}
+              in={isOpen}
+              onClose={this.handleBackButtonClick}
+              onCloseComplete={onCloseComplete}
+              width={width}
+              shouldUnmountOnExit={shouldUnmountOnExit}
+            >
+              {children}
+            </DrawerPrimitive>
+          </Fragment>
+        </TransitionGroup>
+      </Portal>
     );
   }
 }

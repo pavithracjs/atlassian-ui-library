@@ -1,5 +1,85 @@
 # @atlaskit/smart-card
 
+## 10.2.0
+- [minor] [9b0dd21ce7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0dd21ce7):
+
+  - allow the appearance of lozenges within smart link tasks to be configured
+
+## 10.1.2
+- [patch] [aa117f5341](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa117f5341):
+
+  - fix alignment and UI for inline Smart Links.
+
+## 10.1.1
+- Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
+  - @atlaskit/form@5.2.4
+  - @atlaskit/textarea@0.4.0
+
+## 10.1.0
+- [minor] [11a6c98707](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/11a6c98707):
+
+  - refactor Smart Links frontend directory structure.
+
+## 10.0.2
+- Updated dependencies [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
+  - @atlaskit/form@5.2.3
+  - @atlaskit/textfield@0.4.0
+
+## 10.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 10.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 9.11.4
+- [patch] [8ed53a1cbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ed53a1cbb):
+
+  - fix padding, wrapping for inline smart links.
+
+## 9.11.3
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/button@10.1.3
+  - @atlaskit/icon@16.0.4
+  - @atlaskit/icon-file-type@3.0.4
+  - @atlaskit/icon-object@3.0.4
+  - @atlaskit/textarea@0.2.5
+  - @atlaskit/analytics-gas-types@3.2.5
+  - @atlaskit/media-ui@9.2.1
+  - @atlaskit/outbound-auth-flow-client@1.0.4
+  - @atlaskit/docs@7.0.0
+  - @atlaskit/analytics-next@4.0.0
+  - @atlaskit/checkbox@6.0.0
+  - @atlaskit/form@5.1.8
+  - @atlaskit/inline-message@8.0.0
+  - @atlaskit/page@9.0.0
+  - @atlaskit/radio@0.5.0
+  - @atlaskit/textfield@0.3.0
+  - @atlaskit/theme@8.0.0
+
+## 9.11.2
+- Updated dependencies [e9b824bf86](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e9b824bf86):
+  - @atlaskit/form@5.1.7
+  - @atlaskit/textfield@0.2.0
+
+## 9.11.1
+- [patch] [2cb8c44165](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2cb8c44165):
+
+  - Fix environments mix-up
+
+## 9.11.0
+- [minor] [41147bbc4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/41147bbc4c):
+
+  - Fix for links in editor
+
+## 9.10.0
+- [minor] [ea423a619f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea423a619f):
+
+  - Fixed the call to the /check endpoint
+
 ## 9.9.0
 - [minor] [7f70e97f98](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7f70e97f98):
 

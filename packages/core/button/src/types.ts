@@ -55,10 +55,10 @@ export type ButtonProps = {
     e: React.MouseEvent<HTMLButtonElement>,
     analyticsEvent: UIAnalyticsEvent,
   ) => void;
-  onMouseDown?: React.MouseEventHandler<HTMLButtonElement>;
-  onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
-  onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
-  onMouseUp?: React.MouseEventHandler<HTMLButtonElement>;
+  onMouseDown?: React.MouseEventHandler<HTMLElement>;
+  onMouseEnter?: React.MouseEventHandler<HTMLElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLElement>;
+  onMouseUp?: React.MouseEventHandler<HTMLElement>;
   /** Handler to be called on focus */
   onFocus?: React.FocusEventHandler<HTMLButtonElement>;
   /** Set the amount of padding in the button. */

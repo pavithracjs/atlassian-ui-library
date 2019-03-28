@@ -1,65 +1,47 @@
 import {
   RequestServiceOptions,
-  utils,
   ServiceConfig,
+  utils,
 } from '@atlaskit/util-service-support';
+import { Comment, Content, MetaData, User } from '../types';
 
 export interface ShareClient {
-  share: (
+  share(
     content: Content,
-    recipients: Recipient[],
+    recipients: User[],
     metadata: MetaData,
     comment?: Comment,
-  ) => Promise<ShareResponse>;
+  ): Promise<ShareResponse>;
+
+  getConfig(product: string, cloudId: string): Promise<ConfigResponse>;
 }
 
-type ShareResponse = {
+export type ShareRequest = (
+  content: Content,
+  recipients: User[],
+  metadata: MetaData,
+  comment?: Comment,
+) => Promise<ShareResponse>;
+
+export type ShareResponse = {
   shareRequestId: string;
 };
 
-type Recipient = RecipientWithId | RecipientWithEmail;
-
-type RecipientWithId = {
-  type: 'user' | 'group' | 'team';
-  id: string;
+export type ConfigResponse = {
+  mode: ConfigResponseMode;
+  allowedDomains?: string[];
+  allowComment: boolean;
 };
 
-type RecipientWithEmail = {
-  type: 'user';
-  email: string;
-};
-
-type Content = {
-  ari: string;
-  link: string;
-  title: string;
-};
-
-type Comment = {
-  format: 'plain_text' | 'adf';
-  value: string;
-};
-
-// In Draft and TBC
-// This pair of metadata is required for every invite call
-// AtlOrigin is used to track the life of a share action
-// A share action is divided into 2 types, i.e. Atlassian Account holder and New users,
-// with corresponding expected follow up actions, i.e. Login and Sign up.
-// for more info, visit:
-// https://hello.atlassian.net/wiki/spaces/~804672962/pages/379043535/Draft+Origin+Tracing+in+Common+Share+Component
-type MetaData = {
-  productId: string;
-  tracking: {
-    toAtlassianAccountHolders: {
-      atlOriginId: string;
-    };
-    toNewUsers: {
-      atlOriginId: string;
-    };
-  };
-};
+export type ConfigResponseMode =
+  | 'EXISTING_USERS_ONLY'
+  | 'INVITE_NEEDS_APPROVAL'
+  | 'ONLY_DOMAIN_BASED_INVITE'
+  | 'DOMAIN_BASED_INVITE'
+  | 'ANYONE';
 
 export const DEFAULT_SHARE_PATH = 'share';
+export const SHARE_CONFIG_PATH = 'share/config';
 // TODO: replace with the real stargate namespace
 export const DEFAULT_SHARE_SERVICE_URL = '/gateway/api';
 
@@ -77,7 +59,7 @@ export class ShareServiceClient implements ShareClient {
    */
   public share(
     content: Content,
-    recipients: Recipient[],
+    recipients: User[],
     metadata: MetaData,
     comment?: Comment,
   ): Promise<ShareResponse> {
@@ -97,6 +79,15 @@ export class ShareServiceClient implements ShareClient {
       },
     };
 
+    return utils.requestService(this.serviceConfig, options);
+  }
+
+  public getConfig(product: string, cloudId: string): Promise<ConfigResponse> {
+    const options = {
+      path: SHARE_CONFIG_PATH,
+      queryParams: { product, cloudId },
+      requestInit: { method: 'get' },
+    };
     return utils.requestService(this.serviceConfig, options);
   }
 }

@@ -1,5 +1,261 @@
 # @atlaskit/renderer
 
+## 44.4.0
+- [minor] [1b3c18ae43](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b3c18ae43):
+
+  - CS-856: Create no-op nodes and marks for email renderer
+
+## 44.3.0
+- [minor] [0fea11af41](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0fea11af41):
+
+  - Email renderer supports numbered columns, adf-schema extended with colors
+
+## 44.2.1
+- [patch] [ea6b08700c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6b08700c):
+
+  - ED-6245: Ensure extensions scroll + overflow when they may break out of their parent container.
+
+## 44.2.0
+- [minor] [d91db66a8f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d91db66a8f):
+
+  - add support for block and inline smart cards in ADF to email renderer
+
+## 44.1.0
+- [minor] [b4ce89e3cb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b4ce89e3cb):
+
+  - improve the display of info panels in email renderer
+
+## 44.0.3
+- [patch] [abd1e85008](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/abd1e85008):
+
+  - ED-6536: Fixes non-resized tables accidently getting a width applied.
+
+## 44.0.2
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 44.0.1
+- Updated dependencies [b684722884](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b684722884):
+  - @atlaskit/mention@17.1.0
+  - @atlaskit/status@0.7.0
+  - @atlaskit/task-decision@13.1.0
+  - @atlaskit/util-data-test@11.1.0
+
+## 44.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+- Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+  - @atlaskit/profilecard@8.0.2
+  - @atlaskit/docs@7.0.1
+  - @atlaskit/icon@16.0.5
+  - @atlaskit/navigation-next@5.0.1
+  - @atlaskit/theme@8.0.1
+  - @atlaskit/editor-common@35.0.0
+  - @atlaskit/media-card@57.0.0
+  - @atlaskit/media-filmstrip@30.0.0
+  - @atlaskit/field-range@6.0.1
+  - @atlaskit/button@11.0.0
+  - @atlaskit/adf-schema@2.0.0
+  - @atlaskit/editor-json-transformer@5.0.0
+  - @atlaskit/editor-test-helpers@8.0.0
+  - @atlaskit/analytics-listeners@5.0.0
+  - @atlaskit/analytics-namespaced-context@3.0.0
+  - @atlaskit/mention@17.0.0
+  - @atlaskit/status@0.6.0
+  - @atlaskit/task-decision@13.0.0
+  - @atlaskit/util-data-test@11.0.0
+  - @atlaskit/media-core@29.0.0
+  - @atlaskit/media-test-helpers@21.0.0
+  - @atlaskit/smart-card@10.0.0
+
+## 43.1.0
+- [minor] [feec817d38](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/feec817d38):
+
+  - add email renderer for status
+
+## 43.0.1
+- [patch] [5b226754b8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5b226754b8):
+
+  - ED-5939: Replace SizeDetector with WidthDetector in all editor components
+
+## 43.0.0
+- Updated dependencies [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
+  - @atlaskit/editor-common@34.0.0
+  - @atlaskit/editor-test-helpers@7.0.6
+  - @atlaskit/media-card@56.0.0
+  - @atlaskit/media-filmstrip@29.0.0
+  - @atlaskit/media-test-helpers@20.1.8
+  - @atlaskit/editor-json-transformer@4.3.5
+  - @atlaskit/task-decision@12.0.1
+  - @atlaskit/util-data-test@10.2.5
+  - @atlaskit/media-core@28.0.0
+
+## 42.0.1
+- Updated dependencies [72c6f68226](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72c6f68226):
+  - @atlaskit/util-data-test@10.2.4
+  - @atlaskit/task-decision@12.0.0
+
+## 42.0.0
+- [major] [4d17df92f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d17df92f8):
+
+  - ED-6484: Remove the 'inline-comment' appearance from Editor.
+
+## 41.6.1
+- [patch] [8ed53a1cbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ed53a1cbb):
+
+  - fix padding, wrapping for inline smart links.
+
+## 41.6.0
+- [minor] [345bc86152](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/345bc86152):
+
+  - Email renderer does not underline links anymore
+
+## 41.5.0
+- [minor] [8ec7dd4cb2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ec7dd4cb2):
+
+  - email rendering - fixed a bug with em
+
+## 41.4.0
+- [minor] [3a2836d6d7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3a2836d6d7):
+
+  - move MediaViewer opening logic into Card by passing shouldOpenMediaViewer flag when there is no click handler defined
+
+## 41.3.1
+- Updated dependencies [dbff4fdcf9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dbff4fdcf9):
+  - @atlaskit/editor-common@33.0.4
+  - @atlaskit/profilecard@8.0.0
+
+## 41.3.0
+- [minor] [b8d146fb27](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b8d146fb27):
+
+  - CS-843 Email renderer codeblock support for outlook
+
+## 41.2.1
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/button@10.1.3
+  - @atlaskit/icon@16.0.4
+  - @atlaskit/editor-json-transformer@4.3.3
+  - @atlaskit/analytics-listeners@4.2.1
+  - @atlaskit/analytics-namespaced-context@2.2.1
+  - @atlaskit/mention@16.2.2
+  - @atlaskit/status@0.5.1
+  - @atlaskit/task-decision@11.3.1
+  - @atlaskit/util-data-test@10.2.3
+  - @atlaskit/media-card@55.0.2
+  - @atlaskit/media-core@27.2.3
+  - @atlaskit/media-filmstrip@28.0.1
+  - @atlaskit/smart-card@9.11.3
+  - @atlaskit/media-test-helpers@20.1.7
+  - @atlaskit/editor-common@33.0.3
+  - @atlaskit/docs@7.0.0
+  - @atlaskit/code@9.0.0
+  - @atlaskit/field-range@6.0.0
+  - @atlaskit/navigation-next@5.0.0
+  - @atlaskit/size-detector@7.0.0
+  - @atlaskit/theme@8.0.0
+  - @atlaskit/profilecard@7.0.0
+
+## 41.2.0
+- [minor] [bdde0f4f25](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bdde0f4f25):
+
+  - CS-858: Alignment support for email html rendering
+
+## 41.1.1
+- Updated dependencies [4072865c1c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4072865c1c):
+  - @atlaskit/status@0.5.0
+  - @atlaskit/task-decision@11.3.0
+
+## 41.1.0
+- [minor] [e385e90f31](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e385e90f31):
+
+  - CS-840 Email renderer now supports indentations
+
+## 41.0.1
+- Updated dependencies [36bb743af0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/36bb743af0):
+  - @atlaskit/status@0.4.0
+
+## 41.0.0
+- Updated dependencies [4aee5f3cec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4aee5f3cec):
+  - @atlaskit/editor-common@33.0.0
+  - @atlaskit/media-card@55.0.0
+  - @atlaskit/media-filmstrip@28.0.0
+  - @atlaskit/editor-json-transformer@4.3.1
+  - @atlaskit/editor-test-helpers@7.0.2
+  - @atlaskit/task-decision@11.2.3
+  - @atlaskit/util-data-test@10.2.2
+  - @atlaskit/media-test-helpers@20.1.6
+  - @atlaskit/media-core@27.2.0
+
+## 40.1.1
+- Updated dependencies [0de1251ad1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0de1251ad1):
+  - @atlaskit/editor-common@32.4.3
+  - @atlaskit/size-detector@6.0.0
+
+## 40.1.0
+- [minor] [09e8eb968f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/09e8eb968f):
+
+  - ED-6256: render media items with occurenceKey; ignore link cards
+
+## 40.0.0
+- [major] [4a84fc40e0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a84fc40e0):
+
+  - ED-5766 Remove the deprecated 'message' appearance from Editor
+
+## 39.0.2
+- Updated dependencies [4af5bd2a58](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4af5bd2a58):
+  - @atlaskit/editor-json-transformer@4.1.11
+  - @atlaskit/adf-schema@1.5.4
+  - @atlaskit/editor-common@32.0.2
+  - @atlaskit/mention@16.2.1
+  - @atlaskit/status@0.3.6
+  - @atlaskit/editor-test-helpers@7.0.0
+
+## 39.0.1
+- [patch] [ca17040178](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ca17040178):
+
+  - ED-6243: Dont use breakpoint width calculations for tables in renderer
+
+## 39.0.0
+- [patch] [5b5ae91921](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5b5ae91921):
+
+  - Require Identifier type from media-core instead of media-card
+- Updated dependencies [fc6164c8c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fc6164c8c2):
+- Updated dependencies [190c4b7bd3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/190c4b7bd3):
+  - @atlaskit/editor-common@32.0.0
+  - @atlaskit/media-card@54.0.0
+  - @atlaskit/media-filmstrip@27.0.0
+  - @atlaskit/editor-json-transformer@4.1.10
+  - @atlaskit/editor-test-helpers@6.3.22
+  - @atlaskit/task-decision@11.2.1
+  - @atlaskit/util-data-test@10.2.1
+  - @atlaskit/media-test-helpers@20.1.5
+  - @atlaskit/media-core@27.1.0
+
+## 38.0.8
+- [patch] [e609e6d78c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e609e6d78c):
+
+  - FM-1464: Add callback to ReactRenderer.onComplete to notify native renderBridge
+
+## 38.0.7
+- Updated dependencies [46dfcfbeca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/46dfcfbeca):
+  - @atlaskit/editor-common@31.1.1
+  - @atlaskit/media-core@27.0.2
+  - @atlaskit/media-filmstrip@26.1.2
+  - @atlaskit/media-test-helpers@20.1.4
+  - @atlaskit/media-card@53.0.0
+
+## 38.0.6
+- [patch] [05c5bf7a93](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/05c5bf7a93):
+
+  - Dont user pointer cursor for external images in Cards
+
+## 38.0.5
+- [patch] [6ebe368d95](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6ebe368d95):
+
+  - Allow passing through renderer props
+
 ## 38.0.4
 - [patch] [fb61c590cf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fb61c590cf):
 

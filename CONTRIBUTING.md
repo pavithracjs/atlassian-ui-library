@@ -271,19 +271,13 @@ bolt start:editor # start the website only for packages under packages/editor
 # etc
 ```
 
-If you need even more fine grained control you might even like to set up an alias like this in your `.bashrc` or equivalent.
+If you need to start more than one packages, you can do:
 
 ```sh
-function atlastart() {
-    yarn run projector ./projector.js start --packages "$1"
-}
+bolt start button toggle tabs
 ```
 
-Now you can start the website with the specific packages you want rather than entire directories at a time
-
-```sh
-atlastart flag,tooltip
-```
+It will start button, toggle and tabs packages on your local server.
 
 ## Testing your code
 ### Running tests
@@ -318,15 +312,13 @@ How you do this will completely depend on what *exactly* you are trying to achie
 >
 > If your package is a flow package run:
 >
-> NODE_ENV=production BABEL_ENV=production:cjs bolt workspaces exec --only "@atlaskit/pkgName" -- babel src -d dist/cjs --root-mode upward
+> bolt build:babel
 >
 > **or** if you know that you are consuming the package as a module:
 >
-> NODE_ENV=production BABEL_ENV=production:esm bolt workspaces exec --only "@atlaskit/pkgName" -- babel src -d dist/esm --root-mode upward
+> bolt build:typescript
 >
 > If your package is written in TS:
-> NODE_ENV=production bolt workspaces exec --only "@atlaskit/pkgName" -- tsc --project ./build/es5
-> **or** if you know that you are consuming the package as a module:
 > NODE_ENV=production bolt workspaces exec --only "@atlaskit/pkgName" -- tsc --project ./build/es2015
 >
 > **THESE WILL NOT COVER 100% OF USE CASES AND ARE PROVIDED WITHOUT WARRANTY**

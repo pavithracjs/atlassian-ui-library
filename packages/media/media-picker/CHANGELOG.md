@@ -1,5 +1,127 @@
 # @atlaskit/media-picker
 
+## 37.0.2
+- [patch] [b3c60e3c9c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b3c60e3c9c):
+
+  - Update media-editor dependency
+
+## 37.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 37.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+- Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+  - @atlaskit/docs@7.0.1
+  - @atlaskit/analytics-next@4.0.1
+  - @atlaskit/dropdown-menu@7.0.1
+  - @atlaskit/field-text@8.0.1
+  - @atlaskit/flag@10.0.1
+  - @atlaskit/icon@16.0.5
+  - @atlaskit/modal-dialog@8.0.2
+  - @atlaskit/select@8.0.3
+  - @atlaskit/spinner@10.0.1
+  - @atlaskit/theme@8.0.1
+  - @atlaskit/toggle@6.0.1
+  - @atlaskit/media-card@57.0.0
+  - @atlaskit/media-editor@31.0.0
+  - @atlaskit/media-viewer@39.0.0
+  - @atlaskit/button@11.0.0
+  - @atlaskit/analytics-gas-types@4.0.0
+  - @atlaskit/analytics-listeners@5.0.0
+  - @atlaskit/analytics-next-types@4.0.0
+  - @atlaskit/media-core@29.0.0
+  - @atlaskit/media-store@11.0.0
+  - @atlaskit/media-test-helpers@21.0.0
+  - @atlaskit/media-ui@10.0.0
+
+## 36.0.0
+- Updated dependencies [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
+  - @atlaskit/media-card@56.0.0
+  - @atlaskit/media-editor@30.0.0
+  - @atlaskit/media-test-helpers@20.1.8
+  - @atlaskit/media-viewer@38.0.0
+  - @atlaskit/media-core@28.0.0
+  - @atlaskit/media-store@10.0.0
+
+## 35.0.2
+- [patch] [ff3f40bc38](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff3f40bc38):
+
+  - Fix remove from cache function, which fixes issue when user is deleting recent image in media picker
+
+## 35.0.1
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/button@10.1.3
+  - @atlaskit/icon@16.0.4
+  - @atlaskit/analytics-gas-types@3.2.5
+  - @atlaskit/analytics-listeners@4.2.1
+  - @atlaskit/media-card@55.0.2
+  - @atlaskit/media-core@27.2.3
+  - @atlaskit/media-editor@29.1.2
+  - @atlaskit/media-store@9.2.1
+  - @atlaskit/media-ui@9.2.1
+  - @atlaskit/media-viewer@37.0.1
+  - @atlaskit/media-test-helpers@20.1.7
+  - @atlaskit/docs@7.0.0
+  - @atlaskit/analytics-next@4.0.0
+  - @atlaskit/dropdown-menu@7.0.0
+  - @atlaskit/field-text@8.0.0
+  - @atlaskit/flag@10.0.0
+  - @atlaskit/modal-dialog@8.0.0
+  - @atlaskit/select@8.0.0
+  - @atlaskit/spinner@10.0.0
+  - @atlaskit/theme@8.0.0
+  - @atlaskit/toggle@6.0.0
+
+## 35.0.0
+- [patch] [6bd4c428e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6bd4c428e2):
+
+  - load image preview as soon representation is present instead of waiting for file status to be processed
+- Updated dependencies [4aee5f3cec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4aee5f3cec):
+  - @atlaskit/media-card@55.0.0
+  - @atlaskit/media-editor@29.0.0
+  - @atlaskit/media-viewer@37.0.0
+  - @atlaskit/media-test-helpers@20.1.6
+  - @atlaskit/media-core@27.2.0
+  - @atlaskit/media-store@9.2.0
+
+## 34.1.0
+- [minor] [f1b46bcb42](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f1b46bcb42):
+
+  - ED-6259 Enable stricter types for media packages
+
+## 34.0.0
+- [patch] [2e676676ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2e676676ba):
+
+  - Use Identifier from media-core instead of media-card
+- Updated dependencies [6e49c7c418](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6e49c7c418):
+- Updated dependencies [fc6164c8c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fc6164c8c2):
+- Updated dependencies [190c4b7bd3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/190c4b7bd3):
+  - @atlaskit/media-viewer@36.0.0
+  - @atlaskit/media-card@54.0.0
+  - @atlaskit/media-editor@28.0.0
+  - @atlaskit/media-store@9.1.7
+  - @atlaskit/media-test-helpers@20.1.5
+  - @atlaskit/media-core@27.1.0
+
+## 33.0.4
+- Updated dependencies [46dfcfbeca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/46dfcfbeca):
+  - @atlaskit/media-core@27.0.2
+  - @atlaskit/media-editor@27.0.4
+  - @atlaskit/media-store@9.1.6
+  - @atlaskit/media-test-helpers@20.1.4
+  - @atlaskit/media-viewer@35.2.1
+  - @atlaskit/media-card@53.0.0
+
+## 33.0.3
+- Updated dependencies [06713e0a0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06713e0a0c):
+  - @atlaskit/media-test-helpers@20.1.3
+  - @atlaskit/modal-dialog@7.2.3
+  - @atlaskit/select@7.0.0
+
 ## 33.0.2
 - Updated dependencies [d5bce1ea15](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5bce1ea15):
   - @atlaskit/media-card@52.0.4

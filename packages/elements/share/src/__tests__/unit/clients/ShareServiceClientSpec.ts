@@ -1,35 +1,30 @@
-import { utils } from '@atlaskit/util-service-support';
+import { ServiceConfig, utils } from '@atlaskit/util-service-support';
 import {
+  DEFAULT_SHARE_PATH,
+  DEFAULT_SHARE_SERVICE_URL,
   ShareClient,
   ShareServiceClient,
-  DEFAULT_SHARE_SERVICE_URL,
-  DEFAULT_SHARE_PATH,
 } from '../../../clients/ShareServiceClient';
+import { Comment, Content, MetaData, User } from '../../../types';
 
 describe('ShareServiceClientImpl', () => {
-  let requestSpy;
+  let requestSpy: jest.SpyInstance;
   let shareServiceClient: ShareClient;
-  let mockContent = {
+  let mockContent: Content = {
     link: 'link',
     ari: 'ari',
     title: 'title',
+    type: 'type',
   };
-  let mockRecipients = [
+  let mockRecipients: User[] = [
     { type: 'user' as 'user', id: 'id' },
     { type: 'user' as 'user', email: 'email' },
   ];
-  let mockMetaData = {
+  let mockMetaData: MetaData = {
     productId: 'confluence',
-    tracking: {
-      toAtlassianAccountHolders: {
-        atlOriginId: 'atlOrigin1',
-      },
-      toNewUsers: {
-        atlOriginId: 'atlOrigin2',
-      },
-    },
+    atlOriginId: 'atlOriginId',
   };
-  let mockComment = {
+  let mockComment: Comment = {
     format: 'plain_text' as 'plain_text',
     value: 'mock comment',
   };
@@ -74,7 +69,7 @@ describe('ShareServiceClientImpl', () => {
     });
 
     it('should call requestService with configurable serviceConfig', async () => {
-      const mockServiceConfig = {
+      const mockServiceConfig: ServiceConfig = {
         url: 'customurl',
       };
       shareServiceClient = new ShareServiceClient(mockServiceConfig);

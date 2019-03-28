@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { v4 as uuid } from 'uuid';
 import { Subscription } from 'rxjs/Subscription';
-import { Context, UploadableFile } from '@atlaskit/media-core';
-import { FileIdentifier } from '@atlaskit/media-card';
+import { Context, UploadableFile, FileIdentifier } from '@atlaskit/media-core';
 import { messages, Shortcut } from '@atlaskit/media-ui';
+import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
 import Spinner from '@atlaskit/spinner';
 import { intlShape, IntlProvider } from 'react-intl';
 import EditorView from './editorView/editorView';
@@ -11,11 +11,12 @@ import { Blanket, SpinnerWrapper } from './styled';
 import { fileToBase64 } from '../util';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import ErrorView from './editorView/errorView/errorView';
+import { Dimensions } from '../common';
 
 export interface SmartMediaEditorProps {
   identifier: FileIdentifier;
   context: Context;
-  onUploadStart: (identifier: FileIdentifier) => void;
+  onUploadStart: (identifier: FileIdentifier, dimensions: Dimensions) => void;
   onFinish: () => void;
 }
 
@@ -23,6 +24,8 @@ export interface SmartMediaEditorState {
   hasError: boolean;
   errorMessage?: any;
   imageUrl?: string;
+  hasBeenEdited: boolean;
+  closeIntent: boolean;
 }
 
 export class SmartMediaEditor extends React.Component<
@@ -32,6 +35,8 @@ export class SmartMediaEditor extends React.Component<
   fileName?: string;
   state: SmartMediaEditorState = {
     hasError: false,
+    hasBeenEdited: false,
+    closeIntent: false,
   };
   getFileSubscription?: Subscription;
   uploadFileSubscription?: Subscription;
@@ -116,7 +121,7 @@ export class SmartMediaEditor extends React.Component<
     });
   };
 
-  private onSave = (imageData: string) => {
+  private onSave = (imageData: string, dimensions: Dimensions) => {
     const { fileName } = this;
     const {
       context,
@@ -175,12 +180,68 @@ export class SmartMediaEditor extends React.Component<
       collectionName,
       mediaItemType: 'file',
     };
-    onUploadStart(newFileIdentifier);
+    onUploadStart(newFileIdentifier, dimensions);
+  };
+
+  private onAnyEdit = () => {
+    const { hasBeenEdited } = this.state;
+    if (!hasBeenEdited) {
+      this.setState({ hasBeenEdited: true });
+    }
+  };
+
+  private closeConfirmationDialog = () => {
+    this.setState({ closeIntent: false });
+  };
+
+  private closeAnyway = () => {
+    const { onFinish } = this.props;
+    onFinish();
+    this.closeConfirmationDialog();
+  };
+
+  private renderDeleteConfirmation = () => {
+    const {
+      intl: { formatMessage },
+    } = this.props;
+    const { closeIntent } = this.state;
+
+    if (closeIntent) {
+      const actions = [
+        {
+          text: formatMessage(messages.annotate_confirmation_close_anyway),
+          onClick: this.closeAnyway,
+        },
+        {
+          text: formatMessage(messages.cancel),
+          onClick: this.closeConfirmationDialog,
+        },
+      ];
+      return (
+        <ModalTransition>
+          <ModalDialog
+            width="small"
+            appearance="danger"
+            heading={formatMessage(messages.annotate_confirmation_heading)}
+            actions={actions}
+            onClose={this.closeConfirmationDialog}
+          >
+            {formatMessage(messages.annotate_confirmation_content)}
+          </ModalDialog>
+        </ModalTransition>
+      );
+    }
+    return null;
   };
 
   onCancel = () => {
-    const { onFinish } = this.props;
-    onFinish();
+    const { hasBeenEdited } = this.state;
+    if (hasBeenEdited) {
+      this.setState({ closeIntent: true });
+    } else {
+      const { onFinish } = this.props;
+      onFinish();
+    }
   };
 
   onError = (error: any) => {
@@ -188,6 +249,12 @@ export class SmartMediaEditor extends React.Component<
       hasError: true,
       errorMessage: error,
     });
+  };
+
+  private clickShellNotPass = (e: React.SyntheticEvent<HTMLDivElement>) => {
+    // Stop click from propagating back to the editor.
+    // Without it editor will get focus and apply all the key events
+    e.stopPropagation();
   };
 
   renderLoading = () => {
@@ -205,6 +272,7 @@ export class SmartMediaEditor extends React.Component<
         onSave={this.onSave}
         onCancel={this.onCancel}
         onError={this.onError}
+        onAnyEdit={this.onAnyEdit}
       />
     );
   };
@@ -227,7 +295,8 @@ export class SmartMediaEditor extends React.Component<
       : this.renderLoading();
 
     return (
-      <Blanket>
+      <Blanket onClick={this.clickShellNotPass}>
+        {this.renderDeleteConfirmation()}
         <Shortcut keyCode={27} handler={this.onCancel} />
         {content}
       </Blanket>

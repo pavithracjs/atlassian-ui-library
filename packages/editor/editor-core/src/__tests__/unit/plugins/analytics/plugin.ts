@@ -1,40 +1,48 @@
-const mockFireAnalyticsEventPayload = jest.fn(() => () => null);
-const mockFireAnalyticsEvent = jest.fn(() => mockFireAnalyticsEventPayload);
-jest.mock('../../../../plugins/analytics/utils', () => ({
-  fireAnalyticsEvent: mockFireAnalyticsEvent,
-}));
-
-import analyticsPlugin, {
+import {
   addAnalytics,
   analyticsPluginKey,
   AnalyticsEventPayload,
+  ACTION,
+  ACTION_SUBJECT,
+  INPUT_METHOD,
+  EVENT_TYPE,
+  ACTION_SUBJECT_ID,
 } from '../../../../plugins/analytics';
+import { EditorState, Transaction } from 'prosemirror-state';
 import { createEditorFactory, doc, p } from '@atlaskit/editor-test-helpers';
+import { CommandDispatch } from '../../../../types';
 
 describe('analytics', () => {
   const createEditor = createEditorFactory();
   const payload: AnalyticsEventPayload = {
-    action: 'clicked',
-    actionSubject: 'button',
-    actionSubjectId: 'helpButton',
-    attributes: { inputMethod: 'toolbar' },
-    eventType: 'ui',
+    action: ACTION.CLICKED,
+    actionSubject: ACTION_SUBJECT.BUTTON,
+    actionSubjectId: ACTION_SUBJECT_ID.BUTTON_HELP,
+    attributes: { inputMethod: INPUT_METHOD.TOOLBAR },
+    eventType: EVENT_TYPE.UI,
   };
 
-  const mockCreateAnalyticsEvent = jest.fn();
+  let createAnalyticsEvent;
+  let fireMock;
 
   describe('addAnalytics', () => {
     let editorView;
-    let dispatch;
-    let state;
-    let tr;
+    let dispatch: CommandDispatch;
+    let state: EditorState;
+    let tr: Transaction;
 
-    const editor = (doc: any) =>
-      createEditor({
+    const editor = (doc: any) => {
+      fireMock = jest.fn();
+      createAnalyticsEvent = jest.fn(() => ({ fire: fireMock }));
+      return createEditor({
         doc,
-        editorPlugins: [analyticsPlugin(mockCreateAnalyticsEvent)],
+        editorProps: {
+          allowAnalyticsGASV3: true,
+        },
+        createAnalyticsEvent,
         pluginKey: analyticsPluginKey,
       });
+    };
 
     beforeEach(() => {
       ({ editorView } = editor(doc(p('hello world'))));
@@ -42,46 +50,39 @@ describe('analytics', () => {
       tr = editorView.state.tr.insertText('hello ');
     });
 
-    it('fires analytics event with payload', () => {
+    it('create analytics event with payload', () => {
       tr = addAnalytics(tr, payload);
       dispatch(tr);
 
-      expect(mockFireAnalyticsEventPayload).toHaveBeenCalledWith({
-        payload,
-      });
+      expect(createAnalyticsEvent).toHaveBeenCalledWith(payload);
     });
 
     it('fires analytics event for channel', () => {
       tr = addAnalytics(tr, payload, 'atlassian');
       dispatch(tr);
 
-      expect(mockFireAnalyticsEventPayload).toHaveBeenCalledWith({
-        payload,
-        channel: 'atlassian',
-      });
+      expect(fireMock).toHaveBeenCalledWith('atlassian');
     });
 
     it('handles firing multiple analytics events for one transaction', () => {
       const secondPayload: AnalyticsEventPayload = {
-        action: 'stopped',
-        actionSubject: 'editor',
-        actionSubjectId: 'save',
+        action: ACTION.STOPPED,
+        actionSubject: ACTION_SUBJECT.EDITOR,
+        actionSubjectId: ACTION_SUBJECT_ID.SAVE,
         attributes: {
-          inputMethod: 'shortcut',
+          inputMethod: INPUT_METHOD.SHORTCUT,
           documentSize: state.doc.nodeSize,
         },
-        eventType: 'ui',
+        eventType: EVENT_TYPE.UI,
       };
+
       tr = addAnalytics(tr, payload);
       tr = addAnalytics(tr, secondPayload);
+
       dispatch(tr);
 
-      expect(mockFireAnalyticsEventPayload).toHaveBeenCalledWith({
-        payload,
-      });
-      expect(mockFireAnalyticsEventPayload).toHaveBeenCalledWith({
-        payload: secondPayload,
-      });
+      expect(createAnalyticsEvent).toHaveBeenCalledWith(payload);
+      expect(createAnalyticsEvent).toHaveBeenCalledWith(secondPayload);
     });
   });
 });

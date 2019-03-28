@@ -14,7 +14,7 @@ const mediaProvider = storyMediaProviderFactory();
 const providerFactory = ProviderFactory.create({ mediaProvider });
 
 export default class ExampleRenderer extends React.Component {
-  constructor(props) {
+  constructor(props: object) {
     super(props);
 
     // opens an iframe
@@ -26,8 +26,8 @@ export default class ExampleRenderer extends React.Component {
   render() {
     return (
       <Sidebar showSidebar={true}>
-        {additionalProps => (
-          <>
+        {(additionalProps: object) => (
+          <React.Fragment>
             <div
               style={{
                 display: 'flex',
@@ -54,7 +54,7 @@ export default class ExampleRenderer extends React.Component {
                   : undefined
               }
             />
-          </>
+          </React.Fragment>
         )}
       </Sidebar>
     );

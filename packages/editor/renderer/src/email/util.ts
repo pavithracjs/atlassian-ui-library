@@ -1,6 +1,7 @@
 import { Mark } from 'prosemirror-model';
 import { Style } from './interfaces';
 import { markSerializers } from './serializers';
+import { commonStyle } from '.';
 
 export const createTag = (
   tagName: string,
@@ -16,7 +17,7 @@ export const createTag = (
       return;
     }
 
-    attrsList.push(`${key}="${String(value).replace(/"/g, '"')}"`);
+    attrsList.push(`${key}="${String(value).replace(/"/g, "'")}"`);
   });
 
   const attrsSerialized = attrsList.length ? ` ${attrsList.join(' ')}` : '';
@@ -32,14 +33,13 @@ export const serializeStyle = (style: Style): string => {
       return memo;
     }
 
-    const value = String(style[key]).replace(/"/g, '"');
+    const value = String(style[key]).replace(/"/g, "'");
     return (memo += `${key}: ${value};`);
   }, '');
 };
 
 export const applyMarks = (marks: Mark[], text: string): string => {
   let output = text;
-
   for (const mark of marks) {
     // ignore marks with unknown type
     if (markSerializers[mark.type.name]) {
@@ -48,4 +48,44 @@ export const applyMarks = (marks: Mark[], text: string): string => {
   }
 
   return output;
+};
+
+type TableData = {
+  text?: string | null;
+  style: Style;
+};
+
+export const commonTableStyle = {
+  ...commonStyle,
+  margin: '0px',
+  padding: '0px',
+  'border-spacing': '0px',
+  width: '100%',
+};
+
+export const createTable = (
+  tableData: TableData[][],
+  tableStyle: Style = {},
+): string => {
+  // Tables override font size, weight and other stuff, thus we reset it here with commonStyle
+  const attrs = {
+    cellspacing: 0,
+    cellpadding: 0,
+    border: 0,
+    style: serializeStyle({
+      ...commonTableStyle,
+      // Allow overriding any tableStyle, via tableStyle param
+      ...tableStyle,
+    }),
+  };
+
+  const tableRows = tableData.map(tableRow => {
+    const tableColumns = tableRow.map(({ style, text }) => {
+      const css = serializeStyle(style);
+      return createTag('td', { style: css }, text ? text : '');
+    });
+    return createTag('tr', {}, tableColumns.join(''));
+  });
+
+  return createTag('table', attrs, tableRows.join(''));
 };

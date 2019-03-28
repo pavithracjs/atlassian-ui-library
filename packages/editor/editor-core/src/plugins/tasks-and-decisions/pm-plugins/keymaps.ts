@@ -1,9 +1,14 @@
-import { uuid } from '@atlaskit/adf-schema';
 import { keymap } from 'prosemirror-keymap';
 import { ResolvedPos, Schema } from 'prosemirror-model';
 import { EditorState, Selection, Transaction, Plugin } from 'prosemirror-state';
 import { hasParentNodeOfType } from 'prosemirror-utils';
-import { isSupportedSourceNode, splitListAtSelection } from '../commands';
+import {
+  isSupportedSourceNode,
+  splitListAtSelection,
+  insertTaskDecisionWithAnalytics,
+} from '../commands';
+import { INPUT_METHOD } from '../../analytics';
+import { TaskDecisionListType } from '../types';
 
 // tries to find a valid cursor position
 const setTextSelection = (pos: number) => (tr: Transaction) => {
@@ -29,7 +34,7 @@ export function keymapPlugin(schema: Schema): Plugin | undefined {
    * eg. behaviour for backspace and enter etc. So we need to implement it.
    */
   const keymaps = {
-    Backspace: (state: EditorState, dispatch) => {
+    Backspace: (state: EditorState, dispatch: (tr: Transaction) => void) => {
       const {
         selection,
         schema: { nodes },
@@ -82,7 +87,7 @@ export function keymapPlugin(schema: Schema): Plugin | undefined {
 
       return true;
     },
-    Delete: (state: EditorState, dispatch) => {
+    Delete: (state: EditorState, dispatch: (tr: Transaction) => void) => {
       const {
         selection,
         schema: { nodes },
@@ -156,20 +161,38 @@ export function keymapPlugin(schema: Schema): Plugin | undefined {
       return true;
     },
 
-    Enter: (state: EditorState, dispatch) => {
+    Enter: (state: EditorState, dispatch: (tr: Transaction) => void) => {
       const { selection, tr } = state;
       const { $from } = selection;
       const nodeIsTaskOrDecisionItem = isInsideTaskOrDecisionItem(state);
       const node = $from.node($from.depth);
       const nodeType = node && node.type;
       const isEmpty = node && node.textContent.length === 0;
+      const listType: TaskDecisionListType =
+        nodeType === state.schema.nodes.taskItem ? 'taskList' : 'decisionList';
 
       if (nodeIsTaskOrDecisionItem) {
         if (!isEmpty) {
-          tr.split($from.pos, 1, [
-            { type: nodeType, attrs: { localId: uuid.generate() } },
-          ]);
-          dispatch(tr);
+          const addItem = ({
+            tr,
+            itemLocalId,
+          }: {
+            tr: Transaction;
+            itemLocalId?: string;
+          }) =>
+            tr.split($from.pos, 1, [
+              { type: nodeType, attrs: { localId: itemLocalId } },
+            ]);
+          const insertTr = insertTaskDecisionWithAnalytics(
+            state,
+            listType,
+            INPUT_METHOD.KEYBOARD,
+            addItem,
+          );
+
+          if (insertTr) {
+            dispatch(insertTr);
+          }
           return true;
         }
 

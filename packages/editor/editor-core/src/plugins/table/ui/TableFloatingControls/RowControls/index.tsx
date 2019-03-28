@@ -1,14 +1,16 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { EditorView } from 'prosemirror-view';
-import { isCellSelection } from 'prosemirror-utils';
+import { isCellSelection, getSelectionRect } from 'prosemirror-utils';
+
+import { INPUT_METHOD } from '../../../../analytics';
+import { clearHoverSelection } from '../../../actions';
+import { getPluginState } from '../../../pm-plugins/main';
 import {
-  clearHoverSelection,
-  insertRow,
-  deleteSelectedRows,
-} from '../../../actions';
-import InsertButton from '../InsertButton';
-import DeleteButton from '../DeleteButton';
+  insertRowWithAnalytics,
+  deleteRowsWithAnalytics,
+} from '../../../actions-with-analytics';
+import { TableCssClassName as ClassName } from '../../../types';
 import {
   RowParams,
   getRowHeights,
@@ -18,8 +20,9 @@ import {
   getRowsParams,
   getRowClassNames,
 } from '../../../utils';
-import { TableCssClassName as ClassName } from '../../../types';
 import tableMessages from '../../messages';
+import InsertButton from '../InsertButton';
+import DeleteButton from '../DeleteButton';
 
 export interface Props {
   editorView: EditorView;
@@ -106,7 +109,7 @@ export default class RowControls extends Component<Props, any> {
               key="delete"
               removeLabel={tableMessages.removeRows}
               style={{ top: deleteBtnParams.top }}
-              onClick={this.deleteSelectedRows}
+              onClick={this.deleteRows}
               onMouseEnter={() =>
                 this.props.hoverRows(deleteBtnParams.indexes, true)
               }
@@ -125,12 +128,23 @@ export default class RowControls extends Component<Props, any> {
 
   private insertRow = (row: number) => {
     const { state, dispatch } = this.props.editorView;
-    insertRow(row)(state, dispatch);
+    insertRowWithAnalytics(INPUT_METHOD.BUTTON, row)(state, dispatch);
   };
 
-  private deleteSelectedRows = () => {
+  private deleteRows = () => {
     const { state, dispatch } = this.props.editorView;
-    deleteSelectedRows(state, dispatch);
+    const {
+      pluginConfig: { isHeaderRowRequired },
+    } = getPluginState(state);
+
+    const rect = getSelectionRect(state.selection);
+    if (rect) {
+      deleteRowsWithAnalytics(INPUT_METHOD.BUTTON, rect, isHeaderRowRequired)(
+        state,
+        dispatch,
+      );
+    }
+
     this.clearHoverSelection();
   };
 }

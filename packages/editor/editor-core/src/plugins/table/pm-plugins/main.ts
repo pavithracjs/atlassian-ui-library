@@ -33,11 +33,8 @@ import {
   handleClick,
   handleTripleClick,
 } from '../event-handlers';
-import {
-  findControlsHoverDecoration,
-  fixTables,
-  normalizeSelection,
-} from '../utils';
+import { findControlsHoverDecoration } from '../utils';
+import { fixTables } from '../transforms';
 import { TableCssClassName as ClassName } from '../types';
 
 export const pluginKey = new PluginKey('tablePlugin');
@@ -68,6 +65,7 @@ export const createPlugin = (
   eventDispatcher: EventDispatcher,
   pluginConfig: PluginConfig,
   appearance?: EditorAppearance,
+  dynamicTextSizing?: boolean,
 ) =>
   new Plugin({
     state: {
@@ -196,9 +194,6 @@ export const createPlugin = (
       if (transactions.find(tr => tr.docChanged)) {
         return fixTables(newState.tr);
       }
-      if (transactions.find(tr => tr.selectionSet)) {
-        return normalizeSelection(newState.tr);
-      }
     },
     view: (editorView: EditorView) => {
       const domAtPos = editorView.domAtPos.bind(editorView);
@@ -251,7 +246,7 @@ export const createPlugin = (
       },
 
       nodeViews: {
-        table: createTableView(portalProviderAPI),
+        table: createTableView(portalProviderAPI, dynamicTextSizing),
         tableCell: createCellView(portalProviderAPI, appearance),
         tableHeader: createCellView(portalProviderAPI, appearance),
       },

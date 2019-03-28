@@ -1,5 +1,65 @@
 # @atlaskit/adf-schema
 
+## 2.1.0
+- [minor] [0fea11af41](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0fea11af41):
+
+  - Email renderer supports numbered columns, adf-schema extended with colors
+
+## 2.0.1
+- [patch] [205b101e2b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/205b101e2b):
+
+  - ED-6230: bump prosemirror-view to 1.8.3; workaround Chrome bug with copy paste multiple images
+
+## 2.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 1.7.1
+- [patch] [0825fbe634](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0825fbe634):
+
+  - ED-6410: remove opacity from cells background color
+
+## 1.7.0
+- [minor] [6380484429](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6380484429):
+
+  - ED-6485 Support breakout mark on layout-section. Retain breakout mark when toggling list nested within columns.
+
+## 1.6.2
+- [patch] [d18b085e2a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d18b085e2a):
+
+  - Integrating truly upfront ID
+
+## 1.6.1
+- [patch] [4d0c196597](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d0c196597):
+
+  - ED-6232 Fix copy-pasting a table with numbered column drops one column
+
+## 1.6.0
+- [minor] [3672ec23ef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3672ec23ef):
+
+  - [ED-5788] Add new layout Breakout button for CodeBlock and Layout
+
+## 1.5.5
+- [patch] [356de07a87](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/356de07a87):
+
+  - Revert back to number for external media
+
+## 1.5.4
+- Updated dependencies [4af5bd2a58](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4af5bd2a58):
+  - @atlaskit/editor-json-transformer@4.1.11
+  - @atlaskit/editor-test-helpers@7.0.0
+
+## 1.5.3
+- [patch] [775da616c6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/775da616c6):
+
+  - [ED-5910] Keep width & height on media node as number
+
+## 1.5.2
+- [patch] [e83a441140](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e83a441140):
+
+  - Revert type change to width/height attributes for media node
+
 ## 1.5.1
 - [patch] [09696170ec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/09696170ec):
 

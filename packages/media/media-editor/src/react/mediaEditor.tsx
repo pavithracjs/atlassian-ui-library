@@ -18,7 +18,7 @@ import {
   TextDirection,
   Tool,
 } from '../common';
-import { colorSame, colorWithAlphaSame, dimensionsSame } from '../util';
+import { colorWithAlphaSame, dimensionsSame } from '../util';
 
 import {
   DefaultDrawingArea,
@@ -60,6 +60,7 @@ export interface MediaEditorProps {
   onLoad: LoadHandler;
   onError: ErrorHandler;
   onShapeParametersChanged: ShapeParametersChangedHandler;
+  onAnyEdit?: () => void;
 }
 
 export interface MediaEditorState {
@@ -136,7 +137,7 @@ export class MediaEditor extends React.Component<
       addShadow: prevAddShadow,
     } = prevProps.shapeParameters;
     if (this.toolbar) {
-      if (!colorSame(currColor, prevColor)) {
+      if (currColor !== prevColor) {
         this.toolbar.setColor(currColor);
       }
       if (currLineWidth !== prevLineWidth) {
@@ -181,16 +182,11 @@ export class MediaEditor extends React.Component<
   render() {
     const { isImageLoaded } = this.state;
     const { dimensions } = this.props;
-    const width = `${dimensions.width}px`;
-    const height = `${dimensions.height}px`;
 
     return (
-      <MediaEditorContainer style={{ width, height }}>
+      <MediaEditorContainer style={dimensions}>
         {!isImageLoaded ? this.renderSpinner() : null}
-        <OutputArea
-          innerRef={this.handleOutputAreaInnerRef}
-          style={{ width, height }}
-        >
+        <OutputArea innerRef={this.handleOutputAreaInnerRef} style={dimensions}>
           <SupplementaryCanvas
             innerRef={this.handleSupplementaryCanvasInnerRef}
           />
@@ -203,15 +199,22 @@ export class MediaEditor extends React.Component<
           <HiddenTextHelperDiv
             innerRef={this.handleHiddenTextHelperDivInnerRef}
           />
-
           <DrawingCanvas
+            onClick={this.onCanvasClick}
             innerRef={this.handleDrawingCanvasInnerRef}
-            style={{ width, height }}
+            style={dimensions}
           />
         </OutputArea>
       </MediaEditorContainer>
     );
   }
+
+  private onCanvasClick = () => {
+    const { onAnyEdit } = this.props;
+    if (onAnyEdit) {
+      onAnyEdit();
+    }
+  };
 
   private loadEngine(): void {
     const { imageUrl } = this.props;
@@ -275,7 +278,7 @@ export class MediaEditor extends React.Component<
         };
 
         this.engine = new Engine(config);
-        const loadParameters = {
+        const loadParameters: LoadParameters = {
           imageGetter: (format?: string) => this.engine!.getBase64Image(format),
         };
 

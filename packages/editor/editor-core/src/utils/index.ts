@@ -1,7 +1,7 @@
 import { toggleMark } from 'prosemirror-commands';
 import {
   Fragment,
-  Mark,
+  Mark as PMMark,
   MarkType,
   Node,
   NodeType,
@@ -9,6 +9,7 @@ import {
   Slice,
   Schema,
   NodeRange,
+  Mark,
 } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
 import {
@@ -38,11 +39,16 @@ export { JSONDocNode, JSONNode };
 
 export { filterContentByType } from './filter';
 
+export const ZWSP = '\u200b';
+
 function validateNode(node: Node): boolean {
   return false;
 }
 
-function isMarkTypeCompatibleWithMark(markType: MarkType, mark: Mark): boolean {
+function isMarkTypeCompatibleWithMark(
+  markType: MarkType,
+  mark: PMMark,
+): boolean {
   return !mark.type.excludes(markType) && !markType.excludes(mark.type);
 }
 
@@ -67,7 +73,8 @@ function closest(
   const matches = el.matches ? 'matches' : 'msMatchesSelector';
 
   do {
-    if (el[matches](s)) {
+    // @ts-ignore
+    if (el[matches] && el[matches](s)) {
       return el;
     }
     el = (el.parentElement || el.parentNode) as HTMLElement;
@@ -211,7 +218,7 @@ export function isMarkTypeAllowedInCurrentSelection(
     return false;
   }
 
-  let isCompatibleMarkType = mark =>
+  let isCompatibleMarkType = (mark: PMMark) =>
     isMarkTypeCompatibleWithMark(markType, mark);
 
   // Handle any new marks in the current transaction
@@ -245,7 +252,7 @@ export function isMarkTypeAllowedInCurrentSelection(
  * found that isn't of the specified type
  */
 export function isRangeOfType(
-  doc,
+  doc: Node,
   $from: ResolvedPos,
   $to: ResolvedPos,
   nodeType: NodeType,
@@ -337,7 +344,7 @@ export function canJoinUp(
  * Returns all top-level ancestor-nodes between $from and $to
  */
 export function getAncestorNodesBetween(
-  doc,
+  doc: Node,
   $from: ResolvedPos,
   $to: ResolvedPos,
 ): Node[] {
@@ -393,7 +400,7 @@ export function getAncestorNodesBetween(
  * The output will be two selection-groups. One within the ul and one with the two paragraphs.
  */
 export function getGroupsInRange(
-  doc,
+  doc: Node,
   $from: ResolvedPos,
   $to: ResolvedPos,
   isNodeValid: (node: Node) => boolean = validateNode,
@@ -467,7 +474,7 @@ export function findAncestorPosition(doc: Node, pos: any): any {
  * Determine if two positions have a common ancestor.
  */
 export function hasCommonAncestor(
-  doc,
+  doc: Node,
   $from: ResolvedPos,
   $to: ResolvedPos,
 ): boolean {
@@ -492,7 +499,12 @@ export function hasCommonAncestor(
 /**
  * Takes a selection $from and $to and lift all text nodes from their parents to document-level
  */
-export function liftSelection(tr, doc, $from: ResolvedPos, $to: ResolvedPos) {
+export function liftSelection(
+  tr: Transaction,
+  doc: Node,
+  $from: ResolvedPos,
+  $to: ResolvedPos,
+) {
   let startPos = $from.start($from.depth);
   let endPos = $to.end($to.depth);
   const target = Math.max(0, findAncestorPosition(doc, $from).depth - 1);
@@ -680,7 +692,7 @@ export const isEmptyNode = (schema: Schema) => {
     mediaGroup,
     mediaSingle,
   } = schema.nodes;
-  const innerIsEmptyNode = (node: Node) => {
+  const innerIsEmptyNode = (node: Node): any => {
     switch (node.type) {
       case media:
       case mediaGroup:
@@ -762,7 +774,7 @@ export function filterChildrenBetween(
 
 export function dedupe<T>(
   list: T[] = [],
-  iteratee?: (T) => (keyof T) | T,
+  iteratee?: (p: T) => T[keyof T] | T,
 ): T[] {
   const transformed = iteratee ? list.map(iteratee) : list;
 
@@ -808,3 +820,28 @@ export function compose<
     return allFuncs.reduceRight((memo, func) => func(memo), raw);
   } as R;
 }
+
+export const normaliseNestedLayout = (state: EditorState, node: Node) => {
+  if (state.selection.$from.depth > 1) {
+    if (node.attrs.layout && node.attrs.layout !== 'default') {
+      return node.type.createChecked(
+        {
+          ...node.attrs,
+          layout: 'default',
+        },
+        node.content,
+        node.marks,
+      );
+    }
+
+    // If its a breakout layout, we can remove the mark
+    // Since default isn't a valid breakout mode.
+    const breakoutMark: Mark = state.schema.marks.breakout;
+    if (breakoutMark && breakoutMark.isInSet(node.marks)) {
+      const newMarks = breakoutMark.removeFromSet(node.marks);
+      return node.type.createChecked(node.attrs, node.content, newMarks);
+    }
+  }
+
+  return node;
+};

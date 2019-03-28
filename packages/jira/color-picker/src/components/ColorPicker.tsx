@@ -7,7 +7,7 @@ import * as components from './components';
 import {
   name as packageName,
   version as packageVersion,
-} from '../../package.json';
+} from '../version.json';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -32,10 +32,6 @@ export interface Props {
   onChange: (value: string, analyticsEvent?: object) => void;
   /** You should not be accessing this prop under any circumstances. It is provided by @atlaskit/analytics-next. */
   createAnalyticsEvent?: any;
-}
-
-export interface State {
-  isOpen: boolean;
 }
 
 const defaultPopperProps = {
@@ -65,11 +61,7 @@ const getOptions = memoizeOne((props: Props) => {
   };
 });
 
-export class ColorPickerWithoutAnalytics extends React.Component<Props, State> {
-  state = {
-    isOpen: false,
-  };
-
+export class ColorPickerWithoutAnalytics extends React.Component<Props> {
   createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
   changeAnalyticsCaller = () => {
@@ -94,14 +86,6 @@ export class ColorPickerWithoutAnalytics extends React.Component<Props, State> {
     this.props.onChange(option.value, this.changeAnalyticsCaller());
   };
 
-  onOpen = () => {
-    this.setState({ isOpen: true });
-  };
-
-  onClose = () => {
-    this.setState({ isOpen: false });
-  };
-
   render() {
     const {
       checkMarkColor,
@@ -110,16 +94,15 @@ export class ColorPickerWithoutAnalytics extends React.Component<Props, State> {
       label = 'Color picker',
     } = this.props;
     const { options, value } = getOptions(this.props);
-    const { isOpen } = this.state;
     const fullLabel = `${label}, ${value.label} selected`;
 
     return (
       <PopupSelect
-        target={
-          <ColorCardWrapper>
+        target={({ ref, isOpen }: { ref: any; isOpen: boolean }) => (
+          <ColorCardWrapper innerRef={ref}>
             <Trigger {...value} label={fullLabel} expanded={isOpen} />
           </ColorCardWrapper>
-        }
+        )}
         popperProps={popperProps}
         maxMenuWidth="auto"
         minMenuWidth="auto"
@@ -128,8 +111,6 @@ export class ColorPickerWithoutAnalytics extends React.Component<Props, State> {
         value={value}
         components={components}
         onChange={this.onChange}
-        onOpen={this.onOpen}
-        onClose={this.onClose}
         // never show search input
         searchThreshold={Number.MAX_VALUE}
         // palette props

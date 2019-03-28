@@ -4,7 +4,7 @@ const constructAuthTokenUrlSpy = jest.spyOn(util, 'constructAuthTokenUrl');
 import * as React from 'react';
 import { Observable } from 'rxjs';
 import { ReactWrapper, mount } from 'enzyme';
-import { MediaItemType, MediaType, FileState } from '@atlaskit/media-core';
+import { MediaType, FileState, Identifier } from '@atlaskit/media-core';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
 import { fakeIntl } from '@atlaskit/media-test-helpers';
 import { createContext } from '../_stubs';
@@ -12,16 +12,16 @@ import { Header, State as HeaderState } from '../../../newgen/header';
 import { MetadataFileName, MetadataSubText } from '../../../newgen/styled';
 import { LeftHeader } from '../../../newgen/styled';
 
-const identifier = {
+const identifier: Identifier = {
   id: 'some-id',
   occurrenceKey: 'some-custom-occurrence-key',
-  type: 'file' as MediaItemType,
+  mediaItemType: 'file',
 };
 
-const identifier2 = {
+const identifier2: Identifier = {
   id: 'some-id-2',
   occurrenceKey: 'some-custom-occurrence-key',
-  type: 'file' as MediaItemType,
+  mediaItemType: 'file',
 };
 
 const processedImageState: FileState = {
@@ -32,6 +32,9 @@ const processedImageState: FileState = {
   name: 'my image',
   size: 0,
   artifacts: {},
+  representations: {
+    image: {},
+  },
 };
 
 describe('<Header />', () => {
@@ -145,6 +148,9 @@ describe('<Header />', () => {
           name: 'my item',
           size: 12222222,
           artifacts: {},
+          representations: {
+            image: {},
+          },
         };
         const context = createContext({
           getFileState: () => Observable.of(testItem),

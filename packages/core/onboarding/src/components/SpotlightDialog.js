@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, type ElementType, type Node } from 'react';
+import React, { Component, type ComponentType, type Node } from 'react';
 import FocusLock from 'react-focus-lock';
 import {
   withAnalyticsEvents,
@@ -11,7 +11,7 @@ import { Popper, type Placement } from '@atlaskit/popper';
 import {
   name as packageName,
   version as packageVersion,
-} from '../../package.json';
+} from '../version.json';
 
 import type { ActionsType } from '../types';
 import { Image } from '../styled/Dialog';
@@ -42,9 +42,9 @@ type Props = {
   /** The width of the dialog in pixels. Min 160 - Max 600 */
   dialogWidth: number,
   /** Optional element rendered below the body */
-  footer?: ElementType,
+  footer?: ComponentType<any>,
   /** Optional element rendered above the body */
-  header?: ElementType,
+  header?: ComponentType<any>,
   /** Heading text rendered above the body */
   heading?: string,
   /** Path to the the your image */

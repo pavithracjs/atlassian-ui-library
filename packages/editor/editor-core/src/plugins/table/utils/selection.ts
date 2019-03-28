@@ -1,4 +1,4 @@
-import { EditorState, Transaction, Selection } from 'prosemirror-state';
+import { Transaction, Selection } from 'prosemirror-state';
 import { CellSelection, TableMap, Rect } from 'prosemirror-tables';
 import {
   findTable,
@@ -8,26 +8,15 @@ import {
   getSelectionRangeInRow,
 } from 'prosemirror-utils';
 
-export const isHeaderRowSelected = (state: EditorState): boolean => {
-  let isSelected = false;
-  if (isCellSelection(state.selection)) {
-    (state.selection as any).forEachCell(cell => {
-      if (cell.type === state.schema.nodes.tableHeader) {
-        isSelected = true;
-      }
-    });
-  }
-  return isSelected;
-};
-
 export const isSelectionUpdated = (
   oldSelection: Selection,
-  newSelection: Selection,
+  newSelection?: Selection,
 ) =>
-  isCellSelection(oldSelection) !== isCellSelection(newSelection) ||
-  (isCellSelection(oldSelection) &&
-    isCellSelection(newSelection) &&
-    oldSelection.ranges !== newSelection.ranges);
+  !!(!newSelection && oldSelection) ||
+  (isCellSelection(oldSelection) !== isCellSelection(newSelection!) ||
+    (isCellSelection(oldSelection) &&
+      isCellSelection(newSelection!) &&
+      oldSelection.ranges !== newSelection!.ranges));
 
 const isRectangularCellSelection = (
   selection: Selection,

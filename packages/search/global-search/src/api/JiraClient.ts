@@ -108,7 +108,7 @@ type JiraMyPermissionsResponse = {
 export default class JiraClientImpl implements JiraClient {
   private serviceConfig: ServiceConfig;
   private cloudId: string;
-  private addSessionIdToJiraResult;
+  private addSessionIdToJiraResult?: boolean;
   private canSearchUsersCache: boolean | undefined;
 
   constructor(
@@ -143,10 +143,11 @@ export default class JiraClientImpl implements JiraClient {
         search_id: searchSessionId,
       },
     };
-    const recentItems = await utils.requestService<JiraRecentItemGroup[]>(
-      this.serviceConfig,
-      options,
-    );
+    const recentItems =
+      (await utils.requestService<JiraRecentItemGroup[]>(
+        this.serviceConfig,
+        options,
+      )) || [];
     return recentItems
       .filter(group => JiraResponseGroupToContentType.hasOwnProperty(group.id))
       .map(group => this.recentItemGroupToItems(group, searchSessionId))
@@ -166,11 +167,12 @@ export default class JiraClientImpl implements JiraClient {
       JiraMyPermissionsResponse
     >(this.serviceConfig, options);
 
-    this.canSearchUsersCache = permissionsResponse.permissions.USER_PICKER
-      ? permissionsResponse.permissions.USER_PICKER.havePermission
-      : false;
-
-    return this.canSearchUsersCache;
+    this.canSearchUsersCache =
+      permissionsResponse &&
+      permissionsResponse.permissions &&
+      permissionsResponse.permissions.USER_PICKER &&
+      permissionsResponse.permissions.USER_PICKER.havePermission;
+    return !!this.canSearchUsersCache;
   }
 
   private recentItemGroupToItems(
@@ -268,7 +270,7 @@ export default class JiraClientImpl implements JiraClient {
    * @param recentCounts
    */
   private getRecentCountQueryParam(recentCounts: RecentItemsCounts): string {
-    const keys = Object.keys(recentCounts);
+    const keys = Object.keys(recentCounts) as Array<keyof typeof recentCounts>;
 
     return keys.map(key => `${key}=${recentCounts[key]}`).join(',');
   }

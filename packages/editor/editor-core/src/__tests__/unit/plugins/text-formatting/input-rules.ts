@@ -13,6 +13,8 @@ import {
   emoji,
   code_block,
   hardBreak,
+  BuilderContent,
+  createAnalyticsEventMock,
 } from '@atlaskit/editor-test-helpers';
 
 import {
@@ -25,6 +27,43 @@ import {
 } from '../../../../plugins/text-formatting/pm-plugins/input-rule';
 import { EditorView } from 'prosemirror-view';
 import { ProviderFactory } from '@atlaskit/editor-common';
+import { AnalyticsHandler } from '../../../../analytics';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+
+const createProductPayload = (product: string, originalSpelling: string) => ({
+  action: 'autoSubstituted',
+  actionSubject: 'text',
+  actionSubjectId: 'productName',
+  eventType: 'track',
+  attributes: {
+    product,
+    originalSpelling,
+  },
+});
+
+const createPunctuationPayload = (
+  punctuation: 'ellipsis' | 'emDash' | 'singleQuote' | 'doubleQuote',
+) => ({
+  action: 'autoSubstituted',
+  actionSubject: 'text',
+  actionSubjectId: 'punctuation',
+  eventType: 'track',
+  attributes: {
+    punctuation,
+  },
+});
+
+const createFormattedPayload = (
+  actionSubjectId: 'strong' | 'italic' | 'strike' | 'code',
+) => ({
+  action: 'formatted',
+  actionSubject: 'text',
+  actionSubjectId: actionSubjectId,
+  eventType: 'track',
+  attributes: {
+    inputMethod: 'autoformatting',
+  },
+});
 
 const autoFormatPatterns = [
   {
@@ -32,66 +71,120 @@ const autoFormatPatterns = [
     doc: strong('abc'),
     name: 'strong',
     regex: strongRegex2,
+    analyticsGasV3Payload: createFormattedPayload('strong'),
   },
   {
     string: '__abc__',
     doc: strong('abc'),
     name: 'strong',
     regex: strongRegex1,
+    analyticsGasV3Payload: createFormattedPayload('strong'),
   },
-  { string: '*abc*', doc: em('abc'), name: 'em', regex: italicRegex2 },
-  { string: '_abc_', doc: em('abc'), name: 'em', regex: italicRegex1 },
-  { string: '~~abc~~', doc: strike('abc'), name: 'strike', regex: strikeRegex },
-  { string: '`abc`', doc: code('abc'), name: 'code', regex: codeRegex },
+  {
+    string: '*abc*',
+    doc: em('abc'),
+    name: 'em',
+    regex: italicRegex2,
+    analyticsGasV3Payload: createFormattedPayload('italic'),
+  },
+  {
+    string: '_abc_',
+    doc: em('abc'),
+    name: 'em',
+    regex: italicRegex1,
+    analyticsGasV3Payload: createFormattedPayload('italic'),
+  },
+  {
+    string: '~~abc~~',
+    doc: strike('abc'),
+    name: 'strike',
+    regex: strikeRegex,
+    analyticsGasV3Payload: createFormattedPayload('strike'),
+  },
+  {
+    string: '`abc`',
+    doc: code('abc'),
+    name: 'code',
+    regex: codeRegex,
+    analyticsGasV3Payload: createFormattedPayload('code'),
+  },
 ];
 
 describe('text-formatting input rules', () => {
   const createEditor = createEditorFactory();
 
-  let trackEvent;
-  const editor = (doc: any, disableCode = false) =>
-    createEditor({
+  let trackEvent: AnalyticsHandler;
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
+
+  const editor = (doc: any, disableCode = false) => {
+    createAnalyticsEvent = createAnalyticsEventMock();
+    const editorWrapper = createEditor({
       doc,
       editorProps: {
         analyticsHandler: trackEvent,
         allowCodeBlocks: true,
+        allowAnalyticsGASV3: true,
         textFormatting: { disableCode },
         emojiProvider: new Promise(() => {}),
         mentionProvider: new Promise(() => {}),
       },
+      createAnalyticsEvent: createAnalyticsEvent as any,
       providerFactory: ProviderFactory.create({
         emojiProvider: new Promise(() => {}),
       }),
     });
+    createAnalyticsEvent.mockClear();
+    return editorWrapper;
+  };
 
   beforeEach(() => {
     trackEvent = jest.fn();
   });
 
   const autoformats = (
-    string,
-    editorContent,
-    analyticsName,
+    string: string,
+    editorContent: BuilderContent,
+    analyticsName: string,
+    analyticsV3Payload?: object,
     contentNode = p,
   ) => {
-    it(`should autoformat: ${string}`, () => {
-      const { editorView, sel } = editor(doc(contentNode('{<>}')));
-      insertText(editorView, string, sel);
-      expect(editorView.state.doc).toEqualDocument(doc(editorContent));
+    describe(`typing ${string}`, () => {
+      let editorView: EditorView;
+      let sel: number;
+      beforeEach(() => {
+        ({ editorView, sel } = editor(doc(contentNode('{<>}'))));
+        insertText(editorView, string, sel);
+      });
 
-      expect(trackEvent).toHaveBeenCalledWith(
-        `atlassian.editor.format.${analyticsName}.autoformatting`,
-      );
+      it(`should autoformat`, () => {
+        expect(editorView.state.doc).toEqualDocument(doc(editorContent));
+      });
+
+      it('should track analytics v2 event', () => {
+        expect(trackEvent).toHaveBeenCalledWith(
+          `atlassian.editor.format.${analyticsName}.autoformatting`,
+        );
+      });
+
+      if (analyticsV3Payload) {
+        it('should create analytics GAS V3 event', () => {
+          expect(createAnalyticsEvent).toHaveBeenCalledWith(analyticsV3Payload);
+        });
+      }
     });
   };
 
-  const checkInvalidStrings = (regex, string, formatting) => {
+  const checkInvalidStrings = (
+    regex: RegExp,
+    string: string,
+    formatting: string,
+  ) => {
     it(`should return null for incorrect markdown style: ${formatting}, regex: ${regex}, string: ${string}`, () => {
       expect(regex.exec(string)).toEqual(null);
     });
   };
 
-  const notautoformats = string => {
+  const notautoformats = (string: string) => {
     it(`should not autoformat: ${string}`, () => {
       const { editorView, sel } = editor(doc(p('{<>}')));
       insertText(editorView, string, sel);
@@ -109,8 +202,8 @@ describe('text-formatting input rules', () => {
   }
 
   const autoformatCombinations = (
-    strings,
-    editorContent,
+    strings: Array<string>,
+    editorContent: BuilderContent,
     analyticsName?: string,
   ) => {
     it(`should autoformat combinations: ${strings}`, () => {
@@ -129,38 +222,84 @@ describe('text-formatting input rules', () => {
   };
 
   describe('atlassian product rule', () => {
-    autoformats('atlassian ', p('Atlassian '), 'product');
+    autoformats(
+      'atlassian ',
+      p('Atlassian '),
+      'product',
+      createProductPayload('Atlassian', 'atlassian'),
+    );
     notautoformats('something-atlassian');
     notautoformats('atlassian');
     notautoformats('atlassian.com');
 
-    autoformats('jira and JIRA ', p('Jira and Jira '), 'product');
+    autoformats(
+      'jira and JIRA ',
+      p('Jira and Jira '),
+      'product',
+      createProductPayload('Jira', 'jira'),
+    );
     notautoformats('.jira');
     notautoformats('jira.atlassian.com');
 
-    autoformats('bitbucket ', p('Bitbucket '), 'product');
+    autoformats(
+      'bitbucket ',
+      p('Bitbucket '),
+      'product',
+      createProductPayload('Bitbucket', 'bitbucket'),
+    );
     notautoformats('.bitbucket');
     notautoformats('bitbucket.atlassian.com');
 
-    autoformats('hipchat and HipChat ', p('Hipchat and Hipchat '), 'product');
+    autoformats(
+      'hipchat and HipChat ',
+      p('Hipchat and Hipchat '),
+      'product',
+      createProductPayload('Hipchat', 'hipchat'),
+    );
     notautoformats('.hipchat');
     notautoformats('hipchat.atlassian.com');
 
-    autoformats('trello ', p('Trello '), 'product');
+    autoformats(
+      'trello ',
+      p('Trello '),
+      'product',
+      createProductPayload('Trello', 'trello'),
+    );
     notautoformats('.trello');
 
-    autoformats('  \t    atlassian   ', p('  \t    Atlassian   '), 'product');
+    autoformats(
+      '  \t    atlassian   ',
+      p('  \t    Atlassian   '),
+      'product',
+      createProductPayload('Atlassian', 'atlassian'),
+    );
   });
 
   describe('smart quotes rule', () => {
-    autoformats("'nice'", p('‘nice’'), 'quote');
-    autoformats("'hello' 'world'", p('‘hello’ ‘world’'), 'quote');
+    autoformats(
+      "'nice'",
+      p('‘nice’'),
+      'quote',
+      createPunctuationPayload('singleQuote'),
+    );
+    autoformats(
+      "'hello' 'world'",
+      p('‘hello’ ‘world’'),
+      'quote',
+      createPunctuationPayload('singleQuote'),
+    );
 
-    autoformats("don't hate, can't wait", p('don’t hate, can’t wait'), 'quote');
+    autoformats(
+      "don't hate, can't wait",
+      p('don’t hate, can’t wait'),
+      'quote',
+      createPunctuationPayload('singleQuote'),
+    );
     autoformats(
       "don't hate, can't 'wait'",
       p('don’t hate, can’t ‘wait’'),
       'quote',
+      createPunctuationPayload('singleQuote'),
     );
 
     notautoformats("':)");
@@ -170,12 +309,23 @@ describe('text-formatting input rules', () => {
     notautoformats("' test'");
     notautoformats("'test '");
 
-    autoformats('"hello" "world"', p('“hello” “world”'), 'quote');
-    autoformats('let " it\'d close"', p('let “ it’d close”'), 'quote');
+    autoformats(
+      '"hello" "world"',
+      p('“hello” “world”'),
+      'quote',
+      createPunctuationPayload('doubleQuote'),
+    );
+    autoformats(
+      'let " it\'d close"',
+      p('let “ it’d close”'),
+      'quote',
+      createPunctuationPayload('doubleQuote'),
+    );
     autoformats(
       'let " it\'d close" \'hey',
       p("let “ it’d close” 'hey"),
       'quote',
+      createPunctuationPayload('doubleQuote'),
     );
 
     describe('supports composed autoformatting for quotation', () => {
@@ -209,6 +359,7 @@ describe('text-formatting input rules', () => {
       '  \t   "hello" \'world\'   ',
       p('  \t   “hello” ‘world’   '),
       'quote',
+      createPunctuationPayload('doubleQuote'),
     );
 
     describe('cursor movement', () => {
@@ -222,6 +373,18 @@ describe('text-formatting input rules', () => {
   });
 
   describe('arrow rule', () => {
+    const createSymbolPayload = (
+      symbol: 'leftArrow' | 'rightArrow' | 'doubleArrow',
+    ) => ({
+      action: 'autoSubstituted',
+      actionSubject: 'text',
+      actionSubjectId: 'symbol',
+      eventType: 'track',
+      attributes: {
+        symbol,
+      },
+    });
+
     notautoformats('->');
     notautoformats('-->');
     notautoformats('<-');
@@ -235,11 +398,11 @@ describe('text-formatting input rules', () => {
     notautoformats('->> ');
 
     // autoformat only after space
-    autoformats('-> ', p('→ '), 'arrow');
-    autoformats('--> ', p('→ '), 'arrow');
-    autoformats('<- ', p('← '), 'arrow');
-    autoformats('<-- ', p('← '), 'arrow');
-    autoformats('<-> ', p('↔︎ '), 'arrow');
+    autoformats('-> ', p('→ '), 'arrow', createSymbolPayload('rightArrow'));
+    autoformats('--> ', p('→ '), 'arrow', createSymbolPayload('rightArrow'));
+    autoformats('<- ', p('← '), 'arrow', createSymbolPayload('leftArrow'));
+    autoformats('<-- ', p('← '), 'arrow', createSymbolPayload('leftArrow'));
+    autoformats('<-> ', p('↔︎ '), 'arrow', createSymbolPayload('doubleArrow'));
 
     // test spacing
     autoformatCombinations(
@@ -261,7 +424,12 @@ describe('text-formatting input rules', () => {
   describe('typography rule', () => {
     notautoformats('.. .');
 
-    autoformats('...', p('…'), 'typography');
+    autoformats(
+      '...',
+      p('…'),
+      'typography',
+      createPunctuationPayload('ellipsis'),
+    );
     autoformatCombinations(['...', '.'], '….', 'typography');
     autoformatCombinations(['...', '...'], '……', 'typography');
     autoformatCombinations(['...', '\t...'], '…\t…', 'typography');
@@ -274,8 +442,18 @@ describe('text-formatting input rules', () => {
     notautoformats('--');
     notautoformats('    --.');
 
-    autoformats('-- ', p('– '), 'typography');
-    autoformats('--\t', p('–\t'), 'typography');
+    autoformats(
+      '-- ',
+      p('– '),
+      'typography',
+      createPunctuationPayload('emDash'),
+    );
+    autoformats(
+      '--\t',
+      p('–\t'),
+      'typography',
+      createPunctuationPayload('emDash'),
+    );
 
     autoformatCombinations(
       ['\t -- ', '  \t text'],
@@ -294,6 +472,19 @@ describe('text-formatting input rules', () => {
   });
 
   describe('strong rule', () => {
+    it('should call analytics events', () => {
+      const { editorView, sel } = editor(doc(p('hello {<>} there')));
+
+      insertText(editorView, '**text**', sel);
+
+      expect(trackEvent).toHaveBeenCalledWith(
+        'atlassian.editor.format.strong.autoformatting',
+      );
+      expect(createAnalyticsEvent).toHaveBeenCalledWith(
+        createFormattedPayload('strong'),
+      );
+    });
+
     it('should convert text to strong for link also', () => {
       const { editorView, sel } = editor(
         doc(
@@ -309,9 +500,6 @@ describe('text-formatting input rules', () => {
 
       expect(editorView.state.doc).toEqualDocument(
         doc(p(strong(link({ href: 'http://www.atlassian.com' })('Atlassian')))),
-      );
-      expect(trackEvent).toHaveBeenCalledWith(
-        'atlassian.editor.format.strong.autoformatting',
       );
     });
 
@@ -351,6 +539,19 @@ describe('text-formatting input rules', () => {
   });
 
   describe('em rule', () => {
+    it('should call analytics events', () => {
+      const { editorView, sel } = editor(doc(p('hello {<>} there')));
+
+      insertText(editorView, '*text*', sel);
+
+      expect(trackEvent).toHaveBeenCalledWith(
+        'atlassian.editor.format.em.autoformatting',
+      );
+      expect(createAnalyticsEvent).toHaveBeenCalledWith(
+        createFormattedPayload('italic'),
+      );
+    });
+
     it('should keep current marks when converting from markdown', () => {
       const { editorView, sel } = editor(doc(p(strong('This is bold {<>}'))));
 
@@ -398,6 +599,19 @@ describe('text-formatting input rules', () => {
   });
 
   describe('strike rule', () => {
+    it('should call analytics events', () => {
+      const { editorView, sel } = editor(doc(p('hello {<>} there')));
+
+      insertText(editorView, '~~text~~', sel);
+
+      expect(trackEvent).toHaveBeenCalledWith(
+        'atlassian.editor.format.strike.autoformatting',
+      );
+      expect(createAnalyticsEvent).toHaveBeenCalledWith(
+        createFormattedPayload('strike'),
+      );
+    });
+
     it('should not apply strike to ~~ prefixed words when later ~~ pair found', () => {
       const { editorView, sel } = editor(
         doc(p('using ~~prefixed words along with ~~strike{<>}')),
@@ -412,6 +626,19 @@ describe('text-formatting input rules', () => {
   });
 
   describe('code rule', () => {
+    it('should call analytics events', () => {
+      const { editorView, sel } = editor(doc(p('hello {<>} there')));
+
+      insertText(editorView, '`text`', sel);
+
+      expect(trackEvent).toHaveBeenCalledWith(
+        'atlassian.editor.format.code.autoformatting',
+      );
+      expect(createAnalyticsEvent).toHaveBeenCalledWith(
+        createFormattedPayload('code'),
+      );
+    });
+
     it('should convert mention to plain text', () => {
       const mentionNode = mention({ id: '1234', text: '@helga' })();
       const { editorView, sel } = editor(
@@ -460,6 +687,29 @@ describe('text-formatting input rules', () => {
         doc(p('testing – testing → testing ', code('code'))),
       );
     });
+
+    it('should not apply when prefixed by text', () => {
+      const { editorView, sel } = editor(doc(p('words`code{<>}')));
+      insertText(editorView, '`', sel);
+
+      expect(editorView.state.doc).toEqualDocument(doc(p('words`code`{<>}')));
+    });
+
+    it('should not apply when prefixed by text and parentheses', () => {
+      const { editorView, sel } = editor(doc(p('words(`code{<>}')));
+      insertText(editorView, '`', sel);
+
+      expect(editorView.state.doc).toEqualDocument(doc(p('words(`code`{<>}')));
+    });
+
+    it('should apply when prefixed by a space and parentheses', () => {
+      const { editorView, sel } = editor(doc(p('words (`code{<>}')));
+      insertText(editorView, '`', sel);
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(p('words (', code('code'), '{<>}')),
+      );
+    });
   });
 
   describe('nested rules', () => {
@@ -492,7 +742,10 @@ describe('text-formatting input rules', () => {
   });
 
   describe('autoformatting is not right inclusive', () => {
-    const autoformatsNotRightInclusive = (string, content) => {
+    const autoformatsNotRightInclusive = (
+      string: string,
+      content: BuilderContent,
+    ) => {
       it(`should not be right inclusive: ${string}`, () => {
         const { editorView, sel } = editor(doc(p('{<>}')));
         insertText(editorView, string, sel);
@@ -514,7 +767,13 @@ describe('text-formatting input rules', () => {
 
     describe('simple single word in heading', () => {
       autoFormatPatterns.forEach(pattern => {
-        autoformats(pattern.string, h1(pattern.doc), pattern.name, h1);
+        autoformats(
+          pattern.string,
+          h1(pattern.doc),
+          pattern.name,
+          pattern.analyticsGasV3Payload,
+          h1,
+        );
       });
     });
 
@@ -587,7 +846,7 @@ describe('text-formatting input rules', () => {
     });
 
     describe('when inside code block', () => {
-      const notautoformatsAfterInCodeBlock = string => {
+      const notautoformatsAfterInCodeBlock = (string: string) => {
         it(`should not autoformat: ${string}`, () => {
           const { editorView, sel } = editor(doc(code_block()('{<>}')));
           insertText(editorView, string, sel);
@@ -602,7 +861,10 @@ describe('text-formatting input rules', () => {
     });
 
     describe('when there is code mark in the line', () => {
-      const autoformatsAfterCodeMark = (string, content) => {
+      const autoformatsAfterCodeMark = (
+        string: string,
+        content: BuilderContent,
+      ) => {
         it(`should autoformat: ${string}`, () => {
           const { editorView, sel } = editor(doc(p(code('abc'), ' {<>}')));
           insertText(editorView, string, sel);

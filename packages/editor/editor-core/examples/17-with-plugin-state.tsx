@@ -3,12 +3,13 @@
 import * as React from 'react';
 import Lozenge from '@atlaskit/lozenge';
 import ToolsDrawer from '../example-helpers/ToolsDrawer';
-import { Editor, EditorContext, getPropsPreset, mediaPluginKey } from '../src';
+import { Editor, EditorContext, mediaPluginKey } from '../src';
 import WithPluginState from '../src/ui/WithPluginState';
 import { pluginKey as typeAheadPluginKey } from '../src/plugins/type-ahead/pm-plugins/main';
 
 const SAVE_ACTION = () => console.log('Save');
-const analyticsHandler = (actionName, props) => console.log(actionName, props);
+const analyticsHandler = (actionName: string, props?: {}) =>
+  console.log(actionName, props);
 
 export default function Example() {
   return (
@@ -54,9 +55,8 @@ export default function Example() {
             mentionProvider,
             mediaProvider,
             onChange,
-          }) => (
+          }: any) => (
             <Editor
-              {...getPropsPreset('message')}
               analyticsHandler={analyticsHandler}
               disabled={disabled}
               mediaProvider={mediaProvider}

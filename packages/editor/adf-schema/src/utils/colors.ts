@@ -3,11 +3,14 @@ import * as namedColors from 'css-color-names';
 /**
  * We're avoding importing these colors from @atlaskit/theme since we
  * do not want to have react as a dependency of this package.
+ * TODO: Refactor this once tokenization by Core team is ready
+ * https://product-fabric.atlassian.net/browse/CS-908
  */
 
 export const R50 = '#FFEBE6';
 export const R75 = '#FFBDAD';
 export const R300 = '#FF5630';
+export const R400 = '#DE350B';
 export const R500 = '#BF2600';
 
 export const Y50 = '#FFFAE6';
@@ -18,22 +21,29 @@ export const Y500 = '#FF8B00';
 export const G50 = '#E3FCEF';
 export const G75 = '#ABF5D1';
 export const G300 = '#36B37E';
+export const G400 = '#00875A';
 export const G500 = '#006644';
 
 export const B50 = '#DEEBFF';
 export const B75 = '#B3D4FF';
 export const B400 = '#0052CC';
+export const B500 = '#0747A6';
 
 export const N0 = '#FFFFFF';
 export const N20 = '#F4F5F7';
 export const N30 = '#EBECF0';
 export const N40 = '#DFE1E6';
+export const N50 = '#C1C7D0';
 export const N80 = '#97A0AF';
 export const N90 = '#8993A4';
+export const N200 = '#6B778C';
+export const N500 = '#42526E';
+export const N800 = '#172B4D';
 
 export const P50 = '#EAE6FF';
 export const P75 = '#C0B6F2';
 export const P300 = '#6554C0';
+export const P400 = '#5243AA';
 export const P500 = '#403294';
 
 export const T50 = '#E6FCFF';

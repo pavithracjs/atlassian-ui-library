@@ -3,7 +3,10 @@ import { Fragment, Node } from 'prosemirror-model';
 import { safeInsert } from 'prosemirror-utils';
 import { analyticsService } from '../../../analytics';
 import { Command } from '../../../types';
-import { isChromeWithSelectionBug } from '../../../utils';
+import {
+  isChromeWithSelectionBug,
+  normaliseNestedLayout,
+} from '../../../utils';
 import { pluginKey, ACTIONS } from '../pm-plugins/main';
 import { TypeAheadHandler, TypeAheadItem } from '../types';
 import { findTypeAheadQuery } from '../utils/find-query-mark';
@@ -82,7 +85,7 @@ export const selectItem = (
 ): Command => (state, dispatch) => {
   return withTypeAheadQueryMarkPosition(state, (start, end) => {
     const insert = (
-      maybeNode?: Node | Object | string,
+      maybeNode?: Node | Object | string | Fragment,
       opts: { selectInlineNode?: boolean } = {},
     ) => {
       let tr = state.tr;
@@ -95,10 +98,11 @@ export const selectItem = (
         return tr;
       }
 
+      const isInputFragment = maybeNode instanceof Fragment;
       let node;
       try {
         node =
-          maybeNode instanceof Node
+          maybeNode instanceof Node || isInputFragment
             ? maybeNode
             : typeof maybeNode === 'string'
             ? state.schema.text(maybeNode)
@@ -118,15 +122,17 @@ export const selectItem = (
          *
          */
       } else if (node.isBlock) {
-        tr = safeInsert(node)(tr);
+        tr = safeInsert(normaliseNestedLayout(state, node))(tr);
 
         /**
          *
          * Replacing a type ahead query mark with an inline node.
          *
          */
-      } else if (node.isInline) {
-        const fragment = Fragment.fromArray([node, state.schema.text(' ')]);
+      } else if (node.isInline || isInputFragment) {
+        const fragment = isInputFragment
+          ? node
+          : Fragment.fromArray([node, state.schema.text(' ')]);
 
         tr = tr.replaceWith(start, start, fragment);
 

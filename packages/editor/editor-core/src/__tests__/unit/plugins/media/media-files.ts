@@ -10,7 +10,6 @@ import {
   li,
   mention,
   code_block,
-  randomId,
   panel,
 } from '@atlaskit/editor-test-helpers';
 import {
@@ -24,13 +23,16 @@ import mentionsPlugin from '../../../../plugins/mentions';
 import codeBlockPlugin from '../../../../plugins/code-block';
 import rulePlugin from '../../../../plugins/rule';
 import { panelPlugin } from '../../../../plugins';
-
-const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
+import {
+  testCollectionName,
+  temporaryMediaGroup,
+  temporaryFileId,
+  temporaryMedia,
+  insertMediaGroupItem,
+} from './_utils';
 
 describe('media-files', () => {
   const createEditor = createEditorFactory();
-
-  const temporaryFileId = `temporary:${randomId()}`;
   const editor = (doc: any, uploadErrorHandler?: () => void) =>
     createEditor({
       doc,
@@ -50,23 +52,12 @@ describe('media-files', () => {
 
       insertMediaGroupNode(
         editorView,
-        [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+        [{ id: temporaryFileId }],
         testCollectionName,
       );
 
       expect(editorView.state.doc).toEqualDocument(
-        doc(
-          p('text'),
-          mediaGroup(
-            media({
-              id: temporaryFileId,
-              __key: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-          p(),
-        ),
+        doc(p('text'), temporaryMediaGroup, p()),
       );
     });
 
@@ -75,44 +66,22 @@ describe('media-files', () => {
 
       insertMediaGroupNode(
         editorView,
-        [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+        [{ id: temporaryFileId }],
         testCollectionName,
       );
 
       const paragraphNodeSize = p('text')(editorView.state.schema).nodeSize;
-      const mediaGroupNodeSize = mediaGroup(
-        media({
-          id: temporaryFileId,
-          __key: temporaryFileId,
-          type: 'file',
-          collection: testCollectionName,
-        })(),
-      )(editorView.state.schema).nodeSize;
+      const mediaGroupNodeSize = temporaryMediaGroup(editorView.state.schema)
+        .nodeSize;
       expect(editorView.state.selection.from).toEqual(
         paragraphNodeSize + mediaGroupNodeSize + 1,
       );
     });
 
     it('should prepend media node to existing media group after it', () => {
-      const { editorView } = editor(
-        doc(
-          p('text{<>}'),
-          mediaGroup(
-            media({
-              id: temporaryFileId,
-              __key: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-        ),
-      );
+      const { editorView } = editor(doc(p('text{<>}'), temporaryMediaGroup));
 
-      insertMediaGroupNode(
-        editorView,
-        [{ id: 'mock2', fileId: Promise.resolve('id') }],
-        testCollectionName,
-      );
+      insertMediaGroupNode(editorView, [{ id: 'mock2' }], testCollectionName);
 
       expect(editorView.state.doc).toEqualDocument(
         doc(
@@ -120,16 +89,10 @@ describe('media-files', () => {
           mediaGroup(
             media({
               id: 'mock2',
-              __key: 'mock2',
               type: 'file',
               collection: testCollectionName,
             })(),
-            media({
-              id: temporaryFileId,
-              __key: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
+            temporaryMedia,
           ),
         ),
       );
@@ -138,41 +101,19 @@ describe('media-files', () => {
 
   describe('when cursor is at the beginning of a text block', () => {
     it('should prepend media node to existing media group before it', () => {
-      const { editorView } = editor(
-        doc(
-          mediaGroup(
-            media({
-              id: temporaryFileId,
-              __key: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-          p('{<>}text'),
-        ),
-      );
+      const { editorView } = editor(doc(temporaryMediaGroup, p('{<>}text')));
 
-      insertMediaGroupNode(
-        editorView,
-        [{ id: 'mock2', fileId: Promise.resolve('id') }],
-        testCollectionName,
-      );
+      insertMediaGroupNode(editorView, [{ id: 'mock2' }], testCollectionName);
 
       expect(editorView.state.doc).toEqualDocument(
         doc(
           mediaGroup(
             media({
               id: 'mock2',
-              __key: 'mock2',
               type: 'file',
               collection: testCollectionName,
             })(),
-            media({
-              id: temporaryFileId,
-              __key: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
+            temporaryMedia,
           ),
           p('text'),
         ),
@@ -187,23 +128,12 @@ describe('media-files', () => {
 
         insertMediaGroupNode(
           editorView,
-          [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+          [{ id: temporaryFileId }],
           testCollectionName,
         );
 
         expect(editorView.state.doc).toEqualDocument(
-          doc(
-            p('te'),
-            mediaGroup(
-              media({
-                id: temporaryFileId,
-                __key: temporaryFileId,
-                type: 'file',
-                collection: testCollectionName,
-              })(),
-            ),
-            p('xt'),
-          ),
+          doc(p('te'), temporaryMediaGroup, p('xt')),
         );
       });
 
@@ -211,18 +141,12 @@ describe('media-files', () => {
         const { editorView } = editor(doc(p('te{<>}xt')));
 
         const paragraphNodeSize = p('te')(editorView.state.schema).nodeSize;
-        const mediaGroupNodeSize = mediaGroup(
-          media({
-            id: temporaryFileId,
-            __key: temporaryFileId,
-            type: 'file',
-            collection: testCollectionName,
-          })(),
-        )(editorView.state.schema).nodeSize;
+        const mediaGroupNodeSize = temporaryMediaGroup(editorView.state.schema)
+          .nodeSize;
 
         insertMediaGroupNode(
           editorView,
-          [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+          [{ id: temporaryFileId }],
           testCollectionName,
         );
 
@@ -238,23 +162,12 @@ describe('media-files', () => {
 
         insertMediaGroupNode(
           editorView,
-          [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+          [{ id: temporaryFileId }],
           testCollectionName,
         );
 
         expect(editorView.state.doc).toEqualDocument(
-          doc(
-            h1('te'),
-            mediaGroup(
-              media({
-                id: temporaryFileId,
-                __key: temporaryFileId,
-                type: 'file',
-                collection: testCollectionName,
-              })(),
-            ),
-            h1('xt'),
-          ),
+          doc(h1('te'), temporaryMediaGroup, h1('xt')),
         );
       });
     });
@@ -267,23 +180,12 @@ describe('media-files', () => {
 
           insertMediaGroupNode(
             editorView,
-            [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+            [{ id: temporaryFileId }],
             testCollectionName,
           );
 
           expect(editorView.state.doc).toEqualDocument(
-            doc(
-              p('te'),
-              mediaGroup(
-                media({
-                  id: temporaryFileId,
-                  __key: temporaryFileId,
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
-              ),
-              p('t'),
-            ),
+            doc(p('te'), temporaryMediaGroup, p('t')),
           );
         });
       });
@@ -296,22 +198,12 @@ describe('media-files', () => {
 
               insertMediaGroupNode(
                 editorView,
-                [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+                [{ id: temporaryFileId }],
                 testCollectionName,
               );
 
               expect(editorView.state.doc).toEqualDocument(
-                doc(
-                  mediaGroup(
-                    media({
-                      id: temporaryFileId,
-                      __key: temporaryFileId,
-                      type: 'file',
-                      collection: testCollectionName,
-                    })(),
-                  ),
-                  p(),
-                ),
+                doc(temporaryMediaGroup, p()),
               );
             });
           });
@@ -322,23 +214,12 @@ describe('media-files', () => {
 
               insertMediaGroupNode(
                 editorView,
-                [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+                [{ id: temporaryFileId }],
                 testCollectionName,
               );
 
               expect(editorView.state.doc).toEqualDocument(
-                doc(
-                  h1(),
-                  mediaGroup(
-                    media({
-                      id: temporaryFileId,
-                      __key: temporaryFileId,
-                      type: 'file',
-                      collection: testCollectionName,
-                    })(),
-                  ),
-                  p(),
-                ),
+                doc(h1(), temporaryMediaGroup, p()),
               );
             });
           });
@@ -347,58 +228,16 @@ describe('media-files', () => {
         describe('when there is an existing media group nearby', () => {
           it('prepend media to the media group after parent', () => {
             const { editorView } = editor(
-              doc(
-                mediaGroup(
-                  media({
-                    id: temporaryFileId,
-                    __key: temporaryFileId,
-                    type: 'file',
-                    collection: testCollectionName,
-                  })(),
-                ),
-                p('{<}text{>}'),
-                mediaGroup(
-                  media({
-                    id: temporaryFileId,
-                    __key: temporaryFileId,
-                    type: 'file',
-                    collection: testCollectionName,
-                  })(),
-                ),
-              ),
+              doc(temporaryMediaGroup, p('{<}text{>}'), temporaryMediaGroup),
             );
 
-            insertMediaGroupNode(
-              editorView,
-              [{ id: 'new one', fileId: Promise.resolve('id') }],
-              testCollectionName,
-            );
+            const newMedia = insertMediaGroupItem(editorView, 'new one');
 
             expect(editorView.state.doc).toEqualDocument(
               doc(
-                mediaGroup(
-                  media({
-                    id: temporaryFileId,
-                    __key: temporaryFileId,
-                    type: 'file',
-                    collection: testCollectionName,
-                  })(),
-                ),
+                temporaryMediaGroup,
                 p(),
-                mediaGroup(
-                  media({
-                    id: 'new one',
-                    __key: 'new one',
-                    type: 'file',
-                    collection: testCollectionName,
-                  })(),
-                  media({
-                    id: temporaryFileId,
-                    __key: temporaryFileId,
-                    type: 'file',
-                    collection: testCollectionName,
-                  })(),
-                ),
+                mediaGroup(newMedia, temporaryMedia),
               ),
             );
           });
@@ -411,44 +250,23 @@ describe('media-files', () => {
 
           insertMediaGroupNode(
             editorView,
-            [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+            [{ id: temporaryFileId }],
             testCollectionName,
           );
 
           expect(editorView.state.doc).toEqualDocument(
-            doc(
-              p('te'),
-              mediaGroup(
-                media({
-                  id: temporaryFileId,
-                  __key: temporaryFileId,
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
-              ),
-              p(),
-            ),
+            doc(p('te'), temporaryMediaGroup, p()),
           );
         });
 
         it('prepends to existing media group after parent', () => {
           const { editorView } = editor(
-            doc(
-              p('te{<}xt{>}'),
-              mediaGroup(
-                media({
-                  id: temporaryFileId,
-                  __key: temporaryFileId,
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
-              ),
-            ),
+            doc(p('te{<}xt{>}'), temporaryMediaGroup),
           );
 
           insertMediaGroupNode(
             editorView,
-            [{ id: 'new one', fileId: Promise.resolve('id') }],
+            [{ id: 'new one' }],
             testCollectionName,
           );
 
@@ -458,16 +276,10 @@ describe('media-files', () => {
               mediaGroup(
                 media({
                   id: 'new one',
-                  __key: 'new one',
                   type: 'file',
                   collection: testCollectionName,
                 })(),
-                media({
-                  id: temporaryFileId,
-                  __key: temporaryFileId,
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
+                temporaryMedia,
               ),
             ),
           );
@@ -485,62 +297,33 @@ describe('media-files', () => {
 
           insertMediaGroupNode(
             editorView,
-            [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+            [{ id: temporaryFileId }],
             testCollectionName,
           );
 
           expect(editorView.state.doc).toEqualDocument(
-            doc(
-              p('text'),
-              mediaGroup(
-                media({
-                  id: temporaryFileId,
-                  __key: temporaryFileId,
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
-              ),
-              p(),
-            ),
+            doc(p('text'), temporaryMediaGroup, p()),
           );
         });
       });
 
       describe('when selection is a media node', () => {
         it('prepends to the existing media group', () => {
-          const { editorView } = editor(
-            doc(
-              mediaGroup(
-                media({
-                  id: temporaryFileId,
-                  __key: temporaryFileId,
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
-              ),
-              p('text'),
-            ),
-          );
+          const { editorView } = editor(doc(temporaryMediaGroup, p('text')));
           setNodeSelection(editorView, 1);
 
           insertMediaGroupNode(
             editorView,
-            [{ id: 'new one', fileId: Promise.resolve('id') }],
+            [{ id: 'new one' }],
             testCollectionName,
           );
 
           expect(editorView.state.doc).toEqualDocument(
             doc(
               mediaGroup(
-                media({
-                  id: temporaryFileId,
-                  __key: temporaryFileId,
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
+                temporaryMedia,
                 media({
                   id: 'new one',
-                  __key: 'new one',
                   type: 'file',
                   collection: testCollectionName,
                 })(),
@@ -551,38 +334,21 @@ describe('media-files', () => {
         });
 
         it('prepends to the existing media group - w/o any following paragraph', () => {
-          const { editorView } = editor(
-            doc(
-              mediaGroup(
-                media({
-                  id: temporaryFileId,
-                  __key: temporaryFileId,
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
-              ),
-            ),
-          );
+          const { editorView } = editor(doc(temporaryMediaGroup));
           setNodeSelection(editorView, 1);
 
           insertMediaGroupNode(
             editorView,
-            [{ id: 'new one', fileId: Promise.resolve('id') }],
+            [{ id: 'new one' }],
             testCollectionName,
           );
 
           expect(editorView.state.doc).toEqualDocument(
             doc(
               mediaGroup(
-                media({
-                  id: temporaryFileId,
-                  __key: temporaryFileId,
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
+                temporaryMedia,
                 media({
                   id: 'new one',
-                  __key: 'new one',
                   type: 'file',
                   collection: testCollectionName,
                 })(),
@@ -592,39 +358,21 @@ describe('media-files', () => {
         });
 
         it('sets cursor to the paragraph after', () => {
-          const { editorView } = editor(
-            doc(
-              mediaGroup(
-                media({
-                  id: temporaryFileId,
-                  __key: temporaryFileId,
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
-              ),
-              p('text'),
-            ),
-          );
+          const { editorView } = editor(doc(temporaryMediaGroup, p('text')));
           setNodeSelection(editorView, 1);
 
           insertMediaGroupNode(
             editorView,
-            [{ id: 'new one', fileId: Promise.resolve('id') }],
+            [{ id: 'new one' }],
             testCollectionName,
           );
           const mediaGroupNodeSize = mediaGroup(
             media({
               id: 'new one',
-              __key: 'new one',
               type: 'file',
               collection: testCollectionName,
             })(),
-            media({
-              id: temporaryFileId,
-              __key: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
+            temporaryMedia,
           )(editorView.state.schema).nodeSize;
 
           expect(editorView.state.selection.from).toEqual(
@@ -641,23 +389,12 @@ describe('media-files', () => {
 
             insertMediaGroupNode(
               editorView,
-              [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+              [{ id: temporaryFileId }],
               testCollectionName,
             );
 
             expect(editorView.state.doc).toEqualDocument(
-              doc(
-                hr(),
-                mediaGroup(
-                  media({
-                    id: temporaryFileId,
-                    __key: temporaryFileId,
-                    type: 'file',
-                    collection: testCollectionName,
-                  })(),
-                ),
-                p(),
-              ),
+              doc(hr(), temporaryMediaGroup, p()),
             );
           });
         });
@@ -665,50 +402,25 @@ describe('media-files', () => {
         describe('when there are exisiting media group', () => {
           describe('when media group is in the front of selected node', () => {
             it('append media below selected node', () => {
-              const { editorView } = editor(
-                doc(
-                  mediaGroup(
-                    media({
-                      id: temporaryFileId,
-                      __key: temporaryFileId,
-                      type: 'file',
-                      collection: testCollectionName,
-                    })(),
-                  ),
-                  hr(),
-                ),
-              );
-              const mediaGroupNodeSize = mediaGroup(
-                media({
-                  id: temporaryFileId,
-                  __key: temporaryFileId,
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
-              )(editorView.state.schema).nodeSize;
+              const { editorView } = editor(doc(temporaryMediaGroup, hr()));
+              const mediaGroupNodeSize = temporaryMediaGroup(
+                editorView.state.schema,
+              ).nodeSize;
               setNodeSelection(editorView, mediaGroupNodeSize);
 
               insertMediaGroupNode(
                 editorView,
-                [{ id: 'new one', fileId: Promise.resolve('id') }],
+                [{ id: 'new one' }],
                 testCollectionName,
               );
 
               expect(editorView.state.doc).toEqualDocument(
                 doc(
-                  mediaGroup(
-                    media({
-                      id: temporaryFileId,
-                      __key: temporaryFileId,
-                      type: 'file',
-                      collection: testCollectionName,
-                    })(),
-                  ),
+                  temporaryMediaGroup,
                   hr(),
                   mediaGroup(
                     media({
                       id: 'new one',
-                      __key: 'new one',
                       type: 'file',
                       collection: testCollectionName,
                     })(),
@@ -721,24 +433,12 @@ describe('media-files', () => {
 
           describe('when media group is at the end', () => {
             it('prepend media to the exisiting media group after', () => {
-              const { editorView } = editor(
-                doc(
-                  hr(),
-                  mediaGroup(
-                    media({
-                      id: temporaryFileId,
-                      __key: temporaryFileId,
-                      type: 'file',
-                      collection: testCollectionName,
-                    })(),
-                  ),
-                ),
-              );
+              const { editorView } = editor(doc(hr(), temporaryMediaGroup));
               setNodeSelection(editorView, 0);
 
               insertMediaGroupNode(
                 editorView,
-                [{ id: 'new one', fileId: Promise.resolve('id') }],
+                [{ id: 'new one' }],
                 testCollectionName,
               );
 
@@ -748,16 +448,10 @@ describe('media-files', () => {
                   mediaGroup(
                     media({
                       id: 'new one',
-                      __key: 'new one',
                       type: 'file',
                       collection: testCollectionName,
                     })(),
-                    media({
-                      id: temporaryFileId,
-                      __key: temporaryFileId,
-                      type: 'file',
-                      collection: testCollectionName,
-                    })(),
+                    temporaryMedia,
                   ),
                 ),
               );
@@ -767,66 +461,30 @@ describe('media-files', () => {
           describe('when both sides have media groups', () => {
             it('prepend media to the exisiting media group after', () => {
               const { editorView } = editor(
-                doc(
-                  mediaGroup(
-                    media({
-                      id: temporaryFileId,
-                      __key: temporaryFileId,
-                      type: 'file',
-                      collection: testCollectionName,
-                    })(),
-                  ),
-                  hr(),
-                  mediaGroup(
-                    media({
-                      id: temporaryFileId,
-                      __key: temporaryFileId,
-                      type: 'file',
-                      collection: testCollectionName,
-                    })(),
-                  ),
-                ),
+                doc(temporaryMediaGroup, hr(), temporaryMediaGroup),
               );
-              const mediaGroupNodeSize = mediaGroup(
-                media({
-                  id: temporaryFileId,
-                  __key: temporaryFileId,
-                  type: 'file',
-                  collection: testCollectionName,
-                })(),
-              )(editorView.state.schema).nodeSize;
+              const mediaGroupNodeSize = temporaryMediaGroup(
+                editorView.state.schema,
+              ).nodeSize;
               setNodeSelection(editorView, mediaGroupNodeSize);
 
               insertMediaGroupNode(
                 editorView,
-                [{ id: 'new one', fileId: Promise.resolve('id') }],
+                [{ id: 'new one' }],
                 testCollectionName,
               );
 
               expect(editorView.state.doc).toEqualDocument(
                 doc(
-                  mediaGroup(
-                    media({
-                      id: temporaryFileId,
-                      __key: temporaryFileId,
-                      type: 'file',
-                      collection: testCollectionName,
-                    })(),
-                  ),
+                  temporaryMediaGroup,
                   hr(),
                   mediaGroup(
                     media({
                       id: 'new one',
-                      __key: 'new one',
                       type: 'file',
                       collection: testCollectionName,
                     })(),
-                    media({
-                      id: temporaryFileId,
-                      __key: temporaryFileId,
-                      type: 'file',
-                      collection: testCollectionName,
-                    })(),
+                    temporaryMedia,
                   ),
                 ),
               );
@@ -842,43 +500,23 @@ describe('media-files', () => {
 
         insertMediaGroupNode(
           editorView,
-          [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+          [{ id: temporaryFileId }],
           testCollectionName,
         );
 
         expect(editorView.state.doc).toEqualDocument(
-          doc(
-            mediaGroup(
-              media({
-                id: temporaryFileId,
-                __key: temporaryFileId,
-                type: 'file',
-                collection: testCollectionName,
-              })(),
-            ),
-            p('xt'),
-          ),
+          doc(temporaryMediaGroup, p('xt')),
         );
       });
 
       it('prepends to exisiting media group before parent', () => {
         const { editorView } = editor(
-          doc(
-            mediaGroup(
-              media({
-                id: temporaryFileId,
-                __key: temporaryFileId,
-                type: 'file',
-                collection: testCollectionName,
-              })(),
-            ),
-            p('{<}te{>}xt'),
-          ),
+          doc(temporaryMediaGroup, p('{<}te{>}xt')),
         );
 
         insertMediaGroupNode(
           editorView,
-          [{ id: 'new one', fileId: Promise.resolve('id') }],
+          [{ id: 'new one' }],
           testCollectionName,
         );
 
@@ -887,16 +525,10 @@ describe('media-files', () => {
             mediaGroup(
               media({
                 id: 'new one',
-                __key: 'new one',
                 type: 'file',
                 collection: testCollectionName,
               })(),
-              media({
-                id: temporaryFileId,
-                __key: temporaryFileId,
-                type: 'file',
-                collection: testCollectionName,
-              })(),
+              temporaryMedia,
             ),
             p('xt'),
           ),
@@ -910,23 +542,12 @@ describe('media-files', () => {
 
     insertMediaGroupNode(
       editorView,
-      [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+      [{ id: temporaryFileId }],
       testCollectionName,
     );
 
     expect(editorView.state.doc).toEqualDocument(
-      doc(
-        h1('text'),
-        mediaGroup(
-          media({
-            id: temporaryFileId,
-            __key: temporaryFileId,
-            type: 'file',
-            collection: testCollectionName,
-          })(),
-        ),
-        p(),
-      ),
+      doc(h1('text'), temporaryMediaGroup, p()),
     );
   });
 
@@ -935,23 +556,12 @@ describe('media-files', () => {
 
     insertMediaGroupNode(
       editorView,
-      [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+      [{ id: temporaryFileId }],
       testCollectionName,
     );
 
     expect(editorView.state.doc).toEqualDocument(
-      doc(
-        code_block()('text'),
-        mediaGroup(
-          media({
-            id: temporaryFileId,
-            __key: temporaryFileId,
-            type: 'file',
-            collection: testCollectionName,
-          })(),
-        ),
-        p(),
-      ),
+      doc(code_block()('text'), temporaryMediaGroup, p()),
     );
   });
 
@@ -961,22 +571,12 @@ describe('media-files', () => {
 
       insertMediaGroupNode(
         editorView,
-        [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+        [{ id: temporaryFileId }],
         testCollectionName,
       );
 
       expect(editorView.state.doc).toEqualDocument(
-        doc(
-          mediaGroup(
-            media({
-              id: temporaryFileId,
-              __key: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-          p(),
-        ),
+        doc(temporaryMediaGroup, p()),
       );
     });
 
@@ -985,23 +585,12 @@ describe('media-files', () => {
 
       insertMediaGroupNode(
         editorView,
-        [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+        [{ id: temporaryFileId }],
         testCollectionName,
       );
 
       expect(editorView.state.doc).toEqualDocument(
-        doc(
-          code_block()('{<>}'),
-          mediaGroup(
-            media({
-              id: temporaryFileId,
-              __key: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-          p(),
-        ),
+        doc(code_block()('{<>}'), temporaryMediaGroup, p()),
       );
     });
 
@@ -1010,44 +599,21 @@ describe('media-files', () => {
 
       insertMediaGroupNode(
         editorView,
-        [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+        [{ id: temporaryFileId }],
         testCollectionName,
       );
 
       expect(editorView.state.doc).toEqualDocument(
-        doc(
-          h1('{<>}'),
-          mediaGroup(
-            media({
-              id: temporaryFileId,
-              __key: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-          p(),
-        ),
+        doc(h1('{<>}'), temporaryMediaGroup, p()),
       );
     });
 
     it('prepends media to existing media group before the empty paragraph', () => {
-      const { editorView } = editor(
-        doc(
-          mediaGroup(
-            media({
-              id: temporaryFileId,
-              __key: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-          p('{<>}'),
-        ),
-      );
+      const { editorView } = editor(doc(temporaryMediaGroup, p('{<>}')));
 
       insertMediaGroupNode(
         editorView,
-        [{ id: 'another one', fileId: Promise.resolve('id') }],
+        [{ id: 'another one' }],
         testCollectionName,
       );
 
@@ -1056,16 +622,10 @@ describe('media-files', () => {
           mediaGroup(
             media({
               id: 'another one',
-              __key: 'another one',
               type: 'file',
               collection: testCollectionName,
             })(),
-            media({
-              id: temporaryFileId,
-              __key: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
+            temporaryMedia,
           ),
           p(),
         ),
@@ -1077,22 +637,12 @@ describe('media-files', () => {
 
       insertMediaGroupNode(
         editorView,
-        [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+        [{ id: temporaryFileId }],
         testCollectionName,
       );
 
       expect(editorView.state.doc).toEqualDocument(
-        doc(
-          mediaGroup(
-            media({
-              id: temporaryFileId,
-              __key: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-          p(),
-        ),
+        doc(temporaryMediaGroup, p()),
       );
     });
 
@@ -1101,23 +651,12 @@ describe('media-files', () => {
 
       insertMediaGroupNode(
         editorView,
-        [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+        [{ id: temporaryFileId }],
         testCollectionName,
       );
 
       expect(editorView.state.doc).toEqualDocument(
-        doc(
-          p(),
-          mediaGroup(
-            media({
-              id: temporaryFileId,
-              __key: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-          p(),
-        ),
+        doc(p(), temporaryMediaGroup, p()),
       );
     });
 
@@ -1126,10 +665,7 @@ describe('media-files', () => {
 
       insertMediaGroupNode(
         editorView,
-        [
-          { id: 'mock1', fileId: Promise.resolve('id') },
-          { id: 'mock2', fileId: Promise.resolve('id') },
-        ],
+        [{ id: 'mock1' }, { id: 'mock2' }],
         testCollectionName,
       );
 
@@ -1138,13 +674,11 @@ describe('media-files', () => {
           mediaGroup(
             media({
               id: 'mock1',
-              __key: 'mock1',
               type: 'file',
               collection: testCollectionName,
             })(),
             media({
               id: 'mock2',
-              __key: 'mock2',
               type: 'file',
               collection: testCollectionName,
             })(),
@@ -1161,22 +695,11 @@ describe('media-files', () => {
       const { editorView } = editor(panelDoc);
       insertMediaGroupNode(
         editorView,
-        [{ id: temporaryFileId, fileId: Promise.resolve('id') }],
+        [{ id: temporaryFileId }],
         testCollectionName,
       );
       expect(editorView.state.doc).toEqualDocument(
-        doc(
-          panel({})(p('')),
-          mediaGroup(
-            media({
-              id: temporaryFileId,
-              __key: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-          p(''),
-        ),
+        doc(panel({})(p('')), temporaryMediaGroup, p('')),
       );
     });
   });
@@ -1221,7 +744,6 @@ describe('media-files', () => {
         mediaGroup(
           media({
             id: temporaryFileId,
-            __key: temporaryFileId,
             type: 'file',
             collection: testCollectionName,
           })(),

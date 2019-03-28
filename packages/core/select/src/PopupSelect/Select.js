@@ -51,7 +51,11 @@ type Props = {
   popperProps?: PopperPropsNoChildren,
   searchThreshold: number,
   styles: Object,
-  target: ElementType<*>,
+  target: ({
+    ref: ElementRef<*>,
+    isOpen: boolean,
+  }) => ElementType<*>,
+  handleKeyDown?: KeyboardEvent => void,
 };
 type State = {
   isOpen: boolean,
@@ -127,12 +131,17 @@ export default class PopupSelect extends PureComponent<Props, State> {
   // Event Handlers
   // ==============================
 
-  handleKeyDown = ({ key }: KeyboardEvent) => {
+  handleKeyDown = (event: KeyboardEvent) => {
+    const { key } = event;
     switch (key) {
       case 'Escape':
+      case 'Esc':
         this.close();
         break;
       default:
+    }
+    if (this.props.handleKeyDown) {
+      this.props.handleKeyDown(event);
     }
   };
   handleClick = ({ target }: MouseEvent) => {
@@ -143,13 +152,13 @@ export default class PopupSelect extends PureComponent<Props, State> {
     // NOTE: Why not use the <Blanket /> component to close?
     // We don't want to interupt the user's flow. Taking this approach allows
     // user to click "through" to other elements and close the popout.
-    if (isOpen && !this.menuRef.contains(target)) {
+    if (isOpen && (this.menuRef && !this.menuRef.contains(target))) {
       this.close();
     }
 
     // open on target click -- we can't trust consumers to spread the onClick
     // property to the target
-    if (!isOpen && this.targetRef.contains(target)) {
+    if (!isOpen && (this.targetRef && this.targetRef.contains(target))) {
       this.open();
     }
   };
@@ -167,7 +176,7 @@ export default class PopupSelect extends PureComponent<Props, State> {
     if (onOpen) onOpen();
 
     this.setState({ isOpen: true }, this.initialiseFocusTrap);
-    this.selectRef.select.focusOption('first'); // HACK
+    this.selectRef.select.openMenu('first'); // HACK
 
     if (typeof window === 'undefined') return;
     window.addEventListener('keydown', this.handleKeyDown);
@@ -199,8 +208,11 @@ export default class PopupSelect extends PureComponent<Props, State> {
   // ==============================
 
   resolveTargetRef = (popperRef: ElementRef<*>) => (ref: HTMLElement) => {
-    this.targetRef = ref;
-    popperRef(ref);
+    // avoid thrashing fn calls
+    if (!this.targetRef && popperRef && ref) {
+      this.targetRef = ref;
+      popperRef(ref);
+    }
   };
   resolveMenuRef = (popperRef: ElementRef<*>) => (ref: HTMLElement) => {
     this.menuRef = ref;
@@ -303,14 +315,12 @@ export default class PopupSelect extends PureComponent<Props, State> {
 
   render() {
     const { target } = this.props;
+    const { isOpen } = this.state;
+
     return (
       <Manager>
         <Reference>
-          {({ ref }) => (
-            <NodeResolver innerRef={this.resolveTargetRef(ref)}>
-              {target}
-            </NodeResolver>
-          )}
+          {({ ref }) => target({ ref: this.resolveTargetRef(ref), isOpen })}
         </Reference>
         {this.renderSelect()}
       </Manager>

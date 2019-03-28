@@ -1,5 +1,24 @@
 # @atlaskit/xregexp-transformer
 
+## 2.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 2.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 1.1.1
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/docs@7.0.0
+
+## 1.1.0
+- [minor] [1d19234fbd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1d19234fbd):
+
+  - Enable noImplicitAny and resolve issues for elements util packages
+
 ## 1.0.0
 - [major] [0f19693](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f19693):
 

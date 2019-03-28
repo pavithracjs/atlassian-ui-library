@@ -1,8 +1,5 @@
-import styled from 'styled-components';
-
 import * as React from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
-import { colors } from '@atlaskit/theme';
 
 import Editor from './../src/editor';
 import EditorContext from './../src/ui/EditorContext';
@@ -16,26 +13,16 @@ import { exampleDocument } from '../example-helpers/example-document';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
 import { DevTools } from '../example-helpers/DevTools';
 import { Wrapper, Content } from './5-full-page';
-
-export const TitleInput: any = styled.input`
-  border: none;
-  outline: none;
-  font-size: 2.07142857em !important;
-  margin: 0 0 21px;
-  padding: 0;
-
-  &::placeholder {
-    color: ${colors.N90};
-  }
-`;
-TitleInput.displayName = 'TitleInput';
+import withSentry from '../example-helpers/withSentry';
+import { EditorActions } from '../src';
 
 // tslint:disable-next-line:no-console
-const analyticsHandler = (actionName, props) => console.log(actionName, props);
+const analyticsHandler = (actionName: string, props?: {}) =>
+  console.log(actionName, props);
 // tslint:disable-next-line:no-console
 const SAVE_ACTION = () => console.log('Save');
 
-const SaveAndCancelButtons = props => (
+const SaveAndCancelButtons = (props: { editorActions: EditorActions }) => (
   <ButtonGroup>
     <Button
       className="loadExampleDocument"
@@ -72,7 +59,7 @@ export type Props = {
 
 const quickInsertProvider = quickInsertProviderFactory();
 
-export class ExampleEditor extends React.Component<Props> {
+class ExampleEditorFullPage extends React.Component<Props> {
   render() {
     return (
       <Wrapper>
@@ -88,11 +75,12 @@ export class ExampleEditor extends React.Component<Props> {
               onChange,
               disabled,
               enabledFeatures,
-            }) => (
+            }: any) => (
               <Editor
                 defaultValue={this.props.defaultValue}
                 appearance="full-page"
                 analyticsHandler={analyticsHandler}
+                allowAnalyticsGASV3={true}
                 quickInsert={{
                   provider: Promise.resolve(quickInsertProvider),
                 }}
@@ -115,6 +103,7 @@ export class ExampleEditor extends React.Component<Props> {
                 allowJiraIssue={true}
                 allowUnsupportedContent={true}
                 allowPanel={true}
+                allowStatus={true}
                 allowExtension={{
                   allowBreakout: true,
                 }}
@@ -161,13 +150,17 @@ export class ExampleEditor extends React.Component<Props> {
   }
 }
 
-export default function Example(defaultValue) {
+export const ExampleEditor = withSentry(ExampleEditorFullPage);
+
+function Example(defaultValue: string | object) {
   return (
     <EditorContext>
       <div style={{ height: '100%' }}>
         <DevTools />
-        <ExampleEditor defaultValue={defaultValue} />
+        <ExampleEditorFullPage defaultValue={defaultValue} />
       </div>
     </EditorContext>
   );
 }
+
+export default withSentry(Example);

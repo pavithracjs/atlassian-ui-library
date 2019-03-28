@@ -1,9 +1,9 @@
 // @flow
 
 import React from 'react';
-import NodeResolver from 'react-node-resolver';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { PopupSelect } from '@atlaskit/select';
+import { gridSize } from '@atlaskit/theme';
 import {
   BaseSwitcher,
   Footer,
@@ -15,7 +15,7 @@ import {
 } from '../../index';
 import Option from '../../Option';
 
-const Target = () => 'A target';
+const Target = () => <div>A target</div>;
 
 describe('Switcher', () => {
   let baseProps;
@@ -23,6 +23,7 @@ describe('Switcher', () => {
   beforeEach(() => {
     baseProps = {
       navWidth: 240,
+      isNavResizing: false,
       options: [
         {
           avatar: 'endeavour',
@@ -59,14 +60,12 @@ describe('Switcher', () => {
         filterOption,
         isOptionSelected,
         getOptionValue,
-        onOpen: wrapper.instance().handleOpen,
-        onClose: wrapper.instance().handleClose,
         options: wrapper.prop('options'),
         maxMenuWidth: expect.any(Number),
         minMenuWidth: expect.any(Number),
+        target: expect.any(Function),
       }),
     );
-    expect(wrapper.find(PopupSelect).prop('target').type).toEqual(NodeResolver);
   });
 
   it('should pass default components to <PopupSelect /> if components prop is missing', () => {
@@ -161,6 +160,29 @@ describe('Switcher', () => {
         text: create.text,
         onClick: expect.any(Function),
       }),
+    );
+  });
+
+  it('should close <PopupSelect /> when resizing the nav', () => {
+    const wrapper = mount(<BaseSwitcher {...baseProps} />);
+
+    wrapper.instance().selectRef.current.open();
+    expect(wrapper.instance().selectRef.current.state.isOpen).toBeTruthy();
+
+    wrapper.setProps({ isNavResizing: true });
+    wrapper.instance().forceUpdate();
+
+    expect(wrapper.instance().selectRef.current.state.isOpen).toBeFalsy();
+  });
+
+  it('should set correct width to <PopupSelect /> when collapse/expanding the nav', () => {
+    const wrapper = mount(<BaseSwitcher {...baseProps} />);
+    wrapper.setProps({
+      navWidth: 300,
+    });
+    wrapper.instance().forceUpdate();
+    expect(wrapper.find(PopupSelect).props().minMenuWidth).toBe(
+      300 - gridSize() * 2 - 60, // ¯\_(ツ)_/¯
     );
   });
 });

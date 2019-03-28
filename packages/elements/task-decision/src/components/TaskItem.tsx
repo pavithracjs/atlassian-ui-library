@@ -37,7 +37,7 @@ export class TaskItem extends PureComponent<
 
   private checkBoxId: string;
 
-  constructor(props) {
+  constructor(props: Props & WithAnalyticsEventProps) {
     super(props);
     this.checkBoxId = getCheckBoxId(props.taskId);
   }
@@ -48,7 +48,7 @@ export class TaskItem extends PureComponent<
     }
   }
 
-  handleOnChange = (evt: React.SyntheticEvent<HTMLInputElement>) => {
+  handleOnChange = (_evt: React.SyntheticEvent<HTMLInputElement>) => {
     const { onChange, taskId, isDone, createAnalyticsEvent } = this.props;
     const newIsDone = !isDone;
     if (onChange) {
@@ -102,8 +102,9 @@ export class TaskItem extends PureComponent<
           onChange={this.handleOnChange}
           checked={!!isDone}
           disabled={!!disabled}
+          suppressHydrationWarning={true}
         />
-        <label htmlFor={this.checkBoxId} />
+        <label htmlFor={this.checkBoxId} suppressHydrationWarning={true} />
       </CheckBoxWrapper>
     );
 

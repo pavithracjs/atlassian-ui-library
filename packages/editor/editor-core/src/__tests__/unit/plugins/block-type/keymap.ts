@@ -6,6 +6,7 @@ import {
   code_block,
   doc,
   h1,
+  hardBreak,
   mention,
   p,
   hr,
@@ -15,31 +16,46 @@ import {
   tr,
   tdEmpty,
   tdCursor,
+  simulatePlatform,
+  Platforms,
 } from '@atlaskit/editor-test-helpers';
-import { analyticsService } from '../../../../analytics';
+import { AnalyticsHandler } from '../../../../analytics';
 import { setNodeSelection } from '../../../../utils';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { EditorView } from 'prosemirror-view';
+
+const codeBlockGASV3Payload = {
+  action: 'formatted',
+  actionSubject: 'text',
+  eventType: 'track',
+  actionSubjectId: 'blockQuote',
+  attributes: {
+    inputMethod: 'keyboard',
+  },
+};
 
 describe('codeBlock - keymaps', () => {
   const createEditor = createEditorFactory();
+  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+  let analyticsHandler: jest.MockInstance<AnalyticsHandler>;
 
-  let trackEvent;
-  const editor = (doc: any) =>
-    createEditor({
+  const editor = (doc: any) => {
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
+    analyticsHandler = jest.fn();
+    return createEditor({
       doc,
       editorProps: {
-        analyticsHandler: trackEvent,
+        analyticsHandler: analyticsHandler as any,
         allowCodeBlocks: true,
         mentionProvider: new Promise(() => {}),
         allowLists: true,
         allowTables: true,
         allowRule: true,
+        allowAnalyticsGASV3: true,
       },
+      createAnalyticsEvent,
     });
-
-  beforeEach(() => {
-    trackEvent = jest.fn();
-    analyticsService.trackEvent = trackEvent;
-  });
+  };
 
   describe('keymap', () => {
     describe('when hits cmd-z', () => {
@@ -49,7 +65,7 @@ describe('codeBlock - keymaps', () => {
         expect(editorView.state.doc).toEqualDocument(doc(h1()));
         sendKeyToPm(editorView, 'Mod-z');
         expect(editorView.state.doc).toEqualDocument(doc(p('# ')));
-        expect(trackEvent).toHaveBeenCalledWith(
+        expect(analyticsHandler).toHaveBeenCalledWith(
           'atlassian.editor.undo.keyboard',
         );
       });
@@ -394,26 +410,122 @@ describe('codeBlock - keymaps', () => {
             expect(editorView.state.doc).toEqualDocument(
               doc(blockquote(p('text'), p('')), p('')),
             );
-            expect(trackEvent).toHaveBeenCalledWith(
+            expect(analyticsHandler).toHaveBeenCalledWith(
               'atlassian.editor.movedown.keyboard',
             );
           });
         });
       });
     });
-  });
 
-  describe('when hits backspace', () => {
-    it('should convert empty heading to paragraph', () => {
-      const { editorView } = editor(doc(h1('{<>}')));
-      sendKeyToPm(editorView, 'Backspace');
-      expect(editorView.state.doc).toEqualDocument(doc(p('')));
+    describe('when hits backspace', () => {
+      it('should convert empty heading to paragraph', () => {
+        const { editorView } = editor(doc(h1('{<>}')));
+        sendKeyToPm(editorView, 'Backspace');
+        expect(editorView.state.doc).toEqualDocument(doc(p('')));
+      });
+
+      it('should not convert heading with text to paragraph', () => {
+        const { editorView } = editor(doc(h1('{<>}Content')));
+        sendKeyToPm(editorView, 'Backspace');
+        expect(editorView.state.doc).toEqualDocument(doc(h1('{<>}Content')));
+      });
     });
 
-    it('should not convert heading with text to paragraph', () => {
-      const { editorView } = editor(doc(h1('{<>}Content')));
-      sendKeyToPm(editorView, 'Backspace');
-      expect(editorView.state.doc).toEqualDocument(doc(h1('{<>}Content')));
+    describe('when hits Shift-Enter', () => {
+      let editorView: EditorView;
+
+      beforeEach(() => {
+        ({ editorView } = editor(doc(h1('t{<}ex{>}t'))));
+        analyticsHandler.mockClear();
+        sendKeyToPm(editorView, 'Shift-Enter');
+      });
+
+      it('should insert hard-break', () => {
+        expect(editorView.state.doc).toEqualDocument(
+          doc(h1('t', hardBreak(), 't')),
+        );
+      });
+
+      it('should handle analytics V2 event', () => {
+        expect(analyticsHandler).toHaveBeenCalledWith(
+          'atlassian.editor.newline.keyboard',
+        );
+      });
+
+      it('should insert multiple hard-breaks', () => {
+        sendKeyToPm(editorView, 'Shift-Enter');
+
+        expect(editorView.state.doc).toEqualDocument(
+          doc(h1('t', hardBreak(), hardBreak(), 't')),
+        );
+      });
+
+      it('moves selection along with hard-breaks', () => {
+        const { editorView } = editor(doc(h1('t{<}ex{>}t')));
+        const { from: initialFrom } = editorView.state.selection;
+
+        // first line break
+        sendKeyToPm(editorView, 'Shift-Enter');
+
+        const { from: firstFrom, to: firstTo } = editorView.state.selection;
+        expect(firstFrom).toEqual(firstTo);
+        expect(firstFrom).toEqual(initialFrom + 1);
+
+        // second line break
+        sendKeyToPm(editorView, 'Shift-Enter');
+
+        const { from: secondFrom, to: secondTo } = editorView.state.selection;
+
+        expect(secondFrom).toEqual(secondTo);
+        expect(secondFrom).toEqual(firstFrom + 1);
+      });
+    });
+
+    describe('when on a Mac', () => {
+      simulatePlatform(Platforms.Mac);
+
+      describe('when hits Cmd-Alt-9', () => {
+        let editorView: EditorView;
+        beforeEach(() => {
+          ({ editorView } = editor(doc(p('text'))));
+          sendKeyToPm(editorView, 'Cmd-Alt-9');
+        });
+
+        it('should inserts blockquote', () => {
+          expect(editorView.state.doc).toEqualDocument(
+            doc(blockquote(p('text'))),
+          );
+        });
+
+        it('should handle analytics V2 event', () => {
+          expect(analyticsHandler).toHaveBeenCalledWith(
+            'atlassian.editor.format.blockquote.keyboard',
+          );
+        });
+
+        it('should create analytics GAS V3 event', () => {
+          expect(createAnalyticsEvent).toHaveBeenCalledWith(
+            codeBlockGASV3Payload,
+          );
+        });
+      });
+
+      describe('when blockquote nodetype is not in schema', () => {
+        it('corresponding keymaps should not work', () => {
+          const editor = (doc: any) =>
+            createEditor({
+              doc,
+              editorProps: {
+                allowBlockType: { exclude: ['blockquote'] },
+              },
+            });
+          const { editorView } = editor(doc(p('text')));
+          sendKeyToPm(editorView, 'Cmd-Alt-9');
+
+          expect(editorView.state.doc).toEqualDocument(doc(p('text')));
+        });
+      });
     });
   });
 });

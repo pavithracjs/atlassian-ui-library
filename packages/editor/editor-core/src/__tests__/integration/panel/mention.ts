@@ -16,7 +16,7 @@ import { selectors } from './_utils';
 BrowserTestCase(
   'mention.ts: Can insert mention inside panel using click',
   { skip: ['ie', 'edge', 'safari'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -29,6 +29,6 @@ BrowserTestCase(
 
     await insertMentionUsingClick(page, '0');
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

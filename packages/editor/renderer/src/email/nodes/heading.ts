@@ -1,7 +1,9 @@
 import { typography } from '@atlaskit/theme';
 import { NodeSerializerOpts } from '../interfaces';
-import { createTag } from '../util';
+import { createTag, applyMarks } from '../util';
 
+// TODO: get rid of bottom margins
+// TODO: these are kind of broken
 const getTypoMixin = (tagName: string) => {
   switch (tagName) {
     case 'h1':
@@ -21,9 +23,10 @@ const getTypoMixin = (tagName: string) => {
   }
 };
 
-export default function heading({ attrs, text }: NodeSerializerOpts) {
+export default function heading({ attrs, marks, text }: NodeSerializerOpts) {
   const tagName = `h${attrs.level}`;
   const css = (getTypoMixin(tagName) as any).join().trim();
 
-  return createTag(tagName, { style: css }, text);
+  const headingTag = createTag(tagName, { style: css }, text);
+  return applyMarks(marks, headingTag);
 }

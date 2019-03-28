@@ -1,3 +1,4 @@
+import { Fragment } from 'prosemirror-model';
 import {
   createEditorFactory,
   doc,
@@ -5,6 +6,8 @@ import {
   blockquote,
   typeAheadQuery,
   date,
+  bodiedExtension,
+  extension,
 } from '@atlaskit/editor-test-helpers';
 import {
   selectCurrentItem,
@@ -12,14 +15,15 @@ import {
   selectByIndex,
   selectItem,
 } from '../../../../../plugins/type-ahead/commands/select-item';
-import { datePlugin } from '../../../../../plugins';
+import { datePlugin, extensionPlugin } from '../../../../../plugins';
+import { TypeAheadSelectItem } from '../../../../../plugins/type-ahead/types';
 
 const createTypeAheadPlugin = ({
   getItems,
   selectItem,
 }: {
   getItems?: Function;
-  selectItem?: Function;
+  selectItem?: TypeAheadSelectItem;
 } = {}) => {
   return {
     pluginsOptions: {
@@ -32,8 +36,10 @@ const createTypeAheadPlugin = ({
         selectItem:
           selectItem !== undefined
             ? selectItem
-            : (state, item, insert) =>
-                insert(state.schema.text(`${item.title} selected`)),
+            : (((state, item, insert) =>
+                insert(
+                  state.schema.text(`${item.title} selected`),
+                )) as TypeAheadSelectItem),
       },
     },
   };
@@ -174,6 +180,34 @@ describe('typeahead plugin -> commands -> select-item', () => {
       expect(editorView.state.doc).toEqualDocument(doc(p('some text')));
     });
 
+    it('should accept fragment', () => {
+      const plugin = createTypeAheadPlugin();
+      const { editorView } = createEditor({
+        doc: doc(p(typeAheadQuery({ trigger: '/' })('/query{<>}'))),
+        editorPlugins: [plugin, datePlugin],
+      });
+
+      selectItem(
+        {
+          trigger: '/',
+          selectItem: (state, item, insert) => {
+            const fragment = Fragment.fromArray([
+              state.schema.text('text one'),
+              state.schema.text('  '),
+              state.schema.text('text two'),
+            ]);
+            return insert(fragment);
+          },
+          getItems: () => [],
+        },
+        { title: '1' },
+      )(editorView.state, editorView.dispatch);
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(p('text one  text two')),
+      );
+    });
+
     it('should not add a space when replacing a type ahead query with a text node', () => {
       const plugin = createTypeAheadPlugin();
       const { editorView } = createEditor({
@@ -310,6 +344,47 @@ describe('typeahead plugin -> commands -> select-item', () => {
 
       expect(editorView.state.selection.from).toEqual(3);
       expect(editorView.state.selection.to).toEqual(3);
+    });
+
+    it("should normalise a nodes layout if it's being nested.", () => {
+      const plugin = createTypeAheadPlugin();
+      const { editorView } = createEditor({
+        doc: doc(
+          bodiedExtension({
+            extensionKey: 'fake.extension',
+            extensionType: 'atlassian.com.editor',
+          })(p(typeAheadQuery({ trigger: '/' })('/query{<>}'))),
+        ),
+        editorPlugins: [plugin, extensionPlugin],
+      });
+      selectItem(
+        {
+          trigger: '/',
+          selectItem: (state, item, insert) =>
+            insert(
+              state.schema.nodes.extension.createChecked({
+                layout: 'full-width',
+              }),
+            ),
+          getItems: () => [],
+        },
+        { title: '1' },
+      )(editorView.state, editorView.dispatch);
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          bodiedExtension({
+            extensionKey: 'fake.extension',
+            extensionType: 'atlassian.com.editor',
+          })(
+            extension({
+              extensionKey: '',
+              extensionType: '',
+              layout: 'default',
+            })(),
+          ),
+        ),
+      );
     });
   });
 });

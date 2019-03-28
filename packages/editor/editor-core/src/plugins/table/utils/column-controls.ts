@@ -1,7 +1,6 @@
 import { EditorView } from 'prosemirror-view';
 import {
   findTable,
-  getCellsInColumn,
   findDomRefAtPos,
   getSelectionRect,
   isColumnSelected,
@@ -10,6 +9,7 @@ import {
 import { Selection } from 'prosemirror-state';
 import { TableMap, CellSelection } from 'prosemirror-tables';
 import { tableDeleteButtonSize } from '../ui/styles';
+import { hasTableBeenResized } from './colgroup';
 
 export interface ColumnParams {
   startIndex: number;
@@ -17,25 +17,60 @@ export interface ColumnParams {
   width: number;
 }
 
+const getNodeWidth = (ref: HTMLElement): number => {
+  const rect = ref.getBoundingClientRect();
+  return rect ? rect.width : ref.offsetWidth;
+};
+
+// calculates the width of each column control button
 export const getColumnsWidths = (view: EditorView): number[] => {
-  const { selection } = view.state;
+  const { selection, doc } = view.state;
   const widths: number[] = [];
-  const table = findTable(selection)!;
+  const table = findTable(selection);
   if (table) {
     const map = TableMap.get(table.node);
     const domAtPos = view.domAtPos.bind(view);
+    const tableRef = findDomRefAtPos(table.pos, domAtPos) as HTMLElement;
+    const tableWidth = getNodeWidth(tableRef);
+    const averageColWidth = tableWidth / map.width;
 
     for (let i = 0; i < map.width; i++) {
-      const cells = getCellsInColumn(i)(selection)!;
-      const cell = cells[0];
-      if (cell) {
-        const cellRef = findDomRefAtPos(cell.pos, domAtPos);
-        widths[i] = (cellRef as HTMLElement).offsetWidth + 1;
-        i += cell.node.attrs.colspan - 1;
+      const cells = map.cellsInRect({
+        top: 0,
+        bottom: map.height,
+        left: i,
+        right: i + 1,
+      });
+      if (hasTableBeenResized(table.node)) {
+        const cols = tableRef.querySelectorAll('col');
+        const colWidth = cols[i]
+          ? parseInt(cols[i].style.width || '0', 10)
+          : averageColWidth;
+        widths.push(colWidth + 1);
+      } else {
+        let minColSpan;
+        let cellPos = cells[0];
+        for (let j = 0, count = cells.length; j < count; j++) {
+          const pos = cells[j] + table.start;
+          const cell = doc.nodeAt(pos);
+          if (cell && (!minColSpan || minColSpan > cell.attrs.colspan)) {
+            minColSpan = cell.attrs.colspan;
+            cellPos = pos;
+          }
+        }
+        if (minColSpan === 1) {
+          const cellRef = findDomRefAtPos(cellPos, domAtPos) as HTMLElement;
+          widths.push(getNodeWidth(cellRef) + 1);
+        } else {
+          widths.push(averageColWidth + 1);
+        }
       }
     }
+
+    return widths;
   }
-  return widths;
+
+  return [];
 };
 
 export const isColumnInsertButtonVisible = (

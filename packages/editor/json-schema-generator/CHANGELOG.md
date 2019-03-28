@@ -1,5 +1,15 @@
 # @atlaskit/json-schema-generator
 
+## 2.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 1.3.0
+- [minor] [1eb20bca95](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1eb20bca95):
+
+  - ED-6368: No implicit any for editor-*-transformer packages
+
 ## 1.2.3
 - [patch] [9f43a40e1e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f43a40e1e):
 

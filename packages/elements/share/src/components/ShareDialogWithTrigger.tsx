@@ -1,85 +1,53 @@
+import { ButtonAppearances } from '@atlaskit/button';
+import InlineDialog from '@atlaskit/inline-dialog';
+import { LoadOptions } from '@atlaskit/user-picker';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import InlineDialog from '@atlaskit/inline-dialog';
+import styled from 'styled-components';
+import { messages } from '../i18n';
+import { ConfigResponse, DialogContentState, ShareButtonStyle } from '../types';
 import { ShareButton } from './ShareButton';
 import { ShareForm } from './ShareForm';
-import { messages } from '../i18n';
 
 type RenderChildren = (
-  openModal: Function,
-  { loading, error }: { loading: boolean; error: ShareError },
+  args: { onClick: () => void; loading: boolean; error?: ShareError },
 ) => React.ReactNode;
 
 type DialogState = {
   isDialogOpen: boolean;
   isSharing: boolean;
-  isStateValidWithCapabilities: boolean;
-  shareError: ShareError;
+  shareError?: ShareError;
+  ignoreIntermediateState: boolean;
+  defaultValue: DialogContentState;
 };
 
-export type DialogContentState = {
-  users: User[];
-  comment?: Comment;
-};
-
-type State = DialogState & DialogContentState;
-
-export type User = UserWithId | UserWithEmail;
-
-type UserWithId = {
-  type: 'user' | 'group' | 'team';
-  id: string;
-};
-
-type UserWithEmail = {
-  email: string;
-};
-
-type Comment = {
-  format: 'plain_text' | 'adf';
-  value: string;
-};
+export type State = DialogState;
 
 type ShareError = {
   message: string;
-} | null;
-
-type InvitationsCapabilities = {
-  directInvite: DirectInviteCapabilities;
-  invitePendingApproval: RequestAccessCapabilities;
 };
 
-type DirectInviteCapabilities = {
-  mode: 'NONE' | 'ANYONE' | 'DOMAIN_RESTRICTED';
-  domains?: string[];
-  permittedResources: string[];
-};
-
-type RequestAccessCapabilities = {
-  mode: 'NONE' | 'ANYONE';
-  permittedResources: string[];
-};
-
-type Props = {
-  buttonStyle?: 'default' | 'withText';
-  capabilities?: InvitationsCapabilities;
-  copyLink: string;
+export type Props = {
+  buttonStyle?: ShareButtonStyle;
+  config?: ConfigResponse;
   children?: RenderChildren;
+  copyLink: string;
+  dialogPlacement: string;
   isDisabled?: boolean;
-  loadOptions?: any;
+  loadUserOptions?: LoadOptions;
   onLinkCopy?: Function;
-  onCommentChange?: (comment: Comment) => any;
-  onSubmit?: (dialogContentState: DialogContentState) => Promise<any>;
-  onUsersChange?: (users: User[]) => any;
-  shouldShowCommentField?: boolean;
+  onShareSubmit?: (shareContentState: DialogContentState) => Promise<any>;
+  shareFormTitle?: React.ReactNode;
   shouldCloseOnEscapePress?: boolean;
-  validateStateWithCapabilities?: (
-    state: DialogContentState,
-    capabilities: InvitationsCapabilities,
-  ) => boolean;
+  triggerButtonAppearance?: ButtonAppearances;
+  triggerButtonStyle?: ShareButtonStyle;
 };
 
-export const defaultDialogContentState: DialogContentState = {
+const InlineDialogFormWrapper = styled.div`
+  width: 352px;
+`;
+
+export const defaultShareContentState: DialogContentState = {
   users: [],
   comment: {
     format: 'plain_text' as 'plain_text',
@@ -89,217 +57,152 @@ export const defaultDialogContentState: DialogContentState = {
 
 export class ShareDialogWithTrigger extends React.Component<Props, State> {
   static defaultProps = {
-    buttonAppearance: 'default',
-    capabilities: {},
     isDisabled: false,
-    isSharing: false,
+    dialogPlacement: 'bottom-end',
     shouldCloseOnEscapePress: false,
+    triggerButtonAppearance: 'subtle',
+    triggerButtonStyle: 'icon-only' as 'icon-only',
   };
+  private containerRef = React.createRef<HTMLDivElement>();
 
   escapeIsHeldDown: boolean = false;
 
   state: State = {
     isDialogOpen: false,
     isSharing: false,
-    isStateValidWithCapabilities: true,
-    shareError: null,
-    ...defaultDialogContentState,
+    ignoreIntermediateState: false,
+    defaultValue: defaultShareContentState,
   };
 
-  static getDerivedStateFromProps(props: Props, state: State) {
-    const { capabilities, validateStateWithCapabilities } = props;
-
-    if (
-      !state.isDialogOpen ||
-      !validateStateWithCapabilities ||
-      !capabilities
-    ) {
-      return state;
-    }
-
-    return {
-      ...state,
-      isStateValidWithCapabilities: validateStateWithCapabilities(
-        state,
-        capabilities,
-      ),
-    };
-  }
-
-  componentDidMount() {
-    if (typeof document === 'undefined') {
-      return;
-    }
-
-    document.addEventListener('keydown', this.handleKeyDown);
-    document.addEventListener('keyup', this.handleKeyUp);
-  }
-
-  componentDidUpdate(prevProps: Props, prevState: State) {
-    if (typeof document === 'undefined') {
-      return;
-    }
-
-    if (!prevState.isDialogOpen && this.state.isDialogOpen) {
-      document.addEventListener('keydown', this.handleKeyDown);
-      document.addEventListener('keyup', this.handleKeyUp);
-    } else if (prevState.isDialogOpen && !this.state.isDialogOpen) {
-      document.removeEventListener('keydown', this.handleKeyDown);
-      document.removeEventListener('keyup', this.handleKeyUp);
-    }
-  }
-
-  componentWillUnmount() {
-    if (typeof document === 'undefined') {
-      return;
-    }
-
-    document.removeEventListener('keydown', this.handleKeyDown, false);
-    document.removeEventListener('keyup', this.handleKeyUp, false);
-  }
-
-  handleKeyDown = (event: KeyboardEvent) => {
+  private handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     const { isDialogOpen } = this.state;
-
     if (isDialogOpen) {
-      // this is to prevent from unintentionally closing modal dialog
-      event.stopImmediatePropagation();
+      switch (event.key) {
+        case 'Escape':
+          event.stopPropagation();
+          this.setState({
+            isDialogOpen: false,
+            ignoreIntermediateState: true,
+            defaultValue: defaultShareContentState,
+            shareError: undefined,
+          });
+      }
     }
+  };
 
-    // this is to prevent from continuous firing if an user holds escape key.
-    if (this.escapeIsHeldDown) {
-      return;
-    }
-
-    switch (event.key) {
-      case 'Escape':
-        this.escapeIsHeldDown = true;
-        if (isDialogOpen) {
-          this.handleCloseDialog({ isOpen: false, event });
+  private onTriggerClick = () => {
+    // TODO: send analytics
+    this.setState(
+      {
+        isDialogOpen: !this.state.isDialogOpen,
+        ignoreIntermediateState: false,
+      },
+      () => {
+        if (this.containerRef.current) {
+          this.containerRef.current.focus();
         }
-    }
+      },
+    );
   };
 
-  handleKeyUp = (event: KeyboardEvent) => {
-    this.escapeIsHeldDown = false;
-  };
-
-  handleOpenDialog = (e: React.MouseEvent<HTMLButtonElement>) => {
+  private handleCloseDialog = (_: { isOpen: boolean; event: any }) => {
     // TODO: send analytics
-
-    this.setState({
-      isDialogOpen: true,
-    });
-  };
-
-  handleCloseDialog = ({ isOpen, event }: { isOpen: boolean; event: any }) => {
-    // clear the state when it is an escape press or a succesful submit
-    if (event!.type === 'keydown' || event!.type === 'submit') {
-      this.clearDialogContentState();
-    }
-
-    // TODO: send analytics
-
     this.setState({
       isDialogOpen: false,
     });
   };
 
-  clearDialogContentState = () => {
-    this.setState(defaultDialogContentState);
-  };
-
-  handleShareUsersChange = (users: User[]) => {
-    this.setState({ users });
-
-    if (this.props.onUsersChange) {
-      this.props.onUsersChange!(users);
-    }
-  };
-
-  handleShareCommentChange = (event: React.SyntheticEvent) => {
-    const target = event.target as HTMLTextAreaElement;
-    const comment: Comment = {
-      format: 'plain_text' as 'plain_text',
-      value: target!.value,
-    };
-
-    this.setState({ comment });
-
-    if (this.props.onCommentChange) {
-      this.props.onCommentChange!(comment);
-    }
-  };
-
-  handleShareSubmit = (event: React.SyntheticEvent) => {
-    if (!this.props.onSubmit) {
+  private handleShareSubmit = (data: DialogContentState) => {
+    if (!this.props.onShareSubmit) {
       return;
     }
 
-    const dialogContentState = {
-      users: this.state.users,
-      comment: this.state.comment,
-    };
-
     this.setState({ isSharing: true });
 
-    this.props.onSubmit!(dialogContentState)
+    this.props
+      .onShareSubmit(data)
       .then(() => {
         this.handleCloseDialog({ isOpen: false, event });
         this.setState({ isSharing: false });
       })
       .catch((err: Error) => {
-        this.handleShareFailure(err);
-        this.setState({ isSharing: false });
+        this.setState({
+          isSharing: false,
+          shareError: {
+            message: err.message,
+          },
+        });
+        // send analytic event about the err
       });
   };
 
-  handleShareFailure = (err: Error) => {
+  private handleFormDismiss = (data: DialogContentState) => {
+    this.setState(({ ignoreIntermediateState }) =>
+      ignoreIntermediateState ? null : { defaultValue: data },
+    );
+  };
+
+  handleShareFailure = (_err: Error) => {
     // TBC: FS-3429 replace send button with retry button
     // will need a prop to pass through the error message to the ShareForm
   };
 
   render() {
+    const { isDialogOpen, isSharing, shareError, defaultValue } = this.state;
     const {
-      isDialogOpen,
-      isSharing,
-      isStateValidWithCapabilities,
-      shareError,
-    } = this.state;
-    const { copyLink, isDisabled, loadOptions } = this.props;
+      copyLink,
+      dialogPlacement,
+      isDisabled,
+      loadUserOptions,
+      shareFormTitle,
+      config,
+      triggerButtonAppearance,
+      triggerButtonStyle,
+    } = this.props;
 
     // for performance purposes, we may want to have a lodable content i.e. ShareForm
     return (
-      <div>
+      <div
+        tabIndex={0}
+        onKeyDown={this.handleKeyDown}
+        style={{ outline: 'none' }}
+        ref={this.containerRef}
+      >
         <InlineDialog
           content={
-            <ShareForm
-              copyLink={copyLink}
-              loadOptions={loadOptions}
-              isSharing={isSharing}
-              onCommentChange={this.handleShareCommentChange}
-              onUsersChange={this.handleShareUsersChange}
-              onShareClick={this.handleShareSubmit}
-              shareError={shareError}
-              shouldShowCapabilitiesInfoMessage={!isStateValidWithCapabilities}
-            />
+            <InlineDialogFormWrapper>
+              <ShareForm
+                copyLink={copyLink}
+                loadOptions={loadUserOptions}
+                isSharing={isSharing}
+                onShareClick={this.handleShareSubmit}
+                title={shareFormTitle}
+                shareError={shareError}
+                onDismiss={this.handleFormDismiss}
+                defaultValue={defaultValue}
+                config={config}
+              />
+            </InlineDialogFormWrapper>
           }
           isOpen={isDialogOpen}
           onClose={this.handleCloseDialog}
+          placement={dialogPlacement}
         >
           {this.props.children ? (
-            this.props.children(this.handleOpenDialog, {
+            this.props.children({
+              onClick: this.onTriggerClick,
               loading: isSharing,
               error: shareError,
             })
           ) : (
             <ShareButton
+              appearance={triggerButtonAppearance}
               text={
-                this.props.buttonStyle === 'withText' ? (
+                triggerButtonStyle === 'icon-with-text' ? (
                   <FormattedMessage {...messages.shareTriggerButtonText} />
                 ) : null
               }
-              onClick={this.handleOpenDialog}
+              onClick={this.onTriggerClick}
               isSelected={isDialogOpen}
               isDisabled={isDisabled}
             />

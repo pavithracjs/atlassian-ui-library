@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import * as fetchMock from 'fetch-mock/src/client';
 import {
   ItemStateManager,
@@ -9,6 +8,7 @@ import {
   ServiceTask,
   TaskState,
   PubSubSpecialEventType,
+  PubSubClient,
 } from '../../../types';
 
 jest.useFakeTimers();
@@ -35,7 +35,7 @@ const serviceTask = (
 });
 
 describe('ItemStateManager', () => {
-  let mockPubSubClient;
+  let mockPubSubClient: PubSubClient;
 
   const objectKey = {
     localId: 'task-1',

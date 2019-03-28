@@ -13,7 +13,7 @@ import { MediaViewerError } from '../../../newgen/error';
 import {
   name as packageName,
   version as packageVersion,
-} from '../../../../package.json';
+} from '../../../version.json';
 
 describe('download', () => {
   const processingFailedState: ProcessingFailedState = {
@@ -24,6 +24,7 @@ describe('download', () => {
     artifacts: {},
     mediaType: 'image',
     mimeType: 'some-mime-type',
+    representations: {},
   };
 
   const errorState: ErrorFileState = {
@@ -113,7 +114,7 @@ describe('download', () => {
           state={processingFailedState}
           identifier={{
             id: 'my-id',
-            type: 'file',
+            mediaItemType: 'file',
             occurrenceKey: 'my-occurrenceKey',
             collectionName: 'some-collection-name',
           }}
@@ -138,7 +139,7 @@ describe('download', () => {
           state={processingFailedState}
           identifier={{
             id: 'my-id',
-            type: 'file',
+            mediaItemType: 'file',
             occurrenceKey: 'my-occurrenceKey',
             collectionName: 'some-collection-name',
           }}

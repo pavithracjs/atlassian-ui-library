@@ -13,7 +13,7 @@ import {
 BrowserTestCase(
   'insert-mediaSingle.ts: Inserts a media single on fullpage',
   { skip: ['edge', 'ie', 'safari'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -33,6 +33,6 @@ BrowserTestCase(
     expect(await page.isVisible('.media-single')).toBe(true);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

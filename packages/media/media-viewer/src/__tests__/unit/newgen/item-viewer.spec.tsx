@@ -2,9 +2,11 @@ import {
   setViewerPayload,
   ImageViewer as ImageViewerMock,
 } from '../../mocks/_image-viewer';
-jest.mock('../../../newgen/viewers/image', () => ({
+
+const mockImageViewer = {
   ImageViewer: ImageViewerMock,
-}));
+};
+jest.mock('../../../newgen/viewers/image', () => mockImageViewer);
 
 import * as React from 'react';
 import { ReactWrapper } from 'enzyme';
@@ -12,9 +14,11 @@ import { Observable } from 'rxjs';
 import Spinner from '@atlaskit/spinner';
 import Button from '@atlaskit/button';
 import {
-  MediaItemType,
   Context,
   ProcessedFileState,
+  Identifier,
+  FileIdentifier,
+  FileState,
 } from '@atlaskit/media-core';
 import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 import {
@@ -28,16 +32,15 @@ import { ImageViewer } from '../../../newgen/viewers/image';
 import { VideoViewer } from '../../../newgen/viewers/video';
 import { AudioViewer } from '../../../newgen/viewers/audio';
 import { DocViewer } from '../../../newgen/viewers/doc';
-import { Identifier } from '../../../newgen/domain';
 import {
   name as packageName,
   version as packageVersion,
-} from '../../../../package.json';
+} from '../../../version.json';
 
-const identifier = {
+const identifier: any = {
   id: 'some-id',
   occurrenceKey: 'some-custom-occurrence-key',
-  type: 'file' as MediaItemType,
+  mediaItemType: 'file',
   collectionName: 'some-collection',
 };
 
@@ -56,7 +59,7 @@ function mountComponent(context: Context, identifier: Identifier) {
   return { el, instance };
 }
 
-function mountBaseComponent(context: Context, identifier: Identifier) {
+function mountBaseComponent(context: Context, identifier: FileIdentifier) {
   const createAnalyticsEventSpy = jest.fn();
   createAnalyticsEventSpy.mockReturnValue({ fire: jest.fn() });
   const el: ReactWrapper<
@@ -175,6 +178,7 @@ describe('<ItemViewer />', () => {
       name: '',
       size: 1,
       artifacts: {},
+      representations: {},
     };
     const context = makeFakeContext(Observable.of(state));
     const { el } = mountComponent(context, identifier);
@@ -204,13 +208,17 @@ describe('<ItemViewer />', () => {
   });
 
   it('should show the document viewer if media type is document', () => {
-    const context = makeFakeContext(
-      Observable.of({
-        id: identifier.id,
-        mediaType: 'doc',
-        status: 'processed',
-      }),
-    );
+    const state: FileState = {
+      id: identifier.id,
+      mediaType: 'doc',
+      status: 'processed',
+      artifacts: {},
+      name: '',
+      size: 0,
+      mimeType: '',
+      representations: { image: {} },
+    };
+    const context = makeFakeContext(Observable.of(state));
     const { el } = mountComponent(context, identifier);
     el.update();
     expect(el.find(DocViewer)).toHaveLength(1);

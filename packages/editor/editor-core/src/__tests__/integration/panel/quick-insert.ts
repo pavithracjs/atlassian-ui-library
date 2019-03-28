@@ -14,7 +14,7 @@ import { selectors } from './_utils';
 BrowserTestCase(
   'quick-insert.ts: Insert panel via quick insert',
   { skip: ['edge', 'ie'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -28,6 +28,6 @@ BrowserTestCase(
     await page.type(editable, 'this text should be in the panel');
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

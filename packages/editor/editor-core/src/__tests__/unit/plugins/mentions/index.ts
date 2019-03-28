@@ -1,5 +1,9 @@
-import { createEditorFactory, insertText } from '@atlaskit/editor-test-helpers';
-import { doc, p } from '@atlaskit/editor-test-helpers';
+import {
+  createEditorFactory,
+  insertText,
+  sendKeyToPm,
+} from '@atlaskit/editor-test-helpers';
+import { doc, p, mention, a } from '@atlaskit/editor-test-helpers';
 import { MockMentionResource } from '@atlaskit/util-data-test';
 import { selectCurrentItem } from '../../../../plugins/type-ahead/commands/select-item';
 import { dismissCommand } from '../../../../plugins/type-ahead/commands/dismiss';
@@ -23,7 +27,7 @@ describe('mentionTypeahead', () => {
     sel: number;
     mentionProvider: MentionProvider;
     createAnalyticsEvent: CreateUIAnalyticsEventSignature;
-    event;
+    event: any;
   };
   type TestExecutor = (
     deps: TestDependencies,
@@ -38,7 +42,7 @@ describe('mentionTypeahead', () => {
    * @param test Test case function to be passed to Jest
    * @return Promise resolving with the return value of the test.
    */
-  const withMentionQuery = (query, test: TestExecutor) => async (
+  const withMentionQuery = (query: string, test: TestExecutor) => async (
     ...args: any[]
   ) => {
     const { event, createAnalyticsEvent } = analyticsMocks();
@@ -71,12 +75,16 @@ describe('mentionTypeahead', () => {
    * @param options List of options to add or override when creating the editor.
    * @return Object containing `editorView`, `sel` and `mentionProvider`.
    */
-  const editor = async (options?) => {
+  const editor = async (options?: any) => {
     const mentionProvider = Promise.resolve(new MockMentionResource({}));
     const contextIdentifierProvider = Promise.resolve(contextIdentifiers);
     const { editorView, sel } = createEditor({
       doc: doc(p('{<>}')),
-      editorProps: { mentionProvider, contextIdentifierProvider },
+      editorProps: {
+        mentionProvider,
+        contextIdentifierProvider,
+        allowAnalyticsGASV3: true,
+      },
       providerFactory: ProviderFactory.create({
         mentionProvider,
         contextIdentifierProvider,
@@ -137,7 +145,7 @@ describe('mentionTypeahead', () => {
     };
   };
 
-  describe('analytics', () => {
+  describe('fabric-elements analytics', () => {
     it(
       'should fire typeahead cancelled event',
       withMentionQuery('all', ({ editorView, event, createAnalyticsEvent }) => {
@@ -196,6 +204,51 @@ describe('mentionTypeahead', () => {
                 accessLevel: 'CONTAINER',
                 userType: 'SPECIAL',
                 userId: 'here',
+                memberCount: null,
+                includesYou: null,
+              }),
+            }),
+          );
+          expect(event.fire).toHaveBeenCalledTimes(1);
+          expect(event.fire).toHaveBeenCalledWith('fabric-elements');
+        },
+      ),
+    );
+
+    it.each([
+      ['pressed', () => selectCurrentItem('enter'), 'enter'],
+      ['clicked', () => selectCurrentItem(), undefined],
+    ])(
+      'should fire typeahead %s event for teams',
+      withMentionQuery(
+        'Team Alpha',
+        (
+          { editorView, event, createAnalyticsEvent },
+          expectedActionName,
+          selectCurrentItem,
+          keyboardKey,
+        ) => {
+          jest.clearAllMocks();
+          selectCurrentItem()(editorView.state, editorView.dispatch);
+
+          expect(createAnalyticsEvent).toHaveBeenCalledWith(
+            expect.objectContaining({
+              action: expectedActionName,
+              actionSubject: expectedActionSubject,
+              eventType: 'ui',
+              attributes: expect.objectContaining({
+                packageName: '@atlaskit/editor-core',
+                packageVersion: expect.any(String),
+                duration: expect.any(Number),
+                position: 0,
+                keyboardKey: keyboardKey,
+                queryLength: 10,
+                spaceInQuery: true,
+                accessLevel: 'CONTAINER',
+                userType: 'TEAM',
+                userId: 'team-1',
+                memberCount: 5,
+                includesYou: true,
               }),
             }),
           );
@@ -250,6 +303,87 @@ describe('mentionTypeahead', () => {
         );
         expect(event.fire).toHaveBeenCalledTimes(4);
         expect(event.fire).toHaveBeenCalledWith('fabric-elements');
+      }),
+    );
+  });
+
+  describe('editor analytics', () => {
+    let createAnalyticsEvent: any;
+    let editorView: EditorView;
+    let sel: number;
+
+    beforeEach(async () => {
+      jest.clearAllMocks();
+      ({ createAnalyticsEvent } = analyticsMocks());
+      ({ editorView, sel } = await editor({
+        createAnalyticsEvent,
+      }));
+    });
+
+    it('should trigger mention typeahead invoked event when invoked via quick insert', async () => {
+      insertText(editorView, '/Mention', sel);
+      sendKeyToPm(editorView, 'Enter');
+
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'invoked',
+        actionSubject: 'typeAhead',
+        actionSubjectId: 'mentionTypeAhead',
+        attributes: { inputMethod: 'quickInsert' },
+        eventType: 'ui',
+      });
+    });
+
+    it('should trigger mention typeahead invoked event when user types "@" symbol', async () => {
+      insertText(editorView, '@', sel);
+
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'invoked',
+        actionSubject: 'typeAhead',
+        actionSubjectId: 'mentionTypeAhead',
+        attributes: { inputMethod: 'keyboard' },
+        eventType: 'ui',
+      });
+    });
+
+    it(
+      'should trigger `mentionTypeahead` and `teamMentionTypeahead` analytics event',
+      withMentionQuery('team', ({ event, createAnalyticsEvent }) => {
+        const commonAttrsTypeAhead = {
+          componentName: 'mention',
+          packageName: '@atlaskit/editor-core',
+          packageVersion: expect.any(String),
+          queryLength: expect.any(Number),
+          spaceInQuery: false,
+          sessionId: expect.stringMatching(sessionIdRegex),
+        };
+
+        expect(createAnalyticsEvent).toHaveBeenCalledWith(
+          expect.objectContaining({
+            action: 'rendered',
+            actionSubject: 'teamMentionTypeahead',
+            eventType: 'operational',
+            attributes: expect.objectContaining({
+              ...commonAttrsTypeAhead,
+              duration: 200,
+              userIds: null,
+              teams: expect.any(Array),
+            }),
+          }),
+        );
+
+        expect(createAnalyticsEvent).toHaveBeenCalledWith(
+          expect.objectContaining({
+            action: 'rendered',
+            actionSubject: 'mentionTypeahead',
+            eventType: 'operational',
+            attributes: expect.objectContaining({
+              ...commonAttrsTypeAhead,
+              duration: 100,
+              userIds: expect.any(Array),
+              teams: null,
+            }),
+          }),
+        );
       }),
     );
   });
@@ -309,6 +443,40 @@ describe('mentionTypeahead', () => {
               sessionId: expect.stringMatching(sessionIdRegex),
               ...contextIdentifiers,
             }),
+          );
+        }),
+      );
+    });
+
+    describe('when selecting a team', () => {
+      it(
+        'should expand members when selecting a team mention ',
+        withMentionQuery('Team Beta', ({ mentionProvider, editorView }) => {
+          // select Team Beta team
+          selectCurrentItem()(editorView.state, editorView.dispatch);
+          // should expand 2 members
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              p(
+                '',
+                a({ href: 'localhost/people/team/team-2' })('Team Beta'),
+                ' (',
+                mention({
+                  id: 'member-1',
+                  text: '@Tung Dang',
+                  userType: 'DEFAULT',
+                  accessLevel: 'CONTAINER',
+                })(),
+                ' ',
+                mention({
+                  id: 'member-2',
+                  text: '@Ishan Somasiri',
+                  userType: 'DEFAULT',
+                  accessLevel: 'CONTAINER',
+                })(),
+                ')',
+              ),
+            ),
           );
         }),
       );

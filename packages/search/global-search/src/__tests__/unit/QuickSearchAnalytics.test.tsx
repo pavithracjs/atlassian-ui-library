@@ -35,6 +35,13 @@ const spyOnComponentDidUpdate = () => {
   return spy;
 };
 
+const findAnalyticsEvent = (eventSpy, actionSubject) => {
+  const [event] = eventSpy.mock.calls.find(
+    ([event]) => event.payload.actionSubject === actionSubject,
+  );
+  return event;
+};
+
 const CONFLUENCE_RECENT_ITEMS = [
   {
     id: 'confluence-object-result',
@@ -70,6 +77,12 @@ const JIRA_RECENT_ITEMS = [
     resultsCount: 3,
   },
 ];
+
+const AB_TEST_DATA = {
+  experimentId: 'experiment-1',
+  controlId: 'control-id',
+  abTestId: 'abtest-id',
+};
 
 const getRecentItems = product =>
   product === 'jira' ? JIRA_RECENT_ITEMS : CONFLUENCE_RECENT_ITEMS;
@@ -139,7 +152,7 @@ const getRecentItems = product =>
 
       it('should trigger globalSearchDrawer', async () => {
         expect(onEventSpy).toBeCalled();
-        const event = onEventSpy.mock.calls[1][0];
+        const event = findAnalyticsEvent(onEventSpy, 'globalSearchDrawer');
 
         validateEvent(
           event,
@@ -155,23 +168,19 @@ const getRecentItems = product =>
         const event = onEventSpy.mock.calls[2][0];
         validateEvent(
           event,
-          getPreQuerySearchResultsEvent(getRecentItems(product)),
+          getPreQuerySearchResultsEvent(getRecentItems(product), AB_TEST_DATA),
         );
       });
 
       it('should trigger experiment exposure event', () => {
         expect(onEventSpy).toBeCalled();
-        const event = onEventSpy.mock.calls[0][0];
+        const event = findAnalyticsEvent(onEventSpy, 'quickSearchExperiment');
 
         validateEvent(
           event,
           getExperimentExposureEvent({
             searchSessionId: expect.any(String),
-            abTest: {
-              experimentId: 'experiment-1',
-              controlId: 'control-id',
-              abTestId: 'abtest-id',
-            },
+            abTest: AB_TEST_DATA,
           }),
         );
       });
@@ -467,6 +476,7 @@ const getRecentItems = product =>
             getPostQuerySearchResultsEvent(
               expectedResults.postQueryResults,
               expectedResults.postQueryResultsTimings,
+              AB_TEST_DATA,
             ),
           );
         });
@@ -512,7 +522,10 @@ const getRecentItems = product =>
             const event = onEventSpy.mock.calls[2][0];
             validateEvent(
               event,
-              getPreQuerySearchResultsEvent(getRecentItems(product)),
+              getPreQuerySearchResultsEvent(
+                getRecentItems(product),
+                AB_TEST_DATA,
+              ),
             );
           });
         });

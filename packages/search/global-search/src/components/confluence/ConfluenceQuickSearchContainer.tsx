@@ -5,6 +5,7 @@ import {
   FormattedHTMLMessage,
 } from 'react-intl';
 import { withAnalytics, FireAnalyticsEvent } from '@atlaskit/analytics';
+import { CancelableEvent } from '@atlaskit/quick-search';
 import { ConfluenceClient } from '../../api/ConfluenceClient';
 import {
   CrossProductSearchClient,
@@ -13,7 +14,11 @@ import {
   ABTest,
 } from '../../api/CrossProductSearchClient';
 import { Scope } from '../../api/types';
-import { Result, ResultsWithTiming } from '../../model/Result';
+import {
+  Result,
+  ResultsWithTiming,
+  ConfluenceResultsMap,
+} from '../../model/Result';
 import { PeopleSearchClient } from '../../api/PeopleSearchClient';
 import { SearchScreenCounter } from '../../util/ScreenCounter';
 import {
@@ -22,12 +27,15 @@ import {
   Logger,
 } from '../GlobalQuickSearchWrapper';
 import {
+  ConfluenceAdvancedSearchTypes,
   redirectToConfluenceAdvancedSearch,
   handlePromiseError,
 } from '../SearchResultsUtil';
 import { CreateAnalyticsEventFn } from '../analytics/types';
 import performanceNow from '../../util/performance-now';
-import QuickSearchContainer from '../common/QuickSearchContainer';
+import QuickSearchContainer, {
+  SearchResultProps,
+} from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import { sliceResults } from './ConfluenceSearchResultsMapper';
 import NoResultsState from './NoResultsState';
@@ -51,6 +59,12 @@ export interface Props {
   useQuickNavForPeopleResults?: boolean;
   useCPUSForPeopleResults?: boolean;
   logger: Logger;
+  onAdvancedSearch?: (
+    e: CancelableEvent,
+    entity: string,
+    query: string,
+    searchSessionId: string,
+  ) => void;
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.ConfluenceQuickSearchContainer';
@@ -65,9 +79,32 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     postQueryScreenCounter: new SearchScreenCounter(),
   };
 
-  handleSearchSubmit = ({ target }) => {
+  handleSearchSubmit = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+    searchSessionId: string,
+  ) => {
+    const { onAdvancedSearch = () => {} } = this.props;
+    const target = event.target as HTMLInputElement;
     const query = target.value;
-    redirectToConfluenceAdvancedSearch(query);
+    let defaultPrevented = false;
+
+    onAdvancedSearch(
+      Object.assign({}, event, {
+        preventDefault() {
+          defaultPrevented = true;
+          event.preventDefault();
+          event.stopPropagation();
+        },
+        stopPropagation() {},
+      }),
+      ConfluenceAdvancedSearchTypes.Content,
+      query,
+      searchSessionId,
+    );
+
+    if (!defaultPrevented) {
+      redirectToConfluenceAdvancedSearch(query);
+    }
   };
 
   async searchCrossProductConfluence(
@@ -127,7 +164,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   }
 
   // TODO extract
-  handleSearchErrorAnalytics(error, source: string): void {
+  handleSearchErrorAnalytics(error: Error, source: string): void {
     const { firePrivateAnalyticsEvent } = this.props;
     if (firePrivateAnalyticsEvent) {
       try {
@@ -225,9 +262,9 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       'recent-people': peopleSearchClient.getRecentPeople(),
     };
 
-    const recentActivityPromises: Promise<Result[]>[] = Object.keys(
+    const recentActivityPromises: Promise<Result[]>[] = (Object.keys(
       recentActivityPromisesMap,
-    ).map(key =>
+    ) as Array<keyof typeof recentActivityPromisesMap>).map(key =>
       handlePromiseError(
         recentActivityPromisesMap[key],
         [],
@@ -259,7 +296,8 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
-  }) => {
+  }: SearchResultProps) => {
+    const { onAdvancedSearch = () => {} } = this.props;
     return (
       <SearchResultsComponent
         query={latestSearchQuery}
@@ -281,11 +319,35 @@ export class ConfluenceQuickSearchContainer extends React.Component<
             key="advanced"
             query={latestSearchQuery}
             analyticsData={analyticsData}
+            onClick={(event, entity) =>
+              onAdvancedSearch(
+                event,
+                entity,
+                latestSearchQuery,
+                searchSessionId,
+              )
+            }
           />
         )}
-        getPreQueryGroups={() => mapRecentResultsToUIGroups(recentItems)}
-        getPostQueryGroups={() => mapSearchResultsToUIGroups(searchResults)}
-        renderNoResult={() => <NoResultsState query={latestSearchQuery} />}
+        getPreQueryGroups={() =>
+          mapRecentResultsToUIGroups(recentItems as ConfluenceResultsMap)
+        }
+        getPostQueryGroups={() =>
+          mapSearchResultsToUIGroups(searchResults as ConfluenceResultsMap)
+        }
+        renderNoResult={() => (
+          <NoResultsState
+            query={latestSearchQuery}
+            onClick={(event, entity) =>
+              onAdvancedSearch(
+                event,
+                entity,
+                latestSearchQuery,
+                searchSessionId,
+              )
+            }
+          />
+        )}
       />
     );
   };

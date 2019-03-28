@@ -19,7 +19,7 @@ import { ButtonProps } from '../types';
 import {
   name as packageName,
   version as packageVersion,
-} from '../../package.json';
+} from '../version.json';
 import { withDefaultProps } from '@atlaskit/type-helpers';
 
 const StyledButton = styled.button`
@@ -108,18 +108,34 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   isInteractive = () => !this.props.isDisabled && !this.props.isLoading;
 
-  onMouseEnter = () => {
+  onMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
     this.setState({ isHover: true });
+    if (this.props.onMouseEnter) {
+      this.props.onMouseEnter(e);
+    }
   };
 
-  onMouseLeave = () => this.setState({ isHover: false, isActive: false });
+  onMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    this.setState({ isHover: false, isActive: false });
+    if (this.props.onMouseLeave) {
+      this.props.onMouseLeave(e);
+    }
+  };
 
-  onMouseDown = (e: Event) => {
+  onMouseDown = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     this.setState({ isActive: true });
+    if (this.props.onMouseDown) {
+      this.props.onMouseDown(e);
+    }
   };
 
-  onMouseUp = () => this.setState({ isActive: false });
+  onMouseUp = (e: React.MouseEvent<HTMLElement>) => {
+    this.setState({ isActive: false });
+    if (this.props.onMouseUp) {
+      this.props.onMouseUp(e);
+    }
+  };
 
   onFocus: React.FocusEventHandler<HTMLButtonElement> = event => {
     this.setState({ isFocus: true });

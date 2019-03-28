@@ -19,7 +19,7 @@ import { EventDispatcher } from './event-dispatcher';
 import EditorContext from './ui/EditorContext';
 import { WithCreateAnalyticsEvent } from './ui/WithCreateAnalyticsEvent';
 import { PortalProvider, PortalRenderer } from './ui/PortalProvider';
-import { nextMajorVersion } from './version';
+import { nextMajorVersion } from './version-wrapper';
 import { createContextAdapter } from './nodeviews';
 
 export * from './types';
@@ -36,7 +36,7 @@ const ContextAdapter = createContextAdapter({
 
 export default class Editor extends React.Component<EditorProps, {}> {
   static defaultProps: EditorProps = {
-    appearance: 'message',
+    appearance: 'comment',
     disabled: false,
     extensionHandlers: {},
   };
@@ -90,7 +90,7 @@ export default class Editor extends React.Component<EditorProps, {}> {
     }
   }
 
-  private deprecationWarnings(props) {
+  private deprecationWarnings(props: EditorProps) {
     const nextVersion = nextMajorVersion();
     const deprecatedProperties = {
       mediaProvider: {
@@ -133,9 +133,12 @@ export default class Editor extends React.Component<EditorProps, {}> {
       },
     };
 
-    Object.keys(deprecatedProperties).forEach(property => {
+    (Object.keys(deprecatedProperties) as Array<
+      keyof typeof deprecatedProperties
+    >).forEach(property => {
       if (props.hasOwnProperty(property)) {
-        const meta = deprecatedProperties[property];
+        const meta: { type?: string; message?: string } =
+          deprecatedProperties[property];
         const type = meta.type || 'enabled by default';
 
         // tslint:disable-next-line:no-console
@@ -145,13 +148,6 @@ export default class Editor extends React.Component<EditorProps, {}> {
         );
       }
     });
-
-    if (!props.hasOwnProperty('appearance')) {
-      // tslint:disable-next-line:no-console
-      console.warn(
-        `The default appearance is changing from "message" to "comment", to main current behaviour use <Editor appearance="message" />. [Will be changed in editor-core@${nextVersion}]`,
-      );
-    }
 
     if (
       props.hasOwnProperty('quickInsert') &&
@@ -166,7 +162,7 @@ export default class Editor extends React.Component<EditorProps, {}> {
     if (
       props.hasOwnProperty('allowTables') &&
       typeof props.allowTables !== 'boolean' &&
-      !props.allowTables.advanced
+      (!props.allowTables || !props.allowTables.advanced)
     ) {
       // tslint:disable-next-line:no-console
       console.warn(

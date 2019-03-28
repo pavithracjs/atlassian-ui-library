@@ -39,7 +39,7 @@ import {
 export const SANDBOX_DEPLOY_ENDPOINT =
   'https://atlaskit-deploy-sandbox.glitch.me/deploy';
 
-function PackageSelector(props) {
+function PackageSelector(props: any) {
   let selectedPackageItem;
 
   const packagesSelectOptions = externalPackages.children.map(
@@ -64,27 +64,27 @@ function PackageSelector(props) {
     <Control>
       <Select
         styles={{
-          container: styles => ({
+          container: (styles: object) => ({
             ...styles,
             flex: '1 1 0px',
           }),
-          control: styles => ({
+          control: (styles: object) => ({
             ...styles,
             backgroundColor: '#fff',
           }),
         }}
         options={packagesSelectOptions}
         placeholder="Select Package"
-        onChange={(value, { action }) =>
+        onChange={(value: string, { action }: { action: string }) =>
           action === 'select-option' && props.onSelected(value)
         }
-        defaultValue={selectedPackageItem}
+        value={selectedPackageItem}
       />
     </Control>
   );
 }
 
-function ExampleSelector(props) {
+function ExampleSelector(props: any) {
   let selectedExampleItem;
 
   const examplesSelectItems = [
@@ -111,21 +111,21 @@ function ExampleSelector(props) {
     <Control>
       <Select
         styles={{
-          container: styles => ({
+          container: (styles: object) => ({
             ...styles,
             flex: '1 1 0px',
           }),
-          control: styles => ({
+          control: (styles: object) => ({
             ...styles,
             backgroundColor: '#fff',
           }),
         }}
         options={examplesSelectItems}
         placeholder="Select Example"
-        onChange={(value, { action }) =>
+        onChange={(value: string, { action }: { action: string }) =>
           action === 'select-option' && props.onSelected(value)
         }
-        defaultValue={selectedExampleItem}
+        value={selectedExampleItem}
       />
     </Control>
   );
@@ -162,7 +162,8 @@ class ExampleNavigation extends React.Component<ExampleNavigationProps> {
       onCodeToggle,
     } = this.props;
     const error: Error = this.state;
-    const example = examples && examples.children.find(e => e.id === exampleId);
+    const example =
+      examples && examples.children.find((e: any) => e.id === exampleId);
 
     return (
       <Nav>
@@ -197,13 +198,13 @@ class ExampleNavigation extends React.Component<ExampleNavigationProps> {
               groupId={groupId}
               packageId={packageId}
               pkgJSON={config}
-              afterDeployError={error => this.setState({ error })}
+              afterDeployError={(error: Error) => this.setState({ error })}
               loadingButton={() => (
                 <NavButton style={{ marginRight: 8 }} type="Submit" disabled>
                   <CodeSandboxLogo />
                 </NavButton>
               )}
-              deployButton={({ isDisabled }) => (
+              deployButton={({ isDisabled }: { isDisabled: boolean }) => (
                 <NavButton
                   style={{ marginRight: 8 }}
                   type="Submit"
@@ -238,7 +239,7 @@ class ExampleNavigation extends React.Component<ExampleNavigationProps> {
 
 export type State = {
   displayCode: boolean;
-  flags: Object;
+  flags: object;
   loadingSandbox: boolean;
 };
 
@@ -333,7 +334,10 @@ export default class Examples extends React.Component<Props, State> {
     const flags = Object.keys(this.state.flags)
       .filter(key => key !== removedKey.toString())
       .reduce(
-        (newFlags, key) => ({ ...newFlags, [key]: this.state.flags[key] }),
+        (newFlags, key) => ({
+          ...newFlags,
+          [key]: (this.state.flags as any)[key],
+        }),
         {},
       );
 
@@ -402,7 +406,7 @@ export default class Examples extends React.Component<Props, State> {
         <ExampleNavigation
           groupId={groupId}
           packageId={packageId}
-          exampleId={exampleId}
+          exampleId={exampleId!}
           examples={examples}
           loaderUrl={loaderUrl}
           codeIsVisible={this.state.displayCode}
@@ -415,7 +419,7 @@ export default class Examples extends React.Component<Props, State> {
         />
         <Helmet>
           <title>
-            {`Example - ${fs.titleize(exampleId)} - ${fs.titleize(
+            {`Example - ${fs.titleize(exampleId!)} - ${fs.titleize(
               packageId,
             )} -${' '}
             ${BASE_TITLE}`}
@@ -449,7 +453,9 @@ export default class Examples extends React.Component<Props, State> {
           </Content>
         )}
         <FlagGroup>
-          {Object.keys(this.state.flags).map(key => this.state.flags[key])}
+          {Object.keys(this.state.flags).map(
+            key => (this.state.flags as any)[key],
+          )}
         </FlagGroup>
       </Container>
     );

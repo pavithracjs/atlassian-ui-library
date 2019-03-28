@@ -1,15 +1,10 @@
-import { Node as PMNode, Schema } from 'prosemirror-model';
-import { Token, TokenType, TokenErrCallback } from './';
+import { Node as PMNode } from 'prosemirror-model';
+import { Token, TokenType, TokenParser } from './';
 import { hasAnyOfMarks } from '../utils/text';
 import { commonFormatter } from './common-formatter';
 import { parseString } from '../text';
 
-export function emphasis(
-  input: string,
-  position: number,
-  schema: Schema,
-  tokenErrCallback?: TokenErrCallback,
-): Token {
+export const emphasis: TokenParser = ({ input, position, schema, context }) => {
   /**
    * The following token types will be ignored in parsing
    * the content of a  mark
@@ -18,8 +13,9 @@ export function emphasis(
     TokenType.DOUBLE_DASH_SYMBOL,
     TokenType.TRIPLE_DASH_SYMBOL,
     TokenType.QUADRUPLE_DASH_SYMBOL,
+    TokenType.ISSUE_KEY,
   ];
-  /** Add underline mark to each text */
+  // Add underline mark to each text
   const contentDecorator = (n: PMNode) => {
     const mark = schema.marks.em.create();
     // We don't want to mix `code` mark with others
@@ -30,12 +26,12 @@ export function emphasis(
   };
 
   const rawContentProcessor = (raw: string, length: number): Token => {
-    const content = parseString(
-      raw,
-      schema,
+    const content = parseString({
       ignoreTokenTypes,
-      tokenErrCallback,
-    );
+      schema,
+      context,
+      input: raw,
+    });
     const decoratedContent = content.map(contentDecorator);
 
     return {
@@ -48,6 +44,7 @@ export function emphasis(
   return commonFormatter(input, position, schema, {
     opening: '_',
     closing: '_',
+    context,
     rawContentProcessor,
   });
-}
+};

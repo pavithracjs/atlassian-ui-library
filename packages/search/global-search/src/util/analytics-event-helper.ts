@@ -44,8 +44,12 @@ const fireGasEvent = (
 export function firePreQueryShownEvent(
   eventAttributes: ShownAnalyticsAttributes,
   elapsedMs: number,
+  renderTimeMs: number,
   searchSessionId: string,
   createAnalyticsEvent: CreateAnalyticsEventFn,
+  abTest: ABTest,
+  experimentRequestDurationMs?: number,
+  retrievedFromAggregator?: boolean,
 ) {
   fireGasEvent(
     createAnalyticsEvent,
@@ -55,8 +59,12 @@ export function firePreQueryShownEvent(
     'ui',
     {
       preQueryRequestDurationMs: elapsedMs,
+      experimentRequestDurationMs,
+      renderTimeMs,
       searchSessionId: searchSessionId,
       ...eventAttributes,
+      retrievedFromAggregator,
+      ...abTest,
     },
   );
 }
@@ -87,6 +95,7 @@ const getQueryAttributes = (query: string): Object => {
     wordCount:
       sanitizedQuery.length > 0 ? sanitizedQuery.split(/\s/).length : 0,
     queryHash: sanitizedQuery ? hash(sanitizedQuery) : '',
+    isNonZeroNumericQuery: !!+sanitizedQuery,
   };
 };
 
@@ -138,6 +147,7 @@ export function firePostQueryShownEvent(
   searchSessionId: string,
   query: string,
   createAnalyticsEvent: CreateAnalyticsEventFn,
+  abTest: ABTest,
 ) {
   const event = createAnalyticsEvent();
 
@@ -155,6 +165,7 @@ export function firePostQueryShownEvent(
       ...otherPerformanceTimings,
       ...resultsDetails,
       ...DEFAULT_GAS_ATTRIBUTES,
+      ...abTest,
     },
   };
   event.update(payload).fire(DEFAULT_GAS_CHANNEL);
@@ -210,8 +221,8 @@ export interface AdvancedSearchSelectedEvent extends SelectedSearchResultEvent {
 export type AnalyticsNextEvent = {
   payload: GasPayload;
   context: Array<any>;
-  update: (GasPayload) => AnalyticsNextEvent;
-  fire: (string) => AnalyticsNextEvent;
+  update: (payload: GasPayload) => AnalyticsNextEvent;
+  fire: (string: string) => AnalyticsNextEvent;
 };
 
 export function fireSelectedSearchResult(

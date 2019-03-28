@@ -14,7 +14,7 @@ import {
   PortalRenderer,
 } from '@atlaskit/editor-core';
 import { ProviderFactory } from '@atlaskit/editor-common';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import { RefsNode, Refs } from './schema-builder';
 import { Schema } from 'prosemirror-model';
 import { PluginKey } from 'prosemirror-state';
@@ -48,8 +48,8 @@ export type Options = {
 };
 
 export default function createEditorFactoryForTests<T = any>() {
-  let place;
-  let wrapper;
+  let place: HTMLDivElement;
+  let wrapper: ReactWrapper;
 
   afterEach(() => {
     if (wrapper) {
@@ -78,15 +78,18 @@ export default function createEditorFactoryForTests<T = any>() {
     plugin: any;
     pluginState: T;
   } => {
-    let portalProviderAPI;
+    let portalProviderAPI: PortalProviderAPI | undefined;
     const plugins = editorPlugins
-      ? [...getDefaultPluginsList(editorProps), ...editorPlugins]
+      ? [
+          ...getDefaultPluginsList(editorProps, createAnalyticsEvent),
+          ...editorPlugins,
+        ]
       : undefined;
     place = document.body.appendChild(document.createElement('div'));
 
     wrapper = mount(
       <PortalProvider
-        render={(portalProvider: any) => {
+        render={(portalProvider: PortalProviderAPI) => {
           portalProviderAPI = portalProvider;
           return (
             <IntlProvider locale="en">
@@ -94,6 +97,7 @@ export default function createEditorFactoryForTests<T = any>() {
                 <TestReactEditorView
                   editorProps={editorProps}
                   createAnalyticsEvent={createAnalyticsEvent}
+                  allowAnalyticsGASV3={editorProps.allowAnalyticsGASV3}
                   portalProviderAPI={portalProvider}
                   providerFactory={
                     providerFactory ? providerFactory : new ProviderFactory()
@@ -128,7 +132,7 @@ export default function createEditorFactoryForTests<T = any>() {
       },
     } = editor.instance() as ReactEditorView;
 
-    let refs;
+    let refs: Refs | undefined;
 
     if (doc && editorView) {
       const { dispatch } = editorView;
@@ -187,13 +191,13 @@ export default function createEditorFactoryForTests<T = any>() {
     }
 
     return {
-      portalProviderAPI,
+      portalProviderAPI: portalProviderAPI!,
       editorView: editorView!,
       eventDispatcher,
       contentComponents,
       primaryToolbarComponents,
       secondaryToolbarComponents,
-      refs,
+      refs: refs!,
       sel: refs ? refs['<>'] : 0,
       plugin,
       pluginState,

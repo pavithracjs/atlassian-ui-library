@@ -7,7 +7,7 @@ import { Schema, Node as PMNode } from 'prosemirror-model';
 import { markdownItMedia } from './media';
 
 function filterMdToPmSchemaMapping(schema: Schema, map: any) {
-  return Object.keys(map).reduce((newMap, key) => {
+  return Object.keys(map).reduce((newMap: any, key: string) => {
     const value = map[key];
     const block = value.block || value.node;
     const mark = value.mark;
@@ -19,7 +19,12 @@ function filterMdToPmSchemaMapping(schema: Schema, map: any) {
   }, {});
 }
 
-const pmSchemaToMdMapping = {
+interface SchemaMapping {
+  nodes: { [key: string]: string | string[] };
+  marks: { [key: string]: string | string[] };
+}
+
+const pmSchemaToMdMapping: SchemaMapping = {
   nodes: {
     blockquote: 'blockquote',
     paragraph: 'paragraph',
@@ -68,7 +73,8 @@ const mdToPmMapping = {
   code_inline: { mark: 'code' },
   fence: {
     block: 'codeBlock',
-    attrs: (tok: any) => ({ language: tok.info || null }),
+    // we trim any whitespaces around language definition
+    attrs: (tok: any) => ({ language: (tok.info && tok.info.trim()) || null }),
   },
   media_single: {
     block: 'mediaSingle',
@@ -117,7 +123,7 @@ export class MarkdownTransformer implements Transformer<Markdown> {
   private markdownParser: MarkdownParser;
   constructor(schema: Schema = defaultSchema, tokenizer: MarkdownIt = md) {
     // Enable markdown plugins based on schema
-    ['nodes', 'marks'].forEach(key => {
+    (['nodes', 'marks'] as (keyof SchemaMapping)[]).forEach(key => {
       for (const idx in pmSchemaToMdMapping[key]) {
         if (schema[key][idx]) {
           tokenizer.enable(pmSchemaToMdMapping[key][idx]);

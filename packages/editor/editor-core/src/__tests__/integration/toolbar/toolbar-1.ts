@@ -17,7 +17,7 @@ const input = 'helloworld ';
       editor.name
     } editor`,
     { skip: ['ie', 'safari', 'edge'] },
-    async client => {
+    async (client: any, testName: string) => {
       const bold = `[aria-label="${
         textFormattingMessages.bold.defaultMessage
       }"]`;
@@ -58,7 +58,7 @@ const input = 'helloworld ';
       await page.click(underline);
       await page.type(editable, input);
       const doc = await page.$eval(editable, getDocFromElement);
-      expect(doc).toMatchDocSnapshot();
+      expect(doc).toMatchCustomDocSnapshot(testName);
     },
   );
 });

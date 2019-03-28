@@ -4,34 +4,53 @@ import Item from '@atlaskit/item';
 import {
   doc,
   p,
-  panel,
   strike,
   createEditorFactory,
   code,
   em,
+  subsup,
   mountWithIntl,
+  code_block,
+  underline,
+  createAnalyticsEventMock,
 } from '@atlaskit/editor-test-helpers';
 
-import { pluginKey } from '../../../../../plugins/text-formatting/pm-plugins/main';
+import { ReactWrapper } from 'enzyme';
+import {
+  pluginKey,
+  TextFormattingState,
+} from '../../../../../plugins/text-formatting/pm-plugins/main';
 import { pluginKey as clearFormattingPluginKey } from '../../../../../plugins/text-formatting/pm-plugins/clear-formatting';
 import ToolbarAdvancedTextFormatting, {
   messages,
 } from '../../../../../plugins/text-formatting/ui/ToolbarAdvancedTextFormatting';
 import ToolbarButton from '../../../../../ui/ToolbarButton';
+import DropdownMenuWrapper from '../../../../../ui/DropdownMenu';
 import panelPlugin from '../../../../../plugins/panel';
+import codeBlockPlugin from '../../../../../plugins/code-block';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { EditorView } from 'prosemirror-view';
+import { AnalyticsHandler } from '../../../../../analytics';
 
 describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
   const createEditor = createEditorFactory();
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
+  let analyticsHandler: AnalyticsHandler;
 
-  const editor = (doc: any, trackEvent = () => {}) =>
-    createEditor({
+  const editor = (doc: any) => {
+    createAnalyticsEvent = createAnalyticsEventMock();
+    analyticsHandler = jest.fn();
+    return createEditor({
       doc,
-      editorPlugins: [panelPlugin],
+      editorPlugins: [panelPlugin, codeBlockPlugin()],
       pluginKey: pluginKey,
       editorProps: {
-        analyticsHandler: trackEvent,
+        analyticsHandler,
+        allowAnalyticsGASV3: true,
       },
+      createAnalyticsEvent: createAnalyticsEvent as any,
     });
+  };
 
   it('should render disabled ToolbarButton if both pluginStateTextFormatting and pluginStateClearFormatting are undefined', () => {
     const { editorView } = editor(doc(p('text')));
@@ -291,19 +310,30 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
     toolbarOption.unmount();
   });
 
-  describe('analytics', () => {
-    let trackEvent;
+  /**
+   * Helper function to get the react element (not the DOM element) of menu items within the advanced text formatting menu.
+   */
+  function getMenuItem(toolbarOption: ReactWrapper, itemKey: string) {
+    return toolbarOption
+      .find(DropdownMenuWrapper)
+      .prop('items')[0]
+      .items.filter(i => i.key === itemKey)[0];
+  }
+
+  describe('menu options inside code block', () => {
     let toolbarOption;
+
     beforeEach(() => {
-      trackEvent = jest.fn();
-      const { editorView, pluginState: textFormattingPluginState } = editor(
-        doc(panel()(p(em('text')))),
-        trackEvent,
+      const { editorView, pluginState } = editor(
+        doc(code_block({ language: 'js' })('Hello {<>}world')),
+      );
+      const clearFormattingState = clearFormattingPluginKey.getState(
+        editorView.state,
       );
       toolbarOption = mountWithIntl(
         <ToolbarAdvancedTextFormatting
-          textFormattingState={textFormattingPluginState}
-          clearFormattingState={{ formattingIsPresent: true }}
+          textFormattingState={pluginState}
+          clearFormattingState={clearFormattingState}
           editorView={editorView}
         />,
       );
@@ -314,22 +344,128 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
       toolbarOption.unmount();
     });
 
-    ['code', 'strike', 'subscript', 'superscript', 'clearFormatting'].forEach(
-      type => {
-        it(`should trigger analyticsService.trackEvent when ${
-          messages[type].defaultMessage
-        } is clicked`, () => {
-          toolbarOption
-            .find(Item)
-            .filterWhere(
-              n => n.text().indexOf(messages[type].defaultMessage) > -1,
-            )
-            .simulate('click');
-          expect(trackEvent).toHaveBeenCalledWith(
+    it('should have clear formatting available for a code block', () => {
+      const clearFormattingButton = getMenuItem(
+        toolbarOption,
+        'clearFormatting',
+      );
+      expect(clearFormattingButton.isDisabled).toBe(false);
+    });
+
+    it('should have other menu items disabled in a code block', () => {
+      const strikeButton = getMenuItem(toolbarOption, 'strike');
+      expect(strikeButton.isDisabled).toBe(true);
+    });
+  });
+
+  it('should only have selected menu options for the current selection', () => {
+    const { editorView, pluginState } = editor(
+      doc(p(strike(underline('{<}Formatted {>}text')))),
+    );
+    const toolbarOption = mountWithIntl(
+      <ToolbarAdvancedTextFormatting
+        textFormattingState={pluginState}
+        editorView={editorView}
+      />,
+    );
+    toolbarOption.find('button').simulate('click');
+
+    const strikeButton = getMenuItem(toolbarOption, 'strike');
+    const underlineButton = getMenuItem(toolbarOption, 'underline');
+    const codeButton = getMenuItem(toolbarOption, 'code');
+
+    expect(strikeButton.isActive).toBe(true);
+    expect(underlineButton.isActive).toBe(true);
+    expect(codeButton.isActive).toBe(false);
+
+    toolbarOption.unmount();
+  });
+
+  /**
+   * Helper to simulate a click in toolbar option
+   * @param type Type of the button in the toolbar
+   */
+  function clickToolbarOption(type: string, toolbarOption) {
+    toolbarOption.find('button').simulate('click');
+
+    toolbarOption
+      .find(Item)
+      .filterWhere(n => n.text().indexOf(messages[type].defaultMessage) > -1)
+      .simulate('click');
+  }
+
+  describe('Toolbar Button', () => {
+    let toolbarOption: ReactWrapper;
+    let editorView: EditorView;
+    let pluginState: TextFormattingState;
+
+    beforeEach(() => {
+      ({ editorView, pluginState } = editor(doc(p('{<}text{>}'))));
+
+      toolbarOption = mountWithIntl(
+        <ToolbarAdvancedTextFormatting
+          textFormattingState={pluginState}
+          clearFormattingState={{ formattingIsPresent: true }}
+          editorView={editorView}
+        />,
+      );
+    });
+
+    afterEach(() => {
+      toolbarOption.unmount();
+    });
+
+    [
+      {
+        type: 'underline',
+        expectedDocument: doc(p(underline('text'))),
+      },
+      {
+        type: 'strike',
+        expectedDocument: doc(p(strike('text'))),
+      },
+      {
+        type: 'code',
+        expectedDocument: doc(p(code('text'))),
+      },
+      {
+        type: 'subscript',
+        expectedDocument: doc(p(subsup({ type: 'sub' })('text'))),
+      },
+      {
+        type: 'superscript',
+        expectedDocument: doc(p(subsup({ type: 'sup' })('text'))),
+      },
+    ].forEach(({ type, expectedDocument }) => {
+      describe(`Toolbar ${type}`, () => {
+        it('should apply the right format', () => {
+          clickToolbarOption(type, toolbarOption);
+
+          expect(editorView.state.doc).toEqualDocument(expectedDocument);
+        });
+
+        it('should call analytics v2 handler', () => {
+          clickToolbarOption(type, toolbarOption);
+          expect(analyticsHandler).toHaveBeenCalledWith(
             `atlassian.editor.format.${type}.button`,
           );
         });
-      },
-    );
+
+        it(`should create analytics V3 events`, async () => {
+          const expectedPayload = {
+            action: 'formatted',
+            actionSubject: 'text',
+            actionSubjectId: type,
+            eventType: 'track',
+            attributes: {
+              inputMethod: 'toolbar',
+            },
+          };
+
+          clickToolbarOption(type, toolbarOption);
+          expect(createAnalyticsEvent).toHaveBeenCalledWith(expectedPayload);
+        });
+      });
+    });
   });
 });

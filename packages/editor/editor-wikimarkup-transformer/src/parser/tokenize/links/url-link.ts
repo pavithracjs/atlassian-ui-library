@@ -1,5 +1,5 @@
 import { ContentLink } from './link-parser';
-import { TokenErrCallback, TokenType } from '../index';
+import { TokenType, Context } from '../index';
 import { isSafeUrl } from '@atlaskit/adf-schema';
 import { parseString } from '../../text';
 import { hasAnyOfMarks } from '../../utils/text';
@@ -8,7 +8,7 @@ import { Node as PMNode, Schema } from 'prosemirror-model';
 export function urlLinkResolver(
   link: ContentLink,
   schema: Schema,
-  tokenErrCallback?: TokenErrCallback,
+  context: Context,
 ): PMNode[] | undefined {
   const output: PMNode[] = [];
 
@@ -24,14 +24,15 @@ export function urlLinkResolver(
     TokenType.TRIPLE_DASH_SYMBOL,
     TokenType.QUADRUPLE_DASH_SYMBOL,
     TokenType.LINK_TEXT,
+    TokenType.ISSUE_KEY,
   ];
 
-  const rawContent = parseString(
-    textRepresentation.replace(/^mailto:/, ''),
-    schema,
+  const rawContent = parseString({
     ignoreTokenTypes,
-    tokenErrCallback,
-  );
+    schema,
+    context,
+    input: textRepresentation.replace(/^mailto:/, ''),
+  });
 
   const decoratedContent = rawContent.map(n => {
     const mark = schema.marks.link.create({

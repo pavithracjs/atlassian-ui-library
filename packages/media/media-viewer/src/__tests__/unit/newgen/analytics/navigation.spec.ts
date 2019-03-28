@@ -1,13 +1,13 @@
+import { Identifier } from '@atlaskit/media-core';
 import { createNavigationEvent } from '../../../../newgen/analytics/navigation';
 import {
   version as packageVersion,
   name as packageName,
-} from '../../../../../package.json';
-import { Identifier } from '../../../../newgen/domain';
+} from '../../../../version.json';
 
 const identifier: Identifier = {
   id: 'my-id',
-  type: 'file',
+  mediaItemType: 'file',
   occurrenceKey: 'my-key',
 };
 

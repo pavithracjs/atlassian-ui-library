@@ -1,5 +1,65 @@
 # @atlaskit/media-test-helpers
 
+## 21.0.2
+- [patch] [1d09298688](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1d09298688):
+
+  - Remove axios dependency
+
+## 21.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 21.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 20.1.8
+- Updated dependencies [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
+  - @atlaskit/media-card@56.0.0
+  - @atlaskit/media-picker@36.0.0
+  - @atlaskit/media-core@28.0.0
+  - @atlaskit/media-store@10.0.0
+
+## 20.1.7
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/icon@16.0.4
+  - @atlaskit/media-card@55.0.2
+  - @atlaskit/media-core@27.2.3
+  - @atlaskit/media-picker@35.0.1
+  - @atlaskit/media-store@9.2.1
+  - @atlaskit/media-ui@9.2.1
+  - @atlaskit/dropdown-menu@7.0.0
+  - @atlaskit/select@8.0.0
+
+## 20.1.6
+- Updated dependencies [4aee5f3cec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4aee5f3cec):
+  - @atlaskit/media-card@55.0.0
+  - @atlaskit/media-picker@35.0.0
+  - @atlaskit/media-core@27.2.0
+  - @atlaskit/media-store@9.2.0
+
+## 20.1.5
+- Updated dependencies [fc6164c8c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fc6164c8c2):
+- Updated dependencies [190c4b7bd3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/190c4b7bd3):
+  - @atlaskit/media-card@54.0.0
+  - @atlaskit/media-picker@34.0.0
+  - @atlaskit/media-store@9.1.7
+  - @atlaskit/media-core@27.1.0
+
+## 20.1.4
+- Updated dependencies [46dfcfbeca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/46dfcfbeca):
+  - @atlaskit/media-core@27.0.2
+  - @atlaskit/media-picker@33.0.4
+  - @atlaskit/media-store@9.1.6
+  - @atlaskit/media-card@53.0.0
+
+## 20.1.3
+- Updated dependencies [06713e0a0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06713e0a0c):
+  - @atlaskit/media-picker@33.0.3
+  - @atlaskit/select@7.0.0
+
 ## 20.1.2
 - Updated dependencies [d5bce1ea15](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5bce1ea15):
   - @atlaskit/media-card@52.0.4

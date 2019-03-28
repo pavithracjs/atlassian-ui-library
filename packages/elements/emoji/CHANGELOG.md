@@ -1,5 +1,105 @@
 # @atlaskit/emoji
 
+## 58.2.0
+- [minor] [b0210d7ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0210d7ccc):
+
+  - reset jest modules before hydration
+
+## 58.1.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 58.1.0
+- [minor] [b684722884](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b684722884):
+
+  - improvement of SSR tests and examples for Fabric Elements
+
+## 58.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+- Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+  - @atlaskit/docs@7.0.1
+  - @atlaskit/icon@16.0.5
+  - @atlaskit/section-message@2.0.1
+  - @atlaskit/spinner@10.0.1
+  - @atlaskit/theme@8.0.1
+  - @atlaskit/tooltip@13.0.1
+  - @atlaskit/i18n-tools@0.5.0
+  - @atlaskit/button@11.0.0
+  - @atlaskit/editor-test-helpers@8.0.0
+  - @atlaskit/util-data-test@11.0.0
+  - @atlaskit/util-service-support@4.0.0
+  - @atlaskit/media-core@29.0.0
+
+## 57.0.1
+- Updated dependencies [7261577953](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7261577953):
+  - @atlaskit/elements-test-helpers@0.3.0
+
+## 57.0.0
+- Updated dependencies [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
+  - @atlaskit/editor-test-helpers@7.0.6
+  - @atlaskit/util-data-test@10.2.5
+  - @atlaskit/media-core@28.0.0
+
+## 56.2.1
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/button@10.1.3
+  - @atlaskit/icon@16.0.4
+  - @atlaskit/util-data-test@10.2.3
+  - @atlaskit/util-service-support@3.1.1
+  - @atlaskit/media-core@27.2.3
+  - @atlaskit/docs@7.0.0
+  - @atlaskit/analytics@5.0.0
+  - @atlaskit/field-base@12.0.0
+  - @atlaskit/layer@6.0.0
+  - @atlaskit/section-message@2.0.0
+  - @atlaskit/spinner@10.0.0
+  - @atlaskit/theme@8.0.0
+  - @atlaskit/tooltip@13.0.0
+
+## 56.2.0
+- [minor] [4072865c1c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4072865c1c):
+
+  - added SSR tests to task-decision
+
+## 56.1.0
+- [minor] [36bb743af0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/36bb743af0):
+
+  - added/cleaned up ssr tests
+
+## 56.0.0
+- Updated dependencies [4aee5f3cec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4aee5f3cec):
+  - @atlaskit/editor-test-helpers@7.0.2
+  - @atlaskit/util-data-test@10.2.2
+  - @atlaskit/media-core@27.2.0
+
+## 55.1.0
+- [minor] [9ab9e467d2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ab9e467d2):
+
+  - Bump version of typestyle for ssr compatibility
+
+## 55.0.2
+- [patch] [2d691c1e48](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d691c1e48):
+
+  - Added aria labels to Emoji upload component
+
+## 55.0.1
+- Updated dependencies [4af5bd2a58](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4af5bd2a58):
+  - @atlaskit/editor-test-helpers@7.0.0
+
+## 55.0.0
+- Updated dependencies [fc6164c8c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fc6164c8c2):
+  - @atlaskit/editor-test-helpers@6.3.22
+  - @atlaskit/util-data-test@10.2.1
+  - @atlaskit/media-core@27.1.0
+
+## 54.1.0
+- [minor] [cf6799312a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cf6799312a):
+
+  - Enable striter types for emoji package
+
 ## 54.0.0
 - Updated dependencies [69c8d0c19c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c8d0c19c):
   - @atlaskit/editor-test-helpers@6.3.17

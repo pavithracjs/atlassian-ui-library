@@ -1,10 +1,13 @@
 // @flow
 
 import React from 'react';
+import { IntlProvider } from 'react-intl';
 import { mount, shallow } from 'enzyme';
 import Badge from '@atlaskit/badge';
 import { DropdownItem } from '@atlaskit/dropdown-menu';
 import Drawer from '@atlaskit/drawer';
+import AtlassianSwitcher from '@atlaskit/atlassian-switcher';
+import AppSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import CreateIcon from '@atlaskit/icon/glyph/add';
 import StarLargeIcon from '@atlaskit/icon/glyph/star-large';
@@ -16,6 +19,7 @@ import { NotificationIndicator } from '@atlaskit/notification-indicator';
 import GlobalNavigation from '../../index';
 import ScreenTracker from '../../../ScreenTracker';
 import ItemComponent from '../../../ItemComponent';
+import { mockJestEndpoints } from '../../../../../examples/helpers/mock-atlassian-switcher-endpoints';
 
 const DrawerContents = () => <div>drawer</div>;
 const EmojiAtlassianIcon = () => <button>EmojiAtlassianIcon</button>;
@@ -764,6 +768,44 @@ describe('GlobalNavigation', () => {
 
       expect(wrapper.find(NotificationIndicator).exists()).toBeTruthy();
     });
+
+    describe('Controlled inbuilt notification', () => {
+      it('should be controllable', () => {
+        const wrapper = mount(
+          <GlobalNavigation
+            fabricNotificationLogUrl={fabricNotificationLogUrl}
+            cloudId={cloudId}
+            onNotificationClick={() => {}}
+          />,
+        );
+        expect(wrapper.find('NotificationDrawer').exists()).toBeFalsy();
+        wrapper.setProps({ isNotificationDrawerOpen: true });
+        wrapper.update();
+        expect(wrapper.find('NotificationDrawer').exists()).toBeTruthy();
+      });
+
+      it('should reset notification count', () => {
+        const wrapper = mount(
+          <GlobalNavigation
+            product="jira"
+            locale="en"
+            fabricNotificationLogUrl={fabricNotificationLogUrl}
+            onNotificationClick={() => {}}
+            cloudId={cloudId}
+          />,
+        );
+        wrapper.setState({
+          notificationCount: 5,
+        });
+        const spy = jest.spyOn(wrapper.instance(), 'onCountUpdated');
+
+        expect(wrapper.find(ItemComponent).prop('badgeCount')).toBe(5);
+        const icon = wrapper.find(NotificationIcon);
+        icon.simulate('click');
+
+        expect(spy).toHaveBeenCalledWith({ newCount: 0 });
+      });
+    });
   });
 
   describe('AppSwitcher', () => {
@@ -824,6 +866,112 @@ describe('GlobalNavigation', () => {
           .at(appSwitcherRank - 1) // arrays start at 0
           .is('[id="appSwitcher"]'),
       ).toBeTruthy();
+    });
+  });
+
+  describe('AtlassianSwitcher', () => {
+    jest.useFakeTimers();
+    const cloudId = 'some-cloud-id';
+
+    mockJestEndpoints(cloudId);
+    const triggerXFlowStub = jest.fn();
+
+    const AppSwitcher = () => <div />;
+    AppSwitcher.displayName = 'AppSwitcher';
+    const getDefaultWrapper = (propsToOverride: any = {}) =>
+      mount(
+        <IntlProvider locale="en">
+          <GlobalNavigation
+            product="jira"
+            productIcon={EmojiAtlassianIcon}
+            productHref="#"
+            cloudId={cloudId}
+            onProductClick={noop}
+            onCreateClick={noop}
+            onSearchClick={noop}
+            onStarredClick={noop}
+            onNotificationClick={noop}
+            onSettingsClick={noop}
+            appSwitcherComponent={AppSwitcher}
+            appSwitcherTooltip="appSwitcher tooltip"
+            enableAtlassianSwitcher
+            loginHref="#login"
+            helpItems={() => <div>items</div>}
+            triggerXFlow={triggerXFlowStub}
+            {...propsToOverride}
+          />
+        </IntlProvider>,
+      );
+    let globalNavWrapper = getDefaultWrapper();
+
+    it('should not render Atlassian Switcher if product is missing', () => {
+      globalNavWrapper = getDefaultWrapper({
+        product: undefined,
+      });
+      expect(globalNavWrapper.find(AppSwitcher)).toHaveLength(1);
+      expect(globalNavWrapper.find(AtlassianSwitcher)).toHaveLength(0);
+    });
+
+    it('should not render Atlassian Switcher if cloudId is missing', () => {
+      globalNavWrapper = getDefaultWrapper({
+        cloudId: undefined,
+      });
+      expect(globalNavWrapper.find(AppSwitcher)).toHaveLength(1);
+      expect(globalNavWrapper.find(AtlassianSwitcher)).toHaveLength(0);
+    });
+
+    it('should render AppSwitcher when enableAtlassianSwitcher is false', () => {
+      globalNavWrapper = getDefaultWrapper({
+        enableAtlassianSwitcher: false,
+      });
+      expect(globalNavWrapper.find(AppSwitcher)).toHaveLength(1);
+      expect(globalNavWrapper.find(AtlassianSwitcher)).toHaveLength(0);
+    });
+
+    it('should not render AppSwitcher when enableAtlassianSwitcher is truthy', () => {
+      globalNavWrapper = getDefaultWrapper();
+      globalNavWrapper.find(AppSwitcherIcon).simulate('click');
+      expect(globalNavWrapper.children().find(AtlassianSwitcher)).toHaveLength(
+        1,
+      );
+      expect(globalNavWrapper.children().find(AppSwitcher)).toHaveLength(0);
+    });
+
+    it('should pass the triggerXFlow callback', () => {
+      const productKey = 'product.key';
+      const sourceComponent = 'source-component';
+      const analyticsEvent = {
+        payload: {
+          eventType: 'ui',
+          action: 'clicked',
+          actionSubject: 'atlassianSwitcherItem',
+        },
+        update: () => {
+          return analyticsEvent;
+        },
+        fire: () => {},
+      };
+      globalNavWrapper = getDefaultWrapper();
+      globalNavWrapper.find(AppSwitcherIcon).simulate('click');
+      globalNavWrapper.find(AtlassianSwitcher).prop('triggerXFlow')(
+        productKey,
+        sourceComponent,
+        null,
+        analyticsEvent,
+      );
+      expect(triggerXFlowStub).toHaveBeenCalledWith(
+        productKey,
+        sourceComponent,
+      );
+    });
+
+    it(`should render ScreenTracker with correct props for atlassianSwitcherDrawer drawer when drawer is open`, () => {
+      const screenTracker = globalNavWrapper.find(ScreenTracker);
+      expect(globalNavWrapper.find(ScreenTracker).exists()).toBeTruthy();
+      expect(screenTracker.props()).toEqual({
+        name: 'atlassianSwitcherDrawer',
+        isVisible: true,
+      });
     });
   });
 
@@ -930,6 +1078,7 @@ describe('GlobalNavigation', () => {
             }),
           }),
         }),
+        undefined,
       );
     });
 

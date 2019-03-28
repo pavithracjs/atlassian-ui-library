@@ -20,7 +20,7 @@ import commonMessages from '../../../messages';
   BrowserTestCase(
     `layouts.ts: Extension: ${layoutName} Layout`,
     { skip: ['edge', 'ie'] },
-    async client => {
+    async (client: any, testName: string) => {
       const page = await goToEditorTestingExample(client);
       await mountEditor(page, {
         appearance: 'full-page',
@@ -33,7 +33,7 @@ import commonMessages from '../../../messages';
       await changeSelectedNodeLayout(page, layoutName);
 
       const doc = await page.$eval(editable, getDocFromElement);
-      expect(doc).toMatchDocSnapshot();
+      expect(doc).toMatchCustomDocSnapshot(testName);
     },
   );
 });

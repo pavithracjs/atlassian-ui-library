@@ -1,6 +1,6 @@
 // @flow
 
-import type { ComponentType, ElementConfig, Node } from 'react';
+import type { ComponentType, ElementConfig, ElementRef, Node } from 'react';
 import type { WithAnalyticsEventsProps } from '@atlaskit/analytics-next';
 
 import type { StyleReducer, WithGlobalThemeProps } from '../../../theme/types';
@@ -32,6 +32,10 @@ export type GlobalItemStyles = {
 type GlobalItemIconProps = {
   label: string,
   secondaryColor: 'inherit',
+};
+
+type NonStringRef<T> = {
+  current: ElementRef<T> | null,
 };
 
 type BaseItemProps = {
@@ -86,12 +90,16 @@ export type ExternalGlobalItemProps = ElementConfig<typeof GlobalItem>;
 
 export type BaseGlobalItemProps = {
   ...$Exact<BaseItemProps>,
+  /** A map of data attributes applied to the rendered item. */
+  dataset?: { [name: string]: string | typeof undefined },
   /** A custom component to render instead of the default wrapper component.
    * Could be used to render a router Link, for example. The component will be
    * provided with the standard globalItem props. It will also be provided
    * className, children and onClick props which should be passed on to the
    * element you render. */
   component?: ComponentType<GlobalItemRenderComponentProps>,
+  /** A function to access the ref of the GlobalItem. */
+  getRef?: (node: NonStringRef<'span'>) => void,
 };
 
 export type GlobalItemProps = {

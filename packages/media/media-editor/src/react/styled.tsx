@@ -7,14 +7,13 @@ import {
   TextareaHTMLAttributes,
 } from 'react';
 import { layers, colors } from '@atlaskit/theme';
-import { ButtonProps } from './toolbarButtons';
 
 export interface LineWidthFrontCircleProps {
   width: number;
 }
 
 export const blanketColor = colors.N700A;
-const overlayZindex = layers.modal() + 10;
+const overlayZindex = layers.modal();
 
 export const MediaEditorContainer: ComponentClass<
   HTMLAttributes<{}>
@@ -93,22 +92,6 @@ export const ToolbarContainer: ComponentClass<HTMLAttributes<{}>> = styled.div`
 `;
 ToolbarContainer.displayName = 'ToolbarContainer';
 
-export const ToolbarButton: ComponentClass<
-  HTMLAttributes<{}> & ButtonProps
-> = styled.div`
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  background-color: ${(props: ButtonProps) =>
-    props.selected ? colors.N90 : 'transparent'};
-  border-radius: 4px;
-
-  &:hover {
-    background-color: ${colors.N90};
-  }
-`;
-ToolbarButton.displayName = 'ToolbarButton';
-
 export const ColorSquare: ComponentClass<HTMLAttributes<{}>> = styled.div`
   width: 20px;
   height: 20px;
@@ -156,7 +139,7 @@ export const ToolIcon: ComponentClass<HTMLAttributes<{}>> = styled.div`
 ToolIcon.displayName = 'ToolIcon';
 
 // TODO This is copy paste from media-viewer
-export const Blanket: ComponentClass<HTMLAttributes<{}>> = styled.div`
+export const Blanket = styled.div`
   position: fixed;
   top: 0;
   left: 0;

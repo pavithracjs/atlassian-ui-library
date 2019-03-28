@@ -1,10 +1,15 @@
+export { Refs } from './schema-builder';
 export * from './base64fileconverter';
 export { default as sendKeyToPm } from './send-key-to-pm';
 export { default as chaiPlugin } from './chai';
 export { default as createEvent } from './create-event';
 export { default as dispatchPasteEvent } from './dispatch-paste-event';
 export { default as createEditorFactory } from './create-editor';
+export {
+  default as createAnalyticsEventMock,
+} from './create-analytics-event-mock';
 export { default as fixtures } from './fixtures';
+export { default as simulatePlatform, Platforms } from './simulatePlatform';
 export { default as patchEditorViewForJSDOM } from './jsdom-fixtures';
 export * from './transactions';
 export {
@@ -83,13 +88,12 @@ export {
   status,
   alignment,
   indentation,
+  unsupportedBlock,
+  unsupportedInline,
 } from './schema-builder';
 export { default as defaultSchema } from './schema';
 export * from './html-helpers';
-export {
-  storyMediaProviderFactory,
-  getLinkCreateContextMock,
-} from './media-provider';
+export { storyMediaProviderFactory } from './media-provider';
 export {
   storyContextIdentifierProviderFactory,
 } from './context-identifier-provider';

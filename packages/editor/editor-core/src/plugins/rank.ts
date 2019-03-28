@@ -85,6 +85,7 @@ export default {
     'maxContentSize',
     'multilineContent',
     'grid',
+    'analytics',
   ],
   nodes: [
     'doc',
@@ -133,6 +134,7 @@ export default {
     'confluenceInlineComment',
     'em',
     'strong',
+    'textColor',
     'strike',
     'action',
     'subsup',
@@ -140,7 +142,6 @@ export default {
     'code',
     'typeAheadQuery',
     'emojiQuery',
-    'textColor',
 
     // Block marks
     'alignment',

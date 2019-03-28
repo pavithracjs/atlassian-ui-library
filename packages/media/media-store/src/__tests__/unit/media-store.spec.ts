@@ -1,4 +1,5 @@
-import 'whatwg-fetch';
+jest.mock('../../utils/checkWebpSupport');
+
 import * as fetchMock from 'fetch-mock';
 import { stringify } from 'query-string';
 
@@ -21,9 +22,11 @@ import {
   MediaStoreTouchFileParams,
 } from '../../media-store';
 import { MediaFileArtifacts } from '../../models/artifacts';
+import { checkWebpSupport } from '../../utils/checkWebpSupport';
 
 describe('MediaStore', () => {
   const baseUrl = 'http://some-host';
+  const checkWebpSupportMock = checkWebpSupport as jest.Mock;
 
   afterEach(() => fetchMock.restore());
 
@@ -39,6 +42,7 @@ describe('MediaStore', () => {
       processingStatus: 'pending',
       size: 231392,
       artifacts: {},
+      representations: {},
     };
     let authProvider: jest.Mock<AuthProvider>;
     let mediaStore: MediaStore;
@@ -422,7 +426,6 @@ describe('MediaStore', () => {
               id: '1',
               insertedAt: 1,
               occurrenceKey: 'key-1',
-              type: 'file',
               details: {
                 size: 1,
                 artifacts: {},
@@ -435,7 +438,6 @@ describe('MediaStore', () => {
               id: '2',
               insertedAt: 1,
               occurrenceKey: 'key-2',
-              type: 'file',
               details: {
                 size: 0,
                 artifacts: {},
@@ -448,7 +450,6 @@ describe('MediaStore', () => {
               id: '3',
               insertedAt: 1,
               occurrenceKey: 'key-3',
-              type: 'file',
               details: {} as any,
             },
           ],
@@ -636,6 +637,39 @@ describe('MediaStore', () => {
           `${baseUrl}/file/123/image?allowAnimated=true&client=some-client-id&max-age=3600&mode=full-fit&token=some-token&upscale=true&version=2`,
         );
       });
+
+      it('should request webp content when supported', async () => {
+        fetchMock.mock(`begin:${baseUrl}/file`, {
+          body: {
+            data,
+          },
+          status: 201,
+        });
+        checkWebpSupportMock.mockResolvedValueOnce(true);
+
+        await mediaStore.getImage('123');
+
+        expect(fetchMock.lastOptions().headers).toHaveProperty(
+          'accept',
+          'image/webp,image/*,*/*;q=0.8',
+        );
+      });
+
+      it('should not request webp content when not supported', async () => {
+        fetchMock.mock(`begin:${baseUrl}/file`, {
+          body: {
+            data,
+          },
+          status: 201,
+        });
+        checkWebpSupportMock.mockResolvedValueOnce(false);
+
+        await mediaStore.getImage('123');
+
+        expect(fetchMock.lastOptions().headers || {}).not.toHaveProperty(
+          'accept',
+        );
+      });
     });
 
     describe('getItems', () => {
@@ -655,6 +689,7 @@ describe('MediaStore', () => {
                   name: 'file-1',
                   processingStatus: 'succeeded',
                   size: 1,
+                  representations: {},
                 },
               },
             ],
@@ -778,10 +813,7 @@ describe('MediaStore', () => {
 
       it('should throw if artifact cant be found', async () => {
         const artifacts = {
-          'audio.mp3': {
-            processingStatus: 'pending',
-            url: '/sd-video',
-          },
+          'audio.mp3': {},
         } as MediaFileArtifacts;
 
         await expect(

@@ -4,7 +4,7 @@ import { taskDecisionSliceFilter } from '../../utils/filter';
 import { linkifyContent } from '../hyperlink/utils';
 import { analyticsService } from '../../analytics';
 import { Slice } from 'prosemirror-model';
-import { EditorState } from 'prosemirror-state';
+import { EditorState, Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { runMacroAutoConvert } from '../macro';
 import { closeHistory } from 'prosemirror-history';
@@ -19,11 +19,12 @@ import {
   TextFormattingState,
 } from '../text-formatting/pm-plugins/main';
 import { compose } from '../../utils';
+import { CommandDispatch, Command } from '../../types';
 
 export function handlePasteIntoTaskAndDecision(
   slice: Slice,
-): (state: EditorState, dispatch) => boolean {
-  return (state: EditorState, dispatch): boolean => {
+): (state: EditorState, dispatch: CommandDispatch) => boolean {
+  return (state: EditorState, dispatch: CommandDispatch): boolean => {
     const {
       schema,
       tr: { selection },
@@ -90,7 +91,11 @@ export function handlePasteIntoTaskAndDecision(
 export function handlePasteAsPlainText(
   slice: Slice,
   event: ClipboardEvent,
-): (state: EditorState, dispatch, view: EditorView) => boolean {
+): (
+  state: EditorState,
+  dispatch: (tr: Transaction) => void,
+  view: EditorView,
+) => boolean {
   return (state: EditorState, dispatch, view: EditorView): boolean => {
     // In case of SHIFT+CMD+V ("Paste and Match Style") we don't want to run the usual
     // fuzzy matching of content. ProseMirror already handles this scenario and will
@@ -120,7 +125,7 @@ export function handlePasteAsPlainText(
 
 export function handlePastePreservingMarks(
   slice: Slice,
-): (state: EditorState, dispatch) => boolean {
+): (state: EditorState, dispatch: (tr: Transaction) => void) => boolean {
   return (state: EditorState, dispatch): boolean => {
     const {
       schema,
@@ -214,27 +219,26 @@ export function handlePastePreservingMarks(
   };
 }
 
-export function handleMacroAutoConvert(
-  text: string,
-  slice: Slice,
-): (state: EditorState, dispatch, view: EditorView) => boolean {
-  return (state: EditorState, dispatch, view: EditorView) => {
+export function handleMacroAutoConvert(text: string, slice: Slice): Command {
+  return (state, dispatch, view) => {
     const macro = runMacroAutoConvert(state, text);
     if (macro) {
       const selection = state.tr.selection;
       const tr = state.tr.replaceSelection(slice);
       const before = tr.mapping.map(selection.from, -1);
 
-      // insert the text or linkified/md-converted clipboard data
-      dispatch(tr);
+      if (dispatch && view) {
+        // insert the text or linkified/md-converted clipboard data
+        dispatch(tr);
 
-      // replace the text with the macro as a separate transaction
-      // so the autoconversion generates 2 undo steps
-      dispatch(
-        closeHistory(view.state.tr)
-          .replaceRangeWith(before, before + slice.size, macro)
-          .scrollIntoView(),
-      );
+        // replace the text with the macro as a separate transaction
+        // so the autoconversion generates 2 undo steps
+        dispatch(
+          closeHistory(view.state.tr)
+            .replaceRangeWith(before, before + slice.size, macro)
+            .scrollIntoView(),
+        );
+      }
     }
     return !!macro;
   };

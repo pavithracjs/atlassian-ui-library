@@ -1,5 +1,5 @@
-import { name } from '../../../../package.json';
-import { shallow, mount } from 'enzyme';
+import { name } from '../../../version.json';
+import { shallow } from 'enzyme';
 import * as React from 'react';
 import { TextSelection } from 'prosemirror-state';
 import { ProviderFactory } from '@atlaskit/editor-common';
@@ -23,7 +23,14 @@ import * as AnalyticsPlugin from '../../../plugins/analytics';
 import {
   analyticsEventKey,
   AnalyticsEventPayload,
+  ACTION,
+  ACTION_SUBJECT,
+  INPUT_METHOD,
+  EVENT_TYPE,
+  ACTION_SUBJECT_ID,
+  addAnalytics,
 } from '../../../plugins/analytics';
+import { analyticsService } from '../../../analytics';
 
 const portalProviderAPI: any = {
   render() {},
@@ -31,11 +38,11 @@ const portalProviderAPI: any = {
 };
 
 const payload: AnalyticsEventPayload = {
-  action: 'clicked',
-  actionSubject: 'button',
-  actionSubjectId: 'helpButton',
-  attributes: { inputMethod: 'toolbar' },
-  eventType: 'ui',
+  action: ACTION.CLICKED,
+  actionSubject: ACTION_SUBJECT.BUTTON,
+  actionSubjectId: ACTION_SUBJECT_ID.BUTTON_HELP,
+  attributes: { inputMethod: INPUT_METHOD.TOOLBAR },
+  eventType: EVENT_TYPE.UI,
 };
 
 describe(name, () => {
@@ -123,7 +130,7 @@ describe(name, () => {
     });
 
     it("should set `key` on the ProseMirror div node to aid React's reconciler", () => {
-      const wrapper = mount(
+      const wrapper = mountWithIntl(
         <ReactEditorView
           editorProps={{}}
           providerFactory={ProviderFactory.create({})}
@@ -142,7 +149,7 @@ describe(name, () => {
       const mockAnalytics = jest
         .spyOn(AnalyticsPlugin, 'fireAnalyticsEvent')
         .mockReturnValue(mockFire);
-      const wrapper = mount(
+      const wrapper = mountWithIntl(
         <ReactEditorView
           editorProps={{}}
           providerFactory={ProviderFactory.create({})}
@@ -167,7 +174,7 @@ describe(name, () => {
       const mockAnalytics = jest
         .spyOn(AnalyticsPlugin, 'fireAnalyticsEvent')
         .mockReturnValue(mockFire);
-      mount(
+      mountWithIntl(
         <ReactEditorView
           editorProps={{}}
           providerFactory={ProviderFactory.create({})}
@@ -211,11 +218,120 @@ describe(name, () => {
       });
     });
 
+    describe('when an invalid transaction is dispatched', () => {
+      const documents = {
+        new: {
+          type: 'doc',
+          pos: 0,
+          nodeSize: 5,
+          content: [
+            {
+              type: 'codeBlock',
+              pos: 1,
+              nodeSize: 3,
+              content: [{ type: 'date', pos: 1, nodeSize: 1 }],
+            },
+          ],
+        },
+        prev: {
+          type: 'doc',
+          pos: 0,
+          nodeSize: 4,
+          content: [{ type: 'paragraph', pos: 1, nodeSize: 2 }],
+        },
+      };
+
+      /** dispatches an invalid transaction which adds a code block with a date node child */
+      const dispatchInvalidTransaction = (tr = editor.view.state.tr) => {
+        const { date, codeBlock } = editor.view.state.schema.nodes;
+        invalidTr = tr.replaceRangeWith(
+          1,
+          1,
+          codeBlock.create({}, date.create()),
+        );
+        editor.view.dispatch(invalidTr);
+      };
+
+      let wrapper;
+      let editor;
+      let invalidTr;
+
+      beforeEach(() => {
+        wrapper = mountWithIntl(
+          <ReactEditorView
+            editorProps={{
+              allowCodeBlocks: true,
+              allowDate: true,
+            }}
+            providerFactory={ProviderFactory.create({})}
+            portalProviderAPI={portalProviderAPI}
+            onEditorCreated={() => {}}
+            onEditorDestroyed={() => {}}
+          />,
+        );
+        editor = wrapper.instance() as ReactEditorView;
+      });
+
+      it('should not throw error', () => {
+        expect(() => dispatchInvalidTransaction()).not.toThrowError();
+      });
+
+      it('sends V2 analytics event', () => {
+        jest.spyOn(analyticsService, 'trackEvent');
+        dispatchInvalidTransaction();
+
+        expect(analyticsService.trackEvent).toHaveBeenCalledWith(
+          'atlaskit.fabric.editor.invalidtransaction',
+          { documents: JSON.stringify(documents) },
+        );
+      });
+
+      it('sends V3 analytics event with info on failed transaction', () => {
+        const { eventDispatcher } = wrapper.instance() as ReactEditorView;
+        jest.spyOn(eventDispatcher, 'emit');
+
+        const analyticsEventPayload: AnalyticsEventPayload = {
+          action: ACTION.CLICKED,
+          actionSubject: ACTION_SUBJECT.BUTTON,
+          actionSubjectId: ACTION_SUBJECT_ID.BUTTON_HELP,
+          attributes: { inputMethod: INPUT_METHOD.SHORTCUT },
+          eventType: EVENT_TYPE.UI,
+        };
+
+        dispatchInvalidTransaction(
+          // add v3 analytics meta to transaction as we want to check this info is sent on
+          addAnalytics(editor.view.state.tr, analyticsEventPayload),
+        );
+        expect(eventDispatcher.emit).toHaveBeenCalledWith(analyticsEventKey, {
+          payload: {
+            action: 'dispatchedInvalidTransaction',
+            actionSubject: 'editor',
+            eventType: 'operational',
+            attributes: {
+              analyticsEventPayloads: [
+                {
+                  channel: undefined,
+                  payload: analyticsEventPayload,
+                },
+              ],
+              documents,
+            },
+          },
+        });
+      });
+
+      it('does not apply the transaction', () => {
+        const originalState = editor.editorState;
+        dispatchInvalidTransaction();
+        expect(editor.editorState).toEqual(originalState);
+      });
+    });
+
     it('should call onEditorCreated once the editor is initialised', () => {
       let handleEditorCreated = jest.fn();
-      let wrapper = mount(
+      let wrapper = mountWithIntl(
         <ReactEditorView
-          editorProps={{ appearance: 'message' }}
+          editorProps={{ appearance: 'comment' }}
           providerFactory={new ProviderFactory()}
           portalProviderAPI={portalProviderAPI}
           onEditorCreated={handleEditorCreated}
@@ -241,9 +357,9 @@ describe(name, () => {
 
     it('should call onEditorDestroyed when the editor is unmounting', () => {
       let handleEditorDestroyed = jest.fn();
-      const wrapper = mount(
+      const wrapper = mountWithIntl(
         <ReactEditorView
-          editorProps={{ appearance: 'message' }}
+          editorProps={{ appearance: 'comment' }}
           providerFactory={new ProviderFactory()}
           portalProviderAPI={portalProviderAPI}
           onEditorCreated={() => {}}
@@ -268,11 +384,11 @@ describe(name, () => {
     });
 
     it('should call destroy() on plugin states when it gets unmounted', () => {
-      let spies;
+      let spies: Array<jest.SpyInstance> = [];
       const mediaProvider = storyMediaProviderFactory({
         includeUserAuthProvider: true,
       });
-      const wrapper = mount(
+      const wrapper = mountWithIntl(
         <ReactEditorView
           editorProps={{
             mediaProvider: mediaProvider,
@@ -297,7 +413,7 @@ describe(name, () => {
 
     it('should call destroy() on EventDispatcher when it gets unmounted', () => {
       let eventDispatcherDestroySpy;
-      const wrapper = mount(
+      const wrapper = mountWithIntl(
         <ReactEditorView
           editorProps={{}}
           providerFactory={new ProviderFactory()}
@@ -313,7 +429,7 @@ describe(name, () => {
     });
 
     it('should disable grammarly in the editor', () => {
-      const wrapper = mount(
+      const wrapper = mountWithIntl(
         <ReactEditorView
           editorProps={{}}
           providerFactory={ProviderFactory.create({})}
@@ -330,9 +446,9 @@ describe(name, () => {
     describe('when re-creating the editor view after a props change', () => {
       it('should call onEditorDestroyed', () => {
         let handleEditorDestroyed = jest.fn();
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
           <ReactEditorView
-            editorProps={{ appearance: 'message' }}
+            editorProps={{ appearance: 'comment' }}
             providerFactory={new ProviderFactory()}
             portalProviderAPI={portalProviderAPI}
             onEditorCreated={() => {}}
@@ -341,7 +457,11 @@ describe(name, () => {
         );
 
         // Force a re-mount of the editor-view by changing the React tree
-        wrapper.setProps({ render: ({ editor }) => <div>{editor}</div> });
+        wrapper.setProps({
+          render: ({ editor }: { editor: React.ReactChild }) => (
+            <div>{editor}</div>
+          ),
+        });
 
         expect(handleEditorDestroyed).toHaveBeenCalledTimes(1);
         expect(handleEditorDestroyed).toHaveBeenCalledWith({
@@ -359,8 +479,8 @@ describe(name, () => {
       });
 
       it('should call destroy on the old EditorView', () => {
-        let editorViewDestroy;
-        const wrapper = mount(
+        let editorViewDestroy: jest.SpyInstance | undefined;
+        const wrapper = mountWithIntl(
           <ReactEditorView
             editorProps={{}}
             providerFactory={new ProviderFactory()}
@@ -376,7 +496,11 @@ describe(name, () => {
         );
 
         // Force a re-mount of the editor-view by changing the React tree
-        wrapper.setProps({ render: ({ editor }) => <div>{editor}</div> });
+        wrapper.setProps({
+          render: ({ editor }: { editor: React.ReactChild }) => (
+            <div>{editor}</div>
+          ),
+        });
 
         expect(editorViewDestroy).toHaveBeenCalled();
       });
@@ -384,7 +508,7 @@ describe(name, () => {
       it('should call onEditorCreated with the new EditorView', () => {
         let oldEditorView;
         let newEditorView;
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
           <ReactEditorView
             editorProps={{}}
             providerFactory={new ProviderFactory()}
@@ -399,16 +523,20 @@ describe(name, () => {
         );
 
         // Force a re-mount of the editor-view by changing the React tree
-        wrapper.setProps({ render: ({ editor }) => <div>{editor}</div> });
+        wrapper.setProps({
+          render: ({ editor }: { editor: React.ReactChild }) => (
+            <div>{editor}</div>
+          ),
+        });
 
         expect(newEditorView).toBeInstanceOf(EditorView);
         expect(oldEditorView).not.toBe(newEditorView);
       });
 
       it('should not re-create the event dispatcher', () => {
-        let oldEventDispatcher;
+        let oldEventDispatcher: EventDispatcher | undefined;
         let eventDispatcherDestroySpy;
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
           <ReactEditorView
             editorProps={{}}
             providerFactory={new ProviderFactory()}
@@ -428,7 +556,11 @@ describe(name, () => {
         );
 
         // Force a re-mount of the editor-view by changing the React tree
-        wrapper.setProps({ render: ({ editor }) => <div>{editor}</div> });
+        wrapper.setProps({
+          render: ({ editor }: { editor: React.ReactChild }) => (
+            <div>{editor}</div>
+          ),
+        });
 
         expect(oldEventDispatcher).toBe(
           (wrapper.instance() as ReactEditorView).eventDispatcher,
@@ -442,7 +574,7 @@ describe(name, () => {
       const mockAnalytics = jest
         .spyOn(AnalyticsPlugin, 'fireAnalyticsEvent')
         .mockReturnValue(mockFire);
-      const wrapper = mount(
+      const wrapper = mountWithIntl(
         <ReactEditorView
           editorProps={{}}
           providerFactory={ProviderFactory.create({})}
@@ -474,7 +606,7 @@ describe(name, () => {
           .spyOn(AnalyticsPlugin, 'fireAnalyticsEvent')
           .mockReturnValue(() => null);
         let dispatch;
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
           <ReactEditorView
             editorProps={{}}
             providerFactory={ProviderFactory.create({})}

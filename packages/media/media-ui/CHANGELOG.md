@@ -1,5 +1,68 @@
 # @atlaskit/media-ui
 
+## 10.0.4
+- [patch] [62834d5210](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/62834d5210):
+
+  - update dependency version of @atlaskit/spinner
+
+## 10.0.3
+- [patch] [9b0dd21ce7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0dd21ce7):
+
+  - allow the appearance of lozenges within smart link tasks to be configured
+
+## 10.0.2
+- [patch] [aa117f5341](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa117f5341):
+
+  - fix alignment and UI for inline Smart Links.
+
+## 10.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 10.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 9.2.3
+- [patch] [8ed53a1cbb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ed53a1cbb):
+
+  - fix padding, wrapping for inline smart links.
+
+## 9.2.2
+- [patch] [be479e2335](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/be479e2335):
+
+  - fix link opening logic for view and edit mode.
+
+## 9.2.1
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/button@10.1.3
+  - @atlaskit/icon@16.0.4
+  - @atlaskit/media-test-helpers@20.1.7
+  - @atlaskit/docs@7.0.0
+  - @atlaskit/avatar-group@3.0.0
+  - @atlaskit/avatar@15.0.0
+  - @atlaskit/badge@10.0.0
+  - @atlaskit/checkbox@6.0.0
+  - @atlaskit/dropdown-menu@7.0.0
+  - @atlaskit/field-text@8.0.0
+  - @atlaskit/lozenge@7.0.0
+  - @atlaskit/page@9.0.0
+  - @atlaskit/spinner@10.0.0
+  - @atlaskit/theme@8.0.0
+  - @atlaskit/tooltip@13.0.0
+
+## 9.2.0
+- [minor] [b7ead07438](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b7ead07438):
+
+  - New messages to support media-editor changes
+
+## 9.1.0
+- [minor] [41147bbc4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/41147bbc4c):
+
+  - Fix for links in editor
+
 ## 9.0.1
 - [patch] [9aa8faebd4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9aa8faebd4):
 

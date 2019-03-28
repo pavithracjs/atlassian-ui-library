@@ -29,7 +29,7 @@ describe('selectAdminOrSelfCopy', () => {
       deactivateUserHandler: () => {},
       isCurrentUser: false,
     }).instance() as DeleteUserOverviewScreen).selectAdminOrSelfCopy;
-    expect(selectAdminOrSelfCopy('admin', 'self')).toBe('admin');
+    expect(selectAdminOrSelfCopy('admin' as any, 'self' as any)).toBe('admin');
   });
 
   test('selects self copy if delete candidate is current user', () => {
@@ -37,7 +37,7 @@ describe('selectAdminOrSelfCopy', () => {
       deactivateUserHandler: () => {},
       isCurrentUser: true,
     }).instance() as DeleteUserOverviewScreen).selectAdminOrSelfCopy;
-    expect(selectAdminOrSelfCopy('admin', 'self')).toBe('self');
+    expect(selectAdminOrSelfCopy('admin' as any, 'self' as any)).toBe('self');
   });
 });
 

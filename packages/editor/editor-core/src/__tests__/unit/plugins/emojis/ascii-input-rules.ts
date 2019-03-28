@@ -11,9 +11,11 @@ import {
   emojiQuery,
   emoji,
 } from '@atlaskit/editor-test-helpers';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
 import { emoji as emojiData } from '@atlaskit/util-data-test';
 import emojiPlugin from '../../../../plugins/emoji';
 import codeBlockPlugin from '../../../../plugins/code-block';
+import { EditorState } from 'prosemirror-state';
 
 const emojiProvider = emojiData.testData.getEmojiResourcePromise();
 const providerFactory = ProviderFactory.create({ emojiProvider });
@@ -21,11 +23,16 @@ const providerFactory = ProviderFactory.create({ emojiProvider });
 describe('ascii emojis - input rules', () => {
   const createEditor = createEditorFactory();
 
+  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+
   const editor = (doc: any) => {
+    createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     const editor = createEditor({
       doc,
       editorPlugins: [emojiPlugin, codeBlockPlugin()],
+      editorProps: { allowAnalyticsGASV3: true },
       providerFactory,
+      createAnalyticsEvent,
     });
 
     return editor;
@@ -55,7 +62,7 @@ describe('ascii emojis - input rules', () => {
   const assert = (
     what: string,
     docContents: any,
-    expectation: (state) => void,
+    expectation: (state: EditorState) => void,
   ) => {
     const { editorView, sel } = editor(doc(docContents));
     insertText(editorView, what, sel);
@@ -278,6 +285,30 @@ describe('ascii emojis - input rules', () => {
         expect(selections.length).toBe(1);
         expect(selections[0].shortName).toEqual(':smiley:');
       });
+    });
+  });
+
+  describe('analytics', () => {
+    const analyticsPayload = {
+      action: 'inserted',
+      actionSubject: 'document',
+      actionSubjectId: 'emoji',
+      attributes: { inputMethod: 'ascii' },
+      eventType: 'track',
+    };
+
+    it('should fire analytics event when emoji starting with colon is inserted', () => {
+      const { editorView, sel } = editor(doc(p('{<>}')));
+      insertText(editorView, ':D ', sel);
+
+      expect(createAnalyticsEvent).toHaveBeenCalledWith(analyticsPayload);
+    });
+
+    it('should fire analytics event when emoji not starting with colon is inserted', () => {
+      const { editorView, sel } = editor(doc(p('{<>}')));
+      insertText(editorView, '(y)', sel);
+
+      expect(createAnalyticsEvent).toHaveBeenCalledWith(analyticsPayload);
     });
   });
 });

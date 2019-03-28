@@ -1,13 +1,13 @@
-import 'es6-promise/auto'; // 'whatwg-fetch' needs a Promise polyfill
-import 'whatwg-fetch';
-import * as fetchMock from 'fetch-mock/src/client';
 import { SecurityOptions } from '@atlaskit/util-service-support';
-import * as queryString from 'query-string';
+import 'es6-promise/auto'; // 'whatwg-fetch' needs a Promise polyfill
 
-import { MentionDescription } from '../../../types';
+import * as fetchMock from 'fetch-mock/src/client';
+import * as queryString from 'query-string';
 import MentionResource, {
   MentionResourceConfig,
 } from '../../../api/MentionResource';
+import { MentionDescription } from '../../../types';
+import { checkOrder } from '../_test-helpers';
 import {
   resultC,
   resultCr,
@@ -29,7 +29,8 @@ const options = (
   omitCredentials,
 });
 
-const getSecurityHeader = call => call[1].headers.get(defaultSecurityHeader);
+const getSecurityHeader = (call: any) =>
+  call[1].headers.get(defaultSecurityHeader);
 
 const defaultSecurityCode = '10804';
 
@@ -46,18 +47,6 @@ const apiConfigWithoutCredentials: MentionResourceConfig = {
     return options(defaultSecurityCode, true);
   },
 };
-
-function checkOrder(expected, actual) {
-  expect(actual).toHaveLength(expected.length);
-  for (let i = 0; i < expected.length; i++) {
-    expect(actual[i]).toHaveLength(expected[i].length);
-    if (expected[i].length) {
-      for (let j = 0; j < expected[i].length; j++) {
-        expect(actual[i][j].id).toEqual(expected[i][j].id);
-      }
-    }
-  }
-}
 
 const FULL_CONTEXT = {
   containerId: 'someContainerId',

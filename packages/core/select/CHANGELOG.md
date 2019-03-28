@@ -1,5 +1,103 @@
 # @atlaskit/select
 
+## 8.0.4
+- [patch] [2a90c65e27](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a90c65e27):
+
+  - Fix, and guard against, missing refs
+
+## 8.0.3
+- Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+  - @atlaskit/docs@7.0.1
+  - @atlaskit/analytics-next@4.0.1
+  - @atlaskit/checkbox@6.0.1
+  - @atlaskit/form@5.2.1
+  - @atlaskit/icon@16.0.5
+  - @atlaskit/logo@10.0.1
+  - @atlaskit/modal-dialog@8.0.2
+  - @atlaskit/spinner@10.0.1
+  - @atlaskit/theme@8.0.1
+  - @atlaskit/tooltip@13.0.1
+  - @atlaskit/button@11.0.0
+
+## 8.0.2
+- [patch] [87808b7791](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87808b7791):
+
+  - AK-5973 expose handleKeyDown as prop for PopupSelect
+
+## 8.0.1
+- [patch] [69c6f6acb7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c6f6acb7):
+
+  - Minor bug fixes in 2.4.2 react-select patch. See the release notes for details here https://github.com/JedWatson/react-select/releases/tag/v2.4.2
+
+## 8.0.0
+- [major] [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+
+  - Drop ES5 from all the flow modules
+
+  ### Dropping CJS support in all @atlaskit packages
+
+  As a breaking change, all @atlaskit packages will be dropping cjs distributions and will only distribute esm. This means all distributed code will be transpiled, but will still contain `import` and
+  `export` declarations.
+
+  The major reason for doing this is to allow us to support multiple entry points in packages, e.g:
+
+  ```js
+  import colors from `@atlaskit/theme/colors`;
+  ```
+
+  Previously this was sort of possible for consumers by doing something like:
+
+  ```js
+  import colors from `@atlaskit/theme/dist/esm/colors`;
+  ```
+
+  This has a couple of issues. 1, it treats the file system as API making internal refactors harder, we have to worry about how consumers might be using things that aren't *actually* supposed to be used. 2. We are unable to do this *internally* in @atlaskit packages. This leads to lots of packages bundling all of theme, just to use a single color, especially in situations where tree shaking fails.
+
+  To support being able to use multiple entrypoints internally, we unfortunately cannot have multiple distributions as they would need to have very different imports from of their own internal dependencies.
+
+  ES Modules are widely supported by all modern bundlers and can be worked around in node environments.
+
+  We may choose to revisit this solution in the future if we find any unintended condequences, but we see this as a pretty sane path forward which should lead to some major bundle size decreases, saner API's and simpler package architecture.
+
+  Please reach out to #fabric-build (if in Atlassian) or create an issue in [Design System Support](https://ecosystem.atlassian.net/secure/CreateIssue.jspa?pid=24670) (for external) if you have any questions or queries about this.
+
+## 7.2.2
+- [patch] [39850f9615](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/39850f9615):
+
+  - Popup select set focus to selected option, instead of the first option, when the menu opens
+
+## 7.2.1
+- [patch] [37c2eeec43](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/37c2eeec43):
+
+  - Added possibility to add compact styling for multi select component
+
+## 7.2.0
+- [minor] [46ffd45f21](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/46ffd45f21):
+
+  - Added ability to toggle animations in atlaskit/select, updated UserPicker to disable animations using this new behaviour
+
+## 7.1.2
+- [patch] [bcdb413cb4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bcdb413cb4):
+
+  - Encapsulate checkbox/radio option styles inside the primitive
+
+## 7.1.1
+- [patch] [896bf5bef9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/896bf5bef9):
+
+  - Fix bug breaking mobile UX, and causing menu to not be openable on touch
+
+## 7.1.0
+- [minor] [571ec20522](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/571ec20522):
+
+  - Updated react-select to 2.4.0, includes updates to BEM modifiers in options, for more information see the react-select release notes https://github.com/JedWatson/react-select/releases/tag/v2.4.0
+  - Added makeAnimated invocation back to createSelect, as multi select in modal bug has been resolved.
+  - Export makeAsyncSelect and makeCreatableSelect function from src
+
+## 7.0.0
+- [major] [06713e0a0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06713e0a0c):
+
+  - popup select "target" is now a function that must resolve to a node
+
 ## 6.1.20
 - [patch] [957778f085](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/957778f085):
 

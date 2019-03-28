@@ -4,14 +4,15 @@ import * as classnames from 'classnames';
 import { EditorView } from 'prosemirror-view';
 import { isTableSelected, selectTable, findTable } from 'prosemirror-utils';
 import { TableMap } from 'prosemirror-tables';
-import InsertButton from '../InsertButton';
-import {
-  clearHoverSelection,
-  hoverTable,
-  insertColumn,
-  insertRow,
-} from '../../../actions';
+
+import { INPUT_METHOD } from '../../../../analytics';
+import { clearHoverSelection, hoverTable } from '../../../actions';
 import { TableCssClassName as ClassName } from '../../../types';
+import {
+  insertRowWithAnalytics,
+  insertColumnWithAnalytics,
+} from '../../../actions-with-analytics';
+import InsertButton from '../InsertButton';
 
 export interface Props {
   editorView: EditorView;
@@ -111,11 +112,11 @@ export default class CornerControls extends Component<Props, any> {
 
   private insertColumn = () => {
     const { state, dispatch } = this.props.editorView;
-    insertColumn(0)(state, dispatch);
+    insertColumnWithAnalytics(INPUT_METHOD.BUTTON, 0)(state, dispatch);
   };
 
   private insertRow = () => {
     const { state, dispatch } = this.props.editorView;
-    insertRow(0)(state, dispatch);
+    insertRowWithAnalytics(INPUT_METHOD.BUTTON, 0)(state, dispatch);
   };
 }

@@ -1,4 +1,118 @@
-# @atlaskit/media-image
+# @atlaskit/media-card
+
+## 57.0.2
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 57.0.1
+- [patch] [9192df506a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9192df506a):
+
+  - Do not call given onClick if it's a video file and inline video player is enabled
+
+## 57.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+- Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+  - @atlaskit/docs@7.0.1
+  - @atlaskit/analytics-next@4.0.1
+  - @atlaskit/checkbox@6.0.1
+  - @atlaskit/dropdown-menu@7.0.1
+  - @atlaskit/field-radio-group@5.0.1
+  - @atlaskit/field-text@8.0.1
+  - @atlaskit/icon@16.0.5
+  - @atlaskit/spinner@10.0.1
+  - @atlaskit/theme@8.0.1
+  - @atlaskit/toggle@6.0.1
+  - @atlaskit/media-viewer@39.0.0
+  - @atlaskit/field-range@6.0.1
+  - @atlaskit/button@11.0.0
+  - @atlaskit/analytics-next-types@4.0.0
+  - @atlaskit/media-core@29.0.0
+  - @atlaskit/media-store@11.0.0
+  - @atlaskit/media-test-helpers@21.0.0
+  - @atlaskit/media-ui@10.0.0
+
+## 56.0.0
+- Updated dependencies [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
+  - @atlaskit/media-test-helpers@20.1.8
+  - @atlaskit/media-viewer@38.0.0
+  - @atlaskit/media-core@28.0.0
+  - @atlaskit/media-store@10.0.0
+
+## 55.0.4
+- [patch] [ff3f40bc38](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff3f40bc38):
+
+  - Fix remove from cache function, which fixes issue when user is deleting recent image in media picker
+
+## 55.0.3
+- [patch] [3591859b2f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3591859b2f):
+
+  - use ReactDOM.createPortal to render MediaViewer when shouldOpenMediaViewer=true
+
+## 55.0.2
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/button@10.1.3
+  - @atlaskit/icon@16.0.4
+  - @atlaskit/media-core@27.2.3
+  - @atlaskit/media-store@9.2.1
+  - @atlaskit/media-ui@9.2.1
+  - @atlaskit/media-viewer@37.0.1
+  - @atlaskit/media-test-helpers@20.1.7
+  - @atlaskit/docs@7.0.0
+  - @atlaskit/analytics-next@4.0.0
+  - @atlaskit/checkbox@6.0.0
+  - @atlaskit/dropdown-menu@7.0.0
+  - @atlaskit/field-radio-group@5.0.0
+  - @atlaskit/field-range@6.0.0
+  - @atlaskit/field-text@8.0.0
+  - @atlaskit/spinner@10.0.0
+  - @atlaskit/theme@8.0.0
+  - @atlaskit/toggle@6.0.0
+
+## 55.0.1
+- [patch] [d18b085e2a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d18b085e2a):
+
+  - Integrating truly upfront ID
+
+## 55.0.0
+- [patch] [6bd4c428e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6bd4c428e2):
+
+  - load image preview as soon representation is present instead of waiting for file status to be processed
+- Updated dependencies [4aee5f3cec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4aee5f3cec):
+  - @atlaskit/media-test-helpers@20.1.6
+  - @atlaskit/media-core@27.2.0
+  - @atlaskit/media-store@9.2.0
+
+## 54.1.0
+- [minor] [eda74c4dce](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eda74c4dce):
+
+  - Add shouldOpenMediaViewer + mediaViewerDataSource optional props to Card api to simplify MediaViewer integration
+
+## 54.0.0
+- [major] [190c4b7bd3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/190c4b7bd3):
+
+  - Remove Identifier type + related utilities and use the one from media-core
+- Updated dependencies [fc6164c8c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fc6164c8c2):
+  - @atlaskit/media-store@9.1.7
+  - @atlaskit/media-test-helpers@20.1.5
+  - @atlaskit/media-core@27.1.0
+
+## 53.0.0
+- [major] [46dfcfbeca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/46dfcfbeca):
+
+  - remove Link support from media-card
+
+## 52.0.7
+- [patch] [ab6ba14cd3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab6ba14cd3):
+
+  - Fix a bug where droping image with EXIF orientation >= 5 end up screwing up proportions for some of the cases
+
+## 52.0.6
+- [patch] [05c5bf7a93](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/05c5bf7a93):
+
+  - Dont user pointer cursor for external images in Cards
 
 ## 52.0.5
 - [patch] [c415876da9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c415876da9):

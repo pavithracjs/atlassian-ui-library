@@ -8,7 +8,7 @@ import { Link } from '../../../components/WrappedLink';
 import { NavGroup } from '../../../types';
 
 export type RouterLinkProps = {
-  children?: React.ReactChild;
+  children?: React.ReactNode;
   className?: string;
   href?: string | Record<string, string | Location>;
   onClick?: (e: Event) => void;
@@ -16,7 +16,7 @@ export type RouterLinkProps = {
   replace?: boolean;
   subNav?: Array<NavGroup>;
   to?: string | Record<string, string | Location>;
-  text: string;
+  text?: string;
   isSelected?: ((param1: string, param2: string) => boolean) | boolean;
   isCompact?: boolean;
   iconSelected?: boolean;

@@ -10,24 +10,28 @@ import {
 import {
   name as packageName,
   version as packageVersion,
-} from '../../package.json';
+} from '../version.json';
 
 import Input from './Input';
-import { Wrapper } from '../styled';
 import { Theme } from '../theme';
 import type { TextFieldProps } from '../types';
 
 type State = {
   isFocused: boolean,
+  isHovered: boolean,
 };
 
 class Textfield extends Component<TextFieldProps, State> {
   static defaultProps = {
     appearance: 'standard',
+    isCompact: false,
+    isMonospaced: false,
+    isInvalid: false,
   };
 
   state = {
     isFocused: false,
+    isHovered: false,
   };
 
   input: ?HTMLInputElement;
@@ -46,29 +50,63 @@ class Textfield extends Component<TextFieldProps, State> {
     }
   };
 
-  focus() {
-    if (this.input) {
+  handleOnMouseDown = (e: SyntheticMouseEvent<*>) => {
+    /** Running e.preventDefault() on the INPUT prevents double click behaviour */
+    // $FlowFixMe - tagName does not exist in event.target
+    if (e.target.tagName !== 'INPUT') {
+      e.preventDefault();
+    }
+    if (
+      this.input &&
+      !this.props.isDisabled &&
+      document.activeElement !== this.input
+    ) {
       this.input.focus();
     }
-  }
+    if (this.props.onMouseDown) {
+      this.props.onMouseDown(e);
+    }
+  };
+
+  onMouseEnter = () => {
+    if (!this.props.isDisabled) {
+      this.setState({ isHovered: true });
+    }
+  };
+
+  onMouseLeave = () => {
+    if (!this.props.isDisabled) {
+      this.setState({ isHovered: false });
+    }
+  };
 
   setInputRef = (input: ?HTMLInputElement) => {
     this.input = input;
-    if (this.props.forwardedRef) {
-      this.props.forwardedRef(input);
+
+    const { forwardedRef } = this.props;
+
+    if (forwardedRef && typeof forwardedRef === 'object') {
+      forwardedRef.current = input;
+    }
+    if (forwardedRef && typeof forwardedRef === 'function') {
+      forwardedRef(input);
     }
   };
 
   render() {
-    const { isFocused } = this.state;
+    const { isFocused, isHovered } = this.state;
     const {
       appearance,
-      width,
-      forwardedRef,
-      theme,
       // createAnalytics passed through from analytics-next
       // we don't want to spread this onto our input
       createAnalyticsEvent, // eslint-disable-line react/prop-types
+      forwardedRef,
+      isCompact,
+      isDisabled,
+      isInvalid,
+      isMonospaced,
+      theme,
+      width,
       ...rest
     } = this.props;
 
@@ -76,18 +114,31 @@ class Textfield extends Component<TextFieldProps, State> {
       <Theme.Provider value={theme}>
         <GlobalTheme.Consumer>
           {({ mode }) => (
-            <Theme.Consumer appearance={appearance} mode={mode}>
+            <Theme.Consumer
+              appearance={appearance}
+              mode={mode}
+              width={width}
+              isDisabled={isDisabled}
+              isCompact={isCompact}
+              isMonospaced={isMonospaced}
+              isFocused={isFocused}
+              isHovered={isHovered}
+              isInvalid={isInvalid}
+            >
               {tokens => (
-                <Wrapper width={width}>
-                  <Input
-                    {...rest}
-                    theme={tokens}
-                    isFocused={isFocused}
-                    forwardedRef={forwardedRef}
-                    onFocus={this.handleOnFocus}
-                    onBlur={this.handleOnBlur}
-                  />
-                </Wrapper>
+                <Input
+                  {...rest}
+                  theme={tokens}
+                  isDisabled={isDisabled}
+                  isFocused={isFocused}
+                  isHovered={isHovered}
+                  onMouseEnter={this.onMouseEnter}
+                  onMouseLeave={this.onMouseLeave}
+                  forwardedRef={this.setInputRef}
+                  onFocus={this.handleOnFocus}
+                  onBlur={this.handleOnBlur}
+                  onMouseDown={this.handleOnMouseDown}
+                />
               )}
             </Theme.Consumer>
           )}

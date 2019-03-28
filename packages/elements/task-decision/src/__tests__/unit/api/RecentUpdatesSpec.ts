@@ -1,9 +1,13 @@
-import 'whatwg-fetch';
 import {
   RecentUpdates,
   ACTION_DECISION_FPS_EVENTS,
 } from '../../../api/TaskDecisionResource';
-import { ObjectKey, ServiceTask, TaskState } from '../../../types';
+import {
+  ObjectKey,
+  ServiceTask,
+  TaskState,
+  PubSubClient,
+} from '../../../types';
 
 const serviceTask = (
   key: ObjectKey,
@@ -33,7 +37,7 @@ const objectKey = {
 };
 
 describe('RecentUpdates', () => {
-  let mockPubSubClient;
+  let mockPubSubClient: PubSubClient;
 
   beforeEach(() => {
     mockPubSubClient = {

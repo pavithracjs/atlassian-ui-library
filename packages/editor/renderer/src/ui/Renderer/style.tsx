@@ -27,28 +27,19 @@ import {
   akEditorTableNumberColumnWidth,
   TableSharedCssClassName,
   tableMarginTop,
-  akEditorSmallZIndex,
   gridMediumMaxWidth,
   codeMarkSharedStyles,
+  shadowSharedStyle,
+  shadowClassNames,
 } from '@atlaskit/editor-common';
 import { RendererAppearance } from './';
 import { RendererCssClassName } from '../../consts';
 
 export const FullPagePadding = 32;
-const shadowWidth = 8;
-
-export const shadowClassNames = {
-  RIGHT_SHADOW: 'right-shadow',
-  LEFT_SHADOW: 'left-shadow',
-};
 
 export type Props = {
   appearance?: RendererAppearance;
   theme?: any;
-};
-
-const getLineHeight = ({ appearance }: Props) => {
-  return `line-height: ${appearance === 'message' ? 20 : 24}px`;
 };
 
 const tableStyles = ({ appearance }: Props) => {
@@ -84,7 +75,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   ${fullPageStyles}
 
   font-size: ${editorFontSize}px;
-  ${getLineHeight};
+  line-height: 24px;
   color: ${themed({ light: colors.N800, dark: '#B8C7E0' })};
   word-wrap: break-word;
 
@@ -110,6 +101,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   ${indentationSharedStyles};
   ${blockMarksSharedStyles};
   ${codeMarkSharedStyles};
+  ${shadowSharedStyle};
 
   & .UnknownBlock {
     font-family: ${fontFamily()};
@@ -336,39 +328,5 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
         margin-left: 0;
       }
     }
-  }
-
-  & .${shadowClassNames.RIGHT_SHADOW}::before, .${shadowClassNames.RIGHT_SHADOW}::after,
-    .${shadowClassNames.LEFT_SHADOW}::before, .${shadowClassNames.LEFT_SHADOW}::after {
-      display: none;
-      position: absolute;
-      pointer-events: none;
-      z-index: ${akEditorSmallZIndex};
-      width: ${shadowWidth}px;
-      content: '';
-      /* Scrollbar is outside the content in IE, inset in other browsers. */
-      height: calc(100%);
-  }
-
-  & .${shadowClassNames.LEFT_SHADOW}::before {
-    background: linear-gradient(
-      to left,
-      rgba(99, 114, 130, 0) 0,
-      ${colors.N40A} 100%
-    );
-    top: 0px;
-    left: 0;
-    display: block;
-  }
-
-  & .${shadowClassNames.RIGHT_SHADOW}::after {
-    background: linear-gradient(
-      to right,
-      rgba(99, 114, 130, 0) 0,
-      ${colors.N40A} 100%
-    );
-    left: calc(100% - ${shadowWidth}px);
-    top: 0px;
-    display: block;
   }
 `;

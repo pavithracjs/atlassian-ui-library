@@ -1,5 +1,67 @@
 # @atlaskit/feedback-collector
 
+## 3.0.2
+- Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
+  - @atlaskit/form@5.2.4
+  - @atlaskit/textarea@0.4.0
+
+## 3.0.1
+- Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+  - @atlaskit/docs@7.0.1
+  - @atlaskit/checkbox@6.0.1
+  - @atlaskit/flag@10.0.1
+  - @atlaskit/form@5.2.1
+  - @atlaskit/global-navigation@6.1.1
+  - @atlaskit/icon@16.0.5
+  - @atlaskit/logo@10.0.1
+  - @atlaskit/modal-dialog@8.0.2
+  - @atlaskit/navigation-next@5.0.1
+  - @atlaskit/section-message@2.0.1
+  - @atlaskit/select@8.0.3
+  - @atlaskit/theme@8.0.1
+  - @atlaskit/button@11.0.0
+  - @atlaskit/textarea@0.3.0
+
+## 3.0.0
+- [major] [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+
+  - Drop ES5 from all the flow modules
+
+  ### Dropping CJS support in all @atlaskit packages
+
+  As a breaking change, all @atlaskit packages will be dropping cjs distributions and will only distribute esm. This means all distributed code will be transpiled, but will still contain `import` and
+  `export` declarations.
+
+  The major reason for doing this is to allow us to support multiple entry points in packages, e.g:
+
+  ```js
+  import colors from `@atlaskit/theme/colors`;
+  ```
+
+  Previously this was sort of possible for consumers by doing something like:
+
+  ```js
+  import colors from `@atlaskit/theme/dist/esm/colors`;
+  ```
+
+  This has a couple of issues. 1, it treats the file system as API making internal refactors harder, we have to worry about how consumers might be using things that aren't *actually* supposed to be used. 2. We are unable to do this *internally* in @atlaskit packages. This leads to lots of packages bundling all of theme, just to use a single color, especially in situations where tree shaking fails.
+
+  To support being able to use multiple entrypoints internally, we unfortunately cannot have multiple distributions as they would need to have very different imports from of their own internal dependencies.
+
+  ES Modules are widely supported by all modern bundlers and can be worked around in node environments.
+
+  We may choose to revisit this solution in the future if we find any unintended condequences, but we see this as a pretty sane path forward which should lead to some major bundle size decreases, saner API's and simpler package architecture.
+
+  Please reach out to #fabric-build (if in Atlassian) or create an issue in [Design System Support](https://ecosystem.atlassian.net/secure/CreateIssue.jspa?pid=24670) (for external) if you have any questions or queries about this.
+
+## 2.0.5
+- Updated dependencies [06713e0a0c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06713e0a0c):
+  - @atlaskit/form@5.1.5
+  - @atlaskit/logo@9.2.7
+  - @atlaskit/navigation-next@4.2.3
+  - @atlaskit/modal-dialog@7.2.3
+  - @atlaskit/select@7.0.0
+
 ## 2.0.4
 - [patch] [2a8536a220](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a8536a220):
 

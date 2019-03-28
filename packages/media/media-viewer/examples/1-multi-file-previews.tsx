@@ -19,11 +19,12 @@ import {
 } from '../example-helpers';
 import { MediaViewer } from '../src';
 import { videoFileId } from '@atlaskit/media-test-helpers';
-import { MediaViewerItem } from '../src';
 import { MediaViewerDataSource } from '..';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
 import { I18NWrapper } from '@atlaskit/media-test-helpers';
+import { Identifier, FileIdentifier } from '@atlaskit/media-core';
+import { Card } from '@atlaskit/media-card';
 
 const context = createStorybookContext();
 
@@ -35,9 +36,9 @@ const handleEvent = (analyticsEvent: UIAnalyticsEventInterface) => {
 export type State = {
   selected?: {
     dataSource: MediaViewerDataSource;
-    identifier: MediaViewerItem;
+    identifier: Identifier;
   };
-  firstCollectionItem?: MediaViewerItem;
+  firstCollectionItem?: Identifier;
 };
 
 export default class Example extends React.Component<{}, State> {
@@ -54,7 +55,7 @@ export default class Example extends React.Component<{}, State> {
             this.setState({
               firstCollectionItem: {
                 id: firstItem.id,
-                type: firstItem.type,
+                mediaItemType: 'file',
                 occurrenceKey: firstItem.occurrenceKey,
               },
             });
@@ -94,8 +95,8 @@ export default class Example extends React.Component<{}, State> {
   };
 
   private openErrorList = () => {
-    const invalidItem: MediaViewerItem = {
-      type: 'file',
+    const invalidItem: Identifier = {
+      mediaItemType: 'file',
       id: 'invalid-id',
       occurrenceKey: 'invalid-key',
     };
@@ -140,7 +141,7 @@ export default class Example extends React.Component<{}, State> {
       selected: {
         dataSource: { list: [imageIdentifier, wideImageIdentifier] },
         identifier: {
-          type: 'file',
+          mediaItemType: 'file',
           id: videoFileId.id,
           occurrenceKey: 'testOccurrenceKey',
         },
@@ -149,8 +150,8 @@ export default class Example extends React.Component<{}, State> {
   };
 
   private openInvalidId = () => {
-    const invalidItem: MediaViewerItem = {
-      type: 'file',
+    const invalidItem: Identifier = {
+      mediaItemType: 'file',
       id: 'invalid-id',
       occurrenceKey: 'invalid-key',
     };
@@ -194,9 +195,15 @@ export default class Example extends React.Component<{}, State> {
             <ButtonList>
               <li>
                 {this.state.firstCollectionItem ? (
-                  <Button onClick={this.openCollection}>
-                    Default collection
-                  </Button>
+                  <Card
+                    context={context}
+                    identifier={{
+                      collectionName: defaultCollectionName,
+                      id: (this.state.firstCollectionItem as FileIdentifier).id,
+                      mediaItemType: 'file',
+                    }}
+                    onClick={this.openCollection}
+                  />
                 ) : (
                   <AkSpinner />
                 )}

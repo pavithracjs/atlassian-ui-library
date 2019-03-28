@@ -1,4 +1,11 @@
-import { ResolvedPos, Fragment, Slice } from 'prosemirror-model';
+import {
+  ResolvedPos,
+  Fragment,
+  Slice,
+  NodeRange,
+  NodeType,
+  Node,
+} from 'prosemirror-model';
 import {
   EditorState,
   Transaction,
@@ -20,10 +27,21 @@ import {
   isFirstChildOfParent,
   findCutBefore,
 } from '../../utils/commands';
-import { isRangeOfType } from '../../utils';
+import { isRangeOfType, compose, sanitizeSelectionMarks } from '../../utils';
 import { liftFollowingList, liftSelectionList } from './transforms';
 import { Command } from '../../types';
 import { GapCursorSelection } from '../gap-cursor';
+import {
+  withAnalytics,
+  ACTION,
+  ACTION_SUBJECT,
+  ACTION_SUBJECT_ID,
+  EVENT_TYPE,
+  INPUT_METHOD,
+  INDENT_DIR,
+  INDENT_TYPE,
+  addAnalytics,
+} from '../analytics';
 
 const maxIndentation = 5;
 
@@ -236,9 +254,9 @@ export const backspaceKeyCommand = baseCommand.chainCommands(
  * @param itemType Node
  * Splits the list items, specific implementation take from PM
  */
-function splitListItem(itemType) {
+function splitListItem(itemType: NodeType): Command {
   return function(state, dispatch) {
-    const ref = state.selection;
+    const ref = state.selection as NodeSelection;
     const $from = ref.$from;
     const $to = ref.$to;
     const node = ref.node;
@@ -251,7 +269,7 @@ function splitListItem(itemType) {
     }
     /** --> The following line changed from the original PM implementation to allow list additions with multiple paragraphs */
     if (
-      grandParent.content.content.length <= 1 &&
+      (grandParent.content as any).content.length <= 1 &&
       $from.parent.content.size === 0 &&
       !(grandParent.content.size === 0)
     ) {
@@ -278,14 +296,14 @@ function splitListItem(itemType) {
           wrap = Fragment.from($from.node(d).copy(wrap));
         }
         // Add a second list item with an empty default start node
-        wrap = wrap.append(Fragment.from(itemType.createAndFill()));
+        wrap = wrap.append(Fragment.from(itemType.createAndFill()!));
         const tr$1 = state.tr.replace(
-          $from.before(keepItem ? null : -1),
+          $from.before(keepItem ? undefined : -1),
           $from.after(-3),
           new Slice(wrap, keepItem ? 3 : 2, 2),
         );
         tr$1.setSelection(
-          state.selection.constructor.near(
+          (state.selection.constructor as any).near(
             tr$1.doc.resolve($from.pos + (keepItem ? 3 : 2)),
           ),
         );
@@ -294,41 +312,30 @@ function splitListItem(itemType) {
       return true;
     }
     const nextType =
-      $to.pos === $from.end() ? grandParent.defaultContentType(0) : null;
+      $to.pos === $from.end()
+        ? grandParent.contentMatchAt(0).defaultType
+        : undefined;
     const tr = state.tr.delete($from.pos, $to.pos);
-    const types = nextType && [null, { type: nextType }];
+    const types = nextType && [undefined, { type: nextType }];
 
     if (dispatch) {
-      dispatch(tr.split($from.pos, 2, types).scrollIntoView());
+      dispatch(tr.split($from.pos, 2, types as any).scrollIntoView());
     }
     return true;
   };
 }
 
-export function outdentList(): Command {
-  return function(state, dispatch) {
-    const { listItem } = state.schema.nodes;
-    const { $from, $to } = state.selection;
-    if (isInsideListItem(state)) {
-      // if we're backspacing at the start of a list item, unindent it
-      // take the the range of nodes we might be lifting
-
-      // the predicate is for when you're backspacing a top level list item:
-      // we don't want to go up past the doc node, otherwise the range
-      // to clear will include everything
-      let range = $from.blockRange(
-        $to,
-        node => node.childCount > 0 && node.firstChild!.type === listItem,
-      );
-
-      if (!range) {
-        return false;
-      }
-
-      let tr;
-      if (
-        baseListCommand.liftListItem(listItem)(state, liftTr => (tr = liftTr))
-      ) {
+/**
+ * Merge closest bullet list blocks into one
+ *
+ * @param {NodeType} listItem
+ * @param {NodeRange} range
+ * @returns
+ */
+function mergeLists(listItem: NodeType, range: NodeRange) {
+  return (command: Command): Command => {
+    return (state, dispatch) =>
+      command(state, tr => {
         /* we now need to handle the case that we lifted a sublist out,
          * and any listItems at the current level get shifted out to
          * their own new list; e.g.:
@@ -377,43 +384,119 @@ export function outdentList(): Command {
         if (dispatch) {
           dispatch(tr.scrollIntoView());
         }
-        return true;
+      });
+  };
+}
+
+export function outdentList(): Command {
+  return function(state, dispatch) {
+    const { listItem } = state.schema.nodes;
+    const { $from, $to } = state.selection;
+    if (isInsideListItem(state)) {
+      // if we're backspacing at the start of a list item, unindent it
+      // take the the range of nodes we might be lifting
+
+      // the predicate is for when you're backspacing a top level list item:
+      // we don't want to go up past the doc node, otherwise the range
+      // to clear will include everything
+      let range = $from.blockRange(
+        $to,
+        node => node.childCount > 0 && node.firstChild!.type === listItem,
+      );
+
+      if (!range) {
+        return false;
       }
+      const initialIndentationLevel = numberNestedLists(
+        state.selection.$from,
+        state.schema.nodes,
+      );
+
+      return compose(
+        withAnalytics({
+          action: ACTION.FORMATTED,
+          actionSubject: ACTION_SUBJECT.TEXT,
+          actionSubjectId: ACTION_SUBJECT_ID.FORMAT_INDENT,
+          eventType: EVENT_TYPE.TRACK,
+          attributes: {
+            inputMethod: INPUT_METHOD.KEYBOARD,
+            previousIndentationLevel: initialIndentationLevel,
+            newIndentLevel: initialIndentationLevel - 1,
+            direction: INDENT_DIR.OUTDENT,
+            indentType: INDENT_TYPE.LIST,
+          },
+        }), // 3. Send analytics event
+        mergeLists(listItem, range), // 2. Check if I need to merge nearest list
+        baseListCommand.liftListItem, // 1. First lift list item
+      )(listItem)(state, dispatch);
     }
+
     return false;
   };
+}
+
+/**
+ * Check if we can sink the list.
+ *
+ * @param {number} initialIndentationLevel
+ * @param {EditorState} state
+ * @returns {boolean} - true if we can sink the list
+ *                    - false if we reach the max indentation level
+ */
+function canSink(initialIndentationLevel: number, state: EditorState): boolean {
+  /*
+      - Keep going forward in document until indentation of the node is < than the initial
+      - If indentation is EVER > max indentation, return true and don't sink the list
+      */
+  let currentIndentationLevel: number;
+  let currentPos = state.tr.selection.$to.pos;
+  do {
+    const resolvedPos = state.doc.resolve(currentPos);
+    currentIndentationLevel = numberNestedLists(
+      resolvedPos,
+      state.schema.nodes,
+    );
+    if (currentIndentationLevel > maxIndentation) {
+      // Cancel sink list.
+      // If current indentation less than the initial, it won't be
+      // larger than the max, and the loop will terminate at end of this iteration
+      return false;
+    }
+    currentPos++;
+  } while (currentIndentationLevel >= initialIndentationLevel);
+
+  return true;
 }
 
 export function indentList(): Command {
   return function(state, dispatch) {
     const { listItem } = state.schema.nodes;
     if (isInsideListItem(state)) {
+      // Record initial list indentation
       const initialIndentationLevel = numberNestedLists(
         state.selection.$from,
         state.schema.nodes,
       );
-      /*
-      - Record initial list indentation
-      - Keep going forward in document until indentation of the node is < than the initial 
-      - If indentation is EVER > max indentation, return true and don't sink the list
-      */
-      let currentIndentationLevel;
-      let currentPos = state.tr.selection.$to.pos;
-      do {
-        const resolvedPos = state.doc.resolve(currentPos);
-        currentIndentationLevel = numberNestedLists(
-          resolvedPos,
-          state.schema.nodes,
-        );
-        if (currentIndentationLevel > maxIndentation) {
-          // Cancel sink list.
-          // If current indentation less than the initial, it won't be
-          // larger than the max, and the loop will terminate at end of this iteration
-          return true;
-        }
-        currentPos++;
-      } while (currentIndentationLevel >= initialIndentationLevel);
-      baseListCommand.sinkListItem(listItem)(state, dispatch);
+
+      if (canSink(initialIndentationLevel, state)) {
+        // Analytics command wrapper should be here because we need to get indentation level
+        compose(
+          withAnalytics({
+            action: ACTION.FORMATTED,
+            actionSubject: ACTION_SUBJECT.TEXT,
+            actionSubjectId: ACTION_SUBJECT_ID.FORMAT_INDENT,
+            eventType: EVENT_TYPE.TRACK,
+            attributes: {
+              inputMethod: INPUT_METHOD.KEYBOARD,
+              previousIndentationLevel: initialIndentationLevel,
+              newIndentLevel: initialIndentationLevel + 1,
+              direction: INDENT_DIR.INDENT,
+              indentType: INDENT_TYPE.LIST,
+            },
+          }),
+          baseListCommand.sinkListItem,
+        )(listItem)(state, dispatch);
+      }
       return true;
     }
     return false;
@@ -465,7 +548,7 @@ export function liftListItems(): Command {
  * user intended - so we need to adjust the selection a bit in scenarios like that.
  */
 export function adjustSelectionInList(
-  doc,
+  doc: Node,
   selection: TextSelection,
 ): TextSelection {
   let { $from, $to } = selection;
@@ -498,7 +581,10 @@ export function adjustSelectionInList(
 }
 
 // Get the depth of the nearest ancestor list
-export const rootListDepth = (pos: ResolvedPos, nodes) => {
+export const rootListDepth = (
+  pos: ResolvedPos,
+  nodes: Record<string, NodeType>,
+) => {
   const { bulletList, orderedList, listItem } = nodes;
   let depth;
   for (let i = pos.depth - 1; i > 0; i--) {
@@ -518,7 +604,10 @@ export const rootListDepth = (pos: ResolvedPos, nodes) => {
 };
 
 // Returns the number of nested lists that are ancestors of the given selection
-export const numberNestedLists = (resolvedPos: ResolvedPos, nodes) => {
+export const numberNestedLists = (
+  resolvedPos: ResolvedPos,
+  nodes: Record<string, NodeType>,
+) => {
   const { bulletList, orderedList } = nodes;
   let count = 0;
   for (let i = resolvedPos.depth - 1; i > 0; i--) {
@@ -551,7 +640,7 @@ export const toggleList = (
       state,
       selection.$to.pos,
       selection.$to.end(depth),
-      depth,
+      depth || 0,
       state.tr,
     );
     tr = liftSelectionList(state, tr);
@@ -559,6 +648,25 @@ export const toggleList = (
     return true;
   }
 };
+
+/**
+ * Check of is selection is inside a list of the specified type
+ * @param state
+ * @param listType
+ */
+function isInsideList(
+  state: EditorState,
+  listType: 'bulletList' | 'orderedList',
+) {
+  const { $from } = state.selection;
+  const parent = $from.node(-2);
+  const grandgrandParent = $from.node(-3);
+
+  return (
+    (parent && parent.type === state.schema.nodes[listType]) ||
+    (grandgrandParent && grandgrandParent.type === state.schema.nodes[listType])
+  );
+}
 
 export function toggleListCommand(
   listType: 'bulletList' | 'orderedList',
@@ -579,8 +687,6 @@ export function toggleListCommand(
     state = view.state;
 
     const { $from, $to } = state.selection;
-    const parent = $from.node(-2);
-    const grandgrandParent = $from.node(-3);
     const isRangeOfSingleType = isRangeOfType(
       state.doc,
       $from,
@@ -588,34 +694,70 @@ export function toggleListCommand(
       state.schema.nodes[listType],
     );
 
-    if (
-      ((parent && parent.type === state.schema.nodes[listType]) ||
-        (grandgrandParent &&
-          grandgrandParent.type === state.schema.nodes[listType])) &&
-      isRangeOfSingleType
-    ) {
+    if (isInsideList(state, listType) && isRangeOfSingleType) {
       // Untoggles list
       return liftListItems()(state, dispatch);
     } else {
-      // Wraps selection in list and converts list type e.g. bullet_list -> ordered_list if needed
+      // Converts list type e.g. bullet_list -> ordered_list if needed
       if (!isRangeOfSingleType) {
         liftListItems()(state, dispatch);
         state = view.state;
       }
+
+      // Remove any invalid marks that are not supported
+      const tr = sanitizeSelectionMarks(state);
+      if (tr) {
+        dispatch!(tr);
+        state = view.state;
+      }
+      // Wraps selection in list
       return wrapInList(state.schema.nodes[listType])(state, dispatch);
     }
   };
 }
 
-export function toggleBulletList(view) {
+// TODO: Toggle list command dispatch more than one time, so commandWithAnalytics doesn't work as expected.
+// This is a helper to fix that.
+export const toggleListCommandWithAnalytics = (
+  inputMethod: INPUT_METHOD.KEYBOARD,
+  listType: 'bulletList' | 'orderedList',
+): Command => {
+  const listTypeActionSubjectId = {
+    bulletList: ACTION_SUBJECT_ID.FORMAT_LIST_BULLET,
+    orderedList: ACTION_SUBJECT_ID.FORMAT_LIST_NUMBER,
+  };
+  return (state, dispatch, view) => {
+    if (toggleListCommand(listType)(state, dispatch, view)) {
+      if (view && dispatch) {
+        dispatch(
+          addAnalytics(view.state.tr, {
+            action: ACTION.FORMATTED,
+            actionSubject: ACTION_SUBJECT.TEXT,
+            actionSubjectId: listTypeActionSubjectId[listType] as
+              | ACTION_SUBJECT_ID.FORMAT_LIST_BULLET
+              | ACTION_SUBJECT_ID.FORMAT_LIST_NUMBER,
+            eventType: EVENT_TYPE.TRACK,
+            attributes: {
+              inputMethod,
+            },
+          }),
+        );
+      }
+      return true;
+    }
+    return false;
+  };
+};
+
+export function toggleBulletList(view: EditorView) {
   return toggleList(view.state, view.dispatch, view, 'bulletList');
 }
 
-export function toggleOrderedList(view) {
+export function toggleOrderedList(view: EditorView) {
   return toggleList(view.state, view.dispatch, view, 'orderedList');
 }
 
-export function wrapInList(nodeType): Command {
+export function wrapInList(nodeType: NodeType): Command {
   return baseCommand.autoJoin(
     baseListCommand.wrapInList(nodeType),
     (before, after) => before.type === after.type && before.type === nodeType,

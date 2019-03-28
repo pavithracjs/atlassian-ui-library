@@ -41,17 +41,11 @@ export interface TablePluginState {
   insertRowButtonIndex?: number;
 }
 
-export interface CellRect {
-  left: number;
-  right: number;
-  top: number;
-  bottom: number;
-}
-
 export interface ColumnResizingPlugin {
   handleWidth?: number;
   cellMinWidth?: number;
   lastColumnResizable?: boolean;
+  dynamicTextSizing?: boolean;
 }
 
 export const TableDecorations = {

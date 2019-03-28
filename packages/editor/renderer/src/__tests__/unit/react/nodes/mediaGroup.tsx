@@ -1,11 +1,7 @@
 import * as React from 'react';
 import { mount, shallow } from 'enzyme';
 import * as sinon from 'sinon';
-import {
-  imageFileId,
-  youtubeLinkId,
-  genericFileId,
-} from '@atlaskit/media-test-helpers';
+import { imageFileId, genericFileId } from '@atlaskit/media-test-helpers';
 import { storyMediaProviderFactory } from '@atlaskit/editor-test-helpers';
 import {
   Card,
@@ -18,7 +14,7 @@ import Media from '../../../../react/nodes/media';
 import MediaGroup from '../../../../react/nodes/mediaGroup';
 
 describe('MediaGroup', () => {
-  let fixture;
+  let fixture: HTMLDivElement;
 
   const mediaProvider = storyMediaProviderFactory();
 
@@ -94,19 +90,20 @@ describe('MediaGroup', () => {
           providers={providerFactory}
         />
         <Media
-          id={youtubeLinkId.id}
-          type={youtubeLinkId.mediaItemType}
-          collection={youtubeLinkId.collectionName}
+          id={imageFileId.id}
+          type={imageFileId.mediaItemType}
+          occurrenceKey="001"
+          collection={imageFileId.collectionName}
           providers={providerFactory}
         />
       </MediaGroup>,
       { attachTo: fixture },
     );
+
     expect(mediaGroup.find(FilmstripView)).toHaveLength(1);
 
     const provider = await mediaProvider;
     await provider.viewContext;
-    await provider.linkCreateContext;
     await provider.uploadContext;
     mediaGroup.update();
 
@@ -128,13 +125,6 @@ describe('MediaGroup', () => {
     expect(surroundingItems[0].collectionName).toBe(imageFileId.collectionName);
     expect(surroundingItems[0].occurrenceKey).toBe('001');
 
-    expect(surroundingItems[1].id).toBe(youtubeLinkId.id);
-    expect(surroundingItems[1].mediaItemType).toBe(youtubeLinkId.mediaItemType);
-    expect(surroundingItems[1].collectionName).toBe(
-      youtubeLinkId.collectionName,
-    );
-    expect(surroundingItems[1].occurrenceKey).toBeUndefined();
-
     mediaGroup.unmount();
   });
 
@@ -149,5 +139,49 @@ describe('MediaGroup', () => {
       </MediaGroup>,
     );
     expect(mediaGroup.find(Media).prop('useInlinePlayer')).toBe(false);
+  });
+
+  it('should pass onClick callback only if eventHandlers.media.onClick its defined', () => {
+    const mediaGroupWithoutHandlers = mount(
+      <MediaGroup>
+        <Media
+          id={imageFileId.id}
+          type={imageFileId.mediaItemType}
+          collection={imageFileId.collectionName}
+        />
+        <Media
+          id={imageFileId.id}
+          type={imageFileId.mediaItemType}
+          collection={imageFileId.collectionName}
+        />
+      </MediaGroup>,
+    );
+    const mediaGroupWithHandlers = mount(
+      <MediaGroup eventHandlers={{ media: { onClick: jest.fn() } }}>
+        <Media
+          id={imageFileId.id}
+          type={imageFileId.mediaItemType}
+          collection={imageFileId.collectionName}
+        />
+        <Media
+          id={imageFileId.id}
+          type={imageFileId.mediaItemType}
+          collection={imageFileId.collectionName}
+        />
+      </MediaGroup>,
+    );
+
+    expect(
+      mediaGroupWithoutHandlers
+        .find(Media)
+        .first()
+        .prop('eventHandlers')!.media!.onClick,
+    ).toBeUndefined();
+    expect(
+      mediaGroupWithHandlers
+        .find(Media)
+        .first()
+        .prop('eventHandlers')!.media!.onClick,
+    ).toBeDefined();
   });
 });

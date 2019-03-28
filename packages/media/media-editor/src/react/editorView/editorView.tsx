@@ -1,11 +1,15 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
-import { MediaEditor, LoadParameters } from '../mediaEditor';
-import { Tool, Color, Dimensions, ShapeParameters } from '../../common';
 import { messages } from '@atlaskit/media-ui';
+import { ThemeProvider } from 'styled-components';
+import { MediaEditor, LoadParameters } from '../mediaEditor';
+import { Tool, Dimensions, ShapeParameters } from '../../common';
 import Toolbar, { tools } from './toolbar/toolbar';
 import { EditorContainer } from './styles';
+import { colors } from '@atlaskit/theme';
+import { rgbToHex } from '../../util';
+import { DEFAULT_COLOR } from './toolbar/popups/colorPopup';
 
 const DEFAULT_WIDTH = 845;
 const DEFAULT_HEIGHT = 530;
@@ -19,14 +23,15 @@ const propertyLineWidth = 'media-editor-line-width';
 
 export interface EditorViewProps {
   readonly imageUrl: string;
-  readonly onSave: (image: string) => void;
+  readonly onSave: (image: string, dimensions: Dimensions) => void;
   readonly onCancel: () => void;
   readonly onError: (message: string) => void;
+  readonly onAnyEdit?: () => void;
 }
 
 export interface EditorViewState {
   readonly dimensions: Dimensions;
-  readonly color: Color;
+  readonly color: string;
   readonly lineWidth: number;
   readonly tool: Tool;
 }
@@ -42,7 +47,7 @@ class EditorView extends Component<
       width: DEFAULT_WIDTH,
       height: DEFAULT_HEIGHT - TOOLBAR_HEIGHT,
     },
-    color: { red: 0xbf, green: 0x26, blue: 0x00 },
+    color: colors.R300,
     lineWidth: 8,
     tool: 'arrow',
   };
@@ -69,12 +74,14 @@ class EditorView extends Component<
     const refHandler = (div: HTMLDivElement) => {
       this.rootDiv = div;
     };
-
+    const theme = { __ATLASKIT_THEME__: { mode: 'dark' } };
     return (
-      <EditorContainer innerRef={refHandler}>
-        {this.renderEditor()}
-        {this.renderToolbar()}
-      </EditorContainer>
+      <ThemeProvider theme={theme}>
+        <EditorContainer innerRef={refHandler}>
+          {this.renderEditor()}
+          {this.renderToolbar()}
+        </EditorContainer>
+      </ThemeProvider>
     );
   }
 
@@ -87,7 +94,7 @@ class EditorView extends Component<
       this.setState({ color, lineWidth });
     };
 
-    const { imageUrl } = this.props;
+    const { imageUrl, onAnyEdit } = this.props;
     const { dimensions, color, lineWidth, tool } = this.state;
 
     return (
@@ -97,6 +104,7 @@ class EditorView extends Component<
         backgroundColor={TRANSPARENT_COLOR}
         shapeParameters={{ color, lineWidth, addShadow: true }}
         tool={tool}
+        onAnyEdit={onAnyEdit}
         onLoad={this.onLoad}
         onError={onError}
         onShapeParametersChanged={onShapeParametersChanged}
@@ -107,7 +115,7 @@ class EditorView extends Component<
   renderToolbar(): JSX.Element {
     const { tool, color, lineWidth } = this.state;
     const onToolChanged = (tool: Tool) => this.setState({ tool });
-    const onColorChanged = (color: Color) => this.setState({ color });
+    const onColorChanged = (color: string) => this.setState({ color });
     const onLineWidthChanged = (lineWidth: number) =>
       this.setState({ lineWidth });
     const onCancel = () => this.props.onCancel();
@@ -150,8 +158,8 @@ class EditorView extends Component<
       intl: { formatMessage },
     } = this.props;
     this.saveProperties();
-    if (image.isExported && image.content) {
-      onSave(image.content);
+    if (image.isExported && image.content && image.dimensions) {
+      onSave(image.content, image.dimensions);
     } else {
       onError(formatMessage(messages.could_not_save_image));
     }
@@ -178,8 +186,18 @@ class EditorView extends Component<
     const color = localStorage.getItem(propertyColor);
     if (color) {
       try {
+        let parsedColor = JSON.parse(color);
+        if (parsedColor.red !== undefined) {
+          // Backward compatible with already stored colors in users' local storage
+          parsedColor = rgbToHex(parsedColor);
+        } else if (
+          typeof parsedColor !== 'string' ||
+          parsedColor.indexOf('#') !== 0
+        ) {
+          parsedColor = DEFAULT_COLOR;
+        }
         this.setState({
-          color: JSON.parse(color),
+          color: parsedColor,
         });
       } catch (error) {
         // tslint:disable-next-line:no-console

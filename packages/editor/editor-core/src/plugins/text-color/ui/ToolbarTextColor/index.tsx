@@ -14,6 +14,8 @@ import {
   Wrapper,
   ExpandIconWrapper,
 } from './styles';
+import { EditorView } from 'prosemirror-view';
+import * as commands from '../../commands/change-color';
 
 export const messages = defineMessages({
   textColor: {
@@ -29,7 +31,7 @@ export interface State {
 
 export interface Props {
   pluginState: TextColorPluginState;
-  changeColor: (color: string) => void;
+  editorView: EditorView;
   popupsMountPoint?: HTMLElement;
   popupsBoundariesElement?: HTMLElement;
   popupsScrollableElement?: HTMLElement;
@@ -43,6 +45,12 @@ class ToolbarTextColor extends React.Component<
   state: State = {
     isOpen: false,
   };
+
+  changeColor = (color: string) =>
+    commands.changeColor(color)(
+      this.props.editorView.state,
+      this.props.editorView.dispatch,
+    );
 
   render() {
     const { isOpen } = this.state;
@@ -77,10 +85,12 @@ class ToolbarTextColor extends React.Component<
               iconBefore={
                 <TriggerWrapper>
                   <TextColorIcon
-                    primaryColor={this.getIconColor(
-                      pluginState.color,
-                      pluginState.defaultColor,
-                    )}
+                    primaryColor={
+                      this.getIconColor(
+                        pluginState.color,
+                        pluginState.defaultColor,
+                      ) || undefined
+                    }
                     label={labelTextColor}
                   />
                   <ExpandIconWrapper>
@@ -105,10 +115,10 @@ class ToolbarTextColor extends React.Component<
 
   private changeTextColor = withAnalytics(
     'atlassian.editor.format.textcolor.button',
-    (color, disabled) => {
+    (color: string, disabled: boolean) => {
       if (!disabled) {
         this.toggleOpen();
-        return this.props.changeColor(color);
+        return this.changeColor(color);
       }
 
       return false;
@@ -119,11 +129,14 @@ class ToolbarTextColor extends React.Component<
     this.handleOpenChange({ isOpen: !this.state.isOpen });
   };
 
-  private handleOpenChange = ({ isOpen }) => {
+  private handleOpenChange = ({ isOpen }: { isOpen: boolean }) => {
     this.setState({ isOpen });
   };
 
-  private getIconColor = (color, defaultColor): string | undefined => {
+  private getIconColor = (
+    color?: string | null,
+    defaultColor?: string,
+  ): string | undefined | null => {
     const { isOpen } = this.state;
     const isDefaultColor = defaultColor === color;
     return isOpen || isDefaultColor ? undefined : color;

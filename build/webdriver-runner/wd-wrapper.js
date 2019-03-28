@@ -1,3 +1,5 @@
+const assert = require('assert').strict;
+
 /*
  * wrapper on top of webdriver-io apis to give a feel of puppeeteer api
  */
@@ -57,6 +59,10 @@ export default class Page {
   // Navigation
   goto(url) {
     return this.browser.url(url);
+  }
+
+  hover(selector) {
+    return this.browser.moveToObject(selector).pause(500);
   }
 
   title() {
@@ -139,18 +145,19 @@ export default class Page {
   close() {
     return this.browser.close();
   }
-  checkConsoleErrors() {
+
+  async checkConsoleErrors() {
     // Console errors can only be checked in Chrome
-    if (this.isBrowser('chrome') && this.browser.log('browser').value) {
-      this.browser.logs('browser').value.forEach(val => {
-        assert.notEqual(
-          val.level,
-          'SEVERE',
-          `Those console errors :${val.message} are displayed`,
-        );
-      });
+    if (this.isBrowser('chrome')) {
+      const logs = await this.browser.log('browser');
+      if (logs.value) {
+        logs.value.forEach(val => {
+          assert.notStrictEqual(val.level, 'SEVERE', `Error : ${val.message}`);
+        });
+      }
     }
   }
+
   backspace(selector) {
     this.browser.execute(selector => {
       return document
@@ -236,8 +243,12 @@ export default class Page {
   }
 
   // Wait
-  waitForSelector(selector, options = {}) {
-    return this.browser.waitForExist(selector, options.timeout || WAIT_TIMEOUT);
+  waitForSelector(selector, options = {}, reverse = false) {
+    return this.browser.waitForExist(
+      selector,
+      options.timeout || WAIT_TIMEOUT,
+      reverse,
+    );
   }
 
   waitForVisible(selector, options = {}) {
@@ -265,30 +276,18 @@ export default class Page {
   }
 
   mockDate(timestamp, timezoneOffset) {
-    return this.browser.execute(
+    this.browser.execute(
       (t, tz) => {
-        const _Date = Date;
+        const _Date = (window._Date = window.Date);
         const realDate = params => new _Date(params);
-        const mockedDate = new _Date(t);
+        let offset = 0;
 
         if (tz) {
-          const localDateOffset = new _Date().getTimezoneOffset() / 60;
-          const dateWithTimezoneOffset = new _Date(
-            t + (tz + localDateOffset) * 3600000,
-          );
-          const localDateMethods = [
-            'getFullYear',
-            'getYear',
-            'getMonth',
-            'getDate',
-            'getDay',
-            'getHours',
-            'getMinutes',
-          ];
-          localDateMethods.forEach(dateMethod => {
-            mockedDate[dateMethod] = () => dateWithTimezoneOffset[dateMethod]();
-          });
+          localDateOffset = new _Date(t).getTimezoneOffset() / 60;
+          offset = (tz + localDateOffset) * 3600000;
         }
+
+        const mockedDate = new _Date(t + offset);
 
         Date = function(...params) {
           if (params.length > 0) {
@@ -304,6 +303,12 @@ export default class Page {
       timestamp,
       timezoneOffset,
     );
+    return () => {
+      // Teardown function
+      this.browser.execute(() => {
+        window.Date = window._Date;
+      });
+    };
   }
 }
 //TODO: Maybe wrapping all functions?

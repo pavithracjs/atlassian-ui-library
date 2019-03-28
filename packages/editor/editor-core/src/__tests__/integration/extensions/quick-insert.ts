@@ -15,7 +15,7 @@ import {
 BrowserTestCase(
   `quick-insert.ts: Extension: Quick Insert`,
   { skip: ['edge', 'ie', 'safari'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: 'full-page',
@@ -30,6 +30,6 @@ BrowserTestCase(
     await quickInsert(page, messages.action.defaultMessage);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

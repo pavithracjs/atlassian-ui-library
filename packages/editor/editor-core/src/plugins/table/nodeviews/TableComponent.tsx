@@ -3,22 +3,21 @@ import rafSchedule from 'raf-schd';
 import { Node as PmNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
 import { TableMap } from 'prosemirror-tables';
+import { EditorState } from 'prosemirror-state';
+import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
 
 import {
   browser,
   calcTableWidth,
   akEditorMobileBreakoutPoint,
+  absoluteBreakoutWidth,
 } from '@atlaskit/editor-common';
 
 import TableFloatingControls from '../ui/TableFloatingControls';
 import ColumnControls from '../ui/TableFloatingControls/ColumnControls';
 
 import { getPluginState } from '../pm-plugins/main';
-import {
-  ResizeState,
-  scaleTable,
-  setColumnWidths,
-} from '../pm-plugins/table-resizing';
+import { ResizeState, scaleTable } from '../pm-plugins/table-resizing';
 
 import { TablePluginState, TableCssClassName as ClassName } from '../types';
 import * as classnames from 'classnames';
@@ -29,6 +28,8 @@ import {
   containsHeaderRow,
   checkIfHeaderColumnEnabled,
   checkIfHeaderRowEnabled,
+  tablesHaveDifferentColumnWidths,
+  insertColgroupFromNode as recreateResizeColsByNode,
 } from '../utils';
 import { autoSizeTable } from '../actions';
 import { WidthPluginState } from '../../width';
@@ -45,21 +46,24 @@ export interface ComponentProps extends Props {
   width: number;
 }
 
-class TableComponent extends React.Component<ComponentProps> {
-  state: {
-    scroll: number;
-    tableContainerWidth: string;
-  } = {
+interface TableState {
+  scroll: number;
+  tableContainerWidth: string;
+  parentWidth?: number;
+}
+
+class TableComponent extends React.Component<ComponentProps, TableState> {
+  state = {
     scroll: 0,
     tableContainerWidth: 'inherit',
+    parentWidth: undefined,
   };
 
   private wrapper: HTMLDivElement | null;
   private table: HTMLTableElement | null;
   private rightShadow: HTMLDivElement | null;
-  private columnControls: React.Component | null;
 
-  constructor(props) {
+  constructor(props: ComponentProps) {
     super(props);
 
     // Disable inline table editing and resizing controls in Firefox
@@ -81,21 +85,33 @@ class TableComponent extends React.Component<ComponentProps> {
     }
 
     if (allowColumnResizing) {
-      const { node, containerWidth } = this.props;
-
-      setColumnWidths(
-        this.table,
+      const {
+        view,
         node,
-        containerWidth.width,
-        node.attrs.layout,
-      );
+        containerWidth,
+        getPos,
+        dynamicTextSizing,
+      } = this.props;
 
-      this.setState(() => ({
-        tableContainerWidth: calcTableWidth(
-          node.attrs.layout,
+      if (node.attrs.__autoSize === false) {
+        const parentWidth = this.getParentNodeWidth(
+          view.state,
           containerWidth.width,
-        ),
-      }));
+        );
+        this.scaleTableDebounced(
+          view,
+          this.table,
+          node,
+          node,
+          getPos(),
+          containerWidth.width,
+          true,
+          parentWidth,
+          dynamicTextSizing,
+        );
+      }
+
+      this.updateTableContainerWidth();
     }
   }
 
@@ -107,14 +123,19 @@ class TableComponent extends React.Component<ComponentProps> {
     this.handleScrollDebounced.cancel();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: ComponentProps) {
     updateRightShadow(this.wrapper, this.table, this.rightShadow);
 
     if (this.props.node.attrs.__autoSize) {
       // Wait for next tick to handle auto sizing, gives the browser time to do layout calc etc.
       this.handleAutoSizeDebounced();
     } else if (this.props.allowColumnResizing && this.table) {
-      this.handleTableResizing(prevProps);
+      // If col widths have changed (e.g. via collab), re-draw colgroup.
+      if (tablesHaveDifferentColumnWidths(this.props.node, prevProps.node)) {
+        recreateResizeColsByNode(this.table, this.props.node);
+      }
+
+      this.handleTableResizingDebounced(prevProps);
     }
   }
 
@@ -178,7 +199,6 @@ class TableComponent extends React.Component<ComponentProps> {
         <ColumnControls
           editorView={view}
           tableRef={tableRef}
-          ref={elem => (this.columnControls = elem)}
           hoveredColumns={hoveredColumns}
           isInDanger={isInDanger}
           isResizing={isResizing}
@@ -233,10 +253,14 @@ class TableComponent extends React.Component<ComponentProps> {
     this.setState({ scroll: this.wrapper.scrollLeft });
   };
 
-  private handleScrollDebounced = rafSchedule(this.handleScroll);
-
-  private handleTableResizing(prevProps) {
-    const { view, node, getPos, containerWidth } = this.props;
+  private handleTableResizing = (prevProps: ComponentProps) => {
+    const {
+      view,
+      node,
+      getPos,
+      containerWidth,
+      dynamicTextSizing,
+    } = this.props;
 
     const prevAttrs = prevProps.node.attrs;
     const currentAttrs = node.attrs;
@@ -244,43 +268,131 @@ class TableComponent extends React.Component<ComponentProps> {
     const prevMap = TableMap.get(prevProps.node);
     const currentMap = TableMap.get(node);
 
+    // We only consider a layout change valid if it's done outside of an autoSize.
+    const layoutChanged =
+      prevAttrs.layout !== currentAttrs.layout &&
+      prevAttrs.__autoSize === currentAttrs.__autoSize;
+
+    const parentWidth = this.getParentNodeWidth(
+      view.state,
+      containerWidth.width,
+    );
+    const parentWidthChanged =
+      parentWidth && parentWidth !== this.state.parentWidth;
+
     if (
+      layoutChanged ||
+      parentWidthChanged ||
       prevMap.width !== currentMap.width ||
-      prevAttrs.layout !== currentAttrs.layout ||
-      prevAttrs.isNumberColumnEnabled !== currentAttrs.isNumberColumnEnabled ||
-      prevAttrs.__autoSize !== currentAttrs.__autoSize ||
-      prevProps.containerWidth !== containerWidth
+      prevProps.containerWidth !== containerWidth ||
+      prevAttrs.isNumberColumnEnabled !== currentAttrs.isNumberColumnEnabled
     ) {
       scaleTable(
         view,
         this.table,
         node,
+        prevProps.node,
         getPos(),
         containerWidth.width,
-        currentAttrs.layout,
+        false,
+        parentWidth,
+        dynamicTextSizing,
       );
 
-      if (this.columnControls) {
-        this.columnControls.forceUpdate();
-      }
-
-      this.setState(() => ({
-        tableContainerWidth: calcTableWidth(
-          currentAttrs.layout,
-          containerWidth.width,
-        ),
-      }));
+      this.updateParentWidth(parentWidth);
     }
-  }
+
+    this.updateTableContainerWidth();
+  };
 
   private handleAutoSize = () => {
     if (this.table) {
-      const { view, node, getPos } = this.props;
-      const { state, dispatch } = view;
-      autoSizeTable(node, this.table, getPos())(state, dispatch);
+      const {
+        view,
+        node,
+        getPos,
+        dynamicTextSizing = false,
+        containerWidth,
+      } = this.props;
+
+      autoSizeTable(view, node, this.table, getPos(), {
+        dynamicTextSizing,
+        containerWidth: containerWidth.width,
+      });
     }
   };
 
+  private updateTableContainerWidth = () => {
+    const { node, containerWidth } = this.props;
+    this.setState((prevState: TableState) => {
+      const tableContainerWidth = calcTableWidth(
+        node.attrs.layout,
+        containerWidth.width,
+      );
+
+      if (prevState.tableContainerWidth === tableContainerWidth) {
+        return null;
+      }
+
+      return {
+        tableContainerWidth,
+      };
+    });
+  };
+
+  private getParentNode = (state: EditorState) => {
+    const pos = this.props.getPos();
+
+    if (!pos) {
+      return;
+    }
+
+    const $pos = state.doc.resolve(pos);
+    const parent = findParentNodeOfTypeClosestToPos($pos, [
+      state.schema.nodes.bodiedExtension,
+      state.schema.nodes.layoutSection,
+    ]);
+
+    return parent && parent.node;
+  };
+
+  private getParentNodeWidth = (state: EditorState, containerWidth: number) => {
+    const node = this.getParentNode(state);
+
+    if (!node) {
+      return;
+    }
+
+    if (node.attrs.layout) {
+      return absoluteBreakoutWidth(node.attrs.layout, containerWidth);
+    }
+
+    let parentWidth = absoluteBreakoutWidth('default', containerWidth);
+
+    const { schema } = state;
+    const breakoutMark =
+      schema.marks.breakout && schema.marks.breakout.isInSet(node.marks);
+    if (breakoutMark && breakoutMark.attrs.mode) {
+      parentWidth = absoluteBreakoutWidth(
+        breakoutMark.attrs.mode,
+        containerWidth,
+      );
+    }
+
+    if (node.type === schema.nodes.layoutSection) {
+      parentWidth = parentWidth / node.childCount;
+    }
+
+    return parentWidth;
+  };
+
+  private updateParentWidth = (width?: number) => {
+    this.setState({ parentWidth: width });
+  };
+
+  private scaleTableDebounced = rafSchedule(scaleTable);
+  private handleTableResizingDebounced = rafSchedule(this.handleTableResizing);
+  private handleScrollDebounced = rafSchedule(this.handleScroll);
   private handleAutoSizeDebounced = rafSchedule(this.handleAutoSize);
 }
 

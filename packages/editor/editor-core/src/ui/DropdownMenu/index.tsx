@@ -16,25 +16,28 @@ export interface Props {
   boundariesElement?: HTMLElement;
   scrollableElement?: HTMLElement;
   isOpen?: boolean;
-  onOpenChange?: (attrs) => void;
-  onItemActivated?: (attrs) => void;
-  onMouseEnter?: (attrs) => void;
-  onMouseLeave?: (attrs) => void;
+  onOpenChange?: (attrs: any) => void;
+  onItemActivated?: (attrs: any) => void;
+  onMouseEnter?: (attrs: any) => void;
+  onMouseLeave?: (attrs: any) => void;
   fitWidth?: number;
   fitHeight?: number;
   offset?: Array<number>;
   zIndex?: number;
   items: Array<{
-    items: Array<{
-      content: string | ReactElement<any>;
-      elemBefore?: React.ReactNode;
-      elemAfter?: React.ReactNode;
-      tooltipDescription?: string;
-      tooltipPosition?: string;
-      isActive: boolean;
-      isDisabled?: boolean;
-    }>;
+    items: MenuItem[];
   }>;
+}
+
+export interface MenuItem {
+  key?: string;
+  content: string | ReactElement<any>;
+  elemBefore?: React.ReactNode;
+  elemAfter?: React.ReactNode;
+  tooltipDescription?: string;
+  tooltipPosition?: string;
+  isActive: boolean;
+  isDisabled?: boolean;
 }
 
 export interface State {
@@ -69,11 +72,11 @@ export default class DropdownMenuWrapper extends PureComponent<Props, State> {
     popupPlacement: ['bottom', 'left'],
   };
 
-  private handleRef = target => {
-    this.setState({ target });
+  private handleRef = (target: HTMLElement | null) => {
+    this.setState({ target: target || undefined });
   };
 
-  private updatePopupPlacement = placement => {
+  private updatePopupPlacement = (placement: [string, string]) => {
     this.setState({ popupPlacement: placement });
   };
 
@@ -83,13 +86,13 @@ export default class DropdownMenuWrapper extends PureComponent<Props, State> {
     }
   };
 
-  private renderItem(item) {
+  private renderItem(item: typeof Item) {
     const { onItemActivated, onMouseEnter, onMouseLeave } = this.props;
 
     // onClick and value.name are the action indicators in the handlers
     // If neither are present, don't wrap in an Item.
     if (!item.onClick && !item.value && !item.value.name) {
-      return <span key={item.content}>{item.content}</span>;
+      return <span key={String(item.content)}>{item.content}</span>;
     }
 
     const dropListItem = (

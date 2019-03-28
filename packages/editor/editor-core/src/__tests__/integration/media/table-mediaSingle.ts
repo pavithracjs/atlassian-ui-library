@@ -15,7 +15,7 @@ import {
 BrowserTestCase(
   'table-mediaSingle.ts: Can insert media single into table',
   { skip: ['edge', 'ie', 'safari', 'firefox'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -38,6 +38,6 @@ BrowserTestCase(
     await insertMedia(page);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

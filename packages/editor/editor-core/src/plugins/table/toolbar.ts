@@ -1,13 +1,7 @@
 import { defineMessages } from 'react-intl';
 import RemoveIcon from '@atlaskit/icon/glyph/editor/remove';
-import SettingsIcon from '@atlaskit/icon/glyph/editor/settings';
 
 import commonMessages from '../../messages';
-import { Command } from '../../types';
-import {
-  analyticsService as analytics,
-  AnalyticsProperties,
-} from '../../analytics';
 import { FloatingToolbarHandler } from '../floating-toolbar/types';
 import { TablePluginState } from './types';
 import { pluginKey } from './pm-plugins/main';
@@ -15,19 +9,18 @@ import {
   pluginKey as tableResizingPluginKey,
   ResizeState,
 } from './pm-plugins/table-resizing/index';
-import {
-  hoverTable,
-  deleteTable,
-  clearHoverSelection,
-  toggleHeaderRow,
-  toggleHeaderColumn,
-  toggleNumberColumn,
-} from './actions';
+import { hoverTable, clearHoverSelection } from './actions';
 import {
   checkIfHeaderRowEnabled,
   checkIfHeaderColumnEnabled,
   checkIfNumberColumnEnabled,
 } from './utils';
+import {
+  toggleHeaderRowWithAnalytics,
+  toggleHeaderColumnWithAnalytics,
+  toggleNumberColumnWithAnalytics,
+  deleteTableWithAnalytics,
+} from './actions-with-analytics';
 
 export const messages = defineMessages({
   tableOptions: {
@@ -52,15 +45,6 @@ export const messages = defineMessages({
   },
 });
 
-const withAnalytics = (
-  command: Command,
-  eventName: string,
-  properties?: AnalyticsProperties,
-): Command => (state, dispatch) => {
-  analytics.trackEvent(eventName, properties);
-  return command(state, dispatch);
-};
-
 export const getToolbarConfig: FloatingToolbarHandler = (
   state,
   { formatMessage },
@@ -84,36 +68,26 @@ export const getToolbarConfig: FloatingToolbarHandler = (
         {
           type: 'dropdown',
           title: formatMessage(messages.tableOptions),
-          icon: SettingsIcon,
           hidden: !(
             pluginConfig.allowHeaderRow && pluginConfig.allowHeaderColumn
           ),
           options: [
             {
               title: formatMessage(messages.headerRow),
-              onClick: withAnalytics(
-                toggleHeaderRow,
-                'atlassian.editor.format.table.toggleHeaderRow.button',
-              ),
+              onClick: toggleHeaderRowWithAnalytics(),
               selected: checkIfHeaderRowEnabled(state),
               hidden: !pluginConfig.allowHeaderRow,
             },
             {
               title: formatMessage(messages.headerColumn),
-              onClick: withAnalytics(
-                toggleHeaderColumn,
-                'atlassian.editor.format.table.toggleHeaderColumn.button',
-              ),
+              onClick: toggleHeaderColumnWithAnalytics(),
               selected: checkIfHeaderColumnEnabled(state),
               hidden: !pluginConfig.allowHeaderColumn,
             },
             {
               title: formatMessage(messages.numberedColumn),
+              onClick: toggleNumberColumnWithAnalytics(),
               selected: checkIfNumberColumnEnabled(state),
-              onClick: withAnalytics(
-                toggleNumberColumn,
-                'atlassian.editor.format.table.toggleNumberColumn.button',
-              ),
               hidden: !pluginConfig.allowNumberColumn,
             },
           ],
@@ -131,7 +105,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
           type: 'button',
           appearance: 'danger',
           icon: RemoveIcon,
-          onClick: deleteTable,
+          onClick: deleteTableWithAnalytics(),
           disabled: !!resizeState && !!resizeState.dragging,
           onMouseEnter: hoverTable(true),
           onMouseLeave: clearHoverSelection,

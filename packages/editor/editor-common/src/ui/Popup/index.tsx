@@ -11,8 +11,10 @@ import {
 
 export interface Props {
   zIndex?: number;
-  alignX?: 'left' | 'right' | 'center';
-  alignY?: 'top' | 'bottom';
+  // The alignments are using the same placements from Popper
+  // https://popper.js.org/popper-documentation.html#Popper.placements
+  alignX?: 'left' | 'right' | 'center' | 'end';
+  alignY?: 'top' | 'bottom' | 'start';
   target?: HTMLElement;
   fitHeight?: number;
   fitWidth?: number;
@@ -25,6 +27,7 @@ export interface Props {
   scrollableElement?: HTMLElement;
   stick?: boolean;
   ariaLabel?: string;
+  forcePlacement?: boolean;
 }
 
 export interface State {
@@ -63,6 +66,7 @@ export default class Popup extends React.Component<Props, State> {
       alignX,
       alignY,
       stick,
+      forcePlacement,
     } = props;
     const { popup } = state;
 
@@ -77,6 +81,7 @@ export default class Popup extends React.Component<Props, State> {
       fitHeight,
       alignX,
       alignY,
+      forcePlacement,
     );
     if (onPlacementChanged && this.placement.join('') !== placement.join('')) {
       onPlacementChanged(placement);
@@ -95,7 +100,11 @@ export default class Popup extends React.Component<Props, State> {
     this.setState({ position });
   }
 
-  private cannotSetPopup(popup, target, overflowScrollParent) {
+  private cannotSetPopup(
+    popup: HTMLElement,
+    target?: HTMLElement,
+    overflowScrollParent?: HTMLElement | false,
+  ) {
     /**
      * Check whether:
      * 1. Popup's offset targets which means whether or not its possible to correctly position popup along with given target.
@@ -105,6 +114,7 @@ export default class Popup extends React.Component<Props, State> {
      * Add "position: relative" to "overflow: scroll" container or to some other FloatingPanel wrapper inside it.
      */
     return (
+      !target ||
       (document.body.contains(target) &&
         (popup.offsetParent && !popup.offsetParent.contains(target!))) ||
       (overflowScrollParent &&
@@ -138,7 +148,7 @@ export default class Popup extends React.Component<Props, State> {
     this.initPopup(popup);
   };
 
-  private scheduledUpdatePosition = rafSchedule(props =>
+  private scheduledUpdatePosition = rafSchedule((props: Props) =>
     this.updatePosition(props),
   );
 

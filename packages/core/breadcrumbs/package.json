@@ -1,30 +1,26 @@
 {
   "name": "@atlaskit/breadcrumbs",
-  "version": "6.0.14",
+  "version": "7.0.2",
   "description": "A component used for navigation, with each item acting as a link",
   "license": "Apache-2.0",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
+  "module": "index.js",
   "atlaskit:src": "src/index.js",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/breadcrumbs",
   "sideEffects": false,
-  "files": [
-    "dist"
-  ],
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "Raja B",
-    "Ben C",
-    "Ajay M"
+    "Sean C",
+    "Ajay M",
+    "Daniel D",
+    "Kang C"
   ],
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^3.1.2",
-    "@atlaskit/button": "^10.1.1",
-    "@atlaskit/theme": "^7.0.1",
-    "@atlaskit/tooltip": "^12.1.13",
-    "@babel/runtime": "^7.0.0",
-    "babel-runtime": "^6.26.0"
+    "@atlaskit/analytics-next": "^4.0.2",
+    "@atlaskit/button": "^11.0.5",
+    "@atlaskit/theme": "^8.0.1",
+    "@atlaskit/tooltip": "^13.0.1",
+    "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {
     "react": "^16.4.0",
@@ -33,9 +29,10 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/docs": "^6.0.0",
-    "@atlaskit/logo": "^9.2.6",
-    "@atlaskit/select": "^6.1.13",
+    "@atlaskit/docs": "^7.0.1",
+    "@atlaskit/logo": "^10.0.1",
+    "@atlaskit/select": "^8.0.3",
+    "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/visual-regression": "^0.0.1",
     "enzyme": "^3.7.0",
     "jest-in-case": "^1.0.2",

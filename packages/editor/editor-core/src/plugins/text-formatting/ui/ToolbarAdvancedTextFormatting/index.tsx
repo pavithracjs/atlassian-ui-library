@@ -23,7 +23,8 @@ import {
   Shortcut,
 } from '../../../../ui/styles';
 import * as commands from '../../commands/text-formatting';
-import { clearFormatting } from '../../commands/clear-formatting';
+import { clearFormattingWithAnalytics } from '../../commands/clear-formatting';
+import { INPUT_METHOD } from '../../../analytics';
 
 export interface Props {
   isDisabled?: boolean;
@@ -259,43 +260,65 @@ class ToolbarAdvancedTextFormatting extends PureComponent<
   };
 
   private addRecordToItems = (
-    items,
-    content,
-    value,
-    tooltip?,
+    items: Array<any>,
+    content: string,
+    value: string,
+    tooltip?: string,
     isDisabled?: boolean,
   ) => {
+    let active = false;
+    let disabled = false;
+    if (this.props.textFormattingState) {
+      active =
+        this.props.textFormattingState![
+          `${value}Active` as keyof TextFormattingState
+        ] || false;
+      disabled =
+        isDisabled ||
+        this.props.textFormattingState![
+          `${value}Disabled` as keyof TextFormattingState
+        ] ||
+        false;
+    }
     items.push({
       key: value,
       content,
       elemAfter: <Shortcut>{tooltip}</Shortcut>,
       value,
-      isActive: this.state[`${value}Active`],
-      isDisabled: isDisabled || this.state[`${value}Disabled`],
+      isActive: active,
+      isDisabled: disabled,
     });
   };
 
-  private onItemActivated = ({ item }) => {
+  private onItemActivated = ({ item }: { item: any }) => {
     analyticsService.trackEvent(`atlassian.editor.format.${item.value}.button`);
+
     const { state, dispatch } = this.props.editorView;
     switch (item.value) {
       case 'underline':
-        commands.toggleUnderline()(state, dispatch);
+        commands.toggleUnderlineWithAnalytics({
+          inputMethod: INPUT_METHOD.TOOLBAR,
+        })(state, dispatch);
         break;
       case 'code':
-        commands.toggleCode()(state, dispatch);
+        commands.toggleCodeWithAnalytics({ inputMethod: INPUT_METHOD.TOOLBAR })(
+          state,
+          dispatch,
+        );
         break;
       case 'strike':
-        commands.toggleStrike()(state, dispatch);
+        commands.toggleStrikeWithAnalytics({
+          inputMethod: INPUT_METHOD.TOOLBAR,
+        })(state, dispatch);
         break;
       case 'subscript':
-        commands.toggleSubscript()(state, dispatch);
+        commands.toggleSubscriptWithAnalytics()(state, dispatch);
         break;
       case 'superscript':
-        commands.toggleSuperscript()(state, dispatch);
+        commands.toggleSuperscriptWithAnalytics()(state, dispatch);
         break;
       case 'clearFormatting':
-        clearFormatting()(state, dispatch);
+        clearFormattingWithAnalytics(INPUT_METHOD.TOOLBAR)(state, dispatch);
         break;
     }
     this.setState({ isOpen: false });

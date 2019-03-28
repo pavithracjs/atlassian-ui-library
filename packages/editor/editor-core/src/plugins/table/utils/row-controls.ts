@@ -17,7 +17,8 @@ export const getRowHeights = (tableRef: HTMLTableElement): number[] => {
   const heights: number[] = [];
   const rows = tableRef.querySelectorAll('tr');
   for (let i = 0, count = rows.length; i < count; i++) {
-    heights[i] = rows[i].offsetHeight + 1;
+    const rect = rows[i].getBoundingClientRect();
+    heights[i] = (rect ? rect.height : rows[i].offsetHeight) + 1;
   }
   return heights;
 };
@@ -64,7 +65,7 @@ export const getRowDeleteButtonParams = (
   for (let i = 0; i < rect.top; i++) {
     const rowHeight = rowsHeights[i];
     if (rowHeight) {
-      offset += rowHeight - 2;
+      offset += rowHeight - 1;
     }
   }
   // these are the selected rows widths
@@ -72,7 +73,7 @@ export const getRowDeleteButtonParams = (
   for (let i = rect.top; i < rect.bottom; i++) {
     const rowHeight = rowsHeights[i];
     if (rowHeight) {
-      height += rowHeight - 2;
+      height += rowHeight - 1;
       indexes.push(i);
     }
   }

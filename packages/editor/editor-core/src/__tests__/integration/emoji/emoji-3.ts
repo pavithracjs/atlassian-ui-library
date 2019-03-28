@@ -1,21 +1,22 @@
 import { BrowserTestCase } from '@atlaskit/webdriver-runner/runner';
-import { getDocFromElement, editable } from '../_helpers';
-import {
-  insertEmoji,
-  emojiItem,
-  typeahead,
-  highlightEmojiInTypeahead,
-} from './_emoji-helpers';
 import {
   mountEditor,
   goToEditorTestingExample,
 } from '../../__helpers/testing-example-helpers';
+import {
+  getDocFromElement,
+  editable,
+  insertEmoji,
+  emojiItem,
+  typeahead,
+  highlightEmojiInTypeahead,
+} from '../_helpers';
 
 // safari failure on browserstack
 BrowserTestCase(
   'emoji-3.ts: user can navigate typeahead using keyboard',
-  { skip: ['safari', 'ie', 'firefox', 'edge'] },
-  async client => {
+  { skip: ['safari', 'ie', 'edge'] },
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
     await page.type(editable, ':');
@@ -30,15 +31,15 @@ BrowserTestCase(
     await page.type(editable, 'Return');
     await page.waitForSelector(emojiItem('smile'), 1000);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 // issue with safari on browserstack works on local
 BrowserTestCase(
   'emoji-3.ts: should select emoji on return',
-  { skip: ['safari', 'ie', 'firefox', 'edge'] },
-  async client => {
+  { skip: ['safari', 'ie', 'edge'] },
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
     await page.type(editable, ':');
@@ -52,43 +53,43 @@ BrowserTestCase(
     await page.type(editable, 'Return');
     await page.waitForSelector(emojiItem('wink'), 1000);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'emoji-3.ts: should render emoji inside codeblock',
-  { skip: ['safari', 'ie', 'firefox', 'edge'] },
-  async client => {
+  { skip: ['safari', 'ie', 'edge'] },
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page', allowCodeBlocks: true });
     await page.type(editable, '```');
     await page.waitForSelector('pre', 1000);
     await page.type(editable, ':smile:');
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 // BUG on IE
 BrowserTestCase(
   'emoji-3.ts: should render emoji inside action',
-  { skip: ['safari', 'ie', 'firefox', 'edge'] },
-  async client => {
+  { skip: ['safari', 'ie', 'edge'] },
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
     await page.type(editable, '[] ');
     await insertEmoji(page, 'smile');
     await page.waitForSelector(emojiItem('smile'), 1000);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'emoji-3.ts: should not show typeahead with text: ',
   { skip: ['ie'] },
-  async client => {
+  async (client: any) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
     await page.type(editable, 'text: ');
@@ -99,7 +100,7 @@ BrowserTestCase(
 BrowserTestCase(
   'emoji-3.ts: ":<space>" does not show the picker',
   { skip: ['ie'] },
-  async client => {
+  async (client: any) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page' });
     await page.type(editable, ': ');

@@ -1,11 +1,9 @@
 // @flow
-import React, { createContext, type Node, type Ref } from 'react';
-import {
-  createForm,
-  type FieldState,
-  type FieldSubscription,
-} from 'final-form';
+import { createForm } from 'final-form';
 import createDecorator from 'final-form-focus';
+import React, { createContext } from 'react';
+import type { FieldState, FieldSubscription } from 'final-form';
+import type { Node, Ref } from 'react';
 
 export const FormContext = createContext();
 export const IsDisabledContext = createContext(false);
@@ -13,6 +11,7 @@ export const IsDisabledContext = createContext(false);
 type FormProps = {
   ref: Ref<'form'>,
   onSubmit: (SyntheticEvent<HTMLFormElement> | any) => any,
+  onKeyDown: (SyntheticKeyboardEvent<HTMLFormElement>) => void,
 };
 
 type Props = {
@@ -22,6 +21,7 @@ type Props = {
     disabled: boolean,
     dirty: boolean,
     submitting: boolean,
+    getValues: () => ?Object,
   }) => Node,
   /* Called when the form is submitted without errors */
   onSubmit: Object => any,
@@ -78,6 +78,10 @@ class Form extends React.Component<Props, State> {
     submitting: false,
   };
 
+  getValues = (): ?Object => {
+    return this.form.getState().values;
+  };
+
   componentDidMount() {
     this.unsubscribe = this.form.subscribe(
       ({ submitting, dirty }) => {
@@ -122,6 +126,16 @@ class Form extends React.Component<Props, State> {
     }
   };
 
+  handleKeyDown = (e: SyntheticKeyboardEvent<HTMLFormElement>) => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey) && this.formRef.current) {
+      const submitButton = this.formRef.current.querySelector(
+        'button:not([type]), button[type="submit"], input[type="submit"]',
+      );
+      if (submitButton) submitButton.click();
+      e.preventDefault();
+    }
+  };
+
   render() {
     const { isDisabled, children } = this.props;
     const { dirty, submitting } = this.state;
@@ -132,10 +146,12 @@ class Form extends React.Component<Props, State> {
             formProps: {
               onSubmit: this.handleSubmit,
               ref: this.formRef,
+              onKeyDown: this.handleKeyDown,
             },
             dirty,
             submitting,
             disabled: isDisabled,
+            getValues: this.getValues,
           })}
         </IsDisabledContext.Provider>
       </FormContext.Provider>

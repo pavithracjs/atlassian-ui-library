@@ -3,7 +3,6 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
-import { colors } from '@atlaskit/theme';
 import PubSubClient from '@atlaskit/pubsub';
 
 import Editor from './../src/editor';
@@ -18,6 +17,7 @@ import { EmojiProvider } from '@atlaskit/emoji';
 import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
 import { extensionHandlers } from '../example-helpers/extension-handlers';
 import { CollabProvider } from '../src/plugins/collab-edit';
+import { EditorActions } from '../src';
 
 export const getRandomUser = () => {
   return Math.floor(Math.random() * 10000).toString();
@@ -39,19 +39,6 @@ const pubSubClient = new PubSubClient({
   },
 });
 
-export const TitleInput: any = styled.input`
-  border: none;
-  outline: none;
-  font-size: 2.07142857em;
-  margin: 0 0 21px;
-  padding: 0;
-
-  &::placeholder {
-    color: ${colors.akColorN80};
-  }
-`;
-TitleInput.displayName = 'TitleInput';
-
 export const Content: any = styled.div`
   padding: 0 20px;
   height: 50%;
@@ -60,9 +47,10 @@ export const Content: any = styled.div`
 `;
 Content.displayName = 'Content';
 
-const analyticsHandler = (actionName, props) => console.log(actionName, props);
+const analyticsHandler = (actionName: string, props?: {}) =>
+  console.log(actionName, props);
 
-const SaveAndCancelButtons = props => (
+const SaveAndCancelButtons = (props: { editorActions: EditorActions }) => (
   <ButtonGroup>
     <Button
       appearance="primary"
@@ -90,7 +78,7 @@ class DropzoneEditorWrapper extends React.Component<
 > {
   dropzoneContainer: HTMLElement | null = null;
 
-  handleRef = node => {
+  handleRef = (node: HTMLElement) => {
     this.dropzoneContainer = node;
     this.forceUpdate();
   };
@@ -124,10 +112,8 @@ export default class Example extends React.Component<Props, State> {
     hasError: false,
   };
 
-  componentDidCatch(error, info) {
-    this.setState({
-      hasError: true,
-    });
+  componentDidCatch() {
+    this.setState({ hasError: true });
   }
 
   renderErrorFlag() {
@@ -173,6 +159,7 @@ export default class Example extends React.Component<Props, State> {
               <Editor
                 appearance="full-page"
                 analyticsHandler={analyticsHandler}
+                allowAnalyticsGASV3={true}
                 allowCodeBlocks={true}
                 allowLayouts={true}
                 allowLists={true}
@@ -247,7 +234,7 @@ export default class Example extends React.Component<Props, State> {
     );
   }
 
-  private handleRef = input => {
+  private handleRef = (input: HTMLInputElement) => {
     this.setState({ input });
   };
 

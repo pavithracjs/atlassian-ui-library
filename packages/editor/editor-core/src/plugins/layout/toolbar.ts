@@ -21,7 +21,7 @@ import {
   getPresetLayout,
   PresetLayout,
 } from './actions';
-import { createBreakoutToolbarItems } from '../breakout/utils/create-breakout-toolbar-items';
+import { hoverDecoration } from '../base/pm-plugins/decoration';
 
 export const messages = defineMessages({
   twoColumns: {
@@ -73,12 +73,6 @@ export const buildToolbar = (
   if (node) {
     const currentLayout = getPresetLayout(node);
 
-    const breakoutToolbar = allowBreakout
-      ? createBreakoutToolbarItems(state, {
-          formatMessage: intl.formatMessage,
-        })
-      : null;
-
     const separator: FloatingToolbarSeparator = {
       type: 'separator',
     };
@@ -89,6 +83,8 @@ export const buildToolbar = (
       icon: RemoveIcon,
       title: intl.formatMessage(commonMessages.remove),
       onClick: deleteActiveLayoutNode,
+      onMouseEnter: hoverDecoration(true),
+      onMouseLeave: hoverDecoration(false),
     };
 
     return {
@@ -98,7 +94,6 @@ export const buildToolbar = (
       nodeType: state.schema.nodes.layoutSection,
       items: [
         ...LAYOUT_TYPES.map(i => buildLayoutButton(intl, i, currentLayout)),
-        ...(breakoutToolbar ? [separator, ...breakoutToolbar] : []),
         separator,
         deleteButton,
       ],

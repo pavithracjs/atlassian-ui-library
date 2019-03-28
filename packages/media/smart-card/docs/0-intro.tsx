@@ -24,7 +24,7 @@ export default md`
 ${(
   <Props
     heading="renderCardWithData Props"
-    props={require('!!extract-react-types-loader!../src/Card/renderCardWithData')}
+    props={require('!!extract-react-types-loader!../src/view/CardWithData')}
   />
 )}
 

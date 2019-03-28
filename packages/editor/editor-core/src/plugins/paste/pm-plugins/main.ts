@@ -9,17 +9,17 @@ import { MarkdownTransformer } from '@atlaskit/editor-markdown-transformer';
 import { analyticsService } from '../../../analytics';
 import * as clipboard from '../../../utils/clipboard';
 import { EditorAppearance } from '../../../types';
-import { insertMediaAsMediaSingle } from '../../media/utils/media-single';
+import {
+  insertMediaAsMediaSingle,
+  transformSliceForMedia,
+} from '../../media/utils/media-single';
 import linkify from '../linkify-md-plugin';
 import { escapeLinks, getPasteSource } from '../util';
 import { transformSliceToRemoveOpenBodiedExtension } from '../../extension/actions';
 import { transformSliceToRemoveOpenLayoutNodes } from '../../layout/utils';
 import { linkifyContent } from '../../hyperlink/utils';
 import { pluginKey as tableStateKey } from '../../table/pm-plugins/main';
-import {
-  transformSliceToRemoveOpenTable,
-  transformSliceToRemoveNumberColumn,
-} from '../../table/utils';
+import { transformSliceToRemoveOpenTable } from '../../table/utils';
 import { transformSliceToAddTableHeaders } from '../../table/actions';
 import {
   handlePasteIntoTaskAndDecision,
@@ -87,6 +87,9 @@ export function createPlugin(
           return true;
         }
 
+        // transform slices based on destination
+        slice = transformSliceForMedia(slice, schema)(state.selection);
+
         // send analytics
         if (hasParentNodeOfType([decisionItem, taskItem])(state.selection)) {
           analyticsService.trackEvent(
@@ -129,7 +132,6 @@ export function createPlugin(
         }
 
         if (
-          editorAppearance !== 'message' &&
           slice.content.childCount === 1 &&
           slice.content.firstChild!.type === media
         ) {
@@ -228,9 +230,6 @@ export function createPlugin(
         return false;
       },
       transformPasted(slice) {
-        // remove table number column if its part of the node
-        slice = transformSliceToRemoveNumberColumn(slice, schema);
-
         /** If a partial paste of table, paste only table's content */
         slice = transformSliceToRemoveOpenTable(slice, schema);
 

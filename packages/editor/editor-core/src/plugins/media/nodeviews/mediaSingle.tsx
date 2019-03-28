@@ -2,8 +2,18 @@ import * as React from 'react';
 import { Component } from 'react';
 import { Node as PMNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-import { MediaSingleLayout } from '@atlaskit/adf-schema';
-import { MediaSingle, WithProviders } from '@atlaskit/editor-common';
+import {
+  MediaSingleLayout,
+  MediaAttributes,
+  ExternalMediaAttributes,
+} from '@atlaskit/adf-schema';
+import {
+  MediaSingle,
+  WithProviders,
+  DEFAULT_IMAGE_HEIGHT,
+  DEFAULT_IMAGE_WIDTH,
+  browser,
+} from '@atlaskit/editor-common';
 import { CardEvent } from '@atlaskit/media-card';
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
 import { stateKey, MediaPluginState } from '../pm-plugins/main';
@@ -18,11 +28,8 @@ import { createDisplayGrid } from '../../../plugins/grid';
 import { EventDispatcher } from '../../../event-dispatcher';
 import { MediaProvider } from '../types';
 import { EditorAppearance } from '../../../types';
-import { browser } from '@atlaskit/editor-common';
 import { Context } from '@atlaskit/media-core';
-
-const DEFAULT_WIDTH = 250;
-const DEFAULT_HEIGHT = 200;
+import { PortalProviderAPI } from '../../../ui/PortalProvider';
 
 export interface MediaSingleNodeProps {
   node: PMNode;
@@ -54,18 +61,11 @@ export default class MediaSingleNode extends Component<
     viewContext: undefined,
   };
 
-  constructor(props) {
+  constructor(props: MediaSingleNodeProps) {
     super(props);
     this.mediaPluginState = stateKey.getState(
       this.props.view.state,
     ) as MediaPluginState;
-  }
-
-  componentDidUpdate() {
-    const { layout } = this.props.node.attrs;
-    if (this.props.selected()) {
-      this.mediaPluginState.updateLayout(layout);
-    }
   }
 
   async componentDidMount() {
@@ -89,14 +89,23 @@ export default class MediaSingleNode extends Component<
     }
   }
 
-  async getRemoteDimensions() {
+  async getRemoteDimensions(): Promise<
+    false | { id: string; height: number; width: number }
+  > {
     const mediaProvider = await this.props.mediaProvider;
-    if (!mediaProvider || !this.props.node.firstChild) {
+    const { firstChild } = this.props.node;
+    if (!mediaProvider || !firstChild) {
       return false;
     }
-    const { id, collection, height, width } = this.props.node.firstChild.attrs;
+    const { height, type, width } = firstChild.attrs as
+      | MediaAttributes
+      | ExternalMediaAttributes;
+    if (type === 'external') {
+      return false;
+    }
+    const { id, collection } = firstChild.attrs as MediaAttributes;
     if (height && width) {
-      return;
+      return false;
     }
     const viewContext = await mediaProvider.viewContext;
     const state = await viewContext.getImageMetadata(id, {
@@ -109,12 +118,18 @@ export default class MediaSingleNode extends Component<
 
     return {
       id,
-      height: state.original.height,
-      width: state.original.width,
+      height: state.original.height || DEFAULT_IMAGE_HEIGHT,
+      width: state.original.width || DEFAULT_IMAGE_WIDTH,
     };
   }
 
-  private onExternalImageLoaded = ({ width, height }) => {
+  private onExternalImageLoaded = ({
+    width,
+    height,
+  }: {
+    width: number;
+    height: number;
+  }) => {
     this.setState(
       {
         width,
@@ -166,11 +181,11 @@ export default class MediaSingleNode extends Component<
       const { width: stateWidth, height: stateHeight } = this.state;
 
       if (width === null) {
-        width = stateWidth || DEFAULT_WIDTH;
+        width = stateWidth || DEFAULT_IMAGE_WIDTH;
       }
 
       if (height === null) {
-        height = stateHeight || DEFAULT_HEIGHT;
+        height = stateHeight || DEFAULT_IMAGE_HEIGHT;
       }
     }
 
@@ -188,8 +203,8 @@ export default class MediaSingleNode extends Component<
     }
 
     if (width === null || height === null) {
-      width = DEFAULT_WIDTH;
-      height = DEFAULT_HEIGHT;
+      width = DEFAULT_IMAGE_WIDTH;
+      height = DEFAULT_IMAGE_HEIGHT;
     }
 
     const cardWidth = this.props.width;
@@ -247,6 +262,16 @@ export default class MediaSingleNode extends Component<
 class MediaSingleNodeView extends ReactNodeView {
   lastOffsetLeft = 0;
 
+  createDomRef(): HTMLElement {
+    const domRef = document.createElement('div');
+    if (browser.chrome) {
+      // workaround Chrome bug in https://product-fabric.atlassian.net/browse/ED-5379
+      // see also: https://github.com/ProseMirror/prosemirror/issues/884
+      domRef.contentEditable = 'true';
+    }
+    return domRef;
+  }
+
   render() {
     const { eventDispatcher, editorAppearance } = this.reactComponentProps;
     const mediaPluginState = stateKey.getState(
@@ -287,16 +312,6 @@ class MediaSingleNodeView extends ReactNodeView {
     );
   }
 
-  createDomRef() {
-    /**
-     * ED-5379 and https://github.com/ProseMirror/prosemirror/issues/884
-     *
-     * Workaround a Chrome bug where selecting the middle nodes of sequential leaf nodes
-     * doesn't create copy events.
-     */
-    return document.createElement(browser.chrome ? 'object' : 'div');
-  }
-
   ignoreMutation() {
     if (this.dom) {
       const offsetLeft = this.dom.offsetLeft;
@@ -312,9 +327,9 @@ class MediaSingleNodeView extends ReactNodeView {
 }
 
 export const ReactMediaSingleNode = (
-  portalProviderAPI,
-  eventDispatcher,
-  editorAppearance,
+  portalProviderAPI: PortalProviderAPI,
+  eventDispatcher: EventDispatcher,
+  editorAppearance?: EditorAppearance,
 ) => (node: PMNode, view: EditorView, getPos: () => number) => {
   return new MediaSingleNodeView(node, view, getPos, portalProviderAPI, {
     eventDispatcher,

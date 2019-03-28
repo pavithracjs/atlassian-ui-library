@@ -65,7 +65,7 @@ describe('card', () => {
       });
     });
 
-    it('opens the url directly defined on an inline card', () => {
+    it('opens the url in a new window defined on an inline card', () => {
       // @ts-ignore
       global.open = jest.fn();
 
@@ -91,7 +91,7 @@ describe('card', () => {
       expect(open).toBeCalledWith('http://www.atlassian.com/');
     });
 
-    it('opens the url directly via data on an inline card', () => {
+    it('opens the url in a new window via data on an inline card', () => {
       // @ts-ignore
       global.open = jest.fn();
 

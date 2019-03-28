@@ -1,6 +1,6 @@
 import * as React from 'react';
 import rafSchedule from 'raf-schd';
-import SizeDetector from '@atlaskit/size-detector';
+import WidthDetector from '@atlaskit/width-detector';
 
 export const Breakpoints = {
   S: 'S',
@@ -26,10 +26,14 @@ export function createWidthContext(width: number = 0) {
 
 const { Provider, Consumer } = React.createContext(createWidthContext());
 
-export class WidthProvider extends React.Component<any, { width: number }> {
+export type WidthProviderState = {
+  width?: number;
+};
+
+export class WidthProvider extends React.Component<any, WidthProviderState> {
   state = { width: 0 };
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state.width = document.body.offsetWidth;
   }
@@ -37,17 +41,19 @@ export class WidthProvider extends React.Component<any, { width: number }> {
   render() {
     return (
       <>
-        <SizeDetector
+        <WidthDetector
           containerStyle={{
             height: '0',
             borderStyle: 'none',
           }}
         >
-          {({ width }) => {
-            this.setWidth(width);
+          {width => {
+            if (width !== undefined) {
+              this.setWidth(width);
+            }
             return null;
           }}
-        </SizeDetector>
+        </WidthDetector>
         <Provider value={createWidthContext(this.state.width)}>
           {this.props.children}
         </Provider>
@@ -55,7 +61,7 @@ export class WidthProvider extends React.Component<any, { width: number }> {
     );
   }
 
-  setWidth = rafSchedule(width => {
+  setWidth = rafSchedule((width: number) => {
     if (this.state.width === width) {
       return;
     }

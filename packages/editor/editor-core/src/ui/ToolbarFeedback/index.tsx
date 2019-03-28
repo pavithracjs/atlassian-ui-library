@@ -1,13 +1,14 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { PureComponent } from 'react';
+import * as PropTypes from 'prop-types';
 import Spinner from '@atlaskit/spinner';
 import { Popup } from '@atlaskit/editor-common';
 import Button, { ButtonGroup } from '@atlaskit/button';
 
 import { withAnalytics } from '../../analytics';
 import ToolbarButton from '../ToolbarButton';
-import { version as coreVersion } from '../../../package.json';
+import { version as coreVersion } from '../../version.json';
 import withOuterListeners from '../with-outer-listeners';
 
 import {
@@ -18,6 +19,15 @@ import {
   ConfirmationHeader,
   ConfirmationImg,
 } from './styles';
+import {
+  analyticsEventKey,
+  AnalyticsDispatch,
+  ACTION,
+  ACTION_SUBJECT,
+  EVENT_TYPE,
+  ACTION_SUBJECT_ID,
+} from '../../plugins/analytics';
+import { createDispatch } from '../../event-dispatcher';
 
 const PopupWithOutsideListeners: any = withOuterListeners(Popup);
 const POPUP_HEIGHT = 388;
@@ -62,7 +72,7 @@ declare global {
  * Inspired from:
  * https://stackoverflow.com/questions/11219582/how-to-detect-my-browser-version-and-operating-system-using-javascript
  */
-export const getBrowserInfo = nAgt => {
+export const getBrowserInfo = (nAgt: string) => {
   let browserName;
   let browserVersion;
   let nameOffset;
@@ -130,9 +140,9 @@ export const getBrowserInfo = nAgt => {
  * Inspired from:
  * https://stackoverflow.com/questions/9514179/how-to-find-the-operating-system-version-using-javascript
  */
-export const getDeviceInfo = (nAgt, nVersion) => {
+export const getDeviceInfo = (nAgt: string, nVersion: string) => {
   let os = '';
-  let osVersion = '';
+  let osVersion: string | null = '';
 
   let clientStrings = [
     { s: 'Windows 3.11', r: /Win16/ },
@@ -190,18 +200,22 @@ export const getDeviceInfo = (nAgt, nVersion) => {
       break;
     case 'iOS':
       match = /OS (\d+)_(\d+)_?(\d+)?/.exec(nVersion);
-      osVersion = match && match[1] + '.' + match[2] + '.' + (match[3] | 0);
+      osVersion = match && match[1] + '.' + match[2] + '.' + (match[3] || 0);
   }
   return `${os} ${osVersion}`;
 };
 
 export default class ToolbarFeedback extends PureComponent<Props, State> {
+  static contextTypes = {
+    editorActions: PropTypes.object.isRequired,
+  };
+
   state: State = {
     jiraIssueCollectorScriptLoading: false,
     showOptOutOption: false,
   };
 
-  private handleRef = ref => {
+  private handleRef = (ref: ToolbarButton | null) => {
     if (ref) {
       this.setState({
         target: ReactDOM.findDOMNode(ref || null) as HTMLElement,
@@ -292,6 +306,18 @@ export default class ToolbarFeedback extends PureComponent<Props, State> {
   private openFeedbackPopup = withAnalytics(
     'atlassian.editor.feedback.button',
     (): boolean => {
+      const dispatch: AnalyticsDispatch = createDispatch(
+        this.context.editorActions.eventDispatcher,
+      );
+      dispatch(analyticsEventKey, {
+        payload: {
+          action: ACTION.CLICKED,
+          actionSubject: ACTION_SUBJECT.BUTTON,
+          actionSubjectId: ACTION_SUBJECT_ID.BUTTON_FEEDBACK,
+          eventType: EVENT_TYPE.UI,
+        },
+      });
+
       if (typeof this.showJiraCollectorDialogCallback === 'function') {
         this.showJiraCollectorDialogCallback();
         return false;
@@ -306,7 +332,7 @@ export default class ToolbarFeedback extends PureComponent<Props, State> {
 
       // triggerFunction is executed as soon as JIRA issue collector script is loaded
       window.ATL_JQ_PAGE_PROPS = {
-        triggerFunction: showCollectorDialog => {
+        triggerFunction: (showCollectorDialog: () => void) => {
           this.setState({ jiraIssueCollectorScriptLoading: false });
 
           if (typeof showCollectorDialog === 'function') {

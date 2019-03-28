@@ -1,7 +1,7 @@
 // @flow
 
 import type { ThemeProp } from '@atlaskit/theme';
-import type { ElementRef } from 'react';
+import type { Node } from 'react';
 import type { ThemeProps, ThemeTokens } from './theme';
 
 export type InputProps = {
@@ -10,6 +10,20 @@ export type InputProps = {
    * `none` hides all field styling.
    */
   appearance?: 'standard' | 'none' | 'subtle',
+  /** Element after input in textfield. */
+  elemAfterInput?: Node,
+  /** Element before input in textfield. */
+  elemBeforeInput?: Node,
+  /** Handler called when the input loses focus. */
+  onBlur?: (e: SyntheticEvent<HTMLInputElement>) => mixed,
+  /** Handler called when the input receives focus. */
+  onFocus?: (e: SyntheticEvent<HTMLInputElement>) => mixed,
+  /** Handler called when mouse is pressed down. */
+  onMouseDown: (e: SyntheticMouseEvent<*>) => mixed,
+  /** Handler called when mouse enters input. */
+  onMouseEnter: () => void,
+  /** Handler called when mouse leaves input. */
+  onMouseLeave: () => void,
   /** Set whether the fields should expand to fill available horizontal space. */
   isCompact?: boolean,
   /** Sets the field as uneditable, with a changed hover state. */
@@ -25,7 +39,7 @@ export type InputProps = {
   /** Add asterisk to label. Set required for form that the field is part of. */
   isRequired?: boolean,
   /** Forwarded ref */
-  forwardedRef: ElementRef<*>,
+  forwardedRef: (?HTMLInputElement) => void,
   theme: ThemeTokens,
 };
 
@@ -39,30 +53,36 @@ export type TextFieldProps = {
   createAnalyticsEvent: (SyntheticEvent<>) => void,
   /** Sets a default value as input value */
   defaultValue?: string,
+  /** Element after input in textfield. */
+  elemAfterInput?: Node,
+  /** Element before input in textfield. */
+  elemBeforeInput?: Node,
   /** Applies compact styling, making the field smaller */
-  isCompact?: boolean,
+  isCompact: boolean,
   /** Sets the field as uneditable, with a changed hover state. */
-  isDisabled?: boolean,
+  isDisabled: boolean,
   /** Sets styling to indicate that the input is focused. */
-  isFocused?: boolean,
+  isFocused: boolean,
   /** Sets styling to indicate that the input is invalid */
-  isInvalid?: boolean,
+  isInvalid: boolean,
   /** Sets content text value to monospace */
-  isMonospaced?: boolean,
+  isMonospaced: boolean,
   /** If true, prevents the value of the input from being edited. */
   isReadOnly?: boolean,
   /** Set required for form that the field is part of. */
   isRequired?: boolean,
   /** Handler to be called when the input loses focus. */
-  onBlur?: (e: SyntheticEvent<>) => mixed,
+  onBlur?: (e: SyntheticEvent<HTMLInputElement>) => mixed,
   /** Handler to be called when the input receives focus. */
-  onFocus?: (e: SyntheticEvent<>) => mixed,
+  onFocus?: (e: SyntheticEvent<HTMLInputElement>) => mixed,
+  /** Handler called when mouse is pressed down. */
+  onMouseDown: (e: SyntheticMouseEvent<*>) => mixed,
   /** Sets maximum width of input */
   width?: string | number,
   /** The value of the input. */
   value?: string | number,
-  /** Forwarded ref */
-  forwardedRef: ElementRef<*>,
+  /** This is an internal prop. Use "ref" prop to get a reference to input element. */
+  forwardedRef: (?HTMLInputElement) => void,
   /** The theme the component should use. */
   theme?: ThemeProp<ThemeTokens, ThemeProps>,
 };

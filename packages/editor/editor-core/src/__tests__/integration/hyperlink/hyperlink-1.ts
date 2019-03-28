@@ -22,7 +22,7 @@ const linkText2 = 'FAB-983';
     {
       skip: ['ie', 'edge', 'safari', 'firefox'],
     },
-    async client => {
+    async (client: any, testName: string) => {
       let browser = new Page(client);
       await browser.goto(editor.path);
       await browser.waitForSelector(editor.placeholder);
@@ -46,7 +46,7 @@ const linkText2 = 'FAB-983';
       await browser.click('[aria-label=Unlink]');
 
       const doc = await browser.$eval(editable, getDocFromElement);
-      expect(doc).toMatchDocSnapshot();
+      expect(doc).toMatchCustomDocSnapshot(testName);
     },
   );
 });

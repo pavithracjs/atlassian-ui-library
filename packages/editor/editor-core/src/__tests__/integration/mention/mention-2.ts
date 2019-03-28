@@ -23,7 +23,7 @@ import {
 BrowserTestCase(
   'mention-2.ts: user should see picker if they type "@"',
   { skip: ['ie'] },
-  async client => {
+  async (client: any) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -38,13 +38,15 @@ BrowserTestCase(
 BrowserTestCase(
   'mention-2.ts: text@ should not invoke picker',
   { skip: ['ie'] },
-  async client => {
+  async (client: any) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
     });
 
     await page.type(editable, 'test@');
+    await page.waitForSelector(typeAheadPicker, {}, true);
+
     expect(await page.isExisting(typeAheadPicker)).toBe(false);
   },
 );
@@ -52,7 +54,7 @@ BrowserTestCase(
 BrowserTestCase(
   'mention-2.ts: user should be able remove mention on backspace',
   { skip: ['safari', 'ie'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -64,20 +66,22 @@ BrowserTestCase(
     await page.type(editable, ['Backspace', 'Backspace']);
     await page.waitForSelector(lozenge);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'mention-2.ts: @ <space> should not invoke picker',
   { skip: ['ie'] },
-  async client => {
+  async (client: any) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
     });
 
     await page.type(editable, '@ Carolyn');
+    await page.waitForSelector(typeAheadPicker, {}, true);
+
     expect(await page.isExisting(typeAheadPicker)).toBe(false);
   },
 );
@@ -85,7 +89,7 @@ BrowserTestCase(
 BrowserTestCase(
   'mention-2.ts: user should see space after node',
   { skip: ['safari', 'ie'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -94,14 +98,14 @@ BrowserTestCase(
     await insertMention(page, 'Summer');
     await page.waitForSelector('span=@Summer');
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'mention-2.ts: escape closes picker',
   { skip: ['safari', 'ie'] },
-  async client => {
+  async (client: any) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -110,6 +114,8 @@ BrowserTestCase(
     await page.type(editable, '@');
     await page.waitForSelector(typeAheadPicker);
     await page.type(editable, 'Escape');
+    await page.waitForSelector(typeAheadPicker, {}, true);
+
     expect(await page.isExisting(typeAheadPicker)).toBe(false);
   },
 );

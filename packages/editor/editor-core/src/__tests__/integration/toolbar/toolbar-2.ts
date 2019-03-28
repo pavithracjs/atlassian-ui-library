@@ -17,7 +17,7 @@ const input = 'helloworld';
   BrowserTestCase(
     `toolbar-2.ts: should be able to select heading1 for ${editor.name} editor`,
     { skip: ['ie', 'safari'] },
-    async client => {
+    async (client: any) => {
       const page = await goToEditorTestingExample(client);
       await mountEditor(page, { appearance: editor.appearance });
 
@@ -31,8 +31,10 @@ const input = 'helloworld';
   );
 });
 
-const validateFormat = async (browser, heading) => {
-  const selector = 'span=' + messages['heading' + heading].defaultMessage;
+const validateFormat = async (browser: any, heading: number) => {
+  const selector =
+    'span=' +
+    messages[('heading' + heading) as keyof typeof messages].defaultMessage;
   await browser.click(changeFormatting);
   await browser.waitForSelector(selector);
   await browser.click(selector);

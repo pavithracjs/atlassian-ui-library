@@ -93,7 +93,11 @@ export function getCandidates(
     : candidates.slice(destIdx + 1);
 }
 
-export function stackSpace(state, destIdx, amount) {
+export function stackSpace(
+  state: ResizeState,
+  destIdx: number,
+  amount: number,
+) {
   const candidates = getCandidates(state, destIdx, amount);
 
   while (candidates.length && amount) {
@@ -191,7 +195,7 @@ export default class ResizeState {
   }
 
   get totalWidth() {
-    return this.cols.reduce((totalWidth, col) => totalWidth + col.width, 0) + 1;
+    return this.cols.reduce((totalWidth, col) => totalWidth + col.width, 0);
   }
 
   grow(colIdx: number, amount: number): ResizeState {
@@ -248,10 +252,10 @@ export default class ResizeState {
     let newState = res.state;
 
     if (remaining < 0) {
-      const res = stackSpace(newState, colIdx, remaining);
+      const stackResult = stackSpace(newState, colIdx, remaining);
 
-      remaining += res.remaining;
-      newState = res.state;
+      remaining += stackResult.remaining;
+      newState = stackResult.state;
     }
 
     canRedistribute =
@@ -335,15 +339,6 @@ export default class ResizeState {
     }
 
     return newState;
-  }
-
-  scaleColToMinWidth(colIdx: number): ResizeState {
-    if (this.cols[colIdx]) {
-      const { minWidth, width } = this.cols[colIdx];
-      return this.resize(colIdx, minWidth - width);
-    }
-
-    return this.clone();
   }
 
   clone(): ResizeState {

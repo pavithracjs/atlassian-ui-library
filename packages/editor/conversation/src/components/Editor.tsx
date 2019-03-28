@@ -137,7 +137,10 @@ export default class Editor extends React.Component<Props, State> {
     if (this.props.onSave) {
       const value = await actions.getValue();
 
-      if (value && value.content.some(n => n.content && n.content.length)) {
+      if (
+        value &&
+        value.content.some((n: any) => n.content && n.content.length)
+      ) {
         this.props.onSave(value);
         actions.clear();
       } else {
@@ -150,16 +153,6 @@ export default class Editor extends React.Component<Props, State> {
       isExpanded: false,
       isEditing: false,
     });
-  };
-
-  private handleRef = (node: HTMLDivElement) => {
-    if (!this.props.disableScrollTo && this.props.isExpanded && node) {
-      if ((node as any).scrollIntoViewIfNeeded) {
-        (node as any).scrollIntoViewIfNeeded({ behavior: 'smooth' });
-      } else if (node.scrollIntoView) {
-        node.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
   };
 
   private onChange = async (actions: EditorActions) => {
@@ -177,11 +170,11 @@ export default class Editor extends React.Component<Props, State> {
       placeholder,
       allowFeedbackAndHelpButtons,
     } = this.props;
-    let providers = {};
+    let providers: Record<number, any> = {};
 
     // @TODO Remove and just pass the factory through once AkEditor is updated
     if (dataProviders) {
-      (dataProviders as any).providers.forEach((provider, key) => {
+      (dataProviders as any).providers.forEach((provider: any, key: number) => {
         providers[key] = provider;
       });
     }
@@ -210,7 +203,7 @@ export default class Editor extends React.Component<Props, State> {
     };
 
     return (
-      <div ref={this.handleRef}>
+      <div>
         <CollapsedEditor
           placeholder={placeholder}
           isExpanded={this.state.isExpanded}

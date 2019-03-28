@@ -1,5 +1,72 @@
 # @atlaskit/status
 
+## 0.7.2
+- Updated dependencies [b0210d7ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0210d7ccc):
+  - @atlaskit/elements-test-helpers@0.5.0
+
+## 0.7.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 0.7.0
+- [minor] [b684722884](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b684722884):
+
+  - improvement of SSR tests and examples for Fabric Elements
+
+## 0.6.0
+- [minor] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 0.5.2
+- Updated dependencies [7261577953](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7261577953):
+  - @atlaskit/elements-test-helpers@0.3.0
+
+## 0.5.1
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/icon@16.0.4
+  - @atlaskit/analytics-gas-types@3.2.5
+  - @atlaskit/docs@7.0.0
+  - @atlaskit/analytics-next@4.0.0
+  - @atlaskit/field-text@8.0.0
+  - @atlaskit/lozenge@7.0.0
+  - @atlaskit/theme@8.0.0
+
+## 0.5.0
+- [minor] [4072865c1c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4072865c1c):
+
+  - added SSR tests to task-decision
+
+## 0.4.0
+- [minor] [36bb743af0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/36bb743af0):
+
+  - added/cleaned up ssr tests
+
+## 0.3.8
+- [patch] [e27ba4f443](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e27ba4f443):
+
+  - added SSR tests to status
+
+## 0.3.7
+- [patch] [0e4dedafc1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0e4dedafc1):
+
+  - Fix incorrect dependency listings
+
+## 0.3.6
+- Updated dependencies [4af5bd2a58](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4af5bd2a58):
+  - @atlaskit/editor-test-helpers@7.0.0
+
+## 0.3.5
+- [patch] [1856738865](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1856738865):
+
+  - Update status picker example to be interactive
+
+## 0.3.4
+- [patch] [109cf449d6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/109cf449d6):
+
+  - enable noImplicitAny for status. fix related issues
+
 ## 0.3.3
 - [patch] [9696b18dec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9696b18dec):
 

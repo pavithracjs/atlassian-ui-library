@@ -9,14 +9,13 @@ import {
   stateKey as mediaStateKey,
   MediaProvider,
 } from '../pm-plugins/main';
-import { Context, ImageResizeMode } from '@atlaskit/media-core';
+import { Context, ImageResizeMode, Identifier } from '@atlaskit/media-core';
 import {
   Card,
   CardDimensions,
   CardView,
   CardEventHandler,
   CardOnClickCallback,
-  Identifier,
 } from '@atlaskit/media-card';
 import { MediaType, MediaBaseAttributes } from '@atlaskit/adf-schema';
 import { withImageLoader, ImageStatus } from '@atlaskit/editor-common';
@@ -29,7 +28,7 @@ export const FILE_WIDTH = 156;
 
 export type Appearance = 'small' | 'image' | 'horizontal' | 'square';
 
-export interface MediaNodeProps extends ReactNodeProps {
+export interface MediaNodeProps extends ReactNodeProps, ImageLoaderProps {
   getPos: ProsemirrorGetPosHandler;
   view: EditorView;
   node: PMNode;
@@ -65,19 +64,19 @@ export interface MediaNodeState {
   viewContext?: Context;
 }
 
-class MediaNode extends Component<
-  MediaNodeProps & ImageLoaderProps,
-  MediaNodeState
-> {
+class MediaNode extends Component<MediaNodeProps, MediaNodeState> {
   private pluginState: MediaPluginState;
 
-  constructor(props) {
+  constructor(props: MediaNodeProps) {
     super(props);
     const { view } = this.props;
     this.pluginState = mediaStateKey.getState(view.state);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(
+    nextProps: MediaNodeProps & ImageLoaderProps,
+    nextState: MediaNodeState,
+  ) {
     if (
       this.props.selected !== nextProps.selected ||
       this.props.viewContext !== nextProps.viewContext ||
@@ -99,7 +98,11 @@ class MediaNode extends Component<
     this.pluginState.handleMediaNodeUnmount(node);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: Readonly<MediaNodeProps & ImageLoaderProps>) {
+    if (prevProps.node.attrs.id !== this.props.node.attrs.id) {
+      this.pluginState.handleMediaNodeUnmount(prevProps.node);
+      this.handleNewNode(this.props);
+    }
     this.pluginState.updateElement();
   }
 
@@ -111,7 +114,7 @@ class MediaNode extends Component<
       onClick,
       editorAppearance,
     } = this.props;
-    const { id, type, collection, url, __key } = node.attrs;
+    const { id, type, collection, url } = node.attrs;
     const { viewContext } = this.props;
     /**
      * On mobile we don't receive a collectionName until the `upload-end` event.
@@ -119,15 +122,13 @@ class MediaNode extends Component<
      * Render loading until we do.
      */
     const isMobile = editorAppearance === 'mobile';
-    let isMobileReady = isMobile ? typeof collection === 'string' : true;
+    let isMobileReady = isMobile
+      ? typeof collection === 'string' && collection.length > 0
+      : true;
 
-    if (!viewContext || !isMobileReady) {
+    if (type !== 'external' && (!viewContext || !isMobileReady)) {
       return <CardView status="loading" dimensions={cardDimensions} />;
     }
-
-    /** For new images, the media state will be loaded inside the plugin state */
-    const getState = this.pluginState.getMediaNodeState(__key);
-    const fileId = getState && getState.fileId ? getState.fileId : id;
 
     const identifier: Identifier =
       type === 'external'
@@ -137,14 +138,14 @@ class MediaNode extends Component<
             mediaItemType: 'external-image',
           }
         : {
-            id: fileId,
+            id,
             mediaItemType: 'file',
             collectionName: collection!,
           };
 
     return (
       <Card
-        context={viewContext}
+        context={viewContext as any}
         resizeMode="stretchy-fit"
         dimensions={cardDimensions}
         identifier={identifier}

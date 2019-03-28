@@ -27,6 +27,7 @@ import {
   isEmptyNode,
   dedupe,
   compose,
+  closestElement,
 } from '../../../utils';
 import mediaPlugin from '../../../plugins/media';
 import codeBlockPlugin from '../../../plugins/code-block';
@@ -34,6 +35,7 @@ import panelPlugin from '../../../plugins/panel';
 import listPlugin from '../../../plugins/lists';
 import mentionsPlugin from '../../../plugins/mentions';
 import tasksAndDecisionsPlugin from '../../../plugins/tasks-and-decisions';
+import { Node, Schema } from 'prosemirror-model';
 
 describe('@atlaskit/editore-core/utils', () => {
   const createEditor = createEditorFactory();
@@ -50,6 +52,22 @@ describe('@atlaskit/editore-core/utils', () => {
         tasksAndDecisionsPlugin,
       ],
     });
+
+  describe('#closest', () => {
+    it('return first parentNode using query selector', () => {
+      const divSecondary = document.createElement('div');
+      divSecondary.setAttribute('id', 'secondary');
+
+      const div = document.createElement('div');
+      div.setAttribute('id', 'primary');
+      div.appendChild(divSecondary);
+      document.body.appendChild(div);
+
+      const result = closestElement(divSecondary, '#primary');
+      expect(result).toEqual(div);
+      div.remove();
+    });
+  });
 
   describe('#isMarkTypeAllowedInCurrentSelection', () => {
     describe('when the current node supports the given mark type', () => {
@@ -205,7 +223,7 @@ describe('@atlaskit/editore-core/utils', () => {
 
   describe('#isEmptyNode', () => {
     const { editorView } = editor(doc(p('')));
-    const checkEmptyNode = node =>
+    const checkEmptyNode = (node: (schema: Schema<any>) => Node) =>
       isEmptyNode(editorView.state.schema)(node(editorView.state.schema));
 
     it('should return true for empty paragraph', () => {
@@ -338,9 +356,9 @@ describe('@atlaskit/editore-core/utils', () => {
 
   describe('#dedupe', () => {
     it('should always return a new list', () => {
-      const l1 = [];
-      const l2 = ['a'];
-      const l3 = ['a', 'a'];
+      const l1: Array<string> = [];
+      const l2: Array<string> = ['a'];
+      const l3: Array<string> = ['a', 'a'];
       expect(dedupe(l1) !== l1).toBeTruthy();
       expect(dedupe(l2) !== l2).toBeTruthy();
       expect(dedupe(l3) !== l3).toBeTruthy();

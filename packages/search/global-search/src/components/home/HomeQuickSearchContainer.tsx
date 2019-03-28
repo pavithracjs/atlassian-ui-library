@@ -115,7 +115,7 @@ export class HomeQuickSearchContainer extends React.Component<Props, State> {
   }
 
   handleSearchErrorAnalytics(source: string) {
-    return error => {
+    return (error: Error) => {
       const { firePrivateAnalyticsEvent } = this.props;
 
       if (firePrivateAnalyticsEvent) {

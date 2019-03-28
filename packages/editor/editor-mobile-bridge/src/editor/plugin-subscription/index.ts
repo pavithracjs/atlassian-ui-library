@@ -14,12 +14,16 @@ import {
   TextColorPluginState,
   typeAheadPluginKey,
   TypeAheadPluginState,
+  hyperlinkStateKey,
+  HyperlinkState,
+  HyperlinkInsertStatus,
 } from '@atlaskit/editor-core';
 
 import { valueOf as valueOfListState } from '../web-to-native/listState';
 import { valueOf as valueOfMarkState } from '../web-to-native/markState';
 import WebBridgeImpl from '../native-to-web';
 import { toNativeBridge, EditorPluginBridges } from '../web-to-native';
+import { hasValue } from '../../utils';
 
 interface BridgePluginListener<T> {
   bridge: EditorPluginBridges;
@@ -145,6 +149,35 @@ const configs: Array<BridgePluginListener<any>> = [
       });
     },
   }),
+  createListenerConfig<HyperlinkState>({
+    bridge: 'linkBridge',
+    pluginKey: hyperlinkStateKey,
+    updater: state => {
+      const { activeText, activeLinkMark, canInsertLink } = state;
+      const message = { text: '', url: '' };
+
+      if (
+        activeLinkMark &&
+        activeLinkMark.type === HyperlinkInsertStatus.EDIT_LINK_TOOLBAR
+      ) {
+        const linkType = activeLinkMark.node.type.schema.marks.link;
+        const linkText = activeLinkMark.node.textContent;
+
+        message.text = linkText || '';
+        message.url =
+          activeLinkMark.node.marks
+            .filter(mark => mark.type === linkType)
+            .map(link => link.attrs.href)
+            .pop() || '';
+      }
+
+      if (canInsertLink && message.text.length === 0 && hasValue(activeText)) {
+        message.text = activeText!;
+      }
+
+      toNativeBridge.call('linkBridge', 'currentSelection', message);
+    },
+  }),
 ];
 
 export const initPluginListeners = (
@@ -155,8 +188,8 @@ export const initPluginListeners = (
   configs.forEach(config => {
     const { updater, pluginKey } = config;
     const state = pluginKey.getState(view.state);
-    bridge[`${config.bridge}State`] = {
-      ...bridge[`${config.bridge}State`],
+    (bridge as any)[`${config.bridge}State`] = {
+      ...(bridge as any)[`${config.bridge}State`],
       ...state,
     };
     if (config.sendInitialState && state) {
@@ -171,7 +204,7 @@ export const destroyPluginListeners = (
   bridge: WebBridgeImpl,
 ) => {
   configs.forEach(config => {
-    bridge[`${config.bridge}State`] = undefined;
+    (bridge as any)[`${config.bridge}State`] = undefined;
     eventDispatcher.off((config.pluginKey as any).key, config.updater);
   });
 };

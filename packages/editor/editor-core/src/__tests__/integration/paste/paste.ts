@@ -9,9 +9,9 @@ import {
 
 const editorSelector = '.ProseMirror';
 BrowserTestCase(
-  'paste.ts: paste tests on message editor: plain text',
+  'paste.ts: paste tests on fullpage editor: plain text',
   { skip: ['edge', 'ie', 'safari'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await copyAsPlainText(page, 'This text is plain.');
@@ -25,14 +25,14 @@ BrowserTestCase(
     await page.waitForSelector('p');
     const doc = await page.$eval(editorSelector, getDocFromElement);
 
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
-  'paste.ts: paste tests on message editor: text formatting',
+  'paste.ts: paste tests on fullpage editor: text formatting',
   { skip: ['edge', 'ie', 'safari'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     const testData =
@@ -46,14 +46,14 @@ BrowserTestCase(
     await page.paste(editorSelector);
     await page.waitForSelector('strong');
     const doc = await page.$eval(editorSelector, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
-  'paste.ts: paste tests on message editor: bullet list',
+  'paste.ts: paste tests on fullpage editor: bullet list',
   { skip: ['edge', 'ie', 'safari'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     const data =
@@ -69,14 +69,14 @@ BrowserTestCase(
 
     await page.waitForSelector('ul');
     const doc = await page.$eval(editorSelector, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
-  'paste.ts: paste tests on message editor: ordered list',
+  'paste.ts: paste tests on fullpage editor: ordered list',
   { skip: ['edge', 'ie', 'safari'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     const data =
@@ -92,6 +92,6 @@ BrowserTestCase(
 
     await page.waitForSelector('p');
     const doc = await page.$eval(editorSelector, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

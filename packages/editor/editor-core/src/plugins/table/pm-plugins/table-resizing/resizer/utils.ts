@@ -1,7 +1,10 @@
+import { TableMap } from 'prosemirror-tables';
+import { findDomRefAtPos } from 'prosemirror-utils';
+import { Node as PMNode } from 'prosemirror-model';
 import ColumnState from './columnState';
 
 export interface ColIdxPair {
-  col: ColumnState[];
+  col: ColumnState;
   idx: number;
 }
 
@@ -11,7 +14,7 @@ export const makeColIdxPair = (cols: ColumnState[]) => {
   });
 };
 
-export const findFreeCol = (colIdxObj, direction) => {
+export const findFreeCol = (colIdxObj: Array<ColIdxPair>) => {
   if (colIdxObj.length === 0) {
     return null;
   }
@@ -31,7 +34,10 @@ export const findFreeCol = (colIdxObj, direction) => {
   return freeIdx;
 };
 
-export const findNextFreeCol = (colIdxObj, direction: number): number => {
+export const findNextFreeCol = (
+  colIdxObj: Array<ColIdxPair>,
+  direction: number,
+): number => {
   if (colIdxObj.length === 0) {
     return -1;
   }
@@ -76,55 +82,37 @@ const defaultCalculateColWidthCb = (
 ): number => unitToNumber(colComputedStyle.width);
 
 export const calculateColWidth = (
-  table: HTMLElement,
-  colIdx: number,
+  cells: HTMLElement[],
   calculateColWidthCb: (
     col: HTMLElement,
     colComputedStyle: CSSStyleDeclaration,
     colSpan: number,
   ) => number = defaultCalculateColWidthCb,
 ) => {
-  const tbody = table.querySelector('tbody') as HTMLElement;
-  if (tbody) {
-    table = tbody;
-  }
-
   let maxColWidth = 0;
   let colSpanWidth = 0;
-  for (let i = 0; i < table.childElementCount; i++) {
-    const row = table.children[i] as HTMLElement;
-    if (row.tagName.toUpperCase() !== 'TR') {
-      continue;
-    }
 
-    const rowChildren = getRowChildren(row);
-    const col = rowChildren[colIdx];
-
-    // We may encounter a rowspan'd cell.
-    if (!col) {
-      continue;
-    }
-
+  cells.forEach(col => {
     const colComputedStyle = getComputedStyle(col);
     const colspan = Number(col.getAttribute('colspan') || 1);
 
     if (colspan > 1) {
       colSpanWidth = calculateColWidthCb(col, colComputedStyle, colspan);
-      continue;
+      return;
     }
 
     if (colComputedStyle) {
       const colWidth = calculateColWidthCb(col, colComputedStyle, colspan);
       maxColWidth = Math.max(colWidth, maxColWidth);
     }
-  }
+  });
 
   return maxColWidth || colSpanWidth;
 };
 
 export const unitToNumber = (unit: string | null) => {
   if (unit) {
-    return parseFloat(unit);
+    return parseInt(unit, 10);
   }
   return 0;
 };
@@ -138,4 +126,27 @@ export const addContainerLeftRightPadding = (
     unitToNumber(computedStyle.paddingLeft) +
     unitToNumber(computedStyle.paddingRight)
   );
+};
+
+export const getCellsRefsInColumn = (
+  columnIndex: number,
+  table: PMNode,
+  start: number,
+  domAtPos: (pos: number) => { node: Node; offset: number },
+): HTMLElement[] => {
+  const map = TableMap.get(table);
+  const cellsPositions = map.cellsInRect({
+    left: columnIndex,
+    right: columnIndex + 1,
+    top: 0,
+    bottom: map.height,
+  });
+  const cells: HTMLElement[] = [];
+  cellsPositions.forEach(pos => {
+    const col = findDomRefAtPos(pos + start, domAtPos) as HTMLElement;
+    if (col) {
+      cells.push(col);
+    }
+  });
+  return cells;
 };

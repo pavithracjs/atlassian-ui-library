@@ -39,7 +39,7 @@ import {
   findKeymapByDescription,
   addLink,
 } from '../../../../keymaps';
-import { InsertMenuCustomItem } from '../../../../types';
+import { InsertMenuCustomItem, CommandDispatch } from '../../../../types';
 import DropdownMenu from '../../../../ui/DropdownMenu';
 import ToolbarButton from '../../../../ui/ToolbarButton';
 import {
@@ -61,6 +61,18 @@ import { Command } from '../../../../types';
 import { showLinkToolbar } from '../../../hyperlink/commands';
 import { insertMentionQuery } from '../../../mentions/commands/insert-mention-query';
 import { updateStatus } from '../../../status/actions';
+import {
+  AnalyticsEventPayload,
+  withAnalytics as commandWithAnalytics,
+  ACTION,
+  ACTION_SUBJECT,
+  INPUT_METHOD,
+  EVENT_TYPE,
+  ACTION_SUBJECT_ID,
+  PANEL_TYPE,
+  InsertEventPayload,
+} from '../../../analytics';
+import { EditorState } from 'prosemirror-state';
 
 export const messages = defineMessages({
   action: {
@@ -182,13 +194,16 @@ export interface Props {
     macroProvider: MacroProvider,
     node?: PMNode,
     isEditing?: boolean,
-  ) => (state, dispatch) => void;
+  ) => (state: EditorState, dispatch: CommandDispatch) => void;
+  dispatchAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
 }
 
 export interface State {
   isOpen: boolean;
   emojiPickerOpen: boolean;
 }
+
+export type TOOLBAR_MENU_TYPE = INPUT_METHOD.TOOLBAR | INPUT_METHOD.INSERT_MENU;
 
 const blockTypeIcons = {
   codeblock: CodeIcon,
@@ -199,15 +214,15 @@ const blockTypeIcons = {
 /**
  * Checks if an element is detached (i.e. not in the current document)
  */
-const isDetachedElement = el => !document.body.contains(el);
+const isDetachedElement = (el: HTMLElement) => !document.body.contains(el);
 const noop = () => {};
 
 class ToolbarInsertBlock extends React.PureComponent<
   Props & InjectedIntlProps,
   State
 > {
-  private pickerRef: ReactInstance;
-  private button?;
+  private pickerRef?: ReactInstance;
+  private button?: HTMLElement;
 
   state: State = {
     isOpen: false,
@@ -237,9 +252,26 @@ class ToolbarInsertBlock extends React.PureComponent<
     this.onOpenChange({ isOpen: !isOpen });
   };
 
-  private toggleEmojiPicker = () => {
-    const emojiPickerOpen = !this.state.emojiPickerOpen;
-    this.setState({ emojiPickerOpen });
+  private toggleEmojiPicker = (
+    inputMethod: TOOLBAR_MENU_TYPE = INPUT_METHOD.TOOLBAR,
+  ) => {
+    this.setState(
+      prevState => ({ emojiPickerOpen: !prevState.emojiPickerOpen }),
+      () => {
+        if (this.state.emojiPickerOpen) {
+          const { dispatchAnalyticsEvent } = this.props;
+          if (dispatchAnalyticsEvent) {
+            dispatchAnalyticsEvent({
+              action: ACTION.OPENED,
+              actionSubject: ACTION_SUBJECT.PICKER,
+              actionSubjectId: ACTION_SUBJECT_ID.PICKER_EMOJI,
+              attributes: { inputMethod },
+              eventType: EVENT_TYPE.UI,
+            });
+          }
+        }
+      },
+    );
   };
 
   private renderPopup() {
@@ -273,14 +305,17 @@ class ToolbarInsertBlock extends React.PureComponent<
     );
   }
 
-  private handleButtonRef = (ref): void => {
+  private handleButtonRef = (ref: HTMLElement): void => {
     const buttonRef = ref || null;
     if (buttonRef) {
       this.button = ReactDOM.findDOMNode(buttonRef) as HTMLElement;
     }
   };
 
-  private handleDropDownButtonRef = (ref, items) => {
+  private handleDropDownButtonRef = (
+    ref: ToolbarButton | null,
+    items: Array<any>,
+  ) => {
     items.forEach(item => item.handleRef && item.handleRef(ref));
   };
 
@@ -293,15 +328,17 @@ class ToolbarInsertBlock extends React.PureComponent<
     this.pickerRef = ref;
   };
 
-  private handleClickOutside = e => {
-    const picker = ReactDOM.findDOMNode(this.pickerRef);
+  private handleClickOutside = (e: MouseEvent) => {
+    const picker = this.pickerRef && ReactDOM.findDOMNode(this.pickerRef);
     // Ignore click events for detached elements.
     // Workaround for FS-1322 - where two onClicks fire - one when the upload button is
     // still in the document, and one once it's detached. Does not always occur, and
     // may be a side effect of a react render optimisation
     if (
       !picker ||
-      (!isDetachedElement(e.target) && !picker.contains(e.target))
+      (e.target &&
+        !isDetachedElement(e.target as HTMLElement) &&
+        !picker.contains(e.target as HTMLElement))
     ) {
       this.toggleEmojiPicker();
     }
@@ -328,7 +365,7 @@ class ToolbarInsertBlock extends React.PureComponent<
     }
 
     const labelInsertMenu = formatMessage(messages.insertMenu);
-    const toolbarButtonFactory = (disabled: boolean, items) => (
+    const toolbarButtonFactory = (disabled: boolean, items: Array<any>) => (
       <ToolbarButton
         ref={el => this.handleDropDownButtonRef(el, items)}
         selected={isOpen}
@@ -358,7 +395,7 @@ class ToolbarInsertBlock extends React.PureComponent<
             iconBefore={btn.elemBefore}
             selected={btn.isActive}
             title={btn.content + (btn.shortcut ? ' ' + btn.shortcut : '')}
-            onClick={() => this.onItemActivated({ item: btn })}
+            onClick={() => this.insertToolbarMenuItem(btn)}
           />
         ))}
         <Wrapper>
@@ -367,7 +404,7 @@ class ToolbarInsertBlock extends React.PureComponent<
             (!isDisabled ? (
               <DropdownMenu
                 items={[{ items: dropdownItems }]}
-                onItemActivated={this.onItemActivated}
+                onItemActivated={this.insertInsertMenuItem}
                 onOpenChange={this.onOpenChange}
                 mountTo={popupsMountPoint}
                 boundariesElement={popupsBoundariesElement}
@@ -490,7 +527,8 @@ class ToolbarInsertBlock extends React.PureComponent<
     }
     if (availableWrapperBlockTypes) {
       availableWrapperBlockTypes.forEach(blockType => {
-        const BlockTypeIcon = blockTypeIcons[blockType.name];
+        const BlockTypeIcon =
+          blockTypeIcons[blockType.name as keyof typeof blockTypeIcons];
         const labelBlock = formatMessage(blockType.title);
         const shortcutBlock = tooltip(
           findKeymapByDescription(blockType.title.defaultMessage),
@@ -582,28 +620,33 @@ class ToolbarInsertBlock extends React.PureComponent<
 
   private toggleLinkPanel = withAnalytics(
     'atlassian.editor.format.hyperlink.button',
-    (): boolean => {
+    (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
       const { editorView } = this.props;
-      showLinkToolbar()(editorView.state, editorView.dispatch);
+      showLinkToolbar(inputMethod)(editorView.state, editorView.dispatch);
       return true;
     },
   );
 
   private insertMention = withAnalytics(
     'atlassian.fabric.mention.picker.trigger.button',
-    (): boolean => {
+    (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
       const { editorView } = this.props;
-      insertMentionQuery()(editorView.state, editorView.dispatch);
+      insertMentionQuery(inputMethod)(editorView.state, editorView.dispatch);
       return true;
     },
   );
 
   private createTable = withAnalytics(
     'atlassian.editor.format.table.button',
-    (): boolean => {
+    (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
       const { editorView } = this.props;
-      createTable(editorView.state, editorView.dispatch);
-      return true;
+      return commandWithAnalytics({
+        action: ACTION.INSERTED,
+        actionSubject: ACTION_SUBJECT.DOCUMENT,
+        actionSubjectId: ACTION_SUBJECT_ID.TABLE,
+        attributes: { inputMethod },
+        eventType: EVENT_TYPE.TRACK,
+      })(createTable)(editorView.state, editorView.dispatch);
     },
   );
 
@@ -646,45 +689,50 @@ class ToolbarInsertBlock extends React.PureComponent<
 
   private openMediaPicker = withAnalytics(
     'atlassian.editor.format.media.button',
-    (): boolean => {
-      const { onShowMediaPicker } = this.props;
-      onShowMediaPicker!();
+    (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
+      const { onShowMediaPicker, dispatchAnalyticsEvent } = this.props;
+      if (onShowMediaPicker) {
+        onShowMediaPicker();
+        if (dispatchAnalyticsEvent) {
+          dispatchAnalyticsEvent({
+            action: ACTION.OPENED,
+            actionSubject: ACTION_SUBJECT.PICKER,
+            actionSubjectId: ACTION_SUBJECT_ID.PICKER_CLOUD,
+            attributes: { inputMethod },
+            eventType: EVENT_TYPE.UI,
+          });
+        }
+      }
       return true;
     },
   );
 
-  private insertDecision = withAnalytics(
-    'atlassian.fabric.decision.trigger.button',
-    (): boolean => {
-      const { editorView } = this.props;
-      if (!editorView) {
-        return false;
-      }
-      insertTaskDecision(editorView, 'decisionList');
-      return true;
-    },
-  );
-
-  private insertAction = withAnalytics(
-    'atlassian.fabric.action.trigger.button',
-    (): boolean => {
-      const { editorView } = this.props;
-      if (!editorView) {
-        return false;
-      }
-      insertTaskDecision(editorView, 'taskList');
-      return true;
-    },
-  );
+  private insertTaskDecision = (
+    name: 'action' | 'decision',
+    inputMethod: TOOLBAR_MENU_TYPE,
+  ) =>
+    withAnalytics(
+      `atlassian.fabric.${name}.trigger.button`,
+      (): boolean => {
+        const { editorView } = this.props;
+        if (!editorView) {
+          return false;
+        }
+        const listType = name === 'action' ? 'taskList' : 'decisionList';
+        insertTaskDecision(editorView, listType, inputMethod);
+        return true;
+      },
+    );
 
   private insertHorizontalRule = withAnalytics(
     'atlassian.editor.format.horizontalrule.button',
-    (): boolean => {
+    (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
       const { editorView } = this.props;
       const tr = createHorizontalRule(
         editorView.state,
         editorView.state.selection.from,
         editorView.state.selection.to,
+        inputMethod,
       );
 
       if (tr) {
@@ -696,20 +744,77 @@ class ToolbarInsertBlock extends React.PureComponent<
     },
   );
 
+  private insertBlockTypeWithAnalytics = (
+    itemName: string,
+    inputMethod: TOOLBAR_MENU_TYPE,
+  ) => {
+    const {
+      editorView,
+      onInsertBlockType,
+      dispatchAnalyticsEvent,
+    } = this.props;
+    const { state, dispatch } = editorView;
+
+    let actionSubjectId: ACTION_SUBJECT_ID | undefined;
+    let additionalAttrs = {};
+    switch (itemName) {
+      case 'panel':
+        actionSubjectId = ACTION_SUBJECT_ID.PANEL;
+        additionalAttrs = { panelType: PANEL_TYPE.INFO }; // only info panels can be inserted from toolbar
+        break;
+      case 'codeblock':
+        actionSubjectId = ACTION_SUBJECT_ID.CODE_BLOCK;
+        break;
+    }
+
+    analytics.trackEvent(`atlassian.editor.format.${itemName}.button`);
+    if (dispatchAnalyticsEvent && actionSubjectId) {
+      dispatchAnalyticsEvent({
+        action: ACTION.INSERTED,
+        actionSubject: ACTION_SUBJECT.DOCUMENT,
+        actionSubjectId,
+        attributes: {
+          inputMethod,
+          ...additionalAttrs,
+        },
+        eventType: EVENT_TYPE.TRACK,
+      } as InsertEventPayload);
+    }
+
+    onInsertBlockType!(itemName)(state, dispatch);
+  };
+
   private handleSelectedEmoji = withAnalytics(
     'atlassian.editor.emoji.button',
     (emojiId: EmojiId): boolean => {
-      this.props.insertEmoji!(emojiId);
+      const { insertEmoji, dispatchAnalyticsEvent } = this.props;
+      if (insertEmoji) {
+        insertEmoji(emojiId);
+        if (dispatchAnalyticsEvent) {
+          dispatchAnalyticsEvent({
+            action: ACTION.INSERTED,
+            actionSubject: ACTION_SUBJECT.DOCUMENT,
+            actionSubjectId: ACTION_SUBJECT_ID.EMOJI,
+            attributes: { inputMethod: INPUT_METHOD.PICKER },
+            eventType: EVENT_TYPE.TRACK,
+          });
+        }
+      }
       this.toggleEmojiPicker();
       return true;
     },
   );
 
-  private onItemActivated = ({ item }): void => {
+  private onItemActivated = ({
+    item,
+    inputMethod,
+  }: {
+    item: any;
+    inputMethod: TOOLBAR_MENU_TYPE;
+  }): void => {
     const {
       editorView,
       editorActions,
-      onInsertBlockType,
       onInsertMacroFromMacroBrowser,
       macroProvider,
       handleImageUpload,
@@ -717,10 +822,10 @@ class ToolbarInsertBlock extends React.PureComponent<
 
     switch (item.value.name) {
       case 'link':
-        this.toggleLinkPanel();
+        this.toggleLinkPanel(inputMethod);
         break;
       case 'table':
-        this.createTable();
+        this.createTable(inputMethod);
         break;
       case 'image upload':
         if (handleImageUpload) {
@@ -729,31 +834,25 @@ class ToolbarInsertBlock extends React.PureComponent<
         }
         break;
       case 'media':
-        this.openMediaPicker();
+        this.openMediaPicker(inputMethod);
         break;
       case 'mention':
-        this.insertMention!();
+        this.insertMention(inputMethod);
         break;
       case 'emoji':
-        this.toggleEmojiPicker();
+        this.toggleEmojiPicker(inputMethod);
         break;
       case 'codeblock':
       case 'blockquote':
       case 'panel':
-        analytics.trackEvent(
-          `atlassian.editor.format.${item.value.name}.button`,
-        );
-        const { state, dispatch } = editorView;
-        onInsertBlockType!(item.value.name)(state, dispatch);
+        this.insertBlockTypeWithAnalytics(item.value.name, inputMethod);
         break;
       case 'action':
-        this.insertAction();
-        break;
       case 'decision':
-        this.insertDecision();
+        this.insertTaskDecision(item.value.name, inputMethod)();
         break;
       case 'horizontalrule':
-        this.insertHorizontalRule();
+        this.insertHorizontalRule(inputMethod);
         break;
       case 'macro':
         analytics.trackEvent(
@@ -787,6 +886,18 @@ class ToolbarInsertBlock extends React.PureComponent<
       editorView.focus();
     }
   };
+
+  private insertToolbarMenuItem = (btn: any) =>
+    this.onItemActivated({
+      item: btn,
+      inputMethod: INPUT_METHOD.TOOLBAR,
+    });
+
+  private insertInsertMenuItem = ({ item }: { item: any }) =>
+    this.onItemActivated({
+      item,
+      inputMethod: INPUT_METHOD.INSERT_MENU,
+    });
 }
 
 export default injectIntl(ToolbarInsertBlock);

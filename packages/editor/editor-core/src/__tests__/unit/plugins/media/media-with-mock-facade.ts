@@ -1,12 +1,13 @@
 const removeOnCloseListener = jest.fn();
 const spies = {} as any;
 
-jest.mock('../../../../plugins/media/picker-facade', () => ({
+const mockMediaPickerFacade = {
   default: jest.fn(pickerType => {
     const picker: any = {
       on: jest.fn(),
       onClose: jest.fn().mockReturnValue(removeOnCloseListener),
       onNewMedia: jest.fn(),
+      onMediaEvent: jest.fn(),
       onDrag: jest.fn(),
       hide: jest.fn(),
       setUploadParams: jest.fn(),
@@ -20,7 +21,11 @@ jest.mock('../../../../plugins/media/picker-facade', () => ({
     spies[pickerType] = picker;
     return picker;
   }),
-}));
+};
+jest.mock(
+  '../../../../plugins/media/picker-facade',
+  () => mockMediaPickerFacade,
+);
 
 import { ProviderFactory } from '@atlaskit/editor-common';
 import {
@@ -34,22 +39,22 @@ import {
 import {
   stateKey as mediaPluginKey,
   MediaPluginState,
-  DefaultMediaStateManager,
 } from '../../../../plugins/media/pm-plugins/main';
 import mediaPlugin from '../../../../plugins/media';
 
-const stateManager = new DefaultMediaStateManager();
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 
 const getFreshMediaProvider = () =>
   storyMediaProviderFactory({
     collectionName: testCollectionName,
-    stateManager,
     includeUserAuthProvider: true,
   });
 
-const waitForPluginStateChange = async (pluginState: MediaPluginState) =>
-  new Promise(resolve => pluginState.subscribe(resolve));
+const waitForAllPickersInitialised = async (pluginState: MediaPluginState) => {
+  while (pluginState.pickers.length < 4) {
+    await new Promise(resolve => resolve());
+  }
+};
 
 describe('Media with mock facade', () => {
   const createEditor = createEditorFactory<MediaPluginState>();
@@ -77,8 +82,7 @@ describe('Media with mock facade', () => {
 
   it('should add an onClose event listener in popupPicker', async () => {
     const { pluginState } = editor(doc(p('{<>}')));
-
-    await waitForPluginStateChange(pluginState);
+    await waitForAllPickersInitialised(pluginState);
 
     const provider = await mediaProvider;
     await provider.uploadContext;
@@ -94,7 +98,7 @@ describe('Media with mock facade', () => {
   it('should cleanup properly on destroy', async () => {
     removeOnCloseListener.mockClear();
     const { pluginState } = editor(doc(p('{<>}')));
-    await waitForPluginStateChange(pluginState);
+    await waitForAllPickersInitialised(pluginState);
 
     const provider = await mediaProvider;
     await provider.uploadContext;
@@ -108,7 +112,7 @@ describe('Media with mock facade', () => {
     spies.popup.show.mockClear();
     spies.dropzone.deactivate.mockClear();
     const { pluginState } = editor(doc(p('{<>}')));
-    await waitForPluginStateChange(pluginState);
+    await waitForAllPickersInitialised(pluginState);
 
     const provider = await mediaProvider;
     await provider.uploadContext;
@@ -124,7 +128,7 @@ describe('Media with mock facade', () => {
     spies.popup.show.mockClear();
     spies.dropzone.activate.mockClear();
     const { pluginState } = editor(doc(p('{<>}')));
-    await waitForPluginStateChange(pluginState);
+    await waitForAllPickersInitialised(pluginState);
 
     const provider = await mediaProvider;
     await provider.uploadContext;

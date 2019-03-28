@@ -5,7 +5,10 @@ import {
   DOMSerializer,
 } from 'prosemirror-model';
 import { EditorView, NodeView } from 'prosemirror-view';
-import ReactNodeView from '../../../nodeviews/ReactNodeView';
+import ReactNodeView, {
+  ForwardRef,
+  getPosHandler,
+} from '../../../nodeviews/ReactNodeView';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { generateColgroup } from '../utils';
 import TableComponent from './TableComponent';
@@ -14,7 +17,11 @@ import WithPluginState from '../../../ui/WithPluginState';
 import { pluginKey as widthPluginKey } from '../../width';
 import { pluginKey, getPluginState } from '../pm-plugins/main';
 import { pluginKey as tableResizingPluginKey } from '../pm-plugins/table-resizing/index';
+import { contentWidth } from '../pm-plugins/table-resizing/resizer/contentWidth';
+import { handleBreakoutContent } from '../pm-plugins/table-resizing/actions';
 import { pluginConfig as getPluginConfig } from '../index';
+import { TableCssClassName as ClassName } from '../types';
+import { closestElement } from '../../../utils';
 
 export interface Props {
   node: PmNode;
@@ -23,6 +30,7 @@ export interface Props {
   cellMinWidth?: number;
   portalProviderAPI: PortalProviderAPI;
   getPos: () => number;
+  dynamicTextSizing?: boolean;
 }
 
 const tableAttributes = (node: PmNode) => {
@@ -51,9 +59,13 @@ const toDOM = (node: PmNode, props: Props) => {
 
 export default class TableView extends ReactNodeView {
   private table: HTMLElement | undefined;
+  private observer?: MutationObserver;
 
   constructor(props: Props) {
     super(props.node, props.view, props.getPos, props.portalProviderAPI, props);
+
+    const MutObserver = (window as any).MutationObserver;
+    this.observer = MutObserver && new MutObserver(this.handleBreakoutContent);
   }
 
   getContentDOM() {
@@ -64,23 +76,34 @@ export default class TableView extends ReactNodeView {
 
     if (rendered.dom) {
       this.table = rendered.dom as HTMLElement;
+
+      // Ignore mutation doesn't pick up children updates
+      // E.g. inserting a bodiless extension that renders
+      // arbitary nodes (aka macros).
+      if (this.observer) {
+        this.observer.observe(rendered.dom, {
+          subtree: true,
+          childList: true,
+          attributes: true,
+        });
+      }
     }
 
     return rendered;
   }
 
-  setDomAttrs(node) {
+  setDomAttrs(node: PmNode) {
     if (!this.table) {
       return;
     }
 
     const attrs = tableAttributes(node);
-    Object.keys(attrs).forEach(attr => {
+    (Object.keys(attrs) as Array<keyof typeof attrs>).forEach(attr => {
       this.table!.setAttribute(attr, attrs[attr]);
     });
   }
 
-  render(props, forwardRef) {
+  render(props: Props, forwardRef: ForwardRef) {
     return (
       <WithPluginState
         plugins={{
@@ -105,13 +128,61 @@ export default class TableView extends ReactNodeView {
   ignoreMutation(record: MutationRecord) {
     return true;
   }
+
+  destroy() {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+    super.destroy();
+  }
+
+  private resizeForBreakoutContent = (target: HTMLElement) => {
+    const elemOrWrapper =
+      closestElement(
+        target,
+        `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
+          ClassName.TABLE_CELL_NODE_WRAPPER
+        }`,
+      ) || target;
+
+    const { minWidth } = contentWidth(target, target);
+
+    // This can also trigger for a non-resized table.
+    if (this.node && elemOrWrapper && elemOrWrapper.offsetWidth < minWidth) {
+      const cellPos = this.view.posAtDOM(elemOrWrapper, 0);
+      handleBreakoutContent(
+        this.view,
+        elemOrWrapper,
+        cellPos - 1,
+        this.getPos() + 1,
+        minWidth,
+        this.node,
+      );
+    }
+  };
+
+  private handleBreakoutContent = (records: Array<MutationRecord>) => {
+    if (!records.length || !this.contentDOM) {
+      return;
+    }
+
+    const uniqueTargets: Set<HTMLElement> = new Set();
+    records.forEach(record => {
+      const target = record.target as HTMLElement;
+      // If we've seen this target already in this set of targets
+      // We dont need to reprocess.
+      if (!uniqueTargets.has(target)) {
+        this.resizeForBreakoutContent(target);
+        uniqueTargets.add(target);
+      }
+    });
+  };
 }
 
-export const createTableView = (portalProviderAPI: PortalProviderAPI) => (
-  node,
-  view,
-  getPos,
-): NodeView => {
+export const createTableView = (
+  portalProviderAPI: PortalProviderAPI,
+  dynamicTextSizing?: boolean,
+) => (node: PmNode, view: EditorView, getPos: getPosHandler): NodeView => {
   const { pluginConfig } = getPluginState(view.state);
   const { allowColumnResizing } = getPluginConfig(pluginConfig);
 
@@ -121,5 +192,6 @@ export const createTableView = (portalProviderAPI: PortalProviderAPI) => (
     allowColumnResizing,
     portalProviderAPI,
     getPos,
+    dynamicTextSizing,
   }).init();
 };

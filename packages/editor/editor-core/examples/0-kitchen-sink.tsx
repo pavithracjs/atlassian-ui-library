@@ -27,6 +27,7 @@ import { extensionHandlers } from '../example-helpers/extension-handlers';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 import ErrorReport, { Error } from '../example-helpers/ErrorReport';
 import KitchenSinkEditor from '../example-helpers/KitchenSinkEditor';
+import withSentry from '../example-helpers/withSentry';
 
 const Container = styled.div`
   display: flex;
@@ -73,16 +74,6 @@ const appearanceOptions = [
     description:
       'should be used for things like comments where you have a field input but require a toolbar & save/cancel buttons',
   },
-  {
-    label: 'Message',
-    value: 'message',
-    description: 'used for Stride; has now been deprecated.',
-  },
-  // {
-  //   label: 'Inline comment',
-  //   value: 'inline-comment',
-  //   description: 'should be used for inline comments; no toolbar is displayed',
-  // },
   // {
   //   label: 'Chromeless',
   //   value: 'chromeless',
@@ -103,7 +94,10 @@ const docs = [
   { label: 'With table', value: 'example-doc-with-table.ts' },
 ];
 
-const formatAppearanceOption = (option, { context }) => {
+const formatAppearanceOption = (
+  option: { label: string; description?: string },
+  { context }: { context: string },
+) => {
   if (context === 'menu') {
     return (
       <div
@@ -131,12 +125,12 @@ const formatAppearanceOption = (option, { context }) => {
 };
 
 const selectStyles = {
-  menu(styles) {
+  menu(styles: {}) {
     return { ...styles, zIndex: 9999 };
   },
 };
 
-export const Textarea: any = styled.textarea`
+export const Textarea = styled.textarea`
   box-sizing: border-box;
   border: 1px solid lightgray;
   font-family: monospace;
@@ -167,10 +161,7 @@ export type State = {
   waitingToValidate: boolean;
 };
 
-export default class FullPageRendererExample extends React.Component<
-  Props,
-  State
-> {
+class FullPageRendererExample extends React.Component<Props, State> {
   private getJSONFromStorage = (key: string, fallback: any = undefined) => {
     const localADF = (localStorage && localStorage.getItem(key)) || undefined;
 
@@ -234,6 +225,15 @@ export default class FullPageRendererExample extends React.Component<
     );
   };
 
+  private legacyMediaEventHandlers = () => ({
+    media: {
+      onClick: () => {
+        // tslint:disable-next-line:no-console
+        console.log('legacy event handler click!');
+      },
+    },
+  });
+
   render() {
     const { locale, messages } = this.state;
     return (
@@ -241,12 +241,6 @@ export default class FullPageRendererExample extends React.Component<
         <WithEditorActions
           render={actions => (
             <div>
-              <div
-                ref={ref => (this.popupMountPoint = ref)}
-                style={{
-                  zIndex: 9999,
-                }}
-              />
               <Controls>
                 <Select
                   formatOptionLabel={formatAppearanceOption}
@@ -254,7 +248,7 @@ export default class FullPageRendererExample extends React.Component<
                   defaultValue={appearanceOptions.find(
                     opt => opt.value === this.state.appearance,
                   )}
-                  onChange={opt => {
+                  onChange={(opt: { value: EditorAppearance }) => {
                     this.setState({
                       appearance: opt.value,
                     });
@@ -267,7 +261,7 @@ export default class FullPageRendererExample extends React.Component<
                     <Select
                       formatOptionLabel={formatAppearanceOption}
                       options={docs}
-                      onChange={opt => this.loadDocument(opt, actions)}
+                      onChange={(opt: any) => this.loadDocument(opt, actions)}
                       placeholder="Load an example document..."
                       styles={selectStyles}
                     />
@@ -322,30 +316,42 @@ export default class FullPageRendererExample extends React.Component<
                 }}
               >
                 <EditorColumn vertical={this.state.vertical}>
-                  <IntlProvider
-                    locale={this.getLocalTag(locale)}
-                    messages={messages}
+                  <div
+                    className="popups-wrapper"
+                    style={{ position: 'relative' }}
                   >
-                    <KitchenSinkEditor
-                      actions={actions}
-                      adf={this.state.adf}
-                      disabled={this.state.disabled}
-                      appearance={this.state.appearance}
-                      popupMountPoint={this.popupMountPoint || undefined}
-                      onDocumentChanged={this.onDocumentChanged}
-                      onDocumentValidated={this.onDocumentValidated}
-                      primaryToolbarComponents={
-                        <>
-                          <LanguagePicker
-                            languages={languages}
-                            locale={locale}
-                            onChange={this.loadLocale}
-                          />
-                          <SaveAndCancelButtons editorActions={actions} />
-                        </>
-                      }
+                    <div
+                      className="popups"
+                      ref={ref => (this.popupMountPoint = ref)}
+                      style={{
+                        zIndex: 9999,
+                      }}
                     />
-                  </IntlProvider>
+                    <IntlProvider
+                      locale={this.getLocalTag(locale)}
+                      messages={messages}
+                    >
+                      <KitchenSinkEditor
+                        actions={actions}
+                        adf={this.state.adf}
+                        disabled={this.state.disabled}
+                        appearance={this.state.appearance}
+                        popupMountPoint={this.popupMountPoint || undefined}
+                        onDocumentChanged={this.onDocumentChanged}
+                        onDocumentValidated={this.onDocumentValidated}
+                        primaryToolbarComponents={
+                          <React.Fragment>
+                            <LanguagePicker
+                              languages={languages}
+                              locale={locale}
+                              onChange={this.loadLocale}
+                            />
+                            <SaveAndCancelButtons editorActions={actions} />
+                          </React.Fragment>
+                        }
+                      />
+                    </IntlProvider>
+                  </div>
                 </EditorColumn>
                 <Column>
                   {!this.state.showADF ? (
@@ -367,6 +373,7 @@ export default class FullPageRendererExample extends React.Component<
                             adfStage="stage0"
                             dataProviders={this.dataProviders}
                             extensionHandlers={extensionHandlers}
+                            eventHandlers={this.legacyMediaEventHandlers()}
                             // @ts-ignore
                             appearance={this.state.appearance}
                           />
@@ -399,7 +406,7 @@ export default class FullPageRendererExample extends React.Component<
     );
   }
 
-  private importADF = actions => {
+  private importADF = (actions: EditorActions) => {
     if (!this.inputRef) {
       return;
     }
@@ -411,7 +418,10 @@ export default class FullPageRendererExample extends React.Component<
     });
   };
 
-  private loadDocument = async (opt, actions: EditorActions) => {
+  private loadDocument = async (
+    opt: { value: string | null },
+    actions: EditorActions,
+  ) => {
     if (opt.value === null) {
       actions.clear();
       return;
@@ -423,7 +433,7 @@ export default class FullPageRendererExample extends React.Component<
     actions.replaceDocument(adf, false);
   };
 
-  private onDocumentChanged = adf => {
+  private onDocumentChanged = (adf: any) => {
     this.setState({ adf, adfInput: JSON.stringify(adf, null, 2) });
 
     // run dat validation spinner
@@ -432,11 +442,13 @@ export default class FullPageRendererExample extends React.Component<
     }
   };
 
-  private onDocumentValidated = errors => {
-    this.setState({ errors, waitingToValidate: false });
+  private onDocumentValidated = (errors?: Array<Error>) => {
+    this.setState({ errors: errors || [], waitingToValidate: false });
   };
 
-  private handleInputChange = event => {
+  private handleInputChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
     this.setState({ adfInput: event.target.value });
     // the user loads the ADF via the load button; we just update the
     // state of the textarea here
@@ -453,3 +465,5 @@ export default class FullPageRendererExample extends React.Component<
 
   private getLocalTag = (locale: string) => locale.substring(0, 2);
 }
+
+export default withSentry(FullPageRendererExample);

@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import * as fetchMock from 'fetch-mock';
 
 import { request } from '../../request';

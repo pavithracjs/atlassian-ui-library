@@ -22,7 +22,7 @@ import {
 BrowserTestCase(
   'mention-1.ts: user can see mention inside blockquote',
   { skip: ['safari', 'ie'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -36,14 +36,14 @@ BrowserTestCase(
     await insertMention(page, 'Carolyn');
     await page.waitForSelector(lozenge);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'mention-1.ts: user can see mention inside bulletList',
   { skip: ['safari', 'ie'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -56,14 +56,14 @@ BrowserTestCase(
     await insertMention(page, 'Carolyn');
     await page.waitForSelector(lozenge);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'mention-1.ts: user can see mention inside orderedList',
   { skip: ['safari', 'ie'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -76,14 +76,14 @@ BrowserTestCase(
     await insertMention(page, 'Carolyn');
     await page.waitForSelector(lozenge);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'mention-1.ts: user can see mention inside decision',
   { skip: ['ie', 'safari'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -93,14 +93,14 @@ BrowserTestCase(
     await insertMention(page, 'Carolyn');
     await page.waitForSelector(lozenge);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'mention-1.ts: user can see mention inside action',
   { skip: ['ie', 'safari'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -110,14 +110,14 @@ BrowserTestCase(
     await insertMention(page, 'Carolyn');
     await page.waitForSelector(lozenge);
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'mention-1.ts: user can navigate picker using keyboard',
   { skip: ['ie', 'safari'] },
-  async client => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -128,6 +128,6 @@ BrowserTestCase(
     await page.type(editable, 'ArrowDown');
     await page.type(editable, 'Enter');
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

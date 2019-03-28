@@ -7,7 +7,7 @@ const Div = styled.div`
 `;
 
 export default class extends React.Component {
-  private textareaElement: HTMLTextAreaElement;
+  private textareaElement: HTMLTextAreaElement | undefined;
 
   private focus = () => {
     if (this.textareaElement) {
@@ -20,14 +20,16 @@ export default class extends React.Component {
       <Div>
         <p>Disabled:</p>
         <TextArea value="hello" isDisabled />
-        <p>Invalid:</p>
-        <TextArea resize="auto" isInvalid />
-        <p>Smart:</p>
-        <TextArea
-          ref={(ref: any) => {
-            this.textareaElement = ref;
-          }}
-        />
+        <p>Invalid, resize: auto, compact:</p>
+        <TextArea resize="auto" isInvalid isCompact />
+        <p>Smart, ref:</p>
+        <div id="smart">
+          <TextArea
+            ref={(ref: any) => {
+              this.textareaElement = ref;
+            }}
+          />
+        </div>
         <button onClick={this.focus}>focus</button>
       </Div>
     );

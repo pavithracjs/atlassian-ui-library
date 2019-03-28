@@ -822,8 +822,9 @@ describe('Renderer - Validator', () => {
         ).to.deep.equal({
           type: 'mention',
           attrs: {
-            text: '@Oscar',
             id: 'abcd-abcd-abcd',
+            text: '@Oscar',
+            accessLevel: '',
           },
         });
       });
@@ -839,6 +840,7 @@ describe('Renderer - Validator', () => {
           attrs: {
             text: '@Oscar',
             id: 'abcd-abcd-abcd',
+            accessLevel: '',
           },
         });
       });
@@ -855,6 +857,7 @@ describe('Renderer - Validator', () => {
           attrs: {
             text: '@Oscar',
             id: 'abcd-abcd-abcd',
+            accessLevel: '',
           },
         });
       });
@@ -867,6 +870,7 @@ describe('Renderer - Validator', () => {
           attrs: {
             text: '@unknown',
             id: 'abcd-abcd-abcd',
+            accessLevel: '',
           },
         });
       });
@@ -1088,6 +1092,7 @@ describe('Renderer - Validator', () => {
             {
               type: 'mention',
               attrs: {
+                accessLevel: '',
                 id: 'abcd-abcd-abcd',
                 text: '@Oscar',
               },
@@ -1934,16 +1939,31 @@ describe('Renderer - Validator', () => {
   });
 
   describe('getMarksByOrder', () => {
-    const { strong, strike, link, em, subsup, underline } = schema.marks;
+    const {
+      link,
+      em,
+      strong,
+      textColor,
+      strike,
+      subsup,
+      underline,
+      code,
+      confluenceInlineComment,
+      annotation,
+    } = schema.marks;
 
     it('should return marks in right order', () => {
       const unorderedMarks = [
         strong.create(),
-        link.create({ href: 'www.atlassian.com' }),
-        em.create(),
         subsup.create(),
+        code.create(),
+        em.create(),
+        link.create({ href: 'www.atlassian.com' }),
+        textColor.create({ color: '#97a0af' }),
         underline.create(),
+        confluenceInlineComment.create(),
         strike.create(),
+        annotation.create(),
       ];
 
       const orderedMarks = getMarksByOrder(unorderedMarks);

@@ -6,9 +6,9 @@ import { getDocFromElement, comment, fullpage, editable } from '../_helpers';
   BrowserTestCase(
     `hyperlink-markdown: Link - entering link markdown ${editor.name} editor`,
     {
-      skip: ['ie', 'edge', 'safari', 'firefox'],
+      skip: ['ie', 'edge', 'safari'],
     },
-    async client => {
+    async (client: any, testName: string) => {
       let browser = new Page(client);
       await browser.goto(editor.path);
       await browser.waitForSelector(editor.placeholder);
@@ -19,7 +19,7 @@ import { getDocFromElement, comment, fullpage, editable } from '../_helpers';
       await browser.waitForSelector('a');
 
       const doc = await browser.$eval(editable, getDocFromElement);
-      expect(doc).toMatchDocSnapshot();
+      expect(doc).toMatchCustomDocSnapshot(testName);
     },
   );
 });

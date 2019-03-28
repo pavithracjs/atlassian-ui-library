@@ -55,13 +55,13 @@ export const messages = defineMessages<
   },
   blockquote: {
     id: 'fabric.editor.blockquote',
-    defaultMessage: 'Block quote',
+    defaultMessage: 'Quote',
     description: 'Quote some text',
   },
   codeblock: {
     id: 'fabric.editor.codeblock',
-    defaultMessage: 'Code block',
-    description: 'Insert a block of code (code snippet)',
+    defaultMessage: 'Code snippet',
+    description: 'Insert a snippet/segment of code (code block)',
   },
   panel: {
     id: 'fabric.editor.panel',
@@ -179,7 +179,9 @@ export const TEXT_BLOCK_TYPES = [
 export const WRAPPER_BLOCK_TYPES = [BLOCK_QUOTE, CODE_BLOCK, PANEL];
 export const ALL_BLOCK_TYPES = TEXT_BLOCK_TYPES.concat(WRAPPER_BLOCK_TYPES);
 
-export const HEADINGS_BY_LEVEL = TEXT_BLOCK_TYPES.reduce((acc, blockType) => {
+export const HEADINGS_BY_LEVEL = TEXT_BLOCK_TYPES.reduce<
+  Record<number, BlockType>
+>((acc, blockType) => {
   if (blockType.level && blockType.nodeName === 'heading') {
     acc[blockType.level] = blockType;
   }
@@ -222,3 +224,5 @@ export interface BlockType {
   tagName?: string;
   level?: number;
 }
+
+export type HeadingLevels = 0 | 1 | 2 | 3 | 4 | 5 | 6;

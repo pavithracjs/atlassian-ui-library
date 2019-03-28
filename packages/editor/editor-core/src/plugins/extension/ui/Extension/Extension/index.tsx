@@ -10,26 +10,37 @@ import {
   pluginKey as widthPluginKey,
   WidthPluginState,
 } from '../../../../width';
-import { calcBreakoutWidth } from '@atlaskit/editor-common';
+import {
+  calcBreakoutWidth,
+  overflowShadow,
+  OverflowShadowProps,
+} from '@atlaskit/editor-common';
 import WithPluginState from '../../../../../ui/WithPluginState';
 
 export interface Props {
   node: PmNode;
   macroProvider?: MacroProvider;
   handleContentDOMRef: (node: HTMLElement | null) => void;
-  onSelectExtension: (hasBody) => void;
+  onSelectExtension: (hasBody: boolean) => void;
   children?: React.ReactNode;
   view: EditorView;
 }
 
-export default class Extension extends Component<Props, any> {
+class Extension extends Component<Props & OverflowShadowProps, any> {
   private onSelectExtension = () => {
     const { onSelectExtension, node } = this.props;
     onSelectExtension(node.type.name === 'bodiedExtension');
   };
 
   render() {
-    const { node, handleContentDOMRef, children, view } = this.props;
+    const {
+      node,
+      handleContentDOMRef,
+      children,
+      view,
+      handleRef,
+      shadowClassNames,
+    } = this.props;
 
     const hasBody = node.type.name === 'bodiedExtension';
     const hasChildren = !!children;
@@ -47,28 +58,33 @@ export default class Extension extends Component<Props, any> {
         }) => {
           return (
             <Wrapper
+              innerRef={handleRef}
               data-layout={node.attrs.layout}
-              className={`extension-container ${hasBody ? '' : 'with-overlay'}`}
+              className={`extension-container ${shadowClassNames} ${
+                hasBody ? '' : 'with-overlay'
+              }`}
               style={{
                 width: calcBreakoutWidth(node.attrs.layout, widthState.width),
               }}
             >
-              <Overlay className="extension-overlay" />
-              <Header
-                contentEditable={false}
-                onClick={this.onSelectExtension}
-                className={hasChildren ? 'with-children' : ''}
-              >
-                {children ? children : <ExtensionLozenge node={node} />}
-              </Header>
-              {hasBody && (
-                <ContentWrapper>
-                  <Content
-                    innerRef={handleContentDOMRef}
-                    className="extension-content"
-                  />
-                </ContentWrapper>
-              )}
+              <div className="extension-overflow-wrapper">
+                <Overlay className="extension-overlay" />
+                <Header
+                  contentEditable={false}
+                  onClick={this.onSelectExtension}
+                  className={hasChildren ? 'with-children' : ''}
+                >
+                  {children ? children : <ExtensionLozenge node={node} />}
+                </Header>
+                {hasBody && (
+                  <ContentWrapper>
+                    <Content
+                      innerRef={handleContentDOMRef}
+                      className="extension-content"
+                    />
+                  </ContentWrapper>
+                )}
+              </div>
             </Wrapper>
           );
         }}
@@ -76,3 +92,7 @@ export default class Extension extends Component<Props, any> {
     );
   }
 }
+
+export default overflowShadow(Extension, {
+  overflowSelector: '.extension-overflow-wrapper',
+});

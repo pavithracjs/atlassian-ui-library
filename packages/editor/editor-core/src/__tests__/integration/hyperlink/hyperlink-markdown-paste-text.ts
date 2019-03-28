@@ -16,9 +16,9 @@ import {
       editor.name
     } editor`,
     {
-      skip: ['ie', 'edge', 'safari', 'firefox'],
+      skip: ['ie', 'edge', 'safari'],
     },
-    async client => {
+    async (client: any, testName: string) => {
       const sample = new Page(client);
       await sample.goto(clipboardHelper);
       await sample.isVisible(clipboardInput);
@@ -35,7 +35,7 @@ import {
       await sample.type(editable, [')']);
 
       const doc = await sample.$eval(editable, getDocFromElement);
-      expect(doc).toMatchDocSnapshot();
+      expect(doc).toMatchCustomDocSnapshot(testName);
     },
   );
 });

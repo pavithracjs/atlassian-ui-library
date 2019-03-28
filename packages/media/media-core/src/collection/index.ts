@@ -7,7 +7,7 @@ import {
 } from '@atlaskit/media-store';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { FileItem, FileDetails, LinkItem, LinkDetails } from '../item';
+import { FileItem, FileDetails } from '../item';
 import { FileState, mapMediaFileToFileState } from '../fileState';
 import { fileStreamsCache } from '../context/fileStreamCache';
 
@@ -17,14 +17,6 @@ export interface MediaCollectionFileItemDetails extends FileDetails {
 
 export interface MediaCollectionFileItem extends FileItem {
   details: MediaCollectionFileItemDetails;
-}
-
-export interface MediaCollectionLinkItemDetails extends LinkDetails {
-  occurrenceKey: string;
-}
-
-export interface MediaCollectionLinkItem extends LinkItem {
-  details: MediaCollectionLinkItemDetails;
 }
 
 export interface MediaCollection {
@@ -82,10 +74,15 @@ export class CollectionFetcher {
   }
 
   private removeFromCache(id: string, collectionName: string) {
-    fileStreamsCache.remove(id);
     const collectionCacheIndex = collectionCache[
       collectionName
     ].items.findIndex(item => item.id === id);
+
+    if (collectionCacheIndex === -1) {
+      return;
+    }
+
+    fileStreamsCache.remove(id);
     collectionCache[collectionName].items.splice(collectionCacheIndex, 1);
   }
 
@@ -113,7 +110,8 @@ export class CollectionFetcher {
         collection.items = items.data.contents;
         collection.nextInclusiveStartKey = nextInclusiveStartKey;
         subject.next(collection.items);
-      });
+      })
+      .catch(error => subject.error(error));
 
     return subject;
   }

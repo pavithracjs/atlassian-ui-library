@@ -1,5 +1,111 @@
 # @atlaskit/conversation
 
+## 14.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 14.0.0
+- [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+
+  - Dropped ES5 distributables from the typescript packages
+
+## 13.0.1
+- Updated dependencies [7ab3e93996](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7ab3e93996):
+  - @atlaskit/editor-common@34.0.0
+  - @atlaskit/editor-core@105.0.0
+  - @atlaskit/renderer@43.0.0
+  - @atlaskit/comment@7.0.2
+  - @atlaskit/reactions@15.6.2
+  - @atlaskit/util-data-test@10.2.5
+
+## 13.0.0
+- [major] [68247a2490](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/68247a2490):
+
+  - The internal mechanism for handling successfully retrieved conversations now resets the internal store to that collection instead of concatenating them to pre-existing ones.
+
+## 12.2.0
+- [minor] [55d8c2a898](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55d8c2a898):
+
+  - noImplicitAny for @atlaskit/conversation
+
+## 12.1.5
+- Updated dependencies [4d17df92f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d17df92f8):
+  - @atlaskit/comment@7.0.1
+  - @atlaskit/editor-core@104.0.0
+  - @atlaskit/renderer@42.0.0
+
+## 12.1.4
+- Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
+  - @atlaskit/editor-core@103.0.3
+  - @atlaskit/renderer@41.2.1
+  - @atlaskit/analytics-listeners@4.2.1
+  - @atlaskit/reactions@15.6.1
+  - @atlaskit/util-data-test@10.2.3
+  - @atlaskit/editor-common@33.0.3
+  - @atlaskit/docs@7.0.0
+  - @atlaskit/analytics-next@4.0.0
+  - @atlaskit/avatar@15.0.0
+  - @atlaskit/comment@7.0.0
+  - @atlaskit/single-select@7.0.0
+
+## 12.1.3
+- Updated dependencies [60f0ad9a7e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60f0ad9a7e):
+  - @atlaskit/comment@6.0.45
+  - @atlaskit/editor-core@103.0.0
+
+## 12.1.2
+- [patch] [6eb409e5cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6eb409e5cc):
+
+  - Pass portal prop through to nested comments in conversation threads and re-render comments when it changes
+
+## 12.1.1
+- Updated dependencies [4aee5f3cec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4aee5f3cec):
+  - @atlaskit/editor-common@33.0.0
+  - @atlaskit/editor-core@102.0.0
+  - @atlaskit/renderer@41.0.0
+  - @atlaskit/comment@6.0.44
+  - @atlaskit/reactions@15.5.1
+  - @atlaskit/util-data-test@10.2.2
+
+## 12.1.0
+- [minor] [b9a541a266](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b9a541a266):
+
+  - Add ability to pass down a portal prop to the renderer
+
+## 12.0.2
+- [patch] [a3875fd978](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a3875fd978):
+
+  - Don't auto scroll editor into view on reply
+
+## 12.0.1
+- Updated dependencies [4a84fc40e0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a84fc40e0):
+  - @atlaskit/comment@6.0.43
+  - @atlaskit/editor-core@101.0.0
+  - @atlaskit/renderer@40.0.0
+
+## 12.0.0
+- [major] [dce41f798f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dce41f798f):
+
+  - use objectId to identity the document and make containerId as optional
+
+## 11.1.16
+- Updated dependencies [4af5bd2a58](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4af5bd2a58):
+  - @atlaskit/comment@6.0.42
+  - @atlaskit/editor-common@32.0.2
+  - @atlaskit/renderer@39.0.2
+  - @atlaskit/reactions@15.4.2
+  - @atlaskit/editor-core@100.0.0
+
+## 11.1.15
+- Updated dependencies [fc6164c8c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fc6164c8c2):
+  - @atlaskit/editor-common@32.0.0
+  - @atlaskit/editor-core@99.0.0
+  - @atlaskit/renderer@39.0.0
+  - @atlaskit/comment@6.0.41
+  - @atlaskit/reactions@15.4.1
+  - @atlaskit/util-data-test@10.2.1
+
 ## 11.1.14
 - Updated dependencies [69c8d0c19c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c8d0c19c):
   - @atlaskit/editor-common@31.0.0

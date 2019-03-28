@@ -13,6 +13,7 @@ export type MediaFile = {
   readonly processingStatus?: MediaFileProcessingStatus;
   readonly size: number;
   readonly artifacts: MediaFileArtifacts;
+  readonly representations: MediaRepresentations;
 };
 
 export type MediaCollection = {
@@ -29,7 +30,6 @@ export type MediaCollectionItem = {
   readonly id: string;
   readonly insertedAt: number;
   readonly occurrenceKey: string;
-  readonly type: 'file' | 'link';
   readonly details: MediaCollectionItemDetails;
 };
 
@@ -45,6 +45,11 @@ export type MediaCollectionItemFullDetails = {
   readonly processingStatus: MediaFileProcessingStatus;
   readonly size: number;
   readonly artifacts: MediaFileArtifacts;
+  readonly representations: MediaRepresentations;
+};
+
+export type MediaRepresentations = {
+  image?: Object;
 };
 
 export type MediaCollectionItemDetails =
