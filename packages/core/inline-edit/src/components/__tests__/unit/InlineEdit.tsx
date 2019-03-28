@@ -2,6 +2,7 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 // import InlineEdit from '../../InlineEdit';
 import InlineEditableTextfield from '../../InlineEditableTextfield';
+// import ContentWrapper from '../../../styled/ContentWrapper';
 
 const noop = () => {};
 
@@ -29,7 +30,8 @@ describe('@atlaskit/inline-edit core', () => {
   //       // keepEditViewOpenOnBlur
   //     />
   //   );
-  //   wrapper.simulate('blur');
+  //   const div =  wrapper.find(ContentWrapper);
+  //   div.simulate('blur');
   //   expect(wrapper.find('input').length).toBe(0);
   // });
 
