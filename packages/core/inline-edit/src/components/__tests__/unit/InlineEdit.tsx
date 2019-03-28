@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { mount, shallow } from 'enzyme';
-import InlineEdit from '../../InlineEdit';
+import { mount } from 'enzyme';
+// import InlineEdit from '../../InlineEdit';
 import InlineEditableTextfield from '../../InlineEditableTextfield';
 
 const noop = () => {};
