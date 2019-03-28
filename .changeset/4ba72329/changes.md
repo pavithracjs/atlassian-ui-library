@@ -1,0 +1,1 @@
+- FIX ED-6584: Keep card dataURI regardless of previus state
