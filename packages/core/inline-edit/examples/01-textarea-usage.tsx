@@ -37,7 +37,6 @@ export default class InlineEditExample extends React.Component<void, State> {
             <ReadViewContainer>
               {this.state.editValue.split('\n').map((value, i) => (
                 <React.Fragment key={i}>
-                  {console.log(value, 'hello')}
                   {value}
                   <br />
                 </React.Fragment>

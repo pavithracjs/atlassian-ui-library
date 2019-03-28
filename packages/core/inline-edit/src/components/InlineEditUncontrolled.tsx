@@ -29,7 +29,7 @@ import InlineDialogChild from '../styled/InlineDialogChild';
 import {
   name as packageName,
   version as packageVersion,
-} from '../../package.json';
+} from '../version.json';
 
 interface State {
   onReadViewHover: boolean;
@@ -287,17 +287,17 @@ export const InlineEditWithoutAnalytics = withDefaultProps(
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export default withAnalyticsContext({
-  componentName: 'inlineEdit-v3',
+  componentName: 'inlineEdit',
   packageName,
   packageVersion,
 })(
   withAnalyticsEvents({
     onCancel: createAndFireEventOnAtlaskit({
       action: 'canceled',
-      actionSubject: 'inlineEdit-v3',
+      actionSubject: 'inlineEdit',
 
       attributes: {
-        componentName: 'inlineEdit-v3',
+        componentName: 'inlineEdit',
         packageName,
         packageVersion,
       },
@@ -305,10 +305,21 @@ export default withAnalyticsContext({
 
     onConfirm: createAndFireEventOnAtlaskit({
       action: 'confirmed',
-      actionSubject: 'inlineEdit-v3',
+      actionSubject: 'inlineEdit',
 
       attributes: {
-        componentName: 'inlineEdit-v3',
+        componentName: 'inlineEdit',
+        packageName,
+        packageVersion,
+      },
+    }),
+
+    onEditRequested: createAndFireEventOnAtlaskit({
+      action: 'focused',
+      actionSubject: 'inlineEdit',
+
+      attributes: {
+        componentName: 'inlineEdit',
         packageName,
         packageVersion,
       },
