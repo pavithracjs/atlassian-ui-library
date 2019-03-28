@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 35.1.2
+- [patch] [298bfed4e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/298bfed4e1):
+
+  - ED-6580 Media in editor is sized incorrectly in firefox
+
 ## 35.1.1
 - [patch] [b32008359a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b32008359a):
 
