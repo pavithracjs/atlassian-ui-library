@@ -10,7 +10,7 @@ import PresenceResource, {
   AbstractPresenceResource,
 } from './api/PresenceResource';
 import { MentionDescription, MentionsResult, isSpecialMention } from './types';
-import { ELEMENTS_CHANNEL } from './constants';
+import { ELEMENTS_CHANNEL } from './_constants';
 import ContextMentionResource from './api/ContextMentionResource';
 
 export {
