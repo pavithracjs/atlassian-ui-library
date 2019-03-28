@@ -2,7 +2,7 @@ import { Link as BaseLink } from 'react-router-dom';
 import * as React from 'react';
 
 export interface LinkProps {
-  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+  onClick?: (e: Event) => void;
   to: string | Record<string, string | Location> | undefined;
   className?: string;
   replace?: boolean;
@@ -16,7 +16,7 @@ class Link extends React.PureComponent<LinkProps, {}> {
     const { onClick, children, className, to, ...props } = this.props;
     return (
       <BaseLink
-        onClick={(e: React.MouseEvent<HTMLElement>) => {
+        onClick={(e: Event) => {
           if (performance.mark) {
             performance.clearMarks();
             performance.mark(`navigate-${to}`);
