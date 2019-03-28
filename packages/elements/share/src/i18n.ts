@@ -76,4 +76,15 @@ export const messages = defineMessages({
     description:
       'Default text for share failure message displayed in the tooltip',
   },
+  shareSuccessMessage: {
+    id: 'fabric.elements.share.success.message',
+    defaultMessage: '{object} shared',
+    description: 'Default text for share success message displayed in a flag',
+  },
+  adminNotifiedMessage: {
+    id: 'fabric.elements.share.admin.notified.message',
+    defaultMessage: 'Your admin has been notified',
+    description:
+      'Default text for admin notified message displayed in a flag when a share action is successful',
+  },
 });

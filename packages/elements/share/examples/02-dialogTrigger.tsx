@@ -12,12 +12,14 @@ export default () => (
       copyLink="copyLink"
       loadUserOptions={loadUserOptions}
       onShareSubmit={onShareSubmit}
+      shareContentType="page"
     />
     <h4>Default share button with text</h4>
     <ShareDialogWithTrigger
       copyLink="copyLink"
       loadUserOptions={loadUserOptions}
       onShareSubmit={onShareSubmit}
+      shareContentType="page"
       triggerButtonStyle="icon-with-text"
     />
     <h4>Custom share button</h4>
@@ -25,6 +27,7 @@ export default () => (
       copyLink="copyLink"
       loadUserOptions={loadUserOptions}
       onShareSubmit={onShareSubmit}
+      shareContentType="page"
     >
       {openDialog => <Button onClick={openDialog}>Custom Button</Button>}
     </ShareDialogWithTrigger>

@@ -30,6 +30,7 @@ beforeEach(() => {
       copyLink="copyLink"
       loadUserOptions={mockLoadOptions}
       onShareSubmit={mockOnShareSubmit}
+      shareContentType="page"
     />,
   );
 });
@@ -79,6 +80,7 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
         />,
       );
       mountWrapper.setState({ isDialogOpen: true });
@@ -103,6 +105,7 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
         />,
       );
       expect(
@@ -133,6 +136,7 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
         />,
       );
       newWrapper.setState({ isDialogOpen: true });
@@ -153,6 +157,7 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
         />,
       );
 
@@ -178,6 +183,7 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
         >
           {spiedRenderer}
         </ShareDialogWithTrigger>,
@@ -202,6 +208,7 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
         />,
       );
       expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
@@ -224,6 +231,7 @@ describe('ShareDialogWithTrigger', () => {
           isDisabled={isDisabled}
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
         />,
       );
       let shareButtonProps: ShareButtonProps = wrapper
@@ -247,6 +255,7 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
           shareFormTitle="Share this page"
         />,
       );
@@ -278,6 +287,7 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
         />,
       );
       wrapper.setState({ isDialogOpen: true });
@@ -363,6 +373,7 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           onShareSubmit={mockOnSubmit}
           loadUserOptions={mockLoadOptions}
+          shareContentType="page"
         />,
       );
       wrapper.setState(mockState);
@@ -374,31 +385,74 @@ describe('ShareDialogWithTrigger', () => {
       expect(mockOnSubmit).toHaveBeenCalledWith(values);
     });
 
-    it('should close inline dialog when onSubmit resolves a value', () => {
-      const mockOnSubmit: jest.Mock = jest
-        .fn()
-        .mockReturnValue(Promise.resolve());
-      const wrapper: ShallowWrapper<
-        Props & InjectedIntlProps
-      > = shallowWithIntl<Props>(
+    it('should close inline dialog when onSubmit resolves a value', async () => {
+      const mockOnSubmit: jest.Mock = jest.fn().mockResolvedValue({});
+      const values: ShareData = {
+        users: [
+          { type: 'user', id: 'id', name: 'name' },
+          { type: 'email', id: 'email', name: 'email' },
+        ],
+        comment: {
+          format: 'plain_text',
+          value: 'comment',
+        },
+      };
+      const mockState: Partial<State> = {
+        isDialogOpen: true,
+        isSharing: false,
+        ignoreIntermediateState: false,
+        defaultValue: defaultShareContentState,
+      };
+      wrapper = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
           copyLink="copyLink"
           onShareSubmit={mockOnSubmit}
+          loadUserOptions={mockLoadOptions}
+          shareContentType="page"
         />,
       );
+      wrapper.setState(mockState);
 
-      const Content: React.StatelessComponent<{}> = () =>
-        wrapper.find(InlineDialog).prop('content');
-      const content: ShallowWrapper<{}> = shallow(<Content />);
-
-      expect(content.find(ShareForm)).toHaveLength(1);
-      const shareData: {} = {};
-      content.find(ShareForm).simulate('shareClick', shareData);
-
+      shallow(wrapper.find(InlineDialog).prop('content') as any)
+        .find(ShareForm)
+        .simulate('shareClick', values);
       expect(mockOnSubmit).toHaveBeenCalledTimes(1);
-      expect(mockOnSubmit).toHaveBeenCalledWith(shareData);
+      expect(mockOnSubmit).toHaveBeenCalledWith(values);
+
+      await new Promise(resolve => setTimeout(resolve, 0));
 
       expect(wrapper.state('isDialogOpen')).toBeFalsy();
+      expect(wrapper.state('flags')).toEqual([
+        {
+          id: 1,
+          type: 'object-shared' as 'object-shared',
+        },
+      ]);
+
+      wrapper.setState({ flags: [] });
+      wrapper.setProps({
+        config: {
+          allowComment: false,
+          mode: 'INVITE_NEEDS_APPROVAL',
+        },
+      });
+
+      shallow(wrapper.find(InlineDialog).prop('content') as any)
+        .find(ShareForm)
+        .simulate('shareClick', values);
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      expect(wrapper.state('flags')).toEqual([
+        {
+          id: 1,
+          type: 'admin-notified' as 'admin-notified',
+        },
+        {
+          id: 2,
+          type: 'object-shared' as 'object-shared',
+        },
+      ]);
     });
   });
 });

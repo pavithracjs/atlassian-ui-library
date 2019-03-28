@@ -188,8 +188,9 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       dialogPlacement,
       formatCopyLink,
       loadUserOptions,
-      shareLink,
+      shareContentType,
       shareFormTitle,
+      shareLink,
       shouldCloseOnEscapePress,
       triggerButtonAppearance,
       triggerButtonStyle,
@@ -203,6 +204,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
         loadUserOptions={loadUserOptions}
         onLinkCopy={this.handleCopyLink}
         onShareSubmit={this.handleSubmitShare}
+        shareContentType={shareContentType}
         shareFormTitle={shareFormTitle}
         shouldCloseOnEscapePress={shouldCloseOnEscapePress}
         triggerButtonAppearance={triggerButtonAppearance}

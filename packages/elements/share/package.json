@@ -23,6 +23,7 @@
   "dependencies": {
     "@atlaskit/button": "^11.0.2",
     "@atlaskit/field-text-area": "^5.0.1",
+    "@atlaskit/flag": "^10.0.2",
     "@atlaskit/form": "^5.2.1",
     "@atlaskit/icon": "^16.0.5",
     "@atlaskit/inline-dialog": "^10.0.1",
