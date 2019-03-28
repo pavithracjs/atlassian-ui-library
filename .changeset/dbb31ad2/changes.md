@@ -1,0 +1,4 @@
+- Drops flow support.
+- Badge has been internally converted to TypeScript.
+- Typescript consumers will get static type safety.
+- No API or behavioural changes.

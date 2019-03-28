@@ -1,0 +1,34 @@
+{
+  "releases": [{ "name": "@atlaskit/badge", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/global-navigation",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/navigation-next",
+        "@atlaskit/notification-indicator",
+        "@atlaskit/badge"
+      ]
+    },
+    {
+      "name": "@atlaskit/navigation-next",
+      "type": "patch",
+      "dependencies": ["@atlaskit/global-navigation", "@atlaskit/badge"]
+    },
+    {
+      "name": "@atlaskit/notification-indicator",
+      "type": "patch",
+      "dependencies": ["@atlaskit/badge"]
+    },
+    {
+      "name": "@atlaskit/media-ui",
+      "type": "patch",
+      "dependencies": ["@atlaskit/badge"]
+    },
+    {
+      "name": "@atlaskit/website",
+      "type": "patch",
+      "dependencies": ["@atlaskit/badge"]
+    }
+  ]
+}
