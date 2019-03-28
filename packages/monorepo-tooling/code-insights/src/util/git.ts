@@ -1,4 +1,4 @@
-const spawn = require('projector-spawn');
+import spawn from 'projector-spawn';
 
 export async function getOriginUrl() {
   const gitCmd = await spawn('git', ['remote', 'get-url', 'origin']);

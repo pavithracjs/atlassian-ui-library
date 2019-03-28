@@ -1,11 +1,11 @@
 {
-  "name": "@atlaskit/beautiful-insights",
+  "name": "@atlaskit/code-insights",
   "version": "0.0.2",
   "description": "Code insights reporting tool for FE (mono)repo's.",
   "license": "Apache-2.0",
   "sideEffects": false,
   "bin": {
-    "beautiful-insights": "./bin/beautiful-insights.js"
+    "code-insights": "./bin/code-insights.js"
   },
   "author": "Atlassian Pty Ltd",
   "maintainers": [
