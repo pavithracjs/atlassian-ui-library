@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.7.4
+- [patch] [5320e1bdb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5320e1bdb5):
+
+  - ED-6476 Columns should show border when inactive in the Editor.
+
 ## 106.7.3
 - Updated dependencies [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
   - @atlaskit/renderer@44.4.2

@@ -1,1 +1,0 @@
-- ED-6476 Columns should show border when inactive in the Editor.
