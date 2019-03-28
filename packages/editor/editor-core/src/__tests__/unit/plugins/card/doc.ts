@@ -19,15 +19,21 @@ import {
 import { setTextSelection } from '../../../../utils';
 import { queueCardsFromChangedTr } from '../../../../plugins/card/pm-plugins/doc';
 import { panelPlugin } from '../../../../plugins';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 describe('card', () => {
   const createEditor = createEditorFactory();
+  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
 
   const editor = (doc: any) => {
+    createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });
     return createEditor({
       doc,
       editorPlugins: [cardPlugin, panelPlugin],
+      editorProps: { allowAnalyticsGASV3: true },
       pluginKey,
+      createAnalyticsEvent,
     });
   };
 
@@ -350,6 +356,41 @@ describe('card', () => {
 
         // nothing should change
         expect(editorView.state.doc).toEqualDocument(initialDoc);
+      });
+    });
+
+    describe('analytics', () => {
+      it('fires analytics event when card is inserted', () => {
+        // todo: stole this from another test, put somewhere shared
+        const href = 'http://www.atlassian.com/';
+        const linkDoc = p(
+          a({
+            href,
+          })(href),
+        );
+
+        const { editorView } = editor(doc(p('blah')));
+
+        const from = 0;
+        const to = editorView.state.doc.nodeSize - 2;
+        const tr = editorView.state.tr.replaceRange(
+          from,
+          to,
+          new Slice(Fragment.from(linkDoc(editorView.state.schema)), 1, 1),
+        );
+
+        editorView.dispatch(
+          queueCardsFromChangedTr(editorView.state, tr, INPUT_METHOD.CLIPBOARD),
+        );
+
+        // todo: when they are pasted are they always block cards? if not add test for inline
+        expect(createAnalyticsEvent).toHaveBeenCalledWith({
+          action: 'inserted',
+          actionSubject: 'document',
+          actionSubjectId: 'smartLink',
+          attributes: { inputMethod: 'clipboard', displayMode: 'blockCard' },
+          eventType: 'track',
+        });
       });
     });
   });

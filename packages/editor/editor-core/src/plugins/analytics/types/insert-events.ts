@@ -48,6 +48,11 @@ export const enum LINK_RESOURCE {
   OTHER = 'other',
 }
 
+export const enum CARD_DISPLAY_MODES {
+  INLINE = 'inlineCard',
+  BLOCK = 'blockCard',
+}
+
 type InsertAEP<ActionSubjectID, Attributes> = TrackAEP<
   ACTION.INSERTED,
   ACTION_SUBJECT.DOCUMENT,
@@ -203,6 +208,14 @@ type InsertLinkPreviewAEP = InsertAEP<
   }
 >;
 
+type InsertSmartLinkAEP = InsertAEP<
+  ACTION_SUBJECT_ID.SMART_LINK,
+  {
+    inputMethod: INPUT_METHOD.CLIPBOARD | INPUT_METHOD.AUTO_DETECT;
+    displayMode: CARD_DISPLAY_MODES;
+  }
+>;
+
 export type InsertEventPayload =
   | InsertDividerAEP
   | InsertLineBreakAEP
@@ -214,4 +227,5 @@ export type InsertEventPayload =
   | InsertStatusAEP
   | InsertMediaAEP
   | InsertLinkAEP
-  | InsertLinkPreviewAEP;
+  | InsertLinkPreviewAEP
+  | InsertSmartLinkAEP;

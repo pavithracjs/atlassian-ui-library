@@ -91,6 +91,7 @@ export const enum ACTION_SUBJECT_ID {
   PUNC = 'punctuation',
   SAVE = 'save',
   SECTION = 'section',
+  SMART_LINK = 'smartLink',
   STATUS = 'status',
   SYMBOL = 'symbol',
   TABLE = 'table',

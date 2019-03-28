@@ -20,6 +20,7 @@ import {
 } from '../text-formatting/pm-plugins/main';
 import { compose } from '../../utils';
 import { CommandDispatch, Command } from '../../types';
+import { INPUT_METHOD } from '../analytics';
 
 export function handlePasteIntoTaskAndDecision(
   slice: Slice,
@@ -82,7 +83,7 @@ export function handlePasteIntoTaskAndDecision(
       .replaceSelection(transformedSlice)
       .scrollIntoView();
 
-    queueCardsFromChangedTr(state, tr);
+    queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
     dispatch(tr);
     return true;
   };
@@ -183,7 +184,7 @@ export function handlePastePreservingMarks(
         .setStoredMarks(selectionMarks)
         .scrollIntoView();
 
-      queueCardsFromChangedTr(state, tr);
+      queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
       dispatch(tr);
       return true;
     }
@@ -210,7 +211,7 @@ export function handlePastePreservingMarks(
         .setStoredMarks(selectionMarks)
         .scrollIntoView();
 
-      queueCardsFromChangedTr(state, tr);
+      queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
       dispatch(tr);
       return true;
     }

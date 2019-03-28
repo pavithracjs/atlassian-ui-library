@@ -32,6 +32,7 @@ import {
   transformSingleLineCodeBlockToCodeMark,
 } from '../../code-block/utils';
 import { queueCardsFromChangedTr } from '../../card/pm-plugins/doc';
+import { INPUT_METHOD } from '../../analytics';
 
 export const stateKey = new PluginKey('pastePlugin');
 
@@ -149,7 +150,7 @@ export function createPlugin(
           const tr = closeHistory(state.tr);
           tr.replaceSelection(markdownSlice);
 
-          queueCardsFromChangedTr(state, tr);
+          queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
           dispatch(tr.scrollIntoView());
           return true;
         }
@@ -223,7 +224,7 @@ export function createPlugin(
           }
 
           // queue link cards, ignoring any errors
-          dispatch(queueCardsFromChangedTr(state, tr));
+          dispatch(queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD));
           return true;
         }
 

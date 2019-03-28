@@ -10,6 +10,15 @@ import { processRawValue, getStepRange } from '../../../utils';
 import { Schema } from 'prosemirror-model';
 import { md } from '../../paste/pm-plugins/main';
 import { closeHistory } from 'prosemirror-history';
+import {
+  addAnalytics,
+  ACTION,
+  ACTION_SUBJECT,
+  ACTION_SUBJECT_ID,
+  EVENT_TYPE,
+  INPUT_METHOD,
+  CARD_DISPLAY_MODES,
+} from '../../analytics';
 
 export const replaceQueuedUrlWithCard = (
   url: string,
@@ -68,6 +77,9 @@ export const replaceQueuedUrlWithCard = (
 export const queueCardsFromChangedTr = (
   state: EditorState,
   tr: Transaction,
+  inputMethod:
+    | INPUT_METHOD.AUTO_DETECT
+    | INPUT_METHOD.CLIPBOARD = INPUT_METHOD.AUTO_DETECT,
   normalizeLinkText: boolean = true,
 ): Transaction => {
   const { schema } = state;
@@ -107,6 +119,13 @@ export const queueCardsFromChangedTr = (
     return false;
   });
 
+  addAnalytics(tr, {
+    action: ACTION.INSERTED,
+    actionSubject: ACTION_SUBJECT.DOCUMENT,
+    actionSubjectId: ACTION_SUBJECT_ID.SMART_LINK,
+    attributes: { inputMethod, displayMode: CARD_DISPLAY_MODES.BLOCK },
+    eventType: EVENT_TYPE.TRACK,
+  });
   return queueCards(requests)(tr);
 };
 
