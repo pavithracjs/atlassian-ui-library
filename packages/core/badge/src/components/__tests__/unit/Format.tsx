@@ -1,8 +1,8 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { shallow } from 'enzyme';
-import { Format } from '../../Format';
+import Format from '../../Format';
 
 test('snapshot', () => {
   expect(shallow(<Format />)).toMatchSnapshot();

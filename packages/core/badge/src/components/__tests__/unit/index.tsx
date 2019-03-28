@@ -1,11 +1,9 @@
-// @flow
-
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import Badge from '../..';
-import { Format } from '../../Format';
+import Format from '../../Format';
 
-function getFormatProps(badge) {
+function getFormatProps(badge: React.ReactElement<any>) {
   return mount(badge)
     .find(Format)
     .props();

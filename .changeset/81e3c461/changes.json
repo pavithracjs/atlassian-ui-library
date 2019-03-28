@@ -1,0 +1,18 @@
+{
+  "releases": [{ "name": "@atlaskit/notification-indicator", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/global-navigation",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/notification-log-client",
+        "@atlaskit/notification-indicator"
+      ]
+    },
+    {
+      "name": "@atlaskit/notification-log-client",
+      "type": "patch",
+      "dependencies": ["@atlaskit/notification-indicator"]
+    }
+  ]
+}

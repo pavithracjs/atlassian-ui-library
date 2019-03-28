@@ -2,8 +2,8 @@
 
 exports[`snapshot 1`] = `
 .c0 {
-  background-color: undefined;
-  color: undefined;
+  background-color: #000;
+  color: #fff;
   border-radius: 2em;
   display: inline-block;
   font-size: 12px;

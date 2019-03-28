@@ -1,11 +1,9 @@
-// @flow
-
-import React from 'react';
+import * as React from 'react';
 import Badge from '../src';
 
-type State = {
-  value: number,
-};
+interface State {
+  value: number;
+}
 
 export default class Component extends React.Component<void, State> {
   state = {
