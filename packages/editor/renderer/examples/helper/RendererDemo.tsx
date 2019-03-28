@@ -260,7 +260,9 @@ export default class RendererDemo extends React.Component<
               </button>
               {this.props.serializer === 'email' && (
                 <span>
-                  <button onClick={this.getHTML}>Copy HTML to clipboard</button>
+                  <button onClick={this.copyHTMLToClipboard}>
+                    Copy HTML to clipboard
+                  </button>
                   <textarea
                     style={{ width: '0px', height: '0px' }}
                     ref={ref => {
@@ -432,7 +434,7 @@ export default class RendererDemo extends React.Component<
     }));
   };
 
-  private getHTML = () => {
+  private copyHTMLToClipboard = () => {
     if (!this.emailTextareaRef) return;
     this.emailTextareaRef.select();
     document.execCommand('copy');
