@@ -8,7 +8,7 @@ import {
   ToolbarMenuItem,
 } from '../../__helpers/page-objects/_toolbar';
 import { clickEditableContent } from '../../__helpers/page-objects/_editor';
-import { pressKey, KeyboardKeys } from '../../__helpers/page-objects/_keyboard';
+import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
 describe('Snapshot Test: Media', () => {
   describe('full page editor', () => {
@@ -30,7 +30,7 @@ describe('Snapshot Test: Media', () => {
         await clickToolbarMenu(page, ToolbarMenuItem.table);
 
         // second cell
-        await pressKey(page, KeyboardKeys.arrowDown);
+        await pressKey(page, 'ArrowDown');
 
         // now we can insert media as necessary
         await insertMedia(page);
@@ -60,7 +60,7 @@ describe('Snapshot Test: Media', () => {
         await clickToolbarMenu(page, ToolbarMenuItem.table);
 
         // second cell
-        await pressKey(page, KeyboardKeys.arrowDown);
+        await pressKey(page, 'ArrowDown');
 
         // now we can insert media as necessary
         await insertMedia(page);
