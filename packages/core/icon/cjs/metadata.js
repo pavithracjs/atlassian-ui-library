@@ -352,11 +352,6 @@ var _default = {
     componentName: 'CrossIcon',
     package: '@atlaskit/icon/glyph/cross'
   },
-  crown: {
-    keywords: ['crown', 'icon', 'core'],
-    componentName: 'CrownIcon',
-    package: '@atlaskit/icon/glyph/crown'
-  },
   dashboard: {
     keywords: ['dashboard', 'window', 'grid', 'icon', 'core'],
     componentName: 'DashboardIcon',
@@ -1391,6 +1386,11 @@ var _default = {
     keywords: ['preferences', 'settings', 'configuration', 'options', 'icon', 'core'],
     componentName: 'PreferencesIcon',
     package: '@atlaskit/icon/glyph/preferences'
+  },
+  premium: {
+    keywords: ['crown', 'premium', 'icon', 'core'],
+    componentName: 'PremiumIcon',
+    package: '@atlaskit/icon/glyph/premium'
   },
   'presence-active': {
     keywords: ['presence-active', 'presenceactive', 'dot', 'icon', 'core'],
