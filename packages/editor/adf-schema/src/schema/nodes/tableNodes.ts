@@ -44,7 +44,11 @@ const getCellAttrs = (dom: HTMLElement, defaultValues: CellAttributes = {}) => {
     backgroundColor = rgbToHex(backgroundColor);
   }
   const dataDefaultMarks = dom.getAttribute('data-default-marks');
-  const defaultMarks = dataDefaultMarks ? JSON.parse(dataDefaultMarks) : null;
+  let defaultMarks = null;
+
+  try {
+    defaultMarks = dataDefaultMarks ? JSON.parse(dataDefaultMarks) : null;
+  } catch (e) {}
 
   return {
     colspan,
