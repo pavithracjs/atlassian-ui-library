@@ -1,15 +1,19 @@
-import fetch from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
 import urlParse from 'url-parse';
-
-export enum Severity {
-  LOW = 'LOW',
-  HIGH = 'HIGH',
-}
+import envWithGuard from '../util/env-with-guard';
+import {
+  InsightsReportResults,
+  InsightsReport,
+  Severity,
+} from '../reports/insights-report';
+import crypto from 'crypto';
+import { GitReporter } from './git-reporter';
+import chalk from 'chalk';
 
 // TODO: Expose this through the CLI
-const DRY_RUN = false;
+const REPORT_KEY = 'beautiful.insights.duplicates';
 
-export type CodeInsightsAnnotation = {
+type CodeInsightsAnnotation = {
   externalId: string;
   message: string;
   path: string;
@@ -17,18 +21,13 @@ export type CodeInsightsAnnotation = {
   severity: Severity; // TODO: There are probably more?
 };
 
-export enum CodeInsightsReportResults {
-  PASS = 'PASS',
-  FAIL = 'FAIL',
-}
-
-export type CodeInsightsReport = {
+type CodeInsightsReport = {
   data?: object[];
   details: string;
   title: string;
   vendor: string;
   logoUrl: string;
-  result: CodeInsightsReportResults;
+  result: InsightsReportResults;
 };
 
 type RequestOptions = {
@@ -60,21 +59,22 @@ type PullRequestsApiResult = {
   nextPageStart: number;
 };
 
-export default class Bitbucket {
+export default class BitbucketServerReporter implements GitReporter {
+  name = 'Bitbucket server reporter';
   baseUrl: string;
   project: string;
   repo: string;
   token: string;
   commit: string;
 
-  constructor(gitUrl: string, token: string, commit: string) {
+  constructor(gitUrl: string, commit: string) {
     const { hostname, pathname } = urlParse(gitUrl);
     const [, project, repo] = pathname.split('/');
 
     this.baseUrl = `https://${hostname}`;
     this.project = project;
     this.repo = repo.split('.')[0];
-    this.token = token;
+    this.token = envWithGuard('BITBUCKET_SERVER_TOKEN');
     this.commit = commit;
   }
 
@@ -84,7 +84,7 @@ export default class Bitbucket {
     }/repos/${this.repo}/commits/${this.commit}/reports/${reportKey}`;
   }
 
-  request(url: string, method = 'GET', body: object | null) {
+  request(url: string, method = 'GET', body: object | null): Promise<Response> {
     const opts: RequestOptions = {
       method,
       headers: {
@@ -98,32 +98,19 @@ export default class Bitbucket {
       opts.body = JSON.stringify(body);
     }
 
-    if (DRY_RUN) {
-      console.log('Dry run mode, Bitbucket reporter wanted to sent:');
-      console.log(`url: ${url}`);
-      console.log(opts);
-      return Promise.resolve({
-        ok: true,
-        status: 200,
-        text() {
-          return '';
-        },
-        json() {
-          return {};
-        },
-      });
-    }
-
     return fetch(url, opts);
   }
 
-  async publishInsightsReport(reportKey: string, report: CodeInsightsReport) {
+  async _publishInsightsReport(
+    reportKey: string,
+    report: CodeInsightsReport,
+  ): Promise<void> {
     const reportUrl = this.insightsReportUrl(reportKey);
-    console.log(`PUTting report to ${reportUrl}`);
 
     report.data = [];
 
     const response = await this.request(reportUrl, 'PUT', report);
+
     if (!response.ok) {
       const responseText = await response.text();
       const message = `Failed to publish report: ${
@@ -131,7 +118,6 @@ export default class Bitbucket {
       }\n${responseText}`;
       throw new Error(message);
     }
-    return response;
   }
 
   async publishInsightAnnotations(
@@ -139,7 +125,6 @@ export default class Bitbucket {
     annotations: CodeInsightsAnnotation[],
   ) {
     const annotationUrl = `${this.insightsReportUrl(reportKey)}/annotations`;
-    console.log(`POSTting annotations to ${annotationUrl}`);
     const response = await this.request(annotationUrl, 'POST', {
       annotations,
     });
@@ -163,10 +148,9 @@ export default class Bitbucket {
       this.project
     }/repos/${this.repo}/pull-requests?limit=${limit}&start=${start}`;
 
-    console.log(`Fetch ${fetchUrl}`);
     const pullRequestsResponse = await this.request(fetchUrl, undefined, null);
 
-    return pullRequestsResponse.json() as PullRequestsApiResult;
+    return (await pullRequestsResponse.json()) as PullRequestsApiResult;
   }
 
   async getTargetBranch(sourceBranch: string): Promise<string | null> {
@@ -191,4 +175,40 @@ export default class Bitbucket {
 
     return pullRequest.toRef.displayId;
   }
+
+  reportTemplate(insightsReport: InsightsReport) {
+    return {
+      details: insightsReport.details,
+      title: 'Duplicates report',
+      vendor: 'Beautiful Insights',
+      logoUrl:
+        'https://usagetracker.us-east-1.staging.atl-paas.net/tracker/jfp-small.png?e=duplicates-report', // TODO: new logo
+      result: insightsReport.status,
+    };
+  }
+
+  publishInsightsReport = async (insightsReport: InsightsReport) => {
+    console.log(`[BBS reporter] publishing report`);
+
+    await this._publishInsightsReport(
+      REPORT_KEY,
+      this.reportTemplate(insightsReport),
+    );
+    console.log(chalk.green(`[BBS reporter] ✅ report published`));
+
+    const annotations = insightsReport.annotations.map(annotation => {
+      const hash = crypto.createHash('sha256');
+      hash.update(annotation.message, 'utf8');
+      return {
+        ...annotation,
+        externalId: `risk-${hash.digest('hex')}`,
+      };
+    });
+
+    console.log(`[BBS reporter] publishing report annotations`);
+
+    await this.publishInsightAnnotations(REPORT_KEY, annotations);
+
+    console.log(chalk.green(`[BBS reporter] ✅ report annotations published`));
+  };
 }

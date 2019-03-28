@@ -1,4 +1,4 @@
-# @atlaskit/beautiful-insights
+# @atlaskit/code-insights
 
 ## 0.0.3
 - [patch] [ff246f306c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ff246f306c):
