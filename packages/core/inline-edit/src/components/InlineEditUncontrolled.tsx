@@ -238,6 +238,7 @@ class InlineEdit extends React.Component<InlineEditUncontrolledProps, State> {
                 label={label}
                 defaultValue={defaultValue}
                 validate={validate}
+                key="edit-view"
               >
                 {({ fieldProps, error }: FieldChildProps) => (
                   <ContentWrapper
@@ -268,7 +269,12 @@ class InlineEdit extends React.Component<InlineEditUncontrolledProps, State> {
               </Field>
             ) : (
               /** Field is used here only for the label */
-              <Field name="inlineEdit" label={label} defaultValue="">
+              <Field
+                name="inlineEdit"
+                label={label}
+                defaultValue=""
+                key="read-view"
+              >
                 {() => this.renderReadView()}
               </Field>
             )}

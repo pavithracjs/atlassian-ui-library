@@ -1,9 +1,13 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-// import InlineEdit from '../../InlineEdit';
 import InlineEditableTextfield from '../../InlineEditableTextfield';
+import InlineEditUncontrolled from '../../InlineEditUncontrolled';
+
 import ContentWrapper from '../../../styled/ContentWrapper';
+import EditButton from '../../../styled/EditButton';
+import ReadViewContainer from '../../../styled/ReadViewContainer';
 import ReadViewContentWrapper from '../../../styled/ReadViewContentWrapper';
+import ReadViewWrapper from '../../../styled/ReadViewWrapper';
 
 const noop = () => {};
 
@@ -78,29 +82,102 @@ describe('@atlaskit/inline-edit core', () => {
     );
   });
 
-  // it('readView');
+  it('should display readView', () => {
+    const wrapper = mount(
+      <InlineEditableTextfield onConfirm={noop} defaultValue="" />,
+    );
+    expect(wrapper.find(ReadViewContainer).length).toBe(1);
+  });
 
-  // it('editButton next to readview');
+  it('should render a button as a sibling to the read view', () => {
+    const wrapper = mount(
+      <InlineEditableTextfield onConfirm={noop} defaultValue="" />,
+    );
+    expect(wrapper.find(ReadViewWrapper).find('button').length).toBe(1);
+    expect(wrapper.find(ReadViewContentWrapper).find('button').length).toBe(0);
+  });
 
-  // it('editView + isEditing + defaultValue');
+  it('should display editView with correct initial value when isEditing prop is true', () => {
+    /**
+     * This test uses the startWithEditViewOpen prop to set the isEditing prop
+     * to true within InlineEditableTextfield
+     */
+    const wrapper = mount(
+      <InlineEditableTextfield
+        onConfirm={noop}
+        defaultValue="test"
+        startWithEditViewOpen
+      />,
+    );
+    expect(wrapper.find('input').length).toBe(1);
+    expect(wrapper.find('input').prop('value')).toBe('test');
+  });
 
-  // it('onConfirm');
+  it('should switch to editView when the read view is clicked', () => {
+    const wrapper = mount(
+      <InlineEditableTextfield onConfirm={noop} defaultValue="" />,
+    );
+    expect(wrapper.find(InlineEditUncontrolled).prop('isEditing')).toBe(false);
+    wrapper.find(ReadViewContentWrapper).simulate('click');
+    expect(wrapper.find(InlineEditUncontrolled).prop('isEditing')).toBe(true);
+  });
 
-  // it('startWithEditViewOpen');
+  it('should switch to editView when the edit button is focused and enter is pressed', () => {
+    /** This test uses simulate('click') to simulate a keydown of Enter on the edit button */
+    const wrapper = mount(
+      <InlineEditableTextfield onConfirm={noop} defaultValue="" />,
+    );
+    expect(wrapper.find(InlineEditUncontrolled).prop('isEditing')).toBe(false);
+    wrapper.find(EditButton).simulate('click');
+    expect(wrapper.find(InlineEditUncontrolled).prop('isEditing')).toBe(true);
+  });
 
-  // it('validate');
+  // it('should call onConfirm when confirm button is clicked', () => {
+  //   const spy = jest.fn();
+  //   const wrapper = mount(
+  //     <InlineEditableTextfield onConfirm={spy} defaultValue="" startWithEditViewOpen />,
+  //   );
+  //   expect(wrapper.find('button[type="submit"]').length).toBe(1)
+  //   wrapper.find('button[type="submit"]').simulate('click');
+  //   expect(spy).toBeCalled();
+  // });
 
-  // it('click readview')
-
-  // it('enter in readview');
-
-  // it('click confirm button')
-
-  // it('click cancel button')
+  it('should cancel the edit and return to the initial value when cancel button is pressed', () => {
+    const spy = jest.fn();
+    const wrapper = mount(
+      <InlineEditableTextfield
+        onConfirm={spy}
+        defaultValue=""
+        startWithEditViewOpen
+      />,
+    );
+    wrapper.find('input').simulate('change', { target: { value: 'Hello' } });
+    wrapper.find('button[aria-label="Cancel"]').simulate('click');
+    expect(wrapper.find(ReadViewContainer).length).toBe(1);
+    expect(spy).not.toBeCalled();
+    wrapper.find(EditButton).simulate('click');
+    expect(wrapper.find('input').prop('value')).toBe('');
+  });
 
   // it('enter in textfield')
 
-  // it('esc in textfield')
+  it('should cancel the edit and return to the initial value when Escape key is pressed', () => {
+    const spy = jest.fn();
+    const wrapper = mount(
+      <InlineEditableTextfield
+        onConfirm={spy}
+        defaultValue=""
+        startWithEditViewOpen
+      />,
+    );
+    const input = wrapper.find('input');
+    input.simulate('change', { target: { value: 'Hello' } });
+    input.simulate('keyDown', { key: 'Esc' });
+    expect(wrapper.find(ReadViewContainer).length).toBe(1);
+    expect(spy).not.toBeCalled();
+    wrapper.find(EditButton).simulate('click');
+    expect(wrapper.find('input').prop('value')).toBe('');
+  });
 
   // it('confirm on blur')
 
@@ -112,11 +189,18 @@ describe('@atlaskit/inline-edit core', () => {
 
   // it('should have aria-tags');
 
+  // it('validate');
+
   // it('not cause console errors')
 });
 
 // describe('@atlaskit/inline-editable-textfield', () => {
+// it('should focus automatically on editView when startWithEditViewOpen prop is true', () => {
+
+// });
 //   it('emptyValueText')
+
+//   it('readView correct value');
 
 //   it('not cause console errors')
 
