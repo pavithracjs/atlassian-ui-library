@@ -8,6 +8,7 @@ import focusHandlerPlugin from './pm-plugins/focus-handler';
 import newlinePreserveMarksPlugin from './pm-plugins/newline-preserve-marks';
 import inlineCursorTargetPlugin from './pm-plugins/inline-cursor-target';
 import { plugin as reactNodeView } from './pm-plugins/react-nodeview';
+import decorationPlugin from './pm-plugins/decoration';
 
 const basePlugin: EditorPlugin = {
   pmPlugins() {
@@ -29,6 +30,7 @@ const basePlugin: EditorPlugin = {
         plugin: newlinePreserveMarksPlugin,
       },
       { name: 'reactNodeView', plugin: () => reactNodeView },
+      { name: 'decorationPlugin', plugin: () => decorationPlugin() },
       { name: 'history', plugin: () => history() },
       // should be last :(
       {

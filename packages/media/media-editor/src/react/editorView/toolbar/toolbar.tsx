@@ -3,8 +3,9 @@ import { Component } from 'react';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import Button from '@atlaskit/button';
 import Tooltip from '@atlaskit/tooltip';
-import { Tool, Color } from '../../../common';
+import { messages } from '@atlaskit/media-ui';
 
+import { Tool } from '../../../common';
 import LineWidthButton from './buttons/lineWidthButton';
 import ColorButton from './buttons/colorButton';
 import { ToolButton } from './buttons/toolButton';
@@ -14,7 +15,6 @@ import { ToolbarContainer, CenterButtons, VerticalLine } from './styles';
 import { ShapePopup, shapeTools } from './popups/shapePopup';
 import ShapeButton from './buttons/shapeButton';
 import { ButtonGroup } from './buttons/buttonGroup';
-import { messages } from '@atlaskit/media-ui';
 
 export type PopupState = 'none' | 'color' | 'lineWidth' | 'shape';
 
@@ -29,13 +29,13 @@ export const tools: Tool[] = [
 ];
 
 export interface ToolbarProps {
-  readonly color: Color;
+  readonly color: string;
   readonly tool: Tool;
   readonly lineWidth: number;
   readonly onSave: () => void;
   readonly onCancel: () => void;
   readonly onToolChanged: (tool: Tool) => void;
-  readonly onColorChanged: (color: Color) => void;
+  readonly onColorChanged: (color: string) => void;
   readonly onLineWidthChanged: (lineWidth: number) => void;
 }
 
@@ -70,13 +70,15 @@ export class Toolbar extends Component<
     const showLineWidthPopup = popup === 'lineWidth';
     const showShapePopup = popup === 'shape';
 
-    const onPickColor = (color: Color) => {
+    const onPickColor = (color: string) => {
       onColorChanged(color);
-      this.setState({ popup: 'none' });
     };
 
     const onLineWidthClick = (lineWidth: number) => {
       onLineWidthChanged(lineWidth);
+    };
+
+    const onCloseInlinePopup = () => {
       this.setState({ popup: 'none' });
     };
 
@@ -116,6 +118,7 @@ export class Toolbar extends Component<
 
             <VerticalLine />
             <LineWidthPopup
+              onClose={onCloseInlinePopup}
               onLineWidthClick={onLineWidthClick}
               lineWidth={lineWidth}
               isOpen={showLineWidthPopup}
@@ -130,6 +133,7 @@ export class Toolbar extends Component<
             </LineWidthPopup>
 
             <ColorPopup
+              onClose={onCloseInlinePopup}
               onPickColor={onPickColor}
               color={color}
               isOpen={showColorPopup}
@@ -145,15 +149,10 @@ export class Toolbar extends Component<
 
             <VerticalLine />
 
-            <Button
-              appearance="primary"
-              theme="dark"
-              onClick={onSave}
-              autoFocus={true}
-            >
+            <Button appearance="primary" onClick={onSave} autoFocus={true}>
               {formatMessage(messages.save)}
             </Button>
-            <Button appearance="default" onClick={onCancel} theme="dark">
+            <Button appearance="default" onClick={onCancel}>
               {formatMessage(messages.cancel)}
             </Button>
           </ButtonGroup>

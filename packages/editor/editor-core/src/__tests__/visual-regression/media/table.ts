@@ -36,7 +36,7 @@ describe('Snapshot Test: Media', () => {
         await insertMedia(page);
         await waitForMediaToBeLoaded(page);
 
-        await snapshot(page);
+        await snapshot(page, 0.01);
       });
     });
   });

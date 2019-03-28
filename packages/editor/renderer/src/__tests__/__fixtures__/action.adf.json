@@ -1,0 +1,26 @@
+{
+  "type": "doc",
+  "version": 1,
+  "content": [
+    {
+      "type": "text",
+      "text": "Text marked with action",
+      "marks": [
+        {
+          "type": "action",
+          "attrs": {
+            "key": "test-action-key",
+            "title": "test action mark",
+            "target": {
+              "receiver": "some-receiver",
+              "key": "some-key"
+            },
+            "parameters": {
+              "test": 20
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 44.4.0
+- [minor] [1b3c18ae43](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b3c18ae43):
+
+  - CS-856: Create no-op nodes and marks for email renderer
+
 ## 44.3.0
 - [minor] [0fea11af41](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0fea11af41):
 

@@ -42,9 +42,11 @@ export enum Product {
   TRUSTED_ADMIN = 'trusted-admin',
 }
 
-export type FeatureFlagProps = {
-  enableSplitJira: boolean;
-};
+export enum Feature {
+  enableSplitJira = 'enableSplitJira',
+}
+
+export type FeatureFlagProps = { [key in Feature]: boolean };
 
 export type CustomLinksResponse = CustomLink[];
 

@@ -4,19 +4,27 @@ import now from '../utils/performance-now';
 import { prefetchAll } from '../providers/instance-data-providers';
 import {
   NAVIGATION_CHANNEL,
+  NavigationAnalyticsContext,
   OPERATIONAL_EVENT_TYPE,
+  TRIGGER_COMPONENT,
+  TRIGGER_SUBJECT,
   withAnalyticsEvents,
 } from '../utils/analytics';
 import {
   AnalyticsEventPayload,
   WithAnalyticsEventProps,
 } from '@atlaskit/analytics-next-types';
+import packageContext from '../utils/package-context';
 
-const TRIGGER_SUBJECT = 'atlassianSwitcherPrefetchTrigger';
 const THROTTLE_EXPIRES = 60 * 1000; // 60 seconds
 const THROTTLE_OPTIONS = {
   leading: true,
   trailing: false,
+};
+
+const TRIGGER_CONTEXT = {
+  componentName: TRIGGER_COMPONENT,
+  ...packageContext,
 };
 
 interface PrefetchTriggerProps {
@@ -45,7 +53,7 @@ class PrefetchTrigger extends React.Component<
     (params: any) => {
       prefetchAll(params);
       this.fireOperationalEvent({
-        action: 'triggeredPrefetch',
+        action: 'triggered',
       });
     },
     THROTTLE_EXPIRES,
@@ -82,4 +90,10 @@ class PrefetchTrigger extends React.Component<
   }
 }
 
-export default withAnalyticsEvents()(PrefetchTrigger);
+const PrefetchTriggerWithEvents = withAnalyticsEvents()(PrefetchTrigger);
+
+export default (props: PrefetchTriggerProps) => (
+  <NavigationAnalyticsContext data={TRIGGER_CONTEXT}>
+    <PrefetchTriggerWithEvents {...props} />
+  </NavigationAnalyticsContext>
+);

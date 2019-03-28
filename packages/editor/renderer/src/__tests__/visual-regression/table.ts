@@ -24,6 +24,6 @@ describe('Snapshot Test: Table scaling', () => {
     });
 
     await animationFrame(page);
-    await snapshot(page);
+    await snapshot(page, 0.002);
   });
 });
