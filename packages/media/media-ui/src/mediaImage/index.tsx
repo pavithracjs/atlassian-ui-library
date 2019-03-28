@@ -1,10 +1,7 @@
-/**
- * Only used internally ATM
- */
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Component, CSSProperties } from 'react';
-import { getCssFromImageOrientation, isRotated } from '@atlaskit/media-ui';
+import { getCssFromImageOrientation, isRotated } from '..';
 import { ImageComponent } from './styled';
 
 export interface MediaImageProps {
@@ -12,6 +9,9 @@ export interface MediaImageProps {
   crop?: boolean;
   stretch?: boolean;
   previewOrientation?: number;
+  crossOrigin?: '' | 'anonymous' | 'use-credentials';
+  onImageLoad?: (loadedImage: HTMLImageElement) => void;
+  onImageError?: () => void;
 }
 
 export interface MediaImageState {
@@ -58,19 +58,30 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
     });
   }
 
-  onImageLoad = () => {
+  onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     if (!this.imageRef || !this.imageRef.current) {
       return;
     }
+    const { onImageLoad } = this.props;
     this.setState({
       isImageLoaded: true,
       imgWidth: this.imageRef.current.naturalWidth,
       imgHeight: this.imageRef.current.naturalHeight,
     });
+    if (onImageLoad) {
+      onImageLoad(e.currentTarget);
+    }
   };
 
   render() {
-    const { crop, stretch, dataURI, previewOrientation } = this.props;
+    const {
+      crop,
+      stretch,
+      dataURI,
+      previewOrientation,
+      crossOrigin,
+      onImageError,
+    } = this.props;
     const {
       parentWidth,
       parentHeight,
@@ -410,8 +421,10 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
         draggable={false}
         style={style}
         onLoad={this.onImageLoad}
+        onError={onImageError}
         innerRef={this.imageRef}
         src={dataURI}
+        crossOrigin={crossOrigin}
       />
     );
   }

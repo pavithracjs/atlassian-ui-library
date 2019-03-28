@@ -1,7 +1,6 @@
-jest.mock('@atlaskit/media-ui');
 import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
-import { getCssFromImageOrientation, isRotated } from '@atlaskit/media-ui';
+import * as RootModule from '../..';
 import { MediaImage, MediaImageProps, MediaImageState } from '../../mediaImage';
 import { ImageComponent } from '../../mediaImage/styled';
 import {
@@ -27,6 +26,10 @@ describe('MediaImage', () => {
   const defaultTransform = {
     transform: 'translate(-50%, -50%)',
   };
+  let isRotated: typeof RootModule.isRotated;
+  let getCssFromImageOrientation: typeof RootModule.getCssFromImageOrientation;
+  let onImageLoad: jest.Mock<any>;
+  let onImageError: jest.Mock<any>;
 
   const mockImageTag = (
     component: ReactWrapper<MediaImageProps, MediaImageState>,
@@ -72,6 +75,9 @@ describe('MediaImage', () => {
         stretch={!isStretchingProhibited}
         crop={isCoverStrategy}
         previewOrientation={previewOrientation}
+        onImageLoad={onImageLoad}
+        onImageError={onImageError}
+        crossOrigin={'anonymous'}
       />,
     );
     mockImageTag(
@@ -85,11 +91,19 @@ describe('MediaImage', () => {
   };
 
   beforeEach(() => {
+    onImageLoad = jest.fn();
+    onImageError = jest.fn();
+    isRotated = jest.spyOn(RootModule, 'isRotated') as any;
+    getCssFromImageOrientation = jest.spyOn(
+      RootModule,
+      'getCssFromImageOrientation',
+    ) as any;
     asMock(isRotated).mockReset();
   });
 
   afterAll(() => {
     Element.prototype.getBoundingClientRect = originalGetBoundingClientRect;
+    jest.resetAllMocks();
   });
 
   describe("when image hasn't been loaded yet", () => {
@@ -118,6 +132,40 @@ describe('MediaImage', () => {
           display: 'none',
         }),
       );
+    });
+  });
+
+  describe('when image loaded correctly', () => {
+    it('should call onImageLoad', () => {
+      setup({
+        isCoverStrategy: true,
+        isImageMoreLandscapyThanContainer: true,
+        isStretchingProhibited: true,
+      });
+      expect(onImageLoad).toHaveBeenCalled();
+    });
+
+    it('should set crossOrigin', () => {
+      const component = setup({
+        isCoverStrategy: true,
+        isImageMoreLandscapyThanContainer: true,
+        isStretchingProhibited: true,
+      });
+
+      const { crossOrigin } = component.find('img').props();
+      expect(crossOrigin).toBe('anonymous');
+    });
+  });
+
+  describe('when image loaded with an error', () => {
+    it('should call onImageLoad', () => {
+      const component = setup({
+        isCoverStrategy: true,
+        isImageMoreLandscapyThanContainer: true,
+        isStretchingProhibited: true,
+      });
+      component.find('img').props().onError!('some-error' as any);
+      expect(onImageError).toHaveBeenCalled();
     });
   });
 

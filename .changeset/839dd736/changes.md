@@ -1,0 +1,1 @@
+- MediaImage component added (moved from @atlaskit/media-card). With extra fields: crossOrigin, onImageLoad, onImageError
