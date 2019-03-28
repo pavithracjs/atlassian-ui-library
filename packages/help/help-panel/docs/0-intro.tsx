@@ -12,8 +12,8 @@ export default md`
   import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
   import { Article } from '../src/model/Article';
 
-  var client = algoliasearch('8K6J5OJIQW', '30cf79902f8439752fb34315018d3abd');
-  var index = client.initIndex('dev_spike_test');
+  var client = algoliasearch('xxxxxxx', 'xxxxxxxxxxxxxxxxxxx');
+  var index = client.initIndex('xxxxxxxx');
 
   export default class extends React.Component {
     state = {
@@ -52,7 +52,7 @@ export default md`
             <HelpPanel
               isOpen={isOpen}
               onBtnCloseClick={this.closeDrawer}
-              articleId="kzkHVoTKjp72azitT1Hwv"
+              articleId="xxxxxxxxxxxxxx"
               onGetArticle={this.onGetArticle}
             >
               <h1>Default content</h1>

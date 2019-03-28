@@ -5,7 +5,7 @@ import { HelpPanel } from '../src';
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 import { Article } from '../src/model/Article';
 
-var client = algoliasearch('8K6J5OJIQW', '30cf79902f8439752fb34315018d3abd');
+var client = algoliasearch('8K6J5OJIQW', 'c982b4b1a6ca921131d35edb63359b8c');
 var index = client.initIndex('dev_spike_test');
 
 export default class extends React.Component {
