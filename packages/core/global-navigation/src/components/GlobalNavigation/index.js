@@ -394,12 +394,13 @@ export default class GlobalNavigation extends Component<
   };
 
   renderAtlassianSwitcherDrawerContents = () => {
-    // eslint-disable-next-line camelcase
     const {
       product,
       cloudId,
+      /* eslint-disable camelcase */
       experimental_enableSplitJira,
       experimental_enableExpandLink,
+      /* eslint-disable camelcase */
     } = this.props;
     return (
       <AtlassianSwitcher

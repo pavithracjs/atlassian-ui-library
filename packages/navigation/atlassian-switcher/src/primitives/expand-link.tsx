@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import FormattedMessage from '../primitives/formatted-message';
 import styled from 'styled-components';
 import Button from '@atlaskit/button';
 import ShortcutIcon from '@atlaskit/icon/glyph/shortcut';
