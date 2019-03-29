@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.7.9
+- [patch] [495738bcd8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/495738bcd8):
+
+  - Enable UI for links inside headings
+
 ## 106.7.8
 - [patch] [2d7ff51814](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d7ff51814):
 
