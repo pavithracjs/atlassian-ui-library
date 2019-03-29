@@ -1369,18 +1369,18 @@ exports[`Renderer - EmailSerializer should render task item correctly 1`] = `
                     <tbody>
                       <tr>
                         <td
-                          style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                          style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
                         >
                           <table
                             border="0"
                             cellpadding="0"
                             cellspacing="0"
-                            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                            style="margin: 0px 2px;padding: 1px 2px 1px 2px;border-spacing: 0px;width: 100%;"
                           >
                             <tbody>
                               <tr>
                                 <td
-                                  style="font-size: 13px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: white;width: 16px;height: 16px;"
+                                  style="font-size: 13px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
                                 >
                                   ✓
                                 </td>
@@ -1435,19 +1435,26 @@ exports[`Renderer - EmailSerializer should render task item correctly 1`] = `
                     <tbody>
                       <tr>
                         <td
-                          style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                          style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
                         >
                           <table
                             border="0"
                             cellpadding="0"
                             cellspacing="0"
-                            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                            style="margin: 0px 2px;padding: 1px 2px 1px 2px;border-spacing: 0px;width: 100%;"
                           >
                             <tbody>
                               <tr>
                                 <td
-                                  style="font-size: 13px;font-weight: 600;text-align: center;background-color: #FFFFFF;border-radius: 3px;border-style: solid;border-width: 1px;border-color: #C1C7D0;color: white;width: 16px;height: 16px;"
-                                />
+                                  style="font-size: 12px;font-weight: 600;text-align: center;background-color: #FFFFFF;border-radius: 3px;border-style: solid;border-width: 1px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
+                                >
+                                  <font
+                                    color="#FFFFFF"
+                                    style="font-color: #FFFFFF;"
+                                  >
+                                    [_]
+                                  </font>
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -1507,18 +1514,18 @@ exports[`Renderer - EmailSerializer should render task list correctly 1`] = `
                       <tbody>
                         <tr>
                           <td
-                            style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                            style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
                           >
                             <table
                               border="0"
                               cellpadding="0"
                               cellspacing="0"
-                              style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                              style="margin: 0px 2px;padding: 1px 2px 1px 2px;border-spacing: 0px;width: 100%;"
                             >
                               <tbody>
                                 <tr>
                                   <td
-                                    style="font-size: 13px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: white;width: 16px;height: 16px;"
+                                    style="font-size: 13px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
                                   >
                                     ✓
                                   </td>
@@ -1573,18 +1580,18 @@ exports[`Renderer - EmailSerializer should render task list correctly 1`] = `
                       <tbody>
                         <tr>
                           <td
-                            style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                            style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
                           >
                             <table
                               border="0"
                               cellpadding="0"
                               cellspacing="0"
-                              style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                              style="margin: 0px 2px;padding: 1px 2px 1px 2px;border-spacing: 0px;width: 100%;"
                             >
                               <tbody>
                                 <tr>
                                   <td
-                                    style="font-size: 13px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: white;width: 16px;height: 16px;"
+                                    style="font-size: 13px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
                                   >
                                     ✓
                                   </td>
@@ -1639,19 +1646,26 @@ exports[`Renderer - EmailSerializer should render task list correctly 1`] = `
                       <tbody>
                         <tr>
                           <td
-                            style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                            style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
                           >
                             <table
                               border="0"
                               cellpadding="0"
                               cellspacing="0"
-                              style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                              style="margin: 0px 2px;padding: 1px 2px 1px 2px;border-spacing: 0px;width: 100%;"
                             >
                               <tbody>
                                 <tr>
                                   <td
-                                    style="font-size: 13px;font-weight: 600;text-align: center;background-color: #FFFFFF;border-radius: 3px;border-style: solid;border-width: 1px;border-color: #C1C7D0;color: white;width: 16px;height: 16px;"
-                                  />
+                                    style="font-size: 12px;font-weight: 600;text-align: center;background-color: #FFFFFF;border-radius: 3px;border-style: solid;border-width: 1px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
+                                  >
+                                    <font
+                                      color="#FFFFFF"
+                                      style="font-color: #FFFFFF;"
+                                    >
+                                      [_]
+                                    </font>
+                                  </td>
                                 </tr>
                               </tbody>
                             </table>

@@ -1,15 +1,40 @@
 import { NodeSerializerOpts } from '../interfaces';
-import { TableData, createTable } from '../util';
-import { N30, N50, N0, B400 } from '@atlaskit/adf-schema';
+import { TableData, createTable, createTag, serializeStyle } from '../util';
+import { N0, N30, N50, N0, B400 } from '@atlaskit/adf-schema';
 
 enum TaskState {
   TODO = 'TODO',
   DONE = 'DONE',
 }
 
-const icons: { [K in TaskState]: string } = {
-  TODO: '',
-  DONE: '✓',
+const whiteSpan = (text: string) =>
+  createTag(
+    'font',
+    {
+      color: N0,
+      style: serializeStyle({
+        'font-color': N0,
+      }),
+    },
+    text,
+  );
+
+const blueFont = (text: string) =>
+  createTag(
+    'font',
+    {
+      color: B400,
+      style: serializeStyle({
+        'font-color': B400,
+        'font-size': '10px',
+      }),
+    },
+    text,
+  );
+
+const iconText: { [K in TaskState]: string } = {
+  TODO: whiteSpan('[_]'),
+  DONE: `✓`,
 };
 
 interface TaskItemAttrs {
@@ -25,34 +50,41 @@ export default function taskItem({ attrs, text }: NodeSerializerOpts) {
 
   const state = (attrs as TaskItemAttrs).state;
 
-  const icon = createTable([
+  const icon = createTable(
     [
-      {
-        text: icons[state],
-        style: {
-          'font-size': '13px',
-          'font-weight': '600',
-          'text-align': 'center',
-          'background-color': state === TaskState.DONE ? B400 : N0,
-          'border-radius': '3px',
-          'border-style': 'solid',
-          'border-width': state === TaskState.DONE ? '0px' : '1px',
-          'border-color': N50,
-          color: 'white',
-          width: '16px',
-          height: '16px',
+      [
+        {
+          text: iconText[state],
+          style: {
+            'font-size': state === TaskState.DONE ? '13px' : '12px',
+            'font-weight': '600',
+            'text-align': 'center',
+            'background-color': state === TaskState.DONE ? B400 : N0,
+            'border-radius': '3px',
+            'border-style': 'solid',
+            'border-width': state === TaskState.DONE ? '0px' : '1px',
+            'border-color': N50,
+            color: N0,
+            width: '16px',
+            height: '16px',
+            overflow: 'hidden',
+          },
         },
-      },
+      ],
     ],
-  ]);
+    {
+      margin: '0px 2px',
+      padding: '1px 2px 1px 2px',
+    },
+  );
 
   const iconTd: TableData = {
     text: icon,
     style: {
       'vertical-align': 'top',
-      padding: '10px',
-      width: '16px',
-      height: '16px',
+      padding: '8px',
+      width: '20px',
+      height: '20px',
     },
   };
 
