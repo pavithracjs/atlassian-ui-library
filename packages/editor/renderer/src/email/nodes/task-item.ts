@@ -1,6 +1,6 @@
 import { NodeSerializerOpts } from '../interfaces';
 import { TableData, createTable, createTag, serializeStyle } from '../util';
-import { N0, N30, N50, N0, B400 } from '@atlaskit/adf-schema';
+import { N30, N50, N0, B400 } from '@atlaskit/adf-schema';
 
 enum TaskState {
   TODO = 'TODO',
@@ -14,19 +14,6 @@ const whiteSpan = (text: string) =>
       color: N0,
       style: serializeStyle({
         'font-color': N0,
-      }),
-    },
-    text,
-  );
-
-const blueFont = (text: string) =>
-  createTag(
-    'font',
-    {
-      color: B400,
-      style: serializeStyle({
-        'font-color': B400,
-        'font-size': '10px',
       }),
     },
     text,
