@@ -1452,7 +1452,7 @@ exports[`Renderer - EmailSerializer should render task item correctly 1`] = `
                                     color="#FFFFFF"
                                     style="font-color: #FFFFFF;"
                                   >
-                                    [_]
+                                    []
                                   </font>
                                 </td>
                               </tr>
@@ -1663,7 +1663,7 @@ exports[`Renderer - EmailSerializer should render task list correctly 1`] = `
                                       color="#FFFFFF"
                                       style="font-color: #FFFFFF;"
                                     >
-                                      [_]
+                                      []
                                     </font>
                                   </td>
                                 </tr>
