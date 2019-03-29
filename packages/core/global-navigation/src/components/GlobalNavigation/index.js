@@ -400,7 +400,7 @@ export default class GlobalNavigation extends Component<
       /* eslint-disable camelcase */
       experimental_enableSplitJira,
       experimental_enableExpandLink,
-      /* eslint-disable camelcase */
+      /* eslint-enable camelcase */
     } = this.props;
     return (
       <AtlassianSwitcher
@@ -410,7 +410,7 @@ export default class GlobalNavigation extends Component<
         /* eslint-disable camelcase */
         enableSplitJira={experimental_enableSplitJira}
         enableExpandLink={experimental_enableExpandLink}
-        /* eslint-disable camelcase */
+        /* eslint-enable camelcase */
       />
     );
   };
