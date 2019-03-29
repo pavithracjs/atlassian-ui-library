@@ -33,7 +33,7 @@ const blueFont = (text: string) =>
   );
 
 const iconText: { [K in TaskState]: string } = {
-  TODO: whiteSpan('[_]'),
+  TODO: whiteSpan('[]'),
   DONE: `✓`,
 };
 
