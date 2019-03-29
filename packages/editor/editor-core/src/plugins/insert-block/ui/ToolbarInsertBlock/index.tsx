@@ -765,6 +765,8 @@ class ToolbarInsertBlock extends React.PureComponent<
       case 'codeblock':
         actionSubjectId = ACTION_SUBJECT_ID.CODE_BLOCK;
         break;
+      case 'blockquote':
+        actionSubjectId = ACTION_SUBJECT_ID.BLOCK_QUOTE;
     }
 
     analytics.trackEvent(`atlassian.editor.format.${itemName}.button`);
