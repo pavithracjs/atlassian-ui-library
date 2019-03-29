@@ -31,11 +31,7 @@ describe('Snapshot Test', () => {
     //$FlowFixMe
     expect(image).toMatchProdImageSnapshot(); // Snapshot of product nav
   });
-  function delay(time) {
-    return new Promise(resolve => {
-      setTimeout(resolve, time);
-    });
-  }
+
   it('Should match With Banner', async () => {
     const url = getExampleUrl(
       'core',
@@ -48,8 +44,7 @@ describe('Snapshot Test', () => {
     expect(image).toMatchProdImageSnapshot();
   });
 
-  //  TODO: Fix this test
-  xit('Should match switcher', async () => {
+  it('Should match switcher', async () => {
     const url = getExampleUrl(
       'core',
       'navigation-next',
@@ -59,18 +54,12 @@ describe('Snapshot Test', () => {
     const { page } = global;
     await page.goto(url);
 
-    const buttonSelector = `[data-webdriver-test-key="container-navigation"] [data-test-id="NavigationItem"]`;
-    const button = page.$$(
-      '[data-webdriver-test-key="container-navigation"] [data-test-id="NavigationItem"]',
-    )[0];
-    console.log(button, buttonSelector, page.$$);
+    await page.click(
+      `[data-webdriver-test-key="container-navigation"] [data-test-id="NavigationItem"]`,
+    );
+    await page.waitFor(100);
 
-    await delay(60000);
-    await button.click();
-    // await page.waitForSelector("[data-placement='bottom-start']");
-    await page.waitFor(300);
-
-    const imageWithProjectSwitcher = await takeScreenShot(page, url);
+    const imageWithProjectSwitcher = await page.screenshot();
     //$FlowFixMe
     expect(imageWithProjectSwitcher).toMatchProdImageSnapshot();
   });
