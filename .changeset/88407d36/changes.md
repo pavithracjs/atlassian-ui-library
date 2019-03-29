@@ -1,0 +1,1 @@
+-  [ED-6200] Add defaultMarks attribute on tableCell schema
