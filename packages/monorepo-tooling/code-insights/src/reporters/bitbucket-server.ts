@@ -89,7 +89,7 @@ export default class BitbucketServerReporter implements GitReporter {
     if (this.token !== null) {
       return `Bearer ${this.token}`;
     } else if (this.userName !== null && this.password !== null) {
-      return btoa(`${this.userName}:${this.password}`);
+      return 'Basic ' + btoa(`${this.userName}:${this.password}`);
     }
 
     throw new Error(
