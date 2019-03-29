@@ -19,6 +19,7 @@
     "@types/node-fetch": "^2.1.4",
     "@types/url-parse": "^1.4.3",
     "@yarnpkg/lockfile": "^1.1.0",
+    "btoa-lite": "^1.0.0",
     "chalk": "^2.1.0",
     "crypto": "^1.0.1",
     "meow": "^5.0.0",

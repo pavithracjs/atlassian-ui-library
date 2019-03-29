@@ -1,6 +1,7 @@
 import fetch, { Response } from 'node-fetch';
 import urlParse from 'url-parse';
 import envWithGuard from '../util/env-with-guard';
+import btoa from 'btoa-lite';
 import {
   InsightsReportResults,
   InsightsReport,
@@ -64,8 +65,10 @@ export default class BitbucketServerReporter implements GitReporter {
   baseUrl: string;
   project: string;
   repo: string;
-  token: string;
+  token: string | null;
   commit: string;
+  userName: string | null;
+  password: string | null;
 
   constructor(gitUrl: string, commit: string) {
     const { hostname, pathname } = urlParse(gitUrl);
@@ -74,8 +77,24 @@ export default class BitbucketServerReporter implements GitReporter {
     this.baseUrl = `https://${hostname}`;
     this.project = project;
     this.repo = repo.split('.')[0];
-    this.token = envWithGuard('BITBUCKET_SERVER_TOKEN');
+
+    this.token = envWithGuard('BITBUCKET_SERVER_TOKEN', true);
+    this.userName = envWithGuard('BITBUCKET_SERVER_USERNAME', true);
+    this.password = envWithGuard('BITBUCKET_SERVER_PASSWORD', true);
+
     this.commit = commit;
+  }
+
+  getAuthHeader() {
+    if (this.token !== null) {
+      return `Bearer ${this.token}`;
+    } else if (this.userName !== null && this.password !== null) {
+      return btoa(`${this.userName}:${this.password}`);
+    }
+
+    throw new Error(
+      'Missing BITBUCKET_SERVER_TOKEN env variable OR BITBUCKET_SERVER_USERNAME and BITBUCKET_SERVER_PASSWORD env variable required for auth',
+    );
   }
 
   insightsReportUrl(reportKey: string) {
@@ -88,7 +107,7 @@ export default class BitbucketServerReporter implements GitReporter {
     const opts: RequestOptions = {
       method,
       headers: {
-        Authorization: `Bearer ${this.token}`,
+        Authorization: this.getAuthHeader(),
         'Content-type': 'application/json',
         Accept: 'application/json',
       },

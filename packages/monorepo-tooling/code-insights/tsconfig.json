@@ -1,6 +1,8 @@
 {
   "extends": "../../../tsconfig.core.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "*": ["types/*"] },
     "module": "commonjs",
     "target": "es6",
     "esModuleInterop": true,
@@ -22,8 +24,7 @@
   "include": [
     "./src/**/*.ts",
     "./typings/yarnpkg-lockfile.d.ts",
-    "./typings/projector-spawn.d.ts"
-
+    "./typings/projector-spawn.d.ts",
+    "./typings/btoa-lite.d.ts"
   ],
-  
 }
