@@ -3,7 +3,7 @@
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 38616,
+      "size": 38615,
       "gzipSize": 11326
     }
   },
@@ -11,40 +11,40 @@
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 1264403,
-      "gzipSize": 358277
+      "size": 1252422,
+      "gzipSize": 354193
     }
   },
   {
     "id": "node_modules.async",
     "name": "node_modules [async]",
     "stats": {
-      "size": 1407286,
-      "gzipSize": 398098
+      "size": 1407010,
+      "gzipSize": 398094
     }
   },
   {
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 229662,
-      "gzipSize": 49422
+      "size": 229876,
+      "gzipSize": 49582
     }
   },
   {
     "id": "atlaskit.core.async",
     "name": "async",
     "stats": {
-      "size": 153919,
-      "gzipSize": 30647
+      "size": 159516,
+      "gzipSize": 31543
     }
   },
   {
     "id": "atlaskit.editor.main",
     "name": "main",
     "stats": {
-      "size": 626059,
-      "gzipSize": 167441
+      "size": 641803,
+      "gzipSize": 171347
     }
   },
   {
@@ -52,39 +52,39 @@
     "name": "async",
     "stats": {
       "size": 20299,
-      "gzipSize": 5234
+      "gzipSize": 5231
     }
   },
   {
     "id": "atlaskit.elements.main",
     "name": "main",
     "stats": {
-      "size": 80803,
-      "gzipSize": 20214
+      "size": 80642,
+      "gzipSize": 20187
     }
   },
   {
     "id": "atlaskit.elements.async",
     "name": "async",
     "stats": {
-      "size": 68944,
-      "gzipSize": 20742
+      "size": 68964,
+      "gzipSize": 20741
     }
   },
   {
     "id": "atlaskit.media.main",
     "name": "main",
     "stats": {
-      "size": 224247,
-      "gzipSize": 53091
+      "size": 229839,
+      "gzipSize": 54138
     }
   },
   {
     "id": "atlaskit.media.async",
     "name": "async",
     "stats": {
-      "size": 877420,
-      "gzipSize": 215870
+      "size": 871236,
+      "gzipSize": 215936
     }
   },
   {
@@ -99,16 +99,16 @@
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 2456027,
-      "gzipSize": 669474
+      "size": 2464440,
+      "gzipSize": 670777
     }
   },
   {
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 2526189,
-      "gzipSize": 673493
+      "size": 2526244,
+      "gzipSize": 673980
     }
   }
 ]
