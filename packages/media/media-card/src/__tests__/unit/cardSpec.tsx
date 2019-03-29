@@ -722,6 +722,20 @@ describe('Card', () => {
     expect(releaseDataURI).toHaveBeenCalledTimes(1);
   });
 
+  it('ED-6584: should keep dataURI in the state if it was already generated', async () => {
+    const { component, context } = setup(undefined, {
+      dimensions: { width: 50, height: 50 },
+    });
+
+    await nextTick();
+    component.setProps({ dimensions: { width: 100, height: 100 } });
+    const currentDataURI = component.state('dataURI');
+    await nextTick();
+    const newDataURI = component.state('dataURI');
+    expect(context.file.getFileState).toHaveBeenCalledTimes(2);
+    expect(currentDataURI).toEqual(newDataURI);
+  });
+
   describe('Retry', () => {
     it('should pass down "onRetry" prop when an error occurs', async () => {
       const { component, context } = setup();

@@ -1,5 +1,12 @@
 # @atlaskit/notification-indicator
 
+## 6.0.0
+- [major] [987ab01f30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/987ab01f30):
+
+  - The appearance prop only accepts appearance types supported by the badge component, i.e. 'primary', 'added', 'default' etc.
+- Updated dependencies [c95557e3ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c95557e3ff):
+  - @atlaskit/badge@11.0.0
+
 ## 5.1.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

@@ -1,5 +1,21 @@
 # @atlaskit/editor-core
 
+## 106.7.7
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/editor-common@35.1.3
+  - @atlaskit/renderer@44.4.3
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-editor@31.0.3
+  - @atlaskit/media-filmstrip@30.0.2
+  - @atlaskit/media-picker@37.0.3
+  - @atlaskit/media-test-helpers@21.0.3
+  - @atlaskit/media-card@58.0.0
+
+## 106.7.6
+- [patch] [acaf2abb57](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acaf2abb57):
+
+  - ED-6146 Fix bug where gap cursor did not display to right of first node
+
 ## 106.7.5
 - [patch] [298bfed4e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/298bfed4e1):
 
