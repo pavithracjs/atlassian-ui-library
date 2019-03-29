@@ -547,7 +547,7 @@ function buildNodesForTeamMention(
 ): Fragment {
   const { nodes, marks } = schema;
   const { name, id: teamId, accessLevel, context } = selectedMention;
-  const teamUrl = `${window.location.host}/people/team/${teamId}`;
+  const teamUrl = `${window.location.origin}/people/team/${teamId}`;
 
   const openBracketText = schema.text('(');
   const closeBracketText = schema.text(')');
