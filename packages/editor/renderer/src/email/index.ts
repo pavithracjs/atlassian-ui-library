@@ -87,7 +87,7 @@ export default class EmailSerializer implements Serializer<string> {
   serializeFragment(fragment: Fragment): string {
     const innerHTML = traverseTree(fragment);
     return juice(
-      `<html><head><style>${styles}</style></head><body><div class="wrapper">${innerHTML}</div></body></html>`,
+      `<style>${styles}</style><div class="wrapper">${innerHTML}</div>`,
     );
   }
 

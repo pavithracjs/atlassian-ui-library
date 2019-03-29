@@ -26,9 +26,9 @@ const render = (doc: any) => {
   const serializer = EmailSerializer.fromSchema(schema);
   const docFromSchema = schema.nodeFromJSON(doc);
   const serialized = serializer.serializeFragment(docFromSchema.content);
-  const node = document.createElement('html');
+  const node = document.createElement('div');
   node.innerHTML = serialized;
-  return node;
+  return node.firstChild;
 };
 
 describe('Renderer - EmailSerializer', () => {
