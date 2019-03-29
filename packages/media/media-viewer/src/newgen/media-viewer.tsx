@@ -75,8 +75,7 @@ class MediaViewerComponent extends React.Component<Props, {}> {
       itemSource,
       featureFlags,
     } = this.props;
-    const defaultSelectedItem =
-      selectedItem && isFileIdentifier(selectedItem) ? selectedItem : undefined;
+    const defaultSelectedItem = selectedItem;
 
     if (itemSource.kind === 'COLLECTION') {
       return (
@@ -90,10 +89,8 @@ class MediaViewerComponent extends React.Component<Props, {}> {
         />
       );
     } else if (itemSource.kind === 'ARRAY') {
-      const items = itemSource.items.filter(item =>
-        isFileIdentifier(item),
-      ) as FileIdentifier[];
-      const firstItem = items[0] as FileIdentifier;
+      const { items } = itemSource;
+      const firstItem = items[0];
 
       return (
         <List

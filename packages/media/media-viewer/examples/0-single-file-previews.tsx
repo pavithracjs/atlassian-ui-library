@@ -1,7 +1,10 @@
 import * as React from 'react';
-import { createStorybookContext } from '@atlaskit/media-test-helpers';
+import {
+  createStorybookContext,
+  externalImageIdentifier,
+} from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
-import { FileIdentifier, Identifier } from '@atlaskit/media-core';
+import { Identifier } from '@atlaskit/media-core';
 import { ButtonList, Container, Group } from '../example-helpers/styled';
 import {
   archiveItem,
@@ -42,23 +45,20 @@ export default class Example extends React.Component<{}, State> {
     this.setState({ selectedItem });
   };
 
-  createItem = (item: FileIdentifier, title: string) => {
-    const identifier: FileIdentifier = {
-      id: item.id,
-      mediaItemType: 'file',
-      collectionName: defaultCollectionName,
-    };
+  createItem = (item: Identifier, title: string) => {
     const onClick = this.setItem(item);
 
     return (
       <div>
         <h4>{title}</h4>
-        <Card identifier={identifier} context={context} onClick={onClick} />
+        <Card identifier={item} context={context} onClick={onClick} />
       </div>
     );
   };
 
   render() {
+    const { selectedItem } = this.state;
+
     return (
       <I18NWrapper>
         <Container>
@@ -94,6 +94,14 @@ export default class Example extends React.Component<{}, State> {
             </ButtonList>
           </Group>
           <Group>
+            <h2>External images</h2>
+            <ButtonList>
+              <li>
+                {this.createItem(externalImageIdentifier, 'Atlassian logo')}
+              </li>
+            </ButtonList>
+          </Group>
+          <Group>
             <h2>Errors</h2>
             <ButtonList>
               <li>{this.createItem(unsupportedItem, 'Unsupported item')}</li>
@@ -106,12 +114,12 @@ export default class Example extends React.Component<{}, State> {
               </li>
             </ButtonList>
           </Group>
-          {this.state.selectedItem && (
+          {selectedItem && (
             <AnalyticsListener channel="media" onEvent={handleEvent}>
               <MediaViewer
                 context={context}
-                selectedItem={this.state.selectedItem}
-                dataSource={{ list: [this.state.selectedItem] }}
+                selectedItem={selectedItem}
+                dataSource={{ list: [selectedItem] }}
                 collectionName={defaultCollectionName}
                 onClose={() => this.setState({ selectedItem: undefined })}
               />

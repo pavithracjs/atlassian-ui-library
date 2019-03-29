@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { Context, FileIdentifier } from '@atlaskit/media-core';
+import {
+  Context,
+  FileIdentifier,
+  Identifier,
+  isExternalImageIdentifier,
+} from '@atlaskit/media-core';
 import { Outcome, MediaViewerFeatureFlags } from './domain';
 import ErrorMessage, { createError, MediaViewerError } from './error';
 import { List } from './list';
@@ -10,7 +15,7 @@ import { MediaCollectionItem } from '@atlaskit/media-store';
 
 export type Props = Readonly<{
   onClose?: () => void;
-  defaultSelectedItem?: FileIdentifier;
+  defaultSelectedItem?: Identifier;
   showControls?: () => void;
   featureFlags?: MediaViewerFeatureFlags;
   collectionName: string;
@@ -122,7 +127,10 @@ export class Collection extends React.Component<Props, State> {
     }
   };
 
-  private shouldLoadNext(selectedItem: FileIdentifier): boolean {
+  private shouldLoadNext(selectedItem: Identifier): boolean {
+    if (isExternalImageIdentifier(selectedItem)) {
+      return false;
+    }
     const { items } = this.state;
     return items.match({
       pending: () => false,
