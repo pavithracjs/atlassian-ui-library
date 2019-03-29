@@ -1,0 +1,1 @@
+- Updated analytics to modern form
