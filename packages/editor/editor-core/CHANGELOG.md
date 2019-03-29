@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 106.7.8
+- [patch] [2d7ff51814](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d7ff51814):
+
+  - ED-6595 Remove layout marks when pasting images inside a list
+
 ## 106.7.7
 - Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
   - @atlaskit/editor-common@35.1.3
