@@ -14,6 +14,7 @@ export default class PositionExample extends Component<Props, State> {
   // store the direction as an index and pull it from the list above,
   // just to simplify the `changeDirection` logic
   state = { position: 0 };
+
   static defaultProps = {
     color: 'blue',
   };

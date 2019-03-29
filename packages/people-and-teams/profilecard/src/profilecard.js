@@ -45,6 +45,7 @@ export default class Profilecard extends PureComponent<ProfilecardProps, void> {
   };
 
   _timeOpen: any;
+
   clientFetchProfile: Function;
 
   constructor(props: ProfilecardProps) {
@@ -186,7 +187,8 @@ export default class Profilecard extends PureComponent<ProfilecardProps, void> {
     const { nickname, fullName, status } = this.props;
     if (status === 'inactive') {
       return fullName || nickname;
-    } else if (status === 'closed') {
+    }
+    if (status === 'closed') {
       return (
         nickname || (
           <FormattedMessage {...messages.disabledAccountDefaultName} />

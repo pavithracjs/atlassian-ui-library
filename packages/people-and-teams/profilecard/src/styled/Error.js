@@ -2,11 +2,7 @@
 import styled from 'styled-components';
 import { gridSize, math } from '@atlaskit/theme';
 
-import {
-  errorIconColor,
-  errorTitleColor,
-  errorTextColor,
-} from '../styled/constants';
+import { errorIconColor, errorTitleColor, errorTextColor } from './constants';
 
 export const ErrorWrapper = styled.div`
   text-align: center;

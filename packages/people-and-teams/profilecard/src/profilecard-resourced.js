@@ -107,7 +107,8 @@ export default class ProfilecardResourced extends PureComponent<Props, State> {
     return actions.filter(action => {
       if (!action.shouldRender) {
         return true;
-      } else if (typeof action.shouldRender !== 'function') {
+      }
+      if (typeof action.shouldRender !== 'function') {
         return Boolean(action.shouldRender);
       }
 

@@ -12,6 +12,7 @@ export default class MenuSection extends Component<MenuSectionProps> {
   static defaultProps = {
     alwaysShowScrollHint: false,
   };
+
   render() {
     const { alwaysShowScrollHint, id, children, parentId } = this.props;
     return (

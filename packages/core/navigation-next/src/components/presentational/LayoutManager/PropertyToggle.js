@@ -12,8 +12,11 @@ type Props = {
 
 class PropertyToggle extends PureComponent<Props> {
   originalAttributes: ObjectType = {};
+
   originalStyles: ObjectType = {};
+
   attributeKeys: Keys;
+
   styleKeys: Keys;
 
   componentDidMount() {
@@ -37,6 +40,7 @@ class PropertyToggle extends PureComponent<Props> {
       });
     }
   }
+
   componentWillUnmount() {
     const { target } = this.props;
 
@@ -58,6 +62,7 @@ class PropertyToggle extends PureComponent<Props> {
       });
     }
   }
+
   render() {
     return null;
   }

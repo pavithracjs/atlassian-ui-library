@@ -122,7 +122,8 @@ class ProgressExample extends Component<any, any> {
     const newstages = this.state.items.map(x => {
       if (x.id === `${currentId}`) {
         return completed;
-      } else if (x.id === `${nextId}`) {
+      }
+      if (x.id === `${nextId}`) {
         return next;
       }
       return x;
@@ -155,7 +156,8 @@ class ProgressExample extends Component<any, any> {
     const newstages = this.state.items.map(x => {
       if (x.id === `${currentId}`) {
         return completed;
-      } else if (x.id === `${prevId}`) {
+      }
+      if (x.id === `${prevId}`) {
         return prev;
       }
       return x;

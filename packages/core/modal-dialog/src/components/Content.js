@@ -110,7 +110,9 @@ export default class Content extends Component<Props, State> {
   };
 
   escapeIsHeldDown: boolean = false;
+
   _isMounted: boolean = false;
+
   scrollContainer: HTMLElement | void;
 
   state: State = getInitialState();
@@ -167,6 +169,7 @@ export default class Content extends Component<Props, State> {
       this.handleStackChange(nextProps.stackIndex);
     }
   }
+
   componentWillUnmount() {
     this._isMounted = false;
 
@@ -195,13 +198,16 @@ export default class Content extends Component<Props, State> {
 
     this.setState({ showHeaderKeyline, showFooterKeyline });
   });
+
   getScrollContainer = (ref: HTMLElement) => {
     if (!ref) return;
     this.scrollContainer = ref;
   };
+
   handleKeyUp = () => {
     this.escapeIsHeldDown = false;
   };
+
   handleKeyDown = (event: SyntheticKeyboardEvent<any>) => {
     const { onClose, shouldCloseOnEscapePress, stackIndex = 0 } = this.props;
 
@@ -219,6 +225,7 @@ export default class Content extends Component<Props, State> {
       default:
     }
   };
+
   handleStackChange = (stackIndex: number) => {
     const { onStackChange } = this.props;
     if (onStackChange) onStackChange(stackIndex);

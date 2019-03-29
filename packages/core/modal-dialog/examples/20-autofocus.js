@@ -14,9 +14,13 @@ export default class ModalDemo extends Component<
   { isOpen: string | null },
 > {
   state = { isOpen: null };
+
   open = (isOpen: string) => this.setState({ isOpen });
+
   close = () => this.setState({ isOpen: null });
+
   secondaryAction = ({ target }: Object) => console.log(target.innerText);
+
   render() {
     const { isOpen } = this.state;
     const actions = [

@@ -8,7 +8,7 @@ import {
   name as packageName,
   version as packageVersion,
 } from '../../../version.json';
-import '../../../components/BreadcrumbsStateless';
+import '../../BreadcrumbsStateless';
 
 // This is a global mock for this file that will mock all components wrapped with analytics
 // and replace them with an empty SFC that returns null. This includes components imported

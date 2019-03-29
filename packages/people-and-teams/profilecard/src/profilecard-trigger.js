@@ -34,8 +34,11 @@ type State = {
 
 export default class ProfilecardTrigger extends PureComponent<Props, State> {
   showDelay: number = 500;
+
   hideDelay: number = 500;
+
   showTimer: any;
+
   hideTimer: any;
 
   static defaultProps = {

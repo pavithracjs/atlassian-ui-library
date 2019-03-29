@@ -19,11 +19,13 @@ const promiseOptions = inputValue =>
 
 export default class WithPromises extends Component<*, State> {
   state = { inputValue: '' };
+
   handleInputChange = (newValue: string) => {
     const inputValue = newValue.replace(/\W/g, '');
     this.setState({ inputValue });
     return inputValue;
   };
+
   render() {
     return (
       <AsyncSelect cacheOptions defaultOptions loadOptions={promiseOptions} />

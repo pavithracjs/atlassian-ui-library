@@ -17,12 +17,15 @@ const Button = ({ inline = true, ...props }: { inline?: boolean }) => (
 
 export default class FocusBlurSelect extends Component<*> {
   select: ElementRef<*>;
+
   focus = () => {
     this.select.focus();
   };
+
   blur = () => {
     this.select.blur();
   };
+
   render() {
     return (
       <Fragment>

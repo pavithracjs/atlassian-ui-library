@@ -13,7 +13,9 @@ const { warn } = console;
 export default class UIAnalyticsEvent extends AnalyticsEvent
   implements UIAnalyticsEventInterface {
   context: Array<{}>;
+
   handlers: Array<UIAnalyticsEventHandler>;
+
   hasFired: boolean;
 
   constructor(props: UIAnalyticsEventProps) {

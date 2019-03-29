@@ -22,6 +22,7 @@ type State = {
 
 class Controlled extends Component<Props, State> {
   state: State;
+
   recentlySelected: boolean = false;
 
   constructor(props: Props) {

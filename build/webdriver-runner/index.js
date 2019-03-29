@@ -94,7 +94,6 @@ async function rerunFailedTests(result) {
 
 function runTestsWithRetry() {
   return new Promise(async resolve => {
-    let code = 0;
     let results;
     try {
       results = await runJest();
@@ -121,17 +120,21 @@ function runTestsWithRetry() {
         );
       }
 
-      code = getExitCode(results);
+      let code = getExitCode(results);
+      console.log('initalTestExitStatus', code);
       // Only retry and report results in CI.
       if (code !== 0 && process.env.CI) {
         results = await rerunFailedTests(results);
+
         code = getExitCode(results);
 
+        console.log('results after rerun', results);
+        console.log('rerunTestExitStatus', code);
         /**
          * If the re-run succeeds,
          * log the previously failed tests to indicate flakiness
          */
-        if (code === 0) {
+        if (code == 0) {
           await reporting.reportFailure(
             results,
             'atlaskit.qa.integration_test.flakiness',

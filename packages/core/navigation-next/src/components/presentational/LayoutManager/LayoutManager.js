@@ -63,9 +63,13 @@ export default class LayoutManager extends Component<
     mouseIsOverNavigation: false,
     itemIsDragging: false,
   };
+
   productNavRef: HTMLElement;
+
   pageRef: HTMLElement;
+
   containerRef: HTMLElement;
+
   flyoutMouseOverTimeout: TimeoutID;
 
   static defaultProps = {
@@ -119,9 +123,11 @@ export default class LayoutManager extends Component<
   getContainerRef = (ref: ElementRef<*>) => {
     this.containerRef = ref;
   };
+
   getNavRef = (ref: ElementRef<*>) => {
     this.productNavRef = ref;
   };
+
   getPageRef = (ref: ElementRef<*>) => {
     this.pageRef = ref;
   };
@@ -131,6 +137,7 @@ export default class LayoutManager extends Component<
     clearTimeout(this.flyoutMouseOverTimeout);
     this.setState({ flyoutIsOpen: false });
   };
+
   mouseOverFlyoutArea = ({ currentTarget, target }: *) => {
     if (!currentTarget.contains(target)) return;
 
@@ -148,6 +155,7 @@ export default class LayoutManager extends Component<
       this.setState({ flyoutIsOpen: true });
     }, delay);
   };
+
   closeFlyout = (e: any) => {
     e.stopPropagation();
     clearTimeout(this.flyoutMouseOverTimeout);
@@ -159,6 +167,7 @@ export default class LayoutManager extends Component<
   mouseEnter = () => {
     this.setState({ mouseIsOverNavigation: true });
   };
+
   mouseLeave = () => {
     clearTimeout(this.flyoutMouseOverTimeout);
     this.setState({ mouseIsOverNavigation: false });

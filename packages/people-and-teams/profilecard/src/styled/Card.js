@@ -11,7 +11,7 @@ import {
   appLabelTextColor,
   labelTextColor,
   labelIconColor,
-} from '../styled/constants';
+} from './constants';
 
 const getFullNameMargin = props =>
   props.noMeta

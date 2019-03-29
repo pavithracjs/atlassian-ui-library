@@ -20,6 +20,7 @@ export default class Banner extends Component<Props, { height: number }> {
   state = {
     height: 0,
   };
+
   static defaultProps = {
     appearance: 'warning',
     isOpen: false,

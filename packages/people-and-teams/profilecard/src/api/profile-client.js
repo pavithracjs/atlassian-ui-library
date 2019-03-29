@@ -115,6 +115,7 @@ const requestService = (serviceUrl, cloudId, userId): Promise<any> => {
 
 class ProfileClient {
   config: AkProfileClientConfig;
+
   cache: any;
 
   constructor(config: AkProfileClientConfig) {

@@ -40,6 +40,7 @@ type Props = {
 
 export default class Badge extends Component<Props> {
   static displayName = 'Ak.Badge';
+
   static defaultProps = {
     appearance: 'default',
     children: 0,

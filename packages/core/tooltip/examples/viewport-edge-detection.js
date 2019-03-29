@@ -80,6 +80,7 @@ export default class PositionExample extends Component<Props, State> {
     viewportPosition: 0,
     tooltipContent: 0,
   };
+
   static defaultProps = {
     color: 'blue',
   };
