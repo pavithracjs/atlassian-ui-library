@@ -16,6 +16,7 @@ import {
   FileState,
   UploadableFile,
   FileIdentifier,
+  AuthProvider,
 } from '@atlaskit/media-core';
 import { TouchedFiles, UploadableFileUpfrontIds } from '@atlaskit/media-store';
 import {
@@ -161,7 +162,7 @@ describe('Smart Media Editor', () => {
 
   describe('onSave callback', () => {
     let resultingFileStateObservable: ReplaySubject<FileState>;
-    const callEditorViewOnSaveWithCustonContext = (customContext: Context) => {
+    const callEditorViewOnSaveWithCustomContext = (customContext: Context) => {
       resultingFileStateObservable = new ReplaySubject<FileState>(1);
       const touchedFiles: TouchedFiles = {
         created: [
@@ -181,11 +182,11 @@ describe('Smart Media Editor', () => {
     };
 
     describe('when EditorView calls onSave with userAuthProvider', () => {
-      let userAuthProvider: jest.Mock<any>;
+      let userAuthProvider: AuthProvider;
       beforeEach(async () => {
         await forFileToBeProcessed();
         const defaultConfig = getDefaultContextConfig();
-        userAuthProvider = jest.fn();
+        userAuthProvider = jest.fn() as any;
         const config = {
           ...defaultConfig,
           userAuthProvider,
@@ -194,7 +195,7 @@ describe('Smart Media Editor', () => {
         component.setProps({
           context,
         });
-        callEditorViewOnSaveWithCustonContext(context);
+        callEditorViewOnSaveWithCustomContext(context);
       });
 
       it('should call context.file.copyFile', async () => {
@@ -227,7 +228,7 @@ describe('Smart Media Editor', () => {
     describe('when EditorView calls onSave without userAuthProvider', () => {
       beforeEach(async () => {
         await forFileToBeProcessed();
-        callEditorViewOnSaveWithCustonContext(context);
+        callEditorViewOnSaveWithCustomContext(context);
       });
 
       it('should upload a file', async () => {
