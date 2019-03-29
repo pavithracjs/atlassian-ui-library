@@ -1,5 +1,32 @@
 # @atlaskit/renderer
 
+## 44.5.0
+- [minor] [e6f58b1837](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6f58b1837):
+
+  - Email renderer layout column and section support
+
+## 44.4.3
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/editor-common@35.1.3
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-filmstrip@30.0.2
+  - @atlaskit/media-test-helpers@21.0.3
+  - @atlaskit/media-card@58.0.0
+
+## 44.4.2
+- Updated dependencies [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
+  - @atlaskit/util-data-test@11.1.4
+  - @atlaskit/task-decision@14.0.0
+
+## 44.4.1
+- Updated dependencies [97abf5e006](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97abf5e006):
+  - @atlaskit/status@0.8.0
+
+## 44.4.0
+- [minor] [1b3c18ae43](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b3c18ae43):
+
+  - CS-856: Create no-op nodes and marks for email renderer
+
 ## 44.3.0
 - [minor] [0fea11af41](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0fea11af41):
 

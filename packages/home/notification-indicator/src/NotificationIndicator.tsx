@@ -25,7 +25,13 @@ export interface ValueUpdatedParams {
 
 export interface Props {
   notificationLogProvider: Promise<NotificationLogProvider>;
-  appearance?: string;
+  appearance?:
+    | 'added'
+    | 'default'
+    | 'important'
+    | 'primary'
+    | 'primaryInverted'
+    | 'removed';
   max?: number;
   refreshRate?: number;
   refreshOnHidden?: boolean;

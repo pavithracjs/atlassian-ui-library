@@ -1,5 +1,10 @@
 # @atlaskit/media-avatar-picker
 
+## 17.0.2
+- [patch] [730d7657fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/730d7657fc):
+
+  - Support images with EXIF orientation tag
+
 ## 17.0.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

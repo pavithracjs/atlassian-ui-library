@@ -20,8 +20,8 @@ describe('Snapshot Test', () => {
     expect(image).toMatchProdImageSnapshot();
   });
 });
-// TODO: Harsha to fix NAV-225
-it.skip('with-notification-integration should match prod', async () => {
+
+it('with-notification-integration should match prod', async () => {
   const notificationExample = examples.find(
     ({ exampleName }) => exampleName === 'with-notification-integration',
   );
@@ -36,15 +36,14 @@ it.skip('with-notification-integration should match prod', async () => {
 
   const { page } = global;
   const notificationIcon = "[aria-label='Notifications']";
-  const notificationIframe = 'iframe[title="Notifications"';
 
   await page.goto(url);
 
   await page.waitForSelector(notificationIcon);
   await page.click(notificationIcon);
-  await page.waitFor(notificationIframe);
+  await page.waitFor(300);
 
-  const image = url && (await takeScreenShot(page, url));
+  const image = url && (await page.screenshot());
   //$FlowFixMe
   expect(image).toMatchProdImageSnapshot();
 });

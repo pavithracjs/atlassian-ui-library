@@ -1,5 +1,5 @@
 import { Component } from './component';
-import { Color, ShapeParameters, Tool } from '../../common';
+import { ShapeParameters, Tool } from '../../common';
 import { Signal } from '../signal';
 
 export interface Toolbar extends Component {
@@ -7,7 +7,7 @@ export interface Toolbar extends Component {
   updateByCore(parameters: ShapeParameters): void;
 
   // These signals should be emitted when the user clicks on toolbar buttons
-  colorChanged: Signal<Color>;
+  colorChanged: Signal<string>;
   lineWidthChanged: Signal<number>;
   addShadowChanged: Signal<boolean>;
   toolChanged: Signal<Tool>;
@@ -16,7 +16,7 @@ export interface Toolbar extends Component {
 export type UpdateByCoreHandler = (parameters: ShapeParameters) => void;
 
 export class DefaultToolbar implements Toolbar {
-  readonly colorChanged = new Signal<Color>();
+  readonly colorChanged = new Signal<string>();
   readonly lineWidthChanged = new Signal<number>();
   readonly addShadowChanged = new Signal<boolean>();
   readonly toolChanged = new Signal<Tool>();
@@ -29,7 +29,7 @@ export class DefaultToolbar implements Toolbar {
     this.onUpdateByCore(parameters);
   }
 
-  setColor(color: Color): void {
+  setColor(color: string): void {
     this.colorChanged.emit(color);
   }
 

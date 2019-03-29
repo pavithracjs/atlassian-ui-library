@@ -1,4 +1,8 @@
-import { MarkSerializer, NodeSerializer } from './interfaces';
+import {
+  MarkSerializer,
+  NodeSerializer,
+  MarkSerializerOpts,
+} from './interfaces';
 
 import blockquote from './nodes/blockquote';
 import blockCard from './nodes/block-card';
@@ -23,6 +27,8 @@ import tableRow from './nodes/table-row';
 import text from './nodes/text';
 import unknownBlock from './nodes/unknown-block';
 import status from './nodes/status';
+import layoutColumn from './nodes/layoutColumn';
+import layoutSection from './nodes/layoutSection';
 
 import code from './marks/code';
 import em from './marks/em';
@@ -35,7 +41,8 @@ import underline from './marks/underline';
 import indentation from './marks/indentation';
 import alignment from './marks/alignment';
 
-const renderNothing = () => '';
+const renderNothing = (): string => '';
+const doNotMark = ({ text }: MarkSerializerOpts): string => text;
 
 export const nodeSerializers: { [key: string]: NodeSerializer } = {
   bodiedExtension: renderNothing,
@@ -48,6 +55,8 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   emoji,
   image: renderNothing,
   inlineCard,
+  layoutColumn,
+  layoutSection,
   hardBreak,
   heading,
   listItem,
@@ -56,6 +65,7 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   orderedList,
   panel,
   paragraph,
+  placeholder: renderNothing,
   rule,
   table,
   tableCell,
@@ -68,6 +78,10 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
 };
 
 export const markSerializers: { [key: string]: MarkSerializer } = {
+  action: doNotMark,
+  alignment,
+  annotation: doNotMark,
+  breakout: doNotMark,
   code,
   em,
   indentation,
@@ -77,5 +91,4 @@ export const markSerializers: { [key: string]: MarkSerializer } = {
   subsup,
   textColor,
   underline,
-  alignment,
 };
