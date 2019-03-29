@@ -335,6 +335,34 @@ System.out.println("There are " + count + " values &gt;= 5");
 </div>
 `;
 
+exports[`Renderer - EmailSerializer should render extension placeholders 1`] = `
+<div
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;"
+>
+  <p
+    style="margin: 0;margin-bottom: 7px;padding: 0px;padding-top: 7px;mso-line-height-rule: exactly;line-height: 24px;font-size: 14px;"
+  >
+    foo
+    <span
+      style="background-color: #F4F5F7;border: 3px solid #F4F5F7;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;"
+    >
+      [ jira ]
+    </span>
+    bar
+  </p>
+  <div
+    style="background-color: #F4F5F7;border: 3px solid #F4F5F7;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;margin-top: 10px;"
+  >
+    [ widget ]
+  </div>
+  <div
+    style="background-color: #F4F5F7;border: 3px solid #F4F5F7;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;margin-top: 10px;"
+  >
+    [ bodied-extension ]
+  </div>
+</div>
+`;
+
 exports[`Renderer - EmailSerializer should render inline cards correctly 1`] = `
 <div
   class="wrapper"
