@@ -24,7 +24,7 @@ type IStepsDataType = {
 }
 */
 const fabricStatsServiceUrl =
-  process.env.FABRIC_STATS_SERVICE || 'http://localhost:8080/api/sendBuildData';
+  process.env.FABRIC_STATS_SERVICE || 'http://localhost:8080';
 
 async function sendData(payload /*: IBuildEventProperties */) {
   const config = {
@@ -35,7 +35,7 @@ async function sendData(payload /*: IBuildEventProperties */) {
     },
   };
   const response = await axios.post(
-    `${fabricStatsServiceUrl}`,
+    `${fabricStatsServiceUrl}/api/sendBuildData`,
     payload,
     config,
   );
