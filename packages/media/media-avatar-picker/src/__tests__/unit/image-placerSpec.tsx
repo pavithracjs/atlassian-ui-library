@@ -13,7 +13,7 @@ const mockImagePlacerUtil = {
   getCanvas: mockCanvas,
 };
 
-jest.mock('../../image-placer/util', () => mockImagePlacerUtil);
+jest.mock('../../util', () => mockImagePlacerUtil);
 
 import {
   ImagePlacer,

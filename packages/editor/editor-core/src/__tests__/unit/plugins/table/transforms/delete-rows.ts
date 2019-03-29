@@ -1,3 +1,5 @@
+import { Rect } from 'prosemirror-tables';
+import { getSelectionRect } from 'prosemirror-utils';
 import {
   doc,
   p,
@@ -14,6 +16,13 @@ import tablesPlugin from '../../../../../plugins/table';
 import { deleteRows } from '../../../../../plugins/table/transforms';
 import { pluginKey } from '../../../../../plugins/table/pm-plugins/main';
 
+const rowsToRect = (rows: Array<number>, noOfColumns: number): Rect => ({
+  left: 0,
+  right: noOfColumns,
+  top: Math.min(...rows),
+  bottom: Math.max(...rows) + 1,
+});
+
 describe('table plugin -> transforms -> delete rows', () => {
   const createEditor = createEditorFactory<TablePluginState>();
 
@@ -24,7 +33,7 @@ describe('table plugin -> transforms -> delete rows', () => {
       pluginKey,
     });
 
-  describe('when row indexes are given', () => {
+  describe('when selection rect is given', () => {
     describe('when the first row is deleted', () => {
       it('should delete the row and move cursor to the first row', () => {
         const {
@@ -41,7 +50,7 @@ describe('table plugin -> transforms -> delete rows', () => {
           ),
         );
         const { state, dispatch } = editorView;
-        dispatch(deleteRows([0])(state.tr));
+        dispatch(deleteRows(rowsToRect([0], 3))(state.tr));
         expect(editorView.state.doc).toEqualDocument(
           doc(
             p('text'),
@@ -68,7 +77,7 @@ describe('table plugin -> transforms -> delete rows', () => {
           ),
         );
         const { state, dispatch } = editorView;
-        dispatch(deleteRows([1])(state.tr));
+        dispatch(deleteRows(rowsToRect([1], 3))(state.tr));
         expect(editorView.state.doc).toEqualDocument(
           doc(
             p('text'),
@@ -79,8 +88,8 @@ describe('table plugin -> transforms -> delete rows', () => {
       });
     });
 
-    describe('when an array of row indexes is passed in', () => {
-      it('should delete these rows', () => {
+    describe('when multiple rows are selected', () => {
+      it('should delete those rows', () => {
         const { editorView } = editor(
           doc(
             p('text'),
@@ -92,56 +101,11 @@ describe('table plugin -> transforms -> delete rows', () => {
           ),
         );
         const { state, dispatch } = editorView;
-        dispatch(deleteRows([0, 1])(state.tr));
+        dispatch(deleteRows(rowsToRect([0, 1], 3))(state.tr));
         expect(editorView.state.doc).toEqualDocument(
           doc(p('text'), table()(tr(td()(p('c1')), td()(p('c2'))))),
         );
       });
-    });
-  });
-
-  describe('when row indexes are given', () => {
-    it('should delete these rows', () => {
-      const { editorView } = editor(
-        doc(
-          p('text'),
-          table()(
-            tr(td()(p('c1')), td()(p('c2'))),
-            tr(td()(p('c3')), td()(p('c4'))),
-            tr(td()(p('c5')), td()(p('c6'))),
-          ),
-        ),
-      );
-      const { state, dispatch } = editorView;
-      dispatch(deleteRows([0, 1])(state.tr));
-      expect(editorView.state.doc).toEqualDocument(
-        doc(p('text'), table()(tr(td()(p('c5')), td()(p('c6'))))),
-      );
-    });
-  });
-
-  describe('when no rows are selected', () => {
-    it('should do nothing', () => {
-      const { editorView } = editor(
-        doc(
-          p('text'),
-          table()(
-            tr(td({})(p('a1')), td({})(p('a2'))),
-            tr(td({})(p('b1')), td({})(p('b2'))),
-          ),
-        ),
-      );
-      const { state, dispatch } = editorView;
-      dispatch(deleteRows()(state.tr));
-      expect(editorView.state.doc).toEqualDocument(
-        doc(
-          p('text'),
-          table()(
-            tr(td({})(p('a1')), td({})(p('a2'))),
-            tr(td({})(p('b1')), td({})(p('b2'))),
-          ),
-        ),
-      );
     });
   });
 
@@ -157,7 +121,7 @@ describe('table plugin -> transforms -> delete rows', () => {
         ),
       );
       const { state, dispatch } = editorView;
-      dispatch(deleteRows()(state.tr));
+      dispatch(deleteRows(getSelectionRect(state.selection)!)(state.tr));
       expect(editorView.state.doc).toEqualDocument(
         doc(
           p('text'),
@@ -180,7 +144,7 @@ describe('table plugin -> transforms -> delete rows', () => {
         ),
       );
       const { state, dispatch } = editorView;
-      dispatch(deleteRows()(state.tr));
+      dispatch(deleteRows(getSelectionRect(state.selection)!)(state.tr));
       expect(editorView.state.doc).toEqualDocument(
         doc(p('text'), table()(tr(td({})(p('c1')), td({})(p('c2'))))),
       );
@@ -200,7 +164,7 @@ describe('table plugin -> transforms -> delete rows', () => {
         ),
       );
       const { state, dispatch } = editorView;
-      dispatch(deleteRows()(state.tr));
+      dispatch(deleteRows(getSelectionRect(state.selection)!)(state.tr));
       expect(editorView.state.doc).toEqualDocument(
         doc(p('text'), table()(tr(td({})(p('c4')), td({})(p('c5'))))),
       );
@@ -224,7 +188,7 @@ describe('table plugin -> transforms -> delete rows', () => {
           ),
         );
         const { state, dispatch } = editorView;
-        dispatch(deleteRows()(state.tr));
+        dispatch(deleteRows(getSelectionRect(state.selection)!)(state.tr));
         expect(editorView.state.doc).toEqualDocument(
           doc(
             p('text'),
@@ -250,7 +214,7 @@ describe('table plugin -> transforms -> delete rows', () => {
           ),
         );
         const { state, dispatch } = editorView;
-        dispatch(deleteRows()(state.tr));
+        dispatch(deleteRows(getSelectionRect(state.selection)!)(state.tr));
         expect(editorView.state.doc).toEqualDocument(
           doc(
             p('text'),
@@ -272,7 +236,9 @@ describe('table plugin -> transforms -> delete rows', () => {
             doc(table()(tr(thEmpty), tr(tdEmpty), tr(tdEmpty))),
           );
           const { state, dispatch } = editorView;
-          dispatch(deleteRows([], isHeaderRowRequired)(state.tr));
+          dispatch(
+            deleteRows(rowsToRect([0], 3), isHeaderRowRequired)(state.tr),
+          );
           expect(editorView.state.doc).toEqualDocument(
             doc(table()(tr(thEmpty), tr(tdEmpty), tr(tdEmpty))),
           );
@@ -291,7 +257,11 @@ describe('table plugin -> transforms -> delete rows', () => {
             ),
           );
           const { state, dispatch } = editorView;
-          dispatch(deleteRows([], isHeaderRowRequired)(state.tr));
+          dispatch(
+            deleteRows(getSelectionRect(state.selection)!, isHeaderRowRequired)(
+              state.tr,
+            ),
+          );
           expect(editorView.state.doc).toEqualDocument(
             doc(
               table()(
@@ -301,6 +271,239 @@ describe('table plugin -> transforms -> delete rows', () => {
             ),
           );
         });
+      });
+    });
+
+    describe('when a row-spanning cell is deleted', () => {
+      describe('when this cell has colspan = 1', () => {
+        it('should append missing cells to the rows below deleted row', () => {
+          const { editorView } = editor(
+            doc(
+              table()(
+                tr(
+                  td({ colwidth: [110] })(p('a1')),
+                  td({ colwidth: [120], rowspan: 3 })(p('a2')),
+                  td({ colwidth: [130] })(p('a3')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('b1')),
+                  td({ colwidth: [130] })(p('b3')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('c1')),
+                  td({ colwidth: [130] })(p('c3')),
+                ),
+              ),
+            ),
+          );
+          const { state, dispatch } = editorView;
+          dispatch(deleteRows(rowsToRect([0], 3))(state.tr));
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              table()(
+                tr(
+                  td({ colwidth: [110] })(p('b1')),
+                  td({ colwidth: [120] })(p('')),
+                  td({ colwidth: [130] })(p('b3')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('c1')),
+                  td({ colwidth: [120] })(p('')),
+                  td({ colwidth: [130] })(p('c3')),
+                ),
+              ),
+            ),
+          );
+        });
+      });
+
+      describe('when this cell has colspan > 1', () => {
+        it('should append missing cells to the rows below deleted row', () => {
+          const { editorView } = editor(
+            doc(
+              table()(
+                tr(
+                  td({ colwidth: [110] })(p('a1')),
+                  td({ colwidth: [120, 130], rowspan: 3, colspan: 2 })(p('a2')),
+                  td({ colwidth: [140] })(p('a4')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('b1')),
+                  td({ colwidth: [140] })(p('b4')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('c1')),
+                  td({ colwidth: [140] })(p('c4')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('d1')),
+                  td({ colwidth: [120] })(p('d2')),
+                  td({ colwidth: [130] })(p('d3')),
+                  td({ colwidth: [140] })(p('d4')),
+                ),
+              ),
+            ),
+          );
+          const { state, dispatch } = editorView;
+          dispatch(deleteRows(rowsToRect([0], 3))(state.tr));
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              table()(
+                tr(
+                  td({ colwidth: [110] })(p('b1')),
+                  td({ colwidth: [120] })(p('')),
+                  td({ colwidth: [130] })(p('')),
+                  td({ colwidth: [140] })(p('b4')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('c1')),
+                  td({ colwidth: [120] })(p('')),
+                  td({ colwidth: [130] })(p('')),
+                  td({ colwidth: [140] })(p('c4')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('d1')),
+                  td({ colwidth: [120] })(p('d2')),
+                  td({ colwidth: [130] })(p('d3')),
+                  td({ colwidth: [140] })(p('d4')),
+                ),
+              ),
+            ),
+          );
+        });
+      });
+    });
+
+    describe('when a row-spanning cell overlaps deleted row from the row above', () => {
+      describe('when this cell has colspan = 1', () => {
+        it('should decrement the rowspan of that cell', () => {
+          const { editorView } = editor(
+            doc(
+              table()(
+                tr(
+                  td({ colwidth: [110] })(p('a1')),
+                  td({ colwidth: [120, 130], rowspan: 3, colspan: 2 })(p('a2')),
+                  td({ colwidth: [140] })(p('a4')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('b1')),
+                  td({ colwidth: [140] })(p('b4')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('c1')),
+                  td({ colwidth: [140] })(p('c4')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('d1')),
+                  td({ colwidth: [120] })(p('d2')),
+                  td({ colwidth: [130] })(p('d3')),
+                  td({ colwidth: [140] })(p('d4')),
+                ),
+              ),
+            ),
+          );
+          const { state, dispatch } = editorView;
+          dispatch(deleteRows(rowsToRect([1], 3))(state.tr));
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              table()(
+                tr(
+                  td({ colwidth: [110] })(p('a1')),
+                  td({ colwidth: [120, 130], rowspan: 2, colspan: 2 })(p('a2')),
+                  td({ colwidth: [140] })(p('a4')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('c1')),
+                  td({ colwidth: [140] })(p('c4')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('d1')),
+                  td({ colwidth: [120] })(p('d2')),
+                  td({ colwidth: [130] })(p('d3')),
+                  td({ colwidth: [140] })(p('d4')),
+                ),
+              ),
+            ),
+          );
+        });
+      });
+
+      describe('when this cell has colspan > 1', () => {
+        it('should decrement the rowspan of that cell', () => {
+          const { editorView } = editor(
+            doc(
+              table()(
+                tr(
+                  td({ colwidth: [110] })(p('a1')),
+                  td({ colwidth: [120], rowspan: 3 })(p('a2')),
+                  td({ colwidth: [130] })(p('a3')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('b1')),
+                  td({ colwidth: [130] })(p('b3')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('c1')),
+                  td({ colwidth: [130] })(p('c3')),
+                ),
+              ),
+            ),
+          );
+          const { state, dispatch } = editorView;
+          dispatch(deleteRows(rowsToRect([1], 3))(state.tr));
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              table()(
+                tr(
+                  td({ colwidth: [110] })(p('a1')),
+                  td({ colwidth: [120], rowspan: 2 })(p('a2')),
+                  td({ colwidth: [130] })(p('a3')),
+                ),
+                tr(
+                  td({ colwidth: [110] })(p('c1')),
+                  td({ colwidth: [130] })(p('c3')),
+                ),
+              ),
+            ),
+          );
+        });
+      });
+    });
+
+    describe('when a row-spanning cell overlaps two deleted rows from the row above', () => {
+      it('should decrement the rowspan of that cell twice', () => {
+        const { editorView } = editor(
+          doc(
+            table()(
+              tr(
+                td({ colwidth: [110] })(p('a1')),
+                td({ colwidth: [120], rowspan: 3 })(p('a2')),
+                td({ colwidth: [130] })(p('a3')),
+              ),
+              tr(
+                td({ colwidth: [110] })(p('b1')),
+                td({ colwidth: [130] })(p('b3')),
+              ),
+              tr(
+                td({ colwidth: [110] })(p('c1')),
+                td({ colwidth: [130] })(p('c3')),
+              ),
+            ),
+          ),
+        );
+        const { state, dispatch } = editorView;
+        dispatch(deleteRows(rowsToRect([1, 2], 3))(state.tr));
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            table()(
+              tr(
+                td({ colwidth: [110] })(p('a1')),
+                td({ colwidth: [120] })(p('a2')),
+                td({ colwidth: [130] })(p('a3')),
+              ),
+            ),
+          ),
+        );
       });
     });
   });

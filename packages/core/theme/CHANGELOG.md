@@ -1,5 +1,31 @@
 # @atlaskit/theme
 
+## 8.1.2
+- [patch] [0f17bb7c20](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f17bb7c20):
+
+  - Theme TypeScript annotations are now exported as a module declaration.
+
+## 8.1.1
+- [patch] [7fe933beaa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7fe933beaa):
+
+  - Adds missing typescript annotations
+
+## 8.1.0
+- [minor] [a561af5fc6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a561af5fc6):
+
+  - Theme now exports top-level type definition for TS users
+
+## 8.0.2
+- [patch] [5150860405](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5150860405):
+
+  - Updates Theme.Context prop type definiton
+
+## 8.0.1
+- Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
+  - @atlaskit/docs@7.0.1
+  - @atlaskit/section-message@2.0.1
+  - @atlaskit/button@11.0.0
+
 ## 8.0.0
 - [major] [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
 

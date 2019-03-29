@@ -75,11 +75,6 @@ const appearanceOptions = [
       'should be used for things like comments where you have a field input but require a toolbar & save/cancel buttons',
   },
   // {
-  //   label: 'Inline comment',
-  //   value: 'inline-comment',
-  //   description: 'should be used for inline comments; no toolbar is displayed',
-  // },
-  // {
   //   label: 'Chromeless',
   //   value: 'chromeless',
   //   description: 'is essentially the `comment` editor but without the editor chrome, like toolbar & save/cancel buttons'
@@ -230,6 +225,15 @@ class FullPageRendererExample extends React.Component<Props, State> {
     );
   };
 
+  private legacyMediaEventHandlers = () => ({
+    media: {
+      onClick: () => {
+        // tslint:disable-next-line:no-console
+        console.log('legacy event handler click!');
+      },
+    },
+  });
+
   render() {
     const { locale, messages } = this.state;
     return (
@@ -237,12 +241,6 @@ class FullPageRendererExample extends React.Component<Props, State> {
         <WithEditorActions
           render={actions => (
             <div>
-              <div
-                ref={ref => (this.popupMountPoint = ref)}
-                style={{
-                  zIndex: 9999,
-                }}
-              />
               <Controls>
                 <Select
                   formatOptionLabel={formatAppearanceOption}
@@ -318,30 +316,42 @@ class FullPageRendererExample extends React.Component<Props, State> {
                 }}
               >
                 <EditorColumn vertical={this.state.vertical}>
-                  <IntlProvider
-                    locale={this.getLocalTag(locale)}
-                    messages={messages}
+                  <div
+                    className="popups-wrapper"
+                    style={{ position: 'relative' }}
                   >
-                    <KitchenSinkEditor
-                      actions={actions}
-                      adf={this.state.adf}
-                      disabled={this.state.disabled}
-                      appearance={this.state.appearance}
-                      popupMountPoint={this.popupMountPoint || undefined}
-                      onDocumentChanged={this.onDocumentChanged}
-                      onDocumentValidated={this.onDocumentValidated}
-                      primaryToolbarComponents={
-                        <React.Fragment>
-                          <LanguagePicker
-                            languages={languages}
-                            locale={locale}
-                            onChange={this.loadLocale}
-                          />
-                          <SaveAndCancelButtons editorActions={actions} />
-                        </React.Fragment>
-                      }
+                    <div
+                      className="popups"
+                      ref={ref => (this.popupMountPoint = ref)}
+                      style={{
+                        zIndex: 9999,
+                      }}
                     />
-                  </IntlProvider>
+                    <IntlProvider
+                      locale={this.getLocalTag(locale)}
+                      messages={messages}
+                    >
+                      <KitchenSinkEditor
+                        actions={actions}
+                        adf={this.state.adf}
+                        disabled={this.state.disabled}
+                        appearance={this.state.appearance}
+                        popupMountPoint={this.popupMountPoint || undefined}
+                        onDocumentChanged={this.onDocumentChanged}
+                        onDocumentValidated={this.onDocumentValidated}
+                        primaryToolbarComponents={
+                          <React.Fragment>
+                            <LanguagePicker
+                              languages={languages}
+                              locale={locale}
+                              onChange={this.loadLocale}
+                            />
+                            <SaveAndCancelButtons editorActions={actions} />
+                          </React.Fragment>
+                        }
+                      />
+                    </IntlProvider>
+                  </div>
                 </EditorColumn>
                 <Column>
                   {!this.state.showADF ? (
@@ -363,6 +373,7 @@ class FullPageRendererExample extends React.Component<Props, State> {
                             adfStage="stage0"
                             dataProviders={this.dataProviders}
                             extensionHandlers={extensionHandlers}
+                            eventHandlers={this.legacyMediaEventHandlers()}
                             // @ts-ignore
                             appearance={this.state.appearance}
                           />

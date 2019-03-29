@@ -1,42 +1,38 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { defineMessages, injectIntl, InjectedIntlProps } from 'react-intl';
-import { getSelectionRect } from 'prosemirror-utils';
-import { Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { splitCell } from 'prosemirror-tables';
+import { splitCell, Rect } from 'prosemirror-tables';
 import { colors } from '@atlaskit/theme';
 import {
   tableBackgroundColorPalette,
   tableBackgroundBorderColors,
 } from '@atlaskit/adf-schema';
-import {
-  mergeCells,
-  canMergeCells,
-  deleteColumns,
-  deleteRows,
-} from '../../transforms';
+import { canMergeCells } from '../../transforms';
 import { getPluginState } from '../../pm-plugins/main';
 import {
   hoverColumns,
   hoverRows,
   clearHoverSelection,
-  insertColumn,
-  insertRow,
   toggleContextualMenu,
-  emptyMultipleCells,
-  setMultipleCellAttrs,
 } from '../../actions';
-import { CellRect, TableCssClassName as ClassName } from '../../types';
+import { TableCssClassName as ClassName } from '../../types';
 import { contextualMenuDropdownWidth } from '../styles';
 import { Shortcut } from '../../../../ui/styles';
 import DropdownMenu from '../../../../ui/DropdownMenu';
-import {
-  analyticsService as analytics,
-  withAnalytics,
-} from '../../../../analytics';
 import ColorPalette from '../../../../ui/ColorPalette';
 import tableMessages from '../messages';
+import { INPUT_METHOD } from '../../../analytics';
+import {
+  setColorWithAnalytics,
+  deleteRowsWithAnalytics,
+  deleteColumnsWithAnalytics,
+  insertRowWithAnalytics,
+  mergeCellsWithAnalytics,
+  splitCellWithAnalytics,
+  emptyMultipleCellsWithAnalytics,
+  insertColumnWithAnalytics,
+} from '../../actions-with-analytics';
 
 export const messages = defineMessages({
   cellBackground: {
@@ -65,8 +61,7 @@ export const messages = defineMessages({
 export interface Props {
   editorView: EditorView;
   isOpen: boolean;
-  columnSelectionRect: CellRect;
-  rowSelectionRect: CellRect;
+  selectionRect: Rect;
   targetCellPosition?: number;
   mountPoint?: HTMLElement;
   allowMergeCells?: boolean;
@@ -136,8 +131,7 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
       editorView: { state },
       targetCellPosition,
       isOpen,
-      columnSelectionRect,
-      rowSelectionRect,
+      selectionRect,
       intl: { formatMessage },
     } = this.props;
     const items: any[] = [];
@@ -189,8 +183,7 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
       elemAfter: <Shortcut>⌃⌥↓</Shortcut>,
     });
 
-    const { right, left } = columnSelectionRect;
-    const { top, bottom } = rowSelectionRect;
+    const { top, bottom, right, left } = selectionRect;
     const noOfColumns = right - left;
     const noOfRows = bottom - top;
 
@@ -233,60 +226,56 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
   };
 
   private onMenuItemActivated = ({ item }: { item: any }) => {
-    const {
-      editorView,
-      columnSelectionRect,
-      rowSelectionRect,
-      targetCellPosition,
-    } = this.props;
+    const { editorView, selectionRect, targetCellPosition } = this.props;
     const { state, dispatch } = editorView;
 
     switch (item.value.name) {
       case 'merge':
-        analytics.trackEvent('atlassian.editor.format.table.merge.button');
-        dispatch(mergeCells(state.tr));
+        mergeCellsWithAnalytics()(state, dispatch);
         this.toggleOpen();
         break;
       case 'split':
-        analytics.trackEvent('atlassian.editor.format.table.split.button');
-        splitCell(state, dispatch);
+        splitCellWithAnalytics()(state, dispatch);
         this.toggleOpen();
         break;
       case 'clear':
-        analytics.trackEvent('atlassian.editor.format.table.split.button');
-        emptyMultipleCells(targetCellPosition)(state, dispatch);
+        emptyMultipleCellsWithAnalytics(
+          INPUT_METHOD.CONTEXT_MENU,
+          targetCellPosition,
+        )(state, dispatch);
         this.toggleOpen();
         break;
       case 'insert_column':
-        insertColumn(columnSelectionRect.right)(state, dispatch);
+        insertColumnWithAnalytics(
+          INPUT_METHOD.CONTEXT_MENU,
+          selectionRect.right,
+        )(state, dispatch);
         this.toggleOpen();
         break;
       case 'insert_row':
-        insertRow(rowSelectionRect.bottom)(state, dispatch);
+        insertRowWithAnalytics(INPUT_METHOD.CONTEXT_MENU, selectionRect.bottom)(
+          state,
+          dispatch,
+        );
         this.toggleOpen();
         break;
       case 'delete_column':
-        analytics.trackEvent(
-          'atlassian.editor.format.table.delete_column.button',
-        );
-        dispatch(
-          deleteColumns(
-            getSelectedColumnIndexes(state.tr, columnSelectionRect),
-          )(state.tr),
+        deleteColumnsWithAnalytics(INPUT_METHOD.CONTEXT_MENU, selectionRect)(
+          state,
+          dispatch,
         );
         this.toggleOpen();
         break;
       case 'delete_row':
-        analytics.trackEvent('atlassian.editor.format.table.delete_row.button');
         const {
           pluginConfig: { isHeaderRowRequired },
         } = getPluginState(state);
-        dispatch(
-          deleteRows(
-            getSelectedRowIndexes(state.tr, rowSelectionRect),
-            isHeaderRowRequired,
-          )(state.tr),
-        );
+
+        deleteRowsWithAnalytics(
+          INPUT_METHOD.CONTEXT_MENU,
+          selectionRect,
+          isHeaderRowRequired,
+        )(state, dispatch);
         this.toggleOpen();
         break;
     }
@@ -316,8 +305,7 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
   private handleItemMouseEnter = ({ item }: { item: any }) => {
     const {
       editorView: { state, dispatch },
-      columnSelectionRect,
-      rowSelectionRect,
+      selectionRect,
     } = this.props;
 
     if (item.value.name === 'background') {
@@ -327,16 +315,13 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
     }
 
     if (item.value.name === 'delete_column') {
-      hoverColumns(
-        getSelectedColumnIndexes(state.tr, columnSelectionRect),
-        true,
-      )(state, dispatch);
-    }
-    if (item.value.name === 'delete_row') {
-      hoverRows(getSelectedRowIndexes(state.tr, rowSelectionRect), true)(
+      hoverColumns(getSelectedColumnIndexes(selectionRect), true)(
         state,
         dispatch,
       );
+    }
+    if (item.value.name === 'delete_row') {
+      hoverRows(getSelectedRowIndexes(selectionRect), true)(state, dispatch);
     }
   };
 
@@ -359,51 +344,25 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
     }
   };
 
-  private setColor = withAnalytics(
-    'atlassian.editor.format.table.backgroundColor.button',
-    (color: string) => {
-      const { targetCellPosition, editorView } = this.props;
-      const { state, dispatch } = editorView;
-      setMultipleCellAttrs({ background: color }, targetCellPosition)(
-        state,
-        dispatch,
-      );
-      this.toggleOpen();
-    },
-  );
+  private setColor = (color: string) => {
+    const { targetCellPosition, editorView } = this.props;
+    const { state, dispatch } = editorView;
+    setColorWithAnalytics(color, targetCellPosition)(state, dispatch);
+    this.toggleOpen();
+  };
 }
 
-export const getSelectedColumnIndexes = (
-  tr: Transaction,
-  selectionRect: CellRect,
-): number[] => {
-  let from = selectionRect.left;
-  let to = selectionRect.right;
-  const rect = getSelectionRect(tr.selection);
-  if (rect) {
-    from = Math.min(rect.left, selectionRect.left);
-    to = Math.max(rect.right, selectionRect.right);
-  }
+export const getSelectedColumnIndexes = (selectionRect: Rect): number[] => {
   const columnIndexes: number[] = [];
-  for (let i = from; i < to; i++) {
+  for (let i = selectionRect.left; i < selectionRect.right; i++) {
     columnIndexes.push(i);
   }
   return columnIndexes;
 };
 
-export const getSelectedRowIndexes = (
-  tr: Transaction,
-  selectionRect: CellRect,
-): number[] => {
-  let from = selectionRect.top;
-  let to = selectionRect.bottom;
-  const rect = getSelectionRect(tr.selection);
-  if (rect) {
-    from = Math.min(rect.top, selectionRect.top);
-    to = Math.max(rect.bottom, selectionRect.bottom);
-  }
+export const getSelectedRowIndexes = (selectionRect: Rect): number[] => {
   const rowIndexes: number[] = [];
-  for (let i = from; i < to; i++) {
+  for (let i = selectionRect.top; i < selectionRect.bottom; i++) {
     rowIndexes.push(i);
   }
   return rowIndexes;

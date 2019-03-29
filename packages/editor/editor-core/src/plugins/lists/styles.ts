@@ -26,8 +26,17 @@ export const listsStyles = css`
     }
   }
 
-  .ProseMirror li > * {
-    pointer-events: auto;
+  .ProseMirror li {
+    > {
+      * {
+        /* Restore pointer events. */
+        pointer-events: auto;
+      }
+      p {
+        /* Support clicking adjacent floated content */
+        pointer-events: inherit;
+      }
+    }
   }
   /* Make sure li selections wrap around markers */
   li.ProseMirror-selectednode {

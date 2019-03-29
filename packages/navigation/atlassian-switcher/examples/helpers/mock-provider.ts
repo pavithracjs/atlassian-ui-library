@@ -8,4 +8,4 @@ const SOME_STATIC_DATA: MockDataStructure = {
   data: 'yay!',
 };
 
-export default asDataProvider(() => SOME_STATIC_DATA);
+export default asDataProvider('mock', () => Promise.resolve(SOME_STATIC_DATA));

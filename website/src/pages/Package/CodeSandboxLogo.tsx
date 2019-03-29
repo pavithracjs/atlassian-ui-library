@@ -3,7 +3,7 @@ import * as React from 'react';
 const DEFAULT_SIZE = 20;
 const DEFAULT_FILL = 'currentColor';
 
-function toPxStr(num) {
+function toPxStr(num: string | number) {
   return `${num}px`;
 }
 

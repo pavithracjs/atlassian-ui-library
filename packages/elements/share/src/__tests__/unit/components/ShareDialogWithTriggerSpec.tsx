@@ -84,6 +84,14 @@ describe('ShareDialogWithTrigger', () => {
       mountWrapper.setState({ isDialogOpen: true });
       expect(mountWrapper.find(ShareForm).length).toBe(1);
     });
+
+    it('should be toggled if clicked on ShareButton', () => {
+      expect((wrapper.state() as State).isDialogOpen).toEqual(false);
+      wrapper.find(ShareButton).simulate('click');
+      expect((wrapper.state() as State).isDialogOpen).toEqual(true);
+      wrapper.find(ShareButton).simulate('click');
+      expect((wrapper.state() as State).isDialogOpen).toEqual(false);
+    });
   });
 
   describe('triggerButtonAppearance prop', () => {
@@ -186,6 +194,27 @@ describe('ShareDialogWithTrigger', () => {
     });
   });
 
+  describe('dialogPlacement prop', () => {
+    it('should be passed into InlineDialog component as placement prop', () => {
+      const defaultPlacement: string = 'bottom-end';
+      wrapper = shallowWithIntl<Props>(
+        <ShareDialogWithTrigger
+          copyLink="copyLink"
+          loadUserOptions={mockLoadOptions}
+          onShareSubmit={mockOnShareSubmit}
+        />,
+      );
+      expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
+        defaultPlacement,
+      );
+      const newPlacement: string = 'bottom-start';
+      wrapper.setProps({ dialogPlacement: newPlacement });
+      expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
+        newPlacement,
+      );
+    });
+  });
+
   describe('isDisabled prop', () => {
     it('should be passed into ShareButton', () => {
       let isDisabled: boolean = false;
@@ -261,23 +290,52 @@ describe('ShareDialogWithTrigger', () => {
 
     it.skip('should send an analytic event', () => {});
 
-    it('should be trigger when the InlineDialog is closed', () => {
-      const escapeKeyDownEvent: Partial<KeyboardEvent> = {
-        target: document,
-        type: 'keydown',
-        key: 'Escape',
+    it('should be triggered when the InlineDialog is closed', () => {
+      const mockClickEvent: Partial<Event> = {
+        target: document.createElement('div'),
+        type: 'click',
       };
-      const wrapper: ShallowWrapper<
-        Props & InjectedIntlProps
-      > = shallowWithIntl<Props>(
-        <ShareDialogWithTrigger copyLink="copyLink" />,
-      );
       wrapper.setState({ isDialogOpen: true });
       expect((wrapper.state() as State).isDialogOpen).toEqual(true);
       wrapper
         .find(InlineDialog)
-        .simulate('close', { isOpen: false, event: escapeKeyDownEvent });
+        .simulate('close', { isOpen: false, event: mockClickEvent });
       expect((wrapper.state() as State).isDialogOpen).toEqual(false);
+    });
+  });
+
+  describe('handleKeyDown', () => {
+    it('should clear the state if an escape key is pressed down', () => {
+      const escapeKeyDownEvent: Partial<KeyboardEvent> = {
+        target: document,
+        type: 'keydown',
+        key: 'Escape',
+        stopPropagation: jest.fn(),
+      };
+      const mockShareData: ShareData = {
+        users: [
+          { type: 'user', id: 'id', name: 'name' },
+          { type: 'email', id: 'email', name: 'email' },
+        ],
+        comment: {
+          format: 'plain_text',
+          value: 'comment',
+        },
+      };
+      wrapper.setState({
+        isDialogOpen: true,
+        ignoreIntermediateState: false,
+        defaultValue: mockShareData,
+        shareError: new Error('unable to share'),
+      });
+      wrapper.find('div').simulate('keydown', escapeKeyDownEvent);
+      expect(escapeKeyDownEvent.stopPropagation).toHaveBeenCalledTimes(1);
+      expect((wrapper.state() as State).isDialogOpen).toBeFalsy();
+      expect((wrapper.state() as State).ignoreIntermediateState).toBeTruthy();
+      expect((wrapper.state() as State).defaultValue).toEqual(
+        defaultShareContentState,
+      );
+      expect((wrapper.state() as State).shareError).toBeUndefined();
     });
   });
 

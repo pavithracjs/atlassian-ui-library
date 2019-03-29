@@ -7,7 +7,9 @@ import { NotificationIndicator } from '@atlaskit/notification-indicator';
 import { NotificationLogClient } from '@atlaskit/notification-log-client';
 import { GlobalNav } from '@atlaskit/navigation-next';
 import Drawer from '@atlaskit/drawer';
-import AtlassianSwitcher from '@atlaskit/atlassian-switcher';
+import AtlassianSwitcher, {
+  AtlassianSwitcherPrefetchTrigger,
+} from '@atlaskit/atlassian-switcher';
 import {
   name as packageName,
   version as packageVersion,
@@ -19,7 +21,7 @@ import ScreenTracker from '../ScreenTracker';
 import { analyticsIdMap, fireDrawerDismissedEvents } from './analytics';
 import NotificationDrawerContents from '../../platform-integration';
 
-import type { NavItem } from '../../config/types';
+import type { GlobalNavItemData, NavItem } from '../../config/types';
 import type { GlobalNavigationProps, DrawerName } from './types';
 
 const noop = () => {};
@@ -265,6 +267,7 @@ export default class GlobalNavigation extends Component<
   closeDrawer = (drawerName: DrawerName) => (
     event: SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>,
     analyticsEvent: UIAnalyticsEvent,
+    trigger?: string,
   ) => {
     const capitalisedDrawerName = this.getCapitalisedDrawerName(drawerName);
     let onCloseCallback = noop;
@@ -273,8 +276,7 @@ export default class GlobalNavigation extends Component<
       onCloseCallback = this.props[`on${capitalisedDrawerName}Close`];
     }
 
-    fireDrawerDismissedEvents(drawerName, analyticsEvent);
-
+    fireDrawerDismissedEvents(drawerName, analyticsEvent, trigger);
     // Update the state only if it's a controlled drawer.
     // componentDidMount takes care of the uncontrolled drawers
     if (this.drawers[drawerName].isControlled) {
@@ -288,6 +290,21 @@ export default class GlobalNavigation extends Component<
       // invoke callback in both cases
       onCloseCallback();
     }
+  };
+
+  CustomizedItemComponent = (props: GlobalNavItemData) => {
+    if (
+      this.shouldRenderAtlassianSwitcher &&
+      props.id === 'atlassianSwitcher'
+    ) {
+      return (
+        <AtlassianSwitcherPrefetchTrigger cloudId={this.props.cloudId}>
+          <ItemComponent {...props} />
+        </AtlassianSwitcherPrefetchTrigger>
+      );
+    }
+
+    return <ItemComponent {...props} />;
   };
 
   renderNotificationBadge = () => {
@@ -363,23 +380,29 @@ export default class GlobalNavigation extends Component<
     };
   };
 
-  triggerXFlow = (productKey: string, sourceComponent: string) => {
+  triggerXFlow = (
+    productKey: string,
+    sourceComponent: string,
+    event: SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>,
+    analyticsEvent: UIAnalyticsEvent,
+  ) => {
     const { triggerXFlow } = this.props;
-    this.setState({
-      isAtlassianSwitcherDrawerOpen: false,
-    });
+    this.closeDrawer('atlassianSwitcher')(event, analyticsEvent, 'xFlow');
     if (triggerXFlow) {
       triggerXFlow(productKey, sourceComponent);
     }
   };
 
   renderAtlassianSwitcherDrawerContents = () => {
-    const { product, cloudId } = this.props;
+    // eslint-disable-next-line camelcase
+    const { product, cloudId, experimental_enableSplitJira } = this.props;
     return (
       <AtlassianSwitcher
         cloudId={cloudId}
         product={product}
         triggerXFlow={this.triggerXFlow}
+        // eslint-disable-next-line camelcase
+        enableSplitJira={experimental_enableSplitJira}
       />
     );
   };
@@ -413,7 +436,7 @@ export default class GlobalNavigation extends Component<
       >
         <Fragment>
           <GlobalNav
-            itemComponent={ItemComponent}
+            itemComponent={this.CustomizedItemComponent}
             primaryItems={primaryItems}
             secondaryItems={secondaryItems}
           />

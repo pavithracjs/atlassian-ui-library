@@ -3,100 +3,58 @@ import JiraSwitcher from './jira-switcher';
 import ConfluenceSwitcher from './confluence-switcher';
 import GenericSwitcher from './generic-switcher';
 import ErrorBoundary from './error-boundary';
+import { TriggerXFlowCallback, FeatureFlagProps, Product } from '../types';
 import IntlProvider from './intl-provider';
 import messages from '../utils/messages';
-import { FeatureFlagProps, Product } from '../types';
 import {
   analyticsAttributes,
   NavigationAnalyticsContext,
+  SWITCHER_COMPONENT,
+  SWITCHER_SOURCE,
 } from '../utils/analytics';
+import packageContext from '../utils/package-context';
+import mapPropsToFeatures from '../utils/map-props-to-features';
 
 type AtlassianSwitcherProps = {
   product: string;
   cloudId: string;
-  triggerXFlow: (productKey: string, sourceComponent: string) => void;
+  triggerXFlow: TriggerXFlowCallback;
 } & Partial<FeatureFlagProps>;
 
-const getAnalyticsContext = (props: { [key: string]: any }) => ({
-  source: 'atlassianSwitcher',
-  ...analyticsAttributes({
-    featureFlags: Object.keys(props)
-      .filter(key => key.startsWith('enable'))
-      .reduce(
-        (acc, key) => ({
-          ...acc,
-          [key]: props[key],
-        }),
-        {} as { [key: string]: any },
-      ),
-  }),
+const getAnalyticsContext = (attributes: object) => ({
+  source: SWITCHER_SOURCE,
+  componentName: SWITCHER_COMPONENT,
+  ...packageContext,
+  ...analyticsAttributes(attributes),
 });
 
-const AtlassianSwitcher = ({
-  product,
-  cloudId,
-  triggerXFlow,
-  enableSplitJira = false,
-  enableUchiLink = false,
-  ...props
-}: AtlassianSwitcherProps) => {
-  let switcher: React.ReactElement<any>;
+const AtlassianSwitcher = (props: AtlassianSwitcherProps) => {
+  const { product } = props;
+
+  let Switcher: React.ReactType;
   switch (product) {
     case Product.JIRA:
-      switcher = (
-        <JiraSwitcher
-          cloudId={cloudId}
-          triggerXFlow={triggerXFlow}
-          enableSplitJira={enableSplitJira}
-          enableUchiLink={enableUchiLink}
-          messages={messages}
-          {...props}
-        />
-      );
+      Switcher = JiraSwitcher;
       break;
     case Product.CONFLUENCE:
-      switcher = (
-        <ConfluenceSwitcher
-          cloudId={cloudId}
-          triggerXFlow={triggerXFlow}
-          enableSplitJira={enableSplitJira}
-          enableUchiLink={enableUchiLink}
-          messages={messages}
-          {...props}
-        />
-      );
-      break;
-    case Product.HOME:
-    case Product.PEOPLE:
-    case Product.SITE_ADMIN:
-    case Product.TRUSTED_ADMIN:
-      switcher = (
-        <GenericSwitcher
-          cloudId={cloudId}
-          triggerXFlow={triggerXFlow}
-          product={product}
-          enableSplitJira={enableSplitJira}
-          enableUchiLink={enableUchiLink}
-          messages={messages}
-          {...props}
-        />
-      );
+      Switcher = ConfluenceSwitcher;
       break;
     default:
-      if (process.env.NODE_ENV !== 'production') {
-        // tslint:disable-next-line:no-console
-        console.warn(
-          `Product key ${product} provided to Atlassian Switcher doesn't have a corresponding product specific implementation.`,
-        );
-      }
-      return null;
+      Switcher = GenericSwitcher;
   }
+
+  const features = mapPropsToFeatures(props);
+
   return (
-    <ErrorBoundary>
-      <NavigationAnalyticsContext data={getAnalyticsContext(props)}>
-        <IntlProvider>{switcher}</IntlProvider>
+    <IntlProvider>
+      <NavigationAnalyticsContext
+        data={getAnalyticsContext({ featureFlags: features })}
+      >
+        <ErrorBoundary messages={messages}>
+          <Switcher {...props} messages={messages} features={features} />
+        </ErrorBoundary>
       </NavigationAnalyticsContext>
-    </ErrorBoundary>
+    </IntlProvider>
   );
 };
 

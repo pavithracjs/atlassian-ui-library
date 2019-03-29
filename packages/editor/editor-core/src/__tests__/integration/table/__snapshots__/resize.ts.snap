@@ -17,7 +17,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  220,
+                  416,
                 ],
                 "rowspan": 1,
               },
@@ -33,7 +33,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  460,
+                  264,
                 ],
                 "rowspan": 1,
               },
@@ -54,30 +54,22 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  220,
+                  416,
                 ],
                 "rowspan": 2,
               },
               "content": Array [
                 Object {
                   "attrs": Object {
-                    "extensionKey": "block-eh",
+                    "extensionKey": "block-layout-eh",
                     "extensionType": "com.atlassian.confluence.macro.core",
                     "layout": "default",
                     "parameters": Object {
-                      "macroMetadata": Object {
-                        "placeholder": Array [
-                          Object {
-                            "data": Object {
-                              "url": "",
-                            },
-                            "type": "icon",
-                          },
-                        ],
+                      "style": Object {
+                        "minWidth": 400,
                       },
-                      "macroParams": Object {},
                     },
-                    "text": "Block extension demo",
+                    "text": "Minimum width block extension demo",
                   },
                   "type": "extension",
                 },
@@ -89,7 +81,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  460,
+                  264,
                 ],
                 "rowspan": 1,
               },
@@ -110,7 +102,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  460,
+                  264,
                 ],
                 "rowspan": 1,
               },
@@ -131,7 +123,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  220,
+                  416,
                 ],
                 "rowspan": 1,
               },
@@ -147,7 +139,171 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  460,
+                  264,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+      ],
+      "type": "table",
+    },
+    Object {
+      "type": "paragraph",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
+exports[`Breakout content resizes the column on a non resized table 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "attrs": Object {
+        "__autoSize": false,
+        "isNumberColumnEnabled": false,
+        "layout": "default",
+      },
+      "content": Array [
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  416,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  263,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  416,
+                ],
+                "rowspan": 2,
+              },
+              "content": Array [
+                Object {
+                  "attrs": Object {
+                    "extensionKey": "block-layout-eh",
+                    "extensionType": "com.atlassian.confluence.macro.core",
+                    "layout": "default",
+                    "parameters": Object {
+                      "style": Object {
+                        "minWidth": 400,
+                      },
+                    },
+                    "text": "Minimum width block extension demo",
+                  },
+                  "type": "extension",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  263,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  263,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  416,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  263,
                 ],
                 "rowspan": 1,
               },
@@ -719,6 +875,159 @@ Object {
 }
 `;
 
+exports[`Can't resize the last column of a table with dynamic sizing enabled. 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "attrs": Object {
+        "__autoSize": false,
+        "isNumberColumnEnabled": false,
+        "layout": "default",
+      },
+      "content": Array [
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  166,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  594,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  166,
+                ],
+                "rowspan": 2,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  594,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  594,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  166,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  594,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+      ],
+      "type": "table",
+    },
+    Object {
+      "type": "paragraph",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
 exports[`Created column should be set to 140px 1`] = `
 Object {
   "content": Array [
@@ -986,159 +1295,6 @@ Object {
         },
       ],
       "type": "table",
-    },
-  ],
-  "type": "doc",
-}
-`;
-
-exports[`Can't resize the last column of a table with dynamic sizing enabled. 1`] = `
-Object {
-  "content": Array [
-    Object {
-      "attrs": Object {
-        "__autoSize": false,
-        "isNumberColumnEnabled": false,
-        "layout": "default",
-      },
-      "content": Array [
-        Object {
-          "content": Array [
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  166,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableHeader",
-            },
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  594,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableHeader",
-            },
-          ],
-          "type": "tableRow",
-        },
-        Object {
-          "content": Array [
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  166,
-                ],
-                "rowspan": 2,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  594,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-          ],
-          "type": "tableRow",
-        },
-        Object {
-          "content": Array [
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  594,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-          ],
-          "type": "tableRow",
-        },
-        Object {
-          "content": Array [
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  166,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  594,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-          ],
-          "type": "tableRow",
-        },
-      ],
-      "type": "table",
-    },
-    Object {
-      "type": "paragraph",
     },
   ],
   "type": "doc",

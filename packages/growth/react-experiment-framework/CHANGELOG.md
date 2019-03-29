@@ -1,5 +1,10 @@
 # @atlaskit/react-experiment-framework
 
+## 0.3.1
+- [patch] [d5a1fbfdef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5a1fbfdef):
+
+  - Fix to package.json to allow imports to work correctly
+
 ## 0.3.0
 - [minor] [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
 

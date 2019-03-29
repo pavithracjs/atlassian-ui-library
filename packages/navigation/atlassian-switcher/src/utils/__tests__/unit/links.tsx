@@ -8,6 +8,10 @@ import {
   getAdministrationLinks,
   getSuggestedProductLink,
 } from '../../links';
+import {
+  ProductLicenseInformation,
+  LicenseInformationResponse,
+} from '../../../types';
 
 const HOSTNAME = 'my-hostname.com';
 const CLOUD_ID = 'some-cloud-id';
@@ -20,13 +24,25 @@ const generateLicenseInformation = (activeProducts: string[]) => {
       ans[next] = ACTIVE_PRODUCT_STATE;
       return ans;
     },
-    {},
+    {} as ProductLicenseInformation,
   );
   return {
     hostname: HOSTNAME,
     products,
   };
 };
+
+const generateOpsgenieLicenseInformation = (
+  applicationUrl?: string,
+): LicenseInformationResponse => ({
+  hostname: HOSTNAME,
+  products: {
+    [ProductKey.OPSGENIE]: {
+      ...ACTIVE_PRODUCT_STATE,
+      applicationUrl,
+    },
+  },
+});
 
 describe('utils/links', () => {
   it('Fixed product list should have People', () => {
@@ -36,11 +52,48 @@ describe('utils/links', () => {
   });
 
   it('getProductLink should create a correct link config', () => {
-    const productLink = getProductLink(ProductKey.CONFLUENCE);
+    const productLink = getProductLink(
+      ProductKey.CONFLUENCE,
+      generateLicenseInformation([ProductKey.CONFLUENCE]).products[
+        ProductKey.CONFLUENCE
+      ],
+    );
     const expectedLink = {
       key: 'confluence.ondemand',
       ...PRODUCT_DATA_MAP[ProductKey.CONFLUENCE],
     };
+    expect(productLink).toMatchObject(expectedLink);
+  });
+
+  it('getProductLink should return correct Opsgenie application link', () => {
+    const productLink = getProductLink(
+      ProductKey.OPSGENIE,
+      generateOpsgenieLicenseInformation('https://test.app.opsgeni.us')
+        .products[ProductKey.OPSGENIE],
+    );
+
+    const expectedLink = {
+      ...PRODUCT_DATA_MAP[ProductKey.OPSGENIE],
+      key: 'opsgenie',
+      href: 'https://test.app.opsgeni.us',
+    };
+
+    expect(productLink).toMatchObject(expectedLink);
+  });
+
+  it('getProductLink should return default Opsgenie link when missing in license information', () => {
+    const productLink = getProductLink(
+      ProductKey.OPSGENIE,
+      generateOpsgenieLicenseInformation(undefined).products[
+        ProductKey.OPSGENIE
+      ],
+    );
+
+    const expectedLink = {
+      ...PRODUCT_DATA_MAP[ProductKey.OPSGENIE],
+      key: 'opsgenie',
+    };
+
     expect(productLink).toMatchObject(expectedLink);
   });
 
@@ -118,6 +171,21 @@ describe('utils/links', () => {
         'jira-core.ondemand',
       ]);
     });
+
+    it('should return opsgenie link', () => {
+      const opsgenieLicenseInformation = generateOpsgenieLicenseInformation(
+        'https://test.app.opsgeni.us',
+      );
+
+      const result = getLicensedProductLinks(opsgenieLicenseInformation, false);
+
+      expect(result.map(({ key, href }) => ({ key, href }))).toMatchObject([
+        {
+          key: 'opsgenie',
+          href: 'https://test.app.opsgeni.us',
+        },
+      ]);
+    });
   });
 
   describe('getAdministrationLinks', () => {
@@ -147,8 +215,8 @@ describe('utils/links', () => {
         'jira-software.ondemand',
       ]);
       const result = getSuggestedProductLink(licenseInformation);
-      expect(result).not.toBe(null);
-      expect(result && result.key).toBe('confluence.ondemand');
+      expect(result.length).toEqual(1);
+      expect(result[0]).toHaveProperty('key', 'confluence.ondemand');
     });
     it('should offer Jira Service Desk if Confluence is active', () => {
       const licenseInformation = generateLicenseInformation([
@@ -156,16 +224,16 @@ describe('utils/links', () => {
         'confluence.ondemand',
       ]);
       const result = getSuggestedProductLink(licenseInformation);
-      expect(result).not.toBe(null);
-      expect(result && result.key).toBe('jira-servicedesk.ondemand');
+      expect(result.length).toEqual(1);
+      expect(result[0]).toHaveProperty('key', 'jira-servicedesk.ondemand');
     });
-    it('should return null if Confluence and JSD are active', () => {
+    it('should return empty array if Confluence and JSD are active', () => {
       const licenseInformation = generateLicenseInformation([
         'jira-servicedesk.ondemand',
         'confluence.ondemand',
       ]);
       const result = getSuggestedProductLink(licenseInformation);
-      expect(result && result.key).toBe(null);
+      expect(result).toEqual([]);
     });
   });
 });

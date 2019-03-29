@@ -150,64 +150,47 @@ export class Card extends Component<CardProps, CardState> {
       .getFileState(resolvedId, { collectionName, occurrenceKey })
       .subscribe({
         next: async fileState => {
-          let currentDataURI = this.state.dataURI;
-          const { metadata: currentMetadata } = this.state;
-          const metadata = extendMetadata(
-            fileState,
-            currentMetadata as FileDetails,
-          );
+          let previewOrientation = 1;
+          let { status, progress, dataURI } = this.state;
+          const metadata = extendMetadata(fileState, this.state.metadata);
 
-          if (!currentDataURI) {
-            const {
-              src,
-              orientation: previewOrientation,
-            } = await getDataURIFromFileState(fileState);
-            currentDataURI = src;
-            this.notifyStateChange({
-              dataURI: currentDataURI,
-              previewOrientation,
-            });
+          if (!dataURI) {
+            const { src, orientation } = await getDataURIFromFileState(
+              fileState,
+            );
+            previewOrientation = orientation || 1;
+            dataURI = src;
           }
 
           switch (fileState.status) {
             case 'uploading':
-              const { progress } = fileState;
-              this.notifyStateChange({
-                status: 'uploading',
-                progress,
-                metadata,
-              });
+              progress = fileState.progress;
+              status = 'uploading';
               break;
             case 'processing':
-              if (currentDataURI) {
-                this.notifyStateChange({
-                  progress: 1,
-                  status: 'complete',
-                  metadata,
-                });
+              if (dataURI) {
+                status = 'complete';
+                progress = 1;
               } else {
-                this.notifyStateChange({
-                  status: 'processing',
-                  metadata,
-                });
+                status = 'processing';
               }
               break;
             case 'processed':
-              this.notifyStateChange({ status: 'complete', metadata });
+              status = 'complete';
               break;
             case 'failed-processing':
-              this.notifyStateChange({ status: 'failed-processing', metadata });
+              status = 'failed-processing';
               break;
             case 'error':
-              this.notifyStateChange({ status: 'error' });
+              status = 'error';
           }
 
-          if (
-            !currentDataURI &&
+          const shouldFetchRemotePreview =
+            !dataURI &&
             isImageRepresentationReady(fileState) &&
             metadata.mediaType &&
-            isPreviewableType(metadata.mediaType)
-          ) {
+            isPreviewableType(metadata.mediaType);
+          if (shouldFetchRemotePreview) {
             const { appearance, dimensions, resizeMode } = this.props;
             const options = {
               appearance,
@@ -226,15 +209,20 @@ export class Card extends Component<CardProps, CardState> {
                 width,
                 allowAnimated: true,
               });
-              const dataURI = URL.createObjectURL(blob);
+              dataURI = URL.createObjectURL(blob);
               this.releaseDataURI();
-              if (this.hasBeenMounted) {
-                this.setState({ dataURI });
-              }
             } catch (e) {
               // We don't want to set status=error if the preview fails, we still want to display the metadata
             }
           }
+
+          this.notifyStateChange({
+            metadata,
+            status,
+            progress,
+            dataURI,
+            previewOrientation,
+          });
         },
         error: error => {
           this.notifyStateChange({ error, status: 'error' });
@@ -313,14 +301,18 @@ export class Card extends Component<CardProps, CardState> {
       analyticsEvent,
     };
 
-    if (onClick) {
+    const isVideo =
+      mediaItemDetails &&
+      (mediaItemDetails as FileDetails).mediaType === 'video';
+    // We want to block onClick because it is handled by inline video player
+    const shouldStartPlayingInline = useInlinePlayer && isVideo;
+    if (onClick && !shouldStartPlayingInline) {
       onClick(result, analyticsEvent);
     }
     if (!mediaItemDetails) {
       return;
     }
-    const { mediaType } = mediaItemDetails as FileDetails;
-    if (useInlinePlayer && mediaType === 'video') {
+    if (shouldStartPlayingInline) {
       this.setState({
         isPlayingFile: true,
       });

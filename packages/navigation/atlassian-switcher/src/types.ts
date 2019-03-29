@@ -1,3 +1,14 @@
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+
+export interface TriggerXFlowCallback {
+  (
+    productKey: string,
+    sourceComponent: string,
+    event: any,
+    analyticsEvent: UIAnalyticsEventInterface,
+  ): void;
+}
+
 export interface WithCloudId {
   cloudId: string;
 }
@@ -16,6 +27,12 @@ export interface CustomLink {
   link: string;
 }
 
+export enum Permissions {
+  MANAGE = 'manage',
+  CAN_INVITE_USERS = 'invite-users',
+  ADD_PRODUCTS = 'add-products',
+}
+
 export enum Product {
   CONFLUENCE = 'confluence',
   HOME = 'home',
@@ -25,7 +42,35 @@ export enum Product {
   TRUSTED_ADMIN = 'trusted-admin',
 }
 
-export type FeatureFlagProps = {
-  enableSplitJira: boolean;
-  enableUchiLink: boolean;
-};
+export enum Feature {
+  enableSplitJira = 'enableSplitJira',
+  enableExpandLink = 'enableExpandLink',
+}
+
+export type FeatureFlagProps = { [key in Feature]: boolean };
+
+export type CustomLinksResponse = CustomLink[];
+
+export interface ProductLicenseInformation {
+  state: string;
+  applicationUrl?: string;
+}
+
+export interface LicenseInformationResponse {
+  hostname: string;
+  products: {
+    [key: string]: ProductLicenseInformation;
+  };
+}
+
+export interface XFlowSettingsResponse {
+  'product-suggestions-enabled'?: boolean;
+}
+
+export interface UserPermissionResponse {
+  permitted: boolean;
+}
+
+export interface RecentContainersResponse {
+  data: Array<RecentContainer>;
+}

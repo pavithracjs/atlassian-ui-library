@@ -21,9 +21,7 @@ import {
   media,
   sendKeyToPm,
   randomId,
-  insertText,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
 import {
   pluginKey,
   getPluginState,
@@ -56,8 +54,6 @@ import { AnalyticsHandler } from '../../../../analytics';
 describe('table plugin', () => {
   const createEditor = createEditorFactory<TablePluginState>();
 
-  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
-
   const editor = (doc: any, trackEvent: AnalyticsHandler = () => {}) => {
     const tableOptions = {
       allowNumberColumn: true,
@@ -65,7 +61,7 @@ describe('table plugin', () => {
       allowHeaderColumn: true,
       permittedLayouts: 'all',
     } as PluginConfig;
-    createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });
+
     return createEditor({
       doc,
       editorPlugins: [
@@ -81,14 +77,8 @@ describe('table plugin', () => {
         allowAnalyticsGASV3: true,
       },
       pluginKey,
-      createAnalyticsEvent,
     });
   };
-
-  let trackEvent: AnalyticsHandler;
-  beforeEach(() => {
-    trackEvent = jest.fn();
-  });
 
   describe('createTable()', () => {
     describe('when the cursor is outside the table', () => {
@@ -132,7 +122,6 @@ describe('table plugin', () => {
         it("it should prepend a new column and move cursor inside it's first cell", () => {
           const { editorView } = editor(
             doc(p('text'), table()(tr(td({})(p('c1')), td({})(p('c2{<>}'))))),
-            trackEvent,
           );
 
           insertColumn(0)(editorView.state, editorView.dispatch);
@@ -142,9 +131,6 @@ describe('table plugin', () => {
               table()(tr(tdCursor, td({})(p('c1')), td({})(p('c2')))),
             ),
           );
-          expect(trackEvent).toHaveBeenCalledWith(
-            'atlassian.editor.format.table.column.button',
-          );
           expect(editorView.state.selection.$from.pos).toEqual(10);
         });
       });
@@ -153,7 +139,6 @@ describe('table plugin', () => {
         it("it should insert a new column in the middle and move cursor inside it's first cell", () => {
           const { editorView } = editor(
             doc(p('text'), table()(tr(td({})(p('c1{<>}')), td({})(p('c2'))))),
-            trackEvent,
           );
 
           insertColumn(1)(editorView.state, editorView.dispatch);
@@ -163,9 +148,6 @@ describe('table plugin', () => {
               table()(tr(td({})(p('c1')), tdCursor, td({})(p('c2')))),
             ),
           );
-          expect(trackEvent).toHaveBeenCalledWith(
-            'atlassian.editor.format.table.column.button',
-          );
           expect(editorView.state.selection.$from.pos).toEqual(16);
         });
       });
@@ -174,7 +156,6 @@ describe('table plugin', () => {
         it("it should append a new column and move cursor inside it's first cell", () => {
           const { editorView } = editor(
             doc(p('text'), table()(tr(td({})(p('c1{<>}')), td({})(p('c2'))))),
-            trackEvent,
           );
 
           insertColumn(2)(editorView.state, editorView.dispatch);
@@ -183,9 +164,6 @@ describe('table plugin', () => {
               p('text'),
               table()(tr(td({})(p('c1')), td({})(p('c2')), tdCursor)),
             ),
-          );
-          expect(trackEvent).toHaveBeenCalledWith(
-            'atlassian.editor.format.table.column.button',
           );
           expect(editorView.state.selection.$from.pos).toEqual(22);
         });
@@ -202,7 +180,6 @@ describe('table plugin', () => {
               p('text'),
               table()(tr(td({})(p('row1'))), tr(td({})(p('row2{<>}')))),
             ),
-            trackEvent,
           );
 
           insertRow(0)(editorView.state, editorView.dispatch);
@@ -216,9 +193,6 @@ describe('table plugin', () => {
               ),
             ),
           );
-          expect(trackEvent).toHaveBeenCalledWith(
-            'atlassian.editor.format.table.row.button',
-          );
           expect(editorView.state.selection.$from.pos).toEqual(10);
         });
       });
@@ -230,7 +204,6 @@ describe('table plugin', () => {
               p('text'),
               table()(tr(td({})(p('row1{<>}'))), tr(td({})(p('row2')))),
             ),
-            trackEvent,
           );
 
           insertRow(1)(editorView.state, editorView.dispatch);
@@ -243,9 +216,6 @@ describe('table plugin', () => {
                 tr(td({})(p('row2'))),
               ),
             ),
-          );
-          expect(trackEvent).toHaveBeenCalledWith(
-            'atlassian.editor.format.table.row.button',
           );
           expect(editorView.state.selection.$from.pos).toEqual(20);
         });
@@ -260,7 +230,6 @@ describe('table plugin', () => {
               p('text'),
               table()(tr(td({})(p('row1{<>}'))), tr(td({})(p('row2')))),
             ),
-            trackEvent,
           );
 
           insertRow(2)(editorView.state, editorView.dispatch);
@@ -273,9 +242,6 @@ describe('table plugin', () => {
                 tr(tdCursor),
               ),
             ),
-          );
-          expect(trackEvent).toHaveBeenCalledWith(
-            'atlassian.editor.format.table.row.button',
           );
           expect(editorView.state.selection.$from.pos).toEqual(30);
         });
@@ -292,7 +258,6 @@ describe('table plugin', () => {
                 tr(td({ colspan: 2, background: '#e6fcff' })(p('row2{<>}'))),
               ),
             ),
-            trackEvent,
           );
 
           insertRow(2)(editorView.state, editorView.dispatch);
@@ -306,10 +271,6 @@ describe('table plugin', () => {
               ),
             ),
           );
-
-          expect(trackEvent).toHaveBeenLastCalledWith(
-            'atlassian.editor.format.table.row.button',
-          );
         });
       });
 
@@ -322,7 +283,6 @@ describe('table plugin', () => {
               tr(td({ colspan: 2, background: '#e6fcff' })(p('row2'))),
             ),
           ),
-          trackEvent,
         );
 
         insertRow(2)(editorView.state, editorView.dispatch);
@@ -337,10 +297,6 @@ describe('table plugin', () => {
             ),
           ),
         );
-
-        expect(trackEvent).toHaveBeenLastCalledWith(
-          'atlassian.editor.format.table.row.button',
-        );
       });
 
       it('copies the structure from a tableHeader', () => {
@@ -354,7 +310,6 @@ describe('table plugin', () => {
               ),
             ),
           ),
-          trackEvent,
         );
 
         insertRow(2)(editorView.state, editorView.dispatch);
@@ -370,10 +325,6 @@ describe('table plugin', () => {
               tr(th({ colspan: 2, background: '#e6fcff' })(p()), td()(p())),
             ),
           ),
-        );
-
-        expect(trackEvent).toHaveBeenLastCalledWith(
-          'atlassian.editor.format.table.row.button',
         );
       });
     });
@@ -837,22 +788,6 @@ describe('table plugin', () => {
 
       pluginState = getPluginState(editorView.state);
       expect(pluginState.targetCellPosition).toEqual(23);
-    });
-  });
-
-  describe('quick insert', () => {
-    it('should fire analytics event when table inserted', () => {
-      const { editorView, sel } = editor(doc(p('{<>}')));
-      insertText(editorView, '/Table', sel);
-      sendKeyToPm(editorView, 'Enter');
-
-      expect(createAnalyticsEvent).toHaveBeenCalledWith({
-        action: 'inserted',
-        actionSubject: 'document',
-        actionSubjectId: 'table',
-        attributes: { inputMethod: 'quickInsert' },
-        eventType: 'track',
-      });
     });
   });
 });

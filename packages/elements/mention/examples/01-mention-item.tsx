@@ -6,10 +6,12 @@ import {
   onSelection,
   sampleAvatarUrl as avatarUrl,
 } from '../example-helpers';
+import { IntlProvider } from 'react-intl';
 
 export default function Example() {
   const mention = {
-    avatarUrl,
+    // SSR workaround Avatar not 1:1 between server and client (rest to avatarUrl when fixed)
+    avatarUrl: typeof jest === 'undefined' ? avatarUrl : undefined,
     id: '666',
     name: 'Craig Petchell',
     mentionName: 'cpetchell',
@@ -39,11 +41,13 @@ export default function Example() {
   const description =
     'Selected mention with nickname, avatar, highlights presence, lozenge and restricted access';
   const component = (
-    <MentionItem
-      mention={mention}
-      selected={mention.selected}
-      onSelection={onSelection}
-    />
+    <IntlProvider locale="en">
+      <MentionItem
+        mention={mention}
+        selected={mention.selected}
+        onSelection={onSelection}
+      />
+    </IntlProvider>
   );
 
   return generateMentionItem(component, description);

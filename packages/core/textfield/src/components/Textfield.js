@@ -50,24 +50,46 @@ class Textfield extends Component<TextFieldProps, State> {
     }
   };
 
-  focus() {
-    if (this.input) {
+  handleOnMouseDown = (e: SyntheticMouseEvent<*>) => {
+    /** Running e.preventDefault() on the INPUT prevents double click behaviour */
+    // $FlowFixMe - tagName does not exist in event.target
+    if (e.target.tagName !== 'INPUT') {
+      e.preventDefault();
+    }
+    if (
+      this.input &&
+      !this.props.isDisabled &&
+      document.activeElement !== this.input
+    ) {
       this.input.focus();
     }
-  }
+    if (this.props.onMouseDown) {
+      this.props.onMouseDown(e);
+    }
+  };
 
   onMouseEnter = () => {
-    this.setState({ isHovered: true });
+    if (!this.props.isDisabled) {
+      this.setState({ isHovered: true });
+    }
   };
 
   onMouseLeave = () => {
-    this.setState({ isHovered: false });
+    if (!this.props.isDisabled) {
+      this.setState({ isHovered: false });
+    }
   };
 
   setInputRef = (input: ?HTMLInputElement) => {
     this.input = input;
-    if (this.props.forwardedRef) {
-      this.props.forwardedRef(input);
+
+    const { forwardedRef } = this.props;
+
+    if (forwardedRef && typeof forwardedRef === 'object') {
+      forwardedRef.current = input;
+    }
+    if (forwardedRef && typeof forwardedRef === 'function') {
+      forwardedRef(input);
     }
   };
 
@@ -107,13 +129,15 @@ class Textfield extends Component<TextFieldProps, State> {
                 <Input
                   {...rest}
                   theme={tokens}
+                  isDisabled={isDisabled}
                   isFocused={isFocused}
                   isHovered={isHovered}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
-                  forwardedRef={forwardedRef}
+                  forwardedRef={this.setInputRef}
                   onFocus={this.handleOnFocus}
                   onBlur={this.handleOnBlur}
+                  onMouseDown={this.handleOnMouseDown}
                 />
               )}
             </Theme.Consumer>

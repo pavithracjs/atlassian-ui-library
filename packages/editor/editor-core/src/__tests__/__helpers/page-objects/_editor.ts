@@ -1,6 +1,9 @@
 import { Page } from './_types';
+
 export const selectors = {
   editor: '.ProseMirror',
+  selectedNode: '.ProseMirror-selectednode',
+  scrollContainer: '.fabric-editor-popup-scroll-parent',
   dropList: 'div[data-role="droplistContent"]',
   emojiPicker: 'div[data-emoji-picker-container="true"]',
   mentionQuery: 'span[data-type-ahead-query]',
@@ -67,6 +70,19 @@ export async function animationFrame(page) {
 export async function typeInEditor(page: Page, text: string) {
   await page.click(selectors.editor);
   await page.type(selectors.editor, text);
+}
+
+export async function typeInEditorAtEndOfDocument(page: Page, text: string) {
+  // To find the end of the document in a content agnostic way we click beneath
+  // the last content node to insert a new paragaph prior to typing.
+  // Complex node structures which support nesting (e.g. tables) make standard
+  // clicking, focusing, and key pressing not suitable in an agnostic way.
+  const bounds = await getBoundingRect(
+    page,
+    `${selectors.editor} > *:last-child`,
+  );
+  await page.mouse.click(bounds.left, bounds.top + bounds.height + 5);
+  await page.type(`${selectors.editor} > p:last-child`, text);
 }
 
 export async function getEditorWidth(page: Page) {

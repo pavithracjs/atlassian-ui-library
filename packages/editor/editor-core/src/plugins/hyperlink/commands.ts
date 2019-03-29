@@ -39,6 +39,7 @@ export function setLinkHref(href: string, pos: number, to?: number): Command {
     const linkMark = state.schema.marks.link;
     const mark = linkMark.isInSet(node.marks) as Mark | undefined;
     const url = normalizeUrl(href);
+
     if (mark && mark.attrs.href === url) {
       return false;
     }
@@ -133,7 +134,8 @@ export function showLinkToolbar(
   inputMethod:
     | INPUT_METHOD.TOOLBAR
     | INPUT_METHOD.QUICK_INSERT
-    | INPUT_METHOD.SHORTCUT = INPUT_METHOD.TOOLBAR,
+    | INPUT_METHOD.SHORTCUT
+    | INPUT_METHOD.INSERT_MENU = INPUT_METHOD.TOOLBAR,
 ): Command {
   return function(state, dispatch) {
     if (dispatch) {

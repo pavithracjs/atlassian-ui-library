@@ -23,6 +23,7 @@ export type Props = {
   buttonStyle?: ShareButtonStyle;
   client?: ShareClient;
   cloudId: string;
+  dialogPlacement?: string;
   formatCopyLink: (origin: OriginTracing, link: string) => string;
   loadUserOptions: LoadOptions;
   originTracingFactory: OriginTracingFactory;
@@ -58,6 +59,7 @@ const memoizedFormatCopyLink: (
  */
 export class ShareDialogContainer extends React.Component<Props, State> {
   private client: ShareClient;
+  private _isMounted = false;
 
   static defaultProps = {
     shareLink: window && window.location!.href,
@@ -105,15 +107,23 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    this._isMounted = true;
+
     this.fetchConfig();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   fetchConfig = () => {
     this.client
       .getConfig(this.props.productId, this.props.cloudId)
       .then((config: ConfigResponse) => {
-        // TODO: Send analytics event
-        this.setState({ config });
+        if (this._isMounted) {
+          // TODO: Send analytics event
+          this.setState({ config });
+        }
       })
       .catch(() => {
         // TODO: Send analytics event
@@ -175,6 +185,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
 
   render() {
     const {
+      dialogPlacement,
       formatCopyLink,
       loadUserOptions,
       shareLink,
@@ -188,6 +199,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       <ShareDialogWithTrigger
         config={this.state.config}
         copyLink={copyLink}
+        dialogPlacement={dialogPlacement}
         loadUserOptions={loadUserOptions}
         onLinkCopy={this.handleCopyLink}
         onShareSubmit={this.handleSubmitShare}

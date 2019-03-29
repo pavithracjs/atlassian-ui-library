@@ -126,16 +126,21 @@ function getEditorProps(appearance: Appearance) {
   return enableAllEditorProps;
 }
 
-export async function mountEditor(page: any, props) {
-  await page.evaluate(props => {
-    (window as any).__mountEditor(props);
-  }, props);
+export async function mountEditor(page: any, props, mode?: 'light' | 'dark') {
+  await page.evaluate(
+    (props, mode) => {
+      (window as any).__mountEditor(props, mode);
+    },
+    props,
+    mode,
+  );
   await page.waitForSelector('.ProseMirror', 500);
 }
 
 export enum Appearance {
   fullPage = 'full-page',
   comment = 'comment',
+  mobile = 'mobile',
 }
 
 type InitEditorWithADFOptions = {
@@ -144,6 +149,7 @@ type InitEditorWithADFOptions = {
   device?: Device;
   viewport?: { width: number; height: number };
   editorProps?: EditorProps;
+  mode?: 'light' | 'dark';
 };
 
 export const initEditorWithAdf = async (
@@ -154,6 +160,7 @@ export const initEditorWithAdf = async (
     device = Device.Default,
     viewport,
     editorProps = {},
+    mode,
   }: InitEditorWithADFOptions,
 ) => {
   const url = getExampleUrl('editor', 'editor-core', 'vr-testing');
@@ -173,12 +180,16 @@ export const initEditorWithAdf = async (
   }
 
   // Mount the editor with the right attributes
-  await mountEditor(page, {
-    appearance: appearance,
-    defaultValue: JSON.stringify(adf),
-    ...getEditorProps(appearance),
-    ...editorProps,
-  });
+  await mountEditor(
+    page,
+    {
+      appearance: appearance,
+      defaultValue: JSON.stringify(adf),
+      ...getEditorProps(appearance),
+      ...editorProps,
+    },
+    mode,
+  );
 };
 
 export const initFullPageEditorWithAdf = async (

@@ -1,10 +1,16 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { EditorView } from 'prosemirror-view';
-import { isCellSelection } from 'prosemirror-utils';
-import { clearHoverSelection, insertRow } from '../../../actions';
-import InsertButton from '../InsertButton';
-import DeleteButton from '../DeleteButton';
+import { isCellSelection, getSelectionRect } from 'prosemirror-utils';
+
+import { INPUT_METHOD } from '../../../../analytics';
+import { clearHoverSelection } from '../../../actions';
+import { getPluginState } from '../../../pm-plugins/main';
+import {
+  insertRowWithAnalytics,
+  deleteRowsWithAnalytics,
+} from '../../../actions-with-analytics';
+import { TableCssClassName as ClassName } from '../../../types';
 import {
   RowParams,
   getRowHeights,
@@ -14,10 +20,9 @@ import {
   getRowsParams,
   getRowClassNames,
 } from '../../../utils';
-import { TableCssClassName as ClassName } from '../../../types';
 import tableMessages from '../../messages';
-import { deleteRows } from '../../../transforms';
-import { getPluginState } from '../../../pm-plugins/main';
+import InsertButton from '../InsertButton';
+import DeleteButton from '../DeleteButton';
 
 export interface Props {
   editorView: EditorView;
@@ -123,7 +128,7 @@ export default class RowControls extends Component<Props, any> {
 
   private insertRow = (row: number) => {
     const { state, dispatch } = this.props.editorView;
-    insertRow(row)(state, dispatch);
+    insertRowWithAnalytics(INPUT_METHOD.BUTTON, row)(state, dispatch);
   };
 
   private deleteRows = () => {
@@ -131,7 +136,15 @@ export default class RowControls extends Component<Props, any> {
     const {
       pluginConfig: { isHeaderRowRequired },
     } = getPluginState(state);
-    dispatch(deleteRows([], isHeaderRowRequired)(state.tr));
+
+    const rect = getSelectionRect(state.selection);
+    if (rect) {
+      deleteRowsWithAnalytics(INPUT_METHOD.BUTTON, rect, isHeaderRowRequired)(
+        state,
+        dispatch,
+      );
+    }
+
     this.clearHoverSelection();
   };
 }

@@ -4,7 +4,9 @@ export const enum EVENT_TYPE {
 }
 
 export const enum ACTION {
+  CHANGED_TYPE = 'changedType',
   CLICKED = 'clicked',
+  DELETED = 'deleted',
   FORMATTED = 'formatted',
   INSERTED = 'inserted',
   INVOKED = 'invoked',
@@ -12,12 +14,14 @@ export const enum ACTION {
   STARTED = 'started',
   STOPPED = 'stopped',
   SUBSTITUTED = 'autoSubstituted',
+  VISITED = 'visited',
 }
 
 export const enum INPUT_METHOD {
   ASCII = 'ascii',
   AUTO = 'auto',
   AUTO_DETECT = 'autoDetect',
+  CARD = 'card',
   CLIPBOARD = 'clipboard',
   DRAG_AND_DROP = 'dragAndDrop',
   EXTERNAL = 'external',
@@ -32,22 +36,31 @@ export const enum INPUT_METHOD {
   SHORTCUT = 'shortcut',
   TOOLBAR = 'toolbar',
   TYPEAHEAD = 'typeAhead',
+  CONTEXT_MENU = 'contextMenu',
+  BUTTON = 'button',
 }
 
 export const enum ACTION_SUBJECT {
   BUTTON = 'button',
   DOCUMENT = 'document',
   EDITOR = 'editor',
+  MEDIA = 'media',
+  PANEL = 'panel',
   PICKER = 'picker',
+  SMART_LINK = 'smartLink',
   TEXT = 'text',
   TYPEAHEAD = 'typeAhead',
+  TABLE = 'table',
 }
 
 export const enum ACTION_SUBJECT_ID {
   ACTION = 'action',
+  ANNOTATE_BUTTON = 'annotateButton',
   BUTTON_HELP = 'helpButton',
   BUTTON_FEEDBACK = 'feedbackButton',
   CANCEL = 'cancel',
+  CARD_INLINE = 'inlineCard',
+  CARD_BLOCK = 'blockCard',
   CODE_BLOCK = 'codeBlock',
   DECISION = 'decision',
   DIVIDER = 'divider',

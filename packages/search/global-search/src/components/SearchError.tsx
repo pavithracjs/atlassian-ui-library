@@ -12,7 +12,7 @@ const ErrorWrapper = styled.div`
 `;
 
 export interface Props {
-  onRetryClick();
+  onRetryClick: (e?: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 export default class SearchError extends React.Component<Props> {
