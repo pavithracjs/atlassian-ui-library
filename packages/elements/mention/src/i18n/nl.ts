@@ -17,7 +17,7 @@ export default {
   'fabric.mention.error.differentText':
     'Probeer het opnieuw met een andere tekst',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} member{includes, select, true {, including you} other {}}} other{{count} members{includes, select, true {, including you} other {}}}}',
+    '{0, plural, one{{count} lid{includes, select, true {, inclusief jezelf} other {}}} other{{count} leden{includes, select, true {, inclusief jezelf} other {}}}}',
   'fabric.elements.mentions.team.member.50plus':
-    '50+ members{includes, select, true {, including you} other {}}',
+    '50+ leden{includes, select, true {, inclusief jezelf} other {}}',
 };

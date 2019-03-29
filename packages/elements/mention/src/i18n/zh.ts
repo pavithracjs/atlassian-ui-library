@@ -13,7 +13,7 @@ export default {
   'fabric.mention.error.loginAgain': '尝试再次退出',
   'fabric.mention.error.differentText': '尝试输入不同的文本',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, other{{count} member{includes, select, true {, including you} other {}}}}',
+    '{0, plural, other{{count}成员{includes, select, true {, including you}其他 {}}}}',
   'fabric.elements.mentions.team.member.50plus':
-    '50+ members{includes, select, true {, including you} other {}}',
+    '50+ 成员{includes, select, true {, including you}其他 {}}',
 };

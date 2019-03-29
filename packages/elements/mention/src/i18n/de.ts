@@ -16,7 +16,7 @@ export default {
   'fabric.mention.error.differentText':
     'Versuchen Sie, einen anderen Text einzugeben.',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} member{includes, select, true {, including you} other {}}} other{{count} members{includes, select, true {, including you} other {}}}}',
+    '{0, plural, one{{count} Mitglied{einschließlich, select, true {, einschließlich Ihnen} other {}}} other{{count} Mitglieder{einschließlich, select, true {, einschließlich Ihnen} other {}}}}',
   'fabric.elements.mentions.team.member.50plus':
-    '50+ members{includes, select, true {, including you} other {}}',
+    '50+ Mitglieder{einschließlich, select, true {, einschließlich Ihnen} other {}}',
 };

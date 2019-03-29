@@ -15,7 +15,7 @@ export default {
     'Spróbuj się wylogować i zalogować ponownie',
   'fabric.mention.error.differentText': 'Spróbuj wpisać inny tekst',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} member{includes, select, true {, including you} other {}}} few{{count} members{includes, select, true {, including you} other {}}} many{{count} members{includes, select, true {, including you} other {}}} other{{count} members{includes, select, true {, including you} other {}}}}',
+    '{0, plural, one{{count} członek {includes, select, true {, including you} other {}}} few{{count} członków {includes, select, true {, including you} other {}}} many{{count} członków {includes, select, true {, including you} other {}}} other{{count} członka {includes, select, true {, including you} other {}}}}',
   'fabric.elements.mentions.team.member.50plus':
-    '50+ members{includes, select, true {, including you} other {}}',
+    'Ponad 50 członków{includes, select, true {, łącznie z Tobą} other {}}',
 };

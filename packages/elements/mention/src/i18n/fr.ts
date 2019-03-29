@@ -15,7 +15,7 @@ export default {
     'Essayez de vous déconnecter et de vous reconnecter',
   'fabric.mention.error.differentText': 'Essayer de modifier le texte',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} member{includes, select, true {, including you} other {}}} other{{count} members{includes, select, true {, including you} other {}}}}',
+    '{0, plural, one{{count} membre{includes, select, true {, dont vous} other {}}} other{{count} membres{includes, select, true {, dont vous} other {}}}}',
   'fabric.elements.mentions.team.member.50plus':
-    '50+ members{includes, select, true {, including you} other {}}',
+    'Plus de 50 membres {includes, select, true {, dont vous} other {}}',
 };

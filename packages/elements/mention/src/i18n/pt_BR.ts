@@ -14,7 +14,7 @@ export default {
   'fabric.mention.error.loginAgain': 'Tente sair e fazer login novamente',
   'fabric.mention.error.differentText': 'Tente inserir outro texto',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} member{includes, select, true {, including you} other {}}} other{{count} members{includes, select, true {, including you} other {}}}}',
+    '{0, plural, one{{count} membro{includes, select, true {, incluindo você} other {}}} other{{count} membros{includes, select, true {, incluindo você} other {}}}}',
   'fabric.elements.mentions.team.member.50plus':
-    '50+ members{includes, select, true {, including you} other {}}',
+    'Mais de 50 membros{includes, select, true {, incluindo você} other {}}',
 };

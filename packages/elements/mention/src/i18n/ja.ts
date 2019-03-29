@@ -15,7 +15,7 @@ export default {
     '一度ログアウトしてからもう一度ログインしてみてください',
   'fabric.mention.error.differentText': '別のテキストを入力してください',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, other{{count} member{includes, select, true {, including you} other {}}}}',
+    '{0, plural, other{{count} 人のメンバー{includes, select, true {, including you} other {}}}}',
   'fabric.elements.mentions.team.member.50plus':
-    '50+ members{includes, select, true {, including you} other {}}',
+    '50 人以上のメンバー{includes, select, true {, including you} other {}}',
 };

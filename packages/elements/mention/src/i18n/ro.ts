@@ -14,7 +14,7 @@ export default {
   'fabric.mention.error.loginAgain': 'Deconectați-vă și conectați-vă din nou',
   'fabric.mention.error.differentText': 'Introduceți un text diferit',
   'fabric.elements.mentions.team.member.count':
-    '{0, plural, one{{count} member{includes, select, true {, including you} other {}}} few{{count} members{includes, select, true {, including you} other {}}} other{{count} members{includes, select, true {, including you} other {}}}}',
+    '{0, plural, one{{count} membru {includes, select, true {, including you} alt {}}} few{{count} membri {includes, select, true {, including you} alți {}}} other{{count} membri {includes, select, true {, including you} alți {}}}}',
   'fabric.elements.mentions.team.member.50plus':
-    '50+ members{includes, select, true {, including you} other {}}',
+    '50+ de membri {includes, select, true {, including you} alți {}}',
 };
