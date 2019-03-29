@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 44.5.0
+- [minor] [e6f58b1837](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6f58b1837):
+
+  - Email renderer layout column and section support
+
 ## 44.4.3
 - Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
   - @atlaskit/editor-common@35.1.3

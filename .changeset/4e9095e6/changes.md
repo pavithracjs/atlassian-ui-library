@@ -1,1 +1,0 @@
-- Email renderer layout column and section support
