@@ -19,6 +19,18 @@ import { fileToBase64 } from '../util';
 import ErrorView from './editorView/errorView/errorView';
 import { Dimensions } from '../common';
 
+const convertFileNameToPng = (fileName?: string) => {
+  if (!fileName) {
+    return 'annotated-image.png';
+  }
+  if (fileName.endsWith('.png')) {
+    return fileName;
+  } else {
+    // because the logic for determining what is actually a file extension in the file name would be too complicated
+    return `${fileName}.png`;
+  }
+};
+
 export interface SmartMediaEditorProps {
   identifier: FileIdentifier;
   context: Context;
@@ -165,7 +177,7 @@ export class SmartMediaEditor extends React.Component<
     const uploadableFile: UploadableFile = {
       content: imageData,
       collection: collectionName,
-      name: fileName ? fileName + '.png' : 'annotated-image.png',
+      name: convertFileNameToPng(fileName),
     };
     const id = uuid();
     const occurrenceKey = uuid();
