@@ -77,9 +77,9 @@ export default class BitbucketServerReporter implements GitReporter {
     this.project = project;
     this.repo = repo.split('.')[0];
 
-    this.token = envWithGuard('BITBUCKET_SERVER_TOKEN', true);
-    this.userName = envWithGuard('BITBUCKET_SERVER_USERNAME', true);
-    this.password = envWithGuard('BITBUCKET_SERVER_PASSWORD', true);
+    this.token = envWithGuard('BITBUCKET_SERVER_TOKEN');
+    this.userName = envWithGuard('BITBUCKET_SERVER_USERNAME');
+    this.password = envWithGuard('BITBUCKET_SERVER_PASSWORD');
 
     this.commit = commit;
   }
