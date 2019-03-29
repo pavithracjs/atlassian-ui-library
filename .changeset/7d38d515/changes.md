@@ -1,0 +1,1 @@
+- New Icon: Add the PremiumIcon
