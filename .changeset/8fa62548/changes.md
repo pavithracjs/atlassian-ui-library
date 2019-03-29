@@ -1,1 +1,0 @@
-- Add basicAuth support for bitbucket-server reporter
