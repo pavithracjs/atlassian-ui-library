@@ -313,6 +313,7 @@ export default class Editor extends React.Component<EditorProps, {}> {
                             }
                           >
                             <Component
+                              fullWidthMode={this.props.fullWidthMode}
                               disabled={this.props.disabled}
                               editorActions={this.editorActions}
                               editorDOMElement={editor}

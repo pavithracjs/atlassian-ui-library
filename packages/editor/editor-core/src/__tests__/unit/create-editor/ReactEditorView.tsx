@@ -384,34 +384,6 @@ describe(name, () => {
       });
     });
 
-    it('should call destroy() on plugin states when it gets unmounted', () => {
-      let spies: Array<jest.SpyInstance> = [];
-      const mediaProvider = storyMediaProviderFactory({
-        includeUserAuthProvider: true,
-      });
-      const wrapper = mountWithIntl(
-        <ReactEditorView
-          editorProps={{
-            mediaProvider: mediaProvider,
-          }}
-          providerFactory={ProviderFactory.create({ mediaProvider })}
-          portalProviderAPI={portalProviderAPI}
-          onEditorCreated={({ view }) => {
-            spies = view.state.plugins
-              .map(plugin => plugin.getState(view.state))
-              .filter(state => !!state && !!state.destroy)
-              .map(state => jest.spyOn(state, 'destroy'));
-          }}
-          onEditorDestroyed={() => {}}
-        />,
-      );
-
-      expect(spies.length).toBeGreaterThan(0);
-      wrapper.unmount();
-
-      spies.forEach(spy => expect(spy).toHaveBeenCalledTimes(1));
-    });
-
     it('should call destroy() on EventDispatcher when it gets unmounted', () => {
       let eventDispatcherDestroySpy;
       const wrapper = mountWithIntl(

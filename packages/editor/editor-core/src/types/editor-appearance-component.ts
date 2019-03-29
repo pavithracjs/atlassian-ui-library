@@ -46,4 +46,6 @@ export interface EditorAppearanceComponentProps {
   disabled?: boolean;
 
   collabEdit?: CollabEditOptions;
+
+  fullWidthMode?: boolean;
 }

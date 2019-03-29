@@ -85,13 +85,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     }
 
     if (allowColumnResizing) {
-      const {
-        view,
-        node,
-        containerWidth,
-        getPos,
-        dynamicTextSizing,
-      } = this.props;
+      const { view, node, containerWidth, getPos, options } = this.props;
 
       if (node.attrs.__autoSize === false) {
         const parentWidth = this.getParentNodeWidth(
@@ -107,7 +101,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
           containerWidth.width,
           true,
           parentWidth,
-          dynamicTextSizing,
+          options && options.dynamicTextSizing,
         );
       }
 
@@ -254,13 +248,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
   };
 
   private handleTableResizing = (prevProps: ComponentProps) => {
-    const {
-      view,
-      node,
-      getPos,
-      containerWidth,
-      dynamicTextSizing,
-    } = this.props;
+    const { view, node, getPos, containerWidth, options } = this.props;
 
     const prevAttrs = prevProps.node.attrs;
     const currentAttrs = node.attrs;
@@ -296,7 +284,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
         containerWidth.width,
         false,
         parentWidth,
-        dynamicTextSizing,
+        options && options.dynamicTextSizing,
       );
 
       this.updateParentWidth(parentWidth);
@@ -307,24 +295,22 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
 
   private handleAutoSize = () => {
     if (this.table) {
-      const {
-        view,
-        node,
-        getPos,
-        dynamicTextSizing = false,
-        containerWidth,
-      } = this.props;
+      const { view, node, getPos, options, containerWidth } = this.props;
 
       autoSizeTable(view, node, this.table, getPos(), {
-        dynamicTextSizing,
+        dynamicTextSizing: (options && options.dynamicTextSizing) || false,
         containerWidth: containerWidth.width,
       });
     }
   };
 
   private updateTableContainerWidth = () => {
-    const { node, containerWidth } = this.props;
+    const { node, containerWidth, options } = this.props;
     this.setState((prevState: TableState) => {
+      if (options && options.isBreakoutEnabled === false) {
+        return { tableContainerWidth: 'inherit' };
+      }
+
       const tableContainerWidth = calcTableWidth(
         node.attrs.layout,
         containerWidth.width,
