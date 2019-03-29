@@ -1,0 +1,1 @@
+- ED-6595 Remove layout marks when pasting images inside a list
