@@ -229,7 +229,7 @@ export type GlobalNavigationProps = {
     the user to start.atlassian.com
     e.g. instead of showing only Jira link, shows Jira Software and Jira Service Desk links
   */
-  experimental_enableUchiLink?: boolean,
+  experimental_enableExpandLink?: boolean,
 
   ...$Exact<GlobalNavDrawerProps>,
 };
