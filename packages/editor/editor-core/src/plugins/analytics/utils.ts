@@ -23,19 +23,23 @@ export function withAnalytics(
     | ((state: EditorState) => AnalyticsEventPayload | undefined),
   channel?: string,
 ): HigherOrderCommand {
-  return command => (state, dispatch) =>
-    command(state, tr => {
-      if (dispatch) {
-        if (payload instanceof Function) {
-          const dynamicPayload = payload(state);
-          if (dynamicPayload) {
-            dispatch(addAnalytics(tr, dynamicPayload, channel));
+  return command => (state, dispatch, view) =>
+    command(
+      state,
+      tr => {
+        if (dispatch) {
+          if (payload instanceof Function) {
+            const dynamicPayload = payload(state);
+            if (dynamicPayload) {
+              dispatch(addAnalytics(tr, dynamicPayload, channel));
+            }
+          } else {
+            dispatch(addAnalytics(tr, payload, channel));
           }
-        } else {
-          dispatch(addAnalytics(tr, payload, channel));
         }
-      }
-    });
+      },
+      view,
+    );
 }
 
 export function ruleWithAnalytics(
