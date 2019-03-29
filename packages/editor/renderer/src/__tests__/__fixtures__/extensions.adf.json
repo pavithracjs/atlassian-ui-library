@@ -7,7 +7,7 @@
       "content": [
         {
           "type": "text",
-          "text": "foo"
+          "text": "This extension: "
         },
         {
           "type": "inlineExtension",
@@ -19,7 +19,7 @@
         },
         {
           "type": "text",
-          "text": "bar"
+          "text": " is inline."
         }
       ]
     },
@@ -28,7 +28,7 @@
       "attrs": {
         "layout": "default",
         "extensionType": "com.atlassian.confluence.macro.core",
-        "extensionKey": "widget",
+        "extensionKey": "extension",
         "text": " | url = https://www.youtube.com/watch?v=9LjyApeZNZQ&feature=youtu.be"
       }
     },
