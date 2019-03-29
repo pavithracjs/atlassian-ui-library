@@ -60,11 +60,11 @@ export default class InlineEditExample extends React.Component<void, State> {
               }
             />
           )}
-          readView={
+          readView={() => (
             <ReadViewContainer>
               {this.state.editValue || 'Click to enter value'}
             </ReadViewContainer>
-          }
+          )}
           onConfirm={this.onConfirm}
           validate={this.validate}
         />

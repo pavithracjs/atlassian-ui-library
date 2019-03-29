@@ -33,7 +33,7 @@ export default class InlineEditExample extends React.Component<void, State> {
           defaultValue={this.state.editValue}
           label="Inline edit textarea + keep edit view open on blur"
           editView={editViewProps => <TextArea {...editViewProps} />}
-          readView={
+          readView={() => (
             <ReadViewContainer>
               {this.state.editValue.split('\n').map((value, i) => (
                 <React.Fragment key={i}>
@@ -42,7 +42,7 @@ export default class InlineEditExample extends React.Component<void, State> {
                 </React.Fragment>
               )) || 'Click to enter value'}
             </ReadViewContainer>
-          }
+          )}
           onConfirm={this.onConfirm}
           keepEditViewOpenOnBlur
           readViewFitContainerWidth

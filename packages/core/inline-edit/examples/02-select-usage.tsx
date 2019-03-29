@@ -51,7 +51,7 @@ export default class InlineEditExample extends React.Component<void, State> {
               openMenuOnFocus
             />
           )}
-          readView={
+          readView={() =>
             this.state.editValue.length === 0 ? (
               <ReadViewContainer>Click to enter value</ReadViewContainer>
             ) : (

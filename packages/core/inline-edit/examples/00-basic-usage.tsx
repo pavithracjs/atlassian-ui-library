@@ -28,11 +28,11 @@ export default class InlineEditExample extends React.Component<void, State> {
           defaultValue={this.state.editValue}
           label="Inline edit field"
           editView={editViewProps => <TextField {...editViewProps} />}
-          readView={
+          readView={() => (
             <ReadViewContainer>
               {this.state.editValue || 'Click to enter value'}
             </ReadViewContainer>
-          }
+          )}
           onConfirm={this.onConfirm}
         />
       </div>

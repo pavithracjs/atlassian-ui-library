@@ -40,11 +40,11 @@ class InlineEditableTextfield extends React.Component<
             }
           />
         )}
-        readView={
+        readView={() => (
           <ReadViewContainer>
             {defaultValue || emptyValueText}
           </ReadViewContainer>
-        }
+        )}
         onConfirm={this.props.onConfirm}
         startWithEditViewOpen={startWithEditViewOpen}
       />

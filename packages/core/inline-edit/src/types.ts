@@ -27,7 +27,7 @@ interface CommonProps {
 
 export interface InlineEditUncontrolledProps extends CommonProps {
   /** Component to be shown when not in edit view. */
-  readView: React.ReactChild;
+  readView: () => React.ReactChild;
   /** Component to be shown when editing. Should be an Atlaskit input. */
   editView: (fieldProps: FieldProps) => React.ReactChild;
   /** Whether the component shows the readView or the editView. */
@@ -47,7 +47,7 @@ export interface InlineEditUncontrolledProps extends CommonProps {
 
 export interface InlineEditProps extends CommonProps {
   /** Component to be shown when not in edit view. */
-  readView: React.ReactChild;
+  readView: () => React.ReactChild;
   /** Component to be shown when editing. Should be an Atlaskit input. */
   editView: (
     editViewProps: FieldProps & { ref: (ref: any) => void },

@@ -159,7 +159,7 @@ class InlineEditUncontrolled extends React.Component<
           onClick={this.onReadViewClick}
           readViewFitContainerWidth={readViewFitContainerWidth}
         >
-          {readView}
+          {readView()}
         </ReadViewContentWrapper>
       </ReadViewWrapper>
     );
