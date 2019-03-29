@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  Context,
-  Identifier,
-  isFileIdentifier,
-  FileIdentifier,
-} from '@atlaskit/media-core';
+import { Context, Identifier } from '@atlaskit/media-core';
 import { IntlProvider, intlShape } from 'react-intl';
 import { ThemeProvider } from 'styled-components';
 import { Shortcut, theme } from '@atlaskit/media-ui';

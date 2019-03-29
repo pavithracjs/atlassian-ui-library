@@ -71,7 +71,7 @@ export class Header extends React.Component<Props & InjectedIntlProps, State> {
       const { context, identifier } = props;
 
       if (isExternalImageIdentifier(identifier)) {
-        const { name = '' } = identifier;
+        const { name = identifier.dataURI } = identifier;
         const fileState: ProcessingFileState = {
           status: 'processing',
           id: name,
