@@ -8,9 +8,8 @@ import {
   clickFirstCell,
 } from '../../__helpers/page-objects/_table';
 import {
-  pressKey,
-  pressKeyup,
-  KeyboardKeys,
+  pressKeyDown,
+  pressKeyUp,
 } from '../../__helpers/page-objects/_keyboard';
 import * as adf from './__fixtures__/default-table.adf.json';
 
@@ -20,9 +19,9 @@ describe('Table context menu: merge-split cells', () => {
   const tableMergeCells = async (fromCell: string, toCell: string) => {
     const threshold = 0.04;
     await page.click(fromCell);
-    await pressKey(page, KeyboardKeys.shift);
+    await pressKeyDown(page, 'Shift');
     await page.click(toCell);
-    await pressKeyup(page, KeyboardKeys.shift);
+    await pressKeyUp(page, 'Shift');
     await page.waitForSelector(tableSelectors.selectedCell);
     await clickCellOptions(page);
     await animationFrame(page);

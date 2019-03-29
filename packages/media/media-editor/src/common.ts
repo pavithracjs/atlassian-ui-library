@@ -1,11 +1,4 @@
 // Each channel is a value 0-255
-export interface Color {
-  red: number;
-  green: number;
-  blue: number;
-}
-
-// Each channel is a value 0-255
 export interface ColorWithAlpha {
   red: number;
   green: number;
@@ -14,7 +7,7 @@ export interface ColorWithAlpha {
 }
 
 export interface ShapeParameters {
-  color: Color;
+  color: string;
   lineWidth: number;
   addShadow: boolean;
 }

@@ -1,5 +1,10 @@
 # @atlaskit/task-decision
 
+## 14.0.0
+- [major] [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
+
+  - removed cards appearance related code used by stride
+
 ## 13.2.0
 - [minor] [b0210d7ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0210d7ccc):
 

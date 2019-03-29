@@ -267,6 +267,7 @@ export default class GlobalNavigation extends Component<
   closeDrawer = (drawerName: DrawerName) => (
     event: SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>,
     analyticsEvent: UIAnalyticsEvent,
+    trigger?: string,
   ) => {
     const capitalisedDrawerName = this.getCapitalisedDrawerName(drawerName);
     let onCloseCallback = noop;
@@ -275,8 +276,7 @@ export default class GlobalNavigation extends Component<
       onCloseCallback = this.props[`on${capitalisedDrawerName}Close`];
     }
 
-    fireDrawerDismissedEvents(drawerName, analyticsEvent);
-
+    fireDrawerDismissedEvents(drawerName, analyticsEvent, trigger);
     // Update the state only if it's a controlled drawer.
     // componentDidMount takes care of the uncontrolled drawers
     if (this.drawers[drawerName].isControlled) {
@@ -380,11 +380,14 @@ export default class GlobalNavigation extends Component<
     };
   };
 
-  triggerXFlow = (productKey: string, sourceComponent: string) => {
+  triggerXFlow = (
+    productKey: string,
+    sourceComponent: string,
+    event: SyntheticMouseEvent<*> | SyntheticKeyboardEvent<*>,
+    analyticsEvent: UIAnalyticsEvent,
+  ) => {
     const { triggerXFlow } = this.props;
-    this.setState({
-      isAtlassianSwitcherDrawerOpen: false,
-    });
+    this.closeDrawer('atlassianSwitcher')(event, analyticsEvent, 'xFlow');
     if (triggerXFlow) {
       triggerXFlow(productKey, sourceComponent);
     }

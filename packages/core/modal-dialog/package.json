@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/modal-dialog",
-  "version": "8.0.3",
+  "version": "8.0.4",
   "description": "A React component that displays content in a layer blocking the interaction with the page.",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -21,7 +21,7 @@
     "@atlaskit/button": "^11.0.0",
     "@atlaskit/form": "^5.2.3",
     "@atlaskit/icon": "^16.0.5",
-    "@atlaskit/portal": "^0.2.1",
+    "@atlaskit/portal": "^0.3.0",
     "@atlaskit/textfield": "^0.4.0",
     "@atlaskit/theme": "^8.0.1",
     "@babel/runtime": "^7.0.0",

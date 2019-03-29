@@ -1,5 +1,13 @@
 # @atlaskit/badge
 
+## 11.0.0
+- [major] [c95557e3ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c95557e3ff):
+
+  - Drops flow support.
+  - Badge has been internally converted to TypeScript.
+  - Typescript consumers will get static type safety.
+  - No API or behavioural changes.
+
 ## 10.0.1
 - [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
 

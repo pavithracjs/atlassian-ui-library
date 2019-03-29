@@ -1,5 +1,12 @@
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+
 export interface TriggerXFlowCallback {
-  (productKey: string, sourceComponent: string): void;
+  (
+    productKey: string,
+    sourceComponent: string,
+    event: any,
+    analyticsEvent: UIAnalyticsEventInterface,
+  ): void;
 }
 
 export interface WithCloudId {
@@ -35,9 +42,11 @@ export enum Product {
   TRUSTED_ADMIN = 'trusted-admin',
 }
 
-export type FeatureFlagProps = {
-  enableSplitJira: boolean;
-};
+export enum Feature {
+  enableSplitJira = 'enableSplitJira',
+}
+
+export type FeatureFlagProps = { [key in Feature]: boolean };
 
 export type CustomLinksResponse = CustomLink[];
 

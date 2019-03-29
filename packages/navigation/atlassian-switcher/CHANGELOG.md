@@ -1,5 +1,20 @@
 # @atlaskit/atlassian-switcher
 
+## 0.3.4
+- [patch] [571ad59bb7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/571ad59bb7):
+
+  - Pacakge version and feature flag analytics
+
+## 0.3.3
+- [patch] [9cf7af0d03](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9cf7af0d03):
+
+  - Data provider analytics
+
+## 0.3.2
+- [patch] [aacc698f07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aacc698f07):
+
+  - Adds an analytics event to track atlassian switcher dissmisals using the triggerXFlow callback
+
 ## 0.3.1
 - [patch] [57f774683f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/57f774683f):
 

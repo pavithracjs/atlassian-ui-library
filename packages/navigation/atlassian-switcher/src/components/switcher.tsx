@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Messages } from 'react-intl';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
 import * as isEqual from 'lodash.isequal';
 
 import {
@@ -20,7 +21,7 @@ import {
 import now from '../utils/performance-now';
 import FormattedMessage from '../primitives/formatted-message';
 import TryLozenge from '../primitives/try-lozenge';
-import { TriggerXFlowCallback, FeatureFlagProps } from '../types';
+import { TriggerXFlowCallback } from '../types';
 
 type SwitcherProps = {
   messages: Messages;
@@ -33,7 +34,7 @@ type SwitcherProps = {
   recentLinks: RecentItemType[];
   customLinks: SwitcherItemType[];
   manageLink?: string;
-} & FeatureFlagProps;
+};
 
 const getAnalyticsContext = (itemsCount: number) => ({
   ...analyticsAttributes({
@@ -64,10 +65,15 @@ export default class Switcher extends React.Component<SwitcherProps> {
     return this.mountedAt ? Math.round(now() - this.mountedAt) : 0;
   }
 
-  triggerXFlow = () => {
+  triggerXFlow = (event: any, analyticsEvent: UIAnalyticsEventInterface) => {
     const { triggerXFlow, suggestedProductLinks } = this.props;
     if (suggestedProductLinks.length) {
-      triggerXFlow(suggestedProductLinks[0].key, 'atlassian-switcher');
+      triggerXFlow(
+        suggestedProductLinks[0].key,
+        'atlassian-switcher',
+        event,
+        analyticsEvent,
+      );
     }
   };
 

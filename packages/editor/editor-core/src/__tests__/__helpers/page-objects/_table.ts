@@ -3,9 +3,8 @@ import { clickToolbarMenu, ToolbarMenuItem } from './_toolbar';
 import { TableCssClassName as ClassName } from '../../../plugins/table/types';
 import messages from '../../../messages';
 import {
-  pressKey,
-  pressKeyup,
-  KeyboardKeys,
+  pressKeyDown,
+  pressKeyUp,
 } from '../../__helpers/page-objects/_keyboard';
 import { animationFrame } from '../../__helpers/page-objects/_editor';
 
@@ -102,9 +101,9 @@ export const selectCellBackground = async ({ page, from, to, colorIndex }) => {
     cellType: from.row === 1 ? 'th' : 'td',
   });
   await page.click(firstCell);
-  await pressKey(page, KeyboardKeys.shift);
+  await pressKeyDown(page, 'Shift');
   await page.click(lastCell);
-  await pressKeyup(page, KeyboardKeys.shift);
+  await pressKeyUp(page, 'Shift');
   await page.waitForSelector(tableSelectors.selectedCell);
   await clickCellOptions(page);
   await animationFrame(page);
@@ -225,9 +224,9 @@ export const splitCells = async (page, selector) => {
 
 export const mergeCells = async (page, firstCell, lastCell) => {
   await page.click(firstCell);
-  await pressKey(page, KeyboardKeys.shift);
+  await pressKeyDown(page, 'Shift');
   await page.click(lastCell);
-  await pressKeyup(page, KeyboardKeys.shift);
+  await pressKeyUp(page, 'Shift');
   await page.waitForSelector(tableSelectors.selectedCell);
   await clickCellOptions(page);
   await selectCellOption(page, tableSelectors.mergeCellsText);

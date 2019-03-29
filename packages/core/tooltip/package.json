@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/tooltip",
-  "version": "13.0.1",
+  "version": "13.0.2",
   "description": "A React Component for displaying Tooltips",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -18,7 +18,7 @@
   "dependencies": {
     "@atlaskit/analytics-next": "^4.0.1",
     "@atlaskit/popper": "^0.4.1",
-    "@atlaskit/portal": "^0.2.1",
+    "@atlaskit/portal": "^0.3.0",
     "@atlaskit/theme": "^8.0.1",
     "@babel/runtime": "^7.0.0",
     "flushable": "^1.0.0",
