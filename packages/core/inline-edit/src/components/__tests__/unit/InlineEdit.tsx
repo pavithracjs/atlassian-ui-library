@@ -31,9 +31,10 @@ describe('@atlaskit/inline-edit core', () => {
   });
 
   it('should keep edit view open on blur when keepEditViewOpenOnBlur prop is true', () => {
+    const spy = jest.fn();
     const wrapper = mount(
       <InlineEditableTextfield
-        onConfirm={noop}
+        onConfirm={spy}
         defaultValue=""
         startWithEditViewOpen
         keepEditViewOpenOnBlur
@@ -42,7 +43,8 @@ describe('@atlaskit/inline-edit core', () => {
     const div = wrapper.find(ContentWrapper);
     div.simulate('blur');
     jest.runOnlyPendingTimers();
-    expect(wrapper.update().find('input').length).toBe(1);
+    expect(wrapper.find('input').length).toBe(1);
+    expect(spy).not.toBeCalled();
   });
 
   it('should render action buttons', () => {
@@ -132,15 +134,20 @@ describe('@atlaskit/inline-edit core', () => {
     expect(wrapper.find(InlineEditUncontrolled).prop('isEditing')).toBe(true);
   });
 
-  // it('should call onConfirm when confirm button is clicked', () => {
-  //   const spy = jest.fn();
-  //   const wrapper = mount(
-  //     <InlineEditableTextfield onConfirm={spy} defaultValue="" startWithEditViewOpen />,
-  //   );
-  //   expect(wrapper.find('button[type="submit"]').length).toBe(1)
-  //   wrapper.find('button[type="submit"]').simulate('click');
-  //   expect(spy).toBeCalled();
-  // });
+  it('should call onConfirm when confirm button is clicked', () => {
+    const spy = jest.fn();
+    const wrapper = mount(
+      <InlineEditableTextfield
+        onConfirm={spy}
+        defaultValue=""
+        startWithEditViewOpen
+      />,
+    );
+    expect(wrapper.find('button[type="submit"]').length).toBe(1);
+    wrapper.find('form').simulate('submit');
+    expect(spy).toBeCalled();
+    expect(wrapper.find('input').length).toBe(0);
+  });
 
   it('should cancel the edit and return to the initial value when cancel button is pressed', () => {
     const spy = jest.fn();
@@ -158,8 +165,6 @@ describe('@atlaskit/inline-edit core', () => {
     wrapper.find(EditButton).simulate('click');
     expect(wrapper.find('input').prop('value')).toBe('');
   });
-
-  // it('enter in textfield')
 
   it('should cancel the edit and return to the initial value when Escape key is pressed', () => {
     const spy = jest.fn();
@@ -179,25 +184,43 @@ describe('@atlaskit/inline-edit core', () => {
     expect(wrapper.find('input').prop('value')).toBe('');
   });
 
-  // it('confirm on blur')
+  it('should call onConfirm on blur', () => {
+    const spy = jest.fn();
+    const wrapper = mount(
+      <InlineEditableTextfield
+        onConfirm={spy}
+        defaultValue=""
+        startWithEditViewOpen
+      />,
+    );
+    const div = wrapper.find(ContentWrapper);
+    div.simulate('blur');
+    jest.runOnlyPendingTimers();
+    expect(spy).toBeCalled();
+  });
 
-  // it('darken on hover')
+  // it('should have default aria-tags', () => {
+  //   const wrapper = mount(
+  //     <InlineEditableTextfield
+  //       onConfirm={spy}
+  //       defaultValue=""
+  //       startWithEditViewOpen
+  //     />,
+  //   );
+  //   const div = wrapper.find(ContentWrapper);
+  //   div.simulate('blur');
+  //   jest.runOnlyPendingTimers();
+  //   expect(spy).toBeCalled();
+  // });
 
-  // it('focus on edit button')
+  // it('should pass through label props to aria tags', () => {
 
-  // it('stay in edit view on tab to confirm button and cancel button')
-
-  // it('should have aria-tags');
+  // });
 
   // it('validate');
-
-  // it('not cause console errors')
 });
 
 // describe('@atlaskit/inline-editable-textfield', () => {
-// it('should focus automatically on editView when startWithEditViewOpen prop is true', () => {
-
-// });
 //   it('emptyValueText')
 
 //   it('readView correct value');
@@ -213,6 +236,25 @@ describe('@atlaskit/inline-edit core', () => {
 // });
 
 // describe('uncontrolled?')
+
+describe('@atlaskit/inline-edit', () => {
+  beforeEach(() => {
+    jest.spyOn(global.console, 'warn');
+    jest.spyOn(global.console, 'error');
+  });
+  afterEach(() => {
+    (global.console.warn as jest.Mock).mockRestore();
+    (global.console.error as jest.Mock).mockRestore();
+  });
+
+  it('should mount without errors', () => {
+    mount(<InlineEditableTextfield onConfirm={noop} defaultValue="" />);
+    /* tslint:disable no-console */
+    expect(console.warn).not.toHaveBeenCalled();
+    expect(console.error).not.toHaveBeenCalled();
+    /* tslint:disable no-console */
+  });
+});
 
 // const noop = () => {};
 // const Input = props => <input {...props} onChange={noop} />;
