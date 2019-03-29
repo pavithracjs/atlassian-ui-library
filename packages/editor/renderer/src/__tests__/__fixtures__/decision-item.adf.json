@@ -1,0 +1,52 @@
+{
+  "type": "doc",
+  "version": 1,
+  "content": [
+    {
+      "type": "decisionItem",
+      "attrs": {
+        "localId": "to-be-ignored-as-no-content",
+        "state": "DECIDED"
+      }
+    },
+    {
+      "type": "decisionItem",
+      "attrs": {
+        "localId": "asdfgh",
+        "state": "DECIDED"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "wow"
+        }
+      ]
+    },
+    {
+      "type": "decisionItem",
+      "attrs": {
+        "localId": "asdfgh",
+        "state": "DECIDED"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "such choices"
+        }
+      ]
+    },
+    {
+      "type": "decisionItem",
+      "attrs": {
+        "localId": "asdfgh",
+        "state": "DECIDED"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "so decided"
+        }
+      ]
+    }
+  ]
+}

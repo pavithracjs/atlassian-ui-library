@@ -1,17 +1,19 @@
 import { NodeSerializerOpts } from '../interfaces';
 import { TableData, createTable } from '../util';
-import { G300, N30 } from '@atlaskit/adf-schema';
+import { N30, N50, N0, B400 } from '@atlaskit/adf-schema';
 
-enum DecisionState {
-  DECIDED = 'DECIDED',
+enum TaskState {
+  TODO = 'TODO',
+  DONE = 'DONE',
 }
 
-const icons: { [K in DecisionState]: string } = {
-  DECIDED: '↖',
+const icons: { [K in TaskState]: string } = {
+  TODO: '',
+  DONE: '✓',
 };
 
-interface DecisionItemAttrs {
-  state: DecisionState;
+interface TaskItemAttrs {
+  state: TaskState;
   localId: string;
 }
 
@@ -21,7 +23,7 @@ export default function taskItem({ attrs, text }: NodeSerializerOpts) {
     return '';
   }
 
-  const state = (attrs as DecisionItemAttrs).state;
+  const state = (attrs as TaskItemAttrs).state;
 
   const icon = createTable([
     [
@@ -29,9 +31,14 @@ export default function taskItem({ attrs, text }: NodeSerializerOpts) {
         text: icons[state],
         style: {
           'font-size': '13px',
-          'font-weight': '900',
+          'font-weight': '600',
           'text-align': 'center',
-          color: G300,
+          'background-color': state === TaskState.DONE ? B400 : N0,
+          'border-radius': '3px',
+          'border-style': 'solid',
+          'border-width': state === TaskState.DONE ? '0px' : '1px',
+          'border-color': N50,
+          color: 'white',
           width: '16px',
           height: '16px',
         },

@@ -1,0 +1,32 @@
+{
+  "type": "doc",
+  "version": 1,
+  "content": [
+    {
+      "type": "taskItem",
+      "attrs": {
+        "localId": "a7b91e92-68f9-4cb2-b033-53a418c6338f",
+        "state": "DONE"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "render ADF to HTML"
+        }
+      ]
+    },
+    {
+      "type": "taskItem",
+      "attrs": {
+        "localId": "a7b91e92-68f9-4cb2-b033-53a418c6338f",
+        "state": "TODO"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "make it look good in outlook"
+        }
+      ]
+    }
+  ]
+}

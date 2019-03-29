@@ -321,6 +321,352 @@ System.out.println("There are " + count + " values &gt;= 5");
 </div>
 `;
 
+exports[`Renderer - EmailSerializer should render decision item correctly 1`] = `
+<div
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;"
+>
+  <table
+    border="0"
+    cellpadding="0"
+    cellspacing="0"
+    style="margin: 0px;padding: 4px 8px 4px 0;border-spacing: 0px;width: 100%;"
+  >
+    <tbody>
+      <tr>
+        <td
+          style=""
+        >
+          <table
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;background-color: #EBECF0;border-radius: 3px;"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style=""
+                >
+                  <table
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                        >
+                          <table
+                            border="0"
+                            cellpadding="0"
+                            cellspacing="0"
+                            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                          >
+                            <tbody>
+                              <tr>
+                                <td
+                                  style="font-size: 13px;font-weight: 900;text-align: center;color: #36B37E;width: 16px;height: 16px;"
+                                >
+                                  ↖
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                        <td
+                          style="font-size: 14px;padding: 8px 8px 8px 0;"
+                        >
+                          wow
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table
+    border="0"
+    cellpadding="0"
+    cellspacing="0"
+    style="margin: 0px;padding: 4px 8px 4px 0;border-spacing: 0px;width: 100%;"
+  >
+    <tbody>
+      <tr>
+        <td
+          style=""
+        >
+          <table
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;background-color: #EBECF0;border-radius: 3px;"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style=""
+                >
+                  <table
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                        >
+                          <table
+                            border="0"
+                            cellpadding="0"
+                            cellspacing="0"
+                            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                          >
+                            <tbody>
+                              <tr>
+                                <td
+                                  style="font-size: 13px;font-weight: 900;text-align: center;color: #36B37E;width: 16px;height: 16px;"
+                                >
+                                  ↖
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                        <td
+                          style="font-size: 14px;padding: 8px 8px 8px 0;"
+                        >
+                          such choices
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table
+    border="0"
+    cellpadding="0"
+    cellspacing="0"
+    style="margin: 0px;padding: 4px 8px 4px 0;border-spacing: 0px;width: 100%;"
+  >
+    <tbody>
+      <tr>
+        <td
+          style=""
+        >
+          <table
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;background-color: #EBECF0;border-radius: 3px;"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style=""
+                >
+                  <table
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                        >
+                          <table
+                            border="0"
+                            cellpadding="0"
+                            cellspacing="0"
+                            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                          >
+                            <tbody>
+                              <tr>
+                                <td
+                                  style="font-size: 13px;font-weight: 900;text-align: center;color: #36B37E;width: 16px;height: 16px;"
+                                >
+                                  ↖
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                        <td
+                          style="font-size: 14px;padding: 8px 8px 8px 0;"
+                        >
+                          so decided
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`Renderer - EmailSerializer should render decision list correctly 1`] = `
+<div
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;"
+>
+  <div>
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      style="margin: 0px;padding: 4px 8px 4px 0;border-spacing: 0px;width: 100%;"
+    >
+      <tbody>
+        <tr>
+          <td
+            style=""
+          >
+            <table
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;background-color: #EBECF0;border-radius: 3px;"
+            >
+              <tbody>
+                <tr>
+                  <td
+                    style=""
+                  >
+                    <table
+                      border="0"
+                      cellpadding="0"
+                      cellspacing="0"
+                      style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                    >
+                      <tbody>
+                        <tr>
+                          <td
+                            style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                          >
+                            <table
+                              border="0"
+                              cellpadding="0"
+                              cellspacing="0"
+                              style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                            >
+                              <tbody>
+                                <tr>
+                                  <td
+                                    style="font-size: 13px;font-weight: 900;text-align: center;color: #36B37E;width: 16px;height: 16px;"
+                                  >
+                                    ↖
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                          <td
+                            style="font-size: 14px;padding: 8px 8px 8px 0;"
+                          >
+                            decision 1 of 2 in list
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      style="margin: 0px;padding: 4px 8px 4px 0;border-spacing: 0px;width: 100%;"
+    >
+      <tbody>
+        <tr>
+          <td
+            style=""
+          >
+            <table
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;background-color: #EBECF0;border-radius: 3px;"
+            >
+              <tbody>
+                <tr>
+                  <td
+                    style=""
+                  >
+                    <table
+                      border="0"
+                      cellpadding="0"
+                      cellspacing="0"
+                      style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                    >
+                      <tbody>
+                        <tr>
+                          <td
+                            style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                          >
+                            <table
+                              border="0"
+                              cellpadding="0"
+                              cellspacing="0"
+                              style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                            >
+                              <tbody>
+                                <tr>
+                                  <td
+                                    style="font-size: 13px;font-weight: 900;text-align: center;color: #36B37E;width: 16px;height: 16px;"
+                                  >
+                                    ↖
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                          <td
+                            style="font-size: 14px;padding: 8px 8px 8px 0;"
+                          >
+                            decision 2 of 2 in list
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
 exports[`Renderer - EmailSerializer should render inline cards correctly 1`] = `
 <div
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;"
@@ -985,6 +1331,348 @@ exports[`Renderer - EmailSerializer should render status correctly 1`] = `
   >
     Green
   </span>
+</div>
+`;
+
+exports[`Renderer - EmailSerializer should render task item correctly 1`] = `
+<div
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;"
+>
+  <table
+    border="0"
+    cellpadding="0"
+    cellspacing="0"
+    style="margin: 0px;padding: 4px 8px 4px 0;border-spacing: 0px;width: 100%;"
+  >
+    <tbody>
+      <tr>
+        <td
+          style=""
+        >
+          <table
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;background-color: #EBECF0;border-radius: 3px;"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style=""
+                >
+                  <table
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                        >
+                          <table
+                            border="0"
+                            cellpadding="0"
+                            cellspacing="0"
+                            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                          >
+                            <tbody>
+                              <tr>
+                                <td
+                                  style="font-size: 13px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: white;width: 16px;height: 16px;"
+                                >
+                                  ✓
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                        <td
+                          style="font-size: 14px;padding: 8px 8px 8px 0;"
+                        >
+                          render ADF to HTML
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table
+    border="0"
+    cellpadding="0"
+    cellspacing="0"
+    style="margin: 0px;padding: 4px 8px 4px 0;border-spacing: 0px;width: 100%;"
+  >
+    <tbody>
+      <tr>
+        <td
+          style=""
+        >
+          <table
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;background-color: #EBECF0;border-radius: 3px;"
+          >
+            <tbody>
+              <tr>
+                <td
+                  style=""
+                >
+                  <table
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                    style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                  >
+                    <tbody>
+                      <tr>
+                        <td
+                          style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                        >
+                          <table
+                            border="0"
+                            cellpadding="0"
+                            cellspacing="0"
+                            style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                          >
+                            <tbody>
+                              <tr>
+                                <td
+                                  style="font-size: 13px;font-weight: 600;text-align: center;background-color: #FFFFFF;border-radius: 3px;border-style: solid;border-width: 1px;border-color: #C1C7D0;color: white;width: 16px;height: 16px;"
+                                />
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                        <td
+                          style="font-size: 14px;padding: 8px 8px 8px 0;"
+                        >
+                          make it look good in outlook
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`Renderer - EmailSerializer should render task list correctly 1`] = `
+<div
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;font-size: 14px;font-weight: 400;line-height: 24px;"
+>
+  <div>
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      style="margin: 0px;padding: 4px 8px 4px 0;border-spacing: 0px;width: 100%;"
+    >
+      <tbody>
+        <tr>
+          <td
+            style=""
+          >
+            <table
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;background-color: #EBECF0;border-radius: 3px;"
+            >
+              <tbody>
+                <tr>
+                  <td
+                    style=""
+                  >
+                    <table
+                      border="0"
+                      cellpadding="0"
+                      cellspacing="0"
+                      style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                    >
+                      <tbody>
+                        <tr>
+                          <td
+                            style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                          >
+                            <table
+                              border="0"
+                              cellpadding="0"
+                              cellspacing="0"
+                              style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                            >
+                              <tbody>
+                                <tr>
+                                  <td
+                                    style="font-size: 13px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: white;width: 16px;height: 16px;"
+                                  >
+                                    ✓
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                          <td
+                            style="font-size: 14px;padding: 8px 8px 8px 0;"
+                          >
+                            milk
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      style="margin: 0px;padding: 4px 8px 4px 0;border-spacing: 0px;width: 100%;"
+    >
+      <tbody>
+        <tr>
+          <td
+            style=""
+          >
+            <table
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;background-color: #EBECF0;border-radius: 3px;"
+            >
+              <tbody>
+                <tr>
+                  <td
+                    style=""
+                  >
+                    <table
+                      border="0"
+                      cellpadding="0"
+                      cellspacing="0"
+                      style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                    >
+                      <tbody>
+                        <tr>
+                          <td
+                            style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                          >
+                            <table
+                              border="0"
+                              cellpadding="0"
+                              cellspacing="0"
+                              style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                            >
+                              <tbody>
+                                <tr>
+                                  <td
+                                    style="font-size: 13px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: white;width: 16px;height: 16px;"
+                                  >
+                                    ✓
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                          <td
+                            style="font-size: 14px;padding: 8px 8px 8px 0;"
+                          >
+                            eggs
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      style="margin: 0px;padding: 4px 8px 4px 0;border-spacing: 0px;width: 100%;"
+    >
+      <tbody>
+        <tr>
+          <td
+            style=""
+          >
+            <table
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;background-color: #EBECF0;border-radius: 3px;"
+            >
+              <tbody>
+                <tr>
+                  <td
+                    style=""
+                  >
+                    <table
+                      border="0"
+                      cellpadding="0"
+                      cellspacing="0"
+                      style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                    >
+                      <tbody>
+                        <tr>
+                          <td
+                            style="vertical-align: top;padding: 10px;width: 16px;height: 16px;"
+                          >
+                            <table
+                              border="0"
+                              cellpadding="0"
+                              cellspacing="0"
+                              style="margin: 0px;padding: 0px;border-spacing: 0px;width: 100%;"
+                            >
+                              <tbody>
+                                <tr>
+                                  <td
+                                    style="font-size: 13px;font-weight: 600;text-align: center;background-color: #FFFFFF;border-radius: 3px;border-style: solid;border-width: 1px;border-color: #C1C7D0;color: white;width: 16px;height: 16px;"
+                                  />
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                          <td
+                            style="font-size: 14px;padding: 8px 8px 8px 0;"
+                          >
+                            bread
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 `;
 
