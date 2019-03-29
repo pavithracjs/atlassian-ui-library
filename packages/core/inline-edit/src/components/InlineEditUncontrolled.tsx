@@ -10,7 +10,6 @@ import Button from '@atlaskit/button';
 import ConfirmIcon from '@atlaskit/icon/glyph/check';
 import CancelIcon from '@atlaskit/icon/glyph/cross';
 import Form, { Field } from '@atlaskit/form';
-import { withDefaultProps } from '@atlaskit/type-helpers';
 
 import {
   InlineEditUncontrolledProps,
@@ -37,15 +36,6 @@ interface State {
   preventFocusOnEditButton: boolean;
 }
 
-const defaultProps: Pick<
-  InlineEditUncontrolledProps,
-  'keepEditViewOpenOnBlur' | 'hideActionButtons' | 'readViewFitContainerWidth'
-> = {
-  keepEditViewOpenOnBlur: false,
-  hideActionButtons: false,
-  readViewFitContainerWidth: false,
-};
-
 /** This means that InlineDialog is only loaded if necessary */
 const InlineDialog = Loadable<InlineDialogProps, {}>({
   loader: () =>
@@ -53,7 +43,19 @@ const InlineDialog = Loadable<InlineDialogProps, {}>({
   loading: () => null,
 });
 
-class InlineEdit extends React.Component<InlineEditUncontrolledProps, State> {
+class InlineEditUncontrolled extends React.Component<
+  InlineEditUncontrolledProps,
+  State
+> {
+  static defaultProps = {
+    keepEditViewOpenOnBlur: false,
+    hideActionButtons: false,
+    readViewFitContainerWidth: false,
+    editButtonLabel: 'Edit',
+    confirmButtonLabel: 'Confirm',
+    cancelButtonLabel: 'Cancel',
+  };
+
   confirmButtonRef?: HTMLElement;
   cancelButtonRef?: HTMLElement;
   editButtonRef?: HTMLElement;
@@ -140,10 +142,11 @@ class InlineEdit extends React.Component<InlineEditUncontrolledProps, State> {
   };
 
   renderReadView = () => {
+    const { editButtonLabel, readView, readViewFitContainerWidth } = this.props;
     return (
       <ReadViewWrapper>
         <EditButton
-          aria-label="Edit"
+          aria-label={editButtonLabel}
           type="button"
           onClick={this.onReadViewClick}
           innerRef={ref => {
@@ -154,20 +157,21 @@ class InlineEdit extends React.Component<InlineEditUncontrolledProps, State> {
           onMouseEnter={() => this.setState({ onReadViewHover: true })}
           onMouseLeave={() => this.setState({ onReadViewHover: false })}
           onClick={this.onReadViewClick}
-          readViewFitContainerWidth={this.props.readViewFitContainerWidth}
+          readViewFitContainerWidth={readViewFitContainerWidth}
         >
-          {this.props.readView}
+          {readView}
         </ReadViewContentWrapper>
       </ReadViewWrapper>
     );
   };
 
   renderActionButtons = () => {
+    const { confirmButtonLabel, cancelButtonLabel } = this.props;
     return (
       <ButtonsWrapper>
         <ButtonWrapper>
           <Button
-            ariaLabel="Confirm"
+            ariaLabel={confirmButtonLabel}
             type="submit"
             iconBefore={<ConfirmIcon label="Confirm" size="small" />}
             shouldFitContainer
@@ -188,7 +192,7 @@ class InlineEdit extends React.Component<InlineEditUncontrolledProps, State> {
         </ButtonWrapper>
         <ButtonWrapper>
           <Button
-            ariaLabel="Cancel"
+            ariaLabel={cancelButtonLabel}
             iconBefore={<CancelIcon label="Cancel" size="small" />}
             onClick={this.onCancelClick}
             onMouseDown={() => {
@@ -285,11 +289,6 @@ class InlineEdit extends React.Component<InlineEditUncontrolledProps, State> {
   }
 }
 
-export const InlineEditWithoutAnalytics = withDefaultProps(
-  defaultProps,
-  InlineEdit,
-);
-
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export default withAnalyticsContext({
@@ -330,5 +329,5 @@ export default withAnalyticsContext({
         packageVersion,
       },
     }),
-  })(InlineEdit),
+  })(InlineEditUncontrolled),
 );

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { withDefaultProps } from '@atlaskit/type-helpers';
 
 import InlineEditUncontrolled from './InlineEditUncontrolled';
 import { InlineEditProps } from '../types';
@@ -8,20 +7,17 @@ type State = {
   isEditing: boolean;
 };
 
-const defaultProps: Pick<
-  InlineEditProps,
-  | 'keepEditViewOpenOnBlur'
-  | 'hideActionButtons'
-  | 'readViewFitContainerWidth'
-  | 'startWithEditViewOpen'
-> = {
-  keepEditViewOpenOnBlur: false,
-  hideActionButtons: false,
-  readViewFitContainerWidth: false,
-  startWithEditViewOpen: false,
-};
-
 class InlineEdit extends React.Component<InlineEditProps, State> {
+  static defaultProps = {
+    keepEditViewOpenOnBlur: false,
+    hideActionButtons: false,
+    readViewFitContainerWidth: false,
+    startWithEditViewOpen: false,
+    editButtonLabel: 'Edit',
+    confirmButtonLabel: 'Confirm',
+    cancelButtonLabel: 'Cancel',
+  };
+
   editViewRef: HTMLElement | undefined;
 
   state = {
@@ -77,4 +73,4 @@ class InlineEdit extends React.Component<InlineEditProps, State> {
   }
 }
 
-export default withDefaultProps(defaultProps, InlineEdit);
+export default InlineEdit;

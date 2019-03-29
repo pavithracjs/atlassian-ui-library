@@ -1,6 +1,5 @@
 import * as React from 'react';
 import TextField from '@atlaskit/textfield';
-import { withDefaultProps } from '@atlaskit/type-helpers';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
 import { colors } from '@atlaskit/theme';
 
@@ -8,27 +7,19 @@ import InlineEdit from './InlineEdit';
 import ReadViewContainer from '../styled/ReadViewContainer';
 import { InlineEditableTextfieldProps } from '../types';
 
-const defaultProps: Pick<
-  InlineEditableTextfieldProps,
-  | 'keepEditViewOpenOnBlur'
-  | 'hideActionButtons'
-  | 'readViewFitContainerWidth'
-  | 'emptyValueText'
-  | 'startWithEditViewOpen'
-> = {
-  keepEditViewOpenOnBlur: false,
-  hideActionButtons: false,
-  readViewFitContainerWidth: false,
-  emptyValueText: 'Click to enter text',
-  startWithEditViewOpen: false,
-};
-
 class InlineEditableTextfield extends React.Component<
   InlineEditableTextfieldProps,
   {}
 > {
-  onConfirm = (value: string) => {
-    this.props.onConfirm(value);
+  static defaultProps = {
+    keepEditViewOpenOnBlur: false,
+    hideActionButtons: false,
+    readViewFitContainerWidth: false,
+    emptyValueText: 'Click to enter text',
+    startWithEditViewOpen: false,
+    editButtonLabel: 'Edit',
+    confirmButtonLabel: 'Confirm',
+    cancelButtonLabel: 'Cancel',
   };
 
   render() {
@@ -54,11 +45,11 @@ class InlineEditableTextfield extends React.Component<
             {defaultValue || emptyValueText}
           </ReadViewContainer>
         }
-        onConfirm={this.onConfirm}
+        onConfirm={this.props.onConfirm}
         startWithEditViewOpen={startWithEditViewOpen}
       />
     );
   }
 }
 
-export default withDefaultProps(defaultProps, InlineEditableTextfield);
+export default InlineEditableTextfield;

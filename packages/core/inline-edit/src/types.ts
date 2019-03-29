@@ -17,6 +17,12 @@ interface CommonProps {
   hideActionButtons: boolean;
   /** Determines whether the read view has 100% width within its container, or whether it fits the content. (Optional) */
   readViewFitContainerWidth: boolean;
+  /** Accessibility label for button which is used to enter edit view from keyboard. */
+  editButtonLabel: string;
+  /** Accessibility label for the confirm action button. */
+  confirmButtonLabel: string;
+  /** Accessibility label for the cancel action button. */
+  cancelButtonLabel: string;
 }
 
 export interface InlineEditUncontrolledProps extends CommonProps {
