@@ -1,16 +1,21 @@
 import * as React from 'react';
 import { v4 as uuid } from 'uuid';
 import { Subscription } from 'rxjs/Subscription';
+import {
+  intlShape,
+  IntlProvider,
+  injectIntl,
+  InjectedIntlProps,
+} from 'react-intl';
+
 import { Context, UploadableFile, FileIdentifier } from '@atlaskit/media-core';
 import { messages, Shortcut } from '@atlaskit/media-ui';
 import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
 import Spinner from '@atlaskit/spinner';
 
-import { intlShape, IntlProvider } from 'react-intl';
 import EditorView from './editorView/editorView';
 import { Blanket, SpinnerWrapper } from './styled';
 import { fileToBase64 } from '../util';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
 import ErrorView from './editorView/errorView/errorView';
 import { Dimensions } from '../common';
 
@@ -156,18 +161,20 @@ export class SmartMediaEditor extends React.Component<
       intl: { formatMessage },
     } = this.props;
 
-    const { collectionName, occurrenceKey } = identifier;
+    const { collectionName } = identifier;
     const uploadableFile: UploadableFile = {
       content: imageData,
       collection: collectionName,
-      name: fileName,
+      name: fileName ? fileName + '.png' : 'annotated-image.png',
     };
     const id = uuid();
+    const occurrenceKey = uuid();
     const touchedFiles = context.file.touchFiles(
       [
         {
           fileId: id,
           collection: collectionName,
+          occurrenceKey,
         },
       ],
       collectionName,
@@ -205,6 +212,7 @@ export class SmartMediaEditor extends React.Component<
       id,
       collectionName,
       mediaItemType: 'file',
+      occurrenceKey,
     };
     onUploadStart(newFileIdentifier, dimensions);
   };
