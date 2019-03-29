@@ -1,7 +1,6 @@
 import fetch, { Response } from 'node-fetch';
 import urlParse from 'url-parse';
 import envWithGuard from '../util/env-with-guard';
-import btoa from 'btoa-lite';
 import {
   InsightsReportResults,
   InsightsReport,
@@ -89,7 +88,10 @@ export default class BitbucketServerReporter implements GitReporter {
     if (this.token !== null) {
       return `Bearer ${this.token}`;
     } else if (this.userName !== null && this.password !== null) {
-      return 'Basic ' + btoa(`${this.userName}:${this.password}`);
+      return (
+        'Basic ' +
+        new Buffer(`${this.userName}:${this.password}`).toString('base64')
+      );
     }
 
     throw new Error(

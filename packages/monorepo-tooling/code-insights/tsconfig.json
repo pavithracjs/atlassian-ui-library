@@ -24,7 +24,6 @@
   "include": [
     "./src/**/*.ts",
     "./typings/yarnpkg-lockfile.d.ts",
-    "./typings/projector-spawn.d.ts",
-    "./typings/btoa-lite.d.ts"
+    "./typings/projector-spawn.d.ts"
   ],
 }
