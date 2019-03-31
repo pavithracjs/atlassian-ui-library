@@ -44,6 +44,50 @@ type PastePayloadAttributes = {
   source: PasteSource;
 };
 
+const contentToPasteContent: { [name: string]: PasteContent } = {
+  url: PasteContents.url,
+  paragraph: PasteContents.text,
+  bulletList: PasteContents.bulletList,
+  orderedList: PasteContents.orderedList,
+  heading: PasteContents.heading,
+  blockquote: PasteContents.blockquote,
+  codeBlock: PasteContents.codeBlock,
+  panel: PasteContents.panel,
+  rule: PasteContents.rule,
+  mediaSingle: PasteContents.mediaSingle,
+  table: PasteContents.table,
+  tableCells: PasteContents.tableCells,
+  tableHeader: PasteContents.tableHeader,
+  tableRow: PasteContents.tableRow,
+  decisionList: PasteContents.decisionList,
+  decisionItem: PasteContents.decisionItem,
+  taskList: PasteContents.taskItem,
+  extension: PasteContents.extension,
+  bodiedExtension: PasteContents.bodiedExtension,
+  blockCard: PasteContents.blockCard,
+};
+
+const nodeToActionSubjectId: { [name: string]: PASTE_ACTION_SUBJECT_ID } = {
+  blockquote: ACTION_SUBJECT_ID.PASTE_BLOCKQUOTE,
+  blockCard: ACTION_SUBJECT_ID.PASTE_BLOCK_CARD,
+  bodiedExtension: ACTION_SUBJECT_ID.PASTE_BODIED_EXTENSION,
+  bulletList: ACTION_SUBJECT_ID.PASTE_BULLET_LIST,
+  codeBlock: ACTION_SUBJECT_ID.PASTE_CODE_BLOCK,
+  decisionList: ACTION_SUBJECT_ID.PASTE_DECISION_LIST,
+  extension: ACTION_SUBJECT_ID.PASTE_EXTENSION,
+  heading: ACTION_SUBJECT_ID.PASTE_HEADING,
+  mediaGroup: ACTION_SUBJECT_ID.PASTE_MEDIA_GROUP,
+  mediaSingle: ACTION_SUBJECT_ID.PASTE_MEDIA_SINGLE,
+  orderedList: ACTION_SUBJECT_ID.PASTE_ORDERED_LIST,
+  panel: ACTION_SUBJECT_ID.PASTE_PANEL,
+  rule: ACTION_SUBJECT_ID.PASTE_RULE,
+  table: ACTION_SUBJECT_ID.PASTE_TABLE,
+  tableCell: ACTION_SUBJECT_ID.PASTE_TABLE_CELL,
+  tableHeader: ACTION_SUBJECT_ID.PASTE_TABLE_HEADER,
+  tableRow: ACTION_SUBJECT_ID.PASTE_TABLE_ROW,
+  taskList: ACTION_SUBJECT_ID.PASTE_TASK_LIST,
+};
+
 function getContent(state: EditorState, slice: Slice): PasteContent {
   const {
     schema: {
@@ -72,71 +116,9 @@ function getContent(state: EditorState, slice: Slice): PasteContent {
   }
 
   const type = nodeOrMarkName.values().next().value;
-  switch (type) {
-    case 'url': {
-      return PasteContents.url;
-    }
-    case 'paragraph': {
-      return PasteContents.text;
-    }
-    case 'bulletList': {
-      return PasteContents.bulletList;
-    }
-    case 'orderedList': {
-      return PasteContents.orderedList;
-    }
-    case 'heading': {
-      return PasteContents.heading;
-    }
-    case 'blockquote': {
-      return PasteContents.blockquote;
-    }
-    case 'codeBlock': {
-      return PasteContents.codeBlock;
-    }
-    case 'panel': {
-      return PasteContents.panel;
-    }
-    case 'rule': {
-      return PasteContents.rule;
-    }
-    case 'mediaSingle': {
-      return PasteContents.mediaSingle;
-    }
-    case 'table': {
-      return PasteContents.table;
-    }
-    case 'tableCells': {
-      return PasteContents.tableCells;
-    }
-    case 'tableHeader': {
-      return PasteContents.tableHeader;
-    }
-    case 'tableRow': {
-      return PasteContents.tableRow;
-    }
-    case 'decisionList': {
-      return PasteContents.decisionList;
-    }
-    case 'decisionItem': {
-      return PasteContents.decisionItem;
-    }
-    case 'taskList': {
-      return PasteContents.taskItem;
-    }
-    case 'extension': {
-      return PasteContents.extension;
-    }
-    case 'bodiedExtension': {
-      return PasteContents.bodiedExtension;
-    }
-    case 'blockCard': {
-      return PasteContents.blockCard;
-    }
-    default: {
-      return PasteContents.uncategorized;
-    }
-  }
+  const pasteContent = contentToPasteContent[type];
+
+  return pasteContent ? pasteContent : PasteContents.uncategorized;
 }
 
 function getActionSubjectId(view: EditorView): PASTE_ACTION_SUBJECT_ID {
@@ -164,65 +146,9 @@ function getActionSubjectId(view: EditorView): PASTE_ACTION_SUBJECT_ID {
     return ACTION_SUBJECT_ID.PASTE_PARAGRAPH;
   }
   const parentType = parent.node.type;
-  switch (parentType.name) {
-    case 'blockquote': {
-      return ACTION_SUBJECT_ID.PASTE_BLOCKQUOTE;
-    }
-    case 'blockCard': {
-      return ACTION_SUBJECT_ID.PASTE_BLOCK_CARD;
-    }
-    case 'bodiedExtension': {
-      return ACTION_SUBJECT_ID.PASTE_BODIED_EXTENSION;
-    }
-    case 'bulletList': {
-      return ACTION_SUBJECT_ID.PASTE_BULLET_LIST;
-    }
-    case 'codeBlock': {
-      return ACTION_SUBJECT_ID.PASTE_CODE_BLOCK;
-    }
-    case 'decisionList': {
-      return ACTION_SUBJECT_ID.PASTE_DECISION_LIST;
-    }
-    case 'extension': {
-      return ACTION_SUBJECT_ID.PASTE_EXTENSION;
-    }
-    case 'heading': {
-      return ACTION_SUBJECT_ID.PASTE_HEADING;
-    }
-    case 'mediaGroup': {
-      return ACTION_SUBJECT_ID.PASTE_MEDIA_GROUP;
-    }
-    case 'mediaSingle': {
-      return ACTION_SUBJECT_ID.PASTE_MEDIA_SINGLE;
-    }
-    case 'orderedList': {
-      return ACTION_SUBJECT_ID.PASTE_ORDERED_LIST;
-    }
-    case 'panel': {
-      return ACTION_SUBJECT_ID.PASTE_PANEL;
-    }
-    case 'rule': {
-      return ACTION_SUBJECT_ID.PASTE_RULE;
-    }
-    case 'table': {
-      return ACTION_SUBJECT_ID.PASTE_TABLE;
-    }
-    case 'tableCell': {
-      return ACTION_SUBJECT_ID.PASTE_TABLE_CELL;
-    }
-    case 'tableHeader': {
-      return ACTION_SUBJECT_ID.PASTE_TABLE_HEADER;
-    }
-    case 'tableRow': {
-      return ACTION_SUBJECT_ID.PASTE_TABLE_ROW;
-    }
-    case 'taskList': {
-      return ACTION_SUBJECT_ID.PASTE_TASK_LIST;
-    }
-    default: {
-      return ACTION_SUBJECT_ID.PASTE_PARAGRAPH;
-    }
-  }
+  const actionSubjectId = nodeToActionSubjectId[parentType.name];
+
+  return actionSubjectId ? actionSubjectId : ACTION_SUBJECT_ID.PASTE_PARAGRAPH;
 }
 
 function createPasteAsPlainPayload(
