@@ -316,13 +316,24 @@ export class Card extends Component<CardProps, CardState> {
       this.setState({
         isPlayingFile: true,
       });
-    } else if (shouldOpenMediaViewer && identifier.mediaItemType === 'file') {
-      const mediaViewerSelectedItem: FileIdentifier = {
-        id: await identifier.id,
-        mediaItemType: 'file',
-        collectionName: identifier.collectionName,
-        occurrenceKey: identifier.occurrenceKey,
-      };
+    } else if (shouldOpenMediaViewer) {
+      let mediaViewerSelectedItem: Identifier | undefined;
+
+      if (isFileIdentifier(identifier)) {
+        mediaViewerSelectedItem = {
+          id: await identifier.id,
+          mediaItemType: 'file',
+          collectionName: identifier.collectionName,
+          occurrenceKey: identifier.occurrenceKey,
+        };
+      } else {
+        mediaViewerSelectedItem = {
+          mediaItemType: 'external-image',
+          dataURI: identifier.dataURI,
+          name: identifier.name,
+        };
+      }
+
       this.setState({
         mediaViewerSelectedItem,
       });
