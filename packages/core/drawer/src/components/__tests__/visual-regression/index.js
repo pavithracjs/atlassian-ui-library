@@ -35,7 +35,7 @@ describe('Snapshot Test', () => {
       global.__BASEURL__,
     );
     const { page } = global;
-    const button = 'button';
+    const button = '#button';
     await page.goto(url);
 
     await page.click(button);
