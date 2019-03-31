@@ -31,7 +31,7 @@ describe('Snapshot Test', () => {
     const url = getExampleUrl(
       'core',
       'drawer',
-      'themed-drawer-with-search-items',
+      'themed-drawer-with-search',
       global.__BASEURL__,
     );
     const { page } = global;
