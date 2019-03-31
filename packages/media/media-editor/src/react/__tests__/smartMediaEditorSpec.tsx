@@ -23,6 +23,7 @@ import {
   SmartMediaEditor,
   SmartMediaEditorProps,
   SmartMediaEditorState,
+  convertFileNameToPng,
 } from '../smartMediaEditor';
 
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -399,6 +400,40 @@ describe('Smart Media Editor', () => {
       expect(onFinish).not.toHaveBeenCalled();
       modalDialog = component.find(ModalDialog);
       expect(modalDialog).toHaveLength(0);
+    });
+  });
+
+  describe('#convertFileNameToPng()', () => {
+    it('should return default value if undefined', () => {
+      expect(convertFileNameToPng(undefined)).toEqual('annotated-image.png');
+    });
+
+    it('should return default value if empty', () => {
+      expect(convertFileNameToPng('')).toEqual('annotated-image.png');
+    });
+
+    it('should replace anything that looks like an extension with .png', () => {
+      expect(convertFileNameToPng('some.image')).toEqual('some.png');
+    });
+
+    it('should replace anything that looks like an extension with .png if starts with a dot', () => {
+      expect(convertFileNameToPng('.some.other.image')).toEqual(
+        '.some.other.png',
+      );
+    });
+
+    it('should append .png if nothing looks like an extension', () => {
+      expect(convertFileNameToPng('somethingElse')).toEqual(
+        'somethingElse.png',
+      );
+    });
+
+    it('should append .png if nothing looks like an extension if starts with a dot', () => {
+      expect(convertFileNameToPng('.some')).toEqual('.some.png');
+    });
+
+    it('should append .png if nothing looks like an extension if ends with a dot', () => {
+      expect(convertFileNameToPng('.some.stuff.')).toEqual('.some.stuff.png');
     });
   });
 });

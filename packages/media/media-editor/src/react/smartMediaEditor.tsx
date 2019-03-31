@@ -19,15 +19,18 @@ import { fileToBase64 } from '../util';
 import ErrorView from './editorView/errorView/errorView';
 import { Dimensions } from '../common';
 
-const convertFileNameToPng = (fileName?: string) => {
+export const convertFileNameToPng = (fileName?: string) => {
   if (!fileName) {
     return 'annotated-image.png';
   }
   if (fileName.endsWith('.png')) {
     return fileName;
   } else {
-    // because the logic for determining what is actually a file extension in the file name would be too complicated
-    return `${fileName}.png`;
+    if (fileName.lastIndexOf('.') === 0 || fileName.lastIndexOf('.') === -1) {
+      return `${fileName}.png`;
+    } else {
+      return `${fileName.substring(0, fileName.lastIndexOf('.'))}.png`;
+    }
   }
 };
 
