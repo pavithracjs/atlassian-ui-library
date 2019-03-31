@@ -40,31 +40,30 @@ interface ExpandLinkProps {
   href: string;
 }
 
-export default ({ title, href }: ExpandLinkProps) => (
-  <FormattedMessage {...messages.expand}>
-    {translatedString => (
-      <SectionTitleWrapper>
-        <SectionTitleBlock>{title}</SectionTitleBlock>
-        <SectionTitleBlock>
-          <Button
-            appearance="link"
-            spacing="compact"
-            iconAfter={
-              <ShortcutIcon
-                size="small"
-                label={
-                  typeof translatedString === 'string'
-                    ? translatedString
-                    : 'Expand'
-                }
-              />
-            }
-            href={href}
-          >
-            <ExpandText>{translatedString}</ExpandText>
-          </Button>
-        </SectionTitleBlock>
-      </SectionTitleWrapper>
-    )}
-  </FormattedMessage>
-);
+export default ({ title, href }: ExpandLinkProps) => {
+  const translatedString = <FormattedMessage {...messages.expand} />;
+  return (
+    <SectionTitleWrapper>
+      <SectionTitleBlock>{title}</SectionTitleBlock>
+      <SectionTitleBlock>
+        <Button
+          appearance="link"
+          spacing="compact"
+          iconAfter={
+            <ShortcutIcon
+              size="small"
+              label={
+                typeof translatedString === 'string'
+                  ? translatedString
+                  : 'Expand'
+              }
+            />
+          }
+          href={href}
+        >
+          <ExpandText>{translatedString}</ExpandText>
+        </Button>
+      </SectionTitleBlock>
+    </SectionTitleWrapper>
+  );
+};
