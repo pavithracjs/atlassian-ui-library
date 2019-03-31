@@ -219,9 +219,9 @@ export function createPasteAnalyticsPayload(
   });
 }
 
-// TODO: We should not dispatch only analytics, it's preferred to wrap each command with his own analytics.
-// However, must of the command used in paste, dispatch multiple time,
-// so it makes hard to wrap each command into his own analytics.
+// TODO: ED-6612 We should not dispatch only analytics, it's preferred to wrap each command with his own analytics.
+// However, handlers like handleMacroAutoConvert dispatch multiple time,
+// so pasteCommandWithAnalytics is useless in this case.
 export function sendPasteAnalyticsEvent(
   view: EditorView,
   event: ClipboardEvent,
