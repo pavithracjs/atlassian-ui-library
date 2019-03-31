@@ -37,6 +37,7 @@ describe('Snapshot Test', () => {
     const { page } = global;
     const button = '#button';
     await page.goto(url);
+    await page.waitForSelector(button);
 
     await page.click(button);
     await page.waitFor(300);
