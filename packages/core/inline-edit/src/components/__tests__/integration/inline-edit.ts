@@ -29,8 +29,12 @@ BrowserTestCase(
     await inlineEditTest.waitForSelector(input);
     await inlineEditTest.keys(['Enter']);
 
-    await inlineEditTest.waitForSelector(editButton);
-    expect(await inlineEditTest.hasFocus(editButton)).toBe(true);
+    await inlineEditTest.waitForSelector(readViewContentWrapper);
+    const borderProperty = await inlineEditTest.getProperty(
+      readViewContentWrapper,
+      'border',
+    );
+    expect(borderProperty.value).toBe('2px solid rgb(76, 154, 255)');
     await inlineEditTest.checkConsoleErrors();
   },
 );
@@ -48,8 +52,12 @@ BrowserTestCase(
     await inlineEditTest.waitForSelector(input);
     await inlineEditTest.keys(['Escape']);
 
-    await inlineEditTest.waitForSelector(editButton);
-    expect(await inlineEditTest.hasFocus(editButton)).toBe(true);
+    await inlineEditTest.waitForSelector(readViewContentWrapper);
+    const borderProperty = await inlineEditTest.getProperty(
+      readViewContentWrapper,
+      'border',
+    );
+    expect(borderProperty.value).toBe('2px solid rgb(76, 154, 255)');
     await inlineEditTest.checkConsoleErrors();
   },
 );
@@ -67,8 +75,12 @@ BrowserTestCase(
     await inlineEditTest.waitForSelector(confirmButton);
     await inlineEditTest.click(confirmButton);
 
-    await inlineEditTest.waitForSelector(editButton);
-    expect(await inlineEditTest.hasFocus(editButton)).toBe(false);
+    await inlineEditTest.waitForSelector(readViewContentWrapper);
+    const borderProperty = await inlineEditTest.getProperty(
+      readViewContentWrapper,
+      'border',
+    );
+    expect(borderProperty.value).toBe('2px solid rgba(0, 0, 0, 0)');
     await inlineEditTest.checkConsoleErrors();
   },
 );
@@ -86,8 +98,12 @@ BrowserTestCase(
     await inlineEditTest.waitForSelector(cancelButton);
     await inlineEditTest.click(cancelButton);
 
-    await inlineEditTest.waitForSelector(editButton);
-    expect(await inlineEditTest.hasFocus(editButton)).toBe(false);
+    await inlineEditTest.waitForSelector(readViewContentWrapper);
+    const borderProperty = await inlineEditTest.getProperty(
+      readViewContentWrapper,
+      'border',
+    );
+    expect(borderProperty.value).toBe('2px solid rgba(0, 0, 0, 0)');
     await inlineEditTest.checkConsoleErrors();
   },
 );

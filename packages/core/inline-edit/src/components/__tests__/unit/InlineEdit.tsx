@@ -259,7 +259,7 @@ describe('@atlaskit/inline-edit', () => {
       <InlineEdit
         onConfirm={noop}
         defaultValue=""
-        readView={<div id="test" />}
+        readView={() => <div id="test" />}
         editView={() => <div />}
       />,
     );
@@ -271,7 +271,7 @@ describe('@atlaskit/inline-edit', () => {
       <InlineEdit
         onConfirm={noop}
         defaultValue=""
-        readView={<div />}
+        readView={() => <div />}
         editView={() => <div id="test" />}
         startWithEditViewOpen
       />,
