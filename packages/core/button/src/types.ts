@@ -25,7 +25,7 @@ export type ButtonProps = {
   /** Add a classname to the button. */
   className?: string;
   /** A custom component to use instead of the default button. */
-  component?: React.ComponentType;
+  component?: React.ComponentType<any>;
   /** Name property of a linked form that the button submits when clicked. */
   form?: string;
   /** Provides a url for buttons being used as a link. */
@@ -67,6 +67,7 @@ export type ButtonProps = {
   tabIndex?: number;
   /** Pass target down to a link within the button component, if a href is provided. */
   target?: string;
+  title?: string;
   /** Set whether it is a button or a form submission. */
   type: 'button' | 'submit' | 'reset';
   /** Option to fit button width to its parent width */

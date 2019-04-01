@@ -15,6 +15,7 @@ import {
   customTitle,
   userCustomTitle,
 } from '../../../../constants';
+import { EmojiDescription } from '../../../../types';
 import * as ImageUtil from '../../../../util/image';
 import {
   createPngFile,
@@ -56,7 +57,7 @@ describe('<UploadingEmojiPicker />', () => {
     const uploadPreviewEmoji = uploadPreview.find(Emoji);
     // Should show two emoji in EmojiUploadPrevew
     expect(uploadPreviewEmoji).toHaveLength(2);
-    let emoji = uploadPreviewEmoji.at(0).prop('emoji');
+    const emoji: EmojiDescription = uploadPreviewEmoji.at(0).prop('emoji');
     expect(emoji.shortName).toEqual(':cheese_burger:');
     expect((emoji.representation as any).imagePath).toEqual(pngDataURL);
   };

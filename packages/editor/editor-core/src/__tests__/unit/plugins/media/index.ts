@@ -75,7 +75,7 @@ describe('Media plugin', () => {
   const providerFactory = ProviderFactory.create({ mediaProvider });
 
   let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
-  const mediaPluginOptions = dropzoneContainer => ({
+  const mediaPluginOptions = (dropzoneContainer: HTMLElement) => ({
     provider: mediaProvider,
     allowMediaSingle: true,
     customDropzoneContainer: dropzoneContainer,

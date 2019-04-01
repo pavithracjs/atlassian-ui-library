@@ -3,7 +3,7 @@ import { selectors } from '../../__helpers/page-objects/_editor';
 import * as adf from './__fixtures__/hyperlink-adf.json';
 
 describe('Hyperlink:', () => {
-  let page;
+  let page: any;
 
   beforeAll(async () => {
     // @ts-ignore

@@ -1,5 +1,5 @@
 import { name } from '../../../version.json';
-import { shallow } from 'enzyme';
+import { shallow, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import { TextSelection } from 'prosemirror-state';
 import { ProviderFactory } from '@atlaskit/editor-common';
@@ -252,8 +252,8 @@ describe(name, () => {
         editor.view.dispatch(invalidTr);
       };
 
-      let wrapper;
-      let editor;
+      let wrapper: ReactWrapper;
+      let editor: any;
       let invalidTr;
 
       beforeEach(() => {
@@ -605,7 +605,7 @@ describe(name, () => {
         jest
           .spyOn(AnalyticsPlugin, 'fireAnalyticsEvent')
           .mockReturnValue(() => null);
-        let dispatch;
+        let dispatch: undefined | ((payload: AnalyticsEventPayload) => void);
         const wrapper = mountWithIntl(
           <ReactEditorView
             editorProps={{}}
@@ -630,7 +630,7 @@ describe(name, () => {
         jest.spyOn(eventDispatcher, 'emit');
 
         return {
-          dispatch,
+          dispatch: dispatch!,
           eventDispatcher,
         };
       }
