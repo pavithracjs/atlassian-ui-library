@@ -262,7 +262,7 @@ class InlineEditUncontrolled extends React.Component<
                       {validate && (
                         <InlineDialog
                           isOpen={fieldProps.isInvalid}
-                          content={error}
+                          content={<div id="error-message">{error}</div>}
                           placement="right"
                         >
                           <InlineDialogChild />

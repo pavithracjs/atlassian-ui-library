@@ -228,8 +228,6 @@ describe('@atlaskit/inline-edit core', () => {
     expect(wrapper.find('button[aria-label="test-confirm"]').length).toBe(1);
     expect(wrapper.find('button[aria-label="test-cancel"]').length).toBe(1);
   });
-
-  // it('validation');
 });
 
 describe('@atlaskit/inline-editable-textfield', () => {

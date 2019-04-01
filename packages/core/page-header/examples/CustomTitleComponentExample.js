@@ -88,7 +88,7 @@ class CustomTitleComponent extends Component<{}, State> {
     return (
       <InlineEdit
         isEditing={this.state.isEditing}
-        readView={<ReadView>Editable title</ReadView>}
+        readView={() => <ReadView>Editable title</ReadView>}
         editView={fieldProps => (
           <EditView
             {...fieldProps}

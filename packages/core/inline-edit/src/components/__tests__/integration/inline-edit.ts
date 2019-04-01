@@ -9,21 +9,15 @@ const inlineEditExampleUrl = getExampleUrl(
   'basic-usage',
 );
 
+const validationExampleUrl = getExampleUrl('core', 'inline-edit', 'validation');
+
 /* Css selectors used for the inline edit tests */
 const readViewContentWrapper = 'button[aria-label="Edit"] + div';
 const input = 'input';
-const editButton = 'button[aria-label="Edit"]';
+// const editButton = 'button[aria-label="Edit"]';
 const confirmButton = 'button[aria-label="Confirm"]';
 const cancelButton = 'button[aria-label="Cancel"]';
-
-const inlineEditableTextfieldUrl = getExampleUrl(
-  'core',
-  'inline-edit',
-  'inline-editable-textfield',
-);
-
-/** Css selectors used for the inline editable textfield tests */
-const openInput = 'div#examples > div > form:nth-child(2) input';
+const errorMessage = 'div#error-message';
 
 // BrowserTestCase(
 //   'The edit button should have focus after edit is confirmed by pressing Enter',
@@ -126,6 +120,33 @@ BrowserTestCase(
     await inlineEditTest.waitForSelector(cancelButton);
     expect(await inlineEditTest.hasFocus(cancelButton)).toBe(true);
     expect(await inlineEditTest.isVisible(input)).toBe(true);
+
+    await inlineEditTest.checkConsoleErrors();
+  },
+);
+
+BrowserTestCase(
+  'An error message is displayed correctly',
+  { skip: [] },
+  async (client: any) => {
+    const inlineEditTest = new Page(client);
+    await inlineEditTest.goto(validationExampleUrl);
+
+    await inlineEditTest.waitForSelector(readViewContentWrapper);
+    await inlineEditTest.click(readViewContentWrapper);
+
+    await inlineEditTest.waitForSelector(input);
+    await inlineEditTest.click('input');
+    await inlineEditTest.keys([
+      'Backspace',
+      'Backspace',
+      'Backspace',
+      'Backspace',
+      'Backspace',
+    ]);
+    await client.pause(2500);
+    await inlineEditTest.waitForSelector(errorMessage);
+    expect(await inlineEditTest.isVisible(errorMessage));
 
     await inlineEditTest.checkConsoleErrors();
   },
