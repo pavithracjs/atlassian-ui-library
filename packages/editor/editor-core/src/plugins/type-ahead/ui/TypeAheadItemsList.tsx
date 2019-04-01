@@ -53,20 +53,20 @@ const ItemBody = styled.div`
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
+  line-height: 1.4;
 `;
 
 const ItemText = styled.div`
   white-space: initial;
   .item-description {
-    font-size: 12px;
+    font-size: 11.67px;
     color: ${colors.N200};
+    margin-top: 4px;
   }
 `;
 
 const ItemAfter = styled.div`
-  text-align: top;
   min-width: 12px;
-  padding-left: 8px;
 `;
 
 const KeyHint = styled.div`
@@ -75,7 +75,7 @@ const KeyHint = styled.div`
   border-radius: ${borderRadius()}px;
   padding: 4px;
   line-height: 12px;
-  font-size: 12px;
+  font-size: 11.67px;
   align-self: flex-end;
 `;
 
