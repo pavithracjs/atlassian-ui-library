@@ -416,11 +416,15 @@ export class Card extends Component<CardProps, CardState> {
   renderMediaViewer = () => {
     const { mediaViewerSelectedItem } = this.state;
     const { context, identifier } = this.props;
-    if (!mediaViewerSelectedItem || identifier.mediaItemType !== 'file') {
+    if (!mediaViewerSelectedItem) {
       return;
     }
 
-    const { collectionName = '' } = identifier;
+    const collectionName = isFileIdentifier(identifier)
+      ? identifier.collectionName
+        ? identifier.collectionName
+        : ''
+      : '';
     const dataSource = this.getMediaViewerDataSource();
 
     return ReactDOM.createPortal(
