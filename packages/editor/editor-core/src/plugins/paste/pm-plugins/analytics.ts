@@ -97,6 +97,11 @@ function getContent(state: EditorState, slice: Slice): PasteContent {
   } = state;
   const nodeOrMarkName = new Set<string>();
   slice.content.forEach((node: Node) => {
+    if (node.type === paragraph && node.content.size === 0) {
+      // Skip empty paragraph
+      return;
+    }
+
     if (node.type === paragraph) {
       if (node.rangeHasMark(0, node.nodeSize - 2, link)) {
         // Check node contain link

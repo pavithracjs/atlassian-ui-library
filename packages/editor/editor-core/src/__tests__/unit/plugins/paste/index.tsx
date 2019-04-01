@@ -1030,7 +1030,7 @@ describe('paste plugins', () => {
           actionSubjectId: actionSubjectId,
           eventType: 'track',
           attributes: expect.objectContaining({
-            content: 'mixed', // Paste code also append a paragraph :(
+            content: 'codeBlock',
             inputMethod: 'keyboard',
             source: 'uncategorized',
             type: 'richText',
