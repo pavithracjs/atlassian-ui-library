@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 44.7.0
+- [minor] [001fa9a7d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/001fa9a7d0):
+
+  - render adf - email actions and decisions
+
 ## 44.6.1
 - [patch] [106d046114](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/106d046114):
 

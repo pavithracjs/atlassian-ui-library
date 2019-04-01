@@ -10,6 +10,8 @@ import * as inlineCodeProps from '../../__fixtures__/inline-code-props.adf.json'
 import * as inlineTextProps from '../../__fixtures__/inline-text-props.adf.json';
 import * as panels from '../../__fixtures__/panels.adf.json';
 import * as link from '../../__fixtures__/link.adf.json';
+import * as decisionList from '../../__fixtures__/decision-list.adf.json';
+import * as taskList from '../../__fixtures__/task-list.adf.json';
 import * as blockCards from '../../__fixtures__/block-cards.adf.json';
 import * as inlineCards from '../../__fixtures__/inline-cards.adf.json';
 import * as status from '../../__fixtures__/status.adf.json';
@@ -67,6 +69,16 @@ describe('Renderer - EmailSerializer', () => {
 
   it('should render media group correctly', () => {
     const output = render(mediaGroup);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render decision list correctly', () => {
+    const output = render(decisionList);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render task list correctly', () => {
+    const output = render(taskList);
     expect(output).toMatchSnapshot();
   });
 

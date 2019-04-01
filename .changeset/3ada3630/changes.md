@@ -1,0 +1,1 @@
+- Fix missing annotated images in recent uploads within media picker
