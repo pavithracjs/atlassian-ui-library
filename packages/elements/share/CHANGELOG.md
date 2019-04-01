@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.2.8
+- [patch] [13d9986e40](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13d9986e40):
+
+  - fixed dialogue header font settings
+
 ## 0.2.7
 - [patch] [26a3d443e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/26a3d443e2):
 

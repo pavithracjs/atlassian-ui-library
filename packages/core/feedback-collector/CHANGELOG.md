@@ -1,5 +1,10 @@
 # @atlaskit/feedback-collector
 
+## 3.0.3
+- [patch] [4c6816d81b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c6816d81b):
+
+  - Fix type from typeFiedlId to typeFieldId
+
 ## 3.0.2
 - Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
   - @atlaskit/form@5.2.4

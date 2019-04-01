@@ -1,5 +1,10 @@
 # @atlaskit/code-insights
 
+## 1.1.0
+- [minor] [f782c6a37d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f782c6a37d):
+
+  - Add basicAuth support for bitbucket-server reporter
+
 ## 1.0.1
 - [patch] [353aa4a2dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/353aa4a2dd):
 
