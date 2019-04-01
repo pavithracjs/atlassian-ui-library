@@ -1,1 +1,0 @@
-- Adding expand link support to Atlassian Switcher
