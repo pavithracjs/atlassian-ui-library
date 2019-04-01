@@ -93,7 +93,11 @@ const buildUserQuery = (cloudId: string, userId: string) => ({
  * @param {string} userId
  * @param {string} cloudId
  */
-const requestService = (serviceUrl, cloudId, userId): Promise<any> => {
+const requestService = (
+  serviceUrl: string,
+  cloudId: string,
+  userId: string,
+): Promise<any> => {
   const headers = buildHeaders();
   const userQuery = buildUserQuery(cloudId, userId);
 

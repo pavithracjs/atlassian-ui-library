@@ -63,7 +63,6 @@ class ProfilecardTrigger extends React.Component<
     this._isMounted = true;
   }
 
-  // @FIXME do we need this for the TRIGGER component?
   componentDidUpdate(prevProps: ProfileCardTriggerProps) {
     const { userId, cloudId } = this.props;
     if (userId !== prevProps.userId || cloudId !== prevProps.cloudId) {

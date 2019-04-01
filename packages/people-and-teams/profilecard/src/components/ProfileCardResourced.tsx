@@ -115,7 +115,6 @@ export default class ProfilecardResourced extends React.Component<
       );
     }
 
-    // @FIXME errors go back to static
     const newProps = {
       hasError: hasError,
       errorType: error,

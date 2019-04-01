@@ -16,7 +16,7 @@ export default function Example() {
       <MainStage>
         <ProfileCard
           avatarUrl={avatarImage}
-          fullName="Rosalyn Frankling"
+          fullName="Rosalyn Franklin"
           meta="Manager"
           nickname="rfranklin"
           email="rfranklin@acme.com"
