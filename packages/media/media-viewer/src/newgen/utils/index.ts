@@ -79,11 +79,14 @@ export const getSelectedIndex = (
 ) => {
   return items.findIndex(item => {
     if (isFileIdentifier(item) && isFileIdentifier(selectedItem)) {
-      return item.id === selectedItem.id;
+      return (
+        item.id === selectedItem.id &&
+        item.occurrenceKey === selectedItem.occurrenceKey
+      );
     }
 
     if (!isFileIdentifier(item) && !isFileIdentifier(selectedItem)) {
-      return item.dataURI === item.dataURI;
+      return item.dataURI === selectedItem.dataURI;
     }
 
     return false;
