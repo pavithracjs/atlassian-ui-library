@@ -24,6 +24,8 @@ import table from './nodes/table';
 import tableCell from './nodes/table-cell';
 import tableHeader from './nodes/table-header';
 import tableRow from './nodes/table-row';
+import taskList from './nodes/task-list';
+import taskItem from './nodes/task-item';
 import text from './nodes/text';
 import unknownBlock from './nodes/unknown-block';
 import status from './nodes/status';
@@ -75,7 +77,8 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   tableCell,
   tableHeader,
   tableRow,
-  taskList: renderNothing,
+  taskItem,
+  taskList,
   text,
   unknownBlock,
   status,
