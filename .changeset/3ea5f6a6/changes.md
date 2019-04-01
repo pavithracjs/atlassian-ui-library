@@ -1,1 +1,0 @@
-- CS-857 Email renderer puts placeholders in place of extensions

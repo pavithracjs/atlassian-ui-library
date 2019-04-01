@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 44.6.0
+- [minor] [1593822e4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1593822e4d):
+
+  - CS-857 Email renderer puts placeholders in place of extensions
+
 ## 44.5.0
 - [minor] [e6f58b1837](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6f58b1837):
 
