@@ -91,6 +91,7 @@ class MediaNode extends Component<MediaNodeProps, MediaNodeState> {
 
   componentDidMount() {
     this.handleNewNode(this.props);
+    this.checkForPastedImage();
   }
 
   componentWillUnmount() {
@@ -105,6 +106,43 @@ class MediaNode extends Component<MediaNodeProps, MediaNodeState> {
     }
     this.pluginState.updateElement();
   }
+
+  checkForPastedImage = async () => {
+    const { node, mediaProvider } = this.props;
+    const { collection, __src, id } = node.attrs;
+    const context = await this.getMediaContext('upload');
+
+    if (__src && context && mediaProvider) {
+      try {
+        const uploadParams = (await mediaProvider).uploadParams;
+        const uploadCollection = uploadParams && uploadParams.collection;
+        const isDifferentCollection = collection !== uploadCollection;
+        if (isDifferentCollection) {
+          const newFileId = await context.file.uploadExternal(
+            __src,
+            uploadCollection,
+          );
+          this.pluginState.updateMediaNodeAttrs(id, { id: newFileId }, true);
+        }
+      } catch (e) {}
+    }
+  };
+
+  getMediaContext = async (
+    type: 'view' | 'upload',
+  ): Promise<Context | undefined> => {
+    const { mediaProvider } = await this.props;
+    if (mediaProvider) {
+      const context =
+        type === 'view'
+          ? (await mediaProvider).viewContext
+          : (await mediaProvider).uploadContext;
+
+      return context;
+    }
+
+    return undefined;
+  };
 
   render() {
     const {

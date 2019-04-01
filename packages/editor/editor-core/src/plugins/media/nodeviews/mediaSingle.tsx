@@ -170,6 +170,7 @@ export default class MediaSingleNode extends Component<
       node,
       view: { state },
       editorAppearance,
+      mediaProvider,
     } = this.props;
 
     const { layout, width: mediaSingleWidth } = node.attrs;
@@ -235,6 +236,7 @@ export default class MediaSingleNode extends Component<
         onClick={this.selectMediaSingle}
         onExternalImageLoaded={this.onExternalImageLoaded}
         editorAppearance={editorAppearance}
+        mediaProvider={mediaProvider}
       />
     );
 

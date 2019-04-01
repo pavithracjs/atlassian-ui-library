@@ -25,6 +25,7 @@ export interface MediaState {
     name: string;
     description: string;
   };
+  preview?: string | null;
   /** still require to support Mobile */
   publicId?: string;
 }
