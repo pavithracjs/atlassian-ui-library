@@ -1,5 +1,10 @@
 # @atlaskit/emoji
 
+## 59.0.1
+- [patch] [3fa12076fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3fa12076fd):
+
+  - Fix import statement in emoji analytics
+
 ## 59.0.0
 - Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
   - @atlaskit/editor-test-helpers@8.0.3

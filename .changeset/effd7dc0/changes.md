@@ -1,1 +1,0 @@
-- Fix import statement in emoji analytics
