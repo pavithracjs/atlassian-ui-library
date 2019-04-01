@@ -4,8 +4,12 @@ import {
   copyShareLink,
   screenEvent,
   submitShare,
-} from '../../analytics';
-import { ConfigResponse, DialogContentState, OriginTracing } from '../../types';
+} from '../../../components/analytics';
+import {
+  ConfigResponse,
+  DialogContentState,
+  OriginTracing,
+} from '../../../types';
 
 describe('share analytics', () => {
   const mockShareOrigin = (): OriginTracing => ({

@@ -4,8 +4,11 @@ import {
   ConfigResponse,
   DialogContentState,
   OriginTracing,
-} from './types/index.js';
-import { name as packageName, version as packageVersion } from './version.json';
+} from '../types/index.js';
+import {
+  name as packageName,
+  version as packageVersion,
+} from '../version.json';
 
 const buildAttributes = (attributes = {}) => ({
   packageName,

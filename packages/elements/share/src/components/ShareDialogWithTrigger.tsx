@@ -12,13 +12,6 @@ import { LoadOptions } from '@atlaskit/user-picker';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
-import {
-  buttonClicked,
-  cancelShare,
-  copyShareLink,
-  screenEvent,
-  submitShare,
-} from '../analytics';
 import { messages } from '../i18n';
 import {
   ConfigResponse,
@@ -26,6 +19,13 @@ import {
   OriginTracing,
   ShareButtonStyle,
 } from '../types';
+import {
+  buttonClicked,
+  cancelShare,
+  copyShareLink,
+  screenEvent,
+  submitShare,
+} from './analytics';
 import { ShareButton } from './ShareButton';
 import { ShareForm } from './ShareForm';
 
