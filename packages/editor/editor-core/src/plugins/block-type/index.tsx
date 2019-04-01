@@ -19,7 +19,7 @@ import {
   ACTION,
 } from '../analytics';
 import { toggleBlockQuote, tooltip } from '../../keymaps';
-import { IconQuote } from '../../assets/quick-insert';
+import { IconQuote } from '../quick-insert/assets';
 
 interface BlockTypeNode {
   name: AllowedBlockTypes;

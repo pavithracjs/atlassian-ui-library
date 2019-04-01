@@ -31,7 +31,7 @@ import {
   ACTION_SUBJECT_ID,
 } from '../analytics';
 import WithPluginState from '../../ui/WithPluginState';
-import { IconImages } from '../../assets/quick-insert';
+import { IconImages } from '../quick-insert/assets';
 
 export { MediaState, MediaProvider, CustomMediaPicker };
 

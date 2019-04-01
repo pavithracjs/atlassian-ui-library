@@ -17,7 +17,7 @@ import {
   ACTION_SUBJECT_ID,
 } from '../analytics';
 import { tooltip, toggleBulletList, toggleOrderedList } from '../../keymaps';
-import { IconList, IconListNumber } from '../../assets/quick-insert';
+import { IconList, IconListNumber } from '../quick-insert/assets';
 
 const listPlugin: EditorPlugin = {
   nodes() {

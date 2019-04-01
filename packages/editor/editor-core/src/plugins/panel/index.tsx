@@ -24,7 +24,7 @@ import {
   IconPanelSuccess,
   IconPanelWarning,
   IconPanelError,
-} from '../../assets/quick-insert';
+} from '../quick-insert/assets';
 
 const insertPanelTypeWithAnalytics = (
   panelType: PANEL_TYPE,

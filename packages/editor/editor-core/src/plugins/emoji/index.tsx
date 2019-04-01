@@ -18,7 +18,7 @@ import {
   ACTION,
   ACTION_SUBJECT_ID,
 } from '../analytics';
-import { IconEmoji } from '../../assets/quick-insert';
+import { IconEmoji } from '../quick-insert/assets';
 
 const emojiPlugin: EditorPlugin = {
   nodes() {

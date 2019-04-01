@@ -12,7 +12,7 @@ import {
   INPUT_METHOD,
   EVENT_TYPE,
 } from '../analytics';
-import { IconDivider } from '../../assets/quick-insert';
+import { IconDivider } from '../quick-insert/assets';
 
 const rulePlugin: EditorPlugin = {
   nodes() {

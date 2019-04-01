@@ -10,7 +10,7 @@ import {
 } from './pm-plugins/main';
 import { buildToolbar } from './toolbar';
 import { createDefaultLayoutSection } from './actions';
-import { IconLayout } from '../../assets/quick-insert';
+import { IconLayout } from '../quick-insert/assets';
 
 export { pluginKey };
 

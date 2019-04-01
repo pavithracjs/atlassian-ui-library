@@ -13,7 +13,7 @@ import {
   INPUT_METHOD,
   EVENT_TYPE,
 } from '../analytics';
-import { IconCode } from '../../assets/quick-insert';
+import { IconCode } from '../quick-insert/assets';
 import { PMPluginFactoryParams, EditorPlugin } from '../../types';
 
 export interface CodeBlockOptions {

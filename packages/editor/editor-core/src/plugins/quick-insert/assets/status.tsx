@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { IconProps } from './index';
+import { IconProps } from '../types';
 
-export default function icon({ label = '' }: IconProps) {
+export default function IconStatus({ label = '' }: IconProps) {
   return (
     <div
       aria-label={label}

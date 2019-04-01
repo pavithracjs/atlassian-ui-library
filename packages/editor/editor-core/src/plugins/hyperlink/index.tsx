@@ -16,7 +16,7 @@ import {
 } from '../analytics';
 import { getToolbarConfig } from './Toolbar';
 import { tooltip, addLink } from '../../keymaps';
-import { IconLink } from '../../assets/quick-insert';
+import { IconLink } from '../quick-insert/assets';
 
 const hyperlinkPlugin: EditorPlugin = {
   marks() {

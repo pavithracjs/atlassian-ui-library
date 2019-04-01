@@ -12,7 +12,7 @@ import StatusPicker from './ui/statusPicker';
 import { commitStatusPicker, updateStatus, createStatus } from './actions';
 import { keymapPlugin } from './keymap';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
-import { IconStatus } from '../../assets/quick-insert';
+import { IconStatus } from '../quick-insert/assets';
 
 const baseStatusPlugin = (): EditorPlugin => ({
   nodes() {

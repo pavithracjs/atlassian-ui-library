@@ -18,7 +18,7 @@ import { INPUT_METHOD } from '../analytics';
 import { insertTaskDecisionWithAnalytics, getListTypes } from './commands';
 import { Transaction, EditorState } from 'prosemirror-state';
 import { TaskDecisionListType } from './types';
-import { IconAction, IconDecision } from '../../assets/quick-insert';
+import { IconAction, IconDecision } from '../quick-insert/assets';
 
 // tslint:disable-next-line:variable-name
 const TaskDecisionToolbarGroup = styled.div`

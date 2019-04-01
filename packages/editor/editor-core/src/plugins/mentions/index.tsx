@@ -52,7 +52,7 @@ import {
 } from '../analytics';
 import { TypeAheadItem } from '../type-ahead/types';
 import { isTeamStats, isTeamType } from './utils';
-import { IconMention } from '../../assets/quick-insert';
+import { IconMention } from '../quick-insert/assets';
 
 export interface TeamInfoAttrAnalytics {
   teamId: String;

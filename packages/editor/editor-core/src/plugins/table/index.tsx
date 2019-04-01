@@ -28,7 +28,7 @@ import {
   EVENT_TYPE,
 } from '../analytics';
 import { tooltip, toggleTable } from '../../keymaps';
-import { IconTable } from '../../assets/quick-insert';
+import { IconTable } from '../quick-insert/assets';
 
 export const HANDLE_WIDTH = 6;
 

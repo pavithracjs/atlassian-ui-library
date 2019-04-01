@@ -16,7 +16,7 @@ import {
   pluginKey as editorDisabledPluginKey,
   EditorDisabledPluginState,
 } from '../editor-disabled';
-import { IconDate } from '../../assets/quick-insert';
+import { IconDate } from '../quick-insert/assets';
 
 const DatePicker = Loadable({
   loader: () =>
