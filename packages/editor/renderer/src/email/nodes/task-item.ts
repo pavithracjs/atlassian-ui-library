@@ -20,8 +20,8 @@ const whiteSpan = (text: string) =>
   );
 
 const iconText: { [K in TaskState]: string } = {
-  TODO: whiteSpan('[ ]'),
-  DONE: `[✓]`,
+  TODO: whiteSpan('[]'),
+  DONE: `✓`,
 };
 
 interface TaskItemAttrs {
@@ -43,8 +43,7 @@ export default function taskItem({ attrs, text }: NodeSerializerOpts) {
         {
           text: iconText[state],
           style: {
-            // 'font-size': state === TaskState.DONE ? '13px' : '12px',
-            'font-size': '13px',
+            'font-size': state === TaskState.DONE ? '13px' : '12px',
             'font-weight': '600',
             'text-align': 'center',
             'background-color': state === TaskState.DONE ? B400 : N0,
