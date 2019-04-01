@@ -116,6 +116,12 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     );
   }
 
+  /**
+   * We want to call provided `eventHandlers.media.onClick` when it's provided,
+   * but we also don't want to call it when it's a video and inline video player is enabled.
+   * This is due to consumers normally process this onClick call by opening media viewer and
+   * we don't want that to happened described above text.
+   */
   private getOnCardClickCallback = (isInlinePlayer: boolean) => {
     const { eventHandlers } = this.props;
     if (eventHandlers && eventHandlers.media && eventHandlers.media.onClick) {
@@ -124,7 +130,6 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
           result.mediaItemDetails &&
           result.mediaItemDetails.mediaType === 'video';
         const isVideoWithInlinePlayer = isInlinePlayer && isVideo;
-        // We want to block onClick because it is handled by inline video player
         if (
           !isVideoWithInlinePlayer &&
           eventHandlers &&
@@ -157,7 +162,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       useInlinePlayer !== undefined ? useInlinePlayer : true;
     const isInlinePlayer = isMobile ? false : shouldPlayInline;
 
-    let onCardClick = this.getOnCardClickCallback(isInlinePlayer);
+    const onCardClick = this.getOnCardClickCallback(isInlinePlayer);
 
     const shouldOpenMediaViewer = !isMobile && !onCardClick;
 
