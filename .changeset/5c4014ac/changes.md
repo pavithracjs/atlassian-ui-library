@@ -1,0 +1,1 @@
+- Removes deprecated css property text-decoration-skip: ink. Users should no longer see a warning to update the property.
