@@ -19,6 +19,7 @@ import {
   State,
 } from '../../../components/ShareDialogWithTrigger';
 import { ShareData, ShareForm } from '../../../components/ShareForm';
+import { ADMIN_NOTIFIED, OBJECT_SHARED } from '../../../types';
 
 let wrapper: ShallowWrapper<Props & InjectedIntlProps>;
 let mockOnShareSubmit: jest.Mock;
@@ -425,7 +426,7 @@ describe('ShareDialogWithTrigger', () => {
       expect(wrapper.state('flags')).toEqual([
         {
           id: 1,
-          type: 'object-shared' as 'object-shared',
+          type: OBJECT_SHARED,
         },
       ]);
 
@@ -446,11 +447,11 @@ describe('ShareDialogWithTrigger', () => {
       expect(wrapper.state('flags')).toEqual([
         {
           id: 1,
-          type: 'admin-notified' as 'admin-notified',
+          type: ADMIN_NOTIFIED,
         },
         {
           id: 2,
-          type: 'object-shared' as 'object-shared',
+          type: OBJECT_SHARED,
         },
       ]);
     });

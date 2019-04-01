@@ -13,6 +13,8 @@ import {
   DialogContentState,
   Flag,
   ShareButtonStyle,
+  ADMIN_NOTIFIED,
+  OBJECT_SHARED,
 } from '../types';
 import { ShareButton } from './ShareButton';
 import { ShareForm } from './ShareForm';
@@ -153,13 +155,13 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
           ) {
             newFlags.push({
               id: newFlags.length + 1,
-              type: 'admin-notified',
+              type: ADMIN_NOTIFIED,
             });
           }
 
           newFlags.push({
             id: newFlags.length + 1,
-            type: 'object-shared',
+            type: OBJECT_SHARED,
           });
 
           return {
@@ -252,7 +254,7 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
             let title: React.ReactNode;
 
             switch (flag.type) {
-              case 'object-shared':
+              case OBJECT_SHARED:
                 title = (
                   <FormattedMessage
                     {...messages.shareSuccessMessage}
@@ -265,7 +267,7 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
                 );
                 break;
 
-              case 'admin-notified':
+              case ADMIN_NOTIFIED:
                 title = <FormattedMessage {...messages.adminNotifiedMessage} />;
                 break;
 
