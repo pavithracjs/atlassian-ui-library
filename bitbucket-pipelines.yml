@@ -404,3 +404,27 @@ pipelines:
             - for file in dists/*; do node build/ci-scripts/upload.build.artefact.for.commit.js $file dists/; done
           caches:
             - node
+    
+    # This build is used as our `merge` build when managing concurrent PR to master.
+    landkid-improved:
+      - parallel:
+          - step:
+              name: Editor unit tests
+              script:
+                - source ./build-setup.sh
+                - git merge master --no-edit
+                - bolt install --pure-lockfile
+                - TEST_ONLY_PATTERN='packages/editor' yarn test --runInBand
+                
+          - step:
+              name: Non Editor unit tests
+              script:
+                - source ./build-setup.sh
+                - git merge master --no-edit
+                - bolt install --pure-lockfile
+                - TEST_ONLY_PATTERN='!packages/editor' yarn test
+               
+      - step: 
+          name: End of the pipelines
+          script:
+            - echo 'Done'
