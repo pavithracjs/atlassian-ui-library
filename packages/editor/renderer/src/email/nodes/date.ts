@@ -25,7 +25,6 @@ export default function status({ attrs }: NodeSerializerOpts) {
   let parentIsTask: boolean = false;
   if (attrs && attrs.state) {
     parentIsTask = true;
-    console.log(attrs.state);
   }
   const colorAttributes =
     !!parentIsTask && isPastDate(timestamp)
