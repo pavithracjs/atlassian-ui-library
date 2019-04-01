@@ -1,5 +1,10 @@
 # @atlaskit/global-navigation
 
+## 6.2.4
+- [patch] [db2a7ffde6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/db2a7ffde6):
+
+  - Fixing recent containers bug
+
 ## 6.2.3
 - [patch] [9d6f8d516a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d6f8d516a):
 
