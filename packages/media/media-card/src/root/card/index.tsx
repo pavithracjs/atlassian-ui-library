@@ -301,18 +301,14 @@ export class Card extends Component<CardProps, CardState> {
       analyticsEvent,
     };
 
-    const isVideo =
-      mediaItemDetails &&
-      (mediaItemDetails as FileDetails).mediaType === 'video';
-    // We want to block onClick because it is handled by inline video player
-    const shouldStartPlayingInline = useInlinePlayer && isVideo;
-    if (onClick && !shouldStartPlayingInline) {
+    if (onClick) {
       onClick(result, analyticsEvent);
     }
     if (!mediaItemDetails) {
       return;
     }
-    if (shouldStartPlayingInline) {
+    const { mediaType } = mediaItemDetails as FileDetails;
+    if (useInlinePlayer && mediaType === 'video') {
       this.setState({
         isPlayingFile: true,
       });
