@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { colors, gridSize, elevation } from '@atlaskit/theme';
+import { colors, gridSize } from '@atlaskit/theme';
 
 const ItemGroupTitleSize = 11;
 
