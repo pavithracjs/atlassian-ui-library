@@ -1,0 +1,1 @@
+- ED-5850 Add descriptions, richer icons and keyboard shortcuts to the quick insert menu
