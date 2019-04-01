@@ -1,5 +1,4 @@
 import * as React from 'react';
-import EmojiIcon from '@atlaskit/icon/glyph/editor/emoji';
 import { emoji, emojiQuery } from '@atlaskit/adf-schema';
 import { WithProviders, Providers } from '@atlaskit/editor-common';
 
@@ -19,6 +18,7 @@ import {
   ACTION,
   ACTION_SUBJECT_ID,
 } from '../analytics';
+import { IconEmoji } from '../../assets/quick-insert';
 
 const emojiPlugin: EditorPlugin = {
   nodes() {
@@ -118,7 +118,7 @@ const emojiPlugin: EditorPlugin = {
         description: formatMessage(messages.emojiDescription),
         priority: 500,
         keyshortcut: ':',
-        icon: () => <EmojiIcon label={formatMessage(messages.emoji)} />,
+        icon: () => <IconEmoji />,
         action(insert, state) {
           const mark = state.schema.mark('emojiQuery');
           const emojiText = state.schema.text(':', [mark]);

@@ -31,6 +31,44 @@ const itemTheme = {
   },
 };
 
+export const ItemIcon = styled.div`
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  border: 1px solid rgba(223, 225, 229, 0.5); /* N60 at 50% */
+  border-radius: ${borderRadius()}px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    width: 40px;
+    height: 40px;
+  }
+`;
+
+const ItemBody = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+`;
+
+const ItemText = styled.div`
+  white-space: initial;
+  .item-description {
+    font-size: 12px;
+    color: ${colors.N200};
+  }
+`;
+
+const ItemAfter = styled.div`
+  text-align: top;
+  min-width: 12px;
+  padding-left: 8px;
+`;
+
 const KeyHint = styled.div`
   background-color: rgba(223, 225, 229, 0.5); /* N60 at 50% */
   color: ${colors.N100};
@@ -38,12 +76,7 @@ const KeyHint = styled.div`
   padding: 4px;
   line-height: 12px;
   font-size: 12px;
-  word-wrap: break-word;
-`;
-
-const ItemDescription = styled.div`
-  font-size: 12px;
-  color: grey;
+  align-self: flex-end;
 `;
 
 export type TypeAheadItemsListProps = {
@@ -110,10 +143,7 @@ export function TypeAheadItemsList({
               key={item.title}
               onClick={() => insertByIndex(index)}
               onMouseMove={() => setCurrentIndex(index)}
-              elemBefore={item.icon ? item.icon() : null}
-              elemAfter={
-                item.keyshortcut ? <KeyHint>{item.keyshortcut}</KeyHint> : null
-              }
+              elemBefore={item.icon ? <ItemIcon>{item.icon()}</ItemIcon> : null}
               isSelected={index === currentIndex}
               aria-describedby={item.title}
               ref={
@@ -123,12 +153,17 @@ export function TypeAheadItemsList({
                   : null
               }
             >
-              <div className="item-title">{item.title}</div>
-              {item.description && (
-                <ItemDescription className="item-description">
-                  {item.description}
-                </ItemDescription>
-              )}
+              <ItemBody>
+                <ItemText>
+                  <div className="item-title">{item.title}</div>
+                  {item.description && (
+                    <div className="item-description">{item.description}</div>
+                  )}
+                </ItemText>
+                <ItemAfter>
+                  {item.keyshortcut && <KeyHint>{item.keyshortcut}</KeyHint>}
+                </ItemAfter>
+              </ItemBody>
             </Item>
           ),
         )}

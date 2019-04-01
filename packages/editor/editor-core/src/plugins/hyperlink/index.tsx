@@ -5,7 +5,6 @@ import { createInputRulePlugin } from './pm-plugins/input-rule';
 import { createKeymapPlugin } from './pm-plugins/keymap';
 import { plugin, stateKey, LinkAction } from './pm-plugins/main';
 import fakeCursorToolbarPlugin from './pm-plugins/fake-cursor-for-toolbar';
-import EditorSuccessIcon from '@atlaskit/icon/glyph/editor/success';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 import {
   addAnalytics,
@@ -17,6 +16,7 @@ import {
 } from '../analytics';
 import { getToolbarConfig } from './Toolbar';
 import { tooltip, addLink } from '../../keymaps';
+import { IconLink } from '../../assets/quick-insert';
 
 const hyperlinkPlugin: EditorPlugin = {
   marks() {
@@ -49,7 +49,7 @@ const hyperlinkPlugin: EditorPlugin = {
         keywords: ['url', 'link', 'hyperlink'],
         priority: 1200,
         keyshortcut: tooltip(addLink),
-        icon: () => <EditorSuccessIcon label={'Hyperlink'} />,
+        icon: () => <IconLink />,
         action(insert, state) {
           const pos = state.selection.from;
           const { nodeBefore } = state.selection.$from;

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { status } from '@atlaskit/adf-schema';
-import StatusIcon from '@atlaskit/icon/glyph/status';
 import { findDomRefAtPos } from 'prosemirror-utils';
 import { EditorPlugin } from '../../types';
 import createStatusPlugin, {
@@ -13,6 +12,7 @@ import StatusPicker from './ui/statusPicker';
 import { commitStatusPicker, updateStatus, createStatus } from './actions';
 import { keymapPlugin } from './keymap';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
+import { IconStatus } from '../../assets/quick-insert';
 
 const baseStatusPlugin = (): EditorPlugin => ({
   nodes() {
@@ -102,7 +102,7 @@ const decorateWithPluginOptions = (
         description: formatMessage(messages.statusDescription),
         priority: 700,
         keywords: ['lozenge'],
-        icon: () => <StatusIcon label="Status" />,
+        icon: () => <IconStatus />,
         action: createStatus(),
       },
     ],

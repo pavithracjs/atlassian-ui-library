@@ -1,5 +1,4 @@
 import * as React from 'react';
-import EditorQuoteIcon from '@atlaskit/icon/glyph/editor/quote';
 import { heading, blockquote, hardBreak } from '@atlaskit/adf-schema';
 import { EditorPlugin, AllowedBlockTypes } from '../../types';
 import { ToolbarSize } from '../../ui/Toolbar';
@@ -20,6 +19,7 @@ import {
   ACTION,
 } from '../analytics';
 import { toggleBlockQuote, tooltip } from '../../keymaps';
+import { IconQuote } from '../../assets/quick-insert';
 
 interface BlockTypeNode {
   name: AllowedBlockTypes;
@@ -111,9 +111,7 @@ const blockType: EditorPlugin = {
         description: formatMessage(messages.blockquoteDescription),
         priority: 1300,
         keyshortcut: tooltip(toggleBlockQuote),
-        icon: () => (
-          <EditorQuoteIcon label={formatMessage(messages.blockquote)} />
-        ),
+        icon: () => <IconQuote />,
         action(insert, state) {
           const tr = insert(
             state.schema.nodes.blockquote.createChecked(

@@ -7,9 +7,6 @@ import { createPlugin, pluginKey } from './pm-plugins/main';
 import inputRulePlugin from './pm-plugins/input-rule';
 import keymapPlugin from './pm-plugins/keymap';
 import WithPluginState from '../../ui/WithPluginState';
-
-import EditorBulletListIcon from '@atlaskit/icon/glyph/editor/bullet-list';
-import EditorNumberedListIcon from '@atlaskit/icon/glyph/editor/number-list';
 import { messages } from '../lists/messages';
 import {
   addAnalytics,
@@ -20,6 +17,7 @@ import {
   ACTION_SUBJECT_ID,
 } from '../analytics';
 import { tooltip, toggleBulletList, toggleOrderedList } from '../../keymaps';
+import { IconList, IconListNumber } from '../../assets/quick-insert';
 
 const listPlugin: EditorPlugin = {
   nodes() {
@@ -49,9 +47,7 @@ const listPlugin: EditorPlugin = {
         keywords: ['ul', 'unordered list'],
         priority: 1100,
         keyshortcut: tooltip(toggleBulletList),
-        icon: () => (
-          <EditorBulletListIcon label={formatMessage(messages.unorderedList)} />
-        ),
+        icon: () => <IconList />,
         action(insert, state) {
           const tr = insert(
             state.schema.nodes.bulletList.createChecked(
@@ -80,9 +76,7 @@ const listPlugin: EditorPlugin = {
         keywords: ['ol', 'ordered list', 'numbered list'],
         priority: 1200,
         keyshortcut: tooltip(toggleOrderedList),
-        icon: () => (
-          <EditorNumberedListIcon label={formatMessage(messages.orderedList)} />
-        ),
+        icon: () => <IconListNumber />,
         action(insert, state) {
           const tr = insert(
             state.schema.nodes.orderedList.createChecked(

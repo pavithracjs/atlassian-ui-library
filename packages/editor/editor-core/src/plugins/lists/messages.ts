@@ -19,7 +19,7 @@ export const messages = defineMessages({
   },
   orderedListDescription: {
     id: 'fabric.editor.orderedList.description',
-    defaultMessage: 'Insert a numbered list.',
+    defaultMessage: 'Insert a numbered list',
     description: '',
   },
   lists: {

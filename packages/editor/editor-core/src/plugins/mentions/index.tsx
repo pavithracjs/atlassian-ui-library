@@ -6,7 +6,6 @@ import {
   AnalyticsEventPayload,
   CreateUIAnalyticsEventSignature,
 } from '@atlaskit/analytics-next-types';
-import MentionIcon from '@atlaskit/icon/glyph/editor/mention';
 import {
   MentionProvider,
   MentionItem,
@@ -53,6 +52,7 @@ import {
 } from '../analytics';
 import { TypeAheadItem } from '../type-ahead/types';
 import { isTeamStats, isTeamType } from './utils';
+import { IconMention } from '../../assets/quick-insert';
 
 export interface TeamInfoAttrAnalytics {
   teamId: String;
@@ -127,7 +127,7 @@ const mentionsPlugin = (
           description: formatMessage(messages.mentionDescription),
           priority: 400,
           keyshortcut: '@',
-          icon: () => <MentionIcon label={formatMessage(messages.mention)} />,
+          icon: () => <IconMention />,
           action(insert, state) {
             const mark = state.schema.mark('typeAheadQuery', {
               trigger: '@',

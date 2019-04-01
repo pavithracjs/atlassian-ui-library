@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { tableEditing } from 'prosemirror-tables';
 import { createTable } from 'prosemirror-utils';
-import TableIcon from '@atlaskit/icon/glyph/editor/table';
 import { tableCellMinWidth } from '@atlaskit/editor-common';
 import { table, tableCell, tableHeader, tableRow } from '@atlaskit/adf-schema';
 
@@ -29,6 +28,7 @@ import {
   EVENT_TYPE,
 } from '../analytics';
 import { tooltip, toggleTable } from '../../keymaps';
+import { IconTable } from '../../assets/quick-insert';
 
 export const HANDLE_WIDTH = 6;
 
@@ -160,7 +160,7 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
         description: formatMessage(messages.tableDescription),
         priority: 600,
         keyshortcut: tooltip(toggleTable),
-        icon: () => <TableIcon label={formatMessage(messages.table)} />,
+        icon: () => <IconTable />,
         action(insert, state) {
           const tr = insert(createTable(state.schema));
           return addAnalytics(tr, {

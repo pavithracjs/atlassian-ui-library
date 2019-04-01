@@ -1,8 +1,5 @@
 import * as React from 'react';
-
-import EditorCodeIcon from '@atlaskit/icon/glyph/editor/code';
 import { codeBlock } from '@atlaskit/adf-schema';
-
 import { createPlugin } from './pm-plugins/main';
 import { getToolbarConfig } from './toolbar';
 import keymap from './pm-plugins/keymaps';
@@ -16,6 +13,7 @@ import {
   INPUT_METHOD,
   EVENT_TYPE,
 } from '../analytics';
+import { IconCode } from '../../assets/quick-insert';
 import { PMPluginFactoryParams, EditorPlugin } from '../../types';
 
 export interface CodeBlockOptions {
@@ -47,9 +45,7 @@ const codeBlockPlugin = (options: CodeBlockOptions = {}): EditorPlugin => ({
         description: formatMessage(messages.codeblockDescription),
         priority: 700,
         keyshortcut: '```',
-        icon: () => (
-          <EditorCodeIcon label={formatMessage(messages.codeblock)} />
-        ),
+        icon: () => <IconCode />,
         action(insert, state) {
           const schema = state.schema;
           const tr = insert(schema.nodes.codeBlock.createChecked());

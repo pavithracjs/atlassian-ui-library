@@ -1,5 +1,4 @@
 import * as React from 'react';
-import HorizontalRuleIcon from '@atlaskit/icon/glyph/editor/divider';
 import { rule } from '@atlaskit/adf-schema';
 import { EditorPlugin } from '../../types';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
@@ -13,6 +12,7 @@ import {
   INPUT_METHOD,
   EVENT_TYPE,
 } from '../analytics';
+import { IconDivider } from '../../assets/quick-insert';
 
 const rulePlugin: EditorPlugin = {
   nodes() {
@@ -40,9 +40,7 @@ const rulePlugin: EditorPlugin = {
         keywords: ['horizontal rule', 'rule', 'line'],
         priority: 1200,
         keyshortcut: '---',
-        icon: () => (
-          <HorizontalRuleIcon label={formatMessage(messages.horizontalRule)} />
-        ),
+        icon: () => <IconDivider />,
         action(insert, state) {
           const tr = insert(state.schema.nodes.rule.createChecked());
           return addAnalytics(tr, {
