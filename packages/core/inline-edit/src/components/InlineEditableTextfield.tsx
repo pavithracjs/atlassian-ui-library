@@ -23,11 +23,11 @@ class InlineEditableTextfield extends React.Component<
   };
 
   render() {
-    const { defaultValue, emptyValueText, startWithEditViewOpen } = this.props;
+    const { editValue, emptyValueText, startWithEditViewOpen } = this.props;
     return (
       <InlineEdit
         {...this.props}
-        defaultValue={defaultValue}
+        editValue={editValue}
         editView={editViewProps => (
           <TextField
             {...editViewProps}
@@ -41,9 +41,7 @@ class InlineEditableTextfield extends React.Component<
           />
         )}
         readView={() => (
-          <ReadViewContainer>
-            {defaultValue || emptyValueText}
-          </ReadViewContainer>
+          <ReadViewContainer>{editValue || emptyValueText}</ReadViewContainer>
         )}
         onConfirm={this.props.onConfirm}
         startWithEditViewOpen={startWithEditViewOpen}

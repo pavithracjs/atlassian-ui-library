@@ -42,12 +42,12 @@ export default class InlineEditExample extends React.Component<void, State> {
     return (
       <div style={{ padding: '0 16px', width: '70%' }}>
         <InlineEditableTextfield
-          defaultValue={this.state.firstInlineEdit}
+          editValue={this.state.firstInlineEdit}
           label="Inline edit textfield"
           onConfirm={value => this.onConfirm(value, 'firstInlineEdit')}
         />
         <InlineEditableTextfield
-          defaultValue={this.state.secondInlineEdit}
+          editValue={this.state.secondInlineEdit}
           label="Inline edit textfield + start in edit view + hide action buttons (Enter to confirm, Esc to cancel) + validation"
           onConfirm={value => this.onConfirm(value, 'secondInlineEdit')}
           validate={this.validate}

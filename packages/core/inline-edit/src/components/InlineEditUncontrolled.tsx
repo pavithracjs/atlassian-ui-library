@@ -156,7 +156,10 @@ class InlineEditUncontrolled extends React.Component<
         <ReadViewContentWrapper
           onMouseEnter={() => this.setState({ onReadViewHover: true })}
           onMouseLeave={() => this.setState({ onReadViewHover: false })}
-          onClick={this.onReadViewClick}
+          onClick={e => {
+            this.onReadViewClick(e);
+            this.setState({ preventFocusOnEditButton: true });
+          }}
           readViewFitContainerWidth={readViewFitContainerWidth}
         >
           {readView()}
@@ -211,7 +214,7 @@ class InlineEditUncontrolled extends React.Component<
 
   render() {
     const {
-      defaultValue,
+      editValue,
       hideActionButtons,
       isEditing,
       label,
@@ -240,7 +243,7 @@ class InlineEditUncontrolled extends React.Component<
               <Field
                 name="inlineEdit"
                 label={label}
-                defaultValue={defaultValue}
+                defaultValue={editValue}
                 validate={validate}
                 key="edit-view"
               >

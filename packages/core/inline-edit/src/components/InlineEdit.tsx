@@ -59,7 +59,7 @@ class InlineEdit extends React.Component<InlineEditProps, State> {
     return (
       <InlineEditUncontrolled
         {...this.props}
-        defaultValue={this.props.defaultValue}
+        editValue={this.props.editValue}
         editView={fieldProps =>
           this.props.editView({ ...fieldProps, ref: this.setRef })
         }

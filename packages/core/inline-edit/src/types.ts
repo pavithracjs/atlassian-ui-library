@@ -32,8 +32,8 @@ export interface InlineEditUncontrolledProps extends CommonProps {
   editView: (fieldProps: FieldProps) => React.ReactChild;
   /** Whether the component shows the readView or the editView. */
   isEditing: boolean;
-  /** The initial value of the inline edit. */
-  defaultValue: any;
+  /** The value shown in the editView when it is entered. Should be updated by onConfirm. */
+  editValue: any;
   /** Handler called when readView is clicked. */
   onEditRequested: () => void;
   /**
@@ -57,8 +57,8 @@ export interface InlineEditProps extends CommonProps {
    * Field value is passed as an argument to this function.
    */
   onConfirm: (value: any) => void;
-  /** The initial value of the inline edit. */
-  defaultValue: any;
+  /** The value shown in the editView when it is entered. Should be updated by onConfirm. */
+  editValue: any;
   /** Determines whether isEditing begins as true. */
   startWithEditViewOpen?: boolean;
 }
@@ -69,8 +69,8 @@ export interface InlineEditableTextfieldProps extends CommonProps {
    * Field value is passed as an argument to this function.
    */
   onConfirm: (value: string) => void;
-  /** The initial value of the inline edit. */
-  defaultValue: string;
+  /** The value shown in the editView when it is entered. Should be updated by onConfirm. */
+  editValue: any;
   /** Text shown in read view when value is an empty string. */
   emptyValueText?: string;
   /** Determines whether isEditing begins as true. */
