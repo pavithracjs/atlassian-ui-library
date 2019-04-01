@@ -23,6 +23,7 @@ export type PMPluginFactoryParams = {
   errorReporter: ErrorReporter;
   portalProviderAPI: PortalProviderAPI;
   reactContext: () => { [key: string]: any };
+  dispatchAnalyticsEvent: (payload: AnalyticsEventPayload) => void;
 };
 
 export type PMPluginFactory = (
