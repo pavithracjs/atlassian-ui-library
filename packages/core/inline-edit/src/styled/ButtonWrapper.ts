@@ -11,6 +11,7 @@ const ButtonWrapper = styled.div`
     0 0 1px ${colors.N60A};
   box-sizing: border-box;
   width: ${gridSizeUnitless * 4}px;
+  font-size: 14px;
   z-index: 200;
 
   &:last-child {

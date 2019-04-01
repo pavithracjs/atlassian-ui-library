@@ -73,36 +73,15 @@ class CustomTitleComponent extends Component<{}, State> {
     isEditing: false,
   };
 
-  editViewRef = React.createRef();
-
-  onEditRequested = () => {
-    this.setState({ isEditing: true }, () => {
-      console.log(this.editViewRef.current);
-      if (this.editViewRef.current) {
-        this.editViewRef.current.focus();
-      }
-    });
-  };
-
   render() {
     return (
       <InlineEdit
-        isEditing={this.state.isEditing}
         readView={() => <ReadView>Editable title</ReadView>}
-        editView={fieldProps => (
-          <EditView
-            {...fieldProps}
-            value="Editable title"
-            innerRef={this.editViewRef}
-          />
-        )}
-        onConfirm={() => {
-          this.setState({ isEditing: false });
+        editView={({ ref, ...rest }) => {
+          return <EditView {...rest} innerRef={ref} />;
         }}
-        onCancel={() => {
-          this.setState({ isEditing: false });
-        }}
-        onEditRequested={this.onEditRequested}
+        editValue="Editable title"
+        onConfirm={() => {}}
       />
     );
   }

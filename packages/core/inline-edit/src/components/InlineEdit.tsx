@@ -19,15 +19,15 @@ class InlineEdit extends React.Component<InlineEditProps, State> {
     cancelButtonLabel: 'Cancel',
   };
 
-  editViewRef: HTMLElement | undefined;
+  editViewRef = React.createRef<HTMLElement>();
 
   state = {
     isEditing: this.props.startWithEditViewOpen || false,
   };
 
   componentDidMount() {
-    if (this.props.startWithEditViewOpen && this.editViewRef) {
-      this.editViewRef.focus();
+    if (this.props.startWithEditViewOpen && this.editViewRef.current) {
+      this.editViewRef.current.focus();
     }
   }
 
@@ -46,14 +46,10 @@ class InlineEdit extends React.Component<InlineEditProps, State> {
 
   onEditRequested = () => {
     this.setState({ isEditing: true }, () => {
-      if (this.editViewRef) {
-        this.editViewRef.focus();
+      if (this.editViewRef.current) {
+        this.editViewRef.current.focus();
       }
     });
-  };
-
-  setRef = (ref: HTMLElement) => {
-    this.editViewRef = ref;
   };
 
   render() {
@@ -62,7 +58,7 @@ class InlineEdit extends React.Component<InlineEditProps, State> {
         {...this.props}
         editValue={this.props.editValue}
         editView={fieldProps =>
-          this.props.editView({ ...fieldProps, ref: this.setRef })
+          this.props.editView({ ...fieldProps, ref: this.editViewRef })
         }
         readView={this.props.readView}
         onConfirm={this.onConfirm}
