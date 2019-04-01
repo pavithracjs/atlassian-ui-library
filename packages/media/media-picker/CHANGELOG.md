@@ -1,5 +1,10 @@
 # @atlaskit/media-picker
 
+## 38.1.0
+- [minor] [e36f791fd6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e36f791fd6):
+
+  - Improve types
+
 ## 38.0.0
 - Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
   - @atlaskit/media-card@59.0.0

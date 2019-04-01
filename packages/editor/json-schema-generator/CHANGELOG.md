@@ -1,5 +1,10 @@
 # @atlaskit/json-schema-generator
 
+## 2.1.0
+- [minor] [e36f791fd6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e36f791fd6):
+
+  - Improve types
+
 ## 2.0.0
 - [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 
