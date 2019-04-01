@@ -1,1 +1,0 @@
-- fixed dialogue header font settings
