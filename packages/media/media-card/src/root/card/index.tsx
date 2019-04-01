@@ -307,8 +307,11 @@ export class Card extends Component<CardProps, CardState> {
     if (!mediaItemDetails) {
       return;
     }
-    const { mediaType } = mediaItemDetails as FileDetails;
-    if (useInlinePlayer && mediaType === 'video') {
+
+    const isVideo =
+      mediaItemDetails &&
+      (mediaItemDetails as FileDetails).mediaType === 'video';
+    if (useInlinePlayer && isVideo) {
       this.setState({
         isPlayingFile: true,
       });
