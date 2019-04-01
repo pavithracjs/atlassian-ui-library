@@ -1,14 +1,16 @@
 import { snapshot, Appearance, initEditorWithAdf, Device } from '../_utils';
 import { insertMedia } from '../../__helpers/page-objects/_media';
-import { clickEditableContent } from '../../__helpers/page-objects/_editor';
+import {
+  clickEditableContent,
+  disableAllTransition,
+  disableAllAnimations,
+} from '../../__helpers/page-objects/_editor';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
-// TODO: ED-6319 Selection is broken
 describe('Snapshot Test: Media', () => {
   describe('full page editor', () => {
     let page: any;
-    const threshold = 0.01;
-    beforeAll(async () => {
+    beforeEach(async () => {
       // @ts-ignore
       page = global.page;
 
@@ -17,25 +19,37 @@ describe('Snapshot Test: Media', () => {
         device: Device.LaptopHiDPI,
       });
 
+      // Disable animations to always show gap cursor
+      await disableAllAnimations(page);
+      // Disable all transitions to stop flaky toolbar box shadow
+      await disableAllTransition(page);
+
       // click into the editor
       await clickEditableContent(page);
 
       // insert single media item
       await insertMedia(page);
+      // Move mouse out of the page to not create fake cursor
+      await page.mouse.move(-1, -1);
     });
 
     it('renders selection ring around media (via up)', async () => {
       await snapshot(page);
+
+      // TODO:  File a ticket to fix this
       await pressKey(page, 'ArrowUp');
-      await snapshot(page, threshold);
+      await snapshot(page);
     });
 
     it('renders selection ring around media (via gap cursor)', async () => {
-      await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
+      await pressKey(page, ['ArrowLeft']);
       await snapshot(page);
 
       await pressKey(page, 'ArrowLeft');
-      await snapshot(page, threshold);
+      await snapshot(page);
+
+      await pressKey(page, 'ArrowLeft');
+      await snapshot(page);
     });
   });
 

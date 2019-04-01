@@ -45,6 +45,45 @@ export const isValidTargetNode = (node?: PMNode | null): boolean => {
   return !!node && !isIgnored(node);
 };
 
+export function isMediaNearPos(
+  doc: PMNode,
+  $pos: ResolvedPos,
+  schema: Schema,
+  dir = -1,
+) {
+  let $currentPos = $pos;
+  let currentNode: PMNode | null = null;
+  const { mediaSingle, media, mediaGroup } = schema.nodes;
+
+  do {
+    $currentPos = doc.resolve(
+      dir === -1 ? $currentPos.before() : $currentPos.after(),
+    );
+
+    if (!$currentPos) {
+      return false;
+    }
+
+    currentNode =
+      (dir === -1 ? $currentPos.nodeBefore : $currentPos.nodeAfter) ||
+      $currentPos.parent;
+
+    if (!currentNode || currentNode.type === schema.nodes.doc) {
+      return false;
+    }
+
+    if (
+      currentNode.type === mediaSingle ||
+      currentNode.type === media ||
+      currentNode.type === mediaGroup
+    ) {
+      return true;
+    }
+  } while ($currentPos.depth > 0);
+
+  return false;
+}
+
 export const isTextBlockNearPos = (
   doc: PMNode,
   schema: Schema,

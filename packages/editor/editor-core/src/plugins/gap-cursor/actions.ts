@@ -1,9 +1,14 @@
-import { EditorState, Selection, TextSelection } from 'prosemirror-state';
+import {
+  EditorState,
+  Selection,
+  TextSelection,
+  NodeSelection,
+} from 'prosemirror-state';
 import { removeNodeBefore } from 'prosemirror-utils';
 import { findDomRefAtPos } from 'prosemirror-utils';
 import { Direction, isBackward, isForward } from './direction';
 import { GapCursorSelection, Side } from './selection';
-import { isTextBlockNearPos, isValidTargetNode } from './utils';
+import { isTextBlockNearPos, isValidTargetNode, isMediaNearPos } from './utils';
 import { Command } from '../../types';
 import { atTheBeginningOfDoc, atTheEndOfDoc, ZWSP } from '../../utils';
 import { pluginKey } from './pm-plugins/main';
@@ -35,9 +40,26 @@ export const arrow = (
       return false;
     }
 
+    if (
+      (dir === Direction.UP &&
+        !atTheBeginningOfDoc(state) &&
+        isMediaNearPos(doc, $pos, schema, -1)) ||
+      (dir === Direction.DOWN &&
+        (atTheEndOfDoc(state) || isMediaNearPos(doc, $pos, schema, 1)))
+    ) {
+      return false;
+    }
+
     // otherwise resolve previous/next position
     $pos = doc.resolve(isBackward(dir) ? $pos.before() : $pos.after());
     mustMove = false;
+  }
+
+  if (selection instanceof NodeSelection) {
+    if (dir === Direction.UP || dir === Direction.DOWN) {
+      // We dont add gap cursor on node selections going up and down
+      return false;
+    }
   }
 
   // when jumping between block nodes at the same depth, we need to reverse cursor without changing ProseMirror position

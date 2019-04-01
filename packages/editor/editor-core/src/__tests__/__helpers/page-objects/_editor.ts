@@ -108,3 +108,16 @@ export async function disableTransition(page: Page, selector: string) {
   `;
   await page.addStyleTag({ content: css });
 }
+
+export async function disableAllTransition(page: Page) {
+  return disableTransition(page, '*');
+}
+
+export async function disableAllAnimations(page: Page) {
+  const css = `
+  * {
+    animation: none !important;
+  }
+  `;
+  await page.addStyleTag({ content: css });
+}
