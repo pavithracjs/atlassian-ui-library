@@ -1,5 +1,10 @@
 # @atlaskit/media-core
 
+## 29.1.0
+- [minor] [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+
+  - Fix missing annotated images in recent uploads within media picker
+
 ## 29.0.2
 - Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
   - @atlaskit/media-store@11.0.2
