@@ -27,7 +27,6 @@ const fabricStatsServiceUrl =
   process.env.FABRIC_STATS_SERVICE || 'http://localhost:8080';
 
 async function sendData(payload /*: IBuildEventProperties */) {
-  console.log('payload received:', payload);
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -46,7 +45,7 @@ async function sendData(payload /*: IBuildEventProperties */) {
     'response:',
     response,
   );
-  if (!response || !response.data || response.data.locked !== false) {
+  if (!response || !response.data) {
     console.log('Something may have gone wrong...');
     process.exit(1);
   }
