@@ -12,7 +12,7 @@ export default md`
   ## Usage
 
   ${code`
-  import InlineEdit from '@atlaskit/inline-edit';
+  import InlineEdit, { InlineEditableTextfield } from '@atlaskit/inline-edit';
   `}
 
   ${(
@@ -21,6 +21,15 @@ export default md`
       Component={require('../examples/00-basic-usage').default}
       title="Basic usage"
       source={require('!!raw-loader!../examples/00-basic-usage')}
+    />
+  )}
+
+  ${(
+    <Example
+      packageName="@atlaskit/inline-edit"
+      Component={require('../examples/04-inline-editable-textfield').default}
+      title="Basic usage"
+      source={require('!!raw-loader!../examples/04-inline-editable-textfield')}
     />
   )}
 
