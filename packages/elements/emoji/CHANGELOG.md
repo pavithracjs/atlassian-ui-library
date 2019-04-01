@@ -1,5 +1,10 @@
 # @atlaskit/emoji
 
+## 58.3.0
+- [minor] [fdc41108fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fdc41108fa):
+
+  - Updated analytics to modern form
+
 ## 58.2.0
 - [minor] [b0210d7ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0210d7ccc):
 

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/emoji",
-  "version": "58.2.0",
+  "version": "58.3.0",
   "config": {
     "access": "public"
   },
@@ -11,6 +11,8 @@
   "sideEffects": false,
   "dependencies": {
     "@atlaskit/analytics": "^5.0.0",
+    "@atlaskit/analytics-next": "^4.0.1",
+    "@atlaskit/analytics-next-types": "^4.0.1",
     "@atlaskit/button": "^11.0.2",
     "@atlaskit/field-base": "^12.0.0",
     "@atlaskit/icon": "^16.0.5",

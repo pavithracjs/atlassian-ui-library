@@ -1,7 +1,7 @@
 import { snapshot, Appearance, initEditorWithAdf, Device } from '../_utils';
 import { insertMedia } from '../../__helpers/page-objects/_media';
 import { clickEditableContent } from '../../__helpers/page-objects/_editor';
-import { pressKey, KeyboardKeys } from '../../__helpers/page-objects/_keyboard';
+import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
 // TODO: ED-6319 Selection is broken
 describe('Snapshot Test: Media', () => {
@@ -26,15 +26,15 @@ describe('Snapshot Test: Media', () => {
 
     it('renders selection ring around media (via up)', async () => {
       await snapshot(page);
-      await pressKey(page, KeyboardKeys.arrowUp);
+      await pressKey(page, 'ArrowUp');
       await snapshot(page, threshold);
     });
 
     it('renders selection ring around media (via gap cursor)', async () => {
-      await pressKey(page, [KeyboardKeys.arrowLeft, KeyboardKeys.arrowLeft]);
+      await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
       await snapshot(page);
 
-      await pressKey(page, KeyboardKeys.arrowLeft);
+      await pressKey(page, 'ArrowLeft');
       await snapshot(page, threshold);
     });
   });
@@ -61,20 +61,20 @@ describe('Snapshot Test: Media', () => {
     it('renders selection ring around last media group item (via up)', async () => {
       await snapshot(page);
 
-      await pressKey(page, KeyboardKeys.arrowUp);
+      await pressKey(page, 'ArrowUp');
       await snapshot(page, threshold);
     });
 
     it('renders selection ring around media group items', async () => {
       await snapshot(page);
 
-      await pressKey(page, [KeyboardKeys.arrowLeft, KeyboardKeys.arrowLeft]);
+      await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
       await snapshot(page, threshold);
 
-      await pressKey(page, KeyboardKeys.arrowLeft);
+      await pressKey(page, 'ArrowLeft');
       await snapshot(page, threshold);
 
-      await pressKey(page, KeyboardKeys.arrowLeft);
+      await pressKey(page, 'ArrowLeft');
       await snapshot(page, threshold);
     });
   });

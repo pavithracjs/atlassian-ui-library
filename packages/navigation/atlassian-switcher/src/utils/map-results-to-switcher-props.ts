@@ -19,6 +19,19 @@ import {
 } from '../types';
 import { createCollector } from './create-collector';
 
+function getExpandLink(
+  licenseInformation: ProviderResults['licenseInformation'],
+) {
+  if (licenseInformation === undefined || isError(licenseInformation)) {
+    return '//start.atlassian.com';
+  }
+  if (isComplete(licenseInformation)) {
+    const isStagingInstance =
+      licenseInformation.data.hostname.indexOf('.jira-dev.com') !== -1;
+    return `//start.${isStagingInstance ? 'stg.' : ''}atlassian.com`;
+  }
+}
+
 function collectProductLinks(
   cloudId: string,
   licenseInformation: ProviderResults['licenseInformation'],
@@ -115,6 +128,7 @@ interface ProviderResults {
 interface SwitcherFeatures {
   xflow: boolean;
   enableSplitJira: boolean;
+  enableExpandLink: boolean;
 }
 
 export function mapResultsToSwitcherProps(
@@ -138,6 +152,9 @@ export function mapResultsToSwitcherProps(
   }
 
   return {
+    expandLink: features.enableExpandLink
+      ? getExpandLink(licenseInformation)
+      : '',
     licensedProductLinks: collect(
       collectProductLinks(
         cloudId,

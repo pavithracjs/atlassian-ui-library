@@ -69,7 +69,7 @@ pipelines:
             script:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
-              - bolt measure:changed
+              - bolt measure:dependents
             caches:
               - node
         - step:

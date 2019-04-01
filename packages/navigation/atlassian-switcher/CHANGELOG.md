@@ -1,5 +1,10 @@
 # @atlaskit/atlassian-switcher
 
+## 0.3.5
+- [patch] [9d6f8d516a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d6f8d516a):
+
+  - Adding expand link support to Atlassian Switcher
+
 ## 0.3.4
 - [patch] [571ad59bb7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/571ad59bb7):
 

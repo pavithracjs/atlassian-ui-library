@@ -1,5 +1,20 @@
 # @atlaskit/editor-common
 
+## 35.2.0
+- [minor] [63133d8704](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/63133d8704):
+
+  -  [ED-6200] Add defaultMarks attribute on tableCell schema
+
+## 35.1.3
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-card@58.0.0
+
+## 35.1.2
+- [patch] [298bfed4e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/298bfed4e1):
+
+  - ED-6580 Media in editor is sized incorrectly in firefox
+
 ## 35.1.1
 - [patch] [b32008359a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b32008359a):
 
