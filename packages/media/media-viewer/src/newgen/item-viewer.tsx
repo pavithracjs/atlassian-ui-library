@@ -174,13 +174,7 @@ export class ItemViewerBase extends React.Component<Props, State> {
 
   private renderExternalIdentifier = (identifier: ExternalImageIdentifier) => {
     const { dataURI } = identifier;
-    return (
-      <InteractiveImg
-        onLoad={() => {}} // TODO
-        onError={() => {}} // TODO
-        src={dataURI}
-      />
-    );
+    return <InteractiveImg src={dataURI} />;
   };
 
   render() {

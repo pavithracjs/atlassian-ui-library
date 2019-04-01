@@ -78,7 +78,7 @@ export const ToolbarDownloadButton = (props: ToolbarDownloadButtonProps) => {
   const { state, context, identifier } = props;
   const downloadEvent = downloadButtonEvent(state);
 
-  // TODO: make it work for external files as well
+  // TODO [MS-1731]: make it work for external files as well
   if (isExternalImageIdentifier(identifier)) {
     return null;
   }

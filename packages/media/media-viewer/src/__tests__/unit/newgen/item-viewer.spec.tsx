@@ -36,12 +36,18 @@ import {
   name as packageName,
   version as packageVersion,
 } from '../../../version.json';
+import { InteractiveImg } from '../../../newgen/viewers/image/interactive-img';
 
-const identifier: any = {
+const identifier: Identifier = {
   id: 'some-id',
   occurrenceKey: 'some-custom-occurrence-key',
   mediaItemType: 'file',
   collectionName: 'some-collection',
+};
+const externalImageIdentifier: Identifier = {
+  mediaItemType: 'external-image',
+  dataURI: 'some-src',
+  name: 'some-name',
 };
 
 const makeFakeContext = (observable: Observable<any>) =>
@@ -171,7 +177,7 @@ describe('<ItemViewer />', () => {
 
   it('should show the video viewer if media type is video', () => {
     const state: ProcessedFileState = {
-      id: identifier.id,
+      id: identifier.id as string,
       mediaType: 'video',
       status: 'processed',
       mimeType: '',
@@ -209,7 +215,7 @@ describe('<ItemViewer />', () => {
 
   it('should show the document viewer if media type is document', () => {
     const state: FileState = {
-      id: identifier.id,
+      id: identifier.id as string,
       mediaType: 'doc',
       status: 'processed',
       artifacts: {},
@@ -259,6 +265,21 @@ describe('<ItemViewer />', () => {
     expect(context.file.getFileState).toHaveBeenCalledWith('some-id', {
       collectionName: 'some-collection',
     });
+  });
+
+  it('should render InteractiveImg for external image identifier', () => {
+    const context = makeFakeContext(
+      Observable.of({
+        id: identifier.id,
+        mediaType: 'image',
+        status: 'processed',
+      }),
+    );
+    const { el } = mountComponent(context, externalImageIdentifier);
+    el.update();
+
+    expect(el.find(InteractiveImg)).toHaveLength(1);
+    expect(el.find(InteractiveImg).prop('src')).toEqual('some-src');
   });
 
   describe('Subscription', () => {

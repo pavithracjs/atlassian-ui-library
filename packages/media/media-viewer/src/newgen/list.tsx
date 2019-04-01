@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Context, FileIdentifier, Identifier } from '@atlaskit/media-core';
+import { Context, Identifier } from '@atlaskit/media-core';
 import { ItemViewer } from './item-viewer';
 import { MediaViewerFeatureFlags } from './domain';
 import { HeaderWrapper, hideControlsClassName, ListWrapper } from './styled';
@@ -10,7 +10,7 @@ import Header from './header';
 
 export type Props = Readonly<{
   onClose?: () => void;
-  onNavigationChange?: (selectedItem: FileIdentifier) => void;
+  onNavigationChange?: (selectedItem: Identifier) => void;
   showControls?: () => void;
   featureFlags?: MediaViewerFeatureFlags;
   defaultSelectedItem: Identifier;
@@ -68,7 +68,7 @@ export class List extends React.Component<Props, State> {
     }
   }
 
-  onNavigationChange = (selectedItem: FileIdentifier) => {
+  onNavigationChange = (selectedItem: Identifier) => {
     const { onNavigationChange, showControls } = this.props;
     if (onNavigationChange) {
       onNavigationChange(selectedItem);
