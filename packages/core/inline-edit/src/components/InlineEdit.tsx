@@ -21,7 +21,7 @@ class InlineEdit extends React.Component<InlineEditProps, State> {
   editViewRef: HTMLElement | undefined;
 
   state = {
-    isEditing: this.props.startWithEditViewOpen,
+    isEditing: this.props.startWithEditViewOpen || false,
   };
 
   componentDidMount() {

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { mount } from 'enzyme';
 import InlineEditableTextfield from '../../InlineEditableTextfield';
 import InlineEdit from '../../InlineEdit';
@@ -17,21 +18,21 @@ describe('@atlaskit/inline-edit core', () => {
     jest.useFakeTimers();
   });
 
-  it('should render a label when label prop is passed', () => {
+  it('renders a label when label prop is passed', () => {
     const wrapper = mount(
       <InlineEditableTextfield onConfirm={noop} defaultValue="" label="test" />,
     );
     expect(wrapper.find('label').length).toBe(1);
   });
 
-  it('should not render a label when label prop is not passed', () => {
+  it('does not render a label when label prop is not passed', () => {
     const wrapper = mount(
       <InlineEditableTextfield onConfirm={noop} defaultValue="" />,
     );
     expect(wrapper.find('label').length).toBe(0);
   });
 
-  it('should keep edit view open on blur when keepEditViewOpenOnBlur prop is true', () => {
+  it('keeps edit view open on blur when keepEditViewOpenOnBlur prop is true', () => {
     const spy = jest.fn();
     const wrapper = mount(
       <InlineEditableTextfield
@@ -48,7 +49,7 @@ describe('@atlaskit/inline-edit core', () => {
     expect(spy).not.toBeCalled();
   });
 
-  it('should render action buttons', () => {
+  it('renders action buttons', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={noop}
@@ -59,7 +60,7 @@ describe('@atlaskit/inline-edit core', () => {
     expect(wrapper.find('button').length).toBe(2);
   });
 
-  it('should not render action buttons when hideActionButtons prop is true', () => {
+  it('does not render action buttons when hideActionButtons prop is true', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={noop}
@@ -71,7 +72,7 @@ describe('@atlaskit/inline-edit core', () => {
     expect(wrapper.find('button').length).toBe(0);
   });
 
-  it('should stretch to container width in read mode if readViewFitContainerWidth prop is true', () => {
+  it('stretches to container width in read mode if readViewFitContainerWidth prop is true', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={noop}
@@ -85,14 +86,14 @@ describe('@atlaskit/inline-edit core', () => {
     );
   });
 
-  it('should display readView', () => {
+  it('displays readView', () => {
     const wrapper = mount(
       <InlineEditableTextfield onConfirm={noop} defaultValue="" />,
     );
     expect(wrapper.find(ReadViewContainer).length).toBe(1);
   });
 
-  it('should render a button as a sibling to the read view', () => {
+  it('renders a button as a sibling to the read view', () => {
     const wrapper = mount(
       <InlineEditableTextfield onConfirm={noop} defaultValue="" />,
     );
@@ -100,7 +101,7 @@ describe('@atlaskit/inline-edit core', () => {
     expect(wrapper.find(ReadViewContentWrapper).find('button').length).toBe(0);
   });
 
-  it('should display editView with correct initial value when isEditing prop is true', () => {
+  it('displays editView with correct initial value when isEditing prop is true', () => {
     /**
      * This test uses the startWithEditViewOpen prop to set the isEditing prop
      * to true within InlineEditableTextfield
@@ -116,7 +117,7 @@ describe('@atlaskit/inline-edit core', () => {
     expect(wrapper.find('input').prop('value')).toBe('test');
   });
 
-  it('should switch to editView when the read view is clicked', () => {
+  it('switches to editView when the read view is clicked', () => {
     const wrapper = mount(
       <InlineEditableTextfield onConfirm={noop} defaultValue="" />,
     );
@@ -125,7 +126,7 @@ describe('@atlaskit/inline-edit core', () => {
     expect(wrapper.find(InlineEditUncontrolled).prop('isEditing')).toBe(true);
   });
 
-  it('should switch to editView when the edit button is focused and enter is pressed', () => {
+  it('switches to editView when the edit button is focused and enter is pressed', () => {
     /** This test uses simulate('click') to simulate a keydown of Enter on the edit button */
     const wrapper = mount(
       <InlineEditableTextfield onConfirm={noop} defaultValue="" />,
@@ -135,7 +136,7 @@ describe('@atlaskit/inline-edit core', () => {
     expect(wrapper.find(InlineEditUncontrolled).prop('isEditing')).toBe(true);
   });
 
-  it('should call onConfirm when confirm button is clicked', () => {
+  it('calls onConfirm when confirm button is clicked', () => {
     const spy = jest.fn();
     const wrapper = mount(
       <InlineEditableTextfield
@@ -150,7 +151,7 @@ describe('@atlaskit/inline-edit core', () => {
     expect(wrapper.find('input').length).toBe(0);
   });
 
-  it('should cancel the edit and return to the initial value when cancel button is pressed', () => {
+  it('cancels the edit and returns to the initial value when cancel button is pressed', () => {
     const spy = jest.fn();
     const wrapper = mount(
       <InlineEditableTextfield
@@ -167,7 +168,7 @@ describe('@atlaskit/inline-edit core', () => {
     expect(wrapper.find('input').prop('value')).toBe('');
   });
 
-  it('should cancel the edit and return to the initial value when Escape key is pressed', () => {
+  it('cancels the edit and return to the initial value when Escape key is pressed', () => {
     const spy = jest.fn();
     const wrapper = mount(
       <InlineEditableTextfield
@@ -185,7 +186,7 @@ describe('@atlaskit/inline-edit core', () => {
     expect(wrapper.find('input').prop('value')).toBe('');
   });
 
-  it('should call onConfirm on blur', () => {
+  it('calls onConfirm on blur', () => {
     const spy = jest.fn();
     const wrapper = mount(
       <InlineEditableTextfield
@@ -200,7 +201,7 @@ describe('@atlaskit/inline-edit core', () => {
     expect(spy).toBeCalled();
   });
 
-  it('should have default aria tags', () => {
+  it('has default aria tags', () => {
     const wrapper = mount(
       <InlineEditableTextfield onConfirm={noop} defaultValue="" />,
     );
@@ -211,7 +212,7 @@ describe('@atlaskit/inline-edit core', () => {
     expect(wrapper.find('button[aria-label="Cancel"]').length).toBe(1);
   });
 
-  it('should pass through label props to aria tags', () => {
+  it('passes through label props to aria tags', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={noop}
@@ -232,7 +233,7 @@ describe('@atlaskit/inline-edit core', () => {
 });
 
 describe('@atlaskit/inline-editable-textfield', () => {
-  it('should display emptyValueText when value is empty', () => {
+  it('displays emptyValueText when value is empty', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={noop}
@@ -245,6 +246,29 @@ describe('@atlaskit/inline-editable-textfield', () => {
     );
   });
 
+  it('focuses on the input when the read view is clicked', () => {
+    const wrapper = mount(
+      <InlineEditableTextfield onConfirm={noop} defaultValue="" />,
+    );
+    wrapper.find(EditButton).simulate('click');
+    expect(document.activeElement).toEqual(
+      ReactDOM.findDOMNode(wrapper.find('input').instance()),
+    );
+  });
+
+  it('focuses on the input when starting with edit view open', () => {
+    const wrapper = mount(
+      <InlineEditableTextfield
+        onConfirm={noop}
+        defaultValue=""
+        startWithEditViewOpen
+      />,
+    );
+    expect(document.activeElement).toEqual(
+      ReactDOM.findDOMNode(wrapper.find('input').instance()),
+    );
+  });
+
   it('shows the correct value in the read view when not empty', () => {
     const wrapper = mount(
       <InlineEditableTextfield onConfirm={noop} defaultValue="test-value" />,
@@ -254,7 +278,7 @@ describe('@atlaskit/inline-editable-textfield', () => {
 });
 
 describe('@atlaskit/inline-edit', () => {
-  it('should render the component passed in via the readView prop', () => {
+  it('renders the component passed in via the readView prop', () => {
     const wrapper = mount(
       <InlineEdit
         onConfirm={noop}
@@ -266,7 +290,7 @@ describe('@atlaskit/inline-edit', () => {
     expect(wrapper.find('#test').length).toBe(1);
   });
 
-  it('should render the component passed in via the editView prop', () => {
+  it('renders the component passed in via the editView prop', () => {
     const wrapper = mount(
       <InlineEdit
         onConfirm={noop}
@@ -290,7 +314,7 @@ describe('@atlaskit/inline-edit', () => {
     (global.console.error as jest.Mock).mockRestore();
   });
 
-  it('should mount without errors', () => {
+  it('mounts without errors', () => {
     mount(<InlineEditableTextfield onConfirm={noop} defaultValue="" />);
     /* tslint:disable no-console */
     expect(console.warn).not.toHaveBeenCalled();

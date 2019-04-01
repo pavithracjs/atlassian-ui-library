@@ -11,18 +11,18 @@ interface CommonProps {
   ) => string | void | Promise<string | void>;
 
   /** Contained in defaultProps */
-  /** Set whether onConfirm should be called on blur. (Optional) */
-  keepEditViewOpenOnBlur: boolean;
-  /** Sets whether the checkmark and cross are displayed in the bottom right of the field. (Optional) */
-  hideActionButtons: boolean;
-  /** Determines whether the read view has 100% width within its container, or whether it fits the content. (Optional) */
-  readViewFitContainerWidth: boolean;
+  /** Set whether onConfirm should be called on blur. */
+  keepEditViewOpenOnBlur?: boolean;
+  /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
+  hideActionButtons?: boolean;
+  /** Determines whether the read view has 100% width within its container, or whether it fits the content. */
+  readViewFitContainerWidth?: boolean;
   /** Accessibility label for button which is used to enter edit view from keyboard. */
-  editButtonLabel: string;
+  editButtonLabel?: string;
   /** Accessibility label for the confirm action button. */
-  confirmButtonLabel: string;
+  confirmButtonLabel?: string;
   /** Accessibility label for the cancel action button. */
-  cancelButtonLabel: string;
+  cancelButtonLabel?: string;
 }
 
 export interface InlineEditUncontrolledProps extends CommonProps {
@@ -59,8 +59,8 @@ export interface InlineEditProps extends CommonProps {
   onConfirm: (value: any) => void;
   /** The initial value of the inline edit. */
   defaultValue: any;
-  /** Determines whether isEditing begins as true. (Optional) */
-  startWithEditViewOpen: boolean;
+  /** Determines whether isEditing begins as true. */
+  startWithEditViewOpen?: boolean;
 }
 
 export interface InlineEditableTextfieldProps extends CommonProps {
@@ -71,10 +71,10 @@ export interface InlineEditableTextfieldProps extends CommonProps {
   onConfirm: (value: string) => void;
   /** The initial value of the inline edit. */
   defaultValue: string;
-  /** Text shown in read view when value is an empty string. (Optional) */
-  emptyValueText: string;
-  /** Determines whether isEditing begins as true. (Optional) */
-  startWithEditViewOpen: boolean;
+  /** Text shown in read view when value is an empty string. */
+  emptyValueText?: string;
+  /** Determines whether isEditing begins as true. */
+  startWithEditViewOpen?: boolean;
 }
 
 /** These interfaces will be exported from the Form package once it is converted to Typescript */

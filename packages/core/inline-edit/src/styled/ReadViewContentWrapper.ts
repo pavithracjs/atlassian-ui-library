@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface Props {
-  readViewFitContainerWidth: boolean;
+  readViewFitContainerWidth?: boolean;
 }
 
 const ReadViewContentWrapper = styled.div<Props>`
