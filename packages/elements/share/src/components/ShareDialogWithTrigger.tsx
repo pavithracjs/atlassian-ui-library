@@ -102,7 +102,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
   private createAndFireEvent = (payload: AnalyticsEventPayload) => {
     const { createAnalyticsEvent } = this.props;
     if (createAnalyticsEvent) {
-      createAnalyticsEvent(payload).fire();
+      createAnalyticsEvent(payload).fire('fabric-elements');
     }
   };
 
