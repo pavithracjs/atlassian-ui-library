@@ -15,7 +15,7 @@ interface DecisionItemAttrs {
   localId: string;
 }
 
-export default function taskItem({ attrs, text }: NodeSerializerOpts) {
+export default function decisionItem({ attrs, text }: NodeSerializerOpts) {
   // If there is no content, we shouldn't render anything
   if (!text) {
     return '';
