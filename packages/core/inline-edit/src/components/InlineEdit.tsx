@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next-types';
 
 import InlineEditUncontrolled from './InlineEditUncontrolled';
 import { InlineEditProps } from '../types';
@@ -30,11 +31,11 @@ class InlineEdit extends React.Component<InlineEditProps, State> {
     }
   }
 
-  onConfirm = (value: string) => {
+  onConfirm = (value: string, analyticsEvent: UIAnalyticsEvent) => {
     this.setState({
       isEditing: false,
     });
-    this.props.onConfirm(value);
+    this.props.onConfirm(value, analyticsEvent);
   };
 
   onCancel = () => {

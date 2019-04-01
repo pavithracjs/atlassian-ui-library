@@ -406,9 +406,7 @@ const analyticsEventMap: AnalyticsEventConfig[] = [
     actionSubject: 'inlineEdit',
     component: 'InlineEdit',
     props: {
-      onCancel: 'canceled',
       onConfirm: 'confirmed',
-      onEditRequested: 'edited',
     },
     attributes: {
       componentName: 'inlineEdit',

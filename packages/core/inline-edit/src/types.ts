@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next-types';
 
 interface CommonProps {
   /** Label above the input. */
@@ -40,7 +41,7 @@ export interface InlineEditUncontrolledProps extends CommonProps {
    * Handler called editView is closed and changes are confirmed.
    * Field value is passed as an argument to this function.
    */
-  onConfirm: (value: any) => void;
+  onConfirm: (value: any, analyticsEvent: UIAnalyticsEvent) => void;
   /** Handler called when checkmark is. */
   onCancel: () => void;
 }
@@ -56,7 +57,7 @@ export interface InlineEditProps extends CommonProps {
    * Handler called editView is closed and changes are confirmed.
    * Field value is passed as an argument to this function.
    */
-  onConfirm: (value: any) => void;
+  onConfirm: (value: any, analyticsEvent: UIAnalyticsEvent) => void;
   /** The value shown in the editView when it is entered. Should be updated by onConfirm. */
   editValue: any;
   /** Determines whether isEditing begins as true. */
@@ -68,13 +69,15 @@ export interface InlineEditableTextfieldProps extends CommonProps {
    * Handler called editView is closed and changes are confirmed.
    * Field value is passed as an argument to this function.
    */
-  onConfirm: (value: string) => void;
+  onConfirm: (value: string, analyticsEvent: UIAnalyticsEvent) => void;
   /** The value shown in the editView when it is entered. Should be updated by onConfirm. */
   editValue: any;
   /** Text shown in read view when value is an empty string. */
   emptyValueText?: string;
   /** Determines whether isEditing begins as true. */
   startWithEditViewOpen?: boolean;
+  /** Sets height to compact. */
+  isCompact?: boolean;
 }
 
 /** These interfaces will be exported from the Form package once it is converted to Typescript */

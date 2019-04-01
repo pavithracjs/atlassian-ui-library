@@ -30,26 +30,8 @@ describe('InlineEdit', () => {
   it('should be wrapped with analytics events', () => {
     expect(createAndFireEvent).toHaveBeenCalledWith('atlaskit');
     expect(withAnalyticsEvents).toHaveBeenLastCalledWith({
-      onCancel: {
-        action: 'canceled',
-        actionSubject: 'inlineEdit',
-        attributes: {
-          componentName: 'inlineEdit',
-          packageName,
-          packageVersion,
-        },
-      },
       onConfirm: {
         action: 'confirmed',
-        actionSubject: 'inlineEdit',
-        attributes: {
-          componentName: 'inlineEdit',
-          packageName,
-          packageVersion,
-        },
-      },
-      onEditRequested: {
-        action: 'focused',
         actionSubject: 'inlineEdit',
         attributes: {
           componentName: 'inlineEdit',

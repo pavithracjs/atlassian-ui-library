@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const InlineDialogChild = styled.div`
-  height: 40px;
+  height: 100%;
   position: absolute;
   visibility: hidden;
   width: 100%;

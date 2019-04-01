@@ -300,30 +300,8 @@ export default withAnalyticsContext({
   packageVersion,
 })(
   withAnalyticsEvents({
-    onCancel: createAndFireEventOnAtlaskit({
-      action: 'canceled',
-      actionSubject: 'inlineEdit',
-
-      attributes: {
-        componentName: 'inlineEdit',
-        packageName,
-        packageVersion,
-      },
-    }),
-
     onConfirm: createAndFireEventOnAtlaskit({
       action: 'confirmed',
-      actionSubject: 'inlineEdit',
-
-      attributes: {
-        componentName: 'inlineEdit',
-        packageName,
-        packageVersion,
-      },
-    }),
-
-    onEditRequested: createAndFireEventOnAtlaskit({
-      action: 'focused',
       actionSubject: 'inlineEdit',
 
       attributes: {

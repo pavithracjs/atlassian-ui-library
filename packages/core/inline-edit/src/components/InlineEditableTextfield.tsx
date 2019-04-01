@@ -20,10 +20,16 @@ class InlineEditableTextfield extends React.Component<
     editButtonLabel: 'Edit',
     confirmButtonLabel: 'Confirm',
     cancelButtonLabel: 'Cancel',
+    isCompact: false,
   };
 
   render() {
-    const { editValue, emptyValueText, startWithEditViewOpen } = this.props;
+    const {
+      editValue,
+      emptyValueText,
+      isCompact,
+      startWithEditViewOpen,
+    } = this.props;
     return (
       <InlineEdit
         {...this.props}
@@ -38,12 +44,14 @@ class InlineEditableTextfield extends React.Component<
                 </div>
               )
             }
+            isCompact={isCompact}
           />
         )}
         readView={() => (
-          <ReadViewContainer>{editValue || emptyValueText}</ReadViewContainer>
+          <ReadViewContainer isCompact={isCompact}>
+            {editValue || emptyValueText}
+          </ReadViewContainer>
         )}
-        onConfirm={this.props.onConfirm}
         startWithEditViewOpen={startWithEditViewOpen}
       />
     );

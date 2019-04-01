@@ -48,11 +48,12 @@ export default class InlineEditExample extends React.Component<void, State> {
         />
         <InlineEditableTextfield
           editValue={this.state.secondInlineEdit}
-          label="Inline edit textfield + start in edit view + hide action buttons (Enter to confirm, Esc to cancel) + validation"
+          label="Inline edit textfield + start in edit view + hide action buttons (Enter to confirm, Esc to cancel) + validation + compact"
           onConfirm={value => this.onConfirm(value, 'secondInlineEdit')}
           validate={this.validate}
           hideActionButtons
           startWithEditViewOpen
+          isCompact
         />
       </div>
     );
