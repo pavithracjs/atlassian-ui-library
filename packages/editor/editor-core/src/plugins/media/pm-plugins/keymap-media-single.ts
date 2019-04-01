@@ -1,6 +1,6 @@
 import { keymap } from 'prosemirror-keymap';
 import { Schema } from 'prosemirror-model';
-import { Plugin } from 'prosemirror-state';
+import { Plugin, Selection } from 'prosemirror-state';
 import * as keymaps from '../../../keymaps';
 import { isEmptyNode } from '../../../utils';
 import { Command } from '../../../types';
@@ -37,20 +37,39 @@ const maybeRemoveMediaSingleNode = (schema: Schema): Command => {
     }
 
     const maybeMediaSingle = doc.maybeChild(index - 1);
-    if (
+    const isNotWrapRight =
       !maybeMediaSingle ||
       maybeMediaSingle.type !== schema.nodes.mediaSingle ||
-      maybeMediaSingle.attrs.layout !== 'wrap-right'
-    ) {
+      maybeMediaSingle.attrs.layout !== 'wrap-right';
+    if (isNotWrapRight) {
       return false;
     }
 
+    // Here is wrap right
     const maybeAnyBlock = doc.maybeChild(index - 2);
-    if (!maybeAnyBlock || !isEmptyNodeInSchema(maybeAnyBlock)) {
+    if (!maybeAnyBlock || isEmptyNodeInSchema(maybeAnyBlock)) {
+      // the last is the image so should let the default behaviour delete the image
       return false;
     }
 
-    const tr = state.tr.replace(index - 2, maybeAnyBlock.nodeSize);
+    // Should find the position
+    let tr = state.tr;
+    doc.forEach((node, offset, currentIndex) => {
+      if (currentIndex === index - 2) {
+        tr = tr.replace(
+          offset + maybeAnyBlock.nodeSize - 2,
+          offset + maybeAnyBlock.nodeSize - 1,
+        );
+        tr.setSelection(
+          Selection.findFrom(
+            tr.doc.resolve(offset + maybeAnyBlock.nodeSize - 2),
+            -1,
+            true,
+          )!,
+        );
+      }
+      return;
+    });
 
     if (dispatch) {
       dispatch(tr);

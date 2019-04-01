@@ -38,6 +38,7 @@ const basePlugin: EditorPlugin = {
         plugin: () =>
           keymap({
             ...baseKeymap,
+            // 'Backspace': () => true
             'Mod-[': () => true,
             'Mod-]': () => true,
           }),
