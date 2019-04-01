@@ -105,7 +105,7 @@ export const insertMediaSingleNode = (
 export const createMediaSingleNode = (schema: Schema, collection: string) => (
   mediaState: MediaSingleState,
 ) => {
-  const { id, dimensions, scaleFactor = 1 } = mediaState;
+  const { id, dimensions, preview, scaleFactor = 1 } = mediaState;
   const { width, height } = dimensions || {
     height: undefined,
     width: undefined,
@@ -118,6 +118,7 @@ export const createMediaSingleNode = (schema: Schema, collection: string) => (
     collection,
     width: Math.round(width / scaleFactor),
     height: Math.round(height / scaleFactor),
+    __src: preview || null,
   });
 
   copyOptionalAttrsFromMediaState(mediaState, mediaNode);

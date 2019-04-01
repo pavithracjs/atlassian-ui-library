@@ -6,6 +6,7 @@ import {
 } from '@atlaskit/media-store';
 import { CollectionFetcher } from '../collection';
 import { FileFetcherImpl, FileFetcher } from '../file';
+import { fileStreamsCache } from './fileStreamCache';
 
 export interface Context {
   getImage(
@@ -46,12 +47,14 @@ class ContextImpl implements Context {
     this.file = new FileFetcherImpl(this.mediaStore);
   }
 
-  getImage(
+  async getImage(
     id: string,
     params?: MediaStoreGetFileImageParams,
     controller?: AbortController,
   ): Promise<Blob> {
-    return this.mediaStore.getImage(id, params, controller);
+    const blob = await this.mediaStore.getImage(id, params, controller);
+    fileStreamsCache.setPreview(id, blob);
+    return blob;
   }
 
   getImageUrl(

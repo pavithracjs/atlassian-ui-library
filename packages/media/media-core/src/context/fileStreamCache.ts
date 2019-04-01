@@ -10,9 +10,12 @@ export class FileStreamCache {
     { promise: Promise<FileState>; resolve: Function }
   >;
 
+  private readonly filePreviews: Map<string, Blob>;
+
   constructor() {
     this.fileStreams = new LRUCache(1000);
     this.stateDeferreds = new Map();
+    this.filePreviews = new Map();
   }
 
   has(id: string): boolean {
@@ -21,13 +24,15 @@ export class FileStreamCache {
 
   set(id: string, fileStream: Observable<FileState>) {
     this.fileStreams.set(id, fileStream);
-    const deferred = this.stateDeferreds.get(id);
-
-    if (deferred) {
-      observableToPromise(fileStream).then(state => {
-        deferred.resolve(state);
-      });
-    }
+    fileStream.toPromise().then(async state => {
+      const currentPreview = this.getPreview(id);
+      if (!currentPreview && state.status !== 'error' && state.preview) {
+        const previewValue = (await state.preview).value;
+        if (previewValue instanceof Blob) {
+          this.setPreview(id, previewValue);
+        }
+      }
+    });
   }
 
   get(id: string): Observable<FileState> | undefined {
@@ -71,6 +76,14 @@ export class FileStreamCache {
 
   get size(): number {
     return this.fileStreams.size;
+  }
+
+  setPreview(id: string, blob: Blob) {
+    this.filePreviews.set(id, blob);
+  }
+
+  getPreview(id: string): Blob | undefined {
+    return this.filePreviews.get(id);
   }
 }
 

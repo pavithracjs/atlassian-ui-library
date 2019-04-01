@@ -206,6 +206,8 @@ export default class PickerFacade {
       fileMimeType: file.type,
       dimensions,
       scaleFactor,
+      state: 'preview',
+      preview: URL.createObjectURL(preview.file),
     };
 
     this.eventListeners[file.id] = [];

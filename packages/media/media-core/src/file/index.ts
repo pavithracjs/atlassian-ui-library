@@ -80,6 +80,7 @@ export interface FileFetcher {
     controller?: UploadController,
     uploadableFileUpfrontIds?: UploadableFileUpfrontIds,
   ): Observable<FileState>;
+  uploadExternal(url: string, collectionName?: string): Promise<string>;
   downloadBinary(
     id: string,
     name?: string,
@@ -242,6 +243,37 @@ export class FileFetcherImpl implements FileFetcher {
     };
   }
 
+  public uploadExternal(
+    externalImage: string,
+    collectionName?: string,
+  ): Promise<string> {
+    return new Promise<string>(async (resolve, reject) => {
+      try {
+        const url = new URL(externalImage);
+        const isSameOrigin = url.origin === location.origin;
+        if (isSameOrigin) {
+          const blob = await (await fetch(externalImage)).blob();
+          // TODO v2: pass file descriptor to use file id upfront
+          // TODO: pass file name
+          const subscription = this.upload({
+            content: blob,
+            collection: collectionName,
+            mimeType: blob.type,
+          }).subscribe({
+            next: fileState => {
+              const { id } = fileState;
+              resolve(id);
+              setTimeout(() => subscription.unsubscribe(), 0);
+            },
+          });
+        }
+        // TODO: should we reject if it's a different origin?
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
   public upload(
     file: UploadableFile,
     controller?: UploadController,
@@ -306,7 +338,6 @@ export class FileFetcherImpl implements FileFetcher {
 
       subject.next({
         status: 'processing',
-        representations: {},
         ...stateBase,
       });
       subject.complete();
@@ -345,10 +376,6 @@ export class FileFetcherImpl implements FileFetcher {
     const isIE11 =
       !!(window as any).MSInputMethodContext &&
       !!(document as any).documentMode;
-    const isSafari = /^((?!chrome|android).)*safari/i.test(
-      (navigator as Navigator).userAgent,
-    );
-
     const iframeName = 'media-download-iframe';
     const link = document.createElement('a');
     let iframe = document.getElementById(iframeName) as HTMLIFrameElement;
@@ -361,7 +388,7 @@ export class FileFetcherImpl implements FileFetcher {
     }
     link.href = await this.mediaStore.getFileBinaryURL(id, collectionName);
     link.download = name;
-    link.target = isIE11 || isSafari ? '_blank' : iframeName;
+    link.target = isIE11 ? '_blank' : iframeName;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

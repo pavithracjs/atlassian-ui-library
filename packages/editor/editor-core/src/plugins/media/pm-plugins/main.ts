@@ -10,7 +10,11 @@ import {
   Plugin,
   PluginKey,
 } from 'prosemirror-state';
-import { Context, FileIdentifier } from '@atlaskit/media-core';
+import {
+  Context,
+  FileIdentifier,
+  fileStreamsCache,
+} from '@atlaskit/media-core';
 import { UploadParams } from '@atlaskit/media-picker';
 import { MediaSingleLayout, MediaBaseAttributes } from '@atlaskit/adf-schema';
 
@@ -711,6 +715,15 @@ export class MediaPluginState {
           uploadErrorHandler(state);
         }
         break;
+
+      case 'ready': {
+        console.log('upload ready..');
+
+        const preview = fileStreamsCache.getPreview(state.id);
+        console.log('preview is ', preview);
+
+        break;
+      }
 
       case 'mobile-upload-end':
         const isMediaSingle =
