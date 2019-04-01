@@ -1,5 +1,25 @@
 # @atlaskit/renderer
 
+## 44.7.0
+- [minor] [001fa9a7d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/001fa9a7d0):
+
+  - render adf - email actions and decisions
+
+## 44.6.1
+- [patch] [106d046114](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/106d046114):
+
+  - Fix issue with media-viewer opening in CC on inline video player controlls clicked
+
+## 44.6.0
+- [minor] [1593822e4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1593822e4d):
+
+  - CS-857 Email renderer puts placeholders in place of extensions
+
+## 44.5.0
+- [minor] [e6f58b1837](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6f58b1837):
+
+  - Email renderer layout column and section support
+
 ## 44.4.3
 - Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
   - @atlaskit/editor-common@35.1.3

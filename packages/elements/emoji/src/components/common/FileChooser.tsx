@@ -7,12 +7,17 @@ export interface Props {
   label: string;
   ariaLabel?: string;
   onChange?: ChangeEventHandler<any>;
+  onClick?: () => void;
   accept?: string;
   isDisabled?: boolean;
 }
 
 export default class FileChooser extends PureComponent<Props, {}> {
   onChooseFile = () => {
+    if (this.props.onClick) {
+      this.props.onClick();
+    }
+
     const chooseFile = this.refs['chooseFile'] as HTMLInputElement;
     if (chooseFile) {
       chooseFile.click();

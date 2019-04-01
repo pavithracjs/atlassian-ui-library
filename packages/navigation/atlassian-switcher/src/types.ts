@@ -44,6 +44,7 @@ export enum Product {
 
 export enum Feature {
   enableSplitJira = 'enableSplitJira',
+  enableExpandLink = 'enableExpandLink',
 }
 
 export type FeatureFlagProps = { [key in Feature]: boolean };
