@@ -1,1 +1,0 @@
-- ED-6181 Add analytics to paste event

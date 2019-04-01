@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.1.1
+- [patch] [67e5bfeb72](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67e5bfeb72):
+
+  - ED-6181 Add analytics to paste event
+
 ## 107.1.0
 - [minor] [e36f791fd6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e36f791fd6):
 
