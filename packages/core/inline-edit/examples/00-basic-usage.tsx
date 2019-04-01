@@ -23,7 +23,7 @@ export default class InlineEditExample extends React.Component<void, State> {
 
   render() {
     return (
-      <div style={{ padding: '0 16px' }}>
+      <div style={{ padding: '0 16px 60px' }}>
         <InlineEdit
           editValue={this.state.editValue}
           label="Inline edit field"
