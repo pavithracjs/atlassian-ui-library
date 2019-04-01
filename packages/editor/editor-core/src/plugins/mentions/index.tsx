@@ -127,7 +127,7 @@ const mentionsPlugin = (
           description: formatMessage(messages.mentionDescription),
           priority: 400,
           keyshortcut: '@',
-          icon: () => <IconMention />,
+          icon: () => <IconMention label={formatMessage(messages.mention)} />,
           action(insert, state) {
             const mark = state.schema.mark('typeAheadQuery', {
               trigger: '@',

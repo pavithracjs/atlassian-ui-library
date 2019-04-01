@@ -47,7 +47,7 @@ const listPlugin: EditorPlugin = {
         keywords: ['ul', 'unordered list'],
         priority: 1100,
         keyshortcut: tooltip(toggleBulletList),
-        icon: () => <IconList />,
+        icon: () => <IconList label={formatMessage(messages.unorderedList)} />,
         action(insert, state) {
           const tr = insert(
             state.schema.nodes.bulletList.createChecked(
@@ -76,7 +76,9 @@ const listPlugin: EditorPlugin = {
         keywords: ['ol', 'ordered list', 'numbered list'],
         priority: 1200,
         keyshortcut: tooltip(toggleOrderedList),
-        icon: () => <IconListNumber />,
+        icon: () => (
+          <IconListNumber label={formatMessage(messages.orderedList)} />
+        ),
         action(insert, state) {
           const tr = insert(
             state.schema.nodes.orderedList.createChecked(

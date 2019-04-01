@@ -111,7 +111,7 @@ const blockType: EditorPlugin = {
         description: formatMessage(messages.blockquoteDescription),
         priority: 1300,
         keyshortcut: tooltip(toggleBlockQuote),
-        icon: () => <IconQuote />,
+        icon: () => <IconQuote label={formatMessage(messages.blockquote)} />,
         action(insert, state) {
           const tr = insert(
             state.schema.nodes.blockquote.createChecked(

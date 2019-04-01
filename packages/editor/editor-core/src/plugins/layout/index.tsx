@@ -44,7 +44,7 @@ export default {
         description: formatMessage(messages.columnsDescription),
         keywords: ['layout', 'section'],
         priority: 1100,
-        icon: () => <IconLayout />,
+        icon: () => <IconLayout label={formatMessage(messages.columns)} />,
         action(insert, state) {
           return insert(createDefaultLayoutSection(state));
         },

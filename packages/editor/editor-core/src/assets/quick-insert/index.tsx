@@ -1,5 +1,9 @@
 import * as Loadable from 'react-loadable';
 
+export interface IconProps {
+  label?: string;
+}
+
 export const IconAction = Loadable({
   loader: () => import('./action').then(module => module.default),
   loading: () => null,
@@ -20,7 +24,7 @@ export const IconDecision = Loadable({
   loading: () => null,
 });
 
-export const IconDivider = Loadable({
+export const IconDivider = Loadable<IconProps, React.Component>({
   loader: () => import('./divider').then(module => module.default),
   loading: () => null,
 });

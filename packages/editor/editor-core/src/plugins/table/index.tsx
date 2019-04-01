@@ -160,7 +160,7 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
         description: formatMessage(messages.tableDescription),
         priority: 600,
         keyshortcut: tooltip(toggleTable),
-        icon: () => <IconTable />,
+        icon: () => <IconTable label={formatMessage(messages.table)} />,
         action(insert, state) {
           const tr = insert(createTable(state.schema));
           return addAnalytics(tr, {

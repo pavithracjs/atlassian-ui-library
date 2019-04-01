@@ -75,7 +75,7 @@ const panelPlugin: EditorPlugin = {
         description: formatMessage(messages.panelDescription),
         keywords: ['info'],
         priority: 900,
-        icon: () => <IconPanel />,
+        icon: () => <IconPanel label={formatMessage(messages.panel)} />,
         action(insert, state) {
           return insertPanelTypeWithAnalytics(PANEL_TYPE.INFO, state, insert);
         },
@@ -85,7 +85,7 @@ const panelPlugin: EditorPlugin = {
         description: formatMessage(messages.notePanelDescription),
         keywords: ['note'],
         priority: 1000,
-        icon: () => <IconPanelNote />,
+        icon: () => <IconPanelNote label={formatMessage(messages.notePanel)} />,
         action(insert, state) {
           return insertPanelTypeWithAnalytics(PANEL_TYPE.NOTE, state, insert);
         },
@@ -95,7 +95,9 @@ const panelPlugin: EditorPlugin = {
         description: formatMessage(messages.successPanelDescription),
         keywords: ['success', 'tip'],
         priority: 1000,
-        icon: () => <IconPanelSuccess />,
+        icon: () => (
+          <IconPanelSuccess label={formatMessage(messages.successPanel)} />
+        ),
         action(insert, state) {
           return insertPanelTypeWithAnalytics(
             PANEL_TYPE.SUCCESS,
@@ -109,7 +111,9 @@ const panelPlugin: EditorPlugin = {
         description: formatMessage(messages.warningPanelDescription),
         keywords: ['warning'],
         priority: 1000,
-        icon: () => <IconPanelWarning />,
+        icon: () => (
+          <IconPanelWarning label={formatMessage(messages.warningPanel)} />
+        ),
         action(insert, state) {
           return insertPanelTypeWithAnalytics(
             PANEL_TYPE.WARNING,
@@ -123,7 +127,9 @@ const panelPlugin: EditorPlugin = {
         description: formatMessage(messages.errorPanelDescription),
         keywords: ['error'],
         priority: 1000,
-        icon: () => <IconPanelError />,
+        icon: () => (
+          <IconPanelError label={formatMessage(messages.errorPanel)} />
+        ),
         action(insert, state) {
           return insertPanelTypeWithAnalytics(PANEL_TYPE.ERROR, state, insert);
         },

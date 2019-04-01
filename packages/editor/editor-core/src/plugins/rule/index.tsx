@@ -40,7 +40,9 @@ const rulePlugin: EditorPlugin = {
         keywords: ['horizontal rule', 'rule', 'line'],
         priority: 1200,
         keyshortcut: '---',
-        icon: () => <IconDivider />,
+        icon: () => (
+          <IconDivider label={formatMessage(messages.horizontalRule)} />
+        ),
         action(insert, state) {
           const tr = insert(state.schema.nodes.rule.createChecked());
           return addAnalytics(tr, {

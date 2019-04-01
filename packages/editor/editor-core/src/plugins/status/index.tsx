@@ -102,7 +102,7 @@ const decorateWithPluginOptions = (
         description: formatMessage(messages.statusDescription),
         priority: 700,
         keywords: ['lozenge'],
-        icon: () => <IconStatus />,
+        icon: () => <IconStatus label={formatMessage(messages.status)} />,
         action: createStatus(),
       },
     ],

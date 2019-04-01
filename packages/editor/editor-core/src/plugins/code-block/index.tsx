@@ -45,7 +45,7 @@ const codeBlockPlugin = (options: CodeBlockOptions = {}): EditorPlugin => ({
         description: formatMessage(messages.codeblockDescription),
         priority: 700,
         keyshortcut: '```',
-        icon: () => <IconCode />,
+        icon: () => <IconCode label={formatMessage(messages.codeblock)} />,
         action(insert, state) {
           const schema = state.schema;
           const tr = insert(schema.nodes.codeBlock.createChecked());

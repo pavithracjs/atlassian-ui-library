@@ -192,7 +192,9 @@ const mediaPlugin = (
         description: formatMessage(messages.filesAndImages),
         priority: 400,
         keywords: ['media'],
-        icon: () => <IconImages />,
+        icon: () => (
+          <IconImages label={formatMessage(messages.filesAndImages)} />
+        ),
         action(insert, state) {
           const pluginState = pluginKey.getState(state);
           pluginState.showMediaPicker();

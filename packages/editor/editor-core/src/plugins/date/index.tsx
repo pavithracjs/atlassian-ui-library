@@ -107,7 +107,7 @@ const datePlugin: EditorPlugin = {
         priority: 800,
         keywords: ['time', 'today', '/'],
         keyshortcut: '//',
-        icon: () => <IconDate />,
+        icon: () => <IconDate label={formatMessage(messages.date)} />,
         action(insert, state) {
           const dateNode = state.schema.nodes.date.createChecked({
             timestamp: todayTimestampInUTC(),

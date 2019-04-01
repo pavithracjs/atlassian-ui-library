@@ -49,7 +49,7 @@ const hyperlinkPlugin: EditorPlugin = {
         keywords: ['url', 'link', 'hyperlink'],
         priority: 1200,
         keyshortcut: tooltip(addLink),
-        icon: () => <IconLink />,
+        icon: () => <IconLink label={formatMessage(messages.link)} />,
         action(insert, state) {
           const pos = state.selection.from;
           const { nodeBefore } = state.selection.$from;
