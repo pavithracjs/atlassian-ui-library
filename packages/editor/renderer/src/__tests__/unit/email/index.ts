@@ -18,6 +18,7 @@ import * as status from '../../__fixtures__/status.adf.json';
 import * as tableNumberedColumn from '../../__fixtures__/table-numbered-column.adf.json';
 import * as layoutColumnSection from '../../__fixtures__/layout-column-section.adf.json';
 import * as extensions from '../../__fixtures__/extensions.adf.json';
+import * as date from '../../__fixtures__/date.adf.json';
 
 import * as image from '../../__fixtures__/image.adf.json';
 import * as placeholder from '../../__fixtures__/placeholder.adf.json';
@@ -142,6 +143,11 @@ describe('Renderer - EmailSerializer', () => {
 
   it('should render extension placeholders', () => {
     const output = render(extensions);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render dates in normal text and task lists', () => {
+    const output = render(date);
     expect(output).toMatchSnapshot();
   });
 });

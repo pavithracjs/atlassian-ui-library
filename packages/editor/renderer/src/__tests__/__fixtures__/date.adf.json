@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "type": "doc",
+  "content": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "date",
+          "attrs": {
+            "timestamp": "1554163200000"
+          }
+        },
+        {
+          "type": "text",
+          "text": " "
+        }
+      ]
+    },
+    {
+      "type": "taskList",
+      "attrs": {
+        "localId": "146b62d2-4d18-412e-925a-b6079ab9c0c0"
+      },
+      "content": [
+        {
+          "type": "taskItem",
+          "attrs": {
+            "localId": "dda01c7f-ac61-4c90-85e9-f8708aa993f8",
+            "state": "TODO"
+          },
+          "content": [
+            {
+              "type": "date",
+              "attrs": {
+                "timestamp": "1553990400000"
+              }
+            },
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        },
+        {
+          "type": "taskItem",
+          "attrs": {
+            "localId": "35b77301-8167-48e6-a514-e9d016adfbd2",
+            "state": "TODO"
+          },
+          "content": [
+            {
+              "type": "date",
+              "attrs": {
+                "timestamp": "1556841600000"
+              }
+            },
+            {
+              "type": "text",
+              "text": " "
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
