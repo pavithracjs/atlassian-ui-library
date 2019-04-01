@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 44.6.1
+- [patch] [106d046114](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/106d046114):
+
+  - Fix issue with media-viewer opening in CC on inline video player controlls clicked
+
 ## 44.6.0
 - [minor] [1593822e4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1593822e4d):
 

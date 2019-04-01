@@ -1,1 +1,0 @@
-- Fix issue with media-viewer opening in CC on inline video player controlls clicked
