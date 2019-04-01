@@ -421,9 +421,7 @@ export class Card extends Component<CardProps, CardState> {
     }
 
     const collectionName = isFileIdentifier(identifier)
-      ? identifier.collectionName
-        ? identifier.collectionName
-        : ''
+      ? identifier.collectionName || ''
       : '';
     const dataSource = this.getMediaViewerDataSource();
 
