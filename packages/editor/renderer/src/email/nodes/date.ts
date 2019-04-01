@@ -23,7 +23,7 @@ const colorMapping: ColorMapping = {
 export default function status({ attrs }: NodeSerializerOpts) {
   const timestamp: string = attrs.timestamp;
   let parentIsTask: boolean = false;
-  if (attrs && attrs.state) {
+  if (attrs && attrs.isParentAnInlineTask) {
     parentIsTask = true;
   }
   const colorAttributes =
@@ -41,6 +41,7 @@ export default function status({ attrs }: NodeSerializerOpts) {
     'line-height': '1',
     'max-width': '100%',
     'vertical-align': 'baseline',
+    'border-width': '3px',
     padding: '2px 4px 3px 4px',
     ...colorAttributes,
   });

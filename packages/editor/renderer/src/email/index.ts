@@ -52,7 +52,7 @@ const getAttrsFromParent = (
       isNumberColumnEnabled: true,
     };
   } else if (parent && parent.attrs && parent.attrs.state === 'TODO') {
-    return { state: true };
+    return { isParentAnInlineTask: true };
   }
   return {};
 };
