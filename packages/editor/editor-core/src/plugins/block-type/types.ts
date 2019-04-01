@@ -79,7 +79,7 @@ export const messages = defineMessages({
   },
   panelDescription: {
     id: 'fabric.editor.panel.description',
-    defaultMessage: 'Emphasize important information',
+    defaultMessage: 'Highlight information in a colored panel',
     description:
       'Visually distinguishes your text by adding a background colour (blue, purple, yellow, green, red)',
   },
@@ -90,7 +90,7 @@ export const messages = defineMessages({
   },
   notePanelDescription: {
     id: 'fabric.editor.notePanel.description',
-    defaultMessage: 'Call out certain information in a negative way',
+    defaultMessage: 'Add a note in a colored panel',
     description: 'Visually distinguishes your text by adding a note panel',
   },
   successPanel: {
@@ -100,7 +100,7 @@ export const messages = defineMessages({
   },
   successPanelDescription: {
     id: 'fabric.editor.successPanel.description',
-    defaultMessage: 'Call out certain information in a positive way',
+    defaultMessage: 'Add tips in a colored panel',
     description: 'Visually distinguishes your text by adding a success panel',
   },
   warningPanel: {
@@ -110,7 +110,7 @@ export const messages = defineMessages({
   },
   warningPanelDescription: {
     id: 'fabric.editor.warningPanel.description',
-    defaultMessage: 'Caution people about certain information',
+    defaultMessage: 'Add a note of caution in a colored panel',
     description: 'Visually distinguishes your text by adding a warning panel',
   },
   errorPanel: {
@@ -120,7 +120,7 @@ export const messages = defineMessages({
   },
   errorPanelDescription: {
     id: 'fabric.editor.errorPanel.description',
-    defaultMessage: 'Call out certain information in a negative way',
+    defaultMessage: 'Call out errors in a colored panel',
     description: 'Visually distinguishes your text by adding a error panel',
   },
   other: {

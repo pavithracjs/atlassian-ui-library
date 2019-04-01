@@ -92,7 +92,7 @@ export const messages = defineMessages({
   },
   linkDescription: {
     id: 'fabric.editor.link.description',
-    defaultMessage: 'Insert an external link',
+    defaultMessage: 'Link to an internal or external page',
     description: 'Insert a hyperlink',
   },
   filesAndImages: {
@@ -102,7 +102,7 @@ export const messages = defineMessages({
   },
   filesAndImagesDescription: {
     id: 'fabric.editor.filesAndImages.description',
-    defaultMessage: 'Insert files locally or from the cloud',
+    defaultMessage: 'Add images and other files to your page',
     description: 'Insert one or more files or images',
   },
   image: {
@@ -117,7 +117,7 @@ export const messages = defineMessages({
   },
   mentionDescription: {
     id: 'fabric.editor.mention.description',
-    defaultMessage: 'Mention somebody in your team',
+    defaultMessage: 'Mention someone to send them a notification',
     description: 'Reference another person in your document',
   },
   emoji: {
@@ -127,7 +127,7 @@ export const messages = defineMessages({
   },
   emojiDescription: {
     id: 'fabric.editor.emoji.description',
-    defaultMessage: 'Insert an emoji (even custom ones!)',
+    defaultMessage: 'Use emojis to express ideas 🎉 and emotions 😄',
     description: 'Insert an emoticon or smiley :-)',
   },
   table: {
@@ -147,7 +147,7 @@ export const messages = defineMessages({
   },
   decisionDescription: {
     id: 'fabric.editor.decision.description',
-    defaultMessage: 'Capture decisions to move work forward',
+    defaultMessage: 'Capture decisions so they’re easy to track',
     description: 'Capture a decision you’ve made',
   },
   horizontalRule: {
@@ -157,7 +157,7 @@ export const messages = defineMessages({
   },
   horizontalRuleDescription: {
     id: 'fabric.editor.horizontalRule.description',
-    defaultMessage: 'Visually divide blocks with a horizontal line',
+    defaultMessage: 'Separate content with a horizontal line',
     description: 'A horizontal rule or divider',
   },
   date: {
@@ -167,7 +167,7 @@ export const messages = defineMessages({
   },
   dateDescription: {
     id: 'fabric.editor.date.description',
-    defaultMessage: 'Insert a date inside a text',
+    defaultMessage: 'Add a date using a calendar',
     description: 'Opens a date picker that lets you select a date',
   },
   placeholderText: {
@@ -193,7 +193,7 @@ export const messages = defineMessages({
   },
   statusDescription: {
     id: 'fabric.editor.status.description',
-    defaultMessage: 'Insert a colored lozenge with text inline',
+    defaultMessage: 'Create a colored lozenge with text inside',
     description:
       'Inserts an item representing the status of an activity to task.',
   },

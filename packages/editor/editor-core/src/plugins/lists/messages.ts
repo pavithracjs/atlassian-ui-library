@@ -9,7 +9,7 @@ export const messages = defineMessages({
   },
   unorderedListDescription: {
     id: 'fabric.editor.unorderedList.description',
-    defaultMessage: 'Insert a bullet list',
+    defaultMessage: 'Create an unordered list',
     description: '',
   },
   orderedList: {
@@ -19,7 +19,7 @@ export const messages = defineMessages({
   },
   orderedListDescription: {
     id: 'fabric.editor.orderedList.description',
-    defaultMessage: 'Insert a numbered list',
+    defaultMessage: 'Create an ordered list',
     description: '',
   },
   lists: {
