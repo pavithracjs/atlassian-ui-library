@@ -13,12 +13,17 @@ export interface WithCloudId {
   cloudId: string;
 }
 
+export enum RecentContainerType {
+  JIRA_PROJECT = 'jira-project',
+  CONFLUENCE_SPACE = 'confluence-space',
+}
+
 export interface RecentContainer {
   name: string;
   url: string;
   objectId: string;
   iconUrl: string;
-  type: string;
+  type: RecentContainerType;
 }
 
 export interface CustomLink {
