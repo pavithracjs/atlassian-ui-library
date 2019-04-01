@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
+
+import { filter } from '@atlaskit/adf-utils';
 import {
   CardAppearance,
   CardDimensions,
@@ -21,9 +23,9 @@ import {
   ImageLoaderProps,
   // @ts-ignore
   ImageLoaderState,
-  ADNode,
 } from '@atlaskit/editor-common';
 import { RendererAppearance } from './Renderer';
+import { RendererContext } from '../react';
 
 export interface MediaProvider {
   viewContext?: Context;
@@ -48,11 +50,17 @@ export interface MediaCardProps {
   imageStatus?: ImageStatus;
   disableOverlay?: boolean;
   useInlinePlayer?: boolean;
+  rendererContext?: RendererContext;
 }
 
 export interface State {
   context?: Context;
 }
+
+// any[] is because despite occurrenceKey in FileIndentifier defined as string | undefined, it is passed as null by actual adf node,
+// while media viewer has a strict comparison of selected item's occurrenceKey against the list of items for navigation
+// so we have to explicitly set it to null in the list until Media Viewer is not fixed
+const mediaIdentifierList: any[] = [];
 
 export class MediaCardInternal extends Component<MediaCardProps, State> {
   state: State = {};
@@ -84,7 +92,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     );
   };
 
-  private renderExternal() {
+  private renderExternal(shouldOpenMediaViewer: boolean) {
     const { context } = this.state;
     const {
       cardDimensions,
@@ -113,6 +121,8 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
         appearance={appearance}
         resizeMode={resizeMode}
         disableOverlay={disableOverlay}
+        shouldOpenMediaViewer={shouldOpenMediaViewer}
+        mediaViewerDataSource={{ list: mediaIdentifierList }}
       />
     );
   }
@@ -131,7 +141,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       disableOverlay,
       useInlinePlayer,
       rendererContext,
-    } = this.props as any;
+    } = this.props;
     const isMobile = rendererAppearance === 'mobile';
     const shouldPlayInline =
       useInlinePlayer !== undefined ? useInlinePlayer : true;
@@ -139,8 +149,41 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       eventHandlers && eventHandlers.media && eventHandlers.media.onClick;
     const shouldOpenMediaViewer = !isMobile && !onCardClick;
 
+    if (rendererContext && rendererContext.adDoc) {
+      filter(rendererContext.adDoc, adNode => adNode.type === 'media').forEach(
+        adfNode => {
+          if (adfNode.attrs) {
+            if (
+              adfNode.attrs.type === 'file' &&
+              !mediaIdentifierList.find(
+                identifier => identifier.id === adfNode.attrs!.id,
+              )
+            ) {
+              mediaIdentifierList.push({
+                id: adfNode.attrs.id,
+                mediaItemType: adfNode.attrs.type,
+                collectionName: adfNode.attrs.collection,
+                occurrenceKey: null,
+              });
+            } else if (
+              adfNode.attrs.type === 'external' &&
+              !mediaIdentifierList.find(
+                identifier => identifier.dataURI === adfNode.attrs!.url,
+              )
+            ) {
+              mediaIdentifierList.push({
+                dataURI: adfNode.attrs.url,
+                mediaItemType: 'external-image',
+                name: adfNode.attrs.name,
+              });
+            }
+          }
+        },
+      );
+    }
+
     if (type === 'external') {
-      return this.renderExternal();
+      return this.renderExternal(shouldOpenMediaViewer);
     }
 
     if (type === 'link') {
@@ -168,11 +211,6 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       occurrenceKey,
     };
 
-    const list =
-      rendererContext && rendererContext.adDoc
-        ? getMediaFromADF(rendererContext.adDoc)
-        : [];
-
     return (
       <Card
         identifier={identifier}
@@ -184,45 +222,10 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
         disableOverlay={disableOverlay}
         useInlinePlayer={isMobile ? false : shouldPlayInline}
         shouldOpenMediaViewer={shouldOpenMediaViewer}
-        mediaViewerDataSource={{ list }}
+        mediaViewerDataSource={{ list: mediaIdentifierList }}
       />
     );
   }
 }
 
 export const MediaCard = withImageLoader<MediaCardProps>(MediaCardInternal);
-
-type CallBackType = (key: string, value: any) => void;
-
-function traverseADTree(root: any, callbackFunc: CallBackType) {
-  for (const nodeKey of Object.keys(root)) {
-    const nodeValue: any = root[nodeKey] as any;
-    callbackFunc(nodeKey, nodeValue);
-
-    // go deeper
-    if (nodeValue !== null && typeof nodeValue === 'object') {
-      traverseADTree(root[nodeKey] as any, callbackFunc);
-    }
-  }
-}
-
-function filterADNodesByType(root: ADNode, typeName: string): ADNode[] {
-  const results: ADNode[] = [];
-
-  traverseADTree(root, (nodeKey, nodeValue) => {
-    if (nodeValue && nodeValue.type === typeName) {
-      results.push(nodeValue as ADNode);
-    }
-  });
-
-  return results;
-}
-
-const getMediaFromADF = (adf: any): any[] => {
-  return filterADNodesByType(adf, 'media').map(({ attrs }) => ({
-    id: attrs.id,
-    mediaItemType: attrs.type,
-    collectionName: attrs.collection,
-    occurrenceKey: null, // media viewer has a strict comparison of selected item's occurrenceKey against the list of items for navigation
-  }));
-};
