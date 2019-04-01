@@ -19,7 +19,7 @@
     "@atlaskit/layer": "^6.0.0",
     "@atlaskit/lozenge": "^7.0.1",
     "@atlaskit/popper": "^0.4.0",
-    "@atlaskit/portal": "^0.2.0",
+    "@atlaskit/portal": "^0.3.0",
     "@atlaskit/spinner": "^10.0.1",
     "@atlaskit/theme": "^8.1.1",
     "@atlaskit/util-shared-styles": "^2.10.3",
