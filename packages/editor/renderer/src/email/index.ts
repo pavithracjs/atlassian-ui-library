@@ -51,6 +51,8 @@ const getAttrsFromParent = (
       index: index,
       isNumberColumnEnabled: true,
     };
+  } else if (parent && parent.attrs && parent.attrs.state === 'TODO') {
+    return { state: true };
   }
   return {};
 };
