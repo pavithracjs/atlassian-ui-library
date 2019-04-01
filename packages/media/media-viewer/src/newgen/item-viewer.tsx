@@ -5,7 +5,6 @@ import {
   Identifier,
   isExternalImageIdentifier,
   isFileIdentifier,
-  ExternalImageIdentifier,
 } from '@atlaskit/media-core';
 import { FormattedMessage } from 'react-intl';
 import { messages } from '@atlaskit/media-ui';
