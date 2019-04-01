@@ -29,6 +29,8 @@ import unknownBlock from './nodes/unknown-block';
 import status from './nodes/status';
 import layoutColumn from './nodes/layoutColumn';
 import layoutSection from './nodes/layoutSection';
+import bodiedExtension from './nodes/bodiedExtension';
+import inlineExtension from './nodes/inlineExtension';
 
 import code from './marks/code';
 import em from './marks/em';
@@ -45,7 +47,7 @@ const renderNothing = (): string => '';
 const doNotMark = ({ text }: MarkSerializerOpts): string => text;
 
 export const nodeSerializers: { [key: string]: NodeSerializer } = {
-  bodiedExtension: renderNothing,
+  bodiedExtension: bodiedExtension,
   blockquote,
   blockCard,
   bulletList,
@@ -53,10 +55,12 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   decisionList,
   decisionItem,
   emoji,
+  extension: bodiedExtension, // Old node, treated as bodied ext. for backwards compatibility
   image: renderNothing,
   inlineCard,
   layoutColumn,
   layoutSection,
+  inlineExtension,
   hardBreak,
   heading,
   listItem,
