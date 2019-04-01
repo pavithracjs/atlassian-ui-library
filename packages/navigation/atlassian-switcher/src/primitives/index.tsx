@@ -3,5 +3,13 @@ import Section from './section';
 import SwitcherWrapper from './wrapper';
 import ManageButton from './manage-button';
 import Skeleton from './skeleton';
+import ExpandLink from './expand-link';
 
-export { SwitcherItem, SwitcherWrapper, ManageButton, Section, Skeleton };
+export {
+  ExpandLink,
+  SwitcherItem,
+  SwitcherWrapper,
+  ManageButton,
+  Section,
+  Skeleton,
+};
