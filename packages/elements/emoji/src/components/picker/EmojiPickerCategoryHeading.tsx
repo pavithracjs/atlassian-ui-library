@@ -2,7 +2,7 @@ import * as classnames from 'classnames';
 import * as React from 'react';
 import { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { isMessagesKey } from '../../type-helpers';
+import { isMessagesKey } from '../../util/type-helpers';
 import { messages } from '../i18n';
 import * as styles from './styles';
 

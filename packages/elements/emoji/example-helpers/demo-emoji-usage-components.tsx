@@ -3,7 +3,7 @@ import * as React from 'react';
 import { PureComponent } from 'react';
 import { EmojiProvider } from '../src/api/EmojiResource';
 import ResourcedEmoji from '../src/components/common/ResourcedEmoji';
-import { localStoragePrefix } from '../src/constants';
+import { localStoragePrefix } from '../src/util/constants';
 import { EmojiDescription } from '../src/types';
 
 export interface EmojiUsageProps {

@@ -3,7 +3,10 @@ import {
   AnalyticsEventPayload,
   CreateAndFireEventFunction,
 } from '@atlaskit/analytics-next-types';
-import { name as packageName, version as packageVersion } from './version.json';
+import {
+  name as packageName,
+  version as packageVersion,
+} from '../version.json';
 
 export const createAndFireEventInElementsChannel: CreateAndFireEventFunction = createAndFireEvent(
   'fabric-elements',
