@@ -1,5 +1,5 @@
 import * as React from 'react';
-import CrossCircleIcon from '@atlaskit/icon/glyph/cross-circle';
+import CrossIcon from '@atlaskit/icon/glyph/cross';
 import { CloseButton as StyledCloseButton } from './styled';
 import { withHelp, HelpContextInterface } from './HelpContext';
 
@@ -18,7 +18,7 @@ const CloseButton = (props: Props & HelpContextInterface) => {
   } = props;
   return onBtnCloseClick ? (
     <StyledCloseButton onClick={onBtnCloseClick}>
-      <CrossCircleIcon label="" size="large" />
+      <CrossIcon label="" size="medium" />
     </StyledCloseButton>
   ) : null;
 };

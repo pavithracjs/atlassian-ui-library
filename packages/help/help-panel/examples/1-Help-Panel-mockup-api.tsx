@@ -27,7 +27,7 @@ export default class extends React.Component {
 
   onGetArticle = (articleId: string): Promise<Article> => {
     return new Promise(resolve =>
-      setTimeout(() => resolve(getArticle(articleId)), 0),
+      setTimeout(() => resolve(getArticle(articleId)), 100),
     );
   };
 

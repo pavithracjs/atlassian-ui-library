@@ -1,6 +1,11 @@
 import { defineMessages } from 'react-intl';
 
 export const messages = defineMessages({
+  help_panel_header: {
+    id: 'global_help.header',
+    defaultMessage: 'Help',
+    description: '',
+  },
   help_panel_navigation_back: {
     id: 'global_help.navigation.back',
     defaultMessage: 'Back',

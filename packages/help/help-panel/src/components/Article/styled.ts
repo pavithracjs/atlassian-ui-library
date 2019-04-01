@@ -6,8 +6,12 @@ export const SelectedIcon = styled.div`
 `;
 
 export const ArticleContentInner = styled.div`
-  padding-top: ${3 * gridSize()}px;
+  padding-bottom: ${2 * gridSize()}px;
   position: relative;
+`;
+
+export const ArticleContentTitle = styled.div`
+  padding-bottom: ${2 * gridSize()}px;
 `;
 
 export const ArticleVoteInner = styled.div`

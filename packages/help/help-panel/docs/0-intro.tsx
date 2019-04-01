@@ -75,6 +75,14 @@ export default md`
 
   ${(
     <Example
+      Component={require('../examples/1-Help-Panel-mockup-api').default}
+      title="Help Panel using Mockup API"
+      source={require('!!raw-loader!../examples/1-Help-Panel-mockup-api')}
+    />
+  )}
+
+  ${(
+    <Example
       Component={require('../examples/0-Help-Panel-Algolia').default}
       title="Help Panel using Algolia"
       source={require('!!raw-loader!../examples/0-Help-Panel-Algolia')}

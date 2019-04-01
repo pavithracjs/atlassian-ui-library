@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { HelpContextProvider } from './HelpContext';
-import CloseButton from './CloseButton';
 import GlobalHelpContent from './HelpPanelContent';
 import GlobalHelpDrawer from './GlobalHelpDrawer';
 import MessagesIntlProvider from './MessagesIntlProvider';
@@ -33,7 +32,6 @@ export class HelpPanel extends React.Component<Props> {
         <MessagesIntlProvider>
           <GlobalHelpDrawer>
             <GlobalHelpContent />
-            <CloseButton />
           </GlobalHelpDrawer>
         </MessagesIntlProvider>
       </HelpContextProvider>

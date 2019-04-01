@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PureComponent, ReactNode } from 'react';
+import { Component, ReactNode } from 'react';
 import { canUseDOM } from 'exenv';
 import { createPortal } from 'react-dom';
 import { Transition } from 'react-transition-group';
@@ -27,7 +27,7 @@ const transitionStyles = {
   exited: { transform: 'translate3d(calc(100% + 60px),0,0)' },
 };
 
-export class GlobalHelpDrawer extends PureComponent<
+export class GlobalHelpDrawer extends Component<
   Props & HelpContextInterface,
   State
 > {

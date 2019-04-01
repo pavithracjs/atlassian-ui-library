@@ -11,30 +11,11 @@ export const truncate = (width: string = '100%') => css`
 `;
 
 export const CloseButton = styled.div`
-  position: absolute;
-  bottom ${2 * gridSize()}px;
-  left: -${6 * gridSize()}px;
+  color: ${colors.N100};
   cursor: pointer;
-  border-radius: 100%;
-  background-color: ${colors.N800}
-  ${elevation.e300};
-  height: 32px;
-  width: 32px;
-`;
-
-export const BackButton = styled.button`
-  align-items: center;
-  background: 0;
-  border: 0;
-  color: inherit;
-  cursor: pointer;
-  display: flex;
-  font-size: inherit;
-  height: ${5 * gridSize()}px;
-  justify-content: left;
-  line-height: 1;
-  padding: 0 ${2 * gridSize()}px 0 0;
-  width: ${10 * gridSize()}px;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
 `;
 
 export const ItemGroupTitle = styled.div`
@@ -43,4 +24,52 @@ export const ItemGroupTitle = styled.div`
   line-height: ${(gridSize() * 2) / ItemGroupTitleSize};
   font-weight: 600;
   ${truncate()}
+`;
+
+export const HelpPanelHeader = styled.div`
+  flex: 1;
+  overflow: auto;
+  flex-direction: column;
+  border-bottom: 2px solid ${colors.N30}
+  padding: ${gridSize()}px ${gridSize() * 3}px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: stretch;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+`;
+
+export const HelpPanelHeaderText = styled.div`
+  color: ${colors.N100};
+  font-weight: bold;
+  height: 24px;
+  line-height: 24px;
+  width: 100%;
+`;
+
+export const BackButton = styled.button`
+  color: ${colors.N100};
+  align-items: center;
+  background: 0;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  font-size: inherit;
+  height: 24px;
+  justify-content: left;
+  line-height: 24px;
+  padding: 0;
+  font-weight: bold;
+`;
+
+export const HelpPanelBody = styled.div`
+  flex: 1;
+  overflow: auto;
+  flex-direction: column;
+  padding: ${gridSize() * 2 + 42}px ${gridSize() * 3}px ${gridSize() * 2}px
+    ${gridSize() * 3}px;
+  overflow-y: auto;
 `;

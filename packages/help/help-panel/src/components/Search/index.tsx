@@ -7,6 +7,7 @@ import { messages } from '../../messages';
 import { REQUEST_STATE } from '../../model/Resquests';
 import { withHelp, HelpContextInterface } from '../HelpContext';
 
+import { SearchContainer } from './styled';
 import SearchContent from './SearchContent';
 export interface Props {
   displayResults: boolean;
@@ -41,14 +42,16 @@ export class Search extends React.Component<
     } = this.props;
 
     return (
-      <QuickSearch
-        placeholder={formatMessage(messages.help_panel_search_placeholder)}
-        value={this.state.value}
-        isLoading={searchState === REQUEST_STATE.loading}
-        onSearchInput={this.handleSearchInput}
-      >
-        <SearchContent />
-      </QuickSearch>
+      <SearchContainer>
+        <QuickSearch
+          placeholder={formatMessage(messages.help_panel_search_placeholder)}
+          value={this.state.value}
+          isLoading={searchState === REQUEST_STATE.loading}
+          onSearchInput={this.handleSearchInput}
+        >
+          <SearchContent />
+        </QuickSearch>
+      </SearchContainer>
     );
   }
 }

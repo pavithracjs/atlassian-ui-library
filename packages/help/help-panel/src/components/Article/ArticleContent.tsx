@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ArticleContentInner } from './styled';
+import { ArticleContentInner, ArticleContentTitle } from './styled';
 
 export interface Props {
   title?: string;
@@ -10,7 +10,11 @@ const ArticleContent: React.SFC<Props> = props => {
   const { title = '', body = '' } = props;
   return (
     <ArticleContentInner>
-      {title && title !== undefined && <h2>{title}</h2>}
+      {title && title !== undefined && (
+        <ArticleContentTitle>
+          <h2>{title}</h2>
+        </ArticleContentTitle>
+      )}
       {body && body !== undefined && (
         <div dangerouslySetInnerHTML={{ __html: body }} />
       )}
