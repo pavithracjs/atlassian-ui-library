@@ -1,0 +1,1 @@
+- add placeholders for media nodes 
