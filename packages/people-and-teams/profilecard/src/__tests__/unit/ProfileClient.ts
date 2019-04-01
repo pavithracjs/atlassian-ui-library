@@ -1,6 +1,7 @@
 import 'es6-promise/auto'; // 'whatwg-fetch' needs a Promise polyfill
 
 import * as fetchMock from 'fetch-mock';
+// @ts-ignore
 import * as sinon from 'sinon';
 
 import ProfileClient, { modifyResponse } from '../../api/ProfileCardClient';
@@ -52,8 +53,8 @@ describe('Profilecard', () => {
         cacheMaxAge: clientCacheMaxAge,
       });
 
-      let cache;
-      let clock;
+      let cache: any;
+      let clock: any;
 
       beforeEach(() => {
         clock = sinon.useFakeTimers();

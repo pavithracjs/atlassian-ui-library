@@ -22,7 +22,12 @@ import {
 
 import { Elevation } from '../types';
 
-const getFullNameMargin = props =>
+interface FullNameLabelProps {
+  noMeta?: boolean;
+  isDisabledAccount?: boolean;
+}
+
+const getFullNameMargin = (props: FullNameLabelProps) =>
   props.noMeta
     ? `${gridSize() * 4.5}px 0 ${gridSize() * 1.5}px 0`
     : `${gridSize() * 1.5}px 0 0 0`;
@@ -93,9 +98,9 @@ export const FullNameLabel = styled.span`
   white-space: nowrap;
 
   font-size: 18px;
-  color: ${(props: { noMeta?: boolean; isDisabledAccount?: boolean }) =>
+  color: ${(props: FullNameLabelProps) =>
     props.isDisabledAccount ? headerTextColorInactive : headerTextColor};
-  margin: ${props => getFullNameMargin(props)};
+  margin: ${(props: FullNameLabelProps) => getFullNameMargin(props)};
   line-height: ${math.divide(() => 24, 18)}em;
 `;
 

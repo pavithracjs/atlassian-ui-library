@@ -42,15 +42,18 @@ const fakeData = (data = {}): ProfilecardProps => {
   };
 
   // filter out null values from fake data object
-  return Object.keys(newData)
-    .filter(key => Boolean(newData[key]))
-    .reduce((result, item) => {
-      return {
-        ...result,
-        // $FlowFixMe
-        [item]: newData[item],
-      };
-    }, {});
+  return (
+    Object.keys(newData)
+      // @ts-ignore
+      .filter(key => Boolean(newData[key]))
+      .reduce((result, item) => {
+        return {
+          ...result,
+          // @ts-ignore
+          [item]: newData[item],
+        };
+      }, {})
+  );
 };
 
 const bestCaseProfile = fakeData();

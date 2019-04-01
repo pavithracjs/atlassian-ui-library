@@ -102,7 +102,7 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
             <Button
               appearance={idx === 0 ? 'default' : 'subtle'}
               key={action.label}
-              onClick={(...args) => {
+              onClick={(...args: any) => {
                 this.callAnalytics('profile-card.click', {
                   id: action.id || null,
                   duration: this.durationSince(this.timeOpen),
@@ -217,11 +217,13 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
     if (relativeDateKey) {
       secondSentence = (
         <FormattedMessage
+          // @ts-ignore
           {...messages[`${status}AccountDescMsgHasDate${relativeDateKey}`]}
         />
       );
     } else {
       secondSentence = (
+        // @ts-ignore
         <FormattedMessage {...messages[`${status}AccountDescMsgNoDate`]} />
       );
     }

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Popper } from '@atlaskit/popper';
 import Portal from '@atlaskit/portal';
 import { layers } from '@atlaskit/theme';
+// @ts-ignore
 import NodeResolver from 'react-node-resolver';
 
 import LoadingState from './LoadingState';
@@ -188,6 +189,7 @@ class ProfilecardTrigger extends React.Component<
 
     return (
       <Popper referenceElement={this.targetRef} placement={this.props.position}>
+        // @ts-ignore: implicit any
         {({ ref, style }) => (
           <WrapperElement
             style={style}
@@ -217,11 +219,13 @@ class ProfilecardTrigger extends React.Component<
     <>
       <CardTriggerWrapper
         {...this.getContainerListeners()}
+        // @ts-ignore
         ref={wrapperRef => {
           this.wrapperRef = wrapperRef;
         }}
       >
         <NodeResolver
+          // @ts-ignore
           innerRef={targetRef => {
             this.targetRef = targetRef;
           }}

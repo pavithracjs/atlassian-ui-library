@@ -4,6 +4,7 @@ const _Date = global.Date;
 
 export default {
   setToday: function setToday(today: Date = new Date()) {
+    // @ts-ignore
     function MockDate(y, m, d, h, M, s, ms) {
       let returnDate;
 
@@ -39,7 +40,7 @@ export default {
       return new MockDate().valueOf();
     };
 
-    MockDate.parse = function parse(dateString) {
+    MockDate.parse = function parse(dateString: string) {
       return _Date.parse(dateString);
     };
 

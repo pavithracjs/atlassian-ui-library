@@ -11,7 +11,7 @@ const avatarImages = [
   '', // to test invalid img src
 ];
 
-const getAvatar = () => sample(avatarImages);
+const getAvatar = () => sample(avatarImages) as string;
 
 const profiles = [
   {

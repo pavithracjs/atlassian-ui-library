@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// @ts-ignore
 import uid from 'uid';
 import styled from 'styled-components';
 // @ts-ignore
@@ -27,11 +28,11 @@ const ProfileCardWrapper = styled.div`
   height: 340px;
 `;
 
-const handleActionClick = title => () => {
+const handleActionClick = (title: string) => () => {
   console.log(`${title} button clicked`);
 };
 
-const getTimeString = (showWeekday?) => {
+const getTimeString = (showWeekday: boolean = false) => {
   return showWeekday ? 'Thu 9:56am' : '9:56am';
 };
 
@@ -114,12 +115,12 @@ export default class ProfilecardInteractive extends Component<Props, State> {
     },
   ];
 
-  createCheckboxBooleanAttribute(attribute: string) {
+  createCheckboxBooleanAttribute(attribute: keyof State) {
     const id = `label-${uid()}`;
     return (
       <label htmlFor={id}>
         <input
-          checked={this.state[attribute]}
+          checked={Boolean(this.state[attribute])}
           id={id}
           onChange={() =>
             // @ts-ignore
