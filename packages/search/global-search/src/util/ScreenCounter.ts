@@ -1,6 +1,6 @@
 export interface ScreenCounter {
   getCount(): number;
-  increment();
+  increment(): void;
 }
 
 export class SearchScreenCounter implements ScreenCounter {

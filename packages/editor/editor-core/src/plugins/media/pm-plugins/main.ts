@@ -260,7 +260,7 @@ export class MediaPluginState {
     if (!isEndState(mediaState)) {
       const updater = (promise: Promise<any>) => {
         // Chain the previous promise with a new one for this media item
-        return new Promise<MediaState | null>((resolve, reject) => {
+        return new Promise<MediaState | null>(resolve => {
           const onStateChange: MediaStateEventListener = newState => {
             // When media item reaches its final state, remove listener and resolve
             if (isEndState(newState)) {

@@ -150,10 +150,7 @@ const mediaPlugin = (
             props.appearance,
           ),
       },
-      {
-        name: 'mediaKeymap',
-        plugin: ({ schema }: PMPluginFactoryParams) => keymapPlugin(),
-      },
+      { name: 'mediaKeymap', plugin: () => keymapPlugin() },
     ].concat(
       options && options.allowMediaSingle
         ? {

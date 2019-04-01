@@ -12,8 +12,11 @@ exports[`Wrapper it should have interactive styles 1`] = `
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background-color: rgba(9,30,66,0.08);
+  background-color: white;
+  box-shadow: 0 1px 1px rgba(9,30,66,0.25),0 0 1px 0 rgba(9,30,66,0.31);
   cursor: pointer;
+  -webkit-transition: 0.3s all ease-in-out;
+  transition: 0.3s all ease-in-out;
 }
 
 .c0:hover {
@@ -61,10 +64,13 @@ exports[`Wrapper it should have selected styles 1`] = `
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background-color: rgba(9,30,66,0.08);
+  background-color: white;
+  box-shadow: 0 1px 1px rgba(9,30,66,0.25),0 0 1px 0 rgba(9,30,66,0.31);
   cursor: pointer;
   box-shadow: 0 0 0 2px #4C9AFF;
   outline: none;
+  -webkit-transition: 0.3s all ease-in-out;
+  transition: 0.3s all ease-in-out;
 }
 
 .c0,
@@ -92,7 +98,10 @@ exports[`Wrapper it should not have interactive or selected styles 1`] = `
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background-color: rgba(9,30,66,0.08);
+  background-color: white;
+  box-shadow: 0 1px 1px rgba(9,30,66,0.25),0 0 1px 0 rgba(9,30,66,0.31);
+  -webkit-transition: 0.3s all ease-in-out;
+  transition: 0.3s all ease-in-out;
 }
 
 <a

@@ -6,14 +6,15 @@ import {
   MANAGE_HREF,
 } from '../providers/jira-data-providers';
 import CommonDataProvider from '../providers/common-data-provider';
-import { mapResultsToSwitcherProps } from '../providers/map-results-to-switcher-props';
+import { mapResultsToSwitcherProps } from '../utils/map-results-to-switcher-props';
 import { FeatureFlagProps } from '../types';
 
 type JiraSwitcherProps = {
   cloudId: string;
   messages: Messages;
+  features: FeatureFlagProps;
   triggerXFlow: (productKey: string, sourceComponent: string) => void;
-} & FeatureFlagProps;
+};
 
 export default (props: JiraSwitcherProps) => (
   <CustomLinksProvider>
@@ -26,7 +27,7 @@ export default (props: JiraSwitcherProps) => (
           } = mapResultsToSwitcherProps(
             props.cloudId,
             { customLinks, ...providerResults },
-            { xflow: true, enableSplitJira: props.enableSplitJira },
+            { ...props.features, xflow: true },
           );
 
           return (

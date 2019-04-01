@@ -20,7 +20,7 @@ export const errorPeopleSearchClient: PeopleSearchClient = {
 export const mockPeopleSearchClient = ({
   recentPeople,
   searchResultData,
-}): PeopleSearchClient => ({
+}: any): PeopleSearchClient => ({
   search(query: string) {
     return Promise.resolve(searchResultData);
   },

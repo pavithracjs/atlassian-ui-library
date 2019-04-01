@@ -16,7 +16,7 @@ export interface Props {
   screenCounter?: ScreenCounter;
   referralContextIdentifiers?: ReferralContextIdentifiers;
   renderNoRecentActivity: () => JSX.Element;
-  renderAdvancedSearchGroup: (analyticsData?) => JSX.Element;
+  renderAdvancedSearchGroup: (analyticsData?: any) => JSX.Element;
 }
 
 export default class PreQueryState extends React.Component<Props> {

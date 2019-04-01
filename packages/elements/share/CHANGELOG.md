@@ -1,5 +1,30 @@
 # @atlaskit/share
 
+## 0.2.8
+- [patch] [13d9986e40](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13d9986e40):
+
+  - fixed dialogue header font settings
+
+## 0.2.7
+- [patch] [26a3d443e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/26a3d443e2):
+
+  - fix warning when unmounting share doesn't cancel the async requests
+
+## 0.2.6
+- [patch] [3161a93cdb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3161a93cdb):
+
+  - FS-3289 update share copy
+
+## 0.2.5
+- [patch] [9babee9fc2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9babee9fc2):
+
+  - Fix share modal padding
+
+## 0.2.4
+- [patch] [8f56fe1259](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f56fe1259):
+
+  - Remove files from package.json to publish all the files in @atlaskit/share
+
 ## 0.2.3
 - Updated dependencies [3ea3f5ea55](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3ea3f5ea55):
   - @atlaskit/user-picker@3.0.0

@@ -1,5 +1,41 @@
 # @atlaskit/global-navigation
 
+## 6.2.5
+- Updated dependencies [e36f791fd6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e36f791fd6):
+  - @atlaskit/atlassian-switcher@0.4.0
+
+## 6.2.4
+- [patch] [db2a7ffde6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/db2a7ffde6):
+
+  - Fixing recent containers bug
+
+## 6.2.3
+- [patch] [9d6f8d516a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d6f8d516a):
+
+  - Adding expand link support to Atlassian Switcher
+
+## 6.2.2
+- Updated dependencies [987ab01f30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/987ab01f30):
+- Updated dependencies [c95557e3ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c95557e3ff):
+  - @atlaskit/notification-log-client@4.0.2
+  - @atlaskit/notification-indicator@6.0.0
+  - @atlaskit/navigation-next@5.1.1
+  - @atlaskit/badge@11.0.0
+
+## 6.2.1
+- [patch] [aacc698f07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aacc698f07):
+
+  - Adds an analytics event to track atlassian switcher dissmisals using the triggerXFlow callback
+
+## 6.2.0
+- [minor] [6d7faa9784](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6d7faa9784):
+
+  - Adds the ability to a function to access refs in navigation-next/GlobalItem. This function is exposed in GlobalNavigation for each of the items on GlobalNav in a prop called get<X>Ref, where X is product, create etc.
+
+## 6.1.4
+- Updated dependencies [68443e3d6f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/68443e3d6f):
+  - @atlaskit/atlassian-switcher@0.3.0
+
 ## 6.1.3
 - [patch] [a041506c4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a041506c4d):
 

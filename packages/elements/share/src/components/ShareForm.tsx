@@ -33,10 +33,17 @@ const CenterAlignedIconWrapper = styled.div`
   }
 `;
 
-export const FromWrapper = styled.form`
+export const FromWrapper = styled.div`
   [class^='FormHeader__FormHeaderWrapper'] {
     h1 {
       ${typography.h500()}
+      
+      > span {
+        /* jira has a class override font settings on h1 > span in gh-custom-field-pickers.css */
+        font-size: inherit !important;
+        line-height: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
   }
 
@@ -133,26 +140,30 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
       config,
     } = this.props;
     return (
-      <form {...formProps}>
-        <ShareHeader title={title} />
-        <FormSection>
-          <UserPickerField
-            loadOptions={loadOptions}
-            defaultValue={defaultValue && defaultValue.users}
-            capabilitiesInfoMessage={capabilitiesInfoMessage}
-            config={config}
-          />
-          {config && config.allowComment && (
-            <CommentField defaultValue={defaultValue && defaultValue.comment} />
-          )}
-        </FormSection>
-        <FormFooter>
-          <LeftAlignmentContainer>
-            <CopyLinkButton onLinkCopy={onLinkCopy} link={copyLink} />
-          </LeftAlignmentContainer>
-          {this.renderSubmitButton()}
-        </FormFooter>
-      </form>
+      <FromWrapper>
+        <form {...formProps}>
+          <ShareHeader title={title} />
+          <FormSection>
+            <UserPickerField
+              loadOptions={loadOptions}
+              defaultValue={defaultValue && defaultValue.users}
+              capabilitiesInfoMessage={capabilitiesInfoMessage}
+              config={config}
+            />
+            {config && config.allowComment && (
+              <CommentField
+                defaultValue={defaultValue && defaultValue.comment}
+              />
+            )}
+          </FormSection>
+          <FormFooter>
+            <LeftAlignmentContainer>
+              <CopyLinkButton onLinkCopy={onLinkCopy} link={copyLink} />
+            </LeftAlignmentContainer>
+            {this.renderSubmitButton()}
+          </FormFooter>
+        </form>
+      </FromWrapper>
     );
   }
 }

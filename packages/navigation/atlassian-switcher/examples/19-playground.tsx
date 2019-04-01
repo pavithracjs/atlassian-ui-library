@@ -68,6 +68,34 @@ class JiraSwitcherExample extends React.Component {
     );
   };
 
+  addOpsgenie = () => {
+    mockEndpoints(
+      'jira',
+      originalMockData => {
+        return {
+          ...originalMockData,
+          LICENSE_INFORMATION_DATA: {
+            hostname: 'https://some-random-instance.atlassian.net',
+            firstActivationDate: 1492488658539,
+            maintenanceEndDate: '2017-04-24',
+            maintenanceStartDate: '2017-04-17',
+            products: {
+              'jira-software.ondemand': {
+                billingPeriod: 'ANNUAL',
+                state: 'ACTIVE',
+              },
+              opsgenie: {
+                state: 'ACTIVE',
+                applicationUrl: 'https://test.app.opsgeni.us',
+              },
+            },
+          },
+        };
+      },
+      { ...REQUEST_MEDIUM, licenseInformation: 2000 },
+    );
+  };
+
   toggleIsAdmin = () => {
     this.setState({ isAdmin: !this.state.isAdmin }, () => {
       mockEndpoints(
@@ -153,7 +181,11 @@ class JiraSwitcherExample extends React.Component {
           </Button>
           <Separator />
           <Button type="button" onClick={this.addConfluence}>
-            Add confluence
+            Add Confluence
+          </Button>
+          <Separator />
+          <Button type="button" onClick={this.addOpsgenie}>
+            Add Opsgenie
           </Button>
           <Separator />
           <Button type="button" onClick={this.toggleIsAdmin}>

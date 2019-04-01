@@ -252,7 +252,9 @@ class ToolbarInsertBlock extends React.PureComponent<
     this.onOpenChange({ isOpen: !isOpen });
   };
 
-  private toggleEmojiPicker = () => {
+  private toggleEmojiPicker = (
+    inputMethod: TOOLBAR_MENU_TYPE = INPUT_METHOD.TOOLBAR,
+  ) => {
     this.setState(
       prevState => ({ emojiPickerOpen: !prevState.emojiPickerOpen }),
       () => {
@@ -263,7 +265,7 @@ class ToolbarInsertBlock extends React.PureComponent<
               action: ACTION.OPENED,
               actionSubject: ACTION_SUBJECT.PICKER,
               actionSubjectId: ACTION_SUBJECT_ID.PICKER_EMOJI,
-              attributes: { inputMethod: INPUT_METHOD.TOOLBAR },
+              attributes: { inputMethod },
               eventType: EVENT_TYPE.UI,
             });
           }
@@ -618,21 +620,18 @@ class ToolbarInsertBlock extends React.PureComponent<
 
   private toggleLinkPanel = withAnalytics(
     'atlassian.editor.format.hyperlink.button',
-    (): boolean => {
+    (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
       const { editorView } = this.props;
-      showLinkToolbar(INPUT_METHOD.TOOLBAR)(
-        editorView.state,
-        editorView.dispatch,
-      );
+      showLinkToolbar(inputMethod)(editorView.state, editorView.dispatch);
       return true;
     },
   );
 
   private insertMention = withAnalytics(
     'atlassian.fabric.mention.picker.trigger.button',
-    (): boolean => {
+    (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
       const { editorView } = this.props;
-      insertMentionQuery()(editorView.state, editorView.dispatch);
+      insertMentionQuery(inputMethod)(editorView.state, editorView.dispatch);
       return true;
     },
   );
@@ -690,7 +689,7 @@ class ToolbarInsertBlock extends React.PureComponent<
 
   private openMediaPicker = withAnalytics(
     'atlassian.editor.format.media.button',
-    (): boolean => {
+    (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
       const { onShowMediaPicker, dispatchAnalyticsEvent } = this.props;
       if (onShowMediaPicker) {
         onShowMediaPicker();
@@ -699,7 +698,7 @@ class ToolbarInsertBlock extends React.PureComponent<
             action: ACTION.OPENED,
             actionSubject: ACTION_SUBJECT.PICKER,
             actionSubjectId: ACTION_SUBJECT_ID.PICKER_CLOUD,
-            attributes: { inputMethod: INPUT_METHOD.TOOLBAR },
+            attributes: { inputMethod },
             eventType: EVENT_TYPE.UI,
           });
         }
@@ -766,6 +765,8 @@ class ToolbarInsertBlock extends React.PureComponent<
       case 'codeblock':
         actionSubjectId = ACTION_SUBJECT_ID.CODE_BLOCK;
         break;
+      case 'blockquote':
+        actionSubjectId = ACTION_SUBJECT_ID.BLOCK_QUOTE;
     }
 
     analytics.trackEvent(`atlassian.editor.format.${itemName}.button`);
@@ -823,7 +824,7 @@ class ToolbarInsertBlock extends React.PureComponent<
 
     switch (item.value.name) {
       case 'link':
-        this.toggleLinkPanel();
+        this.toggleLinkPanel(inputMethod);
         break;
       case 'table':
         this.createTable(inputMethod);
@@ -835,13 +836,13 @@ class ToolbarInsertBlock extends React.PureComponent<
         }
         break;
       case 'media':
-        this.openMediaPicker();
+        this.openMediaPicker(inputMethod);
         break;
       case 'mention':
-        this.insertMention!();
+        this.insertMention(inputMethod);
         break;
       case 'emoji':
-        this.toggleEmojiPicker();
+        this.toggleEmojiPicker(inputMethod);
         break;
       case 'codeblock':
       case 'blockquote':

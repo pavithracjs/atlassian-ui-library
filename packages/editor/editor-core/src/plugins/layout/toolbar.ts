@@ -21,6 +21,7 @@ import {
   getPresetLayout,
   PresetLayout,
 } from './actions';
+import { hoverDecoration } from '../base/pm-plugins/decoration';
 
 export const messages = defineMessages({
   twoColumns: {
@@ -82,6 +83,8 @@ export const buildToolbar = (
       icon: RemoveIcon,
       title: intl.formatMessage(commonMessages.remove),
       onClick: deleteActiveLayoutNode,
+      onMouseEnter: hoverDecoration(true),
+      onMouseLeave: hoverDecoration(false),
     };
 
     return {

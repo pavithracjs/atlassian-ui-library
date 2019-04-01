@@ -20,7 +20,8 @@ const Layout: React.ComponentClass<React.HTMLAttributes<{}>> = styled.div`
 
 export interface State {
   isOpen: boolean;
-  imagePreviewSource: string;
+  imagePreviewSourceViaFileAPI: string;
+  imagePreviewSourceViaDataURIAPI: string;
   isLoading: boolean;
 }
 
@@ -29,15 +30,20 @@ export default class StatefulAvatarPickerDialog extends React.Component<
   State
 > {
   timeoutId: number = 0;
+  fileURL?: string;
 
   state = {
     isOpen: false,
-    imagePreviewSource: '',
+    imagePreviewSourceViaFileAPI: '',
+    imagePreviewSourceViaDataURIAPI: '',
     isLoading: false,
   };
 
   componentWillUnmount() {
     clearTimeout(this.timeoutId);
+    if (this.fileURL) {
+      URL.revokeObjectURL(this.fileURL);
+    }
   }
 
   openPicker = () => {
@@ -48,22 +54,29 @@ export default class StatefulAvatarPickerDialog extends React.Component<
     this.setState({ isOpen: false });
   };
 
-  save = (dataURI: any) => {
-    this.setState(
-      {
-        isLoading: true,
-      },
-      () => {
-        // Fake "uploading" call by adding a delay
-        this.timeoutId = window.setTimeout(() => {
-          this.setState({
-            imagePreviewSource: dataURI,
-            isOpen: false,
-            isLoading: false,
-          });
-        }, 2000);
-      },
-    );
+  setIsLoading = () => this.setState({ isLoading: true });
+
+  saveDataURI = (dataURI: any) => {
+    // Fake "uploading" call by adding a delay
+    this.timeoutId = window.setTimeout(() => {
+      this.setState({
+        imagePreviewSourceViaDataURIAPI: dataURI,
+        isOpen: false,
+        isLoading: false,
+      });
+    }, 2000);
+  };
+
+  saveFileAndCrop = (file: File) => {
+    // Fake "uploading" call by adding a delay
+    this.timeoutId = window.setTimeout(() => {
+      this.fileURL = URL.createObjectURL(file);
+      this.setState({
+        imagePreviewSourceViaFileAPI: this.fileURL,
+        isOpen: false,
+        isLoading: false,
+      });
+    }, 2000);
   };
 
   renderPicker() {
@@ -75,14 +88,17 @@ export default class StatefulAvatarPickerDialog extends React.Component<
             avatars={avatars}
             onAvatarPicked={selectedAvatar => {
               console.log('onAvatarPicked:', selectedAvatar);
-              this.save(selectedAvatar.dataURI);
+              this.saveDataURI(selectedAvatar.dataURI);
             }}
             onImagePicked={(selectedImage, crop) => {
               console.log('onImagePicked:', selectedImage, crop);
+              this.setIsLoading();
+              this.saveFileAndCrop(selectedImage);
             }}
             onImagePickedDataURI={exportedImg => {
               console.log('onImagePickedDataURI: ', { dataURI: exportedImg });
-              this.save(exportedImg);
+              this.setIsLoading();
+              this.saveDataURI(exportedImg);
             }}
             onCancel={this.closePicker}
             isLoading={isLoading}
@@ -95,13 +111,23 @@ export default class StatefulAvatarPickerDialog extends React.Component<
   }
 
   render() {
+    const {
+      imagePreviewSourceViaDataURIAPI,
+      imagePreviewSourceViaFileAPI,
+    } = this.state;
+
     return (
       <Layout>
         <Button appearance="primary" onClick={this.openPicker}>
           Open sesame!
         </Button>
         {this.renderPicker()}
-        <img src={this.state.imagePreviewSource} />
+        {imagePreviewSourceViaDataURIAPI !== '' ? (
+          <img src={imagePreviewSourceViaDataURIAPI} />
+        ) : null}
+        {imagePreviewSourceViaFileAPI !== '' ? (
+          <img src={imagePreviewSourceViaFileAPI} />
+        ) : null}
       </Layout>
     );
   }

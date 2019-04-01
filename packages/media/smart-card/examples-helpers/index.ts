@@ -130,7 +130,7 @@ const random = (max: number) => Math.floor(Math.random() * max);
 const delayP = (n: number) => new Promise(res => window.setTimeout(res, n));
 
 export const mockMultipleCards = () => {
-  fm.mock('*', async (_, opts: any) => {
+  fm.mock('*', async (_: any, opts: any) => {
     const delay = random(2000);
     await delayP(delay);
 

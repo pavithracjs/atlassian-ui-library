@@ -1,5 +1,15 @@
 # @atlaskit/icon
 
+## 16.0.7
+- [patch] [a143c9758f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a143c9758f):
+
+  - New Icon: Add the PremiumIcon
+
+## 16.0.6
+- [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
+
+  - Removes duplicate babel-runtime dependency
+
 ## 16.0.5
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

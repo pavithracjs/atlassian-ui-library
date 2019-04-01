@@ -138,7 +138,7 @@ export type ExampleNavigationProps = {
   onPackageSelected?: (selected: { value: string }) => void;
   exampleId?: string;
   groupId: string;
-  loaderUrl?: string | null;
+  loaderUrl?: string;
   packageId: string;
   config?: any;
   codeIsVisible: boolean;

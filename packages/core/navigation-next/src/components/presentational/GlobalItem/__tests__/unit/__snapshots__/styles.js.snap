@@ -70,6 +70,6 @@ exports[`Navigation Next: GlobalItem styles ItemWrapper should return correct st
 
 exports[`Navigation Next: GlobalItem styles ItemWrapper should return correct styles when size is small 1`] = `
 Object {
-  "marginTop": "8px",
+  "padding": "4px",
 }
 `;

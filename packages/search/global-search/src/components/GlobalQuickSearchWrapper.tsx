@@ -198,9 +198,9 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps: Props, nextState: any) {
     return (
-      Object.keys({ ...nextProps, ...this.props })
+      (Object.keys({ ...nextProps, ...this.props }) as Array<keyof Props>)
         .map(key => this.props[key] !== nextProps[key])
         .reduce((acc, value) => acc || value, false) || this.state !== nextState
     );

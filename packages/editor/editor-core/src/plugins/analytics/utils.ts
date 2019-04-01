@@ -19,20 +19,24 @@ export function addAnalytics(
 export type HigherOrderCommand = (command: Command) => Command;
 
 export function withAnalytics(
-  payload: AnalyticsEventPayload,
+  payload:
+    | AnalyticsEventPayload
+    | ((state: EditorState) => AnalyticsEventPayload | undefined),
   channel?: string,
 ): HigherOrderCommand {
-  return command => (state, dispatch, view?) =>
-    command(
-      state,
-      tr => {
-        if (dispatch) {
+  return command => (state, dispatch) =>
+    command(state, tr => {
+      if (dispatch) {
+        if (payload instanceof Function) {
+          const dynamicPayload = payload(state);
+          if (dynamicPayload) {
+            dispatch(addAnalytics(tr, dynamicPayload, channel));
+          }
+        } else {
           dispatch(addAnalytics(tr, payload, channel));
         }
-        return true;
-      },
-      view,
-    );
+      }
+    });
 }
 
 export function ruleWithAnalytics(
@@ -44,7 +48,7 @@ export function ruleWithAnalytics(
   ) => AnalyticsEventPayload,
 ) {
   return (rule: InputRuleWithHandler) => {
-    // Monkeypatching handler to add analytcs
+    // Monkey patching handler to add analytics
     const handler = rule.handler;
 
     rule.handler = (

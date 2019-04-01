@@ -52,6 +52,13 @@ import {
   ACTION_SUBJECT_ID,
 } from '../analytics';
 import { TypeAheadItem } from '../type-ahead/types';
+import { isTeamStats, isTeamType } from './utils';
+
+export interface TeamInfoAttrAnalytics {
+  teamId: String;
+  includesYou: boolean;
+  memberCount: number;
+}
 
 const mentionsPlugin = (
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
@@ -246,7 +253,7 @@ const mentionsPlugin = (
 
           sessionId = uuid();
 
-          if (mentionProvider && userType === 'TEAM') {
+          if (mentionProvider && isTeamType(userType)) {
             return insert(buildNodesForTeamMention(schema, item.mention));
           }
 
@@ -448,13 +455,42 @@ function mentionPluginFactory(
                   (mentions, query, stats) => {
                     setResults(mentions)(editorView.state, editorView.dispatch);
 
-                    fireEvent(
-                      buildTypeAheadRenderedPayload(
-                        stats && stats.duration,
-                        mentions.map(mention => mention.id),
-                        query || '',
-                      ),
+                    let duration: number = 0;
+                    let userIds: string[] | null = null;
+                    let teams: TeamInfoAttrAnalytics[] | null = null;
+
+                    if (!isTeamStats(stats)) {
+                      duration = stats && stats.duration;
+                      teams = null;
+                      userIds = mentions
+                        .map(mention =>
+                          isTeamType(mention.userType) ? mention.id : null,
+                        )
+                        .filter(m => !!m) as string[];
+                    } else {
+                      // is from team mention
+                      duration = stats && stats.teamMentionDuration;
+                      userIds = null;
+                      teams = mentions
+                        .map(mention =>
+                          isTeamType(mention.userType)
+                            ? {
+                                teamId: mention.id,
+                                includesYou: mention.context!.includesYou,
+                                memberCount: mention.context!.memberCount,
+                              }
+                            : null,
+                        )
+                        .filter(m => !!m) as TeamInfoAttrAnalytics[];
+                    }
+
+                    const payload = buildTypeAheadRenderedPayload(
+                      duration,
+                      userIds,
+                      query || '',
+                      teams,
                     );
+                    fireEvent(payload);
                   },
                 );
               })

@@ -1,5 +1,160 @@
 # @atlaskit/editor-core
 
+## 107.1.0
+- [minor] [e36f791fd6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e36f791fd6):
+
+  - Improve types
+
+## 107.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/renderer@45.0.0
+  - @atlaskit/emoji@59.0.0
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/media-editor@32.0.0
+  - @atlaskit/media-filmstrip@31.0.0
+  - @atlaskit/media-picker@38.0.0
+  - @atlaskit/editor-bitbucket-transformer@5.0.2
+  - @atlaskit/editor-json-transformer@5.0.2
+  - @atlaskit/editor-markdown-transformer@3.0.2
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/task-decision@14.0.1
+  - @atlaskit/util-data-test@11.1.5
+  - @atlaskit/media-test-helpers@21.1.0
+  - @atlaskit/media-core@29.1.0
+
+## 106.7.9
+- [patch] [495738bcd8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/495738bcd8):
+
+  - Enable UI for links inside headings
+
+## 106.7.8
+- [patch] [2d7ff51814](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d7ff51814):
+
+  - ED-6595 Remove layout marks when pasting images inside a list
+
+## 106.7.7
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/editor-common@35.1.3
+  - @atlaskit/renderer@44.4.3
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-editor@31.0.3
+  - @atlaskit/media-filmstrip@30.0.2
+  - @atlaskit/media-picker@37.0.3
+  - @atlaskit/media-test-helpers@21.0.3
+  - @atlaskit/media-card@58.0.0
+
+## 106.7.6
+- [patch] [acaf2abb57](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acaf2abb57):
+
+  - ED-6146 Fix bug where gap cursor did not display to right of first node
+
+## 106.7.5
+- [patch] [298bfed4e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/298bfed4e1):
+
+  - ED-6580 Media in editor is sized incorrectly in firefox
+
+## 106.7.4
+- [patch] [5320e1bdb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5320e1bdb5):
+
+  - ED-6476 Columns should show border when inactive in the Editor.
+
+## 106.7.3
+- Updated dependencies [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
+  - @atlaskit/renderer@44.4.2
+  - @atlaskit/util-data-test@11.1.4
+  - @atlaskit/task-decision@14.0.0
+
+## 106.7.2
+- Updated dependencies [97abf5e006](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97abf5e006):
+  - @atlaskit/renderer@44.4.1
+  - @atlaskit/status@0.8.0
+
+## 106.7.1
+- [patch] [b3c60e3c9c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b3c60e3c9c):
+
+  - Update media-editor dependency
+
+## 106.7.0
+- [minor] [b32008359a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b32008359a):
+
+  - ED-5823 Add red styling for document elements when they are selected for removal
+
+## 106.6.3
+- [patch] [97eeac260b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97eeac260b):
+
+  - ED-6137 GAS v3 Analytics events for action subject Table
+
+## 106.6.2
+- [patch] [56766ce748](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/56766ce748):
+
+  - ED-6407: improve table information density by reducing cells padding from 10px to 8px
+
+## 106.6.1
+- [patch] [92452e9323](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92452e9323):
+
+  - ED-5734: render table column control buttons for each column regardless of merged cells
+
+## 106.6.0
+- [minor] [0781a7068c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0781a7068c):
+
+  - ED-6222 Add insertMenu insert events for: emoji picker, image picker, link typeahead, mention typeahead
+
+## 106.5.0
+- [minor] [ea6b08700c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6b08700c):
+
+  - ED-6245: Ensure extensions scroll + overflow when they may break out of their parent container.
+
+## 106.4.0
+- [minor] [7e164b5a6b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e164b5a6b):
+
+  - ED-6547 Add GAS v3 analytics for smartLink
+
+## 106.3.3
+- [patch] [aa117f5341](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa117f5341):
+
+  - fix alignment and UI for inline Smart Links.
+
+## 106.3.2
+- [patch] [8187471d39](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8187471d39):
+
+  - ED-4650 Allow inline code to render after a parentheses
+
+## 106.3.1
+- [patch] [2f4594a876](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f4594a876):
+
+  - ED-6526: Resize a table with breakout content
+
+## 106.3.0
+- [minor] [1affe17dc4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1affe17dc4):
+
+  - add analytics events for team mention
+
+## 106.2.3
+- [patch] [08940b66c1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08940b66c1):
+
+  - ED-6561 Ignore empty transactions from collab provider
+
+## 106.2.2
+- [patch] [2ac4f3bf30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2ac4f3bf30):
+
+  - fix deleting multiple rows in table
+
+## 106.2.1
+- [patch] [8ea5466017](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8ea5466017):
+
+  - ED-6438 Fix bg in codeblock gutter
+
+## 106.2.0
+- [minor] [7bd786fd4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7bd786fd4d):
+
+  - TEAMS-323 : Send additional information for teams when a team is selected in a mention
+
+## 106.1.2
+- Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
+  - @atlaskit/smart-card@10.1.1
+  - @atlaskit/textarea@0.4.0
+
 ## 106.1.1
 - [patch] [c604b1eb64](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c604b1eb64):
 

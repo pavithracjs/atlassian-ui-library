@@ -86,7 +86,13 @@ export const getToolbarConfig: FloatingToolbarHandler = (
 
     const hyperLinkToolbar = {
       title: 'Hyperlink floating controls',
-      nodeType: state.schema.nodes.paragraph,
+      nodeType: [
+        state.schema.nodes.text,
+        state.schema.nodes.paragraph,
+        state.schema.nodes.heading,
+        state.schema.nodes.taskItem,
+        state.schema.nodes.decisionItem,
+      ],
       align: 'left' as AlignType,
       className:
         activeLinkMark.type === 'INSERT' ? 'hyperlink-floating-toolbar' : '',

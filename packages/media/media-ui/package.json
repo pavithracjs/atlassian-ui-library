@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-ui",
-  "version": "10.0.1",
+  "version": "10.1.1",
   "description": "Includes common components and utilities used by other media packages",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -24,14 +24,14 @@
   "dependencies": {
     "@atlaskit/avatar": "^15.0.1",
     "@atlaskit/avatar-group": "^3.0.1",
-    "@atlaskit/badge": "^10.0.0",
+    "@atlaskit/badge": "^11.0.0",
     "@atlaskit/button": "^11.0.2",
     "@atlaskit/dropdown-menu": "^7.0.1",
     "@atlaskit/field-text": "^8.0.1",
     "@atlaskit/icon": "^16.0.5",
     "@atlaskit/lozenge": "^7.0.0",
     "@atlaskit/page": "^9.0.1",
-    "@atlaskit/spinner": "^10.0.1",
+    "@atlaskit/spinner": "^10.0.3",
     "@atlaskit/theme": "^8.0.1",
     "@atlaskit/tooltip": "^13.0.1",
     "@types/bytes": "^2.4.33",
@@ -48,6 +48,7 @@
   },
   "peerDependencies": {
     "react": "^16.4.0",
+    "react-dom": "^16.4.2",
     "react-intl": "^2.6.0",
     "styled-components": "^3.2.6"
   },
@@ -57,7 +58,7 @@
     "@atlaskit/checkbox": "^6.0.1",
     "@atlaskit/docs": "^7.0.1",
     "@atlaskit/i18n-tools": "^0.5.0",
-    "@atlaskit/media-test-helpers": "^21.0.1",
+    "@atlaskit/media-test-helpers": "^21.0.3",
     "@types/enzyme": "^3.1.15",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",

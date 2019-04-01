@@ -19,7 +19,9 @@ import {
   ReferralContextIdentifiers,
   Logger,
 } from '../GlobalQuickSearchWrapper';
-import QuickSearchContainer from '../common/QuickSearchContainer';
+import QuickSearchContainer, {
+  SearchResultProps,
+} from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import { sliceResults } from './JiraSearchResultsMapper';
 import SearchResultsComponent from '../common/SearchResults';
@@ -152,7 +154,7 @@ export class JiraQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
-  }) => {
+  }: SearchResultProps) => {
     const query = latestSearchQuery;
     const isPreQuery = !query; // it's true if the query is empty
     const {
@@ -210,7 +212,9 @@ export class JiraQuickSearchContainer extends React.Component<
             />
           </BeforePreQueryStateContainer>
         )}
-        getPreQueryGroups={() => mapRecentResultsToUIGroups(recentItems)}
+        getPreQueryGroups={() =>
+          mapRecentResultsToUIGroups(recentItems as JiraResultsMap)
+        }
         getPostQueryGroups={() =>
           mapSearchResultsToUIGroups(searchResults as JiraResultsMap)
         }
@@ -256,7 +260,10 @@ export class JiraQuickSearchContainer extends React.Component<
       .then(items =>
         items.reduce<GenericResultMap<JiraResult>>((acc, item) => {
           if (item.contentType) {
-            const section = contentTypeToSection[item.contentType];
+            const section =
+              contentTypeToSection[
+                item.contentType as keyof typeof contentTypeToSection
+              ];
             acc[section] = ([] as JiraResult[]).concat(
               acc[section] || [],
               item,
@@ -416,7 +423,7 @@ export class JiraQuickSearchContainer extends React.Component<
     }
   }
 
-  handleSelectedResultIdChanged(newSelectedId) {
+  handleSelectedResultIdChanged(newSelectedId?: string) {
     this.setState({
       selectedResultId: newSelectedId,
     });
@@ -447,7 +454,7 @@ export class JiraQuickSearchContainer extends React.Component<
         createAnalyticsEvent={createAnalyticsEvent}
         logger={logger}
         selectedResultId={selectedResultId}
-        onSelectedResultIdChanged={newId =>
+        onSelectedResultIdChanged={(newId: any) =>
           this.handleSelectedResultIdChanged(newId)
         }
         isSendSearchTermsEnabled={isSendSearchTermsEnabled}

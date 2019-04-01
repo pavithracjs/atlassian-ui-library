@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button from '@atlaskit/button';
 import Drawer from '@atlaskit/drawer';
-import { Switcher, withAnalyticsLogger } from './helpers';
+import { Switcher, withAnalyticsLogger, withIntlProvider } from './helpers';
 import ErrorBoundary from '../src/components/error-boundary';
 
 class SwitcherExample extends React.Component {
@@ -24,7 +24,7 @@ class SwitcherExample extends React.Component {
     return (
       <div style={{ padding: '2rem' }}>
         <Drawer onClose={this.onClose} isOpen={this.state.isDrawerOpen}>
-          <ErrorBoundary>
+          <ErrorBoundary messages={{}}>
             <Switcher />
           </ErrorBoundary>
         </Drawer>
@@ -36,4 +36,4 @@ class SwitcherExample extends React.Component {
   }
 }
 
-export default withAnalyticsLogger(SwitcherExample);
+export default withIntlProvider(withAnalyticsLogger(SwitcherExample));

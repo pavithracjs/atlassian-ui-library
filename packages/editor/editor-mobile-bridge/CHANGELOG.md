@@ -1,5 +1,33 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.1.7
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/editor-core@107.0.0
+  - @atlaskit/renderer@45.0.0
+  - @atlaskit/emoji@59.0.0
+  - @atlaskit/editor-json-transformer@5.0.2
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/task-decision@14.0.1
+  - @atlaskit/media-core@29.1.0
+
+## 7.1.6
+- Updated dependencies [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
+  - @atlaskit/editor-core@106.7.3
+  - @atlaskit/renderer@44.4.2
+  - @atlaskit/task-decision@14.0.0
+
+## 7.1.5
+- Updated dependencies [97abf5e006](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97abf5e006):
+  - @atlaskit/editor-core@106.7.2
+  - @atlaskit/renderer@44.4.1
+  - @atlaskit/status@0.8.0
+
+## 7.1.4
+- [patch] [9e97d4186b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9e97d4186b):
+
+  - ED-6488 Fix dark mode editor in mobile bridge
+
 ## 7.1.3
 - Updated dependencies [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
   - @atlaskit/form@5.2.3

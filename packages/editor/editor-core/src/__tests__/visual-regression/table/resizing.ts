@@ -1,5 +1,4 @@
 import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
-import * as resziedTableWithMergedCells from './__fixtures__/resized-table-with-merged-cells.adf.json';
 import * as adf from '../common/__fixtures__/noData-adf.json';
 import {
   deleteColumn,
@@ -8,15 +7,9 @@ import {
   grabResizeHandle,
   clickFirstCell,
   toggleBreakout,
-  getSelectorForTableCell,
 } from '../../__helpers/page-objects/_table';
 import { TableCssClassName as ClassName } from '../../../plugins/table/types';
 import { animationFrame } from '../../__helpers/page-objects/_editor';
-import {
-  clickBlockMenuItem,
-  BlockMenuItem,
-} from '../../__helpers/page-objects/_blocks';
-import { KeyboardKeys } from '../../__helpers/page-objects/_keyboard';
 
 describe('Snapshot Test: table resizing', () => {
   describe('Re-sizing', () => {
@@ -40,7 +33,8 @@ describe('Snapshot Test: table resizing', () => {
     it(`snaps back to layout width after column removal`, async () => {
       await deleteColumn(page, 1);
       await animationFrame(page);
-      await snapshot(page);
+      // adding threshold since random blue selection show under table cells on selection
+      await snapshot(page, 0.002);
     });
 
     it('overflow table', async () => {
@@ -78,7 +72,7 @@ describe('Snapshot Test: table resizing', () => {
 });
 
 describe('Snapshot Test: table resize handle', () => {
-  let page;
+  let page: any;
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;
@@ -95,7 +89,7 @@ describe('Snapshot Test: table resize handle', () => {
 });
 
 describe('Snapshot Test: table scale', () => {
-  let page;
+  let page: any;
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;
@@ -109,31 +103,5 @@ describe('Snapshot Test: table scale', () => {
   it(`should not overflow the table with dynamic text sizing enabled`, async () => {
     await toggleBreakout(page, 1);
     await snapshot(page, 0.005);
-  });
-});
-
-// ED-6496 - Temporarily skipping while we resolve a date and column issue.
-describe.skip('Snapshot Test: table breakout content', () => {
-  let page;
-  beforeEach(async () => {
-    // @ts-ignore
-    page = global.page;
-    await initFullPageEditorWithAdf(
-      page,
-      resziedTableWithMergedCells,
-      Device.LaptopHiDPI,
-      undefined,
-      {
-        allowDynamicTextSizing: true,
-      },
-    );
-  });
-
-  it(`should resize the column based on the content`, async () => {
-    const selector = getSelectorForTableCell({ row: 2, cell: 1 });
-    await page.click(selector);
-    await clickBlockMenuItem(page, BlockMenuItem.blockExtension);
-    await page.keyboard.press(KeyboardKeys.enter);
-    await snapshot(page);
   });
 });

@@ -54,7 +54,7 @@ export const messages = defineMessages({
   },
   no_results_title: {
     id: 'global_search.no_results_title',
-    defaultMessage: 'No results in titles and people',
+    defaultMessage: "We couldn't find anything matching your search",
     description: '',
   },
   no_results_body: {
