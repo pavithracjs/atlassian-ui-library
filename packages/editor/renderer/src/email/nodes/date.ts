@@ -20,14 +20,19 @@ const colorMapping: ColorMapping = {
   },
 };
 
-export default function status({ attrs }: NodeSerializerOpts) {
+export default function status({ attrs, parent }: NodeSerializerOpts) {
   const timestamp: string = attrs.timestamp;
-  let parentIsTask: boolean = false;
-  if (attrs && attrs.isParentAnInlineTask) {
-    parentIsTask = true;
+  let isParentToDoTask: boolean = false;
+
+  if (
+    parent &&
+    parent.type.name === 'taskItem' &&
+    parent.attrs.state === 'TODO'
+  ) {
+    isParentToDoTask = true;
   }
   const colorAttributes =
-    !!parentIsTask && isPastDate(timestamp)
+    !!isParentToDoTask && isPastDate(timestamp)
       ? colorMapping.red
       : colorMapping.neutral;
   const css = serializeStyle({
@@ -46,6 +51,5 @@ export default function status({ attrs }: NodeSerializerOpts) {
     ...colorAttributes,
   });
   const text = timestampToString(timestamp);
-
   return createTag('span', { style: css }, text);
 }
