@@ -244,6 +244,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
       providerFactory: options.props.providerFactory,
       portalProviderAPI: this.props.portalProviderAPI,
       reactContext: () => this.context,
+      dispatchAnalyticsEvent: this.dispatchAnalyticsEvent,
     });
 
     this.contentTransformer = contentTransformerProvider

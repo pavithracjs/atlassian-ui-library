@@ -27,6 +27,7 @@ import {
   INPUT_METHOD,
 } from '../../../../plugins/analytics';
 import { HeadingLevels } from '../../../../plugins/block-type/types';
+import { EditorView } from 'prosemirror-view';
 
 describe('inputrules', () => {
   const createEditor = createEditorFactory();
@@ -267,8 +268,8 @@ describe('inputrules', () => {
       attributes: { inputMethod: 'autoformatting' },
       eventType: 'track',
     };
-    let editorView;
-    let sel;
+    let editorView: EditorView;
+    let sel: number;
 
     describe('typing "```" after text', () => {
       beforeEach(() => {

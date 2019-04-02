@@ -1,5 +1,50 @@
 # @atlaskit/editor-core
 
+## 107.3.1
+- [patch] [9f08142085](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f08142085):
+
+  - ED-6618: Fixes the exception thrown when trying to apply the delete decoration.
+
+  Occurs on a position where a node was recently deleted. We now re-map the decorations position on state change to verify if it's still valid to draw or simply delete it.
+
+## 107.3.0
+- [minor] [936f12e761](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/936f12e761):
+
+  - ED-5850 Add descriptions, richer icons and keyboard shortcuts to the quick insert menu
+
+## 107.2.0
+- [minor] [fb7a25ec0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fb7a25ec0b):
+
+  - ED-6221 Fire v3 analytics events when insert media
+
+## 107.1.1
+- [patch] [67e5bfeb72](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67e5bfeb72):
+
+  - ED-6181 Add analytics to paste event
+
+## 107.1.0
+- [minor] [e36f791fd6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e36f791fd6):
+
+  - Improve types
+
+## 107.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/renderer@45.0.0
+  - @atlaskit/emoji@59.0.0
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/media-editor@32.0.0
+  - @atlaskit/media-filmstrip@31.0.0
+  - @atlaskit/media-picker@38.0.0
+  - @atlaskit/editor-bitbucket-transformer@5.0.2
+  - @atlaskit/editor-json-transformer@5.0.2
+  - @atlaskit/editor-markdown-transformer@3.0.2
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/task-decision@14.0.1
+  - @atlaskit/util-data-test@11.1.5
+  - @atlaskit/media-test-helpers@21.1.0
+  - @atlaskit/media-core@29.1.0
+
 ## 106.7.9
 - [patch] [495738bcd8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/495738bcd8):
 

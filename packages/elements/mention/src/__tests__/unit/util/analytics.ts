@@ -1,4 +1,4 @@
-import { ELEMENTS_CHANNEL } from '../../../constants';
+import { ELEMENTS_CHANNEL } from '../../../_constants';
 import { fireAnalyticsMentionTypeaheadEvent } from '../../../util/analytics';
 import {
   name as packageName,

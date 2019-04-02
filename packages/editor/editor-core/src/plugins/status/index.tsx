@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { status } from '@atlaskit/adf-schema';
-import StatusIcon from '@atlaskit/icon/glyph/status';
 import { findDomRefAtPos } from 'prosemirror-utils';
 import { EditorPlugin } from '../../types';
 import createStatusPlugin, {
@@ -12,6 +11,8 @@ import WithPluginState from '../../ui/WithPluginState';
 import StatusPicker from './ui/statusPicker';
 import { commitStatusPicker, updateStatus, createStatus } from './actions';
 import { keymapPlugin } from './keymap';
+import { messages } from '../insert-block/ui/ToolbarInsertBlock';
+import { IconStatus } from '../quick-insert/assets';
 
 const baseStatusPlugin = (): EditorPlugin => ({
   nodes() {
@@ -83,14 +84,6 @@ const baseStatusPlugin = (): EditorPlugin => ({
   },
 });
 
-const createQuickInsertMenuItem = () => ({
-  title: 'Status',
-  priority: 700,
-  keywords: ['lozenge'],
-  icon: () => <StatusIcon label="Status" />,
-  action: createStatus(),
-});
-
 export interface StatusOptions {
   menuDisabled: boolean;
 }
@@ -103,7 +96,16 @@ const decorateWithPluginOptions = (
     return plugin;
   }
   plugin.pluginsOptions = {
-    quickInsert: [createQuickInsertMenuItem()],
+    quickInsert: ({ formatMessage }) => [
+      {
+        title: formatMessage(messages.status),
+        description: formatMessage(messages.statusDescription),
+        priority: 700,
+        keywords: ['lozenge'],
+        icon: () => <IconStatus label={formatMessage(messages.status)} />,
+        action: createStatus(),
+      },
+    ],
   };
   return plugin;
 };

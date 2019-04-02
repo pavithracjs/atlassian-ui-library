@@ -215,8 +215,8 @@ describe('<QuickSearch />', () => {
   });
 
   describe('Keyboard controls', () => {
-    let originalWindowAssign;
-    let locationAssignSpy;
+    let originalWindowAssign: { (url: string): void };
+    let locationAssignSpy: jest.Mock<{}>;
 
     beforeAll(() => {
       originalWindowAssign = window.location.assign;

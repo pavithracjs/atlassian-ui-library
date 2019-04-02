@@ -75,7 +75,7 @@ export type BuilderContent =
  * - a refs tracker -- when given a string that *only* contains refs.
  */
 export class RefsTracker {
-  refs: Refs;
+  refs?: Refs;
 }
 
 /**
@@ -98,7 +98,7 @@ export function text(value: string, schema: Schema): RefsContentItem {
   const refs: Refs = {};
 
   // Helpers
-  const isEven = n => n % 2 === 0;
+  const isEven = (n: number) => n % 2 === 0;
 
   for (const match of matches(value, /([\\]+)?{(\w+|<|>|<>)}/g)) {
     const [refToken, skipChars, refName] = match;
@@ -157,7 +157,7 @@ export function sequence(...content: RefsContentItem[]) {
 
   for (const node of content) {
     if (isRefsTracker(node)) {
-      refs = { ...refs, ...offsetRefs(node.refs, position) };
+      refs = { ...refs, ...offsetRefs(node.refs!, position) };
     }
     if (isRefsNode(node)) {
       const thickness = node.isText ? 0 : 1;
@@ -225,9 +225,9 @@ export function markFactory(type: MarkType, attrs = {}) {
   };
 }
 
-export const createCell = (colspan, rowspan) =>
+export const createCell = (colspan: number, rowspan: number) =>
   td({ colspan, rowspan })(p('x'));
-export const createHeaderCell = (colspan, rowspan) =>
+export const createHeaderCell = (colspan: number, rowspan: number) =>
   th({ colspan, rowspan })(p('x'));
 
 export const doc = nodeFactory(sampleSchema.nodes.doc, {});
