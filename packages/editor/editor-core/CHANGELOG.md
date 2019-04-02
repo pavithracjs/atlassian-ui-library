@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.2.0
+- [minor] [fb7a25ec0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fb7a25ec0b):
+
+  - ED-6221 Fire v3 analytics events when insert media
+
 ## 107.1.1
 - [patch] [67e5bfeb72](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67e5bfeb72):
 

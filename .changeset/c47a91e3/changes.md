@@ -1,1 +1,0 @@
-- ED-6221 Fire v3 analytics events when insert media
