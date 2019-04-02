@@ -1,5 +1,4 @@
 import * as React from 'react';
-import EditorImageIcon from '@atlaskit/icon/glyph/editor/image';
 import { media, mediaGroup, mediaSingle } from '@atlaskit/adf-schema';
 import {
   EditorPlugin,
@@ -32,6 +31,7 @@ import {
   ACTION_SUBJECT_ID,
 } from '../analytics';
 import WithPluginState from '../../ui/WithPluginState';
+import { IconImages } from '../quick-insert/assets';
 
 export { MediaState, MediaProvider, CustomMediaPicker };
 
@@ -191,10 +191,11 @@ const mediaPlugin = (
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.filesAndImages),
+        description: formatMessage(messages.filesAndImages),
         priority: 400,
         keywords: ['media'],
         icon: () => (
-          <EditorImageIcon label={formatMessage(messages.filesAndImages)} />
+          <IconImages label={formatMessage(messages.filesAndImages)} />
         ),
         action(insert, state) {
           const pluginState = pluginKey.getState(state);
