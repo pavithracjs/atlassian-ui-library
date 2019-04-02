@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.6.1
+- [patch] [e0d04f321c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0d04f321c):
+
+  - ED-6376: fix rendering row controls when table has nested Jira macro (rendered as a nested table)
+
 ## 107.6.0
 - [minor] [13d53eb7c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13d53eb7c9):
 

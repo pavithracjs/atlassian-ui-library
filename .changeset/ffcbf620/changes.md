@@ -1,1 +1,0 @@
-- ED-6376: fix rendering row controls when table has nested Jira macro (rendered as a nested table)
