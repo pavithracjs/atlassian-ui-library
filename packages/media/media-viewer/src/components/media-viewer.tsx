@@ -3,8 +3,18 @@ import { Component } from 'react';
 import { MediaViewer as MediaViewerNextGen } from '../newgen/media-viewer';
 import { ItemSource } from '../newgen/domain';
 import { MediaViewerProps } from './types';
+import { isFileIdentifier, Identifier } from '../../../media-core';
 
 export interface MediaViewerState {}
+
+// TODO: add tests
+const getIdentifierCollection = (
+  identifier: Identifier,
+  defaultCollectionName: string,
+) =>
+  isFileIdentifier(identifier)
+    ? identifier.collectionName || defaultCollectionName
+    : defaultCollectionName;
 
 export class MediaViewer extends Component<MediaViewerProps, MediaViewerState> {
   render(): JSX.Element {
@@ -21,9 +31,9 @@ export class MediaViewer extends Component<MediaViewerProps, MediaViewerState> {
     const defaultPageSize = 30;
 
     if (dataSource.list) {
-      const items = dataSource.list.map(i => ({
-        ...i,
-        collectionName,
+      const items = dataSource.list.map(identifier => ({
+        ...identifier,
+        collectionName: getIdentifierCollection(identifier, collectionName),
       }));
       const itemSource: ItemSource = {
         kind: 'ARRAY',

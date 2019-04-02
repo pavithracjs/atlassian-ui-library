@@ -35,6 +35,7 @@ import { extendMetadata } from '../../utils/metadata';
 import { isBigger } from '../../utils/dimensionComparer';
 import { getCardStatus } from './getCardStatus';
 import { InlinePlayer } from '../inlinePlayer';
+import { getSelectedIndex } from '../../../../media-viewer/src/newgen/utils';
 
 export class Card extends Component<CardProps, CardState> {
   private hasBeenMounted: boolean = false;
@@ -393,17 +394,10 @@ export class Card extends Component<CardProps, CardState> {
 
     // we want to ensure the card identifier is in the list
     const { list } = mediaViewerDataSource;
-    if (
-      list &&
-      list.length &&
-      mediaViewerSelectedItem.mediaItemType === 'file'
-    ) {
-      const isSelectedItemInList = list.some(
-        item =>
-          item.mediaItemType === 'file' &&
-          item.id === mediaViewerSelectedItem.id,
-      );
-      if (!isSelectedItemInList) {
+    if (list && list.length) {
+      const selectedItemIndex = getSelectedIndex(list, mediaViewerSelectedItem);
+
+      if (selectedItemIndex === -1) {
         return {
           list: [mediaViewerSelectedItem, ...list],
         };
