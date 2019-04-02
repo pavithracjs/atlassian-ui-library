@@ -175,9 +175,9 @@ describe('<ItemViewer />', () => {
     expect(errorMessage.find(Button)).toHaveLength(1);
   });
 
-  it('should show the video viewer if media type is video', () => {
+  it('should show the video viewer if media type is video', async () => {
     const state: ProcessedFileState = {
-      id: identifier.id as string,
+      id: await identifier.id,
       mediaType: 'video',
       status: 'processed',
       mimeType: '',
@@ -213,9 +213,9 @@ describe('<ItemViewer />', () => {
     );
   });
 
-  it('should show the document viewer if media type is document', () => {
+  it('should show the document viewer if media type is document', async () => {
     const state: FileState = {
-      id: identifier.id as string,
+      id: await identifier.id,
       mediaType: 'doc',
       status: 'processed',
       artifacts: {},

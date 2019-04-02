@@ -35,29 +35,29 @@ const handleEvent = (analyticsEvent: UIAnalyticsEventInterface) => {
 };
 
 export type State = {
-  selectedItem?: Identifier;
+  selectedIdentifier?: Identifier;
 };
 
 export default class Example extends React.Component<{}, State> {
-  state: State = { selectedItem: undefined };
+  state: State = { selectedIdentifier: undefined };
 
-  setItem = (selectedItem: Identifier) => () => {
-    this.setState({ selectedItem });
+  setItem = (selectedIdentifier: Identifier) => () => {
+    this.setState({ selectedIdentifier });
   };
 
-  createItem = (item: Identifier, title: string) => {
-    const onClick = this.setItem(item);
+  createItem = (identifier: Identifier, title: string) => {
+    const onClick = this.setItem(identifier);
 
     return (
       <div>
         <h4>{title}</h4>
-        <Card identifier={item} context={context} onClick={onClick} />
+        <Card identifier={identifier} context={context} onClick={onClick} />
       </div>
     );
   };
 
   render() {
-    const { selectedItem } = this.state;
+    const { selectedIdentifier } = this.state;
 
     return (
       <I18NWrapper>
@@ -114,14 +114,14 @@ export default class Example extends React.Component<{}, State> {
               </li>
             </ButtonList>
           </Group>
-          {selectedItem && (
+          {selectedIdentifier && (
             <AnalyticsListener channel="media" onEvent={handleEvent}>
               <MediaViewer
                 context={context}
-                selectedItem={selectedItem}
-                dataSource={{ list: [selectedItem] }}
+                selectedItem={selectedIdentifier}
+                dataSource={{ list: [selectedIdentifier] }}
                 collectionName={defaultCollectionName}
-                onClose={() => this.setState({ selectedItem: undefined })}
+                onClose={() => this.setState({ selectedIdentifier: undefined })}
               />
             </AnalyticsListener>
           )}
