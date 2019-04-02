@@ -2,7 +2,7 @@ import { keymap } from 'prosemirror-keymap';
 import { Schema } from 'prosemirror-model';
 import { Plugin } from 'prosemirror-state';
 import * as keymaps from '../../../keymaps';
-import { isEmptyNode, atTheEndOfDoc } from '../../../utils';
+import { isEmptyNode, atTheEndOfDoc, lastNodeInDocument } from '../../../utils';
 import { Command } from '../../../types';
 import { safeInsert } from 'prosemirror-utils';
 import { selectNodeBackward } from 'prosemirror-commands';
@@ -103,7 +103,7 @@ const maybeRemoveMediaSingleNode = (schema: Schema): Command => {
         maybeAnyBlockPos + maybeAnyBlock.nodeSize,
       );
     } else {
-      if (!atTheEndOfDoc(state)) {
+      if (!lastNodeInDocument(state)) {
         tr.replace($from.pos - 1, $from.pos + $from.parent.nodeSize - 1); // Remove node
       } else {
         tr.replace($from.pos, $from.pos + $from.parent.nodeSize - 1); // Remove content let empty paragraph;

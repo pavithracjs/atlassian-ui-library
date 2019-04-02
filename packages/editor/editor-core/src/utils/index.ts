@@ -29,6 +29,7 @@ import {
 import { FakeTextCursorSelection } from '../plugins/fake-text-cursor/cursor';
 import { hasParentNodeOfType } from 'prosemirror-utils';
 import { GapCursorSelection, Side } from '../plugins/gap-cursor/selection';
+import { findFarthestParentNode } from './document';
 
 export * from './document';
 export * from './action';
@@ -147,6 +148,16 @@ export function canMoveDown(state: EditorState): boolean {
   }
 
   return !atTheEndOfDoc(state);
+}
+
+export function lastNodeInDocument(state: EditorState): boolean {
+  const { selection, doc } = state;
+  const { pos } = findFarthestParentNode(
+    (node: Node) => node.type !== doc.type,
+  )(selection)!;
+  const rootNode = doc.nodeAt(pos)!;
+  const docBoundary = 2;
+  return doc.nodeSize - pos - rootNode.nodeSize - docBoundary === 0;
 }
 
 export function atTheEndOfDoc(state: EditorState): boolean {
