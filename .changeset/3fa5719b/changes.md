@@ -1,0 +1,2 @@
+- Update i18n for team mention
+- Fix a bug in team mention: missing https protocol in team link
