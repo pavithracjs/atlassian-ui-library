@@ -42,6 +42,7 @@ export interface MediaNodeProps extends ReactNodeProps, ImageLoaderProps {
   editorAppearance: EditorAppearance;
   mediaProvider?: Promise<MediaProvider>;
   viewContext?: Context;
+  MediaPluginState?: MediaPluginState;
 }
 
 export interface Props extends Partial<MediaBaseAttributes> {
@@ -114,10 +115,11 @@ class MediaNode extends Component<MediaNodeProps, MediaNodeState> {
 
     if (__src && context && mediaProvider) {
       try {
+        const isNewMedia = this.pluginState.newMediaItems.indexOf(id) > -1;
         const uploadParams = (await mediaProvider).uploadParams;
         const uploadCollection = uploadParams && uploadParams.collection;
         const isDifferentCollection = collection !== uploadCollection;
-        if (isDifferentCollection) {
+        if (1 && !isNewMedia) {
           const newFileId = await context.file.uploadExternal(
             __src,
             uploadCollection,

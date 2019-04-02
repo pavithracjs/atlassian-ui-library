@@ -90,6 +90,7 @@ export class MediaPluginState {
   private removeOnCloseListener: () => void = () => {};
 
   private reactContext: () => {};
+  public newMediaItems: String[];
 
   constructor(
     state: EditorState,
@@ -118,6 +119,7 @@ export class MediaPluginState {
     );
 
     this.errorReporter = options.errorReporter || new ErrorReporter();
+    this.newMediaItems = [];
   }
 
   setMediaProvider = async (mediaProvider?: Promise<MediaProvider>) => {
@@ -245,6 +247,7 @@ export class MediaPluginState {
     if (collection === undefined) {
       return;
     }
+    this.newMediaItems.push(mediaState.id);
 
     this.allUploadsFinished = false;
 
