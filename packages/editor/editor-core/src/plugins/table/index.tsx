@@ -65,19 +65,23 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
     return [
       {
         name: 'table',
-        plugin: ({
-          props: { allowTables, appearance, allowDynamicTextSizing },
-          eventDispatcher,
-          dispatch,
-          portalProviderAPI,
-        }) => {
+        plugin: ({ props, eventDispatcher, dispatch, portalProviderAPI }) => {
+          const {
+            allowTables,
+            appearance,
+            allowDynamicTextSizing,
+            fullWidthMode,
+          } = props;
+          const isContextMenuEnabled = appearance !== 'mobile';
+          const isBreakoutEnabled = !fullWidthMode;
           return createPlugin(
             dispatch,
             portalProviderAPI,
             eventDispatcher,
             pluginConfig(allowTables),
-            appearance,
+            isContextMenuEnabled,
             allowDynamicTextSizing,
+            isBreakoutEnabled,
           );
         },
       },

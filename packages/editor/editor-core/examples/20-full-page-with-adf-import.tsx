@@ -20,6 +20,7 @@ export const Textarea = styled.textarea`
 
 export interface State {
   inputValue?: string;
+  fullWidthMode: boolean;
 }
 
 export default class Example extends React.Component<any, State> {
@@ -28,7 +29,9 @@ export default class Example extends React.Component<any, State> {
 
   constructor(props: any) {
     super(props);
-    this.state = {};
+    this.state = {
+      fullWidthMode: false,
+    };
   }
 
   componentDidMount() {
@@ -97,7 +100,10 @@ export default class Example extends React.Component<any, State> {
                   >
                     Convert ADF to Query String
                   </button>
-                  <FullPageEditor />
+                  <button onClick={() => this.enableFullWidthMode()}>
+                    Toggle full width mode
+                  </button>
+                  <FullPageEditor fullWidthMode={this.state.fullWidthMode} />
                 </React.Fragment>
               );
             }}
@@ -106,6 +112,10 @@ export default class Example extends React.Component<any, State> {
       </EditorContext>
     );
   }
+
+  private enableFullWidthMode = () => {
+    this.setState(prevState => ({ fullWidthMode: !prevState.fullWidthMode }));
+  };
 
   private handleRef = (ref: HTMLTextAreaElement | null) => {
     if (ref) {

@@ -50,6 +50,10 @@ export interface MediaSingleOptions {
 }
 
 export const renderSmartMediaEditor = (mediaState: MediaPluginState) => {
+  if (!mediaState) {
+    return null;
+  }
+
   const node = mediaState.selectedMediaContainerNode();
   if (!node) {
     return null;

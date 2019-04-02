@@ -1,0 +1,1 @@
+- cleanup DOM elements on teardown and deactivate

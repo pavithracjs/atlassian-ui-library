@@ -38,7 +38,7 @@ const baseStatusPlugin = (): EditorPlugin => ({
         }}
         render={({ statusState = {} as StatusState }) => {
           const { showStatusPickerAt } = statusState;
-          if (showStatusPickerAt === null) {
+          if (typeof showStatusPickerAt !== 'number') {
             return null;
           }
 
