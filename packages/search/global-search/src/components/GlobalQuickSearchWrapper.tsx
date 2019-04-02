@@ -6,6 +6,7 @@ import ConfluenceQuickSearchContainer from './confluence/ConfluenceQuickSearchCo
 import JiraQuickSearchContainer from './jira/JiraQuickSearchContainer';
 import configureSearchClients, { Config } from '../api/configureSearchClients';
 import MessagesIntlProvider from './MessagesIntlProvider';
+import { GlobalSearchPreFetchContext } from './PrefetchedResultsProvider';
 
 const DEFAULT_NOOP_LOGGER: Logger = {
   safeInfo() {},
@@ -231,35 +232,45 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
 
   render() {
     const ContainerComponent = this.getContainerComponent();
-    const searchClients = this.memoizedConfigureSearchClients(
-      this.props.cloudId,
-      this.makeConfig(),
-    );
-    const {
-      linkComponent,
-      isSendSearchTermsEnabled,
-      useQuickNavForPeopleResults,
-      referralContextIdentifiers,
-      useCPUSForPeopleResults,
-      logger,
-      disableJiraPreQueryPeopleSearch,
-      enablePreQueryFromAggregator,
-    } = this.props;
 
     return (
       <MessagesIntlProvider>
-        <ContainerComponent
-          {...searchClients}
-          linkComponent={linkComponent}
-          isSendSearchTermsEnabled={isSendSearchTermsEnabled}
-          useQuickNavForPeopleResults={useQuickNavForPeopleResults}
-          referralContextIdentifiers={referralContextIdentifiers}
-          useCPUSForPeopleResults={useCPUSForPeopleResults}
-          disableJiraPreQueryPeopleSearch={disableJiraPreQueryPeopleSearch}
-          logger={logger}
-          onAdvancedSearch={this.onAdvancedSearch}
-          enablePreQueryFromAggregator={enablePreQueryFromAggregator}
-        />
+        <GlobalSearchPreFetchContext.Consumer>
+          {({ prefetchedResults }) => {
+            const searchClients = this.memoizedConfigureSearchClients(
+              this.props.cloudId,
+              this.makeConfig(),
+              prefetchedResults,
+            );
+            const {
+              linkComponent,
+              isSendSearchTermsEnabled,
+              useQuickNavForPeopleResults,
+              referralContextIdentifiers,
+              useCPUSForPeopleResults,
+              logger,
+              disableJiraPreQueryPeopleSearch,
+              enablePreQueryFromAggregator,
+            } = this.props;
+
+            return (
+              <ContainerComponent
+                {...searchClients}
+                linkComponent={linkComponent}
+                isSendSearchTermsEnabled={isSendSearchTermsEnabled}
+                useQuickNavForPeopleResults={useQuickNavForPeopleResults}
+                referralContextIdentifiers={referralContextIdentifiers}
+                useCPUSForPeopleResults={useCPUSForPeopleResults}
+                disableJiraPreQueryPeopleSearch={
+                  disableJiraPreQueryPeopleSearch
+                }
+                logger={logger}
+                onAdvancedSearch={this.onAdvancedSearch}
+                enablePreQueryFromAggregator={enablePreQueryFromAggregator}
+              />
+            );
+          }}
+        </GlobalSearchPreFetchContext.Consumer>
       </MessagesIntlProvider>
     );
   }

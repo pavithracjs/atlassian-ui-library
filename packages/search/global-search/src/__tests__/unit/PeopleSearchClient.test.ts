@@ -1,34 +1,12 @@
+import fetchMock from 'fetch-mock';
 import PeopleSearchClient, {
-  SearchResult,
   GraphqlResponse,
 } from '../../api/PeopleSearchClient';
-
-import fetchMock from 'fetch-mock';
 import { AnalyticsType, ResultType, PersonResult } from '../../model/Result';
-
-function searchApiWillReturn(state: SearchResult[] | GraphqlResponse) {
-  const response = Array.isArray(state)
-    ? { data: { UserSearch: state } }
-    : state;
-
-  const opts = {
-    name: 'people',
-  };
-  // @ts-ignore
-  fetchMock.post('localhost/graphql', response, opts);
-}
-
-function recentPeopleApiWillReturn(state: SearchResult[] | GraphqlResponse) {
-  const response = Array.isArray(state)
-    ? { data: { Collaborators: state } }
-    : state;
-
-  const opts = {
-    name: 'people',
-  };
-  // @ts-ignore
-  fetchMock.post('localhost/graphql', response, opts);
-}
+import {
+  recentPeopleApiWillReturn,
+  searchApiWillReturn,
+} from './helpers/_people-client-mocks';
 
 describe('PeopleSearchClient', () => {
   let searchClient: PeopleSearchClient;
