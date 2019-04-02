@@ -2,7 +2,7 @@ import { keymap } from 'prosemirror-keymap';
 import { Schema } from 'prosemirror-model';
 import { Plugin } from 'prosemirror-state';
 import * as keymaps from '../../../keymaps';
-import { isEmptyNode } from '../../../utils';
+import { isEmptyNode, atTheEndOfDoc } from '../../../utils';
 import { Command } from '../../../types';
 import { safeInsert } from 'prosemirror-utils';
 import { selectNodeBackward } from 'prosemirror-commands';
@@ -68,7 +68,12 @@ const maybeRemoveMediaSingleNode = (schema: Schema): Command => {
     // If media single layout is not wrap right, should set selection
     if (maybeMediaSingle.attrs.layout !== 'wrap-right') {
       if (dispatch) {
-        selectNodeBackward(state, dispatch);
+        selectNodeBackward(state, tr => {
+          if (isEmptyNodeInSchema(parent) && !atTheEndOfDoc(state)) {
+            tr.replace($from.pos - 1, $from.pos + $from.parent.nodeSize - 1); // Remove node
+          }
+          dispatch(tr);
+        });
       }
       return true;
     }
@@ -98,7 +103,11 @@ const maybeRemoveMediaSingleNode = (schema: Schema): Command => {
         maybeAnyBlockPos + maybeAnyBlock.nodeSize,
       );
     } else {
-      tr.replace($from.pos, $from.pos + $from.parent.nodeSize - 1); // Remove content let empty paragraph;
+      if (!atTheEndOfDoc(state)) {
+        tr.replace($from.pos - 1, $from.pos + $from.parent.nodeSize - 1); // Remove node
+      } else {
+        tr.replace($from.pos, $from.pos + $from.parent.nodeSize - 1); // Remove content let empty paragraph;
+      }
       if (maybeAnyBlock.type === paragraph) {
         const insideParagraphPos =
           maybeAnyBlockPos + maybeAnyBlock.nodeSize - 2;
