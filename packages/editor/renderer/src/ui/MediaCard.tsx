@@ -14,6 +14,7 @@ import {
   ImageResizeMode,
   FileIdentifier,
   ExternalImageIdentifier,
+  Identifier,
 } from '@atlaskit/media-core';
 import { MediaType } from '@atlaskit/adf-schema';
 import {
@@ -57,16 +58,19 @@ export interface State {
   context?: Context;
 }
 
-// any[] is because despite occurrenceKey in FileIndentifier defined as string | undefined, it is passed as null by actual adf node,
-// while media viewer has a strict comparison of selected item's occurrenceKey against the list of items for navigation
-// so we have to explicitly set it to null in the list until Media Viewer is not fixed
-const mediaIdentifierList: any[] = [];
+const mediaIdentifierMap: Map<string, Identifier> = new Map();
 
 export class MediaCardInternal extends Component<MediaCardProps, State> {
   state: State = {};
 
   async componentDidMount() {
-    const { mediaProvider } = this.props;
+    const {
+      rendererContext,
+      mediaProvider,
+      id: thisId,
+      url: thisUrl,
+      collection: collectionName,
+    } = this.props;
 
     if (!mediaProvider) {
       return;
@@ -75,9 +79,49 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     const provider = await mediaProvider;
     const context = await provider.viewContext;
 
+    if (rendererContext && rendererContext.adDoc) {
+      if (
+        (thisId && !mediaIdentifierMap.has(thisId)) ||
+        (thisUrl && !mediaIdentifierMap.has(thisUrl))
+      ) {
+        filter(rendererContext.adDoc, node => node.type === 'media').forEach(
+          mediaNode => {
+            if (mediaNode.attrs) {
+              const { type, url: dataURI, id } = mediaNode.attrs;
+
+              if (type === 'file' && id) {
+                mediaIdentifierMap.set(id, {
+                  mediaItemType: 'file',
+                  id,
+                  collectionName,
+                  occurrenceKey: null as any,
+                });
+              } else if (type === 'external' && dataURI) {
+                mediaIdentifierMap.set(dataURI, {
+                  mediaItemType: 'external-image',
+                  dataURI,
+                  name: dataURI,
+                });
+              }
+            }
+          },
+        );
+      }
+    }
+
     this.setState({
       context,
     });
+  }
+
+  componentWillUnmount() {
+    const { id, url: dataURI } = this.props;
+
+    if (id) {
+      mediaIdentifierMap.delete(id);
+    } else if (dataURI) {
+      mediaIdentifierMap.delete(dataURI);
+    }
   }
 
   private renderLoadingCard = () => {
@@ -122,7 +166,9 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
         resizeMode={resizeMode}
         disableOverlay={disableOverlay}
         shouldOpenMediaViewer={shouldOpenMediaViewer}
-        mediaViewerDataSource={{ list: mediaIdentifierList }}
+        mediaViewerDataSource={{
+          list: Array.from(mediaIdentifierMap.values()),
+        }}
       />
     );
   }
@@ -140,7 +186,6 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       rendererAppearance,
       disableOverlay,
       useInlinePlayer,
-      rendererContext,
     } = this.props;
     const isMobile = rendererAppearance === 'mobile';
     const shouldPlayInline =
@@ -148,39 +193,6 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     const onCardClick =
       eventHandlers && eventHandlers.media && eventHandlers.media.onClick;
     const shouldOpenMediaViewer = !isMobile && !onCardClick;
-
-    if (rendererContext && rendererContext.adDoc) {
-      filter(rendererContext.adDoc, adNode => adNode.type === 'media').forEach(
-        adfNode => {
-          if (adfNode.attrs) {
-            if (
-              adfNode.attrs.type === 'file' &&
-              !mediaIdentifierList.find(
-                identifier => identifier.id === adfNode.attrs!.id,
-              )
-            ) {
-              mediaIdentifierList.push({
-                id: adfNode.attrs.id,
-                mediaItemType: adfNode.attrs.type,
-                collectionName: adfNode.attrs.collection,
-                occurrenceKey: null,
-              });
-            } else if (
-              adfNode.attrs.type === 'external' &&
-              !mediaIdentifierList.find(
-                identifier => identifier.dataURI === adfNode.attrs!.url,
-              )
-            ) {
-              mediaIdentifierList.push({
-                dataURI: adfNode.attrs.url,
-                mediaItemType: 'external-image',
-                name: adfNode.attrs.name,
-              });
-            }
-          }
-        },
-      );
-    }
 
     if (type === 'external') {
       return this.renderExternal(shouldOpenMediaViewer);
@@ -222,7 +234,9 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
         disableOverlay={disableOverlay}
         useInlinePlayer={isMobile ? false : shouldPlayInline}
         shouldOpenMediaViewer={shouldOpenMediaViewer}
-        mediaViewerDataSource={{ list: mediaIdentifierList }}
+        mediaViewerDataSource={{
+          list: Array.from(mediaIdentifierMap.values()),
+        }}
       />
     );
   }
