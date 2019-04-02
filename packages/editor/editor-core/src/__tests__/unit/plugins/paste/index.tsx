@@ -28,6 +28,7 @@ import {
   tr,
   th,
   td,
+  thWithoutDefaultMarks,
   tdCursor,
   hardBreak,
   a,
@@ -828,8 +829,8 @@ describe('paste plugins', () => {
         doc(
           table({ isNumberColumnEnabled: true })(
             tr(
-              th({ defaultMarks: null })(p('One')),
-              th({ defaultMarks: null })(p('Two')),
+              thWithoutDefaultMarks()(p('One')),
+              thWithoutDefaultMarks()(p('Two')),
             ),
             tr(td()(p('Three')), td()(p('Four'))),
             tr(td()(p('Five')), td()(p('Six'))),
@@ -849,8 +850,8 @@ describe('paste plugins', () => {
         doc(
           table({ isNumberColumnEnabled: true })(
             tr(
-              th({ defaultMarks: null })(p('One')),
-              th({ defaultMarks: null })(p('Two')),
+              thWithoutDefaultMarks()(p('One')),
+              thWithoutDefaultMarks()(p('Two')),
             ),
             tr(td()(p('Three')), td()(p('Four'))),
             tr(td()(p('Five')), td()(p('Six'))),

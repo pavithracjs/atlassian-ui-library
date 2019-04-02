@@ -32,7 +32,7 @@ export const applyDefaultMarks = (tr: Transaction) => {
 
       return null;
     })
-    .filter((mark: Mark) => mark);
+    .filter(Boolean);
 
   if (marks.length) {
     return tr.setStoredMarks(marks);
@@ -70,9 +70,7 @@ export const saveDefaultMarksInCellNode = (tr: Transaction) => {
   );
 
   if (selFrom && selTo) {
-    return tr
-      .setSelection(new TextSelection(selFrom.$from, selTo.$to))
-      .setMeta('addToHistory', false);
+    return tr.setSelection(new TextSelection(selFrom.$from, selTo.$to));
   }
 
   return tr;

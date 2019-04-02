@@ -30,7 +30,7 @@ import {
   selectColumn as selectColumnTransform,
   selectRow as selectRowTransform,
 } from 'prosemirror-utils';
-import { TableLayout } from '@atlaskit/adf-schema';
+import { TableLayout, tableHeaderDefaultMarks } from '@atlaskit/adf-schema';
 import { getPluginState, pluginKey, ACTIONS } from './pm-plugins/main';
 import {
   checkIfHeaderRowEnabled,
@@ -180,8 +180,8 @@ const filterOutMarks = (
 };
 
 const toggleDefaultMarksHeaders = (
-  cell: any,
-  tableHeader: any,
+  cell: PMNode,
+  tableHeader: PMNode,
   removeHeaderDefaultMarks: boolean,
 ) => {
   let defaultMarks = (cell && cell.attrs && cell.attrs.defaultMarks) || [];
@@ -189,10 +189,7 @@ const toggleDefaultMarksHeaders = (
   if (removeHeaderDefaultMarks) {
     defaultMarks = filterOutMarks(defaultMarks, tableHeaderDefaultMarks);
   } else {
-    defaultMarks = diffArrayOfMarks(
-      defaultMarks,
-      tableHeader.defaultAttrs.defaultMarks,
-    );
+    defaultMarks.push(...tableHeaderDefaultMarks);
   }
 
   return defaultMarks;

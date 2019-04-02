@@ -227,7 +227,7 @@ export interface CellAttributes {
    */
   defaultMarks?: Array<
     Em | Strong | Code | Strike | SubSup | Underline | TextColor
-  > | null;
+  >;
 }
 
 // TODO: Fix any, potential issue. ED-5048
@@ -312,7 +312,7 @@ export const tableCell = {
   },
 };
 
-const tableHeaderDefaultMarks = [{ type: 'strong' }];
+export const tableHeaderDefaultMarks = [{ type: 'strong' }];
 
 export const toJSONTableCell = (node: PmNode) => ({
   attrs: (Object.keys(node.attrs) as Array<keyof CellAttributes>).reduce<
