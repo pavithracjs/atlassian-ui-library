@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.3.2
+- [patch] [3d0da81a4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d0da81a4b):
+
+  - ED-6583 Add analytics v3 for link inserts
+
 ## 107.3.1
 - [patch] [9f08142085](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f08142085):
 

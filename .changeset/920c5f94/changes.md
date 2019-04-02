@@ -1,1 +1,0 @@
-- ED-6583 Add analytics v3 for link inserts
