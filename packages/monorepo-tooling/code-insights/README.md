@@ -2,10 +2,13 @@
 This is a tool that can be run on you checkout  OR on CI to report on code problems.
 
 ## CLI Flags
---commit       The commit to publish insights on [default=current head]
---reporters    The reporters to run [default=console]
---gitUrl       The git url of the repo [default=current origin url]
---targetBranch The branch with which to compare the current branch, when git reporting is enabled can detect PR target branch. [default=master]
+`--commit`       The commit to publish insights on [default=current head]
+
+`--reporters`    The reporters to run [default=console]
+
+`--gitUrl`       The git url of the repo [default=current origin url]
+
+`--targetBranch` The branch with which to compare the current branch, when git reporting is enabled can detect PR target branch. [default=master]
 
 ## Reports
 The tool is setup in a way that reports should be easy to add later. If you have a good idea for a report
@@ -49,6 +52,7 @@ The recommended way of authentication
 
 #### Basic auth
 `BITBUCKET_SERVER_USERNAME` : Bitbucket Server Username
+
 `BITBUCKET_SERVER_PASSWORD` : Bitbucket Server Password
 
 
