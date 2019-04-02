@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.6.0
+- [minor] [13d53eb7c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13d53eb7c9):
+
+  - ED-6604 Animate transition from default -> full-width mode and vice versa
+
 ## 107.5.1
 - [patch] [d26570e3b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d26570e3b5):
 

@@ -1,1 +1,0 @@
-- ED-6604 Animate transition from default -> full-width mode and vice versa
