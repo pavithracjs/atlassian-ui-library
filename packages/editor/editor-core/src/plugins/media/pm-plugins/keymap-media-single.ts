@@ -1,16 +1,10 @@
 import { keymap } from 'prosemirror-keymap';
-import { Schema, Node } from 'prosemirror-model';
-import {
-  Plugin,
-  Selection,
-  TextSelection,
-  NodeSelection,
-} from 'prosemirror-state';
+import { Schema } from 'prosemirror-model';
+import { Plugin } from 'prosemirror-state';
 import * as keymaps from '../../../keymaps';
 import { isEmptyNode } from '../../../utils';
 import { Command } from '../../../types';
 import { safeInsert } from 'prosemirror-utils';
-import paragraph from '../../../../../renderer/src/email/nodes/paragraph';
 import { selectNodeBackward } from 'prosemirror-commands';
 
 /**
