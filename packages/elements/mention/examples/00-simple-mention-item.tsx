@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import MentionItem from '../src/components/MentionItem';
+import { MentionItem } from '../src/item';
 import { generateMentionItem, onSelection } from '../example-helpers';
 import { IntlProvider } from 'react-intl';
 

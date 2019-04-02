@@ -169,7 +169,7 @@ class Package extends React.Component<Props> {
               {pkg && pkg['atlaskit:designLink'] && (
                 <Button
                   iconBefore={<AtlassianIcon size="small" />}
-                  href={pkg['atlaskit:designLink']}
+                  href={pkg['atlaskit:designLink'] as string}
                 >
                   Design docs
                 </Button>

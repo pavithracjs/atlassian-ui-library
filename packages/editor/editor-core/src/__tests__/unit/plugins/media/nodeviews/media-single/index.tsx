@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import { EditorView } from 'prosemirror-view';
 import {
   mediaSingle,
@@ -54,7 +54,7 @@ describe('nodeviews/mediaSingle', () => {
     },
     remove() {},
   } as any;
-  let getDimensions;
+  let getDimensions: any;
 
   beforeEach(() => {
     const mediaProvider = getFreshMediaProvider();
@@ -73,8 +73,8 @@ describe('nodeviews/mediaSingle', () => {
       updateMediaNodeAttrs: jest.fn(),
     } as any) as MediaPluginState;
 
-    getDimensions = wrapper => (): Promise<any> => {
-      if (wrapper.props().node.firstChild.attrs.type === 'external') {
+    getDimensions = (wrapper: ReactWrapper) => (): Promise<any> => {
+      if ((wrapper.props() as any).node.firstChild.attrs.type === 'external') {
         return Promise.resolve(false);
       }
       return Promise.resolve({

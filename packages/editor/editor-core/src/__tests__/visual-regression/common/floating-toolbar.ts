@@ -11,7 +11,7 @@ import {
 } from '../../__helpers/page-objects/_extensions';
 
 describe('Floating toolbars:', () => {
-  let page;
+  let page: any;
   beforeAll(async () => {
     // @ts-ignore
     page = global.page;

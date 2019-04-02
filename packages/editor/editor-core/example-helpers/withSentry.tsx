@@ -1,7 +1,11 @@
 import * as React from 'react';
 import * as Sentry from '@sentry/browser';
 
-function withSentry(Child) {
+function withSentry(
+  Child:
+    | React.ComponentClass<any, any>
+    | ((props: any) => React.ReactElement<any>),
+) {
   return class WrappedComponent extends React.Component {
     componentDidMount() {
       /** Add Sentry for non-local envs */

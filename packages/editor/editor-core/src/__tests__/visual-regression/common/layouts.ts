@@ -4,7 +4,7 @@ import * as col2 from './__fixtures__/column2-adf.json';
 import * as col3 from './__fixtures__/column3-adf.json';
 
 describe('Layouts:', () => {
-  let page;
+  let page: any;
 
   beforeAll(async () => {
     // @ts-ignore

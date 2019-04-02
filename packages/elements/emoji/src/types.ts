@@ -177,6 +177,10 @@ export interface OnToneSelected {
   (variation: number): void;
 }
 
+export interface OnToneSelectorCancelled {
+  (): void;
+}
+
 export interface OnEmojiEvent<T = any> {
   (
     emojiId: EmojiId,

@@ -9,7 +9,7 @@ import {
 } from '../../__helpers/page-objects/_media';
 
 describe('Snapshot Test: Media', () => {
-  let page;
+  let page: any;
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;

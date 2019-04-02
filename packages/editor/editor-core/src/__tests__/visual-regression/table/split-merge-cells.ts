@@ -14,9 +14,12 @@ import {
 import * as adf from './__fixtures__/default-table.adf.json';
 
 describe('Table context menu: merge-split cells', () => {
-  let page;
+  let page: any;
 
-  const tableMergeAndSplitCells = async (firstCell, lastCell) => {
+  const tableMergeAndSplitCells = async (
+    firstCell: string,
+    lastCell: string,
+  ) => {
     const threshold = 0.04;
     await page.click(firstCell);
     await pressKeyDown(page, 'Shift');
