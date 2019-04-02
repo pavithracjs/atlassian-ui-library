@@ -9,6 +9,9 @@ import { DevTools } from '../example-helpers/DevTools';
 import WithEditorActions from '../src/ui/WithEditorActions';
 import { EditorActions } from '../src';
 
+const FULL_WIDTH_MODE = 'full-width';
+const DEFAULT_MODE = 'default';
+
 export const Textarea = styled.textarea`
   box-sizing: border-box;
   border: 1px solid lightgray;
@@ -17,6 +20,8 @@ export const Textarea = styled.textarea`
   width: 100%;
   height: 250px;
 `;
+
+export const LOCALSTORAGE_defaultMode = 'fabric.editor.example.default-mode';
 
 export interface State {
   inputValue?: string;
@@ -29,8 +34,9 @@ export default class Example extends React.Component<any, State> {
 
   constructor(props: any) {
     super(props);
+    const defaultMode = localStorage.getItem(LOCALSTORAGE_defaultMode);
     this.state = {
-      fullWidthMode: false,
+      fullWidthMode: defaultMode === FULL_WIDTH_MODE,
     };
   }
 
@@ -100,9 +106,16 @@ export default class Example extends React.Component<any, State> {
                   >
                     Convert ADF to Query String
                   </button>
-                  <button onClick={() => this.enableFullWidthMode()}>
-                    Toggle full width mode
-                  </button>
+                  <label htmlFor="fullWidthMode">
+                    <input
+                      id="fullWidthMode"
+                      name="fullWidthMode"
+                      type="checkbox"
+                      checked={this.state.fullWidthMode}
+                      onClick={() => this.toggleFullWidthMode()}
+                    />
+                    Full width mode
+                  </label>
                   <FullPageEditor fullWidthMode={this.state.fullWidthMode} />
                 </React.Fragment>
               );
@@ -113,8 +126,16 @@ export default class Example extends React.Component<any, State> {
     );
   }
 
-  private enableFullWidthMode = () => {
-    this.setState(prevState => ({ fullWidthMode: !prevState.fullWidthMode }));
+  private toggleFullWidthMode = () => {
+    this.setState(
+      prevState => ({ fullWidthMode: !prevState.fullWidthMode }),
+      () => {
+        localStorage.setItem(
+          LOCALSTORAGE_defaultMode,
+          this.state.fullWidthMode ? FULL_WIDTH_MODE : DEFAULT_MODE,
+        );
+      },
+    );
   };
 
   private handleRef = (ref: HTMLTextAreaElement | null) => {
