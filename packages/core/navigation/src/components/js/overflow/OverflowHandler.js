@@ -23,7 +23,6 @@ type State = {
 
 export default class OverflowManager extends Component<Props, State> {
   static childContextTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
     [overflowManagerNamespace]: PropTypes.object,
   };
 

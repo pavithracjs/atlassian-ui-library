@@ -26,7 +26,6 @@ const withItemFocus = (WrappedComponent: any) =>
     static displayName = `WithItemFocus(${getDisplayName(WrappedComponent)})`;
 
     static contextTypes = {
-      // eslint-disable-next-line react/forbid-prop-types
       [focusManagerContext]: PropTypes.object,
     };
 

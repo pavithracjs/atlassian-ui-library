@@ -22,7 +22,6 @@ export default class OverflowItemGroup extends Component<Props> {
   heights: Array<number>;
 
   static childContextTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
     [overflowGroupNamespace]: PropTypes.object,
   };
 

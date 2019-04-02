@@ -34,7 +34,6 @@ const withItemClick = (WrappedItem: ComponentType<any>) =>
     };
 
     static contextTypes = {
-      // eslint-disable-next-line react/forbid-prop-types
       [clickManagerContext]: PropTypes.object,
     };
 

@@ -15,7 +15,6 @@ type Props = {
 
 export default class OverflowItem extends Component<Props> {
   static contextTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
     [overflowGroupNamespace]: PropTypes.object,
     [shouldReportItemHeight]: PropTypes.bool,
   };
