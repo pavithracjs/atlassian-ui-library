@@ -19,7 +19,7 @@ describe('hyperlink', () => {
   let trackEvent: AnalyticsHandler;
   let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
 
-  const editor = (doc: any, editorProps = {}) => {
+  const editor = (doc: any) => {
     createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });
     return createEditor({
       doc,
