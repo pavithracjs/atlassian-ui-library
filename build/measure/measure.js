@@ -180,9 +180,11 @@ module.exports = function main(
       const stats = buildStats(measureCompiledOutputPath, joinedStatsGroups);
 
       // Cleanup measure output directory
-      try {
-        exec(`rm -rf ${measureCompiledOutputPath}`);
-      } catch (e) {}
+      if (!isAnalyze) {
+        try {
+          exec(`rm -rf ${measureCompiledOutputPath}`);
+        } catch (e) {}
+      }
 
       const prevStatsPath = path.join(filePath, `bundle-size-ratchet.json`);
 
