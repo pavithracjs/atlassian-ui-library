@@ -338,6 +338,7 @@ export class FileFetcherImpl implements FileFetcher {
 
       subject.next({
         status: 'processing',
+        representations: {},
         ...stateBase,
       });
       subject.complete();
