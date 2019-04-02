@@ -1,0 +1,51 @@
+{
+  "type": "doc",
+  "version": 1,
+  "content": [
+    {
+      "type": "taskList",
+      "localId": "a7b91e92-68f9-4cb2-b033-53a418c00000",
+      "content": [
+        {
+          "type": "taskItem",
+          "attrs": {
+            "localId": "a7b91e92-68f9-4cb2-b033-53a418c00001",
+            "state": "DONE"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "milk"
+            }
+          ]
+        },
+        {
+          "type": "taskItem",
+          "attrs": {
+            "localId": "a7b91e92-68f9-4cb2-b033-53a418c00002",
+            "state": "DONE"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "eggs"
+            }
+          ]
+        },
+        {
+          "type": "taskItem",
+          "attrs": {
+            "localId": "a7b91e92-68f9-4cb2-b033-53a418c00003",
+            "state": "TODO"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "bread"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -397,8 +397,8 @@ export const resizeColumn = async (page: any, resizeOptions: ResizeOptions) => {
   );
 };
 
-export const animationFrame = async page => {
-  await page.browser.executeAsync(done => {
+export const animationFrame = async (page: any) => {
+  await page.browser.executeAsync((done: (time: number) => void) => {
     window.requestAnimationFrame(done);
   });
 };

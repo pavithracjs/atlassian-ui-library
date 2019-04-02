@@ -8,7 +8,7 @@ const BASE_DIR = `${__dirname}/../../../../../adf-schema/src/__tests__/unit/json
 
 const readFilesSync = (path: string) =>
   fs.readdirSync(path).reduce(
-    (acc, name) => {
+    (acc: any[], name: string) => {
       if (name.match(/\.json$/)) {
         acc.push({
           name,
@@ -23,7 +23,7 @@ const readFilesSync = (path: string) =>
 describe('validate', () => {
   ['full', 'stage-0'].forEach(schemaType => {
     const valid = readFilesSync(`${BASE_DIR}/${schemaType}/valid`);
-    valid.forEach(file => {
+    valid.forEach((file: any) => {
       // Don't test Application Card
       if (file.name.indexOf('applicationCard') === 0) {
         return;
@@ -37,7 +37,7 @@ describe('validate', () => {
     });
 
     const invalid = readFilesSync(`${BASE_DIR}/${schemaType}/invalid`);
-    invalid.forEach(file => {
+    invalid.forEach((file: any) => {
       it(`does not validate '${file.name}'`, () => {
         const run = () => {
           validate(file.data);

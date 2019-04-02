@@ -5,7 +5,7 @@ import { selectors } from '../../__helpers/page-objects/_editor';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
 describe('Gap cursor:', () => {
-  let page;
+  let page: any;
 
   beforeAll(async () => {
     // @ts-ignore
@@ -46,7 +46,7 @@ describe('Gap cursor:', () => {
 });
 
 describe('Gap cursor: selection', () => {
-  let page;
+  let page: any;
 
   beforeEach(async () => {
     // @ts-ignore
@@ -59,9 +59,14 @@ describe('Gap cursor: selection', () => {
   });
 
   it('should not break selection when the users drag finishes outside the doc', async () => {
-    const rect = await page.evaluate(selector => {
-      const element = document.querySelector(selector);
-      const { x, y, width, height } = element.getBoundingClientRect();
+    const rect = await page.evaluate((selector: string) => {
+      const element = document.querySelector(selector)!;
+      const {
+        x,
+        y,
+        width,
+        height,
+      } = element.getBoundingClientRect() as DOMRect;
       return { left: x, top: y, width, height, id: element.id };
     }, `${selectors.editor} p`);
 
@@ -82,7 +87,7 @@ describe('Gap cursor: selection', () => {
 
   it('should place my cursor inside the editor when clicking outside the boundary', async () => {
     // Remove focus from the editor.
-    await page.evaluate(_ => {
+    await page.evaluate(() => {
       // @ts-ignore
       document.activeElement.blur();
     });

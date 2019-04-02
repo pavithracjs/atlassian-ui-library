@@ -18,6 +18,7 @@
     "@atlaskit/docs": "^7.0.1",
     "@atlaskit/icon": "^16.0.5",
     "@atlaskit/item": "^9.0.0",
+    "@atlaskit/visual-regression": "^0.0.1",
     "@atlaskit/portal": "^0.3.0",
     "@atlaskit/theme": "^8.0.1",
     "@babel/runtime": "^7.0.0",

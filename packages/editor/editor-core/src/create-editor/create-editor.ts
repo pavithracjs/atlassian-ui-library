@@ -17,6 +17,7 @@ import { name, version } from '../version-wrapper';
 import { Dispatch, EventDispatcher } from '../event-dispatcher';
 import { PortalProviderAPI } from '../ui/PortalProvider';
 import Ranks from '../plugins/rank';
+import { AnalyticsEventPayload } from '../plugins/analytics';
 
 export function sortByRank(a: { rank: number }, b: { rank: number }): number {
   return a.rank - b.rank;
@@ -149,6 +150,7 @@ export function createPMPlugins({
   errorReporter,
   portalProviderAPI,
   reactContext,
+  dispatchAnalyticsEvent,
 }: {
   editorConfig: EditorConfig;
   schema: Schema;
@@ -159,6 +161,7 @@ export function createPMPlugins({
   errorReporter: ErrorReporter;
   portalProviderAPI: PortalProviderAPI;
   reactContext: () => { [key: string]: any };
+  dispatchAnalyticsEvent: (payload: AnalyticsEventPayload) => void;
 }): Plugin[] {
   return editorConfig.pmPlugins
     .sort(sortByOrder('plugins'))
@@ -172,6 +175,7 @@ export function createPMPlugins({
         eventDispatcher,
         portalProviderAPI,
         reactContext,
+        dispatchAnalyticsEvent,
       }),
     )
     .filter(plugin => !!plugin) as Plugin[];

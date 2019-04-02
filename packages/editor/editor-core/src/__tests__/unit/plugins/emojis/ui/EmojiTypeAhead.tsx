@@ -28,7 +28,7 @@ describe('EmojiTypeAhead', () => {
     let trackEvent: jest.SpyInstance<AnalyticsHandler>;
     let component: ShallowWrapper<EditorEmojiTypeAhead>;
     let componentInstance: EditorEmojiTypeAhead;
-    let dispatchAnalyticsSpy;
+    let dispatchAnalyticsSpy: jest.Mock;
 
     pluginKey.getState.mockReturnValue({
       query: ':ok',

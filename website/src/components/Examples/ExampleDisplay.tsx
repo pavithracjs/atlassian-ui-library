@@ -12,7 +12,7 @@ export type Props = {
     b: React.ComponentType,
     c: boolean,
   ) => React.ReactChild;
-  src: string | null;
+  src?: string;
   name: string;
   example: {
     contents: Function;

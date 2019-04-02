@@ -9,7 +9,10 @@ const mockJiraClient = (
   canSearchUsers: jest.fn(canSearchUsersPromise),
 });
 
-export const mockErrorJiraClient = (error, canSearchUsers: boolean = true) =>
+export const mockErrorJiraClient = (
+  error: Error,
+  canSearchUsers: boolean = true,
+) =>
   mockJiraClient(
     () => Promise.reject(error),
     () => Promise.resolve(canSearchUsers),

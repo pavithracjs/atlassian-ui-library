@@ -21,6 +21,7 @@
     "@atlaskit/spinner": "^10.0.1",
     "@atlaskit/theme": "^8.0.1",
     "@atlaskit/tooltip": "^13.0.1",
+    "@atlaskit/visual-regression": "^0.0.1",
     "@babel/runtime": "^7.0.0",
     "@emotion/core": "^10.0.9",
     "chromatism": "^2.6.0",

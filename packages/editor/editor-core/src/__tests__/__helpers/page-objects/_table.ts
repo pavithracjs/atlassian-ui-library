@@ -55,21 +55,21 @@ export const tableSelectors = {
   cellBackgroundSubmenuSelector: `.${ClassName.CONTEXTUAL_SUBMENU}`,
 };
 // insert table from menu
-export const insertTable = async page => {
+export const insertTable = async (page: any) => {
   await clickToolbarMenu(page, ToolbarMenuItem.table);
   await page.waitForSelector(tableSelectors.tableTd);
   await page.click(tableSelectors.tableTh);
 };
 
 // click into first cell on table
-export const clickFirstCell = async page => {
+export const clickFirstCell = async (page: any) => {
   await page.waitForSelector(tableSelectors.topLeftCell);
   await page.click(tableSelectors.topLeftCell);
   await page.waitForSelector(tableSelectors.removeTable);
 };
 
 // table floating toolbar interactions
-export const clickTableOptions = async page => {
+export const clickTableOptions = async (page: any) => {
   await clickElementWithText({
     page,
     tag: 'span',
@@ -77,19 +77,29 @@ export const clickTableOptions = async page => {
   });
 };
 
-export const clickCellOptions = async page => {
+export const clickCellOptions = async (page: any) => {
   await page.waitForSelector(tableSelectors.contextalMenu);
   await page.click(tableSelectors.contextalMenu);
 };
 
-export const selectCellOption = async (page, option) => {
+export const selectCellOption = async (page: any, option: string) => {
   await page.waitForSelector(tableSelectors.contextalMenu);
   await page.click(tableSelectors.contextalMenu);
   await clickElementWithText({ page, tag: 'span', text: option });
 };
 
 // colorIndex - index of the color button DOM node, values from 1 to 8
-export const selectCellBackground = async ({ page, from, to, colorIndex }) => {
+export const selectCellBackground = async ({
+  page,
+  from,
+  to,
+  colorIndex,
+}: {
+  page: any;
+  from: { row: number; column: number };
+  to: { row: number; column: number };
+  colorIndex: number;
+}) => {
   const firstCell = getSelectorForTableCell({
     row: from.row,
     cell: from.column,
@@ -119,25 +129,25 @@ export const selectCellBackground = async ({ page, from, to, colorIndex }) => {
 };
 
 // support for table layout
-export const setTableLayoutWide = async page => {
+export const setTableLayoutWide = async (page: any) => {
   await page.waitForSelector(tableSelectors.wideSelector);
   await page.click(tableSelectors.wideSelector);
   await page.waitForSelector(tableSelectors.wideState);
 };
 
-export const setTableLayoutFullWidth = async page => {
+export const setTableLayoutFullWidth = async (page: any) => {
   await setTableLayoutWide(page);
   await page.click(tableSelectors.fullwidthSelector);
   await page.waitForSelector(tableSelectors.fullwidthState);
 };
 
-export const resetTableLayoutDefault = async page => {
+export const resetTableLayoutDefault = async (page: any) => {
   await page.waitForSelector(tableSelectors.defaultSelector);
   await page.click(tableSelectors.defaultSelector);
   await page.waitForSelector(tableSelectors.defaultState);
 };
 
-export const setTableLayout = async (page, layout) => {
+export const setTableLayout = async (page: any, layout: string) => {
   if (layout === 'wide') {
     await setTableLayoutWide(page);
   } else if (layout === 'full-width') {
@@ -145,7 +155,7 @@ export const setTableLayout = async (page, layout) => {
   }
 };
 
-export const insertRow = async (page, atIndex: number) => {
+export const insertRow = async (page: any, atIndex: number) => {
   await insertRowOrColumn(
     page,
     tableSelectors.rowControlSelector,
@@ -154,7 +164,7 @@ export const insertRow = async (page, atIndex: number) => {
   );
 };
 
-export const insertColumn = async (page, atIndex: number) => {
+export const insertColumn = async (page: any, atIndex: number) => {
   await insertRowOrColumn(
     page,
     tableSelectors.columnControlSelector,
@@ -164,9 +174,9 @@ export const insertColumn = async (page, atIndex: number) => {
 };
 
 export const insertRowOrColumn = async (
-  page,
-  buttonWrapSelector,
-  insertSelector,
+  page: any,
+  buttonWrapSelector: string,
+  insertSelector: string,
   atIndex: number,
 ) => {
   await clickFirstCell(page);
@@ -177,15 +187,19 @@ export const insertRowOrColumn = async (
   await page.click(buttonSelector);
 };
 
-export const deleteRow = async (page, atIndex) => {
+export const deleteRow = async (page: any, atIndex: number) => {
   await deleteRowOrColumn(page, tableSelectors.rowControls, atIndex);
 };
 
-export const deleteColumn = async (page, atIndex) => {
+export const deleteColumn = async (page: any, atIndex: number) => {
   await deleteRowOrColumn(page, tableSelectors.columnControls, atIndex);
 };
 
-export const deleteRowOrColumn = async (page, typeWrapperSelector, atIndex) => {
+export const deleteRowOrColumn = async (
+  page: any,
+  typeWrapperSelector: string,
+  atIndex: number,
+) => {
   const controlSelector = `.${typeWrapperSelector} .${
     ClassName.CONTROLS_BUTTON
   }:nth-child(${atIndex})`;
@@ -216,13 +230,17 @@ export const getSelectorForTableCell = ({
   return `${rowSelector} > ${cellType}:nth-child(${cell})`;
 };
 
-export const splitCells = async (page, selector) => {
+export const splitCells = async (page: any, selector: string) => {
   await page.click(selector);
   await clickCellOptions(page);
   await selectCellOption(page, tableSelectors.splitCellText);
 };
 
-export const mergeCells = async (page, firstCell, lastCell) => {
+export const mergeCells = async (
+  page: any,
+  firstCell: string,
+  lastCell: string,
+) => {
   await page.click(firstCell);
   await pressKeyDown(page, 'Shift');
   await page.click(lastCell);
@@ -232,7 +250,7 @@ export const mergeCells = async (page, firstCell, lastCell) => {
   await selectCellOption(page, tableSelectors.mergeCellsText);
 };
 
-export const getSelectorForTableControl = (type, atIndex?: number) => {
+export const getSelectorForTableControl = (type: string, atIndex?: number) => {
   let selector = `.pm-table-${type}-controls__button-wrap`;
   if (atIndex) {
     selector += `:nth-child(${atIndex})`;
@@ -249,7 +267,7 @@ type ResizeColumnOpts = {
 };
 
 export const resizeColumn = async (
-  page,
+  page: any,
   { colIdx, amount, row = 1 }: ResizeColumnOpts,
 ) => {
   let cell = await getBoundingRect(
@@ -269,7 +287,7 @@ export const resizeColumn = async (
 };
 
 export const grabResizeHandle = async (
-  page,
+  page: any,
   { colIdx, row = 1 }: { colIdx: number; row: number },
 ) => {
   let cell = await getBoundingRect(

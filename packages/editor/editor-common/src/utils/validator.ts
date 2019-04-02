@@ -763,6 +763,10 @@ export const getValidNode = (
             if (attrs.colwidth && Array.isArray(attrs.colwidth)) {
               cellAttrs.colwidth = attrs.colwidth;
             }
+
+            if (attrs.defaultMarks && Array.isArray(attrs.defaultMarks)) {
+              cellAttrs.defaultMarks = attrs.defaultMarks;
+            }
           }
 
           return {
