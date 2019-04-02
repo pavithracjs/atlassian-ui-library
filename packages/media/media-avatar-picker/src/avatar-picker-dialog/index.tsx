@@ -3,7 +3,7 @@ import { PureComponent } from 'react';
 import ModalDialog, { ModalFooter } from '@atlaskit/modal-dialog';
 import Button from '@atlaskit/button';
 import { FormattedMessage, intlShape, IntlProvider } from 'react-intl';
-import { messages } from '@atlaskit/media-ui';
+import { fileToDataURI, dataURItoFile, messages } from '@atlaskit/media-ui';
 import { Avatar } from '../avatar-list';
 import ImageNavigator, { CropProperties } from '../image-navigator';
 import { PredefinedAvatarList } from '../predefined-avatar-list';
@@ -14,7 +14,6 @@ import {
   ModalFooterButtons,
 } from './styled';
 import { PredefinedAvatarView } from '../predefined-avatar-view';
-import { dataURItoFile, fileToDataURI } from '../util';
 import { CONTAINER_SIZE } from '../image-navigator/index';
 import { LoadParameters } from '../image-cropper';
 
@@ -102,23 +101,20 @@ export class AvatarPickerDialog extends PureComponent<
   exportCroppedImage = () => '';
 
   onSaveClick = () => {
-    const {
-      imageSource,
-      onImagePicked,
-      onImagePickedDataURI,
-      onAvatarPicked,
-    } = this.props;
+    const { onImagePicked, onImagePickedDataURI, onAvatarPicked } = this.props;
     const { selectedImage, crop, selectedAvatar } = this.state;
-    const image = selectedImage
-      ? selectedImage
-      : imageSource && dataURItoFile(imageSource);
 
-    if (image) {
+    if (selectedImage) {
+      const exportedCroppedImageURI = this.exportCroppedImage();
       if (onImagePicked) {
-        onImagePicked(image, crop);
+        onImagePicked(dataURItoFile(exportedCroppedImageURI), {
+          x: 0,
+          y: 0,
+          size: crop.size,
+        });
       }
       if (onImagePickedDataURI) {
-        onImagePickedDataURI(this.exportCroppedImage());
+        onImagePickedDataURI(exportedCroppedImageURI);
       }
     } else if (selectedAvatar) {
       onAvatarPicked(selectedAvatar);

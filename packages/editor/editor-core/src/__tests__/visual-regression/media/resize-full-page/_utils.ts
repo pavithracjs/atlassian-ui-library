@@ -18,7 +18,7 @@ import {
 export function createResizeFullPageForConfig(config: TestPageConfig) {
   describe('Snapshot Test: Media', () => {
     describe('full page editor', () => {
-      let page;
+      let page: any;
 
       beforeAll(async () => {
         // @ts-ignore
@@ -34,7 +34,7 @@ export function createResizeFullPageForConfig(config: TestPageConfig) {
       describe(`at ${width}x${height} ${
         dynamicTextSizing ? 'with' : 'without'
       } dynamic text sizing`, async () => {
-        let editorWidth;
+        let editorWidth: number;
 
         beforeEach(async () => {
           // setup the editor

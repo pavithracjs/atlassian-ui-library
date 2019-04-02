@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Link } from '../../components/WrappedLink';
 
-import Btn from '@atlaskit/button';
+import Btn from '../../components/RouterButton';
 import Lozenge from '@atlaskit/lozenge';
 import Icon from '@atlaskit/icon/glyph/bullet-list';
 

@@ -9,6 +9,7 @@ import { DropdownOptions, RenderOptionsPropsT } from './ui/Dropdown';
 import { SelectOptions, SelectOption } from './ui/Select';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import React from 'react';
+import { DispatchAnalyticsEvent } from '../analytics';
 
 export type Icon = React.ComponentType<{ label: string }>;
 export type RenderOptionsProps = RenderOptionsPropsT<Command>;
@@ -45,6 +46,7 @@ export type FloatingToolbarCustom<T> = {
   render: (
     view?: EditorView,
     idx?: number,
+    dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
   ) => React.ComponentClass | React.SFC | React.ReactElement<any> | null;
   hidden?: boolean;
 };

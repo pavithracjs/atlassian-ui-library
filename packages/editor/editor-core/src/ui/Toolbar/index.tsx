@@ -6,7 +6,7 @@ import { ProviderFactory } from '@atlaskit/editor-common';
 import { EditorAppearance, ToolbarUIComponentFactory } from '../../types';
 import { EventDispatcher } from '../../event-dispatcher';
 import EditorActions from '../../actions';
-import { AnalyticsEventPayload } from '../../plugins/analytics';
+import { DispatchAnalyticsEvent } from '../../plugins/analytics';
 
 const ToolbarComponentsWrapper = styled.div`
   display: flex;
@@ -50,7 +50,7 @@ export interface ToolbarProps {
   popupsScrollableElement?: HTMLElement;
   disabled: boolean;
   width?: number;
-  dispatchAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 }
 
 export interface ToolbarInnerProps extends ToolbarProps {

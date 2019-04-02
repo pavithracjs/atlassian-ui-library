@@ -1,8 +1,8 @@
-import { isEmojiVariationDescription } from '../../type-helpers';
-import { localStoragePrefix } from '../../constants';
+import { isEmojiVariationDescription } from '../../util/type-helpers';
+import { localStoragePrefix } from '../../util/constants';
 import { EmojiDescription } from '../../types';
-import DuplicateLimitedQueue from '../../DuplicateLimitedQueue';
-import StoredDuplicateLimitedQueue from '../../StoredDuplicateLimitedQueue';
+import DuplicateLimitedQueue from '../../util/DuplicateLimitedQueue';
+import StoredDuplicateLimitedQueue from '../../util/StoredDuplicateLimitedQueue';
 
 /**
  * Keeps track of the last 150 emoji usages, although limiting the maximum count for a single emoji to 25 to

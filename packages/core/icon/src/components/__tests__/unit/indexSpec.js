@@ -281,6 +281,7 @@ describe(name, () => {
         'person',
         'portfolio',
         'preferences',
+        'premium',
         'presence-active',
         'presence-busy',
         'presence-unavailable',

@@ -1,5 +1,33 @@
 # @atlaskit/media-picker
 
+## 38.1.1
+- [patch] [60a89f843f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60a89f843f):
+
+  - cleanup DOM elements on teardown and deactivate
+
+## 38.1.0
+- [minor] [e36f791fd6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e36f791fd6):
+
+  - Improve types
+
+## 38.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/media-editor@32.0.0
+  - @atlaskit/media-viewer@40.0.0
+  - @atlaskit/media-store@11.0.3
+  - @atlaskit/media-test-helpers@21.1.0
+  - @atlaskit/media-core@29.1.0
+
+## 37.0.3
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-editor@31.0.3
+  - @atlaskit/media-store@11.0.2
+  - @atlaskit/media-test-helpers@21.0.3
+  - @atlaskit/media-viewer@39.0.2
+  - @atlaskit/media-card@58.0.0
+
 ## 37.0.2
 - [patch] [b3c60e3c9c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b3c60e3c9c):
 

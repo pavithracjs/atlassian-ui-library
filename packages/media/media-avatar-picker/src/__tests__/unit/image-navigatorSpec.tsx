@@ -5,6 +5,7 @@ import * as React from 'react';
 import Spinner from '@atlaskit/spinner';
 import Button from '@atlaskit/button';
 import { Ellipsify, Camera, Rectangle } from '@atlaskit/media-ui';
+import * as MediaUI from '@atlaskit/media-ui';
 import ImageNavigator, {
   ImageNavigator as ImageNavigatorView,
   CONTAINER_INNER_SIZE,
@@ -38,6 +39,8 @@ describe('Image navigator', () => {
   let onImageError: () => void;
   let onImageUploaded: () => void;
   let isLoading: boolean;
+  let getOrientation: jest.SpyInstance;
+  let fileToDataURI: jest.SpyInstance;
 
   const setup = (props?: Partial<ImageNavigatorProps>) => {
     return mountWithIntlContext(
@@ -57,6 +60,8 @@ describe('Image navigator', () => {
   };
 
   beforeEach(() => {
+    getOrientation = jest.spyOn(MediaUI, 'getOrientation');
+    fileToDataURI = jest.spyOn(MediaUI, 'fileToDataURI');
     onImageLoaded = jest.fn();
     onPositionChanged = jest.fn();
     onSizeChanged = jest.fn();
@@ -64,6 +69,10 @@ describe('Image navigator', () => {
     onImageError = jest.fn();
     onImageUploaded = jest.fn();
     isLoading = false;
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
   describe('with an imageSource', () => {
@@ -330,11 +339,20 @@ describe('Image navigator', () => {
         FileReaderSpy.mockRestore();
       });
 
-      it('should set imageFile state with the image', () => {
+      it('should set data-uri, image itself and orientation into state', async () => {
+        const orientationPromise = Promise.resolve(7);
+        const fileToDataURIPromise = Promise.resolve('some-data-uri');
+        getOrientation.mockReturnValue(orientationPromise);
+        fileToDataURI.mockReturnValue(fileToDataURIPromise);
+
         const { onDrop } = viewComponent.find(DragZone).props();
 
-        onDrop!(mockDropEvent(droppedImage));
+        onDrop(mockDropEvent(droppedImage));
+        await orientationPromise;
+        await fileToDataURIPromise;
         expect(viewComponent.state('imageFile')).toBe(droppedImage);
+        expect(viewComponent.state('fileImageSource')).toBe('some-data-uri');
+        expect(viewComponent.state('imageOrientation')).toBe(7);
         expect(onImageUploaded).toHaveBeenCalledWith(droppedImage);
       });
 

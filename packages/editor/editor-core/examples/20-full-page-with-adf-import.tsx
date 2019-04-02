@@ -20,6 +20,7 @@ export const Textarea = styled.textarea`
 
 export interface State {
   inputValue?: string;
+  fullWidthMode: boolean;
 }
 
 export default class Example extends React.Component<any, State> {
@@ -28,7 +29,9 @@ export default class Example extends React.Component<any, State> {
 
   constructor(props: any) {
     super(props);
-    this.state = {};
+    this.state = {
+      fullWidthMode: false,
+    };
   }
 
   componentDidMount() {
@@ -97,7 +100,10 @@ export default class Example extends React.Component<any, State> {
                   >
                     Convert ADF to Query String
                   </button>
-                  <FullPageEditor />
+                  <button onClick={() => this.enableFullWidthMode()}>
+                    Toggle full width mode
+                  </button>
+                  <FullPageEditor fullWidthMode={this.state.fullWidthMode} />
                 </React.Fragment>
               );
             }}
@@ -106,6 +112,10 @@ export default class Example extends React.Component<any, State> {
       </EditorContext>
     );
   }
+
+  private enableFullWidthMode = () => {
+    this.setState(prevState => ({ fullWidthMode: !prevState.fullWidthMode }));
+  };
 
   private handleRef = (ref: HTMLTextAreaElement | null) => {
     if (ref) {
@@ -143,7 +153,6 @@ export default class Example extends React.Component<any, State> {
           url.length
         } characters which exceeds the 2000 character limit for safe urls. It _may_ not work in all browsers.
         Reduce the complexity of the document to reduce the url length if you're having problems.
-        
 ${url}`;
       }
       this.setState({ inputValue: url });
@@ -158,7 +167,7 @@ ${url}`;
   };
 }
 
-function b64EncodeUnicode(str) {
+function b64EncodeUnicode(str: string) {
   // First we use encodeURIComponent to get percent-encoded UTF-8,
   // then we convert the percent encodings into raw bytes which can be fed into btoa.
   return btoa(
@@ -171,7 +180,7 @@ function b64EncodeUnicode(str) {
   );
 }
 
-function b64DecodeUnicode(str) {
+function b64DecodeUnicode(str: string) {
   // Going backwards: from bytestream, to percent-encoding, to original string.
   return decodeURIComponent(
     atob(str)

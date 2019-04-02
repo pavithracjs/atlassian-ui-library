@@ -28,12 +28,12 @@ import {
   ACTION_SUBJECT_ID,
   EVENT_TYPE,
   INPUT_METHOD,
-  AnalyticsEventPayload,
+  DispatchAnalyticsEvent,
 } from '../../../analytics';
 
 export interface Props {
   editorView: EditorView;
-  dispatchAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
   bulletListActive?: boolean;
   bulletListDisabled?: boolean;
   orderedListActive?: boolean;

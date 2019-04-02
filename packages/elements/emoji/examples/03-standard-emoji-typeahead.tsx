@@ -13,7 +13,7 @@ import {
   TypeaheadProps,
   TypeaheadState,
 } from '../example-helpers/typeahead-props';
-import EmojiTypeAhead from '../src/components/typeahead/EmojiTypeAhead';
+import { EmojiTypeAhead } from '../src/typeahead';
 import { EmojiId, OptionalEmojiDescription } from '../src/types';
 import debug from '../src/util/logger';
 

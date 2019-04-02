@@ -5,6 +5,7 @@ import { Context, UploadableFile, FileIdentifier } from '@atlaskit/media-core';
 import { messages, Shortcut } from '@atlaskit/media-ui';
 import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
 import Spinner from '@atlaskit/spinner';
+
 import { intlShape, IntlProvider } from 'react-intl';
 import EditorView from './editorView/editorView';
 import { Blanket, SpinnerWrapper } from './styled';
@@ -121,6 +122,30 @@ export class SmartMediaEditor extends React.Component<
     });
   };
 
+  copyFileToUserCollection = async (fileId: string) => {
+    const {
+      context: {
+        config: { userAuthProvider, authProvider },
+        file,
+      },
+      identifier: { collectionName, occurrenceKey },
+    } = this.props;
+
+    if (userAuthProvider) {
+      const source = {
+        id: fileId,
+        collection: collectionName,
+        authProvider,
+      };
+      const destination = {
+        collection: 'recents',
+        authProvider: userAuthProvider,
+        occurrenceKey,
+      };
+      await file.copyFile(source, destination);
+    }
+  };
+
   private onSave = (imageData: string, dimensions: Dimensions) => {
     const { fileName } = this;
     const {
@@ -165,6 +190,7 @@ export class SmartMediaEditor extends React.Component<
       next: fileState => {
         if (fileState.status === 'processing') {
           onFinish();
+          this.copyFileToUserCollection(fileState.id);
           setTimeout(() => uploadingFileStateSubscription.unsubscribe(), 0);
         } else if (
           fileState.status === 'failed-processing' ||

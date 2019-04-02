@@ -8,8 +8,8 @@ import CategorySelector, {
   sortCategories,
 } from '../../../../components/picker/CategorySelector';
 import * as styles from '../../../../components/picker/styles';
-import { defaultCategories } from '../../../../constants';
-import { isMessagesKey } from '../../../../type-helpers';
+import { defaultCategories } from '../../../../util/constants';
+import { isMessagesKey } from '../../../../util/type-helpers';
 import { CategoryId } from '../../../../types';
 
 const setupComponent = (props?: Props): ReactWrapper<any, any> =>
