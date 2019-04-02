@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.6.3
+- [patch] [1b0b718266](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b0b718266):
+
+  - ED-6474: fix resizing last table column when table is nested inside Columns node
+
 ## 107.6.2
 - [patch] [6110c666c6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6110c666c6):
 
