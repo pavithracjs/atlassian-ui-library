@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.6.2
+- [patch] [6110c666c6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6110c666c6):
+
+  - ED-6619: scale table when deleting or adding columns
+
 ## 107.6.1
 - [patch] [e0d04f321c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0d04f321c):
 

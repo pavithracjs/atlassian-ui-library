@@ -1,1 +1,0 @@
-- ED-6619: scale table when deleting or adding columns
