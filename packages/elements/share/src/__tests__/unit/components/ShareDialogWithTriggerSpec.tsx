@@ -24,6 +24,7 @@ import { ADMIN_NOTIFIED, OBJECT_SHARED } from '../../../types';
 let wrapper: ShallowWrapper<Props & InjectedIntlProps>;
 let mockOnShareSubmit: jest.Mock;
 const mockLoadOptions = () => [];
+const mockShowFlags: jest.Mock = jest.fn();
 
 beforeEach(() => {
   wrapper = shallowWithIntl<Props>(
@@ -32,6 +33,7 @@ beforeEach(() => {
       loadUserOptions={mockLoadOptions}
       onShareSubmit={mockOnShareSubmit}
       shareContentType="page"
+      showFlags={mockShowFlags}
     />,
   );
 });
@@ -82,6 +84,7 @@ describe('ShareDialogWithTrigger', () => {
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       );
       mountWrapper.setState({ isDialogOpen: true });
@@ -107,6 +110,7 @@ describe('ShareDialogWithTrigger', () => {
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       );
       expect(
@@ -138,6 +142,7 @@ describe('ShareDialogWithTrigger', () => {
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       );
       newWrapper.setState({ isDialogOpen: true });
@@ -159,6 +164,7 @@ describe('ShareDialogWithTrigger', () => {
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       );
 
@@ -185,6 +191,7 @@ describe('ShareDialogWithTrigger', () => {
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
+          showFlags={mockShowFlags}
         >
           {spiedRenderer}
         </ShareDialogWithTrigger>,
@@ -210,6 +217,7 @@ describe('ShareDialogWithTrigger', () => {
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       );
       expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
@@ -233,6 +241,7 @@ describe('ShareDialogWithTrigger', () => {
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       );
       let shareButtonProps: ShareButtonProps = wrapper
@@ -258,6 +267,7 @@ describe('ShareDialogWithTrigger', () => {
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
           shareFormTitle="Share this page"
+          showFlags={mockShowFlags}
         />,
       );
       wrapper.setState({ isDialogOpen: true });
@@ -289,6 +299,7 @@ describe('ShareDialogWithTrigger', () => {
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       );
       wrapper.setState({ isDialogOpen: true });
@@ -375,6 +386,7 @@ describe('ShareDialogWithTrigger', () => {
           onShareSubmit={mockOnSubmit}
           loadUserOptions={mockLoadOptions}
           shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       );
       wrapper.setState(mockState);
@@ -386,7 +398,7 @@ describe('ShareDialogWithTrigger', () => {
       expect(mockOnSubmit).toHaveBeenCalledWith(values);
     });
 
-    it('should close inline dialog when onSubmit resolves a value', async () => {
+    it('should close inline dialog and call props.showFlags when onSubmit resolves a value', async () => {
       const mockOnSubmit: jest.Mock = jest.fn().mockResolvedValue({});
       const values: ShareData = {
         users: [
@@ -410,9 +422,12 @@ describe('ShareDialogWithTrigger', () => {
           onShareSubmit={mockOnSubmit}
           loadUserOptions={mockLoadOptions}
           shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       );
       wrapper.setState(mockState);
+
+      mockShowFlags.mockReset();
 
       shallow(wrapper.find(InlineDialog).prop('content') as any)
         .find(ShareForm)
@@ -423,20 +438,23 @@ describe('ShareDialogWithTrigger', () => {
       await new Promise(resolve => setTimeout(resolve, 0));
 
       expect(wrapper.state('isDialogOpen')).toBeFalsy();
-      expect(wrapper.state('flags')).toEqual([
+      expect(mockShowFlags).toHaveBeenCalledTimes(1);
+      expect(mockShowFlags).toHaveBeenCalledWith([
         {
-          id: 1,
+          id: expect.any(String),
           type: OBJECT_SHARED,
+          localizedTitle: expect.any(String),
         },
       ]);
 
-      wrapper.setState({ flags: [] });
       wrapper.setProps({
         config: {
           allowComment: false,
-          mode: 'INVITE_NEEDS_APPROVAL',
+          mode: 'INVITE_NEEDS_APPROVAL' as 'INVITE_NEEDS_APPROVAL',
         },
       });
+
+      mockShowFlags.mockReset();
 
       shallow(wrapper.find(InlineDialog).prop('content') as any)
         .find(ShareForm)
@@ -444,14 +462,17 @@ describe('ShareDialogWithTrigger', () => {
 
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      expect(wrapper.state('flags')).toEqual([
+      expect(mockShowFlags).toHaveBeenCalledTimes(1);
+      expect(mockShowFlags).toHaveBeenCalledWith([
         {
-          id: 1,
+          id: expect.any(String),
           type: ADMIN_NOTIFIED,
+          localizedTitle: expect.any(String),
         },
         {
-          id: 2,
+          id: expect.any(String),
           type: OBJECT_SHARED,
+          localizedTitle: expect.any(String),
         },
       ]);
     });

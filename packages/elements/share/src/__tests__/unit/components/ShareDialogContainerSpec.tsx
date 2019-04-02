@@ -47,6 +47,7 @@ const mockClient = {
   getConfig: mockGetConfig,
   share: mockShare,
 };
+const mockShowFlags = jest.fn();
 
 beforeEach(() => {
   mockOriginTracing = {
@@ -76,6 +77,7 @@ beforeEach(() => {
       shareContentType={mockShareContentType}
       shareLink={mockShareLink}
       shareTitle={mockShareTitle}
+      showFlags={mockShowFlags}
       formatCopyLink={mockFormatCopyLink}
       shouldCloseOnEscapePress={mockShouldCloseOnEscapePress}
       triggerButtonAppearance={mockTriggerButtonAppearance}
@@ -143,6 +145,7 @@ describe('ShareDialogContainer', () => {
         shareContentType={mockShareContentType}
         shareLink={mockShareLink}
         shareTitle={mockShareTitle}
+        showFlags={mockShowFlags}
         formatCopyLink={mockFormatCopyLink}
         shouldCloseOnEscapePress={mockShouldCloseOnEscapePress}
       />,

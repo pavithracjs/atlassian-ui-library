@@ -1,11 +1,8 @@
 import { ButtonAppearances } from '@atlaskit/button';
-import { AutoDismissFlag, FlagGroup } from '@atlaskit/flag';
-import SuccessIcon from '@atlaskit/icon/glyph/check-circle';
 import InlineDialog from '@atlaskit/inline-dialog';
-import { colors } from '@atlaskit/theme';
 import { LoadOptions } from '@atlaskit/user-picker';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import styled from 'styled-components';
 import { messages } from '../i18n';
 import {
@@ -29,7 +26,6 @@ type DialogState = {
   shareError?: ShareError;
   ignoreIntermediateState: boolean;
   defaultValue: DialogContentState;
-  flags: Array<Flag>;
 };
 
 export type State = DialogState;
@@ -43,7 +39,7 @@ export type Props = {
   config?: ConfigResponse;
   children?: RenderChildren;
   copyLink: string;
-  dialogPlacement: string;
+  dialogPlacement?: string;
   isDisabled?: boolean;
   loadUserOptions?: LoadOptions;
   onLinkCopy?: Function;
@@ -51,16 +47,13 @@ export type Props = {
   shareContentType: string;
   shareFormTitle?: React.ReactNode;
   shouldCloseOnEscapePress?: boolean;
+  showFlags: (flags: Array<Flag>) => void;
   triggerButtonAppearance?: ButtonAppearances;
   triggerButtonStyle?: ShareButtonStyle;
 };
 
 const InlineDialogFormWrapper = styled.div`
   width: 352px;
-`;
-
-const CapitalizedSpan = styled.span`
-  text-transform: capitalize;
 `;
 
 export const defaultShareContentState: DialogContentState = {
@@ -71,12 +64,15 @@ export const defaultShareContentState: DialogContentState = {
   },
 };
 
-export class ShareDialogWithTrigger extends React.Component<Props, State> {
+export class Component extends React.Component<
+  Props & InjectedIntlProps,
+  State
+> {
   static defaultProps = {
     isDisabled: false,
     dialogPlacement: 'bottom-end',
     shouldCloseOnEscapePress: false,
-    triggerButtonAppearance: 'subtle',
+    triggerButtonAppearance: 'subtle' as 'subtle',
     triggerButtonStyle: 'icon-only' as 'icon-only',
   };
   private containerRef = React.createRef<HTMLDivElement>();
@@ -88,7 +84,35 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
     isSharing: false,
     ignoreIntermediateState: false,
     defaultValue: defaultShareContentState,
-    flags: [],
+  };
+
+  private getFlags = () => {
+    const { formatMessage } = this.props.intl;
+    const flags: Array<Flag> = [];
+
+    if (
+      this.props.config &&
+      this.props.config.mode === 'INVITE_NEEDS_APPROVAL'
+    ) {
+      flags.push({
+        id: `${ADMIN_NOTIFIED}-${Date.now()}`,
+        type: ADMIN_NOTIFIED,
+        localizedTitle: formatMessage(messages.adminNotifiedMessage),
+      });
+    }
+
+    flags.push({
+      id: `${OBJECT_SHARED}-${Date.now()}`,
+      type: OBJECT_SHARED,
+      localizedTitle: formatMessage(messages.shareSuccessMessage, {
+        object: this.props.shareContentType.toLowerCase(),
+      }),
+    });
+
+    // The reason for providing the both type and localizedTitle is that
+    // in jira, the Flag system takes only Message Descriptor as payload
+    // and formatMessage is called for every flag
+    return flags;
   };
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -129,12 +153,6 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
     });
   };
 
-  private handleFlagDismiss = () => {
-    this.setState(prevState => ({
-      flags: prevState.flags.slice(1),
-    }));
-  };
-
   private handleShareSubmit = (data: DialogContentState) => {
     if (!this.props.onShareSubmit) {
       return;
@@ -146,29 +164,7 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
       .onShareSubmit(data)
       .then(() => {
         this.handleCloseDialog({ isOpen: false, event: {} });
-        this.setState((prevState: State) => {
-          const newFlags: Array<Flag> = [...prevState.flags];
-
-          if (
-            this.props.config &&
-            this.props.config.mode === 'INVITE_NEEDS_APPROVAL'
-          ) {
-            newFlags.push({
-              id: newFlags.length + 1,
-              type: ADMIN_NOTIFIED,
-            });
-          }
-
-          newFlags.push({
-            id: newFlags.length + 1,
-            type: OBJECT_SHARED,
-          });
-
-          return {
-            isSharing: false,
-            flags: newFlags,
-          };
-        });
+        this.props.showFlags(this.getFlags());
       })
       .catch((err: Error) => {
         this.setState({
@@ -194,7 +190,6 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
       dialogPlacement,
       isDisabled,
       loadUserOptions,
-      shareContentType,
       shareFormTitle,
       config,
       triggerButtonAppearance,
@@ -249,50 +244,9 @@ export class ShareDialogWithTrigger extends React.Component<Props, State> {
             />
           )}
         </InlineDialog>
-        <FlagGroup onDismissed={this.handleFlagDismiss}>
-          {this.state.flags.map((flag: Flag) => {
-            let title: React.ReactNode;
-
-            switch (flag.type) {
-              case OBJECT_SHARED:
-                title = (
-                  <FormattedMessage
-                    {...messages.shareSuccessMessage}
-                    values={{
-                      object: (
-                        <CapitalizedSpan>{shareContentType}</CapitalizedSpan>
-                      ),
-                    }}
-                  />
-                );
-                break;
-
-              case ADMIN_NOTIFIED:
-                title = <FormattedMessage {...messages.adminNotifiedMessage} />;
-                break;
-
-              default:
-                break;
-            }
-
-            return (
-              <AutoDismissFlag
-                appearance="normal"
-                id={flag.id}
-                icon={
-                  <SuccessIcon
-                    label="Success"
-                    size="medium"
-                    primaryColor={colors.G300}
-                  />
-                }
-                key={flag.id}
-                title={title}
-              />
-            );
-          })}
-        </FlagGroup>
       </div>
     );
   }
 }
+
+export const ShareDialogWithTrigger = injectIntl(Component);

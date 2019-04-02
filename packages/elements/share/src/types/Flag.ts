@@ -5,6 +5,7 @@ export const ADMIN_NOTIFIED = 'admin-notified';
 export type FlagType = 'object-shared' | 'admin-notified';
 
 export type Flag = {
-  id: number;
+  id: string;
   type: FlagType;
+  localizedTitle: string;
 };

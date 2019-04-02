@@ -78,7 +78,19 @@ export const messages = defineMessages({
   },
   shareSuccessMessage: {
     id: 'fabric.elements.share.success.message',
-    defaultMessage: '{object} shared',
+    defaultMessage:
+      '{object, select,' +
+      'board {Board shared}' +
+      'content {Content shared}' +
+      'issue {Issue shared}' +
+      'page {Page shared}' +
+      'project {Project shared}' +
+      'pullrequest {Pull Request shared}' +
+      'repository {Repository shared}' +
+      'site {Site shared}' +
+      'space {Space shared}' +
+      'other {Shared}' +
+      '}',
     description: 'Default text for share success message displayed in a flag',
   },
   adminNotifiedMessage: {
