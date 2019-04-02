@@ -8,7 +8,7 @@ export interface CheckboxIconProps {
   /** Sets the checkbox icon active state. */
   isActive?: boolean;
   /** Sets whether the checkbox is checked or unchecked. */
-  isChecked?: boolean;
+  isChecked?: boolean | unknown;
   /** Sets whether the checkbox is disabled. */
   isDisabled?: boolean;
   /** Sets the checkbox focus */
@@ -26,10 +26,13 @@ export interface CheckboxIconProps {
   primaryColor?: any;
   /** Secondary color */
   secondaryColor?: any;
+  /** The label for icon to be displayed */
   label: any;
 }
 
 export interface CheckboxProps {
+  /** Index signature */
+  [key: string]: any;
   /** Sets whether the checkbox begins checked. */
   defaultChecked: boolean;
   /** id assigned to input */

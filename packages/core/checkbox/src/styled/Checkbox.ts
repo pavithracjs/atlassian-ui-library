@@ -15,7 +15,7 @@ const disabledColor = themed({ light: colors.N80, dark: colors.N80 });
 
 interface Props {
   isActive?: boolean;
-  isChecked?: boolean;
+  isChecked?: boolean | unknown;
   isDisabled?: boolean;
   isFocused?: boolean;
   isInvalid?: boolean;

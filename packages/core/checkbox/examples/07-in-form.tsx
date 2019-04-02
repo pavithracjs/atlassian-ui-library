@@ -5,10 +5,12 @@ import { Checkbox } from '../src';
 
 export default () => (
   <Form name="example-form" onSubmit={() => {}}>
-    {({ formProps }) => (
+    {({ formProps }: { formProps: React.Component }) => (
       <form {...formProps}>
         <CheckboxField name="remember" isRequired>
-          {({ fieldProps }) => <Checkbox {...fieldProps} label="Remember me" />}
+          {({ fieldProps }: { fieldProps: React.Component }) => (
+            <Checkbox {...fieldProps} label="Remember me" />
+          )}
         </CheckboxField>
         <FormFooter>
           <Button type="submit">Next</Button>

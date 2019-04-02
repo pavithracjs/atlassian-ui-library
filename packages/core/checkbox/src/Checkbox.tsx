@@ -18,6 +18,7 @@ import {
 import { CheckboxProps } from './types';
 
 interface State {
+  [key: string]: boolean;
   isActive: boolean;
   isChecked: boolean;
   isFocused: boolean;
@@ -119,12 +120,12 @@ class Checkbox extends React.Component<CheckboxProps, State> {
   onMouseDown = () => this.setState({ isActive: true, isMouseDown: true });
 
   onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (this.actionKeys.includes(event.key)) {
+    if (event.key in this.actionKeys) {
       this.setState({ isActive: true });
     }
   };
   onKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (this.actionKeys.includes(event.key)) {
+    if (event.key in this.actionKeys) {
       this.setState({ isActive: false });
     }
   };
@@ -142,7 +143,7 @@ class Checkbox extends React.Component<CheckboxProps, State> {
       defaultChecked,
       ...rest
     } = this.props;
-    const isChecked = this.getProp('isChecked');
+    const isChecked = this.getProp('isChecked') as boolean;
     const { isFocused, isActive, isHovered } = this.state;
 
     return (
