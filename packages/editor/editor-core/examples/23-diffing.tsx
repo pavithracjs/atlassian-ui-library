@@ -98,11 +98,11 @@ export default class DiffingExample extends React.Component<null, State> {
     }
   };
 
-  onDocumentOneChange = e => {
+  onDocumentOneChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     this.setState({ documentOne: e.target.value });
   };
 
-  onDocumentTwoChange = e => {
+  onDocumentTwoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     this.setState({ documentTwo: e.target.value });
   };
 

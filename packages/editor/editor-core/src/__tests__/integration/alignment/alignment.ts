@@ -11,7 +11,7 @@ const alignRightButton = 'span[aria-label="Align right"]';
 const headingButton = 'button[aria-label="Font style"]';
 const headingh1 = 'div[role="group"] h1';
 
-const alignRight = async page => {
+const alignRight = async (page: any) => {
   await page.waitFor(alignButton);
   await page.click(alignButton);
   await page.waitForSelector(alignRightButton);

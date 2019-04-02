@@ -5,6 +5,9 @@ import {
   layoutSection,
   layoutColumn,
   mediaSingle,
+  ol,
+  ul,
+  li,
   createEditorFactory,
   tr,
   table,
@@ -30,6 +33,7 @@ describe('Media plugin', () => {
           allowMediaSingle: true,
         },
         allowTables: true,
+        allowLists: true,
       },
     });
 
@@ -78,6 +82,28 @@ describe('Media plugin', () => {
     it('removes mediaSingle attributes when pasted into a table', () => {
       const { editorView } = editor(
         doc(table()(tr(td()(p('hello {<>}')), td()(p())))),
+      );
+
+      const { selection, schema } = editorView.state;
+      expect(
+        transformSliceForMedia(sliceWithAttributes(schema), schema)(selection),
+      ).toEqual(sliceWithoutAttributes(schema));
+    });
+
+    it('removes mediaSingle attributes when pasted into an ordered list', () => {
+      const { editorView } = editor(
+        doc(ol(li(p('hello {<>}')), li(p('world')))),
+      );
+
+      const { selection, schema } = editorView.state;
+      expect(
+        transformSliceForMedia(sliceWithAttributes(schema), schema)(selection),
+      ).toEqual(sliceWithoutAttributes(schema));
+    });
+
+    it('removes mediaSingle attributes when pasted into a bullet list', () => {
+      const { editorView } = editor(
+        doc(ul(li(p('hello {<>}')), li(p('world')))),
       );
 
       const { selection, schema } = editorView.state;

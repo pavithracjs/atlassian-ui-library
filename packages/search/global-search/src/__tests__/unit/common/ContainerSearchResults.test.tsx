@@ -168,7 +168,7 @@ const assertAdvancedSearchGroup = (product: Product, element: JSX.Element) => {
 
 const getSearchAndRecentItems = (
   product: Product,
-  sessionId,
+  sessionId: string,
   extraProps = {},
 ): SearchResultProps => {
   const commonProps = {
@@ -293,8 +293,13 @@ const getPreqQueryResults = (product: Product) =>
 
 (['confluence', 'jira'] as Array<Product>).forEach((product: Product) => {
   describe(`${product} SearchResultsComponent`, () => {
-    let searchResultsComponent;
-    let getAdvancedSearchUrlSpy;
+    let searchResultsComponent: React.ReactNode;
+    let getAdvancedSearchUrlSpy: jest.SpyInstance<
+      (
+        entityType: SearchResultUtils.JiraEntityTypes,
+        query?: string | undefined,
+      ) => string
+    >;
     const wrapper = renderComponent(product);
     const getProps = (): SearchResultsComponentProps => {
       const { props = {} as SearchResultsComponentProps } =
@@ -304,7 +309,7 @@ const getPreqQueryResults = (product: Product) =>
       return props as SearchResultsComponentProps;
     };
 
-    let sessionId;
+    let sessionId: string;
     beforeEach(() => {
       sessionId = uuid();
       getAdvancedSearchUrlSpy = jest.spyOn(

@@ -10,7 +10,7 @@ import {
 import EmojiPickerCategoryHeading from '../../../../components/picker/EmojiPickerCategoryHeading';
 import EmojiPickerList from '../../../../components/picker/EmojiPickerList';
 import * as styles from '../../../../components/picker/styles';
-import { deleteEmojiLabel } from '../../../../constants';
+import { deleteEmojiLabel } from '../../../../util/constants';
 import { EmojiDescription } from '../../../../types';
 import {
   atlassianEmojis,

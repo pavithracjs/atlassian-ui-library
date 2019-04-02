@@ -10,7 +10,7 @@ import {
   MediaApiRepresentation,
   MediaApiToken,
 } from '../../types';
-import { convertMediaToImageRepresentation } from '../../type-helpers';
+import { convertMediaToImageRepresentation } from '../../util/type-helpers';
 import { emoji } from '@atlaskit/util-data-test';
 import EmojiRepository from '../../api/EmojiRepository';
 

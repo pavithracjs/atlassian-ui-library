@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { defaultCategories } from '../../constants';
+import { defaultCategories } from '../../util/constants';
 import { CategoryDescription, OnCategory } from '../../types';
 import { messages } from '../i18n';
 import {

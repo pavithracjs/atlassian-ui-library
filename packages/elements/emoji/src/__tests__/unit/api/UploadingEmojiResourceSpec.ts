@@ -15,7 +15,7 @@ import EmojiResource, {
   UploadingEmojiProvider,
 } from '../../../api/EmojiResource';
 import SiteEmojiResource from '../../../api/media/SiteEmojiResource';
-import { selectedToneStorageKey } from '../../../constants';
+import { selectedToneStorageKey } from '../../../util/constants';
 import {
   EmojiDescription,
   EmojiId,

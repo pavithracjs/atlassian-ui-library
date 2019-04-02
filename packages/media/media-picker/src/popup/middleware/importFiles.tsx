@@ -86,7 +86,7 @@ export function importFilesMiddleware(
   eventEmitter: PopupUploadEventEmitter,
   wsProvider: WsProvider,
 ): Middleware {
-  return store => (next: Dispatch<State>) => action => {
+  return store => (next: Dispatch<State>) => (action: any) => {
     if (isStartImportAction(action)) {
       importFiles(eventEmitter, store as any, wsProvider);
     }

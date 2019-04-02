@@ -1,8 +1,24 @@
-import { MediaStore, FileItem } from '@atlaskit/media-store';
+jest.mock('@atlaskit/media-store');
+import {
+  MediaStore,
+  FileItem,
+  authToOwner,
+  Auth,
+  AuthProvider,
+} from '@atlaskit/media-store';
 import uuid from 'uuid';
 import { FileFetcherImpl, getItemsFromKeys } from '../../file';
+import {
+  expectFunctionToHaveBeenCalledWith,
+  asMock,
+} from '@atlaskit/media-test-helpers';
 
 describe('FileFetcher', () => {
+  const fileId = 'some-file-id';
+  const collectionName = 'some-collection-name';
+  const fileName = 'some-name';
+  const binaryUrl = 'some-binary-url';
+
   const setup = () => {
     const items = [
       {
@@ -38,29 +54,22 @@ describe('FileFetcher', () => {
     } as any;
     const fileFetcher = new FileFetcherImpl(mediaStore);
 
+    asMock(mediaStore.getFileBinaryURL).mockReturnValue(binaryUrl);
+
     return { fileFetcher, mediaStore, items, itemsResponse };
   };
 
   describe('downloadBinary()', () => {
-    const fileId = 'some-file-id';
-    const collectionName = 'some-collection-name';
-    const fileName = 'some-name';
-    const binaryUrl = 'some-binary-url';
-    let mediaStore: MediaStore;
     let appendChild: jest.SpyInstance<any>;
 
     describe('with normal browser', () => {
       beforeEach(() => {
-        let setupData = setup();
-        mediaStore = setupData.mediaStore;
-        (mediaStore.getFileBinaryURL as jest.Mock<any>).mockReturnValue(
-          binaryUrl,
-        );
         appendChild = jest.spyOn(document.body, 'appendChild');
-        setupData.fileFetcher.downloadBinary(fileId, fileName, collectionName);
       });
 
       it('should call getFileBinaryURL', () => {
+        const { mediaStore, fileFetcher } = setup();
+        fileFetcher.downloadBinary(fileId, fileName, collectionName);
         expect(mediaStore.getFileBinaryURL).toHaveBeenCalledWith(
           fileId,
           collectionName,
@@ -78,6 +87,9 @@ describe('FileFetcher', () => {
       // });
 
       it('should create iframe and open binary url in it', () => {
+        const { fileFetcher } = setup();
+        fileFetcher.downloadBinary(fileId, fileName, collectionName);
+
         const iframe = document.getElementById(
           'media-download-iframe',
         ) as HTMLIFrameElement;
@@ -87,15 +99,12 @@ describe('FileFetcher', () => {
 
     describe('with IE11', () => {
       beforeEach(() => {
-        let setupData = setup();
-        mediaStore = setupData.mediaStore;
-        (mediaStore.getFileBinaryURL as jest.Mock<any>).mockReturnValue(
-          binaryUrl,
-        );
+        const { mediaStore, fileFetcher } = setup();
+        asMock(mediaStore.getFileBinaryURL).mockReturnValue(binaryUrl);
         appendChild = jest.spyOn(document.body, 'appendChild');
         (window as any).MSInputMethodContext = true;
         (document as any).documentMode = true;
-        setupData.fileFetcher.downloadBinary(fileId, fileName, collectionName);
+        fileFetcher.downloadBinary(fileId, fileName, collectionName);
       });
 
       it('should detect IE11 and use _blank as target', () => {
@@ -161,6 +170,49 @@ describe('FileFetcher', () => {
         ]);
         done();
       });
+    });
+  });
+
+  describe('copyFile', () => {
+    it('should call mediaStore.copyFileWithToken', async () => {
+      const { items, fileFetcher } = setup();
+      const copyFileWithToken = jest.fn().mockResolvedValue({ data: {} });
+      asMock(MediaStore).mockImplementation(() => ({
+        copyFileWithToken,
+      }));
+
+      asMock(authToOwner).mockImplementation((owner: any) => owner);
+
+      const owner: Auth = {
+        asapIssuer: 'asapIssuer',
+        token: 'sometoken',
+        baseUrl: 'somebaseurl',
+      };
+      const authProvider: AuthProvider = () => Promise.resolve(owner);
+      const userAuthProvider = jest.fn();
+
+      const source = {
+        id: items[0].id,
+        collection: 'someCollectionName',
+        authProvider,
+      };
+      const destination = {
+        collection: 'recents',
+        authProvider: userAuthProvider,
+      };
+      await fileFetcher.copyFile(source, destination);
+      expectFunctionToHaveBeenCalledWith(copyFileWithToken, [
+        {
+          sourceFile: {
+            id: items[0].id,
+            collection: 'someCollectionName',
+            owner,
+          },
+        },
+        {
+          collection: 'recents',
+        },
+      ]);
     });
   });
 });

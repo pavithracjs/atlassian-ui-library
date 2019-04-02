@@ -1387,6 +1387,11 @@ var _default = {
     componentName: 'PreferencesIcon',
     package: '@atlaskit/icon/glyph/preferences'
   },
+  premium: {
+    keywords: ['crown', 'premium', 'icon', 'core'],
+    componentName: 'PremiumIcon',
+    package: '@atlaskit/icon/glyph/premium'
+  },
   'presence-active': {
     keywords: ['presence-active', 'presenceactive', 'dot', 'icon', 'core'],
     componentName: 'PresenceActiveIcon',

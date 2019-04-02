@@ -10,6 +10,7 @@ import {
   EmojiDescription,
   EmojiDescriptionWithVariations,
   OnToneSelected,
+  OnToneSelectorCancelled,
   ToneSelection,
 } from '../../types';
 import { messages } from '../i18n';
@@ -21,6 +22,7 @@ export interface Props {
   toneEmoji?: EmojiDescriptionWithVariations;
   selectedTone?: ToneSelection;
   onToneSelected?: OnToneSelected;
+  onToneSelectorCancelled?: OnToneSelectorCancelled;
   uploadEnabled?: boolean;
   onOpenUpload?: () => void;
 }
@@ -51,6 +53,13 @@ export default class EmojiPreview extends PureComponent<Props, State> {
   };
 
   onMouseLeave = () => {
+    const { selectingTone } = this.state;
+    const { onToneSelectorCancelled } = this.props;
+
+    if (selectingTone && onToneSelectorCancelled) {
+      onToneSelectorCancelled();
+    }
+
     this.setState({
       selectingTone: false,
     });

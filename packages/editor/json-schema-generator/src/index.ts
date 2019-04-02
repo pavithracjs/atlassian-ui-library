@@ -151,7 +151,7 @@ export default (
     }
   }
 
-  function shouldExclude(stage) {
+  function shouldExclude(stage?: string) {
     return (
       (flags.stage === undefined && stage !== undefined) ||
       (flags.stage !== undefined &&

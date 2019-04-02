@@ -43,7 +43,7 @@ import {
 } from '../_test-data';
 
 import { alwaysPromise } from '../_test-util';
-import { convertMediaToImageRepresentation } from '../../../type-helpers';
+import { convertMediaToImageRepresentation } from '../../../util/type-helpers';
 import { ErrorEmojiResource } from './_resource-spec-util';
 
 /**

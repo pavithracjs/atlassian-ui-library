@@ -145,6 +145,10 @@ const Wrapper: React.ComponentClass<
     content: '';
     display: block;
     padding-bottom: ${p => (p.height / p.width) * 100}%;
+
+    /* Fixes extra padding problem in Firefox */
+    font-size: 0;
+    line-height: 0;
   }
 
   & > div {

@@ -41,9 +41,10 @@ const ContentArea = styled.div`
   line-height: 24px;
   height: 100%;
   width: 100%;
-  max-width: ${({ theme }: any) => theme.layoutMaxWidth + GUTTER_PADDING * 2}px;
+  max-width: ${({ theme, fullWidthMode }: any) =>
+    fullWidthMode ? '1800' : theme.layoutMaxWidth + GUTTER_PADDING * 2}px;
   padding-top: 50px;
-  margin: 0 auto;
+  margin: 0 ${({ fullWidthMode }: any) => (fullWidthMode ? 0 : 'auto')};
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -195,6 +196,7 @@ export default class Editor extends React.Component<
       disabled,
       collabEdit,
       dispatchAnalyticsEvent,
+      fullWidthMode,
     } = this.props;
 
     const { showKeyline } = this.state;
@@ -232,7 +234,7 @@ export default class Editor extends React.Component<
           className="fabric-editor-popup-scroll-parent"
         >
           <ClickAreaBlock editorView={editorView}>
-            <ContentArea>
+            <ContentArea fullWidthMode={fullWidthMode}>
               <div
                 style={{ padding: `0 ${GUTTER_PADDING}px` }}
                 className="ak-editor-content-area"

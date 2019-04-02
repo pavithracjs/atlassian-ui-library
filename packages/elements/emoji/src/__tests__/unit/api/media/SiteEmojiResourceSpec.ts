@@ -18,7 +18,7 @@ import {
   EmojiUpload,
   ImageRepresentation,
 } from '../../../../types';
-import { toEmojiId } from '../../../../type-helpers';
+import { toEmojiId } from '../../../../util/type-helpers';
 
 import {
   atlassianServiceEmojis,

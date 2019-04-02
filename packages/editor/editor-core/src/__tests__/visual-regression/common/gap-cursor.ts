@@ -2,10 +2,10 @@ import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
 import * as gapcursor from './__fixtures__/gap-cursor-adf.json';
 import * as paragraph from './__fixtures__/paragraph-of-text.adf.json';
 import { selectors } from '../../__helpers/page-objects/_editor';
-import { pressKey, KeyboardKeys } from '../../__helpers/page-objects/_keyboard';
+import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
 describe('Gap cursor:', () => {
-  let page;
+  let page: any;
 
   beforeAll(async () => {
     // @ts-ignore
@@ -20,33 +20,33 @@ describe('Gap cursor:', () => {
 
   it('should render gap cursor for code when ArrowRight', async () => {
     await page.click(selectors.codeContent);
-    await pressKey(page, KeyboardKeys.arrowRight);
+    await pressKey(page, 'ArrowRight');
     await page.waitForSelector(selectors.gapCursor);
   });
 
   it(' should render gap cursor on panel when ArrowLeft', async () => {
     await page.click(selectors.panelContent);
-    await pressKey(page, KeyboardKeys.arrowLeft);
+    await pressKey(page, 'ArrowLeft');
     await page.waitForSelector(selectors.gapCursor);
   });
 
   it(' should render gap cursor on table on ArrowUp', async () => {
     await page.click(selectors.panelContent);
-    await pressKey(page, KeyboardKeys.arrowLeft);
-    await pressKey(page, KeyboardKeys.arrowUp);
+    await pressKey(page, 'ArrowLeft');
+    await pressKey(page, 'ArrowUp');
     await page.waitForSelector(selectors.gapCursor);
   });
 
   it(' should render gap cursor on table on ArrowDown', async () => {
     await page.click(selectors.codeContent);
-    await pressKey(page, KeyboardKeys.arrowRight);
-    await pressKey(page, KeyboardKeys.arrowDown);
+    await pressKey(page, 'ArrowRight');
+    await pressKey(page, 'ArrowDown');
     await page.waitForSelector(selectors.gapCursor);
   });
 });
 
 describe('Gap cursor: selection', () => {
-  let page;
+  let page: any;
 
   beforeEach(async () => {
     // @ts-ignore
@@ -59,9 +59,14 @@ describe('Gap cursor: selection', () => {
   });
 
   it('should not break selection when the users drag finishes outside the doc', async () => {
-    const rect = await page.evaluate(selector => {
-      const element = document.querySelector(selector);
-      const { x, y, width, height } = element.getBoundingClientRect();
+    const rect = await page.evaluate((selector: string) => {
+      const element = document.querySelector(selector)!;
+      const {
+        x,
+        y,
+        width,
+        height,
+      } = element.getBoundingClientRect() as DOMRect;
       return { left: x, top: y, width, height, id: element.id };
     }, `${selectors.editor} p`);
 
@@ -82,7 +87,7 @@ describe('Gap cursor: selection', () => {
 
   it('should place my cursor inside the editor when clicking outside the boundary', async () => {
     // Remove focus from the editor.
-    await page.evaluate(_ => {
+    await page.evaluate(() => {
       // @ts-ignore
       document.activeElement.blur();
     });

@@ -98,7 +98,7 @@ describe('StatusPicker', () => {
     expect(fireEvent).toBeCalledWith(FABRIC_CHANNEL);
   };
 
-  const registerDocumentListeners = (map = {}) => {
+  const registerDocumentListeners = (map: Record<any, any> = {}) => {
     document.addEventListener = jest.fn((event, cb) => {
       map[event] = cb;
     });

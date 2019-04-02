@@ -137,7 +137,7 @@ export const getMockJobTitle = () => pickRandom(mockJobTitles);
 export const getMockJobType = () => pickRandom(mockJobTypes);
 export const getMockLastName = () => pickRandom(mockLastNames);
 
-const getDateWithOffset = offset => {
+const getDateWithOffset = (offset: number) => {
   let time = new Date();
   time.setTime(time.getTime() + offset);
   return time;

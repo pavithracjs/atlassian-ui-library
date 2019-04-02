@@ -14,7 +14,7 @@ import { JSONTransformer } from '@atlaskit/editor-json-transformer';
  */
 const ajv = new Ajv();
 const validate = ajv.compile(v1schema);
-const isValidJSONSchema = json => {
+const isValidJSONSchema = (json: { version: number }) => {
   json.version = 1;
   validate(json);
   return validate.errors === null;
@@ -79,7 +79,9 @@ const buildWithMarks = (nodeType: NodeType): Function[] => {
       nodeType.allowsMarkType(mark) &&
       unsupportedMarks.indexOf(mark.name) < 0
     ) {
-      buildNodes.push(factory[nodeType.name](markBuilder[mark.name]));
+      buildNodes.push(
+        (factory as any)[nodeType.name]((markBuilder as any)[mark.name]),
+      );
     }
   });
   return buildNodes;
@@ -102,16 +104,20 @@ const getNodeMatches = (
     ) {
       if (depth === 0) {
         // if depth is 0 build a child node.
-        matches.push(factory[nodeType.name](builder[n.name]));
+        matches.push((factory as any)[nodeType.name]((builder as any)[n.name]));
       } else if (depth > 0) {
         // if depth is greater than 0 find further child nodes.
         const childNodes = getNodeMatches(n, maxDepth, depth - 1);
         if (childNodes.length === 0) {
           // if child has no further child for instance 'text' node add it.
-          matches.push(factory[nodeType.name](builder[n.name]));
+          matches.push(
+            (factory as any)[nodeType.name]((builder as any)[n.name]),
+          );
         } else {
           // add all the various combinations of child and its further children.
-          matches.push(...childNodes.map(c => factory[nodeType.name](c)));
+          matches.push(
+            ...childNodes.map(c => (factory as any)[nodeType.name](c)),
+          );
         }
       }
     }
@@ -125,7 +131,7 @@ const getNodeMatches = (
     // If its block node with no matching content, just build and return it.
     // This is for cases like 'rule'
     if (matches.length === 0) {
-      matches.push(builder[nodeType.name]);
+      matches.push((builder as any)[nodeType.name]);
     }
   }
   return matches;
@@ -138,7 +144,7 @@ const getDisplayName = (node: Node) => {
   if (!node) {
     return '';
   }
-  let displayName = `${getDisplayName(node.firstChild!)} -> `;
+  let displayName: string = `${getDisplayName(node.firstChild!)} -> `;
   const markDisplayText =
     node.marks && node.marks.map(mark => mark.type && mark.type.name).join(',');
   if (markDisplayText) {

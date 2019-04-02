@@ -4,26 +4,7 @@ import styled from 'styled-components';
 
 import { taskDecision } from '@atlaskit/util-data-test';
 
-export const {
-  getMockTaskDecisionResource,
-  document,
-  getParticipants,
-} = taskDecision;
-
-export const MessageContainer: React.ComponentClass<
-  React.HTMLAttributes<{}>
-> = styled.div`
-  border: 10px solid #fcc;
-  width: 585px;
-`;
-
-export const SidebarContainer: React.ComponentClass<
-  React.HTMLAttributes<{}>
-> = styled.div`
-  border: 10px solid #fcc;
-  width: 240px;
-  overflow-x: hidden;
-`;
+export const { getMockTaskDecisionResource, document } = taskDecision;
 
 export const Grid: React.ComponentClass<React.HTMLAttributes<{}>> = styled.div`
   display: flex;
@@ -75,9 +56,7 @@ export class TaskStateManager extends PureComponent<Props, State> {
 
   render() {
     return (
-      <MessageContainer>
-        {this.props.render(this.taskStates, this.onChangeListener)}
-      </MessageContainer>
+      <div>{this.props.render(this.taskStates, this.onChangeListener)}</div>
     );
   }
 }

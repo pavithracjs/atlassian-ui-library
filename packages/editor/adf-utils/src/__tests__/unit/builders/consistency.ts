@@ -8,9 +8,9 @@ declare var __dirname: string;
 const buildFilesList = (dirPath: string, ignored: Array<string> = []) =>
   fs
     .readdirSync(dirPath)
-    .filter(node => !node.startsWith('.'))
-    .map(node => path.basename(node, path.extname(node)))
-    .filter(node => ignored.indexOf(node) === -1 && node !== 'index');
+    .filter((node: string) => !node.startsWith('.'))
+    .map((node: string) => path.basename(node, path.extname(node)))
+    .filter((node: string) => ignored.indexOf(node) === -1 && node !== 'index');
 
 const ignoredNodes = [
   'applicationCard',

@@ -1,5 +1,126 @@
 # @atlaskit/editor-core
 
+## 107.5.0
+- [minor] [81491bbc4e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/81491bbc4e):
+
+  - ED-5850 Add fallback icon and fix SVG ids
+
+## 107.4.0
+- [minor] [60a89f843f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60a89f843f):
+
+  - ED-6598: Add initial prop for 'Full Width Mode'
+
+  You may now enable our new experimental feature 'Full Width Mode' by passing a new `fullWidthMode` prop.
+
+  This prop only takes effect on full-width appearence and this initial implementation is extremely raw as most nodes don't reflect their desired behaviour.
+
+  Example:
+  ```
+  <Editor appearence="full-width" fullWidthMode={true} />
+  ```
+
+## 107.3.3
+- [patch] [92c8c14019](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92c8c14019):
+
+  - ED-6492: Fixed media single without dimensions not rendering on mobile
+
+## 107.3.2
+- [patch] [3d0da81a4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d0da81a4b):
+
+  - ED-6583 Add analytics v3 for link inserts
+
+## 107.3.1
+- [patch] [9f08142085](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f08142085):
+
+  - ED-6618: Fixes the exception thrown when trying to apply the delete decoration.
+
+  Occurs on a position where a node was recently deleted. We now re-map the decorations position on state change to verify if it's still valid to draw or simply delete it.
+
+## 107.3.0
+- [minor] [936f12e761](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/936f12e761):
+
+  - ED-5850 Add descriptions, richer icons and keyboard shortcuts to the quick insert menu
+
+## 107.2.0
+- [minor] [fb7a25ec0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fb7a25ec0b):
+
+  - ED-6221 Fire v3 analytics events when insert media
+
+## 107.1.1
+- [patch] [67e5bfeb72](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67e5bfeb72):
+
+  - ED-6181 Add analytics to paste event
+
+## 107.1.0
+- [minor] [e36f791fd6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e36f791fd6):
+
+  - Improve types
+
+## 107.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/renderer@45.0.0
+  - @atlaskit/emoji@59.0.0
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/media-editor@32.0.0
+  - @atlaskit/media-filmstrip@31.0.0
+  - @atlaskit/media-picker@38.0.0
+  - @atlaskit/editor-bitbucket-transformer@5.0.2
+  - @atlaskit/editor-json-transformer@5.0.2
+  - @atlaskit/editor-markdown-transformer@3.0.2
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/task-decision@14.0.1
+  - @atlaskit/util-data-test@11.1.5
+  - @atlaskit/media-test-helpers@21.1.0
+  - @atlaskit/media-core@29.1.0
+
+## 106.7.9
+- [patch] [495738bcd8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/495738bcd8):
+
+  - Enable UI for links inside headings
+
+## 106.7.8
+- [patch] [2d7ff51814](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d7ff51814):
+
+  - ED-6595 Remove layout marks when pasting images inside a list
+
+## 106.7.7
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/editor-common@35.1.3
+  - @atlaskit/renderer@44.4.3
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-editor@31.0.3
+  - @atlaskit/media-filmstrip@30.0.2
+  - @atlaskit/media-picker@37.0.3
+  - @atlaskit/media-test-helpers@21.0.3
+  - @atlaskit/media-card@58.0.0
+
+## 106.7.6
+- [patch] [acaf2abb57](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acaf2abb57):
+
+  - ED-6146 Fix bug where gap cursor did not display to right of first node
+
+## 106.7.5
+- [patch] [298bfed4e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/298bfed4e1):
+
+  - ED-6580 Media in editor is sized incorrectly in firefox
+
+## 106.7.4
+- [patch] [5320e1bdb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5320e1bdb5):
+
+  - ED-6476 Columns should show border when inactive in the Editor.
+
+## 106.7.3
+- Updated dependencies [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
+  - @atlaskit/renderer@44.4.2
+  - @atlaskit/util-data-test@11.1.4
+  - @atlaskit/task-decision@14.0.0
+
+## 106.7.2
+- Updated dependencies [97abf5e006](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97abf5e006):
+  - @atlaskit/renderer@44.4.1
+  - @atlaskit/status@0.8.0
+
 ## 106.7.1
 - [patch] [b3c60e3c9c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b3c60e3c9c):
 

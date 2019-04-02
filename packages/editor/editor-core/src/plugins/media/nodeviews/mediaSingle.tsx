@@ -107,6 +107,16 @@ export default class MediaSingleNode extends Component<
     if (height && width) {
       return false;
     }
+
+    // can't fetch remote dimensions on mobile, so we'll default them
+    if (this.props.editorAppearance === 'mobile') {
+      return {
+        id,
+        height: DEFAULT_IMAGE_HEIGHT,
+        width: DEFAULT_IMAGE_WIDTH,
+      };
+    }
+
     const viewContext = await mediaProvider.viewContext;
     const state = await viewContext.getImageMetadata(id, {
       collection,

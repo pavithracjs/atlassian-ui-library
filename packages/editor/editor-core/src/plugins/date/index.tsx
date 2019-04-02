@@ -1,9 +1,8 @@
 import * as React from 'react';
-import EditorDateIcon from '@atlaskit/icon/glyph/editor/date';
-import { date } from '@atlaskit/adf-schema';
 import { findDomRefAtPos } from 'prosemirror-utils';
 import Loadable from 'react-loadable';
-
+import { date } from '@atlaskit/adf-schema';
+import { todayTimestampInUTC } from '@atlaskit/editor-common';
 import { EditorPlugin } from '../../types';
 import WithPluginState from '../../ui/WithPluginState';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
@@ -13,12 +12,11 @@ import createDatePlugin, {
   pluginKey as datePluginKey,
 } from './plugin';
 import keymap from './keymap';
-
 import {
   pluginKey as editorDisabledPluginKey,
   EditorDisabledPluginState,
 } from '../editor-disabled';
-import { todayTimestampInUTC } from '@atlaskit/editor-common';
+import { IconDate } from '../quick-insert/assets';
 
 const DatePicker = Loadable({
   loader: () =>
@@ -74,13 +72,14 @@ const datePlugin: EditorPlugin = {
           editorDisabledPlugin: EditorDisabledPluginState;
           datePlugin: DateState;
         }) => {
-          const { showDatePickerAt } = datePlugin;
+          const showDatePickerAt = datePlugin && datePlugin.showDatePickerAt;
           if (
             !showDatePickerAt ||
             (editorDisabledPlugin || {}).editorDisabled
           ) {
             return null;
           }
+
           const element = findDomRefAtPos(
             showDatePickerAt,
             domAtPos,
@@ -105,9 +104,11 @@ const datePlugin: EditorPlugin = {
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.date),
+        description: formatMessage(messages.dateDescription),
         priority: 800,
         keywords: ['time', 'today', '/'],
-        icon: () => <EditorDateIcon label={formatMessage(messages.date)} />,
+        keyshortcut: '//',
+        icon: () => <IconDate label={formatMessage(messages.date)} />,
         action(insert, state) {
           const dateNode = state.schema.nodes.date.createChecked({
             timestamp: todayTimestampInUTC(),

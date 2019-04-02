@@ -7,6 +7,7 @@ import {
   Editor,
   EditorContext,
   WithEditorActions,
+  EditorActions,
 } from '@atlaskit/editor-core';
 import {
   storyMediaProviderFactory,
@@ -30,6 +31,7 @@ import {
   DATE,
 } from '../example-helpers/cxhtml-test-data';
 import { ConfluenceTransformer } from '../src';
+import { Node } from 'prosemirror-model';
 
 // tslint:disable-next-line:variable-name
 export const Content = styled.div`
@@ -41,10 +43,11 @@ export const Content = styled.div`
 Content.displayName = 'Content';
 
 // tslint:disable-next-line:no-console
-const analyticsHandler = (actionName, props) => console.log(actionName, props);
+const analyticsHandler = (actionName: string, props: any) =>
+  console.log(actionName, props);
 
 // tslint:disable-next-line:variable-name
-const SaveAndCancelButtons = props => (
+const SaveAndCancelButtons = (props: any) => (
   <ButtonGroup>
     <Button
       appearance="primary"
@@ -52,7 +55,7 @@ const SaveAndCancelButtons = props => (
         props.editorActions
           .getValue()
           // tslint:disable-next-line:no-console
-          .then(value => console.log(value.toJSON()))
+          .then((value: Node) => console.log(value.toJSON()))
       }
     >
       Publish
@@ -100,7 +103,7 @@ class Example extends Component<ExampleProps, ExampleState> {
     input: HTMLTextAreaElement;
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps: ExampleProps, nextState: ExampleState) {
     return (
       nextState.input !== this.state.input ||
       nextState.output !== this.state.output
@@ -234,7 +237,7 @@ export default class ExampleWrapper extends Component<
     isMediaReady: true,
   };
 
-  handleChange = editorActions => {
+  handleChange = (editorActions: EditorActions) => {
     this.setState({ isMediaReady: false });
 
     // tslint:disable-next-line:no-console
