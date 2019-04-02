@@ -51,7 +51,7 @@ export interface InlineEditProps extends CommonProps {
   readView: () => React.ReactChild;
   /** Component to be shown when editing. Should be an Atlaskit input. */
   editView: (
-    editViewProps: FieldProps & { ref: React.RefObject<HTMLElement> },
+    editViewProps: FieldProps & { ref: React.RefObject<any> },
   ) => React.ReactChild;
   /**
    * Handler called editView is closed and changes are confirmed.
