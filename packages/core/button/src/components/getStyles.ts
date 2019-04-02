@@ -22,7 +22,7 @@ const getColor = (props: ThemeProps) =>
 
 /** Cursor */
 const getCursor = ({ state = 'default' }: ThemeProps) =>
-  state === 'hover'
+  state === 'hover' || state === 'active' || state === 'selected'
     ? 'pointer'
     : state === 'disabled'
     ? 'not-allowed'
@@ -49,8 +49,13 @@ const getPadding = ({ spacing = 'default' }: ThemeProps) =>
   spacing === 'none' ? 0 : `0 ${gridSize()}px`;
 
 /** Text Decoration */
-const getTextDecoration = ({ appearance = 'default' }: ThemeProps) =>
-  appearance === 'link' || appearance === 'subtle-link' ? 'underline' : 'none';
+const getTextDecoration = ({
+  appearance = 'default',
+  state = 'default',
+}: ThemeProps) =>
+  state === 'hover' && (appearance === 'link' || appearance === 'subtle-link')
+    ? 'underline'
+    : 'inherit';
 
 /** Transition */
 const getTransition = ({ state = 'default' }: ThemeProps) =>
