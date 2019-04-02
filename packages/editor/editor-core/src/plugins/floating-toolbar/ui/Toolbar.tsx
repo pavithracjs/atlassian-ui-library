@@ -14,6 +14,7 @@ import Separator from './Separator';
 import Input from './Input';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { EditorView } from 'prosemirror-view';
+import { DispatchAnalyticsEvent } from '../../analytics';
 
 const akGridSize = gridSize();
 
@@ -27,6 +28,7 @@ export interface Props {
   className?: string;
   focusEditor?: () => void;
   editorView?: EditorView;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 }
 
 const ToolbarContainer = styled.div`
@@ -49,6 +51,7 @@ export default class Toolbar extends Component<Props> {
   render() {
     const {
       items,
+      dispatchAnalyticsEvent,
       dispatchCommand,
       popupsMountPoint,
       popupsBoundariesElement,
@@ -106,7 +109,7 @@ export default class Toolbar extends Component<Props> {
                   );
 
                 case 'custom': {
-                  return item.render(editorView, idx);
+                  return item.render(editorView, idx, dispatchAnalyticsEvent);
                 }
 
                 case 'dropdown':

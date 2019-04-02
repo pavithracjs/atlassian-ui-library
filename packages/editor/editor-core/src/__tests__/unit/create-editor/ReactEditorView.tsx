@@ -29,6 +29,7 @@ import {
   EVENT_TYPE,
   ACTION_SUBJECT_ID,
   addAnalytics,
+  DispatchAnalyticsEvent,
 } from '../../../plugins/analytics';
 import { analyticsService } from '../../../analytics';
 
@@ -605,7 +606,7 @@ describe(name, () => {
         jest
           .spyOn(AnalyticsPlugin, 'fireAnalyticsEvent')
           .mockReturnValue(() => null);
-        let dispatch: undefined | ((payload: AnalyticsEventPayload) => void);
+        let dispatch: undefined | DispatchAnalyticsEvent;
         const wrapper = mountWithIntl(
           <ReactEditorView
             editorProps={{}}

@@ -16,6 +16,7 @@ import {
   fireAnalyticsEvent,
   AnalyticsDispatch,
   AnalyticsEventPayload,
+  DispatchAnalyticsEvent,
 } from '../plugins/analytics';
 import { EditorProps, EditorConfig, EditorPlugin } from '../types';
 import { PortalProviderAPI } from '../ui/PortalProvider';
@@ -47,7 +48,7 @@ export interface EditorViewProps {
       config: EditorConfig;
       eventDispatcher: EventDispatcher;
       transformer?: Transformer<string>;
-      dispatchAnalyticsEvent: (payload: AnalyticsEventPayload) => void;
+      dispatchAnalyticsEvent: DispatchAnalyticsEvent;
     },
   ) => JSX.Element;
   onEditorCreated: (
