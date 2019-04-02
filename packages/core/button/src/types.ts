@@ -10,7 +10,7 @@ export type ButtonAppearances =
   | 'subtle-link'
   | 'warning';
 
-export interface ButtonProps {
+export interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
   /** The base styling to apply to the button */
   appearance?: ButtonAppearances;
   /** Set the button to autofocus on mount */
