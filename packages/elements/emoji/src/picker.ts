@@ -1,2 +1,1 @@
-import EmojiPicker from './components/picker/EmojiPicker';
-export default EmojiPicker;
+export { default as EmojiPicker } from './components/picker/EmojiPicker';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Layer from '@atlaskit/layer';
-import EmojiPicker from '../src/picker';
+import { EmojiPicker } from '../src/picker';
 import ResourcedEmojiControl, {
   getEmojiConfig,
   getRealEmojiResource,

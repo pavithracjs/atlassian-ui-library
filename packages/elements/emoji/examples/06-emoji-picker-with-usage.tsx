@@ -6,7 +6,7 @@ import {
   UsagingShowingProps,
 } from '../example-helpers/demo-emoji-usage-components';
 import { EmojiProvider } from '../src/resource';
-import EmojiPicker from '../src/picker';
+import { EmojiPicker } from '../src/picker';
 
 class UsageShowingEmojiPickerTextInput extends UsageShowAndClearComponent {
   constructor(props: UsagingShowingProps) {

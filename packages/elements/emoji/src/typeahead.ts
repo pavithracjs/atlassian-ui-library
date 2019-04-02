@@ -1,2 +1,3 @@
-import EmojiTypeAhead from './components/typeahead/EmojiTypeAhead';
-export default EmojiTypeAhead;
+export {
+  default as EmojiTypeAhead,
+} from './components/typeahead/EmojiTypeAhead';

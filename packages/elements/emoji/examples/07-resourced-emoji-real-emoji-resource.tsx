@@ -5,7 +5,7 @@ import ResourcedEmojiControl, {
   getRealEmojiResource,
 } from '../example-helpers/demo-resource-control';
 import { EmojiProvider, OnEmojiProviderChange } from '../src/resource';
-import ResourcedEmoji from '../src/resource';
+import { ResourcedEmoji } from '../src/element';
 import { customCategory } from '../src/util/constants';
 import { toEmojiId } from '../src/util/type-helpers';
 import { EmojiDescription, EmojiSearchResult } from '../src/types';

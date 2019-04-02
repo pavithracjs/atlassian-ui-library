@@ -8,6 +8,3 @@ export {
 } from './api/EmojiResource';
 export { default as EmojiRepository } from './api/EmojiRepository';
 export { default as EmojiLoader } from './api/EmojiLoader';
-
-import ResourcedEmoji from './components/common/ResourcedEmoji';
-export default ResourcedEmoji;
