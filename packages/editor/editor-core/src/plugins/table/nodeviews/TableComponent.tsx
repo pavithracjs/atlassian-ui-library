@@ -2,7 +2,6 @@ import * as React from 'react';
 import rafSchedule from 'raf-schd';
 import { Node as PmNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-import { TableMap } from 'prosemirror-tables';
 import { EditorState } from 'prosemirror-state';
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
 
@@ -29,6 +28,7 @@ import {
   checkIfHeaderColumnEnabled,
   checkIfHeaderRowEnabled,
   tablesHaveDifferentColumnWidths,
+  tablesHaveDifferentNoOfColumns,
   insertColgroupFromNode as recreateResizeColsByNode,
 } from '../utils';
 import { autoSizeTable } from '../actions';
@@ -124,8 +124,12 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
       // Wait for next tick to handle auto sizing, gives the browser time to do layout calc etc.
       this.handleAutoSizeDebounced();
     } else if (this.props.allowColumnResizing && this.table) {
-      // If col widths have changed (e.g. via collab), re-draw colgroup.
-      if (tablesHaveDifferentColumnWidths(this.props.node, prevProps.node)) {
+      // If col widths (e.g. via collab) or number of columns (e.g. delete a columnd) have changed,
+      // re-draw colgroup.
+      if (
+        tablesHaveDifferentColumnWidths(this.props.node, prevProps.node) ||
+        tablesHaveDifferentNoOfColumns(this.props.node, prevProps.node)
+      ) {
         recreateResizeColsByNode(this.table, this.props.node);
       }
 
@@ -253,9 +257,6 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     const prevAttrs = prevProps.node.attrs;
     const currentAttrs = node.attrs;
 
-    const prevMap = TableMap.get(prevProps.node);
-    const currentMap = TableMap.get(node);
-
     // We only consider a layout change valid if it's done outside of an autoSize.
     const layoutChanged =
       prevAttrs.layout !== currentAttrs.layout &&
@@ -271,9 +272,9 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     if (
       layoutChanged ||
       parentWidthChanged ||
-      prevMap.width !== currentMap.width ||
       prevProps.containerWidth !== containerWidth ||
-      prevAttrs.isNumberColumnEnabled !== currentAttrs.isNumberColumnEnabled
+      prevAttrs.isNumberColumnEnabled !== currentAttrs.isNumberColumnEnabled ||
+      tablesHaveDifferentNoOfColumns(node, prevProps.node)
     ) {
       scaleTable(
         view,
