@@ -1,5 +1,10 @@
 # @atlaskit/code-insights
 
+## 1.1.1
+- [patch] [d3d376241a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3d376241a):
+
+  - Creating a patch for the readme chagne
+
 ## 1.1.0
 - [minor] [f782c6a37d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f782c6a37d):
 
