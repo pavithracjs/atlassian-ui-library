@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.3.0
+- [minor] [936f12e761](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/936f12e761):
+
+  - ED-5850 Add descriptions, richer icons and keyboard shortcuts to the quick insert menu
+
 ## 107.2.0
 - [minor] [fb7a25ec0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fb7a25ec0b):
 
