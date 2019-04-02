@@ -1,0 +1,1 @@
+- Workaround SSR avatar issue in user-picker ssr tests
