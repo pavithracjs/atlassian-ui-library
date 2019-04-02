@@ -195,7 +195,7 @@ const mediaPlugin = (
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.filesAndImages),
-        description: formatMessage(messages.filesAndImages),
+        description: formatMessage(messages.filesAndImagesDescription),
         priority: 400,
         keywords: ['media'],
         icon: () => (

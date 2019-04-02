@@ -99,3 +99,8 @@ export const IconTable = Loadable({
   loader: () => import('./table').then(module => module.default),
   loading: () => null,
 });
+
+export const IconFallback = Loadable({
+  loader: () => import('./fallback').then(module => module.default),
+  loading: () => null,
+});
