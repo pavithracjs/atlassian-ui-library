@@ -1,8 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
 import Input from '@atlaskit/input';
-// eslint-disable-next-line
-import FieldBase, { Label } from '../src/components/Label';
+import FieldBase, { Label } from '../src';
 
 export default class LabelExample extends PureComponent<void, void> {
   render() {
