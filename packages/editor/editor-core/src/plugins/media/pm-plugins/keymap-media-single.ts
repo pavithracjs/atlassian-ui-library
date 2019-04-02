@@ -1,11 +1,17 @@
 import { keymap } from 'prosemirror-keymap';
 import { Schema, Node } from 'prosemirror-model';
-import { Plugin, Selection } from 'prosemirror-state';
+import {
+  Plugin,
+  Selection,
+  TextSelection,
+  NodeSelection,
+} from 'prosemirror-state';
 import * as keymaps from '../../../keymaps';
 import { isEmptyNode } from '../../../utils';
 import { Command } from '../../../types';
 import { safeInsert } from 'prosemirror-utils';
 import paragraph from '../../../../../renderer/src/email/nodes/paragraph';
+import { selectNodeBackward } from 'prosemirror-commands';
 
 /**
  * When there's any empty block before another paragraph with wrap-right
@@ -36,40 +42,63 @@ const maybeRemoveMediaSingleNode = (schema: Schema): Command => {
     }
 
     const { $from } = selection;
-    const { doc } = state;
-    const index = $from.index($from.depth - 1);
+    const { paragraph } = state.schema.nodes;
+    const parent = $from.parent;
 
+    const insideParapraph = parent.type === paragraph;
+    if (!insideParapraph) {
+      return false;
+    }
+
+    const index = $from.index($from.depth - 1);
+    const grandParent = $from.node($from.depth - 1);
     // Part 3.2: [selection{empty, at start}]
     if ($from.parentOffset > 0) {
       return false;
     }
 
     // Part 2: mediaSingle[wrap-right]
-    const maybeMediaSingle = doc.maybeChild(index - 1);
-    const isNotWrapRight =
+    const maybeMediaSingle = grandParent.maybeChild(index - 1);
+    if (
       !maybeMediaSingle ||
-      maybeMediaSingle.type !== schema.nodes.mediaSingle ||
-      maybeMediaSingle.attrs.layout !== 'wrap-right';
-    if (isNotWrapRight) {
+      maybeMediaSingle.type !== schema.nodes.mediaSingle
+    ) {
+      // No media single
       return false;
     }
 
+    // Calculate positions
+    const currentSelectionPos = $from.pos;
+    const mediaSinglePos = currentSelectionPos - maybeMediaSingle!.nodeSize;
+
+    // If media single layout is not wrap right, should set selection
+    if (maybeMediaSingle.attrs.layout !== 'wrap-right') {
+      if (dispatch) {
+        selectNodeBackward(state, dispatch);
+      }
+      return true;
+    }
+
+    // Now we handle wrap right case
+
     // Here is wrap right
     // Part 1: anyBlock[empty]
-    const maybeAnyBlock = doc.maybeChild(index - 2);
+    const maybeAnyBlock = grandParent.maybeChild(index - 2);
     if (!maybeAnyBlock) {
       // the last is the image so should let the default behaviour delete the image
       return false;
     }
 
     // Should find the position
-    // TODO: Should move the current paragraph to the last line
-    const currentSelectionPos = $from.pos;
-    const mediaSinglePos = currentSelectionPos - maybeMediaSingle!.nodeSize;
+    // Should move the current paragraph to the last line
     const maybeAnyBlockPos = mediaSinglePos - maybeAnyBlock.nodeSize;
-    const { paragraph } = schema.nodes;
     let tr = state.tr;
-    if (isEmptyNodeInSchema(maybeAnyBlock)) {
+    let isEmptyNode = false;
+    try {
+      isEmptyNode = isEmptyNodeInSchema(maybeAnyBlock);
+    } catch (e) {}
+
+    if (isEmptyNode) {
       tr = tr.replace(
         maybeAnyBlockPos - 1,
         maybeAnyBlockPos + maybeAnyBlock.nodeSize,
