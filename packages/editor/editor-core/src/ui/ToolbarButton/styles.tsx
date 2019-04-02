@@ -11,7 +11,7 @@ export default (props: ButtonProps) => (
           ...buttonStyles,
           lineHeight: 0,
           justifyContent: 'center',
-          '& > span': {
+          '> span': {
             margin: `0 ${props.spacing === 'none' ? '0' : '-2px'}`,
           },
           '& + &': {
@@ -22,7 +22,7 @@ export default (props: ButtonProps) => (
           },
         },
         ...rest,
-      }
+      };
     }}
   />
 );

@@ -71,13 +71,6 @@ export type ConsumerRef =
 
 export type Spacing = 'compact' | 'default' | 'none';
 
-export type DerivedButtonProps = {
-  isActive: boolean;
-  isFocus: boolean;
-  isHover: boolean;
-  fit: boolean;
-} & ButtonProps;
-
 export type ThemeMode = 'dark' | 'light';
 
 export type ThemeTokens = {
