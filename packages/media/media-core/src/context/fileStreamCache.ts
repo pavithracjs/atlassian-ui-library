@@ -1,17 +1,17 @@
 import { FileState } from '../fileState';
-import { LRUCache } from 'lru-fast';
+import { LRUMap } from 'lru_map';
 import { Observable } from 'rxjs/Observable';
 import { observableToPromise } from '../utils/observableToPromise';
 
 export class FileStreamCache {
-  private readonly fileStreams: LRUCache<string, Observable<FileState>>;
+  private readonly fileStreams: LRUMap<string, Observable<FileState>>;
   private readonly stateDeferreds: Map<
     string,
     { promise: Promise<FileState>; resolve: Function }
   >;
 
   constructor() {
-    this.fileStreams = new LRUCache(1000);
+    this.fileStreams = new LRUMap(1000);
     this.stateDeferreds = new Map();
   }
 
@@ -62,11 +62,11 @@ export class FileStreamCache {
   }
 
   removeAll() {
-    this.fileStreams.removeAll();
+    this.fileStreams.clear();
   }
 
   remove(id: string) {
-    this.fileStreams.remove(id);
+    this.fileStreams.delete(id);
   }
 
   get size(): number {

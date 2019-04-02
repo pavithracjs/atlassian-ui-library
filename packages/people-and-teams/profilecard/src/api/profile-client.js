@@ -1,5 +1,5 @@
 // @flow
-import { LRUCache } from 'lru-fast';
+import { LRUMap } from 'lru_map';
 
 import { type AkProfileClientConfig } from '../types';
 
@@ -141,7 +141,7 @@ class ProfileClient {
     this.cache =
       !this.config.cacheMaxAge || !this.config.cacheSize
         ? null
-        : new LRUCache(this.config.cacheSize);
+        : new LRUMap(this.config.cacheSize);
   }
 
   makeRequest(cloudId: string, userId: string) {
@@ -154,7 +154,7 @@ class ProfileClient {
 
   setCachedProfile(cloudId: string, userId: string, cacheItem: any) {
     const cacheIdentifier = `${cloudId}/${userId}`;
-    this.cache.put(cacheIdentifier, cacheItem);
+    this.cache.set(cacheIdentifier, cacheItem);
   }
 
   getCachedProfile(cloudId: string, userId: string) {
@@ -167,7 +167,7 @@ class ProfileClient {
     }
 
     if (cached.expire < Date.now()) {
-      this.cache.remove(cacheIdentifier);
+      this.cache.delete(cacheIdentifier);
       return null;
     }
 
@@ -181,7 +181,7 @@ class ProfileClient {
 
   flushCache() {
     if (this.cache) {
-      this.cache.removeAll();
+      this.cache.clear();
     }
   }
 
