@@ -2,14 +2,11 @@ import * as React from 'react';
 import rafSchedule from 'raf-schd';
 import { Node as PmNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-import { EditorState } from 'prosemirror-state';
-import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
 
 import {
   browser,
   calcTableWidth,
   akEditorMobileBreakoutPoint,
-  absoluteBreakoutWidth,
 } from '@atlaskit/editor-common';
 
 import TableFloatingControls from '../ui/TableFloatingControls';
@@ -17,6 +14,7 @@ import ColumnControls from '../ui/TableFloatingControls/ColumnControls';
 
 import { getPluginState } from '../pm-plugins/main';
 import { ResizeState, scaleTable } from '../pm-plugins/table-resizing';
+import { getParentNodeWidth } from '../pm-plugins/table-resizing/utils';
 
 import { TablePluginState, TableCssClassName as ClassName } from '../types';
 import * as classnames from 'classnames';
@@ -88,7 +86,8 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
       const { view, node, containerWidth, getPos, options } = this.props;
 
       if (node.attrs.__autoSize === false) {
-        const parentWidth = this.getParentNodeWidth(
+        const parentWidth = getParentNodeWidth(
+          getPos(),
           view.state,
           containerWidth.width,
         );
@@ -262,7 +261,8 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
       prevAttrs.layout !== currentAttrs.layout &&
       prevAttrs.__autoSize === currentAttrs.__autoSize;
 
-    const parentWidth = this.getParentNodeWidth(
+    const parentWidth = getParentNodeWidth(
+      getPos(),
       view.state,
       containerWidth.width,
     );
@@ -325,52 +325,6 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
         tableContainerWidth,
       };
     });
-  };
-
-  private getParentNode = (state: EditorState) => {
-    const pos = this.props.getPos();
-
-    if (!pos) {
-      return;
-    }
-
-    const $pos = state.doc.resolve(pos);
-    const parent = findParentNodeOfTypeClosestToPos($pos, [
-      state.schema.nodes.bodiedExtension,
-      state.schema.nodes.layoutSection,
-    ]);
-
-    return parent && parent.node;
-  };
-
-  private getParentNodeWidth = (state: EditorState, containerWidth: number) => {
-    const node = this.getParentNode(state);
-
-    if (!node) {
-      return;
-    }
-
-    if (node.attrs.layout) {
-      return absoluteBreakoutWidth(node.attrs.layout, containerWidth);
-    }
-
-    let parentWidth = absoluteBreakoutWidth('default', containerWidth);
-
-    const { schema } = state;
-    const breakoutMark =
-      schema.marks.breakout && schema.marks.breakout.isInSet(node.marks);
-    if (breakoutMark && breakoutMark.attrs.mode) {
-      parentWidth = absoluteBreakoutWidth(
-        breakoutMark.attrs.mode,
-        containerWidth,
-      );
-    }
-
-    if (node.type === schema.nodes.layoutSection) {
-      parentWidth = parentWidth / node.childCount;
-    }
-
-    return parentWidth;
   };
 
   private updateParentWidth = (width?: number) => {

@@ -1,0 +1,1 @@
+- ED-6474: fix resizing last table column when table is nested inside Columns node
