@@ -8,10 +8,34 @@
 const glob = require('glob');
 const pageSelector = '#examples';
 
+async function disableAllTransitions(page) {
+  const css = `
+  * {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+  }
+  `;
+  await page.addStyleTag({ content: css });
+}
+
+async function disableAllAnimations(page) {
+  const css = `
+  * {
+    animation: none !important;
+  }
+  `;
+  await page.addStyleTag({ content: css });
+}
+
 async function takeScreenShot(page /*:any*/, url /*:string*/) {
   await page.goto(url, { waitUntil: 'networkidle0' });
-  await page.waitForSelector(pageSelector);
+  await disableAllAnimations(page);
+  await disableAllTransitions(page);
   await page.mouse.move(9999, 9999);
+  await page.waitForSelector(pageSelector);
+
   return page.screenshot();
 }
 
