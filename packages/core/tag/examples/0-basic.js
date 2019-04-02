@@ -9,10 +9,10 @@ export default () => (
     <Tag text="Avatar Before" elemBefore={<Avatar size="xsmall" />} />
     <Tag text="Linked Tag" href="/components/tag" />
     <Tag text="Rounded Tag" appearance="rounded" />
-    <Tag text="Removable button" removeButtonText="Aria label" />
+    <Tag text="Removable button" removeButtonText="Remove" />
     <Tag
       text="Removal halted"
-      removeButtonText="Aria label"
+      removeButtonText="Remove"
       onBeforeRemoveAction={() => {
         console.log('Removal halted'); // eslint-disable-line no-console
         return false;
@@ -20,7 +20,7 @@ export default () => (
     />
     <Tag
       text="Post Removal Hook"
-      removeButtonText="Aria label"
+      removeButtonText="Remove"
       onBeforeRemoveAction={() => {
         console.log('Before removal'); // eslint-disable-line no-console
         return true;

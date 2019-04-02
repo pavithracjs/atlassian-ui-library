@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import RemoveIcon from '@atlaskit/icon/glyph/cross';
+import TagCrossIcon from './TagCrossIcon';
 import { Button } from './styled';
 
 type Props = {
@@ -49,8 +49,9 @@ export default class RemoveButton extends PureComponent<Props> {
         onBlur={this.onBlur}
         onFocus={this.onFocus}
         type="button"
+        spacing="none"
       >
-        <RemoveIcon label={removeText} size="small" />
+        <TagCrossIcon />
       </Button>
     );
   }
