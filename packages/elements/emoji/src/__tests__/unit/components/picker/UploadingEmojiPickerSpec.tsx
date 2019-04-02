@@ -14,7 +14,7 @@ import {
   customCategory,
   customTitle,
   userCustomTitle,
-} from '../../../../constants';
+} from '../../../../util/constants';
 import { EmojiDescription } from '../../../../types';
 import * as ImageUtil from '../../../../util/image';
 import {
@@ -40,7 +40,7 @@ import {
   uploadConfirmButton,
   uploadFailedEvent,
   uploadSucceededEvent,
-} from '../../../../analytics';
+} from '../../../../util/analytics';
 
 describe('<UploadingEmojiPicker />', () => {
   let onEvent: jest.SpyInstance;

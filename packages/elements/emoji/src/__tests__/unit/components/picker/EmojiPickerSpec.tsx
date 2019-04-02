@@ -23,8 +23,8 @@ import {
   defaultCategories,
   frequentCategory,
   selectedToneStorageKey,
-} from '../../../../constants';
-import { isMessagesKey } from '../../../../type-helpers';
+} from '../../../../util/constants';
+import { isMessagesKey } from '../../../../util/type-helpers';
 import { EmojiDescription, OptionalEmojiDescription } from '../../../../types';
 import {
   getEmojiResourcePromise,
@@ -41,7 +41,7 @@ import {
   toneSelectorOpenedEvent,
   toneSelectedEvent,
   toneSelectorClosedEvent,
-} from '../../../../analytics';
+} from '../../../../util/analytics';
 
 describe('<EmojiPicker />', () => {
   let onEvent: jest.SpyInstance;
