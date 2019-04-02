@@ -72,6 +72,28 @@ export const extensionHandlers: ExtensionHandlers = {
         return <BodiedExtension {...macroProps} />;
       case 'inline-eh':
         return <InlineExtension {...macroProps} />;
+      case 'jql-table':
+        return (
+          <table>
+            <tbody>
+              <tr>
+                <td>a1</td>
+                <td>a2</td>
+                <td>a3</td>
+              </tr>
+              <tr>
+                <td>b1</td>
+                <td>b2</td>
+                <td>b3</td>
+              </tr>
+              <tr>
+                <td>c1</td>
+                <td>c2</td>
+                <td>c3</td>
+              </tr>
+            </tbody>
+          </table>
+        );
     }
 
     return null;
