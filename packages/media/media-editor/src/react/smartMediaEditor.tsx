@@ -148,7 +148,7 @@ export class SmartMediaEditor extends React.Component<
         config: { userAuthProvider, authProvider },
         file,
       },
-      identifier: { collectionName, occurrenceKey },
+      identifier: { collectionName },
     } = this.props;
 
     if (userAuthProvider) {
@@ -160,7 +160,7 @@ export class SmartMediaEditor extends React.Component<
       const destination = {
         collection: 'recents',
         authProvider: userAuthProvider,
-        occurrenceKey,
+        occurrenceKey: uuid(),
       };
       await file.copyFile(source, destination);
     }

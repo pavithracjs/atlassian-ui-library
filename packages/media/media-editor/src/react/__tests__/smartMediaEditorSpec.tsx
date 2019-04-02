@@ -227,7 +227,7 @@ describe('Smart Media Editor', () => {
           {
             collection: 'recents',
             authProvider: userAuthProvider,
-            occurrenceKey: fileIdentifier.occurrenceKey,
+            occurrenceKey: 'uuid3',
           },
         ]);
       });
