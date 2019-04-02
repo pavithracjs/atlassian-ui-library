@@ -6,6 +6,7 @@ import { SubstituteEventPayload } from './substitute-events';
 import { InsertEventPayload } from './insert-events';
 import { NodeEventPayload } from './node-events';
 import { TableEventPayload } from './table-events';
+import { PasteEventPayload } from './paste-events';
 
 type AEP<Action, ActionSubject, ActionSubjectID, Attributes, EventType> = {
   action: Action;
@@ -44,7 +45,8 @@ export type AnalyticsEventPayload =
   | SubstituteEventPayload
   | InsertEventPayload
   | NodeEventPayload
-  | TableEventPayload;
+  | TableEventPayload
+  | PasteEventPayload;
 
 export type AnalyticsDispatch = Dispatch<{
   payload: AnalyticsEventPayload;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { MediaType } from '@atlaskit/adf-schema';
-import { Card } from '@atlaskit/media-card';
+import { Card, CardEvent } from '@atlaskit/media-card';
 import { MediaCard, MediaCardInternal } from '../../../../ui/MediaCard';
 import Media from '../../../../react/nodes/media';
 
@@ -58,6 +58,46 @@ describe('Media', () => {
       expect(
         cardWithoutOnClick.find(Card).prop('shouldOpenMediaViewer'),
       ).toBeTruthy();
+    });
+
+    it('should call passed onClick', () => {
+      const onClick = jest.fn();
+      const cardWithOnClick = mount(
+        <MediaCard type="file" id="1" eventHandlers={{ media: { onClick } }} />,
+      );
+
+      // force media context to be resolved
+      cardWithOnClick.find(MediaCardInternal).setState({ context: {} });
+      const cardComponent = cardWithOnClick.find(Card);
+      const event: CardEvent = {
+        event: {} as any,
+        mediaItemDetails: {
+          id: 'some-id',
+          mediaType: 'image',
+        },
+      };
+      cardComponent.props().onClick!(event);
+      expect(onClick).toHaveBeenCalledWith(event, undefined);
+    });
+
+    it('should not call passed onClick when inline video is enabled and its a video file', () => {
+      const onClick = jest.fn();
+      const cardWithOnClick = mount(
+        <MediaCard type="file" id="1" eventHandlers={{ media: { onClick } }} />,
+      );
+
+      // force media context to be resolved
+      cardWithOnClick.find(MediaCardInternal).setState({ context: {} });
+      const cardComponent = cardWithOnClick.find(Card);
+      const event: CardEvent = {
+        event: {} as any,
+        mediaItemDetails: {
+          id: 'some-id',
+          mediaType: 'video',
+        },
+      };
+      cardComponent.props().onClick!(event);
+      expect(onClick).not.toHaveBeenCalled();
     });
   });
 });

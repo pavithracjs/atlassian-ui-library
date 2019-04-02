@@ -11,7 +11,8 @@ import CloseIcon from '@atlaskit/icon/glyph/cross';
 import ScreenIcon from '@atlaskit/icon/glyph/screen';
 import LinkIcon from '@atlaskit/icon/glyph/link';
 
-import Button, { ButtonGroup } from '@atlaskit/button';
+import { ButtonGroup } from '@atlaskit/button';
+import Button from '../../components/RouterButton';
 import { FlagGroup } from '@atlaskit/flag';
 import Tooltip from '@atlaskit/tooltip';
 import Modal, {
@@ -218,7 +219,7 @@ interface ModalHeaderCompProps {
   pkgJSON: any;
   displayCode: boolean;
   exampleId: string | null;
-  loaderUrl: string | null;
+  loaderUrl: string | undefined;
   onCodeToggle: () => void;
   close: () => void;
 }

@@ -26,14 +26,16 @@ import {
   mockComment as mockCommentClean,
   mockReplyComment,
 } from '../../../../example-helpers/MockData';
+import { Dispatch, Store } from 'react-redux';
+import { Comment, Conversation } from '../../../model';
 
 describe('Reducers', () => {
-  let mockInlineConversation;
-  let mockConversation;
-  let mockComment2;
-  let mockComment;
-  let store;
-  let dispatch;
+  let mockInlineConversation: Conversation;
+  let mockConversation: Conversation;
+  let mockComment2: Comment;
+  let mockComment: Comment;
+  let store: Store<any>;
+  let dispatch: Dispatch<any>;
 
   beforeEach(() => {
     mockInlineConversation = mockInlineConversationClean;
@@ -69,8 +71,8 @@ describe('Reducers', () => {
         payload: [mockConversation],
       });
 
-      mockConversation.comments[0].nestedDepth = 0;
-      mockConversation.comments[1].nestedDepth = 0;
+      mockConversation.comments![0].nestedDepth = 0;
+      mockConversation.comments![1].nestedDepth = 0;
 
       expect(store.getState()).toEqual({
         conversations: [mockConversation],
@@ -139,11 +141,11 @@ describe('Reducers', () => {
             ...mockInlineConversation,
             comments: [
               {
-                ...mockInlineConversation.comments[0],
+                ...mockInlineConversation.comments![0],
                 state: 'ERROR',
                 error: err,
                 isPlaceholder: true,
-                oldDocument: mockInlineConversation.comments[0].document,
+                oldDocument: mockInlineConversation.comments![0].document,
               },
             ],
           },
@@ -452,7 +454,7 @@ describe('Reducers', () => {
 
       const state = store.getState();
       const [comment] = state.conversations[0].comments.filter(
-        comment => comment.localId === mockComment.localId,
+        (comment: Comment) => comment.localId === mockComment.localId,
       );
       expect(comment.document.adf.content).toEqual([
         {
@@ -471,7 +473,7 @@ describe('Reducers', () => {
 
       const newState = store.getState();
       const [revertedComment] = newState.conversations[0].comments.filter(
-        comment => comment.localId === mockComment.localId,
+        (comment: Comment) => comment.localId === mockComment.localId,
       );
       expect(revertedComment.document).toEqual(mockComment.document);
     });
@@ -492,7 +494,7 @@ describe('Reducers', () => {
 
       const state = store.getState();
       const [comment] = state.conversations[0].comments.filter(
-        comment => comment.localId === mockComment2.localId,
+        (comment: Comment) => comment.localId === mockComment2.localId,
       );
       expect(comment).toBeUndefined();
     });

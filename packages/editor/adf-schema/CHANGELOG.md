@@ -1,5 +1,10 @@
 # @atlaskit/adf-schema
 
+## 2.2.0
+- [minor] [63133d8704](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/63133d8704):
+
+  -  [ED-6200] Add defaultMarks attribute on tableCell schema
+
 ## 2.1.0
 - [minor] [0fea11af41](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0fea11af41):
 

@@ -1,5 +1,10 @@
 # @atlaskit/media-avatar-picker
 
+## 18.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/media-test-helpers@21.1.0
+  - @atlaskit/media-core@29.1.0
+
 ## 17.0.2
 - [patch] [730d7657fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/730d7657fc):
 

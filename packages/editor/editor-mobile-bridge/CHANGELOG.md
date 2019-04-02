@@ -1,5 +1,16 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.1.7
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/editor-core@107.0.0
+  - @atlaskit/renderer@45.0.0
+  - @atlaskit/emoji@59.0.0
+  - @atlaskit/editor-json-transformer@5.0.2
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/task-decision@14.0.1
+  - @atlaskit/media-core@29.1.0
+
 ## 7.1.6
 - Updated dependencies [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
   - @atlaskit/editor-core@106.7.3
