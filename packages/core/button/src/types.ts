@@ -19,18 +19,12 @@ export interface ButtonProps {
   className?: string;
   /** A custom component to use instead of the default button */
   component?: React.ComponentType<ButtonProps>;
-  /** Name property of a linked form that the button submits when clicked */
-  form?: string;
   /** Provides a url for buttons being used as a link */
   href?: string;
   /** Places an icon within the button, after the button's text */
   iconAfter?: React.ReactChild;
   /** Places an icon within the button, before the button's text */
   iconBefore?: React.ReactChild;
-  /** Pass a reference on to the button component */
-  innerRef?: React.Ref<HTMLElement | any | undefined>;
-  /** Provide a unique id to the button */
-  id?: string;
   /** Set if the button is disabled */
   isDisabled?: boolean;
   /**
@@ -56,12 +50,8 @@ export interface ButtonProps {
   onFocus?: React.FocusEventHandler<HTMLElement>;
   /** Set the amount of padding in the button */
   spacing?: Spacing;
-  /** Assign specific tabIndex order to the underlying html button */
-  tabIndex?: number;
   /** Pass target down to a link within the button component, if a href is provided */
   target?: string;
-  /** Set whether it is a button or a form submission */
-  type?: 'button' | 'submit' | 'reset';
   /** Option to fit button width to its parent width */
   shouldFitContainer?: boolean;
   /** Pass in a custom theme */
@@ -69,15 +59,6 @@ export interface ButtonProps {
     current: (props: ThemeProps) => ThemeTokens,
     props: ThemeProps,
   ) => ThemeTokens;
-  /** DEPRECATED */
-  /** Pass aria-controls to underlying html button */
-  ariaControls?: string;
-  /** Pass aria-expanded to underlying html button */
-  ariaExpanded?: boolean;
-  /** Pass aria-label to underlying html button */
-  ariaLabel?: string;
-  /** Pass aria-haspopup to underlying html button */
-  ariaHaspopup?: boolean;
 }
 
 export type Spacing = 'compact' | 'default' | 'none';
@@ -93,7 +74,6 @@ export type ThemeMode = 'dark' | 'light';
 
 export type ThemeTokens = {
   buttonStyles: Object;
-  iconStyles: Object;
   spinnerStyles: Object;
 };
 
@@ -105,7 +85,6 @@ export interface ThemeProps extends Partial<ButtonProps> {
 
 export type IconProps = {
   spacing: string;
-  styles: any; // Needs to be CSSObject?
   isOnlyChild: boolean;
   isLoading?: boolean;
   icon: React.ReactChild;

@@ -95,17 +95,3 @@ export function hex2rgba(hex: string, alpha = 1) {
 
   throw new Error('Bad Hex');
 }
-
-export const checkDeprecations = ({
-  ariaControls,
-  ariaExpanded,
-  ariaLabel,
-  ariaHaspopup,
-}: ButtonProps) => {
-  if (ariaControls || ariaExpanded || ariaLabel || ariaHaspopup) {
-    // tslint:disable-next-line
-    console.warn(
-      'Button aria* props have been removed, please use the React ARIA props - https://goo.gl/Qnise1',
-    );
-  }
-};

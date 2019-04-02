@@ -11,7 +11,7 @@ import {
 } from '../version.json';
 import GlobalTheme from '@atlaskit/theme';
 import { Theme } from '../theme';
-import { mapAttributesToState, filterProps, checkDeprecations } from './utils';
+import { mapAttributesToState, filterProps } from './utils';
 import Content from './Content';
 import InnerWrapper from './InnerWrapper';
 import IconWrapper from './IconWrapper';
@@ -32,7 +32,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     isSelected: false,
     isLoading: false,
     spacing: 'default',
-    type: 'button',
     shouldFitContainer: false,
     autoFocus: false,
     theme: (current, props) => current(props),
@@ -51,7 +50,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (this.props.autoFocus && this.button instanceof HTMLButtonElement) {
       this.button.focus();
     }
-    checkDeprecations(this.props);
   }
 
   isInteractive = () => !this.props.isDisabled && !this.props.isLoading;
