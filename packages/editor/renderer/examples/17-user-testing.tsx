@@ -34,7 +34,7 @@ export default class ExampleRenderer extends React.Component {
                 justifyContent: 'flex-end',
               }}
             >
-              <Button tabIndex="-1" onClick={this.handleRedirect}>
+              <Button tabIndex={-1} onClick={this.handleRedirect}>
                 Edit
               </Button>
             </div>

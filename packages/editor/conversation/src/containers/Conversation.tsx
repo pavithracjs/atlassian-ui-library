@@ -190,7 +190,7 @@ class ConversationContainer extends React.Component<ContainerProps, any> {
 
     return (
       <Provider store={store}>
-        <ResourcedConversation {...props} localId={localId} />
+        <ResourcedConversation {...props as any} localId={localId} />
       </Provider>
     );
   }

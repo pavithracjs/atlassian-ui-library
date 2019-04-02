@@ -19,7 +19,7 @@ exports[`GlobalItem GlobalItemBase should render an item wrapper with the global
 `;
 
 exports[`GlobalItem GlobalItemBase should render the GlobalItem primitive 1`] = `
-<WithTheme(WithDefaultTheme(GlobalNavigationItemPrimitive))
+<WithTheme(GlobalNavigationItemPrimitive)
   icon={[Function]}
   isActive={false}
   isFocused={false}
@@ -38,7 +38,7 @@ exports[`GlobalItem should render correctly 1`] = `
     }
   }
 >
-  <WithAnalyticsEvents(WithTheme(WithDefaultTheme(GlobalItemBase)))
+  <WithAnalyticsEvents(WithTheme(GlobalItemBase))
     icon={[Function]}
   />
 </AnalyticsContext>

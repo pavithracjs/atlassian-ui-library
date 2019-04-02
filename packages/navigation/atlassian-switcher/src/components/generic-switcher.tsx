@@ -18,12 +18,12 @@ const getFeatures = (
 ) => {
   switch (product) {
     case Product.SITE_ADMIN:
+    case Product.TRUSTED_ADMIN:
+    case Product.HOME:
       return {
         xflow: true,
       };
-    case Product.HOME:
     case Product.PEOPLE:
-    case Product.TRUSTED_ADMIN:
     default:
       return {
         xflow: false,

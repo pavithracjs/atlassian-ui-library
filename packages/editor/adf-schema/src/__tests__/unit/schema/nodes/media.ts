@@ -10,7 +10,7 @@ import { fromHTML, toDOM, schema } from '../../../../../test-helpers';
 
 // Note: We can't use dom.dataset in jest until it's upgraded to use latest version
 //       of jsdom. In the meantime we can use this helper-method.
-const getDataSet = dom => {
+const getDataSet = (dom: HTMLElement) => {
   const dataSet = {} as MediaAttributes & {
     fileName: string;
     fileSize: string;
@@ -29,7 +29,7 @@ const getDataSet = dom => {
     const key = camelCaseToKebabCase(k).replace(/^__/, '');
     const value = dom.getAttribute(`data-${key}`);
     if (value) {
-      dataSet[k] = value;
+      dataSet[k as keyof typeof dataSet] = value;
     }
   });
 

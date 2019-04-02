@@ -1,5 +1,32 @@
 # @atlaskit/renderer
 
+## 45.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/media-filmstrip@31.0.0
+  - @atlaskit/editor-json-transformer@5.0.2
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/task-decision@14.0.1
+  - @atlaskit/util-data-test@11.1.5
+  - @atlaskit/media-test-helpers@21.1.0
+  - @atlaskit/media-core@29.1.0
+
+## 44.7.0
+- [minor] [001fa9a7d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/001fa9a7d0):
+
+  - render adf - email actions and decisions
+
+## 44.6.1
+- [patch] [106d046114](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/106d046114):
+
+  - Fix issue with media-viewer opening in CC on inline video player controlls clicked
+
+## 44.6.0
+- [minor] [1593822e4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1593822e4d):
+
+  - CS-857 Email renderer puts placeholders in place of extensions
+
 ## 44.5.0
 - [minor] [e6f58b1837](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6f58b1837):
 

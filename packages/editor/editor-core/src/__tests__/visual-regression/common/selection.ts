@@ -8,7 +8,7 @@ import { animationFrame } from '../../__helpers/page-objects/_editor';
 import { EditorTestCardProvider } from '../../../../../editor-test-helpers';
 
 describe('Danger for nested elements', () => {
-  let page;
+  let page: any;
   const cardProvider = new EditorTestCardProvider();
 
   describe(`Full page`, () => {

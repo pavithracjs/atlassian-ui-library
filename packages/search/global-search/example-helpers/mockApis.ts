@@ -52,14 +52,14 @@ function delay<T>(millis: number, value?: T): Promise<T> {
   );
 }
 
-function mockRecentApi(recentResponse) {
+function mockRecentApi(recentResponse: any) {
   fetchMock.get(new RegExp('/api/client/recent\\?'), recentResponse);
 }
 
 function mockConfluenceRecentApi({
   confluenceRecentPagesResponse,
   confluenceRecentSpacesResponse,
-}) {
+}: any) {
   fetchMock.get(
     new RegExp('/wiki/rest/recentlyviewed/1.0/recent/spaces\\?'),
     confluenceRecentSpacesResponse,
@@ -70,7 +70,7 @@ function mockConfluenceRecentApi({
   );
 }
 
-function mockCrossProductSearchApi(delayMs: number, queryMockSearch) {
+function mockCrossProductSearchApi(delayMs: number, queryMockSearch: any) {
   fetchMock.post(
     new RegExp('/quicksearch/v1'),
     (request: Request, options: Options) => {
@@ -83,7 +83,10 @@ function mockCrossProductSearchApi(delayMs: number, queryMockSearch) {
   );
 }
 
-function mockCrossProductExperimentApi(delayMs: number, queryMockExperiments) {
+function mockCrossProductExperimentApi(
+  delayMs: number,
+  queryMockExperiments: any,
+) {
   fetchMock.post(
     new RegExp('/experiment/v1'),
     (request: Request, options: Options) => {
@@ -96,7 +99,7 @@ function mockCrossProductExperimentApi(delayMs: number, queryMockExperiments) {
   );
 }
 
-function mockQuickNavApi(delayMs: number, queryMockQuickNav) {
+function mockQuickNavApi(delayMs: number, queryMockQuickNav: any) {
   fetchMock.mock(new RegExp('/quicknav/1'), (request: Request) => {
     const query = request.split('query=')[1];
     const results = queryMockQuickNav(query);
@@ -105,7 +108,7 @@ function mockQuickNavApi(delayMs: number, queryMockQuickNav) {
   });
 }
 
-function mockPeopleApi(delayMs: number, queryPeopleSearch) {
+function mockPeopleApi(delayMs: number, queryPeopleSearch: any) {
   fetchMock.post(
     new RegExp('/graphql'),
     (request: Request, options: Options) => {
@@ -119,17 +122,15 @@ function mockPeopleApi(delayMs: number, queryPeopleSearch) {
 }
 
 function mockJiraApi(delayMs: number, canSearchUsers: boolean) {
-  fetchMock.get(
-    new RegExp('rest/internal/2/productsearch/recent?'),
-    async request => delay(delayMs, jiraRecentResponseWithAttributes),
+  fetchMock.get(new RegExp('rest/internal/2/productsearch/recent?'), async () =>
+    delay(delayMs, jiraRecentResponseWithAttributes),
   );
 
   const permissionResponse = canSearchUsers
     ? permissionResponseWithUserPickerPermission
     : permissionResponseWithoutUserPickerPermission;
-  fetchMock.get(
-    '/rest/api/2/mypermissions?permissions=USER_PICKER',
-    async request => delay(delayMs, permissionResponse),
+  fetchMock.get('/rest/api/2/mypermissions?permissions=USER_PICKER', async () =>
+    delay(delayMs, permissionResponse),
   );
 }
 
