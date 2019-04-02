@@ -26,10 +26,7 @@ export const MOCK_USERS: User[] = [
     id: 'ari:cloud:identity::user/3f000e23-3588-4e5d-aa4b-99mock_user10',
     name: 'Former User',
     avatarUrl: 'https://api.adorable.io/avatars/80/formeruser.png',
-    state: {
-      text: 'Deactivated',
-      type: 'default',
-    },
+    type: 'Deactivated',
   },
   {
     id: '',
@@ -177,7 +174,7 @@ export const generateMockConversation = (): Conversation => {
         commentId: commentId,
         conversationId,
         createdBy:
-          MOCK_USERS[Math.floor(Math.random() * 10) % (MOCK_USERS.length - 2)],
+          MOCK_USERS[Math.floor(Math.random() * 10) % (MOCK_USERS.length - 1)],
         createdAt: Date.now(),
         document: {
           adf: {

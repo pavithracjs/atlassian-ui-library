@@ -4,7 +4,6 @@ import AkComment, {
   CommentAuthor,
   CommentTime,
 } from '@atlaskit/comment';
-import AkLozenge from '@atlaskit/lozenge';
 import { WithProviders } from '@atlaskit/editor-common';
 import { ConnectedReactionsView } from '@atlaskit/reactions';
 import { ReactRenderer } from '@atlaskit/renderer';
@@ -510,12 +509,7 @@ export default class Comment extends React.Component<Props, State> {
         onClick={onUserClick && this.handleUserClick(createdBy)}
         href={onUserClick ? '#' : createdBy.profileUrl}
       >
-        {createdBy && createdBy.name}{' '}
-        {createdBy.state && (
-          <AkLozenge appearance={createdBy.state.type || 'default'}>
-            {createdBy.state.text}
-          </AkLozenge>
-        )}
+        {createdBy && createdBy.name}
       </CommentAuthor>
     );
   }
@@ -554,7 +548,6 @@ export default class Comment extends React.Component<Props, State> {
     const commentId = disableScrollTo
       ? undefined
       : `comment-${comment.commentId}`;
-    6;
 
     return (
       <AkComment
@@ -568,6 +561,7 @@ export default class Comment extends React.Component<Props, State> {
             enableTooltip={true}
           />
         }
+        type={createdBy && createdBy.type}
         time={
           <CommentTime
             onClick={this.handleTimeClick}

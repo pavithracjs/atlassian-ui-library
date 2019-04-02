@@ -1,12 +1,7 @@
-export type StateType = 'default' | 'new' | 'removed';
-
 export interface User {
   id: string; // User ARI
   avatarUrl?: string; // URL for the user's avatar
   name?: string; // User's name
   profileUrl?: string; // Link to the user's profile
-  state?: {
-    text: string;
-    type?: StateType;
-  };
+  type?: string;
 }
