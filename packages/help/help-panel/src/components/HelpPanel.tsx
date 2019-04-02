@@ -1,4 +1,9 @@
 import * as React from 'react';
+import {
+  defaultAttributes,
+  withAnalyticsContext,
+  withAnalyticsEvents,
+} from '../analytics';
 
 import { HelpContextProvider } from './HelpContext';
 import GlobalHelpContent from './HelpPanelContent';
@@ -39,4 +44,6 @@ export class HelpPanel extends React.Component<Props> {
   }
 }
 
-export default HelpPanel;
+export default withAnalyticsContext(defaultAttributes)(
+  withAnalyticsEvents()(HelpPanel),
+);

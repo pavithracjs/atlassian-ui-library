@@ -1,6 +1,5 @@
 import * as React from 'react';
 import CloseButton from './CloseButton';
-import { withAnalytics } from '@atlaskit/analytics';
 import ArrowleftIcon from '@atlaskit/icon/glyph/arrow-left';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 
@@ -78,4 +77,4 @@ export const HelpPanelContent = (
   );
 };
 
-export default withAnalytics(withHelp(injectIntl(HelpPanelContent)), {}, {});
+export default withHelp(injectIntl(HelpPanelContent));

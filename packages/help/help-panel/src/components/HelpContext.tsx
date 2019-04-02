@@ -1,4 +1,7 @@
 import React, { createContext } from 'react';
+import { createAndFire, withAnalyticsEvents } from '../analytics';
+
+import { Analytics } from '../model/Analytics';
 import { Article, ArticleItem } from '../model/Article';
 import { REQUEST_STATE } from '../model/Resquests';
 
@@ -82,7 +85,10 @@ const initialiseHelpData = data => {
 
 const HelpContext = createContext<Partial<HelpContextInterface>>({});
 
-export class HelpContextProvider extends React.Component<Props, State> {
+class HelpContextProviderImplementation extends React.Component<
+  Props & Analytics,
+  State
+> {
   constructor(props) {
     super(props);
 
@@ -90,7 +96,10 @@ export class HelpContextProvider extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    window.history.pushState = function(this: HelpContextProvider, e) {
+    window.history.pushState = function(
+      this: HelpContextProviderImplementation,
+      e,
+    ) {
       PUSH_STATE.apply(window.history, arguments);
       this.onUrlChange(window.location);
     }.bind(this);
@@ -98,6 +107,12 @@ export class HelpContextProvider extends React.Component<Props, State> {
 
   async componentDidUpdate(prevProps) {
     const { articleId } = this.props;
+
+    if (this.props.isOpen && this.props.isOpen !== prevProps.isOpen) {
+      createAndFire({
+        action: 'help-panel-open',
+      })(this.props.createAnalyticsEvent);
+    }
     // When the drawer goes from close to open
     // and the articleId is defined, get the content of that article
     if (this.props.isOpen !== prevProps.isOpen && articleId) {
@@ -164,9 +179,17 @@ export class HelpContextProvider extends React.Component<Props, State> {
 
   navigateBack = async () => {
     if (this.state.history.length > 0 && this.state.history !== undefined) {
-      this.setState(prevState => ({
-        history: [...prevState.history.slice(0, -1)],
-      }));
+      this.setState(prevState => {
+        const newState = { history: [...prevState.history.slice(0, -1)] };
+        const id = newState.history[newState.history.length - 1].id;
+
+        createAndFire({
+          action: 'help-panel-article-changed',
+          attributes: { id },
+        })(this.props.createAnalyticsEvent);
+
+        return newState;
+      });
     }
   };
 
@@ -176,6 +199,11 @@ export class HelpContextProvider extends React.Component<Props, State> {
       this.setState(prevState => ({
         history: [...prevState.history, article],
       }));
+
+      createAndFire({
+        action: 'help-panel-article-changed',
+        attributes: { id },
+      })(this.props.createAnalyticsEvent);
     }
   };
 
@@ -215,26 +243,11 @@ export class HelpContextProvider extends React.Component<Props, State> {
   }
 }
 
+export const HelpContextProvider = withAnalyticsEvents()(
+  HelpContextProviderImplementation,
+);
+
 export const HelpContextConsumer = HelpContext.Consumer;
-
-// export const withHelp = <P extends Object>(
-//   WrappedComponent: React.ComponentType<P>,
-// ) => {
-//   return class ComponentWithHelp extends React.PureComponent<P & HelpContextInterface> {
-//     static displayName = `withHelp(${WrappedComponent.displayName ||
-//       WrappedComponent.name})`;
-
-//     render() {
-//       return (
-//         <HelpContext.Consumer>
-//            {({ help }) => {
-//             return <WrappedComponent {...this.props} help={help} />;
-//            }}
-//         </HelpContext.Consumer>
-//       );
-//     }
-//   };
-// };
 
 export const withHelp = <P extends Object>(
   WrappedComponent: React.ComponentType<P>,
