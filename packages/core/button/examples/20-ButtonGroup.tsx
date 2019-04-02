@@ -8,18 +8,10 @@ const Row = (props: React.HTMLProps<HTMLDivElement>) => (
 export default () => (
   <Row>
     <Row>
-      <ButtonGroup>
-        <Button appearance="primary">First Button</Button>
-        <Button appearance="default">Second Button</Button>
-        <Button appearance="warning">Third Button</Button>
-        <Button appearance="link">Fourth Button</Button>
-      </ButtonGroup>
-    </Row>
-    <Row>
       <ButtonGroup appearance="primary">
-        <Button>Angular</Button>
-        <Button>Ember</Button>
-        <Button>React</Button>
+        <Button>First Button</Button>
+        <Button>Second Button</Button>
+        <Button>Third Button</Button>
       </ButtonGroup>
     </Row>
   </Row>
