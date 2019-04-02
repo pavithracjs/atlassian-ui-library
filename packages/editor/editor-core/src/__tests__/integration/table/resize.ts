@@ -16,6 +16,7 @@ import {
   tableWithRowSpanAndColSpan,
   twoColFullWidthTableWithContent,
   tableWithDynamicLayoutSizing,
+  tableInsideColumns,
 } from './__fixtures__/resize-documents';
 import { tableWithMinWidthColumnsDocument } from './__fixtures__/table-with-min-width-columns-document';
 
@@ -175,6 +176,28 @@ BrowserTestCase(
         advanced: true,
       },
       allowDynamicTextSizing: true,
+    });
+
+    await resizeColumn(page, { cellHandlePos: 10, resizeWidth: -100 });
+
+    const doc = await page.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  'Can resize the last column when table is nested in Columns',
+  { skip: ['ie', 'firefox', 'safari', 'edge'] },
+  async (client: any, testName: string) => {
+    const page = await goToEditorTestingExample(client);
+
+    await mountEditor(page, {
+      appearance: fullpage.appearance,
+      defaultValue: JSON.stringify(tableInsideColumns),
+      allowTables: {
+        advanced: true,
+      },
+      allowLayouts: true,
     });
 
     await resizeColumn(page, { cellHandlePos: 10, resizeWidth: -100 });
