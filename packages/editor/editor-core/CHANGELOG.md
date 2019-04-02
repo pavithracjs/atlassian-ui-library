@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.3.3
+- [patch] [92c8c14019](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92c8c14019):
+
+  - ED-6492: Fixed media single without dimensions not rendering on mobile
+
 ## 107.3.2
 - [patch] [3d0da81a4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d0da81a4b):
 

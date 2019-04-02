@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.1.8
+- [patch] [92c8c14019](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92c8c14019):
+
+  - ED-6492: Fixed media single without dimensions not rendering on mobile
+
 ## 7.1.7
 - Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
   - @atlaskit/editor-common@36.0.0
