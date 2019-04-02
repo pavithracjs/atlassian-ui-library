@@ -1,1 +1,0 @@
-- ED-5850 Add fallback icon and fix SVG ids

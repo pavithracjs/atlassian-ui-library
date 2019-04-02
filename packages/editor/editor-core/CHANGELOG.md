@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.5.0
+- [minor] [81491bbc4e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/81491bbc4e):
+
+  - ED-5850 Add fallback icon and fix SVG ids
+
 ## 107.4.0
 - [minor] [60a89f843f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60a89f843f):
 
