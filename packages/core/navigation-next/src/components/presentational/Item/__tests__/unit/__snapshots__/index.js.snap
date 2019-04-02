@@ -7,7 +7,7 @@ exports[`Item ItemBase should render an InteractionStateManager 1`] = `
 `;
 
 exports[`Item ItemBase should render the Item primitive 1`] = `
-<WithTheme(ItemPrimitive)
+<WithTheme(WithDefaultTheme(ItemPrimitive))
   isActive={false}
   isFocused={false}
   isHover={false}
