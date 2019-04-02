@@ -157,7 +157,6 @@ class ExampleEditorComponent extends React.Component<
               quickInsert={{ provider: Promise.resolve(quickInsertProvider) }}
               allowCodeBlocks={{ enableKeybindingsForIDE: true }}
               allowLists={true}
-              gap
               allowTextColor={true}
               allowTables={{
                 advanced: true,
