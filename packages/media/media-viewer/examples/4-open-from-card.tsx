@@ -7,6 +7,7 @@ import {
   imageFileId,
   docFileId,
   animatedFileId,
+  defaultCollectionName,
 } from '@atlaskit/media-test-helpers';
 
 const context = createStorybookContext();
@@ -34,6 +35,13 @@ export default () => (
       context={context}
       identifier={externalImageIdentifier}
       mediaViewerDataSource={{ list: listWithoutCurrentIdentifier }}
+    />
+    <h1>With collection data source</h1>
+    <Card
+      shouldOpenMediaViewer
+      context={context}
+      identifier={externalImageIdentifier}
+      mediaViewerDataSource={{ collectionName: defaultCollectionName }}
     />
   </div>
 );

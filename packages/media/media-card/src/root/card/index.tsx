@@ -35,7 +35,6 @@ import { extendMetadata } from '../../utils/metadata';
 import { isBigger } from '../../utils/dimensionComparer';
 import { getCardStatus } from './getCardStatus';
 import { InlinePlayer } from '../inlinePlayer';
-import { getSelectedIndex } from '../../../../media-viewer/src/newgen/utils';
 
 export class Card extends Component<CardProps, CardState> {
   private hasBeenMounted: boolean = false;
@@ -375,41 +374,9 @@ export class Card extends Component<CardProps, CardState> {
     });
   };
 
-  // returns a valid MV data source including current the card identifier
-  getMediaViewerDataSource = (): MediaViewerDataSource => {
-    const { mediaViewerDataSource } = this.props;
-    const { mediaViewerSelectedItem } = this.state;
-
-    if (!mediaViewerSelectedItem) {
-      return {
-        list: [],
-      };
-    }
-
-    if (!mediaViewerDataSource) {
-      return {
-        list: [mediaViewerSelectedItem],
-      };
-    }
-
-    // we want to ensure the card identifier is in the list
-    const { list } = mediaViewerDataSource;
-    if (list && list.length) {
-      const selectedItemIndex = getSelectedIndex(list, mediaViewerSelectedItem);
-
-      if (selectedItemIndex === -1) {
-        return {
-          list: [mediaViewerSelectedItem, ...list],
-        };
-      }
-    }
-
-    return mediaViewerDataSource;
-  };
-
   renderMediaViewer = () => {
     const { mediaViewerSelectedItem } = this.state;
-    const { context, identifier } = this.props;
+    const { context, identifier, mediaViewerDataSource } = this.props;
     if (!mediaViewerSelectedItem) {
       return;
     }
@@ -417,7 +384,9 @@ export class Card extends Component<CardProps, CardState> {
     const collectionName = isFileIdentifier(identifier)
       ? identifier.collectionName || ''
       : '';
-    const dataSource = this.getMediaViewerDataSource();
+    const dataSource: MediaViewerDataSource = mediaViewerDataSource || {
+      list: [],
+    };
 
     return ReactDOM.createPortal(
       <MediaViewer

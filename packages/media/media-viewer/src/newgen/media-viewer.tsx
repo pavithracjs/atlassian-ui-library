@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ComponentClass } from 'react';
 import { Context, Identifier } from '@atlaskit/media-core';
 import { IntlProvider, intlShape } from 'react-intl';
 import { ThemeProvider } from 'styled-components';
@@ -17,15 +18,13 @@ import { Collection } from './collection';
 import { Content } from './content';
 import { Blanket } from './styled';
 
-export type Props = Readonly<
-  {
-    onClose?: () => void;
-    selectedItem?: Identifier;
-    featureFlags?: MediaViewerFeatureFlags;
-    context: Context;
-    itemSource: ItemSource;
-  } & WithAnalyticsEventProps
->;
+export type Props = {
+  onClose?: () => void;
+  selectedItem?: Identifier;
+  featureFlags?: MediaViewerFeatureFlags;
+  context: Context;
+  itemSource: ItemSource;
+} & WithAnalyticsEventProps;
 
 class MediaViewerComponent extends React.Component<Props, {}> {
   static contextTypes = {
@@ -102,4 +101,6 @@ class MediaViewerComponent extends React.Component<Props, {}> {
   }
 }
 
-export const MediaViewer = withAnalyticsEvents()(MediaViewerComponent);
+export const MediaViewer = withAnalyticsEvents()(
+  MediaViewerComponent,
+) as ComponentClass<Props>;
