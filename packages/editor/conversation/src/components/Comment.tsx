@@ -4,6 +4,7 @@ import AkComment, {
   CommentAuthor,
   CommentTime,
 } from '@atlaskit/comment';
+import AkLozenge from '@atlaskit/lozenge';
 import { WithProviders } from '@atlaskit/editor-common';
 import { ConnectedReactionsView } from '@atlaskit/reactions';
 import { ReactRenderer } from '@atlaskit/renderer';
@@ -385,29 +386,7 @@ export default class Comment extends React.Component<Props, State> {
   }
 
   private renderComments() {
-    const {
-      comments,
-      conversationId,
-      user,
-      onUserClick,
-      dataProviders,
-      onAddComment,
-      onUpdateComment,
-      onDeleteComment,
-      onRevertComment,
-      onHighlightComment,
-      onRetry,
-      onCancel,
-      renderEditor,
-      objectId,
-      containerId,
-      disableScrollTo,
-      onEditorClose,
-      onEditorOpen,
-      onEditorChange,
-      sendAnalyticsEvent,
-      portal,
-    } = this.props;
+    const { comments, ...commentProps } = this.props;
 
     if (!comments || comments.length === 0) {
       return null;
@@ -417,27 +396,8 @@ export default class Comment extends React.Component<Props, State> {
       <CommentContainer
         key={child.localId}
         comment={child}
-        user={user}
-        conversationId={conversationId}
-        onAddComment={onAddComment}
-        onUpdateComment={onUpdateComment}
-        onDeleteComment={onDeleteComment}
-        onEditorClose={onEditorClose}
-        onEditorOpen={onEditorOpen}
-        onEditorChange={onEditorChange}
-        onRevertComment={onRevertComment}
-        onHighlightComment={onHighlightComment}
-        onRetry={onRetry}
-        onCancel={onCancel}
-        onUserClick={onUserClick}
-        dataProviders={dataProviders}
         renderComment={props => <Comment {...props} />}
-        renderEditor={renderEditor}
-        objectId={objectId}
-        containerId={containerId}
-        disableScrollTo={disableScrollTo}
-        sendAnalyticsEvent={sendAnalyticsEvent}
-        portal={portal}
+        {...commentProps}
       />
     ));
   }
@@ -541,8 +501,27 @@ export default class Comment extends React.Component<Props, State> {
     }
   };
 
+  private renderAuthor() {
+    const { comment, onUserClick } = this.props;
+    const { createdBy } = comment;
+
+    return (
+      <CommentAuthor
+        onClick={onUserClick && this.handleUserClick(createdBy)}
+        href={onUserClick ? '#' : createdBy.profileUrl}
+      >
+        {createdBy && createdBy.name}{' '}
+        {createdBy.state && (
+          <AkLozenge appearance={createdBy.state.type || 'default'}>
+            {createdBy.state.text}
+          </AkLozenge>
+        )}
+      </CommentAuthor>
+    );
+  }
+
   render() {
-    const { comment, onUserClick, isHighlighted, disableScrollTo } = this.props;
+    const { comment, isHighlighted, disableScrollTo } = this.props;
     const { createdBy, state: commentState, error } = comment;
     const errorProps: {
       actions?: any[];
@@ -575,24 +554,12 @@ export default class Comment extends React.Component<Props, State> {
     const commentId = disableScrollTo
       ? undefined
       : `comment-${comment.commentId}`;
+    6;
 
     return (
       <AkComment
         id={commentId}
-        author={
-          // Render with onClick/href if they're supplied
-          onUserClick || createdBy.profileUrl ? (
-            <CommentAuthor
-              onClick={this.handleUserClick(createdBy)}
-              href={createdBy.profileUrl || '#'}
-            >
-              {createdBy && createdBy.name}
-            </CommentAuthor>
-          ) : (
-            // Otherwise just render text
-            <CommentAuthor>{createdBy && createdBy.name}</CommentAuthor>
-          )
-        }
+        author={this.renderAuthor()}
         avatar={
           <AkAvatar
             src={createdBy && createdBy.avatarUrl}

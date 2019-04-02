@@ -23,6 +23,15 @@ export const MOCK_USERS: User[] = [
     avatarUrl: 'https://api.adorable.io/avatars/80/awesomeperson.png',
   },
   {
+    id: 'ari:cloud:identity::user/3f000e23-3588-4e5d-aa4b-99mock_user10',
+    name: 'Former User',
+    avatarUrl: 'https://api.adorable.io/avatars/80/formeruser.png',
+    state: {
+      text: 'Deactivated',
+      type: 'default',
+    },
+  },
+  {
     id: '',
     name: 'Undefined',
   },
