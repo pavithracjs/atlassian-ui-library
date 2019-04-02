@@ -1,6 +1,11 @@
 import { getExampleUrl } from '@atlaskit/visual-regression/helper';
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
+import {
+  disableAllAnimations,
+  disableCaretCursor,
+  disableAllTransitions,
+} from '../__helpers/page-objects/_page';
 
 export {
   setupMediaMocksProviders,
@@ -171,6 +176,12 @@ export const initEditorWithAdf = async (
     // We don't have to load the already existing page
     await page.goto(url);
   }
+
+  // We disable possible side effects, like animation, transitions and caret cursor,
+  // because we cannot control and affect snapshots
+  await disableCaretCursor(page);
+  await disableAllAnimations(page);
+  await disableAllTransitions(page);
 
   // Set the viewport to the right one
   if (viewport) {

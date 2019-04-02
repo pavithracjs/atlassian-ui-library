@@ -8,6 +8,15 @@
 const glob = require('glob');
 const pageSelector = '#examples';
 
+async function disableCaretCursor(page) {
+  const css = `
+  * {
+    caret-color: transparent;
+  }
+  `;
+  await page.addStyleTag({ content: css });
+}
+
 async function disableAllTransitions(page) {
   const css = `
   * {
@@ -33,6 +42,7 @@ async function takeScreenShot(page /*:any*/, url /*:string*/) {
   await page.goto(url, { waitUntil: 'networkidle0' });
   await disableAllAnimations(page);
   await disableAllTransitions(page);
+  await disableCaretCursor(page);
   await page.mouse.move(9999, 9999);
   await page.waitForSelector(pageSelector);
 
