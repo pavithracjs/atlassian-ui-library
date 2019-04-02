@@ -6,7 +6,11 @@ import Tag from '../src';
 export default () => (
   <div>
     <Tag text="Base Tag" />
-    <Tag text="Avatar Before" elemBefore={<Avatar size="xsmall" />} />
+    <Tag
+      appearance="rounded"
+      text="Avatar Before"
+      elemBefore={<Avatar borderColor="transparent" size="xsmall" />}
+    />
     <Tag text="Linked Tag" href="/components/tag" />
     <Tag text="Rounded Tag" appearance="rounded" />
     <Tag text="Removable button" removeButtonText="Remove" />
