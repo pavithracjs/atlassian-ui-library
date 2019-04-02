@@ -1,6 +1,5 @@
 import { borderRadius, fontSize, gridSize } from '@atlaskit/theme';
 import { applyPropertyStyle, baseTheme } from '../theme';
-import { getLoadingStyle } from './utils';
 import { ThemeProps } from '../types';
 
 const compactButtonHeight = `${(gridSize() * 3) / fontSize()}em`;
@@ -125,26 +124,4 @@ export const getSpinnerStyles = () => ({
   left: '50%',
   top: '50%',
   transform: 'translate(-50%, -50%)',
-});
-
-/** Icon Margin */
-const getIconMargin = (props: ThemeProps) =>
-  props.spacing === 'none'
-    ? 0
-    : props.iconIsOnlyChild
-    ? `0 -${gridSize() / 4}px`
-    : `0 ${gridSize() / 2}px`;
-
-/**
- * ICON STYLES
- */
-export const getIconStyles = (props: ThemeProps) => ({
-  alignSelf: 'center',
-  display: 'flex',
-  flexShrink: 0,
-  lineHeight: 0,
-  fontSize: 0,
-  margin: getIconMargin(props),
-  userSelect: 'none',
-  ...getLoadingStyle(props),
 });

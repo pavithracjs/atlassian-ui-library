@@ -208,7 +208,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
                         isLoading={isLoading}
                         spacing={spacing}
                         isOnlyChild={iconIsOnlyChild}
-                        styles={iconStyles}
                         icon={iconBefore}
                       />
                     )}
@@ -226,7 +225,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
                         isLoading={isLoading}
                         spacing={spacing}
                         isOnlyChild={iconIsOnlyChild}
-                        styles={iconStyles}
                         icon={iconAfter}
                       />
                     )}
