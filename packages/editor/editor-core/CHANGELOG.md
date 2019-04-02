@@ -1,5 +1,11 @@
 # @atlaskit/editor-core
 
+## 107.5.1
+- [patch] [d26570e3b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d26570e3b5):
+
+  - Update i18n for team mention
+  - Fix a bug in team mention: missing https protocol in team link
+
 ## 107.5.0
 - [minor] [81491bbc4e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/81491bbc4e):
 
