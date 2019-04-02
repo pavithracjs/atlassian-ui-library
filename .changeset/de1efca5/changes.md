@@ -1,0 +1,1 @@
+- ED-6357: bridge.currentSelection() provides rectangle coords of selected link
