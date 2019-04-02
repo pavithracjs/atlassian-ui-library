@@ -1,0 +1,1 @@
+- ED-6492: Fixed media single without dimensions not rendering on mobile
