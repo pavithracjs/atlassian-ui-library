@@ -11,23 +11,34 @@ import {
   dispatchPasteEvent,
 } from '@atlaskit/editor-test-helpers';
 import codeBlockPlugin from '../../../../plugins/code-block';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { AnalyticsHandler } from '../../../../analytics';
 
 describe('hyperlink', () => {
   const createEditor = createEditorFactory();
+  let trackEvent: AnalyticsHandler;
+  let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
 
-  const editor = (doc: any, trackEvent?: () => {}) =>
-    createEditor({
+  const editor = (doc: any) => {
+    createAnalyticsEvent = jest.fn().mockReturnValue({ fire() {} });
+    return createEditor({
       doc,
       editorPlugins: [codeBlockPlugin()],
       editorProps: {
         analyticsHandler: trackEvent,
+        allowAnalyticsGASV3: true,
       },
+      createAnalyticsEvent,
     });
+  };
+
+  beforeEach(() => {
+    trackEvent = jest.fn();
+  });
 
   describe('input rules', () => {
     it('should convert "www.atlassian.com" to hyperlink', () => {
-      const trackEvent = jest.fn();
-      const { editorView, sel } = editor(doc(p('{<>}')), trackEvent);
+      const { editorView, sel } = editor(doc(p('{<>}')));
       insertText(editorView, 'www.atlassian.com ', sel, sel);
 
       const a = link({ href: 'http://www.atlassian.com' })('www.atlassian.com');
@@ -38,8 +49,7 @@ describe('hyperlink', () => {
     });
 
     it('should not convert a hash text to hyperlink', () => {
-      const trackEvent = jest.fn();
-      const { editorView, sel } = editor(doc(p('{<>}')), trackEvent);
+      const { editorView, sel } = editor(doc(p('{<>}')));
       insertText(editorView, '#test ', sel, sel);
       expect(editorView.state.doc).toEqualDocument(doc(p('#test ')));
     });
@@ -349,6 +359,32 @@ describe('hyperlink', () => {
       sendKeyToPm(editorView, 'Backspace');
       insertText(editorView, 'text', editorView.state.selection.from);
       expect(editorView.state.doc).toEqualDocument(doc(p('text')));
+    });
+  });
+
+  describe('should send analytics v3 events', () => {
+    it('for autoDetect', () => {
+      const { editorView, sel } = editor(doc(p('{<>}')));
+      insertText(editorView, 'www.atlassian.com ', sel, sel);
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'inserted',
+        actionSubject: 'document',
+        actionSubjectId: 'link',
+        attributes: { inputMethod: 'autoDetect' },
+        eventType: 'track',
+      });
+    });
+
+    it('for autoformatting', () => {
+      const { editorView, sel } = editor(doc(p('{<>}')));
+      insertText(editorView, '[text](http://foo)', sel, sel);
+      expect(createAnalyticsEvent).toHaveBeenCalledWith({
+        action: 'inserted',
+        actionSubject: 'document',
+        actionSubjectId: 'link',
+        attributes: { inputMethod: 'autoformatting' },
+        eventType: 'track',
+      });
     });
   });
 });

@@ -3,6 +3,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import Item, { ItemGroup, itemThemeNamespace } from '@atlaskit/item';
 import { colors, borderRadius, themed } from '@atlaskit/theme';
 import { TypeAheadItem } from '../types';
+import IconFallback from '../../quick-insert/assets/fallback';
 
 const itemTheme = {
   [itemThemeNamespace]: {
@@ -79,6 +80,10 @@ const KeyHint = styled.div`
   align-self: flex-end;
 `;
 
+const fallbackIcon = (label: string) => {
+  return <IconFallback label={label} />;
+};
+
 export type TypeAheadItemsListProps = {
   items?: Array<TypeAheadItem>;
   currentIndex: number;
@@ -143,7 +148,11 @@ export function TypeAheadItemsList({
               key={item.title}
               onClick={() => insertByIndex(index)}
               onMouseMove={() => setCurrentIndex(index)}
-              elemBefore={item.icon ? <ItemIcon>{item.icon()}</ItemIcon> : null}
+              elemBefore={
+                <ItemIcon>
+                  {item.icon ? item.icon() : fallbackIcon(item.title)}
+                </ItemIcon>
+              }
               isSelected={index === currentIndex}
               aria-describedby={item.title}
               ref={

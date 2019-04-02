@@ -1,5 +1,5 @@
-import { messages } from './components/i18n';
-import { CategoryId } from './components/picker/categories';
+import { messages } from '../components/i18n';
+import { CategoryId } from '../components/picker/categories';
 import { customCategory, dataURLPrefix } from './constants';
 import {
   EmojiDescription,
@@ -14,7 +14,7 @@ import {
   OptionalEmojiDescription,
   SpriteRepresentation,
   SpriteServiceRepresentation,
-} from './types';
+} from '../types';
 
 export const isSpriteServiceRepresentation = (
   rep: EmojiServiceRepresentation,

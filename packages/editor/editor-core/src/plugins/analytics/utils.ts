@@ -6,6 +6,9 @@ import { Command } from '../../types';
 import { InputRuleWithHandler } from '../../utils/input-rules';
 import { analyticsPluginKey } from './plugin';
 
+export type DispatchAnalyticsEvent = (payload: AnalyticsEventPayload) => void;
+export type HigherOrderCommand = (command: Command) => Command;
+
 export function addAnalytics(
   tr: Transaction,
   payload: AnalyticsEventPayload,
@@ -16,7 +19,6 @@ export function addAnalytics(
   return tr.setMeta(analyticsPluginKey, analyticsMeta);
 }
 
-export type HigherOrderCommand = (command: Command) => Command;
 export function withAnalytics(
   payload:
     | AnalyticsEventPayload

@@ -1,5 +1,45 @@
 # @atlaskit/editor-core
 
+## 107.6.0
+- [minor] [13d53eb7c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13d53eb7c9):
+
+  - ED-6604 Animate transition from default -> full-width mode and vice versa
+
+## 107.5.1
+- [patch] [d26570e3b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d26570e3b5):
+
+  - Update i18n for team mention
+  - Fix a bug in team mention: missing https protocol in team link
+
+## 107.5.0
+- [minor] [81491bbc4e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/81491bbc4e):
+
+  - ED-5850 Add fallback icon and fix SVG ids
+
+## 107.4.0
+- [minor] [60a89f843f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60a89f843f):
+
+  - ED-6598: Add initial prop for 'Full Width Mode'
+
+  You may now enable our new experimental feature 'Full Width Mode' by passing a new `fullWidthMode` prop.
+
+  This prop only takes effect on full-width appearence and this initial implementation is extremely raw as most nodes don't reflect their desired behaviour.
+
+  Example:
+  ```
+  <Editor appearence="full-width" fullWidthMode={true} />
+  ```
+
+## 107.3.3
+- [patch] [92c8c14019](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92c8c14019):
+
+  - ED-6492: Fixed media single without dimensions not rendering on mobile
+
+## 107.3.2
+- [patch] [3d0da81a4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d0da81a4b):
+
+  - ED-6583 Add analytics v3 for link inserts
+
 ## 107.3.1
 - [patch] [9f08142085](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f08142085):
 
