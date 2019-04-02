@@ -15,7 +15,7 @@ afterEach(() => {
  * Ticket: https://ecosystem.atlassian.net/browse/AK-6059
  */
 /* eslint-disable jest/no-disabled-tests */
-test.skip('should ssr then hydrate drawer correctly', async () => {
+test.skip('should ssr then hydrate form correctly', async () => {
   const [example] = await getExamplesFor('form');
   // $StringLitteral
   const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require

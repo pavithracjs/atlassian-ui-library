@@ -22,8 +22,6 @@ test.skip('should ssr then hydrate drawer correctly', async () => {
 
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);
-  console.log(elem.innerHTML);
-  console.log(elem.innerHTML);
 
   ReactDOM.hydrate(<Example />, elem);
   expect(console.error).not.toBeCalled(); // eslint-disable-line no-console
