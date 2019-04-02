@@ -149,7 +149,6 @@ export class MemoryCacheStrategy implements EmojiCacheStrategy {
     }
 
     const { mediaPath } = representation;
-    console.log('get mediaPath');
     const dataURL = this.dataURLCache.get(mediaPath);
     if (dataURL) {
       // Already cached
@@ -162,7 +161,6 @@ export class MemoryCacheStrategy implements EmojiCacheStrategy {
       .then(dataURL => {
         const loadedEmoji = convertMediaToImageEmoji(emoji, dataURL, useAlt);
         if (dataURL.length <= maxImageSize) {
-          console.log('set mediaPath');
           // Only cache if not large than max size
           this.dataURLCache.set(mediaPath, dataURL);
         } else {
