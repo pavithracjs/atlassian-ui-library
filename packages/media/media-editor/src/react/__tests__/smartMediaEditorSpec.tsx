@@ -246,6 +246,7 @@ describe('Smart Media Editor', () => {
             {
               fileId: 'uuid1',
               collection: fileIdentifier.collectionName,
+              occurrenceKey: 'uuid2',
             },
           ],
           fileIdentifier.collectionName,
@@ -254,13 +255,13 @@ describe('Smart Media Editor', () => {
         // Then we call upload
         const expectedUploadableFile: UploadableFile = {
           content: 'some-image-content',
-          name: 'some-name',
+          name: 'some-name.png',
           collection: fileIdentifier.collectionName,
         };
         const expectedUploadableFileUpfrontIds: UploadableFileUpfrontIds = {
           id: 'uuid1',
           deferredUploadId: expect.anything(),
-          occurrenceKey: 'some-occurrence-key',
+          occurrenceKey: 'uuid2',
         };
         expectFunctionToHaveBeenCalledWith(context.file.upload, [
           expectedUploadableFile,
@@ -279,6 +280,7 @@ describe('Smart Media Editor', () => {
             mediaItemType: 'file',
             id: 'uuid1',
             collectionName: fileIdentifier.collectionName,
+            occurrenceKey: 'uuid2',
           },
           {
             width: 200,
