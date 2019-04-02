@@ -415,7 +415,7 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
                 - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="2" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+                - STEPS="2" STEP_IDX="0" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
           
           - step:
               name: Editor unit tests - Running Jest 2 of 2 chunks
@@ -424,7 +424,7 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
                 - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="2" STEP_IDX="2" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+                - STEPS="2" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
                 
           - step:
               name: Non Editor unit tests
