@@ -10,12 +10,6 @@ import PresenceResource, {
   PresenceProvider,
   AbstractPresenceResource,
 } from './api/PresenceResource';
-import MentionItem from './components/MentionItem';
-import MentionList from './components/MentionList';
-import ResourcedMentionList from './components/ResourcedMentionList';
-import { MentionPickerWithAnalytics as MentionPicker } from './components/MentionPicker';
-import Mention from './components/Mention';
-import ResourcedMention from './components/Mention/ResourcedMention';
 import {
   MentionDescription,
   MentionsResult,
@@ -43,17 +37,8 @@ export {
   MentionStats,
   TeamMember,
   MentionResourceConfig,
-  // Components
-  MentionItem,
-  MentionList,
-  ResourcedMentionList,
-  MentionPicker,
-  Mention,
-  ResourcedMention,
   // Functions
   isSpecialMention,
   // Constants
   ELEMENTS_CHANNEL,
 };
-
-export default MentionPicker;
