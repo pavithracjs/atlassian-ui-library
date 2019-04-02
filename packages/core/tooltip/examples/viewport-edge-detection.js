@@ -129,7 +129,7 @@ export default class PositionExample extends Component<Props, State> {
     const tooltipPosition = positionType === 'standard' ? position : 'mouse';
     const mousePosition = positionType === 'mouse' ? position : undefined;
 
-    /* eslint-disable jsx-a11y/no-static-element-interactions */
+    /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
     return (
       <ContainerDiv>
         <CenterDiv>

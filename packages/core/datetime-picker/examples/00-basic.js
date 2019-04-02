@@ -69,7 +69,7 @@ class Controlled extends Component<Props, State> {
 
   render() {
     return (
-      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+      // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
       <div onClick={this.handleClick}>
         {this.props.children({
           value: this.state.value,

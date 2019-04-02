@@ -20,6 +20,7 @@ const withTheme = <P: {}, C: ComponentType<P>>(
   return WrappedComponent => {
     return class WithTheme extends Component<*, State> {
       static contextTypes = {
+        // eslint-disable-next-line react/forbid-prop-types
         [channel]: PropTypes.object,
       };
 

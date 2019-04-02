@@ -142,14 +142,9 @@ class Tooltip extends Component<Props, State> {
   };
 
   wrapperRef: HTMLElement | null;
-
   targetRef: HTMLElement | null;
-
   fakeMouseElement: FakeMouseElement | null;
-
-  cancelPendingSetState = () => {};
-
-  // set in mouseover/mouseout handlers
+  cancelPendingSetState = () => {}; // set in mouseover/mouseout handlers
   state = {
     immediatelyHide: false,
     immediatelyShow: false,

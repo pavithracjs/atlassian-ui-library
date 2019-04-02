@@ -45,25 +45,13 @@
     "react/no-unescaped-entities": "off",
     "react/button-has-type": "off",
     "react/no-access-state-in-setstate":"off",
-    "react/no-unused-state":"off",
-    "react/prop-types": "off",
-    "react/no-multi-comp": "off",
-    "react/no-typos":"off",
-    "react/forbid-prop-types":"off",
-    "react/no-array-index-key":"off",
-    "react/no-unused-prop-types":"warn", 
-
+    "react/no-multi-comp": [true, { "ignoreStateless": false }],
+    "react/forbid-prop-types": ["on", { "forbid": ["any","array"], "checkContextTypes": true, "checkChildContextTypes": true }],
+    "react/prop-types": [2, { "ignore": ["children"] }],
+    // Form components require update to enable this rule
     "jsx-a11y/label-has-for": "off",
     "jsx-a11y/label-has-associated-control":"off",
-    "jsx-a11y/click-events-have-key-events":"off",
-    "jsx-a11y/mouse-events-have-key-events":"off",
-    "jsx-a11y/anchor-is-valid":"off",
-
-    "prefer-destructuring":"warn",
-    "no-console":"warn",
-    "prefer-promise-reject-errors":"warn",
     "no-restricted-globals": ["error", "event", "fdescribe"],
-    // till here 
 
     "flowtype/require-valid-file-annotation": [2, "always", { "annotationStyle": "line" }],
     "flowtype/define-flow-type": 1,

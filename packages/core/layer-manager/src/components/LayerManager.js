@@ -19,6 +19,7 @@ type State = { ariaHiddenNode?: HTMLElement };
 export default class LayerManager extends Component<Props, State> {
   state = { ariaHiddenNode: undefined };
 
+  // eslint-disable-next-line react/forbid-prop-types
   static childContextTypes: Object = { ariaHiddenNode: PropTypes.object };
 
   getChildContext() {

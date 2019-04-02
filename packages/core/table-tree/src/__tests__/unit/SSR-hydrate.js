@@ -55,5 +55,7 @@ test.skip('should ssr then hydrate table-tree correctly', () => {
   const elem = document.createElement('div');
   elem.innerHTML = serverHTML;
   expect(() => ReactDOM.hydrate(<App />, elem)).not.toThrow();
+
+  // eslint-disable-next-line no-console
   expect(console.error).not.toBeCalled();
 });

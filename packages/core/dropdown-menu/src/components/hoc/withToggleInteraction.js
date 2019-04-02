@@ -38,6 +38,7 @@ const withToggleInteraction = (
     };
 
     static contextTypes = {
+      // eslint-disable-next-line react/forbid-prop-types
       [selectionManagerContext]: PropTypes.object.isRequired,
     };
 

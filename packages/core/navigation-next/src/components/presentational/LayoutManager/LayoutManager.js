@@ -194,6 +194,7 @@ export default class LayoutManager extends Component<
     const dataset = datasets ? datasets.globalNavigation : {};
 
     return (
+      /* eslint-disable jsx-a11y/mouse-events-have-key-events */
       <div
         {...dataset}
         onMouseOver={
@@ -253,6 +254,7 @@ export default class LayoutManager extends Component<
           product={productNavigation}
         />
         {isCollapsed && !EXPERIMENTAL_FLYOUT_ON_HOVER ? (
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events
           <div
             aria-label="Click to expand the navigation"
             role="button"
@@ -344,6 +346,9 @@ export default class LayoutManager extends Component<
                 isCollapsed && EXPERIMENTAL_FLYOUT_ON_HOVER && !flyoutIsOpen
                   ? this.mouseOverFlyoutArea
                   : null;
+
+              /* eslint-disable jsx-a11y/mouse-events-have-key-events */
+
               return (
                 <NavigationContainer
                   {...dataset}

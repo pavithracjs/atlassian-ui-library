@@ -49,6 +49,8 @@ class InlineDialog extends Component<Props, {}> {
     }
   }
 
+  // TODO: eslint - Fix typo replace componentWillUnMount with componentWillUnmount
+  // eslint-disable-next-line react/no-typos
   componentWillUnMount() {
     if (typeof window === 'undefined') return;
 

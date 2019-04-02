@@ -29,5 +29,7 @@ test('should ssr then hydrate tag correctly', () => {
   const elem = document.createElement('div');
   elem.innerHTML = serverHTML;
   ReactDOM.hydrate(<App />, elem);
+
+  // eslint-disable-next-line no-console
   expect(console.error).not.toBeCalled();
 });

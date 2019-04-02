@@ -142,7 +142,7 @@ class HWithContext extends Component<HWithContextProps> {
 
     return (
       <Fragment>
-        {/* eslint-disable jsx-a11y/anchor-has-content */}
+        {/* eslint-disable jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */}
         <a name={slugify(children)} />
         <h2>{children}</h2>
       </Fragment>

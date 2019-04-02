@@ -38,6 +38,7 @@ export default class FocusLock extends Component<Props> {
 
   static contextTypes = {
     /** available when invoked within @atlaskit/layer-manager */
+    // eslint-disable-next-line react/forbid-prop-types
     ariaHiddenNode: PropTypes.object,
   };
 

@@ -190,6 +190,7 @@ type Props = {
   children: State => any,
   collapseToggleTooltipContent?: CollapseToggleTooltipContent,
   expandCollapseAffordanceRef: Ref<'button'>,
+  // eslint-disable-next-line react/no-unused-prop-types
   experimental_flyoutOnHover: boolean,
   flyoutIsOpen: boolean,
   isDisabled: boolean,

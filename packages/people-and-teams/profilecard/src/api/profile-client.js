@@ -95,17 +95,21 @@ const requestService = (serviceUrl, cloudId, userId): Promise<any> => {
     }),
   ).then(response => {
     if (!response.ok) {
-      return Promise.reject({
-        code: response.status,
-        reason: response.statusText,
-      });
+      return Promise.reject(
+        new Error({
+          code: response.status,
+          reason: response.statusText,
+        }),
+      );
     }
 
     return response.json().then(json => {
       if (json.errors) {
-        return Promise.reject({
-          reason: json.errors[0].category || 'default',
-        });
+        return Promise.reject(
+          new Error({
+            reason: json.errors[0].category || 'default',
+          }),
+        );
       }
 
       return modifyResponse(json.data);

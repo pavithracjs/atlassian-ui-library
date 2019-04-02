@@ -16,13 +16,13 @@ export default function getMockProfileClient(
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           if (error) {
-            return reject({ reason: error });
+            return reject(new Error({ reason: error }));
           }
 
           const profile = profiles[userId];
 
           if (!profile) {
-            return reject({ reason: 'default' });
+            return reject(new Error('default'));
           }
 
           const weekday = getWeekday();
