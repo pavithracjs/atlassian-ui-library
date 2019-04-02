@@ -5,12 +5,7 @@ import Question from '@atlaskit/icon/glyph/question';
 import Expand from '@atlaskit/icon/glyph/arrow-down';
 import Unlink from '@atlaskit/icon/glyph/editor/unlink';
 import Open from '@atlaskit/icon/glyph/editor/open';
-
-import Button, {
-  ButtonProps,
-  ButtonAppearances,
-  filterHTMLAttributes,
-} from '../src';
+import Button, { ButtonAppearances } from '../src';
 
 const css = `
   .container {
@@ -37,12 +32,11 @@ const css = `
   }
 `;
 
-class CustomComponent extends React.Component<ButtonProps, {}> {
-  render() {
-    const { children, innerRef, ...props } = this.props;
-    return <div {...filterHTMLAttributes(props)}>{children}</div>;
-  }
-}
+const CustomComponent = React.forwardRef<HTMLDivElement, {}>((props, ref) => (
+  <div {...props} ref={ref}>
+    {props.children}
+  </div>
+));
 
 const BuildStory = (props: any) => (
   <div style={{ padding: '10px' }}>

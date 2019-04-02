@@ -11,13 +11,12 @@ import {
 } from '../version.json';
 import GlobalTheme from '@atlaskit/theme';
 import { Theme } from '../theme';
-import { mapAttributesToState, filterProps } from './utils';
+import { mapAttributesToState, filterProps, composeRefs } from './utils';
 import Content from './Content';
 import InnerWrapper from './InnerWrapper';
 import IconWrapper from './IconWrapper';
 import LoadingSpinner from './LoadingSpinner';
 import { ButtonProps, ThemeMode, ThemeProps, ThemeTokens } from '../types';
-import { withDefaultProps } from '@atlaskit/type-helpers';
 
 export type ButtonState = {
   isHover: boolean;
@@ -38,7 +37,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 
   // ref can be a range of things because we render button, a, span or other React components
-  button: React.ReactType | undefined;
+  button = React.createRef();
 
   state = {
     isActive: false,
@@ -114,22 +113,13 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return true;
   };
 
-  // Handle innerRef for focusing button
-  getInnerRef = (ref: any | undefined) => {
-    this.button = ref;
-
-    const { innerRef } = this.props;
-    if (typeof innerRef === 'function') {
-      innerRef(ref);
-    }
-  };
-
   render() {
     const {
       appearance = 'default',
       children,
       className,
       component: CustomComponent,
+      consumerRef,
       iconAfter,
       iconBefore,
       isDisabled = false,
@@ -175,12 +165,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
               iconIsOnlyChild={iconIsOnlyChild}
               {...this.props}
             >
-              {({ buttonStyles, spinnerStyles, iconStyles }) => (
+              {({ buttonStyles, spinnerStyles }) => (
                 <StyledButton
                   {...filterProps(this.props, StyledButton)}
-                  {...(CustomComponent
-                    ? { innerRef: this.getInnerRef }
-                    : { ref: this.getInnerRef })}
+                  ref={composeRefs(this.button, consumerRef)}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
                   onMouseDown={this.onMouseDown}
@@ -239,14 +227,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 }
 
-const ButtonWithForwardRef = withDefaultProps(
-  Button.defaultProps,
-  React.forwardRef((props: ButtonProps, ref) => (
-    <Button {...props} innerRef={ref} />
-  )),
-);
-
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
+const ButtonWithRef = React.forwardRef<HTMLElement, ButtonProps>(
+  (props, ref) => <Button {...props} consumerRef={ref} />,
+);
 
 export default withAnalyticsContext({
   componentName: 'button',
@@ -264,5 +248,5 @@ export default withAnalyticsContext({
         packageVersion,
       },
     }),
-  })(ButtonWithForwardRef),
-);
+  })(ButtonWithRef),
+) as typeof ButtonWithRef;

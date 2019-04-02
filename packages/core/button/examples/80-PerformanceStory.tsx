@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { css } from 'emotion';
-import Button, { filterHTMLAttributes } from '../src';
+import Button from '../src';
 
 const buttonsStyle = `
   padding: 10px;
@@ -55,9 +55,11 @@ class PerfTest extends React.Component<{}, State> {
           <Button appearance="primary">Button {buttonNumber + 3}</Button>
           <Button appearance="warning">Button {buttonNumber + 4}</Button>
           <Button
-            component={props => (
-              <div {...filterHTMLAttributes(props)}>{props.children}</div>
-            )}
+            component={React.forwardRef<HTMLDivElement, {}>((props, ref) => (
+              <div {...props} ref={ref}>
+                {props.children}
+              </div>
+            ))}
           >
             Button {buttonNumber + 5}
           </Button>

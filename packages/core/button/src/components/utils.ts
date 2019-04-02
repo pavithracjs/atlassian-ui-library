@@ -30,20 +30,7 @@ export const mapAttributesToState = ({
   return 'default';
 };
 
-export const filterHTMLAttributes = (props: { [key: string]: any }) =>
-  (Object.keys(props) as Array<keyof ButtonProps>).filter(isPropValid).reduce(
-    (filteredProps, prop) => ({
-      ...filteredProps,
-      [prop]: props[prop],
-    }),
-    {},
-  );
-
 export const filterProps = (props: ButtonProps, type: React.ReactNode) => {
-  if (props.component) {
-    return props;
-  }
-
   // Remove `href` and `target` if component type is `span`.
   let newProps = props;
   if (type === 'span') {
@@ -51,7 +38,15 @@ export const filterProps = (props: ButtonProps, type: React.ReactNode) => {
     newProps = rest;
   }
 
-  return filterHTMLAttributes(newProps);
+  return (Object.keys(newProps) as Array<keyof ButtonProps>)
+    .filter(isPropValid)
+    .reduce(
+      (filteredProps, prop) => ({
+        ...filteredProps,
+        [prop]: newProps[prop],
+      }),
+      {},
+    );
 };
 
 export type IsLoadingProps = {
@@ -62,6 +57,20 @@ export const getLoadingStyle = ({ isLoading }: IsLoadingProps) => ({
   transition: 'opacity 0.3s',
   opacity: isLoading ? 0 : 1,
 });
+
+export const composeRefs = (...refs: any[]) => {
+  return (x: HTMLElement) => {
+    refs
+      .filter(r => !!r)
+      .forEach(ref => {
+        if (typeof ref === 'function') {
+          ref(x);
+        } else {
+          ref.current = x;
+        }
+      });
+  };
+};
 
 /**
  * Convert a hex colour code to RGBA.

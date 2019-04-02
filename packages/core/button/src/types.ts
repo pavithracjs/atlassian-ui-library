@@ -18,7 +18,9 @@ export interface ButtonProps {
   /** Add a classname to the button */
   className?: string;
   /** A custom component to use instead of the default button */
-  component?: React.ComponentType<ButtonProps>;
+  component?: React.ComponentType;
+  /** Internal use only. Please use `ref` to forward refs */
+  consumerRef?: ConsumerRef;
   /** Provides a url for buttons being used as a link */
   href?: string;
   /** Places an icon within the button, after the button's text */
@@ -60,6 +62,12 @@ export interface ButtonProps {
     props: ThemeProps,
   ) => ThemeTokens;
 }
+
+export type ConsumerRef =
+  | string
+  | ((instance: HTMLElement | null) => any)
+  | React.RefObject<HTMLElement>
+  | undefined;
 
 export type Spacing = 'compact' | 'default' | 'none';
 

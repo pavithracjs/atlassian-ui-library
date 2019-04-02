@@ -15,8 +15,8 @@ export default md`
 ### 💥 Breaking Changes:
 - The old theming API is no longer supported.
 - Styling a Button using Styled Components is no longer supported.
-- Custom components passed into Button will no longer have props filtered out for them.
-- Camel-case ARIA props have been deprecated in favour for standard HTML aria-* attributes. 
+- Custom components will need refs forwarded via \`React.forwardRef()\`.
+- Camel-case ARIA props have been removed in favour for standard HTML aria-* attributes. 
 
 ### Upgrade guide
 #### Theming
@@ -70,32 +70,16 @@ The recommended action is to move your project from Styled Components to Emotion
 
 
 #### Custom component
-
-In \`v11\`, Button would filter out its own props before passing to the child. This included for any custom children defined using the \`component\` prop:
-
+If you need to work with refs in a custom component, you'll need to amke sure to forward on refs yourself using \`React.forwardRef()\`. A typical use case would look like this:
 ${code`
-const CustomComponent = (
-  { children, innerRef, ...props }
-) => <div {...props}>{children}</div>;
+const CustomButton = React.forwardRef((props, ref) => <button {...props} ref={ref} />);
 
-<Button component={CustomComponent}>Custom Button</Button>`}
-
-In \`v12\` Buttons with custom child components will no longer filter out props automatically,
- and will need to be handled by the consumer. The above code could be written in \`v12\` as:
-
-${code`
-import { filterHTMLAttributes } from '@atlaskit/button';
-
-const CustomComponent = (
-  { children, innerRef, ...props }
-) => <div {...filterHTMLAttributes(props)}>{children}</div>;
-
-<Button component={CustomComponent}>Custom Button</Button>`}
+<Button component={CustomButton} />
+`}
 
 #### ARIA attributes
 
-ARIA attributes for Button now use kebab-case standard in React. The old attributes have
- been deprecated.
+ARIA attributes for Button now use kebab-case standard in React. The old attributes have been deprecated.
 
 In \`v11\` we would use ARIA props as follows:
 
@@ -123,9 +107,9 @@ ${code`
 
 ### ⏫ Props updated
 - theme: Returns a function containing two args; the current ADG theme and props
-- component: A React component with props filtered for using the filterHTMLAttributes utility provided
+- component: Make sure to forward refs using \`React.forwardRef()\` if working with refs
 
-### 🙅‍ Props deprecated
+### 🙅‍ Props removed
 - ariaControls: Please use **aria-controls** prop instead
 - ariaExpanded: Please use **aria-expanded** prop instead
 - ariaLabel: Please use **aria-label** prop instead
