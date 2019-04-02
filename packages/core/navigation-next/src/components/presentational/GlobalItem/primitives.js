@@ -96,6 +96,9 @@ class GlobalNavigationItemPrimitive extends Component<GlobalItemPrimitiveProps> 
 
     if (CustomComponent) {
       itemBase = (
+        // CustomComponent needs a className prop. This prop is
+        // added after the emotion translation.
+        // $FlowFixMe
         <CustomComponent
           {...this.getGlobalItemExternalProps()}
           css={{ '&&': styles.itemBase }}
