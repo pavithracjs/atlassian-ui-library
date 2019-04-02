@@ -238,6 +238,7 @@ pipelines:
     # This build should be run in any potentially risky builds.
     run-full-suite:
       - step:
+          image: atlassianlabs/atlaskit-mk-2-vr:1.0.10
           script:
             - source ./build-setup.sh
             - bolt install --pure-lockfile
