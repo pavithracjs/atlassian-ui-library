@@ -30,7 +30,10 @@ export const mapAttributesToState = ({
 };
 
 export const filterProps = (
-  props: Partial<ButtonProps>,
+  {
+    createAnalyticsEvent,
+    ...props
+  }: Partial<ButtonProps> & { createAnalyticsEvent: any },
   type: React.ReactNode,
 ) => {
   if (type === 'span') {

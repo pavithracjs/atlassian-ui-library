@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { createMatchers } from 'jest-emotion';
 import * as renderer from 'react-test-renderer';
-import { AtlassianIcon } from '@atlaskit/logo';
 import * as emotion from 'emotion';
 import Button from '../../Button';
 import { ThemeProps } from '../../../types';

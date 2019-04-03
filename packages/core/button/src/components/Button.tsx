@@ -242,7 +242,6 @@ export default withAnalyticsContext({
     onClick: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'button',
-
       attributes: {
         componentName: 'button',
         packageName,
