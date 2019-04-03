@@ -223,7 +223,7 @@ class InlineEditUncontrolled extends React.Component<
     return (
       <Form
         onSubmit={(data: { inlineEdit: any }) =>
-          // @ts-ignore
+          // @ts-ignore - HOC passes analytics event
           this.props.onConfirm(data.inlineEdit)
         }
       >
