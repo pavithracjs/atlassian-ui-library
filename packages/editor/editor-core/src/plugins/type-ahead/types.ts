@@ -13,6 +13,8 @@ export type TypeAheadItemRenderProps = {
 
 export type TypeAheadItem = {
   title: string;
+  description?: string;
+  keyshortcut?: string;
   icon?: () => ReactElement<any>;
   render?: (props: TypeAheadItemRenderProps) => ReactNode;
   [key: string]: any;

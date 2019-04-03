@@ -1,4 +1,9 @@
-import { getExampleUrl } from '@atlaskit/visual-regression/helper';
+import {
+  getExampleUrl,
+  disableAllAnimations,
+  disableAllTransitions,
+  disableCaretCursor,
+} from '@atlaskit/visual-regression/helper';
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
 
@@ -126,9 +131,13 @@ function getEditorProps(appearance: Appearance) {
   return enableAllEditorProps;
 }
 
-export async function mountEditor(page: any, props, mode?: 'light' | 'dark') {
+export async function mountEditor(
+  page: any,
+  props: any,
+  mode?: 'light' | 'dark',
+) {
   await page.evaluate(
-    (props, mode) => {
+    (props: EditorProps, mode?: 'light' | 'dark') => {
       (window as any).__mountEditor(props, mode);
     },
     props,
@@ -153,7 +162,7 @@ type InitEditorWithADFOptions = {
 };
 
 export const initEditorWithAdf = async (
-  page,
+  page: any,
   {
     appearance,
     adf = {},
@@ -171,6 +180,12 @@ export const initEditorWithAdf = async (
     // We don't have to load the already existing page
     await page.goto(url);
   }
+
+  // We disable possible side effects, like animation, transitions and caret cursor,
+  // because we cannot control and affect snapshots
+  await disableCaretCursor(page);
+  await disableAllAnimations(page);
+  await disableAllTransitions(page);
 
   // Set the viewport to the right one
   if (viewport) {
@@ -193,7 +208,7 @@ export const initEditorWithAdf = async (
 };
 
 export const initFullPageEditorWithAdf = async (
-  page,
+  page: any,
   adf: Object,
   device?: Device,
   viewport?: { width: number; height: number },
@@ -209,7 +224,7 @@ export const initFullPageEditorWithAdf = async (
 };
 
 export const initCommentEditorWithAdf = async (
-  page,
+  page: any,
   adf: Object,
   device?: Device,
 ) => {
@@ -220,7 +235,7 @@ export const initCommentEditorWithAdf = async (
   });
 };
 
-export const clearEditor = async page => {
+export const clearEditor = async (page: any) => {
   await page.evaluate(() => {
     const dom = document.querySelector('.ProseMirror') as HTMLElement;
     dom.innerHTML = '<p><br /></p>';

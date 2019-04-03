@@ -1,5 +1,10 @@
 # @atlaskit/inline-dialog
 
+## 10.0.2
+- [patch] [da6ef8b69a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da6ef8b69a):
+
+  - Using new z-index values from theme
+
 ## 10.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

@@ -15,10 +15,13 @@ export interface RowParams {
 
 export const getRowHeights = (tableRef: HTMLTableElement): number[] => {
   const heights: number[] = [];
-  const rows = tableRef.querySelectorAll('tr');
-  for (let i = 0, count = rows.length; i < count; i++) {
-    const rect = rows[i].getBoundingClientRect();
-    heights[i] = (rect ? rect.height : rows[i].offsetHeight) + 1;
+  if (tableRef.lastChild) {
+    const rows = tableRef.lastChild.childNodes;
+    for (let i = 0, count = rows.length; i < count; i++) {
+      const cell = rows[i] as HTMLTableCellElement;
+      const rect = cell.getBoundingClientRect();
+      heights[i] = (rect ? rect.height : cell.offsetHeight) + 1;
+    }
   }
   return heights;
 };

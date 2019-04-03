@@ -2,7 +2,7 @@ import AkButton from '@atlaskit/button';
 import * as React from 'react';
 import { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { customCategory } from '../../constants';
+import { customCategory } from '../../util/constants';
 import { EmojiDescription, Message } from '../../types';
 import { messages } from '../i18n';
 import Emoji from './Emoji';

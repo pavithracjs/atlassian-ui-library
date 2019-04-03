@@ -263,7 +263,7 @@ class ExampleEditorComponent extends React.Component<
   };
 }
 
-export const ExampleEditor = withSentry(ExampleEditorComponent);
+export const ExampleEditor = withSentry<EditorProps>(ExampleEditorComponent);
 
 export default function Example(props: EditorProps & ExampleProps) {
   return (

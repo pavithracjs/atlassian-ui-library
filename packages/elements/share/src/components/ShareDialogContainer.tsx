@@ -158,8 +158,6 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       .share(content, optionDataToUsers(users), metaData, comment)
       .then((response: ShareResponse) => {
         const newShareCount = this.state.shareActionCount + 1;
-        // TODO: send analytic event
-
         // renew Origin Tracing Id per share action succeeded
         this.setState({
           shareActionCount: newShareCount,
@@ -168,19 +166,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
 
         return response;
       })
-      .catch((err: Error) => {
-        // TODO: send analytic event
-        return Promise.reject(err);
-      });
-  };
-
-  handleCopyLink = () => {
-    // @ts-ignore usused for now until analytics are added
-    const originAttributes = this.state.copyLinkOrigin!.toAnalyticsAttributes({
-      hasGeneratedId: true,
-    });
-
-    // TODO: send analytic event
+      .catch((err: Error) => Promise.reject(err));
   };
 
   render() {
@@ -194,6 +180,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       triggerButtonAppearance,
       triggerButtonStyle,
     } = this.props;
+    const { shareOrigin } = this.state;
     const copyLink = formatCopyLink(this.state.copyLinkOrigin!, shareLink);
     return (
       <ShareDialogWithTrigger
@@ -201,12 +188,12 @@ export class ShareDialogContainer extends React.Component<Props, State> {
         copyLink={copyLink}
         dialogPlacement={dialogPlacement}
         loadUserOptions={loadUserOptions}
-        onLinkCopy={this.handleCopyLink}
         onShareSubmit={this.handleSubmitShare}
         shareFormTitle={shareFormTitle}
         shouldCloseOnEscapePress={shouldCloseOnEscapePress}
         triggerButtonAppearance={triggerButtonAppearance}
         triggerButtonStyle={triggerButtonStyle}
+        shareOrigin={shareOrigin}
       />
     );
   }
