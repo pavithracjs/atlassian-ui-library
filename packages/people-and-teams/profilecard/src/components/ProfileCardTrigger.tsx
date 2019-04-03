@@ -43,7 +43,7 @@ class ProfilecardTrigger extends React.Component<
   hideProfilecard = () => {
     clearTimeout(this.showTimer);
 
-    this.hideTimer = setTimeout(() => {
+    this.hideTimer = window.setTimeout(() => {
       this.setState({ visible: false });
     }, this.hideDelay);
   };
@@ -55,7 +55,7 @@ class ProfilecardTrigger extends React.Component<
 
     clearTimeout(this.hideTimer);
 
-    this.showTimer = setTimeout(() => {
+    this.showTimer = window.setTimeout(() => {
       this.setState({ visible: true });
     }, this.showDelay);
   };
