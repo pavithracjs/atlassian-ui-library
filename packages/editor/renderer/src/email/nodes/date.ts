@@ -1,5 +1,9 @@
 import { createTag, serializeStyle } from '../util';
 import { NodeSerializerOpts } from '../interfaces';
+/**
+ * TODO: https://product-fabric.atlassian.net/browse/CS-909
+ * Need to revisit when using other packages that depend on react
+ */
 import { isPastDate, timestampToString } from '@atlaskit/editor-common';
 import { R50, R500, N40, N500 } from '@atlaskit/adf-schema';
 
