@@ -21,7 +21,10 @@ export const fontFamily = () =>
 export const codeFontFamily = () =>
   `'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace`;
 
-export const focusRing = (color = B100, outlineWidth = gridSize() / 4) => `
+export const focusRing = (
+  color: string = B100,
+  outlineWidth: number = gridSize() / 4,
+) => `
   &:focus {
     outline: none;
     box-shadow: 0px 0px 0px ${outlineWidth}px ${color};
