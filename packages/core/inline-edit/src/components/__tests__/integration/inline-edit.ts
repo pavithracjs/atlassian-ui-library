@@ -2,13 +2,12 @@ import { BrowserTestCase } from '@atlaskit/webdriver-runner/runner';
 import { getExampleUrl } from '@atlaskit/webdriver-runner/utils/example';
 import Page from '@atlaskit/webdriver-runner/wd-wrapper';
 
-/* Url to test the example */
+/* URLs to test the examples */
 const inlineEditExampleUrl = getExampleUrl(
   'core',
   'inline-edit',
   'basic-usage',
 );
-
 const validationExampleUrl = getExampleUrl('core', 'inline-edit', 'validation');
 
 /* Css selectors used for the inline edit tests */

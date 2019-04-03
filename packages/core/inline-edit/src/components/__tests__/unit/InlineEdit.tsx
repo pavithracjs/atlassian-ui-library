@@ -85,7 +85,7 @@ describe('@atlaskit/inline-edit core', () => {
       <InlineEditableTextfield
         onConfirm={noop}
         editValue=""
-        placeholder=""
+        placeholder="test"
         readViewFitContainerWidth
       />,
     );
