@@ -1,10 +1,21 @@
 import * as React from 'react';
+import styled from 'styled-components';
 import Select from '@atlaskit/select';
 import Group from '@atlaskit/tag-group';
 import Tag from '@atlaskit/tag';
+import { gridSize, fontSize } from '@atlaskit/theme';
 
 import InlineEdit from '../src';
-import ReadViewContainer from '../src/styled/ReadViewContainer';
+
+const ReadViewContainer = styled.div`
+  display: flex;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 8px 6px;
+  font-size: ${fontSize()}px;
+  height: ${(gridSize() * 2.5) / fontSize()}em;
+  line-height: ${(gridSize() * 2.5) / fontSize()};
+`;
 
 interface Option {
   label: string;
@@ -38,7 +49,7 @@ export default class InlineEditExample extends React.Component<void, State> {
 
   render() {
     return (
-      <div style={{ padding: '0 16px' }}>
+      <div style={{ padding: '0 16px 60px' }}>
         <InlineEdit
           editValue={this.state.editValue}
           label="Inline edit select"
@@ -53,16 +64,19 @@ export default class InlineEditExample extends React.Component<void, State> {
           )}
           readView={() =>
             this.state.editValue.length === 0 ? (
-              <ReadViewContainer>Click to enter value</ReadViewContainer>
+              <ReadViewContainer>Click to choose options</ReadViewContainer>
             ) : (
-              <Group>
-                {this.state.editValue.map((option: Option) => (
-                  <Tag text={option.label} key={option.label} />
-                ))}
-              </Group>
+              <div style={{ padding: '4px' }}>
+                <Group>
+                  {this.state.editValue.map((option: Option) => (
+                    <Tag text={option.label} key={option.label} />
+                  ))}
+                </Group>
+              </div>
             )
           }
           onConfirm={this.onConfirm}
+          hideActionButtons
         />
       </div>
     );

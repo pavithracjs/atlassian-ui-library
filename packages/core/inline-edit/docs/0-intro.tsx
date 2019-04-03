@@ -6,13 +6,14 @@ export default md`
   focused or being interacted with. It is designed to be used as a wrapper
   to control an input component.
 
-  The default exported component requires a custom read view and edit view to be passed in as props.
-  If you would like a simple inline edit with a text input, you may be able to use the InlineEditableTextfield component.
+  The default exported component requires a custom read view and edit view to be passed
+  in as props. If you would like a simple inline edit with a text input, you may be able
+  to use the [InlineEditableTextfield component](/packages/core/inline-edit/docs/textfield).
 
   ## Usage
 
   ${code`
-  import InlineEdit, { InlineEditableTextfield } from '@atlaskit/inline-edit';
+  import InlineEdit from '@atlaskit/inline-edit';
   `}
 
   ${(
@@ -24,18 +25,30 @@ export default md`
     />
   )}
 
+  The inline edit component is designed to be flexible, allowing various types of input fields.
+
+  ${(
+    <Example
+      packageName="@atlaskit/inline-edit"
+      Component={require('../examples/01-textarea-usage').default}
+      title="Textarea usage"
+      source={require('!!raw-loader!../examples/01-textarea-usage')}
+    />
+  )}
+
+  ${(
+    <Example
+      packageName="@atlaskit/inline-edit"
+      Component={require('../examples/02-select-usage').default}
+      title="Select usage"
+      source={require('!!raw-loader!../examples/02-select-usage')}
+    />
+  )}
+
   ${(
     <Props
       props={require('!!extract-react-types-loader!../src/components/InlineEdit')}
       heading="InlineEdit Props"
     />
   )}
-
-  ${(
-    <Props
-      props={require('!!extract-react-types-loader!../src/components/InlineEditableTextfield')}
-      heading="InlineEditableTextfield Props"
-    />
-  )}
-
 `;

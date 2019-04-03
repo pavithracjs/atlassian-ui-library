@@ -28,7 +28,7 @@ export default class InlineEditExample extends React.Component<void, State> {
 
   render() {
     return (
-      <div style={{ padding: '0 16px', width: '50%' }}>
+      <div style={{ padding: '0 16px 60px', width: '50%' }}>
         <InlineEdit
           editValue={this.state.editValue}
           label="Inline edit textarea + keep edit view open on blur"
