@@ -39,12 +39,6 @@ async function sendData(payload /*: IBuildEventProperties */) {
     payload,
     config,
   );
-  console.log(
-    'service:',
-    process.env.FABRIC_STATS_SERVICE,
-    'response:',
-    response,
-  );
   if (!response || !response.data) {
     console.log('Something may have gone wrong...');
     process.exit(1);
