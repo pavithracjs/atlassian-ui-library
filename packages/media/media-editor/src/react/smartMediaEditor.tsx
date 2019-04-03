@@ -99,20 +99,24 @@ export class SmartMediaEditor extends React.Component<
       .getFileState(id, { collectionName, occurrenceKey })
       .subscribe({
         next: async state => {
-          if (state.status === 'processed') {
-            const { name } = state;
-            this.fileName = name;
-            this.setImageUrl(identifier);
-            setTimeout(() => getFileSubscription.unsubscribe(), 0);
-          } else if (state.status === 'error') {
+          if (state.status === 'error') {
             this.onError(state.message);
             setTimeout(() => getFileSubscription.unsubscribe(), 0);
-          } else if (state.preview) {
-            const { value } = await state.preview;
+            return;
+          }
+
+          const { name, preview, status } = state;
+          this.fileName = name;
+
+          if (status === 'processed') {
+            this.setRemoteImageUrl(identifier);
+            setTimeout(() => getFileSubscription.unsubscribe(), 0);
+          } else if (preview) {
+            const { value } = await preview;
             if (value instanceof Blob) {
-              const base64ImageUrl = await fileToBase64(value);
+              const imageUrl = await fileToBase64(value);
               this.setState({
-                imageUrl: base64ImageUrl,
+                imageUrl,
               });
             } else {
               this.setState({
@@ -130,7 +134,7 @@ export class SmartMediaEditor extends React.Component<
     this.getFileSubscription = getFileSubscription;
   };
 
-  setImageUrl = async (identifier: FileIdentifier) => {
+  setRemoteImageUrl = async (identifier: FileIdentifier) => {
     const { context } = this.props;
     const id = await identifier.id;
     const imageUrl = await context.getImageUrl(id, {
