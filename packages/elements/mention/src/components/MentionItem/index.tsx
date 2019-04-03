@@ -23,7 +23,7 @@ import {
   TimeStyle,
 } from './styles';
 import { renderHighlight } from './MentionHighlightHelpers';
-import MentionDescriptionHighlight from '../MentionDescriptionHighlight';
+import MentionDescriptionByline from '../MentionDescriptionByline';
 
 function renderLozenge(lozenge?: string) {
   if (lozenge) {
@@ -99,7 +99,7 @@ export default class MentionItem extends React.PureComponent<Props, {}> {
           </AvatarStyle>
           <NameSectionStyle restricted={restricted}>
             {renderHighlight(FullNameStyle, name, nameHighlights)}
-            <MentionDescriptionHighlight mention={mention} />
+            <MentionDescriptionByline mention={mention} />
           </NameSectionStyle>
           <InfoSectionStyle restricted={restricted}>
             {renderLozenge(lozenge)}
