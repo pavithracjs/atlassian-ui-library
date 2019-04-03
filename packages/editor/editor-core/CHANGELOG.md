@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.6.5
+- [patch] [e125d7d78a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e125d7d78a):
+
+  - ED-6627: fix re-rendering table controls when table is nested inside Columns or bodied extensions
+
 ## 107.6.4
 - [patch] [0f0c06f787](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f0c06f787):
 
