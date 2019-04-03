@@ -79,34 +79,33 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     const provider = await mediaProvider;
     const context = await provider.viewContext;
 
-    if (rendererContext && rendererContext.adDoc) {
-      if (
-        (thisId && !mediaIdentifierMap.has(thisId)) ||
-        (thisUrl && !mediaIdentifierMap.has(thisUrl))
-      ) {
-        filter(rendererContext.adDoc, node => node.type === 'media').forEach(
-          mediaNode => {
-            if (mediaNode.attrs) {
-              const { type, url: dataURI, id } = mediaNode.attrs;
+    if (
+      rendererContext &&
+      rendererContext.adDoc &&
+      ((thisId && !mediaIdentifierMap.has(thisId)) ||
+        (thisUrl && !mediaIdentifierMap.has(thisUrl)))
+    ) {
+      filter(rendererContext.adDoc, node => node.type === 'media').forEach(
+        mediaNode => {
+          if (mediaNode.attrs) {
+            const { type, url: dataURI, id } = mediaNode.attrs;
 
-              if (type === 'file' && id) {
-                mediaIdentifierMap.set(id, {
-                  mediaItemType: 'file',
-                  id,
-                  collectionName,
-                  occurrenceKey: null as any,
-                });
-              } else if (type === 'external' && dataURI) {
-                mediaIdentifierMap.set(dataURI, {
-                  mediaItemType: 'external-image',
-                  dataURI,
-                  name: dataURI,
-                });
-              }
+            if (type === 'file' && id) {
+              mediaIdentifierMap.set(id, {
+                mediaItemType: 'file',
+                id,
+                collectionName,
+              });
+            } else if (type === 'external' && dataURI) {
+              mediaIdentifierMap.set(dataURI, {
+                mediaItemType: 'external-image',
+                dataURI,
+                name: dataURI,
+              });
             }
-          },
-        );
-      }
+          }
+        },
+      );
     }
 
     this.setState({
