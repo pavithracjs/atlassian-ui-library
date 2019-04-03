@@ -241,7 +241,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  628,
+                  600,
                 ],
                 "defaultMarks": Array [
                   Object {
@@ -268,7 +268,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  585,
+                  600,
                 ],
                 "defaultMarks": Array [
                   Object {
@@ -289,7 +289,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  585,
+                  600,
                 ],
                 "defaultMarks": Array [
                   Object {
@@ -315,7 +315,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  628,
+                  600,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -332,7 +332,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  585,
+                  600,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -355,7 +355,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  585,
+                  600,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -377,7 +377,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  628,
+                  600,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -394,7 +394,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  585,
+                  600,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -411,7 +411,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  585,
+                  600,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
