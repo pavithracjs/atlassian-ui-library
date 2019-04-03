@@ -253,7 +253,7 @@ export default class LayoutManager extends Component<
           product={productNavigation}
         />
         {isCollapsed && !EXPERIMENTAL_FLYOUT_ON_HOVER ? (
-           /* eslint-disable jsx-a11y/click-events-have-key-events */
+          /* eslint-disable jsx-a11y/click-events-have-key-events */
           <div
             aria-label="Click to expand the navigation"
             role="button"
@@ -277,8 +277,8 @@ export default class LayoutManager extends Component<
             }}
             tabIndex="0"
           />
-          /* eslint-enable */
-        ) : null}
+        ) : /* eslint-enable */
+        null}
       </ContentNavigationWrapper>
     );
   };

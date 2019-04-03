@@ -149,7 +149,7 @@ class Tooltip extends Component<Props, State> {
 
   cancelPendingSetState = () => {};
 
- // set in mouseover/mouseout handlers
+  // set in mouseover/mouseout handlers
   state = {
     immediatelyHide: false,
     immediatelyShow: false,
