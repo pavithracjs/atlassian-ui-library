@@ -18,6 +18,7 @@ import {
   ProcessedFileState,
   FileIdentifier,
   FileState,
+  Identifier,
 } from '@atlaskit/media-core';
 import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 import {
@@ -56,7 +57,7 @@ const makeFakeContext = (observable: Observable<any>) =>
     },
   } as any);
 
-function mountComponent(context: Context, identifier: FileIdentifier) {
+function mountComponent(context: Context, identifier: Identifier) {
   const el = mountWithIntlContext(
     <ItemViewer previewCount={0} context={context} identifier={identifier} />,
   );
