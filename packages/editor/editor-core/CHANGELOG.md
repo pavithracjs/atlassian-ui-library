@@ -1,5 +1,16 @@
 # @atlaskit/editor-core
 
+## 107.7.5
+- [patch] [29d10e3d60](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29d10e3d60):
+
+  - ED-6626 Table doesn’t respond on inserting widget with min-width set
+
+  _Test steps:_
+
+  - Insert a `table`
+  - Insert an widget macro with an YouTube video url
+  - The `table` should resize the column accordingly
+
 ## 107.7.4
 - [patch] [e80a553a6e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80a553a6e):
 
