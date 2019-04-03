@@ -8,6 +8,7 @@ import {
   Comment,
   ConfigResponse,
   Content,
+  Flag,
   KeysOfType,
   MetaData,
   OriginTracing,
@@ -93,7 +94,7 @@ const client: ShareClient = {
 export default () => (
   <IntlProvider locale="en">
     <App>
-      {showFlags => (
+      {(showFlags: (flags: Array<Flag>) => void) => (
         <ShareDialogContainer
           client={client}
           cloudId="12345-12345-12345-12345"

@@ -1,4 +1,4 @@
-import * as React from 'React';
+import * as React from 'react';
 import { colors } from '@atlaskit/theme';
 import SuccessIcon from '@atlaskit/icon/glyph/check-circle';
 import { AutoDismissFlag, FlagGroup } from '@atlaskit/flag';
@@ -22,7 +22,7 @@ export default class AppWithFlag extends React.PureComponent<Props, State> {
   };
 
   handleDismiss = () => {
-    this.setState(prevState => ({
+    this.setState((prevState: State) => ({
       flags: prevState.flags.slice(1),
     }));
   };
