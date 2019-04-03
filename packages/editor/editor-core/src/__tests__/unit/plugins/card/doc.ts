@@ -42,14 +42,26 @@ describe('card', () => {
 
         const { state, dispatch } = editorView;
         dispatch(
-          queueCards([{ url: href, pos: refs['<>'], appearance: 'inline' }])(
-            state.tr,
-          ),
+          queueCards([
+            {
+              url: href,
+              pos: refs['<>'],
+              appearance: 'inline',
+              compareLinkText: true,
+            },
+          ])(state.tr),
         );
 
         // should be at initial pos
         const initialState = {
-          requests: [{ url: href, pos: refs['<>'], appearance: 'inline' }],
+          requests: [
+            {
+              url: href,
+              pos: refs['<>'],
+              appearance: 'inline',
+              compareLinkText: true,
+            },
+          ],
           provider: null,
         } as CardPluginState;
         expect(pluginKey.getState(editorView.state)).toEqual(initialState);
@@ -88,6 +100,7 @@ describe('card', () => {
               url: 'http://www.atlassian.com/',
               pos: 1,
               appearance: 'inline',
+              compareLinkText: true,
             },
           ],
           provider: null,
@@ -103,9 +116,14 @@ describe('card', () => {
 
         const { state, dispatch } = editorView;
         dispatch(
-          queueCards([{ url: href, pos: refs['link'], appearance: 'inline' }])(
-            state.tr,
-          ),
+          queueCards([
+            {
+              url: href,
+              pos: refs['link'],
+              appearance: 'inline',
+              compareLinkText: true,
+            },
+          ])(state.tr),
         );
 
         // type something at start
@@ -119,6 +137,7 @@ describe('card', () => {
               url: href,
               pos: refs['link'] + typedText.length,
               appearance: 'inline',
+              compareLinkText: true,
             },
           ],
           provider: null,
@@ -149,7 +168,12 @@ describe('card', () => {
         (Object.keys(hrefs) as Array<keyof typeof hrefs>).map(key => {
           dispatch(
             queueCards([
-              { url: hrefs[key], pos: refs[key], appearance: 'inline' },
+              {
+                url: hrefs[key],
+                pos: refs[key],
+                appearance: 'inline',
+                compareLinkText: true,
+              },
             ])(editorView.state.tr),
           );
         });
@@ -157,8 +181,18 @@ describe('card', () => {
         // everything should be at initial pos
         expect(pluginKey.getState(editorView.state)).toEqual({
           requests: [
-            { url: hrefs['A'], pos: refs['A'], appearance: 'inline' },
-            { url: hrefs['B'], pos: refs['B'], appearance: 'inline' },
+            {
+              url: hrefs['A'],
+              pos: refs['A'],
+              appearance: 'inline',
+              compareLinkText: true,
+            },
+            {
+              url: hrefs['B'],
+              pos: refs['B'],
+              appearance: 'inline',
+              compareLinkText: true,
+            },
           ],
           provider: null,
         });
@@ -169,8 +203,18 @@ describe('card', () => {
         // only B should have moved 2 to the right
         expect(pluginKey.getState(editorView.state)).toEqual({
           requests: [
-            { url: hrefs['A'], pos: refs['A'], appearance: 'inline' },
-            { url: hrefs['B'], pos: refs['B'] + 2, appearance: 'inline' },
+            {
+              url: hrefs['A'],
+              pos: refs['A'],
+              appearance: 'inline',
+              compareLinkText: true,
+            },
+            {
+              url: hrefs['B'],
+              pos: refs['B'] + 2,
+              appearance: 'inline',
+              compareLinkText: true,
+            },
           ],
 
           provider: null,
@@ -222,7 +266,12 @@ describe('card', () => {
         // try to replace the link using bad provider
         dispatch(
           queueCards([
-            { url: href, pos: view.state.selection.from, appearance: 'inline' },
+            {
+              url: href,
+              pos: view.state.selection.from,
+              appearance: 'inline',
+              compareLinkText: true,
+            },
           ])(view.state.tr),
         );
       });
@@ -240,7 +289,12 @@ describe('card', () => {
         // try to replace the link using bad provider
         dispatch(
           queueCards([
-            { url: href, pos: view.state.selection.from, appearance: 'inline' },
+            {
+              url: href,
+              pos: view.state.selection.from,
+              appearance: 'inline',
+              compareLinkText: true,
+            },
           ])(view.state.tr),
         );
       });
@@ -299,6 +353,7 @@ describe('card', () => {
               url: href,
               pos: editorView.state.selection.from,
               appearance: 'inline',
+              compareLinkText: true,
             },
           ])(editorView.state.tr),
         );
@@ -326,6 +381,42 @@ describe('card', () => {
         });
       });
 
+      it('replaces anyway if compareLinkText is false', async () => {
+        const href = 'http://www.atlassian.com/';
+        const { editorView } = editor(
+          doc(
+            p(
+              'hello have a link ',
+              a({
+                href,
+              })('{<>}renamed link'),
+            ),
+          ),
+        );
+
+        const { dispatch } = editorView;
+        dispatch(setProvider(provider)(editorView.state.tr));
+
+        // queue it
+        dispatch(
+          queueCards([
+            {
+              url: href,
+              pos: editorView.state.selection.from,
+              appearance: 'inline',
+              compareLinkText: false,
+            },
+          ])(editorView.state.tr),
+        );
+
+        await Promise.all(promises);
+
+        // test provider here replaces with p('hello world)
+        expect(editorView.state.doc).toEqualDocument(
+          doc(p('hello have a link '), p('hello world'), p()),
+        );
+      });
+
       it('does not replace if position is some other content', async () => {
         const href = 'http://www.atlassian.com/';
         const initialDoc = doc(p('hello have a link '), p('{<>}' + href));
@@ -341,6 +432,7 @@ describe('card', () => {
               url: href,
               pos: editorView.state.selection.from,
               appearance: 'inline',
+              compareLinkText: true,
             },
           ])(editorView.state.tr),
         );
