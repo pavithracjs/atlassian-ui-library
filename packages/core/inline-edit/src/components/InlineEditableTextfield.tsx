@@ -15,7 +15,6 @@ class InlineEditableTextfield extends React.Component<
     keepEditViewOpenOnBlur: false,
     hideActionButtons: false,
     readViewFitContainerWidth: false,
-    emptyValueText: 'Click to enter text',
     startWithEditViewOpen: false,
     editButtonLabel: 'Edit',
     confirmButtonLabel: 'Confirm',
@@ -26,8 +25,8 @@ class InlineEditableTextfield extends React.Component<
   render() {
     const {
       editValue,
-      emptyValueText,
       isCompact,
+      placeholder,
       startWithEditViewOpen,
     } = this.props;
     return (
@@ -49,7 +48,7 @@ class InlineEditableTextfield extends React.Component<
         )}
         readView={() => (
           <ReadViewContainer isCompact={isCompact}>
-            {editValue || emptyValueText}
+            {editValue || placeholder}
           </ReadViewContainer>
         )}
         startWithEditViewOpen={startWithEditViewOpen}

@@ -35,9 +35,10 @@ export default class InlineEditExample extends React.Component<void, State> {
     });
   };
 
-  onConfirm = (value: string, stateKey: string) => {
-    // @ts-ignore
-    this.setState({ [stateKey]: value });
+  onConfirm = (value: string, key: keyof State) => {
+    this.setState({
+      [key]: value,
+    } as Pick<State, keyof State>);
   };
 
   render() {
@@ -47,18 +48,21 @@ export default class InlineEditExample extends React.Component<void, State> {
           editValue={this.state.firstEditValue}
           label="Inline edit textfield + hide action buttons (Enter to confirm, Esc to cancel)"
           onConfirm={value => this.onConfirm(value, 'firstEditValue')}
+          placeholder="Click to enter text"
           hideActionButtons
         />
         <InlineEditableTextfield
           editValue={this.state.secondEditValue}
           label="Inline edit textfield + start in edit view"
           onConfirm={value => this.onConfirm(value, 'secondEditValue')}
+          placeholder="Click to enter text"
           startWithEditViewOpen
         />
         <InlineEditableTextfield
           editValue={this.state.thirdEditValue}
           label="Inline edit textfield + validation + compact"
           onConfirm={value => this.onConfirm(value, 'thirdEditValue')}
+          placeholder="Click to enter text"
           validate={this.validate}
           isCompact
         />

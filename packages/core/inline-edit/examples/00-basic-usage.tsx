@@ -4,10 +4,10 @@ import TextField from '@atlaskit/textfield';
 import InlineEdit, { InlineEditableTextfield } from '../src';
 import ReadViewContainer from '../src/styled/ReadViewContainer';
 
-type State = {
+interface State {
   inlineEditValue: string;
   inlineEditableTextfieldValue: string;
-};
+}
 
 export default class InlineEditExample extends React.Component<void, State> {
   state = {
@@ -15,9 +15,10 @@ export default class InlineEditExample extends React.Component<void, State> {
     inlineEditableTextfieldValue: 'Field value',
   };
 
-  onConfirm = (value: string, stateKey: string) => {
-    // @ts-ignore
-    this.setState({ [stateKey]: value });
+  onConfirm = (value: string, key: keyof State) => {
+    this.setState({
+      [key]: value,
+    } as Pick<State, keyof State>);
   };
 
   render() {
@@ -25,7 +26,7 @@ export default class InlineEditExample extends React.Component<void, State> {
       <div style={{ padding: '0 16px 60px' }}>
         <InlineEdit
           editValue={this.state.inlineEditValue}
-          label="Inline edit field"
+          label="Inline edit"
           editView={editViewProps => <TextField {...editViewProps} />}
           readView={() => (
             <ReadViewContainer>
@@ -36,10 +37,11 @@ export default class InlineEditExample extends React.Component<void, State> {
         />
         <InlineEditableTextfield
           editValue={this.state.inlineEditableTextfieldValue}
-          label="Inline edit textfield"
+          label="Inline editable textfield"
           onConfirm={value =>
             this.onConfirm(value, 'inlineEditableTextfieldValue')
           }
+          placeholder="Click to enter text"
         />
       </div>
     );

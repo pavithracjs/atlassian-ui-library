@@ -73,7 +73,7 @@ export interface InlineEditableTextfieldProps extends CommonProps {
   /** The value shown in the editView when it is entered. Should be updated by onConfirm. */
   editValue: any;
   /** Text shown in read view when value is an empty string. */
-  emptyValueText?: string;
+  placeholder: string;
   /** Determines whether isEditing begins as true. */
   startWithEditViewOpen?: boolean;
   /** Sets height to compact. */
