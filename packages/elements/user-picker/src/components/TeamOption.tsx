@@ -42,45 +42,47 @@ export class TeamOption extends React.PureComponent<TeamOptionProps> {
     } else {
       if (includesYou != null && includesYou === true) {
         if (memberCount > 50) {
-          return (
-            <TextWrapper color={isSelected ? colors.N50 : colors.N200}>
-              <FormattedMessage {...messages.plus50MembersWithYou} />
-            </TextWrapper>
+          return this.getBylineComponent(
+            isSelected,
+            <FormattedMessage {...messages.plus50MembersWithYou} />,
           );
         } else {
-          return (
-            <TextWrapper color={isSelected ? colors.N50 : colors.N200}>
-              <FormattedMessage
-                {...messages.memberCountWithYou}
-                values={{
-                  count: memberCount,
-                }}
-              />
-            </TextWrapper>
+          return this.getBylineComponent(
+            isSelected,
+            <FormattedMessage
+              {...messages.memberCountWithYou}
+              values={{
+                count: memberCount,
+              }}
+            />,
           );
         }
       } else {
         if (memberCount > 50) {
-          return (
-            <TextWrapper color={isSelected ? colors.N50 : colors.N200}>
-              <FormattedMessage {...messages.plus50MembersWithoutYou} />
-            </TextWrapper>
+          return this.getBylineComponent(
+            isSelected,
+            <FormattedMessage {...messages.plus50MembersWithoutYou} />,
           );
         } else {
-          return (
-            <TextWrapper color={isSelected ? colors.N50 : colors.N200}>
-              <FormattedMessage
-                {...messages.memberCountWithoutYou}
-                values={{
-                  count: memberCount,
-                }}
-              />
-            </TextWrapper>
+          return this.getBylineComponent(
+            isSelected,
+            <FormattedMessage
+              {...messages.memberCountWithoutYou}
+              values={{
+                count: memberCount,
+              }}
+            />,
           );
         }
       }
     }
   };
+
+  private getBylineComponent = (isSelected: boolean, message: JSX.Element) => (
+    <TextWrapper color={isSelected ? colors.N50 : colors.N200}>
+      {message}
+    </TextWrapper>
+  );
 
   private renderAvatar = () => {
     const {
