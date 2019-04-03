@@ -309,7 +309,8 @@ export default class Editor extends React.Component<EditorProps, {}> {
                         }) => (
                           <BaseTheme
                             dynamicTextSizing={
-                              this.props.allowDynamicTextSizing
+                              this.props.allowDynamicTextSizing &&
+                              !this.props.fullWidthMode
                             }
                           >
                             <Component
