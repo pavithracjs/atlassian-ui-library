@@ -5,7 +5,8 @@ import {
   Context,
   FileState,
   isErrorFileState,
-  FileIdentifier,
+  Identifier,
+  isExternalImageIdentifier,
 } from '@atlaskit/media-core';
 import { DownloadButtonWrapper } from './styled';
 import Button from '@atlaskit/button';
@@ -69,21 +70,24 @@ export const ErrorViewDownloadButton = (
 
 export type ToolbarDownloadButtonProps = {
   state: FileState;
-  identifier: FileIdentifier;
+  identifier: Identifier;
   context: Context;
 };
 
 export const ToolbarDownloadButton = (props: ToolbarDownloadButtonProps) => {
-  const downloadEvent = downloadButtonEvent(props.state);
+  const { state, context, identifier } = props;
+  const downloadEvent = downloadButtonEvent(state);
+
+  // TODO [MS-1731]: make it work for external files as well
+  if (isExternalImageIdentifier(identifier)) {
+    return null;
+  }
+
   return (
     <DownloadButton
       analyticsPayload={downloadEvent}
       appearance={'toolbar' as any}
-      onClick={createItemDownloader(
-        props.state,
-        props.context,
-        props.identifier.collectionName,
-      )}
+      onClick={createItemDownloader(state, context, identifier.collectionName)}
       iconBefore={downloadIcon}
     />
   );

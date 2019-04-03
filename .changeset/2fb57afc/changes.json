@@ -1,0 +1,8 @@
+{
+  "releases": [
+    { "name": "@atlaskit/media-card", "type": "minor" },
+    { "name": "@atlaskit/media-test-helpers", "type": "minor" },
+    { "name": "@atlaskit/media-viewer", "type": "minor" }
+  ],
+  "dependents": []
+}

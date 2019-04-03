@@ -1,0 +1,1 @@
+- Support external image identifier in MediaViewer
