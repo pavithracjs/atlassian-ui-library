@@ -24,7 +24,7 @@ class SwitcherExample extends React.Component {
     return (
       <div style={{ padding: '2rem' }}>
         <Drawer onClose={this.onClose} isOpen={this.state.isDrawerOpen}>
-          <ErrorBoundary>
+          <ErrorBoundary messages={{}}>
             <Switcher />
           </ErrorBoundary>
         </Drawer>

@@ -30,3 +30,7 @@ export type QuickInsertOptions =
 export type QuickInsertHandler =
   | Array<QuickInsertItem>
   | ((intl: InjectedIntl) => Array<QuickInsertItem>);
+
+export type IconProps = {
+  label?: string;
+};

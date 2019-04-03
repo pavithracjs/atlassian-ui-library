@@ -2,7 +2,7 @@ import { TableMap } from 'prosemirror-tables';
 import { EditorView } from 'prosemirror-view';
 import { Node as PMNode } from 'prosemirror-model';
 import { findDomRefAtPos } from 'prosemirror-utils';
-import { gridSize } from '@atlaskit/theme';
+
 import {
   tableCellMinWidth,
   akEditorTableNumberColumnWidth,
@@ -365,9 +365,6 @@ function scaleWithParent(
     node: tableNode,
     start,
   });
-
-  // Need to acount for the padding of the extension.
-  parentWidth -= gridSize() * 4;
 
   if (tableNode.attrs.isNumberColumnEnabled) {
     parentWidth -= akEditorTableNumberColumnWidth;

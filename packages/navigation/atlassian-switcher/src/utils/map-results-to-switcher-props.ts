@@ -93,13 +93,17 @@ export function collectFixedProductLinks() {
 
 function collectRecentLinks(
   recentContainers: ProviderResults['recentContainers'],
+  licenseInformation: ProviderResults['licenseInformation'],
 ) {
-  if (isError(recentContainers)) {
+  if (isError(recentContainers) || isError(licenseInformation)) {
     return [];
   }
 
-  if (isComplete(recentContainers)) {
-    return getRecentLinkItems(recentContainers.data.data.slice(0, 6));
+  if (isComplete(recentContainers) && isComplete(licenseInformation)) {
+    return getRecentLinkItems(
+      recentContainers.data.data,
+      licenseInformation.data,
+    );
   }
 }
 
@@ -171,7 +175,10 @@ export function mapResultsToSwitcherProps(
       collectAdminLinks(cloudId, managePermission, addProductsPermission),
       [],
     ),
-    recentLinks: collect(collectRecentLinks(recentContainers), []),
+    recentLinks: collect(
+      collectRecentLinks(recentContainers, licenseInformation),
+      [],
+    ),
     customLinks: collect(
       collectCustomLinks(customLinks, licenseInformation),
       [],

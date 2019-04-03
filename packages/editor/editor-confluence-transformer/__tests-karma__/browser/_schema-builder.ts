@@ -126,7 +126,7 @@ export const bodiedExtension = (
     extensionType: string;
     parameters?: object;
   },
-  content,
+  content: Node | Array<Node>,
 ) => schema.nodes.bodiedExtension.createChecked(attrs, content);
 export const emoji = (attrs: {
   id?: string;

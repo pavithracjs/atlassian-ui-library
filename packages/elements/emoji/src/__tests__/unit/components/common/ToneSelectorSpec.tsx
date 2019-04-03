@@ -13,7 +13,7 @@ import { AnalyticsListener } from '@atlaskit/analytics-next';
 import {
   toneSelectedEvent,
   toneSelectorOpenedEvent,
-} from '../../../../analytics';
+} from '../../../../util/analytics';
 
 const baseHandEmoji: EmojiDescription = {
   ...imageEmoji,

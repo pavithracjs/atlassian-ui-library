@@ -1,10 +1,8 @@
 import * as React from 'react';
-import LayoutTwoEqualIcon from '@atlaskit/icon/glyph/editor/layout-two-equal';
 import { layoutSection, layoutColumn } from '@atlaskit/adf-schema';
 import { EditorPlugin } from '../../types';
 import { FloatingToolbarConfig } from '../floating-toolbar/types';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
-
 import {
   default as createLayoutPlugin,
   pluginKey,
@@ -12,6 +10,7 @@ import {
 } from './pm-plugins/main';
 import { buildToolbar } from './toolbar';
 import { createDefaultLayoutSection } from './actions';
+import { IconLayout } from '../quick-insert/assets';
 
 export { pluginKey };
 
@@ -42,11 +41,10 @@ export default {
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.columns),
+        description: formatMessage(messages.columnsDescription),
         keywords: ['layout', 'section'],
         priority: 1100,
-        icon: () => (
-          <LayoutTwoEqualIcon label={formatMessage(messages.columns)} />
-        ),
+        icon: () => <IconLayout label={formatMessage(messages.columns)} />,
         action(insert, state) {
           return insert(createDefaultLayoutSection(state));
         },

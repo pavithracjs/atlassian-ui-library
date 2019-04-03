@@ -24,7 +24,7 @@ export default evaluateInner`
     font-weight: 400;
     line-height: 1.42857142857143;
     -ms-overflow-style: -ms-autohiding-scrollbar;
-    text-decoration-skip: ink;
+    text-decoration-skip-ink: auto;
   }
 
   /* Default margins */

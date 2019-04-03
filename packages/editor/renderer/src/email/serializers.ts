@@ -16,6 +16,9 @@ import heading from './nodes/heading';
 import inlineCard from './nodes/inline-card';
 import listItem from './nodes/list-item';
 import mention from './nodes/mention';
+import media from './nodes/media';
+import mediaGroup from './nodes/media-group';
+import mediaSingle from './nodes/media-single';
 import orderedList from './nodes/ordered-list';
 import panel from './nodes/panel';
 import paragraph from './nodes/paragraph';
@@ -24,6 +27,8 @@ import table from './nodes/table';
 import tableCell from './nodes/table-cell';
 import tableHeader from './nodes/table-header';
 import tableRow from './nodes/table-row';
+import taskList from './nodes/task-list';
+import taskItem from './nodes/task-item';
 import text from './nodes/text';
 import unknownBlock from './nodes/unknown-block';
 import status from './nodes/status';
@@ -64,7 +69,9 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   hardBreak,
   heading,
   listItem,
-  mediaGroup: renderNothing,
+  media,
+  mediaGroup,
+  mediaSingle,
   mention,
   orderedList,
   panel,
@@ -75,7 +82,8 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   tableCell,
   tableHeader,
   tableRow,
-  taskList: renderNothing,
+  taskItem,
+  taskList,
   text,
   unknownBlock,
   status,

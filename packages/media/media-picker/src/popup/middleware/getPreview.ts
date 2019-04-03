@@ -9,7 +9,7 @@ import {
 } from '../../domain/preview';
 
 export default function(): Middleware {
-  return store => (next: Dispatch<State>) => action => {
+  return store => (next: Dispatch<State>) => (action: any) => {
     if (isGetPreviewAction(action)) {
       getPreview(store as any, action);
     }

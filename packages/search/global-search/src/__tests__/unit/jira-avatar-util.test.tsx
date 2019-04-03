@@ -7,8 +7,10 @@ import FilterIcon from '@atlaskit/icon/glyph/filter';
 import { getDefaultAvatar } from '../../../src/util/jira-avatar-util';
 import { ContentType } from '../../model/Result';
 
-const renderAvatar = avatar => {
-  const Wrapper = props => <div>{props.children}</div>;
+const renderAvatar = (avatar: JSX.Element | null) => {
+  const Wrapper = (props: { children: React.ReactNode }) => (
+    <div>{props.children}</div>
+  );
   return shallow(<Wrapper>{avatar}</Wrapper>);
 };
 
