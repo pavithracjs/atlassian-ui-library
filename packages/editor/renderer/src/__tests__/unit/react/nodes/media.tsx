@@ -9,6 +9,7 @@ import {
   ExternalImageIdentifier,
   ContextFactory,
 } from '@atlaskit/media-core';
+import { sleep } from '@atlaskit/media-test-helpers';
 
 describe('Media', () => {
   const mediaNode = {
@@ -106,6 +107,12 @@ describe('Media', () => {
     });
 
     describe('populates identifier cache for the page context', () => {
+      const mediaProvider = {
+        viewContext: ContextFactory.create({
+          authProvider: jest.fn(),
+        }),
+      };
+
       const createFileIdentifier = (index = 0): FileIdentifier => ({
         id: `b9d94b5f-e06c-4a80-bfda-00000000000${index}`,
         mediaItemType: 'file',
@@ -126,11 +133,7 @@ describe('Media', () => {
             type="file"
             id={await identifier.id}
             collection={identifier.collectionName}
-            mediaProvider={{
-              viewContext: ContextFactory.create({
-                authProvider: jest.fn(),
-              }),
-            }}
+            mediaProvider={mediaProvider as any}
             rendererContext={{
               adDoc: {
                 content: [
@@ -150,6 +153,7 @@ describe('Media', () => {
           />,
         );
         card.setState({ imageStatus: 'complete' });
+        card.update();
         return card;
       };
 
@@ -158,11 +162,7 @@ describe('Media', () => {
           <MediaCard
             type="external"
             url={indentifier.dataURI}
-            mediaProvider={{
-              viewContext: ContextFactory.create({
-                authProvider: jest.fn(),
-              }),
-            }}
+            mediaProvider={mediaProvider as any}
             rendererContext={{
               adDoc: {
                 content: [
@@ -181,12 +181,16 @@ describe('Media', () => {
           />,
         );
         card.setState({ imageStatus: 'complete' });
+        card.update();
         return card;
       };
 
       it('should have a mediaViewerDataSource if doc is passed for a file card', async () => {
         const fileIdentifier = createFileIdentifier();
         const mediaFileCard = await mountFileCard(fileIdentifier);
+
+        await sleep(0);
+        mediaFileCard.update();
 
         expect(
           mediaFileCard
@@ -203,9 +207,12 @@ describe('Media', () => {
         mediaFileCard.unmount();
       });
 
-      it('should have a mediaViewerDataSource if doc is passed for an external card', () => {
+      it('should have a mediaViewerDataSource if doc is passed for an external card', async () => {
         const externalIdentifier = createExternalIdentifier();
         const mediaExternalCard = mountExternalCard(externalIdentifier);
+
+        await sleep(0);
+        mediaExternalCard.update();
 
         expect(
           mediaExternalCard
@@ -227,6 +234,10 @@ describe('Media', () => {
         const externalIdentifier = createExternalIdentifier(1);
         const mediaFileCard = await mountFileCard(fileIdentifier);
         const mediaExternalCard = mountExternalCard(externalIdentifier);
+
+        await sleep(0);
+        mediaFileCard.update();
+        mediaExternalCard.update();
 
         expect(
           mediaFileCard
@@ -267,6 +278,12 @@ describe('Media', () => {
         const mediaFileCard1 = await mountFileCard(fileIdentifier1);
         const mediaExternalCard0 = mountExternalCard(externalIdentifier0);
         const mediaExternalCard1 = mountExternalCard(externalIdentifier1);
+
+        await sleep(0);
+        mediaFileCard0.update();
+        mediaFileCard1.update();
+        mediaExternalCard0.update();
+        mediaExternalCard1.update();
 
         mediaFileCard0.unmount();
         mediaExternalCard1.unmount();
