@@ -1,0 +1,1 @@
+- Allow RefObject to be passed in as ref (i.e. using React.createRef()) and fix smart resize issue
