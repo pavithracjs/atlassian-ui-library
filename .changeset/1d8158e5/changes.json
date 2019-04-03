@@ -1,0 +1,13 @@
+{
+  "releases": [
+    { "name": "@atlaskit/inline-edit", "type": "major" },
+    { "name": "@atlaskit/analytics-next", "type": "patch" }
+  ],
+  "dependents": [
+    {
+      "name": "@atlaskit/page-header",
+      "type": "patch",
+      "dependencies": ["@atlaskit/inline-edit"]
+    }
+  ]
+}

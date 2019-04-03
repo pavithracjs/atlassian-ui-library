@@ -1,0 +1,1 @@
+- Inline edit component rewritten with new API and newly named exports.
