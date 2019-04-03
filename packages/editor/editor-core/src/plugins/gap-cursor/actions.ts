@@ -46,14 +46,15 @@ function shouldHandleMediaGapCursor(
       }
     }
 
-    // Should not use gap cursor if I am moving from a text selection into a media node with layout wrap-right
+    // Should not use gap cursor if I am moving from a text selection into a media node with layout wrap-right or wrap-left
     if (dir === Direction.LEFT || dir === Direction.RIGHT) {
       const media = getMediaNearPos(doc, $pos, schema, mapDirection[dir]);
       const { mediaSingle } = schema.nodes;
       if (
         media &&
         media.type === mediaSingle &&
-        media.attrs.layout === 'wrap-right'
+        (media.attrs.layout === 'wrap-right' ||
+          media.attrs.layout === 'wrap-left')
       ) {
         return false;
       }
@@ -61,14 +62,15 @@ function shouldHandleMediaGapCursor(
   }
 
   if (selection instanceof NodeSelection) {
-    // Should not use gap cursor if I am moving left/right from media node with layout wrap right
+    // Should not use gap cursor if I am moving left/right from media node with layout wrap right or wrap-left
     if (dir === Direction.LEFT || dir === Direction.RIGHT) {
       const maybeMedia = doc.nodeAt(selection.$from.pos);
       const { mediaSingle } = schema.nodes;
       if (
         maybeMedia &&
         maybeMedia.type === mediaSingle &&
-        maybeMedia.attrs.layout === 'wrap-right'
+        (maybeMedia.attrs.layout === 'wrap-right' ||
+          maybeMedia.attrs.layout === 'wrap-left')
       ) {
         return false;
       }
