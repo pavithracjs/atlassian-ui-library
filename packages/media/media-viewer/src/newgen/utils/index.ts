@@ -73,6 +73,7 @@ export const toIdentifier = (
   };
 };
 
+// MS-1752
 export const getSelectedIndex = (
   items: Identifier[],
   selectedItem: Identifier,
