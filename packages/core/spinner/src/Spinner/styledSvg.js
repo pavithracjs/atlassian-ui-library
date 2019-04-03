@@ -2,7 +2,7 @@
 
 import styled, { css, keyframes } from 'styled-components';
 import { themed } from '@atlaskit/theme/components';
-import * as colors from '@atlaskit/theme/colors';
+import { N500, N0 } from '@atlaskit/theme/colors';
 import type { SpinnerPhases } from '../types';
 import { SIZES_MAP } from './constants';
 
@@ -77,8 +77,8 @@ const getEnterStrokeKeyframe = (size: number) => {
   `;
 };
 
-const spinnerColor = themed({ light: colors.N500, dark: colors.N0 });
-const spinnerColorInverted = themed({ light: colors.N0, dark: colors.N0 });
+const spinnerColor = themed({ light: N500, dark: N0 });
+const spinnerColorInverted = themed({ light: N0, dark: N0 });
 
 export const getStrokeColor = ({
   invertColor,
