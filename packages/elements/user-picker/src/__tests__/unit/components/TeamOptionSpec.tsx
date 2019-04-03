@@ -1,13 +1,5 @@
-import { colors } from '@atlaskit/theme';
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
-import {
-  AvatarItemOption,
-  TextWrapper,
-} from '../../../components/AvatarItemOption';
-import { HighlightText } from '../../../components/HighlightText';
-import { SizeableAvatar } from '../../../components/SizeableAvatar';
 import { TeamOption, TeamOptionProps } from '../../../components/TeamOption';
 import { Team } from '../../../types';
 
@@ -29,207 +21,75 @@ describe('Team Option', () => {
     };
   };
 
-  it('should render TeamOption component', () => {
-    const component = shallowOption(
-      {},
-      buildTeam({ memberCount: 49, includesYou: true }),
-    );
-    const avatarOptionProps = component.find(AvatarItemOption);
-
-    expect(avatarOptionProps.props()).toMatchObject({
-      avatar: (
-        <SizeableAvatar
-          appearance="big"
-          src="https://avatars.atlassian.com/team-1.png"
-          name="Team-1"
-        />
-      ),
-      primaryText: [
-        <TextWrapper key="name" color={colors.N800}>
-          <HighlightText>Team-1</HighlightText>
-        </TextWrapper>,
-      ],
-      secondaryText: (
-        <TextWrapper color={colors.N200}>
-          <FormattedMessage
-            defaultMessage="{count} {count, plural, one {member} other {members}}{includes, select, true {, including you} other {}}"
-            description="Number of members in the team and whether it includes the current user"
-            id="fabric.elements.user-picker.team.member.count"
-            values={{
-              count: 49,
-              includes: true,
-            }}
-          />
-        </TextWrapper>
-      ),
-    });
-  });
-
-  it('should render TeamOption component with correct message when member count is >50', () => {
-    const component = shallowOption(
-      {},
-      buildTeam({ memberCount: 51, includesYou: true }),
-    );
-    const avatarOptionProps = component.find(AvatarItemOption);
-
-    expect(avatarOptionProps.props()).toMatchObject({
-      avatar: (
-        <SizeableAvatar
-          appearance="big"
-          src="https://avatars.atlassian.com/team-1.png"
-          name="Team-1"
-        />
-      ),
-      primaryText: [
-        <TextWrapper key="name" color={colors.N800}>
-          <HighlightText>Team-1</HighlightText>
-        </TextWrapper>,
-      ],
-      secondaryText: (
-        <TextWrapper color={colors.N200}>
-          <FormattedMessage
-            defaultMessage="50+ members{includes, select, true {, including you} other {}}"
-            description="Number of members in a team exceeds 50 and whether it includes the current user"
-            id="fabric.elements.user-picker.team.member.50plus"
-            values={{
-              count: 51,
-              includes: true,
-            }}
-          />
-        </TextWrapper>
-      ),
-    });
-  });
-
-  it('includesYou parameter gets passed to byline', () => {
-    const component = shallowOption(
-      {},
-      buildTeam({ memberCount: 49, includesYou: false }),
-    );
-    const avatarOptionProps = component.find(AvatarItemOption);
-
-    expect(avatarOptionProps.props()).toMatchObject({
-      avatar: (
-        <SizeableAvatar
-          appearance="big"
-          src="https://avatars.atlassian.com/team-1.png"
-          name="Team-1"
-        />
-      ),
-      primaryText: [
-        <TextWrapper key="name" color={colors.N800}>
-          <HighlightText>Team-1</HighlightText>
-        </TextWrapper>,
-      ],
-      secondaryText: (
-        <TextWrapper color={colors.N200}>
-          <FormattedMessage
-            defaultMessage="{count} {count, plural, one {member} other {members}}{includes, select, true {, including you} other {}}"
-            description="Number of members in the team and whether it includes the current user"
-            id="fabric.elements.user-picker.team.member.count"
-            values={{
-              count: 49,
-              includes: false,
-            }}
-          />
-        </TextWrapper>
-      ),
-    });
-  });
-
-  it('should render Team Option in selected state', () => {
-    const component = shallowOption(
-      { isSelected: true },
-      buildTeam({ memberCount: 49, includesYou: true }),
-    );
-    const avatarOptionProps = component.find(AvatarItemOption);
-
-    expect(avatarOptionProps.props()).toMatchObject({
-      avatar: (
-        <SizeableAvatar
-          appearance="big"
-          src="https://avatars.atlassian.com/team-1.png"
-          name="Team-1"
-        />
-      ),
-      primaryText: [
-        <TextWrapper key="name" color={colors.N0}>
-          <HighlightText>Team-1</HighlightText>
-        </TextWrapper>,
-      ],
-      secondaryText: (
-        <TextWrapper color={colors.N50}>
-          <FormattedMessage
-            defaultMessage="{count} {count, plural, one {member} other {members}}{includes, select, true {, including you} other {}}"
-            description="Number of members in the team and whether it includes the current user"
-            id="fabric.elements.user-picker.team.member.count"
-            values={{
-              count: 49,
-              includes: true,
-            }}
-          />
-        </TextWrapper>
-      ),
-    });
-  });
-
-  it('should not render byline if member count is not given', () => {
+  it('should not render byline if member count is undefined', () => {
     const component = shallowOption(
       { isSelected: true },
       buildTeam({ includesYou: true }),
     );
-    const avatarOptionProps = component.find(AvatarItemOption);
-
-    expect(avatarOptionProps.props()).toMatchObject({
-      avatar: (
-        <SizeableAvatar
-          appearance="big"
-          src="https://avatars.atlassian.com/team-1.png"
-          name="Team-1"
-        />
-      ),
-      primaryText: [
-        <TextWrapper key="name" color={colors.N0}>
-          <HighlightText>Team-1</HighlightText>
-        </TextWrapper>,
-      ],
-      secondaryText: undefined,
-    });
+    expect(component).toMatchSnapshot();
   });
 
-  it('should render byline if member count is given and includesYou is not given', () => {
+  it('should render correct byline if includesYou is undeifned and memberCount <= 50', () => {
     const component = shallowOption(
       { isSelected: true },
-      buildTeam({ memberCount: 48 }),
+      buildTeam({
+        memberCount: 45,
+      }),
     );
-    const avatarOptionProps = component.find(AvatarItemOption);
+    expect(component).toMatchSnapshot();
+  });
 
-    expect(avatarOptionProps.props()).toMatchObject({
-      avatar: (
-        <SizeableAvatar
-          appearance="big"
-          src="https://avatars.atlassian.com/team-1.png"
-          name="Team-1"
-        />
-      ),
-      primaryText: [
-        <TextWrapper key="name" color={colors.N0}>
-          <HighlightText>Team-1</HighlightText>
-        </TextWrapper>,
-      ],
-      secondaryText: (
-        <TextWrapper color={colors.N50}>
-          <FormattedMessage
-            defaultMessage="{count} {count, plural, one {member} other {members}}{includes, select, true {, including you} other {}}"
-            description="Number of members in the team and whether it includes the current user"
-            id="fabric.elements.user-picker.team.member.count"
-            values={{
-              count: 48,
-              includes: undefined,
-            }}
-          />
-        </TextWrapper>
-      ),
-    });
+  it('should render correct byline if includesYou is undeifned and memberCount > 50', () => {
+    const component = shallowOption(
+      { isSelected: true },
+      buildTeam({
+        memberCount: 51,
+      }),
+    );
+    expect(component).toMatchSnapshot();
+  });
+
+  it('should render correct byline if includesYou = false and memberCount <= 50', () => {
+    const component = shallowOption(
+      { isSelected: true },
+      buildTeam({
+        includesYou: false,
+        memberCount: 45,
+      }),
+    );
+    expect(component).toMatchSnapshot();
+  });
+
+  it('should render correct byline if includesYou = false and memberCount > 50', () => {
+    const component = shallowOption(
+      { isSelected: true },
+      buildTeam({
+        includesYou: false,
+        memberCount: 51,
+      }),
+    );
+    expect(component).toMatchSnapshot();
+  });
+
+  it('should render correct byline if includesYou = true and memberCount <= 50', () => {
+    const component = shallowOption(
+      { isSelected: true },
+      buildTeam({
+        includesYou: true,
+        memberCount: 45,
+      }),
+    );
+    expect(component).toMatchSnapshot();
+  });
+
+  it('should render correct byline if includesYou = true and memberCount > 50', () => {
+    const component = shallowOption(
+      { isSelected: true },
+      buildTeam({
+        includesYou: true,
+        memberCount: 51,
+      }),
+    );
+    expect(component).toMatchSnapshot();
   });
 });

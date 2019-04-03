@@ -37,20 +37,49 @@ export class TeamOption extends React.PureComponent<TeamOptionProps> {
     } = this.props;
 
     // if Member count is missing, do not show the byline, regardless of the availability of includesYou
-    if (memberCount === null || typeof memberCount === 'undefined') {
+    if (memberCount == null) {
       return undefined;
+    } else {
+      if (includesYou != null && includesYou === true) {
+        if (memberCount > 50) {
+          return (
+            <TextWrapper color={isSelected ? colors.N50 : colors.N200}>
+              <FormattedMessage {...messages.plus50MembersWithYou} />
+            </TextWrapper>
+          );
+        } else {
+          return (
+            <TextWrapper color={isSelected ? colors.N50 : colors.N200}>
+              <FormattedMessage
+                {...messages.memberCountWithYou}
+                values={{
+                  count: memberCount,
+                }}
+              />
+            </TextWrapper>
+          );
+        }
+      } else {
+        if (memberCount > 50) {
+          return (
+            <TextWrapper color={isSelected ? colors.N50 : colors.N200}>
+              <FormattedMessage {...messages.plus50MembersWithoutYou} />
+            </TextWrapper>
+          );
+        } else {
+          return (
+            <TextWrapper color={isSelected ? colors.N50 : colors.N200}>
+              <FormattedMessage
+                {...messages.memberCountWithoutYou}
+                values={{
+                  count: memberCount,
+                }}
+              />
+            </TextWrapper>
+          );
+        }
+      }
     }
-
-    return (
-      <TextWrapper color={isSelected ? colors.N50 : colors.N200}>
-        <FormattedMessage
-          {...(memberCount > 50
-            ? messages.plus50Members
-            : messages.memberCount)}
-          values={{ count: memberCount, includes: includesYou }}
-        />
-      </TextWrapper>
-    );
   };
 
   private renderAvatar = () => {

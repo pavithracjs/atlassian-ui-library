@@ -1,0 +1,246 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Team Option should not render byline if member count is undefined 1`] = `
+<Component
+  avatar={
+    <SizeableAvatar
+      appearance="big"
+      name="Team-1"
+      src="https://avatars.atlassian.com/team-1.png"
+    />
+  }
+  primaryText={
+    Array [
+      <styled.span
+        color="#FFFFFF"
+      >
+        <HighlightText>
+          Team-1
+        </HighlightText>
+      </styled.span>,
+    ]
+  }
+/>
+`;
+
+exports[`Team Option should render correct byline if includesYou = false and memberCount <= 50 1`] = `
+<Component
+  avatar={
+    <SizeableAvatar
+      appearance="big"
+      name="Team-1"
+      src="https://avatars.atlassian.com/team-1.png"
+    />
+  }
+  primaryText={
+    Array [
+      <styled.span
+        color="#FFFFFF"
+      >
+        <HighlightText>
+          Team-1
+        </HighlightText>
+      </styled.span>,
+    ]
+  }
+  secondaryText={
+    <styled.span
+      color="#C1C7D0"
+    >
+      <FormattedMessage
+        defaultMessage="{count} {count, plural, one {member} other {members}}"
+        description="Byline to show the number of members in the team when the current user is not a member of the team"
+        id="fabric.elements.user-picker.team.member.count"
+        values={
+          Object {
+            "count": 45,
+          }
+        }
+      />
+    </styled.span>
+  }
+/>
+`;
+
+exports[`Team Option should render correct byline if includesYou = false and memberCount > 50 1`] = `
+<Component
+  avatar={
+    <SizeableAvatar
+      appearance="big"
+      name="Team-1"
+      src="https://avatars.atlassian.com/team-1.png"
+    />
+  }
+  primaryText={
+    Array [
+      <styled.span
+        color="#FFFFFF"
+      >
+        <HighlightText>
+          Team-1
+        </HighlightText>
+      </styled.span>,
+    ]
+  }
+  secondaryText={
+    <styled.span
+      color="#C1C7D0"
+    >
+      <FormattedMessage
+        defaultMessage="50+ members"
+        description="Byline to show the number of members in the team when the number exceeds 50"
+        id="fabric.elements.user-picker.team.member.50plus"
+        values={Object {}}
+      />
+    </styled.span>
+  }
+/>
+`;
+
+exports[`Team Option should render correct byline if includesYou = true and memberCount <= 50 1`] = `
+<Component
+  avatar={
+    <SizeableAvatar
+      appearance="big"
+      name="Team-1"
+      src="https://avatars.atlassian.com/team-1.png"
+    />
+  }
+  primaryText={
+    Array [
+      <styled.span
+        color="#FFFFFF"
+      >
+        <HighlightText>
+          Team-1
+        </HighlightText>
+      </styled.span>,
+    ]
+  }
+  secondaryText={
+    <styled.span
+      color="#C1C7D0"
+    >
+      <FormattedMessage
+        defaultMessage="{count} {count, plural, one {member} other {members}}, including you"
+        description="Byline to show the number of members in the team when the current user is also a member of the team"
+        id="fabric.elements.user-picker.team.member.count.including.you"
+        values={
+          Object {
+            "count": 45,
+          }
+        }
+      />
+    </styled.span>
+  }
+/>
+`;
+
+exports[`Team Option should render correct byline if includesYou = true and memberCount > 50 1`] = `
+<Component
+  avatar={
+    <SizeableAvatar
+      appearance="big"
+      name="Team-1"
+      src="https://avatars.atlassian.com/team-1.png"
+    />
+  }
+  primaryText={
+    Array [
+      <styled.span
+        color="#FFFFFF"
+      >
+        <HighlightText>
+          Team-1
+        </HighlightText>
+      </styled.span>,
+    ]
+  }
+  secondaryText={
+    <styled.span
+      color="#C1C7D0"
+    >
+      <FormattedMessage
+        defaultMessage="50+ members, including you"
+        description="Byline to show the number of members in the team when the number exceeds 50 and also includes the current user"
+        id="fabric.elements.user-picker.team.member.50plus.including.you"
+        values={Object {}}
+      />
+    </styled.span>
+  }
+/>
+`;
+
+exports[`Team Option should render correct byline if includesYou is undeifned and memberCount <= 50 1`] = `
+<Component
+  avatar={
+    <SizeableAvatar
+      appearance="big"
+      name="Team-1"
+      src="https://avatars.atlassian.com/team-1.png"
+    />
+  }
+  primaryText={
+    Array [
+      <styled.span
+        color="#FFFFFF"
+      >
+        <HighlightText>
+          Team-1
+        </HighlightText>
+      </styled.span>,
+    ]
+  }
+  secondaryText={
+    <styled.span
+      color="#C1C7D0"
+    >
+      <FormattedMessage
+        defaultMessage="{count} {count, plural, one {member} other {members}}"
+        description="Byline to show the number of members in the team when the current user is not a member of the team"
+        id="fabric.elements.user-picker.team.member.count"
+        values={
+          Object {
+            "count": 45,
+          }
+        }
+      />
+    </styled.span>
+  }
+/>
+`;
+
+exports[`Team Option should render correct byline if includesYou is undeifned and memberCount > 50 1`] = `
+<Component
+  avatar={
+    <SizeableAvatar
+      appearance="big"
+      name="Team-1"
+      src="https://avatars.atlassian.com/team-1.png"
+    />
+  }
+  primaryText={
+    Array [
+      <styled.span
+        color="#FFFFFF"
+      >
+        <HighlightText>
+          Team-1
+        </HighlightText>
+      </styled.span>,
+    ]
+  }
+  secondaryText={
+    <styled.span
+      color="#C1C7D0"
+    >
+      <FormattedMessage
+        defaultMessage="50+ members"
+        description="Byline to show the number of members in the team when the number exceeds 50"
+        id="fabric.elements.user-picker.team.member.50plus"
+        values={Object {}}
+      />
+    </styled.span>
+  }
+/>
+`;
