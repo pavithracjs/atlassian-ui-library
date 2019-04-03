@@ -8,7 +8,7 @@
 const glob = require('glob');
 const pageSelector = '#examples';
 
-async function disableCaretCursor(page) {
+export async function disableCaretCursor(page) {
   const css = `
   * {
     caret-color: transparent;
@@ -17,7 +17,7 @@ async function disableCaretCursor(page) {
   await page.addStyleTag({ content: css });
 }
 
-async function disableAllTransitions(page) {
+export async function disableAllTransitions(page) {
   const css = `
   * {
     -webkit-transition: none !important;
@@ -29,7 +29,7 @@ async function disableAllTransitions(page) {
   await page.addStyleTag({ content: css });
 }
 
-async function disableAllAnimations(page) {
+export async function disableAllAnimations(page) {
   const css = `
   * {
     animation: none !important;

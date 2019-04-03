@@ -1,11 +1,11 @@
-import { getExampleUrl } from '@atlaskit/visual-regression/helper';
+import {
+  getExampleUrl,
+  disableAllAnimations,
+  disableAllTransitions,
+  disableCaretCursor,
+} from '@atlaskit/visual-regression/helper';
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
-import {
-  disableAllAnimations,
-  disableCaretCursor,
-  disableAllTransitions,
-} from '../__helpers/page-objects/_page';
 
 export {
   setupMediaMocksProviders,
