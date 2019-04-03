@@ -10,6 +10,7 @@ const ReadView = styled.div`
 
 const EditView = styled.input`
   font-size: inherit;
+  font-weight: inherit;
   box-sizing: border-box;
   border: 2px solid transparent;
   border-radius: 3px;
@@ -26,7 +27,7 @@ export default class InlineEditExample extends React.Component {
   render() {
     return (
       <div style={{ padding: '0 24px' }}>
-        <div style={{ fontSize: '24px' }}>
+        <div style={{ fontSize: '24px', fontWeight: 'bold' }}>
           <InlineEdit
             editValue="Field Value"
             editView={({ ref, ...rest }) => (
