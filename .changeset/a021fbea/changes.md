@@ -1,0 +1,1 @@
+- ED-5850 Visual tweak to ensure icons are tightly bound by their borders
