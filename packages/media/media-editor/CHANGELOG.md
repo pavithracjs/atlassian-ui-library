@@ -1,5 +1,10 @@
 # @atlaskit/media-editor
 
+## 32.0.1
+- [patch] [e2453a0071](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e2453a0071):
+
+  - MS-1749 Always pass occurrenceKeys during file creation to avoid file being inserted in the collection twice
+
 ## 32.0.0
 - [patch] [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
 
