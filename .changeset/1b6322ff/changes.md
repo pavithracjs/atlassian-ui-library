@@ -1,0 +1,1 @@
+- MS-1633 Media Viewer now opens from a card itself and does not require explicit management
