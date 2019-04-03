@@ -1,5 +1,10 @@
 # @atlaskit/theme
 
+## 8.1.3
+- [patch] [b4732a178b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b4732a178b):
+
+  - Fixing incorrect z-index for navigation-next and inline dialog
+
 ## 8.1.2
 - [patch] [0f17bb7c20](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f17bb7c20):
 

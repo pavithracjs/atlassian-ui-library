@@ -1,18 +1,38 @@
 import * as React from 'react';
 import { v4 as uuid } from 'uuid';
 import { Subscription } from 'rxjs/Subscription';
+import {
+  intlShape,
+  IntlProvider,
+  injectIntl,
+  InjectedIntlProps,
+} from 'react-intl';
+
 import { Context, UploadableFile, FileIdentifier } from '@atlaskit/media-core';
 import { messages, Shortcut } from '@atlaskit/media-ui';
 import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
 import Spinner from '@atlaskit/spinner';
 
-import { intlShape, IntlProvider } from 'react-intl';
 import EditorView from './editorView/editorView';
 import { Blanket, SpinnerWrapper } from './styled';
 import { fileToBase64 } from '../util';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
 import ErrorView from './editorView/errorView/errorView';
 import { Dimensions } from '../common';
+
+export const convertFileNameToPng = (fileName?: string) => {
+  if (!fileName) {
+    return 'annotated-image.png';
+  }
+  if (fileName.endsWith('.png')) {
+    return fileName;
+  } else {
+    if (fileName.lastIndexOf('.') === 0 || fileName.lastIndexOf('.') === -1) {
+      return `${fileName}.png`;
+    } else {
+      return `${fileName.substring(0, fileName.lastIndexOf('.'))}.png`;
+    }
+  }
+};
 
 export interface SmartMediaEditorProps {
   identifier: FileIdentifier;
@@ -79,20 +99,24 @@ export class SmartMediaEditor extends React.Component<
       .getFileState(id, { collectionName, occurrenceKey })
       .subscribe({
         next: async state => {
-          if (state.status === 'processed') {
-            const { name } = state;
-            this.fileName = name;
-            this.setImageUrl(identifier);
-            setTimeout(() => getFileSubscription.unsubscribe(), 0);
-          } else if (state.status === 'error') {
+          if (state.status === 'error') {
             this.onError(state.message);
             setTimeout(() => getFileSubscription.unsubscribe(), 0);
-          } else if (state.preview) {
-            const { value } = await state.preview;
+            return;
+          }
+
+          const { name, preview, status } = state;
+          this.fileName = name;
+
+          if (status === 'processed') {
+            this.setRemoteImageUrl(identifier);
+            setTimeout(() => getFileSubscription.unsubscribe(), 0);
+          } else if (preview) {
+            const { value } = await preview;
             if (value instanceof Blob) {
-              const base64ImageUrl = await fileToBase64(value);
+              const imageUrl = await fileToBase64(value);
               this.setState({
-                imageUrl: base64ImageUrl,
+                imageUrl,
               });
             } else {
               this.setState({
@@ -110,7 +134,7 @@ export class SmartMediaEditor extends React.Component<
     this.getFileSubscription = getFileSubscription;
   };
 
-  setImageUrl = async (identifier: FileIdentifier) => {
+  setRemoteImageUrl = async (identifier: FileIdentifier) => {
     const { context } = this.props;
     const id = await identifier.id;
     const imageUrl = await context.getImageUrl(id, {
@@ -128,7 +152,7 @@ export class SmartMediaEditor extends React.Component<
         config: { userAuthProvider, authProvider },
         file,
       },
-      identifier: { collectionName, occurrenceKey },
+      identifier: { collectionName },
     } = this.props;
 
     if (userAuthProvider) {
@@ -140,7 +164,7 @@ export class SmartMediaEditor extends React.Component<
       const destination = {
         collection: 'recents',
         authProvider: userAuthProvider,
-        occurrenceKey,
+        occurrenceKey: uuid(),
       };
       await file.copyFile(source, destination);
     }
@@ -156,18 +180,20 @@ export class SmartMediaEditor extends React.Component<
       intl: { formatMessage },
     } = this.props;
 
-    const { collectionName, occurrenceKey } = identifier;
+    const { collectionName } = identifier;
     const uploadableFile: UploadableFile = {
       content: imageData,
       collection: collectionName,
-      name: fileName,
+      name: convertFileNameToPng(fileName),
     };
     const id = uuid();
+    const occurrenceKey = uuid();
     const touchedFiles = context.file.touchFiles(
       [
         {
           fileId: id,
           collection: collectionName,
+          occurrenceKey,
         },
       ],
       collectionName,
@@ -205,6 +231,7 @@ export class SmartMediaEditor extends React.Component<
       id,
       collectionName,
       mediaItemType: 'file',
+      occurrenceKey,
     };
     onUploadStart(newFileIdentifier, dimensions);
   };
