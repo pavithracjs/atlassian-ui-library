@@ -29,7 +29,6 @@ import {
 import { FakeTextCursorSelection } from '../plugins/fake-text-cursor/cursor';
 import { hasParentNodeOfType } from 'prosemirror-utils';
 import { GapCursorSelection, Side } from '../plugins/gap-cursor/selection';
-import { findFarthestParentNode } from './document';
 
 export * from './document';
 export * from './action';
