@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.7.2
+- [patch] [41b940325e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/41b940325e):
+
+  - ED-5948: added mass alignment on a range of selected cells
+
 ## 107.7.1
 - [patch] [c4aedc236e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c4aedc236e):
 
