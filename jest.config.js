@@ -14,8 +14,11 @@ const TEST_ONLY_PATTERN = process.env.TEST_ONLY_PATTERN;
 const STEP_IDX = Number(process.env.STEP_IDX);
 const STEPS = Number(process.env.STEPS);
 let moduleMap;
+
 try {
-  console.log(process.env.MODULE_MAP);
+  if (typeof process.env.MODULE_MAP !== 'string') {
+    throw new Error('MODULE_MAP is undefined');
+  }
   moduleMap = JSON.parse(process.env.MODULE_MAP);
 } catch (err) {
   console.log(err);
