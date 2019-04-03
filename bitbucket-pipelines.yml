@@ -372,6 +372,7 @@ pipelines:
             - node ./wait.until.no.master.build.running.js
             # The after-script command needs to be run from the root.
             - cd ../..
+            - ls
           after-script:
             # Use to send build data to Datadog / SFX.
             - yarn send:build:data
