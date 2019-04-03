@@ -8,7 +8,7 @@ describe('Snapshot Test', () => {
     const url = getExampleUrl(
       'core',
       'inline-edit',
-      'inline-editable-textfield',
+      'variations',
       // @ts-ignore
       global.__BASEURL__,
     );
