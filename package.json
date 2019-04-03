@@ -26,7 +26,7 @@
     "delete:build": "                        bolt ws exec --parallel -- rm -rf dist",
     "enable:lfs": "                          node enable-lfs-hooks.js",
     "test": "                                MODULE_MAP=$(yarn -s get-multi-entry-map) yarn jest",
-    "test:CI": "                             node ./build/jest-config/run.jest.with.analytics.reports.js",
+    "test:CI": "                             MODULE_MAP=$(yarn -s get-multi-entry-map) node ./build/jest-config/run.jest.with.analytics.reports.js",
     "test:changed": "                        CHANGED_PACKAGES=$(node build/ci-scripts/get.changed.packages.since.master.js) COVERAGE_PACKAGES=$(node build/ci-scripts/get.code.threshold.for.changed.packages.since.master.js) yarn test:CI",
     "test:browser": "                        projector ./projector testBrowser",
     "test:browser:watch": "                  projector ./projector testBrowser --watch",
