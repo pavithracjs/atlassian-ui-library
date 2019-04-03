@@ -44,6 +44,7 @@ module.name_mapper='^@atlaskit\/\([a-zA-Z0-9_\-]+\)$' -> '<PROJECT_ROOT>/package
 module.name_mapper='^@atlaskit\/\([a-zA-Z0-9_\-]+\)$' -> '<PROJECT_ROOT>/packages/stride/\1/src/index'
 module.name_mapper='^@atlaskit\/\([a-zA-Z0-9_\-]+\)$' -> '<PROJECT_ROOT>/packages/trello/\1/src/index'
 
+# Multi entry point support code
 module.name_mapper='^@atlaskit\/\([a-zA-Z0-9_\-]+\)\/\([a-zA-Z0-9_\-]+\)$' -> '<PROJECT_ROOT>/packages/bitbucket/\1/src/\2'
 module.name_mapper='^@atlaskit\/\([a-zA-Z0-9_\-]+\)\/\([a-zA-Z0-9_\-]+\)$' -> '<PROJECT_ROOT>/packages/confluence/\1/src/\2'
 module.name_mapper='^@atlaskit\/\([a-zA-Z0-9_\-]+\)\/\([a-zA-Z0-9_\-]+\)$' -> '<PROJECT_ROOT>/packages/core/\1/src/\2'
