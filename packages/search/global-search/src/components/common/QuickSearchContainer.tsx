@@ -63,7 +63,7 @@ export interface Props {
   isSendSearchTermsEnabled?: boolean;
   placeholder?: string;
   selectedResultId?: string;
-  onSelectedResultIdChanged?: (id: string) => void;
+  onSelectedResultIdChanged?: (id: string | number | null) => void;
   enablePreQueryFromAggregator?: boolean;
 }
 
@@ -455,4 +455,4 @@ export class QuickSearchContainer extends React.Component<Props, State> {
   }
 }
 
-export default withAnalyticsEvents()(QuickSearchContainer);
+export default withAnalyticsEvents<Props>()(QuickSearchContainer);

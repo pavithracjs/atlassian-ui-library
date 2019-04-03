@@ -155,4 +155,4 @@ export class ErrorMessage extends React.Component<
   }
 }
 
-export default withAnalyticsEvents()(injectIntl(ErrorMessage));
+export default withAnalyticsEvents<Props>()(injectIntl(ErrorMessage));

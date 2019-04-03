@@ -118,4 +118,6 @@ export class NavigationBase extends Component<NavigationProps, {}> {
   }
 }
 
-export const Navigation = withAnalyticsEvents({})(NavigationBase);
+export const Navigation = withAnalyticsEvents<NavigationProps>({})(
+  NavigationBase,
+);

@@ -438,7 +438,10 @@ export class JiraQuickSearchContainer extends React.Component<
       enablePreQueryFromAggregator,
     } = this.props;
     const { selectedResultId } = this.state;
-
+    const props = {} as any;
+    if (createAnalyticsEvent) {
+      props.createAnalyticsEvent = createAnalyticsEvent;
+    }
     return (
       <QuickSearchContainer
         placeholder={this.props.intl.formatMessage(
@@ -451,7 +454,7 @@ export class JiraQuickSearchContainer extends React.Component<
         getSearchResults={this.getSearchResults}
         getAbTestData={this.getAbTestData}
         handleSearchSubmit={this.handleSearchSubmit}
-        createAnalyticsEvent={createAnalyticsEvent}
+        {...props}
         logger={logger}
         selectedResultId={selectedResultId}
         onSelectedResultIdChanged={(newId: any) =>

@@ -146,7 +146,7 @@ it('method calls do not work after being fired', () => {
   expect(consoleHandler).toHaveBeenCalledTimes(1);
 
   const newEvent = analyticsEvent.clone();
-  expect(newEvent).toBeNull();
+  expect(newEvent).toBe(analyticsEvent);
 
   analyticsEvent.update({ a: 'c' });
   expect(analyticsEvent.payload).toEqual({ action: 'b' });

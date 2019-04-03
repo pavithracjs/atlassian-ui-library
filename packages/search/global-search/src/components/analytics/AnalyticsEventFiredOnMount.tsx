@@ -28,4 +28,6 @@ export class UnwrappedAnalyticsEventFiredOnMount extends React.Component<
   }
 }
 
-export default withAnalyticsEvents()(UnwrappedAnalyticsEventFiredOnMount);
+export default withAnalyticsEvents<Props>()(
+  UnwrappedAnalyticsEventFiredOnMount,
+);

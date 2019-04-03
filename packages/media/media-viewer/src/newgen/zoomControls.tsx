@@ -83,6 +83,6 @@ export class ZoomControlsBase extends Component<
   };
 }
 
-export const ZoomControls = withAnalyticsEvents({})(
-  injectIntl(ZoomControlsBase),
-);
+export const ZoomControls = withAnalyticsEvents<
+  ZoomControlsProps & InjectedIntlProps
+>({})(injectIntl(ZoomControlsBase));

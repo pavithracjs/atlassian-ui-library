@@ -18,6 +18,7 @@ import {
   OnSelectChangeFuncResult,
   CardDimensionValue,
   CardOnClickCallback,
+  CardViewProps,
 } from '../index';
 import { FileCard } from '../files';
 import { breakpointSize } from '../utils/breakpoint';
@@ -211,7 +212,9 @@ const createAndFireEventOnMedia = createAndFireEvent('media');
  * With this CardView class constructor version `createAnalyticsEvent` props is supplied for you, so
  * when creating instance of that class you don't need to worry about it.
  */
-export const CardViewWithAnalyticsEvents = withAnalyticsEvents({
+export const CardViewWithAnalyticsEvents = withAnalyticsEvents<
+  CardViewProps & CardViewState
+>({
   onClick: createAndFireEventOnMedia({ action: 'clicked' }),
 })(CardViewBase);
 

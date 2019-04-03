@@ -110,4 +110,4 @@ class MediaViewerComponent extends React.Component<Props, {}> {
   }
 }
 
-export const MediaViewer = withAnalyticsEvents()(MediaViewerComponent);
+export const MediaViewer = withAnalyticsEvents<Props>()(MediaViewerComponent);
