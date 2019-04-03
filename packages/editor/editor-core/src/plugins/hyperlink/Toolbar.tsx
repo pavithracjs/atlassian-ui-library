@@ -19,6 +19,7 @@ import { normalizeUrl } from './utils';
 import RecentList from './ui/RecentSearch';
 import { Command } from '../../types';
 import { EditorView } from 'prosemirror-view';
+import { DispatchAnalyticsEvent } from '../analytics';
 
 export const messages = defineMessages({
   openLink: {
@@ -78,6 +79,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
   state,
   { formatMessage },
   providerFactory,
+  dispatchAnalyticsEvent?,
 ) => {
   const linkState: HyperlinkState | undefined = stateKey.getState(state);
 
@@ -86,7 +88,13 @@ export const getToolbarConfig: FloatingToolbarHandler = (
 
     const hyperLinkToolbar = {
       title: 'Hyperlink floating controls',
-      nodeType: state.schema.nodes.paragraph,
+      nodeType: [
+        state.schema.nodes.text,
+        state.schema.nodes.paragraph,
+        state.schema.nodes.heading,
+        state.schema.nodes.taskItem,
+        state.schema.nodes.decisionItem,
+      ],
       align: 'left' as AlignType,
       className:
         activeLinkMark.type === 'INSERT' ? 'hyperlink-floating-toolbar' : '',
@@ -145,6 +153,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
               render: (
                 view?: EditorView,
                 idx?: number,
+                dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
               ):
                 | React.ComponentClass
                 | React.SFC
@@ -165,6 +174,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
                       view.focus();
                     }}
                     onBlur={() => hideLinkToolbar()(view.state, view.dispatch)}
+                    dispatchAnalyticsEvent={dispatchAnalyticsEvent}
                   />
                 );
               },

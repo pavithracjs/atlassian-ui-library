@@ -459,7 +459,7 @@ describe('mentionTypeahead', () => {
             doc(
               p(
                 '',
-                a({ href: 'localhost/people/team/team-2' })('Team Beta'),
+                a({ href: 'http://localhost/people/team/team-2' })('Team Beta'),
                 ' (',
                 mention({
                   id: 'member-1',

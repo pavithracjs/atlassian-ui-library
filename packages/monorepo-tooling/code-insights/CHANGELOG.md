@@ -1,5 +1,20 @@
 # @atlaskit/code-insights
 
+## 1.1.1
+- [patch] [d3d376241a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3d376241a):
+
+  - Creating a patch for the readme chagne
+
+## 1.1.0
+- [minor] [f782c6a37d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f782c6a37d):
+
+  - Add basicAuth support for bitbucket-server reporter
+
+## 1.0.1
+- [patch] [353aa4a2dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/353aa4a2dd):
+
+  - Fix bin directory in package.json
+
 ## 1.0.0
 - [major] [dc294c47bb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dc294c47bb):
 

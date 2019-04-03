@@ -1,5 +1,130 @@
 # @atlaskit/editor-core
 
+## 107.7.0
+- [minor] [9df8755c0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9df8755c0b):
+
+  - ED-6603: Disable dynamic text sizing in full width mode
+
+## 107.6.5
+- [patch] [e125d7d78a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e125d7d78a):
+
+  - ED-6627: fix re-rendering table controls when table is nested inside Columns or bodied extensions
+
+## 107.6.4
+- [patch] [0f0c06f787](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f0c06f787):
+
+  - ED-5850 Visual tweak to ensure icons are tightly bound by their borders
+
+## 107.6.3
+- [patch] [1b0b718266](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b0b718266):
+
+  - ED-6474: fix resizing last table column when table is nested inside Columns node
+
+## 107.6.2
+- [patch] [6110c666c6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6110c666c6):
+
+  - ED-6619: scale table when deleting or adding columns
+
+## 107.6.1
+- [patch] [e0d04f321c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0d04f321c):
+
+  - ED-6376: fix rendering row controls when table has nested Jira macro (rendered as a nested table)
+
+## 107.6.0
+- [minor] [13d53eb7c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13d53eb7c9):
+
+  - ED-6604 Animate transition from default -> full-width mode and vice versa
+
+## 107.5.1
+- [patch] [d26570e3b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d26570e3b5):
+
+  - Update i18n for team mention
+  - Fix a bug in team mention: missing https protocol in team link
+
+## 107.5.0
+- [minor] [81491bbc4e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/81491bbc4e):
+
+  - ED-5850 Add fallback icon and fix SVG ids
+
+## 107.4.0
+- [minor] [60a89f843f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60a89f843f):
+
+  - ED-6598: Add initial prop for 'Full Width Mode'
+
+  You may now enable our new experimental feature 'Full Width Mode' by passing a new `fullWidthMode` prop.
+
+  This prop only takes effect on full-width appearence and this initial implementation is extremely raw as most nodes don't reflect their desired behaviour.
+
+  Example:
+  ```
+  <Editor appearence="full-width" fullWidthMode={true} />
+  ```
+
+## 107.3.3
+- [patch] [92c8c14019](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92c8c14019):
+
+  - ED-6492: Fixed media single without dimensions not rendering on mobile
+
+## 107.3.2
+- [patch] [3d0da81a4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d0da81a4b):
+
+  - ED-6583 Add analytics v3 for link inserts
+
+## 107.3.1
+- [patch] [9f08142085](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f08142085):
+
+  - ED-6618: Fixes the exception thrown when trying to apply the delete decoration.
+
+  Occurs on a position where a node was recently deleted. We now re-map the decorations position on state change to verify if it's still valid to draw or simply delete it.
+
+## 107.3.0
+- [minor] [936f12e761](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/936f12e761):
+
+  - ED-5850 Add descriptions, richer icons and keyboard shortcuts to the quick insert menu
+
+## 107.2.0
+- [minor] [fb7a25ec0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fb7a25ec0b):
+
+  - ED-6221 Fire v3 analytics events when insert media
+
+## 107.1.1
+- [patch] [67e5bfeb72](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67e5bfeb72):
+
+  - ED-6181 Add analytics to paste event
+
+## 107.1.0
+- [minor] [e36f791fd6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e36f791fd6):
+
+  - Improve types
+
+## 107.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/renderer@45.0.0
+  - @atlaskit/emoji@59.0.0
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/media-editor@32.0.0
+  - @atlaskit/media-filmstrip@31.0.0
+  - @atlaskit/media-picker@38.0.0
+  - @atlaskit/editor-bitbucket-transformer@5.0.2
+  - @atlaskit/editor-json-transformer@5.0.2
+  - @atlaskit/editor-markdown-transformer@3.0.2
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/task-decision@14.0.1
+  - @atlaskit/util-data-test@11.1.5
+  - @atlaskit/media-test-helpers@21.1.0
+  - @atlaskit/media-core@29.1.0
+
+## 106.7.9
+- [patch] [495738bcd8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/495738bcd8):
+
+  - Enable UI for links inside headings
+
+## 106.7.8
+- [patch] [2d7ff51814](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2d7ff51814):
+
+  - ED-6595 Remove layout marks when pasting images inside a list
+
 ## 106.7.7
 - Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
   - @atlaskit/editor-common@35.1.3

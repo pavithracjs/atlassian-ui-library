@@ -84,12 +84,23 @@ export const hoverDecoration = (
   return true;
 };
 
+export type DecorationState = {
+  decoration?: Decoration;
+};
+
 export default () => {
   return new Plugin({
     key: decorationStateKey,
     state: {
-      init: () => ({ decorations: undefined }),
-      apply(tr, pluginState) {
+      init: (): DecorationState => ({ decoration: undefined }),
+      apply(tr, pluginState: DecorationState): DecorationState {
+        if (pluginState.decoration) {
+          const mapResult = tr.mapping.mapResult(pluginState.decoration.from);
+          if (mapResult.deleted) {
+            pluginState = { decoration: undefined };
+          }
+        }
+
         const meta = tr.getMeta(decorationStateKey);
         if (!meta) {
           return pluginState;
@@ -98,10 +109,10 @@ export default () => {
         switch (meta.action) {
           case ACTIONS.DECORATION_ADD:
             return {
-              decorations: meta.data,
+              decoration: meta.data,
             };
           case ACTIONS.DECORATION_REMOVE:
-            return { decorations: undefined };
+            return { decoration: undefined };
           default:
             return pluginState;
         }
@@ -111,9 +122,11 @@ export default () => {
     props: {
       decorations(state: EditorState) {
         const { doc } = state;
-        const { decorations } = decorationStateKey.getState(state);
-        if (decorations) {
-          return DecorationSet.create(doc, [decorations]);
+        const { decoration } = decorationStateKey.getState(
+          state,
+        ) as DecorationState;
+        if (decoration) {
+          return DecorationSet.create(doc, [decoration]);
         }
         return null;
       },

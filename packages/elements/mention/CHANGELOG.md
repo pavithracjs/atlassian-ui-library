@@ -1,5 +1,16 @@
 # @atlaskit/mention
 
+## 17.6.1
+- [patch] [d26570e3b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d26570e3b5):
+
+  - Update i18n for team mention
+  - Fix a bug in team mention: missing https protocol in team link
+
+## 17.6.0
+- [minor] [b31086fcf6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b31086fcf6):
+
+  - Add additional entry points for selective imports of mention components
+
 ## 17.5.0
 - [minor] [b0210d7ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0210d7ccc):
 

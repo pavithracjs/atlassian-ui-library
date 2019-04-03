@@ -16,7 +16,6 @@ import Button from '@atlaskit/button';
 import {
   Context,
   ProcessedFileState,
-  Identifier,
   FileIdentifier,
   FileState,
 } from '@atlaskit/media-core';
@@ -57,7 +56,7 @@ const makeFakeContext = (observable: Observable<any>) =>
     },
   } as any);
 
-function mountComponent(context: Context, identifier: Identifier) {
+function mountComponent(context: Context, identifier: FileIdentifier) {
   const el = mountWithIntlContext(
     <ItemViewer previewCount={0} context={context} identifier={identifier} />,
   );

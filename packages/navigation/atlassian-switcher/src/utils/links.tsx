@@ -15,6 +15,7 @@ import FormattedMessage from '../primitives/formatted-message';
 import {
   LicenseInformationResponse,
   ProductLicenseInformation,
+  RecentContainerType,
 } from '../types';
 import messages from './messages';
 import JiraOpsLogo from './assets/jira-ops-logo';
@@ -106,7 +107,11 @@ export const PRODUCT_DATA_MAP: {
 };
 
 export const getObjectTypeLabel = (type: string): React.ReactNode => {
-  return <FormattedMessage {...OBJECT_TYPE_TO_LABEL_MAP[type]} /> || type;
+  return OBJECT_TYPE_TO_LABEL_MAP[type] ? (
+    <FormattedMessage {...OBJECT_TYPE_TO_LABEL_MAP[type]} />
+  ) : (
+    type
+  );
 };
 
 export const getFixedProductLinks = (): SwitcherItemType[] => [
@@ -260,12 +265,37 @@ export const getCustomLinkItems = (
 
 export const getRecentLinkItems = (
   list: Array<RecentContainer>,
-): RecentItemType[] =>
-  list.map(customLink => ({
-    key: customLink.objectId,
-    label: customLink.name,
-    Icon: createImageIcon(customLink.iconUrl),
-    href: customLink.url,
-    type: customLink.type,
-    description: getObjectTypeLabel(customLink.type),
-  }));
+  licenseInformationData: LicenseInformationResponse,
+): RecentItemType[] => {
+  const isAnyJiraProductActive =
+    getProductIsActive(licenseInformationData, ProductKey.JIRA_SOFTWARE) ||
+    getProductIsActive(licenseInformationData, ProductKey.JIRA_SERVICE_DESK) ||
+    getProductIsActive(licenseInformationData, ProductKey.JIRA_CORE) ||
+    getProductIsActive(licenseInformationData, ProductKey.JIRA_OPS);
+  const isConfluenceActive = getProductIsActive(
+    licenseInformationData,
+    ProductKey.CONFLUENCE,
+  );
+  return list
+    .filter((recent: RecentContainer) => {
+      return (
+        (recent.type === RecentContainerType.JIRA_PROJECT &&
+          isAnyJiraProductActive) ||
+        (recent.type === RecentContainerType.CONFLUENCE_SPACE &&
+          isConfluenceActive) ||
+        [
+          RecentContainerType.JIRA_PROJECT,
+          RecentContainerType.CONFLUENCE_SPACE,
+        ].indexOf(recent.type) === -1
+      );
+    })
+    .slice(0, 6)
+    .map(customLink => ({
+      key: customLink.objectId,
+      label: customLink.name,
+      Icon: createImageIcon(customLink.iconUrl),
+      href: customLink.url,
+      type: customLink.type,
+      description: getObjectTypeLabel(customLink.type),
+    }));
+};

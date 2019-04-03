@@ -2,12 +2,12 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import Tooltip from '@atlaskit/tooltip';
 import { placeholder, placeholderContainer } from './styles';
-import { defaultEmojiHeight } from '../../constants';
+import { defaultEmojiHeight } from '../../util/constants';
 import { EmojiImageRepresentation } from '../../types';
 import {
   isImageRepresentation,
   isMediaRepresentation,
-} from '../../type-helpers';
+} from '../../util/type-helpers';
 
 export interface Props {
   shortName: string;

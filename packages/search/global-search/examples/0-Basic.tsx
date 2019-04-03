@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { AnalyticsListener } from '../../../core/analytics-next/src/';
+import { AnalyticsListener } from '@atlaskit/analytics-next';
 import { setupMocks, teardownMocks } from '../example-helpers/mockApis';
 import { GlobalQuickSearch } from '../src';
 import withNavigation from '../example-helpers/withNavigation';
 
 const GlobalQuickSearchWrapper = withNavigation(GlobalQuickSearch);
 
-const logEvent = event => {
+const logEvent = (event: any) => {
   const { eventType, action, actionSubject, actionSubjectId } = event.payload;
   console.debug(
     `${eventType} | ${action} ${actionSubject} ${actionSubjectId}`,

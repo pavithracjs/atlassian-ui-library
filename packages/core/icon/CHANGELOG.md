@@ -1,5 +1,10 @@
 # @atlaskit/icon
 
+## 16.0.7
+- [patch] [a143c9758f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a143c9758f):
+
+  - New Icon: Add the PremiumIcon
+
 ## 16.0.6
 - [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
 
