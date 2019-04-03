@@ -8,13 +8,37 @@ module.exports = {
   ],
   presets: ['@babel/react', '@babel/flow'],
   overrides: [
+    /**
+     * REMOVE ME: This override is needed to make sure that we only run the emotion's
+     * babel plugin on components that need it. Without it every component will
+     * have emotion included in their bundle.
+     * Ticket: https://ecosystem.atlassian.net/browse/AK-6065
+     */
     {
       test: [
         './packages/core/navigation-next',
         './packages/core/drawer',
         './packages/core/global-navigation',
+        './packages/core/textfield',
         './packages/core/select',
       ],
+      env: {
+        'production:cjs': {
+          presets: [
+            ['@babel/env', { modules: 'commonjs' }],
+            '@emotion/babel-preset-css-prop',
+          ],
+        },
+        'production:esm': {
+          presets: [
+            ['@babel/env', { modules: false }],
+            '@emotion/babel-preset-css-prop',
+          ],
+        },
+        test: {
+          presets: ['@babel/env', '@emotion/babel-preset-css-prop'],
+        },
+      },
     },
   ],
   env: {
@@ -24,10 +48,7 @@ module.exports = {
         ['styled-components', { minify: false }],
         'transform-dynamic-import',
       ],
-      presets: [
-        ['@babel/env', { modules: 'commonjs' }],
-        '@emotion/babel-preset-css-prop',
-      ],
+      presets: [['@babel/env', { modules: 'commonjs' }]],
       ignore: [
         '**/__mocks__',
         '**/__tests__',
@@ -40,10 +61,7 @@ module.exports = {
         '@babel/transform-runtime',
         ['styled-components', { minify: false }],
       ],
-      presets: [
-        ['@babel/env', { modules: false }],
-        '@emotion/babel-preset-css-prop',
-      ],
+      presets: [['@babel/env', { modules: false }]],
       ignore: [
         '**/__mocks__',
         '**/__tests__',
@@ -52,7 +70,7 @@ module.exports = {
       ],
     },
     test: {
-      presets: ['@babel/env', '@emotion/babel-preset-css-prop'],
+      presets: ['@babel/env'],
       // There is no @babel/ scoped transform for this plugin
       plugins: ['transform-dynamic-import'],
     },
