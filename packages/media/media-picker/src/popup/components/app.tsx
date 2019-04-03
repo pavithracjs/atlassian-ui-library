@@ -209,6 +209,7 @@ export class App extends Component<AppProps, AppState> {
 
   componentWillUnmount(): void {
     this.mpDropzone.deactivate();
+    this.mpBrowser.teardown();
   }
 
   render() {

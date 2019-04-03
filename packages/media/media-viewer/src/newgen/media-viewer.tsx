@@ -1,10 +1,6 @@
 import * as React from 'react';
-import {
-  Context,
-  Identifier,
-  isFileIdentifier,
-  FileIdentifier,
-} from '@atlaskit/media-core';
+import { ComponentClass } from 'react';
+import { Context, Identifier } from '@atlaskit/media-core';
 import { IntlProvider, intlShape } from 'react-intl';
 import { ThemeProvider } from 'styled-components';
 import { Shortcut, theme } from '@atlaskit/media-ui';
@@ -22,15 +18,13 @@ import { Collection } from './collection';
 import { Content } from './content';
 import { Blanket } from './styled';
 
-export type Props = Readonly<
-  {
-    onClose?: () => void;
-    selectedItem?: Identifier;
-    featureFlags?: MediaViewerFeatureFlags;
-    context: Context;
-    itemSource: ItemSource;
-  } & WithAnalyticsEventProps
->;
+export type Props = {
+  onClose?: () => void;
+  selectedItem?: Identifier;
+  featureFlags?: MediaViewerFeatureFlags;
+  context: Context;
+  itemSource: ItemSource;
+} & WithAnalyticsEventProps;
 
 class MediaViewerComponent extends React.Component<Props, {}> {
   static contextTypes = {
@@ -75,8 +69,7 @@ class MediaViewerComponent extends React.Component<Props, {}> {
       itemSource,
       featureFlags,
     } = this.props;
-    const defaultSelectedItem =
-      selectedItem && isFileIdentifier(selectedItem) ? selectedItem : undefined;
+    const defaultSelectedItem = selectedItem;
 
     if (itemSource.kind === 'COLLECTION') {
       return (
@@ -90,10 +83,8 @@ class MediaViewerComponent extends React.Component<Props, {}> {
         />
       );
     } else if (itemSource.kind === 'ARRAY') {
-      const items = itemSource.items.filter(item =>
-        isFileIdentifier(item),
-      ) as FileIdentifier[];
-      const firstItem = items[0] as FileIdentifier;
+      const { items } = itemSource;
+      const firstItem = items[0];
 
       return (
         <List
@@ -110,4 +101,6 @@ class MediaViewerComponent extends React.Component<Props, {}> {
   }
 }
 
-export const MediaViewer = withAnalyticsEvents()(MediaViewerComponent);
+export const MediaViewer = withAnalyticsEvents()(
+  MediaViewerComponent,
+) as ComponentClass<Props>;

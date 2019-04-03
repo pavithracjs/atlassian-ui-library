@@ -5,9 +5,13 @@ import { EditorView, DirectEditorProps } from 'prosemirror-view';
 import { Node as PMNode } from 'prosemirror-model';
 import { intlShape } from 'react-intl';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
-import { ProviderFactory, Transformer } from '@atlaskit/editor-common';
+import {
+  ProviderFactory,
+  Transformer,
+  ErrorReporter,
+} from '@atlaskit/editor-common';
 
-import { EventDispatcher, createDispatch } from '../event-dispatcher';
+import { EventDispatcher, createDispatch, Dispatch } from '../event-dispatcher';
 import { processRawValue } from '../utils';
 import { findChangedNodesFromTransaction, validateNodes } from '../utils/nodes';
 import createPluginList from './create-plugins-list';
@@ -16,6 +20,7 @@ import {
   fireAnalyticsEvent,
   AnalyticsDispatch,
   AnalyticsEventPayload,
+  DispatchAnalyticsEvent,
 } from '../plugins/analytics';
 import { EditorProps, EditorConfig, EditorPlugin } from '../types';
 import { PortalProviderAPI } from '../ui/PortalProvider';
@@ -40,6 +45,7 @@ export interface EditorViewProps {
   providerFactory: ProviderFactory;
   portalProviderAPI: PortalProviderAPI;
   allowAnalyticsGASV3?: boolean;
+  fullWidthMode?: boolean;
   render?: (
     props: {
       editor: JSX.Element;
@@ -47,7 +53,7 @@ export interface EditorViewProps {
       config: EditorConfig;
       eventDispatcher: EventDispatcher;
       transformer?: Transformer<string>;
-      dispatchAnalyticsEvent: (payload: AnalyticsEventPayload) => void;
+      dispatchAnalyticsEvent: DispatchAnalyticsEvent;
     },
   ) => JSX.Element;
   onEditorCreated: (
@@ -76,6 +82,8 @@ export default class ReactEditorView<T = {}> extends React.Component<
   contentTransformer?: Transformer<string>;
   config: EditorConfig;
   editorState: EditorState;
+  errorReporter: ErrorReporter;
+  dispatch: Dispatch;
   analyticsEventHandler: (
     payloadChannel: { payload: AnalyticsEventPayload; channel?: string },
   ) => void;
@@ -147,7 +155,48 @@ export default class ReactEditorView<T = {}> extends React.Component<
         this.activateAnalytics(nextProps.createAnalyticsEvent); // Activate the new one
       }
     }
+
+    if (
+      nextProps.editorProps.fullWidthMode !==
+      this.props.editorProps.fullWidthMode
+    ) {
+      this.reconfigureState(nextProps);
+    }
   }
+
+  reconfigureState = (props: EditorViewProps) => {
+    if (!this.view) {
+      return;
+    }
+
+    this.config = processPluginsList(
+      this.getPlugins(props.editorProps, props.createAnalyticsEvent),
+      props.editorProps,
+    );
+
+    const state = this.editorState;
+    const plugins = createPMPlugins({
+      schema: state.schema,
+      dispatch: this.dispatch,
+      errorReporter: this.errorReporter,
+      editorConfig: this.config,
+      props: props.editorProps,
+      eventDispatcher: this.eventDispatcher,
+      providerFactory: props.providerFactory,
+      portalProviderAPI: props.portalProviderAPI,
+      reactContext: () => this.context,
+      dispatchAnalyticsEvent: this.dispatchAnalyticsEvent,
+    });
+
+    const newState = EditorState.create({
+      schema: state.schema,
+      plugins,
+      doc: state.doc,
+      selection: state.selection,
+    });
+
+    return this.view.updateState(newState);
+  };
 
   /**
    * Deactivate analytics event handler, if exist any.
@@ -231,19 +280,20 @@ export default class ReactEditorView<T = {}> extends React.Component<
     } = options.props.editorProps;
 
     this.eventDispatcher = new EventDispatcher();
-    const dispatch = createDispatch(this.eventDispatcher);
-    const errorReporter = createErrorReporter(errorReporterHandler);
+    this.dispatch = createDispatch(this.eventDispatcher);
+    this.errorReporter = createErrorReporter(errorReporterHandler);
 
     const plugins = createPMPlugins({
       schema,
-      dispatch,
-      errorReporter,
+      dispatch: this.dispatch,
+      errorReporter: this.errorReporter,
       editorConfig: this.config,
       props: options.props.editorProps,
       eventDispatcher: this.eventDispatcher,
       providerFactory: options.props.providerFactory,
       portalProviderAPI: this.props.portalProviderAPI,
       reactContext: () => this.context,
+      dispatchAnalyticsEvent: this.dispatchAnalyticsEvent,
     });
 
     this.contentTransformer = contentTransformerProvider

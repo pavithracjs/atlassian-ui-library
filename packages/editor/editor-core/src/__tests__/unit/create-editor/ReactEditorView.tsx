@@ -1,5 +1,5 @@
 import { name } from '../../../version.json';
-import { shallow } from 'enzyme';
+import { shallow, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import { TextSelection } from 'prosemirror-state';
 import { ProviderFactory } from '@atlaskit/editor-common';
@@ -29,6 +29,7 @@ import {
   EVENT_TYPE,
   ACTION_SUBJECT_ID,
   addAnalytics,
+  DispatchAnalyticsEvent,
 } from '../../../plugins/analytics';
 import { analyticsService } from '../../../analytics';
 
@@ -252,8 +253,8 @@ describe(name, () => {
         editor.view.dispatch(invalidTr);
       };
 
-      let wrapper;
-      let editor;
+      let wrapper: ReactWrapper;
+      let editor: any;
       let invalidTr;
 
       beforeEach(() => {
@@ -381,34 +382,6 @@ describe(name, () => {
           secondaryToolbarComponents: expect.anything(),
         },
       });
-    });
-
-    it('should call destroy() on plugin states when it gets unmounted', () => {
-      let spies: Array<jest.SpyInstance> = [];
-      const mediaProvider = storyMediaProviderFactory({
-        includeUserAuthProvider: true,
-      });
-      const wrapper = mountWithIntl(
-        <ReactEditorView
-          editorProps={{
-            mediaProvider: mediaProvider,
-          }}
-          providerFactory={ProviderFactory.create({ mediaProvider })}
-          portalProviderAPI={portalProviderAPI}
-          onEditorCreated={({ view }) => {
-            spies = view.state.plugins
-              .map(plugin => plugin.getState(view.state))
-              .filter(state => !!state && !!state.destroy)
-              .map(state => jest.spyOn(state, 'destroy'));
-          }}
-          onEditorDestroyed={() => {}}
-        />,
-      );
-
-      expect(spies.length).toBeGreaterThan(0);
-      wrapper.unmount();
-
-      spies.forEach(spy => expect(spy).toHaveBeenCalledTimes(1));
     });
 
     it('should call destroy() on EventDispatcher when it gets unmounted', () => {
@@ -605,7 +578,7 @@ describe(name, () => {
         jest
           .spyOn(AnalyticsPlugin, 'fireAnalyticsEvent')
           .mockReturnValue(() => null);
-        let dispatch;
+        let dispatch: undefined | DispatchAnalyticsEvent;
         const wrapper = mountWithIntl(
           <ReactEditorView
             editorProps={{}}
@@ -630,7 +603,7 @@ describe(name, () => {
         jest.spyOn(eventDispatcher, 'emit');
 
         return {
-          dispatch,
+          dispatch: dispatch!,
           eventDispatcher,
         };
       }

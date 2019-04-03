@@ -4,7 +4,7 @@ import { getEmojis } from '../example-helpers';
 
 import EmojiPreview from '../src/components/common/EmojiPreview';
 
-import { emojiPickerWidth } from '../src/constants';
+import { emojiPickerWidth } from '../src/util/constants';
 import filters from '../src/util/filters';
 
 const emojis = getEmojis();

@@ -15,7 +15,10 @@ describe(`${name}/schema decisionList node`, () => {
   });
 
   it('matches <ol data-decision-list-local-id>', () => {
-    const doc = fromHTML('<ol data-decision-list-local-id>', schema);
+    const doc = fromHTML(
+      '<ol data-node-type="decisionList" data-decision-list-local-id>',
+      schema,
+    );
     const decisionList = doc.firstChild!;
     expect(decisionList.type.name).toEqual('decisionList');
     expect(decisionList.attrs.localId).not.toEqual(undefined);

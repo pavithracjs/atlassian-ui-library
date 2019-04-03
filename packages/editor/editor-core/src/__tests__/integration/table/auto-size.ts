@@ -15,8 +15,8 @@ import {
 } from '../../__helpers/testing-example-helpers';
 
 async function loadAndRetrieveDocument(
-  page,
-  document,
+  page: any,
+  document: object,
   expectedLayout = 'default',
 ) {
   await page.browser.windowHandleMaximize();
