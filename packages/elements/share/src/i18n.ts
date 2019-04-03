@@ -81,15 +81,16 @@ export const messages = defineMessages({
     defaultMessage:
       '{object, select,' +
       'board {Board shared}' +
-      'content {Content shared}' +
+      'filter {Filter shared}' +
       'issue {Issue shared}' +
+      'media {Media shared}' +
       'page {Page shared}' +
       'project {Project shared}' +
       'pullrequest {Pull Request shared}' +
       'repository {Repository shared}' +
       'site {Site shared}' +
       'space {Space shared}' +
-      'other {Shared}' +
+      'other {Content Shared}' +
       '}',
     description: 'Default text for share success message displayed in a flag',
   },
