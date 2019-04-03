@@ -1,10 +1,6 @@
 import { snapshot, Appearance, initEditorWithAdf, Device } from '../_utils';
 import { insertMedia } from '../../__helpers/page-objects/_media';
-import {
-  clickEditableContent,
-  disableAllTransition,
-  disableAllAnimations,
-} from '../../__helpers/page-objects/_editor';
+import { clickEditableContent } from '../../__helpers/page-objects/_editor';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
 describe('Snapshot Test: Media', () => {
@@ -18,11 +14,6 @@ describe('Snapshot Test: Media', () => {
         appearance: Appearance.fullPage,
         device: Device.LaptopHiDPI,
       });
-
-      // Disable animations to always show gap cursor
-      await disableAllAnimations(page);
-      // Disable all transitions to stop flaky toolbar box shadow
-      await disableAllTransition(page);
 
       // click into the editor
       await clickEditableContent(page);

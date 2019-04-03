@@ -1,10 +1,7 @@
 import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
 import * as gapcursor from './__fixtures__/gap-cursor-adf.json';
 import * as paragraph from './__fixtures__/paragraph-of-text.adf.json';
-import {
-  selectors,
-  disableAllAnimations,
-} from '../../__helpers/page-objects/_editor';
+import { selectors } from '../../__helpers/page-objects/_editor';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
 describe('Gap cursor:', () => {
@@ -14,8 +11,6 @@ describe('Gap cursor:', () => {
     // @ts-ignore
     page = global.page;
     await initFullPageEditorWithAdf(page, gapcursor, Device.LaptopMDPI);
-    // Disable animations to always show gap cursor
-    await disableAllAnimations(page);
   });
 
   afterEach(async () => {

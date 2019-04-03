@@ -7,11 +7,7 @@ import {
   clickToolbarMenu,
   ToolbarMenuItem,
 } from '../../__helpers/page-objects/_toolbar';
-import {
-  clickEditableContent,
-  disableAllAnimations,
-  disableAllTransition,
-} from '../../__helpers/page-objects/_editor';
+import { clickEditableContent } from '../../__helpers/page-objects/_editor';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
 describe('Snapshot Test: Media', () => {
@@ -54,9 +50,6 @@ describe('Snapshot Test: Media', () => {
       await initEditorWithAdf(page, {
         appearance: Appearance.comment,
       });
-
-      await disableAllAnimations(page);
-      await disableAllTransition(page);
 
       // click into the editor
       await clickEditableContent(page);
