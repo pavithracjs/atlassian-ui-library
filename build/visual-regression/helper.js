@@ -43,7 +43,6 @@ async function takeScreenShot(page /*:any*/, url /*:string*/) {
   await disableAllAnimations(page);
   await disableAllTransitions(page);
   await disableCaretCursor(page);
-  await page.mouse.move(9999, 9999);
   await page.waitForSelector(pageSelector);
 
   return page.screenshot();
