@@ -29,7 +29,7 @@
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/button": "^11.0.0",
     "@atlaskit/docs": "^7.0.1",
-    "@atlaskit/inline-edit": "^9.0.0",
+    "@atlaskit/inline-edit": "^8.0.1",
     "@atlaskit/page": "^9.0.1",
     "@atlaskit/select": "^8.0.3",
     "@atlaskit/ssr": "^0.0.1",

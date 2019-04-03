@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { colors } from '@atlaskit/theme';
 
 import InlineEdit from '../src';
 
@@ -19,7 +20,7 @@ const EditView = styled.input`
   width: 100%;
 
   :focus {
-    border: 2px solid #4c9aff;
+    border: 2px solid ${colors.B100};
   }
 `;
 
