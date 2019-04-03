@@ -90,7 +90,7 @@ export const messages = defineMessages({
       'repository {Repository shared}' +
       'site {Site shared}' +
       'space {Space shared}' +
-      'other {Content Shared}' +
+      'other {Link Shared}' +
       '}',
     description: 'Default text for share success message displayed in a flag',
   },
