@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.7.4
+- [patch] [e80a553a6e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80a553a6e):
+
+  - ED-6478: upskip VR tests for numbered column
+
 ## 107.7.3
 - [patch] [71c1a888f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/71c1a888f7):
 

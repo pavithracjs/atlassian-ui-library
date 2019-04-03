@@ -1,1 +1,0 @@
-- ED-6478: upskip VR tests for numbered column
