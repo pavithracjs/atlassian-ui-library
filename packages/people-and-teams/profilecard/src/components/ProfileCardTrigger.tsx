@@ -32,25 +32,51 @@ class ProfilecardTrigger extends React.Component<
     customElevation: 'e200',
   };
 
-  _isMounted: boolean;
-  wrapperRef: HTMLElement | null;
   targetRef: HTMLElement | null;
 
-  showDelay: number = 500;
-  hideDelay: number = 500;
-  showTimer: any;
-  hideTimer: any;
+  _isMounted: boolean = false;
+  showDelay: number = this.props.trigger === 'click' ? 0 : 500;
+  hideDelay: number = this.props.trigger === 'click' ? 0 : 500;
+  showTimer: number = 0;
+  hideTimer: number = 0;
 
-  constructor(props: ProfileCardTriggerProps) {
-    super(props);
-    this._isMounted = false;
+  hideProfilecard = () => {
+    clearTimeout(this.showTimer);
 
-    // In constrast to hover, click interactions should be instantaneous
-    if (this.props.trigger === 'click') {
-      this.showDelay = 0;
-      this.hideDelay = 0;
+    this.hideTimer = setTimeout(() => {
+      this.setState({ visible: false });
+    }, this.hideDelay);
+  };
+
+  showProfilecard = () => {
+    if (!this.state.visible) {
+      this.clientFetchProfile();
     }
-  }
+
+    clearTimeout(this.hideTimer);
+
+    this.showTimer = setTimeout(() => {
+      this.setState({ visible: true });
+    }, this.showDelay);
+  };
+
+  containerListeners =
+    this.props.trigger === 'hover'
+      ? {
+          onMouseEnter: this.showProfilecard,
+          onMouseLeave: this.hideProfilecard,
+        }
+      : {
+          onClick: this.showProfilecard,
+        };
+
+  layerListeners =
+    this.props.trigger !== 'hover'
+      ? {
+          handleClickOutside: this.hideProfilecard,
+          handleEscapeKeydown: this.hideProfilecard,
+        }
+      : {};
 
   state: ProfileCardTriggerState = {
     visible: false,
@@ -73,9 +99,11 @@ class ProfilecardTrigger extends React.Component<
 
   componentWillUnmount() {
     this._isMounted = false;
+    clearTimeout(this.showTimer);
+    clearTimeout(this.hideTimer);
   }
 
-  clientFetchProfile = () => {
+  clientFetchProfile() {
     const { cloudId, userId } = this.props;
 
     this.setState({
@@ -91,7 +119,7 @@ class ProfilecardTrigger extends React.Component<
         err => this.handleClientError(err),
       )
       .catch(err => this.handleClientError(err));
-  };
+  }
 
   handleClientSuccess(res: ProfileCardClientData) {
     if (!this._isMounted) {
@@ -109,6 +137,7 @@ class ProfilecardTrigger extends React.Component<
     if (!this._isMounted) {
       return;
     }
+
     this.setState({
       isLoading: false,
       hasError: true,
@@ -116,54 +145,11 @@ class ProfilecardTrigger extends React.Component<
     });
   }
 
-  filterActions = (): ProfileCardAction[] =>
-    filterActions(this.props.actions, this.state.data);
+  filterActions(): ProfileCardAction[] {
+    return filterActions(this.props.actions, this.state.data);
+  }
 
-  hideProfilecard = () => {
-    clearTimeout(this.showTimer);
-
-    this.hideTimer = setTimeout(() => {
-      this.setState({ visible: false });
-    }, this.hideDelay);
-  };
-
-  showProfilecard = () => {
-    if (!this.state.visible) {
-      this.clientFetchProfile();
-    }
-
-    clearTimeout(this.hideTimer);
-
-    this.showTimer = setTimeout(() => {
-      this.setState({ visible: true });
-    }, this.showDelay);
-  };
-
-  getContainerListeners = () => {
-    const containerListeners = {} as any;
-
-    if (this.props.trigger === 'hover') {
-      containerListeners.onMouseEnter = this.showProfilecard;
-      containerListeners.onMouseLeave = this.hideProfilecard;
-    } else {
-      containerListeners.onClick = this.showProfilecard;
-    }
-
-    return containerListeners;
-  };
-
-  getLayerListeners = () => {
-    const layerListeners = {} as any;
-
-    if (this.props.trigger !== 'hover') {
-      layerListeners.handleClickOutside = this.hideProfilecard;
-      layerListeners.handleEscapeKeydown = this.hideProfilecard;
-    }
-
-    return layerListeners;
-  };
-
-  renderProfileCard = () => {
+  renderProfileCard() {
     const newProps: ProfilecardProps = {
       clientFetchProfile: this.clientFetchProfile,
       analytics: this.props.analytics,
@@ -179,9 +165,9 @@ class ProfilecardTrigger extends React.Component<
         errorType={this.state.error}
       />
     );
-  };
+  }
 
-  renderWithPopper = (element: React.ReactNode) => {
+  renderWithPopper(element: React.ReactNode) {
     const WrapperElement =
       this.props.trigger === 'hover'
         ? CardElevationWrapper
@@ -189,13 +175,12 @@ class ProfilecardTrigger extends React.Component<
 
     return (
       <Popper referenceElement={this.targetRef} placement={this.props.position}>
-        // @ts-ignore: implicit any
-        {({ ref, style }) => (
+        {({ ref, style }: { ref: any; style: any }) => (
           <WrapperElement
             style={style}
             innerRef={ref}
-            {...this.getContainerListeners()}
-            {...this.getLayerListeners()}
+            {...this.containerListeners}
+            {...this.layerListeners}
             customElevation={this.props.customElevation}
           >
             {element}
@@ -203,42 +188,39 @@ class ProfilecardTrigger extends React.Component<
         )}
       </Popper>
     );
-  };
+  }
 
-  renderLoading = () =>
-    this.state.visible && this.state.isLoading && this.targetRef
+  renderLoading() {
+    return this.state.visible && this.state.isLoading && this.targetRef
       ? this.renderWithPopper(<LoadingState />)
       : null;
+  }
 
-  renderProfileCardLoaded = () =>
-    this.state.visible && !this.state.isLoading && this.targetRef
+  renderProfileCardLoaded() {
+    return this.state.visible && !this.state.isLoading && this.targetRef
       ? this.renderWithPopper(this.renderProfileCard())
       : null;
+  }
 
-  renderWithTrigger = () => (
-    <>
-      <CardTriggerWrapper
-        {...this.getContainerListeners()}
-        // @ts-ignore
-        ref={wrapperRef => {
-          this.wrapperRef = wrapperRef;
-        }}
-      >
-        <NodeResolver
-          // @ts-ignore
-          innerRef={targetRef => {
-            this.targetRef = targetRef;
-          }}
-        >
-          {this.props.children}
-        </NodeResolver>
-      </CardTriggerWrapper>
-      <Portal zIndex={layers.tooltip()}>
-        {this.renderLoading()}
-        {this.renderProfileCardLoaded()}
-      </Portal>
-    </>
-  );
+  renderWithTrigger() {
+    return (
+      <>
+        <CardTriggerWrapper {...this.containerListeners}>
+          <NodeResolver
+            innerRef={(targetRef: HTMLElement) => {
+              this.targetRef = targetRef;
+            }}
+          >
+            {this.props.children}
+          </NodeResolver>
+        </CardTriggerWrapper>
+        <Portal zIndex={layers.tooltip()}>
+          {this.renderLoading()}
+          {this.renderProfileCardLoaded()}
+        </Portal>
+      </>
+    );
+  }
 
   render() {
     if (this.props.children) {

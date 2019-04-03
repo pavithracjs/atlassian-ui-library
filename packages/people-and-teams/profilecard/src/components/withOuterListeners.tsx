@@ -2,8 +2,8 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 
 interface Props {
-  handleClickOutside: () => void;
-  handleEscapeKeydown: () => void;
+  handleClickOutside?: () => void;
+  handleEscapeKeydown?: () => void;
 }
 
 export default function withOuterListeners(Component: any) {
@@ -29,19 +29,25 @@ export default function withOuterListeners(Component: any) {
     }
 
     handleClick = (evt: any) => {
-      const domNode = ReactDOM.findDOMNode(this); // eslint-disable-line react/no-find-dom-node
+      const { handleClickOutside } = this.props;
 
-      if (
-        !domNode ||
-        (evt.target instanceof Node && !domNode.contains(evt.target))
-      ) {
-        this.props.handleClickOutside();
+      if (handleClickOutside) {
+        const domNode = ReactDOM.findDOMNode(this); // eslint-disable-line react/no-find-dom-node
+
+        if (
+          !domNode ||
+          (evt.target instanceof Node && !domNode.contains(evt.target))
+        ) {
+          handleClickOutside();
+        }
       }
     };
 
     handleKeydown = (evt: any) => {
-      if (evt.code === 'Escape') {
-        this.props.handleEscapeKeydown();
+      const { handleEscapeKeydown } = this.props;
+
+      if (handleEscapeKeydown && evt.code === 'Escape') {
+        handleEscapeKeydown();
       }
     };
 
