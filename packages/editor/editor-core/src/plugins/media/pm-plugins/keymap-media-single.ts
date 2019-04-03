@@ -6,7 +6,6 @@ import { isEmptyNode, atTheEndOfDoc, lastNodeInDocument } from '../../../utils';
 import { Command, CommandDispatch } from '../../../types';
 import { safeInsert } from 'prosemirror-utils';
 import { selectNodeBackward } from 'prosemirror-commands';
-import media from '../nodeviews/media';
 
 /**
  * Check if is an empty selection at the start of the node
