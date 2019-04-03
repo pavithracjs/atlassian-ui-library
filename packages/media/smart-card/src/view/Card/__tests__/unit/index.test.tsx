@@ -682,7 +682,7 @@ describe('Card', () => {
       expect(wrapper.find(InlineCardErroredView).exists()).toBeTruthy();
     });
 
-    it('should consume Client from context', async () => {
+    it.only('should consume Client from context', async () => {
       const client = createClient([
         {
           status: 'resolved',
