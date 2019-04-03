@@ -8,7 +8,7 @@
 const glob = require('glob');
 const pageSelector = '#examples';
 
-export async function disableCaretCursor(page) {
+async function disableCaretCursor(page) {
   const css = `
   * {
     caret-color: transparent;
@@ -17,7 +17,7 @@ export async function disableCaretCursor(page) {
   await page.addStyleTag({ content: css });
 }
 
-export async function disableAllTransitions(page) {
+async function disableAllTransitions(page) {
   const css = `
   * {
     -webkit-transition: none !important;
@@ -29,7 +29,7 @@ export async function disableAllTransitions(page) {
   await page.addStyleTag({ content: css });
 }
 
-export async function disableAllAnimations(page) {
+async function disableAllAnimations(page) {
   const css = `
   * {
     animation: none !important;
@@ -90,4 +90,7 @@ module.exports = {
   takeScreenShot,
   takeElementScreenShot,
   getExampleUrl,
+  disableAllAnimations,
+  disableAllTransitions,
+  disableCaretCursor,
 };
