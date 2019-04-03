@@ -40,6 +40,7 @@ async function createWebpackConfig({
    * so they are not affecting a package bundle size.
    */
   config.resolve.alias = {
+    ...config.resolve.alias,
     'styled-components': path.resolve(__dirname, '..', 'noop.js'),
     react: path.resolve(__dirname, '..', 'noop.js'),
     'react-dom': path.resolve(__dirname, '..', 'noop.js'),
