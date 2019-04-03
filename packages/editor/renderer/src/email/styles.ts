@@ -13,5 +13,13 @@ export default `
     font-weight: 400;
     line-height: 24px;
   }
+  .tableNode td > :first-child,
+  .tableNode th > :first-child {
+    padding-top: 0px;
+  }
+  .tableNode td > :last-child,
+  .tableNode th > :last-child{
+    margin-bottom: 0px;
+  }
   ${paragraphStyles}
 `;

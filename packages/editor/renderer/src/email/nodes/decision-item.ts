@@ -53,7 +53,7 @@ export default function decisionItem({ attrs, text }: NodeSerializerOpts) {
     text,
     style: {
       'font-size': '14px',
-      padding: '8px 8px 8px 0',
+      padding: '8px 0px 8px 0',
     },
   };
 
@@ -65,6 +65,6 @@ export default function decisionItem({ attrs, text }: NodeSerializerOpts) {
   });
 
   return createTable([[{ text: mainContentWrapperTable }]], {
-    padding: '4px 8px 4px 0',
+    padding: '4px 0px 4px 0',
   });
 }
