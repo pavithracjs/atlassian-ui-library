@@ -1,6 +1,6 @@
 import { shallowWithIntl } from '@atlaskit/editor-test-helpers';
 import InlineDialog from '@atlaskit/inline-dialog';
-import { shallow, ShallowWrapper, ReactWrapper } from 'enzyme';
+import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import { FormattedMessage, InjectedIntlProps } from 'react-intl';
 import {
@@ -407,7 +407,7 @@ describe('ShareDialogWithTrigger', () => {
       expect(mockOnSubmit).toHaveBeenCalledWith(values);
     });
 
-    it('should close inline dialog and call props.showFlags when onSubmit resolves a value', async () => {
+    it('should close inline dialog and reset the state and call props.showFlags when onSubmit resolves a value', async () => {
       const mockOnSubmit: jest.Mock = jest.fn().mockResolvedValue({});
       const values: ShareData = {
         users: [
@@ -423,7 +423,8 @@ describe('ShareDialogWithTrigger', () => {
         isDialogOpen: true,
         isSharing: false,
         ignoreIntermediateState: false,
-        defaultValue: defaultShareContentState,
+        defaultValue: values,
+        shareError: { message: 'unable to share' },
       };
       wrapper = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
@@ -450,6 +451,11 @@ describe('ShareDialogWithTrigger', () => {
       await new Promise(resolve => setTimeout(resolve, 0));
 
       expect(wrapper.state('isDialogOpen')).toBeFalsy();
+      expect(wrapper.state('defaultValue')).toEqual(defaultShareContentState);
+      expect(wrapper.state('ignoreIntermediateState')).toBeTruthy();
+      expect(wrapper.state('isDialogOpen')).toBeFalsy();
+      expect(wrapper.state('isSharing')).toBeFalsy();
+      expect(wrapper.state('shareError')).toBeUndefined();
       expect(mockShowFlags).toHaveBeenCalledTimes(1);
       expect(mockShowFlags).toHaveBeenCalledWith([
         {
