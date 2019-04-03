@@ -1,5 +1,10 @@
 # @atlaskit/navigation-next
 
+## 5.1.2
+- [patch] [da6ef8b69a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da6ef8b69a):
+
+  - Using new z-index values from theme
+
 ## 5.1.1
 - Updated dependencies [c95557e3ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c95557e3ff):
   - @atlaskit/global-navigation@6.2.2

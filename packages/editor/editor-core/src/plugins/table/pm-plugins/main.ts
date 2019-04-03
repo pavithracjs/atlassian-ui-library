@@ -3,7 +3,6 @@ import { findParentDomRefOfType } from 'prosemirror-utils';
 import { EditorView, DecorationSet } from 'prosemirror-view';
 import { browser } from '@atlaskit/editor-common';
 import { PluginConfig, TablePluginState } from '../types';
-import { EditorAppearance } from '../../../types';
 import { Dispatch } from '../../../event-dispatcher';
 import { createTableView } from '../nodeviews/table';
 import { createCellView } from '../nodeviews/cell';
@@ -64,8 +63,9 @@ export const createPlugin = (
   portalProviderAPI: PortalProviderAPI,
   eventDispatcher: EventDispatcher,
   pluginConfig: PluginConfig,
-  appearance?: EditorAppearance,
+  isContextMenuEnabled?: boolean,
   dynamicTextSizing?: boolean,
+  isBreakoutEnabled?: boolean,
 ) =>
   new Plugin({
     state: {
@@ -246,9 +246,12 @@ export const createPlugin = (
       },
 
       nodeViews: {
-        table: createTableView(portalProviderAPI, dynamicTextSizing),
-        tableCell: createCellView(portalProviderAPI, appearance),
-        tableHeader: createCellView(portalProviderAPI, appearance),
+        table: createTableView(portalProviderAPI, {
+          dynamicTextSizing,
+          isBreakoutEnabled,
+        }),
+        tableCell: createCellView(portalProviderAPI, isContextMenuEnabled),
+        tableHeader: createCellView(portalProviderAPI, isContextMenuEnabled),
       },
 
       handleDOMEvents: {

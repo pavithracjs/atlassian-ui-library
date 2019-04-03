@@ -15,7 +15,7 @@ import {
 import { getDocStructure } from '../../../utils/document-logger';
 import schema from '../../../../../editor-test-helpers/src/schema';
 
-const checkDocument = (doc, expected) => {
+const checkDocument = (doc: any, expected: any) => {
   const document = doc(schema);
   expect(getDocStructure(document)).toEqual(expected);
 };

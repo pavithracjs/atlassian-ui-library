@@ -82,6 +82,7 @@ describe(name, () => {
             errorReporter: {} as any,
             portalProviderAPI: { render() {}, remove() {} } as any,
             reactContext: () => ({}),
+            dispatchAnalyticsEvent: () => {},
           }).length,
         ).toEqual(1);
       });

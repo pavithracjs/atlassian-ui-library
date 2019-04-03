@@ -930,6 +930,57 @@ exports[`Renderer - EmailSerializer should render link 1`] = `
 </div>
 `;
 
+exports[`Renderer - EmailSerializer should render media group correctly 1`] = `
+<div
+  class="wrapper"
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
+>
+  <div
+    style=""
+  >
+    <div
+      style="border: 1px solid #C1C7D0;margin-top: 10px;border-radius: 3px;border-style: dashed;-webkit-border-radius: 3px;-moz-border-radius: 3px;"
+    >
+      <div
+        style="background-color: #EBECF0;border: 10px solid #EBECF0;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;color: #172B4D;"
+      >
+         ▹ link: MediaServicesSample 
+      </div>
+    </div>
+    <div
+      style="border: 1px solid #C1C7D0;margin-top: 10px;border-radius: 3px;border-style: dashed;-webkit-border-radius: 3px;-moz-border-radius: 3px;"
+    >
+      <div
+        style="background-color: #EBECF0;border: 10px solid #EBECF0;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;color: #172B4D;"
+      >
+         ▹ link: MediaServicesSample 
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer - EmailSerializer should render media single correctly 1`] = `
+<div
+  class="wrapper"
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
+>
+  <div
+    style="width: 100%;"
+  >
+    <div
+      style="border: 1px solid #C1C7D0;margin-top: 10px;border-radius: 3px;border-style: dashed;-webkit-border-radius: 3px;-moz-border-radius: 3px;"
+    >
+      <div
+        style="background-color: #EBECF0;border: 10px solid #EBECF0;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;color: #172B4D;"
+      >
+         ▹ file: MediaServicesSample 
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Renderer - EmailSerializer should render nothing for image node 1`] = `
 <div
   class="wrapper"

@@ -6,6 +6,15 @@ import { defineMessages, injectIntl, InjectedIntlProps } from 'react-intl';
 import { analyticsService } from '../../../../analytics';
 import PanelTextInput from '../../../../ui/PanelTextInput';
 import RecentList from './RecentList';
+import {
+  ACTION,
+  ACTION_SUBJECT,
+  ACTION_SUBJECT_ID,
+  INPUT_METHOD,
+  EVENT_TYPE,
+  AnalyticsEventPayload,
+  DispatchAnalyticsEvent,
+} from '../../../analytics';
 
 const Container = styled.div`
   width: 420px;
@@ -44,6 +53,7 @@ export interface Props {
   popupsBoundariesElement?: HTMLElement;
   autoFocus?: boolean;
   provider: Promise<ActivityProvider>;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 }
 
 export interface State {
@@ -138,6 +148,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
       this.props.onSubmit(href, text);
       this.trackAutoCompleteAnalyticsEvent(
         'atlassian.editor.format.hyperlink.autocomplete.click',
+        INPUT_METHOD.TYPEAHEAD,
       );
     }
   };
@@ -163,6 +174,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
         this.props.onSubmit(item.url, item.name);
         this.trackAutoCompleteAnalyticsEvent(
           'atlassian.editor.format.hyperlink.autocomplete.keyboard',
+          INPUT_METHOD.TYPEAHEAD,
         );
       }
     } else if (text && text.length > 0) {
@@ -170,6 +182,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
         this.props.onSubmit(text);
         this.trackAutoCompleteAnalyticsEvent(
           'atlassian.editor.format.hyperlink.autocomplete.notselected',
+          INPUT_METHOD.MANUAL,
         );
       }
     }
@@ -202,10 +215,24 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
     }
   };
 
-  private trackAutoCompleteAnalyticsEvent(name: string) {
+  private trackAutoCompleteAnalyticsEvent(
+    name: string,
+    method: INPUT_METHOD.TYPEAHEAD | INPUT_METHOD.MANUAL,
+  ) {
     const numChars = this.state.text ? this.state.text.length : 0;
-
     analyticsService.trackEvent(name, { numChars: numChars });
+
+    const payload: AnalyticsEventPayload = {
+      action: ACTION.INSERTED,
+      actionSubject: ACTION_SUBJECT.DOCUMENT,
+      actionSubjectId: ACTION_SUBJECT_ID.LINK,
+      attributes: { inputMethod: method },
+      eventType: EVENT_TYPE.TRACK,
+    };
+
+    if (this.props.dispatchAnalyticsEvent) {
+      this.props.dispatchAnalyticsEvent(payload);
+    }
   }
 }
 
