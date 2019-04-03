@@ -178,19 +178,14 @@ export class ShareDialogWithTriggerInternal extends React.Component<
     _: { isOpen: boolean; event: any },
     reset: boolean = false,
   ) => {
-    const newState = {
+    this.setState({
       isDialogOpen: false,
-    };
-
-    if (reset) {
-      Object.assign(newState, {
+      ...(reset && {
         defaultValue: defaultShareContentState,
         ignoreIntermediateState: true,
         shareError: undefined,
-      });
-    }
-
-    this.setState(newState);
+      }),
+    });
   };
 
   private handleShareSubmit = (data: DialogContentState) => {
