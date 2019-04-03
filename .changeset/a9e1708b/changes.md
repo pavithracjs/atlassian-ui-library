@@ -1,1 +1,0 @@
-- Do not grag existing object when try to draw on top of them. Single click still selects an object
