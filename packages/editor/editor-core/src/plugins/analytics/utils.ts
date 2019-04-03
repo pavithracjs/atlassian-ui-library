@@ -6,6 +6,9 @@ import { Command } from '../../types';
 import { InputRuleWithHandler } from '../../utils/input-rules';
 import { analyticsPluginKey } from './plugin';
 
+export type DispatchAnalyticsEvent = (payload: AnalyticsEventPayload) => void;
+export type HigherOrderCommand = (command: Command) => Command;
+
 export function addAnalytics(
   tr: Transaction,
   payload: AnalyticsEventPayload,
@@ -16,20 +19,26 @@ export function addAnalytics(
   return tr.setMeta(analyticsPluginKey, analyticsMeta);
 }
 
-export type HigherOrderCommand = (command: Command) => Command;
-
 export function withAnalytics(
-  payload: AnalyticsEventPayload,
+  payload:
+    | AnalyticsEventPayload
+    | ((state: EditorState) => AnalyticsEventPayload | undefined),
   channel?: string,
 ): HigherOrderCommand {
-  return command => (state, dispatch, view?) =>
+  return command => (state, dispatch, view) =>
     command(
       state,
       tr => {
         if (dispatch) {
-          dispatch(addAnalytics(tr, payload, channel));
+          if (payload instanceof Function) {
+            const dynamicPayload = payload(state);
+            if (dynamicPayload) {
+              dispatch(addAnalytics(tr, dynamicPayload, channel));
+            }
+          } else {
+            dispatch(addAnalytics(tr, payload, channel));
+          }
         }
-        return true;
       },
       view,
     );
@@ -44,7 +53,7 @@ export function ruleWithAnalytics(
   ) => AnalyticsEventPayload,
 ) {
   return (rule: InputRuleWithHandler) => {
-    // Monkeypatching handler to add analytcs
+    // Monkey patching handler to add analytics
     const handler = rule.handler;
 
     rule.handler = (

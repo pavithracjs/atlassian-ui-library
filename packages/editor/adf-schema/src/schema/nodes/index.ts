@@ -82,9 +82,13 @@ export {
   AppCardAction,
   ApplicationCardDefinition,
 } from './applicationCard';
-export { decisionList, DecisionListDefinition } from './decision-list';
+export {
+  decisionList,
+  DecisionListDefinition,
+  decisionListSelector,
+} from './decision-list';
 export { decisionItem, DecisionItemDefinition } from './decision-item';
-export { taskList, TaskListDefinition } from './task-list';
+export { taskList, TaskListDefinition, taskListSelector } from './task-list';
 export { taskItem, TaskItemDefinition } from './task-item';
 export { extension, ExtensionDefinition } from './extension';
 export { inlineExtension, InlineExtensionDefinition } from './inline-extension';

@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { PureComponent, ReactElement } from 'react';
 import {
-  default as EmojiResource,
-  default as UploadingEmojiResource,
+  EmojiResource,
   EmojiProvider,
   EmojiResourceConfig,
-} from '../src/api/EmojiResource';
+} from '../src/resource';
 
 export function getEmojiConfig() {
   let emojiConfig;
@@ -22,7 +21,7 @@ export function getEmojiConfig() {
 }
 
 export function getRealEmojiResource() {
-  const resource = new UploadingEmojiResource(getEmojiConfig());
+  const resource = new EmojiResource(getEmojiConfig());
   return Promise.resolve(resource);
 }
 

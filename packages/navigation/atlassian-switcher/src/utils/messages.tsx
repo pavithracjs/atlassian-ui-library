@@ -90,6 +90,12 @@ const messages = defineMessages({
     description:
       'Text displayed as alt text when an error occurs in the Atlassian Switcher',
   },
+  expand: {
+    id: 'fabric.atlassianSwitcher.expand',
+    defaultMessage: 'Expand',
+    description:
+      'The text of a link redirecting the user to the Atlassian start page',
+  },
 });
 
 export const SwitchToTooltipText = (

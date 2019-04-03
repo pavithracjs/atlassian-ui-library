@@ -10,11 +10,11 @@ import {
   typeInEditor,
   MINIMUM_ACCEPTABLE_TOLERANCE,
 } from '../../__helpers/page-objects/_editor';
-import { pressKey, KeyboardKeys } from '../../__helpers/page-objects/_keyboard';
+import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
 // add some comment
 describe('Snapshot Test: Media', () => {
-  let page;
+  let page: any;
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;
@@ -33,10 +33,10 @@ describe('Snapshot Test: Media', () => {
     await typeInEditor(page, 'some text');
     await pressKey(page, [
       // Go left 3 times to insert image in the middle of the text
-      KeyboardKeys.arrowLeft,
-      KeyboardKeys.arrowLeft,
-      KeyboardKeys.arrowLeft,
-      KeyboardKeys.arrowLeft,
+      'ArrowLeft',
+      'ArrowLeft',
+      'ArrowLeft',
+      'ArrowLeft',
     ]);
   });
 

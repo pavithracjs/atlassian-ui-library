@@ -16,7 +16,10 @@ const fetchRecentContainers = ({ cloudId }: WithCloudId) =>
     `/gateway/api/activity/api/client/recent/containers?cloudId=${cloudId}`,
   );
 
-export const RecentContainersProvider = asDataProvider(fetchRecentContainers);
+export const RecentContainersProvider = asDataProvider(
+  'recentContainers',
+  fetchRecentContainers,
+);
 
 // License information api
 const fetchLicenseInformation = withCached(({ cloudId }: WithCloudId) =>
@@ -26,6 +29,7 @@ const fetchLicenseInformation = withCached(({ cloudId }: WithCloudId) =>
 );
 
 export const LicenseInformationProvider = asDataProvider(
+  'licenseInformation',
   fetchLicenseInformation,
   fetchLicenseInformation.cached,
 );
@@ -43,6 +47,7 @@ const fetchPermission = withCached(
 );
 
 export const UserPermissionProvider = asDataProvider(
+  'permission',
   fetchPermission,
   fetchPermission.cached,
 );
@@ -59,6 +64,7 @@ const fetchXflowSettings = withCached(({ cloudId }: WithCloudId) =>
 );
 
 export const XFlowSettingsProvider = asDataProvider(
+  'xflowSettings',
   fetchXflowSettings,
   fetchXflowSettings.cached,
 );

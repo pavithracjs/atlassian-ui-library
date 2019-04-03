@@ -1,7 +1,8 @@
 import { Mark } from 'prosemirror-model';
 import { Style } from './interfaces';
 import { markSerializers } from './serializers';
-import { commonStyle } from '.';
+
+export * from './table-util';
 
 export const createTag = (
   tagName: string,
@@ -48,40 +49,4 @@ export const applyMarks = (marks: Mark[], text: string): string => {
   }
 
   return output;
-};
-
-type TableData = {
-  text?: string | null;
-  style: Style;
-};
-
-export const createTable = (
-  tableData: TableData[][],
-  tableStyle: Style = {},
-): string => {
-  // Tables override font size, weight and other stuff, thus we reset it here with commonStyle
-  const attrs = {
-    cellspacing: 0,
-    cellpadding: 0,
-    border: 0,
-    style: serializeStyle({
-      ...commonStyle,
-      margin: '0px',
-      padding: '0px',
-      'border-spacing': '0px',
-      width: '100%',
-      // Allow overriding any tableStyle, via tableStyle param
-      ...tableStyle,
-    }),
-  };
-
-  const tableRows = tableData.map(tableRow => {
-    const tableColumns = tableRow.map(({ style, text }) => {
-      const css = serializeStyle(style);
-      return createTag('td', { style: css }, text ? text : '');
-    });
-    return createTag('tr', {}, tableColumns.join(''));
-  });
-
-  return createTag('table', attrs, tableRows.join(''));
 };

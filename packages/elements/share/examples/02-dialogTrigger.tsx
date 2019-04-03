@@ -26,7 +26,9 @@ export default () => (
       loadUserOptions={loadUserOptions}
       onShareSubmit={onShareSubmit}
     >
-      {openDialog => <Button onClick={openDialog}>Custom Button</Button>}
+      {openDialog => (
+        <Button onClick={openDialog.onClick}>Custom Button</Button>
+      )}
     </ShareDialogWithTrigger>
   </React.Fragment>
 );

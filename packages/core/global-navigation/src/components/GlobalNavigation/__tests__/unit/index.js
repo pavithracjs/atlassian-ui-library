@@ -6,10 +6,7 @@ import { mount, shallow } from 'enzyme';
 import Badge from '@atlaskit/badge';
 import { DropdownItem } from '@atlaskit/dropdown-menu';
 import Drawer from '@atlaskit/drawer';
-import AtlassianSwitcher, {
-  ConfluenceSwitcher,
-  JiraSwitcher,
-} from '@atlaskit/atlassian-switcher';
+import AtlassianSwitcher from '@atlaskit/atlassian-switcher';
 import AppSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import CreateIcon from '@atlaskit/icon/glyph/add';
@@ -940,27 +937,41 @@ describe('GlobalNavigation', () => {
       expect(globalNavWrapper.children().find(AppSwitcher)).toHaveLength(0);
     });
 
-    it('should open a Drawer with the product specific switcher', () => {
-      globalNavWrapper = getDefaultWrapper();
-      const AtlassianSwitcherIcon = globalNavWrapper.find(AppSwitcherIcon);
-      AtlassianSwitcherIcon.simulate('click');
-      expect(globalNavWrapper.find(JiraSwitcher)).toHaveLength(1);
-      expect(globalNavWrapper.find(ConfluenceSwitcher)).toHaveLength(0);
-    });
-
     it('should pass the triggerXFlow callback', () => {
       const productKey = 'product.key';
       const sourceComponent = 'source-component';
+      const analyticsEvent = {
+        payload: {
+          eventType: 'ui',
+          action: 'clicked',
+          actionSubject: 'atlassianSwitcherItem',
+        },
+        update: () => {
+          return analyticsEvent;
+        },
+        fire: () => {},
+      };
       globalNavWrapper = getDefaultWrapper();
       globalNavWrapper.find(AppSwitcherIcon).simulate('click');
       globalNavWrapper.find(AtlassianSwitcher).prop('triggerXFlow')(
         productKey,
         sourceComponent,
+        null,
+        analyticsEvent,
       );
       expect(triggerXFlowStub).toHaveBeenCalledWith(
         productKey,
         sourceComponent,
       );
+    });
+
+    it(`should render ScreenTracker with correct props for atlassianSwitcherDrawer drawer when drawer is open`, () => {
+      const screenTracker = globalNavWrapper.find(ScreenTracker);
+      expect(globalNavWrapper.find(ScreenTracker).exists()).toBeTruthy();
+      expect(screenTracker.props()).toEqual({
+        name: 'atlassianSwitcherDrawer',
+        isVisible: true,
+      });
     });
   });
 
@@ -1067,6 +1078,7 @@ describe('GlobalNavigation', () => {
             }),
           }),
         }),
+        undefined,
       );
     });
 

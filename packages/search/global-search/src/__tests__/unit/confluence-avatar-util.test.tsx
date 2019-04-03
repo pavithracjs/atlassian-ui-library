@@ -26,17 +26,21 @@ const TEST_FILE_PREFIXES = [
  * Given a list of file extensions, return an array of test filenames containing
  * those file extensions to test against.
  */
-function generateTestCasesForExtensions(extensionsToTest) {
+function generateTestCasesForExtensions(extensionsToTest: Array<string>) {
   // generate a 2d array of filenames
-  const tests = extensionsToTest.map(extension => {
+  const tests = extensionsToTest.map((extension: string) => {
     return TEST_FILE_PREFIXES.map(prefix => `${prefix}.${extension}`);
   });
   // flatten the array, done
-  return [].concat(...tests);
+  return ([] as Array<string>).concat(...tests);
 }
 
 describe('confluence-avatar-util', () => {
-  function executeTest(fileName, iconClass, ExpectedAvatar) {
+  function executeTest(
+    fileName: string,
+    iconClass: string,
+    ExpectedAvatar: React.ComponentClass<any>,
+  ) {
     const confluenceResult = makeConfluenceObjectResult({
       contentType: ContentType.ConfluenceAttachment,
       name: fileName,
@@ -49,11 +53,11 @@ describe('confluence-avatar-util', () => {
   }
 
   function describeTestGroup(
-    groupType,
-    testExtensions,
-    cqlIconClass,
-    quickNavIconClass,
-    expectedAvatar,
+    groupType: string,
+    testExtensions: string[],
+    cqlIconClass: string,
+    quickNavIconClass: string,
+    expectedAvatar: React.ComponentClass<any, any>,
   ) {
     describe(`${groupType} attachments`, () => {
       const testCases = generateTestCasesForExtensions(testExtensions);

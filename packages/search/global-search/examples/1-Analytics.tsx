@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { AnalyticsListener as AnalyticsNextListener } from '@atlaskit/analytics-next';
 import { setupMocks, teardownMocks } from '../example-helpers/mockApis';
-import { AnalyticsListener as AnalyticsNextListener } from '../../../core/analytics-next/src/';
 import styled from 'styled-components';
 import { AnalyticsListener } from '@atlaskit/analytics';
 import { GlobalQuickSearch } from '../src';
@@ -48,7 +48,7 @@ const EventsList = styled.ul`
 
 // TODO wrapping this with withNavigation really fucked up the styles. Needs some adjusting
 export default class extends React.Component<any, any> {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -70,12 +70,12 @@ export default class extends React.Component<any, any> {
       data: eventData,
     };
 
-    this.setState(prevState => ({
+    this.setState((prevState: any) => ({
       events: [event, ...prevState.events],
     }));
   };
 
-  onAnalyticsNextEvent(event) {
+  onAnalyticsNextEvent(event: any) {
     this.onEvent(
       `${event.payload.actionSubject} ${event.payload.action}`,
       event.payload,
@@ -92,7 +92,7 @@ export default class extends React.Component<any, any> {
             <AnalyticsListener onEvent={this.onEvent} matchPrivate={true}>
               <AnalyticsNextListener
                 channel="fabric-elements"
-                onEvent={e => this.onAnalyticsNextEvent(e)}
+                onEvent={(e: any) => this.onAnalyticsNextEvent(e)}
               >
                 <GlobalQuickSearchInNavigation />
               </AnalyticsNextListener>
@@ -113,26 +113,29 @@ export default class extends React.Component<any, any> {
           </a>
           <Bordered>
             <EventsList>
-              {events.map((event, i) => (
-                <li key={i}>
-                  <strong>Event:</strong> {event.name} | <strong>Data:</strong>{' '}
-                  <a
-                    href="#"
-                    onClick={() => {
-                      if (this.state.expandedEvent === i) {
-                        this.setState({ expandedEvent: null });
-                      } else {
-                        this.setState({ expandedEvent: i });
-                      }
-                    }}
-                  >
-                    Data
-                  </a>
-                  {i === this.state.expandedEvent ? (
-                    <div>{JSON.stringify(event.data)}</div>
-                  ) : null}
-                </li>
-              ))}
+              {events.map(
+                (event: { name: React.ReactNode; data: any }, i: React.Key) => (
+                  <li key={i}>
+                    <strong>Event:</strong> {event.name} |{' '}
+                    <strong>Data:</strong>{' '}
+                    <a
+                      href="#"
+                      onClick={() => {
+                        if (this.state.expandedEvent === i) {
+                          this.setState({ expandedEvent: null });
+                        } else {
+                          this.setState({ expandedEvent: i });
+                        }
+                      }}
+                    >
+                      Data
+                    </a>
+                    {i === this.state.expandedEvent ? (
+                      <div>{JSON.stringify(event.data)}</div>
+                    ) : null}
+                  </li>
+                ),
+              )}
             </EventsList>
           </Bordered>
         </EventsPanel>

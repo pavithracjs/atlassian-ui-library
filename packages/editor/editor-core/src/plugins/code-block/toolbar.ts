@@ -17,6 +17,7 @@ import { removeCodeBlock, changeLanguage } from './actions';
 import commonMessages from '../../messages';
 import { pluginKey, CodeBlockState } from './pm-plugins/main';
 import { Command } from '../../types';
+import { hoverDecoration } from '../base/pm-plugins/decoration';
 
 export const messages = defineMessages({
   selectLanguage: {
@@ -67,6 +68,8 @@ export const getToolbarConfig: FloatingToolbarHandler = (
       type: 'button',
       appearance: 'danger',
       icon: RemoveIcon,
+      onMouseEnter: hoverDecoration(true),
+      onMouseLeave: hoverDecoration(false),
       onClick: removeCodeBlock,
       title: formatMessage(commonMessages.remove),
     };

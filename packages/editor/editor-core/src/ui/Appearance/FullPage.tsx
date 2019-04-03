@@ -3,6 +3,7 @@ import { MouseEvent } from 'react';
 import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
 import { akEditorMenuZIndex } from '@atlaskit/editor-common';
+import { taskListSelector, decisionListSelector } from '@atlaskit/adf-schema';
 import { EditorAppearanceComponentProps, EditorAppearance } from '../../types';
 import Avatars from '../../plugins/collab-edit/ui/avatars';
 import PluginSlot from '../PluginSlot';
@@ -16,6 +17,7 @@ import { scrollbarStyles } from '../styles';
 import WidthEmitter from '../WidthEmitter';
 
 const GUTTER_PADDING = 32;
+const SWOOP_ANIMATION = '0.5s cubic-bezier(.15,1,.3,1)';
 
 const FullPageEditorWrapper = styled.div`
   min-width: 340px;
@@ -41,35 +43,48 @@ const ContentArea = styled.div`
   line-height: 24px;
   height: 100%;
   width: 100%;
-  max-width: ${({ theme }: any) => theme.layoutMaxWidth + GUTTER_PADDING * 2}px;
   padding-top: 50px;
-  margin: 0 auto;
-  display: flex;
   flex-direction: column;
   flex-grow: 1;
   padding-bottom: 55px;
+  max-width: ${({ theme, fullWidthMode }: any) =>
+    fullWidthMode ? '1800' : theme.layoutMaxWidth + GUTTER_PADDING * 2}px;
+  transition: margin-left ${SWOOP_ANIMATION}, max-width ${SWOOP_ANIMATION};
+  margin-left: ${({ theme, fullWidthMode }: any) =>
+    fullWidthMode
+      ? 0
+      : `calc(50% - ${(theme.layoutMaxWidth + GUTTER_PADDING * 2) / 2}px)`};
+
+  ${({ theme }) => `
+    @media (max-width: ${theme.layoutMaxWidth + GUTTER_PADDING * 2}px) {
+      margin-left: auto;
+    }
+  `}
 
   & .ProseMirror {
     flex-grow: 1;
     box-sizing: border-box;
   }
 
-  && .ProseMirror {
+  & .ProseMirror {
     & > * {
+      /* pre-emptively clear all direct descendant content, just in case any are adjacent floated content */
       clear: both;
     }
     > p,
     > ul,
-    > ol,
+    > ol:not(${taskListSelector}):not(${decisionListSelector}),
     > h1,
     > h2,
     > h3,
     > h4,
     > h5,
     > h6 {
+      /* deliberately allow wrapping of text based nodes, just in case any are adjacent floated content */
       clear: none;
     }
   }
+
   ${tableFullPageEditorStyles};
 `;
 ContentArea.displayName = 'ContentArea';
@@ -195,6 +210,7 @@ export default class Editor extends React.Component<
       disabled,
       collabEdit,
       dispatchAnalyticsEvent,
+      fullWidthMode,
     } = this.props;
 
     const { showKeyline } = this.state;
@@ -232,7 +248,7 @@ export default class Editor extends React.Component<
           className="fabric-editor-popup-scroll-parent"
         >
           <ClickAreaBlock editorView={editorView}>
-            <ContentArea>
+            <ContentArea fullWidthMode={fullWidthMode}>
               <div
                 style={{ padding: `0 ${GUTTER_PADDING}px` }}
                 className="ak-editor-content-area"

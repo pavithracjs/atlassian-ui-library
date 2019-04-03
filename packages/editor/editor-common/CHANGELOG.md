@@ -1,5 +1,33 @@
 # @atlaskit/editor-common
 
+## 36.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/emoji@59.0.0
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/editor-json-transformer@5.0.2
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/media-core@29.1.0
+
+## 35.2.0
+- [minor] [63133d8704](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/63133d8704):
+
+  -  [ED-6200] Add defaultMarks attribute on tableCell schema
+
+## 35.1.3
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-card@58.0.0
+
+## 35.1.2
+- [patch] [298bfed4e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/298bfed4e1):
+
+  - ED-6580 Media in editor is sized incorrectly in firefox
+
+## 35.1.1
+- [patch] [b32008359a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b32008359a):
+
+  - ED-5823 Add red styling for document elements when they are selected for removal
+
 ## 35.1.0
 - [minor] [ea6b08700c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6b08700c):
 

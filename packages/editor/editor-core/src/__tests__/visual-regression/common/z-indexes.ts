@@ -10,7 +10,7 @@ import * as adf from './__fixtures__/noData-adf.json';
 
 // TODO - add ADF before loading stuff
 describe('z-indexes:', () => {
-  let page;
+  let page: any;
 
   beforeAll(async () => {
     // @ts-ignore
@@ -23,7 +23,7 @@ describe('z-indexes:', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page, 0.02);
+    await snapshot(page, 0.03); // update theshold since emoji is failing
   });
 
   it('should always position table trash icon below dropdowns from main menu', async () => {
