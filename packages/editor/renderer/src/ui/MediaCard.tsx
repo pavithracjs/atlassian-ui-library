@@ -63,7 +63,7 @@ const mediaIdentifierMap: Map<string, Identifier> = new Map();
 export class MediaCardInternal extends Component<MediaCardProps, State> {
   state: State = {};
 
-  async componentDidMount() {
+  componentDidMount() {
     const {
       rendererContext,
       mediaProvider,
@@ -76,8 +76,8 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       return;
     }
 
-    const provider = await mediaProvider;
-    const context = await provider.viewContext;
+    const provider = mediaProvider;
+    const context = provider.viewContext;
 
     if (
       rendererContext &&
