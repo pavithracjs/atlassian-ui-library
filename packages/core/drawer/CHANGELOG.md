@@ -1,5 +1,12 @@
 # @atlaskit/drawer
 
+## 3.0.3
+- [patch] [211463f820](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/211463f820):
+
+  - Bugfix: fixes z-index problem causing drawer to appear underneath navigation.
+- Updated dependencies [ce4e1b4780](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce4e1b4780):
+  - @atlaskit/portal@0.3.0
+
 ## 3.0.2
 - [patch] [37ee906cf7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/37ee906cf7):
 

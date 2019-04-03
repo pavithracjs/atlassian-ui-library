@@ -29,7 +29,6 @@ const linkText2 = 'FAB-983';
       await browser.click(editor.placeholder);
       await browser.waitForSelector(editable);
 
-      // this usecase is broken on fullpage editor
       await browser.click(`[aria-label="${messages.link.defaultMessage}"]`);
       await browser.waitForSelector(linkToolbar);
       await browser.type(linkToolbar, [linkText2, 'Return']);

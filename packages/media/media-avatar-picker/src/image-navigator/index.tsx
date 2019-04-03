@@ -9,6 +9,10 @@ import ImageCropper, { OnLoadHandler } from '../image-cropper';
 import Slider from '@atlaskit/field-range';
 import Spinner from '@atlaskit/spinner';
 import {
+  fileToDataURI,
+  dataURItoFile,
+  getOrientation,
+  isRotated,
   Ellipsify,
   Camera,
   Rectangle,
@@ -34,7 +38,7 @@ import {
   constrainScale,
   constrainEdges,
 } from '../constraint-util';
-import { dataURItoFile, fileSizeMb } from '../util';
+import { fileSizeMb } from '../util';
 import { ERROR, MAX_SIZE_MB, ACCEPT } from '../avatar-picker-dialog';
 
 export const CONTAINER_SIZE = gridSize() * 32;
@@ -82,6 +86,7 @@ export interface State {
   fileImageSource?: string;
   imageFile?: File;
   isDroppingFile: boolean;
+  imageOrientation: number;
 }
 
 const defaultState = {
@@ -93,6 +98,7 @@ const defaultState = {
   isDragging: false,
   fileImageSource: undefined,
   isDroppingFile: false,
+  imageOrientation: 1,
 };
 
 export class ImageNavigator extends Component<
@@ -185,6 +191,10 @@ export class ImageNavigator extends Component<
    * @param height the height of the image
    */
   onImageSize = (width: number, height: number) => {
+    if (isRotated(this.state.imageOrientation)) {
+      [width, height] = [height, width];
+    }
+
     const { imageFile, imagePos } = this.state;
     const scale = this.calculateMinScale(width, height);
     // imageFile will not exist if imageSource passed through props.
@@ -248,20 +258,23 @@ export class ImageNavigator extends Component<
     return null;
   }
 
-  readFile(imageFile: File) {
-    const reader = new FileReader();
-    reader.onload = (e: Event) => {
-      const fileImageSource = (e.target as FileReader).result;
-      const { onImageUploaded } = this.props;
+  async readFile(imageFile: File) {
+    const { onImageUploaded } = this.props;
 
-      if (onImageUploaded) {
-        onImageUploaded(imageFile);
-      }
+    const [fileImageSource, imageOrientation] = await Promise.all([
+      fileToDataURI(imageFile),
+      getOrientation(imageFile),
+    ]);
 
-      // TODO: [ts30] Add proper handling for null and ArrayBuffer
-      this.setState({ fileImageSource: fileImageSource as string, imageFile });
-    };
-    reader.readAsDataURL(imageFile);
+    if (onImageUploaded) {
+      onImageUploaded(imageFile);
+    }
+
+    this.setState({
+      fileImageSource: fileImageSource as string,
+      imageFile,
+      imageOrientation,
+    });
   }
 
   // Trick to have a nice <input /> appearance
@@ -392,7 +405,14 @@ export class ImageNavigator extends Component<
   };
 
   renderImageCropper(dataURI: string) {
-    const { camera, imagePos, scale, isDragging, minScale } = this.state;
+    const {
+      camera,
+      imagePos,
+      scale,
+      isDragging,
+      minScale,
+      imageOrientation,
+    } = this.state;
     const { onLoad, onImageError } = this.props;
     const { onDragStarted, onImageSize, onRemoveImage } = this;
 
@@ -403,6 +423,7 @@ export class ImageNavigator extends Component<
           scale={scale}
           imageSource={dataURI}
           imageWidth={camera.originalImg.width}
+          imageOrientation={imageOrientation}
           containerSize={CONTAINER_SIZE}
           isCircularMask={false}
           top={imagePos.y}

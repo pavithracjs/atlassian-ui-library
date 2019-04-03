@@ -47,6 +47,7 @@ export default class DrawersExample extends Component<{}, State> {
             onClick={this.openDrawer(width)}
             type="button"
             key={width}
+            id={`open-${width}-drawer`}
             css={{
               marginRight: '1rem',
             }}

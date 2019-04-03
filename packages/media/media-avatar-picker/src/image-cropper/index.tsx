@@ -2,20 +2,20 @@ import * as React from 'react';
 import { Component } from 'react';
 import CrossIcon from '@atlaskit/icon/glyph/cross';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { messages } from '@atlaskit/media-ui';
+import { messages, isRotated, MediaImage } from '@atlaskit/media-ui';
 import { isImageRemote } from './isImageRemote';
 import {
   CircularMask,
   Container,
   DragOverlay,
   RectMask,
-  Image,
   RemoveImageContainer,
   RemoveImageButton,
-  containerPadding,
+  ImageContainer,
 } from './styled';
 import { ERROR } from '../avatar-picker-dialog';
 import { CONTAINER_INNER_SIZE } from '../image-navigator';
+import { cropToDataURI } from './crop-to-data-uri';
 
 export interface LoadParameters {
   export: () => string;
@@ -31,6 +31,7 @@ export interface ImageCropperProp {
   top: number;
   left: number;
   imageWidth?: number;
+  imageOrientation: number;
   onDragStarted?: (x: number, y: number) => void;
   onImageSize: (width: number, height: number) => void;
   onLoad?: OnLoadHandler;
@@ -38,13 +39,19 @@ export interface ImageCropperProp {
   onImageError: (errorMessage: string) => void;
 }
 
+export interface State {
+  naturalWidth?: number;
+  naturalHeight?: number;
+}
+
 const defaultScale = 1;
 
 export class ImageCropper extends Component<
   ImageCropperProp & InjectedIntlProps,
-  {}
+  State
 > {
   private imageElement?: HTMLImageElement;
+  state: State = {};
 
   static defaultProps = {
     containerSize: CONTAINER_INNER_SIZE,
@@ -79,9 +86,10 @@ export class ImageCropper extends Component<
     }
   };
 
-  onImageLoaded = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    const image = e.target as HTMLImageElement;
-    this.props.onImageSize(image.naturalWidth, image.naturalHeight);
+  onImageLoaded = (image: HTMLImageElement) => {
+    const { naturalWidth, naturalHeight } = image;
+    this.setState({ naturalWidth, naturalHeight });
+    this.props.onImageSize(naturalWidth, naturalHeight);
     this.imageElement = image;
   };
 
@@ -101,6 +109,7 @@ export class ImageCropper extends Component<
       left,
       imageSource,
       onRemoveImage,
+      imageOrientation,
       intl: { formatMessage },
     } = this.props;
     const containerStyle = {
@@ -108,12 +117,16 @@ export class ImageCropper extends Component<
       height: `${containerSize}px`,
     };
     const width = this.width ? `${this.width}px` : 'auto';
-    const imageStyle = {
+    const height = this.height ? `${this.height}px` : 'auto';
+
+    const imageContainerStyle = {
       width,
+      height,
       display: width === 'auto' ? 'none' : 'block',
       top: `${top}px`,
       left: `${left}px`,
     };
+
     let crossOrigin: '' | 'anonymous' | 'use-credentials' | undefined;
     try {
       crossOrigin = isImageRemote(imageSource) ? 'anonymous' : undefined;
@@ -123,13 +136,17 @@ export class ImageCropper extends Component<
 
     return (
       <Container style={containerStyle}>
-        <Image
-          crossOrigin={crossOrigin}
-          src={imageSource}
-          style={imageStyle}
-          onLoad={this.onImageLoaded}
-          onError={this.onImageError}
-        />
+        <ImageContainer style={imageContainerStyle}>
+          <MediaImage
+            crossOrigin={crossOrigin}
+            dataURI={imageSource}
+            crop={false}
+            stretch={true}
+            previewOrientation={imageOrientation}
+            onImageLoad={this.onImageLoaded}
+            onImageError={this.onImageError}
+          />
+        </ImageContainer>
         {isCircularMask ? <CircularMask /> : <RectMask />}
         <DragOverlay onMouseDown={this.onDragStarted} />
         <RemoveImageContainer>
@@ -150,40 +167,43 @@ export class ImageCropper extends Component<
     return imageWidth ? imageWidth * (scale || defaultScale) : 0;
   }
 
-  export = (): string => {
-    let imageData = '';
-    const canvas = document.createElement('canvas');
-    const { top, left, scale, containerSize } = this.props;
-    const size = containerSize || 0;
-    const scaleWithDefault = scale || 1;
-    const destinationSize = Math.max(size - containerPadding * 2, 0);
-
-    canvas.width = destinationSize;
-    canvas.height = destinationSize;
-
-    const context = canvas.getContext('2d');
-
-    if (context && this.imageElement) {
-      const sourceLeft = (-left + containerPadding) / scaleWithDefault;
-      const sourceTop = (-top + containerPadding) / scaleWithDefault;
-      const sourceWidth = destinationSize / scaleWithDefault;
-      const sourceHeight = destinationSize / scaleWithDefault;
-
-      context.drawImage(
-        this.imageElement,
-        sourceLeft,
-        sourceTop,
-        sourceWidth,
-        sourceHeight,
-        0,
-        0,
-        destinationSize,
-        destinationSize,
-      );
-      imageData = canvas.toDataURL();
+  private get height() {
+    const { naturalHeight, naturalWidth } = this.state;
+    if (!naturalWidth || !naturalHeight) {
+      return 0;
     }
 
-    return imageData;
+    const { imageOrientation } = this.props;
+
+    const [newNaturalHeight, newNaturalWidth] = isRotated(imageOrientation)
+      ? [naturalWidth, naturalHeight]
+      : [naturalHeight, naturalWidth];
+
+    return (newNaturalHeight * this.width) / newNaturalWidth;
+  }
+
+  private cropOut = () => {
+    const {
+      top,
+      left,
+      scale = 1,
+      containerSize = 0,
+      imageOrientation,
+    } = this.props;
+    if (this.imageElement && containerSize) {
+      return cropToDataURI(
+        this.imageElement,
+        { width: this.width, height: this.height, top: 0, left: 0 },
+        { top, left, width: containerSize, height: containerSize },
+        scale,
+        imageOrientation,
+      );
+    }
+    return '';
+  };
+
+  export = (): string => {
+    return this.cropOut();
   };
 }
 

@@ -3,6 +3,7 @@ import { Component } from 'react';
 import ChevronDownIcon from '@atlaskit/icon/glyph/chevron-down';
 import Tooltip from '@atlaskit/tooltip';
 import Button from '@atlaskit/button';
+import { colors } from '@atlaskit/theme';
 import {
   ColorSample,
   DropdownRightIconWrapper,
@@ -10,10 +11,10 @@ import {
 } from './styles';
 import { messages } from '@atlaskit/media-ui';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
-import { Color } from '../../../../common';
+import { PICKER_COLORS } from '../popups/colorPopup';
 
 export interface ColorButtonProps {
-  readonly color: Color;
+  readonly color: string;
   readonly isActive: boolean;
   readonly onClick: () => void;
 }
@@ -28,8 +29,9 @@ export class ColorButton extends Component<
       onClick,
       intl: { formatMessage },
     } = this.props;
-    const { red, green, blue } = color;
-    const style = { backgroundColor: `rgb(${red}, ${green}, ${blue})` };
+
+    const iconPrimaryColor = isActive ? colors.N0 : undefined;
+    const style = { backgroundColor: color, borderColor: PICKER_COLORS[color] };
 
     const iconBefore = (
       <DropdownLeftIconWrapper>
@@ -38,7 +40,7 @@ export class ColorButton extends Component<
     );
     const iconAfter = (
       <DropdownRightIconWrapper>
-        <ChevronDownIcon label="chevron-icon" />
+        <ChevronDownIcon label="chevron-icon" primaryColor={iconPrimaryColor} />
       </DropdownRightIconWrapper>
     );
     return (

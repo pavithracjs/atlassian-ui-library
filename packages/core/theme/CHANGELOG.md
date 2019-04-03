@@ -1,5 +1,10 @@
 # @atlaskit/theme
 
+## 8.1.2
+- [patch] [0f17bb7c20](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f17bb7c20):
+
+  - Theme TypeScript annotations are now exported as a module declaration.
+
 ## 8.1.1
 - [patch] [7fe933beaa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7fe933beaa):
 

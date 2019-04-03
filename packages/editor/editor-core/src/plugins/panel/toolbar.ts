@@ -10,6 +10,7 @@ import commonMessages from '../../messages';
 import { FloatingToolbarHandler } from '../floating-toolbar/types';
 import { removePanel, changePanelType } from './actions';
 import { pluginKey, PanelState } from './pm-plugins/main';
+import { hoverDecoration } from '../base/pm-plugins/decoration';
 
 export const messages = defineMessages({
   info: {
@@ -99,6 +100,8 @@ export const getToolbarConfig: FloatingToolbarHandler = (
           appearance: 'danger',
           icon: RemoveIcon,
           onClick: removePanel(),
+          onMouseEnter: hoverDecoration(true),
+          onMouseLeave: hoverDecoration(false),
           title: formatMessage(commonMessages.remove),
         },
       ],

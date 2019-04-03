@@ -14,7 +14,8 @@ export default {
   'global_search.no_recent_activity_title': 'Search for what you need',
   'global_search.no_recent_activity_body':
     'Or use <a href={url}>advanced search</a> (`shift + enter`) to focus your results.',
-  'global_search.no_results_title': 'No results in titles and people',
+  'global_search.no_results_title':
+    "We couldn't find anything matching your search",
   'global_search.no_results_body':
     'Try again with a different term, or refine your results with our advanced search.',
   'global_search.people.recent_people_heading': 'Recently worked with',

@@ -37,12 +37,13 @@ function insertMedia() {
   window.setTimeout(() => {
     window.bridge.onMediaPicked(
       'upload-end',
-      `{"file":{"id":"0c20ce69-bf0e-43d9-913f-46432e977b36","name":"Screen Shot 2019-03-12 at 11.13.06 am.png","type":"image/png","publicId":"0c20ce69-bf0e-43d9-913f-46432e977b36","collectionName":"MediaServicesSample"}}`,
+      `{"file":{"id":"0c20ce69-bf0e-43d9-913f-46432e977b36","name":"Screen Shot 2019-03-12 at 11.13.06 am.png","type":"image/png","publicId":"0c20ce69-bf0e-43d9-913f-46432e977b36","collectionName":"TestCollection"}}`,
     );
   }, 2000);
 }
 
 export const mediaProvider = storyMediaProviderFactory({
+  collectionName: 'TestCollection',
   includeUserAuthProvider: true,
 });
 

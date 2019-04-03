@@ -13,8 +13,6 @@ export interface Props {
   placeholder?: string;
   showPlaceholder?: boolean;
   appearance?: Appearance;
-  participants?: User[];
-  showParticipants?: boolean;
   creator?: User;
   lastUpdater?: User;
 }
@@ -40,7 +38,6 @@ export default class DecisionItem extends PureComponent<Props, {}> {
       appearance,
       children,
       contentRef,
-      participants,
       placeholder,
       showPlaceholder,
     } = this.props;
@@ -56,7 +53,6 @@ export default class DecisionItem extends PureComponent<Props, {}> {
         appearance={appearance}
         contentRef={contentRef}
         icon={icon}
-        participants={participants}
         placeholder={placeholder}
         showPlaceholder={showPlaceholder}
         attribution={this.getAttributionText()}

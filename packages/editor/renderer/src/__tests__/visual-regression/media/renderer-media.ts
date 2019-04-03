@@ -41,7 +41,7 @@ describe('Snapshot Test: Media', () => {
           await page.waitForSelector(mediaSelectors.errorLoading); // In test should show overlay error
 
           await page.waitForSelector(rendererSelectors.document);
-          await snapshot(page, undefined, rendererSelectors.document);
+          await snapshot(page, 0.01, rendererSelectors.document);
         });
       });
     });

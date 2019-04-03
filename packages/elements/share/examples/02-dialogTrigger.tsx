@@ -33,7 +33,9 @@ export default () => (
       shareContentType="page"
       showFlags={showFlags}
     >
-      {openDialog => <Button onClick={openDialog}>Custom Button</Button>}
+      {openDialog => (
+        <Button onClick={openDialog.onClick}>Custom Button</Button>
+      )}
     </ShareDialogWithTrigger>
   </React.Fragment>
 );

@@ -1,4 +1,8 @@
-import { MarkSerializer, NodeSerializer } from './interfaces';
+import {
+  MarkSerializer,
+  NodeSerializer,
+  MarkSerializerOpts,
+} from './interfaces';
 
 import blockquote from './nodes/blockquote';
 import blockCard from './nodes/block-card';
@@ -20,9 +24,15 @@ import table from './nodes/table';
 import tableCell from './nodes/table-cell';
 import tableHeader from './nodes/table-header';
 import tableRow from './nodes/table-row';
+import taskList from './nodes/task-list';
+import taskItem from './nodes/task-item';
 import text from './nodes/text';
 import unknownBlock from './nodes/unknown-block';
 import status from './nodes/status';
+import layoutColumn from './nodes/layoutColumn';
+import layoutSection from './nodes/layoutSection';
+import bodiedExtension from './nodes/bodiedExtension';
+import inlineExtension from './nodes/inlineExtension';
 
 import code from './marks/code';
 import em from './marks/em';
@@ -35,10 +45,11 @@ import underline from './marks/underline';
 import indentation from './marks/indentation';
 import alignment from './marks/alignment';
 
-const renderNothing = () => '';
+const renderNothing = (): string => '';
+const doNotMark = ({ text }: MarkSerializerOpts): string => text;
 
 export const nodeSerializers: { [key: string]: NodeSerializer } = {
-  bodiedExtension: renderNothing,
+  bodiedExtension: bodiedExtension,
   blockquote,
   blockCard,
   bulletList,
@@ -46,8 +57,12 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   decisionList,
   decisionItem,
   emoji,
+  extension: bodiedExtension, // Old node, treated as bodied ext. for backwards compatibility
   image: renderNothing,
   inlineCard,
+  layoutColumn,
+  layoutSection,
+  inlineExtension,
   hardBreak,
   heading,
   listItem,
@@ -56,18 +71,24 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   orderedList,
   panel,
   paragraph,
+  placeholder: renderNothing,
   rule,
   table,
   tableCell,
   tableHeader,
   tableRow,
-  taskList: renderNothing,
+  taskItem,
+  taskList,
   text,
   unknownBlock,
   status,
 };
 
 export const markSerializers: { [key: string]: MarkSerializer } = {
+  action: doNotMark,
+  alignment,
+  annotation: doNotMark,
+  breakout: doNotMark,
   code,
   em,
   indentation,
@@ -77,5 +98,4 @@ export const markSerializers: { [key: string]: MarkSerializer } = {
   subsup,
   textColor,
   underline,
-  alignment,
 };

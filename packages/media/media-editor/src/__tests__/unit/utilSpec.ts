@@ -1,4 +1,10 @@
-import { getUtf32Codes, getUtf32CodeUnits, adjustSize } from '../../util';
+import {
+  getUtf32Codes,
+  getUtf32CodeUnits,
+  adjustSize,
+  hexToRgb,
+  rgbToHex,
+} from '../../util';
 
 describe('MediaEditor Util', () => {
   describe('getUtf32Codes', () => {
@@ -210,6 +216,36 @@ describe('MediaEditor Util', () => {
 
       expect(arr).toEqual([12, 34]);
       expect(deletedElements).toEqual([56, 78, 90]);
+    });
+  });
+
+  describe('hexToRgb()', () => {
+    it('should convert string with # to rgb', () => {
+      const rgb = hexToRgb('#6b778c');
+      expect(rgb).toEqual({
+        red: 107,
+        green: 119,
+        blue: 140,
+      });
+    });
+    it('should convert string without # to rgb', () => {
+      const rgb = hexToRgb('6b778c');
+      expect(rgb).toEqual({
+        red: 107,
+        green: 119,
+        blue: 140,
+      });
+    });
+  });
+
+  describe('rgbToHex()', () => {
+    it('should convert rgb to hashed hex', () => {
+      const hashedHex = rgbToHex({
+        red: 107,
+        green: 119,
+        blue: 140,
+      });
+      expect(hashedHex).toEqual('#6b778c');
     });
   });
 });

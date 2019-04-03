@@ -213,7 +213,7 @@ describe('clear-formatting', () => {
     });
 
     describe('Analytics GAS V3', () => {
-      function createClearFormattingPayloadWithAttributes(attributes) {
+      function createClearFormattingPayloadWithAttributes(attributes: object) {
         return {
           action: 'formatted',
           actionSubject: 'text',

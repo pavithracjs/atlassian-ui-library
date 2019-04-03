@@ -1,3 +1,11 @@
+import {
+  AnalyticsContext,
+  withAnalyticsEvents,
+} from '@atlaskit/analytics-next';
+import {
+  AnalyticsEventPayload,
+  WithAnalyticsEventProps,
+} from '@atlaskit/analytics-next-types';
 import { ButtonAppearances } from '@atlaskit/button';
 import InlineDialog from '@atlaskit/inline-dialog';
 import { LoadOptions } from '@atlaskit/user-picker';
@@ -9,15 +17,23 @@ import {
   ConfigResponse,
   DialogContentState,
   Flag,
+  OriginTracing,
   ShareButtonStyle,
   ADMIN_NOTIFIED,
   OBJECT_SHARED,
 } from '../types';
+import {
+  buttonClicked,
+  cancelShare,
+  copyShareLink,
+  screenEvent,
+  submitShare,
+} from './analytics';
 import { ShareButton } from './ShareButton';
 import { ShareForm } from './ShareForm';
 
 type RenderChildren = (
-  args: { onClick: () => void; loading: boolean; error?: ShareError },
+  args: { onClick: () => void; loading?: boolean; error?: ShareError },
 ) => React.ReactNode;
 
 type DialogState = {
@@ -46,6 +62,7 @@ export type Props = {
   onShareSubmit?: (shareContentState: DialogContentState) => Promise<any>;
   shareContentType: string;
   shareFormTitle?: React.ReactNode;
+  shareOrigin?: OriginTracing | null;
   shouldCloseOnEscapePress?: boolean;
   showFlags: (flags: Array<Flag>) => void;
   triggerButtonAppearance?: ButtonAppearances;
@@ -54,6 +71,7 @@ export type Props = {
 
 const InlineDialogFormWrapper = styled.div`
   width: 352px;
+  margin: -16px 0;
 `;
 
 export const defaultShareContentState: DialogContentState = {
@@ -64,8 +82,8 @@ export const defaultShareContentState: DialogContentState = {
   },
 };
 
-export class Component extends React.Component<
-  Props & InjectedIntlProps,
+export class ShareDialogWithTriggerInternal extends React.Component<
+  Props & InjectedIntlProps & WithAnalyticsEventProps,
   State
 > {
   static defaultProps = {
@@ -76,6 +94,7 @@ export class Component extends React.Component<
     triggerButtonStyle: 'icon-only' as 'icon-only',
   };
   private containerRef = React.createRef<HTMLDivElement>();
+  private start: number = 0;
 
   escapeIsHeldDown: boolean = false;
 
@@ -84,6 +103,13 @@ export class Component extends React.Component<
     isSharing: false,
     ignoreIntermediateState: false,
     defaultValue: defaultShareContentState,
+  };
+
+  private createAndFireEvent = (payload: AnalyticsEventPayload) => {
+    const { createAnalyticsEvent } = this.props;
+    if (createAnalyticsEvent) {
+      createAnalyticsEvent(payload).fire('fabric-elements');
+    }
   };
 
   private getFlags = () => {
@@ -127,18 +153,25 @@ export class Component extends React.Component<
             defaultValue: defaultShareContentState,
             shareError: undefined,
           });
+          this.createAndFireEvent(cancelShare(this.start));
       }
     }
   };
 
   private onTriggerClick = () => {
-    // TODO: send analytics
+    this.createAndFireEvent(buttonClicked());
+
     this.setState(
       {
         isDialogOpen: !this.state.isDialogOpen,
         ignoreIntermediateState: false,
       },
       () => {
+        const { isDialogOpen } = this.state;
+        if (isDialogOpen) {
+          this.start = Date.now();
+          this.createAndFireEvent(screenEvent());
+        }
         if (this.containerRef.current) {
           this.containerRef.current.focus();
         }
@@ -147,24 +180,26 @@ export class Component extends React.Component<
   };
 
   private handleCloseDialog = (_: { isOpen: boolean; event: any }) => {
-    // TODO: send analytics
     this.setState({
       isDialogOpen: false,
     });
   };
 
   private handleShareSubmit = (data: DialogContentState) => {
-    if (!this.props.onShareSubmit) {
+    const { onShareSubmit, shareOrigin, showFlags, config } = this.props;
+    if (!onShareSubmit) {
       return;
     }
 
     this.setState({ isSharing: true });
 
-    this.props
-      .onShareSubmit(data)
+    this.createAndFireEvent(submitShare(this.start, data, shareOrigin, config));
+
+    onShareSubmit(data)
       .then(() => {
-        this.handleCloseDialog({ isOpen: false, event: {} });
-        this.props.showFlags(this.getFlags());
+        this.handleCloseDialog({ isOpen: false, event });
+        this.setState({ isSharing: false });
+        showFlags(this.getFlags());
       })
       .catch((err: Error) => {
         this.setState({
@@ -173,7 +208,6 @@ export class Component extends React.Component<
             message: err.message,
           },
         });
-        // send analytic event about the err
       });
   };
 
@@ -181,6 +215,10 @@ export class Component extends React.Component<
     this.setState(({ ignoreIntermediateState }) =>
       ignoreIntermediateState ? null : { defaultValue: data },
     );
+  };
+
+  handleCopyLink = () => {
+    this.createAndFireEvent(copyShareLink(this.start, this.props.shareOrigin));
   };
 
   render() {
@@ -206,19 +244,22 @@ export class Component extends React.Component<
       >
         <InlineDialog
           content={
-            <InlineDialogFormWrapper>
-              <ShareForm
-                copyLink={copyLink}
-                loadOptions={loadUserOptions}
-                isSharing={isSharing}
-                onShareClick={this.handleShareSubmit}
-                title={shareFormTitle}
-                shareError={shareError}
-                onDismiss={this.handleFormDismiss}
-                defaultValue={defaultValue}
-                config={config}
-              />
-            </InlineDialogFormWrapper>
+            <AnalyticsContext data={{ source: 'shareModal' }}>
+              <InlineDialogFormWrapper>
+                <ShareForm
+                  copyLink={copyLink}
+                  loadOptions={loadUserOptions}
+                  isSharing={isSharing}
+                  onShareClick={this.handleShareSubmit}
+                  title={shareFormTitle}
+                  shareError={shareError}
+                  onDismiss={this.handleFormDismiss}
+                  defaultValue={defaultValue}
+                  config={config}
+                  onLinkCopy={this.handleCopyLink}
+                />
+              </InlineDialogFormWrapper>
+            </AnalyticsContext>
           }
           isOpen={isDialogOpen}
           onClose={this.handleCloseDialog}
@@ -249,4 +290,7 @@ export class Component extends React.Component<
   }
 }
 
-export const ShareDialogWithTrigger = injectIntl(Component);
+export const ShareDialogWithTrigger: React.ComponentClass<
+  Props,
+  State
+> = withAnalyticsEvents()(injectIntl(ShareDialogWithTriggerInternal));

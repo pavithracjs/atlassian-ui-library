@@ -2,10 +2,20 @@ import * as React from 'react';
 import { Component, SyntheticEvent } from 'react';
 import { EditorView } from 'prosemirror-view';
 import { Selection } from 'prosemirror-state';
-import { isCellSelection } from 'prosemirror-utils';
+import { isCellSelection, getSelectionRect } from 'prosemirror-utils';
 import { browser } from '@atlaskit/editor-common';
-import InsertButton from '../InsertButton';
-import DeleteButton from '../DeleteButton';
+
+import { INPUT_METHOD } from '../../../../analytics';
+import {
+  hoverColumns,
+  selectColumn,
+  clearHoverSelection,
+} from '../../../actions';
+import {
+  insertColumnWithAnalytics,
+  deleteColumnsWithAnalytics,
+} from '../../../actions-with-analytics';
+import { TableCssClassName as ClassName } from '../../../types';
 import {
   isSelectionUpdated,
   getColumnsWidths,
@@ -16,16 +26,9 @@ import {
   getColumnClassNames,
   ColumnParams,
 } from '../../../utils';
-import {
-  clearHoverSelection,
-  hoverColumns,
-  insertColumn,
-  selectColumn,
-} from '../../../actions';
-import { TableCssClassName as ClassName } from '../../../types';
 import tableMessages from '../../messages';
-import { deleteColumns } from '../../../transforms';
-import { analyticsService } from '../../../../../analytics';
+import InsertButton from '../InsertButton';
+import DeleteButton from '../DeleteButton';
 
 export interface Props {
   editorView: EditorView;
@@ -168,10 +171,12 @@ export default class ColumnControls extends Component<Props, any> {
   private deleteColumns = (event: SyntheticEvent) => {
     event.preventDefault();
     const { state, dispatch } = this.props.editorView;
-    analyticsService.trackEvent(
-      'atlassian.editor.format.table.delete_column.button',
-    );
-    dispatch(deleteColumns()(state.tr));
+
+    const rect = getSelectionRect(state.selection);
+    if (rect) {
+      deleteColumnsWithAnalytics(INPUT_METHOD.BUTTON, rect)(state, dispatch);
+    }
+
     this.clearHoverSelection();
   };
 
@@ -197,6 +202,6 @@ export default class ColumnControls extends Component<Props, any> {
 
   private insertColumn = (column: number) => {
     const { state, dispatch } = this.props.editorView;
-    insertColumn(column)(state, dispatch);
+    insertColumnWithAnalytics(INPUT_METHOD.BUTTON, column)(state, dispatch);
   };
 }

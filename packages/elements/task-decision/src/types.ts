@@ -224,7 +224,7 @@ export interface OnUpdate<T> {
   (allDecisions: T[], newDecisions: T[]): void;
 }
 
-export type Appearance = 'inline' | 'card';
+export type Appearance = 'inline';
 
 /**
  * Same as PubSub client types (don't want a direct dep though)

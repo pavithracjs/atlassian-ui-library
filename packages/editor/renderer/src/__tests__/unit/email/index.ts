@@ -10,9 +10,20 @@ import * as inlineCodeProps from '../../__fixtures__/inline-code-props.adf.json'
 import * as inlineTextProps from '../../__fixtures__/inline-text-props.adf.json';
 import * as panels from '../../__fixtures__/panels.adf.json';
 import * as link from '../../__fixtures__/link.adf.json';
+import * as decisionList from '../../__fixtures__/decision-list.adf.json';
+import * as taskList from '../../__fixtures__/task-list.adf.json';
 import * as blockCards from '../../__fixtures__/block-cards.adf.json';
 import * as inlineCards from '../../__fixtures__/inline-cards.adf.json';
 import * as status from '../../__fixtures__/status.adf.json';
+import * as tableNumberedColumn from '../../__fixtures__/table-numbered-column.adf.json';
+import * as layoutColumnSection from '../../__fixtures__/layout-column-section.adf.json';
+import * as extensions from '../../__fixtures__/extensions.adf.json';
+
+import * as image from '../../__fixtures__/image.adf.json';
+import * as placeholder from '../../__fixtures__/placeholder.adf.json';
+import * as action from '../../__fixtures__/action.adf.json';
+import * as annotation from '../../__fixtures__/annotation.adf.json';
+import * as breakout from '../../__fixtures__/breakout.adf.json';
 
 const render = (doc: any) => {
   const serializer = EmailSerializer.fromSchema(schema);
@@ -24,6 +35,41 @@ const render = (doc: any) => {
 };
 
 describe('Renderer - EmailSerializer', () => {
+  it('should render nothing for image node', () => {
+    const output = render(image);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render nothing for placeholder node', () => {
+    const output = render(placeholder);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should apply no mark for action marks', () => {
+    const output = render(action);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should apply no mark for annotation marks', () => {
+    const output = render(annotation);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should apply no mark for breakout marks', () => {
+    const output = render(breakout);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render decision list correctly', () => {
+    const output = render(decisionList);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render task list correctly', () => {
+    const output = render(taskList);
+    expect(output).toMatchSnapshot();
+  });
+
   it('should render block cards correctly', () => {
     const output = render(blockCards);
     expect(output).toMatchSnapshot();
@@ -81,6 +127,21 @@ describe('Renderer - EmailSerializer', () => {
 
   it('should render status correctly', () => {
     const output = render(status);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render numbered column for table', () => {
+    const output = render(tableNumberedColumn);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render layout column and sections', () => {
+    const output = render(layoutColumnSection);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render extension placeholders', () => {
+    const output = render(extensions);
     expect(output).toMatchSnapshot();
   });
 });

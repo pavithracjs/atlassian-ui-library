@@ -1,16 +1,11 @@
-// This works only by calling before importing InlineDialog
-import mockPopper from '../_mockPopper';
-mockPopper();
-
+import { shallowWithIntl } from '@atlaskit/editor-test-helpers';
 import InlineDialog from '@atlaskit/inline-dialog';
-import { mountWithIntl, shallowWithIntl } from '@atlaskit/editor-test-helpers';
 import { shallow, ShallowWrapper, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import { FormattedMessage, InjectedIntlProps } from 'react-intl';
-import { messages } from '../../../i18n';
 import {
-  ShareButton,
   Props as ShareButtonProps,
+  ShareButton,
 } from '../../../components/ShareButton';
 import {
   defaultShareContentState,
@@ -19,7 +14,10 @@ import {
   State,
 } from '../../../components/ShareDialogWithTrigger';
 import { ShareData, ShareForm } from '../../../components/ShareForm';
+import { messages } from '../../../i18n';
 import { ADMIN_NOTIFIED, OBJECT_SHARED } from '../../../types';
+import mockPopper from '../_mockPopper';
+mockPopper();
 
 let wrapper: ShallowWrapper<Props & InjectedIntlProps>;
 let mockOnShareSubmit: jest.Mock;
@@ -35,7 +33,10 @@ beforeEach(() => {
       shareContentType="page"
       showFlags={mockShowFlags}
     />,
-  );
+  )
+    .dive()
+    .dive()
+    .dive();
 });
 
 beforeAll(() => {
@@ -73,24 +74,6 @@ describe('ShareDialogWithTrigger', () => {
       );
     });
 
-    it('should render ShareForm if isDialogOpen is true', () => {
-      const mountWrapper: ReactWrapper<
-        Props & InjectedIntlProps,
-        State,
-        any
-      > = mountWithIntl<Props, State>(
-        <ShareDialogWithTrigger
-          copyLink="copyLink"
-          loadUserOptions={mockLoadOptions}
-          onShareSubmit={mockOnShareSubmit}
-          shareContentType="page"
-          showFlags={mockShowFlags}
-        />,
-      );
-      mountWrapper.setState({ isDialogOpen: true });
-      expect(mountWrapper.find(ShareForm).length).toBe(1);
-    });
-
     it('should be toggled if clicked on ShareButton', () => {
       expect((wrapper.state() as State).isDialogOpen).toEqual(false);
       wrapper.find(ShareButton).simulate('click');
@@ -112,7 +95,10 @@ describe('ShareDialogWithTrigger', () => {
           shareContentType="page"
           showFlags={mockShowFlags}
         />,
-      );
+      )
+        .dive()
+        .dive()
+        .dive();
       expect(
         newWrapper
           .find(InlineDialog)
@@ -144,7 +130,10 @@ describe('ShareDialogWithTrigger', () => {
           shareContentType="page"
           showFlags={mockShowFlags}
         />,
-      );
+      )
+        .dive()
+        .dive()
+        .dive();
       newWrapper.setState({ isDialogOpen: true });
       expect(
         newWrapper
@@ -166,8 +155,10 @@ describe('ShareDialogWithTrigger', () => {
           shareContentType="page"
           showFlags={mockShowFlags}
         />,
-      );
-
+      )
+        .dive()
+        .dive()
+        .dive();
       newWrapper.setState({ isDialogOpen: true });
       expect(
         newWrapper
@@ -195,7 +186,10 @@ describe('ShareDialogWithTrigger', () => {
         >
           {spiedRenderer}
         </ShareDialogWithTrigger>,
-      );
+      )
+        .dive()
+        .dive()
+        .dive();
       const wrapperState: State = wrapper.state() as State;
       expect(spiedRenderer).toHaveBeenCalledTimes(1);
       expect(spiedRenderer).toHaveBeenCalledWith(
@@ -219,7 +213,10 @@ describe('ShareDialogWithTrigger', () => {
           shareContentType="page"
           showFlags={mockShowFlags}
         />,
-      );
+      )
+        .dive()
+        .dive()
+        .dive();
       expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
         defaultPlacement,
       );
@@ -243,7 +240,10 @@ describe('ShareDialogWithTrigger', () => {
           shareContentType="page"
           showFlags={mockShowFlags}
         />,
-      );
+      )
+        .dive()
+        .dive()
+        .dive();
       let shareButtonProps: ShareButtonProps = wrapper
         .find(ShareButton)
         .props();
@@ -269,7 +269,10 @@ describe('ShareDialogWithTrigger', () => {
           shareFormTitle="Share this page"
           showFlags={mockShowFlags}
         />,
-      );
+      )
+        .dive()
+        .dive()
+        .dive();
       wrapper.setState({ isDialogOpen: true });
 
       const ShareFormProps = shallow(wrapper
@@ -301,7 +304,10 @@ describe('ShareDialogWithTrigger', () => {
           shareContentType="page"
           showFlags={mockShowFlags}
         />,
-      );
+      )
+        .dive()
+        .dive()
+        .dive();
       wrapper.setState({ isDialogOpen: true });
       expect((wrapper.state() as State).isDialogOpen).toEqual(true);
       wrapper
@@ -388,7 +394,10 @@ describe('ShareDialogWithTrigger', () => {
           shareContentType="page"
           showFlags={mockShowFlags}
         />,
-      );
+      )
+        .dive()
+        .dive()
+        .dive();
       wrapper.setState(mockState);
 
       shallow(wrapper.find(InlineDialog).prop('content') as any)
@@ -424,7 +433,10 @@ describe('ShareDialogWithTrigger', () => {
           shareContentType="page"
           showFlags={mockShowFlags}
         />,
-      );
+      )
+        .dive()
+        .dive()
+        .dive();
       wrapper.setState(mockState);
 
       mockShowFlags.mockReset();

@@ -21,9 +21,9 @@ const mockPayloadB: GasPayload = {
 
 describe('AnalyticsEventFiredOnMount', () => {
   let createAnalyticsEventStub: CreateAnalyticsEventFn;
-  let onEventFiredStub;
-  let payloadProviderStub;
-  let mockEvent;
+  let onEventFiredStub: jest.Mock<{}>;
+  let payloadProviderStub: jest.Mock<{}>;
+  let mockEvent: { context?: never[]; update: any; fire: any };
 
   beforeEach(() => {
     onEventFiredStub = jest.fn();

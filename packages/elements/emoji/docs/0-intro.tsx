@@ -15,7 +15,8 @@ export default md`
   Import the component in your React app as follows:
 
   ${code`
-  import EmojiPicker, { EmojiResource } from '@atlaskit/emoji';
+  import EmojiPicker from '@atlaskit/emoji/picker';
+  import { EmojiResource } from '@atlaskit/emoji/resource';
 
   const emojiProvider = new EmojiResource({
     providers: [
@@ -42,6 +43,17 @@ export default md`
     />,
     container,
   );`}
+
+  ### Other emoji components import examples
+
+  ${code`
+    import Emoji from '@atlaskit/emoji/element';
+    import EmojiTypeAhead from '@atlaskit/emoji/typeahead';
+    import EmojiPicker from '@atlaskit/emoji/picker';
+    import ResourcedEmoji, { EmojiResource, AbstractResource, EmojiProvider, UploadingEmojiProvider, EmojiResourceConfig, EmojiRepository, EmojiLoader} from '@atlaskit/emoji/resource';
+    import { toEmojiId, toOptionalEmojiId, denormaliseEmojiServiceResponse, UsageFrequencyTracker } from '@atlaskit/emoji/utils';
+    import { EmojiUploader } from '@atlaskit/emoji/admin';
+  `}
 
   ### Note:
 
