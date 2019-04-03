@@ -14,7 +14,7 @@ export interface LinkProps {
 const Link = React.forwardRef<HTMLElement, LinkProps>(
   ({ onClick, className, to, children, ...props }, ref) => (
     <BaseLink
-      onClick={(e: React.MouseEvent<HTMLElement>) => {
+      onClick={e => {
         if (performance.mark) {
           performance.clearMarks();
           performance.mark(`navigate-${to}`);

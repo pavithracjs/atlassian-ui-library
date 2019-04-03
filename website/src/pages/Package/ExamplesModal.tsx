@@ -6,13 +6,13 @@ import { Redirect } from 'react-router-dom';
 import LinkButton from '../../components/LinkButton';
 import { Helmet } from 'react-helmet';
 
+import Button from '@atlaskit/button';
 import CodeIcon from '@atlaskit/icon/glyph/code';
 import CloseIcon from '@atlaskit/icon/glyph/cross';
 import ScreenIcon from '@atlaskit/icon/glyph/screen';
 import LinkIcon from '@atlaskit/icon/glyph/link';
 
 import { ButtonGroup } from '@atlaskit/button';
-import Button from '../../components/RouterButton';
 import { FlagGroup } from '@atlaskit/flag';
 import Tooltip from '@atlaskit/tooltip';
 import Modal, {

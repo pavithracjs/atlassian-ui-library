@@ -260,7 +260,6 @@ class ShareDialogWithTriggerInternal extends React.Component<
   }
 }
 
-export const ShareDialogWithTrigger: React.ComponentClass<
-  Props,
-  State
+export const ShareDialogWithTrigger: React.ComponentType<
+  Props
 > = withAnalyticsEvents()(ShareDialogWithTriggerInternal);

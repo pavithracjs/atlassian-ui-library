@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { css } from 'emotion';
 import Button from '../src';
-import { ButtonProps } from '../src/types';
 
 const buttonsStyle = `
   padding: 10px;
@@ -56,13 +55,14 @@ class PerfTest extends React.Component<{}, State> {
           <Button appearance="primary">Button {buttonNumber + 3}</Button>
           <Button appearance="warning">Button {buttonNumber + 4}</Button>
           <Button
-            component={React.forwardRef<HTMLDivElement, ButtonProps>(
-              (props, ref) => (
-                <div {...props} ref={ref}>
-                  {props.children}
-                </div>
-              ),
-            )}
+            component={React.forwardRef<
+              HTMLDivElement,
+              React.AllHTMLAttributes<HTMLElement>
+            >((props, ref) => (
+              <div {...props} ref={ref}>
+                {props.children}
+              </div>
+            ))}
           >
             Button {buttonNumber + 5}
           </Button>

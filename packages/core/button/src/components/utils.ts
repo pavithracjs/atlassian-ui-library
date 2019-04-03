@@ -1,5 +1,4 @@
 import * as React from 'react';
-import isPropValid from '@emotion/is-prop-valid';
 import { ButtonProps } from '../types';
 
 export const mapAttributesToState = ({
@@ -30,23 +29,15 @@ export const mapAttributesToState = ({
   return 'default';
 };
 
-export const filterProps = (props: ButtonProps, type: React.ReactNode) => {
-  // Remove `href` and `target` if component type is `span`.
-  let newProps = props;
+export const filterProps = (
+  props: Partial<ButtonProps>,
+  type: React.ReactNode,
+) => {
   if (type === 'span') {
     const { target, href, ...rest } = props;
-    newProps = rest;
+    return rest;
   }
-
-  return (Object.keys(newProps) as Array<keyof ButtonProps>)
-    .filter(isPropValid)
-    .reduce(
-      (filteredProps, prop) => ({
-        ...filteredProps,
-        [prop]: newProps[prop],
-      }),
-      {},
-    );
+  return props;
 };
 
 export type IsLoadingProps = {

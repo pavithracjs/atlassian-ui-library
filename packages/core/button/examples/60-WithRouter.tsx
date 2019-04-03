@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Link, MemoryRouter } from 'react-router-dom';
 import Button from '../src';
-import { ButtonProps } from '../src/types';
 
 const ButtonWithRouter = () => (
   <div>
@@ -9,13 +8,14 @@ const ButtonWithRouter = () => (
       <Button
         appearance="subtle-link"
         href="/"
-        component={React.forwardRef<HTMLElement, ButtonProps>(
-          ({ href = '', children, ...rest }, ref: any) => (
-            <Link {...rest} to={href} innerRef={ref}>
-              {children}
-            </Link>
-          ),
-        )}
+        component={React.forwardRef<
+          HTMLElement,
+          React.AllHTMLAttributes<HTMLElement>
+        >(({ href = '', children, ...rest }, ref: any) => (
+          <Link {...rest} to={href} innerRef={ref}>
+            {children}
+          </Link>
+        ))}
       >
         Button Using Routing
       </Button>
