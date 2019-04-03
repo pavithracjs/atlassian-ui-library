@@ -370,10 +370,11 @@ pipelines:
             - cd build/ci-scripts
             - yarn --ignore-engines
             - node ./wait.until.no.master.build.running.js
+            # The after-script command needs to be run from the root.
+            - cd ../..
           after-script:
             # Use to send build data to Datadog / SFX.
-            # The command needs to be run from the root.
-            - cd ../.. && yarn send:build:data
+            - yarn send:build:data
             
     # This build should only be run on the master branch, once per day.
     # It manually clears the cache and runs a very quick install node_modules.
