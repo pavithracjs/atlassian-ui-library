@@ -14,14 +14,14 @@ describe(`${name}/schema status node`, () => {
     it('gets attributes from html', () => {
       const color = 'blue';
       const localId = '6c5e5301-1311-42e2-aa80-1b7557140b3d';
-      const style = 'bold';
+      const emphasis = 'bold';
       const doc = fromHTML(
         `
         <span
           data-node-type="status"
           data-color="${color}"
           data-local-id="${localId}"
-          data-style="${style}"
+          data-emphasis="${emphasis}"
         >
           In progress
         </span>
@@ -33,7 +33,7 @@ describe(`${name}/schema status node`, () => {
         text: 'In progress',
         color,
         localId: expect.stringMatching(StatusLocalIdRegex),
-        style,
+        emphasis,
       });
 
       expect(node.attrs.localId).not.toEqual(localId);
@@ -58,7 +58,7 @@ describe(`${name}/schema status node`, () => {
         text: 'In progress',
         color,
         localId: expect.stringMatching(StatusLocalIdRegex),
-        style: null,
+        emphasis: null,
       });
     });
   });
@@ -69,7 +69,7 @@ describe(`${name}/schema status node`, () => {
         text: 'In progress',
         color: 'blue',
         localId: '3fba07fc-0458-449c-bba9-04d5555164ea',
-        style: 'subtle',
+        emphasis: 'subtle',
       };
       const node = schema.nodes.status.create(attrs);
       const dom = toDOM(node, schema).firstChild! as HTMLElement;
@@ -77,7 +77,7 @@ describe(`${name}/schema status node`, () => {
       expect(dom.textContent).toEqual(attrs.text);
       expect(dom.getAttribute('data-color')).toEqual(attrs.color);
       expect(dom.getAttribute('data-local-id')).toEqual(attrs.localId);
-      expect(dom.getAttribute('data-style')).toEqual(attrs.style);
+      expect(dom.getAttribute('data-emphasis')).toEqual(attrs.emphasis);
     });
 
     it('encodes and decodes to the same node', () => {
@@ -85,7 +85,7 @@ describe(`${name}/schema status node`, () => {
         text: 'In progress',
         color: 'blue',
         localId: '3fba07fc-0458-449c-bba9-04d5555164ea',
-        style: 'bold',
+        emphasis: 'bold',
       };
       const node = schema.nodes.status.create(attrs);
       const dom = toDOM(node, schema).firstChild as HTMLElement;
@@ -96,13 +96,13 @@ describe(`${name}/schema status node`, () => {
         text: 'In progress',
         color: 'blue',
         localId: expect.stringMatching(StatusLocalIdRegex),
-        style: 'bold',
+        emphasis: 'bold',
       });
 
       expect(parsedNode.attrs.localId).not.toEqual(attrs.localId);
     });
 
-    it('converts html status attributes to node attributes without style', () => {
+    it('converts html status attributes to node attributes without emphasis', () => {
       const attrs = {
         text: 'In progress',
         color: 'blue',
@@ -114,7 +114,7 @@ describe(`${name}/schema status node`, () => {
       expect(dom.textContent).toEqual(attrs.text);
       expect(dom.getAttribute('data-color')).toEqual(attrs.color);
       expect(dom.getAttribute('data-local-id')).toEqual(attrs.localId);
-      expect(dom.getAttribute('data-style')).toEqual(null);
+      expect(dom.getAttribute('data-emphasis')).toEqual(null);
     });
   });
 });

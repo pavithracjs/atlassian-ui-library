@@ -101,10 +101,11 @@ class StatusNodeView extends React.Component<Props & InjectedIntlProps, State> {
   render() {
     const {
       node: {
-        attrs: { text, color, localId, style },
+        attrs: { text, color, localId, emphasis },
       },
       intl: { formatMessage },
     } = this.props;
+    console.log('this.props', this.props);
     const { selected } = this.state;
     const statusText = text ? text : formatMessage(messages.placeholder);
 
@@ -114,7 +115,7 @@ class StatusNodeView extends React.Component<Props & InjectedIntlProps, State> {
           text={statusText}
           color={color}
           localId={localId}
-          style={style}
+          emphasis={emphasis}
           onClick={this.handleClick}
         />
       </StatusContainer>
