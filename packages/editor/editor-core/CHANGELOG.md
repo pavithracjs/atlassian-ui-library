@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.7.3
+- [patch] [71c1a888f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/71c1a888f7):
+
+  - ED-6479: upskip table floating toolbar VR tests
+
 ## 107.7.2
 - [patch] [41b940325e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/41b940325e):
 
