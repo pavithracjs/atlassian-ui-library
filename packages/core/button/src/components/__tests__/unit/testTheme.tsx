@@ -17,9 +17,6 @@ const customTheme: customTheme = {
   spinnerStyles: {
     width: '7px',
   },
-  iconStyles: {
-    margin: '7px',
-  },
 };
 
 const baseButtonThemeFunction = () => ({
@@ -30,9 +27,6 @@ const baseButtonThemeFunction = () => ({
   },
   spinnerStyles: {
     width: '10px',
-  },
-  iconStyles: {
-    margin: '10px',
   },
 });
 
@@ -50,17 +44,15 @@ const ThemedButton = (customProps: any) => (
       const {
         buttonStyles: adgButtonStyles,
         spinnerStyles: adgSpinnerStyles,
-        iconStyles: adgIconStyles,
       } = customProps.skipAdgTheme
-        ? { buttonStyles: {}, spinnerStyles: {}, iconStyles: {} }
+        ? { buttonStyles: {}, spinnerStyles: {} }
         : adgTheme({ appearance, state });
 
       const {
         buttonStyles: customButtonStyles,
         spinnerStyles: customSpinnerStyles,
-        iconStyles: customIconStyles,
       } = !customProps.customStyling
-        ? { buttonStyles: {}, spinnerStyles: {}, iconStyles: {} }
+        ? { buttonStyles: {}, spinnerStyles: {} }
         : customProps.customStyling;
 
       // Merge themes
@@ -72,10 +64,6 @@ const ThemedButton = (customProps: any) => (
         spinnerStyles: {
           ...adgSpinnerStyles,
           ...customSpinnerStyles,
-        },
-        iconStyles: {
-          ...adgIconStyles,
-          ...customIconStyles,
         },
       };
     }}
@@ -132,39 +120,5 @@ describe('Theme: button', () => {
 
     // toHaveStyleRules does not allow testing that `only` certain styles are passed in
     expect(child).toHaveStyleRule('width', '10px');
-  });
-
-  it('should render icon styles in custom theme', () => {
-    const wrapper = renderer
-      .create(
-        <ThemedButton
-          customStyling={customTheme}
-          iconAfter={<AtlassianIcon />}
-        />,
-      )
-      .toJSON();
-
-    // toHaveStyleRules does not allow testing that `only` certain styles are passed in
-    const parent = wrapper && wrapper.children && wrapper.children[0].children;
-    const child = parent && parent[0];
-
-    expect(child).toHaveStyleRule('margin', '7px');
-  });
-
-  it('should render icon styles defined in ADG theme if no custom theme passed in', () => {
-    const wrapper = renderer
-      .create(
-        <ThemedButton
-          customAdgTheme={baseButtonThemeFunction}
-          iconAfter={<AtlassianIcon />}
-        />,
-      )
-      .toJSON();
-
-    // toHaveStyleRules does not allow testing that `only` certain styles are passed in
-    const parent = wrapper && wrapper.children && wrapper.children[0].children;
-    const child = parent && parent[0];
-
-    expect(child).toHaveStyleRule('margin', '10px');
   });
 });

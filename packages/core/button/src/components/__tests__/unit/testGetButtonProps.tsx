@@ -23,7 +23,6 @@ describe('getButtonProps', () => {
       expect.arrayContaining([
         'onClick',
         'spacing',
-        'type',
         'autoFocus',
         'onMouseEnter',
         'onMouseLeave',
