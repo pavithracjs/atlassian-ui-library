@@ -1,4 +1,4 @@
-/* eslint-disable flowtype/require-valid-file-annotation */
+//@flow
 /* 
 WIP This codemod was build during shipit it's changes should be carefully scrutinized before shipping ;)
 */
@@ -68,30 +68,61 @@ function getIndexImport(j, path) {
   );
 }
 
-function getOtherImports(j, path) {
+function getUsesOfImport(j, fileSource, importVarname) {
+  return fileSource
+    .find(j.MemberExpression)
+    .filter(spec => spec.value.object.name === importVarname);
+}
+const FixMeLaters = [];
+
+function getOtherImports(j, path, fileSource) {
   return path.value.specifiers
     .filter(
       specifier => !indexPredicate(specifier) && !constantsPredicate(specifier),
     )
-    .map(specifier =>
-      j.importDeclaration(
-        [j.importNamespaceSpecifier(j.identifier(specifier.imported.name))],
+    .map(specifier => {
+      const usesOfImport = getUsesOfImport(j, fileSource, specifier.local.name);
+
+      if (usesOfImport.size() > 0) {
+        const importSpecifiers = [];
+        const names = [];
+
+        usesOfImport.forEach(path => {
+          names.push(path.value.property.name);
+          j(path).replaceWith(j.identifier(path.value.property.name));
+        });
+
+        names.forEach(name => {
+          importSpecifiers.push(j.importSpecifier(j.identifier(name)));
+        });
+
+        return j.importDeclaration(
+          importSpecifiers,
+          j.literal(`${akTheme}/${specifier.imported.name}`),
+        );
+      }
+
+      return j.importDeclaration(
+        [j.importNamespaceSpecifier(j.identifier(specifier.local.name))],
         j.literal(`${akTheme}/${specifier.imported.name}`),
-      ),
-    );
+      );
+    });
 }
 
 export default function transformer(file, api) {
   const j = api.jscodeshift;
+  const fileSource = j(file.source);
 
-  return j(file.source)
+  // Fixup imports
+  fileSource
     .find(j.ImportDeclaration)
     .filter(path => path.node.source.value === akTheme)
     .forEach(path => {
+      const otherImports = getOtherImports(j, path, fileSource);
       const [firstImport, ...importsAfter] = [
         getIndexImport(j, path),
         getConstantsImport(j, path),
-        ...getOtherImports(j, path),
+        ...otherImports,
       ].filter(importStat => importStat);
 
       if (!firstImport) {
@@ -103,6 +134,7 @@ export default function transformer(file, api) {
       j(path)
         .replaceWith(firstImport)
         .insertAfter(importsAfter);
-    })
-    .toSource();
+    });
+
+  return fileSource.toSource();
 }
