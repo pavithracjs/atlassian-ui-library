@@ -1,0 +1,497 @@
+{
+  "releases": [
+    { "name": "@atlaskit/analytics-next", "type": "major" },
+    { "name": "@atlaskit/media-card", "type": "patch" },
+    { "name": "@atlaskit/media-viewer", "type": "patch" },
+    { "name": "@atlaskit/global-search", "type": "patch" }
+  ],
+  "dependents": [
+    {
+      "name": "@atlaskit/avatar",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/toggle",
+        "@atlaskit/tooltip",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/blanket",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/breadcrumbs",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/select",
+        "@atlaskit/tooltip",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/button",
+      "type": "patch",
+      "dependencies": ["@atlaskit/checkbox", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/calendar",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/checkbox",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/comment",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/button",
+        "@atlaskit/editor-core",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/datetime-picker",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/calendar",
+        "@atlaskit/field-text",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/select",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/drawer",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/blanket",
+        "@atlaskit/button",
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/dropdown-menu",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/button",
+        "@atlaskit/droplist",
+        "@atlaskit/tooltip",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/droplist",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/tooltip",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/dynamic-table",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/button",
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/pagination",
+        "@atlaskit/toggle",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/field-radio-group",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/field-text",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/field-text-area",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/flag",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/field-radio-group",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/global-navigation",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/blanket",
+        "@atlaskit/button",
+        "@atlaskit/drawer",
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/field-radio-group",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/navigation-next",
+        "@atlaskit/onboarding",
+        "@atlaskit/tag",
+        "@atlaskit/toggle",
+        "@atlaskit/analytics-listeners",
+        "@atlaskit/analytics-namespaced-context",
+        "@atlaskit/notification-indicator",
+        "@atlaskit/atlassian-switcher",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/inline-dialog",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/datetime-picker",
+        "@atlaskit/select",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/inline-edit",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/field-radio-group",
+        "@atlaskit/field-text",
+        "@atlaskit/tag",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/layer-manager",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/onboarding",
+        "@atlaskit/tooltip",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/modal-dialog",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/blanket",
+        "@atlaskit/button",
+        "@atlaskit/checkbox",
+        "@atlaskit/field-radio-group",
+        "@atlaskit/field-text",
+        "@atlaskit/inline-dialog",
+        "@atlaskit/select",
+        "@atlaskit/textfield",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/navigation",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/blanket",
+        "@atlaskit/button",
+        "@atlaskit/checkbox",
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/field-text",
+        "@atlaskit/toggle",
+        "@atlaskit/tooltip",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/navigation-next",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/button",
+        "@atlaskit/drawer",
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/global-navigation",
+        "@atlaskit/inline-dialog",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/onboarding",
+        "@atlaskit/select",
+        "@atlaskit/toggle",
+        "@atlaskit/tooltip",
+        "@atlaskit/analytics-listeners",
+        "@atlaskit/analytics-namespaced-context",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/onboarding",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/progress-indicator",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/pagination",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/dynamic-table",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/progress-indicator",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/radio",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/checkbox",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/select",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/checkbox",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/tooltip",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/table-tree",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/select",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/tabs",
+      "type": "patch",
+      "dependencies": ["@atlaskit/tooltip", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/tag",
+      "type": "patch",
+      "dependencies": ["@atlaskit/avatar", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/textarea",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/textfield",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/button",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/toggle",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/tooltip",
+      "type": "patch",
+      "dependencies": ["@atlaskit/button", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/conversation",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/comment",
+        "@atlaskit/editor-core",
+        "@atlaskit/analytics-listeners",
+        "@atlaskit/reactions",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/editor-core",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/button",
+        "@atlaskit/calendar",
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/droplist",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/select",
+        "@atlaskit/textarea",
+        "@atlaskit/tooltip",
+        "@atlaskit/analytics-listeners",
+        "@atlaskit/analytics-namespaced-context",
+        "@atlaskit/emoji",
+        "@atlaskit/mention",
+        "@atlaskit/status",
+        "@atlaskit/task-decision",
+        "@atlaskit/media-picker",
+        "@atlaskit/smart-card",
+        "@atlaskit/analytics-next",
+        "@atlaskit/media-card"
+      ]
+    },
+    {
+      "name": "@atlaskit/analytics-listeners",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/analytics-namespaced-context",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/analytics-namespaced-context",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/analytics-listeners",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/analytics-viewer",
+      "type": "patch",
+      "dependencies": ["@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/emoji",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/tooltip",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/mention",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/tooltip",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/reactions",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/tooltip",
+        "@atlaskit/analytics-namespaced-context",
+        "@atlaskit/analytics-viewer",
+        "@atlaskit/emoji",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/status",
+      "type": "patch",
+      "dependencies": ["@atlaskit/field-text", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/task-decision",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/button",
+        "@atlaskit/analytics-listeners",
+        "@atlaskit/analytics-namespaced-context",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/user-picker",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/avatar",
+        "@atlaskit/select",
+        "@atlaskit/tag",
+        "@atlaskit/tooltip",
+        "@atlaskit/analytics-viewer",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/notification-indicator",
+      "type": "patch",
+      "dependencies": ["@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/color-picker",
+      "type": "patch",
+      "dependencies": ["@atlaskit/select", "@atlaskit/analytics-next"]
+    },
+    {
+      "name": "@atlaskit/media-picker",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/dropdown-menu",
+        "@atlaskit/field-text",
+        "@atlaskit/flag",
+        "@atlaskit/modal-dialog",
+        "@atlaskit/select",
+        "@atlaskit/toggle",
+        "@atlaskit/analytics-listeners",
+        "@atlaskit/analytics-next",
+        "@atlaskit/media-card",
+        "@atlaskit/media-viewer"
+      ]
+    },
+    {
+      "name": "@atlaskit/smart-card",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/checkbox",
+        "@atlaskit/radio",
+        "@atlaskit/textarea",
+        "@atlaskit/textfield",
+        "@atlaskit/analytics-next"
+      ]
+    },
+    {
+      "name": "@atlaskit/atlassian-switcher",
+      "type": "patch",
+      "dependencies": [
+        "@atlaskit/button",
+        "@atlaskit/drawer",
+        "@atlaskit/navigation",
+        "@atlaskit/analytics-namespaced-context",
+        "@atlaskit/analytics-next"
+      ]
+    }
+  ]
+}
