@@ -103,7 +103,6 @@ export default class Section extends PureComponent<SectionProps, SectionState> {
                   {({ css: getClassName }) =>
                     shouldGrow ? (
                       <ScrollableWrapper
-                        pete="hi"
                         css={css`
                           ${styles.wrapper}
                           ${animationStyles}
