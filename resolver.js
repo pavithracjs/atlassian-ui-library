@@ -7,7 +7,11 @@ const resolveFrom = require('resolve-from');
 These modules should not have their imports resolved differently 
 as their src is in root of the package.
 */
-const blockedFromMultiEntryPointsModuleList = ['build-utils', 'polyfills'];
+const blockedFromMultiEntryPointsModuleList = [
+  'build-utils',
+  'polyfills',
+  'visual-regression',
+];
 
 /** This file is used to resolve imports in jest.
  *  This is used to make sure that packages resolve using the same algorithm as our webpack config
