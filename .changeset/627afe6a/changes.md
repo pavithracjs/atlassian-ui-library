@@ -1,0 +1,1 @@
+- TEAMS-364 : Renaming Team mention description highlight classes to Byline
