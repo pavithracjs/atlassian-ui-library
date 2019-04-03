@@ -37,10 +37,10 @@ export class TeamOption extends React.PureComponent<TeamOptionProps> {
     } = this.props;
 
     // if Member count is missing, do not show the byline, regardless of the availability of includesYou
-    if (memberCount == null) {
+    if (memberCount === null || typeof memberCount === 'undefined') {
       return undefined;
     } else {
-      if (includesYou != null && includesYou === true) {
+      if (includesYou !== null && includesYou === true) {
         if (memberCount > 50) {
           return this.getBylineComponent(
             isSelected,
