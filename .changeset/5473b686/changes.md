@@ -1,1 +1,0 @@
-- ED-6603: Disable dynamic text sizing in full width mode
