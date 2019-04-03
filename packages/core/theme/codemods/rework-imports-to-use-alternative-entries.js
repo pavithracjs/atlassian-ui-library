@@ -73,7 +73,6 @@ function getUsesOfImport(j, fileSource, importVarname) {
     .find(j.MemberExpression)
     .filter(spec => spec.value.object.name === importVarname);
 }
-const FixMeLaters = [];
 
 function getOtherImports(j, path, fileSource) {
   return path.value.specifiers
@@ -87,9 +86,10 @@ function getOtherImports(j, path, fileSource) {
         const importSpecifiers = [];
         const names = [];
 
-        usesOfImport.forEach(path => {
-          names.push(path.value.property.name);
-          j(path).replaceWith(j.identifier(path.value.property.name));
+        usesOfImport.forEach(lowerPath => {
+          // Make stupid lint rule happy
+          names.push(lowerPath.value.property.name);
+          j(path).replaceWith(j.identifier(lowerPath.value.property.name));
         });
 
         names.forEach(name => {
