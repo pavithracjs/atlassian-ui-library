@@ -27,6 +27,7 @@
     "@atlaskit/theme": "^8.0.1",
     "@atlaskit/type-helpers": "^3.0.2",
     "@babel/runtime": "^7.0.0",
+    "@types/react-router-dom": "^4.3.1",
     "tslib": "^1.8.0"
   },
   "peerDependencies": {

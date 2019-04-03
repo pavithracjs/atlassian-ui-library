@@ -11,6 +11,11 @@ import * as AnalyticsHelper from '../../../util/analytics-event-helper';
 import { DEVELOPMENT_LOGGER } from '../../../../example-helpers/logger';
 import { ResultsWithTiming } from '../../../model/Result';
 import { ABTest } from '../../../api/CrossProductSearchClient';
+import {
+  ShownAnalyticsAttributes,
+  PerformanceTiming,
+} from '../../../util/analytics-util';
+import { CreateAnalyticsEventFn } from '../../../components/analytics/types';
 
 const defaultABTestData = {
   experimentId: 'test-experiement-id',
@@ -48,7 +53,7 @@ async function waitForRender(wrapper: ReactWrapper, millis?: number) {
   wrapper.update();
 }
 
-const assertLastCall = (spy, obj) => {
+const assertLastCall = (spy: jest.Mock<{}>, obj: {} | any[]) => {
   expect(spy).toHaveBeenCalled();
   const getSearchResultComponentLastCall =
     spy.mock.calls[spy.mock.calls.length - 1];
@@ -56,11 +61,40 @@ const assertLastCall = (spy, obj) => {
 };
 
 describe('QuickSearchContainer', () => {
-  let firePreQueryShownEventSpy;
-  let firePostQueryShownEventSpy;
-  let fireExperimentExposureEventSpy;
+  let firePreQueryShownEventSpy: jest.SpyInstance<
+    (
+      eventAttributes: ShownAnalyticsAttributes,
+      elapsedMs: number,
+      renderTimeMs: number,
+      searchSessionId: string,
+      createAnalyticsEvent: CreateAnalyticsEventFn,
+      abTest: ABTest,
+      experimentRequestDurationMs?: number | undefined,
+      retrievedFromAggregator?: boolean | undefined,
+    ) => void
+  >;
+  let firePostQueryShownEventSpy: jest.SpyInstance<
+    (
+      resultsDetails: ShownAnalyticsAttributes,
+      timings: PerformanceTiming,
+      searchSessionId: string,
+      query: string,
+      createAnalyticsEvent: CreateAnalyticsEventFn,
+      abTest: ABTest,
+    ) => void
+  >;
+  let fireExperimentExposureEventSpy: jest.SpyInstance<
+    (
+      abTest: ABTest,
+      searchSessionId: string,
+      createAnalyticsEvent: CreateAnalyticsEventFn,
+    ) => void
+  >;
 
-  const assertPreQueryAnalytics = (recentItems, abTest) => {
+  const assertPreQueryAnalytics = (
+    recentItems: Record<any, any>,
+    abTest: ABTest,
+  ) => {
     expect(firePreQueryShownEventSpy).toBeCalled();
     const lastCall =
       firePreQueryShownEventSpy.mock.calls[
@@ -83,7 +117,13 @@ describe('QuickSearchContainer', () => {
     ]);
   };
 
-  const assertPostQueryAnalytics = (query, searchResults) => {
+  const assertPostQueryAnalytics = (
+    query: string,
+    searchResults: {
+      [x: string]: any;
+      spaces?: { key: string }[] | { key: string }[];
+    },
+  ) => {
     expect(firePostQueryShownEventSpy).toBeCalled();
     const lastCall =
       firePostQueryShownEventSpy.mock.calls[
@@ -240,9 +280,9 @@ describe('QuickSearchContainer', () => {
   });
 
   describe('Search', () => {
-    let getSearchResults;
+    let getSearchResults: jest.Mock<{}>;
 
-    const renderAndWait = async (getRecentItems?) => {
+    const renderAndWait = async (getRecentItems?: undefined) => {
       const wrapper = mountQuickSearchContainer({
         getSearchResults,
         ...(getRecentItems ? { getRecentItems } : {}),
@@ -251,7 +291,16 @@ describe('QuickSearchContainer', () => {
       return wrapper;
     };
 
-    const search = async (wrapper, query, resultPromise) => {
+    const search = async (
+      wrapper:
+        | ReactWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>
+        | ReactWrapper<{}, {}, React.Component<{}, {}, any>>,
+      query: string,
+      resultPromise:
+        | Promise<{ results: { spaces: { key: string }[] } }>
+        | Promise<never>
+        | Promise<{ results: { spaces: { key: string }[] } }>,
+    ) => {
       getSearchResults.mockReturnValueOnce(resultPromise);
       let globalQuickSearch = wrapper.find(GlobalQuickSearch);
       await globalQuickSearch.props().onSearch(query);

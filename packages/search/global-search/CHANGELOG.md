@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 6.2.1
+- [patch] [203d4c22bd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/203d4c22bd):
+
+  - Fix Confluence dead end screen by fixing text and removing People search button
+
 ## 6.2.0
 - [minor] [347d237b8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/347d237b8e):
 

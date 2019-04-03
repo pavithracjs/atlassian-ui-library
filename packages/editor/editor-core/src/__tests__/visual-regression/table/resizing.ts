@@ -24,8 +24,10 @@ describe('Snapshot Test: table resizing', () => {
     it(`resize a column with content width`, async () => {
       await resizeColumn(page, { colIdx: 2, amount: 123, row: 2 });
       await animationFrame(page);
+      await animationFrame(page);
       await snapshot(page, 0.002);
       await resizeColumn(page, { colIdx: 2, amount: -100, row: 2 });
+      await animationFrame(page);
       await animationFrame(page);
       await snapshot(page, 0.002);
     });
@@ -33,7 +35,8 @@ describe('Snapshot Test: table resizing', () => {
     it(`snaps back to layout width after column removal`, async () => {
       await deleteColumn(page, 1);
       await animationFrame(page);
-      await snapshot(page);
+      // adding threshold since random blue selection show under table cells on selection
+      await snapshot(page, 0.002);
     });
 
     it('overflow table', async () => {

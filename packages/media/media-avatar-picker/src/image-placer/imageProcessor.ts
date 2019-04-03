@@ -5,7 +5,7 @@ import {
   getOrientation,
   FileInfo,
 } from '@atlaskit/media-ui';
-import { getCanvas } from './util';
+import { getCanvas } from '../util';
 
 export function radians(deg: number) {
   return deg * (Math.PI / 180);

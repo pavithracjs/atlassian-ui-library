@@ -1,5 +1,27 @@
 # @atlaskit/media-test-helpers
 
+## 21.2.0
+- [minor] [e1c1fa454a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e1c1fa454a):
+
+  - Support external image identifier in MediaViewer
+
+## 21.1.0
+- [minor] [dd14a0a1f0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd14a0a1f0):
+
+  - export getDefaultContextConfig
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/media-picker@38.0.0
+  - @atlaskit/media-store@11.0.3
+  - @atlaskit/media-core@29.1.0
+
+## 21.0.3
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-picker@37.0.3
+  - @atlaskit/media-store@11.0.2
+  - @atlaskit/media-card@58.0.0
+
 ## 21.0.2
 - [patch] [1d09298688](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1d09298688):
 

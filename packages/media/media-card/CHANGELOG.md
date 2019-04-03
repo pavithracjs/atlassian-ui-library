@@ -1,5 +1,32 @@
 # @atlaskit/media-card
 
+## 59.1.0
+- [minor] [e1c1fa454a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e1c1fa454a):
+
+  - Support external image identifier in MediaViewer
+
+## 59.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/media-viewer@40.0.0
+  - @atlaskit/media-store@11.0.3
+  - @atlaskit/media-test-helpers@21.1.0
+  - @atlaskit/media-core@29.1.0
+
+## 58.0.1
+- [patch] [106d046114](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/106d046114):
+
+  - Fix issue with media-viewer opening in CC on inline video player controlls clicked
+
+## 58.0.0
+- [major] [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+
+  - Exported MediaImage component is removed from media-card and moved to @atlaskit/media-ui
+
+## 57.0.3
+- [patch] [d402fdb775](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d402fdb775):
+
+  - FIX ED-6584: Keep card dataURI regardless of previus state
+
 ## 57.0.2
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

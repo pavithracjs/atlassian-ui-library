@@ -22,7 +22,7 @@ import {
   isSpecialMention,
   TeamMember,
 } from './types';
-import { ELEMENTS_CHANNEL } from './constants';
+import { ELEMENTS_CHANNEL } from './_constants';
 import ContextMentionResource from './api/ContextMentionResource';
 
 export {

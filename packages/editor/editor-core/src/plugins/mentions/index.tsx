@@ -6,7 +6,6 @@ import {
   AnalyticsEventPayload,
   CreateUIAnalyticsEventSignature,
 } from '@atlaskit/analytics-next-types';
-import MentionIcon from '@atlaskit/icon/glyph/editor/mention';
 import {
   MentionProvider,
   MentionItem,
@@ -53,6 +52,7 @@ import {
 } from '../analytics';
 import { TypeAheadItem } from '../type-ahead/types';
 import { isTeamStats, isTeamType } from './utils';
+import { IconMention } from '../quick-insert/assets';
 
 export interface TeamInfoAttrAnalytics {
   teamId: String;
@@ -124,8 +124,10 @@ const mentionsPlugin = (
       quickInsert: ({ formatMessage }) => [
         {
           title: formatMessage(messages.mention),
+          description: formatMessage(messages.mentionDescription),
           priority: 400,
-          icon: () => <MentionIcon label={formatMessage(messages.mention)} />,
+          keyshortcut: '@',
+          icon: () => <IconMention label={formatMessage(messages.mention)} />,
           action(insert, state) {
             const mark = state.schema.mark('typeAheadQuery', {
               trigger: '@',
@@ -547,7 +549,7 @@ function buildNodesForTeamMention(
 ): Fragment {
   const { nodes, marks } = schema;
   const { name, id: teamId, accessLevel, context } = selectedMention;
-  const teamUrl = `${window.location.host}/people/team/${teamId}`;
+  const teamUrl = `${window.location.origin}/people/team/${teamId}`;
 
   const openBracketText = schema.text('(');
   const closeBracketText = schema.text(')');

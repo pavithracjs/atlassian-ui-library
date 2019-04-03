@@ -17,7 +17,7 @@ BrowserTestCase(
     await browser.goto(fullpage.path);
     await browser.waitForSelector(editable);
     await browser.click(editable);
-    await quickInsert(browser, 'Hyperlink');
+    await quickInsert(browser, 'Link');
 
     await browser.waitForSelector(linkToolbar);
     await browser.type(linkToolbar, ['atlassian.com', 'Return']);

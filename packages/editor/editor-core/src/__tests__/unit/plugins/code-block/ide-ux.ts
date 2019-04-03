@@ -36,7 +36,7 @@ describe('IDE UX plugin', () => {
   let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
   let trackEvent = jest.fn();
 
-  const editor = doc => {
+  const editor = (doc: any) => {
     createAnalyticsEvent = createAnalyticsEventMock();
     return createEditor({
       doc,

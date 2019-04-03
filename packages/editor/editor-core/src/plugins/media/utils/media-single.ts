@@ -116,8 +116,8 @@ export const createMediaSingleNode = (schema: Schema, collection: string) => (
     id,
     type: 'file',
     collection,
-    width: Math.round(width / scaleFactor),
-    height: Math.round(height / scaleFactor),
+    width: (width && Math.round(width / scaleFactor)) || null,
+    height: (height && Math.round(height / scaleFactor)) || null,
   });
 
   copyOptionalAttrsFromMediaState(mediaState, mediaNode);
@@ -125,10 +125,20 @@ export const createMediaSingleNode = (schema: Schema, collection: string) => (
 };
 
 export function transformSliceForMedia(slice: Slice, schema: Schema) {
-  const { mediaSingle, layoutSection, table } = schema.nodes;
+  const {
+    mediaSingle,
+    layoutSection,
+    table,
+    bulletList,
+    orderedList,
+  } = schema.nodes;
 
   return (selection: Selection) => {
-    if (hasParentNodeOfType([layoutSection, table])(selection)) {
+    if (
+      hasParentNodeOfType([layoutSection, table, bulletList, orderedList])(
+        selection,
+      )
+    ) {
       return mapSlice(slice, node =>
         node.type.name === 'mediaSingle'
           ? mediaSingle.createChecked({}, node.content, node.marks)

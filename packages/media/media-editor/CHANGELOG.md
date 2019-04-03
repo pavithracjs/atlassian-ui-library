@@ -1,5 +1,27 @@
 # @atlaskit/media-editor
 
+## 32.0.1
+- [patch] [e2453a0071](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e2453a0071):
+
+  - MS-1749 Always pass occurrenceKeys during file creation to avoid file being inserted in the collection twice
+
+## 32.0.0
+- [patch] [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+
+  - Fix missing annotated images in recent uploads within media picker
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/media-store@11.0.3
+  - @atlaskit/media-test-helpers@21.1.0
+  - @atlaskit/media-core@29.1.0
+
+## 31.0.3
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-store@11.0.2
+  - @atlaskit/media-test-helpers@21.0.3
+  - @atlaskit/media-card@58.0.0
+
 ## 31.0.2
 - [patch] [09f9c0c698](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/09f9c0c698):
 
