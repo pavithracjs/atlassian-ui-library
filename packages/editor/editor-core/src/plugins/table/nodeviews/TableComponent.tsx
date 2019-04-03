@@ -2,7 +2,6 @@ import * as React from 'react';
 import rafSchedule from 'raf-schd';
 import { Node as PmNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-
 import {
   browser,
   calcTableWidth,
@@ -130,6 +129,8 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
         tablesHaveDifferentNoOfColumns(this.props.node, prevProps.node)
       ) {
         recreateResizeColsByNode(this.table, this.props.node);
+        // debouncing does not pick up those changes ^ therefore triggering it here
+        this.handleTableResizing(prevProps);
       }
 
       this.handleTableResizingDebounced(prevProps);
