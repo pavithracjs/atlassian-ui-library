@@ -1,7 +1,6 @@
 {
   "releases": [
-    { "name": "@atlaskit/inline-edit", "type": "major" },
-    { "name": "@atlaskit/analytics-next", "type": "patch" }
+    { "name": "@atlaskit/inline-edit", "type": "major" }
   ],
   "dependents": [
     {
