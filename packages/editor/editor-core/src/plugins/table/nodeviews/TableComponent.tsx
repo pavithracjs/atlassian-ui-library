@@ -2,15 +2,10 @@ import * as React from 'react';
 import rafSchedule from 'raf-schd';
 import { Node as PmNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-import { TableMap } from 'prosemirror-tables';
-import { EditorState } from 'prosemirror-state';
-import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
-
 import {
   browser,
   calcTableWidth,
   akEditorMobileBreakoutPoint,
-  absoluteBreakoutWidth,
 } from '@atlaskit/editor-common';
 
 import TableFloatingControls from '../ui/TableFloatingControls';
@@ -18,6 +13,7 @@ import ColumnControls from '../ui/TableFloatingControls/ColumnControls';
 
 import { getPluginState } from '../pm-plugins/main';
 import { ResizeState, scaleTable } from '../pm-plugins/table-resizing';
+import { getParentNodeWidth } from '../pm-plugins/table-resizing/utils';
 
 import { TablePluginState, TableCssClassName as ClassName } from '../types';
 import * as classnames from 'classnames';
@@ -29,6 +25,7 @@ import {
   checkIfHeaderColumnEnabled,
   checkIfHeaderRowEnabled,
   tablesHaveDifferentColumnWidths,
+  tablesHaveDifferentNoOfColumns,
   insertColgroupFromNode as recreateResizeColsByNode,
 } from '../utils';
 import { autoSizeTable } from '../actions';
@@ -88,7 +85,8 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
       const { view, node, containerWidth, getPos, options } = this.props;
 
       if (node.attrs.__autoSize === false) {
-        const parentWidth = this.getParentNodeWidth(
+        const parentWidth = getParentNodeWidth(
+          getPos(),
           view.state,
           containerWidth.width,
         );
@@ -124,9 +122,15 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
       // Wait for next tick to handle auto sizing, gives the browser time to do layout calc etc.
       this.handleAutoSizeDebounced();
     } else if (this.props.allowColumnResizing && this.table) {
-      // If col widths have changed (e.g. via collab), re-draw colgroup.
-      if (tablesHaveDifferentColumnWidths(this.props.node, prevProps.node)) {
+      // If col widths (e.g. via collab) or number of columns (e.g. delete a columnd) have changed,
+      // re-draw colgroup.
+      if (
+        tablesHaveDifferentColumnWidths(this.props.node, prevProps.node) ||
+        tablesHaveDifferentNoOfColumns(this.props.node, prevProps.node)
+      ) {
         recreateResizeColsByNode(this.table, this.props.node);
+        // debouncing does not pick up those changes ^ therefore triggering it here
+        this.handleTableResizing(prevProps);
       }
 
       this.handleTableResizingDebounced(prevProps);
@@ -253,15 +257,13 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     const prevAttrs = prevProps.node.attrs;
     const currentAttrs = node.attrs;
 
-    const prevMap = TableMap.get(prevProps.node);
-    const currentMap = TableMap.get(node);
-
     // We only consider a layout change valid if it's done outside of an autoSize.
     const layoutChanged =
       prevAttrs.layout !== currentAttrs.layout &&
       prevAttrs.__autoSize === currentAttrs.__autoSize;
 
-    const parentWidth = this.getParentNodeWidth(
+    const parentWidth = getParentNodeWidth(
+      getPos(),
       view.state,
       containerWidth.width,
     );
@@ -271,9 +273,9 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     if (
       layoutChanged ||
       parentWidthChanged ||
-      prevMap.width !== currentMap.width ||
       prevProps.containerWidth !== containerWidth ||
-      prevAttrs.isNumberColumnEnabled !== currentAttrs.isNumberColumnEnabled
+      prevAttrs.isNumberColumnEnabled !== currentAttrs.isNumberColumnEnabled ||
+      tablesHaveDifferentNoOfColumns(node, prevProps.node)
     ) {
       scaleTable(
         view,
@@ -324,52 +326,6 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
         tableContainerWidth,
       };
     });
-  };
-
-  private getParentNode = (state: EditorState) => {
-    const pos = this.props.getPos();
-
-    if (!pos) {
-      return;
-    }
-
-    const $pos = state.doc.resolve(pos);
-    const parent = findParentNodeOfTypeClosestToPos($pos, [
-      state.schema.nodes.bodiedExtension,
-      state.schema.nodes.layoutSection,
-    ]);
-
-    return parent && parent.node;
-  };
-
-  private getParentNodeWidth = (state: EditorState, containerWidth: number) => {
-    const node = this.getParentNode(state);
-
-    if (!node) {
-      return;
-    }
-
-    if (node.attrs.layout) {
-      return absoluteBreakoutWidth(node.attrs.layout, containerWidth);
-    }
-
-    let parentWidth = absoluteBreakoutWidth('default', containerWidth);
-
-    const { schema } = state;
-    const breakoutMark =
-      schema.marks.breakout && schema.marks.breakout.isInSet(node.marks);
-    if (breakoutMark && breakoutMark.attrs.mode) {
-      parentWidth = absoluteBreakoutWidth(
-        breakoutMark.attrs.mode,
-        containerWidth,
-      );
-    }
-
-    if (node.type === schema.nodes.layoutSection) {
-      parentWidth = parentWidth / node.childCount;
-    }
-
-    return parentWidth;
   };
 
   private updateParentWidth = (width?: number) => {

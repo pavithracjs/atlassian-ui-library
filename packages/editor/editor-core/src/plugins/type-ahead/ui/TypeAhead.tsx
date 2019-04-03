@@ -16,7 +16,7 @@ export const TypeAheadContent: React.ComponentClass<
   box-shadow: 0 0 1px ${colors.N60A}, 0 4px 8px -2px ${colors.N50A};
   padding: ${math.divide(gridSize, 2)}px 0;
   width: 320px;
-  max-height: 420px; /* ~5.5 visibile items */
+  max-height: 380px; /* ~5.5 visibile items */
   overflow-y: auto;
   -ms-overflow-style: -ms-autohiding-scrollbar;
   position: relative;

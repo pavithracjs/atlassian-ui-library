@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 45.1.0
+- [minor] [827ed599a0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/827ed599a0):
+
+  - add placeholders for media nodes
+
 ## 45.0.0
 - Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
   - @atlaskit/editor-common@36.0.0

@@ -2,7 +2,11 @@ import * as React from 'react';
 import { Subscription } from 'rxjs/Subscription';
 import Button from '@atlaskit/button';
 import AkSpinner from '@atlaskit/spinner';
-import { createStorybookContext } from '@atlaskit/media-test-helpers';
+import {
+  createStorybookContext,
+  externalImageIdentifier,
+  externalSmallImageIdentifier,
+} from '@atlaskit/media-test-helpers';
 import { ButtonList, Container, Group } from '../example-helpers/styled';
 import {
   docIdentifier,
@@ -77,8 +81,10 @@ export default class Example extends React.Component<{}, State> {
       selected: {
         dataSource: {
           list: [
+            externalImageIdentifier,
             imageIdentifier,
             videoIdentifier,
+            externalSmallImageIdentifier,
             videoHorizontalFileItem,
             wideImageIdentifier,
             audioItem,

@@ -1,5 +1,40 @@
 # @atlaskit/editor-core
 
+## 107.7.1
+- [patch] [c4aedc236e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c4aedc236e):
+
+  - ED-6613 Clear Action & Decision lists instead of wrapping them around floated content. Corrects gap cursor position when adjacent to floated content.
+
+## 107.7.0
+- [minor] [9df8755c0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9df8755c0b):
+
+  - ED-6603: Disable dynamic text sizing in full width mode
+
+## 107.6.5
+- [patch] [e125d7d78a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e125d7d78a):
+
+  - ED-6627: fix re-rendering table controls when table is nested inside Columns or bodied extensions
+
+## 107.6.4
+- [patch] [0f0c06f787](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f0c06f787):
+
+  - ED-5850 Visual tweak to ensure icons are tightly bound by their borders
+
+## 107.6.3
+- [patch] [1b0b718266](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b0b718266):
+
+  - ED-6474: fix resizing last table column when table is nested inside Columns node
+
+## 107.6.2
+- [patch] [6110c666c6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6110c666c6):
+
+  - ED-6619: scale table when deleting or adding columns
+
+## 107.6.1
+- [patch] [e0d04f321c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0d04f321c):
+
+  - ED-6376: fix rendering row controls when table has nested Jira macro (rendered as a nested table)
+
 ## 107.6.0
 - [minor] [13d53eb7c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13d53eb7c9):
 

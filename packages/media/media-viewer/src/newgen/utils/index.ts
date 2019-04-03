@@ -2,6 +2,8 @@ import {
   Context,
   isClientBasedAuth,
   FileIdentifier,
+  Identifier,
+  isFileIdentifier,
 } from '@atlaskit/media-core';
 import { stringify } from 'query-string';
 import { MediaCollectionItem } from '@atlaskit/media-store';
@@ -72,12 +74,21 @@ export const toIdentifier = (
 };
 
 export const getSelectedIndex = (
-  items: FileIdentifier[],
-  selectedItem: FileIdentifier,
+  items: Identifier[],
+  selectedItem: Identifier,
 ) => {
-  return items.findIndex(
-    item =>
-      item.id === selectedItem.id &&
-      item.occurrenceKey === selectedItem.occurrenceKey,
-  );
+  return items.findIndex(item => {
+    if (isFileIdentifier(item) && isFileIdentifier(selectedItem)) {
+      return (
+        item.id === selectedItem.id &&
+        item.occurrenceKey === selectedItem.occurrenceKey
+      );
+    }
+
+    if (!isFileIdentifier(item) && !isFileIdentifier(selectedItem)) {
+      return item.dataURI === selectedItem.dataURI;
+    }
+
+    return false;
+  });
 };

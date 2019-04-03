@@ -3,6 +3,7 @@ import { MouseEvent } from 'react';
 import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
 import { akEditorMenuZIndex } from '@atlaskit/editor-common';
+import { taskListSelector, decisionListSelector } from '@atlaskit/adf-schema';
 import { EditorAppearanceComponentProps, EditorAppearance } from '../../types';
 import Avatars from '../../plugins/collab-edit/ui/avatars';
 import PluginSlot from '../PluginSlot';
@@ -65,22 +66,25 @@ const ContentArea = styled.div`
     box-sizing: border-box;
   }
 
-  && .ProseMirror {
+  & .ProseMirror {
     & > * {
+      /* pre-emptively clear all direct descendant content, just in case any are adjacent floated content */
       clear: both;
     }
     > p,
     > ul,
-    > ol,
+    > ol:not(${taskListSelector}):not(${decisionListSelector}),
     > h1,
     > h2,
     > h3,
     > h4,
     > h5,
     > h6 {
+      /* deliberately allow wrapping of text based nodes, just in case any are adjacent floated content */
       clear: none;
     }
   }
+
   ${tableFullPageEditorStyles};
 `;
 ContentArea.displayName = 'ContentArea';
