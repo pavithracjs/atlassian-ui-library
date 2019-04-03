@@ -57,7 +57,7 @@ describe('Snapshot Test', () => {
     await page.click(
       `[data-webdriver-test-key="container-navigation"] [data-test-id="NavigationItem"]`,
     );
-    await page.waitFor(100);
+    await page.waitFor(300);
 
     const imageWithProjectSwitcher = await page.screenshot();
     //$FlowFixMe

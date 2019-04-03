@@ -65,19 +65,23 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
     return [
       {
         name: 'table',
-        plugin: ({
-          props: { allowTables, appearance, allowDynamicTextSizing },
-          eventDispatcher,
-          dispatch,
-          portalProviderAPI,
-        }) => {
+        plugin: ({ props, eventDispatcher, dispatch, portalProviderAPI }) => {
+          const {
+            allowTables,
+            appearance,
+            allowDynamicTextSizing,
+            fullWidthMode,
+          } = props;
+          const isContextMenuEnabled = appearance !== 'mobile';
+          const isBreakoutEnabled = !fullWidthMode;
           return createPlugin(
             dispatch,
             portalProviderAPI,
             eventDispatcher,
             pluginConfig(allowTables),
-            appearance,
-            allowDynamicTextSizing,
+            isContextMenuEnabled,
+            allowDynamicTextSizing && !fullWidthMode,
+            isBreakoutEnabled,
           );
         },
       },
@@ -85,14 +89,14 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
         name: 'tablePMColResizing',
         plugin: ({
           dispatch,
-          props: { allowTables, allowDynamicTextSizing },
+          props: { allowTables, allowDynamicTextSizing, fullWidthMode },
         }) => {
           const { allowColumnResizing } = pluginConfig(allowTables);
           return allowColumnResizing
             ? createFlexiResizingPlugin(dispatch, {
                 handleWidth: HANDLE_WIDTH,
                 cellMinWidth: tableCellMinWidth,
-                dynamicTextSizing: allowDynamicTextSizing,
+                dynamicTextSizing: allowDynamicTextSizing && !fullWidthMode,
               } as ColumnResizingPlugin)
             : undefined;
         },

@@ -1,5 +1,10 @@
 # @atlaskit/media-picker
 
+## 38.1.1
+- [patch] [60a89f843f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60a89f843f):
+
+  - cleanup DOM elements on teardown and deactivate
+
 ## 38.1.0
 - [minor] [e36f791fd6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e36f791fd6):
 

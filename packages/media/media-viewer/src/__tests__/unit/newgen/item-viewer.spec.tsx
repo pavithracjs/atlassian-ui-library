@@ -18,6 +18,7 @@ import {
   ProcessedFileState,
   FileIdentifier,
   FileState,
+  Identifier,
 } from '@atlaskit/media-core';
 import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 import {
@@ -35,12 +36,18 @@ import {
   name as packageName,
   version as packageVersion,
 } from '../../../version.json';
+import { InteractiveImg } from '../../../newgen/viewers/image/interactive-img';
 
-const identifier: any = {
+const identifier: Identifier = {
   id: 'some-id',
   occurrenceKey: 'some-custom-occurrence-key',
   mediaItemType: 'file',
   collectionName: 'some-collection',
+};
+const externalImageIdentifier: Identifier = {
+  mediaItemType: 'external-image',
+  dataURI: 'some-src',
+  name: 'some-name',
 };
 
 const makeFakeContext = (observable: Observable<any>) =>
@@ -50,7 +57,7 @@ const makeFakeContext = (observable: Observable<any>) =>
     },
   } as any);
 
-function mountComponent(context: Context, identifier: FileIdentifier) {
+function mountComponent(context: Context, identifier: Identifier) {
   const el = mountWithIntlContext(
     <ItemViewer previewCount={0} context={context} identifier={identifier} />,
   );
@@ -168,9 +175,9 @@ describe('<ItemViewer />', () => {
     expect(errorMessage.find(Button)).toHaveLength(1);
   });
 
-  it('should show the video viewer if media type is video', () => {
+  it('should show the video viewer if media type is video', async () => {
     const state: ProcessedFileState = {
-      id: identifier.id,
+      id: await identifier.id,
       mediaType: 'video',
       status: 'processed',
       mimeType: '',
@@ -206,9 +213,9 @@ describe('<ItemViewer />', () => {
     );
   });
 
-  it('should show the document viewer if media type is document', () => {
+  it('should show the document viewer if media type is document', async () => {
     const state: FileState = {
-      id: identifier.id,
+      id: await identifier.id,
       mediaType: 'doc',
       status: 'processed',
       artifacts: {},
@@ -258,6 +265,21 @@ describe('<ItemViewer />', () => {
     expect(context.file.getFileState).toHaveBeenCalledWith('some-id', {
       collectionName: 'some-collection',
     });
+  });
+
+  it('should render InteractiveImg for external image identifier', () => {
+    const context = makeFakeContext(
+      Observable.of({
+        id: identifier.id,
+        mediaType: 'image',
+        status: 'processed',
+      }),
+    );
+    const { el } = mountComponent(context, externalImageIdentifier);
+    el.update();
+
+    expect(el.find(InteractiveImg)).toHaveLength(1);
+    expect(el.find(InteractiveImg).prop('src')).toEqual('some-src');
   });
 
   describe('Subscription', () => {

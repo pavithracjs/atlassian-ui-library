@@ -44,6 +44,7 @@ import {
   AnalyticsEventPayload,
   INPUT_METHOD,
   InputMethodInsertMedia,
+  DispatchAnalyticsEvent,
 } from '../../../plugins/analytics';
 export { MediaState, MediaProvider, MediaStateStatus };
 
@@ -87,7 +88,7 @@ export class MediaPluginState {
 
   public editorAppearance: EditorAppearance;
   private removeOnCloseListener: () => void = () => {};
-  private dispatchAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
+  private dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 
   private reactContext: () => {};
 
@@ -96,7 +97,7 @@ export class MediaPluginState {
     options: MediaPluginOptions,
     reactContext: () => {},
     editorAppearance?: EditorAppearance,
-    dispatchAnalyticsEvent?: (payload: AnalyticsEventPayload) => void,
+    dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
   ) {
     this.reactContext = reactContext;
     this.options = options;
@@ -846,7 +847,7 @@ export const createPlugin = (
   reactContext: () => {},
   dispatch?: Dispatch,
   editorAppearance?: EditorAppearance,
-  dispatchAnalyticsEvent?: (payload: AnalyticsEventPayload) => void,
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
 ) => {
   const dropPlaceholder = createDropPlaceholder(editorAppearance);
 
@@ -899,6 +900,9 @@ export const createPlugin = (
       return {
         update: () => {
           pluginState.updateElement();
+        },
+        destroy: () => {
+          pluginState.destroy();
         },
       };
     },

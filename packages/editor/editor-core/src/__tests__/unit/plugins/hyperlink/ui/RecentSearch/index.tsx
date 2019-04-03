@@ -16,24 +16,33 @@ function pressReturnInputField(recentSearch: ReactWrapper<any, any>) {
 }
 
 describe('@atlaskit/editor-core/ui/RecentSearch', () => {
-  it('should render a list of recent activity items', async () => {
-    const wrapper = mountWithIntl(
-      <RecentSearch provider={Promise.resolve(new MockActivityResource())} />,
+  let dispatchAnalyticsSpy: jest.Mock;
+  let wrapper: ReactWrapper;
+  let onSubmit: jest.Mock;
+
+  beforeEach(async () => {
+    onSubmit = jest.fn();
+    dispatchAnalyticsSpy = jest.fn();
+    wrapper = mountWithIntl(
+      <RecentSearch
+        onSubmit={onSubmit}
+        provider={Promise.resolve(new MockActivityResource())}
+        dispatchAnalyticsEvent={dispatchAnalyticsSpy}
+      />,
     );
     await timeout();
     wrapper.update();
+  });
 
-    expect(wrapper.find(RecentItem)).toHaveLength(3);
+  afterEach(() => {
     wrapper.unmount();
   });
 
-  it('should filter recent activity items by input text', async () => {
-    const wrapper = mountWithIntl(
-      <RecentSearch provider={Promise.resolve(new MockActivityResource())} />,
-    );
-    await timeout();
-    wrapper.update();
+  it('should render a list of recent activity items', () => {
+    expect(wrapper.find(RecentItem)).toHaveLength(3);
+  });
 
+  it('should filter recent activity items by input text', async () => {
     (wrapper.instance() as any).updateInput('recent item 1');
     await timeout();
     wrapper.update();
@@ -45,20 +54,9 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
         .at(0)
         .prop('item'),
     ).toHaveProperty('name', 'recent item 1');
-    wrapper.unmount();
   });
 
-  it('should submit with selected activity item when clicked', async () => {
-    const onSubmit = jest.fn();
-    const wrapper = mountWithIntl(
-      <RecentSearch
-        onSubmit={onSubmit}
-        provider={Promise.resolve(new MockActivityResource())}
-      />,
-    );
-    await timeout();
-    wrapper.update();
-
+  it('should submit with selected activity item when clicked', () => {
     wrapper
       .find(RecentItem)
       .at(1)
@@ -66,66 +64,79 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
     expect(onSubmit).toHaveBeenCalledWith('recent2-url.com', 'recent item 2');
-    wrapper.unmount();
   });
 
   it('should submit with selected activity item when enter is pressed', async () => {
-    const onSubmit = jest.fn();
-    const wrapper = mountWithIntl(
-      <RecentSearch
-        onSubmit={onSubmit}
-        provider={Promise.resolve(new MockActivityResource())}
-      />,
-    );
-    await timeout();
-    wrapper.update();
-
     (wrapper.instance() as any).updateInput('recent');
     await timeout();
     pressReturnInputField(wrapper);
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
     expect(onSubmit).toHaveBeenCalledWith('recent1-url.com', 'recent item 1');
-    wrapper.unmount();
   });
 
-  it('should submit with selected activity item when navigated to via keyboard and enter pressed', async () => {
-    const onSubmit = jest.fn();
-    const wrapper = mountWithIntl(
-      <RecentSearch
-        onSubmit={onSubmit}
-        provider={Promise.resolve(new MockActivityResource())}
-      />,
-    );
-    await timeout();
-    wrapper.update();
-
+  it('should submit with selected activity item when navigated to via keyboard and enter pressed', () => {
     pressDownArrowInputField(wrapper);
     pressDownArrowInputField(wrapper);
     pressReturnInputField(wrapper);
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
     expect(onSubmit).toHaveBeenCalledWith('recent2-url.com', 'recent item 2');
-    wrapper.unmount();
   });
 
   it('should submit arbitrary link', async () => {
-    const onSubmit = jest.fn();
-    const wrapper = mountWithIntl(
-      <RecentSearch
-        provider={Promise.resolve(new MockActivityResource())}
-        onSubmit={onSubmit}
-      />,
-    );
-    await timeout();
-    wrapper.update();
-
     (wrapper.instance() as any).updateInput('example.com');
     pressReturnInputField(wrapper);
     await timeout();
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
     expect(onSubmit).toHaveBeenCalledWith('example.com');
-    wrapper.unmount();
+  });
+
+  describe('analytics v3', () => {
+    describe('for typeahead', () => {
+      it('via keyboard', async () => {
+        (wrapper.instance() as any).updateInput('recent');
+        await timeout();
+        pressReturnInputField(wrapper);
+
+        expect(dispatchAnalyticsSpy).toHaveBeenCalledWith({
+          action: 'inserted',
+          actionSubject: 'document',
+          actionSubjectId: 'link',
+          attributes: { inputMethod: 'typeAhead' },
+          eventType: 'track',
+        });
+      });
+
+      it('via mouseclick', () => {
+        wrapper
+          .find(RecentItem)
+          .at(1)
+          .simulate('mousedown');
+
+        expect(dispatchAnalyticsSpy).toHaveBeenCalledWith({
+          action: 'inserted',
+          actionSubject: 'document',
+          actionSubjectId: 'link',
+          attributes: { inputMethod: 'typeAhead' },
+          eventType: 'track',
+        });
+      });
+    });
+
+    it('for manual', async () => {
+      (wrapper.instance() as any).updateInput('example.com');
+      pressReturnInputField(wrapper);
+      await timeout();
+
+      expect(dispatchAnalyticsSpy).toHaveBeenCalledWith({
+        action: 'inserted',
+        actionSubject: 'document',
+        actionSubjectId: 'link',
+        attributes: { inputMethod: 'manual' },
+        eventType: 'track',
+      });
+    });
   });
 });

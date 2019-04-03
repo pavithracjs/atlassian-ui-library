@@ -907,12 +907,12 @@ describe('paste plugins', () => {
 
       const decisionItemPasteEvent = {
         text: '',
-        html: `<meta charset='utf-8'><ol data-decision-list-local-id="2b1a545e-a76d-4b9a-b0a8-c5996e51e32f" style="list-style: none; padding-left: 0"><li data-decision-local-id="f9ad0cf0-42e6-4c62-8076-7981b3fab3f7" data-decision-state="DECIDED"></li></ol>`,
+        html: `<meta charset='utf-8'><ol data-node-type="decisionList" data-decision-list-local-id="2b1a545e-a76d-4b9a-b0a8-c5996e51e32f" style="list-style: none; padding-left: 0"><li data-decision-local-id="f9ad0cf0-42e6-4c62-8076-7981b3fab3f7" data-decision-state="DECIDED"></li></ol>`,
       };
 
       const taskItemPasteEvent = {
         text: ' asdasdasd',
-        html: `<meta charset='utf-8'><ol data-task-list-local-id="c0060bd1-ee91-47e7-b55e-4f45bd2e0b0b" style="list-style: none; padding-left: 0"><li data-task-local-id="1803f18d-1fad-4998-81e4-644ed22f3929" data-task-state="TODO"> asdasdasd</li></ol>`,
+        html: `<meta charset='utf-8'><ol data-node-type="actionList" data-task-list-local-id="c0060bd1-ee91-47e7-b55e-4f45bd2e0b0b" style="list-style: none; padding-left: 0"><li data-task-local-id="1803f18d-1fad-4998-81e4-644ed22f3929" data-task-state="TODO"> asdasdasd</li></ol>`,
       };
 
       beforeEach(() => {

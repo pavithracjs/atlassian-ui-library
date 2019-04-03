@@ -62,7 +62,6 @@ import { showLinkToolbar } from '../../../hyperlink/commands';
 import { insertMentionQuery } from '../../../mentions/commands/insert-mention-query';
 import { updateStatus } from '../../../status/actions';
 import {
-  AnalyticsEventPayload,
   withAnalytics as commandWithAnalytics,
   ACTION,
   ACTION_SUBJECT,
@@ -71,6 +70,7 @@ import {
   ACTION_SUBJECT_ID,
   PANEL_TYPE,
   InsertEventPayload,
+  DispatchAnalyticsEvent,
 } from '../../../analytics';
 import { EditorState } from 'prosemirror-state';
 
@@ -251,7 +251,7 @@ export interface Props {
     node?: PMNode,
     isEditing?: boolean,
   ) => (state: EditorState, dispatch: CommandDispatch) => void;
-  dispatchAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 }
 
 export interface State {

@@ -144,6 +144,10 @@ export const externalImageIdentifier: ExternalImageIdentifier = {
   mediaItemType: 'external-image',
   dataURI: atlassianLogoUrl,
 };
+export const externalSmallImageIdentifier: ExternalImageIdentifier = {
+  mediaItemType: 'external-image',
+  dataURI: 'https://aui-cdn.atlassian.com/media/files-icon.png',
+};
 
 export const genericFileDetails: FileDetails = {
   id: 'fd4c4672-323a-4b6c-8326-223169e2a13e',

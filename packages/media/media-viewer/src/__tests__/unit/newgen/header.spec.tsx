@@ -17,7 +17,15 @@ const identifier: Identifier = {
   occurrenceKey: 'some-custom-occurrence-key',
   mediaItemType: 'file',
 };
-
+const externalIdentifierWithName: Identifier = {
+  dataURI: 'some-external-src',
+  name: 'some-name',
+  mediaItemType: 'external-image',
+};
+const externalIdentifier: Identifier = {
+  dataURI: 'some-external-src',
+  mediaItemType: 'external-image',
+};
 const identifier2: Identifier = {
   id: 'some-id-2',
   occurrenceKey: 'some-custom-occurrence-key',
@@ -107,6 +115,33 @@ describe('<Header />', () => {
   });
 
   describe('Metadata', () => {
+    it('should work with external image identifier', () => {
+      const element = mount(
+        <Header
+          intl={fakeIntl}
+          context={{} as any}
+          identifier={externalIdentifierWithName}
+        />,
+      );
+
+      expect(element.find(MetadataFileName).text()).toEqual('some-name');
+      expect(element.find(MetadataSubText).text()).toEqual('image');
+    });
+
+    it('should default to dataURI as name when no name is passed in a external image identifier', () => {
+      const element = mount(
+        <Header
+          intl={fakeIntl}
+          context={{} as any}
+          identifier={externalIdentifier}
+        />,
+      );
+
+      expect(element.find(MetadataFileName).text()).toEqual(
+        'some-external-src',
+      );
+    });
+
     describe('File collectionName', () => {
       it('shows the title when loaded', () => {
         const context = createContext({

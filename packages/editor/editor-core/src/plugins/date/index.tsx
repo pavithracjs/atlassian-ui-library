@@ -72,13 +72,14 @@ const datePlugin: EditorPlugin = {
           editorDisabledPlugin: EditorDisabledPluginState;
           datePlugin: DateState;
         }) => {
-          const { showDatePickerAt } = datePlugin;
+          const showDatePickerAt = datePlugin && datePlugin.showDatePickerAt;
           if (
             !showDatePickerAt ||
             (editorDisabledPlugin || {}).editorDisabled
           ) {
             return null;
           }
+
           const element = findDomRefAtPos(
             showDatePickerAt,
             domAtPos,
