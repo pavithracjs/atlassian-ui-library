@@ -1,0 +1,1 @@
+- ED-5948: added mass alignment on a range of selected cells
