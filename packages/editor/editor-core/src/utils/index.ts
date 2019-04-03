@@ -150,14 +150,13 @@ export function canMoveDown(state: EditorState): boolean {
   return !atTheEndOfDoc(state);
 }
 
-export function lastNodeInDocument(state: EditorState): boolean {
-  const { selection, doc } = state;
-  const { pos } = findFarthestParentNode(
-    (node: Node) => node.type !== doc.type,
-  )(selection)!;
-  const rootNode = doc.nodeAt(pos)!;
-  const docBoundary = 2;
-  return doc.nodeSize - pos - rootNode.nodeSize - docBoundary === 0;
+export function isSelectionInsideLastNodeInDocument(
+  selection: Selection,
+): boolean {
+  const docNode = selection.$anchor.node(0);
+  const rootNode = selection.$anchor.node(1);
+
+  return docNode.lastChild === rootNode;
 }
 
 export function atTheEndOfDoc(state: EditorState): boolean {

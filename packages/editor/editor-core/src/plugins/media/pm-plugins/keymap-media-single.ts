@@ -1,8 +1,12 @@
 import { keymap } from 'prosemirror-keymap';
 import { Schema, NodeType, Node } from 'prosemirror-model';
-import { Plugin, EditorState } from 'prosemirror-state';
+import { Plugin, EditorState, Selection } from 'prosemirror-state';
 import * as keymaps from '../../../keymaps';
-import { isEmptyNode, atTheEndOfDoc, lastNodeInDocument } from '../../../utils';
+import {
+  isEmptyNode,
+  atTheEndOfDoc,
+  isSelectionInsideLastNodeInDocument,
+} from '../../../utils';
 import { Command, CommandDispatch } from '../../../types';
 import { safeInsert } from 'prosemirror-utils';
 import { selectNodeBackward } from 'prosemirror-commands';
@@ -10,9 +14,7 @@ import { selectNodeBackward } from 'prosemirror-commands';
 /**
  * Check if is an empty selection at the start of the node
  */
-function isEmptySelectionAtStart(state: EditorState) {
-  const { selection } = state;
-
+function isEmptySelectionAtStart(selection: Selection) {
   // Part 3,1: [selection{empty}]
   if (!selection.empty) {
     return false;
@@ -31,13 +33,16 @@ function isEmptySelectionAtStart(state: EditorState) {
 /**
  * Check if the current selection is inside a paragraph
  */
-function isInsideAParagraph(state: EditorState): boolean {
-  const { $from } = state.selection;
-  const { paragraph } = state.schema.nodes;
+function isSelectionInsideOf(
+  selection: Selection,
+  nodeType: NodeType,
+): boolean {
+  const { $from } = selection;
+
   const parent = $from.parent;
 
-  const insideParapraph = parent.type === paragraph;
-  if (!insideParapraph) {
+  const insideNode = parent.type === nodeType;
+  if (!insideNode) {
     return false;
   }
   return true;
@@ -47,10 +52,10 @@ function isInsideAParagraph(state: EditorState): boolean {
  * Return the sibling of the current selection
  */
 function getSibling(
-  state: EditorState,
+  selection: Selection,
   sibling: number,
 ): Node | null | undefined {
-  const { $from } = state.selection;
+  const { $from } = selection;
   const index = $from.index($from.depth - 1);
   const grandParent = $from.node($from.depth - 1); // Get GrandParent
 
@@ -62,11 +67,11 @@ function getSibling(
  * is from the specified node
  */
 function isSiblingOfType(
-  state: EditorState,
+  selection: Selection,
   node: NodeType,
   sibling: number,
 ): boolean {
-  const maybeSiblingNode = getSibling(state, sibling);
+  const maybeSiblingNode = getSibling(selection, sibling);
   if (!maybeSiblingNode || maybeSiblingNode.type !== node) {
     return false;
   }
@@ -100,14 +105,17 @@ function handleSelectionAfterWrapRight(isEmptyNode: (node: Node) => any) {
     const { paragraph } = state.schema.nodes;
 
     const previousMediaSingleSibling = -2;
-    const maybeSibling = getSibling(state, previousMediaSingleSibling);
+    const maybeSibling = getSibling(
+      state.selection,
+      previousMediaSingleSibling,
+    );
 
     if (!maybeSibling) {
       // the last is the image so should let the default behaviour delete the image
       return false;
     }
 
-    const mediaSingle = getSibling(state, -1)!; // Sibling is a media single already checked in main code
+    const mediaSingle = getSibling(state.selection, -1)!; // Sibling is a media single already checked in main code
     const mediaSinglePos = $from.pos - mediaSingle.nodeSize;
 
     // Should find the position
@@ -124,7 +132,7 @@ function handleSelectionAfterWrapRight(isEmptyNode: (node: Node) => any) {
     } else {
       // We move the current node, to the new position
       // 1. Remove current node, only if I am not removing the last node.
-      if (!lastNodeInDocument(state)) {
+      if (!isSelectionInsideLastNodeInDocument(state.selection)) {
         tr.replace($from.pos - 1, $from.pos + $from.parent.nodeSize - 1); // Remove node
       } else {
         // Remove node content, if is the last node, let a empty paragraph
@@ -159,21 +167,27 @@ const maybeRemoveMediaSingleNode = (schema: Schema): Command => {
     const { $from } = selection;
 
     // Part 3,1: [selection{empty, at start}]
-    if (!isEmptySelectionAtStart(state)) {
+    if (!isEmptySelectionAtStart(state.selection)) {
       return false;
     }
 
-    if (!isInsideAParagraph(state)) {
+    if (!isSelectionInsideOf(state.selection, schema.nodes.paragraph)) {
       return false;
     }
 
     const previousSibling = -1;
-    if (!isSiblingOfType(state, schema.nodes.mediaSingle, previousSibling)) {
+    if (
+      !isSiblingOfType(
+        state.selection,
+        schema.nodes.mediaSingle,
+        previousSibling,
+      )
+    ) {
       // no media single
       return false;
     }
 
-    const mediaSingle = getSibling(state, previousSibling)!;
+    const mediaSingle = getSibling(state.selection, previousSibling)!;
 
     if (mediaSingle.attrs.layout === 'wrap-right') {
       return handleSelectionAfterWrapRight(isEmptyNodeInSchema)(
