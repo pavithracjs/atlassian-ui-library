@@ -12,7 +12,7 @@ import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
 describe('Snapshot Test: Media', () => {
   describe('full page editor', () => {
-    let page;
+    let page: any;
     beforeEach(async () => {
       // @ts-ignore
       page = global.page;
@@ -42,7 +42,7 @@ describe('Snapshot Test: Media', () => {
   });
 
   describe('comment editor', () => {
-    let page;
+    let page: any;
     beforeEach(async () => {
       // @ts-ignore
       page = global.page;

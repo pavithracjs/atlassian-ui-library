@@ -35,7 +35,7 @@ const spyOnComponentDidUpdate = () => {
   return spy;
 };
 
-const findAnalyticsEvent = (eventSpy, actionSubject) => {
+const findAnalyticsEvent = (eventSpy: jest.Mock<{}>, actionSubject: string) => {
   const [event] = eventSpy.mock.calls.find(
     ([event]) => event.payload.actionSubject === actionSubject,
   );
@@ -84,7 +84,7 @@ const AB_TEST_DATA = {
   abTestId: 'abtest-id',
 };
 
-const getRecentItems = product =>
+const getRecentItems = (product: string) =>
   product === 'jira' ? JIRA_RECENT_ITEMS : CONFLUENCE_RECENT_ITEMS;
 
 ['confluence', 'jira'].forEach(product => {
@@ -115,7 +115,7 @@ const getRecentItems = product =>
       inputFocus(false);
     };
 
-    const renderComponent = onEvent => {
+    const renderComponent = (onEvent: jest.Mock<{}>) => {
       return mount(
         <AnalyticsListener onEvent={onEvent} channel="fabric-elements">
           <BasicNavigation
@@ -193,7 +193,10 @@ const getRecentItems = product =>
         inputBlur();
       });
 
-      const keyPress = (key: 'ArrowUp' | 'ArrowDown' | 'Enter', withShift?) => {
+      const keyPress = (
+        key: 'ArrowUp' | 'ArrowDown' | 'Enter',
+        withShift?: undefined,
+      ) => {
         const input = wrapper.find('input');
         expect(input.length).toBe(1);
         input.simulate('keyDown', {

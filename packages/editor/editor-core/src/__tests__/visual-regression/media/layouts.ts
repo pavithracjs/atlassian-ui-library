@@ -14,7 +14,7 @@ import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
 // add some comment
 describe('Snapshot Test: Media', () => {
-  let page;
+  let page: any;
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;

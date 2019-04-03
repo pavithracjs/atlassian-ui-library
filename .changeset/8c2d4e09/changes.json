@@ -1,0 +1,7 @@
+{
+  "releases": [
+    { "name": "@atlaskit/navigation-next", "type": "patch" },
+    { "name": "@atlaskit/inline-dialog", "type": "patch" }
+  ],
+  "dependents": []
+}

@@ -1,5 +1,22 @@
 # @atlaskit/renderer
 
+## 45.1.0
+- [minor] [827ed599a0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/827ed599a0):
+
+  - add placeholders for media nodes
+
+## 45.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/media-filmstrip@31.0.0
+  - @atlaskit/editor-json-transformer@5.0.2
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/task-decision@14.0.1
+  - @atlaskit/util-data-test@11.1.5
+  - @atlaskit/media-test-helpers@21.1.0
+  - @atlaskit/media-core@29.1.0
+
 ## 44.7.0
 - [minor] [001fa9a7d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/001fa9a7d0):
 

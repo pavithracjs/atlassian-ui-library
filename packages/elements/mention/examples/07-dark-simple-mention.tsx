@@ -6,7 +6,7 @@ import { AtlaskitThemeProvider } from '@atlaskit/theme';
 import * as React from 'react';
 import { onMentionEvent } from '../example-helpers/index';
 import Mention from '../src/components/Mention';
-import { ELEMENTS_CHANNEL } from '../src/constants';
+import { ELEMENTS_CHANNEL } from '../src/_constants';
 import debug from '../src/util/logger';
 import { mockMentionData as mentionData } from '../src/__tests__/unit/_test-helpers';
 import { IntlProvider } from 'react-intl';

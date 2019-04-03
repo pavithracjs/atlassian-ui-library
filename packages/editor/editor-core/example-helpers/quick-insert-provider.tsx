@@ -125,6 +125,31 @@ const items: Array<QuickInsertItem> = [
     },
   },
   {
+    title: 'jql table block extension',
+    icon: () => <DevIcon label="dev" />,
+    action(insert) {
+      return insert({
+        type: 'extension',
+        attrs: {
+          extensionType: 'com.atlassian.confluence.macro.core',
+          extensionKey: 'jql-table',
+          text: 'JQL table block extension demo',
+          parameters: {
+            macroParams: {},
+            macroMetadata: {
+              placeholder: [
+                {
+                  data: { url: '' },
+                  type: 'icon',
+                },
+              ],
+            },
+          },
+        },
+      });
+    },
+  },
+  {
     title: 'Lorem ipsum',
     icon: () => <DevIcon label="dev" />,
     action(insert) {

@@ -100,6 +100,10 @@ export default class PickerFacade {
     return this.pickerType;
   }
 
+  get mediaPicker() {
+    return this.picker;
+  }
+
   destroy() {
     const { picker } = this;
 

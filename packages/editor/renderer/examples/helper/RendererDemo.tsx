@@ -300,7 +300,7 @@ export default class RendererDemo extends React.Component<
     }
   }
 
-  private toggleTruncated(e: Event) {
+  private toggleTruncated(e: React.MouseEvent<HTMLButtonElement>) {
     this.setState(prevState => ({
       truncated: !prevState.truncated,
     }));
@@ -349,7 +349,9 @@ export default class RendererDemo extends React.Component<
           <Button
             appearance={'link'}
             spacing={'none'}
-            onClick={(e: Event) => this.toggleTruncated(e)}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+              this.toggleTruncated(e)
+            }
           >
             {this.state.truncated ? 'Expand text' : 'Collapse text'}
           </Button>

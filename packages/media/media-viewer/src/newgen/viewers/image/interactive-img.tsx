@@ -36,8 +36,8 @@ export type Props = {
   src: string;
   orientation?: number;
   onClose?: () => void;
-  onLoad: () => void;
-  onError: () => void;
+  onLoad?: () => void;
+  onError?: () => void;
 };
 
 export type State = {
@@ -73,7 +73,7 @@ export class InteractiveImg extends React.Component<Props, State> {
   }
 
   render() {
-    const { src, onClose, orientation } = this.props;
+    const { src, onClose, onError, orientation } = this.props;
     const { zoomLevel, camera, isDragging } = this.state;
 
     const canDrag = camera.match({
@@ -103,7 +103,7 @@ export class InteractiveImg extends React.Component<Props, State> {
           src={src}
           style={imgStyle}
           onLoad={this.onImgLoad}
-          onError={this.onError}
+          onError={onError}
           onMouseDown={this.startDragging}
           shouldPixelate={zoomLevel.value > 1}
         />
@@ -121,6 +121,7 @@ export class InteractiveImg extends React.Component<Props, State> {
 
   private onImgLoad = (ev: React.SyntheticEvent<HTMLImageElement>) => {
     if (this.wrapper) {
+      const { onLoad } = this.props;
       const viewport = clientRectangle(this.wrapper);
       const originalImg = naturalSizeRectangle(ev.currentTarget);
       const camera = new Camera(viewport, originalImg);
@@ -128,12 +129,10 @@ export class InteractiveImg extends React.Component<Props, State> {
         camera: Outcome.successful(camera),
         zoomLevel: new ZoomLevel(camera.scaleDownToFit),
       });
+      if (onLoad) {
+        onLoad();
+      }
     }
-    this.props.onLoad();
-  };
-
-  private onError = () => {
-    this.props.onError();
   };
 
   private onResize = () => {

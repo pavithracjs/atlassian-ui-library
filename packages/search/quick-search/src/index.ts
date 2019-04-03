@@ -25,10 +25,17 @@ export { default as QuickSearch } from './components/QuickSearch';
 export {
   default as ResultItemGroup,
 } from './components/ResultItem/ResultItemGroup';
-export { default as ObjectResult } from './components/Results/ObjectResult';
-export { default as PersonResult } from './components/Results/PersonResult';
+export {
+  default as ObjectResult,
+  Props as ObjectResultProps,
+} from './components/Results/ObjectResult';
+export {
+  default as PersonResult,
+  Props as PersonResultProps,
+} from './components/Results/PersonResult';
 export {
   default as ContainerResult,
+  Props as ContainerResultProps,
 } from './components/Results/ContainerResult';
 export { default as ResultBase } from './components/Results/ResultBase';
 // types
