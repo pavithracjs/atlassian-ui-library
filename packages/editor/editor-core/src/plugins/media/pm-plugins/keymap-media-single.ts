@@ -123,22 +123,22 @@ function handleSelectionAfterWrapRight(isEmptyNode: (node: Node) => any) {
       );
     } else {
       // We move the current node, to the new position
-      // 1. Remove current node
+      // 1. Remove current node, only if I am not removing the last node.
       if (!lastNodeInDocument(state)) {
-        // Check if I am not removing the last one, this causes issues.
         tr.replace($from.pos - 1, $from.pos + $from.parent.nodeSize - 1); // Remove node
       } else {
-        // If is the last one, remove only content
-        tr.replace($from.pos, $from.pos + $from.parent.nodeSize - 1); // Remove content let empty paragraph;
+        // Remove node content, if is the last node, let a empty paragraph
+        tr.replace($from.pos, $from.pos + $from.parent.nodeSize - 1);
       }
 
       // 2. Add it in the new position
+      // If the sibling is a paragraph lets copy the text inside the paragraph
+      // Like a normal backspace from paragraph to paragraph
       if (maybeSibling.type === paragraph) {
-        // We copy the text inside the paragraph
         const insideParagraphPos = maybeAnyBlockPos + maybeSibling.nodeSize - 2;
         safeInsert($from.parent.content, insideParagraphPos)(tr);
       } else {
-        // We just move the whole paragraph up
+        // If is any other kind of block just add the paragraph after it
         const endOfBlockPos = maybeAnyBlockPos + maybeSibling.nodeSize - 1;
         safeInsert($from.parent!.copy($from.parent.content), endOfBlockPos)(tr);
       }
