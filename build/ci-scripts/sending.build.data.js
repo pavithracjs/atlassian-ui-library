@@ -13,6 +13,7 @@ const sendData = require('../utils/sendPayload').sendData;
       'atlaskit-mk-2',
       buildId,
     );
+    console.log('buildData:', buildData);
     await sendData(buildData);
   } catch (err) {
     console.error(`You face some issues while sending data: ${err}`);
