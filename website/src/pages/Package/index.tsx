@@ -159,7 +159,7 @@ class Package extends React.Component<Props> {
         )}
         <Title>
           <h1>{title}</h1>
-          {examplePath && (
+          {examplePath && exampleModalPath && (
             <ButtonGroup>
               <LinkButton
                 iconBefore={<ExamplesIcon label="Examples Icon" />}

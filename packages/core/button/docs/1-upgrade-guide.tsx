@@ -72,7 +72,9 @@ The recommended action is to move your project from Styled Components to Emotion
 #### Custom component
 If you need to work with refs in a custom component, you'll need to amke sure to forward on refs yourself using \`React.forwardRef()\`. A typical use case would look like this:
 ${code`
-const CustomButton = React.forwardRef((props, ref) => <button {...props} ref={ref} />);
+const CustomButton = React.forwardRef<HTMLElement, React.AllHTMLAttributes<HTMLElement>>(
+  (props, ref) => <button {...props} ref={ref} />
+);
 
 <Button component={CustomButton} />
 `}
@@ -107,7 +109,7 @@ ${code`
 
 ### ⏫ Props updated
 - theme: Returns a function containing two args; the current ADG theme and props
-- component: Make sure to forward refs using \`React.forwardRef()\` if working with refs
+- component: Make sure to forward refs using \`React.forwardRef()\`.
 
 ### 🙅‍ Props removed
 - ariaControls: Please use **aria-controls** prop instead

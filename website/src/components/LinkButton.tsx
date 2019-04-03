@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from './WrappedLink';
-import Button, { ButtonProps } from '@atlaskit/button';
+import Button from '@atlaskit/button';
 
 export type LinkButtonProps = {
   [index: string]: any;
@@ -17,13 +17,14 @@ export default function LinkButton({
     <Button
       {...props}
       href={to}
-      component={React.forwardRef<HTMLElement, ButtonProps>(
-        ({ children, ...rest }, ref: any) => (
-          <Link {...rest} ref={ref} to={to}>
-            {children}
-          </Link>
-        ),
-      )}
+      component={React.forwardRef<
+        HTMLElement,
+        React.AllHTMLAttributes<HTMLElement>
+      >(({ children, ...rest }, ref) => (
+        <Link {...rest} ref={ref} to={to}>
+          {children}
+        </Link>
+      ))}
     >
       {children}
     </Button>

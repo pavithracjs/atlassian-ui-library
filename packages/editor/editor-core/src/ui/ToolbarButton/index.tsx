@@ -3,13 +3,20 @@ import Tooltip from '@atlaskit/tooltip';
 import { ButtonProps } from '@atlaskit/button';
 import Button from './styles';
 
-export interface Props extends ButtonProps {
+export type Props = {
+  className?: string;
   disabled?: boolean;
   hideTooltip?: boolean;
+  href?: string;
+  iconAfter?: React.ReactElement<any>;
+  iconBefore?: React.ReactElement<any>;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   selected?: boolean;
+  spacing?: 'default' | 'compact' | 'none';
+  target?: string;
   title?: string;
   titlePosition?: string;
-}
+} & Pick<ButtonProps, 'theme' | 'aria-label'>;
 
 export default class ToolbarButton extends React.PureComponent<Props, {}> {
   static defaultProps = {

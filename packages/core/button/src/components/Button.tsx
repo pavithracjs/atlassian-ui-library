@@ -131,6 +131,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         current: (props: ThemeProps) => ThemeTokens,
         props: ThemeProps,
       ) => current(props),
+      ...rest
     } = this.props;
 
     const attributes = { ...this.state, isSelected, isDisabled };
@@ -167,7 +168,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             >
               {({ buttonStyles, spinnerStyles }) => (
                 <StyledButton
-                  {...filterProps(this.props, StyledButton)}
+                  {...filterProps(rest, StyledButton)}
                   ref={composeRefs(this.button, consumerRef)}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
@@ -241,7 +242,6 @@ export default withAnalyticsContext({
     onClick: createAndFireEventOnAtlaskit({
       action: 'clicked',
       actionSubject: 'button',
-
       attributes: {
         componentName: 'button',
         packageName,

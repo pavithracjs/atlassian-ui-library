@@ -10,7 +10,12 @@ export type ButtonAppearances =
   | 'subtle-link'
   | 'warning';
 
-export type ButtonProps = React.AllHTMLAttributes<HTMLElement> & {
+type HtmlAttributes = Pick<
+  React.AllHTMLAttributes<HTMLElement>,
+  Exclude<keyof React.AllHTMLAttributes<HTMLElement>, keyof OnlyButtonProps>
+>;
+
+type OnlyButtonProps = {
   /** The base styling to apply to the button */
   appearance?: ButtonAppearances;
   /** Set the button to autofocus on mount */
@@ -18,7 +23,7 @@ export type ButtonProps = React.AllHTMLAttributes<HTMLElement> & {
   /** Add a classname to the button */
   className?: string;
   /** A custom component to use instead of the default button */
-  component?: React.ComponentType<ButtonProps>;
+  component?: React.ComponentType<React.AllHTMLAttributes<HTMLElement>>;
   /** Internal use only. Please use `ref` to forward refs */
   consumerRef?: ConsumerRef;
   /** Provides a url for buttons being used as a link */
@@ -62,6 +67,8 @@ export type ButtonProps = React.AllHTMLAttributes<HTMLElement> & {
     props: ThemeProps,
   ) => ThemeTokens;
 };
+
+export type ButtonProps = HtmlAttributes & OnlyButtonProps;
 
 export type ConsumerRef =
   | string

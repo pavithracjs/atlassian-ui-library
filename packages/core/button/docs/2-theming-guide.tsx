@@ -40,7 +40,7 @@ import Button from '@atlaskit/button';
 export default (props) => (
   <Button
     {...props}
-    theme=customTheme
+    theme={customTheme}
     }}
   />
 );
