@@ -1,0 +1,1 @@
+- ED-6479: upskip table floating toolbar VR tests
