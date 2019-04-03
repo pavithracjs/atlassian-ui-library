@@ -1,39 +1,45 @@
 import * as React from 'react';
 import TextField from '@atlaskit/textfield';
 
-import InlineEdit from '../src';
+import InlineEdit, { InlineEditableTextfield } from '../src';
 import ReadViewContainer from '../src/styled/ReadViewContainer';
 
 type State = {
-  editValue: string;
+  inlineEditValue: string;
+  inlineEditableTextfieldValue: string;
 };
 
 export default class InlineEditExample extends React.Component<void, State> {
-  editViewRef: HTMLInputElement | undefined;
-
   state = {
-    editValue: 'Field Value',
+    inlineEditValue: 'Field value',
+    inlineEditableTextfieldValue: 'Field value',
   };
 
-  onConfirm = (value: string) => {
-    this.setState({
-      editValue: value,
-    });
+  onConfirm = (value: string, stateKey: string) => {
+    // @ts-ignore
+    this.setState({ [stateKey]: value });
   };
 
   render() {
     return (
       <div style={{ padding: '0 16px 60px' }}>
         <InlineEdit
-          editValue={this.state.editValue}
+          editValue={this.state.inlineEditValue}
           label="Inline edit field"
           editView={editViewProps => <TextField {...editViewProps} />}
           readView={() => (
             <ReadViewContainer>
-              {this.state.editValue || 'Click to enter value'}
+              {this.state.inlineEditValue || 'Click to enter value'}
             </ReadViewContainer>
           )}
-          onConfirm={this.onConfirm}
+          onConfirm={value => this.onConfirm(value, 'inlineEditValue')}
+        />
+        <InlineEditableTextfield
+          editValue={this.state.inlineEditableTextfieldValue}
+          label="Inline edit textfield"
+          onConfirm={value =>
+            this.onConfirm(value, 'inlineEditableTextfieldValue')
+          }
         />
       </div>
     );

@@ -2,14 +2,16 @@ import * as React from 'react';
 import { InlineEditableTextfield } from '../src';
 
 interface State {
-  firstInlineEdit: string;
-  secondInlineEdit: string;
+  firstEditValue: string;
+  secondEditValue: string;
+  thirdEditValue: string;
 }
 
 export default class InlineEditExample extends React.Component<void, State> {
   state = {
-    firstInlineEdit: 'First value',
-    secondInlineEdit: 'Second value',
+    firstEditValue: 'Field value',
+    secondEditValue: 'Field value',
+    thirdEditValue: 'Field value',
   };
 
   validateValue = '';
@@ -42,17 +44,22 @@ export default class InlineEditExample extends React.Component<void, State> {
     return (
       <div style={{ padding: '0 16px', width: '70%' }}>
         <InlineEditableTextfield
-          editValue={this.state.firstInlineEdit}
-          label="Inline edit textfield"
-          onConfirm={value => this.onConfirm(value, 'firstInlineEdit')}
+          editValue={this.state.firstEditValue}
+          label="Inline edit textfield + hide action buttons (Enter to confirm, Esc to cancel)"
+          onConfirm={value => this.onConfirm(value, 'firstEditValue')}
+          hideActionButtons
         />
         <InlineEditableTextfield
-          editValue={this.state.secondInlineEdit}
-          label="Inline edit textfield + start in edit view + hide action buttons (Enter to confirm, Esc to cancel) + validation + compact"
-          onConfirm={value => this.onConfirm(value, 'secondInlineEdit')}
-          validate={this.validate}
-          hideActionButtons
+          editValue={this.state.secondEditValue}
+          label="Inline edit textfield + start in edit view"
+          onConfirm={value => this.onConfirm(value, 'secondEditValue')}
           startWithEditViewOpen
+        />
+        <InlineEditableTextfield
+          editValue={this.state.thirdEditValue}
+          label="Inline edit textfield + validation + compact"
+          onConfirm={value => this.onConfirm(value, 'thirdEditValue')}
+          validate={this.validate}
           isCompact
         />
       </div>

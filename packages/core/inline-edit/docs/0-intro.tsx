@@ -25,15 +25,6 @@ export default md`
   )}
 
   ${(
-    <Example
-      packageName="@atlaskit/inline-edit"
-      Component={require('../examples/04-inline-editable-textfield').default}
-      title="Basic usage"
-      source={require('!!raw-loader!../examples/04-inline-editable-textfield')}
-    />
-  )}
-
-  ${(
     <Props
       props={require('!!extract-react-types-loader!../src/components/InlineEdit')}
       heading="InlineEdit Props"
