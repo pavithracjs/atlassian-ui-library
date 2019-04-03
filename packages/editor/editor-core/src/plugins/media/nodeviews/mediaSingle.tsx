@@ -284,7 +284,7 @@ class MediaSingleNodeView extends ReactNodeView {
   }
   isSelected(position: number) {
     const pos = this.getPos();
-    const range = [pos, pos + this.node.nodeSize];
+    const range = [pos, pos + this.node.nodeSize - 1];
 
     // If is gap selection, media is not selected
     if (this.view.state.selection instanceof GapCursorSelection) {
