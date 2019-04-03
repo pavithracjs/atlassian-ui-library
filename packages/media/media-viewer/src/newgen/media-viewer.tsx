@@ -1,12 +1,16 @@
 import * as React from 'react';
-import { ComponentClass } from 'react';
+import { ComponentClass, SyntheticEvent } from 'react';
 import { Context, Identifier } from '@atlaskit/media-core';
 import { IntlProvider, intlShape } from 'react-intl';
 import { ThemeProvider } from 'styled-components';
 import { Shortcut, theme } from '@atlaskit/media-ui';
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import {
+  WithAnalyticsEventProps,
+  UIAnalyticsEvent,
+} from '@atlaskit/analytics-next-types';
 import { mediaViewerModalEvent } from './analytics/media-viewer';
+import { closedEvent, ClosedInputType } from './analytics/closed';
 import { channel } from './analytics/index';
 import {
   GasPayload,
@@ -17,6 +21,7 @@ import { List } from './list';
 import { Collection } from './collection';
 import { Content } from './content';
 import { Blanket } from './styled';
+import { resetTimer } from './utils/timer';
 
 export type Props = {
   onClose?: () => void;
@@ -41,15 +46,43 @@ class MediaViewerComponent extends React.Component<Props, {}> {
 
   componentWillMount() {
     this.fireAnalytics(mediaViewerModalEvent());
+    resetTimer();
+  }
+
+  onShortcutClosed = () => {
+    this.sendClosedEvent('escKey');
+    const { onClose } = this.props;
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  onContentClose = (_e?: SyntheticEvent, analyticsEvent?: UIAnalyticsEvent) => {
+    const { onClose } = this.props;
+    if (
+      analyticsEvent &&
+      analyticsEvent.payload &&
+      analyticsEvent.payload.actionSubject === 'button'
+    ) {
+      this.sendClosedEvent('button');
+    }
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  private sendClosedEvent(input: ClosedInputType) {
+    this.fireAnalytics(closedEvent(input));
   }
 
   render() {
-    const { onClose } = this.props;
     const content = (
       <ThemeProvider theme={theme}>
         <Blanket>
-          {onClose && <Shortcut keyCode={27} handler={onClose} />}
-          <Content onClose={onClose}>{this.renderContent()}</Content>
+          {<Shortcut keyCode={27} handler={this.onShortcutClosed} />}
+          <Content onClose={this.onContentClose}>
+            {this.renderContent()}
+          </Content>
         </Blanket>
       </ThemeProvider>
     );

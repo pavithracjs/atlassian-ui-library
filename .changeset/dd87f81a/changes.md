@@ -1,0 +1,1 @@
+- add close event to MVNG
