@@ -3,7 +3,6 @@ import { Context, Identifier } from '@atlaskit/media-core';
 import { ItemViewer } from './item-viewer';
 import { MediaViewerFeatureFlags } from './domain';
 import { HeaderWrapper, hideControlsClassName, ListWrapper } from './styled';
-import { getSelectedIndex } from './utils';
 import { Navigation } from './navigation';
 import Header from './header';
 
@@ -30,13 +29,8 @@ export class List extends React.Component<Props, State> {
 
   render() {
     const { items } = this.props;
-    const { selectedItem } = this.state;
 
-    return this.renderContent(
-      getSelectedIndex(items, selectedItem) < 0
-        ? [selectedItem, ...items]
-        : items,
-    );
+    return this.renderContent(items);
   }
 
   renderContent(items: Identifier[]) {
