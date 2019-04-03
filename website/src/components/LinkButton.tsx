@@ -4,7 +4,7 @@ import Button, { ButtonProps } from '@atlaskit/button';
 
 export type LinkButtonProps = {
   [index: string]: any;
-  to: string | undefined;
+  to: string;
   children?: React.ReactChild;
 };
 
@@ -16,12 +16,14 @@ export default function LinkButton({
   return (
     <Button
       {...props}
-      component={(props: ButtonProps) => (
-        <Link to={props.href} {...props}>
-          {props.children}
-        </Link>
-      )}
       href={to}
+      component={React.forwardRef<HTMLElement, ButtonProps>(
+        ({ children, ...rest }, ref: any) => (
+          <Link {...rest} ref={ref} to={to}>
+            {children}
+          </Link>
+        ),
+      )}
     >
       {children}
     </Button>

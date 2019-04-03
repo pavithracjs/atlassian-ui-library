@@ -10,7 +10,7 @@ export type ButtonAppearances =
   | 'subtle-link'
   | 'warning';
 
-export interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
+export type ButtonProps = React.AllHTMLAttributes<HTMLElement> & {
   /** The base styling to apply to the button */
   appearance?: ButtonAppearances;
   /** Set the button to autofocus on mount */
@@ -18,7 +18,7 @@ export interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
   /** Add a classname to the button */
   className?: string;
   /** A custom component to use instead of the default button */
-  component?: React.ComponentType;
+  component?: React.ComponentType<ButtonProps>;
   /** Internal use only. Please use `ref` to forward refs */
   consumerRef?: ConsumerRef;
   /** Provides a url for buttons being used as a link */
@@ -42,7 +42,7 @@ export interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
   /** Handler to be called on click. The second argument can be used to track analytics data. See the tutorial in the analytics-next package for details */
   onClick?: (
     e: React.MouseEvent<HTMLElement>,
-    analyticsEvent?: UIAnalyticsEvent,
+    analyticsEvent: UIAnalyticsEvent,
   ) => void;
   onMouseDown?: React.MouseEventHandler<HTMLElement>;
   onMouseEnter?: React.MouseEventHandler<HTMLElement>;
@@ -61,7 +61,7 @@ export interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
     current: (props: ThemeProps) => ThemeTokens,
     props: ThemeProps,
   ) => ThemeTokens;
-}
+};
 
 export type ConsumerRef =
   | string
@@ -70,13 +70,6 @@ export type ConsumerRef =
   | undefined;
 
 export type Spacing = 'compact' | 'default' | 'none';
-
-export type DerivedButtonProps = {
-  isActive: boolean;
-  isFocus: boolean;
-  isHover: boolean;
-  fit: boolean;
-} & ButtonProps;
 
 export type ThemeMode = 'dark' | 'light';
 

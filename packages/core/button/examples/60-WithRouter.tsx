@@ -1,42 +1,22 @@
 import * as React from 'react';
-// @ts-ignore
 import { Link, MemoryRouter } from 'react-router-dom';
 import Button from '../src';
-
-type Props = {
-  className?: string;
-  href?: string;
-  onMouseEnter?: React.MouseEventHandler;
-  onMouseLeave?: React.MouseEventHandler;
-};
-
-class RouterLink extends React.Component<Props, {}> {
-  render() {
-    const {
-      children,
-      className,
-      href,
-      onMouseEnter,
-      onMouseLeave,
-    } = this.props;
-
-    return (
-      <Link
-        className={className}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        to={href}
-      >
-        {children}
-      </Link>
-    );
-  }
-}
+import { ButtonProps } from '../src/types';
 
 const ButtonWithRouter = () => (
   <div>
     <MemoryRouter>
-      <Button appearance="subtle-link" href="/" component={RouterLink}>
+      <Button
+        appearance="subtle-link"
+        href="/"
+        component={React.forwardRef<HTMLElement, ButtonProps>(
+          ({ href = '', children, ...rest }, ref: any) => (
+            <Link {...rest} to={href} innerRef={ref}>
+              {children}
+            </Link>
+          ),
+        )}
+      >
         Button Using Routing
       </Button>
     </MemoryRouter>

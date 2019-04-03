@@ -10,8 +10,8 @@ import { NavGroup } from '../../../types';
 export type RouterLinkProps = {
   children?: React.ReactNode;
   className?: string;
-  href?: string | Record<string, string | Location>;
-  onClick?: (e: Event) => void;
+  href: string | Record<string, string | Location>;
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
   pathname: string;
   replace?: boolean;
   subNav?: Array<NavGroup>;
@@ -72,7 +72,7 @@ const RouterLink = ({
 export const RouterNavigationItem = (props: RouterLinkProps) => {
   return (
     <AkNavigationItem
-      linkComponent={toClass(linkProps => (
+      linkComponent={toClass((linkProps: RouterLinkProps) => (
         <RouterLink
           onClick={props.onClick}
           pathname={props.pathname}

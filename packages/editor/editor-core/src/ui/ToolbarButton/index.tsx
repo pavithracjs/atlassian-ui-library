@@ -31,7 +31,7 @@ export default class ToolbarButton extends React.PureComponent<Props, {}> {
         aria-haspopup
         className={this.props.className}
         href={this.props.href}
-        aria-label={this.props.ariaLabel}
+        aria-label={this.props['aria-label']}
         iconAfter={this.props.iconAfter}
         iconBefore={this.props.iconBefore}
         isDisabled={this.props.disabled}
