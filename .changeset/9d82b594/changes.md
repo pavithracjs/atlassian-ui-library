@@ -1,0 +1,1 @@
+- ED-6627: fix re-rendering table controls when table is nested inside Columns or bodied extensions

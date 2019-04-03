@@ -13,6 +13,7 @@ import {
   mapBreakpointToLayoutMaxWidth,
   absoluteBreakoutWidth,
 } from '@atlaskit/editor-common';
+import { gridSize } from '@atlaskit/theme';
 
 export const tableLayoutToSize: Record<string, number> = {
   default: akEditorDefaultLayoutWidth,
@@ -181,6 +182,13 @@ export const getParentNodeWidth = (
   if (node.type === schema.nodes.layoutSection) {
     parentWidth = parentWidth / node.childCount;
   }
+
+  // Need to account for the padding of the parent node
+  const padding =
+    node.type === schema.nodes.layoutSection
+      ? gridSize() * 2 // layout
+      : gridSize() * 4; // bodied extension
+  parentWidth -= padding;
 
   return parentWidth;
 };
