@@ -1,4 +1,5 @@
 //@flow
+/*flow-disable*/
 /* 
 WIP This codemod was build during shipit it's changes should be carefully scrutinized before shipping ;)
 */
@@ -106,3 +107,4 @@ export default function transformer(file, api) {
     })
     .toSource();
 }
+/*flow-enable*/
