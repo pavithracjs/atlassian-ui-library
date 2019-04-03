@@ -1,0 +1,1 @@
+- Updated InviteAvatorIcon in UserPicker to be not transparent
