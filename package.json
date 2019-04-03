@@ -25,8 +25,8 @@
     "delete:modules": "                      bolt ws exec --parallel -- rm -rf node_modules && rm -rf node_modules",
     "delete:build": "                        bolt ws exec --parallel -- rm -rf dist",
     "enable:lfs": "                          node enable-lfs-hooks.js",
-    "test": "                                MODULE_MAP=$(yarn -s get-multi-entry-map) yarn jest",
-    "test:CI": "                             MODULE_MAP=$(yarn -s get-multi-entry-map) node ./build/jest-config/run.jest.with.analytics.reports.js",
+    "test": "                                yarn jest",
+    "test:CI": "                             node ./build/jest-config/run.jest.with.analytics.reports.js",
     "test:changed": "                        CHANGED_PACKAGES=$(node build/ci-scripts/get.changed.packages.since.master.js) COVERAGE_PACKAGES=$(node build/ci-scripts/get.code.threshold.for.changed.packages.since.master.js) yarn test:CI",
     "test:browser": "                        projector ./projector testBrowser",
     "test:browser:watch": "                  projector ./projector testBrowser --watch",
@@ -36,7 +36,7 @@
     "test:webdriver:watch:chrome": "         HEADLESS=false WATCH=true node ./build/webdriver-runner/index.js",
     "test:webdriver:browserstack": "         TEST_ENV=browserstack node ./build/webdriver-runner/index.js",
     "test:webdriver:browserstack:changed": " CHANGED_PACKAGES=$(node build/ci-scripts/get.changed.packages.since.master.js) yarn test:webdriver:browserstack",
-    "test:vr": "                             MODULE_MAP=$(yarn -s get-multi-entry-map) node ./build/visual-regression/index.js",
+    "test:vr": "                             node ./build/visual-regression/index.js",
     "test:vr:changed": "                     CHANGED_PACKAGES=$(node build/ci-scripts/get.changed.packages.since.master.js) yarn test:vr",
     "test:vr:dependents": "                  CHANGED_PACKAGES=$(node build/ci-scripts/get.changed.packages.since.master.js --dependents='direct') yarn test:vr",
     "lint": "                                yarn run lint:eslint && yarn run lint:tslint && yarn run lint:stylelint",
@@ -85,8 +85,7 @@
     "build:bundle-analysis": "               node ./build/ci-scripts/run.bundle.analysis",
     "build:css-reset": "                     BABEL_ENV=production:esm bolt w @atlaskit/css-reset run build",
     "build:reduced-ui-pack": "               BABEL_ENV=production:esm bolt w @atlaskit/reduced-ui-pack run build",
-    "build:adf-schema:checkuptodate": "      cd packages/editor/adf-schema && yarn run generate:json-schema && git diff --exit-code",
-    "get-multi-entry-map": "                 get-multi-entry-map"
+    "build:adf-schema:checkuptodate": "      cd packages/editor/adf-schema && yarn run generate:json-schema && git diff --exit-code"
   },
   "bolt": {
     "version": "^0.20.6 || ^0.21.1 || ^0.22.1",

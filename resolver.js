@@ -3,6 +3,12 @@ const fs = require('fs');
 const path = require('path');
 const resolveFrom = require('resolve-from');
 
+/* 
+These modules should not have their imports resolved differently 
+as their src is in root of the package.
+*/
+const blockedFromMultiEntryPointsModuleList = ['build-utils', 'polyfills'];
+
 /** This file is used to resolve imports in jest.
  *  This is used to make sure that packages resolve using the same algorithm as our webpack config
  *  (checking for "atlaskit:src", etc) meaning that we dont need the old root index.js hack anymore
@@ -28,8 +34,30 @@ module.exports = function resolver(
     } catch (e) {} // eslint-disable-line
   }
 
+  /*
+  The alternative entry files are only created at publish time. So for jest we resolve 
+  import { N0 } from '@atlaskit/theme/colors'
+  to
+  import { N0 } from '@atlaskit/theme/src/colors'
+   */
+  let alternativeEntryModulePath;
+  if (
+    modulePath.startsWith('@atlaskit/') &&
+    modulePath.split('/').length === 3
+  ) {
+    const [, moduleName, entryPoint] = modulePath.split('/');
+
+    if (blockedFromMultiEntryPointsModuleList.indexOf(moduleName) === -1) {
+      alternativeEntryModulePath = `@atlaskit/${moduleName}/src/${entryPoint}`;
+    }
+  }
+
   // Otherwise try to resolve to source files of AK packages using webpack resolver
-  let result = wpResolver.resolveSync({}, params.basedir, modulePath);
+  let result = wpResolver.resolveSync(
+    {},
+    params.basedir,
+    alternativeEntryModulePath || modulePath,
+  );
 
   if (result) {
     // Dereference symlinks to ensure we don't create a separate
