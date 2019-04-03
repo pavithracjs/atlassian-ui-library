@@ -8,6 +8,13 @@ const AddOptionAvatarWrapper = styled.span`
   padding: 2px;
 `;
 
+// This is a workaround for using Skeleton
+// as Skeleton is preset with opacity, and altering the fill-color in hover state
+const WhiteBackgroundWrapper = styled.div`
+  background-color: white;
+  border-radius: 50%;
+`;
+
 export type AddOptionAvatarProps = {
   label: string;
   size?: 'small' | 'large';
@@ -17,9 +24,11 @@ export const AddOptionAvatar: React.StatelessComponent<
   AddOptionAvatarProps
 > = ({ size, label }) => (
   <AddOptionAvatarWrapper>
-    <Skeleton size={size}>
-      <InviteTeamIcon label={label} size={size} primaryColor="white" />
-    </Skeleton>
+    <WhiteBackgroundWrapper>
+      <Skeleton size={size}>
+        <InviteTeamIcon label={label} size={size} primaryColor="white" />
+      </Skeleton>
+    </WhiteBackgroundWrapper>
   </AddOptionAvatarWrapper>
 );
 
