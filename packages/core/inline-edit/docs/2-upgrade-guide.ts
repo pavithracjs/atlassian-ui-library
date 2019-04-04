@@ -99,7 +99,7 @@ ${code`
 - **areActionButtonsHidden:** Renamed to ***hideActionButtons***.
 - **isConfirmOnBlurDisabled:** Renamed to ***keepEditViewOpenOnBlur***.
 - **onCancel:** Not exposed.
-- **labelHtmlFor:** Not implemented.
+- **labelHtmlFor:** Label already references corresponding input (name is spread through editViewProps).
 - **shouldConfirmOnEnter:** Implemented by a combination of the Form component used internally
 and the type of input used by the consumer in the edit view. Fields like textfield, select and
 textarea have this functionality built in.
