@@ -7,14 +7,14 @@ declare module 'react-transition-group/Transition' {
 
 jest.mock('react-transition-group/Transition', () => {
   let status: TransitionStatus = 'exited';
-  return {
-    __setStatus__: (s: TransitionStatus) => (status = s),
-    default: ({
-      children,
-    }: {
-      children: (status: TransitionStatus) => React.ReactNode;
-    }) => children(status),
-  };
+  const component = ({
+    children,
+  }: {
+    children: (status: TransitionStatus) => React.ReactNode;
+  }) => children(status);
+  component.__setStatus__ = (s: TransitionStatus) => (status = s);
+
+  return component;
 });
 
 import * as React from 'react';
