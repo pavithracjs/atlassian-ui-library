@@ -16,7 +16,6 @@
   },
   "devDependencies": {
     "@atlaskit/docs": "^7.0.1",
-    "@types/xregexp": "^3.0.29",
     "ttypescript": "^1.5.5"
   },
   "maintainers": [
