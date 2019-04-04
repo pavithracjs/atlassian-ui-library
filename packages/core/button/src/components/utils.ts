@@ -30,7 +30,8 @@ export const mapAttributesToState = ({
 };
 
 export const filterProps = (
-  props: Partial<ButtonProps>,
+  // @ts-ignore - createAnalyticsEvent is injected from WithAnalyticsEvents HOC
+  { createAnalyticsEvent, ...props }: Partial<ButtonProps>,
   type: React.ReactNode,
 ) => {
   if (type === 'span') {
