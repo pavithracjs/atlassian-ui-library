@@ -73,7 +73,7 @@ pipelines:
             caches:
               - node
         - step:
-            name: Unit Testing non-Editor
+            name: Unit Testing non Editor
             script:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
@@ -81,7 +81,7 @@ pipelines:
               - TEST_ONLY_PATTERN='!packages/editor' yarn test:changed --passWithNoTests
             caches:
               - node
-          - step:
+        - step:
             name: Unit Testing Editor
             script:
               - source ./build-setup.sh
