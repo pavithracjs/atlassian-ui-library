@@ -15,7 +15,7 @@ export default class InlineEditExample extends React.Component<void, State> {
     return (
       <div style={{ padding: '0 16px 60px' }}>
         <InlineEditableTextfield
-          editValue={this.state.editValue}
+          defaultValue={this.state.editValue}
           label="Inline editable textfield"
           onConfirm={value => this.setState({ editValue: value })}
           placeholder="Click to enter text"

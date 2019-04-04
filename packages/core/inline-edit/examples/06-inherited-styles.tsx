@@ -30,7 +30,7 @@ export default class InlineEditExample extends React.Component {
       <div style={{ padding: '0 24px' }}>
         <div style={{ fontSize: '24px', fontWeight: 'bold' }}>
           <InlineEdit
-            editValue="Field Value"
+            defaultValue="Field Value"
             editView={({ ref, ...rest }) => (
               <EditView {...rest} innerRef={ref} />
             )}
@@ -40,7 +40,7 @@ export default class InlineEditExample extends React.Component {
         </div>
         <div style={{ fontSize: '14px' }}>
           <InlineEdit
-            editValue="Field Value"
+            defaultValue="Field Value"
             editView={({ ref, ...rest }) => (
               <EditView {...rest} innerRef={ref} />
             )}

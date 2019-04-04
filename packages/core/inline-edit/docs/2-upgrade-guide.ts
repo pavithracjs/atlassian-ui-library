@@ -52,7 +52,7 @@ The above code could be written in v9 as:
 
 ${code`
   <InlineEdit
-    editValue={this.state.editValue}
+    defaultValue={this.state.editValue}
     editView={editViewProps => <TextField {...editViewProps} />}
     readView={() => (
       <ReadViewContainer>
@@ -67,7 +67,7 @@ Or even as:
 
 ${code`
   <InlineEditableTextfield
-    editValue={this.state.editValue}
+    defaultValue={this.state.editValue}
     onConfirm={value => this.setState({ editValue: value })}
     placeholder="Click to enter value"
   />
@@ -75,7 +75,7 @@ ${code`
 
 ### 🆕 Props added:
 
-- **editValue**: The value which the input starts with when entering the edit view.
+- **defaultValue**: The value which the input starts with when entering the edit view.
   Should be updated in the onConfirm handler. (***Required***)
 - **startWithEditViewOpen:** Mount the component in an editing state.
 - **keepEditViewOpenOnBlur:** Determines whether onConfirm handler is called when user clicks

@@ -32,7 +32,7 @@ class InlineEditableTextfield extends React.Component<
     return (
       <InlineEdit
         {...this.props}
-        editValue={editValue}
+        defaultValue={editValue}
         editView={editViewProps => (
           <TextField
             {...editViewProps}

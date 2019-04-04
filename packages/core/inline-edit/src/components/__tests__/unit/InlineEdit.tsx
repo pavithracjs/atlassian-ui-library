@@ -22,7 +22,7 @@ describe('@atlaskit/inline-edit core', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={noop}
-        editValue=""
+        defaultValue=""
         label="test"
         placeholder=""
       />,
@@ -32,7 +32,11 @@ describe('@atlaskit/inline-edit core', () => {
 
   it('does not render a label when label prop is not passed', () => {
     const wrapper = mount(
-      <InlineEditableTextfield onConfirm={noop} editValue="" placeholder="" />,
+      <InlineEditableTextfield
+        onConfirm={noop}
+        defaultValue=""
+        placeholder=""
+      />,
     );
     expect(wrapper.find('label').length).toBe(0);
   });
@@ -42,7 +46,7 @@ describe('@atlaskit/inline-edit core', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={spy}
-        editValue=""
+        defaultValue=""
         placeholder=""
         startWithEditViewOpen
         keepEditViewOpenOnBlur
@@ -59,7 +63,7 @@ describe('@atlaskit/inline-edit core', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={noop}
-        editValue=""
+        defaultValue=""
         placeholder=""
         startWithEditViewOpen
       />,
@@ -71,7 +75,7 @@ describe('@atlaskit/inline-edit core', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={noop}
-        editValue=""
+        defaultValue=""
         placeholder=""
         startWithEditViewOpen
         hideActionButtons
@@ -84,7 +88,7 @@ describe('@atlaskit/inline-edit core', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={noop}
-        editValue=""
+        defaultValue=""
         placeholder="test"
         readViewFitContainerWidth
       />,
@@ -97,14 +101,22 @@ describe('@atlaskit/inline-edit core', () => {
 
   it('displays readView', () => {
     const wrapper = mount(
-      <InlineEditableTextfield onConfirm={noop} editValue="" placeholder="" />,
+      <InlineEditableTextfield
+        onConfirm={noop}
+        defaultValue=""
+        placeholder=""
+      />,
     );
     expect(wrapper.find(ReadViewContainer).length).toBe(1);
   });
 
   it('renders a button as a sibling to the read view', () => {
     const wrapper = mount(
-      <InlineEditableTextfield onConfirm={noop} editValue="" placeholder="" />,
+      <InlineEditableTextfield
+        onConfirm={noop}
+        defaultValue=""
+        placeholder=""
+      />,
     );
     expect(wrapper.find(ReadViewWrapper).find('button').length).toBe(1);
     expect(wrapper.find(ReadViewContentWrapper).find('button').length).toBe(0);
@@ -118,7 +130,7 @@ describe('@atlaskit/inline-edit core', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={noop}
-        editValue="test"
+        defaultValue="test"
         placeholder=""
         startWithEditViewOpen
       />,
@@ -129,7 +141,11 @@ describe('@atlaskit/inline-edit core', () => {
 
   it('switches to editView when the read view is clicked', () => {
     const wrapper = mount(
-      <InlineEditableTextfield onConfirm={noop} editValue="" placeholder="" />,
+      <InlineEditableTextfield
+        onConfirm={noop}
+        defaultValue=""
+        placeholder=""
+      />,
     );
     expect(wrapper.find(InlineEditUncontrolled).prop('isEditing')).toBe(false);
     wrapper.find(ReadViewContentWrapper).simulate('click');
@@ -139,7 +155,11 @@ describe('@atlaskit/inline-edit core', () => {
   it('switches to editView when the edit button is focused and enter is pressed', () => {
     /** This test uses simulate('click') to simulate a keydown of Enter on the edit button */
     const wrapper = mount(
-      <InlineEditableTextfield onConfirm={noop} editValue="" placeholder="" />,
+      <InlineEditableTextfield
+        onConfirm={noop}
+        defaultValue=""
+        placeholder=""
+      />,
     );
     expect(wrapper.find(InlineEditUncontrolled).prop('isEditing')).toBe(false);
     wrapper.find(EditButton).simulate('click');
@@ -151,7 +171,7 @@ describe('@atlaskit/inline-edit core', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={spy}
-        editValue=""
+        defaultValue=""
         placeholder=""
         startWithEditViewOpen
       />,
@@ -167,7 +187,7 @@ describe('@atlaskit/inline-edit core', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={spy}
-        editValue=""
+        defaultValue=""
         placeholder=""
         startWithEditViewOpen
       />,
@@ -185,7 +205,7 @@ describe('@atlaskit/inline-edit core', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={spy}
-        editValue=""
+        defaultValue=""
         placeholder=""
         startWithEditViewOpen
       />,
@@ -204,7 +224,7 @@ describe('@atlaskit/inline-edit core', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={spy}
-        editValue=""
+        defaultValue=""
         placeholder=""
         startWithEditViewOpen
       />,
@@ -217,7 +237,11 @@ describe('@atlaskit/inline-edit core', () => {
 
   it('has default aria tags', () => {
     const wrapper = mount(
-      <InlineEditableTextfield onConfirm={noop} editValue="" placeholder="" />,
+      <InlineEditableTextfield
+        onConfirm={noop}
+        defaultValue=""
+        placeholder=""
+      />,
     );
     const button = wrapper.find(EditButton);
     expect(button.prop('aria-label')).toBe('Edit');
@@ -230,7 +254,7 @@ describe('@atlaskit/inline-edit core', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={noop}
-        editValue=""
+        defaultValue=""
         placeholder=""
         editButtonLabel="test-edit"
         confirmButtonLabel="test-confirm"
@@ -250,7 +274,7 @@ describe('@atlaskit/inline-editable-textfield', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={noop}
-        editValue=""
+        defaultValue=""
         placeholder="test-empty-value"
       />,
     );
@@ -261,7 +285,11 @@ describe('@atlaskit/inline-editable-textfield', () => {
 
   it('focuses on the input when the read view is clicked', () => {
     const wrapper = mount(
-      <InlineEditableTextfield onConfirm={noop} editValue="" placeholder="" />,
+      <InlineEditableTextfield
+        onConfirm={noop}
+        defaultValue=""
+        placeholder=""
+      />,
     );
     wrapper.find(EditButton).simulate('click');
     expect(document.activeElement).toEqual(
@@ -273,7 +301,7 @@ describe('@atlaskit/inline-editable-textfield', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={noop}
-        editValue=""
+        defaultValue=""
         placeholder=""
         startWithEditViewOpen
       />,
@@ -287,7 +315,7 @@ describe('@atlaskit/inline-editable-textfield', () => {
     const wrapper = mount(
       <InlineEditableTextfield
         onConfirm={noop}
-        editValue="test-value"
+        defaultValue="test-value"
         placeholder=""
       />,
     );
@@ -300,7 +328,7 @@ describe('@atlaskit/inline-edit', () => {
     const wrapper = mount(
       <InlineEdit
         onConfirm={noop}
-        editValue=""
+        defaultValue=""
         readView={() => <div id="test" />}
         editView={() => <div />}
       />,
@@ -312,7 +340,7 @@ describe('@atlaskit/inline-edit', () => {
     const wrapper = mount(
       <InlineEdit
         onConfirm={noop}
-        editValue=""
+        defaultValue=""
         readView={() => <div />}
         editView={() => <div id="test" />}
         startWithEditViewOpen
@@ -334,7 +362,11 @@ describe('@atlaskit/inline-edit', () => {
 
   it('mounts without errors', () => {
     mount(
-      <InlineEditableTextfield onConfirm={noop} editValue="" placeholder="" />,
+      <InlineEditableTextfield
+        onConfirm={noop}
+        defaultValue=""
+        placeholder=""
+      />,
     );
     /* tslint:disable no-console */
     expect(console.warn).not.toHaveBeenCalled();

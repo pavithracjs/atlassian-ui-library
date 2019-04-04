@@ -34,7 +34,7 @@ export interface InlineEditUncontrolledProps extends CommonProps {
   /** Whether the component shows the readView or the editView. */
   isEditing: boolean;
   /** The value shown in the editView when it is entered. Should be updated by onConfirm. */
-  editValue: any;
+  defaultValue: any;
   /** Handler called when readView is clicked. */
   onEditRequested: () => void;
   /**
@@ -59,7 +59,7 @@ export interface InlineEditProps extends CommonProps {
    */
   onConfirm: (value: any, analyticsEvent: UIAnalyticsEvent) => void;
   /** The value shown in the editView when it is entered. Should be updated by onConfirm. */
-  editValue: any;
+  defaultValue: any;
   /** Determines whether isEditing begins as true. */
   startWithEditViewOpen?: boolean;
 }
@@ -71,7 +71,7 @@ export interface InlineEditableTextfieldProps extends CommonProps {
    */
   onConfirm: (value: string, analyticsEvent: UIAnalyticsEvent) => void;
   /** The value shown in the editView when it is entered. Should be updated by onConfirm. */
-  editValue: any;
+  defaultValue: any;
   /** Text shown in read view when value is an empty string. */
   placeholder: string;
   /** Determines whether isEditing begins as true. */

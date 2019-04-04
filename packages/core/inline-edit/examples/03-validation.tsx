@@ -46,7 +46,7 @@ export default class InlineEditExample extends React.Component<void, State> {
     return (
       <div style={{ padding: '0 16px', width: '70%' }}>
         <InlineEdit
-          editValue={this.state.editValue}
+          defaultValue={this.state.editValue}
           label="Inline edit validation"
           editView={editViewProps => (
             <TextField
