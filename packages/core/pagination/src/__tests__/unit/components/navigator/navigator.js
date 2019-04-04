@@ -22,7 +22,8 @@ describe(`${name} - navigator`, () => {
     );
     expect(wrapper.text()).toBe('$');
   });
-  it('should pass in aria-label as aria-label to button', () => {
+
+  it('should pass in aria-label to button', () => {
     const wrapper = mount(<NavigatorWithAnalytics aria-label="pehla" />);
     expect(wrapper.find(Button).prop('aria-label')).toBe('pehla');
   });

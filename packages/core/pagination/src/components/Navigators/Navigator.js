@@ -18,7 +18,7 @@ export type NavigatorPropsType = {
   styles?: Object,
 };
 
-export default ({ selectedIndex, ...props }: ButtonProps) => (
+export default (props: ButtonProps) => (
   <Button
     {...props}
     appearance="subtle"
