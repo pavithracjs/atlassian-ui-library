@@ -3,6 +3,7 @@ import * as ts from 'typescript';
  @types/xregexp is not compatible with esModuleInterop
  so opting out of typechecking on xregexp since it's a dev tool anyway
  */
+/* tslint:disable:no-var-requires */
 const XRegExp: any = require('xregexp');
 
 const getArrayElement = (args: any, index: number): any | undefined =>
