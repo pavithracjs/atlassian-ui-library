@@ -5,7 +5,7 @@ interface CheckedItems {
   [value: string]: boolean;
 }
 interface State {
-  checkedItems: CheckedItems;
+  checkedItems: Record<string, boolean>;
 }
 
 const PARENT_ID: string = 'PARENT';

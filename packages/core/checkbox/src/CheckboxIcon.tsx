@@ -6,7 +6,7 @@ import { CheckboxIconProps } from './types';
 
 export default class CheckboxIcon extends React.Component<
   CheckboxIconProps,
-  any
+  {}
 > {
   static defaultProps = {
     primaryColor: 'inherit',
