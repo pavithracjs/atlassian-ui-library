@@ -39,6 +39,7 @@ const webpackConfig = {
     alias: {
       sinon: 'sinon/pkg/sinon',
     },
+    mainFields: ['atlaskit:src', 'module', 'browser', 'main'],
   },
   externals: {
     'react/addons': true,
@@ -55,13 +56,6 @@ async function getKarmaConfig({ cwd, watch, browserstack }) {
   const moduleResolveMapBuilder = require('@atlaskit/multi-entry-tools/module-resolve-map-builder');
 
   const alternativeEntries = await moduleResolveMapBuilder();
-
-  webpackConfig.resolve.mainFields = [
-    'atlaskit:src',
-    'module',
-    'browser',
-    'main',
-  ];
 
   webpackConfig.resolve.alias = {
     ...webpackConfig.resolve.alias,
