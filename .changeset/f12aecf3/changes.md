@@ -1,0 +1,1 @@
+- ED-6558 Fix clicking to set the cursor placement after an inline node that's at the end of a line
