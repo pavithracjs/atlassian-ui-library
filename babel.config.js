@@ -22,23 +22,7 @@ module.exports = {
         './packages/core/textfield',
         './packages/core/select',
       ],
-      env: {
-        'production:cjs': {
-          presets: [
-            ['@babel/env', { modules: 'commonjs' }],
-            '@emotion/babel-preset-css-prop',
-          ],
-        },
-        'production:esm': {
-          presets: [
-            ['@babel/env', { modules: false }],
-            '@emotion/babel-preset-css-prop',
-          ],
-        },
-        test: {
-          presets: ['@babel/env', '@emotion/babel-preset-css-prop'],
-        },
-      },
+      presets: ['@emotion/babel-preset-css-prop'],
     },
   ],
   env: {
