@@ -56,7 +56,7 @@ const waitForAllPickersInitialised = async (pluginState: MediaPluginState) => {
   }
 };
 
-describe('Media with mock facade', () => {
+describe.skip('Media with mock facade', () => {
   const createEditor = createEditorFactory<MediaPluginState>();
   const mediaProvider = getFreshMediaProvider();
   const providerFactory = ProviderFactory.create({ mediaProvider });
