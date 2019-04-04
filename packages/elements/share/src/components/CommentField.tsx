@@ -25,6 +25,7 @@ export const CommentField: React.StatelessComponent<Props> = ({
               })
             }
             value={fieldProps.value && fieldProps.value.value}
+            maxLength={500}
             minimumRows={3}
             shouldFitContainer
             isLabelHidden
