@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { v4 as uuid } from 'uuid';
+import uuidV4 from 'uuid/v4';
 import { Subscription } from 'rxjs/Subscription';
 import { Context, UploadableFile, FileIdentifier } from '@atlaskit/media-core';
 import { messages, Shortcut } from '@atlaskit/media-ui';
@@ -162,7 +162,7 @@ export class SmartMediaEditor extends React.Component<
       collection: collectionName,
       name: fileName,
     };
-    const id = uuid();
+    const id = uuidV4();
     const touchedFiles = context.file.touchFiles(
       [
         {
