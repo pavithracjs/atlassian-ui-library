@@ -79,11 +79,23 @@ async function getKarmaConfig({ cwd, watch, browserstack }) {
 
   const moduleResolveMapBuilder = require('@atlaskit/multi-entry-tools/module-resolve-map-builder');
   const aliases = await getAliases(cwd);
+  const alternativeEntries = await moduleResolveMapBuilder();
+
+  webpackConfig.resolve.mainFields = [
+    'atlaskit:src',
+    'module',
+    'browser',
+    'main',
+  ];
+
   webpackConfig.resolve.alias = {
     ...aliases,
     ...webpackConfig.resolve.alias,
-    ...(await moduleResolveMapBuilder()),
+    ...alternativeEntries,
   };
+
+  // TODO: Temporary need to find a more "correct" fix
+  delete webpackConfig.resolve.alias['@atlaskit/theme'];
 
   const config = {
     port: 9876,
