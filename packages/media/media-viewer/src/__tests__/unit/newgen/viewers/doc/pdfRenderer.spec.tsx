@@ -1,19 +1,19 @@
 jest.mock('pdfjs-dist/build/pdf', () => ({
   __esModule: true, // this property makes it work
   GlobalWorkerOptions: {
-    workerSrc: ''
+    workerSrc: '',
   },
   getDocument: jest.fn(),
 }));
 
 jest.mock('pdfjs-dist/web/pdf_viewer', () => ({
   __esModule: true, // this property makes it work
-  PDFViewer: jest.fn(() => {
+  PDFViewer: jest.fn().mockImplementation(() => {
     return {
       setDocument: jest.fn(),
       firstPagePromise: new Promise(() => {}),
     };
-  })
+  }),
 }));
 
 import * as React from 'react';
@@ -33,7 +33,9 @@ import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 
 function createFixture(documentPromise: Promise<any>) {
   const onClose = jest.fn();
-  (pdfjsLib.getDocument as jest.Mock<{}>).mockReturnValue(documentPromise);
+  (pdfjsLib.getDocument as jest.Mock<{}>).mockReturnValue({
+    promise: documentPromise,
+  });
 
   const el = mountWithIntlContext<Props, State>(
     <PDFRenderer src={''} onClose={onClose} />,
@@ -42,6 +44,14 @@ function createFixture(documentPromise: Promise<any>) {
 }
 
 describe('PDFRenderer', () => {
+  beforeEach(() => {
+    (PDFJSViewer.PDFViewer as jest.Mock<{}>).mockImplementation(() => {
+      return {
+        setDocument: jest.fn(),
+        firstPagePromise: new Promise(() => {}),
+      };
+    });
+  });
   afterEach(() => {
     (pdfjsLib.getDocument as jest.Mock<{}>).mockReset();
     (PDFJSViewer.PDFViewer as jest.Mock<{}>).mockReset();
@@ -54,7 +64,7 @@ describe('PDFRenderer', () => {
     el.update();
 
     expect(el.state('zoomLevel').value).toEqual(1);
-    
+
     expect(el.state('doc').status).toEqual('SUCCESSFUL');
     expect(el.find(ZoomControls)).toHaveLength(1);
     el.find(ZoomControls)
@@ -79,7 +89,7 @@ describe('PDFRenderer', () => {
     el.update();
 
     const errorMessage = el.find(ErrorMessage);
-    
+
     expect(errorMessage).toHaveLength(1);
     expect(errorMessage.text()).toContain(
       "We couldn't generate a preview for this file",
