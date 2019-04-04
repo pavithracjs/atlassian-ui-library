@@ -26,5 +26,10 @@ const InlineNode = styled.span`
 `;
 
 export default function UnsupportedInlineNode() {
-  return <InlineNode>Unsupported content</InlineNode>;
+  return (
+    <span>
+      <InlineNode>Unsupported content</InlineNode>
+      {String.fromCharCode(8203)}
+    </span>
+  );
 }
