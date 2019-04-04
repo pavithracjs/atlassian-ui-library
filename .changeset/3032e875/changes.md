@@ -1,0 +1,1 @@
+- FS-3764 move dependencies to peer dependencies
