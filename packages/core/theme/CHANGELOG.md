@@ -1,5 +1,16 @@
 # @atlaskit/theme
 
+## 8.1.4
+- [patch] [4368278bb4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4368278bb4):
+
+  - Added components entry point allowing consumers to pull in just what they need out of theme (smaller bundle sizes!)
+
+  ```
+  import { N500, N0 } from '@atlaskit/theme/colors';
+  import { focusRing } from '@atlaskit/theme/constants';
+  import { withTheme } from '@atlaskit/theme/components';
+  ```
+
 ## 8.1.3
 - [patch] [b4732a178b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b4732a178b):
 

@@ -88,10 +88,11 @@ export const mockEndpoints = (
   );
   fetchMock.post(
     '/gateway/api/permissions/permitted',
-    () =>
+    (_: string, options: any) =>
       new Promise(res =>
         setTimeout(
-          () => res(USER_PERMISSION_DATA),
+          () =>
+            res(USER_PERMISSION_DATA[JSON.parse(options.body).permissionId]),
           loadTimes && loadTimes.permitted,
         ),
       ),
