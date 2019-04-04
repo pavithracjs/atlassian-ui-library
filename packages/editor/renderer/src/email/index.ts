@@ -28,6 +28,7 @@ const serializeNode = (
       ...parentAttrs,
     },
     marks: node.marks,
+    parent: parent,
     text:
       serializedHTML || node.attrs.text || node.attrs.shortName || node.text,
   });

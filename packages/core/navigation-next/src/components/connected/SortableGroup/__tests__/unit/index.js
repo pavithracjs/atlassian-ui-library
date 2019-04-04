@@ -24,7 +24,7 @@ describe('SortableGroup', () => {
     droppableRenderArgs = [
       {
         droppableProps: {
-          mySpecialProp: 'foo',
+          myspecialprop: 'foo',
         },
         placeholder: () => <span>Placeholder</span>,
         innerRef: droppableRef,
@@ -74,9 +74,10 @@ describe('SortableGroup', () => {
   it('should spread droppable provided props onto div wrapper around Group', () => {
     const wrapper = shallow(
       <SortableGroup {...baseProps}>Group children</SortableGroup>,
-    ).dive();
+    )
+      .find(Droppable)
+      .dive();
 
-    expect(wrapper.is('div')).toBe(true);
     expect(wrapper.props()).toEqual(
       expect.objectContaining({
         ...droppableRenderArgs[0].droppableProps,

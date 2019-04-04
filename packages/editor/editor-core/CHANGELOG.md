@@ -1,5 +1,17 @@
 # @atlaskit/editor-core
 
+## 107.7.7
+- [patch] [ce8caf29d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce8caf29d5):
+
+  - ED-6463: fix contextual menu vertical position
+
+## 107.7.6
+- [patch] [eea996dac5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eea996dac5):
+
+  - ED-6598: Toggling `fullWidthMode` now re-creates `EditorView` instead of only re-creating `EditorState`
+
+  This enables us to call updates on contentComponents and nodeViews
+
 ## 107.7.5
 - [patch] [29d10e3d60](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29d10e3d60):
 

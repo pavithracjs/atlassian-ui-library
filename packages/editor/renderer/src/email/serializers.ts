@@ -36,6 +36,7 @@ import layoutColumn from './nodes/layoutColumn';
 import layoutSection from './nodes/layoutSection';
 import bodiedExtension from './nodes/bodiedExtension';
 import inlineExtension from './nodes/inlineExtension';
+import date from './nodes/date';
 
 import code from './marks/code';
 import em from './marks/em';
@@ -87,6 +88,7 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   text,
   unknownBlock,
   status,
+  date,
 };
 
 export const markSerializers: { [key: string]: MarkSerializer } = {

@@ -10,7 +10,7 @@ const baseStyles = {
   wrapper: {
     alignItems: 'center',
     display: 'flex',
-    height: `${gridSize * 5}`,
+    height: `${gridSize * 5}px`,
     paddingLeft: `${gridSize * 1.5}px`,
     paddingRight: `${gridSize * 1.5}px`,
     opacity: 0.5,

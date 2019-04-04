@@ -1,5 +1,5 @@
 import { MentionDescription } from '../../types';
 
-export interface DescriptionHighlightProps {
+export interface DescriptionBylineProps {
   mention: MentionDescription;
 }

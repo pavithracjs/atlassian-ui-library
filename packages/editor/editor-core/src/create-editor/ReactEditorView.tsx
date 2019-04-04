@@ -84,6 +84,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
   editorState: EditorState;
   errorReporter: ErrorReporter;
   dispatch: Dispatch;
+  mountPoint: HTMLDivElement;
   analyticsEventHandler: (
     payloadChannel: { payload: AnalyticsEventPayload; channel?: string },
   ) => void;
@@ -158,9 +159,11 @@ export default class ReactEditorView<T = {}> extends React.Component<
 
     if (
       nextProps.editorProps.fullWidthMode !==
-      this.props.editorProps.fullWidthMode
+        this.props.editorProps.fullWidthMode &&
+      this.view
     ) {
       this.reconfigureState(nextProps);
+      this.recreateEditor(this.mountPoint);
     }
   }
 
@@ -195,7 +198,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
       selection: state.selection,
     });
 
-    return this.view.updateState(newState);
+    this.editorState = newState;
   };
 
   /**
@@ -329,6 +332,9 @@ export default class ReactEditorView<T = {}> extends React.Component<
   };
 
   createEditorView = (node: HTMLDivElement) => {
+    if (!this.mountPoint) {
+      this.mountPoint = node;
+    }
     // Creates the editor-view from this.editorState. If an editor has been mounted
     // previously, this will contain the previous state of the editor.
     this.view = new EditorView(
@@ -382,13 +388,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
 
   handleEditorViewRef = (node: HTMLDivElement) => {
     if (!this.view && node) {
-      this.createEditorView(node);
-      this.props.onEditorCreated({
-        view: this.view!,
-        config: this.config,
-        eventDispatcher: this.eventDispatcher,
-        transformer: this.contentTransformer,
-      });
+      this.recreateEditor(node);
 
       // Set the state of the EditorDisabled plugin to the current value
       this.broadcastDisabled(!!this.props.editorProps.disabled);
@@ -408,6 +408,25 @@ export default class ReactEditorView<T = {}> extends React.Component<
       this.view.destroy(); // Destroys the dom node & all node views
       this.view = undefined;
     }
+  };
+
+  /**
+   * Generic function to destroy the current `EditorView` if one exists
+   * Then re-create the view onto the specified `mountPoint`.
+   */
+  recreateEditor = (mountPoint: HTMLDivElement) => {
+    if (this.view) {
+      this.view.destroy();
+      this.view = undefined;
+    }
+
+    this.createEditorView(mountPoint);
+    this.props.onEditorCreated({
+      view: this.view!,
+      config: this.config,
+      eventDispatcher: this.eventDispatcher,
+      transformer: this.contentTransformer,
+    });
   };
 
   dispatchAnalyticsEvent = (payload: AnalyticsEventPayload): void => {
