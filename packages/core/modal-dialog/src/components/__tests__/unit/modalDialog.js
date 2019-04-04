@@ -169,7 +169,7 @@ describe('modal-dialog', () => {
 
     describe('body', () => {
       it('should render when set via components prop', () => {
-        // $FlowFixMe
+        // $FlowFixMe React 16.4 had no type definition for forwardRef
         const node = React.forwardRef((props, ref) => {
           return <span ref={ref}>My body</span>;
         });
@@ -184,7 +184,7 @@ describe('modal-dialog', () => {
           .spyOn(console, 'warn')
           .mockImplementation(() => {});
 
-        // $FlowFixMe
+        // $FlowFixMe React 16.4 had no type definition for forwardRef
         const node = React.forwardRef((props, ref) => (
           <span ref={ref}>My body</span>
         ));
@@ -198,7 +198,7 @@ describe('modal-dialog', () => {
         const warnSpy = jest
           .spyOn(console, 'warn')
           .mockImplementation(() => {});
-        // $FlowFixMe
+        // $FlowFixMe React 16.4 had no type definition for forwardRef
         const node = React.forwardRef((props, ref) => {
           return <span ref={ref}>My body</span>;
         });
@@ -282,7 +282,7 @@ describe('modal-dialog', () => {
 
   describe('scrolling header/footer keylines', () => {
     it('should enable header keyline only when header provided', () => {
-      // $FlowFixMe
+      // $FlowFixMe React 16.4 had no type definition for forwardRef
       const CustomBody = React.forwardRef((props, ref) => {
         ref({
           addEventListener: jest.fn(),
@@ -301,7 +301,7 @@ describe('modal-dialog', () => {
     });
 
     it('should enable footer keyline only when footer provided', () => {
-      // $FlowFixMe
+      // $FlowFixMe React 16.4 had no type definition for forwardRef
       const CustomBody = React.forwardRef((props, ref) => {
         ref({
           addEventListener: jest.fn(),
