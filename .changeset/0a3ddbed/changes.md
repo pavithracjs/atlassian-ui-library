@@ -1,0 +1,1 @@
+- Move visual-regression and docs to devDep
