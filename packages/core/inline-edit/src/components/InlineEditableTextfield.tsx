@@ -24,7 +24,7 @@ class InlineEditableTextfield extends React.Component<
 
   render() {
     const {
-      editValue,
+      defaultValue,
       isCompact,
       placeholder,
       startWithEditViewOpen,
@@ -32,7 +32,7 @@ class InlineEditableTextfield extends React.Component<
     return (
       <InlineEdit
         {...this.props}
-        defaultValue={editValue}
+        defaultValue={defaultValue}
         editView={editViewProps => (
           <TextField
             {...editViewProps}
@@ -48,7 +48,7 @@ class InlineEditableTextfield extends React.Component<
         )}
         readView={() => (
           <ReadViewContainer isCompact={isCompact}>
-            {editValue || placeholder}
+            {defaultValue || placeholder}
           </ReadViewContainer>
         )}
         startWithEditViewOpen={startWithEditViewOpen}
