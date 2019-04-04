@@ -228,7 +228,7 @@ module.exports = async function main(
       'utf8',
     );
   } else if (statsExceededSizeLimit.length && isLint) {
-    return reject(`✖ Module "${packageName}" has exceeded size limit!`);
+    throw new Error(`✖ Module "${packageName}" has exceeded size limit!`);
   }
 
   return passedBundleSizeCheck ? 1 : 0;
