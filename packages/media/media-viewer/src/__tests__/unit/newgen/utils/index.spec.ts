@@ -94,5 +94,24 @@ describe('utils', () => {
       const items = [identifier, identifier2];
       expect(getSelectedIndex(items, notFoundIdentifier)).toEqual(-1);
     });
+
+    it('should work with external image identifiers', () => {
+      const identifier: Identifier = {
+        id: 'some-id',
+        occurrenceKey: 'some-custom-occurrence-key',
+        mediaItemType: 'file',
+      };
+      const identifier2: Identifier = {
+        dataURI: 'some-src-1',
+        mediaItemType: 'external-image',
+      };
+      const identifier3: Identifier = {
+        dataURI: 'some-src-2',
+        mediaItemType: 'external-image',
+      };
+
+      const items = [identifier, identifier3, identifier2];
+      expect(getSelectedIndex(items, identifier3)).toEqual(1);
+    });
   });
 });

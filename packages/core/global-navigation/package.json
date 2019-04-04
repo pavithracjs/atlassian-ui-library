@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/global-navigation",
-  "version": "6.2.2",
+  "version": "6.2.5",
   "description": "Global navigation component for Atlassian",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "author": "Atlassian Pty Ltd",
@@ -15,7 +15,7 @@
   "dependencies": {
     "@atlaskit/analytics-namespaced-context": "^3.0.0",
     "@atlaskit/analytics-next": "^4.0.1",
-    "@atlaskit/atlassian-switcher": "^0.3.2",
+    "@atlaskit/atlassian-switcher": "^0.4.0",
     "@atlaskit/avatar": "^15.0.1",
     "@atlaskit/badge": "^11.0.0",
     "@atlaskit/blanket": "^8.0.1",

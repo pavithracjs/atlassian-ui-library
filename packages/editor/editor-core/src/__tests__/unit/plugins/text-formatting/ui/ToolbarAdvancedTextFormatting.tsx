@@ -321,7 +321,7 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
   }
 
   describe('menu options inside code block', () => {
-    let toolbarOption;
+    let toolbarOption: ReactWrapper;
 
     beforeEach(() => {
       const { editorView, pluginState } = editor(
@@ -385,7 +385,10 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
    * Helper to simulate a click in toolbar option
    * @param type Type of the button in the toolbar
    */
-  function clickToolbarOption(type: string, toolbarOption) {
+  function clickToolbarOption(
+    type: keyof typeof messages,
+    toolbarOption: ReactWrapper,
+  ) {
     toolbarOption.find('button').simulate('click');
 
     toolbarOption
@@ -439,13 +442,13 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
     ].forEach(({ type, expectedDocument }) => {
       describe(`Toolbar ${type}`, () => {
         it('should apply the right format', () => {
-          clickToolbarOption(type, toolbarOption);
+          clickToolbarOption(type as keyof typeof messages, toolbarOption);
 
           expect(editorView.state.doc).toEqualDocument(expectedDocument);
         });
 
         it('should call analytics v2 handler', () => {
-          clickToolbarOption(type, toolbarOption);
+          clickToolbarOption(type as keyof typeof messages, toolbarOption);
           expect(analyticsHandler).toHaveBeenCalledWith(
             `atlassian.editor.format.${type}.button`,
           );
@@ -462,7 +465,7 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
             },
           };
 
-          clickToolbarOption(type, toolbarOption);
+          clickToolbarOption(type as keyof typeof messages, toolbarOption);
           expect(createAnalyticsEvent).toHaveBeenCalledWith(expectedPayload);
         });
       });

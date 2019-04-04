@@ -3,9 +3,11 @@ import { ExtensionHandlers, ExtensionParams } from '@atlaskit/editor-common';
 
 const FakeExtension = ({
   colour,
+  minWidth = 85,
   children,
 }: {
   colour: string;
+  minWidth?: number;
   children: React.ReactChild;
 }) => {
   return (
@@ -14,7 +16,7 @@ const FakeExtension = ({
         backgroundColor: colour,
         color: 'white',
         padding: 10,
-        minWidth: 85,
+        minWidth,
       }}
     >
       {children}
@@ -25,6 +27,30 @@ const FakeExtension = ({
 const InlineExtension = ({ node }: { node: ExtensionParams<any> }) => {
   return <FakeExtension colour="green">{node.content as string}</FakeExtension>;
 };
+
+class InlineAsyncExtension extends React.Component<{
+  node: ExtensionParams<any>;
+}> {
+  state = {
+    width: 85,
+  };
+
+  render() {
+    const { node } = this.props;
+    const { width } = this.state;
+    return (
+      <FakeExtension minWidth={width} colour="green">
+        {node.content as string}
+      </FakeExtension>
+    );
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ width: 285 });
+    }, 2000);
+  }
+}
 
 const BlockExtension = ({ node }: { node: ExtensionParams<any> }) => {
   return (
@@ -72,6 +98,30 @@ export const extensionHandlers: ExtensionHandlers = {
         return <BodiedExtension {...macroProps} />;
       case 'inline-eh':
         return <InlineExtension {...macroProps} />;
+      case 'jql-table':
+        return (
+          <table>
+            <tbody>
+              <tr>
+                <td>a1</td>
+                <td>a2</td>
+                <td>a3</td>
+              </tr>
+              <tr>
+                <td>b1</td>
+                <td>b2</td>
+                <td>b3</td>
+              </tr>
+              <tr>
+                <td>c1</td>
+                <td>c2</td>
+                <td>c3</td>
+              </tr>
+            </tbody>
+          </table>
+        );
+      case 'inline-async-eh':
+        return <InlineAsyncExtension {...macroProps} />;
     }
 
     return null;

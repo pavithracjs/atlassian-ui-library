@@ -1,6 +1,6 @@
 import { name } from '../../../version.json';
 import { code as codeBase, createSchema, sanitizeNodes } from '../../..';
-const filterGroupDecMark = marks =>
+const filterGroupDecMark = (marks: Array<string>) =>
   marks.filter(mark => mark[0] !== '_' || mark[1] !== '_');
 
 describe(`${name}/schema createSchema helper`, () => {

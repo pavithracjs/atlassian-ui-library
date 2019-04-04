@@ -16,7 +16,6 @@ import {
 } from '../pm-plugins/table-resizing';
 import { toggleContextualMenu } from '../actions';
 import { TableCssClassName as ClassName, TablePluginState } from '../types';
-import { EditorAppearance } from '../../../types';
 import { closestElement } from '../../../utils';
 import {
   EditorDisabledPluginState,
@@ -28,7 +27,7 @@ export interface CellViewProps {
   view: EditorView;
   portalProviderAPI: PortalProviderAPI;
   getPos: () => number;
-  appearance?: EditorAppearance;
+  isContextMenuEnabled?: boolean;
 }
 
 export type CellProps = {
@@ -38,7 +37,7 @@ export type CellProps = {
   isResizing?: boolean;
   isContextualMenuOpen: boolean;
   disabled: boolean;
-  appearance?: EditorAppearance;
+  isContextMenuEnabled?: boolean;
 };
 
 class Cell extends React.Component<CellProps & InjectedIntlProps> {
@@ -58,13 +57,13 @@ class Cell extends React.Component<CellProps & InjectedIntlProps> {
       forwardRef,
       intl: { formatMessage },
       disabled,
-      appearance,
+      isContextMenuEnabled,
     } = this.props;
     const labelCellOptions = formatMessage(messages.cellOptions);
 
     return (
       <div className={ClassName.CELL_NODEVIEW_WRAPPER} ref={forwardRef}>
-        {withCursor && !disabled && appearance !== 'mobile' && (
+        {isContextMenuEnabled && withCursor && !disabled && (
           <div className={ClassName.CONTEXTUAL_MENU_BUTTON_WRAP}>
             <ToolbarButton
               className={ClassName.CONTEXTUAL_MENU_BUTTON}
@@ -115,7 +114,7 @@ class CellView extends ReactNodeView {
       const attrs = setCellAttrs(node, cell);
       (Object.keys(attrs) as Array<keyof typeof attrs>).forEach(attr => {
         let attrValue = attrs[attr];
-        cell.setAttribute(attr, attrValue as any);
+        cell.setAttribute(attr, String(attrValue));
       });
     }
   }
@@ -147,8 +146,8 @@ class CellView extends ReactNodeView {
               !!tableResizingPluginState && !!tableResizingPluginState.dragging
             }
             isContextualMenuOpen={!!pluginState.isContextualMenuOpen}
+            isContextMenuEnabled={props.isContextMenuEnabled}
             view={props.view}
-            appearance={props.appearance}
             disabled={(editorDisabledPlugin || {}).editorDisabled}
           />
         )}
@@ -171,13 +170,13 @@ class CellView extends ReactNodeView {
 
 export const createCellView = (
   portalProviderAPI: PortalProviderAPI,
-  appearance?: EditorAppearance,
+  isContextMenuEnabled?: boolean,
 ) => (node: PmNode, view: EditorView, getPos: () => number): NodeView => {
   return new CellView({
     node,
     view,
     getPos,
     portalProviderAPI,
-    appearance,
+    isContextMenuEnabled,
   }).init();
 };

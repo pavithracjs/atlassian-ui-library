@@ -241,4 +241,8 @@ export interface EditorProps {
 
   // Set to provide your extensions handlers.
   extensionHandlers?: ExtensionHandlers;
+
+  // Set to enable a left aligned mode with a max width of 1800px
+  // This only takes effect on the 'full-page' appearance.
+  fullWidthMode?: boolean;
 }

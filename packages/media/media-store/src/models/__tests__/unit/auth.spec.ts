@@ -3,6 +3,7 @@ import {
   isAsapBasedAuth,
   ClientBasedAuth,
   AsapBasedAuth,
+  authToOwner,
 } from '../../..';
 
 describe('Auth', () => {
@@ -35,6 +36,21 @@ describe('Auth', () => {
 
     it('should return true for asap based auth', () => {
       expect(isAsapBasedAuth(asapBasedAuth)).toEqual(true);
+    });
+  });
+
+  describe('authToOwner', () => {
+    it('should return same auth for asapBasedAuth', () => {
+      expect(authToOwner(asapBasedAuth)).toEqual(asapBasedAuth);
+    });
+
+    it('should return clientAltBasedAuth auth for clientBasedAuth', () => {
+      const { clientId, baseUrl, token } = clientBasedAuth;
+      expect(authToOwner(clientBasedAuth)).toEqual({
+        id: clientId,
+        baseUrl,
+        token,
+      });
     });
   });
 });

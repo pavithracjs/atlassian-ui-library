@@ -10,11 +10,16 @@ import * as inlineCodeProps from '../../__fixtures__/inline-code-props.adf.json'
 import * as inlineTextProps from '../../__fixtures__/inline-text-props.adf.json';
 import * as panels from '../../__fixtures__/panels.adf.json';
 import * as link from '../../__fixtures__/link.adf.json';
+import * as decisionList from '../../__fixtures__/decision-list.adf.json';
+import * as taskList from '../../__fixtures__/task-list.adf.json';
 import * as blockCards from '../../__fixtures__/block-cards.adf.json';
 import * as inlineCards from '../../__fixtures__/inline-cards.adf.json';
 import * as status from '../../__fixtures__/status.adf.json';
 import * as tableNumberedColumn from '../../__fixtures__/table-numbered-column.adf.json';
 import * as layoutColumnSection from '../../__fixtures__/layout-column-section.adf.json';
+import * as extensions from '../../__fixtures__/extensions.adf.json';
+import * as mediaSingle from '../../__fixtures__/media-single.adf.json';
+import * as mediaGroup from '../../__fixtures__/media-group.adf.json';
 
 import * as image from '../../__fixtures__/image.adf.json';
 import * as placeholder from '../../__fixtures__/placeholder.adf.json';
@@ -54,6 +59,26 @@ describe('Renderer - EmailSerializer', () => {
 
   it('should apply no mark for breakout marks', () => {
     const output = render(breakout);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render media single correctly', () => {
+    const output = render(mediaSingle);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render media group correctly', () => {
+    const output = render(mediaGroup);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render decision list correctly', () => {
+    const output = render(decisionList);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render task list correctly', () => {
+    const output = render(taskList);
     expect(output).toMatchSnapshot();
   });
 
@@ -124,6 +149,11 @@ describe('Renderer - EmailSerializer', () => {
 
   it('should render layout column and sections', () => {
     const output = render(layoutColumnSection);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render extension placeholders', () => {
+    const output = render(extensions);
     expect(output).toMatchSnapshot();
   });
 });

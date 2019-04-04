@@ -1,5 +1,10 @@
 # @atlaskit/media-ui
 
+## 10.1.1
+- [patch] [106d046114](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/106d046114):
+
+  - Fix issue with media-viewer opening in CC on inline video player controlls clicked
+
 ## 10.1.0
 - [minor] [5d70c1ee30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5d70c1ee30):
 

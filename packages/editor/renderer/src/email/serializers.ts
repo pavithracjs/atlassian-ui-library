@@ -16,6 +16,9 @@ import heading from './nodes/heading';
 import inlineCard from './nodes/inline-card';
 import listItem from './nodes/list-item';
 import mention from './nodes/mention';
+import media from './nodes/media';
+import mediaGroup from './nodes/media-group';
+import mediaSingle from './nodes/media-single';
 import orderedList from './nodes/ordered-list';
 import panel from './nodes/panel';
 import paragraph from './nodes/paragraph';
@@ -24,11 +27,15 @@ import table from './nodes/table';
 import tableCell from './nodes/table-cell';
 import tableHeader from './nodes/table-header';
 import tableRow from './nodes/table-row';
+import taskList from './nodes/task-list';
+import taskItem from './nodes/task-item';
 import text from './nodes/text';
 import unknownBlock from './nodes/unknown-block';
 import status from './nodes/status';
 import layoutColumn from './nodes/layoutColumn';
 import layoutSection from './nodes/layoutSection';
+import bodiedExtension from './nodes/bodiedExtension';
+import inlineExtension from './nodes/inlineExtension';
 
 import code from './marks/code';
 import em from './marks/em';
@@ -45,7 +52,7 @@ const renderNothing = (): string => '';
 const doNotMark = ({ text }: MarkSerializerOpts): string => text;
 
 export const nodeSerializers: { [key: string]: NodeSerializer } = {
-  bodiedExtension: renderNothing,
+  bodiedExtension: bodiedExtension,
   blockquote,
   blockCard,
   bulletList,
@@ -53,14 +60,18 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   decisionList,
   decisionItem,
   emoji,
+  extension: bodiedExtension, // Old node, treated as bodied ext. for backwards compatibility
   image: renderNothing,
   inlineCard,
   layoutColumn,
   layoutSection,
+  inlineExtension,
   hardBreak,
   heading,
   listItem,
-  mediaGroup: renderNothing,
+  media,
+  mediaGroup,
+  mediaSingle,
   mention,
   orderedList,
   panel,
@@ -71,7 +82,8 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   tableCell,
   tableHeader,
   tableRow,
-  taskList: renderNothing,
+  taskItem,
+  taskList,
   text,
   unknownBlock,
   status,

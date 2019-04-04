@@ -26,6 +26,20 @@ export function isAsapBasedAuth(auth: Auth): auth is AsapBasedAuth {
   return !!(auth as AsapBasedAuth).asapIssuer;
 }
 
+export const authToOwner = (auth: Auth): ClientAltBasedAuth | AsapBasedAuth => {
+  if (isAsapBasedAuth(auth)) {
+    return auth;
+  }
+
+  const clientAuth: ClientAltBasedAuth = {
+    id: auth.clientId,
+    baseUrl: auth.baseUrl,
+    token: auth.token,
+  };
+
+  return clientAuth;
+};
+
 export interface ContextConfig {
   readonly cacheSize?: number;
   readonly authProvider: AuthProvider;

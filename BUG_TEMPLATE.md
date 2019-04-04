@@ -6,7 +6,7 @@ Check that your bug report hasn't already being filed [here](https://ecosystem.a
 
 [Description of the issue]
 
-Add an example using [this codesandbox](http://go.atlassian.com/ak-sandbox) as starting point.
+Add an example using [this codesandbox](http://go.atlassian.com/ak-codesandbox) as starting point.
 
 ### Steps to reproduce
 
@@ -51,7 +51,7 @@ _If needed, show keystrokes using [this](https://github.com/keycastr/keycastr)_
 h2.Description
 
 Description of the issue
-Add a link to a codepen example using [this codesandbox](http://go.atlassian.com/ak-sandbox) as starting point.
+Add a link to a codepen example using [this codesandbox](http://go.atlassian.com/ak-codesandbox) as starting point.
 
 h2.Steps to Reproduce
 

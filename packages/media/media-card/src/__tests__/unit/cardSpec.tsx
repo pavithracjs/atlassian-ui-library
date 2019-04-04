@@ -220,27 +220,6 @@ describe('Card', () => {
     expect(clickHandler).toHaveBeenCalledTimes(1);
   });
 
-  it('should NOT fire onClick when inlineVideo', () => {
-    const context = fakeContext() as any;
-    const clickHandler = jest.fn();
-    const card = shallow(
-      <Card
-        useInlinePlayer={true}
-        context={context}
-        identifier={fileIdentifier}
-        onClick={clickHandler}
-      />,
-    );
-    const cardViewOnClick = card.find(CardView).props().onClick;
-
-    cardViewOnClick!({
-      mediaItemDetails: {
-        mediaType: 'video',
-      },
-    } as any);
-    expect(clickHandler).not.toHaveBeenCalled();
-  });
-
   it('should pass onMouseEnter to CardView', () => {
     const context = fakeContext() as any;
     const hoverHandler = () => {};
@@ -868,7 +847,7 @@ describe('Card', () => {
       expect(MV.props()).toEqual(
         expect.objectContaining({
           collectionName: 'some-collection-name',
-          dataSource: { list: [fileIdentifier] },
+          dataSource: { list: [] },
           selectedItem: fileIdentifier,
         }),
       );
@@ -885,21 +864,6 @@ describe('Card', () => {
       await nextTick();
       expect(component.find(MediaViewer).prop('dataSource')).toEqual({
         list: [fileIdentifier, fileIdentifier],
-      });
-    });
-
-    it('should add card identifier to MV list if not present', async () => {
-      const otherIdentifier: any = {};
-      const { component } = setup(undefined, {
-        shouldOpenMediaViewer: true,
-        mediaViewerDataSource: { list: [otherIdentifier] },
-      });
-      const instance = component.instance() as Card;
-
-      instance.onClick(clickedIdentifier);
-      await nextTick();
-      expect(component.find(MediaViewer).prop('dataSource')).toEqual({
-        list: [fileIdentifier, otherIdentifier],
       });
     });
 
