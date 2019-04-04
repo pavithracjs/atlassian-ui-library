@@ -372,7 +372,7 @@ pipelines:
             - node ./wait.until.no.master.build.running.js      
           after-script:
             # Use to send build data to Datadog / SFX.
-            - ls
+            - yarn install
             - yarn send:build:data
             
     # This build should only be run on the master branch, once per day.
