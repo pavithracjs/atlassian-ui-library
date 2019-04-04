@@ -8,7 +8,6 @@ import {
   UploadEndEventPayload,
   UploadParams,
   UploadErrorEventPayload,
-  ImagePreview,
   isDropzone,
   isClipboard,
   isPopup,
