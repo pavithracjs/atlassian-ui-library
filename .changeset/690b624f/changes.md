@@ -1,1 +1,0 @@
-- ED-6535: fix fallback for images without dimensions on upload
