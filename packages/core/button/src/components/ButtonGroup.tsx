@@ -15,7 +15,7 @@ export const groupItemStyles = {
 
   /* margins don't flip when the layout uses dir="rtl", whereas pseudos do */
   '& + &::before': {
-    content: '',
+    content: `''`,
     display: 'inline-block',
     width: `${gridSize() / 2}px`,
   },

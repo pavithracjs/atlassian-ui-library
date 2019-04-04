@@ -5,19 +5,19 @@ import Expand from '@atlaskit/icon/glyph/arrow-down';
 
 import Button from '../src';
 
-const narrowWrapperStyle = `
-  margin: 10px;
-  padding: 10px;
-  width: 190px;
-  border: 1px solid red;
+const narrowWrapperStyle = {
+  margin: '10px',
+  padding: '10px',
+  width: '190px',
+  border: '1px solid red',
 
-  & > * {
-    margin-bottom: 10px;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-`;
+  '& > *': {
+    marginBottom: '10px',
+    '&:last-child': {
+      marginBottom: 0,
+    },
+  },
+};
 
 export default () => (
   <div css={narrowWrapperStyle}>

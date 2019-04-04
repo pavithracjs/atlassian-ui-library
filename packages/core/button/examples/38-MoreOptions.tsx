@@ -9,30 +9,45 @@ import Unlink from '@atlaskit/icon/glyph/editor/unlink';
 import Open from '@atlaskit/icon/glyph/editor/open';
 import Button, { ButtonAppearances } from '../src';
 
-const css = `
-  .container {
-    display: flex;
-    flex-direction: column;
-    width: 70%;
-  }
-  .sample {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    border-bottom: 1px solid;
-    padding-bottom: 10px;
-    padding-top: 10px;
-  }
-  .purple-border {
-    border: 1px solid purple;
-  }
-  .pink-bg {
-    background-color: pink !important;
-  }
-  .truncated {
-    max-width: 100px;
-  }
-`;
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '70%',
+  },
+  sample: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+    borderBottom: '1px solid',
+    paddingBottom: '10px',
+    paddingTop: '10px',
+    backgroundColor: 'white',
+  },
+  purpleBorder: {
+    border: '1px solid purple',
+  },
+  pinkBg: {
+    backgroundColor: 'pink !important',
+  },
+  truncated: {
+    maxWidth: '100px',
+  },
+  buttonContainer: {
+    '> a': {
+      marginRight: '5px',
+    },
+    '> button': {
+      marginRight: '5px',
+    },
+    '.sample > a': {
+      marginRight: '5px',
+    },
+    '.sample > button': {
+      marginRight: '5px',
+    },
+  },
+};
 
 const CustomComponent = React.forwardRef<HTMLDivElement, {}>((props, ref) => (
   <div {...props} ref={ref}>
@@ -42,29 +57,27 @@ const CustomComponent = React.forwardRef<HTMLDivElement, {}>((props, ref) => (
 
 const BuildStory = (props: any) => (
   <div css={{ padding: '10px' }}>
-    <style>{css}</style>
-    <style>{'.sample { background-color: white }'}</style>
-    <div className="container">
-      <div className="sample">
+    <div css={styles.container}>
+      <div css={styles.sample}>
         <Button {...props}>Create Issue</Button>
         <span>no extra attrs</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button {...props} href="//www.atlassian.com">
           Create Issue
         </Button>
         <span>with href attribute</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button {...props} href="//www.atlassian.com">
           Create Issue
         </Button>
         <span>with href attribute + no target</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <span>
           text
           <Button
@@ -78,7 +91,7 @@ const BuildStory = (props: any) => (
         <span>click event + text alignment check</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button
           {...props}
           isDisabled
@@ -89,7 +102,7 @@ const BuildStory = (props: any) => (
         <span>disabled</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button
           {...props}
           isDisabled
@@ -102,42 +115,42 @@ const BuildStory = (props: any) => (
         <span>disabled + href + target</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button {...props} component={CustomComponent} to="/custom-link">
           With a custom component
         </Button>
       </div>
 
-      <div className="sample">
-        <Button {...props} className="purple-border pink-bg">
+      <div css={styles.sample}>
+        <Button {...props} css={[styles.purpleBorder, styles.pinkBg]}>
           Custom classes with crazy colors
         </Button>
         <span>custom classes</span>
       </div>
 
-      <div className="sample">
-        <Button {...props} className="truncated">
+      <div css={styles.sample}>
+        <Button {...props} css={styles.truncated}>
           Truncated text which is very long and has many words to demonstrate
           truncation
         </Button>
         <span>truncated</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button {...props} isSelected>
           Selected
         </Button>
         <span>selected</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button {...props} iconBefore={<Page label="page icon" />}>
           Comment
         </Button>
         <span>button + text with page icon</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <span>
           text
           <Button
@@ -151,7 +164,7 @@ const BuildStory = (props: any) => (
         <span>button + text with question icon + text alignment check</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <span>
           text
           <Button
@@ -168,14 +181,14 @@ const BuildStory = (props: any) => (
         </span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button {...props} iconAfter={<Expand label="expand icon" />}>
           Show Options
         </Button>
         <span>button + text with expand icon</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button
           {...props}
           href="//www.atlassian.com"
@@ -184,7 +197,7 @@ const BuildStory = (props: any) => (
         <span>button with Page icon + href</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button
           {...props}
           href="//www.atlassian.com"
@@ -194,7 +207,7 @@ const BuildStory = (props: any) => (
         <span>button with icons + href + target</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <span>
           text
           <Button {...props} iconBefore={<Calendar label="calendar icon" />} />
@@ -203,7 +216,7 @@ const BuildStory = (props: any) => (
         <span>button with Calendar icon + text alignment check</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button
           {...props}
           isSelected
@@ -212,13 +225,8 @@ const BuildStory = (props: any) => (
         <span>button with Question icon + selected</span>
       </div>
 
-      <div className="sample">
-        <div className="ButtonContainer">
-          <style>
-            {
-              '.ButtonContainer > a, .ButtonContainer > button, .sample > a, .sample > button { margin-right: 5px }'
-            }
-          </style>
+      <div css={styles.sample}>
+        <div css={styles.buttonContainer}>
           <Button
             {...props}
             spacing="none"
@@ -245,14 +253,14 @@ const BuildStory = (props: any) => (
         <span>button with icons, no spacing &amp; selected</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button {...props} spacing="compact">
           Create Issue
         </Button>
         <span>compact</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button
           {...props}
           onClick={() => console.log('clicking the Component')}
@@ -264,21 +272,21 @@ const BuildStory = (props: any) => (
         <span>compact + disabled</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button {...props} spacing="compact" isSelected>
           Selected Option
         </Button>
         <span>compact + selected</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button {...props} shouldFitContainer>
           Create Issue
         </Button>
         <span>shouldFitContainer</span>
       </div>
 
-      <div className="sample">
+      <div css={styles.sample}>
         <Button
           {...props}
           iconBefore={<Page label="page icon" />}
