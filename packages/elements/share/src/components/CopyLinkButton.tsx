@@ -1,4 +1,3 @@
-
 import CheckCircleIcon from '@atlaskit/icon/glyph/check-circle';
 import LinkFilledIcon from '@atlaskit/icon/glyph/link-filled';
 import InlineDialog from '@atlaskit/inline-dialog';

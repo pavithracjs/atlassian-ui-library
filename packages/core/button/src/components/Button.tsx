@@ -1,5 +1,6 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import * as React from 'react';
-import { css, cx } from 'emotion';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -178,7 +179,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
                   onFocus={this.onFocus}
                   onBlur={this.onBlur}
                   disabled={isDisabled}
-                  className={cx(css(specifiers(buttonStyles)), className)}
+                  className={className}
+                  css={specifiers(buttonStyles)}
                 >
                   <InnerWrapper
                     onClick={this.onInnerClick}

@@ -1,18 +1,19 @@
-import * as React from 'react';
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import Button, { ButtonGroup } from '../src';
 import AddIcon from '@atlaskit/icon/glyph/editor/add';
 import { colors } from '@atlaskit/theme';
 
 export default () => (
-  <div style={{ margin: 20 }}>
-    <h3 style={{ marginBottom: 15 }}>ADG Button</h3>
+  <div css={{ margin: 20 }}>
+    <h3 css={{ marginBottom: 15 }}>ADG Button</h3>
     <ButtonGroup>
       <Button iconBefore={<AddIcon label="add" />}>Button</Button>
       <Button appearance="primary">Button</Button>
       <Button appearance="warning">Button</Button>
     </ButtonGroup>
 
-    <h3 style={{ marginBottom: 15 }}>Themed Button</h3>
+    <h3 css={{ marginBottom: 15 }}>Themed Button</h3>
     <ButtonGroup>
       <ThemedButton iconBefore={<AddIcon label="add" />}>Button</ThemedButton>
       <ThemedButton appearance="primary">Button</ThemedButton>

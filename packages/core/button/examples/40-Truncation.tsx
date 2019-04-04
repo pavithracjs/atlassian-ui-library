@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { css } from 'emotion';
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import Question from '@atlaskit/icon/glyph/question';
 import Expand from '@atlaskit/icon/glyph/arrow-down';
 
@@ -20,7 +20,7 @@ const narrowWrapperStyle = `
 `;
 
 export default () => (
-  <div className={css(narrowWrapperStyle)}>
+  <div css={narrowWrapperStyle}>
     <div>
       <Button appearance="primary">I am wider than my parent</Button>
     </div>

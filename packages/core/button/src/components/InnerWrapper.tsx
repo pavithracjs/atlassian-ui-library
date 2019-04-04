@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import * as React from 'react';
 
 export type Props = {
@@ -6,24 +8,22 @@ export type Props = {
 };
 
 const ButtonWrapper: React.StatelessComponent<Props> = props => {
-  const style: React.CSSProperties = {
+  const styles = {
     alignSelf: 'center',
     display: 'inline-flex',
     flexWrap: 'nowrap',
     maxWidth: '100%',
     position: 'relative',
+    ...(props.fit && { width: '100%' }),
+    ...(props.fit && { justifyContent: 'center' }),
   };
-  if (props.fit) {
-    style.width = '100%';
-    style.justifyContent = 'center';
-  }
 
   const optionalProps: Pick<Props, 'onClick'> = {};
   if (props.onClick) {
     optionalProps.onClick = props.onClick;
   }
   return (
-    <span style={style} {...optionalProps}>
+    <span css={styles} {...optionalProps}>
       {props.children}
     </span>
   );

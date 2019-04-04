@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import * as React from 'react';
 import { gridSize } from '@atlaskit/theme';
 import { getLoadingStyle } from './utils';
@@ -13,7 +15,7 @@ const getMargin = ({ spacing = 'default' }: Props) =>
   spacing === 'none' ? 0 : `0 ${gridSize() / 2}px`;
 
 const ButtonContent: React.StatelessComponent<Props> = props => {
-  const style: React.CSSProperties = {
+  const styles = {
     alignItems: getAlignment(props),
     alignSelf: getAlignment(props),
     flex: '1 1 auto',
@@ -24,7 +26,7 @@ const ButtonContent: React.StatelessComponent<Props> = props => {
     whiteSpace: 'nowrap',
     ...getLoadingStyle(props),
   };
-  return <span style={style}>{props.children}</span>;
+  return <span css={styles}>{props.children}</span>;
 };
 
 export default ButtonContent;

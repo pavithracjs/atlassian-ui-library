@@ -1,123 +1,65 @@
-import * as React from 'react';
-import { createMatchers } from 'jest-emotion';
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
+import { matchers } from 'jest-emotion';
 import * as renderer from 'react-test-renderer';
-import * as emotion from 'emotion';
 import Button from '../../Button';
-import { ThemeProps } from '../../../types';
+import { ButtonProps } from '../../../types';
 
-type customTheme = { [key: string]: { [key: string]: string | number } };
-
-const customTheme: customTheme = {
-  buttonStyles: {
-    width: '100px',
-    height: '200px',
-    margin: '20px',
-  },
-  spinnerStyles: {
-    width: '7px',
-  },
-};
-
-const baseButtonThemeFunction = () => ({
-  buttonStyles: {
-    fontSize: 10,
-    textAlign: 'center',
-    width: 50,
-  },
-  spinnerStyles: {
-    width: '10px',
-  },
-});
-
-const ThemedButton = (customProps: any) => (
+const ThemedButton = (props: ButtonProps) => (
   <Button
-    theme={(
-      adgTheme: Function,
-      { appearance = 'default', state = 'default' }: ThemeProps,
-    ) => {
-      // Allow tests to re-write ADG theme
-      if (customProps.customAdgTheme) {
-        adgTheme = customProps.customAdgTheme;
-      }
-      // Allow tests to skip ADG theme
-      const {
-        buttonStyles: adgButtonStyles,
-        spinnerStyles: adgSpinnerStyles,
-      } = customProps.skipAdgTheme
-        ? { buttonStyles: {}, spinnerStyles: {} }
-        : adgTheme({ appearance, state });
-
-      const {
-        buttonStyles: customButtonStyles,
-        spinnerStyles: customSpinnerStyles,
-      } = !customProps.customStyling
-        ? { buttonStyles: {}, spinnerStyles: {} }
-        : customProps.customStyling;
-
-      // Merge themes
+    theme={(current, themeProps) => {
+      const { buttonStyles, ...spinnerStyles } = current(themeProps);
       return {
         buttonStyles: {
-          ...adgButtonStyles,
-          ...customButtonStyles,
+          ...buttonStyles,
+          width: '100px',
+          height: '200px',
+          margin: '20px',
         },
         spinnerStyles: {
-          ...adgSpinnerStyles,
-          ...customSpinnerStyles,
+          ...spinnerStyles,
+          top: '90%',
         },
       };
     }}
-    {...customProps} // spacing,
+    {...props}
   />
 );
 
-expect.extend(createMatchers(emotion));
+expect.extend(matchers);
 
 describe('Theme: button', () => {
   it('should render button styles defined in custom theme', () => {
-    const wrapper = renderer
-      .create(<ThemedButton customStyling={customTheme} />)
-      .toJSON();
+    const wrapper = renderer.create(<ThemedButton />).toJSON();
 
-    // toHaveStyleRules does not allow testing that `only` certain styles are passed in
-    Object.keys(customTheme.buttonStyles).forEach(key => {
-      expect(wrapper).toHaveStyleRule(key, customTheme.buttonStyles[key]);
-    });
+    expect(wrapper).toHaveStyleRule('width', '100px');
   });
 
   it('should render button styles defined in ADG theme if no custom theme passed in', () => {
     const wrapper = renderer
-      .create(<ThemedButton customAdgTheme={baseButtonThemeFunction} />)
+      .create(<Button theme={(current, props) => current(props)} />)
       .toJSON();
 
-    // toHaveStyleRules does not allow testing that `only` certain styles are passed in
-    expect(wrapper).toHaveStyleRule('font-size', '10px');
-    expect(wrapper).toHaveStyleRule('text-align', 'center');
-    expect(wrapper).toHaveStyleRule('width', '50px');
+    expect(wrapper).toHaveStyleRule('width', 'auto');
   });
 
   it('should render spinner styles in custom theme', () => {
-    const wrapper = renderer
-      .create(<ThemedButton isLoading customStyling={customTheme} />)
-      .toJSON();
+    const wrapper = renderer.create(<ThemedButton isLoading />).toJSON();
 
     const parent = wrapper && wrapper.children && wrapper.children[0].children;
     const child = parent && parent[0];
 
-    // toHaveStyleRules does not allow testing that `only` certain styles are passed in
-    expect(child).toHaveStyleRule('width', '7px');
+    expect(child).toHaveStyleRule('top', '90%');
   });
 
   it('should render spinner styles defined in ADG theme if no custom theme passed in', () => {
     const wrapper = renderer
-      .create(
-        <ThemedButton isLoading customAdgTheme={baseButtonThemeFunction} />,
-      )
+      .create(<Button isLoading theme={(current, props) => current(props)} />)
       .toJSON();
 
     const parent = wrapper && wrapper.children && wrapper.children[0].children;
     const child = parent && parent[0];
 
-    // toHaveStyleRules does not allow testing that `only` certain styles are passed in
-    expect(child).toHaveStyleRule('width', '10px');
+    expect(child).toHaveStyleRule('top', '50%');
   });
 });

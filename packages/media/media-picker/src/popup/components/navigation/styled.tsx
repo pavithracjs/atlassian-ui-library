@@ -18,9 +18,13 @@ export const FolderViewerNavigation: React.ComponentClass<
 `;
 FolderViewerNavigation.displayName = 'FolderViewerNavigation';
 
-export const ControlsWrapper: React.ComponentClass<React.HTMLAttributes<{}>> = styled.div``;
+export const ControlsWrapper: React.ComponentClass<
+  React.HTMLAttributes<{}>
+> = styled.div``;
 
-export const Controls: React.ComponentClass<React.HTMLAttributes<{}>> = styled.div`
+export const Controls: React.ComponentClass<
+  React.HTMLAttributes<{}>
+> = styled.div`
   height: 30px;
   display: flex;
 `;
@@ -36,12 +40,14 @@ export const ControlButton = (props: ButtonProps) => (
           marginRight: '5px',
         },
         ...rest,
-      }
+      };
     }}
   />
 );
 
-export const BreadCrumbs: React.ComponentClass<React.HTMLAttributes<{}>> = styled.div`
+export const BreadCrumbs: React.ComponentClass<
+  React.HTMLAttributes<{}>
+> = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
@@ -80,7 +86,7 @@ export const BreadCrumbLink: React.ComponentClass<
     props.isLast ? '20px' : '14px'};
 `;
 
-export const AccountItemButton = (props: ButtonProps) => <Button {...props} />
+export const AccountItemButton = (props: ButtonProps) => <Button {...props} />;
 
 // Dropdown is NOT intentionally extended by this component to allow HACK style below to work
 export const AccountDropdownWrapper: React.ComponentClass<

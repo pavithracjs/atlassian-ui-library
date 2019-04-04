@@ -15,7 +15,7 @@ export default (props: ButtonProps) => (
           },
         },
         ...rest,
-      }
+      };
     }}
   />
 );

@@ -4,7 +4,9 @@ import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
 import Button, { ButtonProps } from '@atlaskit/button';
 
-export const ErrorPopup: React.ComponentClass<React.HTMLAttributes<{}>> = styled.div`
+export const ErrorPopup: React.ComponentClass<
+  React.HTMLAttributes<{}>
+> = styled.div`
   width: 290px;
   padding: 16px;
   background-color: ${colors.N0};
@@ -15,11 +17,15 @@ export const ErrorPopup: React.ComponentClass<React.HTMLAttributes<{}>> = styled
   flex-direction: column;
 `;
 
-export const ErrorIconWrapper: React.ComponentClass<React.HTMLAttributes<{}>> = styled.div`
+export const ErrorIconWrapper: React.ComponentClass<
+  React.HTMLAttributes<{}>
+> = styled.div`
   width: 92px;
 `;
 
-export const ErrorMessage: React.ComponentClass<React.HTMLAttributes<{}>> = styled.div`
+export const ErrorMessage: React.ComponentClass<
+  React.HTMLAttributes<{}>
+> = styled.div`
   color: ${colors.N900};
   margin-top: 16px;
   margin-bottom: 4px;
@@ -28,7 +34,9 @@ export const ErrorMessage: React.ComponentClass<React.HTMLAttributes<{}>> = styl
   font-weight: bold;
 `;
 
-export const ErrorHint: React.ComponentClass<React.HTMLAttributes<{}>> = styled.div`
+export const ErrorHint: React.ComponentClass<
+  React.HTMLAttributes<{}>
+> = styled.div`
   color: ${colors.N70};
   margin-top: 4px;
   margin-bottom: 20px;
@@ -50,7 +58,7 @@ export const ErrorButton = (props: ButtonProps) => (
           justifyContent: 'center',
         },
         ...rest,
-      }
+      };
     }}
   />
 );

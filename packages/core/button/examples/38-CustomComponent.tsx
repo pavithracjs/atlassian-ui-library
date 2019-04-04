@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import * as React from 'react';
 import Switcher from '@atlaskit/icon/glyph/app-switcher';
 import Button from '../src';
@@ -10,7 +12,7 @@ export default () => (
         HTMLElement,
         React.AllHTMLAttributes<HTMLElement>
       >((props, ref) => (
-        <header {...props} ref={ref} style={{ backgroundColor: 'pink' }} />
+        <header {...props} ref={ref} css={{ backgroundColor: 'pink' }} />
       ))}
     >
       App Switcher custom component

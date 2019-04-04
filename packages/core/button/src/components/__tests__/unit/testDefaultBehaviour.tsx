@@ -2,14 +2,13 @@ import { mount } from 'enzyme';
 import * as React from 'react';
 import * as cases from 'jest-in-case';
 import Spinner from '@atlaskit/spinner';
-import { AtlassianIcon } from '@atlaskit/logo';
 import * as renderer from 'react-test-renderer';
-import * as emotion from 'emotion';
-import { createMatchers } from 'jest-emotion';
+import serializer, { matchers } from 'jest-emotion';
 import Button from '../../Button';
 import InnerWrapper from '../../InnerWrapper';
 
-expect.extend(createMatchers(emotion));
+expect.extend(matchers);
+expect.addSnapshotSerializer(serializer);
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -190,66 +189,7 @@ describe('ak-button/default-behaviour', () => {
       const wrapper = renderer
         .create(<Button isLoading>Some text</Button>)
         .toJSON();
-
-      const parent =
-        wrapper &&
-        wrapper.children &&
-        wrapper.children[0] &&
-        wrapper.children[0].children;
-
-      const { opacity } = parent && parent[1].props.style;
-      expect(opacity).toEqual(0);
-    });
-
-    it('set the iconBefore opacity to 0 when isLoading', () => {
-      const wrapper = renderer
-        .create(
-          <Button isLoading iconBefore={<AtlassianIcon />}>
-            Some text
-          </Button>,
-        )
-        .toJSON();
-
-      const parent =
-        wrapper &&
-        wrapper.children &&
-        wrapper.children[0] &&
-        wrapper.children[0].children;
-
-      const child = parent && parent[1];
-      expect(child).toHaveStyleRule('opacity', '0');
-    });
-
-    it('set the iconAfter opacity to 0 when isLoading', () => {
-      const wrapper = renderer
-        .create(
-          <Button isLoading iconAfter={<AtlassianIcon />}>
-            Some text
-          </Button>,
-        )
-        .toJSON();
-
-      const parent =
-        wrapper &&
-        wrapper.children &&
-        wrapper.children[0] &&
-        wrapper.children[0].children;
-
-      const child = parent && parent[2];
-      expect(child).toHaveStyleRule('opacity', '0');
-    });
-
-    it('set the opacity of the text to 1 when isLoading is false', () => {
-      const wrapper = renderer.create(<Button>Some text</Button>).toJSON();
-
-      const parent =
-        wrapper &&
-        wrapper.children &&
-        wrapper.children[0] &&
-        wrapper.children[0].children;
-
-      const { opacity } = parent && parent[0].props.style;
-      expect(opacity).toEqual(1);
+      expect(wrapper).toMatchSnapshot();
     });
   });
 

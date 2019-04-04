@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import * as React from 'react';
 import Calendar from '@atlaskit/icon/glyph/calendar';
 import Page from '@atlaskit/icon/glyph/page';
@@ -39,7 +41,7 @@ const CustomComponent = React.forwardRef<HTMLDivElement, {}>((props, ref) => (
 ));
 
 const BuildStory = (props: any) => (
-  <div style={{ padding: '10px' }}>
+  <div css={{ padding: '10px' }}>
     <style>{css}</style>
     <style>{'.sample { background-color: white }'}</style>
     <div className="container">

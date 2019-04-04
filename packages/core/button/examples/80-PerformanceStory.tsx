@@ -1,5 +1,6 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import * as React from 'react';
-import { css } from 'emotion';
 import Button from '../src';
 
 const buttonsStyle = `
@@ -49,7 +50,7 @@ class PerfTest extends React.Component<{}, State> {
     for (let i = 1; i <= count; i++) {
       const buttonNumber = (i - 1) * BUTTON_COUNT;
       buttons.push(
-        <div key={`buttons-${i}`} className={css(buttonsStyle)}>
+        <div key={`buttons-${i}`} css={buttonsStyle}>
           <Button appearance="default">Button {buttonNumber + 1}</Button>
           <Button appearance="danger">Button {buttonNumber + 2}</Button>
           <Button appearance="primary">Button {buttonNumber + 3}</Button>
@@ -74,7 +75,7 @@ class PerfTest extends React.Component<{}, State> {
   render() {
     return (
       <div>
-        <div className={css(buttonsStyle)}>
+        <div css={buttonsStyle}>
           <Button appearance="primary" onClick={this.startTest}>
             Start Test
           </Button>

@@ -9,9 +9,9 @@ import UiFloatingToolbar, {
 import UiSeparator from '../../../ui/Separator';
 
 // `line-height: 1` to fix extra 1px height from toolbar wrapper
-export const FloatingToolbar: React.ComponentClass<UiFloatingToolbarProps> = styled(
-  UiFloatingToolbar,
-)`
+export const FloatingToolbar: React.ComponentClass<
+  UiFloatingToolbarProps
+> = styled(UiFloatingToolbar)`
   max-height: 350px;
   min-height: 32px;
   height: initial;
@@ -51,7 +51,7 @@ export const ToolbarButton = (props: UiToolbarButtonProps) => (
           },
         },
         ...rest,
-      }
+      };
     }}
   />
 );

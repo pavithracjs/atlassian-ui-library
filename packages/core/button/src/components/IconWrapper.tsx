@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { css } from 'emotion';
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import { getLoadingStyle } from './utils';
 import { gridSize } from '@atlaskit/theme';
 import { IconProps } from '../types';
@@ -24,5 +24,5 @@ const styles = (props: IconProps) => ({
 });
 
 export default (props: IconProps) => (
-  <span className={css(styles(props))}>{props.icon}</span>
+  <span css={styles(props)}>{props.icon}</span>
 );
