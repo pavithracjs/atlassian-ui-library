@@ -27,13 +27,14 @@ export type ButtonState = {
 export class Button extends React.Component<ButtonProps, ButtonState> {
   static defaultProps: ButtonProps = {
     appearance: 'default',
-    isDisabled: false,
-    isSelected: false,
-    isLoading: false,
-    spacing: 'default',
-    shouldFitContainer: false,
     autoFocus: false,
+    isDisabled: false,
+    isLoading: false,
+    isSelected: false,
+    shouldFitContainer: false,
+    spacing: 'default',
     theme: (current, props) => current(props),
+    type: 'button',
   };
 
   // ref can be a range of things because we render button, a, span or other React components

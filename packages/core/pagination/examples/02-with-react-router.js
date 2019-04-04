@@ -41,14 +41,7 @@ const Contact = () => (
 function renderLink(pageType: string) {
   return class extends Component<*> {
     render() {
-      const {
-        ariaLabel,
-        disabled,
-        page,
-        pages,
-        selectedIndex,
-        ...rest
-      } = this.props;
+      const { disabled, page, pages, selectedIndex, ...rest } = this.props;
       let href;
       if (pageType === 'page') {
         href = page.href;

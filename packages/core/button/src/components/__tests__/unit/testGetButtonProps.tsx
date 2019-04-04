@@ -2,7 +2,10 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import Button, { ButtonGroup } from '../../..';
 
-const Component = () => null;
+const Component = React.forwardRef<
+  HTMLElement,
+  React.AllHTMLAttributes<HTMLElement>
+>((props, ref) => null);
 
 const customProps: Record<string, any> = { customProp: 1 };
 
@@ -14,7 +17,7 @@ describe('getButtonProps', () => {
 
   it('should not pass through all props to an inbuilt component', () => {
     const cmp = mount(<Button {...customProps} />);
-    expect(cmp.find('button').prop('customProp')).toBeUndefined();
+    expect(cmp.find('button').prop('customProp')).toBe(1);
   });
 
   it('should add appearance props', () => {
@@ -22,7 +25,6 @@ describe('getButtonProps', () => {
     expect(Object.keys(cmp.find('button').props())).toEqual(
       expect.arrayContaining([
         'onClick',
-        'spacing',
         'autoFocus',
         'onMouseEnter',
         'onMouseLeave',
