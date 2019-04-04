@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/textfield",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Text Field Component",
   "license": "Apache-2.0",
   "module": "index.js",
