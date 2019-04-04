@@ -1,0 +1,9 @@
+{
+  "releases": [
+    {
+      "name": "@atlaskit/adf-schema",
+      "type": "patch"
+    }
+  ],
+  "dependents": []
+}
