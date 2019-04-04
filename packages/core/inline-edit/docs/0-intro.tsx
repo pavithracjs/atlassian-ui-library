@@ -10,6 +10,9 @@ export default md`
   in as props. If you would like a simple inline edit with a text input, you may be able
   to use the [InlineEditableTextfield component](/packages/core/inline-edit/docs/textfield).
 
+  If you are seeking guidance on how to upgrade the inline edit component from a previous
+  version, see [this upgrade guide](/packages/core/inline-edit/docs/upgrade-guide).
+
   ## Usage
 
   ${code`
