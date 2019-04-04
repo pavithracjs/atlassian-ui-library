@@ -27,6 +27,11 @@ module.exports = function main(
 ) {
   return new Promise((resolve, reject) => {
     const measureOutputPath = path.join(filePath, '.measure-output');
+    if (fExists(measureOutputPath)) {
+      try {
+        exec(`rm -rf ${measureOutputPath}`);
+      } catch (e) {}
+    }
 
     const sanitizedFilePath = filePath.replace('/', '__');
     const measureCompiledOutputPath = path.join(
@@ -180,9 +185,11 @@ module.exports = function main(
       const stats = buildStats(measureCompiledOutputPath, joinedStatsGroups);
 
       // Cleanup measure output directory
-      try {
-        exec(`rm -rf ${measureCompiledOutputPath}`);
-      } catch (e) {}
+      if (!isAnalyze) {
+        try {
+          exec(`rm -rf ${measureOutputPath}`);
+        } catch (e) {}
+      }
 
       const prevStatsPath = path.join(filePath, `bundle-size-ratchet.json`);
 
