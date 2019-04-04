@@ -77,8 +77,13 @@ async function getKarmaConfig({ cwd, watch, browserstack }) {
   const revisionInfo = await browserFetcher.download(ChromiumRevision);
   process.env.CHROME_BIN = revisionInfo.executablePath;
 
+  const moduleResolveMapBuilder = require('@atlaskit/multi-entry-tools/module-resolve-map-builder');
   const aliases = await getAliases(cwd);
-  webpackConfig.resolve.alias = { ...aliases, ...webpackConfig.resolve.alias };
+  webpackConfig.resolve.alias = {
+    ...aliases,
+    ...webpackConfig.resolve.alias,
+    ...(await moduleResolveMapBuilder()),
+  };
 
   const config = {
     port: 9876,
