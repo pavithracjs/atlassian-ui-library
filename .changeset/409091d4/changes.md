@@ -1,1 +1,0 @@
-- Move visual-regression to devDependncies
