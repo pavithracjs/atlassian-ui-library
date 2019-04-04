@@ -1,1 +1,0 @@
-Release a new version of adf-schema
