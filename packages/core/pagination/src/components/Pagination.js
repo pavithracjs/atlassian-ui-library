@@ -119,7 +119,6 @@ class Pagination extends Component<PaginationPropTypes, StateType> {
     const props = {
       'aria-label': i18n.prev,
       pages,
-      // selectedIndex,
     };
 
     return (
@@ -138,7 +137,6 @@ class Pagination extends Component<PaginationPropTypes, StateType> {
     const { selectedIndex } = this.state;
     const props = {
       'aria-label': i18n.next,
-      // selectedIndex,
       pages,
     };
     return (
