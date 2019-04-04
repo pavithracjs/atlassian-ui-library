@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.7.10
+- [patch] [acfd88ba22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acfd88ba22):
+
+  - ED-6639 Align lists styles between editor & renderer
+
 ## 107.7.9
 - [patch] [513fb8a1a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/513fb8a1a9):
 
