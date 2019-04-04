@@ -16,10 +16,6 @@ export default class TaskList extends PureComponent<Props, {}> {
       return null;
     }
 
-    return (
-      <div className="akTaskList">
-        <AkTaskList listId={localId}>{children}</AkTaskList>
-      </div>
-    );
+    return <AkTaskList listId={localId}>{children}</AkTaskList>;
   }
 }
