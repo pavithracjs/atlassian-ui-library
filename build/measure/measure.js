@@ -43,6 +43,12 @@ module.exports = async function main(
 ) {
   const measureOutputPath = path.join(filePath, '.measure-output');
 
+  if (fExists(measureOutputPath)) {
+    try {
+      exec(`rm -rf ${measureOutputPath}`);
+    } catch (e) {}
+  }
+
   const sanitizedFilePath = filePath.replace('/', '__');
   const measureCompiledOutputPath = path.join(
     measureOutputPath,
@@ -188,6 +194,12 @@ module.exports = async function main(
 
   const joinedStatsGroups = [...mainStatsGroups, ...combinedStatsGroups];
   const stats = buildStats(measureCompiledOutputPath, joinedStatsGroups);
+  // Cleanup measure output directory
+  if (!isAnalyze) {
+    try {
+      exec(`rm -rf ${measureOutputPath}`);
+    } catch (e) {}
+  }
 
   // Cleanup measure output directory
   try {
