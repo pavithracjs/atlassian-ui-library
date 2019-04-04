@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.7.7
+- [patch] [ce8caf29d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce8caf29d5):
+
+  - ED-6463: fix contextual menu vertical position
+
 ## 107.7.6
 - [patch] [eea996dac5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eea996dac5):
 
