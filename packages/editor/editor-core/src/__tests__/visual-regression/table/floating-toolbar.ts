@@ -8,9 +8,10 @@ import {
   selectCellOption,
 } from '../../__helpers/page-objects/_table';
 
-// Unskip in ED-6470
-describe.skip('Table floating toolbar:fullpage', () => {
+describe('Table floating toolbar:fullpage', () => {
   let page: any;
+  const threshold = 0.01;
+
   beforeAll(async () => {
     // @ts-ignore
     page = global.page;
@@ -19,7 +20,7 @@ describe.skip('Table floating toolbar:fullpage', () => {
   });
 
   afterEach(async () => {
-    await snapshot(page);
+    await snapshot(page, threshold);
   });
 
   it('display options', async () => {

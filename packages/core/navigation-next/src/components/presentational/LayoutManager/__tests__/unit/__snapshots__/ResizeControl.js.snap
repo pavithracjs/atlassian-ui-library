@@ -13,13 +13,13 @@ exports[`ResizeControlBase should not render GrabArea when \`isGrabAreaDisabled\
       <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
         content={
           <div
-            className="css-jeedki"
+            css="unknown styles"
           >
             <span>
               
             </span>
             <div
-              className="css-1cgkjdn"
+              css="unknown styles"
             >
               
             </div>
@@ -78,13 +78,13 @@ exports[`ResizeControlBase should render correctly 1`] = `
       <WithAnalyticsContext(WithAnalyticsEvents(Tooltip))
         content={
           <div
-            className="css-jeedki"
+            css="unknown styles"
           >
             <span>
               
             </span>
             <div
-              className="css-1cgkjdn"
+              css="unknown styles"
             >
               
             </div>

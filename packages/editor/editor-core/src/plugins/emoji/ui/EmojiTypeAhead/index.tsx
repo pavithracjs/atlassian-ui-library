@@ -56,7 +56,13 @@ export default class EmojiTypeAhead extends PureComponent<Props, State> {
   }
 
   componentWillUpdate(nextProps: Props) {
-    if (!this.pluginState) {
+    let pluginState = this.pluginState;
+    const { pluginKey, editorView } = nextProps;
+    if (editorView) {
+      pluginState = pluginKey.getState(editorView.state);
+    }
+
+    if (!this.pluginState || this.pluginState !== pluginState) {
       this.setPluginState(nextProps);
     }
   }
