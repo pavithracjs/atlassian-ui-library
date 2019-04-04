@@ -55,6 +55,7 @@ import {
   DropzoneDragEnterEventPayload,
   DropzoneDragLeaveEventPayload,
 } from '../../components/types';
+import { BrowserReact } from 'src/components/browserReact';
 
 export interface AppStateProps {
   readonly selectedServiceName: ServiceName;
@@ -212,6 +213,14 @@ export class App extends Component<AppProps, AppState> {
     this.mpBrowser.teardown();
   }
 
+  renderBrowser = () => {
+    this.mpBrowser = new MpBrowser(context, {
+      uploadParams: tenantUploadParams,
+      shouldCopyFileToRecents: false,
+      multiple: true,
+    });
+    return <BrowserReact context={} />;
+  };
   render() {
     const {
       selectedServiceName,
