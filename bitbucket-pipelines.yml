@@ -164,6 +164,9 @@ pipelines:
             - WEBSITE_ENV=production yarn build
             - yarn build:copy
             - yarn deploy:production
+          after-script:
+            # Use to send build data to Datadog / SFX.
+            - yarn send:build:data
           caches:
             - node
 
@@ -182,6 +185,9 @@ pipelines:
             - cat deploy-log.txt | grep "URL:" | sed "s/Live Draft Url..//gi" > netlify-link.txt
             - echo "Uploading netlify build link to s3 so that we can fetch at the end..."
             - node ../build/ci-scripts/upload.build.artefact.for.commit.js netlify-link.txt
+          after-script:
+            # Use to send build data to Datadog / SFX.
+            - yarn send:build:data
           caches:
             - node
 
@@ -372,6 +378,7 @@ pipelines:
             - node ./wait.until.no.master.build.running.js      
           after-script:
             # Use to send build data to Datadog / SFX.
+            # Yarn install needs to be rerun again.
             - yarn install
             - yarn send:build:data
             
