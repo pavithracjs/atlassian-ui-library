@@ -4,7 +4,7 @@ import { blockNodesVerticalMargin } from '@atlaskit/editor-common';
 import { Wrapper as WrapperDefault, padding } from '../styles';
 
 export const Wrapper = styled(WrapperDefault)`
-  margin: ${blockNodesVerticalMargin} 0;
+  margin: ${blockNodesVerticalMargin}rem 0;
 
   .extension-overflow-wrapper {
     overflow-x: auto;

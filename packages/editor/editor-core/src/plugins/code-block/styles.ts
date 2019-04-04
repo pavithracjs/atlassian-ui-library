@@ -20,7 +20,7 @@ export const codeBlockStyles = css`
     border-radius: ${borderRadius()}px;
     font-size: 14px;
     line-height: 24px;
-    margin: ${blockNodesVerticalMargin} 0 0 0;
+    margin: ${blockNodesVerticalMargin}rem 0 0 0;
     counter-reset: line;
     display: flex;
     min-width: ${akEditorTableCellMinWidth}px;

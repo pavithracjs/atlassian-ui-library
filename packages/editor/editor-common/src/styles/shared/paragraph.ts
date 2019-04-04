@@ -8,7 +8,7 @@ export const paragraphSharedStyles = css`
     font-size: 1em;
     line-height: 1.714;
     font-weight: normal;
-    margin-top: ${blockNodesVerticalMargin};
+    margin-top: ${blockNodesVerticalMargin}rem;
     margin-bottom: 0;
     letter-spacing: -0.005em;
   }

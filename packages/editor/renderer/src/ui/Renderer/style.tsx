@@ -311,7 +311,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
 
   & .MediaGroup,
   & .CodeBlock {
-    margin-top: ${blockNodesVerticalMargin};
+    margin-top: ${blockNodesVerticalMargin}rem;
 
     &:first-child {
       margin-top: 0;

@@ -19,7 +19,7 @@ describe('Renderer - React/Nodes/TaskList', () => {
     };
   });
 
-  it('should wrap content with <AkTaskList>-tag with start prop', () => {
+  it('should match rendered AkTaskList', () => {
     const text: any = 'This is a task list';
     const taskListWrapper = shallow(<TaskList>{text}</TaskList>);
     const taskList = taskListWrapper.childAt(0);

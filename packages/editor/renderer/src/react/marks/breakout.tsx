@@ -7,7 +7,7 @@ import {
 } from '@atlaskit/editor-common';
 
 export const Wrapper = styled.div`
-  margin: ${blockNodesVerticalMargin} 0;
+  margin: ${blockNodesVerticalMargin}rem 0;
   margin-left: 50%;
   transform: translateX(-50%);
 `;
