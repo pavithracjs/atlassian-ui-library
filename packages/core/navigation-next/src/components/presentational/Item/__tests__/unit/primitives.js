@@ -217,7 +217,7 @@ describe('ItemPrimitiveBase', () => {
       },
     });
 
-    const wrapper = shallow(
+    const wrapper = mount(
       <ItemPrimitiveBase
         {...defaultProps}
         styles={styles}

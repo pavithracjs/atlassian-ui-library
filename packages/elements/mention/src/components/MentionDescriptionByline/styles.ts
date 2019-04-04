@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { HTMLAttributes, ClassAttributes, ComponentClass } from 'react';
 import { colors } from '@atlaskit/theme';
 
-export const DescriptionHighlightStyle: ComponentClass<
+export const DescriptionBylineStyle: ComponentClass<
   HTMLAttributes<{}>
 > = styled.span`
   color: ${colors.N100};

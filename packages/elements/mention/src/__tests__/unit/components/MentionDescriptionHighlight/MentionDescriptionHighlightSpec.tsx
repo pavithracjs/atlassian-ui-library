@@ -1,13 +1,13 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { MentionDescription } from '../../../../types';
-import MentionDescriptionHighlight from '../../../../components/MentionDescriptionHighlight';
+import MentionDescriptionByline from '../../../../components/MentionDescriptionByline';
 import { userMention, teamMention } from './_commonData';
 
 const shallowRender = (mention: MentionDescription) =>
-  shallow(<MentionDescriptionHighlight mention={mention} />);
+  shallow(<MentionDescriptionByline mention={mention} />);
 
-describe('Mention Description Highlight', () => {
+describe('Mention Description Byline', () => {
   it('should render User Mention description if a user is provided', () => {
     const component = shallowRender(userMention);
     expect(component).toMatchSnapshot();

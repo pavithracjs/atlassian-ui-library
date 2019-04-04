@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { gridSize as gridSizeFn } from '@atlaskit/theme';
-import { css as parseCss } from 'emotion';
+import { ClassNames } from '@emotion/core';
 import Section from '../Section';
 import type { MenuSectionProps } from './types';
 
@@ -28,10 +28,16 @@ export default class MenuSection extends Component<MenuSectionProps> {
             paddingBottom: gridSize * 1.5,
           };
 
-          return children({
-            css: menuCss,
-            className: parseCss(menuCss),
-          });
+          return (
+            <ClassNames>
+              {({ css: getClassName }) =>
+                children({
+                  css: menuCss,
+                  className: getClassName(menuCss),
+                })
+              }
+            </ClassNames>
+          );
         }}
       </Section>
     );
