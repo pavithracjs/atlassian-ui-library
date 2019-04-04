@@ -28,7 +28,7 @@ const InlineExtension = ({ node }: { node: ExtensionParams<any> }) => {
   return <FakeExtension colour="green">{node.content as string}</FakeExtension>;
 };
 
-class BlockAsyncExtension extends React.Component<{
+class InlineAsyncExtension extends React.Component<{
   node: ExtensionParams<any>;
 }> {
   state = {
@@ -120,8 +120,8 @@ export const extensionHandlers: ExtensionHandlers = {
             </tbody>
           </table>
         );
-      case 'block-async-eh':
-        return <BlockAsyncExtension {...macroProps} />;
+      case 'inline-async-eh':
+        return <InlineAsyncExtension {...macroProps} />;
     }
 
     return null;
