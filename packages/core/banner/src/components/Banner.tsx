@@ -11,7 +11,7 @@ interface Props {
   /** Defines whether the banner is shown. An animation is used when the value is changed. */
   isOpen?: boolean;
   /** Returns the inner ref of the component. This is exposed so the height can be used in page. */
-  innerRef?: (element: HTMLElement) => unknown;
+  innerRef?: (element: HTMLElement) => void;
 }
 
 class Banner extends React.Component<Props, { height: number }> {
