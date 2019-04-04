@@ -35,12 +35,14 @@ export default class InlineEditExample extends React.Component<void, State> {
           editView={editViewProps => <TextArea {...editViewProps} />}
           readView={() => (
             <ReadViewContainer>
-              {this.state.editValue.split('\n').map((value, i) => (
-                <React.Fragment key={i}>
-                  {value}
-                  <br />
-                </React.Fragment>
-              )) || 'Click to enter value'}
+              {this.state.editValue
+                ? this.state.editValue.split('\n').map((value, i) => (
+                    <React.Fragment key={i}>
+                      {value}
+                      <br />
+                    </React.Fragment>
+                  ))
+                : 'Click to enter value'}
             </ReadViewContainer>
           )}
           onConfirm={this.onConfirm}

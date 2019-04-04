@@ -214,7 +214,7 @@ class InlineEditUncontrolled extends React.Component<
 
   render() {
     const {
-      editValue,
+      defaultValue,
       hideActionButtons,
       isEditing,
       label,
@@ -244,7 +244,7 @@ class InlineEditUncontrolled extends React.Component<
               <Field
                 name="inlineEdit"
                 label={label}
-                defaultValue={editValue}
+                defaultValue={defaultValue}
                 validate={validate}
                 key="edit-view"
               >
