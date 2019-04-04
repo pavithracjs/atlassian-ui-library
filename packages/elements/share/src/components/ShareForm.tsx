@@ -21,6 +21,7 @@ import { UserPickerField } from './UserPickerField';
 
 const SubmitButtonWrapper = styled.div`
   display: flex;
+  margin-left: auto;
 `;
 
 const CenterAlignedIconWrapper = styled.div`
