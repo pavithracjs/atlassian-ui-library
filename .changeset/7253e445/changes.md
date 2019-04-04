@@ -1,1 +1,0 @@
-- Fixed share button off position on IE11
