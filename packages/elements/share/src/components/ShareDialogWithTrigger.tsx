@@ -82,7 +82,7 @@ export const defaultShareContentState: DialogContentState = {
   },
 };
 
-export class ShareDialogWithTriggerInternal extends React.Component<
+class ShareDialogWithTriggerInternal extends React.Component<
   Props & InjectedIntlProps & WithAnalyticsEventProps,
   State
 > {
@@ -103,6 +103,15 @@ export class ShareDialogWithTriggerInternal extends React.Component<
     isSharing: false,
     ignoreIntermediateState: false,
     defaultValue: defaultShareContentState,
+  };
+
+  private closeAndResetDialog = () => {
+    this.setState({
+      defaultValue: defaultShareContentState,
+      ignoreIntermediateState: true,
+      shareError: undefined,
+      isDialogOpen: false,
+    });
   };
 
   private createAndFireEvent = (payload: AnalyticsEventPayload) => {
@@ -147,7 +156,7 @@ export class ShareDialogWithTriggerInternal extends React.Component<
       switch (event.key) {
         case 'Escape':
           event.stopPropagation();
-          this.handleCloseDialog({ isOpen: false, event }, true);
+          this.closeAndResetDialog();
           this.createAndFireEvent(cancelShare(this.start));
       }
     }
@@ -174,18 +183,8 @@ export class ShareDialogWithTriggerInternal extends React.Component<
     );
   };
 
-  private handleCloseDialog = (
-    _: { isOpen: boolean; event: any },
-    reset: boolean = false,
-  ) => {
-    this.setState({
-      isDialogOpen: false,
-      ...(reset && {
-        defaultValue: defaultShareContentState,
-        ignoreIntermediateState: true,
-        shareError: undefined,
-      }),
-    });
+  private handleCloseDialog = (_: { isOpen: boolean; event: any }) => {
+    this.setState({ isDialogOpen: false });
   };
 
   private handleShareSubmit = (data: DialogContentState) => {
@@ -200,7 +199,7 @@ export class ShareDialogWithTriggerInternal extends React.Component<
 
     onShareSubmit(data)
       .then(() => {
-        this.handleCloseDialog({ isOpen: false, event: null }, true);
+        this.closeAndResetDialog();
         this.setState({ isSharing: false });
         showFlags(this.getFlags());
       })
