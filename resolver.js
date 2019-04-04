@@ -45,12 +45,15 @@ module.exports = function resolver(
   import { N0 } from '@atlaskit/theme/src/colors'
    */
   let alternativeEntryModulePath;
+  const paths = modulePath.split('/');
+  const [, moduleName, entryPoint] = paths;
+
   if (
     modulePath.startsWith('@atlaskit/') &&
-    modulePath.split('/').length === 3
+    paths.length === 3 &&
+    typeof entryPoint === 'string' &&
+    entryPoint.trim().length > 0
   ) {
-    const [, moduleName, entryPoint] = modulePath.split('/');
-
     if (blockedFromMultiEntryPointsModuleList.indexOf(moduleName) === -1) {
       alternativeEntryModulePath = `@atlaskit/${moduleName}/src/${entryPoint}`;
     }
