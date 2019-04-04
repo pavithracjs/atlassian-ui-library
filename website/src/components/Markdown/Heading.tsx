@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as reactAddonsTextContent from 'react-addons-text-content';
+import reactAddonsTextContent from 'react-addons-text-content';
 import { Helmet } from 'react-helmet';
 import snakeCase from 'snake-case';
 
