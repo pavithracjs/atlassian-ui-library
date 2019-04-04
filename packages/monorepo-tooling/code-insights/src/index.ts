@@ -19,15 +19,13 @@ const getTargetBranch = async (
   flags: Flags,
   gitReporter?: GitReporter,
 ): Promise<string> => {
-  if (flags.targetBranch) {
-    return flags.targetBranch;
-  }
-
   if (gitReporter) {
-    return (await gitReporter.getTargetBranch(flags.branch)) || 'master';
+    return (
+      (await gitReporter.getTargetBranch(flags.branch)) || flags.targetBranch
+    );
   }
 
-  return 'master';
+  return flags.targetBranch;
 };
 
 // prettier-ignore
@@ -70,7 +68,7 @@ export async function run() {
       },
       targetBranch: {
         type: 'string',
-        default: 'master',
+        default: 'origin/master',
       },
       gitUrl: {
         type: 'string',

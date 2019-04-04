@@ -335,6 +335,267 @@ System.out.println("There are " + count + " values &gt;= 5");
 </div>
 `;
 
+exports[`Renderer - EmailSerializer should render dates in normal text and task lists 1`] = `
+<div
+  class="wrapper"
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
+>
+  <div>
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px; padding: 4px 8px 4px 0; border-spacing: 0px; width: 100%;"
+      width="100%"
+    >
+      <tbody>
+        <tr>
+          <td
+            style=""
+          >
+            <table
+              bgcolor="#EBECF0"
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px; padding: 0px; border-spacing: 0px; width: 100%; background-color: #EBECF0; border-radius: 3px;"
+              width="100%"
+            >
+              <tbody>
+                <tr>
+                  <td
+                    style=""
+                  >
+                    <table
+                      border="0"
+                      cellpadding="0"
+                      cellspacing="0"
+                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px; padding: 0px; border-spacing: 0px; width: 100%;"
+                      width="100%"
+                    >
+                      <tbody>
+                        <tr>
+                          <td
+                            style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
+                          >
+                            <table
+                              border="0"
+                              cellpadding="0"
+                              cellspacing="0"
+                              style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px 2px; padding: 1px 2px 1px 2px; border-spacing: 0px; width: 100%;"
+                              width="100%"
+                            >
+                              <tbody>
+                                <tr>
+                                  <td
+                                    style="font-size: 12px;font-weight: 600;text-align: center;background-color: #FFFFFF;border-radius: 3px;border-style: solid;border-width: 1px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
+                                  >
+                                    <font
+                                      color="#FFFFFF"
+                                      style="font-color: #FFFFFF;"
+                                    >
+                                      []
+                                    </font>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                          <td
+                            style="font-size: 14px;padding: 8px 8px 8px 0;"
+                          >
+                            <span
+                              style="border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;box-sizing: border-box;display: inline-block;font-size: 14px;font-weight: 400;line-height: 1;max-width: 100%;vertical-align: baseline;border-width: 3px;padding: 2px 4px 3px 4px;background-color: #FFEBE6;color: #BF2600;"
+                            >
+                              01 Mar 2019
+                            </span>
+                             
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px; padding: 4px 8px 4px 0; border-spacing: 0px; width: 100%;"
+      width="100%"
+    >
+      <tbody>
+        <tr>
+          <td
+            style=""
+          >
+            <table
+              bgcolor="#EBECF0"
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px; padding: 0px; border-spacing: 0px; width: 100%; background-color: #EBECF0; border-radius: 3px;"
+              width="100%"
+            >
+              <tbody>
+                <tr>
+                  <td
+                    style=""
+                  >
+                    <table
+                      border="0"
+                      cellpadding="0"
+                      cellspacing="0"
+                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px; padding: 0px; border-spacing: 0px; width: 100%;"
+                      width="100%"
+                    >
+                      <tbody>
+                        <tr>
+                          <td
+                            style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
+                          >
+                            <table
+                              border="0"
+                              cellpadding="0"
+                              cellspacing="0"
+                              style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px 2px; padding: 1px 2px 1px 2px; border-spacing: 0px; width: 100%;"
+                              width="100%"
+                            >
+                              <tbody>
+                                <tr>
+                                  <td
+                                    style="font-size: 13px;font-weight: 600;text-align: center;background-color: #0052CC;border-radius: 3px;border-style: solid;border-width: 0px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
+                                  >
+                                    ✓
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                          <td
+                            style="font-size: 14px;padding: 8px 8px 8px 0;"
+                          >
+                            <span
+                              style="border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;box-sizing: border-box;display: inline-block;font-size: 14px;font-weight: 400;line-height: 1;max-width: 100%;vertical-align: baseline;border-width: 3px;padding: 2px 4px 3px 4px;background-color: #DFE1E6;color: #42526E;"
+                            >
+                              01 Mar 2019
+                            </span>
+                             
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px; padding: 4px 8px 4px 0; border-spacing: 0px; width: 100%;"
+      width="100%"
+    >
+      <tbody>
+        <tr>
+          <td
+            style=""
+          >
+            <table
+              bgcolor="#EBECF0"
+              border="0"
+              cellpadding="0"
+              cellspacing="0"
+              style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px; padding: 0px; border-spacing: 0px; width: 100%; background-color: #EBECF0; border-radius: 3px;"
+              width="100%"
+            >
+              <tbody>
+                <tr>
+                  <td
+                    style=""
+                  >
+                    <table
+                      border="0"
+                      cellpadding="0"
+                      cellspacing="0"
+                      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px; padding: 0px; border-spacing: 0px; width: 100%;"
+                      width="100%"
+                    >
+                      <tbody>
+                        <tr>
+                          <td
+                            style="vertical-align: top;padding: 8px;width: 20px;height: 20px;"
+                          >
+                            <table
+                              border="0"
+                              cellpadding="0"
+                              cellspacing="0"
+                              style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px 2px; padding: 1px 2px 1px 2px; border-spacing: 0px; width: 100%;"
+                              width="100%"
+                            >
+                              <tbody>
+                                <tr>
+                                  <td
+                                    style="font-size: 12px;font-weight: 600;text-align: center;background-color: #FFFFFF;border-radius: 3px;border-style: solid;border-width: 1px;border-color: #C1C7D0;color: #FFFFFF;width: 16px;height: 16px;overflow: hidden;"
+                                  >
+                                    <font
+                                      color="#FFFFFF"
+                                      style="font-color: #FFFFFF;"
+                                    >
+                                      []
+                                    </font>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                          <td
+                            style="font-size: 14px;padding: 8px 8px 8px 0;"
+                          >
+                            <span
+                              style="border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;box-sizing: border-box;display: inline-block;font-size: 14px;font-weight: 400;line-height: 1;max-width: 100%;vertical-align: baseline;border-width: 3px;padding: 2px 4px 3px 4px;background-color: #DFE1E6;color: #42526E;"
+                            >
+                              28 Apr 2019
+                            </span>
+                             
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p
+    style="margin: 0; margin-bottom: 7px; padding: 0px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
+  >
+    <span
+      style="border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;box-sizing: border-box;display: inline-block;font-size: 14px;font-weight: 400;line-height: 1;max-width: 100%;vertical-align: baseline;border-width: 3px;padding: 2px 4px 3px 4px;background-color: #DFE1E6;color: #42526E;"
+    >
+      02 Apr 2019
+    </span>
+     
+  </p>
+  <p
+    style="margin: 0; margin-bottom: 7px; padding: 0px; padding-top: 7px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px;"
+  />
+</div>
+`;
+
 exports[`Renderer - EmailSerializer should render decision list correctly 1`] = `
 <div
   class="wrapper"

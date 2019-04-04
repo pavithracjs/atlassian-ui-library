@@ -1,5 +1,10 @@
 # @atlaskit/drawer
 
+## 3.0.4
+- [patch] [a28eb04426](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a28eb04426):
+
+  - Migrates package from emotion 9 to emotion 10. No behaviour or API changes.
+
 ## 3.0.3
 - [patch] [211463f820](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/211463f820):
 

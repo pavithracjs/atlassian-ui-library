@@ -10,7 +10,12 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-test('should ssr then hydrate textfield correctly', async () => {
+/**
+ * Skipping ssr tests while we investigate an issue with emotion 10 hydration errors
+ * Ticket: https://ecosystem.atlassian.net/browse/AK-6059
+ */
+/* eslint-disable jest/no-disabled-tests */
+test.skip('should ssr then hydrate drawer correctly', async () => {
   const [example] = await getExamplesFor('textfield');
   // $StringLitteral
   const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require

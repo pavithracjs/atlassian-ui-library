@@ -315,38 +315,30 @@ pipelines:
                 - node ./build/releases/bin/build-releases.js version
           # Rest of the steps are jest tests. We no longer use the $BITBUCKET_PARALLEL_STEP_COUNT and $BITBUCKET_PARALLEL_STEP
           # variables as they mean the jest steps need to be in their own parallel block, so we just hardcode them here.
+          # Editor tests need to runInBand.
           - step:
-              name: Running Jest 1 of 4 chunks
+              name: Running Editor Unit tests - Jest 1 of 2 chunks
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
-                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="4" STEP_IDX="0" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
+                - STEPS="2" STEP_IDX="0" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
           - step:
-              name: Running Jest 2 of 4 chunks
+              name: Running Editor Unit tests - Jest 2 of 2 chunks
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
-                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="4" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
+                - STEPS="2" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand  
           - step:
-              name: Running Jest 3 of 4 chunks
+              name: Running Non Editor Unit tests
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
-                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="4" STEP_IDX="2" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
-          - step:
-              name: Running Jest 4 of 4 chunks
-              script:
-                - source ./build-setup.sh
-                - git merge master --no-edit
-                - bolt install --pure-lockfile
-                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="4" STEP_IDX="3" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+                - TEST_ONLY_PATTERN='!packages/editor' yarn test
           - step:
               name: Running Browser Integration tests
               script:
@@ -423,3 +415,4 @@ pipelines:
             - for file in dists/*; do node build/ci-scripts/upload.build.artefact.for.commit.js $file dists/; done
           caches:
             - node
+    
