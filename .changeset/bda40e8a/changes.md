@@ -1,0 +1,1 @@
+- ED-6640: fix resizing not focused table
