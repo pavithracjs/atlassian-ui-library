@@ -6,7 +6,8 @@ import {
   MediaType,
   ProcessedFileState,
   ProcessingFileState,
-  FileIdentifier,
+  Identifier,
+  isExternalImageIdentifier,
 } from '@atlaskit/media-core';
 import { Subscription } from 'rxjs/Subscription';
 import deepEqual from 'deep-equal';
@@ -32,7 +33,7 @@ import {
 } from './download';
 
 export type Props = {
-  readonly identifier: FileIdentifier;
+  readonly identifier: Identifier;
   readonly context: Context;
   readonly onClose?: () => void;
 };
@@ -68,6 +69,25 @@ export class Header extends React.Component<Props & InjectedIntlProps, State> {
   private init(props: Props) {
     this.setState(initialState, async () => {
       const { context, identifier } = props;
+
+      if (isExternalImageIdentifier(identifier)) {
+        const { name = identifier.dataURI } = identifier;
+        // Simulate a processing file state to render right metadata
+        const fileState: ProcessingFileState = {
+          status: 'processing',
+          id: name,
+          mediaType: 'image',
+          mimeType: 'image/',
+          name,
+          representations: {},
+          size: 0,
+        };
+
+        this.setState({
+          item: Outcome.successful(fileState),
+        });
+        return;
+      }
       const id =
         typeof identifier.id === 'string' ? identifier.id : await identifier.id;
       this.subscription = context.file

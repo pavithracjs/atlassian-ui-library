@@ -38,6 +38,7 @@ export const ItemIcon = styled.div`
   overflow: hidden;
   border: 1px solid rgba(223, 225, 229, 0.5); /* N60 at 50% */
   border-radius: ${borderRadius()}px;
+  box-sizing: border-box;
 
   display: flex;
   justify-content: center;

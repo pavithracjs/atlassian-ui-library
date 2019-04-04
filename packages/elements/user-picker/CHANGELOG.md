@@ -1,5 +1,10 @@
 # @atlaskit/user-picker
 
+## 3.3.1
+- [patch] [83ad0552d4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/83ad0552d4):
+
+  - Workaround SSR avatar issue in user-picker ssr tests
+
 ## 3.3.0
 - [minor] [4526b178cb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4526b178cb):
 

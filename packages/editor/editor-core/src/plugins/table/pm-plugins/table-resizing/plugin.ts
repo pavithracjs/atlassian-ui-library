@@ -20,6 +20,7 @@ import {
   edgeCell,
   currentColWidth,
   domCellAround,
+  getParentNodeWidth,
 } from './utils';
 
 import {
@@ -240,14 +241,23 @@ function handleMouseDown(
     dom as HTMLTableElement,
   );
 
-  const containerWidth = widthPluginKey.getState(view.state).width;
+  const containerWidth = widthPluginKey.getState(view.state);
+  const tablePos = state.selection.$from.start(-1) - 1;
+  const parentWidth = getParentNodeWidth(
+    tablePos,
+    view.state,
+    containerWidth.width,
+  );
+
   const resizer = Resizer.fromDOM(view, dom, {
     minWidth: cellMinWidth,
-    maxSize: getLayoutSize(
-      dom.getAttribute('data-layout') as TableLayout,
-      containerWidth,
-      dynamicTextSizing,
-    ),
+    maxSize:
+      parentWidth ||
+      getLayoutSize(
+        dom.getAttribute('data-layout') as TableLayout,
+        containerWidth.width,
+        dynamicTextSizing,
+      ),
     node: $cell.node(-1),
     start,
   });

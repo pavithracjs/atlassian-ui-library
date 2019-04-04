@@ -80,7 +80,7 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
             eventDispatcher,
             pluginConfig(allowTables),
             isContextMenuEnabled,
-            allowDynamicTextSizing,
+            allowDynamicTextSizing && !fullWidthMode,
             isBreakoutEnabled,
           );
         },
@@ -89,14 +89,14 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
         name: 'tablePMColResizing',
         plugin: ({
           dispatch,
-          props: { allowTables, allowDynamicTextSizing },
+          props: { allowTables, allowDynamicTextSizing, fullWidthMode },
         }) => {
           const { allowColumnResizing } = pluginConfig(allowTables);
           return allowColumnResizing
             ? createFlexiResizingPlugin(dispatch, {
                 handleWidth: HANDLE_WIDTH,
                 cellMinWidth: tableCellMinWidth,
-                dynamicTextSizing: allowDynamicTextSizing,
+                dynamicTextSizing: allowDynamicTextSizing && !fullWidthMode,
               } as ColumnResizingPlugin)
             : undefined;
         },
