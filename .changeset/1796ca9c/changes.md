@@ -1,1 +1,0 @@
-- ED-6651: fix cell borders when table has merged cells

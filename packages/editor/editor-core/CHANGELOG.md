@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.7.12
+- [patch] [44b14dba84](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/44b14dba84):
+
+  - ED-6651: fix cell borders when table has merged cells
+
 ## 107.7.11
 - [patch] [2e5b1c9783](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2e5b1c9783):
 
