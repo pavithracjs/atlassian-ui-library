@@ -551,8 +551,7 @@ export const tableStyles = css`
     .${ClassName.TABLE_NODE_WRAPPER} > table {
       table-layout: fixed;
 
-      td,
-      th {
+      .${ClassName.CELL_NODEVIEW_WRAPPER} {
         position: relative;
       }
 
@@ -636,8 +635,8 @@ export const tableStyles = css`
   /* =============== TABLE CONTEXTUAL MENU ================== */
   .${ClassName.CONTEXTUAL_MENU_BUTTON_WRAP} {
     position: absolute;
-    right: 2px;
-    top: 2px;
+    right: -6px;
+    top: -6px;
 
     > div {
       background: ${N20};
