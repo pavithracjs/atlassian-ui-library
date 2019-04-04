@@ -1,6 +1,6 @@
 /* tslint:disable:no-var-requires */
 import uuidV4 from 'uuid/v4';
-import * as Rusha from 'rusha';
+import Rusha from 'rusha';
 import { Hasher } from './hasher';
 
 interface HasherWorker {

@@ -6,7 +6,7 @@ jest.mock('uuid/v4', () => ({
 }));
 
 import uuidV4 from 'uuid/v4';
-import * as Rusha from 'rusha';
+import Rusha from 'rusha';
 
 import { WorkerHasher } from '../../workerHasher';
 
