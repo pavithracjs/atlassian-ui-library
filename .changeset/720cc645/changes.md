@@ -1,1 +1,0 @@
-- ED-6650 Table doesn’t respond on inserting widget with min-width set

@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.7.8
+- [patch] [eaf2f72de1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eaf2f72de1):
+
+  - ED-6650 Table doesn’t respond on inserting widget with min-width set
+
 ## 107.7.7
 - [patch] [ce8caf29d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce8caf29d5):
 
