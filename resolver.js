@@ -10,6 +10,7 @@ as their src is in root of the package.
 const blockedFromMultiEntryPointsModuleList = [
   'build-utils',
   'polyfills',
+  'webdriver-runner',
   'visual-regression',
 ];
 
