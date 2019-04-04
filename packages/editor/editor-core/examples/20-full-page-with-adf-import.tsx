@@ -144,15 +144,23 @@ export default class Example extends React.Component<any, State> {
 
   private hanldeQueryExport = (actions: EditorActions) => {
     actions.getValue().then(value => {
-      const query = b64EncodeUnicode(JSON.stringify(value));
-      const { origin, pathname } = window.parent.location;
-      let url = `${origin + pathname}?adf=${query}`;
+      const adfString = b64EncodeUnicode(JSON.stringify(value));
+      const { origin, pathname, search } = window.parent.location;
+      let query = search ? search.substr(1) + '&' : '';
+      if (~query.indexOf('adf=')) {
+        query = query
+          .split('&')
+          .filter(s => !s.startsWith('adf='))
+          .join('&');
+      }
+      let url = `${origin + pathname}?${query}adf=${adfString}`;
       if (url.length > 2000) {
         url = `Warning:
         The generated url is ${
           url.length
         } characters which exceeds the 2000 character limit for safe urls. It _may_ not work in all browsers.
         Reduce the complexity of the document to reduce the url length if you're having problems.
+        
 ${url}`;
       }
       this.setState({ inputValue: url });
