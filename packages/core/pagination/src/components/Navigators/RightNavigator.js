@@ -5,7 +5,7 @@ import Navigator, { type NavigatorPropsType } from './Navigator';
 
 export default class RightNavigator extends Component<NavigatorPropsType> {
   static defaultProps = {
-    ariaLabel: 'next',
+    'aria-label': 'next',
     iconBefore: <ChevronRightLargeIcon />,
     isDisabled: false,
   };
