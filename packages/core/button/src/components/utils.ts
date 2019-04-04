@@ -41,11 +41,7 @@ export const filterProps = (
   return props;
 };
 
-export type IsLoadingProps = {
-  isLoading?: boolean;
-};
-
-export const getLoadingStyle = ({ isLoading }: IsLoadingProps) => ({
+export const getLoadingStyle = (isLoading?: boolean) => ({
   transition: 'opacity 0.3s',
   opacity: isLoading ? 0 : 1,
 });

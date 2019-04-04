@@ -2,31 +2,25 @@
 import { jsx } from '@emotion/core';
 import * as React from 'react';
 
-export type Props = {
+interface Props {
   onClick?: React.MouseEventHandler;
   fit: boolean;
-};
+  children: React.ReactNode;
+}
 
-const ButtonWrapper: React.StatelessComponent<Props> = props => {
-  const styles = {
-    alignSelf: 'center',
-    display: 'inline-flex',
-    flexWrap: 'nowrap',
-    maxWidth: '100%',
-    position: 'relative',
-    ...(props.fit && { width: '100%' }),
-    ...(props.fit && { justifyContent: 'center' }),
-  };
-
-  const optionalProps: Pick<Props, 'onClick'> = {};
-  if (props.onClick) {
-    optionalProps.onClick = props.onClick;
-  }
-  return (
-    <span css={styles} {...optionalProps}>
-      {props.children}
-    </span>
-  );
-};
-
-export default ButtonWrapper;
+export default ({ onClick, fit, children, ...rest }: Props) => (
+  <span
+    css={{
+      alignSelf: 'center',
+      display: 'inline-flex',
+      flexWrap: 'nowrap',
+      maxWidth: '100%',
+      position: 'relative',
+      ...(fit && { width: '100%' }),
+      ...(fit && { justifyContent: 'center' }),
+    }}
+    {...rest}
+  >
+    {children}
+  </span>
+);

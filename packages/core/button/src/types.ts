@@ -91,13 +91,6 @@ export interface ThemeProps extends Partial<ButtonProps> {
   mode?: ThemeMode;
 }
 
-export type IconProps = {
-  spacing: string;
-  isOnlyChild: boolean;
-  isLoading?: boolean;
-  icon: React.ReactChild;
-};
-
 export type ThemeFallbacks = {
   [index: string]: { [index: string]: string };
 };

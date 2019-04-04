@@ -4,29 +4,34 @@ import * as React from 'react';
 import { gridSize } from '@atlaskit/theme';
 import { getLoadingStyle } from './utils';
 
-type Props = {
+interface Props {
   followsIcon: boolean;
   spacing: string;
   isLoading?: boolean;
-};
+  children?: React.ReactNode;
+}
 
-const getAlignment = (p: Props) => (p.followsIcon ? 'baseline' : 'center');
-const getMargin = ({ spacing = 'default' }: Props) =>
-  spacing === 'none' ? 0 : `0 ${gridSize() / 2}px`;
-
-const ButtonContent: React.StatelessComponent<Props> = props => {
-  const styles = {
-    alignItems: getAlignment(props),
-    alignSelf: getAlignment(props),
-    flex: '1 1 auto',
-    margin: getMargin(props),
-    maxWidth: '100%',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-    ...getLoadingStyle(props),
-  };
-  return <span css={styles}>{props.children}</span>;
-};
-
-export default ButtonContent;
+export default ({
+  children,
+  followsIcon,
+  spacing,
+  isLoading,
+  ...rest
+}: Props) => (
+  <span
+    css={{
+      alignItems: followsIcon ? 'baseline' : 'center',
+      alignSelf: followsIcon ? 'baseline' : 'center',
+      flex: '1 1 auto',
+      margin: spacing === 'none' ? 0 : `0 ${gridSize() / 2}px`,
+      maxWidth: '100%',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+      ...getLoadingStyle(isLoading),
+    }}
+    {...rest}
+  >
+    {children}
+  </span>
+);

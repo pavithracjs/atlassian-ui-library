@@ -10,11 +10,6 @@ import Open from '@atlaskit/icon/glyph/editor/open';
 import Button, { ButtonAppearances } from '../src';
 
 const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '70%',
-  },
   sample: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -57,7 +52,13 @@ const CustomComponent = React.forwardRef<HTMLDivElement, {}>((props, ref) => (
 
 const BuildStory = (props: any) => (
   <div css={{ padding: '10px' }}>
-    <div css={styles.container}>
+    <div
+      css={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '70%',
+      }}
+    >
       <div css={styles.sample}>
         <Button {...props}>Create Issue</Button>
         <span>no extra attrs</span>
