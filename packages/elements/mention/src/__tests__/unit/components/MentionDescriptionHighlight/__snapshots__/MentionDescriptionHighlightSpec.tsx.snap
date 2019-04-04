@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Mention Description Highlight should render Team Mention description if a team is provided 1`] = `
-<TeamMentionDescriptionHighlight
+exports[`Mention Description Byline should render Team Mention description if a team is provided 1`] = `
+<TeamMentionDescriptionByline
   mention={
     Object {
       "accessLevel": "CONTAINER",
@@ -24,8 +24,8 @@ exports[`Mention Description Highlight should render Team Mention description if
 />
 `;
 
-exports[`Mention Description Highlight should render User Mention description if a user is provided 1`] = `
-<UserMentionDescriptionHighlight
+exports[`Mention Description Byline should render User Mention description if a user is provided 1`] = `
+<UserMentionDescriptionByline
   mention={
     Object {
       "accessLevel": "CONTAINER",
@@ -37,3 +37,4 @@ exports[`Mention Description Highlight should render User Mention description if
   }
 />
 `;
+

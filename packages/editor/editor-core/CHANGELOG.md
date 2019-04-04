@@ -1,5 +1,31 @@
 # @atlaskit/editor-core
 
+## 107.7.5
+- [patch] [29d10e3d60](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29d10e3d60):
+
+  - ED-6626 Table doesn’t respond on inserting widget with min-width set
+
+  _Test steps:_
+
+  - Insert a `table`
+  - Insert an widget macro with an YouTube video url
+  - The `table` should resize the column accordingly
+
+## 107.7.4
+- [patch] [e80a553a6e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80a553a6e):
+
+  - ED-6478: upskip VR tests for numbered column
+
+## 107.7.3
+- [patch] [71c1a888f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/71c1a888f7):
+
+  - ED-6479: upskip table floating toolbar VR tests
+
+## 107.7.2
+- [patch] [41b940325e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/41b940325e):
+
+  - ED-5948: added mass alignment on a range of selected cells
+
 ## 107.7.1
 - [patch] [c4aedc236e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c4aedc236e):
 
