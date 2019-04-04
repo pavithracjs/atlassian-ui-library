@@ -128,12 +128,6 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
     color: ${colors.R500};
   }
 
-  & .akTaskList > ol,
-  & .akDecisionList > ol {
-    list-style-type: none;
-    font-size: ${fontSize()}px;
-  }
-
   & .renderer-image {
     max-width: 100%;
     display: block;
