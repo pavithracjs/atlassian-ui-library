@@ -139,7 +139,7 @@ export function domCellAround(target: HTMLElement | null) {
 }
 
 const getParentNode = (tablePos: number, state: EditorState): PMNode | null => {
-  if (!tablePos) {
+  if (!tablePos || tablePos === -1) {
     return null;
   }
 
