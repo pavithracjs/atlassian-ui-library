@@ -47,7 +47,7 @@ class ExtensionNode extends ReactNodeView {
           handleContentDOMRef={forwardRef}
           extensionHandlers={props.extensionHandlers}
         />
-        {String.fromCharCode(8203)}
+        {this.node.type.name == 'inlineExtension' && String.fromCharCode(8203)}
       </span>
     );
   }
