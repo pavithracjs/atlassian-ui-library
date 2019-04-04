@@ -27,6 +27,11 @@ module.exports = function main(
 ) {
   return new Promise((resolve, reject) => {
     const measureOutputPath = path.join(filePath, '.measure-output');
+    if (fExists(measureOutputPath)) {
+      try {
+        exec(`rm -rf ${measureOutputPath}`);
+      } catch (e) {}
+    }
 
     const sanitizedFilePath = filePath.replace('/', '__');
     const measureCompiledOutputPath = path.join(
@@ -182,7 +187,7 @@ module.exports = function main(
       // Cleanup measure output directory
       if (!isAnalyze) {
         try {
-          exec(`rm -rf ${measureCompiledOutputPath}`);
+          exec(`rm -rf ${measureOutputPath}`);
         } catch (e) {}
       }
 
