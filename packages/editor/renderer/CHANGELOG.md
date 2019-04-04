@@ -1,10 +1,5 @@
 # @atlaskit/renderer
 
-## 45.2.1
-- [patch] [acfd88ba22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acfd88ba22):
-
-  - ED-6639 Align lists styles between editor & renderer
-
 ## 45.2.0
 - [minor] [b6f4afdec5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b6f4afdec5):
 

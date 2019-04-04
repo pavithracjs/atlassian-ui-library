@@ -3,7 +3,6 @@ import { HTMLAttributes, ComponentClass } from 'react';
 import {
   editorFontSize,
   paragraphSharedStyles,
-  listsSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
   shadowSharedStyle,
@@ -51,7 +50,6 @@ const ContentStyles: ComponentClass<
     font-size: ${editorFontSize}px;
 
     ${paragraphSharedStyles};
-    ${listsSharedStyles};
     ${indentationSharedStyles};
     ${shadowSharedStyle}
   }
