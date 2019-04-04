@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 45.2.0
+- [minor] [b6f4afdec5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b6f4afdec5):
+
+  - add date renderer
+
 ## 45.1.0
 - [minor] [827ed599a0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/827ed599a0):
 

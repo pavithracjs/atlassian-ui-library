@@ -9,6 +9,9 @@ import { DevTools } from '../example-helpers/DevTools';
 import WithEditorActions from '../src/ui/WithEditorActions';
 import { EditorActions } from '../src';
 
+const FULL_WIDTH_MODE = 'full-width';
+const DEFAULT_MODE = 'default';
+
 export const Textarea = styled.textarea`
   box-sizing: border-box;
   border: 1px solid lightgray;
@@ -17,6 +20,8 @@ export const Textarea = styled.textarea`
   width: 100%;
   height: 250px;
 `;
+
+export const LOCALSTORAGE_defaultMode = 'fabric.editor.example.default-mode';
 
 export interface State {
   inputValue?: string;
@@ -29,8 +34,9 @@ export default class Example extends React.Component<any, State> {
 
   constructor(props: any) {
     super(props);
+    const defaultMode = localStorage.getItem(LOCALSTORAGE_defaultMode);
     this.state = {
-      fullWidthMode: false,
+      fullWidthMode: defaultMode === FULL_WIDTH_MODE,
     };
   }
 
@@ -100,9 +106,16 @@ export default class Example extends React.Component<any, State> {
                   >
                     Convert ADF to Query String
                   </button>
-                  <button onClick={() => this.enableFullWidthMode()}>
-                    Toggle full width mode
-                  </button>
+                  <label htmlFor="fullWidthMode">
+                    <input
+                      id="fullWidthMode"
+                      name="fullWidthMode"
+                      type="checkbox"
+                      checked={this.state.fullWidthMode}
+                      onClick={() => this.toggleFullWidthMode()}
+                    />
+                    Full width mode
+                  </label>
                   <FullPageEditor fullWidthMode={this.state.fullWidthMode} />
                 </React.Fragment>
               );
@@ -113,8 +126,16 @@ export default class Example extends React.Component<any, State> {
     );
   }
 
-  private enableFullWidthMode = () => {
-    this.setState(prevState => ({ fullWidthMode: !prevState.fullWidthMode }));
+  private toggleFullWidthMode = () => {
+    this.setState(
+      prevState => ({ fullWidthMode: !prevState.fullWidthMode }),
+      () => {
+        localStorage.setItem(
+          LOCALSTORAGE_defaultMode,
+          this.state.fullWidthMode ? FULL_WIDTH_MODE : DEFAULT_MODE,
+        );
+      },
+    );
   };
 
   private handleRef = (ref: HTMLTextAreaElement | null) => {
@@ -144,15 +165,23 @@ export default class Example extends React.Component<any, State> {
 
   private hanldeQueryExport = (actions: EditorActions) => {
     actions.getValue().then(value => {
-      const query = b64EncodeUnicode(JSON.stringify(value));
-      const { origin, pathname } = window.parent.location;
-      let url = `${origin + pathname}?adf=${query}`;
+      const adfString = b64EncodeUnicode(JSON.stringify(value));
+      const { origin, pathname, search } = window.parent.location;
+      let query = search ? search.substr(1) + '&' : '';
+      if (~query.indexOf('adf=')) {
+        query = query
+          .split('&')
+          .filter(s => !s.startsWith('adf='))
+          .join('&');
+      }
+      let url = `${origin + pathname}?${query}adf=${adfString}`;
       if (url.length > 2000) {
         url = `Warning:
         The generated url is ${
           url.length
         } characters which exceeds the 2000 character limit for safe urls. It _may_ not work in all browsers.
         Reduce the complexity of the document to reduce the url length if you're having problems.
+        
 ${url}`;
       }
       this.setState({ inputValue: url });

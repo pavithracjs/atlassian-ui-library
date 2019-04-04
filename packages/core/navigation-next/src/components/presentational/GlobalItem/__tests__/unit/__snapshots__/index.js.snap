@@ -1,45 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`GlobalItem GlobalItemBase should render an InteractionStateManager 1`] = `
-.emotion-0 {
-  margin-top: 10px;
-}
-
-<div
-  className="emotion-0"
->
-  <InteractionStateManager>
-    <Component />
-  </InteractionStateManager>
-</div>
+<InteractionStateManager>
+  <Component />
+</InteractionStateManager>
 `;
 
 exports[`GlobalItem GlobalItemBase should render an item wrapper with the globalItem.itemWrapper theme styles when size is large: largeItem 1`] = `
-.emotion-0 {
-  margin-top: 10px;
-}
-
-<div
-  className="emotion-0"
->
-  <InteractionStateManager>
-    <Component />
-  </InteractionStateManager>
-</div>
+<InteractionStateManager>
+  <Component />
+</InteractionStateManager>
 `;
 
 exports[`GlobalItem GlobalItemBase should render an item wrapper with the globalItem.itemWrapper theme styles when size is small: smallItem 1`] = `
-.emotion-0 {
-  margin-top: 0;
-}
-
-<div
-  className="emotion-0"
->
-  <InteractionStateManager>
-    <Component />
-  </InteractionStateManager>
-</div>
+<InteractionStateManager>
+  <Component />
+</InteractionStateManager>
 `;
 
 exports[`GlobalItem GlobalItemBase should render the GlobalItem primitive 1`] = `
