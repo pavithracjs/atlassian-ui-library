@@ -11,7 +11,7 @@ import { createStatusAnalyticsAndFire } from './analytics';
 import { ANALYTICS_HOVER_DELAY } from './constants';
 
 export type Color = 'neutral' | 'purple' | 'blue' | 'red' | 'yellow' | 'green';
-export type StatusEmphasis = 'bold' | 'subtle';
+export type StatusStyle = 'bold' | 'subtle';
 
 const colorToLozengeAppearanceMap: { [K in Color]: string } = {
   neutral: 'default',
@@ -28,7 +28,7 @@ const MAX_WIDTH = 200;
 export interface OwnProps {
   text: string;
   color: Color;
-  emphasis?: StatusEmphasis;
+  style?: StatusStyle;
   localId?: string;
   onClick?: (event: React.SyntheticEvent<any>) => void;
   onHover?: () => void;
@@ -58,7 +58,7 @@ class StatusInternal extends PureComponent<Props, any> {
   }
 
   render() {
-    const { text, color, emphasis, onClick } = this.props;
+    const { text, color, style, onClick } = this.props;
     if (text.trim().length === 0) {
       return null;
     }
@@ -73,7 +73,7 @@ class StatusInternal extends PureComponent<Props, any> {
         onMouseLeave={this.handleMouseLeave}
         data-node-type="status"
         data-color={color}
-        data-emphasis={emphasis}
+        data-style={style}
       >
         <Lozenge appearance={appearance} maxWidth={MAX_WIDTH}>
           {text}

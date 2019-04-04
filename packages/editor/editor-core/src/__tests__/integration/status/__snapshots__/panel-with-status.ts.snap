@@ -17,8 +17,8 @@ Object {
             Object {
               "attrs": Object {
                 "color": "neutral",
-                "emphasis": null,
                 "localId": "abc-123",
+                "style": "",
                 "text": "DONE",
               },
               "type": "status",
@@ -51,8 +51,8 @@ Object {
             Object {
               "attrs": Object {
                 "color": "neutral",
-                "emphasis": null,
                 "localId": "abc-123",
+                "style": "",
                 "text": "DONE",
               },
               "type": "status",

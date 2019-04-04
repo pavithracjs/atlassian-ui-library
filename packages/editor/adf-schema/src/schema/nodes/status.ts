@@ -16,7 +16,7 @@ export interface StatusDefinition {
     /**
      * Supported values are bold and subtle
      */
-    emphasis?: string;
+    style?: string;
   };
 }
 
@@ -28,7 +28,7 @@ export const status: NodeSpec = {
     text: { default: '' },
     color: { default: '' },
     localId: { default: uuid.generate() },
-    emphasis: { default: null },
+    style: { default: '' },
   },
   parseDOM: [
     {
@@ -39,18 +39,18 @@ export const status: NodeSpec = {
           text: dom.textContent!.replace(/\n/, '').trim(),
           color: dom.getAttribute('data-color'),
           localId: uuid.generate(),
-          emphasis: dom.getAttribute('data-emphasis'),
+          style: dom.getAttribute('data-style'),
         };
       },
     },
   ],
   toDOM(node: PMNode) {
-    const { text, color, localId, emphasis } = node.attrs;
+    const { text, color, localId, style } = node.attrs;
     const attrs = {
       'data-node-type': 'status',
       'data-color': color,
       'data-local-id': localId,
-      'data-emphasis': emphasis,
+      'data-style': style,
       contenteditable: 'false',
     };
     return ['span', attrs, text];
