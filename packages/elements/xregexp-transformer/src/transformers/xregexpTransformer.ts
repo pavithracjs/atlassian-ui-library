@@ -1,5 +1,9 @@
 import * as ts from 'typescript';
-import * as XRegExp from 'xregexp';
+/*
+ @types/xregexp is not compatible with esModuleInterop
+ so opting out of typechecking on xregexp since it's a dev tool anyway
+ */
+const XRegExp: any = require('xregexp');
 
 const getArrayElement = (args: any, index: number): any | undefined =>
   args && args.length > index ? args[index] : undefined;

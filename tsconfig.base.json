@@ -75,7 +75,6 @@
     "./typings/url-search-params.d.ts",
     "./typings/unescape.d.ts",
     "./typings/uuid.d.ts",
-    "./typings/webpack.d.ts",
-    "./typings/xregexp.d.ts"
+    "./typings/webpack.d.ts"
   ]
 }
