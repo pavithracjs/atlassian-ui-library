@@ -77,8 +77,25 @@ async function getKarmaConfig({ cwd, watch, browserstack }) {
   const revisionInfo = await browserFetcher.download(ChromiumRevision);
   process.env.CHROME_BIN = revisionInfo.executablePath;
 
+  const moduleResolveMapBuilder = require('@atlaskit/multi-entry-tools/module-resolve-map-builder');
   const aliases = await getAliases(cwd);
-  webpackConfig.resolve.alias = { ...aliases, ...webpackConfig.resolve.alias };
+  const alternativeEntries = await moduleResolveMapBuilder();
+
+  webpackConfig.resolve.mainFields = [
+    'atlaskit:src',
+    'module',
+    'browser',
+    'main',
+  ];
+
+  webpackConfig.resolve.alias = {
+    ...aliases,
+    ...webpackConfig.resolve.alias,
+    ...alternativeEntries,
+  };
+
+  // TODO: Temporary need to find a more "correct" fix
+  delete webpackConfig.resolve.alias['@atlaskit/theme'];
 
   const config = {
     port: 9876,
