@@ -14,7 +14,6 @@ import {
 } from '../../../types';
 
 const HOSTNAME = 'my-hostname.com';
-const CLOUD_ID = 'some-cloud-id';
 const ACTIVE_PRODUCT_STATE = {
   state: 'ACTIVE',
 };
