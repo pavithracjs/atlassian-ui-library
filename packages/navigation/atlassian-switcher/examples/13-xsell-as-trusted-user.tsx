@@ -37,7 +37,7 @@ class JiraSwitcherExample extends React.Component {
               permitted: false,
             },
             'add-products': {
-              permitted: false,
+              permitted: true,
             },
           },
         };
