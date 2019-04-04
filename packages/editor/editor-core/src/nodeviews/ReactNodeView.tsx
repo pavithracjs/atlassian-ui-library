@@ -113,7 +113,6 @@ export default class ReactNodeView implements NodeView {
     props: ReactComponentProps,
     forwardRef?: ForwardRef,
   ): React.ReactElement<any> | null {
-    console.log('props', props);
     return this.reactComponent ? (
       <this.reactComponent
         view={this.view}

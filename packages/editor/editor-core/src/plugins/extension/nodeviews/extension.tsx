@@ -39,13 +39,16 @@ class ExtensionNode extends ReactNodeView {
     forwardRef: ForwardRef,
   ) {
     return (
-      <Extension
-        editorView={this.view}
-        node={this.node}
-        providerFactory={props.providerFactory}
-        handleContentDOMRef={forwardRef}
-        extensionHandlers={props.extensionHandlers}
-      />
+      <span>
+        <Extension
+          editorView={this.view}
+          node={this.node}
+          providerFactory={props.providerFactory}
+          handleContentDOMRef={forwardRef}
+          extensionHandlers={props.extensionHandlers}
+        />
+        {String.fromCharCode(8203)}
+      </span>
     );
   }
 }

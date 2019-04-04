@@ -30,6 +30,7 @@ export default class EmojiNode extends React.PureComponent<Props, {}> {
           shortName={shortName}
           fallback={text}
         />
+        {String.fromCharCode(8203)}
       </Wrapper>
     );
   }

@@ -46,12 +46,12 @@ export const status: NodeSpec = {
   ],
   toDOM(node: PMNode) {
     const { text, color, localId, emphasis } = node.attrs;
-
     const attrs = {
       'data-node-type': 'status',
       'data-color': color,
       'data-local-id': localId,
       'data-emphasis': emphasis,
+      contenteditable: 'false',
     };
     return ['span', attrs, text];
   },
