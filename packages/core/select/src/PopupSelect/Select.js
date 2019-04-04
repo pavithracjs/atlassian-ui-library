@@ -164,7 +164,7 @@ export default class PopupSelect extends PureComponent<Props, State> {
   };
   handleSelectChange = (value: Object, actionMeta: Object) => {
     const { closeMenuOnSelect, onChange } = this.props;
-    if (closeMenuOnSelect) this.close();
+    if (closeMenuOnSelect && actionMeta.action !== 'clear') this.close();
     if (onChange) onChange(value, actionMeta);
   };
 
