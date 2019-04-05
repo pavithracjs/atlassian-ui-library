@@ -1,5 +1,5 @@
 import { TrackAEP } from './events';
-import { ACTION, ACTION_SUBJECT, ACTION_SUBJECT_ID } from './enums';
+import { I_ACTION, ACTION_SUBJECT, ACTION_SUBJECT_ID } from './enums';
 
 export const enum SYMBOL {
   ARROW_RIGHT = 'rightArrow',
@@ -15,7 +15,7 @@ export const enum PUNC {
 }
 
 type SubstituteAEP<ActionSubjectID, Attributes> = TrackAEP<
-  ACTION.SUBSTITUTED,
+  I_ACTION['SUBSTITUTED'],
   ACTION_SUBJECT.TEXT,
   ActionSubjectID,
   Attributes

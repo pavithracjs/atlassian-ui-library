@@ -1,6 +1,6 @@
 import { TrackAEP } from './events';
 import {
-  ACTION,
+  I_ACTION,
   ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
   INPUT_METHOD,
@@ -118,7 +118,7 @@ type PasteBaseAEP<Action, Attributes> = TrackAEP<
 >;
 
 type PasteAEP = PasteBaseAEP<
-  ACTION.PASTED,
+  I_ACTION['PASTED'],
   {
     inputMethod: INPUT_METHOD.KEYBOARD;
     type: PasteType;
@@ -129,7 +129,7 @@ type PasteAEP = PasteBaseAEP<
 >;
 
 type PasteAsPlainAEP = PasteBaseAEP<
-  ACTION.PASTED_AS_PLAIN,
+  I_ACTION['PASTED_AS_PLAIN'],
   {
     inputMethod: string;
     pasteSize: number;

@@ -1,6 +1,6 @@
 import { UIAEP } from './events';
 import {
-  ACTION,
+  I_ACTION,
   ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
   INPUT_METHOD,
@@ -13,35 +13,35 @@ export const enum PLATFORMS {
 }
 
 type ButtonAEP<ActionSubjectID, Attributes> = UIAEP<
-  ACTION.CLICKED,
+  I_ACTION['CLICKED'],
   ACTION_SUBJECT.BUTTON,
   ActionSubjectID,
   Attributes
 >;
 
 type PickerAEP<ActionSubjectID, Attributes> = UIAEP<
-  ACTION.OPENED,
+  I_ACTION['OPENED'],
   ACTION_SUBJECT.PICKER,
   ActionSubjectID,
   Attributes
 >;
 
 type TypeAheadAEP<ActionSubjectID, Attributes> = UIAEP<
-  ACTION.INVOKED,
+  I_ACTION['INVOKED'],
   ACTION_SUBJECT.TYPEAHEAD,
   ActionSubjectID,
   Attributes
 >;
 
 type EditorStartAEP = UIAEP<
-  ACTION.STARTED,
+  I_ACTION['STARTED'],
   ACTION_SUBJECT.EDITOR,
   undefined,
   { platform: PLATFORMS.NATIVE | PLATFORMS.HYBRID | PLATFORMS.WEB }
 >;
 
 type EditorStopAEP = UIAEP<
-  ACTION.STOPPED,
+  I_ACTION['STOPPED'],
   ACTION_SUBJECT.EDITOR,
   ACTION_SUBJECT_ID.SAVE | ACTION_SUBJECT_ID.CANCEL,
   {
@@ -63,7 +63,7 @@ type EditorStopAEP = UIAEP<
 >;
 
 type AnnotateButtonAEP = UIAEP<
-  ACTION.CLICKED,
+  I_ACTION['CLICKED'],
   ACTION_SUBJECT.MEDIA,
   ACTION_SUBJECT_ID.ANNOTATE_BUTTON,
   undefined

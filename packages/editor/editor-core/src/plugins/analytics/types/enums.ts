@@ -3,21 +3,37 @@ export const enum EVENT_TYPE {
   TRACK = 'track',
 }
 
-export const enum ACTION {
-  CHANGED_TYPE = 'changedType',
-  CLICKED = 'clicked',
-  DELETED = 'deleted',
-  FORMATTED = 'formatted',
-  INSERTED = 'inserted',
-  INVOKED = 'invoked',
-  OPENED = 'opened',
-  PASTED = 'pasted',
-  PASTED_AS_PLAIN = 'pastedAsPlain',
-  STARTED = 'started',
-  STOPPED = 'stopped',
-  SUBSTITUTED = 'autoSubstituted',
-  VISITED = 'visited',
+export interface I_ACTION {
+  CHANGED_TYPE: 'changedType';
+  CLICKED: 'clicked';
+  DELETED: 'deleted';
+  FORMATTED: 'formatted';
+  INSERTED: 'inserted';
+  INVOKED: 'invoked';
+  OPENED: 'opened';
+  PASTED: 'pasted';
+  PASTED_AS_PLAIN: 'pastedAsPlain';
+  STARTED: 'started';
+  STOPPED: 'stopped';
+  SUBSTITUTED: 'autoSubstituted';
+  VISITED: 'visited';
 }
+
+export const ACTION: I_ACTION = {
+  CHANGED_TYPE: 'changedType',
+  CLICKED: 'clicked',
+  DELETED: 'deleted',
+  FORMATTED: 'formatted',
+  INSERTED: 'inserted',
+  INVOKED: 'invoked',
+  OPENED: 'opened',
+  PASTED: 'pasted',
+  PASTED_AS_PLAIN: 'pastedAsPlain',
+  STARTED: 'started',
+  STOPPED: 'stopped',
+  SUBSTITUTED: 'autoSubstituted',
+  VISITED: 'visited',
+};
 
 export const enum INPUT_METHOD {
   ASCII = 'ascii',

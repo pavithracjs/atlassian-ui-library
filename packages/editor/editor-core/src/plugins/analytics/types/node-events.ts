@@ -2,7 +2,7 @@ import { TrackAEP } from './events';
 import {
   ACTION_SUBJECT,
   INPUT_METHOD,
-  ACTION,
+  I_ACTION,
   ACTION_SUBJECT_ID,
 } from './enums';
 
@@ -15,28 +15,28 @@ export const enum PANEL_TYPE {
 }
 
 type DeletePanelAEP = TrackAEP<
-  ACTION.DELETED,
+  I_ACTION['DELETED'],
   ACTION_SUBJECT.PANEL,
   undefined,
   { inputMethod: INPUT_METHOD.TOOLBAR }
 >;
 
 type ChangePanelAEP = TrackAEP<
-  ACTION.CHANGED_TYPE,
+  I_ACTION['CHANGED_TYPE'],
   ACTION_SUBJECT.PANEL,
   undefined,
   { newType: PANEL_TYPE; previousType: PANEL_TYPE }
 >;
 
 type VisitedSmartLink = TrackAEP<
-  ACTION.VISITED,
+  I_ACTION['VISITED'],
   ACTION_SUBJECT.SMART_LINK,
   ACTION_SUBJECT_ID.CARD_BLOCK | ACTION_SUBJECT_ID.CARD_INLINE,
   { inputMethod: INPUT_METHOD.TOOLBAR | INPUT_METHOD.CARD }
 >;
 
 type DeletedSmartLink = TrackAEP<
-  ACTION.DELETED,
+  I_ACTION['DELETED'],
   ACTION_SUBJECT.SMART_LINK,
   ACTION_SUBJECT_ID.CARD_BLOCK | ACTION_SUBJECT_ID.CARD_INLINE,
   {
