@@ -178,15 +178,19 @@ class HelpContextProviderImplementation extends React.Component<
   };
 
   navigateBack = async () => {
+    // debugger;
     if (this.state.history.length > 0 && this.state.history !== undefined) {
       this.setState(prevState => {
         const newState = { history: [...prevState.history.slice(0, -1)] };
-        const id = newState.history[newState.history.length - 1].id;
+        const historyLastItem = newState.history[newState.history.length - 1];
+        if (historyLastItem) {
+          const id = historyLastItem.id;
 
-        createAndFire({
-          action: 'help-panel-article-changed',
-          attributes: { id },
-        })(this.props.createAnalyticsEvent);
+          createAndFire({
+            action: 'help-panel-article-changed',
+            attributes: { id },
+          })(this.props.createAnalyticsEvent);
+        }
 
         return newState;
       });
