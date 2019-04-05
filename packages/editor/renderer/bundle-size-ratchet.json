@@ -3,8 +3,8 @@
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 52903,
-      "gzipSize": 13769
+      "size": 52904,
+      "gzipSize": 13770
     }
   },
   {
@@ -12,31 +12,31 @@
     "name": "async",
     "stats": {
       "size": 7148,
-      "gzipSize": 2111
+      "gzipSize": 2110
     }
   },
   {
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 511802,
-      "gzipSize": 141996
+      "size": 527408,
+      "gzipSize": 147298
     }
   },
   {
     "id": "node_modules.async",
     "name": "node_modules [async]",
     "stats": {
-      "size": 1630260,
-      "gzipSize": 486112
+      "size": 1630258,
+      "gzipSize": 486120
     }
   },
   {
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 120580,
-      "gzipSize": 30606
+      "size": 115957,
+      "gzipSize": 30105
     }
   },
   {
@@ -44,7 +44,7 @@
     "name": "async",
     "stats": {
       "size": 138456,
-      "gzipSize": 26282
+      "gzipSize": 26287
     }
   },
   {
@@ -52,7 +52,7 @@
     "name": "main",
     "stats": {
       "size": 102840,
-      "gzipSize": 24380
+      "gzipSize": 24596
     }
   },
   {
@@ -67,15 +67,15 @@
     "id": "atlaskit.elements.main",
     "name": "main",
     "stats": {
-      "size": 33835,
-      "gzipSize": 8770
+      "size": 33834,
+      "gzipSize": 8768
     }
   },
   {
     "id": "atlaskit.elements.async",
     "name": "async",
     "stats": {
-      "size": 15377,
+      "size": 15376,
       "gzipSize": 5063
     }
   },
@@ -83,8 +83,8 @@
     "id": "atlaskit.media.async",
     "name": "async",
     "stats": {
-      "size": 358478,
-      "gzipSize": 84253
+      "size": 358714,
+      "gzipSize": 84434
     }
   },
   {
@@ -107,16 +107,16 @@
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 882395,
-      "gzipSize": 232106
+      "size": 893099,
+      "gzipSize": 237070
     }
   },
   {
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 2148281,
-      "gzipSize": 607925
+      "size": 2148406,
+      "gzipSize": 608261
     }
   }
 ]
