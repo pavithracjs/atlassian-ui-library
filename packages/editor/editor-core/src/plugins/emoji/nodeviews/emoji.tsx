@@ -1,30 +1,37 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import { Node as PMNode } from 'prosemirror-model';
-import { EditorView } from 'prosemirror-view';
+import { EditorView, NodeView } from 'prosemirror-view';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import Emoji from '../ui/Emoji';
+import { ReactNodeView, getPosHandler } from '../../../nodeviews';
+import {
+  createMobileInlineDomRef,
+  WrapInlineNodeForMobile,
+} from '../../../ui/MobileInlineWrapper';
+import { PortalProviderAPI } from '../../../ui/PortalProvider';
+import { EditorAppearance } from '../../../types';
 import { ZeroWidthSpace } from '../../../utils';
 
-// tslint:disable-next-line:variable-name
-const Wrapper = styled.span`
-  user-select: all;
-`;
-
 export interface Props {
-  children?: React.ReactNode;
-  view: EditorView;
-  node: PMNode;
   providerFactory: ProviderFactory;
+  editorAppearance?: EditorAppearance;
 }
 
-export default class EmojiNode extends React.PureComponent<Props, {}> {
-  render() {
-    const { node, providerFactory } = this.props;
-    const { shortName, id, text } = node.attrs;
+export class EmojiNodeView extends ReactNodeView {
+  createDomRef() {
+    if (this.reactComponentProps.editorAppearance === 'mobile') {
+      return createMobileInlineDomRef();
+    }
+
+    return super.createDomRef();
+  }
+
+  render(props: Props) {
+    const { providerFactory, editorAppearance } = props;
+    const { shortName, id, text } = this.node.attrs;
 
     return (
-      <Wrapper>
+      <WrapInlineNodeForMobile appearance={editorAppearance}>
         <Emoji
           providers={providerFactory}
           id={id}
@@ -32,7 +39,19 @@ export default class EmojiNode extends React.PureComponent<Props, {}> {
           fallback={text}
         />
         {ZeroWidthSpace}
-      </Wrapper>
+      </WrapInlineNodeForMobile>
     );
   }
+}
+
+export default function emojiNodeView(
+  portalProviderAPI: PortalProviderAPI,
+  providerFactory: ProviderFactory,
+  editorAppearance?: EditorAppearance,
+) {
+  return (node: PMNode, view: EditorView, getPos: getPosHandler): NodeView =>
+    new EmojiNodeView(node, view, getPos, portalProviderAPI, {
+      providerFactory,
+      editorAppearance,
+    }).init();
 }

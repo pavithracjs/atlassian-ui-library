@@ -33,8 +33,12 @@ const emojiPlugin: EditorPlugin = {
     return [
       {
         name: 'emoji',
-        plugin: ({ providerFactory, portalProviderAPI }) =>
-          createPlugin(portalProviderAPI, providerFactory),
+        plugin: ({ providerFactory, portalProviderAPI, props }) =>
+          createPlugin(
+            portalProviderAPI,
+            providerFactory,
+            props.editorAppearance,
+          ),
       },
       {
         name: 'emojiInputRule',

@@ -67,7 +67,7 @@ export function getDefaultPluginsList(
 
   return defaultPluginList.concat([
     pastePlugin,
-    basePlugin,
+    basePlugin(props.appearance),
     blockTypePlugin,
     placeholderPlugin,
     clearMarksOnChangeToEmptyDocumentPlugin,
