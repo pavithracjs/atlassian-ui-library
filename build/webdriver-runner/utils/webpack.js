@@ -58,9 +58,19 @@ function packageIsInPatternOrChanged(workspace) {
   /**
    * If the CHANGED_PACKAGES variable is set,
    * parsing it to get an array of changed packages and only
-   * build those packages
+   * build those packages.
+   * There is an exception for the webpack-config to avoid issues
+   * in the webdriver runner and visual regression runner.
+   * We will replace any changes to webpack to run the tests on the website.
    */
   if (CHANGED_PACKAGES) {
+    // Doing so, we avoid to have the website, recognised twice as a package.
+    if (
+      CHANGED_PACKAGES.includes('webpack-config') &&
+      !CHANGED_PACKAGES.includes('website')
+    ) {
+      CHANGED_PACKAGES.replace('build/webpack-config', 'website');
+    }
     return JSON.parse(CHANGED_PACKAGES).some(pkg =>
       workspace.dir.includes(pkg),
     );
@@ -113,6 +123,9 @@ async function startDevServer() {
    - the package is internal.
    - no integration tests will be added.
    - changes to the package will not impact the build system.
+  ** In addition, we recently faced some issues when changing to webpack affects the webdriver runner and the visual-regression.
+  ** We need to run some tests when this package changes.
+  ** In the logic of the changed packages, we will run tests against the website if the webpack config changes.
   */
   if (globs.indexOf('website') === -1) {
     globs = globs.map(glob =>
