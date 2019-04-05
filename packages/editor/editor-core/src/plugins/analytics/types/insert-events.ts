@@ -1,9 +1,9 @@
 import { TrackAEP } from './events';
 import {
-  I_ACTION,
-  I_ACTION_SUBJECT,
-  ACTION_SUBJECT_ID,
-  I_INPUT_METHOD,
+  IAction,
+  IActionSubject,
+  IActionSubjectId,
+  IInputMethod,
 } from './enums';
 
 export const enum PANEL_TYPE {
@@ -49,38 +49,38 @@ export const enum LINK_RESOURCE {
 }
 
 type InsertAEP<ActionSubjectID, Attributes> = TrackAEP<
-  I_ACTION['INSERTED'],
-  I_ACTION_SUBJECT['DOCUMENT'],
+  IAction['INSERTED'],
+  IActionSubject['DOCUMENT'],
   ActionSubjectID,
   Attributes
 >;
 
 type InsertLineBreakAEP = TrackAEP<
-  I_ACTION['INSERTED'],
-  I_ACTION_SUBJECT['TEXT'],
-  ACTION_SUBJECT_ID.LINE_BREAK,
+  IAction['INSERTED'],
+  IActionSubject['TEXT'],
+  IActionSubjectId['LINE_BREAK'],
   undefined
 >;
 
 type InsertDividerAEP = InsertAEP<
-  ACTION_SUBJECT_ID.DIVIDER,
+  IActionSubjectId['DIVIDER'],
   {
     inputMethod:
-      | I_INPUT_METHOD['QUICK_INSERT']
-      | I_INPUT_METHOD['TOOLBAR']
-      | I_INPUT_METHOD['INSERT_MENU']
-      | I_INPUT_METHOD['FORMATTING']
-      | I_INPUT_METHOD['SHORTCUT'];
+      | IInputMethod['QUICK_INSERT']
+      | IInputMethod['TOOLBAR']
+      | IInputMethod['INSERT_MENU']
+      | IInputMethod['FORMATTING']
+      | IInputMethod['SHORTCUT'];
   }
 >;
 
 type InsertPanelAEP = InsertAEP<
-  ACTION_SUBJECT_ID.PANEL,
+  IActionSubjectId['PANEL'],
   {
     inputMethod:
-      | I_INPUT_METHOD['QUICK_INSERT']
-      | I_INPUT_METHOD['TOOLBAR']
-      | I_INPUT_METHOD['INSERT_MENU'];
+      | IInputMethod['QUICK_INSERT']
+      | IInputMethod['TOOLBAR']
+      | IInputMethod['INSERT_MENU'];
     panelType:
       | PANEL_TYPE.ERROR
       | PANEL_TYPE.INFO
@@ -91,38 +91,38 @@ type InsertPanelAEP = InsertAEP<
 >;
 
 type InsertCodeBlockAEP = InsertAEP<
-  ACTION_SUBJECT_ID.CODE_BLOCK,
+  IActionSubjectId['CODE_BLOCK'],
   {
     inputMethod:
-      | I_INPUT_METHOD['QUICK_INSERT']
-      | I_INPUT_METHOD['TOOLBAR']
-      | I_INPUT_METHOD['INSERT_MENU']
-      | I_INPUT_METHOD['FORMATTING']
-      | I_INPUT_METHOD['INSERT_MENU'];
+      | IInputMethod['QUICK_INSERT']
+      | IInputMethod['TOOLBAR']
+      | IInputMethod['INSERT_MENU']
+      | IInputMethod['FORMATTING']
+      | IInputMethod['INSERT_MENU'];
   }
 >;
 
 type InsertTableAEP = InsertAEP<
-  ACTION_SUBJECT_ID.TABLE,
+  IActionSubjectId['TABLE'],
   {
     inputMethod:
-      | I_INPUT_METHOD['QUICK_INSERT']
-      | I_INPUT_METHOD['TOOLBAR']
-      | I_INPUT_METHOD['INSERT_MENU']
-      | I_INPUT_METHOD['FORMATTING']
-      | I_INPUT_METHOD['SHORTCUT'];
+      | IInputMethod['QUICK_INSERT']
+      | IInputMethod['TOOLBAR']
+      | IInputMethod['INSERT_MENU']
+      | IInputMethod['FORMATTING']
+      | IInputMethod['SHORTCUT'];
   }
 >;
 
 type InsertActionDecisionAEP = InsertAEP<
-  ACTION_SUBJECT_ID.DECISION | ACTION_SUBJECT_ID.ACTION,
+  IActionSubjectId['DECISION'] | IActionSubjectId['ACTION'],
   {
     inputMethod:
-      | I_INPUT_METHOD['QUICK_INSERT']
-      | I_INPUT_METHOD['TOOLBAR']
-      | I_INPUT_METHOD['INSERT_MENU']
-      | I_INPUT_METHOD['FORMATTING']
-      | I_INPUT_METHOD['KEYBOARD'];
+      | IInputMethod['QUICK_INSERT']
+      | IInputMethod['TOOLBAR']
+      | IInputMethod['INSERT_MENU']
+      | IInputMethod['FORMATTING']
+      | IInputMethod['KEYBOARD'];
     containerAri?: string;
     objectAri?: string;
     localId: string;
@@ -134,32 +134,32 @@ type InsertActionDecisionAEP = InsertAEP<
 >;
 
 type InsertEmojiAEP = InsertAEP<
-  ACTION_SUBJECT_ID.EMOJI,
+  IActionSubjectId['EMOJI'],
   {
     inputMethod:
-      | I_INPUT_METHOD['TYPEAHEAD']
-      | I_INPUT_METHOD['PICKER']
-      | I_INPUT_METHOD['ASCII'];
+      | IInputMethod['TYPEAHEAD']
+      | IInputMethod['PICKER']
+      | IInputMethod['ASCII'];
   }
 >;
 
 type InsertStatusAEP = InsertAEP<
-  ACTION_SUBJECT_ID.STATUS,
+  IActionSubjectId['STATUS'],
   {
     inputMethod:
-      | I_INPUT_METHOD['QUICK_INSERT']
-      | I_INPUT_METHOD['TOOLBAR']
-      | I_INPUT_METHOD['INSERT_MENU'];
+      | IInputMethod['QUICK_INSERT']
+      | IInputMethod['TOOLBAR']
+      | IInputMethod['INSERT_MENU'];
   }
 >;
 
 export type InputMethodInsertMedia =
-  | I_INPUT_METHOD['CLIPBOARD']
-  | I_INPUT_METHOD['PICKER_CLOUD']
-  | I_INPUT_METHOD['DRAG_AND_DROP'];
+  | IInputMethod['CLIPBOARD']
+  | IInputMethod['PICKER_CLOUD']
+  | IInputMethod['DRAG_AND_DROP'];
 
 type InsertMediaAEP = InsertAEP<
-  ACTION_SUBJECT_ID.MEDIA,
+  IActionSubjectId['MEDIA'],
   {
     inputMethod: InputMethodInsertMedia;
     fileExtension: string | undefined;
@@ -167,19 +167,19 @@ type InsertMediaAEP = InsertAEP<
 >;
 
 type InsertLinkAEP = InsertAEP<
-  ACTION_SUBJECT_ID.LINK,
+  IActionSubjectId['LINK'],
   {
     inputMethod:
-      | I_INPUT_METHOD['TYPEAHEAD']
-      | I_INPUT_METHOD['CLIPBOARD']
-      | I_INPUT_METHOD['FORMATTING']
-      | I_INPUT_METHOD['AUTO_DETECT']
-      | I_INPUT_METHOD['MANUAL'];
+      | IInputMethod['TYPEAHEAD']
+      | IInputMethod['CLIPBOARD']
+      | IInputMethod['FORMATTING']
+      | IInputMethod['AUTO_DETECT']
+      | IInputMethod['MANUAL'];
   }
 >;
 
 type InsertLinkPreviewAEP = InsertAEP<
-  ACTION_SUBJECT_ID.LINK_PREVIEW,
+  IActionSubjectId['LINK_PREVIEW'],
   {
     status: LINK_STATUS.RESOLVED | LINK_STATUS.UNRESOLVED;
     representation?:

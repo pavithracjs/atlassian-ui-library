@@ -1,5 +1,5 @@
 import { Dispatch } from '../../../event-dispatcher';
-import { I_EVENT_TYPE, ACTION_SUBJECT } from './enums';
+import { IEventType, IActionSubject } from './enums';
 import { UIEventPayload } from './ui-events';
 import { FormatEventPayload } from './format-events';
 import { SubstituteEventPayload } from './substitute-events';
@@ -21,7 +21,7 @@ export type UIAEP<Action, ActionSubject, ActionSubjectID, Attributes> = AEP<
   ActionSubject,
   ActionSubjectID,
   Attributes,
-  I_EVENT_TYPE['UI']
+  IEventType['UI']
 >;
 
 export type TrackAEP<Action, ActionSubject, ActionSubjectID, Attributes> = AEP<
@@ -29,12 +29,12 @@ export type TrackAEP<Action, ActionSubject, ActionSubjectID, Attributes> = AEP<
   ActionSubject,
   ActionSubjectID,
   Attributes,
-  I_EVENT_TYPE['TRACK']
+  IEventType['TRACK']
 >;
 
 export type TableAEP<Action, Attributes> = TrackAEP<
   Action,
-  I_ACTION_SUBJECT['TABLE'],
+  IActionSubject['TABLE'],
   null,
   Attributes
 >;

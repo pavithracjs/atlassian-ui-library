@@ -1,5 +1,5 @@
 import { TrackAEP } from './events';
-import { I_ACTION, I_ACTION_SUBJECT, ACTION_SUBJECT_ID } from './enums';
+import { IAction, IActionSubject, ACTION_SUBJECT_ID } from './enums';
 
 export const enum SYMBOL {
   ARROW_RIGHT = 'rightArrow',
@@ -15,14 +15,14 @@ export const enum PUNC {
 }
 
 type SubstituteAEP<ActionSubjectID, Attributes> = TrackAEP<
-  I_ACTION['SUBSTITUTED'],
-  I_ACTION_SUBJECT['TEXT'],
+  IAction['SUBSTITUTED'],
+  IActionSubject['TEXT'],
   ActionSubjectID,
   Attributes
 >;
 
 type SubstituteProductAEP = SubstituteAEP<
-  ACTION_SUBJECT_ID.PRODUCT_NAME,
+  IActionSubjectId['PRODUCT_NAME'],
   {
     product: string;
     originalSpelling: string;
@@ -30,14 +30,14 @@ type SubstituteProductAEP = SubstituteAEP<
 >;
 
 type SubstituteSymbolAEP = SubstituteAEP<
-  ACTION_SUBJECT_ID.SYMBOL,
+  IActionSubjectId['SYMBOL'],
   {
     symbol: SYMBOL.ARROW_RIGHT | SYMBOL.ARROW_LEFT | SYMBOL.ARROW_DOUBLE;
   }
 >;
 
 type SubstitutePuncAEP = SubstituteAEP<
-  ACTION_SUBJECT_ID.PUNC,
+  IActionSubjectId['PUNC'],
   {
     punctuation:
       | PUNC.DASH

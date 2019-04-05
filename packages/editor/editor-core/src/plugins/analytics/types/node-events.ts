@@ -1,9 +1,9 @@
 import { TrackAEP } from './events';
 import {
-  I_ACTION_SUBJECT,
-  I_INPUT_METHOD,
-  I_ACTION,
-  ACTION_SUBJECT_ID,
+  IActionSubject,
+  IInputMethod,
+  IAction,
+  IActionSubjectId,
 } from './enums';
 
 export const enum PANEL_TYPE {
@@ -15,33 +15,35 @@ export const enum PANEL_TYPE {
 }
 
 type DeletePanelAEP = TrackAEP<
-  I_ACTION['DELETED'],
-  I_ACTION_SUBJECT['PANEL'],
+  IAction['DELETED'],
+  IActionSubject['PANEL'],
   undefined,
-  { inputMethod: I_INPUT_METHOD['TOOLBAR'] }
+  { inputMethod: IInputMethod['TOOLBAR'] }
 >;
 
 type ChangePanelAEP = TrackAEP<
-  I_ACTION['CHANGED_TYPE'],
-  I_ACTION_SUBJECT['PANEL'],
+  IAction['CHANGED_TYPE'],
+  IActionSubject['PANEL'],
   undefined,
   { newType: PANEL_TYPE; previousType: PANEL_TYPE }
 >;
 
 type VisitedSmartLink = TrackAEP<
-  I_ACTION['VISITED'],
-  I_ACTION_SUBJECT['SMART_LINK'],
-  ACTION_SUBJECT_ID.CARD_BLOCK | ACTION_SUBJECT_ID.CARD_INLINE,
-  { inputMethod: I_INPUT_METHOD['TOOLBAR'] | I_INPUT_METHOD['CARD'] }
+  IAction['VISITED'],
+  IActionSubject['SMART_LINK'],
+  IActionSubjectId['CARD_BLOCK'] | IActionSubjectId['CARD_INLINE'],
+  { inputMethod: IInputMethod['TOOLBAR'] | IInputMethod['CARD'] }
 >;
 
 type DeletedSmartLink = TrackAEP<
-  I_ACTION['DELETED'],
-  I_ACTION_SUBJECT['SMART_LINK'],
-  ACTION_SUBJECT_ID.CARD_BLOCK | ACTION_SUBJECT_ID.CARD_INLINE,
+  IAction['DELETED'],
+  IActionSubject['SMART_LINK'],
+  IActionSubjectId['CARD_BLOCK'] | IActionSubjectId['CARD_INLINE'],
   {
-    inputMethod: I_INPUT_METHOD['TOOLBAR'] | I_INPUT_METHOD['CARD'];
-    displayMode: ACTION_SUBJECT_ID.CARD_BLOCK | ACTION_SUBJECT_ID.CARD_INLINE;
+    inputMethod: IInputMethod['TOOLBAR'] | IInputMethod['CARD'];
+    displayMode:
+      | IActionSubjectId['CARD_BLOCK']
+      | IActionSubjectId['CARD_INLINE'];
   }
 >;
 

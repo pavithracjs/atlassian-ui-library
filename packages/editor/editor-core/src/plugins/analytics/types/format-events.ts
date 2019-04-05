@@ -1,9 +1,9 @@
 import { TrackAEP } from './events';
 import {
-  I_ACTION,
-  I_ACTION_SUBJECT,
-  ACTION_SUBJECT_ID,
-  I_INPUT_METHOD,
+  IAction,
+  IActionSubject,
+  IActionSubjectId,
+  IInputMethod,
 } from './enums';
 
 export const enum INDENT_DIR {
@@ -19,38 +19,38 @@ export const enum INDENT_TYPE {
 }
 
 type FormatAEP<ActionSubjectID, Attributes> = TrackAEP<
-  I_ACTION['FORMATTED'],
-  I_ACTION_SUBJECT['TEXT'],
+  IAction['FORMATTED'],
+  IActionSubject['TEXT'],
   ActionSubjectID,
   Attributes
 >;
 
 type FormatBasicAEP = FormatAEP<
-  | ACTION_SUBJECT_ID.FORMAT_STRONG
-  | ACTION_SUBJECT_ID.FORMAT_ITALIC
-  | ACTION_SUBJECT_ID.FORMAT_UNDERLINE
-  | ACTION_SUBJECT_ID.FORMAT_CODE
-  | ACTION_SUBJECT_ID.FORMAT_STRIKE,
+  | IActionSubjectId['FORMAT_STRONG']
+  | IActionSubjectId['FORMAT_ITALIC']
+  | IActionSubjectId['FORMAT_UNDERLINE']
+  | IActionSubjectId['FORMAT_CODE']
+  | IActionSubjectId['FORMAT_STRIKE'],
   {
     inputMethod:
-      | I_INPUT_METHOD['TOOLBAR']
-      | I_INPUT_METHOD['SHORTCUT']
-      | I_INPUT_METHOD['FORMATTING']
-      | I_INPUT_METHOD['FLOATING_TB'];
+      | IInputMethod['TOOLBAR']
+      | IInputMethod['SHORTCUT']
+      | IInputMethod['FORMATTING']
+      | IInputMethod['FLOATING_TB'];
   }
 >;
 
 type FormatSuperSubAEP = FormatAEP<
-  ACTION_SUBJECT_ID.FORMAT_SUPER | ACTION_SUBJECT_ID.FORMAT_SUB,
+  IActionSubjectId['FORMAT_SUPER'] | IActionSubjectId['FORMAT_SUB'],
   {
-    inputMethod: I_INPUT_METHOD['TOOLBAR'];
+    inputMethod: IInputMethod['TOOLBAR'];
   }
 >;
 
 type FormatIndentationAEP = FormatAEP<
-  ACTION_SUBJECT_ID.FORMAT_INDENT,
+  IActionSubjectId['FORMAT_INDENT'],
   {
-    inputMethod: I_INPUT_METHOD['TOOLBAR'] | I_INPUT_METHOD['KEYBOARD'];
+    inputMethod: IInputMethod['TOOLBAR'] | IInputMethod['KEYBOARD'];
     direction: INDENT_DIR.INDENT | INDENT_DIR.OUTDENT;
     previousIndentationLevel: number;
     newIndentLevel: number;
@@ -63,37 +63,37 @@ type FormatIndentationAEP = FormatAEP<
 >;
 
 type FormatHeadingAEP = FormatAEP<
-  ACTION_SUBJECT_ID.FORMAT_HEADING,
+  IActionSubjectId['FORMAT_HEADING'],
   {
     inputMethod:
-      | I_INPUT_METHOD['TOOLBAR']
-      | I_INPUT_METHOD['SHORTCUT']
-      | I_INPUT_METHOD['FORMATTING'];
+      | IInputMethod['TOOLBAR']
+      | IInputMethod['SHORTCUT']
+      | IInputMethod['FORMATTING'];
     newHeadingLevel: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   }
 >;
 
 type FormatBlockQuoteAEP = FormatAEP<
-  ACTION_SUBJECT_ID.FORMAT_BLOCK_QUOTE,
+  IActionSubjectId['FORMAT_BLOCK_QUOTE'],
   {
     inputMethod:
-      | I_INPUT_METHOD['TOOLBAR']
-      | I_INPUT_METHOD['KEYBOARD']
-      | I_INPUT_METHOD['FORMATTING']
-      | I_INPUT_METHOD['QUICK_INSERT'];
+      | IInputMethod['TOOLBAR']
+      | IInputMethod['KEYBOARD']
+      | IInputMethod['FORMATTING']
+      | IInputMethod['QUICK_INSERT'];
   }
 >;
 
 type FormatClearAEP = FormatAEP<
-  ACTION_SUBJECT_ID.FORMAT_CLEAR,
+  IActionSubjectId['FORMAT_CLEAR'],
   {
-    inputMethod: I_INPUT_METHOD['TOOLBAR'] | I_INPUT_METHOD['SHORTCUT'];
+    inputMethod: IInputMethod['TOOLBAR'] | IInputMethod['SHORTCUT'];
     formattingCleared: string[];
   }
 >;
 
 type FormatColorAEP = FormatAEP<
-  ACTION_SUBJECT_ID.FORMAT_COLOR,
+  IActionSubjectId['FORMAT_COLOR'],
   {
     newColor: string;
     previousColor: string;
@@ -101,13 +101,14 @@ type FormatColorAEP = FormatAEP<
 >;
 
 type FormatListAEP = FormatAEP<
-  ACTION_SUBJECT_ID.FORMAT_LIST_NUMBER | ACTION_SUBJECT_ID.FORMAT_LIST_BULLET,
+  | IActionSubjectId['FORMAT_LIST_NUMBER']
+  | IActionSubjectId['FORMAT_LIST_BULLET'],
   {
     inputMethod:
-      | I_INPUT_METHOD['TOOLBAR']
-      | I_INPUT_METHOD['KEYBOARD']
-      | I_INPUT_METHOD['FORMATTING']
-      | I_INPUT_METHOD['QUICK_INSERT'];
+      | IInputMethod['TOOLBAR']
+      | IInputMethod['KEYBOARD']
+      | IInputMethod['FORMATTING']
+      | IInputMethod['QUICK_INSERT'];
   }
 >;
 

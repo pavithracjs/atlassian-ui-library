@@ -1,9 +1,9 @@
 import { TrackAEP } from './events';
 import {
-  I_ACTION,
-  I_ACTION_SUBJECT,
-  ACTION_SUBJECT_ID,
-  I_INPUT_METHOD,
+  IAction,
+  IActionSubject,
+  IActionSubjectId,
+  IInputMethod,
 } from './enums';
 
 export const PasteTypes: { [type: string]: PasteType } = {
@@ -90,37 +90,37 @@ export type PasteContent =
   | 'mixed';
 
 export type PASTE_ACTION_SUBJECT_ID =
-  | ACTION_SUBJECT_ID.PASTE_BLOCKQUOTE
-  | ACTION_SUBJECT_ID.PASTE_BLOCK_CARD
-  | ACTION_SUBJECT_ID.PASTE_BODIED_EXTENSION
-  | ACTION_SUBJECT_ID.PASTE_BULLET_LIST
-  | ACTION_SUBJECT_ID.PASTE_CODE_BLOCK
-  | ACTION_SUBJECT_ID.PASTE_DECISION_LIST
-  | ACTION_SUBJECT_ID.PASTE_EXTENSION
-  | ACTION_SUBJECT_ID.PASTE_HEADING
-  | ACTION_SUBJECT_ID.PASTE_MEDIA_GROUP
-  | ACTION_SUBJECT_ID.PASTE_MEDIA_SINGLE
-  | ACTION_SUBJECT_ID.PASTE_ORDERED_LIST
-  | ACTION_SUBJECT_ID.PASTE_PANEL
-  | ACTION_SUBJECT_ID.PASTE_PARAGRAPH
-  | ACTION_SUBJECT_ID.PASTE_RULE
-  | ACTION_SUBJECT_ID.PASTE_TABLE
-  | ACTION_SUBJECT_ID.PASTE_TABLE_CELL
-  | ACTION_SUBJECT_ID.PASTE_TABLE_HEADER
-  | ACTION_SUBJECT_ID.PASTE_TABLE_ROW
-  | ACTION_SUBJECT_ID.PASTE_TASK_LIST;
+  | IActionSubjectId['PASTE_BLOCKQUOTE']
+  | IActionSubjectId['PASTE_BLOCK_CARD']
+  | IActionSubjectId['PASTE_BODIED_EXTENSION']
+  | IActionSubjectId['PASTE_BULLET_LIST']
+  | IActionSubjectId['PASTE_CODE_BLOCK']
+  | IActionSubjectId['PASTE_DECISION_LIST']
+  | IActionSubjectId['PASTE_EXTENSION']
+  | IActionSubjectId['PASTE_HEADING']
+  | IActionSubjectId['PASTE_MEDIA_GROUP']
+  | IActionSubjectId['PASTE_MEDIA_SINGLE']
+  | IActionSubjectId['PASTE_ORDERED_LIST']
+  | IActionSubjectId['PASTE_PANEL']
+  | IActionSubjectId['PASTE_PARAGRAPH']
+  | IActionSubjectId['PASTE_RULE']
+  | IActionSubjectId['PASTE_TABLE']
+  | IActionSubjectId['PASTE_TABLE_CELL']
+  | IActionSubjectId['PASTE_TABLE_HEADER']
+  | IActionSubjectId['PASTE_TABLE_ROW']
+  | IActionSubjectId['PASTE_TASK_LIST'];
 
 type PasteBaseAEP<Action, Attributes> = TrackAEP<
   Action,
-  I_ACTION_SUBJECT['DOCUMENT'],
-  PASTE_ACTION_SUBJECT_ID,
+  IActionSubject['DOCUMENT'],
+  PASTE_IActionSubjectId,
   Attributes
 >;
 
 type PasteAEP = PasteBaseAEP<
-  I_ACTION['PASTED'],
+  IAction['PASTED'],
   {
-    inputMethod: I_INPUT_METHOD['KEYBOARD'];
+    inputMethod: IInputMethod['KEYBOARD'];
     type: PasteType;
     content: PasteContent;
     source?: PasteSource;
@@ -129,7 +129,7 @@ type PasteAEP = PasteBaseAEP<
 >;
 
 type PasteAsPlainAEP = PasteBaseAEP<
-  I_ACTION['PASTED_AS_PLAIN'],
+  IAction['PASTED_AS_PLAIN'],
   {
     inputMethod: string;
     pasteSize: number;
