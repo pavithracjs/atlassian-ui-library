@@ -3,7 +3,7 @@ import {
   I_ACTION,
   ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
-  INPUT_METHOD,
+  I_INPUT_METHOD,
 } from './enums';
 
 export const enum PLATFORMS {
@@ -45,7 +45,7 @@ type EditorStopAEP = UIAEP<
   ACTION_SUBJECT.EDITOR,
   ACTION_SUBJECT_ID.SAVE | ACTION_SUBJECT_ID.CANCEL,
   {
-    inputMethod: INPUT_METHOD.TOOLBAR | INPUT_METHOD.SHORTCUT;
+    inputMethod: I_INPUT_METHOD['TOOLBAR'] | I_INPUT_METHOD['SHORTCUT'];
     documentSize: number;
     nodeCount?: {
       tables: number;
@@ -71,7 +71,7 @@ type AnnotateButtonAEP = UIAEP<
 
 type ButtonHelpAEP = ButtonAEP<
   ACTION_SUBJECT_ID.BUTTON_HELP,
-  { inputMethod: INPUT_METHOD.SHORTCUT | INPUT_METHOD.TOOLBAR }
+  { inputMethod: I_INPUT_METHOD['SHORTCUT'] | I_INPUT_METHOD['TOOLBAR'] }
 >;
 
 type ButtonFeedbackAEP = ButtonAEP<
@@ -81,37 +81,37 @@ type ButtonFeedbackAEP = ButtonAEP<
 
 type PickerEmojiAEP = PickerAEP<
   ACTION_SUBJECT_ID.PICKER_EMOJI,
-  { inputMethod: INPUT_METHOD.TOOLBAR | INPUT_METHOD.INSERT_MENU }
+  { inputMethod: I_INPUT_METHOD['TOOLBAR'] | I_INPUT_METHOD['INSERT_MENU'] }
 >;
 
 type PickerImageAEP = PickerAEP<
   ACTION_SUBJECT_ID.PICKER_CLOUD,
   {
     inputMethod:
-      | INPUT_METHOD.TOOLBAR
-      | INPUT_METHOD.QUICK_INSERT
-      | INPUT_METHOD.INSERT_MENU;
+      | I_INPUT_METHOD['TOOLBAR']
+      | I_INPUT_METHOD['QUICK_INSERT']
+      | I_INPUT_METHOD['INSERT_MENU'];
   }
 >;
 
 type TypeAheadQuickInsertAEP = TypeAheadAEP<
   ACTION_SUBJECT_ID.TYPEAHEAD_QUICK_INSERT,
-  { inputMethod: INPUT_METHOD.KEYBOARD }
+  { inputMethod: I_INPUT_METHOD['KEYBOARD'] }
 >;
 
 type TypeAheadEmojiAEP = TypeAheadAEP<
   ACTION_SUBJECT_ID.TYPEAHEAD_EMOJI,
-  { inputMethod: INPUT_METHOD.QUICK_INSERT | INPUT_METHOD.KEYBOARD }
+  { inputMethod: I_INPUT_METHOD['QUICK_INSERT'] | I_INPUT_METHOD['KEYBOARD'] }
 >;
 
 type TypeAheadLinkAEP = TypeAheadAEP<
   ACTION_SUBJECT_ID.TYPEAHEAD_LINK,
   {
     inputMethod:
-      | INPUT_METHOD.TOOLBAR
-      | INPUT_METHOD.INSERT_MENU
-      | INPUT_METHOD.QUICK_INSERT
-      | INPUT_METHOD.SHORTCUT;
+      | I_INPUT_METHOD['TOOLBAR']
+      | I_INPUT_METHOD['INSERT_MENU']
+      | I_INPUT_METHOD['QUICK_INSERT']
+      | I_INPUT_METHOD['SHORTCUT'];
   }
 >;
 
@@ -119,10 +119,10 @@ type TypeAheadMentionAEP = TypeAheadAEP<
   ACTION_SUBJECT_ID.TYPEAHEAD_MENTION,
   {
     inputMethod:
-      | INPUT_METHOD.TOOLBAR
-      | INPUT_METHOD.INSERT_MENU
-      | INPUT_METHOD.QUICK_INSERT
-      | INPUT_METHOD.KEYBOARD;
+      | I_INPUT_METHOD['TOOLBAR']
+      | I_INPUT_METHOD['INSERT_MENU']
+      | I_INPUT_METHOD['QUICK_INSERT']
+      | I_INPUT_METHOD['KEYBOARD'];
   }
 >;
 

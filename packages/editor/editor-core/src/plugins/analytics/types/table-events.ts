@@ -1,5 +1,5 @@
 import { TableAEP } from './events';
-import { INPUT_METHOD } from './enums';
+import { I_INPUT_METHOD } from './enums';
 
 //#region Constants
 export const enum TABLE_ACTION {
@@ -48,14 +48,14 @@ type AllCellInfo = TotalRowAndColCount &
 type TableDeleteAEP = TableAEP<
   TABLE_ACTION.DELETED,
   {
-    inputMethod: INPUT_METHOD.KEYBOARD | INPUT_METHOD.FLOATING_TB;
+    inputMethod: I_INPUT_METHOD['KEYBOARD'] | I_INPUT_METHOD['FLOATING_TB'];
   }
 >;
 
 type TableClearAEP = TableAEP<
   TABLE_ACTION.CLEARED,
   {
-    inputMethod: INPUT_METHOD.KEYBOARD | INPUT_METHOD.CONTEXT_MENU;
+    inputMethod: I_INPUT_METHOD['KEYBOARD'] | I_INPUT_METHOD['CONTEXT_MENU'];
   } & HorizontalAndVerticalCells &
     TotalRowAndColCount
 >;
@@ -95,10 +95,10 @@ type TableAddRowOrColumnAEP = TableAEP<
   TABLE_ACTION.ADDED_ROW | TABLE_ACTION.ADDED_COLUMN,
   {
     inputMethod:
-      | INPUT_METHOD.SHORTCUT
-      | INPUT_METHOD.CONTEXT_MENU
-      | INPUT_METHOD.BUTTON
-      | INPUT_METHOD.KEYBOARD;
+      | I_INPUT_METHOD['SHORTCUT']
+      | I_INPUT_METHOD['CONTEXT_MENU']
+      | I_INPUT_METHOD['BUTTON']
+      | I_INPUT_METHOD['KEYBOARD'];
     position: number;
   } & TotalRowAndColCount
 >;
@@ -106,7 +106,7 @@ type TableAddRowOrColumnAEP = TableAEP<
 type TableDeleteRowOrColumnAEP = TableAEP<
   TABLE_ACTION.DELETED_ROW | TABLE_ACTION.DELETED_COLUMN,
   {
-    inputMethod: INPUT_METHOD.CONTEXT_MENU | INPUT_METHOD.BUTTON;
+    inputMethod: I_INPUT_METHOD['CONTEXT_MENU'] | I_INPUT_METHOD['BUTTON'];
     position: number;
     count: number;
   } & TotalRowAndColCount

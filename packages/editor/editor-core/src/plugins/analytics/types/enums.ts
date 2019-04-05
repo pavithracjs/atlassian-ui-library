@@ -40,28 +40,51 @@ export const ACTION: I_ACTION = {
   VISITED: 'visited',
 };
 
-export const enum INPUT_METHOD {
-  ASCII = 'ascii',
-  AUTO = 'auto',
-  AUTO_DETECT = 'autoDetect',
-  CARD = 'card',
-  CLIPBOARD = 'clipboard',
-  DRAG_AND_DROP = 'dragAndDrop',
-  EXTERNAL = 'external',
-  FORMATTING = 'autoformatting',
-  FLOATING_TB = 'floatingToolbar',
-  KEYBOARD = 'keyboard',
-  INSERT_MENU = 'insertMenu',
-  MANUAL = 'manual',
-  PICKER = 'picker',
-  PICKER_CLOUD = 'cloudPicker',
-  QUICK_INSERT = 'quickInsert',
-  SHORTCUT = 'shortcut',
-  TOOLBAR = 'toolbar',
-  TYPEAHEAD = 'typeAhead',
-  CONTEXT_MENU = 'contextMenu',
-  BUTTON = 'button',
+export interface I_INPUT_METHOD {
+  ASCII: 'ascii';
+  AUTO: 'auto';
+  AUTO_DETECT: 'autoDetect';
+  CARD: 'card';
+  CLIPBOARD: 'clipboard';
+  DRAG_AND_DROP: 'dragAndDrop';
+  EXTERNAL: 'external';
+  FORMATTING: 'autoformatting';
+  FLOATING_TB: 'floatingToolbar';
+  KEYBOARD: 'keyboard';
+  INSERT_MENU: 'insertMenu';
+  MANUAL: 'manual';
+  PICKER: 'picker';
+  PICKER_CLOUD: 'cloudPicker';
+  QUICK_INSERT: 'quickInsert';
+  SHORTCUT: 'shortcut';
+  TOOLBAR: 'toolbar';
+  TYPEAHEAD: 'typeAhead';
+  CONTEXT_MENU: 'contextMenu';
+  BUTTON: 'button';
 }
+
+export const INPUT_METHOD: I_INPUT_METHOD = {
+  ASCII: 'ascii',
+  AUTO: 'auto',
+  AUTO_DETECT: 'autoDetect',
+  CARD: 'card',
+  CLIPBOARD: 'clipboard',
+  DRAG_AND_DROP: 'dragAndDrop',
+  EXTERNAL: 'external',
+  FORMATTING: 'autoformatting',
+  FLOATING_TB: 'floatingToolbar',
+  KEYBOARD: 'keyboard',
+  INSERT_MENU: 'insertMenu',
+  MANUAL: 'manual',
+  PICKER: 'picker',
+  PICKER_CLOUD: 'cloudPicker',
+  QUICK_INSERT: 'quickInsert',
+  SHORTCUT: 'shortcut',
+  TOOLBAR: 'toolbar',
+  TYPEAHEAD: 'typeAhead',
+  CONTEXT_MENU: 'contextMenu',
+  BUTTON: 'button',
+};
 
 export const enum ACTION_SUBJECT {
   BUTTON = 'button',

@@ -3,7 +3,7 @@ import {
   I_ACTION,
   ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
-  INPUT_METHOD,
+  I_INPUT_METHOD,
 } from './enums';
 
 export const PasteTypes: { [type: string]: PasteType } = {
@@ -120,7 +120,7 @@ type PasteBaseAEP<Action, Attributes> = TrackAEP<
 type PasteAEP = PasteBaseAEP<
   I_ACTION['PASTED'],
   {
-    inputMethod: INPUT_METHOD.KEYBOARD;
+    inputMethod: I_INPUT_METHOD['KEYBOARD'];
     type: PasteType;
     content: PasteContent;
     source?: PasteSource;

@@ -3,7 +3,7 @@ import {
   I_ACTION,
   ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
-  INPUT_METHOD,
+  I_INPUT_METHOD,
 } from './enums';
 
 export const enum INDENT_DIR {
@@ -33,24 +33,24 @@ type FormatBasicAEP = FormatAEP<
   | ACTION_SUBJECT_ID.FORMAT_STRIKE,
   {
     inputMethod:
-      | INPUT_METHOD.TOOLBAR
-      | INPUT_METHOD.SHORTCUT
-      | INPUT_METHOD.FORMATTING
-      | INPUT_METHOD.FLOATING_TB;
+      | I_INPUT_METHOD['TOOLBAR']
+      | I_INPUT_METHOD['SHORTCUT']
+      | I_INPUT_METHOD['FORMATTING']
+      | I_INPUT_METHOD['FLOATING_TB'];
   }
 >;
 
 type FormatSuperSubAEP = FormatAEP<
   ACTION_SUBJECT_ID.FORMAT_SUPER | ACTION_SUBJECT_ID.FORMAT_SUB,
   {
-    inputMethod: INPUT_METHOD.TOOLBAR;
+    inputMethod: I_INPUT_METHOD['TOOLBAR'];
   }
 >;
 
 type FormatIndentationAEP = FormatAEP<
   ACTION_SUBJECT_ID.FORMAT_INDENT,
   {
-    inputMethod: INPUT_METHOD.TOOLBAR | INPUT_METHOD.KEYBOARD;
+    inputMethod: I_INPUT_METHOD['TOOLBAR'] | I_INPUT_METHOD['KEYBOARD'];
     direction: INDENT_DIR.INDENT | INDENT_DIR.OUTDENT;
     previousIndentationLevel: number;
     newIndentLevel: number;
@@ -66,9 +66,9 @@ type FormatHeadingAEP = FormatAEP<
   ACTION_SUBJECT_ID.FORMAT_HEADING,
   {
     inputMethod:
-      | INPUT_METHOD.TOOLBAR
-      | INPUT_METHOD.SHORTCUT
-      | INPUT_METHOD.FORMATTING;
+      | I_INPUT_METHOD['TOOLBAR']
+      | I_INPUT_METHOD['SHORTCUT']
+      | I_INPUT_METHOD['FORMATTING'];
     newHeadingLevel: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   }
 >;
@@ -77,17 +77,17 @@ type FormatBlockQuoteAEP = FormatAEP<
   ACTION_SUBJECT_ID.FORMAT_BLOCK_QUOTE,
   {
     inputMethod:
-      | INPUT_METHOD.TOOLBAR
-      | INPUT_METHOD.KEYBOARD
-      | INPUT_METHOD.FORMATTING
-      | INPUT_METHOD.QUICK_INSERT;
+      | I_INPUT_METHOD['TOOLBAR']
+      | I_INPUT_METHOD['KEYBOARD']
+      | I_INPUT_METHOD['FORMATTING']
+      | I_INPUT_METHOD['QUICK_INSERT'];
   }
 >;
 
 type FormatClearAEP = FormatAEP<
   ACTION_SUBJECT_ID.FORMAT_CLEAR,
   {
-    inputMethod: INPUT_METHOD.TOOLBAR | INPUT_METHOD.SHORTCUT;
+    inputMethod: I_INPUT_METHOD['TOOLBAR'] | I_INPUT_METHOD['SHORTCUT'];
     formattingCleared: string[];
   }
 >;
@@ -104,10 +104,10 @@ type FormatListAEP = FormatAEP<
   ACTION_SUBJECT_ID.FORMAT_LIST_NUMBER | ACTION_SUBJECT_ID.FORMAT_LIST_BULLET,
   {
     inputMethod:
-      | INPUT_METHOD.TOOLBAR
-      | INPUT_METHOD.KEYBOARD
-      | INPUT_METHOD.FORMATTING
-      | INPUT_METHOD.QUICK_INSERT;
+      | I_INPUT_METHOD['TOOLBAR']
+      | I_INPUT_METHOD['KEYBOARD']
+      | I_INPUT_METHOD['FORMATTING']
+      | I_INPUT_METHOD['QUICK_INSERT'];
   }
 >;
 
