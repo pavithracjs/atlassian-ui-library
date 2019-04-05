@@ -17,8 +17,7 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/theme": "^8.0.1",
-    "@babel/runtime": "^7.0.0",
-    "@types/react-test-renderer": "^16.8.1"
+    "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {
     "react": "^16.4.0",
@@ -31,6 +30,7 @@
     "@atlaskit/icon": "^16.0.6",
     "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/visual-regression": "^0.0.1",
+    "@types/react-test-renderer": "^16.8.1",
     "enzyme": "^3.7.0",
     "react-dom": "^16.4.2",
     "react-test-renderer": "^16.3.0"
