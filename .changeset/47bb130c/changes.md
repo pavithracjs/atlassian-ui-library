@@ -1,0 +1,1 @@
+- Fix odd cursor selection going inside the inline smart links
