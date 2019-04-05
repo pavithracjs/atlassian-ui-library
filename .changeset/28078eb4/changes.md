@@ -1,0 +1,1 @@
+- ED-6674: fix table shadow overlapping inline comments
