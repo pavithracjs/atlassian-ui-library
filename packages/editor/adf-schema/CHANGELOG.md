@@ -1,5 +1,10 @@
 # @atlaskit/adf-schema
 
+## 2.2.1
+- [patch] [3f8a08fc88](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f8a08fc88):
+
+  Release a new version of adf-schema
+
 ## 2.2.0
 - [minor] [63133d8704](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/63133d8704):
 
