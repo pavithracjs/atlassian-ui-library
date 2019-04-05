@@ -113,8 +113,8 @@ version is not currently exported.
 
 ### ⏫ Props updated:
 
-- **readView:** The function signature has been updated to \`() => React.ReactChild\`
-- **editView:** The function signature has been updated to \`(editViewProps) => React.ReactChild\`
+- **readView:** The function signature has been updated to \`() => React.ReactNode\`
+- **editView:** The function signature has been updated to \`(editViewProps) => React.ReactNode\`
   - Where editViewProps should be spread onto the returned input node
 - **onConfirm:** The function signature has been updated to \`(value: any, analyticsEvent: UIAnalyticsEvent) => void\`
 

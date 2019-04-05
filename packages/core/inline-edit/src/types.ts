@@ -28,9 +28,9 @@ interface CommonProps {
 
 export interface InlineEditUncontrolledProps extends CommonProps {
   /** Component to be shown when not in edit view. */
-  readView: () => React.ReactChild;
+  readView: () => React.ReactNode;
   /** Component to be shown when editing. Should be an Atlaskit input. */
-  editView: (fieldProps: FieldProps) => React.ReactChild;
+  editView: (fieldProps: FieldProps) => React.ReactNode;
   /** Whether the component shows the readView or the editView. */
   isEditing: boolean;
   /** The value shown in the editView when it is entered. Should be updated by onConfirm. */
@@ -48,11 +48,11 @@ export interface InlineEditUncontrolledProps extends CommonProps {
 
 export interface InlineEditProps extends CommonProps {
   /** Component to be shown when not in edit view. */
-  readView: () => React.ReactChild;
+  readView: () => React.ReactNode;
   /** Component to be shown when editing. Should be an Atlaskit input. */
   editView: (
     editViewProps: FieldProps & { ref: React.RefObject<any> },
-  ) => React.ReactChild;
+  ) => React.ReactNode;
   /**
    * Handler called editView is closed and changes are confirmed.
    * Field value is passed as an argument to this function.
@@ -141,8 +141,8 @@ export type Placement =
   | 'left-start';
 
 export interface InlineDialogProps {
-  children?: React.ReactChild;
-  content?: React.ReactChild;
+  children?: React.ReactNode;
+  content?: React.ReactNode;
   isOpen?: boolean;
   onContentBlur?: () => void;
   onContentClick?: () => void;
