@@ -17,6 +17,11 @@ const ReadViewContainer = styled.div`
   line-height: ${(gridSize() * 2.5) / fontSize()};
 `;
 
+const EditViewContainer = styled.div`
+  z-index: 300;
+  position: relative;
+`;
+
 interface Option {
   label: string;
   value: string;
@@ -54,13 +59,15 @@ export default class InlineEditExample extends React.Component<void, State> {
           defaultValue={this.state.editValue}
           label="Inline edit select"
           editView={editViewProps => (
-            <Select
-              {...editViewProps}
-              options={selectOptions}
-              isMulti
-              autoFocus
-              openMenuOnFocus
-            />
+            <EditViewContainer>
+              <Select
+                {...editViewProps}
+                options={selectOptions}
+                isMulti
+                autoFocus
+                openMenuOnFocus
+              />
+            </EditViewContainer>
           )}
           readView={() =>
             this.state.editValue.length === 0 ? (
@@ -76,7 +83,6 @@ export default class InlineEditExample extends React.Component<void, State> {
             )
           }
           onConfirm={this.onConfirm}
-          hideActionButtons
         />
       </div>
     );
