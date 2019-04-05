@@ -1,4 +1,5 @@
 {
+  "extends": "./tsconfig.entry-points.json",
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
@@ -31,12 +32,7 @@
       "es2016.array.include"
     ],
     "types": ["jest", "react","react-router","history", "enzyme", "css-color-names", "jest-styled-components", "styled-components", "linkify-it", "url-search-params"],
-    "typeRoots": ["./typings", "./node_modules/@types"],
-    "paths": {
-      "@atlaskit/mention/resource": [
-        "../../elements/mention/src/resource"
-      ]
-    }    
+    "typeRoots": ["./typings", "./node_modules/@types"]
   },
   "files": [
     "./typings/atlaskit.d.ts",

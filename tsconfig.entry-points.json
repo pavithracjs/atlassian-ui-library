@@ -1,0 +1,1539 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@atlaskit/bitbucket-releases-addon/get-commits": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/build/bitbucket-release-addon/src/get-commits.js"
+      ],
+      "@atlaskit/bitbucket-releases-addon/get-fs-changesets": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/build/bitbucket-release-addon/src/get-fs-changesets.js"
+      ],
+      "@atlaskit/bitbucket-releases-addon/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/build/bitbucket-release-addon/src/index.js"
+      ],
+      "@atlaskit/docs/code": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/build/docs/src/code.js"
+      ],
+      "@atlaskit/docs/ErrorBoundary": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/build/docs/src/ErrorBoundary.js"
+      ],
+      "@atlaskit/docs/Example": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/build/docs/src/Example.js"
+      ],
+      "@atlaskit/docs/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/build/docs/src/index.js"
+      ],
+      "@atlaskit/docs/replaceSrc": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/build/docs/src/replaceSrc.js"
+      ],
+      "@atlaskit/codemod-util-shared-styles-to-theme/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/bitbucket/codemod-util-shared-styles-to-theme/src/index.js"
+      ],
+      "@atlaskit/codemod-util-shared-styles-to-theme/utils": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/bitbucket/codemod-util-shared-styles-to-theme/src/utils.js"
+      ],
+      "@atlaskit/mobile-header/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/bitbucket/mobile-header/src/index.js"
+      ],
+      "@atlaskit/mobile-header/styled": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/bitbucket/mobile-header/src/styled.js"
+      ],
+      "@atlaskit/panel/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/bitbucket/panel/src/index.js"
+      ],
+      "@atlaskit/panel/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/bitbucket/panel/src/types.js"
+      ],
+      "@atlaskit/analytics/AnalyticsDecorator": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics/src/AnalyticsDecorator.js"
+      ],
+      "@atlaskit/analytics/AnalyticsDelegate": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics/src/AnalyticsDelegate.js"
+      ],
+      "@atlaskit/analytics/AnalyticsListener": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics/src/AnalyticsListener.js"
+      ],
+      "@atlaskit/analytics/cleanProps": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics/src/cleanProps.js"
+      ],
+      "@atlaskit/analytics/index.d": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics/src/index.d.ts"
+      ],
+      "@atlaskit/analytics/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics/src/index.js"
+      ],
+      "@atlaskit/analytics/matchEvent": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics/src/matchEvent.js"
+      ],
+      "@atlaskit/analytics/withAnalytics": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics/src/withAnalytics.js"
+      ],
+      "@atlaskit/analytics-next/AnalyticsContext": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics-next/src/AnalyticsContext.js"
+      ],
+      "@atlaskit/analytics-next/AnalyticsEvent": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics-next/src/AnalyticsEvent.js"
+      ],
+      "@atlaskit/analytics-next/AnalyticsEventMap": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics-next/src/AnalyticsEventMap.js"
+      ],
+      "@atlaskit/analytics-next/AnalyticsListener": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics-next/src/AnalyticsListener.js"
+      ],
+      "@atlaskit/analytics-next/cleanProps": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics-next/src/cleanProps.js"
+      ],
+      "@atlaskit/analytics-next/createAndFireEvent": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics-next/src/createAndFireEvent.js"
+      ],
+      "@atlaskit/analytics-next/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics-next/src/index.js"
+      ],
+      "@atlaskit/analytics-next/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics-next/src/types.js"
+      ],
+      "@atlaskit/analytics-next/UIAnalyticsEvent": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics-next/src/UIAnalyticsEvent.js"
+      ],
+      "@atlaskit/analytics-next/withAnalyticsContext": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics-next/src/withAnalyticsContext.js"
+      ],
+      "@atlaskit/analytics-next/withAnalyticsEvents": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/analytics-next/src/withAnalyticsEvents.js"
+      ],
+      "@atlaskit/avatar/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/avatar/src/index.js"
+      ],
+      "@atlaskit/avatar/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/avatar/src/types.js"
+      ],
+      "@atlaskit/avatar/utils": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/avatar/src/utils.js"
+      ],
+      "@atlaskit/avatar-group/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/avatar-group/src/index.js"
+      ],
+      "@atlaskit/badge/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/badge/src/index.ts"
+      ],
+      "@atlaskit/badge/theme": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/badge/src/theme.ts"
+      ],
+      "@atlaskit/banner/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/banner/src/index.js"
+      ],
+      "@atlaskit/banner/styled": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/banner/src/styled.js"
+      ],
+      "@atlaskit/blanket/Blanket": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/blanket/src/Blanket.js"
+      ],
+      "@atlaskit/blanket/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/blanket/src/index.js"
+      ],
+      "@atlaskit/blanket/styled": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/blanket/src/styled.js"
+      ],
+      "@atlaskit/breadcrumbs/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/breadcrumbs/src/index.js"
+      ],
+      "@atlaskit/breadcrumbs/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/breadcrumbs/src/types.js"
+      ],
+      "@atlaskit/button/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/button/src/index.ts"
+      ],
+      "@atlaskit/button/theme": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/button/src/theme.ts"
+      ],
+      "@atlaskit/button/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/button/src/types.ts"
+      ],
+      "@atlaskit/calendar/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/calendar/src/index.js"
+      ],
+      "@atlaskit/calendar/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/calendar/src/types.js"
+      ],
+      "@atlaskit/checkbox/Checkbox": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/checkbox/src/Checkbox.js"
+      ],
+      "@atlaskit/checkbox/CheckboxIcon": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/checkbox/src/CheckboxIcon.js"
+      ],
+      "@atlaskit/checkbox/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/checkbox/src/index.js"
+      ],
+      "@atlaskit/checkbox/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/checkbox/src/types.js"
+      ],
+      "@atlaskit/code/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/code/src/index.js"
+      ],
+      "@atlaskit/code/supportedLanguages": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/code/src/supportedLanguages.js"
+      ],
+      "@atlaskit/code/ThemedCode": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/code/src/ThemedCode.js"
+      ],
+      "@atlaskit/code/ThemedCodeBlock": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/code/src/ThemedCodeBlock.js"
+      ],
+      "@atlaskit/comment/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/comment/src/index.js"
+      ],
+      "@atlaskit/datetime-picker/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/datetime-picker/src/index.js"
+      ],
+      "@atlaskit/drawer/constants": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/drawer/src/constants.js"
+      ],
+      "@atlaskit/drawer/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/drawer/src/index.js"
+      ],
+      "@atlaskit/dropdown-menu/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/dropdown-menu/src/index.js"
+      ],
+      "@atlaskit/dropdown-menu/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/dropdown-menu/src/types.js"
+      ],
+      "@atlaskit/droplist/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/droplist/src/index.js"
+      ],
+      "@atlaskit/droplist/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/droplist/src/types.js"
+      ],
+      "@atlaskit/dynamic-table/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/dynamic-table/src/index.js"
+      ],
+      "@atlaskit/dynamic-table/theme": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/dynamic-table/src/theme.js"
+      ],
+      "@atlaskit/dynamic-table/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/dynamic-table/src/types.js"
+      ],
+      "@atlaskit/empty-state/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/empty-state/src/index.js"
+      ],
+      "@atlaskit/feedback-collector/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/feedback-collector/src/index.js"
+      ],
+      "@atlaskit/feedback-collector/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/feedback-collector/src/types.js"
+      ],
+      "@atlaskit/field-base/index.d": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-base/src/index.d.ts"
+      ],
+      "@atlaskit/field-base/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-base/src/index.js"
+      ],
+      "@atlaskit/field-base/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-base/src/types.js"
+      ],
+      "@atlaskit/field-radio-group/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-radio-group/src/index.js"
+      ],
+      "@atlaskit/field-radio-group/Radio": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-radio-group/src/Radio.js"
+      ],
+      "@atlaskit/field-radio-group/RadioBase": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-radio-group/src/RadioBase.js"
+      ],
+      "@atlaskit/field-radio-group/RadioGroup": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-radio-group/src/RadioGroup.js"
+      ],
+      "@atlaskit/field-radio-group/RadioGroupStateless": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-radio-group/src/RadioGroupStateless.js"
+      ],
+      "@atlaskit/field-radio-group/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-radio-group/src/types.js"
+      ],
+      "@atlaskit/field-range/FieldRange": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-range/src/FieldRange.js"
+      ],
+      "@atlaskit/field-range/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-range/src/index.js"
+      ],
+      "@atlaskit/field-range/styled": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-range/src/styled.js"
+      ],
+      "@atlaskit/field-range/theme": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-range/src/theme.js"
+      ],
+      "@atlaskit/field-text/FieldText": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-text/src/FieldText.js"
+      ],
+      "@atlaskit/field-text/FieldTextStateless": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-text/src/FieldTextStateless.js"
+      ],
+      "@atlaskit/field-text/index.d": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-text/src/index.d.ts"
+      ],
+      "@atlaskit/field-text/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-text/src/index.js"
+      ],
+      "@atlaskit/field-text/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-text/src/types.js"
+      ],
+      "@atlaskit/field-text-area/FieldTextArea": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-text-area/src/FieldTextArea.js"
+      ],
+      "@atlaskit/field-text-area/FieldTextAreaStateless": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-text-area/src/FieldTextAreaStateless.js"
+      ],
+      "@atlaskit/field-text-area/index.d": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-text-area/src/index.d.ts"
+      ],
+      "@atlaskit/field-text-area/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/field-text-area/src/index.js"
+      ],
+      "@atlaskit/flag/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/flag/src/index.js"
+      ],
+      "@atlaskit/flag/theme": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/flag/src/theme.js"
+      ],
+      "@atlaskit/flag/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/flag/src/types.js"
+      ],
+      "@atlaskit/form/CheckboxField": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/form/src/CheckboxField.js"
+      ],
+      "@atlaskit/form/Field": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/form/src/Field.js"
+      ],
+      "@atlaskit/form/Fieldset": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/form/src/Fieldset.js"
+      ],
+      "@atlaskit/form/Form": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/form/src/Form.js"
+      ],
+      "@atlaskit/form/FormFooter": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/form/src/FormFooter.js"
+      ],
+      "@atlaskit/form/FormHeader": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/form/src/FormHeader.js"
+      ],
+      "@atlaskit/form/FormSection": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/form/src/FormSection.js"
+      ],
+      "@atlaskit/form/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/form/src/index.js"
+      ],
+      "@atlaskit/form/Messages": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/form/src/Messages.js"
+      ],
+      "@atlaskit/global-navigation/constants": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/global-navigation/src/constants.js"
+      ],
+      "@atlaskit/global-navigation/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/global-navigation/src/index.js"
+      ],
+      "@atlaskit/icon/constants": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/icon/src/constants.js"
+      ],
+      "@atlaskit/icon/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/icon/src/index.js"
+      ],
+      "@atlaskit/icon/metadata": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/icon/src/metadata.js"
+      ],
+      "@atlaskit/icon/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/icon/src/types.js"
+      ],
+      "@atlaskit/icon-file-type/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/icon-file-type/src/index.js"
+      ],
+      "@atlaskit/icon-file-type/metadata": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/icon-file-type/src/metadata.js"
+      ],
+      "@atlaskit/icon-object/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/icon-object/src/index.js"
+      ],
+      "@atlaskit/icon-object/metadata": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/icon-object/src/metadata.js"
+      ],
+      "@atlaskit/icon-priority/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/icon-priority/src/index.js"
+      ],
+      "@atlaskit/icon-priority/metadata": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/icon-priority/src/metadata.js"
+      ],
+      "@atlaskit/inline-dialog/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/inline-dialog/src/index.js"
+      ],
+      "@atlaskit/inline-dialog/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/inline-dialog/src/types.js"
+      ],
+      "@atlaskit/inline-edit/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/inline-edit/src/index.js"
+      ],
+      "@atlaskit/inline-edit/InlineEdit": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/inline-edit/src/InlineEdit.js"
+      ],
+      "@atlaskit/inline-edit/InlineEditStateless": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/inline-edit/src/InlineEditStateless.js"
+      ],
+      "@atlaskit/inline-edit/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/inline-edit/src/types.js"
+      ],
+      "@atlaskit/inline-message/constants": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/inline-message/src/constants.js"
+      ],
+      "@atlaskit/inline-message/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/inline-message/src/index.js"
+      ],
+      "@atlaskit/inline-message/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/inline-message/src/types.js"
+      ],
+      "@atlaskit/input/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/input/src/index.js"
+      ],
+      "@atlaskit/input/SingleLineTextInput": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/input/src/SingleLineTextInput.js"
+      ],
+      "@atlaskit/item/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/item/src/index.js"
+      ],
+      "@atlaskit/item/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/item/src/types.js"
+      ],
+      "@atlaskit/layer/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/layer/src/index.js"
+      ],
+      "@atlaskit/layer/styledContentContainer": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/layer/src/styledContentContainer.js"
+      ],
+      "@atlaskit/layer/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/layer/src/types.js"
+      ],
+      "@atlaskit/layer-manager/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/layer-manager/src/index.js"
+      ],
+      "@atlaskit/logo/constants": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/logo/src/constants.js"
+      ],
+      "@atlaskit/logo/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/logo/src/index.js"
+      ],
+      "@atlaskit/logo/Wrapper": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/logo/src/Wrapper.js"
+      ],
+      "@atlaskit/lozenge/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/lozenge/src/index.js"
+      ],
+      "@atlaskit/lozenge/theme": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/lozenge/src/theme.js"
+      ],
+      "@atlaskit/modal-dialog/index.d": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/modal-dialog/src/index.d.ts"
+      ],
+      "@atlaskit/modal-dialog/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/modal-dialog/src/index.js"
+      ],
+      "@atlaskit/modal-dialog/shared-variables": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/modal-dialog/src/shared-variables.js"
+      ],
+      "@atlaskit/modal-dialog/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/modal-dialog/src/types.js"
+      ],
+      "@atlaskit/multi-select/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/multi-select/src/index.js"
+      ],
+      "@atlaskit/multi-select/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/multi-select/src/types.js"
+      ],
+      "@atlaskit/navigation/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/navigation/src/index.js"
+      ],
+      "@atlaskit/navigation/shared-variables": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/navigation/src/shared-variables.js"
+      ],
+      "@atlaskit/navigation/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/navigation/src/types.js"
+      ],
+      "@atlaskit/navigation-next/AsyncLayoutManagerWithViewController": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/navigation-next/src/AsyncLayoutManagerWithViewController.js"
+      ],
+      "@atlaskit/navigation-next/GlobalNavigationSkeleton": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/navigation-next/src/GlobalNavigationSkeleton.js"
+      ],
+      "@atlaskit/navigation-next/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/navigation-next/src/index.js"
+      ],
+      "@atlaskit/navigation-next/ItemsRenderer": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/navigation-next/src/ItemsRenderer.js"
+      ],
+      "@atlaskit/navigation-next/LayoutManagerWithViewController": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/navigation-next/src/LayoutManagerWithViewController.js"
+      ],
+      "@atlaskit/navigation-next/NavigationProvider": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/navigation-next/src/NavigationProvider.js"
+      ],
+      "@atlaskit/navigation-next/SkeletonContainerView": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/navigation-next/src/SkeletonContainerView.js"
+      ],
+      "@atlaskit/navigation-next/ui-controller": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/navigation-next/src/ui-controller.js"
+      ],
+      "@atlaskit/navigation-next/view-controller": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/navigation-next/src/view-controller.js"
+      ],
+      "@atlaskit/nps/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/nps/src/index.js"
+      ],
+      "@atlaskit/onboarding/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/onboarding/src/index.js"
+      ],
+      "@atlaskit/onboarding/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/onboarding/src/types.js"
+      ],
+      "@atlaskit/page/Grid": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/page/src/Grid.js"
+      ],
+      "@atlaskit/page/GridColumn": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/page/src/GridColumn.js"
+      ],
+      "@atlaskit/page/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/page/src/index.js"
+      ],
+      "@atlaskit/page/Page": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/page/src/Page.js"
+      ],
+      "@atlaskit/page-header/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/page-header/src/index.js"
+      ],
+      "@atlaskit/pagination/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/pagination/src/index.js"
+      ],
+      "@atlaskit/pagination/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/pagination/src/types.js"
+      ],
+      "@atlaskit/popper/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/popper/src/index.js"
+      ],
+      "@atlaskit/popper/Popper": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/popper/src/Popper.js"
+      ],
+      "@atlaskit/popper/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/popper/src/types.js"
+      ],
+      "@atlaskit/portal/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/portal/src/index.js"
+      ],
+      "@atlaskit/progress-indicator/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/progress-indicator/src/index.js"
+      ],
+      "@atlaskit/progress-tracker/constants": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/progress-tracker/src/constants.js"
+      ],
+      "@atlaskit/progress-tracker/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/progress-tracker/src/index.js"
+      ],
+      "@atlaskit/progress-tracker/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/progress-tracker/src/types.js"
+      ],
+      "@atlaskit/radio/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/radio/src/index.js"
+      ],
+      "@atlaskit/radio/Radio": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/radio/src/Radio.js"
+      ],
+      "@atlaskit/radio/RadioGroup": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/radio/src/RadioGroup.js"
+      ],
+      "@atlaskit/radio/RadioIcon": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/radio/src/RadioIcon.js"
+      ],
+      "@atlaskit/radio/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/radio/src/types.js"
+      ],
+      "@atlaskit/range/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/range/src/index.js"
+      ],
+      "@atlaskit/range/Range": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/range/src/Range.js"
+      ],
+      "@atlaskit/range/styled": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/range/src/styled.js"
+      ],
+      "@atlaskit/range/theme": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/range/src/theme.js"
+      ],
+      "@atlaskit/section-message/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/section-message/src/index.js"
+      ],
+      "@atlaskit/section-message/theme": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/section-message/src/theme.js"
+      ],
+      "@atlaskit/section-message/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/section-message/src/types.js"
+      ],
+      "@atlaskit/select/AsyncCreatableSelect": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/select/src/AsyncCreatableSelect.js"
+      ],
+      "@atlaskit/select/AsyncSelect": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/select/src/AsyncSelect.js"
+      ],
+      "@atlaskit/select/CheckboxSelect": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/select/src/CheckboxSelect.js"
+      ],
+      "@atlaskit/select/CountrySelect": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/select/src/CountrySelect.js"
+      ],
+      "@atlaskit/select/CreatableSelect": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/select/src/CreatableSelect.js"
+      ],
+      "@atlaskit/select/createSelect": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/select/src/createSelect.js"
+      ],
+      "@atlaskit/select/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/select/src/index.js"
+      ],
+      "@atlaskit/select/RadioSelect": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/select/src/RadioSelect.js"
+      ],
+      "@atlaskit/select/Select": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/select/src/Select.js"
+      ],
+      "@atlaskit/single-select/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/single-select/src/index.js"
+      ],
+      "@atlaskit/single-select/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/single-select/src/types.js"
+      ],
+      "@atlaskit/size-detector/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/size-detector/src/index.js"
+      ],
+      "@atlaskit/size-detector/SizeDetector": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/size-detector/src/SizeDetector.js"
+      ],
+      "@atlaskit/size-detector/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/size-detector/src/types.js"
+      ],
+      "@atlaskit/spinner/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/spinner/src/index.js"
+      ],
+      "@atlaskit/spinner/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/spinner/src/types.js"
+      ],
+      "@atlaskit/table-tree/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/table-tree/src/index.js"
+      ],
+      "@atlaskit/table-tree/styled": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/table-tree/src/styled.js"
+      ],
+      "@atlaskit/table-tree/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/table-tree/src/types.js"
+      ],
+      "@atlaskit/tabs/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/tabs/src/index.js"
+      ],
+      "@atlaskit/tabs/styled": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/tabs/src/styled.js"
+      ],
+      "@atlaskit/tabs/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/tabs/src/types.js"
+      ],
+      "@atlaskit/tag/constants": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/tag/src/constants.js"
+      ],
+      "@atlaskit/tag/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/tag/src/index.js"
+      ],
+      "@atlaskit/tag/theme": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/tag/src/theme.js"
+      ],
+      "@atlaskit/tag/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/tag/src/types.js"
+      ],
+      "@atlaskit/tag-group/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/tag-group/src/index.js"
+      ],
+      "@atlaskit/textarea/component-tokens": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/textarea/src/component-tokens.ts"
+      ],
+      "@atlaskit/textarea/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/textarea/src/index.ts"
+      ],
+      "@atlaskit/textarea/theme": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/textarea/src/theme.ts"
+      ],
+      "@atlaskit/textfield/component-tokens": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/textfield/src/component-tokens.js"
+      ],
+      "@atlaskit/textfield/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/textfield/src/index.js"
+      ],
+      "@atlaskit/textfield/theme": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/textfield/src/theme.js"
+      ],
+      "@atlaskit/textfield/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/textfield/src/types.js"
+      ],
+      "@atlaskit/theme/colors": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/theme/src/colors.js"
+      ],
+      "@atlaskit/theme/components": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/theme/src/components.js"
+      ],
+      "@atlaskit/theme/constants": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/theme/src/constants.js"
+      ],
+      "@atlaskit/theme/elevation": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/theme/src/elevation.js"
+      ],
+      "@atlaskit/theme/hoc": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/theme/src/hoc.js"
+      ],
+      "@atlaskit/theme/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/theme/src/index.js"
+      ],
+      "@atlaskit/theme/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/theme/src/types.js"
+      ],
+      "@atlaskit/theme/typography": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/theme/src/typography.js"
+      ],
+      "@atlaskit/toggle/defaultBaseProps": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/toggle/src/defaultBaseProps.js"
+      ],
+      "@atlaskit/toggle/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/toggle/src/index.js"
+      ],
+      "@atlaskit/toggle/Toggle": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/toggle/src/Toggle.js"
+      ],
+      "@atlaskit/toggle/ToggleStateless": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/toggle/src/ToggleStateless.js"
+      ],
+      "@atlaskit/toggle/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/toggle/src/types.js"
+      ],
+      "@atlaskit/tooltip/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/tooltip/src/index.js"
+      ],
+      "@atlaskit/tooltip/styled": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/tooltip/src/styled.js"
+      ],
+      "@atlaskit/tooltip/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/tooltip/src/types.js"
+      ],
+      "@atlaskit/tree/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/tree/src/index.js"
+      ],
+      "@atlaskit/tree/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/tree/src/types.js"
+      ],
+      "@atlaskit/type-helpers/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/type-helpers/src/index.ts"
+      ],
+      "@atlaskit/width-detector/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/width-detector/src/index.ts"
+      ],
+      "@atlaskit/width-detector/WidthDetector": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/core/width-detector/src/WidthDetector.tsx"
+      ],
+      "@atlaskit/css-reset/base": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/css-packs/css-reset/src/base.js"
+      ],
+      "@atlaskit/css-reset/browser-fixes": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/css-packs/css-reset/src/browser-fixes.js"
+      ],
+      "@atlaskit/css-reset/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/css-packs/css-reset/src/index.js"
+      ],
+      "@atlaskit/css-reset/reset": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/css-packs/css-reset/src/reset.js"
+      ],
+      "@atlaskit/css-reset/tables": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/css-packs/css-reset/src/tables.js"
+      ],
+      "@atlaskit/css-reset/utils": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/css-packs/css-reset/src/utils.js"
+      ],
+      "@atlaskit/reduced-ui-pack/buttons": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/css-packs/reduced-ui-pack/src/buttons.js"
+      ],
+      "@atlaskit/reduced-ui-pack/forms": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/css-packs/reduced-ui-pack/src/forms.js"
+      ],
+      "@atlaskit/reduced-ui-pack/grid": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/css-packs/reduced-ui-pack/src/grid.js"
+      ],
+      "@atlaskit/reduced-ui-pack/icons": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/css-packs/reduced-ui-pack/src/icons.js"
+      ],
+      "@atlaskit/reduced-ui-pack/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/css-packs/reduced-ui-pack/src/index.js"
+      ],
+      "@atlaskit/reduced-ui-pack/lozenge": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/css-packs/reduced-ui-pack/src/lozenge.js"
+      ],
+      "@atlaskit/reduced-ui-pack/toggle": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/css-packs/reduced-ui-pack/src/toggle.js"
+      ],
+      "@atlaskit/reduced-ui-pack/tooltip": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/css-packs/reduced-ui-pack/src/tooltip.js"
+      ],
+      "@atlaskit/adf-schema/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/adf-schema/src/index.ts"
+      ],
+      "@atlaskit/adf-utils/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/adf-utils/src/index.ts"
+      ],
+      "@atlaskit/conversation/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/conversation/src/index.tsx"
+      ],
+      "@atlaskit/editor-bitbucket-transformer/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-bitbucket-transformer/src/index.ts"
+      ],
+      "@atlaskit/editor-bitbucket-transformer/serializer": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-bitbucket-transformer/src/serializer.ts"
+      ],
+      "@atlaskit/editor-bitbucket-transformer/tableSerializer": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-bitbucket-transformer/src/tableSerializer.ts"
+      ],
+      "@atlaskit/editor-bitbucket-transformer/util": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-bitbucket-transformer/src/util.ts"
+      ],
+      "@atlaskit/editor-common/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-common/src/index.ts"
+      ],
+      "@atlaskit/editor-confluence-transformer/collapse-whitespace": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-confluence-transformer/src/collapse-whitespace.ts"
+      ],
+      "@atlaskit/editor-confluence-transformer/content-wrapper": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-confluence-transformer/src/content-wrapper.ts"
+      ],
+      "@atlaskit/editor-confluence-transformer/encode-cxhtml": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-confluence-transformer/src/encode-cxhtml.ts"
+      ],
+      "@atlaskit/editor-confluence-transformer/encode": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-confluence-transformer/src/encode.ts"
+      ],
+      "@atlaskit/editor-confluence-transformer/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-confluence-transformer/src/index.ts"
+      ],
+      "@atlaskit/editor-confluence-transformer/languageMap": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-confluence-transformer/src/languageMap.ts"
+      ],
+      "@atlaskit/editor-confluence-transformer/parse-cxhtml": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-confluence-transformer/src/parse-cxhtml.ts"
+      ],
+      "@atlaskit/editor-confluence-transformer/parse": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-confluence-transformer/src/parse.ts"
+      ],
+      "@atlaskit/editor-confluence-transformer/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-confluence-transformer/src/types.ts"
+      ],
+      "@atlaskit/editor-confluence-transformer/utils": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-confluence-transformer/src/utils.ts"
+      ],
+      "@atlaskit/editor-core/editor": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-core/src/editor.tsx"
+      ],
+      "@atlaskit/editor-core/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-core/src/index.ts"
+      ],
+      "@atlaskit/editor-core/messages": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-core/src/messages.ts"
+      ],
+      "@atlaskit/editor-core/version-wrapper": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-core/src/version-wrapper.ts"
+      ],
+      "@atlaskit/editor-jira-transformer/collapse-whitespace": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-jira-transformer/src/collapse-whitespace.ts"
+      ],
+      "@atlaskit/editor-jira-transformer/emojiHelper": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-jira-transformer/src/emojiHelper.ts"
+      ],
+      "@atlaskit/editor-jira-transformer/fix-doc": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-jira-transformer/src/fix-doc.ts"
+      ],
+      "@atlaskit/editor-jira-transformer/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-jira-transformer/src/index.ts"
+      ],
+      "@atlaskit/editor-jira-transformer/parse-html": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-jira-transformer/src/parse-html.ts"
+      ],
+      "@atlaskit/editor-jira-transformer/schema": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-jira-transformer/src/schema.ts"
+      ],
+      "@atlaskit/editor-jira-transformer/utils": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-jira-transformer/src/utils.ts"
+      ],
+      "@atlaskit/editor-json-transformer/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-json-transformer/src/index.ts"
+      ],
+      "@atlaskit/editor-markdown-transformer/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-markdown-transformer/src/index.ts"
+      ],
+      "@atlaskit/editor-markdown-transformer/media": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-markdown-transformer/src/media.ts"
+      ],
+      "@atlaskit/editor-mobile-bridge/bridge-utils": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-mobile-bridge/src/bridge-utils.ts"
+      ],
+      "@atlaskit/editor-mobile-bridge/cross-platform-promise": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-mobile-bridge/src/cross-platform-promise.ts"
+      ],
+      "@atlaskit/editor-mobile-bridge/error-reporter": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-mobile-bridge/src/error-reporter.ts"
+      ],
+      "@atlaskit/editor-mobile-bridge/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-mobile-bridge/src/types.ts"
+      ],
+      "@atlaskit/editor-mobile-bridge/utils": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-mobile-bridge/src/utils.ts"
+      ],
+      "@atlaskit/editor-mobile-bridge/web-bridge": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-mobile-bridge/src/web-bridge.ts"
+      ],
+      "@atlaskit/editor-test-helpers/base64fileconverter": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/base64fileconverter.ts"
+      ],
+      "@atlaskit/editor-test-helpers/card-provider": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/card-provider.ts"
+      ],
+      "@atlaskit/editor-test-helpers/chai": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/chai.ts"
+      ],
+      "@atlaskit/editor-test-helpers/constants": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/constants.ts"
+      ],
+      "@atlaskit/editor-test-helpers/context-identifier-provider": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/context-identifier-provider.ts"
+      ],
+      "@atlaskit/editor-test-helpers/create-analytics-event-mock": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/create-analytics-event-mock.ts"
+      ],
+      "@atlaskit/editor-test-helpers/create-editor": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/create-editor.tsx"
+      ],
+      "@atlaskit/editor-test-helpers/create-event": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/create-event.ts"
+      ],
+      "@atlaskit/editor-test-helpers/device": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/device.ts"
+      ],
+      "@atlaskit/editor-test-helpers/dispatch-paste-event": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/dispatch-paste-event.ts"
+      ],
+      "@atlaskit/editor-test-helpers/enzyme": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/enzyme.ts"
+      ],
+      "@atlaskit/editor-test-helpers/fixtures": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/fixtures.ts"
+      ],
+      "@atlaskit/editor-test-helpers/html-helpers": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/html-helpers.ts"
+      ],
+      "@atlaskit/editor-test-helpers/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/index.ts"
+      ],
+      "@atlaskit/editor-test-helpers/jsdom-fixtures": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/jsdom-fixtures.ts"
+      ],
+      "@atlaskit/editor-test-helpers/key-codes": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/key-codes.ts"
+      ],
+      "@atlaskit/editor-test-helpers/matches": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/matches.ts"
+      ],
+      "@atlaskit/editor-test-helpers/media-provider": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/media-provider.ts"
+      ],
+      "@atlaskit/editor-test-helpers/mock-extension-data": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/mock-extension-data.ts"
+      ],
+      "@atlaskit/editor-test-helpers/mock-insert-menu": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/mock-insert-menu.tsx"
+      ],
+      "@atlaskit/editor-test-helpers/mock-macro-provider": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/mock-macro-provider.ts"
+      ],
+      "@atlaskit/editor-test-helpers/random-id": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/random-id.ts"
+      ],
+      "@atlaskit/editor-test-helpers/schema-builder": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/schema-builder.ts"
+      ],
+      "@atlaskit/editor-test-helpers/schema-element-builder": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/schema-element-builder.ts"
+      ],
+      "@atlaskit/editor-test-helpers/schema": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/schema.ts"
+      ],
+      "@atlaskit/editor-test-helpers/selection": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/selection.ts"
+      ],
+      "@atlaskit/editor-test-helpers/send-key-to-pm": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/send-key-to-pm.ts"
+      ],
+      "@atlaskit/editor-test-helpers/simulatePlatform": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/simulatePlatform.ts"
+      ],
+      "@atlaskit/editor-test-helpers/sleep": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/sleep.ts"
+      ],
+      "@atlaskit/editor-test-helpers/spy-on-return-value": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/spy-on-return-value.ts"
+      ],
+      "@atlaskit/editor-test-helpers/table": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/table.ts"
+      ],
+      "@atlaskit/editor-test-helpers/transactions": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-test-helpers/src/transactions.ts"
+      ],
+      "@atlaskit/editor-wikimarkup-transformer/char": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-wikimarkup-transformer/src/char.ts"
+      ],
+      "@atlaskit/editor-wikimarkup-transformer/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-wikimarkup-transformer/src/index.ts"
+      ],
+      "@atlaskit/editor-wikimarkup-transformer/interfaces": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/editor-wikimarkup-transformer/src/interfaces.ts"
+      ],
+      "@atlaskit/embedded-document/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/embedded-document/src/index.ts"
+      ],
+      "@atlaskit/json-schema-generator/cli": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/json-schema-generator/src/cli.ts"
+      ],
+      "@atlaskit/json-schema-generator/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/json-schema-generator/src/index.ts"
+      ],
+      "@atlaskit/json-schema-generator/utils": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/json-schema-generator/src/utils.ts"
+      ],
+      "@atlaskit/renderer/consts": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/renderer/src/consts.ts"
+      ],
+      "@atlaskit/renderer/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/renderer/src/index.ts"
+      ],
+      "@atlaskit/renderer/render-document": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/renderer/src/render-document.ts"
+      ],
+      "@atlaskit/renderer/serializer": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/renderer/src/serializer.ts"
+      ],
+      "@atlaskit/renderer/utils": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/renderer/src/utils.ts"
+      ],
+      "@atlaskit/updater-cli/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/updater-cli/src/index.ts"
+      ],
+      "@atlaskit/updater-cli/runner": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/editor/updater-cli/src/runner.ts"
+      ],
+      "@atlaskit/analytics-gas-types/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/analytics-gas-types/src/index.ts"
+      ],
+      "@atlaskit/analytics-listeners/analytics-web-client-wrapper": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/analytics-listeners/src/analytics-web-client-wrapper.ts"
+      ],
+      "@atlaskit/analytics-listeners/FabricAnalyticsListeners": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/analytics-listeners/src/FabricAnalyticsListeners.tsx"
+      ],
+      "@atlaskit/analytics-listeners/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/analytics-listeners/src/index.ts"
+      ],
+      "@atlaskit/analytics-listeners/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/analytics-listeners/src/types.ts"
+      ],
+      "@atlaskit/analytics-namespaced-context/FabricElementsAnalyticsContext": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/analytics-namespaced-context/src/FabricElementsAnalyticsContext.tsx"
+      ],
+      "@atlaskit/analytics-namespaced-context/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/analytics-namespaced-context/src/index.ts"
+      ],
+      "@atlaskit/analytics-namespaced-context/NavigationAnalyticsContext": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/analytics-namespaced-context/src/NavigationAnalyticsContext.tsx"
+      ],
+      "@atlaskit/analytics-viewer/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/analytics-viewer/src/index.ts"
+      ],
+      "@atlaskit/date/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/date/src/index.ts"
+      ],
+      "@atlaskit/elements-test-helpers/demo-ssr-hydrate": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/elements-test-helpers/src/demo-ssr-hydrate.tsx"
+      ],
+      "@atlaskit/elements-test-helpers/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/elements-test-helpers/src/index.ts"
+      ],
+      "@atlaskit/elements-test-helpers/ssr-util": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/elements-test-helpers/src/ssr-util.tsx"
+      ],
+      "@atlaskit/emoji/admin": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/emoji/src/admin.ts"
+      ],
+      "@atlaskit/emoji/element": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/emoji/src/element.ts"
+      ],
+      "@atlaskit/emoji/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/emoji/src/index.ts"
+      ],
+      "@atlaskit/emoji/picker": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/emoji/src/picker.ts"
+      ],
+      "@atlaskit/emoji/resource": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/emoji/src/resource.ts"
+      ],
+      "@atlaskit/emoji/typeahead": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/emoji/src/typeahead.ts"
+      ],
+      "@atlaskit/emoji/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/emoji/src/types.ts"
+      ],
+      "@atlaskit/emoji/utils": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/emoji/src/utils.ts"
+      ],
+      "@atlaskit/mention/_constants": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/mention/src/_constants.ts"
+      ],
+      "@atlaskit/mention/element": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/mention/src/element.ts"
+      ],
+      "@atlaskit/mention/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/mention/src/index.ts"
+      ],
+      "@atlaskit/mention/item": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/mention/src/item.ts"
+      ],
+      "@atlaskit/mention/resource": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/mention/src/resource.ts"
+      ],
+      "@atlaskit/mention/shared-styles": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/mention/src/shared-styles.ts"
+      ],
+      "@atlaskit/mention/team-resource": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/mention/src/team-resource.ts"
+      ],
+      "@atlaskit/mention/typeahead": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/mention/src/typeahead.ts"
+      ],
+      "@atlaskit/mention/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/mention/src/types.ts"
+      ],
+      "@atlaskit/pubsub/apiTypes": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/pubsub/src/apiTypes.ts"
+      ],
+      "@atlaskit/pubsub/client": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/pubsub/src/client.ts"
+      ],
+      "@atlaskit/pubsub/featureFlags": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/pubsub/src/featureFlags.ts"
+      ],
+      "@atlaskit/pubsub/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/pubsub/src/index.ts"
+      ],
+      "@atlaskit/pubsub/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/pubsub/src/types.ts"
+      ],
+      "@atlaskit/reactions/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/reactions/src/index.ts"
+      ],
+      "@atlaskit/share/i18n": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/share/src/i18n.ts"
+      ],
+      "@atlaskit/share/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/share/src/index.ts"
+      ],
+      "@atlaskit/status/element": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/status/src/element.ts"
+      ],
+      "@atlaskit/status/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/status/src/index.ts"
+      ],
+      "@atlaskit/status/picker": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/status/src/picker.ts"
+      ],
+      "@atlaskit/task-decision/constants": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/task-decision/src/constants.ts"
+      ],
+      "@atlaskit/task-decision/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/task-decision/src/index.ts"
+      ],
+      "@atlaskit/task-decision/type-helpers": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/task-decision/src/type-helpers.ts"
+      ],
+      "@atlaskit/task-decision/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/task-decision/src/types.ts"
+      ],
+      "@atlaskit/user-picker/analytics": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/user-picker/src/analytics.ts"
+      ],
+      "@atlaskit/user-picker/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/user-picker/src/index.ts"
+      ],
+      "@atlaskit/user-picker/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/user-picker/src/types.ts"
+      ],
+      "@atlaskit/util-data-test/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/util-data-test/src/index.ts"
+      ],
+      "@atlaskit/util-data-test/logger": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/util-data-test/src/logger.ts"
+      ],
+      "@atlaskit/util-service-support/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/util-service-support/src/index.ts"
+      ],
+      "@atlaskit/util-service-support/serviceResources": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/util-service-support/src/serviceResources.ts"
+      ],
+      "@atlaskit/util-service-support/serviceUtils": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/util-service-support/src/serviceUtils.ts"
+      ],
+      "@atlaskit/util-service-support/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/util-service-support/src/types.ts"
+      ],
+      "@atlaskit/xregexp-transformer/sample": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/elements/xregexp-transformer/src/sample.ts"
+      ],
+      "@atlaskit/feature-flag-client/client": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/growth/feature-flag-client/src/client.ts"
+      ],
+      "@atlaskit/feature-flag-client/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/growth/feature-flag-client/src/index.ts"
+      ],
+      "@atlaskit/feature-flag-client/lib": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/growth/feature-flag-client/src/lib.ts"
+      ],
+      "@atlaskit/feature-flag-client/tracked-flag": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/growth/feature-flag-client/src/tracked-flag.ts"
+      ],
+      "@atlaskit/feature-flag-client/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/growth/feature-flag-client/src/types.ts"
+      ],
+      "@atlaskit/feature-flag-client/untracked-flag": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/growth/feature-flag-client/src/untracked-flag.ts"
+      ],
+      "@atlaskit/react-experiment-framework/asExperiment": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/growth/react-experiment-framework/src/asExperiment.js"
+      ],
+      "@atlaskit/react-experiment-framework/CohortTracker": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/growth/react-experiment-framework/src/CohortTracker.js"
+      ],
+      "@atlaskit/react-experiment-framework/ExperimentContext": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/growth/react-experiment-framework/src/ExperimentContext.js"
+      ],
+      "@atlaskit/react-experiment-framework/ExperimentController": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/growth/react-experiment-framework/src/ExperimentController.js"
+      ],
+      "@atlaskit/react-experiment-framework/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/growth/react-experiment-framework/src/index.js"
+      ],
+      "@atlaskit/react-experiment-framework/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/growth/react-experiment-framework/src/types.js"
+      ],
+      "@atlaskit/notification-indicator/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/home/notification-indicator/src/index.ts"
+      ],
+      "@atlaskit/notification-indicator/NotificationIndicator": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/home/notification-indicator/src/NotificationIndicator.tsx"
+      ],
+      "@atlaskit/notification-log-client/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/home/notification-log-client/src/index.ts"
+      ],
+      "@atlaskit/notification-log-client/NotificationLogClient": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/home/notification-log-client/src/NotificationLogClient.ts"
+      ],
+      "@atlaskit/notification-log-client/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/home/notification-log-client/src/types.ts"
+      ],
+      "@atlaskit/color-picker/constants": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/jira/color-picker/src/constants.ts"
+      ],
+      "@atlaskit/color-picker/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/jira/color-picker/src/index.ts"
+      ],
+      "@atlaskit/color-picker/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/jira/color-picker/src/types.ts"
+      ],
+      "@atlaskit/media-avatar-picker/constraint-util": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-avatar-picker/src/constraint-util.ts"
+      ],
+      "@atlaskit/media-avatar-picker/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-avatar-picker/src/index.tsx"
+      ],
+      "@atlaskit/media-avatar-picker/util": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-avatar-picker/src/util.ts"
+      ],
+      "@atlaskit/media-card/actions": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-card/src/actions.ts"
+      ],
+      "@atlaskit/media-card/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-card/src/index.ts"
+      ],
+      "@atlaskit/media-core/fileState": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-core/src/fileState.ts"
+      ],
+      "@atlaskit/media-core/identifier": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-core/src/identifier.ts"
+      ],
+      "@atlaskit/media-core/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-core/src/index.ts"
+      ],
+      "@atlaskit/media-core/item": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-core/src/item.ts"
+      ],
+      "@atlaskit/media-editor/common": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-editor/src/common.ts"
+      ],
+      "@atlaskit/media-editor/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-editor/src/index.tsx"
+      ],
+      "@atlaskit/media-editor/util": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-editor/src/util.ts"
+      ],
+      "@atlaskit/media-filmstrip/filmstrip": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-filmstrip/src/filmstrip.tsx"
+      ],
+      "@atlaskit/media-filmstrip/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-filmstrip/src/index.tsx"
+      ],
+      "@atlaskit/media-image/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-image/src/index.ts"
+      ],
+      "@atlaskit/media-image/mediaImage": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-image/src/mediaImage.tsx"
+      ],
+      "@atlaskit/media-picker/config": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-picker/src/config.ts"
+      ],
+      "@atlaskit/media-picker/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-picker/src/index.ts"
+      ],
+      "@atlaskit/media-store/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-store/src/index.ts"
+      ],
+      "@atlaskit/media-store/media-store": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-store/src/media-store.ts"
+      ],
+      "@atlaskit/media-store/upload-controller": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-store/src/upload-controller.ts"
+      ],
+      "@atlaskit/media-store/uploader": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-store/src/uploader.ts"
+      ],
+      "@atlaskit/media-test-helpers/authProvider": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/authProvider.ts"
+      ],
+      "@atlaskit/media-test-helpers/await-error": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/await-error.ts"
+      ],
+      "@atlaskit/media-test-helpers/clipboardEventMocks": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/clipboardEventMocks.ts"
+      ],
+      "@atlaskit/media-test-helpers/collectionNames": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/collectionNames.ts"
+      ],
+      "@atlaskit/media-test-helpers/contextProvider": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/contextProvider.ts"
+      ],
+      "@atlaskit/media-test-helpers/createMouseEvent": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/createMouseEvent.ts"
+      ],
+      "@atlaskit/media-test-helpers/createTouchEvent": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/createTouchEvent.ts"
+      ],
+      "@atlaskit/media-test-helpers/exampleMediaItems": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/exampleMediaItems.ts"
+      ],
+      "@atlaskit/media-test-helpers/fakeContextProvider": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/fakeContextProvider.ts"
+      ],
+      "@atlaskit/media-test-helpers/fakeI18n": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/fakeI18n.ts"
+      ],
+      "@atlaskit/media-test-helpers/fileReader": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/fileReader.ts"
+      ],
+      "@atlaskit/media-test-helpers/I18nWrapper": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/I18nWrapper.tsx"
+      ],
+      "@atlaskit/media-test-helpers/images": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/images.tsx"
+      ],
+      "@atlaskit/media-test-helpers/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/index.tsx"
+      ],
+      "@atlaskit/media-test-helpers/jest_check": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/jest_check.ts"
+      ],
+      "@atlaskit/media-test-helpers/jestHelpers": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/jestHelpers.ts"
+      ],
+      "@atlaskit/media-test-helpers/keyboardEventWithKeyCode": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/keyboardEventWithKeyCode.ts"
+      ],
+      "@atlaskit/media-test-helpers/LanguagePicker": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/LanguagePicker.tsx"
+      ],
+      "@atlaskit/media-test-helpers/mediaPickerAuthProvider": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/mediaPickerAuthProvider.ts"
+      ],
+      "@atlaskit/media-test-helpers/mediaPickerMocks": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/mediaPickerMocks.ts"
+      ],
+      "@atlaskit/media-test-helpers/mockCanvas": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/mockCanvas.ts"
+      ],
+      "@atlaskit/media-test-helpers/mockLoadImage": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/mockLoadImage.ts"
+      ],
+      "@atlaskit/media-test-helpers/mountWithIntlContext": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/mountWithIntlContext.tsx"
+      ],
+      "@atlaskit/media-test-helpers/nextTick": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/nextTick.ts"
+      ],
+      "@atlaskit/media-test-helpers/story-list": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/story-list.tsx"
+      ],
+      "@atlaskit/media-test-helpers/story-styles": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/story-styles.tsx"
+      ],
+      "@atlaskit/media-test-helpers/styled": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/styled.ts"
+      ],
+      "@atlaskit/media-test-helpers/userAuthProvider": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/userAuthProvider.ts"
+      ],
+      "@atlaskit/media-test-helpers/waitUntil": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-test-helpers/src/waitUntil.ts"
+      ],
+      "@atlaskit/media-ui/camera": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-ui/src/camera.ts"
+      ],
+      "@atlaskit/media-ui/classNames": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-ui/src/classNames.ts"
+      ],
+      "@atlaskit/media-ui/common": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-ui/src/common.ts"
+      ],
+      "@atlaskit/media-ui/ellipsify": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-ui/src/ellipsify.tsx"
+      ],
+      "@atlaskit/media-ui/formatDuration": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-ui/src/formatDuration.ts"
+      ],
+      "@atlaskit/media-ui/humanReadableSize": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-ui/src/humanReadableSize.ts"
+      ],
+      "@atlaskit/media-ui/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-ui/src/index.ts"
+      ],
+      "@atlaskit/media-ui/infiniteScroll": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-ui/src/infiniteScroll.tsx"
+      ],
+      "@atlaskit/media-ui/messages": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-ui/src/messages.ts"
+      ],
+      "@atlaskit/media-ui/mixins": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-ui/src/mixins.ts"
+      ],
+      "@atlaskit/media-ui/modalSpinner": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-ui/src/modalSpinner.tsx"
+      ],
+      "@atlaskit/media-ui/shortcut": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-ui/src/shortcut.tsx"
+      ],
+      "@atlaskit/media-ui/theme": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-ui/src/theme.ts"
+      ],
+      "@atlaskit/media-ui/util": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-ui/src/util.ts"
+      ],
+      "@atlaskit/media-viewer/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/media-viewer/src/index.ts"
+      ],
+      "@atlaskit/smart-card/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/media/smart-card/src/index.ts"
+      ],
+      "@atlaskit/code-insights/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/monorepo-tooling/code-insights/src/index.ts"
+      ],
+      "@atlaskit/atlassian-switcher/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/navigation/atlassian-switcher/src/index.ts"
+      ],
+      "@atlaskit/atlassian-switcher/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/navigation/atlassian-switcher/src/types.ts"
+      ],
+      "@atlaskit/focused-task-close-account/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/people-and-teams/focused-task-close-account/src/index.ts"
+      ],
+      "@atlaskit/focused-task-close-account/messages": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/people-and-teams/focused-task-close-account/src/messages.ts"
+      ],
+      "@atlaskit/focused-task-close-account/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/people-and-teams/focused-task-close-account/src/types.ts"
+      ],
+      "@atlaskit/profilecard/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/people-and-teams/profilecard/src/index.js"
+      ],
+      "@atlaskit/profilecard/messages": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/people-and-teams/profilecard/src/messages.js"
+      ],
+      "@atlaskit/profilecard/profilecard-resourced": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/people-and-teams/profilecard/src/profilecard-resourced.js"
+      ],
+      "@atlaskit/profilecard/profilecard-trigger": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/people-and-teams/profilecard/src/profilecard-trigger.js"
+      ],
+      "@atlaskit/profilecard/profilecard": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/people-and-teams/profilecard/src/profilecard.js"
+      ],
+      "@atlaskit/profilecard/relative-date": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/people-and-teams/profilecard/src/relative-date.js"
+      ],
+      "@atlaskit/profilecard/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/people-and-teams/profilecard/src/types.js"
+      ],
+      "@atlaskit/global-search/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/search/global-search/src/index.tsx"
+      ],
+      "@atlaskit/global-search/messages": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/search/global-search/src/messages.ts"
+      ],
+      "@atlaskit/quick-search/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/search/quick-search/src/index.ts"
+      ],
+      "@atlaskit/outbound-auth-flow-client/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/teamwork-ecosystem/outbound-auth-flow-client/src/index.ts"
+      ],
+      "@atlaskit/nachos-textfield/colors": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/trello/textfield/src/colors.ts"
+      ],
+      "@atlaskit/nachos-textfield/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/trello/textfield/src/index.tsx"
+      ],
+      "@atlaskit/nachos-textfield/theme": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/trello/textfield/src/theme.ts"
+      ],
+      "@atlaskit/nachos-textfield/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/packages/trello/textfield/src/types.ts"
+      ],
+      "@atlaskit/website/constants": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/website/src/constants.ts"
+      ],
+      "@atlaskit/website/examples-entry": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/website/src/examples-entry.tsx"
+      ],
+      "@atlaskit/website/index": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/website/src/index.tsx"
+      ],
+      "@atlaskit/website/packages": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/website/src/packages.ts"
+      ],
+      "@atlaskit/website/site": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/website/src/site.ts"
+      ],
+      "@atlaskit/website/types": [
+        "/Users/mdejongh/Projects/Atlassian/AK3/website/src/types.ts"
+      ]
+    }
+  }
+}
