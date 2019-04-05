@@ -37,9 +37,9 @@ const selectOptions: Option[] = [
   { label: 'Watermelon', value: 'Watermelon' },
 ];
 
-type State = {
+interface State {
   editValue: Option[];
-};
+}
 
 export default class InlineEditExample extends React.Component<void, State> {
   state = {

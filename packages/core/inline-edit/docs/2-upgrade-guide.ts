@@ -1,5 +1,4 @@
 import { code, md } from '@atlaskit/docs';
-// import DynamicTable from '@atlaskit/dynamic-table';
 
 export default md`
 ## v8 to v9

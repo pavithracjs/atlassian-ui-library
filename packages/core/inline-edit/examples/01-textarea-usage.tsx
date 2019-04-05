@@ -11,9 +11,9 @@ const ReadViewContainer = styled.div`
   min-height: ${gridSize() * 2.5 * 2}px
 `;
 
-type State = {
+interface State {
   editValue: string;
-};
+}
 
 export default class InlineEditExample extends React.Component<void, State> {
   state = {

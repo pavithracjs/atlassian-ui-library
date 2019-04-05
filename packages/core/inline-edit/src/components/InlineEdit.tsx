@@ -4,9 +4,9 @@ import { UIAnalyticsEvent } from '@atlaskit/analytics-next-types';
 import InlineEditUncontrolled from './InlineEditUncontrolled';
 import { InlineEditProps } from '../types';
 
-type State = {
+interface State {
   isEditing: boolean;
-};
+}
 
 class InlineEdit extends React.Component<InlineEditProps, State> {
   static defaultProps = {

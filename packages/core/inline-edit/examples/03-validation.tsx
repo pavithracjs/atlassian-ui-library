@@ -6,9 +6,9 @@ import { colors } from '@atlaskit/theme';
 import InlineEdit from '../src';
 import ReadViewContainer from '../src/styled/ReadViewContainer';
 
-type State = {
+interface State {
   editValue: string;
-};
+}
 
 export default class InlineEditExample extends React.Component<void, State> {
   state = {
