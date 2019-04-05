@@ -2,22 +2,23 @@ import { IndentationMarkAttributes } from '../../../../../adf-schema';
 import {
   addAnalytics,
   INDENT_TYPE,
-  INDENT_DIR,
   ACTION,
   ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
   INPUT_METHOD,
   EVENT_TYPE,
   FormatEventPayload,
+  IIndentDir,
 } from '../../analytics';
 import { Transaction } from 'prosemirror-state';
 import { GetAttrsChange } from '../../../utils/getAttrsWithChangesRecorder';
+import { ValueOf } from '../../../utils/types';
 
 // Analytics GAS v3 Utils
 type PrevAttributes = IndentationMarkAttributes | undefined;
 type NewAttributes = IndentationMarkAttributes | undefined | false;
 export type IndentationChangesOptions = {
-  direction: INDENT_DIR;
+  direction: ValueOf<IIndentDir>;
 };
 
 const indentTypes: Record<string, string> = {

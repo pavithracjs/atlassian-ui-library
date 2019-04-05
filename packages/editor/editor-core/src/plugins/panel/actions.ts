@@ -11,7 +11,8 @@ import {
   addAnalytics,
 } from '../analytics';
 import { pluginKey } from './pm-plugins/main';
-import { PANEL_TYPE } from '../analytics/types/node-events';
+import { IPanelType } from '../analytics/types/node-events';
+import { ValueOf } from '../../utils/types';
 
 export type DomAtPos = (pos: number) => { node: HTMLElement; offset: number };
 
@@ -43,12 +44,13 @@ export const changePanelType = (panelType: PanelType): Command => (
     tr,
   } = state;
 
-  let previousType: PANEL_TYPE = pluginKey.getState(state).activePanelType;
+  let previousType: ValueOf<IPanelType> = pluginKey.getState(state)
+    .activePanelType;
   const payload: AnalyticsEventPayload = {
     action: ACTION.CHANGED_TYPE,
     actionSubject: ACTION_SUBJECT.PANEL,
     attributes: {
-      newType: panelType as PANEL_TYPE,
+      newType: panelType as ValueOf<IPanelType>,
       previousType: previousType,
     },
     eventType: EVENT_TYPE.TRACK,

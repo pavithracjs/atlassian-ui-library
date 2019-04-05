@@ -17,13 +17,13 @@ import {
   ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
   EVENT_TYPE,
-  INPUT_METHOD,
+  IInputMethod,
 } from '../../analytics';
 
 type InputMethod =
-  | INPUT_METHOD.TOOLBAR
-  | INPUT_METHOD.SHORTCUT
-  | INPUT_METHOD.FORMATTING;
+  | IInputMethod['TOOLBAR']
+  | IInputMethod['SHORTCUT']
+  | IInputMethod['FORMATTING'];
 
 export function setBlockType(name: string): Command {
   return (state, dispatch) => {
@@ -150,7 +150,7 @@ export function insertBlockType(name: string): Command {
 }
 export const insertBlockTypesWithAnalytics = (
   name: string,
-  inputMethod: INPUT_METHOD.TOOLBAR | INPUT_METHOD.KEYBOARD,
+  inputMethod: IInputMethod['TOOLBAR'] | IInputMethod['KEYBOARD'],
 ) => {
   switch (name) {
     case BLOCK_QUOTE.name:

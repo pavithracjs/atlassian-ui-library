@@ -113,7 +113,7 @@ export type PASTE_ACTION_SUBJECT_ID =
 type PasteBaseAEP<Action, Attributes> = TrackAEP<
   Action,
   IActionSubject['DOCUMENT'],
-  PASTE_IActionSubjectId,
+  PASTE_ACTION_SUBJECT_ID,
   Attributes
 >;
 

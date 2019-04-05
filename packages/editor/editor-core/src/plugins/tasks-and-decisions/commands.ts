@@ -29,6 +29,7 @@ import {
   addAnalytics,
   INPUT_METHOD,
   USER_CONTEXT,
+  IUserContext,
 } from '../analytics';
 import {
   ContextData,
@@ -38,12 +39,13 @@ import {
 } from './types';
 import { stateKey as taskDecisionStateKey } from './pm-plugins/main';
 import { TOOLBAR_MENU_TYPE } from '../insert-block/ui/ToolbarInsertBlock';
+import { ValueOf } from '../../utils/types';
 
 const getContextData = (
   contextProvider: ContextIdentifierProvider = {} as ContextIdentifierProvider,
 ): ContextData => {
   const { objectId, containerId } = contextProvider;
-  const userContext: USER_CONTEXT = objectId
+  const userContext: ValueOf<IUserContext> = objectId
     ? USER_CONTEXT.EDIT
     : USER_CONTEXT.NEW;
 
@@ -65,7 +67,7 @@ const generateAnalyticsPayload = (
 ): AnalyticsEventPayload => {
   let containerId;
   let objectId;
-  let userContext: USER_CONTEXT | undefined;
+  let userContext: ValueOf<IUserContext> | undefined;
   if (contextData) {
     ({ containerId, objectId, userContext } = contextData);
   }

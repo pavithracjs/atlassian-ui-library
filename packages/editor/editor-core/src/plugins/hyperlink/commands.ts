@@ -15,6 +15,7 @@ import {
   INPUT_METHOD,
   EVENT_TYPE,
   ACTION_SUBJECT_ID,
+  IInputMethod,
 } from '../analytics';
 import { queueCardsFromChangedTr } from '../card/pm-plugins/doc';
 
@@ -132,10 +133,10 @@ export function removeLink(pos: number): Command {
 
 export function showLinkToolbar(
   inputMethod:
-    | INPUT_METHOD.TOOLBAR
-    | INPUT_METHOD.QUICK_INSERT
-    | INPUT_METHOD.SHORTCUT
-    | INPUT_METHOD.INSERT_MENU = INPUT_METHOD.TOOLBAR,
+    | IInputMethod['TOOLBAR']
+    | IInputMethod['QUICK_INSERT']
+    | IInputMethod['SHORTCUT']
+    | IInputMethod['INSERT_MENU'] = INPUT_METHOD.TOOLBAR,
 ): Command {
   return function(state, dispatch) {
     if (dispatch) {

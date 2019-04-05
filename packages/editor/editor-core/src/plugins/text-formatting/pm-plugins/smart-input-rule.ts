@@ -14,6 +14,8 @@ import {
   ACTION_SUBJECT_ID,
   SYMBOL,
   PUNC,
+  ISymbol,
+  IPunc,
 } from '../../analytics';
 
 /**
@@ -143,7 +145,10 @@ function getProductRules(): Array<InputRule> {
  */
 function getSymbolRules() {
   const symbolToString: {
-    [s: string]: SYMBOL.ARROW_RIGHT | SYMBOL.ARROW_LEFT | SYMBOL.ARROW_DOUBLE;
+    [s: string]:
+      | ISymbol['ARROW_RIGHT']
+      | ISymbol['ARROW_LEFT']
+      | ISymbol['ARROW_DOUBLE'];
   } = {
     '→': SYMBOL.ARROW_RIGHT,
     '←': SYMBOL.ARROW_LEFT,
@@ -177,10 +182,10 @@ function getSymbolRules() {
 function getPunctuationRules() {
   const punctuationToString: {
     [s: string]:
-      | PUNC.DASH
-      | PUNC.ELLIPSIS
-      | PUNC.QUOTE_DOUBLE
-      | PUNC.QUOTE_SINGLE;
+      | IPunc['DASH']
+      | IPunc['ELLIPSIS']
+      | IPunc['QUOTE_DOUBLE']
+      | IPunc['QUOTE_SINGLE'];
   } = {
     '–': PUNC.DASH,
     '…': PUNC.ELLIPSIS,

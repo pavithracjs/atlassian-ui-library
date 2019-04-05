@@ -16,6 +16,7 @@ import {
   INPUT_METHOD,
   EVENT_TYPE,
   PANEL_TYPE,
+  IPanelType,
 } from '../analytics';
 import { QuickInsertActionInsert } from '../quick-insert/types';
 import {
@@ -25,9 +26,10 @@ import {
   IconPanelWarning,
   IconPanelError,
 } from '../quick-insert/assets';
+import { ValueOf } from '../../utils/types';
 
 const insertPanelTypeWithAnalytics = (
-  panelType: PANEL_TYPE,
+  panelType: ValueOf<IPanelType>,
   state: EditorState,
   insert: QuickInsertActionInsert,
 ) => {

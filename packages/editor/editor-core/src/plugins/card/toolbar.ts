@@ -16,7 +16,7 @@ import {
   EVENT_TYPE,
   addAnalytics,
   AnalyticsEventPayload,
-  ACTION_SUBJECT_ID,
+  IActionSubjectId,
 } from '../analytics';
 import { hoverDecoration } from '../base/pm-plugins/decoration';
 
@@ -49,13 +49,13 @@ export const removeCard: Command = (state, dispatch) => {
     action: ACTION.DELETED,
     actionSubject: ACTION_SUBJECT.SMART_LINK,
     actionSubjectId: type as
-      | ACTION_SUBJECT_ID.CARD_INLINE
-      | ACTION_SUBJECT_ID.CARD_BLOCK,
+      | IActionSubjectId['CARD_INLINE']
+      | IActionSubjectId['CARD_BLOCK'],
     attributes: {
       inputMethod: INPUT_METHOD.TOOLBAR,
       displayMode: type as
-        | ACTION_SUBJECT_ID.CARD_INLINE
-        | ACTION_SUBJECT_ID.CARD_BLOCK,
+        | IActionSubjectId['CARD_INLINE']
+        | IActionSubjectId['CARD_BLOCK'],
     },
     eventType: EVENT_TYPE.TRACK,
   };
@@ -79,8 +79,8 @@ export const visitCardLink: Command = (state, dispatch) => {
     action: ACTION.VISITED,
     actionSubject: ACTION_SUBJECT.SMART_LINK,
     actionSubjectId: type.name as
-      | ACTION_SUBJECT_ID.CARD_INLINE
-      | ACTION_SUBJECT_ID.CARD_BLOCK,
+      | IActionSubjectId['CARD_INLINE']
+      | IActionSubjectId['CARD_BLOCK'],
     attributes: {
       inputMethod: INPUT_METHOD.TOOLBAR,
     },

@@ -25,6 +25,7 @@ import {
   EVENT_TYPE,
   ACTION_SUBJECT_ID,
   INPUT_METHOD,
+  IInputMethod,
 } from '../../../../plugins/analytics';
 import { HeadingLevels } from '../../../../plugins/block-type/types';
 import { EditorView } from 'prosemirror-view';
@@ -65,7 +66,7 @@ describe('inputrules', () => {
     describe('Analytics', () => {
       function createHeadingPayload(
         newHeadingLevel: HeadingLevels,
-        inputMethod: INPUT_METHOD.TOOLBAR | INPUT_METHOD.FORMATTING,
+        inputMethod: IInputMethod['TOOLBAR'] | IInputMethod['FORMATTING'],
       ): AnalyticsEventPayload {
         return {
           action: ACTION.FORMATTED,

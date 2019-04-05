@@ -3,8 +3,9 @@ import { IndentationMarkAttributes } from '@atlaskit/adf-schema';
 import { toggleBlockMark } from '../../../commands';
 import { Command } from '../../../types/command';
 import { createAnalyticsDispatch } from './utils';
-import { INDENT_DIR } from '../../analytics';
+import { INDENT_DIR, IIndentDir } from '../../analytics';
 import getAttrsWithChangesRecorder from '../../../utils/getAttrsWithChangesRecorder';
+import { ValueOf } from '../../../utils/types';
 
 const MAX_INDENTATION_LEVEL = 6;
 
@@ -52,7 +53,7 @@ function createIndentationCommandWithAnalytics(
     prevAttrs?: IndentationMarkAttributes,
     node?: PmNode,
   ) => IndentationMarkAttributes | undefined | false,
-  direction: INDENT_DIR,
+  direction: ValueOf<IIndentDir>,
 ): Command {
   // Create a new getAttrs function to record the changes
   const { getAttrs, getAndResetAttrsChanges } = getAttrsWithChangesRecorder(
