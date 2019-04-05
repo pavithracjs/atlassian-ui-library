@@ -1,5 +1,40 @@
 # @atlaskit/editor-core
 
+## 107.8.1
+- [patch] [dfc4c5da7f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfc4c5da7f):
+
+  - Fix odd cursor selection going inside the inline smart links
+
+## 107.8.0
+- [minor] [02dd1f7287](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/02dd1f7287):
+
+  - [ED-5505] Persists formatting to table cells and headers when toggling header row, column or applying any text formatting to empty cells.
+
+## 107.7.12
+- [patch] [44b14dba84](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/44b14dba84):
+
+  - ED-6651: fix cell borders when table has merged cells
+
+## 107.7.11
+- [patch] [2e5b1c9783](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2e5b1c9783):
+
+  - ED-6535: fix fallback for images without dimensions on upload
+
+## 107.7.10
+- [patch] [acfd88ba22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acfd88ba22):
+
+  - ED-6639 Align lists styles between editor & renderer
+
+## 107.7.9
+- [patch] [513fb8a1a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/513fb8a1a9):
+
+  - ED-6640: fix resizing not focused table
+
+## 107.7.8
+- [patch] [eaf2f72de1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eaf2f72de1):
+
+  - ED-6650 Table doesn’t respond on inserting widget with min-width set
+
 ## 107.7.7
 - [patch] [ce8caf29d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce8caf29d5):
 

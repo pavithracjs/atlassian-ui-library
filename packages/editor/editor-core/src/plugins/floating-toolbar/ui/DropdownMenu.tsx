@@ -67,6 +67,7 @@ export default class Dropdown extends Component<Props> {
                   dispatchCommand(item.onClick);
                 }}
                 isDisabled={item.disabled}
+                aria-label={item.title}
               >
                 {item.title}
               </Item>

@@ -5,6 +5,7 @@ export * from './paste';
 export * from './dom';
 export * from './column-controls';
 export * from './row-controls';
+export { applyDefaultMarks, saveDefaultMarksInCellNode } from './default-marks';
 export {
   generateColgroup,
   renderColgroupFromNode,

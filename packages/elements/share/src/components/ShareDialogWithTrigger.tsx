@@ -46,7 +46,6 @@ type ShareError = {
 };
 
 export type Props = {
-  buttonStyle?: ShareButtonStyle;
   config?: ConfigResponse;
   children?: RenderChildren;
   copyLink: string;

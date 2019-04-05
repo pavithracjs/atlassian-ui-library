@@ -19,7 +19,11 @@ Object {
                 "colwidth": Array [
                   416,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -36,7 +40,11 @@ Object {
                 "colwidth": Array [
                   264,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -190,7 +198,11 @@ Object {
                 "colwidth": Array [
                   416,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -207,7 +219,11 @@ Object {
                 "colwidth": Array [
                   263,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -361,7 +377,11 @@ Object {
                 "colwidth": Array [
                   769,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -384,7 +404,11 @@ Object {
                 "colwidth": Array [
                   989,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -605,7 +629,11 @@ Object {
                 "colwidth": Array [
                   79,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -623,7 +651,11 @@ Object {
                   422,
                   178,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -768,7 +800,11 @@ Object {
                 "colwidth": Array [
                   198,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -785,7 +821,11 @@ Object {
                 "colwidth": Array [
                   482,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -935,7 +975,11 @@ Object {
                         "colwidth": Array [
                           141,
                         ],
-                        "defaultMarks": null,
+                        "defaultMarks": Array [
+                          Object {
+                            "type": "strong",
+                          },
+                        ],
                         "rowspan": 1,
                       },
                       "content": Array [
@@ -952,7 +996,11 @@ Object {
                         "colwidth": Array [
                           106,
                         ],
-                        "defaultMarks": null,
+                        "defaultMarks": Array [
+                          Object {
+                            "type": "strong",
+                          },
+                        ],
                         "rowspan": 1,
                       },
                       "content": Array [
@@ -969,7 +1017,11 @@ Object {
                         "colwidth": Array [
                           75,
                         ],
-                        "defaultMarks": null,
+                        "defaultMarks": Array [
+                          Object {
+                            "type": "strong",
+                          },
+                        ],
                         "rowspan": 1,
                       },
                       "content": Array [
@@ -1138,7 +1190,11 @@ Object {
                 "colwidth": Array [
                   166,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -1155,7 +1211,11 @@ Object {
                 "colwidth": Array [
                   594,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -1298,7 +1358,11 @@ Object {
                 "colwidth": Array [
                   48,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -1315,7 +1379,11 @@ Object {
                 "colwidth": Array [
                   140,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -1332,7 +1400,11 @@ Object {
                 "colwidth": Array [
                   48,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -1349,7 +1421,11 @@ Object {
                 "colwidth": Array [
                   48,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -1366,7 +1442,11 @@ Object {
                 "colwidth": Array [
                   396,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -1584,41 +1664,37 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  305,
+                  301,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
                 Object {
-                  "content": Array [
-                    Object {
-                      "attrs": Object {
-                        "extensionKey": "inline-async-eh",
-                        "extensionType": "com.atlassian.confluence.macro.core",
-                        "parameters": Object {
-                          "macroMetadata": Object {
-                            "placeholder": Array [
-                              Object {
-                                "data": Object {
-                                  "url": "",
-                                },
-                                "type": "icon",
-                              },
-                            ],
+                  "attrs": Object {
+                    "extensionKey": "block-async-eh",
+                    "extensionType": "com.atlassian.confluence.macro.core",
+                    "layout": "default",
+                    "parameters": Object {
+                      "macroMetadata": Object {
+                        "placeholder": Array [
+                          Object {
+                            "data": Object {
+                              "url": "",
+                            },
+                            "type": "icon",
                           },
-                          "macroParams": Object {},
-                        },
-                        "text": "Inline extension demo",
+                        ],
                       },
-                      "type": "inlineExtension",
+                      "macroParams": Object {},
                     },
-                    Object {
-                      "text": " ",
-                      "type": "text",
-                    },
-                  ],
-                  "type": "paragraph",
+                    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                  },
+                  "type": "extension",
                 },
               ],
               "type": "tableHeader",
@@ -1628,9 +1704,13 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  147,
+                  151,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -1647,7 +1727,11 @@ Object {
                 "colwidth": Array [
                   227,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -1667,7 +1751,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  305,
+                  301,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -1684,7 +1768,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  147,
+                  151,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -1723,7 +1807,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  305,
+                  301,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -1740,7 +1824,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  147,
+                  151,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,

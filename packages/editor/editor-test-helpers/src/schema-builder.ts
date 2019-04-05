@@ -334,6 +334,8 @@ export const td = (attrs?: CellAttributes) =>
   nodeFactory(sampleSchema.nodes.tableCell, attrs);
 export const th = (attrs?: CellAttributes) =>
   nodeFactory(sampleSchema.nodes.tableHeader, attrs);
+export const thWithoutDefaultMarks = () =>
+  nodeFactory(sampleSchema.nodes.tableHeader, { defaultMarks: null });
 export const tdEmpty = td()(p(''));
 export const thEmpty = th()(p(''));
 export const tdCursor = td()(p('{<>}'));

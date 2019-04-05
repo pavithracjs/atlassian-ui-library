@@ -120,7 +120,12 @@ class JiraSwitcherExample extends React.Component {
               },
             },
             USER_PERMISSION_DATA: {
-              permitted: this.state.isAdmin,
+              manage: {
+                permitted: this.state.isAdmin,
+              },
+              'add-products': {
+                permitted: this.state.isAdmin,
+              },
             },
           };
         },

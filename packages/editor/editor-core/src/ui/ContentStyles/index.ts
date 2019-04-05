@@ -3,6 +3,7 @@ import { HTMLAttributes, ComponentClass } from 'react';
 import {
   editorFontSize,
   paragraphSharedStyles,
+  listsSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
   shadowSharedStyle,
@@ -50,6 +51,7 @@ const ContentStyles: ComponentClass<
     font-size: ${editorFontSize}px;
 
     ${paragraphSharedStyles};
+    ${listsSharedStyles};
     ${indentationSharedStyles};
     ${shadowSharedStyle}
   }
@@ -71,6 +73,9 @@ const ContentStyles: ComponentClass<
   }
 
   .inlineCardView-content-wrap {
+    /* cursor disappears left hand side in ff */
+    padding-left: 1px;
+
     max-width: calc(100% - 20px);
     vertical-align: top;
     word-break: break-all;

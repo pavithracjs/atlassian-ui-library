@@ -1,5 +1,20 @@
 # @atlaskit/share
 
+## 0.3.1
+- [patch] [ddfc158dfb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ddfc158dfb):
+
+  - Removed unused buttonStyle prop
+
+## 0.3.0
+- [minor] [b617f099aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b617f099aa):
+
+  - Limited length of comment messages.
+
+## 0.2.10
+- [patch] [69c72e07ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c72e07ba):
+
+  - Fixed share button off position on IE11
+
 ## 0.2.9
 - [patch] [fcdae04b8c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fcdae04b8c):
 
