@@ -38,7 +38,7 @@ function shouldHandleMediaGapCursor(
     // Should not use gap cursor if I am moving from a text selection into a media node
     if (
       (dir === Direction.UP && !atTheBeginningOfDoc(state)) ||
-      dir === Direction.DOWN
+      (dir === Direction.DOWN && !atTheEndOfDoc(state))
     ) {
       const media = getMediaNearPos(doc, $pos, schema, mapDirection[dir]);
       if (media) {

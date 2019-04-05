@@ -26,14 +26,12 @@ describe('Snapshot Test: Media', () => {
 
     it('renders selection ring around media (via up)', async () => {
       await snapshot(page);
-
-      // TODO:  File a ticket to fix this
       await pressKey(page, 'ArrowUp');
       await snapshot(page);
     });
 
     it('renders selection ring around media (via gap cursor)', async () => {
-      await pressKey(page, ['ArrowLeft']);
+      await pressKey(page, 'ArrowLeft');
       await snapshot(page);
 
       await pressKey(page, 'ArrowLeft');

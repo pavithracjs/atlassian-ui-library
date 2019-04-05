@@ -15,14 +15,12 @@ import { selectNodeBackward } from 'prosemirror-commands';
  * Check if is an empty selection at the start of the node
  */
 function isEmptySelectionAtStart(selection: Selection) {
-  // Part 3,1: [selection{empty}]
   if (!selection.empty) {
     return false;
   }
 
   const { $from } = selection;
 
-  // Part 3.2: [selection{empty, at start}]
   if ($from.parentOffset > 0) {
     return false;
   }
@@ -41,11 +39,7 @@ function isSelectionInsideOf(
 
   const parent = $from.parent;
 
-  const insideNode = parent.type === nodeType;
-  if (!insideNode) {
-    return false;
-  }
-  return true;
+  return parent.type == nodeType;
 }
 
 /**
@@ -166,7 +160,6 @@ const maybeRemoveMediaSingleNode = (schema: Schema): Command => {
     const { selection, schema } = state;
     const { $from } = selection;
 
-    // Part 3,1: [selection{empty, at start}]
     if (!isEmptySelectionAtStart(state.selection)) {
       return false;
     }
