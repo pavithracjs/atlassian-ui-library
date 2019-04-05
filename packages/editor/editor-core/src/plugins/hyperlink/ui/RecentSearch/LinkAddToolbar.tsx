@@ -11,6 +11,7 @@ import {
   ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
   INPUT_METHOD,
+  IInputMethod,
   EVENT_TYPE,
   AnalyticsEventPayload,
   DispatchAnalyticsEvent,
@@ -217,7 +218,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
 
   private trackAutoCompleteAnalyticsEvent(
     name: string,
-    method: INPUT_METHOD.TYPEAHEAD | INPUT_METHOD.MANUAL,
+    method: IInputMethod['TYPEAHEAD'] | IInputMethod['MANUAL'],
   ) {
     const numChars = this.state.text ? this.state.text.length : 0;
     analyticsService.trackEvent(name, { numChars: numChars });

@@ -41,6 +41,8 @@ import {
   INDENT_DIR,
   INDENT_TYPE,
   addAnalytics,
+  IActionSubjectId,
+  IInputMethod,
 } from '../analytics';
 
 const maxIndentation = 5;
@@ -719,7 +721,7 @@ export function toggleListCommand(
 // TODO: Toggle list command dispatch more than one time, so commandWithAnalytics doesn't work as expected.
 // This is a helper to fix that.
 export const toggleListCommandWithAnalytics = (
-  inputMethod: INPUT_METHOD.KEYBOARD,
+  inputMethod: IInputMethod['KEYBOARD'],
   listType: 'bulletList' | 'orderedList',
 ): Command => {
   const listTypeActionSubjectId = {
@@ -734,8 +736,8 @@ export const toggleListCommandWithAnalytics = (
             action: ACTION.FORMATTED,
             actionSubject: ACTION_SUBJECT.TEXT,
             actionSubjectId: listTypeActionSubjectId[listType] as
-              | ACTION_SUBJECT_ID.FORMAT_LIST_BULLET
-              | ACTION_SUBJECT_ID.FORMAT_LIST_NUMBER,
+              | IActionSubjectId['FORMAT_LIST_BULLET']
+              | IActionSubjectId['FORMAT_LIST_NUMBER'],
             eventType: EVENT_TYPE.TRACK,
             attributes: {
               inputMethod,

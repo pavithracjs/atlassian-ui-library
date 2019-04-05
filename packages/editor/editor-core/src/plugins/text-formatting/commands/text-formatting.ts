@@ -13,6 +13,7 @@ import {
   ACTION_SUBJECT_ID,
   EVENT_TYPE,
   INPUT_METHOD,
+  IInputMethod,
 } from '../../analytics';
 
 export const moveRight = (): Command => {
@@ -150,11 +151,11 @@ export const moveLeft = (
   };
 };
 
-type InputMethodToolbar = INPUT_METHOD.TOOLBAR;
+type InputMethodToolbar = IInputMethod['TOOLBAR'];
 type InputMethodBasic =
   | InputMethodToolbar
-  | INPUT_METHOD.SHORTCUT
-  | INPUT_METHOD.FORMATTING;
+  | IInputMethod['SHORTCUT']
+  | IInputMethod['FORMATTING'];
 
 export const toggleEm = (): Command => {
   return (state, dispatch) => {

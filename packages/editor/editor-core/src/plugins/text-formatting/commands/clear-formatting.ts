@@ -2,11 +2,11 @@ import { liftTarget } from 'prosemirror-transform';
 import { Command } from '../../../types';
 import {
   addAnalytics,
-  INPUT_METHOD,
   ACTION,
   EVENT_TYPE,
   ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
+  IInputMethod,
 } from '../../analytics';
 
 export const FORMATTING_NODE_TYPES = ['heading', 'codeBlock', 'blockquote'];
@@ -31,13 +31,13 @@ const formatTypes: Record<string, string> = {
 };
 
 export function clearFormattingWithAnalytics(
-  inputMethod: INPUT_METHOD.TOOLBAR | INPUT_METHOD.SHORTCUT,
+  inputMethod: IInputMethod['TOOLBAR'] | IInputMethod['SHORTCUT'],
 ): Command {
   return clearFormatting(inputMethod);
 }
 
 export function clearFormatting(
-  inputMethod?: INPUT_METHOD.TOOLBAR | INPUT_METHOD.SHORTCUT,
+  inputMethod?: IInputMethod['TOOLBAR'] | IInputMethod['SHORTCUT'],
 ): Command {
   return function(state, dispatch): boolean {
     const { tr } = state;

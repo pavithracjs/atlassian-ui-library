@@ -12,6 +12,7 @@ import {
   ACTION_SUBJECT,
   EVENT_TYPE,
   INPUT_METHOD,
+  IInputMethod,
   TABLE_LAYOUT,
 } from '../analytics';
 import {
@@ -43,7 +44,7 @@ const TABLE_LAYOUT_NAME_MAPPING = {
 
 // #region Analytics wrappers
 export const emptyMultipleCellsWithAnalytics = (
-  inputMethod: INPUT_METHOD.CONTEXT_MENU | INPUT_METHOD.KEYBOARD,
+  inputMethod: IInputMethod['CONTEXT_MENU'] | IInputMethod['KEYBOARD'],
   targetCellPosition?: number,
 ) =>
   withAnalytics(({ selection }) => {
@@ -171,10 +172,10 @@ export const setColorWithAnalytics = (
 
 export const insertRowWithAnalytics = (
   inputMethod:
-    | INPUT_METHOD.CONTEXT_MENU
-    | INPUT_METHOD.BUTTON
-    | INPUT_METHOD.SHORTCUT
-    | INPUT_METHOD.KEYBOARD,
+    | IInputMethod['CONTEXT_MENU']
+    | IInputMethod['BUTTON']
+    | IInputMethod['SHORTCUT']
+    | IInputMethod['KEYBOARD'],
   position: number,
 ) =>
   withAnalytics(state => {
@@ -204,9 +205,9 @@ export const insertRowWithAnalytics = (
 
 export const insertColumnWithAnalytics = (
   inputMethod:
-    | INPUT_METHOD.CONTEXT_MENU
-    | INPUT_METHOD.BUTTON
-    | INPUT_METHOD.SHORTCUT,
+    | IInputMethod['CONTEXT_MENU']
+    | IInputMethod['BUTTON']
+    | IInputMethod['SHORTCUT'],
   position: number,
 ) =>
   withAnalytics(state => {
@@ -233,7 +234,7 @@ export const insertColumnWithAnalytics = (
   );
 
 export const deleteRowsWithAnalytics = (
-  inputMethod: INPUT_METHOD.CONTEXT_MENU | INPUT_METHOD.BUTTON,
+  inputMethod: IInputMethod['CONTEXT_MENU'] | IInputMethod['BUTTON'],
   rect: Rect,
   isHeaderRowRequired: boolean,
 ) =>
@@ -262,7 +263,7 @@ export const deleteRowsWithAnalytics = (
   });
 
 export const deleteColumnsWithAnalytics = (
-  inputMethod: INPUT_METHOD.CONTEXT_MENU | INPUT_METHOD.BUTTON,
+  inputMethod: IInputMethod['CONTEXT_MENU'] | IInputMethod['BUTTON'],
   rect: Rect,
 ) =>
   withAnalytics(({ selection }) => {

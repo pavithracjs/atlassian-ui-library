@@ -66,13 +66,16 @@ import {
   ACTION,
   ACTION_SUBJECT,
   INPUT_METHOD,
+  IInputMethod,
   EVENT_TYPE,
   ACTION_SUBJECT_ID,
   PANEL_TYPE,
   InsertEventPayload,
   DispatchAnalyticsEvent,
+  IActionSubjectId,
 } from '../../../analytics';
 import { EditorState } from 'prosemirror-state';
+import { ValueOf } from '../../../../utils/types';
 
 export const messages = defineMessages({
   action: {
@@ -259,7 +262,9 @@ export interface State {
   emojiPickerOpen: boolean;
 }
 
-export type TOOLBAR_MENU_TYPE = INPUT_METHOD.TOOLBAR | INPUT_METHOD.INSERT_MENU;
+export type TOOLBAR_MENU_TYPE =
+  | IInputMethod['TOOLBAR']
+  | IInputMethod['INSERT_MENU'];
 
 const blockTypeIcons = {
   codeblock: CodeIcon,
@@ -811,7 +816,7 @@ class ToolbarInsertBlock extends React.PureComponent<
     } = this.props;
     const { state, dispatch } = editorView;
 
-    let actionSubjectId: ACTION_SUBJECT_ID | undefined;
+    let actionSubjectId: ValueOf<IActionSubjectId> | undefined;
     let additionalAttrs = {};
     switch (itemName) {
       case 'panel':

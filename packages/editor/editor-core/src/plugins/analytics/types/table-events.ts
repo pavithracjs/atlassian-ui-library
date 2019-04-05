@@ -1,5 +1,6 @@
 import { TableAEP } from './events';
 import { IInputMethod } from './enums';
+import { ValueOf } from '../../../utils/types';
 
 //#region Constants
 export interface ITableAction {
@@ -37,7 +38,6 @@ export const TABLE_ACTION: ITableAction = {
   DELETED_ROW: 'deletedRow',
   DELETED_COLUMN: 'deletedColumn',
 };
-type ValueOf<T> = T[keyof T];
 
 export interface ITableLayout {
   WIDE: 'wide';

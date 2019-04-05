@@ -13,6 +13,7 @@ import {
   ACTION_SUBJECT_ID,
   INPUT_METHOD,
   EVENT_TYPE,
+  IInputMethod,
 } from '../../analytics';
 
 export const createHorizontalRule = (
@@ -20,11 +21,11 @@ export const createHorizontalRule = (
   start: number,
   end: number,
   inputMethod:
-    | INPUT_METHOD.QUICK_INSERT
-    | INPUT_METHOD.TOOLBAR
-    | INPUT_METHOD.INSERT_MENU
-    | INPUT_METHOD.FORMATTING
-    | INPUT_METHOD.SHORTCUT,
+    | IInputMethod['QUICK_INSERT']
+    | IInputMethod['TOOLBAR']
+    | IInputMethod['INSERT_MENU']
+    | IInputMethod['FORMATTING']
+    | IInputMethod['SHORTCUT'],
 ) => {
   if (!state.selection.empty) {
     return null;

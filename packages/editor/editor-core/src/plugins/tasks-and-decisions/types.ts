@@ -1,20 +1,21 @@
 import { Transaction, EditorState } from 'prosemirror-state';
 import { NodeType } from 'prosemirror-model';
-import { INPUT_METHOD, USER_CONTEXT } from '../analytics';
+import { IInputMethod, IUserContext } from '../analytics';
+import { ValueOf } from '../../utils/types';
 
 export type TaskDecisionListType = 'taskList' | 'decisionList';
 
 export type TaskDecisionInputMethod =
-  | INPUT_METHOD.TOOLBAR
-  | INPUT_METHOD.INSERT_MENU
-  | INPUT_METHOD.QUICK_INSERT
-  | INPUT_METHOD.FORMATTING
-  | INPUT_METHOD.KEYBOARD;
+  | IInputMethod['TOOLBAR']
+  | IInputMethod['INSERT_MENU']
+  | IInputMethod['QUICK_INSERT']
+  | IInputMethod['FORMATTING']
+  | IInputMethod['KEYBOARD'];
 
 export type ContextData = {
   objectId: string;
   containerId: string;
-  userContext: USER_CONTEXT;
+  userContext: ValueOf<IUserContext>;
 };
 
 export type AddItemTransactionCreator = (
