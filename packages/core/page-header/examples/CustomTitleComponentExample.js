@@ -80,7 +80,7 @@ class CustomTitleComponent extends Component<{}, State> {
         editView={({ ref, ...rest }) => {
           return <EditView {...rest} innerRef={ref} />;
         }}
-        editValue="Editable title"
+        defaultValue="Editable title"
         onConfirm={() => {}}
       />
     );
