@@ -1,0 +1,1 @@
+- [ED-5505] Fix forceContentValidation replacing valid entities to empty array
