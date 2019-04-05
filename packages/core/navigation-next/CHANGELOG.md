@@ -1,5 +1,20 @@
 # @atlaskit/navigation-next
 
+## 5.1.4
+- [patch] [a768951c81](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a768951c81):
+
+  - Removing vr dep
+
+## 5.1.3
+- [patch] [a28eb04426](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a28eb04426):
+
+  - Migrates package from emotion 9 to emotion 10. No behaviour or API changes.
+
+## 5.1.2
+- [patch] [da6ef8b69a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da6ef8b69a):
+
+  - Using new z-index values from theme
+
 ## 5.1.1
 - Updated dependencies [c95557e3ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c95557e3ff):
   - @atlaskit/global-navigation@6.2.2

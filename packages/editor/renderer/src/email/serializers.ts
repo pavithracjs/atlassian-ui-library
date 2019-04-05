@@ -16,6 +16,9 @@ import heading from './nodes/heading';
 import inlineCard from './nodes/inline-card';
 import listItem from './nodes/list-item';
 import mention from './nodes/mention';
+import media from './nodes/media';
+import mediaGroup from './nodes/media-group';
+import mediaSingle from './nodes/media-single';
 import orderedList from './nodes/ordered-list';
 import panel from './nodes/panel';
 import paragraph from './nodes/paragraph';
@@ -33,6 +36,7 @@ import layoutColumn from './nodes/layoutColumn';
 import layoutSection from './nodes/layoutSection';
 import bodiedExtension from './nodes/bodiedExtension';
 import inlineExtension from './nodes/inlineExtension';
+import date from './nodes/date';
 
 import code from './marks/code';
 import em from './marks/em';
@@ -66,7 +70,9 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   hardBreak,
   heading,
   listItem,
-  mediaGroup: renderNothing,
+  media,
+  mediaGroup,
+  mediaSingle,
   mention,
   orderedList,
   panel,
@@ -82,6 +88,7 @@ export const nodeSerializers: { [key: string]: NodeSerializer } = {
   text,
   unknownBlock,
   status,
+  date,
 };
 
 export const markSerializers: { [key: string]: MarkSerializer } = {

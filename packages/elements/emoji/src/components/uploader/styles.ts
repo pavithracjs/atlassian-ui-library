@@ -1,6 +1,6 @@
 import { style } from 'typestyle';
 
-import { emojiPickerWidth } from '../../constants';
+import { emojiPickerWidth } from '../../util/constants';
 
 // Uploader
 

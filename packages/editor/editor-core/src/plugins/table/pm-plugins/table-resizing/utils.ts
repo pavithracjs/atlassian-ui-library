@@ -1,4 +1,8 @@
 import { cellAround, TableMap } from 'prosemirror-tables';
+import { EditorState } from 'prosemirror-state';
+import { EditorView } from 'prosemirror-view';
+import { ResolvedPos, NodeSpec, Node as PMNode } from 'prosemirror-model';
+import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
 import { TableLayout, CellAttributes } from '@atlaskit/adf-schema';
 import {
   calcTableWidth,
@@ -7,9 +11,9 @@ import {
   akEditorFullWidthLayoutWidth,
   getBreakpoint,
   mapBreakpointToLayoutMaxWidth,
+  absoluteBreakoutWidth,
 } from '@atlaskit/editor-common';
-import { EditorView } from 'prosemirror-view';
-import { ResolvedPos, NodeSpec } from 'prosemirror-model';
+import { gridSize } from '@atlaskit/theme';
 
 export const tableLayoutToSize: Record<string, number> = {
   default: akEditorDefaultLayoutWidth,
@@ -133,3 +137,58 @@ export function domCellAround(target: HTMLElement | null) {
   }
   return target;
 }
+
+const getParentNode = (tablePos: number, state: EditorState): PMNode | null => {
+  if (!tablePos || tablePos === -1) {
+    return null;
+  }
+
+  const $pos = state.doc.resolve(tablePos);
+  const parent = findParentNodeOfTypeClosestToPos($pos, [
+    state.schema.nodes.bodiedExtension,
+    state.schema.nodes.layoutSection,
+  ]);
+
+  return parent ? parent.node : null;
+};
+
+export const getParentNodeWidth = (
+  tablePos: number,
+  state: EditorState,
+  containerWidth: number,
+) => {
+  const node = getParentNode(tablePos, state);
+
+  if (!node) {
+    return;
+  }
+
+  if (node.attrs.layout) {
+    return absoluteBreakoutWidth(node.attrs.layout, containerWidth);
+  }
+
+  let parentWidth = absoluteBreakoutWidth('default', containerWidth);
+
+  const { schema } = state;
+  const breakoutMark =
+    schema.marks.breakout && schema.marks.breakout.isInSet(node.marks);
+  if (breakoutMark && breakoutMark.attrs.mode) {
+    parentWidth = absoluteBreakoutWidth(
+      breakoutMark.attrs.mode,
+      containerWidth,
+    );
+  }
+
+  if (node.type === schema.nodes.layoutSection) {
+    parentWidth = parentWidth / node.childCount;
+  }
+
+  // Need to account for the padding of the parent node
+  const padding =
+    node.type === schema.nodes.layoutSection
+      ? gridSize() * 2 // layout
+      : gridSize() * 4; // bodied extension
+  parentWidth -= padding;
+
+  return parentWidth;
+};

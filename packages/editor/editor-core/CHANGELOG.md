@@ -1,5 +1,175 @@
 # @atlaskit/editor-core
 
+## 107.8.1
+- [patch] [dfc4c5da7f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfc4c5da7f):
+
+  - Fix odd cursor selection going inside the inline smart links
+
+## 107.8.0
+- [minor] [02dd1f7287](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/02dd1f7287):
+
+  - [ED-5505] Persists formatting to table cells and headers when toggling header row, column or applying any text formatting to empty cells.
+
+## 107.7.12
+- [patch] [44b14dba84](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/44b14dba84):
+
+  - ED-6651: fix cell borders when table has merged cells
+
+## 107.7.11
+- [patch] [2e5b1c9783](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2e5b1c9783):
+
+  - ED-6535: fix fallback for images without dimensions on upload
+
+## 107.7.10
+- [patch] [acfd88ba22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acfd88ba22):
+
+  - ED-6639 Align lists styles between editor & renderer
+
+## 107.7.9
+- [patch] [513fb8a1a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/513fb8a1a9):
+
+  - ED-6640: fix resizing not focused table
+
+## 107.7.8
+- [patch] [eaf2f72de1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eaf2f72de1):
+
+  - ED-6650 Table doesn’t respond on inserting widget with min-width set
+
+## 107.7.7
+- [patch] [ce8caf29d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce8caf29d5):
+
+  - ED-6463: fix contextual menu vertical position
+
+## 107.7.6
+- [patch] [eea996dac5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eea996dac5):
+
+  - ED-6598: Toggling `fullWidthMode` now re-creates `EditorView` instead of only re-creating `EditorState`
+
+  This enables us to call updates on contentComponents and nodeViews
+
+## 107.7.5
+- [patch] [29d10e3d60](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29d10e3d60):
+
+  - ED-6626 Table doesn’t respond on inserting widget with min-width set
+
+  _Test steps:_
+
+  - Insert a `table`
+  - Insert an widget macro with an YouTube video url
+  - The `table` should resize the column accordingly
+
+## 107.7.4
+- [patch] [e80a553a6e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80a553a6e):
+
+  - ED-6478: upskip VR tests for numbered column
+
+## 107.7.3
+- [patch] [71c1a888f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/71c1a888f7):
+
+  - ED-6479: upskip table floating toolbar VR tests
+
+## 107.7.2
+- [patch] [41b940325e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/41b940325e):
+
+  - ED-5948: added mass alignment on a range of selected cells
+
+## 107.7.1
+- [patch] [c4aedc236e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c4aedc236e):
+
+  - ED-6613 Clear Action & Decision lists instead of wrapping them around floated content. Corrects gap cursor position when adjacent to floated content.
+
+## 107.7.0
+- [minor] [9df8755c0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9df8755c0b):
+
+  - ED-6603: Disable dynamic text sizing in full width mode
+
+## 107.6.5
+- [patch] [e125d7d78a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e125d7d78a):
+
+  - ED-6627: fix re-rendering table controls when table is nested inside Columns or bodied extensions
+
+## 107.6.4
+- [patch] [0f0c06f787](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f0c06f787):
+
+  - ED-5850 Visual tweak to ensure icons are tightly bound by their borders
+
+## 107.6.3
+- [patch] [1b0b718266](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b0b718266):
+
+  - ED-6474: fix resizing last table column when table is nested inside Columns node
+
+## 107.6.2
+- [patch] [6110c666c6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6110c666c6):
+
+  - ED-6619: scale table when deleting or adding columns
+
+## 107.6.1
+- [patch] [e0d04f321c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0d04f321c):
+
+  - ED-6376: fix rendering row controls when table has nested Jira macro (rendered as a nested table)
+
+## 107.6.0
+- [minor] [13d53eb7c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13d53eb7c9):
+
+  - ED-6604 Animate transition from default -> full-width mode and vice versa
+
+## 107.5.1
+- [patch] [d26570e3b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d26570e3b5):
+
+  - Update i18n for team mention
+  - Fix a bug in team mention: missing https protocol in team link
+
+## 107.5.0
+- [minor] [81491bbc4e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/81491bbc4e):
+
+  - ED-5850 Add fallback icon and fix SVG ids
+
+## 107.4.0
+- [minor] [60a89f843f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60a89f843f):
+
+  - ED-6598: Add initial prop for 'Full Width Mode'
+
+  You may now enable our new experimental feature 'Full Width Mode' by passing a new `fullWidthMode` prop.
+
+  This prop only takes effect on full-width appearence and this initial implementation is extremely raw as most nodes don't reflect their desired behaviour.
+
+  Example:
+  ```
+  <Editor appearence="full-width" fullWidthMode={true} />
+  ```
+
+## 107.3.3
+- [patch] [92c8c14019](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92c8c14019):
+
+  - ED-6492: Fixed media single without dimensions not rendering on mobile
+
+## 107.3.2
+- [patch] [3d0da81a4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d0da81a4b):
+
+  - ED-6583 Add analytics v3 for link inserts
+
+## 107.3.1
+- [patch] [9f08142085](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9f08142085):
+
+  - ED-6618: Fixes the exception thrown when trying to apply the delete decoration.
+
+  Occurs on a position where a node was recently deleted. We now re-map the decorations position on state change to verify if it's still valid to draw or simply delete it.
+
+## 107.3.0
+- [minor] [936f12e761](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/936f12e761):
+
+  - ED-5850 Add descriptions, richer icons and keyboard shortcuts to the quick insert menu
+
+## 107.2.0
+- [minor] [fb7a25ec0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fb7a25ec0b):
+
+  - ED-6221 Fire v3 analytics events when insert media
+
+## 107.1.1
+- [patch] [67e5bfeb72](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/67e5bfeb72):
+
+  - ED-6181 Add analytics to paste event
+
 ## 107.1.0
 - [minor] [e36f791fd6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e36f791fd6):
 

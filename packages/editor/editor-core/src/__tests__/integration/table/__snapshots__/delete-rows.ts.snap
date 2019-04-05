@@ -19,7 +19,11 @@ Object {
                 "colwidth": Array [
                   151,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -42,7 +46,11 @@ Object {
                 "colwidth": Array [
                   98,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -65,7 +73,11 @@ Object {
                 "colwidth": Array [
                   275,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -88,7 +100,11 @@ Object {
                 "colwidth": Array [
                   83,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -111,7 +127,11 @@ Object {
                 "colwidth": Array [
                   152,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -481,7 +501,11 @@ Object {
                 "colwidth": Array [
                   151,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -504,7 +528,11 @@ Object {
                 "colwidth": Array [
                   98,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -527,7 +555,11 @@ Object {
                 "colwidth": Array [
                   275,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -550,7 +582,11 @@ Object {
                 "colwidth": Array [
                   83,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [
@@ -573,7 +609,11 @@ Object {
                 "colwidth": Array [
                   152,
                 ],
-                "defaultMarks": null,
+                "defaultMarks": Array [
+                  Object {
+                    "type": "strong",
+                  },
+                ],
                 "rowspan": 1,
               },
               "content": Array [

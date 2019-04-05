@@ -5,7 +5,7 @@ import {
 } from '@atlaskit/analytics-next-types';
 import { GasPayload } from '@atlaskit/analytics-gas-types';
 
-import { ELEMENTS_CHANNEL } from '../constants';
+import { ELEMENTS_CHANNEL } from '../_constants';
 import {
   name as packageName,
   version as packageVersion,

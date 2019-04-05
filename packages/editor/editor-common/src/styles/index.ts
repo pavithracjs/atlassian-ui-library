@@ -20,6 +20,7 @@ export { panelSharedStyles } from './shared/panel';
 export { ruleSharedStyles } from './shared/rule';
 export { paragraphSharedStyles } from './shared/paragraph';
 export { linkSharedStyle } from './shared/link';
+export { listsSharedStyles } from './shared/lists';
 export { indentationSharedStyles } from './shared/indentation';
 export { blockMarksSharedStyles } from './shared/block-marks';
 export { codeMarkSharedStyles } from './shared/code-mark';

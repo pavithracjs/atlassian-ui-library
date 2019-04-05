@@ -1,6 +1,6 @@
 import { render } from 'enzyme';
 import * as React from 'react';
-import TeamMentionDescriptionHighlight from '../../../../components/MentionDescriptionHighlight';
+import TeamMentionDescriptionByline from '../../../../components/MentionDescriptionByline';
 import { teamMention } from './_commonData';
 
 const shallowRender = (memberCount: number, includesYou: boolean) => {
@@ -18,7 +18,7 @@ const shallowRender = (memberCount: number, includesYou: boolean) => {
       memberCount: memberCount,
     },
   };
-  return render(<TeamMentionDescriptionHighlight mention={updatedMention} />);
+  return render(<TeamMentionDescriptionByline mention={updatedMention} />);
 };
 
 describe('Team mention description', () => {

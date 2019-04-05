@@ -3,7 +3,6 @@ import { findParentDomRefOfType } from 'prosemirror-utils';
 import { EditorView, DecorationSet } from 'prosemirror-view';
 import { browser } from '@atlaskit/editor-common';
 import { PluginConfig, TablePluginState } from '../types';
-import { EditorAppearance } from '../../../types';
 import { Dispatch } from '../../../event-dispatcher';
 import { createTableView } from '../nodeviews/table';
 import { createCellView } from '../nodeviews/cell';
@@ -33,7 +32,12 @@ import {
   handleClick,
   handleTripleClick,
 } from '../event-handlers';
-import { findControlsHoverDecoration } from '../utils';
+import {
+  findControlsHoverDecoration,
+  normalizeSelection,
+  applyDefaultMarks,
+  saveDefaultMarksInCellNode,
+} from '../utils';
 import { fixTables } from '../transforms';
 import { TableCssClassName as ClassName } from '../types';
 
@@ -64,8 +68,9 @@ export const createPlugin = (
   portalProviderAPI: PortalProviderAPI,
   eventDispatcher: EventDispatcher,
   pluginConfig: PluginConfig,
-  appearance?: EditorAppearance,
+  isContextMenuEnabled?: boolean,
   dynamicTextSizing?: boolean,
+  isBreakoutEnabled?: boolean,
 ) =>
   new Plugin({
     state: {
@@ -189,10 +194,17 @@ export const createPlugin = (
       const tr = transactions.find(tr => tr.getMeta('uiEvent') === 'cut');
       if (tr) {
         // "fixTables" removes empty rows as we don't allow that in schema
-        return fixTables(handleCut(tr, oldState, newState));
+        return applyDefaultMarks(fixTables(handleCut(tr, oldState, newState)));
       }
       if (transactions.find(tr => tr.docChanged)) {
-        return fixTables(newState.tr);
+        return applyDefaultMarks(fixTables(newState.tr));
+      }
+      if (transactions.find(tr => tr.selectionSet)) {
+        return applyDefaultMarks(normalizeSelection(newState.tr));
+      }
+      const storedMarkTransaction = transactions.find(tr => tr.storedMarksSet);
+      if (storedMarkTransaction) {
+        return saveDefaultMarksInCellNode(storedMarkTransaction);
       }
     },
     view: (editorView: EditorView) => {
@@ -246,9 +258,12 @@ export const createPlugin = (
       },
 
       nodeViews: {
-        table: createTableView(portalProviderAPI, dynamicTextSizing),
-        tableCell: createCellView(portalProviderAPI, appearance),
-        tableHeader: createCellView(portalProviderAPI, appearance),
+        table: createTableView(portalProviderAPI, {
+          dynamicTextSizing,
+          isBreakoutEnabled,
+        }),
+        tableCell: createCellView(portalProviderAPI, isContextMenuEnabled),
+        tableHeader: createCellView(portalProviderAPI, isContextMenuEnabled),
       },
 
       handleDOMEvents: {

@@ -17,12 +17,12 @@ import {
 } from '../../../../analytics/fabric-analytics-helper';
 import { EmojiState } from '../../pm-plugins/main';
 import {
-  AnalyticsEventPayload,
   ACTION,
   ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
   INPUT_METHOD,
   EVENT_TYPE,
+  DispatchAnalyticsEvent,
 } from '../../../analytics';
 
 export interface Props {
@@ -33,7 +33,7 @@ export interface Props {
   popupsMountPoint?: HTMLElement;
   popupsScrollableElement?: HTMLElement;
   emojiProvider: Promise<EmojiProvider>;
-  dispatchAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 }
 
 export interface State {
@@ -56,7 +56,13 @@ export default class EmojiTypeAhead extends PureComponent<Props, State> {
   }
 
   componentWillUpdate(nextProps: Props) {
-    if (!this.pluginState) {
+    let pluginState = this.pluginState;
+    const { pluginKey, editorView } = nextProps;
+    if (editorView) {
+      pluginState = pluginKey.getState(editorView.state);
+    }
+
+    if (!this.pluginState || this.pluginState !== pluginState) {
       this.setPluginState(nextProps);
     }
   }
