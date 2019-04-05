@@ -8,7 +8,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default ({ onClick, fit, children, ...rest }: Props) => (
+export default ({ fit, children, ...rest }: Props) => (
   <span
     css={{
       alignSelf: 'center',

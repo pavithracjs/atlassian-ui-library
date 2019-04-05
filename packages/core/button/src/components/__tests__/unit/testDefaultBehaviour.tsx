@@ -86,12 +86,13 @@ describe('ak-button/default-behaviour', () => {
 
   it('should render button with full container width', () => {
     const wrapper = mount(<Button shouldFitContainer />);
-    expect(wrapper.find('ButtonWrapper').prop('fit')).toBe(true);
+    console.log(wrapper.debug());
+    expect(wrapper.find(InnerWrapper).prop('fit')).toBe(true);
   });
 
   it('should render button without full container width', () => {
     const wrapper = mount(<Button />);
-    expect(wrapper.find('ButtonWrapper').prop('fit')).toBe(false);
+    expect(wrapper.find(InnerWrapper).prop('fit')).toBe(false);
   });
 
   it('should be able to render both of the icons', () => {
