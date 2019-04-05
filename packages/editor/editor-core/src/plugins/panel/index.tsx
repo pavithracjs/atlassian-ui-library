@@ -71,11 +71,11 @@ const panelPlugin: EditorPlugin = {
   pluginsOptions: {
     quickInsert: ({ formatMessage }) => [
       {
-        title: formatMessage(messages.panel),
-        description: formatMessage(messages.panelDescription),
+        title: formatMessage(messages.infoPanel),
+        description: formatMessage(messages.infoPanelDescription),
         keywords: ['info'],
         priority: 900,
-        icon: () => <IconPanel label={formatMessage(messages.panel)} />,
+        icon: () => <IconPanel label={formatMessage(messages.infoPanel)} />,
         action(insert, state) {
           return insertPanelTypeWithAnalytics(PANEL_TYPE.INFO, state, insert);
         },
