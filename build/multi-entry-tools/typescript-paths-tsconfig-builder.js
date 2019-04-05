@@ -15,7 +15,7 @@ async function main() {
     '/* This file is auto-generated to get multi entry points to type check correctly */',
   );
   console.log(
-    '/* When you add a new entry point in src/ rebuild it by running:  bolt build:multi-entry-point-tsconfig */ */',
+    '/* When you add a new entry point in src/ rebuild it by running:  bolt build:multi-entry-point-tsconfig */',
   );
 
   console.log(

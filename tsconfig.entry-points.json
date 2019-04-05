@@ -1,5 +1,5 @@
 /* This file is auto-generated to get multi entry points to type check correctly */
-/* When you add a new entry point in src/ rebuild it by running:  bolt build:multi-entry-point-tsconfig */ */
+/* When you add a new entry point in src/ rebuild it by running:  bolt build:multi-entry-point-tsconfig */
 {
   "compilerOptions": {
     "paths": {
