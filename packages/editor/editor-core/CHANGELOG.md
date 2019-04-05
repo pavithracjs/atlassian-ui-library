@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.8.1
+- [patch] [dfc4c5da7f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfc4c5da7f):
+
+  - Fix odd cursor selection going inside the inline smart links
+
 ## 107.8.0
 - [minor] [02dd1f7287](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/02dd1f7287):
 
