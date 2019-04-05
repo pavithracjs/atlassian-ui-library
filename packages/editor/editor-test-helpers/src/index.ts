@@ -60,7 +60,6 @@ export {
   tr,
   td,
   th,
-  thWithoutDefaultMarks,
   tdEmpty,
   tdCursor,
   thEmpty,

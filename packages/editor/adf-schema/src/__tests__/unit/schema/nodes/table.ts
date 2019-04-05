@@ -11,9 +11,7 @@ describe(`${name}/schema table node`, () => {
     it('should sets cell attributes without defaultMarks', () => {
       const th = tableHeader.createAndFill();
       const html = toHTML(th!, schema);
-      expect(html).toContain(
-        '<th data-default-marks="[{&quot;type&quot;:&quot;strong&quot;}]"><p></p></th>',
-      );
+      expect(html).toContain('<th><p></p></th>');
     });
 
     it('should sets cell attributes with defaultMarks', () => {

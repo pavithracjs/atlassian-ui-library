@@ -428,16 +428,7 @@ describe('table plugin', () => {
         );
         toggleHeaderRow(editorView.state, editorView.dispatch);
         expect(editorView.state.doc).toEqualDocument(
-          doc(
-            p('text'),
-            table()(
-              tr(
-                td({ defaultMarks: [] })(p('')),
-                td({ defaultMarks: [] })(p('')),
-              ),
-              tr(tdEmpty, tdEmpty),
-            ),
-          ),
+          doc(p('text'), table()(tr(tdEmpty, tdEmpty), tr(tdEmpty, tdEmpty))),
         );
       });
 
@@ -451,13 +442,7 @@ describe('table plugin', () => {
           );
           toggleHeaderRow(editorView.state, editorView.dispatch);
           expect(editorView.state.doc).toEqualDocument(
-            doc(
-              p('text'),
-              table()(
-                tr(thEmpty, td({ defaultMarks: [] })(p(''))),
-                tr(thEmpty, tdEmpty),
-              ),
-            ),
+            doc(p('text'), table()(tr(thEmpty, tdEmpty), tr(thEmpty, tdEmpty))),
           );
         });
       });
@@ -497,13 +482,7 @@ describe('table plugin', () => {
         );
         toggleHeaderColumn(editorView.state, editorView.dispatch);
         expect(editorView.state.doc).toEqualDocument(
-          doc(
-            p('text'),
-            table()(
-              tr(td({ defaultMarks: [] })(p('')), tdEmpty),
-              tr(td({ defaultMarks: [] })(p('')), tdEmpty),
-            ),
-          ),
+          doc(p('text'), table()(tr(tdEmpty, tdEmpty), tr(tdEmpty, tdEmpty))),
         );
       });
 
@@ -514,13 +493,7 @@ describe('table plugin', () => {
           );
           toggleHeaderColumn(editorView.state, editorView.dispatch);
           expect(editorView.state.doc).toEqualDocument(
-            doc(
-              p('text'),
-              table()(
-                tr(thEmpty, thEmpty),
-                tr(td({ defaultMarks: [] })(p('')), tdEmpty),
-              ),
-            ),
+            doc(p('text'), table()(tr(thEmpty, thEmpty), tr(tdEmpty, tdEmpty))),
           );
         });
       });

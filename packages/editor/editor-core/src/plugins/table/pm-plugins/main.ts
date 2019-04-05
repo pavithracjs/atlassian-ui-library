@@ -32,12 +32,7 @@ import {
   handleClick,
   handleTripleClick,
 } from '../event-handlers';
-import {
-  findControlsHoverDecoration,
-  normalizeSelection,
-  applyDefaultMarks,
-  saveDefaultMarksInCellNode,
-} from '../utils';
+import { findControlsHoverDecoration } from '../utils';
 import { fixTables } from '../transforms';
 import { TableCssClassName as ClassName } from '../types';
 
@@ -194,17 +189,10 @@ export const createPlugin = (
       const tr = transactions.find(tr => tr.getMeta('uiEvent') === 'cut');
       if (tr) {
         // "fixTables" removes empty rows as we don't allow that in schema
-        return applyDefaultMarks(fixTables(handleCut(tr, oldState, newState)));
+        return fixTables(handleCut(tr, oldState, newState));
       }
       if (transactions.find(tr => tr.docChanged)) {
-        return applyDefaultMarks(fixTables(newState.tr));
-      }
-      if (transactions.find(tr => tr.selectionSet)) {
-        return applyDefaultMarks(normalizeSelection(newState.tr));
-      }
-      const storedMarkTransaction = transactions.find(tr => tr.storedMarksSet);
-      if (storedMarkTransaction) {
-        return saveDefaultMarksInCellNode(storedMarkTransaction);
+        return fixTables(newState.tr);
       }
     },
     view: (editorView: EditorView) => {
