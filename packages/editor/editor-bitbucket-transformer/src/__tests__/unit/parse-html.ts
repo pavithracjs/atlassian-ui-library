@@ -21,7 +21,7 @@ import {
   ul,
   table,
   tr,
-  th,
+  thWithoutDefaultMarks,
   td,
   strong,
   em,
@@ -373,9 +373,9 @@ describe('BitbucketTransformer: parser', () => {
         doc(
           table()(
             tr(
-              th({})(p('First Header')),
-              th({})(p('Second Header')),
-              th({})(p('Third Header')),
+              thWithoutDefaultMarks()(p('First Header')),
+              thWithoutDefaultMarks()(p('Second Header')),
+              thWithoutDefaultMarks()(p('Third Header')),
             ),
             tr(
               td({})(p('Content Cell')),
@@ -414,7 +414,7 @@ describe('BitbucketTransformer: parser', () => {
       expect(result).toEqualDocument(
         doc(
           table()(
-            tr(th({})(p('First Header'))),
+            tr(thWithoutDefaultMarks()(p('First Header'))),
             tr(td({})(p('Content Cell'))),
             tr(td({})(p('Content Cell'))),
           ),
@@ -442,7 +442,13 @@ describe('BitbucketTransformer: parser', () => {
       );
 
       expect(result).toEqualDocument(
-        doc(table()(tr(th({})(p())), tr(td({})(p())), tr(td({})(p())))),
+        doc(
+          table()(
+            tr(thWithoutDefaultMarks()(p())),
+            tr(td({})(p())),
+            tr(td({})(p())),
+          ),
+        ),
       );
     });
 
@@ -468,7 +474,7 @@ describe('BitbucketTransformer: parser', () => {
       expect(result).toEqualDocument(
         doc(
           table()(
-            tr(th({})(p(strong('testing')))),
+            tr(thWithoutDefaultMarks()(p(strong('testing')))),
             tr(td({})(p(em('testing')))),
             tr(td({})(p(strike('testing')))),
           ),
@@ -496,7 +502,7 @@ describe('BitbucketTransformer: parser', () => {
         doc(
           table()(
             tr(
-              th({})(
+              thWithoutDefaultMarks()(
                 p('Hello there'),
                 mediaSingle()(
                   media({
