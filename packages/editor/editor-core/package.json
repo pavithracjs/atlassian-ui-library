@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-core",
-  "version": "107.8.2",
+  "version": "107.8.3",
   "description": "A package contains Atlassian editor core functionality",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -19,8 +19,8 @@
   },
   "dependencies": {
     "@atlaskit/activity": "^1.0.1",
-    "@atlaskit/adf-schema": "^2.3.1",
-    "@atlaskit/adf-utils": "^6.0.1",
+    "@atlaskit/adf-schema": "^2.3.2",
+    "@atlaskit/adf-utils": "^6.0.2",
     "@atlaskit/analytics-gas-types": "^4.0.1",
     "@atlaskit/analytics-listeners": "^5.0.2",
     "@atlaskit/analytics-namespaced-context": "^3.0.1",
@@ -33,7 +33,7 @@
     "@atlaskit/code": "^9.0.0",
     "@atlaskit/date": "^0.6.3",
     "@atlaskit/droplist": "^8.0.1",
-    "@atlaskit/editor-common": "^36.1.2",
+    "@atlaskit/editor-common": "^36.1.4",
     "@atlaskit/editor-json-transformer": "^5.0.2",
     "@atlaskit/editor-markdown-transformer": "^3.0.3",
     "@atlaskit/emoji": "^59.1.1",
@@ -103,8 +103,8 @@
   "devDependencies": {
     "@atlaskit/docs": "^7.0.1",
     "@atlaskit/dropdown-menu": "^7.0.1",
-    "@atlaskit/editor-bitbucket-transformer": "^5.0.2",
-    "@atlaskit/editor-test-helpers": "^8.0.3",
+    "@atlaskit/editor-bitbucket-transformer": "^5.0.3",
+    "@atlaskit/editor-test-helpers": "^8.0.4",
     "@atlaskit/i18n-tools": "^0.5.0",
     "@atlaskit/lozenge": "^7.0.0",
     "@atlaskit/media-core": "^29.1.1",

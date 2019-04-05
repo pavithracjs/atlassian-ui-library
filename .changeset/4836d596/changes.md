@@ -1,1 +1,0 @@
-- Revert "ED-5505 add strong as default mark to table header (pull request #5291)"
