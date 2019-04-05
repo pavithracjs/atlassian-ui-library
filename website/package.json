@@ -23,7 +23,7 @@
   "repository": "atlaskit/fabric",
   "devDependencies": {
     "@atlaskit/webdriver-runner": "^0.1.0",
-    "@atlaskit/visual-regression": "^0.1.0",
+    "@atlaskit/visual-regression": "^0.0.1",
     "bolt-query": "^1.1.4",
     "chalk": "^2.1.0",
     "extract-react-types-loader": "^0.3.0",
