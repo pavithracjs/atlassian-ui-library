@@ -2,29 +2,54 @@ import { TableAEP } from './events';
 import { IInputMethod } from './enums';
 
 //#region Constants
-export const enum TABLE_ACTION {
-  DELETED = 'deleted',
-  CLEARED = 'cleared',
-  MERGED = 'merged',
-  SPLIT = 'split',
-  COLORED = 'colored',
-  TOGGLED_HEADER_COLUMN = 'toggledHeaderColumn',
-  TOGGLED_HEADER_ROW = 'toggledHeaderRow',
-  TOGGLED_NUMBER_COLUMN = 'toggledNumberColumn',
-  CHANGED_LAYOUT = 'changedLayout',
-  CUT = 'cut',
-  COPIED = 'copied',
-  ADDED_ROW = 'addedRow',
-  ADDED_COLUMN = 'addedColumn',
-  DELETED_ROW = 'deletedRow',
-  DELETED_COLUMN = 'deletedColumn',
+export interface ITableAction {
+  DELETED: 'deleted';
+  CLEARED: 'cleared';
+  MERGED: 'merged';
+  SPLIT: 'split';
+  COLORED: 'colored';
+  TOGGLED_HEADER_COLUMN: 'toggledHeaderColumn';
+  TOGGLED_HEADER_ROW: 'toggledHeaderRow';
+  TOGGLED_NUMBER_COLUMN: 'toggledNumberColumn';
+  CHANGED_LAYOUT: 'changedLayout';
+  CUT: 'cut';
+  COPIED: 'copied';
+  ADDED_ROW: 'addedRow';
+  ADDED_COLUMN: 'addedColumn';
+  DELETED_ROW: 'deletedRow';
+  DELETED_COLUMN: 'deletedColumn';
 }
 
-export const enum TABLE_LAYOUT {
-  WIDE = 'wide',
-  FULL_WIDTH = 'fullWidth',
-  NORMAL = 'normal',
+export const TABLE_ACTION: ITableAction = {
+  DELETED: 'deleted',
+  CLEARED: 'cleared',
+  MERGED: 'merged',
+  SPLIT: 'split',
+  COLORED: 'colored',
+  TOGGLED_HEADER_COLUMN: 'toggledHeaderColumn',
+  TOGGLED_HEADER_ROW: 'toggledHeaderRow',
+  TOGGLED_NUMBER_COLUMN: 'toggledNumberColumn',
+  CHANGED_LAYOUT: 'changedLayout',
+  CUT: 'cut',
+  COPIED: 'copied',
+  ADDED_ROW: 'addedRow',
+  ADDED_COLUMN: 'addedColumn',
+  DELETED_ROW: 'deletedRow',
+  DELETED_COLUMN: 'deletedColumn',
+};
+type ValueOf<T> = T[keyof T];
+
+export interface ITableLayout {
+  WIDE: 'wide';
+  FULL_WIDTH: 'fullWidth';
+  NORMAL: 'normal';
 }
+
+export const TABLE_LAYOUT: ITableLayout = {
+  WIDE: 'wide',
+  FULL_WIDTH: 'fullWidth',
+  NORMAL: 'normal',
+};
 //#endregion
 
 //#region Type Helpers
@@ -46,14 +71,14 @@ type AllCellInfo = TotalRowAndColCount &
 
 //#region Analytic Event Payloads
 type TableDeleteAEP = TableAEP<
-  TABLE_ACTION.DELETED,
+  ITableAction['DELETED'],
   {
     inputMethod: IInputMethod['KEYBOARD'] | IInputMethod['FLOATING_TB'];
   }
 >;
 
 type TableClearAEP = TableAEP<
-  TABLE_ACTION.CLEARED,
+  ITableAction['CLEARED'],
   {
     inputMethod: IInputMethod['KEYBOARD'] | IInputMethod['CONTEXT_MENU'];
   } & HorizontalAndVerticalCells &
@@ -61,38 +86,38 @@ type TableClearAEP = TableAEP<
 >;
 
 type TableMergeSplitAEP = TableAEP<
-  TABLE_ACTION.MERGED | TABLE_ACTION.SPLIT,
+  ITableAction['MERGED'] | ITableAction['SPLIT'],
   AllCellInfo
 >;
 
 type TableColorAEP = TableAEP<
-  TABLE_ACTION.COLORED,
+  ITableAction['COLORED'],
   { cellColor: string } & AllCellInfo
 >;
 
 type TableToggleHeaderAEP = TableAEP<
-  | TABLE_ACTION.TOGGLED_NUMBER_COLUMN
-  | TABLE_ACTION.TOGGLED_HEADER_ROW
-  | TABLE_ACTION.TOGGLED_HEADER_COLUMN,
+  | ITableAction['TOGGLED_NUMBER_COLUMN']
+  | ITableAction['TOGGLED_HEADER_ROW']
+  | ITableAction['TOGGLED_HEADER_COLUMN'],
   // newState -> true : on, false: off
   { newState: boolean } & TotalRowAndColCount
 >;
 
 type TableChangeLayoutAEP = TableAEP<
-  TABLE_ACTION.CHANGED_LAYOUT,
+  ITableAction['CHANGED_LAYOUT'],
   {
-    newLayout: TABLE_LAYOUT;
-    previousLayout: TABLE_LAYOUT;
+    newLayout: ValueOf<ITableLayout>;
+    previousLayout: ValueOf<ITableLayout>;
   } & TotalRowAndColCount
 >;
 
 type TableCopyAndCutAEP = TableAEP<
-  TABLE_ACTION.CUT | TABLE_ACTION.COPIED,
+  ITableAction['CUT'] | ITableAction['COPIED'],
   AllCellInfo
 >;
 
 type TableAddRowOrColumnAEP = TableAEP<
-  TABLE_ACTION.ADDED_ROW | TABLE_ACTION.ADDED_COLUMN,
+  ITableAction['ADDED_ROW'] | ITableAction['ADDED_COLUMN'],
   {
     inputMethod:
       | IInputMethod['SHORTCUT']
@@ -104,7 +129,7 @@ type TableAddRowOrColumnAEP = TableAEP<
 >;
 
 type TableDeleteRowOrColumnAEP = TableAEP<
-  TABLE_ACTION.DELETED_ROW | TABLE_ACTION.DELETED_COLUMN,
+  ITableAction['DELETED_ROW'] | ITableAction['DELETED_COLUMN'],
   {
     inputMethod: IInputMethod['CONTEXT_MENU'] | IInputMethod['BUTTON'];
     position: number;

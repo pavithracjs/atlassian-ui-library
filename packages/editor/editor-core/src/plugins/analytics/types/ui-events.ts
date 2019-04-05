@@ -5,12 +5,17 @@ import {
   IActionSubjectId,
   IInputMethod,
 } from './enums';
-
-export const enum PLATFORMS {
-  NATIVE = 'mobileNative',
-  HYBRID = 'mobileHybrid',
-  WEB = 'web',
+export interface IPlatforms {
+  NATIVE: 'mobileNative';
+  HYBRID: 'mobileHybrid';
+  WEB: 'web';
 }
+
+export const PLATFORMS: IPlatforms = {
+  NATIVE: 'mobileNative',
+  HYBRID: 'mobileHybrid',
+  WEB: 'web',
+};
 
 type ButtonAEP<ActionSubjectID, Attributes> = UIAEP<
   IAction['CLICKED'],
@@ -37,7 +42,7 @@ type EditorStartAEP = UIAEP<
   IAction['STARTED'],
   IActionSubject['EDITOR'],
   undefined,
-  { platform: PLATFORMS.NATIVE | PLATFORMS.HYBRID | PLATFORMS.WEB }
+  { platform: IPlatforms['NATIVE'] | IPlatforms['HYBRID'] | IPlatforms['WEB'] }
 >;
 
 type EditorStopAEP = UIAEP<

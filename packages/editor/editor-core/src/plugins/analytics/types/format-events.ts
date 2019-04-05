@@ -6,17 +6,29 @@ import {
   IInputMethod,
 } from './enums';
 
-export const enum INDENT_DIR {
-  INDENT = 'indent',
-  OUTDENT = 'outdent',
+export interface IIndentDir {
+  INDENT: 'indent';
+  OUTDENT: 'outdent';
 }
 
-export const enum INDENT_TYPE {
-  PARAGRAPH = 'paragraph',
-  LIST = 'list',
-  HEADING = 'heading',
-  CODE_BLOCK = 'codeBlock',
+export const INDENT_DIR: IIndentDir = {
+  INDENT: 'indent',
+  OUTDENT: 'outdent',
+};
+
+export interface IIndentType {
+  PARAGRAPH: 'paragraph';
+  LIST: 'list';
+  HEADING: 'heading';
+  CODE_BLOCK: 'codeBlock';
 }
+
+export const INDENT_TYPE: IIndentType = {
+  PARAGRAPH: 'paragraph',
+  LIST: 'list',
+  HEADING: 'heading',
+  CODE_BLOCK: 'codeBlock',
+};
 
 type FormatAEP<ActionSubjectID, Attributes> = TrackAEP<
   IAction['FORMATTED'],
@@ -51,14 +63,14 @@ type FormatIndentationAEP = FormatAEP<
   IActionSubjectId['FORMAT_INDENT'],
   {
     inputMethod: IInputMethod['TOOLBAR'] | IInputMethod['KEYBOARD'];
-    direction: INDENT_DIR.INDENT | INDENT_DIR.OUTDENT;
+    direction: IIndentDir['INDENT'] | IIndentDir['OUTDENT'];
     previousIndentationLevel: number;
     newIndentLevel: number;
     indentType:
-      | INDENT_TYPE.PARAGRAPH
-      | INDENT_TYPE.LIST
-      | INDENT_TYPE.HEADING
-      | INDENT_TYPE.CODE_BLOCK;
+      | IIndentType['PARAGRAPH']
+      | IIndentType['LIST']
+      | IIndentType['HEADING']
+      | IIndentType['CODE_BLOCK'];
   }
 >;
 

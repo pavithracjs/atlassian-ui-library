@@ -6,13 +6,22 @@ import {
   IActionSubjectId,
 } from './enums';
 
-export const enum PANEL_TYPE {
-  INFO = 'info',
-  SUCCESS = 'success',
-  NOTE = 'note',
-  WARNING = 'warning',
-  ERROR = 'error',
+export interface IPanelType {
+  INFO: 'info';
+  SUCCESS: 'success';
+  NOTE: 'note';
+  WARNING: 'warning';
+  ERROR: 'error';
 }
+
+export const PANEL_TYPE: IPanelType = {
+  INFO: 'info',
+  SUCCESS: 'success',
+  NOTE: 'note',
+  WARNING: 'warning',
+  ERROR: 'error',
+};
+type ValueOf<T> = T[keyof T];
 
 type DeletePanelAEP = TrackAEP<
   IAction['DELETED'],
@@ -25,7 +34,7 @@ type ChangePanelAEP = TrackAEP<
   IAction['CHANGED_TYPE'],
   IActionSubject['PANEL'],
   undefined,
-  { newType: PANEL_TYPE; previousType: PANEL_TYPE }
+  { newType: ValueOf<IPanelType>; previousType: ValueOf<IPanelType> }
 >;
 
 type VisitedSmartLink = TrackAEP<

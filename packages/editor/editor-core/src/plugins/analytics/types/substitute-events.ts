@@ -1,18 +1,31 @@
 import { TrackAEP } from './events';
-import { IAction, IActionSubject, ACTION_SUBJECT_ID } from './enums';
+import { IAction, IActionSubject, IActionSubjectId } from './enums';
 
-export const enum SYMBOL {
-  ARROW_RIGHT = 'rightArrow',
-  ARROW_LEFT = 'leftArrow',
-  ARROW_DOUBLE = 'doubleArrow',
+export interface ISymbol {
+  ARROW_RIGHT: 'rightArrow';
+  ARROW_LEFT: 'leftArrow';
+  ARROW_DOUBLE: 'doubleArrow';
 }
 
-export const enum PUNC {
-  DASH = 'emDash',
-  ELLIPSIS = 'ellipsis',
-  QUOTE_SINGLE = 'singleQuote',
-  QUOTE_DOUBLE = 'doubleQuote',
+export const SYMBOL: ISymbol = {
+  ARROW_RIGHT: 'rightArrow',
+  ARROW_LEFT: 'leftArrow',
+  ARROW_DOUBLE: 'doubleArrow',
+};
+
+export interface IPunc {
+  DASH: 'emDash';
+  ELLIPSIS: 'ellipsis';
+  QUOTE_SINGLE: 'singleQuote';
+  QUOTE_DOUBLE: 'doubleQuote';
 }
+
+export const PUNC: IPunc = {
+  DASH: 'emDash',
+  ELLIPSIS: 'ellipsis',
+  QUOTE_SINGLE: 'singleQuote',
+  QUOTE_DOUBLE: 'doubleQuote',
+};
 
 type SubstituteAEP<ActionSubjectID, Attributes> = TrackAEP<
   IAction['SUBSTITUTED'],
@@ -32,7 +45,10 @@ type SubstituteProductAEP = SubstituteAEP<
 type SubstituteSymbolAEP = SubstituteAEP<
   IActionSubjectId['SYMBOL'],
   {
-    symbol: SYMBOL.ARROW_RIGHT | SYMBOL.ARROW_LEFT | SYMBOL.ARROW_DOUBLE;
+    symbol:
+      | ISymbol['ARROW_RIGHT']
+      | ISymbol['ARROW_LEFT']
+      | ISymbol['ARROW_DOUBLE'];
   }
 >;
 
@@ -40,10 +56,10 @@ type SubstitutePuncAEP = SubstituteAEP<
   IActionSubjectId['PUNC'],
   {
     punctuation:
-      | PUNC.DASH
-      | PUNC.ELLIPSIS
-      | PUNC.QUOTE_SINGLE
-      | PUNC.QUOTE_DOUBLE;
+      | IPunc['DASH']
+      | IPunc['ELLIPSIS']
+      | IPunc['QUOTE_SINGLE']
+      | IPunc['QUOTE_DOUBLE'];
   }
 >;
 
