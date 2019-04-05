@@ -21,15 +21,11 @@ function isEmptySelectionAtStart(selection: Selection) {
 
   const { $from } = selection;
 
-  if ($from.parentOffset > 0) {
-    return false;
-  }
-
-  return true;
+  return $from.parentOffset <= 0;
 }
 
 /**
- * Check if the current selection is inside a paragraph
+ * Check if the current selection is inside a node type
  */
 function isSelectionInsideOf(
   selection: Selection,
@@ -39,7 +35,7 @@ function isSelectionInsideOf(
 
   const parent = $from.parent;
 
-  return parent.type == nodeType;
+  return parent.type === nodeType;
 }
 
 /**
@@ -66,10 +62,8 @@ function isSiblingOfType(
   sibling: number,
 ): boolean {
   const maybeSiblingNode = getSibling(selection, sibling);
-  if (!maybeSiblingNode || maybeSiblingNode.type !== node) {
-    return false;
-  }
-  return true;
+
+  return !!maybeSiblingNode && maybeSiblingNode.type === node;
 }
 /**
  * When there's any empty block before another paragraph with wrap-right
@@ -86,10 +80,12 @@ function isSiblingOfType(
  * x x x x x x x x x x       |  mediaSingle  |
  * x x x x x.                +---------------+
  */
-function handleSelectionAfterWrapRight(isEmptyNode: (node: Node) => any) {
-  function isEmptyWithoutThrow(node: Node): any {
+function handleSelectionAfterWrapRight(isEmptyNode: (node: Node) => boolean) {
+  function isEmptyWithoutThrow(node: Node): boolean {
     let isEmpty = false;
     try {
+      // We dont have isEmptyNode definition for table for example.
+      // In this case it will throw we need to catch it
       isEmpty = isEmptyNode(node);
     } catch (e) {}
     return isEmpty;
