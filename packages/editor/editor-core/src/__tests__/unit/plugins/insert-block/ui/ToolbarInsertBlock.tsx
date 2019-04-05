@@ -16,7 +16,7 @@ import { taskDecision } from '@atlaskit/util-data-test';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { uuid } from '@atlaskit/adf-schema';
 import Button from '@atlaskit/button';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 import { pluginKey as blockTypePluginKey } from '../../../../../plugins/block-type/pm-plugins/main';
 import {

@@ -7,7 +7,7 @@ import {
   Identifier,
   ImageResizeMode,
 } from '@atlaskit/media-core';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 
 import { CardAction } from './actions';
 import { MediaViewerDataSource } from '@atlaskit/media-viewer';

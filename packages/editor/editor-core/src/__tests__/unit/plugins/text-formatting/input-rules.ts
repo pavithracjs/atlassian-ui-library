@@ -28,7 +28,7 @@ import {
 import { EditorView } from 'prosemirror-view';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { AnalyticsHandler } from '../../../../analytics';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 
 const createProductPayload = (product: string, originalSpelling: string) => ({
   action: 'autoSubstituted',

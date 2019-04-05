@@ -15,7 +15,7 @@ import { emojiPluginKey } from '../../../../plugins/emoji/pm-plugins/main';
 import emojiPlugin from '../../../../plugins/emoji';
 import codeBlockPlugin from '../../../../plugins/code-block';
 import mentionsPlugin from '../../../../plugins/mentions';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 const emojiProvider = emojiData.testData.getEmojiResourcePromise();
 

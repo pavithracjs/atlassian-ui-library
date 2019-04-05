@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Messages } from 'react-intl';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import * as isEqual from 'lodash.isequal';
 
 import {

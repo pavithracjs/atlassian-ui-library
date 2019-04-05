@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
 
 import { CardWithData } from '../Card/types';
 import { CardWithDataContent as CardWithDataContentType } from '.';

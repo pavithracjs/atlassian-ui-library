@@ -25,7 +25,6 @@
     "@atlaskit/analytics-listeners": "^5.0.1",
     "@atlaskit/analytics-namespaced-context": "^3.0.1",
     "@atlaskit/analytics-next": "^4.0.1",
-    "@atlaskit/analytics-next-types": "^4.0.1",
     "@atlaskit/avatar": "^15.0.1",
     "@atlaskit/avatar-group": "^3.0.1",
     "@atlaskit/button": "^11.0.2",

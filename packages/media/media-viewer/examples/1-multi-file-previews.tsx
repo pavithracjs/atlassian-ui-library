@@ -24,8 +24,10 @@ import {
 import { MediaViewer } from '../src';
 import { videoFileId } from '@atlaskit/media-test-helpers';
 import { MediaViewerDataSource } from '..';
-import { AnalyticsListener } from '@atlaskit/analytics-next';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import {
+  AnalyticsListener,
+  UIAnalyticsEventInterface,
+} from '@atlaskit/analytics-next';
 import { I18NWrapper } from '@atlaskit/media-test-helpers';
 import { Identifier, FileIdentifier } from '@atlaskit/media-core';
 import { Card } from '@atlaskit/media-card';

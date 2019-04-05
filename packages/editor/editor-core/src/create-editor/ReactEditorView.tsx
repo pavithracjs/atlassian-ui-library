@@ -4,7 +4,7 @@ import { EditorState, Transaction, Selection } from 'prosemirror-state';
 import { EditorView, DirectEditorProps } from 'prosemirror-view';
 import { Node as PMNode } from 'prosemirror-model';
 import { intlShape } from 'react-intl';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import {
   ProviderFactory,
   Transformer,

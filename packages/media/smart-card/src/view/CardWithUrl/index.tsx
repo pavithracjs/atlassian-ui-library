@@ -1,7 +1,7 @@
 import * as React from 'react';
 import LazyRender from 'react-lazily-render';
 import { CardLinkView } from '@atlaskit/media-ui';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
 
 import { Client } from '../../client';
 import { DefinedState } from '../../client/types';

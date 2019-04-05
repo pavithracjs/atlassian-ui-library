@@ -13,7 +13,7 @@ import Button from '@atlaskit/button';
 import {
   AnalyticsEventPayload,
   UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import { InlineCardUnauthorizedView } from '@atlaskit/media-ui';
 
 class FakeClient extends Client {

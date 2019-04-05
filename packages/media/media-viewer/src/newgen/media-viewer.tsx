@@ -4,8 +4,10 @@ import { Context, Identifier } from '@atlaskit/media-core';
 import { IntlProvider, intlShape } from 'react-intl';
 import { ThemeProvider } from 'styled-components';
 import { Shortcut, theme } from '@atlaskit/media-ui';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import {
+  withAnalyticsEvents,
+  WithAnalyticsEventProps,
+} from '@atlaskit/analytics-next';
 import { mediaViewerModalEvent } from './analytics/media-viewer';
 import { channel } from './analytics/index';
 import {

@@ -24,8 +24,10 @@ import {
   videoSquareFileIdItem,
 } from '../example-helpers';
 import { MediaViewer } from '../src';
-import { AnalyticsListener } from '@atlaskit/analytics-next';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import {
+  AnalyticsListener,
+  UIAnalyticsEventInterface,
+} from '@atlaskit/analytics-next';
 import { I18NWrapper } from '@atlaskit/media-test-helpers';
 const context = createStorybookContext();
 

@@ -7,11 +7,11 @@ import {
   OnToneSelected,
 } from '../../types';
 import EmojiButton from './EmojiButton';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import {
+  withAnalyticsEvents,
   WithAnalyticsEventProps,
   AnalyticsEventPayload,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import {
   createAndFireEventInElementsChannel,
   toneSelectedEvent,

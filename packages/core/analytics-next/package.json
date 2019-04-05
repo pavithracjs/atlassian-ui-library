@@ -5,6 +5,7 @@
   "license": "Apache-2.0",
   "module": "index.js",
   "atlaskit:src": "src/index.js",
+  "types": "index.d.ts",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
@@ -31,6 +32,7 @@
     "@atlaskit/docs": "^7.0.1",
     "@atlaskit/field-text": "^8.0.1",
     "@atlaskit/ssr": "^0.0.1",
+    "@atlaskit/type-helpers": "^3.0.2",
     "enzyme": "^3.7.0",
     "lodash.isequal": "^4.5.0",
     "react-dom": "^16.4.2",

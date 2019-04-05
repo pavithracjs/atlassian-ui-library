@@ -16,7 +16,7 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/adf-schema": "^2.0.1",
-    "@atlaskit/analytics-next-types": "^4.0.0",
+    "@atlaskit/analytics-next": "^4.0.2",
     "@atlaskit/editor-common": "^36.0.0",
     "@atlaskit/editor-core": "^107.0.0",
     "@atlaskit/icon": "^16.0.5",

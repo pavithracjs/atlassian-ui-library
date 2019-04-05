@@ -21,8 +21,10 @@ import ErrorMessage, {
   ErrorName,
 } from './error';
 import { ErrorViewDownloadButton } from './download';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import {
+  withAnalyticsEvents,
+  WithAnalyticsEventProps,
+} from '@atlaskit/analytics-next';
 import {
   ViewerLoadPayload,
   mediaFileCommencedEvent,

@@ -7,7 +7,7 @@ import { ELEMENTS_CONTEXT } from '@atlaskit/analytics-namespaced-context';
 import {
   ObjectType,
   UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import * as merge from 'lodash.merge';
 
 const extractFieldsFromContext = (fieldsToPick: string[]) => (

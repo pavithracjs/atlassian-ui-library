@@ -10,7 +10,6 @@
   "types": "index.d.ts",
   "dependencies": {
     "@atlaskit/analytics-next": "^4.0.1",
-    "@atlaskit/analytics-next-types": "^4.0.0",
     "tslib": "^1.8.0"
   },
   "peerDependencies": {

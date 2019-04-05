@@ -8,15 +8,6 @@
     "examples/**/*.tsx"
   ],
   "exclude": [
-    "node_modules",
-  ],
-  "compilerOptions": {
-    "noImplicitAny": true,
-    "baseUrl": "./",
-    "paths": {
-      "@atlaskit/analytics-next": [
-        "node_modules/@atlaskit/analytics-next-types"
-      ]
-    }
-  }
+    "node_modules"
+  ]
 }

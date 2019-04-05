@@ -21,7 +21,6 @@
     "@atlaskit/analytics-gas-types": "^4.0.1",
     "@atlaskit/analytics-namespaced-context": "^3.0.1",
     "@atlaskit/analytics-next": "^4.0.1",
-    "@atlaskit/analytics-next-types": "^4.0.0",
     "@atlaskit/button": "^11.0.2",
     "@atlaskit/icon": "^16.0.5",
     "@atlaskit/item": "^9.0.0",
