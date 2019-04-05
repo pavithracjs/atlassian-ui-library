@@ -13,10 +13,11 @@ export default md`
   - **InlineEditableTextfield** is a component which abstracts away most of the complexity of the InlineEdit
     component and simply switches between a single line of text and a textfield.
 - **Underlying technical improvements:**
-  - Supports the use of Textfield and Textarea components (as an improvement over the
+  - First-class support of Textfield and Textarea components (as an improvement over the
     soon-to-be deprecated Field-text and Field-text-area components).
-  - Includes validation with an inline dialog, which is not loaded if a validate function
-    is not provided, improving performance.
+  - No longer relies on FieldBase, which is being deprecated as part of the Form v5 release.
+  - Includes validation with an inline dialog which is not loaded if a validate function
+    is not provided, reducing unnecessary bundle size for inline edit usage without validation by almost half.
 - **Typescript**: Inline Edit is now written in Typescript. The props are exported as Typescript types. This also
   means we are dropping support for Flow in this component.
 
