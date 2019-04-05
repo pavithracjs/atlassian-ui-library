@@ -5,7 +5,7 @@ import { Fragment, Node as PMNode, Schema } from 'prosemirror-model';
 import { Serializer } from '../serializer';
 import { nodeSerializers } from './serializers';
 import styles from './styles';
-import * as juice from 'juice';
+import juice from 'juice';
 
 const serializeNode = (
   node: PMNode,
