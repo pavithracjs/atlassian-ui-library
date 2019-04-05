@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 45.2.3
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 45.2.2
 - Updated dependencies [bfca144ea5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bfca144ea5):
   - @atlaskit/editor-common@36.1.1

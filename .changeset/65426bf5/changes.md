@@ -1,1 +1,0 @@
-- Enable esModuleInterop for typescript, this allows correct use of default exports
