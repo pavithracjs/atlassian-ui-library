@@ -1,1 +1,0 @@
-- Update editor-common to use Mention alternative entry point. This should reduce editor-common bundle size

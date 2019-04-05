@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 36.1.3
+- [patch] [6290d651d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6290d651d8):
+
+  - Update editor-common to use Mention alternative entry point. This should reduce editor-common bundle size
+
 ## 36.1.2
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 
