@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./"
   },
-  "extends": "../../../tsconfig.base.json",
+  "extends": "../../../tsconfig.entry-points.json",
   "include": [
     "./src/**/*.ts",
     "./src/**/*.tsx",

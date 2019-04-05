@@ -1,5 +1,4 @@
 {
-  "extends": "./tsconfig.entry-points.json",
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,

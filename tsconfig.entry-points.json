@@ -1,1498 +1,1502 @@
 /* This file is auto-generated to get multi entry points to type check correctly */
 /* When you add a new entry point in src/ rebuild it by running:  bolt build:multi-entry-point-tsconfig */
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "paths": {
       "@atlaskit/codemod-util-shared-styles-to-theme/index": [
-        "../../bitbucket/codemod-util-shared-styles-to-theme/src/index.js"
+        "../../bitbucket/codemod-util-shared-styles-to-theme/src/index"
       ],
       "@atlaskit/codemod-util-shared-styles-to-theme/utils": [
-        "../../bitbucket/codemod-util-shared-styles-to-theme/src/utils.js"
+        "../../bitbucket/codemod-util-shared-styles-to-theme/src/utils"
       ],
       "@atlaskit/mobile-header/index": [
-        "../../bitbucket/mobile-header/src/index.js"
+        "../../bitbucket/mobile-header/src/index"
       ],
       "@atlaskit/mobile-header/styled": [
-        "../../bitbucket/mobile-header/src/styled.js"
+        "../../bitbucket/mobile-header/src/styled"
       ],
       "@atlaskit/panel/index": [
-        "../../bitbucket/panel/src/index.js"
+        "../../bitbucket/panel/src/index"
       ],
       "@atlaskit/panel/types": [
-        "../../bitbucket/panel/src/types.js"
+        "../../bitbucket/panel/src/types"
       ],
       "@atlaskit/analytics/AnalyticsDecorator": [
-        "../../core/analytics/src/AnalyticsDecorator.js"
+        "../../core/analytics/src/AnalyticsDecorator"
       ],
       "@atlaskit/analytics/AnalyticsDelegate": [
-        "../../core/analytics/src/AnalyticsDelegate.js"
+        "../../core/analytics/src/AnalyticsDelegate"
       ],
       "@atlaskit/analytics/AnalyticsListener": [
-        "../../core/analytics/src/AnalyticsListener.js"
+        "../../core/analytics/src/AnalyticsListener"
       ],
       "@atlaskit/analytics/cleanProps": [
-        "../../core/analytics/src/cleanProps.js"
+        "../../core/analytics/src/cleanProps"
       ],
       "@atlaskit/analytics/index.d": [
-        "../../core/analytics/src/index.d.ts"
+        "../../core/analytics/src/index.d"
       ],
       "@atlaskit/analytics/index": [
-        "../../core/analytics/src/index.js"
+        "../../core/analytics/src/index"
       ],
       "@atlaskit/analytics/matchEvent": [
-        "../../core/analytics/src/matchEvent.js"
+        "../../core/analytics/src/matchEvent"
       ],
       "@atlaskit/analytics/withAnalytics": [
-        "../../core/analytics/src/withAnalytics.js"
+        "../../core/analytics/src/withAnalytics"
       ],
       "@atlaskit/analytics-next/AnalyticsContext": [
-        "../../core/analytics-next/src/AnalyticsContext.js"
+        "../../core/analytics-next/src/AnalyticsContext"
       ],
       "@atlaskit/analytics-next/AnalyticsEvent": [
-        "../../core/analytics-next/src/AnalyticsEvent.js"
+        "../../core/analytics-next/src/AnalyticsEvent"
       ],
       "@atlaskit/analytics-next/AnalyticsEventMap": [
-        "../../core/analytics-next/src/AnalyticsEventMap.js"
+        "../../core/analytics-next/src/AnalyticsEventMap"
       ],
       "@atlaskit/analytics-next/AnalyticsListener": [
-        "../../core/analytics-next/src/AnalyticsListener.js"
+        "../../core/analytics-next/src/AnalyticsListener"
       ],
       "@atlaskit/analytics-next/cleanProps": [
-        "../../core/analytics-next/src/cleanProps.js"
+        "../../core/analytics-next/src/cleanProps"
       ],
       "@atlaskit/analytics-next/createAndFireEvent": [
-        "../../core/analytics-next/src/createAndFireEvent.js"
+        "../../core/analytics-next/src/createAndFireEvent"
       ],
       "@atlaskit/analytics-next/index": [
-        "../../core/analytics-next/src/index.js"
+        "../../core/analytics-next/src/index"
       ],
       "@atlaskit/analytics-next/types": [
-        "../../core/analytics-next/src/types.js"
+        "../../core/analytics-next/src/types"
       ],
       "@atlaskit/analytics-next/UIAnalyticsEvent": [
-        "../../core/analytics-next/src/UIAnalyticsEvent.js"
+        "../../core/analytics-next/src/UIAnalyticsEvent"
       ],
       "@atlaskit/analytics-next/withAnalyticsContext": [
-        "../../core/analytics-next/src/withAnalyticsContext.js"
+        "../../core/analytics-next/src/withAnalyticsContext"
       ],
       "@atlaskit/analytics-next/withAnalyticsEvents": [
-        "../../core/analytics-next/src/withAnalyticsEvents.js"
+        "../../core/analytics-next/src/withAnalyticsEvents"
       ],
       "@atlaskit/avatar/index": [
-        "../../core/avatar/src/index.js"
+        "../../core/avatar/src/index"
       ],
       "@atlaskit/avatar/types": [
-        "../../core/avatar/src/types.js"
+        "../../core/avatar/src/types"
       ],
       "@atlaskit/avatar/utils": [
-        "../../core/avatar/src/utils.js"
+        "../../core/avatar/src/utils"
       ],
       "@atlaskit/avatar-group/index": [
-        "../../core/avatar-group/src/index.js"
+        "../../core/avatar-group/src/index"
       ],
       "@atlaskit/badge/index": [
-        "../../core/badge/src/index.ts"
+        "../../core/badge/src/index"
       ],
       "@atlaskit/badge/theme": [
-        "../../core/badge/src/theme.ts"
+        "../../core/badge/src/theme"
       ],
       "@atlaskit/banner/index": [
-        "../../core/banner/src/index.js"
+        "../../core/banner/src/index"
       ],
       "@atlaskit/banner/styled": [
-        "../../core/banner/src/styled.js"
+        "../../core/banner/src/styled"
       ],
       "@atlaskit/blanket/Blanket": [
-        "../../core/blanket/src/Blanket.js"
+        "../../core/blanket/src/Blanket"
       ],
       "@atlaskit/blanket/index": [
-        "../../core/blanket/src/index.js"
+        "../../core/blanket/src/index"
       ],
       "@atlaskit/blanket/styled": [
-        "../../core/blanket/src/styled.js"
+        "../../core/blanket/src/styled"
       ],
       "@atlaskit/breadcrumbs/index": [
-        "../../core/breadcrumbs/src/index.js"
+        "../../core/breadcrumbs/src/index"
       ],
       "@atlaskit/breadcrumbs/types": [
-        "../../core/breadcrumbs/src/types.js"
+        "../../core/breadcrumbs/src/types"
       ],
       "@atlaskit/button/index": [
-        "../../core/button/src/index.ts"
+        "../../core/button/src/index"
       ],
       "@atlaskit/button/theme": [
-        "../../core/button/src/theme.ts"
+        "../../core/button/src/theme"
       ],
       "@atlaskit/button/types": [
-        "../../core/button/src/types.ts"
+        "../../core/button/src/types"
       ],
       "@atlaskit/calendar/index": [
-        "../../core/calendar/src/index.js"
+        "../../core/calendar/src/index"
       ],
       "@atlaskit/calendar/types": [
-        "../../core/calendar/src/types.js"
+        "../../core/calendar/src/types"
       ],
       "@atlaskit/checkbox/Checkbox": [
-        "../../core/checkbox/src/Checkbox.js"
+        "../../core/checkbox/src/Checkbox"
       ],
       "@atlaskit/checkbox/CheckboxIcon": [
-        "../../core/checkbox/src/CheckboxIcon.js"
+        "../../core/checkbox/src/CheckboxIcon"
       ],
       "@atlaskit/checkbox/index": [
-        "../../core/checkbox/src/index.js"
+        "../../core/checkbox/src/index"
       ],
       "@atlaskit/checkbox/types": [
-        "../../core/checkbox/src/types.js"
+        "../../core/checkbox/src/types"
       ],
       "@atlaskit/code/index": [
-        "../../core/code/src/index.js"
+        "../../core/code/src/index"
       ],
       "@atlaskit/code/supportedLanguages": [
-        "../../core/code/src/supportedLanguages.js"
+        "../../core/code/src/supportedLanguages"
       ],
       "@atlaskit/code/ThemedCode": [
-        "../../core/code/src/ThemedCode.js"
+        "../../core/code/src/ThemedCode"
       ],
       "@atlaskit/code/ThemedCodeBlock": [
-        "../../core/code/src/ThemedCodeBlock.js"
+        "../../core/code/src/ThemedCodeBlock"
       ],
       "@atlaskit/comment/index": [
-        "../../core/comment/src/index.js"
+        "../../core/comment/src/index"
       ],
       "@atlaskit/datetime-picker/index": [
-        "../../core/datetime-picker/src/index.js"
+        "../../core/datetime-picker/src/index"
       ],
       "@atlaskit/drawer/constants": [
-        "../../core/drawer/src/constants.js"
+        "../../core/drawer/src/constants"
       ],
       "@atlaskit/drawer/index": [
-        "../../core/drawer/src/index.js"
+        "../../core/drawer/src/index"
       ],
       "@atlaskit/dropdown-menu/index": [
-        "../../core/dropdown-menu/src/index.js"
+        "../../core/dropdown-menu/src/index"
       ],
       "@atlaskit/dropdown-menu/types": [
-        "../../core/dropdown-menu/src/types.js"
+        "../../core/dropdown-menu/src/types"
       ],
       "@atlaskit/droplist/index": [
-        "../../core/droplist/src/index.js"
+        "../../core/droplist/src/index"
       ],
       "@atlaskit/droplist/types": [
-        "../../core/droplist/src/types.js"
+        "../../core/droplist/src/types"
       ],
       "@atlaskit/dynamic-table/index": [
-        "../../core/dynamic-table/src/index.js"
+        "../../core/dynamic-table/src/index"
       ],
       "@atlaskit/dynamic-table/theme": [
-        "../../core/dynamic-table/src/theme.js"
+        "../../core/dynamic-table/src/theme"
       ],
       "@atlaskit/dynamic-table/types": [
-        "../../core/dynamic-table/src/types.js"
+        "../../core/dynamic-table/src/types"
       ],
       "@atlaskit/empty-state/index": [
-        "../../core/empty-state/src/index.js"
+        "../../core/empty-state/src/index"
       ],
       "@atlaskit/feedback-collector/index": [
-        "../../core/feedback-collector/src/index.js"
+        "../../core/feedback-collector/src/index"
       ],
       "@atlaskit/feedback-collector/types": [
-        "../../core/feedback-collector/src/types.js"
+        "../../core/feedback-collector/src/types"
       ],
       "@atlaskit/field-base/index.d": [
-        "../../core/field-base/src/index.d.ts"
+        "../../core/field-base/src/index.d"
       ],
       "@atlaskit/field-base/index": [
-        "../../core/field-base/src/index.js"
+        "../../core/field-base/src/index"
       ],
       "@atlaskit/field-base/types": [
-        "../../core/field-base/src/types.js"
+        "../../core/field-base/src/types"
       ],
       "@atlaskit/field-radio-group/index": [
-        "../../core/field-radio-group/src/index.js"
+        "../../core/field-radio-group/src/index"
       ],
       "@atlaskit/field-radio-group/Radio": [
-        "../../core/field-radio-group/src/Radio.js"
+        "../../core/field-radio-group/src/Radio"
       ],
       "@atlaskit/field-radio-group/RadioBase": [
-        "../../core/field-radio-group/src/RadioBase.js"
+        "../../core/field-radio-group/src/RadioBase"
       ],
       "@atlaskit/field-radio-group/RadioGroup": [
-        "../../core/field-radio-group/src/RadioGroup.js"
+        "../../core/field-radio-group/src/RadioGroup"
       ],
       "@atlaskit/field-radio-group/RadioGroupStateless": [
-        "../../core/field-radio-group/src/RadioGroupStateless.js"
+        "../../core/field-radio-group/src/RadioGroupStateless"
       ],
       "@atlaskit/field-radio-group/types": [
-        "../../core/field-radio-group/src/types.js"
+        "../../core/field-radio-group/src/types"
       ],
       "@atlaskit/field-range/FieldRange": [
-        "../../core/field-range/src/FieldRange.js"
+        "../../core/field-range/src/FieldRange"
       ],
       "@atlaskit/field-range/index": [
-        "../../core/field-range/src/index.js"
+        "../../core/field-range/src/index"
       ],
       "@atlaskit/field-range/styled": [
-        "../../core/field-range/src/styled.js"
+        "../../core/field-range/src/styled"
       ],
       "@atlaskit/field-range/theme": [
-        "../../core/field-range/src/theme.js"
+        "../../core/field-range/src/theme"
       ],
       "@atlaskit/field-text/FieldText": [
-        "../../core/field-text/src/FieldText.js"
+        "../../core/field-text/src/FieldText"
       ],
       "@atlaskit/field-text/FieldTextStateless": [
-        "../../core/field-text/src/FieldTextStateless.js"
+        "../../core/field-text/src/FieldTextStateless"
       ],
       "@atlaskit/field-text/index.d": [
-        "../../core/field-text/src/index.d.ts"
+        "../../core/field-text/src/index.d"
       ],
       "@atlaskit/field-text/index": [
-        "../../core/field-text/src/index.js"
+        "../../core/field-text/src/index"
       ],
       "@atlaskit/field-text/types": [
-        "../../core/field-text/src/types.js"
+        "../../core/field-text/src/types"
       ],
       "@atlaskit/field-text-area/FieldTextArea": [
-        "../../core/field-text-area/src/FieldTextArea.js"
+        "../../core/field-text-area/src/FieldTextArea"
       ],
       "@atlaskit/field-text-area/FieldTextAreaStateless": [
-        "../../core/field-text-area/src/FieldTextAreaStateless.js"
+        "../../core/field-text-area/src/FieldTextAreaStateless"
       ],
       "@atlaskit/field-text-area/index.d": [
-        "../../core/field-text-area/src/index.d.ts"
+        "../../core/field-text-area/src/index.d"
       ],
       "@atlaskit/field-text-area/index": [
-        "../../core/field-text-area/src/index.js"
+        "../../core/field-text-area/src/index"
       ],
       "@atlaskit/flag/index": [
-        "../../core/flag/src/index.js"
+        "../../core/flag/src/index"
       ],
       "@atlaskit/flag/theme": [
-        "../../core/flag/src/theme.js"
+        "../../core/flag/src/theme"
       ],
       "@atlaskit/flag/types": [
-        "../../core/flag/src/types.js"
+        "../../core/flag/src/types"
       ],
       "@atlaskit/form/CheckboxField": [
-        "../../core/form/src/CheckboxField.js"
+        "../../core/form/src/CheckboxField"
       ],
       "@atlaskit/form/Field": [
-        "../../core/form/src/Field.js"
+        "../../core/form/src/Field"
       ],
       "@atlaskit/form/Fieldset": [
-        "../../core/form/src/Fieldset.js"
+        "../../core/form/src/Fieldset"
       ],
       "@atlaskit/form/Form": [
-        "../../core/form/src/Form.js"
+        "../../core/form/src/Form"
       ],
       "@atlaskit/form/FormFooter": [
-        "../../core/form/src/FormFooter.js"
+        "../../core/form/src/FormFooter"
       ],
       "@atlaskit/form/FormHeader": [
-        "../../core/form/src/FormHeader.js"
+        "../../core/form/src/FormHeader"
       ],
       "@atlaskit/form/FormSection": [
-        "../../core/form/src/FormSection.js"
+        "../../core/form/src/FormSection"
       ],
       "@atlaskit/form/index": [
-        "../../core/form/src/index.js"
+        "../../core/form/src/index"
       ],
       "@atlaskit/form/Messages": [
-        "../../core/form/src/Messages.js"
+        "../../core/form/src/Messages"
       ],
       "@atlaskit/global-navigation/constants": [
-        "../../core/global-navigation/src/constants.js"
+        "../../core/global-navigation/src/constants"
       ],
       "@atlaskit/global-navigation/index": [
-        "../../core/global-navigation/src/index.js"
+        "../../core/global-navigation/src/index"
       ],
       "@atlaskit/icon/constants": [
-        "../../core/icon/src/constants.js"
+        "../../core/icon/src/constants"
       ],
       "@atlaskit/icon/index": [
-        "../../core/icon/src/index.js"
+        "../../core/icon/src/index"
       ],
       "@atlaskit/icon/metadata": [
-        "../../core/icon/src/metadata.js"
+        "../../core/icon/src/metadata"
       ],
       "@atlaskit/icon/types": [
-        "../../core/icon/src/types.js"
+        "../../core/icon/src/types"
       ],
       "@atlaskit/icon-file-type/index": [
-        "../../core/icon-file-type/src/index.js"
+        "../../core/icon-file-type/src/index"
       ],
       "@atlaskit/icon-file-type/metadata": [
-        "../../core/icon-file-type/src/metadata.js"
+        "../../core/icon-file-type/src/metadata"
       ],
       "@atlaskit/icon-object/index": [
-        "../../core/icon-object/src/index.js"
+        "../../core/icon-object/src/index"
       ],
       "@atlaskit/icon-object/metadata": [
-        "../../core/icon-object/src/metadata.js"
+        "../../core/icon-object/src/metadata"
       ],
       "@atlaskit/icon-priority/index": [
-        "../../core/icon-priority/src/index.js"
+        "../../core/icon-priority/src/index"
       ],
       "@atlaskit/icon-priority/metadata": [
-        "../../core/icon-priority/src/metadata.js"
+        "../../core/icon-priority/src/metadata"
       ],
       "@atlaskit/inline-dialog/index": [
-        "../../core/inline-dialog/src/index.js"
+        "../../core/inline-dialog/src/index"
       ],
       "@atlaskit/inline-dialog/types": [
-        "../../core/inline-dialog/src/types.js"
+        "../../core/inline-dialog/src/types"
       ],
       "@atlaskit/inline-edit/index": [
-        "../../core/inline-edit/src/index.js"
+        "../../core/inline-edit/src/index"
       ],
       "@atlaskit/inline-edit/InlineEdit": [
-        "../../core/inline-edit/src/InlineEdit.js"
+        "../../core/inline-edit/src/InlineEdit"
       ],
       "@atlaskit/inline-edit/InlineEditStateless": [
-        "../../core/inline-edit/src/InlineEditStateless.js"
+        "../../core/inline-edit/src/InlineEditStateless"
       ],
       "@atlaskit/inline-edit/types": [
-        "../../core/inline-edit/src/types.js"
+        "../../core/inline-edit/src/types"
       ],
       "@atlaskit/inline-message/constants": [
-        "../../core/inline-message/src/constants.js"
+        "../../core/inline-message/src/constants"
       ],
       "@atlaskit/inline-message/index": [
-        "../../core/inline-message/src/index.js"
+        "../../core/inline-message/src/index"
       ],
       "@atlaskit/inline-message/types": [
-        "../../core/inline-message/src/types.js"
+        "../../core/inline-message/src/types"
       ],
       "@atlaskit/input/index": [
-        "../../core/input/src/index.js"
+        "../../core/input/src/index"
       ],
       "@atlaskit/input/SingleLineTextInput": [
-        "../../core/input/src/SingleLineTextInput.js"
+        "../../core/input/src/SingleLineTextInput"
       ],
       "@atlaskit/item/index": [
-        "../../core/item/src/index.js"
+        "../../core/item/src/index"
       ],
       "@atlaskit/item/types": [
-        "../../core/item/src/types.js"
+        "../../core/item/src/types"
       ],
       "@atlaskit/layer/index": [
-        "../../core/layer/src/index.js"
+        "../../core/layer/src/index"
       ],
       "@atlaskit/layer/styledContentContainer": [
-        "../../core/layer/src/styledContentContainer.js"
+        "../../core/layer/src/styledContentContainer"
       ],
       "@atlaskit/layer/types": [
-        "../../core/layer/src/types.js"
+        "../../core/layer/src/types"
       ],
       "@atlaskit/layer-manager/index": [
-        "../../core/layer-manager/src/index.js"
+        "../../core/layer-manager/src/index"
       ],
       "@atlaskit/logo/constants": [
-        "../../core/logo/src/constants.js"
+        "../../core/logo/src/constants"
       ],
       "@atlaskit/logo/index": [
-        "../../core/logo/src/index.js"
+        "../../core/logo/src/index"
       ],
       "@atlaskit/logo/Wrapper": [
-        "../../core/logo/src/Wrapper.js"
+        "../../core/logo/src/Wrapper"
       ],
       "@atlaskit/lozenge/index": [
-        "../../core/lozenge/src/index.js"
+        "../../core/lozenge/src/index"
       ],
       "@atlaskit/lozenge/theme": [
-        "../../core/lozenge/src/theme.js"
+        "../../core/lozenge/src/theme"
       ],
       "@atlaskit/modal-dialog/index.d": [
-        "../../core/modal-dialog/src/index.d.ts"
+        "../../core/modal-dialog/src/index.d"
       ],
       "@atlaskit/modal-dialog/index": [
-        "../../core/modal-dialog/src/index.js"
+        "../../core/modal-dialog/src/index"
       ],
       "@atlaskit/modal-dialog/shared-variables": [
-        "../../core/modal-dialog/src/shared-variables.js"
+        "../../core/modal-dialog/src/shared-variables"
       ],
       "@atlaskit/modal-dialog/types": [
-        "../../core/modal-dialog/src/types.js"
+        "../../core/modal-dialog/src/types"
       ],
       "@atlaskit/multi-select/index": [
-        "../../core/multi-select/src/index.js"
+        "../../core/multi-select/src/index"
       ],
       "@atlaskit/multi-select/types": [
-        "../../core/multi-select/src/types.js"
+        "../../core/multi-select/src/types"
       ],
       "@atlaskit/navigation/index": [
-        "../../core/navigation/src/index.js"
+        "../../core/navigation/src/index"
       ],
       "@atlaskit/navigation/shared-variables": [
-        "../../core/navigation/src/shared-variables.js"
+        "../../core/navigation/src/shared-variables"
       ],
       "@atlaskit/navigation/types": [
-        "../../core/navigation/src/types.js"
+        "../../core/navigation/src/types"
       ],
       "@atlaskit/navigation-next/AsyncLayoutManagerWithViewController": [
-        "../../core/navigation-next/src/AsyncLayoutManagerWithViewController.js"
+        "../../core/navigation-next/src/AsyncLayoutManagerWithViewController"
       ],
       "@atlaskit/navigation-next/GlobalNavigationSkeleton": [
-        "../../core/navigation-next/src/GlobalNavigationSkeleton.js"
+        "../../core/navigation-next/src/GlobalNavigationSkeleton"
       ],
       "@atlaskit/navigation-next/index": [
-        "../../core/navigation-next/src/index.js"
+        "../../core/navigation-next/src/index"
       ],
       "@atlaskit/navigation-next/ItemsRenderer": [
-        "../../core/navigation-next/src/ItemsRenderer.js"
+        "../../core/navigation-next/src/ItemsRenderer"
       ],
       "@atlaskit/navigation-next/LayoutManagerWithViewController": [
-        "../../core/navigation-next/src/LayoutManagerWithViewController.js"
+        "../../core/navigation-next/src/LayoutManagerWithViewController"
       ],
       "@atlaskit/navigation-next/NavigationProvider": [
-        "../../core/navigation-next/src/NavigationProvider.js"
+        "../../core/navigation-next/src/NavigationProvider"
       ],
       "@atlaskit/navigation-next/SkeletonContainerView": [
-        "../../core/navigation-next/src/SkeletonContainerView.js"
+        "../../core/navigation-next/src/SkeletonContainerView"
       ],
       "@atlaskit/navigation-next/ui-controller": [
-        "../../core/navigation-next/src/ui-controller.js"
+        "../../core/navigation-next/src/ui-controller"
       ],
       "@atlaskit/navigation-next/view-controller": [
-        "../../core/navigation-next/src/view-controller.js"
+        "../../core/navigation-next/src/view-controller"
       ],
       "@atlaskit/nps/index": [
-        "../../core/nps/src/index.js"
+        "../../core/nps/src/index"
       ],
       "@atlaskit/onboarding/index": [
-        "../../core/onboarding/src/index.js"
+        "../../core/onboarding/src/index"
       ],
       "@atlaskit/onboarding/types": [
-        "../../core/onboarding/src/types.js"
+        "../../core/onboarding/src/types"
       ],
       "@atlaskit/page/Grid": [
-        "../../core/page/src/Grid.js"
+        "../../core/page/src/Grid"
       ],
       "@atlaskit/page/GridColumn": [
-        "../../core/page/src/GridColumn.js"
+        "../../core/page/src/GridColumn"
       ],
       "@atlaskit/page/index": [
-        "../../core/page/src/index.js"
+        "../../core/page/src/index"
       ],
       "@atlaskit/page/Page": [
-        "../../core/page/src/Page.js"
+        "../../core/page/src/Page"
       ],
       "@atlaskit/page-header/index": [
-        "../../core/page-header/src/index.js"
+        "../../core/page-header/src/index"
       ],
       "@atlaskit/pagination/index": [
-        "../../core/pagination/src/index.js"
+        "../../core/pagination/src/index"
       ],
       "@atlaskit/pagination/types": [
-        "../../core/pagination/src/types.js"
+        "../../core/pagination/src/types"
       ],
       "@atlaskit/popper/index": [
-        "../../core/popper/src/index.js"
+        "../../core/popper/src/index"
       ],
       "@atlaskit/popper/Popper": [
-        "../../core/popper/src/Popper.js"
+        "../../core/popper/src/Popper"
       ],
       "@atlaskit/popper/types": [
-        "../../core/popper/src/types.js"
+        "../../core/popper/src/types"
       ],
       "@atlaskit/portal/index": [
-        "../../core/portal/src/index.js"
+        "../../core/portal/src/index"
       ],
       "@atlaskit/progress-indicator/index": [
-        "../../core/progress-indicator/src/index.js"
+        "../../core/progress-indicator/src/index"
       ],
       "@atlaskit/progress-tracker/constants": [
-        "../../core/progress-tracker/src/constants.js"
+        "../../core/progress-tracker/src/constants"
       ],
       "@atlaskit/progress-tracker/index": [
-        "../../core/progress-tracker/src/index.js"
+        "../../core/progress-tracker/src/index"
       ],
       "@atlaskit/progress-tracker/types": [
-        "../../core/progress-tracker/src/types.js"
+        "../../core/progress-tracker/src/types"
       ],
       "@atlaskit/radio/index": [
-        "../../core/radio/src/index.js"
+        "../../core/radio/src/index"
       ],
       "@atlaskit/radio/Radio": [
-        "../../core/radio/src/Radio.js"
+        "../../core/radio/src/Radio"
       ],
       "@atlaskit/radio/RadioGroup": [
-        "../../core/radio/src/RadioGroup.js"
+        "../../core/radio/src/RadioGroup"
       ],
       "@atlaskit/radio/RadioIcon": [
-        "../../core/radio/src/RadioIcon.js"
+        "../../core/radio/src/RadioIcon"
       ],
       "@atlaskit/radio/types": [
-        "../../core/radio/src/types.js"
+        "../../core/radio/src/types"
       ],
       "@atlaskit/range/index": [
-        "../../core/range/src/index.js"
+        "../../core/range/src/index"
       ],
       "@atlaskit/range/Range": [
-        "../../core/range/src/Range.js"
+        "../../core/range/src/Range"
       ],
       "@atlaskit/range/styled": [
-        "../../core/range/src/styled.js"
+        "../../core/range/src/styled"
       ],
       "@atlaskit/range/theme": [
-        "../../core/range/src/theme.js"
+        "../../core/range/src/theme"
       ],
       "@atlaskit/section-message/index": [
-        "../../core/section-message/src/index.js"
+        "../../core/section-message/src/index"
       ],
       "@atlaskit/section-message/theme": [
-        "../../core/section-message/src/theme.js"
+        "../../core/section-message/src/theme"
       ],
       "@atlaskit/section-message/types": [
-        "../../core/section-message/src/types.js"
+        "../../core/section-message/src/types"
       ],
       "@atlaskit/select/AsyncCreatableSelect": [
-        "../../core/select/src/AsyncCreatableSelect.js"
+        "../../core/select/src/AsyncCreatableSelect"
       ],
       "@atlaskit/select/AsyncSelect": [
-        "../../core/select/src/AsyncSelect.js"
+        "../../core/select/src/AsyncSelect"
       ],
       "@atlaskit/select/CheckboxSelect": [
-        "../../core/select/src/CheckboxSelect.js"
+        "../../core/select/src/CheckboxSelect"
       ],
       "@atlaskit/select/CountrySelect": [
-        "../../core/select/src/CountrySelect.js"
+        "../../core/select/src/CountrySelect"
       ],
       "@atlaskit/select/CreatableSelect": [
-        "../../core/select/src/CreatableSelect.js"
+        "../../core/select/src/CreatableSelect"
       ],
       "@atlaskit/select/createSelect": [
-        "../../core/select/src/createSelect.js"
+        "../../core/select/src/createSelect"
       ],
       "@atlaskit/select/index": [
-        "../../core/select/src/index.js"
+        "../../core/select/src/index"
       ],
       "@atlaskit/select/RadioSelect": [
-        "../../core/select/src/RadioSelect.js"
+        "../../core/select/src/RadioSelect"
       ],
       "@atlaskit/select/Select": [
-        "../../core/select/src/Select.js"
+        "../../core/select/src/Select"
       ],
       "@atlaskit/single-select/index": [
-        "../../core/single-select/src/index.js"
+        "../../core/single-select/src/index"
       ],
       "@atlaskit/single-select/types": [
-        "../../core/single-select/src/types.js"
+        "../../core/single-select/src/types"
       ],
       "@atlaskit/size-detector/index": [
-        "../../core/size-detector/src/index.js"
+        "../../core/size-detector/src/index"
       ],
       "@atlaskit/size-detector/SizeDetector": [
-        "../../core/size-detector/src/SizeDetector.js"
+        "../../core/size-detector/src/SizeDetector"
       ],
       "@atlaskit/size-detector/types": [
-        "../../core/size-detector/src/types.js"
+        "../../core/size-detector/src/types"
       ],
       "@atlaskit/spinner/index": [
-        "../../core/spinner/src/index.js"
+        "../../core/spinner/src/index"
       ],
       "@atlaskit/spinner/types": [
-        "../../core/spinner/src/types.js"
+        "../../core/spinner/src/types"
       ],
       "@atlaskit/table-tree/index": [
-        "../../core/table-tree/src/index.js"
+        "../../core/table-tree/src/index"
       ],
       "@atlaskit/table-tree/styled": [
-        "../../core/table-tree/src/styled.js"
+        "../../core/table-tree/src/styled"
       ],
       "@atlaskit/table-tree/types": [
-        "../../core/table-tree/src/types.js"
+        "../../core/table-tree/src/types"
       ],
       "@atlaskit/tabs/index": [
-        "../../core/tabs/src/index.js"
+        "../../core/tabs/src/index"
       ],
       "@atlaskit/tabs/styled": [
-        "../../core/tabs/src/styled.js"
+        "../../core/tabs/src/styled"
       ],
       "@atlaskit/tabs/types": [
-        "../../core/tabs/src/types.js"
+        "../../core/tabs/src/types"
       ],
       "@atlaskit/tag/constants": [
-        "../../core/tag/src/constants.js"
+        "../../core/tag/src/constants"
       ],
       "@atlaskit/tag/index": [
-        "../../core/tag/src/index.js"
+        "../../core/tag/src/index"
       ],
       "@atlaskit/tag/theme": [
-        "../../core/tag/src/theme.js"
+        "../../core/tag/src/theme"
       ],
       "@atlaskit/tag/types": [
-        "../../core/tag/src/types.js"
+        "../../core/tag/src/types"
       ],
       "@atlaskit/tag-group/index": [
-        "../../core/tag-group/src/index.js"
+        "../../core/tag-group/src/index"
       ],
       "@atlaskit/textarea/component-tokens": [
-        "../../core/textarea/src/component-tokens.ts"
+        "../../core/textarea/src/component-tokens"
       ],
       "@atlaskit/textarea/index": [
-        "../../core/textarea/src/index.ts"
+        "../../core/textarea/src/index"
       ],
       "@atlaskit/textarea/theme": [
-        "../../core/textarea/src/theme.ts"
+        "../../core/textarea/src/theme"
       ],
       "@atlaskit/textfield/component-tokens": [
-        "../../core/textfield/src/component-tokens.js"
+        "../../core/textfield/src/component-tokens"
       ],
       "@atlaskit/textfield/index": [
-        "../../core/textfield/src/index.js"
+        "../../core/textfield/src/index"
       ],
       "@atlaskit/textfield/theme": [
-        "../../core/textfield/src/theme.js"
+        "../../core/textfield/src/theme"
       ],
       "@atlaskit/textfield/types": [
-        "../../core/textfield/src/types.js"
+        "../../core/textfield/src/types"
       ],
       "@atlaskit/theme/colors": [
-        "../../core/theme/src/colors.js"
+        "../../core/theme/src/colors"
       ],
       "@atlaskit/theme/components": [
-        "../../core/theme/src/components.js"
+        "../../core/theme/src/components"
       ],
       "@atlaskit/theme/constants": [
-        "../../core/theme/src/constants.js"
+        "../../core/theme/src/constants"
       ],
       "@atlaskit/theme/elevation": [
-        "../../core/theme/src/elevation.js"
+        "../../core/theme/src/elevation"
       ],
       "@atlaskit/theme/hoc": [
-        "../../core/theme/src/hoc.js"
+        "../../core/theme/src/hoc"
       ],
       "@atlaskit/theme/index": [
-        "../../core/theme/src/index.js"
+        "../../core/theme/src/index"
       ],
       "@atlaskit/theme/types": [
-        "../../core/theme/src/types.js"
+        "../../core/theme/src/types"
       ],
       "@atlaskit/theme/typography": [
-        "../../core/theme/src/typography.js"
+        "../../core/theme/src/typography"
       ],
       "@atlaskit/toggle/defaultBaseProps": [
-        "../../core/toggle/src/defaultBaseProps.js"
+        "../../core/toggle/src/defaultBaseProps"
       ],
       "@atlaskit/toggle/index": [
-        "../../core/toggle/src/index.js"
+        "../../core/toggle/src/index"
       ],
       "@atlaskit/toggle/Toggle": [
-        "../../core/toggle/src/Toggle.js"
+        "../../core/toggle/src/Toggle"
       ],
       "@atlaskit/toggle/ToggleStateless": [
-        "../../core/toggle/src/ToggleStateless.js"
+        "../../core/toggle/src/ToggleStateless"
       ],
       "@atlaskit/toggle/types": [
-        "../../core/toggle/src/types.js"
+        "../../core/toggle/src/types"
       ],
       "@atlaskit/tooltip/index": [
-        "../../core/tooltip/src/index.js"
+        "../../core/tooltip/src/index"
       ],
       "@atlaskit/tooltip/styled": [
-        "../../core/tooltip/src/styled.js"
+        "../../core/tooltip/src/styled"
       ],
       "@atlaskit/tooltip/types": [
-        "../../core/tooltip/src/types.js"
+        "../../core/tooltip/src/types"
       ],
       "@atlaskit/tree/index": [
-        "../../core/tree/src/index.js"
+        "../../core/tree/src/index"
       ],
       "@atlaskit/tree/types": [
-        "../../core/tree/src/types.js"
+        "../../core/tree/src/types"
       ],
       "@atlaskit/type-helpers/index": [
-        "../../core/type-helpers/src/index.ts"
+        "../../core/type-helpers/src/index"
       ],
       "@atlaskit/width-detector/index": [
-        "../../core/width-detector/src/index.ts"
+        "../../core/width-detector/src/index"
       ],
       "@atlaskit/width-detector/WidthDetector": [
-        "../../core/width-detector/src/WidthDetector.tsx"
+        "../../core/width-detector/src/WidthDetector"
       ],
       "@atlaskit/css-reset/base": [
-        "../../css-packs/css-reset/src/base.js"
+        "../../css-packs/css-reset/src/base"
       ],
       "@atlaskit/css-reset/browser-fixes": [
-        "../../css-packs/css-reset/src/browser-fixes.js"
+        "../../css-packs/css-reset/src/browser-fixes"
       ],
       "@atlaskit/css-reset/index": [
-        "../../css-packs/css-reset/src/index.js"
+        "../../css-packs/css-reset/src/index"
       ],
       "@atlaskit/css-reset/reset": [
-        "../../css-packs/css-reset/src/reset.js"
+        "../../css-packs/css-reset/src/reset"
       ],
       "@atlaskit/css-reset/tables": [
-        "../../css-packs/css-reset/src/tables.js"
+        "../../css-packs/css-reset/src/tables"
       ],
       "@atlaskit/css-reset/utils": [
-        "../../css-packs/css-reset/src/utils.js"
+        "../../css-packs/css-reset/src/utils"
       ],
       "@atlaskit/reduced-ui-pack/buttons": [
-        "../../css-packs/reduced-ui-pack/src/buttons.js"
+        "../../css-packs/reduced-ui-pack/src/buttons"
       ],
       "@atlaskit/reduced-ui-pack/forms": [
-        "../../css-packs/reduced-ui-pack/src/forms.js"
+        "../../css-packs/reduced-ui-pack/src/forms"
       ],
       "@atlaskit/reduced-ui-pack/grid": [
-        "../../css-packs/reduced-ui-pack/src/grid.js"
+        "../../css-packs/reduced-ui-pack/src/grid"
       ],
       "@atlaskit/reduced-ui-pack/icons": [
-        "../../css-packs/reduced-ui-pack/src/icons.js"
+        "../../css-packs/reduced-ui-pack/src/icons"
       ],
       "@atlaskit/reduced-ui-pack/index": [
-        "../../css-packs/reduced-ui-pack/src/index.js"
+        "../../css-packs/reduced-ui-pack/src/index"
       ],
       "@atlaskit/reduced-ui-pack/lozenge": [
-        "../../css-packs/reduced-ui-pack/src/lozenge.js"
+        "../../css-packs/reduced-ui-pack/src/lozenge"
       ],
       "@atlaskit/reduced-ui-pack/toggle": [
-        "../../css-packs/reduced-ui-pack/src/toggle.js"
+        "../../css-packs/reduced-ui-pack/src/toggle"
       ],
       "@atlaskit/reduced-ui-pack/tooltip": [
-        "../../css-packs/reduced-ui-pack/src/tooltip.js"
+        "../../css-packs/reduced-ui-pack/src/tooltip"
       ],
       "@atlaskit/adf-schema/index": [
-        "../../editor/adf-schema/src/index.ts"
+        "../../editor/adf-schema/src/index"
       ],
       "@atlaskit/adf-utils/index": [
-        "../../editor/adf-utils/src/index.ts"
+        "../../editor/adf-utils/src/index"
       ],
       "@atlaskit/conversation/index": [
-        "../../editor/conversation/src/index.tsx"
+        "../../editor/conversation/src/index"
       ],
       "@atlaskit/editor-bitbucket-transformer/index": [
-        "../../editor/editor-bitbucket-transformer/src/index.ts"
+        "../../editor/editor-bitbucket-transformer/src/index"
       ],
       "@atlaskit/editor-bitbucket-transformer/serializer": [
-        "../../editor/editor-bitbucket-transformer/src/serializer.ts"
+        "../../editor/editor-bitbucket-transformer/src/serializer"
       ],
       "@atlaskit/editor-bitbucket-transformer/tableSerializer": [
-        "../../editor/editor-bitbucket-transformer/src/tableSerializer.ts"
+        "../../editor/editor-bitbucket-transformer/src/tableSerializer"
       ],
       "@atlaskit/editor-bitbucket-transformer/util": [
-        "../../editor/editor-bitbucket-transformer/src/util.ts"
+        "../../editor/editor-bitbucket-transformer/src/util"
       ],
       "@atlaskit/editor-common/index": [
-        "../../editor/editor-common/src/index.ts"
+        "../../editor/editor-common/src/index"
       ],
       "@atlaskit/editor-confluence-transformer/collapse-whitespace": [
-        "../../editor/editor-confluence-transformer/src/collapse-whitespace.ts"
+        "../../editor/editor-confluence-transformer/src/collapse-whitespace"
       ],
       "@atlaskit/editor-confluence-transformer/content-wrapper": [
-        "../../editor/editor-confluence-transformer/src/content-wrapper.ts"
+        "../../editor/editor-confluence-transformer/src/content-wrapper"
       ],
       "@atlaskit/editor-confluence-transformer/encode-cxhtml": [
-        "../../editor/editor-confluence-transformer/src/encode-cxhtml.ts"
+        "../../editor/editor-confluence-transformer/src/encode-cxhtml"
       ],
       "@atlaskit/editor-confluence-transformer/encode": [
-        "../../editor/editor-confluence-transformer/src/encode.ts"
+        "../../editor/editor-confluence-transformer/src/encode"
       ],
       "@atlaskit/editor-confluence-transformer/index": [
-        "../../editor/editor-confluence-transformer/src/index.ts"
+        "../../editor/editor-confluence-transformer/src/index"
       ],
       "@atlaskit/editor-confluence-transformer/languageMap": [
-        "../../editor/editor-confluence-transformer/src/languageMap.ts"
+        "../../editor/editor-confluence-transformer/src/languageMap"
       ],
       "@atlaskit/editor-confluence-transformer/parse-cxhtml": [
-        "../../editor/editor-confluence-transformer/src/parse-cxhtml.ts"
+        "../../editor/editor-confluence-transformer/src/parse-cxhtml"
       ],
       "@atlaskit/editor-confluence-transformer/parse": [
-        "../../editor/editor-confluence-transformer/src/parse.ts"
+        "../../editor/editor-confluence-transformer/src/parse"
       ],
       "@atlaskit/editor-confluence-transformer/types": [
-        "../../editor/editor-confluence-transformer/src/types.ts"
+        "../../editor/editor-confluence-transformer/src/types"
       ],
       "@atlaskit/editor-confluence-transformer/utils": [
-        "../../editor/editor-confluence-transformer/src/utils.ts"
+        "../../editor/editor-confluence-transformer/src/utils"
       ],
       "@atlaskit/editor-core/editor": [
-        "../../editor/editor-core/src/editor.tsx"
+        "../../editor/editor-core/src/editor"
       ],
       "@atlaskit/editor-core/index": [
-        "../../editor/editor-core/src/index.ts"
+        "../../editor/editor-core/src/index"
       ],
       "@atlaskit/editor-core/messages": [
-        "../../editor/editor-core/src/messages.ts"
+        "../../editor/editor-core/src/messages"
       ],
       "@atlaskit/editor-core/version-wrapper": [
-        "../../editor/editor-core/src/version-wrapper.ts"
+        "../../editor/editor-core/src/version-wrapper"
       ],
       "@atlaskit/editor-jira-transformer/collapse-whitespace": [
-        "../../editor/editor-jira-transformer/src/collapse-whitespace.ts"
+        "../../editor/editor-jira-transformer/src/collapse-whitespace"
       ],
       "@atlaskit/editor-jira-transformer/emojiHelper": [
-        "../../editor/editor-jira-transformer/src/emojiHelper.ts"
+        "../../editor/editor-jira-transformer/src/emojiHelper"
       ],
       "@atlaskit/editor-jira-transformer/fix-doc": [
-        "../../editor/editor-jira-transformer/src/fix-doc.ts"
+        "../../editor/editor-jira-transformer/src/fix-doc"
       ],
       "@atlaskit/editor-jira-transformer/index": [
-        "../../editor/editor-jira-transformer/src/index.ts"
+        "../../editor/editor-jira-transformer/src/index"
       ],
       "@atlaskit/editor-jira-transformer/parse-html": [
-        "../../editor/editor-jira-transformer/src/parse-html.ts"
+        "../../editor/editor-jira-transformer/src/parse-html"
       ],
       "@atlaskit/editor-jira-transformer/schema": [
-        "../../editor/editor-jira-transformer/src/schema.ts"
+        "../../editor/editor-jira-transformer/src/schema"
       ],
       "@atlaskit/editor-jira-transformer/utils": [
-        "../../editor/editor-jira-transformer/src/utils.ts"
+        "../../editor/editor-jira-transformer/src/utils"
       ],
       "@atlaskit/editor-json-transformer/index": [
-        "../../editor/editor-json-transformer/src/index.ts"
+        "../../editor/editor-json-transformer/src/index"
       ],
       "@atlaskit/editor-markdown-transformer/index": [
-        "../../editor/editor-markdown-transformer/src/index.ts"
+        "../../editor/editor-markdown-transformer/src/index"
       ],
       "@atlaskit/editor-markdown-transformer/media": [
-        "../../editor/editor-markdown-transformer/src/media.ts"
+        "../../editor/editor-markdown-transformer/src/media"
       ],
       "@atlaskit/editor-mobile-bridge/bridge-utils": [
-        "../../editor/editor-mobile-bridge/src/bridge-utils.ts"
+        "../../editor/editor-mobile-bridge/src/bridge-utils"
       ],
       "@atlaskit/editor-mobile-bridge/cross-platform-promise": [
-        "../../editor/editor-mobile-bridge/src/cross-platform-promise.ts"
+        "../../editor/editor-mobile-bridge/src/cross-platform-promise"
       ],
       "@atlaskit/editor-mobile-bridge/error-reporter": [
-        "../../editor/editor-mobile-bridge/src/error-reporter.ts"
+        "../../editor/editor-mobile-bridge/src/error-reporter"
       ],
       "@atlaskit/editor-mobile-bridge/types": [
-        "../../editor/editor-mobile-bridge/src/types.ts"
+        "../../editor/editor-mobile-bridge/src/types"
       ],
       "@atlaskit/editor-mobile-bridge/utils": [
-        "../../editor/editor-mobile-bridge/src/utils.ts"
+        "../../editor/editor-mobile-bridge/src/utils"
       ],
       "@atlaskit/editor-mobile-bridge/web-bridge": [
-        "../../editor/editor-mobile-bridge/src/web-bridge.ts"
+        "../../editor/editor-mobile-bridge/src/web-bridge"
       ],
       "@atlaskit/editor-test-helpers/base64fileconverter": [
-        "../../editor/editor-test-helpers/src/base64fileconverter.ts"
+        "../../editor/editor-test-helpers/src/base64fileconverter"
       ],
       "@atlaskit/editor-test-helpers/card-provider": [
-        "../../editor/editor-test-helpers/src/card-provider.ts"
+        "../../editor/editor-test-helpers/src/card-provider"
       ],
       "@atlaskit/editor-test-helpers/chai": [
-        "../../editor/editor-test-helpers/src/chai.ts"
+        "../../editor/editor-test-helpers/src/chai"
       ],
       "@atlaskit/editor-test-helpers/constants": [
-        "../../editor/editor-test-helpers/src/constants.ts"
+        "../../editor/editor-test-helpers/src/constants"
       ],
       "@atlaskit/editor-test-helpers/context-identifier-provider": [
-        "../../editor/editor-test-helpers/src/context-identifier-provider.ts"
+        "../../editor/editor-test-helpers/src/context-identifier-provider"
       ],
       "@atlaskit/editor-test-helpers/create-analytics-event-mock": [
-        "../../editor/editor-test-helpers/src/create-analytics-event-mock.ts"
+        "../../editor/editor-test-helpers/src/create-analytics-event-mock"
       ],
       "@atlaskit/editor-test-helpers/create-editor": [
-        "../../editor/editor-test-helpers/src/create-editor.tsx"
+        "../../editor/editor-test-helpers/src/create-editor"
       ],
       "@atlaskit/editor-test-helpers/create-event": [
-        "../../editor/editor-test-helpers/src/create-event.ts"
+        "../../editor/editor-test-helpers/src/create-event"
       ],
       "@atlaskit/editor-test-helpers/device": [
-        "../../editor/editor-test-helpers/src/device.ts"
+        "../../editor/editor-test-helpers/src/device"
       ],
       "@atlaskit/editor-test-helpers/dispatch-paste-event": [
-        "../../editor/editor-test-helpers/src/dispatch-paste-event.ts"
+        "../../editor/editor-test-helpers/src/dispatch-paste-event"
       ],
       "@atlaskit/editor-test-helpers/enzyme": [
-        "../../editor/editor-test-helpers/src/enzyme.ts"
+        "../../editor/editor-test-helpers/src/enzyme"
       ],
       "@atlaskit/editor-test-helpers/fixtures": [
-        "../../editor/editor-test-helpers/src/fixtures.ts"
+        "../../editor/editor-test-helpers/src/fixtures"
       ],
       "@atlaskit/editor-test-helpers/html-helpers": [
-        "../../editor/editor-test-helpers/src/html-helpers.ts"
+        "../../editor/editor-test-helpers/src/html-helpers"
       ],
       "@atlaskit/editor-test-helpers/index": [
-        "../../editor/editor-test-helpers/src/index.ts"
+        "../../editor/editor-test-helpers/src/index"
       ],
       "@atlaskit/editor-test-helpers/jsdom-fixtures": [
-        "../../editor/editor-test-helpers/src/jsdom-fixtures.ts"
+        "../../editor/editor-test-helpers/src/jsdom-fixtures"
       ],
       "@atlaskit/editor-test-helpers/key-codes": [
-        "../../editor/editor-test-helpers/src/key-codes.ts"
+        "../../editor/editor-test-helpers/src/key-codes"
       ],
       "@atlaskit/editor-test-helpers/matches": [
-        "../../editor/editor-test-helpers/src/matches.ts"
+        "../../editor/editor-test-helpers/src/matches"
       ],
       "@atlaskit/editor-test-helpers/media-provider": [
-        "../../editor/editor-test-helpers/src/media-provider.ts"
+        "../../editor/editor-test-helpers/src/media-provider"
       ],
       "@atlaskit/editor-test-helpers/mock-extension-data": [
-        "../../editor/editor-test-helpers/src/mock-extension-data.ts"
+        "../../editor/editor-test-helpers/src/mock-extension-data"
       ],
       "@atlaskit/editor-test-helpers/mock-insert-menu": [
-        "../../editor/editor-test-helpers/src/mock-insert-menu.tsx"
+        "../../editor/editor-test-helpers/src/mock-insert-menu"
       ],
       "@atlaskit/editor-test-helpers/mock-macro-provider": [
-        "../../editor/editor-test-helpers/src/mock-macro-provider.ts"
+        "../../editor/editor-test-helpers/src/mock-macro-provider"
       ],
       "@atlaskit/editor-test-helpers/random-id": [
-        "../../editor/editor-test-helpers/src/random-id.ts"
+        "../../editor/editor-test-helpers/src/random-id"
       ],
       "@atlaskit/editor-test-helpers/schema-builder": [
-        "../../editor/editor-test-helpers/src/schema-builder.ts"
+        "../../editor/editor-test-helpers/src/schema-builder"
       ],
       "@atlaskit/editor-test-helpers/schema-element-builder": [
-        "../../editor/editor-test-helpers/src/schema-element-builder.ts"
+        "../../editor/editor-test-helpers/src/schema-element-builder"
       ],
       "@atlaskit/editor-test-helpers/schema": [
-        "../../editor/editor-test-helpers/src/schema.ts"
+        "../../editor/editor-test-helpers/src/schema"
       ],
       "@atlaskit/editor-test-helpers/selection": [
-        "../../editor/editor-test-helpers/src/selection.ts"
+        "../../editor/editor-test-helpers/src/selection"
       ],
       "@atlaskit/editor-test-helpers/send-key-to-pm": [
-        "../../editor/editor-test-helpers/src/send-key-to-pm.ts"
+        "../../editor/editor-test-helpers/src/send-key-to-pm"
       ],
       "@atlaskit/editor-test-helpers/simulatePlatform": [
-        "../../editor/editor-test-helpers/src/simulatePlatform.ts"
+        "../../editor/editor-test-helpers/src/simulatePlatform"
       ],
       "@atlaskit/editor-test-helpers/sleep": [
-        "../../editor/editor-test-helpers/src/sleep.ts"
+        "../../editor/editor-test-helpers/src/sleep"
       ],
       "@atlaskit/editor-test-helpers/spy-on-return-value": [
-        "../../editor/editor-test-helpers/src/spy-on-return-value.ts"
+        "../../editor/editor-test-helpers/src/spy-on-return-value"
       ],
       "@atlaskit/editor-test-helpers/table": [
-        "../../editor/editor-test-helpers/src/table.ts"
+        "../../editor/editor-test-helpers/src/table"
       ],
       "@atlaskit/editor-test-helpers/transactions": [
-        "../../editor/editor-test-helpers/src/transactions.ts"
+        "../../editor/editor-test-helpers/src/transactions"
       ],
       "@atlaskit/editor-wikimarkup-transformer/char": [
-        "../../editor/editor-wikimarkup-transformer/src/char.ts"
+        "../../editor/editor-wikimarkup-transformer/src/char"
       ],
       "@atlaskit/editor-wikimarkup-transformer/index": [
-        "../../editor/editor-wikimarkup-transformer/src/index.ts"
+        "../../editor/editor-wikimarkup-transformer/src/index"
       ],
       "@atlaskit/editor-wikimarkup-transformer/interfaces": [
-        "../../editor/editor-wikimarkup-transformer/src/interfaces.ts"
+        "../../editor/editor-wikimarkup-transformer/src/interfaces"
       ],
       "@atlaskit/embedded-document/index": [
-        "../../editor/embedded-document/src/index.ts"
+        "../../editor/embedded-document/src/index"
       ],
       "@atlaskit/json-schema-generator/cli": [
-        "../../editor/json-schema-generator/src/cli.ts"
+        "../../editor/json-schema-generator/src/cli"
       ],
       "@atlaskit/json-schema-generator/index": [
-        "../../editor/json-schema-generator/src/index.ts"
+        "../../editor/json-schema-generator/src/index"
       ],
       "@atlaskit/json-schema-generator/utils": [
-        "../../editor/json-schema-generator/src/utils.ts"
+        "../../editor/json-schema-generator/src/utils"
       ],
       "@atlaskit/renderer/consts": [
-        "../../editor/renderer/src/consts.ts"
+        "../../editor/renderer/src/consts"
       ],
       "@atlaskit/renderer/index": [
-        "../../editor/renderer/src/index.ts"
+        "../../editor/renderer/src/index"
       ],
       "@atlaskit/renderer/render-document": [
-        "../../editor/renderer/src/render-document.ts"
+        "../../editor/renderer/src/render-document"
       ],
       "@atlaskit/renderer/serializer": [
-        "../../editor/renderer/src/serializer.ts"
+        "../../editor/renderer/src/serializer"
       ],
       "@atlaskit/renderer/utils": [
-        "../../editor/renderer/src/utils.ts"
+        "../../editor/renderer/src/utils"
       ],
       "@atlaskit/updater-cli/index": [
-        "../../editor/updater-cli/src/index.ts"
+        "../../editor/updater-cli/src/index"
       ],
       "@atlaskit/updater-cli/runner": [
-        "../../editor/updater-cli/src/runner.ts"
+        "../../editor/updater-cli/src/runner"
       ],
       "@atlaskit/analytics-gas-types/index": [
-        "../../elements/analytics-gas-types/src/index.ts"
+        "../../elements/analytics-gas-types/src/index"
       ],
       "@atlaskit/analytics-listeners/analytics-web-client-wrapper": [
-        "../../elements/analytics-listeners/src/analytics-web-client-wrapper.ts"
+        "../../elements/analytics-listeners/src/analytics-web-client-wrapper"
       ],
       "@atlaskit/analytics-listeners/FabricAnalyticsListeners": [
-        "../../elements/analytics-listeners/src/FabricAnalyticsListeners.tsx"
+        "../../elements/analytics-listeners/src/FabricAnalyticsListeners"
       ],
       "@atlaskit/analytics-listeners/index": [
-        "../../elements/analytics-listeners/src/index.ts"
+        "../../elements/analytics-listeners/src/index"
       ],
       "@atlaskit/analytics-listeners/types": [
-        "../../elements/analytics-listeners/src/types.ts"
+        "../../elements/analytics-listeners/src/types"
       ],
       "@atlaskit/analytics-namespaced-context/FabricElementsAnalyticsContext": [
-        "../../elements/analytics-namespaced-context/src/FabricElementsAnalyticsContext.tsx"
+        "../../elements/analytics-namespaced-context/src/FabricElementsAnalyticsContext"
       ],
       "@atlaskit/analytics-namespaced-context/index": [
-        "../../elements/analytics-namespaced-context/src/index.ts"
+        "../../elements/analytics-namespaced-context/src/index"
       ],
       "@atlaskit/analytics-namespaced-context/NavigationAnalyticsContext": [
-        "../../elements/analytics-namespaced-context/src/NavigationAnalyticsContext.tsx"
+        "../../elements/analytics-namespaced-context/src/NavigationAnalyticsContext"
       ],
       "@atlaskit/analytics-viewer/index": [
-        "../../elements/analytics-viewer/src/index.ts"
+        "../../elements/analytics-viewer/src/index"
       ],
       "@atlaskit/date/index": [
-        "../../elements/date/src/index.ts"
+        "../../elements/date/src/index"
       ],
       "@atlaskit/elements-test-helpers/demo-ssr-hydrate": [
-        "../../elements/elements-test-helpers/src/demo-ssr-hydrate.tsx"
+        "../../elements/elements-test-helpers/src/demo-ssr-hydrate"
       ],
       "@atlaskit/elements-test-helpers/index": [
-        "../../elements/elements-test-helpers/src/index.ts"
+        "../../elements/elements-test-helpers/src/index"
       ],
       "@atlaskit/elements-test-helpers/ssr-util": [
-        "../../elements/elements-test-helpers/src/ssr-util.tsx"
+        "../../elements/elements-test-helpers/src/ssr-util"
       ],
       "@atlaskit/emoji/admin": [
-        "../../elements/emoji/src/admin.ts"
+        "../../elements/emoji/src/admin"
       ],
       "@atlaskit/emoji/element": [
-        "../../elements/emoji/src/element.ts"
+        "../../elements/emoji/src/element"
       ],
       "@atlaskit/emoji/index": [
-        "../../elements/emoji/src/index.ts"
+        "../../elements/emoji/src/index"
       ],
       "@atlaskit/emoji/picker": [
-        "../../elements/emoji/src/picker.ts"
+        "../../elements/emoji/src/picker"
       ],
       "@atlaskit/emoji/resource": [
-        "../../elements/emoji/src/resource.ts"
+        "../../elements/emoji/src/resource"
       ],
       "@atlaskit/emoji/typeahead": [
-        "../../elements/emoji/src/typeahead.ts"
+        "../../elements/emoji/src/typeahead"
       ],
       "@atlaskit/emoji/types": [
-        "../../elements/emoji/src/types.ts"
+        "../../elements/emoji/src/types"
       ],
       "@atlaskit/emoji/utils": [
-        "../../elements/emoji/src/utils.ts"
+        "../../elements/emoji/src/utils"
       ],
       "@atlaskit/mention/_constants": [
-        "../../elements/mention/src/_constants.ts"
+        "../../elements/mention/src/_constants"
       ],
       "@atlaskit/mention/element": [
-        "../../elements/mention/src/element.ts"
+        "../../elements/mention/src/element"
       ],
       "@atlaskit/mention/index": [
-        "../../elements/mention/src/index.ts"
+        "../../elements/mention/src/index"
       ],
       "@atlaskit/mention/item": [
-        "../../elements/mention/src/item.ts"
+        "../../elements/mention/src/item"
       ],
       "@atlaskit/mention/resource": [
-        "../../elements/mention/src/resource.ts"
+        "../../elements/mention/src/resource"
       ],
       "@atlaskit/mention/shared-styles": [
-        "../../elements/mention/src/shared-styles.ts"
+        "../../elements/mention/src/shared-styles"
       ],
       "@atlaskit/mention/team-resource": [
-        "../../elements/mention/src/team-resource.ts"
+        "../../elements/mention/src/team-resource"
       ],
       "@atlaskit/mention/typeahead": [
-        "../../elements/mention/src/typeahead.ts"
+        "../../elements/mention/src/typeahead"
       ],
       "@atlaskit/mention/types": [
-        "../../elements/mention/src/types.ts"
+        "../../elements/mention/src/types"
       ],
       "@atlaskit/pubsub/apiTypes": [
-        "../../elements/pubsub/src/apiTypes.ts"
+        "../../elements/pubsub/src/apiTypes"
       ],
       "@atlaskit/pubsub/client": [
-        "../../elements/pubsub/src/client.ts"
+        "../../elements/pubsub/src/client"
       ],
       "@atlaskit/pubsub/featureFlags": [
-        "../../elements/pubsub/src/featureFlags.ts"
+        "../../elements/pubsub/src/featureFlags"
       ],
       "@atlaskit/pubsub/index": [
-        "../../elements/pubsub/src/index.ts"
+        "../../elements/pubsub/src/index"
       ],
       "@atlaskit/pubsub/types": [
-        "../../elements/pubsub/src/types.ts"
+        "../../elements/pubsub/src/types"
       ],
       "@atlaskit/reactions/index": [
-        "../../elements/reactions/src/index.ts"
+        "../../elements/reactions/src/index"
       ],
       "@atlaskit/share/i18n": [
-        "../../elements/share/src/i18n.ts"
+        "../../elements/share/src/i18n"
       ],
       "@atlaskit/share/index": [
-        "../../elements/share/src/index.ts"
+        "../../elements/share/src/index"
       ],
       "@atlaskit/status/element": [
-        "../../elements/status/src/element.ts"
+        "../../elements/status/src/element"
       ],
       "@atlaskit/status/index": [
-        "../../elements/status/src/index.ts"
+        "../../elements/status/src/index"
       ],
       "@atlaskit/status/picker": [
-        "../../elements/status/src/picker.ts"
+        "../../elements/status/src/picker"
       ],
       "@atlaskit/task-decision/constants": [
-        "../../elements/task-decision/src/constants.ts"
+        "../../elements/task-decision/src/constants"
       ],
       "@atlaskit/task-decision/index": [
-        "../../elements/task-decision/src/index.ts"
+        "../../elements/task-decision/src/index"
       ],
       "@atlaskit/task-decision/type-helpers": [
-        "../../elements/task-decision/src/type-helpers.ts"
+        "../../elements/task-decision/src/type-helpers"
       ],
       "@atlaskit/task-decision/types": [
-        "../../elements/task-decision/src/types.ts"
+        "../../elements/task-decision/src/types"
       ],
       "@atlaskit/user-picker/analytics": [
-        "../../elements/user-picker/src/analytics.ts"
+        "../../elements/user-picker/src/analytics"
       ],
       "@atlaskit/user-picker/index": [
-        "../../elements/user-picker/src/index.ts"
+        "../../elements/user-picker/src/index"
       ],
       "@atlaskit/user-picker/types": [
-        "../../elements/user-picker/src/types.ts"
+        "../../elements/user-picker/src/types"
       ],
       "@atlaskit/util-data-test/index": [
-        "../../elements/util-data-test/src/index.ts"
+        "../../elements/util-data-test/src/index"
       ],
       "@atlaskit/util-data-test/logger": [
-        "../../elements/util-data-test/src/logger.ts"
+        "../../elements/util-data-test/src/logger"
       ],
       "@atlaskit/util-service-support/index": [
-        "../../elements/util-service-support/src/index.ts"
+        "../../elements/util-service-support/src/index"
       ],
       "@atlaskit/util-service-support/serviceResources": [
-        "../../elements/util-service-support/src/serviceResources.ts"
+        "../../elements/util-service-support/src/serviceResources"
       ],
       "@atlaskit/util-service-support/serviceUtils": [
-        "../../elements/util-service-support/src/serviceUtils.ts"
+        "../../elements/util-service-support/src/serviceUtils"
       ],
       "@atlaskit/util-service-support/types": [
-        "../../elements/util-service-support/src/types.ts"
+        "../../elements/util-service-support/src/types"
       ],
       "@atlaskit/xregexp-transformer/sample": [
-        "../../elements/xregexp-transformer/src/sample.ts"
+        "../../elements/xregexp-transformer/src/sample"
       ],
       "@atlaskit/feature-flag-client/client": [
-        "../../growth/feature-flag-client/src/client.ts"
+        "../../growth/feature-flag-client/src/client"
       ],
       "@atlaskit/feature-flag-client/index": [
-        "../../growth/feature-flag-client/src/index.ts"
+        "../../growth/feature-flag-client/src/index"
       ],
       "@atlaskit/feature-flag-client/lib": [
-        "../../growth/feature-flag-client/src/lib.ts"
+        "../../growth/feature-flag-client/src/lib"
       ],
       "@atlaskit/feature-flag-client/tracked-flag": [
-        "../../growth/feature-flag-client/src/tracked-flag.ts"
+        "../../growth/feature-flag-client/src/tracked-flag"
       ],
       "@atlaskit/feature-flag-client/types": [
-        "../../growth/feature-flag-client/src/types.ts"
+        "../../growth/feature-flag-client/src/types"
       ],
       "@atlaskit/feature-flag-client/untracked-flag": [
-        "../../growth/feature-flag-client/src/untracked-flag.ts"
+        "../../growth/feature-flag-client/src/untracked-flag"
       ],
       "@atlaskit/react-experiment-framework/asExperiment": [
-        "../../growth/react-experiment-framework/src/asExperiment.js"
+        "../../growth/react-experiment-framework/src/asExperiment"
       ],
       "@atlaskit/react-experiment-framework/CohortTracker": [
-        "../../growth/react-experiment-framework/src/CohortTracker.js"
+        "../../growth/react-experiment-framework/src/CohortTracker"
       ],
       "@atlaskit/react-experiment-framework/ExperimentContext": [
-        "../../growth/react-experiment-framework/src/ExperimentContext.js"
+        "../../growth/react-experiment-framework/src/ExperimentContext"
       ],
       "@atlaskit/react-experiment-framework/ExperimentController": [
-        "../../growth/react-experiment-framework/src/ExperimentController.js"
+        "../../growth/react-experiment-framework/src/ExperimentController"
       ],
       "@atlaskit/react-experiment-framework/index": [
-        "../../growth/react-experiment-framework/src/index.js"
+        "../../growth/react-experiment-framework/src/index"
       ],
       "@atlaskit/react-experiment-framework/types": [
-        "../../growth/react-experiment-framework/src/types.js"
+        "../../growth/react-experiment-framework/src/types"
       ],
       "@atlaskit/notification-indicator/index": [
-        "../../home/notification-indicator/src/index.ts"
+        "../../home/notification-indicator/src/index"
       ],
       "@atlaskit/notification-indicator/NotificationIndicator": [
-        "../../home/notification-indicator/src/NotificationIndicator.tsx"
+        "../../home/notification-indicator/src/NotificationIndicator"
       ],
       "@atlaskit/notification-log-client/index": [
-        "../../home/notification-log-client/src/index.ts"
+        "../../home/notification-log-client/src/index"
       ],
       "@atlaskit/notification-log-client/NotificationLogClient": [
-        "../../home/notification-log-client/src/NotificationLogClient.ts"
+        "../../home/notification-log-client/src/NotificationLogClient"
       ],
       "@atlaskit/notification-log-client/types": [
-        "../../home/notification-log-client/src/types.ts"
+        "../../home/notification-log-client/src/types"
       ],
       "@atlaskit/color-picker/constants": [
-        "../../jira/color-picker/src/constants.ts"
+        "../../jira/color-picker/src/constants"
       ],
       "@atlaskit/color-picker/index": [
-        "../../jira/color-picker/src/index.ts"
+        "../../jira/color-picker/src/index"
       ],
       "@atlaskit/color-picker/types": [
-        "../../jira/color-picker/src/types.ts"
+        "../../jira/color-picker/src/types"
       ],
       "@atlaskit/media-avatar-picker/constraint-util": [
-        "../../media/media-avatar-picker/src/constraint-util.ts"
+        "../../media/media-avatar-picker/src/constraint-util"
       ],
       "@atlaskit/media-avatar-picker/index": [
-        "../../media/media-avatar-picker/src/index.tsx"
+        "../../media/media-avatar-picker/src/index"
       ],
       "@atlaskit/media-avatar-picker/util": [
-        "../../media/media-avatar-picker/src/util.ts"
+        "../../media/media-avatar-picker/src/util"
       ],
       "@atlaskit/media-card/actions": [
-        "../../media/media-card/src/actions.ts"
+        "../../media/media-card/src/actions"
       ],
       "@atlaskit/media-card/index": [
-        "../../media/media-card/src/index.ts"
+        "../../media/media-card/src/index"
       ],
       "@atlaskit/media-core/fileState": [
-        "../../media/media-core/src/fileState.ts"
+        "../../media/media-core/src/fileState"
       ],
       "@atlaskit/media-core/identifier": [
-        "../../media/media-core/src/identifier.ts"
+        "../../media/media-core/src/identifier"
       ],
       "@atlaskit/media-core/index": [
-        "../../media/media-core/src/index.ts"
+        "../../media/media-core/src/index"
       ],
       "@atlaskit/media-core/item": [
-        "../../media/media-core/src/item.ts"
+        "../../media/media-core/src/item"
       ],
       "@atlaskit/media-editor/common": [
-        "../../media/media-editor/src/common.ts"
+        "../../media/media-editor/src/common"
       ],
       "@atlaskit/media-editor/index": [
-        "../../media/media-editor/src/index.tsx"
+        "../../media/media-editor/src/index"
       ],
       "@atlaskit/media-editor/util": [
-        "../../media/media-editor/src/util.ts"
+        "../../media/media-editor/src/util"
       ],
       "@atlaskit/media-filmstrip/filmstrip": [
-        "../../media/media-filmstrip/src/filmstrip.tsx"
+        "../../media/media-filmstrip/src/filmstrip"
       ],
       "@atlaskit/media-filmstrip/index": [
-        "../../media/media-filmstrip/src/index.tsx"
+        "../../media/media-filmstrip/src/index"
       ],
       "@atlaskit/media-image/index": [
-        "../../media/media-image/src/index.ts"
+        "../../media/media-image/src/index"
       ],
       "@atlaskit/media-image/mediaImage": [
-        "../../media/media-image/src/mediaImage.tsx"
+        "../../media/media-image/src/mediaImage"
       ],
       "@atlaskit/media-picker/config": [
-        "../../media/media-picker/src/config.ts"
+        "../../media/media-picker/src/config"
       ],
       "@atlaskit/media-picker/index": [
-        "../../media/media-picker/src/index.ts"
+        "../../media/media-picker/src/index"
       ],
       "@atlaskit/media-store/index": [
-        "../../media/media-store/src/index.ts"
+        "../../media/media-store/src/index"
       ],
       "@atlaskit/media-store/media-store": [
-        "../../media/media-store/src/media-store.ts"
+        "../../media/media-store/src/media-store"
       ],
       "@atlaskit/media-store/upload-controller": [
-        "../../media/media-store/src/upload-controller.ts"
+        "../../media/media-store/src/upload-controller"
       ],
       "@atlaskit/media-store/uploader": [
-        "../../media/media-store/src/uploader.ts"
+        "../../media/media-store/src/uploader"
       ],
       "@atlaskit/media-test-helpers/authProvider": [
-        "../../media/media-test-helpers/src/authProvider.ts"
+        "../../media/media-test-helpers/src/authProvider"
       ],
       "@atlaskit/media-test-helpers/await-error": [
-        "../../media/media-test-helpers/src/await-error.ts"
+        "../../media/media-test-helpers/src/await-error"
       ],
       "@atlaskit/media-test-helpers/clipboardEventMocks": [
-        "../../media/media-test-helpers/src/clipboardEventMocks.ts"
+        "../../media/media-test-helpers/src/clipboardEventMocks"
       ],
       "@atlaskit/media-test-helpers/collectionNames": [
-        "../../media/media-test-helpers/src/collectionNames.ts"
+        "../../media/media-test-helpers/src/collectionNames"
       ],
       "@atlaskit/media-test-helpers/contextProvider": [
-        "../../media/media-test-helpers/src/contextProvider.ts"
+        "../../media/media-test-helpers/src/contextProvider"
       ],
       "@atlaskit/media-test-helpers/createMouseEvent": [
-        "../../media/media-test-helpers/src/createMouseEvent.ts"
+        "../../media/media-test-helpers/src/createMouseEvent"
       ],
       "@atlaskit/media-test-helpers/createTouchEvent": [
-        "../../media/media-test-helpers/src/createTouchEvent.ts"
+        "../../media/media-test-helpers/src/createTouchEvent"
       ],
       "@atlaskit/media-test-helpers/exampleMediaItems": [
-        "../../media/media-test-helpers/src/exampleMediaItems.ts"
+        "../../media/media-test-helpers/src/exampleMediaItems"
       ],
       "@atlaskit/media-test-helpers/fakeContextProvider": [
-        "../../media/media-test-helpers/src/fakeContextProvider.ts"
+        "../../media/media-test-helpers/src/fakeContextProvider"
       ],
       "@atlaskit/media-test-helpers/fakeI18n": [
-        "../../media/media-test-helpers/src/fakeI18n.ts"
+        "../../media/media-test-helpers/src/fakeI18n"
       ],
       "@atlaskit/media-test-helpers/fileReader": [
-        "../../media/media-test-helpers/src/fileReader.ts"
+        "../../media/media-test-helpers/src/fileReader"
       ],
       "@atlaskit/media-test-helpers/I18nWrapper": [
-        "../../media/media-test-helpers/src/I18nWrapper.tsx"
+        "../../media/media-test-helpers/src/I18nWrapper"
       ],
       "@atlaskit/media-test-helpers/images": [
-        "../../media/media-test-helpers/src/images.tsx"
+        "../../media/media-test-helpers/src/images"
       ],
       "@atlaskit/media-test-helpers/index": [
-        "../../media/media-test-helpers/src/index.tsx"
+        "../../media/media-test-helpers/src/index"
       ],
       "@atlaskit/media-test-helpers/jest_check": [
-        "../../media/media-test-helpers/src/jest_check.ts"
+        "../../media/media-test-helpers/src/jest_check"
       ],
       "@atlaskit/media-test-helpers/jestHelpers": [
-        "../../media/media-test-helpers/src/jestHelpers.ts"
+        "../../media/media-test-helpers/src/jestHelpers"
       ],
       "@atlaskit/media-test-helpers/keyboardEventWithKeyCode": [
-        "../../media/media-test-helpers/src/keyboardEventWithKeyCode.ts"
+        "../../media/media-test-helpers/src/keyboardEventWithKeyCode"
       ],
       "@atlaskit/media-test-helpers/LanguagePicker": [
-        "../../media/media-test-helpers/src/LanguagePicker.tsx"
+        "../../media/media-test-helpers/src/LanguagePicker"
       ],
       "@atlaskit/media-test-helpers/mediaPickerAuthProvider": [
-        "../../media/media-test-helpers/src/mediaPickerAuthProvider.ts"
+        "../../media/media-test-helpers/src/mediaPickerAuthProvider"
       ],
       "@atlaskit/media-test-helpers/mediaPickerMocks": [
-        "../../media/media-test-helpers/src/mediaPickerMocks.ts"
+        "../../media/media-test-helpers/src/mediaPickerMocks"
       ],
       "@atlaskit/media-test-helpers/mockCanvas": [
-        "../../media/media-test-helpers/src/mockCanvas.ts"
+        "../../media/media-test-helpers/src/mockCanvas"
       ],
       "@atlaskit/media-test-helpers/mockLoadImage": [
-        "../../media/media-test-helpers/src/mockLoadImage.ts"
+        "../../media/media-test-helpers/src/mockLoadImage"
       ],
       "@atlaskit/media-test-helpers/mountWithIntlContext": [
-        "../../media/media-test-helpers/src/mountWithIntlContext.tsx"
+        "../../media/media-test-helpers/src/mountWithIntlContext"
       ],
       "@atlaskit/media-test-helpers/nextTick": [
-        "../../media/media-test-helpers/src/nextTick.ts"
+        "../../media/media-test-helpers/src/nextTick"
       ],
       "@atlaskit/media-test-helpers/story-list": [
-        "../../media/media-test-helpers/src/story-list.tsx"
+        "../../media/media-test-helpers/src/story-list"
       ],
       "@atlaskit/media-test-helpers/story-styles": [
-        "../../media/media-test-helpers/src/story-styles.tsx"
+        "../../media/media-test-helpers/src/story-styles"
       ],
       "@atlaskit/media-test-helpers/styled": [
-        "../../media/media-test-helpers/src/styled.ts"
+        "../../media/media-test-helpers/src/styled"
       ],
       "@atlaskit/media-test-helpers/userAuthProvider": [
-        "../../media/media-test-helpers/src/userAuthProvider.ts"
+        "../../media/media-test-helpers/src/userAuthProvider"
       ],
       "@atlaskit/media-test-helpers/waitUntil": [
-        "../../media/media-test-helpers/src/waitUntil.ts"
+        "../../media/media-test-helpers/src/waitUntil"
       ],
       "@atlaskit/media-ui/camera": [
-        "../../media/media-ui/src/camera.ts"
+        "../../media/media-ui/src/camera"
       ],
       "@atlaskit/media-ui/classNames": [
-        "../../media/media-ui/src/classNames.ts"
+        "../../media/media-ui/src/classNames"
       ],
       "@atlaskit/media-ui/common": [
-        "../../media/media-ui/src/common.ts"
+        "../../media/media-ui/src/common"
       ],
       "@atlaskit/media-ui/ellipsify": [
-        "../../media/media-ui/src/ellipsify.tsx"
+        "../../media/media-ui/src/ellipsify"
       ],
       "@atlaskit/media-ui/formatDuration": [
-        "../../media/media-ui/src/formatDuration.ts"
+        "../../media/media-ui/src/formatDuration"
       ],
       "@atlaskit/media-ui/humanReadableSize": [
-        "../../media/media-ui/src/humanReadableSize.ts"
+        "../../media/media-ui/src/humanReadableSize"
       ],
       "@atlaskit/media-ui/index": [
-        "../../media/media-ui/src/index.ts"
+        "../../media/media-ui/src/index"
       ],
       "@atlaskit/media-ui/infiniteScroll": [
-        "../../media/media-ui/src/infiniteScroll.tsx"
+        "../../media/media-ui/src/infiniteScroll"
       ],
       "@atlaskit/media-ui/messages": [
-        "../../media/media-ui/src/messages.ts"
+        "../../media/media-ui/src/messages"
       ],
       "@atlaskit/media-ui/mixins": [
-        "../../media/media-ui/src/mixins.ts"
+        "../../media/media-ui/src/mixins"
       ],
       "@atlaskit/media-ui/modalSpinner": [
-        "../../media/media-ui/src/modalSpinner.tsx"
+        "../../media/media-ui/src/modalSpinner"
       ],
       "@atlaskit/media-ui/shortcut": [
-        "../../media/media-ui/src/shortcut.tsx"
+        "../../media/media-ui/src/shortcut"
       ],
       "@atlaskit/media-ui/theme": [
-        "../../media/media-ui/src/theme.ts"
+        "../../media/media-ui/src/theme"
       ],
       "@atlaskit/media-ui/util": [
-        "../../media/media-ui/src/util.ts"
+        "../../media/media-ui/src/util"
       ],
       "@atlaskit/media-viewer/index": [
-        "../../media/media-viewer/src/index.ts"
+        "../../media/media-viewer/src/index"
       ],
       "@atlaskit/smart-card/index": [
-        "../../media/smart-card/src/index.ts"
+        "../../media/smart-card/src/index"
       ],
       "@atlaskit/code-insights/index": [
-        "../../monorepo-tooling/code-insights/src/index.ts"
+        "../../monorepo-tooling/code-insights/src/index"
       ],
       "@atlaskit/atlassian-switcher/index": [
-        "../../navigation/atlassian-switcher/src/index.ts"
+        "../../navigation/atlassian-switcher/src/index"
       ],
       "@atlaskit/atlassian-switcher/types": [
-        "../../navigation/atlassian-switcher/src/types.ts"
+        "../../navigation/atlassian-switcher/src/types"
       ],
       "@atlaskit/focused-task-close-account/index": [
-        "../../people-and-teams/focused-task-close-account/src/index.ts"
+        "../../people-and-teams/focused-task-close-account/src/index"
       ],
       "@atlaskit/focused-task-close-account/messages": [
-        "../../people-and-teams/focused-task-close-account/src/messages.ts"
+        "../../people-and-teams/focused-task-close-account/src/messages"
       ],
       "@atlaskit/focused-task-close-account/types": [
-        "../../people-and-teams/focused-task-close-account/src/types.ts"
+        "../../people-and-teams/focused-task-close-account/src/types"
       ],
       "@atlaskit/profilecard/index": [
-        "../../people-and-teams/profilecard/src/index.js"
+        "../../people-and-teams/profilecard/src/index"
       ],
       "@atlaskit/profilecard/messages": [
-        "../../people-and-teams/profilecard/src/messages.js"
+        "../../people-and-teams/profilecard/src/messages"
       ],
       "@atlaskit/profilecard/profilecard-resourced": [
-        "../../people-and-teams/profilecard/src/profilecard-resourced.js"
+        "../../people-and-teams/profilecard/src/profilecard-resourced"
       ],
       "@atlaskit/profilecard/profilecard-trigger": [
-        "../../people-and-teams/profilecard/src/profilecard-trigger.js"
+        "../../people-and-teams/profilecard/src/profilecard-trigger"
       ],
       "@atlaskit/profilecard/profilecard": [
-        "../../people-and-teams/profilecard/src/profilecard.js"
+        "../../people-and-teams/profilecard/src/profilecard"
       ],
       "@atlaskit/profilecard/relative-date": [
-        "../../people-and-teams/profilecard/src/relative-date.js"
+        "../../people-and-teams/profilecard/src/relative-date"
       ],
       "@atlaskit/profilecard/types": [
-        "../../people-and-teams/profilecard/src/types.js"
+        "../../people-and-teams/profilecard/src/types"
       ],
       "@atlaskit/global-search/index": [
-        "../../search/global-search/src/index.tsx"
+        "../../search/global-search/src/index"
       ],
       "@atlaskit/global-search/messages": [
-        "../../search/global-search/src/messages.ts"
+        "../../search/global-search/src/messages"
       ],
       "@atlaskit/quick-search/index": [
-        "../../search/quick-search/src/index.ts"
+        "../../search/quick-search/src/index"
       ],
       "@atlaskit/outbound-auth-flow-client/index": [
-        "../../teamwork-ecosystem/outbound-auth-flow-client/src/index.ts"
+        "../../teamwork-ecosystem/outbound-auth-flow-client/src/index"
       ],
       "@atlaskit/nachos-textfield/colors": [
-        "../../trello/textfield/src/colors.ts"
+        "../../trello/textfield/src/colors"
       ],
       "@atlaskit/nachos-textfield/index": [
-        "../../trello/textfield/src/index.tsx"
+        "../../trello/textfield/src/index"
       ],
       "@atlaskit/nachos-textfield/theme": [
-        "../../trello/textfield/src/theme.ts"
+        "../../trello/textfield/src/theme"
       ],
       "@atlaskit/nachos-textfield/types": [
-        "../../trello/textfield/src/types.ts"
+        "../../trello/textfield/src/types"
+      ],
+      "@atlaskit/analytics-next": [
+        "node_modules/@atlaskit/analytics-next-types"
       ]
     }
   }

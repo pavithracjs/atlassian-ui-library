@@ -1,15 +1,11 @@
 {
-  "extends": "./tsconfig.base",
+  "extends": "./tsconfig.entry-points-project",
   "include": [
     "./packages/**/*",
     "./website/**/*",
   ],
   "compilerOptions": {
     "baseUrl": "./",
-    "paths": {
-      "@atlaskit/analytics-next": [
-        "packages/elements/analytics-next-types"
-      ]
-    }
+    
   }
 }

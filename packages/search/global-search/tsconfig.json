@@ -1,13 +1,9 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "../../../tsconfig.entry-points.json",
   "compilerOptions": {
     "noImplicitAny": true,
     "baseUrl": "./",
-    "paths": {
-      "@atlaskit/analytics-next": [
-        "packages/elements/analytics-next-types"
-      ]
-    }
+    
   },
   "include": [
     "./src/**/*.ts",
