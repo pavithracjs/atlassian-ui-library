@@ -4,6 +4,7 @@ import { Node as PMNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import Emoji from '../ui/Emoji';
+import { ZeroWidthSpace } from '../../../utils';
 
 // tslint:disable-next-line:variable-name
 const Wrapper = styled.span`
@@ -30,7 +31,7 @@ export default class EmojiNode extends React.PureComponent<Props, {}> {
           shortName={shortName}
           fallback={text}
         />
-        {String.fromCharCode(8203)}
+        {ZeroWidthSpace}
       </Wrapper>
     );
   }

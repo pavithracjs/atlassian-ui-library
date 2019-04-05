@@ -6,6 +6,7 @@ import { ReactNodeView } from '../../../nodeviews';
 import Extension from '../ui/Extension';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { ForwardRef } from '../../../nodeviews/ReactNodeView';
+import { ZeroWidthSpace } from '../../../utils';
 
 export interface Props {
   node: PmNode;
@@ -47,7 +48,7 @@ class ExtensionNode extends ReactNodeView {
           handleContentDOMRef={forwardRef}
           extensionHandlers={props.extensionHandlers}
         />
-        {this.node.type.name === 'inlineExtension' && String.fromCharCode(8203)}
+        {this.node.type.name === 'inlineExtension' && ZeroWidthSpace}
       </span>
     );
   }

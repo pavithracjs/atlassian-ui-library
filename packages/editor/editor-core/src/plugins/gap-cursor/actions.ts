@@ -5,7 +5,11 @@ import { Direction, isBackward, isForward } from './direction';
 import { GapCursorSelection, Side } from './selection';
 import { isTextBlockNearPos, isValidTargetNode } from './utils';
 import { Command } from '../../types';
-import { atTheBeginningOfDoc, atTheEndOfDoc, ZWSP } from '../../utils';
+import {
+  atTheBeginningOfDoc,
+  atTheEndOfDoc,
+  ZeroWidthSpace,
+} from '../../utils';
 import { pluginKey } from './pm-plugins/main';
 
 export const arrow = (
@@ -69,7 +73,7 @@ export const arrow = (
     const domAtPos = view.domAtPos.bind(view);
     const target = findDomRefAtPos($pos.pos, domAtPos) as HTMLElement;
 
-    if (target && target.textContent === ZWSP) {
+    if (target && target.textContent === ZeroWidthSpace) {
       return false;
     }
   }
