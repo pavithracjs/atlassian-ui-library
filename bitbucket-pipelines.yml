@@ -73,19 +73,12 @@ pipelines:
             caches:
               - node
         - step:
-            name: Unit Testing non Editor
+            name: Unit Testing
             script:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
               # Run the non-editor tests, --passWithNoTests has been added in case of no tests found to avoid failure in CI.
               - TEST_ONLY_PATTERN='!packages/editor' yarn test:changed --passWithNoTests
-            caches:
-              - node
-        - step:
-            name: Unit Testing Editor
-            script:
-              - source ./build-setup.sh
-              - bolt install --pure-lockfile
               # Run the editor tests (runInBand is required or it fails in CI)
               - TEST_ONLY_PATTERN='packages/editor' yarn test:changed --runInBand --passWithNoTests
               # This script acts like a unit test to check changes to @atlaskit/adf-schema.
