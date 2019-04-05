@@ -40,7 +40,7 @@ export class TeamOption extends React.PureComponent<TeamOptionProps> {
     if (memberCount === null || typeof memberCount === 'undefined') {
       return undefined;
     } else {
-      if (includesYou !== null && includesYou === true) {
+      if (includesYou === true) {
         if (memberCount > 50) {
           return this.getBylineComponent(
             isSelected,
