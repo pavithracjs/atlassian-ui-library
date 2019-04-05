@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Fragment, type Node } from 'react';
-import { keyframes } from 'emotion';
+import { css, keyframes } from '@emotion/core';
 import { colors } from '@atlaskit/theme';
 
 import {
@@ -116,9 +116,9 @@ const ContainerNavigationPrimitiveBase = ({
 
   return (
     <div
-      css={{
+      css={css`
+      ${{
         ...theme.mode.contentNav().container,
-        animationName,
         animationDuration: transitionDuration,
         animationFillMode: 'forwards',
         animationTimingFunction: transitionTimingFunction,
@@ -127,6 +127,8 @@ const ContainerNavigationPrimitiveBase = ({
         transitionTimingFunction,
         transform,
       }}
+      animation-name: ${animationName};
+      `}
     >
       <ScrollProvider>{children}</ScrollProvider>
     </div>

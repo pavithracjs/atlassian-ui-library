@@ -32,6 +32,26 @@ const items: Array<QuickInsertItem> = [
     },
   },
   {
+    title: 'Block async extension',
+    icon: () => <DevIcon label="dev" />,
+    action(insert) {
+      return insert({
+        type: 'extension',
+        attrs: {
+          extensionType: 'com.atlassian.confluence.macro.core',
+          extensionKey: 'block-async-eh',
+          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          parameters: {
+            macroParams: {},
+            macroMetadata: {
+              placeholder: [{ data: { url: '' }, type: 'icon' }],
+            },
+          },
+        },
+      });
+    },
+  },
+  {
     title: 'Block extension',
     icon: () => <DevIcon label="dev" />,
     action(insert) {

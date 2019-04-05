@@ -1,5 +1,6 @@
 import { BrowserTestCase } from '@atlaskit/webdriver-runner/runner';
 import { tableNewColumnMinWidth } from '@atlaskit/editor-common';
+import { sleep } from '@atlaskit/editor-test-helpers';
 import {
   editable,
   getDocFromElement,
@@ -201,6 +202,32 @@ BrowserTestCase(
     });
 
     await resizeColumn(page, { cellHandlePos: 10, resizeWidth: -100 });
+
+    const doc = await page.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  "Table column should resize when an extension changes it's width",
+  { skip: ['ie', 'firefox', 'safari', 'edge'] },
+  async (client: any, testName: string) => {
+    const page = await goToEditorTestingExample(client);
+
+    await mountEditor(page, {
+      appearance: fullpage.appearance,
+      allowTables: {
+        advanced: true,
+      },
+      allowExtension: true,
+    });
+
+    // Insert table
+    await quickInsert(page, 'Table');
+    await quickInsert(page, 'Block async extension');
+
+    // InlineAsyncExtension changes the width of the extension after 2s
+    await sleep(3000);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
