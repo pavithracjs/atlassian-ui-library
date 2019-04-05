@@ -409,9 +409,11 @@ describe('card', () => {
           ])(editorView.state.tr),
         );
 
+        // the test cardProvider stores the promise for each card it's converting
+        // resolve all the promises to allow the card plugin to convert the cards to links
         await Promise.all(promises);
 
-        // test provider here replaces with p('hello world)
+        // this test provider replaces links with the ADF of: p('hello world')
         expect(editorView.state.doc).toEqualDocument(
           doc(p('hello have a link '), p('hello world'), p()),
         );
