@@ -48,7 +48,6 @@ import {
   editorDisabledPlugin,
   indentationPlugin,
   annotationPlugin,
-  compositionPlugin,
   analyticsPlugin,
 } from '../plugins';
 
@@ -241,10 +240,6 @@ export default function createPluginsList(
 
   if (props.appearance !== 'mobile') {
     plugins.push(quickInsertPlugin);
-  }
-
-  if (props.appearance === 'mobile') {
-    plugins.push(compositionPlugin);
   }
 
   return plugins;
