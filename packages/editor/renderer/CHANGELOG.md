@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 45.2.4
+- [patch] [370476ca07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/370476ca07):
+
+  - ED-6674: fix table shadow overlapping inline comments
+
 ## 45.2.3
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 
