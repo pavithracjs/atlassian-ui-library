@@ -2,8 +2,8 @@ import { name } from '../../../version.json';
 import Ajv from 'ajv';
 import { readFilesSync } from '../../../../test-helpers';
 
-import * as v1schemaFull from '../../../../json-schema/v1/full.json';
-import * as v1schemaStage0 from '../../../../json-schema/v1/stage-0.json';
+import v1schemaFull from '../../../../json-schema/v1/full.json';
+import v1schemaStage0 from '../../../../json-schema/v1/stage-0.json';
 
 const ajv = new Ajv();
 
