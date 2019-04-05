@@ -110,6 +110,12 @@ describe('BaseUserPicker', () => {
     expect(onClear).toHaveBeenCalled();
   });
 
+  it('should display no loading message', () => {
+    const component = shallowUserPicker();
+    const select = component.find(Select);
+    expect(select.prop('loadingMessage')()).toEqual(null);
+  });
+
   it('should call onFocus handler', () => {
     const onFocus = jest.fn();
     const component = shallowUserPicker({ onFocus });
@@ -134,10 +140,20 @@ describe('BaseUserPicker', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
-  it('should display no loading message', () => {
-    const component = shallowUserPicker();
-    const select = component.find(Select);
-    expect(select.prop('loadingMessage')()).toEqual(null);
+  it('should clear options on blur', () => {
+    const onBlur = jest.fn();
+    const component = shallowUserPicker({ onBlur, options });
+    expect(component.state('options')).toEqual(options);
+    component.simulate('blur');
+    expect(component.state('options')).toEqual([]);
+  });
+
+  it('should clear options on close', () => {
+    const onClose = jest.fn();
+    const component = shallowUserPicker({ onClose, options });
+    expect(component.state('options')).toEqual(options);
+    component.simulate('close');
+    expect(component.state('options')).toEqual([]);
   });
 
   describe('Multiple users select', () => {
