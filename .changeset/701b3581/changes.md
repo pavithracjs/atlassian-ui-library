@@ -1,0 +1,1 @@
+- set baseUrl in tsconfig.json to allow new entrypoints imports
