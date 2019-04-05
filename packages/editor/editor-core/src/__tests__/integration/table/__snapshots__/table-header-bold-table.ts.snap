@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`table-mediaSingle.ts: Can insert media single into table 1`] = `
+exports[`should add strong mark on table header by default 1`] = `
 Object {
   "content": Array [
     Object {
@@ -26,6 +26,17 @@ Object {
               },
               "content": Array [
                 Object {
+                  "content": Array [
+                    Object {
+                      "marks": Array [
+                        Object {
+                          "type": "strong",
+                        },
+                      ],
+                      "text": "this text should be bold",
+                      "type": "text",
+                    },
+                  ],
                   "type": "paragraph",
                 },
               ],
@@ -84,31 +95,12 @@ Object {
               },
               "content": Array [
                 Object {
-                  "attrs": Object {
-                    "layout": "center",
-                    "width": null,
-                  },
                   "content": Array [
                     Object {
-                      "attrs": Object {
-                        "__displayType": null,
-                        "__fileMimeType": "image/svg+xml",
-                        "__fileName": "example.png",
-                        "__fileSize": 235,
-                        "collection": "MediaServicesSample",
-                        "height": 4096,
-                        "id": "1234-5678-abcd-efgh",
-                        "occurrenceKey": null,
-                        "type": "file",
-                        "url": null,
-                        "width": 4096,
-                      },
-                      "type": "media",
+                      "text": "this text should not be bold",
+                      "type": "text",
                     },
                   ],
-                  "type": "mediaSingle",
-                },
-                Object {
                   "type": "paragraph",
                 },
               ],

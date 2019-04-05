@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.3.0
+- [minor] [b617f099aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b617f099aa):
+
+  - Limited length of comment messages.
+
 ## 0.2.10
 - [patch] [69c72e07ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c72e07ba):
 

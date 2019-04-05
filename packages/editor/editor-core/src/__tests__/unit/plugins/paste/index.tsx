@@ -28,6 +28,7 @@ import {
   tr,
   th,
   td,
+  thWithoutDefaultMarks,
   tdCursor,
   hardBreak,
   a,
@@ -827,7 +828,10 @@ describe('paste plugins', () => {
       expect(editorView.state.doc).toEqualDocument(
         doc(
           table({ isNumberColumnEnabled: true })(
-            tr(th()(p('One')), th()(p('Two'))),
+            tr(
+              thWithoutDefaultMarks()(p('One')),
+              thWithoutDefaultMarks()(p('Two')),
+            ),
             tr(td()(p('Three')), td()(p('Four'))),
             tr(td()(p('Five')), td()(p('Six'))),
           ),
@@ -845,7 +849,10 @@ describe('paste plugins', () => {
       expect(editorView.state.doc).toEqualDocument(
         doc(
           table({ isNumberColumnEnabled: true })(
-            tr(th()(p('One')), th()(p('Two'))),
+            tr(
+              thWithoutDefaultMarks()(p('One')),
+              thWithoutDefaultMarks()(p('Two')),
+            ),
             tr(td()(p('Three')), td()(p('Four'))),
             tr(td()(p('Five')), td()(p('Six'))),
           ),
