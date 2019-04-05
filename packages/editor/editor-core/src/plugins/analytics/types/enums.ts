@@ -1,7 +1,12 @@
-export const enum EVENT_TYPE {
-  UI = 'ui',
-  TRACK = 'track',
+export interface I_EVENT_TYPE {
+  UI: 'ui';
+  TRACK: 'track';
 }
+
+export const EVENT_TYPE: I_EVENT_TYPE = {
+  UI: 'ui',
+  TRACK: 'track',
+};
 
 export interface I_ACTION {
   CHANGED_TYPE: 'changedType';
