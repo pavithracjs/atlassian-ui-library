@@ -86,7 +86,6 @@ describe('ak-button/default-behaviour', () => {
 
   it('should render button with full container width', () => {
     const wrapper = mount(<Button shouldFitContainer />);
-    console.log(wrapper.debug());
     expect(wrapper.find(InnerWrapper).prop('fit')).toBe(true);
   });
 
