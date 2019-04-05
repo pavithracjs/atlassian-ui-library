@@ -1,27 +1,25 @@
 const removeOnCloseListener = jest.fn();
 const spies = {} as any;
 
-const mockMediaPickerFacade = {
-  default: jest.fn(pickerType => {
-    const picker: any = {
-      on: jest.fn(),
-      onClose: jest.fn().mockReturnValue(removeOnCloseListener),
-      onNewMedia: jest.fn(),
-      onMediaEvent: jest.fn(),
-      onDrag: jest.fn(),
-      hide: jest.fn(),
-      setUploadParams: jest.fn(),
-      show: jest.fn(),
-      deactivate: jest.fn(),
-      activate: jest.fn(),
-      destroy: jest.fn(),
-      type: 'popup',
-    };
-    picker.init = jest.fn().mockReturnValue(picker);
-    spies[pickerType] = picker;
-    return picker;
-  }),
-};
+const mockMediaPickerFacade = jest.fn(pickerType => {
+  const picker: any = {
+    on: jest.fn(),
+    onClose: jest.fn().mockReturnValue(removeOnCloseListener),
+    onNewMedia: jest.fn(),
+    onMediaEvent: jest.fn(),
+    onDrag: jest.fn(),
+    hide: jest.fn(),
+    setUploadParams: jest.fn(),
+    show: jest.fn(),
+    deactivate: jest.fn(),
+    activate: jest.fn(),
+    destroy: jest.fn(),
+    type: 'popup',
+  };
+  picker.init = jest.fn().mockReturnValue(picker);
+  spies[pickerType] = picker;
+  return picker;
+});
 jest.mock(
   '../../../../plugins/media/picker-facade',
   () => mockMediaPickerFacade,
@@ -56,7 +54,7 @@ const waitForAllPickersInitialised = async (pluginState: MediaPluginState) => {
   }
 };
 
-describe.skip('Media with mock facade', () => {
+describe('Media with mock facade', () => {
   const createEditor = createEditorFactory<MediaPluginState>();
   const mediaProvider = getFreshMediaProvider();
   const providerFactory = ProviderFactory.create({ mediaProvider });
