@@ -161,7 +161,7 @@ class InlineEditUncontrolled extends React.Component<
         <EditButton
           aria-label={editButtonLabel}
           type="button"
-          onClick={this.onReadViewClick}
+          onClick={this.props.onEditRequested}
           innerRef={ref => {
             this.editButtonRef = ref;
           }}
