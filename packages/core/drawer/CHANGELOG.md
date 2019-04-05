@@ -1,5 +1,15 @@
 # @atlaskit/drawer
 
+## 3.0.6
+- [patch] [09dc092cee](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/09dc092cee):
+
+  - Move visual-regression and docs to devDep
+
+## 3.0.5
+- [patch] [42d931a2fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/42d931a2fd):
+
+  - Move visual-regression to devDependncies
+
 ## 3.0.4
 - [patch] [a28eb04426](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a28eb04426):
 

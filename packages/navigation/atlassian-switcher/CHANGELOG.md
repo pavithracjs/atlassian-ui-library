@@ -1,5 +1,10 @@
 # @atlaskit/atlassian-switcher
 
+## 0.4.1
+- [patch] [bcb3d443fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bcb3d443fc):
+
+  - Addressing QA fixes
+
 ## 0.4.0
 - [minor] [e36f791fd6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e36f791fd6):
 

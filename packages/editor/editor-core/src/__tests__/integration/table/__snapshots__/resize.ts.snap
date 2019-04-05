@@ -1584,41 +1584,33 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  305,
+                  301,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [
                 Object {
-                  "content": Array [
-                    Object {
-                      "attrs": Object {
-                        "extensionKey": "inline-async-eh",
-                        "extensionType": "com.atlassian.confluence.macro.core",
-                        "parameters": Object {
-                          "macroMetadata": Object {
-                            "placeholder": Array [
-                              Object {
-                                "data": Object {
-                                  "url": "",
-                                },
-                                "type": "icon",
-                              },
-                            ],
+                  "attrs": Object {
+                    "extensionKey": "block-async-eh",
+                    "extensionType": "com.atlassian.confluence.macro.core",
+                    "layout": "default",
+                    "parameters": Object {
+                      "macroMetadata": Object {
+                        "placeholder": Array [
+                          Object {
+                            "data": Object {
+                              "url": "",
+                            },
+                            "type": "icon",
                           },
-                          "macroParams": Object {},
-                        },
-                        "text": "Inline extension demo",
+                        ],
                       },
-                      "type": "inlineExtension",
+                      "macroParams": Object {},
                     },
-                    Object {
-                      "text": " ",
-                      "type": "text",
-                    },
-                  ],
-                  "type": "paragraph",
+                    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                  },
+                  "type": "extension",
                 },
               ],
               "type": "tableHeader",
@@ -1628,7 +1620,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  147,
+                  151,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -1667,7 +1659,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  305,
+                  301,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -1684,7 +1676,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  147,
+                  151,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -1723,7 +1715,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  305,
+                  301,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -1740,7 +1732,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  147,
+                  151,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,

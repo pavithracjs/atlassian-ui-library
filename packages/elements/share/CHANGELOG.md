@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.2.10
+- [patch] [69c72e07ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c72e07ba):
+
+  - Fixed share button off position on IE11
+
 ## 0.2.9
 - [patch] [fcdae04b8c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fcdae04b8c):
 

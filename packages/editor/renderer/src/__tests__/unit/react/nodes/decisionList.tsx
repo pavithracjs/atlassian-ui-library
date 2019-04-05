@@ -4,11 +4,9 @@ import { DecisionList as AkDecisionList } from '@atlaskit/task-decision';
 import DecisionList from '../../../../react/nodes/decisionList';
 
 describe('Renderer - React/Nodes/DecisionList', () => {
-  it('should wrap content with <AkDecisionList>-tag with start prop', () => {
+  it('should match rendered AkDecisionList', () => {
     const text: any = 'This is a list item';
-    const decisionListWrapper = shallow(<DecisionList>{text}</DecisionList>);
-    const decisionList = decisionListWrapper.childAt(0);
-    expect(decisionListWrapper.is('div')).toEqual(true);
+    const decisionList = shallow(<DecisionList>{text}</DecisionList>);
     expect(decisionList.is(AkDecisionList)).toEqual(true);
   });
 

@@ -1,5 +1,10 @@
 # @atlaskit/global-navigation
 
+## 6.2.7
+- [patch] [bcb3d443fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bcb3d443fc):
+
+  - Addressing QA fixes
+
 ## 6.2.6
 - [patch] [a28eb04426](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a28eb04426):
 
