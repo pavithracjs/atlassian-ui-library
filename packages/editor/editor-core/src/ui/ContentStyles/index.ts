@@ -71,6 +71,9 @@ const ContentStyles: ComponentClass<
   }
 
   .inlineCardView-content-wrap {
+    /* cursor disappears left hand side in ff */
+    padding-left: 1px;
+
     max-width: calc(100% - 20px);
     vertical-align: top;
     word-break: break-all;

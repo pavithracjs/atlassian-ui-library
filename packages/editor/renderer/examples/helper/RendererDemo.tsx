@@ -27,7 +27,7 @@ import {
   RendererAppearance,
 } from '../../src/ui/Renderer';
 
-import { AkProfileClient, modifyResponse } from '@atlaskit/profilecard';
+import { ProfileClient, modifyResponse } from '@atlaskit/profilecard';
 
 import { EmailSerializer, renderDocument, TextSerializer } from '../../src';
 
@@ -35,7 +35,7 @@ import Sidebar, { getDefaultShowSidebarState } from './NavigationNext';
 
 const { getMockProfileClient: getMockProfileClientUtil } = profilecardUtils;
 const MockProfileClient = getMockProfileClientUtil(
-  AkProfileClient,
+  ProfileClient,
   modifyResponse,
 );
 
