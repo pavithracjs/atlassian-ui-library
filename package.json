@@ -86,7 +86,7 @@
     "build:css-reset": "                     BABEL_ENV=production:esm bolt w @atlaskit/css-reset run build",
     "build:reduced-ui-pack": "               BABEL_ENV=production:esm bolt w @atlaskit/reduced-ui-pack run build",
     "build:adf-schema:checkuptodate": "      cd packages/editor/adf-schema && yarn run generate:json-schema && git diff --exit-code",
-    "build:multi-entry-point-tsconfig": "    node ./build/multi-entry-tools/typescript-paths-tsconfig-builder.js > tsconfig.entry-points.json &&  node build/multi-entry-tools/typescript-paths-tsconfig-builder.js --project > tsconfig.entry-points-project.json"
+    "build:multi-entry-point-tsconfig": "    node ./build/multi-entry-tools/typescript-paths-tsconfig-builder.js > tsconfig.entry-points.json"
   },
   "bolt": {
     "version": "^0.20.6 || ^0.21.1 || ^0.22.1",

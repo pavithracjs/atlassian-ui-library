@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.entry-points-project",
+  "extends": "./tsconfig.base",
   "include": [
     "./packages/**/*",
     "./website/**/*",

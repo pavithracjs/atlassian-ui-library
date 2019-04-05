@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.entry-points-project.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "module": "commonjs"
   }

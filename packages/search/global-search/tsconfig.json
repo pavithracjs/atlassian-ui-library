@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.entry-points.json",
+  "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "noImplicitAny": true,
     "baseUrl": "./",

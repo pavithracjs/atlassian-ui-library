@@ -1,6 +1,5 @@
 {
-  "extends": "../../../tsconfig.entry-points.json",
-  "moduleResolution": "node",
+  "extends": "../../../tsconfig.base.json",
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
@@ -13,6 +12,5 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "baseUrl": "./",
-    
   }
 }

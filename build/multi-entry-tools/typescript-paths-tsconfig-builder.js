@@ -15,17 +15,13 @@ async function main() {
           '',
         );
 
-        if (!isProjectLevel) {
-          return [
-            [moduleName],
-            [modulePathWithoutExtension.replace(`${cwd}/packages`, '../..')],
-          ];
-        } else {
-          return [
-            [moduleName],
-            [modulePathWithoutExtension.replace(`${cwd}/`, './')],
-          ];
-        }
+        return [
+          [moduleName],
+          [
+            modulePathWithoutExtension.replace(`${cwd}/packages`, '../..'),
+            modulePathWithoutExtension.replace(`${cwd}/`, './'),
+          ],
+        ];
       }),
   );
 
@@ -44,7 +40,6 @@ async function main() {
   console.log(
     JSON.stringify(
       {
-        extends: './tsconfig.base.json',
         compilerOptions: {
           paths,
         },
