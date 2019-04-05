@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.3.2
+- [patch] [c68b454ba9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c68b454ba9):
+
+  - fixed unclear share panel state upon successful share
+
 ## 0.3.1
 - [patch] [ddfc158dfb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ddfc158dfb):
 

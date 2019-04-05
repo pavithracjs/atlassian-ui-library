@@ -1,1 +1,0 @@
-- fixed unclear share panel state upon successful share
