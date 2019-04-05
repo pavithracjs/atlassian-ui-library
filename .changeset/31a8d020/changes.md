@@ -1,0 +1,1 @@
+- TEAMS-364 : Renaming the missed test files in the previous PR
