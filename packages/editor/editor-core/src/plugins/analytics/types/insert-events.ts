@@ -1,7 +1,7 @@
 import { TrackAEP } from './events';
 import {
   I_ACTION,
-  ACTION_SUBJECT,
+  I_ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
   I_INPUT_METHOD,
 } from './enums';
@@ -50,14 +50,14 @@ export const enum LINK_RESOURCE {
 
 type InsertAEP<ActionSubjectID, Attributes> = TrackAEP<
   I_ACTION['INSERTED'],
-  ACTION_SUBJECT.DOCUMENT,
+  I_ACTION_SUBJECT['DOCUMENT'],
   ActionSubjectID,
   Attributes
 >;
 
 type InsertLineBreakAEP = TrackAEP<
   I_ACTION['INSERTED'],
-  ACTION_SUBJECT.TEXT,
+  I_ACTION_SUBJECT['TEXT'],
   ACTION_SUBJECT_ID.LINE_BREAK,
   undefined
 >;

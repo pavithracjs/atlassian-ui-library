@@ -1,7 +1,7 @@
 import { TrackAEP } from './events';
 import {
   I_ACTION,
-  ACTION_SUBJECT,
+  I_ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
   I_INPUT_METHOD,
 } from './enums';
@@ -20,7 +20,7 @@ export const enum INDENT_TYPE {
 
 type FormatAEP<ActionSubjectID, Attributes> = TrackAEP<
   I_ACTION['FORMATTED'],
-  ACTION_SUBJECT.TEXT,
+  I_ACTION_SUBJECT['TEXT'],
   ActionSubjectID,
   Attributes
 >;

@@ -1,7 +1,7 @@
 import { TrackAEP } from './events';
 import {
   I_ACTION,
-  ACTION_SUBJECT,
+  I_ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
   I_INPUT_METHOD,
 } from './enums';
@@ -112,7 +112,7 @@ export type PASTE_ACTION_SUBJECT_ID =
 
 type PasteBaseAEP<Action, Attributes> = TrackAEP<
   Action,
-  ACTION_SUBJECT.DOCUMENT,
+  I_ACTION_SUBJECT['DOCUMENT'],
   PASTE_ACTION_SUBJECT_ID,
   Attributes
 >;

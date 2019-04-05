@@ -86,18 +86,31 @@ export const INPUT_METHOD: I_INPUT_METHOD = {
   BUTTON: 'button',
 };
 
-export const enum ACTION_SUBJECT {
-  BUTTON = 'button',
-  DOCUMENT = 'document',
-  EDITOR = 'editor',
-  MEDIA = 'media',
-  PANEL = 'panel',
-  PICKER = 'picker',
-  SMART_LINK = 'smartLink',
-  TEXT = 'text',
-  TYPEAHEAD = 'typeAhead',
-  TABLE = 'table',
+export interface I_ACTION_SUBJECT {
+  BUTTON: 'button';
+  DOCUMENT: 'document';
+  EDITOR: 'editor';
+  MEDIA: 'media';
+  PANEL: 'panel';
+  PICKER: 'picker';
+  SMART_LINK: 'smartLink';
+  TEXT: 'text';
+  TYPEAHEAD: 'typeAhead';
+  TABLE: 'table';
 }
+
+export const ACTION_SUBJECT: I_ACTION_SUBJECT = {
+  BUTTON: 'button',
+  DOCUMENT: 'document',
+  EDITOR: 'editor',
+  MEDIA: 'media',
+  PANEL: 'panel',
+  PICKER: 'picker',
+  SMART_LINK: 'smartLink',
+  TEXT: 'text',
+  TYPEAHEAD: 'typeAhead',
+  TABLE: 'table',
+};
 
 export const enum ACTION_SUBJECT_ID {
   ACTION = 'action',

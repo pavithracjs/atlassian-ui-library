@@ -1,7 +1,7 @@
 import { UIAEP } from './events';
 import {
   I_ACTION,
-  ACTION_SUBJECT,
+  I_ACTION_SUBJECT,
   ACTION_SUBJECT_ID,
   I_INPUT_METHOD,
 } from './enums';
@@ -14,35 +14,35 @@ export const enum PLATFORMS {
 
 type ButtonAEP<ActionSubjectID, Attributes> = UIAEP<
   I_ACTION['CLICKED'],
-  ACTION_SUBJECT.BUTTON,
+  I_ACTION_SUBJECT['BUTTON'],
   ActionSubjectID,
   Attributes
 >;
 
 type PickerAEP<ActionSubjectID, Attributes> = UIAEP<
   I_ACTION['OPENED'],
-  ACTION_SUBJECT.PICKER,
+  I_ACTION_SUBJECT['PICKER'],
   ActionSubjectID,
   Attributes
 >;
 
 type TypeAheadAEP<ActionSubjectID, Attributes> = UIAEP<
   I_ACTION['INVOKED'],
-  ACTION_SUBJECT.TYPEAHEAD,
+  I_ACTION_SUBJECT['TYPEAHEAD'],
   ActionSubjectID,
   Attributes
 >;
 
 type EditorStartAEP = UIAEP<
   I_ACTION['STARTED'],
-  ACTION_SUBJECT.EDITOR,
+  I_ACTION_SUBJECT['EDITOR'],
   undefined,
   { platform: PLATFORMS.NATIVE | PLATFORMS.HYBRID | PLATFORMS.WEB }
 >;
 
 type EditorStopAEP = UIAEP<
   I_ACTION['STOPPED'],
-  ACTION_SUBJECT.EDITOR,
+  I_ACTION_SUBJECT['EDITOR'],
   ACTION_SUBJECT_ID.SAVE | ACTION_SUBJECT_ID.CANCEL,
   {
     inputMethod: I_INPUT_METHOD['TOOLBAR'] | I_INPUT_METHOD['SHORTCUT'];
@@ -64,7 +64,7 @@ type EditorStopAEP = UIAEP<
 
 type AnnotateButtonAEP = UIAEP<
   I_ACTION['CLICKED'],
-  ACTION_SUBJECT.MEDIA,
+  I_ACTION_SUBJECT['MEDIA'],
   ACTION_SUBJECT_ID.ANNOTATE_BUTTON,
   undefined
 >;

@@ -34,7 +34,7 @@ export type TrackAEP<Action, ActionSubject, ActionSubjectID, Attributes> = AEP<
 
 export type TableAEP<Action, Attributes> = TrackAEP<
   Action,
-  ACTION_SUBJECT.TABLE,
+  I_ACTION_SUBJECT['TABLE'],
   null,
   Attributes
 >;
