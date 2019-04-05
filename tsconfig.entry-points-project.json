@@ -1496,7 +1496,8 @@
         "./packages/trello/textfield/src/types"
       ],
       "@atlaskit/analytics-next": [
-        "node_modules/@atlaskit/analytics-next-types"
+        "node_modules/@atlaskit/analytics-next-types",
+        "packages/elements/analytics-next-types"
       ]
     }
   }

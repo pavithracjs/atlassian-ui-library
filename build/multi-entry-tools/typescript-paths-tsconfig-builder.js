@@ -31,6 +31,7 @@ async function main() {
 
   paths['@atlaskit/analytics-next'] = [
     'node_modules/@atlaskit/analytics-next-types',
+    'packages/elements/analytics-next-types',
   ];
 
   console.log(
