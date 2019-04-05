@@ -89,7 +89,9 @@ export default function createPluginsList(
   const plugins = getDefaultPluginsList(props, createAnalyticsEvent);
 
   if (props.allowBreakout && props.appearance === 'full-page') {
-    plugins.push(breakoutPlugin);
+    plugins.push(
+      breakoutPlugin({ disableBreakoutUI: props.UNSAFE_fullWidthMode }),
+    );
   }
 
   if (props.allowTextAlignment) {
@@ -130,7 +132,7 @@ export default function createPluginsList(
   }
 
   if (props.allowTables) {
-    plugins.push(tablesPlugin(props.allowTables));
+    plugins.push(tablesPlugin(props.allowTables, props.UNSAFE_fullWidthMode));
   }
 
   if (props.allowTasksAndDecisions || props.taskDecisionProvider) {
