@@ -13,7 +13,7 @@ import PageIcon from '@atlaskit/icon/glyph/page';
 import PortfolioIcon from '@atlaskit/icon/glyph/portfolio';
 import ShipIcon from '@atlaskit/icon/glyph/ship';
 import { JiraWordmark } from '@atlaskit/logo';
-import { colors } from '@atlaskit/theme';
+import { N20, B500, N500, B50 } from '@atlaskit/theme/colors';
 
 import {
   ContainerHeader,
@@ -39,8 +39,8 @@ const FakeContentNav = ({ isContainer = false, ...props }: any) => (
   >
     <div
       css={{
-        backgroundColor: isContainer ? colors.N20 : colors.B500,
-        color: isContainer ? colors.N500 : colors.B50,
+        backgroundColor: isContainer ? N20 : B500,
+        color: isContainer ? N500 : B50,
         display: 'flex',
         flexDirection: 'column',
         flexGrow: 1,

@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import { colors } from '@atlaskit/theme';
+import { N20 } from '@atlaskit/theme/colors';
 import IssuesIcon from '@atlaskit/icon/glyph/issues';
 import { JiraWordmark } from '@atlaskit/logo';
 import {
@@ -21,7 +21,7 @@ import { CONTENT_NAV_WIDTH } from '../../../src/common/constants';
 const SectionWrapper = props => (
   <div
     css={{
-      backgroundColor: colors.N20,
+      backgroundColor: N20,
       marginTop: '8px',
       overflow: 'hidden',
       overflowX: 'hidden',

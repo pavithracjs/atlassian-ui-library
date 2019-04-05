@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { colors } from '@atlaskit/theme';
+import { N20 } from '@atlaskit/theme/colors';
 import { Group, Item } from '../../../src';
 
 import { CONTENT_NAV_WIDTH } from '../../../src/common/constants';
@@ -9,7 +9,7 @@ import { CONTENT_NAV_WIDTH } from '../../../src/common/constants';
 export default () => (
   <div
     css={{
-      backgroundColor: colors.N20,
+      backgroundColor: N20,
       boxSizing: 'border-box',
       padding: '8px',
       width: `${CONTENT_NAV_WIDTH}px`,

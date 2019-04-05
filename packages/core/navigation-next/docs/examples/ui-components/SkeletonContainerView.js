@@ -1,13 +1,13 @@
 // @flow
 
 import React from 'react';
-import { colors } from '@atlaskit/theme';
+import { N20 } from '@atlaskit/theme/colors';
 import { SkeletonContainerView } from '../../../src';
 
 export default () => (
   <div
     css={{
-      backgroundColor: colors.N20,
+      backgroundColor: N20,
       boxSizing: 'border-box',
       paddingBottom: '48px',
       width: '240px ',

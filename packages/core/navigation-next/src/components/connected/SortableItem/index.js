@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { colors } from '@atlaskit/theme';
+import { N60A } from '@atlaskit/theme/colors';
 import { Draggable } from 'react-beautiful-dnd';
 
 import Item from '../../presentational/Item';
@@ -13,7 +13,7 @@ const getStyles = (provided, { isDragging }) => {
     itemBase: {
       ...provided.itemBase,
       boxShadow: isDragging
-        ? `${colors.N60A} 0px 4px 8px -2px, ${colors.N60A} 0px 0px 1px`
+        ? `${N60A} 0px 4px 8px -2px, ${N60A} 0px 0px 1px`
         : undefined,
       cursor: isDragging ? 'grabbing' : 'pointer',
     },

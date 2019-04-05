@@ -5,7 +5,8 @@ import DashboardIcon from '@atlaskit/icon/glyph/dashboard';
 import BacklogIcon from '@atlaskit/icon/glyph/backlog';
 import IssuesIcon from '@atlaskit/icon/glyph/issue';
 import ReportsIcon from '@atlaskit/icon/glyph/graph-line';
-import { colors, gridSize as gridSizeFn } from '@atlaskit/theme';
+import { gridSize as gridSizeFn } from '@atlaskit/theme/constants';
+import { N0, G500 } from '@atlaskit/theme/colors';
 
 import {
   GlobalNav,
@@ -29,8 +30,8 @@ const gridSize = gridSizeFn();
 
 const customThemeMode = modeGenerator({
   product: {
-    text: colors.N0,
-    background: colors.G500,
+    text: N0,
+    background: G500,
   },
 });
 

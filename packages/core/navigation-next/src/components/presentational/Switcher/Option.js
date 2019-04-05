@@ -6,7 +6,8 @@ import React, {
   type Node,
   type Ref,
 } from 'react';
-import { colors, fontSize, gridSize as gridSizeFn } from '@atlaskit/theme';
+import { fontSize, gridSize as gridSizeFn } from '@atlaskit/theme/constants';
+import { N200 } from '@atlaskit/theme/colors';
 import Avatar from '@atlaskit/avatar';
 import { components } from '@atlaskit/select';
 
@@ -38,7 +39,7 @@ const TextWrapper = (props: *) => (
 const SubTextWrapper = (props: *) => (
   <div
     css={{
-      color: colors.N200,
+      color: N200,
       flex: '1 1 auto',
       fontSize: 12,
       lineHeight: 14 / 12,

@@ -1,6 +1,8 @@
 // @flow
 
-import { colors, gridSize as gridSizeFn } from '@atlaskit/theme';
+import { gridSize as gridSizeFn } from '@atlaskit/theme/constants';
+
+import { N200 } from '@atlaskit/theme/colors';
 import type { ModeColors } from '../../../theme/types';
 
 const gridSize = gridSizeFn();
@@ -39,7 +41,7 @@ type GroupHeadingModeColors = {
 export default ({ product }: ModeColors) => (): GroupHeadingModeColors => ({
   container: {
     ...baseStyles,
-    headingBase: { ...baseStyles.headingBase, color: colors.N200 },
+    headingBase: { ...baseStyles.headingBase, color: N200 },
   },
   product: {
     ...baseStyles,

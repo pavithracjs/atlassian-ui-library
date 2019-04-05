@@ -23,7 +23,7 @@ import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import { JiraIcon, JiraWordmark } from '@atlaskit/logo';
 import { ToggleStateless } from '@atlaskit/toggle';
-import { gridSize as gridSizeFn } from '@atlaskit/theme';
+import { gridSize as gridSizeFn } from '@atlaskit/theme/constants';
 import InlineDialog from '@atlaskit/inline-dialog';
 
 import {

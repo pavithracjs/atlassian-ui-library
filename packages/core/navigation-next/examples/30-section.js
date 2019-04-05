@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import ArrowLeftIcon from '@atlaskit/icon/glyph/arrow-left';
 import ArrowRightIcon from '@atlaskit/icon/glyph/arrow-right';
-import { colors } from '@atlaskit/theme';
+import { N20 } from '@atlaskit/theme/colors';
 
 import { Item, Section, SectionHeading, Separator } from '../src';
 import { CONTENT_NAV_WIDTH } from '../src/common/constants';
@@ -24,7 +24,7 @@ const VariationWrapper = props => (
 const NestedSectionWrapper = props => (
   <div
     css={{
-      backgroundColor: colors.N20,
+      backgroundColor: N20,
       marginTop: '8px',
       overflow: 'hidden',
       position: 'relative',
@@ -36,7 +36,7 @@ const NestedSectionWrapper = props => (
 const ScrollableSectionWrapper = props => (
   <div
     css={{
-      backgroundColor: colors.N20,
+      backgroundColor: N20,
       display: 'flex',
       flexDirection: 'column',
       height: '300px',

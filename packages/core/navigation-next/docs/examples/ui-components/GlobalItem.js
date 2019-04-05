@@ -5,14 +5,14 @@ import Avatar from '@atlaskit/avatar';
 import { AtlassianIcon } from '@atlaskit/logo';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import HelpIcon from '@atlaskit/icon/glyph/question';
-import { colors } from '@atlaskit/theme';
+import { B500 } from '@atlaskit/theme/colors';
 import { GlobalItem } from '../../../src';
 
 export default () => (
   <div
     css={{
       alignItems: 'center',
-      backgroundColor: colors.B500,
+      backgroundColor: B500,
       boxSizing: 'border-box',
       display: 'flex',
       flexDirection: 'column',

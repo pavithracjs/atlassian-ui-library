@@ -1,7 +1,7 @@
 // @flow
 
 import React, { type ElementConfig } from 'react';
-import { colors } from '@atlaskit/theme';
+import { N20 } from '@atlaskit/theme/colors';
 import DashboardIcon from '@atlaskit/icon/glyph/dashboard';
 import FolderIcon from '@atlaskit/icon/glyph/folder';
 import IssuesIcon from '@atlaskit/icon/glyph/issues';
@@ -17,7 +17,7 @@ const SectionExample = ({
 }) => (
   <div
     css={{
-      backgroundColor: colors.N20,
+      backgroundColor: N20,
       boxSizing: 'border-box',
       width: `${CONTENT_NAV_WIDTH}px`,
     }}

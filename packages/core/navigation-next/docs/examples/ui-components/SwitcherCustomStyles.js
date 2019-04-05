@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { colors } from '@atlaskit/theme';
+import { N20, N0 } from '@atlaskit/theme/colors';
 import ChevD from '@atlaskit/icon/glyph/chevron-down';
 import {
   ContainerHeader,
@@ -17,7 +17,7 @@ import { CONTENT_NAV_WIDTH } from '../../../src/common/constants';
 const Wrapper = (props: *) => (
   <div
     css={{
-      backgroundColor: colors.N20,
+      backgroundColor: N20,
       boxSizing: 'border-box',
       padding: '16px',
       width: `${CONTENT_NAV_WIDTH}px`,
@@ -83,11 +83,11 @@ const items = new Array(8).fill(1).map((x, i) => ({ text: `Item ${i + 1}` }));
 const customStyles = {
   option: (provided, { isSelected }) => ({
     ...provided,
-    backgroundColor: colors.N0,
+    backgroundColor: N0,
     paddingLeft: 16,
     marginBottom: 2,
     '&:hover': {
-      backgroundColor: colors.N20,
+      backgroundColor: N20,
     },
     color: isSelected ? 'red' : 'blue',
   }),

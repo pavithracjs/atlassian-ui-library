@@ -13,7 +13,8 @@ import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import ShortcutIcon from '@atlaskit/icon/glyph/shortcut';
 import { JiraIcon, JiraWordmark } from '@atlaskit/logo';
-import { colors, gridSize as gridSizeFn } from '@atlaskit/theme';
+import { gridSize as gridSizeFn } from '@atlaskit/theme/constants';
+import { N0, G500 } from '@atlaskit/theme/colors';
 
 import {
   ContainerHeader,
@@ -178,8 +179,8 @@ const Content = makeTestComponent(
 
 const customThemeMode = modeGenerator({
   product: {
-    text: colors.N0,
-    background: colors.G500,
+    text: N0,
+    background: G500,
   },
 });
 

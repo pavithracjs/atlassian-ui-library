@@ -1,7 +1,7 @@
 // @flow
 
 import React, { type ElementConfig } from 'react';
-import { colors } from '@atlaskit/theme';
+import { N20 } from '@atlaskit/theme/colors';
 import { AtlassianWordmark } from '@atlaskit/logo';
 import { HeaderSection, Section, Wordmark } from '../../../src';
 
@@ -14,7 +14,7 @@ const SectionExample = ({
 }) => (
   <div
     css={{
-      backgroundColor: colors.N20,
+      backgroundColor: N20,
       boxSizing: 'border-box',
       width: `${CONTENT_NAV_WIDTH}px`,
     }}

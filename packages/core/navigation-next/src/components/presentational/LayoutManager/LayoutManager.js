@@ -2,7 +2,7 @@
 
 import React, { Component, Fragment, type ElementRef } from 'react';
 import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
-import { colors } from '@atlaskit/theme';
+import { N30, N40A } from '@atlaskit/theme/colors';
 
 import {
   name as packageName,
@@ -258,11 +258,11 @@ export default class LayoutManager extends Component<
 
               ':hover': {
                 backgroundColor: containerNavigation
-                  ? colors.N30
+                  ? N30
                   : 'rgba(255, 255, 255, 0.08)',
               },
               ':active': {
-                backgroundColor: colors.N40A,
+                backgroundColor: N40A,
               },
             }}
             tabIndex="0"

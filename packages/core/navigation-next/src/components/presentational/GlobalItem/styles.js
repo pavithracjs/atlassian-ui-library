@@ -1,6 +1,8 @@
 // @flow
 
-import { colors, gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+
+import { B100 } from '@atlaskit/theme/colors';
 import type { Mode, ModeColors } from '../../../theme/types';
 
 const baseStyles = {
@@ -19,7 +21,7 @@ const baseStyles = {
     position: 'relative', // allow badge positioning
 
     '&:focus': {
-      boxShadow: `0 0 0 2px ${colors.B100}`,
+      boxShadow: `0 0 0 2px ${B100}`,
     },
   },
   badgeWrapper: {

@@ -19,7 +19,7 @@ import SearchIcon from '@atlaskit/icon/glyph/search';
 import HelpIcon from '@atlaskit/icon/glyph/question-circle';
 import { AtlassianIcon } from '@atlaskit/logo';
 import Modal, { ModalTransition } from '@atlaskit/modal-dialog';
-import { colors } from '@atlaskit/theme';
+import { N0, G500 } from '@atlaskit/theme/colors';
 
 import {
   GlobalItem,
@@ -272,8 +272,8 @@ class GlobalNavWithModalsAndDrawers extends Component<{}, State> {
 
 const customMode = modeGenerator({
   product: {
-    text: colors.N0,
-    background: colors.G500,
+    text: N0,
+    background: G500,
   },
 });
 

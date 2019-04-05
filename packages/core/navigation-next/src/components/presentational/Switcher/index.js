@@ -3,7 +3,8 @@ import React, { PureComponent, cloneElement, type ElementRef } from 'react';
 import NodeResolver from 'react-node-resolver';
 import shallowEqualObjects from 'shallow-equal/objects';
 import { components, PopupSelect, mergeStyles } from '@atlaskit/select';
-import { colors, gridSize as gridSizeFn } from '@atlaskit/theme';
+import { gridSize as gridSizeFn } from '@atlaskit/theme/constants';
+import { N30, B50, N40A, N200, B300 } from '@atlaskit/theme/colors';
 import AddIcon from '@atlaskit/icon/glyph/add';
 
 import {
@@ -25,7 +26,7 @@ const defaultStyles = {
       ...provided,
       alignItems: 'center',
       border: 'none',
-      backgroundColor: isFocused ? colors.N30 : 'transparent',
+      backgroundColor: isFocused ? N30 : 'transparent',
       boxSizing: 'border-box',
       color: 'inherit',
       cursor: 'default',
@@ -39,7 +40,7 @@ const defaultStyles = {
       textAlign: 'left',
       textDecoration: 'none',
       width: '100%',
-      ...(isActive && { backgroundColor: colors.B50 }),
+      ...(isActive && { backgroundColor: B50 }),
     };
   },
 };
@@ -75,7 +76,7 @@ export const Control = ({
   <div
     ref={innerRef}
     css={{
-      boxShadow: `0 2px 0 ${colors.N40A}`,
+      boxShadow: `0 2px 0 ${N40A}`,
       padding: gridSize,
       position: 'relative',
     }}
@@ -88,9 +89,9 @@ export const Footer = ({ text, onClick }: *) => (
     css={{
       background: 0,
       border: 0,
-      boxShadow: `0 -2px 0 ${colors.N40A}`,
+      boxShadow: `0 -2px 0 ${N40A}`,
       boxSizing: 'border-box',
-      color: colors.N200,
+      color: N200,
       cursor: 'pointer',
       alignItems: 'center',
       display: 'flex',
@@ -101,7 +102,7 @@ export const Footer = ({ text, onClick }: *) => (
       width: '100%',
 
       ':hover, :focus': {
-        color: colors.B300,
+        color: B300,
         outline: 0,
         textDecoration: 'underline',
       },

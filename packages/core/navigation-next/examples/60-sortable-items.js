@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import type { DropResult } from 'react-beautiful-dnd';
-import { colors } from '@atlaskit/theme';
+import { N20 } from '@atlaskit/theme/colors';
 
 import { SortableItem, SortableGroup, SortableContext } from '../src';
 import { CONTENT_NAV_WIDTH } from '../src/common/constants';
@@ -10,7 +10,7 @@ import { CONTENT_NAV_WIDTH } from '../src/common/constants';
 const SectionWrapper = (props: *) => (
   <div
     css={{
-      backgroundColor: colors.N20,
+      backgroundColor: N20,
       height: '100%',
       overflow: 'hidden',
       padding: '8px 16px',

@@ -7,7 +7,7 @@ import AddIcon from '@atlaskit/icon/glyph/add';
 import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import { JiraIcon } from '@atlaskit/logo';
-import { colors } from '@atlaskit/theme';
+import { N0, G500 } from '@atlaskit/theme/colors';
 
 import {
   GlobalNav,
@@ -68,8 +68,8 @@ const GlobalNavigation = makeTestComponent(
 
 const customThemeMode = modeGenerator({
   product: {
-    text: colors.N0,
-    background: colors.G500,
+    text: N0,
+    background: G500,
   },
 });
 

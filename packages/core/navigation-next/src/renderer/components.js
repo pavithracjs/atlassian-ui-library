@@ -6,7 +6,7 @@ import React, {
   type ElementConfig,
   type Node,
 } from 'react';
-import { gridSize as gridSizeFn } from '@atlaskit/theme';
+import { gridSize as gridSizeFn } from '@atlaskit/theme/constants';
 
 import { navigationItemClicked } from '../common/analytics';
 
