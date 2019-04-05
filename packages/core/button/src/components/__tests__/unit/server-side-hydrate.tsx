@@ -24,6 +24,7 @@ test('should ssr then hydrate button correctly', async () => {
 
   ReactDOM.hydrate(<Example />, elem);
   /* tslint:disable no-console */
+  // @ts-ignore
   const mockCalls = console.error.mock.calls[0];
   const mockCallsWithoutStyleErrors = mockCalls.filter(
     (call: string) => !warningRegEx.test(call),
