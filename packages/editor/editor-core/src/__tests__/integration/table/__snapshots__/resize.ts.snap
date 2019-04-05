@@ -1664,7 +1664,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  301,
+                  305,
                 ],
                 "defaultMarks": Array [
                   Object {
@@ -1675,26 +1675,34 @@ Object {
               },
               "content": Array [
                 Object {
-                  "attrs": Object {
-                    "extensionKey": "block-async-eh",
-                    "extensionType": "com.atlassian.confluence.macro.core",
-                    "layout": "default",
-                    "parameters": Object {
-                      "macroMetadata": Object {
-                        "placeholder": Array [
-                          Object {
-                            "data": Object {
-                              "url": "",
-                            },
-                            "type": "icon",
+                  "content": Array [
+                    Object {
+                      "attrs": Object {
+                        "extensionKey": "inline-async-eh",
+                        "extensionType": "com.atlassian.confluence.macro.core",
+                        "parameters": Object {
+                          "macroMetadata": Object {
+                            "placeholder": Array [
+                              Object {
+                                "data": Object {
+                                  "url": "",
+                                },
+                                "type": "icon",
+                              },
+                            ],
                           },
-                        ],
+                          "macroParams": Object {},
+                        },
+                        "text": "Inline extension demo",
                       },
-                      "macroParams": Object {},
+                      "type": "inlineExtension",
                     },
-                    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                  },
-                  "type": "extension",
+                    Object {
+                      "text": " ",
+                      "type": "text",
+                    },
+                  ],
+                  "type": "paragraph",
                 },
               ],
               "type": "tableHeader",
@@ -1704,7 +1712,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  151,
+                  147,
                 ],
                 "defaultMarks": Array [
                   Object {
@@ -1751,7 +1759,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  301,
+                  305,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -1768,7 +1776,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  151,
+                  147,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -1807,7 +1815,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  301,
+                  305,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -1824,7 +1832,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  151,
+                  147,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,

@@ -7,7 +7,7 @@ import CrossProductSearchClient, {
 } from '../../api/CrossProductSearchClient';
 import { Scope, ConfluenceItem, PersonItem } from '../../api/types';
 
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 import {
   AnalyticsType,
   ConfluenceObjectResult,

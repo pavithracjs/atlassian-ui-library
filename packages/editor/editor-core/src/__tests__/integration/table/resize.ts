@@ -224,7 +224,7 @@ BrowserTestCase(
 
     // Insert table
     await quickInsert(page, 'Table');
-    await quickInsert(page, 'Block async extension');
+    await quickInsert(page, 'Inline async extension');
 
     // InlineAsyncExtension changes the width of the extension after 2s
     await sleep(3000);

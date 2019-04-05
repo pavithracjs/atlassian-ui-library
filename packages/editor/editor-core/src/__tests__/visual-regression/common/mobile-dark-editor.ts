@@ -1,5 +1,5 @@
 import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
-import * as adf from './__fixtures__/with-content.json';
+import adf from './__fixtures__/with-content.json';
 import { Page } from '../../__helpers/page-objects/_types';
 
 describe('Snapshot Test: Mobile Dark Editor', () => {
