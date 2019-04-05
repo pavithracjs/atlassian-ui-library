@@ -24,20 +24,23 @@ describe('Snapshot Test: Media', () => {
       await page.mouse.move(-1, -1);
     });
 
-    it('renders selection ring around media (via up)', async () => {
-      await snapshot(page);
+    it('should renders selection ring around media (via up)', async () => {
       await pressKey(page, 'ArrowUp');
       await snapshot(page);
     });
 
-    it('renders selection ring around media (via gap cursor)', async () => {
+    it('should render right side gap cursor (via arrow left)', async () => {
       await pressKey(page, 'ArrowLeft');
       await snapshot(page);
+    });
 
-      await pressKey(page, 'ArrowLeft');
+    it('renders selection ring around media (via 2 arrow left)', async () => {
+      await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
       await snapshot(page);
+    });
 
-      await pressKey(page, 'ArrowLeft');
+    it('should render left side gap cursor ( via 3 arrow left)', async () => {
+      await pressKey(page, ['ArrowLeft', 'ArrowLeft', 'ArrowLeft']);
       await snapshot(page);
     });
   });
