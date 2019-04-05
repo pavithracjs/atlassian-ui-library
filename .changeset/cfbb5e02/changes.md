@@ -1,1 +1,0 @@
-- [ED-5505] Persists formatting to table cells and headers when toggling header row, column or applying any text formatting to empty cells.
