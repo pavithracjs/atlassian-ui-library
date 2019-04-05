@@ -56,7 +56,6 @@ export {
   toJSON as mediaSingleToJSON,
 } from './media-single';
 export {
-  tableHeaderDefaultMarks,
   table,
   TableAttributes,
   tableToJSON,

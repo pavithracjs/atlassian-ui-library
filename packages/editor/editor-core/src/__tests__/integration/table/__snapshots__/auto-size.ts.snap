@@ -17,13 +17,9 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  288,
+                  290,
                 ],
-                "defaultMarks": Array [
-                  Object {
-                    "type": "strong",
-                  },
-                ],
+                "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [
@@ -44,13 +40,9 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  103,
+                  98,
                 ],
-                "defaultMarks": Array [
-                  Object {
-                    "type": "strong",
-                  },
-                ],
+                "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [
@@ -65,13 +57,9 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  288,
+                  290,
                 ],
-                "defaultMarks": Array [
-                  Object {
-                    "type": "strong",
-                  },
-                ],
+                "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [
@@ -97,7 +85,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  288,
+                  290,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -114,7 +102,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  103,
+                  98,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -145,7 +133,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  288,
+                  290,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -167,7 +155,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  288,
+                  290,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -184,7 +172,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  103,
+                  98,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -201,7 +189,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  288,
+                  290,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -241,13 +229,9 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  600,
+                  628,
                 ],
-                "defaultMarks": Array [
-                  Object {
-                    "type": "strong",
-                  },
-                ],
+                "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [
@@ -268,13 +252,9 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  600,
+                  585,
                 ],
-                "defaultMarks": Array [
-                  Object {
-                    "type": "strong",
-                  },
-                ],
+                "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [
@@ -289,13 +269,9 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  600,
+                  585,
                 ],
-                "defaultMarks": Array [
-                  Object {
-                    "type": "strong",
-                  },
-                ],
+                "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [
@@ -315,7 +291,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  600,
+                  628,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -332,7 +308,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  600,
+                  585,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -355,7 +331,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  600,
+                  585,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -377,7 +353,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  600,
+                  628,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -394,7 +370,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  600,
+                  585,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -411,7 +387,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  600,
+                  585,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -457,13 +433,9 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  440,
+                  442,
                 ],
-                "defaultMarks": Array [
-                  Object {
-                    "type": "strong",
-                  },
-                ],
+                "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [
@@ -484,13 +456,9 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  78,
+                  74,
                 ],
-                "defaultMarks": Array [
-                  Object {
-                    "type": "strong",
-                  },
-                ],
+                "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [
@@ -505,13 +473,9 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  440,
+                  442,
                 ],
-                "defaultMarks": Array [
-                  Object {
-                    "type": "strong",
-                  },
-                ],
+                "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [
@@ -537,7 +501,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  440,
+                  442,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -554,7 +518,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  78,
+                  74,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -585,7 +549,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  440,
+                  442,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -607,7 +571,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  440,
+                  442,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -624,7 +588,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  78,
+                  74,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,
@@ -641,7 +605,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": Array [
-                  440,
+                  442,
                 ],
                 "defaultMarks": null,
                 "rowspan": 1,

@@ -312,22 +312,12 @@ export const tableCell = {
   },
 };
 
-export const tableHeaderDefaultMarks = [{ type: 'strong' }];
-
 export const toJSONTableCell = (node: PmNode) => ({
   attrs: (Object.keys(node.attrs) as Array<keyof CellAttributes>).reduce<
     Record<string, any>
   >((obj, key) => {
     if (cellAttrs[key].default !== node.attrs[key]) {
       obj[key] = node.attrs[key];
-    }
-
-    if (
-      key === 'defaultMarks' &&
-      node.type.name === 'tableHeader' &&
-      obj[key] === tableHeaderDefaultMarks
-    ) {
-      delete obj[key];
     }
 
     return obj;
@@ -337,10 +327,7 @@ export const toJSONTableCell = (node: PmNode) => ({
 export const tableHeader = {
   content:
     '(paragraph | panel | blockquote | orderedList | bulletList | rule | heading | codeBlock | mediaGroup | mediaSingle  | applicationCard | decisionList | taskList | blockCard | extension)+',
-  attrs: {
-    ...cellAttrs,
-    defaultMarks: { default: tableHeaderDefaultMarks },
-  },
+  attrs: cellAttrs,
   tableRole: 'header_cell',
   isolating: true,
   marks: 'alignment',
