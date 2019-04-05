@@ -30,6 +30,8 @@ import {
   version as packageVersion,
 } from '../version.json';
 
+const DRAG_THRESHOLD = 5;
+
 interface State {
   onReadViewHover: boolean;
   wasFocusReceivedSinceLastBlur: boolean;
@@ -59,6 +61,9 @@ class InlineEditUncontrolled extends React.Component<
   confirmButtonRef?: HTMLElement;
   cancelButtonRef?: HTMLElement;
   editButtonRef?: HTMLElement;
+
+  startX: number = 0;
+  startY: number = 0;
 
   state = {
     onReadViewHover: false,
@@ -95,10 +100,18 @@ class InlineEditUncontrolled extends React.Component<
   ) => {
     const element = event.target as HTMLElement;
     /** If a link is clicked in the read view, default action should be taken */
-    if (element.tagName.toLowerCase() !== 'a') {
+    if (element.tagName.toLowerCase() !== 'a' && !this.mouseHasMoved(event)) {
       event.preventDefault();
       this.props.onEditRequested();
     }
+    this.setState({ preventFocusOnEditButton: true });
+  };
+
+  mouseHasMoved = (event: { clientX: number; clientY: number }) => {
+    return (
+      Math.abs(this.startX - event.clientX) >= DRAG_THRESHOLD ||
+      Math.abs(this.startY - event.clientY) >= DRAG_THRESHOLD
+    );
   };
 
   /** Unless keepEditViewOpenOnBlur prop is true, will call confirmIfUnfocused() which
@@ -156,9 +169,10 @@ class InlineEditUncontrolled extends React.Component<
         <ReadViewContentWrapper
           onMouseEnter={() => this.setState({ onReadViewHover: true })}
           onMouseLeave={() => this.setState({ onReadViewHover: false })}
-          onClick={e => {
-            this.onReadViewClick(e);
-            this.setState({ preventFocusOnEditButton: true });
+          onClick={this.onReadViewClick}
+          onMouseDown={e => {
+            this.startX = e.clientX;
+            this.startY = e.clientY;
           }}
           readViewFitContainerWidth={readViewFitContainerWidth}
         >
