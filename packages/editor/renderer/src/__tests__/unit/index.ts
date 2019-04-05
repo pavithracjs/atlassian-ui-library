@@ -1,4 +1,4 @@
-import * as assert from 'assert';
+import assert from 'assert';
 import * as sinon from 'sinon';
 import { renderDocument, Serializer } from '../../index';
 import { defaultSchema as schema } from '@atlaskit/adf-schema';

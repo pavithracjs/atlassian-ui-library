@@ -1,5 +1,5 @@
 import { initFullPageEditorWithAdf, Device, snapshot } from '../_utils';
-import * as adf from './__fixtures__/column3-adf.json';
+import adf from './__fixtures__/column3-adf.json';
 import { Page } from '../../__helpers/page-objects/_types';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
 import {

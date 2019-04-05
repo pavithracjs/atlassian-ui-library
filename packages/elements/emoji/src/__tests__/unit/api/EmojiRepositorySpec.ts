@@ -1,4 +1,4 @@
-import * as pWaitFor from 'p-wait-for';
+import pWaitFor from 'p-wait-for';
 import EmojiRepository, {
   getEmojiVariation,
 } from '../../../api/EmojiRepository';

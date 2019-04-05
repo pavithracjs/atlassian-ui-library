@@ -19,7 +19,7 @@ import {
   generateRandomJiraFilter,
   generateRandomJiraProject,
 } from './mockJira';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 
 const DUMMY_BASE_URL = 'http://localhost';
 

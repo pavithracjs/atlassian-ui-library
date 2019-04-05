@@ -8,7 +8,7 @@
  */
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { emoji } from '@atlaskit/util-data-test';
-import * as Ajv from 'ajv';
+import Ajv from 'ajv';
 import * as React from 'react';
 import { ChangeEvent, PureComponent } from 'react';
 

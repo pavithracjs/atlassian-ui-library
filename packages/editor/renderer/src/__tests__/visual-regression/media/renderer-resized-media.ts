@@ -5,7 +5,7 @@ import {
   mountRenderer,
   goToRendererTestingExample,
 } from '../_utils';
-import * as adf from '../../../../examples/helper/media-resize-layout.adf.json';
+import adf from '../../../../examples/helper/media-resize-layout.adf.json';
 import { selectors as mediaSelectors } from '../../__helpers/page-objects/_media';
 import { selectors as rendererSelectors } from '../../__helpers/page-objects/_renderer';
 import { Page } from 'puppeteer';

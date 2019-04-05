@@ -24,7 +24,7 @@
     "@atlaskit/mention": "^17.1.1",
     "@atlaskit/smart-card": "^10.0.1",
     "@atlaskit/status": "^0.8.0",
-    "@atlaskit/task-decision": "^14.0.2",
+    "@atlaskit/task-decision": "^14.0.1",
     "@atlaskit/theme": "^8.0.1",
     "juice": "^5.2.0",
     "prosemirror-model": "^1.7.0",
