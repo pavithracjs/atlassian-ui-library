@@ -1,1 +1,1 @@
-- Removed CardView and CardViewLoader from public APIs and replaced it with static CardLoading and CardError
+- Removed CardView and CardViewLoader from public APIs and replaced it with static CardLoading and CardError. Handling of external images is now done by Card itself using ExternalImageIdentifier objects.
