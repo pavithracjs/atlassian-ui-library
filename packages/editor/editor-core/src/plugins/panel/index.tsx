@@ -73,7 +73,7 @@ const panelPlugin: EditorPlugin = {
       {
         title: formatMessage(messages.infoPanel),
         description: formatMessage(messages.infoPanelDescription),
-        keywords: ['info'],
+        keywords: ['info', 'panel'],
         priority: 900,
         icon: () => <IconPanel label={formatMessage(messages.infoPanel)} />,
         action(insert, state) {
