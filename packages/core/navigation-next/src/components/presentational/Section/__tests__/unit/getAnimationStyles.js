@@ -29,16 +29,19 @@ describe('Navigation Next: getAnimationStyles', () => {
         traversalDirection: 'down',
       });
       const up = getAnimationStyles(commonTransitionalEnteringStyles);
-      expect(up.animationName !== down.animationName).toBe(true);
+      // $FlowFixMe
+      expect(up.styles !== down.styles).toBe(true);
     });
 
     it('should add the specific styles for the animation', () => {
       expect(
-        getAnimationStyles(commonTransitionalEnteringStyles),
-      ).toMatchObject({
-        position: 'absolute',
-        width: '100%',
-      });
+        // $FlowFixMe
+        getAnimationStyles(commonTransitionalEnteringStyles).styles,
+      ).toContain('position:absolute');
+      expect(
+        // $FlowFixMe
+        getAnimationStyles(commonTransitionalEnteringStyles).styles,
+      ).toContain('width:100%');
     });
   });
 
@@ -49,7 +52,8 @@ describe('Navigation Next: getAnimationStyles', () => {
         traversalDirection: 'down',
       });
       const up = getAnimationStyles(commonTransitionalExitingStyles);
-      expect(up.animationName !== down.animationName).toBe(true);
+      // $FlowFixMe
+      expect(up.styles !== down.styles).toBe(true);
     });
   });
 });

@@ -1,5 +1,10 @@
 # @atlaskit/emoji
 
+## 59.1.1
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 59.1.0
 - [minor] [ce6fec11a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce6fec11a3):
 

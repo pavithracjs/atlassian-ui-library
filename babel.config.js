@@ -8,14 +8,21 @@ module.exports = {
   ],
   presets: ['@babel/react', '@babel/flow'],
   overrides: [
+    /**
+     * REMOVE ME: This override is needed to make sure that we only run the emotion's
+     * babel plugin on components that need it. Without it every component will
+     * have emotion included in their bundle.
+     * Ticket: https://ecosystem.atlassian.net/browse/AK-6065
+     */
     {
       test: [
         './packages/core/navigation-next',
         './packages/core/drawer',
         './packages/core/global-navigation',
+        './packages/core/textfield',
         './packages/core/select',
       ],
-      plugins: [['emotion', { hoist: true }]],
+      presets: ['@emotion/babel-preset-css-prop'],
     },
   ],
   env: {

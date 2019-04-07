@@ -1,5 +1,5 @@
 import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
-import * as adf from '../common/__fixtures__/noData-adf.json';
+import adf from '../common/__fixtures__/noData-adf.json';
 import {
   deleteColumn,
   resizeColumn,

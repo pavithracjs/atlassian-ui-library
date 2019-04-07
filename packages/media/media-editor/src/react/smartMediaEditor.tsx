@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { v4 as uuid } from 'uuid';
+import uuidV4 from 'uuid/v4';
 import { Subscription } from 'rxjs/Subscription';
 import {
   intlShape,
@@ -164,7 +164,7 @@ export class SmartMediaEditor extends React.Component<
       const destination = {
         collection: 'recents',
         authProvider: userAuthProvider,
-        occurrenceKey: uuid(),
+        occurrenceKey: uuidV4(),
       };
       await file.copyFile(source, destination);
     }
@@ -186,8 +186,8 @@ export class SmartMediaEditor extends React.Component<
       collection: collectionName,
       name: convertFileNameToPng(fileName),
     };
-    const id = uuid();
-    const occurrenceKey = uuid();
+    const id = uuidV4();
+    const occurrenceKey = uuidV4();
     const touchedFiles = context.file.touchFiles(
       [
         {

@@ -13,7 +13,7 @@ const messages = defineMessages({
   },
   switchToTooltip: {
     id: 'fabric.atlassianSwitcher.switchToTooltip',
-    defaultMessage: 'Switch to …',
+    defaultMessage: 'Switch to…',
     description:
       'This text appears as a tooltip when a user hovers over the atlassian switcher icon before clicking on it.',
   },

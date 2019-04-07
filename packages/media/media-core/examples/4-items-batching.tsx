@@ -8,7 +8,7 @@ import {
   defaultCollectionName,
   animatedFileId,
 } from '@atlaskit/media-test-helpers';
-import * as uuid from 'uuid';
+import uuid from 'uuid';
 import { FileState } from '../src';
 import { FileStateWrapper } from '../example-helpers/styled';
 

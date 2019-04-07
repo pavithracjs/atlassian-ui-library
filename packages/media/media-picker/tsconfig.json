@@ -14,10 +14,6 @@
   ],
   "compilerOptions": {
     "baseUrl": "./",
-    "paths": {
-      "@atlaskit/analytics-next": [
-        "node_modules/@atlaskit/analytics-next-types"
-      ]
-    }
+    
   }
 }
