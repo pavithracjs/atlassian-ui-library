@@ -1,15 +1,23 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
+
 import { MediaType } from '@atlaskit/adf-schema';
 import { Card, CardEvent } from '@atlaskit/media-card';
-import { MediaCard, MediaCardInternal } from '../../../../ui/MediaCard';
-import Media from '../../../../react/nodes/media';
+import { sleep } from '@atlaskit/media-test-helpers';
+
 import {
   FileIdentifier,
   ExternalImageIdentifier,
   ContextFactory,
 } from '@atlaskit/media-core';
-import { sleep } from '@atlaskit/media-test-helpers';
+
+import Media from '../../../../react/nodes/media';
+import {
+  MediaCard,
+  MediaCardInternal,
+  getListOfIdentifiersFromDoc,
+} from '../../../../ui/MediaCard';
+import * as doc from '../../../../../examples/helper/media-layout.adf.json';
 
 describe('Media', () => {
   const mediaNode = {
@@ -307,6 +315,188 @@ describe('Media', () => {
         mediaFileCard1.unmount();
         mediaExternalCard0.unmount();
       });
+    });
+  });
+
+  describe.only('#getListOfIdentifiersFromDoc()', () => {
+    const external0 = {
+      dataURI:
+        'https://wac-cdn.atlassian.com/assets/img/favicons/atlassian/apple-touch-icon-152x152.png',
+      mediaItemType: 'external-image',
+      name:
+        'https://wac-cdn.atlassian.com/assets/img/favicons/atlassian/apple-touch-icon-152x152.png',
+    };
+    const external1 = {
+      dataURI:
+        'https://images.unsplash.com/photo-1553526665-dbfe3e8a6fcc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80',
+      mediaItemType: 'external-image',
+      name:
+        'https://images.unsplash.com/photo-1553526665-dbfe3e8a6fcc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80',
+    };
+    const file0 = {
+      id: '2aa22582-ca0e-4bd4-b1bc-9369d10a0719',
+      mediaItemType: 'file',
+    };
+    const file1 = {
+      id: 'eff24b3b-fe78-4787-805e-492b28991232',
+      mediaItemType: 'file',
+    };
+
+    it('should return empty array if nothing is found', () => {
+      expect(getListOfIdentifiersFromDoc({ ...doc, content: [] })).toEqual([]);
+    });
+
+    it('should transform both external images and files', () => {
+      expect(getListOfIdentifiersFromDoc(doc)).toEqual(
+        expect.arrayContaining([external0, external1, file0, file1]),
+      );
+    });
+
+    it("should not explode if node doesn't have attrs", () => {
+      expect(
+        getListOfIdentifiersFromDoc({
+          type: 'doc',
+          version: 1,
+          content: [
+            {
+              type: 'mediaSingle',
+              attrs: {
+                layout: 'center',
+              },
+              content: [
+                {
+                  type: 'media',
+                  attrs: {
+                    type: 'external',
+                    width: 152,
+                    height: 152,
+                  },
+                },
+              ],
+            },
+            {
+              type: 'mediaSingle',
+              attrs: {
+                layout: 'full-width',
+              },
+              content: [
+                {
+                  type: 'media',
+                  attrs: {
+                    id: '2aa22582-ca0e-4bd4-b1bc-9369d10a0719',
+                    type: 'file',
+                    collection: 'MediaServicesSample',
+                    width: 5845,
+                    height: 1243,
+                  },
+                },
+              ],
+            },
+            {
+              type: 'mediaSingle',
+              attrs: {
+                layout: 'wrap-left',
+              },
+              content: [
+                {
+                  type: 'media',
+                  attrs: {
+                    type: 'external',
+                    url:
+                      'https://images.unsplash.com/photo-1553526665-dbfe3e8a6fcc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80',
+                  },
+                },
+              ],
+            },
+            {
+              type: 'mediaSingle',
+              attrs: {
+                layout: 'wrap-left',
+              },
+              content: [
+                {
+                  type: 'media',
+                  attrs: {},
+                },
+              ],
+            },
+          ],
+        }),
+      ).toEqual([file0, external1]);
+    });
+
+    it("should not explode if node attrs don't have urls", () => {
+      expect(
+        getListOfIdentifiersFromDoc({
+          type: 'doc',
+          version: 1,
+          content: [
+            {
+              type: 'mediaSingle',
+              attrs: {
+                layout: 'center',
+              },
+              content: [
+                {
+                  type: 'media',
+                  attrs: {},
+                },
+              ],
+            },
+            {
+              type: 'mediaSingle',
+              attrs: {
+                layout: 'full-width',
+              },
+              content: [
+                {
+                  type: 'media',
+                  attrs: {
+                    id: '2aa22582-ca0e-4bd4-b1bc-9369d10a0719',
+                    type: 'file',
+                    collection: 'MediaServicesSample',
+                    width: 5845,
+                    height: 1243,
+                  },
+                },
+              ],
+            },
+            {
+              type: 'mediaSingle',
+              attrs: {
+                layout: 'wrap-left',
+              },
+              content: [
+                {
+                  type: 'media',
+                  attrs: {
+                    type: 'external',
+                    url:
+                      'https://images.unsplash.com/photo-1553526665-dbfe3e8a6fcc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80',
+                  },
+                },
+              ],
+            },
+            {
+              type: 'mediaSingle',
+              attrs: {
+                layout: 'wrap-left',
+              },
+              content: [
+                {
+                  type: 'media',
+                  attrs: {
+                    type: 'file',
+                    collection: 'MediaServicesSample',
+                    width: 6000,
+                    height: 4000,
+                  },
+                },
+              ],
+            },
+          ],
+        }),
+      ).toEqual([file0, external1]);
     });
   });
 });

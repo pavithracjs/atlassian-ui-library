@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 
-import { filter } from '@atlaskit/adf-utils';
+import { filter, ADFEntity } from '@atlaskit/adf-utils';
 import {
   CardAppearance,
   CardDimensions,
@@ -60,6 +60,31 @@ export interface State {
 
 const mediaIdentifierMap: Map<string, Identifier> = new Map();
 
+export const getListOfIdentifiersFromDoc = (doc: ADFEntity) => {
+  return filter(doc, node => node.type === 'media').reduce(
+    (identifierList: Identifier[], mediaNode) => {
+      if (mediaNode.attrs) {
+        const { type, url: dataURI, id } = mediaNode.attrs;
+
+        if (type === 'file' && id) {
+          identifierList.push({
+            mediaItemType: 'file',
+            id,
+          });
+        } else if (type === 'external' && dataURI) {
+          identifierList.push({
+            mediaItemType: 'external-image',
+            dataURI,
+            name: dataURI,
+          });
+        }
+      }
+      return identifierList;
+    },
+    [],
+  );
+};
+
 export class MediaCardInternal extends Component<MediaCardProps, State> {
   state: State = {};
 
@@ -85,27 +110,16 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
       ((thisId && !mediaIdentifierMap.has(thisId)) ||
         (thisUrl && !mediaIdentifierMap.has(thisUrl)))
     ) {
-      filter(rendererContext.adDoc, node => node.type === 'media').forEach(
-        mediaNode => {
-          if (mediaNode.attrs) {
-            const { type, url: dataURI, id } = mediaNode.attrs;
-
-            if (type === 'file' && id) {
-              mediaIdentifierMap.set(id, {
-                mediaItemType: 'file',
-                id,
-                collectionName,
-              });
-            } else if (type === 'external' && dataURI) {
-              mediaIdentifierMap.set(dataURI, {
-                mediaItemType: 'external-image',
-                dataURI,
-                name: dataURI,
-              });
-            }
-          }
-        },
-      );
+      getListOfIdentifiersFromDoc(rendererContext.adDoc).forEach(identifier => {
+        if (identifier.mediaItemType === 'file') {
+          mediaIdentifierMap.set(identifier.id as string, {
+            ...identifier,
+            collectionName,
+          });
+        } else if (identifier.mediaItemType === 'external-image') {
+          mediaIdentifierMap.set(identifier.dataURI as string, identifier);
+        }
+      });
     }
 
     this.setState({
