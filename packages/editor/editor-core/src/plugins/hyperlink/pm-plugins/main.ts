@@ -180,9 +180,13 @@ const getActiveText = (
 
   if (
     currentSlice.content.childCount === 1 &&
-    [schema.nodes.paragraph, schema.nodes.text].indexOf(
-      currentSlice.content.firstChild!.type,
-    ) !== -1
+    [
+      schema.nodes.text,
+      schema.nodes.paragraph,
+      schema.nodes.heading,
+      schema.nodes.taskItem,
+      schema.nodes.decisionItem,
+    ].indexOf(currentSlice.content.firstChild!.type) !== -1
   ) {
     return currentSlice.content.firstChild!.textContent;
   }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { withAnalytics, FireAnalyticsEvent } from '@atlaskit/analytics';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 import GlobalQuickSearch from '../GlobalQuickSearch';
 import { RecentSearchClient } from '../../api/RecentSearchClient';
 import { CrossProductSearchClient } from '../../api/CrossProductSearchClient';
@@ -115,7 +115,7 @@ export class HomeQuickSearchContainer extends React.Component<Props, State> {
   }
 
   handleSearchErrorAnalytics(source: string) {
-    return error => {
+    return (error: Error) => {
       const { firePrivateAnalyticsEvent } = this.props;
 
       if (firePrivateAnalyticsEvent) {

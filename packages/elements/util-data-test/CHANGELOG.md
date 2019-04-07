@@ -1,5 +1,24 @@
 # @atlaskit/util-data-test
 
+## 11.1.6
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 11.1.5
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/emoji@59.0.0
+  - @atlaskit/task-decision@14.0.1
+
+## 11.1.4
+- Updated dependencies [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
+  - @atlaskit/task-decision@14.0.0
+
+## 11.1.3
+- [patch] [1affe17dc4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1affe17dc4):
+
+  - add analytics events for team mention
+
 ## 11.1.2
 - [patch] [5ca3696b14](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ca3696b14):
 

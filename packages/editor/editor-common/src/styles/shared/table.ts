@@ -81,7 +81,6 @@ const tableSharedStyle = css`
       th,
       td {
         min-width: ${tableCellMinWidth}px;
-        height: 3em;
         vertical-align: top;
         border: 1px solid ${themed({
           light: akEditorTableBorder,
@@ -89,7 +88,7 @@ const tableSharedStyle = css`
         })};
         border-right-width: 0;
         border-bottom-width: 0;
-        padding: 10px;
+        padding: 8px;
         /* https://stackoverflow.com/questions/7517127/borders-not-shown-in-firefox-with-border-collapse-on-table-position-relative-o */
         background-clip: padding-box;
 

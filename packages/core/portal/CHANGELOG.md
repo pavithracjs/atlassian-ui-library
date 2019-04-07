@@ -1,5 +1,15 @@
 # @atlaskit/portal
 
+## 0.3.0
+- [minor] [ce4e1b4780](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce4e1b4780):
+
+  - zIndex prop now accepts string and number values. Portal consumers can now use css values like "unset" if needed.
+
+## 0.2.2
+- [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
+
+  - Removes duplicate babel-runtime dependency
+
 ## 0.2.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

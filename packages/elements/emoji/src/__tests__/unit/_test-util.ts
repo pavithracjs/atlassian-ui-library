@@ -1,4 +1,4 @@
-import { isPromise } from '../../type-helpers';
+import { isPromise } from '../../util/type-helpers';
 
 export const alwaysPromise = <T>(maybePromise: Promise<T> | T): Promise<T> => {
   if (isPromise(maybePromise)) {

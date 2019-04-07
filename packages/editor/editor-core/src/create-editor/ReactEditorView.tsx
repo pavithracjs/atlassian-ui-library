@@ -5,9 +5,13 @@ import { EditorView, DirectEditorProps } from 'prosemirror-view';
 import { Node as PMNode } from 'prosemirror-model';
 import { intlShape } from 'react-intl';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
-import { ProviderFactory, Transformer } from '@atlaskit/editor-common';
+import {
+  ProviderFactory,
+  Transformer,
+  ErrorReporter,
+} from '@atlaskit/editor-common';
 
-import { EventDispatcher, createDispatch } from '../event-dispatcher';
+import { EventDispatcher, createDispatch, Dispatch } from '../event-dispatcher';
 import { processRawValue } from '../utils';
 import { findChangedNodesFromTransaction, validateNodes } from '../utils/nodes';
 import createPluginList from './create-plugins-list';
@@ -16,6 +20,7 @@ import {
   fireAnalyticsEvent,
   AnalyticsDispatch,
   AnalyticsEventPayload,
+  DispatchAnalyticsEvent,
 } from '../plugins/analytics';
 import { EditorProps, EditorConfig, EditorPlugin } from '../types';
 import { PortalProviderAPI } from '../ui/PortalProvider';
@@ -40,6 +45,7 @@ export interface EditorViewProps {
   providerFactory: ProviderFactory;
   portalProviderAPI: PortalProviderAPI;
   allowAnalyticsGASV3?: boolean;
+  fullWidthMode?: boolean;
   render?: (
     props: {
       editor: JSX.Element;
@@ -47,7 +53,7 @@ export interface EditorViewProps {
       config: EditorConfig;
       eventDispatcher: EventDispatcher;
       transformer?: Transformer<string>;
-      dispatchAnalyticsEvent: (payload: AnalyticsEventPayload) => void;
+      dispatchAnalyticsEvent: DispatchAnalyticsEvent;
     },
   ) => JSX.Element;
   onEditorCreated: (
@@ -76,6 +82,9 @@ export default class ReactEditorView<T = {}> extends React.Component<
   contentTransformer?: Transformer<string>;
   config: EditorConfig;
   editorState: EditorState;
+  errorReporter: ErrorReporter;
+  dispatch: Dispatch;
+  mountPoint: HTMLDivElement;
   analyticsEventHandler: (
     payloadChannel: { payload: AnalyticsEventPayload; channel?: string },
   ) => void;
@@ -147,7 +156,50 @@ export default class ReactEditorView<T = {}> extends React.Component<
         this.activateAnalytics(nextProps.createAnalyticsEvent); // Activate the new one
       }
     }
+
+    if (
+      nextProps.editorProps.fullWidthMode !==
+        this.props.editorProps.fullWidthMode &&
+      this.view
+    ) {
+      this.reconfigureState(nextProps);
+      this.recreateEditor(this.mountPoint);
+    }
   }
+
+  reconfigureState = (props: EditorViewProps) => {
+    if (!this.view) {
+      return;
+    }
+
+    this.config = processPluginsList(
+      this.getPlugins(props.editorProps, props.createAnalyticsEvent),
+      props.editorProps,
+    );
+
+    const state = this.editorState;
+    const plugins = createPMPlugins({
+      schema: state.schema,
+      dispatch: this.dispatch,
+      errorReporter: this.errorReporter,
+      editorConfig: this.config,
+      props: props.editorProps,
+      eventDispatcher: this.eventDispatcher,
+      providerFactory: props.providerFactory,
+      portalProviderAPI: props.portalProviderAPI,
+      reactContext: () => this.context,
+      dispatchAnalyticsEvent: this.dispatchAnalyticsEvent,
+    });
+
+    const newState = EditorState.create({
+      schema: state.schema,
+      plugins,
+      doc: state.doc,
+      selection: state.selection,
+    });
+
+    this.editorState = newState;
+  };
 
   /**
    * Deactivate analytics event handler, if exist any.
@@ -231,19 +283,20 @@ export default class ReactEditorView<T = {}> extends React.Component<
     } = options.props.editorProps;
 
     this.eventDispatcher = new EventDispatcher();
-    const dispatch = createDispatch(this.eventDispatcher);
-    const errorReporter = createErrorReporter(errorReporterHandler);
+    this.dispatch = createDispatch(this.eventDispatcher);
+    this.errorReporter = createErrorReporter(errorReporterHandler);
 
     const plugins = createPMPlugins({
       schema,
-      dispatch,
-      errorReporter,
+      dispatch: this.dispatch,
+      errorReporter: this.errorReporter,
       editorConfig: this.config,
       props: options.props.editorProps,
       eventDispatcher: this.eventDispatcher,
       providerFactory: options.props.providerFactory,
       portalProviderAPI: this.props.portalProviderAPI,
       reactContext: () => this.context,
+      dispatchAnalyticsEvent: this.dispatchAnalyticsEvent,
     });
 
     this.contentTransformer = contentTransformerProvider
@@ -279,6 +332,9 @@ export default class ReactEditorView<T = {}> extends React.Component<
   };
 
   createEditorView = (node: HTMLDivElement) => {
+    if (!this.mountPoint) {
+      this.mountPoint = node;
+    }
     // Creates the editor-view from this.editorState. If an editor has been mounted
     // previously, this will contain the previous state of the editor.
     this.view = new EditorView(
@@ -332,13 +388,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
 
   handleEditorViewRef = (node: HTMLDivElement) => {
     if (!this.view && node) {
-      this.createEditorView(node);
-      this.props.onEditorCreated({
-        view: this.view!,
-        config: this.config,
-        eventDispatcher: this.eventDispatcher,
-        transformer: this.contentTransformer,
-      });
+      this.recreateEditor(node);
 
       // Set the state of the EditorDisabled plugin to the current value
       this.broadcastDisabled(!!this.props.editorProps.disabled);
@@ -358,6 +408,25 @@ export default class ReactEditorView<T = {}> extends React.Component<
       this.view.destroy(); // Destroys the dom node & all node views
       this.view = undefined;
     }
+  };
+
+  /**
+   * Generic function to destroy the current `EditorView` if one exists
+   * Then re-create the view onto the specified `mountPoint`.
+   */
+  recreateEditor = (mountPoint: HTMLDivElement) => {
+    if (this.view) {
+      this.view.destroy();
+      this.view = undefined;
+    }
+
+    this.createEditorView(mountPoint);
+    this.props.onEditorCreated({
+      view: this.view!,
+      config: this.config,
+      eventDispatcher: this.eventDispatcher,
+      transformer: this.contentTransformer,
+    });
   };
 
   dispatchAnalyticsEvent = (payload: AnalyticsEventPayload): void => {

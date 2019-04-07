@@ -13,7 +13,7 @@ const messages = defineMessages({
   },
   switchToTooltip: {
     id: 'fabric.atlassianSwitcher.switchToTooltip',
-    defaultMessage: 'Switch to …',
+    defaultMessage: 'Switch to…',
     description:
       'This text appears as a tooltip when a user hovers over the atlassian switcher icon before clicking on it.',
   },
@@ -89,6 +89,12 @@ const messages = defineMessages({
     defaultMessage: 'A broken robot and a number of people busy fixing it.',
     description:
       'Text displayed as alt text when an error occurs in the Atlassian Switcher',
+  },
+  expand: {
+    id: 'fabric.atlassianSwitcher.expand',
+    defaultMessage: 'Expand',
+    description:
+      'The text of a link redirecting the user to the Atlassian start page',
   },
 });
 

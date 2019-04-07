@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedHTMLMessage } from 'react-intl';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 import { shallowWithIntl } from '../helpers/_intl-enzyme-test-helper';
 import {
   JiraQuickSearchContainer,
@@ -55,6 +55,12 @@ const boards = [
 ];
 const spaceResults = [makeConfluenceContainerResult()];
 const recentlyInteractedPeople = [makePersonResult()];
+
+const abTest = {
+  experimentId: 'test-experiement-id',
+  abTestId: 'test-abtest-id',
+  controlId: 'test-control-id',
+};
 
 const logger = mockLogger();
 const createAnalyticsEventSpy = jest.fn();
@@ -162,7 +168,7 @@ const assertAdvancedSearchGroup = (product: Product, element: JSX.Element) => {
 
 const getSearchAndRecentItems = (
   product: Product,
-  sessionId,
+  sessionId: string,
   extraProps = {},
 ): SearchResultProps => {
   const commonProps = {
@@ -186,6 +192,7 @@ const getSearchAndRecentItems = (
         containers: [],
         people: recentlyInteractedPeople,
       },
+      abTest,
     };
   }
   return {
@@ -200,6 +207,7 @@ const getSearchAndRecentItems = (
       spaces: [],
       people: recentlyInteractedPeople,
     },
+    abTest,
   };
 };
 
@@ -285,8 +293,13 @@ const getPreqQueryResults = (product: Product) =>
 
 (['confluence', 'jira'] as Array<Product>).forEach((product: Product) => {
   describe(`${product} SearchResultsComponent`, () => {
-    let searchResultsComponent;
-    let getAdvancedSearchUrlSpy;
+    let searchResultsComponent: React.ReactNode;
+    let getAdvancedSearchUrlSpy: jest.SpyInstance<
+      (
+        entityType: SearchResultUtils.JiraEntityTypes,
+        query?: string | undefined,
+      ) => string
+    >;
     const wrapper = renderComponent(product);
     const getProps = (): SearchResultsComponentProps => {
       const { props = {} as SearchResultsComponentProps } =
@@ -296,7 +309,7 @@ const getPreqQueryResults = (product: Product) =>
       return props as SearchResultsComponentProps;
     };
 
-    let sessionId;
+    let sessionId: string;
     beforeEach(() => {
       sessionId = uuid();
       getAdvancedSearchUrlSpy = jest.spyOn(

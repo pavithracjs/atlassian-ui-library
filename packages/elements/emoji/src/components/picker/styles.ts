@@ -6,11 +6,11 @@ import {
   emojiFooterBoxShadow,
   emojiPickerBorderColor,
   emojiPickerBoxShadow,
-} from '../../shared-styles';
+} from '../../util/shared-styles';
 
 import { emojiSprite, placeholder, emojiNode } from '../common/styles';
 
-import { emojiPickerHeight, emojiPickerWidth } from '../../constants';
+import { emojiPickerHeight, emojiPickerWidth } from '../../util/constants';
 
 export const active = 'emoji-picker-active';
 export const disable = 'emoji-picker-disable';

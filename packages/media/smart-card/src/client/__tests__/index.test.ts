@@ -1,6 +1,5 @@
-import 'whatwg-fetch';
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 import { Client, ResolveResponse } from '../..';
 import { ObjectState, DefinedState, RemoteResourceAuthConfig } from '../types';
 import { v4 } from 'uuid';

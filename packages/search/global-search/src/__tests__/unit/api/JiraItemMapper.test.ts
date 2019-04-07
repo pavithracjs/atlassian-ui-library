@@ -166,7 +166,7 @@ describe('mapJiraItemToResult', () => {
   });
 
   describe('mapJiraItemToResult with addSessionIdToJiraResult param', () => {
-    let issue;
+    let issue: JiraItemV2;
     beforeEach(() => {
       issue = {
         id: 'issue-id',
@@ -183,7 +183,7 @@ describe('mapJiraItemToResult', () => {
               'https://product-fabric.atlassian.net/images/icons/issuetypes/story.svg',
           },
         },
-      } as JiraItemV2;
+      };
     });
     it('should add query params when addSessionIdToJiraResult is true', () => {
       const result = mapJiraItemToResult(issue, sessionId, true);

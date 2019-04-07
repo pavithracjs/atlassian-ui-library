@@ -1,5 +1,67 @@
 # @atlaskit/editor-common
 
+## 36.1.4
+- [patch] [b425ea772b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b425ea772b):
+
+  - Revert "ED-5505 add strong as default mark to table header (pull request #5291)"
+
+## 36.1.3
+- [patch] [6290d651d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6290d651d8):
+
+  - Update editor-common to use Mention alternative entry point. This should reduce editor-common bundle size
+
+## 36.1.2
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 36.1.1
+- Updated dependencies [bfca144ea5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bfca144ea5):
+  - @atlaskit/profilecard@9.0.0
+
+## 36.1.0
+- [minor] [02dd1f7287](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/02dd1f7287):
+
+  - [ED-5505] Persists formatting to table cells and headers when toggling header row, column or applying any text formatting to empty cells.
+
+## 36.0.1
+- [patch] [acfd88ba22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acfd88ba22):
+
+  - ED-6639 Align lists styles between editor & renderer
+
+## 36.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/emoji@59.0.0
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/editor-json-transformer@5.0.2
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/media-core@29.1.0
+
+## 35.2.0
+- [minor] [63133d8704](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/63133d8704):
+
+  -  [ED-6200] Add defaultMarks attribute on tableCell schema
+
+## 35.1.3
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-card@58.0.0
+
+## 35.1.2
+- [patch] [298bfed4e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/298bfed4e1):
+
+  - ED-6580 Media in editor is sized incorrectly in firefox
+
+## 35.1.1
+- [patch] [b32008359a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b32008359a):
+
+  - ED-5823 Add red styling for document elements when they are selected for removal
+
+## 35.1.0
+- [minor] [ea6b08700c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6b08700c):
+
+  - ED-6245: Ensure extensions scroll + overflow when they may break out of their parent container.
+
 ## 35.0.3
 - [patch] [c604b1eb64](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c604b1eb64):
 

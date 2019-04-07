@@ -6,7 +6,7 @@ import {
   TransformedResponse,
 } from '../../../../example-helpers/jiraRecentResponseData';
 import { jiraRecentResponseWithAttributes } from '../../../../example-helpers/jiraRecentResponseDataWithAttributes';
-import { ContentType } from '../../../model/Result';
+import { ContentType, JiraResult } from '../../../model/Result';
 
 const url = 'https://www.example.jira.dev.com/';
 const cloudId = 'cloudId';
@@ -22,7 +22,7 @@ const EXCEPTION_CASES = [
 ];
 
 describe('JiraClient', () => {
-  let requestSpy;
+  let requestSpy: jest.SpyInstance;
   let jiraClient: JiraClient;
 
   beforeEach(() => {
@@ -190,7 +190,7 @@ describe('JiraClient', () => {
         );
       });
 
-      const extractContainerId = (result, types) =>
+      const extractContainerId = (result: JiraResult[], types: ContentType[]) =>
         result
           .filter(({ contentType }) => types.includes(contentType))
           .map(({ containerId }) => containerId);
@@ -216,7 +216,7 @@ describe('JiraClient', () => {
         const projectsContainerId = extractContainerId(result, [
           ContentType.JiraProject,
         ]);
-        projectsContainerId.forEach(containerId =>
+        projectsContainerId.forEach((containerId: any) =>
           expect(containerId).toBeUndefined(),
         );
         const filtersContainerId = extractContainerId(result, [

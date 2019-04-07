@@ -176,6 +176,7 @@ export const CurrentTimeTooltip = styled.div`
   opacity: ${(props: CurrentTimeTooltipProps) =>
     props.isDragging ? '1' : '0'};
   transition: opacity 0.3s;
+  word-break: keep-all;
 `;
 
 export const TimeRangeWrapper = styled.div`

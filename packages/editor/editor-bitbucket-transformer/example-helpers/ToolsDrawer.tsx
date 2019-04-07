@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { EditorView } from 'prosemirror-view';
+import { MentionResource, MentionProvider } from '@atlaskit/editor-core';
 import { mention, emoji } from '@atlaskit/util-data-test';
+import { ActivityProvider } from '@atlaskit/activity';
 import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
 import { BitbucketTransformer } from '../src';
-
 import { Content } from './styles';
-
-import { MentionResource } from '@atlaskit/editor-core';
+import { EmojiProvider } from '../../../elements/emoji';
 
 const rejectedPromise = Promise.reject(
   new Error('Simulated provider rejection'),
@@ -45,14 +46,26 @@ rejectedPromise.catch(() => {});
 export interface State {
   reloadEditor: boolean;
   editorEnabled: boolean;
-  mentionProvider: string;
-  emojiProvider: string;
-  activityProvider: string;
+  mentionProvider: 'resolved' | 'pending' | 'rejected' | 'undefined';
+  emojiProvider: 'resolved' | 'pending' | 'rejected' | 'undefined';
+  activityProvider: 'resolved' | 'pending' | 'rejected' | 'undefined';
   document?: string;
 }
 
-export default class ToolsDrawer extends React.Component<any, State> {
-  constructor(props) {
+export type Props = {
+  renderEditor: (
+    props: {
+      disabled: boolean;
+      mentionProvider?: Promise<MentionProvider>;
+      emojiProvider?: Promise<EmojiProvider>;
+      activityProvider?: Promise<ActivityProvider> | MockActivityResource;
+      onChange: (view: EditorView) => void;
+    },
+  ) => React.ReactChild;
+};
+
+export default class ToolsDrawer extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -65,7 +78,7 @@ export default class ToolsDrawer extends React.Component<any, State> {
     };
   }
 
-  private onChange = editorView => {
+  private onChange = (editorView: EditorView) => {
     const { schema, doc } = editorView.state;
     const document = new BitbucketTransformer(schema).encode(doc);
     this.setState({

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as deepcopy from 'deepcopy';
+import deepcopy from 'deepcopy';
 import {
   ImageResizeMode,
   MediaItemType,

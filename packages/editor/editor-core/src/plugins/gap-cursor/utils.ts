@@ -142,7 +142,7 @@ export const fixCursorAlignment = (view: EditorView) => {
   }
   const targetNodePos =
     side === Side.LEFT ? $from.pos + 1 : findPositionOfNodeBefore(selection);
-  if (!targetNodePos) {
+  if (targetNodePos === undefined) {
     return;
   }
 
@@ -179,7 +179,7 @@ export const fixCursorAlignment = (view: EditorView) => {
     const firstChild = targetNodeRef.firstChild as HTMLElement;
     const css = window.getComputedStyle(
       isTargetNodeMediaSingle || isTargetNodeNodeViewWrapper
-        ? firstChild
+        ? firstChild || targetNodeRef
         : targetNodeRef,
     );
     const isInTableCell = /td|th/i.test(targetNodeRef.parentNode!.nodeName);

@@ -1,6 +1,7 @@
 import { BrowserTestCase } from '@atlaskit/webdriver-runner/runner';
-import { getDocFromElement, editable } from '../_helpers';
+import { getDocFromElement, editable, quickInsert } from '../_helpers';
 import { messages } from '../../../plugins/block-type/types';
+import { TableCssClassName as ClassName } from '../../../plugins/table/types';
 import {
   goToEditorTestingExample,
   mountEditor,
@@ -11,7 +12,7 @@ const alignRightButton = 'span[aria-label="Align right"]';
 const headingButton = 'button[aria-label="Font style"]';
 const headingh1 = 'div[role="group"] h1';
 
-const alignRight = async page => {
+const alignRight = async (page: any) => {
   await page.waitFor(alignButton);
   await page.click(alignButton);
   await page.waitForSelector(alignRightButton);
@@ -111,5 +112,41 @@ BrowserTestCase(
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  'alignment: should be able to add alignment to selected cells',
+  { skip: ['ie', 'edge'] },
+  async (client: any, testName: string) => {
+    const page = await goToEditorTestingExample(client);
+    const CELL = 'tbody td:first-child';
+
+    await mountEditor(page, {
+      appearance: 'full-page',
+      allowTextAlignment: true,
+      allowTables: {
+        advanced: true,
+      },
+    });
+
+    await page.click(editable);
+
+    // Insert table
+    await quickInsert(page, 'Table');
+    await page.waitForSelector(CELL);
+    await page.click(CELL);
+
+    // select a column
+    const controlSelector = `.${ClassName.COLUMN_CONTROLS_WRAPPER} .${
+      ClassName.COLUMN_CONTROLS_BUTTON_WRAP
+    }:first-child .${ClassName.CONTROLS_BUTTON}`;
+    await page.waitForSelector(controlSelector);
+    await page.click(controlSelector);
+
+    await alignRight(page);
+    expect(
+      await page.$eval(editable, getDocFromElement),
+    ).toMatchCustomDocSnapshot(testName);
   },
 );

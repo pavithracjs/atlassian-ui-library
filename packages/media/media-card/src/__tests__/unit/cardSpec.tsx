@@ -220,27 +220,6 @@ describe('Card', () => {
     expect(clickHandler).toHaveBeenCalledTimes(1);
   });
 
-  it('should NOT fire onClick when inlineVideo', () => {
-    const context = fakeContext() as any;
-    const clickHandler = jest.fn();
-    const card = shallow(
-      <Card
-        useInlinePlayer={true}
-        context={context}
-        identifier={fileIdentifier}
-        onClick={clickHandler}
-      />,
-    );
-    const cardViewOnClick = card.find(CardView).props().onClick;
-
-    cardViewOnClick!({
-      mediaItemDetails: {
-        mediaType: 'video',
-      },
-    } as any);
-    expect(clickHandler).not.toHaveBeenCalled();
-  });
-
   it('should pass onMouseEnter to CardView', () => {
     const context = fakeContext() as any;
     const hoverHandler = () => {};
@@ -722,6 +701,20 @@ describe('Card', () => {
     expect(releaseDataURI).toHaveBeenCalledTimes(1);
   });
 
+  it('ED-6584: should keep dataURI in the state if it was already generated', async () => {
+    const { component, context } = setup(undefined, {
+      dimensions: { width: 50, height: 50 },
+    });
+
+    await nextTick();
+    component.setProps({ dimensions: { width: 100, height: 100 } });
+    const currentDataURI = component.state('dataURI');
+    await nextTick();
+    const newDataURI = component.state('dataURI');
+    expect(context.file.getFileState).toHaveBeenCalledTimes(2);
+    expect(currentDataURI).toEqual(newDataURI);
+  });
+
   describe('Retry', () => {
     it('should pass down "onRetry" prop when an error occurs', async () => {
       const { component, context } = setup();
@@ -854,7 +847,7 @@ describe('Card', () => {
       expect(MV.props()).toEqual(
         expect.objectContaining({
           collectionName: 'some-collection-name',
-          dataSource: { list: [fileIdentifier] },
+          dataSource: { list: [] },
           selectedItem: fileIdentifier,
         }),
       );
@@ -871,21 +864,6 @@ describe('Card', () => {
       await nextTick();
       expect(component.find(MediaViewer).prop('dataSource')).toEqual({
         list: [fileIdentifier, fileIdentifier],
-      });
-    });
-
-    it('should add card identifier to MV list if not present', async () => {
-      const otherIdentifier: any = {};
-      const { component } = setup(undefined, {
-        shouldOpenMediaViewer: true,
-        mediaViewerDataSource: { list: [otherIdentifier] },
-      });
-      const instance = component.instance() as Card;
-
-      instance.onClick(clickedIdentifier);
-      await nextTick();
-      expect(component.find(MediaViewer).prop('dataSource')).toEqual({
-        list: [fileIdentifier, otherIdentifier],
       });
     });
 

@@ -11,15 +11,19 @@ export const enum ACTION {
   INSERTED = 'inserted',
   INVOKED = 'invoked',
   OPENED = 'opened',
+  PASTED = 'pasted',
+  PASTED_AS_PLAIN = 'pastedAsPlain',
   STARTED = 'started',
   STOPPED = 'stopped',
   SUBSTITUTED = 'autoSubstituted',
+  VISITED = 'visited',
 }
 
 export const enum INPUT_METHOD {
   ASCII = 'ascii',
   AUTO = 'auto',
   AUTO_DETECT = 'autoDetect',
+  CARD = 'card',
   CLIPBOARD = 'clipboard',
   DRAG_AND_DROP = 'dragAndDrop',
   EXTERNAL = 'external',
@@ -34,6 +38,8 @@ export const enum INPUT_METHOD {
   SHORTCUT = 'shortcut',
   TOOLBAR = 'toolbar',
   TYPEAHEAD = 'typeAhead',
+  CONTEXT_MENU = 'contextMenu',
+  BUTTON = 'button',
 }
 
 export const enum ACTION_SUBJECT {
@@ -43,16 +49,21 @@ export const enum ACTION_SUBJECT {
   MEDIA = 'media',
   PANEL = 'panel',
   PICKER = 'picker',
+  SMART_LINK = 'smartLink',
   TEXT = 'text',
   TYPEAHEAD = 'typeAhead',
+  TABLE = 'table',
 }
 
 export const enum ACTION_SUBJECT_ID {
   ACTION = 'action',
   ANNOTATE_BUTTON = 'annotateButton',
+  BLOCK_QUOTE = 'blockQuote',
   BUTTON_HELP = 'helpButton',
   BUTTON_FEEDBACK = 'feedbackButton',
   CANCEL = 'cancel',
+  CARD_INLINE = 'inlineCard',
+  CARD_BLOCK = 'blockCard',
   CODE_BLOCK = 'codeBlock',
   DECISION = 'decision',
   DIVIDER = 'divider',
@@ -90,4 +101,24 @@ export const enum ACTION_SUBJECT_ID {
   TYPEAHEAD_LINK = 'linkTypeAhead',
   TYPEAHEAD_MENTION = 'mentionTypeAhead',
   TYPEAHEAD_QUICK_INSERT = 'quickInsertTypeAhead',
+
+  PASTE_BLOCK_CARD = 'blockCard',
+  PASTE_BLOCKQUOTE = 'blockquote',
+  PASTE_BODIED_EXTENSION = 'bodiedExtension',
+  PASTE_BULLET_LIST = 'bulletList',
+  PASTE_CODE_BLOCK = 'codeBlock',
+  PASTE_DECISION_LIST = 'decisionList',
+  PASTE_EXTENSION = 'extension',
+  PASTE_HEADING = 'heading',
+  PASTE_MEDIA_GROUP = 'mediaGroup',
+  PASTE_MEDIA_SINGLE = 'mediaSingle',
+  PASTE_ORDERED_LIST = 'orderedList',
+  PASTE_PANEL = 'panel',
+  PASTE_PARAGRAPH = 'paragraph',
+  PASTE_RULE = 'rule',
+  PASTE_TABLE_HEADER = 'tableHeader',
+  PASTE_TABLE_CELL = 'tableCell',
+  PASTE_TABLE_ROW = 'tableRow',
+  PASTE_TABLE = 'table',
+  PASTE_TASK_LIST = 'taskList',
 }

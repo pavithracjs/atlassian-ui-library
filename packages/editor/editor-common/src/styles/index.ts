@@ -23,3 +23,4 @@ export { linkSharedStyle } from './shared/link';
 export { indentationSharedStyles } from './shared/indentation';
 export { blockMarksSharedStyles } from './shared/block-marks';
 export { codeMarkSharedStyles } from './shared/code-mark';
+export { shadowSharedStyle } from './shared/shadow';

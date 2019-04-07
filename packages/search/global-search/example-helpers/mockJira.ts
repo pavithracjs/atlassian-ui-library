@@ -5,7 +5,7 @@ import {
   getMockLastName,
 } from './mockData';
 import { JiraItem } from '../src/api/types';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 
 const issueTypeMap = {
   task: 10001,
@@ -19,11 +19,13 @@ const randomIssueKey = () => {
   return pickRandom(keys) + '-' + Math.floor(Math.random() * 1000);
 };
 
-const getIssueTypeId = name => issueTypeMap[name];
-const getIssueAvatar = issueType =>
+const getIssueTypeId = (name: keyof typeof issueTypeMap) =>
+  String(issueTypeMap[name]);
+const getIssueAvatar = (issueType: string) =>
   `https://product-fabric.atlassian.net/images/icons/issuetypes/${issueType}.svg`;
-const getIssueUrl = key => `https://product-fabric.atlassian.net/browse/${key}`;
-const getProjectUrl = porjectKey =>
+const getIssueUrl = (key: string) =>
+  `https://product-fabric.atlassian.net/browse/${key}`;
+const getProjectUrl = (porjectKey: string) =>
   `https://product-fabric.atlassian.net/browse/${porjectKey}`;
 const getFilterUrl = () =>
   `https://product-fabric.atlassian.net/browse/filter=${Math.floor(

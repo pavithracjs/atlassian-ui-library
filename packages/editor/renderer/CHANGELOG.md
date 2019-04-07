@@ -1,5 +1,114 @@
 # @atlaskit/renderer
 
+## 45.2.4
+- [patch] [370476ca07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/370476ca07):
+
+  - ED-6674: fix table shadow overlapping inline comments
+
+## 45.2.3
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 45.2.2
+- Updated dependencies [bfca144ea5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bfca144ea5):
+  - @atlaskit/editor-common@36.1.1
+  - @atlaskit/profilecard@9.0.0
+
+## 45.2.1
+- [patch] [acfd88ba22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acfd88ba22):
+
+  - ED-6639 Align lists styles between editor & renderer
+
+## 45.2.0
+- [minor] [b6f4afdec5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b6f4afdec5):
+
+  - add date renderer
+
+## 45.1.0
+- [minor] [827ed599a0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/827ed599a0):
+
+  - add placeholders for media nodes
+
+## 45.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/media-filmstrip@31.0.0
+  - @atlaskit/editor-json-transformer@5.0.2
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/task-decision@14.0.1
+  - @atlaskit/util-data-test@11.1.5
+  - @atlaskit/media-test-helpers@21.1.0
+  - @atlaskit/media-core@29.1.0
+
+## 44.7.0
+- [minor] [001fa9a7d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/001fa9a7d0):
+
+  - render adf - email actions and decisions
+
+## 44.6.1
+- [patch] [106d046114](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/106d046114):
+
+  - Fix issue with media-viewer opening in CC on inline video player controlls clicked
+
+## 44.6.0
+- [minor] [1593822e4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1593822e4d):
+
+  - CS-857 Email renderer puts placeholders in place of extensions
+
+## 44.5.0
+- [minor] [e6f58b1837](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6f58b1837):
+
+  - Email renderer layout column and section support
+
+## 44.4.3
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/editor-common@35.1.3
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-filmstrip@30.0.2
+  - @atlaskit/media-test-helpers@21.0.3
+  - @atlaskit/media-card@58.0.0
+
+## 44.4.2
+- Updated dependencies [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
+  - @atlaskit/util-data-test@11.1.4
+  - @atlaskit/task-decision@14.0.0
+
+## 44.4.1
+- Updated dependencies [97abf5e006](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97abf5e006):
+  - @atlaskit/status@0.8.0
+
+## 44.4.0
+- [minor] [1b3c18ae43](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b3c18ae43):
+
+  - CS-856: Create no-op nodes and marks for email renderer
+
+## 44.3.0
+- [minor] [0fea11af41](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0fea11af41):
+
+  - Email renderer supports numbered columns, adf-schema extended with colors
+
+## 44.2.1
+- [patch] [ea6b08700c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6b08700c):
+
+  - ED-6245: Ensure extensions scroll + overflow when they may break out of their parent container.
+
+## 44.2.0
+- [minor] [d91db66a8f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d91db66a8f):
+
+  - add support for block and inline smart cards in ADF to email renderer
+
+## 44.1.0
+- [minor] [b4ce89e3cb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b4ce89e3cb):
+
+  - improve the display of info panels in email renderer
+
+## 44.0.3
+- [patch] [abd1e85008](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/abd1e85008):
+
+  - ED-6536: Fixes non-resized tables accidently getting a width applied.
+
 ## 44.0.2
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

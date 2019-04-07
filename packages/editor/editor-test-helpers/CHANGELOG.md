@@ -1,5 +1,17 @@
 # @atlaskit/editor-test-helpers
 
+## 8.0.4
+- [patch] [b425ea772b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b425ea772b):
+
+  - Revert "ED-5505 add strong as default mark to table header (pull request #5291)"
+
+## 8.0.3
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/editor-core@107.0.0
+  - @atlaskit/media-test-helpers@21.1.0
+  - @atlaskit/media-core@29.1.0
+
 ## 8.0.2
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

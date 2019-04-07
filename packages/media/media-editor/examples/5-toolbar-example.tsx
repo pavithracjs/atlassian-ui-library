@@ -1,18 +1,21 @@
 import * as React from 'react';
 
 import { I18NWrapper } from '@atlaskit/media-test-helpers';
+import { colors } from '@atlaskit/theme';
+import { ThemeProvider } from 'styled-components';
 import Toolbar from '../src/react/editorView/toolbar/toolbar';
-import { Color, Tool } from '../src/common';
+import { Tool } from '../src/common';
+import { Blanket } from '../src/react/styled';
 
 interface State {
-  readonly color: Color;
+  readonly color: string;
   readonly tool: Tool;
   readonly lineWidth: number;
 }
 
 class ToolbarExample extends React.Component<{}, State> {
   state: State = {
-    color: { red: 0xbf, green: 0x26, blue: 0x00 },
+    color: colors.G300,
     lineWidth: 8,
     tool: 'arrow',
   };
@@ -26,24 +29,29 @@ class ToolbarExample extends React.Component<{}, State> {
   };
 
   onToolChanged = (tool: Tool) => this.setState({ tool });
-  onColorChanged = (color: Color) => this.setState({ color });
+  onColorChanged = (color: string) => this.setState({ color });
   onLineWidthChanged = (lineWidth: number) => this.setState({ lineWidth });
 
   render() {
     const { lineWidth, color, tool } = this.state;
 
+    const theme = { __ATLASKIT_THEME__: { mode: 'dark' } };
     return (
       <I18NWrapper>
-        <Toolbar
-          color={color}
-          tool={tool}
-          lineWidth={lineWidth}
-          onSave={this.onSave}
-          onCancel={this.onCancel}
-          onToolChanged={this.onToolChanged}
-          onColorChanged={this.onColorChanged}
-          onLineWidthChanged={this.onLineWidthChanged}
-        />
+        <Blanket>
+          <ThemeProvider theme={theme}>
+            <Toolbar
+              color={color}
+              tool={tool}
+              lineWidth={lineWidth}
+              onSave={this.onSave}
+              onCancel={this.onCancel}
+              onToolChanged={this.onToolChanged}
+              onColorChanged={this.onColorChanged}
+              onLineWidthChanged={this.onLineWidthChanged}
+            />
+          </ThemeProvider>
+        </Blanket>
       </I18NWrapper>
     );
   }

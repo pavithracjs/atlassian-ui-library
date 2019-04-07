@@ -64,6 +64,14 @@ export default class Editor extends React.Component<EditorProps, {}> {
 
   componentWillReceiveProps(nextProps: EditorProps) {
     this.handleProviders(nextProps);
+
+    /**
+     * If the display mode changes, unregister editor actions here.
+     * We re-create and re-bind action inside `ReactEditorView`
+     */
+    if (nextProps.fullWidthMode !== this.props.fullWidthMode) {
+      this.unregisterEditorFromActions();
+    }
   }
 
   componentWillUnmount() {
@@ -309,10 +317,12 @@ export default class Editor extends React.Component<EditorProps, {}> {
                         }) => (
                           <BaseTheme
                             dynamicTextSizing={
-                              this.props.allowDynamicTextSizing
+                              this.props.allowDynamicTextSizing &&
+                              !this.props.fullWidthMode
                             }
                           >
                             <Component
+                              fullWidthMode={this.props.fullWidthMode}
                               disabled={this.props.disabled}
                               editorActions={this.editorActions}
                               editorDOMElement={editor}

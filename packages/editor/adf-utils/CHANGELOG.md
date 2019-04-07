@@ -1,5 +1,15 @@
 # @atlaskit/adf-utils
 
+## 6.0.2
+- [patch] [b425ea772b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b425ea772b):
+
+  - Revert "ED-5505 add strong as default mark to table header (pull request #5291)"
+
+## 6.0.1
+- [patch] [499f9783d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/499f9783d8):
+
+  - [ED-5505] Fix forceContentValidation replacing valid entities to empty array
+
 ## 6.0.0
 - [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 

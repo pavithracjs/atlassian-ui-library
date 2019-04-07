@@ -49,13 +49,13 @@ export default function withNavigation(
     static displayName = `WithNavigation(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 
-    handleContextChange = e => {
+    handleContextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       this.setState({
         context: e.target.value,
       });
     };
 
-    handleLocaleChange = e => {
+    handleLocaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       this.setState({
         locale: e.target.value,
       });

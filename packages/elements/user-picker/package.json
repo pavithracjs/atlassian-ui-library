@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/user-picker",
-  "version": "3.1.0",
+  "version": "3.3.3",
   "config": {
     "access": "public"
   },
@@ -43,10 +43,10 @@
   "devDependencies": {
     "@atlaskit/analytics-viewer": "^0.2.1",
     "@atlaskit/docs": "^7.0.1",
-    "@atlaskit/elements-test-helpers": "^0.4.0",
+    "@atlaskit/elements-test-helpers": "^0.5.0",
     "@atlaskit/i18n-tools": "^0.5.0",
     "@atlaskit/section-message": "^2.0.1",
-    "@atlaskit/util-data-test": "^11.1.1",
+    "@atlaskit/util-data-test": "^11.1.6",
     "@types/lodash.debounce": "^4.0.4",
     "@types/memoize-one": "^3.0.1",
     "@types/uuid": "^3.4.4",

@@ -153,14 +153,16 @@ type InsertStatusAEP = InsertAEP<
   }
 >;
 
+export type InputMethodInsertMedia =
+  | INPUT_METHOD.CLIPBOARD
+  | INPUT_METHOD.PICKER_CLOUD
+  | INPUT_METHOD.DRAG_AND_DROP;
+
 type InsertMediaAEP = InsertAEP<
   ACTION_SUBJECT_ID.MEDIA,
   {
-    inputMethod:
-      | INPUT_METHOD.CLIPBOARD
-      | INPUT_METHOD.PICKER_CLOUD
-      | INPUT_METHOD.DRAG_AND_DROP;
-    fileExtension: string;
+    inputMethod: InputMethodInsertMedia;
+    fileExtension: string | undefined;
   }
 >;
 

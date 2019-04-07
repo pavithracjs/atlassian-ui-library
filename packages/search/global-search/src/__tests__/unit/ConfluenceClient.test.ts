@@ -13,8 +13,7 @@ import {
   PersonResult,
 } from '../../model/Result';
 
-import 'whatwg-fetch';
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 
 const DUMMY_CONFLUENCE_HOST = 'http://localhost';
 const DUMMY_CLOUD_ID = '123';

@@ -1,4 +1,4 @@
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import AkButton from '@atlaskit/button';
@@ -14,8 +14,8 @@ window.jQuery = {};
 
 describe('@atlaskit/editor-core/ui/ToolbarFeedback', () => {
   describe('analytics', () => {
-    let toolbarOption;
-    let mockEventDispatcher;
+    let toolbarOption: ReactWrapper;
+    let mockEventDispatcher: { emit: jest.Mock };
 
     function mountWithEditorActions() {
       mockEventDispatcher = { emit: jest.fn() };

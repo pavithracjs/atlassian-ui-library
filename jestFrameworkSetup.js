@@ -1,9 +1,9 @@
 /* eslint-disable */
+import 'whatwg-fetch';
 import 'jest-styled-components';
 import snakeCase from 'snake-case';
 import { toMatchSnapshot } from 'jest-snapshot';
 import { configureToMatchImageSnapshot } from 'jest-image-snapshot';
-import * as emotion from 'emotion';
 import { createSerializer } from 'jest-emotion';
 import 'jest-localstorage-mock';
 
@@ -363,7 +363,7 @@ if (process.env.CI) {
   });
 }
 
-expect.addSnapshotSerializer(createSerializer(emotion));
+expect.addSnapshotSerializer(createSerializer());
 
 // set up for visual regression
 if (process.env.VISUAL_REGRESSION) {

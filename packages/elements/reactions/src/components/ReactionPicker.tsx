@@ -1,7 +1,7 @@
 import { EmojiPicker, EmojiProvider, EmojiId } from '@atlaskit/emoji';
 import Layer from '@atlaskit/layer';
 import { borderRadius, colors } from '@atlaskit/theme';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import * as React from 'react';
 import { PureComponent } from 'react';
 import * as ReactDOM from 'react-dom';

@@ -1,7 +1,7 @@
 /**
  * Largely taken from analytics-web-react
  */
-import * as merge from 'lodash.merge';
+import merge from 'lodash.merge';
 import { NAVIGATION_CONTEXT } from '@atlaskit/analytics-namespaced-context';
 import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
 

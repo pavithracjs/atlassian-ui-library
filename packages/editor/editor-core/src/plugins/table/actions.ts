@@ -30,12 +30,14 @@ import {
   selectColumn as selectColumnTransform,
   selectRow as selectRowTransform,
 } from 'prosemirror-utils';
+import { TableLayout } from '@atlaskit/adf-schema';
 import { getPluginState, pluginKey, ACTIONS } from './pm-plugins/main';
 import {
   checkIfHeaderRowEnabled,
   checkIfHeaderColumnEnabled,
   isIsolating,
   createControlsHoverDecoration,
+  getSelectedCellInfo,
 } from './utils';
 import { Command } from '../../types';
 import { analyticsService } from '../../analytics';
@@ -44,6 +46,17 @@ import { mapSlice } from '../../utils/slice';
 import { TableCssClassName as ClassName } from './types';
 import { closestElement } from '../../utils';
 import { deleteColumns, deleteRows, fixAutoSizedTable } from './transforms';
+import {
+  addAnalytics,
+  TABLE_ACTION,
+  ACTION_SUBJECT,
+  EVENT_TYPE,
+  INPUT_METHOD,
+} from '../analytics';
+import { insertRowWithAnalytics } from './actions-with-analytics';
+
+const TAB_FORWARD_DIRECTION = 1;
+const TAB_BACKWARD_DIRECTION = -1;
 
 export const clearHoverSelection: Command = (state, dispatch) => {
   if (dispatch) {
@@ -276,13 +289,10 @@ export const insertColumn = (column: number): Command => (state, dispatch) => {
       tr.setSelection(Selection.near(tr.doc.resolve(table.start + pos))),
     );
   }
-  analyticsService.trackEvent('atlassian.editor.format.table.column.button');
   return true;
 };
 
 export const insertRow = (row: number): Command => (state, dispatch) => {
-  clearHoverSelection(state, dispatch);
-
   // Dont clone the header row
   const headerRowEnabled = checkIfHeaderRowEnabled(state);
   const clonePreviousRow =
@@ -299,7 +309,6 @@ export const insertRow = (row: number): Command => (state, dispatch) => {
       tr.setSelection(Selection.near(tr.doc.resolve(table.start + pos))),
     );
   }
-  analyticsService.trackEvent('atlassian.editor.format.table.row.button');
   return true;
 };
 
@@ -367,7 +376,6 @@ export const deleteTable: Command = (state, dispatch) => {
   if (dispatch) {
     dispatch(removeTable(state.tr));
   }
-  analyticsService.trackEvent('atlassian.editor.format.table.delete.button');
   return true;
 };
 
@@ -387,23 +395,25 @@ export const convertFirstRowToHeader = (schema: Schema) => (
   return tr;
 };
 
+export const nextLayout = (currentLayout: TableLayout) => {
+  switch (currentLayout) {
+    case 'default':
+      return 'wide';
+    case 'wide':
+      return 'full-width';
+    case 'full-width':
+      return 'default';
+    default:
+      return 'default';
+  }
+};
+
 export const toggleTableLayout: Command = (state, dispatch): boolean => {
   const table = findTable(state.selection);
   if (!table) {
     return false;
   }
-  let layout;
-  switch (table.node.attrs.layout) {
-    case 'default':
-      layout = 'wide';
-      break;
-    case 'wide':
-      layout = 'full-width';
-      break;
-    case 'full-width':
-      layout = 'default';
-      break;
-  }
+  const layout = nextLayout(table.node.attrs.layout);
 
   if (dispatch) {
     dispatch(
@@ -415,9 +425,6 @@ export const toggleTableLayout: Command = (state, dispatch): boolean => {
   }
   return true;
 };
-
-const TAB_FORWARD_DIRECTION = 1;
-const TAB_BACKWARD_DIRECTION = -1;
 
 export const createTable: Command = (state, dispatch) => {
   if (!pluginKey.get(state)) {
@@ -446,21 +453,22 @@ export const goToNextCell = (direction: number): Command => (
   const lastCellPos =
     map.positionAt(map.height - 1, map.width - 1, table.node) + table.start;
 
+  if (firstCellPos === cell.pos && direction === TAB_BACKWARD_DIRECTION) {
+    insertRowWithAnalytics(INPUT_METHOD.KEYBOARD, 0)(state, dispatch);
+    return true;
+  }
+
+  if (lastCellPos === cell.pos && direction === TAB_FORWARD_DIRECTION) {
+    insertRowWithAnalytics(INPUT_METHOD.KEYBOARD, map.height)(state, dispatch);
+    return true;
+  }
+
   const event =
     direction === TAB_FORWARD_DIRECTION ? 'next_cell' : 'previous_cell';
   analyticsService.trackEvent(
     `atlassian.editor.format.table.${event}.keyboard`,
   );
 
-  if (firstCellPos === cell.pos && direction === TAB_BACKWARD_DIRECTION) {
-    insertRow(0)(state, dispatch);
-    return true;
-  }
-
-  if (lastCellPos === cell.pos && direction === TAB_FORWARD_DIRECTION) {
-    insertRow(map.height)(state, dispatch);
-    return true;
-  }
   return baseGotoNextCell(direction)(state, dispatch);
 };
 
@@ -769,22 +777,54 @@ export const handleCut = (
     const $headCell = oldTr.doc.resolve(
       oldTr.mapping.map(oldSelection.$headCell.pos),
     );
-    tr.setSelection(new CellSelection($anchorCell, $headCell) as any);
+
+    // We need to fix the type of CellSelection in `prosemirror-tables'
+    const cellSelection = new CellSelection($anchorCell, $headCell) as any;
+    tr.setSelection(cellSelection);
 
     if (tr.selection instanceof CellSelection) {
-      if (tr.selection.isRowSelection()) {
+      const rect = getSelectionRect(cellSelection);
+      if (rect) {
         const {
-          pluginConfig: { isHeaderRowRequired },
-        } = getPluginState(newState);
-        tr = deleteRows([], isHeaderRowRequired)(tr);
-        analyticsService.trackEvent(
-          'atlassian.editor.format.table.delete_row.button',
-        );
-      } else if (tr.selection.isColSelection()) {
-        analyticsService.trackEvent(
-          'atlassian.editor.format.table.delete_column.button',
-        );
-        tr = deleteColumns()(tr);
+          verticalCells,
+          horizontalCells,
+          totalCells,
+          totalRowCount,
+          totalColumnCount,
+        } = getSelectedCellInfo(tr.selection);
+
+        // Reassigning to make it more obvious and consistent
+        tr = addAnalytics(tr, {
+          action: TABLE_ACTION.CUT,
+          actionSubject: ACTION_SUBJECT.TABLE,
+          actionSubjectId: null,
+          attributes: {
+            verticalCells,
+            horizontalCells,
+            totalCells,
+            totalRowCount,
+            totalColumnCount,
+          },
+          eventType: EVENT_TYPE.TRACK,
+        });
+
+        // Need this check again since we are overriding the tr in previous statement
+        if (tr.selection instanceof CellSelection) {
+          if (tr.selection.isRowSelection()) {
+            const {
+              pluginConfig: { isHeaderRowRequired },
+            } = getPluginState(newState);
+            tr = deleteRows(rect, isHeaderRowRequired)(tr);
+            analyticsService.trackEvent(
+              'atlassian.editor.format.table.delete_row.button',
+            );
+          } else if (tr.selection.isColSelection()) {
+            analyticsService.trackEvent(
+              'atlassian.editor.format.table.delete_column.button',
+            );
+            tr = deleteColumns(rect)(tr);
+          }
+        }
       }
     }
   }

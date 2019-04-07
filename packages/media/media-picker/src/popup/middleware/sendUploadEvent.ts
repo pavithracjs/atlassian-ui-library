@@ -7,7 +7,7 @@ import { copyMediaFileForUpload } from '../../domain/file';
 import { handleError } from '../../util/handleError';
 
 export default function(eventEmitter: PopupUploadEventEmitter): Middleware {
-  return () => (next: Dispatch<State>) => action => {
+  return () => (next: Dispatch<State>) => (action: any) => {
     if (isSendUploadEventAction(action)) {
       const { event, uploadId } = action.payload;
 

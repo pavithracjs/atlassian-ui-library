@@ -6,8 +6,8 @@ import CrossProductSearchClient, {
   CrossProductExperimentResponse,
 } from '../../api/CrossProductSearchClient';
 import { Scope, ConfluenceItem, PersonItem } from '../../api/types';
-import 'whatwg-fetch';
-import * as fetchMock from 'fetch-mock';
+
+import fetchMock from 'fetch-mock';
 import {
   AnalyticsType,
   ConfluenceObjectResult,

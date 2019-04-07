@@ -204,6 +204,51 @@ describe('mentionTypeahead', () => {
                 accessLevel: 'CONTAINER',
                 userType: 'SPECIAL',
                 userId: 'here',
+                memberCount: null,
+                includesYou: null,
+              }),
+            }),
+          );
+          expect(event.fire).toHaveBeenCalledTimes(1);
+          expect(event.fire).toHaveBeenCalledWith('fabric-elements');
+        },
+      ),
+    );
+
+    it.each([
+      ['pressed', () => selectCurrentItem('enter'), 'enter'],
+      ['clicked', () => selectCurrentItem(), undefined],
+    ])(
+      'should fire typeahead %s event for teams',
+      withMentionQuery(
+        'Team Alpha',
+        (
+          { editorView, event, createAnalyticsEvent },
+          expectedActionName,
+          selectCurrentItem,
+          keyboardKey,
+        ) => {
+          jest.clearAllMocks();
+          selectCurrentItem()(editorView.state, editorView.dispatch);
+
+          expect(createAnalyticsEvent).toHaveBeenCalledWith(
+            expect.objectContaining({
+              action: expectedActionName,
+              actionSubject: expectedActionSubject,
+              eventType: 'ui',
+              attributes: expect.objectContaining({
+                packageName: '@atlaskit/editor-core',
+                packageVersion: expect.any(String),
+                duration: expect.any(Number),
+                position: 0,
+                keyboardKey: keyboardKey,
+                queryLength: 10,
+                spaceInQuery: true,
+                accessLevel: 'CONTAINER',
+                userType: 'TEAM',
+                userId: 'team-1',
+                memberCount: 5,
+                includesYou: true,
               }),
             }),
           );
@@ -301,33 +346,43 @@ describe('mentionTypeahead', () => {
     });
 
     it(
-      'should expand members when selecting a team mention ',
-      withMentionQuery('Team Beta', ({ mentionProvider, editorView }) => {
-        // select Team Beta team
-        selectCurrentItem()(editorView.state, editorView.dispatch);
-        // should expand 2 members
-        expect(editorView.state.doc).toEqualDocument(
-          doc(
-            p(
-              '',
-              a({ href: 'localhost/people/team/team-2' })('Team Beta'),
-              ' (',
-              mention({
-                id: 'member-1',
-                text: '@Tung Dang',
-                userType: 'DEFAULT',
-                accessLevel: 'CONTAINER',
-              })(),
-              ' ',
-              mention({
-                id: 'member-2',
-                text: '@Ishan Somasiri',
-                userType: 'DEFAULT',
-                accessLevel: 'CONTAINER',
-              })(),
-              ')',
-            ),
-          ),
+      'should trigger `mentionTypeahead` and `teamMentionTypeahead` analytics event',
+      withMentionQuery('team', ({ event, createAnalyticsEvent }) => {
+        const commonAttrsTypeAhead = {
+          componentName: 'mention',
+          packageName: '@atlaskit/editor-core',
+          packageVersion: expect.any(String),
+          queryLength: expect.any(Number),
+          spaceInQuery: false,
+          sessionId: expect.stringMatching(sessionIdRegex),
+        };
+
+        expect(createAnalyticsEvent).toHaveBeenCalledWith(
+          expect.objectContaining({
+            action: 'rendered',
+            actionSubject: 'teamMentionTypeahead',
+            eventType: 'operational',
+            attributes: expect.objectContaining({
+              ...commonAttrsTypeAhead,
+              duration: 200,
+              userIds: null,
+              teams: expect.any(Array),
+            }),
+          }),
+        );
+
+        expect(createAnalyticsEvent).toHaveBeenCalledWith(
+          expect.objectContaining({
+            action: 'rendered',
+            actionSubject: 'mentionTypeahead',
+            eventType: 'operational',
+            attributes: expect.objectContaining({
+              ...commonAttrsTypeAhead,
+              duration: 100,
+              userIds: expect.any(Array),
+              teams: null,
+            }),
+          }),
         );
       }),
     );
@@ -388,6 +443,40 @@ describe('mentionTypeahead', () => {
               sessionId: expect.stringMatching(sessionIdRegex),
               ...contextIdentifiers,
             }),
+          );
+        }),
+      );
+    });
+
+    describe('when selecting a team', () => {
+      it(
+        'should expand members when selecting a team mention ',
+        withMentionQuery('Team Beta', ({ mentionProvider, editorView }) => {
+          // select Team Beta team
+          selectCurrentItem()(editorView.state, editorView.dispatch);
+          // should expand 2 members
+          expect(editorView.state.doc).toEqualDocument(
+            doc(
+              p(
+                '',
+                a({ href: 'http://localhost/people/team/team-2' })('Team Beta'),
+                ' (',
+                mention({
+                  id: 'member-1',
+                  text: '@Tung Dang',
+                  userType: 'DEFAULT',
+                  accessLevel: 'CONTAINER',
+                })(),
+                ' ',
+                mention({
+                  id: 'member-2',
+                  text: '@Ishan Somasiri',
+                  userType: 'DEFAULT',
+                  accessLevel: 'CONTAINER',
+                })(),
+                ')',
+              ),
+            ),
           );
         }),
       );
