@@ -318,7 +318,7 @@ describe('Media', () => {
     });
   });
 
-  describe.only('#getListOfIdentifiersFromDoc()', () => {
+  describe('#getListOfIdentifiersFromDoc()', () => {
     const external0 = {
       dataURI:
         'https://wac-cdn.atlassian.com/assets/img/favicons/atlassian/apple-touch-icon-152x152.png',
