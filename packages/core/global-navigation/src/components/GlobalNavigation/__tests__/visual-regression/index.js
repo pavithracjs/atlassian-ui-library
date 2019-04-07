@@ -42,7 +42,7 @@ describe('Snapshot Test', () => {
     await page.waitForSelector(button);
 
     await page.click(button);
-    await page.waitFor(300);
+    await page.waitForSelector('[data-role="droplistContent"]');
 
     const image = await page.screenshot();
     //$FlowFixMe
@@ -82,7 +82,7 @@ describe('Snapshot Test', () => {
     await page.waitForSelector(button);
 
     await page.click(button);
-    await page.waitFor(350);
+    await page.waitForSelector('[data-focus-lock-disabled="false"]');
 
     const image = await page.screenshot();
     //$FlowFixMe

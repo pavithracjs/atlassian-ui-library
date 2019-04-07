@@ -3,7 +3,6 @@
 import React, { Fragment, Component } from 'react';
 import AppSwitcher from '@atlaskit/app-switcher';
 import Button from '@atlaskit/button';
-import { DropdownItemGroup, DropdownItem } from '@atlaskit/dropdown-menu';
 import { AkFieldRadioGroup as StatelessRadioGroup } from '@atlaskit/field-radio-group';
 import AppSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 import { AtlassianIcon } from '@atlaskit/logo';
@@ -121,18 +120,6 @@ type Props = {
   unmountOnExit: boolean,
 };
 
-const HelpDropdown = () => (
-  <DropdownItemGroup title="Heading">
-    <DropdownItem>Hello it with some really quite long text here.</DropdownItem>
-    <DropdownItem>Some text 2</DropdownItem>
-    <DropdownItem isDisabled>Some disabled text</DropdownItem>
-    <DropdownItem>Some more text</DropdownItem>
-    <DropdownItem href="//atlassian.com" target="_new">
-      A link item
-    </DropdownItem>
-  </DropdownItemGroup>
-);
-
 class GlobalNavWithDrawers extends Component<Props, State> {
   state = {
     isCreateModalOpen: false,
@@ -188,6 +175,13 @@ class GlobalNavWithDrawers extends Component<Props, State> {
     <DrawerContent
       drawerTitle="Starred drawer"
       drawerBody="Can be controlled by passing the onStarredClick prop"
+    />
+  );
+
+  renderHelpDrawerContents = () => (
+    <DrawerContent
+      drawerTitle="Help drawer"
+      drawerBody="Can be controlled by passing the onHelpClick prop"
     />
   );
 
@@ -254,7 +248,9 @@ class GlobalNavWithDrawers extends Component<Props, State> {
           appSwitcherTooltip="Switch apps..."
           enableAtlassianSwitcher
           // Help
-          helpItems={HelpDropdown}
+          helpDrawerContents={this.renderHelpDrawerContents}
+          onHelpDrawerCloseComplete={this.onCloseComplete}
+          shouldHelpDrawerUnmountOnExit={unmountOnExit}
           // Settings
           settingsDrawerContents={this.renderSettingsDrawerContents}
           onSettingsDrawerCloseComplete={this.onCloseComplete}

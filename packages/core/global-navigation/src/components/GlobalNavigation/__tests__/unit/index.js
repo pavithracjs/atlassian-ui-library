@@ -102,6 +102,11 @@ describe('GlobalNavigation', () => {
         name: 'starred',
       },
       {
+        akIcon: QuestionIcon,
+        capitalisedName: 'Help',
+        name: 'help',
+      },
+      {
         akIcon: NotificationIcon,
         capitalisedName: 'Notification',
         name: 'notification',
@@ -324,12 +329,12 @@ describe('GlobalNavigation', () => {
         onSearchClick={noop}
         starredTooltip="starred tooltip"
         onStarredClick={noop}
+        helpTooltip="help tooltip"
+        onHelpClick={noop}
         notificationTooltip="notification tooltip"
         onNotificationClick={noop}
         profileTooltip="profile tooltip"
         loginHref="#login"
-        helpItems={() => <div>items</div>}
-        helpTooltip="help tooltip"
         onSettingsClick={noop}
         settingsTooltip="settings tooltip"
       />,
@@ -342,10 +347,10 @@ describe('GlobalNavigation', () => {
         onCreateClick={noop}
         onSearchClick={noop}
         onStarredClick={noop}
+        onHelpClick={noop}
         onNotificationClick={noop}
         onSettingsClick={noop}
         loginHref="#login"
-        helpItems={() => <div>items</div>}
       />,
     );
 
@@ -428,10 +433,10 @@ describe('GlobalNavigation', () => {
         onCreateClick={noop}
         onSearchClick={noop}
         onStarredClick={noop}
+        onHelpClick={noop}
         onNotificationClick={noop}
         onSettingsClick={noop}
         loginHref="#login"
-        helpItems={() => <div>items</div>}
       />,
     );
 
@@ -473,7 +478,7 @@ describe('GlobalNavigation', () => {
         rank: 4,
       },
       {
-        id: 'help',
+        id: 'helpDrawer',
         name: 'help',
         section: 'secondary',
         rank: 2,
@@ -826,12 +831,12 @@ describe('GlobalNavigation', () => {
         onCreateClick={noop}
         onSearchClick={noop}
         onStarredClick={noop}
+        onHelpClick={noop}
         onNotificationClick={noop}
         onSettingsClick={noop}
         appSwitcherComponent={AppSwitcher}
         appSwitcherTooltip="appSwitcher tooltip"
         loginHref="#login"
-        helpItems={() => <div>items</div>}
       />,
     );
     it('should render the AppSwitcher component', () => {
@@ -890,13 +895,13 @@ describe('GlobalNavigation', () => {
             onCreateClick={noop}
             onSearchClick={noop}
             onStarredClick={noop}
+            onHelpClick={noop}
             onNotificationClick={noop}
             onSettingsClick={noop}
             appSwitcherComponent={AppSwitcher}
             appSwitcherTooltip="appSwitcher tooltip"
             enableAtlassianSwitcher
             loginHref="#login"
-            helpItems={() => <div>items</div>}
             triggerXFlow={triggerXFlowStub}
             {...propsToOverride}
           />
@@ -972,23 +977,6 @@ describe('GlobalNavigation', () => {
         name: 'atlassianSwitcherDrawer',
         isVisible: true,
       });
-    });
-  });
-
-  describe('Help', () => {
-    xit('should render help menu when "helpItems" is passed', () => {
-      const HelpItems = () => <div />;
-      HelpItems.displayName = 'HelpItems';
-      const wrapper = mount(<GlobalNavigation helpItems={HelpItems} />);
-
-      expect(wrapper.find('[id="help"]').exists()).toBeTruthy();
-      expect(wrapper.children().exists(HelpItems)).toBeTruthy();
-      expect(wrapper.children().exists('DropdownItem')).toBeTruthy();
-    });
-
-    it('should not render help menu when "helpItems" is not passed', () => {
-      const wrapper = mount(<GlobalNavigation helpTooltip="help tooltip" />);
-      expect(wrapper.find('[id="help"]').exists()).toBeFalsy();
     });
   });
 
@@ -1098,6 +1086,10 @@ describe('GlobalNavigation', () => {
       {
         drawerName: 'starred',
         analyticsId: 'starDrawer',
+      },
+      {
+        drawerName: 'help',
+        analyticsId: 'helpDrawer',
       },
       {
         drawerName: 'settings',

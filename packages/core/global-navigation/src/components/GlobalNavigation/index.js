@@ -34,6 +34,7 @@ type GlobalNavigationState = {
   isSearchDrawerOpen: boolean,
   isNotificationDrawerOpen: boolean,
   isStarredDrawerOpen: boolean,
+  isHelpDrawerOpen: boolean,
   isSettingsDrawerOpen: boolean,
   isAtlassianSwitcherDrawerOpen: boolean,
   notificationCount: number,
@@ -59,6 +60,9 @@ export default class GlobalNavigation extends Component<
     starred: {
       isControlled: false,
     },
+    help: {
+      isControlled: false,
+    },
     settings: {
       isControlled: false,
     },
@@ -78,6 +82,7 @@ export default class GlobalNavigation extends Component<
     searchDrawerWidth: 'wide',
     notificationDrawerWidth: 'wide',
     starredDrawerWidth: 'wide',
+    helpDrawerWidth: 'wide',
     settingsDrawerWidth: 'wide',
   };
 
@@ -89,6 +94,7 @@ export default class GlobalNavigation extends Component<
       isSearchDrawerOpen: false,
       isNotificationDrawerOpen: false,
       isStarredDrawerOpen: false,
+      isHelpDrawerOpen: false,
       isSettingsDrawerOpen: false,
       isAtlassianSwitcherDrawerOpen: false,
       notificationCount: 0,
