@@ -85,7 +85,8 @@
     "build:bundle-analysis": "               node ./build/ci-scripts/run.bundle.analysis",
     "build:css-reset": "                     BABEL_ENV=production:esm bolt w @atlaskit/css-reset run build",
     "build:reduced-ui-pack": "               BABEL_ENV=production:esm bolt w @atlaskit/reduced-ui-pack run build",
-    "build:adf-schema:checkuptodate": "      cd packages/editor/adf-schema && yarn run generate:json-schema && git diff --exit-code"
+    "build:adf-schema:checkuptodate": "      cd packages/editor/adf-schema && yarn run generate:json-schema && git diff --exit-code",
+    "build:multi-entry-point-tsconfig": "    node ./build/multi-entry-tools/typescript-paths-tsconfig-builder.js > tsconfig.entry-points.json"
   },
   "bolt": {
     "version": "^0.20.6 || ^0.21.1 || ^0.22.1",
@@ -117,7 +118,6 @@
     "@types/react-virtualized": "^9.18.12",
     "@types/sinon": "^2.2.0",
     "@types/uuid-validate": "^0.0.0",
-    "@types/xregexp": "^3.0.29",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.2",

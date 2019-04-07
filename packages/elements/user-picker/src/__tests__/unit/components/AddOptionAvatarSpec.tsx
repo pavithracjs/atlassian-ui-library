@@ -1,4 +1,3 @@
-import { Skeleton } from '@atlaskit/icon';
 import InviteTeamIcon from '@atlaskit/icon/glyph/invite-team';
 import { shallow } from 'enzyme';
 import * as React from 'react';
@@ -17,9 +16,7 @@ describe('AddOptionAvatar', () => {
       size: 'small',
     });
 
-    const skeleton = component.find(Skeleton);
-    expect(skeleton).toHaveLength(1);
-    const inviteIcon = skeleton.find(InviteTeamIcon);
+    const inviteIcon = component.find(InviteTeamIcon);
     expect(inviteIcon).toHaveLength(1);
     expect(inviteIcon.props()).toMatchObject({
       label: 'Invite',

@@ -1,5 +1,15 @@
 # @atlaskit/user-picker
 
+## 3.3.3
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 3.3.2
+- [patch] [3718bdc361](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3718bdc361):
+
+  - Updated InviteAvatorIcon in UserPicker to be not transparent
+
 ## 3.3.1
 - [patch] [83ad0552d4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/83ad0552d4):
 

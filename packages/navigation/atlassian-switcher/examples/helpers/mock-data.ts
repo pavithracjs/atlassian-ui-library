@@ -125,7 +125,12 @@ const ORIGINAL_MOCK_DATA: MockData = {
     },
   },
   USER_PERMISSION_DATA: {
-    permitted: true,
+    manage: {
+      permitted: true,
+    },
+    'add-products': {
+      permitted: true,
+    },
   },
   XFLOW_SETTINGS: {},
 };

@@ -198,10 +198,9 @@ export const getLicensedProductLinks = (
 };
 
 export const getAdministrationLinks = (
-  cloudId: string,
   isAdmin: boolean,
 ): SwitcherItemType[] => {
-  const adminBaseUrl = isAdmin ? `/admin/s/${cloudId}` : '/trusted-admin';
+  const adminBaseUrl = isAdmin ? `/admin` : '/trusted-admin';
   return [
     {
       key: 'discover-applications',

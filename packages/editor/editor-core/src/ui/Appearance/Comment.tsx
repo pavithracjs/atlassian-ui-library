@@ -24,7 +24,7 @@ import {
 } from '@atlaskit/editor-common';
 import WidthEmitter from '../WidthEmitter';
 import { GRID_GUTTER } from '../../plugins/grid';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 
 export interface CommentEditorProps {
   isMaxContentSizeReached?: boolean;

@@ -1,5 +1,10 @@
 # @atlaskit/spinner
 
+## 10.0.4
+- [patch] [fd940a833b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fd940a833b):
+
+  - Update spinner imports to use alternative entry points of theme (to decrease bundle size)
+
 ## 10.0.3
 - [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
 

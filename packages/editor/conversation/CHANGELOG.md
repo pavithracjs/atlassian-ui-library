@@ -1,5 +1,10 @@
 # @atlaskit/conversation
 
+## 14.1.1
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 14.1.0
 - [minor] [33563e651d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/33563e651d):
 

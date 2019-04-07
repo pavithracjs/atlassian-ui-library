@@ -3,7 +3,7 @@ import { Node as PmNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
 import { MacroProvider, MacroAttributes } from './types';
 import { pluginKey } from './';
-import * as assert from 'assert';
+import assert from 'assert';
 import { getValidNode } from '@atlaskit/editor-common';
 import {
   safeInsert,

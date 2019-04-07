@@ -1942,10 +1942,6 @@
     "@types/uglify-js" "*"
     source-map "^0.6.0"
 
-"@types/xregexp@^3.0.29":
-  version "3.0.29"
-  resolved "https://registry.yarnpkg.com/@types/xregexp/-/xregexp-3.0.29.tgz#9f2f819712ab41fd8b434036ec4b14cbb9dbe654"
-
 "@webassemblyjs/ast@1.5.13":
   version "1.5.13"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.5.13.tgz#81155a570bd5803a30ec31436bc2c9c0ede38f25"

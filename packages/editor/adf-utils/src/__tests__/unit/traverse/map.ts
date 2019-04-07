@@ -1,5 +1,5 @@
 import { map } from '../../../traverse/map';
-import * as mentionsDoc from './__fixtures__/mentions.json';
+import mentionsDoc from './__fixtures__/mentions.json';
 
 describe('Traverse#map', () => {
   it('should return an array of all nodes', () => {

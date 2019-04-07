@@ -117,7 +117,6 @@ export default class Example extends React.Component<{}, State> {
       <>
         <ShareDialogContainer
           key={`key-${this.key}`}
-          buttonStyle="icon-with-text"
           client={this.client}
           cloudId="12345-12345-12345-12345"
           loadUserOptions={loadUserOptions}
@@ -127,6 +126,7 @@ export default class Example extends React.Component<{}, State> {
           shareContentType="issue"
           shareLink={window.location.href}
           shareTitle="My Share"
+          triggerButtonStyle="icon-with-text"
         />
         <p>Allow comments</p>
         <Toggle
