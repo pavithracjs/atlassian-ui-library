@@ -6,7 +6,7 @@ module.exports = {
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/syntax-dynamic-import',
   ],
-  presets: ['@babel/react', '@babel/flow'],
+  presets: ['@babel/react', '@babel/flow', '@babel/preset-typescript'],
   overrides: [
     /**
      * REMOVE ME: This override is needed to make sure that we only run the emotion's
