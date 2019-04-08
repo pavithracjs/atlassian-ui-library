@@ -6,7 +6,6 @@ const exec = require('child_process').execSync;
 const imageVersion = require('../pipelines-docker-image/package.json').version;
 
 const cwd = path.join(__dirname);
-const dockerPath = path.join('build', 'pipelines-docker-images');
 const log = true;
 
 // ip address is required for docker image to connect to local server
