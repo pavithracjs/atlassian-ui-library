@@ -1,7 +1,9 @@
 jest.mock('react-lazily-render', () => {
-  return {
-    default: (data: any) => data.content,
-  };
+  return (data: any) => data.content;
+});
+
+jest.mock('react-transition-group/Transition', () => {
+  return (data: any) => data.children;
 });
 
 import * as React from 'react';

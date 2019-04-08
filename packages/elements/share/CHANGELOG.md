@@ -1,5 +1,20 @@
 # @atlaskit/share
 
+## 0.3.3
+- [patch] [66512e9026](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66512e9026):
+
+  - FS-3764 move dependencies to peer dependencies
+
+## 0.3.2
+- [patch] [c68b454ba9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c68b454ba9):
+
+  - fixed unclear share panel state upon successful share
+
+## 0.3.1
+- [patch] [ddfc158dfb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ddfc158dfb):
+
+  - Removed unused buttonStyle prop
+
 ## 0.3.0
 - [minor] [b617f099aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b617f099aa):
 

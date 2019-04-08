@@ -27,16 +27,16 @@
     "id": "atlaskit.elements.main",
     "name": "main",
     "stats": {
-      "size": 29619,
-      "gzipSize": 8626
+      "size": 29661,
+      "gzipSize": 8653
     }
   },
   {
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 454143,
-      "gzipSize": 127342
+      "size": 454183,
+      "gzipSize": 127359
     }
   }
 ]

@@ -11,9 +11,9 @@ describe('Snapshot Test: Dynamic Text Sizing', () => {
   });
 
   [
-    { width: 1440, height: 3200 },
-    { width: 1120, height: 3000 },
-    { width: 1000, height: 3000 },
+    { width: 1440, height: 2700 },
+    { width: 1120, height: 2500 },
+    { width: 1000, height: 2500 },
   ].forEach(size => {
     it(`should correctly render ${size.width}`, async () => {
       await page.setViewport(size);

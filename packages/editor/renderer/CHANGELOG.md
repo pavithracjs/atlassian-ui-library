@@ -1,5 +1,20 @@
 # @atlaskit/renderer
 
+## 45.2.4
+- [patch] [370476ca07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/370476ca07):
+
+  - ED-6674: fix table shadow overlapping inline comments
+
+## 45.2.3
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 45.2.2
+- Updated dependencies [bfca144ea5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bfca144ea5):
+  - @atlaskit/editor-common@36.1.1
+  - @atlaskit/profilecard@9.0.0
+
 ## 45.2.1
 - [patch] [acfd88ba22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acfd88ba22):
 

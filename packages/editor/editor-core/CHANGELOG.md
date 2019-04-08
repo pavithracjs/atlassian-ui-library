@@ -1,5 +1,20 @@
 # @atlaskit/editor-core
 
+## 107.9.0
+- [minor] [2558e53738](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2558e53738):
+
+  - ED-6665 Rename 'Panel' to 'Info Panel' (frontend text only)
+
+## 107.8.3
+- [patch] [b425ea772b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b425ea772b):
+
+  - Revert "ED-5505 add strong as default mark to table header (pull request #5291)"
+
+## 107.8.2
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 107.8.1
 - [patch] [dfc4c5da7f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfc4c5da7f):
 

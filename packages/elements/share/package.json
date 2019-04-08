@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/share",
-  "version": "0.3.0",
+  "version": "0.3.3",
   "config": {
     "access": "private"
   },
@@ -32,10 +32,7 @@
     "@atlaskit/tooltip": "^13.0.1",
     "@atlaskit/user-picker": "^3.1.1",
     "@atlaskit/util-service-support": "^4.0.1",
-    "memoize-one": "^3.0.1",
-    "react": "^16.4.0",
-    "react-intl": "^2.6.0",
-    "styled-components": "^3.2.6"
+    "memoize-one": "^3.0.1"
   },
   "devDependencies": {
     "@atlaskit/docs": "^7.0.1",
@@ -49,6 +46,11 @@
     "enzyme-adapter-react-16": "^1.7.0",
     "react": "^16.4.0",
     "react-intl": "^2.6.0"
+  },
+  "peerDependencies": {
+    "react": "^16.4.0",
+    "react-intl": "^2.6.0",
+    "styled-components": "^3.2.6"
   },
   "scripts": {
     "i18n:push": "i18n-tools push --resource share . --type ts",

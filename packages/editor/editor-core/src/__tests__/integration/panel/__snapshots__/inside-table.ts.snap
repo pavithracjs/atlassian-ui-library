@@ -17,11 +17,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": null,
-                "defaultMarks": Array [
-                  Object {
-                    "type": "strong",
-                  },
-                ],
+                "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [
@@ -33,11 +29,6 @@ Object {
                     Object {
                       "content": Array [
                         Object {
-                          "marks": Array [
-                            Object {
-                              "type": "strong",
-                            },
-                          ],
                           "text": "this text should be in the panel",
                           "type": "text",
                         },
@@ -55,11 +46,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": null,
-                "defaultMarks": Array [
-                  Object {
-                    "type": "strong",
-                  },
-                ],
+                "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [
@@ -74,11 +61,7 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": null,
-                "defaultMarks": Array [
-                  Object {
-                    "type": "strong",
-                  },
-                ],
+                "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [

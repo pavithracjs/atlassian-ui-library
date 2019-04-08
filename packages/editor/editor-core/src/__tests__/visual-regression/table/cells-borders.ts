@@ -1,5 +1,5 @@
 import { snapshot, initFullPageEditorWithAdf } from '../_utils';
-import * as adf from './__fixtures__/table-with-merged-rows.adf.json';
+import adf from './__fixtures__/table-with-merged-rows.adf.json';
 
 describe('Table cells borders:fullpage', () => {
   let page: any;

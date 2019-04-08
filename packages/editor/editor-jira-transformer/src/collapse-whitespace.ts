@@ -1,4 +1,4 @@
-import * as module from 'collapse-whitespace';
+import module from 'collapse-whitespace';
 
 declare module 'collapse-whitespace';
 

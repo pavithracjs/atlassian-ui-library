@@ -11,8 +11,8 @@
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 1252436,
-      "gzipSize": 353421
+      "size": 1252437,
+      "gzipSize": 353469
     }
   },
   {
@@ -20,31 +20,31 @@
     "name": "node_modules [async]",
     "stats": {
       "size": 1421977,
-      "gzipSize": 404244
+      "gzipSize": 404245
     }
   },
   {
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 228769,
-      "gzipSize": 49764
+      "size": 228776,
+      "gzipSize": 49871
     }
   },
   {
     "id": "atlaskit.core.async",
     "name": "async",
     "stats": {
-      "size": 159250,
-      "gzipSize": 31529
+      "size": 159251,
+      "gzipSize": 31521
     }
   },
   {
     "id": "atlaskit.editor.main",
     "name": "main",
     "stats": {
-      "size": 667723,
-      "gzipSize": 176771
+      "size": 667854,
+      "gzipSize": 177260
     }
   },
   {
@@ -59,32 +59,32 @@
     "id": "atlaskit.elements.main",
     "name": "main",
     "stats": {
-      "size": 80514,
-      "gzipSize": 20182
+      "size": 80611,
+      "gzipSize": 20480
     }
   },
   {
     "id": "atlaskit.elements.async",
     "name": "async",
     "stats": {
-      "size": 71941,
-      "gzipSize": 21486
+      "size": 71995,
+      "gzipSize": 21516
     }
   },
   {
     "id": "atlaskit.media.main",
     "name": "main",
     "stats": {
-      "size": 230574,
-      "gzipSize": 54295
+      "size": 230672,
+      "gzipSize": 54517
     }
   },
   {
     "id": "atlaskit.media.async",
     "name": "async",
     "stats": {
-      "size": 872943,
-      "gzipSize": 216484
+      "size": 873043,
+      "gzipSize": 216549
     }
   },
   {
@@ -99,16 +99,17 @@
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 2489356,
-      "gzipSize": 675701
+      "size": 2489657,
+      "gzipSize": 676048
     }
   },
   {
     "id": "combined.async",
     "name": "async",
     "stats": {
+<<<<<<< HEAD
       "size": 2563825,
       "gzipSize": 685059
-    }
-  }
+=======
+      "size": 2564168,
 ]

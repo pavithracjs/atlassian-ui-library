@@ -3,7 +3,7 @@ import PeopleSearchClient, {
   GraphqlResponse,
 } from '../../api/PeopleSearchClient';
 
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 import { AnalyticsType, ResultType, PersonResult } from '../../model/Result';
 
 function searchApiWillReturn(state: SearchResult[] | GraphqlResponse) {

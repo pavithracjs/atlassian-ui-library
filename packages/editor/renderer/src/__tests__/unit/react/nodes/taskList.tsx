@@ -19,9 +19,11 @@ describe('Renderer - React/Nodes/TaskList', () => {
     };
   });
 
-  it('shouldmatch rendered AkTaskList', () => {
+  it('should wrap content with <AkTaskList>-tag with start prop', () => {
     const text: any = 'This is a task list';
-    const taskList = shallow(<TaskList>{text}</TaskList>);
+    const taskListWrapper = shallow(<TaskList>{text}</TaskList>);
+    const taskList = taskListWrapper.childAt(0);
+    expect(taskListWrapper.is('div')).toEqual(true);
     expect(taskList.is(AkTaskList)).toEqual(true);
   });
 

@@ -18,7 +18,6 @@ import {
   panelSharedStyles,
   ruleSharedStyles,
   paragraphSharedStyles,
-  listsSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
   mediaSingleSharedStyle,
@@ -99,7 +98,6 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   ${panelSharedStyles};
   ${ruleSharedStyles};
   ${paragraphSharedStyles};
-  ${listsSharedStyles};
   ${indentationSharedStyles};
   ${blockMarksSharedStyles};
   ${codeMarkSharedStyles};
@@ -126,6 +124,72 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   & span.date-node-highlighted {
     background: ${colors.R50};
     color: ${colors.R500};
+  }
+
+  & ul {
+    list-style-type: disc;
+
+    & ul {
+      list-style-type: circle;
+    }
+
+    & ul ul {
+      list-style-type: square;
+    }
+
+    & ul ul ul {
+      list-style-type: disc;
+    }
+
+    & ul ul ul ul {
+      list-style-type: circle;
+    }
+
+    & ul ul ul ul ul {
+      list-style-type: square;
+    }
+  }
+
+  & ol {
+    list-style-type: decimal;
+
+    & ol {
+      list-style-type: lower-alpha;
+    }
+
+    & ol ol {
+      list-style-type: lower-roman;
+    }
+
+    & ol ol ol {
+      list-style-type: decimal;
+    }
+
+    & ol ol ol ol {
+      list-style-type: lower-alpha;
+    }
+
+    & ol ol ol ol ol {
+      list-style-type: lower-roman;
+    }
+
+    & ol ol ol ol ol ol {
+      list-style-type: decimal;
+    }
+
+    & ol ol ol ol ol ol ol {
+      list-style-type: lower-alpha;
+    }
+
+    & ol ol ol ol ol ol ol ol {
+      list-style-type: lower-roman;
+    }
+  }
+
+  & .akTaskList > ol,
+  & .akDecisionList > ol {
+    list-style-type: none;
+    font-size: ${fontSize()}px;
   }
 
   & .renderer-image {
@@ -186,6 +250,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   ${tableSharedStyle}
 
   .${TableSharedCssClassName.TABLE_CONTAINER} {
+    z-index: 0;
     transition: all 0.1s linear;
 
     /** Shadow overrides */

@@ -1,5 +1,10 @@
 # @atlaskit/button
 
+## 11.0.7
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 11.0.6
 - Updated dependencies [fd940a833b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fd940a833b):
   - @atlaskit/spinner@10.0.4
