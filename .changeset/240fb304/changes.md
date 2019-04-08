@@ -1,0 +1,1 @@
+- Release math js as a module
