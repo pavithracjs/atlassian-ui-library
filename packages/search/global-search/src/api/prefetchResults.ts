@@ -21,13 +21,14 @@ export type GlobalSearchPrefetchedResults =
   | ConfluencePrefetchedResults
   | JiraPrefetchedResults;
 
+const PREFETCH_SEARCH_SESSION_ID = 'prefetch-unavailable';
+
 const prefetchConfluence = async (
   confluenceClient: ConfluenceClient,
-  searchSessionId: string,
 ): Promise<ConfluenceRecentsMap> => {
   const [objects, spaces] = await Promise.all([
-    confluenceClient.getRecentItems(searchSessionId),
-    confluenceClient.getRecentSpaces(searchSessionId),
+    confluenceClient.getRecentItems(PREFETCH_SEARCH_SESSION_ID),
+    confluenceClient.getRecentSpaces(PREFETCH_SEARCH_SESSION_ID),
   ]);
 
   return {
@@ -38,7 +39,6 @@ const prefetchConfluence = async (
 
 export const getConfluencePrefetchedData = (
   cloudId: string,
-  searchSessionId: string,
   confluenceUrl?: string,
 ): ConfluencePrefetchedResults => {
   const config = confluenceUrl
@@ -52,14 +52,11 @@ export const getConfluencePrefetchedData = (
     peopleSearchClient,
   } = configureSearchClients(cloudId, config);
   return {
-    confluenceRecentItemsPromise: prefetchConfluence(
-      confluenceClient,
-      searchSessionId,
-    ),
+    confluenceRecentItemsPromise: prefetchConfluence(confluenceClient),
     abTestPromise: crossProductSearchClient.getAbTestData(
       Scope.ConfluencePageBlogAttachment,
       {
-        sessionId: searchSessionId,
+        sessionId: PREFETCH_SEARCH_SESSION_ID,
       },
     ),
     recentPeoplePromise: peopleSearchClient.getRecentPeople(),

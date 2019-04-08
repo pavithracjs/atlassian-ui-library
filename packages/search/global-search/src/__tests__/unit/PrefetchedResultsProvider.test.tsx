@@ -19,11 +19,7 @@ jest.mock('../../api/prefetchResults');
 
 function render(context: QuickSearchContext, childComponent: JSX.Element) {
   return mount(
-    <PrefetchedResultsProvider
-      context={context}
-      cloudId="cloudId"
-      searchSessionId="searchSessionId"
-    >
+    <PrefetchedResultsProvider context={context} cloudId="cloudId">
       {childComponent}
     </PrefetchedResultsProvider>,
   );

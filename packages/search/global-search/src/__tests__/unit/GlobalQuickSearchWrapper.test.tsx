@@ -60,11 +60,7 @@ describe('Prefetch', () => {
     const context = 'confluence';
 
     mountWithIntl(
-      <PrefetchedResultsProvider
-        context={context}
-        cloudId={cloudId}
-        searchSessionId="searchSessionId"
-      >
+      <PrefetchedResultsProvider context={context} cloudId={cloudId}>
         <GlobalQuickSearch
           cloudId={cloudId}
           context={context}

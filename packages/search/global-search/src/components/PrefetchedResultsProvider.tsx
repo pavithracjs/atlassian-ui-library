@@ -18,7 +18,6 @@ export const GlobalSearchPreFetchContext = React.createContext<PrefetchContext>(
 interface Props {
   context: QuickSearchContext;
   cloudId: string;
-  searchSessionId: string;
   children: JSX.Element;
   baseUrl?: string;
 }
@@ -37,12 +36,11 @@ export default class PrefetchedResultsProvider extends React.Component<
 
   getPrefetchedResults = (
     cloudId: string,
-    searchSessionId: string,
   ): GlobalSearchPrefetchedResults | undefined => {
     const { context, baseUrl } = this.props;
     switch (context) {
       case 'confluence':
-        return getConfluencePrefetchedData(cloudId, searchSessionId, baseUrl);
+        return getConfluencePrefetchedData(cloudId, baseUrl);
       default:
         // To be implemented in https://product-fabric.atlassian.net/browse/QS-623
         throw new Error(
@@ -52,13 +50,10 @@ export default class PrefetchedResultsProvider extends React.Component<
   };
 
   async componentDidMount() {
-    const { cloudId, searchSessionId } = this.props;
+    const { cloudId } = this.props;
     const { prefetchedResults: prefetchedResults } = this.state;
     if (!prefetchedResults) {
-      const newPrefetchedResults = await this.getPrefetchedResults(
-        cloudId,
-        searchSessionId,
-      );
+      const newPrefetchedResults = await this.getPrefetchedResults(cloudId);
       this.setState({
         prefetchedResults: newPrefetchedResults,
       });
