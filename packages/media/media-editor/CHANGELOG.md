@@ -1,5 +1,10 @@
 # @atlaskit/media-editor
 
+## 32.0.4
+- [patch] [5ceba058c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ceba058c9):
+
+  - MS-1613 Media Editor should close by Esc press without closing Media Picker
+
 ## 32.0.3
 - Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
   - @atlaskit/media-core@29.1.2
