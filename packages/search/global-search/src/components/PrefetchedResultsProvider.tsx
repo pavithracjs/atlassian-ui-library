@@ -44,7 +44,9 @@ export default class PrefetchedResultsProvider extends React.Component<
         return getConfluencePrefetchedData(cloudId, searchSessionId, baseUrl);
       case 'jira':
         // To be implemented in https://product-fabric.atlassian.net/browse/QS-623
-        return undefined;
+        throw new Error(
+          'Prefetching is not supported in Jira - did you set the PrefetchResultProvider context incorrectly?',
+        );
     }
   };
 
