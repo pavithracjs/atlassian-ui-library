@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.9.2
+- [patch] [823d44ebb0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/823d44ebb0):
+
+  - ED-6667 Enfoce consistent whitespace between renderer & editor
+
 ## 107.9.1
 - [patch] [c976e9355c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c976e9355c):
 
