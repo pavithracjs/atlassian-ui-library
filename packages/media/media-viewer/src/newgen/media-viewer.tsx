@@ -21,7 +21,6 @@ import { List } from './list';
 import { Collection } from './collection';
 import { Content } from './content';
 import { Blanket } from './styled';
-import { resetTimer } from './utils/timer';
 
 export type Props = {
   onClose?: () => void;
@@ -31,10 +30,13 @@ export type Props = {
   itemSource: ItemSource;
 } & WithAnalyticsEventProps;
 
-class MediaViewerComponent extends React.Component<Props, {}> {
+export class MediaViewerComponent extends React.Component<Props, {}> {
   static contextTypes = {
     intl: intlShape,
   };
+
+  static startTime: number = Date.now();
+  static timerElapsed = () => Date.now() - MediaViewerComponent.startTime;
 
   private fireAnalytics = (payload: GasPayload | GasScreenEventPayload) => {
     const { createAnalyticsEvent } = this.props;
@@ -46,7 +48,7 @@ class MediaViewerComponent extends React.Component<Props, {}> {
 
   componentWillMount() {
     this.fireAnalytics(mediaViewerModalEvent());
-    resetTimer();
+    MediaViewerComponent.startTime = Date.now();
   }
 
   onShortcutClosed = () => {
