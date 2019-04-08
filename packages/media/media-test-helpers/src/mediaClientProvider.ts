@@ -11,7 +11,7 @@ const defaultAuthParameter: AuthParameter = {
 };
 
 /**
- * Creates and returns `Context` (from `media-core`) based on the data provided in parameter object.
+ * Creates and returns `MediaClient` (from `media-client`) based on the data provided in parameter object.
  *
  * @param {AuthParameter} authParameter specifies serviceName and whatever auth should be done with clientId or asapIssuer
  * @returns {Context}
