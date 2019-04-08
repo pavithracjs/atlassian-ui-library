@@ -20,7 +20,7 @@ const blockedFromMultiEntryPointsModuleList = [
  */
 
 // This is the resolver used by webpack, which we configure similarly
-// to AK website (see ./website/webpack.config.js - "resolve" field)
+// to AK website (see ./website/webpack.config.js - "resolve" field).
 const wpResolver = require('enhanced-resolve').ResolverFactory.createResolver({
   fileSystem: fs,
   useSyncFileSystemCalls: true,
