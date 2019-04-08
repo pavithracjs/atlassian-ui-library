@@ -4,6 +4,7 @@ import CrossProductSearchClient, {
   ScopeResult,
   ABTest,
   CrossProductExperimentResponse,
+  DEFAULT_AB_TEST,
 } from '../../api/CrossProductSearchClient';
 import { Scope, ConfluenceItem, PersonItem } from '../../api/types';
 
@@ -369,6 +370,7 @@ describe('CrossProductSearchClient', () => {
           {
             id: 'confluence.page,blogpost' as Scope,
             error: 'did not work',
+            abTest: DEFAULT_AB_TEST,
           },
         ],
       });
@@ -377,7 +379,7 @@ describe('CrossProductSearchClient', () => {
         Scope.ConfluencePageBlog,
         searchSession,
       );
-      expect(result).toBeUndefined();
+      expect(result).toEqual(DEFAULT_AB_TEST);
     });
   });
 });
