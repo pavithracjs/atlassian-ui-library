@@ -7,6 +7,7 @@ import JiraQuickSearchContainer from './jira/JiraQuickSearchContainer';
 import configureSearchClients, { Config } from '../api/configureSearchClients';
 import MessagesIntlProvider from './MessagesIntlProvider';
 import { GlobalSearchPreFetchContext } from './PrefetchedResultsProvider';
+import { QuickSearchContext } from '../api/types';
 
 const DEFAULT_NOOP_LOGGER: Logger = {
   safeInfo() {},
@@ -65,7 +66,7 @@ export interface Props {
   /**
    * The context for quick-search determines the UX and what kind of entities the component is searching.
    */
-  context: 'confluence' | 'home' | 'jira';
+  context: QuickSearchContext;
 
   /**
    * For development purposes only: Overrides the URL to the activity service.

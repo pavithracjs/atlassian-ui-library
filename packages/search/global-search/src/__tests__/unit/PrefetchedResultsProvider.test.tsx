@@ -13,10 +13,11 @@ import {
   recentPeoplePromise,
   getConfluencePrefetchedData,
 } from '../../api/prefetchResults';
+import { QuickSearchContext } from '../../api/types';
 
 jest.mock('../../api/prefetchResults');
 
-function render(context: 'confluence' | 'jira', childComponent: JSX.Element) {
+function render(context: QuickSearchContext, childComponent: JSX.Element) {
   return mount(
     <PrefetchedResultsProvider
       context={context}

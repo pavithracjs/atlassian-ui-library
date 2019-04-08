@@ -10,6 +10,7 @@ import { HomeQuickSearchContainer } from '../../components/home/HomeQuickSearchC
 import { JiraQuickSearchContainer } from '../../components/jira/JiraQuickSearchContainer';
 import PrefetchedResultsProvider from '../../components/PrefetchedResultsProvider';
 import { mountWithIntl } from './helpers/_intl-enzyme-test-helper';
+import { QuickSearchContext } from '../../api/types';
 
 jest.mock('../../api/prefetchResults');
 jest.mock('../../api/CachingConfluenceClient');
@@ -100,7 +101,7 @@ describe('advanced search callback', () => {
       const wrapper = mountWithIntl(
         <GlobalQuickSearch
           cloudId="123"
-          context={product as 'jira' | 'confluence'}
+          context={product as QuickSearchContext}
           onAdvancedSearch={spy}
         />,
       );
@@ -137,7 +138,7 @@ describe('advanced search callback', () => {
       const wrapper = mountWithIntl(
         <GlobalQuickSearch
           cloudId="123"
-          context={product as 'jira' | 'confluence'}
+          context={product as QuickSearchContext}
           onAdvancedSearch={spy}
         />,
       );
