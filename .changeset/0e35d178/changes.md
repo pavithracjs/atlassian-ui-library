@@ -1,0 +1,1 @@
+- ED-6320: support replacing smart links from Recent Items list via Cmd+K menu

@@ -20,7 +20,7 @@ BrowserTestCase(
     await quickInsert(browser, 'Link');
 
     await browser.waitForSelector(linkToolbar);
-    await browser.type(linkToolbar, ['atlassian.com', 'Return']);
+    await browser.type(linkToolbar, ['google.com', 'Return']);
     await browser.waitForSelector('a');
 
     const doc = await browser.$eval(editable, getDocFromElement);
