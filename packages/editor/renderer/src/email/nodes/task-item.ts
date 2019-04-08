@@ -43,7 +43,7 @@ export default function taskItem({ attrs, text }: NodeSerializerOpts) {
         {
           text: iconText[state],
           style: {
-            'font-size': state === TaskState.DONE ? '13px' : '12px',
+            'font-size': '12px',
             'font-weight': '600',
             'text-align': 'center',
             'background-color': state === TaskState.DONE ? B400 : N0,
@@ -60,8 +60,8 @@ export default function taskItem({ attrs, text }: NodeSerializerOpts) {
       ],
     ],
     {
-      margin: '0px 2px',
-      padding: '1px 2px 1px 2px',
+      'table-layout': 'fixed',
+      'line-height': state === TaskState.DONE ? '20px' : '18px',
     },
   );
 
@@ -83,14 +83,21 @@ export default function taskItem({ attrs, text }: NodeSerializerOpts) {
     },
   };
 
-  const mainContentTable = createTable([[iconTd, textTd]]);
-
-  const mainContentWrapperTable = createTable([[{ text: mainContentTable }]], {
+  const mainContentTable = createTable([[iconTd, textTd]], {
     'background-color': N30,
     'border-radius': '3px',
+    'table-layout': 'fixed',
+    'line-height': '20px',
   });
 
-  return createTable([[{ text: mainContentWrapperTable }]], {
-    padding: '4px 0px 4px 0',
-  });
+  return createTable([
+    [
+      {
+        text: mainContentTable,
+        style: {
+          padding: '4px 0px 4px 0',
+        },
+      },
+    ],
+  ]);
 }
