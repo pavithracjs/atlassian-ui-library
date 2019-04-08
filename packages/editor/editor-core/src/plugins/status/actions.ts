@@ -41,9 +41,8 @@ export const updateStatus = (status?: StatusType) => (
 ): boolean => {
   const { state, dispatch } = editorView;
   const { schema } = state;
-  const selectedStatus = null;
 
-  const updatedStatus = status
+  const selectedStatus = status
     ? Object.assign(status, {
         text: status.text.trim(),
         localId: status.localId || uuid.generate(),
@@ -52,7 +51,7 @@ export const updateStatus = (status?: StatusType) => (
 
   const statusProps = {
     ...DEFAULT_STATUS,
-    ...updatedStatus,
+    ...selectedStatus,
   };
 
   let tr = state.tr;
@@ -69,7 +68,7 @@ export const updateStatus = (status?: StatusType) => (
     tr = tr
       .setMeta(pluginKey, {
         showStatusPickerAt: newShowStatusPickerAt,
-        selectedStatus,
+        selectedStatus: null,
         isNew: true,
       })
       .scrollIntoView();

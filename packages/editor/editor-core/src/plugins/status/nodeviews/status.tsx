@@ -2,12 +2,13 @@ import * as React from 'react';
 import { defineMessages, injectIntl, InjectedIntlProps } from 'react-intl';
 import styled from 'styled-components';
 import { Node as PMNode } from 'prosemirror-model';
-import { Selection } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { Status } from '@atlaskit/status';
-import { pluginKey } from '../plugin';
+import { pluginKey, StatusState } from '../plugin';
 import { setStatusPickerAt } from '../actions';
 import { colors } from '@atlaskit/theme';
+import WithPluginState from '../../../ui/WithPluginState';
+import { EventDispatcher } from '../../../event-dispatcher';
 import { ZeroWidthSpace } from '../../../utils';
 
 const { B100 } = colors;
@@ -52,76 +53,52 @@ export const messages = defineMessages({
 export interface Props {
   node: PMNode;
   view: EditorView;
-  getPos: () => number;
+  eventDispatcher?: EventDispatcher;
 }
 
-export interface State {
-  selected: boolean;
-}
-
-class StatusNodeView extends React.Component<Props & InjectedIntlProps, State> {
+class StatusNodeView extends React.Component<Props & InjectedIntlProps, {}> {
   constructor(props: Props & InjectedIntlProps) {
     super(props);
-    this.state = {
-      selected: false,
-    };
   }
-
-  componentDidMount() {
-    const { view } = this.props;
-    const { selectionChanges } = pluginKey.getState(view.state);
-    if (selectionChanges) {
-      selectionChanges.subscribe(this.handleSelectionChange);
-    }
-  }
-
-  componentWillUnmount() {
-    const { view } = this.props;
-    const { selectionChanges } = pluginKey.getState(view.state);
-    if (selectionChanges) {
-      selectionChanges.unsubscribe(this.handleSelectionChange);
-    }
-  }
-
-  private handleSelectionChange = (
-    newSelection: Selection,
-    _prevSelection: Selection,
-  ) => {
-    const { getPos } = this.props;
-    const { from, to } = newSelection;
-    const statusPos = getPos();
-    const selected = from <= statusPos && to > statusPos;
-
-    if (this.state.selected !== selected) {
-      this.setState({
-        selected,
-      });
-    }
-  };
 
   render() {
-    const {
-      node: {
-        attrs: { text, color, localId, style },
-      },
-      intl: { formatMessage },
-    } = this.props;
-    const { selected } = this.state;
-    const statusText = text ? text : formatMessage(messages.placeholder);
-
+    const { eventDispatcher, view } = this.props;
     return (
-      <span>
-        <StatusContainer selected={selected} placeholderStyle={!text}>
-          <Status
-            text={statusText}
-            color={color}
-            localId={localId}
-            style={style}
-            onClick={this.handleClick}
-          />
-        </StatusContainer>
-        {ZeroWidthSpace}
-      </span>
+      <WithPluginState
+        plugins={{
+          pluginState: pluginKey,
+        }}
+        editorView={view}
+        eventDispatcher={eventDispatcher}
+        render={({ pluginState }: { pluginState: StatusState }) => {
+          const {
+            node: {
+              attrs: { text, color, localId, style },
+            },
+            intl: { formatMessage },
+          } = this.props;
+
+          const statusText = text ? text : formatMessage(messages.placeholder);
+          const selectedLocalId =
+            pluginState.selectedStatus && pluginState.selectedStatus.localId;
+          const selected = selectedLocalId === localId;
+
+          return (
+            <span>
+              <StatusContainer selected={selected} placeholderStyle={!text}>
+                <Status
+                  text={statusText}
+                  color={color}
+                  localId={localId}
+                  style={style}
+                  onClick={this.handleClick}
+                />
+              </StatusContainer>
+              {ZeroWidthSpace}
+            </span>
+          );
+        }}
+      />
     );
   }
 
