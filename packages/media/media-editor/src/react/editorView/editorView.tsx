@@ -64,10 +64,14 @@ class EditorView extends Component<
 
     this.setState({ dimensions });
     this.loadProperties();
+    this.rootDiv.addEventListener('keydown', this.handleEsc);
   }
 
   componentWillUnmount() {
     this.saveProperties();
+    if (this.rootDiv) {
+      this.rootDiv.addEventListener('keydown', this.handleEsc);
+    }
   }
 
   render() {
@@ -221,6 +225,13 @@ class EditorView extends Component<
       });
     }
   }
+
+  private handleEsc = (e: KeyboardEvent) => {
+    if (e.keyCode === 27) {
+      e.stopPropagation();
+      this.props.onCancel();
+    }
+  };
 }
 
 function isTool(value: string): value is Tool {
