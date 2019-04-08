@@ -31,4 +31,4 @@ export * from './context/fileStreamCache';
 export type ImageResizeMode = 'crop' | 'fit' | 'full-fit' | 'stretchy-fit';
 export * from './identifier';
 
-export { mediaState } from './cache';
+export { mediaState, CachedMediaState, StateDeferredValue } from './cache';
