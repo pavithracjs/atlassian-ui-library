@@ -28,22 +28,6 @@ export default class NumberController extends FieldController {
     super(config);
     this.validateValue = config.validateValue || this.defaultValidation;
   }
-  getFilterGraphQL = ({ type, value }: *) => {
-    // special case where the value is a tuple
-    if (type === 'between') {
-      return `AND: [{
-        ${this.key}_gt: ${value[0]} },
-        { ${this.key}_lt: ${value[1]} }]
-      }`;
-    }
-
-    const key = type === 'is' ? this.key : `${this.key}_${type}`;
-
-    return `${key}: ${value}`;
-  };
-  getFilterLabel = () => {
-    return this.label;
-  };
   formatButtonLabel = ({ type, value }: *) => {
     // $FlowFixMe
     const typeLabel = this.getFilterTypes().find(f => f.type === type).label;

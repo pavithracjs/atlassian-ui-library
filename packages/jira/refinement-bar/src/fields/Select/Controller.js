@@ -6,7 +6,6 @@ import { isObject } from '../../utils';
 
 export interface SelectControllerInterface {
   config: Object;
-  getFilterLabel: (*) => any;
   hasValue: (*) => boolean;
   getInitialValue: (*) => any;
   formatButtonLabel: (*) => Node;
@@ -29,10 +28,7 @@ export default class SelectController extends FieldController {
 
     this.options = this.config.options;
   }
-  options: Options | (Object => Array<Object>);
-  getFilterLabel = () => {
-    return this.label;
-  };
+  options: Options | (Object => Options);
   hasValue = (value: *) => {
     return Array.isArray(value) ? value.length > 0 : isObject(value);
   };

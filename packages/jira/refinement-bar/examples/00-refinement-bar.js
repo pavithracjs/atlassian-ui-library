@@ -56,12 +56,12 @@ class RefinementBarExample extends React.Component {
 
   // render() {
   //   return (
-  // <RefinementBar
-  //   fieldConfig={FIELD_CONFIG}
-  //   irremovableKeys={['search', 'issue-assignee', 'issue-type']}
-  //   onChange={this.onChange}
-  //   value={this.state.value}
-  // />
+  //     <RefinementBar
+  //       fieldConfig={FIELD_CONFIG}
+  //       irremovableKeys={['search', 'issue-assignee', 'issue-type']}
+  //       onChange={this.onChange}
+  //       value={this.state.value}
+  //     />
   //   );
   // }
 

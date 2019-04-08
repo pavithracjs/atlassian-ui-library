@@ -38,7 +38,7 @@ type Props = {
 };
 type State = {
   activePopupKey: string | null,
-  invalid: Object,
+  invalid: { [key: string]: string },
   isExpanded: boolean,
   values: Object,
 };
@@ -203,11 +203,14 @@ class ActualRefinementBar extends PureComponent<Props, State> {
   makeField = (config: Object) => (key: string) => {
     const { type, ...field } = this.ctx.fieldConfig[key];
     const Field = type.view;
+
     const invalidMessage = this.state.invalid[key];
     const isInvalid = Boolean(invalidMessage);
+
     const initialValue = field.getInitialValue();
     const storedValue = this.ctx.value[key] || initialValue;
     const localValue = this.state.values[key] || initialValue;
+
     const hasPopup = typeof field.formatButtonLabel === 'function';
     const popupIsOpen = this.state.activePopupKey === key;
 
@@ -257,7 +260,6 @@ class ActualRefinementBar extends PureComponent<Props, State> {
                 : () => this.handleFieldClear(key)
             }
             ref={ref}
-            value={storedValue.value}
           >
             {field.formatButtonLabel(storedValue)}
           </FilterButton>
@@ -305,7 +307,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
   mapKeyToOption = value => {
     const field = this.ctx.fieldConfig[value];
     const label = field.label || value;
-    return { label, value };
+    return { label, value }; // react-select expects this shape
   };
 
   render() {
