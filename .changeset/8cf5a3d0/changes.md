@@ -1,0 +1,1 @@
+- ED-6667 Enfoce consistent whitespace between renderer & editor
