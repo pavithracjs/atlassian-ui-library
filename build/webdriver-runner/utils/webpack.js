@@ -83,7 +83,7 @@ function packageIsInPatternOrChanged(workspace) {
 }
 
 async function getPackagesWithTests() /*: Promise<Array<string>> */ {
-  let testPattern = process.env.VISUAL_REGRESSION
+  const testPattern = process.env.VISUAL_REGRESSION
     ? 'visual-regression'
     : 'integration';
   const project /*: any */ = await boltQuery({

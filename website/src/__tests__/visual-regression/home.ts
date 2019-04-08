@@ -10,7 +10,8 @@ describe('Snapshot Test', () => {
   let url: string;
 
   beforeAll(async () => {
-    url = 'http://localhost:9000';
+    // @ts-ignore
+    url = global.__BASEURL__;
     // @ts-ignore
     page = global.page;
     await page.goto(url, { waitUntil: 'networkidle0' });
@@ -28,6 +29,8 @@ describe('Snapshot Test', () => {
     expect(image).toMatchProdImageSnapshot();
   });
   it('Home page cards should match production', async () => {
+    // The animation requires to wait couple of seconds to have the cards to be loaded.
+    await page.waitFor(5000);
     const cards = await page.$$('a');
     // The element 0 is the logo of Atlaskit, already covered by the test above.
     for (let i = 1; i < cards.length; i++) {
