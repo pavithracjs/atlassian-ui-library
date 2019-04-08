@@ -1,5 +1,10 @@
 # @atlaskit/global-navigation
 
+## 6.2.8
+- [patch] [4e78d78](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4e78d78):
+
+  - Updated help button actions, instead of a list of items in a popup menu we are now showing a drawer with its content
+
 ## 6.2.7
 - [patch] [bcb3d443fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bcb3d443fc):
 
