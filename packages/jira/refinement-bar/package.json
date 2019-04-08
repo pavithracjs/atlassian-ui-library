@@ -22,7 +22,7 @@
   "dependencies": {
     "@atlaskit/analytics-next": "^4.0.2",
     "@atlaskit/avatar": "^15.0.1",
-    "@atlaskit/badge": "^10.0.1",
+    "@atlaskit/badge": "^11.0.0",
     "@atlaskit/button": "^11.0.5",
     "@atlaskit/icon": "^16.0.0",
     "@atlaskit/icon-object": "^3.0.3",

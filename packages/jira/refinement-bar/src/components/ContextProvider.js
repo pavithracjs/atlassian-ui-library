@@ -18,7 +18,7 @@ type Meta = {
   data?: any,
 };
 
-type ConfigProps = {
+type ProviderProps = {
   children?: Node,
   fieldConfig: FieldConfigType,
   irremovableKeys: Keys,
@@ -29,14 +29,16 @@ type State = {
   fieldConfig: FieldConfigType,
 };
 
-export class RefinementBarProvider extends Component<ConfigProps, State> {
+export class RefinementBarProvider extends Component<ProviderProps, State> {
   static defaultProps = {
     irremovableKeys: [],
   };
-  constructor(props: ConfigProps) {
+  constructor(props: ProviderProps) {
     super(props);
     const { fieldConfig } = this.props;
 
+    // NOTE: this is the primary responsibility of the provider; to initialize
+    // each field with its corresponding controller
     const initializedFields = objectMap(fieldConfig, (field, key) => {
       const Controller = field.type.controller;
       return new Controller({ key, ...field });
