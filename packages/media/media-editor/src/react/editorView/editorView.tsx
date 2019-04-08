@@ -223,7 +223,7 @@ class EditorView extends Component<
   }
 
   private handleEsc = (e: React.KeyboardEvent) => {
-    if (e.keyCode === 27) {
+    if (e.key === 'Escape') {
       e.stopPropagation();
       e.nativeEvent.stopImmediatePropagation();
       this.props.onCancel();
