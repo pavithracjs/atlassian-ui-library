@@ -6,7 +6,7 @@ import {
   Auth,
   AuthProvider,
 } from '@atlaskit/media-store';
-import * as uuid from 'uuid';
+import uuid from 'uuid';
 import { FileFetcherImpl, getItemsFromKeys } from '../../file';
 import {
   expectFunctionToHaveBeenCalledWith,

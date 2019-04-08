@@ -19,8 +19,9 @@ import { CopyLinkButton } from './CopyLinkButton';
 import { ShareHeader } from './ShareHeader';
 import { UserPickerField } from './UserPickerField';
 
-const LeftAlignmentContainer = styled.div`
-  margin-right: auto;
+const SubmitButtonWrapper = styled.div`
+  display: flex;
+  margin-left: auto;
 `;
 
 const CenterAlignedIconWrapper = styled.div`
@@ -52,6 +53,7 @@ export const FromWrapper = styled.div`
   }
 
   [class^='FormFooter__FormFooterWrapper'] {
+    justify-content: space-between;
     margin-top: 12px;
     margin-bottom: 24px;
   }
@@ -104,7 +106,7 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
       buttonAppearance === 'warning' ? 'strong' : React.Fragment;
 
     return (
-      <>
+      <SubmitButtonWrapper>
         <CenterAlignedIconWrapper>
           {shouldShowWarning && (
             <Tooltip
@@ -124,7 +126,7 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
             {submitButtonLabel || <FormattedMessage {...buttonLabel} />}
           </ButtonLabelWrapper>
         </Button>
-      </>
+      </SubmitButtonWrapper>
     );
   };
 
@@ -157,9 +159,7 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
             )}
           </FormSection>
           <FormFooter>
-            <LeftAlignmentContainer>
-              <CopyLinkButton onLinkCopy={onLinkCopy} link={copyLink} />
-            </LeftAlignmentContainer>
+            <CopyLinkButton onLinkCopy={onLinkCopy} link={copyLink} />
             {this.renderSubmitButton()}
           </FormFooter>
         </form>

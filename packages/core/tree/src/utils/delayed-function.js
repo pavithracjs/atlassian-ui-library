@@ -2,7 +2,9 @@
 
 export default class DelayedFunction {
   delay: number;
+
   timeoutId: ?TimeoutID = null;
+
   fn: ?Function;
 
   constructor(delay: number) {

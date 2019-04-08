@@ -44,6 +44,7 @@ class TransitionHandler extends Component<TransitionProps & HandlerProps> {
     component: 'div',
     transitionProps: defaultTransitionProps,
   };
+
   render() {
     const {
       component: Tag = 'div',

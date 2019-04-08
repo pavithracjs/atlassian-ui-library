@@ -8,8 +8,8 @@ import GlobalSecondaryActions, {
 
 configure({ adapter: new Adapter() });
 
-const describe = window.describe;
-const it = window.it;
+const { describe } = window;
+const { it } = window;
 
 class Child extends PureComponent<any> {
   render() {

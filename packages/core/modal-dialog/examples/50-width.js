@@ -16,9 +16,13 @@ const H4 = styled.h4`
 
 export default class ModalDemo extends Component<{}, { isOpen: any }> {
   state = { isOpen: null };
+
   open = (isOpen: any) => this.setState({ isOpen });
+
   close = (isOpen: any) => this.setState({ isOpen });
+
   secondaryAction = ({ target }: Object) => console.log(target.innerText);
+
   render() {
     const { isOpen } = this.state;
     const btn = name => (

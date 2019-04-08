@@ -10,6 +10,8 @@ export enum Scope {
   People = 'cpus.user',
 }
 
+export type QuickSearchContext = 'jira' | 'confluence' | 'home';
+
 type ConfluenceItemContentType = 'page' | 'blogpost';
 export interface ConfluenceItem {
   title: string; // this is highlighted

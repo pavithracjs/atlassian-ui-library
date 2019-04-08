@@ -3,11 +3,7 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "baseUrl": "./",
-    "paths": {
-      "@atlaskit/analytics-next": [
-        "packages/elements/analytics-next-types"
-      ]
-    }
+    
   },
   "include": [
     "./src/**/*.ts",

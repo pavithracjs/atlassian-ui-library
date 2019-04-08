@@ -56,15 +56,20 @@ type State = { pinned: boolean, top: number };
 
 export default class PositionExample extends Component<Props, State> {
   panel: HTMLElement;
+
   state = { pinned: false, top: 0 };
+
   pin = () => {
     const { top } = this.panel.getBoundingClientRect();
     this.setState({ pinned: true, top });
   };
+
   unpin = () => this.setState({ pinned: false });
+
   ref = (ref: HTMLElement) => {
     this.panel = ref;
   };
+
   render() {
     const { pinned, top } = this.state;
     const fixedPos = pinned ? 'fixed' : 'relative';

@@ -5,7 +5,7 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { defaultSchema } from '../../../schema';
 import * as v1schema from '../../../../json-schema/v1/full.json';
-import * as Ajv from 'ajv';
+import Ajv from 'ajv';
 import { NodeType, MarkType, Node } from 'prosemirror-model';
 import { JSONTransformer } from '@atlaskit/editor-json-transformer';
 

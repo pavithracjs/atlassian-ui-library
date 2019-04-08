@@ -48,6 +48,7 @@ describe('CommentField', () => {
     expect(fieldTextArea.prop('placeholder')).toEqual('placeholder');
     expect(fieldTextArea.prop('onChange')).toBeInstanceOf(Function);
     expect(fieldTextArea.prop('value')).toBe(fieldProps.value.value);
+    expect(fieldTextArea.prop('maxLength')).toBe(500);
   });
 
   it('should call onChange with Comment object', () => {

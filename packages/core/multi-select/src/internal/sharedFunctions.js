@@ -4,7 +4,7 @@ import type { ItemType, GroupType } from '../types';
  * Try to match with filterValues first. If it's not provided, then match with content.
  */
 const isMatched = (item, matchingValue) => {
-  const filterValues = item.filterValues;
+  const { filterValues } = item;
   if (filterValues && filterValues.length > 0) {
     return filterValues.some(
       value => value.toLowerCase().indexOf(matchingValue) > -1,

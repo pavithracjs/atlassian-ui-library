@@ -32,7 +32,7 @@ export default class WaitingExample extends Component<void, State> {
           readView={
             <SingleLineTextInput
               isEditing={false}
-              value={'Click to edit & field will be styled as disabled'}
+              value="Click to edit & field will be styled as disabled"
             />
           }
           onConfirm={this.onConfirm}

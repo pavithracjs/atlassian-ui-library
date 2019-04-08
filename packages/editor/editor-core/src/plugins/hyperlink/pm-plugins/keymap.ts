@@ -84,6 +84,7 @@ const mayConvertLastWordToHyperlink: Command = (state, dispatch) => {
         url,
         pos: start,
         appearance: 'inline',
+        compareLinkText: true,
       },
     ])(state.tr.addMark(start, end, markType));
 

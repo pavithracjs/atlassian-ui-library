@@ -5,7 +5,7 @@
 import React from 'react';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import ReactDOMServer from 'react-dom/server';
-import Modal from '../../../../src';
+import Modal from '../../..';
 
 test('Modal dialog server side rendering', async () => {
   (await getExamplesFor('modal-dialog')).forEach(examples => {

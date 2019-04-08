@@ -1,5 +1,15 @@
 # @atlaskit/global-search
 
+## 6.2.3
+- [patch] [47bb7e05e4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/47bb7e05e4):
+
+  - Add new API to allow pre-fetching of global search pre-query results before the component is opened
+
+## 6.2.2
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 6.2.1
 - [patch] [203d4c22bd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/203d4c22bd):
 

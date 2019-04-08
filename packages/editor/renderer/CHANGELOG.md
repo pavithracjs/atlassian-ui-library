@@ -1,5 +1,96 @@
 # @atlaskit/renderer
 
+## 45.3.3
+- [patch] [32317ff8f3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/32317ff8f3):
+
+  - MS-1633 Renderer passes a list of files and external images to a Card to be opened with Media Viewer
+
+## 45.3.2
+- [patch] [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
+
+  - Removed CardView and CardViewLoader from public APIs and replaced it with light-weight and stateless CardLoading and CardError components. Handling of external images is now done by Card component itself using ExternalImageIdentifier interface.
+
+  If you’ve been using CardView for loading:
+
+  ```js
+  <CardView
+    status="loading"
+    mediaItemType="file"
+    dimensions={cardDimensions}
+  />
+  ```
+
+  Now you can use new component:
+
+  ```js
+  <CardLoading dimensions={cardDimensions} />
+  ```
+
+  If you were using CardView to show an error
+
+  ```js
+  <CardView
+    status="error"
+    mediaItemType={type}
+    dimensions={cardDimensions}
+  />
+  ```
+
+  Now you can use new component:
+
+  ```js
+  <CardError dimensions={cardDimensions} />
+  ```
+
+  In case you were using CardView to show image with known external URI:
+
+  ```js
+  <CardView
+    status="complete"
+    dataURI={dataURI}
+    metadata={metadata}
+  />
+  ```
+
+  You will have to find a way to switch to using Card component using ExternalImageIdentifier interface:
+
+  ```js
+  <Card
+    identifier={identifier}
+    context={context}
+  />
+  ```
+
+## 45.3.1
+- [patch] [823d44ebb0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/823d44ebb0):
+
+  - ED-6667 Enfoce consistent whitespace between renderer & editor
+
+## 45.3.0
+- [minor] [7a656ef460](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7a656ef460):
+
+  - Email renderer - tables now honor table widths
+
+## 45.2.4
+- [patch] [370476ca07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/370476ca07):
+
+  - ED-6674: fix table shadow overlapping inline comments
+
+## 45.2.3
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 45.2.2
+- Updated dependencies [bfca144ea5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bfca144ea5):
+  - @atlaskit/editor-common@36.1.1
+  - @atlaskit/profilecard@9.0.0
+
+## 45.2.1
+- [patch] [acfd88ba22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acfd88ba22):
+
+  - ED-6639 Align lists styles between editor & renderer
+
 ## 45.2.0
 - [minor] [b6f4afdec5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b6f4afdec5):
 

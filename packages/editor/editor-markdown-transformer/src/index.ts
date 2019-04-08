@@ -1,6 +1,6 @@
 import { defaultSchema } from '@atlaskit/adf-schema';
 import { Transformer } from '@atlaskit/editor-common';
-import * as MarkdownIt from 'markdown-it';
+import MarkdownIt from 'markdown-it';
 import { markdownItTable } from 'markdown-it-table';
 import { MarkdownParser } from 'prosemirror-markdown';
 import { Schema, Node as PMNode } from 'prosemirror-model';

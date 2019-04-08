@@ -56,6 +56,7 @@ class Spotlight extends React.Component<Props> {
     dialogWidth: 400,
     pulse: true,
   };
+
   render() {
     const { targetNode, target, ...rest } = this.props;
     return (

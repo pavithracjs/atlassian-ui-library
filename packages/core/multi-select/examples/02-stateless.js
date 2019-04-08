@@ -43,6 +43,7 @@ export default class StatelessExample extends PureComponent<{}, State> {
       filterValue: '',
     });
   };
+
   onRemoved = (item: ItemType) => {
     this.setState({
       selectedItems: this.state.selectedItems.filter(
@@ -50,7 +51,9 @@ export default class StatelessExample extends PureComponent<{}, State> {
       ),
     });
   };
+
   toggleOpen = ({ isOpen }: Object) => this.setState({ isOpen });
+
   updateFilter = (filterValue: string) => this.setState({ filterValue });
 
   render() {

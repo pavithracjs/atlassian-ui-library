@@ -243,6 +243,7 @@ export default class ConfluenceHome extends Component<*, *> {
       ],
     });
   };
+
   openDrawer = (name: string) => {
     console.log(`on ${name} drawer open called`);
 
