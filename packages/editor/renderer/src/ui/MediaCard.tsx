@@ -106,23 +106,20 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
 
     const provider = await mediaProvider;
     const context = await provider.viewContext;
-    const nodeHasDoc = rendererContext && rendererContext.adDoc;
     const nodeIsInCache =
       (id && mediaIdentifierMap.has(id)) ||
       (url && mediaIdentifierMap.has(url));
-    if (nodeHasDoc && !nodeIsInCache) {
-      getListOfIdentifiersFromDoc(rendererContext!.adDoc).forEach(
-        identifier => {
-          if (identifier.mediaItemType === 'file') {
-            mediaIdentifierMap.set(identifier.id as string, {
-              ...identifier,
-              collectionName,
-            });
-          } else if (identifier.mediaItemType === 'external-image') {
-            mediaIdentifierMap.set(identifier.dataURI as string, identifier);
-          }
-        },
-      );
+    if (rendererContext && rendererContext.adDoc && !nodeIsInCache) {
+      getListOfIdentifiersFromDoc(rendererContext.adDoc).forEach(identifier => {
+        if (identifier.mediaItemType === 'file') {
+          mediaIdentifierMap.set(identifier.id as string, {
+            ...identifier,
+            collectionName,
+          });
+        } else if (identifier.mediaItemType === 'external-image') {
+          mediaIdentifierMap.set(identifier.dataURI as string, identifier);
+        }
+      });
     }
 
     this.setState({
