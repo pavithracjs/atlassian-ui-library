@@ -30,6 +30,7 @@ class MoreIndicator extends Component<Props> {
   static defaultProps = {
     appearance: 'circle',
   };
+
   render() {
     const { count } = this.props;
     const outerProps = getProps(this);

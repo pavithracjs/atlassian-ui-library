@@ -117,6 +117,7 @@ export default class App extends Component<
   onDebugToggle = () => {
     this.setState(state => ({ isDebugEnabled: !state.isDebugEnabled }));
   };
+
   onFlyoutToggle = () => {
     this.setState(state => ({ isFlyoutAvailable: !state.isFlyoutAvailable }));
   };
@@ -134,9 +135,9 @@ export default class App extends Component<
             }}
             experimental_flyoutOnHover={isFlyoutAvailable}
             globalNavigation={AsyncDefaultGlobalNavigation}
-            containerSkeleton={() => <SkeletonContainerView type={'product'} />}
+            containerSkeleton={() => <SkeletonContainerView type="product" />}
             itemsRenderer={ItemsRenderer}
-            firstSkeletonToRender={'product'}
+            firstSkeletonToRender="product"
           >
             <div style={{ padding: 40 }}>
               <AsyncRootViews />

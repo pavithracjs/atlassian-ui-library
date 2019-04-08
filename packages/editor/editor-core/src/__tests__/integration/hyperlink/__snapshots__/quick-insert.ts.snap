@@ -10,12 +10,12 @@ Object {
             Object {
               "attrs": Object {
                 "__confluenceMetadata": null,
-                "href": "http://atlassian.com",
+                "href": "http://google.com",
               },
               "type": "link",
             },
           ],
-          "text": "atlassian.com",
+          "text": "google.com",
           "type": "text",
         },
       ],

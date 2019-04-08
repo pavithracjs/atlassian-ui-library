@@ -15,6 +15,7 @@ export default class CheckboxGroups extends Component<
   state = {
     flexDirection: 'column',
   };
+
   onChange = (event: SyntheticEvent<*>) => {
     switch (event.currentTarget.value) {
       case 'column':
@@ -31,6 +32,7 @@ export default class CheckboxGroups extends Component<
         break;
     }
   };
+
   render() {
     return (
       <div>

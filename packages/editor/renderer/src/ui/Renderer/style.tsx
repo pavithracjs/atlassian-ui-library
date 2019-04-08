@@ -17,6 +17,7 @@ import {
   headingsSharedStyles,
   panelSharedStyles,
   ruleSharedStyles,
+  whitespaceSharedStyles,
   paragraphSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
@@ -77,7 +78,6 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   font-size: ${editorFontSize}px;
   line-height: 24px;
   color: ${themed({ light: colors.N800, dark: '#B8C7E0' })};
-  word-wrap: break-word;
 
   & span.akActionMark {
     color: ${colors.B400};
@@ -93,6 +93,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
     cursor: pointer;
   }
 
+  ${whitespaceSharedStyles};
   ${blockquoteSharedStyles};
   ${headingsSharedStyles};
   ${panelSharedStyles};

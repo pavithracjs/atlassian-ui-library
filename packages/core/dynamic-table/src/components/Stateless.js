@@ -76,10 +76,12 @@ class DynamicTable extends Component<Props, State> {
       next: 'Next',
     },
   };
+
   componentWillMount() {
     validateSortKey(this.props.sortKey, this.props.head);
     assertIsSortable(this.props.head);
   }
+
   componentWillReceiveProps(nextProps: Props) {
     if (
       this.props.sortKey !== nextProps.sortKey ||
@@ -91,6 +93,7 @@ class DynamicTable extends Component<Props, State> {
       assertIsSortable(nextProps.head);
     }
   }
+
   onSort = (item: RowCellType) => () => {
     const { sortKey, sortOrder, onSort, isRankable } = this.props;
     const { key } = item;

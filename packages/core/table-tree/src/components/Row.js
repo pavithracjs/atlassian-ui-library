@@ -110,7 +110,7 @@ class Row extends Component<Props, State> {
   }
 
   renderCell(cell: Element<typeof Cell>, cellIndex: number) {
-    const props = this.props;
+    const { props } = this;
     const isExpanded = this.isExpanded();
     const { hasChildren, depth } = props;
     const isFirstCell = cellIndex === 0;
@@ -151,7 +151,7 @@ class Row extends Component<Props, State> {
     }
     return (
       <Fragment>
-        <TreeRowContainer role={'row'} {...ariaAttrs}>
+        <TreeRowContainer role="row" {...ariaAttrs}>
           {/* $FlowFixMe - React.Children.map is typed incorrectly, it should handle null/undefined */}
           {React.Children.map(this.props.children, (cell, index) =>
             this.renderCell(cell, index),

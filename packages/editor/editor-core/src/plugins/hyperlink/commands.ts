@@ -114,7 +114,7 @@ export function insertLink(
         tr.setSelection(Selection.near(tr.doc.resolve(to)));
       }
 
-      queueCardsFromChangedTr(state, tr);
+      queueCardsFromChangedTr(state, tr, false);
 
       if (dispatch) {
         tr.setMeta(stateKey, LinkAction.HIDE_TOOLBAR);

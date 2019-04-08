@@ -131,6 +131,7 @@ export default class Example extends Component<{}, State> {
       shouldDisplayContainerNav: !state.shouldDisplayContainerNav,
     }));
   };
+
   ContainerNavigation = () => (
     <div>
       <HeaderSection>

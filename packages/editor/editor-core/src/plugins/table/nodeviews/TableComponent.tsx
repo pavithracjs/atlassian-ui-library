@@ -317,12 +317,19 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     if (options && options.isBreakoutEnabled === false) {
       return;
     }
-
     this.setState((prevState: TableState) => {
       const tableContainerWidth = calcTableWidth(
         node.attrs.layout,
         containerWidth.width,
       );
+
+      if (
+        options &&
+        options.isBreakoutEnabled === false &&
+        prevState.tableContainerWidth !== 'inherit'
+      ) {
+        return { tableContainerWidth: 'inherit' };
+      }
 
       if (prevState.tableContainerWidth === tableContainerWidth) {
         return null;

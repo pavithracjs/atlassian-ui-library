@@ -18,6 +18,7 @@ export default class Swapper extends React.Component<any, State> {
       mode: this.state.mode === 'light' ? 'dark' : 'light',
     });
   };
+
   render() {
     return (
       <AtlaskitThemeProvider mode={this.state.mode}>

@@ -17,6 +17,7 @@ describe('withAnalytics', () => {
   it('should wrap the component in a WithAnalytics() component', () => {
     class Button extends Component<{}> {
       displayName = 'Button';
+
       render() {
         return <button />;
       }
@@ -180,6 +181,7 @@ describe('withAnalytics', () => {
           !!this.props.privateEvent,
         );
       };
+
       render() {
         /* eslint-disable no-unused-vars */
         const { privateEvent, ...cleanedProps } = cleanProps(this.props);
@@ -242,6 +244,7 @@ describe('withAnalytics', () => {
         this.props.fireAnalyticsEvent('click', { foo: 'bar' });
         this.props.firePrivateAnalyticsEvent('private.button.click');
       };
+
       render() {
         const props = cleanProps(this.props);
         return <button {...props} onClick={this.onClick} />;

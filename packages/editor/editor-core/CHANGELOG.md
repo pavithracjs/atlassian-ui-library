@@ -1,5 +1,20 @@
 # @atlaskit/editor-core
 
+## 107.9.3
+- [patch] [a15643ba92](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a15643ba92):
+
+  - Nodeviews now re-render without a view re-create
+
+## 107.9.2
+- [patch] [823d44ebb0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/823d44ebb0):
+
+  - ED-6667 Enfoce consistent whitespace between renderer & editor
+
+## 107.9.1
+- [patch] [c976e9355c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c976e9355c):
+
+  - ED-6320: support replacing smart links from Recent Items list via Cmd+K menu
+
 ## 107.9.0
 - [minor] [2558e53738](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2558e53738):
 

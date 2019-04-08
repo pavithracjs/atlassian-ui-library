@@ -30,7 +30,7 @@ describe('AsyncLayoutManagerWithViewController', () => {
       <NavigationProvider cache={false} isDebugEnabled={false}>
         <AsyncLayoutManagerWithViewController
           globalNavigation={GlobalNavigationComponent}
-          firstSkeletonToRender={'product'}
+          firstSkeletonToRender="product"
           onCollapseStart={onCollapseStart}
           onCollapseEnd={onCollapseEnd}
           onExpandStart={onExpandStart}
@@ -90,7 +90,7 @@ describe('AsyncLayoutManagerWithViewController', () => {
         <NavigationProvider cache={false} isDebugEnabled={false}>
           <AsyncLayoutManagerWithViewController
             globalNavigation={GlobalNavigationComponent}
-            firstSkeletonToRender={'container'}
+            firstSkeletonToRender="container"
             onCollapseStart={onCollapseStart}
             onCollapseEnd={onCollapseEnd}
             onExpandStart={onExpandStart}

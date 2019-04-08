@@ -21,12 +21,14 @@ export default class AsyncCreatableExample extends Component<*, State> {
     allowCreateWhileLoading: false,
     options: cities,
   };
+
   handleCreateOption = (inputValue: string) => {
     console.log('handleCreateOption here');
     this.setState({
       options: [createOption(inputValue), ...this.state.options],
     });
   };
+
   // you control how the options are filtered
   filterOptions = (inputValue: string) => {
     return this.state.options.filter(option =>
@@ -40,9 +42,11 @@ export default class AsyncCreatableExample extends Component<*, State> {
       callback(this.filterOptions(inputValue));
     }, 1000);
   };
+
   toggleValue = ({ value }: Object) => {
     this.setState(state => ({ ...state, [value]: !state[value] }));
   };
+
   render() {
     const { allowCreateWhileLoading } = this.state;
     return (

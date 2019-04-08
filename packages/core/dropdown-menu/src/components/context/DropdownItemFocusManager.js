@@ -18,6 +18,7 @@ type Props = {
 
 export default class DropdownItemFocusManager extends Component<Props> {
   static childContextTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     [focusManagerContext]: PropTypes.object,
   };
 

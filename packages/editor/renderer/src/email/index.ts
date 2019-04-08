@@ -5,7 +5,6 @@ import { Fragment, Node as PMNode, Schema } from 'prosemirror-model';
 import { Serializer } from '../serializer';
 import { nodeSerializers } from './serializers';
 import styles from './styles';
-import { calcTableColumnWidths } from '@atlaskit/adf-schema';
 import juice from 'juice';
 
 const serializeNode = (
@@ -19,12 +18,12 @@ const serializeNode = (
     return `[UNKNOWN_NODE_TYPE: ${node.type.name}]`;
   }
 
-  const attrs = node.type.name === 'table' ? getTableAttrs(node) : node.attrs;
   const parentAttrs = getAttrsFromParent(index, parent);
 
   return nodeSerializers[node.type.name]({
+    node,
     attrs: {
-      ...attrs,
+      ...node.attrs,
       ...parentAttrs,
     },
     marks: node.marks,
@@ -54,13 +53,6 @@ const getAttrsFromParent = (
     };
   }
   return {};
-};
-
-const getTableAttrs = (node: PMNode): any => {
-  return {
-    ...node.attrs,
-    columnWidths: calcTableColumnWidths(node),
-  };
 };
 
 const traverseTree = (fragment: Fragment, parent?: PMNode): string => {

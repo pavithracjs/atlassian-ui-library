@@ -179,8 +179,8 @@ class ItemLineCardGroup extends Component<ItemLineCardGroupProps> {
   };
 
   onDragEnd = result => {
-    const source = result.source;
-    const destination = result.destination;
+    const { source } = result;
+    const { destination } = result;
 
     if (!destination || source.droppableId !== destination.droppableId) {
       return;
@@ -290,8 +290,11 @@ type State = {
 };
 export default class extends PureComponent<{}, State> {
   state: State = { isOpen: false };
+
   open = () => this.setState({ isOpen: true });
+
   close = () => this.setState({ isOpen: false });
+
   secondaryAction = ({ target }: Object) => console.log(target.innerText);
 
   render() {

@@ -64,28 +64,18 @@ const EditView = styled.input`
   }
 `;
 
-type State = {
-  isEditing: boolean,
+const CustomTitleComponent = () => {
+  return (
+    <InlineEdit
+      readView={() => <ReadView>Editable title</ReadView>}
+      editView={({ ref, ...rest }) => {
+        return <EditView {...rest} innerRef={ref} />;
+      }}
+      defaultValue="Editable title"
+      onConfirm={() => {}}
+    />
+  );
 };
-
-class CustomTitleComponent extends Component<{}, State> {
-  state = {
-    isEditing: false,
-  };
-
-  render() {
-    return (
-      <InlineEdit
-        readView={() => <ReadView>Editable title</ReadView>}
-        editView={({ ref, ...rest }) => {
-          return <EditView {...rest} innerRef={ref} />;
-        }}
-        defaultValue="Editable title"
-        onConfirm={() => {}}
-      />
-    );
-  }
-}
 
 export default () => (
   <PageHeader

@@ -131,7 +131,7 @@ describe('BreadcrumbsItem', () => {
           <BreadcrumbsItem
             text="arbitrary"
             component={props => (
-              <Link to={'/custom/component'} {...props}>
+              <Link to="/custom/component" {...props}>
                 Custom component
               </Link>
             )}

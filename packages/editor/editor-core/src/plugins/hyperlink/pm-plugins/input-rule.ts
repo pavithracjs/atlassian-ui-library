@@ -49,6 +49,7 @@ export function createLinkInputRule(
           url: link.url,
           pos: start - (link.input!.length - link.lastIndex),
           appearance: 'inline',
+          compareLinkText: true,
         },
       ])(
         state.tr

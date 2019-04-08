@@ -42,7 +42,7 @@ export default class Label extends Component<Props, void> {
       label,
       onClick,
     } = this.props;
-
+    /* eslint-disable jsx-a11y/click-events-have-key-events */
     return (
       <LabelWrapper htmlFor={htmlFor}>
         <LabelInner
