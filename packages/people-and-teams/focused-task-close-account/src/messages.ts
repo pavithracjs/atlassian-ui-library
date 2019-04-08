@@ -488,11 +488,34 @@ export const deactivateUserOverviewMessages: ReactIntlMessages = defineMessages(
 );
 
 export const contentPreviewMessages: ReactIntlMessages = defineMessages({
-  heading: {
-    id: 'focused-task-close-account.delete-account.content-preview.heading',
-    defaultMessage: 'How users will see this account',
+  headingAdmin: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.heading.admin',
+    defaultMessage: 'Tell us how do you want the user to be remembered',
     description:
-      'Heading for the screen that explains what other users will see when viewing the deleted/deactivated user',
+      'Heading for the screen that explains admin would prefer user to be remembered',
+  },
+  headingSelf: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.heading.self',
+    defaultMessage: 'Tell us how do you want to be remembered',
+    description:
+      'Heading for the screen that explains how users would prefer to be remembered',
+  },
+  footnoteAdmin: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.footnote.admin',
+    defaultMessage:
+      'Please note that this is a survey and the user would still be remembered as <b>Former User</b>',
+    description:
+      'Note to admins that the users would still be saved as Former User',
+  },
+  footnoteSelf: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.footnote.self',
+    defaultMessage:
+      'Please note that this is a survey and you would still be remembered as <b>Former User</b>',
+    description: 'Note to users that they would still be saved as Former User',
   },
 });
 
