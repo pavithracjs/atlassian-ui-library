@@ -78,13 +78,10 @@ export const clearCache = () => {
 export default class AvatarImage extends PureComponent<Props, State> {
   state: State = {
     hasError: false,
-    // if provided a src - we need to load it
-    isLoading: Boolean(this.props.src),
+    isLoading: false,
   };
-  isComponentMounted: boolean;
 
   componentDidMount() {
-    this.isComponentMounted = true;
     this.loadImage();
   }
 
@@ -92,52 +89,40 @@ export default class AvatarImage extends PureComponent<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.src && this.props.src !== nextProps.src) {
       this.setState({ isLoading: true });
+      this.loadImage();
     }
   }
 
   componentDidUpdate(prevProps: Props) {
     if (this.props.src && this.props.src !== prevProps.src) {
+      // eslint-disable-next-line
+      this.setState({ isLoading: true });
       this.loadImage();
     }
-  }
-  componentWillUnmount() {
-    this.isComponentMounted = false;
   }
 
   loadImage = () => {
     // nothing to load
-    if (!this.props.src) {
-      return;
-    }
-
+    if (!this.props.src) return;
     const img = new Image();
     img.onload = this.handleLoadSuccess;
     img.onerror = this.handleLoadError;
     img.src = this.props.src;
   };
 
-  handleLoad = (hasError: boolean) => {
-    if (this.isComponentMounted) {
-      this.setState({ hasError, isLoading: false });
-    }
-  };
-
   handleLoadSuccess = () => {
-    if (typeof this.props.src === 'string') {
-      cache[this.props.src] = true;
-    }
-    this.handleLoad(false);
+    this.setState({ hasError: false, isLoading: false });
   };
 
   handleLoadError = () => {
-    this.handleLoad(true);
+    this.setState({ hasError: true, isLoading: false });
   };
 
   render() {
     const { alt, src, appearance, size } = this.props;
     const { hasError, isLoading } = this.state;
     const showDefault = !isLoading && (!src || hasError);
-    const imageUrl: ?string = src && (!isLoading || cache[src]) ? src : null;
+    const imageUrl: ?string = src && !isLoading ? src : null;
     return showDefault ? (
       <DefaultImage
         appearance={appearance}
