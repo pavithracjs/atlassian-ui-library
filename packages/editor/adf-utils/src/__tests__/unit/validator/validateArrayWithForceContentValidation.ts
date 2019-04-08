@@ -351,43 +351,6 @@ describe('validate attrs', () => {
           },
         });
       });
-
-      it('should not replace entity with new entity when it is a valid mark', () => {
-        const cb = (entity: ADFEntity) => {
-          if (entity.type === 'notValidMark') {
-            return { type: 'strong' } as ADFEntity;
-          }
-          return undefined;
-        };
-        const entity = {
-          type: 'fakeParagraph',
-          attrs: {
-            defaultMarks: [
-              {
-                type: 'textColor',
-                attrs: {
-                  color: '#c1c1c1',
-                },
-              },
-            ],
-          },
-        };
-
-        const result = validate(entity, cb);
-        expect(result.entity).toEqual({
-          type: 'fakeParagraph',
-          attrs: {
-            defaultMarks: [
-              {
-                type: 'textColor',
-                attrs: {
-                  color: '#c1c1c1',
-                },
-              },
-            ],
-          },
-        });
-      });
     });
   });
 });

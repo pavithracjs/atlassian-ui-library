@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/global-search",
-  "version": "6.2.1",
+  "version": "6.2.2",
   "description": "A cross-product search component (batteries included)",
   "license": "Apache-2.0",
   "jsnext:main": "index.js",
@@ -26,7 +26,7 @@
     "@atlaskit/analytics-gas-types": "^4.0.1",
     "@atlaskit/analytics-next": "^4.0.1",
     "@atlaskit/avatar": "^15.0.1",
-    "@atlaskit/button": "^11.0.2",
+    "@atlaskit/button": "^11.0.7",
     "@atlaskit/dropdown-menu": "^7.0.1",
     "@atlaskit/field-text-area": "^5.0.1",
     "@atlaskit/flag": "^10.0.1",

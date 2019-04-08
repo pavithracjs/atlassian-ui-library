@@ -2,8 +2,8 @@
  * Inspired by analytics-web-react
  */
 
-import * as last from 'lodash.last';
-import * as merge from 'lodash.merge';
+import last from 'lodash.last';
+import merge from 'lodash.merge';
 
 import {
   DEFAULT_SOURCE,

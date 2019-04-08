@@ -1,5 +1,25 @@
 # @atlaskit/editor-common
 
+## 36.1.5
+- [patch] [823d44ebb0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/823d44ebb0):
+
+  - ED-6667 Enfoce consistent whitespace between renderer & editor
+
+## 36.1.4
+- [patch] [b425ea772b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b425ea772b):
+
+  - Revert "ED-5505 add strong as default mark to table header (pull request #5291)"
+
+## 36.1.3
+- [patch] [6290d651d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6290d651d8):
+
+  - Update editor-common to use Mention alternative entry point. This should reduce editor-common bundle size
+
+## 36.1.2
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 36.1.1
 - Updated dependencies [bfca144ea5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bfca144ea5):
   - @atlaskit/profilecard@9.0.0

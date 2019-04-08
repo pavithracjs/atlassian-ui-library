@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import { EditorView } from 'prosemirror-view';
 import { isTableSelected, selectTable, findTable } from 'prosemirror-utils';
 import { TableMap } from 'prosemirror-tables';

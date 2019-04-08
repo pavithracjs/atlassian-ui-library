@@ -1,5 +1,25 @@
 # @atlaskit/renderer
 
+## 45.3.1
+- [patch] [823d44ebb0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/823d44ebb0):
+
+  - ED-6667 Enfoce consistent whitespace between renderer & editor
+
+## 45.3.0
+- [minor] [7a656ef460](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7a656ef460):
+
+  - Email renderer - tables now honor table widths
+
+## 45.2.4
+- [patch] [370476ca07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/370476ca07):
+
+  - ED-6674: fix table shadow overlapping inline comments
+
+## 45.2.3
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 45.2.2
 - Updated dependencies [bfca144ea5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bfca144ea5):
   - @atlaskit/editor-common@36.1.1

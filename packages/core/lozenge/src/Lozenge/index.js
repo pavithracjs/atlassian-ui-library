@@ -34,6 +34,7 @@ export default class Lozenge extends PureComponent<Props> {
     appearance: 'default',
     maxWidth: 200,
   };
+
   render() {
     const { props } = this;
     return (

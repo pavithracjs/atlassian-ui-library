@@ -1,6 +1,6 @@
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
-import * as debounce from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import {

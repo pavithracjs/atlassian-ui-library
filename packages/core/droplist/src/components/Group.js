@@ -14,6 +14,7 @@ type State = {
 
 class DroplistGroup extends PureComponent<Props, State> {
   state = { ariaLabel: this.props.heading };
+
   headingElement: HTMLElement;
 
   componentDidMount = () => {
@@ -21,6 +22,7 @@ class DroplistGroup extends PureComponent<Props, State> {
       this.setState({ ariaLabel: this.getAriaLabel() });
     }
   };
+
   componentDidUpdate = () => {
     if (this.props.heading || this.props.elemAfter) {
       this.setState({ ariaLabel: this.getAriaLabel() });

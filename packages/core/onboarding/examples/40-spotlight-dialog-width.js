@@ -54,16 +54,21 @@ type State = { value: number | null };
 /* eslint-disable react/sort-comp */
 export default class SpotlightDialogWidthExample extends Component<{}, State> {
   state: State = { value: null };
+
   start = () => this.setState({ value: 300 });
+
   increment = () =>
     this.setState(({ value }) => ({
       value: value == null ? undefined : Math.min((value || 0) + 100, 600),
     }));
+
   decrement = () =>
     this.setState(({ value }) => ({
       value: value == null ? undefined : Math.max((value || 0) - 100, 160),
     }));
+
   finish = () => this.setState({ value: null });
+
   render() {
     const { value } = this.state;
     const deltaButtons = (

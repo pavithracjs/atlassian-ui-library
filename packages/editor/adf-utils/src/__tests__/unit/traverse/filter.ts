@@ -1,6 +1,6 @@
 import { filter } from '../../../traverse/filter';
-import * as emojisDoc from './__fixtures__/multiple-emojis.json';
-import * as marksDoc from './__fixtures__/marks.json';
+import emojisDoc from './__fixtures__/multiple-emojis.json';
+import marksDoc from './__fixtures__/marks.json';
 
 describe('Traverse#filter', () => {
   it('should return all matched elements', () => {

@@ -30,7 +30,8 @@ const withContextFromProps = (
       const { children, ...props } = this.props;
       if (BaseComponent !== null) {
         return <BaseComponent>{this.props.children}</BaseComponent>;
-      } else if (React.Children.count(children) === 1) {
+      }
+      if (React.Children.count(children) === 1) {
         const onlyChild = ((children: any): Element<*>);
         // Hacky fix to work with TransitionGroup in withRenderTarget
         return React.Children.only(React.cloneElement(onlyChild, props));

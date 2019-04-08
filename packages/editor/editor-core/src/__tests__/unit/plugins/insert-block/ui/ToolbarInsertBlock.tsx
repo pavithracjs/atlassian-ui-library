@@ -536,7 +536,7 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
       const blockTypes = [
         {
           type: PANEL,
-          title: blockTypeMessages.panel.defaultMessage,
+          title: blockTypeMessages.infoPanel.defaultMessage,
           analyticsV3: {
             actionSubjectId: 'panel',
             attributes: { inputMethod: menu.name, panelType: 'info' },

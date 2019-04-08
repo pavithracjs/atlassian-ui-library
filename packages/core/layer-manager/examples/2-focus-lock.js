@@ -9,10 +9,13 @@ type State = { isActive: boolean };
 
 export default class FocusLockExample extends Component<Props, State> {
   target: HTMLElement;
+
   state: State = { isActive: false };
+
   toggleLock = () => {
     this.setState(state => ({ isActive: !state.isActive }));
   };
+
   render() {
     const { isActive } = this.state;
     const boxStyle = {

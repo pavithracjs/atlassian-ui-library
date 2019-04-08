@@ -1,6 +1,5 @@
 {
   "extends": "../../../tsconfig.base.json",
-  "moduleResolution": "node",
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
@@ -8,6 +7,10 @@
     "examples/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
-  ]
+    "node_modules",
+  ],
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "baseUrl": "./",
+  }
 }

@@ -14,7 +14,7 @@ import { VideoViewer } from './viewers/video';
 import { DocViewer } from './viewers/doc';
 import { Spinner } from './loading';
 import { Subscription } from 'rxjs/Subscription';
-import * as deepEqual from 'deep-equal';
+import deepEqual from 'deep-equal';
 import ErrorMessage, {
   createError,
   MediaViewerError,

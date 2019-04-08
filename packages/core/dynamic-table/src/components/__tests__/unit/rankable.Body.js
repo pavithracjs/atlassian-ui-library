@@ -68,7 +68,7 @@ test('onDragStart - onRankStart is called with proper arguments', () => {
     source: { index },
   });
 
-  const onRankStart = props.onRankStart;
+  const { onRankStart } = props;
   expect(onRankStart).toHaveBeenCalledTimes(1);
   expect(onRankStart).toHaveBeenLastCalledWith({ key, index });
 });
@@ -83,7 +83,7 @@ test('onDragEnd - onRankEnd is called with proper empty destination if drag was 
   const dndContext = wrapper.find(DragDropContext);
   dndContext.simulate('dragEnd', createDragEndProps(sourceKey, sourceIndex));
 
-  const onRankEnd = props.onRankEnd;
+  const { onRankEnd } = props;
   expect(onRankEnd).toHaveBeenCalledTimes(1);
   expect(onRankEnd).toHaveBeenLastCalledWith({ sourceKey, sourceIndex });
 });
@@ -100,7 +100,7 @@ const testOnRankEnd = (sourceIndex, destinationIndex, afterKey, beforeKey) => {
     createDragEndProps(sourceKey, sourceIndex, destinationIndex),
   );
 
-  const onRankEnd = props.onRankEnd;
+  const { onRankEnd } = props;
   expect(onRankEnd).toHaveBeenCalledTimes(1);
   expect(onRankEnd).toHaveBeenLastCalledWith({
     sourceKey,

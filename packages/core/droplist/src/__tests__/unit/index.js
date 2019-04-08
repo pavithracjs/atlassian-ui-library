@@ -7,7 +7,7 @@ import Item, { ItemGroup } from '@atlaskit/item';
 
 import { name } from '../../version.json';
 
-import DroplistWithAnalytics from '../../../src';
+import DroplistWithAnalytics from '../..';
 import { DroplistWithoutAnalytics as Droplist } from '../../components/Droplist';
 import { Trigger, Content } from '../../styled/Droplist';
 

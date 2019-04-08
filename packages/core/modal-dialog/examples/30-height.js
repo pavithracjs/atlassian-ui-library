@@ -14,8 +14,11 @@ type State = { isOpen: any };
 
 export default class ModalDemo extends Component<{}, State> {
   state = { isOpen: null };
+
   close = (isOpen: any) => this.setState({ isOpen });
+
   open = (isOpen: any) => this.setState({ isOpen });
+
   secondaryAction = ({ target }: Object) => console.log(target.innerText);
 
   render() {

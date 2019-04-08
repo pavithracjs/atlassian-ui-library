@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { HTMLAttributes, ComponentClass } from 'react';
 import {
   editorFontSize,
+  whitespaceSharedStyles,
   paragraphSharedStyles,
-  listsSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
   shadowSharedStyle,
@@ -45,13 +45,11 @@ const ContentStyles: ComponentClass<
   }
 
   .ProseMirror {
-    word-wrap: break-word;
-    white-space: pre-wrap;
     outline: none;
     font-size: ${editorFontSize}px;
 
+    ${whitespaceSharedStyles};
     ${paragraphSharedStyles};
-    ${listsSharedStyles};
     ${indentationSharedStyles};
     ${shadowSharedStyle}
   }

@@ -1,4 +1,4 @@
-import * as MarkdownIt from 'markdown-it';
+import MarkdownIt from 'markdown-it';
 // @ts-ignore
 import { handlePaste as handlePasteTable } from 'prosemirror-tables';
 import { Schema, Slice, Node, Fragment } from 'prosemirror-model';

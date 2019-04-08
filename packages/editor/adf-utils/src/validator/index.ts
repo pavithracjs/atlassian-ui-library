@@ -512,7 +512,7 @@ export function validator(
                       validator,
                     );
 
-                    if (validateResult.entity) {
+                    if (!validateResult.valid && validateResult.entity) {
                       newItems.push(validateResult.entity);
                     }
                   }

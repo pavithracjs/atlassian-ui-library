@@ -8,7 +8,7 @@ import {
   ObjectType,
   UIAnalyticsEventInterface,
 } from '@atlaskit/analytics-next';
-import * as merge from 'lodash.merge';
+import merge from 'lodash.merge';
 
 const extractFieldsFromContext = (fieldsToPick: string[]) => (
   contexts: Array<ObjectType>,

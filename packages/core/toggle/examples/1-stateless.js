@@ -18,6 +18,7 @@ export default class StatelessExample extends Component<any, State> {
       isChecked: !this.state.isChecked,
     });
   };
+
   render() {
     return (
       <div>

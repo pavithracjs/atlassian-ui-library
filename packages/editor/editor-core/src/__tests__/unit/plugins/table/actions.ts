@@ -88,44 +88,6 @@ describe('table plugin: actions', () => {
       ).toBe(true);
     });
 
-    it('transforms the table and keep the defaultMarks', () => {
-      const preTable = table({ isNumberColumnEnabled: true })(
-        tr(
-          td({ defaultMarks: [{ type: 'em' }] })(p('r1')),
-          th({ colspan: 2 })(p('r2')),
-          td()(panelNote(p('r3'))),
-        ),
-
-        tableBody,
-      );
-
-      const postTable = table({ isNumberColumnEnabled: true })(
-        tr(
-          th({ defaultMarks: [{ type: 'em' }, { type: 'strong' }] })(p('r1')),
-          th({ colspan: 2 })(p('r2')),
-          th()(panelNote(p('r3'))),
-        ),
-
-        tableBody,
-      );
-
-      const preSlice = new Slice(
-        Fragment.from([textNode, preTable(defaultSchema), paragraphNode]),
-        1,
-        0,
-      );
-
-      const postSlice = new Slice(
-        Fragment.from([textNode, postTable(defaultSchema), paragraphNode]),
-        1,
-        0,
-      );
-
-      expect(
-        transformSliceToAddTableHeaders(preSlice, defaultSchema).eq(postSlice),
-      ).toBe(true);
-    });
-
     it('transforms only the table within the slice', () => {
       const preTable = table({ isNumberColumnEnabled: true })(
         tr(

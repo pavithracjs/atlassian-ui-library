@@ -37,7 +37,9 @@ export default class NavigationProvider extends Component<NavigationProviderProp
     },
     isDebugEnabled: false,
   };
+
   uiState: UIController;
+
   viewController: ViewController;
 
   constructor(props: NavigationProviderProps) {

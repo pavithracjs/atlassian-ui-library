@@ -1,4 +1,4 @@
-import * as uuid from 'uuid/v1';
+import uuid from 'uuid/v1';
 import { AbstractResource } from '@atlaskit/util-service-support';
 
 import {

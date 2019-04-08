@@ -24,18 +24,21 @@ export default class PropStatus extends Component<*, State> {
   state = {
     modalIsOpen: false,
   };
+
   onClick = (event: SyntheticEvent<*>) => {
     event.preventDefault();
     this.setState({
       modalIsOpen: true,
     });
   };
+
   onClose = (event: SyntheticEvent<HTMLElement>) => {
     event.preventDefault();
     this.setState({
       modalIsOpen: false,
     });
   };
+
   renderContent() {
     const { content, status } = this.props;
     if (status === 'renamed') {
@@ -48,6 +51,7 @@ export default class PropStatus extends Component<*, State> {
       </Cell>
     );
   }
+
   renderModal() {
     const { content, prop } = this.props;
     const { modalIsOpen } = this.state;

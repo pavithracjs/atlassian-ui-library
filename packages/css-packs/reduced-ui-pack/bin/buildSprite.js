@@ -35,6 +35,7 @@ const spriter = new SVGSpriter(spriterConfig);
 
 // Add SVG source files from 'ak-icon'
 glob.sync(path.join(iconPath, 'svgs/**/*.svg'), {}).forEach(svgFile => {
+  // eslint-disable-next-line no-console
   console.log(svgFile);
   const svgContents = fs.readFileSync(svgFile, { encoding: 'utf-8' });
   spriter.add(svgFile, path.basename(svgFile), svgContents);

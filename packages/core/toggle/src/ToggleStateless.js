@@ -38,10 +38,12 @@ class ToggleStateless extends Component<StatelessProps, State> {
     });
     this.props.onBlur(event);
   };
+
   handleFocus = (event: Event) => {
     this.setState({ isFocused: true });
     this.props.onFocus(event);
   };
+
   handleChange = (event: Event) => {
     if (this.props.isDisabled) {
       return;

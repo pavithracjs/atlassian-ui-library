@@ -64,6 +64,7 @@ class AvatarItem extends Component<Props> {
   blur = () => {
     if (this.node) this.node.blur();
   };
+
   focus = () => {
     if (this.node) this.node.focus();
   };

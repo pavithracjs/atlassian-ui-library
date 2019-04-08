@@ -193,52 +193,6 @@ export const document = {
       ],
     },
     {
-      type: 'taskList',
-      attrs: {
-        localId: '7f265b7d-3354-4cae-9f08-4183f30c7144',
-      },
-      content: [
-        {
-          type: 'taskItem',
-          attrs: {
-            localId: '8147a36c-76b5-4b3e-a506-1f0a66fa1c61',
-            state: 'TODO',
-          },
-          content: [
-            {
-              type: 'date',
-              attrs: {
-                timestamp: '1551398400000',
-              },
-            },
-            {
-              type: 'text',
-              text: ' ',
-            },
-          ],
-        },
-        {
-          type: 'taskItem',
-          attrs: {
-            localId: '0cc71266-1cdb-4540-9ca9-5d9a0bb4f063',
-            state: 'DONE',
-          },
-          content: [
-            {
-              type: 'date',
-              attrs: {
-                timestamp: '1551398400000',
-              },
-            },
-            {
-              type: 'text',
-              text: ' ',
-            },
-          ],
-        },
-      ],
-    },
-    {
       type: 'paragraph',
       content: [
         {
@@ -1383,178 +1337,251 @@ map.put(3, 10);`,
     {
       type: 'taskList',
       attrs: {
-        localId: 'empty-list-should-not-render',
+        localId: '638aece7-97ac-4acd-99ee-4c76bebcd6ba',
       },
       content: [
         {
           type: 'taskItem',
           attrs: {
-            localId: 'to-be-ignored-as-no-content',
+            localId: 'b5fc19b3-0742-4279-bccc-60ddd404a8e1',
             state: 'TODO',
-          },
-        },
-      ],
-    },
-    {
-      type: 'decisionList',
-      attrs: {
-        localId: '',
-      },
-      content: [
-        {
-          type: 'decisionItem',
-          attrs: {
-            localId: '',
-            state: 'DECIDED',
           },
           content: [
             {
               type: 'text',
-              text: 'Hello world',
+              text: 'just text',
+            },
+          ],
+        },
+        {
+          type: 'taskItem',
+          attrs: {
+            localId: 'c800bf19-e4dc-4e5b-9189-cc6673a4fe4c',
+            state: 'TODO',
+          },
+          content: [
+            {
+              type: 'mention',
+              attrs: {
+                id: '0',
+                text: '@Carolyn',
+                accessLevel: '',
+              },
+            },
+            {
+              type: 'text',
+              text: '  with mention',
+            },
+          ],
+        },
+        {
+          type: 'taskItem',
+          attrs: {
+            localId: '9f523424-081b-4bb8-8031-e4450acce7de',
+            state: 'TODO',
+          },
+          content: [
+            {
+              type: 'date',
+              attrs: {
+                timestamp: '1554422400000',
+              },
+            },
+            {
+              type: 'text',
+              text: ' with date',
+            },
+          ],
+        },
+        {
+          type: 'taskItem',
+          attrs: {
+            localId: 'f70222ac-4e36-41d4-a6df-ebe687a5e97f',
+            state: 'TODO',
+          },
+          content: [
+            {
+              type: 'text',
+              text: 'with emoji ',
+            },
+            {
+              type: 'emoji',
+              attrs: {
+                shortName: ':slight_smile:',
+                id: '1f642',
+                text: '🙂',
+              },
+            },
+            {
+              type: 'text',
+              text: ' ',
+            },
+          ],
+        },
+        {
+          type: 'taskItem',
+          attrs: {
+            localId: '29295813-3065-4cae-b125-0b51ac1ba79b',
+            state: 'TODO',
+          },
+          content: [
+            {
+              type: 'text',
+              text: 'multiline!',
             },
             {
               type: 'hardBreak',
             },
             {
               type: 'text',
-              text: 'This is a decision ',
-            },
-            {
-              type: 'emoji',
-              attrs: {
-                shortName: ':wink:',
-                id: '1f609',
-                text: '😉',
-              },
-            },
-            {
-              type: 'text',
-              text: ' ',
-            },
-            {
-              type: 'mention',
-              attrs: {
-                id: '0',
-                text: '@Carolyn',
-                accessLevel: 'CONTAINER',
-              },
-            },
-            {
-              type: 'text',
-              text: ' ',
-            },
-            {
-              type: 'text',
-              text: 'was',
-              marks: [
-                {
-                  type: 'strong',
-                },
-              ],
-            },
-            {
-              type: 'text',
-              text: ' ',
-            },
-            {
-              type: 'text',
-              text: 'here',
-              marks: [
-                {
-                  type: 'em',
-                },
-                {
-                  type: 'underline',
-                },
-              ],
-            },
-            {
-              type: 'text',
-              text: '.',
-            },
-            {
-              type: 'mention',
-              attrs: {
-                id: 'error:NotFound',
-                text: '@NoLongerWorksHere',
-                accessLevel: 'CONTAINER',
-              },
-            },
-            {
-              type: 'text',
-              text: ' ',
-            },
-            {
-              type: 'text',
-              text: 'is not',
-              marks: [
-                {
-                  type: 'strong',
-                },
-              ],
-            },
-            {
-              type: 'text',
-              text: ' ',
-            },
-            {
-              type: 'text',
-              text: 'here.',
+              text: 'dfsfdad',
             },
           ],
-        },
-        {
-          type: 'decisionItem',
-          attrs: {
-            localId: '',
-            state: 'DECIDED',
-          },
-          content: [
-            {
-              type: 'text',
-              text: 'decision 2',
-            },
-          ],
-        },
-        {
-          type: 'decisionItem',
-          attrs: {
-            localId: 'to-be-ignored-as-no-content',
-            state: 'DECIDED',
-          },
         },
       ],
     },
     {
       type: 'taskList',
       attrs: {
-        localId: '',
+        localId: 'e10bc6bd-ad20-426a-9d65-351907af90bf',
       },
       content: [
         {
           type: 'taskItem',
           attrs: {
-            localId: 'task-1',
-            state: 'TODO',
+            localId: 'fd7f6239-17c3-4bf9-89a0-51291ab8474f',
+            state: 'DONE',
           },
           content: [
             {
               type: 'text',
-              text: 'Could you please',
+              text: 'ticked off plain text',
+            },
+          ],
+        },
+        {
+          type: 'taskItem',
+          attrs: {
+            localId: '22f227d1-6ff0-43da-8f76-9a57c5853a36',
+            state: 'DONE',
+          },
+          content: [
+            {
+              type: 'mention',
+              attrs: {
+                id: '0',
+                text: '@Carolyn',
+                accessLevel: '',
+              },
+            },
+            {
+              type: 'text',
+              text: ' ticked off mention',
+            },
+          ],
+        },
+        {
+          type: 'taskItem',
+          attrs: {
+            localId: '815c9ab3-2393-4041-8c82-4dcc1a31343a',
+            state: 'DONE',
+          },
+          content: [
+            {
+              type: 'date',
+              attrs: {
+                timestamp: '1554422400000',
+              },
+            },
+            {
+              type: 'text',
+              text: ' ticked off date',
+            },
+          ],
+        },
+        {
+          type: 'taskItem',
+          attrs: {
+            localId: '82f316ca-d334-4ea4-a377-400e687de75a',
+            state: 'DONE',
+          },
+          content: [
+            {
+              type: 'text',
+              text: 'with emoji ',
+            },
+            {
+              type: 'emoji',
+              attrs: {
+                shortName: ':slight_smile:',
+                id: '1f642',
+                text: '🙂',
+              },
+            },
+            {
+              type: 'text',
+              text: ' ',
+            },
+          ],
+        },
+        {
+          type: 'taskItem',
+          attrs: {
+            localId: 'ade6f17f-566b-422a-953d-50c00c63e2f1',
+            state: 'DONE',
+          },
+          content: [
+            {
+              type: 'text',
+              text: 'Multiline!',
             },
             {
               type: 'hardBreak',
             },
             {
               type: 'text',
-              text: 'do this ',
+              text: 'asd',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'decisionList',
+      attrs: {
+        localId: '68a15a03-12cd-4959-8502-67ba070a9cad',
+      },
+      content: [
+        {
+          type: 'decisionItem',
+          attrs: {
+            localId: '6dc81c6b-dbd6-460f-b54a-c9255815bcd5',
+            state: 'DECIDED',
+          },
+          content: [
+            {
+              type: 'text',
+              text: 'plain text',
+            },
+          ],
+        },
+        {
+          type: 'decisionItem',
+          attrs: {
+            localId: '52439c36-138d-4aa9-bac3-711dfed600dc',
+            state: 'DECIDED',
+          },
+          content: [
+            {
+              type: 'text',
+              text: 'all the stuff ',
             },
             {
-              type: 'mention',
+              type: 'emoji',
               attrs: {
-                id: '0',
-                text: '@Carolyn',
-                accessLevel: 'CONTAINER',
+                shortName: ':slight_smile:',
+                id: '1f642',
+                text: '🙂',
               },
             },
             {
@@ -1562,34 +1589,60 @@ map.put(3, 10);`,
               text: ' ',
             },
             {
-              type: 'emoji',
+              type: 'status',
               attrs: {
-                shortName: ':wink:',
-                id: '1f609',
-                text: '😉',
+                text: 'todo',
+                color: 'neutral',
+                localId: 'd1b227fa-26ab-419a-84a0-2a580551f75e',
               },
+            },
+            {
+              type: 'text',
+              text: ' ',
+            },
+            {
+              type: 'date',
+              attrs: {
+                timestamp: '1554422400000',
+              },
+            },
+            {
+              type: 'text',
+              text: ' ',
+            },
+            {
+              type: 'mention',
+              attrs: {
+                id: '0',
+                text: '@Carolyn',
+                accessLevel: '',
+              },
+            },
+            {
+              type: 'text',
+              text: ' ',
             },
           ],
         },
         {
-          type: 'taskItem',
+          type: 'decisionItem',
           attrs: {
-            localId: 'task-2',
-            state: 'DONE',
+            localId: '863bd5e3-dc32-426e-a5bb-d53dd8069117',
+            state: 'DECIDED',
           },
           content: [
             {
               type: 'text',
-              text: 'This is completed',
+              text: 'multiline!',
+            },
+            {
+              type: 'hardBreak',
+            },
+            {
+              type: 'text',
+              text: 'asdf',
             },
           ],
-        },
-        {
-          type: 'taskItem',
-          attrs: {
-            localId: 'to-be-ignored-as-no-content',
-            state: 'TODO',
-          },
         },
       ],
     },
@@ -1773,6 +1826,361 @@ map.put(3, 10);`,
             {
               type: 'text',
               text: 'This is the default content of the extension',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: 'layoutSection',
+      content: [
+        {
+          type: 'layoutColumn',
+          attrs: {
+            width: 50,
+          },
+          content: [
+            {
+              type: 'table',
+              attrs: {
+                isNumberColumnEnabled: true,
+                layout: 'default',
+              },
+              content: [
+                {
+                  type: 'tableRow',
+                  content: [
+                    {
+                      type: 'tableHeader',
+                      attrs: {
+                        colwidth: [225],
+                        defaultMarks: [
+                          {
+                            type: 'strong',
+                          },
+                        ],
+                      },
+                      content: [
+                        {
+                          type: 'paragraph',
+                          content: [
+                            {
+                              type: 'text',
+                              text: 'Extreme node nesting example',
+                              marks: [
+                                {
+                                  type: 'strong',
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    {
+                      type: 'tableHeader',
+                      attrs: {
+                        colwidth: [57],
+                        defaultMarks: [
+                          {
+                            type: 'strong',
+                          },
+                        ],
+                      },
+                      content: [
+                        {
+                          type: 'paragraph',
+                          content: [],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: 'tableRow',
+                  content: [
+                    {
+                      type: 'tableCell',
+                      attrs: {
+                        colwidth: [225],
+                      },
+                      content: [
+                        {
+                          type: 'taskList',
+                          attrs: {
+                            localId: '68350926-57a5-42f6-9683-9305def1183f',
+                          },
+                          content: [
+                            {
+                              type: 'taskItem',
+                              attrs: {
+                                localId: '02b53fa4-8c20-478e-bb6b-fe0ea8920ba0',
+                                state: 'TODO',
+                              },
+                              content: [
+                                {
+                                  type: 'mention',
+                                  attrs: {
+                                    id: '0',
+                                    text: '@Carolyn',
+                                    accessLevel: '',
+                                  },
+                                },
+                                {
+                                  type: 'text',
+                                  text: ' ',
+                                },
+                                {
+                                  type: 'date',
+                                  attrs: {
+                                    timestamp: '1554249600000',
+                                  },
+                                },
+                                {
+                                  type: 'text',
+                                  text: ' ',
+                                },
+                                {
+                                  type: 'emoji',
+                                  attrs: {
+                                    shortName: ':slight_smile:',
+                                    id: '1f642',
+                                    text: '🙂',
+                                  },
+                                },
+                                {
+                                  type: 'text',
+                                  text: ' ',
+                                },
+                                {
+                                  type: 'text',
+                                  text: 'bold ',
+                                  marks: [
+                                    {
+                                      type: 'em',
+                                    },
+                                    {
+                                      type: 'strong',
+                                    },
+                                    {
+                                      type: 'underline',
+                                    },
+                                  ],
+                                },
+                                {
+                                  type: 'text',
+                                  text: "FAB-1520 UI: Poor man's search",
+                                  marks: [
+                                    {
+                                      type: 'link',
+                                      attrs: {
+                                        href:
+                                          'https://product-fabric.atlassian.net/browse/FAB-1520',
+                                      },
+                                    },
+                                    {
+                                      type: 'em',
+                                    },
+                                    {
+                                      type: 'strong',
+                                    },
+                                    {
+                                      type: 'underline',
+                                    },
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    {
+                      type: 'tableCell',
+                      attrs: {
+                        colwidth: [57],
+                      },
+                      content: [
+                        {
+                          type: 'paragraph',
+                          content: [],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: 'tableRow',
+                  content: [
+                    {
+                      type: 'tableCell',
+                      attrs: {
+                        colwidth: [225],
+                      },
+                      content: [
+                        {
+                          type: 'panel',
+                          attrs: {
+                            panelType: 'info',
+                          },
+                          content: [
+                            {
+                              type: 'orderedList',
+                              content: [
+                                {
+                                  type: 'listItem',
+                                  content: [
+                                    {
+                                      type: 'paragraph',
+                                      content: [
+                                        {
+                                          type: 'text',
+                                          text: 'a',
+                                        },
+                                      ],
+                                    },
+                                  ],
+                                },
+                                {
+                                  type: 'listItem',
+                                  content: [
+                                    {
+                                      type: 'paragraph',
+                                      content: [
+                                        {
+                                          type: 'text',
+                                          text: 'b',
+                                        },
+                                      ],
+                                    },
+                                  ],
+                                },
+                                {
+                                  type: 'listItem',
+                                  content: [
+                                    {
+                                      type: 'paragraph',
+                                      content: [
+                                        {
+                                          type: 'text',
+                                          text: 'c',
+                                        },
+                                      ],
+                                    },
+                                    {
+                                      type: 'orderedList',
+                                      content: [
+                                        {
+                                          type: 'listItem',
+                                          content: [
+                                            {
+                                              type: 'paragraph',
+                                              content: [
+                                                {
+                                                  type: 'text',
+                                                  text: 'd',
+                                                },
+                                              ],
+                                            },
+                                          ],
+                                        },
+                                        {
+                                          type: 'listItem',
+                                          content: [
+                                            {
+                                              type: 'paragraph',
+                                              content: [
+                                                {
+                                                  type: 'text',
+                                                  text: 'e',
+                                                },
+                                              ],
+                                            },
+                                          ],
+                                        },
+                                        {
+                                          type: 'listItem',
+                                          content: [
+                                            {
+                                              type: 'paragraph',
+                                              content: [
+                                                {
+                                                  type: 'text',
+                                                  text: 'g',
+                                                },
+                                              ],
+                                            },
+                                          ],
+                                        },
+                                        {
+                                          type: 'listItem',
+                                          content: [
+                                            {
+                                              type: 'paragraph',
+                                              content: [
+                                                {
+                                                  type: 'mention',
+                                                  attrs: {
+                                                    id: '0',
+                                                    text: '@Carolyn',
+                                                    accessLevel: '',
+                                                  },
+                                                },
+                                                {
+                                                  type: 'text',
+                                                  text: ' ',
+                                                },
+                                                {
+                                                  type: 'date',
+                                                  attrs: {
+                                                    timestamp: '1554422400000',
+                                                  },
+                                                },
+                                                {
+                                                  type: 'text',
+                                                  text: ' ',
+                                                },
+                                              ],
+                                            },
+                                          ],
+                                        },
+                                      ],
+                                    },
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                    {
+                      type: 'tableCell',
+                      attrs: {
+                        colwidth: [57],
+                      },
+                      content: [
+                        {
+                          type: 'paragraph',
+                          content: [],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'layoutColumn',
+          attrs: {
+            width: 50,
+          },
+          content: [
+            {
+              type: 'paragraph',
+              content: [],
             },
           ],
         },

@@ -6,7 +6,7 @@ import {
 import { selectors } from '../../__helpers/page-objects/_editor';
 import { tableSelectors } from '../../__helpers/page-objects/_table';
 import { insertTable } from '../../__helpers/page-objects/_table';
-import * as adf from './__fixtures__/noData-adf.json';
+import adf from './__fixtures__/noData-adf.json';
 
 // TODO - add ADF before loading stuff
 describe('z-indexes:', () => {

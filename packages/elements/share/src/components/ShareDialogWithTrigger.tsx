@@ -97,6 +97,15 @@ class ShareDialogWithTriggerInternal extends React.Component<
     defaultValue: defaultShareContentState,
   };
 
+  private closeAndResetDialog = () => {
+    this.setState({
+      defaultValue: defaultShareContentState,
+      ignoreIntermediateState: true,
+      shareError: undefined,
+      isDialogOpen: false,
+    });
+  };
+
   private createAndFireEvent = (payload: AnalyticsEventPayload) => {
     const { createAnalyticsEvent } = this.props;
     if (createAnalyticsEvent) {
@@ -110,12 +119,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
       switch (event.key) {
         case 'Escape':
           event.stopPropagation();
-          this.setState({
-            isDialogOpen: false,
-            ignoreIntermediateState: true,
-            defaultValue: defaultShareContentState,
-            shareError: undefined,
-          });
+          this.closeAndResetDialog();
           this.createAndFireEvent(cancelShare(this.start));
       }
     }
@@ -143,9 +147,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   private handleCloseDialog = (_: { isOpen: boolean; event: any }) => {
-    this.setState({
-      isDialogOpen: false,
-    });
+    this.setState({ isDialogOpen: false });
   };
 
   private handleShareSubmit = (data: DialogContentState) => {
@@ -160,7 +162,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
 
     onShareSubmit(data)
       .then(() => {
-        this.handleCloseDialog({ isOpen: false, event });
+        this.closeAndResetDialog();
         this.setState({ isSharing: false });
       })
       .catch((err: Error) => {

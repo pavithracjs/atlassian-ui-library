@@ -9,14 +9,16 @@ import ModalDialog, {
   ModalFooter,
   ModalTransition,
 } from '@atlaskit/modal-dialog';
-import Form, { Field, CheckboxField } from '../../form/src';
+import Form, { Field, CheckboxField } from '../src';
 
 type State = { isOpen: boolean };
 export default class AtlaskitFormDemo extends Component<{}, State> {
   state = { isOpen: false };
 
   open = () => this.setState({ isOpen: true });
+
   close = () => this.setState({ isOpen: false });
+
   onFormSubmit = (data: Object) => console.log(JSON.stringify(data));
 
   render() {

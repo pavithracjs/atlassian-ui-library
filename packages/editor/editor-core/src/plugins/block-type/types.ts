@@ -71,14 +71,14 @@ export const messages = defineMessages({
     defaultMessage: 'Display code with syntax highlighting',
     description: 'Insert a snippet/segment of code (code block)',
   },
-  panel: {
-    id: 'fabric.editor.panel',
-    defaultMessage: 'Panel',
+  infoPanel: {
+    id: 'fabric.editor.infoPanel',
+    defaultMessage: 'Info Panel',
     description:
       'Visually distinguishes your text by adding a background colour (blue, purple, yellow, green, red)',
   },
-  panelDescription: {
-    id: 'fabric.editor.panel.description',
+  infoPanelDescription: {
+    id: 'fabric.editor.infoPanel.description',
     defaultMessage: 'Highlight information in a colored panel',
     description:
       'Visually distinguishes your text by adding a background colour (blue, purple, yellow, green, red)',
@@ -191,7 +191,7 @@ export const CODE_BLOCK: BlockType = {
 };
 export const PANEL: BlockType = {
   name: 'panel',
-  title: messages.panel,
+  title: messages.infoPanel,
   nodeName: 'panel',
 };
 export const OTHER: BlockType = {

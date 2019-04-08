@@ -47,7 +47,7 @@ export const getTextContent = (item?: ItemType): string => {
 };
 
 const isMatched = (item, matchingValue) => {
-  const filterValues = item.filterValues;
+  const { filterValues } = item;
   if (filterValues && filterValues.length > 0) {
     return filterValues.some(
       value => value.toLowerCase().indexOf(matchingValue) > -1,
@@ -138,11 +138,17 @@ type State = {
 
 export default class StatelessSelect extends PureComponent<Props, State> {
   containerNode: HTMLElement | null;
+
   triggerNode: HTMLElement | null;
+
   inputNode: HTMLElement | null;
+
   droplistNode: HTMLElement | null;
+
   nativeSearchKey: string;
+
   previousKey: string;
+
   nativeSearchCounter: ?TimeoutID;
 
   static defaultProps = {
@@ -295,7 +301,7 @@ export default class StatelessSelect extends PureComponent<Props, State> {
   filterItems = (items: Array<ItemType>) => {
     const value = this.props.filterValue;
     const trimmedValue = value && value.toLowerCase().trim();
-    const selectedItem = this.props.selectedItem;
+    const { selectedItem } = this.props;
     const unselectedItems = items.filter(
       item => selectedItem && selectedItem.value !== item.value,
     );
@@ -436,7 +442,7 @@ export default class StatelessSelect extends PureComponent<Props, State> {
   };
 
   handleInputOnChange = (event: SyntheticEvent<any>) => {
-    const value = event.currentTarget.value;
+    const { value } = event.currentTarget;
 
     if (value !== this.props.filterValue) {
       this.props.onFilterChange(value);

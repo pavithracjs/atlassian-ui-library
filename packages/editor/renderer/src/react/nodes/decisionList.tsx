@@ -15,6 +15,10 @@ export default class DecisionList extends PureComponent<Props, {}> {
       return null;
     }
 
-    return <AkDecisionList>{children}</AkDecisionList>;
+    return (
+      <div className="akDecisionList">
+        <AkDecisionList>{children}</AkDecisionList>
+      </div>
+    );
   }
 }

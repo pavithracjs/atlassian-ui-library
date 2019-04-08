@@ -13,13 +13,17 @@ type State = {
 
 export default class SpotlightNodeExample extends Component<Object, State> {
   drawer: HTMLElement;
+
   state = { drawerIsVisible: false, spotlightIsVisible: false };
+
   showDrawer = () => {
     this.setState({ drawerIsVisible: true });
   };
+
   hideDrawer = () => {
     this.setState({ drawerIsVisible: false });
   };
+
   toggleDrawer = () => {
     if (this.state.drawerIsVisible) {
       this.hideDrawer();
@@ -27,15 +31,19 @@ export default class SpotlightNodeExample extends Component<Object, State> {
       this.showDrawer();
     }
   };
+
   showSpotlight = () => {
     this.setState({ spotlightIsVisible: true });
   };
+
   hideSpotlight = () => {
     this.setState({ spotlightIsVisible: false });
   };
+
   getDrawer = (ref: ElementRef<*>) => {
     this.drawer = ref;
   };
+
   render() {
     const { drawerIsVisible, spotlightIsVisible } = this.state;
     const duration = 300;

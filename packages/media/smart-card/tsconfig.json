@@ -9,5 +9,9 @@
     "./examples/**/*.tsx", 
     "./examples-helpers/**/*.ts",
     "./examples-helpers/**/*.tsx"
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    
+  }
 }

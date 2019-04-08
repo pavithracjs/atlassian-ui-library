@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Loadable from 'react-loadable';
+import Loadable from 'react-loadable';
 
 import { DefinedState } from '../client/types';
 import { CardProps } from '../view/Card';
