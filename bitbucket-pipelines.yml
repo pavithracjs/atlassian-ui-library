@@ -256,7 +256,10 @@ pipelines:
             script:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
-              - yarn test:CI
+              # Run the non-editor tests.
+              - TEST_ONLY_PATTERN='!packages/editor' yarn test:CI
+              # Run the editor tests (runInBand is required or it fails in CI)
+              - TEST_ONLY_PATTERN='packages/editor' yarn test:CI --runInBand
         - step:
             name: Running All Browser Unit tests
             script:
