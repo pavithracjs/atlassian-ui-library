@@ -1,0 +1,1 @@
+- Revert "[ED-5259 - ED-6200] adds defaultMarks on tableNode (pull request #5259)"
