@@ -33,7 +33,12 @@ class JiraSwitcherExample extends React.Component {
             },
           },
           USER_PERMISSION_DATA: {
-            permitted: false,
+            manage: {
+              permitted: false,
+            },
+            'add-products': {
+              permitted: false,
+            },
           },
         };
       },

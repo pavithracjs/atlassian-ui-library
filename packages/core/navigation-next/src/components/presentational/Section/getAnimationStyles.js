@@ -1,6 +1,6 @@
 // @flow
 
-import { keyframes } from 'emotion';
+import { css, keyframes } from '@emotion/core';
 
 import {
   transitionDuration,
@@ -32,10 +32,7 @@ type GetTransitionStylesArgs = {
   traversalDirection: 'up' | 'down' | null,
 };
 
-export default ({
-  state,
-  traversalDirection,
-}: GetTransitionStylesArgs): { animationName?: string } => {
+export default ({ state, traversalDirection }: GetTransitionStylesArgs): {} => {
   if (!['entering', 'exiting'].includes(state) || !traversalDirection) {
     return {};
   }
@@ -43,26 +40,30 @@ export default ({
   if (state === 'exiting') {
     const animationName =
       traversalDirection === 'down' ? exitAnimationDown : exitAnimationUp;
-    return {
-      animationName,
+    return css`
+    ${{
       animationDuration: transitionDuration,
       animationFillMode: 'forwards',
       animationTimingFunction: transitionTimingFunction,
-    };
+    }}
+      animation-name: ${animationName};
+    `;
   }
 
   if (state === 'entering') {
     const animationName =
       traversalDirection === 'down' ? enterAnimationDown : enterAnimationUp;
-    return {
-      animationName,
+    return css`
+    ${{
       animationDuration: transitionDuration,
       animationFillMode: 'forwards',
       animationTimingFunction: transitionTimingFunction,
       position: 'absolute',
       width: '100%',
       zIndex: 1,
-    };
+    }}
+      animation-name: ${animationName};
+    `;
   }
 
   return {};

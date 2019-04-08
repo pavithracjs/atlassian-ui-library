@@ -1,5 +1,5 @@
 import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
-import * as adf from './__fixtures__/full-width-table.adf.json';
+import adf from './__fixtures__/full-width-table.adf.json';
 import {
   tableSelectors,
   clickFirstCell,

@@ -6,7 +6,7 @@ import { Serializer } from '../serializer';
 import { nodeSerializers } from './serializers';
 import styles from './styles';
 import { calcTableColumnWidths } from '@atlaskit/adf-schema';
-import * as juice from 'juice';
+import juice from 'juice';
 
 const serializeNode = (
   node: PMNode,
@@ -28,6 +28,7 @@ const serializeNode = (
       ...parentAttrs,
     },
     marks: node.marks,
+    parent: parent,
     text:
       serializedHTML || node.attrs.text || node.attrs.shortName || node.text,
   });

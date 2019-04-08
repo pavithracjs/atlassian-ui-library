@@ -9,7 +9,7 @@ export default function loadFileFromGitHistory(
 ): Promise<string> {
   return new Promise((resolve, reject) => {
     exec(
-      `git show origin/${branchName}:${fileName}`,
+      `git show ${branchName}:${fileName}`,
       { maxBuffer: FiveMBBuffer },
       (error, stdout, stderr) => {
         if (error) {

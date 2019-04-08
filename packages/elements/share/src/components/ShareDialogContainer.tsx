@@ -22,7 +22,6 @@ import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
 import { optionDataToUsers } from './utils';
 
 export type Props = {
-  buttonStyle?: ShareButtonStyle;
   client?: ShareClient;
   cloudId: string;
   dialogPlacement?: string;

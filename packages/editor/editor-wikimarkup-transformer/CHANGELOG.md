@@ -1,5 +1,16 @@
 # @atlaskit/editor-wikimarkup-transformer
 
+## 4.0.4
+- [patch] [b425ea772b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b425ea772b):
+
+  - Revert "ED-5505 add strong as default mark to table header (pull request #5291)"
+
+## 4.0.3
+- Updated dependencies [bfca144ea5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bfca144ea5):
+  - @atlaskit/editor-common@36.1.1
+  - @atlaskit/renderer@45.2.2
+  - @atlaskit/profilecard@9.0.0
+
 ## 4.0.2
 - Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
   - @atlaskit/editor-common@36.0.0

@@ -2,7 +2,6 @@ import * as React from 'react';
 import rafSchedule from 'raf-schd';
 import { Node as PmNode } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-
 import {
   browser,
   calcTableWidth,
@@ -17,7 +16,7 @@ import { ResizeState, scaleTable } from '../pm-plugins/table-resizing';
 import { getParentNodeWidth } from '../pm-plugins/table-resizing/utils';
 
 import { TablePluginState, TableCssClassName as ClassName } from '../types';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 const isIE11 = browser.ie_version === 11;
 
 import { Props } from './table';
@@ -60,6 +59,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
   private wrapper: HTMLDivElement | null;
   private table: HTMLTableElement | null;
   private rightShadow: HTMLDivElement | null;
+  private frameId?: number;
 
   constructor(props: ComponentProps) {
     super(props);
@@ -91,7 +91,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
           view.state,
           containerWidth.width,
         );
-        this.scaleTableDebounced(
+        this.frameId = this.scaleTableDebounced(
           view,
           this.table,
           node,
@@ -114,6 +114,10 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     }
 
     this.handleScrollDebounced.cancel();
+
+    if (this.frameId && window) {
+      window.cancelAnimationFrame(this.frameId);
+    }
   }
 
   componentDidUpdate(prevProps: ComponentProps) {
@@ -130,9 +134,11 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
         tablesHaveDifferentNoOfColumns(this.props.node, prevProps.node)
       ) {
         recreateResizeColsByNode(this.table, this.props.node);
+        // debouncing does not pick up those changes ^ therefore triggering it here
+        this.handleTableResizing(prevProps);
       }
 
-      this.handleTableResizingDebounced(prevProps);
+      this.frameId = this.handleTableResizingDebounced(prevProps);
     }
   }
 
@@ -307,11 +313,12 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
 
   private updateTableContainerWidth = () => {
     const { node, containerWidth, options } = this.props;
-    this.setState((prevState: TableState) => {
-      if (options && options.isBreakoutEnabled === false) {
-        return { tableContainerWidth: 'inherit' };
-      }
 
+    if (options && options.isBreakoutEnabled === false) {
+      return;
+    }
+
+    this.setState((prevState: TableState) => {
       const tableContainerWidth = calcTableWidth(
         node.attrs.layout,
         containerWidth.width,

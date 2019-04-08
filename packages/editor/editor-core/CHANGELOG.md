@@ -1,5 +1,108 @@
 # @atlaskit/editor-core
 
+## 107.8.3
+- [patch] [b425ea772b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b425ea772b):
+
+  - Revert "ED-5505 add strong as default mark to table header (pull request #5291)"
+
+## 107.8.2
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 107.8.1
+- [patch] [dfc4c5da7f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfc4c5da7f):
+
+  - Fix odd cursor selection going inside the inline smart links
+
+## 107.8.0
+- [minor] [02dd1f7287](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/02dd1f7287):
+
+  - [ED-5505] Persists formatting to table cells and headers when toggling header row, column or applying any text formatting to empty cells.
+
+## 107.7.12
+- [patch] [44b14dba84](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/44b14dba84):
+
+  - ED-6651: fix cell borders when table has merged cells
+
+## 107.7.11
+- [patch] [2e5b1c9783](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2e5b1c9783):
+
+  - ED-6535: fix fallback for images without dimensions on upload
+
+## 107.7.10
+- [patch] [acfd88ba22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acfd88ba22):
+
+  - ED-6639 Align lists styles between editor & renderer
+
+## 107.7.9
+- [patch] [513fb8a1a9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/513fb8a1a9):
+
+  - ED-6640: fix resizing not focused table
+
+## 107.7.8
+- [patch] [eaf2f72de1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eaf2f72de1):
+
+  - ED-6650 Table doesn’t respond on inserting widget with min-width set
+
+## 107.7.7
+- [patch] [ce8caf29d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce8caf29d5):
+
+  - ED-6463: fix contextual menu vertical position
+
+## 107.7.6
+- [patch] [eea996dac5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eea996dac5):
+
+  - ED-6598: Toggling `fullWidthMode` now re-creates `EditorView` instead of only re-creating `EditorState`
+
+  This enables us to call updates on contentComponents and nodeViews
+
+## 107.7.5
+- [patch] [29d10e3d60](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/29d10e3d60):
+
+  - ED-6626 Table doesn’t respond on inserting widget with min-width set
+
+  _Test steps:_
+
+  - Insert a `table`
+  - Insert an widget macro with an YouTube video url
+  - The `table` should resize the column accordingly
+
+## 107.7.4
+- [patch] [e80a553a6e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e80a553a6e):
+
+  - ED-6478: upskip VR tests for numbered column
+
+## 107.7.3
+- [patch] [71c1a888f7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/71c1a888f7):
+
+  - ED-6479: upskip table floating toolbar VR tests
+
+## 107.7.2
+- [patch] [41b940325e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/41b940325e):
+
+  - ED-5948: added mass alignment on a range of selected cells
+
+## 107.7.1
+- [patch] [c4aedc236e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c4aedc236e):
+
+  - ED-6613 Clear Action & Decision lists instead of wrapping them around floated content. Corrects gap cursor position when adjacent to floated content.
+
+## 107.7.0
+- [minor] [9df8755c0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9df8755c0b):
+
+  - ED-6603: Disable dynamic text sizing in full width mode
+
+## 107.6.5
+- [patch] [e125d7d78a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e125d7d78a):
+
+  - ED-6627: fix re-rendering table controls when table is nested inside Columns or bodied extensions
+
+## 107.6.4
+- [patch] [0f0c06f787](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f0c06f787):
+
+  - ED-5850 Visual tweak to ensure icons are tightly bound by their borders
+
 ## 107.6.3
 - [patch] [1b0b718266](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b0b718266):
 

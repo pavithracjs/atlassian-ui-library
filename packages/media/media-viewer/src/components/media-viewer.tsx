@@ -1,12 +1,35 @@
 import * as React from 'react';
 import { Component } from 'react';
+import { Identifier, isExternalImageIdentifier } from '@atlaskit/media-core';
 import { MediaViewer as MediaViewerNextGen } from '../newgen/media-viewer';
 import { ItemSource } from '../newgen/domain';
-import { MediaViewerProps } from './types';
+import { MediaViewerProps, MediaViewerDataSource } from './types';
+import { getIdentifierCollection } from '../newgen/utils/getIdentifierCollection';
+import { getSelectedIndex } from '../newgen/utils';
 
 export interface MediaViewerState {}
 
 export class MediaViewer extends Component<MediaViewerProps, MediaViewerState> {
+  // returns a valid MV data source including current the card identifier
+  getDataSourceWithSelectedItem = (
+    dataSource: MediaViewerDataSource,
+    selectedItem: Identifier,
+  ): MediaViewerDataSource => {
+    // we want to ensure the card identifier is in the list
+    const { list } = dataSource;
+    if (list) {
+      const selectedItemIndex = getSelectedIndex(list, selectedItem);
+
+      if (selectedItemIndex === -1) {
+        return {
+          list: [selectedItem, ...list],
+        };
+      }
+    }
+
+    return dataSource;
+  };
+
   render(): JSX.Element {
     const {
       featureFlags,
@@ -17,14 +40,19 @@ export class MediaViewer extends Component<MediaViewerProps, MediaViewerState> {
       dataSource,
       pageSize,
     } = this.props;
-
     const defaultPageSize = 30;
+    const dataSourceWithSelectedItem = this.getDataSourceWithSelectedItem(
+      dataSource,
+      selectedItem,
+    );
 
-    if (dataSource.list) {
-      const items = dataSource.list.map(i => ({
-        ...i,
-        collectionName,
-      }));
+    if (dataSourceWithSelectedItem.list) {
+      const items: Identifier[] = dataSourceWithSelectedItem.list.map(
+        identifier => ({
+          ...identifier,
+          collectionName: getIdentifierCollection(identifier, collectionName),
+        }),
+      );
       const itemSource: ItemSource = {
         kind: 'ARRAY',
         items: items,
@@ -42,16 +70,30 @@ export class MediaViewer extends Component<MediaViewerProps, MediaViewerState> {
           featureFlags={featureFlags}
         />
       );
-    } else if (dataSource.collectionName) {
+    } else if (dataSourceWithSelectedItem.collectionName) {
+      if (isExternalImageIdentifier(selectedItem)) {
+        // if integrators pass an external image + collection, we remove the collection and just show the selectedItem
+        return (
+          <MediaViewerNextGen
+            context={context}
+            selectedItem={selectedItem}
+            onClose={onClose}
+            itemSource={{ kind: 'ARRAY', items: [selectedItem] }}
+            featureFlags={featureFlags}
+          />
+        );
+      }
+
       const itemSource: ItemSource = {
         kind: 'COLLECTION',
-        collectionName: dataSource.collectionName,
+        collectionName: dataSourceWithSelectedItem.collectionName,
         pageSize: pageSize || defaultPageSize,
       };
       const identifier = {
         ...selectedItem,
-        collectionName: dataSource.collectionName,
+        collectionName: dataSourceWithSelectedItem.collectionName,
       };
+
       return (
         <MediaViewerNextGen
           context={context}

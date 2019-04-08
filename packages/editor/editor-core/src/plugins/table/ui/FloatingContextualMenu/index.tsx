@@ -13,7 +13,11 @@ import {
   akEditorFloatingOverlapPanelZIndex,
 } from '@atlaskit/editor-common';
 import ContextualMenu from './ContextualMenu';
-import { contextualMenuTriggerSize, tablePopupStyles } from '../styles';
+import {
+  contextualMenuDropdownWidth,
+  contextualMenuTriggerSize,
+  tablePopupStyles,
+} from '../styles';
 import { pluginKey } from '../../pm-plugins/main';
 import { PluginConfig } from '../../types';
 
@@ -34,7 +38,7 @@ const calculateOffset = (targetCellRef: HTMLElement, state: EditorState) => {
       top -= topDiff + 2;
     }
   }
-  return [1, top];
+  return [contextualMenuTriggerSize / 2, top];
 };
 
 export interface Props {
@@ -82,11 +86,12 @@ const FloatingContextualMenu = ({
       mountTo={mountPoint}
       boundariesElement={boundariesElement}
       scrollableElement={scrollableElement}
-      fitHeight={100}
-      fitWidth={200}
+      fitHeight={188}
+      fitWidth={contextualMenuDropdownWidth}
       // z-index value below is to ensure that this menu is above other floating menu
       // in table, but below floating dialogs like typeaheads, pickers, etc.
       zIndex={akEditorFloatingOverlapPanelZIndex}
+      forcePlacement={true}
     >
       <MenuWrapper>
         <ContextualMenu

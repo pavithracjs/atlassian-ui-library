@@ -1,5 +1,15 @@
 # @atlaskit/conversation
 
+## 14.1.1
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 14.1.0
+- [minor] [33563e651d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/33563e651d):
+
+  - Add support for user-state lozenges
+
 ## 14.0.2
 - Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
   - @atlaskit/editor-common@36.0.0

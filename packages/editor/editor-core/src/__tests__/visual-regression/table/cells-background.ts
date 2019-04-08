@@ -5,7 +5,7 @@ import {
   clickFirstCell,
 } from '../../__helpers/page-objects/_table';
 
-import * as adf from './__fixtures__/default-table.adf.json';
+import adf from './__fixtures__/default-table.adf.json';
 
 describe('Table context menu: cells background', () => {
   let page: any;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import WidthDetector from '../src';
-import * as debounce from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 
 const ResultBox = styled.div`
   align-items: center;

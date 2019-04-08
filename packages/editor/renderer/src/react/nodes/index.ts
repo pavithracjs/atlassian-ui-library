@@ -32,7 +32,7 @@ import TableCell from './tableCell';
 import TableHeader from './tableHeader';
 import TableRow from './tableRow';
 import UnknownBlock from './unknownBlock';
-import * as Loadable from 'react-loadable';
+import Loadable from 'react-loadable';
 
 const DecisionItem = Loadable({
   loader: () =>

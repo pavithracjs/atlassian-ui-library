@@ -1,5 +1,5 @@
 import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
-import * as adf from '../common/__fixtures__/noData-adf.json';
+import adf from '../common/__fixtures__/noData-adf.json';
 import {
   deleteColumn,
   resizeColumn,
@@ -24,8 +24,10 @@ describe('Snapshot Test: table resizing', () => {
     it(`resize a column with content width`, async () => {
       await resizeColumn(page, { colIdx: 2, amount: 123, row: 2 });
       await animationFrame(page);
+      await animationFrame(page);
       await snapshot(page, 0.002);
       await resizeColumn(page, { colIdx: 2, amount: -100, row: 2 });
+      await animationFrame(page);
       await animationFrame(page);
       await snapshot(page, 0.002);
     });

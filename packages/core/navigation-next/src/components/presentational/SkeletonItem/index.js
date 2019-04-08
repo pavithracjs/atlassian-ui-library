@@ -1,7 +1,6 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { css } from 'emotion';
 
 import { withContentTheme, styleReducerNoOp } from '../../../theme';
 import type { SkeletonItemProps } from './types';
@@ -20,7 +19,7 @@ class SkeletonItem extends PureComponent<SkeletonItemProps> {
     const styles = styleReducer(defaultStyles);
 
     return (
-      <div className={css({ '&&': styles.wrapper })}>
+      <div css={{ '&&': styles.wrapper }}>
         {hasBefore && <div css={styles.before} />}
         <div css={styles.content} />
       </div>

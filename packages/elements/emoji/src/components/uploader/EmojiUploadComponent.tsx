@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 
 import * as styles from './styles';
 
