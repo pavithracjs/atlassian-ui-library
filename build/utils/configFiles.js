@@ -37,12 +37,12 @@ const CONFIG_FILES_TO_FILTERS /*: { [key: string]: (pkg: Object) => boolean } */
 };
 
 async function getPackageDirsForConfig(cwd /*: string */) {
-  let packages = await getPackagesInfo(cwd);
+  let packages = await getPackagesConfigInfo(cwd);
   let toolGroups = {};
 
   Object.keys(CONFIG_FILES_TO_FILTERS).map(configName => {
     toolGroups[configName] = packages
-      .filter(CONFIG_FILES_TO_FILTERS[toolName])
+      .filter(CONFIG_FILES_TO_FILTERS[configName])
       .map(pkg => pkg.relativeDir);
   });
 
