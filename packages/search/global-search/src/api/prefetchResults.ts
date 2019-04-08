@@ -5,7 +5,7 @@ import { ABTest } from './CrossProductSearchClient';
 import { Scope } from './types';
 
 interface CommonPrefetchedResults {
-  abTestPromise: Promise<ABTest | undefined>;
+  abTestPromise: Promise<ABTest>;
   recentPeoplePromise: Promise<Result[]>;
 }
 
