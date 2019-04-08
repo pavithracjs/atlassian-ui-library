@@ -64,14 +64,10 @@ class EditorView extends Component<
 
     this.setState({ dimensions });
     this.loadProperties();
-    this.rootDiv.addEventListener('keydown', this.handleEsc);
   }
 
   componentWillUnmount() {
     this.saveProperties();
-    if (this.rootDiv) {
-      this.rootDiv.addEventListener('keydown', this.handleEsc);
-    }
   }
 
   render() {
@@ -81,7 +77,7 @@ class EditorView extends Component<
     const theme = { __ATLASKIT_THEME__: { mode: 'dark' } };
     return (
       <ThemeProvider theme={theme}>
-        <EditorContainer innerRef={refHandler}>
+        <EditorContainer innerRef={refHandler} onKeyDown={this.handleEsc}>
           {this.renderEditor()}
           {this.renderToolbar()}
         </EditorContainer>
@@ -226,9 +222,10 @@ class EditorView extends Component<
     }
   }
 
-  private handleEsc = (e: KeyboardEvent) => {
+  private handleEsc = (e: React.KeyboardEvent) => {
     if (e.keyCode === 27) {
       e.stopPropagation();
+      e.nativeEvent.stopImmediatePropagation();
       this.props.onCancel();
     }
   };
