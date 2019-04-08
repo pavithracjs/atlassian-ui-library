@@ -1,0 +1,1 @@
+- Email renderer - tables now honor table widths

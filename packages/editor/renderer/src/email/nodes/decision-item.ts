@@ -23,27 +23,33 @@ export default function decisionItem({ attrs, text }: NodeSerializerOpts) {
 
   const state = (attrs as DecisionItemAttrs).state;
 
-  const icon = createTable([
+  const icon = createTable(
     [
-      {
-        text: icons[state],
-        style: {
-          'font-size': '13px',
-          'font-weight': '900',
-          'text-align': 'center',
-          color: G300,
-          width: '16px',
-          height: '16px',
+      [
+        {
+          text: icons[state],
+          style: {
+            'font-size': '13px',
+            'font-weight': '900',
+            'text-align': 'center',
+            color: G300,
+            width: '16px',
+            height: '16px',
+          },
         },
-      },
+      ],
     ],
-  ]);
+    {
+      'table-layout': 'fixed',
+      'line-height': '18px',
+    },
+  );
 
   const iconTd: TableData = {
     text: icon,
     style: {
       'vertical-align': 'top',
-      padding: '10px',
+      padding: '9px',
       width: '16px',
       height: '16px',
     },
@@ -53,18 +59,25 @@ export default function decisionItem({ attrs, text }: NodeSerializerOpts) {
     text,
     style: {
       'font-size': '14px',
-      padding: '8px 8px 8px 0',
+      padding: '8px 0px 8px 0',
     },
   };
 
-  const mainContentTable = createTable([[iconTd, textTd]]);
-
-  const mainContentWrapperTable = createTable([[{ text: mainContentTable }]], {
+  const mainContentTable = createTable([[iconTd, textTd]], {
     'background-color': N30,
     'border-radius': '3px',
+    'table-layout': 'fixed',
+    'line-height': '20px',
   });
 
-  return createTable([[{ text: mainContentWrapperTable }]], {
-    padding: '4px 8px 4px 0',
-  });
+  return createTable([
+    [
+      {
+        text: mainContentTable,
+        style: {
+          padding: '4px 0px 4px 0',
+        },
+      },
+    ],
+  ]);
 }

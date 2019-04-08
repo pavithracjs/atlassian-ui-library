@@ -13,6 +13,7 @@ export const commonTableStyle = {
   ...commonStyle,
   margin: '0px',
   padding: '0px',
+  display: 'table',
   'border-spacing': '0px',
   width: '100%',
 };
