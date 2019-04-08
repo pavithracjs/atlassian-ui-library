@@ -19,6 +19,7 @@ const Wrapper = props => (
 
 export default class NavigationExample extends Component<void, State> {
   errorBannerRef: ?HTMLElement;
+
   announcementBannerRef: ?HTMLElement;
 
   state = {
@@ -48,6 +49,7 @@ export default class NavigationExample extends Component<void, State> {
     this.setState({
       isErrorBannerOpen: !this.state.isErrorBannerOpen,
     });
+
   onAnnouncementBannerChange = () =>
     this.setState({
       isAnnouncementBannerOpen: !this.state.isAnnouncementBannerOpen,

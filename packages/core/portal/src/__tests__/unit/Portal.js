@@ -112,6 +112,7 @@ test('portal mounts children only when it is attached to DOM', () => {
     componentDidMount() {
       DOMElement = document.querySelector('body');
     }
+
     render() {
       return <div>Hello World!!</div>;
     }

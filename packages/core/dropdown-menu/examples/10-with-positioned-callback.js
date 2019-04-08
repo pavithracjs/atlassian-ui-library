@@ -23,6 +23,7 @@ export default class PositionCallbackExample extends Component<{}, State> {
     beforePosition: { x: 0, y: 0 },
     afterPosition: { x: 0, y: 0 },
   };
+
   ref: ?HTMLElement;
 
   componentDidMount() {

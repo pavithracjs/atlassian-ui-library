@@ -9,8 +9,11 @@ type State = {
 };
 export default class ExampleBasic extends PureComponent<{}, State> {
   state: State = { isOpen: false };
+
   open = () => this.setState({ isOpen: true });
+
   close = () => this.setState({ isOpen: false });
+
   secondaryAction = ({ target }: Object) => console.log(target.innerText);
 
   render() {

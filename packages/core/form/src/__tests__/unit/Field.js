@@ -4,12 +4,7 @@ import { mount } from 'enzyme';
 import Button from '@atlaskit/button';
 import FieldText from '@atlaskit/field-text';
 import TextField from '@atlaskit/textfield';
-import Form, {
-  Field,
-  HelperMessage,
-  ErrorMessage,
-  ValidMessage,
-} from '../../../src';
+import Form, { Field, HelperMessage, ErrorMessage, ValidMessage } from '../..';
 import { Label } from '../../styled/Field';
 
 export class WithState extends React.Component<
@@ -19,6 +14,7 @@ export class WithState extends React.Component<
   state = {
     currentState: this.props.defaultState,
   };
+
   render() {
     return this.props.children(this.state.currentState, state =>
       this.setState({ currentState: state }),
@@ -135,7 +131,7 @@ test('should show errors after submission', () => {
 
 test('change in defaultValue should reset form field', () => {
   const wrapper = mount(
-    <WithState defaultState={''}>
+    <WithState defaultState="">
       {(defaultValue, setDefaultValue) => (
         <>
           <Form onSubmit={jest.fn()}>
@@ -174,7 +170,7 @@ test('change in defaultValue should reset form field', () => {
 test('change in name should reset form field', done => {
   const submitFn = jest.fn();
   const wrapper = mount(
-    <WithState defaultState={'name'}>
+    <WithState defaultState="name">
       {(name, setName) => (
         <>
           <Form onSubmit={submitFn}>
@@ -350,7 +346,8 @@ xtest('should always show most recent validation result', done => {
           validate={value => {
             if (value.length < 3) {
               return 'TOO_SHORT';
-            } else if (value === 'Joe Bloggs') {
+            }
+            if (value === 'Joe Bloggs') {
               return new Promise(res => {
                 resolveValidation = () => res('TAKEN_USERNAME');
               });

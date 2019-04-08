@@ -125,6 +125,7 @@ class Droplist extends Component<Props, void> {
   };
 
   dropContentRef: HTMLElement;
+
   triggerRef: HTMLElement;
 
   handleEsc = (event: KeyboardEvent): void => {

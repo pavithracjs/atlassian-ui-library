@@ -601,7 +601,7 @@ const analyticsEventMap: AnalyticsEventConfig[] = [
 module.exports.analyticsPackages = analyticsEventMap
   .filter(pkg => pkg.test !== true)
   .map(config => {
-    const path = config.path;
+    const { path } = config;
 
     return path.substring(0, path.indexOf('/'));
   });
@@ -611,7 +611,7 @@ module.exports.analyticsEventMap = analyticsEventMap;
 module.exports.instrumentedComponents = analyticsEventMap
   .filter(pkg => pkg.test !== true)
   .reduce((acc, config) => {
-    const path = config.path;
+    const { path } = config;
     const packageSuffix = path.substring(0, path.indexOf('/'));
     const items = [];
     Object.keys(config.props).forEach(propName => {

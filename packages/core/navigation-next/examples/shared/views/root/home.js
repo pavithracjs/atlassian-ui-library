@@ -7,7 +7,7 @@ import FolderIcon from '@atlaskit/icon/glyph/folder';
 import IssuesIcon from '@atlaskit/icon/glyph/issues';
 
 import { LinkItem } from '../../components';
-import type { NavigationRendererItemType } from '../../../../src/';
+import type { NavigationRendererItemType } from '../../../../src';
 
 import ViewRegistrar from '../common/view-registrar';
 

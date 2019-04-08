@@ -3,7 +3,7 @@
 import React, { Component, Fragment } from 'react';
 import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
 
-import { GroupHeading, Separator } from '../../../';
+import { GroupHeading, Separator } from '../../..';
 import type { GroupProps } from './types';
 
 export default class Group extends Component<GroupProps> {

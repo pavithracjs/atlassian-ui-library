@@ -17,7 +17,7 @@ export default class LayoutExample extends PureComponent<void, void> {
       <div>
         <h2>Nested Grid</h2>
         <Page>
-          <Grid spacing={'cosy'}>
+          <Grid spacing="cosy">
             <GridColumn medium={8}>
               <Dummy>
                 This content sits inside a column of width 8. The text is before

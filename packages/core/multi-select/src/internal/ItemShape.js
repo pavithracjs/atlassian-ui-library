@@ -32,6 +32,7 @@ export default class ItemShape extends PureComponent<Props, {}> {
     isDisabled: false,
     isSelected: false,
   };
+
   render() {
     return null;
   }

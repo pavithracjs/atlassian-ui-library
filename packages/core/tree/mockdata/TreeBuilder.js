@@ -4,6 +4,7 @@ import type { ItemId, TreeItem } from '../src/types';
 
 export default class TreeBuilder {
   rootId: ItemId;
+
   items: { [ItemId]: TreeItem };
 
   constructor(rootId: ItemId) {

@@ -8,20 +8,24 @@ const sizes = ['large', 'medium', 'small'];
 type State = { isOpen: Array<any> };
 export default class NestedDemo extends Component<{}, State> {
   state = { isOpen: [] };
+
   open = (isOpen: string) => {
     const openModals = this.state.isOpen.slice(0);
     openModals.push(isOpen);
     this.setState({ isOpen: openModals });
   };
+
   close = () => {
     const openModals = this.state.isOpen.slice(0);
     openModals.pop();
     this.setState({ isOpen: openModals });
   };
+
   handleStackChange = (idx: number, name: string) => {
     console.info(`"${name}" stack change`, idx);
     console.log(`"${name}" stack change ${idx}`);
   };
+
   handleCloseComplete = () => {
     console.info(
       `The exit animation of the "${sizes[0]}" modal has completed.`,

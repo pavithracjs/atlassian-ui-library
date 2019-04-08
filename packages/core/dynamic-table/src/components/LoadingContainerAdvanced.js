@@ -25,7 +25,9 @@ type Props = {
 
 export default class LoadingContainerAdvanced extends Component<Props, {}> {
   children: Element | null;
+
   spinner: ComponentType<any> | void | null;
+
   static defaultProps = {
     isLoading: true,
     spinnerSize: LARGE,

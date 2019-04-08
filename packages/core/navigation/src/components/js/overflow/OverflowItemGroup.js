@@ -18,6 +18,7 @@ type Props = {
 
 export default class OverflowItemGroup extends Component<Props> {
   rootNode: ElementRef<*>;
+
   heights: Array<number>;
 
   static childContextTypes = {

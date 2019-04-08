@@ -366,6 +366,7 @@ test('nested modals should stack on one another', () => {
 test('multiple modals update stack on unmount', () => {
   class Wrapper extends React.Component<{}, { open: boolean }> {
     state = { open: true };
+
     render() {
       return (
         <div>

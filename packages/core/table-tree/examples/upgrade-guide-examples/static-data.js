@@ -20,8 +20,8 @@ class WithStaticData extends Component<Props> {
           items={this.props.tableData}
           render={({ title, numbering, page, children }) => (
             <Row
-              expandLabel={'Expand'}
-              collapseLabel={'Collapse'}
+              expandLabel="Expand"
+              collapseLabel="Collapse"
               itemId={numbering}
               items={children}
               hasChildren={children && children.length > 0}

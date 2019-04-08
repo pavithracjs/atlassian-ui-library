@@ -119,13 +119,16 @@ it('should focus on last enabled inner lock', () => {
 it('should work through Portals', () => {
   class Portal extends React.Component<{ children: Node }> {
     domNode = document.createElement('div');
+
     constructor(props) {
       super(props);
       documentBody(body => body.appendChild(this.domNode));
     }
+
     componentWillUnmount() {
       documentBody(body => body.removeChild(this.domNode));
     }
+
     render() {
       return ReactDOM.createPortal(this.props.children, this.domNode);
     }
@@ -163,6 +166,7 @@ class FocusLockWithState extends React.Component<
   state = {
     enabled: this.props.defaultEnabled,
   };
+
   render() {
     const { enabled } = this.state;
     return (

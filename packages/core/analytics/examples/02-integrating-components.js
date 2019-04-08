@@ -19,6 +19,7 @@ class Button extends Component<ButtonProps, {}> {
     firePrivateAnalyticsEvent('private.button.click', { clientX, clientY });
     if (this.props.onClick) this.props.onClick(e);
   };
+
   render() {
     const { children, ...props } = this.props;
     return (

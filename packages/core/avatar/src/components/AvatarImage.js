@@ -82,6 +82,7 @@ export default class AvatarImage extends PureComponent<Props, State> {
     // if provided a src - we need to load it
     isLoading: Boolean(this.props.src),
   };
+
   isComponentMounted: boolean;
 
   componentDidMount() {
@@ -101,6 +102,7 @@ export default class AvatarImage extends PureComponent<Props, State> {
       this.loadImage();
     }
   }
+
   componentWillUnmount() {
     this.isComponentMounted = false;
   }

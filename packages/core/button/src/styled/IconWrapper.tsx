@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { gridSize, math } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
+import { divide } from '@atlaskit/theme/math';
 import { getLoadingStyle } from './utils';
 
 type Props = {
@@ -13,9 +14,9 @@ const getMargin = (props: Props) => {
     return 0;
   }
   if (props.isOnlyChild) {
-    return `0 -${math.divide(gridSize, 4)(props)}px`;
+    return `0 -${divide(gridSize, 4)(props)}px`;
   }
-  return `0 ${math.divide(gridSize, 2)(props)}px`;
+  return `0 ${divide(gridSize, 2)(props)}px`;
 };
 
 const IconWrapper: React.StatelessComponent<Props> = props => {

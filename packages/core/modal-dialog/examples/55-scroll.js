@@ -26,12 +26,16 @@ type State = {
 };
 export default class ExampleScroll extends PureComponent<{}, State> {
   bottomRef: any;
+
   state: State = {
     isOpen: false,
     scrollBehavior: 'inside',
   };
+
   open = () => this.setState({ isOpen: true });
+
   close = () => this.setState({ isOpen: false });
+
   scrollToBottom = () => this.bottomRef.scrollIntoView(true);
 
   onScrollBehaviorChange = (e: any) => {
