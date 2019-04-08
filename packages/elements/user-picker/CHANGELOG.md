@@ -1,5 +1,10 @@
 # @atlaskit/user-picker
 
+## 3.3.4
+- [patch] [93464f09e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/93464f09e8):
+
+  - TEAMS-328 : Changing byline logic
+
 ## 3.3.3
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 
