@@ -1,5 +1,5 @@
 import * as React from 'react';
-import TextField from '@atlaskit/textfield';
+import Textfield from '@atlaskit/textfield';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
 import { colors } from '@atlaskit/theme';
 
@@ -34,7 +34,7 @@ class InlineEditableTextfield extends React.Component<
         {...this.props}
         defaultValue={defaultValue}
         editView={editViewProps => (
-          <TextField
+          <Textfield
             {...editViewProps}
             elemAfterInput={
               editViewProps.isInvalid && (

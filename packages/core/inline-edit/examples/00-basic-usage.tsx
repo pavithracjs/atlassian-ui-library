@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import TextField from '@atlaskit/textfield';
+import Textfield from '@atlaskit/textfield';
 import { gridSize, fontSize } from '@atlaskit/theme';
 
 import InlineEdit from '../src';
@@ -30,7 +30,7 @@ export default class InlineEditExample extends React.Component<void, State> {
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline edit"
-          editView={editViewProps => <TextField {...editViewProps} />}
+          editView={editViewProps => <Textfield {...editViewProps} />}
           readView={() => (
             <ReadViewContainer>
               {this.state.editValue || 'Click to enter value'}
