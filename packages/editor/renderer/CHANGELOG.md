@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 45.3.3
+- [patch] [32317ff8f3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/32317ff8f3):
+
+  - MS-1633 Renderer passes a list of files and external images to a Card to be opened with Media Viewer
+
 ## 45.3.2
 - [patch] [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
 
