@@ -1,0 +1,1 @@
+- Add new API to allow pre-fetching of global search pre-query results before the component is opened
