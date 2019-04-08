@@ -81,13 +81,19 @@ export const messages = defineMessages({
     defaultMessage:
       '{object, select,' +
       'board {Board shared}' +
+      'calendar {Calendar shared}' +
+      'draft {Draft shared}' + // this is a placeholder for Invite to edit in Confluence
       'filter {Filter shared}' +
       'issue {Issue shared}' +
       'media {Media shared}' +
       'page {Page shared}' +
       'project {Project shared}' +
       'pullrequest {Pull Request shared}' +
+      'question {Question shared}' +
+      'report {Report shared}' +
       'repository {Repository shared}' +
+      'request {Request shared}' +
+      'roadmap {Roadmap shared}' +
       'site {Site shared}' +
       'space {Space shared}' +
       'other {Link Shared}' +
