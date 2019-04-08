@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 36.1.6
+- [patch] [97e555c168](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97e555c168):
+
+  - Revert "[ED-5259 - ED-6200] adds defaultMarks on tableNode (pull request #5259)"
+
 ## 36.1.5
 - [patch] [823d44ebb0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/823d44ebb0):
 
