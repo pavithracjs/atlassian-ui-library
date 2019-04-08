@@ -3,7 +3,6 @@ const compose = require('docker-compose');
 const path = require('path');
 const ip = require('ip');
 const exec = require('child_process').execSync;
-const prodVersion = require('../pipelines-docker-image/package.json').version;
 
 const cwd = path.join(__dirname);
 const log = true;
@@ -22,15 +21,22 @@ async function stopDocker() {
   return await compose.stop({ cwd, log });
 }
 
-async function deleteOldDockerImage() {
+async function isLatestVersion() {
+  let result = false;
   const cmd = `docker images| grep atlassianlabs/atlaskit-mk-2-vr| awk '{print $2}'| head -n 1`;
+  const prodVersion = require('../pipelines-docker-image/package.json').version;
   const localVersion = await exec(cmd).toString();
 
-  console.log('Latest docker image version:', prodVersion);
-  console.log('Local docker image version:', localVersion);
+  console.info('Latest docker image version:', prodVersion);
+  console.info('Local docker image version:', localVersion);
 
-  if (localVersion && prodVersion != localVersion) {
-    console.log(
+  if (localVersion && prodVersion != localVersion) result = true;
+
+  return result;
+}
+async function deleteOldDockerImage() {
+  if (!isLatestVersion()) {
+    console.info(
       'Old version of docker image found, updating docker image .....',
     );
     await compose.down({ cwd, log });
@@ -38,7 +44,7 @@ async function deleteOldDockerImage() {
     const deleteVRBaseImage = `docker rmi -f atlassianlabs/atlaskit-mk-2-vr:${version}`;
     const deletedVRImage = await exec(deleteVRImage).toString();
     const deletedVRBaseImage = await exec(deleteVRBaseImage).toString();
-    console.log(deletedVRImage, deletedVRBaseImage);
+    console.info(deletedVRImage, deletedVRBaseImage);
   }
 }
 
