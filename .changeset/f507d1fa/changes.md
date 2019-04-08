@@ -1,1 +1,0 @@
-- FS-3743 remove loading message from user picker
