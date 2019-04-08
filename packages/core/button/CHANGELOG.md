@@ -1,5 +1,10 @@
 # @atlaskit/button
 
+## 11.0.8
+- [patch] [22ce87801e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/22ce87801e):
+
+  - Optimised usages of theme in button using multiple entry points
+
 ## 11.0.7
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 
