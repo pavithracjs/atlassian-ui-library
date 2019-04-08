@@ -26,8 +26,8 @@ async function deleteOldDockerImage() {
   const cmd = `docker images| grep atlassianlabs/atlaskit-mk-2-vr| awk '{print $2}'| head -n 1`;
   const localVersion = await exec(cmd).toString();
 
-  console.log('Latest docker package version:', imageVersion);
-  console.log('Local docker image version:', version);
+  console.log('Latest docker image version:', prodVersion);
+  console.log('Local docker image version:', localVersion);
 
   if (localVersion && prodVersion != localVersion) {
     console.log(
