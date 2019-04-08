@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
+
+import { filter, ADFEntity } from '@atlaskit/adf-utils';
 import {
   CardAppearance,
   CardDimensions,
@@ -13,6 +15,7 @@ import {
   ImageResizeMode,
   FileIdentifier,
   ExternalImageIdentifier,
+  Identifier,
 } from '@atlaskit/media-core';
 import { MediaType } from '@atlaskit/adf-schema';
 import {
@@ -24,6 +27,7 @@ import {
   ImageLoaderState,
 } from '@atlaskit/editor-common';
 import { RendererAppearance } from './Renderer';
+import { RendererContext } from '../react';
 
 export interface MediaProvider {
   viewContext?: Context;
@@ -48,17 +52,54 @@ export interface MediaCardProps {
   imageStatus?: ImageStatus;
   disableOverlay?: boolean;
   useInlinePlayer?: boolean;
+  rendererContext?: RendererContext;
 }
 
 export interface State {
   context?: Context;
 }
 
+const mediaIdentifierMap: Map<string, Identifier> = new Map();
+
+export const getListOfIdentifiersFromDoc = (doc?: ADFEntity): Identifier[] => {
+  if (!doc) {
+    return [];
+  }
+  return filter(doc, node => node.type === 'media').reduce(
+    (identifierList: Identifier[], mediaNode) => {
+      if (mediaNode.attrs) {
+        const { type, url: dataURI, id } = mediaNode.attrs;
+
+        if (type === 'file' && id) {
+          identifierList.push({
+            mediaItemType: 'file',
+            id,
+          });
+        } else if (type === 'external' && dataURI) {
+          identifierList.push({
+            mediaItemType: 'external-image',
+            dataURI,
+            name: dataURI,
+          });
+        }
+      }
+      return identifierList;
+    },
+    [],
+  );
+};
+
 export class MediaCardInternal extends Component<MediaCardProps, State> {
   state: State = {};
 
   async componentDidMount() {
-    const { mediaProvider } = this.props;
+    const {
+      rendererContext,
+      mediaProvider,
+      id,
+      url,
+      collection: collectionName,
+    } = this.props;
 
     if (!mediaProvider) {
       return;
@@ -66,10 +107,35 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
 
     const provider = await mediaProvider;
     const context = await provider.viewContext;
+    const nodeIsInCache =
+      (id && mediaIdentifierMap.has(id)) ||
+      (url && mediaIdentifierMap.has(url));
+    if (rendererContext && rendererContext.adDoc && !nodeIsInCache) {
+      getListOfIdentifiersFromDoc(rendererContext.adDoc).forEach(identifier => {
+        if (identifier.mediaItemType === 'file') {
+          mediaIdentifierMap.set(identifier.id as string, {
+            ...identifier,
+            collectionName,
+          });
+        } else if (identifier.mediaItemType === 'external-image') {
+          mediaIdentifierMap.set(identifier.dataURI as string, identifier);
+        }
+      });
+    }
 
     this.setState({
       context,
     });
+  }
+
+  componentWillUnmount() {
+    const { id, url: dataURI } = this.props;
+
+    if (id) {
+      mediaIdentifierMap.delete(id);
+    } else if (dataURI) {
+      mediaIdentifierMap.delete(dataURI);
+    }
   }
 
   private renderLoadingCard = () => {
@@ -78,7 +144,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     return <CardLoading dimensions={cardDimensions} />;
   };
 
-  private renderExternal() {
+  private renderExternal(shouldOpenMediaViewer: boolean) {
     const { context } = this.state;
     const {
       cardDimensions,
@@ -107,6 +173,10 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
         appearance={appearance}
         resizeMode={resizeMode}
         disableOverlay={disableOverlay}
+        shouldOpenMediaViewer={shouldOpenMediaViewer}
+        mediaViewerDataSource={{
+          list: Array.from(mediaIdentifierMap.values()),
+        }}
       />
     );
   }
@@ -162,7 +232,7 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     const shouldOpenMediaViewer = !isMobile && !onCardClick;
 
     if (type === 'external') {
-      return this.renderExternal();
+      return this.renderExternal(shouldOpenMediaViewer);
     }
 
     if (type === 'link') {
@@ -195,6 +265,9 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
         disableOverlay={disableOverlay}
         useInlinePlayer={isInlinePlayer}
         shouldOpenMediaViewer={shouldOpenMediaViewer}
+        mediaViewerDataSource={{
+          list: Array.from(mediaIdentifierMap.values()),
+        }}
       />
     );
   }

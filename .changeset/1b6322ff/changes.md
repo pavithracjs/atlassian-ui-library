@@ -1,0 +1,1 @@
+- MS-1633 Renderer passes a list of files and external images to a Card to be opened with Media Viewer
