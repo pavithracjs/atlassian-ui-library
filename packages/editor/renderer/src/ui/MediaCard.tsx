@@ -60,7 +60,10 @@ export interface State {
 
 const mediaIdentifierMap: Map<string, Identifier> = new Map();
 
-export const getListOfIdentifiersFromDoc = (doc: ADFEntity) => {
+export const getListOfIdentifiersFromDoc = (doc?: ADFEntity): Identifier[] => {
+  if (!doc) {
+    return [];
+  }
   return filter(doc, node => node.type === 'media').reduce(
     (identifierList: Identifier[], mediaNode) => {
       if (mediaNode.attrs) {
@@ -92,8 +95,8 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
     const {
       rendererContext,
       mediaProvider,
-      id: thisId,
-      url: thisUrl,
+      id,
+      url,
       collection: collectionName,
     } = this.props;
 
@@ -103,23 +106,23 @@ export class MediaCardInternal extends Component<MediaCardProps, State> {
 
     const provider = await mediaProvider;
     const context = await provider.viewContext;
-
-    if (
-      rendererContext &&
-      rendererContext.adDoc &&
-      ((thisId && !mediaIdentifierMap.has(thisId)) ||
-        (thisUrl && !mediaIdentifierMap.has(thisUrl)))
-    ) {
-      getListOfIdentifiersFromDoc(rendererContext.adDoc).forEach(identifier => {
-        if (identifier.mediaItemType === 'file') {
-          mediaIdentifierMap.set(identifier.id as string, {
-            ...identifier,
-            collectionName,
-          });
-        } else if (identifier.mediaItemType === 'external-image') {
-          mediaIdentifierMap.set(identifier.dataURI as string, identifier);
-        }
-      });
+    const nodeHasDoc = rendererContext && rendererContext.adDoc;
+    const nodeIsInCache =
+      (id && mediaIdentifierMap.has(id)) ||
+      (url && mediaIdentifierMap.has(url));
+    if (nodeHasDoc && !nodeIsInCache) {
+      getListOfIdentifiersFromDoc(rendererContext!.adDoc).forEach(
+        identifier => {
+          if (identifier.mediaItemType === 'file') {
+            mediaIdentifierMap.set(identifier.id as string, {
+              ...identifier,
+              collectionName,
+            });
+          } else if (identifier.mediaItemType === 'external-image') {
+            mediaIdentifierMap.set(identifier.dataURI as string, identifier);
+          }
+        },
+      );
     }
 
     this.setState({

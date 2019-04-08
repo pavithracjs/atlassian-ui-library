@@ -73,7 +73,8 @@ export const toIdentifier = (
   };
 };
 
-// MS-1752
+// TODO MS-1752 - current implementation makes viewer navigation to misbehave
+// if passed a file with the same id (with different occurrenceKeys) or with the same dataURI twice
 export const getSelectedIndex = (
   items: Identifier[],
   selectedItem: Identifier,
