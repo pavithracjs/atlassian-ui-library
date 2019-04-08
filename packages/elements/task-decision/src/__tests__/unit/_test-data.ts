@@ -21,9 +21,9 @@ import {
 } from '../../api/TaskDecisionUtils';
 
 import { taskDecision } from '@atlaskit/util-data-test';
-import * as addMinutes from 'date-fns/add_minutes';
-import * as subDays from 'date-fns/sub_days';
-import * as subMonths from 'date-fns/sub_months';
+import addMinutes from 'date-fns/add_minutes';
+import subDays from 'date-fns/sub_days';
+import subMonths from 'date-fns/sub_months';
 
 export const {
   getServiceDecisionsResponse,

@@ -80,7 +80,7 @@ function collectAdminLinks(
 
   if (isComplete(managePermission) && isComplete(addProductsPermission)) {
     if (managePermission.data || addProductsPermission.data) {
-      return getAdministrationLinks(cloudId, managePermission.data);
+      return getAdministrationLinks(managePermission.data);
     }
 
     return [];

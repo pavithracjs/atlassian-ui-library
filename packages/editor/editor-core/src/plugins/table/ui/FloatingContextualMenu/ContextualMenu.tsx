@@ -33,6 +33,7 @@ import {
   emptyMultipleCellsWithAnalytics,
   insertColumnWithAnalytics,
 } from '../../actions-with-analytics';
+import { closestElement } from '../../../../utils';
 
 export const messages = defineMessages({
   cellBackground: {
@@ -110,16 +111,16 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
   }
 
   private handleSubMenuRef = (ref: HTMLDivElement | null) => {
-    const { boundariesElement } = this.props;
-
-    if (!(boundariesElement && ref)) {
+    const parent = closestElement(
+      this.props.editorView.dom as HTMLElement,
+      '.fabric-editor-popup-scroll-parent',
+    );
+    if (!(parent && ref)) {
       return;
     }
-
-    const boundariesRect = boundariesElement.getBoundingClientRect();
+    const boundariesRect = parent.getBoundingClientRect();
     const rect = ref.getBoundingClientRect();
-
-    if (rect.left + rect.width - boundariesRect.left > boundariesRect.width) {
+    if (rect.left + rect.width > boundariesRect.width) {
       ref.style.left = `-${rect.width}px`;
     }
   };

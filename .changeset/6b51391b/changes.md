@@ -1,0 +1,1 @@
+- ED-6665 Rename 'Panel' to 'Info Panel' (frontend text only)

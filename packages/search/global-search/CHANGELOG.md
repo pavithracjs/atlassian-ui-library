@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 6.2.2
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 6.2.1
 - [patch] [203d4c22bd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/203d4c22bd):
 

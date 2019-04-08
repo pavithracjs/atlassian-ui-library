@@ -250,6 +250,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   ${tableSharedStyle}
 
   .${TableSharedCssClassName.TABLE_CONTAINER} {
+    z-index: 0;
     transition: all 0.1s linear;
 
     /** Shadow overrides */

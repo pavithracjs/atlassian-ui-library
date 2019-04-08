@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 import { LinkComponent, Logger } from '../GlobalQuickSearchWrapper';
 import GlobalQuickSearch from '../GlobalQuickSearch';
 import performanceNow from '../../util/performance-now';

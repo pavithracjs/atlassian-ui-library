@@ -1,5 +1,10 @@
 # @atlaskit/media-picker
 
+## 38.1.2
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 38.1.1
 - [patch] [60a89f843f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/60a89f843f):
 

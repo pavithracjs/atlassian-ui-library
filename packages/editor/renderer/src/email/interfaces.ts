@@ -1,4 +1,4 @@
-import { Mark } from 'prosemirror-model';
+import { Mark, Node as PMNode } from 'prosemirror-model';
 
 export type NodeSerializer = (opts: NodeSerializerOpts) => string;
 export type MarkSerializer = (opts: MarkSerializerOpts) => string;
@@ -10,6 +10,7 @@ export interface NodeSerializerOpts {
   attrs: { [key: string]: any };
   marks: Mark[];
   text?: string | null;
+  parent?: PMNode;
 }
 
 export interface MarkSerializerOpts {

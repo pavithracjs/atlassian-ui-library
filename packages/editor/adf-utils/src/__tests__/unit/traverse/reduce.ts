@@ -1,5 +1,5 @@
 import { reduce } from '../../../traverse/reduce';
-import * as emojisDoc from './__fixtures__/multiple-emojis.json';
+import emojisDoc from './__fixtures__/multiple-emojis.json';
 
 describe('Traverse#reduce', () => {
   it('should return a string text joined', () => {
