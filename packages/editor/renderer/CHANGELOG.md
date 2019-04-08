@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 45.3.0
+- [minor] [7a656ef460](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7a656ef460):
+
+  - Email renderer - tables now honor table widths
+
 ## 45.2.4
 - [patch] [370476ca07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/370476ca07):
 
