@@ -81,7 +81,8 @@ describe('@atlaskit/inline-edit core', () => {
         hideActionButtons
       />,
     );
-    expect(wrapper.find('button').length).toBe(0);
+    expect(wrapper.find('button').length).toBe(1);
+    expect(wrapper.find('button')).toHaveStyleRule('display', 'none');
   });
 
   it('stretches to container width in read mode if readViewFitContainerWidth prop is true', () => {

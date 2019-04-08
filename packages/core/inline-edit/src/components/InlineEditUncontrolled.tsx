@@ -24,6 +24,7 @@ import ContentWrapper from '../styled/ContentWrapper';
 import EditButton from '../styled/EditButton';
 import ReadViewWrapper from '../styled/ReadViewWrapper';
 import InlineDialogChild from '../styled/InlineDialogChild';
+import HiddenButton from '../styled/HiddenButton';
 
 import {
   name as packageName,
@@ -289,7 +290,7 @@ class InlineEditUncontrolled extends React.Component<
                       this.renderActionButtons()
                     ) : (
                       /** This is to allow Ctrl + Enter to submit without action buttons */
-                      <button type="submit" style={{ display: 'none' }} />
+                      <HiddenButton type="submit" />
                     )}
                   </ContentWrapper>
                 )}

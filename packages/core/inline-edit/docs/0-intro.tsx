@@ -6,9 +6,10 @@ export default md`
   focused or being interacted with. It is designed to be used as a wrapper
   to control an input component.
 
-  The default exported component requires a custom read view and edit view to be passed
-  in as props. If you would like a simple inline edit with a text input, you may be able
-  to use the [InlineEditableTextfield component](/packages/core/inline-edit/docs/textfield).
+  The default exported InlineEdit component is a standalone component (not meant to be used
+  within Form), requiring a custom read view and edit view to be passed in as props. If you
+  would like a simple inline edit with a text input, you may be able to use the
+  [InlineEditableTextfield component](/packages/core/inline-edit/docs/textfield).
 
   If you are seeking guidance on how to upgrade the inline edit component from a previous
   version, see [this upgrade guide](/packages/core/inline-edit/docs/upgrade-guide).
