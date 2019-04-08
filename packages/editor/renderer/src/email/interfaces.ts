@@ -7,6 +7,7 @@ export type Style = { [key: string]: string | number | undefined };
 export type Attrs = { [key: string]: string };
 
 export interface NodeSerializerOpts {
+  node: PMNode;
   attrs: { [key: string]: any };
   marks: Mark[];
   text?: string | null;

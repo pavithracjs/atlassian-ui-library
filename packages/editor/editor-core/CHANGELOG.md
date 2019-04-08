@@ -1,5 +1,15 @@
 # @atlaskit/editor-core
 
+## 107.9.1
+- [patch] [c976e9355c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c976e9355c):
+
+  - ED-6320: support replacing smart links from Recent Items list via Cmd+K menu
+
+## 107.9.0
+- [minor] [2558e53738](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2558e53738):
+
+  - ED-6665 Rename 'Panel' to 'Info Panel' (frontend text only)
+
 ## 107.8.3
 - [patch] [b425ea772b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b425ea772b):
 
