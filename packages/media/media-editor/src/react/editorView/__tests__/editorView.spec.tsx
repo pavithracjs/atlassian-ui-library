@@ -1,9 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import { IntlProvider } from 'react-intl';
 
 import EditorView from '../editorView';
 import { EditorContainer } from '../styles';
-import { IntlProvider } from 'react-intl';
 
 describe('<EditorView />', () => {
   it('should be closed by Esc and not propagate event up the dom', () => {
@@ -26,7 +26,9 @@ describe('<EditorView />', () => {
         </IntlProvider>
       </div>,
     );
+
     editorView.find(EditorContainer).simulate('keydown', event);
+
     expect(event.nativeEvent.stopImmediatePropagation).toBeCalled();
     expect(onCancel).toBeCalled();
     expect(onKeyDown).not.toBeCalled();
