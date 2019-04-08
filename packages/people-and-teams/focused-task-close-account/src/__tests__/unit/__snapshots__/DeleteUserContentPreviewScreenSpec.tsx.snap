@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DeleteUserContentPreviewScreen 1`] = `
+<InjectIntl(MessagesIntlProvider)>
+  <styled.div>
+    <styled.div>
+      <FormattedMessage
+        defaultMessage="Tell us how do you want the user to be remembered"
+        description="Heading for the screen that explains admin would prefer user to be remembered"
+        id="focused-task-close-account.delete-account.content-preview.heading.admin"
+        values={Object {}}
+      />
+    </styled.div>
+    <styled.div
+      className="nameSectionCard"
+      isSelected={false}
+      onClick={[Function]}
+    >
+      <styled.div>
+        <WithAnalyticsContext(WithAnalyticsEvents(mapProps(withPseudoState(Avatar))))
+          size="large"
+          src=""
+        />
+      </styled.div>
+      <styled.div>
+        Catherine Hirons
+      </styled.div>
+    </styled.div>
+    <styled.div
+      className="formerUserSectionCard"
+      isSelected={false}
+      onClick={[Function]}
+    >
+      <styled.div>
+        <WithAnalyticsContext(WithAnalyticsEvents(mapProps(withPseudoState(Avatar))))
+          size="large"
+          src=""
+        />
+      </styled.div>
+      <styled.div>
+        Former User
+      </styled.div>
+    </styled.div>
+    <FormattedHTMLMessage
+      defaultMessage="Please note that this is a survey and the user would still be remembered as <b>Former User</b>"
+      description="Note to admins that the users would still be saved as Former User"
+      id="focused-task-close-account.delete-account.content-preview.footnote.admin"
+      tagName="p"
+      values={Object {}}
+    />
+  </styled.div>
+</InjectIntl(MessagesIntlProvider)>
+`;
+
+exports[`handleClickSelection changes the isSelected parameter of the element 1`] = `
+<InjectIntl(MessagesIntlProvider)>
+  <styled.div>
+    <styled.div>
+      <FormattedMessage
+        defaultMessage="Tell us how do you want the user to be remembered"
+        description="Heading for the screen that explains admin would prefer user to be remembered"
+        id="focused-task-close-account.delete-account.content-preview.heading.admin"
+        values={Object {}}
+      />
+    </styled.div>
+    <styled.div
+      className="nameSectionCard"
+      isSelected={true}
+      onClick={[Function]}
+    >
+      <styled.div>
+        <WithAnalyticsContext(WithAnalyticsEvents(mapProps(withPseudoState(Avatar))))
+          size="large"
+          src=""
+        />
+      </styled.div>
+      <styled.div>
+        Catherine Hirons
+      </styled.div>
+    </styled.div>
+    <styled.div
+      className="formerUserSectionCard"
+      isSelected={false}
+      onClick={[Function]}
+    >
+      <styled.div>
+        <WithAnalyticsContext(WithAnalyticsEvents(mapProps(withPseudoState(Avatar))))
+          size="large"
+          src=""
+        />
+      </styled.div>
+      <styled.div>
+        Former User
+      </styled.div>
+    </styled.div>
+    <FormattedHTMLMessage
+      defaultMessage="Please note that this is a survey and the user would still be remembered as <b>Former User</b>"
+      description="Note to admins that the users would still be saved as Former User"
+      id="focused-task-close-account.delete-account.content-preview.footnote.admin"
+      tagName="p"
+      values={Object {}}
+    />
+  </styled.div>
+</InjectIntl(MessagesIntlProvider)>
+`;
