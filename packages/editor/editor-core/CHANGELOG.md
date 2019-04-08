@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.9.4
+- [patch] [09a90e4af1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/09a90e4af1):
+
+  - ED-6319 Supporting select media using gap cursor, fix behaviour of backspace key and gap cursor in media single with layout wrap-right.
+
 ## 107.9.3
 - [patch] [a15643ba92](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a15643ba92):
 

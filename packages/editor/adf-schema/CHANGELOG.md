@@ -1,5 +1,10 @@
 # @atlaskit/adf-schema
 
+## 2.4.0
+- [minor] [09a90e4af1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/09a90e4af1):
+
+  - ED-6319 Supporting select media using gap cursor, fix behaviour of backspace key and gap cursor in media single with layout wrap-right.
+
 ## 2.3.2
 - [patch] [b425ea772b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b425ea772b):
 
