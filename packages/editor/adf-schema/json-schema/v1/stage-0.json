@@ -1515,34 +1515,6 @@
             },
             "background": {
               "type": "string"
-            },
-            "defaultMarks": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/definitions/em_mark"
-                  },
-                  {
-                    "$ref": "#/definitions/code_mark"
-                  },
-                  {
-                    "$ref": "#/definitions/strike_mark"
-                  },
-                  {
-                    "$ref": "#/definitions/strong_mark"
-                  },
-                  {
-                    "$ref": "#/definitions/underline_mark"
-                  },
-                  {
-                    "$ref": "#/definitions/subsup_mark"
-                  },
-                  {
-                    "$ref": "#/definitions/textColor_mark"
-                  }
-                ]
-              }
             }
           },
           "additionalProperties": false
@@ -1582,34 +1554,6 @@
             },
             "background": {
               "type": "string"
-            },
-            "defaultMarks": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/definitions/em_mark"
-                  },
-                  {
-                    "$ref": "#/definitions/code_mark"
-                  },
-                  {
-                    "$ref": "#/definitions/strike_mark"
-                  },
-                  {
-                    "$ref": "#/definitions/strong_mark"
-                  },
-                  {
-                    "$ref": "#/definitions/underline_mark"
-                  },
-                  {
-                    "$ref": "#/definitions/subsup_mark"
-                  },
-                  {
-                    "$ref": "#/definitions/textColor_mark"
-                  }
-                ]
-              }
             }
           },
           "additionalProperties": false
