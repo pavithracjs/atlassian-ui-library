@@ -285,7 +285,12 @@ class InlineEditUncontrolled extends React.Component<
                       )}
                       {this.props.editView(fieldProps)}
                     </div>
-                    {!hideActionButtons && this.renderActionButtons()}
+                    {!hideActionButtons ? (
+                      this.renderActionButtons()
+                    ) : (
+                      /** This is to allow Ctrl + Enter to submit without action buttons */
+                      <button type="submit" style={{ display: 'none' }} />
+                    )}
                   </ContentWrapper>
                 )}
               </Field>
