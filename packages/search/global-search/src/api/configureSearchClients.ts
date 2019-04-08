@@ -6,7 +6,10 @@ import CrossProductSearchClientImpl, {
 } from './CrossProductSearchClient';
 import JiraClientImpl, { JiraClient } from './JiraClient';
 import { PeopleSearchClient } from './PeopleSearchClient';
-import { GlobalSearchPrefetchedResults } from './prefetchResults';
+import {
+  ConfluencePrefetchedResults,
+  GlobalSearchPrefetchedResults,
+} from './prefetchResults';
 import RecentSearchClientImpl, {
   RecentSearchClient,
 } from './RecentSearchClient';
@@ -48,8 +51,11 @@ export default function configureSearchClients(
   };
 
   const confluencePrefetchedResults =
-    prefetchedResults && 'confluenceRecentItemsPromise' in prefetchedResults
-      ? prefetchedResults.confluenceRecentItemsPromise
+    prefetchedResults &&
+    (<ConfluencePrefetchedResults>prefetchedResults)
+      .confluenceRecentItemsPromise
+      ? (<ConfluencePrefetchedResults>prefetchedResults)
+          .confluenceRecentItemsPromise
       : undefined;
 
   return {
