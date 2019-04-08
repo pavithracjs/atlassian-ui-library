@@ -8,8 +8,6 @@ interface Props {
 const ReadViewContentWrapper = styled.div<Props>`
   display: inline-block;
   box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   border: 2px solid transparent;
   border-radius: 3px;
   &:hover {

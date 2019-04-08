@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
 
 const EditButton = styled.button`
-  -moz-appearance: none;
-  -webkit-appearance: none;
   appearance: none;
   background: transparent;
   border: 0;
