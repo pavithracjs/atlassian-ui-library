@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Component } from 'react';
+
 import FileIcon from '@atlaskit/icon/glyph/file';
 import { Wrapper } from './styled';
 import { CardDimensions } from '../..';
+import { ErrorIcon } from '../errorIcon';
 
-export interface LoadingCardProps {
-  iconSize?: 'small' | 'medium' | 'large';
+export interface StaticCardProps {
   dimensions?: CardDimensions;
 }
 
@@ -24,20 +25,35 @@ export const getDimensionsWithDefault = (
   };
 };
 
-export class CardLoading extends Component<LoadingCardProps, {}> {
+export class CardLoading extends Component<StaticCardProps, {}> {
   render() {
     const dimensions = getDimensionsWithDefault(this.props.dimensions);
 
     return <Wrapper dimensions={dimensions}>{this.icon}</Wrapper>;
   }
 
-  get iconSize() {
-    return this.props.iconSize || 'medium';
+  get icon() {
+    return <FileIcon label="loading" size="medium" />;
+  }
+}
+
+export interface ErrorCardProps extends StaticCardProps {
+  readonly size: 'small' | 'medium' | 'large' | 'xlarge';
+}
+
+export class CardError extends Component<ErrorCardProps, {}> {
+  static defaultProps = {
+    size: 'medium',
+  };
+
+  render() {
+    const dimensions = getDimensionsWithDefault(this.props.dimensions);
+    return <Wrapper dimensions={dimensions}>{this.icon}</Wrapper>;
   }
 
   get icon() {
-    const { iconSize } = this;
+    const { size } = this.props;
 
-    return <FileIcon label="loading" size={iconSize} />;
+    return <ErrorIcon size={size} />;
   }
 }
