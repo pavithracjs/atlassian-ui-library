@@ -3,10 +3,9 @@ const compose = require('docker-compose');
 const path = require('path');
 const ip = require('ip');
 const exec = require('child_process').execSync;
-const imageVersion = require('../pipelines-docker-image/package.json').version;
+const prodVersion = require('../pipelines-docker-image/package.json').version;
 
 const cwd = path.join(__dirname);
-const dockerPath = path.join('build', 'pipelines-docker-images');
 const log = true;
 
 // ip address is required for docker image to connect to local server
@@ -23,14 +22,14 @@ async function stopDocker() {
   return await compose.stop({ cwd, log });
 }
 
-async function updateDockerImage() {
+async function deleteOldDockerImage() {
   const cmd = `docker images| grep atlassianlabs/atlaskit-mk-2-vr| awk '{print $2}'| head -n 1`;
-  const version = await exec(cmd).toString();
+  const localVersion = await exec(cmd).toString();
 
   console.log('Latest docker package version:', imageVersion);
   console.log('Local docker image version:', version);
 
-  if (version && imageVersion != version) {
+  if (localVersion && prodVersion != localVersion) {
     console.log(
       'Old version of docker image found, updating docker image .....',
     );
@@ -43,4 +42,4 @@ async function updateDockerImage() {
   }
 }
 
-module.exports = { startDocker, stopDocker, updateDockerImage };
+module.exports = { startDocker, stopDocker, deleteOldDockerImage };
