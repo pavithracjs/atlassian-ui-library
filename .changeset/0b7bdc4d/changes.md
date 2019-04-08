@@ -1,0 +1,1 @@
+- Nodeviews now re-render without a view re-create
