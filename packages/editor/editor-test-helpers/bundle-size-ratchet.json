@@ -107,9 +107,8 @@
     "id": "combined.async",
     "name": "async",
     "stats": {
-<<<<<<< HEAD
       "size": 2563825,
       "gzipSize": 685059
-=======
-      "size": 2564168,
+    }
+  }
 ]
