@@ -1,0 +1,1 @@
+- FS-3243 - Refactor status plugin to use new architecture
