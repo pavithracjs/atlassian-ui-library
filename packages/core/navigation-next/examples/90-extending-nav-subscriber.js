@@ -195,6 +195,7 @@ class CollapseStatus extends React.Component<StatusProps> {
     onResizeEnd: NOOP,
     onResizeStart: NOOP,
   };
+
   componentDidUpdate(prevProps: StatusProps) {
     const { onResizeStart, onResizeEnd } = this.props;
     const { isResizing, productNavWidth } = this.props.navState;
@@ -207,6 +208,7 @@ class CollapseStatus extends React.Component<StatusProps> {
       onResizeEnd(productNavWidth);
     }
   }
+
   render() {
     return null;
   }
@@ -281,53 +283,64 @@ class ExtendingNavSubscriber extends React.Component<*, State> {
     isFlyoutAvailable: true,
     isAlternateFlyoutBehaviourEnabled: false,
   };
+
   componentDidMount() {
     this.updateWidth();
   }
+
   onEmit = (name: string) => (value?: number) => {
     const callStack = this.state.callStack.slice(0);
     const key = makeKey();
     callStack.push({ key, name, value });
     this.setState({ callStack });
   };
+
   getStack = () => {
     const { callStack } = this.state;
     const total = 10;
     const len = callStack.length;
     return len < total ? callStack : callStack.slice(len - total, len);
   };
+
   onCollapseStart = () => {
     this.onEmit('onCollapseStart')();
     this.makePending();
   };
+
   onCollapseEnd = () => {
     this.onEmit('onCollapseEnd')();
     this.updateWidth();
   };
+
   onExpandStart = () => {
     if (this.props.navState.isResizing) return; // ignore expand events when resizing
     this.onEmit('onExpandStart')();
     this.makePending();
   };
+
   onExpandEnd = () => {
     if (this.props.navState.isResizing) return; // ignore expand events when resizing
     this.onEmit('onExpandEnd')();
     this.updateWidth();
   };
+
   onResizeEnd = () => {
     this.onEmit('onResizeEnd')();
     this.updateWidth();
   };
+
   onResizeStart = () => {
     this.onEmit('onResizeStart')();
     this.makePending();
   };
+
   updateWidth = () => {
     const { isCollapsed, productNavWidth } = this.props.navState;
     const less = (isCollapsed ? 0 : productNavWidth) + 64;
     const boxWidth = window.innerWidth - less - 32;
     this.setState({ boxWidth, resizePending: false });
   };
+
   makePending = () => {
     this.setState({ resizePending: true });
   };
@@ -335,6 +348,7 @@ class ExtendingNavSubscriber extends React.Component<*, State> {
   onFlyoutToggle = () => {
     this.setState(state => ({ isFlyoutAvailable: !state.isFlyoutAvailable }));
   };
+
   onAlternateBehaviourToggle = () => {
     this.setState(state => ({
       isAlternateFlyoutBehaviourEnabled: !state.isAlternateFlyoutBehaviourEnabled,

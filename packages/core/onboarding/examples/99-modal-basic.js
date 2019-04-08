@@ -11,8 +11,11 @@ type State = {
 
 export default class Example extends Component<{}, State> {
   state: State = { active: false };
+
   start = () => this.setState({ active: true });
+
   finish = () => this.setState({ active: false });
+
   render() {
     const { active } = this.state;
 

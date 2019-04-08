@@ -22,14 +22,16 @@ export default function collapseRange(
 
   if (!needEllipsis) {
     return pages;
-  } else if (hasStartEllipsis && !hasEndEllipsis) {
+  }
+  if (hasStartEllipsis && !hasEndEllipsis) {
     const pageCount = max - 2;
     return [
       pages[0],
       ellipsis({ key: 'elipses-1' }),
       ...pages.slice(total - pageCount),
     ];
-  } else if (!hasStartEllipsis && hasEndEllipsis) {
+  }
+  if (!hasStartEllipsis && hasEndEllipsis) {
     const pageCount = max - 2;
     return [
       ...pages.slice(0, pageCount),

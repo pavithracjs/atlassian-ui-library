@@ -17,6 +17,7 @@ export default class SingleSelectDialog extends Component<{}, State> {
   openDialog = () => {
     this.setState({ isDialogOpen: true });
   };
+
   dialogClosed = () => {
     this.setState(prevState => ({ isDialogOpen: !prevState.isDialogOpen }));
   };

@@ -14,7 +14,9 @@ type Props = {
 };
 
 export default class FlagActions extends Component<Props, {}> {
-  props: Props; // eslint-disable-line react/sort-comp
+  props: Props;
+
+  // eslint-disable-line react/sort-comp
   static defaultProps = {
     appearance: DEFAULT_APPEARANCE,
     actions: [],
@@ -24,8 +26,11 @@ export default class FlagActions extends Component<Props, {}> {
   getButtonFocusRingColor = () => 'focusRingColor';
 
   getButtonTheme = () => 'buttonTheme';
+
   getButtonAppearance = (b: mixed) => (b ? 'default' : 'subtle-link');
+
   getButtonSpacing = (b: mixed) => (b ? 'compact' : 'none');
+
   getUniqueId = (prefix: string): string => `${prefix}-${uuid()}`;
 
   render() {

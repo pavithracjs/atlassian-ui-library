@@ -28,6 +28,7 @@ class InlineDialog extends Component<Props, {}> {
   };
 
   containerRef: ?HTMLElement = null;
+
   triggerRef: ?HTMLElement = null;
 
   componentDidUpdate(prevProps: Props) {
@@ -48,6 +49,8 @@ class InlineDialog extends Component<Props, {}> {
     }
   }
 
+  // TODO: eslint - Fix typo replace componentWillUnMount with componentWillUnmount
+  // eslint-disable-next-line react/no-typos
   componentWillUnMount() {
     if (typeof window === 'undefined') return;
 
@@ -61,7 +64,7 @@ class InlineDialog extends Component<Props, {}> {
 
     const container: ?HTMLElement = this.containerRef;
     const trigger: ?HTMLElement = this.triggerRef;
-    const target: HTMLElement = event.target;
+    const { target } = event;
 
     // exit if we click outside but on the trigger — it can handle the clicks itself
     if (trigger && trigger.contains(target)) return;

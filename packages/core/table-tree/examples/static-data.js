@@ -20,8 +20,8 @@ export default class extends Component<*, *> {
           items={staticData.children}
           render={({ title, numbering, page, children }) => (
             <Row
-              expandLabel={'Expand'}
-              collapseLabel={'Collapse'}
+              expandLabel="Expand"
+              collapseLabel="Collapse"
               itemId={numbering}
               items={children}
               hasChildren={children.length > 0}

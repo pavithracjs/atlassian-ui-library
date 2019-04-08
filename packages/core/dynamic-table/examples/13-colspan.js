@@ -61,7 +61,7 @@ export default class extends Component<{}, {}> {
     return (
       <Wrapper>
         <DynamicTable
-          caption={'Class timetable'}
+          caption="Class timetable"
           head={head}
           rows={rows}
           rowsPerPage={10}

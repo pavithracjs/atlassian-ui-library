@@ -17,8 +17,10 @@ export default class withCustomGetOptionLabel extends Component<
   state = {
     useCustomOptionLabel: true,
   };
+
   toggleValue = ({ value }: Object) =>
     this.setState(state => ({ ...state, [value]: !state[value] }));
+
   render() {
     return (
       <Fragment>

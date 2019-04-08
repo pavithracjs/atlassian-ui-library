@@ -71,9 +71,11 @@ export default class ProgressIndicatorDots extends Component<{}, State> {
     selectedSpacing: spacing[0],
     themeIndex: 0,
   };
+
   handlePrev = () => {
     this.setState(state => ({ selectedIndex: state.selectedIndex - 1 }));
   };
+
   handleNext = () => {
     this.setState(state => ({ selectedIndex: state.selectedIndex + 1 }));
   };
@@ -87,16 +89,21 @@ export default class ProgressIndicatorDots extends Component<{}, State> {
   }): void => {
     this.setState({ selectedIndex });
   };
+
   /* eslint-enable */
   toggleTheme = () =>
     this.setState(state => ({ themeIndex: state.themeIndex + 1 }));
+
   toggleAppearance = (
     selectedAppearance: 'default' | 'help' | 'inverted' | 'primary',
   ) => this.setState({ selectedAppearance });
+
   toggleSize = (selectedSize: 'small' | 'default' | 'large') =>
     this.setState({ selectedSize });
+
   toggleSpacing = (selectedSpacing: 'comfortable' | 'cozy' | 'compact') =>
     this.setState({ selectedSpacing });
+
   toggleInteractivity = (event: SyntheticInputEvent<HTMLElement>) =>
     this.setState({ isInteractive: event.target.checked });
 

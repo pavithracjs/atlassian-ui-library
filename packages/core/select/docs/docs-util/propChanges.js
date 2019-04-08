@@ -94,17 +94,21 @@ export default class PropChanges extends Component<Prop, State> {
     filterValue: filterOptions[0].value,
     packageFilter: 'all',
   };
+
   onFilterChange = (option: Array<*>) => {
     this.setState({ selectedOptions: option.map(opt => opt.value) });
   };
+
   onPackageChange = (option: { value: string }) => {
     this.setState({
       packageFilter: option.value,
     });
   };
+
   onSortChange = (option: { value: string, label: string }) => {
     this.setState({ filterValue: option.value });
   };
+
   render() {
     const { data } = this.props;
     const { selectedOptions, filterValue, packageFilter } = this.state;

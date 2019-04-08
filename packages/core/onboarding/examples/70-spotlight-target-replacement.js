@@ -42,8 +42,11 @@ export default class SpotlightTargetReplacementExample extends Component<
   state: State = {
     active: false,
   };
+
   show = () => this.setState({ active: true });
+
   hide = () => this.setState({ active: false });
+
   render() {
     const { active } = this.state;
 

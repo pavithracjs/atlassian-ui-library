@@ -65,19 +65,23 @@ export class ContentsProvider extends Component<
   state = {
     items: [],
   };
+
   registerItem = (item: string) => {
     this.setState(state =>
       !state.items.includes(item) ? { items: [...state.items, item] } : null,
     );
   };
+
   unregisterItem = (item: string) => {
     const newItems = this.state.items.filter(i => i !== item);
     this.setState({ items: newItems });
   };
+
   actions: ContentsProviderActions = {
     registerItem: this.registerItem,
     unregisterItem: this.unregisterItem,
   };
+
   render() {
     const { state, actions } = this;
     return (
@@ -125,18 +129,20 @@ class HWithContext extends Component<HWithContextProps> {
       __context.actions.registerItem(children);
     }
   }
+
   componentWillUnmount() {
     const { __context, children } = this.props;
     if (__context) {
       __context.actions.unregisterItem(children);
     }
   }
+
   render() {
     const { children } = this.props;
 
     return (
       <Fragment>
-        {/* eslint-disable jsx-a11y/anchor-has-content */}
+        {/* eslint-disable jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */}
         <a name={slugify(children)} />
         <h2>{children}</h2>
       </Fragment>

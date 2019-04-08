@@ -51,8 +51,8 @@ class WithStaticData extends Component<{}, State> {
           render={({ title, numbering, page, hasChildren, children }) => (
             <Row
               onExpand={this.loadChildFor}
-              expandLabel={'Expand'}
-              collapseLabel={'Collapse'}
+              expandLabel="Expand"
+              collapseLabel="Collapse"
               itemId={numbering}
               items={children}
               hasChildren={hasChildren}

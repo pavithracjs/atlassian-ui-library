@@ -39,7 +39,22 @@
     "react/sort-comp": "off",
     "react/jsx-filename-extension": "off",
     "react/require-default-props": "off",
+    // TODO: https://ecosystem.atlassian.net/browse/AK-6060
+    // enable rules after fixing linting issue after upgrade
+    "react/destructuring-assignment":"off",
+    "react/default-props-match-prop-types": "off",
+    "react/no-unescaped-entities":"off",
+    "react/button-has-type": "off",
+    "react/no-unused-state": "off",
+    "react/no-access-state-in-setstate": "off",
+    "jsx-a11y/label-has-for": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/mouse-events-have-key-events": "off",
 
+    "react/no-multi-comp": [true, { "ignoreStateless": false }],
+    "react/forbid-prop-types": ["on", { "forbid": ["any","array"], "checkContextTypes": true, "checkChildContextTypes": true }],
+    "react/prop-types": [2, { "ignore": ["children"] }],
+    "no-restricted-globals": ["error", "event", "fdescribe"],
 
     "flowtype/require-valid-file-annotation": [2, "always", { "annotationStyle": "line" }],
     "flowtype/define-flow-type": 1,
@@ -48,6 +63,7 @@
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",
     "jest/valid-expect": "error",
+
 
     // Rules below are all added to remove conflicts with prettier. DO NOT REMOVE
     "react/jsx-indent": "off",
@@ -60,7 +76,11 @@
     "react/jsx-max-props-per-line": "off",
     "react/jsx-tag-spacing": "off",
     "react/jsx-wrap-multilines": "off",
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    "react/jsx-closing-tag-location": "off",
+    "react/jsx-one-expression-per-line":"off",
+    "react/jsx-props-no-multi-spaces":"off",
+    "react/self-closing-comp":"off"
   },
   "env": {
     "browser": true
