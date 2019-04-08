@@ -4,7 +4,7 @@ import FileIcon from '@atlaskit/icon/glyph/file';
 import WarningIcon from '@atlaskit/icon/glyph/editor/warning';
 
 import { CardLoading, CardError } from '../..';
-import { getDimensionsWithDefault } from '../../cardStatic';
+import { getDimensionsWithDefault } from '../../lightCards';
 import { ErrorIcon } from '../../../../src/utils/errorIcon';
 
 describe('<CardLoading />', () => {

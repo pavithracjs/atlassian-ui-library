@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { CustomMediaPlayer } from '@atlaskit/media-ui';
 import { InlinePlayerWrapper } from './styled';
 import { CardDimensions, defaultImageCardDimensions } from '..';
-import { CardLoading } from '../utils/cardStatic';
+import { CardLoading } from '../utils/lightCards';
 
 export interface InlinePlayerProps {
   identifier: FileIdentifier;
