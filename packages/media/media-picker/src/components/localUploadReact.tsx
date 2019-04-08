@@ -21,14 +21,20 @@ import { LocalUploadConfig } from './types';
 > extends UploadComponent<M> implements LocalUploadComponentReact {
  */
 
-export interface LocalUploadComponentReactProps {
-  context: Context;
-  config: LocalUploadConfig;
-}
+// export interface LocalUploadComponentReactProps {
+//   context: Context;
+//   config: LocalUploadConfig;
+// }
 
 export type LocalUploadComponentBaseProps = {
   context: Context;
   config: LocalUploadConfig;
+  onUploadsStart?: () => void;
+  onPreviewUpdate?: () => void;
+  onStatusUpdate?: () => void;
+  onProcessing?: () => void;
+  onEnd?: () => void;
+  onError?: () => void;
   // item: FileState;
   // collectionName?: string;
 };
@@ -37,24 +43,38 @@ export class LocalUploadComponentReact<
   Props extends LocalUploadComponentBaseProps
 > extends Component<Props, {}> {
   protected readonly uploadService: UploadService;
-  protected config: LocalUploadConfig;
+  // protected config: LocalUploadConfig;
   protected uploadComponent = new UploadComponent();
 
   constructor(props: Props) {
     super(props);
 
-    const { context, config } = this.props;
+    const {
+      context,
+      config,
+      onUploadsStart,
+      onPreviewUpdate,
+      onStatusUpdate,
+      onProcessing,
+      onEnd,
+      onError,
+    } = this.props;
     const tenantUploadParams = config.uploadParams;
     const { shouldCopyFileToRecents = true } = config;
 
-    // const uploadComponent = new UploadComponent();
+    this.uploadComponent.on('uploads-start', onUploadsStart);
+    this.uploadComponent.on('upload-preview-update', onPreviewUpdate);
+    this.uploadComponent.on('upload-status-update', onStatusUpdate);
+    this.uploadComponent.on('upload-processing', onProcessing);
+    this.uploadComponent.on('upload-end', onEnd);
+    this.uploadComponent.on('upload-error', onError);
 
     this.uploadService = new NewUploadServiceImpl(
       context,
       tenantUploadParams,
       shouldCopyFileToRecents,
     );
-    this.config = config;
+    // this.config = config;
     this.uploadService.on('files-added', this.onFilesAdded);
     this.uploadService.on('file-preview-update', this.onFilePreviewUpdate);
     this.uploadService.on('file-uploading', this.onFileUploading);

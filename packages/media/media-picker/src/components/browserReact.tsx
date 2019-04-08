@@ -9,6 +9,12 @@ import { LocalUploadComponentReact } from './localUploadReact';
 export interface BrowserReactProps {
   context: Context;
   config: BrowserConfig;
+  // onUploadsStart: () => void;
+  // onPreviewUpdate: () => void;
+  // onStatusUpdate: () => void;
+  // onProcessing: () => void;
+  // onEnd: () => void;
+  // onError: () => void;
 }
 
 const defaultConfig: BrowserConfig = { uploadParams: {} };
