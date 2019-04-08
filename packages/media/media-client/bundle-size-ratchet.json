@@ -1,0 +1,58 @@
+[
+  {
+    "id": "src.main",
+    "name": "main",
+    "stats": {
+      "size": 24158,
+      "gzipSize": 6984
+    }
+  },
+  {
+    "id": "src.async",
+    "name": "async",
+    "stats": {
+      "size": 1684,
+      "gzipSize": 722
+    }
+  },
+  {
+    "id": "node_modules.main",
+    "name": "node_modules [main]",
+    "stats": {
+      "size": 114579,
+      "gzipSize": 22909
+    }
+  },
+  {
+    "id": "node_modules.async",
+    "name": "node_modules [async]",
+    "stats": {
+      "size": 12686,
+      "gzipSize": 4356
+    }
+  },
+  {
+    "id": "atlaskit.media.main",
+    "name": "main",
+    "stats": {
+      "size": 533,
+      "gzipSize": 241
+    }
+  },
+  {
+    "id": "combined.main",
+    "name": "main",
+    "stats": {
+      "size": 138798,
+      "gzipSize": 29893
+    }
+  },
+  {
+    "id": "combined.async",
+    "name": "async",
+    "stats": {
+      "size": 14310,
+      "gzipSize": 4878
+    }
+  }
+]

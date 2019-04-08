@@ -46,6 +46,10 @@ export interface ContextConfig {
   readonly userAuthProvider?: AuthProvider;
 }
 
+export interface MediaClientConfig extends ContextConfig {
+  // TODO remove cacheSize
+}
+
 export interface AuthContext {
   readonly collectionName?: string;
 }
