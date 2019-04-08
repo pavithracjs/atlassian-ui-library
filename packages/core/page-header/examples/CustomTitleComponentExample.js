@@ -56,7 +56,7 @@ const EditView = styled.input`
   outline: none;
   padding: 6px 6px;
   width: 100%;
-  border: 2px solid transparent;
+  border: 2px solid ${colors.N40};
   border-radius: 3px;
 
   :focus {
@@ -68,9 +68,7 @@ const CustomTitleComponent = () => {
   return (
     <InlineEdit
       readView={() => <ReadView>Editable title</ReadView>}
-      editView={({ ref, ...rest }) => {
-        return <EditView {...rest} innerRef={ref} />;
-      }}
+      editView={({ ref, ...rest }) => <EditView {...rest} innerRef={ref} />}
       defaultValue="Editable title"
       onConfirm={() => {}}
     />
