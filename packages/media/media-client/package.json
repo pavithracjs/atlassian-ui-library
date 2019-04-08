@@ -33,14 +33,14 @@
     "@atlaskit/media-test-helpers": "^21.2.0",
     "@types/fetch-mock": "^6.0.3",
     "fetch-mock": "^6.5.2",
+    "styled-components": "^3.2.6",
+    "react": "^16.4.0",
     "react-dom": "^16.4.2",
     "rxjs": "^5.5.0",
     "whatwg-fetch": "^2.0.3"
   },
   "peerDependencies": {
     "@atlaskit/media-core": "^29.0.1",
-    "styled-components": "^3.2.6",
-    "react": "^16.4.0",
     "rxjs": "^5.5.0"
   },
   "resolutions": {
