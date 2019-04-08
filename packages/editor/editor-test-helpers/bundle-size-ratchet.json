@@ -3,8 +3,8 @@
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 38734,
-      "gzipSize": 11359
+      "size": 38733,
+      "gzipSize": 11360
     }
   },
   {
@@ -52,7 +52,7 @@
     "name": "async",
     "stats": {
       "size": 38877,
-      "gzipSize": 9052
+      "gzipSize": 9053
     }
   },
   {
@@ -107,8 +107,8 @@
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 2563825,
-      "gzipSize": 685059
+      "size": 2564168,
+      "gzipSize": 685148
     }
   }
 ]
