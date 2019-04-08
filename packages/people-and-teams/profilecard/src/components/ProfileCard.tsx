@@ -186,8 +186,7 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
     const { nickname, fullName, status } = this.props;
     if (status === 'inactive') {
       return fullName || nickname;
-    }
-    if (status === 'closed') {
+    } else if (status === 'closed') {
       return (
         nickname || (
           <FormattedMessage {...messages.disabledAccountDefaultName} />

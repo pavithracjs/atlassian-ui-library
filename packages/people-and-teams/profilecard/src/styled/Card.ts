@@ -17,12 +17,8 @@ import {
   appLabelTextColor,
   labelTextColor,
   labelIconColor,
-<<<<<<< HEAD:packages/people-and-teams/profilecard/src/styled/Card.js
-} from './constants';
-=======
   bgColor,
 } from '../styled/constants';
->>>>>>> master:packages/people-and-teams/profilecard/src/styled/Card.ts
 
 import { Elevation } from '../types';
 
