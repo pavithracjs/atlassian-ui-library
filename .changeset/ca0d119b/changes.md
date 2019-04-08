@@ -1,0 +1,1 @@
+- MS-1613 Media Editor should close by Esc press without closing Media Picker
