@@ -238,28 +238,59 @@ pipelines:
     # This build should be run in any potentially risky builds.
     run-full-suite:
       - step:
-          image: atlassianlabs/atlaskit-mk-2-vr:1.0.10
-          script:
-            - source ./build-setup.sh
-            - bolt install --pure-lockfile
-            - yarn build
-            - yarn lint
-            - yarn typecheck
-            - yarn test:CI
-            - yarn test:browser:browserstack
-            - yarn test:webdriver:browserstack
-            - yarn test:vr
-            - cd website
-            # don't worry about deploying, this build will always be run alongside a branch build
-            - yarn build
-            - cd ..
-          after-script:
-          # Extract all the diff images and store them into a folder for download.
-            - mkdir ./imageSnapshotFailures && find . -name '*-diff.png' -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
-          # If a failure occurs, you can download the image snapshot of the differences.
-          artifacts: 
-            - imageSnapshotFailures/**
-
+        name: Building packages
+        script:
+          - source ./build-setup.sh
+          - bolt install --pure-lockfile
+          - yarn build
+      - step:
+        name: Lint + Typecheck
+        script:
+          - source ./build-setup.sh
+          - bolt install --pure-lockfile
+          - yarn lint
+          - yarn typecheck
+      - step:
+        name: Running All Unit tests
+        script:
+          - source ./build-setup.sh
+          - bolt install --pure-lockfile
+          - yarn test:CI
+      - step:
+        name: Running All Browser Unit tests
+        script:
+          - source ./build-setup.sh
+          - bolt install --pure-lockfile
+          - yarn test:browser:browserstack
+      - step:
+        name: Running All Browser Integration tests
+        script:
+          - source ./build-setup.sh
+          - bolt install --pure-lockfile
+          - yarn test:webdriver:browserstack
+      - step:
+        name: Running All Visual Regression tests
+        image: atlassianlabs/atlaskit-mk-2-vr:1.0.10
+        script:
+          - source ./build-setup.sh
+          - bolt install --pure-lockfile
+          - yarn test:vr
+        after-script:
+        # Extract all the diff images and store them into a folder for download.
+          - mkdir ./imageSnapshotFailures && find . -name '*-diff.png' -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+        # If a failure occurs, you can download the image snapshot of the differences.
+        artifacts: 
+          - imageSnapshotFailures/**
+      - step:
+        name: Building the website
+        script:
+          - source ./build-setup.sh
+          - bolt install --pure-lockfile
+          - cd website
+          # don't worry about deploying, this build will always be run alongside a branch build
+          - yarn build
+          - cd ..
+  
     # This will build all the packages and run bundle-analysis.
     run-bundle-analysis:
       - step:
