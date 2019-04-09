@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.10.2
+- [patch] [55e47676aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55e47676aa):
+
+  - revert update status code splits in Renderer/Editor which causes component dist to be broken
+
 ## 107.10.1
 - [patch] [64dd2ab46f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/64dd2ab46f):
 
