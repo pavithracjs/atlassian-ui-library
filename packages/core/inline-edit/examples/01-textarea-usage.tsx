@@ -8,6 +8,7 @@ import styled from 'styled-components';
 const minRows = 2;
 const textAreaLineHeightFactor = 2.5;
 const ReadViewContainer = styled.div`
+  white-space: pre-wrap;
   padding: 8px 8px;
   line-height: ${(gridSize() * textAreaLineHeightFactor) / fontSize()}
   min-height: ${gridSize() * textAreaLineHeightFactor * minRows}px
@@ -37,14 +38,7 @@ export default class InlineEditExample extends React.Component<void, State> {
           editView={editViewProps => <TextArea {...editViewProps} />}
           readView={() => (
             <ReadViewContainer>
-              {this.state.editValue
-                ? this.state.editValue.split('\n').map((value, i) => (
-                    <React.Fragment key={i}>
-                      {value}
-                      <br />
-                    </React.Fragment>
-                  ))
-                : 'Click to enter value'}
+              {this.state.editValue || 'Click to enter value'}
             </ReadViewContainer>
           )}
           onConfirm={this.onConfirm}

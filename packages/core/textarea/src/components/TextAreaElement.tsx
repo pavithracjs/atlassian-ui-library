@@ -29,7 +29,11 @@ export default class TextAreaElement extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.adjustHeight();
+    if (this.props.resize === 'smart' && this.textareaElement) {
+      this.setState({
+        height: `${this.textareaElement.scrollHeight}px`,
+      });
+    }
   }
 
   getTextAreaRef = (ref: HTMLTextAreaElement | null) => {
@@ -46,26 +50,23 @@ export default class TextAreaElement extends React.Component<Props, State> {
 
   handleOnChange: React.ChangeEventHandler<HTMLTextAreaElement> = event => {
     const { onChange } = this.props;
-    this.adjustHeight();
-
-    if (onChange) {
-      onChange(event);
-    }
-  };
-
-  adjustHeight = () => {
-    if (this.props.resize === 'smart' && this.textareaElement) {
+    if (this.props.resize === 'smart') {
       this.setState(
         {
           height: 'auto',
         },
         () => {
-          this.setState({
-            // @ts-ignore
-            height: `${this.textareaElement.scrollHeight}px`,
-          });
+          if (this.props.resize === 'smart' && this.textareaElement) {
+            this.setState({
+              height: `${this.textareaElement.scrollHeight}px`,
+            });
+          }
         },
       );
+    }
+
+    if (onChange) {
+      onChange(event);
     }
   };
 
