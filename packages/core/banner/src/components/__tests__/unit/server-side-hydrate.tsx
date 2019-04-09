@@ -1,6 +1,5 @@
-// @flow
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
 
@@ -12,12 +11,11 @@ afterEach(() => {
 
 test('should ssr then hydrate banner correctly', async () => {
   const [example] = await getExamplesFor('banner');
-  // $StringLitteral
-  const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
+  const Example = require(example.filePath).default; // tslint:disable-line:import/no-dynamic-require
 
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);
 
   ReactDOM.hydrate(<Example />, elem);
-  expect(console.error).not.toBeCalled(); // eslint-disable-line no-console
+  expect(console.error).not.toBeCalled(); // tslint:disable-line:no-console
 });

@@ -1,10 +1,10 @@
-// @flow
-
-import React from 'react';
+import * as React from 'react';
 import WarningIcon from '@atlaskit/icon/glyph/warning';
 import Banner from '../src';
 
-const Padded = props => <div style={{ padding: 16 }} {...props} />;
+const Padded = (props: { children: React.ReactNode }) => (
+  <div style={{ padding: 16 }} {...props} />
+);
 
 export default () => (
   <div style={{ width: 400 }}>

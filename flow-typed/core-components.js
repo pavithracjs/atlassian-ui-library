@@ -13,6 +13,10 @@ declare module '@atlaskit/badge' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/banner' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/textarea' {
   declare module.exports: any;
 }

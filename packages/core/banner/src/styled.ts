@@ -1,15 +1,18 @@
-// @flow
 import styled, { css } from 'styled-components';
 import { colors, gridSize, math, themed } from '@atlaskit/theme';
 
 const TRANSITION_DURATION = '0.25s ease-in-out';
 
+type Appearance = 'warning' | 'error' | 'announcement' | undefined;
+
+interface VisibilityProps {
+  bannerHeight: number;
+  isOpen?: boolean;
+}
+
 /* Container */
-export const getMaxHeight = ({
-  appearance,
-}: {
-  appearance: 'warning' | 'error' | 'announcement',
-}) => (appearance === 'announcement' ? '88px' : '52px');
+export const getMaxHeight = ({ appearance }: { appearance: Appearance }) =>
+  appearance === 'announcement' ? '88px' : '52px';
 
 export const backgroundColor = themed('appearance', {
   error: { light: colors.R400, dark: colors.R300 },
@@ -19,7 +22,7 @@ export const backgroundColor = themed('appearance', {
 
 export const Container = styled.div`
   max-height: ${getMaxHeight};
-  overflow: ${({ appearance }) =>
+  overflow: ${({ appearance }: { appearance: Appearance }) =>
     appearance === 'announcement' ? 'scroll' : 'visible'};
   background-color: ${backgroundColor};
 `;
@@ -45,7 +48,7 @@ export const Content = styled.div`
   ${'' /* transition: color ${TRANSITION_DURATION}; */}
 
   margin: auto;
-  ${({ appearance }) =>
+  ${({ appearance }: { appearance: Appearance }) =>
     appearance === 'announcement'
       ? 'max-width: 876px;'
       : ''} transition: color ${TRANSITION_DURATION};
@@ -67,11 +70,7 @@ export const Icon = styled.span`
   flex: 0 0 auto;
 `;
 
-const textOverflow = ({
-  appearance,
-}: {
-  appearance: 'announcement' | 'warning' | 'error',
-}) =>
+const textOverflow = ({ appearance }: { appearance: Appearance }) =>
   appearance === 'announcement'
     ? ''
     : css`
@@ -80,7 +79,8 @@ const textOverflow = ({
       `;
 
 export const Visibility = styled.div`
-  max-height: ${({ bannerHeight, isOpen }) => (isOpen ? bannerHeight : 0)}px;
+  max-height: ${(props: VisibilityProps) =>
+    props.isOpen ? props.bannerHeight : 0}px;
   overflow: hidden;
   transition: max-height ${TRANSITION_DURATION};
 `;
