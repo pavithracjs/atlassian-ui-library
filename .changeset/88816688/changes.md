@@ -1,0 +1,1 @@
+- Updates theme to the version which exposes multiple entry points
