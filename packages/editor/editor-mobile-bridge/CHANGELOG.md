@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.3.0
+- [minor] [db29d1eca9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/db29d1eca9):
+
+  - ED-6357: bridge.currentSelection() provides rectangle coords of selected link
+
 ## 7.2.0
 - [minor] [969915d261](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/969915d261):
 
