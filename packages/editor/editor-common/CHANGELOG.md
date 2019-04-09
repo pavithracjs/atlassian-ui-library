@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 36.1.8
+- [patch] [fc2b10e0cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fc2b10e0cc):
+
+  - HOT-86829 do not call setWidth with 0 nor undefined
+
 ## 36.1.7
 - Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
   - @atlaskit/media-core@29.1.2
