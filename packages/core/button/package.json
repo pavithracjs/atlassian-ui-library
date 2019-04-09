@@ -24,7 +24,7 @@
     "@atlaskit/analytics-next": "^4.0.2",
     "@atlaskit/analytics-next-types": "^4.0.1",
     "@atlaskit/spinner": "10.0.4",
-    "@atlaskit/theme": "^8.1.4",
+    "@atlaskit/theme": "^8.1.5",
     "@atlaskit/type-helpers": "^3.0.2",
     "@babel/runtime": "^7.0.0",
     "@emotion/core": "^10.0.9",

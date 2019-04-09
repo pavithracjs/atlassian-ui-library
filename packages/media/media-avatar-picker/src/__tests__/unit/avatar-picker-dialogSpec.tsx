@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import ModalDialog from '@atlaskit/modal-dialog';
+import ModalDialog, { ModalFooter } from '@atlaskit/modal-dialog';
 import Button from '@atlaskit/button';
 import {
   smallImage,
@@ -63,33 +63,19 @@ describe('Avatar Picker Dialog', () => {
   };
 
   const renderSaveButton = (props: Partial<AvatarPickerDialogProps> = {}) => {
-    const component = renderWithProps(props);
-    const {
-      components: { Footer: footer },
-    } = component.find(ModalDialog).props() as { components: { Footer: any } };
-
-    return shallow(footer())
+    return renderWithProps(props)
+      .find(ModalFooter)
       .find(Button)
-      .find({ appearance: 'primary' });
+      .first();
   };
 
   it('when save button is clicked onImagePicked should be called', () => {
     const onImagePicked = jest.fn();
 
-    const component = renderWithProps({
+    renderSaveButton({
       onImagePicked,
       imageSource: smallImage,
-    });
-
-    const {
-      components: { Footer: footer },
-    } = component.find(ModalDialog).props() as { components: { Footer: any } };
-
-    // click on the save button
-    shallow(footer())
-      .find(Button)
-      .find({ appearance: 'primary' })
-      .simulate('click');
+    }).simulate('click');
 
     expect(onImagePicked).toBeCalledWith(fileFromDataURI, {
       x: 0,
@@ -110,14 +96,10 @@ describe('Avatar Picker Dialog', () => {
     const croppedImgDataURI = 'data:image/meme;based64:w0w';
     component.instance()['exportCroppedImage'] = () => croppedImgDataURI;
 
-    const {
-      components: { Footer: footer },
-    } = component.find(ModalDialog).props() as { components: { Footer: any } };
-
-    // click on the save button
-    shallow(footer())
+    component
+      .find(ModalFooter)
       .find(Button)
-      .find({ appearance: 'primary' })
+      .first()
       .simulate('click');
 
     expect(onImagePickedDataURI).toBeCalledWith(croppedImgDataURI);
@@ -132,13 +114,10 @@ describe('Avatar Picker Dialog', () => {
     const { onAvatarSelected } = component.find(PredefinedAvatarList).props();
     onAvatarSelected(selectedAvatar);
 
-    const {
-      components: { Footer: footer },
-    } = component.find(ModalDialog).props() as { components: { Footer: any } };
-    // click on the save button
-    shallow(footer())
+    component
+      .find(ModalFooter)
       .find(Button)
-      .find({ appearance: 'primary' })
+      .first()
       .simulate('click');
 
     expect(onAvatarPicked).toBeCalledWith(selectedAvatar);
@@ -245,36 +224,24 @@ describe('Avatar Picker Dialog', () => {
   it('should render default primary button text', () => {
     const selectedAvatar: Avatar = { dataURI: 'http://an.avatar.com/123' };
     const avatars = [selectedAvatar];
-    const component = renderWithProps({ avatars });
-    const {
-      components: { Footer: footer },
-    } = component.find(ModalDialog).props() as { components: { Footer: any } };
-    const footerComponent = shallow(footer());
-    expect(
-      (footerComponent
-        .find(Button)
-        .at(0)
-        .props() as any).children.props.defaultMessage,
-    ).toBe('Save');
+    const component = renderSaveButton({ avatars });
+
+    expect((component.props() as any).children.props.defaultMessage).toBe(
+      'Save',
+    );
   });
 
   it('should by able to customise primary button text', () => {
     const selectedAvatar: Avatar = { dataURI: 'http://an.avatar.com/123' };
     const avatars = [selectedAvatar];
-    const component = renderWithProps({
+    const component = renderSaveButton({
       avatars,
       primaryButtonText: 'test-primary-text',
     });
-    const {
-      components: { Footer: footer },
-    } = component.find(ModalDialog).props() as { components: { Footer: any } };
-    const footerComponent = shallow(footer());
-    expect(
-      (footerComponent
-        .find(Button)
-        .at(0)
-        .props() as React.Props<{}>).children,
-    ).toBe('test-primary-text');
+
+    expect((component.props() as React.Props<{}>).children).toBe(
+      'test-primary-text',
+    );
   });
 
   it('should clear selected image when cross clicked', () => {
