@@ -1,8 +1,9 @@
 // @flow
 import React, { Component } from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from '@emotion/styled';
 import Lorem from 'react-lorem-component';
 import Button, { ButtonGroup } from '@atlaskit/button';
+import { gridSize } from '@atlaskit/theme';
 
 import { WIDTH_ENUM } from '../src/shared-variables';
 import ModalDialog, { ModalTransition } from '../src';
@@ -36,31 +37,29 @@ export default class ModalDemo extends Component<{}, { isOpen: any }> {
     ];
 
     return (
-      <ThemeProvider theme={{}}>
-        <div style={{ padding: 16 }}>
-          <H4>Sizes</H4>
-          <ButtonGroup>{sizes.map(btn)}</ButtonGroup>
-          <H4>Units</H4>
-          <ButtonGroup>{units.map(btn)}</ButtonGroup>
+      <div style={{ padding: gridSize() }}>
+        <H4>Sizes</H4>
+        <ButtonGroup>{sizes.map(btn)}</ButtonGroup>
+        <H4>Units</H4>
+        <ButtonGroup>{units.map(btn)}</ButtonGroup>
 
-          <ModalTransition>
-            {allWidths
-              .filter(w => w === isOpen)
-              .map(name => (
-                <ModalDialog
-                  actions={actions}
-                  key={name}
-                  onClose={this.close}
-                  heading={`Modal: ${String(name)}`}
-                  width={name}
-                  {...this.props}
-                >
-                  <Lorem count="1" />
-                </ModalDialog>
-              ))}
-          </ModalTransition>
-        </div>
-      </ThemeProvider>
+        <ModalTransition>
+          {allWidths
+            .filter(w => w === isOpen)
+            .map(name => (
+              <ModalDialog
+                actions={actions}
+                key={name}
+                onClose={this.close}
+                heading={`Modal: ${String(name)}`}
+                width={name}
+                {...this.props}
+              >
+                <Lorem count="1" />
+              </ModalDialog>
+            ))}
+        </ModalTransition>
+      </div>
     );
   }
 }

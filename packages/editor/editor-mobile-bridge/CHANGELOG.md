@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.2.0
+- [minor] [969915d261](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/969915d261):
+
+  - update status import entrypoints in Renderer/editor
+
 ## 7.1.10
 - [patch] [97e555c168](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97e555c168):
 
