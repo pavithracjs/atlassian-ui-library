@@ -8,6 +8,7 @@ import { Status } from '@atlaskit/status/element';
 import { pluginKey } from '../plugin';
 import { setStatusPickerAt } from '../actions';
 import { colors } from '@atlaskit/theme';
+import { ZeroWidthSpace } from '../../../utils';
 
 const { B100 } = colors;
 
@@ -109,15 +110,18 @@ class StatusNodeView extends React.Component<Props & InjectedIntlProps, State> {
     const statusText = text ? text : formatMessage(messages.placeholder);
 
     return (
-      <StatusContainer selected={selected} placeholderStyle={!text}>
-        <Status
-          text={statusText}
-          color={color}
-          localId={localId}
-          style={style}
-          onClick={this.handleClick}
-        />
-      </StatusContainer>
+      <span>
+        <StatusContainer selected={selected} placeholderStyle={!text}>
+          <Status
+            text={statusText}
+            color={color}
+            localId={localId}
+            style={style}
+            onClick={this.handleClick}
+          />
+        </StatusContainer>
+        {ZeroWidthSpace}
+      </span>
     );
   }
 

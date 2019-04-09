@@ -14,7 +14,11 @@ import {
   getMediaNearPos,
 } from './utils';
 import { Command } from '../../types';
-import { atTheBeginningOfDoc, atTheEndOfDoc, ZWSP } from '../../utils';
+import {
+  atTheBeginningOfDoc,
+  atTheEndOfDoc,
+  ZeroWidthSpace,
+} from '../../utils';
 import { pluginKey } from './pm-plugins/main';
 
 type MapDirection = { [name in Direction]: number };
@@ -150,7 +154,7 @@ export const arrow = (
     const domAtPos = view.domAtPos.bind(view);
     const target = findDomRefAtPos($pos.pos, domAtPos) as HTMLElement;
 
-    if (target && target.textContent === ZWSP) {
+    if (target && target.textContent === ZeroWidthSpace) {
       return false;
     }
   }

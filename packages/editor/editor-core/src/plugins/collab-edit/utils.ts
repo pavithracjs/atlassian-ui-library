@@ -6,7 +6,7 @@ import { colors as themeColors } from '@atlaskit/theme';
 import { hexToRgba } from '@atlaskit/editor-common';
 
 import { CollabEditOptions } from './types';
-import { processRawValue } from '../../utils';
+import { processRawValue, ZeroWidthSpace } from '../../utils';
 
 export interface Color {
   solid: string;
@@ -95,7 +95,7 @@ export const createTelepointers = (
   }
 
   const cursor = document.createElement('span');
-  cursor.textContent = '\u200b';
+  cursor.textContent = ZeroWidthSpace;
   cursor.className = `telepointer color-${color} telepointer-selection-badge`;
   cursor.style.cssText = `${style({ color: avatarColor.color.solid })};`;
   cursor.setAttribute('data-initial', initial);
