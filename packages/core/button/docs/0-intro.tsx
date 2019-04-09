@@ -31,14 +31,7 @@ export default md`
     />
   )}
 
-  ${(
-    <Props
-      heading="Button Props"
-      props={require('!!extract-react-types-loader!../src/components/Button')}
-    />
-  )}
-
-### You can also use button groups
+  #### You can also use button groups:
 
   ${(
     <Example
@@ -46,6 +39,13 @@ export default md`
       Component={require('../examples/20-ButtonGroup').default}
       title="Simple Button Group"
       source={require('!!raw-loader!../examples/20-ButtonGroup')}
+    />
+  )}
+
+  ${(
+    <Props
+      heading="Button Props"
+      props={require('!!extract-react-types-loader!../src/components/Button')}
     />
   )}
 
