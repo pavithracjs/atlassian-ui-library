@@ -1,0 +1,1 @@
+- ED-5373: Refactor emoji plugin to use new type ahead
