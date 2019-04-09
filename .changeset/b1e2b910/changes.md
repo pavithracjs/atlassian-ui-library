@@ -1,1 +1,0 @@
-- Banner has been internally converted to TypeScript. Typescript consumers will get static type safety. No API or behaviour changes. Flow Support has been dropped.

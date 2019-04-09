@@ -1,0 +1,10 @@
+{
+  "releases": [{ "name": "@atlaskit/banner", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/page",
+      "type": "patch",
+      "dependencies": ["@atlaskit/banner"]
+    }
+  ]
+}
