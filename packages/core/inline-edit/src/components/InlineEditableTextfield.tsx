@@ -5,6 +5,7 @@ import { colors } from '@atlaskit/theme';
 
 import InlineEdit from './InlineEdit';
 import ReadViewContainer from '../styled/ReadViewContainer';
+import ErrorIconContainer from '../styled/ErrorIconContainer';
 import { InlineEditableTextfieldProps } from '../types';
 
 class InlineEditableTextfield extends React.Component<
@@ -38,9 +39,9 @@ class InlineEditableTextfield extends React.Component<
             {...editViewProps}
             elemAfterInput={
               editViewProps.isInvalid && (
-                <div style={{ paddingRight: '6px', lineHeight: '100%' }}>
+                <ErrorIconContainer>
                   <ErrorIcon label="error" primaryColor={colors.R400} />
-                </div>
+                </ErrorIconContainer>
               )
             }
             isCompact={isCompact}
