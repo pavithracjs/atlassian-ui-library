@@ -1,0 +1,1 @@
+- ED-6197 Provide fallback for image resizing snapTo. Set media resizing to be based on bounding box instead of chained parent offsets.
