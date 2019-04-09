@@ -11,8 +11,8 @@
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 167118,
-      "gzipSize": 50039
+      "size": 151487,
+      "gzipSize": 44411
     }
   },
   {
@@ -67,8 +67,8 @@
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 304023,
-      "gzipSize": 87067
+      "size": 293293,
+      "gzipSize": 81823
     }
   },
   {

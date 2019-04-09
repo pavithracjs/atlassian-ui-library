@@ -9,7 +9,7 @@ import {
 } from 'react';
 import ArrowLeft from '@atlaskit/icon/glyph/arrow-left';
 import ArrowRight from '@atlaskit/icon/glyph/arrow-right';
-import * as debounce from 'debounce';
+import debounce from 'debounce';
 import {
   FilmStripViewWrapper,
   FilmStripListWrapper,

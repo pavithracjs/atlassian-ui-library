@@ -1,14 +1,8 @@
 const glob = require('glob');
 const bolt = require('bolt');
 const path = require('path');
+const fromEntries = require('./utils/fromEntries');
 
-// Object.fromEntries polyfill, remove when upgraded to node 10
-function fromEntries(iterable) {
-  return [...iterable].reduce(
-    (obj, { 0: key, 1: val }) => Object.assign(obj, { [key]: val }),
-    {},
-  );
-}
 // Array.prototype.flat polyfill, remove when upgraded to node 10
 function flatten(array) {
   return array.reduce((acc, a) => [...acc, ...a], []);

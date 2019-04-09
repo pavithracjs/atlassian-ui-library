@@ -9,11 +9,11 @@ export default class ResizableExample extends PureComponent<void, void> {
         <FieldTextArea label="enableResize={true}" enableResize />
         <FieldTextArea
           label="enableResize={'vertical'}"
-          enableResize={'vertical'}
+          enableResize="vertical"
         />
         <FieldTextArea
           label="enableResize={'horizontal'}"
-          enableResize={'horizontal'}
+          enableResize="horizontal"
         />
       </div>
     );

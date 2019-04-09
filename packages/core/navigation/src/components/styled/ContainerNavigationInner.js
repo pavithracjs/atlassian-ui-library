@@ -12,7 +12,7 @@ const getTopPadding = props =>
 
 const ContainerNavigationInner = styled.div`
   background-color: ${({ theme }) => {
-    const background = getProvided(theme).background;
+    const { background } = getProvided(theme);
     if (background.secondary) {
       return background.secondary;
     }

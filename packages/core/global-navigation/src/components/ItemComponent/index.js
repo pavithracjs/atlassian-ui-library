@@ -22,7 +22,9 @@ class DropdownItem extends Component<DropdownItemProps, DropdownItemState> {
   state = {
     isOpen: false,
   };
+
   handleOpenChange = ({ isOpen }) => this.setState({ isOpen });
+
   render() {
     const { items, trigger: Trigger } = this.props;
     const { isOpen } = this.state;

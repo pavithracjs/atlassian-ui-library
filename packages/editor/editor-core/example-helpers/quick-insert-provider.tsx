@@ -32,19 +32,24 @@ const items: Array<QuickInsertItem> = [
     },
   },
   {
-    title: 'Block async extension',
+    title: 'Inline async extension',
     icon: () => <DevIcon label="dev" />,
     action(insert) {
       return insert({
-        type: 'extension',
+        type: 'inlineExtension',
         attrs: {
           extensionType: 'com.atlassian.confluence.macro.core',
-          extensionKey: 'block-async-eh',
-          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          extensionKey: 'inline-async-eh',
+          text: 'Inline extension demo',
           parameters: {
             macroParams: {},
             macroMetadata: {
-              placeholder: [{ data: { url: '' }, type: 'icon' }],
+              placeholder: [
+                {
+                  data: { url: '' },
+                  type: 'icon',
+                },
+              ],
             },
           },
         },

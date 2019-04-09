@@ -100,6 +100,7 @@ export default class DefaultNPS extends React.Component<Props> {
     onFeedbackSubmit: () => {},
     onFollowupSubmit: () => {},
   };
+
   render() {
     const {
       product,

@@ -6,7 +6,7 @@ import path from 'path';
 import fs from 'fs';
 import { name } from '../../../version.json';
 import BookIcon from '../../../../glyph/blog/24';
-import DefaultIcon, { metadata } from '../../../../src';
+import DefaultIcon, { metadata } from '../../..';
 
 // List all files in a directory in Node.js recursively in a synchronous fashion
 const walkSync = (dir: string, filelist: string[]) => {

@@ -16,12 +16,15 @@ type Context = {
 
 export default class GatewayDest extends Component<Props, State> {
   gatewayRegistry: GatewayRegistry;
+
   static contextTypes = {
     gatewayRegistry: PropTypes.instanceOf(GatewayRegistry).isRequired,
   };
+
   static defaultProps = {
     component: 'div',
   };
+
   state = {
     children: null,
   };
@@ -30,9 +33,11 @@ export default class GatewayDest extends Component<Props, State> {
     super(props, context);
     this.gatewayRegistry = context.gatewayRegistry;
   }
+
   componentWillMount() {
     this.gatewayRegistry.addContainer(this.props.name, this);
   }
+
   componentWillUnmount() {
     this.gatewayRegistry.removeContainer(this.props.name);
   }

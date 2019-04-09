@@ -24,19 +24,30 @@ export const messages = defineMessages({
     defaultMessage: 'Clear',
     description: 'Tooltip for clear button in the single user select field.',
   },
-  memberCount: {
+  memberCountWithoutYou: {
     id: 'fabric.elements.user-picker.team.member.count',
-    defaultMessage:
-      '{count} {count, plural, one {member} other {members}}{includes, select, true {, including you} other {}}',
+    defaultMessage: '{count} {count, plural, one {member} other {members}}',
     description:
-      'Number of members in the team and whether it includes the current user',
+      'Byline to show the number of members in the team when the current user is not a member of the team',
   },
-  plus50Members: {
-    id: 'fabric.elements.user-picker.team.member.50plus',
+  memberCountWithYou: {
+    id: 'fabric.elements.user-picker.team.member.count.including.you',
     defaultMessage:
-      '50+ members{includes, select, true {, including you} other {}}',
+      '{count} {count, plural, one {member} other {members}}, including you',
     description:
-      'Number of members in a team exceeds 50 and whether it includes the current user',
+      'Byline to show the number of members in the team when the current user is also a member of the team',
+  },
+  plus50MembersWithoutYou: {
+    id: 'fabric.elements.user-picker.team.member.50plus',
+    defaultMessage: '50+ members',
+    description:
+      'Byline to show the number of members in the team when the number exceeds 50',
+  },
+  plus50MembersWithYou: {
+    id: 'fabric.elements.user-picker.team.member.50plus.including.you',
+    defaultMessage: '50+ members, including you',
+    description:
+      'Byline to show the number of members in the team when the number exceeds 50 and also includes the current user',
   },
   addEmail: {
     id: 'fabric.elements.user-picker.email.add',

@@ -1,5 +1,10 @@
 # @atlaskit/theme
 
+## 8.1.5
+- [patch] [9ac668e13d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ac668e13d):
+
+  - Release math js as a module
+
 ## 8.1.4
 - [patch] [4368278bb4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4368278bb4):
 

@@ -1,9 +1,9 @@
 # @atlaskit/task-decision
 
 ## 14.0.2
-- [patch] [acfd88ba22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acfd88ba22):
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 
-  - ED-6639 Align lists styles between editor & renderer
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
 
 ## 14.0.1
 - Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):

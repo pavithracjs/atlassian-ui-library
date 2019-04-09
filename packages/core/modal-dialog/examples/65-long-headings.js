@@ -45,9 +45,13 @@ type State = { isOpen: string | null };
 // eslint-disable-next-line react/no-multi-comp
 export default class ModalDemo extends Component<{}, State> {
   state = { isOpen: null };
+
   open = (isOpen: string) => this.setState({ isOpen });
+
   close = (isOpen: string) => this.setState({ isOpen });
+
   secondaryAction = ({ target }: Object) => console.log(target.innerText);
+
   render() {
     const { isOpen } = this.state;
     const btn = name => (

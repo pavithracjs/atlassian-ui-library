@@ -1,5 +1,10 @@
 # @atlaskit/profilecard
 
+## 9.0.0
+- [major] [bfca144ea5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bfca144ea5):
+
+  - Refactored internal components. Moved to Typescript. Updated named exports. Updated type definitions.
+
 ## 8.0.2
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

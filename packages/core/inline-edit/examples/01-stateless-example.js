@@ -21,6 +21,7 @@ export default class StatelessExample extends Component<void, State> {
       onEventResult: `onEditRequested called`,
     });
   };
+
   onConfirm = () => {
     this.setState({
       isEditing: false,

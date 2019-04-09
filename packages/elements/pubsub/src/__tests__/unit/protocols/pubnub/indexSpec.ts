@@ -1,6 +1,6 @@
 jest.mock('pubnub');
 jest.mock('../../../../protocols/pubnub/pubNubHistoryFetcher');
-import * as Pubnub from 'pubnub';
+import Pubnub from 'pubnub';
 import PubNubProtocol from '../../../../protocols/pubnub/index';
 import HistoryFetcher from '../../../../protocols/pubnub/pubNubHistoryFetcher';
 import { EventType } from '../../../../types';

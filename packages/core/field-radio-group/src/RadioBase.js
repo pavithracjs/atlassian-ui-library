@@ -32,10 +32,15 @@ export default class Radio extends Component<RadioBasePropTypes, State> {
       isActive: this.state.mouseIsDown && this.state.isActive,
       isFocused: false,
     });
+
   onFocus = () => this.setState({ isFocused: true });
+
   onMouseLeave = () => this.setState({ isActive: false, isHovered: false });
+
   onMouseEnter = () => this.setState({ isHovered: true });
+
   onMouseUp = () => this.setState({ isActive: false, mouseIsDown: false });
+
   onMouseDown = () => this.setState({ isActive: true, mouseIsDown: true });
 
   render() {

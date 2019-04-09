@@ -17,7 +17,9 @@ const ContextProvider = withContextFromProps(contextTypes, null);
 
 export default class GatewayRegistry {
   containers: {} = {};
+
   children: {} = {};
+
   currentId: number = 0; // Unique key for children of a gateway
 
   /**

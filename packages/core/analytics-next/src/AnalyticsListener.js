@@ -21,6 +21,7 @@ const ContextTypes = {
 
 export default class AnalyticsListener extends Component<Props> {
   static contextTypes = ContextTypes;
+
   static childContextTypes = ContextTypes;
 
   getChildContext = () => ({

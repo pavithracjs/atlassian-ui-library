@@ -109,9 +109,13 @@ type OptionState = { isActive?: boolean };
 
 class ControlOption extends Component<OptionProps, OptionState> {
   state: OptionState = { isActive: false };
+
   onMouseDown = () => this.setState({ isActive: true });
+
   onMouseUp = () => this.setState({ isActive: false });
+
   onMouseLeave = () => this.setState({ isActive: false });
+
   render() {
     const {
       getStyles,

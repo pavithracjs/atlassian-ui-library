@@ -16,7 +16,7 @@ class Header extends Component<Props> {
   render() {
     const { props } = this;
     return (
-      <StyledHeader role={'columnheader'} {...props}>
+      <StyledHeader role="columnheader" {...props}>
         {props.children}
       </StyledHeader>
     );

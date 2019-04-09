@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/atlassian-switcher",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
   "module": "index.js",
@@ -22,7 +22,7 @@
     "@atlaskit/analytics-namespaced-context": "^3.0.1",
     "@atlaskit/analytics-next": "^4.0.1",
     "@atlaskit/analytics-next-types": "^4.0.0",
-    "@atlaskit/button": "^11.0.2",
+    "@atlaskit/button": "^11.0.7",
     "@atlaskit/icon": "^16.0.5",
     "@atlaskit/item": "^9.0.0",
     "@atlaskit/lozenge": "^7.0.0",

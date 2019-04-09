@@ -41,7 +41,9 @@ class GlobalItemWithDropdown extends Component<
   state = {
     isOpen: false,
   };
+
   handleOpenChange = ({ isOpen }) => this.setState({ isOpen });
+
   render() {
     const { items, trigger: Trigger } = this.props;
     const { isOpen } = this.state;
@@ -206,8 +208,11 @@ class GlobalNavWithModalsAndDrawers extends Component<{}, State> {
   };
 
   openModal = () => this.setState({ isModalOpen: true });
+
   closeModal = () => this.setState({ isModalOpen: false });
+
   openDrawer = () => this.setState({ isDrawerOpen: true });
+
   closeDrawer = () => this.setState({ isDrawerOpen: false });
 
   render() {
