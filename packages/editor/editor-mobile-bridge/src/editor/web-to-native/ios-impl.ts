@@ -111,12 +111,23 @@ export default class IosBridge implements NativeBridge {
     }
   }
 
-  currentSelection(text: string, url: string) {
+  currentSelection(
+    text: string,
+    url: string,
+    top: number,
+    right: number,
+    bottom: number,
+    left: number,
+  ) {
     if (window.webkit && window.webkit.messageHandlers.linkBridge) {
       window.webkit.messageHandlers.linkBridge.postMessage({
         name: 'currentSelection',
         text,
         url,
+        top,
+        right,
+        bottom,
+        left,
       });
     }
   }
