@@ -45,6 +45,7 @@
     "@atlaskit/docs": "^7.0.1",
     "@atlaskit/editor-test-helpers": "^8.0.3",
     "@atlaskit/form": "^5.2.3",
+    "@atlaskit/multi-entry-tools": "^0.0.1",
     "@atlaskit/select": "^8.0.3",
     "@atlaskit/textfield": "^0.4.0",
     "@atlaskit/webdriver-runner": "^0.1.0",
