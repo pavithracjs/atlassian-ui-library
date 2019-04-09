@@ -4,6 +4,7 @@ import { I18NWrapper } from '@atlaskit/media-test-helpers';
 import { colors } from '@atlaskit/theme';
 import { ThemeProvider } from 'styled-components';
 import Toolbar from '../src/react/editorView/toolbar/toolbar';
+import { Theme as ButtonTheme } from '@atlaskit/button';
 import { Tool } from '../src/common';
 import { Blanket } from '../src/react/styled';
 
@@ -40,16 +41,22 @@ class ToolbarExample extends React.Component<{}, State> {
       <I18NWrapper>
         <Blanket>
           <ThemeProvider theme={theme}>
-            <Toolbar
-              color={color}
-              tool={tool}
-              lineWidth={lineWidth}
-              onSave={this.onSave}
-              onCancel={this.onCancel}
-              onToolChanged={this.onToolChanged}
-              onColorChanged={this.onColorChanged}
-              onLineWidthChanged={this.onLineWidthChanged}
-            />
+            <ButtonTheme.Provider
+              value={(currentTheme, themeProps) =>
+                currentTheme({ ...themeProps, mode: 'dark' })
+              }
+            >
+              <Toolbar
+                color={color}
+                tool={tool}
+                lineWidth={lineWidth}
+                onSave={this.onSave}
+                onCancel={this.onCancel}
+                onToolChanged={this.onToolChanged}
+                onColorChanged={this.onColorChanged}
+                onLineWidthChanged={this.onLineWidthChanged}
+              />
+            </ButtonTheme.Provider>
           </ThemeProvider>
         </Blanket>
       </I18NWrapper>
