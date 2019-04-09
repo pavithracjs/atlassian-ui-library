@@ -1949,6 +1949,13 @@
     "@types/uglify-js" "*"
     source-map "^0.6.0"
 
+"@typescript-eslint/eslint-plugin-tslint@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin-tslint/-/eslint-plugin-tslint-1.6.0.tgz#8e22af21a2fd9f84debb8a69ef56bc5dab9157ed"
+  integrity sha512-euDCThQ26LmBeSWCGOUT+CyFhk0S86Yq5sZnnwyr+q9eeekySBW1g2AYLc8Hmuq1edXjLjM6d5RB5Yl3ZesQKA==
+  dependencies:
+    lodash.memoize "^4.1.2"
+
 "@typescript-eslint/eslint-plugin@^1.6.0":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-1.6.0.tgz#a5ff3128c692393fb16efa403ec7c8a5593dab0f"
@@ -1959,7 +1966,7 @@
     requireindex "^1.2.0"
     tsutils "^3.7.0"
 
-"@typescript-eslint/parser@1.6.0":
+"@typescript-eslint/parser@1.6.0", "@typescript-eslint/parser@^1.6.0":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-1.6.0.tgz#f01189c8b90848e3b8e45a6cdad27870529d1804"
   integrity sha512-VB9xmSbfafI+/kI4gUK3PfrkGmrJQfh0N4EScT1gZXSZyUxpsBirPL99EWZg9MmPG0pzq/gMtgkk7/rAHj4aQw==

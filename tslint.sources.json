@@ -42,6 +42,7 @@
     "typedef": [true],
     "unified-signatures": [false],
     "variable-name": false,
+    "no-console": false,
     "no-only-tests": true,
     "no-implicit-dependencies": true
   },
@@ -67,6 +68,7 @@
     "no-bitwise": false,
     "no-conditional-assignment": false,
     "no-consecutive-blank-lines": [false],
+    "no-console": false,
     "no-empty": false,
     "no-reference": false,
     "no-shadowed-variable": false,
