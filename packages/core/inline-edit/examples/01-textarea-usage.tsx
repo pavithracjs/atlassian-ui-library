@@ -5,10 +5,12 @@ import { gridSize, fontSize } from '@atlaskit/theme';
 import InlineEdit from '../src';
 import styled from 'styled-components';
 
+const minRows = 2;
+const textAreaLineHeightFactor = 2.5;
 const ReadViewContainer = styled.div`
   padding: 8px 8px;
-  line-height: ${(gridSize() * 2.5) / fontSize()}
-  min-height: ${gridSize() * 2.5 * 2}px
+  line-height: ${(gridSize() * textAreaLineHeightFactor) / fontSize()}
+  min-height: ${gridSize() * textAreaLineHeightFactor * minRows}px
 `;
 
 interface State {
