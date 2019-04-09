@@ -5,30 +5,26 @@ const { exists } = require('./fs');
 
 async function getPackagesConfigInfo(cwd /*: string */) {
   let project = await bolt.getProject();
-  let packages = await bolt.getWorkspaces({ cwd });
+  let root = cwd;
 
-  return await Promise.all(
-    packages.map(async pkg => {
-      let relativeDir = path.relative(project.dir, pkg.dir);
-      let isJestConfigExists = await exists(
-        path.join(pkg.dir, 'jest.config.js'),
-      );
-      let isJestFrameworkExists = await exists(
-        path.join(pkg.dir, 'jestFrameworkSetup.js'),
-      );
-      let isResolverExists = await exists(path.join(pkg.dir, 'resolver.js'));
-      return {
-        dir: pkg.dir,
-        name: pkg.name,
-        config: pkg.config,
-        relativeDir,
-        isJestConfigExists,
-        isJestFrameworkExists,
-        isResolverExists,
-      };
-    }),
-  );
+  return await Promise.all(async () => {
+    let isTsConfigExists = await exists(path.join(root, 'tsconfig.base.json'));
+    let isTsLint = await exists(path.join(root, 'jest.config.js'));
+    let isJestConfigExists = await exists(path.join(root, 'jest.config.js'));
+    let isJestFrameworkExists = await exists(
+      path.join(root, 'jestFrameworkSetup.js'),
+    );
+    let isResolverExists = await exists(path.join(root, 'resolver.js'));
+    return {
+      isJestConfigExists,
+      isJestFrameworkExists,
+      isResolverExists,
+    };
+  });
 }
+// I need to create a filter vr => file.isFF
+// refactor runif toolchanged to accept files too
+// 2 objects for config files / packages
 
 const CONFIG_FILES_TO_FILTERS /*: { [key: string]: (pkg: Object) => boolean } */ = {
   jestconfig: pkg => pkg.isJestConfigExists,
