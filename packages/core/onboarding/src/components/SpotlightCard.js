@@ -2,9 +2,9 @@
 
 import { colors, type ThemeProp } from '@atlaskit/theme';
 import React, { type Node, type ComponentType } from 'react';
-import { ThemeProvider } from 'styled-components';
+import { Theme as ButtonTheme } from '@atlaskit/button';
 import Card, { type CardTokens } from './Card';
-import { getSpotlightTheme } from './theme';
+import { spotlightButtonTheme } from './theme';
 import type { ActionsType } from '../types';
 
 type Props = {
@@ -56,7 +56,7 @@ class SpotlightCard extends React.Component<Props> {
       width,
     } = this.props;
     return (
-      <ThemeProvider theme={getSpotlightTheme}>
+      <ButtonTheme.Provider value={spotlightButtonTheme}>
         <Card
           ref={innerRef}
           heading={heading}
@@ -83,7 +83,7 @@ class SpotlightCard extends React.Component<Props> {
         >
           {children}
         </Card>
-      </ThemeProvider>
+      </ButtonTheme.Provider>
     );
   }
 }
