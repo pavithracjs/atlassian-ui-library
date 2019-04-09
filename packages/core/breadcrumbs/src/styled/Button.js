@@ -1,9 +1,11 @@
 // @flow
 import * as React from 'react';
-import Button from '@atlaskit/button';
+import Button, { type ButtonProps } from '@atlaskit/button';
+
+type Props = ButtonProps & { truncationWidth?: number };
 
 // $FlowFixMe
-export default React.forwardRef(({ truncationWidth, ...props }, ref) => (
+export default React.forwardRef(({ truncationWidth, ...props }: Props, ref) => (
   <Button
     {...props}
     ref={ref}
@@ -12,8 +14,8 @@ export default React.forwardRef(({ truncationWidth, ...props }, ref) => (
       return {
         buttonStyles: {
           ...buttonStyles,
-          ...(props.truncationWidth
-            ? { maxWidth: `${props.truncationWidth}px !important` }
+          ...(truncationWidth
+            ? { maxWidth: `${truncationWidth}px !important` }
             : { flexShrink: 1, minWidth: 0 }),
         },
         ...rest,
