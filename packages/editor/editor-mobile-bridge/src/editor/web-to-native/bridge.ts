@@ -1,4 +1,4 @@
-import { Color as StatusColor } from '@atlaskit/status/element';
+import { Color as StatusColor } from '@atlaskit/status';
 import { EditorBridges, EditorPluginBridges } from './index';
 
 export interface MentionBridge {

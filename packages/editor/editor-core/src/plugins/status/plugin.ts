@@ -7,7 +7,7 @@ import {
   Transaction,
 } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { Color as ColorType } from '@atlaskit/status/element';
+import { Color as ColorType } from '@atlaskit/status';
 import StatusNodeView from './nodeviews/status';
 import { ReactNodeView } from '../../nodeviews';
 import { PMPluginFactory } from '../../types';
