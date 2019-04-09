@@ -1,4 +1,4 @@
-# inline-edit
+# Inline-edit
 
 A component for displaying and editing values in fields.
 

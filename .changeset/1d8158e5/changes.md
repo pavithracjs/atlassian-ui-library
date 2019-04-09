@@ -1,5 +1,6 @@
-- **Breaking:** this version is a major overhaul of the package. Check out the upgrade
-  guide in the Atlaskit website for more information.
+- **Breaking:** this version is a major overhaul of the package. Check out the [upgrade
+  guide in the Atlaskit website](https://atlaskit.atlassian.com/packages/core/inline-edit/docs/upgrade-guide)
+  for more information.
   - **New API:** The exposed named exports are now InlineEdit and InlineEditableTextfield.
   These components are built to be standalone, not used within a Form, but updating data
   individually. The props API for each of these components is similar in some ways, but
