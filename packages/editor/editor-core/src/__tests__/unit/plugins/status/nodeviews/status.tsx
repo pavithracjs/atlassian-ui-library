@@ -9,7 +9,7 @@ import {
   dispatchPasteEvent,
   status,
 } from '@atlaskit/editor-test-helpers';
-import { Status } from '@atlaskit/status/element';
+import { Status } from '@atlaskit/status';
 import StatusNodeView, {
   Props as StatusNodeViewProps,
   State as StatusNodeViewState,

@@ -36,7 +36,7 @@ import {
 import { EditorView } from 'prosemirror-view';
 import { EditorState } from 'prosemirror-state';
 import { JSONTransformer } from '@atlaskit/editor-json-transformer';
-import { Color as StatusColor } from '@atlaskit/status/element';
+import { Color as StatusColor } from '@atlaskit/status';
 
 import NativeToWebBridge from './bridge';
 import WebBridge from '../../web-bridge';

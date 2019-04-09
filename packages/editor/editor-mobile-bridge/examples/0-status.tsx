@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Color as StatusColor } from '@atlaskit/status/element';
+import { Color as StatusColor } from '@atlaskit/status';
 import Form, { Field, FormFooter } from '@atlaskit/form';
 import AkButton from '@atlaskit/button';
 import Textfield from '@atlaskit/textfield';
