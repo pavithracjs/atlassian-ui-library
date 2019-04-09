@@ -30,7 +30,7 @@
       "es2015.iterable",
       "es2015.promise"
     ],
-    "types": ["jest"],
+    "types": ["jest", "node"],
     "typeRoots": ["../../../typings", "./node_modules/@types"],
   },
   "files": [

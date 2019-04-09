@@ -14,7 +14,9 @@ export default class AtlaskitFormDemo extends Component<{}, State> {
   state = { isOpen: false };
 
   open = () => this.setState({ isOpen: true });
+
   close = () => this.setState({ isOpen: false });
+
   onFormSubmit = (data: Object) => console.log(JSON.stringify(data));
 
   render() {

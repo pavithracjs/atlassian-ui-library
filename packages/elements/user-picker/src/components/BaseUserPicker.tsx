@@ -1,6 +1,6 @@
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
-import * as debounce from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -32,9 +32,9 @@ import {
   extractOptionValue,
   getOptions,
   isIterable,
+  isPopupUserPickerByComponent,
   isSingleValue,
   optionToSelectableOptions,
-  isPopupUserPickerByComponent,
 } from './utils';
 
 type Props = UserPickerProps &
@@ -45,6 +45,8 @@ type Props = UserPickerProps &
     components: any;
     width: string | number;
   };
+
+const loadingMessage = () => null;
 
 class UserPickerInternal extends React.Component<Props, UserPickerState> {
   static defaultProps = {
@@ -93,6 +95,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       hoveringClearIndicator: false,
       menuIsOpen: !!this.props.open,
       inputValue: props.search || '',
+      debouncing: false,
     };
   }
 
@@ -191,7 +194,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     this.fireEvent(failedEvent);
   };
 
-  private executeLoadOptions = debounce((search?: string) => {
+  private debouncedLoadOptions = debounce((search?: string) => {
     const { loadOptions } = this.props;
     if (loadOptions) {
       this.setState(({ inflightRequest: previousRequest }) => {
@@ -218,11 +221,20 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         return {
           inflightRequest,
           count,
-          options: [],
+          debouncing: false,
         };
       });
     }
   }, 200);
+
+  private executeLoadOptions = (search?: string) => {
+    const { loadOptions } = this.props;
+    if (loadOptions) {
+      this.setState({ debouncing: true }, () =>
+        this.debouncedLoadOptions(search),
+      );
+    }
+  };
 
   private handleFocus = (event: React.FocusEvent) => {
     const { value } = this.state;
@@ -255,6 +267,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     this.resetInputState();
     this.setState({
       menuIsOpen: false,
+      options: [],
     });
   };
 
@@ -417,6 +430,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       menuIsOpen,
       value,
       inputValue,
+      debouncing,
     } = this.state;
     const appearance = this.getAppearance();
 
@@ -436,7 +450,8 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onClose={this.handleClose}
-        isLoading={count > 0 || isLoading}
+        isLoading={count > 0 || debouncing || isLoading}
+        loadingMessage={loadingMessage}
         onInputChange={this.handleInputChange}
         menuPlacement="auto"
         placeholder={

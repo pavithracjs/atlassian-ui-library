@@ -1,5 +1,5 @@
 import { loadFullPageEditorWithAdf, snapshot } from './_utils';
-import * as adf from './adf/basic-content.adf.json';
+import adf from './adf/basic-content.adf.json';
 
 // TODO: There is an issue Error: Evaluation failed: TypeError: Cannot set property 'value' of null
 describe.skip('Snapshot Test: Basic Content', () => {

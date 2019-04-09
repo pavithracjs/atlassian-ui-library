@@ -1,6 +1,6 @@
 jest.mock('../../utils/checkWebpSupport');
 
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 import { stringify } from 'query-string';
 
 import { Auth, AuthProvider, CreatedTouchedFile, MediaStore } from '../..';

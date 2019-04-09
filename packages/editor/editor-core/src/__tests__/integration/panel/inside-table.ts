@@ -35,7 +35,7 @@ BrowserTestCase(
     await page.click(insertTableMenu);
     await page.waitForSelector(tableControls);
 
-    await quickInsert(page, 'Panel');
+    await quickInsert(page, 'Info Panel');
     await page.waitForSelector(selectors.PANEL_EDITOR_CONTAINER);
 
     // type some text

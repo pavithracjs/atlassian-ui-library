@@ -1,5 +1,10 @@
 # @atlaskit/date
 
+## 0.6.3
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 0.6.2
 - Updated dependencies [b0210d7ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0210d7ccc):
   - @atlaskit/elements-test-helpers@0.5.0

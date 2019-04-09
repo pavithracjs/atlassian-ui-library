@@ -29,6 +29,7 @@ import {
   compose,
   pipe,
   closestElement,
+  isSelectionInsideLastNodeInDocument,
 } from '../../../utils';
 import mediaPlugin from '../../../plugins/media';
 import codeBlockPlugin from '../../../plugins/code-block';
@@ -499,6 +500,27 @@ describe('@atlaskit/editore-core/utils', () => {
           f2,
         )('test'),
       ).toEqual('#!test');
+    });
+  });
+
+  describe('#isSelectionInsideLastNodeInDocument', () => {
+    it('should detect selection is inside last node in document', () => {
+      const { editorView } = editor(
+        doc(p('First Element'), p('{<>}Last Element')),
+      );
+
+      expect(
+        isSelectionInsideLastNodeInDocument(editorView.state.selection),
+      ).toBe(true);
+    });
+    it('should detect selection is not inside last element in the document', () => {
+      const { editorView } = editor(
+        doc(p('{<>}First Element'), p('Last Element')),
+      );
+
+      expect(
+        isSelectionInsideLastNodeInDocument(editorView.state.selection),
+      ).toBe(false);
     });
   });
 });

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { HTMLAttributes, ComponentClass } from 'react';
 import {
   editorFontSize,
+  whitespaceSharedStyles,
   paragraphSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
@@ -44,11 +45,10 @@ const ContentStyles: ComponentClass<
   }
 
   .ProseMirror {
-    word-wrap: break-word;
-    white-space: pre-wrap;
     outline: none;
     font-size: ${editorFontSize}px;
 
+    ${whitespaceSharedStyles};
     ${paragraphSharedStyles};
     ${indentationSharedStyles};
     ${shadowSharedStyle}
@@ -71,6 +71,9 @@ const ContentStyles: ComponentClass<
   }
 
   .inlineCardView-content-wrap {
+    /* cursor disappears left hand side in ff */
+    padding-left: 1px;
+
     max-width: calc(100% - 20px);
     vertical-align: top;
     word-break: break-all;
@@ -119,7 +122,7 @@ const ContentStyles: ComponentClass<
   }
 
   /* Danger when top level node */
-  .danger > .extension-container {
+  .danger > span > .extension-container {
     background: ${akEditorDeleteBackground};
     .extension-overlay {
       box-shadow: inset 0px 0px 0px ${akEditorDeleteBorderBoldSize}px ${akEditorDeleteBorder} !important;

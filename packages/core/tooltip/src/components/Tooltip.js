@@ -142,9 +142,14 @@ class Tooltip extends Component<Props, State> {
   };
 
   wrapperRef: HTMLElement | null;
+
   targetRef: HTMLElement | null;
+
   fakeMouseElement: FakeMouseElement | null;
-  cancelPendingSetState = () => {}; // set in mouseover/mouseout handlers
+
+  cancelPendingSetState = () => {};
+
+  // set in mouseover/mouseout handlers
   state = {
     immediatelyHide: false,
     immediatelyShow: false,
@@ -263,6 +268,7 @@ class Tooltip extends Component<Props, State> {
       immediatelyHide,
     } = this.state;
     return (
+      /* eslint-disable jsx-a11y/mouse-events-have-key-events */
       <Fragment>
         <TargetContainer
           onClick={this.handleMouseClick}
@@ -319,6 +325,7 @@ class Tooltip extends Component<Props, State> {
           </Portal>
         ) : null}
       </Fragment>
+      /* eslint-enable */
     );
   }
 }

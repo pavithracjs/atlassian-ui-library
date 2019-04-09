@@ -16,7 +16,7 @@ import { ResizeState, scaleTable } from '../pm-plugins/table-resizing';
 import { getParentNodeWidth } from '../pm-plugins/table-resizing/utils';
 
 import { TablePluginState, TableCssClassName as ClassName } from '../types';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 const isIE11 = browser.ie_version === 11;
 
 import { Props } from './table';
@@ -317,12 +317,19 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     if (options && options.isBreakoutEnabled === false) {
       return;
     }
-
     this.setState((prevState: TableState) => {
       const tableContainerWidth = calcTableWidth(
         node.attrs.layout,
         containerWidth.width,
       );
+
+      if (
+        options &&
+        options.isBreakoutEnabled === false &&
+        prevState.tableContainerWidth !== 'inherit'
+      ) {
+        return { tableContainerWidth: 'inherit' };
+      }
 
       if (prevState.tableContainerWidth === tableContainerWidth) {
         return null;

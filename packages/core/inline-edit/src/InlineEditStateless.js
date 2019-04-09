@@ -32,6 +32,7 @@ type State = {
 
 class InlineEdit extends Component<StatelessProps, State> {
   confirmButtonRef: HTMLElement | null;
+
   cancelButtonRef: HTMLElement | null;
 
   static defaultProps = {
@@ -112,8 +113,8 @@ class InlineEdit extends Component<StatelessProps, State> {
     this.setState({ fieldBaseWrapperIsHover: false });
 
   mouseHasMoved = (event: { clientX: number, clientY: number }) => {
-    const startX: number = this.state.startX;
-    const startY: number = this.state.startY;
+    const { startX } = this.state;
+    const { startY } = this.state;
 
     return (
       Math.abs(startX - event.clientX) >= DRAG_THRESHOLD ||

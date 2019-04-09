@@ -30,7 +30,9 @@ type State = {
 };
 
 export default class ConnectionDemo extends Component<any, State> {
-  createdFlagCount = 0; // eslint-disable-line react/sort-comp
+  createdFlagCount = 0;
+
+  // eslint-disable-line react/sort-comp
   state = {
     appearance: boldAppearanceNames[0],
   };

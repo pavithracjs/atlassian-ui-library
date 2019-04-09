@@ -11,8 +11,11 @@ export default class ExampleAppearance extends PureComponent<
   { isOpen: string | null },
 > {
   state = { isOpen: null };
+
   open = (isOpen: string) => this.setState({ isOpen });
+
   close = () => this.setState({ isOpen: null });
+
   secondaryAction = ({ target }: Object) => console.log(target.innerText);
 
   render() {

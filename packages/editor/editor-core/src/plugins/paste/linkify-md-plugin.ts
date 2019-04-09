@@ -1,4 +1,4 @@
-import * as LinkifyIt from 'linkify-it';
+import LinkifyIt from 'linkify-it';
 import { linkifyMatch, LinkifyMatch } from '../hyperlink/utils';
 
 // modified version of the original Linkify plugin

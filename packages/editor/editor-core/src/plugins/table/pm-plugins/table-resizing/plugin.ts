@@ -1,6 +1,6 @@
 import { Plugin, PluginKey, Transaction, EditorState } from 'prosemirror-state';
 import { TableMap } from 'prosemirror-tables';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import { EditorView } from 'prosemirror-view';
 import { akEditorTableToolbarSize } from '@atlaskit/editor-common';
 import { TableLayout, CellAttributes } from '@atlaskit/adf-schema';

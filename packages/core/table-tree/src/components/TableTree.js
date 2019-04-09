@@ -8,7 +8,7 @@ import Headers from './Headers';
 import Header from './Header';
 import Cell from './Cell';
 
-import type { LoadableItems, CSSWidth } from './../types';
+import type { LoadableItems, CSSWidth } from '../types';
 
 type Props = {
   /** An array of React component constructors. Each component will be used to render a cell in a tree row.  */
@@ -48,7 +48,7 @@ export default class TableTree extends Component<Props, State> {
   }
 
   setColumnWidth = (columnIndex: number, width: CSSWidth) => {
-    const columnWidths = this.state.columnWidths;
+    const { columnWidths } = this.state;
     if (width === columnWidths[columnIndex]) {
       return;
     }
@@ -105,7 +105,7 @@ export default class TableTree extends Component<Props, State> {
       );
     }
     return (
-      <TableTreeContainer role={'treegrid'} aria-readonly>
+      <TableTreeContainer role="treegrid" aria-readonly>
         {heads}
         {rows}
         {this.props.children}

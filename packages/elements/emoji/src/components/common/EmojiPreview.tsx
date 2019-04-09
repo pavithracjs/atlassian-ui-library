@@ -1,6 +1,6 @@
 import AkButton from '@atlaskit/button';
 import AddIcon from '@atlaskit/icon/glyph/add';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as React from 'react';
 import { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';

@@ -62,6 +62,7 @@ class Avatar extends Component<AvatarPropTypes> {
   blur = () => {
     if (this.ref) this.ref.blur();
   };
+
   focus = () => {
     if (this.ref) this.ref.focus();
   };

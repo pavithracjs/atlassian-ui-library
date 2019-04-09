@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, type Node } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Lorem from 'react-lorem-component';
 
 import Avatar from '@atlaskit/avatar';
@@ -77,7 +77,9 @@ type FooterState = {
 // eslint-disable-next-line react/no-multi-comp
 class Footer extends Component<FooterProps, FooterState> {
   state = { isOpen: false };
+
   open = () => this.setState({ isOpen: true });
+
   close = () => this.setState({ isOpen: false });
 
   render() {
@@ -108,9 +110,13 @@ type State = { isOpen: string | null };
 // eslint-disable-next-line react/no-multi-comp
 export default class ModalDemo extends Component<{}, State> {
   state = { isOpen: null };
+
   close = (isOpen: any) => this.setState({ isOpen });
+
   open = (isOpen: string) => this.setState({ isOpen });
+
   secondaryAction = ({ target }: Object) => console.log(target.innerText);
+
   render() {
     const { isOpen } = this.state;
     const btn = name => (

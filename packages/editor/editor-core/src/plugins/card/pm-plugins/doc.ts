@@ -45,7 +45,10 @@ export const replaceQueuedUrlWithCard = (
       }
 
       const textSlice = node.text;
-      if (linkMark.attrs.href !== url || textSlice !== url) {
+      if (
+        request.compareLinkText &&
+        (linkMark.attrs.href !== url || textSlice !== url)
+      ) {
         return;
       }
 
@@ -55,7 +58,7 @@ export const replaceQueuedUrlWithCard = (
         nodes.push(schema.text(' '));
       }
 
-      tr = tr.replaceWith(pos, pos + url.length, nodes);
+      tr = tr.replaceWith(pos, pos + (textSlice || url).length, nodes);
     });
   }
 
@@ -90,17 +93,20 @@ export const queueCardsFromChangedTr = (
     if (linkMark) {
       // ED-6041: compare normalised link text after linkfy from Markdown transformer
       // instead, since it always decodes URL ('%20' -> ' ') on the link text
-      const normalizedLinkText = md.normalizeLinkText(linkMark.attrs.href);
+      if (normalizeLinkText) {
+        const normalizedLinkText = md.normalizeLinkText(linkMark.attrs.href);
 
-      // don't bother queueing nodes that have user-defined text for a link
-      if (node.text !== normalizedLinkText) {
-        return false;
+        // don't bother queueing nodes that have user-defined text for a link
+        if (node.text !== normalizedLinkText) {
+          return false;
+        }
       }
 
       requests.push({
         url: linkMark.attrs.href,
         pos,
         appearance: 'inline',
+        compareLinkText: normalizeLinkText,
       } as Request);
     }
 
