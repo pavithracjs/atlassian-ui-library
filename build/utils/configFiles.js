@@ -3,50 +3,71 @@ const bolt = require('bolt');
 const path = require('path');
 const { exists } = require('./fs');
 
-async function getPackagesConfigInfo(cwd /*: string */) {
+async function getFilesConfigInfo(cwd /*: string */) {
   let project = await bolt.getProject();
   let root = cwd;
 
   return await Promise.all(async () => {
-    let isTsConfigExists = await exists(path.join(root, 'tsconfig.base.json'));
-    let isTsLint = await exists(path.join(root, 'jest.config.js'));
+    console.log('path:', await exists(path.join(root, 'jest.config.js')));
     let isJestConfigExists = await exists(path.join(root, 'jest.config.js'));
     let isJestFrameworkExists = await exists(
       path.join(root, 'jestFrameworkSetup.js'),
     );
+    let isBabelConfigExists = await exists(path.join(root, 'babel.config.js'));
+    let isTsBaseConfigExists = await exists(
+      path.join(root, 'tsconfig.base.json'),
+    );
+    let isTsMediaConfigExists = await exists(
+      path.join(root, 'tsconfig.media.json'),
+    );
+    let isTsEntryPointsConfigExists = await exists(
+      path.join(root, 'tsconfig.entry-points.json'),
+    );
+    let isTsJestConfigExists = await exists(
+      path.join(root, 'tsconfig.jest.json'),
+    );
+    let isTsTypecheckConfigExists = await exists(
+      path.join(root, 'tsconfig.typecheck.json'),
+    );
+    let isTsLintSourcesExists = await exists(
+      path.join(root, 'tslint.sources.json'),
+    );
+    let isProjectorExists = await exists(path.join(root, 'projector.js'));
     let isResolverExists = await exists(path.join(root, 'resolver.js'));
+
+    let isKarma = isProjectorExists;
+    let isTypecheck =
+      isTsBaseConfigExists ||
+      isTsEntryPointsConfigExists ||
+      isTsMediaConfigExists ||
+      isTsTypecheckConfigExists;
+    let isTsLint = isTsLintSourcesExists;
+    let isTest =
+      isBabelConfigExists ||
+      isJestConfigExists ||
+      isJestFrameworkExists ||
+      isTsJestConfigExists ||
+      isResolverExists;
+
     return {
-      isJestConfigExists,
-      isJestFrameworkExists,
-      isResolverExists,
+      isKarma,
+      isTypecheck,
+      isTsLint,
+      isTest,
     };
   });
 }
-// I need to create a filter vr => file.isFF
-// refactor runif toolchanged to accept files too
-// 2 objects for config files / packages
 
 const CONFIG_FILES_TO_FILTERS /*: { [key: string]: (pkg: Object) => boolean } */ = {
-  jestconfig: pkg => pkg.isJestConfigExists,
-  jestframeworksetup: pkg => pkg.isJestFrameworkExists,
-  resolver: pkg => pkg.isResolverExists,
+  karma: file => file.isKarma,
+  typecheck: file => file.isTypecheck,
+  tslint: file => file.isTsLint,
+  unit: file => file.isTest,
+  webdriver: file => file.isTest,
+  visualregression: file => file.isTest,
 };
 
-async function getPackageDirsForConfig(cwd /*: string */) {
-  let packages = await getPackagesConfigInfo(cwd);
-  let toolGroups = {};
-
-  Object.keys(CONFIG_FILES_TO_FILTERS).map(configName => {
-    toolGroups[configName] = packages
-      .filter(CONFIG_FILES_TO_FILTERS[configName])
-      .map(pkg => pkg.relativeDir);
-  });
-
-  return toolGroups;
-}
-
 module.exports = {
-  getPackagesConfigInfo,
-  getPackageDirsForConfig,
+  getFilesConfigInfo,
   CONFIG_FILES_TO_FILTERS,
 };

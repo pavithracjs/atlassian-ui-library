@@ -32,7 +32,7 @@ module.exports = function resolver(
   modulePath /*: string */,
   params /*: any */,
 ) {
-  // If resolving relative paths, make sure we use resolveFrom and not resolve
+  // If resolving relative paths, make sure we use resolveFrom and not resolve.
   if (modulePath.startsWith('.') || modulePath.startsWith(path.sep)) {
     try {
       return resolveFrom(params.basedir, modulePath);
