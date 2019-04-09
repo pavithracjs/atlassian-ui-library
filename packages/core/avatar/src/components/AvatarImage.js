@@ -88,15 +88,12 @@ export default class AvatarImage extends PureComponent<Props, State> {
   // handle case where `src` is modified after mount
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.src && this.props.src !== nextProps.src) {
-      this.setState({ isLoading: true });
       this.loadImage();
     }
   }
 
   componentDidUpdate(prevProps: Props) {
     if (this.props.src && this.props.src !== prevProps.src) {
-      // eslint-disable-next-line
-      this.setState({ isLoading: true });
       this.loadImage();
     }
   }
@@ -104,6 +101,7 @@ export default class AvatarImage extends PureComponent<Props, State> {
   loadImage = () => {
     // nothing to load
     if (!this.props.src) return;
+    this.setState({ isLoading: true });
     const img = new Image();
     img.onload = this.handleLoadSuccess;
     img.onerror = this.handleLoadError;
