@@ -59,8 +59,6 @@ class InlineEditUncontrolled extends React.Component<
     cancelButtonLabel: 'Cancel',
   };
 
-  confirmButtonRef?: HTMLElement;
-  cancelButtonRef?: HTMLElement;
   editButtonRef?: HTMLElement;
 
   startX: number = 0;
@@ -89,10 +87,6 @@ class InlineEditUncontrolled extends React.Component<
 
   onCancelClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    /** This prevents clicking on cancel button from calling onConfirm */
-    if (this.cancelButtonRef) {
-      this.cancelButtonRef.focus();
-    }
     this.props.onCancel();
   };
 
@@ -193,18 +187,9 @@ class InlineEditUncontrolled extends React.Component<
             type="submit"
             iconBefore={<ConfirmIcon label="Confirm" size="small" />}
             shouldFitContainer
-            onClick={() => {
-              /** This prevents clicking on confirm button from calling onConfirm twice */
-              if (this.confirmButtonRef) {
-                this.confirmButtonRef.focus();
-              }
-            }}
             onMouseDown={() => {
               /** Prevents focus on edit button only if mouse is used to click button */
               this.setState({ preventFocusOnEditButton: true });
-            }}
-            innerRef={ref => {
-              this.confirmButtonRef = ref;
             }}
           />
         </ButtonWrapper>
@@ -218,9 +203,6 @@ class InlineEditUncontrolled extends React.Component<
               this.setState({ preventFocusOnEditButton: true });
             }}
             shouldFitContainer
-            innerRef={ref => {
-              this.cancelButtonRef = ref;
-            }}
           />
         </ButtonWrapper>
       </ButtonsWrapper>
