@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 36.1.9
+- [patch] [63c00f3503](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/63c00f3503):
+
+  - fix usage of entry point of @atlaskit/mention
+
 ## 36.1.8
 - [patch] [fc2b10e0cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fc2b10e0cc):
 

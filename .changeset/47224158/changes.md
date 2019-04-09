@@ -1,1 +1,0 @@
-- fix usage of entry point of @atlaskit/mention
