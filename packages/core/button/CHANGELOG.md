@@ -1,5 +1,10 @@
 # @atlaskit/button
 
+## 11.0.9
+- [patch] [872b3b905a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/872b3b905a):
+
+  - Updates theme to the version which exposes multiple entry points
+
 ## 11.0.8
 - [patch] [22ce87801e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/22ce87801e):
 
