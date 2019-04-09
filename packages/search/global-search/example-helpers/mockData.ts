@@ -280,6 +280,9 @@ export function makeCrossProductSearchData(
       content: {
         id: uuid(),
         type: i % 3 ? 'blogpost' : 'page',
+        space: {
+          id: '123',
+        },
       },
       container: {
         title: title,
