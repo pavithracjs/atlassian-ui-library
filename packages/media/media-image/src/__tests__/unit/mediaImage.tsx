@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { Observable } from 'rxjs';
-import { nextTick } from '@atlaskit/media-test-helpers';
+import { nextTick, createStorybookContext } from '@atlaskit/media-test-helpers';
 import MediaImage, { MediaImageProps } from '../../mediaImage';
 
 import { imageFileId } from '@atlaskit/media-test-helpers';
@@ -188,6 +188,24 @@ describe('<MediaImage />', () => {
     expect(getFileState).toHaveBeenCalledTimes(1);
 
     wrapper.setProps({ apiConfig: { width: 110, heigth: 110 } });
+    await wrapper.update();
+
+    expect(getFileState).toHaveBeenCalledTimes(2);
+  });
+
+  it('should trigger subscribe if context has changed', async () => {
+    const wrapper = await shallowRender(defaultProps as MediaImageProps);
+    expect(getFileState).toHaveBeenCalledTimes(1);
+    const dummyContext = createStorybookContext();
+    const newContext = {
+      ...dummyContext,
+      file: {
+        ...dummyContext.file,
+        getFileState,
+      },
+      getImage,
+    };
+    wrapper.setProps({ context: newContext });
     await wrapper.update();
 
     expect(getFileState).toHaveBeenCalledTimes(2);
