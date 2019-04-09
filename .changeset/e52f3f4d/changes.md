@@ -1,0 +1,1 @@
+- HOT-86829 do not call setWidth with 0 nor undefined
