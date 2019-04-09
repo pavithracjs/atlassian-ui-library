@@ -213,6 +213,7 @@ export const initFullPageEditorWithAdf = async (
   device?: Device,
   viewport?: { width: number; height: number },
   editorProps: EditorProps = {},
+  mode?: 'light' | 'dark',
 ) => {
   await initEditorWithAdf(page, {
     adf,
@@ -220,6 +221,7 @@ export const initFullPageEditorWithAdf = async (
     device,
     viewport,
     editorProps,
+    mode,
   });
 };
 
