@@ -104,8 +104,8 @@ class InlineEditUncontrolled extends React.Component<
     if (element.tagName.toLowerCase() !== 'a' && !this.mouseHasMoved(event)) {
       event.preventDefault();
       this.props.onEditRequested();
+      this.setState({ preventFocusOnEditButton: true });
     }
-    this.setState({ preventFocusOnEditButton: true });
   };
 
   mouseHasMoved = (event: { clientX: number; clientY: number }) => {
