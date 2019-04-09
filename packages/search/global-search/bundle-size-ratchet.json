@@ -19,8 +19,8 @@
     "id": "node_modules.async",
     "name": "node_modules [async]",
     "stats": {
-      "size": 21129,
-      "gzipSize": 6120
+      "size": 43929,
+      "gzipSize": 14800
     }
   },
   {
@@ -67,8 +67,8 @@
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 42125,
-      "gzipSize": 11485
+      "size": 62225,
+      "gzipSize": 19993
     }
   }
 ]

@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import ModalDialog, { ModalTransition } from '../src';
 
