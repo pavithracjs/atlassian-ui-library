@@ -74,6 +74,9 @@ describe('CrossProductSearchClient', () => {
                 content: {
                   id: '123',
                   type: 'page',
+                  space: {
+                    id: '123',
+                  },
                 },
               } as ConfluenceItem,
             ],
@@ -93,6 +96,7 @@ describe('CrossProductSearchClient', () => {
       expect(item.name).toEqual('page name');
       expect(item.href).toEqual('/wiki/url?search_id=test_uuid');
       expect(item.containerName).toEqual('containerTitle');
+      expect(item.containerId).toEqual('123');
       expect(item.analyticsType).toEqual(AnalyticsType.ResultConfluence);
       expect(item.resultType).toEqual(ResultType.ConfluenceObjectResult);
       expect(item.contentType).toEqual(ContentType.ConfluencePage);
