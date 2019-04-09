@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-core",
-  "version": "107.10.0",
+  "version": "107.10.1",
   "description": "A package contains Atlassian editor core functionality",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@atlaskit/activity": "^1.0.1",
-    "@atlaskit/adf-schema": "^2.4.1",
+    "@atlaskit/adf-schema": "^2.5.0",
     "@atlaskit/adf-utils": "^6.0.3",
     "@atlaskit/analytics-gas-types": "^4.0.1",
     "@atlaskit/analytics-listeners": "^5.0.2",

@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.10.1
+- [patch] [64dd2ab46f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/64dd2ab46f):
+
+  - ED-6558 Fix clicking to set the cursor placement after an inline node that's at the end of a line. Set the default style attribute of Status nodes to be empty instead of 'null'.
+
 ## 107.10.0
 - [minor] [969915d261](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/969915d261):
 
