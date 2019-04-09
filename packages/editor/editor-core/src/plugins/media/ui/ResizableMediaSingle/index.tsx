@@ -137,24 +137,12 @@ export default class ResizableMediaSingle extends React.Component<
 
   calcOffsetLeft() {
     let offsetLeft = 0;
-
     if (this.wrapper && this.insideInlineLike) {
-      let currentNode: HTMLElement | null = this.wrapper;
-      const pm = this.props.view.dom as HTMLElement;
-
-      while (
-        currentNode &&
-        currentNode.parentElement &&
-        !currentNode.parentElement.classList.contains('ProseMirror') &&
-        currentNode !== document.body
-      ) {
-        offsetLeft += currentNode.offsetLeft;
-        currentNode = currentNode.parentElement;
-      }
-
-      offsetLeft -= pm.offsetLeft;
+      const currentNode: HTMLElement = this.wrapper;
+      const boundingRect = currentNode.getBoundingClientRect();
+      const pmRect = this.props.view.dom.getBoundingClientRect();
+      offsetLeft = boundingRect.left - pmRect.left;
     }
-
     return offsetLeft;
   }
 
@@ -209,7 +197,6 @@ export default class ResizableMediaSingle extends React.Component<
         snapPoints.push(fullWidthPoint);
       }
     }
-
     return snapPoints;
   }
 
