@@ -16,6 +16,7 @@ type State = {
 
 export default class AsyncSelectView extends PureComponent<*, State> {
   state = { inputValue: '' };
+
   render() {
     const {
       storedValue,

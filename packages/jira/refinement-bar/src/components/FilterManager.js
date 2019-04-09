@@ -50,8 +50,11 @@ const Option = (props: *) =>
 
 export class FilterManager extends PureComponent<*> {
   filterOptionFn: Object => boolean;
+
   options: Array<Object>;
+
   components = { ...selectComponents, Option };
+
   constructor(props: *) {
     super(props);
 
@@ -62,6 +65,7 @@ export class FilterManager extends PureComponent<*> {
     this.options = getOptions(value, options);
     this.filterOptionFn = filterOptions(value);
   }
+
   handleChange = (value: *, meta: Object) => {
     const { onChange } = this.props;
 
@@ -71,6 +75,7 @@ export class FilterManager extends PureComponent<*> {
       onChange(value, meta);
     }
   };
+
   render() {
     const { onChange, storedValue, ...props } = this.props;
 

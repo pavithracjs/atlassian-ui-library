@@ -8,6 +8,8 @@ export default class AsyncSelectController extends SelectController {
     this.defaultOptions = this.config.defaultOptions;
     this.loadOptions = this.config.loadOptions;
   }
+
   defaultOptions: *;
+
   loadOptions: *;
 }

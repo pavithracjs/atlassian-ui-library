@@ -61,10 +61,15 @@ class ActualRefinementBar extends PureComponent<Props, State> {
       values: this.ctx.value,
     };
   }
+
   ctx: Object;
+
   filterOptions: Array<Object>;
+
   showLessRef: ElementRef<*> = createRef();
+
   showAllRef: ElementRef<*> = createRef();
+
   analyticsTimer: TimeoutID;
 
   // Required until atlaskit upgrades to react >= 16.6 😞
@@ -80,6 +85,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
   openPopup = key => () => {
     this.setState({ activePopupKey: key });
   };
+
   closePopup = () => {
     this.setState({ activePopupKey: null });
   };
@@ -142,6 +148,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
       this.ctx.onChange(values, meta);
     });
   };
+
   handleFieldRemove = async (key: string, event?: Event) => {
     if (event) {
       event.preventDefault();
@@ -153,6 +160,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
       this.ctx.onChange(values, { action: 'remove', key });
     });
   };
+
   handleFieldClear = async (key: string) => {
     const field = this.ctx.fieldConfig[key];
     const value = field.getInitialValue();
@@ -163,6 +171,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
       this.ctx.onChange(values, { action: 'clear', key });
     });
   };
+
   handleFieldChange = (key: string) => (value: *) => {
     const { fieldConfig } = this.ctx;
     const oldInvalid = this.state.invalid;
@@ -271,6 +280,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
       fieldUI({})
     );
   };
+
   onChangeFilter = (options: *, meta) => {
     this.closePopup();
     switch (meta.action) {
@@ -286,9 +296,11 @@ class ActualRefinementBar extends PureComponent<Props, State> {
       default:
     }
   };
+
   getFilterValue = memoize(keys => {
     return keys.map(this.mapKeyToOption);
   });
+
   showAll = isExpanded => () => {
     this.setState({ isExpanded }, () => {
       // NOTE: focus is managed manually here because the show/hide buttons are

@@ -23,10 +23,13 @@ type State = {
 
 class TextView extends React.Component<Props, State> {
   state = this.props.storedValue;
+
   nextInputRef = React.createRef();
+
   componentDidMount() {
     this.focusNextInput();
   }
+
   handleSubmit = (e: *) => {
     e.preventDefault();
     if (this.props.invalidMessage) return;
@@ -74,6 +77,7 @@ class TextView extends React.Component<Props, State> {
   get filterTypes() {
     return this.props.field.getFilterTypes();
   }
+
   render() {
     const { field, invalidMessage } = this.props;
     const { type } = this.state;

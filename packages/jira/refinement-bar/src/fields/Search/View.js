@@ -15,11 +15,14 @@ type State = {
 
 export default class SearchView extends PureComponent<*, State> {
   state = { isFocused: false };
+
   inputRef = createRef();
+
   handleChange = (event: Event) => {
     // $FlowFixMe "property `value` is missing in `EventTarget`"
     this.props.onChange(event.target.value);
   };
+
   handleClear = () => {
     this.props.onChange('');
     const el = this.inputRef.current;
@@ -28,12 +31,15 @@ export default class SearchView extends PureComponent<*, State> {
       el.focus();
     }
   };
+
   handleSubmit = (event: Event) => {
     event.preventDefault();
   };
+
   toggleFocus = (isFocused: boolean) => () => {
     this.setState({ isFocused });
   };
+
   render() {
     const { value } = this.props;
     const { isFocused } = this.state;

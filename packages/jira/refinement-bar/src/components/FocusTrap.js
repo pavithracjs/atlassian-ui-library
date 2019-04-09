@@ -16,8 +16,11 @@ export default class FocusTrap extends React.Component<Props> {
       this.originElement = document.activeElement;
     }
   }
+
   target: ElementRef<*> = React.createRef();
+
   originElement: HTMLElement | null;
+
   focus = () => {
     const target = this.target.current;
     const el = tabbable(target)[0] || target;
@@ -26,6 +29,7 @@ export default class FocusTrap extends React.Component<Props> {
       el.focus({ preventScroll: true });
     }
   };
+
   handleFocus = (event: FocusEvent) => {
     const el = this.target.current;
 

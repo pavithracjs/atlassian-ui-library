@@ -27,6 +27,7 @@ import {
 
 class RefinementBarExample extends React.Component {
   state = { value: decodeQuery() };
+
   onChange = (value: Object, meta: Object) => {
     switch (meta.action) {
       case 'add':
@@ -42,14 +43,17 @@ class RefinementBarExample extends React.Component {
       default:
     }
   };
+
   addValue = (add: Object) => {
     const value = cloneObj(this.state.value, { add });
     this.setState({ value });
   };
+
   removeValue = (remove: string) => {
     const value = cloneObj(this.state.value, { remove });
     this.setState({ value });
   };
+
   updateValue = value => {
     this.setState({ value });
   };
@@ -241,9 +245,11 @@ const FIELD_CONFIG = {
 
       if (type === 'is_not_set') {
         return defaultReturn;
-      } else if (!value) {
+      }
+      if (!value) {
         return { message: 'Please provide some text.', isInvalid: true };
-      } else if (INVALID_FIRST_CHARS.includes(value.charAt(0))) {
+      }
+      if (INVALID_FIRST_CHARS.includes(value.charAt(0))) {
         return {
           message:
             "The '*' and '?' are not allowed as first character in a 'wildard' search.",

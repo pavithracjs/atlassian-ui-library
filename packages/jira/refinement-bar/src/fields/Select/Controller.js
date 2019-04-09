@@ -28,11 +28,15 @@ export default class SelectController extends FieldController {
 
     this.options = this.config.options;
   }
+
   options: Options | (Object => Options);
+
   hasValue = (value: *) => {
     return Array.isArray(value) ? value.length > 0 : isObject(value);
   };
+
   getInitialValue = () => [];
+
   formatButtonLabel = (value: *) => {
     const separator = ', ';
     const max = 3;

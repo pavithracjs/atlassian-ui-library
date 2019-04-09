@@ -33,7 +33,9 @@ const getInitialState = (storedValue: *) => {
 
 class NumberView extends PureComponent<Props, State> {
   state = getInitialState(this.props.storedValue);
+
   nextInputRef = createRef();
+
   componentDidMount() {
     this.focusNextInput();
   }
@@ -41,6 +43,7 @@ class NumberView extends PureComponent<Props, State> {
   get isBetween() {
     return this.state.type === 'between';
   }
+
   get filterTypes() {
     return this.props.field.getFilterTypes();
   }
@@ -53,6 +56,7 @@ class NumberView extends PureComponent<Props, State> {
       this.props.closePopup(); // HACK? (imperative)
     }
   };
+
   onChangeCheckbox = (event: *) => {
     const { onChange } = this.props;
     const type = event.target.value;
@@ -81,8 +85,9 @@ class NumberView extends PureComponent<Props, State> {
       onChange({ type, value });
     });
   };
+
   onChangeInput = (event: *) => {
-    const name = event.target.name;
+    const { name } = event.target;
     const val = Number(event.target.value);
     const { onChange } = this.props;
     const { type } = this.state;
@@ -93,6 +98,7 @@ class NumberView extends PureComponent<Props, State> {
       onChange({ type, value });
     });
   };
+
   // NOTE: resist the urge to use `autoFocus` on the text input; it will break
   // programmatic focus used elsewhere
   focusNextInput = () => {

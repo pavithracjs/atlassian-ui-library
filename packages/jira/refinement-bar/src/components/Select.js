@@ -111,15 +111,19 @@ type State = {
 
 export class BaseSelect extends React.Component<*, State> {
   state = { inputValue: '' };
+
   selectRef = React.createRef();
+
   onInputChange = (inputValue: string) => {
     this.setState({ inputValue });
   };
+
   componentDidMount() {
     if (this.selectRef.current) {
       this.selectRef.current.select.openMenu('first');
     }
   }
+
   componentDidUpdate(p: *, s: State) {
     const diffInput = s.inputValue !== this.state.inputValue;
     const diffLoading = p.isLoading !== this.props.isLoading;
@@ -134,6 +138,7 @@ export class BaseSelect extends React.Component<*, State> {
       this.props.scheduleUpdate();
     }
   }
+
   handleInputChange = (inputValue: string, meta: Object) => {
     if (this.props.onInputChange) {
       this.props.onInputChange(inputValue, meta);
@@ -141,6 +146,7 @@ export class BaseSelect extends React.Component<*, State> {
 
     this.setState({ inputValue });
   };
+
   render() {
     return (
       <Select

@@ -33,6 +33,7 @@ export class RefinementBarProvider extends Component<ProviderProps, State> {
   static defaultProps = {
     irremovableKeys: [],
   };
+
   constructor(props: ProviderProps) {
     super(props);
     const { fieldConfig } = this.props;

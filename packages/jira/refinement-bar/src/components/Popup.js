@@ -59,13 +59,18 @@ const defaultPopperProps = {
 
 export default class Popup extends PureComponent<Props, State> {
   focusTrap: Object;
+
   dialogRef: ElementRef<*> = React.createRef();
+
   blanketRef: ElementRef<*> = React.createRef();
+
   openEvent: Event;
+
   state = {
     isOpen: this.props.isOpen !== undefined ? this.props.isOpen : false,
     popperProps: defaultPopperProps,
   };
+
   static getDerivedStateFromProps(p: Props, s: State) {
     const stateSlice = {};
     if (p.popperProps !== s.popperProps) {
@@ -76,13 +81,16 @@ export default class Popup extends PureComponent<Props, State> {
     }
     return null;
   }
+
   static defaultProps = {
     allowClose: true,
     popperProps: defaultPopperProps,
   };
+
   getProp = (key: string) => {
     return this.props[key] !== undefined ? this.props[key] : this.state[key];
   };
+
   callProp = (name: string, ...args: Array<any>): any => {
     if (typeof this.props[name] === 'function') {
       return this.props[name](...args);
@@ -102,6 +110,7 @@ export default class Popup extends PureComponent<Props, State> {
 
     window.addEventListener('keydown', this.handleKeyDown);
   };
+
   close = (event: Event) => {
     // the consumer needs this dialog to remain open, likely until an invalid
     // state is resolved

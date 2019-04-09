@@ -53,8 +53,11 @@ const defaultComponents = { ...selectComponents, Option };
 
 export default class SelectView extends PureComponent<*, *> {
   state = { components: {} };
+
   filterOptionFn: Object => boolean;
+
   options: Array<Object>;
+
   constructor(props: *) {
     super(props);
 
@@ -71,6 +74,7 @@ export default class SelectView extends PureComponent<*, *> {
     this.options = getOptions(storedValue, resolvedOptions);
     this.filterOptionFn = filterOptions(storedValue);
   }
+
   static getDerivedStateFromProps(p: *, s: *) {
     if (p.components !== s.components) {
       return { components: { ...defaultComponents, ...p.components } };
@@ -78,6 +82,7 @@ export default class SelectView extends PureComponent<*, *> {
 
     return null;
   }
+
   handleChange = (value: *) => {
     const { onChange } = this.props;
 
@@ -87,6 +92,7 @@ export default class SelectView extends PureComponent<*, *> {
       onChange(value);
     }
   };
+
   render() {
     const { onChange, storedValue, ...props } = this.props;
 

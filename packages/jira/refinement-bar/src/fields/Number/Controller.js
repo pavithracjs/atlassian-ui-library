@@ -28,6 +28,7 @@ export default class NumberController extends FieldController {
     super(config);
     this.validateValue = config.validateValue || this.defaultValidation;
   }
+
   formatButtonLabel = ({ type, value }: *) => {
     // $FlowFixMe
     const typeLabel = this.getFilterTypes().find(f => f.type === type).label;
@@ -52,6 +53,7 @@ export default class NumberController extends FieldController {
     if (type === 'is_not_set') return true;
 
     let bool = typeof value === 'number';
+
     if (isObject(value)) {
       Object.values(value).forEach(v => {
         bool = typeof v === 'number';
@@ -60,10 +62,12 @@ export default class NumberController extends FieldController {
 
     return bool;
   };
+
   getInitialValue = () => ({
     type: 'is',
     value: '',
   });
+
   getFilterTypes = () => [
     { type: 'is', label: 'is', hasInput: true },
     {
@@ -97,7 +101,9 @@ export default class NumberController extends FieldController {
 
     if (type === 'is_not_set') {
       return result;
-    } else if (isObject(value)) {
+    }
+
+    if (isObject(value)) {
       // make sure both values are present
       if (value.lt === undefined || value.gt === undefined) {
         return {

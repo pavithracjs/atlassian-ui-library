@@ -18,17 +18,25 @@ export default class FieldController {
       throw new Error(`"${this.key}" requires a label.`);
     }
   }
+
   validateValue: validateFnType;
+
   config: Object;
+
   key: string;
+
   label: string;
+
   note: string;
+
   type: string;
 
   hasValue = ({ value }: Object) => Boolean(value);
 
   getValue = (data: Object) => data[this.config.key] || '';
+
   getInitialValue: initialFnType = () => '';
+
   defaultValidation: validateFnType = () => ({
     message: null,
     isInvalid: false,

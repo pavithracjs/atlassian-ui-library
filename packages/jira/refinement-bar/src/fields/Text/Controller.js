@@ -9,6 +9,7 @@ export default class TextController extends FieldController {
 
     this.validateValue = config.validateValue || this.defaultValidation;
   }
+
   formatButtonLabel = ({ type, value }: *) => {
     const exact = type === 'is';
     const notset = type === 'is_not_set';
@@ -35,6 +36,7 @@ export default class TextController extends FieldController {
     type: 'contains',
     value: '',
   });
+
   getFilterTypes = () => [
     {
       type: 'contains',
@@ -61,7 +63,8 @@ export default class TextController extends FieldController {
 
     if (type === 'is_not_set') {
       return defaultReturn;
-    } else if (!value) {
+    }
+    if (!value) {
       return { message: 'Please provide some text.', isInvalid: true };
     }
 
