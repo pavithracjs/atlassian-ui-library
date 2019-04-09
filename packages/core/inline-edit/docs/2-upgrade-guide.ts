@@ -43,8 +43,8 @@ ${code`
         value={this.state.editValue || 'Click to enter value'}
       />
     }
-    onConfirm={() => console.log('onConfirm')}
-    onCancel={() => console.log('onCancel')}
+    onConfirm={this.onConfirm}
+    onCancel={this.onCancel}
   />
 `}
 
