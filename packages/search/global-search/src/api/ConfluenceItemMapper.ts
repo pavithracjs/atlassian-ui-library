@@ -30,8 +30,8 @@ function mapConfluenceItemToResultObject(
     contentType: `confluence-${item.content!.type}` as ContentType,
     resultType: ResultType.ConfluenceObjectResult,
     containerId:
-      item.content!.space && item.content!.space.id
-        ? item.content!.space.id
+      item.content!.space && item.content!.space!.id
+        ? item.content!.space!.id
         : 'UNAVAILABLE',
     iconClass: item.iconCssClass,
     experimentId: experimentId,
