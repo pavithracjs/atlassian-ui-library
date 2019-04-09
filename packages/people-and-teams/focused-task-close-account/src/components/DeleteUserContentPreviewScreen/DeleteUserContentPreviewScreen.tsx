@@ -47,6 +47,20 @@ export class DeleteUserContentPreviewScreen extends React.Component<
               )}
             />
           </Styled.Title>
+          <FormattedMessage
+            {...this.selectAdminOrSelfCopy(
+              contentPreviewMessages.paragraphSurveyAdmin,
+              contentPreviewMessages.paragraphSurveySelf,
+            )}
+            tagName={'p'}
+          />
+          <FormattedMessage
+            {...this.selectAdminOrSelfCopy(
+              contentPreviewMessages.lineSurveyAdmin,
+              contentPreviewMessages.lineSurveySelf,
+            )}
+            tagName={'p'}
+          />
           <Styled.SectionCard
             className="nameSectionCard"
             onClick={this.handleClickSection('Name', 1)}

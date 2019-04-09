@@ -502,11 +502,39 @@ export const contentPreviewMessages: ReactIntlMessages = defineMessages({
     description:
       'Heading for the screen that explains how users would prefer to be remembered',
   },
+  paragraphSurveyAdmin: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin',
+    defaultMessage:
+      'After the user’s account is deleted, they’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    description: 'First paragraph for the survey for admins',
+  },
+  paragraphSurveySelf: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.paragraph.survey.self',
+    defaultMessage:
+      'After your account is deleted, you’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    description: 'First paragraph for the survey for personal accounts',
+  },
+  lineSurveyAdmin: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.line.survey.admin',
+    defaultMessage:
+      'If we gave you a choice, how would you like the deleted user to appear to other users?',
+    description: 'Second paragraph for the survey for admins',
+  },
+  lineSurveySelf: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.line.survey.self',
+    defaultMessage:
+      'If we gave you a choice, how would you like to appear to other users?',
+    description: 'Second paragraph for the survey for personal accounts',
+  },
   footnoteAdmin: {
     id:
       'focused-task-close-account.delete-account.content-preview.footnote.admin',
     defaultMessage:
-      'Please note that this is a survey and the user would still be remembered as <b>Former User</b>',
+      'Note: Answering this survey will help us make a better experience for all users. The user will still appear as “Former user” after you delete their account.',
     description:
       'Note to admins that the users would still be saved as Former User',
   },
@@ -514,7 +542,7 @@ export const contentPreviewMessages: ReactIntlMessages = defineMessages({
     id:
       'focused-task-close-account.delete-account.content-preview.footnote.self',
     defaultMessage:
-      'Please note that this is a survey and you would still be remembered as <b>Former User</b>',
+      'Note: Answering this survey will help us make a better experience for all users, including those deleting their accounts. You’ll still appear as “Former user” after you delete your account.',
     description: 'Note to users that they would still be saved as Former User',
   },
 });
