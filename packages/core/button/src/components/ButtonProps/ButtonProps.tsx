@@ -6,5 +6,7 @@ import { OnlyButtonProps } from '../../types';
 // https://github.com/atlassian/extract-react-types/issues/59
 // @ts-ignore
 export default function(props: OnlyButtonProps) {
-  throw 'this component should never be rendered. It is for dev purposes only. Please use the default export from `@atlaskit/button`';
+  throw Error(
+    'this component should never be rendered. It is for dev purposes only. Please use the default export from `@atlaskit/button`',
+  );
 }
