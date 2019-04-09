@@ -2,6 +2,7 @@
 /* eslint import/no-extraneous-dependencies: 0 */
 const path = require('path');
 const webpack = require('webpack');
+const meow = require('meow');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const moduleResolveMapBuilder = require('@atlaskit/multi-entry-tools/module-resolve-map-builder');
@@ -9,6 +10,15 @@ const moduleResolveMapBuilder = require('@atlaskit/multi-entry-tools/module-reso
 const mode = process.env.NODE_ENV || 'development';
 
 const envPlugins = [];
+
+const cli = meow({
+  flags: {
+    sourceMap: {
+      type: 'boolean',
+      alias: 's',
+    },
+  },
+});
 
 if (mode === 'production') {
   envPlugins.push(
@@ -45,6 +55,8 @@ module.exports = async function createWebpackConfig() {
       filename: '[name].js',
       path: path.resolve(__dirname, 'dist/bundle'),
     },
+    devtool:
+      mode === 'development' || cli.flags.sourceMap ? 'source-map' : false,
     resolve: {
       mainFields: ['atlaskit:src', 'module', 'browser', 'main'],
       extensions: ['.js', '.ts', '.tsx'],
