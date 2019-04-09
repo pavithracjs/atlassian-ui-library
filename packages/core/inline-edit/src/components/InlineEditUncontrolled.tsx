@@ -256,18 +256,16 @@ class InlineEditUncontrolled extends React.Component<
                     }
                     onFocus={this.onWrapperFocus}
                   >
-                    <div>
-                      {validate && (
-                        <InlineDialog
-                          isOpen={fieldProps.isInvalid}
-                          content={<div id="error-message">{error}</div>}
-                          placement="right"
-                        >
-                          <InlineDialogChild />
-                        </InlineDialog>
-                      )}
-                      {this.props.editView(fieldProps)}
-                    </div>
+                    {validate && (
+                      <InlineDialog
+                        isOpen={fieldProps.isInvalid}
+                        content={<div id="error-message">{error}</div>}
+                        placement="right"
+                      >
+                        <InlineDialogChild />
+                      </InlineDialog>
+                    )}
+                    {this.props.editView(fieldProps)}
                     {!hideActionButtons ? (
                       this.renderActionButtons()
                     ) : (

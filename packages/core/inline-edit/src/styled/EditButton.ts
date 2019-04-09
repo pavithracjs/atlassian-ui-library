@@ -13,7 +13,7 @@ const EditButton = styled.button`
 
   &:focus + div {
     border: 2px solid ${colors.B100};
-    background: #fff;
+    background: ${colors.N0};
   }
 `;
 

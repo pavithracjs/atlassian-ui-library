@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, gridSize } from '@atlaskit/theme';
+import { colors, fontSize, gridSize } from '@atlaskit/theme';
 
 const gridSizeUnitless = gridSize();
 
@@ -11,7 +11,7 @@ const ButtonWrapper = styled.div`
     0 0 1px ${colors.N60A};
   box-sizing: border-box;
   width: ${gridSizeUnitless * 4}px;
-  font-size: 14px;
+  font-size: ${fontSize()}px;
   z-index: 200;
 
   &:last-child {
