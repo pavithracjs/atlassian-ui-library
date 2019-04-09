@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.11.0
+- [minor] [b81d427d5c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b81d427d5c):
+
+  - ED-5373: Refactor emoji plugin to use new type ahead
+
 ## 107.10.2
 - [patch] [55e47676aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55e47676aa):
 
