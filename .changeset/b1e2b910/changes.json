@@ -1,4 +1,4 @@
 {
-  "releases": [{ "name": "@atlaskit/banner", "type": "minor" }],
+  "releases": [{ "name": "@atlaskit/banner", "type": "major" }],
   "dependents": []
 }
