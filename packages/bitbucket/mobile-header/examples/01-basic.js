@@ -46,7 +46,7 @@ class MobileHeaderDemo extends Component<*, State> {
         {isHeaderOpen && (
           <MobileHeader
             drawerState={this.state.drawerState}
-            menuIconLabel={'Menu'}
+            menuIconLabel="Menu"
             navigation={isOpen => isOpen && <Navigation onResize={() => {}} />}
             secondaryContent={
               <ButtonGroup>

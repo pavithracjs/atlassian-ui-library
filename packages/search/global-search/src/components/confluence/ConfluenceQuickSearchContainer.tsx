@@ -244,7 +244,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     );
   };
 
-  getAbTestData = (sessionId: string): Promise<ABTest | undefined> => {
+  getAbTestData = (sessionId: string): Promise<ABTest> => {
     return this.props.crossProductSearchClient.getAbTestData(
       Scope.ConfluencePageBlog,
       {

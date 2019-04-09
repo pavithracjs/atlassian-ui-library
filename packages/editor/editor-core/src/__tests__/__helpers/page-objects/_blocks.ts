@@ -24,7 +24,7 @@ const blockMenuItemsSelectors = {
   [BlockMenuItem.codeSnippet]: `[aria-label="${
     messages.codeblock.defaultMessage
   }"]`,
-  [BlockMenuItem.panel]: `[aria-label="${messages.panel.defaultMessage}"]`,
+  [BlockMenuItem.panel]: `[aria-label="${messages.infoPanel.defaultMessage}"]`,
   [BlockMenuItem.decision]: `[aria-label="${
     insertBlockMessages.decision.defaultMessage
   }"]`,

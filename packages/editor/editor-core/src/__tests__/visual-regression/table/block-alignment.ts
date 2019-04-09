@@ -4,7 +4,7 @@ import {
   initFullPageEditorWithAdf,
   initCommentEditorWithAdf,
 } from '../_utils';
-import * as adf from './__fixtures__/table-with-blocks.adf.json';
+import adf from './__fixtures__/table-with-blocks.adf.json';
 import {
   setTableLayout,
   getSelectorForTableCell,

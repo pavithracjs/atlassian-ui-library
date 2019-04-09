@@ -3,7 +3,7 @@
 import { shallow, mount } from 'enzyme';
 import React from 'react';
 
-import ProgressTrackerLink from '../../../ProgressTrackerLink';
+import ProgressTrackerLink from '../..';
 import { Link } from '../../styled';
 
 const item = {

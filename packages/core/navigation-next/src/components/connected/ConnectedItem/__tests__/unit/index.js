@@ -3,7 +3,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import GoToItem from '../../../../connected/GoToItem';
+import GoToItem from '../../../GoToItem';
 import Item from '../../../../presentational/Item';
 import ConnectedItem from '../../index';
 

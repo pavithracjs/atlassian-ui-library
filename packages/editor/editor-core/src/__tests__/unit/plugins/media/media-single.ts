@@ -272,33 +272,6 @@ describe('media-single', () => {
         ),
       );
     });
-
-    it('should not set dimensions on media node if none defined', () => {
-      const { editorView } = editor(doc(p('text{<>}')));
-
-      insertMediaSingleNode(
-        editorView,
-        {
-          id: temporaryFileId,
-          status: 'preview',
-        },
-        testCollectionName,
-      );
-
-      expect(editorView.state.doc).toEqualDocument(
-        doc(
-          p('text'),
-          mediaSingle({ layout: 'center' })(
-            media({
-              id: temporaryFileId,
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-          p(),
-        ),
-      );
-    });
   });
 
   it('should be able to show mediaSingle without height or width', () => {

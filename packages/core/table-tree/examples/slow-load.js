@@ -18,6 +18,7 @@ export default class SlowLoad extends Component<
       });
     }, 3000);
   }
+
   render() {
     return (
       <TableTree>

@@ -1,10 +1,5 @@
 # @atlaskit/navigation-next
 
-## 5.1.4
-- [patch] [a768951c81](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a768951c81):
-
-  - Removing vr dep
-
 ## 5.1.3
 - [patch] [a28eb04426](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a28eb04426):
 

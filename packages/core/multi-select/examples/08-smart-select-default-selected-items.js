@@ -16,7 +16,7 @@ const selectItems: Array<GroupType> = [
   },
 ];
 
-const items = selectItems[0].items;
+const { items } = selectItems[0];
 const defaultSelected = [items[0], items[1]];
 
 export default () => (

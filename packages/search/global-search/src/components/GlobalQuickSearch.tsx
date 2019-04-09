@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import * as debounce from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 import { QuickSearch } from '@atlaskit/quick-search';
 import { LinkComponent } from './GlobalQuickSearchWrapper';
 import {

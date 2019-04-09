@@ -15,6 +15,7 @@ export default class Spacer extends PureComponent<Props> {
     shouldAnimate: false,
     width: 0,
   };
+
   render() {
     const {
       children,

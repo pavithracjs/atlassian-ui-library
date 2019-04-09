@@ -99,8 +99,8 @@ export default class extends Component<*, *> {
           items={this.state.roots}
           render={({ title, numbering, page, hasChildren, children }) => (
             <Row
-              expandLabel={'Expand'}
-              collapseLabel={'Collapse'}
+              expandLabel="Expand"
+              collapseLabel="Collapse"
               itemId={numbering}
               onExpand={this.loadChildren}
               items={children}

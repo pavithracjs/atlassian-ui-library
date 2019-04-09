@@ -149,6 +149,15 @@ export function canMoveDown(state: EditorState): boolean {
   return !atTheEndOfDoc(state);
 }
 
+export function isSelectionInsideLastNodeInDocument(
+  selection: Selection,
+): boolean {
+  const docNode = selection.$anchor.node(0);
+  const rootNode = selection.$anchor.node(1);
+
+  return docNode.lastChild === rootNode;
+}
+
 export function atTheEndOfDoc(state: EditorState): boolean {
   const { selection, doc } = state;
   return doc.nodeSize - selection.$to.pos - 2 === selection.$to.depth;
@@ -692,7 +701,7 @@ export const isEmptyNode = (schema: Schema) => {
     mediaGroup,
     mediaSingle,
   } = schema.nodes;
-  const innerIsEmptyNode = (node: Node): any => {
+  const innerIsEmptyNode = (node: Node): boolean => {
     switch (node.type) {
       case media:
       case mediaGroup:

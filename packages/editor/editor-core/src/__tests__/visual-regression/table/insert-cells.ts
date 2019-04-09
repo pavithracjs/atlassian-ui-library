@@ -1,5 +1,5 @@
 import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
-import * as adf from './__fixtures__/default-table.adf.json';
+import adf from './__fixtures__/default-table.adf.json';
 import {
   insertRow,
   insertColumn,

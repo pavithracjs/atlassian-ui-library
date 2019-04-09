@@ -41,6 +41,7 @@ class SpotlightCard extends React.Component<Props> {
     components: {},
     theme: x => x(),
   };
+
   render() {
     const {
       actions,

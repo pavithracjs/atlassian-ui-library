@@ -7,7 +7,9 @@ type State = { isActive: boolean };
 
 export default class ScrollLockExample extends Component<Props, State> {
   state: State = { isActive: false };
+
   toggleLock = () => this.setState(state => ({ isActive: !state.isActive }));
+
   render() {
     const { isActive } = this.state;
     const id = 'scroll-lock-example-checkbox';

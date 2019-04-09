@@ -1,12 +1,83 @@
-import { EditorState, Selection, TextSelection } from 'prosemirror-state';
+import {
+  EditorState,
+  Selection,
+  TextSelection,
+  NodeSelection,
+} from 'prosemirror-state';
 import { removeNodeBefore } from 'prosemirror-utils';
 import { findDomRefAtPos } from 'prosemirror-utils';
 import { Direction, isBackward, isForward } from './direction';
 import { GapCursorSelection, Side } from './selection';
-import { isTextBlockNearPos, isValidTargetNode } from './utils';
+import {
+  isTextBlockNearPos,
+  isValidTargetNode,
+  getMediaNearPos,
+} from './utils';
 import { Command } from '../../types';
 import { atTheBeginningOfDoc, atTheEndOfDoc, ZWSP } from '../../utils';
 import { pluginKey } from './pm-plugins/main';
+
+type MapDirection = { [name in Direction]: number };
+const mapDirection: MapDirection = {
+  [Direction.LEFT]: -1,
+  [Direction.RIGHT]: 1,
+  [Direction.UP]: -1,
+  [Direction.DOWN]: 1,
+  [Direction.BACKWARD]: -1,
+  [Direction.FORWARD]: 1,
+};
+
+function shouldHandleMediaGapCursor(
+  dir: Direction,
+  state: EditorState,
+): boolean {
+  const { doc, schema, selection } = state;
+  let $pos = isBackward(dir) ? selection.$from : selection.$to;
+
+  if (selection instanceof TextSelection) {
+    // Should not use gap cursor if I am moving from a text selection into a media node
+    if (
+      (dir === Direction.UP && !atTheBeginningOfDoc(state)) ||
+      (dir === Direction.DOWN && !atTheEndOfDoc(state))
+    ) {
+      const media = getMediaNearPos(doc, $pos, schema, mapDirection[dir]);
+      if (media) {
+        return false;
+      }
+    }
+
+    // Should not use gap cursor if I am moving from a text selection into a media node with layout wrap-right or wrap-left
+    if (dir === Direction.LEFT || dir === Direction.RIGHT) {
+      const media = getMediaNearPos(doc, $pos, schema, mapDirection[dir]);
+      const { mediaSingle } = schema.nodes;
+      if (
+        media &&
+        media.type === mediaSingle &&
+        (media.attrs.layout === 'wrap-right' ||
+          media.attrs.layout === 'wrap-left')
+      ) {
+        return false;
+      }
+    }
+  }
+
+  if (selection instanceof NodeSelection) {
+    // Should not use gap cursor if I am moving left/right from media node with layout wrap right or wrap-left
+    if (dir === Direction.LEFT || dir === Direction.RIGHT) {
+      const maybeMedia = doc.nodeAt(selection.$from.pos);
+      const { mediaSingle } = schema.nodes;
+      if (
+        maybeMedia &&
+        maybeMedia.type === mediaSingle &&
+        (maybeMedia.attrs.layout === 'wrap-right' ||
+          maybeMedia.attrs.layout === 'wrap-left')
+      ) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
 
 export const arrow = (
   dir: Direction,
@@ -34,10 +105,20 @@ export const arrow = (
     ) {
       return false;
     }
-
     // otherwise resolve previous/next position
     $pos = doc.resolve(isBackward(dir) ? $pos.before() : $pos.after());
     mustMove = false;
+  }
+
+  if (selection instanceof NodeSelection) {
+    if (dir === Direction.UP || dir === Direction.DOWN) {
+      // We dont add gap cursor on node selections going up and down
+      return false;
+    }
+  }
+
+  if (!shouldHandleMediaGapCursor(dir, state)) {
+    return false;
   }
 
   // when jumping between block nodes at the same depth, we need to reverse cursor without changing ProseMirror position

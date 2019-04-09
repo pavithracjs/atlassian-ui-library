@@ -1,6 +1,6 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
-import * as cases from 'jest-in-case';
+import cases from 'jest-in-case';
 import Spinner from '@atlaskit/spinner';
 import * as renderer from 'react-test-renderer';
 import serializer, { matchers } from 'jest-emotion';

@@ -14,7 +14,7 @@ import {
   emoji,
   taskDecision,
 } from '@atlaskit/util-data-test';
-import { AkProfileClient, modifyResponse } from '@atlaskit/profilecard';
+import { ProfileClient, modifyResponse } from '@atlaskit/profilecard';
 import { Context } from '../src/parser/tokenize';
 
 const Container = styled.div`
@@ -45,7 +45,7 @@ const Container = styled.div`
 
 const { getMockProfileClient: getMockProfileClientUtil } = profilecardUtils;
 const MockProfileClient = getMockProfileClientUtil(
-  AkProfileClient,
+  ProfileClient,
   modifyResponse,
 );
 
