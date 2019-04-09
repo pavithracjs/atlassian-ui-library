@@ -163,6 +163,7 @@ export default function withNavigation(
                   context={context}
                   referralContextIdentifiers={{
                     currentContentId: '123',
+                    currentContainerId: '456',
                     searchReferrerId: '123',
                   }}
                   logger={DEVELOPMENT_LOGGER}

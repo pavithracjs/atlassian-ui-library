@@ -31,6 +31,7 @@ export type Logger = {
 export type ReferralContextIdentifiers = {
   searchReferrerId: string;
   currentContentId: string;
+  currentContainerId?: string;
 };
 
 export type AdvancedSearchEvent = {

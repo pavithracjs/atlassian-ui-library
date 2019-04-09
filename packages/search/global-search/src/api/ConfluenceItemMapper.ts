@@ -29,7 +29,10 @@ function mapConfluenceItemToResultObject(
     analyticsType: AnalyticsType.ResultConfluence,
     contentType: `confluence-${item.content!.type}` as ContentType,
     resultType: ResultType.ConfluenceObjectResult,
-    containerId: item.space && item.space.id ? item.space.id : 'UNAVAILABLE',
+    containerId:
+      item.content!.space && item.content!.space.id
+        ? item.content!.space.id
+        : 'UNAVAILABLE',
     iconClass: item.iconCssClass,
     experimentId: experimentId,
   };
