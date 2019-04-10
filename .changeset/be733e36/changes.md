@@ -1,1 +1,0 @@
-- Importing theme components from the root theme package instead of the theme build file

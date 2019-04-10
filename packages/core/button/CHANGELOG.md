@@ -1,5 +1,10 @@
 # @atlaskit/button
 
+## 11.0.10
+- [patch] [5e3ad7f751](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e3ad7f751):
+
+  - Importing theme components from the root theme package instead of the theme build file
+
 ## 11.0.9
 - [patch] [872b3b905a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/872b3b905a):
 
