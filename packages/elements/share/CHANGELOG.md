@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.3.4
+- [patch] [0f4109e919](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f4109e919):
+
+  - FS-3743 remove loading message from user picker
+
 ## 0.3.3
 - [patch] [66512e9026](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66512e9026):
 

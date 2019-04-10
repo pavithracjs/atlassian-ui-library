@@ -56,6 +56,11 @@ export interface ConfluenceResultsMap extends GenericResultMap {
   spaces: Result[];
 }
 
+export interface ConfluenceRecentsMap extends GenericResultMap {
+  objects: Result[];
+  spaces: Result[];
+}
+
 export interface JiraResultsMap extends GenericResultMap {
   issues: Result[];
   boards: Result[];

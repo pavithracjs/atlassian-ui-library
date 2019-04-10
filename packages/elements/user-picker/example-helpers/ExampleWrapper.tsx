@@ -1,5 +1,6 @@
 import { AnalyticsViewerContainer } from '@atlaskit/analytics-viewer';
 import * as React from 'react';
+import { IntlProvider } from 'react-intl';
 import {
   assignToMe,
   exampleOptions,
@@ -7,7 +8,6 @@ import {
   unassigned,
 } from '../example-helpers';
 import { LoadOptions, OnInputChange, OptionData } from '../src/types';
-import { IntlProvider } from 'react-intl';
 
 type ChildrenProps = {
   loadUsers: LoadOptions;
@@ -49,9 +49,7 @@ export class ExampleWrapper extends React.PureComponent<
   private onInputChange = (searchText?: string) => {
     this.setState({
       options:
-        searchText && searchText.length > 0
-          ? filterUsers(searchText)
-          : exampleOptions,
+        searchText && searchText.length > 0 ? filterUsers(searchText) : [],
     });
   };
 

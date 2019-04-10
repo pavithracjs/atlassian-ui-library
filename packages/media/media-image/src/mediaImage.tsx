@@ -53,7 +53,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
     identifier: newIdentifier,
     ...otherNewProps
   }: MediaImageProps) {
-    const { apiConfig = {}, identifier } = this.props;
+    const { apiConfig = {}, identifier, context } = this.props;
     const isWidthBigger =
       newApiConfig.width &&
       apiConfig.width &&
@@ -67,7 +67,8 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
 
     if (
       (!!newIdentifier && isDifferentIdentifier(newIdentifier, identifier)) ||
-      isNewDimensionsBigger
+      isNewDimensionsBigger ||
+      otherNewProps.context !== context
     ) {
       this.subscribe({
         identifier: newIdentifier,

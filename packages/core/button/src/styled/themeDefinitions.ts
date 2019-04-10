@@ -1,4 +1,4 @@
-import { themed } from '@atlaskit/theme/components';
+import { themed } from '@atlaskit/theme';
 import * as colors from '@atlaskit/theme/colors';
 
 /**

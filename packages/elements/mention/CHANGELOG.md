@@ -1,5 +1,10 @@
 # @atlaskit/mention
 
+## 17.6.5
+- [patch] [ddb3238b1c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ddb3238b1c):
+
+  - TEAMS-396 : Changing byline logic for mention
+
 ## 17.6.4
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 
