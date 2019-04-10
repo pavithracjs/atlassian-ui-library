@@ -144,9 +144,17 @@ function addCodeMark(
         return null;
       }
     }
+
+    let tr = state.tr;
+    // checks if a selection exists and needs to be removed
+    if (state.selection.from !== state.selection.to) {
+      tr.delete(state.selection.from, state.selection.to);
+      end -= state.selection.to - state.selection.from;
+    }
+
     analyticsService.trackEvent('atlassian.editor.format.code.autoformatting');
     const regexStart = end - match[2].length + 1;
-    const tr = transformToCodeAction(regexStart, end, state.tr)
+    transformToCodeAction(regexStart, end, tr)
       .delete(regexStart, regexStart + specialChar.length)
       .removeStoredMark(markType);
     return tr;
