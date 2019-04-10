@@ -1,0 +1,1 @@
+- Internal changes only. Component is now SSR compatible. If server side rendered, Avatar Images will begin to load immediately; before client bundle is ready. If this is undesired, `imageUrl` can be passed in after component is mounted.
