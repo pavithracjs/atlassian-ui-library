@@ -1,4 +1,4 @@
-import { DecorationSet, Decoration } from 'prosemirror-view';
+import { DecorationSet, Decoration, EditorView } from 'prosemirror-view';
 import {
   EditorState,
   Plugin,
@@ -54,7 +54,11 @@ export class SelectionChange {
   }
 }
 
-const createPlugin: PMPluginFactory = ({ dispatch, portalProviderAPI }) =>
+const createPlugin: PMPluginFactory = ({
+  dispatch,
+  portalProviderAPI,
+  props: { appearance },
+}) =>
   new Plugin({
     state: {
       init: () => ({
@@ -148,7 +152,7 @@ const createPlugin: PMPluginFactory = ({ dispatch, portalProviderAPI }) =>
     key: pluginKey,
     props: {
       nodeViews: {
-        status: ReactNodeView.fromComponent(StatusNodeView, portalProviderAPI),
+        status: statusNodeView(portalProviderAPI, appearance),
       },
       decorations(state: EditorState) {
         const { tr } = state;
