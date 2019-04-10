@@ -15,6 +15,7 @@ const ReadViewContentWrapper = styled.div<Props>`
   }
   width: ${({ readViewFitContainerWidth }) =>
     readViewFitContainerWidth ? '100%' : 'auto'};
+  transition: background 0.2s;
 `;
 
 ReadViewContentWrapper.displayName = 'ReadViewContentWrapper';

@@ -13,14 +13,15 @@ const EditView = styled.input`
   font-size: inherit;
   font-weight: inherit;
   box-sizing: border-box;
-  border: 2px solid transparent;
+  border: 2px solid ${colors.N40};
   border-radius: 3px;
   padding: 8px 8px;
   outline: none;
   width: 100%;
+  transition: border 0.4s;
 
   :focus {
-    border: 2px solid ${colors.B100};
+    border-color: ${colors.B100};
   }
 `;
 
