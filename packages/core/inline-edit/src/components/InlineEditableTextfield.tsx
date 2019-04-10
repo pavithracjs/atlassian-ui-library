@@ -34,17 +34,18 @@ class InlineEditableTextfield extends React.Component<
       <InlineEdit
         {...this.props}
         defaultValue={defaultValue}
-        editView={editViewProps => (
+        editView={({ ref, isInvalid, ...rest }) => (
           <Textfield
-            {...editViewProps}
+            {...rest}
             elemAfterInput={
-              editViewProps.isInvalid && (
+              isInvalid && (
                 <ErrorIconContainer>
                   <ErrorIcon label="error" primaryColor={colors.R400} />
                 </ErrorIconContainer>
               )
             }
             isCompact={isCompact}
+            autoFocus
           />
         )}
         readView={() => (
