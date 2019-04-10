@@ -74,6 +74,21 @@ const loadUserOptions = (searchText?: string): OptionData[] => {
     });
 };
 
+const dialogPlacementOptions = [
+  { label: 'bottom-end', value: 'bottom-end' },
+  { label: 'bottom', value: 'bottom' },
+  { label: 'bottom-start', value: 'bottom-start' },
+  { label: 'top-start', value: 'top-start' },
+  { label: 'top', value: 'top' },
+  { label: 'top-end', value: 'top-end' },
+  { label: 'right-start', value: 'right-start' },
+  { label: 'right', value: 'right' },
+  { label: 'right-end', value: 'right-end' },
+  { label: 'left-start', value: 'left-start' },
+  { label: 'left', value: 'left' },
+  { label: 'left-end', value: 'left-end' },
+];
+
 const modeOptions = [
   { label: 'Existing users only', value: 'EXISTING_USERS_ONLY' },
   { label: 'Invite needs approval', value: 'INVITE_NEEDS_APPROVAL' },
@@ -98,12 +113,20 @@ const triggerButtonStyleOptions = [
   { label: 'icon-with-text', value: 'icon-with-text' },
 ];
 
+type ExampleState = {
+  customTitle: boolean;
+  escapeOnKeyPress: boolean;
+};
+
 type State = ConfigResponse & Partial<ShareDialogContainerProps>;
 
 export default class Example extends React.Component<{}, State> {
   state: State = {
     allowComment: true,
     allowedDomains: ['atlassian.com'],
+    customTitle: false,
+    dialogPlacement: dialogPlacementOptions[0].value as 'bottom-end',
+    escapeOnKeyPress: true,
     mode: modeOptions[0].value as ConfigResponseMode,
     triggerButtonAppearance: triggerButtonAppearanceOptions[0]
       .value as 'subtle',
@@ -139,6 +162,9 @@ export default class Example extends React.Component<{}, State> {
     const {
       allowComment,
       allowedDomains,
+      customTitle,
+      dialogPlacement,
+      escapeOnKeyPress,
       mode,
       triggerButtonAppearance,
       triggerButtonStyle,
@@ -156,13 +182,16 @@ export default class Example extends React.Component<{}, State> {
                   key={`key-${this.key}`}
                   client={this.client}
                   cloudId="12345-12345-12345-12345"
+                  dialogPlacement={dialogPlacement}
                   loadUserOptions={loadUserOptions}
                   originTracingFactory={() => mockOriginTracing}
                   productId="confluence"
                   shareAri="ari"
                   shareContentType="issue"
+                  shareFormTitle={customTitle ? 'Custom Title' : undefined}
                   shareLink={window.location.href}
                   shareTitle="My Share"
+                  shouldCloseOnEscapePress={escapeOnKeyPress}
                   showFlags={showFlags}
                   triggerButtonAppearance={triggerButtonAppearance}
                   triggerButtonStyle={triggerButtonStyle}
@@ -181,6 +210,36 @@ export default class Example extends React.Component<{}, State> {
                 </WrapperWithMarginTop>
                 <WrapperWithMarginTop>
                   Allowed domains: {allowedDomains && allowedDomains.join(', ')}
+                </WrapperWithMarginTop>
+                <WrapperWithMarginTop>
+                  Close Share Dialog on escape key press
+                  <Toggle
+                    isChecked={escapeOnKeyPress}
+                    onChange={() =>
+                      this.setState({ escapeOnKeyPress: !escapeOnKeyPress })
+                    }
+                  />
+                </WrapperWithMarginTop>
+                <WrapperWithMarginTop>
+                  Custom Share Dialog Title
+                  <Toggle
+                    isChecked={customTitle}
+                    onChange={() =>
+                      this.setState({ customTitle: !customTitle })
+                    }
+                  />
+                </WrapperWithMarginTop>
+                <WrapperWithMarginTop>
+                  Dialog Placement
+                  <Select
+                    value={dialogPlacementOptions.find(
+                      option => option.value === dialogPlacement,
+                    )}
+                    options={dialogPlacementOptions}
+                    onChange={(option: any) =>
+                      this.setState({ dialogPlacement: option.value })
+                    }
+                  />
                 </WrapperWithMarginTop>
                 <WrapperWithMarginTop>
                   Share Configs
