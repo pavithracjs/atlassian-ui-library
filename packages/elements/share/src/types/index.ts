@@ -14,6 +14,7 @@ export {
   ShareContentState,
   ShareError,
 } from './ShareContentState';
+export { RenderCustomTriggerButton } from './ShareDialogWithTrigger';
 export { Comment, Content, MetaData } from './ShareEntities';
 export { User, UserWithEmail, UserWithId } from './User';
 

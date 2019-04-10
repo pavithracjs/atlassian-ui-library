@@ -19,6 +19,7 @@ import {
   Flag,
   OriginTracing,
   ShareButtonStyle,
+  RenderCustomTriggerButton,
   ADMIN_NOTIFIED,
   OBJECT_SHARED,
 } from '../types';
@@ -31,10 +32,6 @@ import {
 } from './analytics';
 import { ShareButton } from './ShareButton';
 import { ShareForm } from './ShareForm';
-
-type RenderChildren = (
-  args: { onClick: () => void; loading?: boolean; error?: ShareError },
-) => React.ReactNode;
 
 type DialogState = {
   isDialogOpen: boolean;
@@ -52,7 +49,7 @@ type ShareError = {
 
 export type Props = {
   config?: ConfigResponse;
-  children?: RenderChildren;
+  children?: RenderCustomTriggerButton;
   copyLink: string;
   dialogPlacement?: string;
   isDisabled?: boolean;

@@ -22,21 +22,37 @@ import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
 import { optionDataToUsers } from './utils';
 
 export type Props = {
+  /** Share service client implementation that gets share configs and performs share */
   client?: ShareClient;
+  /** Cloud ID of the instance */
   cloudId: string;
+  /** Placement of the modal to the trigger button */
   dialogPlacement?: string;
+  /** Transform function to provide custom formatted copy link, a default memorized function is provided */
   formatCopyLink: (origin: OriginTracing, link: string) => string;
+  /** Function used to load users options asynchronously */
   loadUserOptions: LoadOptions;
+  /** Factory function to generate new Origin Tracing instance */
   originTracingFactory: OriginTracingFactory;
+  /** Product ID of the share */
   productId: string;
+  /** Atlassian Resource Identifier of the resource to be shared */
   shareAri: string;
+  /** Content Type of the resource to be shared */
   shareContentType: string;
+  /** Link of the resource to be shared */
   shareLink: string;
+  /** Title of the resource to be shared that will been seen in the notifications */
   shareTitle: string;
+  /** Title of the share modal */
   shareFormTitle?: React.ReactNode;
+  /** To enable closing the modal on escape key press */
   shouldCloseOnEscapePress?: boolean;
+  /** Callback function for showing successful share flag(s) with a parameter providing details of the flag, including the type of the message with a localized default title */
   showFlags: (flags: Array<Flag>) => void;
+  /** Appearance of the share modal trigger button  */
   triggerButtonAppearance?: ButtonAppearances;
+  /** Style of the share modal trigger button */
   triggerButtonStyle?: ShareButtonStyle;
 };
 
