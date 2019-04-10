@@ -34,6 +34,7 @@ export default class OnboardingModal extends Component<Props> {
 
     return HeaderElement || ImageElement;
   };
+
   footerComponent = (props: Props) => {
     const { footer: FooterElement, actions: actionList } = props;
 

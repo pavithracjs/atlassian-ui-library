@@ -48,8 +48,8 @@ export default function withDimensions<WrappedComponentProps: {}>(
 
       const clientRect = this.ref.getBoundingClientRect();
 
-      const width = clientRect.width;
-      const height = clientRect.height;
+      const { width } = clientRect;
+      const { height } = clientRect;
 
       if (width !== this.state.refWidth || height !== this.state.refHeight) {
         this.setState({ refWidth: width, refHeight: height });

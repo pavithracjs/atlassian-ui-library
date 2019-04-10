@@ -19,6 +19,7 @@ class SetActiveViewBase extends Component<{
       navigationViewController.setView(id);
     }
   }
+
   render() {
     return null;
   }

@@ -1,5 +1,4 @@
 import { colors, themed } from '@atlaskit/theme';
-
 /**
  * Convert a hex colour code to RGBA.
  * @param {String} hex Hex colour code.

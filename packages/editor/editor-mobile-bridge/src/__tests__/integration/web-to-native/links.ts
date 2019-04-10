@@ -70,7 +70,7 @@ BrowserTestCase(
       browser,
       'onLinkUpdate',
       'Atlassian',
-      'https://www.atlassian.com',
+      'https://www.google.com',
     );
     await browser.type(editable, ['ArrowLeft']);
 
@@ -96,7 +96,7 @@ BrowserTestCase(
       browser,
       'onLinkUpdate',
       'Atlassian',
-      'https://www.atlassian.com',
+      'https://www.google.com',
     );
 
     await browser.type(editable, [
@@ -128,7 +128,7 @@ BrowserTestCase(
       browser,
       'onLinkUpdate',
       'link',
-      'https://www.atlassian.com',
+      'https://www.google.com',
     );
 
     await browser.type(editable, [

@@ -66,7 +66,7 @@ export default function panel({ attrs, text }: NodeSerializerOpts) {
   const outerTdCss = {
     ...commonStyle,
     'border-radius': '3px',
-    padding: '8px 8px 8px 0px',
+    padding: '8px 0px 8px 0px',
     '-webkit-border-radius': '3px',
     '-moz-border-radius': '3px',
     margin: '0px',

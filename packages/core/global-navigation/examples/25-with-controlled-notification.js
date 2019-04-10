@@ -52,6 +52,7 @@ class Global extends Component<GlobalProps, GlobalState> {
       setTimeout(this.updateIframeUrl, 350),
     );
   };
+
   closeNotificationDrawer = () => {
     this.setState({ isNotificationDrawerOpen: false }, () =>
       setTimeout(this.props.resetNotificationCount, 350),

@@ -887,6 +887,10 @@
         "../../core/theme/src/index",
         "./packages/core/theme/src/index"
       ],
+      "@atlaskit/theme/math": [
+        "../../core/theme/src/math",
+        "./packages/core/theme/src/math"
+      ],
       "@atlaskit/theme/types": [
         "../../core/theme/src/types",
         "./packages/core/theme/src/types"

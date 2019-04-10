@@ -34,7 +34,7 @@ class StatefulSpinner extends PureComponent<{}, State> {
     this.setState({ delay: Number.parseInt(e.target.value, 10) });
   };
 
-  /* eslint-disable jsx-a11y/no-static-element-interactions */
+  /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
   render() {
     const containerStyles = {
       display: 'inline-flex',

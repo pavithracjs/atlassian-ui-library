@@ -21,16 +21,10 @@ import {
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import { CreateAnalyticsEventFn } from '../analytics/types';
 import { objectValues } from '../SearchResultsUtil';
-import { ABTest } from '../../api/CrossProductSearchClient';
+import { ABTest, DEFAULT_AB_TEST } from '../../api/CrossProductSearchClient';
 
 const resultMapToArray = (results: GenericResultMap): Result[][] =>
   objectValues(results).reduce((acc: Result[][], value) => [...acc, value], []);
-
-const DEFAULT_AB_TEST: ABTest = Object.freeze({
-  experimentId: 'default',
-  abTestId: 'default',
-  controlId: 'default',
-});
 
 export interface SearchResultProps extends State {
   retrySearch: () => void;
@@ -46,7 +40,7 @@ export interface Props {
     sessionId: string,
     startTime: number,
   ): Promise<ResultsWithTiming>;
-  getAbTestData(sessionId: string): Promise<ABTest | undefined>;
+  getAbTestData(sessionId: string): Promise<ABTest>;
 
   /**
    * return displayed groups from result groups
@@ -187,9 +181,9 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     const { getAbTestData } = this.props;
     const startTime = performanceNow();
 
-    let abTest;
+    let abTest: ABTest;
     try {
-      abTest = (await getAbTestData(searchSessionId)) || DEFAULT_AB_TEST;
+      abTest = await getAbTestData(searchSessionId);
     } catch (error) {
       abTest = DEFAULT_AB_TEST;
     }
@@ -208,7 +202,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
 
   fireExperimentExposureEvent = async (
     searchSessionId: string,
-    abTestPromise: Promise<ABTest | undefined>,
+    abTestPromise: Promise<ABTest>,
   ) => {
     const { createAnalyticsEvent, logger } = this.props;
 

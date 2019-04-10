@@ -62,30 +62,6 @@ describe('validate attrs', () => {
       jest.resetAllMocks();
     });
 
-    describe('when attribute is null', () => {
-      it('should keep null value for the entity', () => {
-        const cb = () => undefined;
-        const badEntity = {
-          type: 'fakeParagraph',
-          attrs: {
-            defaultMarks: null,
-          },
-        };
-
-        const run = () => {
-          return validate(badEntity, cb);
-        };
-
-        const result = run();
-        expect(result.entity).toEqual({
-          type: 'fakeParagraph',
-          attrs: {
-            defaultMarks: null,
-          },
-        });
-      });
-    });
-
     it('should validate content with multiple marks when multiple marks are allowed', () => {
       const run = () => {
         validate({

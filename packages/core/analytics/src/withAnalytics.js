@@ -38,6 +38,7 @@ const withAnalytics = (
 ) =>
   class WithAnalytics extends Component<AnalyticsProps, {}> {
     props: AnalyticsProps;
+
     static displayName = `WithAnalytics(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 

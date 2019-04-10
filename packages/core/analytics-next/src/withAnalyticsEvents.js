@@ -45,6 +45,7 @@ class AnalyticsContextConsumer extends Component<{
     getAtlaskitAnalyticsEventHandlers: PropTypes.func,
     getAtlaskitAnalyticsContext: PropTypes.func,
   };
+
   createAnalyticsEvent = (payload: AnalyticsEventPayload): UIAnalyticsEvent => {
     const {
       getAtlaskitAnalyticsEventHandlers,
@@ -60,6 +61,7 @@ class AnalyticsContextConsumer extends Component<{
       [];
     return new UIAnalyticsEvent({ context, handlers, payload });
   };
+
   render() {
     return this.props.children(this.createAnalyticsEvent);
   }

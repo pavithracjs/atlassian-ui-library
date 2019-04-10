@@ -13,6 +13,7 @@ type Props = {
 
 export default class DropdownItemClickManager extends Component<Props> {
   static childContextTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     [clickManagerContext]: PropTypes.object,
   };
 

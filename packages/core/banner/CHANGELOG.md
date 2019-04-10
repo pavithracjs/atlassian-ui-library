@@ -1,5 +1,10 @@
 # @atlaskit/banner
 
+## 9.0.0
+- [major] [1433f91820](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1433f91820):
+
+  - Banner has been internally converted to TypeScript. Typescript consumers will get static type safety. No API or behaviour changes. Flow Support has been dropped.
+
 ## 8.0.2
 - [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
 

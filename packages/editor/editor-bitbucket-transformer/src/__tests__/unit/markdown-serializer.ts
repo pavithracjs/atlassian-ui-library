@@ -17,7 +17,6 @@ import {
   img,
   li,
   emoji,
-  emojiQuery,
   mention,
   code,
   ol,
@@ -758,14 +757,6 @@ describe('BitbucketTransformer: serializer', () => {
           doc(p(typeAheadQuery({ trigger: '@' })('@oscar')))(defaultSchema),
         ),
       ).toEqual('@oscar');
-    });
-
-    it('should ignore emojiQuery mark', () => {
-      expect(
-        markdownSerializer.serialize(
-          doc(p(emojiQuery(':grin')))(defaultSchema),
-        ),
-      ).toEqual(':grin');
     });
 
     it('should serialize em', () => {

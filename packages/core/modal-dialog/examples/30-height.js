@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Lorem from 'react-lorem-component';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import ModalDialog, { ModalTransition } from '../src';
@@ -14,8 +14,11 @@ type State = { isOpen: any };
 
 export default class ModalDemo extends Component<{}, State> {
   state = { isOpen: null };
+
   close = (isOpen: any) => this.setState({ isOpen });
+
   open = (isOpen: any) => this.setState({ isOpen });
+
   secondaryAction = ({ target }: Object) => console.log(target.innerText);
 
   render() {

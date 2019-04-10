@@ -29,7 +29,7 @@ test('default parseValue, does not parse the date time value into the specified 
   const dateTimePickerWrapper = shallow(
     <DateTimePicker
       id="datetimepicker-1"
-      value={'2018-05-02T08:00:00.000+0800'}
+      value="2018-05-02T08:00:00.000+0800"
     />,
   );
 

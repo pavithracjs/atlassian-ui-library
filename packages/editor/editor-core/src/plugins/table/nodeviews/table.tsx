@@ -222,12 +222,17 @@ export default class TableView extends ReactNodeView {
 }
 
 export const createTableView = (
+  node: PmNode,
+  view: EditorView,
+  getPos: getPosHandler,
   portalProviderAPI: PortalProviderAPI,
-  options?: { dynamicTextSizing?: boolean; isBreakoutEnabled?: boolean },
-) => (node: PmNode, view: EditorView, getPos: getPosHandler): NodeView => {
+  options: {
+    isBreakoutEnabled?: boolean;
+    dynamicTextSizing?: boolean;
+  },
+): NodeView => {
   const { pluginConfig } = getPluginState(view.state);
   const { allowColumnResizing } = getPluginConfig(pluginConfig);
-
   return new TableView({
     node,
     view,
