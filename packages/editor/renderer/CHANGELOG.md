@@ -1,5 +1,15 @@
 # @atlaskit/renderer
 
+## 45.4.2
+- [patch] [c01f9e1cc7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c01f9e1cc7):
+
+  - Standardise code-block class between editor/renderer. Fix bg color when code-block is nested within a table heading.
+
+## 45.4.1
+- [patch] [55e47676aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55e47676aa):
+
+  - revert update status code splits in Renderer/Editor which causes component dist to be broken
+
 ## 45.4.0
 - [minor] [969915d261](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/969915d261):
 

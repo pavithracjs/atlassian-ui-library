@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.3.1
+- [patch] [55e47676aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55e47676aa):
+
+  - revert update status code splits in Renderer/Editor which causes component dist to be broken
+
 ## 7.3.0
 - [minor] [db29d1eca9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/db29d1eca9):
 
