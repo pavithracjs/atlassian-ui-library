@@ -31,12 +31,16 @@ type Props = {
 /* eslint-disable react/sort-comp */
 export default class FocusLock extends Component<Props> {
   ariaHiddenNode: HTMLElement;
+
   initFromProps: boolean = false;
+
   teardownFromProps: boolean = false;
+
   static contextTypes = {
     /** available when invoked within @atlaskit/layer-manager */
     ariaHiddenNode: PropTypes.object,
   };
+
   static defaultProps = {
     autoFocus: true,
     enabled: true,
@@ -57,11 +61,13 @@ export default class FocusLock extends Component<Props> {
       this.initialise();
     }
   }
+
   componentWillUnmount() {
     if (!this.initFromProps && !this.teardownFromProps) {
       this.teardown();
     }
   }
+
   componentDidUpdate(prevProps: Props) {
     if (this.props.enabled && this.props.enabled !== prevProps.enabled) {
       this.initFromProps = true;
@@ -91,6 +97,7 @@ export default class FocusLock extends Component<Props> {
       }
     }
   };
+
   teardown = () => {
     if (this.ariaHiddenNode) {
       this.ariaHiddenNode.removeAttribute('aria-hidden');

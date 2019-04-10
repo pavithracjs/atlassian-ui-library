@@ -11,7 +11,9 @@ describe('unsupportedInline - React component', () => {
 
   it('should have text content as string "Unsupported content"', () => {
     const wrapper = mount(<ReactUnsupportedInlineNode />);
-    expect(wrapper.text()).toEqual('Unsupported content');
+    expect(wrapper.text()).toEqual(
+      'Unsupported content' + String.fromCharCode(8203),
+    );
     wrapper.unmount();
   });
 });

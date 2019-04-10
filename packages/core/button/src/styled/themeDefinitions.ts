@@ -1,4 +1,5 @@
-import { colors, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme';
+import * as colors from '@atlaskit/theme/colors';
 
 /**
  * Convert a hex colour code to RGBA.

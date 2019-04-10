@@ -30,13 +30,19 @@ const noOptionsMessageProps = (inputValue?: string) =>
     ? messages.userPickerNoOptionsMessage
     : messages.userPickerNoOptionsMessageEmptyQuery;
 
-const getNoOptionsMessage = ({ inputValue }: { inputValue: string }): any =>
-  (
-    <FormattedMessage
-      {...noOptionsMessageProps(inputValue)}
-      values={{ inputValue }}
-    />
-  ) as any;
+const getNoOptionsMessage = ({
+  inputValue,
+}: {
+  inputValue: string;
+}): any | null =>
+  inputValue && inputValue.trim().length > 0
+    ? ((
+        <FormattedMessage
+          {...noOptionsMessageProps(inputValue)}
+          values={{ inputValue }}
+        />
+      ) as any)
+    : null;
 
 export const UserPickerField: React.StatelessComponent<Props> = props => (
   <Field name="users" validate={validate} defaultValue={props.defaultValue}>

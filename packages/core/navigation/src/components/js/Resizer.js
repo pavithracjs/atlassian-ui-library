@@ -40,6 +40,7 @@ class Resizer extends PureComponent<Props, State> {
     showResizeButton: true,
     theme: {},
   };
+
   state = {
     startScreenX: 0,
     isHovering: false,

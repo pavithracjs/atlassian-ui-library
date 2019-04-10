@@ -1,6 +1,6 @@
 import { initFullPageEditorWithAdf, snapshot } from '../_utils';
 import { selectors } from '../../__helpers/page-objects/_editor';
-import * as adf from './__fixtures__/hyperlink-adf.json';
+import adf from './__fixtures__/hyperlink-adf.json';
 
 describe('Hyperlink:', () => {
   let page: any;

@@ -62,15 +62,15 @@ export default () => (
     <div className="sample">Resize window to view margin differences</div>
     <div className="sample">
       Comfortable Spacing
-      <ProgressTracker items={items} spacing={'comfortable'} />
+      <ProgressTracker items={items} spacing="comfortable" />
     </div>
     <div className="sample">
       Cosy Spacing
-      <ProgressTracker items={items} spacing={'cosy'} />
+      <ProgressTracker items={items} spacing="cosy" />
     </div>
     <div className="sample">
       Compact Spacing
-      <ProgressTracker items={items} spacing={'compact'} />
+      <ProgressTracker items={items} spacing="compact" />
     </div>
   </div>
 );

@@ -63,6 +63,7 @@ const getFlagData = (index: number, timeOffset: number = 0): flagData => {
 
 export default class FlagGroupExample extends Component<void, State> {
   state = { flags: [] };
+
   flagCount = 0;
 
   addFlag = () => {

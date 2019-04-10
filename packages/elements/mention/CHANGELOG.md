@@ -1,5 +1,20 @@
 # @atlaskit/mention
 
+## 17.6.5
+- [patch] [ddb3238b1c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ddb3238b1c):
+
+  - TEAMS-396 : Changing byline logic for mention
+
+## 17.6.4
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 17.6.3
+- [patch] [14b89652d7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/14b89652d7):
+
+  - TEAMS-364 : Renaming the missed test files in the previous PR
+
 ## 17.6.2
 - [patch] [c8b669eaec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c8b669eaec):
 

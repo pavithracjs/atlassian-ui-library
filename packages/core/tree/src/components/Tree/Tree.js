@@ -45,8 +45,10 @@ export default class Tree extends Component<Props, State> {
 
   // State of dragging. Null when resting
   dragState: ?DragState = null;
+
   // HTMLElement for each rendered item
   itemsElement: { [ItemId]: ?HTMLElement } = {};
+
   // HTMLElement of the container element
   containerElement: ?HTMLElement;
 

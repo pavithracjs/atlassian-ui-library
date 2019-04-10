@@ -1,4 +1,4 @@
-import * as ora from 'ora';
+import ora from 'ora';
 import { prompt } from './utils/console';
 import chalk from 'chalk';
 

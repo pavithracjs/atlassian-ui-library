@@ -51,6 +51,7 @@ function renderLink(pageType: string) {
       } = this.props;
       let href;
       if (pageType === 'page') {
+        // eslint-disable-next-line
         href = page.href;
       } else if (pageType === 'previous') {
         href = selectedIndex > 1 ? pages[selectedIndex - 1].href : '';

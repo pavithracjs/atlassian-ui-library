@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { findDomRefAtPos } from 'prosemirror-utils';
-import * as Loadable from 'react-loadable';
+import Loadable from 'react-loadable';
 import { date } from '@atlaskit/adf-schema';
 import { todayTimestampInUTC } from '@atlaskit/editor-common';
 import { EditorPlugin } from '../../types';

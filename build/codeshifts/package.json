@@ -1,0 +1,11 @@
+{
+  "name": "@atlaskit/codeshifts",
+  "version": "0.0.1",
+  "private": true,
+  "description": "A collection of codeshifts",
+  "scripts": {
+  },
+  "author": "Atlassian Pty Ltd",
+  "license": "Apache-2.0",
+  "dependencies": {}
+}

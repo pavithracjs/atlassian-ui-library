@@ -1,4 +1,4 @@
-import * as uuid from 'uuid';
+import uuid from 'uuid';
 import { RequestServiceOptions, utils } from '@atlaskit/util-service-support';
 import { PubSubSpecialEventType, PubSubClient } from '../types';
 import { defaultLimit } from '../constants';

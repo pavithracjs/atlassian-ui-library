@@ -1,5 +1,131 @@
 # @atlaskit/editor-core
 
+## 107.12.0
+- [minor] [049ff62abf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/049ff62abf):
+
+  - ED-6624: Add layout button to main toolbar
+
+## 107.11.0
+- [minor] [b81d427d5c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b81d427d5c):
+
+  - ED-5373: Refactor emoji plugin to use new type ahead
+
+## 107.10.2
+- [patch] [55e47676aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55e47676aa):
+
+  - revert update status code splits in Renderer/Editor which causes component dist to be broken
+
+## 107.10.1
+- [patch] [64dd2ab46f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/64dd2ab46f):
+
+  - ED-6558 Fix clicking to set the cursor placement after an inline node that's at the end of a line. Set the default style attribute of Status nodes to be empty instead of 'null'.
+
+## 107.10.0
+- [minor] [969915d261](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/969915d261):
+
+  - update status import entrypoints in Renderer/editor
+
+## 107.9.6
+- [patch] [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
+
+  - Removed CardView and CardViewLoader from public APIs and replaced it with light-weight and stateless CardLoading and CardError components. Handling of external images is now done by Card component itself using ExternalImageIdentifier interface.
+
+  If you’ve been using CardView for loading:
+
+  ```js
+  <CardView
+    status="loading"
+    mediaItemType="file"
+    dimensions={cardDimensions}
+  />
+  ```
+
+  Now you can use new component:
+
+  ```js
+  <CardLoading dimensions={cardDimensions} />
+  ```
+
+  If you were using CardView to show an error
+
+  ```js
+  <CardView
+    status="error"
+    mediaItemType={type}
+    dimensions={cardDimensions}
+  />
+  ```
+
+  Now you can use new component:
+
+  ```js
+  <CardError dimensions={cardDimensions} />
+  ```
+
+  In case you were using CardView to show image with known external URI:
+
+  ```js
+  <CardView
+    status="complete"
+    dataURI={dataURI}
+    metadata={metadata}
+  />
+  ```
+
+  You will have to find a way to switch to using Card component using ExternalImageIdentifier interface:
+
+  ```js
+  <Card
+    identifier={identifier}
+    context={context}
+  />
+  ```
+
+## 107.9.5
+- [patch] [97e555c168](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97e555c168):
+
+  - Revert "[ED-5259 - ED-6200] adds defaultMarks on tableNode (pull request #5259)"
+
+## 107.9.4
+- [patch] [09a90e4af1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/09a90e4af1):
+
+  - ED-6319 Supporting select media using gap cursor, fix behaviour of backspace key and gap cursor in media single with layout wrap-right.
+
+## 107.9.3
+- [patch] [a15643ba92](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a15643ba92):
+
+  - Nodeviews now re-render without a view re-create
+
+## 107.9.2
+- [patch] [823d44ebb0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/823d44ebb0):
+
+  - ED-6667 Enfoce consistent whitespace between renderer & editor
+
+## 107.9.1
+- [patch] [c976e9355c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c976e9355c):
+
+  - ED-6320: support replacing smart links from Recent Items list via Cmd+K menu
+
+## 107.9.0
+- [minor] [2558e53738](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2558e53738):
+
+  - ED-6665 Rename 'Panel' to 'Info Panel' (frontend text only)
+
+## 107.8.3
+- [patch] [b425ea772b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b425ea772b):
+
+  - Revert "ED-5505 add strong as default mark to table header (pull request #5291)"
+
+## 107.8.2
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 107.8.1
+- [patch] [dfc4c5da7f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfc4c5da7f):
+
+  - Fix odd cursor selection going inside the inline smart links
+
 ## 107.8.0
 - [minor] [02dd1f7287](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/02dd1f7287):
 

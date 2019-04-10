@@ -169,37 +169,36 @@ export default class TableView extends ReactNodeView {
       return;
     }
 
-    if (!target.parentElement) {
+    const elemOrWrapper = closestElement(
+      target,
+      '.inlineExtensionView-content-wrap, .extensionView-content-wrap',
+    );
+
+    if (!elemOrWrapper) {
       return;
     }
 
-    const parent = target.parentElement;
-    if (
-      parent.className.indexOf('with-children') !== -1 &&
-      parent.getAttribute('contenteditable') !== null
-    ) {
-      const container = closestElement(
-        parent,
-        `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
-          ClassName.TABLE_CELL_NODE_WRAPPER
-        }`,
+    const container = closestElement(
+      target,
+      `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
+        ClassName.TABLE_CELL_NODE_WRAPPER
+      }`,
+    );
+
+    if (!container) {
+      return;
+    }
+
+    if (container.offsetWidth < elemOrWrapper.offsetWidth) {
+      const cellPos = this.view.posAtDOM(container, 0);
+      handleBreakoutContent(
+        this.view,
+        container,
+        cellPos - 1,
+        this.getPos() + 1,
+        elemOrWrapper.offsetWidth,
+        this.node,
       );
-
-      if (!container) {
-        return;
-      }
-
-      if (container.offsetWidth < target.offsetWidth) {
-        const cellPos = this.view.posAtDOM(container, 0);
-        handleBreakoutContent(
-          this.view,
-          container,
-          cellPos - 1,
-          this.getPos() + 1,
-          target.offsetWidth,
-          this.node,
-        );
-      }
     }
   };
 
@@ -223,12 +222,17 @@ export default class TableView extends ReactNodeView {
 }
 
 export const createTableView = (
+  node: PmNode,
+  view: EditorView,
+  getPos: getPosHandler,
   portalProviderAPI: PortalProviderAPI,
-  options?: { dynamicTextSizing?: boolean; isBreakoutEnabled?: boolean },
-) => (node: PmNode, view: EditorView, getPos: getPosHandler): NodeView => {
+  options: {
+    isBreakoutEnabled?: boolean;
+    dynamicTextSizing?: boolean;
+  },
+): NodeView => {
   const { pluginConfig } = getPluginState(view.state);
   const { allowColumnResizing } = getPluginConfig(pluginConfig);
-
   return new TableView({
     node,
     view,

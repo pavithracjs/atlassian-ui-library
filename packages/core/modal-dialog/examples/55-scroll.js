@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Lorem from 'react-lorem-component';
 import Button from '@atlaskit/button';
 import FieldRadioGroup from '@atlaskit/field-radio-group';
@@ -26,12 +26,16 @@ type State = {
 };
 export default class ExampleScroll extends PureComponent<{}, State> {
   bottomRef: any;
+
   state: State = {
     isOpen: false,
     scrollBehavior: 'inside',
   };
+
   open = () => this.setState({ isOpen: true });
+
   close = () => this.setState({ isOpen: false });
+
   scrollToBottom = () => this.bottomRef.scrollIntoView(true);
 
   onScrollBehaviorChange = (e: any) => {

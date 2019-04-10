@@ -48,7 +48,7 @@ export class WidthProvider extends React.Component<any, WidthProviderState> {
           }}
         >
           {width => {
-            if (width !== undefined) {
+            if (width) {
               this.setWidth(width);
             }
             return null;

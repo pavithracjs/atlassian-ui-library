@@ -1,5 +1,5 @@
 import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
-import * as adf from '../common/__fixtures__/noData-adf.json';
+import adf from '../common/__fixtures__/noData-adf.json';
 import {
   deleteColumn,
   resizeColumn,
@@ -70,25 +70,6 @@ describe('Snapshot Test: table resizing', () => {
 
       await snapshot(page, 0.01);
     });
-  });
-});
-
-describe('Snapshot Test: table resize handle', () => {
-  let page: any;
-  beforeEach(async () => {
-    // @ts-ignore
-    page = global.page;
-    await initFullPageEditorWithAdf(page, adf, Device.LaptopMDPI);
-    await page.type('.ProseMirror', 'hello');
-    await insertTable(page);
-  });
-
-  it(`resize a column when table is not in focus`, async () => {
-    await page.click('.ProseMirror > p');
-    await resizeColumn(page, { colIdx: 2, amount: 100, row: 2 });
-    await animationFrame(page);
-    await animationFrame(page);
-    await snapshot(page, 0.002);
   });
 });
 
