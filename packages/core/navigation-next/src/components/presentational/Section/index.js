@@ -14,6 +14,7 @@ export default class Section extends Component<ConnectedSectionProps> {
     shouldGrow: false,
     styles: styleReducerNoOp,
   };
+
   render() {
     return <SectionWithTheme {...this.props} />;
   }

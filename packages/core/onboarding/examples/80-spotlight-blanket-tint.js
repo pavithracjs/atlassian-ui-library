@@ -11,10 +11,15 @@ type State = {
 
 export default class SpotlightBasicExample extends Component<Object, State> {
   state: State = { active: null };
+
   start = () => this.setState({ active: 0 });
+
   next = () => this.setState(state => ({ active: state.active + 1 }));
+
   prev = () => this.setState(state => ({ active: (state.active || 0) - 1 }));
+
   finish = () => this.setState({ active: null });
+
   renderActiveSpotlight = () => {
     const variants = [
       <Spotlight
@@ -58,6 +63,7 @@ export default class SpotlightBasicExample extends Component<Object, State> {
 
     return variants[this.state.active];
   };
+
   render() {
     return (
       <SpotlightManager blanketIsTinted={false}>

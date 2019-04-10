@@ -2,6 +2,8 @@ import {
   Context,
   isClientBasedAuth,
   FileIdentifier,
+  Identifier,
+  isFileIdentifier,
 } from '@atlaskit/media-core';
 import { stringify } from 'query-string';
 import { MediaCollectionItem } from '@atlaskit/media-store';
@@ -71,13 +73,21 @@ export const toIdentifier = (
   };
 };
 
+// TODO MS-1752 - current implementation makes viewer navigation to misbehave
+// if passed a file with the same id (with different occurrenceKeys) or with the same dataURI twice
 export const getSelectedIndex = (
-  items: FileIdentifier[],
-  selectedItem: FileIdentifier,
+  items: Identifier[],
+  selectedItem: Identifier,
 ) => {
-  return items.findIndex(
-    item =>
-      item.id === selectedItem.id &&
-      item.occurrenceKey === selectedItem.occurrenceKey,
-  );
+  return items.findIndex(item => {
+    if (isFileIdentifier(item) && isFileIdentifier(selectedItem)) {
+      return item.id === selectedItem.id;
+    }
+
+    if (!isFileIdentifier(item) && !isFileIdentifier(selectedItem)) {
+      return item.dataURI === selectedItem.dataURI;
+    }
+
+    return false;
+  });
 };

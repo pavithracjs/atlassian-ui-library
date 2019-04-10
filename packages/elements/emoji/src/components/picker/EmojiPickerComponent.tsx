@@ -1,4 +1,4 @@
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import { PureComponent, SyntheticEvent } from 'react';
@@ -9,12 +9,12 @@ import {
   OnEmojiProviderChange,
   supportsUploadFeature,
 } from '../../api/EmojiResource';
-import { customCategory, frequentCategory } from '../../constants';
+import { customCategory, frequentCategory } from '../../util/constants';
 import {
   containsEmojiId,
   isPromise /*, isEmojiIdEqual, isEmojiLoaded*/,
   isEmojiDescription,
-} from '../../type-helpers';
+} from '../../util/type-helpers';
 import {
   EmojiDescription,
   EmojiId,
@@ -36,7 +36,7 @@ import CategorySelector from './CategorySelector';
 import EmojiPickerFooter from './EmojiPickerFooter';
 import EmojiPickerList from './EmojiPickerList';
 import * as styles from './styles';
-import { createAndFireEventInElementsChannel } from '../../analytics';
+import { createAndFireEventInElementsChannel } from '../../util/analytics';
 import { AnalyticsEventPayload } from '@atlaskit/analytics-next-types';
 import {
   categoryClickedEvent,
@@ -54,7 +54,7 @@ import {
   uploadFailedEvent,
   uploadSucceededEvent,
   toneSelectorClosedEvent,
-} from '../../analytics';
+} from '../../util/analytics';
 
 const FREQUENTLY_USED_MAX = 16;
 

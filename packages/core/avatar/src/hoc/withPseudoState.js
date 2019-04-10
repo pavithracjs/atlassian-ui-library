@@ -46,8 +46,11 @@ export default function withPseudoState<InnerProps: {}>(
     State,
   > {
     static displayName = getDisplayName('withPseudoState', WrappedComponent);
+
     component: ElementRef<*>;
+
     actionKeys: Array<string>;
+
     componentWillMount() {
       const { href, isInteractive, onClick } = this.props;
 
@@ -69,6 +72,7 @@ export default function withPseudoState<InnerProps: {}>(
     blur = () => {
       if (this.component && this.component.blur) this.component.blur();
     };
+
     focus = () => {
       if (this.component && this.component.focus) this.component.focus();
     };
@@ -78,10 +82,15 @@ export default function withPseudoState<InnerProps: {}>(
     };
 
     onBlur = () => this.setState({ isActive: false, isFocus: false });
+
     onFocus = () => this.setState({ isFocus: true });
+
     onMouseLeave = () => this.setState({ isActive: false, isHover: false });
+
     onMouseEnter = () => this.setState({ isHover: true });
+
     onMouseUp = () => this.setState({ isActive: false });
+
     onMouseDown = () => this.setState({ isActive: true });
 
     onKeyDown = (event: KeyboardEvent) => {
@@ -89,6 +98,7 @@ export default function withPseudoState<InnerProps: {}>(
         this.setState({ isActive: true });
       }
     };
+
     onKeyUp = (event: KeyboardEvent) => {
       if (this.actionKeys.indexOf(event.key) > -1) {
         this.setState({ isActive: false });

@@ -92,7 +92,9 @@ function updateChildItems(
  */
 export default class TableTreeDataHelper {
   key: string;
+
   keysCache: Object;
+
   constructor({ key = 'key' }: { key?: string } = {}) {
     this.key = key;
     this.keysCache = {};

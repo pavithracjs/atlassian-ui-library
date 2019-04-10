@@ -21,7 +21,9 @@ const options = [
 
 export default class SelectInModal extends Component<{}, State> {
   state: State = { isOpen: false };
+
   open = () => this.setState({ isOpen: true });
+
   close = () => this.setState({ isOpen: false });
 
   render() {

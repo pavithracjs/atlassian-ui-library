@@ -1,4 +1,4 @@
-import * as assert from 'assert';
+import assert from 'assert';
 import { EditorView } from 'prosemirror-view';
 
 import { ProviderFactory } from '@atlaskit/editor-common';
@@ -962,7 +962,9 @@ describe('Media plugin', () => {
         setNodeSelection(editorView, 0);
 
         expect(pluginState.element).not.toBeUndefined();
-        expect(pluginState.element!.className).toBe('wrapper');
+        expect(pluginState.element!.className).toBe(
+          'mediaSingleView-content-wrap ProseMirror-selectednode',
+        );
       });
     });
 

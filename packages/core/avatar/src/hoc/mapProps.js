@@ -17,6 +17,7 @@ export default function mapProps(mapping: { [string]: any }) {
         'mapProps',
         DecoratedComponent,
       );
+
       static DecoratedComponent = DecoratedComponent;
 
       component: ?ElementRef<*>;
@@ -25,6 +26,7 @@ export default function mapProps(mapping: { [string]: any }) {
       blur = () => {
         if (this.component && this.component.blur) this.component.blur();
       };
+
       focus = () => {
         if (this.component && this.component.focus) this.component.focus();
       };

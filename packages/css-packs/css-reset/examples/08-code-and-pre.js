@@ -10,11 +10,10 @@ import React from 'react';
 export default () => (
   <div>
     <h2>Preformatted text using {`<pre>`}</h2>
-    <pre>{`  Item    | Qty
--------------------
-Apples  |   5
-Oranges |  10
-Grapes  |  99`}</pre>
+    <pre>
+      {' '}
+      Item | Qty ------------------- Apples | 5 Oranges | 10 Grapes | 99
+    </pre>
     <h2>Code blocks with {`<pre> and <code>`}</h2>
     <pre>
       <code>

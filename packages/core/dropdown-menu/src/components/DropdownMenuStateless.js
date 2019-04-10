@@ -48,6 +48,7 @@ class DropdownMenuStateless extends Component<
   triggerContainer: ?HTMLElement;
 
   sourceOfIsOpen: ?string;
+
   dropdownListPositioned: boolean = false;
 
   static defaultProps = {

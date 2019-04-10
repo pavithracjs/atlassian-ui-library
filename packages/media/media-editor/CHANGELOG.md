@@ -1,5 +1,27 @@
 # @atlaskit/media-editor
 
+## 32.0.4
+- [patch] [5ceba058c9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ceba058c9):
+
+  - MS-1613 Media Editor should close by Esc press without closing Media Picker
+
+## 32.0.3
+- Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
+  - @atlaskit/media-core@29.1.2
+  - @atlaskit/media-store@11.0.5
+  - @atlaskit/media-test-helpers@21.2.2
+  - @atlaskit/media-card@60.0.0
+
+## 32.0.2
+- [patch] [4eda8dd947](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4eda8dd947):
+
+  - Do not grag existing object when try to draw on top of them. Single click still selects an object
+
+## 32.0.1
+- [patch] [e2453a0071](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e2453a0071):
+
+  - MS-1749 Always pass occurrenceKeys during file creation to avoid file being inserted in the collection twice
+
 ## 32.0.0
 - [patch] [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
 

@@ -80,7 +80,7 @@ injectGlobal`
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/'; // TODO: use web workers instead of fake worker.
 
-const fetch = (url: string): Promise<Blob> => {
+const fetchPdf = (url: string): Promise<Blob> => {
   return pdfjsLib.getDocument(url).promise;
 };
 
@@ -111,7 +111,7 @@ export class PDFRenderer extends React.Component<Props, State> {
 
   private async init() {
     try {
-      const doc = await fetch(this.props.src);
+      const doc = await fetchPdf(this.props.src);
       this.setState({ doc: Outcome.successful(doc) }, () => {
         this.pdfViewer = new PDFJSViewer.PDFViewer({ container: this.el });
         this.pdfViewer.setDocument(doc);

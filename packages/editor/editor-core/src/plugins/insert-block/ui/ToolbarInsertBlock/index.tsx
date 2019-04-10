@@ -4,6 +4,7 @@ import * as ReactDOM from 'react-dom';
 import { defineMessages, injectIntl, InjectedIntlProps } from 'react-intl';
 import { EditorView } from 'prosemirror-view';
 import { Node as PMNode } from 'prosemirror-model';
+import { EditorState } from 'prosemirror-state';
 import AddIcon from '@atlaskit/icon/glyph/editor/add';
 import ExpandIcon from '@atlaskit/icon/glyph/chevron-down';
 import TableIcon from '@atlaskit/icon/glyph/editor/table';
@@ -62,7 +63,6 @@ import { showLinkToolbar } from '../../../hyperlink/commands';
 import { insertMentionQuery } from '../../../mentions/commands/insert-mention-query';
 import { updateStatus } from '../../../status/actions';
 import {
-  AnalyticsEventPayload,
   withAnalytics as commandWithAnalytics,
   ACTION,
   ACTION_SUBJECT,
@@ -71,8 +71,9 @@ import {
   ACTION_SUBJECT_ID,
   PANEL_TYPE,
   InsertEventPayload,
+  DispatchAnalyticsEvent,
 } from '../../../analytics';
-import { EditorState } from 'prosemirror-state';
+import { insertEmoji } from '../../../emoji/commands/insert-emoji';
 
 export const messages = defineMessages({
   action: {
@@ -237,7 +238,6 @@ export interface Props {
   linkSupported?: boolean;
   linkDisabled?: boolean;
   emojiDisabled?: boolean;
-  insertEmoji?: (emojiId: EmojiId) => void;
   nativeStatusSupported?: boolean;
   popupsMountPoint?: HTMLElement;
   popupsBoundariesElement?: HTMLElement;
@@ -251,7 +251,7 @@ export interface Props {
     node?: PMNode,
     isEditing?: boolean,
   ) => (state: EditorState, dispatch: CommandDispatch) => void;
-  dispatchAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 }
 
 export interface State {
@@ -563,7 +563,7 @@ class ToolbarInsertBlock extends React.PureComponent<
       items.push({
         content: labelEmoji,
         value: { name: 'emoji' },
-        isDisabled: emojiDisabled,
+        isDisabled: emojiDisabled || !isTypeAheadAllowed,
         elemBefore: <EmojiIcon label={labelEmoji} />,
         handleRef: this.handleButtonRef,
         elemAfter: <Shortcut>:</Shortcut>,
@@ -579,6 +579,14 @@ class ToolbarInsertBlock extends React.PureComponent<
         elemBefore: <TableIcon label={labelTable} />,
         elemAfter: <Shortcut>{shortcutTable}</Shortcut>,
         shortcut: shortcutTable,
+      });
+    }
+    if (layoutSectionEnabled) {
+      const labelColumns = formatMessage(messages.columns);
+      items.push({
+        content: labelColumns,
+        value: { name: 'layout' },
+        elemBefore: <LayoutTwoEqualIcon label={labelColumns} />,
       });
     }
     if (availableWrapperBlockTypes) {
@@ -637,15 +645,6 @@ class ToolbarInsertBlock extends React.PureComponent<
         content: labelPlaceholderText,
         value: { name: 'placeholder text' },
         elemBefore: <PlaceholderTextIcon label={labelPlaceholderText} />,
-      });
-    }
-
-    if (layoutSectionEnabled) {
-      const labelColumns = formatMessage(messages.columns);
-      items.push({
-        content: labelColumns,
-        value: { name: 'layout' },
-        elemBefore: <LayoutTwoEqualIcon label={labelColumns} />,
       });
     }
 
@@ -845,9 +844,13 @@ class ToolbarInsertBlock extends React.PureComponent<
   private handleSelectedEmoji = withAnalytics(
     'atlassian.editor.emoji.button',
     (emojiId: EmojiId): boolean => {
-      const { insertEmoji, dispatchAnalyticsEvent } = this.props;
+      const { dispatchAnalyticsEvent } = this.props;
       if (insertEmoji) {
-        insertEmoji(emojiId);
+        insertEmoji(emojiId)(
+          this.props.editorView.state,
+          this.props.editorView.dispatch,
+        );
+        this.props.editorView.focus();
         if (dispatchAnalyticsEvent) {
           dispatchAnalyticsEvent({
             action: ACTION.INSERTED,

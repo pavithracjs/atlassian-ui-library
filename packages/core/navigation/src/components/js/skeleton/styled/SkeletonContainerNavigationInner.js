@@ -13,7 +13,7 @@ const SkeletonContainerNavigationInner = styled.div`
     isCollapsed ? containerClosedWidth() : containerOpenWidth}px;
   color: ${({ theme }) => getProvided(theme).text};
   background-color: ${({ theme }) => {
-    const background = getProvided(theme).background;
+    const { background } = getProvided(theme);
     return background.secondary || background.primary;
   }};
 `;

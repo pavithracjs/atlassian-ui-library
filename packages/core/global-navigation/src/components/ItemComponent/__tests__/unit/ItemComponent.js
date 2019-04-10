@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import { DropdownMenuStateless } from '@atlaskit/dropdown-menu';
 import { GlobalItem } from '@atlaskit/navigation-next';
 
-import ItemComponent from '../../';
+import ItemComponent from '../..';
 
 describe('ItemComponent', () => {
   it('should render a GlobalItem by default', () => {

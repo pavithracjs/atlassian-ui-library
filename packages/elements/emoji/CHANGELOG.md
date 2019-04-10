@@ -1,5 +1,20 @@
 # @atlaskit/emoji
 
+## 59.2.0
+- [minor] [b81d427d5c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b81d427d5c):
+
+  - ED-5373: Refactor emoji plugin to use new type ahead
+
+## 59.1.1
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 59.1.0
+- [minor] [ce6fec11a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce6fec11a3):
+
+  - code split for emoji
+
 ## 59.0.1
 - [patch] [3fa12076fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3fa12076fd):
 

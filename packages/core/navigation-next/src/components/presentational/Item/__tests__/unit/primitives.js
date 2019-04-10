@@ -217,11 +217,11 @@ describe('ItemPrimitiveBase', () => {
       },
     });
 
-    const wrapper = shallow(
+    const wrapper = mount(
       <ItemPrimitiveBase
         {...defaultProps}
         styles={styles}
-        subText={'subtext'}
+        subText="subtext"
         before={BeforeOrAfterComponent}
         after={BeforeOrAfterComponent}
       />,

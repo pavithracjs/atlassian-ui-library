@@ -30,7 +30,10 @@ export interface Props {
   cellMinWidth?: number;
   portalProviderAPI: PortalProviderAPI;
   getPos: () => number;
-  dynamicTextSizing?: boolean;
+  options?: {
+    dynamicTextSizing?: boolean;
+    isBreakoutEnabled?: boolean;
+  };
 }
 
 const tableAttributes = (node: PmNode) => {
@@ -65,7 +68,7 @@ export default class TableView extends ReactNodeView {
     super(props.node, props.view, props.getPos, props.portalProviderAPI, props);
 
     const MutObserver = (window as any).MutationObserver;
-    this.observer = MutObserver && new MutObserver(this.handleBreakoutContent);
+    this.observer = MutObserver && new MutObserver(this.handleMutation);
   }
 
   getContentDOM() {
@@ -79,7 +82,7 @@ export default class TableView extends ReactNodeView {
 
       // Ignore mutation doesn't pick up children updates
       // E.g. inserting a bodiless extension that renders
-      // arbitary nodes (aka macros).
+      // arbitrary nodes (aka macros).
       if (this.observer) {
         this.observer.observe(rendered.dom, {
           subtree: true,
@@ -125,7 +128,7 @@ export default class TableView extends ReactNodeView {
     );
   }
 
-  ignoreMutation(record: MutationRecord) {
+  ignoreMutation() {
     return true;
   }
 
@@ -161,7 +164,45 @@ export default class TableView extends ReactNodeView {
     }
   };
 
-  private handleBreakoutContent = (records: Array<MutationRecord>) => {
+  private resizeForExtensionContent = (target: HTMLElement) => {
+    if (!this.node) {
+      return;
+    }
+
+    const elemOrWrapper = closestElement(
+      target,
+      '.inlineExtensionView-content-wrap, .extensionView-content-wrap',
+    );
+
+    if (!elemOrWrapper) {
+      return;
+    }
+
+    const container = closestElement(
+      target,
+      `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
+        ClassName.TABLE_CELL_NODE_WRAPPER
+      }`,
+    );
+
+    if (!container) {
+      return;
+    }
+
+    if (container.offsetWidth < elemOrWrapper.offsetWidth) {
+      const cellPos = this.view.posAtDOM(container, 0);
+      handleBreakoutContent(
+        this.view,
+        container,
+        cellPos - 1,
+        this.getPos() + 1,
+        elemOrWrapper.offsetWidth,
+        this.node,
+      );
+    }
+  };
+
+  private handleMutation = (records: Array<MutationRecord>) => {
     if (!records.length || !this.contentDOM) {
       return;
     }
@@ -173,6 +214,7 @@ export default class TableView extends ReactNodeView {
       // We dont need to reprocess.
       if (!uniqueTargets.has(target)) {
         this.resizeForBreakoutContent(target);
+        this.resizeForExtensionContent(target);
         uniqueTargets.add(target);
       }
     });
@@ -180,18 +222,23 @@ export default class TableView extends ReactNodeView {
 }
 
 export const createTableView = (
+  node: PmNode,
+  view: EditorView,
+  getPos: getPosHandler,
   portalProviderAPI: PortalProviderAPI,
-  dynamicTextSizing?: boolean,
-) => (node: PmNode, view: EditorView, getPos: getPosHandler): NodeView => {
+  options: {
+    isBreakoutEnabled?: boolean;
+    dynamicTextSizing?: boolean;
+  },
+): NodeView => {
   const { pluginConfig } = getPluginState(view.state);
   const { allowColumnResizing } = getPluginConfig(pluginConfig);
-
   return new TableView({
     node,
     view,
     allowColumnResizing,
     portalProviderAPI,
     getPos,
-    dynamicTextSizing,
+    options,
   }).init();
 };

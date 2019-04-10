@@ -6,7 +6,7 @@ import { shallow } from 'enzyme';
 import Button from '@atlaskit/button';
 import Spinner from '@atlaskit/spinner';
 import FieldText from '@atlaskit/field-text';
-import { CardView } from '@atlaskit/media-card';
+import { Card } from '@atlaskit/media-card';
 import { fakeIntl, mountWithIntlContext } from '@atlaskit/media-test-helpers';
 
 import {
@@ -141,7 +141,7 @@ describe('<ConnectedGiphyView />', () => {
       expect(giphyView.find(Button)).toHaveLength(1);
     });
 
-    it('should render a CardView for each item passed in', () => {
+    it('should render a Card for each item passed in', () => {
       const giphyView = shallow(
         <GiphyView
           intl={fakeIntl}
@@ -157,18 +157,18 @@ describe('<ConnectedGiphyView />', () => {
         />,
       );
 
-      expect(giphyView.find(CardView)).toHaveLength(5);
+      expect(giphyView.find(Card)).toHaveLength(5);
       expect(
         giphyView
-          .find(CardView)
+          .find(Card)
           .first()
           .props(),
       ).toEqual(
         expect.objectContaining({
-          status: 'complete',
           dimensions: { width: 10, height: 10 },
-          dataURI: cardModels[0].dataURI,
-          metadata: cardModels[0].metadata,
+          identifier: expect.objectContaining({
+            dataURI: cardModels[0].dataURI,
+          }),
           selectable: true,
         }),
       );
@@ -190,9 +190,9 @@ describe('<ConnectedGiphyView />', () => {
         />,
       );
 
-      expect(giphyView.find(CardView)).toHaveLength(5);
+      expect(giphyView.find(Card)).toHaveLength(5);
       expect(
-        giphyView.find(CardView).filterWhere(card => !!card.props().selected),
+        giphyView.find(Card).filterWhere(card => !!card.props().selected),
       ).toHaveLength(2);
     });
 
@@ -410,7 +410,7 @@ describe('<ConnectedGiphyView />', () => {
       );
 
       giphyView
-        .find(CardView)
+        .find(Card)
         .first()
         .simulate('click');
 

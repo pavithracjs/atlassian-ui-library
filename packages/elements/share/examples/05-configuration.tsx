@@ -3,6 +3,8 @@ import { ToggleStateless as Toggle } from '@atlaskit/toggle';
 import { OptionData } from '@atlaskit/user-picker';
 import { userPickerData } from '@atlaskit/util-data-test';
 import * as React from 'react';
+import { IntlProvider } from 'react-intl';
+import App from '../example-helpers/AppWithFlag';
 import { ShareDialogContainer } from '../src';
 import {
   Comment,
@@ -114,32 +116,41 @@ export default class Example extends React.Component<{}, State> {
 
     this.key++;
     return (
-      <>
-        <ShareDialogContainer
-          key={`key-${this.key}`}
-          buttonStyle="icon-with-text"
-          client={this.client}
-          cloudId="12345-12345-12345-12345"
-          loadUserOptions={loadUserOptions}
-          originTracingFactory={() => mockOriginTracing}
-          productId="confluence"
-          shareAri="ari"
-          shareContentType="issue"
-          shareLink={window.location.href}
-          shareTitle="My Share"
-        />
-        <p>Allow comments</p>
-        <Toggle
-          isChecked={allowComment}
-          onChange={() => this.setState({ allowComment: !allowComment })}
-        />
-        <Select
-          value={modeOptions.find(option => option.value === mode)}
-          options={modeOptions}
-          onChange={(mode: any) => this.setState({ mode: mode.value })}
-        />
-        <p>Allowed domains: {allowedDomains && allowedDomains.join(', ')}</p>
-      </>
+      <IntlProvider locale="en">
+        <App>
+          {showFlags => (
+            <>
+              <ShareDialogContainer
+                key={`key-${this.key}`}
+                client={this.client}
+                cloudId="12345-12345-12345-12345"
+                loadUserOptions={loadUserOptions}
+                originTracingFactory={() => mockOriginTracing}
+                productId="confluence"
+                shareAri="ari"
+                shareContentType="issue"
+                shareLink={window.location.href}
+                shareTitle="My Share"
+                showFlags={showFlags}
+                triggerButtonStyle="icon-with-text"
+              />
+              <p>Allow comments</p>
+              <Toggle
+                isChecked={allowComment}
+                onChange={() => this.setState({ allowComment: !allowComment })}
+              />
+              <Select
+                value={modeOptions.find(option => option.value === mode)}
+                options={modeOptions}
+                onChange={(mode: any) => this.setState({ mode: mode.value })}
+              />
+              <p>
+                Allowed domains: {allowedDomains && allowedDomains.join(', ')}
+              </p>
+            </>
+          )}
+        </App>
+      </IntlProvider>
     );
   }
 }

@@ -1,3 +1,8 @@
+jest.mock('uuid/v4', () => ({
+  __esModule: true, // this property makes it work
+  default: jest.fn(),
+}));
+
 import * as React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
 import {
@@ -7,7 +12,6 @@ import {
   fakeContext,
   getDefaultContextConfig,
 } from '@atlaskit/media-test-helpers';
-import * as uuid from 'uuid';
 import { Shortcut } from '@atlaskit/media-ui';
 import ModalDialog from '@atlaskit/modal-dialog';
 import Spinner from '@atlaskit/spinner';
@@ -18,11 +22,13 @@ import {
   FileIdentifier,
   AuthProvider,
 } from '@atlaskit/media-core';
+import uuidV4 from 'uuid/v4';
 import { TouchedFiles, UploadableFileUpfrontIds } from '@atlaskit/media-store';
 import {
   SmartMediaEditor,
   SmartMediaEditorProps,
   SmartMediaEditorState,
+  convertFileNameToPng,
 } from '../smartMediaEditor';
 
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -70,8 +76,7 @@ describe('Smart Media Editor', () => {
       />,
     );
 
-    jest
-      .spyOn(uuid, 'v4')
+    (uuidV4 as jest.Mock<{}>)
       .mockReturnValueOnce('uuid1')
       .mockReturnValueOnce('uuid2')
       .mockReturnValueOnce('uuid3')
@@ -79,6 +84,7 @@ describe('Smart Media Editor', () => {
   });
 
   afterEach(() => {
+    (uuidV4 as jest.Mock<{}>).mockReset();
     jest.restoreAllMocks();
   });
 
@@ -226,7 +232,7 @@ describe('Smart Media Editor', () => {
           {
             collection: 'recents',
             authProvider: userAuthProvider,
-            occurrenceKey: fileIdentifier.occurrenceKey,
+            occurrenceKey: 'uuid3',
           },
         ]);
       });
@@ -245,6 +251,7 @@ describe('Smart Media Editor', () => {
             {
               fileId: 'uuid1',
               collection: fileIdentifier.collectionName,
+              occurrenceKey: 'uuid2',
             },
           ],
           fileIdentifier.collectionName,
@@ -253,13 +260,13 @@ describe('Smart Media Editor', () => {
         // Then we call upload
         const expectedUploadableFile: UploadableFile = {
           content: 'some-image-content',
-          name: 'some-name',
+          name: 'some-name.png',
           collection: fileIdentifier.collectionName,
         };
         const expectedUploadableFileUpfrontIds: UploadableFileUpfrontIds = {
           id: 'uuid1',
           deferredUploadId: expect.anything(),
-          occurrenceKey: 'some-occurrence-key',
+          occurrenceKey: 'uuid2',
         };
         expectFunctionToHaveBeenCalledWith(context.file.upload, [
           expectedUploadableFile,
@@ -278,6 +285,7 @@ describe('Smart Media Editor', () => {
             mediaItemType: 'file',
             id: 'uuid1',
             collectionName: fileIdentifier.collectionName,
+            occurrenceKey: 'uuid2',
           },
           {
             width: 200,
@@ -399,6 +407,40 @@ describe('Smart Media Editor', () => {
       expect(onFinish).not.toHaveBeenCalled();
       modalDialog = component.find(ModalDialog);
       expect(modalDialog).toHaveLength(0);
+    });
+  });
+
+  describe('#convertFileNameToPng()', () => {
+    it('should return default value if undefined', () => {
+      expect(convertFileNameToPng(undefined)).toEqual('annotated-image.png');
+    });
+
+    it('should return default value if empty', () => {
+      expect(convertFileNameToPng('')).toEqual('annotated-image.png');
+    });
+
+    it('should replace anything that looks like an extension with .png', () => {
+      expect(convertFileNameToPng('some.image')).toEqual('some.png');
+    });
+
+    it('should replace anything that looks like an extension with .png if starts with a dot', () => {
+      expect(convertFileNameToPng('.some.other.image')).toEqual(
+        '.some.other.png',
+      );
+    });
+
+    it('should append .png if nothing looks like an extension', () => {
+      expect(convertFileNameToPng('somethingElse')).toEqual(
+        'somethingElse.png',
+      );
+    });
+
+    it('should append .png if nothing looks like an extension if starts with a dot', () => {
+      expect(convertFileNameToPng('.some')).toEqual('.some.png');
+    });
+
+    it('should append .png if nothing looks like an extension if ends with a dot', () => {
+      expect(convertFileNameToPng('.some.stuff.')).toEqual('.some.stuff.png');
     });
   });
 });

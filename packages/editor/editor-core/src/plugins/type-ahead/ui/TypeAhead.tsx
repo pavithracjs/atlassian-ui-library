@@ -16,7 +16,7 @@ export const TypeAheadContent: React.ComponentClass<
   box-shadow: 0 0 1px ${colors.N60A}, 0 4px 8px -2px ${colors.N50A};
   padding: ${math.divide(gridSize, 2)}px 0;
   width: 320px;
-  max-height: 420px; /* ~5.5 visibile items */
+  max-height: 380px; /* ~5.5 visibile items */
   overflow-y: auto;
   -ms-overflow-style: -ms-autohiding-scrollbar;
   position: relative;
@@ -34,49 +34,64 @@ export type TypeAheadProps = {
   popupsScrollableElement?: HTMLElement;
 };
 
-export function TypeAhead({
-  active,
-  items,
-  isLoading,
-  anchorElement,
-  currentIndex,
-  editorView,
-  popupsMountPoint,
-  popupsBoundariesElement,
-  popupsScrollableElement,
-}: TypeAheadProps) {
-  if (!active || !anchorElement || !items || !items.length) {
-    return null;
+export class TypeAhead extends React.Component<TypeAheadProps> {
+  insertByIndex = (index: number) => {
+    selectByIndex(index)(
+      this.props.editorView.state,
+      this.props.editorView.dispatch,
+    );
+  };
+
+  setCurrentIndex = (index: number) => {
+    if (index !== this.props.currentIndex) {
+      setCurrentIndex(index)(
+        this.props.editorView.state,
+        this.props.editorView.dispatch,
+      );
+    }
+  };
+
+  render() {
+    const {
+      active,
+      items,
+      isLoading,
+      anchorElement,
+      currentIndex,
+      popupsMountPoint,
+      popupsBoundariesElement,
+      popupsScrollableElement,
+    } = this.props;
+
+    if (!active || !anchorElement || !items || !items.length) {
+      return null;
+    }
+    return (
+      <Popup
+        zIndex={akEditorFloatingDialogZIndex}
+        target={anchorElement}
+        mountTo={popupsMountPoint}
+        boundariesElement={popupsBoundariesElement}
+        scrollableElement={popupsScrollableElement}
+        fitHeight={300}
+        fitWidth={340}
+        offset={[0, 8]}
+      >
+        <TypeAheadContent className="fabric-editor-typeahead">
+          {Array.isArray(items) ? (
+            <TypeAheadItemsList
+              insertByIndex={this.insertByIndex}
+              setCurrentIndex={this.setCurrentIndex}
+              items={items}
+              currentIndex={currentIndex}
+            />
+          ) : !items && isLoading ? (
+            'loading...'
+          ) : (
+            'no items'
+          )}
+        </TypeAheadContent>
+      </Popup>
+    );
   }
-  return (
-    <Popup
-      zIndex={akEditorFloatingDialogZIndex}
-      target={anchorElement}
-      mountTo={popupsMountPoint}
-      boundariesElement={popupsBoundariesElement}
-      scrollableElement={popupsScrollableElement}
-      fitHeight={300}
-      fitWidth={340}
-      offset={[0, 8]}
-    >
-      <TypeAheadContent className="fabric-editor-typeahead">
-        {Array.isArray(items) ? (
-          <TypeAheadItemsList
-            insertByIndex={index =>
-              selectByIndex(index)(editorView.state, editorView.dispatch)
-            }
-            setCurrentIndex={index =>
-              setCurrentIndex(index)(editorView.state, editorView.dispatch)
-            }
-            items={items}
-            currentIndex={currentIndex}
-          />
-        ) : !items && isLoading ? (
-          'loading...'
-        ) : (
-          'no items'
-        )}
-      </TypeAheadContent>
-    </Popup>
-  );
 }

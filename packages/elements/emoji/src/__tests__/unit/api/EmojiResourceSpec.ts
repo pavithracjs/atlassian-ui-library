@@ -1,6 +1,6 @@
 import 'es6-promise/auto'; // 'whatwg-fetch' needs a Promise polyfill
 
-import * as fetchMock from 'fetch-mock/src/client';
+import fetchMock from 'fetch-mock/src/client';
 import * as sinon from 'sinon';
 import {
   OnProviderChange,
@@ -43,7 +43,7 @@ import {
 } from '../_test-data';
 
 import { alwaysPromise } from '../_test-util';
-import { convertMediaToImageRepresentation } from '../../../type-helpers';
+import { convertMediaToImageRepresentation } from '../../../util/type-helpers';
 import { ErrorEmojiResource } from './_resource-spec-util';
 
 /**

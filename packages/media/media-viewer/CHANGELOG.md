@@ -1,5 +1,27 @@
 # @atlaskit/media-viewer
 
+## 40.1.3
+- [patch] [32317ff8f3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/32317ff8f3):
+
+  - MS-1633 Renderer passes a list of files and external images to a Card to be opened with Media Viewer
+
+## 40.1.2
+- Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
+  - @atlaskit/media-core@29.1.2
+  - @atlaskit/media-store@11.0.5
+  - @atlaskit/media-test-helpers@21.2.2
+  - @atlaskit/media-card@60.0.0
+
+## 40.1.1
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 40.1.0
+- [minor] [e1c1fa454a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e1c1fa454a):
+
+  - Support external image identifier in MediaViewer
+
 ## 40.0.0
 - Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
   - @atlaskit/media-card@59.0.0

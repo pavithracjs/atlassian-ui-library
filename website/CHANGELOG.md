@@ -1,5 +1,17 @@
 # @atlaskit/website
 
+## 4.1.51
+- Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
+  - @atlaskit/media-core@29.1.2
+  - @atlaskit/media-test-helpers@21.2.2
+  - @atlaskit/media-card@60.0.0
+  - @atlaskit/media-filmstrip@31.0.2
+
+## 4.1.50
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 4.1.49
 - Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
   - @atlaskit/media-card@59.0.0

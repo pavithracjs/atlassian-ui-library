@@ -1,4 +1,4 @@
-import * as Loadable from 'react-loadable';
+import Loadable from 'react-loadable';
 
 export const IconAction = Loadable({
   loader: () => import('./action').then(module => module.default),
@@ -97,5 +97,10 @@ export const IconStatus = Loadable({
 
 export const IconTable = Loadable({
   loader: () => import('./table').then(module => module.default),
+  loading: () => null,
+});
+
+export const IconFallback = Loadable({
+  loader: () => import('./fallback').then(module => module.default),
   loading: () => null,
 });

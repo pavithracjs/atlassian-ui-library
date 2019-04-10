@@ -4,7 +4,7 @@ import {
   defaultMediaPickerAuthProvider,
   tallImage,
 } from '@atlaskit/media-test-helpers';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 import {
   ImagePreview,
   MetadataWrapper,

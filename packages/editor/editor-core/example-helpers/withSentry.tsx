@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as Sentry from '@sentry/browser';
 
-function withSentry(
+function withSentry<P extends {}>(
   Child:
     | React.ComponentClass<any, any>
     | ((props: any) => React.ReactElement<any>),
 ) {
-  return class WrappedComponent extends React.Component {
+  return class WrappedComponent extends React.Component<P> {
     componentDidMount() {
       /** Add Sentry for non-local envs */
       if (!window.location.href.match(/localhost/)) {

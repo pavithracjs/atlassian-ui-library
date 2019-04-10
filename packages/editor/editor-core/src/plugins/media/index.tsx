@@ -50,6 +50,10 @@ export interface MediaSingleOptions {
 }
 
 export const renderSmartMediaEditor = (mediaState: MediaPluginState) => {
+  if (!mediaState) {
+    return null;
+  }
+
   const node = mediaState.selectedMediaContainerNode();
   if (!node) {
     return null;
@@ -191,7 +195,7 @@ const mediaPlugin = (
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.filesAndImages),
-        description: formatMessage(messages.filesAndImages),
+        description: formatMessage(messages.filesAndImagesDescription),
         priority: 400,
         keywords: ['media'],
         icon: () => (

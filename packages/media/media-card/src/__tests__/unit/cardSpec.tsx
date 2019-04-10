@@ -847,7 +847,7 @@ describe('Card', () => {
       expect(MV.props()).toEqual(
         expect.objectContaining({
           collectionName: 'some-collection-name',
-          dataSource: { list: [fileIdentifier] },
+          dataSource: { list: [] },
           selectedItem: fileIdentifier,
         }),
       );
@@ -864,21 +864,6 @@ describe('Card', () => {
       await nextTick();
       expect(component.find(MediaViewer).prop('dataSource')).toEqual({
         list: [fileIdentifier, fileIdentifier],
-      });
-    });
-
-    it('should add card identifier to MV list if not present', async () => {
-      const otherIdentifier: any = {};
-      const { component } = setup(undefined, {
-        shouldOpenMediaViewer: true,
-        mediaViewerDataSource: { list: [otherIdentifier] },
-      });
-      const instance = component.instance() as Card;
-
-      instance.onClick(clickedIdentifier);
-      await nextTick();
-      expect(component.find(MediaViewer).prop('dataSource')).toEqual({
-        list: [fileIdentifier, otherIdentifier],
       });
     });
 

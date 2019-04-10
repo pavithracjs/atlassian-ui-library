@@ -1,7 +1,7 @@
 import { ClientBasedAuth } from '@atlaskit/media-core';
 import { MediaStore, MediaCollection } from '@atlaskit/media-store';
 import { Database } from 'kakapo';
-import * as uuid from 'uuid';
+import uuidV4 from 'uuid/v4';
 
 import { getFakeFileName, fakeImage } from './mockData';
 import { mapDataUriToBlob } from '../../utils';
@@ -16,13 +16,13 @@ export * from './collection';
 export * from './collection-item';
 
 export const tenantAuth: ClientBasedAuth = {
-  clientId: uuid.v4(),
+  clientId: uuidV4(),
   token: 'some-tenant-token',
   baseUrl: defaultBaseUrl,
 };
 
 export const userAuth: ClientBasedAuth = {
-  clientId: uuid.v4(),
+  clientId: uuidV4(),
   token: 'some-user-token',
   baseUrl: defaultBaseUrl,
 };
@@ -66,7 +66,7 @@ export function generateUserData(
       mediaStore.createFileFromBinary(image, {
         name: filename,
         collection,
-        occurrenceKey: uuid.v4(),
+        occurrenceKey: uuidV4(),
       });
     });
   } else {
@@ -77,7 +77,7 @@ export function generateUserData(
       mediaStore.createFileFromBinary(image, {
         name: getFakeFileName(),
         collection,
-        occurrenceKey: uuid.v4(),
+        occurrenceKey: uuidV4(),
       });
     }
   }

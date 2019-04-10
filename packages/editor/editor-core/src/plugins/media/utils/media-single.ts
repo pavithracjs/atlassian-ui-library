@@ -116,8 +116,8 @@ export const createMediaSingleNode = (schema: Schema, collection: string) => (
     id,
     type: 'file',
     collection,
-    width: Math.round(width / scaleFactor),
-    height: Math.round(height / scaleFactor),
+    width: (width && Math.round(width / scaleFactor)) || null,
+    height: (height && Math.round(height / scaleFactor)) || null,
   });
 
   copyOptionalAttrsFromMediaState(mediaState, mediaNode);

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as uuid from 'uuid';
+import uuid from 'uuid';
 import { Schema, Node, Fragment } from 'prosemirror-model';
 import { EditorState, Plugin, PluginKey, StateField } from 'prosemirror-state';
 import {
@@ -549,7 +549,7 @@ function buildNodesForTeamMention(
 ): Fragment {
   const { nodes, marks } = schema;
   const { name, id: teamId, accessLevel, context } = selectedMention;
-  const teamUrl = `${window.location.host}/people/team/${teamId}`;
+  const teamUrl = `${window.location.origin}/people/team/${teamId}`;
 
   const openBracketText = schema.text('(');
   const closeBracketText = schema.text(')');

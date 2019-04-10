@@ -38,7 +38,7 @@ import {
 } from '../../../../../plugins/hyperlink/pm-plugins/main';
 import {
   INPUT_METHOD,
-  AnalyticsEventPayload,
+  DispatchAnalyticsEvent,
 } from '../../../../../plugins/analytics';
 import tablesPlugin from '../../../../../plugins/table';
 import { AnalyticsHandler } from '../../../../../analytics';
@@ -108,9 +108,7 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
   let toolbarOption: ReactWrapper;
   let analyticsHandlerSpy: jest.Mock<AnalyticsHandler>;
   let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
-  let dispatchAnalyticsSpy: jest.SpyInstance<
-    (payload: AnalyticsEventPayload) => void
-  >;
+  let dispatchAnalyticsSpy: jest.SpyInstance<DispatchAnalyticsEvent>;
   let dispatchSpy: jest.SpyInstance;
 
   const editor = (doc: any, editorPlugins?: any[]) => {
@@ -226,8 +224,8 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
         beforeEach(() => {
           buildToolbarForMenu({
             emojiDisabled: false,
+            isTypeAheadAllowed: true,
             emojiProvider,
-            insertEmoji: jest.fn(),
           });
           clickEmojiOption();
         });
@@ -538,7 +536,7 @@ describe('@atlaskit/editor-core/ui/ToolbarInsertBlock', () => {
       const blockTypes = [
         {
           type: PANEL,
-          title: blockTypeMessages.panel.defaultMessage,
+          title: blockTypeMessages.infoPanel.defaultMessage,
           analyticsV3: {
             actionSubjectId: 'panel',
             attributes: { inputMethod: menu.name, panelType: 'info' },

@@ -1,7 +1,10 @@
 import * as React from 'react';
-import { createStorybookContext } from '@atlaskit/media-test-helpers';
+import {
+  createStorybookContext,
+  externalImageIdentifier,
+} from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
-import { FileIdentifier, Identifier } from '@atlaskit/media-core';
+import { Identifier } from '@atlaskit/media-core';
 import { ButtonList, Container, Group } from '../example-helpers/styled';
 import {
   archiveItem,
@@ -32,23 +35,18 @@ const handleEvent = (analyticsEvent: UIAnalyticsEventInterface) => {
 };
 
 export type State = {
-  selectedItem?: Identifier;
+  selectedIdentifier?: Identifier;
 };
 
 export default class Example extends React.Component<{}, State> {
-  state: State = { selectedItem: undefined };
+  state: State = { selectedIdentifier: undefined };
 
-  setItem = (selectedItem: Identifier) => () => {
-    this.setState({ selectedItem });
+  setItem = (selectedIdentifier: Identifier) => () => {
+    this.setState({ selectedIdentifier });
   };
 
-  createItem = (item: FileIdentifier, title: string) => {
-    const identifier: FileIdentifier = {
-      id: item.id,
-      mediaItemType: 'file',
-      collectionName: defaultCollectionName,
-    };
-    const onClick = this.setItem(item);
+  createItem = (identifier: Identifier, title: string) => {
+    const onClick = this.setItem(identifier);
 
     return (
       <div>
@@ -59,6 +57,8 @@ export default class Example extends React.Component<{}, State> {
   };
 
   render() {
+    const { selectedIdentifier } = this.state;
+
     return (
       <I18NWrapper>
         <Container>
@@ -94,6 +94,14 @@ export default class Example extends React.Component<{}, State> {
             </ButtonList>
           </Group>
           <Group>
+            <h2>External images</h2>
+            <ButtonList>
+              <li>
+                {this.createItem(externalImageIdentifier, 'Atlassian logo')}
+              </li>
+            </ButtonList>
+          </Group>
+          <Group>
             <h2>Errors</h2>
             <ButtonList>
               <li>{this.createItem(unsupportedItem, 'Unsupported item')}</li>
@@ -106,14 +114,14 @@ export default class Example extends React.Component<{}, State> {
               </li>
             </ButtonList>
           </Group>
-          {this.state.selectedItem && (
+          {selectedIdentifier && (
             <AnalyticsListener channel="media" onEvent={handleEvent}>
               <MediaViewer
                 context={context}
-                selectedItem={this.state.selectedItem}
-                dataSource={{ list: [this.state.selectedItem] }}
+                selectedItem={selectedIdentifier}
+                dataSource={{ list: [selectedIdentifier] }}
                 collectionName={defaultCollectionName}
-                onClose={() => this.setState({ selectedItem: undefined })}
+                onClose={() => this.setState({ selectedIdentifier: undefined })}
               />
             </AnalyticsListener>
           )}

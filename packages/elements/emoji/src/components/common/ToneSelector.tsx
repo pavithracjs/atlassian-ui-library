@@ -16,7 +16,7 @@ import {
   createAndFireEventInElementsChannel,
   toneSelectedEvent,
   toneSelectorOpenedEvent,
-} from '../../analytics';
+} from '../../util/analytics';
 
 export interface Props {
   emoji: EmojiDescriptionWithVariations;

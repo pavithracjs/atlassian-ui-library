@@ -1,5 +1,35 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.3.1
+- [patch] [55e47676aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55e47676aa):
+
+  - revert update status code splits in Renderer/Editor which causes component dist to be broken
+
+## 7.3.0
+- [minor] [db29d1eca9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/db29d1eca9):
+
+  - ED-6357: bridge.currentSelection() provides rectangle coords of selected link
+
+## 7.2.0
+- [minor] [969915d261](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/969915d261):
+
+  - update status import entrypoints in Renderer/editor
+
+## 7.1.10
+- [patch] [97e555c168](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97e555c168):
+
+  - Revert "[ED-5259 - ED-6200] adds defaultMarks on tableNode (pull request #5259)"
+
+## 7.1.9
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 7.1.8
+- [patch] [92c8c14019](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92c8c14019):
+
+  - ED-6492: Fixed media single without dimensions not rendering on mobile
+
 ## 7.1.7
 - Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
   - @atlaskit/editor-common@36.0.0

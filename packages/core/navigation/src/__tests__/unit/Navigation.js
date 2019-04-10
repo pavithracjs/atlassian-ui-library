@@ -32,7 +32,7 @@ const globalOpenWidth = globalOpenWidthFn(false);
 const standardOpenWidth = standardOpenWidthFn(false);
 const resizeClosedBreakpoint = resizeClosedBreakpointFn(false);
 
-const expect = window.expect;
+const { expect } = window;
 
 class Child extends PureComponent<any> {
   render() {

@@ -2,9 +2,11 @@ import { NodeSerializerOpts } from '../interfaces';
 import { createTag, serializeStyle } from '../util';
 
 export default function mediaGroup({ attrs, text }: NodeSerializerOpts) {
-  const style = serializeStyle({
-    width: attrs.layout === 'full-width' ? '100%' : '400px',
+  const fullWidthStyle = serializeStyle({
+    width: '100%',
   });
+
+  const style = attrs.layout === 'full-width' ? fullWidthStyle : '';
 
   return createTag('div', { style }, text);
 }
