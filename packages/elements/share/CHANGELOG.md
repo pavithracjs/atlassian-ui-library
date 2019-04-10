@@ -1,5 +1,79 @@
 # @atlaskit/share
 
+## 0.3.4
+- [patch] [0f4109e919](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f4109e919):
+
+  - FS-3743 remove loading message from user picker
+
+## 0.3.3
+- [patch] [66512e9026](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/66512e9026):
+
+  - FS-3764 move dependencies to peer dependencies
+
+## 0.3.2
+- [patch] [c68b454ba9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c68b454ba9):
+
+  - fixed unclear share panel state upon successful share
+
+## 0.3.1
+- [patch] [ddfc158dfb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ddfc158dfb):
+
+  - Removed unused buttonStyle prop
+
+## 0.3.0
+- [minor] [b617f099aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b617f099aa):
+
+  - Limited length of comment messages.
+
+## 0.2.10
+- [patch] [69c72e07ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69c72e07ba):
+
+  - Fixed share button off position on IE11
+
+## 0.2.9
+- [patch] [fcdae04b8c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fcdae04b8c):
+
+  - FS-3620 add share analytics
+
+## 0.2.8
+- [patch] [13d9986e40](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/13d9986e40):
+
+  - fixed dialogue header font settings
+
+## 0.2.7
+- [patch] [26a3d443e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/26a3d443e2):
+
+  - fix warning when unmounting share doesn't cancel the async requests
+
+## 0.2.6
+- [patch] [3161a93cdb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3161a93cdb):
+
+  - FS-3289 update share copy
+
+## 0.2.5
+- [patch] [9babee9fc2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9babee9fc2):
+
+  - Fix share modal padding
+
+## 0.2.4
+- [patch] [8f56fe1259](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f56fe1259):
+
+  - Remove files from package.json to publish all the files in @atlaskit/share
+
+## 0.2.3
+- Updated dependencies [3ea3f5ea55](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3ea3f5ea55):
+  - @atlaskit/user-picker@3.0.0
+
+## 0.2.2
+- [patch] [9ce45faaf8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ce45faaf8):
+
+  - adjustments for design review
+
+## 0.2.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
 ## 0.2.0
 - [minor] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 

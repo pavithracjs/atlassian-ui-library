@@ -2,7 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { Component, Fragment, type Node } from 'react';
 import { findDOMNode } from 'react-dom';
-import uuid from 'uuid/v1';
+import { uid } from 'react-uid';
 import {
   withAnalyticsEvents,
   createAndFireEvent,
@@ -48,6 +48,7 @@ class DropdownMenuStateless extends Component<
   triggerContainer: ?HTMLElement;
 
   sourceOfIsOpen: ?string;
+
   dropdownListPositioned: boolean = false;
 
   static defaultProps = {
@@ -68,7 +69,7 @@ class DropdownMenuStateless extends Component<
   };
 
   state = {
-    id: uuid(),
+    id: uid({ id: this.constructor.name }),
     autoFocusDropdownItems: false,
   };
 

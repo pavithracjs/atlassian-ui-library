@@ -18,7 +18,9 @@ const renderComponent = (overriddenProps?: Partial<Props>) => {
 };
 
 describe('JiraAdvancedSearch', () => {
-  let getJiraAdvancedSearchUrlMock;
+  let getJiraAdvancedSearchUrlMock: jest.SpyInstance<
+    (entityType: Utils.JiraEntityTypes, query?: string | undefined) => string
+  >;
   beforeEach(() => {
     getJiraAdvancedSearchUrlMock = jest.spyOn(
       Utils,

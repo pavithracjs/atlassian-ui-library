@@ -4,6 +4,7 @@ import * as ReactDOM from 'react-dom';
 import { defineMessages, injectIntl, InjectedIntlProps } from 'react-intl';
 import { EditorView } from 'prosemirror-view';
 import { Node as PMNode } from 'prosemirror-model';
+import { EditorState } from 'prosemirror-state';
 import AddIcon from '@atlaskit/icon/glyph/editor/add';
 import ExpandIcon from '@atlaskit/icon/glyph/chevron-down';
 import TableIcon from '@atlaskit/icon/glyph/editor/table';
@@ -62,7 +63,6 @@ import { showLinkToolbar } from '../../../hyperlink/commands';
 import { insertMentionQuery } from '../../../mentions/commands/insert-mention-query';
 import { updateStatus } from '../../../status/actions';
 import {
-  AnalyticsEventPayload,
   withAnalytics as commandWithAnalytics,
   ACTION,
   ACTION_SUBJECT,
@@ -71,8 +71,9 @@ import {
   ACTION_SUBJECT_ID,
   PANEL_TYPE,
   InsertEventPayload,
+  DispatchAnalyticsEvent,
 } from '../../../analytics';
-import { EditorState } from 'prosemirror-state';
+import { insertEmoji } from '../../../emoji/commands/insert-emoji';
 
 export const messages = defineMessages({
   action: {
@@ -80,14 +81,29 @@ export const messages = defineMessages({
     defaultMessage: 'Action item',
     description: 'Also known as a “task”, “to do item”, or a checklist',
   },
+  actionDescription: {
+    id: 'fabric.editor.action.description',
+    defaultMessage: 'Capture actions to move work forward',
+    description: '',
+  },
   link: {
     id: 'fabric.editor.link',
     defaultMessage: 'Link',
     description: 'Insert a hyperlink',
   },
+  linkDescription: {
+    id: 'fabric.editor.link.description',
+    defaultMessage: 'Link to an internal or external page',
+    description: 'Insert a hyperlink',
+  },
   filesAndImages: {
     id: 'fabric.editor.filesAndImages',
     defaultMessage: 'Files & images',
+    description: 'Insert one or more files or images',
+  },
+  filesAndImagesDescription: {
+    id: 'fabric.editor.filesAndImages.description',
+    defaultMessage: 'Add images and other files to your page',
     description: 'Insert one or more files or images',
   },
   image: {
@@ -100,9 +116,19 @@ export const messages = defineMessages({
     defaultMessage: 'Mention',
     description: 'Reference another person in your document',
   },
+  mentionDescription: {
+    id: 'fabric.editor.mention.description',
+    defaultMessage: 'Mention someone to send them a notification',
+    description: 'Reference another person in your document',
+  },
   emoji: {
     id: 'fabric.editor.emoji',
     defaultMessage: 'Emoji',
+    description: 'Insert an emoticon or smiley :-)',
+  },
+  emojiDescription: {
+    id: 'fabric.editor.emoji.description',
+    defaultMessage: 'Use emojis to express ideas 🎉 and emotions 😄',
     description: 'Insert an emoticon or smiley :-)',
   },
   table: {
@@ -110,9 +136,19 @@ export const messages = defineMessages({
     defaultMessage: 'Table',
     description: 'Inserts a table in the document',
   },
+  tableDescription: {
+    id: 'fabric.editor.table.description',
+    defaultMessage: 'Insert a table',
+    description: 'Inserts a table in the document',
+  },
   decision: {
     id: 'fabric.editor.decision',
     defaultMessage: 'Decision',
+    description: 'Capture a decision you’ve made',
+  },
+  decisionDescription: {
+    id: 'fabric.editor.decision.description',
+    defaultMessage: 'Capture decisions so they’re easy to track',
     description: 'Capture a decision you’ve made',
   },
   horizontalRule: {
@@ -120,9 +156,19 @@ export const messages = defineMessages({
     defaultMessage: 'Divider',
     description: 'A horizontal rule or divider',
   },
+  horizontalRuleDescription: {
+    id: 'fabric.editor.horizontalRule.description',
+    defaultMessage: 'Separate content with a horizontal line',
+    description: 'A horizontal rule or divider',
+  },
   date: {
     id: 'fabric.editor.date',
     defaultMessage: 'Date',
+    description: 'Opens a date picker that lets you select a date',
+  },
+  dateDescription: {
+    id: 'fabric.editor.date.description',
+    defaultMessage: 'Add a date using a calendar',
     description: 'Opens a date picker that lets you select a date',
   },
   placeholderText: {
@@ -135,9 +181,20 @@ export const messages = defineMessages({
     defaultMessage: 'Columns',
     description: 'Create a multi column section or layout',
   },
+  columnsDescription: {
+    id: 'fabric.editor.columns.description',
+    defaultMessage: 'Structure your page using sections',
+    description: 'Create a multi column section or layout',
+  },
   status: {
     id: 'fabric.editor.status',
     defaultMessage: 'Status',
+    description:
+      'Inserts an item representing the status of an activity to task.',
+  },
+  statusDescription: {
+    id: 'fabric.editor.status.description',
+    defaultMessage: 'Create a colored lozenge with text inside',
     description:
       'Inserts an item representing the status of an activity to task.',
   },
@@ -181,7 +238,6 @@ export interface Props {
   linkSupported?: boolean;
   linkDisabled?: boolean;
   emojiDisabled?: boolean;
-  insertEmoji?: (emojiId: EmojiId) => void;
   nativeStatusSupported?: boolean;
   popupsMountPoint?: HTMLElement;
   popupsBoundariesElement?: HTMLElement;
@@ -195,7 +251,7 @@ export interface Props {
     node?: PMNode,
     isEditing?: boolean,
   ) => (state: EditorState, dispatch: CommandDispatch) => void;
-  dispatchAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 }
 
 export interface State {
@@ -252,7 +308,9 @@ class ToolbarInsertBlock extends React.PureComponent<
     this.onOpenChange({ isOpen: !isOpen });
   };
 
-  private toggleEmojiPicker = () => {
+  private toggleEmojiPicker = (
+    inputMethod: TOOLBAR_MENU_TYPE = INPUT_METHOD.TOOLBAR,
+  ) => {
     this.setState(
       prevState => ({ emojiPickerOpen: !prevState.emojiPickerOpen }),
       () => {
@@ -263,7 +321,7 @@ class ToolbarInsertBlock extends React.PureComponent<
               action: ACTION.OPENED,
               actionSubject: ACTION_SUBJECT.PICKER,
               actionSubjectId: ACTION_SUBJECT_ID.PICKER_EMOJI,
-              attributes: { inputMethod: INPUT_METHOD.TOOLBAR },
+              attributes: { inputMethod },
               eventType: EVENT_TYPE.UI,
             });
           }
@@ -505,7 +563,7 @@ class ToolbarInsertBlock extends React.PureComponent<
       items.push({
         content: labelEmoji,
         value: { name: 'emoji' },
-        isDisabled: emojiDisabled,
+        isDisabled: emojiDisabled || !isTypeAheadAllowed,
         elemBefore: <EmojiIcon label={labelEmoji} />,
         handleRef: this.handleButtonRef,
         elemAfter: <Shortcut>:</Shortcut>,
@@ -618,21 +676,18 @@ class ToolbarInsertBlock extends React.PureComponent<
 
   private toggleLinkPanel = withAnalytics(
     'atlassian.editor.format.hyperlink.button',
-    (): boolean => {
+    (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
       const { editorView } = this.props;
-      showLinkToolbar(INPUT_METHOD.TOOLBAR)(
-        editorView.state,
-        editorView.dispatch,
-      );
+      showLinkToolbar(inputMethod)(editorView.state, editorView.dispatch);
       return true;
     },
   );
 
   private insertMention = withAnalytics(
     'atlassian.fabric.mention.picker.trigger.button',
-    (): boolean => {
+    (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
       const { editorView } = this.props;
-      insertMentionQuery()(editorView.state, editorView.dispatch);
+      insertMentionQuery(inputMethod)(editorView.state, editorView.dispatch);
       return true;
     },
   );
@@ -690,7 +745,7 @@ class ToolbarInsertBlock extends React.PureComponent<
 
   private openMediaPicker = withAnalytics(
     'atlassian.editor.format.media.button',
-    (): boolean => {
+    (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
       const { onShowMediaPicker, dispatchAnalyticsEvent } = this.props;
       if (onShowMediaPicker) {
         onShowMediaPicker();
@@ -699,7 +754,7 @@ class ToolbarInsertBlock extends React.PureComponent<
             action: ACTION.OPENED,
             actionSubject: ACTION_SUBJECT.PICKER,
             actionSubjectId: ACTION_SUBJECT_ID.PICKER_CLOUD,
-            attributes: { inputMethod: INPUT_METHOD.TOOLBAR },
+            attributes: { inputMethod },
             eventType: EVENT_TYPE.UI,
           });
         }
@@ -766,6 +821,8 @@ class ToolbarInsertBlock extends React.PureComponent<
       case 'codeblock':
         actionSubjectId = ACTION_SUBJECT_ID.CODE_BLOCK;
         break;
+      case 'blockquote':
+        actionSubjectId = ACTION_SUBJECT_ID.BLOCK_QUOTE;
     }
 
     analytics.trackEvent(`atlassian.editor.format.${itemName}.button`);
@@ -788,9 +845,13 @@ class ToolbarInsertBlock extends React.PureComponent<
   private handleSelectedEmoji = withAnalytics(
     'atlassian.editor.emoji.button',
     (emojiId: EmojiId): boolean => {
-      const { insertEmoji, dispatchAnalyticsEvent } = this.props;
+      const { dispatchAnalyticsEvent } = this.props;
       if (insertEmoji) {
-        insertEmoji(emojiId);
+        insertEmoji(emojiId)(
+          this.props.editorView.state,
+          this.props.editorView.dispatch,
+        );
+        this.props.editorView.focus();
         if (dispatchAnalyticsEvent) {
           dispatchAnalyticsEvent({
             action: ACTION.INSERTED,
@@ -823,7 +884,7 @@ class ToolbarInsertBlock extends React.PureComponent<
 
     switch (item.value.name) {
       case 'link':
-        this.toggleLinkPanel();
+        this.toggleLinkPanel(inputMethod);
         break;
       case 'table':
         this.createTable(inputMethod);
@@ -835,13 +896,13 @@ class ToolbarInsertBlock extends React.PureComponent<
         }
         break;
       case 'media':
-        this.openMediaPicker();
+        this.openMediaPicker(inputMethod);
         break;
       case 'mention':
-        this.insertMention!();
+        this.insertMention(inputMethod);
         break;
       case 'emoji':
-        this.toggleEmojiPicker();
+        this.toggleEmojiPicker(inputMethod);
         break;
       case 'codeblock':
       case 'blockquote':

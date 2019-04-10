@@ -39,19 +39,50 @@ export class TeamOption extends React.PureComponent<TeamOptionProps> {
     // if Member count is missing, do not show the byline, regardless of the availability of includesYou
     if (memberCount === null || typeof memberCount === 'undefined') {
       return undefined;
+    } else {
+      if (includesYou === true) {
+        if (memberCount > 50) {
+          return this.getBylineComponent(
+            isSelected,
+            <FormattedMessage {...messages.plus50MembersWithYou} />,
+          );
+        } else {
+          return this.getBylineComponent(
+            isSelected,
+            <FormattedMessage
+              {...messages.memberCountWithYou}
+              values={{
+                count: memberCount,
+              }}
+            />,
+          );
+        }
+      } else {
+        if (memberCount > 50) {
+          return this.getBylineComponent(
+            isSelected,
+            <FormattedMessage {...messages.plus50MembersWithoutYou} />,
+          );
+        } else {
+          return this.getBylineComponent(
+            isSelected,
+            <FormattedMessage
+              {...messages.memberCountWithoutYou}
+              values={{
+                count: memberCount,
+              }}
+            />,
+          );
+        }
+      }
     }
-
-    return (
-      <TextWrapper color={isSelected ? colors.N50 : colors.N200}>
-        <FormattedMessage
-          {...(memberCount > 50
-            ? messages.plus50Members
-            : messages.memberCount)}
-          values={{ count: memberCount, includes: includesYou }}
-        />
-      </TextWrapper>
-    );
   };
+
+  private getBylineComponent = (isSelected: boolean, message: JSX.Element) => (
+    <TextWrapper color={isSelected ? colors.N50 : colors.N200}>
+      {message}
+    </TextWrapper>
+  );
 
   private renderAvatar = () => {
     const {

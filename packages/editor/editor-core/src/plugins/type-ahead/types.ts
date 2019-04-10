@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement } from 'react';
 import { InjectedIntl } from 'react-intl';
 import { EditorState, Transaction } from 'prosemirror-state';
 import { Node } from 'prosemirror-model';
@@ -13,8 +13,13 @@ export type TypeAheadItemRenderProps = {
 
 export type TypeAheadItem = {
   title: string;
+  description?: string;
+  keyshortcut?: string;
+  key?: string | number;
   icon?: () => ReactElement<any>;
-  render?: (props: TypeAheadItemRenderProps) => ReactNode;
+  render?: (
+    props: TypeAheadItemRenderProps,
+  ) => React.ReactElement<TypeAheadItemRenderProps> | null;
   [key: string]: any;
 };
 
@@ -35,6 +40,7 @@ export type TypeAheadSelectItem = (
 export type TypeAheadHandler = {
   trigger: string;
   customRegex?: string;
+  forceSelect?: (query: string, items: Array<TypeAheadItem>) => boolean;
   getItems: (
     query: string,
     editorState: EditorState,

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import * as reactAddonsTextContent from 'react-addons-text-content';
+import reactAddonsTextContent from 'react-addons-text-content';
 import { Helmet } from 'react-helmet';
-import * as snakeCase from 'snake-case';
+import snakeCase from 'snake-case';
 
 export type Props = {
   children?: React.ReactChild;
@@ -12,7 +12,7 @@ export type State = {
   shouldShowAnchor: boolean;
 };
 
-function dashcase(children) {
+function dashcase(children?: React.ReactChild) {
   return snakeCase(reactAddonsTextContent(children)).replace(/_/g, '-');
 }
 

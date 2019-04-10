@@ -1,5 +1,45 @@
 # @atlaskit/global-search
 
+## 6.2.4
+- [patch] [f86b087b7c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f86b087b7c):
+
+  - Adding container ID to analytics to relevant analytics, including referral context params
+
+## 6.2.3
+- [patch] [47bb7e05e4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/47bb7e05e4):
+
+  - Add new API to allow pre-fetching of global search pre-query results before the component is opened
+
+## 6.2.2
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 6.2.1
+- [patch] [203d4c22bd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/203d4c22bd):
+
+  - Fix Confluence dead end screen by fixing text and removing People search button
+
+## 6.2.0
+- [minor] [347d237b8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/347d237b8e):
+
+  - Enable noImplicitAny for @atlaskit/global-search
+
+## 6.1.1
+- [patch] [befe3607e3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/befe3607e3):
+
+  - Attach experimentId to searchResults shown metric
+
+## 6.1.0
+- [minor] [3d5e64b87b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d5e64b87b):
+
+  - retrieve prequery results from Xpsearch
+
+## 6.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
 ## 6.0.0
 - [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 

@@ -1,5 +1,40 @@
 # @atlaskit/smart-card
 
+## 10.2.1
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 10.2.0
+- [minor] [9b0dd21ce7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0dd21ce7):
+
+  - allow the appearance of lozenges within smart link tasks to be configured
+
+## 10.1.2
+- [patch] [aa117f5341](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa117f5341):
+
+  - fix alignment and UI for inline Smart Links.
+
+## 10.1.1
+- Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
+  - @atlaskit/form@5.2.4
+  - @atlaskit/textarea@0.4.0
+
+## 10.1.0
+- [minor] [11a6c98707](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/11a6c98707):
+
+  - refactor Smart Links frontend directory structure.
+
+## 10.0.2
+- Updated dependencies [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
+  - @atlaskit/form@5.2.3
+  - @atlaskit/textfield@0.4.0
+
+## 10.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
 ## 10.0.0
 - [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 

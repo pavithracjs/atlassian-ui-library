@@ -5,7 +5,7 @@ import {
   scrollHintSpacing,
   gridSize,
 } from '../../shared-variables';
-import ScrollHintScrollContainer from '../styled/ScrollHintScrollContainer';
+import ScrollHintScrollContainer from './ScrollHintScrollContainer';
 import { whenCollapsed } from '../../theme/util';
 
 const animationTime = animationTimeUnitless / 1000;

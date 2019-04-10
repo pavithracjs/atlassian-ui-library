@@ -6,7 +6,6 @@ import FabricAnalyticsListener, {
 import { waitUntil } from '@atlaskit/util-common-test';
 import ResourcedTaskItem from '../../../components/ResourcedTaskItem';
 import TaskItem from '../../../components/TaskItem';
-import Participants from '../../../components/Participants';
 import { getParticipants } from '../_test-data';
 import { Placeholder } from '../../../styled/Placeholder';
 import Item from '../../../components/Item';
@@ -298,42 +297,6 @@ describe('<ResourcedTaskItem/>', () => {
         );
       },
     );
-  });
-
-  describe('participants', () => {
-    const participants = getParticipants(2);
-
-    it('participants not used for inline style item', () => {
-      const component = mount(
-        <ResourcedTaskItem
-          taskId="task-1"
-          objectAri="objectAri"
-          containerAri="containerAri"
-          taskDecisionProvider={Promise.resolve(provider)}
-          appearance="inline"
-          participants={participants}
-        />,
-      );
-      expect(component.find(Participants).length).toEqual(0);
-    });
-
-    it('participants used for card style item', () => {
-      const component = mount(
-        <ResourcedTaskItem
-          taskId="task-1"
-          objectAri="objectAri"
-          containerAri="containerAri"
-          taskDecisionProvider={Promise.resolve(provider)}
-          appearance="card"
-          participants={participants}
-        />,
-      );
-      const participantsComponents = component.find(Participants);
-      expect(participantsComponents.length).toEqual(1);
-      expect(participantsComponents.at(0).prop('participants')).toEqual(
-        participants,
-      );
-    });
   });
 
   describe('showPlaceholder', () => {

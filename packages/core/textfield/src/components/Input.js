@@ -1,11 +1,12 @@
 // @flow
 
 import React from 'react';
-import { css } from 'emotion';
 import type { InputProps } from '../types';
 
 export default ({
   appearance,
+  elemAfterInput,
+  elemBeforeInput,
   forwardedRef,
   isCompact,
   isDisabled,
@@ -15,17 +16,28 @@ export default ({
   isMonospaced,
   isReadOnly,
   isRequired,
+  onMouseDown,
+  onMouseEnter,
+  onMouseLeave,
   theme,
   ...rest
 }: InputProps) => (
-  <div className={css(theme.container)}>
+  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+  <div
+    css={theme.container}
+    onMouseDown={onMouseDown}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
+  >
+    {elemBeforeInput}
     <input
       ref={forwardedRef}
       disabled={isDisabled}
       readOnly={isReadOnly}
       required={isRequired}
-      className={css(theme.input)}
+      css={theme.input}
       {...rest}
     />
+    {elemAfterInput}
   </div>
 );

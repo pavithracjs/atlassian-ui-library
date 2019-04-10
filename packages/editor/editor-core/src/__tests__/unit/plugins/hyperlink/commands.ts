@@ -220,6 +220,7 @@ describe('hyperlink commands', () => {
             url: 'http://www.atlassian.com/',
             pos: 1,
             appearance: 'inline',
+            compareLinkText: false,
           },
         ],
         provider: null, // cardProvider would have been set yet

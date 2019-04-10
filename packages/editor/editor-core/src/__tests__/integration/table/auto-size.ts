@@ -15,8 +15,8 @@ import {
 } from '../../__helpers/testing-example-helpers';
 
 async function loadAndRetrieveDocument(
-  page,
-  document,
+  page: any,
+  document: object,
   expectedLayout = 'default',
 ) {
   await page.browser.windowHandleMaximize();
@@ -40,37 +40,37 @@ async function loadAndRetrieveDocument(
 BrowserTestCase(
   'Doesnt scale past default',
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     const doc = await loadAndRetrieveDocument(page, autoSizeToDefaultLayout);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'Scales to wide',
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     const doc = await loadAndRetrieveDocument(
       page,
       autoSizeToWideLayout,
       'wide',
     );
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'Scales to full-width',
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     const doc = await loadAndRetrieveDocument(
       page,
       autoSizeToFullWidthLayout,
       'full-width',
     );
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

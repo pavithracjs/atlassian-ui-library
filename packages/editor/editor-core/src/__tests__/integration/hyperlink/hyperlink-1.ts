@@ -22,14 +22,13 @@ const linkText2 = 'FAB-983';
     {
       skip: ['ie', 'edge', 'safari', 'firefox'],
     },
-    async (client: any) => {
+    async (client: any, testName: string) => {
       let browser = new Page(client);
       await browser.goto(editor.path);
       await browser.waitForSelector(editor.placeholder);
       await browser.click(editor.placeholder);
       await browser.waitForSelector(editable);
 
-      // this usecase is broken on fullpage editor
       await browser.click(`[aria-label="${messages.link.defaultMessage}"]`);
       await browser.waitForSelector(linkToolbar);
       await browser.type(linkToolbar, [linkText2, 'Return']);
@@ -46,7 +45,7 @@ const linkText2 = 'FAB-983';
       await browser.click('[aria-label=Unlink]');
 
       const doc = await browser.$eval(editable, getDocFromElement);
-      expect(doc).toMatchDocSnapshot();
+      expect(doc).toMatchCustomDocSnapshot(testName);
     },
   );
 });

@@ -1,5 +1,70 @@
 # @atlaskit/user-picker
 
+## 3.3.5
+- [patch] [0f4109e919](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f4109e919):
+
+  - FS-3743 remove loading message from user picker
+
+## 3.3.4
+- [patch] [93464f09e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/93464f09e8):
+
+  - TEAMS-328 : Changing byline logic
+
+## 3.3.3
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 3.3.2
+- [patch] [3718bdc361](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3718bdc361):
+
+  - Updated InviteAvatorIcon in UserPicker to be not transparent
+
+## 3.3.1
+- [patch] [83ad0552d4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/83ad0552d4):
+
+  - Workaround SSR avatar issue in user-picker ssr tests
+
+## 3.3.0
+- [minor] [4526b178cb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4526b178cb):
+
+  - Fixed uncaptured Enter key press on Input
+
+## 3.2.0
+- [minor] [b0210d7ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0210d7ccc):
+
+  - reset jest modules before hydration
+
+## 3.1.1
+- [patch] [3161a93cdb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3161a93cdb):
+
+  - FS-3289 update share copy
+
+## 3.1.0
+- [minor] [1da59f9d31](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1da59f9d31):
+
+  - added ssr tests to user-picker
+
+## 3.0.0
+- [major] [3ea3f5ea55](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3ea3f5ea55):
+
+  - FS-3548 integrators must explicitly set the context prop in user-picker
+
+## 2.0.3
+- [patch] [552843a739](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/552843a739):
+
+  - FS-3639 fix analytics when no item is removed
+
+## 2.0.2
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 2.0.1
+- [patch] [de8123519a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/de8123519a):
+
+  - FS-3675 add ability for integrator to add title to popup picker
+
 ## 2.0.0
 - [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 

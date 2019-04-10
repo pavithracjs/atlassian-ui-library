@@ -1,5 +1,43 @@
 # @atlaskit/button
 
+## 11.0.9
+- [patch] [872b3b905a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/872b3b905a):
+
+  - Updates theme to the version which exposes multiple entry points
+
+## 11.0.8
+- [patch] [22ce87801e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/22ce87801e):
+
+  - Optimised usages of theme in button using multiple entry points
+
+## 11.0.7
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 11.0.6
+- Updated dependencies [fd940a833b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fd940a833b):
+  - @atlaskit/spinner@10.0.4
+
+## 11.0.5
+- [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
+
+  - Removes duplicate babel-runtime dependency
+
+## 11.0.4
+- Updated dependencies [986c5e47c8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/986c5e47c8):
+  - @atlaskit/spinner@10.0.2
+
+## 11.0.3
+- [patch] [59d4ab031b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59d4ab031b):
+
+  - Call mouse handlers (e.g. onMouseDown) which are passed in as props
+
+## 11.0.2
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
 ## 11.0.1
 - [patch] [90a14be594](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/90a14be594):
 

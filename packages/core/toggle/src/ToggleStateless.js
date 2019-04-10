@@ -1,5 +1,5 @@
 // @flow
-import uuid from 'uuid';
+import { uid } from 'react-uid';
 import React, { Component } from 'react';
 import {
   withAnalyticsEvents,
@@ -38,10 +38,12 @@ class ToggleStateless extends Component<StatelessProps, State> {
     });
     this.props.onBlur(event);
   };
+
   handleFocus = (event: Event) => {
     this.setState({ isFocused: true });
     this.props.onFocus(event);
   };
+
   handleChange = (event: Event) => {
     if (this.props.isDisabled) {
       return;
@@ -60,7 +62,7 @@ class ToggleStateless extends Component<StatelessProps, State> {
       size,
     };
     const Icon = isChecked ? ConfirmIcon : CloseIcon;
-    const id = uuid();
+    const id = uid({ id: this.constructor.name });
 
     return (
       <Label size={size} isDisabled={isDisabled} htmlFor={id}>

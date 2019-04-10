@@ -2,7 +2,7 @@ import * as React from 'react';
 import { md } from '@atlaskit/docs';
 import { colors } from '@atlaskit/theme';
 
-const Warning = p => (
+const Warning = (p: { children: React.ReactNode }) => (
   <div
     style={{
       backgroundColor: colors.Y75,

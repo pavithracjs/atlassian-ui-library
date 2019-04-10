@@ -18,7 +18,7 @@ import {
   isEmojiTypeAheadItemSelected,
 } from '../../_emoji-selectors';
 
-import { defaultListLimit } from '../../../../constants';
+import { defaultListLimit } from '../../../../util/constants';
 import EmojiTypeAhead, {
   Props,
 } from '../../../../components/typeahead/EmojiTypeAhead';
@@ -26,7 +26,7 @@ import EmojiTypeAheadComponent from '../../../../components/typeahead/EmojiTypeA
 import { OnLifecycle } from '../../../../components/typeahead/EmojiTypeAheadComponent';
 import EmojiTypeAheadItem from '../../../../components/typeahead/EmojiTypeAheadItem';
 import { OptionalEmojiDescription, OnEmojiEvent } from '../../../../types';
-import { toEmojiId } from '../../../../type-helpers';
+import { toEmojiId } from '../../../../util/type-helpers';
 import { Props as TypeAheadProps } from '../../../../components/typeahead/EmojiTypeAhead';
 import { State as TypeAheadState } from '../../../../components/typeahead/EmojiTypeAheadComponent';
 

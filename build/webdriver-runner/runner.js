@@ -15,6 +15,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 1200e3;
 const isBrowserStack = process.env.TEST_ENV === 'browserstack';
 const setupClients = require('./utils/setupClients');
 const path = require('path');
+const Queue = require('promise-queue');
 
 let clients /*: Array<?Object>*/ = [];
 
@@ -24,89 +25,92 @@ if (isBrowserStack) {
   clients = setupClients.setLocalClients();
 }
 
-const launchClient = async client => {
+const launchClient = client => {
   if (
     client &&
-    (client.isReady ||
-      (client.driver.requestHandler && client.driver.requestHandler.sessionID))
+    (client.driver.requestHandler && client.driver.requestHandler.sessionID)
   ) {
     return;
   }
 
-  client.isReady = true;
+  client.driver.desiredCapabilities.name = filename;
+  client.queue = new Queue(1, 100);
   return client.driver.init();
 };
 
-const endSession = async client => {
-  if (client && client.isReady) {
-    client.isReady = false;
-    await client.driver.end();
+const endSession = client => {
+  if (!client || !client.driver) {
+    return Promise.resolve();
   }
+
+  return client.driver.end();
 };
+
 const filename = path.basename(module.parent.filename);
 
-beforeAll(async function() {
-  const c = [];
-
-  for (const client of clients) {
-    if (!client) {
-      continue;
-    }
-
-    client.driver.desiredCapabilities.name = filename;
-    c.push(launchClient(client));
-  }
-
-  await Promise.all(c);
-});
+const launchedDrivers = {};
+const launchedClients = [];
 
 afterAll(async function() {
-  await Promise.all(clients.map(endSession));
+  await Promise.all(launchedClients.map(endSession));
 });
 
+/*::
+ type Tester<Object> = (client: any, testCase: string) => ?Promise<mixed>;
+*/
 function BrowserTestCase(
   testCase /*: string */,
   options /*: {skip?: string[]} */,
   tester /*: Tester<Object> */,
 ) {
+  let testsToRun = [];
+  let skip = [];
+  if (options && options.skip) {
+    skip = Array.isArray(options.skip) ? options.skip : [];
+  }
+
+  const execClients = clients.filter(
+    c => c && c.browserName && !skip.includes(c.browserName.toLowerCase()),
+  );
+
   describe(filename, () => {
-    let testsToRun = [];
-    let skip = [];
-    if (options && options.skip) {
-      skip = Array.isArray(options.skip) ? options.skip : [];
+    if (!execClients.length) {
+      test.skip(testCase, () => {});
+      return;
     }
 
-    clients
-      .filter(
-        c => c && c.browserName && !skip.includes(c.browserName.toLowerCase()),
-      )
-      .map(c => {
-        testsToRun.push(async fn => {
-          if (c && c.driver) {
-            await fn(c.driver);
-          }
+    for (let c of execClients) {
+      const client = c || {};
+      const testCode = () => tester(client.driver, testCase);
+      if (!launchedDrivers[client.browserName]) {
+        launchedDrivers[client.browserName] = launchClient(client);
+        launchedClients.push(client);
+      }
+
+      describe(client.browserName, () => {
+        test.concurrent(testCase, async () => {
+          // We need to wait for the driver be
+          // ready to start
+          await launchedDrivers[client.browserName];
+
+          // This will make sure that we will run
+          // only on test case per time on
+          // the same browser
+          return client.queue.add(testCode);
         });
       });
-
-    testRun(testCase, async (...args) => {
-      await Promise.all(testsToRun.map(f => f(tester)));
-    });
+    }
   });
 }
 
-/*::
-type Tester<Object> = (opts?: Object, done?: () => void) => ?Promise<mixed>;
-*/
+expect.extend({
+  toMatchDocSnapshot() {
+    throw new Error('Please use toMatchCustomDocSnapshot on integration tests');
+  },
 
-function testRun(testCase /*: string */, tester /*: Tester<Object>*/) {
-  const testFn = test;
-  let callback;
-  if (tester && tester.length > 1) {
-    callback = done => tester(done);
-  } else {
-    callback = () => tester();
-  }
-  testFn(testCase, callback);
-}
+  toMatchSnapshot() {
+    throw new Error('Please use toMatchCustomSnapshot on integration tests');
+  },
+});
 
 module.exports = { BrowserTestCase };

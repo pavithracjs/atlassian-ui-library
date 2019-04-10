@@ -484,7 +484,7 @@ describe('LoadingContainerAdvanced', () => {
 
     describe('isVerticallyVisible', () => {
       it('should detect whether the given rect is vertically visible (at least partially)', () => {
-        const isVerticallyVisible = wrapper.instance().isVerticallyVisible;
+        const { isVerticallyVisible } = wrapper.instance();
 
         // Simulating scrolling down the page
         // The element is below the viewport
@@ -526,8 +526,7 @@ describe('LoadingContainerAdvanced', () => {
 
     describe('isFullyVerticallyVisible', () => {
       it('should detect whether the given rect is fully vertically visible', () => {
-        const isFullyVerticallyVisible = wrapper.instance()
-          .isFullyVerticallyVisible;
+        const { isFullyVerticallyVisible } = wrapper.instance();
 
         // Simulating scrolling down the page
         // The element is below the viewport

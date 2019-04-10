@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/width-detector",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "description": "Wrapper for components that need to respond to width changes",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -19,7 +19,7 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/type-helpers": "^3.0.0",
+    "@atlaskit/type-helpers": "^3.0.2",
     "raf-schd": "^2.1.0",
     "tslib": "^1.8.0"
   },

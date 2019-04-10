@@ -13,7 +13,7 @@ const messages = defineMessages({
   },
   switchToTooltip: {
     id: 'fabric.atlassianSwitcher.switchToTooltip',
-    defaultMessage: 'Switch to …',
+    defaultMessage: 'Switch to…',
     description:
       'This text appears as a tooltip when a user hovers over the atlassian switcher icon before clicking on it.',
   },
@@ -70,6 +70,31 @@ const messages = defineMessages({
     defaultMessage: 'Discover more',
     description:
       'The text of a link redirecting the user to Discover More Atlassian products',
+  },
+  errorHeading: {
+    id: 'fabric.atlassianSwitcher.errorHeading',
+    defaultMessage: 'Something went wrong',
+    description:
+      'Heading of the error screen which is shown when an unknown error happens in the Atlassian Switcher. Usually due to failed network requests.',
+  },
+  errorText: {
+    id: 'fabric.atlassianSwitcher.errorText',
+    defaultMessage:
+      'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    description:
+      'Text that is displayed when an unknown error happens in the Atlassian Switcher.',
+  },
+  errorImageAltText: {
+    id: 'fabric.atlassianSwitcher.errorImageAltText',
+    defaultMessage: 'A broken robot and a number of people busy fixing it.',
+    description:
+      'Text displayed as alt text when an error occurs in the Atlassian Switcher',
+  },
+  expand: {
+    id: 'fabric.atlassianSwitcher.expand',
+    defaultMessage: 'Expand',
+    description:
+      'The text of a link redirecting the user to the Atlassian start page',
   },
 });
 

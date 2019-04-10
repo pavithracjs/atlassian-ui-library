@@ -53,7 +53,9 @@ const RESPONSE_MESSAGES = {
 
 export const getDataProviderFactory = (onlyInclude: string[] = []) => {
   const dataProviderFactory = new ProviderFactory();
-  Object.keys(MockDataProviders).forEach(provider => {
+  (Object.keys(MockDataProviders) as Array<
+    keyof typeof MockDataProviders
+  >).forEach(provider => {
     if (onlyInclude.length === 0 || onlyInclude.indexOf(provider) !== -1) {
       dataProviderFactory.setProvider(provider, MockDataProviders[provider]);
     }
@@ -63,7 +65,7 @@ export const getDataProviderFactory = (onlyInclude: string[] = []) => {
 
 export class MockProvider extends AbstractConversationResource {
   private config: ConversationResourceConfig;
-  private responseCode: number;
+  private responseCode: keyof typeof RESPONSE_MESSAGES;
 
   constructor(config: ConversationResourceConfig) {
     super();
@@ -273,7 +275,7 @@ export class MockProvider extends AbstractConversationResource {
     return user;
   }
 
-  updateResponseCode = (code: number): void => {
+  updateResponseCode = (code: keyof typeof RESPONSE_MESSAGES): void => {
     this.responseCode = code;
   };
 }

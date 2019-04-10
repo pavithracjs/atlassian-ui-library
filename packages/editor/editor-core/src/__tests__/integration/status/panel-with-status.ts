@@ -11,14 +11,14 @@ import {
 BrowserTestCase(
   'status.ts: Insert status into panel, move cursor to right before status, and add text',
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
 
     await browser.goto(fullpage.path);
     await browser.waitForSelector(editable);
     await browser.click(editable);
 
-    await quickInsert(browser, 'Panel');
+    await quickInsert(browser, 'Info Panel');
 
     await quickInsert(browser, 'Status');
 
@@ -33,21 +33,21 @@ BrowserTestCase(
     ]);
 
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
 BrowserTestCase(
   'status.ts: Insert status into panel, move cursor to right before panel, move right, and add text',
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
 
     await browser.goto(fullpage.path);
     await browser.waitForSelector(editable);
     await browser.click(editable);
 
-    await quickInsert(browser, 'Panel');
+    await quickInsert(browser, 'Info Panel');
 
     await quickInsert(browser, 'Status');
 
@@ -64,6 +64,6 @@ BrowserTestCase(
     ]);
 
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

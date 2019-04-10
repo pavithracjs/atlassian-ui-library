@@ -1,14 +1,18 @@
-import RecentSearchClientImpl, {
-  RecentSearchClient,
-} from './RecentSearchClient';
+import CachingConfluenceClient from './CachingConfluenceClient';
+import { CachingPeopleSearchClient } from './CachingPeopleSearchClient';
+import { ConfluenceClient } from './ConfluenceClient';
 import CrossProductSearchClientImpl, {
   CrossProductSearchClient,
 } from './CrossProductSearchClient';
-import PeopleSearchClientImpl, {
-  PeopleSearchClient,
-} from './PeopleSearchClient';
-import ConfluenceClientImpl, { ConfluenceClient } from './ConfluenceClient';
 import JiraClientImpl, { JiraClient } from './JiraClient';
+import { PeopleSearchClient } from './PeopleSearchClient';
+import {
+  ConfluencePrefetchedResults,
+  GlobalSearchPrefetchedResults,
+} from './prefetchResults';
+import RecentSearchClientImpl, {
+  RecentSearchClient,
+} from './RecentSearchClient';
 
 export interface SearchClients {
   recentSearchClient: RecentSearchClient;
@@ -39,11 +43,20 @@ const defaultConfig: Config = {
 export default function configureSearchClients(
   cloudId: string,
   partialConfig: Partial<Config>,
+  prefetchedResults?: GlobalSearchPrefetchedResults,
 ): SearchClients {
   const config = {
     ...defaultConfig,
     ...partialConfig,
   };
+
+  const confluencePrefetchedResults =
+    prefetchedResults &&
+    (<ConfluencePrefetchedResults>prefetchedResults)
+      .confluenceRecentItemsPromise
+      ? (<ConfluencePrefetchedResults>prefetchedResults)
+          .confluenceRecentItemsPromise
+      : undefined;
 
   return {
     recentSearchClient: new RecentSearchClientImpl(
@@ -55,11 +68,16 @@ export default function configureSearchClients(
       cloudId,
       config.addSessionIdToJiraResult,
     ),
-    peopleSearchClient: new PeopleSearchClientImpl(
+    peopleSearchClient: new CachingPeopleSearchClient(
       config.directoryServiceUrl,
       cloudId,
+      prefetchedResults ? prefetchedResults.recentPeoplePromise : undefined,
     ),
-    confluenceClient: new ConfluenceClientImpl(config.confluenceUrl, cloudId),
+    confluenceClient: new CachingConfluenceClient(
+      config.confluenceUrl,
+      cloudId,
+      confluencePrefetchedResults,
+    ),
     jiraClient: new JiraClientImpl(
       config.jiraUrl,
       cloudId,

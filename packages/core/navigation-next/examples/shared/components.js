@@ -67,20 +67,25 @@ export class DefaultGlobalNavigation extends PureComponent<*, *> {
   state = {
     isOpen: false,
   };
+
   componentDidMount = () => {
     window.addEventListener('keydown', this.handleKeyDown);
   };
+
   componentWillUnmount = () => {
     window.removeEventListener('keydown', this.handleKeyDown);
   };
+
   handleKeyDown = ({ key }: *) => {
     if (key === '/' && !this.state.isOpen) {
       this.toggleSearch();
     }
   };
+
   toggleSearch = () => {
     this.setState(state => ({ isOpen: !state.isOpen }));
   };
+
   render() {
     const { isOpen } = this.state;
     return (
@@ -114,6 +119,7 @@ class ProjectSwitcherBase extends PureComponent<*, *> {
   state = {
     selected: this.props.defaultSelected,
   };
+
   getTarget = () => {
     const { isSelected } = this.props;
     const { selected } = this.state;
@@ -128,12 +134,14 @@ class ProjectSwitcherBase extends PureComponent<*, *> {
       />
     );
   };
+
   onSwitch = selected => {
     const { location, history } = this.props;
     if (selected.pathname === location.pathname) return;
     history.push(selected.pathname);
     this.setState({ selected });
   };
+
   render() {
     const { options } = this.props;
     const { selected } = this.state;

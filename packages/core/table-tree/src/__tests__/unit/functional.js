@@ -56,8 +56,8 @@ test('chevron next to items with children', async () => {
         items={nestedData}
         render={({ title, page, children }) => (
           <Row itemId={title} hasChildren={!!children} items={children}>
-            <Cell className={'title'}>{title}</Cell>
-            <Cell className={'page'}>{page}</Cell>
+            <Cell className="title">{title}</Cell>
+            <Cell className="page">{page}</Cell>
           </Row>
         )}
       />
@@ -313,8 +313,8 @@ test('headers and column widths', async () => {
         items={nestedData}
         render={({ title, page, children }) => (
           <Row itemId={title} items={children} hasChildren={!!children}>
-            <Cell className={'title'}>{title}</Cell>
-            <Cell className={'page'}>{page}</Cell>
+            <Cell className="title">{title}</Cell>
+            <Cell className="page">{page}</Cell>
           </Row>
         )}
       />

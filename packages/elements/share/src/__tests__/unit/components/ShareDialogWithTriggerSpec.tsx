@@ -1,16 +1,12 @@
 // This works only by calling before importing InlineDialog
-import mockPopper from '../_mockPopper';
-mockPopper();
-
+import { shallowWithIntl } from '@atlaskit/editor-test-helpers';
 import InlineDialog from '@atlaskit/inline-dialog';
-import { mountWithIntl, shallowWithIntl } from '@atlaskit/editor-test-helpers';
-import { shallow, ShallowWrapper, ReactWrapper } from 'enzyme';
+import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import { FormattedMessage, InjectedIntlProps } from 'react-intl';
-import { messages } from '../../../i18n';
 import {
-  ShareButton,
   Props as ShareButtonProps,
+  ShareButton,
 } from '../../../components/ShareButton';
 import {
   defaultShareContentState,
@@ -19,6 +15,9 @@ import {
   State,
 } from '../../../components/ShareDialogWithTrigger';
 import { ShareData, ShareForm } from '../../../components/ShareForm';
+import { messages } from '../../../i18n';
+import mockPopper from '../_mockPopper';
+mockPopper();
 
 let wrapper: ShallowWrapper<Props & InjectedIntlProps>;
 let mockOnShareSubmit: jest.Mock;
@@ -31,7 +30,9 @@ beforeEach(() => {
       loadUserOptions={mockLoadOptions}
       onShareSubmit={mockOnShareSubmit}
     />,
-  );
+  )
+    .dive()
+    .dive();
 });
 
 beforeAll(() => {
@@ -69,20 +70,12 @@ describe('ShareDialogWithTrigger', () => {
       );
     });
 
-    it('should render ShareForm if isDialogOpen is true', () => {
-      const mountWrapper: ReactWrapper<
-        Props & InjectedIntlProps,
-        State,
-        any
-      > = mountWithIntl<Props, State>(
-        <ShareDialogWithTrigger
-          copyLink="copyLink"
-          loadUserOptions={mockLoadOptions}
-          onShareSubmit={mockOnShareSubmit}
-        />,
-      );
-      mountWrapper.setState({ isDialogOpen: true });
-      expect(mountWrapper.find(ShareForm).length).toBe(1);
+    it('should be toggled if clicked on ShareButton', () => {
+      expect((wrapper.state() as State).isDialogOpen).toEqual(false);
+      wrapper.find(ShareButton).simulate('click');
+      expect((wrapper.state() as State).isDialogOpen).toEqual(true);
+      wrapper.find(ShareButton).simulate('click');
+      expect((wrapper.state() as State).isDialogOpen).toEqual(false);
     });
   });
 
@@ -96,7 +89,9 @@ describe('ShareDialogWithTrigger', () => {
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
         />,
-      );
+      )
+        .dive()
+        .dive();
       expect(
         newWrapper
           .find(InlineDialog)
@@ -126,7 +121,9 @@ describe('ShareDialogWithTrigger', () => {
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
         />,
-      );
+      )
+        .dive()
+        .dive();
       newWrapper.setState({ isDialogOpen: true });
       expect(
         newWrapper
@@ -146,7 +143,9 @@ describe('ShareDialogWithTrigger', () => {
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
         />,
-      );
+      )
+        .dive()
+        .dive();
 
       newWrapper.setState({ isDialogOpen: true });
       expect(
@@ -173,7 +172,9 @@ describe('ShareDialogWithTrigger', () => {
         >
           {spiedRenderer}
         </ShareDialogWithTrigger>,
-      );
+      )
+        .dive()
+        .dive();
       const wrapperState: State = wrapper.state() as State;
       expect(spiedRenderer).toHaveBeenCalledTimes(1);
       expect(spiedRenderer).toHaveBeenCalledWith(
@@ -182,6 +183,29 @@ describe('ShareDialogWithTrigger', () => {
           loading: wrapperState.isSharing,
           error: wrapperState.shareError,
         }),
+      );
+    });
+  });
+
+  describe('dialogPlacement prop', () => {
+    it('should be passed into InlineDialog component as placement prop', () => {
+      const defaultPlacement: string = 'bottom-end';
+      wrapper = shallowWithIntl<Props>(
+        <ShareDialogWithTrigger
+          copyLink="copyLink"
+          loadUserOptions={mockLoadOptions}
+          onShareSubmit={mockOnShareSubmit}
+        />,
+      )
+        .dive()
+        .dive();
+      expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
+        defaultPlacement,
+      );
+      const newPlacement: string = 'bottom-start';
+      wrapper.setProps({ dialogPlacement: newPlacement });
+      expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
+        newPlacement,
       );
     });
   });
@@ -196,7 +220,9 @@ describe('ShareDialogWithTrigger', () => {
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
         />,
-      );
+      )
+        .dive()
+        .dive();
       let shareButtonProps: ShareButtonProps = wrapper
         .find(ShareButton)
         .props();
@@ -220,7 +246,9 @@ describe('ShareDialogWithTrigger', () => {
           onShareSubmit={mockOnShareSubmit}
           shareFormTitle="Share this page"
         />,
-      );
+      )
+        .dive()
+        .dive();
       wrapper.setState({ isDialogOpen: true });
 
       const ShareFormProps = shallow(wrapper
@@ -250,7 +278,9 @@ describe('ShareDialogWithTrigger', () => {
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
         />,
-      );
+      )
+        .dive()
+        .dive();
       wrapper.setState({ isDialogOpen: true });
       expect((wrapper.state() as State).isDialogOpen).toEqual(true);
       wrapper
@@ -261,23 +291,52 @@ describe('ShareDialogWithTrigger', () => {
 
     it.skip('should send an analytic event', () => {});
 
-    it('should be trigger when the InlineDialog is closed', () => {
-      const escapeKeyDownEvent: Partial<KeyboardEvent> = {
-        target: document,
-        type: 'keydown',
-        key: 'Escape',
+    it('should be triggered when the InlineDialog is closed', () => {
+      const mockClickEvent: Partial<Event> = {
+        target: document.createElement('div'),
+        type: 'click',
       };
-      const wrapper: ShallowWrapper<
-        Props & InjectedIntlProps
-      > = shallowWithIntl<Props>(
-        <ShareDialogWithTrigger copyLink="copyLink" />,
-      );
       wrapper.setState({ isDialogOpen: true });
       expect((wrapper.state() as State).isDialogOpen).toEqual(true);
       wrapper
         .find(InlineDialog)
-        .simulate('close', { isOpen: false, event: escapeKeyDownEvent });
+        .simulate('close', { isOpen: false, event: mockClickEvent });
       expect((wrapper.state() as State).isDialogOpen).toEqual(false);
+    });
+  });
+
+  describe('handleKeyDown', () => {
+    it('should clear the state if an escape key is pressed down', () => {
+      const escapeKeyDownEvent: Partial<KeyboardEvent> = {
+        target: document,
+        type: 'keydown',
+        key: 'Escape',
+        stopPropagation: jest.fn(),
+      };
+      const mockShareData: ShareData = {
+        users: [
+          { type: 'user', id: 'id', name: 'name' },
+          { type: 'email', id: 'email', name: 'email' },
+        ],
+        comment: {
+          format: 'plain_text',
+          value: 'comment',
+        },
+      };
+      wrapper.setState({
+        isDialogOpen: true,
+        ignoreIntermediateState: false,
+        defaultValue: mockShareData,
+        shareError: new Error('unable to share'),
+      });
+      wrapper.find('div').simulate('keydown', escapeKeyDownEvent);
+      expect(escapeKeyDownEvent.stopPropagation).toHaveBeenCalledTimes(1);
+      expect((wrapper.state() as State).isDialogOpen).toBeFalsy();
+      expect((wrapper.state() as State).ignoreIntermediateState).toBeTruthy();
+      expect((wrapper.state() as State).defaultValue).toEqual(
+        defaultShareContentState,
+      );
+      expect((wrapper.state() as State).shareError).toBeUndefined();
     });
   });
 
@@ -306,7 +365,9 @@ describe('ShareDialogWithTrigger', () => {
           onShareSubmit={mockOnSubmit}
           loadUserOptions={mockLoadOptions}
         />,
-      );
+      )
+        .dive()
+        .dive();
       wrapper.setState(mockState);
 
       shallow(wrapper.find(InlineDialog).prop('content') as any)
@@ -316,31 +377,49 @@ describe('ShareDialogWithTrigger', () => {
       expect(mockOnSubmit).toHaveBeenCalledWith(values);
     });
 
-    it('should close inline dialog when onSubmit resolves a value', () => {
-      const mockOnSubmit: jest.Mock = jest
-        .fn()
-        .mockReturnValue(Promise.resolve());
-      const wrapper: ShallowWrapper<
-        Props & InjectedIntlProps
-      > = shallowWithIntl<Props>(
+    it('should close inline dialog and reset the state when onSubmit resolves a value', async () => {
+      const mockOnSubmit: jest.Mock = jest.fn().mockResolvedValue({});
+      const values: ShareData = {
+        users: [
+          { type: 'user', id: 'id', name: 'name' },
+          { type: 'email', id: 'email', name: 'email' },
+        ],
+        comment: {
+          format: 'plain_text',
+          value: 'comment',
+        },
+      };
+      const mockState: Partial<State> = {
+        isDialogOpen: true,
+        isSharing: false,
+        ignoreIntermediateState: false,
+        defaultValue: values,
+        shareError: { message: 'unable to share' },
+      };
+      wrapper = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
           copyLink="copyLink"
           onShareSubmit={mockOnSubmit}
+          loadUserOptions={mockLoadOptions}
         />,
-      );
+      )
+        .dive()
+        .dive();
+      wrapper.setState(mockState);
 
-      const Content: React.StatelessComponent<{}> = () =>
-        wrapper.find(InlineDialog).prop('content');
-      const content: ShallowWrapper<{}> = shallow(<Content />);
-
-      expect(content.find(ShareForm)).toHaveLength(1);
-      const shareData: {} = {};
-      content.find(ShareForm).simulate('shareClick', shareData);
-
+      shallow(wrapper.find(InlineDialog).prop('content') as any)
+        .find(ShareForm)
+        .simulate('shareClick', values);
       expect(mockOnSubmit).toHaveBeenCalledTimes(1);
-      expect(mockOnSubmit).toHaveBeenCalledWith(shareData);
+      expect(mockOnSubmit).toHaveBeenCalledWith(values);
 
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      expect(wrapper.state('defaultValue')).toEqual(defaultShareContentState);
+      expect(wrapper.state('ignoreIntermediateState')).toBeTruthy();
       expect(wrapper.state('isDialogOpen')).toBeFalsy();
+      expect(wrapper.state('isSharing')).toBeFalsy();
+      expect(wrapper.state('shareError')).toBeUndefined();
     });
   });
 });

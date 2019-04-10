@@ -49,13 +49,13 @@ export default function withNavigation(
     static displayName = `WithNavigation(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 
-    handleContextChange = e => {
+    handleContextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       this.setState({
         context: e.target.value,
       });
     };
 
-    handleLocaleChange = e => {
+    handleLocaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       this.setState({
         locale: e.target.value,
       });
@@ -163,6 +163,7 @@ export default function withNavigation(
                   context={context}
                   referralContextIdentifiers={{
                     currentContentId: '123',
+                    currentContainerId: '456',
                     searchReferrerId: '123',
                   }}
                   logger={DEVELOPMENT_LOGGER}

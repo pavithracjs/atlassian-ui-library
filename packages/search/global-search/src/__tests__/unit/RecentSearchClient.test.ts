@@ -2,8 +2,8 @@ import RecentSearchClient, {
   RecentItem,
   splitIssueKeyAndName,
 } from '../../api/RecentSearchClient';
-import 'whatwg-fetch';
-import * as fetchMock from 'fetch-mock';
+
+import fetchMock from 'fetch-mock';
 import {
   JiraResult,
   AnalyticsType,

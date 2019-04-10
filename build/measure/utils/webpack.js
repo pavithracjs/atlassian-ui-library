@@ -15,13 +15,13 @@ function buildCacheGroups(statsGroups) {
   }, {});
 }
 
-function createWebpackConfig({
+async function createWebpackConfig({
   entryPoint,
   outputDir,
   optimization,
   isAnalyze = false,
 }) {
-  const config = webpackConfig({
+  const config = await webpackConfig({
     mode: 'production',
     websiteEnv: 'production',
     noMinimize: false,
@@ -40,6 +40,7 @@ function createWebpackConfig({
    * so they are not affecting a package bundle size.
    */
   config.resolve.alias = {
+    ...config.resolve.alias,
     'styled-components': path.resolve(__dirname, '..', 'noop.js'),
     react: path.resolve(__dirname, '..', 'noop.js'),
     'react-dom': path.resolve(__dirname, '..', 'noop.js'),

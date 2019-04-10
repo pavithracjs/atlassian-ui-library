@@ -2,17 +2,17 @@ import Button from '@atlaskit/button';
 import CrossCircleIcon from '@atlaskit/icon/glyph/cross-circle';
 import { colors } from '@atlaskit/theme';
 import Tooltip from '@atlaskit/tooltip';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as React from 'react';
 import { MouseEvent, SyntheticEvent } from 'react';
 import { shouldUseAltRepresentation } from '../../api/EmojiUtils';
-import { deleteEmojiLabel } from '../../constants';
+import { deleteEmojiLabel } from '../../util/constants';
 import {
   isImageRepresentation,
   isMediaRepresentation,
   isSpriteRepresentation,
   toEmojiId,
-} from '../../type-helpers';
+} from '../../util/type-helpers';
 import {
   EmojiDescription,
   OnEmojiEvent,

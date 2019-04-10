@@ -5,6 +5,7 @@ import ResourcedEmoji from './components/common/ResourcedEmoji';
 import EmojiPicker from './components/picker/EmojiPicker';
 import EmojiUploader from './components/uploader/EmojiUploader';
 import EmojiTypeAhead from './components/typeahead/EmojiTypeAhead';
+import EmojiTypeAheadItem from './components/typeahead/EmojiTypeAheadItem';
 import EmojiResource, {
   EmojiProvider,
   UploadingEmojiProvider,
@@ -13,13 +14,13 @@ import EmojiResource, {
 import EmojiRepository from './api/EmojiRepository';
 import EmojiLoader from './api/EmojiLoader';
 import { denormaliseEmojiServiceResponse } from './api/EmojiUtils';
-import { toEmojiId, toOptionalEmojiId } from './type-helpers';
+import { toEmojiId, toOptionalEmojiId } from './util/type-helpers';
 import {
   customCategory,
   defaultEmojiHeight,
   emojiPickerWidth,
   emojiPickerHeight,
-} from './constants';
+} from './util/constants';
 import { UsageFrequencyTracker } from './api/internal/UsageFrequencyTracker';
 
 export {
@@ -48,6 +49,7 @@ export {
   customCategory,
   EmojiResourceConfig,
   UsageFrequencyTracker,
+  EmojiTypeAheadItem,
 };
 
 export * from './types';

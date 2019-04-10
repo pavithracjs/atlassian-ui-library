@@ -306,7 +306,7 @@ export const insertMenuItem = async (browser: any, title: string) => {
 };
 
 export const currentSelectedEmoji = '.emoji-typeahead-selected';
-export const typeahead = '.ak-emoji-typeahead';
+export const typeahead = 'span[data-type-ahead-query]';
 
 export const insertEmoji = async (browser: any, query: string) => {
   await browser.type(editable, ':');
@@ -397,8 +397,8 @@ export const resizeColumn = async (page: any, resizeOptions: ResizeOptions) => {
   );
 };
 
-export const animationFrame = async page => {
-  await page.browser.executeAsync(done => {
+export const animationFrame = async (page: any) => {
+  await page.browser.executeAsync((done: (time: number) => void) => {
     window.requestAnimationFrame(done);
   });
 };

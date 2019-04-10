@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/mobile-header",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "A React component rendering a mobile header",
   "license": "Apache-2.0",
   "module": "index.js",

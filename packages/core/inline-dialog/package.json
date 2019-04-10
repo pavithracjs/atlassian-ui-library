@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/inline-dialog",
-  "version": "10.0.1",
+  "version": "10.0.2",
   "description": "An inline dialog React component for secondary content and controls that are displayed on user request",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -18,7 +18,7 @@
   "dependencies": {
     "@atlaskit/analytics-next": "^4.0.1",
     "@atlaskit/popper": "^0.4.1",
-    "@atlaskit/theme": "^8.0.1",
+    "@atlaskit/theme": "^8.1.3",
     "@babel/runtime": "^7.0.0",
     "react-node-resolver": "^1.0.1"
   },

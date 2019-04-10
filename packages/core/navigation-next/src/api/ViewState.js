@@ -26,8 +26,11 @@ const defaultOptions: ViewStateOptions = {
 
 export default class ViewState extends Container<ViewStateState> {
   reducers: { [ViewKey]: Reducer[] } = {};
+
   views: { [ViewKey]: ViewResolver } = {};
+
   debug: boolean;
+
   logger: Logger;
 
   constructor(options: ViewStateOptions | void) {

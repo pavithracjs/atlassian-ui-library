@@ -125,7 +125,7 @@ async function startDevServer() {
     process.exit(0);
   }
 
-  config = createConfig({
+  config = await createConfig({
     globs,
     mode,
     websiteEnv,

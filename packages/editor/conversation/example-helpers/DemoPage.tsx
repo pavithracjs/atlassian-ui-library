@@ -59,13 +59,16 @@ interface FileProps {
 const objectId = 'container:abc:abc/1234567';
 
 class File extends React.Component<FileProps, { addAt?: number }> {
-  constructor(props) {
+  constructor(props: FileProps) {
     super(props);
 
     this.state = {};
   }
 
-  private onLineClick = (evt, index) => {
+  private onLineClick = (
+    evt: React.MouseEvent<HTMLAnchorElement>,
+    index: number,
+  ) => {
     evt.preventDefault();
 
     this.setState({
@@ -153,13 +156,14 @@ class File extends React.Component<FileProps, { addAt?: number }> {
   }
 }
 
+type DemoProps = { provider: ResourceProvider; dataProviders: ProviderFactory };
 export class Demo extends React.Component<
-  { provider: ResourceProvider; dataProviders: ProviderFactory },
+  DemoProps,
   { conversations: any[]; selectedUser: User; responseCode: number }
 > {
   private unsubscribe: any;
 
-  constructor(props) {
+  constructor(props: DemoProps) {
     super(props);
 
     this.state = {

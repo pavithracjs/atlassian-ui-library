@@ -1,5 +1,20 @@
 # @atlaskit/textfield
 
+## 0.4.2
+- [patch] [a28eb04426](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a28eb04426):
+
+  - Migrates package from emotion 9 to emotion 10. No behaviour or API changes.
+
+## 0.4.1
+- [patch] [e0797c2937](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0797c2937):
+
+  - Support object refs e.g. React.createRef()
+
+## 0.4.0
+- [minor] [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
+
+  - Allow element before and/or after input
+
 ## 0.3.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

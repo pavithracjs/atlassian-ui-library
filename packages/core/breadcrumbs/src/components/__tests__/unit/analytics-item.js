@@ -13,7 +13,7 @@ import {
 // Because we are mocking the hocs, the default import from this file is null
 // thats why we need to import the version without analytics to test the analytics
 // context is overridden
-import { BreadcrumbsItemWithoutAnalytics as BreadcrumbsItem } from '../../../components/BreadcrumbsItem';
+import { BreadcrumbsItemWithoutAnalytics as BreadcrumbsItem } from '../../BreadcrumbsItem';
 
 // This is a global mock for this file that will mock all components wrapped with analytics
 // and replace them with an empty SFC that returns null. This includes components imported

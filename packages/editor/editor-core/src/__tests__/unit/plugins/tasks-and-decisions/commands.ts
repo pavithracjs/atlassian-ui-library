@@ -302,7 +302,7 @@ describe('tasks and decisions - commands', () => {
     });
 
     describe('analytics', () => {
-      const generatePayload = (position, listSize) => ({
+      const generatePayload = (position: number, listSize: number) => ({
         action: 'inserted',
         actionSubject: 'document',
         actionSubjectId: 'action',

@@ -100,7 +100,7 @@ describe('Navigation', () => {
       />,
     );
     expect(el.find(ArrowLeftCircleIcon)).toHaveLength(1);
-    expect(el.find(ArrowRightCircleIcon)).toHaveLength(0);
+    expect(el.find(ArrowRightCircleIcon)).toHaveLength(1);
   });
 
   it('should show both arrows if there are items in both sides', () => {

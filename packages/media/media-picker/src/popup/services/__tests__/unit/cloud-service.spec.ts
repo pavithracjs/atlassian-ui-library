@@ -1,7 +1,11 @@
-import * as uuid from 'uuid';
-import * as Postis from 'postis';
-import { AuthProvider } from '@atlaskit/media-core';
+jest.mock('uuid/v4', () => ({
+  __esModule: true, // this property makes it work
+  default: jest.fn().mockReturnValue('some-scope'),
+}));
 
+import uuidV4 from 'uuid/v4';
+import Postis from 'postis';
+import { AuthProvider } from '@atlaskit/media-core';
 import { CloudService } from '../../cloud-service';
 
 interface FakePostis {
@@ -38,7 +42,6 @@ describe('CloudAuthService', () => {
       (_: string, callback: () => void) => callback(),
     );
 
-    jest.spyOn(uuid, 'v4').mockReturnValue(scope);
     jest.spyOn(window, 'open');
     jest.spyOn(window, 'close');
 
@@ -58,7 +61,7 @@ describe('CloudAuthService', () => {
     (Postis as FakePostis).channel.listen.mockClear();
     (Postis as FakePostis).channel.send.mockClear();
     (Postis as FakePostis).channel.destroy.mockClear();
-    ((uuid as any).v4 as jest.Mock<{}>).mockClear();
+    (uuidV4 as jest.Mock<{}>).mockClear();
     ((window as any).open as jest.Mock<{}>).mockClear();
     ((window as any).close as jest.Mock<{}>).mockClear();
   });
@@ -70,7 +73,7 @@ describe('CloudAuthService', () => {
       cloudAuthService.startAuth(redirectUrl, serviceName),
     ).resolves.toBeUndefined();
 
-    expect(uuid.v4).toHaveBeenCalledTimes(1);
+    expect(uuidV4).toHaveBeenCalledTimes(1);
 
     expect(window.open).toBeCalledWith('', '_blank');
     expect(locationSpy).toHaveBeenLastCalledWith(

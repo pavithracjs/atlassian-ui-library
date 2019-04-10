@@ -1,5 +1,6 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
+import cases from 'jest-in-case';
 import Spinner from '@atlaskit/spinner';
 import { AtlassianIcon } from '@atlaskit/logo';
 
@@ -261,4 +262,26 @@ describe('ak-button/default-behaviour', () => {
     button.prop('onBlur')!({} as any);
     expect(spy).toHaveBeenCalled();
   });
+
+  cases(
+    'onMouse* prop is called',
+    ({ key }: { key: string }) => {
+      const spy = jest.fn();
+      const onMouseHandler = { [key]: spy };
+      const wrapper = mount(<Button {...onMouseHandler} />);
+      const button = wrapper.find('StyledButton');
+      const event = {
+        preventDefault: () => {},
+      } as React.MouseEvent<HTMLElement>;
+      // @ts-ignore
+      button.prop(key)!(event);
+      expect(spy).toHaveBeenCalled();
+    },
+    [
+      { key: 'onMouseDown' },
+      { key: 'onMouseUp' },
+      { key: 'onMouseEnter' },
+      { key: 'onMouseLeave' },
+    ],
+  );
 });

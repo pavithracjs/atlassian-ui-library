@@ -29,6 +29,7 @@ class ActionItem extends Component<Props, {}> {
     const { children, onClick, onFocus, onMouseOver } = this.props;
     /* eslint-disable jsx-a11y/no-static-element-interactions */
     return (
+      // eslint-disable-next-line jsx-a11y/click-events-have-key-events
       <span onClick={onClick} onFocus={onFocus} onMouseOver={onMouseOver}>
         <Button appearance="subtle-link" spacing="none" type="button">
           {children}

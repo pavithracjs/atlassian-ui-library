@@ -200,7 +200,7 @@ describe('table plugin: actions', () => {
       );
       const { state, dispatch } = editorView;
       selectColumn(0)(state, dispatch);
-      emptyMultipleCells(0)(editorView.state, dispatch);
+      emptyMultipleCells()(editorView.state, dispatch);
       expect(editorView.state.doc).toEqualDocument(
         doc(p('text'), table()(tr(tdEmpty, tdEmpty), tr(tdEmpty, tdEmpty))),
       );

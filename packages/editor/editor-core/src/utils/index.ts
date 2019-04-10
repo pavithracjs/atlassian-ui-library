@@ -39,7 +39,7 @@ export { JSONDocNode, JSONNode };
 
 export { filterContentByType } from './filter';
 
-export const ZWSP = '\u200b';
+export const ZeroWidthSpace = '\u200b';
 
 function validateNode(node: Node): boolean {
   return false;
@@ -147,6 +147,15 @@ export function canMoveDown(state: EditorState): boolean {
   }
 
   return !atTheEndOfDoc(state);
+}
+
+export function isSelectionInsideLastNodeInDocument(
+  selection: Selection,
+): boolean {
+  const docNode = selection.$anchor.node(0);
+  const rootNode = selection.$anchor.node(1);
+
+  return docNode.lastChild === rootNode;
 }
 
 export function atTheEndOfDoc(state: EditorState): boolean {
@@ -692,7 +701,7 @@ export const isEmptyNode = (schema: Schema) => {
     mediaGroup,
     mediaSingle,
   } = schema.nodes;
-  const innerIsEmptyNode = (node: Node): any => {
+  const innerIsEmptyNode = (node: Node): boolean => {
     switch (node.type) {
       case media:
       case mediaGroup:
@@ -731,6 +740,12 @@ export const isEmptyNode = (schema: Schema) => {
     }
   };
   return innerIsEmptyNode;
+};
+
+export const insideTable = (state: EditorState): Boolean => {
+  const { table, tableCell } = state.schema.nodes;
+
+  return hasParentNodeOfType([table, tableCell])(state.selection);
 };
 
 export const insideTableCell = (state: EditorState) => {
@@ -792,6 +807,7 @@ export const isTextSelection = (
 
 /** Helper type for single arg function */
 type Func<A, B> = (a: A) => B;
+type FuncN<A extends any[], B> = (...args: A) => B;
 
 /**
  * Compose 1 to n functions.
@@ -819,6 +835,51 @@ export function compose<
   return function composed(raw: any) {
     return allFuncs.reduceRight((memo, func) => func(memo), raw);
   } as R;
+}
+
+export function pipe(): <R>(a: R) => R;
+
+export function pipe<F extends Function>(f: F): F;
+
+// one function
+export function pipe<F1 extends FuncN<any, any>>(
+  f1: F1,
+): (...args: Parameters<F1>) => ReturnType<F1>;
+
+// two function
+export function pipe<
+  F1 extends FuncN<any, any>,
+  F2 extends Func<ReturnType<F1>, any>
+>(f1: F1, f2: F2): (...args: Parameters<F1>) => ReturnType<F2>;
+
+// three function
+export function pipe<
+  F1 extends FuncN<any, any>,
+  F2 extends Func<ReturnType<F1>, any>,
+  F3 extends Func<ReturnType<F2>, any>
+>(f1: F1, f2: F2, f3: F3): (...args: Parameters<F1>) => ReturnType<F3>;
+// If needed add more than 3 function
+// Generic
+export function pipe<
+  F1 extends FuncN<any, any>,
+  F2 extends Func<ReturnType<F1>, any>,
+  F3 extends Func<ReturnType<F2>, any>,
+  FN extends Array<Func<any, any>>
+>(f1: F1, f2: F2, f3: F3, ...fn: FN): (...args: Parameters<F1>) => any;
+
+// rest
+export function pipe(...fns: Function[]) {
+  if (fns.length === 0) {
+    return (a: any) => a;
+  }
+
+  if (fns.length === 1) {
+    return fns[0];
+  }
+
+  return fns.reduce((prevFn, nextFn) => (...args: any[]) =>
+    nextFn(prevFn(...args)),
+  );
 }
 
 export const normaliseNestedLayout = (state: EditorState, node: Node) => {

@@ -250,7 +250,9 @@ function baseStyles(validationState, isCompact) {
 export default function createSelect(WrappedComponent: ComponentType<*>) {
   return class AtlaskitSelect extends Component<*> {
     components: {};
+
     select: ElementRef<*>;
+
     constructor(props: Props) {
       super(props);
       this.cacheComponents = memoizeOne(this.cacheComponents, isEqual).bind(
@@ -258,6 +260,7 @@ export default function createSelect(WrappedComponent: ComponentType<*>) {
       );
       this.cacheComponents(props.components, props.enableAnimation);
     }
+
     static defaultProps = {
       enableAnimation: true,
       validationState: 'default',
@@ -265,9 +268,11 @@ export default function createSelect(WrappedComponent: ComponentType<*>) {
       onClickPreventDefault: true,
       tabSelectsValue: false,
     };
+
     componentWillReceiveProps(nextProps: Props) {
       this.cacheComponents(nextProps.components, nextProps.enableAnimation);
     }
+
     cacheComponents = (components?: {}, enableAnimation: boolean) => {
       if (enableAnimation) {
         this.components = makeAnimated({
@@ -281,15 +286,28 @@ export default function createSelect(WrappedComponent: ComponentType<*>) {
         };
       }
     };
+
     focus() {
       this.select.focus();
     }
+
     blur() {
       this.select.blur();
     }
+
     onSelectRef = (ref: ElementRef<*>) => {
       this.select = ref;
+
+      const { innerRef } = this.props;
+
+      if (typeof innerRef === 'object') {
+        innerRef.current = ref;
+      }
+      if (typeof innerRef === 'function') {
+        innerRef(ref);
+      }
     };
+
     render() {
       const {
         styles,

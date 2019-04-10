@@ -20,9 +20,9 @@ import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
 import { optionDataToUsers } from './utils';
 
 export type Props = {
-  buttonStyle?: ShareButtonStyle;
   client?: ShareClient;
   cloudId: string;
+  dialogPlacement?: string;
   formatCopyLink: (origin: OriginTracing, link: string) => string;
   loadUserOptions: LoadOptions;
   originTracingFactory: OriginTracingFactory;
@@ -58,6 +58,7 @@ const memoizedFormatCopyLink: (
  */
 export class ShareDialogContainer extends React.Component<Props, State> {
   private client: ShareClient;
+  private _isMounted = false;
 
   static defaultProps = {
     shareLink: window && window.location!.href,
@@ -105,15 +106,23 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    this._isMounted = true;
+
     this.fetchConfig();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   fetchConfig = () => {
     this.client
       .getConfig(this.props.productId, this.props.cloudId)
       .then((config: ConfigResponse) => {
-        // TODO: Send analytics event
-        this.setState({ config });
+        if (this._isMounted) {
+          // TODO: Send analytics event
+          this.setState({ config });
+        }
       })
       .catch(() => {
         // TODO: Send analytics event
@@ -148,8 +157,6 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       .share(content, optionDataToUsers(users), metaData, comment)
       .then((response: ShareResponse) => {
         const newShareCount = this.state.shareActionCount + 1;
-        // TODO: send analytic event
-
         // renew Origin Tracing Id per share action succeeded
         this.setState({
           shareActionCount: newShareCount,
@@ -158,23 +165,12 @@ export class ShareDialogContainer extends React.Component<Props, State> {
 
         return response;
       })
-      .catch((err: Error) => {
-        // TODO: send analytic event
-        return Promise.reject(err);
-      });
-  };
-
-  handleCopyLink = () => {
-    // @ts-ignore usused for now until analytics are added
-    const originAttributes = this.state.copyLinkOrigin!.toAnalyticsAttributes({
-      hasGeneratedId: true,
-    });
-
-    // TODO: send analytic event
+      .catch((err: Error) => Promise.reject(err));
   };
 
   render() {
     const {
+      dialogPlacement,
       formatCopyLink,
       loadUserOptions,
       shareLink,
@@ -183,18 +179,20 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       triggerButtonAppearance,
       triggerButtonStyle,
     } = this.props;
+    const { shareOrigin } = this.state;
     const copyLink = formatCopyLink(this.state.copyLinkOrigin!, shareLink);
     return (
       <ShareDialogWithTrigger
         config={this.state.config}
         copyLink={copyLink}
+        dialogPlacement={dialogPlacement}
         loadUserOptions={loadUserOptions}
-        onLinkCopy={this.handleCopyLink}
         onShareSubmit={this.handleSubmitShare}
         shareFormTitle={shareFormTitle}
         shouldCloseOnEscapePress={shouldCloseOnEscapePress}
         triggerButtonAppearance={triggerButtonAppearance}
         triggerButtonStyle={triggerButtonStyle}
+        shareOrigin={shareOrigin}
       />
     );
   }

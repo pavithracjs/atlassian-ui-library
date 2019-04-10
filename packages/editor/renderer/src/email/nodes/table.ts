@@ -1,25 +1,40 @@
-import { colors } from '@atlaskit/theme';
-import { createTag, serializeStyle } from '../util';
+import { N50, calcTableColumnWidths } from '@atlaskit/adf-schema';
+import { createTag, serializeStyle, commonTableStyle } from '../util';
 import { NodeSerializerOpts } from '../interfaces';
 
 const css = serializeStyle({
-  border: `1px solid ${colors.N50}`,
+  ...commonTableStyle,
+  border: `1px solid ${N50}`,
   'border-collapse': 'collapse',
-  margin: '20px 8px',
-  width: 'auto',
+  width: '100%',
+  'table-layout': 'fixed',
 });
 
-export default function table({ attrs, text }: NodeSerializerOpts) {
-  let colgroup = '';
+// vertical margin works only on divs, apparently
+const wrapperCss = serializeStyle({
+  'margin-bottom': '20px',
+  'margin-top': '20px',
+});
 
-  if (attrs.columnWidths) {
-    const colTags = attrs.columnWidths.map((colwidth: string | number) => {
-      const style = colwidth ? `width: ${colwidth}px` : undefined;
-      return createTag('col', { style });
-    });
+export const numberedColumnWidth = 42;
 
-    colgroup = createTag('colgroup', undefined, colTags.join(''));
+export default function table({ attrs, text, node }: NodeSerializerOpts) {
+  let columnWidths = calcTableColumnWidths(node);
+  if (node.attrs && node.attrs.isNumberColumnEnabled) {
+    columnWidths = [numberedColumnWidth, ...columnWidths];
   }
 
-  return createTag('table', { style: css }, colgroup + text);
+  const colTags = columnWidths.map((colwidth: string | number) => {
+    const style = colwidth ? `width: ${colwidth}px` : undefined;
+    return createTag('col', { style });
+  });
+
+  const colgroup = createTag('colgroup', undefined, colTags.join(''));
+
+  const table = createTag(
+    'table',
+    { style: css, class: 'tableNode' },
+    colgroup + text,
+  );
+  return createTag('div', { style: wrapperCss }, table);
 }

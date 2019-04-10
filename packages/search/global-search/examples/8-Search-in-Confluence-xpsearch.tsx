@@ -6,7 +6,15 @@ import withNavigation from '../example-helpers/withNavigation';
 
 const GlobalQuickSearchInNavigation = withNavigation(GlobalQuickSearch);
 
-const logEvent = event => {
+const logEvent = (event: {
+  payload: {
+    eventType?: any;
+    action?: any;
+    actionSubject?: any;
+    actionSubjectId?: any;
+    attributes?: any;
+  };
+}) => {
   const { eventType, action, actionSubject, actionSubjectId } = event.payload;
   console.debug(
     `${eventType} | ${action} ${actionSubject} ${actionSubjectId}`,

@@ -3,7 +3,6 @@ import { SEARCH_QUERY } from '../groups';
 import { B400 } from '../../utils/colors';
 
 export const typeAheadQuery: MarkSpec = {
-  excludes: `${SEARCH_QUERY}`,
   inclusive: true,
   group: SEARCH_QUERY,
   parseDOM: [{ tag: 'span[data-type-ahead-query]' }],
