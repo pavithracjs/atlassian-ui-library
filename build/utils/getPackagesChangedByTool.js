@@ -74,7 +74,7 @@ async function getPackagesInfo(cwd /*: string */) {
   );
 }
 
-const TOOL_NAME_TO_FILTERS /*: { [key: string]: (pkg: Object) => boolean } */ = {
+const PACKAGE_TO_FILTERS_BY_TOOL_NAME /*: { [key: string]: (pkg: Object) => boolean } */ = {
   typescript: pkg => pkg.isTypeScript,
   typescriptcli: pkg => pkg.isTypeScriptCLI,
   tslint: pkg => pkg.isTSLint,
@@ -92,9 +92,9 @@ async function getPackageDirsForTools(cwd /*: string */) {
   let packages = await getPackagesInfo(cwd);
   let toolGroups = {};
 
-  Object.keys(TOOL_NAME_TO_FILTERS).map(toolName => {
+  Object.keys(PACKAGE_TO_FILTERS_BY_TOOL_NAME).map(toolName => {
     toolGroups[toolName] = packages
-      .filter(TOOL_NAME_TO_FILTERS[toolName])
+      .filter(PACKAGE_TO_FILTERS_BY_TOOL_NAME[toolName])
       .map(pkg => pkg.relativeDir);
   });
 
@@ -104,5 +104,5 @@ async function getPackageDirsForTools(cwd /*: string */) {
 module.exports = {
   getPackagesInfo,
   getPackageDirsForTools,
-  TOOL_NAME_TO_FILTERS,
+  PACKAGE_TO_FILTERS_BY_TOOL_NAME,
 };

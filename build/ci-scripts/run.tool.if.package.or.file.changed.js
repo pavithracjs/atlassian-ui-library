@@ -6,12 +6,12 @@ const spawndamnit = require('spawndamnit');
 const { getPackagesWithKarmaTests } = require('../karma-config');
 const {
   getPackagesInfo,
-  TOOL_NAME_TO_FILTERS,
-} = require('@atlaskit/build-utils/tools');
+  PACKAGE_TO_FILTERS_BY_TOOL_NAME,
+} = require('@atlaskit/build-utils/getPackagesChangedByTool');
 const {
   getFilesConfigInfo,
-  CONFIG_FILES_TO_FILTERS,
-} = require('@atlaskit/build-utils/configFiles');
+  CONFIG_FILES_TO_FILTERS_BY_TOOL_NAME,
+} = require('@atlaskit/build-utils/getConfigFilesChangedByTool');
 
 /**
  * This is a helper script to return whether or not a certain tool should be run.
@@ -33,22 +33,27 @@ const {
       '  $ node build/ci-scripts/run.tool.if.package.or.file.changed.js [...tools] -- <...command>\n',
     );
     console.error(
-      `Tools: ${Object.keys(TOOL_NAME_TO_FILTERS).join(
+      `Tools: ${Object.keys(PACKAGE_TO_FILTERS_BY_TOOL_NAME).join(
         ', ',
-      )} or Files:${Object.keys(CONFIG_FILES_TO_FILTERS).join(', ')}`,
+      )} or Files:${Object.keys(CONFIG_FILES_TO_FILTERS_BY_TOOL_NAME).join(
+        ', ',
+      )}`,
     );
     throw process.exit(1);
   }
+  // TODO: think of a way to return filters
   let filters = toolNames.map(toolName => {
-    let filterFn = [
-      TOOL_NAME_TO_FILTERS[toolName],
-      CONFIG_FILES_TO_FILTERS[toolName],
-    ];
+    let filterFn = {
+      packagesToFilter: PACKAGE_TO_FILTERS_BY_TOOL_NAME[toolName],
+      configFilesToFilter: CONFIG_FILES_TO_FILTERS_BY_TOOL_NAME[toolName],
+    };
     if (!filterFn) {
       console.error(
         `Invalid tool name: "${toolName}" (${Object.keys(
-          TOOL_NAME_TO_FILTERS,
-        ).join(', ')})`,
+          PACKAGE_TO_FILTERS_BY_TOOL_NAME,
+        ).join(', ')}) or Files:${Object.keys(
+          CONFIG_FILES_TO_FILTERS_BY_TOOL_NAME,
+        ).join(', ')}`,
       );
       throw process.exit(1);
     }
@@ -62,12 +67,12 @@ const {
     getChangedPackagesSinceMaster(),
     getChangedFilesSinceMaster(),
   ]);
-
+  console.log(filters);
   const changedPackageDirs = changedPackages.map(pkg => pkg.dir);
 
   const packageFilters = filters[0];
-  const fileFilters = filters[1];
-  console.log(packageFilters, fileFilters);
+  const fileFilters = filters[0];
+  // console.log(packageFilters, fileFilters);
   packageFilters.push(pkg => changedPackageDirs.includes(pkg.dir));
 
   let matchedPackages = !!packages.find(pkg =>
