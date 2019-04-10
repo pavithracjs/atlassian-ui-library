@@ -1,0 +1,1 @@
+- instrument analytics for audio and video play and error events
