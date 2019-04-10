@@ -7,6 +7,11 @@ describe('server side rendering and hydration', async () => {
     jest.spyOn(global.console, 'error');
   });
 
+  // Warning from React referring to @emotion's injected style tag
+  const warningRegEx = new RegExp(
+    'Warning: Did not expect server HTML to contain a <style*',
+  );
+
   afterEach(() => {
     jest.resetAllMocks();
     jest.restoreAllMocks();
@@ -23,7 +28,12 @@ describe('server side rendering and hydration', async () => {
   ])('ssr("%s")', async (fileName: string) => {
     await ssr_hydrate(__dirname, `${ExamplesPath}/${fileName}`);
 
-    // tslint:disable-next-line:no-console
-    expect(console.error).not.toBeCalled();
+    /* tslint:disable no-console */
+    // @ts-ignore
+    const mockCalls = console.error.mock.calls[0];
+    const mockCallsWithoutStyleErrors = mockCalls.filter(
+      (call: string) => !warningRegEx.test(call),
+    );
+    expect(mockCallsWithoutStyleErrors).toHaveLength(0);
   });
 });
