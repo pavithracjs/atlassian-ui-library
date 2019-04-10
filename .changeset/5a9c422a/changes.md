@@ -1,1 +1,0 @@
-- Standardise code-block class between editor/renderer. Fix bg color when code-block is nested within a table heading.
