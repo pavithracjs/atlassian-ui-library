@@ -1,1 +1,0 @@
-- Revert the change to consume entry points from theme
