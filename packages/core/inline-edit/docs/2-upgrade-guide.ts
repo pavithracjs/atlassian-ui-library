@@ -53,7 +53,7 @@ The above code could be written in v9 as:
 ${code`
   <InlineEdit
     defaultValue={this.state.editValue}
-    editView={editViewProps => <Textfield {...editViewProps} />}
+    editView={fieldProps => <Textfield {...fieldProps} autoFocus />}
     readView={() => (
       <ReadViewContainer>
         {this.state.editValue || 'Click to enter value'}
