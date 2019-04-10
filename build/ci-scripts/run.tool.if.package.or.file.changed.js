@@ -1,5 +1,7 @@
 // @flow
 const { getChangedPackagesSinceMaster } = require('../utils/packages');
+const { getChangedFilesSinceMaster } = require('../utils/files');
+const git = require('../utils/git');
 const spawndamnit = require('spawndamnit');
 const { getPackagesWithKarmaTests } = require('../karma-config');
 const {
@@ -30,7 +32,11 @@ const {
     console.error(
       '  $ node build/ci-scripts/run.tool.if.package.or.file.changed.js [...tools] -- <...command>\n',
     );
-    console.error(`Tools: ${Object.keys(TOOL_NAME_TO_FILTERS).join(', ')}`);
+    console.error(
+      `Tools: ${Object.keys(TOOL_NAME_TO_FILTERS).join(
+        ', ',
+      )} or Files:${Object.keys(CONFIG_FILES_TO_FILTERS).join(', ')}`,
+    );
     throw process.exit(1);
   }
   let filters = toolNames.map(toolName => {
@@ -50,23 +56,28 @@ const {
     return filterFn;
   });
 
-  let [packages, files, changedPackages] = await Promise.all([
+  let [packages, files, changedPackages, changedFiles] = await Promise.all([
     getPackagesInfo(cwd),
-    getFilesConfigInfo(cwd),
+    getFilesConfigInfo(),
     getChangedPackagesSinceMaster(),
+    getChangedFilesSinceMaster(),
   ]);
 
-  console.log('files', files);
-  let changedPackageDirs = changedPackages.map(pkg => pkg.dir);
-  filters.push(pkg => changedPackageDirs.includes(pkg.dir));
-  console.log('filters', filters);
+  const changedPackageDirs = changedPackages.map(pkg => pkg.dir);
+
+  const packageFilters = filters[0];
+  const fileFilters = filters[1];
+  console.log(packageFilters, fileFilters);
+  packageFilters.push(pkg => changedPackageDirs.includes(pkg.dir));
+
   let matchedPackages = !!packages.find(pkg =>
-    filters.every(filter => filter(pkg)),
-  );
-  let matchedFiles = !!files.find(file =>
-    filters.every(filter => filter(file)),
+    packageFilters.every(filter => filter(pkg)),
   );
 
+  let matchedFiles = !!files.find(file =>
+    fileFilters.every(filter => filter(file)),
+  );
+  console.log('matched', matchedFiles, matchedPackages);
   if (!matchedPackages) {
     throw process.exit(0);
   }

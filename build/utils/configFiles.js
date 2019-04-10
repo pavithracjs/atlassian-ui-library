@@ -3,12 +3,9 @@ const bolt = require('bolt');
 const path = require('path');
 const { exists } = require('./fs');
 
-async function getFilesConfigInfo(cwd /*: string */) {
-  let project = await bolt.getProject();
-  let root = cwd;
-
-  return await Promise.all(async () => {
-    console.log('path:', await exists(path.join(root, 'jest.config.js')));
+async function getFilesConfigInfo() {
+  let root = process.cwd();
+  try {
     let isJestConfigExists = await exists(path.join(root, 'jest.config.js'));
     let isJestFrameworkExists = await exists(
       path.join(root, 'jestFrameworkSetup.js'),
@@ -48,14 +45,15 @@ async function getFilesConfigInfo(cwd /*: string */) {
       isJestFrameworkExists ||
       isTsJestConfigExists ||
       isResolverExists;
-
     return {
       isKarma,
       isTypecheck,
       isTsLint,
       isTest,
     };
-  });
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 const CONFIG_FILES_TO_FILTERS /*: { [key: string]: (pkg: Object) => boolean } */ = {
