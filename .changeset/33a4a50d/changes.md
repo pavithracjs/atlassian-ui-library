@@ -1,0 +1,1 @@
+- [ED-6467] Fixes alignments (left and right) for images, making them keep on the half of lineLength
