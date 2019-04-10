@@ -1,1 +1,0 @@
-- ED-6624: Add layout button to main toolbar

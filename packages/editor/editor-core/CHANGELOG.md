@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.12.0
+- [minor] [049ff62abf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/049ff62abf):
+
+  - ED-6624: Add layout button to main toolbar
+
 ## 107.11.0
 - [minor] [b81d427d5c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b81d427d5c):
 
