@@ -243,6 +243,10 @@ class InlineEditUncontrolled extends React.Component<
                 label={label}
                 defaultValue={defaultValue}
                 validate={validate}
+                /**
+                 * This key is required so that value is reset when edit is
+                 * cancelled and defaultValue is ""
+                 */
                 key="edit-view"
               >
                 {({ fieldProps, error }: FieldChildProps) => (
@@ -281,6 +285,10 @@ class InlineEditUncontrolled extends React.Component<
                 name="inlineEdit"
                 label={label}
                 defaultValue=""
+                /**
+                 * This key is required so that value is reset when edit is
+                 * cancelled and defaultValue is ""
+                 */
                 key="read-view"
               >
                 {() => this.renderReadView()}
