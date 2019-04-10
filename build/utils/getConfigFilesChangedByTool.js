@@ -112,7 +112,7 @@ const CONFIG_FILES_TO_FILTERS_BY_TOOL_NAME /*: { [key: string]: (pkg: Object) =>
   tslint: file => file.isTsLint,
   unit: file => file.isTest,
   webdriver: file => file.isTest,
-  visualregression: file => file.isTest,
+  vr: file => file.isTest,
 };
 
 module.exports = {

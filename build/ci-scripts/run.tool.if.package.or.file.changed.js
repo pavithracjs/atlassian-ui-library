@@ -20,13 +20,13 @@ const {
  * `node build/ci-scripts/run.tool.if.package.or.file.changed.js toolName -- yarn toolName`.
  */
 (async () => {
-  let cwd = process.cwd();
-  let args = process.argv.slice(2);
+  const cwd = process.cwd();
+  const args = process.argv.slice(2);
 
-  let dashdashIndex = args.indexOf('--');
-  let command = args.slice(dashdashIndex + 1);
-  let toolNames = args.slice(0, dashdashIndex);
-
+  const dashdashIndex = args.indexOf('--');
+  const command = args.slice(dashdashIndex + 1);
+  const toolNames = args.slice(0, dashdashIndex);
+  console.log(toolNames);
   if (dashdashIndex < 0 || command.length === 0) {
     console.error('Incorrect usage, run it like this:\n');
     console.error(
@@ -42,7 +42,7 @@ const {
     throw process.exit(1);
   }
   // TODO: think of a way to return filters
-  let filters = toolNames.map(toolName => {
+  let filtersToolsPerPackageOrFilter = toolNames.map(toolName => {
     let filterFn = {
       packagesToFilter: PACKAGE_TO_FILTERS_BY_TOOL_NAME[toolName],
       configFilesToFilter: CONFIG_FILES_TO_FILTERS_BY_TOOL_NAME[toolName],
@@ -67,12 +67,16 @@ const {
     getChangedPackagesSinceMaster(),
     getChangedFilesSinceMaster(),
   ]);
-  console.log(filters);
-  const changedPackageDirs = changedPackages.map(pkg => pkg.dir);
 
-  const packageFilters = filters[0];
-  const fileFilters = filters[0];
-  // console.log(packageFilters, fileFilters);
+  const changedPackageDirs = changedPackages.map(pkg => pkg.dir);
+  console.log(filtersToolsPerPackageOrFilter);
+  const packageFilters = filtersToolsPerPackageOrFilter.filter(
+    package => package.packagesToFilter,
+  );
+  const fileFilters = filtersToolsPerPackageOrFilter.filter(
+    file => file.configFilesToFilter,
+  );
+  console.log(packageFilters, fileFilters);
   packageFilters.push(pkg => changedPackageDirs.includes(pkg.dir));
 
   let matchedPackages = !!packages.find(pkg =>
