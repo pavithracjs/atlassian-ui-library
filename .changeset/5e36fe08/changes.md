@@ -1,0 +1,1 @@
+- updating media image when context changes
