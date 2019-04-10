@@ -85,7 +85,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
   static defaultProps = {
     isDisabled: false,
     dialogPlacement: 'bottom-end',
-    shouldCloseOnEscapePress: false,
+    shouldCloseOnEscapePress: true,
     triggerButtonAppearance: 'subtle' as 'subtle',
     triggerButtonStyle: 'icon-only' as 'icon-only',
   };
@@ -148,7 +148,8 @@ class ShareDialogWithTriggerInternal extends React.Component<
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     const { isDialogOpen } = this.state;
-    if (isDialogOpen) {
+    const { shouldCloseOnEscapePress } = this.props;
+    if (isDialogOpen && shouldCloseOnEscapePress) {
       switch (event.key) {
         case 'Escape':
           event.stopPropagation();
