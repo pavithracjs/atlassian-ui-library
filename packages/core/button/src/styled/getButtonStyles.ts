@@ -1,6 +1,5 @@
 import { css } from 'styled-components';
-import { borderRadius, fontSize, gridSize } from '@atlaskit/theme/constants';
-import { divide, multiply } from '@atlaskit/theme/math';
+import { borderRadius, fontSize, gridSize, math } from '@atlaskit/theme';
 import themeDefinitions from './themeDefinitions';
 import { themeNamespace } from '../theme';
 import getButtonProps from '../components/getButtonProps';
@@ -92,10 +91,13 @@ export const getPropertyAppearance = (
 export default function getButtonStyles(props: StyleProps) {
   // $FlowFixMe - should be fixed when theme work is done
   const baseSize = fontSize(props);
-  const buttonHeight = `${divide(multiply(gridSize, 4), baseSize)(props)}em`;
-  const compactButtonHeight = `${divide(multiply(gridSize, 3), baseSize)(
+  const buttonHeight = `${math.divide(math.multiply(gridSize, 4), baseSize)(
     props,
   )}em`;
+  const compactButtonHeight = `${math.divide(
+    math.multiply(gridSize, 3),
+    baseSize,
+  )(props)}em`;
 
   /**
    * Variable styles

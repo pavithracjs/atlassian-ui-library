@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { gridSize } from '@atlaskit/theme/constants';
-import { divide } from '@atlaskit/theme/math';
+import { gridSize, math } from '@atlaskit/theme';
 import { getLoadingStyle } from './utils';
 
 const getAlignment = (p: Props) => (p.followsIcon ? 'baseline' : 'center');
-const gridSizeDiv2 = divide(gridSize, 2);
+const gridSizeDiv2 = math.divide(gridSize, 2);
 const getMargin = (p: Props) =>
   p.spacing === 'none' ? 0 : `0 ${gridSizeDiv2(p)}px`;
 
