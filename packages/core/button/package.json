@@ -43,7 +43,6 @@
     "@atlaskit/logo": "^10.0.1",
     "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/visual-regression": "^0.0.1",
-    "@types/react-test-renderer": "^16.8.0",
     "enzyme": "^3.7.0",
     "jest-emotion": "^10.0.10",
     "jest-in-case": "^1.0.2",
