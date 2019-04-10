@@ -9,7 +9,7 @@ const minRows = 2;
 const textAreaLineHeightFactor = 2.5;
 const ReadViewContainer = styled.div`
   white-space: pre-wrap;
-  padding: 8px 8px;
+  padding: ${gridSize()}px ${gridSize()}px;
   line-height: ${(gridSize() * textAreaLineHeightFactor) / fontSize()}
   min-height: ${gridSize() * textAreaLineHeightFactor * minRows}px
 `;
@@ -31,7 +31,12 @@ export default class InlineEditExample extends React.Component<void, State> {
 
   render() {
     return (
-      <div style={{ padding: '0 16px 60px', width: '50%' }}>
+      <div
+        style={{
+          padding: `0 ${gridSize()}px ${gridSize() * 6}px`,
+          width: '70%',
+        }}
+      >
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline edit textarea + keep edit view open on blur"

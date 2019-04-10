@@ -11,7 +11,7 @@ const ReadViewContainer = styled.div`
   display: flex;
   max-width: 100%;
   overflow: hidden;
-  padding: 8px 6px;
+  padding: ${gridSize()}px ${gridSize() - 2}px;
   font-size: ${fontSize()}px;
   height: ${(gridSize() * 2.5) / fontSize()}em;
   line-height: ${(gridSize() * 2.5) / fontSize()};
@@ -54,7 +54,7 @@ export default class InlineEditExample extends React.Component<void, State> {
 
   render() {
     return (
-      <div style={{ padding: '0 16px 8px' }}>
+      <div style={{ padding: `0 ${gridSize()}px ${gridSize() * 6}px` }}>
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline edit select"
@@ -73,7 +73,7 @@ export default class InlineEditExample extends React.Component<void, State> {
             this.state.editValue.length === 0 ? (
               <ReadViewContainer>Click to choose options</ReadViewContainer>
             ) : (
-              <div style={{ padding: '4px' }}>
+              <div style={{ padding: `${gridSize() / 2}px` }}>
                 <Group>
                   {this.state.editValue.map((option: Option) => (
                     <Tag text={option.label} key={option.label} />

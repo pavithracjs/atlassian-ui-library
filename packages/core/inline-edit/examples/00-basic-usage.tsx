@@ -9,7 +9,7 @@ const ReadViewContainer = styled.div`
   display: flex;
   max-width: 100%;
   overflow: hidden;
-  padding: 8px 6px;
+  padding: ${gridSize()}px ${gridSize() - 2}px;
   font-size: ${fontSize()}px;
   height: ${(gridSize() * 2.5) / fontSize()}em;
   line-height: ${(gridSize() * 2.5) / fontSize()};
@@ -26,7 +26,7 @@ export default class InlineEditExample extends React.Component<void, State> {
 
   render() {
     return (
-      <div style={{ padding: '0 16px 60px' }}>
+      <div style={{ padding: `0 ${gridSize()}px ${gridSize() * 6}px` }}>
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline edit"

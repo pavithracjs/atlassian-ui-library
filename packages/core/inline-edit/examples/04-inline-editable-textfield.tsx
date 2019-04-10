@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { gridSize } from '@atlaskit/theme';
 
 import { InlineEditableTextfield } from '../src';
 
@@ -13,7 +14,7 @@ export default class InlineEditExample extends React.Component<void, State> {
 
   render() {
     return (
-      <div style={{ padding: '0 16px 60px' }}>
+      <div style={{ padding: `0 ${gridSize()}px ${gridSize() * 6}px` }}>
         <InlineEditableTextfield
           defaultValue={this.state.editValue}
           label="Inline editable textfield"

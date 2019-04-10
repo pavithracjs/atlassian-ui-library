@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TextField from '@atlaskit/textfield';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
-import { colors } from '@atlaskit/theme';
+import { colors, gridSize } from '@atlaskit/theme';
 
 import InlineEdit from '../src';
 import ReadViewContainer from '../src/styled/ReadViewContainer';
@@ -44,7 +44,7 @@ export default class InlineEditExample extends React.Component<void, State> {
 
   render() {
     return (
-      <div style={{ padding: '0 16px', width: '50%' }}>
+      <div style={{ padding: `0 ${gridSize()}px`, width: '50%' }}>
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline edit validation"
@@ -53,7 +53,12 @@ export default class InlineEditExample extends React.Component<void, State> {
               {...editViewProps}
               elemAfterInput={
                 editViewProps.isInvalid && (
-                  <div style={{ paddingRight: '6px', lineHeight: '100%' }}>
+                  <div
+                    style={{
+                      paddingRight: `${gridSize() - 2}px`,
+                      lineHeight: '100%',
+                    }}
+                  >
                     <ErrorIcon label="error" primaryColor={colors.R400} />
                   </div>
                 )
