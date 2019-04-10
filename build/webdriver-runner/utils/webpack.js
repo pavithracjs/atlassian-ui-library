@@ -37,6 +37,9 @@ const minimatch = require('minimatch');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const historyApiFallback = require('connect-history-api-fallback');
+const ora = require('ora');
+const chalk = require('chalk');
+const fs = require('fs');
 
 const createConfig = require('@atlaskit/webpack-config');
 const {
@@ -54,11 +57,11 @@ const CHANGED_PACKAGES = process.env.CHANGED_PACKAGES;
 let server;
 let config;
 
-const pattern = process.argv[2] || '';
+const patterns = process.argv.slice(2) || [];
 
 function packageIsInPatternOrChanged(workspace) {
   if (!workspace.files.matchedTests.length) return false;
-  if (pattern === '' && !CHANGED_PACKAGES) return true;
+  if (!patterns.length && !CHANGED_PACKAGES) return true;
 
   /**
    * If the CHANGED_PACKAGES variable is set,
@@ -80,10 +83,27 @@ function packageIsInPatternOrChanged(workspace) {
     }
     return parsedChangedPackages.some(pkg => workspace.dir.includes(pkg));
   }
-  /* Match and existing pattern is passed through the command line */
-  return pattern.length < workspace.dir.length
-    ? workspace.dir.includes(pattern)
-    : pattern.includes(workspace.dir);
+
+  /**
+   * Patterns contains package name that matches this workspace
+   * eg. "editor-core"
+   */
+  const patternsContainPkg = patterns.find(pattern =>
+    minimatch(workspace.dir, pattern, { matchBase: true }),
+  );
+  if (patternsContainPkg) {
+    return true;
+  }
+
+  /**
+   * Check each item in patterns, resolving it as a path
+   * Then compare this against workspace directory
+   */
+  const patternsContainPath = patterns.find(pattern => {
+    const resolvedPath = path.resolve(pattern);
+    return fs.existsSync(resolvedPath) && resolvedPath.includes(workspace.dir);
+  });
+  return !!patternsContainPath;
 }
 
 async function getPackagesWithTests() /*: Promise<Array<string>> */ {
@@ -136,7 +156,7 @@ async function startDevServer() {
     );
   }
   if (!globs.length) {
-    console.info('Nothing to run or pattern does not match!');
+    console.info(chalk.yellow('Nothing to run or pattern does not match!'));
     process.exit(0);
   }
 
@@ -161,6 +181,8 @@ async function startDevServer() {
   //
   // Starting Webpack Dev Server
   //
+
+  const spinner = ora(chalk.cyan('Starting webpack dev server')).start();
 
   server = new WebpackDevServer(compiler, {
     // Enable gzip compression of generated files.
@@ -197,14 +219,15 @@ async function startDevServer() {
       setTimeout(() => {
         if (hasValidDepGraph) {
           resolve();
-          console.log('Compiled Packages!');
+          spinner.succeed(chalk.cyan('Compiled packages!'));
         }
       }, WEBPACK_BUILD_TIMEOUT);
     });
 
     server.listen(PORT, HOST, err => {
       if (err) {
-        console.log(err.stack || err);
+        spinner.fail();
+        console.log(chalk.red(err.stack || err));
         return reject(1);
       }
       server.use(
