@@ -1,5 +1,10 @@
 # @atlaskit/flag
 
+## 10.0.4
+- [patch] [23672bbd2d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/23672bbd2d):
+
+  - Improvement: Align the flag actions with title and text for normal appearance flags
+
 ## 10.0.3
 - Updated dependencies [ce4e1b4780](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce4e1b4780):
   - @atlaskit/portal@0.3.0
