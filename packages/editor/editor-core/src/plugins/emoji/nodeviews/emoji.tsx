@@ -4,10 +4,9 @@ import { EditorView, NodeView } from 'prosemirror-view';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import Emoji from '../ui/Emoji';
 import { ReactNodeView, getPosHandler } from '../../../nodeviews';
-import {
+import InlineNodeWrapper, {
   createMobileInlineDomRef,
-  WrapInlineNodeForMobile,
-} from '../../../ui/MobileInlineWrapper';
+} from '../../../ui/InlineNodeWrapper';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { EditorAppearance } from '../../../types';
 import { ZeroWidthSpace } from '../../../utils';
@@ -31,15 +30,15 @@ export class EmojiNodeView extends ReactNodeView {
     const { shortName, id, text } = this.node.attrs;
 
     return (
-      <WrapInlineNodeForMobile appearance={editorAppearance}>
+      <InlineNodeWrapper appearance={editorAppearance}>
         <Emoji
           providers={providerFactory}
           id={id}
           shortName={shortName}
           fallback={text}
         />
-        {ZeroWidthSpace}
-      </WrapInlineNodeForMobile>
+        {editorAppearance !== 'mobile' && ZeroWidthSpace}
+      </InlineNodeWrapper>
     );
   }
 }

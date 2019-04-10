@@ -4,12 +4,12 @@ import { EditorView, NodeView } from 'prosemirror-view';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import Mention from '../ui/Mention';
 import { ReactNodeView, getPosHandler } from '../../../nodeviews';
-import {
+import InlineNodeWrapper, {
   createMobileInlineDomRef,
-  WrapInlineNodeForMobile,
-} from '../../../ui/MobileInlineWrapper';
+} from '../../../ui/InlineNodeWrapper';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { EditorAppearance } from '../../../types';
+import { ZeroWidthSpace } from '../../../utils';
 
 export interface Props {
   providerFactory: ProviderFactory;
@@ -39,14 +39,15 @@ export class MentionNodeView extends ReactNodeView {
     }
 
     return (
-      <WrapInlineNodeForMobile appearance={editorAppearance}>
+      <InlineNodeWrapper appearance={editorAppearance}>
         <Mention
           id={id}
           text={mentionText}
           accessLevel={accessLevel}
           providers={providerFactory}
         />
-      </WrapInlineNodeForMobile>
+        {editorAppearance !== 'mobile' && ZeroWidthSpace}
+      </InlineNodeWrapper>
     );
   }
 }

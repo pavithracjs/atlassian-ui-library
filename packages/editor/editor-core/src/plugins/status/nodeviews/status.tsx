@@ -3,18 +3,15 @@ import { defineMessages, injectIntl, InjectedIntlProps } from 'react-intl';
 import styled from 'styled-components';
 import { Node as PMNode } from 'prosemirror-model';
 import { Selection } from 'prosemirror-state';
-import { EditorView } from 'prosemirror-view';
-import { Status } from '@atlaskit/status';
-import { pluginKey } from '../plugin';
-import { setStatusPickerAt } from '../actions';
+import { EditorView, NodeView } from 'prosemirror-view';
+import { Color, Status, StatusStyle } from '@atlaskit/status';
 import { colors } from '@atlaskit/theme';
-import { setStatusPickerAt } from '../actions';
 import { pluginKey } from '../plugin';
+import { setStatusPickerAt } from '../actions';
 import { ReactNodeView, getPosHandler } from '../../../nodeviews';
-import {
+import InlineNodeWrapper, {
   createMobileInlineDomRef,
-  WrapInlineNodeForMobile,
-} from '../../../ui/MobileInlineWrapper';
+} from '../../../ui/InlineNodeWrapper';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { EditorAppearance } from '../../../types';
 import { ZeroWidthSpace } from '../../../utils';
@@ -59,7 +56,7 @@ export const StyledStatus = styled.span`
 export interface ContainerProps {
   view: EditorView;
   getPos: getPosHandler;
-  text: string;
+  text?: string;
   color: Color;
   style?: StatusStyle;
   localId?: string;
@@ -160,12 +157,20 @@ export class StatusNodeView extends ReactNodeView {
     return super.createDomRef();
   }
 
+  setDomAttrs(node: PMNode, element: HTMLElement) {
+    const { color, localId, style } = node.attrs;
+
+    element.dataset.color = color;
+    element.dataset.localId = localId;
+    element.dataset.style = style;
+  }
+
   render(props: Props) {
     const { editorAppearance } = props;
     const { text, color, localId, style } = this.node.attrs;
 
     return (
-      <WrapInlineNodeForMobile appearance={editorAppearance}>
+      <InlineNodeWrapper appearance={editorAppearance}>
         <IntlStatusContainerView
           view={this.view}
           getPos={this.getPos}
@@ -174,8 +179,8 @@ export class StatusNodeView extends ReactNodeView {
           style={style}
           localId={localId}
         />
-        {ZeroWidthSpace}
-      </WrapInlineNodeForMobile>
+        {editorAppearance !== 'mobile' && ZeroWidthSpace}
+      </InlineNodeWrapper>
     );
   }
 }

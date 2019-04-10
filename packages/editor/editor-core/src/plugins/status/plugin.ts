@@ -6,10 +6,8 @@ import {
   Selection,
   Transaction,
 } from 'prosemirror-state';
-import { EditorView } from 'prosemirror-view';
 import { Color as ColorType } from '@atlaskit/status';
-import StatusNodeView from './nodeviews/status';
-import { ReactNodeView } from '../../nodeviews';
+import statusNodeView from './nodeviews/status';
 import { PMPluginFactory } from '../../types';
 import { ZeroWidthSpace } from '../../utils';
 import { mayGetStatusNodeAt, isEmptyStatus } from './utils';
@@ -159,6 +157,7 @@ const createPlugin: PMPluginFactory = ({
         const nodeAtSelection = tr.doc.nodeAt(tr.selection.from);
 
         if (
+          appearance !== 'mobile' &&
           nodeAtSelection &&
           nodeAtSelection.type === state.schema.nodes.status
         ) {
