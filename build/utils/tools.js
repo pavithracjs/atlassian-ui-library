@@ -45,7 +45,7 @@ async function getPackagesInfo(cwd /*: string */) {
 
       let isBabel = srcExists && !isTypeScript && !isWebsitePackage;
       let isFlow = isBabel || isWebsitePackage;
-      let isESLint = isBabel || isWebsitePackage;
+      let isESLint = isBabel || isTSLint || isWebsitePackage;
 
       let isKarma = testBrowserExists || hasKarmaDep;
       let isBrowserStack = isKarma;
@@ -60,7 +60,6 @@ async function getPackagesInfo(cwd /*: string */) {
         relativeDir,
         isTypeScript,
         isTypeScriptCLI,
-        isTSLint,
         isBabel,
         isFlow,
         isESLint,
@@ -77,7 +76,6 @@ async function getPackagesInfo(cwd /*: string */) {
 const TOOL_NAME_TO_FILTERS /*: { [key: string]: (pkg: Object) => boolean } */ = {
   typescript: pkg => pkg.isTypeScript,
   typescriptcli: pkg => pkg.isTypeScriptCLI,
-  tslint: pkg => pkg.isTSLint,
   babel: pkg => pkg.isBabel,
   flow: pkg => pkg.isFlow,
   eslint: pkg => pkg.isESLint,
