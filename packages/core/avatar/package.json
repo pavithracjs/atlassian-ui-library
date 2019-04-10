@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/avatar",
-  "version": "15.0.1",
+  "version": "15.0.2",
   "description": "A component that represents a user.",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -19,8 +19,7 @@
     "@atlaskit/analytics-next": "^4.0.1",
     "@atlaskit/theme": "^8.0.1",
     "@atlaskit/tooltip": "^13.0.1",
-    "@babel/runtime": "^7.0.0",
-    "exenv": "^1.2.2"
+    "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {
     "react": "^16.4.0",

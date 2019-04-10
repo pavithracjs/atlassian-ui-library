@@ -6,6 +6,7 @@ export {
   ShareResponse,
 } from '../clients/ShareServiceClient';
 export * from './form';
+export * from './Flag';
 export * from './OriginTracing';
 export * from './ShareButton';
 export {
