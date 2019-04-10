@@ -1,5 +1,20 @@
 # @atlaskit/editor-common
 
+## 36.1.10
+- [patch] [c01f9e1cc7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c01f9e1cc7):
+
+  - Standardise code-block class between editor/renderer. Fix bg color when code-block is nested within a table heading.
+
+## 36.1.9
+- [patch] [63c00f3503](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/63c00f3503):
+
+  - fix usage of entry point of @atlaskit/mention
+
+## 36.1.8
+- [patch] [fc2b10e0cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fc2b10e0cc):
+
+  - HOT-86829 do not call setWidth with 0 nor undefined
+
 ## 36.1.7
 - Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
   - @atlaskit/media-core@29.1.2

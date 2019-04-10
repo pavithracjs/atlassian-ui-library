@@ -1,4 +1,4 @@
-import { Color as StatusColor } from '@atlaskit/status/element';
+import { Color as StatusColor } from '@atlaskit/status';
 import { EditorBridges, EditorPluginBridges } from './index';
 
 export interface MentionBridge {
@@ -42,7 +42,14 @@ export interface TypeAheadBridge {
 }
 
 export interface LinkBridge {
-  currentSelection(text: string, url: string): void;
+  currentSelection(
+    text: string,
+    url: string,
+    top: number,
+    right: number,
+    bottom: number,
+    left: number,
+  ): void;
 }
 
 export default interface NativeBridge

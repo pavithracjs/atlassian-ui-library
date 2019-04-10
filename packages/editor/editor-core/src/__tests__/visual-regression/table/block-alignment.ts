@@ -29,6 +29,18 @@ describe('Table with block looks correct for fullpage:', () => {
     await page.click(getSelectorForTableCell({ row: 4, cell: 1 }));
   });
 
+  it('default layout with dark theme', async () => {
+    await initFullPageEditorWithAdf(
+      page,
+      adf,
+      Device.LaptopMDPI,
+      undefined,
+      undefined,
+      'dark',
+    );
+    await page.click(getSelectorForTableCell({ row: 4, cell: 1 }));
+  });
+
   it('wide layout ', async () => {
     await initFullPageEditorWithAdf(page, adf, Device.LaptopMDPI);
     await page.click(getSelectorForTableCell({ row: 4, cell: 1 }));

@@ -7,11 +7,11 @@ import {
   Transaction,
 } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { Color as ColorType } from '@atlaskit/status/element';
+import { Color as ColorType } from '@atlaskit/status';
 import StatusNodeView from './nodeviews/status';
 import { ReactNodeView } from '../../nodeviews';
 import { PMPluginFactory } from '../../types';
-import { ZWSP } from '../../utils';
+import { ZeroWidthSpace } from '../../utils';
 import { mayGetStatusNodeAt, isEmptyStatus } from './utils';
 
 export const pluginKey = new PluginKey('statusPlugin');
@@ -159,7 +159,7 @@ const createPlugin: PMPluginFactory = ({ dispatch, portalProviderAPI }) =>
           nodeAtSelection.type === state.schema.nodes.status
         ) {
           const delayedNodeRendering = () => {
-            return document.createTextNode(ZWSP);
+            return document.createTextNode(ZeroWidthSpace);
           };
 
           const decoration = Decoration.widget(

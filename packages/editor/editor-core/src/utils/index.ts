@@ -39,7 +39,7 @@ export { JSONDocNode, JSONNode };
 
 export { filterContentByType } from './filter';
 
-export const ZWSP = '\u200b';
+export const ZeroWidthSpace = '\u200b';
 
 function validateNode(node: Node): boolean {
   return false;

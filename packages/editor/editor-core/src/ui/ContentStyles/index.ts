@@ -122,7 +122,7 @@ const ContentStyles: ComponentClass<
   }
 
   /* Danger when top level node */
-  .danger > .extension-container {
+  .danger > span > .extension-container {
     background: ${akEditorDeleteBackground};
     .extension-overlay {
       box-shadow: inset 0px 0px 0px ${akEditorDeleteBorderBoldSize}px ${akEditorDeleteBorder} !important;

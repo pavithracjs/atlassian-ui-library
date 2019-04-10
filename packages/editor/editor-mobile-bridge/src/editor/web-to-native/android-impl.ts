@@ -1,4 +1,4 @@
-import { Color as StatusColor } from '@atlaskit/status/element';
+import { Color as StatusColor } from '@atlaskit/status';
 import { EditorBridges, EditorPluginBridges } from './index';
 import {
   MentionBridge,
@@ -81,8 +81,15 @@ export default class AndroidBridge implements NativeBridge {
     this.statusBridge.dismissStatusPicker(isNew);
   }
 
-  currentSelection(text: string, url: string) {
-    this.linkBridge.currentSelection(text, url);
+  currentSelection(
+    text: string,
+    url: string,
+    top: number,
+    right: number,
+    bottom: number,
+    left: number,
+  ) {
+    this.linkBridge.currentSelection(text, url, top, right, bottom, left);
   }
 
   call<T extends EditorPluginBridges>(

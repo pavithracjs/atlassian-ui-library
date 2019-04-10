@@ -20,6 +20,9 @@ export interface ConfluenceItem {
   content?: {
     id: string;
     type: ConfluenceItemContentType;
+    space?: {
+      id: string;
+    };
   };
   container: {
     title: string; // this is unhighlighted

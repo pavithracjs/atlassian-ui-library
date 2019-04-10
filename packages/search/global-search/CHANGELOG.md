@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 6.2.4
+- [patch] [f86b087b7c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f86b087b7c):
+
+  - Adding container ID to analytics to relevant analytics, including referral context params
+
 ## 6.2.3
 - [patch] [47bb7e05e4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/47bb7e05e4):
 
