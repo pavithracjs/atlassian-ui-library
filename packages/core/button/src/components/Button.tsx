@@ -235,6 +235,7 @@ const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 const ButtonWithRef = React.forwardRef<HTMLElement, ButtonProps>(
   (props, ref) => <Button {...props} consumerRef={ref} />,
 );
+ButtonWithRef.displayName = 'Button';
 
 // @ts-ignore
 export default withAnalyticsContext({
