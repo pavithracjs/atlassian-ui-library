@@ -1,0 +1,1 @@
+- Added documentation and consolidated example
