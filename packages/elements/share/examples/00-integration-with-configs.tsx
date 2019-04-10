@@ -115,10 +115,11 @@ const triggerButtonStyleOptions = [
 
 type ExampleState = {
   customTitle: boolean;
+  dialogPlacement: string;
   escapeOnKeyPress: boolean;
 };
 
-type State = ConfigResponse & Partial<ShareDialogContainerProps>;
+type State = ConfigResponse & Partial<ShareDialogContainerProps> & ExampleState;
 
 export default class Example extends React.Component<{}, State> {
   state: State = {
