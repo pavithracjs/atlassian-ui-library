@@ -18,6 +18,7 @@ export default () => (
         <QuickSearch
           isLoading={false}
           inputControls={<button>Test Button</button>}
+          children={null}
         />
       </AkSearchDrawer>,
     ]}
