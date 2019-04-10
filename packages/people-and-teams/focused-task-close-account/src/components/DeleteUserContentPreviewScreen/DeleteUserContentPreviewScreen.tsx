@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import Avatar from '@atlaskit/avatar';
 
-import { contentPreviewMessages } from '../../messages';
+import { contentPreviewMessages, overviewMessages } from '../../messages';
 import * as Styled from './styled';
 import MessagesIntlProvider from '../MessagesIntlProvider';
 import {
@@ -52,14 +52,14 @@ export class DeleteUserContentPreviewScreen extends React.Component<
               contentPreviewMessages.paragraphSurveyAdmin,
               contentPreviewMessages.paragraphSurveySelf,
             )}
-            tagName={'p'}
+            tagName="p"
           />
           <FormattedMessage
             {...this.selectAdminOrSelfCopy(
               contentPreviewMessages.lineSurveyAdmin,
               contentPreviewMessages.lineSurveySelf,
             )}
-            tagName={'p'}
+            tagName="p"
           />
           <Styled.SectionCard
             className="nameSectionCard"
@@ -79,14 +79,16 @@ export class DeleteUserContentPreviewScreen extends React.Component<
             <Styled.Avatar>
               <Avatar size="large" src="" />
             </Styled.Avatar>
-            <Styled.UserDetails>Former User</Styled.UserDetails>
+            <Styled.UserDetails>
+              <FormattedMessage {...contentPreviewMessages.formerUser} />
+            </Styled.UserDetails>
           </Styled.SectionCard>
           <FormattedHTMLMessage
             {...this.selectAdminOrSelfCopy(
               contentPreviewMessages.footnoteAdmin,
               contentPreviewMessages.footnoteSelf,
             )}
-            tagName={'p'}
+            tagName="p"
           />
         </Styled.Screen>
       </MessagesIntlProvider>

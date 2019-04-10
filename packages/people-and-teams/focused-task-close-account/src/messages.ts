@@ -491,14 +491,14 @@ export const contentPreviewMessages: ReactIntlMessages = defineMessages({
   headingAdmin: {
     id:
       'focused-task-close-account.delete-account.content-preview.heading.admin',
-    defaultMessage: 'Tell us how do you want the user to be remembered',
+    defaultMessage: 'How would you like the deleted user to appear?',
     description:
       'Heading for the screen that explains admin would prefer user to be remembered',
   },
   headingSelf: {
     id:
       'focused-task-close-account.delete-account.content-preview.heading.self',
-    defaultMessage: 'Tell us how do you want to be remembered',
+    defaultMessage: 'How would you like your deleted account to appear?',
     description:
       'Heading for the screen that explains how users would prefer to be remembered',
   },
@@ -544,6 +544,12 @@ export const contentPreviewMessages: ReactIntlMessages = defineMessages({
     defaultMessage:
       'Note: Answering this survey will help us make a better experience for all users, including those deleting their accounts. You’ll still appear as “Former user” after you delete your account.',
     description: 'Note to users that they would still be saved as Former User',
+  },
+  formerUser: {
+    id: 'focused-task-close-account.delete-account.content-preview.formerUser',
+    defaultMessage: 'Former user',
+    description:
+      'The display name for a user when they do not select their name',
   },
 });
 
