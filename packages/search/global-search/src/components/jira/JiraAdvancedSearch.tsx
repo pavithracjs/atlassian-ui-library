@@ -74,10 +74,10 @@ export default class JiraAdvancedSearch extends React.Component<Props, State> {
     itemI18nKeySuffix
       .filter(
         key =>
-          !this.props.appPermission || //temporary until we are sure that app permission is always passed
+          !this.props.appPermission ||
           key !== JiraEntityTypes.Boards ||
           (this.props.appPermission &&
-            !!this.props.appPermission.hasSoftwareAccess),
+            this.props.appPermission.hasSoftwareAccess),
       )
       .map(item => (
         <DropdownItem
