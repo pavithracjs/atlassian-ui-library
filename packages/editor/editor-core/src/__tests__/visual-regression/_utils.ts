@@ -3,6 +3,7 @@ import {
   disableAllAnimations,
   disableAllTransitions,
   disableCaretCursor,
+  disableScrollBehavior,
 } from '@atlaskit/visual-regression/helper';
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
@@ -181,18 +182,19 @@ export const initEditorWithAdf = async (
     await page.goto(url);
   }
 
-  // We disable possible side effects, like animation, transitions and caret cursor,
-  // because we cannot control and affect snapshots
-  await disableCaretCursor(page);
-  await disableAllAnimations(page);
-  await disableAllTransitions(page);
-
   // Set the viewport to the right one
   if (viewport) {
     await page.setViewport(viewport);
   } else {
     await page.setViewport(deviceViewPorts[device]);
   }
+
+  // We disable possible side effects, like animation, transitions and caret cursor,
+  // because we cannot control and affect snapshots
+  await disableCaretCursor(page);
+  await disableAllAnimations(page);
+  await disableAllTransitions(page);
+  await disableScrollBehavior(page);
 
   // Mount the editor with the right attributes
   await mountEditor(
