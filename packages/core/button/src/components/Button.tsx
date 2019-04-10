@@ -236,6 +236,7 @@ const ButtonWithRef = React.forwardRef<HTMLElement, ButtonProps>(
   (props, ref) => <Button {...props} consumerRef={ref} />,
 );
 
+// @ts-ignore
 export default withAnalyticsContext({
   componentName: 'button',
   packageName,
@@ -252,4 +253,4 @@ export default withAnalyticsContext({
       },
     }),
   })(ButtonWithRef),
-) as typeof ButtonWithRef;
+) as React.ComponentType<ButtonProps>;
