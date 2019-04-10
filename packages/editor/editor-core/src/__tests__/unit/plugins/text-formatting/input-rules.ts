@@ -711,7 +711,7 @@ describe('text-formatting input rules', () => {
       );
     });
 
-    it.only('should delete an existing selection and apply', () => {
+    it('should delete an existing selection and apply', () => {
       const { editorView } = editor(doc(p('here `some{<} words{>}')));
       typeText(editorView, '`');
 

@@ -1,0 +1,1 @@
+- ED-2152 Remove any selection when pressing ` and completing inlinecode
