@@ -1,1 +1,0 @@
-- FS-3792 do no call loadUser on empty query
