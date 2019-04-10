@@ -1,5 +1,10 @@
 # @atlaskit/avatar-group
 
+## 3.0.2
+- [patch] [ea173a3ee2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea173a3ee2):
+
+  - Internal changes only. Component is now SSR compatible. If server side rendered, Avatar Images will begin to load immediately; before client bundle is ready. If this is undesired, `imageUrl` can be passed in after component is mounted.
+
 ## 3.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1
