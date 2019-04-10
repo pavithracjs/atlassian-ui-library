@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import Avatar from '@atlaskit/avatar';
 
-import { contentPreviewMessages, overviewMessages } from '../../messages';
+import { contentPreviewMessages } from '../../messages';
 import * as Styled from './styled';
 import MessagesIntlProvider from '../MessagesIntlProvider';
 import {
