@@ -93,13 +93,13 @@ export default class AvatarImage extends PureComponent<Props, State> {
   }
 
   loadImage = () => {
-    // nothing to load
-    if (!this.props.src) return;
-    this.setState({ isLoading: true });
-    const img = new Image();
-    img.onload = this.handleLoadSuccess;
-    img.onerror = this.handleLoadError;
-    img.src = this.props.src;
+    if (this.props.src) {
+      const img = new Image();
+      img.onload = this.handleLoadSuccess;
+      img.onerror = this.handleLoadError;
+      img.src = this.props.src;
+      this.setState({ isLoading: true });
+    }
   };
 
   handleLoadSuccess = () => {
