@@ -10,7 +10,7 @@ import {
 } from '../_helpers';
 
 BrowserTestCase(
-  `inline-1.ts: pasting a link converts to an inline card`,
+  `inline-1.ts: pasting an link converts to inline card`,
   {
     skip: ['ie', 'safari'],
   },

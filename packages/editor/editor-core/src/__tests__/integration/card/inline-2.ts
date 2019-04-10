@@ -23,7 +23,7 @@ const moveUp = (page: any, selector: string) => {
 };
 
 BrowserTestCase(
-  `inline-2.ts: pasting a link then typing still converts to an inline card`,
+  `inline-2.ts: pasting an link then typing still converts to inline card`,
   {
     skip: ['ie', 'safari'],
   },
