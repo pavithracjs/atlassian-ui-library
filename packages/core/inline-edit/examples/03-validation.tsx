@@ -48,11 +48,11 @@ export default class InlineEditExample extends React.Component<void, State> {
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline edit validation"
-          editView={editViewProps => (
+          editView={fieldProps => (
             <TextField
-              {...editViewProps}
+              {...fieldProps}
               elemAfterInput={
-                editViewProps.isInvalid && (
+                fieldProps.isInvalid && (
                   <div
                     style={{
                       paddingRight: `${gridSize() - 2}px`,
@@ -63,6 +63,7 @@ export default class InlineEditExample extends React.Component<void, State> {
                   </div>
                 )
               }
+              autoFocus
             />
           )}
           readView={() => (

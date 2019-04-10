@@ -58,7 +58,7 @@ class InlineEdit extends React.Component<InlineEditProps, State> {
         {...this.props}
         defaultValue={this.props.defaultValue}
         editView={fieldProps =>
-          this.props.editView({ ...fieldProps, ref: this.editViewRef })
+          this.props.editView(fieldProps, this.editViewRef)
         }
         readView={this.props.readView}
         onConfirm={this.onConfirm}

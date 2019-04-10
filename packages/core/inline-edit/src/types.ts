@@ -28,7 +28,7 @@ interface CommonProps {
 export interface InlineEditUncontrolledProps extends CommonProps {
   /** Component to be shown when not in edit view. */
   readView: () => React.ReactNode;
-  /** Component to be shown when editing. Should be an Atlaskit input. */
+  /** Component to be shown when editing. */
   editView: (fieldProps: FieldProps) => React.ReactNode;
   /** Whether the component shows the readView or the editView. */
   isEditing: boolean;
@@ -48,9 +48,10 @@ export interface InlineEditUncontrolledProps extends CommonProps {
 export interface InlineEditProps extends CommonProps {
   /** Component to be shown when not in edit view. */
   readView: () => React.ReactNode;
-  /** Component to be shown when editing. Should be an Atlaskit input. */
+  /** Component to be shown when editing. */
   editView: (
-    editViewProps: FieldProps & { ref: React.RefObject<any> },
+    fieldProps: FieldProps,
+    ref: React.RefObject<any>,
   ) => React.ReactNode;
   /**
    * Handler called editView is closed and changes are confirmed.

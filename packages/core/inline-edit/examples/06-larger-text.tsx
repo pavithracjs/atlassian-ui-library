@@ -41,7 +41,9 @@ export default class InlineEditExample extends React.Component {
       >
         <InlineEdit
           defaultValue="Field Value"
-          editView={({ ref, ...rest }) => <EditView {...rest} innerRef={ref} />}
+          editView={(fieldProps, ref) => (
+            <EditView {...fieldProps} innerRef={ref} />
+          )}
           readView={() => <ReadView>Field Value</ReadView>}
           onConfirm={() => {}}
         />

@@ -30,7 +30,7 @@ export default class InlineEditExample extends React.Component<void, State> {
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline edit"
-          editView={editViewProps => <Textfield {...editViewProps} />}
+          editView={fieldProps => <Textfield {...fieldProps} autoFocus />}
           readView={() => (
             <ReadViewContainer>
               {this.state.editValue || 'Click to enter value'}

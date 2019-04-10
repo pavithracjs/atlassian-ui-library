@@ -58,10 +58,10 @@ export default class InlineEditExample extends React.Component<void, State> {
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline edit select"
-          editView={editViewProps => (
+          editView={fieldProps => (
             <EditViewContainer>
               <Select
-                {...editViewProps}
+                {...fieldProps}
                 options={selectOptions}
                 isMulti
                 autoFocus
