@@ -69,12 +69,6 @@ type State = {|
   isLoading: boolean,
 |};
 
-let cache = {};
-
-export const clearCache = () => {
-  cache = {};
-};
-
 export default class AvatarImage extends PureComponent<Props, State> {
   state: State = {
     hasError: false,

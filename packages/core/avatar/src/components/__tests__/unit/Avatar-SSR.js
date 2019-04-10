@@ -5,14 +5,6 @@ import { mount } from 'enzyme';
 import Avatar from '../../Avatar';
 import AvatarImage, { DefaultImage } from '../../AvatarImage';
 
-// Since the purpose of this test module is to test SSR behaviour
-// simulate a non-DOM environment.
-jest.mock('exenv', () => {
-  return {
-    canUseDOM: false,
-  };
-});
-
 describe('Avatar SSR', () => {
   const LOAD_FAILURE_SRC = 'LOAD_FAILURE_SRC';
   const LOAD_SUCCESS_SRC = 'LOAD_SUCCESS_SRC';
@@ -46,6 +38,14 @@ describe('Avatar SSR', () => {
   const avatar = {
     src: LOAD_SUCCESS_SRC,
   };
+
+  // Test the SSR render inserts the actual image src in to the generated markup
+  // to allow the images to load immediately when the DOM is parsed, before hydration occurs.
+  it('should directly render the image src for SSR', () => {
+    const actualMarkup = ReactDOMServer.renderToString(<Avatar {...avatar} />);
+
+    expect(actualMarkup).toContain(avatar.src);
+  });
 
   // verify that hydration with a failed image shows the default image again
   it('should hydrate from SSR', done => {
