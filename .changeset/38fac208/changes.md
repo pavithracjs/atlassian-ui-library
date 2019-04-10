@@ -1,1 +1,0 @@
-- Uses button with new theming API for Floating Toolbar example
