@@ -9,9 +9,15 @@ export const SearchBox = styled.div`
   color: ${colors.N500};
   display: flex;
   height: 36px;
+  z-index: 10;
+`;
+
+export const SearchFieldBaseOuter = styled.div`
+  display: flex;
+  flex: 1;
+  margin-right: auto;
   padding-bottom: 2px;
   border-bottom: 2px solid ${colors.B200};
-  z-index: 10;
 `;
 
 export const SearchFieldBaseInner = styled.div`
@@ -60,3 +66,8 @@ export const SearchInput = styled.input`
   outline: 0;
   ${getPlaceholderStyle(getPlaceholderColor)};
 `;
+
+export const SearchInputControlsContainer = styled.span`
+  padding-left: ${gridSize() * 3}px;
+`;
+SearchInputControlsContainer.displayName = 'SearchInputControlsContainer'; // required for testing
