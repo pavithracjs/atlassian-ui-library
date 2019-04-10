@@ -11,7 +11,6 @@ interface CommonProps {
     fieldState: {},
   ) => string | void | Promise<string | void>;
 
-  /** Contained in defaultProps */
   /** Set whether onConfirm should be called on blur. */
   keepEditViewOpenOnBlur?: boolean;
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */

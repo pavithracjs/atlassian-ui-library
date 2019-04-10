@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors } from '@atlaskit/theme';
+import { borderRadius, colors } from '@atlaskit/theme';
 
 interface Props {
   readViewFitContainerWidth?: boolean;
@@ -9,7 +9,7 @@ const ReadViewContentWrapper = styled.div<Props>`
   display: inline-block;
   box-sizing: border-box;
   border: 2px solid transparent;
-  border-radius: 3px;
+  border-radius: ${borderRadius()}px;
   &:hover {
     background: ${colors.N30};
   }
