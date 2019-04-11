@@ -13,6 +13,24 @@ const {
   CONFIG_FILES_TO_FILTERS_BY_TOOL_NAME,
 } = require('@atlaskit/build-utils/getConfigFilesChangedByTool');
 
+const toolFilters = (
+  toolNames /*: Array<string> */,
+  configuration /*: object */,
+) => {
+  return toolNames.map(toolName => {
+    let filterFn = configuration[toolName];
+    if (!filterFn) {
+      console.error(
+        `Invalid tool name: "${toolName}" (${Object.keys(configuration).join(
+          ', ',
+        )})`,
+      );
+      throw process.exit(1);
+    }
+    return filterFn;
+  });
+};
+
 /**
  * This is a helper script to return whether or not a certain tool should be run.
  * It works by returning a zero code if a tool should be run, so that the normal usage becomes:
@@ -41,25 +59,15 @@ const {
     );
     throw process.exit(1);
   }
-  // TODO: think of a way to return filters
-  let filtersToolsPerPackageOrFilter = toolNames.map(toolName => {
-    let filterFn = {
-      packagesToFilter: PACKAGE_TO_FILTERS_BY_TOOL_NAME[toolName],
-      configFilesToFilter: CONFIG_FILES_TO_FILTERS_BY_TOOL_NAME[toolName],
-    };
-    if (!filterFn) {
-      console.error(
-        `Invalid tool name: "${toolName}" (${Object.keys(
-          PACKAGE_TO_FILTERS_BY_TOOL_NAME,
-        ).join(', ')}) or Files:${Object.keys(
-          CONFIG_FILES_TO_FILTERS_BY_TOOL_NAME,
-        ).join(', ')}`,
-      );
-      throw process.exit(1);
-    }
-
-    return filterFn;
-  });
+  // Get the tools that need to run as part of packages and files.
+  let filterToolsPerPackage = toolFilters(
+    toolNames,
+    PACKAGE_TO_FILTERS_BY_TOOL_NAME,
+  );
+  let filtersToolsPerFile = toolFilters(
+    toolNames,
+    CONFIG_FILES_TO_FILTERS_BY_TOOL_NAME,
+  );
 
   let [packages, files, changedPackages, changedFiles] = await Promise.all([
     getPackagesInfo(cwd),
@@ -68,26 +76,23 @@ const {
     getChangedFilesSinceMaster(),
   ]);
 
+  // Find the matched packages:
   const changedPackageDirs = changedPackages.map(pkg => pkg.dir);
-  console.log(filtersToolsPerPackageOrFilter);
-  const packageFilters = filtersToolsPerPackageOrFilter.filter(
-    package => package.packagesToFilter,
-  );
-  const fileFilters = filtersToolsPerPackageOrFilter.filter(
-    file => file.configFilesToFilter,
-  );
-  console.log(packageFilters, fileFilters);
-  packageFilters.push(pkg => changedPackageDirs.includes(pkg.dir));
-
+  filterToolsPerPackage.push(pkg => changedPackageDirs.includes(pkg.dir));
   let matchedPackages = !!packages.find(pkg =>
-    packageFilters.every(filter => filter(pkg)),
+    filterToolsPerPackage.every(filter => filter(pkg)),
   );
 
-  let matchedFiles = !!files.find(file =>
-    fileFilters.every(filter => filter(file)),
+  // Find the matched files:
+  filterToolsPerPackage.push(file => changedFiles.includes(file));
+  files = Object.keys(files.filesConfiguration).map(
+    fileName => files.filesConfiguration[fileName].path,
   );
-  console.log('matched', matchedFiles, matchedPackages);
-  if (!matchedPackages) {
+  let matchedFiles = !!files.find(file =>
+    filtersToolsPerFile.every(filter => filter(file)),
+  );
+
+  if (!matchedPackages && !matchedFiles) {
     throw process.exit(0);
   }
 
