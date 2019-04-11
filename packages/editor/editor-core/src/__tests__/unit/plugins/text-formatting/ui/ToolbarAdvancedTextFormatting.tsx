@@ -130,7 +130,7 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
     toolbarOption.unmount();
   });
 
-  it('should render disabled toolbar button when all marks and strikethrough and clearformatting are disabled', () => {
+  it.only('should render disabled toolbar button when all marks and strikethrough and clearformatting are disabled', () => {
     const { editorView, pluginState: textFormattingState } = editor(
       doc(p('text')),
     );
@@ -154,7 +154,7 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
         editorView={editorView}
       />,
     );
-    expect(toolbarOption.find('Button').prop('isDisabled')).toBe(true);
+    expect(toolbarOption.find('button').prop('disabled')).toBe(true);
     toolbarOption.unmount();
   });
 
