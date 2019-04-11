@@ -36,8 +36,7 @@ const buttonTheme = {
   },
 };
 
-function extract(newTheme: any, props: any, appearance: any, state: any) {
-  const { mode } = props;
+function extract(newTheme: any, { appearance, state, mode }: any) {
   if (!newTheme[appearance]) {
     return;
   }
@@ -62,16 +61,12 @@ function extract(newTheme: any, props: any, appearance: any, state: any) {
 export default (props: ButtonProps) => (
   <Button
     {...props}
-    theme={(currentTheme: any, { state, appearance, ...buttonProps }: any) => {
-      const { buttonStyles, ...rest } = currentTheme({
-        ...buttonProps,
-        appearance,
-        state,
-      });
+    theme={(currentTheme, themeProps) => {
+      const { buttonStyles, ...rest } = currentTheme(themeProps);
       return {
         buttonStyles: {
           ...buttonStyles,
-          ...extract(buttonTheme, buttonProps, appearance, state),
+          ...extract(buttonTheme, themeProps),
         },
         ...rest,
       };
