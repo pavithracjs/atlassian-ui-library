@@ -76,6 +76,7 @@ export default function withSortedPageRows(
     componentWillMount() {
       validateSortKey(this.props.sortKey, this.props.head);
     }
+
     componentWillReceiveProps(nextProps: Props) {
       if (
         this.props.sortKey !== nextProps.sortKey ||

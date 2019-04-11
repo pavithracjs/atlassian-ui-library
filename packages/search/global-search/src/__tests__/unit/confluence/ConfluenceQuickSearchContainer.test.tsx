@@ -21,6 +21,7 @@ import {
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
   SearchSession,
   ABTest,
+  DEFAULT_AB_TEST,
 } from '../../../api/CrossProductSearchClient';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
 
@@ -173,7 +174,7 @@ describe('ConfluenceQuickSearchContainer', () => {
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
         },
         getAbTestData(scope: Scope, searchSession: SearchSession) {
-          return Promise.resolve(undefined);
+          return Promise.resolve(DEFAULT_AB_TEST);
         },
       },
     });

@@ -1,5 +1,40 @@
 # @atlaskit/editor-common
 
+## 36.1.10
+- [patch] [c01f9e1cc7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c01f9e1cc7):
+
+  - Standardise code-block class between editor/renderer. Fix bg color when code-block is nested within a table heading.
+
+## 36.1.9
+- [patch] [63c00f3503](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/63c00f3503):
+
+  - fix usage of entry point of @atlaskit/mention
+
+## 36.1.8
+- [patch] [fc2b10e0cc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fc2b10e0cc):
+
+  - HOT-86829 do not call setWidth with 0 nor undefined
+
+## 36.1.7
+- Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
+  - @atlaskit/media-core@29.1.2
+  - @atlaskit/media-card@60.0.0
+
+## 36.1.6
+- [patch] [97e555c168](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97e555c168):
+
+  - Revert "[ED-5259 - ED-6200] adds defaultMarks on tableNode (pull request #5259)"
+
+## 36.1.5
+- [patch] [823d44ebb0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/823d44ebb0):
+
+  - ED-6667 Enfoce consistent whitespace between renderer & editor
+
+## 36.1.4
+- [patch] [b425ea772b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b425ea772b):
+
+  - Revert "ED-5505 add strong as default mark to table header (pull request #5291)"
+
 ## 36.1.3
 - [patch] [6290d651d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6290d651d8):
 

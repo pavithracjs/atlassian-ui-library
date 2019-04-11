@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Team mention description should not render Team Mention description component if context is not given 1`] = `null`;
+
 exports[`Team mention description should render Team Mention description component with less than 50 members, includes you 1`] = `
 .c0 {
   color: #7A869A;

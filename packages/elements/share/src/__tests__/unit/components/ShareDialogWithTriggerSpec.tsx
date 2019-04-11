@@ -1,4 +1,3 @@
-// This works only by calling before importing InlineDialog
 import { shallowWithIntl } from '@atlaskit/editor-test-helpers';
 import InlineDialog from '@atlaskit/inline-dialog';
 import { shallow, ShallowWrapper } from 'enzyme';
@@ -16,13 +15,14 @@ import {
 } from '../../../components/ShareDialogWithTrigger';
 import { ShareData, ShareForm } from '../../../components/ShareForm';
 import { messages } from '../../../i18n';
-import { DialogContentState } from '../../../types';
+import { ADMIN_NOTIFIED, OBJECT_SHARED } from '../../../types';
 import mockPopper from '../_mockPopper';
 mockPopper();
 
 let wrapper: ShallowWrapper<Props & InjectedIntlProps>;
 let mockOnShareSubmit: jest.Mock;
 const mockLoadOptions = () => [];
+const mockShowFlags: jest.Mock = jest.fn();
 
 beforeEach(() => {
   wrapper = shallowWithIntl<Props>(
@@ -30,8 +30,11 @@ beforeEach(() => {
       copyLink="copyLink"
       loadUserOptions={mockLoadOptions}
       onShareSubmit={mockOnShareSubmit}
+      shareContentType="page"
+      showFlags={mockShowFlags}
     />,
   )
+    .dive()
     .dive()
     .dive();
 });
@@ -89,8 +92,11 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       )
+        .dive()
         .dive()
         .dive();
       expect(
@@ -121,8 +127,11 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       )
+        .dive()
         .dive()
         .dive();
       newWrapper.setState({ isDialogOpen: true });
@@ -143,11 +152,13 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       )
         .dive()
+        .dive()
         .dive();
-
       newWrapper.setState({ isDialogOpen: true });
       expect(
         newWrapper
@@ -170,10 +181,13 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
+          showFlags={mockShowFlags}
         >
           {spiedRenderer}
         </ShareDialogWithTrigger>,
       )
+        .dive()
         .dive()
         .dive();
       const wrapperState: State = wrapper.state() as State;
@@ -196,8 +210,11 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       )
+        .dive()
         .dive()
         .dive();
       expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
@@ -220,8 +237,11 @@ describe('ShareDialogWithTrigger', () => {
           isDisabled={isDisabled}
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       )
+        .dive()
         .dive()
         .dive();
       let shareButtonProps: ShareButtonProps = wrapper
@@ -245,9 +265,12 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
           shareFormTitle="Share this page"
+          showFlags={mockShowFlags}
         />,
       )
+        .dive()
         .dive()
         .dive();
       wrapper.setState({ isDialogOpen: true });
@@ -278,8 +301,11 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
+          shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       )
+        .dive()
         .dive()
         .dive();
       wrapper.setState({ isDialogOpen: true });
@@ -365,8 +391,11 @@ describe('ShareDialogWithTrigger', () => {
           copyLink="copyLink"
           onShareSubmit={mockOnSubmit}
           loadUserOptions={mockLoadOptions}
+          shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       )
+        .dive()
         .dive()
         .dive();
       wrapper.setState(mockState);
@@ -378,33 +407,92 @@ describe('ShareDialogWithTrigger', () => {
       expect(mockOnSubmit).toHaveBeenCalledWith(values);
     });
 
-    it('should close inline dialog when onSubmit resolves a value', () => {
-      const mockOnSubmit: jest.Mock = jest
-        .fn()
-        .mockReturnValue(Promise.resolve());
-      const wrapper: ShallowWrapper<
-        Props & InjectedIntlProps
-      > = shallowWithIntl<Props>(
+    it('should close inline dialog and reset the state and call props.showFlags when onSubmit resolves a value', async () => {
+      const mockOnSubmit: jest.Mock = jest.fn().mockResolvedValue({});
+      const values: ShareData = {
+        users: [
+          { type: 'user', id: 'id', name: 'name' },
+          { type: 'email', id: 'email', name: 'email' },
+        ],
+        comment: {
+          format: 'plain_text',
+          value: 'comment',
+        },
+      };
+      const mockState: Partial<State> = {
+        isDialogOpen: true,
+        isSharing: false,
+        ignoreIntermediateState: false,
+        defaultValue: values,
+        shareError: { message: 'unable to share' },
+      };
+      wrapper = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
           copyLink="copyLink"
           onShareSubmit={mockOnSubmit}
+          loadUserOptions={mockLoadOptions}
+          shareContentType="page"
+          showFlags={mockShowFlags}
         />,
       )
         .dive()
+        .dive()
         .dive();
+      wrapper.setState(mockState);
 
-      const Content: React.StatelessComponent<{}> = () =>
-        wrapper.find(InlineDialog).prop('content');
-      const content: ShallowWrapper<{}> = shallow(<Content />);
+      mockShowFlags.mockReset();
 
-      expect(content.find(ShareForm)).toHaveLength(1);
-      const shareData: DialogContentState = { users: [] };
-      content.find(ShareForm).simulate('shareClick', shareData);
-
+      shallow(wrapper.find(InlineDialog).prop('content') as any)
+        .find(ShareForm)
+        .simulate('shareClick', values);
       expect(mockOnSubmit).toHaveBeenCalledTimes(1);
-      expect(mockOnSubmit).toHaveBeenCalledWith(shareData);
+      expect(mockOnSubmit).toHaveBeenCalledWith(values);
+
+      await new Promise(resolve => setTimeout(resolve, 0));
 
       expect(wrapper.state('isDialogOpen')).toBeFalsy();
+      expect(wrapper.state('defaultValue')).toEqual(defaultShareContentState);
+      expect(wrapper.state('ignoreIntermediateState')).toBeTruthy();
+      expect(wrapper.state('isDialogOpen')).toBeFalsy();
+      expect(wrapper.state('isSharing')).toBeFalsy();
+      expect(wrapper.state('shareError')).toBeUndefined();
+      expect(mockShowFlags).toHaveBeenCalledTimes(1);
+      expect(mockShowFlags).toHaveBeenCalledWith([
+        {
+          id: expect.any(String),
+          type: OBJECT_SHARED,
+          localizedTitle: expect.any(String),
+        },
+      ]);
+
+      wrapper.setProps({
+        config: {
+          allowComment: false,
+          mode: 'INVITE_NEEDS_APPROVAL' as 'INVITE_NEEDS_APPROVAL',
+        },
+      });
+
+      mockShowFlags.mockReset();
+
+      shallow(wrapper.find(InlineDialog).prop('content') as any)
+        .find(ShareForm)
+        .simulate('shareClick', values);
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      expect(mockShowFlags).toHaveBeenCalledTimes(1);
+      expect(mockShowFlags).toHaveBeenCalledWith([
+        {
+          id: expect.any(String),
+          type: ADMIN_NOTIFIED,
+          localizedTitle: expect.any(String),
+        },
+        {
+          id: expect.any(String),
+          type: OBJECT_SHARED,
+          localizedTitle: expect.any(String),
+        },
+      ]);
     });
   });
 });

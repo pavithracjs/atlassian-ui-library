@@ -2,10 +2,8 @@ import * as React from 'react';
 import * as H from 'history';
 import { match } from 'react-router';
 import styled from 'styled-components';
-import { Link } from '../components/WrappedLink';
 import BackIcon from '@atlaskit/icon/glyph/arrow-left';
 import TextField from '@atlaskit/field-text';
-import Button from '../components/RouterButton';
 import Loadable from '../components/WrappedLoader';
 import Changelog, { NoMatch } from '../components/ChangeLog';
 import Page from '../components/Page';
@@ -14,6 +12,7 @@ import * as fs from '../utils/fs';
 import { File } from '../types';
 import Loading from '../components/Loading';
 import { divvyChangelog } from '../utils/changelog';
+import LinkButton from '../components/LinkButton';
 
 export type Props = {
   match: match<Record<string, string>>;
@@ -106,15 +105,14 @@ const Back = ({
   children?: React.ReactChild;
   to: string;
 }) => (
-  <Button
+  <LinkButton
     appearance="link"
-    component={Link}
     iconBefore={<BackIcon label="Back Icon" size="small" />}
     spacing="none"
     to={to}
   >
     <span style={{ paddingLeft: '0.5em' }}>{children || 'Back to Docs'}</span>
-  </Button>
+  </LinkButton>
 );
 
 const LogWrapper = styled.div`

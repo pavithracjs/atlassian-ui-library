@@ -100,7 +100,7 @@ const HelpMenu = () => (
       <DropdownItem>Feed Builder</DropdownItem>
       <DropdownItem>Keyboard Shortcuts</DropdownItem>
       <DropdownItem>Site Status</DropdownItem>
-      <DropdownItem>{"What's new"}</DropdownItem>
+      <DropdownItem>What's new</DropdownItem>
       <DropdownItem>Available Gadgets</DropdownItem>
       <DropdownItem>About Confluence</DropdownItem>
       <DropdownItem>Feedback Page</DropdownItem>
@@ -127,7 +127,7 @@ const UserMenu = () => (
     )}
   >
     <DropdownItemGroup title="NEW CONFLUENCE EXPERIENCE">
-      <DropdownItem>{"What's changed"}</DropdownItem>
+      <DropdownItem>What's changed</DropdownItem>
       <DropdownItem>Give feedback</DropdownItem>
     </DropdownItemGroup>
     <DropdownItem>Turn off for now</DropdownItem>

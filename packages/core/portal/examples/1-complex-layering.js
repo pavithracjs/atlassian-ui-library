@@ -43,6 +43,7 @@ class ThreeStepSpotlight extends React.Component<
   state = {
     step: 1,
   };
+
   next = () => {
     const nextStep = this.state.step + 1;
     if (nextStep > 3) {
@@ -52,6 +53,7 @@ class ThreeStepSpotlight extends React.Component<
       this.setState({ step: nextStep });
     }
   };
+
   render() {
     const { stepOne, stepTwo, stepThree, open } = this.props;
     const { step } = this.state;
@@ -102,13 +104,18 @@ class Modal extends React.Component<ModalProps, ModalState> {
     inlineOpen: false,
     flags: [],
   };
+
   toggleOnboarding = (onboardingOpen: boolean) =>
     this.setState({ onboardingOpen });
+
   toggleInline = (inlineOpen: boolean) => this.setState({ inlineOpen });
+
   addFlag = () =>
     this.setState({ flags: [this.state.flags.length, ...this.state.flags] });
+
   removeFlag = (id: number) =>
     this.setState({ flags: this.state.flags.filter(v => v !== id) });
+
   render() {
     const { onboardingOpen, inlineOpen, flags } = this.state;
     return (
@@ -170,6 +177,7 @@ class App extends React.Component<{}, State> {
   state = {
     modals: [],
   };
+
   render() {
     const { modals } = this.state;
     const nextId = modals.length + 1;

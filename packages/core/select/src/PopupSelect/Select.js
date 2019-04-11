@@ -80,9 +80,13 @@ const isEmpty = obj => Object.keys(obj).length === 0;
 
 export default class PopupSelect extends PureComponent<Props, State> {
   focusTrap: Object;
+
   menuRef: HTMLElement;
+
   selectRef: ElementRef<*>;
+
   targetRef: HTMLElement;
+
   state = {
     isOpen: false,
     mergedComponents: defaultComponents,
@@ -99,6 +103,7 @@ export default class PopupSelect extends PureComponent<Props, State> {
     searchThreshold: 5,
     styles: {},
   };
+
   static getDerivedStateFromProps(props: Props, state: State) {
     const newState = {};
 
@@ -123,6 +128,7 @@ export default class PopupSelect extends PureComponent<Props, State> {
     if (typeof window === 'undefined') return;
     window.addEventListener('click', this.handleClick);
   }
+
   componentWillUnmount() {
     if (typeof window === 'undefined') return;
     window.removeEventListener('click', this.handleClick);
@@ -144,6 +150,7 @@ export default class PopupSelect extends PureComponent<Props, State> {
       this.props.handleKeyDown(event);
     }
   };
+
   handleClick = ({ target }: MouseEvent) => {
     const { isOpen } = this.state;
     // appease flow
@@ -162,9 +169,10 @@ export default class PopupSelect extends PureComponent<Props, State> {
       this.open();
     }
   };
+
   handleSelectChange = (value: Object, actionMeta: Object) => {
     const { closeMenuOnSelect, onChange } = this.props;
-    if (closeMenuOnSelect) this.close();
+    if (closeMenuOnSelect && actionMeta.action !== 'clear') this.close();
     if (onChange) onChange(value, actionMeta);
   };
 
@@ -181,6 +189,7 @@ export default class PopupSelect extends PureComponent<Props, State> {
     if (typeof window === 'undefined') return;
     window.addEventListener('keydown', this.handleKeyDown);
   };
+
   initialiseFocusTrap = () => {
     const trapConfig = {
       clickOutsideDeactivates: true,
@@ -193,6 +202,7 @@ export default class PopupSelect extends PureComponent<Props, State> {
     // allow time for the HTMLElement to render
     setTimeout(() => this.focusTrap.activate(), 1);
   };
+
   close = () => {
     const { onClose } = this.props;
     if (onClose) onClose();
@@ -214,10 +224,12 @@ export default class PopupSelect extends PureComponent<Props, State> {
       popperRef(ref);
     }
   };
+
   resolveMenuRef = (popperRef: ElementRef<*>) => (ref: HTMLElement) => {
     this.menuRef = ref;
     popperRef(ref);
   };
+
   getSelectRef = (ref: ElementRef<*>) => {
     this.selectRef = ref;
   };
@@ -241,6 +253,7 @@ export default class PopupSelect extends PureComponent<Props, State> {
 
     return count;
   };
+
   getMaxHeight = () => {
     const { maxMenuHeight } = this.props;
 

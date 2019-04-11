@@ -22,6 +22,7 @@ type State = {
 
 export default class extends Component<Props, State> {
   props: Props;
+
   static defaultProps = {
     disabled: false,
     focused: false,
@@ -32,24 +33,29 @@ export default class extends Component<Props, State> {
     sibling: false,
     today: '',
   };
+
   state = {
     isActive: false,
   };
+
   onMouseDown = (e: MouseEvent) => {
     // Prevent mousedown triggering an ancestor onBlur event in IE11 resulting
     // in dates not being selectable.
     e.preventDefault();
     this.setState({ isActive: true });
   };
+
   onMouseUp = () => {
     this.setState({ isActive: false });
   };
+
   onClick = () => {
     const { children: day, month, onClick, year, disabled } = this.props;
     if (!disabled && onClick) {
       onClick({ year, month, day });
     }
   };
+
   render() {
     const {
       children,

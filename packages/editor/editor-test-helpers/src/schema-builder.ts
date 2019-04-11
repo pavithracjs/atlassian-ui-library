@@ -334,8 +334,6 @@ export const td = (attrs?: CellAttributes) =>
   nodeFactory(sampleSchema.nodes.tableCell, attrs);
 export const th = (attrs?: CellAttributes) =>
   nodeFactory(sampleSchema.nodes.tableHeader, attrs);
-export const thWithoutDefaultMarks = () =>
-  nodeFactory(sampleSchema.nodes.tableHeader, { defaultMarks: null });
 export const tdEmpty = td()(p(''));
 export const thEmpty = th()(p(''));
 export const tdCursor = td()(p('{<>}'));
@@ -421,7 +419,6 @@ export const code = markFactory(sampleSchema.marks.code, {});
 export const strike = markFactory(sampleSchema.marks.strike, {});
 export const a = (attrs: LinkAttributes) =>
   markFactory(sampleSchema.marks.link, attrs);
-export const emojiQuery = markFactory(sampleSchema.marks.emojiQuery, {});
 export const typeAheadQuery = (
   attrs: { trigger: string; query?: string } = { trigger: '', query: '' },
 ) => markFactory(sampleSchema.marks.typeAheadQuery, attrs);

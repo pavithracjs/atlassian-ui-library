@@ -62,30 +62,6 @@ describe('validate attrs', () => {
       jest.resetAllMocks();
     });
 
-    describe('when attribute is null', () => {
-      it('should keep null value for the entity', () => {
-        const cb = () => undefined;
-        const badEntity = {
-          type: 'fakeParagraph',
-          attrs: {
-            defaultMarks: null,
-          },
-        };
-
-        const run = () => {
-          return validate(badEntity, cb);
-        };
-
-        const result = run();
-        expect(result.entity).toEqual({
-          type: 'fakeParagraph',
-          attrs: {
-            defaultMarks: null,
-          },
-        });
-      });
-    });
-
     it('should validate content with multiple marks when multiple marks are allowed', () => {
       const run = () => {
         validate({
@@ -346,43 +322,6 @@ describe('validate attrs', () => {
             defaultMarks: [
               {
                 type: 'strong',
-              },
-            ],
-          },
-        });
-      });
-
-      it('should not replace entity with new entity when it is a valid mark', () => {
-        const cb = (entity: ADFEntity) => {
-          if (entity.type === 'notValidMark') {
-            return { type: 'strong' } as ADFEntity;
-          }
-          return undefined;
-        };
-        const entity = {
-          type: 'fakeParagraph',
-          attrs: {
-            defaultMarks: [
-              {
-                type: 'textColor',
-                attrs: {
-                  color: '#c1c1c1',
-                },
-              },
-            ],
-          },
-        };
-
-        const result = validate(entity, cb);
-        expect(result.entity).toEqual({
-          type: 'fakeParagraph',
-          attrs: {
-            defaultMarks: [
-              {
-                type: 'textColor',
-                attrs: {
-                  color: '#c1c1c1',
-                },
               },
             ],
           },

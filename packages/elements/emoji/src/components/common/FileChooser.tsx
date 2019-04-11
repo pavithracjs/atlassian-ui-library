@@ -31,7 +31,7 @@ export default class FileChooser extends PureComponent<Props, {}> {
         <AkButton
           onClick={this.onChooseFile}
           isDisabled={isDisabled}
-          ariaLabel={ariaLabel || label}
+          aria-label={ariaLabel || label}
         >
           {label}
         </AkButton>

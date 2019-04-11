@@ -84,7 +84,6 @@ export default class ReactEditorView<T = {}> extends React.Component<
   editorState: EditorState;
   errorReporter: ErrorReporter;
   dispatch: Dispatch;
-  mountPoint: HTMLDivElement;
   analyticsEventHandler: (
     payloadChannel: { payload: AnalyticsEventPayload; channel?: string },
   ) => void;
@@ -159,11 +158,9 @@ export default class ReactEditorView<T = {}> extends React.Component<
 
     if (
       nextProps.editorProps.fullWidthMode !==
-        this.props.editorProps.fullWidthMode &&
-      this.view
+      this.props.editorProps.fullWidthMode
     ) {
       this.reconfigureState(nextProps);
-      this.recreateEditor(this.mountPoint);
     }
   }
 
@@ -198,7 +195,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
       selection: state.selection,
     });
 
-    this.editorState = newState;
+    return this.view.update(this.getDirectEditorProps(newState));
   };
 
   /**
@@ -331,64 +328,66 @@ export default class ReactEditorView<T = {}> extends React.Component<
     });
   };
 
+  getDirectEditorProps = (state?: EditorState): DirectEditorProps => {
+    return {
+      state: state || this.editorState,
+      dispatchTransaction: (transaction: Transaction) => {
+        if (!this.view) {
+          return;
+        }
+
+        const nodes: PMNode[] = findChangedNodesFromTransaction(transaction);
+        if (validateNodes(nodes)) {
+          // go ahead and update the state now we know the transaction is good
+          const editorState = this.view.state.apply(transaction);
+          this.view.updateState(editorState);
+          if (this.props.editorProps.onChange && transaction.docChanged) {
+            this.props.editorProps.onChange(this.view);
+          }
+          this.editorState = editorState;
+        } else {
+          const documents = {
+            new: getDocStructure(transaction.doc),
+            prev: getDocStructure(transaction.docs[0]),
+          };
+          analyticsService.trackEvent(
+            'atlaskit.fabric.editor.invalidtransaction',
+            { documents: JSON.stringify(documents) }, // V2 events don't support object properties
+          );
+          this.eventDispatcher.emit(analyticsEventKey, {
+            payload: {
+              action: 'dispatchedInvalidTransaction',
+              actionSubject: 'editor',
+              eventType: 'operational',
+              attributes: {
+                analyticsEventPayloads: transaction.getMeta(analyticsPluginKey),
+                documents,
+              },
+            },
+          });
+        }
+      },
+      // Disables the contentEditable attribute of the editor if the editor is disabled
+      editable: _state => !this.props.editorProps.disabled,
+      attributes: { 'data-gramm': 'false' },
+    };
+  };
+
   createEditorView = (node: HTMLDivElement) => {
-    if (!this.mountPoint) {
-      this.mountPoint = node;
-    }
     // Creates the editor-view from this.editorState. If an editor has been mounted
     // previously, this will contain the previous state of the editor.
-    this.view = new EditorView(
-      { mount: node },
-      {
-        state: this.editorState,
-        dispatchTransaction: (transaction: Transaction) => {
-          if (!this.view) {
-            return;
-          }
-
-          const nodes: PMNode[] = findChangedNodesFromTransaction(transaction);
-          if (validateNodes(nodes)) {
-            // go ahead and update the state now we know the transaction is good
-            const editorState = this.view.state.apply(transaction);
-            this.view.updateState(editorState);
-            if (this.props.editorProps.onChange && transaction.docChanged) {
-              this.props.editorProps.onChange(this.view);
-            }
-            this.editorState = editorState;
-          } else {
-            const documents = {
-              new: getDocStructure(transaction.doc),
-              prev: getDocStructure(transaction.docs[0]),
-            };
-            analyticsService.trackEvent(
-              'atlaskit.fabric.editor.invalidtransaction',
-              { documents: JSON.stringify(documents) }, // V2 events don't support object properties
-            );
-            this.eventDispatcher.emit(analyticsEventKey, {
-              payload: {
-                action: 'dispatchedInvalidTransaction',
-                actionSubject: 'editor',
-                eventType: 'operational',
-                attributes: {
-                  analyticsEventPayloads: transaction.getMeta(
-                    analyticsPluginKey,
-                  ),
-                  documents,
-                },
-              },
-            });
-          }
-        },
-        // Disables the contentEditable attribute of the editor if the editor is disabled
-        editable: _state => !this.props.editorProps.disabled,
-        attributes: { 'data-gramm': 'false' },
-      },
-    );
+    this.view = new EditorView({ mount: node }, this.getDirectEditorProps());
   };
 
   handleEditorViewRef = (node: HTMLDivElement) => {
     if (!this.view && node) {
-      this.recreateEditor(node);
+      this.createEditorView(node);
+      this.props.onEditorCreated({
+        view: this.view!,
+        config: this.config,
+        eventDispatcher: this.eventDispatcher,
+        transformer: this.contentTransformer,
+      });
 
       // Set the state of the EditorDisabled plugin to the current value
       this.broadcastDisabled(!!this.props.editorProps.disabled);
@@ -408,25 +407,6 @@ export default class ReactEditorView<T = {}> extends React.Component<
       this.view.destroy(); // Destroys the dom node & all node views
       this.view = undefined;
     }
-  };
-
-  /**
-   * Generic function to destroy the current `EditorView` if one exists
-   * Then re-create the view onto the specified `mountPoint`.
-   */
-  recreateEditor = (mountPoint: HTMLDivElement) => {
-    if (this.view) {
-      this.view.destroy();
-      this.view = undefined;
-    }
-
-    this.createEditorView(mountPoint);
-    this.props.onEditorCreated({
-      view: this.view!,
-      config: this.config,
-      eventDispatcher: this.eventDispatcher,
-      transformer: this.contentTransformer,
-    });
   };
 
   dispatchAnalyticsEvent = (payload: AnalyticsEventPayload): void => {

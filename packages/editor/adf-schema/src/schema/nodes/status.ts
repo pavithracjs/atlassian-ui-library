@@ -28,7 +28,7 @@ export const status: NodeSpec = {
     text: { default: '' },
     color: { default: '' },
     localId: { default: uuid.generate() },
-    style: { default: null },
+    style: { default: '' },
   },
   parseDOM: [
     {
@@ -46,12 +46,12 @@ export const status: NodeSpec = {
   ],
   toDOM(node: PMNode) {
     const { text, color, localId, style } = node.attrs;
-
     const attrs = {
       'data-node-type': 'status',
       'data-color': color,
       'data-local-id': localId,
       'data-style': style,
+      contenteditable: 'false',
     };
     return ['span', attrs, text];
   },

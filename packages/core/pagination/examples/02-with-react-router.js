@@ -41,16 +41,10 @@ const Contact = () => (
 function renderLink(pageType: string) {
   return class extends Component<*> {
     render() {
-      const {
-        ariaLabel,
-        disabled,
-        page,
-        pages,
-        selectedIndex,
-        ...rest
-      } = this.props;
+      const { disabled, page, pages, selectedIndex, ...rest } = this.props;
       let href;
       if (pageType === 'page') {
+        // eslint-disable-next-line
         href = page.href;
       } else if (pageType === 'previous') {
         href = selectedIndex > 1 ? pages[selectedIndex - 1].href : '';

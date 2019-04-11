@@ -82,14 +82,18 @@ function getOtherImports(j, path, fileSource) {
     .map(specifier => {
       const usesOfImport = getUsesOfImport(j, fileSource, specifier.local.name);
 
-      if (usesOfImport.size() > 0) {
+      if (usesOfImport.size() > 0 && usesOfImport.size() < 7) {
         const importSpecifiers = [];
         const names = [];
 
         usesOfImport.forEach(lowerPath => {
           // Make stupid lint rule happy
-          names.push(lowerPath.value.property.name);
-          j(path).replaceWith(j.identifier(lowerPath.value.property.name));
+          const propertyName = lowerPath.value.property.name;
+          if (!names.includes(propertyName)) {
+            names.push(propertyName);
+          }
+
+          j(lowerPath).replaceWith(j.identifier(lowerPath.value.property.name));
         });
 
         names.forEach(name => {

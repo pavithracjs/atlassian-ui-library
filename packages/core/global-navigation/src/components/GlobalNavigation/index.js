@@ -69,7 +69,9 @@ export default class GlobalNavigation extends Component<
       isControlled: false,
     },
   };
+
   isNotificationInbuilt = false;
+
   shouldRenderAtlassianSwitcher = false;
 
   static defaultProps = {

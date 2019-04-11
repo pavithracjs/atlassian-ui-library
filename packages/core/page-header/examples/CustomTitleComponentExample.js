@@ -49,7 +49,7 @@ const CustomTitleComponent = () => (
       <SingleLineTextInput
         style={textStyle}
         isEditing={false}
-        value={'Editable title'}
+        value="Editable title"
       />
     }
     editView={
@@ -57,7 +57,7 @@ const CustomTitleComponent = () => (
         style={textStyle}
         isInitiallySelected
         isEditing
-        value={'Editable title'}
+        value="Editable title"
         onChange={() => {}}
       />
     }

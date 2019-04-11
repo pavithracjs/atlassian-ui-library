@@ -7,9 +7,9 @@ exports[`Panel component header matches the snapshot 1`] = `
   <styled.div
     isHidden={false}
   >
-    <WithAnalyticsContext(WithAnalyticsEvents(WithDeprecationWarnings(Button)))
+    <WithAnalyticsContext(WithAnalyticsEvents(Button))
       appearance="subtle"
-      ariaExpanded={false}
+      aria-expanded={false}
       iconBefore={
         <ChevronRightIcon
           label="expand"

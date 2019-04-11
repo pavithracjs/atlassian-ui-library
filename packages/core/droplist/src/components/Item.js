@@ -90,6 +90,7 @@ class Item extends PureComponent<Props, State> {
 
   componentDidMount = () =>
     document.addEventListener('mouseup', this.handleMouseUp);
+
   componentWillUnmount = () =>
     document.removeEventListener('mouseup', this.handleMouseUp);
 
@@ -100,14 +101,19 @@ class Item extends PureComponent<Props, State> {
   };
 
   handleClick = (event: SyntheticEvent<*>) => this.guardedActivate(event);
+
   handleKeyPress = (event: SyntheticKeyboardEvent<*>) => {
     const keyIsValid = ['Enter', ' '].indexOf(event.key) > -1;
 
     if (keyIsValid) this.guardedActivate(event);
   };
+
   handleMouseDown = () => this.setState({ isPressed: true });
+
   handleMouseUp = () => this.setState({ isPressed: false });
+
   handleMouseOut = () => this.setState({ isHovered: false });
+
   handleMouseOver = () => this.setState({ isHovered: true });
 
   render() {

@@ -12,6 +12,7 @@ export default class extends Component<{}, State> {
   state = {
     isLoading: true,
   };
+
   render() {
     return (
       <div>

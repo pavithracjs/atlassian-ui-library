@@ -18,7 +18,7 @@ BrowserTestCase(
     await browser.waitForSelector(editable);
     await browser.click(editable);
 
-    await quickInsert(browser, 'Panel');
+    await quickInsert(browser, 'Info Panel');
 
     await quickInsert(browser, 'Status');
 
@@ -47,7 +47,7 @@ BrowserTestCase(
     await browser.waitForSelector(editable);
     await browser.click(editable);
 
-    await quickInsert(browser, 'Panel');
+    await quickInsert(browser, 'Info Panel');
 
     await quickInsert(browser, 'Status');
 

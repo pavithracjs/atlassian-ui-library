@@ -18,6 +18,7 @@ export default class ConnectedGlobalNavigation extends Component<ConnectedGlobal
   static defaultProps = {
     itemComponent: GlobalItem,
   };
+
   render() {
     return <GlobalNavigationWithTheme {...this.props} />;
   }

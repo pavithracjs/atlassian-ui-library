@@ -61,6 +61,7 @@ export default class SingleLineTextInput extends Component<Props, {}> {
     onConfirm: () => {},
     onKeyDown: () => {},
   };
+
   inputRef: ?HTMLInputElement;
 
   componentDidMount() {

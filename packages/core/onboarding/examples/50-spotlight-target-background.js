@@ -22,16 +22,21 @@ export default class SpotlightTargetBackgroundExample extends Component<
   State,
 > {
   state: State = { active: null };
+
   start = () => this.setState({ active: 0 });
+
   next = () =>
     this.setState(state => ({
       active: state.active != null ? state.active + 1 : null,
     }));
+
   prev = () =>
     this.setState(state => ({
       active: state.active != null ? state.active - 1 : null,
     }));
+
   finish = () => this.setState({ active: null });
+
   renderActiveSpotlight() {
     const variants = [
       <Spotlight
@@ -65,6 +70,7 @@ export default class SpotlightTargetBackgroundExample extends Component<
 
     return this.state.active == null ? null : variants[this.state.active];
   }
+
   render() {
     return (
       <Wrapper>

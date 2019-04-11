@@ -1,7 +1,7 @@
 import { DecorationSet, Decoration } from 'prosemirror-view';
 import { ResolvedPos, Node } from 'prosemirror-model';
 import { PluginKey, Plugin, EditorState, Transaction } from 'prosemirror-state';
-import { ZWSP } from '../../../utils';
+import { ZeroWidthSpace } from '../../../utils';
 
 export const inlineCursorTargetStateKey = new PluginKey(
   'inlineCursorTargetPlugin',
@@ -82,7 +82,7 @@ export default () => {
         if (positions && positions.length) {
           const decorations = positions.map((position: number) => {
             const node = document.createElement('span');
-            node.appendChild(document.createTextNode(ZWSP));
+            node.appendChild(document.createTextNode(ZeroWidthSpace));
             return Decoration.widget(position, node, {
               raw: true,
               side: -1,

@@ -1,5 +1,15 @@
 # @atlaskit/adf-utils
 
+## 6.0.3
+- [patch] [97e555c168](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97e555c168):
+
+  - Revert "[ED-5259 - ED-6200] adds defaultMarks on tableNode (pull request #5259)"
+
+## 6.0.2
+- [patch] [b425ea772b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b425ea772b):
+
+  - Revert "ED-5505 add strong as default mark to table header (pull request #5291)"
+
 ## 6.0.1
 - [patch] [499f9783d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/499f9783d8):
 

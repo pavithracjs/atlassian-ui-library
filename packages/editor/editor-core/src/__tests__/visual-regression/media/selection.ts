@@ -3,12 +3,10 @@ import { insertMedia } from '../../__helpers/page-objects/_media';
 import { clickEditableContent } from '../../__helpers/page-objects/_editor';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
-// TODO: ED-6319 Selection is broken
 describe('Snapshot Test: Media', () => {
   describe('full page editor', () => {
     let page: any;
-    const threshold = 0.01;
-    beforeAll(async () => {
+    beforeEach(async () => {
       // @ts-ignore
       page = global.page;
 
@@ -22,20 +20,28 @@ describe('Snapshot Test: Media', () => {
 
       // insert single media item
       await insertMedia(page);
+      // Move mouse out of the page to not create fake cursor
+      await page.mouse.move(-1, -1);
     });
 
-    it('renders selection ring around media (via up)', async () => {
-      await snapshot(page);
+    it('should renders selection ring around media (via up)', async () => {
       await pressKey(page, 'ArrowUp');
-      await snapshot(page, threshold);
+      await snapshot(page);
     });
 
-    it('renders selection ring around media (via gap cursor)', async () => {
+    it('should render right side gap cursor (via arrow left)', async () => {
+      await pressKey(page, 'ArrowLeft');
+      await snapshot(page);
+    });
+
+    it('renders selection ring around media (via 2 arrow left)', async () => {
       await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
       await snapshot(page);
+    });
 
-      await pressKey(page, 'ArrowLeft');
-      await snapshot(page, threshold);
+    it('should render left side gap cursor ( via 3 arrow left)', async () => {
+      await pressKey(page, ['ArrowLeft', 'ArrowLeft', 'ArrowLeft']);
+      await snapshot(page);
     });
   });
 

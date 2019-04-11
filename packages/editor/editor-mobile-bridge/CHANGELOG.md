@@ -1,5 +1,40 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.3.2
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/form@5.2.5
+  - @atlaskit/select@8.0.5
+  - @atlaskit/textfield@0.4.3
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/editor-core@107.12.5
+  - @atlaskit/renderer@45.4.3
+  - @atlaskit/emoji@59.2.1
+  - @atlaskit/task-decision@14.0.3
+  - @atlaskit/media-core@29.1.4
+  - @atlaskit/smart-card@10.2.2
+  - @atlaskit/button@12.0.0
+
+## 7.3.1
+- [patch] [55e47676aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55e47676aa):
+
+  - revert update status code splits in Renderer/Editor which causes component dist to be broken
+
+## 7.3.0
+- [minor] [db29d1eca9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/db29d1eca9):
+
+  - ED-6357: bridge.currentSelection() provides rectangle coords of selected link
+
+## 7.2.0
+- [minor] [969915d261](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/969915d261):
+
+  - update status import entrypoints in Renderer/editor
+
+## 7.1.10
+- [patch] [97e555c168](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97e555c168):
+
+  - Revert "[ED-5259 - ED-6200] adds defaultMarks on tableNode (pull request #5259)"
+
 ## 7.1.9
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 

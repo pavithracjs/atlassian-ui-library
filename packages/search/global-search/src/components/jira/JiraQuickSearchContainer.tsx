@@ -18,6 +18,7 @@ import {
   LinkComponent,
   ReferralContextIdentifiers,
   Logger,
+  JiraApplicationPermission,
 } from '../GlobalQuickSearchWrapper';
 import QuickSearchContainer, {
   SearchResultProps,
@@ -80,6 +81,7 @@ export interface Props {
     query: string,
     searchSessionId: string,
   ) => void;
+  appPermission?: JiraApplicationPermission;
 }
 
 const contentTypeToSection = {
@@ -160,7 +162,9 @@ export class JiraQuickSearchContainer extends React.Component<
     const {
       referralContextIdentifiers,
       onAdvancedSearch = () => {},
+      appPermission,
     } = this.props;
+
     return (
       <SearchResultsComponent
         query={query}
@@ -176,6 +180,7 @@ export class JiraQuickSearchContainer extends React.Component<
             <FormattedHTMLMessage {...messages.jira_no_recent_activity_body} />
             <NoResultsAdvancedSearchContainer>
               <JiraAdvancedSearch
+                appPermission={appPermission}
                 query={query}
                 analyticsData={{ resultsCount: 0, wasOnNoResultsScreen: true }}
                 onClick={(mouseEvent, entity) =>
@@ -188,6 +193,7 @@ export class JiraQuickSearchContainer extends React.Component<
         renderAdvancedSearchGroup={(analyticsData?) => (
           <StickyFooter style={{ marginTop: `${2 * gridSize()}px` }}>
             <JiraAdvancedSearch
+              appPermission={appPermission}
               analyticsData={analyticsData}
               query={query}
               showKeyboardLozenge={!isPreQuery && !keepPreQueryState}
@@ -213,10 +219,16 @@ export class JiraQuickSearchContainer extends React.Component<
           </BeforePreQueryStateContainer>
         )}
         getPreQueryGroups={() =>
-          mapRecentResultsToUIGroups(recentItems as JiraResultsMap)
+          mapRecentResultsToUIGroups(
+            recentItems as JiraResultsMap,
+            this.props.appPermission,
+          )
         }
         getPostQueryGroups={() =>
-          mapSearchResultsToUIGroups(searchResults as JiraResultsMap)
+          mapSearchResultsToUIGroups(
+            searchResults as JiraResultsMap,
+            this.props.appPermission,
+          )
         }
         renderNoResult={() => (
           <NoResultsState
@@ -309,7 +321,7 @@ export class JiraQuickSearchContainer extends React.Component<
     );
   };
 
-  getAbTestData = (sessionId: string): Promise<ABTest | undefined> => {
+  getAbTestData = (sessionId: string): Promise<ABTest> => {
     return this.props.crossProductSearchClient.getAbTestData(Scope.JiraIssue, {
       sessionId,
     });

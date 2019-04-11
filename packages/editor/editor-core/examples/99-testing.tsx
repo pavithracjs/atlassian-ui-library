@@ -18,9 +18,25 @@ import ClipboardHelper from './1-clipboard-helper';
 import { SaveAndCancelButtons } from './5-full-page';
 import { TitleInput } from '../example-helpers/PageElements';
 import mediaMockServer from '../example-helpers/media-mock';
-
 // @ts-ignore
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
+
+function createMediaMockEnableOnce() {
+  let enabled = false;
+  return {
+    enable() {
+      if (!enabled) {
+        enabled = true;
+        mediaMockServer.enable();
+      }
+    },
+    disable() {
+      // We dont change change enable to false, because disabled is not implemented in mock server
+      mediaMockServer.disable();
+    },
+  };
+}
+
 interface EditorInstance {
   view: EditorView;
   eventDispatcher: EventDispatcher;
@@ -63,6 +79,7 @@ function createEditorWindowBindings(win: Window) {
   if ((win as Window & { __mountEditor?: () => void }).__mountEditor) {
     return;
   }
+  const internalMediaMock = createMediaMockEnableOnce();
 
   class EditorWithState extends Editor {
     onEditorCreated(instance: EditorInstance) {
@@ -100,9 +117,9 @@ function createEditorWindowBindings(win: Window) {
         provider: mediaProvider,
       };
 
-      mediaMockServer.enable();
+      internalMediaMock.enable();
     } else {
-      mediaMockServer.disable();
+      internalMediaMock.disable();
     }
 
     if (props && props.primaryToolbarComponents) {

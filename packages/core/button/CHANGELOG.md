@@ -1,5 +1,46 @@
 # @atlaskit/button
 
+## 12.0.0
+- [major] [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+
+  ###️ Highlights
+
+  - **New theming API** - Button now supports the new Atlaskit theming API, which allows for powerful custom theming of Buttons and
+    its internal components.
+  - **Speed improvements** - Button has been re-written from the ground up - on heavy-load benchmarks, Button is twice as fast
+    (taking 48% of the time to load).
+  - **Emotion support** - Button is now built using Emotion 10! This is part of a wider push
+    for Emotion across all Atlaskit components.
+
+  ### Breaking Changes:
+
+  - The old theming API is no longer supported.
+  - Styling a Button using Styled Components is no longer supported.
+  - Button exports a Theme to use as context instead of using Styled Components' ThemeProvider.
+  - Camel-case ARIA props have been renamed (**ariaExpanded**, **ariaHaspopup** and **ariaLabel**).
+
+  See the [upgrade guide](atlaskit.atlassian.com/packages/core/button/docs/upgrade-guide) for more details
+
+## 11.0.11
+- [patch] [f8d92ffc5e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f8d92ffc5e):
+
+  - Revert the change to consume entry points from theme
+
+## 11.0.10
+- [patch] [5e3ad7f751](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e3ad7f751):
+
+  - Importing theme components from the root theme package instead of the theme build file
+
+## 11.0.9
+- [patch] [872b3b905a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/872b3b905a):
+
+  - Updates theme to the version which exposes multiple entry points
+
+## 11.0.8
+- [patch] [22ce87801e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/22ce87801e):
+
+  - Optimised usages of theme in button using multiple entry points
+
 ## 11.0.7
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 

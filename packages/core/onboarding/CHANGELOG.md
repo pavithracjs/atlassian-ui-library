@@ -1,5 +1,17 @@
 # @atlaskit/onboarding
 
+## 7.0.3
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/popper@0.4.2
+  - @atlaskit/portal@0.3.1
+  - @atlaskit/progress-indicator@6.0.3
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/button@12.0.0
+
 ## 7.0.2
 - Updated dependencies [ce4e1b4780](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce4e1b4780):
   - @atlaskit/modal-dialog@8.0.4

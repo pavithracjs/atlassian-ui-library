@@ -30,6 +30,7 @@ import { MediaProvider } from '../types';
 import { EditorAppearance } from '../../../types';
 import { Context } from '@atlaskit/media-core';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
+import { GapCursorSelection } from '../../gap-cursor';
 
 export interface MediaSingleNodeProps {
   node: PMNode;
@@ -281,7 +282,17 @@ class MediaSingleNodeView extends ReactNodeView {
     }
     return domRef;
   }
+  isSelected(position: number) {
+    const pos = this.getPos();
+    const range = [pos, pos + this.node.nodeSize - 1];
 
+    // If is gap selection, media is not selected
+    if (this.view.state.selection instanceof GapCursorSelection) {
+      return false;
+    }
+    // If the current position is in range, then is selected,
+    return position >= range[0] && position <= range[1];
+  }
   render() {
     const { eventDispatcher, editorAppearance } = this.reactComponentProps;
     const mediaPluginState = stateKey.getState(
@@ -309,7 +320,7 @@ class MediaSingleNodeView extends ReactNodeView {
                     getPos={this.getPos}
                     mediaProvider={mediaProvider}
                     view={this.view}
-                    selected={() => this.getPos() === reactNodeViewState}
+                    selected={() => this.isSelected(reactNodeViewState)}
                     eventDispatcher={eventDispatcher}
                     editorAppearance={editorAppearance}
                   />

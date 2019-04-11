@@ -1,19 +1,19 @@
 import {
-  ContainerResult,
-  ResultType,
-  Result,
-  AnalyticsType,
-  ConfluenceObjectResult,
-  ContentType,
-  PersonResult,
-} from '../model/Result';
-import {
   RequestServiceOptions,
-  utils,
   ServiceConfig,
+  utils,
 } from '@atlaskit/util-service-support';
 import URI from 'urijs';
 import unescapeHtml from 'unescape';
+import {
+  AnalyticsType,
+  ConfluenceObjectResult,
+  ContainerResult,
+  ContentType,
+  PersonResult,
+  Result,
+  ResultType,
+} from '../model/Result';
 
 const RECENT_PAGES_PATH: string = 'rest/recentlyviewed/1.0/recent';
 const RECENT_SPACE_PATH: string = 'rest/recentlyviewed/1.0/recent/spaces';

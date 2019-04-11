@@ -1,5 +1,15 @@
 # @atlaskit/reactions
 
+## 16.1.5
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/tooltip@13.0.3
+  - @atlaskit/emoji@59.2.1
+  - @atlaskit/button@12.0.0
+
 ## 16.1.4
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 

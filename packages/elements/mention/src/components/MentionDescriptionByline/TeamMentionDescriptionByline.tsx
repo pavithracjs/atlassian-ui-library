@@ -8,30 +8,54 @@ export default class TeamMentionDescriptionByline extends React.PureComponent<
   DescriptionBylineProps,
   {}
 > {
-  renderTeamInformation(memberCount?: number, includesYou?: boolean) {
-    // if Member count is missing, do not show the byline, regardless of the availability of includesYou
-    if (typeof memberCount !== 'number') {
-      return null;
+  private renderByline = (memberCount: number, includesYou: boolean) => {
+    if (includesYou) {
+      if (memberCount > 50) {
+        return this.getBylineComponent(
+          <FormattedMessage {...messages.plus50MembersWithYou} />,
+        );
+      } else {
+        return this.getBylineComponent(
+          <FormattedMessage
+            {...messages.memberCountWithYou}
+            values={{
+              count: memberCount,
+            }}
+          />,
+        );
+      }
+    } else {
+      if (memberCount > 50) {
+        return this.getBylineComponent(
+          <FormattedMessage {...messages.plus50MembersWithoutYou} />,
+        );
+      } else {
+        return this.getBylineComponent(
+          <FormattedMessage
+            {...messages.memberCountWithoutYou}
+            values={{
+              count: memberCount,
+            }}
+          />,
+        );
+      }
     }
+  };
 
-    return (
-      <DescriptionBylineStyle>
-        <FormattedMessage
-          {...(memberCount > 50
-            ? messages.plus50Members
-            : messages.memberCount)}
-          values={{ count: memberCount, includes: includesYou }}
-        />
-      </DescriptionBylineStyle>
-    );
-  }
+  private getBylineComponent = (message: JSX.Element) => (
+    <DescriptionBylineStyle>{message}</DescriptionBylineStyle>
+  );
 
   render() {
     const { context } = this.props.mention;
 
-    const includesYou = context && context.includesYou;
-    const memberCount = context && context.memberCount;
+    if (context === null || typeof context === 'undefined') {
+      return null;
+    }
 
-    return this.renderTeamInformation(memberCount, includesYou);
+    const includesYou = context.includesYou;
+    const memberCount = context.memberCount;
+
+    return this.renderByline(memberCount, includesYou);
   }
 }

@@ -89,6 +89,7 @@ export default class Item extends Component<Props, {}> {
   };
 
   rootComponent: ComponentType<any>;
+
   // eslint-disable-next-line react/sort-comp
   ref: ElementRef<any> | null;
 

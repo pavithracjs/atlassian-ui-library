@@ -113,6 +113,12 @@ export const messages = defineMessages({
     defaultMessage: 'Recent boards, projects and filters',
     description: '',
   },
+  jira_recent_core_containers: {
+    id: 'global_search.jira.recent_core_containers',
+    defaultMessage: 'Recent projects and filters',
+    description: '',
+  },
+
   jira_search_result_issues_heading: {
     id: 'global_search.jira.search_result_issues_heading',
     defaultMessage: 'Issues',
@@ -121,6 +127,11 @@ export const messages = defineMessages({
   jira_search_result_containers_heading: {
     id: 'global_search.jira.search_result_containers_heading',
     defaultMessage: 'Boards, projects and filters',
+    description: '',
+  },
+  jira_search_result_core_containers_heading: {
+    id: 'global_search.jira.search_result_core_containers_heading',
+    defaultMessage: 'Projects and filters',
     description: '',
   },
   jira_search_result_people_heading: {

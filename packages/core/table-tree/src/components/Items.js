@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Item from './Item';
 import LoaderItem from './LoaderItem';
-import { type RenderFunction, type LoadableItems } from './../types';
+import { type RenderFunction, type LoadableItems } from '../types';
 
 type Props = {
   parentData?: Object,
@@ -71,7 +71,7 @@ export default class Items extends Component<Props, State> {
       ? { 'aria-busy': true, 'aria-live': 'polite' }
       : {};
     return (
-      <div role={'rowgroup'} {...busyAttrs}>
+      <div role="rowgroup" {...busyAttrs}>
         {isLoaderShown ? this.renderLoader() : this.renderItems()}
       </div>
     );

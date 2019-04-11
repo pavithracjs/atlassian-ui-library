@@ -92,7 +92,8 @@ const getContainerBackgroundColor = ({
     return {
       backgroundColor: disabledRules[mode].backgroundColor,
     };
-  } else if (isInvalid) {
+  }
+  if (isInvalid) {
     // switch on focus then switch on hover
     if (isFocused) {
       return {
@@ -143,7 +144,8 @@ const getContainerBorderColor = ({
     return {
       borderColor: disabledRules[mode].borderColor,
     };
-  } else if (isInvalid) {
+  }
+  if (isInvalid) {
     // switch on focus then switch on hover
     if (isFocused) {
       return {
