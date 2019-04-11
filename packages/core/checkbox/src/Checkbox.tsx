@@ -18,7 +18,6 @@ import {
 import { CheckboxProps } from './types';
 
 interface State {
-  [key: string]: boolean;
   isActive: boolean;
   isChecked?: boolean;
   isFocused: boolean;
