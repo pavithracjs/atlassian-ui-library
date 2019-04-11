@@ -17,7 +17,7 @@
     {
       "type": "heading",
       "attrs": {
-        "level": 1
+        "level": 2
       },
       "content": [
         {
@@ -29,24 +29,48 @@
     {
       "type": "heading",
       "attrs": {
-        "level": 1
+        "level": 3
       },
       "content": [
         {
           "type": "text",
-          "text": "Heading 1"
+          "text": "Heading 3"
         }
       ]
     },
     {
       "type": "heading",
       "attrs": {
-        "level": 1
+        "level": 4
       },
       "content": [
         {
           "type": "text",
-          "text": "Heading 2"
+          "text": "Heading 4"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": {
+        "level": 5
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Heading 5"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": {
+        "level": 6
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Heading 6"
         }
       ]
     }

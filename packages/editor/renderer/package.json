@@ -27,6 +27,7 @@
     "@atlaskit/status": "^0.8.0",
     "@atlaskit/task-decision": "^14.0.2",
     "@atlaskit/theme": "^8.0.1",
+    "emotion": "^10.0.9",
     "juice": "^5.2.0",
     "prosemirror-model": "^1.7.0",
     "raf-schd": "^2.1.0",
