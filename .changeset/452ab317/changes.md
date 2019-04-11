@@ -1,1 +1,0 @@
-- Expose inputControls as a prop for passing in additional controls to the search input box

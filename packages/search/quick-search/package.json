@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/quick-search",
-  "version": "6.0.1",
+  "version": "6.1.0",
   "description": "A quick-search component",
   "license": "Apache-2.0",
   "jsnext:main": "index.js",
