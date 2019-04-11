@@ -59,6 +59,7 @@ export interface Props {
   selectedResultId?: string;
   onSelectedResultIdChanged?: (id: string | null | number) => void;
   enablePreQueryFromAggregator?: boolean;
+  inputControls?: JSX.Element;
 }
 
 export interface State {
@@ -408,6 +409,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       placeholder,
       selectedResultId,
       onSelectedResultIdChanged,
+      inputControls,
     } = this.props;
     const {
       isLoading,
@@ -432,6 +434,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         isSendSearchTermsEnabled={isSendSearchTermsEnabled}
         selectedResultId={selectedResultId}
         onSelectedResultIdChanged={onSelectedResultIdChanged}
+        inputControls={inputControls}
       >
         {getSearchResultsComponent({
           retrySearch: this.retrySearch,

@@ -13,4 +13,5 @@ export {
 
 export {
   default as withFeedbackButton,
+  FeedbackCollectorProps,
 } from './components/feedback/withFeedbackButton';

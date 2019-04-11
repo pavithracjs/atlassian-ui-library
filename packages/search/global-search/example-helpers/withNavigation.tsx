@@ -40,12 +40,12 @@ interface State {
 }
 
 // Wraps global-search in AK Navigation and offers a context/locale switch
-export default function withNavigation(
-  WrappedComponent: ComponentType<Props>,
+export default function withNavigation<P>(
+  WrappedComponent: ComponentType<P>,
   props?: Config,
-): ComponentType<Partial<Props>> {
+): ComponentType<P> {
   // @ts-ignore
-  return class WithNavigation extends React.Component<Props> {
+  return class WithNavigation extends React.Component<P> {
     static displayName = `WithNavigation(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 

@@ -145,6 +145,11 @@ export interface Props {
    * controls where to retrieve prequery results either from aggregator or directly from the product
    */
   enablePreQueryFromAggregator?: boolean;
+
+  /**
+   * A prop to provide additional elements to render on the right of the search bar, e.g. the feedback button.
+   */
+  inputControls?: JSX.Element;
 }
 
 /**
@@ -253,6 +258,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
               logger,
               disableJiraPreQueryPeopleSearch,
               enablePreQueryFromAggregator,
+              inputControls,
             } = this.props;
 
             return (
@@ -269,6 +275,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
                 logger={logger}
                 onAdvancedSearch={this.onAdvancedSearch}
                 enablePreQueryFromAggregator={enablePreQueryFromAggregator}
+                inputControls={inputControls}
               />
             );
           }}

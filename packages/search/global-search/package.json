@@ -29,6 +29,7 @@
     "@atlaskit/avatar": "^15.0.1",
     "@atlaskit/button": "^11.0.7",
     "@atlaskit/dropdown-menu": "^7.0.1",
+    "@atlaskit/feedback-collector": "^3.0.3",
     "@atlaskit/field-text-area": "^5.0.1",
     "@atlaskit/flag": "^10.0.1",
     "@atlaskit/icon": "^16.0.5",
