@@ -16,6 +16,7 @@ import { messages } from '../i18n';
 import {
   ConfigResponse,
   DialogContentState,
+  DialogPlacement,
   Flag,
   OriginTracing,
   ShareButtonStyle,
@@ -51,7 +52,7 @@ export type Props = {
   config?: ConfigResponse;
   children?: RenderCustomTriggerButton;
   copyLink: string;
-  dialogPlacement?: string;
+  dialogPlacement?: DialogPlacement;
   isDisabled?: boolean;
   loadUserOptions?: LoadOptions;
   onLinkCopy?: Function;
@@ -84,7 +85,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
 > {
   static defaultProps = {
     isDisabled: false,
-    dialogPlacement: 'bottom-end',
+    dialogPlacement: 'bottom-end' as 'bottom-end',
     shouldCloseOnEscapePress: true,
     triggerButtonAppearance: 'subtle' as 'subtle',
     triggerButtonStyle: 'icon-only' as 'icon-only',

@@ -10,6 +10,7 @@ import {
 import {
   Content,
   DialogContentState,
+  DialogPlacement,
   Flag,
   MetaData,
   OriginTracing,
@@ -27,22 +28,44 @@ export type Props = {
   /** Cloud ID of the instance */
   cloudId: string;
   /** Placement of the modal to the trigger button */
-  dialogPlacement?: string;
+  dialogPlacement?: DialogPlacement;
   /** Transform function to provide custom formatted copy link, a default memorized function is provided */
   formatCopyLink: (origin: OriginTracing, link: string) => string;
   /** Function used to load users options asynchronously */
   loadUserOptions: LoadOptions;
   /** Factory function to generate new Origin Tracing instance */
   originTracingFactory: OriginTracingFactory;
-  /** Product ID of the share */
+  /** Product ID of the share
+   * confluence
+   * jira-core
+   * jira-servicedesk
+   * jira-software
+   */
   productId: string;
-  /** Atlassian Resource Identifier of the resource to be shared */
+  /** Atlassian Resource Identifier of a Site resource to be shared */
   shareAri: string;
-  /** Content Type of the resource to be shared */
+  /** Content Type of the resource to be shared
+   * board
+   * calendar
+   * draft
+   * filter
+   * issue
+   * media
+   * page
+   * project
+   * pullrequest
+   * question
+   * report
+   * repository
+   * request
+   * roadmap
+   * site
+   * space
+   */
   shareContentType: string;
   /** Link of the resource to be shared */
   shareLink: string;
-  /** Title of the resource to be shared that will been seen in the notifications */
+  /** Title of the resource to be shared that will be sent in notifications */
   shareTitle: string;
   /** Title of the share modal */
   shareFormTitle?: React.ReactNode;
