@@ -44,7 +44,7 @@ export default function withNavigation<P extends Props>(
   WrappedComponent: ComponentType<P>,
   props?: Config,
 ): ComponentType<Partial<P>> {
-  return class WithNavigation extends React.Component<P> {
+  return class WithNavigation extends React.Component<Partial<P>> {
     static displayName = `WithNavigation(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 
