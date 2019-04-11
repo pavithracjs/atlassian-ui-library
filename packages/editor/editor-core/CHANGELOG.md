@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.12.4
+- [patch] [068ecc926f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/068ecc926f):
+
+  - Reverting column resize fix from ED-6627
+
 ## 107.12.3
 - [patch] [247cc39577](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/247cc39577):
 
