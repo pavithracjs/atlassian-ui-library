@@ -24,14 +24,15 @@ type IStepsDataType = {
 }
 */
 const fabricStatsServiceUrl =
+  // Default to localhost to test the service locally.
   process.env.FABRIC_STATS_SERVICE || 'http://localhost:8080';
 
-async function sendData(payload /*: IBuildEventProperties */) {
+async function sendBuildEventsPayload(payload /*: IBuildEventProperties */) {
   const config = {
     headers: {
       'Content-Type': 'application/json',
       'cache-control': 'no-cache',
-      'shared-secret': process.env.SHARED_SECRET,
+      'shared-secret': process.env.FABRIC_BUILD_STATS_SHARED_SECRET,
     },
   };
   const response = await axios.post(
@@ -45,4 +46,4 @@ async function sendData(payload /*: IBuildEventProperties */) {
   }
 }
 
-module.exports = { sendData };
+module.exports = { sendBuildEventsPayload };

@@ -32,8 +32,7 @@ pipelines:
             - git push --tags # Push only the tags.
             - (cd build/ci-scripts && yarn restart-stopped-build)
           after-script:
-            # Use to send build data to Datadog / SFX.
-            - yarn send:build:data
+            - yarn send:buildEvents
           caches:
             - node
 
@@ -149,8 +148,7 @@ pipelines:
           - node download.build.artefact.for.commit.js netlify-link.txt
           - node update.build.status.with.netlify.link.js
         after-script:
-          # Use to send build data to Datadog / SFX.
-          - yarn send:build:data
+          - yarn send:buildEvents
 
   # Pipelines that can be scheduled or triggered manually.
   custom: 
@@ -165,8 +163,7 @@ pipelines:
             - yarn build:copy
             - yarn deploy:production
           after-script:
-            # Use to send build data to Datadog / SFX.
-            - yarn send:build:data
+            - yarn send:buildEvents
           caches:
             - node
 
@@ -186,8 +183,7 @@ pipelines:
             - echo "Uploading netlify build link to s3 so that we can fetch at the end..."
             - node ../build/ci-scripts/upload.build.artefact.for.commit.js netlify-link.txt
           after-script:
-            # Use to send build data to Datadog / SFX.
-            - yarn send:build:data
+            - yarn send:buildEvents
           caches:
             - node
 
@@ -306,6 +302,8 @@ pipelines:
               # don't worry about deploying, this build will always be run alongside a branch build
               - yarn build
               - cd ..
+            after-script:
+              - yarn send:buildEvents
   
     # This will build all the packages and run bundle-analysis.
     run-bundle-analysis:
@@ -404,10 +402,8 @@ pipelines:
             - yarn --ignore-engines
             - node ./wait.until.no.master.build.running.js      
           after-script:
-            # Use to send build data to Datadog / SFX.
-            # Yarn install needs to be rerun again.
-            - yarn install
-            - yarn send:build:data
+            - cd build/ci-scripts
+            - node build/ci-scripts/sending.build.events.payload.js
             
     # This build should only be run on the master branch, once per day.
     # It manually clears the cache and runs a very quick install node_modules.
