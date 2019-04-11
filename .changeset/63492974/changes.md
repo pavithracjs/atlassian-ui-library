@@ -1,1 +1,1 @@
-- Allow RefObject to be passed in as ref (i.e. using React.createRef()) and fix smart resize issue
+- Allow RefObject to be passed in as ref (i.e. using React.createRef()) and set inner padding to 0
