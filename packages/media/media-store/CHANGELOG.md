@@ -1,5 +1,10 @@
 # @atlaskit/media-store
 
+## 11.0.6
+- [patch] [5faa58fcfd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5faa58fcfd):
+
+  - [MS-1787] Remove WEBP support check checkWebpSupport() from mediaStore
+
 ## 11.0.5
 - Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
   - @atlaskit/media-test-helpers@21.2.2

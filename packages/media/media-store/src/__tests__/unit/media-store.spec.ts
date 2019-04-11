@@ -638,7 +638,8 @@ describe('MediaStore', () => {
         );
       });
 
-      it('should request webp content when supported', async () => {
+      // TODO [MS-1787]: add checkWebpSupport() back
+      it.skip('should request webp content when supported', async () => {
         fetchMock.mock(`begin:${baseUrl}/file`, {
           body: {
             data,
