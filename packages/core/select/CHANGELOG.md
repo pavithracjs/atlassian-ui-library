@@ -1,5 +1,10 @@
 # @atlaskit/select
 
+## 8.1.0
+- [minor] [b50c289008](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b50c289008):
+
+  - Don't close popup select when cleared.
+
 ## 8.0.5
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
