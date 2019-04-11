@@ -90,7 +90,7 @@ export async function setCaretInNewParagraphAtTheEnd(page: Page) {
   await scrollToElement(page, selectors.lastEditorElement);
   const bounds = await getBoundingRect(page, selectors.lastEditorElement);
 
-  await page.mouse.click(bounds.left, bounds.top + bounds.height + 5);
+  await page.mouse.click(bounds.left, bounds.top + bounds.height - 5);
 }
 
 export async function typeInEditorAtEndOfDocument(
