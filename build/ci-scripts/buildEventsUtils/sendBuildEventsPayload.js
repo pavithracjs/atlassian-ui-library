@@ -1,7 +1,7 @@
 // @flow
 'use strict';
 /*
- * Utilities helper to send the data to the fabric build stats service.
+ * Utilities helper to send the events data to the fabric build stats service.
  */
 const axios = require('axios');
 
