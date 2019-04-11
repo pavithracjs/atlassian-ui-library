@@ -1,5 +1,10 @@
 # @atlaskit/user-picker
 
+## 3.4.0
+- [minor] [4a8effc046](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a8effc046):
+
+  - FS-3741 expose boundariesElement for integrators to pass in custom boundary
+
 ## 3.3.5
 - [patch] [0f4109e919](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f4109e919):
 

@@ -1,6 +1,8 @@
 // @flow
 import styled, { css } from 'styled-components';
 import { gridSize, math } from '@atlaskit/theme';
+
+import { DEFAULT_APPEARANCE } from '../Flag';
 import { flagTextColor } from '../../theme';
 
 // Outputs the styles for actions separator: mid-dot for non-bold flags, or space for bold flags.
@@ -14,6 +16,8 @@ export default styled.div`
   display: flex;
   flex-wrap: wrap;
   padding-top: ${gridSize}px;
+  transform: ${({ appearance }) =>
+    appearance === DEFAULT_APPEARANCE ? `translateX(-${gridSize() / 2}px)` : 0};
 `;
 
 export const Action = styled.div`

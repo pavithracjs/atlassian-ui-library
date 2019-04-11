@@ -30,7 +30,7 @@ export default class FlagActions extends Component<Props, {}> {
 
     if (!actions.length) return null;
     return (
-      <Container>
+      <Container appearance={appearance}>
         {actions.map((action, index) => (
           <Action
             key={this.getUniqueId('flag-action')}
