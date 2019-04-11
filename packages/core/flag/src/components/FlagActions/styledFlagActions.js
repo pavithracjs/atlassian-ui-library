@@ -1,10 +1,9 @@
 // @flow
 import styled, { css } from 'styled-components';
 import { gridSize, math } from '@atlaskit/theme';
-import Button from '@atlaskit/button';
 
 import { DEFAULT_APPEARANCE } from '../Flag';
-import { flagTextColor, flagFocusRingColor } from '../../theme';
+import { flagTextColor } from '../../theme';
 
 // Outputs the styles for actions separator: mid-dot for non-bold flags, or space for bold flags.
 const getDivider = ({ hasDivider, useMidDot }) => css`
