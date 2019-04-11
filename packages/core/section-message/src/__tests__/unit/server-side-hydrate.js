@@ -24,9 +24,9 @@ test('should ssr then hydrate section-message correctly', async () => {
   elem.innerHTML = await ssr(example.filePath);
 
   ReactDOM.hydrate(<Example />, elem);
-  const mockCalls = console.error.mock.calls[0]; // eslint-disable-line no-console
-  const mockCallsWithoutStyleErrors = mockCalls.filter(
-    call => !warningRegEx.test(call),
-  );
+
+  const mockCalls = console.error.mock.calls; // eslint-disable-line no-console
+  const filtered = mockCalls.filter((mock: any) => !warningRegEx.test(mock));
+  const mockCallsWithoutStyleErrors = [].concat.apply([], filtered);
   expect(mockCallsWithoutStyleErrors).toHaveLength(0);
 });

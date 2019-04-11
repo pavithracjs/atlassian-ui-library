@@ -23,11 +23,11 @@ test('should ssr then hydrate button correctly', async () => {
   elem.innerHTML = await ssr(example.filePath);
 
   ReactDOM.hydrate(<Example />, elem);
+
   /* tslint:disable no-console */
   // @ts-ignore
-  const mockCalls = console.error.mock.calls[0];
-  const mockCallsWithoutStyleErrors = mockCalls.filter(
-    (call: string) => !warningRegEx.test(call),
-  );
+  const mockCalls = console.error.mock.calls;
+  const filtered = mockCalls.filter((mock: any) => !warningRegEx.test(mock));
+  const mockCallsWithoutStyleErrors = [].concat.apply([], filtered);
   expect(mockCallsWithoutStyleErrors).toHaveLength(0);
 });
