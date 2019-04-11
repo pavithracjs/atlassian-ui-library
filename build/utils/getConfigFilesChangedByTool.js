@@ -37,7 +37,7 @@ async function getFilesConfigInfo() {
   ).catch(err => console.error(err));
   let isBabel = filesConfiguration['babelConfig'].exists;
   let isKarma = filesConfiguration['projector'].exists;
-  let isTypecheck =
+  let isTypescript =
     filesConfiguration['tsConfigBase'].exists ||
     filesConfiguration['tsConfigEntry'].exists ||
     filesConfiguration['tsConfigMedia'].exists ||
@@ -62,7 +62,7 @@ async function getFilesConfigInfo() {
     isEslint,
     isFlow,
     isKarma,
-    isTypecheck,
+    isTypescript,
     isTsLint,
     isStyleLint,
     isTest,
@@ -76,7 +76,7 @@ const CONFIG_FILES_TO_FILTERS_BY_TOOL_NAME /*: { [key: string]: (file: Object) =
   karma: file => file.isKarma,
   eslint: file => file.isTsLint,
   stylelint: file => file.isStyleLint,
-  typecheck: file => file.isTypecheck,
+  typescript: file => file.isTypescript,
   tslint: file => file.isTsLint,
   unit: file => file.isTest,
   vr: file => file.isTest,
