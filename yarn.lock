@@ -6277,7 +6277,7 @@ dns-txt@^2.0.2:
   dependencies:
     buffer-indexof "^1.0.0"
 
-docker-compose@^0.14.5:
+docker-compose@0.14.5:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/docker-compose/-/docker-compose-0.14.5.tgz#4ffbedb0b1b47b7c69fddf838f6714a7af779098"
   integrity sha512-B/V2liCI9g/OMzDD6q/WtrsrKFuuWaI9OzGD75W3QRtE1YleLk4koMTrCQTuUxYEQjRtQA9morJ7ENx8iGL+KQ==
