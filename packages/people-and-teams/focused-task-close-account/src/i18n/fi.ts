@@ -119,23 +119,23 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     'Emme enää laskuta sinua hänestä.',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'How would you like the deleted user to appear?',
+    'Miltä haluat poistetun käyttäjän näyttävän?',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'How would you like your deleted account to appear?',
+    'Miltä haluat poistetun tilisi näyttävän?',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
-    'After the user’s account is deleted, they’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Sen jälkeen, kun käyttäjän tili on poistettu, hän näkyy "Entisenä käyttäjänä" muille käyttäjille. Käytä hetki kyselymme kysymykseen vastaamiseen.',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':
-    'After your account is deleted, you’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Sen jälkeen, kun tilisi on poistettu, näyt "Entisenä käyttäjänä" muille käyttäjille. Käytä hetki kyselymme kysymykseen vastaamiseen.',
   'focused-task-close-account.delete-account.content-preview.line.survey.admin':
-    'If we gave you a choice, how would you like the deleted user to appear to other users?',
+    'Jos saisit valita, miltä haluaisit poistetun käyttäjän näyttävän muille käyttäjille?',
   'focused-task-close-account.delete-account.content-preview.line.survey.self':
-    'If we gave you a choice, how would you like to appear to other users?',
+    'Jos saisit valita, miten haluaisit näkyä muille käyttäjille?',
   'focused-task-close-account.delete-account.content-preview.footnote.admin':
-    'Note: Answering this survey will help us make a better experience for all users. The user will still appear as “Former user” after you delete their account.',
+    'Huomaa: Vastaamalla tähän kyselyyn autat meitä luomaan paremman kokemuksen kaikille käyttäjille. Käyttäjä näkyy edelleen "Entisenä käyttäjänä" sen jälkeen, kun olet poistanut hänen tilinsä.',
   'focused-task-close-account.delete-account.content-preview.footnote.self':
-    'Note: Answering this survey will help us make a better experience for all users, including those deleting their accounts. You’ll still appear as “Former user” after you delete your account.',
+    'Huomaa: Vastaamalla tähän kyselyyn autat meitä luomaan paremman kokemuksen kaikille käyttäjille, myös niille, jotka ovat poistamassa tilinsä. Näyt edelleen "Entisenä käyttäjänä" sen jälkeen, kun olet poistanut tilisi.',
   'focused-task-close-account.delete-account.content-preview.formerUser':
-    'Former user',
+    'Entinen käyttäjä',
   'focused-task-close-account.delete-account.drop-down-expand-button':
     '{num} lisää',
   'focused-task-close-account.delete-account.drop-down-collapse-button':

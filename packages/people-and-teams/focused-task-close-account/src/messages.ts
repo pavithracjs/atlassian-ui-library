@@ -491,14 +491,14 @@ export const contentPreviewMessages: ReactIntlMessages = defineMessages({
   headingAdmin: {
     id:
       'focused-task-close-account.delete-account.content-preview.heading.admin',
-    defaultMessage: 'How would you like the deleted user to appear?',
+    defaultMessage: 'How would you prefer the deleted user to appear?',
     description:
       'Heading for the screen that explains admin would prefer user to be remembered',
   },
   headingSelf: {
     id:
       'focused-task-close-account.delete-account.content-preview.heading.self',
-    defaultMessage: 'How would you like your deleted account to appear?',
+    defaultMessage: 'How would you prefer your deleted account to appear?',
     description:
       'Heading for the screen that explains how users would prefer to be remembered',
   },

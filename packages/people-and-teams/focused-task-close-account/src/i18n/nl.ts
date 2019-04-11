@@ -119,23 +119,23 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     'Ze worden niet meer in rekening gebracht.',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'How would you like the deleted user to appear?',
+    'Hoe wil je dat de verwijderde gebruiker wordt weergegeven?',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'How would you like your deleted account to appear?',
+    'Hoe wil je dat je verwijderde account wordt weergegeven?',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
-    'After the user’s account is deleted, they’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Nadat het account van de gebruiker is verwijderd, zal hij of zij aan andere gebruikers worden weergegeven als “Voormalige gebruiker”. Neem even de tijd om onze enquêtevraag te beantwoorden.',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':
-    'After your account is deleted, you’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Nadat je account is verwijderd, zal je aan andere gebruikers worden weergegeven als “Voormalige gebruiker”. Neem even de tijd om onze enquêtevraag te beantwoorden.',
   'focused-task-close-account.delete-account.content-preview.line.survey.admin':
-    'If we gave you a choice, how would you like the deleted user to appear to other users?',
+    'Als je de keuze had, hoe zou je dan de verwijderde gebruiker weer willen geven aan andere gebruikers?',
   'focused-task-close-account.delete-account.content-preview.line.survey.self':
-    'If we gave you a choice, how would you like to appear to other users?',
+    'Als je de keuze had, hoe zou je dan aan andere gebruikers weergegeven willen worden?',
   'focused-task-close-account.delete-account.content-preview.footnote.admin':
-    'Note: Answering this survey will help us make a better experience for all users. The user will still appear as “Former user” after you delete their account.',
+    'Opmerking: door deze enquête te beantwoorden, help je ons alle gebruikers een betere ervaring te bieden. De gebruiker zal nog steeds worden weergegeven als “Voormalige gebruiker” nadat je het account hebt verwijderd.',
   'focused-task-close-account.delete-account.content-preview.footnote.self':
-    'Note: Answering this survey will help us make a better experience for all users, including those deleting their accounts. You’ll still appear as “Former user” after you delete your account.',
+    'Opmerking: door deze enquête te beantwoorden, help je ons alle gebruikers een betere ervaring te bieden, inclusief gebruikers die hun account verwijderen. Je zult nog steeds worden weergegeven als “Voormalige gebruiker” nadat je je account hebt verwijderd.',
   'focused-task-close-account.delete-account.content-preview.formerUser':
-    'Former user',
+    'Voormalige gebruiker',
   'focused-task-close-account.delete-account.drop-down-expand-button':
     '{num} meer',
   'focused-task-close-account.delete-account.drop-down-collapse-button':

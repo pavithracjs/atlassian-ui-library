@@ -119,23 +119,23 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     'このユーザーに対する請求は発生しなくなります。',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'How would you like the deleted user to appear?',
+    '削除されたユーザーの表示方法',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'How would you like your deleted account to appear?',
+    '削除されたアカウントの表示方法',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
-    'After the user’s account is deleted, they’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'アカウントが削除されると、そのユーザーは他のユーザーの画面で「旧ユーザー」として表示されます。この点について、以下のアンケートにお答えください。',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':
-    'After your account is deleted, you’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'アカウントが削除されると、あなたは他のユーザーの画面で「旧ユーザー」として表示されます。この点について、以下のアンケートにお答えください。',
   'focused-task-close-account.delete-account.content-preview.line.survey.admin':
-    'If we gave you a choice, how would you like the deleted user to appear to other users?',
+    '選択肢があるとしたら、削除されたユーザーが他のユーザーに対してどのように表示されることを希望しますか?',
   'focused-task-close-account.delete-account.content-preview.line.survey.self':
-    'If we gave you a choice, how would you like to appear to other users?',
+    '選択肢があるとしたら、他のユーザーにどのように表示されることを希望しますか?',
   'focused-task-close-account.delete-account.content-preview.footnote.admin':
-    'Note: Answering this survey will help us make a better experience for all users. The user will still appear as “Former user” after you delete their account.',
+    '注: このアンケートへの回答は、すべてのユーザーの体験を向上するために役立ちます。アカウントを削除した後、ユーザーは「旧ユーザー」として表示されます。',
   'focused-task-close-account.delete-account.content-preview.footnote.self':
-    'Note: Answering this survey will help us make a better experience for all users, including those deleting their accounts. You’ll still appear as “Former user” after you delete your account.',
+    '注: このアンケートへの回答は、アカウントを削除しようとしているユーザーを含むすべてのユーザー体験の向上に役立ちます。アカウントを削除した後、あなたは「旧ユーザー」として表示されます。',
   'focused-task-close-account.delete-account.content-preview.formerUser':
-    'Former user',
+    '旧ユーザー',
   'focused-task-close-account.delete-account.drop-down-expand-button':
     'あと{num}つ',
   'focused-task-close-account.delete-account.drop-down-collapse-button':

@@ -13,23 +13,14 @@ const defaultProps: DeleteUserContentPreviewScreenProps = {
 const render = (props = {}) =>
   shallow(<DeleteUserContentPreviewScreen {...defaultProps} {...props} />);
 
-test('DeleteUserContentPreviewScreen', () => {
-  expect(render()).toMatchSnapshot();
-});
-
-describe('selectAdminOrSelfCopy', () => {
-  test('selects admin copy if delete candidate is not current user', () => {
-    const selectAdminOrSelfCopy = (render({
-      isCurrentUser: false,
-    }).instance() as DeleteUserContentPreviewScreen).selectAdminOrSelfCopy;
-    expect(selectAdminOrSelfCopy('admin' as any, 'self' as any)).toBe('admin');
+describe('DeleteUserContentPreviewScreen', () => {
+  test('renders snapshot for personal accounts when isCurrentUser is true', () => {
+    const wrapper = render({ isCurrentUser: true });
+    expect(wrapper).toMatchSnapshot();
   });
-
-  test('selects self copy if delete candidate is current user', () => {
-    const selectAdminOrSelfCopy = (render({
-      isCurrentUser: true,
-    }).instance() as DeleteUserContentPreviewScreen).selectAdminOrSelfCopy;
-    expect(selectAdminOrSelfCopy('admin' as any, 'self' as any)).toBe('self');
+  test('renders snapshot for unmanaged accounts when isCurrentUser is false', () => {
+    const wrapper = render();
+    expect(wrapper).toMatchSnapshot();
   });
 });
 
@@ -37,10 +28,16 @@ describe('handleClickSelection', () => {
   test('changes the isSelected parameter of the element', () => {
     const wrapper = render();
     const divWrapper = wrapper.find('.nameSectionCard');
-    shallow(<div>{divWrapper}</div>)
-      .childAt(0)
-      .simulate('click');
+    divWrapper.simulate('click');
     wrapper.update();
     expect(wrapper).toMatchSnapshot();
+  });
+  test('calls "preferenceSelection" prop', () => {
+    const preferenceSelection = jest.fn();
+    const wrapper = render({ preferenceSelection });
+    const divWrapper = wrapper.find('.nameSectionCard');
+    divWrapper.simulate('click');
+    wrapper.update();
+    expect(preferenceSelection).toHaveBeenCalled();
   });
 });

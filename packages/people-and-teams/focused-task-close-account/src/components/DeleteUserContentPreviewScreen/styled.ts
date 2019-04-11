@@ -24,7 +24,7 @@ export const Title = styled.div`
 export const SectionCard = styled.div`
   position: relative;
   display: flex;
-  padding: 20px;
+  padding: ${gridSizeTimes(2.5)}px;
   width: 100%;
   background-color: ${(props: SectionCardProps) => getSelectedCardColor(props)};
   border-radius: ${borderRadius()}px;

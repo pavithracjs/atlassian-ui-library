@@ -119,23 +119,23 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     'Мы больше не будем взимать с вас плату за них.',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'How would you like the deleted user to appear?',
+    'Как вы считаете, какой статус в системе должен быть у удаленных пользователей?',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'How would you like your deleted account to appear?',
+    'Как вы считаете, какой статус в системе должен быть у вашего удаленного аккаунта?',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
-    'After the user’s account is deleted, they’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Человек, аккаунт которого вы удалите, будет иметь в системе статус «Бывший пользователь». Вы очень поможете нам, если ответите на один короткий вопрос. Это займет всего пару минут.',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':
-    'After your account is deleted, you’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'После того как мы удалим ваш аккаунт, вы будете иметь в системе статус «Бывший пользователь». Вы очень поможете нам, если ответите на один короткий вопрос. Это займет всего пару минут.',
   'focused-task-close-account.delete-account.content-preview.line.survey.admin':
-    'If we gave you a choice, how would you like the deleted user to appear to other users?',
+    'Если бы это зависело от вас, какой статус в системе был бы у пользователей с удаленными аккаунтами?',
   'focused-task-close-account.delete-account.content-preview.line.survey.self':
-    'If we gave you a choice, how would you like to appear to other users?',
+    'Если бы можно было выбрать ваш статус в системе, каким бы он был?',
   'focused-task-close-account.delete-account.content-preview.footnote.admin':
-    'Note: Answering this survey will help us make a better experience for all users. The user will still appear as “Former user” after you delete their account.',
+    'Примечание. Пройдя этот опрос, вы поможете нам улучшить сервис для всех пользователей. У людей, аккаунты которых вы удалите, по-прежнему будет статус «Бывший пользователь».',
   'focused-task-close-account.delete-account.content-preview.footnote.self':
-    'Note: Answering this survey will help us make a better experience for all users, including those deleting their accounts. You’ll still appear as “Former user” after you delete your account.',
+    'Примечание. Пройдя этот опрос, вы поможете нам улучшить сервис для всех пользователей, в том числе и тех, кто удаляет свои аккаунты. После удаления аккаунта у вас по-прежнему будет статус «Бывший пользователь».',
   'focused-task-close-account.delete-account.content-preview.formerUser':
-    'Former user',
+    'Бывший пользователь',
   'focused-task-close-account.delete-account.drop-down-expand-button':
     'Еще {num}',
   'focused-task-close-account.delete-account.drop-down-collapse-button':
