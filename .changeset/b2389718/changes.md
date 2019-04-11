@@ -1,0 +1,1 @@
+- ED-6675 Prevent auto formatting of '> ' to block quote when prefixed by any whitespace
