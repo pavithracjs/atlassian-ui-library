@@ -411,7 +411,8 @@ const analyticsEventMap: AnalyticsEventConfig[] = [
     attributes: {
       componentName: 'inlineEdit',
     },
-    componentTestPath: 'inline-edit/src/components/__tests__/InlineEdit.tsx',
+    componentTestPath:
+      'inline-edit/src/components/__tests__/unit/InlineEdit.tsx',
   },
   {
     path: 'modal-dialog/src/components/Modal.js',
