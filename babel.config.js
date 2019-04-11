@@ -21,6 +21,7 @@ module.exports = {
         './packages/core/global-navigation',
         './packages/core/textfield',
         './packages/core/select',
+        './packages/core/modal-dialog',
       ],
       presets: ['@emotion/babel-preset-css-prop'],
     },

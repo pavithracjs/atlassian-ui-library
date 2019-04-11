@@ -16,6 +16,7 @@ import {
   JiraEntityTypes,
   ADVANCED_JIRA_SEARCH_RESULT_ID,
 } from '../SearchResultsUtil';
+import { JiraApplicationPermission } from '../GlobalQuickSearchWrapper';
 
 export interface Props {
   query: string;
@@ -23,6 +24,7 @@ export interface Props {
   showSearchIcon?: boolean;
   analyticsData?: object;
   onClick?: (e: CancelableEvent, entity: JiraEntityTypes) => void;
+  appPermission?: JiraApplicationPermission;
 }
 
 interface State {
@@ -69,15 +71,23 @@ export default class JiraAdvancedSearch extends React.Component<Props, State> {
   };
 
   renderDropdownItems = () =>
-    itemI18nKeySuffix.map(item => (
-      <DropdownItem
-        onClick={() => (this.selectedItem = item)}
-        key={item}
-        href={getJiraAdvancedSearchUrl(item, this.props.query)}
-      >
-        {getI18nItemName(item)}
-      </DropdownItem>
-    ));
+    itemI18nKeySuffix
+      .filter(
+        key =>
+          !this.props.appPermission ||
+          key !== JiraEntityTypes.Boards ||
+          (this.props.appPermission &&
+            this.props.appPermission.hasSoftwareAccess),
+      )
+      .map(item => (
+        <DropdownItem
+          onClick={() => (this.selectedItem = item)}
+          key={item}
+          href={getJiraAdvancedSearchUrl(item, this.props.query)}
+        >
+          {getI18nItemName(item)}
+        </DropdownItem>
+      ));
 
   selectedItem?: JiraEntityTypes;
   nextSelectedItem?: JiraEntityTypes;

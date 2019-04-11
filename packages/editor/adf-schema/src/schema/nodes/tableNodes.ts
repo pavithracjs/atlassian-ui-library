@@ -19,15 +19,6 @@ import {
   Y75,
 } from '../../utils/colors';
 import { TableCellContent } from './doc';
-import {
-  StrongDefinition as Strong,
-  EmDefinition as Em,
-  CodeDefinition as Code,
-  StrikeDefinition as Strike,
-  SubSupDefinition as SubSup,
-  UnderlineDefinition as Underline,
-  TextColorDefinition as TextColor,
-} from '../marks';
 
 const akEditorTableNumberColumnWidth = 42;
 const DEFAULT_TABLE_HEADER_CELL_BACKGROUND = N20.toLocaleLowerCase();
@@ -43,12 +34,6 @@ const getCellAttrs = (dom: HTMLElement, defaultValues: CellAttributes = {}) => {
   if (backgroundColor && isRgb(backgroundColor)) {
     backgroundColor = rgbToHex(backgroundColor);
   }
-  const dataDefaultMarks = dom.getAttribute('data-default-marks');
-  let defaultMarks = null;
-
-  try {
-    defaultMarks = dataDefaultMarks ? JSON.parse(dataDefaultMarks) : null;
-  } catch (e) {}
 
   return {
     colspan,
@@ -58,7 +43,6 @@ const getCellAttrs = (dom: HTMLElement, defaultValues: CellAttributes = {}) => {
       backgroundColor && backgroundColor !== defaultValues['background']
         ? backgroundColor
         : null,
-    defaultMarks,
   };
 };
 
@@ -68,7 +52,6 @@ export const setCellAttrs = (node: PmNode, cell?: HTMLElement) => {
     rowspan?: number;
     style?: string;
     'data-colwidth'?: string;
-    'data-default-marks'?: string;
   } = {};
   const colspan = cell ? parseInt(cell.getAttribute('colspan') || '1', 10) : 1;
   const rowspan = cell ? parseInt(cell.getAttribute('rowspan') || '1', 10) : 1;
@@ -103,10 +86,6 @@ export const setCellAttrs = (node: PmNode, cell?: HTMLElement) => {
 
       attrs.style = `${attrs.style || ''}background-color: ${color};`;
     }
-  }
-
-  if (node.attrs.defaultMarks) {
-    attrs['data-default-marks'] = JSON.stringify(node.attrs.defaultMarks);
   }
 
   return attrs;
@@ -221,13 +200,6 @@ export interface CellAttributes {
   rowspan?: number;
   colwidth?: number[];
   background?: string;
-  /**
-   * @stage 0
-   * @forceContentValidation true
-   */
-  defaultMarks?: Array<
-    Em | Strong | Code | Strike | SubSup | Underline | TextColor
-  >;
 }
 
 // TODO: Fix any, potential issue. ED-5048
@@ -286,7 +258,6 @@ const cellAttrs = {
   rowspan: { default: 1 },
   colwidth: { default: null },
   background: { default: null },
-  defaultMarks: { default: null },
 };
 
 export const tableCell = {

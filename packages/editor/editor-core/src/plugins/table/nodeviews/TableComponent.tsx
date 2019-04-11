@@ -134,8 +134,6 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
         tablesHaveDifferentNoOfColumns(this.props.node, prevProps.node)
       ) {
         recreateResizeColsByNode(this.table, this.props.node);
-        // debouncing does not pick up those changes ^ therefore triggering it here
-        this.handleTableResizing(prevProps);
       }
 
       this.frameId = this.handleTableResizingDebounced(prevProps);

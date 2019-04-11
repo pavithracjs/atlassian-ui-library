@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/analytics-next",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "The 🆕 Atlaskit component analytics framework",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -27,9 +27,9 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^11.0.5",
-    "@atlaskit/docs": "^7.0.1",
-    "@atlaskit/field-text": "^8.0.1",
+    "@atlaskit/button": "^12.0.0",
+    "@atlaskit/docs": "^7.0.2",
+    "@atlaskit/field-text": "^8.0.2",
     "@atlaskit/ssr": "^0.0.1",
     "enzyme": "^3.7.0",
     "lodash.isequal": "^4.5.0",

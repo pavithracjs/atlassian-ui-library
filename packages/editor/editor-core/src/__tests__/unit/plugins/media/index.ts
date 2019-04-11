@@ -962,7 +962,9 @@ describe('Media plugin', () => {
         setNodeSelection(editorView, 0);
 
         expect(pluginState.element).not.toBeUndefined();
-        expect(pluginState.element!.className).toBe('wrapper');
+        expect(pluginState.element!.className).toBe(
+          'mediaSingleView-content-wrap ProseMirror-selectednode',
+        );
       });
     });
 

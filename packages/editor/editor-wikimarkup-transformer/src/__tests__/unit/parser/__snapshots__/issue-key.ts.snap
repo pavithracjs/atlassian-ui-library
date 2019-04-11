@@ -594,7 +594,6 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": null,
-                "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [
@@ -615,7 +614,6 @@ Object {
                 "background": null,
                 "colspan": 1,
                 "colwidth": null,
-                "defaultMarks": null,
                 "rowspan": 1,
               },
               "content": Array [

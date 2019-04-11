@@ -5,14 +5,6 @@ import { mount } from 'enzyme';
 import Avatar from '../../Avatar';
 import AvatarImage, { DefaultImage } from '../../AvatarImage';
 
-// Since the purpose of this test module is to test SSR behaviour
-// simulate a non-DOM environment.
-jest.mock('exenv', () => {
-  return {
-    canUseDOM: false,
-  };
-});
-
 describe('Avatar SSR', () => {
   const LOAD_FAILURE_SRC = 'LOAD_FAILURE_SRC';
   const LOAD_SUCCESS_SRC = 'LOAD_SUCCESS_SRC';
