@@ -1,0 +1,1 @@
+- Don't close popup select when cleared.
