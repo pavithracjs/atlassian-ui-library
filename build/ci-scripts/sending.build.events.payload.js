@@ -5,7 +5,7 @@
 
 const getPipelinesBuildEvents = require('./buildEventsUtils/getBuildEvents')
   .getPipelinesBuildEvents;
-const sendBuildEventsPayload = require('./buildEvents/sendPayload')
+const sendBuildEventsPayload = require('./buildEventsUtils/sendBuildEventsPayload')
   .sendBuildEventsPayload;
 
 (async () => {
