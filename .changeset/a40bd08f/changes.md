@@ -1,1 +1,0 @@
-- [MS-1791] Make fileState.representations optional, since media api might not return that value in all cases and we want to prevent a runtime error
