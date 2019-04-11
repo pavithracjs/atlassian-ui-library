@@ -10,13 +10,9 @@ const sendBuildEventsPayload = require('./buildEventsUtils/sendBuildEventsPayloa
 
 (async () => {
   try {
-    const buildId = process.env.BITBUCKET_BUILD_NUMBER;
-    const buildEvents = await getPipelinesBuildEvents(
-      'atlassian',
-      'atlaskit-mk-2',
-      buildId,
-    );
-    console.log('buildEvents:', buildEvents);
+    const buildId = process.env.BITBUCKET_BUILD_NUMBER || 46753;
+    const buildEvents = await getPipelinesBuildEvents(buildId);
+    console.log('buildId:', buildId);
     await sendBuildEventsPayload(buildEvents);
   } catch (err) {
     console.error(`You face some issues while sending data: ${err.message}`);

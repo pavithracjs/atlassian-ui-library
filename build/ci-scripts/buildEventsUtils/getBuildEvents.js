@@ -27,11 +27,11 @@ type IStepsDataType = {
 async function getPipelinesBuildEvents(
   buildId /*: string */,
 ) /*: Promise<IBuildEventProperties> */ {
-  const apiEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}`;
-  const res = await axios.get(apiEndpoint);
-  const build = res.data;
   let payload /*: $Shape<IBuildEventProperties> */ = {};
+  const apiEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}`;
   try {
+    const res = await axios.get(apiEndpoint);
+    const build = res.data;
     const stepsData = await getStepsEvents(buildId);
     const buildStatus = process.env.BITBUCKET_EXIT_CODE
       ? process.env.BITBUCKET_EXIT_CODE === '0'
@@ -64,27 +64,32 @@ async function getPipelinesBuildEvents(
   return payload;
 }
 
-async function getStepsEvents(buildNumber /*: string*/) {
-  const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildNumber}/steps/`;
-  const resp = await axios.get(url);
-  return Promise.all(
-    resp.data.values.map(async step => {
-      // We don't have control of the last step, it is a edge case.
-      // In the after_script, the last step is still 'IN-PROGRESS' but the result of the last step does not matter.
-      // We use the process.env.BITBUCKET_EXIT_CODE to determine the status of the pipeline.
-      if (step && step.state.result) {
-        const stepStatus =
-          step.state.result.name === 'IN-PROGRESS'
-            ? 'SUCCESSFUL'
-            : step.state.result.name;
-        return {
-          step_duration: step.duration_in_seconds,
-          step_name: step.name || 'master', // on Master, there is no step name.
-          step_status: step.state.result.name,
-        };
-      }
-    }),
-  );
+async function getStepsEvents(buildId /*: string*/) {
+  const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
+  try {
+    const resp = await axios.get(url);
+    return Promise.all(
+      resp.data.values.map(async step => {
+        // We don't have control of the last step, it is a edge case.
+        // In the after_script, the last step is still 'IN-PROGRESS' but the result of the last step does not matter.
+        // We use the process.env.BITBUCKET_EXIT_CODE to determine the status of the pipeline.
+        if (step && step.state.result) {
+          const stepStatus =
+            step.state.result.name === 'IN-PROGRESS'
+              ? 'SUCCESSFUL'
+              : step.state.result.name;
+          return {
+            step_duration: step.duration_in_seconds,
+            step_name: step.name || 'master', // on Master, there is no step name.
+            step_status: step.state.result.name,
+          };
+        }
+      }),
+    );
+  } catch (err) {
+    console.error(err.toString());
+    process.exit(1);
+  }
 }
 
 module.exports = { getPipelinesBuildEvents };

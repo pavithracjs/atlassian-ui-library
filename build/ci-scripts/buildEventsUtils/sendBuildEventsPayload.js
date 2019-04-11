@@ -40,8 +40,6 @@ async function sendBuildEventsPayload(payload /*: IBuildEventProperties */) {
     payload,
     config,
   );
-  console.log(process.env.FABRIC_BUILD_STATS_SHARED_SECRET);
-  console.log('response', response);
   if (!response || !response.data) {
     console.log('Something may have gone wrong...');
     process.exit(1);
