@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-store",
-  "version": "11.0.5",
+  "version": "11.0.6",
   "description": "Media Store API Web Client Library",
   "license": "Apache-2.0",
   "types": "index.d.ts",

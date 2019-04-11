@@ -1,1 +1,0 @@
-- [MS-1787] Remove WEBP support check checkWebpSupport() from mediaStore
