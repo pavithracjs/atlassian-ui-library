@@ -16,7 +16,6 @@ const GlobalQuickSearchWithFeedbackInNavigation = withNavigation<
 export default class extends React.Component {
   render() {
     return (
-      // @ts-ignore
       <GlobalQuickSearchWithFeedbackInNavigation
         name={'abcdef'}
         email={'abcdef@atlassian.com'}
