@@ -7,6 +7,7 @@ import { ReactWrapper, mount } from 'enzyme';
 import { MediaType, FileState, Identifier } from '@atlaskit/media-core';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
 import { fakeIntl } from '@atlaskit/media-test-helpers';
+import Button from '@atlaskit/button';
 import { createContext } from '../_stubs';
 import { Header, State as HeaderState } from '../../../newgen/header';
 import { MetadataFileName, MetadataSubText } from '../../../newgen/styled';
@@ -295,7 +296,7 @@ describe('<Header />', () => {
       el: ReactWrapper<any, any>,
       enabled: boolean,
     ) => {
-      expect(el.find({ isDisabled: !enabled }).find('Button')).toHaveLength(1);
+      expect(el.find({ isDisabled: !enabled }).find(Button)).toHaveLength(1);
       expect(el.find(DownloadIcon)).toHaveLength(1);
     };
 
