@@ -37,17 +37,21 @@ export const getContainerAnimation = ({ delay, phase }: AnimationParams) => {
     /* This hides the spinner and allows us to use animationend events to move to the next phase in
      * the same way we do with the other lifecycle stages */
     return css`
-      ${delay}s ${keyframeNames.noop};
+      animation: ${delay}s ${keyframeNames.noop};
     `;
   }
 
   if (phase === 'ENTER' || phase === 'IDLE') {
-    return css`1s ease-in-out forwards ${keyframeNames.enterRotate};`;
+    return css`
+      animation: 1s ease-in-out forwards ${keyframeNames.enterRotate};
+    `;
   }
 
   if (phase === 'LEAVE') {
-    return css`0.53s ease-in-out forwards ${keyframeNames.leaveRotate},
-      0.2s ease-in-out 0.33s ${keyframeNames.leaveOpacity};`;
+    return css`
+      animation: 0.53s ease-in-out forwards ${keyframeNames.leaveRotate},
+        0.2s ease-in-out 0.33s ${keyframeNames.leaveOpacity};
+    `;
   }
 
   return '';
@@ -56,7 +60,7 @@ export const getContainerAnimation = ({ delay, phase }: AnimationParams) => {
 const getSize = ({ size }: { size: number }) => `${size}px`;
 
 const Container = styled.span`
-  animation: ${getContainerAnimation};
+  ${getContainerAnimation}
   display: flex;
   height: ${getSize};
   width: ${getSize};
