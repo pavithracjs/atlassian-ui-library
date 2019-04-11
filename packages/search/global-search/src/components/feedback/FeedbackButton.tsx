@@ -1,8 +1,10 @@
 import * as React from 'react';
+import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import Button from '@atlaskit/button';
 import { colors, gridSize } from '@atlaskit/theme';
 import FeedbackIcon from '@atlaskit/icon/glyph/feedback';
+import { messages } from '../../messages';
 
 interface Props {
   onClick: () => void;
@@ -29,7 +31,7 @@ export default class FeedbackButton extends React.Component<Props> {
           iconBefore={<FeedbackIcon label="Give feedback" />}
           onClick={this.props.onClick}
         >
-          Give feedback
+          <FormattedMessage {...messages.give_feedback} />
         </LighterSubtleButton>
       </FeedbackButtonContainer>
     );
