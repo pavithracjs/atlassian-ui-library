@@ -1,6 +1,6 @@
 import { NodeSerializerOpts } from '../interfaces';
 import { createTag, applyMarks, serializeStyle } from '../util';
-import { N800, N200 } from '@atlaskit/adf-schema';
+import { N800 } from '@atlaskit/adf-schema';
 
 const baseHeadingStyle = {
   'font-style': 'inherit',
@@ -54,7 +54,6 @@ const getHeadingStyle = (tagName: string) => {
         'line-height': '1.3333',
         'text-transform': 'uppercase',
         'margin-top': '16px',
-        color: N200,
       };
     default:
       throw new Error(`Unknown tagName: ${tagName}`);
