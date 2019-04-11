@@ -50,7 +50,7 @@ export function headingRule(nodeType: NodeType, maxLevel: number) {
 }
 
 export function blockQuoteRule(nodeType: NodeType) {
-  return wrappingInputRule(/^\s*>\s$/, nodeType) as InputRuleWithHandler;
+  return wrappingInputRule(/^>\s$/, nodeType) as InputRuleWithHandler;
 }
 
 export function codeBlockRule(nodeType: NodeType) {

@@ -257,6 +257,13 @@ describe('inputrules', () => {
       insertText(editorView, '> ', sel);
       expect(editorView.state.doc).toEqualDocument(doc(code_block()('> ')));
     });
+
+    it('should not convert " > " to a blockquote', () => {
+      const { editorView, sel } = editor(doc(code_block()('{<>}')));
+
+      insertText(editorView, ' > ', sel);
+      expect(editorView.state.doc).toEqualDocument(doc(code_block()(' > ')));
+    });
   });
 
   describe('codeblock rule', () => {
