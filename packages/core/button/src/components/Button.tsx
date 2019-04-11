@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 import * as React from 'react';
+import memoize from 'memoize-one';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -40,6 +41,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   // ref can be a range of things because we render button, a, span or other React components
   button = React.createRef<HTMLElement>();
+
+  // Makes sure we don't call ref every render.
+  getComposedRefs = memoize(composeRefs);
 
   state = {
     isActive: false,
@@ -171,7 +175,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
               {({ buttonStyles, spinnerStyles }) => (
                 <StyledButton
                   {...filterProps(rest, StyledButton)}
-                  ref={composeRefs(this.button, consumerRef)}
+                  ref={this.getComposedRefs(this.button, consumerRef)}
                   onMouseEnter={this.onMouseEnter}
                   onMouseLeave={this.onMouseLeave}
                   onMouseDown={this.onMouseDown}
