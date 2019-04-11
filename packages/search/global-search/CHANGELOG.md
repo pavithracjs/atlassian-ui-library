@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 6.2.5
+- [patch] [8a95ba85f2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8a95ba85f2):
+
+  - remove boards from jira advanced search options if instance does not have software
+
 ## 6.2.4
 - [patch] [f86b087b7c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f86b087b7c):
 

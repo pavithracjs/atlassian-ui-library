@@ -1,1 +1,0 @@
-- remove boards from jira advanced search options if instance does not have software
