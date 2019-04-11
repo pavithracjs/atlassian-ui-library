@@ -18,9 +18,7 @@ export default class extends React.Component {
     return (
       <GlobalQuickSearchWithFeedbackInNavigation
         name={'abcdef'}
-        email={'abcdef'}
-        cloudId={null} // these are overridden by the nav HOC
-        context={null}
+        email={'abcdef@atlassian.com'}
       />
     );
   }

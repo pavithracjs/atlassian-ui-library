@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { ComponentType } from 'react';
 import styled from 'styled-components';
-import { Props } from '../src';
 import BasicNavigation from './BasicNavigation';
 import LocaleIntlProvider from './LocaleIntlProvider';
 import { DEVELOPMENT_LOGGER } from './logger';
@@ -43,7 +42,7 @@ interface State {
 export default function withNavigation<P>(
   WrappedComponent: ComponentType<P>,
   props?: Config,
-): ComponentType<P> {
+): ComponentType<Partial<P>> {
   // @ts-ignore
   return class WithNavigation extends React.Component<P> {
     static displayName = `WithNavigation(${WrappedComponent.displayName ||
