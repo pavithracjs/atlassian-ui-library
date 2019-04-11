@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ComponentType } from 'react';
 import styled from 'styled-components';
+import { Props } from '../src';
 import BasicNavigation from './BasicNavigation';
 import LocaleIntlProvider from './LocaleIntlProvider';
 import { DEVELOPMENT_LOGGER } from './logger';
@@ -39,12 +40,12 @@ interface State {
 }
 
 // Wraps global-search in AK Navigation and offers a context/locale switch
-export default function withNavigation<P>(
-  WrappedComponent: ComponentType<P>,
+export default function withNavigation(
+  WrappedComponent: ComponentType<Props>,
   props?: Config,
-): ComponentType<Partial<P>> {
+): ComponentType<Partial<Props>> {
   // @ts-ignore
-  return class WithNavigation extends React.Component<P> {
+  return class WithNavigation extends React.Component<Props> {
     static displayName = `WithNavigation(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 
