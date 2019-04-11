@@ -1,0 +1,1 @@
+- Reverting column resize fix from ED-6627
