@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.12.3
+- [patch] [247cc39577](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/247cc39577):
+
+  - ED-2152 Remove any selection when pressing ` and completing inlinecode
+
 ## 107.12.2
 - [patch] [24612aced0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/24612aced0):
 
