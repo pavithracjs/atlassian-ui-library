@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/flag",
-  "version": "10.0.3",
+  "version": "10.0.4",
   "description": "Flags are used for confirmations, alerts, and acknowledgments that require minimal user interaction.",
   "license": "Apache-2.0",
   "module": "index.js",
