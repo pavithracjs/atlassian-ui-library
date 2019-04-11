@@ -16,6 +16,7 @@ const sendBuildEventsPayload = require('./buildEventsUtils/sendBuildEventsPayloa
       'atlaskit-mk-2',
       buildId,
     );
+    console.log('buildEvents:', buildEvents);
     await sendBuildEventsPayload(buildEvents);
   } catch (err) {
     console.error(`You face some issues while sending data: ${err.message}`);
