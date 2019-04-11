@@ -1,5 +1,24 @@
 # @atlaskit/select
 
+## 8.1.0
+- [minor] [b50c289008](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b50c289008):
+
+  - Don't close popup select when cleared.
+
+## 8.0.5
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/checkbox@6.0.3
+  - @atlaskit/form@5.2.5
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/logo@10.0.3
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/tooltip@13.0.3
+  - @atlaskit/button@12.0.0
+
 ## 8.0.4
 - [patch] [2a90c65e27](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2a90c65e27):
 

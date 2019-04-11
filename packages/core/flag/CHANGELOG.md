@@ -1,5 +1,16 @@
 # @atlaskit/flag
 
+## 10.0.5
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/field-radio-group@5.0.2
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/portal@0.3.1
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/button@12.0.0
+
 ## 10.0.4
 - [patch] [23672bbd2d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/23672bbd2d):
 

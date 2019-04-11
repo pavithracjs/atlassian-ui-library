@@ -5,7 +5,7 @@ import renderNav from '../utils/renderNav';
 import buildNavGroups from '../utils/buildNavGroups';
 
 export type DocsNavProps = {
-  onClick?: (e: Event) => void;
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
   pathname: string;
   docs: Directory;
 };

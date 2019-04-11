@@ -296,9 +296,9 @@ class DropdownMenuStateless extends Component<
 
     const triggerProps = { ...triggerButtonProps };
     const defaultButtonProps = {
-      ariaControls: this.state.id,
-      ariaExpanded: isOpen,
-      ariaHaspopup: true,
+      'aria-controls': this.state.id,
+      'aria-expanded': isOpen,
+      'aria-haspopup': true,
       isSelected: isOpen,
     };
     if (!triggerProps.iconAfter && !triggerProps.iconBefore) {

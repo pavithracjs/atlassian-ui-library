@@ -11,7 +11,7 @@ export type Props = {
   ) => React.ReactNode;
 };
 
-export const WithCreateAnalyticsEvent: React.ComponentClass<
+export const WithCreateAnalyticsEvent: React.ComponentType<
   Props
 > = withAnalyticsEvents()(
   class WithCreateAnalyticsEvent extends React.Component<

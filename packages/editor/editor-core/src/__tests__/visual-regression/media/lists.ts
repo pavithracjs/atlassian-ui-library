@@ -50,7 +50,6 @@ describe('Snapshot Test: Media', () => {
   describe('Lists in panels', async () => {
     beforeEach(async () => {
       await initFullPageEditorWithAdf(page, panelList, Device.LaptopHiDPI);
-      await waitForMediaToBeLoaded(page);
       await clickEditableContent(page);
     });
 

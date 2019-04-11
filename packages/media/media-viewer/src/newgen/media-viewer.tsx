@@ -2,8 +2,7 @@ import * as React from 'react';
 import { ComponentClass, SyntheticEvent } from 'react';
 import { Context, Identifier } from '@atlaskit/media-core';
 import { IntlProvider, intlShape } from 'react-intl';
-import { ThemeProvider } from 'styled-components';
-import { Shortcut, theme } from '@atlaskit/media-ui';
+import { Shortcut } from '@atlaskit/media-ui';
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import {
   WithAnalyticsEventProps,
@@ -79,14 +78,10 @@ export class MediaViewerComponent extends React.Component<Props, {}> {
 
   render() {
     const content = (
-      <ThemeProvider theme={theme}>
-        <Blanket>
-          {<Shortcut keyCode={27} handler={this.onShortcutClosed} />}
-          <Content onClose={this.onContentClose}>
-            {this.renderContent()}
-          </Content>
-        </Blanket>
-      </ThemeProvider>
+      <Blanket>
+        {<Shortcut keyCode={27} handler={this.onShortcutClosed} />}
+        <Content onClose={this.onContentClose}>{this.renderContent()}</Content>
+      </Blanket>
     );
 
     return this.context.intl ? (
