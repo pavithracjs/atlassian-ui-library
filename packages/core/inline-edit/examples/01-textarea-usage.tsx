@@ -40,10 +40,10 @@ export default class InlineEditExample extends React.Component<void, State> {
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline edit textarea + keep edit view open on blur"
-          editView={(fieldProps, ref) => {
-            console.log(ref);
-            return <TextArea {...fieldProps} ref={ref} />;
-          }}
+          editView={(fieldProps, ref) => (
+            // @ts-ignore - textarea does not currently correctly pass through ref as a prop
+            <TextArea {...fieldProps} ref={ref} />
+          )}
           readView={() => (
             <ReadViewContainer>
               {this.state.editValue || 'Click to enter value'}

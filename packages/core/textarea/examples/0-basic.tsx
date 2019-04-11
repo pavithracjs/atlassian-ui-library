@@ -24,7 +24,7 @@ export default class extends React.Component {
         <TextArea resize="auto" isInvalid isCompact />
         <p>Smart, ref:</p>
         <div id="smart">
-          {/* 
+          {/*
           // @ts-ignore */}
           <TextArea
             ref={(ref: any) => {

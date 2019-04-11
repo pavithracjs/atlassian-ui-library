@@ -85,7 +85,7 @@ class InlineEditUncontrolled extends React.Component<
     }
   }
 
-  onCancelClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  onCancelClick = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     this.props.onCancel();
   };
@@ -183,7 +183,7 @@ class InlineEditUncontrolled extends React.Component<
       <ButtonsWrapper>
         <ButtonWrapper>
           <Button
-            ariaLabel={confirmButtonLabel}
+            aria-label={confirmButtonLabel}
             type="submit"
             iconBefore={<ConfirmIcon label="Confirm" size="small" />}
             shouldFitContainer
@@ -195,7 +195,7 @@ class InlineEditUncontrolled extends React.Component<
         </ButtonWrapper>
         <ButtonWrapper>
           <Button
-            ariaLabel={cancelButtonLabel}
+            aria-label={cancelButtonLabel}
             iconBefore={<CancelIcon label="Cancel" size="small" />}
             onClick={this.onCancelClick}
             onMouseDown={() => {
