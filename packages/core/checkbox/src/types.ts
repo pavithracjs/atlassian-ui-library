@@ -31,10 +31,8 @@ export interface CheckboxIconProps {
 }
 
 export interface CheckboxProps {
-  /** Index signature */
-  [key: string]: any;
   /** Sets whether the checkbox begins checked. */
-  defaultChecked: boolean;
+  defaultChecked?: boolean;
   /** id assigned to input */
   id?: string;
   /** Callback to receive a reference.  */

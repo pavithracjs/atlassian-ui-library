@@ -18,9 +18,8 @@ import {
 import { CheckboxProps } from './types';
 
 interface State {
-  [key: string]: boolean;
   isActive: boolean;
-  isChecked: boolean;
+  isChecked?: boolean;
   isFocused: boolean;
   isHovered: boolean;
   isMouseDown: boolean;
@@ -68,10 +67,6 @@ class Checkbox extends React.Component<CheckboxProps, State> {
       this.checkbox.indeterminate = !!isIndeterminate;
     }
   }
-
-  getProp = (key: string) => {
-    return key in this.props ? this.props[key] : this.state[key];
-  };
 
   onChange: React.ChangeEventHandler<HTMLInputElement> = event => {
     if (this.props.isDisabled) {
@@ -143,7 +138,10 @@ class Checkbox extends React.Component<CheckboxProps, State> {
       defaultChecked,
       ...rest
     } = this.props;
-    const isChecked = this.getProp('isChecked') as boolean;
+    const isChecked =
+      this.props.isChecked === undefined
+        ? this.state.isChecked
+        : this.props.isChecked;
     const { isFocused, isActive, isHovered } = this.state;
 
     return (
