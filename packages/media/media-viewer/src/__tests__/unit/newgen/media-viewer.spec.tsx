@@ -12,8 +12,10 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import { Subject } from 'rxjs/Subject';
 import Button from '@atlaskit/button';
+import { Shortcut } from '@atlaskit/media-ui';
 import { FileItem, Identifier } from '@atlaskit/media-core';
 import { KeyboardEventWithKeyCode } from '@atlaskit/media-test-helpers';
+import { AnalyticsListener } from '@atlaskit/analytics-next';
 import { createContext } from '../_stubs';
 import { Content } from '../../../newgen/content';
 import { MediaViewer } from '../../../newgen/media-viewer';
@@ -29,15 +31,18 @@ function createFixture(items: Identifier[], identifier: Identifier) {
     kind: 'ARRAY',
     items,
   };
+  const onEvent = jest.fn();
   const el = mount(
-    <MediaViewer
-      selectedItem={identifier}
-      itemSource={itemSource}
-      context={context}
-      onClose={onClose}
-    />,
+    <AnalyticsListener channel="media" onEvent={onEvent}>
+      <MediaViewer
+        selectedItem={identifier}
+        itemSource={itemSource}
+        context={context}
+        onClose={onClose}
+      />
+    </AnalyticsListener>,
   );
-  return { subject, el, onClose };
+  return { subject, el, onClose, onEvent };
 }
 
 describe('<MediaViewer />', () => {
@@ -84,6 +89,33 @@ describe('<MediaViewer />', () => {
     it('should trigger the screen event when the component loads', () => {
       createFixture([identifier], identifier);
       expect(mediaViewerModalEventSpy).toHaveBeenCalled();
+    });
+
+    it('should send analytics when closed with button', () => {
+      const { el, onEvent } = createFixture([identifier], identifier);
+
+      expect(el.find(CloseButtonWrapper)).toHaveLength(1);
+      el.find(CloseButtonWrapper)
+        .find(Button)
+        .simulate('click');
+      expect(onEvent).toHaveBeenCalled();
+      const closeEvent: any =
+        onEvent.mock.calls[onEvent.mock.calls.length - 1][0];
+      expect(closeEvent.payload.attributes.input).toEqual('button');
+    });
+
+    it('should send analytics when closed with esc key', () => {
+      const { el, onEvent } = createFixture([identifier], identifier);
+
+      expect(el.find(Shortcut)).toHaveLength(1);
+      const handler: any = el.find(Shortcut).prop('handler');
+      handler({
+        keyCode: 27,
+      });
+      expect(onEvent).toHaveBeenCalled();
+      const closeEvent: any =
+        onEvent.mock.calls[onEvent.mock.calls.length - 1][0];
+      expect(closeEvent.payload.attributes.input).toEqual('escKey');
     });
   });
 });

@@ -6,6 +6,7 @@ import {
 } from '../../model/Result';
 import { take } from '../SearchResultsUtil';
 import { messages } from '../../messages';
+import { JiraApplicationPermission } from '../GlobalQuickSearchWrapper';
 
 const MAX_OBJECTS = 8;
 const MAX_CONTAINERS = 6;
@@ -36,6 +37,7 @@ export const sliceResults = (resultsMap: GenericResultMap | null) => {
 
 export const mapRecentResultsToUIGroups = (
   recentlyViewedObjects: JiraResultsMap | null,
+  appPermission?: JiraApplicationPermission,
 ): ResultsGroup[] => {
   const {
     objectsToDisplay,
@@ -52,7 +54,10 @@ export const mapRecentResultsToUIGroups = (
     {
       items: containersToDisplay,
       key: 'containers',
-      title: messages.jira_recent_containers,
+      title:
+        appPermission && !appPermission.hasSoftwareAccess
+          ? messages.jira_recent_core_containers
+          : messages.jira_recent_containers,
     },
     {
       items: peopleToDisplay,
@@ -64,6 +69,7 @@ export const mapRecentResultsToUIGroups = (
 
 export const mapSearchResultsToUIGroups = (
   searchResultsObjects: JiraResultsMap | null,
+  appPermission?: JiraApplicationPermission,
 ): ResultsGroup[] => {
   const {
     objectsToDisplay,
@@ -79,7 +85,10 @@ export const mapSearchResultsToUIGroups = (
     {
       items: containersToDisplay,
       key: 'containers',
-      title: messages.jira_search_result_containers_heading,
+      title:
+        appPermission && !appPermission.hasSoftwareAccess
+          ? messages.jira_search_result_core_containers_heading
+          : messages.jira_search_result_containers_heading,
     },
     {
       items: peopleToDisplay,
