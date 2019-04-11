@@ -154,10 +154,9 @@ function addCodeMark(
 
     analyticsService.trackEvent('atlassian.editor.format.code.autoformatting');
     const regexStart = end - match[2].length + 1;
-    transformToCodeAction(regexStart, end, tr)
+    return transformToCodeAction(regexStart, end, tr)
       .delete(regexStart, regexStart + specialChar.length)
       .removeStoredMark(markType);
-    return tr;
   };
 }
 
