@@ -1,6 +1,6 @@
 export type NavGroupItem = {
   external?: boolean;
-  to?: string | Record<string, string | Location>;
+  to: string | Record<string, string | Location>;
   title: string;
   isSelected?: (param1: string, param2: string) => boolean;
   isCompact?: boolean;

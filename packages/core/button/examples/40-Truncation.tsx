@@ -1,26 +1,26 @@
-import * as React from 'react';
-import styled from 'styled-components';
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import Question from '@atlaskit/icon/glyph/question';
 import Expand from '@atlaskit/icon/glyph/arrow-down';
 
 import Button from '../src';
 
-const NarrowWrapper = styled.div`
-  margin: 10px;
-  padding: 10px;
-  width: 190px;
-  border: 1px solid red;
+const narrowWrapperStyle = {
+  margin: '10px',
+  padding: '10px',
+  width: '190px',
+  border: '1px solid red',
 
-  & > * {
-    margin-bottom: 10px;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-`;
+  '& > *': {
+    marginBottom: '10px',
+    '&:last-child': {
+      marginBottom: 0,
+    },
+  },
+};
 
 export default () => (
-  <NarrowWrapper>
+  <div css={narrowWrapperStyle}>
     <div>
       <Button appearance="primary">I am wider than my parent</Button>
     </div>
@@ -37,5 +37,5 @@ export default () => (
         I am wider than my parent
       </Button>
     </div>
-  </NarrowWrapper>
+  </div>
 );

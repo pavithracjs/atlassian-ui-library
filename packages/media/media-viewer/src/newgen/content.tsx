@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component, SyntheticEvent, ReactElement, ReactNode } from 'react';
 import CrossIcon from '@atlaskit/icon/glyph/cross';
-import Button from '@atlaskit/button';
+import MediaButton from '@atlaskit/media-ui/src/MediaButton';
 import { closeOnDirectClick } from './utils/closeOnDirectClick';
 import {
   ContentWrapper,
@@ -128,7 +128,7 @@ export class Content extends Component<ContentProps, ContentState> {
         onClick={this.onClick}
       >
         <CloseButtonWrapper className={hideControlsClassName}>
-          <Button
+          <MediaButton
             appearance={'toolbar' as any}
             onClick={onClose}
             iconBefore={<CrossIcon label="Close" />}

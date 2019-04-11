@@ -34,7 +34,7 @@ describe('<FabricEditorsListener />', () => {
   });
 
   const fireAndVerifySentEvent = (
-    Component: React.ComponentClass<OwnProps>,
+    Component: React.ComponentType<OwnProps>,
     expectedEvent: any,
   ) => {
     const compOnClick = jest.fn();

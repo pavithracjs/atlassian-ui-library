@@ -1,23 +1,7 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import * as React from 'react';
-import styled from 'styled-components';
-
 import Button from '../src';
-
-type Props = {
-  children: React.ReactChild;
-  innerRef: () => any;
-};
-
-class CustomComponent extends React.Component<Props> {
-  render() {
-    const { children, innerRef, ...props } = this.props;
-    return <div {...props}>{children}</div>;
-  }
-}
-
-const Buttons = styled.div`
-  padding: 10px;
-`;
 
 const PER_RUN = 100; // how many button groups to render
 const TEST_RUNS = 5; // how many render passes to run during the test
@@ -62,13 +46,24 @@ class PerfTest extends React.Component<{}, State> {
     for (let i = 1; i <= count; i++) {
       const buttonNumber = (i - 1) * BUTTON_COUNT;
       buttons.push(
-        <Buttons key={`buttons-${i}`}>
+        <div key={`buttons-${i}`} css={{ padding: '10px' }}>
           <Button appearance="default">Button {buttonNumber + 1}</Button>
           <Button appearance="danger">Button {buttonNumber + 2}</Button>
           <Button appearance="primary">Button {buttonNumber + 3}</Button>
           <Button appearance="warning">Button {buttonNumber + 4}</Button>
-          <Button component={CustomComponent}>Button {buttonNumber + 5}</Button>
-        </Buttons>,
+          <Button
+            component={React.forwardRef<
+              HTMLDivElement,
+              React.AllHTMLAttributes<HTMLElement>
+            >((props, ref) => (
+              <div {...props} ref={ref}>
+                {props.children}
+              </div>
+            ))}
+          >
+            Button {buttonNumber + 5}
+          </Button>
+        </div>,
       );
     }
     return buttons;
@@ -76,11 +71,11 @@ class PerfTest extends React.Component<{}, State> {
   render() {
     return (
       <div>
-        <Buttons>
+        <div css={{ padding: '10px' }}>
           <Button appearance="primary" onClick={this.startTest}>
             Start Test
           </Button>
-        </Buttons>
+        </div>
         <div>{this.renderButtons()}</div>
       </div>
     );
