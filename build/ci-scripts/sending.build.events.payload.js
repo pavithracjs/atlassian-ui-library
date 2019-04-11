@@ -1,4 +1,4 @@
-/* Script to send build data to the fabric build stats service. */
+/* Script to send build events data to the fabric build stats service. */
 /* The repository is available there: https://bitbucket.org/atlassian/fabric-build-stats-service/.
 /* The service is available in dev: https://fabric-build-stats-service.ap-southeast-2.dev.public.atl-paas.net/.
 /* The production url will be available soon.*/
