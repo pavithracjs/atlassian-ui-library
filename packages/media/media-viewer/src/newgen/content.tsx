@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component, SyntheticEvent, ReactElement, ReactNode } from 'react';
 import CrossIcon from '@atlaskit/icon/glyph/cross';
-import MediaButton from '@atlaskit/media-ui/src/MediaButton';
+import { MediaButton } from '@atlaskit/media-ui';
 import { closeOnDirectClick } from './utils/closeOnDirectClick';
 import {
   ContentWrapper,
