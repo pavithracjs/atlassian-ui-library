@@ -9,6 +9,11 @@ async function getFilesConfigInfo() {
     jestConfig: { name: 'jest.config.js' },
     jestFramework: { name: 'jestFrameworkSetup.js' },
     babelConfig: { name: 'babel.config.js' },
+    eslintIgnore: { name: '.eslintignore' },
+    eslintTrc: { name: '.eslintrc.json' },
+    flowConfig: { name: '.flowconfig' },
+    styleLintIgnore: { name: '.stylelintignore' },
+    styleLintTrc: { name: '.stylelintrc' },
     tsConfigBase: { name: 'jtsconfig.base.json' },
     tsConfigMedia: { name: 'tsconfig.media.json' },
     tsConfigEntry: { name: 'tsconfig.entry-points.json' },
@@ -30,7 +35,7 @@ async function getFilesConfigInfo() {
       return filesConfiguration;
     }),
   ).catch(err => console.error(err));
-
+  let isBabel = filesConfiguration['babelConfig'].exists;
   let isKarma = filesConfiguration['projector'].exists;
   let isTypecheck =
     filesConfiguration['tsConfigBase'].exists ||
@@ -44,75 +49,38 @@ async function getFilesConfigInfo() {
     filesConfiguration['jestFramework'].exists ||
     filesConfiguration['tsConfigJest'].exists ||
     filesConfiguration['resolver'].exists;
+  let isEslint =
+    filesConfiguration['eslintIgnore'].exists ||
+    filesConfiguration['eslintTrc'].exists;
+  let isFlow = filesConfiguration['flowConfig'].exists;
+  let isStyleLint =
+    filesConfiguration['styleLintIgnore'].exists ||
+    filesConfiguration['styleLintTrc'].exists;
   return {
     filesConfiguration,
+    isBabel,
+    isEslint,
+    isFlow,
     isKarma,
     isTypecheck,
     isTsLint,
+    isStyleLint,
     isTest,
   };
-  // try{
-  // const pathToJestConfig = path.join(root, 'jest.config.js');
-  // const pathToJestFramework = path.join(root, 'jestFrameworkSetup.js');
-
-  // let isJestConfigExists = await exists(path.join(root, 'jest.config.js'));
-  // let isJestFrameworkExists = await exists(
-  //   path.join(root, 'jestFrameworkSetup.js'),
-  // );
-  // let isBabelConfigExists = await exists(path.join(root, 'babel.config.js'));
-  // let isTsBaseConfigExists = await exists(
-  //   path.join(root, 'tsconfig.base.json'),
-  // );
-  // let isTsMediaConfigExists = await exists(
-  //   path.join(root, 'tsconfig.media.json'),
-  // );
-  // let isTsEntryPointsConfigExists = await exists(
-  //   path.join(root, 'tsconfig.entry-points.json'),
-  // );
-  // let isTsJestConfigExists = await exists(
-  //   path.join(root, 'tsconfig.jest.json'),
-  // );
-  // let isTsTypecheckConfigExists = await exists(
-  //   path.join(root, 'tsconfig.typecheck.json'),
-  // );
-  // let isTsLintSourcesExists = await exists(
-  //   path.join(root, 'tslint.sources.json'),
-  // );
-  // let isProjectorExists = await exists(path.join(root, 'projector.js'));
-  // let isResolverExists = await exists(path.join(root, 'resolver.js'));
-
-  // let isKarma = isProjectorExists;
-  // let isTypecheck =
-  //   isTsBaseConfigExists ||
-  //   isTsEntryPointsConfigExists ||
-  //   isTsMediaConfigExists ||
-  //   isTsTypecheckConfigExists;
-  // let isTsLint = isTsLintSourcesExists;
-  // let isTest =
-  //   isBabelConfigExists ||
-  //   isJestConfigExists ||
-  //   isJestFrameworkExists ||
-  //   isTsJestConfigExists ||
-  //   isResolverExists;
-  // return {
-  //   isKarma,
-  //   isTypecheck,
-  //   isTsLint,
-  //   isTest,
-  // };
-  // }
-  // } catch (err) {
-  //   console.error(err);
-  // }
 }
 
 const CONFIG_FILES_TO_FILTERS_BY_TOOL_NAME /*: { [key: string]: (pkg: Object) => boolean } */ = {
+  babel: file => file.isBabel,
+  browserstack: file => file.isTest,
+  flow: file => file.isFlow,
   karma: file => file.isKarma,
+  eslint: file => file.isTsLint,
+  stylelint: file => file.isStyleLint,
   typecheck: file => file.isTypecheck,
   tslint: file => file.isTsLint,
   unit: file => file.isTest,
-  webdriver: file => file.isTest,
   vr: file => file.isTest,
+  webdriver: file => file.isTest,
 };
 
 module.exports = {

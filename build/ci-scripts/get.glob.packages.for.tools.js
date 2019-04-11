@@ -1,8 +1,8 @@
 // @flow
 const {
   getPackagesInfo,
-  TOOL_NAME_TO_FILTERS,
-} = require('@atlaskit/build-utils/tools');
+  PACKAGE_TO_FILTERS_BY_TOOL_NAME,
+} = require('@atlaskit/build-utils/getPackagesChangedByTool.js');
 
 (async () => {
   let cwd = process.cwd();
@@ -11,19 +11,19 @@ const {
   if (!toolNames.length) {
     console.error(
       `Please pass one or more tool names (${Object.keys(
-        TOOL_NAME_TO_FILTERS,
+        PACKAGE_TO_FILTERS_BY_TOOL_NAME,
       ).join(', ')})`,
     );
     throw process.exit(1);
   }
 
   let filters = toolNames.map(toolName => {
-    let filterFn = TOOL_NAME_TO_FILTERS[toolName];
+    let filterFn = PACKAGE_TO_FILTERS_BY_TOOL_NAME[toolName];
 
     if (!filterFn) {
       console.error(
         `Invalid tool name: "${toolName}" (${Object.keys(
-          TOOL_NAME_TO_FILTERS,
+          PACKAGE_TO_FILTERS_BY_TOOL_NAME,
         ).join(', ')})`,
       );
       throw process.exit(1);
