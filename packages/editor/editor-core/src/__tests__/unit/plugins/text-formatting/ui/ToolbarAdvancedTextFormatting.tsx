@@ -130,7 +130,7 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
     toolbarOption.unmount();
   });
 
-  it.only('should render disabled toolbar button when all marks and strikethrough and clearformatting are disabled', () => {
+  it('should render disabled toolbar button when all marks and strikethrough and clearformatting are disabled', () => {
     const { editorView, pluginState: textFormattingState } = editor(
       doc(p('text')),
     );
