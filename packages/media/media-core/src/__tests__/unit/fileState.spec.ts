@@ -90,9 +90,44 @@ describe('isImageRepresentationReady()', () => {
     expect(isImageRepresentationReady(processingFailedWithImage)).toBe(true);
   });
 
-  it('should return false for state without representations', () => {
-    expect(isImageRepresentationReady({ status: 'error', id: 'some-id' })).toBe(
-      false,
-    );
+  it('should return false for error state', () => {
+    expect(
+      isImageRepresentationReady({ status: 'error', id: 'some-id' }),
+    ).toBeFalsy();
+  });
+
+  it('should return false for non error state and representations missings', () => {
+    expect(
+      isImageRepresentationReady({
+        status: 'processing',
+        id: 'some-id',
+        mediaType: 'video',
+        mimeType: '',
+        name: '',
+        size: 0,
+      }),
+    ).toBeFalsy();
+    expect(
+      isImageRepresentationReady({
+        status: 'processed',
+        id: 'some-id',
+        mediaType: 'video',
+        mimeType: '',
+        name: '',
+        size: 0,
+        artifacts: {},
+      }),
+    ).toBeFalsy();
+    expect(
+      isImageRepresentationReady({
+        status: 'failed-processing',
+        id: 'some-id',
+        mediaType: 'video',
+        mimeType: '',
+        name: '',
+        size: 0,
+        artifacts: {},
+      }),
+    ).toBeFalsy();
   });
 });

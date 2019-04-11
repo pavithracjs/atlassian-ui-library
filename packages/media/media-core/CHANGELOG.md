@@ -1,5 +1,10 @@
 # @atlaskit/media-core
 
+## 29.1.3
+- [patch] [30a9a7177e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/30a9a7177e):
+
+  - [MS-1791] Make fileState.representations optional, since media api might not return that value in all cases and we want to prevent a runtime error
+
 ## 29.1.2
 - Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
   - @atlaskit/media-store@11.0.5
