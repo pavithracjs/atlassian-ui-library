@@ -4,8 +4,8 @@ import FeedbackButton from './FeedbackButton';
 import FeedbackCollector, { FeedbackFlag } from '@atlaskit/feedback-collector';
 import { FlagGroup } from '@atlaskit/flag';
 
-const EMBEDDABLE_KEY = '?????';
-const REQUEST_TYPE_ID = '?????';
+const EMBEDDABLE_KEY = '85dc6027-c074-4800-ba54-4ecb844b29f8';
+const REQUEST_TYPE_ID = '182';
 
 export interface FeedbackCollectorProps {
   name: string;
