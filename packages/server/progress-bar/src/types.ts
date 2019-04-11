@@ -13,10 +13,13 @@ export type ThemeTokens = {
 };
 
 export interface CustomProgressBarProps {
+  /** Current progress, a number between 0 and 1. */
   value: number;
+  /** When true the component is in indeterminate state. */
   indeterminate: boolean;
 }
 
 export interface ProgressBarProps extends CustomProgressBarProps {
+  /** The theme the component should use. */
   theme?: ThemeProp<ThemeTokens, ThemeProps>;
 }

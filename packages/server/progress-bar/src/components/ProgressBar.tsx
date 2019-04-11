@@ -24,6 +24,8 @@ const Bar = ({
   return <span css={[tokens.bar, tokens.determinateBar]} />;
 };
 
+export { ProgressBarProps };
+
 export default class extends React.PureComponent<ProgressBarProps> {
   static defaultProps = {
     value: 0,
