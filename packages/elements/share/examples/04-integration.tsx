@@ -1,11 +1,14 @@
 import { OptionData } from '@atlaskit/user-picker';
 import { userPickerData } from '@atlaskit/util-data-test';
 import * as React from 'react';
+import { IntlProvider } from 'react-intl';
+import App from '../example-helpers/AppWithFlag';
 import { ShareDialogContainer } from '../src';
 import {
   Comment,
   ConfigResponse,
   Content,
+  Flag,
   KeysOfType,
   MetaData,
   OriginTracing,
@@ -89,16 +92,23 @@ const client: ShareClient = {
 };
 
 export default () => (
-  <ShareDialogContainer
-    client={client}
-    cloudId="12345-12345-12345-12345"
-    loadUserOptions={loadUserOptions}
-    originTracingFactory={() => mockOriginTracing}
-    productId="confluence"
-    shareAri="ari"
-    shareContentType="page"
-    shareLink={window.location.href}
-    shareTitle="My Share"
-    triggerButtonStyle="icon-with-text"
-  />
+  <IntlProvider locale="en">
+    <App>
+      {(showFlags: (flags: Array<Flag>) => void) => (
+        <ShareDialogContainer
+          client={client}
+          cloudId="12345-12345-12345-12345"
+          loadUserOptions={loadUserOptions}
+          originTracingFactory={() => mockOriginTracing}
+          productId="confluence"
+          shareAri="ari"
+          shareContentType="page"
+          shareLink={window.location.href}
+          shareTitle="My Share"
+          showFlags={showFlags}
+          triggerButtonStyle="icon-with-text"
+        />
+      )}
+    </App>
+  </IntlProvider>
 );

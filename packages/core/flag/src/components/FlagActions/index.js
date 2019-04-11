@@ -63,7 +63,7 @@ export default class FlagActions extends Component<Props, {}> {
 
     return (
       <ThemeProvider theme={getFlagTheme}>
-        <Container>{items}</Container>
+        <Container appearance={appearance}>{items}</Container>
       </ThemeProvider>
     );
   }

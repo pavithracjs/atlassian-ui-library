@@ -1,5 +1,10 @@
 # @atlaskit/media-viewer
 
+## 40.1.4
+- [patch] [4e1138a13a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4e1138a13a):
+
+  - add close event to MVNG
+
 ## 40.1.3
 - [patch] [32317ff8f3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/32317ff8f3):
 

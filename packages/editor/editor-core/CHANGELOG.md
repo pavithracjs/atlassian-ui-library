@@ -1,5 +1,15 @@
 # @atlaskit/editor-core
 
+## 107.12.2
+- [patch] [24612aced0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/24612aced0):
+
+  - [ED-6467] Fixes alignments (left and right) for images, making them keep on the half of lineLength
+
+## 107.12.1
+- [patch] [098e5197b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/098e5197b6):
+
+  - ED-6197 Provide fallback for image resizing snapTo. Set media resizing to be based on bounding box instead of chained parent offsets.
+
 ## 107.12.0
 - [minor] [049ff62abf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/049ff62abf):
 

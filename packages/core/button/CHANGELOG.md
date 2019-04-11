@@ -1,5 +1,10 @@
 # @atlaskit/button
 
+## 11.0.11
+- [patch] [f8d92ffc5e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f8d92ffc5e):
+
+  - Revert the change to consume entry points from theme
+
 ## 11.0.10
 - [patch] [5e3ad7f751](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e3ad7f751):
 

@@ -44,41 +44,55 @@ const getNoOptionsMessage = ({
       ) as any)
     : null;
 
-export const UserPickerField: React.StatelessComponent<Props> = props => (
-  <Field name="users" validate={validate} defaultValue={props.defaultValue}>
-    {({ fieldProps, error, meta: { valid } }: FieldChildrenArgs<Value>) => (
-      <>
-        <FormattedMessage {...messages.userPickerAddMoreMessage}>
-          {addMore => (
-            <UserPicker
-              {...fieldProps}
-              fieldId="share"
-              loadOptions={props.loadOptions}
-              isMulti
-              width="100%"
-              placeholder={
-                <FormattedMessage {...messages.userPickerPlaceholder} />
-              }
-              addMoreMessage={addMore as string}
-              allowEmail={allowEmails(props.config)}
-              isValidEmail={isValidEmailUsingConfig(props.config)}
-              noOptionsMessage={getNoOptionsMessage}
-            />
-          )}
-        </FormattedMessage>
-        {showInviteWarning(props.config, fieldProps.value) && (
-          <HelperMessage>
-            {props.capabilitiesInfoMessage || (
-              <FormattedMessage {...messages.capabilitiesInfoMessage} />
+export class UserPickerField extends React.Component<Props> {
+  private loadOptions = (search?: string) => {
+    const { loadOptions } = this.props;
+    if (loadOptions && search && search.length > 0) {
+      return loadOptions(search);
+    } else {
+      return [];
+    }
+  };
+
+  render() {
+    const { defaultValue, config, capabilitiesInfoMessage } = this.props;
+    return (
+      <Field name="users" validate={validate} defaultValue={defaultValue}>
+        {({ fieldProps, error, meta: { valid } }: FieldChildrenArgs<Value>) => (
+          <>
+            <FormattedMessage {...messages.userPickerAddMoreMessage}>
+              {addMore => (
+                <UserPicker
+                  {...fieldProps}
+                  fieldId="share"
+                  loadOptions={this.loadOptions}
+                  isMulti
+                  width="100%"
+                  placeholder={
+                    <FormattedMessage {...messages.userPickerPlaceholder} />
+                  }
+                  addMoreMessage={addMore as string}
+                  allowEmail={allowEmails(config)}
+                  isValidEmail={isValidEmailUsingConfig(config)}
+                  noOptionsMessage={getNoOptionsMessage}
+                />
+              )}
+            </FormattedMessage>
+            {showInviteWarning(config, fieldProps.value) && (
+              <HelperMessage>
+                {capabilitiesInfoMessage || (
+                  <FormattedMessage {...messages.capabilitiesInfoMessage} />
+                )}
+              </HelperMessage>
             )}
-          </HelperMessage>
+            {!valid && error === REQUIRED && (
+              <ErrorMessage>
+                <FormattedMessage {...messages.userPickerRequiredMessage} />
+              </ErrorMessage>
+            )}
+          </>
         )}
-        {!valid && error === REQUIRED && (
-          <ErrorMessage>
-            <FormattedMessage {...messages.userPickerRequiredMessage} />
-          </ErrorMessage>
-        )}
-      </>
-    )}
-  </Field>
-);
+      </Field>
+    );
+  }
+}

@@ -1,5 +1,15 @@
 # @atlaskit/share
 
+## 0.3.6
+- [patch] [e03dea5f5d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e03dea5f5d):
+
+  - FS-3792 do no call loadUser on empty query
+
+## 0.3.5
+- [patch] [77c2d7bb2b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/77c2d7bb2b):
+
+  - Added flags for successful share
+
 ## 0.3.4
 - [patch] [0f4109e919](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f4109e919):
 

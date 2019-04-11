@@ -67,10 +67,10 @@ export const DismissButton = styled.button`
   color: ${flagTextColor};
   cursor: pointer;
   flex: 0 0 auto;
+  line-height: 1;
   margin-left: ${gridSize}px;
   padding: 0;
   white-space: nowrap;
-
   &:focus {
     outline: none;
     box-shadow: 0 0 0 2px ${flagFocusRingColor};
