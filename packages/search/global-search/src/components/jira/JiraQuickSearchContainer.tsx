@@ -219,10 +219,16 @@ export class JiraQuickSearchContainer extends React.Component<
           </BeforePreQueryStateContainer>
         )}
         getPreQueryGroups={() =>
-          mapRecentResultsToUIGroups(recentItems as JiraResultsMap)
+          mapRecentResultsToUIGroups(
+            recentItems as JiraResultsMap,
+            this.props.appPermission,
+          )
         }
         getPostQueryGroups={() =>
-          mapSearchResultsToUIGroups(searchResults as JiraResultsMap)
+          mapSearchResultsToUIGroups(
+            searchResults as JiraResultsMap,
+            this.props.appPermission,
+          )
         }
         renderNoResult={() => (
           <NoResultsState
