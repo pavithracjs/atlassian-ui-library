@@ -690,7 +690,7 @@ exports[`Renderer - EmailSerializer should render headings 1-6 correctly 1`] = `
     Heading 5
   </h5>
   <h6
-    style="font-style: inherit;color: #6B778C;font-weight: 600;margin-bottom: 0;font-size: 11px;line-height: 1.3333;text-transform: uppercase;margin-top: 16px;"
+    style="font-style: inherit;color: #172B4D;font-weight: 600;margin-bottom: 0;font-size: 11px;line-height: 1.3333;text-transform: uppercase;margin-top: 16px;"
   >
     Heading 6
   </h6>
