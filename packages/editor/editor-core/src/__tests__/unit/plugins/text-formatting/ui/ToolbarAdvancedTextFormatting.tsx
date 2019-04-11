@@ -287,7 +287,7 @@ describe('@atlaskit/editor-core/ui/ToolbarAdvancedTextFormatting', () => {
         editorView={editorView}
       />,
     );
-    expect(toolbarOption.find('Button').prop('isDisabled')).toBe(true);
+    expect(toolbarOption.find('button').prop('disabled')).toBe(true);
     toolbarOption.unmount();
   });
 
