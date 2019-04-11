@@ -5,7 +5,7 @@ const { exists } = require('./fs');
 
 async function getFilesConfigInfo() {
   let root = process.cwd();
-  let filesConfiguration = {
+  let filesConfiguration /*: { [key: string]: Object} */ = {
     jestConfig: { name: 'jest.config.js' },
     jestFramework: { name: 'jestFrameworkSetup.js' },
     babelConfig: { name: 'babel.config.js' },
@@ -69,7 +69,7 @@ async function getFilesConfigInfo() {
   };
 }
 
-const CONFIG_FILES_TO_FILTERS_BY_TOOL_NAME /*: { [key: string]: (pkg: Object) => boolean } */ = {
+const CONFIG_FILES_TO_FILTERS_BY_TOOL_NAME /*: { [key: string]: (file: Object) => boolean } */ = {
   babel: file => file.isBabel,
   browserstack: file => file.isTest,
   flow: file => file.isFlow,

@@ -15,7 +15,7 @@ const {
 
 const toolFilters = (
   toolNames /*: Array<string> */,
-  configuration /*: object */,
+  configuration /*: { [key: string]: (file: Object) => boolean } */,
 ) => {
   return toolNames.map(toolName => {
     let filterFn = configuration[toolName];
@@ -44,7 +44,6 @@ const toolFilters = (
   const dashdashIndex = args.indexOf('--');
   const command = args.slice(dashdashIndex + 1);
   const toolNames = args.slice(0, dashdashIndex);
-  console.log(toolNames);
   if (dashdashIndex < 0 || command.length === 0) {
     console.error('Incorrect usage, run it like this:\n');
     console.error(
@@ -86,6 +85,9 @@ const toolFilters = (
   // Find the matched files:
   filterToolsPerPackage.push(file => changedFiles.includes(file));
   files = Object.keys(files.filesConfiguration).map(
+    // As files is mutable, Flow is lost
+    // Actual error: `files.filesConfiguration because property filesConfiguration is missing in Array`.
+    // $FlowFixMe
     fileName => files.filesConfiguration[fileName].path,
   );
   let matchedFiles = !!files.find(file =>
