@@ -40,7 +40,7 @@ interface State {
 }
 
 // Wraps global-search in AK Navigation and offers a context/locale switch
-export default function withNavigation(
+export default function withNavigation<P>(
   WrappedComponent: ComponentType<Props>,
   props?: Config,
 ): ComponentType<Partial<Props>> {
