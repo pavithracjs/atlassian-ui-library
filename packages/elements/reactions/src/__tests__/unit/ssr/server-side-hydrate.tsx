@@ -32,7 +32,10 @@ describe('server side rendering and hydration', async () => {
     // @ts-ignore
     const mockCalls = console.error.mock.calls;
     const filtered = mockCalls.filter((mock: any) => !warningRegEx.test(mock));
-    const mockCallsWithoutStyleErrors = [].concat.apply([], filtered);
+    const mockCallsWithoutStyleErrors = filtered.reduce(
+      (a: any, v: any) => a.concat(v),
+      [],
+    );
     expect(mockCallsWithoutStyleErrors).toHaveLength(0);
   });
 });

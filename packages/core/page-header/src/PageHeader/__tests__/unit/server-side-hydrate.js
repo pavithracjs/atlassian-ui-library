@@ -27,6 +27,9 @@ test('should ssr then hydrate page-header correctly', async () => {
 
   const mockCalls = console.error.mock.calls; // eslint-disable-line no-console
   const filtered = mockCalls.filter((mock: any) => !warningRegEx.test(mock));
-  const mockCallsWithoutStyleErrors = [].concat.apply([], filtered);
+  const mockCallsWithoutStyleErrors = filtered.reduce(
+    (a, v) => a.concat(v),
+    [],
+  );
   expect(mockCallsWithoutStyleErrors).toHaveLength(0);
 });
