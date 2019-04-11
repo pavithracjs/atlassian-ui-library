@@ -1,15 +1,15 @@
 {
   "name": "@atlaskit/progress-bar",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A React component that is a progress bar",
   "license": "Apache-2.0",
-  "module": "index.js",
+  "module": "index.ts",
   "types": "index.d.ts",
   "atlaskit:src": "src/index.tsx",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "Artur Y"
+    "Artur Yapparov"
   ],
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {

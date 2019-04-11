@@ -1,5 +1,5 @@
-import * as React from 'react';
-
-export default function() {
-  return <p>Hello World</p>;
-}
+export { default } from './components/ProgressBar';
+export { default as SuccessProgressBar } from './components/SuccessProgressBar';
+export {
+  default as TransparentProgressBar,
+} from './components/TransparentProgressBar';

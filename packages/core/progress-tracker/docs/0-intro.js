@@ -22,7 +22,7 @@ export default md`
     />
   )}
 
-  They can be replaced with a custom component which will receieve stage data as a prop.
+  They can be replaced with a custom component which will receive stage data as a prop.
 
   ${(
     <Example

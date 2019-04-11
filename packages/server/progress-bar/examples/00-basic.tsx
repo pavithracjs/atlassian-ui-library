@@ -1,10 +1,15 @@
 import * as React from 'react';
 import ProgressBar from '../src';
 
-export default function() {
-  return (
-    <div>
-      <ProgressBar />
-    </div>
-  );
-}
+export const progress = 0.4;
+export const containerStyle: React.CSSProperties = {
+  boxSizing: 'border-box',
+  padding: 20,
+  width: 600,
+};
+
+export default () => (
+  <div style={containerStyle}>
+    <ProgressBar value={progress} />
+  </div>
+);
