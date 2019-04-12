@@ -1,0 +1,1 @@
+- Add positionFixed property to Popper
