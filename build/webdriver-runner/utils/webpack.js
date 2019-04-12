@@ -58,12 +58,17 @@ function packageIsInPatternOrChanged(workspace) {
   /**
    * If the CHANGED_PACKAGES variable is set,
    * parsing it to get an array of changed packages and only
-   * build those packages
+   * build those packages.
    */
   if (CHANGED_PACKAGES) {
-    return JSON.parse(CHANGED_PACKAGES).some(pkg =>
-      workspace.dir.includes(pkg),
-    );
+    const parsedChangedPackages = JSON.parse(CHANGED_PACKAGES);
+    if (
+      parsedChangedPackages.includes('webpack-config') &&
+      !parsedChangedPackages.includes('website')
+    ) {
+      parsedChangedPackages.replace('build/webpack-config', 'website');
+    }
+    return parsedChangedPackages.some(pkg => workspace.dir.includes(pkg));
   }
 
   /* Match and existing pattern is passed through the command line */
