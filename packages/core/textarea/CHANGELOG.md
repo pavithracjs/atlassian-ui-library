@@ -1,5 +1,10 @@
 # @atlaskit/textarea
 
+## 0.4.2
+- [patch] [cf018d7630](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cf018d7630):
+
+  - Allow RefObject to be passed in as ref (i.e. using React.createRef()) and set inner padding to 0
+
 ## 0.4.1
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2

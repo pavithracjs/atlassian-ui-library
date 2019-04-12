@@ -1,5 +1,9 @@
 # @atlaskit/page-header
 
+## 7.0.4
+- Updated dependencies [71e2d2cb3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/71e2d2cb3c):
+  - @atlaskit/inline-edit@9.0.0
+
 ## 7.0.3
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2

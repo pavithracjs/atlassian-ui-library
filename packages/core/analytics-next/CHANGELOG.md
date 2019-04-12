@@ -1,5 +1,10 @@
 # @atlaskit/analytics-next
 
+## 4.0.4
+- [patch] [9321da655d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9321da655d):
+
+  - Update AnalyticsEventMap, as per major inline edit rewrite
+
 ## 4.0.3
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2

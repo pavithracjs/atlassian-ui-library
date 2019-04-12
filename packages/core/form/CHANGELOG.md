@@ -1,5 +1,10 @@
 # @atlaskit/form
 
+## 5.2.6
+- [patch] [9b0bdd73c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0bdd73c2):
+
+  - Remove unused inline edit dependency from package
+
 ## 5.2.5
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
