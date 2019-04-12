@@ -71,9 +71,9 @@ describe('dropdown menu', () => {
         const menu = mount(val);
         const button = menu.find(Button);
         expect(button.prop('isSelected')).toBe(menu.props().defaultOpen);
-        expect(button.prop('ariaHaspopup')).toBe(true);
-        expect(button.prop('ariaExpanded')).toBe(menu.props().defaultOpen);
-        expect(button.prop('ariaControls')).not.toBe(undefined);
+        expect(button.prop('aria-haspopup')).toBe(true);
+        expect(button.prop('aria-expanded')).toBe(menu.props().defaultOpen);
+        expect(button.prop('aria-controls')).not.toBe(undefined);
       });
     });
 
@@ -106,7 +106,7 @@ describe('dropdown menu', () => {
         ...defaultButtonProps,
         appearance: 'subtle',
         id: 'button-123',
-        theme: 'dark',
+        theme: (c, p) => c({ ...p, mode: 'dark' }),
       };
       const menu = mount(
         <Menu triggerType="button" triggerButtonProps={triggerProps}>

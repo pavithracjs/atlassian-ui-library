@@ -1,5 +1,20 @@
 # @atlaskit/media-ui
 
+## 10.1.3
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/avatar@15.0.3
+  - @atlaskit/avatar-group@3.0.3
+  - @atlaskit/checkbox@6.0.3
+  - @atlaskit/dropdown-menu@7.0.4
+  - @atlaskit/field-text@8.0.2
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/page@9.0.3
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/tooltip@13.0.3
+  - @atlaskit/button@12.0.0
+
 ## 10.1.2
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 

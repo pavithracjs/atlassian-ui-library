@@ -10,7 +10,10 @@ type ManageButtonProps = {
 };
 
 export default class ManageButton extends React.Component<ManageButtonProps> {
-  onClick = (_: any, analyticsEvent: UIAnalyticsEvent) => {
+  onClick = (
+    _: React.MouseEvent<HTMLElement>,
+    analyticsEvent: UIAnalyticsEvent,
+  ) => {
     analyticsEvent
       .update({
         eventType: UI_EVENT_TYPE,

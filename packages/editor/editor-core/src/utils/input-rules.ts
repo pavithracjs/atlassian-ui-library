@@ -86,7 +86,8 @@ const hasUnsupportedMarkForInputRule = (
     schema: { marks },
   } = state;
   let unsupportedMarksPresent = false;
-  const isCodemark = (mark: PMMark) => mark.type === marks.code;
+  const isCodemark = (node: PMMark) =>
+    node.type === marks.code || node.type === marks.typeAheadQuery;
   doc.nodesBetween(start, end, node => {
     unsupportedMarksPresent =
       unsupportedMarksPresent || node.marks.filter(isCodemark).length > 0;

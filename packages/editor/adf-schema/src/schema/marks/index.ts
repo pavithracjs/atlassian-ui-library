@@ -9,6 +9,7 @@ export {
   LinkDefinition,
   toJSON as linkToJSON,
 } from './link';
+export { emojiQuery } from './emoji-query';
 export { typeAheadQuery } from './type-ahead-query';
 export { subsup, SubSupDefinition, SubSupAttributes } from './subsup';
 export {

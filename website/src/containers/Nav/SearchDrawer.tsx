@@ -15,7 +15,7 @@ import { Directory } from '../../types';
 import { AtlaskitIcon } from './index';
 
 export type LinkComponentProps = LinkProps & {
-  href: string | Record<string, string | Location> | undefined;
+  href: string | Record<string, string | Location>;
 };
 
 const LinkComponent = toClass(

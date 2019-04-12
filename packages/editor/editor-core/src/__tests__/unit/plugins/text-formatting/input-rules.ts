@@ -710,6 +710,15 @@ describe('text-formatting input rules', () => {
         doc(p('words (', code('code'), '{<>}')),
       );
     });
+
+    it('should delete an existing selection and apply', () => {
+      const { editorView } = editor(doc(p('here `some{<} words{>}')));
+      typeText(editorView, '`');
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(p('here ', code('some{<>}'))),
+      );
+    });
   });
 
   describe('nested rules', () => {

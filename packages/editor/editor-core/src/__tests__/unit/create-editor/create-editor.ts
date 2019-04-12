@@ -40,7 +40,7 @@ describe(name, () => {
       it('should remove all unused marks from exclude', () => {
         const marks = {
           code: {
-            excludes: 'textStyle typeAheadQuery',
+            excludes: 'textStyle emojiQuery',
             group: 'code',
           },
           em: {

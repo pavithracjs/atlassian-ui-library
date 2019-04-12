@@ -256,7 +256,6 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       inputValue: '',
     });
     callCallback(this.props.onInputChange, '');
-    this.executeLoadOptions('');
   };
 
   private handleBlur = () => {
@@ -276,6 +275,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     callCallback(this.props.onClose);
     this.setState({
       menuIsOpen: false,
+      options: [],
     });
   };
 
@@ -484,6 +484,6 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
   }
 }
 
-export const BaseUserPicker: React.ComponentClass<
-  Props
-> = withAnalyticsEvents()(UserPickerInternal);
+export const BaseUserPicker: React.ComponentType<Props> = withAnalyticsEvents()(
+  UserPickerInternal,
+);

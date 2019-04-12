@@ -56,7 +56,7 @@ const defaultNavGroups = [
 ];
 
 export type DefaultNavProps = {
-  onClick?: (e: Event) => void;
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
   pathname: string;
 };
 

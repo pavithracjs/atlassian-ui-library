@@ -9,7 +9,7 @@ import {
   isExternalImageIdentifier,
 } from '@atlaskit/media-core';
 import { DownloadButtonWrapper } from './styled';
-import Button from '@atlaskit/button';
+import { MediaButton } from '@atlaskit/media-ui';
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import {
   downloadButtonEvent,
@@ -28,7 +28,7 @@ export const DownloadButton: any = withAnalyticsEvents({
     const ev = createEvent(props.analyticsPayload);
     ev.fire(channel);
   },
-})(Button);
+})(MediaButton);
 
 export const createItemDownloader = (
   file: FileState,
@@ -94,7 +94,7 @@ export const ToolbarDownloadButton = (props: ToolbarDownloadButtonProps) => {
 };
 
 export const DisabledToolbarDownloadButton = (
-  <Button
+  <MediaButton
     appearance={'toolbar' as any}
     isDisabled={true}
     iconBefore={downloadIcon}

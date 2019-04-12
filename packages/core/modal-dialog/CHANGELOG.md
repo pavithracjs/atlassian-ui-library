@@ -1,5 +1,23 @@
 # @atlaskit/modal-dialog
 
+## 8.0.6
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/avatar@15.0.3
+  - @atlaskit/blanket@8.0.2
+  - @atlaskit/checkbox@6.0.3
+  - @atlaskit/field-radio-group@5.0.2
+  - @atlaskit/field-text@8.0.2
+  - @atlaskit/form@5.2.5
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/inline-dialog@10.0.3
+  - @atlaskit/portal@0.3.1
+  - @atlaskit/select@8.0.5
+  - @atlaskit/textfield@0.4.3
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/button@12.0.0
+
 ## 8.0.5
 - [patch] [cc8378fcd4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc8378fcd4):
 
