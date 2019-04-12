@@ -1,5 +1,10 @@
 # @atlaskit/adf-schema
 
+## 2.5.2
+- [patch] [6695367885](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6695367885):
+
+  - Revert emoji refactor
+
 ## 2.5.1
 - [patch] [c01f9e1cc7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c01f9e1cc7):
 

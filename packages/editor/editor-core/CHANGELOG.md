@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.12.6
+- [patch] [6695367885](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6695367885):
+
+  - Revert emoji refactor
+
 ## 107.12.5
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
