@@ -7,7 +7,8 @@ export default md`
     <SectionMessage appearance="warning">
       <p>
         This package requires to be wrapped by IntlProvider Component from
-        react-intl or your application will be broken.
+        react-intl or your application will break when this comoponent is
+        rendered.
       </p>
     </SectionMessage>
   )}
