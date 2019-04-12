@@ -209,7 +209,13 @@ export class CustomMediaPlayer extends Component<
     } = this.props;
     return (
       <CustomVideoWrapper innerRef={this.saveVideoWrapperRef}>
-        <MediaPlayer sourceType={type} src={src} autoPlay={isAutoPlay} onCanPlay={onCanPlay} onError={onError}>
+        <MediaPlayer
+          sourceType={type}
+          src={src}
+          autoPlay={isAutoPlay}
+          onCanPlay={onCanPlay}
+          onError={onError}
+        >
           {(video, videoState, actions) => {
             const {
               status,
