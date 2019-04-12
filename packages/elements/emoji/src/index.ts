@@ -5,7 +5,6 @@ import ResourcedEmoji from './components/common/ResourcedEmoji';
 import EmojiPicker from './components/picker/EmojiPicker';
 import EmojiUploader from './components/uploader/EmojiUploader';
 import EmojiTypeAhead from './components/typeahead/EmojiTypeAhead';
-import EmojiTypeAheadItem from './components/typeahead/EmojiTypeAheadItem';
 import EmojiResource, {
   EmojiProvider,
   UploadingEmojiProvider,
@@ -49,7 +48,6 @@ export {
   customCategory,
   EmojiResourceConfig,
   UsageFrequencyTracker,
-  EmojiTypeAheadItem,
 };
 
 export * from './types';

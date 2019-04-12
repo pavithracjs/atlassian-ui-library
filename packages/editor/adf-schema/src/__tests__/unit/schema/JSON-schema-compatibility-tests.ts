@@ -43,6 +43,8 @@ const unsupportedMarks = [
   'breakout',
   'alignment',
   'indentation',
+  'mentionQuery',
+  'emojiQuery',
   '__colorGroupDeclaration',
   '__fontStyleGroupDeclaration',
   '__searchQueryGroupDeclaration',

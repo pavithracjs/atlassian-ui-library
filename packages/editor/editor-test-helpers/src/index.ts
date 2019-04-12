@@ -50,6 +50,7 @@ export {
   panel,
   panelNote,
   hardBreak,
+  emojiQuery,
   typeAheadQuery,
   media,
   mediaGroup,
