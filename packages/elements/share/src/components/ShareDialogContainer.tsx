@@ -96,6 +96,11 @@ const memoizedFormatCopyLink: (
   (origin: OriginTracing, link: string): string => origin.addToUrl(link),
 );
 
+// This is a work around for an issue in extract-react-types
+// https://github.com/atlassian/extract-react-types/issues/59
+const getDefaultShareLink: () => string = () =>
+  window ? window.location!.href : '';
+
 /**
  * This component serves as a Provider to provide customizable implementations
  * to ShareDialogTrigger component
@@ -105,7 +110,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   private _isMounted = false;
 
   static defaultProps = {
-    shareLink: window && window.location!.href,
+    shareLink: getDefaultShareLink(),
     formatCopyLink: memoizedFormatCopyLink,
   };
 
