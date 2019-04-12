@@ -1,9 +1,8 @@
 /** @jsx jsx */
 import React from 'react';
 import { jsx } from '@emotion/core';
-import { ThemeProp } from '@atlaskit/theme';
 import { Theme } from '../theme';
-import { ThemeProps, ThemeTokens } from '../types';
+import { DefaultProgressBarProps, ThemeTokens } from '../types';
 
 const maxValue = 1;
 
@@ -25,16 +24,9 @@ const Bar = ({
   return <span css={[tokens.bar, tokens.determinateBar]} />;
 };
 
-export type Props = {
-  /** Current progress, a number between 0 and 1. */
-  value: number;
-  /** When true the component is in indeterminate state. */
-  indeterminate: boolean;
-  /** The theme the component should use. */
-  theme?: ThemeProp<ThemeTokens, ThemeProps>;
-};
-
-export default class extends React.PureComponent<Props> {
+export default class ProgressBar extends React.PureComponent<
+  DefaultProgressBarProps
+> {
   static defaultProps = {
     value: 0,
     indeterminate: false,
