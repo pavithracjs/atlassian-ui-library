@@ -9,7 +9,7 @@ import {
   isExternalImageIdentifier,
 } from '@atlaskit/media-core';
 import { DownloadButtonWrapper } from './styled';
-import MediaButton from '@atlaskit/media-ui/src/MediaButton';
+import { MediaButton } from '@atlaskit/media-ui';
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import {
   downloadButtonEvent,

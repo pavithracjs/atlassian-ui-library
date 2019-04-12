@@ -10334,9 +10334,10 @@ junk@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/junk/-/junk-2.1.0.tgz#f431b4b7f072dc500a5f10ce7f4ec71930e70134"
 
-kakapo@^3.3.4:
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/kakapo/-/kakapo-3.3.4.tgz#15154ac3332a0479da1380e61078b4fd1a34fab3"
+kakapo@^3.3.5:
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/kakapo/-/kakapo-3.3.5.tgz#ab3079d711ff6530f6f943b3b9e161c73ab6ac92"
+  integrity sha512-g0sC0SU5gO8LD0duVFuK8j9pnD0ZzzhIk3TfNK49yEXX4A7MoDOCW7YECw9PNm6e2ezEaEcSE+AOxOPJlmF85A==
   dependencies:
     "@types/lodash" "^4.14.106"
     faker "^3.1.0"
