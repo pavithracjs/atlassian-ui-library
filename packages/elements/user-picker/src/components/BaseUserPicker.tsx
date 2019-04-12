@@ -95,7 +95,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       hoveringClearIndicator: false,
       menuIsOpen: !!this.props.open,
       inputValue: props.search || '',
-      debouncing: false,
+      resolving: false,
     };
   }
 
@@ -170,12 +170,12 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
 
   private addOptions = batchByKey(
     (request: string, newOptions: (OptionData | OptionData[])[]) => {
-      const { debouncing } = this.state;
+      const { resolving } = this.state;
 
       this.setState(({ inflightRequest, options, count }) => {
         if (inflightRequest.toString() === request) {
           return {
-            options: (debouncing ? options : []).concat(
+            options: (resolving ? options : []).concat(
               newOptions.reduce<OptionData[]>(
                 (nextOptions, item) =>
                   Array.isArray(item)
@@ -185,7 +185,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
               ),
             ),
             count: count - newOptions.length,
-            debouncing: count - newOptions.length !== 0,
+            resolving: count - newOptions.length !== 0,
           };
         }
         return null;
@@ -233,7 +233,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
   private executeLoadOptions = (search?: string) => {
     const { loadOptions } = this.props;
     if (loadOptions) {
-      this.setState({ debouncing: true }, () =>
+      this.setState({ resolving: true }, () =>
         this.debouncedLoadOptions(search),
       );
     }
@@ -433,7 +433,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       menuIsOpen,
       value,
       inputValue,
-      debouncing,
+      resolving,
     } = this.state;
     const appearance = this.getAppearance();
 
@@ -453,7 +453,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onClose={this.handleClose}
-        isLoading={count > 0 || debouncing || isLoading}
+        isLoading={count > 0 || resolving || isLoading}
         loadingMessage={loadingMessage}
         onInputChange={this.handleInputChange}
         menuPlacement="auto"
