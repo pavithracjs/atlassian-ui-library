@@ -204,6 +204,11 @@ export type GlobalNavigationProps = {
   /** A function to get ref of the help icon */
   getHelpRef?: (node: NonStringRef<'div'>) => void,
 
+  /** The boolean that controls whether to display a drawer instead of a menu dropdown. */
+  enableHelpDrawer?: boolean,
+  /** A component to render into the help menu dropdown. */
+  helpItems?: ComponentType<{}>,
+
   /** The text to display in the tooltip for the profile item. */
   profileTooltip?: string,
   /** A component to render into the profile menu dropdown. */

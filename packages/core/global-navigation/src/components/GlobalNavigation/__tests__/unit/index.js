@@ -331,6 +331,7 @@ describe('GlobalNavigation', () => {
         onStarredClick={noop}
         helpTooltip="help tooltip"
         onHelpClick={noop}
+        helpItems={() => <div>items</div>}
         notificationTooltip="notification tooltip"
         onNotificationClick={noop}
         profileTooltip="profile tooltip"
@@ -348,6 +349,7 @@ describe('GlobalNavigation', () => {
         onSearchClick={noop}
         onStarredClick={noop}
         onHelpClick={noop}
+        helpItems={() => <div>items</div>}
         onNotificationClick={noop}
         onSettingsClick={noop}
         loginHref="#login"
@@ -434,6 +436,7 @@ describe('GlobalNavigation', () => {
         onSearchClick={noop}
         onStarredClick={noop}
         onHelpClick={noop}
+        helpItems={() => <div>items</div>}
         onNotificationClick={noop}
         onSettingsClick={noop}
         loginHref="#login"
@@ -832,6 +835,7 @@ describe('GlobalNavigation', () => {
         onSearchClick={noop}
         onStarredClick={noop}
         onHelpClick={noop}
+        helpItems={() => <div>items</div>}
         onNotificationClick={noop}
         onSettingsClick={noop}
         appSwitcherComponent={AppSwitcher}
@@ -896,6 +900,7 @@ describe('GlobalNavigation', () => {
             onSearchClick={noop}
             onStarredClick={noop}
             onHelpClick={noop}
+            helpItems={() => <div>items</div>}
             onNotificationClick={noop}
             onSettingsClick={noop}
             appSwitcherComponent={AppSwitcher}
@@ -977,6 +982,23 @@ describe('GlobalNavigation', () => {
         name: 'atlassianSwitcherDrawer',
         isVisible: true,
       });
+    });
+  });
+
+  describe('Help', () => {
+    xit('should render help menu when "helpItems" is passed', () => {
+      const HelpItems = () => <div />;
+      HelpItems.displayName = 'HelpItems';
+      const wrapper = mount(<GlobalNavigation helpItems={HelpItems} />);
+
+      expect(wrapper.find('[id="help"]').exists()).toBeTruthy();
+      expect(wrapper.children().exists(HelpItems)).toBeTruthy();
+      expect(wrapper.children().exists('DropdownItem')).toBeTruthy();
+    });
+
+    it('should not render help menu when "helpItems" is not passed', () => {
+      const wrapper = mount(<GlobalNavigation helpTooltip="help tooltip" />);
+      expect(wrapper.find('[id="help"]').exists()).toBeFalsy();
     });
   });
 

@@ -1,6 +1,7 @@
 // @flow
 
 import React, { type StatelessFunctionalComponent } from 'react';
+import QuestionIcon from '@atlaskit/icon/glyph/question-circle';
 import Badge from '@atlaskit/badge';
 import Avatar from '@atlaskit/avatar';
 import SignInIcon from '@atlaskit/icon/glyph/sign-in';
@@ -64,6 +65,24 @@ function configFactory(
   return {
     ...(href ? { href } : null),
     ...(onClick ? { onClick } : null),
+    ...(tooltip ? { tooltip, label: tooltip } : null),
+    ...otherConfig,
+  };
+}
+
+function helpConfigFactory(items, tooltip, otherConfig = {}) {
+  if (!items && (tooltip || isNotEmpty(otherConfig))) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      'You have provided some prop(s) for help, but not helpItems. Help will not be rendered in Global Navigation',
+    );
+  }
+
+  if (!items) return null;
+
+  return {
+    icon: QuestionIcon,
+    dropdownItems: items,
     ...(tooltip ? { tooltip, label: tooltip } : null),
     ...otherConfig,
   };
@@ -188,6 +207,8 @@ export default function generateProductConfig(
     appSwitcherTooltip,
     getAppSwitcherRef,
 
+    enableHelpDrawer,
+    helpItems,
     onHelpClick,
     helpTooltip,
     helpDrawerContents,
@@ -235,11 +256,13 @@ export default function generateProductConfig(
       starredTooltip,
       { getRef: getStarredRef },
     ),
-    help: configFactory(
-      onHelpClick || (helpDrawerContents && openDrawer('help')),
-      helpTooltip,
-      { getRef: getHelpRef },
-    ),
+    help: enableHelpDrawer
+      ? configFactory(
+          onHelpClick || (helpDrawerContents && openDrawer('help')),
+          helpTooltip,
+          { getRef: getHelpRef },
+        )
+      : helpConfigFactory(helpItems, helpTooltip, { getRef: getHelpRef }),
     settings: configFactory(
       onSettingsClick || (settingsDrawerContents && openDrawer('settings')),
       settingsTooltip,
