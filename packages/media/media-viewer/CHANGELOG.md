@@ -1,5 +1,10 @@
 # @atlaskit/media-viewer
 
+## 40.1.6
+- [patch] [caf134141e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/caf134141e):
+
+  - Fix incorrect MediaButton imports
+
 ## 40.1.5
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
