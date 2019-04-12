@@ -6,6 +6,7 @@ import { Shortcut } from '@atlaskit/media-ui';
 import {
   withAnalyticsEvents,
   WithAnalyticsEventProps,
+  UIAnalyticsEvent,
 } from '@atlaskit/analytics-next';
 import { mediaViewerModalEvent } from './analytics/media-viewer';
 import { closedEvent, ClosedInputType } from './analytics/closed';
