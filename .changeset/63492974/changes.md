@@ -1,0 +1,1 @@
+- Allow RefObject to be passed in as ref (i.e. using React.createRef()) and set inner padding to 0

@@ -43,7 +43,6 @@
     "@atlaskit/field-range": "^6.0.3",
     "@atlaskit/field-text": "^8.0.2",
     "@atlaskit/field-text-area": "^5.0.3",
-    "@atlaskit/inline-edit": "^8.0.2",
     "@atlaskit/modal-dialog": "^8.0.6",
     "@atlaskit/multi-select": "^12.0.2",
     "@atlaskit/radio": "^0.5.2",

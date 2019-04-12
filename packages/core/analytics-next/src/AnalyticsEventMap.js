@@ -401,20 +401,18 @@ const analyticsEventMap: AnalyticsEventConfig[] = [
     componentTestPath: 'inline-dialog/__tests__/index.js',
   },
   {
-    path: 'inline-edit/src/InlineEditStateless.js',
-    testPath: 'inline-edit/src/__tests__/analytics.js',
+    path: 'inline-edit/src/components/InlineEdit.tsx',
+    testPath: 'inline-edit/src/components/__tests__/analytics.ts',
     actionSubject: 'inlineEdit',
-    component: 'InlineEditStateless',
-    derivatives: ['InlineEdit'],
+    component: 'InlineEdit',
     props: {
-      onCancel: 'canceled',
       onConfirm: 'confirmed',
-      onEditRequested: 'edited',
     },
     attributes: {
       componentName: 'inlineEdit',
     },
-    componentTestPath: 'inline-edit/src/__tests__/InlineEdit.js',
+    componentTestPath:
+      'inline-edit/src/components/__tests__/unit/InlineEdit.tsx',
   },
   {
     path: 'modal-dialog/src/components/Modal.js',

@@ -157,6 +157,7 @@ export const TextAreaWrapper = styled.div<StyleProps>`
     overflow: auto;
     max-width: 100%;
     width: 100%;
+    padding: 0;
     ${getPlaceholderStyle(getPlaceholderColor)};
     ${getMinimumRowsHeight}
 
