@@ -17,6 +17,8 @@ export type Props = Readonly<{
   featureFlags?: MediaViewerFeatureFlags;
   showControls?: () => void;
   previewCount: number;
+  onCanPlay?: () => void;
+  onError?: () => void;
 }>;
 
 export type State = BaseState<string> & {
@@ -50,7 +52,7 @@ export class VideoViewer extends BaseViewer<string, Props, State> {
 
   protected renderSuccessful(content: string) {
     const { isHDActive } = this.state;
-    const { item, showControls, previewCount } = this.props;
+    const { item, showControls, previewCount, onCanPlay, onError } = this.props;
     const useCustomVideoPlayer = !isIE();
     const isAutoPlay = previewCount === 0;
     return useCustomVideoPlayer ? (
@@ -64,6 +66,8 @@ export class VideoViewer extends BaseViewer<string, Props, State> {
           isHDActive={isHDActive}
           isHDAvailable={isHDAvailable(item)}
           isShortcutEnabled={true}
+          onCanPlay={onCanPlay}
+          onError={onError}
         />
       </CustomVideoPlayerWrapper>
     ) : (

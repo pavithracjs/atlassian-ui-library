@@ -51,6 +51,8 @@ export interface CustomMediaPlayerProps {
   readonly showControls?: () => void;
   readonly isAutoPlay: boolean;
   readonly isShortcutEnabled?: boolean;
+  readonly onCanPlay?: () => void;
+  readonly onError?: () => void;
 }
 
 export interface CustomMediaPlayerState {
@@ -202,10 +204,18 @@ export class CustomMediaPlayer extends Component<
       isAutoPlay,
       isShortcutEnabled,
       intl: { formatMessage },
+      onCanPlay,
+      onError,
     } = this.props;
     return (
       <CustomVideoWrapper innerRef={this.saveVideoWrapperRef}>
-        <MediaPlayer sourceType={type} src={src} autoPlay={isAutoPlay}>
+        <MediaPlayer
+          sourceType={type}
+          src={src}
+          autoPlay={isAutoPlay}
+          onCanPlay={onCanPlay}
+          onError={onError}
+        >
           {(video, videoState, actions) => {
             const {
               status,
