@@ -1,1 +1,0 @@
-- ED-6698: Adding smart cards to the renderer and on document load

@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.4.0
+- [minor] [7964240a6a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7964240a6a):
+
+  - ED-6698: Adding smart cards to the renderer and on document load
+
 ## 7.3.2
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
