@@ -6,20 +6,8 @@ export default md`
   ${(
     <SectionMessage appearance="warning">
       <p>
-        This package requires an existance of IntlProvider Component from
+        This package requires to be wrapped by IntlProvider Component from
         react-intl or your application will be broken.
-      </p>
-    </SectionMessage>
-  )}
-  
-  ${<br />}
-  
-  ${(
-    <SectionMessage appearance="warning">
-      <p>
-        This package has an opinion on showing flag(s) upon successful share,
-        and it does not provide any Flag system. Instead, showFlag prop is
-        available for this purpose.
       </p>
     </SectionMessage>
   )}
@@ -27,7 +15,7 @@ export default md`
   This package provides the view components allowing users to share a resource by
   sharing with User Picker, or by copying the share link.
   
-  The goal is to provide a consistent share experience across the product.
+  The goal is to provide a consistent share experience across products.
   
   ## Usage 
   

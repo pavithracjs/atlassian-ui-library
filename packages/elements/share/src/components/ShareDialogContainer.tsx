@@ -71,7 +71,9 @@ export type Props = {
   shareFormTitle?: React.ReactNode;
   /** To enable closing the modal on escape key press */
   shouldCloseOnEscapePress?: boolean;
-  /** Callback function for showing successful share flag(s) with a parameter providing details of the flag, including the type of the message with a localized default title */
+  /** Callback function for showing successful share flag(s) with a parameter providing details of the flag, including the type of the message with a localized default title
+   > This package has an opinion on showing flag(s) upon successful share, and Flag system is NOT provided. Instead, showFlag prop is available for this purpose.
+   */
   showFlags: (flags: Array<Flag>) => void;
   /** Appearance of the share modal trigger button  */
   triggerButtonAppearance?: ButtonAppearances;
