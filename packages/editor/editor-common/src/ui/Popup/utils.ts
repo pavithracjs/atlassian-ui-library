@@ -459,6 +459,27 @@ export function calculatePosition({
   return position;
 }
 
+export function validatePosition(
+  position: Position,
+  popup: HTMLElement,
+): boolean {
+  // popup.offsetParent does not exist if the popup element is not mounted
+  if (!popup || !popup.offsetParent) {
+    return false;
+  }
+
+  if (
+    (position.left && position.left < 0) ||
+    (position.right && position.right < 0) ||
+    (position.top && position.top < 0) ||
+    (position.bottom && position.bottom < 0)
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
 /**
  * Traverse DOM Tree upwards looking for popup parents with "overflow: scroll".
  */
