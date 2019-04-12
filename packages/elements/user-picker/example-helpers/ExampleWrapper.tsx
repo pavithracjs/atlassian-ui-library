@@ -49,7 +49,9 @@ export class ExampleWrapper extends React.PureComponent<
   private onInputChange = (searchText?: string) => {
     this.setState({
       options:
-        searchText && searchText.length > 0 ? filterUsers(searchText) : [],
+        searchText && searchText.length > 0
+          ? filterUsers(searchText)
+          : exampleOptions,
     });
   };
 
