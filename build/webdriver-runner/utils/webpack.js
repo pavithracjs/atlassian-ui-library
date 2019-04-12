@@ -61,12 +61,17 @@ function packageIsInPatternOrChanged(workspace) {
    * build those packages.
    */
   if (CHANGED_PACKAGES) {
-    const parsedChangedPackages = JSON.parse(CHANGED_PACKAGES);
+    let parsedChangedPackages = JSON.parse(CHANGED_PACKAGES);
+    // Recently, we had issues with webpack changes and without running any tests.
+    // Now, when a change is applied to webpack, it will run tests for the website.
+    // The if below is just to avoid running the website tests.
     if (
-      parsedChangedPackages.includes('webpack-config') &&
+      parsedChangedPackages.includes('build/webpack-config') &&
       !parsedChangedPackages.includes('website')
     ) {
-      parsedChangedPackages.replace('build/webpack-config', 'website');
+      parsedChangedPackages = parsedChangedPackages.map(pkg =>
+        pkg.replace('build/webpack-config', 'website'),
+      );
     }
     return parsedChangedPackages.some(pkg => workspace.dir.includes(pkg));
   }

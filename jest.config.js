@@ -127,8 +127,19 @@ if (INTEGRATION_TESTS || VISUAL_REGRESSION) {
   config.testPathIgnorePatterns = testPathIgnorePatterns;
   // If the CHANGED_PACKAGES variable is set, only integration tests from changed packages will run
   if (CHANGED_PACKAGES) {
-    const changedPackages = JSON.parse(CHANGED_PACKAGES);
-    const changedPackagesTestGlobs = changedPackages.map(
+    let parsedChangedPackages = JSON.parse(CHANGED_PACKAGES);
+    // Recently, we had issues with webpack changes and without running any tests.
+    // Now, when a change is applied to webpack, it will run tests for the website.
+    // The if below is just to avoid running the website tests.
+    if (
+      parsedChangedPackages.includes('build/webpack-config') &&
+      !parsedChangedPackages.includes('website')
+    ) {
+      parsedChangedPackages = parsedChangedPackages.map(pkg =>
+        pkg.replace('build/webpack-config', 'website'),
+      );
+    }
+    const changedPackagesTestGlobs = parsedChangedPackages.map(
       pkgPath =>
         `${__dirname}/${pkgPath}/**/__tests__/${testPattern}/**/*.(js|tsx|ts)`,
     );
