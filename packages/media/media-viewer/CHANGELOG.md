@@ -1,5 +1,10 @@
 # @atlaskit/media-viewer
 
+## 40.1.7
+- [patch] [bee4101a63](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bee4101a63):
+
+  - instrument analytics for audio and video play and error events
+
 ## 40.1.6
 - [patch] [caf134141e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/caf134141e):
 

@@ -1,5 +1,10 @@
 # @atlaskit/media-ui
 
+## 10.1.4
+- [patch] [bee4101a63](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bee4101a63):
+
+  - instrument analytics for audio and video play and error events
+
 ## 10.1.3
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
