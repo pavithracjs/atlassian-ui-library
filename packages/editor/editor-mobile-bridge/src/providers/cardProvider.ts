@@ -32,11 +32,6 @@ export class EditorMobileCardProvider extends EditorCardProvider {
 
 export class MobileSmartCardClient extends Client {
   async fetchData(url: string) {
-    const getResolvedLink = await createPromise(
-      'getResolvedLink',
-      JSON.stringify({ url }),
-    ).submit();
-
     /*
      *
      * This is called when an inlineCard | blockCard is loaded in the document
@@ -45,12 +40,12 @@ export class MobileSmartCardClient extends Client {
      * https://atlaskit.atlassian.com/packages/media/smart-card/docs/client
      *
      */
-    if (typeof getResolvedLink === 'object') {
-      return getResolvedLink as ResolveResponse;
-    } else {
-      return super.fetchData(url);
-    }
+    return (await createPromise(
+      'getResolvedLink',
+      JSON.stringify({ url }),
+    ).submit()) as ResolveResponse;
   }
 }
 
 export const cardProvider = new EditorMobileCardProvider();
+export const cardClient = new MobileSmartCardClient();

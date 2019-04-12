@@ -10,8 +10,8 @@ import {
   MentionProvider,
   TaskDecisionProvider,
   EmojiProvider,
-  MobileSmartCardClient,
 } from '../providers';
+import { cardClient } from '../providers/cardProvider';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 import { eventDispatcher } from './dispatcher';
 import { ObjectKey, TaskState } from '@atlaskit/task-decision';
@@ -93,7 +93,7 @@ export default class MobileRenderer extends React.Component<
       }
 
       return (
-        <SmartCardProvider client={new MobileSmartCardClient()}>
+        <SmartCardProvider client={cardClient}>
           <ReactRenderer
             onComplete={() => {
               if (

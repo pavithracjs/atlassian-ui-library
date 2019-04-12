@@ -24,7 +24,7 @@ import {
 import { ProseMirrorDOMChange } from '../types';
 import { parseLocationSearch } from '../bridge-utils';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
-import { cardProvider, MobileSmartCardClient } from '../providers/cardProvider';
+import { cardClient, cardProvider } from '../providers/cardProvider';
 
 const params = parseLocationSearch();
 // @ts-ignore
@@ -74,7 +74,7 @@ export default function mobileEditor(props: Props) {
   // eg. If the URL parameter is like ?mode=dark use that, otherwise check the prop (used in example)
   const mode = (params && params.theme) || props.mode || 'light';
   return (
-    <SmartCardProvider client={new MobileSmartCardClient()}>
+    <SmartCardProvider client={cardClient}>
       <AtlaskitThemeProvider mode={mode}>
         <EditorWithState
           appearance="mobile"
