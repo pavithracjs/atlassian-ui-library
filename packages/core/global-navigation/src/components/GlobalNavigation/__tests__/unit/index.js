@@ -102,11 +102,6 @@ describe('GlobalNavigation', () => {
         name: 'starred',
       },
       {
-        akIcon: QuestionIcon,
-        capitalisedName: 'Help',
-        name: 'help',
-      },
-      {
         akIcon: NotificationIcon,
         capitalisedName: 'Notification',
         name: 'notification',
@@ -481,7 +476,7 @@ describe('GlobalNavigation', () => {
         rank: 4,
       },
       {
-        id: 'helpDrawer',
+        id: 'help',
         name: 'help',
         section: 'secondary',
         rank: 2,

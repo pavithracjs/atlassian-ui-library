@@ -64,7 +64,7 @@ export default function generateDefaultConfig(): DefaultConfigShape {
       section: 'secondary',
       rank: 3,
       tooltip: 'Help',
-      id: 'helpDrawer',
+      id: 'help',
     },
     settings: {
       icon: SettingsIcon,
