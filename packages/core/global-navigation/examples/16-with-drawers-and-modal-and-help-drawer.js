@@ -262,6 +262,7 @@ class GlobalNavWithDrawers extends Component<Props, State> {
           appSwitcherTooltip="Switch apps..."
           enableAtlassianSwitcher
           // Help
+          enableHelpDrawer
           helpItems={HelpDropdown}
           helpDrawerContents={this.renderHelpDrawerContents}
           onHelpDrawerCloseComplete={this.onCloseComplete}
