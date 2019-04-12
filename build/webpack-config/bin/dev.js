@@ -63,7 +63,7 @@ async function runDevServer() {
           minimatch(ws.dir, glob, { matchBase: true }),
         ),
       )
-    : workspaces; // if no globs were passed, we'll use all workspaces
+    : workspaces; // if no globs were passed, we'll use all workspaces.
 
   let globs =
     workspaceGlobs.length > 0
