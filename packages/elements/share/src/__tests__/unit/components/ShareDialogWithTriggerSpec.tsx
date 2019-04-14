@@ -15,7 +15,7 @@ import {
 } from '../../../components/ShareDialogWithTrigger';
 import { ShareData, ShareForm } from '../../../components/ShareForm';
 import { messages } from '../../../i18n';
-import { ADMIN_NOTIFIED, OBJECT_SHARED } from '../../../types';
+import { DialogPlacement, ADMIN_NOTIFIED, OBJECT_SHARED } from '../../../types';
 import mockPopper from '../_mockPopper';
 mockPopper();
 
@@ -220,7 +220,7 @@ describe('ShareDialogWithTrigger', () => {
       expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
         defaultPlacement,
       );
-      const newPlacement: string = 'bottom-start';
+      const newPlacement: DialogPlacement = 'bottom-start';
       wrapper.setProps({ dialogPlacement: newPlacement });
       expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
         newPlacement,
