@@ -17,6 +17,7 @@ import {
   headingsSharedStyles,
   panelSharedStyles,
   ruleSharedStyles,
+  whitespaceSharedStyles,
   paragraphSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
@@ -77,7 +78,6 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   font-size: ${editorFontSize}px;
   line-height: 24px;
   color: ${themed({ light: colors.N800, dark: '#B8C7E0' })};
-  word-wrap: break-word;
 
   & span.akActionMark {
     color: ${colors.B400};
@@ -93,6 +93,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
     cursor: pointer;
   }
 
+  ${whitespaceSharedStyles};
   ${blockquoteSharedStyles};
   ${headingsSharedStyles};
   ${panelSharedStyles};
@@ -202,7 +203,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
     clear: both;
   }
 
-  & .CodeBlock,
+  & .code-block,
   & blockquote,
   & hr,
   & > div > div:not(.media-wrapped),
@@ -281,7 +282,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
    * We wrap CodeBlock in a grid to prevent it from overflowing the container of the renderer.
    * See ED-4159.
    */
-  & .CodeBlock {
+  & .code-block {
     max-width: 100%;
     /* -ms- properties are necessary until MS supports the latest version of the grid spec */
     /* stylelint-disable value-no-vendor-prefix, declaration-block-no-duplicate-properties */
@@ -309,7 +310,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   }
 
   & .MediaGroup,
-  & .CodeBlock {
+  & .code-block {
     margin-top: ${blockNodesVerticalMargin};
 
     &:first-child {

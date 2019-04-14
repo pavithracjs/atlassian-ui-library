@@ -29,8 +29,14 @@ import {
 } from '../../../newgen/item-viewer';
 import { ErrorMessage } from '../../../newgen/error';
 import { ImageViewer } from '../../../newgen/viewers/image';
-import { VideoViewer } from '../../../newgen/viewers/video';
-import { AudioViewer } from '../../../newgen/viewers/audio';
+import {
+  VideoViewer,
+  Props as VideoViewerProps,
+} from '../../../newgen/viewers/video';
+import {
+  AudioViewer,
+  Props as AudioViewerProps,
+} from '../../../newgen/viewers/audio';
 import { DocViewer } from '../../../newgen/viewers/doc';
 import {
   name as packageName,
@@ -65,7 +71,11 @@ function mountComponent(context: Context, identifier: Identifier) {
   return { el, instance };
 }
 
-function mountBaseComponent(context: Context, identifier: FileIdentifier) {
+function mountBaseComponent(
+  context: Context,
+  identifier: FileIdentifier,
+  props?: Partial<AudioViewerProps | VideoViewerProps>,
+) {
   const createAnalyticsEventSpy = jest.fn();
   createAnalyticsEventSpy.mockReturnValue({ fire: jest.fn() });
   const el: ReactWrapper<
@@ -77,6 +87,7 @@ function mountBaseComponent(context: Context, identifier: FileIdentifier) {
       previewCount={0}
       context={context}
       identifier={identifier}
+      {...props}
     />,
   );
   const instance = el.instance() as ItemViewerBase;
@@ -486,5 +497,86 @@ describe('<ItemViewer />', () => {
         eventType: 'operational',
       });
     });
+
+    test.each(['audio', 'video'])(
+      'should trigger analytics when %s can play',
+      async (type: 'audio' | 'video') => {
+        const state: ProcessedFileState = {
+          id: await identifier.id,
+          mediaType: type,
+          status: 'processed',
+          mimeType: '',
+          name: '',
+          size: 1,
+          artifacts: {},
+          representations: {},
+        };
+        const context = makeFakeContext(Observable.of(state));
+        const onCanPlaySpy = jest.fn();
+        const { el, createAnalyticsEventSpy } = mountBaseComponent(
+          context,
+          identifier,
+          { onCanPlay: onCanPlaySpy },
+        );
+        const Viewer = el.find(type === 'audio' ? AudioViewer : VideoViewer);
+        const onCanPlay: () => void = Viewer.prop('onCanPlay')!;
+        onCanPlay();
+        expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
+          action: 'loadSucceeded',
+          actionSubject: 'mediaFile',
+          actionSubjectId: 'some-id',
+          attributes: {
+            fileId: 'some-id',
+            fileMediatype: type,
+            fileMimetype: '',
+            fileSize: 1,
+            status: 'success',
+            ...analyticsBaseAttributes,
+          },
+          eventType: 'operational',
+        });
+      },
+    );
+
+    test.each(['audio', 'video'])(
+      'should trigger analytics when %s errors',
+      async (type: 'audio' | 'video') => {
+        const state: ProcessedFileState = {
+          id: await identifier.id,
+          mediaType: type,
+          status: 'processed',
+          mimeType: '',
+          name: '',
+          size: 1,
+          artifacts: {},
+          representations: {},
+        };
+        const context = makeFakeContext(Observable.of(state));
+        const onErrorSpy = jest.fn();
+        const { el, createAnalyticsEventSpy } = mountBaseComponent(
+          context,
+          identifier,
+          { onError: onErrorSpy },
+        );
+        const Viewer = el.find(type === 'audio' ? AudioViewer : VideoViewer);
+        const onError: () => void = Viewer.prop('onError')!;
+        onError();
+        expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
+          action: 'loadFailed',
+          actionSubject: 'mediaFile',
+          actionSubjectId: 'some-id',
+          attributes: {
+            failReason: 'Playback failed',
+            fileId: 'some-id',
+            fileMediatype: type,
+            fileMimetype: '',
+            fileSize: 1,
+            status: 'fail',
+            ...analyticsBaseAttributes,
+          },
+          eventType: 'operational',
+        });
+      },
+    );
   });
 });

@@ -230,6 +230,7 @@ export default function generateProductConfig(
     enableAtlassianSwitcher && cloudId && product;
 
   if (enableAtlassianSwitcher && !shouldRenderAtlassianSwitcher) {
+    // eslint-disable-next-line no-console
     console.warn(
       'When using the enableAtlassianSwitcher prop, be sure to send the cloudId and product props. Falling back to the legacy app-switcher',
     );

@@ -43,6 +43,7 @@ type DropdownProps = {
 };
 class BetterDropdown extends Component<DropdownProps, DropdownState> {
   static defaultProps = { defaultIsOpen: false };
+
   state = { isOpen: this.props.defaultIsOpen };
 
   onOpenChange = (openState: DropdownState) => {

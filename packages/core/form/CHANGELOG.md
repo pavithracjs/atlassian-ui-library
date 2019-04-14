@@ -1,5 +1,37 @@
 # @atlaskit/form
 
+## 5.2.6
+- [patch] [9b0bdd73c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0bdd73c2):
+
+  - Remove unused inline edit dependency from package
+
+## 5.2.5
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/calendar@7.0.21
+  - @atlaskit/checkbox@6.0.3
+  - @atlaskit/datetime-picker@7.0.3
+  - @atlaskit/dropdown-menu@7.0.4
+  - @atlaskit/droplist@8.0.3
+  - @atlaskit/field-radio-group@5.0.2
+  - @atlaskit/field-text@8.0.2
+  - @atlaskit/field-text-area@5.0.3
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/inline-edit@8.0.2
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/multi-select@12.0.2
+  - @atlaskit/radio@0.5.2
+  - @atlaskit/section-message@2.0.2
+  - @atlaskit/select@8.0.5
+  - @atlaskit/single-select@7.0.2
+  - @atlaskit/textarea@0.4.1
+  - @atlaskit/textfield@0.4.3
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/toggle@6.0.3
+  - @atlaskit/tooltip@13.0.3
+  - @atlaskit/field-range@6.0.3
+  - @atlaskit/button@12.0.0
+
 ## 5.2.4
 - Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
   - @atlaskit/textarea@0.4.0

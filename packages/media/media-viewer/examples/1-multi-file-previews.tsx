@@ -100,6 +100,27 @@ export default class Example extends React.Component<{}, State> {
     });
   };
 
+  private openListWithItemNotOnList = () => {
+    this.setState({
+      selected: {
+        dataSource: {
+          list: [
+            imageIdentifier,
+            videoIdentifier,
+            videoHorizontalFileItem,
+            wideImageIdentifier,
+            audioItem,
+            audioItemNoCover,
+            largePdfIdentifier,
+            imageIdentifier2,
+            unsupportedIdentifier,
+          ],
+        },
+        identifier: docIdentifier,
+      },
+    });
+  };
+
   private openErrorList = () => {
     const invalidItem: Identifier = {
       mediaItemType: 'file',
@@ -192,6 +213,11 @@ export default class Example extends React.Component<{}, State> {
             <ButtonList>
               <li>
                 <Button onClick={this.openList}>Small list</Button>
+              </li>
+              <li>
+                <Button onClick={this.openListWithItemNotOnList}>
+                  Small list with selected item not on the list
+                </Button>
               </li>
             </ButtonList>
           </Group>

@@ -16,10 +16,10 @@ describe('Feedback Collector unit tests', () => {
         <FeedbackCollector
           onClose={() => {}}
           onSubmit={() => {}}
-          email={'email'}
-          name={'name'}
-          requestTypeId={'request_type_id'}
-          embeddableKey={'embeddable_key'}
+          email="email"
+          name="name"
+          requestTypeId="request_type_id"
+          embeddableKey="embeddable_key"
         />,
       );
       expect(wrapper).toBeDefined();
@@ -31,10 +31,10 @@ describe('Feedback Collector unit tests', () => {
       beforeEach(() => {
         wrapper = mount(
           <FeedbackCollector
-            email={'email'}
-            name={'name'}
-            requestTypeId={'request_type_id'}
-            embeddableKey={'embeddable_key'}
+            email="email"
+            name="name"
+            requestTypeId="request_type_id"
+            embeddableKey="embeddable_key"
           />,
         );
       });

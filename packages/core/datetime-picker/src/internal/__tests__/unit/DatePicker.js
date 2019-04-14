@@ -17,7 +17,7 @@ test('DatePicker, custom formatDisplayLabel', () => {
   const datePickerWrapper = mount(
     <DatePicker
       formatDisplayLabel={formatDisplayLabel}
-      dateFormat={'MMMM/DD'}
+      dateFormat="MMMM/DD"
       value={dateValue}
     />,
   );

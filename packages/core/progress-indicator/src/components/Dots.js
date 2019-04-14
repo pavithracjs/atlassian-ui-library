@@ -32,8 +32,11 @@ type Props = {
 };
 
 class ProgressDots extends Component<Props, {}> {
-  props: Props; // eslint-disable-line react/sort-comp
+  props: Props;
+
+  // eslint-disable-line react/sort-comp
   tablist: { children: Array<HTMLElement> };
+
   static defaultProps = {
     appearance: 'default',
     ariaControls: 'panel',
@@ -41,11 +44,13 @@ class ProgressDots extends Component<Props, {}> {
     size: 'default',
     spacing: 'comfortable',
   };
+
   componentDidMount() {
     if (this.props.onSelect) {
       document.addEventListener('keydown', this.handleKeyDown, false);
     }
   }
+
   componentWillUnmount() {
     if (this.props.onSelect) {
       document.removeEventListener('keydown', this.handleKeyDown);

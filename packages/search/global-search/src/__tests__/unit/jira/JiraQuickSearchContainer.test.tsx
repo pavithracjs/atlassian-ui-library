@@ -30,6 +30,7 @@ import { Scope } from '../../../api/types';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
 import { ShallowWrapper } from 'enzyme';
 import { CancelableEvent } from '../../../../../quick-search';
+import { DEFAULT_AB_TEST } from '../../../api/CrossProductSearchClient';
 
 const issues = [
   makeJiraObjectResult({
@@ -221,9 +222,12 @@ describe('Jira Quick Search Container', () => {
       const resultsMap = new Map<Scope, Result[]>();
       resultsMap.set(Scope.JiraIssue, issues);
       resultsMap.set(Scope.JiraBoardProjectFilter, boards);
-      const crossProductSearchClient = mockCrossProductSearchClient({
-        results: resultsMap,
-      });
+      const crossProductSearchClient = mockCrossProductSearchClient(
+        {
+          results: resultsMap,
+        },
+        DEFAULT_AB_TEST,
+      );
       const getSearchResults = getQuickSearchProperty(
         renderComponent({ peopleSearchClient, crossProductSearchClient }),
         'getSearchResults',
@@ -251,9 +255,13 @@ describe('Jira Quick Search Container', () => {
       const resultsMap = new Map<Scope, Result[]>();
       resultsMap.set(Scope.JiraIssue, issues);
       resultsMap.set(Scope.JiraBoardProjectFilter, boards);
-      const crossProductSearchClient = mockCrossProductSearchClient({
-        results: resultsMap,
-      });
+      const crossProductSearchClient = mockCrossProductSearchClient(
+        {
+          results: resultsMap,
+          abTest: DEFAULT_AB_TEST,
+        },
+        DEFAULT_AB_TEST,
+      );
       const getSearchResults = getQuickSearchProperty(
         renderComponent({
           peopleSearchClient,

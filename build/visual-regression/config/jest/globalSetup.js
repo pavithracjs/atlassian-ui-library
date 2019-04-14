@@ -33,6 +33,7 @@ async function globalSetup() {
     mkdirp.sync(DIR);
     fs.writeFileSync(path.join(DIR, 'wsEndpoint'), browser.wsEndpoint()); // Shared endpoint with all thread nodes
   } else {
+    await docker.deleteOldDockerImage();
     await docker.startDocker();
   }
 }

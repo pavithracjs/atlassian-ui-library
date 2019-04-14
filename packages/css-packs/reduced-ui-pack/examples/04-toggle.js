@@ -20,7 +20,7 @@ export default () => (
         <tr>
           <td>Unchecked</td>
           <td>
-            <div className={`ak-field-toggle ak-field-toggle__size-default`}>
+            <div className="ak-field-toggle ak-field-toggle__size-default">
               <input
                 type="checkbox"
                 name="default-unchecked"
@@ -31,7 +31,7 @@ export default () => (
             </div>
           </td>
           <td>
-            <div className={`ak-field-toggle ak-field-toggle__size-large`}>
+            <div className="ak-field-toggle ak-field-toggle__size-large">
               <input
                 type="checkbox"
                 name="large-unchecked"
@@ -45,7 +45,7 @@ export default () => (
         <tr>
           <td>Checked</td>
           <td>
-            <div className={`ak-field-toggle ak-field-toggle__size-default`}>
+            <div className="ak-field-toggle ak-field-toggle__size-default">
               <input
                 type="checkbox"
                 name="default-checked"
@@ -57,7 +57,7 @@ export default () => (
             </div>
           </td>
           <td>
-            <div className={`ak-field-toggle ak-field-toggle__size-large`}>
+            <div className="ak-field-toggle ak-field-toggle__size-large">
               <input
                 type="checkbox"
                 name="large-checked"
@@ -72,7 +72,7 @@ export default () => (
         <tr>
           <td>Unchecked (disabled)</td>
           <td>
-            <div className={`ak-field-toggle ak-field-toggle__size-default`}>
+            <div className="ak-field-toggle ak-field-toggle__size-default">
               <input
                 type="checkbox"
                 name="default-unchecked-disabled"
@@ -84,7 +84,7 @@ export default () => (
             </div>
           </td>
           <td>
-            <div className={`ak-field-toggle ak-field-toggle__size-large`}>
+            <div className="ak-field-toggle ak-field-toggle__size-large">
               <input
                 type="checkbox"
                 name="large-unchecked-disabled"
@@ -99,7 +99,7 @@ export default () => (
         <tr>
           <td>Checked (disabled)</td>
           <td>
-            <div className={`ak-field-toggle ak-field-toggle__size-default`}>
+            <div className="ak-field-toggle ak-field-toggle__size-default">
               <input
                 type="checkbox"
                 name="default-checked-disabled"
@@ -112,7 +112,7 @@ export default () => (
             </div>
           </td>
           <td>
-            <div className={`ak-field-toggle ak-field-toggle__size-large`}>
+            <div className="ak-field-toggle ak-field-toggle__size-large">
               <input
                 type="checkbox"
                 name="large-checked-disabled"

@@ -2,7 +2,7 @@ export * from './errorIcon';
 export * from './fileIcon';
 export * from './cardActions';
 export * from './isRetina';
-export * from './cardLoading';
+export * from './lightCards';
 export * from './cardDimensions';
 export * from './breakpoint';
 export * from './isValidPercentageUnit';

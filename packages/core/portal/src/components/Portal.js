@@ -71,6 +71,7 @@ class Portal extends React.Component<Props, State> {
       portalParent().appendChild(container);
     }
   }
+
   componentDidMount() {
     const { container } = this.state;
     const { zIndex } = this.props;
@@ -87,6 +88,7 @@ class Portal extends React.Component<Props, State> {
       portalIsMounted: true,
     });
   }
+
   componentWillUnmount() {
     const { container } = this.state;
     if (container) {
@@ -100,6 +102,7 @@ class Portal extends React.Component<Props, State> {
       }
     }
   }
+
   render() {
     const { container, portalIsMounted } = this.state;
     return container && portalIsMounted

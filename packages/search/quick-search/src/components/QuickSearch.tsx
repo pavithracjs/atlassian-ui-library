@@ -107,6 +107,8 @@ export type Props = {
   firePrivateAnalyticsEvent?: FireAnalyticsEvent;
   /** React component to be used for rendering links */
   linkComponent?: React.ComponentType<any>;
+  /** The elements to render to the right of the search input. */
+  inputControls?: React.ReactNode;
 };
 
 export type State = {
@@ -420,6 +422,7 @@ export class QuickSearch extends React.Component<Props, State> {
     return (
       <AkSearch
         isLoading={this.props.isLoading}
+        inputControls={this.props.inputControls}
         onBlur={this.handleSearchBlur}
         onInput={this.props.onSearchInput}
         onKeyDown={this.handleSearchKeyDown}

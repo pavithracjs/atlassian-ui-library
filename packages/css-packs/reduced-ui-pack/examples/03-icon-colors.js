@@ -17,6 +17,7 @@ class FilledIconExample extends Component<*, *> {
   };
 
   ColorInput: ?HTMLInputElement;
+
   FillInput: ?HTMLInputElement;
 
   render() {

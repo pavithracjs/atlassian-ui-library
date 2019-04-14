@@ -12,6 +12,7 @@ export default class ControlledExample extends PureComponent<void, State> {
     isChecked: false,
     onChangeResult: 'Check & Uncheck to trigger onChange',
   };
+
   onChange = (event: any) => {
     this.setState({
       isChecked: !this.state.isChecked,

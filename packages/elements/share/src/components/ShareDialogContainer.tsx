@@ -10,12 +10,14 @@ import {
 import {
   Content,
   DialogContentState,
+  Flag,
   MetaData,
   OriginTracing,
   OriginTracingFactory,
   ShareButtonStyle,
   ShareResponse,
 } from '../types';
+import MessagesIntlProvider from './MessagesIntlProvider';
 import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
 import { optionDataToUsers } from './utils';
 
@@ -33,6 +35,7 @@ export type Props = {
   shareTitle: string;
   shareFormTitle?: React.ReactNode;
   shouldCloseOnEscapePress?: boolean;
+  showFlags: (flags: Array<Flag>) => void;
   triggerButtonAppearance?: ButtonAppearances;
   triggerButtonStyle?: ShareButtonStyle;
 };
@@ -173,27 +176,33 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       dialogPlacement,
       formatCopyLink,
       loadUserOptions,
-      shareLink,
+      shareContentType,
       shareFormTitle,
+      shareLink,
       shouldCloseOnEscapePress,
+      showFlags,
       triggerButtonAppearance,
       triggerButtonStyle,
     } = this.props;
     const { shareOrigin } = this.state;
     const copyLink = formatCopyLink(this.state.copyLinkOrigin!, shareLink);
     return (
-      <ShareDialogWithTrigger
-        config={this.state.config}
-        copyLink={copyLink}
-        dialogPlacement={dialogPlacement}
-        loadUserOptions={loadUserOptions}
-        onShareSubmit={this.handleSubmitShare}
-        shareFormTitle={shareFormTitle}
-        shouldCloseOnEscapePress={shouldCloseOnEscapePress}
-        triggerButtonAppearance={triggerButtonAppearance}
-        triggerButtonStyle={triggerButtonStyle}
-        shareOrigin={shareOrigin}
-      />
+      <MessagesIntlProvider>
+        <ShareDialogWithTrigger
+          config={this.state.config}
+          copyLink={copyLink}
+          dialogPlacement={dialogPlacement}
+          loadUserOptions={loadUserOptions}
+          onShareSubmit={this.handleSubmitShare}
+          shareContentType={shareContentType}
+          shareFormTitle={shareFormTitle}
+          shareOrigin={shareOrigin}
+          shouldCloseOnEscapePress={shouldCloseOnEscapePress}
+          showFlags={showFlags}
+          triggerButtonAppearance={triggerButtonAppearance}
+          triggerButtonStyle={triggerButtonStyle}
+        />
+      </MessagesIntlProvider>
     );
   }
 }

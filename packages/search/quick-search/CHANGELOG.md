@@ -1,5 +1,10 @@
 # @atlaskit/quick-search
 
+## 6.1.0
+- [minor] [038e080474](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/038e080474):
+
+  - Expose inputControls as a prop for passing in additional controls to the search input box
+
 ## 6.0.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

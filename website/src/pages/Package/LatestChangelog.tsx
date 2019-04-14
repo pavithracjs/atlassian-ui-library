@@ -1,14 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Link } from '../../components/WrappedLink';
-
-import Btn from '../../components/RouterButton';
 import Lozenge from '@atlaskit/lozenge';
 import Icon from '@atlaskit/icon/glyph/bullet-list';
 
 import { colors, gridSize, math, themed } from '@atlaskit/theme';
 
 import Changelog, { Logs } from '../../components/ChangeLog';
+import LinkButton from '../../components/LinkButton';
 
 const LatestChange = ({
   changelog,
@@ -29,13 +27,12 @@ const LatestChange = ({
         range={changelog[0].version}
         packageName={pkgId}
       />
-      <Button
-        component={Link}
+      <RightButton
         iconBefore={<Icon label="List icon" />}
         to={`/packages/${groupId}/${pkgId}/changelog`}
       >
         Changelog
-      </Button>
+      </RightButton>
     </LogWrapper>
   );
 };
@@ -58,7 +55,7 @@ const LogWrapper = styled.div`
     }
   }
 `;
-const Button = styled(Btn)`
+const RightButton = styled(LinkButton)`
   position: absolute;
   right: 0;
   top: ${math.multiply(gridSize, 3)}px;

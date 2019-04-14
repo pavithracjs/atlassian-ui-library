@@ -2,7 +2,6 @@ import { initEditorWithAdf, Appearance } from '../../_utils';
 import {
   getEditorWidth,
   typeInEditor,
-  disableTransition,
 } from '../../../__helpers/page-objects/_editor';
 import {
   insertMedia,
@@ -45,8 +44,6 @@ export function createResizeFullPageForConfig(config: TestPageConfig) {
               allowDynamicTextSizing: dynamicTextSizing,
             },
           });
-
-          await disableTransition(page, '.gridLine');
 
           editorWidth = await getEditorWidth(page);
         });

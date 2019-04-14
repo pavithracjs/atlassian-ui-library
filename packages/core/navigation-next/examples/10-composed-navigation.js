@@ -145,6 +145,7 @@ export default class Example extends Component<{}, State> {
       shouldDisplayContainerNav: !state.shouldDisplayContainerNav,
     }));
   };
+
   ContainerNavigation = () => (
     <div data-webdriver-test-key="container-navigation">
       <HeaderSection>

@@ -42,6 +42,7 @@ test('should ssr then hydrate portal correctly', () => {
   const elem = document.createElement('div');
   elem.innerHTML = serverHTML;
   ReactDOM.hydrate(<App />, elem);
+  // eslint-disable-next-line no-console
   expect(console.error).not.toBeCalled();
   expect(elem.getElementsByTagName('h1')).toHaveLength(0);
   expect(document.getElementsByClassName('atlaskit-portal')).toHaveLength(1);

@@ -96,7 +96,7 @@ describe('@atlaskit/tree - utils/tree', () => {
 
   describe('#mutateTree', () => {
     it('mutates the root', () => {
-      const rootId = treeWithThreeLeaves.rootId;
+      const { rootId } = treeWithThreeLeaves;
       const mutatedTree = mutateTree(treeWithThreeLeaves, rootId, {
         children: [],
       });
