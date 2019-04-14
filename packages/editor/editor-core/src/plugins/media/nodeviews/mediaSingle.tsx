@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { Node as PMNode } from 'prosemirror-model';
-import { EditorView } from 'prosemirror-view';
+import { EditorView, Decoration } from 'prosemirror-view';
 import {
   MediaSingleLayout,
   MediaAttributes,
@@ -282,6 +282,7 @@ class MediaSingleNodeView extends ReactNodeView {
     }
     return domRef;
   }
+
   isSelected(position: number) {
     const pos = this.getPos();
     const range = [pos, pos + this.node.nodeSize - 1];
@@ -293,6 +294,26 @@ class MediaSingleNodeView extends ReactNodeView {
     // If the current position is in range, then is selected,
     return position >= range[0] && position <= range[1];
   }
+
+  getNodeMediaId(node: PMNode): string | undefined {
+    if (node.firstChild) {
+      return node.firstChild.attrs.id;
+    }
+    return undefined;
+  }
+
+  update(
+    node: PMNode,
+    decorations: Decoration[],
+    isValidUpdate?: (currentNode: PMNode, newNode: PMNode) => boolean,
+  ) {
+    if (!isValidUpdate) {
+      isValidUpdate = (currentNode, newNode) =>
+        this.getNodeMediaId(currentNode) === this.getNodeMediaId(newNode);
+    }
+    return super.update(node, decorations, isValidUpdate);
+  }
+
   render() {
     const { eventDispatcher, editorAppearance } = this.reactComponentProps;
     const mediaPluginState = stateKey.getState(
