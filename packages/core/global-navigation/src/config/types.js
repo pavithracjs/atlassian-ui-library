@@ -54,7 +54,6 @@ export type ProductConfigShape = {
     itemComponent: ComponentType<*>,
   },
   help: ?helpContent,
-  // help: any,
   settings: ?ItemShape,
   atlassianSwitcher: ?ItemShape,
   profile: ?DropdownItem,
