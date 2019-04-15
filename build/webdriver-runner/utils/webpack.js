@@ -17,7 +17,11 @@ DirectoryWatcher.prototype.createNestedWatcher = function(
   // If we are just adding snapshots or updating tests, we can safely ignore those
   if (dirPath.includes('__snapshots__')) return;
   if (dirPath.includes('__image_snapshots__')) return;
-  if (dirPath.includes('__tests__') && !dirPath.includes('integration')) return;
+  if (
+    (dirPath.includes('__tests__') && !dirPath.includes('integration')) ||
+    !dirPath.includes('visual-regression')
+  )
+    return;
   if (dirPath.includes('__tests-karma__')) return;
   if (dirPath.includes('node_modules')) return;
   _oldcreateNestedWatcher.call(this, dirPath);
@@ -75,7 +79,6 @@ function packageIsInPatternOrChanged(workspace) {
     }
     return parsedChangedPackages.some(pkg => workspace.dir.includes(pkg));
   }
-
   /* Match and existing pattern is passed through the command line */
   return pattern.length < workspace.dir.length
     ? workspace.dir.includes(pattern)
@@ -117,17 +120,19 @@ async function startDevServer() {
     ? utils.createWorkspacesGlob(flattenDeep(filteredWorkspaces), projectRoot)
     : utils.createDefaultGlob();
 
-  /* At the moment, the website does not build a package and it is not possible to test it.
+  /* At the moment, the websiteand webpack folders do not build a package and it is not possible to test it.
   ** The current workaround, we build another package that builds the homepage and indirectly test the website.
   ** We picked the package polyfills:
    - the package is internal.
    - no integration tests will be added.
    - changes to the package will not impact the build system.
   */
-  if (globs.indexOf('website') === -1) {
-    globs = globs.map(glob =>
-      glob.replace('website', 'packages/core/polyfills'),
-    );
+  console.log(globs);
+  if (globs.indexOf('website') === -1 || globs.indexOf('webpack') === -1) {
+    globs = globs.map(glob => {
+      glob.replace('website', 'packages/core/polyfills');
+      glob.replace('webpack', 'packages/core/polyfills');
+    });
   }
 
   if (!globs.length) {
