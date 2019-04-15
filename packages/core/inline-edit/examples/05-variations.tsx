@@ -44,7 +44,7 @@ export default class InlineEditExample extends React.Component<void, State> {
 
   render() {
     return (
-      <div style={{ padding: `0 ${gridSize()}px`, width: '50%' }}>
+      <div style={{ padding: `${gridSize()}px ${gridSize()}px`, width: '50%' }}>
         <InlineEditableTextfield
           defaultValue={this.state.firstEditValue}
           label="Inline edit textfield + hide action buttons (Enter to confirm, Esc to cancel)"
