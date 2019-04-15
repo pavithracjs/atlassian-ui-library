@@ -1,4 +1,5 @@
 import { Node } from 'prosemirror-model';
+export * from './composition';
 export * from './extension-handler';
 
 export interface Transformer<T> {

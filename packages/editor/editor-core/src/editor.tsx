@@ -266,9 +266,9 @@ export default class Editor extends React.Component<EditorProps, {}> {
     // the document, force a DOM sync before calling onSave
     // if we've already started typing
     // @ts-ignore
-    if (view['inDOMChange']) {
+    if (view['domObserver'] && view['observer']) {
       // @ts-ignore
-      view['inDOMChange'].finish(true);
+      view['domObserver'].flush();
     }
 
     return this.props.onSave(view);
@@ -291,7 +291,7 @@ export default class Editor extends React.Component<EditorProps, {}> {
                 <PortalProvider
                   render={portalProviderAPI => (
                     <>
-                      <ReactEditorView
+                      <ReactEditorView<{ disabled?: boolean }>
                         editorProps={overriddenEditorProps}
                         createAnalyticsEvent={createAnalyticsEvent}
                         portalProviderAPI={portalProviderAPI}

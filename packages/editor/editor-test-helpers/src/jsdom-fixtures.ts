@@ -1,4 +1,8 @@
 import { EditorView } from 'prosemirror-view';
+import 'mutationobserver-shim';
+
+(global as any).MutationObserver = (window as any)
+  .MutationObserver as MutationObserver;
 
 export class NullSelectionReader {
   constructor(private warnOnce: () => void) {}
