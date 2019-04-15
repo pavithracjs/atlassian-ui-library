@@ -4,8 +4,14 @@ export const ADMIN_NOTIFIED = 'admin-notified';
 
 export type FlagType = 'object-shared' | 'admin-notified';
 
+type MessageDescriptor = {
+  id: string;
+  description: string;
+  defaultMessage: string;
+};
+
 export type Flag = {
   id: string;
   type: FlagType;
-  localizedTitle: string;
+  message: MessageDescriptor;
 };

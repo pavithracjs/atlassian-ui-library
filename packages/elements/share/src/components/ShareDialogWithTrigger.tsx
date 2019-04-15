@@ -129,21 +129,29 @@ class ShareDialogWithTriggerInternal extends React.Component<
       flags.push({
         id: `${ADMIN_NOTIFIED}-${Date.now()}`,
         type: ADMIN_NOTIFIED,
-        localizedTitle: formatMessage(messages.adminNotifiedMessage),
+        message: {
+          ...messages.adminNotifiedMessage,
+          defaultMessage: formatMessage(messages.adminNotifiedMessage),
+        },
       });
     }
 
     flags.push({
       id: `${OBJECT_SHARED}-${Date.now()}`,
       type: OBJECT_SHARED,
-      localizedTitle: formatMessage(messages.shareSuccessMessage, {
-        object: this.props.shareContentType.toLowerCase(),
-      }),
+      message: {
+        ...messages.shareSuccessMessage,
+        defaultMessage: formatMessage(messages.shareSuccessMessage, {
+          object: this.props.shareContentType.toLowerCase(),
+        }),
+      },
     });
 
-    // The reason for providing the both type and localizedTitle is that
-    // in jira, the Flag system takes only Message Descriptor as payload
+    // The reason for providing message property is that in jira,
+    // the Flag system takes only Message Descriptor as payload
     // and formatMessage is called for every flag
+    // if the translation data is not provided, a translated default message
+    // will be displayed
     return flags;
   };
 

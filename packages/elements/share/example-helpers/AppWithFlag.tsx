@@ -49,7 +49,7 @@ export default class AppWithFlag extends React.PureComponent<Props, State> {
                   />
                 }
                 key={flag.id}
-                title={flag.localizedTitle}
+                title={flag.message.defaultMessage}
               />
             );
           })}

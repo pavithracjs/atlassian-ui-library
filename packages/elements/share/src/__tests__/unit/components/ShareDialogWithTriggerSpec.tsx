@@ -461,7 +461,10 @@ describe('ShareDialogWithTrigger', () => {
         {
           id: expect.any(String),
           type: OBJECT_SHARED,
-          localizedTitle: expect.any(String),
+          message: expect.objectContaining({
+            ...messages.shareSuccessMessage,
+            defaultMessage: expect.any(String),
+          }),
         },
       ]);
 
@@ -485,12 +488,18 @@ describe('ShareDialogWithTrigger', () => {
         {
           id: expect.any(String),
           type: ADMIN_NOTIFIED,
-          localizedTitle: expect.any(String),
+          message: {
+            ...messages.adminNotifiedMessage,
+            defaultMessage: expect.any(String),
+          },
         },
         {
           id: expect.any(String),
           type: OBJECT_SHARED,
-          localizedTitle: expect.any(String),
+          message: {
+            ...messages.shareSuccessMessage,
+            defaultMessage: expect.any(String),
+          },
         },
       ]);
     });
