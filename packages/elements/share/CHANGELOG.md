@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.3.8
+- [patch] [95293c5550](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/95293c5550):
+
+  - Added documentation and consolidated example
+
 ## 0.3.7
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2

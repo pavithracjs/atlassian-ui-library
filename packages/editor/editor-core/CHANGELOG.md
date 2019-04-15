@@ -1,5 +1,12 @@
 # @atlaskit/editor-core
 
+## 107.13.0
+- [minor] [a16ea57a8c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a16ea57a8c):
+
+  - ED-6623 Add new layout options "Left Sidebar" and "Right Sidebar" in addition to current layouts "Two Columns" and "Three Columns"
+
+  To get access to the new layouts, configure the `allowLayouts` prop eg. `allowLayouts={ allowBreakout: true, UNSAFE_addSidebarLayouts: true }`
+
 ## 107.12.7
 - Updated dependencies [cf018d7630](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cf018d7630):
   - @atlaskit/textarea@0.4.2

@@ -70,7 +70,7 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
             allowTables,
             appearance,
             allowDynamicTextSizing,
-            fullWidthMode,
+            UNSAFE_fullWidthMode: fullWidthMode,
           } = props;
           const isContextMenuEnabled = appearance !== 'mobile';
           const isBreakoutEnabled = !fullWidthMode;
@@ -89,7 +89,11 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
         name: 'tablePMColResizing',
         plugin: ({
           dispatch,
-          props: { allowTables, allowDynamicTextSizing, fullWidthMode },
+          props: {
+            allowTables,
+            allowDynamicTextSizing,
+            UNSAFE_fullWidthMode: fullWidthMode,
+          },
         }) => {
           const { allowColumnResizing } = pluginConfig(allowTables);
           return allowColumnResizing

@@ -157,8 +157,8 @@ export default class ReactEditorView<T = {}> extends React.Component<
     }
 
     if (
-      nextProps.editorProps.fullWidthMode !==
-      this.props.editorProps.fullWidthMode
+      nextProps.editorProps.UNSAFE_fullWidthMode !==
+      this.props.editorProps.UNSAFE_fullWidthMode
     ) {
       this.reconfigureState(nextProps);
     }
