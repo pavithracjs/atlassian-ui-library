@@ -1,5 +1,10 @@
 # @atlaskit/droplist
 
+## 8.0.4
+- [patch] [6fd20256f3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6fd20256f3):
+
+  - Add positionFixed property to Popper
+
 ## 8.0.3
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2

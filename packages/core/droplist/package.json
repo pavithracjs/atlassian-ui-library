@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/droplist",
-  "version": "8.0.3",
+  "version": "8.0.4",
   "description": "Droplist component",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -19,7 +19,7 @@
     "@atlaskit/analytics-next": "^4.0.3",
     "@atlaskit/icon": "^16.0.8",
     "@atlaskit/item": "^9.0.0",
-    "@atlaskit/layer": "^6.0.0",
+    "@atlaskit/layer": "^6.1.0",
     "@atlaskit/spinner": "^10.0.5",
     "@atlaskit/theme": "^8.1.6",
     "@atlaskit/tooltip": "^13.0.3",

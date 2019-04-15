@@ -1,5 +1,10 @@
 # @atlaskit/dropdown-menu
 
+## 7.0.5
+- [patch] [6fd20256f3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6fd20256f3):
+
+  - Add positionFixed property to Popper
+
 ## 7.0.4
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
