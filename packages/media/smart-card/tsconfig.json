@@ -11,7 +11,7 @@
     "./examples-helpers/**/*.tsx"
   ],
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "./"
     
   }
 }
