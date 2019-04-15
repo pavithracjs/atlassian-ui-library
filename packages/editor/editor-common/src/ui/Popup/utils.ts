@@ -468,15 +468,6 @@ export function validatePosition(
     return false;
   }
 
-  if (
-    (position.left && position.left < 0) ||
-    (position.right && position.right < 0) ||
-    (position.top && position.top < 0) ||
-    (position.bottom && position.bottom < 0)
-  ) {
-    return false;
-  }
-
   return true;
 }
 
