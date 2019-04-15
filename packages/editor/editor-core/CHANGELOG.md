@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.13.1
+- [patch] [351e23aeb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/351e23aeb5):
+
+  - ED-6102: fixed inline node deletion on Android
+
 ## 107.13.0
 - [minor] [a16ea57a8c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a16ea57a8c):
 

@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.4.1
+- [patch] [351e23aeb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/351e23aeb5):
+
+  - ED-6102: fixed inline node deletion on Android
+
 ## 7.4.0
 - [minor] [7964240a6a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7964240a6a):
 
