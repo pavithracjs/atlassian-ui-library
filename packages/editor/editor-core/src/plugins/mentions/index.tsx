@@ -31,7 +31,6 @@ import {
   createInitialPluginState,
 } from '../type-ahead/pm-plugins/main';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
-import { ReactNodeView } from '../../nodeviews';
 import ToolbarMention from './ui/ToolbarMention';
 import mentionNodeView from './nodeviews/mention';
 import {
@@ -422,10 +421,10 @@ function mentionPluginFactory(
     } as StateField<MentionPluginState>,
     props: {
       nodeViews: {
-        mention: ReactNodeView.fromComponent(
-          mentionNodeView,
+        mention: mentionNodeView(
           portalProviderAPI,
-          { providerFactory, editorAppearance },
+          providerFactory,
+          editorAppearance,
         ),
       },
     },

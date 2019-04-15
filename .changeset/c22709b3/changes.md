@@ -1,0 +1,1 @@
+- ED-6102: fixed inline node deletion on Android
