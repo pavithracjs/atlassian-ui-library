@@ -1,5 +1,18 @@
 # @atlaskit/renderer
 
+## 45.6.0
+- [minor] [ca3c087624](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ca3c087624):
+
+  - ED-6606: Add 'full-width' appearance to renderer
+
+  Example:
+
+  ```js
+  import Renderer from '@atlaskit/renderer';
+
+  <Renderer document={...} appearance="full-width" />
+  ```
+
 ## 45.5.1
 - [patch] [86d11a504b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86d11a504b):
 
