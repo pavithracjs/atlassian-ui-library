@@ -1,1 +1,0 @@
-- New feedback component for @atlaskit/global-search - breaking feedback component API change

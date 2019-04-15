@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 7.0.0
+- [major] [3b02028b52](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3b02028b52):
+
+  - New feedback component for @atlaskit/global-search - breaking feedback component API change
+
 ## 6.2.6
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
