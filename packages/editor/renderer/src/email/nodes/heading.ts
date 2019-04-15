@@ -1,23 +1,60 @@
-import { typography } from '@atlaskit/theme';
 import { NodeSerializerOpts } from '../interfaces';
-import { createTag, applyMarks } from '../util';
+import { createTag, applyMarks, serializeStyle } from '../util';
+import { N800 } from '@atlaskit/adf-schema';
 
-// TODO: get rid of bottom margins
-// TODO: these are kind of broken
-const getTypoMixin = (tagName: string) => {
+const baseHeadingStyle = {
+  'font-style': 'inherit',
+  color: N800,
+  'font-weight': 600,
+  'margin-bottom': 0,
+};
+
+const getHeadingStyle = (tagName: string) => {
   switch (tagName) {
     case 'h1':
-      return typography.h800();
+      return {
+        'font-size': '23px',
+        'line-height': '1.1034',
+        'margin-top': '40px',
+        'letter-spacing': '-0.01em',
+      };
     case 'h2':
-      return typography.h700();
+      return {
+        'font-size': '20px',
+        'line-height': '1.1666',
+        'margin-top': '36px',
+        'font-weight': 500,
+        'letter-spacing': '-0.01em',
+      };
     case 'h3':
-      return typography.h600();
+      return {
+        'font-size': '16px',
+        'line-height': '1.2',
+        'margin-top': '32px',
+        'font-weight': 500,
+        'letter-spacing': '-0.008em',
+      };
     case 'h4':
-      return typography.h500();
+      return {
+        'font-size': '14px',
+        'line-height': '1.25',
+        'margin-top': '20px',
+        'letter-spacing': '-0.006em',
+      };
     case 'h5':
-      return typography.h400();
+      return {
+        'font-size': '11px',
+        'line-height': '1.4286',
+        'margin-top': '20px',
+        'letter-spacing': '-0.003em',
+      };
     case 'h6':
-      return typography.h300();
+      return {
+        'font-size': '11px',
+        'line-height': '1.3333',
+        'text-transform': 'uppercase',
+        'margin-top': '16px',
+      };
     default:
       throw new Error(`Unknown tagName: ${tagName}`);
   }
@@ -25,8 +62,11 @@ const getTypoMixin = (tagName: string) => {
 
 export default function heading({ attrs, marks, text }: NodeSerializerOpts) {
   const tagName = `h${attrs.level}`;
-  const css = (getTypoMixin(tagName) as any).join().trim();
+  const style = serializeStyle({
+    ...baseHeadingStyle,
+    ...getHeadingStyle(tagName),
+  });
 
-  const headingTag = createTag(tagName, { style: css }, text);
+  const headingTag = createTag(tagName, { style }, text);
   return applyMarks(marks, headingTag);
 }

@@ -1,0 +1,1 @@
+- Fixed heading render for ADF->Email
