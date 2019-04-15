@@ -1,0 +1,1 @@
+- Remove tests from MediaViewer dist
