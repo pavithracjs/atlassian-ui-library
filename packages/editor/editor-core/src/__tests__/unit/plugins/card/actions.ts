@@ -15,7 +15,7 @@ import {
   blockCard,
   Refs,
 } from '@atlaskit/editor-test-helpers';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { setNodeSelection } from '../../../../utils';
 import { visitCardLink, removeCard } from '../../../../plugins/card/toolbar';
 import { EditorView } from 'prosemirror-view';

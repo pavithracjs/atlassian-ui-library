@@ -1,5 +1,7 @@
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import {
+  withAnalyticsEvents,
+  WithAnalyticsEventProps,
+} from '@atlaskit/analytics-next';
 import * as React from 'react';
 import { ComponentClass } from 'react';
 import { EmojiProvider } from '../../api/EmojiResource';

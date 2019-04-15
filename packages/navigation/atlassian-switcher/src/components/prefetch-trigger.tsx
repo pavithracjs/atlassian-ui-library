@@ -13,7 +13,7 @@ import {
 import {
   AnalyticsEventPayload,
   WithAnalyticsEventProps,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import packageContext from '../utils/package-context';
 
 const THROTTLE_EXPIRES = 60 * 1000; // 60 seconds

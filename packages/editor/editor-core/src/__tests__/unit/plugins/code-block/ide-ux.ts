@@ -18,7 +18,7 @@ import {
   INDENT_DIR,
   INDENT_TYPE,
 } from '../../../../plugins/analytics';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 
 const createIndentationAttributes = (
   previousIndentationLevel: number,

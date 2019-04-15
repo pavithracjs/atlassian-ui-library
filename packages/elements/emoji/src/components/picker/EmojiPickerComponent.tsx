@@ -37,7 +37,7 @@ import EmojiPickerFooter from './EmojiPickerFooter';
 import EmojiPickerList from './EmojiPickerList';
 import * as styles from './styles';
 import { createAndFireEventInElementsChannel } from '../../util/analytics';
-import { AnalyticsEventPayload } from '@atlaskit/analytics-next-types';
+import { AnalyticsEventPayload } from '@atlaskit/analytics-next';
 import {
   categoryClickedEvent,
   closedPickerEvent,

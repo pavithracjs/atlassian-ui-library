@@ -1,11 +1,9 @@
 import {
   AnalyticsContext,
   withAnalyticsEvents,
-} from '@atlaskit/analytics-next';
-import {
   AnalyticsEventPayload,
   WithAnalyticsEventProps,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import { ButtonAppearances } from '@atlaskit/button';
 import InlineDialog from '@atlaskit/inline-dialog';
 import { LoadOptions } from '@atlaskit/user-picker';

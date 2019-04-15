@@ -11,11 +11,11 @@ import {
   mention,
   code_block,
 } from '@atlaskit/editor-test-helpers';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { emojiPluginKey } from '../../../../plugins/emoji/pm-plugins/main';
 import emojiPlugin from '../../../../plugins/emoji';
 import codeBlockPlugin from '../../../../plugins/code-block';
 import mentionsPlugin from '../../../../plugins/mentions';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
 
 const emojiProvider = emojiData.testData.getEmojiResourcePromise();
 

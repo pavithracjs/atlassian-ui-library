@@ -16,7 +16,7 @@ import {
   tr,
 } from '@atlaskit/editor-test-helpers';
 import { uuid } from '@atlaskit/adf-schema';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
 import mentionsPlugin from '../../../../plugins/mentions';
 import tablesPlugin from '../../../../plugins/table';

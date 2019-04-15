@@ -45,7 +45,7 @@ import macroPlugin, { setMacroProvider } from '../../../../plugins/macro';
 import { uuid } from '@atlaskit/adf-schema';
 import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
 import { panelPlugin } from '../../../../plugins';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 import {
   PASTE_ACTION_SUBJECT_ID,

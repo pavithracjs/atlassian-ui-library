@@ -1,4 +1,4 @@
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { EditorPlugin, EditorProps } from '../types';
 import {
   basePlugin,

@@ -1,5 +1,5 @@
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
 import debounce from 'lodash.debounce';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';

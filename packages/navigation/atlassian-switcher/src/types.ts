@@ -1,4 +1,4 @@
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 
 export interface TriggerXFlowCallback {
   (
