@@ -459,12 +459,12 @@ describe('ShareDialogWithTrigger', () => {
       expect(mockShowFlags).toHaveBeenCalledTimes(1);
       expect(mockShowFlags).toHaveBeenCalledWith([
         {
-          id: expect.any(String),
-          type: OBJECT_SHARED,
-          message: expect.objectContaining({
+          appearance: 'success',
+          title: expect.objectContaining({
             ...messages.shareSuccessMessage,
             defaultMessage: expect.any(String),
           }),
+          type: OBJECT_SHARED,
         },
       ]);
 
@@ -486,20 +486,20 @@ describe('ShareDialogWithTrigger', () => {
       expect(mockShowFlags).toHaveBeenCalledTimes(1);
       expect(mockShowFlags).toHaveBeenCalledWith([
         {
-          id: expect.any(String),
-          type: ADMIN_NOTIFIED,
-          message: {
+          appearance: 'success',
+          title: {
             ...messages.adminNotifiedMessage,
             defaultMessage: expect.any(String),
           },
+          type: ADMIN_NOTIFIED,
         },
         {
-          id: expect.any(String),
-          type: OBJECT_SHARED,
-          message: {
+          appearance: 'success',
+          title: {
             ...messages.shareSuccessMessage,
             defaultMessage: expect.any(String),
           },
+          type: OBJECT_SHARED,
         },
       ]);
     });

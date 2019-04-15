@@ -11,7 +11,7 @@ type MessageDescriptor = {
 };
 
 export type Flag = {
-  id: string;
+  appearance: 'success';
+  title: MessageDescriptor;
   type: FlagType;
-  message: MessageDescriptor;
 };

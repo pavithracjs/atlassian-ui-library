@@ -127,24 +127,24 @@ class ShareDialogWithTriggerInternal extends React.Component<
       this.props.config.mode === 'INVITE_NEEDS_APPROVAL'
     ) {
       flags.push({
-        id: `${ADMIN_NOTIFIED}-${Date.now()}`,
-        type: ADMIN_NOTIFIED,
-        message: {
+        appearance: 'success',
+        title: {
           ...messages.adminNotifiedMessage,
           defaultMessage: formatMessage(messages.adminNotifiedMessage),
         },
+        type: ADMIN_NOTIFIED,
       });
     }
 
     flags.push({
-      id: `${OBJECT_SHARED}-${Date.now()}`,
-      type: OBJECT_SHARED,
-      message: {
+      appearance: 'success',
+      title: {
         ...messages.shareSuccessMessage,
         defaultMessage: formatMessage(messages.shareSuccessMessage, {
           object: this.props.shareContentType.toLowerCase(),
         }),
       },
+      type: OBJECT_SHARED,
     });
 
     // The reason for providing message property is that in jira,
