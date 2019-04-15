@@ -75,14 +75,19 @@ export default class AvatarImage extends PureComponent<Props, State> {
     isLoading: false,
   };
 
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.src && this.props.src !== prevProps.src) {
-      this.loadImage();
+  componentDidMount() {
+    if (this.props.src) {
+      // check whether there was a problem loading the image
+      // if handleLoadError is called we show the default avatar
+      const img = new Image();
+      img.onerror = this.handleLoadError;
+      img.src = this.props.src || '';
     }
   }
 
-  loadImage = () => {
-    if (this.props.src) {
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.src && this.props.src !== prevProps.src) {
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ isLoading: true }, () => {
         const img = new Image();
         img.onload = this.handleLoadSuccess;
@@ -90,7 +95,7 @@ export default class AvatarImage extends PureComponent<Props, State> {
         img.src = this.props.src || '';
       });
     }
-  };
+  }
 
   handleLoadSuccess = () => {
     this.setState({ hasError: false, isLoading: false });
