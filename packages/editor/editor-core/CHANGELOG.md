@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.13.2
+- [patch] [8e86c7c9d4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8e86c7c9d4):
+
+  - Use isImagePreview util to know if file is an image or not
+
 ## 107.13.1
 - [patch] [351e23aeb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/351e23aeb5):
 

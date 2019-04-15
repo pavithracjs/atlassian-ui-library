@@ -1,1 +1,0 @@
-- Use isImagePreview util to know if file is an image or not
