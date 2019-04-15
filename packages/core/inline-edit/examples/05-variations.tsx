@@ -54,10 +54,11 @@ export default class InlineEditExample extends React.Component<void, State> {
         />
         <InlineEditableTextfield
           defaultValue={this.state.secondEditValue}
-          label="Inline edit textfield + start in edit view"
+          label="Inline edit textfield + start in edit view + isRequired"
           onConfirm={value => this.onConfirm(value, 'secondEditValue')}
           placeholder="Click to enter text"
           startWithEditViewOpen
+          isRequired
         />
         <InlineEditableTextfield
           defaultValue={this.state.thirdEditValue}
