@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 45.5.1
+- [patch] [86d11a504b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86d11a504b):
+
+  - [ED-5837] Fix copy-paste table from renderer to editor to keep column widths
+
 ## 45.5.0
 - [minor] [3d34915d24](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d34915d24):
 
