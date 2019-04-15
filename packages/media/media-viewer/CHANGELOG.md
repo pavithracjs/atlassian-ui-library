@@ -1,5 +1,10 @@
 # @atlaskit/media-viewer
 
+## 40.1.8
+- [patch] [8bdebe02f1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8bdebe02f1):
+
+  - Remove tests from MediaViewer dist
+
 ## 40.1.7
 - [patch] [bee4101a63](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bee4101a63):
 
