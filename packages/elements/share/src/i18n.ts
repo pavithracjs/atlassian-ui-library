@@ -21,10 +21,16 @@ export const messages = defineMessages({
     defaultMessage: 'Add a message',
     description: 'Placeholder for the comment field in Share form.',
   },
-  userPickerPlaceholder: {
-    id: 'fabric.elements.share.form.user-picker.placeholder',
+  userPickerGenericPlaceholder: {
+    id: 'fabric.elements.share.form.user-picker.placeholder.generic',
     defaultMessage: 'Enter name, team or email',
-    description: 'Placeholder for the user picker field in Share form.',
+    description: 'Generic placeholder for the user picker field in Share form.',
+  },
+  userPickerExistingUserOnlyPlaceholder: {
+    id: 'fabric.elements.share.form.user-picker.placeholder.existingUserOnly',
+    defaultMessage: 'Enter name or team',
+    description:
+      'Existing user only placeholder for the user picker field in Share form.',
   },
   userPickerAddMoreMessage: {
     id: 'fabric.elements.share.form.user-picker.add-more',

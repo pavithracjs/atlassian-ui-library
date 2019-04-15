@@ -4,7 +4,7 @@ export const ADMIN_NOTIFIED = 'admin-notified';
 
 export type FlagType = 'object-shared' | 'admin-notified';
 
-type MessageDescriptor = {
+export type MessageDescriptor = {
   id: string;
   description: string;
   defaultMessage: string;

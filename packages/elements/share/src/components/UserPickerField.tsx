@@ -7,7 +7,12 @@ import UserPicker, {
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { messages } from '../i18n';
-import { ConfigResponse, FieldChildrenArgs } from '../types';
+import {
+  ConfigResponse,
+  ConfigResponseMode,
+  FieldChildrenArgs,
+  MessageDescriptor,
+} from '../types';
 import {
   allowEmails,
   isValidEmailUsingConfig,
@@ -44,6 +49,13 @@ const getNoOptionsMessage = ({
       ) as any)
     : null;
 
+const getPlaceHolderMessage: (
+  mode: ConfigResponseMode | '',
+) => MessageDescriptor = mode =>
+  mode === 'EXISTING_USERS_ONLY'
+    ? messages.userPickerExistingUserOnlyPlaceholder
+    : messages.userPickerGenericPlaceholder;
+
 export class UserPickerField extends React.Component<Props> {
   private loadOptions = (search?: string) => {
     const { loadOptions } = this.props;
@@ -69,7 +81,9 @@ export class UserPickerField extends React.Component<Props> {
                   isMulti
                   width="100%"
                   placeholder={
-                    <FormattedMessage {...messages.userPickerPlaceholder} />
+                    <FormattedMessage
+                      {...getPlaceHolderMessage(config ? config!.mode : '')}
+                    />
                   }
                   addMoreMessage={addMore as string}
                   allowEmail={allowEmails(config)}
