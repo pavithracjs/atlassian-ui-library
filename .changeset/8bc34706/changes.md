@@ -1,0 +1,1 @@
+- [ED-5837] Fix copy-paste table from renderer to editor to keep column widths
