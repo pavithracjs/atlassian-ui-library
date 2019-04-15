@@ -1,5 +1,72 @@
 # @atlaskit/editor-core
 
+## 107.13.0
+- [minor] [a16ea57a8c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a16ea57a8c):
+
+  - ED-6623 Add new layout options "Left Sidebar" and "Right Sidebar" in addition to current layouts "Two Columns" and "Three Columns"
+
+  To get access to the new layouts, configure the `allowLayouts` prop eg. `allowLayouts={ allowBreakout: true, UNSAFE_addSidebarLayouts: true }`
+
+## 107.12.7
+- Updated dependencies [cf018d7630](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cf018d7630):
+  - @atlaskit/textarea@0.4.2
+
+## 107.12.6
+- [patch] [6695367885](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6695367885):
+
+  - Revert emoji refactor
+
+## 107.12.5
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/avatar@15.0.3
+  - @atlaskit/avatar-group@3.0.3
+  - @atlaskit/calendar@7.0.21
+  - @atlaskit/dropdown-menu@7.0.4
+  - @atlaskit/droplist@8.0.3
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/logo@10.0.3
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/section-message@2.0.2
+  - @atlaskit/select@8.0.5
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/textarea@0.4.1
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/tooltip@13.0.3
+  - @atlaskit/renderer@45.4.3
+  - @atlaskit/analytics-listeners@5.0.3
+  - @atlaskit/emoji@59.2.1
+  - @atlaskit/pubsub@4.0.3
+  - @atlaskit/task-decision@14.0.3
+  - @atlaskit/media-card@60.0.1
+  - @atlaskit/media-core@29.1.4
+  - @atlaskit/media-editor@32.0.5
+  - @atlaskit/media-filmstrip@31.0.3
+  - @atlaskit/media-picker@38.1.4
+  - @atlaskit/smart-card@10.2.2
+  - @atlaskit/button@12.0.0
+
+## 107.12.4
+- [patch] [068ecc926f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/068ecc926f):
+
+  - Reverting column resize fix from ED-6627
+
+## 107.12.3
+- [patch] [247cc39577](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/247cc39577):
+
+  - ED-2152 Remove any selection when pressing ` and completing inlinecode
+
+## 107.12.2
+- [patch] [24612aced0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/24612aced0):
+
+  - [ED-6467] Fixes alignments (left and right) for images, making them keep on the half of lineLength
+
+## 107.12.1
+- [patch] [098e5197b6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/098e5197b6):
+
+  - ED-6197 Provide fallback for image resizing snapTo. Set media resizing to be based on bounding box instead of chained parent offsets.
+
 ## 107.12.0
 - [minor] [049ff62abf](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/049ff62abf):
 

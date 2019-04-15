@@ -27,7 +27,7 @@ import {
   insertMacroFromMacroBrowser,
 } from '../macro';
 import { pluginKey as dateStateKey, DateState } from '../date/plugin';
-import { emojiPluginKey, EmojiPluginState } from '../emoji';
+import { emojiPluginKey, EmojiState } from '../emoji/pm-plugins/main';
 import WithPluginState from '../../ui/WithPluginState';
 import { ToolbarSize } from '../../ui/Toolbar';
 import ToolbarInsertBlock from './ui/ToolbarInsertBlock';
@@ -122,7 +122,7 @@ const insertBlockPlugin = (options: InsertBlockOptions): EditorPlugin => ({
             tablesState: TablePluginState | undefined;
             macroState: MacroState | undefined;
             hyperlinkState: HyperlinkState | undefined;
-            emojiState: EmojiPluginState | undefined;
+            emojiState: EmojiState | undefined;
             dateState: DateState | undefined;
             imageUpload: ImageUploadPluginState | undefined;
             placeholderTextState: PlaceholderPluginState | undefined;
@@ -161,7 +161,8 @@ const insertBlockPlugin = (options: InsertBlockOptions): EditorPlugin => ({
                 !hyperlinkState.canInsertLink ||
                 !!hyperlinkState.activeLinkMark
               }
-              emojiDisabled={!emojiState || !emojiState.emojiProvider}
+              emojiDisabled={!emojiState || !emojiState.enabled}
+              insertEmoji={emojiState && emojiState.insertEmoji}
               emojiProvider={providers.emojiProvider}
               nativeStatusSupported={options.nativeStatusSupported}
               horizontalRuleEnabled={options.horizontalRuleEnabled}

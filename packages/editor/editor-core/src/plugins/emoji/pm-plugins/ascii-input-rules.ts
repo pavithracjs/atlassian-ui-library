@@ -79,13 +79,12 @@ function inputRuleHandler(
 }
 
 function isEnabled(state: EditorState) {
-  const typeAheadQuery = state.schema.marks.typeAheadQuery;
-  const isTypeAheadQueryActive = state.selection.$from
+  const emojiQuery = state.schema.marks.emojiQuery;
+  const isEmojiQueryActive = state.selection.$from
     .marks()
-    .some(mark => mark.type === typeAheadQuery);
+    .some(mark => mark.type === emojiQuery);
   return (
-    isTypeAheadQueryActive ||
-    isMarkTypeAllowedInCurrentSelection(typeAheadQuery, state)
+    isEmojiQueryActive || isMarkTypeAllowedInCurrentSelection(emojiQuery, state)
   );
 }
 

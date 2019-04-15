@@ -23,7 +23,6 @@ import {
   mapResponseToBlob,
 } from './utils/request';
 import { MediaFileArtifacts, getArtifactUrl } from './models/artifacts';
-import { checkWebpSupport } from './utils/checkWebpSupport';
 
 const defaultImageOptions: MediaStoreGetFileImageParams = {
   'max-age': 3600,
@@ -287,7 +286,8 @@ export class MediaStore {
     params?: MediaStoreGetFileImageParams,
     controller?: AbortController,
   ): Promise<Blob> => {
-    const isWebpSupported = await checkWebpSupport();
+    // TODO [MS-1787]: add checkWebpSupport() back
+    const isWebpSupported = false;
     let headers;
     if (isWebpSupported) {
       headers = {

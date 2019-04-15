@@ -107,6 +107,7 @@ export default class MentionTextInput extends React.Component<Props, State> {
           onSelection={this.handleSelection}
           onOpen={onOpen}
           onClose={onClose}
+          // @ts-ignore
           ref={this.handleMentionPickerRef}
           query={this.state.query}
           zIndex={zIndex}

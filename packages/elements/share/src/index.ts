@@ -1,3 +1,6 @@
 export { ShareClient, ShareServiceClient } from './clients/ShareServiceClient';
-export { ShareDialogContainer } from './components/ShareDialogContainer';
+export {
+  ShareDialogContainer,
+  Props as ShareDialogContainerProps,
+} from './components/ShareDialogContainer';
 export * from './types';

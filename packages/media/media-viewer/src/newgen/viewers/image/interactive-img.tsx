@@ -6,11 +6,14 @@ import {
   Vector2,
   getCssFromImageOrientation,
 } from '@atlaskit/media-ui';
+import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import { BaselineExtend, ImageWrapper, Img } from '../../styled';
 import { ZoomLevel } from '../../domain/zoomLevel';
 import { closeOnDirectClick } from '../../utils/closeOnDirectClick';
 import { ZoomControls } from '../../zoomControls';
 import { Outcome } from '../../domain';
+import { closedEvent } from '../../analytics/closed';
+import { channel } from '../../analytics';
 
 export function zoomLevelAfterResize(
   newCamera: Camera,
@@ -38,6 +41,7 @@ export type Props = {
   onClose?: () => void;
   onLoad?: () => void;
   onError?: () => void;
+  onBlanketClicked?: () => void;
 };
 
 export type State = {
@@ -54,7 +58,7 @@ const initialState: State = {
   cursorPos: new Vector2(0, 0),
 };
 
-export class InteractiveImg extends React.Component<Props, State> {
+export class InteractiveImgComponent extends React.Component<Props, State> {
   state: State = initialState;
   private wrapper?: HTMLDivElement;
   private saveWrapperRef = (ref: HTMLDivElement) => (this.wrapper = ref);
@@ -72,8 +76,16 @@ export class InteractiveImg extends React.Component<Props, State> {
     document.removeEventListener('mouseup', this.stopDragging);
   }
 
+  onImageClicked = (e: React.MouseEvent) => {
+    const { onClose, onBlanketClicked } = this.props;
+    if (e.target === e.currentTarget && onBlanketClicked) {
+      onBlanketClicked();
+    }
+    closeOnDirectClick(onClose)(e);
+  };
+
   render() {
-    const { src, onClose, onError, orientation } = this.props;
+    const { src, orientation, onError } = this.props;
     const { zoomLevel, camera, isDragging } = this.state;
 
     const canDrag = camera.match({
@@ -94,7 +106,7 @@ export class InteractiveImg extends React.Component<Props, State> {
 
     return (
       <ImageWrapper
-        onClick={closeOnDirectClick(onClose)}
+        onClick={this.onImageClicked}
         innerRef={this.saveWrapperRef}
       >
         <Img
@@ -201,3 +213,10 @@ export class InteractiveImg extends React.Component<Props, State> {
     }
   };
 }
+
+export const InteractiveImg = withAnalyticsEvents({
+  onBlanketClicked: (createAnalyticsEvent: any) => {
+    const event = createAnalyticsEvent(closedEvent('blanket'));
+    event.fire(channel);
+  },
+})(InteractiveImgComponent);

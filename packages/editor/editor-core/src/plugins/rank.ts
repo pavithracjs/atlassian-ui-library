@@ -141,6 +141,7 @@ export default {
     'underline',
     'code',
     'typeAheadQuery',
+    'emojiQuery',
 
     // Block marks
     'alignment',

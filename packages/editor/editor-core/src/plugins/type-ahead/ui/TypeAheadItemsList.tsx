@@ -128,103 +128,56 @@ export function TypeAheadItemsList({
   return (
     <ThemeProvider theme={itemTheme}>
       <ItemGroup>
-        {items.map((item, index) => (
-          <TypeAheadItemComponent
-            key={item.key || item.title}
-            item={item}
-            index={index}
-            currentIndex={currentIndex}
-            insertByIndex={insertByIndex}
-            setCurrentIndex={setCurrentIndex}
-          />
-        ))}
+        {items.map((item, index) =>
+          item.render ? (
+            <div
+              key={item.title}
+              ref={
+                index === currentIndex
+                  ? ref => ref && scrollIntoViewIfNeeded(ref)
+                  : () => null
+              }
+            >
+              {item.render({
+                onClick: () => insertByIndex(index),
+                onMouseMove: () => setCurrentIndex(index),
+                isSelected: index === currentIndex,
+              })}
+            </div>
+          ) : (
+            <Item
+              key={item.title}
+              onClick={() => insertByIndex(index)}
+              onMouseMove={() => setCurrentIndex(index)}
+              elemBefore={
+                <ItemIcon>
+                  {item.icon ? item.icon() : fallbackIcon(item.title)}
+                </ItemIcon>
+              }
+              isSelected={index === currentIndex}
+              aria-describedby={item.title}
+              ref={
+                index === currentIndex
+                  ? (ref: { ref: HTMLDivElement } | null) =>
+                      ref && scrollIntoViewIfNeeded(ref.ref)
+                  : null
+              }
+            >
+              <ItemBody>
+                <ItemText>
+                  <div className="item-title">{item.title}</div>
+                  {item.description && (
+                    <div className="item-description">{item.description}</div>
+                  )}
+                </ItemText>
+                <ItemAfter>
+                  {item.keyshortcut && <KeyHint>{item.keyshortcut}</KeyHint>}
+                </ItemAfter>
+              </ItemBody>
+            </Item>
+          ),
+        )}
       </ItemGroup>
     </ThemeProvider>
   );
-}
-
-export type TypeAheadItemComponentProps = {
-  item: TypeAheadItem;
-  index: number;
-  currentIndex: number;
-  insertByIndex: (index: number) => void;
-  setCurrentIndex: (index: number) => void;
-};
-
-export class TypeAheadItemComponent extends React.Component<
-  TypeAheadItemComponentProps,
-  { ref: HTMLElement | null }
-> {
-  state = { ref: null };
-
-  shouldComponentUpdate(nextProps: TypeAheadItemComponentProps) {
-    return (
-      nextProps.item !== this.props.item ||
-      this.isSelected(this.props) !== this.isSelected(nextProps)
-    );
-  }
-
-  isSelected(props: TypeAheadItemComponentProps) {
-    return props.index === props.currentIndex;
-  }
-
-  insertByIndex = () => {
-    this.props.insertByIndex(this.props.index);
-  };
-
-  setCurrentIndex = () => {
-    this.props.setCurrentIndex(this.props.index);
-  };
-
-  handleRef = (ref: HTMLElement | null | { ref: HTMLElement }) => {
-    const hasRef = (ref: any): ref is { ref: HTMLElement } => {
-      return ref.ref && ref;
-    };
-    this.setState({ ref: ref && hasRef(ref) ? ref.ref : ref });
-  };
-
-  componentDidUpdate() {
-    const ref = this.state.ref;
-    if (this.props.index === this.props.currentIndex && ref) {
-      scrollIntoViewIfNeeded(ref);
-    }
-  }
-
-  render() {
-    const { item } = this.props;
-    return item.render ? (
-      <div ref={this.handleRef} style={{ overflow: 'hidden' }}>
-        <item.render
-          onClick={this.insertByIndex}
-          onMouseMove={this.setCurrentIndex}
-          isSelected={this.isSelected(this.props)}
-        />
-      </div>
-    ) : (
-      <Item
-        onClick={this.insertByIndex}
-        onMouseMove={this.setCurrentIndex}
-        elemBefore={
-          <ItemIcon>
-            {item.icon ? item.icon() : fallbackIcon(item.title)}
-          </ItemIcon>
-        }
-        isSelected={this.isSelected(this.props)}
-        aria-describedby={item.title}
-        ref={this.handleRef}
-      >
-        <ItemBody>
-          <ItemText>
-            <div className="item-title">{item.title}</div>
-            {item.description && (
-              <div className="item-description">{item.description}</div>
-            )}
-          </ItemText>
-          <ItemAfter>
-            {item.keyshortcut && <KeyHint>{item.keyshortcut}</KeyHint>}
-          </ItemAfter>
-        </ItemBody>
-      </Item>
-    );
-  }
 }

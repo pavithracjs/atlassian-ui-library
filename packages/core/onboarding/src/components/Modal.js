@@ -1,12 +1,10 @@
 // @flow
 
 import React, { Component, type ElementType, type Node } from 'react';
-import { ThemeProvider } from 'styled-components';
 import Modal from '@atlaskit/modal-dialog';
-import Button from '@atlaskit/button';
-
+import Button, { Theme as ButtonTheme } from '@atlaskit/button';
 import { Actions, ActionItem, Body, Heading, Image } from '../styled/Modal';
-import { getModalTheme } from './theme';
+import { modalButtonTheme } from './theme';
 import type { ActionsType } from '../types';
 
 type Props = {|
@@ -40,7 +38,7 @@ export default class OnboardingModal extends Component<Props> {
 
     const ActionsElement = () =>
       actionList ? (
-        <ThemeProvider theme={getModalTheme}>
+        <ButtonTheme.Provider value={modalButtonTheme}>
           <Actions>
             {actionList.map(({ text, key, ...rest }, idx) => {
               const variant = idx ? 'subtle-link' : 'primary';
@@ -55,7 +53,7 @@ export default class OnboardingModal extends Component<Props> {
               );
             })}
           </Actions>
-        </ThemeProvider>
+        </ButtonTheme.Provider>
       ) : (
         undefined
       );

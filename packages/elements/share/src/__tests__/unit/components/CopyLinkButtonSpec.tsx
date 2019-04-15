@@ -2,7 +2,6 @@
 import mockPopper from '../_mockPopper';
 mockPopper();
 
-import Button from '@atlaskit/button';
 import CheckCircleIcon from '@atlaskit/icon/glyph/check-circle';
 import InlineDialog from '@atlaskit/inline-dialog';
 import { ReactWrapper } from 'enzyme';
@@ -16,8 +15,8 @@ import {
   CopyLinkButton,
   HiddenInput,
   MessageContainer,
-  NoPaddingButton,
 } from '../../../components/CopyLinkButton';
+import Button from '../../../components/styles';
 
 describe('CopyLinkButton', () => {
   let originalExecCommand: (
@@ -73,7 +72,7 @@ describe('CopyLinkButton', () => {
         State,
         any
       > = mountWithIntl<Props, State>(<CopyLinkButton link={mockLink} />);
-      wrapper.find(NoPaddingButton).simulate('click');
+      wrapper.find(Button).simulate('click');
       expect(wrapper.instance().autoDismiss).not.toBeUndefined();
       wrapper.instance().componentWillUnmount();
       expect(wrapper.instance().autoDismiss).toBeUndefined();
@@ -92,7 +91,7 @@ describe('CopyLinkButton', () => {
         State,
         any
       > = mountWithIntl<Props, State>(<CopyLinkButton link={mockLink} />);
-      wrapper.find(NoPaddingButton).simulate('click');
+      wrapper.find(Button).simulate('click');
       expect(wrapper.find(CheckCircleIcon)).toHaveLength(1);
       expect(wrapper.find(MessageContainer)).toHaveLength(1);
       expect(wrapper.instance().autoDismiss).not.toBeUndefined();
@@ -131,7 +130,7 @@ describe('CopyLinkButton', () => {
         wrapper.instance().inputRef.current,
         'select',
       );
-      wrapper.find(NoPaddingButton).simulate('click');
+      wrapper.find(Button).simulate('click');
       expect(spiedInputSelect).toHaveBeenCalledTimes(1);
       expect(spiedExecCommand).toHaveBeenCalledTimes(1);
       expect(spiedOnLinkCopy).toHaveBeenCalledTimes(1);

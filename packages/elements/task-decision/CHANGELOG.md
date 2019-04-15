@@ -1,5 +1,18 @@
 # @atlaskit/task-decision
 
+## 14.0.3
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/avatar@15.0.3
+  - @atlaskit/avatar-group@3.0.3
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/renderer@45.4.3
+  - @atlaskit/analytics-listeners@5.0.3
+  - @atlaskit/button@12.0.0
+
 ## 14.0.2
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 

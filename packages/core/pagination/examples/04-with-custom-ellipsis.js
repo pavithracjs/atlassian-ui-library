@@ -29,7 +29,7 @@ export default class extends Component<{}, { max: number }> {
               onClick={() => this.handleEllipsisCLick()}
               appearance="subtle"
               key={key}
-              ariaLabel="expand"
+              aria-label="expand"
             >
               ...
             </Button>

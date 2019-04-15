@@ -1,5 +1,17 @@
 # @atlaskit/layer-manager
 
+## 6.0.2
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/onboarding@7.0.3
+  - @atlaskit/section-message@2.0.2
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/tooltip@13.0.3
+  - @atlaskit/button@12.0.0
+
 ## 6.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1
