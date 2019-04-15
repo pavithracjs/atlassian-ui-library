@@ -1,5 +1,15 @@
 # @atlaskit/renderer
 
+## 45.5.1
+- [patch] [86d11a504b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86d11a504b):
+
+  - [ED-5837] Fix copy-paste table from renderer to editor to keep column widths
+
+## 45.5.0
+- [minor] [3d34915d24](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d34915d24):
+
+  - Fixed heading render for ADF->Email
+
 ## 45.4.3
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
