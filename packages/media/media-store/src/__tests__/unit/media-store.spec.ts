@@ -1,6 +1,6 @@
 jest.mock('../../utils/checkWebpSupport');
 
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 import { stringify } from 'query-string';
 
 import { Auth, AuthProvider, CreatedTouchedFile, MediaStore } from '../..';
@@ -638,7 +638,8 @@ describe('MediaStore', () => {
         );
       });
 
-      it('should request webp content when supported', async () => {
+      // TODO [MS-1787]: add checkWebpSupport() back
+      it.skip('should request webp content when supported', async () => {
         fetchMock.mock(`begin:${baseUrl}/file`, {
           body: {
             data,

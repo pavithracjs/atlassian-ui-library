@@ -1,5 +1,16 @@
 # @atlaskit/theme
 
+## 8.1.6
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/section-message@2.0.2
+  - @atlaskit/button@12.0.0
+
+## 8.1.5
+- [patch] [9ac668e13d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ac668e13d):
+
+  - Release math js as a module
+
 ## 8.1.4
 - [patch] [4368278bb4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4368278bb4):
 

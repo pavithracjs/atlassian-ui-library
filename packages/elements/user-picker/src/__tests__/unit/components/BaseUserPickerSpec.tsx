@@ -5,6 +5,7 @@ import { mountWithIntl, shallowWithIntl } from 'enzyme-react-intl';
 import * as debounce from 'lodash.debounce';
 import * as React from 'react';
 import { BaseUserPicker } from '../../../components/BaseUserPicker';
+import { getComponents } from '../../../components/components';
 import {
   optionToSelectableOption,
   optionToSelectableOptions,
@@ -17,7 +18,6 @@ import {
   UserPickerProps,
   UserType,
 } from '../../../types';
-import { getComponents } from '../../../components/components';
 
 const getBasePicker = (props: Partial<UserPickerProps> = {}) => (
   <BaseUserPicker
@@ -110,6 +110,12 @@ describe('BaseUserPicker', () => {
     expect(onClear).toHaveBeenCalled();
   });
 
+  it('should display no loading message', () => {
+    const component = shallowUserPicker();
+    const select = component.find(Select);
+    expect(select.prop('loadingMessage')()).toEqual(null);
+  });
+
   it('should call onFocus handler', () => {
     const onFocus = jest.fn();
     const component = shallowUserPicker({ onFocus });
@@ -132,6 +138,22 @@ describe('BaseUserPicker', () => {
 
     component.simulate('close');
     expect(onClose).toHaveBeenCalled();
+  });
+
+  it('should clear options on blur', () => {
+    const onBlur = jest.fn();
+    const component = shallowUserPicker({ onBlur, options });
+    expect(component.state('options')).toEqual(options);
+    component.simulate('blur');
+    expect(component.state('options')).toEqual([]);
+  });
+
+  it('should clear options on close', () => {
+    const onClose = jest.fn();
+    const component = shallowUserPicker({ onClose, options });
+    expect(component.state('options')).toEqual(options);
+    component.simulate('close');
+    expect(component.state('options')).toEqual([]);
   });
 
   describe('Multiple users select', () => {
@@ -259,6 +281,7 @@ describe('BaseUserPicker', () => {
         const component = shallowUserPicker({ loadOptions });
         const select = component.find(Select);
         select.simulate('inputChange', 'some text', { action: 'input-change' });
+        expect(component.find(Select).prop('isLoading')).toBeTruthy();
         jest.runAllTimers();
         expect(loadOptions).toHaveBeenCalled();
         expect(loadOptions).toHaveBeenCalledWith('some text');

@@ -11,7 +11,9 @@ type LoggerOptions = {
  */
 export default class Logger {
   debugEnabled: boolean = false;
+
   prefix: string = '';
+
   groupCount: number = 0;
 
   constructor({ debug, prefix }: LoggerOptions) {

@@ -8,19 +8,18 @@ import {
   Header,
   Title,
   TitleText,
-  TitleIconWrapper as IconWrapper,
+  titleIconWrapperStyles,
 } from '../styled/Content';
 
-const icon = { danger: ErrorIcon, warning: WarningIcon };
 const TitleIcon = ({ appearance }: { appearance?: 'danger' | 'warning' }) => {
   if (!appearance) return null;
 
-  const Icon = icon[appearance];
+  const Icon = appearance === 'danger' ? ErrorIcon : WarningIcon;
 
   return (
-    <IconWrapper appearance={appearance}>
+    <span css={titleIconWrapperStyles(appearance)} appearance={appearance}>
       <Icon label={`${appearance} icon`} />
-    </IconWrapper>
+    </span>
   );
 };
 
@@ -78,7 +77,7 @@ export default class ModalHeader extends Component<Props, {}> {
 
     return (
       <Header showKeyline={showKeyline}>
-        <Title isHeadingMultiline={isHeadingMultiline}>
+        <Title>
           <TitleIcon appearance={appearance} />
           <TitleText isHeadingMultiline={isHeadingMultiline}>
             {heading}

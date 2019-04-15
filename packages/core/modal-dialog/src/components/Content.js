@@ -1,5 +1,10 @@
 // @flow
-import React, { Component, type Node, type ElementType } from 'react';
+import React, {
+  Component,
+  type Node,
+  type ElementType,
+  type ElementRef,
+} from 'react';
 import rafSchedule from 'raf-schd';
 import ScrollLock from 'react-scrolllock';
 
@@ -8,10 +13,10 @@ import Header from './Header';
 
 import type { AppearanceType, KeyboardOrMouseEvent } from '../types';
 import {
-  Body as DefaultBody,
-  styledBody,
   keylineHeight,
-  Wrapper,
+  Body as DefaultBody,
+  bodyStyles,
+  wrapperStyles,
 } from '../styled/Content';
 
 function getInitialState() {
@@ -43,7 +48,7 @@ type Props = {
   */
   children?: Node,
   /**
-    Object describing internal components. Use this to swap out the default components. 
+    Object describing internal components. Use this to swap out the default components.
   */
   components: {
     Header?: ElementType,
@@ -110,7 +115,9 @@ export default class Content extends Component<Props, State> {
   };
 
   escapeIsHeldDown: boolean = false;
+
   _isMounted: boolean = false;
+
   scrollContainer: HTMLElement | void;
 
   state: State = getInitialState();
@@ -167,6 +174,7 @@ export default class Content extends Component<Props, State> {
       this.handleStackChange(nextProps.stackIndex);
     }
   }
+
   componentWillUnmount() {
     this._isMounted = false;
 
@@ -195,13 +203,16 @@ export default class Content extends Component<Props, State> {
 
     this.setState({ showHeaderKeyline, showFooterKeyline });
   });
-  getScrollContainer = (ref: HTMLElement) => {
+
+  getScrollContainer = (ref: ElementRef<*>) => {
     if (!ref) return;
     this.scrollContainer = ref;
   };
+
   handleKeyUp = () => {
     this.escapeIsHeldDown = false;
   };
+
   handleKeyDown = (event: SyntheticKeyboardEvent<any>) => {
     const { onClose, shouldCloseOnEscapePress, stackIndex = 0 } = this.props;
 
@@ -219,6 +230,7 @@ export default class Content extends Component<Props, State> {
       default:
     }
   };
+
   handleStackChange = (stackIndex: number) => {
     const { onStackChange } = this.props;
     if (onStackChange) onStackChange(stackIndex);
@@ -229,27 +241,24 @@ export default class Content extends Component<Props, State> {
       actions,
       appearance,
       body: DeprecatedBody,
-      components,
       children,
+      components,
       footer,
       header,
       heading,
-      onClose,
       isChromeless,
       isHeadingMultiline,
+      onClose,
       shouldScroll,
     } = this.props;
 
+    const { showFooterKeyline, showHeaderKeyline } = this.state;
     const { Container = 'div', Body: CustomBody } = components;
 
-    // Only load in 'div' default if there's no deprecated 'body' prop provided
-    // Prefer components.Body over deprecated body prop and default to DefaultBody
-    const BodyComponent =
-      styledBody(CustomBody) || DeprecatedBody || DefaultBody;
-    const { showFooterKeyline, showHeaderKeyline } = this.state;
+    const Body = CustomBody || DeprecatedBody || DefaultBody;
 
     return (
-      <Wrapper component={Container}>
+      <Container css={wrapperStyles}>
         {isChromeless ? (
           children
         ) : (
@@ -262,12 +271,22 @@ export default class Content extends Component<Props, State> {
               isHeadingMultiline={isHeadingMultiline}
               showKeyline={showHeaderKeyline}
             />
-            <BodyComponent
-              innerRef={this.getScrollContainer}
-              shouldScroll={shouldScroll}
-            >
-              {children}
-            </BodyComponent>
+            {/* Backwards compatibility for styled-components innerRefs */}
+            {!Body.styledComponentId ? (
+              <Body
+                css={bodyStyles(shouldScroll)}
+                ref={this.getScrollContainer}
+              >
+                {children}
+              </Body>
+            ) : (
+              <Body
+                css={bodyStyles(shouldScroll)}
+                innerRef={this.getScrollContainer}
+              >
+                {children}
+              </Body>
+            )}
             <Footer
               actions={actions}
               appearance={appearance}
@@ -278,7 +297,7 @@ export default class Content extends Component<Props, State> {
           </>
         )}
         <ScrollLock />
-      </Wrapper>
+      </Container>
     );
   }
 }

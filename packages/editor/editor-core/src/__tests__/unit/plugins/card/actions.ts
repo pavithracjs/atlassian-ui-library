@@ -15,7 +15,7 @@ import {
   blockCard,
   Refs,
 } from '@atlaskit/editor-test-helpers';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { setNodeSelection } from '../../../../utils';
 import { visitCardLink, removeCard } from '../../../../plugins/card/toolbar';
 import { EditorView } from 'prosemirror-view';
@@ -62,7 +62,12 @@ describe('card', () => {
         } = editorView;
         dispatch(
           queueCards([
-            { url: 'http://www.atlassian.com/', pos: 24, appearance: 'inline' },
+            {
+              url: 'http://www.atlassian.com/',
+              pos: 24,
+              appearance: 'inline',
+              compareLinkText: true,
+            },
           ])(tr),
         );
         expect(pluginKey.getState(editorView.state)).toEqual({
@@ -71,6 +76,7 @@ describe('card', () => {
               url: 'http://www.atlassian.com/',
               pos: 24,
               appearance: 'inline',
+              compareLinkText: true,
             },
           ],
           provider: null,
@@ -83,8 +89,18 @@ describe('card', () => {
 
         dispatch(
           queueCards([
-            { url: 'http://www.atlassian.com/', pos: 24, appearance: 'inline' },
-            { url: 'http://www.atlassian.com/', pos: 420, appearance: 'block' },
+            {
+              url: 'http://www.atlassian.com/',
+              pos: 24,
+              appearance: 'inline',
+              compareLinkText: true,
+            },
+            {
+              url: 'http://www.atlassian.com/',
+              pos: 420,
+              appearance: 'block',
+              compareLinkText: true,
+            },
           ])(editorView.state.tr),
         );
 
@@ -94,11 +110,13 @@ describe('card', () => {
               url: 'http://www.atlassian.com/',
               pos: 24,
               appearance: 'inline',
+              compareLinkText: true,
             },
             {
               url: 'http://www.atlassian.com/',
               pos: 420,
               appearance: 'block',
+              compareLinkText: true,
             },
           ],
           provider: null,
@@ -110,7 +128,12 @@ describe('card', () => {
       it('eventually resolves the url from the queue', async () => {
         const { editorView } = editor(doc(p()));
         queueCards([
-          { url: 'http://www.atlassian.com/', pos: 1, appearance: 'inline' },
+          {
+            url: 'http://www.atlassian.com/',
+            pos: 1,
+            appearance: 'inline',
+            compareLinkText: true,
+          },
         ])(editorView.state.tr);
 
         expect(pluginKey.getState(editorView.state)).toEqual({

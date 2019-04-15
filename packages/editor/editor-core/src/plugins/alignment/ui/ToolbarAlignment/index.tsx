@@ -76,7 +76,7 @@ class AlignmentToolbar extends React.Component<Props, State> {
               disabled={disabled}
               selected={isOpen}
               title="Text alignment"
-              ariaLabel="Text alignment"
+              aria-label="Text alignment"
               className="align-btn"
               onClick={this.toggleOpen}
               iconBefore={

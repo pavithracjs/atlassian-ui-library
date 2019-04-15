@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import { ThemeProvider } from 'styled-components';
 import { PopupSelect } from '@atlaskit/select';
 import ModalDialog from '../src';
 
@@ -26,16 +25,14 @@ function onClose() {
 export default class ModalWithPopupSelect extends Component<{}> {
   render() {
     return (
-      <ThemeProvider theme={{}}>
-        <ModalDialog onClose={onClose}>
-          <PopupSelect
-            {...defaults}
-            target={({ ref }) => <button ref={ref}>Click me</button>}
-            popperProps={{ placement: 'bottom', positionFixed: true }}
-            searchThreshold={10}
-          />
-        </ModalDialog>
-      </ThemeProvider>
+      <ModalDialog onClose={onClose}>
+        <PopupSelect
+          {...defaults}
+          target={({ ref }) => <button ref={ref}>Click me</button>}
+          popperProps={{ placement: 'bottom', positionFixed: true }}
+          searchThreshold={10}
+        />
+      </ModalDialog>
     );
   }
 }

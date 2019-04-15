@@ -1,4 +1,4 @@
-import * as Loadable from 'react-loadable';
+import Loadable from 'react-loadable';
 
 export const IconAction = Loadable({
   loader: () => import('./action').then(module => module.default),

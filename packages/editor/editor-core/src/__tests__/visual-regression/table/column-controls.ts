@@ -11,7 +11,7 @@ import {
   pressKeyDown,
   pressKeyUp,
 } from '../../__helpers/page-objects/_keyboard';
-import * as adf from './__fixtures__/default-table.adf.json';
+import adf from './__fixtures__/default-table.adf.json';
 
 describe('Table context menu: merge-split cells', () => {
   let page: any;

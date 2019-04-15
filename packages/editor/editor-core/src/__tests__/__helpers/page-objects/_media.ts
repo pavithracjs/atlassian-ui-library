@@ -170,6 +170,18 @@ export async function resizeMediaInPositionWithSnapshot(
   await releaseHandle(page);
 }
 
+export async function resizeMediaInPosition(
+  page: Page,
+  position: number,
+  distance: number,
+  side: MediaResizeSide = MediaResizeSide.right,
+) {
+  await clickMediaInPosition(page, position);
+  await pickupHandle(page, side);
+  await moveHandle(page, distance, side);
+  await releaseHandle(page);
+}
+
 export const isLayoutAvailable = (
   mode: MediaLayout.wide | MediaLayout.fullWidth,
   width: number,

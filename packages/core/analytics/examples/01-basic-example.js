@@ -24,6 +24,7 @@ const Button = withAnalytics(
       firePrivateAnalyticsEvent('private.button.click', { key: 'value' });
       if (this.props.onClick) this.props.onClick(e);
     };
+
     render() {
       const { children, ...props } = this.props;
       return (

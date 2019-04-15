@@ -7,7 +7,7 @@ import buildNavGroups from '../utils/buildNavGroups';
 export type PatternsNavProps = {
   pathname: string;
   patterns: Directory;
-  onClick?: (e: Event) => void | undefined;
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
 export default function PatternsNav({

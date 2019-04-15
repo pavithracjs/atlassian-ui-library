@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { Node as PMNode } from 'prosemirror-model';
-import { EditorView } from 'prosemirror-view';
+import { EditorView, Decoration } from 'prosemirror-view';
 import {
   MediaSingleLayout,
   MediaAttributes,
@@ -30,6 +30,7 @@ import { MediaProvider } from '../types';
 import { EditorAppearance } from '../../../types';
 import { Context } from '@atlaskit/media-core';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
+import { GapCursorSelection } from '../../gap-cursor';
 
 export interface MediaSingleNodeProps {
   node: PMNode;
@@ -282,6 +283,37 @@ class MediaSingleNodeView extends ReactNodeView {
     return domRef;
   }
 
+  isSelected(position: number) {
+    const pos = this.getPos();
+    const range = [pos, pos + this.node.nodeSize - 1];
+
+    // If is gap selection, media is not selected
+    if (this.view.state.selection instanceof GapCursorSelection) {
+      return false;
+    }
+    // If the current position is in range, then is selected,
+    return position >= range[0] && position <= range[1];
+  }
+
+  getNodeMediaId(node: PMNode): string | undefined {
+    if (node.firstChild) {
+      return node.firstChild.attrs.id;
+    }
+    return undefined;
+  }
+
+  update(
+    node: PMNode,
+    decorations: Decoration[],
+    isValidUpdate?: (currentNode: PMNode, newNode: PMNode) => boolean,
+  ) {
+    if (!isValidUpdate) {
+      isValidUpdate = (currentNode, newNode) =>
+        this.getNodeMediaId(currentNode) === this.getNodeMediaId(newNode);
+    }
+    return super.update(node, decorations, isValidUpdate);
+  }
+
   render() {
     const { eventDispatcher, editorAppearance } = this.reactComponentProps;
     const mediaPluginState = stateKey.getState(
@@ -309,7 +341,7 @@ class MediaSingleNodeView extends ReactNodeView {
                     getPos={this.getPos}
                     mediaProvider={mediaProvider}
                     view={this.view}
-                    selected={() => this.getPos() === reactNodeViewState}
+                    selected={() => this.isSelected(reactNodeViewState)}
                     eventDispatcher={eventDispatcher}
                     editorAppearance={editorAppearance}
                   />

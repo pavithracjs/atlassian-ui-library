@@ -17,7 +17,12 @@ DirectoryWatcher.prototype.createNestedWatcher = function(
   // If we are just adding snapshots or updating tests, we can safely ignore those
   if (dirPath.includes('__snapshots__')) return;
   if (dirPath.includes('__image_snapshots__')) return;
-  if (dirPath.includes('__tests__') && !dirPath.includes('integration')) return;
+  if (
+    dirPath.includes('__tests__') &&
+    !dirPath.includes('integration') &&
+    !dirPath.includes('visual-regression')
+  )
+    return;
   if (dirPath.includes('__tests-karma__')) return;
   if (dirPath.includes('node_modules')) return;
   _oldcreateNestedWatcher.call(this, dirPath);
@@ -58,14 +63,23 @@ function packageIsInPatternOrChanged(workspace) {
   /**
    * If the CHANGED_PACKAGES variable is set,
    * parsing it to get an array of changed packages and only
-   * build those packages
+   * build those packages.
    */
   if (CHANGED_PACKAGES) {
-    return JSON.parse(CHANGED_PACKAGES).some(pkg =>
-      workspace.dir.includes(pkg),
-    );
+    let parsedChangedPackages = JSON.parse(CHANGED_PACKAGES);
+    // Recently, we had issues with webpack changes and without running any tests.
+    // Now, when a change is applied to webpack, it will run tests for the website.
+    // The if below is just to avoid running the website tests.
+    if (
+      parsedChangedPackages.includes('build/webpack-config') &&
+      !parsedChangedPackages.includes('website')
+    ) {
+      parsedChangedPackages = parsedChangedPackages.map(pkg =>
+        pkg.replace('build/webpack-config', 'website'),
+      );
+    }
+    return parsedChangedPackages.some(pkg => workspace.dir.includes(pkg));
   }
-
   /* Match and existing pattern is passed through the command line */
   return pattern.length < workspace.dir.length
     ? workspace.dir.includes(pattern)
@@ -73,7 +87,7 @@ function packageIsInPatternOrChanged(workspace) {
 }
 
 async function getPackagesWithTests() /*: Promise<Array<string>> */ {
-  let testPattern = process.env.VISUAL_REGRESSION
+  const testPattern = process.env.VISUAL_REGRESSION
     ? 'visual-regression'
     : 'integration';
   const project /*: any */ = await boltQuery({
@@ -107,19 +121,20 @@ async function startDevServer() {
     ? utils.createWorkspacesGlob(flattenDeep(filteredWorkspaces), projectRoot)
     : utils.createDefaultGlob();
 
-  /* At the moment, the website does not build a package and it is not possible to test it.
+  /* At the moment, the website and webpack folders do not build a package and it is not possible to test it.
   ** The current workaround, we build another package that builds the homepage and indirectly test the website.
   ** We picked the package polyfills:
    - the package is internal.
    - no integration tests will be added.
    - changes to the package will not impact the build system.
   */
-  if (globs.indexOf('website') === -1) {
+  if (['website', 'webpack'].indexOf(globs) === -1) {
     globs = globs.map(glob =>
-      glob.replace('website', 'packages/core/polyfills'),
+      glob
+        .replace('website', 'packages/core/polyfills')
+        .replace('build/webpack-config', 'packages/core/polyfills'),
     );
   }
-
   if (!globs.length) {
     console.info('Nothing to run or pattern does not match!');
     process.exit(0);

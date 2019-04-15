@@ -17,8 +17,8 @@ import {
   headingsSharedStyles,
   panelSharedStyles,
   ruleSharedStyles,
+  whitespaceSharedStyles,
   paragraphSharedStyles,
-  listsSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
   mediaSingleSharedStyle,
@@ -78,7 +78,6 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   font-size: ${editorFontSize}px;
   line-height: 24px;
   color: ${themed({ light: colors.N800, dark: '#B8C7E0' })};
-  word-wrap: break-word;
 
   & span.akActionMark {
     color: ${colors.B400};
@@ -94,12 +93,12 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
     cursor: pointer;
   }
 
+  ${whitespaceSharedStyles};
   ${blockquoteSharedStyles};
   ${headingsSharedStyles};
   ${panelSharedStyles};
   ${ruleSharedStyles};
   ${paragraphSharedStyles};
-  ${listsSharedStyles};
   ${indentationSharedStyles};
   ${blockMarksSharedStyles};
   ${codeMarkSharedStyles};
@@ -128,6 +127,72 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
     color: ${colors.R500};
   }
 
+  & ul {
+    list-style-type: disc;
+
+    & ul {
+      list-style-type: circle;
+    }
+
+    & ul ul {
+      list-style-type: square;
+    }
+
+    & ul ul ul {
+      list-style-type: disc;
+    }
+
+    & ul ul ul ul {
+      list-style-type: circle;
+    }
+
+    & ul ul ul ul ul {
+      list-style-type: square;
+    }
+  }
+
+  & ol {
+    list-style-type: decimal;
+
+    & ol {
+      list-style-type: lower-alpha;
+    }
+
+    & ol ol {
+      list-style-type: lower-roman;
+    }
+
+    & ol ol ol {
+      list-style-type: decimal;
+    }
+
+    & ol ol ol ol {
+      list-style-type: lower-alpha;
+    }
+
+    & ol ol ol ol ol {
+      list-style-type: lower-roman;
+    }
+
+    & ol ol ol ol ol ol {
+      list-style-type: decimal;
+    }
+
+    & ol ol ol ol ol ol ol {
+      list-style-type: lower-alpha;
+    }
+
+    & ol ol ol ol ol ol ol ol {
+      list-style-type: lower-roman;
+    }
+  }
+
+  & .akTaskList > ol,
+  & .akDecisionList > ol {
+    list-style-type: none;
+    font-size: ${fontSize()}px;
+  }
+
   & .renderer-image {
     max-width: 100%;
     display: block;
@@ -138,7 +203,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
     clear: both;
   }
 
-  & .CodeBlock,
+  & .code-block,
   & blockquote,
   & hr,
   & > div > div:not(.media-wrapped),
@@ -186,6 +251,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   ${tableSharedStyle}
 
   .${TableSharedCssClassName.TABLE_CONTAINER} {
+    z-index: 0;
     transition: all 0.1s linear;
 
     /** Shadow overrides */
@@ -216,7 +282,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
    * We wrap CodeBlock in a grid to prevent it from overflowing the container of the renderer.
    * See ED-4159.
    */
-  & .CodeBlock {
+  & .code-block {
     max-width: 100%;
     /* -ms- properties are necessary until MS supports the latest version of the grid spec */
     /* stylelint-disable value-no-vendor-prefix, declaration-block-no-duplicate-properties */
@@ -244,7 +310,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   }
 
   & .MediaGroup,
-  & .CodeBlock {
+  & .code-block {
     margin-top: ${blockNodesVerticalMargin};
 
     &:first-child {

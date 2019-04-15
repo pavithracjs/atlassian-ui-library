@@ -1,5 +1,5 @@
 // @flow
-import styled, { css } from 'styled-components';
+import styled from '@emotion/styled';
 import { borderRadius, colors, themed, layers } from '@atlaskit/theme';
 import { WIDTH_ENUM, gutter } from '../shared-variables';
 
@@ -12,13 +12,14 @@ const boxShadow = ({ isChromeless }) =>
   isChromeless
     ? 'none'
     : `
-    0 0 0 1px ${colors.N30A}, 0 2px 1px ${colors.N30A},
-    0 0 20px -6px ${colors.N60A}
-  `;
-const dialogBgColor = ({ isChromeless }) =>
-  isChromeless
+      0 0 0 1px ${colors.N30A}, 0 2px 1px ${colors.N30A},
+      0 0 20px -6px ${colors.N60A}
+    `;
+const dialogBgColor = ({ isChromeless }) => {
+  return isChromeless
     ? 'transparent'
-    : themed({ light: colors.N0, dark: colors.DN50 });
+    : themed({ light: colors.N0, dark: colors.DN50 })();
+};
 const maxDimensions = `calc(100% - ${gutter * 2}px)`;
 const maxHeightDimensions = `calc(100% - ${gutter * 2 - IEMaxHeightCalcPx}px)`;
 
@@ -112,14 +113,15 @@ export const PositionerRelative = styled.div`
 `;
 
 export const Dialog = styled.div`
-  ${p =>
-    p.isChromeless
+  ${props =>
+    props.isChromeless
       ? null
-      : css`
-          background-color: ${dialogBgColor};
-          border-radius: ${borderRadius}px;
-          box-shadow: ${boxShadow};
-        `} color: ${colors.text};
+      : `
+          background-color: ${dialogBgColor(props)};
+          border-radius: ${borderRadius()}px;
+          box-shadow: ${boxShadow(props)};
+        `}
+  color: ${colors.text};
   display: flex;
   flex-direction: column;
   height: ${dialogHeight};

@@ -1,5 +1,5 @@
 import { initFullPageEditorWithAdf, Device, snapshot } from '../_utils';
-import * as adf from './__fixtures__/mixed-content.adf.json';
+import adf from './__fixtures__/mixed-content.adf.json';
 import { Page } from '../../__helpers/page-objects/_types';
 
 // In full-width mode we cap the max-width at 1800px, for sizes greater than this the
@@ -16,7 +16,7 @@ widths.forEach(width => {
         adf,
         Device.LaptopHiDPI,
         { width, height: 800 },
-        { fullWidthMode: true },
+        { UNSAFE_fullWidthMode: true },
       );
     });
 

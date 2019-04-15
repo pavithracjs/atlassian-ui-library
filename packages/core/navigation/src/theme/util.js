@@ -2,7 +2,7 @@
 import { css } from 'styled-components';
 
 import hasOwnProperty from '../utils/has-own-property';
-import type { Provided, ScrollBarTheme } from '../theme/types';
+import type { Provided, ScrollBarTheme } from './types';
 import { container, global, dark } from './presets';
 
 export const prefix = (key: string): string =>

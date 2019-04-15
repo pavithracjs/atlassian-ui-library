@@ -1,6 +1,6 @@
 /* tslint:disable:no-var-requires */
-import * as uuid from 'uuid';
-import * as Rusha from 'rusha';
+import uuidV4 from 'uuid/v4';
+import Rusha from 'rusha';
 import { Hasher } from './hasher';
 
 interface HasherWorker {
@@ -60,7 +60,7 @@ export class WorkerHasher implements Hasher {
   }
 
   private calculateHashInWorker(blob: Blob): Promise<string> {
-    const jobId = uuid.v4();
+    const jobId = uuidV4();
     return new Promise((resolve, reject) => {
       this.jobs[jobId] = { resolve, reject };
 

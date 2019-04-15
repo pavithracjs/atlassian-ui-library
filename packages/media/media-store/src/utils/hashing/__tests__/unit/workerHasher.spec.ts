@@ -1,7 +1,12 @@
 jest.mock('rusha');
 
-import * as uuid from 'uuid';
-import * as Rusha from 'rusha';
+jest.mock('uuid/v4', () => ({
+  __esModule: true, // this property makes it work
+  default: jest.fn(),
+}));
+
+import uuidV4 from 'uuid/v4';
+import Rusha from 'rusha';
 
 import { WorkerHasher } from '../../workerHasher';
 
@@ -30,7 +35,7 @@ describe('WorkerHasher', () => {
   });
 
   afterAll(() => {
-    ((uuid as any).v4 as jest.Mock<{}>).mockClear();
+    (uuidV4 as jest.Mock<{}>).mockClear();
   });
 
   it('should start 5 workers if 5 workers are specified in the constructor', () => {
@@ -62,8 +67,8 @@ describe('WorkerHasher', () => {
     );
 
     // We mock uuid.v4() call to generate unique ids for both blobs
-    jest.spyOn(uuid, 'v4').mockReturnValueOnce('my-first-id');
-    jest.spyOn(uuid, 'v4').mockReturnValueOnce('my-second-id');
+    (uuidV4 as jest.Mock<{}>).mockReturnValueOnce('my-first-id');
+    (uuidV4 as jest.Mock<{}>).mockReturnValueOnce('my-second-id');
 
     // Execute hash for first blob and verify returned hash
     const promise1 = hasher.hash(blob1).then(hash => {
@@ -119,7 +124,7 @@ describe('WorkerHasher', () => {
 
     const hasher = new WorkerHasher(1);
 
-    jest.spyOn(uuid, 'v4').mockReturnValueOnce('my-first-id');
+    (uuidV4 as jest.Mock<{}>).mockReturnValueOnce('my-first-id');
 
     // Execute hash for first blob and verify returned hash
     const promise = hasher.hash(blob).then(

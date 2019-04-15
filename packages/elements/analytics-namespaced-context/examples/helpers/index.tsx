@@ -1,8 +1,8 @@
 import {
   createAndFireEvent,
   withAnalyticsEvents,
+  WithAnalyticsEventProps,
 } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
 import * as React from 'react';
 
 export type Props = WithAnalyticsEventProps & {

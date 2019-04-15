@@ -5,7 +5,7 @@ import {
   initCommentEditorWithAdf,
 } from '../_utils';
 import { getSelectorForTableCell } from '../../__helpers/page-objects/_table';
-import * as adf from './__fixtures__/numbered-table.adf.json';
+import adf from './__fixtures__/numbered-table.adf.json';
 
 describe.skip('Snapshot Test: numbered table', () => {
   let page: any;

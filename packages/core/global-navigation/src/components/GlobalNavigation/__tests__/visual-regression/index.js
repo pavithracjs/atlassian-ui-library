@@ -68,8 +68,8 @@ describe('Snapshot Test', () => {
     //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
   });
-
-  it('changeboarding example should match prod', async () => {
+  // TODO: https://ecosystem.atlassian.net/browse/AK-6093
+  it.skip('changeboarding example should match prod', async () => {
     const url = getExampleUrl(
       'core',
       'global-navigation',

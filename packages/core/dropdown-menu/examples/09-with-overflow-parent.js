@@ -30,6 +30,7 @@ export default class OverflowParentExample extends Component<{}, State> {
     isMenuFixed: false,
     isMenuOpen: false,
   };
+
   ref: ?HTMLElement;
 
   toggleMenuPosition = () => {

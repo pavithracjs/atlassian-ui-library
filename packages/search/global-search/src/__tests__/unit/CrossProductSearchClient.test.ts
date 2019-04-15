@@ -4,10 +4,11 @@ import CrossProductSearchClient, {
   ScopeResult,
   ABTest,
   CrossProductExperimentResponse,
+  DEFAULT_AB_TEST,
 } from '../../api/CrossProductSearchClient';
 import { Scope, ConfluenceItem, PersonItem } from '../../api/types';
 
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 import {
   AnalyticsType,
   ConfluenceObjectResult,
@@ -73,6 +74,9 @@ describe('CrossProductSearchClient', () => {
                 content: {
                   id: '123',
                   type: 'page',
+                  space: {
+                    id: '123',
+                  },
                 },
               } as ConfluenceItem,
             ],
@@ -92,6 +96,7 @@ describe('CrossProductSearchClient', () => {
       expect(item.name).toEqual('page name');
       expect(item.href).toEqual('/wiki/url?search_id=test_uuid');
       expect(item.containerName).toEqual('containerTitle');
+      expect(item.containerId).toEqual('123');
       expect(item.analyticsType).toEqual(AnalyticsType.ResultConfluence);
       expect(item.resultType).toEqual(ResultType.ConfluenceObjectResult);
       expect(item.contentType).toEqual(ContentType.ConfluencePage);
@@ -369,6 +374,7 @@ describe('CrossProductSearchClient', () => {
           {
             id: 'confluence.page,blogpost' as Scope,
             error: 'did not work',
+            abTest: DEFAULT_AB_TEST,
           },
         ],
       });
@@ -377,7 +383,7 @@ describe('CrossProductSearchClient', () => {
         Scope.ConfluencePageBlog,
         searchSession,
       );
-      expect(result).toBeUndefined();
+      expect(result).toEqual(DEFAULT_AB_TEST);
     });
   });
 });

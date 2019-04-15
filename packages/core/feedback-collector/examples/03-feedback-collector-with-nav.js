@@ -20,15 +20,19 @@ class FeedbackCollectorNavItem extends Component<*, *> {
   state = {
     isFeedbackModalOpen: false,
   };
+
   openModal = () => {
     this.setState({ isFeedbackModalOpen: true });
   };
+
   closeModal = () => {
     this.setState({ isFeedbackModalOpen: false });
   };
+
   handleSubmit = () => {
     /* ... */
   };
+
   render() {
     const { email, name, REQUEST_TYPE_ID, EMBEDDABLE_KEY } = this.props;
     const { isFeedbackModalOpen } = this.state;

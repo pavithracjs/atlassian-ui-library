@@ -22,6 +22,7 @@ export default class FormExample extends Component<void, void> {
   onRadioChange = (event: any) => {
     console.log(event.target.value);
   };
+
   render() {
     return (
       <div>

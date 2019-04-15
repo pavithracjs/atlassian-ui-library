@@ -28,7 +28,6 @@ import {
   tr,
   th,
   td,
-  thWithoutDefaultMarks,
   tdCursor,
   hardBreak,
   a,
@@ -46,7 +45,7 @@ import macroPlugin, { setMacroProvider } from '../../../../plugins/macro';
 import { uuid } from '@atlaskit/adf-schema';
 import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
 import { panelPlugin } from '../../../../plugins';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 import {
   PASTE_ACTION_SUBJECT_ID,
@@ -828,10 +827,7 @@ describe('paste plugins', () => {
       expect(editorView.state.doc).toEqualDocument(
         doc(
           table({ isNumberColumnEnabled: true })(
-            tr(
-              thWithoutDefaultMarks()(p('One')),
-              thWithoutDefaultMarks()(p('Two')),
-            ),
+            tr(th()(p('One')), th()(p('Two'))),
             tr(td()(p('Three')), td()(p('Four'))),
             tr(td()(p('Five')), td()(p('Six'))),
           ),
@@ -849,10 +845,7 @@ describe('paste plugins', () => {
       expect(editorView.state.doc).toEqualDocument(
         doc(
           table({ isNumberColumnEnabled: true })(
-            tr(
-              thWithoutDefaultMarks()(p('One')),
-              thWithoutDefaultMarks()(p('Two')),
-            ),
+            tr(th()(p('One')), th()(p('Two'))),
             tr(td()(p('Three')), td()(p('Four'))),
             tr(td()(p('Five')), td()(p('Six'))),
           ),

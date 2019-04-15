@@ -1,5 +1,18 @@
 # @atlaskit/page
 
+## 9.0.3
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/banner@9.0.1
+  - @atlaskit/logo@10.0.3
+  - @atlaskit/navigation@34.0.3
+  - @atlaskit/toggle@6.0.3
+  - @atlaskit/button@12.0.0
+
+## 9.0.2
+- Updated dependencies [1433f91820](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1433f91820):
+  - @atlaskit/banner@9.0.0
+
 ## 9.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

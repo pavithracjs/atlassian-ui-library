@@ -43,7 +43,9 @@ type NonStringRef<T> = {
 
 export default class Example extends Component<ExampleProps, ExampleState> {
   $key: string;
+
   $value: NonStringRef<'span'>;
+
   state = {
     targetIndex: null,
   };

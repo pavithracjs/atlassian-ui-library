@@ -1,5 +1,20 @@
 # @atlaskit/mention
 
+## 17.6.6
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
+## 17.6.5
+- [patch] [ddb3238b1c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ddb3238b1c):
+
+  - TEAMS-396 : Changing byline logic for mention
+
+## 17.6.4
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 17.6.3
 - [patch] [14b89652d7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/14b89652d7):
 

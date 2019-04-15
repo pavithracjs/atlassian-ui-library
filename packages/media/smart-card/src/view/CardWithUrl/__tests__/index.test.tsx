@@ -1,7 +1,9 @@
 jest.mock('react-lazily-render', () => {
-  return {
-    default: (data: any) => data.content,
-  };
+  return (data: any) => data.content;
+});
+
+jest.mock('react-transition-group/Transition', () => {
+  return (data: any) => data.children;
 });
 
 import * as React from 'react';
@@ -13,7 +15,7 @@ import Button from '@atlaskit/button';
 import {
   AnalyticsEventPayload,
   UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import { InlineCardUnauthorizedView } from '@atlaskit/media-ui';
 
 class FakeClient extends Client {

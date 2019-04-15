@@ -3,8 +3,8 @@ import {
   AnalyticsContext,
   AnalyticsListener,
   withAnalyticsEvents,
+  WithAnalyticsEventProps,
 } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
 import { mount } from 'enzyme';
 import * as React from 'react';
 import {
@@ -45,7 +45,7 @@ describe('<FabricElementsListener />', () => {
   });
 
   const fireAndVerifySentEvent = (
-    Component: React.ComponentClass<OwnProps>,
+    Component: React.ComponentType<OwnProps>,
     expectedEvent: any,
   ) => {
     const compOnClick = jest.fn();
@@ -150,7 +150,7 @@ describe('<FabricElementsListener />', () => {
         }
       }
 
-      const DummyComponentWithAnalytics: React.ComponentClass<{}> = withAnalyticsEvents(
+      const DummyComponentWithAnalytics: React.ComponentType<{}> = withAnalyticsEvents(
         {},
       )(DummyComponent);
 

@@ -492,12 +492,7 @@ export function validator(
                   isForceContentValidationSpec(v) &&
                   v.forceContentValidation
                 ) {
-                  const items = (entity.attrs as any)[k];
-                  if (!items) {
-                    newEntity.attrs![k] = items;
-                    return true;
-                  }
-
+                  const items = (entity.attrs as any)[k] || [];
                   const newItems: Array<ADFEntity> = [];
                   const specItemsAllowed = v.items;
                   const entitySet = specItemsAllowed.reduce((xs, x) =>
@@ -512,7 +507,7 @@ export function validator(
                       validator,
                     );
 
-                    if (validateResult.entity) {
+                    if (!validateResult.valid && validateResult.entity) {
                       newItems.push(validateResult.entity);
                     }
                   }

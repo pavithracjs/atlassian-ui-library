@@ -116,7 +116,9 @@ export default class Example extends React.Component<any, State> {
                     />
                     Full width mode
                   </label>
-                  <FullPageEditor fullWidthMode={this.state.fullWidthMode} />
+                  <FullPageEditor
+                    UNSAFE_fullWidthMode={this.state.fullWidthMode}
+                  />
                 </React.Fragment>
               );
             }}

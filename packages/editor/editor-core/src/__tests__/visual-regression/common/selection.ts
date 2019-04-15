@@ -1,5 +1,5 @@
 import { snapshot, Device, initEditorWithAdf, Appearance } from '../_utils';
-import * as adf from './__fixtures__/nested-elements.adf.json';
+import adf from './__fixtures__/nested-elements.adf.json';
 import {
   tableSelectors,
   clickFirstCell,

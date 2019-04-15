@@ -1,5 +1,5 @@
-import * as fetchMock from 'fetch-mock';
-import * as seedrandom from 'seedrandom';
+import fetchMock from 'fetch-mock';
+import seedrandom from 'seedrandom';
 
 import {
   makePeopleSearchData,

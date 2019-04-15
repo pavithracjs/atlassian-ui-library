@@ -27,12 +27,14 @@ export default class BasicExample extends PureComponent<void, State> {
       isOpen: !this.state.isOpen,
     });
   };
+
   onOpenChange = () => {
     this.setState({
       eventResult: 'onOpenChange called',
       isOpen: false,
     });
   };
+
   onItemActivated = () => {
     this.setState({
       eventResult: 'Item onActivated called',

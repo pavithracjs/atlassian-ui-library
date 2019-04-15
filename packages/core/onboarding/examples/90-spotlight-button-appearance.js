@@ -52,7 +52,7 @@ export default class SpotlightDialogWidthExample extends Component<{}, State> {
                   },
                 ]}
                 dialogPlacement="top center"
-                heading={`Custom button appearances`}
+                heading="Custom button appearances"
                 key="custom-button-appearances"
                 target="custom-button-appearances"
               >

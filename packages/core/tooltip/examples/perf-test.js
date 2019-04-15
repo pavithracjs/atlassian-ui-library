@@ -24,6 +24,7 @@ type State = {
 
 export default class PerfTest extends Component<Props, State> {
   state = getInitialState();
+
   startTest = () => {
     let runs = 0;
     let startTime;
@@ -43,9 +44,11 @@ export default class PerfTest extends Component<Props, State> {
 
     this.setState({ count: 0 }, run);
   };
+
   clearResults = () => {
     this.setState(getInitialState, this.renderTooltips);
   };
+
   renderTooltips() {
     const { count } = this.state;
     const items = [];
@@ -58,6 +61,7 @@ export default class PerfTest extends Component<Props, State> {
     }
     return items;
   }
+
   render() {
     const { tests, time } = this.state;
 

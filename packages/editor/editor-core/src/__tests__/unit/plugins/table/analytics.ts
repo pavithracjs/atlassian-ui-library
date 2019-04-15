@@ -12,7 +12,7 @@ import {
   tdCursor,
   td,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { colors } from '@atlaskit/theme';
 
 import { pluginKey } from '../../../../plugins/table/pm-plugins/main';

@@ -52,10 +52,9 @@ describe('Spinner', () => {
       const delayProp = 1234;
       const container = mount(<Spinner delay={delayProp} />).find(Container);
       const animation = getContainerAnimation(container.props());
-      const animationMatch = animation.match(/animation: (([0-9]|\.*)*)/);
-      const animationDelay = animationMatch
-        ? parseFloat(animationMatch[1]) * 1000
-        : null;
+      expect(Array.isArray(animation)).toBeTruthy();
+      expect(animation.length).toBeGreaterThan(0);
+      const animationDelay = parseFloat(animation[1]) * 1000;
       expect(animationDelay).toBe(delayProp);
     });
   });

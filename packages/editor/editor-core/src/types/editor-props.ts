@@ -140,10 +140,12 @@ export interface EditorProps {
   allowInlineAction?: boolean;
 
   // Temporary flag to enable layouts while it's under development
+  // Use object form to enable breakout for layouts, and to enable the newer layouts - left sidebar & right sidebar
   allowLayouts?:
     | boolean
     | {
         allowBreakout: boolean;
+        UNSAFE_addSidebarLayouts?: boolean;
       };
 
   // Enable status, if menuDisabled is passed then plugin is enabled by default
@@ -244,5 +246,5 @@ export interface EditorProps {
 
   // Set to enable a left aligned mode with a max width of 1800px
   // This only takes effect on the 'full-page' appearance.
-  fullWidthMode?: boolean;
+  UNSAFE_fullWidthMode?: boolean;
 }

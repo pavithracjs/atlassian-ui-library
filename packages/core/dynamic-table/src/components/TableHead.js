@@ -20,6 +20,7 @@ class TableHead extends Component<Props, {}> {
   componentWillMount() {
     validateSortKey(this.props.sortKey, this.props.head);
   }
+
   componentWillReceiveProps(nextProps: Props) {
     if (
       this.props.sortKey !== nextProps.sortKey ||
@@ -28,6 +29,7 @@ class TableHead extends Component<Props, {}> {
       validateSortKey(nextProps.sortKey, nextProps.head);
     }
   }
+
   render() {
     const {
       head,
