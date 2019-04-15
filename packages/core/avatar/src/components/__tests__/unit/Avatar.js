@@ -6,7 +6,6 @@ import Avatar from '../../Avatar';
 import AvatarImage from '../../AvatarImage';
 import Presence from '../../Presence';
 import { getSize } from '../../../styled/utils';
-import { Slot } from '../../../styled/AvatarImage';
 import { AVATAR_SIZES } from '../../../styled/constants';
 
 const busy = 'busy';
@@ -169,9 +168,6 @@ test('theming - can change background color based on appearance prop', () => {
       })}
     />,
   );
-  const style = wrapper
-    .find(Slot)
-    .find('span')
-    .prop('style');
+  const style = wrapper.find('span').prop('style');
   expect(style.backgroundColor).toBe('red');
 });

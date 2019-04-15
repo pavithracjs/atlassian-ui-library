@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import AvatarImage, { DefaultImage } from '../../AvatarImage';
+import { mount } from 'enzyme';
+import AvatarImage from '../../AvatarImage';
 
 const src =
   'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
@@ -19,25 +19,26 @@ describe('Avatar', () =>
     });
     it('should not render an image span when the src is not set"', () =>
       expect(
-        shallow(<AvatarImage appearance="circle" size="medium" />)
+        mount(<AvatarImage appearance="circle" size="medium" />)
           .find(imgSpan)
           .exists(),
       ).toBe(false));
 
     describe('default avatar', () => {
       describe('should render default avatar', () => {
-        it('when no properties are provided', () =>
+        it('when no properties are provided', () => {
           expect(
-            shallow(<AvatarImage appearance="circle" size="medium" />)
-              .find(DefaultImage)
+            mount(<AvatarImage appearance="circle" size="medium" />)
+              .find('svg')
               .exists(),
-          ).toBe(true));
+          ).toBe(true);
+        });
 
         it('when there is an error', () =>
           expect(
-            shallow(<AvatarImage appearance="circle" size="medium" />)
+            mount(<AvatarImage appearance="circle" size="medium" />)
               .setState({ hasError: true, isLoading: false })
-              .find(DefaultImage)
+              .find('svg')
               .exists(),
           ).toBe(true));
 
