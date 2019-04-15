@@ -301,7 +301,6 @@ pipelines:
               - cd website
               # don't worry about deploying, this build will always be run alongside a branch build
               - yarn build
-              - cd ..
             after-script:
               - yarn send:buildEvents
   
