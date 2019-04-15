@@ -70,15 +70,19 @@ async function runDevServer() {
       ? utils.createWorkspacesGlob(filteredWorkspaces, projectRoot)
       : utils.createDefaultGlob();
 
-  /* At the moment, the website does not build a package and it is not possible to test / build  it.
-    ** The current workaround, we build another package that builds the homepage and indirectly build the website.
-    ** We picked the package polyfills:
-    - the package is internal.
-    - changes to the package will not impact the build system.
+  /* At the moment, the website and webpack folders do not build a package and it is not possible to test it.
+  ** The current workaround, we build another package that builds the homepage and indirectly test the website.
+  ** We picked the package polyfills:
+   - the package is internal.
+   - no integration tests will be added.
+   - changes to the package will not impact the build system.
   */
-  if (globs.indexOf('website') === -1) {
+  if (globs.indexOf('website') === -1 && globs.indexOf('webpack')) {
     globs = globs.map(glob =>
       glob.replace('website', 'packages/core/polyfills'),
+    );
+    globs = globs.map(glob =>
+      glob.replace('build/webpack-config', 'packages/core/polyfills'),
     );
   }
 

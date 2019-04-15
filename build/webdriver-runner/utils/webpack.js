@@ -18,7 +18,8 @@ DirectoryWatcher.prototype.createNestedWatcher = function(
   if (dirPath.includes('__snapshots__')) return;
   if (dirPath.includes('__image_snapshots__')) return;
   if (
-    (dirPath.includes('__tests__') && !dirPath.includes('integration')) ||
+    dirPath.includes('__tests__') &&
+    !dirPath.includes('integration') &&
     !dirPath.includes('visual-regression')
   )
     return;
@@ -120,21 +121,22 @@ async function startDevServer() {
     ? utils.createWorkspacesGlob(flattenDeep(filteredWorkspaces), projectRoot)
     : utils.createDefaultGlob();
 
-  /* At the moment, the websiteand webpack folders do not build a package and it is not possible to test it.
+  /* At the moment, the website and webpack folders do not build a package and it is not possible to test it.
   ** The current workaround, we build another package that builds the homepage and indirectly test the website.
   ** We picked the package polyfills:
    - the package is internal.
    - no integration tests will be added.
    - changes to the package will not impact the build system.
   */
-  console.log(globs);
   if (globs.indexOf('website') === -1 || globs.indexOf('webpack') === -1) {
-    globs = globs.map(glob => {
-      glob.replace('website', 'packages/core/polyfills');
-      glob.replace('webpack', 'packages/core/polyfills');
-    });
+    globs = globs.map(glob =>
+      glob.replace('website', 'packages/core/polyfills'),
+    );
+    globs = globs.map(glob =>
+      glob.replace('build/webpack-config', 'packages/core/polyfills'),
+    );
   }
-
+  console.log(globs);
   if (!globs.length) {
     console.info('Nothing to run or pattern does not match!');
     process.exit(0);
