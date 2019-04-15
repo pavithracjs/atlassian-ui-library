@@ -154,6 +154,11 @@ export interface Props {
   enablePreQueryFromAggregator?: boolean;
 
   /**
+   * A prop to provide additional elements to render on the right of the search bar, e.g. the feedback button.
+   */
+  inputControls?: JSX.Element;
+
+  /*
    * detemrine jira application permission like software or servicedesk acess
    * optional because it is passed only for jira
    */
@@ -266,6 +271,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
               logger,
               disableJiraPreQueryPeopleSearch,
               enablePreQueryFromAggregator,
+              inputControls,
               appPermission,
             } = this.props;
 
@@ -283,6 +289,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
                 logger={logger}
                 onAdvancedSearch={this.onAdvancedSearch}
                 enablePreQueryFromAggregator={enablePreQueryFromAggregator}
+                inputControls={inputControls}
                 appPermission={appPermission}
               />
             );
