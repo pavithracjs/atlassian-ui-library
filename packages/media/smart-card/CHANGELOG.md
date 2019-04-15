@@ -1,5 +1,10 @@
 # @atlaskit/smart-card
 
+## 10.2.3
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
 ## 10.2.2
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2

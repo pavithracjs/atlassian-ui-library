@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.13.3
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
 ## 107.13.2
 - [patch] [8e86c7c9d4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8e86c7c9d4):
 

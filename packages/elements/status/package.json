@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/status",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "config": {
     "access": "public"
   },
@@ -22,8 +22,8 @@
     "elements"
   ],
   "dependencies": {
-    "@atlaskit/analytics-gas-types": "^4.0.1",
-    "@atlaskit/analytics-next": "^4.0.1",
+    "@atlaskit/analytics-gas-types": "^4.0.2",
+    "@atlaskit/analytics-next": "^4.0.5",
     "@atlaskit/field-text": "^8.0.1",
     "@atlaskit/icon": "^16.0.5",
     "@atlaskit/lozenge": "^7.0.0",
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@atlaskit/docs": "^7.0.1",
-    "@atlaskit/editor-test-helpers": "^8.0.2",
+    "@atlaskit/editor-test-helpers": "^8.0.5",
     "@atlaskit/elements-test-helpers": "^0.5.0",
     "@atlaskit/i18n-tools": "^0.5.0",
     "enzyme": "^3.7.0",

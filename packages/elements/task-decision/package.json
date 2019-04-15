@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/task-decision",
-  "version": "14.0.3",
+  "version": "14.0.4",
   "config": {
     "access": "public"
   },
@@ -10,10 +10,10 @@
   "types": "index.d.ts",
   "sideEffects": false,
   "dependencies": {
-    "@atlaskit/analytics-namespaced-context": "^3.0.1",
-    "@atlaskit/analytics-next": "^4.0.3",
+    "@atlaskit/analytics-namespaced-context": "^3.0.2",
+    "@atlaskit/analytics-next": "^4.0.5",
     "@atlaskit/avatar-group": "^3.0.3",
-    "@atlaskit/button": "^12.0.0",
+    "@atlaskit/button": "^12.0.2",
     "@atlaskit/icon": "^16.0.8",
     "@atlaskit/spinner": "^10.0.5",
     "@atlaskit/theme": "^8.1.6",
@@ -40,7 +40,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
-    "@atlaskit/analytics-listeners": "^5.0.3",
+    "@atlaskit/analytics-listeners": "^5.0.4",
     "@atlaskit/avatar": "^15.0.3",
     "@atlaskit/docs": "^7.0.2",
     "@atlaskit/editor-common": "^36.1.2",

@@ -1,5 +1,10 @@
 # @atlaskit/user-picker
 
+## 3.4.1
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
 ## 3.4.0
 - [minor] [4a8effc046](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a8effc046):
 
