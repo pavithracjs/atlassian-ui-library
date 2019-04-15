@@ -1,5 +1,10 @@
 # @atlaskit/spinner
 
+## 10.0.6
+- [patch] [d263485853](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d263485853):
+
+  - update Spinner component's usage of styled-components to work in v3 and v4
+
 ## 10.0.5
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
