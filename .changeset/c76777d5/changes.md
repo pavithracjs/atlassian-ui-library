@@ -1,0 +1,1 @@
+- update Spinner component's usage of styled-components to work in v3 and v4

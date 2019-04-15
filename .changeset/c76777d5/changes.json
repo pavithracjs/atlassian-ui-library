@@ -1,0 +1,10 @@
+{
+  "releases": [{ "name": "@atlaskit/spinner", "type": "patch" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/button",
+      "type": "patch",
+      "dependencies": ["@atlaskit/spinner"]
+    }
+  ]
+}

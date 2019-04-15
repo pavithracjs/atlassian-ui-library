@@ -1,6 +1,6 @@
 // @flow
 
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import type { SpinnerPhases } from '../types';
 
 type AnimationParams = {
@@ -36,16 +36,22 @@ export const getContainerAnimation = ({ delay, phase }: AnimationParams) => {
   if (phase === 'DELAY') {
     /* This hides the spinner and allows us to use animationend events to move to the next phase in
      * the same way we do with the other lifecycle stages */
-    return `animation: ${delay}s ${keyframeNames.noop};`;
+    return css`
+      animation: ${delay}s ${keyframeNames.noop};
+    `;
   }
 
   if (phase === 'ENTER' || phase === 'IDLE') {
-    return `animation: 1s ease-in-out forwards ${keyframeNames.enterRotate};`;
+    return css`
+      animation: 1s ease-in-out forwards ${keyframeNames.enterRotate};
+    `;
   }
 
   if (phase === 'LEAVE') {
-    return `animation: 0.53s ease-in-out forwards ${keyframeNames.leaveRotate},
-      0.2s ease-in-out 0.33s ${keyframeNames.leaveOpacity};`;
+    return css`
+      animation: 0.53s ease-in-out forwards ${keyframeNames.leaveRotate},
+        0.2s ease-in-out 0.33s ${keyframeNames.leaveOpacity};
+    `;
   }
 
   return '';
@@ -54,7 +60,8 @@ export const getContainerAnimation = ({ delay, phase }: AnimationParams) => {
 const getSize = ({ size }: { size: number }) => `${size}px`;
 
 const Container = styled.span`
-  ${getContainerAnimation} display: flex;
+  ${getContainerAnimation}
+  display: flex;
   height: ${getSize};
   width: ${getSize};
 
