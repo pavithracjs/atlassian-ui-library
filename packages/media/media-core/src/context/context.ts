@@ -4,8 +4,10 @@ import {
   MediaStoreGetFileImageParams,
   ImageMetadata,
 } from '@atlaskit/media-store';
+import { EventEmitter2 } from 'eventemitter2';
 import { CollectionFetcher } from '../collection';
 import { FileFetcherImpl, FileFetcher } from '../file';
+import { UploadEventPayloadMap, EventPayloadListener } from './events';
 
 export interface Context {
   getImage(
@@ -21,6 +23,18 @@ export interface Context {
     id: string,
     params?: MediaStoreGetFileImageParams,
   ): Promise<string>;
+  on<E extends keyof UploadEventPayloadMap>(
+    event: E,
+    listener: EventPayloadListener<UploadEventPayloadMap, E>,
+  ): void;
+  off<E extends keyof UploadEventPayloadMap>(
+    event: E,
+    listener: EventPayloadListener<UploadEventPayloadMap, E>,
+  ): void;
+  emit<E extends keyof UploadEventPayloadMap>(
+    event: E,
+    payload: UploadEventPayloadMap[E],
+  ): boolean;
 
   readonly collection: CollectionFetcher;
   readonly file: FileFetcher;
@@ -35,6 +49,7 @@ export class ContextFactory {
 
 class ContextImpl implements Context {
   private readonly mediaStore: MediaStore;
+  private readonly eventEmitter: EventEmitter2;
   readonly collection: CollectionFetcher;
   readonly file: FileFetcher;
 
@@ -44,6 +59,28 @@ class ContextImpl implements Context {
     });
     this.collection = new CollectionFetcher(this.mediaStore);
     this.file = new FileFetcherImpl(this.mediaStore);
+    this.eventEmitter = new EventEmitter2();
+  }
+
+  on<E extends keyof UploadEventPayloadMap>(
+    event: E,
+    listener: EventPayloadListener<UploadEventPayloadMap, E>,
+  ): void {
+    this.eventEmitter.on(event, listener);
+  }
+
+  off<E extends keyof UploadEventPayloadMap>(
+    event: E,
+    listener: EventPayloadListener<UploadEventPayloadMap, E>,
+  ): void {
+    this.eventEmitter.off(event, listener);
+  }
+
+  emit<E extends keyof UploadEventPayloadMap>(
+    event: E,
+    payload: UploadEventPayloadMap[E],
+  ): boolean {
+    return this.eventEmitter.emit(event, payload);
   }
 
   getImage(

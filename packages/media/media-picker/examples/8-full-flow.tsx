@@ -44,6 +44,10 @@ export default class Example extends React.Component<{}, State> {
       },
     });
 
+    context.on('file-uploaded', file => {
+      console.log('on file-uploaded', file);
+    });
+
     popup.on('uploads-start', (payload: { files: MediaFile[] }) => {
       const { events } = this.state;
       payload.files.forEach(file => {
