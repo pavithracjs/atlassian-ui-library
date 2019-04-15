@@ -30,6 +30,7 @@
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/button": "^12.0.0",
     "@atlaskit/docs": "^7.0.2",
+    "@atlaskit/section-message": "^2.0.2",
     "@atlaskit/ssr": "^0.0.1",
     "enzyme": "^3.7.0",
     "react-dom": "^16.4.2"
