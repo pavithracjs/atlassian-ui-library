@@ -44,17 +44,17 @@ export const messages = defineMessages({
     description:
       'Required error message for the user picker field in Share form.',
   },
-  userPickerNoOptionsMessageEmptyQuery: {
-    id: 'fabric.elements.share.form.user-picker.no-options.emptyQuery',
-    defaultMessage: `We couldn’t find any results. Invite people by using an email address.`,
+  userPickerExistingUserOnlyNoOptionsMessage: {
+    id: 'fabric.elements.share.form.user-picker.no-options.existingUserOnly',
+    defaultMessage: `We couldn’t find any results for "{inputValue}".`,
     description:
-      'No options message displayed when the search for users returns empty for an empty query.',
+      'Existing user only no options message displayed when the search for users returns empty.',
   },
-  userPickerNoOptionsMessage: {
-    id: 'fabric.elements.share.form.user-picker.no-options',
+  userPickerGenericNoOptionsMessage: {
+    id: 'fabric.elements.share.form.user-picker.no-options.generic',
     defaultMessage: `We couldn’t find any results for "{inputValue}". Invite people by using an email address.`,
     description:
-      'No options message displayed when the search for users returns empty.',
+      'Generic no options message displayed when the search for users returns empty.',
   },
   shareTriggerButtonText: {
     id: 'fabric.elements.share.trigger.button.text',

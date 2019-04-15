@@ -30,28 +30,32 @@ export type Props = {
   capabilitiesInfoMessage?: React.ReactNode;
 };
 
-const noOptionsMessageProps = (inputValue?: string) =>
-  inputValue && inputValue.length > 0
-    ? messages.userPickerNoOptionsMessage
-    : messages.userPickerNoOptionsMessageEmptyQuery;
+type GetMessageDescriptorByConfigMode = (
+  mode: ConfigResponseMode | '',
+) => MessageDescriptor;
 
-const getNoOptionsMessage = ({
-  inputValue,
-}: {
-  inputValue: string;
-}): any | null =>
+type GetNoOptionMessage = (
+  { inputValue }: { inputValue: string },
+) => any | null;
+
+const noOptionsMessageProps: GetMessageDescriptorByConfigMode = mode =>
+  mode === 'EXISTING_USERS_ONLY'
+    ? messages.userPickerExistingUserOnlyNoOptionsMessage
+    : messages.userPickerGenericNoOptionsMessage;
+
+const getNoOptionsMessageByConfigMode = (
+  mode: ConfigResponseMode | '',
+): GetNoOptionMessage => ({ inputValue }): GetNoOptionMessage =>
   inputValue && inputValue.trim().length > 0
     ? ((
         <FormattedMessage
-          {...noOptionsMessageProps(inputValue)}
+          {...noOptionsMessageProps(mode)}
           values={{ inputValue }}
         />
       ) as any)
     : null;
 
-const getPlaceHolderMessage: (
-  mode: ConfigResponseMode | '',
-) => MessageDescriptor = mode =>
+const getPlaceHolderMessage: GetMessageDescriptorByConfigMode = mode =>
   mode === 'EXISTING_USERS_ONLY'
     ? messages.userPickerExistingUserOnlyPlaceholder
     : messages.userPickerGenericPlaceholder;
@@ -68,6 +72,7 @@ export class UserPickerField extends React.Component<Props> {
 
   render() {
     const { defaultValue, config, capabilitiesInfoMessage } = this.props;
+    const configMode = (config && config!.mode) || '';
     return (
       <Field name="users" validate={validate} defaultValue={defaultValue}>
         {({ fieldProps, error, meta: { valid } }: FieldChildrenArgs<Value>) => (
@@ -81,14 +86,12 @@ export class UserPickerField extends React.Component<Props> {
                   isMulti
                   width="100%"
                   placeholder={
-                    <FormattedMessage
-                      {...getPlaceHolderMessage(config ? config!.mode : '')}
-                    />
+                    <FormattedMessage {...getPlaceHolderMessage(configMode)} />
                   }
                   addMoreMessage={addMore as string}
                   allowEmail={allowEmails(config)}
                   isValidEmail={isValidEmailUsingConfig(config)}
-                  noOptionsMessage={getNoOptionsMessage}
+                  noOptionsMessage={getNoOptionsMessageByConfigMode(configMode)}
                 />
               )}
             </FormattedMessage>
