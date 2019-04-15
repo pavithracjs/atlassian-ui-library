@@ -1,0 +1,1 @@
+- Removes dev-dependency from dependencies
