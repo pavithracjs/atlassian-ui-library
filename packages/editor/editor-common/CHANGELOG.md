@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 36.1.11
+- [patch] [0b5e0311af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0b5e0311af):
+
+  - Ed-5849 Add check to popup to ensure it's target position is mounted
+
 ## 36.1.10
 - [patch] [c01f9e1cc7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c01f9e1cc7):
 
