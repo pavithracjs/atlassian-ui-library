@@ -77,12 +77,11 @@ async function runDevServer() {
    - no integration tests will be added.
    - changes to the package will not impact the build system.
   */
-  if (globs.indexOf('website') === -1 && globs.indexOf('webpack')) {
+  if (['website', 'webpack'].indexOf(globs) === -1) {
     globs = globs.map(glob =>
-      glob.replace('website', 'packages/core/polyfills'),
-    );
-    globs = globs.map(glob =>
-      glob.replace('build/webpack-config', 'packages/core/polyfills'),
+      glob
+        .replace('website', 'packages/core/polyfills')
+        .replace('build/webpack-config', 'packages/core/polyfills'),
     );
   }
 
