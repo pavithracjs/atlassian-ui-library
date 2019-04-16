@@ -13,7 +13,7 @@ const getComponentName = (target: React.ComponentType): string => {
 const warnIfDeprecatedAppearance = (appearance?: ButtonAppearances) => {
   const deprecatedAppearances = ['help'];
   if (appearance && deprecatedAppearances.indexOf(appearance) !== -1) {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.warn(
       `Atlaskit: The Button appearance "${appearance}" is deprecated. Please use styled-components' ThemeProvider to provide a custom theme for Button instead.`,
     );

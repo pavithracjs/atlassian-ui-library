@@ -228,7 +228,7 @@ class FullPageRendererExample extends React.Component<Props, State> {
   private legacyMediaEventHandlers = () => ({
     media: {
       onClick: () => {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.log('legacy event handler click!');
       },
     },

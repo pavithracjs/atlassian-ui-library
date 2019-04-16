@@ -83,7 +83,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
   };
 
   // used to terminate if component is unmounted while waiting for a promise
-  unmounted: Boolean = false;
+  unmounted: boolean = false;
 
   constructor(props: Props) {
     super(props);

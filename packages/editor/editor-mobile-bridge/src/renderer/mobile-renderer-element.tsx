@@ -1,4 +1,4 @@
-// tslint:disable:no-console
+/* eslint-disable no-console */
 import * as React from 'react';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { ReactRenderer } from '@atlaskit/renderer';

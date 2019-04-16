@@ -11,7 +11,6 @@ type Props = {
   children?: React.ReactNode;
 };
 
-// tslint:disable-next-line:variable-name
 const TableCell = (props: Props) => {
   let style: any = {};
   if (props.background) {

@@ -122,5 +122,5 @@ export class TaskItem extends PureComponent<
 
 // This is to ensure that the "type" is exported, as it gets lost and not exported along with TaskItem after
 // going through the high order component.
-// tslint:disable-next-line:variable-name
+
 export default withAnalyticsEvents()(TaskItem);

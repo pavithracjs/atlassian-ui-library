@@ -157,6 +157,7 @@ module.exports = {
         'import/extensions': 'off',
         'import/first': 'off',
         'import/newline-after-import': 'off',
+        'import/no-commonjs': 'error',
         'import/no-duplicates': 'off',
         'import/no-dynamic-require': 'off',
         'import/no-extraneous-dependencies': 'off',
@@ -252,6 +253,7 @@ module.exports = {
       files: [
         'packages/*/*/examples/**',
         'packages/**/example-helpers/**',
+        'packages/**/examples-helpers/**',
         'packages/monorepo-tooling/**',
       ],
       rules: {

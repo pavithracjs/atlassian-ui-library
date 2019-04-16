@@ -91,7 +91,7 @@ const onAnalyticsEvent = (
   event: UIAnalyticsEventInterface,
   channel?: string,
 ) => {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.log(
     `AnalyticsEvent(${channel})\n\tpayload=%o\n\tcontext=%o`,
     event.payload,

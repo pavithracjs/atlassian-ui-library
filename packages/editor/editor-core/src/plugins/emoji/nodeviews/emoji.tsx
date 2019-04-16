@@ -6,7 +6,6 @@ import { ProviderFactory } from '@atlaskit/editor-common';
 import Emoji from '../ui/Emoji';
 import { ZeroWidthSpace } from '../../../utils';
 
-// tslint:disable-next-line:variable-name
 const Wrapper = styled.span`
   user-select: all;
 `;

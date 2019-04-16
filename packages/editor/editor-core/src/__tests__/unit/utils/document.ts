@@ -151,12 +151,12 @@ describe(name, () => {
 
     describe('failure cases', () => {
       // Silence console.error
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       const oldConsole = console.error;
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error = jest.fn();
       afterAll(() => {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.error = oldConsole;
       });
 

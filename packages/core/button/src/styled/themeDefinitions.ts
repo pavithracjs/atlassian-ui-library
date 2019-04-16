@@ -24,17 +24,18 @@ const hex2rgba = (hex: string, alpha = 1) => {
 
     const color = `0x${colorArr.join('')}`;
 
+    /* eslint-disable no-bitwise */
     // FIXME: `>>` operand can validly take a string value
     const r = ((color as any) >> 16) & 255;
     const g = ((color as any) >> 8) & 255;
     const b = (color as any) & 255;
+    /* eslint-enable no-bitwise */
 
     return `rgba(${[r, g, b].join(',')}, ${alpha})`;
   }
 
   throw new Error('Bad Hex');
 };
-/* eslint-enable no-bitwise */
 
 export default {
   // Fallbacks

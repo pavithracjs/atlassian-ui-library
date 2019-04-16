@@ -5,7 +5,6 @@ import Spinner from '@atlaskit/spinner';
 import styled from 'styled-components';
 import RecentItem from './RecentItem';
 
-// tslint:disable-next-line:variable-name
 const Container = styled.div`
   padding-top: 10px;
 `;
@@ -14,14 +13,12 @@ const ListContainer = styled.div`
   padding-top: 0;
 `;
 
-// tslint:disable-next-line:variable-name
 const SpinnerContainer = styled.div`
   text-align: center;
   min-height: 80px;
   margin-top: 30px;
 `;
 
-// tslint:disable:next-line variable-name
 const List = styled.ul`
   padding: 0;
   list-style: none;

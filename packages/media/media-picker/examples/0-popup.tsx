@@ -1,4 +1,4 @@
-/* tslint:disable:no-console */
+// eslint-disable-line no-console
 import * as React from 'react';
 import { Component } from 'react';
 import * as PropTypes from 'prop-types';
@@ -128,6 +128,7 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
       const authStg = confirm(
         'It looks like you are not authorized in Staging. Press OK to authorize',
       );
+      // eslint-disable-next-line no-unused-expressions
       authStg
         ? window.open('https://id.stg.internal.atlassian.com', '_blank')
         : this.state.popup!.hide();

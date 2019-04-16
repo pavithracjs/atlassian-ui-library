@@ -138,7 +138,7 @@ export function processRawValue(
     try {
       node = JSON.parse(value);
     } catch (e) {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(`Error processing value: ${value} isn't a valid JSON`);
       return;
     }
@@ -147,7 +147,7 @@ export function processRawValue(
   }
 
   if (Array.isArray(node)) {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.error(
       `Error processing value: ${node} is an array, but it must be an object.`,
     );
@@ -226,7 +226,7 @@ export function processRawValue(
     parsedDoc.check();
     return parsedDoc;
   } catch (e) {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.error(
       `Error processing value: "${JSON.stringify(node)}" – ${e.message}`,
     );

@@ -5,7 +5,6 @@ interface ButtonProps {
   spacing: string;
 }
 
-// tslint:disable-next-line:variable-name
 export const AkButton: any = styled(AkButtonDefault)`
   line-height: 0;
   justify-content: center;

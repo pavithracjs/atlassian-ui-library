@@ -1,7 +1,6 @@
 import profiles from './profile-data';
 import { random, getWeekday, getTimeString } from './util';
 
-// tslint:disable-next-line:variable-name
 export default function getMockProfileClient(
   BaseProfileClient: any,
   modifyResponse: any,

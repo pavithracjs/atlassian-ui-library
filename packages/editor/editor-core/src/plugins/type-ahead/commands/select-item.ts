@@ -108,7 +108,7 @@ export const selectItem = (
             ? state.schema.text(maybeNode)
             : Node.fromJSON(state.schema, maybeNode);
       } catch (e) {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.error(e);
         return tr;
       }

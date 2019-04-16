@@ -75,7 +75,6 @@ export const InfoSectionStyle: ComponentClass<
   }
 `;
 
-// tslint:disable:next-line variable-name
 export const TimeStyle: ComponentClass<HTMLAttributes<{}>> = styled.div`
   margin-left: 20px;
   flex: none;
