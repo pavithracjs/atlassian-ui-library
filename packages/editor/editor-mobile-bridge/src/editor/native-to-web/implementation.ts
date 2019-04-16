@@ -123,6 +123,10 @@ export default class WebBridgeImpl extends WebBridge
 
   setContent(content: string) {
     // TODO: Re-enable (https://product-fabric.atlassian.net/browse/ED-6714)
+    // Prevent deletion of invalid marks. Temporary fix for inline comments being removed in the document.
+    // This is to prevent the validator running (which deletes invalid marks).
+    // Waiting on Confluence to change from confluenceInlineComment to annotation mark
+
     // if (this.editorActions) {
     //   this.editorActions.replaceDocument(content, false);
     // }
