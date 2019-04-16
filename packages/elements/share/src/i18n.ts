@@ -56,25 +56,47 @@ export const messages = defineMessages({
     description:
       'Generic no options message displayed when the search for users returns empty.',
   },
+  shareTriggerButtonIconLabel: {
+    id: 'fabric.elements.share.trigger.button.icon.label',
+    defaultMessage: 'Share icon',
+    description:
+      'Default text for aria-label of the share dialog trigger button icon',
+  },
   shareTriggerButtonText: {
     id: 'fabric.elements.share.trigger.button.text',
     defaultMessage: 'Share',
-    description: 'Default text for the Share Dialog trigger button',
+    description: 'Default text for the share dialog trigger button',
+  },
+  copyLinkButtonIconLabel: {
+    id: 'fabric.elements.share.copylink.button.icon.label',
+    defaultMessage: 'Copy link icon',
+    description: 'Default text for the aria-label of the copy Link icon',
   },
   copyLinkButtonText: {
     id: 'fabric.elements.share.copylink.button.text',
     defaultMessage: 'Copy link',
     description: 'Default text for the Copy Link button',
   },
+  copiedToClipboardIconLabel: {
+    id: 'fabric.elements.share.copied.to.clipboard.icon.label',
+    defaultMessage: 'Copy link success icon',
+    description: 'Default text for the aria-label of the copied link icon',
+  },
   copiedToClipboardMessage: {
     id: 'fabric.elements.share.copied.to.clipboard.message',
     defaultMessage: 'Link copied to clipboard',
-    description: 'Default text for the Copy Link button',
+    description: 'Default text for the copied link message',
   },
   capabilitiesInfoMessage: {
     id: 'fabric.elements.share.form.capabilities.info.message',
     defaultMessage: 'Your invite will be sent to an admin for approval',
     description: 'Default text for capabilities info',
+  },
+  shareFailureIconLabel: {
+    id: 'fabric.elements.share.failure.icon.label',
+    defaultMessage: 'Error icon',
+    description:
+      'Default text for the aria-label of the share failure error icon in the tooltip',
   },
   shareFailureMessage: {
     id: 'fabric.elements.share.failure.message',
