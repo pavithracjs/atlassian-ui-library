@@ -1,5 +1,10 @@
 # @atlaskit/drawer
 
+## 3.0.8
+- [patch] [371becf9e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/371becf9e2):
+
+  - Internal changes only. Drawer is compatible with SSR.
+
 ## 3.0.7
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
