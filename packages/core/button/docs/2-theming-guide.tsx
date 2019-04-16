@@ -4,14 +4,15 @@ export default md`
 
 ## Theming
 
-Button now supports the updated Theming API. With this API, components can be passed a custom theming function - which has access to all of Button's props, as well as the to the original ADG theme - meaning that the custom theme can
-change appearance based on different props, and even ignore the ADG styling completely. Custom
-themes can modify any CSS prop on the button body, the internal icons, or the loading spinner.
+Button now supports the updated Theming API. With this API, components can be passed a custom theming function which has access to all of Button's props, as well as the to the original ADG theme.
 
-#### ⚡️ TLDR
+This means that the custom theme can change appearance based on different props, and even ignore the ADG styling completely. Custom
+themes can modify any CSS prop on the button body or the loading spinner.
+
+#### ⚡️ Theming API TLDR:
 - **\`Button\`** can take a **\`theme\`** prop, a function called by the theming API to generate and return custom styling. It recieves all of Button's props, as well as the built-in ADG theme for button.
 - The **\`theme\` function** can choose to ignore the ADG theme completely, or spread  custom styling on top.
-- How the custom styling is retrieved is left up to the user, but a common approach is to define the styling in an **object structure**
+- How the custom styling is retrieved is left up to the user, but a common approach is to define the styling in an **object structure** and fetch using custom logic.
 - In use, buttons can be wrapped by a **\`ThemeProvider\`** that has the \`theme\` function passed in, or a component that wraps \`Button\` can be used in place of Button.
 
 ### Building a Custom Themed Button
@@ -54,9 +55,8 @@ ${code`
 customTheme = {adgTheme, props} => styling
 `}
 
-The output of the function, \`styling\`, is an object containing three separate sets of styles:
+The output of the function, \`styling\`, is an object containing a pair of style objects:
 - **\`ButtonStyles\`**, which contains styles for the body of Button.
-- **\`IconStyles\`**, which contains styles for the icon's wrapper.
 - **\`SpinnerStyles\`**, which contains styles for the loading spinner.
 
 Button applies these styles directly using Emotion's \`css\` prop - so you have complete control over how these components in Button are rendered.
@@ -65,7 +65,7 @@ An example of how the theming function can be implemented is below:
 
 ${code`
 customTheme = {(adgTheme, { state, appearance, ...buttonProps }) => {
-  const { adgButtonStyles, adgSpinnerStyles, adgIconStyles } = adgTheme({
+  const { adgButtonStyles, adgSpinnerStyles } = adgTheme({
     ...buttonProps,
     appearance,
     state,
@@ -76,7 +76,6 @@ customTheme = {(adgTheme, { state, appearance, ...buttonProps }) => {
       ...extract(buttonTheme, buttonProps, appearance, state),
     },
     spinnerStyles: adgSpinnerStyles,
-    iconStyles: adgIconStyles,
   };
 `}
 
@@ -126,9 +125,9 @@ const buttonTheme = {
   },
 };`}
 
-An example of how this structure can be traversed to get the styles for the current combination of props is shown below.
+#### Parsing the object structure
 
-#### Example: Parsing the object structure
+An example of how this structure can be traversed to get the styles for the current combination of props is shown below:
 
 ${code`
 function extract(newTheme: any, props: any, appearance: any, state: any) {
@@ -169,7 +168,7 @@ ${code`
 
 ### Styled-components support
 
-With the shift to Emotion in \`v12\`, styled-components' \`styled\` function is no longer supported. Emotion's  \‘styled\’ function can be used in-place, but as this is not explicitly supported by Button, we recommend using the new theming API instead.
+With the shift to Emotion in \`v12\`, styled-components' \`styled\` function is no longer supported. Emotion's \‘styled\’ function can be used in-place, but as this is not explicitly supported by Button, we recommend using the new theming API instead.
 
 More details on migration can be found in the \`v11\` to \`v12\` upgrade guide.
 
