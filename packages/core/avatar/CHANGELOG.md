@@ -1,5 +1,10 @@
 # @atlaskit/avatar
 
+## 15.0.5
+- [patch] [d01ab3961b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d01ab3961b):
+
+  - Bugfix: fixes issue with src image flickering
+
 ## 15.0.4
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
