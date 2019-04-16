@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.3.11
+- [patch] [131d76e6fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/131d76e6fc):
+
+  - updated flag model in elements/share
+
 ## 0.3.10
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
