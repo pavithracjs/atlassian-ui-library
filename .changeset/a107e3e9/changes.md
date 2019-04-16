@@ -1,0 +1,1 @@
+- Corrected asynchronous user picker behaviour

@@ -114,7 +114,7 @@ export type UserPickerState = {
   hoveringClearIndicator: boolean;
   menuIsOpen: boolean;
   inputValue: string;
-  debouncing: boolean;
+  resolving: boolean;
 };
 
 export interface HighlightRange {
