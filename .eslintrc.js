@@ -74,7 +74,6 @@ module.exports = {
     'no-console': 'error',
     'no-restricted-globals': ['error', 'event', 'fdescribe'],
 
-    'jest/no-disabled-tests': 'warn',
     'jest/no-focused-tests': 'error',
     'jest/no-identical-title': 'error',
     'jest/valid-expect': 'error',
