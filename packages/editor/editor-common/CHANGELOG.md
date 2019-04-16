@@ -1,5 +1,14 @@
 # @atlaskit/editor-common
 
+## 36.1.12
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/emoji@59.2.3
+  - @atlaskit/mention@17.6.7
+  - @atlaskit/media-card@60.0.3
+  - @atlaskit/profilecard@9.0.2
+  - @atlaskit/theme@8.1.7
+
 ## 36.1.11
 - [patch] [0b5e0311af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0b5e0311af):
 

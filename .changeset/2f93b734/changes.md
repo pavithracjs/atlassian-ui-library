@@ -1,1 +1,0 @@
-- Crucial bugfix: Fixes problem where default theme was undefined in production builds. This caused styles to not be applied to components.
