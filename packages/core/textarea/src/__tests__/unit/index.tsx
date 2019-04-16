@@ -179,9 +179,9 @@ describe('TextAreaWithAnalytics', () => {
 
   it('should mount without errors', () => {
     mount(<TextAreaWithAnalytics onChange={() => {}} />);
-    // eslint-disable-line no-console
+    /* eslint-disable no-console */
     expect(console.warn).not.toHaveBeenCalled();
     expect(console.error).not.toHaveBeenCalled();
-    // eslint-disable-line no-console
+    /* eslint-enable no-console */
   });
 });
