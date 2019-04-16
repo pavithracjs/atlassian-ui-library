@@ -18,8 +18,11 @@ export default md`
 - Custom components will need refs forwarded via \`React.forwardRef()\`.
 - Camel-case ARIA props have been removed in favour for standard HTML aria-* attributes. 
 
-### Upgrade guide
-#### Theming
+<br/>
+
+---
+
+### Theming
 
 Button now supports the updated Theming API. Custom theming functions have access to all of Button's props, as well as the to the original ADG theme - meaning that the custom theme can
 change appearance based on different props, and even ignore the ADG styling completely. Custom
@@ -54,7 +57,13 @@ const CustomButton = styled(Button)\`
 
 With the shift to Emotion in \`v12\`, Emotion’s own \‘styled\’ function is a functional drop-in replacement - however this is not explicitly supported and we recommend using the new theming API in its place.
 
-#### Custom component
+We recommend viewing the [Theming example](https://atlaskit.atlassian.com/packages/core/button/example/CustomTheme) for more information on how to use the new theming API with Button.
+
+<br/>
+
+---
+
+### Custom component
 If you need to work with refs in a custom component, you'll need to make sure to forward on refs yourself using \`React.forwardRef()\`. A typical use case would look like this:
 
 ${code`
@@ -65,7 +74,11 @@ const CustomButton = React.forwardRef<HTMLElement, React.AllHTMLAttributes<HTMLE
 <Button component={CustomButton} />
 `}
 
-#### ARIA attributes
+<br/>
+
+---
+
+### ARIA attributes
 
 ARIA attributes for Button now use kebab-case standard in React. The old attributes have been deprecated.
 
@@ -77,7 +90,7 @@ ${code`
   ariaHaspopup
   ariaLabel="special button"
 >
-  Arial Button
+  Aria Button
 </Button>
 `}
 
@@ -89,9 +102,13 @@ ${code`
   aria-haspopup
   aria-label="special button"
 >
-  Arial Button
+  Aria Button
 </Button>
 `}
+
+<br/>
+
+---
 
 ### ⏫ Props updated
 - theme: Returns a function containing two args; the current ADG theme and props

@@ -22,13 +22,12 @@ There are two approaches to defining a custom button. The first is to wrap butto
 ${code`
 // CustomButton.js
 import * as React from 'react';
-import Button from '@atlaskit/button';
-import { Theme } from '@atlaskit/button/theme';
+import Button, { Theme as ButtonTheme } from '@atlaskit/button';
 
-<Theme.Provider value={customTheme}>
+<ButtonTheme.Provider value={customTheme}>
   <Button> both of these buttons </Button>
   <Button> will recieve custom styling </Button>
-</Theme.Provider>
+</ButtonTheme.Provider>
 `}
 
 The second approach is to create a wrapped Button component that passes in all existing props, as well as a custom \`theme\` prop:
@@ -52,7 +51,7 @@ export default (props) => (
 In both cases, Button's \`theme\` prop expects a **theming function**, which is called by the theming API to style Button. \`theme\` should have the following footprint:
 
 ${code`
-customTheme = {adgTheme, props} => styling
+customTheme = (adgTheme, props) => styling
 `}
 
 The output of the function, \`styling\`, is an object containing a pair of style objects:
@@ -64,18 +63,14 @@ Button applies these styles directly using Emotion's \`css\` prop - so you have 
 An example of how the theming function can be implemented is below:
 
 ${code`
-customTheme = {(adgTheme, { state, appearance, ...buttonProps }) => {
-  const { adgButtonStyles, adgSpinnerStyles } = adgTheme({
-    ...buttonProps,
-    appearance,
-    state,
-  });
+customTheme = (currentTheme, themeProps) => {
+  const { buttonStyles, spinnerStyles } = currentTheme(themeProps);
   return {
     buttonStyles: {
-      ...adgButtonStyles,
-      ...extract(buttonTheme, buttonProps, appearance, state),
+      ...buttonStyles,
+      ...extract(buttonTheme, themeProps),
     },
-    spinnerStyles: adgSpinnerStyles,
+    spinnerStyles,
   };
 `}
 
@@ -130,18 +125,13 @@ const buttonTheme = {
 An example of how this structure can be traversed to get the styles for the current combination of props is shown below:
 
 ${code`
-function extract(newTheme: any, props: any, appearance: any, state: any) {
-  const { mode } = props;
-  if (!newTheme[appearance]) {
-    return;
-  }
+function extract(newTheme, appearance, state, mode) {
+  if (!newTheme[appearance]) return;
   const root = newTheme[appearance];
-  return Object.keys(root).reduce((acc: { [index: string]: string }, val) => {
+  return Object.keys(root).reduce((acc, val) => {
     let node = root;
     [val, state, mode].forEach(item => {
-      if (!node[item]) {
-        return;
-      }
+      if (!node[item]) return;
       if (typeof node[item] !== 'object') {
         acc[val] = node[item];
         return;
@@ -162,7 +152,7 @@ Dark mode support can be added using the API as follows:
 
 ${code`
 <Button theme={(theme, props) => theme({ ...props, mode: 'dark' })}
- Button
+  Dark Button
 </Button>
 `}
 
