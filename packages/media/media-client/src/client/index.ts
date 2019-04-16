@@ -1,4 +1,9 @@
 import { MediaClientConfig } from '@atlaskit/media-core';
+export {
+  MediaStore,
+  MediaStoreGetFileImageParams,
+  ImageMetadata,
+} from './media-store';
 import {
   MediaStore,
   MediaStoreGetFileImageParams,
@@ -13,11 +18,14 @@ export class MediaClient {
   public readonly mediaStore: MediaStore;
   public readonly collection: CollectionFetcher;
   public readonly file: FileFetcher;
+  // Deprecated value introduced for backward compatibility with Context
+  public readonly config: MediaClientConfig;
 
   constructor(readonly mediaClientConfig: MediaClientConfig) {
     this.mediaStore = new MediaStore({
       authProvider: mediaClientConfig.authProvider,
     });
+    this.config = mediaClientConfig;
     this.collection = new CollectionFetcher(this.mediaStore);
     this.file = new FileFetcher(this.mediaStore);
   }

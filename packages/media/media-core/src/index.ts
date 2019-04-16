@@ -1,4 +1,12 @@
-export * from './item';
+export {
+  MediaItemType,
+  FileItem,
+  FileProcessingStatus,
+  MediaArtifact,
+  Artifacts,
+  FileDetails,
+} from '@atlaskit/media-client';
+
 export {
   ClientBasedAuth,
   AsapBasedAuth,
@@ -11,6 +19,10 @@ export {
   MediaApiConfig,
   ContextConfig,
   MediaClientConfig,
+  authToOwner,
+} from './auth';
+
+export {
   UploadableFile,
   UploadFileCallbacks,
   UploadFileResult,
@@ -19,16 +31,45 @@ export {
   isPreviewableType,
   TouchFileDescriptor,
   MediaFileArtifacts,
-  authToOwner,
-} from '@atlaskit/media-store';
+} from '@atlaskit/media-client';
 
-export { FileFetcher } from './file';
+export { FileFetcher } from '@atlaskit/media-client';
 export * from './context/context';
-export * from './utils';
-export * from './fileState';
-export * from './utils/getMediaTypeFromMimeType';
-export * from './context/fileStreamCache';
-export type ImageResizeMode = 'crop' | 'fit' | 'full-fit' | 'stretchy-fit';
-export * from './identifier';
+
+export { isImageRemote } from '@atlaskit/media-client';
+
+export {
+  FileStatus,
+  FilePreview,
+  PreviewOptions,
+  GetFileOptions,
+  UploadingFileState,
+  ProcessingFileState,
+  ProcessedFileState,
+  ProcessingFailedState,
+  ErrorFileState,
+  FileState,
+  isErrorFileState,
+  isImageRepresentationReady,
+  mapMediaFileToFileState,
+  mapMediaItemToFileState,
+} from '@atlaskit/media-client';
+
+export { getMediaTypeFromMimeType } from '@atlaskit/media-client';
+
+import { FileState, StreamsCache } from '@atlaskit/media-client';
+export type FileStreamCache = StreamsCache<FileState>;
+export { fileStreamsCache } from '@atlaskit/media-client';
+
+export { ImageResizeMode } from '@atlaskit/media-client';
+
+export {
+  Identifier,
+  FileIdentifier,
+  ExternalImageIdentifier,
+  isFileIdentifier,
+  isExternalImageIdentifier,
+  isDifferentIdentifier,
+} from '@atlaskit/media-client';
 
 export { mediaState, CachedMediaState, StateDeferredValue } from './cache';
