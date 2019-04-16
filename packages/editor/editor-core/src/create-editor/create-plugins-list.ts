@@ -49,6 +49,7 @@ import {
   indentationPlugin,
   annotationPlugin,
   analyticsPlugin,
+  customAutoformatPlugin,
 } from '../plugins';
 
 /**
@@ -206,6 +207,10 @@ export default function createPluginsList(
 
   if (props.UNSAFE_cards) {
     plugins.push(cardPlugin);
+  }
+
+  if (props.autoformattingProvider) {
+    plugins.push(customAutoformatPlugin);
   }
 
   let statusMenuDisabled = true;
