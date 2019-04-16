@@ -1,5 +1,10 @@
 # @atlaskit/user-picker
 
+## 3.5.0
+- [minor] [e1abf3f31a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e1abf3f31a):
+
+  - Prevent popup user picker from being dismissed on clear.
+
 ## 3.4.3
 - [patch] [2f8c041db5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f8c041db5):
 

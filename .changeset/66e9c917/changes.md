@@ -1,1 +1,0 @@
-- Prevent popup user picker from being dismissed on clear.
