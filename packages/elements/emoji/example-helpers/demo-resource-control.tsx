@@ -9,10 +9,8 @@ import {
 export function getEmojiConfig() {
   let emojiConfig;
   try {
-    // tslint:disable-next-line import/no-unresolved, no-var-requires
     emojiConfig = require('../local-config')['default'];
   } catch (e) {
-    // tslint:disable-next-line import/no-unresolved, no-var-requires
     emojiConfig = require('../local-config-example')['default'];
   }
 
