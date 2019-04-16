@@ -1,1 +1,0 @@
-- ED-6600: Adding full-width mode to media

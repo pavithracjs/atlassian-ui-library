@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.14.0
+- [minor] [799b7daf70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/799b7daf70):
+
+  - ED-6600: Adding full-width mode to media
+
 ## 107.13.4
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
