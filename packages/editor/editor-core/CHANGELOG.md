@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.15.0
+- [minor] [af359aa8d1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af359aa8d1):
+
+  - ED-6602: Disable breakout for full width mode
+
 ## 107.14.0
 - [minor] [799b7daf70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/799b7daf70):
 
