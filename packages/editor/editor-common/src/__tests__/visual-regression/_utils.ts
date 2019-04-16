@@ -14,7 +14,7 @@ export const loadFullPageEditorWithAdf = async (page: any, adf: any) => {
   );
 
   await page.goto(url);
-
+  await page.waitForSelector(adfInputSelector);
   await page.evaluate(
     (adfInputSelector: string, adf: object) => {
       (document as any).querySelector(adfInputSelector).value = JSON.stringify(
