@@ -1,7 +1,7 @@
 import { Auth, AuthProvider } from '@atlaskit/media-core';
 import { ResponseFileItem } from '../..';
 import * as MediaClientModule from '../..';
-import * as uuid from 'uuid';
+import uuid from 'uuid';
 import { FileFetcher, getItemsFromKeys } from '../../client/file-fetcher';
 import {
   expectFunctionToHaveBeenCalledWith,

@@ -21,7 +21,7 @@ import {
   mapResponseToBlob,
   MediaFileArtifacts,
   getArtifactUrl,
-  checkWebpSupport,
+  // checkWebpSupport,
 } from '..';
 
 const defaultImageOptions: MediaStoreGetFileImageParams = {
@@ -286,7 +286,8 @@ export class MediaStore {
     params?: MediaStoreGetFileImageParams,
     controller?: AbortController,
   ): Promise<Blob> => {
-    const isWebpSupported = await checkWebpSupport();
+    // TODO [MS-1787]: add checkWebpSupport() back
+    const isWebpSupported = false;
     let headers;
     if (isWebpSupported) {
       headers = {

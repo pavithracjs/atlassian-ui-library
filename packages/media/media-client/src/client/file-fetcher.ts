@@ -2,9 +2,8 @@ import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { publishReplay } from 'rxjs/operators/publishReplay';
-import * as uuid from 'uuid/v4';
-import * as Dataloader from 'dataloader';
-import * as isValidId from 'uuid-validate';
+import uuid from 'uuid/v4';
+import Dataloader from 'dataloader';
 import { AuthProvider, authToOwner } from '@atlaskit/media-core';
 import {
   MediaStore,
@@ -26,6 +25,7 @@ import {
   MediaStoreCopyFileWithTokenBody,
   MediaStoreCopyFileWithTokenParams,
 } from '..';
+import isValidId from 'uuid-validate';
 import { getMediaTypeFromUploadableFile } from '../utils/getMediaTypeFromUploadableFile';
 import { convertBase64ToBlob } from '../utils/convertBase64ToBlob';
 
