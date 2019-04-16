@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.15.1
+- [patch] [9210783b0e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9210783b0e):
+
+  - [ED-6432] Fix remove table after cut event happen on the entire table
+
 ## 107.15.0
 - [minor] [af359aa8d1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af359aa8d1):
 

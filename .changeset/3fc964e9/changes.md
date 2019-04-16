@@ -1,1 +1,0 @@
-- [ED-6432] Fix remove table after cut event happen on the entire table
