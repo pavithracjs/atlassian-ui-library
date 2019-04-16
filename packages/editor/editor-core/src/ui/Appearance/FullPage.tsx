@@ -141,6 +141,7 @@ export default class Editor extends React.Component<
   private appearance: EditorAppearance = 'full-page';
   private scrollContainer: HTMLElement | undefined;
   private scheduledKeylineUpdate: number | undefined;
+  private contentArea: HTMLElement | undefined;
 
   stopPropagation = (event: MouseEvent<HTMLDivElement>) =>
     event.stopPropagation();
@@ -248,7 +249,12 @@ export default class Editor extends React.Component<
           className="fabric-editor-popup-scroll-parent"
         >
           <ClickAreaBlock editorView={editorView}>
-            <ContentArea fullWidthMode={fullWidthMode}>
+            <ContentArea
+              fullWidthMode={fullWidthMode}
+              innerRef={(contentArea: HTMLElement) => {
+                this.contentArea = contentArea;
+              }}
+            >
               <div
                 style={{ padding: `0 ${GUTTER_PADDING}px` }}
                 className="ak-editor-content-area"
@@ -262,6 +268,7 @@ export default class Editor extends React.Component<
                     providerFactory={providerFactory}
                     appearance={this.appearance}
                     items={contentComponents}
+                    contentArea={this.contentArea}
                     popupsMountPoint={popupsMountPoint}
                     popupsBoundariesElement={popupsBoundariesElement}
                     popupsScrollableElement={popupsScrollableElement}

@@ -246,6 +246,7 @@ export default class ResizableMediaSingle extends React.Component<
       pctWidth,
       lineLength,
       containerWidth,
+      fullWidthMode,
     } = this.props;
 
     let pxWidth = origWidth;
@@ -295,8 +296,10 @@ export default class ResizableMediaSingle extends React.Component<
         width={width}
         height={height}
         layout={layout}
+        isResized={!!pctWidth}
         containerWidth={containerWidth || origWidth}
         innerRef={elem => (this.wrapper = elem)}
+        fullWidthMode={fullWidthMode}
       >
         <Resizer
           {...this.props}
