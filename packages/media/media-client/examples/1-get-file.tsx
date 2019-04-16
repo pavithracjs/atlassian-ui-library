@@ -7,9 +7,9 @@ import {
   mediaPickerAuthProvider,
 } from '@atlaskit/media-test-helpers';
 import { MediaClientConfig } from '@atlaskit/media-core';
+import { FileState, MediaClient } from '../src';
 import { FilesWrapper, FileWrapper } from '../example-helpers/styled';
 import { Observable } from 'rxjs/Observable';
-import { FileState, MediaClient } from '../src';
 
 export interface ComponentProps {}
 export interface ComponentState {
