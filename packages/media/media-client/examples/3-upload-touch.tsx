@@ -3,7 +3,7 @@ import Button from '@atlaskit/button';
 import styled from 'styled-components';
 import { MediaStore } from '../src';
 import { createUploadMediaClient } from '../../media-test-helpers';
-import * as uuid from 'uuid';
+import uuid from 'uuid/v4';
 
 const Wrapper = styled.div`
   height: 100%;
@@ -50,7 +50,7 @@ class Example extends React.Component<{}, State> {
   }
 
   createNewFile = async () => {
-    this.lastFileId = uuid.v4();
+    this.lastFileId = uuid();
     let result: any;
     try {
       result = await this.store.touchFiles({
@@ -82,7 +82,7 @@ class Example extends React.Component<{}, State> {
             fileId: this.lastFileId,
           },
           {
-            fileId: uuid.v4(),
+            fileId: uuid(),
           },
         ],
       });

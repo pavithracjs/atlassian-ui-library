@@ -1,4 +1,4 @@
-import * as uuid from 'uuid';
+import uuid from 'uuid/v4';
 import { Observable } from 'rxjs/Observable';
 import { AuthProvider } from '@atlaskit/media-core';
 import {
@@ -43,12 +43,12 @@ describe('MediaClient', () => {
     const controller = new UploadController();
 
     beforeEach(() => {
-      id = uuid.v4();
-      occurrenceKey = uuid.v4();
+      id = uuid();
+      occurrenceKey = uuid();
       uploadableFileUpfrontIds = {
         id,
         occurrenceKey,
-        deferredUploadId: Promise.resolve(uuid.v4()),
+        deferredUploadId: Promise.resolve(uuid()),
       };
     });
 
@@ -248,9 +248,9 @@ describe('MediaClient', () => {
     let controller: UploadController;
 
     beforeEach(() => {
-      id = uuid.v4();
-      occurrenceKey = uuid.v4();
-      promissedUploadId = uuid.v4();
+      id = uuid();
+      occurrenceKey = uuid();
+      promissedUploadId = uuid();
       uploadableFileUpfrontIds = {
         id,
         occurrenceKey,
