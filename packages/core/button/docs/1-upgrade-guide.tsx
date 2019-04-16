@@ -52,25 +52,11 @@ const CustomButton = styled(Button)\`
 \`)
 `}
 
-With the shift to Emotion in \`v12\`, we recommend using Emotion’s own \‘styled\’ function, or for more advanced use cases the new theming API:
-
-${code`
-import styled from '@emotion/styled'
-
-const CustomButton = styled(Button)\`
-  background-color: red
-\`)
-`}
-
-The recommended action is to move your project from Styled Components to Emotion. We have created a codemod which aims to reduce the amount of busy work to upgrade, as much of the syntax is very similar. Here is how to get up and running:
-
-1. Clone the [Atlaskit Codemod repository](https://bitbucket.org/atlassian/atlaskit-codemods/src/master/).
-2. Follow the setup instructions on the [README](https://bitbucket.org/atlassian/atlaskit-codemods/src/master/README.md).
-3. The codemod created for this upgrade is the [styled-components-to-emotion](https://bitbucket.org/atlassian/atlaskit-codemods/src/master/src/styled-components-to-emotion/README.md) codemod. The README in that directory contains all the information about setting up and running the codemod.
-
+With the shift to Emotion in \`v12\`, Emotion’s own \‘styled\’ function is a functional drop-in replacement - however this is not explicitly supported and we recommend using the new theming API in its place.
 
 #### Custom component
-If you need to work with refs in a custom component, you'll need to amke sure to forward on refs yourself using \`React.forwardRef()\`. A typical use case would look like this:
+If you need to work with refs in a custom component, you'll need to make sure to forward on refs yourself using \`React.forwardRef()\`. A typical use case would look like this:
+
 ${code`
 const CustomButton = React.forwardRef<HTMLElement, React.AllHTMLAttributes<HTMLElement>>(
   (props, ref) => <button {...props} ref={ref} />
