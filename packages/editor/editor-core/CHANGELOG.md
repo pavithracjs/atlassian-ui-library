@@ -1,5 +1,45 @@
 # @atlaskit/editor-core
 
+## 107.14.0
+- [minor] [799b7daf70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/799b7daf70):
+
+  - ED-6600: Adding full-width mode to media
+
+## 107.13.4
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/avatar-group@3.0.4
+  - @atlaskit/button@12.0.3
+  - @atlaskit/calendar@7.0.22
+  - @atlaskit/code@9.0.1
+  - @atlaskit/dropdown-menu@7.0.6
+  - @atlaskit/droplist@8.0.5
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/item@9.0.1
+  - @atlaskit/logo@10.0.4
+  - @atlaskit/lozenge@7.0.2
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/select@8.1.1
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/textarea@0.4.4
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/editor-common@36.1.12
+  - @atlaskit/renderer@45.6.1
+  - @atlaskit/date@0.6.4
+  - @atlaskit/emoji@59.2.3
+  - @atlaskit/mention@17.6.7
+  - @atlaskit/pubsub@4.0.4
+  - @atlaskit/status@0.8.3
+  - @atlaskit/task-decision@14.0.5
+  - @atlaskit/media-card@60.0.3
+  - @atlaskit/media-editor@32.0.6
+  - @atlaskit/media-filmstrip@31.0.4
+  - @atlaskit/media-picker@38.1.6
+  - @atlaskit/smart-card@10.2.4
+  - @atlaskit/theme@8.1.7
+
 ## 107.13.3
 - [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
 

@@ -1,5 +1,6 @@
 import { initFullPageEditorWithAdf, Device, snapshot } from '../_utils';
 import adf from './__fixtures__/mixed-content.adf.json';
+import adfWithMedia from './__fixtures__/content-with-media.adf.json';
 import { Page } from '../../__helpers/page-objects/_types';
 
 // In full-width mode we cap the max-width at 1800px, for sizes greater than this the
@@ -21,6 +22,22 @@ widths.forEach(width => {
     });
 
     it('should display content in full-width mode', async () => {
+      await snapshot(page, 0.2);
+    });
+  });
+
+  describe(`Full-width mode (${width}px): with media`, () => {
+    let page: Page;
+    it('should display content in full-width mode', async () => {
+      // @ts-ignore
+      page = global.page;
+      await initFullPageEditorWithAdf(
+        page,
+        adfWithMedia,
+        Device.LaptopHiDPI,
+        { width, height: 800 },
+        { UNSAFE_fullWidthMode: true },
+      );
       await snapshot(page, 0.2);
     });
   });
