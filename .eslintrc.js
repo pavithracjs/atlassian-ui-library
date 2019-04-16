@@ -71,6 +71,7 @@ module.exports = {
     ],
     'react/prop-types': ['error', { ignore: ['children'] }],
 
+    eqeqeq: ['error', 'always', { null: 'ignore' }],
     'no-console': 'error',
     'no-restricted-globals': ['error', 'event', 'fdescribe'],
 
@@ -147,7 +148,6 @@ module.exports = {
         'consistent-return': 'off',
         'default-case': 'off',
         'dot-notation': 'off',
-        eqeqeq: 'off',
         'func-names': 'off',
         'global-require': 'off',
         'guard-for-in': 'off',
