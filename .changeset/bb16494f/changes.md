@@ -1,0 +1,1 @@
+- Internal changes only. Drawer is compatible with SSR.
