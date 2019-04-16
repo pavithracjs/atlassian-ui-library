@@ -1,0 +1,1 @@
+- Media API Web Client Library initial release. It contains mostly combined code from media-core and media-store.
