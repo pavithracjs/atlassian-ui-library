@@ -1,5 +1,10 @@
 # @atlaskit/navigation-next
 
+## 5.1.6
+- [patch] [a81e516462](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a81e516462):
+
+  - Removes dev-dependency from dependencies
+
 ## 5.1.5
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
