@@ -1,0 +1,1 @@
+- ED-6715 Fix issue with gap cursor + breakout + full-width mode where editor would crash
