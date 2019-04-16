@@ -1,6 +1,6 @@
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { sleep } from '@atlaskit/media-test-helpers';
-import { observableToPromise } from '../../../index';
+import { observableToPromise } from '../..';
 
 describe('observableToPromise()', () => {
   const createFakeSubject = (unsubscribe: jest.Mock): any => ({
