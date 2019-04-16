@@ -3,9 +3,8 @@ import InlineDialog from '@atlaskit/inline-dialog';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import { FormattedMessage, InjectedIntlProps } from 'react-intl';
-import {
+import ShareButton, {
   Props as ShareButtonProps,
-  ShareButton,
 } from '../../../components/ShareButton';
 import {
   defaultShareContentState,

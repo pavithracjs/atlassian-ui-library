@@ -29,7 +29,7 @@ import {
   screenEvent,
   submitShare,
 } from './analytics';
-import { ShareButton } from './ShareButton';
+import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
 
 type DialogState = {

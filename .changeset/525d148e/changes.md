@@ -1,0 +1,1 @@
+- updated copies for placeholder and no result message for user picker field in share and added localizations for icon labels
