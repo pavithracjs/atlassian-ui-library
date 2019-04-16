@@ -1,0 +1,1 @@
+- ED-6602: Disable breakout for full width mode

@@ -1,6 +1,7 @@
 import { initFullPageEditorWithAdf, Device, snapshot } from '../_utils';
 import adf from './__fixtures__/mixed-content.adf.json';
 import adfWithMedia from './__fixtures__/content-with-media.adf.json';
+import adfWithBreakout from './__fixtures__/mixed-content-with-breakout.adf.json';
 import { Page } from '../../__helpers/page-objects/_types';
 
 // In full-width mode we cap the max-width at 1800px, for sizes greater than this the
@@ -40,5 +41,20 @@ widths.forEach(width => {
       );
       await snapshot(page, 0.2);
     });
+  });
+});
+
+describe('Full-width mode breakout', () => {
+  it('should disable breakout and ignore sizes', async () => {
+    // @ts-ignore
+    let page = global.page;
+    await initFullPageEditorWithAdf(
+      page,
+      adfWithBreakout,
+      Device.LaptopHiDPI,
+      { width: 2000, height: 800 },
+      { UNSAFE_fullWidthMode: true },
+    );
+    await snapshot(page, 0.2);
   });
 });
