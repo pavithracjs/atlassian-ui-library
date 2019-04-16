@@ -4,7 +4,7 @@ import {
   ClientBasedAuth,
   AsapBasedAuth,
   authToOwner,
-} from '../../..';
+} from '../..';
 
 describe('Auth', () => {
   const clientBasedAuth: ClientBasedAuth = {
