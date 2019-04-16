@@ -7,11 +7,11 @@ import {
   OnToneSelected,
 } from '../../types';
 import EmojiButton from './EmojiButton';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import {
+  withAnalyticsEvents,
   WithAnalyticsEventProps,
   AnalyticsEventPayload,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import {
   createAndFireEventInElementsChannel,
   toneSelectedEvent,
@@ -87,7 +87,7 @@ export class ToneSelectorInternal extends PureComponent<
 }
 
 type ToneSelector = ToneSelectorInternal;
-const ToneSelector: React.ComponentClass<Props> = withAnalyticsEvents()(
+const ToneSelector: React.ComponentType<Props> = withAnalyticsEvents()(
   ToneSelectorInternal,
 );
 

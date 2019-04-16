@@ -41,7 +41,7 @@ import rulePlugin from '../../../../plugins/rule';
 import tablePlugin from '../../../../plugins/table';
 import quickInsertPlugin from '../../../../plugins/quick-insert';
 import { insertMediaAsMediaSingle } from '../../../../plugins/media/utils/media-single';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import {
   temporaryMedia,
   temporaryMediaGroup,

@@ -130,7 +130,7 @@ export const codeBlock: NodeSpec = {
       },
     },
     {
-      tag: 'div.CodeBlock',
+      tag: 'div.code-block',
       preserveWhitespace: 'full',
       getAttrs: domNode => {
         const dom = domNode as HTMLElement;

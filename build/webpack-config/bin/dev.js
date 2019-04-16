@@ -63,12 +63,27 @@ async function runDevServer() {
           minimatch(ws.dir, glob, { matchBase: true }),
         ),
       )
-    : workspaces; // if no globs were passed, we'll use all workspaces
+    : workspaces; // if no globs were passed, we'll use all workspaces.
 
-  const globs =
+  let globs =
     workspaceGlobs.length > 0
       ? utils.createWorkspacesGlob(filteredWorkspaces, projectRoot)
       : utils.createDefaultGlob();
+
+  /* At the moment, the website and webpack folders do not build a package and it is not possible to test it.
+  ** The current workaround, we build another package that builds the homepage and indirectly test the website.
+  ** We picked the package polyfills:
+   - the package is internal.
+   - no integration tests will be added.
+   - changes to the package will not impact the build system.
+  */
+  if (['website', 'webpack'].indexOf(globs) === -1) {
+    globs = globs.map(glob =>
+      glob
+        .replace('website', 'packages/core/polyfills')
+        .replace('build/webpack-config', 'packages/core/polyfills'),
+    );
+  }
 
   if (!globs.length) {
     console.info(

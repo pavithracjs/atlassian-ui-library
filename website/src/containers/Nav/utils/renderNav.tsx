@@ -4,7 +4,7 @@ import { RouterNavigationItem, ExternalNavigationItem } from './linkComponents';
 import { NavGroup } from '../../../types';
 
 export type Props = {
-  onClick?: (e: Event) => void;
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
   pathname: string;
 };
 

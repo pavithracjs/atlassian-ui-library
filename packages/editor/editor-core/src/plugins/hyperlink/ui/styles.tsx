@@ -1,4 +1,4 @@
-import { HTMLAttributes, ComponentClass } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import UiToolbarButton, {
   Props as UiToolbarButtonProps,
@@ -9,9 +9,9 @@ import UiFloatingToolbar, {
 import UiSeparator from '../../../ui/Separator';
 
 // `line-height: 1` to fix extra 1px height from toolbar wrapper
-export const FloatingToolbar: ComponentClass<UiFloatingToolbarProps> = styled(
-  UiFloatingToolbar,
-)`
+export const FloatingToolbar: React.ComponentClass<
+  UiFloatingToolbarProps
+> = styled(UiFloatingToolbar)`
   max-height: 350px;
   min-height: 32px;
   height: initial;
@@ -34,21 +34,31 @@ export const FloatingToolbar: ComponentClass<UiFloatingToolbarProps> = styled(
 `;
 
 // `a&` because `Button` uses it and it produces a more specific selector `a.xyz`
-export const ToolbarButton: ComponentClass<UiToolbarButtonProps> = styled(
-  UiToolbarButton,
-)`
-  width: 24px;
-  padding: 0;
-  margin: 0 2px;
-  a& {
-    width: 24px;
-    margin: 0 2px;
-  }
-`;
+export const ToolbarButton = (props: UiToolbarButtonProps) => (
+  <UiToolbarButton
+    {...props}
+    theme={(currentTheme: any, themeProps: any) => {
+      const { buttonStyles, ...rest } = currentTheme(themeProps);
+      return {
+        buttonStyles: {
+          ...buttonStyles,
+          padding: 0,
+          width: '24px',
+          margin: '0 2px',
+          'a&': {
+            width: '24px',
+            margin: '0 2px',
+          },
+        },
+        ...rest,
+      };
+    }}
+  />
+);
 
 // Need fixed height because parent has height inherit and `height: 100%` doesn't work because of that
-export const Separator: ComponentClass<
-  HTMLAttributes<HTMLSpanElement>
+export const Separator: React.ComponentClass<
+  React.HTMLAttributes<HTMLSpanElement>
 > = styled(UiSeparator)`
   margin: 2px 6px;
   height: 20px;

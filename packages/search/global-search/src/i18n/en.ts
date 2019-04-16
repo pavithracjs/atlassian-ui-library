@@ -53,4 +53,5 @@ export default {
   'global_search.jira.project_type.ops_project': 'Ops Project',
   'global_search.jira.result_type.board': 'Board',
   'global_search.jira.result_type.filter': 'Filter',
+  'global_search.give_feedback': 'Give feedback',
 };

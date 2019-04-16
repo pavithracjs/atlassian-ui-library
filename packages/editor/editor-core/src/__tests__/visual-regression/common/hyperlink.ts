@@ -1,8 +1,8 @@
 import { initFullPageEditorWithAdf, snapshot } from '../_utils';
 import { selectors } from '../../__helpers/page-objects/_editor';
 import adf from './__fixtures__/hyperlink-adf.json';
-
-describe('Hyperlink:', () => {
+// TODO: https://product-fabric.atlassian.net/browse/ED-6699
+describe.skip('Hyperlink:', () => {
   let page: any;
 
   beforeAll(async () => {

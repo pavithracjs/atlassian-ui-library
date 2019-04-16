@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import AvatarImage, { DefaultImage, clearCache } from '../../AvatarImage';
+import AvatarImage, { DefaultImage } from '../../AvatarImage';
 
 const src =
   'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
@@ -78,9 +78,6 @@ describe('Avatar', () =>
           // setting src to a string doesn't seem to trigger the successful loading in tests
           // so we mock that and wait for our component to respond
           wrapper.instance().handleLoadSuccess();
-        });
-        afterEach(() => {
-          clearCache();
         });
 
         it('should set the background image on the internal span to src', () => {

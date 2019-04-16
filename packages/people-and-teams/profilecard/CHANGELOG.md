@@ -1,5 +1,29 @@
 # @atlaskit/profilecard
 
+## 9.0.2
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/button@12.0.3
+  - @atlaskit/dynamic-table@11.0.3
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/lozenge@7.0.2
+  - @atlaskit/popper@0.4.3
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/theme@8.1.7
+
+## 9.0.1
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/avatar@15.0.3
+  - @atlaskit/dynamic-table@11.0.2
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/popper@0.4.2
+  - @atlaskit/portal@0.3.1
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/button@12.0.0
+
 ## 9.0.0
 - [major] [bfca144ea5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bfca144ea5):
 

@@ -264,7 +264,7 @@ export default class Example extends React.Component<Props, State> {
     );
   }
 
-  private inviteToEditHandler = (event: Event) => {
+  private inviteToEditHandler = (event: React.MouseEvent<HTMLElement>) => {
     this.setState({
       isInviteToEditButtonSelected: !this.state.isInviteToEditButtonSelected,
     });

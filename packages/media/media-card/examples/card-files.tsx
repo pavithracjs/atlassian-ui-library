@@ -7,9 +7,11 @@ import {
   unknownFileId,
   errorFileId,
 } from '@atlaskit/media-test-helpers';
-import { AnalyticsListener } from '@atlaskit/analytics-next';
 import { FileIdentifier } from '@atlaskit/media-core';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import {
+  AnalyticsListener,
+  UIAnalyticsEventInterface,
+} from '@atlaskit/analytics-next';
 
 import { Card } from '../src';
 import { createApiCards, actions } from '../example-helpers';

@@ -172,6 +172,7 @@ class ExampleEditorComponent extends React.Component<
               allowDate={true}
               allowLayouts={{
                 allowBreakout: true,
+                UNSAFE_addSidebarLayouts: true,
               }}
               allowTextAlignment={true}
               allowIndentation={true}

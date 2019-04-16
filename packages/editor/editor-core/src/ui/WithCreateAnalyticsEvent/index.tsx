@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import {
+  withAnalyticsEvents,
   WithAnalyticsEventProps,
   CreateUIAnalyticsEventSignature,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 
 export type Props = {
   render: (
@@ -11,7 +11,7 @@ export type Props = {
   ) => React.ReactNode;
 };
 
-export const WithCreateAnalyticsEvent: React.ComponentClass<
+export const WithCreateAnalyticsEvent: React.ComponentType<
   Props
 > = withAnalyticsEvents()(
   class WithCreateAnalyticsEvent extends React.Component<

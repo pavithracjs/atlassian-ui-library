@@ -289,7 +289,6 @@ export default class ToolsDrawer extends React.Component<Props & any, State> {
                                   ? 'primary'
                                   : 'default'
                               }
-                              theme="dark"
                               spacing="compact"
                             >
                               {providerStateName}
@@ -302,18 +301,13 @@ export default class ToolsDrawer extends React.Component<Props & any, State> {
                 )}
                 <div>
                   <ButtonGroup>
-                    <Button
-                      onClick={this.toggleDisabled}
-                      theme="dark"
-                      spacing="compact"
-                    >
+                    <Button onClick={this.toggleDisabled} spacing="compact">
                       {this.state.editorEnabled
                         ? 'Disable editor'
                         : 'Enable editor'}
                     </Button>
                     <Button
                       onClick={this.reloadEditor}
-                      theme="dark"
                       spacing="compact"
                       className="reloadEditorButton"
                     >
@@ -326,7 +320,6 @@ export default class ToolsDrawer extends React.Component<Props & any, State> {
                       <Button
                         key={key}
                         onClick={() => this.toggleFeature(key)}
-                        theme="dark"
                         spacing="compact"
                         className={`toggleFeature-${key} ${
                           this.state.enabledFeatures[key] ? 'disable' : 'enable'
@@ -342,7 +335,6 @@ export default class ToolsDrawer extends React.Component<Props & any, State> {
                       <Button
                         onClick={this.toggleMediaMock}
                         appearance={mediaMockEnabled ? 'primary' : 'default'}
-                        theme="dark"
                         spacing="compact"
                         className="mediaPickerMock"
                       >

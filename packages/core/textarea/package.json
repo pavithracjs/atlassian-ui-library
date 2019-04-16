@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/textarea",
-  "version": "0.4.0",
+  "version": "0.4.4",
   "description": "Textarea Component",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -17,9 +17,8 @@
   ],
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^4.0.1",
-    "@atlaskit/analytics-next-types": "^4.0.1",
-    "@atlaskit/theme": "^8.0.1",
+    "@atlaskit/analytics-next": "^4.0.5",
+    "@atlaskit/theme": "^8.1.7",
     "@atlaskit/type-helpers": "^3.0.2",
     "tslib": "^1.8.0"
   },
@@ -29,8 +28,8 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^11.0.2",
-    "@atlaskit/docs": "^7.0.1",
+    "@atlaskit/button": "^12.0.3",
+    "@atlaskit/docs": "^7.0.3",
     "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/visual-regression": "^0.0.1",
     "enzyme": "^3.7.0",

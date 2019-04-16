@@ -16,7 +16,7 @@ widths.forEach(width => {
         adf,
         Device.LaptopHiDPI,
         { width, height: 800 },
-        { fullWidthMode: true },
+        { UNSAFE_fullWidthMode: true },
       );
     });
 

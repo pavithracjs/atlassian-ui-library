@@ -3,7 +3,7 @@ import {
   AnalyticsEventUpdater,
   CreateUIAnalyticsEventSignature,
   AnalyticsEventPayload,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 
 const mock: CreateUIAnalyticsEventSignature = (
   payload: AnalyticsEventPayload,

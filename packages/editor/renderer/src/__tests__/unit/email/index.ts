@@ -3,6 +3,7 @@ import { defaultSchema as schema } from '@atlaskit/adf-schema';
 
 import * as paragraphIndents from '../../__fixtures__/paragraph-indents.adf.json';
 import * as paragraphAlign from '../../__fixtures__/paragraph-align.adf.json';
+import * as heading from '../../__fixtures__/heading.adf.json';
 import * as headingAlign from '../../__fixtures__/heading-align.adf.json';
 import * as em from '../../__fixtures__/em.adf.json';
 import * as codeBlock from '../../__fixtures__/code-block.adf.json';
@@ -110,6 +111,11 @@ describe('Renderer - EmailSerializer', () => {
 
   it('should align heading correctly', () => {
     const output = render(headingAlign);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render headings 1-6 correctly', () => {
+    const output = render(heading);
     expect(output).toMatchSnapshot();
   });
 

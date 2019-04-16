@@ -21,7 +21,7 @@ class CodeBlock extends PureComponent<Props & OverflowShadowProps, {}> {
     };
 
     return (
-      <div className={`CodeBlock ${shadowClassNames}`} ref={handleRef}>
+      <div className={`code-block ${shadowClassNames}`} ref={handleRef}>
         <AkCodeBlock {...codeProps} />
       </div>
     );

@@ -1,4 +1,4 @@
-import { mount, ReactWrapper } from 'enzyme';
+import { mount, shallow, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import FieldBase from '@atlaskit/field-base';
 import Search from '../../Search';
@@ -28,5 +28,16 @@ describe('Search', () => {
         .at(0)
         .prop('isLoading'),
     ).toBe(false);
+  });
+
+  it('should render input controls if provided', () => {
+    const wrapper = shallow(
+      <Search inputControls={<button key="testKey">Test Btn</button>} />,
+    );
+    const inputControlsContainer = wrapper.find('SearchInputControlsContainer');
+
+    expect(inputControlsContainer.length).toBe(1);
+    expect(inputControlsContainer.children().length).toBe(1);
+    expect(inputControlsContainer.childAt(0).key()).toBe('testKey');
   });
 });

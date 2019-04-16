@@ -47,7 +47,7 @@ export interface ProcessingFileState {
   mediaType: MediaType;
   mimeType: string;
   preview?: FilePreview | Promise<FilePreview>;
-  representations: MediaRepresentations;
+  representations?: MediaRepresentations;
 }
 
 export interface ProcessedFileState {
@@ -60,7 +60,7 @@ export interface ProcessedFileState {
   mediaType: MediaType;
   mimeType: string;
   preview?: FilePreview | Promise<FilePreview>;
-  representations: MediaRepresentations;
+  representations?: MediaRepresentations;
 }
 export interface ProcessingFailedState {
   status: 'failed-processing';
@@ -72,7 +72,7 @@ export interface ProcessingFailedState {
   mediaType: MediaType;
   mimeType: string;
   preview?: FilePreview | Promise<FilePreview>;
-  representations: MediaRepresentations;
+  representations?: MediaRepresentations;
 }
 export interface ErrorFileState {
   status: 'error';
@@ -97,7 +97,7 @@ export const isImageRepresentationReady = (fileState: FileState): boolean => {
     case 'processing':
     case 'processed':
     case 'failed-processing':
-      return !!fileState.representations.image;
+      return !!(fileState.representations && fileState.representations.image);
     default:
       return false;
   }

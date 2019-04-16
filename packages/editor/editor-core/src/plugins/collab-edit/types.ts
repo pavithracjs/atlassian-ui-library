@@ -45,7 +45,7 @@ export interface SendableSelection {
 
 export interface CollabEditOptions {
   provider?: Promise<CollabEditProvider>;
-  inviteToEditHandler?: (event: Event) => void;
+  inviteToEditHandler?: (event: React.MouseEvent<HTMLElement>) => void;
   isInviteToEditButtonSelected?: boolean;
   userId?: string;
   useNativePlugin?: boolean;

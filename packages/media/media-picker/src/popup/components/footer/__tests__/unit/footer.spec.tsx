@@ -175,7 +175,12 @@ describe('<Footer />', () => {
           onCancel={jest.fn()}
         />,
       );
-      expect(element.find(InsertButton).prop('children').props.values).toEqual({
+      expect(
+        element
+          .find(InsertButton)
+          .find('FormattedMessage')
+          .prop('values'),
+      ).toEqual({
         0: 1,
       });
     });

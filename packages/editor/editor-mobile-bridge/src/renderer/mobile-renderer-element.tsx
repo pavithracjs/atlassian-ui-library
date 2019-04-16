@@ -11,7 +11,8 @@ import {
   TaskDecisionProvider,
   EmojiProvider,
 } from '../providers';
-
+import { cardClient } from '../providers/cardProvider';
+import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 import { eventDispatcher } from './dispatcher';
 import { ObjectKey, TaskState } from '@atlaskit/task-decision';
 
@@ -92,38 +93,40 @@ export default class MobileRenderer extends React.Component<
       }
 
       return (
-        <ReactRenderer
-          onComplete={() => {
-            if (
-              window &&
-              !window.webkit && // don't fire on iOS
-              window.requestAnimationFrame
-            ) {
-              window.requestAnimationFrame(() =>
-                toNativeBridge.call('renderBridge', 'onContentRendered'),
-              );
-            }
-          }}
-          dataProviders={this.providerFactory}
-          appearance="mobile"
-          document={this.state.document}
-          rendererContext={{
-            // These will need to come from the native side.
-            objectAri: this.objectAri,
-            containerAri: this.containerAri,
-          }}
-          eventHandlers={{
-            link: {
-              onClick: (event, url) => {
-                event.preventDefault();
-                this.onLinkClick(url);
+        <SmartCardProvider client={cardClient}>
+          <ReactRenderer
+            onComplete={() => {
+              if (
+                window &&
+                !window.webkit && // don't fire on iOS
+                window.requestAnimationFrame
+              ) {
+                window.requestAnimationFrame(() =>
+                  toNativeBridge.call('renderBridge', 'onContentRendered'),
+                );
+              }
+            }}
+            dataProviders={this.providerFactory}
+            appearance="mobile"
+            document={this.state.document}
+            rendererContext={{
+              // These will need to come from the native side.
+              objectAri: this.objectAri,
+              containerAri: this.containerAri,
+            }}
+            eventHandlers={{
+              link: {
+                onClick: (event, url) => {
+                  event.preventDefault();
+                  this.onLinkClick(url);
+                },
               },
-            },
-            smartCard: {
-              onClick: this.onLinkClick,
-            },
-          }}
-        />
+              smartCard: {
+                onClick: this.onLinkClick,
+              },
+            }}
+          />
+        </SmartCardProvider>
       );
     } catch (ex) {
       return <pre>Invalid document</pre>;
