@@ -1,7 +1,7 @@
 import { Plugin } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 
-export const GUTTER_SIZE_IN_PX = 96; // Gutter size
+export const GUTTER_SIZE_IN_PX = 120; // Gutter size
 
 /**
  * Create a gutter that can be added or removed it from the dom
@@ -139,16 +139,11 @@ export default (appearance?: string) => {
               }
 
               // If I reach here is because I should scroll to expected position from caret
-              scrollContainer.scrollTo({
-                left: 0,
-                // New top position is gonna be the expected gutter minus the current difference between caret and heigh.
-                top:
-                  scrollContainerTop +
-                  GUTTER_SIZE_IN_PX -
-                  scrollContainerOffsetHeight +
-                  caretTopFromContainer,
-                behavior: 'smooth',
-              });
+              scrollContainer.scrollTop =
+                scrollContainerTop +
+                GUTTER_SIZE_IN_PX -
+                scrollContainerOffsetHeight +
+                caretTopFromContainer;
             }
           }
         },
