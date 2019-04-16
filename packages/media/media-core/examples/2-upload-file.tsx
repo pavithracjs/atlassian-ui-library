@@ -7,7 +7,7 @@ import {
 import { ContextFactory, UploadController } from '../src';
 import { FilesWrapper, FileWrapper } from '../example-helpers/styled';
 import { Observable } from 'rxjs/Observable';
-import { FileState } from '../src/fileState';
+import { FileState } from '@atlaskit/media-client';
 import { Subscription } from 'rxjs/Subscription';
 
 export interface ComponentProps {}

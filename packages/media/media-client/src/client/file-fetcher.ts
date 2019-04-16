@@ -76,7 +76,35 @@ export interface CopyDestination extends MediaStoreCopyFileWithTokenParams {
 
 type DataloaderResult = MediaCollectionItemFullDetails | undefined;
 
-export class FileFetcher {
+export interface FileFetcher {
+  getFileState(id: string, options?: GetFileOptions): Observable<FileState>;
+  getArtifactURL(
+    artifacts: MediaFileArtifacts,
+    artifactName: keyof MediaFileArtifacts,
+    collectionName?: string,
+  ): Promise<string>;
+  touchFiles(
+    descriptors: TouchFileDescriptor[],
+    collection?: string,
+  ): Promise<TouchedFiles>;
+  upload(
+    file: UploadableFile,
+    controller?: UploadController,
+    uploadableFileUpfrontIds?: UploadableFileUpfrontIds,
+  ): Observable<FileState>;
+  downloadBinary(
+    id: string,
+    name?: string,
+    collectionName?: string,
+  ): Promise<void>;
+  getCurrentState(id: string): Promise<FileState>;
+  copyFile(
+    source: SourceFile,
+    destination: CopyDestination,
+  ): Promise<MediaFile>;
+}
+
+export class FileFetcherImpl implements FileFetcher {
   private readonly dataloader: Dataloader<DataloaderKey, DataloaderResult>;
 
   constructor(private readonly mediaStore: MediaStore) {

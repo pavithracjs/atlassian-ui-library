@@ -34,7 +34,7 @@ export {
   MediaFileArtifacts,
 } from '@atlaskit/media-client';
 
-export { FileFetcher } from '@atlaskit/media-client';
+export { FileFetcher, FileFetcherImpl } from '@atlaskit/media-client';
 export * from './context/context';
 
 // export * from './utils';

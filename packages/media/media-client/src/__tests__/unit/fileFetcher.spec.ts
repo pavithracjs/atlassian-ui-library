@@ -2,7 +2,7 @@ import { Auth, AuthProvider } from '@atlaskit/media-core';
 import { ResponseFileItem } from '../..';
 import * as MediaClientModule from '../..';
 import uuid from 'uuid';
-import { FileFetcher, getItemsFromKeys } from '../../client/file-fetcher';
+import { FileFetcherImpl, getItemsFromKeys } from '../../client/file-fetcher';
 import {
   expectFunctionToHaveBeenCalledWith,
   asMock,
@@ -48,7 +48,7 @@ describe('FileFetcher', () => {
       copyFileWithToken: jest.fn(),
       getItems: jest.fn().mockReturnValue(itemsResponse),
     } as any;
-    const fileFetcher = new FileFetcher(mediaStore);
+    const fileFetcher = new FileFetcherImpl(mediaStore);
 
     asMock(mediaStore.getFileBinaryURL).mockReturnValue(binaryUrl);
 

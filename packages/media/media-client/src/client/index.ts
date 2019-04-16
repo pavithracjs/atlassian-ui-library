@@ -11,8 +11,8 @@ import {
 } from './media-store';
 export { CollectionFetcher } from './collection-fetcher';
 import { CollectionFetcher } from './collection-fetcher';
-export { FileFetcher } from './file-fetcher';
-import { FileFetcher } from './file-fetcher';
+export { FileFetcherImpl, FileFetcher } from './file-fetcher';
+import { FileFetcherImpl, FileFetcher } from './file-fetcher';
 
 export class MediaClient {
   public readonly mediaStore: MediaStore;
@@ -27,7 +27,7 @@ export class MediaClient {
     });
     this.config = mediaClientConfig;
     this.collection = new CollectionFetcher(this.mediaStore);
-    this.file = new FileFetcher(this.mediaStore);
+    this.file = new FileFetcherImpl(this.mediaStore);
   }
 
   public getImage(
