@@ -1,0 +1,1 @@
+- Add MediaClientConfig interface to support media-client package
