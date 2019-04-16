@@ -15,7 +15,6 @@ async function getPackagesInfo(cwd /*: string */) {
       let tsConfigCliExists = await exists(
         path.join(pkg.dir, 'build', 'cli', 'tsconfig.json'),
       );
-      let tslintConfigExists = await exists(path.join(pkg.dir, 'tslint.json'));
       let testBrowserExists = await exists(
         path.join(pkg.dir, '__tests-karma__'),
       );
@@ -41,11 +40,10 @@ async function getPackagesInfo(cwd /*: string */) {
       let isTypeScriptCLI = tsConfigCliExists;
       let isTypeScript =
         tsConfigExists && !isTypeScriptCLI && !isWebsitePackage; // The website does not need to be built
-      let isTSLint = isTypeScript || tslintConfigExists;
 
       let isBabel = srcExists && !isTypeScript && !isWebsitePackage;
       let isFlow = isBabel || isWebsitePackage;
-      let isESLint = isBabel || isTSLint || isWebsitePackage;
+      let isESLint = isBabel || isWebsitePackage;
 
       let isKarma = testBrowserExists || hasKarmaDep;
       let isBrowserStack = isKarma;
