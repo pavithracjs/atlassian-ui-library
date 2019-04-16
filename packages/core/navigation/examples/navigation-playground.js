@@ -163,8 +163,11 @@ class CustomDrawer extends Component<*, *> {
 
   setIconOffset = e =>
     e.target.value && this.setState({ iconOffset: e.target.value });
+
   setWidthNarrow = () => this.setState({ width: 'narrow' });
+
   setWidthWide = () => this.setState({ width: 'wide' });
+
   setWidthFull = () => this.setState({ width: 'full' });
 
   render() {
@@ -254,13 +257,18 @@ class ExampleNav extends Component<void, State> {
   };
 
   closeDrawer = () => this.setState({ openDrawer: false });
+
   openSearchDrawer = () => this.setState({ openDrawer: 'searchDrawer' });
+
   openCreateDrawer = () => this.setState({ openDrawer: 'createDrawer' });
+
   openCustomDrawer = () => this.setState({ openDrawer: 'customDrawer' });
 
   toggleNavCollapse = () => this.setState({ isOpen: !this.state.isOpen });
+
   setCompact = (e: SyntheticInputEvent<HTMLInputElement>) =>
     this.setState({ compactItems: e.target.checked });
+
   setShowIcon = (e: SyntheticInputEvent<HTMLInputElement>) =>
     this.setState({ showIcon: e.target.checked });
 

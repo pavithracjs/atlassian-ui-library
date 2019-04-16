@@ -38,6 +38,18 @@ export const messages = defineMessages({
     description:
       'Required error message for the user picker field in Share form.',
   },
+  userPickerNoOptionsMessageEmptyQuery: {
+    id: 'fabric.elements.share.form.user-picker.no-options.emptyQuery',
+    defaultMessage: `We couldn’t find any results. Invite people by using an email address.`,
+    description:
+      'No options message displayed when the search for users returns empty for an empty query.',
+  },
+  userPickerNoOptionsMessage: {
+    id: 'fabric.elements.share.form.user-picker.no-options',
+    defaultMessage: `We couldn’t find any results for "{inputValue}". Invite people by using an email address.`,
+    description:
+      'No options message displayed when the search for users returns empty.',
+  },
   shareTriggerButtonText: {
     id: 'fabric.elements.share.trigger.button.text',
     defaultMessage: 'Share',
@@ -55,7 +67,7 @@ export const messages = defineMessages({
   },
   capabilitiesInfoMessage: {
     id: 'fabric.elements.share.form.capabilities.info.message',
-    defaultMessage: 'Your Admin will be asked to approve the user invite',
+    defaultMessage: 'Your invite will be sent to an admin for approval',
     description: 'Default text for capabilities info',
   },
   shareFailureMessage: {
@@ -63,5 +75,35 @@ export const messages = defineMessages({
     defaultMessage: 'Unable to share',
     description:
       'Default text for share failure message displayed in the tooltip',
+  },
+  shareSuccessMessage: {
+    id: 'fabric.elements.share.success.message',
+    defaultMessage:
+      '{object, select,' +
+      'board {Board shared}' +
+      'calendar {Calendar shared}' +
+      'draft {Draft shared}' + // this is a placeholder for Invite to edit in Confluence
+      'filter {Filter shared}' +
+      'issue {Issue shared}' +
+      'media {Media shared}' +
+      'page {Page shared}' +
+      'project {Project shared}' +
+      'pullrequest {Pull Request shared}' +
+      'question {Question shared}' +
+      'report {Report shared}' +
+      'repository {Repository shared}' +
+      'request {Request shared}' +
+      'roadmap {Roadmap shared}' +
+      'site {Site shared}' +
+      'space {Space shared}' +
+      'other {Link Shared}' +
+      '}',
+    description: 'Default text for share success message displayed in a flag',
+  },
+  adminNotifiedMessage: {
+    id: 'fabric.elements.share.admin.notified.message',
+    defaultMessage: 'Your admin has been notified',
+    description:
+      'Default text for admin notified message displayed in a flag when a share action is successful',
   },
 });

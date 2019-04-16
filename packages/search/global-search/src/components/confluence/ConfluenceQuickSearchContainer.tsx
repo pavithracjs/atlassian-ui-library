@@ -14,7 +14,11 @@ import {
   ABTest,
 } from '../../api/CrossProductSearchClient';
 import { Scope } from '../../api/types';
-import { Result, ResultsWithTiming } from '../../model/Result';
+import {
+  Result,
+  ResultsWithTiming,
+  ConfluenceResultsMap,
+} from '../../model/Result';
 import { PeopleSearchClient } from '../../api/PeopleSearchClient';
 import { SearchScreenCounter } from '../../util/ScreenCounter';
 import {
@@ -29,7 +33,9 @@ import {
 } from '../SearchResultsUtil';
 import { CreateAnalyticsEventFn } from '../analytics/types';
 import performanceNow from '../../util/performance-now';
-import QuickSearchContainer from '../common/QuickSearchContainer';
+import QuickSearchContainer, {
+  SearchResultProps,
+} from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import { sliceResults } from './ConfluenceSearchResultsMapper';
 import NoResultsState from './NoResultsState';
@@ -59,6 +65,7 @@ export interface Props {
     query: string,
     searchSessionId: string,
   ) => void;
+  inputControls?: JSX.Element;
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.ConfluenceQuickSearchContainer';
@@ -158,7 +165,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   }
 
   // TODO extract
-  handleSearchErrorAnalytics(error, source: string): void {
+  handleSearchErrorAnalytics(error: Error, source: string): void {
     const { firePrivateAnalyticsEvent } = this.props;
     if (firePrivateAnalyticsEvent) {
       try {
@@ -238,7 +245,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     );
   };
 
-  getAbTestData = (sessionId: string): Promise<ABTest | undefined> => {
+  getAbTestData = (sessionId: string): Promise<ABTest> => {
     return this.props.crossProductSearchClient.getAbTestData(
       Scope.ConfluencePageBlog,
       {
@@ -256,9 +263,9 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       'recent-people': peopleSearchClient.getRecentPeople(),
     };
 
-    const recentActivityPromises: Promise<Result[]>[] = Object.keys(
+    const recentActivityPromises: Promise<Result[]>[] = (Object.keys(
       recentActivityPromisesMap,
-    ).map(key =>
+    ) as Array<keyof typeof recentActivityPromisesMap>).map(key =>
       handlePromiseError(
         recentActivityPromisesMap[key],
         [],
@@ -290,7 +297,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
-  }) => {
+  }: SearchResultProps) => {
     const { onAdvancedSearch = () => {} } = this.props;
     return (
       <SearchResultsComponent
@@ -323,8 +330,12 @@ export class ConfluenceQuickSearchContainer extends React.Component<
             }
           />
         )}
-        getPreQueryGroups={() => mapRecentResultsToUIGroups(recentItems)}
-        getPostQueryGroups={() => mapSearchResultsToUIGroups(searchResults)}
+        getPreQueryGroups={() =>
+          mapRecentResultsToUIGroups(recentItems as ConfluenceResultsMap)
+        }
+        getPostQueryGroups={() =>
+          mapSearchResultsToUIGroups(searchResults as ConfluenceResultsMap)
+        }
         renderNoResult={() => (
           <NoResultsState
             query={latestSearchQuery}
@@ -343,7 +354,12 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   };
 
   render() {
-    const { linkComponent, isSendSearchTermsEnabled, logger } = this.props;
+    const {
+      linkComponent,
+      isSendSearchTermsEnabled,
+      logger,
+      inputControls,
+    } = this.props;
 
     return (
       <QuickSearchContainer
@@ -359,6 +375,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         isSendSearchTermsEnabled={isSendSearchTermsEnabled}
         getDisplayedResults={sliceResults}
         logger={logger}
+        inputControls={inputControls}
       />
     );
   }

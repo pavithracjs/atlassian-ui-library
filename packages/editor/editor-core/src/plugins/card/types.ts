@@ -13,6 +13,7 @@ export type Request = {
   pos: number;
   url: string;
   appearance: CardAppearance;
+  compareLinkText: boolean;
 };
 
 export type CardPluginState = {

@@ -1,9 +1,9 @@
 import { name } from '../../../version.json';
-import * as Ajv from 'ajv';
+import Ajv from 'ajv';
 import { readFilesSync } from '../../../../test-helpers';
 
-import * as v1schemaFull from '../../../../json-schema/v1/full.json';
-import * as v1schemaStage0 from '../../../../json-schema/v1/stage-0.json';
+import v1schemaFull from '../../../../json-schema/v1/full.json';
+import v1schemaStage0 from '../../../../json-schema/v1/stage-0.json';
 
 const ajv = new Ajv();
 
@@ -15,7 +15,7 @@ const schemas = {
 describe(`${name} json-schema v1`, () => {
   Object.keys(schemas).forEach(schemaName => {
     describe(schemaName, async () => {
-      const schema = schemas[schemaName];
+      const schema = schemas[schemaName as keyof typeof schemas];
       const validate = ajv.compile(schema);
 
       const valid = readFilesSync(

@@ -1,5 +1,6 @@
 import { AnalyticsViewerContainer } from '@atlaskit/analytics-viewer';
 import * as React from 'react';
+import { IntlProvider } from 'react-intl';
 import {
   assignToMe,
   exampleOptions,
@@ -63,10 +64,16 @@ export class ExampleWrapper extends React.PureComponent<
       loadUsers: this.loadUsers,
       onInputChange: this.onInputChange,
     });
-    return analytics ? (
-      <AnalyticsViewerContainer>{example}</AnalyticsViewerContainer>
-    ) : (
-      example
+    return (
+      <IntlProvider locale="en">
+        <div>
+          {analytics ? (
+            <AnalyticsViewerContainer>{example}</AnalyticsViewerContainer>
+          ) : (
+            example
+          )}
+        </div>
+      </IntlProvider>
     );
   }
 }

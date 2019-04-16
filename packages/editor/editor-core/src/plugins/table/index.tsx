@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { tableEditing } from 'prosemirror-tables';
 import { createTable } from 'prosemirror-utils';
-import TableIcon from '@atlaskit/icon/glyph/editor/table';
 import { tableCellMinWidth } from '@atlaskit/editor-common';
 import { table, tableCell, tableHeader, tableRow } from '@atlaskit/adf-schema';
 
@@ -28,6 +27,8 @@ import {
   INPUT_METHOD,
   EVENT_TYPE,
 } from '../analytics';
+import { tooltip, toggleTable } from '../../keymaps';
+import { IconTable } from '../quick-insert/assets';
 
 export const HANDLE_WIDTH = 6;
 
@@ -64,19 +65,23 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
     return [
       {
         name: 'table',
-        plugin: ({
-          props: { allowTables, appearance, allowDynamicTextSizing },
-          eventDispatcher,
-          dispatch,
-          portalProviderAPI,
-        }) => {
+        plugin: ({ props, eventDispatcher, dispatch, portalProviderAPI }) => {
+          const {
+            allowTables,
+            appearance,
+            allowDynamicTextSizing,
+            UNSAFE_fullWidthMode: fullWidthMode,
+          } = props;
+          const isContextMenuEnabled = appearance !== 'mobile';
+          const isBreakoutEnabled = !fullWidthMode;
           return createPlugin(
             dispatch,
             portalProviderAPI,
             eventDispatcher,
             pluginConfig(allowTables),
-            appearance,
-            allowDynamicTextSizing,
+            isContextMenuEnabled,
+            allowDynamicTextSizing && !fullWidthMode,
+            isBreakoutEnabled,
           );
         },
       },
@@ -84,14 +89,18 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
         name: 'tablePMColResizing',
         plugin: ({
           dispatch,
-          props: { allowTables, allowDynamicTextSizing },
+          props: {
+            allowTables,
+            allowDynamicTextSizing,
+            UNSAFE_fullWidthMode: fullWidthMode,
+          },
         }) => {
           const { allowColumnResizing } = pluginConfig(allowTables);
           return allowColumnResizing
             ? createFlexiResizingPlugin(dispatch, {
                 handleWidth: HANDLE_WIDTH,
                 cellMinWidth: tableCellMinWidth,
-                dynamicTextSizing: allowDynamicTextSizing,
+                dynamicTextSizing: allowDynamicTextSizing && !fullWidthMode,
               } as ColumnResizingPlugin)
             : undefined;
         },
@@ -116,18 +125,23 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
           pluginState: pluginKey,
           tableResizingPluginState: tableResizingPluginKey,
         }}
-        render={({ pluginState, tableResizingPluginState }) => (
-          <>
-            <FloatingContextualMenu
-              editorView={editorView}
-              mountPoint={popupsMountPoint}
-              boundariesElement={popupsBoundariesElement}
-              targetCellPosition={pluginState.targetCellPosition}
-              isOpen={pluginState.isContextualMenuOpen}
-              pluginConfig={pluginState.pluginConfig}
-            />
-            {appearance === 'full-page' &&
-              isLayoutSupported(editorView.state) && (
+        render={_ => {
+          const { state } = editorView;
+          const pluginState = pluginKey.getState(state);
+          const tableResizingPluginState = tableResizingPluginKey.getState(
+            state,
+          );
+          return (
+            <>
+              <FloatingContextualMenu
+                editorView={editorView}
+                mountPoint={popupsMountPoint}
+                boundariesElement={popupsBoundariesElement}
+                targetCellPosition={pluginState.targetCellPosition}
+                isOpen={pluginState.isContextualMenuOpen}
+                pluginConfig={pluginState.pluginConfig}
+              />
+              {appearance === 'full-page' && isLayoutSupported(state) && (
                 <LayoutButton
                   editorView={editorView}
                   mountPoint={popupsMountPoint}
@@ -140,8 +154,9 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
                   }
                 />
               )}
-          </>
-        )}
+            </>
+          );
+        }}
       />
     );
   },
@@ -150,8 +165,10 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.table),
+        description: formatMessage(messages.tableDescription),
         priority: 600,
-        icon: () => <TableIcon label={formatMessage(messages.table)} />,
+        keyshortcut: tooltip(toggleTable),
+        icon: () => <IconTable label={formatMessage(messages.table)} />,
         action(insert, state) {
           const tr = insert(createTable(state.schema));
           return addAnalytics(tr, {

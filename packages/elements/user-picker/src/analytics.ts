@@ -1,9 +1,9 @@
-import { createAndFireEvent } from '@atlaskit/analytics-next';
 import {
+  createAndFireEvent,
   AnalyticsEventPayload,
   CreateAndFireEventFunction,
-} from '@atlaskit/analytics-next-types';
-import * as uuid from 'uuid/v4';
+} from '@atlaskit/analytics-next';
+import uuid from 'uuid/v4';
 import { name as packageName, version as packageVersion } from './version.json';
 import {
   Option,
@@ -79,15 +79,23 @@ export interface EventCreator {
   ): AnalyticsEventPayload;
 }
 
+const createDefaultPickerAttributes = (
+  props: UserPickerProps,
+  session?: UserPickerSession,
+) => ({
+  context: props.fieldId,
+  sessionId: sessionId(session),
+  pickerType: pickerType(props),
+});
+
 export const focusEvent: EventCreator = (
   props: UserPickerProps,
   state: UserPickerState,
   session?: UserPickerSession,
 ) =>
   createEvent('ui', 'focused', 'userPicker', {
-    sessionId: sessionId(session),
+    ...createDefaultPickerAttributes(props, session),
     values: buildValueForAnalytics(state.value),
-    pickerType: pickerType(props),
   });
 
 export const clearEvent: EventCreator = (
@@ -96,19 +104,19 @@ export const clearEvent: EventCreator = (
   session?: UserPickerSession,
 ) =>
   createEvent('ui', 'cleared', 'userPicker', {
-    pickerType: pickerType(props),
+    ...createDefaultPickerAttributes(props, session),
     pickerOpen: state.menuIsOpen,
-    sessionId: sessionId(session),
     values: values(state),
   });
 
 export const deleteEvent: EventCreator = (
-  _: UserPickerProps,
+  props: UserPickerProps,
   state: UserPickerState,
   session?: UserPickerSession,
   ...args: any[]
 ) =>
   createEvent('ui', 'deleted', 'userPickerItem', {
+    context: props.fieldId,
     sessionId: sessionId(session),
     value: optionData2Analytics(args[0]),
     pickerOpen: state.menuIsOpen,
@@ -121,13 +129,12 @@ export const cancelEvent: EventCreator = (
   ...args: any[]
 ) =>
   createEvent('ui', 'cancelled', 'userPicker', {
-    sessionId: sessionId(session),
+    ...createDefaultPickerAttributes(props, session),
     sessionDuration: sessionDuration(session),
     queryLength: queryLength(args[0]),
     spaceInQuery: spaceInQuery(args[0]),
     upKeyCount: upKeyCount(session),
     downKeyCount: downKeyCount(session),
-    pickerType: pickerType(props),
   });
 
 export const selectEvent: EventCreator = (
@@ -137,8 +144,7 @@ export const selectEvent: EventCreator = (
   ...args: any[]
 ) =>
   createEvent('ui', selectEventType(session), 'userPicker', {
-    sessionId: sessionId(session),
-    pickerType: pickerType(props),
+    ...createDefaultPickerAttributes(props, session),
     sessionDuration: sessionDuration(session),
     position: position(state, args[0]),
     queryLength: queryLength(state),
@@ -154,13 +160,12 @@ export const searchedEvent: EventCreator = (
   session?: UserPickerSession,
 ) =>
   createEvent('operational', 'searched', 'userPicker', {
-    sessionId: sessionId(session),
+    ...createDefaultPickerAttributes(props, session),
     sessionDuration: sessionDuration(session),
     durationSinceInputChange: durationSinceInputChange(session),
     queryLength: queryLength(state),
     isLoading: isLoading(props, state),
     results: results(state),
-    pickerType: pickerType(props),
   });
 
 export const failedEvent: EventCreator = (
@@ -169,8 +174,7 @@ export const failedEvent: EventCreator = (
   session?: UserPickerSession,
 ) =>
   createEvent('operational', 'failed', 'userPicker', {
-    pickerType: pickerType(props),
-    sessionId: sessionId(session),
+    ...createDefaultPickerAttributes(props, session),
   });
 
 function queryLength(state: UserPickerState) {

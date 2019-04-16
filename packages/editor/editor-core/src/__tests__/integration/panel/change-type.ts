@@ -15,7 +15,7 @@ import { selectors } from './_utils';
 BrowserTestCase(
   'change-type.ts: Change the type of panel to Error',
   { skip: ['edge', 'ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -23,7 +23,7 @@ BrowserTestCase(
     });
 
     await page.click(fullpage.placeholder);
-    await quickInsert(page, 'Panel');
+    await quickInsert(page, 'Info Panel');
     await page.waitForSelector(selectors.PANEL_EDITOR_CONTAINER);
     await page.type(editable, 'this text should be in the panel');
 
@@ -32,6 +32,6 @@ BrowserTestCase(
     await page.click(selector);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

@@ -8,7 +8,7 @@ import ModalDialog, { ModalTransition } from '@atlaskit/modal-dialog';
 import {
   UIAnalyticsEventHandlerSignature,
   ObjectType,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 
 import { ServiceName, State } from '../domain';
 
@@ -209,6 +209,7 @@ export class App extends Component<AppProps, AppState> {
 
   componentWillUnmount(): void {
     this.mpDropzone.deactivate();
+    this.mpBrowser.teardown();
   }
 
   render() {

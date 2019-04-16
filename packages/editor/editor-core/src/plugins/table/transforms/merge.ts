@@ -1,9 +1,8 @@
-import { CellSelection, TableMap } from 'prosemirror-tables';
+import { CellSelection, TableMap, Rect } from 'prosemirror-tables';
 import { Transaction, Selection } from 'prosemirror-state';
 import { Node as PMNode, Fragment } from 'prosemirror-model';
 import { getSelectionRect, findTable } from 'prosemirror-utils';
 import { CellAttributes } from '@atlaskit/adf-schema';
-import { CellRect } from '../types';
 import { fireAnalytics } from './fix-tables';
 
 // re-creates table node with merged cells
@@ -177,10 +176,7 @@ function addColSpan(attrs: CellAttributes, pos: number, span: number = 1) {
   return newAttrs;
 }
 
-function cellsOverlapRectangle(
-  { width, height, map }: TableMap,
-  rect: CellRect,
-) {
+function cellsOverlapRectangle({ width, height, map }: TableMap, rect: Rect) {
   let indexTop = rect.top * width + rect.left;
   let indexLeft = indexTop;
 

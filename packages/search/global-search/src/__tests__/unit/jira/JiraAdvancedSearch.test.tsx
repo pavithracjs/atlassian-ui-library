@@ -18,7 +18,9 @@ const renderComponent = (overriddenProps?: Partial<Props>) => {
 };
 
 describe('JiraAdvancedSearch', () => {
-  let getJiraAdvancedSearchUrlMock;
+  let getJiraAdvancedSearchUrlMock: jest.SpyInstance<
+    (entityType: Utils.JiraEntityTypes, query?: string | undefined) => string
+  >;
   beforeEach(() => {
     getJiraAdvancedSearchUrlMock = jest.spyOn(
       Utils,
@@ -77,6 +79,34 @@ describe('JiraAdvancedSearch', () => {
     expect(items.map(item => item.key())).toMatchObject([
       'issues',
       'boards',
+      'projects',
+      'filters',
+      'people',
+    ]);
+  });
+
+  it('should filter out boards without software permission', () => {
+    const wrapper = renderComponent({
+      showSearchIcon: true,
+      showKeyboardLozenge: true,
+      appPermission: {
+        hasSoftwareAccess: false,
+        hasCoreAccess: true,
+        hasOpsAccess: true,
+        hasServiceDeskAccess: true,
+      },
+    });
+
+    const advancedSearchResult = wrapper.find(AdvancedSearchResult);
+
+    const dropDownMenu = shallow(advancedSearchResult.props()
+      .text as JSX.Element).find(DropdownMenu);
+    expect(dropDownMenu.length).toBe(1);
+
+    const items = dropDownMenu.find(DropdownItem);
+    expect(items.length).toBe(4);
+    expect(items.map(item => item.key())).toMatchObject([
+      'issues',
       'projects',
       'filters',
       'people',

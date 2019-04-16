@@ -13,10 +13,10 @@ declare module '@atlaskit/webdriver-runner/runner' {
     readonly skip: Browser[];
   };
 
-  type Tester = (client: any) => void;
+  type Tester = (client: any, testName: string) => void;
 
   function BrowserTestCase(
-    testCase: string,
+    testName: string,
     options: BrowserTestCaseOptions,
     tester: Tester,
   );

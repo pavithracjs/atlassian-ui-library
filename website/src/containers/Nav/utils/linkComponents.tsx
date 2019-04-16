@@ -8,15 +8,15 @@ import { Link } from '../../../components/WrappedLink';
 import { NavGroup } from '../../../types';
 
 export type RouterLinkProps = {
-  children?: React.ReactChild;
+  children?: React.ReactNode;
   className?: string;
-  href?: string | Record<string, string | Location>;
-  onClick?: (e: Event) => void;
+  href: string | Record<string, string | Location>;
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
   pathname: string;
   replace?: boolean;
   subNav?: Array<NavGroup>;
   to?: string | Record<string, string | Location>;
-  text: string;
+  text?: string;
   isSelected?: ((param1: string, param2: string) => boolean) | boolean;
   isCompact?: boolean;
   iconSelected?: boolean;
@@ -72,7 +72,7 @@ const RouterLink = ({
 export const RouterNavigationItem = (props: RouterLinkProps) => {
   return (
     <AkNavigationItem
-      linkComponent={toClass(linkProps => (
+      linkComponent={toClass((linkProps: RouterLinkProps) => (
         <RouterLink
           onClick={props.onClick}
           pathname={props.pathname}

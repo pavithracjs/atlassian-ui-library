@@ -12,7 +12,7 @@ export type Props = {
     b: React.ComponentType,
     c: boolean,
   ) => React.ReactChild;
-  src: string | null;
+  src?: string;
   name: string;
   example: {
     contents: Function;
@@ -36,11 +36,11 @@ export default class ExampleDisplay extends React.Component<Props> {
     | (React.ComponentClass & Loadable.LoadableComponent)
     | (React.StatelessComponent & Loadable.LoadableComponent);
   Example: () => JSX.Element;
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.buildExampleComponents(props);
   }
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (this.props.src !== nextProps.src) {
       const contentWindow =
         this.iframeRef &&
@@ -65,7 +65,7 @@ export default class ExampleDisplay extends React.Component<Props> {
       contentWindow.unmountApp();
     }
   }
-  buildExampleComponents = props => {
+  buildExampleComponents = (props: Props) => {
     this.ExampleCode = Loadable({
       loader: () => props.example.contents(),
       loading: () => <Loading {...props} />,
@@ -84,11 +84,11 @@ export default class ExampleDisplay extends React.Component<Props> {
           height: '100%',
           border: 'none',
         }}
-        src={props.src}
+        src={props.src || undefined}
       />
     );
   };
-  getIframeRef = ref => (this.iframeRef = ref);
+  getIframeRef = (ref: HTMLIFrameElement) => (this.iframeRef = ref);
   render() {
     if (!this.props.src) {
       console.error(

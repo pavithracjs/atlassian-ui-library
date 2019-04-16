@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Node as PMNode } from 'prosemirror-model';
 import { EditorView, NodeView, Decoration } from 'prosemirror-view';
 import { ProviderFactory } from '@atlaskit/editor-common';
-import { AnalyticsListener } from '@atlaskit/analytics-next';
 import {
+  AnalyticsListener,
   UIAnalyticsEventInterface,
   AnalyticsEventPayload,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import { ReactNodeView, ReactComponentProps } from '../../../nodeviews';
 import TaskItem from '../ui/Task';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';

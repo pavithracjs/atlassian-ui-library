@@ -25,9 +25,7 @@ type $npm$styledComponents$Component =
   | ((props: *) => React$Element<*>)
   | React$StatelessFunctionalComponent<*>;
 
-class Npm$StyledComponents$ThemeProvider extends React$Component<
-  $npm$styledComponents$ThemeProviderProps,
-> {}
+class Npm$StyledComponents$ThemeProvider extends React$Component<$npm$styledComponents$ThemeProviderProps> {}
 
 declare module 'styled-components' {
   declare type Interpolation = $npm$styledComponents$Interpolation;

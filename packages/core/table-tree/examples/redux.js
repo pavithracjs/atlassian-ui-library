@@ -5,7 +5,7 @@ import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import TableTree, { Headers, Header, Rows, Row, Cell } from '../src';
-import staticData from '../examples/data-freeform-nodes.json';
+import staticData from './data-freeform-nodes.json';
 
 const actions = {
   ROOTS_LOADED: 'ROOTS_LOADED',
@@ -41,8 +41,8 @@ class ReduxTree extends Component<*> {
           render={({ id, title, numbering, childCount }) => (
             <Row
               onExpand={this.loadChildren}
-              expandLabel={'Expand'}
-              collapseLabel={'Collapse'}
+              expandLabel="Expand"
+              collapseLabel="Collapse"
               itemId={numbering}
               items={this.props.getChildrenOf(id)}
               hasChildren={childCount > 0}
@@ -150,7 +150,7 @@ function getRoots(state) {
 }
 
 function getChildrenOf(state, parentId) {
-  const childIds = state.itemsById[parentId].childIds;
+  const { childIds } = state.itemsById[parentId];
   return childIds && childIds.map(childId => state.itemsById[childId]);
 }
 

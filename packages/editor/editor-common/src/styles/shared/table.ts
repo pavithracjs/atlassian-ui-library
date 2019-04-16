@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 import { TableLayout } from '@atlaskit/adf-schema';
-import { fontSize, themed } from '@atlaskit/theme';
+import { fontSize, themed, colors } from '@atlaskit/theme';
 import {
   akEditorTableBorder,
   akEditorTableBorderDark,
@@ -81,7 +81,6 @@ const tableSharedStyle = css`
       th,
       td {
         min-width: ${tableCellMinWidth}px;
-        height: 3em;
         vertical-align: top;
         border: 1px solid ${themed({
           light: akEditorTableBorder,
@@ -89,7 +88,7 @@ const tableSharedStyle = css`
         })};
         border-right-width: 0;
         border-bottom-width: 0;
-        padding: 10px;
+        padding: 8px;
         /* https://stackoverflow.com/questions/7517127/borders-not-shown-in-firefox-with-border-collapse-on-table-position-relative-o */
         background-clip: padding-box;
 
@@ -109,6 +108,22 @@ const tableSharedStyle = css`
         }
         & .${TableSharedCssClassName.TABLE_CELL_NODEVIEW_CONTENT_DOM} > p {
           font-weight: bold;
+        }
+
+        .code-block {
+          /*
+            Add a background color tint to code blocks inside a table heading since they both
+            share the same background colour. This prevents them visually blending together.
+          */
+          background: ${themed({ light: colors.N20A, dark: colors.DN700A })};
+
+          > span {
+            /*
+              The codeblock inside @atlaskit/code uses inline styles so we disable the default
+              background color because editor/renderer provides it's own background colours.
+            */
+            background: transparent !important;
+          }
         }
       }
     }

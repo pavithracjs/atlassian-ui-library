@@ -35,7 +35,7 @@ const spyOnComponentDidUpdate = () => {
   return spy;
 };
 
-const findAnalyticsEvent = (eventSpy, actionSubject) => {
+const findAnalyticsEvent = (eventSpy: jest.Mock<{}>, actionSubject: string) => {
   const [event] = eventSpy.mock.calls.find(
     ([event]) => event.payload.actionSubject === actionSubject,
   );
@@ -78,7 +78,13 @@ const JIRA_RECENT_ITEMS = [
   },
 ];
 
-const getRecentItems = product =>
+const AB_TEST_DATA = {
+  experimentId: 'experiment-1',
+  controlId: 'control-id',
+  abTestId: 'abtest-id',
+};
+
+const getRecentItems = (product: string) =>
   product === 'jira' ? JIRA_RECENT_ITEMS : CONFLUENCE_RECENT_ITEMS;
 
 ['confluence', 'jira'].forEach(product => {
@@ -109,7 +115,7 @@ const getRecentItems = product =>
       inputFocus(false);
     };
 
-    const renderComponent = onEvent => {
+    const renderComponent = (onEvent: jest.Mock<{}>) => {
       return mount(
         <AnalyticsListener onEvent={onEvent} channel="fabric-elements">
           <BasicNavigation
@@ -120,6 +126,7 @@ const getRecentItems = product =>
                   context={product as Props['context']}
                   referralContextIdentifiers={{
                     currentContentId: '123',
+                    currentContainerId: '456',
                     searchReferrerId: '123',
                   }}
                 />
@@ -162,7 +169,7 @@ const getRecentItems = product =>
         const event = onEventSpy.mock.calls[2][0];
         validateEvent(
           event,
-          getPreQuerySearchResultsEvent(getRecentItems(product)),
+          getPreQuerySearchResultsEvent(getRecentItems(product), AB_TEST_DATA),
         );
       });
 
@@ -174,11 +181,7 @@ const getRecentItems = product =>
           event,
           getExperimentExposureEvent({
             searchSessionId: expect.any(String),
-            abTest: {
-              experimentId: 'experiment-1',
-              controlId: 'control-id',
-              abTestId: 'abtest-id',
-            },
+            abTest: AB_TEST_DATA,
           }),
         );
       });
@@ -191,7 +194,10 @@ const getRecentItems = product =>
         inputBlur();
       });
 
-      const keyPress = (key: 'ArrowUp' | 'ArrowDown' | 'Enter', withShift?) => {
+      const keyPress = (
+        key: 'ArrowUp' | 'ArrowDown' | 'Enter',
+        withShift?: undefined,
+      ) => {
         const input = wrapper.find('input');
         expect(input.length).toBe(1);
         input.simulate('keyDown', {
@@ -474,6 +480,7 @@ const getRecentItems = product =>
             getPostQuerySearchResultsEvent(
               expectedResults.postQueryResults,
               expectedResults.postQueryResultsTimings,
+              AB_TEST_DATA,
             ),
           );
         });
@@ -519,7 +526,10 @@ const getRecentItems = product =>
             const event = onEventSpy.mock.calls[2][0];
             validateEvent(
               event,
-              getPreQuerySearchResultsEvent(getRecentItems(product)),
+              getPreQuerySearchResultsEvent(
+                getRecentItems(product),
+                AB_TEST_DATA,
+              ),
             );
           });
         });

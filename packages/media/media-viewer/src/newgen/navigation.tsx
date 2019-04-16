@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { FileIdentifier } from '@atlaskit/media-core';
+import { Identifier } from '@atlaskit/media-core';
 import ArrowLeftCircleIcon from '@atlaskit/icon/glyph/chevron-left-circle';
 import ArrowRightCircleIcon from '@atlaskit/icon/glyph/chevron-right-circle';
 import { colors } from '@atlaskit/theme';
-import Button from '@atlaskit/button';
+import { MediaButton } from '@atlaskit/media-ui';
 import { Shortcut } from '@atlaskit/media-ui';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import {
+  withAnalyticsEvents,
+  WithAnalyticsEventProps,
+} from '@atlaskit/analytics-next';
 import {
   ArrowsWrapper,
   RightWrapper,
@@ -25,9 +27,9 @@ import {
 export type NavigationDirection = 'prev' | 'next';
 
 export type NavigationProps = Readonly<{
-  items: FileIdentifier[];
-  selectedItem: FileIdentifier;
-  onChange: (item: FileIdentifier) => void;
+  items: Identifier[];
+  selectedItem: Identifier;
+  onChange: (item: Identifier) => void;
 }> &
   WithAnalyticsEventProps;
 
@@ -82,7 +84,7 @@ export class NavigationBase extends Component<NavigationProps, {}> {
           {isLeftVisible ? (
             <Arrow className={hideControlsClassName}>
               <Shortcut keyCode={37} handler={prev('keyboard')} />
-              <Button
+              <MediaButton
                 onClick={prev('mouse')}
                 iconBefore={
                   <ArrowLeftCircleIcon
@@ -100,7 +102,7 @@ export class NavigationBase extends Component<NavigationProps, {}> {
           {isRightVisible ? (
             <Arrow className={hideControlsClassName}>
               <Shortcut keyCode={39} handler={next('keyboard')} />
-              <Button
+              <MediaButton
                 onClick={next('mouse')}
                 iconBefore={
                   <ArrowRightCircleIcon

@@ -11,7 +11,7 @@ import Button from '@atlaskit/button';
 import styled from 'styled-components';
 import toJson from 'enzyme-to-json';
 
-import SectionMessage from '../../';
+import SectionMessage from '../..';
 import { type Appearance } from '../../types';
 import { Title, Action } from '../../components/styled';
 

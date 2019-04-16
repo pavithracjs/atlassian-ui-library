@@ -17,7 +17,7 @@ import { selectors } from './_utils';
 BrowserTestCase(
   'paste-rich-text.ts: Paste rich text into panel',
   { skip: ['ie', 'edge', 'safari'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
     await page.isVisible(clipboardInput);
@@ -33,12 +33,12 @@ BrowserTestCase(
     });
 
     await page.click(editable);
-    await quickInsert(page, 'Panel');
+    await quickInsert(page, 'Info Panel');
     await page.waitForSelector(selectors.PANEL_EDITOR_CONTAINER);
 
     await page.paste(editable);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

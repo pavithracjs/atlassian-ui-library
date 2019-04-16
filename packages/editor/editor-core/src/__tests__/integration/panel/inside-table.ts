@@ -16,7 +16,7 @@ import { selectors } from './_utils';
 BrowserTestCase(
   'inside-table.ts: Insert panel into table, add text, change panel type',
   { skip: ['edge', 'ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const insertTableMenu = `[aria-label="${
       insertBlockMessages.table.defaultMessage
     }"]`;
@@ -35,7 +35,7 @@ BrowserTestCase(
     await page.click(insertTableMenu);
     await page.waitForSelector(tableControls);
 
-    await quickInsert(page, 'Panel');
+    await quickInsert(page, 'Info Panel');
     await page.waitForSelector(selectors.PANEL_EDITOR_CONTAINER);
 
     // type some text
@@ -46,7 +46,7 @@ BrowserTestCase(
     await page.click(selector);
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
     expect(await page.isExisting(tableControls)).toBe(false);
     expect(await page.isVisible(tableControls)).toBe(false);
   },

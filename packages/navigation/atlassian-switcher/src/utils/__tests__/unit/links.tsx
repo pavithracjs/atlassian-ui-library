@@ -8,9 +8,12 @@ import {
   getAdministrationLinks,
   getSuggestedProductLink,
 } from '../../links';
+import {
+  ProductLicenseInformation,
+  LicenseInformationResponse,
+} from '../../../types';
 
 const HOSTNAME = 'my-hostname.com';
-const CLOUD_ID = 'some-cloud-id';
 const ACTIVE_PRODUCT_STATE = {
   state: 'ACTIVE',
 };
@@ -20,13 +23,25 @@ const generateLicenseInformation = (activeProducts: string[]) => {
       ans[next] = ACTIVE_PRODUCT_STATE;
       return ans;
     },
-    {},
+    {} as ProductLicenseInformation,
   );
   return {
     hostname: HOSTNAME,
     products,
   };
 };
+
+const generateOpsgenieLicenseInformation = (
+  applicationUrl?: string,
+): LicenseInformationResponse => ({
+  hostname: HOSTNAME,
+  products: {
+    [ProductKey.OPSGENIE]: {
+      ...ACTIVE_PRODUCT_STATE,
+      applicationUrl,
+    },
+  },
+});
 
 describe('utils/links', () => {
   it('Fixed product list should have People', () => {
@@ -36,11 +51,48 @@ describe('utils/links', () => {
   });
 
   it('getProductLink should create a correct link config', () => {
-    const productLink = getProductLink(ProductKey.CONFLUENCE);
+    const productLink = getProductLink(
+      ProductKey.CONFLUENCE,
+      generateLicenseInformation([ProductKey.CONFLUENCE]).products[
+        ProductKey.CONFLUENCE
+      ],
+    );
     const expectedLink = {
       key: 'confluence.ondemand',
       ...PRODUCT_DATA_MAP[ProductKey.CONFLUENCE],
     };
+    expect(productLink).toMatchObject(expectedLink);
+  });
+
+  it('getProductLink should return correct Opsgenie application link', () => {
+    const productLink = getProductLink(
+      ProductKey.OPSGENIE,
+      generateOpsgenieLicenseInformation('https://test.app.opsgeni.us')
+        .products[ProductKey.OPSGENIE],
+    );
+
+    const expectedLink = {
+      ...PRODUCT_DATA_MAP[ProductKey.OPSGENIE],
+      key: 'opsgenie',
+      href: 'https://test.app.opsgeni.us',
+    };
+
+    expect(productLink).toMatchObject(expectedLink);
+  });
+
+  it('getProductLink should return default Opsgenie link when missing in license information', () => {
+    const productLink = getProductLink(
+      ProductKey.OPSGENIE,
+      generateOpsgenieLicenseInformation(undefined).products[
+        ProductKey.OPSGENIE
+      ],
+    );
+
+    const expectedLink = {
+      ...PRODUCT_DATA_MAP[ProductKey.OPSGENIE],
+      key: 'opsgenie',
+    };
+
     expect(productLink).toMatchObject(expectedLink);
   });
 
@@ -118,21 +170,33 @@ describe('utils/links', () => {
         'jira-core.ondemand',
       ]);
     });
+
+    it('should return opsgenie link', () => {
+      const opsgenieLicenseInformation = generateOpsgenieLicenseInformation(
+        'https://test.app.opsgeni.us',
+      );
+
+      const result = getLicensedProductLinks(opsgenieLicenseInformation, false);
+
+      expect(result.map(({ key, href }) => ({ key, href }))).toMatchObject([
+        {
+          key: 'opsgenie',
+          href: 'https://test.app.opsgeni.us',
+        },
+      ]);
+    });
   });
 
   describe('getAdministrationLinks', () => {
     it('should assemble admin links for site admins', () => {
       const isAdmin = true;
-      const result = getAdministrationLinks(CLOUD_ID, isAdmin);
-      const expectedResult = [
-        `/admin/s/some-cloud-id/billing/addapplication`,
-        `/admin/s/some-cloud-id`,
-      ];
+      const result = getAdministrationLinks(isAdmin);
+      const expectedResult = [`/admin/billing/addapplication`, `/admin`];
       expect(result.map(({ href }) => href)).toMatchObject(expectedResult);
     });
     it('should assemble admin links for site trusted users', () => {
       const isAdmin = false;
-      const result = getAdministrationLinks(CLOUD_ID, isAdmin);
+      const result = getAdministrationLinks(isAdmin);
       const expectedResult = [
         `/trusted-admin/billing/addapplication`,
         `/trusted-admin`,

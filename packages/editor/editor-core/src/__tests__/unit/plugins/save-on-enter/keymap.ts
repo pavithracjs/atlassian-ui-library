@@ -8,7 +8,7 @@ import {
   taskList,
   taskItem,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import saveOnEnterPlugin from '../../../../plugins/save-on-enter';
 import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
 

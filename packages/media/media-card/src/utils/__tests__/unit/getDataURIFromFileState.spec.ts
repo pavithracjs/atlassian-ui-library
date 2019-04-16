@@ -5,9 +5,7 @@ jest.mock('video-snapshot', () => {
     }
     end() {}
   }
-  return {
-    default: FakeVideoSnapshot,
-  };
+  return FakeVideoSnapshot;
 });
 jest.mock('@atlaskit/media-ui');
 import { getOrientation } from '@atlaskit/media-ui';

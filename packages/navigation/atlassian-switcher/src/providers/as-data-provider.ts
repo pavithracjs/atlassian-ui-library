@@ -1,6 +1,17 @@
 import * as React from 'react';
+import {
+  NAVIGATION_CHANNEL,
+  OPERATIONAL_EVENT_TYPE,
+  withAnalyticsEvents,
+} from '../utils/analytics';
+import {
+  AnalyticsEventPayload,
+  WithAnalyticsEventProps,
+} from '@atlaskit/analytics-next';
 
-enum Status {
+const DATA_PROVIDER_SUBJECT = 'atlassianSwitcherDataProvider';
+
+export enum Status {
   LOADING = 'loading',
   COMPLETE = 'complete',
   ERROR = 'error',
@@ -48,6 +59,7 @@ export interface DataProviderProps<D> {
 }
 
 export default function<P, D>(
+  name: string,
   mapPropsToPromise: PropsToPromiseMapper<Readonly<P>, D>,
   mapPropsToInitialValue?: PropsToValueMapper<Readonly<P>, D | void>,
 ) {
@@ -68,9 +80,13 @@ export default function<P, D>(
     };
   };
 
-  return class DataProvider extends React.Component<P & DataProviderProps<D>> {
+  const DataProvider = class extends React.Component<
+    P & DataProviderProps<D> & WithAnalyticsEventProps
+  > {
     acceptResults = true;
     state = getInitialState(this.props);
+
+    static displayName = `DataProvider(${name})`;
 
     componentWillUnmount() {
       /**
@@ -89,6 +105,22 @@ export default function<P, D>(
         });
     }
 
+    private fireOperationalEvent = (payload: AnalyticsEventPayload) => {
+      if (this.props.createAnalyticsEvent) {
+        this.props
+          .createAnalyticsEvent({
+            eventType: OPERATIONAL_EVENT_TYPE,
+            actionSubject: DATA_PROVIDER_SUBJECT,
+            ...payload,
+            attributes: {
+              ...payload.attributes,
+              outdated: !this.acceptResults,
+            },
+          })
+          .fire(NAVIGATION_CHANNEL);
+      }
+    };
+
     onResult(value: D) {
       if (this.acceptResults) {
         this.setState({
@@ -96,6 +128,11 @@ export default function<P, D>(
           status: Status.COMPLETE,
         });
       }
+
+      this.fireOperationalEvent({
+        action: 'receivedResult',
+        actionSubjectId: name,
+      });
     }
 
     onError(error: any) {
@@ -108,10 +145,17 @@ export default function<P, D>(
           status: Status.ERROR,
         });
       }
+
+      this.fireOperationalEvent({
+        action: 'failed',
+        actionSubjectId: name,
+      });
     }
 
     render() {
       return this.props.children(this.state);
     }
   };
+
+  return withAnalyticsEvents()(DataProvider);
 }

@@ -190,6 +190,7 @@ type Props = {
   children: State => any,
   collapseToggleTooltipContent?: CollapseToggleTooltipContent,
   expandCollapseAffordanceRef: Ref<'button'>,
+  // eslint-disable-next-line react/no-unused-prop-types
   experimental_flyoutOnHover: boolean,
   flyoutIsOpen: boolean,
   isDisabled: boolean,
@@ -217,8 +218,11 @@ type State = {
 /* NOTE: experimental props use an underscore */
 class ResizeControl extends PureComponent<Props, State> {
   invalidDragAttempted = false;
+
   lastWidth: number;
+
   wrapper: HTMLElement;
+
   state = {
     delta: 0,
     didDragOpen: false,
@@ -268,6 +272,7 @@ class ResizeControl extends PureComponent<Props, State> {
   mouseEnterGrabArea = () => {
     this.setState({ mouseIsOverGrabArea: true });
   };
+
   mouseLeaveGrabArea = () => {
     this.setState({ mouseIsOverGrabArea: false });
   };
@@ -295,7 +300,7 @@ class ResizeControl extends PureComponent<Props, State> {
   initializeDrag = (event: MouseEvent) => {
     const { navigation } = this.props;
     const delta = event.pageX - this.state.initialX;
-    const isCollapsed = navigation.state.isCollapsed;
+    const { isCollapsed } = navigation.state;
 
     // only initialize when drag intention is "expand"
     if (isCollapsed && delta <= 0) {
@@ -361,6 +366,7 @@ class ResizeControl extends PureComponent<Props, State> {
       this.setState({ delta, width });
     }
   });
+
   handleResizeEnd = () => {
     const { navigation, createAnalyticsEvent } = this.props;
     const { delta, didDragOpen, isDragging, width: currentWidth } = this.state;

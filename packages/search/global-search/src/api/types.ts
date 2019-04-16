@@ -10,6 +10,8 @@ export enum Scope {
   People = 'cpus.user',
 }
 
+export type QuickSearchContext = 'jira' | 'confluence' | 'home';
+
 type ConfluenceItemContentType = 'page' | 'blogpost';
 export interface ConfluenceItem {
   title: string; // this is highlighted
@@ -18,6 +20,9 @@ export interface ConfluenceItem {
   content?: {
     id: string;
     type: ConfluenceItemContentType;
+    space?: {
+      id: string;
+    };
   };
   container: {
     title: string; // this is unhighlighted
@@ -48,7 +53,7 @@ export interface JiraItemV1 {
 export interface JiraItemAvatar {
   url?: string;
   css?: string;
-  urls?: object;
+  urls?: Record<string, string>;
 }
 
 export interface JiraItemAttributes {

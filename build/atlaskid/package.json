@@ -14,7 +14,7 @@
   "author": "Luke Batchelor",
   "license": "Apache-2.0",
   "devDependencies": {
-    "axios": "^0.17.1",
+    "axios": "^0.18.0",
     "bunyan": "^1.8.12"
   },
   "dependencies": {

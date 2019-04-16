@@ -1,7 +1,7 @@
 import { BrowserTestCase } from '@atlaskit/webdriver-runner/runner';
 import Page from '@atlaskit/webdriver-runner/wd-wrapper';
-import * as constant from 'lodash.constant';
-import * as times from 'lodash.times';
+import constant from 'lodash.constant';
+import times from 'lodash.times';
 
 import {
   callNativeBridge,
@@ -14,7 +14,7 @@ import {
 BrowserTestCase(
   `links.ts: Insert link on empty content`,
   { skip },
-  async client => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
 
     await browser.goto(editor.path);
@@ -24,11 +24,11 @@ BrowserTestCase(
       browser,
       'onLinkUpdate',
       'Atlassian',
-      'https://www.atlassian.com',
+      'https://www.google.com',
     );
 
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
@@ -36,7 +36,7 @@ BrowserTestCase(
   `links.ts: Insert link on existing text node`,
   // Safari has issues with key events
   { skip: skip.concat('safari') },
-  async client => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
 
     await browser.goto(editor.path);
@@ -49,11 +49,11 @@ BrowserTestCase(
       browser,
       'onLinkUpdate',
       'link',
-      'https://www.atlassian.com',
+      'https://www.google.com',
     );
 
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
@@ -61,7 +61,7 @@ BrowserTestCase(
   `links.ts: Insert link with text selection`,
   // Safari has issues with key events
   { skip: skip.concat('safari') },
-  async client => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
 
     await browser.goto(editor.path);
@@ -77,11 +77,11 @@ BrowserTestCase(
       browser,
       'onLinkUpdate',
       'link',
-      'https://www.atlassian.com',
+      'https://www.google.com',
     );
 
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
@@ -89,7 +89,7 @@ BrowserTestCase(
   `links.ts: change link text`,
   // Safari has issues with key events
   { skip: skip.concat('safari') },
-  async client => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
 
     await browser.goto(editor.path);
@@ -99,7 +99,7 @@ BrowserTestCase(
       browser,
       'onLinkUpdate',
       'Atlassian',
-      'https://www.atlassian.com',
+      'https://www.google.com',
     );
 
     await browser.type(editable, [...times(4, constant('ArrowLeft'))]);
@@ -108,11 +108,11 @@ BrowserTestCase(
       browser,
       'onLinkUpdate',
       'This is Atlassian',
-      'https://www.atlassian.com',
+      'https://www.google.com',
     );
 
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
@@ -120,7 +120,7 @@ BrowserTestCase(
   `links.ts: change link href`,
   // Safari has issues with key events
   { skip: skip.concat('safari') },
-  async client => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
 
     await browser.goto(editor.path);
@@ -130,7 +130,7 @@ BrowserTestCase(
       browser,
       'onLinkUpdate',
       'Google',
-      'https://www.atlassian.com',
+      'https://www.google.com',
     );
 
     await browser.type(editable, [...times(4, constant('ArrowLeft'))]);
@@ -143,7 +143,7 @@ BrowserTestCase(
     );
 
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
 
@@ -151,7 +151,7 @@ BrowserTestCase(
   `links.ts: Remove link`,
   // Safari has issues with key events
   { skip: skip.concat('safari') },
-  async client => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
 
     await browser.goto(editor.path);
@@ -167,7 +167,7 @@ BrowserTestCase(
       browser,
       'onLinkUpdate',
       'link',
-      'https://www.atlassian.com',
+      'https://www.google.com',
     );
 
     await browser.type(editable, [
@@ -178,6 +178,6 @@ BrowserTestCase(
     await callNativeBridge(browser, 'onLinkUpdate', 'text', '');
 
     const doc = await browser.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

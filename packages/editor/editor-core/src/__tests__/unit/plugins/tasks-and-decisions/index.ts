@@ -9,10 +9,11 @@ import {
   decisionList,
   decisionItem,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { uuid } from '@atlaskit/adf-schema';
 import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
 import quickInsertPlugin from '../../../../plugins/quick-insert';
+import { EditorView } from 'prosemirror-view';
 
 describe('tasks and decisions', () => {
   const createEditor = createEditorFactory();
@@ -49,8 +50,8 @@ describe('tasks and decisions', () => {
 
   scenarios.forEach(scenario => {
     describe('quick insert', () => {
-      let editorView;
-      let sel;
+      let editorView: EditorView;
+      let sel: number;
 
       beforeEach(() => {
         ({ editorView, sel } = editor(doc(p('{<>}'))));

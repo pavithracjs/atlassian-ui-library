@@ -1,6 +1,6 @@
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
-import * as debounce from 'lodash.debounce';
+import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
+import debounce from 'lodash.debounce';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -32,9 +32,9 @@ import {
   extractOptionValue,
   getOptions,
   isIterable,
+  isPopupUserPickerByComponent,
   isSingleValue,
   optionToSelectableOptions,
-  isPopupUserPickerByComponent,
 } from './utils';
 
 type Props = UserPickerProps &
@@ -46,15 +46,17 @@ type Props = UserPickerProps &
     width: string | number;
   };
 
+const loadingMessage = () => null;
+
 class UserPickerInternal extends React.Component<Props, UserPickerState> {
-  static defaultProps: UserPickerProps = {
+  static defaultProps = {
     isMulti: false,
     subtle: false,
     isClearable: true,
   };
 
   static getDerivedStateFromProps(
-    nextProps: UserPickerProps,
+    nextProps: Partial<UserPickerProps>,
     prevState: UserPickerState,
   ) {
     const derivedState: Partial<UserPickerState> = {};
@@ -93,6 +95,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       hoveringClearIndicator: false,
       menuIsOpen: !!this.props.open,
       inputValue: props.search || '',
+      resolving: false,
     };
   }
 
@@ -150,7 +153,9 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         break;
       case 'remove-value':
       case 'pop-value':
-        this.fireEvent(deleteEvent, removedValue && removedValue.data);
+        if (removedValue) {
+          this.fireEvent(deleteEvent, removedValue.data);
+        }
         break;
     }
 
@@ -165,10 +170,12 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
 
   private addOptions = batchByKey(
     (request: string, newOptions: (OptionData | OptionData[])[]) => {
+      const { resolving } = this.state;
+
       this.setState(({ inflightRequest, options, count }) => {
         if (inflightRequest.toString() === request) {
           return {
-            options: options.concat(
+            options: (resolving ? options : []).concat(
               newOptions.reduce<OptionData[]>(
                 (nextOptions, item) =>
                   Array.isArray(item)
@@ -178,6 +185,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
               ),
             ),
             count: count - newOptions.length,
+            resolving: count - newOptions.length !== 0,
           };
         }
         return null;
@@ -189,7 +197,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     this.fireEvent(failedEvent);
   };
 
-  private executeLoadOptions = debounce((search?: string) => {
+  private debouncedLoadOptions = debounce((search?: string) => {
     const { loadOptions } = this.props;
     if (loadOptions) {
       this.setState(({ inflightRequest: previousRequest }) => {
@@ -222,6 +230,15 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     }
   }, 200);
 
+  private executeLoadOptions = (search?: string) => {
+    const { loadOptions } = this.props;
+    if (loadOptions) {
+      this.setState({ resolving: true }, () =>
+        this.debouncedLoadOptions(search),
+      );
+    }
+  };
+
   private handleFocus = (event: React.FocusEvent) => {
     const { value } = this.state;
     callCallback(this.props.onFocus);
@@ -242,7 +259,6 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       inputValue: '',
     });
     callCallback(this.props.onInputChange, '');
-    this.executeLoadOptions('');
   };
 
   private handleBlur = () => {
@@ -253,6 +269,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     this.resetInputState();
     this.setState({
       menuIsOpen: false,
+      options: [],
     });
   };
 
@@ -261,6 +278,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     callCallback(this.props.onClose);
     this.setState({
       menuIsOpen: false,
+      options: [],
     });
   };
 
@@ -358,7 +376,27 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     this.setState({ hoveringClearIndicator });
   };
 
-  private getOptions = (): Option[] => getOptions(this.state.options) || [];
+  private getOptions = (): Option[] => {
+    const options = getOptions(this.state.options) || [];
+    const { maxOptions, isMulti } = this.props;
+    if (maxOptions === 0) {
+      return [];
+    }
+    if (maxOptions && maxOptions > 0 && maxOptions < options.length) {
+      const { value } = this.state;
+      let filteredOptions = options;
+      // Filter out previously selected options
+      if (isMulti && Array.isArray(value)) {
+        const valueIds: string[] = value.map(item => item.data.id);
+        filteredOptions = options.filter(
+          option => valueIds.indexOf(option.data.id) === -1,
+        );
+      }
+      return filteredOptions.slice(0, maxOptions);
+    }
+
+    return options;
+  };
 
   private getAppearance = (): Appearance =>
     this.props.appearance
@@ -385,6 +423,8 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       pickerProps,
       SelectComponent,
       styles,
+      autoFocus,
+      fieldId,
     } = this.props;
 
     const {
@@ -393,6 +433,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       menuIsOpen,
       value,
       inputValue,
+      resolving,
     } = this.state;
     const appearance = this.getAppearance();
 
@@ -400,7 +441,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       <SelectComponent
         enableAnimation={false}
         value={value}
-        autoFocus={menuIsOpen}
+        autoFocus={autoFocus !== undefined ? autoFocus : menuIsOpen}
         ref={this.handleSelectRef}
         isMulti={isMulti}
         options={this.getOptions()}
@@ -412,7 +453,8 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onClose={this.handleClose}
-        isLoading={count > 0 || isLoading}
+        isLoading={count > 0 || resolving || isLoading}
+        loadingMessage={loadingMessage}
         onInputChange={this.handleInputChange}
         menuPlacement="auto"
         placeholder={
@@ -427,7 +469,6 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         subtle={isMulti ? false : subtle}
         blurInputOnSelect={!isMulti}
         closeMenuOnSelect={!isMulti}
-        hideSelectedOptions={isMulti}
         noOptionsMessage={noOptionsMessage}
         openMenuOnFocus
         onKeyDown={this.handleKeyDown}
@@ -439,12 +480,13 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         menuMinWidth={menuMinWidth}
         menuPortalTarget={menuPortalTarget}
         disableInput={disableInput}
+        instanceId={fieldId}
         {...pickerProps}
       />
     );
   }
 }
 
-export const BaseUserPicker: React.ComponentClass<
-  Props
-> = withAnalyticsEvents()(UserPickerInternal);
+export const BaseUserPicker: React.ComponentType<Props> = withAnalyticsEvents()(
+  UserPickerInternal,
+);

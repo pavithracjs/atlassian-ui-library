@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 import { shallowWithIntl } from '../helpers/_intl-enzyme-test-helper';
 import {
   JiraQuickSearchContainer,
@@ -29,6 +29,8 @@ import { ContentType, Result } from '../../../model/Result';
 import { Scope } from '../../../api/types';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
 import { ShallowWrapper } from 'enzyme';
+import { CancelableEvent } from '../../../../../quick-search';
+import { DEFAULT_AB_TEST } from '../../../api/CrossProductSearchClient';
 
 const issues = [
   makeJiraObjectResult({
@@ -46,8 +48,8 @@ const boards = [
 const people = [makePersonResult(), makePersonResult(), makePersonResult()];
 
 describe('Jira Quick Search Container', () => {
-  let createAnalyticsEventSpy;
-  let sessionId;
+  let createAnalyticsEventSpy: jest.Mock;
+  let sessionId: string;
   const logger = mockLogger();
   const renderComponent = (partialProps?: Partial<Props>): ShallowWrapper => {
     const props: Props = {
@@ -63,10 +65,13 @@ describe('Jira Quick Search Container', () => {
     return shallowWithIntl(<JiraQuickSearchContainer {...props} />);
   };
 
-  const getQuickSearchProperty = (wrapper: ShallowWrapper, property) => {
+  const getQuickSearchProperty = (
+    wrapper: ShallowWrapper,
+    property: keyof QuickSearchContainerProps,
+  ) => {
     const quickSearch = wrapper.find(QuickSearchContainer);
     const quickSearchProps = quickSearch.props() as QuickSearchContainerProps;
-    return quickSearchProps[property];
+    return quickSearchProps[property] as any;
   };
 
   beforeEach(() => {
@@ -217,9 +222,12 @@ describe('Jira Quick Search Container', () => {
       const resultsMap = new Map<Scope, Result[]>();
       resultsMap.set(Scope.JiraIssue, issues);
       resultsMap.set(Scope.JiraBoardProjectFilter, boards);
-      const crossProductSearchClient = mockCrossProductSearchClient({
-        results: resultsMap,
-      });
+      const crossProductSearchClient = mockCrossProductSearchClient(
+        {
+          results: resultsMap,
+        },
+        DEFAULT_AB_TEST,
+      );
       const getSearchResults = getQuickSearchProperty(
         renderComponent({ peopleSearchClient, crossProductSearchClient }),
         'getSearchResults',
@@ -247,9 +255,13 @@ describe('Jira Quick Search Container', () => {
       const resultsMap = new Map<Scope, Result[]>();
       resultsMap.set(Scope.JiraIssue, issues);
       resultsMap.set(Scope.JiraBoardProjectFilter, boards);
-      const crossProductSearchClient = mockCrossProductSearchClient({
-        results: resultsMap,
-      });
+      const crossProductSearchClient = mockCrossProductSearchClient(
+        {
+          results: resultsMap,
+          abTest: DEFAULT_AB_TEST,
+        },
+        DEFAULT_AB_TEST,
+      );
       const getSearchResults = getQuickSearchProperty(
         renderComponent({
           peopleSearchClient,
@@ -274,7 +286,9 @@ describe('Jira Quick Search Container', () => {
     });
 
     describe('Advanced Search callback', () => {
-      let redirectSpy;
+      let redirectSpy: jest.SpyInstance<
+        (entityType: SearchUtils.JiraEntityTypes, query?: string) => void
+      >;
       let originalWindowAssign = window.location.assign;
 
       beforeEach(() => {
@@ -288,13 +302,24 @@ describe('Jira Quick Search Container', () => {
         redirectSpy.mockRestore();
       });
 
-      const mountComponent = spy => {
+      const mountComponent = (
+        spy:
+          | jest.Mock<{}>
+          | jest.Mock<any>
+          | ((
+              e: CancelableEvent,
+              entity: string,
+              query: string,
+              searchSessionId: string,
+            ) => void)
+          | undefined,
+      ) => {
         const wrapper = renderComponent({
           onAdvancedSearch: spy,
         });
         const quickSearchContainer = wrapper.find(QuickSearchContainer);
 
-        const props = quickSearchContainer.props();
+        const props = quickSearchContainer.props() as any;
         expect(props).toHaveProperty('handleSearchSubmit');
 
         return props['handleSearchSubmit'];

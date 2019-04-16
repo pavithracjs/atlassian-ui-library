@@ -4,7 +4,9 @@ import * as React from 'react';
 import { FormEvent, PureComponent } from 'react';
 import styled from 'styled-components';
 import ColorPalette from './internal/color-palette';
-import { Color as ColorType } from './Status';
+import { Color } from './Status';
+
+export type ColorType = Color;
 
 const FieldTextWrapper = styled.div`
   margin: 0 ${gridSize()}px;

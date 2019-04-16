@@ -50,17 +50,21 @@ export default class OverflowManager extends Component<Props, State> {
   };
 
   availableHeight = 0;
+
   groupHeights: Array<{ nonItemHeight: number, itemHeights: Array<any> }> = [];
 
   isGroupVisibleInNav = (groupIndex: number) =>
     groupIndex < this.state.breakAt.group ||
     (groupIndex === this.state.breakAt.group && this.state.breakAt.item !== 0);
+
   isGroupItemVisibleInNav = (groupIndex: number, itemIndex: number) =>
     groupIndex < this.state.breakAt.group ||
     (groupIndex === this.state.breakAt.group &&
       itemIndex < this.state.breakAt.item);
+
   isGroupVisibleInDropdown = (groupIndex: number) =>
     groupIndex >= this.state.breakAt.group;
+
   isGroupItemVisibleInDropdown = (groupIndex: number, itemIndex: number) =>
     groupIndex > this.state.breakAt.group ||
     (groupIndex === this.state.breakAt.group &&

@@ -17,10 +17,10 @@ export interface Props {
   renderNoResult: () => JSX.Element;
   renderNoRecentActivity: () => JSX.Element;
   renderBeforePreQueryState?: () => JSX.Element;
-  retrySearch();
+  retrySearch(): void;
   getPreQueryGroups: () => ResultsGroup[];
   getPostQueryGroups: () => ResultsGroup[];
-  renderAdvancedSearchGroup: (analyticsData?) => JSX.Element;
+  renderAdvancedSearchGroup: (analyticsData?: any) => JSX.Element;
   keepPreQueryState: boolean;
   searchSessionId: string;
   preQueryScreenCounter?: ScreenCounter;

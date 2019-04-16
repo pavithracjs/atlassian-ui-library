@@ -10,17 +10,31 @@ import {
   createEditorFactory,
   p,
   EditorTestCardProvider,
+  createAnalyticsEventMock,
+  inlineCard,
+  blockCard,
+  Refs,
 } from '@atlaskit/editor-test-helpers';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import { setNodeSelection } from '../../../../utils';
+import { visitCardLink, removeCard } from '../../../../plugins/card/toolbar';
+import { EditorView } from 'prosemirror-view';
 
 describe('card', () => {
   const createEditor = createEditorFactory();
+  let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
 
   const editor = (doc: any) => {
-    return createEditor({
+    createAnalyticsEvent = createAnalyticsEventMock();
+    const wrapper = createEditor({
       doc,
       editorPlugins: [cardPlugin],
       pluginKey,
+      createAnalyticsEvent: createAnalyticsEvent as any,
+      editorProps: { allowAnalyticsGASV3: true },
     });
+    createAnalyticsEvent.mockClear();
+    return wrapper;
   };
 
   describe('actions', () => {
@@ -48,7 +62,12 @@ describe('card', () => {
         } = editorView;
         dispatch(
           queueCards([
-            { url: 'http://www.atlassian.com/', pos: 24, appearance: 'inline' },
+            {
+              url: 'http://www.atlassian.com/',
+              pos: 24,
+              appearance: 'inline',
+              compareLinkText: true,
+            },
           ])(tr),
         );
         expect(pluginKey.getState(editorView.state)).toEqual({
@@ -57,6 +76,7 @@ describe('card', () => {
               url: 'http://www.atlassian.com/',
               pos: 24,
               appearance: 'inline',
+              compareLinkText: true,
             },
           ],
           provider: null,
@@ -69,8 +89,18 @@ describe('card', () => {
 
         dispatch(
           queueCards([
-            { url: 'http://www.atlassian.com/', pos: 24, appearance: 'inline' },
-            { url: 'http://www.atlassian.com/', pos: 420, appearance: 'block' },
+            {
+              url: 'http://www.atlassian.com/',
+              pos: 24,
+              appearance: 'inline',
+              compareLinkText: true,
+            },
+            {
+              url: 'http://www.atlassian.com/',
+              pos: 420,
+              appearance: 'block',
+              compareLinkText: true,
+            },
           ])(editorView.state.tr),
         );
 
@@ -80,11 +110,13 @@ describe('card', () => {
               url: 'http://www.atlassian.com/',
               pos: 24,
               appearance: 'inline',
+              compareLinkText: true,
             },
             {
               url: 'http://www.atlassian.com/',
               pos: 420,
               appearance: 'block',
+              compareLinkText: true,
             },
           ],
           provider: null,
@@ -96,12 +128,89 @@ describe('card', () => {
       it('eventually resolves the url from the queue', async () => {
         const { editorView } = editor(doc(p()));
         queueCards([
-          { url: 'http://www.atlassian.com/', pos: 1, appearance: 'inline' },
+          {
+            url: 'http://www.atlassian.com/',
+            pos: 1,
+            appearance: 'inline',
+            compareLinkText: true,
+          },
         ])(editorView.state.tr);
 
         expect(pluginKey.getState(editorView.state)).toEqual({
           requests: [],
           provider: null,
+        });
+      });
+    });
+  });
+
+  describe('analytics', () => {
+    const atlassianUrl = 'http://www.atlassian.com/';
+    const linkTypes = [
+      {
+        name: 'inlineCard',
+        element: p('{<}', inlineCard({ url: atlassianUrl })('{>}')),
+      },
+      {
+        name: 'blockCard',
+        element: blockCard({ url: atlassianUrl })(),
+      },
+    ];
+
+    linkTypes.forEach(type => {
+      describe(`Toolbar ${type.name}`, () => {
+        let editorView: EditorView;
+        let refs: Refs;
+
+        beforeEach(() => {
+          ({ editorView, refs } = editor(doc(type.element)));
+          if (type.name === 'blockCard') {
+            setNodeSelection(editorView, 0);
+          } else {
+            setNodeSelection(editorView, refs['<']);
+          }
+        });
+
+        describe('delete command', () => {
+          beforeEach(() => {
+            removeCard(editorView.state, editorView.dispatch);
+          });
+
+          it('should create analytics V3 event', () => {
+            expect(createAnalyticsEvent).toHaveBeenCalledWith({
+              action: 'deleted',
+              actionSubject: 'smartLink',
+              actionSubjectId: type.name,
+              attributes: { inputMethod: 'toolbar', displayMode: type.name },
+              eventType: 'track',
+            });
+          });
+        });
+
+        describe('visit command', () => {
+          let windowSpy: jest.MockInstance<any>;
+          beforeEach(() => {
+            windowSpy = jest.spyOn(window, 'open').mockImplementation(() => {});
+            visitCardLink(editorView.state, editorView.dispatch);
+          });
+
+          afterEach(() => {
+            windowSpy.mockRestore();
+          });
+
+          it('should create analytics V3 event', () => {
+            expect(createAnalyticsEvent).toHaveBeenCalledWith({
+              action: 'visited',
+              actionSubject: 'smartLink',
+              actionSubjectId: type.name,
+              attributes: { inputMethod: 'toolbar' },
+              eventType: 'track',
+            });
+          });
+
+          it('should open a new tab with the right url', () => {
+            expect(windowSpy).toHaveBeenCalledWith(atlassianUrl);
+          });
         });
       });
     });

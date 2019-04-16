@@ -7,13 +7,20 @@ import {
   OnToneSelected,
 } from '../../types';
 import EmojiButton from './EmojiButton';
-import { FireAnalyticsEvent, withAnalytics } from '@atlaskit/analytics';
-import { analyticsEmojiPrefix } from '../../constants';
+import {
+  withAnalyticsEvents,
+  WithAnalyticsEventProps,
+  AnalyticsEventPayload,
+} from '@atlaskit/analytics-next';
+import {
+  createAndFireEventInElementsChannel,
+  toneSelectedEvent,
+  toneSelectorOpenedEvent,
+} from '../../util/analytics';
 
 export interface Props {
   emoji: EmojiDescriptionWithVariations;
   onToneSelected: OnToneSelected;
-  firePrivateAnalyticsEvent?: FireAnalyticsEvent;
 }
 
 const extractAllTones = (
@@ -25,16 +32,39 @@ const extractAllTones = (
   return [emoji];
 };
 
-export class ToneSelectorInternal extends PureComponent<Props, {}> {
+export class ToneSelectorInternal extends PureComponent<
+  Props & WithAnalyticsEventProps,
+  {}
+> {
+  private fireEvent(event: AnalyticsEventPayload) {
+    const { createAnalyticsEvent } = this.props;
+
+    if (createAnalyticsEvent) {
+      createAndFireEventInElementsChannel(event)(createAnalyticsEvent);
+    }
+  }
+
+  public componentWillMount() {
+    this.fireEvent(toneSelectorOpenedEvent({}));
+  }
+
   private onToneSelectedHandler = (skinTone: number) => {
-    const { onToneSelected, firePrivateAnalyticsEvent } = this.props;
+    const { onToneSelected } = this.props;
     onToneSelected(skinTone);
 
-    if (firePrivateAnalyticsEvent) {
-      firePrivateAnalyticsEvent(`${analyticsEmojiPrefix}.skintone.select`, {
-        skinTone,
-      });
-    }
+    const toneList = [
+      'default',
+      'light',
+      'mediumLight',
+      'medium',
+      'mediumDark',
+      'dark',
+    ];
+    this.fireEvent(
+      toneSelectedEvent({
+        skinToneModifier: toneList[skinTone],
+      }),
+    );
   };
 
   render() {
@@ -57,12 +87,9 @@ export class ToneSelectorInternal extends PureComponent<Props, {}> {
   }
 }
 
-// tslint:disable-next-line:variable-name
-const ToneSelector = withAnalytics<typeof ToneSelectorInternal>(
-  ToneSelectorInternal,
-  {},
-  {},
-);
 type ToneSelector = ToneSelectorInternal;
+const ToneSelector: React.ComponentType<Props> = withAnalyticsEvents()(
+  ToneSelectorInternal,
+);
 
 export default ToneSelector;

@@ -2,10 +2,10 @@ import {
   UIAnalyticsEventInterface,
   WithAnalyticsEventProps,
   CreateUIAnalyticsEventSignature,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import { GasPayload } from '@atlaskit/analytics-gas-types';
 
-import { ELEMENTS_CHANNEL } from '../constants';
+import { ELEMENTS_CHANNEL } from '../_constants';
 import {
   name as packageName,
   version as packageVersion,

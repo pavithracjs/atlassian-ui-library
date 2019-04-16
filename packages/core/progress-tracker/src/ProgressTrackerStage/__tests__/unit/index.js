@@ -34,7 +34,7 @@ describe('ak-progress-tracker/progress-tracker-stage', () => {
         render={render}
         transitionDelay={0}
         transitionSpeed={0}
-        transitionEasing={'linear'}
+        transitionEasing="linear"
       />,
     );
     expect(wrapper.length).toBeGreaterThan(0);
@@ -69,7 +69,7 @@ describe('ak-progress-tracker/progress-tracker-stage', () => {
         render={render}
         transitionDelay={0}
         transitionSpeed={0}
-        transitionEasing={'linear'}
+        transitionEasing="linear"
       />,
     );
     expect(wrapper.find(ProgressTrackerStageMarker).props()).toMatchObject({
@@ -104,7 +104,7 @@ describe('ak-progress-tracker/progress-tracker-stage', () => {
         render={render}
         transitionDelay={0}
         transitionSpeed={0}
-        transitionEasing={'linear'}
+        transitionEasing="linear"
       />,
     );
     expect(wrapper.find(ProgressTrackerStageMarker).props()).toMatchObject({
@@ -139,7 +139,7 @@ describe('ak-progress-tracker/progress-tracker-stage', () => {
         render={render}
         transitionDelay={0}
         transitionSpeed={0}
-        transitionEasing={'linear'}
+        transitionEasing="linear"
       />,
     );
     expect(wrapper.find(ProgressTrackerStageMarker).props()).toMatchObject({
@@ -174,7 +174,7 @@ describe('ak-progress-tracker/progress-tracker-stage', () => {
         render={render}
         transitionDelay={0}
         transitionSpeed={0}
-        transitionEasing={'linear'}
+        transitionEasing="linear"
       />,
     );
     expect(wrapper.find(ProgressTrackerStageMarker).props()).toMatchObject({
@@ -208,7 +208,7 @@ describe('ak-progress-tracker/progress-tracker-stage', () => {
         render={render}
         transitionDelay={0}
         transitionSpeed={0}
-        transitionEasing={'linear'}
+        transitionEasing="linear"
       />,
     );
     expect(wrapper.find(ProgressTrackerLink)).toHaveLength(0);
@@ -234,7 +234,7 @@ describe('ak-progress-tracker/progress-tracker-stage', () => {
         render={render}
         transitionDelay={transitionDelay}
         transitionSpeed={transitionSpeed}
-        transitionEasing={'linear'}
+        transitionEasing="linear"
       />,
     );
     expect(wrapper.find('Fade')).toHaveLength(3);

@@ -1,7 +1,7 @@
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as React from 'react';
 import { PureComponent } from 'react';
-import { toEmojiId } from '../../type-helpers';
+import { toEmojiId } from '../../util/type-helpers';
 import { EmojiDescription, OnEmojiEvent } from '../../types';
 import { leftClick } from '../../util/mouse';
 import EmojiPreview from '../common/EmojiPreview';

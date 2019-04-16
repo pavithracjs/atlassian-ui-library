@@ -36,9 +36,11 @@ export default class LayoutExample extends PureComponent<void, State> {
   onChangeHandler = () => {
     console.log('onChangeHandler');
   };
+
   onBlurHandler = () => {
     console.log('onBlurHandler');
   };
+
   onFocusHandler = () => {
     console.log('onFocusHandler');
   };

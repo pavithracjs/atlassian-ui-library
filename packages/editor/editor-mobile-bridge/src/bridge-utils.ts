@@ -1,15 +1,16 @@
 import { toNativeBridge } from './editor/web-to-native';
 
 interface QueryParams {
-  mode?: 'dark' | 'light';
+  theme?: 'dark' | 'light';
 }
 /**
  * Send an event to which ever bridge it can find.
- * @param bridgeName
- * @param eventName
- * @param props
+ * @param bridgeName {string} bridge name
+ * @param eventName {string} event name
+ * @param props {object} arguments passed
  *
  * For this to work on both bridges their interfaces need to match.
+ *
  * We have two main identifiers we use, bridgeName and eventName.
  * For iOS this looks like:
  *  window.webkit.messageHandlers.<bridgeName>.postMessage({
@@ -32,7 +33,16 @@ export const sendToBridge = (bridgeName: any, eventName: any, props = {}) => {
     const args = Object.keys(props).map(key => (props as any)[key]);
     const bridge = (window as any)[bridgeName];
     if (bridge && bridge.hasOwnProperty(eventName)) {
-      bridge[eventName as any](...args);
+      try {
+        bridge[eventName as any](...args);
+      } catch (err) {
+        // tslint:disable-next-line:no-console
+        console.error(
+          `Could not call bridge.${eventName}() with args: ${JSON.stringify(
+            args,
+          )}`,
+        );
+      }
     }
   }
 

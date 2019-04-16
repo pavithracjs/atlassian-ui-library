@@ -166,6 +166,7 @@ export default class Example extends Component<{}, State> {
     },
     showContainer: true,
   };
+
   onDragEnd = (dropResult: DropResult) => {
     const updatedGroups = updateGroups(this.state.groups, dropResult);
     if (updatedGroups) {
@@ -174,6 +175,7 @@ export default class Example extends Component<{}, State> {
       });
     }
   };
+
   render() {
     const { groups } = this.state;
     return (

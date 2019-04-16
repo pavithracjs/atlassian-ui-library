@@ -62,6 +62,13 @@ type EditorStopAEP = UIAEP<
   }
 >;
 
+type AnnotateButtonAEP = UIAEP<
+  ACTION.CLICKED,
+  ACTION_SUBJECT.MEDIA,
+  ACTION_SUBJECT_ID.ANNOTATE_BUTTON,
+  undefined
+>;
+
 type ButtonHelpAEP = ButtonAEP<
   ACTION_SUBJECT_ID.BUTTON_HELP,
   { inputMethod: INPUT_METHOD.SHORTCUT | INPUT_METHOD.TOOLBAR }
@@ -74,12 +81,17 @@ type ButtonFeedbackAEP = ButtonAEP<
 
 type PickerEmojiAEP = PickerAEP<
   ACTION_SUBJECT_ID.PICKER_EMOJI,
-  { inputMethod: INPUT_METHOD.TOOLBAR }
+  { inputMethod: INPUT_METHOD.TOOLBAR | INPUT_METHOD.INSERT_MENU }
 >;
 
 type PickerImageAEP = PickerAEP<
   ACTION_SUBJECT_ID.PICKER_CLOUD,
-  { inputMethod: INPUT_METHOD.TOOLBAR | INPUT_METHOD.QUICK_INSERT }
+  {
+    inputMethod:
+      | INPUT_METHOD.TOOLBAR
+      | INPUT_METHOD.QUICK_INSERT
+      | INPUT_METHOD.INSERT_MENU;
+  }
 >;
 
 type TypeAheadQuickInsertAEP = TypeAheadAEP<
@@ -97,6 +109,7 @@ type TypeAheadLinkAEP = TypeAheadAEP<
   {
     inputMethod:
       | INPUT_METHOD.TOOLBAR
+      | INPUT_METHOD.INSERT_MENU
       | INPUT_METHOD.QUICK_INSERT
       | INPUT_METHOD.SHORTCUT;
   }
@@ -107,6 +120,7 @@ type TypeAheadMentionAEP = TypeAheadAEP<
   {
     inputMethod:
       | INPUT_METHOD.TOOLBAR
+      | INPUT_METHOD.INSERT_MENU
       | INPUT_METHOD.QUICK_INSERT
       | INPUT_METHOD.KEYBOARD;
   }
@@ -115,6 +129,7 @@ type TypeAheadMentionAEP = TypeAheadAEP<
 export type UIEventPayload =
   | EditorStartAEP
   | EditorStopAEP
+  | AnnotateButtonAEP
   | ButtonHelpAEP
   | ButtonFeedbackAEP
   | PickerEmojiAEP

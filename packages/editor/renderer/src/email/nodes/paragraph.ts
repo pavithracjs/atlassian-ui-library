@@ -1,12 +1,19 @@
-import { createTag, serializeStyle, applyMarks } from '../util';
+import { applyMarks, createTag } from '../util';
 import { NodeSerializerOpts } from '../interfaces';
 
-const css = serializeStyle({
-  'white-space': 'pre-wrap',
-  'word-wrap': 'break-word',
-});
+export const paragraphStyles = `
+p {
+  margin: 0;
+  margin-bottom: 7px;
+  padding: 0px;
+  padding-top: 7px;
+  mso-line-height-rule: exactly;
+  line-height: 24px;
+  font-size: 14px;
+}
+`;
 
 export default function paragraph({ text, marks }: NodeSerializerOpts) {
-  const paragraph = createTag('p', { style: css }, text);
+  const paragraph = createTag('p', {}, text);
   return applyMarks(marks, paragraph);
 }

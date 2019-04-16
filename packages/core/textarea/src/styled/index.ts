@@ -11,7 +11,7 @@ const borderWidth = 2;
 const lineHeightBase = grid * 2.5;
 const lineHeightCompact = grid * 2;
 const getLineHeight = ({ isCompact }: Pick<Partial<Props>, 'isCompact'>) =>
-  isCompact ? lineHeightBase : lineHeightCompact;
+  isCompact ? lineHeightCompact : lineHeightBase;
 const getVerticalPadding = ({ isCompact }: Pick<Partial<Props>, 'isCompact'>) =>
   isCompact ? 2 : 6;
 const horizontalPadding = grid;
@@ -125,7 +125,6 @@ export const TextAreaWrapper = styled.div<StyleProps>`
   border-radius: ${borderRadius};
   border-style: ${getBorderStyle};
   box-sizing: border-box;
-  line-height: ${getLineHeight};
   overflow: auto;
   transition: background-color ${transitionDuration} ease-in-out,
     border-color ${transitionDuration} ease-in-out;
@@ -158,6 +157,7 @@ export const TextAreaWrapper = styled.div<StyleProps>`
     overflow: auto;
     max-width: 100%;
     width: 100%;
+    padding: 0;
     ${getPlaceholderStyle(getPlaceholderColor)};
     ${getMinimumRowsHeight}
 

@@ -15,7 +15,7 @@ import {
 BrowserTestCase(
   'insert-toolbar-menu.ts: Insert panel via toolbar menu',
   { skip: ['ie'] },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -24,12 +24,12 @@ BrowserTestCase(
 
     await page.click(editable);
 
-    await insertBlockMenuItem(page, 'Panel', undefined, true);
+    await insertBlockMenuItem(page, 'Info Panel', undefined, true);
     await page.waitForSelector(selectors.PANEL_EDITOR_CONTAINER);
 
     await page.type(editable, 'this text should be in the panel');
 
     const doc = await page.$eval(editable, getDocFromElement);
-    expect(doc).toMatchDocSnapshot();
+    expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );

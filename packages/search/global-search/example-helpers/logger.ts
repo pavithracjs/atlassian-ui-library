@@ -1,11 +1,11 @@
 export const DEVELOPMENT_LOGGER = {
-  safeError(...rest) {
+  safeError(...rest: any) {
     console.error(...rest);
   },
-  safeInfo(...rest) {
+  safeInfo(...rest: any) {
     console.info(...rest);
   },
-  safeWarn(...rest) {
+  safeWarn(...rest: any) {
     console.warn(...rest);
   },
 };

@@ -114,7 +114,7 @@ export function insertLink(
         tr.setSelection(Selection.near(tr.doc.resolve(to)));
       }
 
-      queueCardsFromChangedTr(state, tr);
+      queueCardsFromChangedTr(state, tr, false);
 
       if (dispatch) {
         tr.setMeta(stateKey, LinkAction.HIDE_TOOLBAR);
@@ -134,7 +134,8 @@ export function showLinkToolbar(
   inputMethod:
     | INPUT_METHOD.TOOLBAR
     | INPUT_METHOD.QUICK_INSERT
-    | INPUT_METHOD.SHORTCUT = INPUT_METHOD.TOOLBAR,
+    | INPUT_METHOD.SHORTCUT
+    | INPUT_METHOD.INSERT_MENU = INPUT_METHOD.TOOLBAR,
 ): Command {
   return function(state, dispatch) {
     if (dispatch) {

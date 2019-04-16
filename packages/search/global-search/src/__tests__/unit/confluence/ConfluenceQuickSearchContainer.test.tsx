@@ -21,6 +21,7 @@ import {
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
   SearchSession,
   ABTest,
+  DEFAULT_AB_TEST,
 } from '../../../api/CrossProductSearchClient';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
 
@@ -173,7 +174,7 @@ describe('ConfluenceQuickSearchContainer', () => {
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
         },
         getAbTestData(scope: Scope, searchSession: SearchSession) {
-          return Promise.resolve(undefined);
+          return Promise.resolve(DEFAULT_AB_TEST);
         },
       },
     });
@@ -228,7 +229,7 @@ describe('ConfluenceQuickSearchContainer', () => {
   });
 
   describe('Advanced Search callback', () => {
-    let redirectSpy;
+    let redirectSpy: jest.SpyInstance<(query?: string) => void>;
     let originalWindowAssign = window.location.assign;
 
     beforeEach(() => {
@@ -245,7 +246,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       window.location.assign = originalWindowAssign;
     });
 
-    const mountComponent = spy => {
+    const mountComponent = (spy: jest.Mock<{}>) => {
       const wrapper = render({
         onAdvancedSearch: spy,
       });
@@ -254,7 +255,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       const props = quickSearchContainer.props();
       expect(props).toHaveProperty('handleSearchSubmit');
 
-      return props['handleSearchSubmit'];
+      return (props as any)['handleSearchSubmit'];
     };
     const mockEvent = () => ({
       preventDefault: jest.fn(),

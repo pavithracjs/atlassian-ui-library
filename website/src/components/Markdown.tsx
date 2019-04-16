@@ -44,7 +44,7 @@ export default function Markdown({
           content={description || DEFAULT_META_DESCRIPTION}
         />
       </Helmet>
-      {renderer.render(parser.parse(children))}
+      {renderer.render(parser.parse(children as string))}
     </div>
   );
 }

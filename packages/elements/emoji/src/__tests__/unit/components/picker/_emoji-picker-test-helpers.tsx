@@ -23,6 +23,10 @@ import { hasSelector } from '../../_emoji-selectors';
 import { getEmojiResourcePromise, newEmojiRepository } from '../../_test-data';
 import { FormattedMessage } from 'react-intl';
 import FileChooser from '../../../../components/common/FileChooser';
+import {
+  WithAnalyticsEventProps,
+  AnalyticsListener,
+} from '@atlaskit/analytics-next';
 
 export function setupPickerWithoutToneSelector(): Promise<
   ReactWrapper<any, any>
@@ -34,8 +38,9 @@ export function setupPickerWithoutToneSelector(): Promise<
 }
 
 export function setupPicker(
-  props?: Props,
+  props?: Props & WithAnalyticsEventProps,
   config?: MockEmojiResourceConfig,
+  onEvent?: any,
 ): Promise<ReactWrapper<any, any>> {
   const pickerProps: Props = {
     ...props,
@@ -45,7 +50,13 @@ export function setupPicker(
     pickerProps.emojiProvider = getEmojiResourcePromise(config);
   }
 
-  const picker = mountWithIntl(<EmojiPicker {...pickerProps} />);
+  const picker = onEvent
+    ? mountWithIntl(
+        <AnalyticsListener channel="fabric-elements" onEvent={onEvent}>
+          <EmojiPicker {...pickerProps} />
+        </AnalyticsListener>,
+      )
+    : mountWithIntl(<EmojiPicker {...pickerProps} />);
 
   return waitUntil(() => hasSelector(picker, EmojiPickerComponent)).then(
     () => picker,
@@ -255,6 +266,10 @@ export const tooltipErrorMessageMatches = async (
 
 export const chooseFile = (component: ReactWrapper, file: any) => {
   const fileChooser = component.find(FileChooser);
+  const fileOnClick = fileChooser.prop('onClick');
+  if (fileOnClick) {
+    fileOnClick();
+  }
   const fileOnChange = fileChooser.prop('onChange');
   expect(fileOnChange).toBeDefined();
   fileOnChange!({

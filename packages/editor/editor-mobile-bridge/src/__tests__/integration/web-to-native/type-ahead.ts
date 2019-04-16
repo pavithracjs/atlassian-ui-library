@@ -11,7 +11,7 @@ import {
 BrowserTestCase(
   `type-ahead.ts: Sends correct typing events`,
   { skip: skip.concat('safari') },
-  async (client: any) => {
+  async (client: any, testName: string) => {
     const browser = new Page(client);
     await browser.goto(editor.path);
     await browser.waitForSelector(editable);
@@ -25,7 +25,7 @@ BrowserTestCase(
       'typeAheadQuery',
     );
 
-    expect(typeAheadPayloads).toMatchSnapshot();
+    expect(typeAheadPayloads).toMatchCustomSnapshot(testName);
   },
 );
 

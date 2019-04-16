@@ -17,6 +17,7 @@ let mockOriginTracingFactory: jest.Mock;
 let mockRequestService: jest.Mock;
 let mockShareServiceClient: jest.Mock;
 const mockCloudId = 'cloudId';
+const mockDialogPlacement = 'bottom-start';
 const mockProductId = 'productId';
 const mockShareAri = 'ari';
 const mockShareContentType = 'issue';
@@ -46,6 +47,7 @@ const mockClient = {
   getConfig: mockGetConfig,
   share: mockShare,
 };
+const mockShowFlags = jest.fn();
 
 beforeEach(() => {
   mockOriginTracing = {
@@ -67,6 +69,7 @@ beforeEach(() => {
     <ShareDialogContainer
       client={mockClient}
       cloudId={mockCloudId}
+      dialogPlacement={mockDialogPlacement}
       loadUserOptions={mockLoadUserOptions}
       originTracingFactory={mockOriginTracingFactory}
       productId={mockProductId}
@@ -74,6 +77,7 @@ beforeEach(() => {
       shareContentType={mockShareContentType}
       shareLink={mockShareLink}
       shareTitle={mockShareTitle}
+      showFlags={mockShowFlags}
       formatCopyLink={mockFormatCopyLink}
       shouldCloseOnEscapePress={mockShouldCloseOnEscapePress}
       triggerButtonAppearance={mockTriggerButtonAppearance}
@@ -99,11 +103,11 @@ describe('ShareDialogContainer', () => {
       mockTriggerButtonStyle,
     );
     expect(shareDialogWithTrigger.prop('copyLink')).toEqual(mockCopyLink);
+    expect(shareDialogWithTrigger.prop('dialogPlacement')).toEqual(
+      mockDialogPlacement,
+    );
     expect(shareDialogWithTrigger.prop('loadUserOptions')).toEqual(
       mockLoadUserOptions,
-    );
-    expect(shareDialogWithTrigger.prop('onLinkCopy')).toBe(
-      wrapper.instance().handleCopyLink,
     );
     expect(shareDialogWithTrigger.prop('shouldCloseOnEscapePress')).toEqual(
       mockShouldCloseOnEscapePress,
@@ -138,6 +142,7 @@ describe('ShareDialogContainer', () => {
         shareContentType={mockShareContentType}
         shareLink={mockShareLink}
         shareTitle={mockShareTitle}
+        showFlags={mockShowFlags}
         formatCopyLink={mockFormatCopyLink}
         shouldCloseOnEscapePress={mockShouldCloseOnEscapePress}
       />,
@@ -147,21 +152,6 @@ describe('ShareDialogContainer', () => {
     const client: Client = newWrapper.instance().client;
     expect(client.getConfig).toEqual(mockGetConfig);
     expect(client.share).toEqual(mockShare);
-  });
-
-  describe('handleCopyLink', () => {
-    it('should send analytics', () => {
-      wrapper.setState({
-        copyLinkOrigin: mockOriginTracing,
-      });
-      wrapper.instance().forceUpdate();
-      wrapper.instance().handleCopyLink();
-      expect(mockOriginTracing.toAnalyticsAttributes).toHaveBeenCalledTimes(1);
-      expect(mockOriginTracing.toAnalyticsAttributes).toHaveBeenCalledWith({
-        hasGeneratedId: true,
-      });
-      // TODO: complete when analytic is sent
-    });
   });
 
   describe('handleSubmitShare', () => {

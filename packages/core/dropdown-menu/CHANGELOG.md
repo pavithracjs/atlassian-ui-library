@@ -1,5 +1,46 @@
 # @atlaskit/dropdown-menu
 
+## 7.0.6
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/button@12.0.3
+  - @atlaskit/droplist@8.0.5
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/item@9.0.1
+  - @atlaskit/lozenge@7.0.2
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/theme@8.1.7
+
+## 7.0.5
+- [patch] [6fd20256f3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6fd20256f3):
+
+  - Add positionFixed property to Popper
+
+## 7.0.4
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/avatar@15.0.3
+  - @atlaskit/droplist@8.0.3
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/tooltip@13.0.3
+  - @atlaskit/button@12.0.0
+
+## 7.0.3
+- Updated dependencies [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
+  - @atlaskit/analytics-next@4.0.2
+  - @atlaskit/button@11.0.5
+  - @atlaskit/droplist@8.0.2
+  - @atlaskit/icon@16.0.6
+  - @atlaskit/lozenge@7.0.1
+
+## 7.0.2
+- [patch] [dc114c4ce6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dc114c4ce6):
+
+  - Internal changes only. DropdownMenu is now compatible with SSR.
+
 ## 7.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

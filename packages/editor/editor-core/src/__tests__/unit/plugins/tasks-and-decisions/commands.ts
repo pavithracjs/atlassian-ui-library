@@ -16,7 +16,7 @@ import {
   insertText,
 } from '@atlaskit/editor-test-helpers';
 import { uuid } from '@atlaskit/adf-schema';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { insertTaskDecision } from '../../../../plugins/tasks-and-decisions/commands';
 import { TaskDecisionListType } from '../../../../plugins/tasks-and-decisions/types';
@@ -302,7 +302,7 @@ describe('tasks and decisions - commands', () => {
     });
 
     describe('analytics', () => {
-      const generatePayload = (position, listSize) => ({
+      const generatePayload = (position: number, listSize: number) => ({
         action: 'inserted',
         actionSubject: 'document',
         actionSubjectId: 'action',

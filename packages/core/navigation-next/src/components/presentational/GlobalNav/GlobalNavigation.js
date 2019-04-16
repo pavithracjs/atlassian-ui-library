@@ -57,7 +57,7 @@ export default class GlobalNavigation extends Component<GlobalNavigationProps> {
                     <ItemComponent
                       {...props}
                       key={props.id}
-                      size="large"
+                      size="small"
                       index={index}
                     />
                   );

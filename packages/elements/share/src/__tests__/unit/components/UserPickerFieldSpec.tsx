@@ -58,11 +58,12 @@ describe('UserPickerField', () => {
     ).find(UserPicker);
     expect(userPicker).toHaveLength(1);
     expect(userPicker.props()).toMatchObject({
+      fieldId: 'share',
       addMoreMessage: 'add more',
       onChange: fieldProps.onChange,
       value: fieldProps.value,
       placeholder: <FormattedMessage {...messages.userPickerPlaceholder} />,
-      loadOptions,
+      loadOptions: expect.any(Function),
     });
   });
 
@@ -73,6 +74,27 @@ describe('UserPickerField', () => {
       <UserPickerField loadOptions={loadOptions} defaultValue={defaultValue} />,
     );
     expect(component.find(Field).prop('defaultValue')).toBe(defaultValue);
+  });
+
+  it('should not call loadUsers on empyt query', () => {
+    const loadOptions = jest.fn();
+    const fieldProps = {
+      onChange: jest.fn(),
+      value: [],
+    };
+    const field = renderUserPicker(
+      { loadOptions },
+      { fieldProps, meta: { valid: true } },
+    );
+    const formattedMessageAddMore = field.find(FormattedMessage);
+    const userPicker = renderProp(
+      formattedMessageAddMore,
+      'children',
+      'add more',
+    ).find(UserPicker);
+    expect(userPicker).toHaveLength(1);
+    userPicker.simulate('loadOptions', '');
+    expect(loadOptions).not.toHaveBeenCalled();
   });
 
   describe('validate function', () => {

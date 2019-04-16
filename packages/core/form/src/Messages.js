@@ -11,7 +11,8 @@ const Message = styled.div`
   color: ${props => {
     if (props.error) {
       return colors.R400;
-    } else if (props.valid) {
+    }
+    if (props.valid) {
       return colors.G400;
     }
     return colors.N200;

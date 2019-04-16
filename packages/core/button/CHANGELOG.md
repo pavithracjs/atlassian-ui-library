@@ -1,5 +1,92 @@
 # @atlaskit/button
 
+## 12.0.3
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/checkbox@6.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/logo@10.0.4
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/theme@8.1.7
+
+## 12.0.2
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
+## 12.0.1
+- Updated dependencies [d263485853](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d263485853):
+  - @atlaskit/spinner@10.0.6
+
+## 12.0.0
+- [major] [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+
+  ###️ Highlights
+
+  - **New theming API** - Button now supports the new Atlaskit theming API, which allows for powerful custom theming of Buttons and
+    its internal components.
+  - **Speed improvements** - Button has been re-written from the ground up - on heavy-load benchmarks, Button is twice as fast
+    (taking 48% of the time to load).
+  - **Emotion support** - Button is now built using Emotion 10! This is part of a wider push
+    for Emotion across all Atlaskit components.
+
+  ### Breaking Changes:
+
+  - The old theming API is no longer supported.
+  - Styling a Button using Styled Components is no longer supported.
+  - Button exports a Theme to use as context instead of using Styled Components' ThemeProvider.
+  - Camel-case ARIA props have been renamed (**ariaExpanded**, **ariaHaspopup** and **ariaLabel**).
+
+  See the [upgrade guide](atlaskit.atlassian.com/packages/core/button/docs/upgrade-guide) for more details
+
+## 11.0.11
+- [patch] [f8d92ffc5e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f8d92ffc5e):
+
+  - Revert the change to consume entry points from theme
+
+## 11.0.10
+- [patch] [5e3ad7f751](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e3ad7f751):
+
+  - Importing theme components from the root theme package instead of the theme build file
+
+## 11.0.9
+- [patch] [872b3b905a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/872b3b905a):
+
+  - Updates theme to the version which exposes multiple entry points
+
+## 11.0.8
+- [patch] [22ce87801e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/22ce87801e):
+
+  - Optimised usages of theme in button using multiple entry points
+
+## 11.0.7
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 11.0.6
+- Updated dependencies [fd940a833b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fd940a833b):
+  - @atlaskit/spinner@10.0.4
+
+## 11.0.5
+- [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
+
+  - Removes duplicate babel-runtime dependency
+
+## 11.0.4
+- Updated dependencies [986c5e47c8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/986c5e47c8):
+  - @atlaskit/spinner@10.0.2
+
+## 11.0.3
+- [patch] [59d4ab031b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59d4ab031b):
+
+  - Call mouse handlers (e.g. onMouseDown) which are passed in as props
+
+## 11.0.2
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
 ## 11.0.1
 - [patch] [90a14be594](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/90a14be594):
 

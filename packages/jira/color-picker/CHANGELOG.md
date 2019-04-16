@@ -1,5 +1,23 @@
 # @atlaskit/color-picker
 
+## 0.4.2
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/select@8.1.1
+  - @atlaskit/theme@8.1.7
+
+## 0.4.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
+## 0.4.0
+- [minor] [32f743afc5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/32f743afc5):
+
+  - Enable noImplicitAny for @atlaskit/color-picker
+
 ## 0.3.0
 - [minor] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 

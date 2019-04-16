@@ -2,13 +2,20 @@ import memoizeOne from 'memoize-one';
 import { Target } from '../types';
 
 export const getPopupProps = memoizeOne(
-  (width: string | number, target: Target, onFlip: (data: any) => any) => ({
+  (
+    width: string | number,
+    target: Target,
+    onFlip: (data: any) => any,
+    popupTitle?: string,
+    boundariesElement?: HTMLElement,
+  ) => ({
     searchThreshold: -1,
     controlShouldRenderValue: true,
     minMenuWidth: width,
     maxMenuWidth: width,
     autoFocus: false,
-    target: target,
+    target,
+    popupTitle,
     popperProps: {
       modifiers: {
         handleFlipStyle: {
@@ -17,7 +24,7 @@ export const getPopupProps = memoizeOne(
           fn: (data: any) => onFlip(data),
         },
         preventOverflow: {
-          boundariesElement: 'viewport',
+          boundariesElement: boundariesElement || 'viewport',
         },
       },
     },

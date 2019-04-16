@@ -16,9 +16,9 @@ import Button from '@atlaskit/button';
 import {
   Context,
   ProcessedFileState,
-  Identifier,
   FileIdentifier,
   FileState,
+  Identifier,
 } from '@atlaskit/media-core';
 import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 import {
@@ -29,19 +29,31 @@ import {
 } from '../../../newgen/item-viewer';
 import { ErrorMessage } from '../../../newgen/error';
 import { ImageViewer } from '../../../newgen/viewers/image';
-import { VideoViewer } from '../../../newgen/viewers/video';
-import { AudioViewer } from '../../../newgen/viewers/audio';
+import {
+  VideoViewer,
+  Props as VideoViewerProps,
+} from '../../../newgen/viewers/video';
+import {
+  AudioViewer,
+  Props as AudioViewerProps,
+} from '../../../newgen/viewers/audio';
 import { DocViewer } from '../../../newgen/viewers/doc';
 import {
   name as packageName,
   version as packageVersion,
 } from '../../../version.json';
+import { InteractiveImg } from '../../../newgen/viewers/image/interactive-img';
 
-const identifier: any = {
+const identifier: Identifier = {
   id: 'some-id',
   occurrenceKey: 'some-custom-occurrence-key',
   mediaItemType: 'file',
   collectionName: 'some-collection',
+};
+const externalImageIdentifier: Identifier = {
+  mediaItemType: 'external-image',
+  dataURI: 'some-src',
+  name: 'some-name',
 };
 
 const makeFakeContext = (observable: Observable<any>) =>
@@ -59,7 +71,11 @@ function mountComponent(context: Context, identifier: Identifier) {
   return { el, instance };
 }
 
-function mountBaseComponent(context: Context, identifier: FileIdentifier) {
+function mountBaseComponent(
+  context: Context,
+  identifier: FileIdentifier,
+  props?: Partial<AudioViewerProps | VideoViewerProps>,
+) {
   const createAnalyticsEventSpy = jest.fn();
   createAnalyticsEventSpy.mockReturnValue({ fire: jest.fn() });
   const el: ReactWrapper<
@@ -71,6 +87,7 @@ function mountBaseComponent(context: Context, identifier: FileIdentifier) {
       previewCount={0}
       context={context}
       identifier={identifier}
+      {...props}
     />,
   );
   const instance = el.instance() as ItemViewerBase;
@@ -169,9 +186,9 @@ describe('<ItemViewer />', () => {
     expect(errorMessage.find(Button)).toHaveLength(1);
   });
 
-  it('should show the video viewer if media type is video', () => {
+  it('should show the video viewer if media type is video', async () => {
     const state: ProcessedFileState = {
-      id: identifier.id,
+      id: await identifier.id,
       mediaType: 'video',
       status: 'processed',
       mimeType: '',
@@ -207,9 +224,9 @@ describe('<ItemViewer />', () => {
     );
   });
 
-  it('should show the document viewer if media type is document', () => {
+  it('should show the document viewer if media type is document', async () => {
     const state: FileState = {
-      id: identifier.id,
+      id: await identifier.id,
       mediaType: 'doc',
       status: 'processed',
       artifacts: {},
@@ -259,6 +276,21 @@ describe('<ItemViewer />', () => {
     expect(context.file.getFileState).toHaveBeenCalledWith('some-id', {
       collectionName: 'some-collection',
     });
+  });
+
+  it('should render InteractiveImg for external image identifier', () => {
+    const context = makeFakeContext(
+      Observable.of({
+        id: identifier.id,
+        mediaType: 'image',
+        status: 'processed',
+      }),
+    );
+    const { el } = mountComponent(context, externalImageIdentifier);
+    el.update();
+
+    expect(el.find(InteractiveImg)).toHaveLength(1);
+    expect(el.find(InteractiveImg).prop('src')).toEqual('some-src');
   });
 
   describe('Subscription', () => {
@@ -465,5 +497,86 @@ describe('<ItemViewer />', () => {
         eventType: 'operational',
       });
     });
+
+    test.each(['audio', 'video'])(
+      'should trigger analytics when %s can play',
+      async (type: 'audio' | 'video') => {
+        const state: ProcessedFileState = {
+          id: await identifier.id,
+          mediaType: type,
+          status: 'processed',
+          mimeType: '',
+          name: '',
+          size: 1,
+          artifacts: {},
+          representations: {},
+        };
+        const context = makeFakeContext(Observable.of(state));
+        const onCanPlaySpy = jest.fn();
+        const { el, createAnalyticsEventSpy } = mountBaseComponent(
+          context,
+          identifier,
+          { onCanPlay: onCanPlaySpy },
+        );
+        const Viewer = el.find(type === 'audio' ? AudioViewer : VideoViewer);
+        const onCanPlay: () => void = Viewer.prop('onCanPlay')!;
+        onCanPlay();
+        expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
+          action: 'loadSucceeded',
+          actionSubject: 'mediaFile',
+          actionSubjectId: 'some-id',
+          attributes: {
+            fileId: 'some-id',
+            fileMediatype: type,
+            fileMimetype: '',
+            fileSize: 1,
+            status: 'success',
+            ...analyticsBaseAttributes,
+          },
+          eventType: 'operational',
+        });
+      },
+    );
+
+    test.each(['audio', 'video'])(
+      'should trigger analytics when %s errors',
+      async (type: 'audio' | 'video') => {
+        const state: ProcessedFileState = {
+          id: await identifier.id,
+          mediaType: type,
+          status: 'processed',
+          mimeType: '',
+          name: '',
+          size: 1,
+          artifacts: {},
+          representations: {},
+        };
+        const context = makeFakeContext(Observable.of(state));
+        const onErrorSpy = jest.fn();
+        const { el, createAnalyticsEventSpy } = mountBaseComponent(
+          context,
+          identifier,
+          { onError: onErrorSpy },
+        );
+        const Viewer = el.find(type === 'audio' ? AudioViewer : VideoViewer);
+        const onError: () => void = Viewer.prop('onError')!;
+        onError();
+        expect(createAnalyticsEventSpy).toHaveBeenCalledWith({
+          action: 'loadFailed',
+          actionSubject: 'mediaFile',
+          actionSubjectId: 'some-id',
+          attributes: {
+            failReason: 'Playback failed',
+            fileId: 'some-id',
+            fileMediatype: type,
+            fileMimetype: '',
+            fileSize: 1,
+            status: 'fail',
+            ...analyticsBaseAttributes,
+          },
+          eventType: 'operational',
+        });
+      },
+    );
   });
 });

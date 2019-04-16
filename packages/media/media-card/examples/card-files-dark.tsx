@@ -7,9 +7,11 @@ import {
   unknownFileId,
   errorFileId,
 } from '@atlaskit/media-test-helpers';
-import { AnalyticsListener } from '@atlaskit/analytics-next';
 
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import {
+  AnalyticsListener,
+  UIAnalyticsEventInterface,
+} from '@atlaskit/analytics-next';
 // @ts-ignore
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
 import { FileIdentifier } from '@atlaskit/media-core';

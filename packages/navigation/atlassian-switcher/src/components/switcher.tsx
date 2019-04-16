@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Messages } from 'react-intl';
-import * as isEqual from 'lodash.isequal';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import isEqual from 'lodash.isequal';
 
 import {
   SwitcherWrapper,
@@ -8,6 +9,7 @@ import {
   Section,
   ManageButton,
   Skeleton,
+  ExpandLink,
 } from '../primitives';
 import { SwitcherItemType, RecentItemType } from '../utils/links';
 
@@ -20,7 +22,7 @@ import {
 import now from '../utils/performance-now';
 import FormattedMessage from '../primitives/formatted-message';
 import TryLozenge from '../primitives/try-lozenge';
-import { TriggerXFlowCallback, FeatureFlagProps } from '../types';
+import { TriggerXFlowCallback } from '../types';
 
 type SwitcherProps = {
   messages: Messages;
@@ -33,7 +35,8 @@ type SwitcherProps = {
   recentLinks: RecentItemType[];
   customLinks: SwitcherItemType[];
   manageLink?: string;
-} & FeatureFlagProps;
+  expandLink?: string;
+};
 
 const getAnalyticsContext = (itemsCount: number) => ({
   ...analyticsAttributes({
@@ -60,24 +63,35 @@ export default class Switcher extends React.Component<SwitcherProps> {
     this.mountedAt = now();
   }
 
-  timeSinceMounted(): number {
-    return this.mountedAt ? Math.round(now() - this.mountedAt) : 0;
-  }
-
-  triggerXFlow = () => {
-    const { triggerXFlow, suggestedProductLinks } = this.props;
-    if (suggestedProductLinks.length) {
-      triggerXFlow(suggestedProductLinks[0].key, 'atlassian-switcher');
-    }
-  };
-
   shouldComponentUpdate(nextProps: SwitcherProps) {
     return !(isEqual(this.props, nextProps) as boolean);
   }
 
+  timeSinceMounted(): number {
+    return this.mountedAt ? Math.round(now() - this.mountedAt) : 0;
+  }
+
+  triggerXFlow = (event: any, analyticsEvent: UIAnalyticsEventInterface) => {
+    const { triggerXFlow, suggestedProductLinks } = this.props;
+    if (suggestedProductLinks.length) {
+      triggerXFlow(
+        suggestedProductLinks[0].key,
+        'atlassian-switcher',
+        event,
+        analyticsEvent,
+      );
+    }
+  };
+
+  getExpandHref = (hostname: string) => {
+    const isStagingInstance = hostname.indexOf('.jira-dev.com') !== -1;
+    return `//start.${isStagingInstance ? 'stg.' : ''}atlassian.com`;
+  };
+
   render() {
     const {
       messages,
+      expandLink,
       licensedProductLinks,
       suggestedProductLinks,
       fixedLinks,
@@ -115,7 +129,16 @@ export default class Switcher extends React.Component<SwitcherProps> {
           )}
           <Section
             sectionId="switchTo"
-            title={<FormattedMessage {...messages.switchTo} />}
+            title={
+              expandLink ? (
+                <ExpandLink
+                  href={expandLink}
+                  title={<FormattedMessage {...messages.switchTo} />}
+                />
+              ) : (
+                <FormattedMessage {...messages.switchTo} />
+              )
+            }
           >
             {licensedProductLinks.map(item => (
               <NavigationAnalyticsContext

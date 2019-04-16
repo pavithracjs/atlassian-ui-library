@@ -1,5 +1,26 @@
 # @atlaskit/quick-search
 
+## 6.1.1
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/drawer@3.0.7
+  - @atlaskit/field-base@12.0.2
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/item@9.0.1
+  - @atlaskit/navigation@34.0.4
+  - @atlaskit/theme@8.1.7
+
+## 6.1.0
+- [minor] [038e080474](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/038e080474):
+
+  - Expose inputControls as a prop for passing in additional controls to the search input box
+
+## 6.0.1
+- [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
+
+  - Add npmignore for index.ts to prevent some jest tests from resolving that instead of index.js
+
 ## 6.0.0
 - [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 

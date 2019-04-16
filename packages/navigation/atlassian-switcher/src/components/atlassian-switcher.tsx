@@ -9,7 +9,11 @@ import messages from '../utils/messages';
 import {
   analyticsAttributes,
   NavigationAnalyticsContext,
+  SWITCHER_COMPONENT,
+  SWITCHER_SOURCE,
 } from '../utils/analytics';
+import packageContext from '../utils/package-context';
+import mapPropsToFeatures from '../utils/map-props-to-features';
 
 type AtlassianSwitcherProps = {
   product: string;
@@ -17,19 +21,11 @@ type AtlassianSwitcherProps = {
   triggerXFlow: TriggerXFlowCallback;
 } & Partial<FeatureFlagProps>;
 
-const getAnalyticsContext = (props: { [key: string]: any }) => ({
-  source: 'atlassianSwitcher',
-  ...analyticsAttributes({
-    featureFlags: Object.keys(props)
-      .filter(key => key.startsWith('enable'))
-      .reduce(
-        (acc, key) => ({
-          ...acc,
-          [key]: props[key],
-        }),
-        {} as object,
-      ),
-  }),
+const getAnalyticsContext = (attributes: object) => ({
+  source: SWITCHER_SOURCE,
+  componentName: SWITCHER_COMPONENT,
+  ...packageContext,
+  ...analyticsAttributes(attributes),
 });
 
 const AtlassianSwitcher = (props: AtlassianSwitcherProps) => {
@@ -46,14 +42,19 @@ const AtlassianSwitcher = (props: AtlassianSwitcherProps) => {
     default:
       Switcher = GenericSwitcher;
   }
+
+  const features = mapPropsToFeatures(props);
+
   return (
-    <ErrorBoundary>
-      <NavigationAnalyticsContext data={getAnalyticsContext(props)}>
-        <IntlProvider>
-          <Switcher messages={messages} {...props} />
-        </IntlProvider>
+    <IntlProvider>
+      <NavigationAnalyticsContext
+        data={getAnalyticsContext({ featureFlags: features })}
+      >
+        <ErrorBoundary messages={messages}>
+          <Switcher {...props} messages={messages} features={features} />
+        </ErrorBoundary>
       </NavigationAnalyticsContext>
-    </ErrorBoundary>
+    </IntlProvider>
   );
 };
 

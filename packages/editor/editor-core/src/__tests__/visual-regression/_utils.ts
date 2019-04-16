@@ -1,4 +1,10 @@
-import { getExampleUrl } from '@atlaskit/visual-regression/helper';
+import {
+  getExampleUrl,
+  disableAllAnimations,
+  disableAllTransitions,
+  disableCaretCursor,
+  disableScrollBehavior,
+} from '@atlaskit/visual-regression/helper';
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
 
@@ -126,16 +132,25 @@ function getEditorProps(appearance: Appearance) {
   return enableAllEditorProps;
 }
 
-export async function mountEditor(page: any, props) {
-  await page.evaluate(props => {
-    (window as any).__mountEditor(props);
-  }, props);
+export async function mountEditor(
+  page: any,
+  props: any,
+  mode?: 'light' | 'dark',
+) {
+  await page.evaluate(
+    (props: EditorProps, mode?: 'light' | 'dark') => {
+      (window as any).__mountEditor(props, mode);
+    },
+    props,
+    mode,
+  );
   await page.waitForSelector('.ProseMirror', 500);
 }
 
 export enum Appearance {
   fullPage = 'full-page',
   comment = 'comment',
+  mobile = 'mobile',
 }
 
 type InitEditorWithADFOptions = {
@@ -144,16 +159,18 @@ type InitEditorWithADFOptions = {
   device?: Device;
   viewport?: { width: number; height: number };
   editorProps?: EditorProps;
+  mode?: 'light' | 'dark';
 };
 
 export const initEditorWithAdf = async (
-  page,
+  page: any,
   {
     appearance,
     adf = {},
     device = Device.Default,
     viewport,
     editorProps = {},
+    mode,
   }: InitEditorWithADFOptions,
 ) => {
   const url = getExampleUrl('editor', 'editor-core', 'vr-testing');
@@ -172,21 +189,33 @@ export const initEditorWithAdf = async (
     await page.setViewport(deviceViewPorts[device]);
   }
 
+  // We disable possible side effects, like animation, transitions and caret cursor,
+  // because we cannot control and affect snapshots
+  await disableCaretCursor(page);
+  await disableAllAnimations(page);
+  await disableAllTransitions(page);
+  await disableScrollBehavior(page);
+
   // Mount the editor with the right attributes
-  await mountEditor(page, {
-    appearance: appearance,
-    defaultValue: JSON.stringify(adf),
-    ...getEditorProps(appearance),
-    ...editorProps,
-  });
+  await mountEditor(
+    page,
+    {
+      appearance: appearance,
+      defaultValue: JSON.stringify(adf),
+      ...getEditorProps(appearance),
+      ...editorProps,
+    },
+    mode,
+  );
 };
 
 export const initFullPageEditorWithAdf = async (
-  page,
+  page: any,
   adf: Object,
   device?: Device,
   viewport?: { width: number; height: number },
   editorProps: EditorProps = {},
+  mode?: 'light' | 'dark',
 ) => {
   await initEditorWithAdf(page, {
     adf,
@@ -194,11 +223,12 @@ export const initFullPageEditorWithAdf = async (
     device,
     viewport,
     editorProps,
+    mode,
   });
 };
 
 export const initCommentEditorWithAdf = async (
-  page,
+  page: any,
   adf: Object,
   device?: Device,
 ) => {
@@ -209,7 +239,7 @@ export const initCommentEditorWithAdf = async (
   });
 };
 
-export const clearEditor = async page => {
+export const clearEditor = async (page: any) => {
   await page.evaluate(() => {
     const dom = document.querySelector('.ProseMirror') as HTMLElement;
     dom.innerHTML = '<p><br /></p>';

@@ -1,10 +1,12 @@
 import { AnalyticsListener } from '@atlaskit/analytics';
-import { AnalyticsListener as AnalyticsListenerNext } from '@atlaskit/analytics-next';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import {
+  AnalyticsListener as AnalyticsListenerNext,
+  UIAnalyticsEventInterface,
+} from '@atlaskit/analytics-next';
 import * as React from 'react';
 import { onMentionEvent } from '../example-helpers/index';
 import Mention from '../src/components/Mention';
-import { ELEMENTS_CHANNEL } from '../src/constants';
+import { ELEMENTS_CHANNEL } from '../src/_constants';
 import debug from '../src/util/logger';
 import { mockMentionData as mentionData } from '../src/__tests__/unit/_test-helpers';
 import { IntlProvider } from 'react-intl';

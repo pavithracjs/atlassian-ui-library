@@ -1,6 +1,6 @@
 import 'es6-promise/auto'; // 'whatwg-fetch' needs a Promise polyfill
-import 'whatwg-fetch';
-import * as fetchMock from 'fetch-mock/src/client';
+
+import fetchMock from 'fetch-mock/src/client';
 
 import TokenManager from '../../../../api/media/TokenManager';
 

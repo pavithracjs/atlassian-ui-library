@@ -20,10 +20,12 @@ export default class extends React.Component {
       <Div>
         <p>Disabled:</p>
         <TextArea value="hello" isDisabled />
-        <p>Invalid:</p>
-        <TextArea resize="auto" isInvalid />
-        <p>Smart:</p>
+        <p>Invalid, resize: auto, compact:</p>
+        <TextArea resize="auto" isInvalid isCompact />
+        <p>Smart, ref:</p>
         <div id="smart">
+          {/*
+          // @ts-ignore */}
           <TextArea
             ref={(ref: any) => {
               this.textareaElement = ref;

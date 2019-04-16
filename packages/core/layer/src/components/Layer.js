@@ -92,7 +92,9 @@ export default class Layer extends Component<Props, State> {
   };
 
   targetRef: ?ElementRef<any>;
+
   contentRef: ?ElementRef<any>;
+
   fixedRef: ?ElementRef<any>;
 
   // TODO: get the value of zIndex from theme, not using it now as it is not
@@ -327,6 +329,7 @@ export default class Layer extends Component<Props, State> {
           ),
         },
       },
+      positionFixed: props.isAlwaysFixed,
     };
 
     const flipBehavior = getFlipBehavior(props);

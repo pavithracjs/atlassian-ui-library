@@ -28,6 +28,6 @@
     "./typings/url.d.ts",
     "./typings/url-search-params.d.ts",
     "./typings/uuid.d.ts",
-    "./typings/webpack.d.ts"
+    "./typings/webpack.d.ts",
   ]
 }

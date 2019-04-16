@@ -115,7 +115,7 @@ export async function changeMediaLayout(page: Page, layout: MediaLayout) {
 
 export async function clickMediaInPosition(page: Page, position: number) {
   await page.evaluate(
-    (position, mediaImageSelector) => {
+    (position: number, mediaImageSelector: string) => {
       (document.querySelectorAll(mediaImageSelector)[
         position
       ]! as HTMLElement).click();
@@ -167,6 +167,18 @@ export async function resizeMediaInPositionWithSnapshot(
   await moveHandle(page, distance, side);
 
   await snapshot(page, 0.01);
+  await releaseHandle(page);
+}
+
+export async function resizeMediaInPosition(
+  page: Page,
+  position: number,
+  distance: number,
+  side: MediaResizeSide = MediaResizeSide.right,
+) {
+  await clickMediaInPosition(page, position);
+  await pickupHandle(page, side);
+  await moveHandle(page, distance, side);
   await releaseHandle(page);
 }
 

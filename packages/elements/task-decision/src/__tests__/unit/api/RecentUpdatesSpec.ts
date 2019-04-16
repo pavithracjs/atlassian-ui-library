@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import {
   RecentUpdates,
   ACTION_DECISION_FPS_EVENTS,

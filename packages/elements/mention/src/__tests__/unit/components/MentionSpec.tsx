@@ -6,7 +6,7 @@ import * as React from 'react';
 import Mention, { ANALYTICS_HOVER_DELAY } from '../../../components/Mention';
 import ResourcedMention from '../../../components/Mention/ResourcedMention';
 import { MentionStyle } from '../../../components/Mention/styles';
-import { ELEMENTS_CHANNEL } from '../../../constants';
+import { ELEMENTS_CHANNEL } from '../../../_constants';
 import { MentionType } from '../../../types';
 import {
   mockMentionData as mentionData,

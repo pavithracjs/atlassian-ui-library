@@ -3,40 +3,40 @@
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 41166,
-      "gzipSize": 11309
+      "size": 47090,
+      "gzipSize": 12560
     }
   },
   {
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 130541,
-      "gzipSize": 38441
+      "size": 130543,
+      "gzipSize": 38461
     }
   },
   {
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 66615,
-      "gzipSize": 18119
+      "size": 67252,
+      "gzipSize": 18261
     }
   },
   {
     "id": "atlaskit.elements.main",
     "name": "main",
     "stats": {
-      "size": 2058,
-      "gzipSize": 917
+      "size": 2076,
+      "gzipSize": 926
     }
   },
   {
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 238211,
-      "gzipSize": 67279
+      "size": 244756,
+      "gzipSize": 68739
     }
   }
 ]

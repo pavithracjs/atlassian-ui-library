@@ -12,10 +12,12 @@ import {
   akEditorTableLegacyCellMinWidth,
   tableCellBorderWidth,
   tableCellMinWidth,
+  overflowShadow,
+  OverflowShadowProps,
 } from '@atlaskit/editor-common';
-import overflowShadow, { OverflowShadowProps } from '../../ui/overflow-shadow';
+
 import TableHeader from './tableHeader';
-import { RendererAppearance } from '../../ui/Renderer';
+import { RendererAppearance } from '../../ui/Renderer/types';
 import { FullPagePadding } from '../../ui/Renderer/style';
 
 export interface TableProps {
@@ -60,6 +62,11 @@ const getTableLayoutWidth = (layout: TableLayout) => {
     default:
       return akEditorDefaultLayoutWidth;
   }
+};
+
+const isTableResized = (columnWidths: Array<number>) => {
+  const filteredWidths = columnWidths.filter(width => width !== 0);
+  return !!filteredWidths.length;
 };
 
 const fixColumnWidth = (
@@ -120,7 +127,7 @@ class Table extends React.Component<TableProps & OverflowShadowProps> {
       isNumberColumnEnabled,
       renderWidth,
     } = this.props;
-    if (!columnWidths) {
+    if (!columnWidths || !isTableResized(columnWidths)) {
       return null;
     }
 

@@ -76,6 +76,10 @@ export const applyRemoteSteps = (
   view: EditorView,
   options?: CollabEditOptions,
 ) => {
+  if (!json || !json.length) {
+    return;
+  }
+
   const {
     state,
     state: { schema },

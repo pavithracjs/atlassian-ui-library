@@ -1,0 +1,51 @@
+{
+  "name": "@atlaskit/refinement-bar",
+  "version": "0.1.3",
+  "description": "Jira Refinement Bar Component",
+  "license": "Apache-2.0",
+  "module": "index.js",
+  "atlaskit:src": "src/index.js",
+  "atlaskit": {
+    "name": "Refinement Bar",
+    "team": "jira"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/atlassian/atlaskit-mk-2"
+  },
+  "author": "Atlassian Pty Ltd",
+  "dependencies": {
+    "@atlaskit/analytics-next": "^4.0.3",
+    "@atlaskit/avatar": "^15.0.4",
+    "@atlaskit/badge": "^11.0.1",
+    "@atlaskit/button": "^12.0.3",
+    "@atlaskit/icon": "^16.0.9",
+    "@atlaskit/icon-object": "^3.0.8",
+    "@atlaskit/select": "^8.1.1",
+    "@atlaskit/spinner": "^10.0.7",
+    "@atlaskit/textfield": "^0.4.4",
+    "@atlaskit/theme": "^8.1.7",
+    "@atlaskit/tooltip": "^13.0.4",
+    "@emotion/core": "^10.0.9",
+    "apply-ref": "^0.2.0",
+    "memoize-one": "^3.0.1",
+    "react-popper": "1.0.2",
+    "styled-components": "^3.2.6",
+    "tabbable": "^4.0.0"
+  },
+  "peerDependencies": {
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
+  },
+  "devDependencies": {
+    "@atlaskit/docs": "7.0.3",
+    "@atlaskit/section-message": "2.0.3",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0",
+    "react": "^16.4.0"
+  }
+}

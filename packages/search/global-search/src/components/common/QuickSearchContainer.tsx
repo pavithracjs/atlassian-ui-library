@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 import { LinkComponent, Logger } from '../GlobalQuickSearchWrapper';
 import GlobalQuickSearch from '../GlobalQuickSearch';
 import performanceNow from '../../util/performance-now';
@@ -21,13 +21,13 @@ import {
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import { CreateAnalyticsEventFn } from '../analytics/types';
 import { objectValues } from '../SearchResultsUtil';
-import { ABTest } from '../../api/CrossProductSearchClient';
+import { ABTest, DEFAULT_AB_TEST } from '../../api/CrossProductSearchClient';
 
 const resultMapToArray = (results: GenericResultMap): Result[][] =>
   objectValues(results).reduce((acc: Result[][], value) => [...acc, value], []);
 
 export interface SearchResultProps extends State {
-  retrySearch: Function;
+  retrySearch: () => void;
 }
 
 export interface Props {
@@ -40,7 +40,7 @@ export interface Props {
     sessionId: string,
     startTime: number,
   ): Promise<ResultsWithTiming>;
-  getAbTestData(sessionId: string): Promise<ABTest | undefined>;
+  getAbTestData(sessionId: string): Promise<ABTest>;
 
   /**
    * return displayed groups from result groups
@@ -57,7 +57,9 @@ export interface Props {
   isSendSearchTermsEnabled?: boolean;
   placeholder?: string;
   selectedResultId?: string;
-  onSelectedResultIdChanged?: (id: string) => void;
+  onSelectedResultIdChanged?: (id: string | null | number) => void;
+  enablePreQueryFromAggregator?: boolean;
+  inputControls?: JSX.Element;
 }
 
 export interface State {
@@ -68,6 +70,7 @@ export interface State {
   keepPreQueryState: boolean;
   searchResults: GenericResultMap | null;
   recentItems: GenericResultMap | null;
+  abTest: ABTest;
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
@@ -76,13 +79,14 @@ const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
  */
 export class QuickSearchContainer extends React.Component<Props, State> {
   static defaultProps = {
-    getDisplayedResults: results => results || ({} as GenericResultMap),
+    getDisplayedResults: (results?: GenericResultMap) =>
+      results || ({} as GenericResultMap),
   };
 
   // used to terminate if component is unmounted while waiting for a promise
   unmounted: Boolean = false;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       isLoading: true,
@@ -92,10 +96,11 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       recentItems: null,
       searchResults: null,
       keepPreQueryState: true,
+      abTest: DEFAULT_AB_TEST,
     };
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch(error: any, info: any) {
     this.props.logger.safeError(LOGGER_NAME, 'component did catch an error', {
       error,
       info,
@@ -154,6 +159,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
               timings || {},
               this.state.searchSessionId,
               this.state.latestSearchQuery,
+              this.state.abTest,
             );
           },
         );
@@ -172,11 +178,22 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     }
   };
 
-  fetchAbTestData = async (searchSessionId: string) => {
+  fetchAbTestDataOrDefault = async (searchSessionId: string) => {
     const { getAbTestData } = this.props;
     const startTime = performanceNow();
-    const abTest = await getAbTestData(searchSessionId);
+
+    let abTest: ABTest;
+    try {
+      abTest = await getAbTestData(searchSessionId);
+    } catch (error) {
+      abTest = DEFAULT_AB_TEST;
+    }
+
     const elapsedMs = performanceNow() - startTime;
+
+    this.setState({
+      abTest,
+    });
 
     return {
       elapsedMs,
@@ -186,7 +203,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
 
   fireExperimentExposureEvent = async (
     searchSessionId: string,
-    abTestPromise: Promise<ABTest | undefined>,
+    abTestPromise: Promise<ABTest>,
   ) => {
     const { createAnalyticsEvent, logger } = this.props;
 
@@ -208,13 +225,18 @@ export class QuickSearchContainer extends React.Component<Props, State> {
   };
 
   fireShownPreQueryEvent = (
-    searchSessionId,
-    recentItems,
+    searchSessionId: string,
+    recentItems: GenericResultMap,
+    abTest: ABTest,
     requestStartTime?: number,
     experimentRequestDurationMs?: number,
     renderStartTime?: number,
   ) => {
-    const { createAnalyticsEvent, getDisplayedResults } = this.props;
+    const {
+      createAnalyticsEvent,
+      getDisplayedResults,
+      enablePreQueryFromAggregator,
+    } = this.props;
     if (createAnalyticsEvent && getDisplayedResults) {
       const elapsedMs: number = requestStartTime
         ? performanceNow() - requestStartTime
@@ -227,9 +249,9 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       const resultsArray: Result[][] = resultMapToArray(
         getDisplayedResults(recentItems),
       );
-      const eventAttributes: ShownAnalyticsAttributes = buildShownEventDetails(
-        ...resultsArray,
-      );
+      const eventAttributes: ShownAnalyticsAttributes = {
+        ...buildShownEventDetails(...resultsArray),
+      };
 
       firePreQueryShownEvent(
         eventAttributes,
@@ -237,18 +259,21 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         renderTime,
         searchSessionId,
         createAnalyticsEvent,
+        abTest,
         experimentRequestDurationMs,
+        !!enablePreQueryFromAggregator,
       );
     }
   };
 
   fireShownPostQueryEvent = (
-    startTime,
-    elapsedMs,
-    searchResults,
-    timings,
-    searchSessionId,
+    startTime: number,
+    elapsedMs: number,
+    searchResults: GenericResultMap,
+    timings: Record<string, number | React.ReactText>,
+    searchSessionId: string,
     latestSearchQuery: string,
+    abTest: ABTest,
   ) => {
     const performanceTiming: PerformanceTiming = {
       startTime,
@@ -264,13 +289,13 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       const resultsDetails: ShownAnalyticsAttributes = buildShownEventDetails(
         ...resultsArray,
       );
-
       firePostQueryShownEvent(
         resultsDetails,
         performanceTiming,
         searchSessionId,
         latestSearchQuery,
         createAnalyticsEvent,
+        abTest,
       );
     }
   };
@@ -284,6 +309,8 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     }
 
     if (newLatestSearchQuery.length === 0) {
+      const { abTest } = this.state;
+
       // reset search results so that internal state between query and results stays consistent
       this.setState(
         {
@@ -295,6 +322,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           this.fireShownPreQueryEvent(
             this.state.searchSessionId,
             this.state.recentItems || {},
+            abTest,
           ),
       );
     } else {
@@ -315,7 +343,9 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       });
     }
 
-    const abTestPromise = this.fetchAbTestData(this.state.searchSessionId);
+    const abTestPromise = this.fetchAbTestDataOrDefault(
+      this.state.searchSessionId,
+    );
     this.fireExperimentExposureEvent(
       this.state.searchSessionId,
       abTestPromise.then(({ abTest }) => abTest),
@@ -335,10 +365,15 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           isLoading: false,
         },
         async () => {
-          const experimentRequestDurationMs = (await abTestPromise).elapsedMs;
+          const {
+            elapsedMs: experimentRequestDurationMs,
+            abTest,
+          } = await abTestPromise;
+
           this.fireShownPreQueryEvent(
             this.state.searchSessionId,
             this.state.recentItems || {},
+            abTest,
             startTime,
             experimentRequestDurationMs,
             renderStartTime,
@@ -374,6 +409,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       placeholder,
       selectedResultId,
       onSelectedResultIdChanged,
+      inputControls,
     } = this.props;
     const {
       isLoading,
@@ -383,6 +419,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       searchResults,
       recentItems,
       keepPreQueryState,
+      abTest,
     } = this.state;
 
     return (
@@ -397,6 +434,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         isSendSearchTermsEnabled={isSendSearchTermsEnabled}
         selectedResultId={selectedResultId}
         onSelectedResultIdChanged={onSelectedResultIdChanged}
+        inputControls={inputControls}
       >
         {getSearchResultsComponent({
           retrySearch: this.retrySearch,
@@ -407,10 +445,13 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           recentItems,
           keepPreQueryState,
           searchSessionId,
+          abTest,
         })}
       </GlobalQuickSearch>
     );
   }
 }
 
-export default withAnalyticsEvents()(QuickSearchContainer);
+export default withAnalyticsEvents()(
+  QuickSearchContainer,
+) as typeof QuickSearchContainer;

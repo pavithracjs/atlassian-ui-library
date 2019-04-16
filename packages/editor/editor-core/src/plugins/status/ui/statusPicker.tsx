@@ -7,8 +7,10 @@ import { dropShadow } from '../../../ui/styles';
 import withOuterListeners from '../../../ui/with-outer-listeners';
 import { DEFAULT_STATUS } from '../actions';
 import { StatusType } from '../plugin';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import {
+  withAnalyticsEvents,
+  CreateUIAnalyticsEventSignature,
+} from '@atlaskit/analytics-next';
 import { analyticsState, createStatusAnalyticsAndFire } from '../analytics';
 
 const PopupWithListeners = withOuterListeners(Popup);

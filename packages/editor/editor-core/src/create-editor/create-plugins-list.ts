@@ -1,4 +1,4 @@
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { EditorPlugin, EditorProps } from '../types';
 import {
   basePlugin,
@@ -48,7 +48,6 @@ import {
   editorDisabledPlugin,
   indentationPlugin,
   annotationPlugin,
-  compositionPlugin,
   analyticsPlugin,
 } from '../plugins';
 
@@ -67,7 +66,7 @@ export function getDefaultPluginsList(
 
   return defaultPluginList.concat([
     pastePlugin,
-    basePlugin,
+    basePlugin(props.appearance),
     blockTypePlugin,
     placeholderPlugin,
     clearMarksOnChangeToEmptyDocumentPlugin,
@@ -241,10 +240,6 @@ export default function createPluginsList(
 
   if (props.appearance !== 'mobile') {
     plugins.push(quickInsertPlugin);
-  }
-
-  if (props.appearance === 'mobile') {
-    plugins.push(compositionPlugin);
   }
 
   return plugins;

@@ -24,7 +24,7 @@ import {
   convertServiceTaskResponseToTaskResponse,
 } from '@atlaskit/task-decision';
 
-import * as subMinutes from 'date-fns/sub_minutes';
+import subMinutes from 'date-fns/sub_minutes';
 
 export interface MockTaskDecisionResourceConfig {
   hasMore?: boolean;

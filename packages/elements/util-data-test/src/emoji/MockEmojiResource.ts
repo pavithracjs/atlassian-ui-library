@@ -1,4 +1,4 @@
-import * as uuid from 'uuid/v1';
+import uuid from 'uuid/v1';
 import { AbstractResource } from '@atlaskit/util-service-support';
 
 import {
@@ -84,7 +84,7 @@ export class MockNonUploadingEmojiResource
       this.optimisticRendering = config.optimisticRendering;
     }
 
-    if (window.localStorage) {
+    if (typeof window !== 'undefined' && window.localStorage) {
       const storedTone = window.localStorage.getItem(selectedToneStorageKey);
       this.selectedTone = storedTone ? parseInt(storedTone, 10) : undefined;
     }

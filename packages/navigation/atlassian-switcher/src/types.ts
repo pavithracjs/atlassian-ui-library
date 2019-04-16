@@ -1,9 +1,21 @@
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+
 export interface TriggerXFlowCallback {
-  (productKey: string, sourceComponent: string): void;
+  (
+    productKey: string,
+    sourceComponent: string,
+    event: any,
+    analyticsEvent: UIAnalyticsEventInterface,
+  ): void;
 }
 
 export interface WithCloudId {
   cloudId: string;
+}
+
+export enum RecentContainerType {
+  JIRA_PROJECT = 'jira-project',
+  CONFLUENCE_SPACE = 'confluence-space',
 }
 
 export interface RecentContainer {
@@ -11,7 +23,7 @@ export interface RecentContainer {
   url: string;
   objectId: string;
   iconUrl: string;
-  type: string;
+  type: RecentContainerType;
 }
 
 export interface CustomLink {
@@ -35,18 +47,24 @@ export enum Product {
   TRUSTED_ADMIN = 'trusted-admin',
 }
 
-export type FeatureFlagProps = {
-  enableSplitJira: boolean;
-};
+export enum Feature {
+  enableSplitJira = 'enableSplitJira',
+  enableExpandLink = 'enableExpandLink',
+}
+
+export type FeatureFlagProps = { [key in Feature]: boolean };
 
 export type CustomLinksResponse = CustomLink[];
+
+export interface ProductLicenseInformation {
+  state: string;
+  applicationUrl?: string;
+}
 
 export interface LicenseInformationResponse {
   hostname: string;
   products: {
-    [key: string]: {
-      state: string;
-    };
+    [key: string]: ProductLicenseInformation;
   };
 }
 

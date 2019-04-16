@@ -24,11 +24,13 @@ export default class TallExample extends PureComponent<void, State> {
       eventResult: 'onClick called',
     });
   };
+
   onOpenChange = () => {
     this.setState({
       eventResult: 'onOpenChange called',
     });
   };
+
   onItemActivated = () => {
     this.setState({
       eventResult: 'Item onActivated called',

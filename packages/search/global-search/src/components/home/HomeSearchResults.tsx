@@ -11,7 +11,7 @@ export interface Props {
   isLoading: boolean;
   isError: boolean;
   keepPreQueryState: boolean;
-  retrySearch();
+  retrySearch(): void;
   recentlyViewedItems: Result[];
   recentResults: Result[];
   jiraResults: Result[];

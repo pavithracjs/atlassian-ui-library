@@ -9,6 +9,9 @@ import { DevTools } from '../example-helpers/DevTools';
 import WithEditorActions from '../src/ui/WithEditorActions';
 import { EditorActions } from '../src';
 
+const FULL_WIDTH_MODE = 'full-width';
+const DEFAULT_MODE = 'default';
+
 export const Textarea = styled.textarea`
   box-sizing: border-box;
   border: 1px solid lightgray;
@@ -18,8 +21,11 @@ export const Textarea = styled.textarea`
   height: 250px;
 `;
 
+export const LOCALSTORAGE_defaultMode = 'fabric.editor.example.default-mode';
+
 export interface State {
   inputValue?: string;
+  fullWidthMode: boolean;
 }
 
 export default class Example extends React.Component<any, State> {
@@ -28,7 +34,10 @@ export default class Example extends React.Component<any, State> {
 
   constructor(props: any) {
     super(props);
-    this.state = {};
+    const defaultMode = localStorage.getItem(LOCALSTORAGE_defaultMode);
+    this.state = {
+      fullWidthMode: defaultMode === FULL_WIDTH_MODE,
+    };
   }
 
   componentDidMount() {
@@ -97,7 +106,19 @@ export default class Example extends React.Component<any, State> {
                   >
                     Convert ADF to Query String
                   </button>
-                  <FullPageEditor />
+                  <label htmlFor="fullWidthMode">
+                    <input
+                      id="fullWidthMode"
+                      name="fullWidthMode"
+                      type="checkbox"
+                      checked={this.state.fullWidthMode}
+                      onClick={() => this.toggleFullWidthMode()}
+                    />
+                    Full width mode
+                  </label>
+                  <FullPageEditor
+                    UNSAFE_fullWidthMode={this.state.fullWidthMode}
+                  />
                 </React.Fragment>
               );
             }}
@@ -106,6 +127,18 @@ export default class Example extends React.Component<any, State> {
       </EditorContext>
     );
   }
+
+  private toggleFullWidthMode = () => {
+    this.setState(
+      prevState => ({ fullWidthMode: !prevState.fullWidthMode }),
+      () => {
+        localStorage.setItem(
+          LOCALSTORAGE_defaultMode,
+          this.state.fullWidthMode ? FULL_WIDTH_MODE : DEFAULT_MODE,
+        );
+      },
+    );
+  };
 
   private handleRef = (ref: HTMLTextAreaElement | null) => {
     if (ref) {
@@ -134,9 +167,16 @@ export default class Example extends React.Component<any, State> {
 
   private hanldeQueryExport = (actions: EditorActions) => {
     actions.getValue().then(value => {
-      const query = b64EncodeUnicode(JSON.stringify(value));
-      const { origin, pathname } = window.parent.location;
-      let url = `${origin + pathname}?adf=${query}`;
+      const adfString = b64EncodeUnicode(JSON.stringify(value));
+      const { origin, pathname, search } = window.parent.location;
+      let query = search ? search.substr(1) + '&' : '';
+      if (~query.indexOf('adf=')) {
+        query = query
+          .split('&')
+          .filter(s => !s.startsWith('adf='))
+          .join('&');
+      }
+      let url = `${origin + pathname}?${query}adf=${adfString}`;
       if (url.length > 2000) {
         url = `Warning:
         The generated url is ${
@@ -158,7 +198,7 @@ ${url}`;
   };
 }
 
-function b64EncodeUnicode(str) {
+function b64EncodeUnicode(str: string) {
   // First we use encodeURIComponent to get percent-encoded UTF-8,
   // then we convert the percent encodings into raw bytes which can be fed into btoa.
   return btoa(
@@ -171,7 +211,7 @@ function b64EncodeUnicode(str) {
   );
 }
 
-function b64DecodeUnicode(str) {
+function b64DecodeUnicode(str: string) {
   // Going backwards: from bytestream, to percent-encoding, to original string.
   return decodeURIComponent(
     atob(str)

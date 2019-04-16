@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import { EditorView } from 'prosemirror-view';
 import { findTable } from 'prosemirror-utils';
 import { TableLayout } from '@atlaskit/adf-schema';
@@ -11,8 +11,8 @@ import CollapseIcon from '@atlaskit/icon/glyph/editor/collapse';
 import commonMessages from '../../../../messages';
 import ToolbarButton from '../../../../ui/ToolbarButton';
 import { TableCssClassName as ClassName } from '../../types';
-import { toggleTableLayout } from '../../actions';
 import { layoutButtonSize } from '../styles';
+import { toggleTableLayoutWithAnalytics } from '../../actions-with-analytics';
 
 export interface Props {
   editorView: EditorView;
@@ -96,7 +96,7 @@ class LayoutButton extends React.Component<Props & InjectedIntlProps, any> {
 
   private handleClick = () => {
     const { state, dispatch } = this.props.editorView;
-    toggleTableLayout(state, dispatch);
+    toggleTableLayoutWithAnalytics()(state, dispatch);
   };
 }
 

@@ -20,22 +20,22 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import * as Clock from 'react-live-clock';
 
-import { document } from './story-data';
+import { document as storyDataDocument } from './story-data';
 import {
   default as Renderer,
   Props as RendererProps,
-  RendererAppearance,
 } from '../../src/ui/Renderer';
 
-import { AkProfileClient, modifyResponse } from '@atlaskit/profilecard';
+import { ProfileClient, modifyResponse } from '@atlaskit/profilecard';
 
 import { EmailSerializer, renderDocument, TextSerializer } from '../../src';
 
 import Sidebar, { getDefaultShowSidebarState } from './NavigationNext';
+import { RendererAppearance } from '../../src/ui/Renderer/types';
 
 const { getMockProfileClient: getMockProfileClientUtil } = profilecardUtils;
 const MockProfileClient = getMockProfileClientUtil(
-  AkProfileClient,
+  ProfileClient,
   modifyResponse,
 );
 
@@ -191,11 +191,12 @@ export default class RendererDemo extends React.Component<
   emailSerializer = new EmailSerializer();
   emailRef?: HTMLIFrameElement;
   inputBox: HTMLTextAreaElement | null;
+  emailTextareaRef?: any;
 
   constructor(props: DemoRendererProps) {
     super(props);
 
-    const doc = !!this.props.document ? this.props.document : document;
+    const doc = !!this.props.document ? this.props.document : storyDataDocument;
 
     this.state = {
       input: JSON.stringify(doc, null, 2),
@@ -257,6 +258,19 @@ export default class RendererDemo extends React.Component<
               <button onClick={this.toggleEventHandlers}>
                 Toggle Event handlers
               </button>
+              {this.props.serializer === 'email' && (
+                <span>
+                  <button onClick={this.copyHTMLToClipboard}>
+                    Copy HTML to clipboard
+                  </button>
+                  <textarea
+                    style={{ width: '0px', height: '0px' }}
+                    ref={ref => {
+                      this.emailTextareaRef = ref;
+                    }}
+                  />
+                </span>
+              )}
             </fieldset>
             {this.renderRenderer(additionalRendererProps)}
             {this.renderText()}
@@ -278,13 +292,15 @@ export default class RendererDemo extends React.Component<
 
       if (this.emailRef && this.emailRef.contentDocument && html) {
         this.emailRef.contentDocument.body.innerHTML = html;
+        this.emailTextareaRef.value = html;
       }
     } catch (ex) {
+      console.error(ex);
       // pass
     }
   }
 
-  private toggleTruncated(e: Event) {
+  private toggleTruncated(e: React.MouseEvent<HTMLElement>) {
     this.setState(prevState => ({
       truncated: !prevState.truncated,
     }));
@@ -333,7 +349,9 @@ export default class RendererDemo extends React.Component<
           <Button
             appearance={'link'}
             spacing={'none'}
-            onClick={(e: Event) => this.toggleTruncated(e)}
+            onClick={(e: React.MouseEvent<HTMLElement>) =>
+              this.toggleTruncated(e)
+            }
           >
             {this.state.truncated ? 'Expand text' : 'Collapse text'}
           </Button>
@@ -416,6 +434,12 @@ export default class RendererDemo extends React.Component<
     this.setState(prevState => ({
       shouldUseEventHandlers: !prevState.shouldUseEventHandlers,
     }));
+  };
+
+  private copyHTMLToClipboard = () => {
+    if (!this.emailTextareaRef) return;
+    this.emailTextareaRef.select();
+    document.execCommand('copy');
   };
 
   private onDocumentChange = () => {

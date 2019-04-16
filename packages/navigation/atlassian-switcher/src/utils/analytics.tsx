@@ -3,6 +3,7 @@ import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-conte
 import {
   createAndFireEvent,
   withAnalyticsEvents,
+  CreateUIAnalyticsEventSignature,
 } from '@atlaskit/analytics-next';
 import {
   UI_EVENT_TYPE,
@@ -14,6 +15,10 @@ type PropsToContextMapper<P, C> = (props: P) => C;
 export const NAVIGATION_CHANNEL = 'navigation';
 export const SWITCHER_SUBJECT = 'atlassianSwitcher';
 export const SWITCHER_ITEM_SUBJECT = 'atlassianSwitcherItem';
+export const SWITCHER_COMPONENT = 'atlassianSwitcher';
+export const SWITCHER_SOURCE = 'atlassianSwitcher';
+export const TRIGGER_COMPONENT = 'atlassianSwitcherPrefetch';
+export const TRIGGER_SUBJECT = 'atlassianSwitcherPrefetch';
 
 export const createAndFireNavigationEvent = createAndFireEvent(
   NAVIGATION_CHANNEL,
@@ -44,7 +49,10 @@ type RenderTrackerProps = {
 };
 
 export const RenderTracker = withAnalyticsEvents({
-  onRender: (createAnalyticsEvent, props: RenderTrackerProps) => {
+  onRender: (
+    createAnalyticsEvent: CreateUIAnalyticsEventSignature,
+    props: RenderTrackerProps,
+  ) => {
     return createAnalyticsEvent({
       eventType: OPERATIONAL_EVENT_TYPE,
       action: 'rendered',

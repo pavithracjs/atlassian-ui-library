@@ -1,7 +1,7 @@
 //@flow
 import React from 'react';
 import DefaultNPS from '../src';
-import { WithDataDisplay } from '../examples/helpers/helpers';
+import { WithDataDisplay } from './helpers/helpers';
 
 export default function Basic() {
   return (

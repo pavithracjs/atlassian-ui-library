@@ -18,6 +18,24 @@ import ClipboardHelper from './1-clipboard-helper';
 import { SaveAndCancelButtons } from './5-full-page';
 import { TitleInput } from '../example-helpers/PageElements';
 import mediaMockServer from '../example-helpers/media-mock';
+// @ts-ignore
+import { AtlaskitThemeProvider } from '@atlaskit/theme';
+
+function createMediaMockEnableOnce() {
+  let enabled = false;
+  return {
+    enable() {
+      if (!enabled) {
+        enabled = true;
+        mediaMockServer.enable();
+      }
+    },
+    disable() {
+      // We dont change change enable to false, because disabled is not implemented in mock server
+      mediaMockServer.disable();
+    },
+  };
+}
 
 interface EditorInstance {
   view: EditorView;
@@ -47,10 +65,21 @@ export const mediaProvider = storyMediaProviderFactory({
 export const quickInsertProvider = quickInsertProviderFactory();
 export const cardProviderPromise = Promise.resolve(cardProvider);
 
+function withDarkMode<T>(
+  Wrapper: React.ComponentType<T>,
+): React.ComponentType<T> {
+  return props => (
+    <AtlaskitThemeProvider mode={'dark'}>
+      <Wrapper {...props} />{' '}
+    </AtlaskitThemeProvider>
+  );
+}
+
 function createEditorWindowBindings(win: Window) {
   if ((win as Window & { __mountEditor?: () => void }).__mountEditor) {
     return;
   }
+  const internalMediaMock = createMediaMockEnableOnce();
 
   class EditorWithState extends Editor {
     onEditorCreated(instance: EditorInstance) {
@@ -63,7 +92,10 @@ function createEditorWindowBindings(win: Window) {
     }
   }
 
-  (window as any)['__mountEditor'] = (props: EditorProps = {}) => {
+  (window as any)['__mountEditor'] = (
+    props: EditorProps = {},
+    mode?: 'light' | 'dark',
+  ) => {
     const target = document.getElementById('editor-container');
 
     if (!target) {
@@ -85,9 +117,9 @@ function createEditorWindowBindings(win: Window) {
         provider: mediaProvider,
       };
 
-      mediaMockServer.enable();
+      internalMediaMock.enable();
     } else {
-      mediaMockServer.disable();
+      internalMediaMock.disable();
     }
 
     if (props && props.primaryToolbarComponents) {
@@ -104,15 +136,21 @@ function createEditorWindowBindings(win: Window) {
       props.extensionHandlers = extensionHandlers;
     }
 
-    ReactDOM.unmountComponentAtNode(target);
-    ReactDOM.render(
+    let Editor: React.ComponentType<EditorProps> = (props: EditorProps) => (
       <EditorWithState
         insertMenuItems={customInsertMenuItems}
         {...providers}
         {...props}
-      />,
-      target,
+      />
     );
+    let Wrapper: React.ComponentType<EditorProps> = Editor;
+
+    if (mode && mode === 'dark') {
+      Wrapper = withDarkMode<EditorProps>(Wrapper);
+    }
+
+    ReactDOM.unmountComponentAtNode(target);
+    ReactDOM.render(<Wrapper {...props} />, target);
   };
 }
 

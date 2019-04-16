@@ -22,8 +22,8 @@ describe('analytics', () => {
     eventType: EVENT_TYPE.UI,
   };
 
-  let createAnalyticsEvent;
-  let fireMock;
+  let createAnalyticsEvent: jest.Mock;
+  let fireMock: jest.Mock;
 
   describe('addAnalytics', () => {
     let editorView;

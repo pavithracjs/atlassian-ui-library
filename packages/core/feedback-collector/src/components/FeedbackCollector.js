@@ -59,7 +59,7 @@ type Props = {|
   /** After this delay the onSubmit callback will be triggered optimistically **/
   timeoutOnSubmit: number,
   /**  Override the default id for the "type" custom field in your widget service **/
-  typeFiedlId: string,
+  typeFieldId: string,
   /**  Override the default value for the "Bug" type of response in your widget service **/
   typeBugDefaultValue: FieldValueType,
   /**  Override the default value for the "Comment" type of response in your widget service **/
@@ -103,7 +103,7 @@ export default class FeedbackCollector extends Component<Props> {
     summaryDefaultValue: '',
     summaryTruncateLength: 100,
     timeoutOnSubmit: 700,
-    typeFiedlId: 'customfield_10042',
+    typeFieldId: 'customfield_10042',
     typeBugDefaultValue: { id: '10105' },
     typeCommentDefaultValue: { id: '10106' },
     typeSuggestionDefaultValue: { id: '10107' },
@@ -157,7 +157,7 @@ export default class FeedbackCollector extends Component<Props> {
   mapFormToJSD(formValues: FormFields) {
     const fields = [
       {
-        id: this.props.typeFiedlId,
+        id: this.props.typeFieldId,
         value: this.getTypeFieldValue(formValues.type),
       },
       {

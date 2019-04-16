@@ -10,7 +10,7 @@ import {
   createEvent,
   insertText,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 import { pluginKey as codeBlockPluginKey } from '../../../../plugins/code-block/pm-plugins/main';
 import tablesPlugin from '../../../../plugins/table';

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 
 import {
   ContainerNavigation,
@@ -12,13 +12,13 @@ import { light } from '../../../../../theme';
 describe('ContentNavigation primitives', () => {
   describe('ContainerNavigationMask', () => {
     it('should render correctly with default props', () => {
-      const wrapper = shallow(<ContainerNavigationMask />);
+      const wrapper = mount(<ContainerNavigationMask />);
 
       expect(wrapper).toMatchSnapshot();
     });
 
     it('should set pointerEvents to none when interaction is disabled', () => {
-      const wrapper = shallow(<ContainerNavigationMask disableInteraction />);
+      const wrapper = mount(<ContainerNavigationMask disableInteraction />);
 
       expect(wrapper).toMatchSnapshot();
     });
