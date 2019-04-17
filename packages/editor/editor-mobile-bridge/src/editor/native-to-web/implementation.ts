@@ -334,6 +334,14 @@ export default class WebBridgeImpl extends WebBridge
     return true;
   }
 
+  scrollToSelection(): void {
+    if (!this.editorView) {
+      return;
+    }
+
+    this.editorView.dispatch(this.editorView.state.tr.scrollIntoView());
+  }
+
   flushDOM() {
     if (!this.editorView) {
       return false;
