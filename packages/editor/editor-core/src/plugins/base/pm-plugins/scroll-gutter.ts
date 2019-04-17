@@ -56,95 +56,89 @@ function getCaretTopPosition(): number | undefined {
   return;
 }
 
-export default (appearance?: string) => {
+export default () => {
   const gutter = createGutter();
-  if (appearance !== 'full-page') {
-    // TODO: Can I return null, there is no need to create a plugin that I'm not going to use?
-    return new Plugin({});
-  }
 
   return new Plugin({
     view(view: EditorView) {
       let currentCaretPosition: number | undefined;
       return {
         update() {
-          if (appearance === 'full-page') {
-            if (!view.state.selection.empty) {
-              return; // We dont handle selection
+          if (!view.state.selection.empty) {
+            return; // We dont handle selection
+          }
+
+          const { dom: editorRootDom } = view;
+          const scrollContainer = (editorRootDom as HTMLElement)
+            .offsetParent as HTMLElement;
+
+          if (scrollContainer) {
+            const {
+              scrollTop: scrollContainerTop,
+              offsetHeight: scrollContainerOffsetHeight,
+            } = scrollContainer;
+
+            const {
+              top: scrollContainerTopPosition,
+            } = scrollContainer.getBoundingClientRect();
+
+            // Check if the content is higher enough, if not return
+            const {
+              height: editorRootHeight,
+            } = editorRootDom.getBoundingClientRect();
+
+            // We need to check if the current editor has enough content, if we dont do this we well force a scroll on a empty document.
+            const currentContentIsHigherEnough =
+              editorRootHeight + GUTTER_SIZE_IN_PX >=
+              scrollContainerOffsetHeight;
+
+            if (!currentContentIsHigherEnough) {
+              gutter.removeGutter();
+              return;
             }
 
-            const { dom: editorRootDom } = view;
-            const scrollContainer = (editorRootDom as HTMLElement)
-              .offsetParent as HTMLElement;
-
-            if (scrollContainer) {
-              const {
-                scrollTop: scrollContainerTop,
-                offsetHeight: scrollContainerOffsetHeight,
-              } = scrollContainer;
-
-              const {
-                top: scrollContainerTopPosition,
-              } = scrollContainer.getBoundingClientRect();
-
-              // Check if the content is higher enough, if not return
-              const {
-                height: editorRootHeight,
-              } = editorRootDom.getBoundingClientRect();
-
-              // We need to check if the current editor has enough content, if we dont do this we well force a scroll on a empty document.
-              const currentContentIsHigherEnough =
-                editorRootHeight + GUTTER_SIZE_IN_PX >=
-                scrollContainerOffsetHeight;
-
-              if (!currentContentIsHigherEnough) {
-                gutter.removeGutter();
-                return;
-              }
-
-              // Check if cursor position
-              const lastCaretPosition = currentCaretPosition;
-              const caretTopPosition = getCaretTopPosition();
-              if (!caretTopPosition) {
-                return;
-              }
-
-              currentCaretPosition = caretTopPosition + scrollContainerTop;
-
-              // If I dont have caret position cannot detect right behavior
-              if (!lastCaretPosition || !currentCaretPosition) {
-                return;
-              }
-
-              // If last caret position is higher that current, means that is going upward, so we do nothing
-              if (lastCaretPosition >= currentCaretPosition) {
-                return;
-              }
-
-              const caretTopFromContainer =
-                caretTopPosition - scrollContainerTopPosition;
-
-              // Check if scroll is in the right position,
-              // Caret position should be between end of the page and expected gutter
-              const scrollIsInValidRange =
-                scrollContainerOffsetHeight <=
-                  caretTopFromContainer + GUTTER_SIZE_IN_PX &&
-                scrollContainerOffsetHeight > caretTopFromContainer;
-              if (!scrollIsInValidRange) {
-                return;
-              }
-
-              if (!gutter.isMounted()) {
-                gutter.addGutter(editorRootDom.parentElement!);
-              }
-
-              // If I reach here is because I should scroll to expected position from caret
-              scrollContainer.scrollTop =
-                scrollContainerTop +
-                GUTTER_SIZE_IN_PX -
-                scrollContainerOffsetHeight +
-                caretTopFromContainer;
+            // Check if cursor position
+            const lastCaretPosition = currentCaretPosition;
+            const caretTopPosition = getCaretTopPosition();
+            if (!caretTopPosition) {
+              return;
             }
+
+            currentCaretPosition = caretTopPosition + scrollContainerTop;
+
+            // If I dont have caret position cannot detect right behavior
+            if (!lastCaretPosition || !currentCaretPosition) {
+              return;
+            }
+
+            // If last caret position is higher that current, means that is going upward, so we do nothing
+            if (lastCaretPosition >= currentCaretPosition) {
+              return;
+            }
+
+            const caretTopFromContainer =
+              caretTopPosition - scrollContainerTopPosition;
+
+            // Check if scroll is in the right position,
+            // Caret position should be between end of the page and expected gutter
+            const scrollIsInValidRange =
+              scrollContainerOffsetHeight <=
+                caretTopFromContainer + GUTTER_SIZE_IN_PX &&
+              scrollContainerOffsetHeight > caretTopFromContainer;
+            if (!scrollIsInValidRange) {
+              return;
+            }
+
+            if (!gutter.isMounted()) {
+              gutter.addGutter(editorRootDom.parentElement!);
+            }
+
+            // If I reach here is because I should scroll to expected position from caret
+            scrollContainer.scrollTop =
+              scrollContainerTop +
+              GUTTER_SIZE_IN_PX -
+              scrollContainerOffsetHeight +
+              caretTopFromContainer;
           }
         },
       };
