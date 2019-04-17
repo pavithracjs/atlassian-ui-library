@@ -40,7 +40,6 @@ export const Wrapper: any = styled.div`
   box-sizing: border-box;
   padding: 2px;
   height: calc(100vh - 32px);
-  /* height: 100vh; */
 `;
 Wrapper.displayName = 'Wrapper';
 

@@ -15,7 +15,6 @@ import { akEditorToolbarKeylineHeight } from '../../styles';
 import rafSchedule from 'raf-schd';
 import { scrollbarStyles } from '../styles';
 import WidthEmitter from '../WidthEmitter';
-import { GUTTER_SIZE } from '../../plugins/base/pm-plugins/scroll-gutter';
 
 const GUTTER_PADDING = 32;
 const SWOOP_ANIMATION = '0.5s cubic-bezier(.15,1,.3,1)';
@@ -102,11 +101,6 @@ const ContentArea = styled.div`
   }
 `;
 ContentArea.displayName = 'ContentArea';
-
-const Gutter = styled.div`
-  padding-bottom: ${GUTTER_SIZE}px;
-`;
-Gutter.displayName = 'Gutter';
 
 interface MainToolbarProps {
   showKeyline: boolean;
@@ -300,7 +294,6 @@ export default class Editor extends React.Component<
                   />
                 }
                 {editorDOMElement}
-                <Gutter />
               </div>
             </ContentArea>
           </ClickAreaBlock>

@@ -86,6 +86,7 @@ export default {
     'maxContentSize',
     'multilineContent',
     'grid',
+    'scrollGutterPlugin',
     'analytics',
   ],
   nodes: [

@@ -195,11 +195,6 @@ export const initEditorWithAdf = async (
     await page.setViewport(deviceViewPorts[device]);
   }
 
-  // We disable possible side effects, like animation, transitions and caret cursor,
-  // because we cannot control and affect snapshots
-  // You can override this disabling if you are sure that you need it in your test
-  await disableAllSideEffects(page, allowSideEffects);
-
   // Mount the editor with the right attributes
   await mountEditor(
     page,
@@ -211,6 +206,11 @@ export const initEditorWithAdf = async (
     },
     mode,
   );
+
+  // We disable possible side effects, like animation, transitions and caret cursor,
+  // because we cannot control and affect snapshots
+  // You can override this disabling if you are sure that you need it in your test
+  await disableAllSideEffects(page, allowSideEffects);
 };
 
 export const initFullPageEditorWithAdf = async (
