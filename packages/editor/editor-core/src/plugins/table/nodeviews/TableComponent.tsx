@@ -101,6 +101,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
           true,
           parentWidth,
           options && options.dynamicTextSizing,
+          options && options.isBreakoutEnabled,
         );
       }
 
@@ -290,6 +291,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
         false,
         parentWidth,
         options && options.dynamicTextSizing,
+        options && options.isBreakoutEnabled,
       );
 
       this.updateParentWidth(parentWidth);

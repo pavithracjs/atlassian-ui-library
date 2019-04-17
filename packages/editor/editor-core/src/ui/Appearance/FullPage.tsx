@@ -86,6 +86,15 @@ const ContentArea = styled.div`
   }
 
   ${tableFullPageEditorStyles};
+
+  .fabric-editor--full-width-mode {
+    /* Full Width Mode styles for ignoring breakout sizes */
+    .fabric-editor-breakout-mark,
+    .extension-container,
+    .pm-table-container {
+      width: 100% !important;
+    }
+  }
 `;
 ContentArea.displayName = 'ContentArea';
 
@@ -257,7 +266,10 @@ export default class Editor extends React.Component<
             >
               <div
                 style={{ padding: `0 ${GUTTER_PADDING}px` }}
-                className="ak-editor-content-area"
+                className={[
+                  'ak-editor-content-area',
+                  fullWidthMode ? 'fabric-editor--full-width-mode' : '',
+                ].join(' ')}
               >
                 {customContentComponents}
                 {

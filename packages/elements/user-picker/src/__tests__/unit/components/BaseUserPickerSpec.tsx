@@ -293,6 +293,46 @@ describe('BaseUserPicker', () => {
         });
       });
 
+      it('should replace old options after new query', () => {
+        const options2 = [
+          {
+            id: 'some-id',
+            name: 'Some Value',
+            publicName: 'svalue',
+          },
+          {
+            id: 'some-id-2',
+            name: 'Second Value',
+            publicName: 'svalue2',
+          },
+        ];
+        const promise1 = new Promise<User[]>(resolve =>
+          window.setTimeout(() => resolve(options), 500),
+        );
+        const promise2 = new Promise<User[]>(resolve =>
+          window.setTimeout(() => resolve(options2), 1000),
+        );
+        const loadOptions = (search?: string) =>
+          search === 'a' ? promise1 : promise2;
+        const component = shallowUserPicker({ loadOptions });
+        const select = component.find(Select);
+        select.simulate('inputChange', 'a', { action: 'input-change' });
+        jest.runAllTimers();
+        return promise1.then(() => {
+          jest.runAllTimers();
+          expect(component.state()).toMatchObject({
+            options,
+          });
+          select.simulate('inputChange', 'n', { action: 'input-change' });
+          return promise2.then(() => {
+            jest.runAllTimers();
+            expect(component.state()).toMatchObject({
+              options: options2,
+            });
+          });
+        });
+      });
+
       it('should call props.onInputChange', () => {
         const onInputChange = jest.fn();
         const component = shallowUserPicker({ onInputChange });

@@ -36,11 +36,11 @@ export default class AppWithFlag extends React.PureComponent<Props, State> {
       <>
         {this.props.children(this.addFlag)}
         <FlagGroup onDismissed={this.handleDismiss}>
-          {this.state.flags.map((flag: Flag) => {
+          {this.state.flags.map((flag: Flag, index) => {
             return (
               <AutoDismissFlag
                 appearance="normal"
-                id={flag.id}
+                id={index}
                 icon={
                   <SuccessIcon
                     label="Success"
@@ -48,8 +48,8 @@ export default class AppWithFlag extends React.PureComponent<Props, State> {
                     primaryColor={colors.G300}
                   />
                 }
-                key={flag.id}
-                title={flag.localizedTitle}
+                key={index}
+                title={flag.title.defaultMessage}
               />
             );
           })}

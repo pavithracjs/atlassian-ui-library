@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/navigation-next",
-  "version": "5.1.5",
+  "version": "5.1.6",
   "description": "The Atlassian navigation component.",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -21,7 +21,6 @@
     "@atlaskit/spinner": "^10.0.7",
     "@atlaskit/theme": "^8.1.7",
     "@atlaskit/tooltip": "^13.0.4",
-    "@atlaskit/visual-regression": "^0.0.1",
     "@babel/runtime": "^7.0.0",
     "@emotion/core": "^10.0.9",
     "chromatism": "^2.6.0",
@@ -57,6 +56,7 @@
     "@atlaskit/section-message": "^2.0.3",
     "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/toggle": "^6.0.4",
+    "@atlaskit/visual-regression": "^0.0.1",
     "@atlaskit/webdriver-runner": "^0.1.0",
     "enzyme": "^3.7.0",
     "fs-extra": "^4.0.2",
