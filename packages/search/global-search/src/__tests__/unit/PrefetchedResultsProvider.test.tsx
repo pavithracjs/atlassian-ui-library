@@ -85,17 +85,20 @@ describe('PrefetchedResultsProvider', () => {
 
   it('should not pre fetch if no cloud id is supplied', async () => {
     const cloudId = null;
-
-    const child = (
-      <GlobalSearchPreFetchContext.Consumer>
-        {() => {
-          return <div />;
-        }}
-      </GlobalSearchPreFetchContext.Consumer>
-    );
+    const child = <div />;
 
     render('confluence', child, cloudId);
 
     expect(getConfluencePrefetchedData).not.toHaveBeenCalled();
+  });
+
+  it('should not pre fetch if no cloud id is supplied', async () => {
+    const child = <div />;
+
+    const mount = render('confluence', child, 'abc123');
+
+    mount.update();
+
+    expect(getConfluencePrefetchedData).toHaveBeenCalledTimes(1);
   });
 });
