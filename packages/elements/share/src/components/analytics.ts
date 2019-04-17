@@ -1,4 +1,4 @@
-import { AnalyticsEventPayload } from '@atlaskit/analytics-next-types';
+import { AnalyticsEventPayload } from '@atlaskit/analytics-next';
 import { isEmail, isTeam, isUser, OptionData } from '@atlaskit/user-picker';
 import {
   ConfigResponse,

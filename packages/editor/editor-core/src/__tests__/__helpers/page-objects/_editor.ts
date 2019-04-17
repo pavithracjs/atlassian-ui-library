@@ -2,6 +2,8 @@ import { Page } from './_types';
 
 export const selectors = {
   editor: '.ProseMirror',
+  lastEditorElement: '.ProseMirror > *:last-child',
+  lastEditorParagraph: '.ProseMirror > p:last-child',
   selectedNode: '.ProseMirror-selectednode',
   scrollContainer: '.fabric-editor-popup-scroll-parent',
   dropList: 'div[data-role="droplistContent"]',
@@ -80,19 +82,79 @@ export async function typeInEditor(page: Page, text: string) {
   await page.type(selectors.editor, text);
 }
 
-export async function typeInEditorAtEndOfDocument(page: Page, text: string) {
+export async function setCaretInNewParagraphAtTheEnd(page: Page) {
   // To find the end of the document in a content agnostic way we click beneath
   // the last content node to insert a new paragaph prior to typing.
   // Complex node structures which support nesting (e.g. tables) make standard
   // clicking, focusing, and key pressing not suitable in an agnostic way.
-  const bounds = await getBoundingRect(
-    page,
-    `${selectors.editor} > *:last-child`,
-  );
-  await page.mouse.click(bounds.left, bounds.top + bounds.height + 5);
-  await page.type(`${selectors.editor} > p:last-child`, text);
+  await scrollToElement(page, selectors.lastEditorElement);
+  const bounds = await getBoundingRect(page, selectors.lastEditorElement);
+
+  await page.mouse.click(bounds.left, bounds.top + bounds.height - 5);
+}
+
+export async function typeInEditorAtEndOfDocument(
+  page: Page,
+  text: string,
+  options?: any,
+) {
+  await setCaretInNewParagraphAtTheEnd(page);
+  await scrollToElement(page, selectors.lastEditorParagraph);
+
+  await page.type(selectors.lastEditorParagraph, text, options);
 }
 
 export async function getEditorWidth(page: Page) {
   return page.$eval(selectors.editor, (el: HTMLElement) => el.clientWidth);
+}
+
+export async function scrollToElement(
+  page: Page,
+  elementSelector: string,
+  padding: number = 0,
+) {
+  return page.evaluate(
+    (
+      editorScrollSelector: string,
+      elementSelector: string,
+      padding: number,
+    ) => {
+      const editorScroll = document.querySelector(
+        editorScrollSelector,
+      ) as HTMLElement;
+      const element = document.querySelector(elementSelector);
+      if (!editorScroll || !element) {
+        return;
+      }
+
+      element.scrollIntoView({
+        block: 'center',
+        inline: 'center',
+        behavior: 'auto',
+      });
+    },
+    selectors.scrollContainer,
+    elementSelector,
+    padding,
+  );
+}
+
+export async function scrollToTop(page: Page) {
+  return page.evaluate(
+    (
+      editorScrollSelector: string,
+      elementSelector: string,
+      padding: number,
+    ) => {
+      const editorScroll = document.querySelector(
+        editorScrollSelector,
+      ) as HTMLElement;
+      if (!editorScroll) {
+        return;
+      }
+
+      editorScroll.scrollTo(0, 0);
+    },
+    selectors.scrollContainer,
+  );
 }

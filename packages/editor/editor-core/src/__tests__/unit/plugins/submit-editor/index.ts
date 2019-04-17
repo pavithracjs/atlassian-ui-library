@@ -4,7 +4,7 @@ import {
   doc,
   p,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import submitPlugin from '../../../../plugins/submit-editor';
 import { EditorProps } from '../../../../types';
 

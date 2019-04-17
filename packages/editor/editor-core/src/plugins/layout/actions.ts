@@ -5,6 +5,8 @@ import { pluginKey, LayoutState } from './pm-plugins/main';
 import { EditorState, Transaction, TextSelection } from 'prosemirror-state';
 import { mapChildren, flatmap } from '../../utils/slice';
 import { isEmptyDocument, getStepRange } from '../../utils';
+import { addAnalytics, ACTION, ACTION_SUBJECT, EVENT_TYPE } from '../analytics';
+import { LAYOUT_TYPE } from '../analytics/types/node-events';
 
 export type PresetLayout =
   | 'two_equal'
@@ -187,8 +189,17 @@ export const setPresetLayout = (layout: PresetLayout): Command => (
     return false;
   }
 
-  const tr = forceSectionToPresetLayout(state, node, pos, layout);
+  let tr = forceSectionToPresetLayout(state, node, pos, layout);
   if (tr) {
+    tr = addAnalytics(tr, {
+      action: ACTION.CHANGED_LAYOUT,
+      actionSubject: ACTION_SUBJECT.LAYOUT,
+      attributes: {
+        previousLayout: formatLayoutName(<PresetLayout>selectedLayout),
+        newLayout: formatLayoutName(layout),
+      },
+      eventType: EVENT_TYPE.TRACK,
+    });
     if (dispatch) {
       dispatch(tr.scrollIntoView());
     }
@@ -239,13 +250,33 @@ export const fixColumnSizes = (
 };
 
 export const deleteActiveLayoutNode: Command = (state, dispatch) => {
-  const { pos } = pluginKey.getState(state) as LayoutState;
+  const { pos, selectedLayout } = pluginKey.getState(state) as LayoutState;
   if (pos !== null) {
     const node = state.doc.nodeAt(pos) as Node;
     if (dispatch) {
-      dispatch(state.tr.delete(pos, pos + node.nodeSize));
+      let tr = state.tr.delete(pos, pos + node.nodeSize);
+      tr = addAnalytics(tr, {
+        action: ACTION.DELETED,
+        actionSubject: ACTION_SUBJECT.LAYOUT,
+        attributes: { layout: formatLayoutName(<PresetLayout>selectedLayout) },
+        eventType: EVENT_TYPE.TRACK,
+      });
+      dispatch(tr);
     }
     return true;
   }
   return false;
+};
+
+const formatLayoutName = (layout: PresetLayout): LAYOUT_TYPE => {
+  switch (layout) {
+    case 'two_equal':
+      return LAYOUT_TYPE.TWO_COLS_EQUAL;
+    case 'three_equal':
+      return LAYOUT_TYPE.THREE_COLS_EQUAL;
+    case 'two_left_sidebar':
+      return LAYOUT_TYPE.LEFT_SIDEBAR;
+    case 'two_right_sidebar':
+      return LAYOUT_TYPE.RIGHT_SIDEBAR;
+  }
 };

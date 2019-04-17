@@ -17,7 +17,7 @@ import {
 } from '@atlaskit/editor-common';
 
 import TableHeader from './tableHeader';
-import { RendererAppearance } from '../../ui/Renderer';
+import { RendererAppearance } from '../../ui/Renderer/types';
 import { FullPagePadding } from '../../ui/Renderer/style';
 
 export interface TableProps {

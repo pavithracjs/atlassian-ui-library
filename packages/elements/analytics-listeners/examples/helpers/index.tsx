@@ -6,8 +6,8 @@ import {
 import {
   createAndFireEvent,
   withAnalyticsEvents,
+  WithAnalyticsEventProps,
 } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
 import Button from '@atlaskit/button';
 import * as React from 'react';
 import { FabricChannel } from '../../src/types';

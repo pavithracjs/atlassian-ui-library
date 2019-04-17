@@ -62,7 +62,9 @@ describe('UserPickerField', () => {
       addMoreMessage: 'add more',
       onChange: fieldProps.onChange,
       value: fieldProps.value,
-      placeholder: <FormattedMessage {...messages.userPickerPlaceholder} />,
+      placeholder: (
+        <FormattedMessage {...messages.userPickerGenericPlaceholder} />
+      ),
       loadOptions: expect.any(Function),
     });
   });
@@ -163,6 +165,21 @@ describe('UserPickerField', () => {
         component,
       };
     };
+
+    it('should show existing user only placeholder', () => {
+      const { component } = setUpInviteWarningTest();
+      const formattedMessageAddMore = component.find(FormattedMessage);
+      const userPicker = renderProp(
+        formattedMessageAddMore,
+        'children',
+        'add more',
+      ).find(UserPicker);
+      expect(userPicker.prop('placeholder')).toEqual(
+        <FormattedMessage
+          {...messages.userPickerExistingUserOnlyPlaceholder}
+        />,
+      );
+    });
 
     it('should call showInviteWarning function', () => {
       const { fieldProps, config } = setUpInviteWarningTest();

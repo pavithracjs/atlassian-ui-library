@@ -1,1 +1,0 @@
-export { patchDeleteContentBackward } from './deleteContentBackward';

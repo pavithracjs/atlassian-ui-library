@@ -1,5 +1,14 @@
 # @atlaskit/logo
 
+## 10.0.4
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/code@9.0.1
+  - @atlaskit/field-radio-group@5.0.3
+  - @atlaskit/select@8.1.1
+  - @atlaskit/theme@8.1.7
+
 ## 10.0.3
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2
