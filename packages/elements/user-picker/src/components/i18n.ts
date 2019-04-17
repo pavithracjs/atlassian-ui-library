@@ -54,6 +54,11 @@ export const messages = defineMessages({
     defaultMessage: 'Add user',
     description: 'Byline for valid email option.',
   },
+  selectToAddEmail: {
+    id: 'fabric.elements.user-picker.email.select.to.add',
+    defaultMessage: 'Select to invite',
+    description: 'Byline for valid email option.',
+  },
   continueToAddEmail: {
     id: 'fabric.elements.user-picker.email.add.potential',
     defaultMessage: 'Enter email to invite',
