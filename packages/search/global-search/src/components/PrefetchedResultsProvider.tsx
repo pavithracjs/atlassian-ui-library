@@ -38,6 +38,11 @@ export default class PrefetchedResultsProvider extends React.Component<
     cloudId: string,
   ): GlobalSearchPrefetchedResults | undefined => {
     const { context, baseUrl } = this.props;
+
+    if (!cloudId) {
+      return;
+    }
+
     switch (context) {
       case 'confluence':
         return getConfluencePrefetchedData(cloudId, baseUrl);
@@ -49,13 +54,12 @@ export default class PrefetchedResultsProvider extends React.Component<
     }
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     const { cloudId } = this.props;
     const { prefetchedResults: prefetchedResults } = this.state;
     if (!prefetchedResults) {
-      const newPrefetchedResults = await this.getPrefetchedResults(cloudId);
       this.setState({
-        prefetchedResults: newPrefetchedResults,
+        prefetchedResults: this.getPrefetchedResults(cloudId),
       });
     }
   }
