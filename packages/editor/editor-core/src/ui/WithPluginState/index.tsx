@@ -37,7 +37,7 @@ export interface Props {
  *
  * renderComponent: ({ hyperlink }) => React.Component;
  */
-export default class WithPluginState extends React.Component<Props, State> {
+export default class WithPluginState extends React.PureComponent<Props, State> {
   private listeners = {};
   private debounce: number | null = null;
   private notAppliedState = {};
@@ -206,6 +206,35 @@ export default class WithPluginState extends React.Component<Props, State> {
     }
   }
 
+  private getMostRecentState() {
+    const plugins = this.props.plugins;
+    const editorView = this.getEditorView(this.props);
+
+    const currentState = this.state;
+    const mostRecentStateWithSubscribers = this.getPluginsStates(
+      plugins,
+      editorView,
+    );
+
+    const recentStateWithoutSubscribers = Object.keys(
+      mostRecentStateWithSubscribers,
+    ).reduce((acc, pluginKey) => {
+      const state = mostRecentStateWithSubscribers[pluginKey];
+      if (!state || state.subscribe) {
+        return acc;
+      }
+      return {
+        ...acc,
+        [pluginKey]: state,
+      };
+    }, {});
+
+    return {
+      ...currentState,
+      ...recentStateWithoutSubscribers,
+    };
+  }
+
   componentDidMount() {
     this.hasBeenMounted = true;
     this.subscribe(this.props);
@@ -226,6 +255,6 @@ export default class WithPluginState extends React.Component<Props, State> {
 
   render() {
     const { render } = this.props;
-    return render(this.state);
+    return render(this.getMostRecentState());
   }
 }
