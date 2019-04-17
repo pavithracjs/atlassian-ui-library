@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
 
-jest.spyOn(global.console, 'error').mockImplementation();
+jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
 afterEach(() => {
   jest.resetAllMocks();
