@@ -20,30 +20,29 @@ describe('Gap cursor:', () => {
 
   it('should render gap cursor for code when ArrowRight', async () => {
     await page.click(selectors.codeContent);
-    await pressKey(page, 'ArrowRight');
+    await pressKey(page, 'ArrowRight', { delay: 0 });
     await waitForGapCursor(page);
     await page.waitForSelector(selectors.gapCursor);
   });
 
   it(' should render gap cursor on panel when ArrowLeft', async () => {
     await page.click(selectors.panelContent);
-    await pressKey(page, 'ArrowLeft');
+    await pressKey(page, 'ArrowLeft', { delay: 0 });
     await waitForGapCursor(page);
     await page.waitForSelector(selectors.gapCursor);
   });
 
   it(' should render gap cursor on table on ArrowUp', async () => {
     await page.click(selectors.panelContent);
-    await pressKey(page, 'ArrowLeft');
-    await pressKey(page, 'ArrowUp');
+    await pressKey(page, ['ArrowLeft', 'ArrowUp'], { delay: 0 });
+
     await waitForGapCursor(page);
     await page.waitForSelector(selectors.gapCursor);
   });
 
   it(' should render gap cursor on table on ArrowDown', async () => {
     await page.click(selectors.codeContent);
-    await pressKey(page, 'ArrowRight');
-    await pressKey(page, 'ArrowDown');
+    await pressKey(page, ['ArrowRight', 'ArrowDown'], { delay: 0 });
     await waitForGapCursor(page);
     await page.waitForSelector(selectors.gapCursor);
   });

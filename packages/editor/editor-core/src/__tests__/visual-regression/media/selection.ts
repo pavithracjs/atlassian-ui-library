@@ -31,7 +31,7 @@ describe('Snapshot Test: Media', () => {
     });
 
     it('should render right side gap cursor (via arrow left)', async () => {
-      await pressKey(page, 'ArrowLeft');
+      await pressKey(page, 'ArrowLeft', { delay: 0 });
       await waitForGapCursor(page);
       await snapshot(page);
     });
@@ -42,7 +42,9 @@ describe('Snapshot Test: Media', () => {
     });
 
     it('should render left side gap cursor ( via 3 arrow left)', async () => {
-      await pressKey(page, ['ArrowLeft', 'ArrowLeft', 'ArrowLeft']);
+      await pressKey(page, ['ArrowLeft', 'ArrowLeft', 'ArrowLeft'], {
+        delay: 0,
+      });
       await waitForGapCursor(page);
       await snapshot(page);
     });
