@@ -1,5 +1,15 @@
 # @atlaskit/user-picker
 
+## 3.5.2
+- [patch] [7cb36f2603](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7cb36f2603):
+
+  - Fixed User Picker showing the spinner forever in some async use cases.
+
+## 3.5.1
+- [patch] [3fbfd9d7f5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3fbfd9d7f5):
+
+  - updated byline message for EmailOption based on email validity in user-picker
+
 ## 3.5.0
 - [minor] [e1abf3f31a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e1abf3f31a):
 

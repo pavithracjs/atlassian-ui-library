@@ -333,6 +333,28 @@ describe('BaseUserPicker', () => {
         });
       });
 
+      it('should finish resolving even when loadOptions errors', () => {
+        const usersPromise = new Promise<User[]>((_, reject) =>
+          window.setTimeout(() => reject('Bad loadOptions'), 500),
+        );
+        const longerPromise = new Promise(resolve =>
+          window.setTimeout(() => resolve(1), 1000),
+        );
+        const loadOptions = jest.fn(() => usersPromise);
+        const component = shallowUserPicker({ loadOptions });
+
+        const select = component.find(Select);
+        select.simulate('inputChange', 'a', { action: 'input-change' });
+        jest.runAllTimers();
+        return usersPromise
+          .catch(() => longerPromise)
+          .then(() => {
+            expect(component.state()).toMatchObject({
+              resolving: false,
+            });
+          });
+      });
+
       it('should call props.onInputChange', () => {
         const onInputChange = jest.fn();
         const component = shallowUserPicker({ onInputChange });
