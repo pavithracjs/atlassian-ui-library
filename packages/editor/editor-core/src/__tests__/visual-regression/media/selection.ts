@@ -2,6 +2,7 @@ import { snapshot, Appearance, initEditorWithAdf, Device } from '../_utils';
 import { insertMedia } from '../../__helpers/page-objects/_media';
 import { clickEditableContent } from '../../__helpers/page-objects/_editor';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
+import { waitForGapCursor } from '../../__helpers/page-objects/gap-cursor';
 
 describe('Snapshot Test: Media', () => {
   describe('full page editor', () => {
@@ -31,6 +32,7 @@ describe('Snapshot Test: Media', () => {
 
     it('should render right side gap cursor (via arrow left)', async () => {
       await pressKey(page, 'ArrowLeft');
+      await waitForGapCursor(page);
       await snapshot(page);
     });
 
@@ -41,6 +43,7 @@ describe('Snapshot Test: Media', () => {
 
     it('should render left side gap cursor ( via 3 arrow left)', async () => {
       await pressKey(page, ['ArrowLeft', 'ArrowLeft', 'ArrowLeft']);
+      await waitForGapCursor(page);
       await snapshot(page);
     });
   });
