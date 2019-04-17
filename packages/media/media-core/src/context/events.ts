@@ -1,3 +1,5 @@
+import { FileState } from '../fileState';
+
 export type EventPayloadMap<P> = {
   readonly [event: string]: P;
 };
@@ -8,10 +10,6 @@ export type EventPayloadListener<
   P = any
 > = (payload: M[E]) => void;
 
-export interface FileUploadedPayload {
-  id: string;
-}
-
 export type UploadEventPayloadMap = {
-  'file-uploaded': FileUploadedPayload;
+  'file-uploaded': FileState;
 };

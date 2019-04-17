@@ -166,7 +166,7 @@ export const touchSelectedFiles = (
         selectedFile.id,
       );
 
-      const state: FileState = {
+      const fileState: FileState = {
         id,
         status: 'processing',
         mediaType,
@@ -176,8 +176,10 @@ export const touchSelectedFiles = (
         preview,
         representations: {},
       };
+
+      tenantContext.emit('file-uploaded', fileState);
       const subject = new ReplaySubject<FileState>(1);
-      subject.next(state);
+      subject.next(fileState);
       fileStreamsCache.set(id, subject);
     },
   );
@@ -193,13 +195,7 @@ export async function importFiles(
   store: Store<State>,
   wsProvider: WsProvider,
 ): Promise<void> {
-  const {
-    uploads,
-    selectedItems,
-    tenantContext,
-    userContext,
-    config,
-  } = store.getState();
+  const { uploads, selectedItems, userContext, config } = store.getState();
   const tenantCollection =
     config.uploadParams && config.uploadParams.collection;
   store.dispatch(hidePopup());
@@ -211,7 +207,6 @@ export async function importFiles(
 
   touchSelectedFiles(selectedUploadFiles, store);
 
-  tenantContext.emit('file-uploaded', { id: 'foooo' });
   eventEmitter.emitUploadsStart(
     selectedUploadFiles.map(({ file, touchFileDescriptor }) =>
       copyMediaFileForUpload(file, touchFileDescriptor.fileId),
