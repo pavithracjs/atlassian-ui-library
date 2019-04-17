@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.17.1
+- [patch] [16290b0448](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/16290b0448):
+
+  - ED-6715 Fix issue with gap cursor + breakout + full-width mode where editor would crash
+
 ## 107.17.0
 - [minor] [d6886fe651](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6886fe651):
 
