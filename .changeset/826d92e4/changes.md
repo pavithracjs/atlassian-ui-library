@@ -1,0 +1,1 @@
+- [ED-4898] Fixes the Backspace event for empty codeBlocks when triggered from inside of tables or columns
