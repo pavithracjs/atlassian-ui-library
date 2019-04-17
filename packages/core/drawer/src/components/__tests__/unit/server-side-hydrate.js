@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
 
-jest.spyOn(global.console, 'error');
+jest.spyOn(global.console, 'error'); // eslint-disable-line no-console
 
 afterEach(() => {
   jest.resetAllMocks();
