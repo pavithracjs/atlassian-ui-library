@@ -215,6 +215,9 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
               .catch(this.handleLoadOptionsError);
             count++;
           }
+          if (count === 0) {
+            this.setState({ resolving: false });
+          }
         } else {
           Promise.resolve(result)
             .then(addOptions)
