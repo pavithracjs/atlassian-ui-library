@@ -38,6 +38,15 @@ async function disableAllAnimations(page /*: any */) {
   await page.addStyleTag({ content: css });
 }
 
+async function disableScrollBehavior(page /*: any */) {
+  const css = `
+  * {
+    scroll-behavior: auto !important;
+  }
+  `;
+  await page.addStyleTag({ content: css });
+}
+
 async function takeScreenShot(page /*:any*/, url /*:string*/) {
   await page.goto(url, { waitUntil: 'networkidle0' });
   await disableAllAnimations(page);
@@ -93,4 +102,5 @@ module.exports = {
   disableAllAnimations,
   disableAllTransitions,
   disableCaretCursor,
+  disableScrollBehavior,
 };

@@ -1,5 +1,38 @@
 # @atlaskit/user-picker
 
+## 3.5.0
+- [minor] [e1abf3f31a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e1abf3f31a):
+
+  - Prevent popup user picker from being dismissed on clear.
+
+## 3.4.3
+- [patch] [2f8c041db5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f8c041db5):
+
+  - Corrected asynchronous user picker behaviour
+
+## 3.4.2
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/field-base@12.0.2
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/lozenge@7.0.2
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/select@8.1.1
+  - @atlaskit/tag@7.0.2
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/theme@8.1.7
+
+## 3.4.1
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
+## 3.4.0
+- [minor] [4a8effc046](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4a8effc046):
+
+  - FS-3741 expose boundariesElement for integrators to pass in custom boundary
+
 ## 3.3.5
 - [patch] [0f4109e919](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f4109e919):
 

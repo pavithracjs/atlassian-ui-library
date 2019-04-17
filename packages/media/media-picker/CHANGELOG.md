@@ -1,5 +1,50 @@
 # @atlaskit/media-picker
 
+## 38.1.6
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/dropdown-menu@7.0.6
+  - @atlaskit/field-text@8.0.3
+  - @atlaskit/flag@10.0.6
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/select@8.1.1
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/toggle@6.0.4
+  - @atlaskit/media-card@60.0.3
+  - @atlaskit/media-editor@32.0.6
+  - @atlaskit/media-ui@10.1.5
+  - @atlaskit/media-viewer@40.1.10
+  - @atlaskit/theme@8.1.7
+
+## 38.1.5
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
+## 38.1.4
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/dropdown-menu@7.0.4
+  - @atlaskit/field-text@8.0.2
+  - @atlaskit/flag@10.0.5
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/select@8.0.5
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/toggle@6.0.3
+  - @atlaskit/analytics-listeners@5.0.3
+  - @atlaskit/media-card@60.0.1
+  - @atlaskit/media-core@29.1.4
+  - @atlaskit/media-editor@32.0.5
+  - @atlaskit/media-store@11.0.7
+  - @atlaskit/media-ui@10.1.3
+  - @atlaskit/media-viewer@40.1.5
+  - @atlaskit/button@12.0.0
+
 ## 38.1.3
 - [patch] [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
 

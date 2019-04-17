@@ -137,24 +137,12 @@ export default class ResizableMediaSingle extends React.Component<
 
   calcOffsetLeft() {
     let offsetLeft = 0;
-
     if (this.wrapper && this.insideInlineLike) {
-      let currentNode: HTMLElement | null = this.wrapper;
-      const pm = this.props.view.dom as HTMLElement;
-
-      while (
-        currentNode &&
-        currentNode.parentElement &&
-        !currentNode.parentElement.classList.contains('ProseMirror') &&
-        currentNode !== document.body
-      ) {
-        offsetLeft += currentNode.offsetLeft;
-        currentNode = currentNode.parentElement;
-      }
-
-      offsetLeft -= pm.offsetLeft;
+      const currentNode: HTMLElement = this.wrapper;
+      const boundingRect = currentNode.getBoundingClientRect();
+      const pmRect = this.props.view.dom.getBoundingClientRect();
+      offsetLeft = boundingRect.left - pmRect.left;
     }
-
     return offsetLeft;
   }
 
@@ -209,7 +197,6 @@ export default class ResizableMediaSingle extends React.Component<
         snapPoints.push(fullWidthPoint);
       }
     }
-
     return snapPoints;
   }
 
@@ -259,6 +246,7 @@ export default class ResizableMediaSingle extends React.Component<
       pctWidth,
       lineLength,
       containerWidth,
+      fullWidthMode,
     } = this.props;
 
     let pxWidth = origWidth;
@@ -267,14 +255,20 @@ export default class ResizableMediaSingle extends React.Component<
       pxWidth = wideWidth > containerWidth ? lineLength : wideWidth;
     } else if (layout === 'full-width') {
       pxWidth = containerWidth - akEditorBreakoutPadding;
-    } else if (pctWidth && origWidth && origHeight) {
+    } else if (pctWidth && origWidth && origHeight && pctWidth < 100) {
       pxWidth = Math.ceil(
         calcPxFromPct(pctWidth / 100, lineLength || containerWidth),
       );
     } else if (layout === 'center') {
       pxWidth = Math.min(origWidth, lineLength);
     } else if (alignmentLayouts.indexOf(layout) !== -1) {
-      pxWidth = Math.min(origWidth / 2, lineLength);
+      const halfLineLength = Math.ceil(lineLength / 2);
+
+      if (origWidth <= halfLineLength) {
+        pxWidth = origWidth;
+      } else {
+        pxWidth = halfLineLength;
+      }
     }
 
     // scale, keeping aspect ratio
@@ -302,8 +296,10 @@ export default class ResizableMediaSingle extends React.Component<
         width={width}
         height={height}
         layout={layout}
+        isResized={!!pctWidth}
         containerWidth={containerWidth || origWidth}
         innerRef={elem => (this.wrapper = elem)}
+        fullWidthMode={fullWidthMode}
       >
         <Resizer
           {...this.props}

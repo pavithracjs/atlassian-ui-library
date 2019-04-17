@@ -417,4 +417,6 @@ export const marks = {
     },
   },
   code: { open: '`', close: '`' },
+  mentionQuery: { open: '', close: '', mixable: false },
+  emojiQuery: { open: '', close: '', mixable: false },
 };

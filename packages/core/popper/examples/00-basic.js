@@ -34,7 +34,7 @@ export default () => (
         <Manager>
           <Reference>
             {({ ref }) => (
-              <Button appearance="primary" innerRef={ref}>
+              <Button appearance="primary" ref={ref}>
                 Reference element
               </Button>
             )}

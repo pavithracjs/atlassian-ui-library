@@ -1,5 +1,50 @@
 # @atlaskit/global-navigation
 
+## 6.2.9
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/badge@11.0.1
+  - @atlaskit/blanket@8.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/drawer@3.0.7
+  - @atlaskit/dropdown-menu@7.0.6
+  - @atlaskit/field-base@12.0.2
+  - @atlaskit/field-radio-group@5.0.3
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/logo@10.0.4
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/navigation-next@5.1.5
+  - @atlaskit/onboarding@7.0.4
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/tag@7.0.2
+  - @atlaskit/toggle@6.0.4
+  - @atlaskit/atlassian-switcher@0.4.5
+  - @atlaskit/theme@8.1.7
+
+## 6.2.8
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/avatar@15.0.3
+  - @atlaskit/blanket@8.0.2
+  - @atlaskit/drawer@3.0.6
+  - @atlaskit/dropdown-menu@7.0.4
+  - @atlaskit/field-radio-group@5.0.2
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/logo@10.0.3
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/navigation-next@5.1.4
+  - @atlaskit/onboarding@7.0.3
+  - @atlaskit/section-message@2.0.2
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/toggle@6.0.3
+  - @atlaskit/analytics-listeners@5.0.3
+  - @atlaskit/atlassian-switcher@0.4.3
+  - @atlaskit/button@12.0.0
+
 ## 6.2.7
 - [patch] [bcb3d443fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bcb3d443fc):
 

@@ -99,6 +99,11 @@ export type PopupUserPickerProps = UserPickerProps & {
   target: Target;
   /** Optional title assigned to popup picker */
   popupTitle?: string;
+  /**
+   *  Reference to the HTMLElement that should be used as a boundary for the popup.
+   *  Viewport is used by default.
+   */
+  boundariesElement?: HTMLElement;
 };
 
 export type UserPickerState = {
@@ -109,7 +114,7 @@ export type UserPickerState = {
   hoveringClearIndicator: boolean;
   menuIsOpen: boolean;
   inputValue: string;
-  debouncing: boolean;
+  resolving: boolean;
 };
 
 export interface HighlightRange {

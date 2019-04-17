@@ -344,6 +344,43 @@ describe('table plugin: actions', () => {
   });
 
   describe('#handleCut', () => {
+    describe('when the entire table is selected', () => {
+      it('should remove the table', () => {
+        const { editorView, refs } = editor(
+          doc(
+            table()(
+              tr(
+                td()(p('{from}a1')),
+                td()(p('a2')),
+                td()(p('a3')),
+                td()(p('{cursorPos}a4')),
+              ),
+              tr(
+                td()(p('b1')),
+                td()(p('b2')),
+                td()(p('b3')),
+                td()(p('{to}b4')),
+              ),
+            ),
+          ),
+        );
+        const { state, dispatch } = editorView;
+        const sel = new CellSelection(
+          state.doc.resolve(refs.from - 2),
+          state.doc.resolve(refs.to - 2),
+        );
+        dispatch(state.tr.setSelection(sel as any));
+        const oldState = editorView.state;
+        dispatch(
+          oldState.tr.setSelection(
+            new TextSelection(oldState.doc.resolve(refs.cursorPos)),
+          ),
+        );
+        const newTr = handleCut(oldState.tr, oldState, editorView.state);
+        expect(newTr.doc).toEqualDocument(doc(p('')));
+      });
+    });
+
     describe('when selected columns are cut', () => {
       it('should remove those columns', () => {
         const { editorView, refs } = editor(

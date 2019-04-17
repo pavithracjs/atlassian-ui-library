@@ -11,6 +11,7 @@ import {
   storyMediaProviderFactory,
   storyContextIdentifierProviderFactory,
   macroProvider,
+  autoformattingProvider,
 } from '@atlaskit/editor-test-helpers';
 import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
 import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
@@ -115,6 +116,7 @@ export const providers: any = {
   contextIdentifierProvider: storyContextIdentifierProviderFactory(),
   activityProvider: Promise.resolve(new MockActivityResource()),
   macroProvider: Promise.resolve(macroProvider),
+  autoformattingProvider: Promise.resolve(autoformattingProvider),
 };
 
 export const mediaProvider = storyMediaProviderFactory({
@@ -172,6 +174,7 @@ class ExampleEditorComponent extends React.Component<
               allowDate={true}
               allowLayouts={{
                 allowBreakout: true,
+                UNSAFE_addSidebarLayouts: true,
               }}
               allowTextAlignment={true}
               allowIndentation={true}

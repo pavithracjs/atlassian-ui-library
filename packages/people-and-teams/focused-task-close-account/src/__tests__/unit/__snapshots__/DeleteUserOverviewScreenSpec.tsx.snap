@@ -188,7 +188,7 @@ exports[`DeleteUserOverviewScreen 1`] = `
           values={Object {}}
         />
         <p>
-          <WithAnalyticsContext(WithAnalyticsEvents(WithDeprecationWarnings(Button)))
+          <WithAnalyticsContext(WithAnalyticsEvents(Button))
             appearance="link"
             onClick={[Function]}
             spacing="none"
@@ -199,7 +199,7 @@ exports[`DeleteUserOverviewScreen 1`] = `
               id="focused-task-close-account.deactivate-account"
               values={Object {}}
             />
-          </WithAnalyticsContext(WithAnalyticsEvents(WithDeprecationWarnings(Button)))>
+          </WithAnalyticsContext(WithAnalyticsEvents(Button))>
         </p>
       </SectionMessage>
     </styled.div>
@@ -383,7 +383,7 @@ exports[`accessibleSites display text displayed is different when no accessibleS
           values={Object {}}
         />
         <p>
-          <WithAnalyticsContext(WithAnalyticsEvents(WithDeprecationWarnings(Button)))
+          <WithAnalyticsContext(WithAnalyticsEvents(Button))
             appearance="link"
             onClick={[Function]}
             spacing="none"
@@ -394,7 +394,7 @@ exports[`accessibleSites display text displayed is different when no accessibleS
               id="focused-task-close-account.deactivate-account"
               values={Object {}}
             />
-          </WithAnalyticsContext(WithAnalyticsEvents(WithDeprecationWarnings(Button)))>
+          </WithAnalyticsContext(WithAnalyticsEvents(Button))>
         </p>
       </SectionMessage>
     </styled.div>
@@ -578,7 +578,7 @@ exports[`accessibleSites display text displayed is different when no accessibleS
           values={Object {}}
         />
         <p>
-          <WithAnalyticsContext(WithAnalyticsEvents(WithDeprecationWarnings(Button)))
+          <WithAnalyticsContext(WithAnalyticsEvents(Button))
             appearance="link"
             onClick={[Function]}
             spacing="none"
@@ -589,7 +589,7 @@ exports[`accessibleSites display text displayed is different when no accessibleS
               id="focused-task-close-account.deactivate-account"
               values={Object {}}
             />
-          </WithAnalyticsContext(WithAnalyticsEvents(WithDeprecationWarnings(Button)))>
+          </WithAnalyticsContext(WithAnalyticsEvents(Button))>
         </p>
       </SectionMessage>
     </styled.div>

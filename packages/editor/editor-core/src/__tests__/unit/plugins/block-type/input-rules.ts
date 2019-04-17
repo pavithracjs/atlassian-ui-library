@@ -13,7 +13,7 @@ import {
   hardBreak,
   a as link,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { analyticsService } from '../../../../analytics';
 import codeBlockPlugin from '../../../../plugins/code-block';
 import panelPlugin from '../../../../plugins/panel';

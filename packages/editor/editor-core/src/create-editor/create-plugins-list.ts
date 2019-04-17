@@ -1,4 +1,4 @@
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { EditorPlugin, EditorProps } from '../types';
 import {
   basePlugin,
@@ -48,8 +48,8 @@ import {
   editorDisabledPlugin,
   indentationPlugin,
   annotationPlugin,
-  compositionPlugin,
   analyticsPlugin,
+  customAutoformatPlugin,
 } from '../plugins';
 
 /**
@@ -67,7 +67,7 @@ export function getDefaultPluginsList(
 
   return defaultPluginList.concat([
     pastePlugin,
-    basePlugin,
+    basePlugin(props.appearance),
     blockTypePlugin,
     placeholderPlugin,
     clearMarksOnChangeToEmptyDocumentPlugin,
@@ -90,7 +90,9 @@ export default function createPluginsList(
   const plugins = getDefaultPluginsList(props, createAnalyticsEvent);
 
   if (props.allowBreakout && props.appearance === 'full-page') {
-    plugins.push(breakoutPlugin);
+    plugins.push(
+      breakoutPlugin({ disableBreakoutUI: props.UNSAFE_fullWidthMode }),
+    );
   }
 
   if (props.allowTextAlignment) {
@@ -131,7 +133,7 @@ export default function createPluginsList(
   }
 
   if (props.allowTables) {
-    plugins.push(tablesPlugin(props.allowTables));
+    plugins.push(tablesPlugin(props.allowTables, props.UNSAFE_fullWidthMode));
   }
 
   if (props.allowTasksAndDecisions || props.taskDecisionProvider) {
@@ -207,6 +209,10 @@ export default function createPluginsList(
     plugins.push(cardPlugin);
   }
 
+  if (props.autoformattingProvider) {
+    plugins.push(customAutoformatPlugin);
+  }
+
   let statusMenuDisabled = true;
   if (props.allowStatus) {
     statusMenuDisabled =
@@ -241,10 +247,6 @@ export default function createPluginsList(
 
   if (props.appearance !== 'mobile') {
     plugins.push(quickInsertPlugin);
-  }
-
-  if (props.appearance === 'mobile') {
-    plugins.push(compositionPlugin);
   }
 
   return plugins;

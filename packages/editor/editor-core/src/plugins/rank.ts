@@ -4,6 +4,7 @@ export default {
     'inlineCursorTargetPlugin',
     'focusHandlerPlugin',
     'submitEditor',
+    'customAutoformatting',
     'newlinePreserveMarksPlugin',
     'imageUpload',
     'imageUploadInputRule',
@@ -141,6 +142,7 @@ export default {
     'underline',
     'code',
     'typeAheadQuery',
+    'emojiQuery',
 
     // Block marks
     'alignment',

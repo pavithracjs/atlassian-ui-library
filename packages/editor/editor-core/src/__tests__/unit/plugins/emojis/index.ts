@@ -9,17 +9,20 @@ import {
   br,
   doc,
   emoji,
+  emojiQuery,
   li,
   p,
   ul,
+  code,
+  createEvent,
+  spyOnReturnValue,
   insertText,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
-import { emojiPluginKey } from '../../../../plugins/emoji';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { emojiPluginKey } from '../../../../plugins/emoji/pm-plugins/main';
 import emojiPlugin from '../../../../plugins/emoji';
 import listPlugin from '../../../../plugins/lists';
 import quickInsertPlugin from '../../../../plugins/quick-insert';
-import { insertEmoji } from '../../../../plugins/emoji/commands/insert-emoji';
 
 const { testData } = emojiData;
 
@@ -42,6 +45,7 @@ const evilburnsEmojiId = {
 describe('emojis', () => {
   const createEditor = createEditorFactory();
 
+  const event = createEvent('event');
   const providerFactory = ProviderFactory.create({ emojiProvider });
   let createAnalyticsEvent: CreateUIAnalyticsEventSignature;
 
@@ -57,15 +61,283 @@ describe('emojis', () => {
     });
   };
 
-  describe('insertEmoji', () => {
-    it('should insert emoji-node', () => {
-      const { editorView } = editor(doc(p('{<>}')));
+  const forceUpdate = (editorView: any) => {
+    editorView.updateState(editorView.state);
+  };
 
-      insertEmoji({
+  describe('keymap', () => {
+    describe('ArrowUp', () => {
+      it('should be ignored if there is no emojiProvider', () => {
+        const { editorView, pluginState } = editor(
+          doc(p(emojiQuery(':grin{<>}'))),
+        );
+        const spy = jest.spyOn(pluginState, 'onSelectPrevious');
+
+        forceUpdate(editorView); // Force update to ensure active query.
+        sendKeyToPm(editorView, 'ArrowUp');
+        expect(spy).not.toBeCalled();
+      });
+
+      it('should be ignored if there is no active query', () => {
+        const { editorView, pluginState } = editor(doc(p('Hello{<>}')));
+        const spy = jest.spyOn(pluginState, 'onSelectPrevious');
+        (pluginState as any).emojiProvider = true;
+        forceUpdate(editorView); // Force update to ensure active query.
+
+        sendKeyToPm(editorView, 'ArrowUp');
+        expect(spy).not.toBeCalled();
+      });
+
+      it('should call "onSelectPrevious" which should return false by default', () => {
+        const { editorView, pluginState } = editor(
+          doc(p(emojiQuery(':grin{<>}'))),
+        );
+        const spy = spyOnReturnValue(pluginState, 'onSelectPrevious');
+        (pluginState as any).emojiProvider = true;
+        forceUpdate(editorView); // Force update to ensure active query.
+
+        sendKeyToPm(editorView, 'ArrowUp');
+        expect(spy).toBeCalled();
+        expect(spy.returnValue).toBe(false);
+      });
+    });
+
+    describe('ArrowDown', () => {
+      it('should be ignored if there is no emojiProvider', () => {
+        const { editorView, pluginState } = editor(
+          doc(p(emojiQuery(':grin{<>}'))),
+        );
+        const spy = jest.spyOn(pluginState, 'onSelectNext');
+
+        forceUpdate(editorView); // Force update to ensure active query.
+        sendKeyToPm(editorView, 'ArrowDown');
+        expect(spy).not.toBeCalled();
+      });
+
+      it('should be ignored if there is no active query', () => {
+        const { editorView, pluginState } = editor(doc(p('Hello{<>}')));
+        const spy = jest.spyOn(pluginState, 'onSelectNext');
+        (pluginState as any).emojiProvider = true;
+        forceUpdate(editorView); // Force update to ensure active query.
+
+        sendKeyToPm(editorView, 'ArrowDown');
+        expect(spy).not.toBeCalled();
+      });
+
+      it('should call "onSelectNext" which should return false by default', () => {
+        const { editorView, pluginState } = editor(
+          doc(p(emojiQuery(':grin{<>}'))),
+        );
+        const spy = spyOnReturnValue(pluginState, 'onSelectNext');
+        (pluginState as any).emojiProvider = true;
+        forceUpdate(editorView); // Force update to ensure active query.
+
+        sendKeyToPm(editorView, 'ArrowDown');
+        expect(spy).toBeCalled();
+        expect(spy.returnValue).toBe(false);
+      });
+    });
+
+    describe('Enter', () => {
+      it('should be ignored if there is no emojiProvider', () => {
+        const { editorView, pluginState } = editor(
+          doc(p(emojiQuery(':grin{<>}'))),
+        );
+        const spy = jest.spyOn(pluginState, 'onSelectCurrent');
+
+        forceUpdate(editorView); // Force update to ensure active query.
+        sendKeyToPm(editorView, 'Enter');
+        expect(spy).not.toBeCalled();
+      });
+
+      it('should be ignored if there is no active query', () => {
+        const { editorView, pluginState } = editor(doc(p('Hello{<>}')));
+        const spy = jest.spyOn(pluginState, 'onSelectCurrent');
+        (pluginState as any).emojiProvider = true;
+        forceUpdate(editorView); // Force update to ensure active query.
+
+        sendKeyToPm(editorView, 'Enter');
+        expect(spy).not.toBeCalled();
+      });
+
+      it('should call "onSelectCurrent" which should return false by default', () => {
+        const { editorView, pluginState } = editor(
+          doc(p(emojiQuery(':grin{<>}'))),
+        );
+        const spy = spyOnReturnValue(pluginState, 'onSelectCurrent');
+        (pluginState as any).emojiProvider = true;
+        pluginState.onSearchResult({ emojis: [grinEmoji] });
+
+        forceUpdate(editorView); // Force update to ensure active query.
+
+        sendKeyToPm(editorView, 'Enter');
+        expect(spy).toHaveBeenCalledWith('Enter');
+        expect(spy.returnValue).toBe(false);
+      });
+    });
+
+    describe('Shift-Enter', () => {
+      it('should be ignored if there is no emojiProvider', () => {
+        const { editorView, pluginState } = editor(
+          doc(p(emojiQuery(':grin{<>}'))),
+        );
+        const spy = jest.spyOn(pluginState, 'onSelectCurrent');
+
+        forceUpdate(editorView); // Force update to ensure active query.
+        sendKeyToPm(editorView, 'Shift-Enter');
+        expect(spy).not.toBeCalled();
+      });
+
+      it('should be ignored if there is no active query', () => {
+        const { editorView, pluginState } = editor(doc(p('Hello{<>}')));
+        const spy = jest.spyOn(pluginState, 'onSelectCurrent');
+        (pluginState as any).emojiProvider = true;
+        forceUpdate(editorView); // Force update to ensure active query.
+
+        sendKeyToPm(editorView, 'Shift-Enter');
+        expect(spy).not.toBeCalled();
+      });
+
+      it('should call "onSelectCurrent" which should return false by default', () => {
+        const { editorView, pluginState } = editor(
+          doc(p(emojiQuery(':grin{<>}'))),
+        );
+        const spy = spyOnReturnValue(pluginState, 'onSelectCurrent');
+        (pluginState as any).emojiProvider = true;
+        pluginState.onSearchResult({ emojis: [grinEmoji] });
+
+        forceUpdate(editorView); // Force update to ensure active query.
+
+        sendKeyToPm(editorView, 'Shift-Enter');
+        expect(spy).toHaveBeenCalledWith('Shift-Enter');
+        expect(spy.returnValue).toBe(false);
+      });
+    });
+
+    describe('Space', () => {
+      it('should be ignored if there is no emojiProvider', () => {
+        const { editorView, pluginState } = editor(
+          doc(p(emojiQuery(':grin{<>}'))),
+        );
+        const spy = jest.spyOn(pluginState, 'trySelectCurrentWithSpace');
+
+        forceUpdate(editorView); // Force update to ensure active query.
+        sendKeyToPm(editorView, 'Space');
+        expect(spy).not.toBeCalled();
+      });
+
+      it('should be ignored if there is no active query', () => {
+        const { editorView, pluginState } = editor(doc(p('Hello')));
+        const spy = jest.spyOn(pluginState, 'trySelectCurrentWithSpace');
+        (pluginState as any).emojiProvider = true;
+        forceUpdate(editorView); // Force update to ensure active query.
+
+        sendKeyToPm(editorView, 'Space');
+        expect(spy).not.toBeCalled();
+      });
+
+      it('should call "trySelectCurrentWithSpace" which should return false', () => {
+        const { editorView, pluginState } = editor(
+          doc(p(emojiQuery(':grin{<>}'))),
+        );
+        const spy = spyOnReturnValue(pluginState, 'trySelectCurrentWithSpace');
+        const spyOnSpaceTyped = jest.spyOn(pluginState, 'onSpaceTyped');
+        (pluginState as any).emojiProvider = true;
+        forceUpdate(editorView); // Force update to ensure active query.
+
+        sendKeyToPm(editorView, 'Space');
+        expect(spy).toBeCalled();
+        expect(spy.returnValue).toBe(false);
+        expect(spyOnSpaceTyped).toBeCalled();
+      });
+
+      it('should call "insertEmoji" if there is only 1 result', () => {
+        const { editorView, pluginState } = editor(
+          doc(p(emojiQuery(':grin{<>}'))),
+        );
+        const spy = jest.spyOn(pluginState, 'insertEmoji');
+        const spyOnSpaceSelectCurrent = jest.spyOn(
+          pluginState,
+          'onSpaceSelectCurrent',
+        );
+        const spyOnSpaceTyped = jest.spyOn(pluginState, 'onSpaceTyped');
+
+        (pluginState as any).emojiProvider = true;
+        forceUpdate(editorView); // Force update to ensure active query.
+        pluginState.onSearchResult({ emojis: [grinEmoji] });
+
+        sendKeyToPm(editorView, 'Space');
+        expect(spy).toHaveBeenCalledWith(grinEmoji);
+
+        expect(spyOnSpaceSelectCurrent).toHaveBeenCalledWith(
+          grinEmoji,
+          'Space',
+          ':grin',
+        );
+        expect(spyOnSpaceTyped).not.toBeCalled();
+      });
+
+      it('should call "dismiss" if the query is empty', () => {
+        const { editorView, pluginState } = editor(doc(p(emojiQuery(':{<>}'))));
+        const spy = jest.spyOn(pluginState, 'dismiss');
+        (pluginState as any).emojiProvider = true;
+        forceUpdate(editorView); // Force update to ensure active query.
+
+        sendKeyToPm(editorView, 'Space');
+        expect(spy).toBeCalled();
+      });
+    });
+
+    describe('Escape', () => {
+      it('should be ignored if there is no emojiProvider', () => {
+        const { editorView, pluginState } = editor(
+          doc(p(emojiQuery(':grin{<>}'))),
+        );
+        const spy = jest.spyOn(pluginState, 'dismiss');
+
+        forceUpdate(editorView); // Force update to ensure active query.
+        sendKeyToPm(editorView, 'Esc');
+        expect(spy).not.toBeCalled();
+      });
+
+      it('should be ignored if there is no active query', () => {
+        const { editorView, pluginState } = editor(doc(p('Hello{<>}')));
+        const spy = jest.spyOn(pluginState, 'dismiss');
+        (pluginState as any).emojiProvider = true;
+        forceUpdate(editorView); // Force update to ensure active query.
+
+        sendKeyToPm(editorView, 'Esc');
+        expect(spy).not.toBeCalled();
+      });
+
+      it('should call "dismiss" which should return true by default', () => {
+        const { editorView, pluginState } = editor(
+          doc(p(emojiQuery(':grin{<>}'))),
+        );
+        const spy = spyOnReturnValue(pluginState, 'dismiss');
+        const spyOnDismiss = spyOnReturnValue(pluginState, 'onDismiss');
+        (pluginState as any).emojiProvider = true;
+        forceUpdate(editorView); // Force update to ensure active query.
+
+        sendKeyToPm(editorView, 'Esc');
+        expect(spy).toBeCalled();
+
+        // onDismiss handler should be called
+        expect(spyOnDismiss).toBeCalled();
+        expect(spy.returnValue).toBe(true);
+      });
+    });
+  });
+
+  describe('insertEmoji', () => {
+    it('should replace emoji-query-mark with emoji-node', () => {
+      const { editorView, pluginState } = editor(doc(p(emojiQuery(':grin'))));
+
+      pluginState.insertEmoji({
         fallback: 'Oscar Wallhult',
         shortName: 'oscar',
         id: '1234',
-      } as any)(editorView.state, editorView.dispatch);
+      });
 
       expect((editorView.state.doc.nodeAt(1) as PMNode).type.spec).toEqual(
         emojiNode,
@@ -73,9 +345,9 @@ describe('emojis', () => {
     });
 
     it('should insert a space after the emoji-node', () => {
-      const { editorView } = editor(doc(p('{<>}')));
+      const { editorView, pluginState } = editor(doc(p(emojiQuery(':gr{<>}'))));
 
-      insertEmoji(grinEmojiId as any)(editorView.state, editorView.dispatch);
+      pluginState.insertEmoji(grinEmojiId);
 
       expect(editorView.state.doc).toEqualDocument(
         doc(p(emoji(grinEmojiId)(), ' ')),
@@ -83,12 +355,11 @@ describe('emojis', () => {
     });
 
     it('should allow inserting multiple emojis next to each other', () => {
-      const { editorView } = editor(doc(p(emoji(grinEmojiId)(), ' ', '{<>}')));
-
-      insertEmoji(evilburnsEmojiId as any)(
-        editorView.state,
-        editorView.dispatch,
+      const { editorView, pluginState } = editor(
+        doc(p(emoji(grinEmojiId)(), ' ', emojiQuery(':ev{<>}'))),
       );
+
+      pluginState.insertEmoji(evilburnsEmojiId);
 
       expect(editorView.state.doc).toEqualDocument(
         doc(p(emoji(grinEmojiId)(), ' ', emoji(evilburnsEmojiId)(), ' ')),
@@ -96,9 +367,11 @@ describe('emojis', () => {
     });
 
     it('should allow inserting emoji on new line after hard break', () => {
-      const { editorView } = editor(doc(p(br(), '{<>}')));
+      const { editorView, pluginState } = editor(
+        doc(p(br(), emojiQuery(':gr{<>}'))),
+      );
 
-      insertEmoji(grinEmojiId as any)(editorView.state, editorView.dispatch);
+      pluginState.insertEmoji(grinEmojiId);
 
       expect(editorView.state.doc).toEqualDocument(
         doc(p(br(), emoji(grinEmojiId)(), ' ')),
@@ -106,11 +379,13 @@ describe('emojis', () => {
     });
 
     it('should not break list into two when inserting emoji inside list item', () => {
-      const { editorView } = editor(
-        doc(ul(li(p('One')), li(p('Two ', '{<>}')), li(p('Three')))),
+      const { editorView, pluginState } = editor(
+        doc(
+          ul(li(p('One')), li(p('Two ', emojiQuery(':{<>}'))), li(p('Three'))),
+        ),
       );
 
-      insertEmoji(grinEmojiId as any)(editorView.state, editorView.dispatch);
+      pluginState.insertEmoji(grinEmojiId);
 
       expect(editorView.state.doc).toEqualDocument(
         doc(
@@ -124,9 +399,11 @@ describe('emojis', () => {
     });
 
     it('should insert only 1 emoji at a time inside blockqoute', () => {
-      const { editorView } = editor(doc(blockquote(p('Hello ', '{<>}'))));
+      const { editorView, pluginState } = editor(
+        doc(blockquote(p('Hello ', emojiQuery(':{<>}')))),
+      );
 
-      insertEmoji(grinEmojiId as any)(editorView.state, editorView.dispatch);
+      pluginState.insertEmoji(grinEmojiId);
 
       expect(editorView.state.doc).toEqualDocument(
         doc(blockquote(p('Hello ', emoji(grinEmojiId)(), ' '))),
@@ -136,6 +413,36 @@ describe('emojis', () => {
         emojiNode,
       );
       expect(editorView.state.doc.nodeAt(10)).toBe(null);
+    });
+  });
+
+  describe('isEnabled', () => {
+    it('returns true when the emoji mark can be applied', () => {
+      const { pluginState } = editor(doc(p('te{<>}xt')));
+      expect(pluginState.isEnabled()).toBe(true);
+    });
+
+    it('returns false when the emoji mark cannot be applied', () => {
+      const { pluginState } = editor(doc(p(code('te{<>}xt'))));
+      expect(pluginState.isEnabled()).toBe(false);
+    });
+  });
+
+  describe('focused', () => {
+    describe('when editor is focused', () => {
+      it('it is true', () => {
+        const { plugin, pluginState, editorView } = editor(doc(p('te{<>}xt')));
+        plugin.props.handleDOMEvents!.focus(editorView, event);
+        expect(pluginState.focused).toEqual(true);
+      });
+    });
+
+    describe('when editor is not focused', () => {
+      it('it is false', () => {
+        const { plugin, pluginState, editorView } = editor(doc(p('te{<>}xt')));
+        plugin.props.handleDOMEvents!.blur(editorView, event);
+        expect(pluginState.focused).toEqual(false);
+      });
     });
   });
 

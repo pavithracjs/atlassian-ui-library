@@ -1,5 +1,52 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.4.3
+- [patch] [83014a7395](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/83014a7395):
+
+  - ED-6716 Prevent mobile-bridge from deleting invalid marks. Temporary fix for inline comments being removed in the document.
+
+## 7.4.2
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/form@5.2.7
+  - @atlaskit/select@8.1.1
+  - @atlaskit/textfield@0.4.4
+  - @atlaskit/editor-common@36.1.12
+  - @atlaskit/editor-core@107.13.4
+  - @atlaskit/renderer@45.6.1
+  - @atlaskit/emoji@59.2.3
+  - @atlaskit/mention@17.6.7
+  - @atlaskit/status@0.8.3
+  - @atlaskit/task-decision@14.0.5
+  - @atlaskit/smart-card@10.2.4
+  - @atlaskit/theme@8.1.7
+
+## 7.4.1
+- [patch] [351e23aeb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/351e23aeb5):
+
+  - ED-6102: fixed inline node deletion on Android
+
+## 7.4.0
+- [minor] [7964240a6a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7964240a6a):
+
+  - ED-6698: Adding smart cards to the renderer and on document load
+
+## 7.3.2
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/form@5.2.5
+  - @atlaskit/select@8.0.5
+  - @atlaskit/textfield@0.4.3
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/editor-core@107.12.5
+  - @atlaskit/renderer@45.4.3
+  - @atlaskit/emoji@59.2.1
+  - @atlaskit/task-decision@14.0.3
+  - @atlaskit/media-core@29.1.4
+  - @atlaskit/smart-card@10.2.2
+  - @atlaskit/button@12.0.0
+
 ## 7.3.1
 - [patch] [55e47676aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55e47676aa):
 

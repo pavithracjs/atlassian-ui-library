@@ -13,6 +13,9 @@ const TitleArea: any = styled.textarea`
   vertical-align: bottom;
   color: ${themed({ light: 'black', dark: colors.DN900 })};
 
+  /* Blend into the page bg colour. This way it's theme agnostic. */
+  background: transparent;
+
   &::placeholder {
     color: ${colors.N90};
   }

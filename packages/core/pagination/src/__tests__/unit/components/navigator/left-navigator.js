@@ -10,14 +10,14 @@ import LeftNavigator from '../../../../components/Navigators/LeftNavigator';
 describe(`${name} - LeftNavigator`, () => {
   it('default props', () => {
     const wrapper = mount(<LeftNavigator />);
-    expect(wrapper.find(Button).prop('ariaLabel')).toBe('previous');
+    expect(wrapper.find(Button).prop('aria-label')).toBe('previous');
     expect(wrapper.find(Button).prop('isDisabled')).toBe(false);
     /** renders left chevron */
     expect(wrapper.find(ChevronLeftLargeIcon).length).toBe(1);
   });
-  it('should passes down ariaLabel as ariaLabel to button', () => {
-    const wrapper = mount(<LeftNavigator ariaLabel="label" />);
-    expect(wrapper.find(Button).prop('ariaLabel')).toBe('label');
+  it('should passes down aria-label as aria-label to button', () => {
+    const wrapper = mount(<LeftNavigator aria-label="label" />);
+    expect(wrapper.find(Button).prop('aria-label')).toBe('label');
   });
   it('should passes down isDisabled prop to button', () => {
     const wrapper = mount(<LeftNavigator isDisabled />);

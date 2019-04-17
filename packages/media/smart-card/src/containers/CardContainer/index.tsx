@@ -5,7 +5,7 @@ import {
   BlockCardErroredView,
   InlineCardErroredView,
 } from '@atlaskit/media-ui';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
 import InnerCardContainer from '../InnerCardContainer';
 
 export interface CardContainerRenderProps {

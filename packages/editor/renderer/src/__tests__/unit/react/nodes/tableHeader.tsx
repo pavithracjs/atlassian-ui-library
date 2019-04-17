@@ -7,6 +7,7 @@ describe('Renderer - React/Nodes/TableHeader', () => {
     colspan: 6,
     rowspan: 3,
     background: '#fab',
+    colwidth: [10],
   };
 
   it('should create a <th>-tag', () => {
@@ -20,9 +21,17 @@ describe('Renderer - React/Nodes/TableHeader', () => {
 
     expect(tableHeader.prop('rowSpan')).toEqual(3);
     expect(tableHeader.prop('colSpan')).toEqual(6);
+    expect(tableHeader.prop('data-colwidth')).toEqual('10');
 
     expect(tableHeader.prop('style')).toEqual({
       backgroundColor: '#fab',
     });
+  });
+
+  it('should render the colwidths', () => {
+    const colwidth = [10, 12, 14];
+    const tableRow = shallow(<TableHeader colwidth={colwidth} />);
+
+    expect(tableRow.prop('data-colwidth')).toEqual('10,12,14');
   });
 });

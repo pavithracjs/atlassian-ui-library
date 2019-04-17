@@ -50,6 +50,7 @@ export {
   panel,
   panelNote,
   hardBreak,
+  emojiQuery,
   typeAheadQuery,
   media,
   mediaGroup,
@@ -113,3 +114,4 @@ export * from './enzyme';
 export { compareSelection } from './selection';
 export * from './table';
 export * from './constants';
+export { autoformattingProvider } from './autoformatting-provider';

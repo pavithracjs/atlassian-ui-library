@@ -6,7 +6,7 @@ import {
   insertText,
   sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import quickInsertPlugin from '../../../../plugins/quick-insert';
 
 describe('hyperlink', () => {

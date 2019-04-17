@@ -1,5 +1,7 @@
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import {
+  withAnalyticsEvents,
+  WithAnalyticsEventProps,
+} from '@atlaskit/analytics-next';
 import { EmojiProvider, ResourcedEmoji } from '@atlaskit/emoji';
 import { borderRadius, colors } from '@atlaskit/theme';
 import cx from 'classnames';
