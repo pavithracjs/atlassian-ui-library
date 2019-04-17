@@ -38,6 +38,7 @@ import {
 } from './create-editor';
 import { analyticsPluginKey } from '../plugins/analytics/plugin';
 import { getDocStructure } from '../utils/document-logger';
+import { isFullPage } from '../utils/is-full-page';
 
 export interface EditorViewProps {
   editorProps: EditorProps;
@@ -45,7 +46,6 @@ export interface EditorViewProps {
   providerFactory: ProviderFactory;
   portalProviderAPI: PortalProviderAPI;
   allowAnalyticsGASV3?: boolean;
-  fullWidthMode?: boolean;
   render?: (
     props: {
       editor: JSX.Element;
@@ -157,8 +157,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
     }
 
     if (
-      nextProps.editorProps.UNSAFE_fullWidthMode !==
-      this.props.editorProps.UNSAFE_fullWidthMode
+      nextProps.editorProps.appearance !== this.props.editorProps.appearance
     ) {
       this.reconfigureState(nextProps);
     }
@@ -311,10 +310,9 @@ export default class ReactEditorView<T = {}> extends React.Component<
     let selection: Selection | undefined;
     if (doc) {
       // ED-4759: Don't set selection at end for full-page editor - should be at start
-      selection =
-        options.props.editorProps.appearance === 'full-page'
-          ? Selection.atStart(doc)
-          : Selection.atEnd(doc);
+      selection = isFullPage(options.props.editorProps.appearance)
+        ? Selection.atStart(doc)
+        : Selection.atEnd(doc);
     }
     // Workaround for ED-3507: When media node is the last element, scrollIntoView throws an error
     const patchedSelection = selection
