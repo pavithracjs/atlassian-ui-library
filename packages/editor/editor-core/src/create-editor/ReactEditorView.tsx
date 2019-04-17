@@ -181,6 +181,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
       errorReporter: this.errorReporter,
       editorConfig: this.config,
       props: props.editorProps,
+      prevProps: this.props.editorProps,
       eventDispatcher: this.eventDispatcher,
       providerFactory: props.providerFactory,
       portalProviderAPI: props.portalProviderAPI,

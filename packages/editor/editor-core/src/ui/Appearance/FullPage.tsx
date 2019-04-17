@@ -2,7 +2,10 @@ import * as React from 'react';
 import { MouseEvent } from 'react';
 import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
-import { akEditorMenuZIndex } from '@atlaskit/editor-common';
+import {
+  akEditorMenuZIndex,
+  akEditorFullWidthLayoutWidth,
+} from '@atlaskit/editor-common';
 import { taskListSelector, decisionListSelector } from '@atlaskit/adf-schema';
 import { EditorAppearanceComponentProps, EditorAppearance } from '../../types';
 import Avatars from '../../plugins/collab-edit/ui/avatars';
@@ -48,7 +51,8 @@ const ContentArea = styled.div`
   flex-grow: 1;
   padding-bottom: 55px;
   max-width: ${({ theme, fullWidthMode }: any) =>
-    fullWidthMode ? '1800' : theme.layoutMaxWidth + GUTTER_PADDING * 2}px;
+    (fullWidthMode ? akEditorFullWidthLayoutWidth : theme.layoutMaxWidth) +
+    GUTTER_PADDING * 2}px;
   transition: margin-left ${SWOOP_ANIMATION}, max-width ${SWOOP_ANIMATION};
   margin-left: ${({ theme, fullWidthMode }: any) =>
     fullWidthMode
