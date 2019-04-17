@@ -308,7 +308,7 @@ export default class WebBridgeImpl extends WebBridge
         return;
 
       default:
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.error(`${type} cannot be inserted as it's not supported`);
         return;
     }

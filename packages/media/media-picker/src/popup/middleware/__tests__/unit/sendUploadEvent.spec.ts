@@ -9,7 +9,7 @@ import { SCALE_FACTOR_DEFAULT } from '../../../../util/getPreviewFromImage';
 import { MediaFile } from '../../../../domain/file';
 // avoid polluting test logs with error message in console
 // please ensure you fix it if you expect console.error to be thrown
-// tslint:disable-next-line:no-console
+// eslint-disable-next-line no-console
 let consoleError = console.error;
 
 describe('sendUploadEvent middleware', () => {
@@ -167,7 +167,7 @@ describe('sendUploadEvent middleware', () => {
 
   it('should emit upload error event', () => {
     const { eventEmitter, store, next } = setup();
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.error = jest.fn();
     const error: MediaError = {
       name: 'upload_fail',
@@ -194,7 +194,7 @@ describe('sendUploadEvent middleware', () => {
       },
       error,
     );
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.error = consoleError;
   });
 });

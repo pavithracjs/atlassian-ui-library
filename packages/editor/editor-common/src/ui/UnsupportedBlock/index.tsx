@@ -3,7 +3,6 @@ import { Component } from 'react';
 import styled from 'styled-components';
 import { borderRadius, colors } from '@atlaskit/theme';
 
-// tslint:disable-next-line:variable-name
 const BlockNode = styled.div`
   align-items: center;
   background: ${colors.N30};

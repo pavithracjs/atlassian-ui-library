@@ -1,5 +1,3 @@
-/* tslint:disable:variable-name */
-
 /**
  * Everything about this file change is just wrong.
  * Mostly because we do bad things with classes.

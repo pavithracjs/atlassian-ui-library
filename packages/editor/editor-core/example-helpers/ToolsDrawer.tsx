@@ -189,6 +189,7 @@ export default class ToolsDrawer extends React.Component<Props & any, State> {
     this.setState(prevState => ({ editorEnabled: !prevState.editorEnabled }));
 
   private toggleMediaMock = () => {
+    // eslint-disable-next-line no-unused-expressions
     this.state.mediaMockEnabled ? mediaMock.disable() : mediaMock.enable();
     this.setState(prevState => ({
       mediaMockEnabled: !prevState.mediaMockEnabled,

@@ -24,8 +24,8 @@ test('should ssr then hydrate button correctly', async () => {
 
   ReactDOM.hydrate(<Example />, elem);
 
-  /* tslint:disable no-console */
   // @ts-ignore
+  // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls;
   const filtered = mockCalls.filter((mock: any) => !warningRegEx.test(mock));
   const mockCallsWithoutStyleErrors = filtered.reduce(

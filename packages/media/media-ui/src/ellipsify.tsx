@@ -1,4 +1,3 @@
-/* tslint:disable:variable-name */
 import * as React from 'react';
 import styled, { ThemedOuterStyledProps } from 'styled-components';
 import * as exenv from 'exenv';

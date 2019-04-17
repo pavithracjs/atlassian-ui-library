@@ -18,12 +18,12 @@ export const Item: React.ComponentClass<React.HTMLAttributes<{}>> = styled.div`
 `;
 
 export const dumpRef = (ref: HTMLElement | null) => {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.log('Content HTML', ref && ref.outerHTML);
 };
 
 export const action = (action: string) => () => {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.log({ action });
 };
 

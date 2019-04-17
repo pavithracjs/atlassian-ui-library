@@ -6,7 +6,6 @@ import { HTMLAttributes, ClassAttributes } from 'react';
 
 import { colors } from '@atlaskit/theme';
 
-// tslint:disable-next-line:variable-name
 export const Content: React.ComponentClass<HTMLAttributes<{}>> = styled.div`
   & div.toolsDrawer {
     padding: 8px 16px;

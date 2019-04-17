@@ -139,6 +139,7 @@ export const fileToBase64 = (blob: Blob) => {
   });
 };
 
+/* eslint-disable no-bitwise */
 export const hexToRgb = (hex: string) => {
   const bigint = parseInt(hex.substring(hex.indexOf('#') + 1), 16);
   const red = (bigint >> 16) & 255;
@@ -157,3 +158,4 @@ export const rgbToHex = ({ red, green, blue }: VeColor) => {
       .toLowerCase()
   );
 };
+/* eslint-enable no-bitwise */

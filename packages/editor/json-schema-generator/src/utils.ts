@@ -33,6 +33,7 @@ export function getTags(tagInfo: ts.JSDocTagInfo[]): TagInfo {
 export type PrimitiveType = number | boolean | string;
 
 export function extractLiteralValue(typ: ts.Type): PrimitiveType {
+  /* eslint-disable no-bitwise */
   if (typ.flags & ts.TypeFlags.EnumLiteral) {
     let str = String((typ as ts.LiteralType).value);
     let num = parseFloat(str);
@@ -45,6 +46,7 @@ export function extractLiteralValue(typ: ts.Type): PrimitiveType {
     // TODO: Fix any
     return (typ as any).intrinsicName === 'true';
   }
+  /* eslint-enable no-bitwise */
   throw new Error(`Couldn't parse in extractLiteralValue`);
 }
 
@@ -68,6 +70,7 @@ export function isTypeAliasDeclaration(
   return node.kind === ts.SyntaxKind.TypeAliasDeclaration;
 }
 
+/* eslint-disable no-bitwise */
 export function isStringType(type: ts.Type) {
   return (type.flags & ts.TypeFlags.String) > 0;
 }
@@ -120,6 +123,7 @@ export function isNonPrimitiveType(type: ts.Type): type is ts.LiteralType {
 export function isAnyType(type: ts.Type): type is ts.Type {
   return (type.flags & ts.TypeFlags.Any) > 0;
 }
+/* eslint-enable no-bitwise */
 
 export function syntaxKindToName(kind: ts.SyntaxKind) {
   return ts.SyntaxKind[kind];

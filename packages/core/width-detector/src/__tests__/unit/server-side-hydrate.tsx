@@ -19,6 +19,6 @@ test('should ssr then hydrate width-detector correctly', async () => {
   elem.innerHTML = await ssr(example.filePath);
 
   ReactDOM.hydrate(<Example />, elem);
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   expect(console.error).not.toBeCalled();
 });

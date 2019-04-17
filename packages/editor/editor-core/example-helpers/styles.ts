@@ -5,7 +5,6 @@ import { HTMLAttributes, ClassAttributes, ComponentClass } from 'react';
 
 import { colors, gridSize } from '@atlaskit/theme';
 
-// tslint:disable-next-line:variable-name
 export const Content: ComponentClass<HTMLAttributes<{}>> = styled.div`
   & div.toolsDrawer {
     margin-top: 16px;
@@ -33,7 +32,6 @@ export const Content: ComponentClass<HTMLAttributes<{}>> = styled.div`
   }
 `;
 
-// tslint:disable-next-line:variable-name
 export const ButtonGroup: ComponentClass<HTMLAttributes<{}>> = styled.span`
   display: flex;
 
