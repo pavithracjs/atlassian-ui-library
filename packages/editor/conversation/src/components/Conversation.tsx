@@ -37,6 +37,8 @@ export interface Props extends SharedProps {
   objectId: string;
   containerId?: string;
   showBeforeUnloadWarning?: boolean;
+  onEditorOpen: () => void;
+  onEditorClose: () => void;
 
   // Dispatch
   onCreateConversation?: (
@@ -72,6 +74,8 @@ export default class Conversation extends React.PureComponent<Props, State> {
 
   static defaultProps = {
     placeholder: 'What do you want to say?',
+    onEditorOpen: () => {},
+    onEditorClose: () => {},
   };
 
   /*
@@ -276,12 +280,16 @@ export default class Conversation extends React.PureComponent<Props, State> {
         openEditorCount: this.state.openEditorCount - 1,
       });
     }
+
+    this.props.onEditorClose();
   };
 
   private onEditorOpen = () => {
     this.setState({
       openEditorCount: this.state.openEditorCount + 1,
     });
+
+    this.props.onEditorOpen();
   };
 
   private handleEditorChange = (value: any, commentId?: string) => {
