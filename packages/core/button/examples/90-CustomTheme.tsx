@@ -1,46 +1,27 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
-import Button, { ButtonGroup } from '../src';
+import { Component, CSSProperties } from 'react';
+import Button, { ButtonGroup, Theme as ButtonTheme, ButtonProps } from '../src';
 import AddIcon from '@atlaskit/icon/glyph/editor/add';
+import Select from '@atlaskit/select';
 import { colors } from '@atlaskit/theme';
 
-export default () => (
-  <div css={{ margin: 20 }}>
-    <h3 css={{ marginBottom: 15 }}>ADG Button</h3>
-    <ButtonGroup>
-      <Button iconBefore={<AddIcon label="add" />}>Button</Button>
-      <Button appearance="primary">Button</Button>
-      <Button appearance="warning">Button</Button>
-    </ButtonGroup>
+interface ThemeProps {
+  mode?: any;
+  appearance?: any;
+  state?: any;
+}
 
-    <h3 css={{ marginBottom: 15 }}>Themed Button</h3>
-    <ButtonGroup>
-      <ThemedButton iconBefore={<AddIcon label="add" />}>Button</ThemedButton>
-      <ThemedButton appearance="primary">Button</ThemedButton>
-      <ThemedButton isDisabled>Button</ThemedButton>
-    </ButtonGroup>
-  </div>
-);
-
-// CUSTOM BUTTON THEME - theme.ts
-
-const ThemedButton = (props: any) => (
+const ThemedButton = (props: ButtonProps) => (
   <Button
     {...props}
-    theme={(currentTheme, { appearance = 'default', state = 'default' }) => {
-      const { buttonStyles, ...rest } = currentTheme({
-        ...props,
-        appearance,
-        state,
-      });
+    theme={(currentTheme, themeProps) => {
+      const { buttonStyles, ...rest } = currentTheme(themeProps);
       return {
         buttonStyles: {
           ...buttonStyles,
-          ...getButtonStyles({
-            ...props,
-            appearance: appearance,
-            state,
-          }),
+          ...baseStyles,
+          ...extract(customTheme, themeProps),
         },
         ...rest,
       };
@@ -48,89 +29,138 @@ const ThemedButton = (props: any) => (
   />
 );
 
-// CUSTOM BUTTON STYLING - getStyles.ts
-interface ButtonValues {
-  appearance: string;
-  state: string;
+const options = [
+  { value: 'light', label: 'Light Theme' },
+  { value: 'dark', label: 'Dark Mode' },
+];
+
+export default class extends Component {
+  state = {
+    mode: options[0],
+  };
+
+  render() {
+    return (
+      <div css={{ margin: 20 }}>
+        <h3 css={{ marginBottom: 15 }}>ADG Button</h3>
+        <ButtonGroup>
+          <Button iconBefore={<AddIcon label="add" />}>Button</Button>
+          <Button appearance="primary">Button</Button>
+          <Button appearance="warning">Button</Button>
+        </ButtonGroup>
+
+        <h3 css={{ marginBottom: 15 }}>Themed Button</h3>
+        <ButtonGroup>
+          <ThemedButton iconBefore={<AddIcon label="add" />}>
+            Button
+          </ThemedButton>
+          <ThemedButton appearance="primary">Button</ThemedButton>
+          <ThemedButton isDisabled>Button</ThemedButton>
+        </ButtonGroup>
+
+        <h3 css={{ marginBottom: 15 }}>Light + Dark Themes</h3>
+        <Select
+          styles={{
+            container: (provided: CSSProperties) => ({
+              marginBottom: 20,
+              width: 300,
+              ...provided,
+            }),
+          }}
+          options={options}
+          onChange={(option: { ['key']: string }) =>
+            this.setState({ mode: option })
+          }
+          placeholder={this.state.mode.label}
+        />
+        <ButtonTheme.Provider
+          value={(current, props: any) =>
+            current({ ...props, mode: this.state.mode.value })
+          }
+        >
+          <ButtonGroup>
+            <Button iconBefore={<AddIcon label="add" />}>Button</Button>
+            <Button appearance="primary">Button</Button>
+            <Button appearance="subtle">Button</Button>
+          </ButtonGroup>
+        </ButtonTheme.Provider>
+      </div>
+    );
+  }
 }
 
-type ButtonProperty = {
-  [key: string]: any;
-};
-
-export const button = {
+const baseStyles = {
   border: 'none',
   padding: '0px 15px',
   borderRadius: '15px',
+  fontWeight: 'bold',
+};
 
-  background: {
-    default: {
+const customTheme = {
+  default: {
+    background: {
       default: colors.N30,
       hover: colors.N40,
       active: colors.N50,
     },
-    primary: {
-      default: '#00AECC',
-      hover: '#0098B7',
-      active: '#0082A0',
-    },
-  },
-  boxShadow: {
-    default: {
+    boxShadow: {
       default: `1px 2px 0 0 ${colors.N40A}`,
       hover: `1px 2px 0 0 ${colors.N50A}`,
       active: '0px 0px 0 0',
     },
-    primary: {
+    transform: {
+      default: 'initial',
+      active: 'translateY(2px) translateX(1px)',
+    },
+    transition: {
+      default:
+        'background 0.1s ease-out, box-shadow 0.1s cubic-bezier(0.47, 0.03, 0.49, 1.38) transform:0.1s',
+      active:
+        'background 0s ease-out, box-shadow 0s cubic-bezier(0.47, 0.03, 0.49, 1.38) transform:0s',
+    },
+  },
+  primary: {
+    background: {
+      default: '#00AECC',
+      hover: '#0098B7',
+      active: '#0082A0',
+    },
+    boxShadow: {
       default: `1px 2px 0 0 #0098B7`,
       hover: `1px 2px 0 0 #0082A0`,
       active: '0px 0px 0 0',
     },
-  },
-  transform: {
-    default: 'initial',
-    active: 'translateY(2px) translateX(1px)',
-  },
-  transition: {
-    default:
-      'background 0.1s ease-out, box-shadow 0.1s cubic-bezier(0.47, 0.03, 0.49, 1.38) transform:0.1s',
-    active:
-      'background 0s ease-out, box-shadow 0s cubic-bezier(0.47, 0.03, 0.49, 1.38) transform:0s',
+    transform: {
+      default: 'initial',
+      active: 'translateY(2px) translateX(1px)',
+    },
+    transition: {
+      default:
+        'background 0.1s ease-out, box-shadow 0.1s cubic-bezier(0.47, 0.03, 0.49, 1.38) transform:0.1s',
+      active:
+        'background 0s ease-out, box-shadow 0s cubic-bezier(0.47, 0.03, 0.49, 1.38) transform:0s',
+    },
   },
 };
 
-const getBackground = (
-  background: ButtonProperty,
-  { appearance, state }: ButtonValues,
-) => {
-  if (!background[appearance]) {
-    return background.default[state];
+function extract(newTheme: any, { mode, appearance, state }: ThemeProps) {
+  if (!newTheme[appearance]) {
+    return undefined;
   }
-  return background[appearance][state];
-};
-
-const getBoxShadow = (
-  boxShadow: ButtonProperty,
-  { appearance, state }: ButtonValues,
-) => {
-  if (boxShadow[appearance][state]) return boxShadow[appearance][state];
-  return boxShadow[appearance];
-};
-
-const getTransform = (transform: ButtonProperty, { state }: ButtonValues) => {
-  return transform[state];
-};
-
-const getTransition = (transition: ButtonProperty, { state }: ButtonValues) => {
-  return transition['default'][state];
-};
-
-const getButtonStyles = (props: ButtonValues) => ({
-  border: button.border,
-  background: getBackground(button.background, props),
-  borderRadius: button.borderRadius,
-  boxShadow: getBoxShadow(button.boxShadow, props),
-  padding: button.padding,
-  transform: getTransform(button.transform, props),
-  transition: getTransition(button.transition, props),
-});
+  const root = newTheme[appearance];
+  return Object.keys(root).reduce((acc: { [index: string]: string }, val) => {
+    let node = root;
+    [val, state, mode].forEach(item => {
+      if (!node[item]) {
+        return undefined;
+      }
+      if (typeof node[item] !== 'object') {
+        acc[val] = node[item];
+        return undefined;
+      }
+      node = node[item];
+      return undefined;
+    });
+    return acc;
+  }, {});
+}
