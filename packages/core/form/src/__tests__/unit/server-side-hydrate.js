@@ -10,11 +10,6 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-/**
- * Skipping ssr tests while we investigate an issue with emotion 10 hydration errors
- * Ticket: https://ecosystem.atlassian.net/browse/AK-6059
- */
-/* eslint-disable jest/no-disabled-tests */
 test('should ssr then hydrate form correctly', async () => {
   const [example] = await getExamplesFor('form');
   // $StringLitteral
