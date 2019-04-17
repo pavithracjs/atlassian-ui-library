@@ -3,6 +3,7 @@ import gapcursor from './__fixtures__/gap-cursor-adf.json';
 import paragraph from './__fixtures__/paragraph-of-text.adf.json';
 import { selectors } from '../../__helpers/page-objects/_editor';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
+import { waitForGapCursor } from '../../__helpers/page-objects/gap-cursor';
 
 describe('Gap cursor:', () => {
   let page: any;
@@ -20,12 +21,14 @@ describe('Gap cursor:', () => {
   it('should render gap cursor for code when ArrowRight', async () => {
     await page.click(selectors.codeContent);
     await pressKey(page, 'ArrowRight');
+    await waitForGapCursor(page);
     await page.waitForSelector(selectors.gapCursor);
   });
 
   it(' should render gap cursor on panel when ArrowLeft', async () => {
     await page.click(selectors.panelContent);
     await pressKey(page, 'ArrowLeft');
+    await waitForGapCursor(page);
     await page.waitForSelector(selectors.gapCursor);
   });
 
@@ -33,6 +36,7 @@ describe('Gap cursor:', () => {
     await page.click(selectors.panelContent);
     await pressKey(page, 'ArrowLeft');
     await pressKey(page, 'ArrowUp');
+    await waitForGapCursor(page);
     await page.waitForSelector(selectors.gapCursor);
   });
 
@@ -40,6 +44,7 @@ describe('Gap cursor:', () => {
     await page.click(selectors.codeContent);
     await pressKey(page, 'ArrowRight');
     await pressKey(page, 'ArrowDown');
+    await waitForGapCursor(page);
     await page.waitForSelector(selectors.gapCursor);
   });
 });
