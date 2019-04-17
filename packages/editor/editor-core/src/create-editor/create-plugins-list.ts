@@ -128,7 +128,7 @@ export default function createPluginsList(
   }
 
   if (props.emojiProvider) {
-    plugins.push(emojiPlugin);
+    plugins.push(emojiPlugin(createAnalyticsEvent));
   }
 
   if (props.allowTables) {

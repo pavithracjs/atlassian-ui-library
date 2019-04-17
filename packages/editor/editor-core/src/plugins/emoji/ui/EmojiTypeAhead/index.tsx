@@ -2,6 +2,7 @@ import * as React from 'react';
 import { PureComponent } from 'react';
 import { PluginKey } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
+import { AnalyticsEventPayload } from '@atlaskit/analytics-next';
 import { Popup, akEditorFloatingDialogZIndex } from '@atlaskit/editor-common';
 import {
   EmojiTypeAhead as AkEmojiTypeAhead,
@@ -34,6 +35,7 @@ export interface Props {
   popupsScrollableElement?: HTMLElement;
   emojiProvider: Promise<EmojiProvider>;
   dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
+  fireAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
 }
 
 export interface State {
@@ -115,6 +117,7 @@ export default class EmojiTypeAhead extends PureComponent<Props, State> {
       popupsMountPoint,
       popupsScrollableElement,
       emojiProvider,
+      fireAnalyticsEvent,
     } = this.props;
 
     if (
@@ -142,6 +145,7 @@ export default class EmojiTypeAhead extends PureComponent<Props, State> {
           emojiProvider={emojiProvider}
           onSelection={this.handleSelectedEmoji}
           onOpen={this.handleOnOpen}
+          fireAnalyticsEvent={fireAnalyticsEvent}
           query={query}
           ref={this.handleEmojiTypeAheadRef}
         />

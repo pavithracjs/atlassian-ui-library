@@ -2,11 +2,13 @@ import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import * as sinon from 'sinon';
 import { waitUntil } from '@atlaskit/util-common-test';
+import { AnalyticsEventPayload } from '@atlaskit/analytics-next';
 
 import {
   atlassianBoomEmoji,
   blackFlagEmoji,
   getEmojiResourcePromise,
+  grinEmoji,
   newEmojiRepository,
   openMouthEmoji,
   standardBoomEmoji,
@@ -29,6 +31,11 @@ import { OptionalEmojiDescription, OnEmojiEvent } from '../../../../types';
 import { toEmojiId } from '../../../../util/type-helpers';
 import { Props as TypeAheadProps } from '../../../../components/typeahead/EmojiTypeAhead';
 import { State as TypeAheadState } from '../../../../components/typeahead/EmojiTypeAheadComponent';
+import {
+  typeAheadCancelledEvent,
+  typeAheadRenderedEvent,
+  typeAheadSelectedEvent,
+} from '../../../../util/analytics';
 
 function setupTypeAhead(props?: Props): Promise<ReactWrapper<any, any>> {
   const component = mount(
@@ -152,11 +159,13 @@ describe('EmojiTypeAhead', () => {
 
   it('should choose clicked selection when item clicked', () => {
     let choseEmoji: OptionalEmojiDescription;
+    const fireEventSpy: (payload: AnalyticsEventPayload) => void = jest.fn();
 
     return setupTypeAhead({
       onSelection: (_emojiId, emoji) => {
         choseEmoji = emoji;
       },
+      fireAnalyticsEvent: fireEventSpy,
     } as Props).then(component =>
       waitUntil(() => doneLoading(component)).then(() => {
         const defaultEmojiShown = () =>
@@ -168,6 +177,16 @@ describe('EmojiTypeAhead', () => {
         const item = getEmojiTypeAheadItemById(component, allEmojis[2].id);
         item.simulate('mousedown', leftClick);
         expect(chooseThirdItem()).toEqual(true);
+        expect(fireEventSpy).toHaveBeenLastCalledWith(
+          expect.objectContaining(
+            typeAheadSelectedEvent(
+              false,
+              expect.any(Number),
+              choseEmoji!,
+              allEmojis,
+            ),
+          ),
+        );
       }),
     );
   });
@@ -301,6 +320,24 @@ describe('EmojiTypeAhead', () => {
     );
   });
 
+  it('should fire cancelled analytic when unmounted', () => {
+    const fireEventSpy: (payload: AnalyticsEventPayload) => void = jest.fn();
+
+    return setupTypeAhead({
+      fireAnalyticsEvent: fireEventSpy,
+    } as Props).then(component =>
+      waitUntil(() => doneLoading(component)).then(() => {
+        expect(fireEventSpy).toHaveBeenCalledWith(
+          typeAheadRenderedEvent(expect.any(Number)),
+        );
+        component.unmount();
+        expect(fireEventSpy).toHaveBeenCalledWith(
+          typeAheadCancelledEvent(expect.any(Number)),
+        );
+      }),
+    );
+  });
+
   it('should find two matches when querying "boom"', () =>
     // Confirm initial state for later conflicting shortName tests
     setupTypeAhead({
@@ -399,13 +436,26 @@ describe('EmojiTypeAhead', () => {
 
   it('should fire onSelection if a query ends in a colon and has an exact match with one emoji shortName', () => {
     const onSelection = sinon.spy();
+    const fireEventSpy: (payload: AnalyticsEventPayload) => void = jest.fn();
 
     return setupTypeAhead({
       onSelection: onSelection as OnEmojiEvent,
       query: ':grin:',
+      fireAnalyticsEvent: fireEventSpy,
     } as Props).then(component =>
       waitUntil(() => doneLoading(component)).then(() => {
         expect(onSelection.callCount).toEqual(1);
+        expect(fireEventSpy).toHaveBeenLastCalledWith(
+          expect.objectContaining(
+            typeAheadSelectedEvent(
+              true,
+              expect.any(Number),
+              grinEmoji,
+              [grinEmoji],
+              ':grin:',
+            ),
+          ),
+        );
       }),
     );
   });

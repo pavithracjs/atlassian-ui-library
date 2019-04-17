@@ -14,10 +14,16 @@ import {
   ToneSelection,
 } from '../../types';
 import debug from '../../util/logger';
+import {
+  typeAheadCancelledEvent,
+  typeAheadSelectedEvent,
+  typeAheadRenderedEvent,
+} from '../../util/analytics';
 import { EmojiContext } from '../common/internal-types';
 import { createRecordSelectionDefault } from '../common/RecordSelectionDefault';
 import EmojiList from './EmojiTypeAheadList';
 import * as styles from './styles';
+import { AnalyticsEventPayload } from '@atlaskit/analytics-next';
 
 export interface OnLifecycle {
   (): void;
@@ -30,6 +36,7 @@ export interface EmojiTypeAheadBaseProps {
 
   onOpen?: OnLifecycle;
   onClose?: OnLifecycle;
+  fireAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
 }
 
 export interface Props extends EmojiTypeAheadBaseProps {
@@ -40,7 +47,10 @@ export interface State {
   visible: boolean;
   emojis: EmojiDescription[];
   loading: boolean;
+  pressed: boolean;
   selectedTone?: ToneSelection;
+  openTime: number;
+  renderStartTime: number;
 }
 
 const isFullShortName = (query?: string) =>
@@ -96,6 +106,9 @@ export default class EmojiTypeAheadComponent extends PureComponent<
       visible: true,
       emojis: [],
       loading: true,
+      pressed: false,
+      openTime: Date.now(),
+      renderStartTime: Date.now(),
       selectedTone: props.emojiProvider.getSelectedTone(),
     };
     if (this.props.onOpen) {
@@ -118,8 +131,11 @@ export default class EmojiTypeAheadComponent extends PureComponent<
   }
 
   componentWillUnmount() {
-    const { emojiProvider } = this.props;
+    const { emojiProvider, query } = this.props;
     emojiProvider.unsubscribe(this.onProviderChange);
+    this.fireAnalytics(
+      typeAheadCancelledEvent(Date.now() - this.state.openTime, query),
+    );
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -131,6 +147,13 @@ export default class EmojiTypeAheadComponent extends PureComponent<
       this.onSearch(nextProps.query);
     } else if (this.props.query !== nextProps.query) {
       this.onSearch(nextProps.query);
+    }
+  }
+
+  fireAnalytics(payload: AnalyticsEventPayload) {
+    const { fireAnalyticsEvent } = this.props;
+    if (fireAnalyticsEvent) {
+      fireAnalyticsEvent(payload);
     }
   }
 
@@ -147,6 +170,7 @@ export default class EmojiTypeAheadComponent extends PureComponent<
   };
 
   chooseCurrentSelection = () => {
+    this.setState({ pressed: true });
     if (this.emojiListRef) {
       this.emojiListRef.chooseCurrentSelection();
     }
@@ -155,6 +179,16 @@ export default class EmojiTypeAheadComponent extends PureComponent<
   count = (): number => {
     const { emojis } = this.state;
     return (emojis && emojis.length) || 0;
+  };
+
+  getTone = (tone?: number): string | undefined => {
+    return typeof tone === 'undefined'
+      ? undefined
+      : tone >= 0 && tone <= 5
+      ? ['default', 'light', 'mediumLight', 'medium', 'mediumDark', 'dark'][
+          tone
+        ]
+      : undefined;
   };
 
   private onSearch(query?: string) {
@@ -171,6 +205,10 @@ export default class EmojiTypeAheadComponent extends PureComponent<
       options.sort = SearchSort.UsageFrequency;
     }
 
+    this.setState({
+      renderStartTime: Date.now(),
+    });
+
     emojiProvider.filter(query, options);
   }
 
@@ -178,6 +216,9 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     const { emojis, query } = result;
     const wasVisible = this.state.visible;
     const visible = emojis.length > 0;
+    this.fireAnalytics(
+      typeAheadRenderedEvent(Date.now() - this.state.renderStartTime),
+    );
     debug(
       'emoji-typeahead.applyPropChanges',
       emojis.length,
@@ -199,6 +240,7 @@ export default class EmojiTypeAheadComponent extends PureComponent<
           this.props.emojiProvider,
           this.props.onSelection,
         );
+        this.fireSelectionEvent(result.emojis[matchIndex], true);
         onSelect(
           toEmojiId(result.emojis[matchIndex]),
           result.emojis[matchIndex],
@@ -219,6 +261,22 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     }
   };
 
+  private fireSelectionEvent(emoji: EmojiDescription, fullName?: boolean) {
+    const { query } = this.props;
+    const { emojis, openTime, pressed, selectedTone } = this.state;
+
+    this.fireAnalytics(
+      typeAheadSelectedEvent(
+        fullName || pressed,
+        Date.now() - openTime,
+        emoji,
+        emojis,
+        query,
+        this.getTone(selectedTone),
+      ),
+    );
+  }
+
   private onProviderChange: OnEmojiProviderChange = {
     result: this.onSearchResult,
   };
@@ -231,7 +289,10 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     const { emojiProvider, onSelection } = this.props;
     const recordUsageOnSelection = createRecordSelectionDefault(
       emojiProvider,
-      onSelection,
+      (emojiId, emoji, event) => {
+        this.fireSelectionEvent(emoji as EmojiDescription);
+        if (onSelection) onSelection(emojiId, emoji, event);
+      },
     );
 
     const { visible, emojis, loading } = this.state;

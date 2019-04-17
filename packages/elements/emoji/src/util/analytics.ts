@@ -3,6 +3,7 @@ import {
   AnalyticsEventPayload,
   CreateAndFireEventFunction,
 } from '@atlaskit/analytics-next';
+import { EmojiDescription } from '../types';
 import {
   name as packageName,
   version as packageVersion,
@@ -120,3 +121,60 @@ export const deleteCancelEvent = (attributes: EmojiId) =>
 
 export const selectedFileEvent = () =>
   createEvent('ui', 'clicked', 'emojiUploader', 'selectFile');
+
+interface QueryAttributes {
+  queryLength: number;
+  spaceInQuery: boolean;
+}
+
+const extractAttributesFromQuery = (query?: string): QueryAttributes => {
+  if (query) {
+    return {
+      queryLength: query.length,
+      spaceInQuery: query.indexOf(' ') !== -1,
+    };
+  }
+  return {
+    queryLength: 0,
+    spaceInQuery: false,
+  };
+};
+
+export const typeAheadCancelledEvent = (duration: number, query?: string) =>
+  createEvent('ui', 'cancelled', 'emojiTypeAhead', '', {
+    duration,
+    ...extractAttributesFromQuery(query),
+  });
+
+const getPosition = (
+  emojiList: EmojiDescription[] | undefined,
+  selectedEmoji: EmojiDescription,
+): number | undefined => {
+  if (emojiList) {
+    const index = emojiList.findIndex(emoji => emoji.id === selectedEmoji.id);
+    return index === -1 ? undefined : index;
+  }
+  return;
+};
+
+export const typeAheadSelectedEvent = (
+  pressed: boolean,
+  duration: number,
+  emoji: EmojiDescription,
+  emojiList?: EmojiDescription[],
+  query?: string,
+  skinToneModifier?: string,
+) =>
+  createEvent('ui', pressed ? 'pressed' : 'clicked', 'emojiTypeAhead', '', {
+    baseEmojiId: emoji.id,
+    duration,
+    position: getPosition(emojiList, emoji),
+    ...extractAttributesFromQuery(query),
+    emojiType: emoji.type,
+    skinToneModifier,
+  });
+
+export const typeAheadRenderedEvent = (duration: number) =>
+  createEvent('operational', 'rendered', 'emojiTypeAhead', '', {
+    duration,
+  });
