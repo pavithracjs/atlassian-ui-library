@@ -19,7 +19,7 @@ describe('ContextFactory', () => {
     const mediaClientConfig = getDefaultMediaClientConfig();
     const mediaClient = fakeMediaClient();
 
-    asMock(MediaClientModule.MediaClient).mockReturnValue(mediaClient);
+    asMock(MediaClientModule.MediaClient).mockImplementation(() => mediaClient);
     const context = ContextFactory.create(mediaClientConfig);
     expect(context).toBe(mediaClient);
   });

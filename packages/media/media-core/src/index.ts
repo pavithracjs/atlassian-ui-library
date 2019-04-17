@@ -1,3 +1,8 @@
+// WARNING! DO NOTE MOVE THIS EXPORT!
+// mediaState should be exported BEFORE StreamsCache import later because
+// StreamsCache will try to import mediaState from here.
+export { mediaState, CachedMediaState, StateDeferredValue } from './cache';
+
 // export * from './item';
 export {
   MediaItemType,
@@ -78,5 +83,3 @@ export {
   isExternalImageIdentifier,
   isDifferentIdentifier,
 } from '@atlaskit/media-client';
-
-export { mediaState, CachedMediaState, StateDeferredValue } from './cache';
