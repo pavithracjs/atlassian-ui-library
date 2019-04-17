@@ -37,8 +37,6 @@ export interface Props extends SharedProps {
   objectId: string;
   containerId?: string;
   showBeforeUnloadWarning?: boolean;
-  onEditorOpen: () => void;
-  onEditorClose: () => void;
 
   // Dispatch
   onCreateConversation?: (
