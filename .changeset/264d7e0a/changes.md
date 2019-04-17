@@ -1,0 +1,1 @@
+- Fixed User Picker showing the spinner forever in some async use cases.
