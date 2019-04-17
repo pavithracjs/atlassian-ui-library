@@ -272,7 +272,9 @@ export default class Conversation extends React.PureComponent<Props, State> {
       });
     }
 
-    this.props.onEditorClose();
+    if (typeof this.props.onEditorClose === 'function') {
+      this.props.onEditorClose();
+    }
   };
 
   private onEditorOpen = () => {
@@ -284,7 +286,9 @@ export default class Conversation extends React.PureComponent<Props, State> {
       openEditorCount: this.state.openEditorCount + 1,
     });
 
-    this.props.onEditorOpen();
+    if (typeof this.props.onEditorOpen === 'function') {
+      this.props.onEditorOpen();
+    }
   };
 
   private handleEditorChange = (value: any, commentId?: string) => {
