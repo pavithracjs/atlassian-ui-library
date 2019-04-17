@@ -12,7 +12,7 @@ import { MediaPicker, Browser, UploadParams, BrowserConfig } from '../src';
 import { PopupHeader, PopupContainer } from '../example-helpers/styled';
 import { UploadPreviews } from '../example-helpers/upload-previews';
 import { AuthEnvironment } from '../example-helpers/types';
-import { ContextFactory } from '@atlaskit/media-core';
+import { ContextFactory, FileState } from '@atlaskit/media-core';
 
 export interface BrowserWrapperState {
   collectionName: string;
@@ -49,10 +49,15 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
     }
     const fileBrowser = await MediaPicker('browser', context, browseConfig);
 
+    context.on('file-uploaded', this.onFileUploaded);
     this.setState({
       fileBrowser,
     });
   }
+
+  onFileUploaded = (fileState: FileState) => {
+    console.log('onFileUploaded', fileState);
+  };
 
   onOpen = () => {
     const { fileBrowser } = this.state;
