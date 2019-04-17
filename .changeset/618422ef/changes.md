@@ -1,0 +1,1 @@
+- ED-5108 Adding padding in the bottom of full page editor appearance

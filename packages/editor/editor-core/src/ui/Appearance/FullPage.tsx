@@ -83,6 +83,10 @@ const ContentArea = styled.div`
       /* deliberately allow wrapping of text based nodes, just in case any are adjacent floated content */
       clear: none;
     }
+
+    > p:last-child {
+      margin-bottom: 24px;
+    }
   }
 
   ${tableFullPageEditorStyles};
