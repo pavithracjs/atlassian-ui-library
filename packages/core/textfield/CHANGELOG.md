@@ -1,5 +1,10 @@
 # @atlaskit/textfield
 
+## 0.4.5
+- [patch] [7157a95389](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7157a95389):
+
+  - Internal changes only. Textfield is compatible with SSR.
+
 ## 0.4.4
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

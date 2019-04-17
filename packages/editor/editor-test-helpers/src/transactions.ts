@@ -8,10 +8,10 @@ import { RefsNode, Refs, coerce, offsetRefs } from './schema-builder';
 export function insertText(
   view: EditorView,
   text: string,
-  from: number,
+  from?: number,
   to?: number,
 ) {
-  let pos = from;
+  let pos = typeof from === 'number' ? from : view.state.selection.from;
 
   text.split('').forEach((character, index) => {
     if (

@@ -251,6 +251,7 @@ export function scaleTable(
   initialScale?: boolean,
   parentWidth?: number,
   dynamicTextSizing?: boolean,
+  isBreakoutEnabled?: boolean,
 ) {
   if (!tableElem) {
     return;
@@ -279,6 +280,7 @@ export function scaleTable(
       containerWidth,
       initialScale,
       dynamicTextSizing,
+      isBreakoutEnabled,
     );
   }
 
@@ -307,9 +309,10 @@ function scale(
   containerWidth?: number,
   initialScale?: boolean,
   dynamicTextSizing?: boolean,
+  isBreakoutEnabled?: boolean,
 ): ResizeState | undefined {
   const maxSize = getLayoutSize(
-    node.attrs.layout,
+    isBreakoutEnabled ? node.attrs.layout : 'full-width',
     containerWidth,
     dynamicTextSizing,
   );

@@ -1,5 +1,63 @@
 # @atlaskit/editor-core
 
+## 107.17.1
+- [patch] [16290b0448](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/16290b0448):
+
+  - ED-6715 Fix issue with gap cursor + breakout + full-width mode where editor would crash
+
+## 107.17.0
+- [minor] [d6886fe651](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6886fe651):
+
+  - ED-6649 Add analytics events for layout toolbar buttons - changing layouts and deleting layouts
+- [patch] [77936321cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/77936321cd):
+
+  - [ED-4898] Fixes the Backspace event for empty codeBlocks when triggered from inside of tables or columns
+
+## 107.16.0
+- [minor] [5d9455978b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5d9455978b):
+
+  - ED-5292: add support for custom autoformatting
+
+  You can now use the `customAutoformatting` prop to provide a custom autoformatting handler that replaces on particular regex strings.
+
+  See (Editor RFC 131: Injectable auto-formatting rules, AutoformattingProvider)[https://product-fabric.atlassian.net/wiki/spaces/E/pages/881141566/Editor+RFC+131+Injectable+auto-formatting+rules+AutoformattingProvider] for more details on how this works.
+
+  An example provider `autoformattingProvider` that is used in the storybook example is exported from the `@atlaskit/editor-test-helpers` package. Try typing ED-123.
+
+  A simplified provider might look like:
+
+      export const autoformattingProvider: AutoformattingProvider = {
+        getRules: () =>
+          Promise.resolve({
+            '[Ee][Dd]-(\\d+)': (match: string[]): Promise<ADFEntity> => {
+              const ticketNumber = match[1];
+              return new Promise.resolve({
+                type: 'inlineCard',
+                attrs: {
+                  url: 'https://www.atlassian.com/',
+                },
+              });
+            },
+          }),
+      };
+
+  At the moment, only text or `inlineCard` nodes are permitted to be replaced.
+
+## 107.15.1
+- [patch] [9210783b0e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9210783b0e):
+
+  - [ED-6432] Fix remove table after cut event happen on the entire table
+
+## 107.15.0
+- [minor] [af359aa8d1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af359aa8d1):
+
+  - ED-6602: Disable breakout for full width mode
+
+## 107.14.0
+- [minor] [799b7daf70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/799b7daf70):
+
+  - ED-6600: Adding full-width mode to media
+
 ## 107.13.4
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

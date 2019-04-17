@@ -623,6 +623,27 @@ export function closestElement(
   return closest(node, s);
 }
 
+/*
+ * From Modernizr
+ * Returns the kind of transitionevent available for the element
+ */
+export function whichTransitionEvent() {
+  const el = document.createElement('fakeelement');
+  const transitions = {
+    transition: 'transitionend',
+    OTransition: 'oTransitionEnd',
+    MozTransition: 'transitionend',
+    WebkitTransition: 'webkitTransitionEnd',
+  } as any;
+
+  let t: any;
+  for (t in transitions) {
+    if (el.style[t] !== undefined) {
+      return transitions[t];
+    }
+  }
+}
+
 export function moveLeft(view: EditorView) {
   const event = new CustomEvent('keydown', {
     bubbles: true,
