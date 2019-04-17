@@ -8,6 +8,24 @@
 const glob = require('glob');
 const pageSelector = '#examples';
 
+async function disableAllSideEffects(
+  page /*: any */,
+  allowSideEffects /*: Object */ = {},
+) {
+  if (!allowSideEffects.cursor) {
+    await disableCaretCursor(page);
+  }
+  if (!allowSideEffects.animation) {
+    await disableAllAnimations(page);
+  }
+  if (!allowSideEffects.transition) {
+    await disableAllTransitions(page);
+  }
+  if (!allowSideEffects.scroll) {
+    await disableScrollBehavior(page);
+  }
+}
+
 async function disableCaretCursor(page /*: any */) {
   const css = `
   * {
@@ -103,4 +121,5 @@ module.exports = {
   disableAllTransitions,
   disableCaretCursor,
   disableScrollBehavior,
+  disableAllSideEffects,
 };
