@@ -101,6 +101,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
           true,
           parentWidth,
           options && options.dynamicTextSizing,
+          options && options.isBreakoutEnabled,
         );
       }
 
@@ -290,6 +291,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
         false,
         parentWidth,
         options && options.dynamicTextSizing,
+        options && options.isBreakoutEnabled,
       );
 
       this.updateParentWidth(parentWidth);
@@ -316,6 +318,10 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
       return;
     }
     this.setState((prevState: TableState) => {
+      if (options && options.isBreakoutEnabled === false) {
+        return { tableContainerWidth: 'inherit' };
+      }
+
       const tableContainerWidth = calcTableWidth(
         node.attrs.layout,
         containerWidth.width,

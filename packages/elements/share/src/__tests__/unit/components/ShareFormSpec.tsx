@@ -6,7 +6,7 @@ import { shallow } from 'enzyme';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { CommentField } from '../../../components/CommentField';
-import { CopyLinkButton } from '../../../components/CopyLinkButton';
+import CopyLinkButton from '../../../components/CopyLinkButton';
 import { ShareForm } from '../../../components/ShareForm';
 import { ShareHeader } from '../../../components/ShareHeader';
 import { UserPickerField } from '../../../components/UserPickerField';
@@ -48,6 +48,7 @@ describe('ShareForm', () => {
       const formProps = {};
       const form = renderProp(akForm, 'children', { formProps })
         .dive()
+        .dive()
         .find('form');
       expect(form).toHaveLength(1);
       expect(form.find(ShareHeader).prop('title')).toEqual('some title');
@@ -76,7 +77,7 @@ describe('ShareForm', () => {
           </>
         ),
       });
-      const copyLinkButton = footer.find(CopyLinkButton);
+      const copyLinkButton = footer.find(CopyLinkButton).dive();
       expect(copyLinkButton.length).toBe(1);
       expect(copyLinkButton.prop('link')).toEqual(mockLink);
 
@@ -95,6 +96,7 @@ describe('ShareForm', () => {
 
       const akForm = wrapper.find<any>(Form);
       const form = renderProp(akForm, 'children', { formProps: {} })
+        .dive()
         .dive()
         .find('form');
       const footer = form.find(FormFooter);
@@ -117,6 +119,7 @@ describe('ShareForm', () => {
       const akForm = wrapper.find<any>(Form);
       const form = renderProp(akForm, 'children', { formProps: {} })
         .dive()
+        .dive()
         .find('form');
       const footer = form.find(FormFooter);
       expect(footer.find(Tooltip)).toHaveLength(0);
@@ -138,6 +141,7 @@ describe('ShareForm', () => {
 
       const akForm = wrapper.find<any>(Form);
       const form = renderProp(akForm, 'children', { formProps: {} })
+        .dive()
         .dive()
         .find('form');
       const footer = form.find(FormFooter);
@@ -185,7 +189,9 @@ describe('ShareForm', () => {
     );
     const formProps = {};
     const akForm = component.find<any>(Form);
-    const form = renderProp(akForm, 'children', { formProps }).dive();
+    const form = renderProp(akForm, 'children', { formProps })
+      .dive()
+      .dive();
 
     expect(form.find(UserPickerField).prop('defaultValue')).toBe(
       defaultValue.users,

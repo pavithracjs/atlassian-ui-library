@@ -4,6 +4,7 @@ export const enum EVENT_TYPE {
 }
 
 export const enum ACTION {
+  CHANGED_LAYOUT = 'changedLayout',
   CHANGED_TYPE = 'changedType',
   CLICKED = 'clicked',
   DELETED = 'deleted',
@@ -46,6 +47,7 @@ export const enum ACTION_SUBJECT {
   BUTTON = 'button',
   DOCUMENT = 'document',
   EDITOR = 'editor',
+  LAYOUT = 'layout',
   MEDIA = 'media',
   PANEL = 'panel',
   PICKER = 'picker',

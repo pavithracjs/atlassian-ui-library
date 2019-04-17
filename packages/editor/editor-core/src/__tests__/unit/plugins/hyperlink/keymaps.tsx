@@ -15,7 +15,7 @@ import {
   stateKey,
 } from '../../../../plugins/hyperlink/pm-plugins/main';
 import quickInsertPlugin from '../../../../plugins/quick-insert';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 describe('hyperlink - keymap', () => {
   const createEditor = createEditorFactory();

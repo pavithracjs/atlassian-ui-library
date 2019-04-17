@@ -51,7 +51,10 @@ export const pluginConfig = (tablesConfig?: PluginConfig | boolean) => {
     : config;
 };
 
-const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
+const tablesPlugin = (
+  options?: PluginConfig | boolean,
+  disableBreakoutUI?: boolean,
+): EditorPlugin => ({
   nodes() {
     return [
       { name: 'table', node: table },
@@ -70,7 +73,7 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
             allowTables,
             appearance,
             allowDynamicTextSizing,
-            fullWidthMode,
+            UNSAFE_fullWidthMode: fullWidthMode,
           } = props;
           const isContextMenuEnabled = appearance !== 'mobile';
           const isBreakoutEnabled = !fullWidthMode;
@@ -89,7 +92,11 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
         name: 'tablePMColResizing',
         plugin: ({
           dispatch,
-          props: { allowTables, allowDynamicTextSizing, fullWidthMode },
+          props: {
+            allowTables,
+            allowDynamicTextSizing,
+            UNSAFE_fullWidthMode: fullWidthMode,
+          },
         }) => {
           const { allowColumnResizing } = pluginConfig(allowTables);
           return allowColumnResizing
@@ -97,6 +104,7 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
                 handleWidth: HANDLE_WIDTH,
                 cellMinWidth: tableCellMinWidth,
                 dynamicTextSizing: allowDynamicTextSizing && !fullWidthMode,
+                lastColumnResizable: !fullWidthMode,
               } as ColumnResizingPlugin)
             : undefined;
         },
@@ -137,19 +145,21 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
                 isOpen={pluginState.isContextualMenuOpen}
                 pluginConfig={pluginState.pluginConfig}
               />
-              {appearance === 'full-page' && isLayoutSupported(state) && (
-                <LayoutButton
-                  editorView={editorView}
-                  mountPoint={popupsMountPoint}
-                  boundariesElement={popupsBoundariesElement}
-                  scrollableElement={popupsScrollableElement}
-                  targetRef={pluginState.tableFloatingToolbarTarget}
-                  isResizing={
-                    !!tableResizingPluginState &&
-                    !!tableResizingPluginState.dragging
-                  }
-                />
-              )}
+              {appearance === 'full-page' &&
+                isLayoutSupported(state) &&
+                !disableBreakoutUI && (
+                  <LayoutButton
+                    editorView={editorView}
+                    mountPoint={popupsMountPoint}
+                    boundariesElement={popupsBoundariesElement}
+                    scrollableElement={popupsScrollableElement}
+                    targetRef={pluginState.tableFloatingToolbarTarget}
+                    isResizing={
+                      !!tableResizingPluginState &&
+                      !!tableResizingPluginState.dragging
+                    }
+                  />
+                )}
             </>
           );
         }}

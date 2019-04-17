@@ -83,9 +83,22 @@ const ContentArea = styled.div`
       /* deliberately allow wrapping of text based nodes, just in case any are adjacent floated content */
       clear: none;
     }
+
+    > p:last-child {
+      margin-bottom: 24px;
+    }
   }
 
   ${tableFullPageEditorStyles};
+
+  .fabric-editor--full-width-mode {
+    /* Full Width Mode styles for ignoring breakout sizes */
+    .fabric-editor-breakout-mark,
+    .extension-container,
+    .pm-table-container {
+      width: 100% !important;
+    }
+  }
 `;
 ContentArea.displayName = 'ContentArea';
 
@@ -141,6 +154,7 @@ export default class Editor extends React.Component<
   private appearance: EditorAppearance = 'full-page';
   private scrollContainer: HTMLElement | undefined;
   private scheduledKeylineUpdate: number | undefined;
+  private contentArea: HTMLElement | undefined;
 
   stopPropagation = (event: MouseEvent<HTMLDivElement>) =>
     event.stopPropagation();
@@ -248,10 +262,18 @@ export default class Editor extends React.Component<
           className="fabric-editor-popup-scroll-parent"
         >
           <ClickAreaBlock editorView={editorView}>
-            <ContentArea fullWidthMode={fullWidthMode}>
+            <ContentArea
+              fullWidthMode={fullWidthMode}
+              innerRef={(contentArea: HTMLElement) => {
+                this.contentArea = contentArea;
+              }}
+            >
               <div
                 style={{ padding: `0 ${GUTTER_PADDING}px` }}
-                className="ak-editor-content-area"
+                className={[
+                  'ak-editor-content-area',
+                  fullWidthMode ? 'fabric-editor--full-width-mode' : '',
+                ].join(' ')}
               >
                 {customContentComponents}
                 {
@@ -262,6 +284,7 @@ export default class Editor extends React.Component<
                     providerFactory={providerFactory}
                     appearance={this.appearance}
                     items={contentComponents}
+                    contentArea={this.contentArea}
                     popupsMountPoint={popupsMountPoint}
                     popupsBoundariesElement={popupsBoundariesElement}
                     popupsScrollableElement={popupsScrollableElement}

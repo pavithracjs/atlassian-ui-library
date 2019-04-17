@@ -7,14 +7,16 @@ import {
 } from 'prosemirror-state';
 import { DecorationSet, Decoration } from 'prosemirror-view';
 import { keydownHandler } from 'prosemirror-keymap';
-import { findParentNodeOfType } from 'prosemirror-utils';
+import { findParentNodeOfType, ContentNodeWithPos } from 'prosemirror-utils';
 import { filter } from '../../../utils/commands';
 import { Command } from '../../../types';
-import { fixColumnSizes } from '../actions';
+import { fixColumnSizes, PresetLayout, getPresetLayout } from '../actions';
 
 export type LayoutState = {
   pos: number | null;
   allowBreakout: boolean;
+  addSidebarLayouts: boolean;
+  selectedLayout: PresetLayout | undefined;
 };
 
 type Change = { from: number; to: number; slice: Slice };
@@ -58,8 +60,25 @@ const getNodeDecoration = (pos: number, node: Node) => [
   Decoration.node(pos, pos + node.nodeSize, { class: 'selected' }),
 ];
 
+const getSelectedLayout = (
+  maybeLayoutSection: ContentNodeWithPos | undefined,
+  current: PresetLayout | undefined,
+): PresetLayout | undefined => {
+  if (
+    maybeLayoutSection &&
+    maybeLayoutSection.node &&
+    getPresetLayout(maybeLayoutSection.node)
+  ) {
+    return getPresetLayout(maybeLayoutSection.node);
+  }
+  return current;
+};
+
 const getInitialPluginState = (
-  pluginConfig: { allowBreakout?: boolean } | undefined | boolean,
+  pluginConfig:
+    | { allowBreakout?: boolean; UNSAFE_addSidebarLayouts?: boolean }
+    | undefined
+    | boolean,
   state: EditorState,
 ): LayoutState => {
   const maybeLayoutSection = findParentNodeOfType(
@@ -68,13 +87,22 @@ const getInitialPluginState = (
 
   const allowBreakout =
     typeof pluginConfig === 'object' ? !!pluginConfig.allowBreakout : false;
+  const addSidebarLayouts =
+    typeof pluginConfig === 'object'
+      ? !!pluginConfig.UNSAFE_addSidebarLayouts
+      : false;
   const pos = maybeLayoutSection ? maybeLayoutSection.pos : null;
-  return { pos, allowBreakout };
+  const selectedLayout = getSelectedLayout(maybeLayoutSection, undefined);
+  return { pos, allowBreakout, addSidebarLayouts, selectedLayout };
 };
 
 export const pluginKey = new PluginKey('layout');
 
-export default (pluginConfig?: { allowBreakout: boolean } | boolean) =>
+export default (
+  pluginConfig?:
+    | { allowBreakout: boolean; UNSAFE_addSidebarLayouts?: boolean }
+    | boolean,
+) =>
   new Plugin({
     key: pluginKey,
     state: {
@@ -90,6 +118,10 @@ export default (pluginConfig?: { allowBreakout: boolean } | boolean) =>
           const newPluginState = {
             ...pluginState,
             pos: maybeLayoutSection ? maybeLayoutSection.pos : null,
+            selectedLayout: getSelectedLayout(
+              maybeLayoutSection,
+              pluginState.selectedLayout,
+            ),
           };
           return newPluginState;
         }
@@ -130,7 +162,11 @@ export default (pluginConfig?: { allowBreakout: boolean } | boolean) =>
           return;
         }
 
-        const change = fixColumnSizes(prevTr, newState);
+        const change = fixColumnSizes(
+          prevTr,
+          newState,
+          pluginKey.getState(newState).selectedLayout,
+        );
         if (change) {
           changes.push(change);
         }

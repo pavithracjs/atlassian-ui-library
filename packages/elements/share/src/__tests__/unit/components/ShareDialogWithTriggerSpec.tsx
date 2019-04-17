@@ -3,9 +3,8 @@ import InlineDialog from '@atlaskit/inline-dialog';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import { FormattedMessage, InjectedIntlProps } from 'react-intl';
-import {
+import ShareButton, {
   Props as ShareButtonProps,
-  ShareButton,
 } from '../../../components/ShareButton';
 import {
   defaultShareContentState,
@@ -15,7 +14,7 @@ import {
 } from '../../../components/ShareDialogWithTrigger';
 import { ShareData, ShareForm } from '../../../components/ShareForm';
 import { messages } from '../../../i18n';
-import { ADMIN_NOTIFIED, OBJECT_SHARED } from '../../../types';
+import { DialogPlacement, ADMIN_NOTIFIED, OBJECT_SHARED } from '../../../types';
 import mockPopper from '../_mockPopper';
 mockPopper();
 
@@ -220,7 +219,7 @@ describe('ShareDialogWithTrigger', () => {
       expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
         defaultPlacement,
       );
-      const newPlacement: string = 'bottom-start';
+      const newPlacement: DialogPlacement = 'bottom-start';
       wrapper.setProps({ dialogPlacement: newPlacement });
       expect(wrapper.find(InlineDialog).prop('placement')).toEqual(
         newPlacement,
@@ -459,9 +458,12 @@ describe('ShareDialogWithTrigger', () => {
       expect(mockShowFlags).toHaveBeenCalledTimes(1);
       expect(mockShowFlags).toHaveBeenCalledWith([
         {
-          id: expect.any(String),
+          appearance: 'success',
+          title: expect.objectContaining({
+            ...messages.shareSuccessMessage,
+            defaultMessage: expect.any(String),
+          }),
           type: OBJECT_SHARED,
-          localizedTitle: expect.any(String),
         },
       ]);
 
@@ -483,14 +485,20 @@ describe('ShareDialogWithTrigger', () => {
       expect(mockShowFlags).toHaveBeenCalledTimes(1);
       expect(mockShowFlags).toHaveBeenCalledWith([
         {
-          id: expect.any(String),
+          appearance: 'success',
+          title: {
+            ...messages.adminNotifiedMessage,
+            defaultMessage: expect.any(String),
+          },
           type: ADMIN_NOTIFIED,
-          localizedTitle: expect.any(String),
         },
         {
-          id: expect.any(String),
+          appearance: 'success',
+          title: {
+            ...messages.shareSuccessMessage,
+            defaultMessage: expect.any(String),
+          },
           type: OBJECT_SHARED,
-          localizedTitle: expect.any(String),
         },
       ]);
     });

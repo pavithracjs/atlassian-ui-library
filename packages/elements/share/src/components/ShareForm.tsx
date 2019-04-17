@@ -5,7 +5,7 @@ import { colors, typography } from '@atlaskit/theme';
 import Tooltip from '@atlaskit/tooltip';
 import { LoadOptions, OptionData } from '@atlaskit/user-picker';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import styled from 'styled-components';
 import { messages } from '../i18n';
 import {
@@ -15,7 +15,7 @@ import {
   FormChildrenArgs,
 } from '../types';
 import { CommentField } from './CommentField';
-import { CopyLinkButton } from './CopyLinkButton';
+import CopyLinkButton from './CopyLinkButton';
 import { ShareHeader } from './ShareHeader';
 import { UserPickerField } from './UserPickerField';
 
@@ -87,7 +87,9 @@ export type Props = {
   defaultValue?: DialogContentState;
 };
 
-export type InternalFormProps = FormChildrenArgs<ShareData> & Props;
+export type InternalFormProps = FormChildrenArgs<ShareData> &
+  Props &
+  InjectedIntlProps;
 
 class InternalForm extends React.PureComponent<InternalFormProps> {
   componentWillUnmount() {
@@ -98,7 +100,12 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
   }
 
   renderSubmitButton = () => {
-    const { isSharing, shareError, submitButtonLabel } = this.props;
+    const {
+      intl: { formatMessage },
+      isSharing,
+      shareError,
+      submitButtonLabel,
+    } = this.props;
     const shouldShowWarning = shareError && !isSharing;
     const buttonAppearance = !shouldShowWarning ? 'primary' : 'warning';
     const buttonLabel = shareError ? messages.formRetry : messages.formSend;
@@ -113,7 +120,10 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
               content={<FormattedMessage {...messages.shareFailureMessage} />}
               position="top"
             >
-              <ErrorIcon label="errorIcon" primaryColor={colors.R400} />
+              <ErrorIcon
+                label={formatMessage(messages.shareFailureIconLabel)}
+                primaryColor={colors.R400}
+              />
             </Tooltip>
           )}
         </CenterAlignedIconWrapper>
@@ -168,10 +178,16 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
   }
 }
 
+const InternalFormWithIntl = injectIntl(InternalForm);
+
 export const ShareForm: React.StatelessComponent<Props> = props => (
   <Form onSubmit={props.onShareClick}>
     {({ formProps, getValues }: FormChildrenArgs<ShareData>) => (
-      <InternalForm {...props} formProps={formProps} getValues={getValues} />
+      <InternalFormWithIntl
+        {...props}
+        formProps={formProps}
+        getValues={getValues}
+      />
     )}
   </Form>
 );

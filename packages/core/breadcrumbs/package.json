@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/breadcrumbs",
-  "version": "7.0.3",
+  "version": "7.0.4",
   "description": "A component used for navigation, with each item acting as a link",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -17,9 +17,9 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/analytics-next": "^4.0.3",
-    "@atlaskit/button": "^12.0.0",
-    "@atlaskit/theme": "^8.1.6",
-    "@atlaskit/tooltip": "^13.0.3",
+    "@atlaskit/button": "^12.0.3",
+    "@atlaskit/theme": "^8.1.7",
+    "@atlaskit/tooltip": "^13.0.4",
     "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {
@@ -29,9 +29,9 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/docs": "^7.0.2",
-    "@atlaskit/logo": "^10.0.3",
-    "@atlaskit/select": "^8.0.5",
+    "@atlaskit/docs": "^7.0.3",
+    "@atlaskit/logo": "^10.0.4",
+    "@atlaskit/select": "^8.1.1",
     "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/visual-regression": "^0.0.1",
     "enzyme": "^3.7.0",

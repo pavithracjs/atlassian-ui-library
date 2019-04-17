@@ -65,6 +65,7 @@ export interface Props {
     query: string,
     searchSessionId: string,
   ) => void;
+  inputControls?: JSX.Element;
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.ConfluenceQuickSearchContainer';
@@ -353,7 +354,12 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   };
 
   render() {
-    const { linkComponent, isSendSearchTermsEnabled, logger } = this.props;
+    const {
+      linkComponent,
+      isSendSearchTermsEnabled,
+      logger,
+      inputControls,
+    } = this.props;
 
     return (
       <QuickSearchContainer
@@ -369,6 +375,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         isSendSearchTermsEnabled={isSendSearchTermsEnabled}
         getDisplayedResults={sliceResults}
         logger={logger}
+        inputControls={inputControls}
       />
     );
   }

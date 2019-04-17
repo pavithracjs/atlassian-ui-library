@@ -10,8 +10,10 @@ import {
   hideControlsClassName,
   ZoomLevelIndicator,
 } from './styled';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import {
+  withAnalyticsEvents,
+  WithAnalyticsEventProps,
+} from '@atlaskit/analytics-next';
 import { channel } from './analytics';
 import { ZoomControlsGasPayload, createZoomEvent } from './analytics/zoom';
 import { injectIntl, InjectedIntlProps } from 'react-intl';

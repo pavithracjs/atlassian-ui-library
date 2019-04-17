@@ -71,7 +71,8 @@ describe('Card', () => {
       }
       const customClient = new CustomClient();
       const url = 'some.url';
-      const expectedPayload = resolvedEvent(url);
+      const definitionId = 'd1';
+      const expectedPayload = resolvedEvent(definitionId);
       const logger = jest.fn().mockImplementation(arg => {
         expect(arg.payload).toEqual(expectedPayload);
         done();

@@ -211,6 +211,7 @@ export default class Editor extends React.Component<EditorProps, {}> {
       media,
       collabEdit,
       quickInsert,
+      autoformattingProvider,
       UNSAFE_cards,
     } = props;
     this.providerFactory.setProvider('emojiProvider', emojiProvider);
@@ -244,6 +245,11 @@ export default class Editor extends React.Component<EditorProps, {}> {
     if (UNSAFE_cards && UNSAFE_cards.provider) {
       this.providerFactory.setProvider('cardProvider', UNSAFE_cards.provider);
     }
+
+    this.providerFactory.setProvider(
+      'autoformattingProvider',
+      autoformattingProvider,
+    );
 
     if (quickInsert && typeof quickInsert !== 'boolean') {
       this.providerFactory.setProvider(
@@ -310,11 +316,11 @@ export default class Editor extends React.Component<EditorProps, {}> {
                           <BaseTheme
                             dynamicTextSizing={
                               this.props.allowDynamicTextSizing &&
-                              !this.props.fullWidthMode
+                              !this.props.UNSAFE_fullWidthMode
                             }
                           >
                             <Component
-                              fullWidthMode={this.props.fullWidthMode}
+                              fullWidthMode={this.props.UNSAFE_fullWidthMode}
                               disabled={this.props.disabled}
                               editorActions={this.editorActions}
                               editorDOMElement={editor}

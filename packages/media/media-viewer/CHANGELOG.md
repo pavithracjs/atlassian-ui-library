@@ -1,5 +1,27 @@
 # @atlaskit/media-viewer
 
+## 40.1.10
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/field-range@6.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/media-card@60.0.3
+  - @atlaskit/media-ui@10.1.5
+  - @atlaskit/theme@8.1.7
+
+## 40.1.9
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
+## 40.1.8
+- [patch] [8bdebe02f1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8bdebe02f1):
+
+  - Remove tests from MediaViewer dist
+
 ## 40.1.7
 - [patch] [bee4101a63](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bee4101a63):
 

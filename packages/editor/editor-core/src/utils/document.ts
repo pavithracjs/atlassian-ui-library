@@ -1,5 +1,5 @@
 import { Node, Schema } from 'prosemirror-model';
-import { Transaction, Selection } from 'prosemirror-state';
+import { Transaction, Selection, EditorState } from 'prosemirror-state';
 import { validator, ADFEntity, ValidationError } from '@atlaskit/adf-utils';
 import { analyticsService } from '../analytics';
 import { ContentNodeWithPos } from 'prosemirror-utils';
@@ -278,3 +278,7 @@ export const findFarthestParentNode = (predicate: (node: Node) => boolean) => (
   }
   return candidate;
 };
+
+export const isSelectionEndOfParagraph = (state: EditorState): boolean =>
+  state.selection.$to.parent.type === state.schema.nodes.paragraph &&
+  state.selection.$to.pos === state.doc.resolve(state.selection.$to.pos).end();

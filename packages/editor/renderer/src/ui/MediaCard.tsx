@@ -26,7 +26,7 @@ import {
   // @ts-ignore
   ImageLoaderState,
 } from '@atlaskit/editor-common';
-import { RendererAppearance } from './Renderer';
+import { RendererAppearance } from './Renderer/types';
 import { RendererContext } from '../react';
 
 export interface MediaProvider {

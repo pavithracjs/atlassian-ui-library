@@ -175,6 +175,15 @@ export type State = {
   theme: Theme;
 };
 
+function getInitialTheme(): Theme {
+  if (typeof window !== 'undefined') {
+    // Retaining the preferred theme per browser session to aid development workflows.
+    const preferredTheme = window.sessionStorage.getItem('theme') as Theme;
+    return preferredTheme ? preferredTheme : themes[0].value;
+  }
+  return themes[0].value;
+}
+
 class FullPageRendererExample extends React.Component<Props, State> {
   private getJSONFromStorage = (key: string, fallback: any = undefined) => {
     const localADF = (localStorage && localStorage.getItem(key)) || undefined;
@@ -204,7 +213,7 @@ class FullPageRendererExample extends React.Component<Props, State> {
     errors: [],
     showErrors: false,
     waitingToValidate: false,
-    theme: themes[0].value,
+    theme: getInitialTheme(),
   };
 
   private dataProviders = ProviderFactory.create({
@@ -214,6 +223,12 @@ class FullPageRendererExample extends React.Component<Props, State> {
 
   private inputRef: HTMLTextAreaElement | null;
   private popupMountPoint: HTMLElement | null;
+
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if (prevState.theme !== this.state.theme) {
+      window.sessionStorage.setItem('theme', this.state.theme);
+    }
+  }
 
   showHideADF = () =>
     this.setState(state => ({

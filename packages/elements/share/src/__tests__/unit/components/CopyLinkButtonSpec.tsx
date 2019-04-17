@@ -8,11 +8,10 @@ import { ReactWrapper } from 'enzyme';
 import { mountWithIntl } from '@atlaskit/editor-test-helpers';
 import * as React from 'react';
 import { InjectedIntlProps } from 'react-intl';
-import {
+import CopyLinkButton, {
   AUTO_DISMISS_MS,
   Props,
   State,
-  CopyLinkButton,
   HiddenInput,
   MessageContainer,
 } from '../../../components/CopyLinkButton';

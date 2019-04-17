@@ -1,11 +1,9 @@
 import {
   AnalyticsContext,
   withAnalyticsEvents,
-} from '@atlaskit/analytics-next';
-import {
   AnalyticsEventPayload,
   WithAnalyticsEventProps,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import { ButtonAppearances } from '@atlaskit/button';
 import InlineDialog from '@atlaskit/inline-dialog';
 import { LoadOptions } from '@atlaskit/user-picker';
@@ -16,9 +14,11 @@ import { messages } from '../i18n';
 import {
   ConfigResponse,
   DialogContentState,
+  DialogPlacement,
   Flag,
   OriginTracing,
   ShareButtonStyle,
+  RenderCustomTriggerButton,
   ADMIN_NOTIFIED,
   OBJECT_SHARED,
 } from '../types';
@@ -29,12 +29,8 @@ import {
   screenEvent,
   submitShare,
 } from './analytics';
-import { ShareButton } from './ShareButton';
+import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
-
-type RenderChildren = (
-  args: { onClick: () => void; loading?: boolean; error?: ShareError },
-) => React.ReactNode;
 
 type DialogState = {
   isDialogOpen: boolean;
@@ -52,9 +48,9 @@ type ShareError = {
 
 export type Props = {
   config?: ConfigResponse;
-  children?: RenderChildren;
+  children?: RenderCustomTriggerButton;
   copyLink: string;
-  dialogPlacement?: string;
+  dialogPlacement?: DialogPlacement;
   isDisabled?: boolean;
   loadUserOptions?: LoadOptions;
   onLinkCopy?: Function;
@@ -87,8 +83,8 @@ class ShareDialogWithTriggerInternal extends React.Component<
 > {
   static defaultProps = {
     isDisabled: false,
-    dialogPlacement: 'bottom-end',
-    shouldCloseOnEscapePress: false,
+    dialogPlacement: 'bottom-end' as 'bottom-end',
+    shouldCloseOnEscapePress: true,
     triggerButtonAppearance: 'subtle' as 'subtle',
     triggerButtonStyle: 'icon-only' as 'icon-only',
   };
@@ -129,29 +125,38 @@ class ShareDialogWithTriggerInternal extends React.Component<
       this.props.config.mode === 'INVITE_NEEDS_APPROVAL'
     ) {
       flags.push({
-        id: `${ADMIN_NOTIFIED}-${Date.now()}`,
+        appearance: 'success',
+        title: {
+          ...messages.adminNotifiedMessage,
+          defaultMessage: formatMessage(messages.adminNotifiedMessage),
+        },
         type: ADMIN_NOTIFIED,
-        localizedTitle: formatMessage(messages.adminNotifiedMessage),
       });
     }
 
     flags.push({
-      id: `${OBJECT_SHARED}-${Date.now()}`,
+      appearance: 'success',
+      title: {
+        ...messages.shareSuccessMessage,
+        defaultMessage: formatMessage(messages.shareSuccessMessage, {
+          object: this.props.shareContentType.toLowerCase(),
+        }),
+      },
       type: OBJECT_SHARED,
-      localizedTitle: formatMessage(messages.shareSuccessMessage, {
-        object: this.props.shareContentType.toLowerCase(),
-      }),
     });
 
-    // The reason for providing the both type and localizedTitle is that
-    // in jira, the Flag system takes only Message Descriptor as payload
+    // The reason for providing message property is that in jira,
+    // the Flag system takes only Message Descriptor as payload
     // and formatMessage is called for every flag
+    // if the translation data is not provided, a translated default message
+    // will be displayed
     return flags;
   };
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     const { isDialogOpen } = this.state;
-    if (isDialogOpen) {
+    const { shouldCloseOnEscapePress } = this.props;
+    if (isDialogOpen && shouldCloseOnEscapePress) {
       switch (event.key) {
         case 'Escape':
           event.stopPropagation();

@@ -13,7 +13,7 @@ import { analyticsService, AnalyticsHandler } from '../../../../analytics';
 import listPlugin from '../../../../plugins/lists';
 import codeBlockPlugin from '../../../../plugins/code-block';
 import { EditorView } from 'prosemirror-view';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 describe('inputrules', () => {
   const createEditor = createEditorFactory();

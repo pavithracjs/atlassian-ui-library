@@ -21,6 +21,7 @@ describe('EmailOption', () => {
     const component = shallowEmailOption({
       isSelected: false,
       email,
+      emailValidity: 'VALID' as 'VALID',
     });
 
     const formattedMessage = component.find(FormattedMessage);
@@ -39,6 +40,7 @@ describe('EmailOption', () => {
       isSelected: false,
       email,
       label: 'Add new user',
+      emailValidity: 'VALID' as 'VALID',
     });
     const avatarItemOption = component.find(AvatarItemOption);
     expect(avatarItemOption.props()).toMatchObject({

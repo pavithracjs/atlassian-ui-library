@@ -5,8 +5,8 @@ import {
   WithAnalyticsEventProps,
   CreateUIAnalyticsEventSignature,
   UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next-types';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
+  withAnalyticsEvents,
+} from '@atlaskit/analytics-next';
 import { createStatusAnalyticsAndFire } from './analytics';
 import { ANALYTICS_HOVER_DELAY } from './constants';
 
