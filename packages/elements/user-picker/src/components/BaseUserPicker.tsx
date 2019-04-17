@@ -194,6 +194,12 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
   );
 
   private handleLoadOptionsError = () => {
+    const { count } = this.state;
+    const newCount = count - 1;
+    this.setState({
+      count: newCount,
+      resolving: newCount !== 0,
+    });
     this.fireEvent(failedEvent);
   };
 
@@ -224,6 +230,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         return {
           inflightRequest,
           count,
+          resolving: count !== 0,
           options: [],
         };
       });

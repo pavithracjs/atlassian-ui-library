@@ -16,14 +16,19 @@ import {
   AnalyticsEventPayload,
   UIAnalyticsEventInterface,
 } from '@atlaskit/analytics-next';
-import { InlineCardUnauthorizedView } from '@atlaskit/media-ui';
+import {
+  InlineCardUnauthorizedView,
+  InlineCardResolvedView,
+  InlineCardForbiddenView,
+} from '@atlaskit/media-ui';
+import { Frame } from '@atlaskit/media-ui/src/InlineCard/Frame';
 
-class FakeClient extends Client {
+class FakeUnresolvedClient extends Client {
   fetchData(): Promise<ResolveResponse> {
     return Promise.resolve({
       meta: {
-        visibility: 'restricted' as any,
-        access: 'unauthorized' as any,
+        visibility: 'restricted',
+        access: 'unauthorized',
         auth: [
           {
             key: 'string',
@@ -33,7 +38,45 @@ class FakeClient extends Client {
         ],
         definitionId: 'd1',
       },
-    });
+    } as ResolveResponse);
+  }
+}
+
+class FakeForbiddenClient extends Client {
+  fetchData(): Promise<ResolveResponse> {
+    return Promise.resolve({
+      meta: {
+        visibility: 'restricted',
+        access: 'forbidden',
+        auth: [
+          {
+            key: 'string',
+            displayName: 'string',
+            url: 'string',
+          },
+        ],
+        definitionId: 'd1',
+      },
+    } as ResolveResponse);
+  }
+}
+
+class FakeResolvedClient extends Client {
+  fetchData(): Promise<ResolveResponse> {
+    return Promise.resolve({
+      meta: {
+        visibility: 'public',
+        access: 'granted',
+        auth: [
+          {
+            key: 'string',
+            displayName: 'string',
+            url: 'string',
+          },
+        ],
+        definitionId: 'd1',
+      },
+    } as ResolveResponse);
   }
 }
 
@@ -55,132 +98,295 @@ const Mock = {
 
 const delay = (n: number) => new Promise(res => setTimeout(res, n));
 
-describe('Render Card With URL', () => {
-  afterEach(() => {
-    Mock.fakeCreateAnalyticsEvent.mockClear();
+describe('Card with URL analytics', () => {
+  describe('Render Card With URL (Unresolved)', () => {
+    afterEach(() => {
+      Mock.fakeCreateAnalyticsEvent.mockClear();
+    });
+
+    it('should fire connectSucceeded event when auth suceeds', async () => {
+      const fakeClient = new FakeUnresolvedClient({ loadingStateDelay: 0 });
+      const wrapper = mount(
+        <CardWithUrlContent
+          url="http://some.url"
+          client={fakeClient}
+          appearance="inline"
+          onClick={() => {}}
+          isSelected={false}
+          createAnalyticsEvent={Mock.fakeCreateAnalyticsEvent}
+          authFn={Mock.positiveAuthFn}
+        />,
+      );
+      // pending state for now...
+      await delay(1); // wait for client to respond...
+      wrapper.update();
+
+      wrapper
+        .find(InlineCardUnauthorizedView)
+        .find(Button)
+        .simulate('click');
+
+      await delay(1); // wait for async auth mock...
+
+      const calls = Mock.fakeCreateAnalyticsEvent.mock.calls.map(([obj]) =>
+        obj.action && obj.eventType !== 'screen' ? obj.action : 'screen',
+      );
+
+      expect(calls).toEqual([
+        'unresolved',
+        'clicked',
+        'screen',
+        'connected',
+        'connectSucceeded',
+      ]);
+    });
+
+    it('should fire connectFailed event when auth fails', async () => {
+      const fakeClient = new FakeUnresolvedClient({ loadingStateDelay: 0 });
+      const wrapper = mount(
+        <CardWithUrlContent
+          url="http://some.url"
+          client={fakeClient}
+          appearance="inline"
+          onClick={() => {}}
+          isSelected={false}
+          createAnalyticsEvent={Mock.fakeCreateAnalyticsEvent}
+          authFn={Mock.negativeAuthFn}
+        />,
+      );
+      // pending state for now...
+      await delay(1); // wait for client to respond...
+      wrapper.update();
+
+      wrapper
+        .find(InlineCardUnauthorizedView)
+        .find(Button)
+        .simulate('click');
+
+      await delay(1); // wait for async auth mock...
+
+      const calls = Mock.fakeCreateAnalyticsEvent.mock.calls.map(([obj]) =>
+        obj.action && obj.eventType !== 'screen' ? obj.action : 'screen',
+      );
+
+      expect(calls).toEqual([
+        'unresolved',
+        'clicked',
+        'screen',
+        'connectFailed',
+      ]);
+    });
+
+    it('should track the reason for auth failure', async () => {
+      const fakeClient = new FakeUnresolvedClient({ loadingStateDelay: 0 });
+      const wrapper = mount(
+        <CardWithUrlContent
+          url="http://some.url"
+          client={fakeClient}
+          appearance="inline"
+          onClick={() => {}}
+          isSelected={false}
+          createAnalyticsEvent={Mock.fakeCreateAnalyticsEvent}
+          authFn={Mock.negativeAuthFn}
+        />,
+      );
+      // pending state for now...
+      await delay(1); // wait for client to respond...
+      wrapper.update();
+
+      wrapper
+        .find(InlineCardUnauthorizedView)
+        .find(Button)
+        .simulate('click');
+
+      await delay(1); // wait for async auth mock...
+
+      const reasons = Mock.fakeCreateAnalyticsEvent.mock.calls.map(([obj]) =>
+        obj.eventType === 'operational' ? obj.attributes.reason : 'none',
+      );
+      expect(reasons.filter(x => x !== 'none')).toEqual([
+        'unauthorized',
+        'potentialSensitiveData',
+      ]);
+    });
+
+    it('should track when auth dialog was closed', async () => {
+      const fakeClient = new FakeUnresolvedClient({ loadingStateDelay: 0 });
+      const wrapper = mount(
+        <CardWithUrlContent
+          url="http://some.url"
+          client={fakeClient}
+          appearance="inline"
+          onClick={() => {}}
+          isSelected={false}
+          createAnalyticsEvent={Mock.fakeCreateAnalyticsEvent}
+          authFn={Mock.winClosedAuthFn}
+        />,
+      );
+      // pending state for now...
+      await delay(1); // wait for client to respond...
+      wrapper.update();
+
+      wrapper
+        .find(InlineCardUnauthorizedView)
+        .find(Button)
+        .simulate('click');
+
+      await delay(1); // wait for async auth mock...
+
+      const reasons = Mock.fakeCreateAnalyticsEvent.mock.calls.map(([obj]) =>
+        obj.eventType === 'operational' ? obj.attributes.reason : 'none',
+      );
+      expect(reasons.filter(x => x !== 'none')).toEqual([
+        'unauthorized',
+        'authWindowClosed',
+      ]);
+    });
   });
 
-  it('should fire connectSucceeded event when auth suceeds', async () => {
-    const fakeClient = new FakeClient({ loadingStateDelay: 0 });
-    const wrapper = mount(
-      <CardWithUrlContent
-        url="http://some.url"
-        client={fakeClient}
-        appearance="inline"
-        onClick={() => {}}
-        isSelected={false}
-        createAnalyticsEvent={Mock.fakeCreateAnalyticsEvent}
-        authFn={Mock.positiveAuthFn}
-      />,
-    );
-    // pending state for now...
-    await delay(1); // wait for client to respond...
-    wrapper.update();
+  describe('Render Card With URL (Resolved)', () => {
+    afterEach(() => {
+      Mock.fakeCreateAnalyticsEvent.mockClear();
+    });
+    it('fires an analytics ui event when a resolved link is clicked', async () => {
+      const fakeClient = new FakeResolvedClient({ loadingStateDelay: 0 });
+      const wrapper = mount(
+        <CardWithUrlContent
+          url="http://some.url"
+          client={fakeClient}
+          appearance="inline"
+          onClick={() => {}}
+          isSelected={false}
+          createAnalyticsEvent={Mock.fakeCreateAnalyticsEvent}
+          authFn={Mock.positiveAuthFn}
+        />,
+      );
+      // pending state for now...
+      await delay(1); // wait for client to respond...
+      wrapper.update();
 
-    wrapper
-      .find(InlineCardUnauthorizedView)
-      .find(Button)
-      .simulate('click');
+      wrapper
+        .find(InlineCardResolvedView)
+        .find(Frame)
+        .simulate('click');
 
-    await delay(1); // wait for async auth mock...
+      await delay(1); // wait for async auth mock...
 
-    const calls = Mock.fakeCreateAnalyticsEvent.mock.calls.map(
-      ([obj]) => obj.action,
-    );
+      const calls = Mock.fakeCreateAnalyticsEvent.mock.calls.map(([obj]) =>
+        obj.action && obj.eventType === 'ui' ? obj.action : 'none',
+      );
 
-    expect(calls).toEqual(['unresolved', 'connected', 'connectSucceeded']);
+      expect(calls.filter(x => x !== 'none')).toEqual(['clicked']);
+    });
   });
 
-  it('should fire connectFailed event when auth fails', async () => {
-    const fakeClient = new FakeClient({ loadingStateDelay: 0 });
-    const wrapper = mount(
-      <CardWithUrlContent
-        url="http://some.url"
-        client={fakeClient}
-        appearance="inline"
-        onClick={() => {}}
-        isSelected={false}
-        createAnalyticsEvent={Mock.fakeCreateAnalyticsEvent}
-        authFn={Mock.negativeAuthFn}
-      />,
-    );
-    // pending state for now...
-    await delay(1); // wait for client to respond...
-    wrapper.update();
+  describe('Render Card With URL (Forbidden)', () => {
+    afterEach(() => {
+      Mock.fakeCreateAnalyticsEvent.mockClear();
+    });
 
-    wrapper
-      .find(InlineCardUnauthorizedView)
-      .find(Button)
-      .simulate('click');
+    it('should fire analytics events when attempting to connect with an alternate account suceeds', async () => {
+      const fakeClient = new FakeForbiddenClient({ loadingStateDelay: 0 });
+      const wrapper = mount(
+        <CardWithUrlContent
+          url="http://some.url"
+          client={fakeClient}
+          appearance="inline"
+          onClick={() => {}}
+          isSelected={false}
+          createAnalyticsEvent={Mock.fakeCreateAnalyticsEvent}
+          authFn={Mock.positiveAuthFn}
+        />,
+      );
+      // pending state for now...
+      await delay(1); // wait for client to respond...
+      wrapper.update();
 
-    await delay(1); // wait for async auth mock...
+      wrapper
+        .find(InlineCardForbiddenView)
+        .find(Frame)
+        .find(Button)
+        .simulate('click');
 
-    const calls = Mock.fakeCreateAnalyticsEvent.mock.calls.map(
-      ([obj]) => obj.action,
-    );
+      await delay(1); // wait for async auth mock...
 
-    expect(calls).toEqual(['unresolved', 'connectFailed']);
-  });
+      const calls = Mock.fakeCreateAnalyticsEvent.mock.calls.map(([obj]) =>
+        obj.action && obj.eventType !== 'screen' ? obj.action : 'screen',
+      );
 
-  it('should track the reason for auth failure', async () => {
-    const fakeClient = new FakeClient({ loadingStateDelay: 0 });
-    const wrapper = mount(
-      <CardWithUrlContent
-        url="http://some.url"
-        client={fakeClient}
-        appearance="inline"
-        onClick={() => {}}
-        isSelected={false}
-        createAnalyticsEvent={Mock.fakeCreateAnalyticsEvent}
-        authFn={Mock.negativeAuthFn}
-      />,
-    );
-    // pending state for now...
-    await delay(1); // wait for client to respond...
-    wrapper.update();
+      expect(calls).toEqual([
+        'unresolved',
+        'clicked',
+        'screen',
+        'connected',
+        'connectSucceeded',
+      ]);
+    });
 
-    wrapper
-      .find(InlineCardUnauthorizedView)
-      .find(Button)
-      .simulate('click');
+    it('fires an analytics ui event when a forbidden link is clicked', async () => {
+      const fakeClient = new FakeForbiddenClient({ loadingStateDelay: 0 });
+      const wrapper = mount(
+        <CardWithUrlContent
+          url="http://some.url"
+          client={fakeClient}
+          appearance="inline"
+          onClick={() => {}}
+          isSelected={false}
+          createAnalyticsEvent={Mock.fakeCreateAnalyticsEvent}
+          authFn={Mock.positiveAuthFn}
+        />,
+      );
+      // pending state for now...
+      await delay(1); // wait for client to respond...
+      wrapper.update();
 
-    await delay(1); // wait for async auth mock...
+      wrapper
+        .find(InlineCardForbiddenView)
+        .find(Frame)
+        .find(Button)
+        .simulate('click');
 
-    const reasons = Mock.fakeCreateAnalyticsEvent.mock.calls.map(
-      ([obj]) => obj.attributes.reason,
-    );
+      await delay(1); // wait for async auth mock...
 
-    expect(reasons).toEqual(['unauthorized', 'potential.sensitive.data']);
-  });
+      const calls = Mock.fakeCreateAnalyticsEvent.mock.calls.map(([obj]) =>
+        obj.action && obj.eventType === 'ui' ? obj.actionSubjectId : 'none',
+      );
 
-  it('should track when auth dialog was closed', async () => {
-    const fakeClient = new FakeClient({ loadingStateDelay: 0 });
-    const wrapper = mount(
-      <CardWithUrlContent
-        url="http://some.url"
-        client={fakeClient}
-        appearance="inline"
-        onClick={() => {}}
-        isSelected={false}
-        createAnalyticsEvent={Mock.fakeCreateAnalyticsEvent}
-        authFn={Mock.winClosedAuthFn}
-      />,
-    );
-    // pending state for now...
-    await delay(1); // wait for client to respond...
-    wrapper.update();
+      expect(calls.filter(x => x !== 'none')).toEqual(['tryAnotherAccount']);
+    });
 
-    wrapper
-      .find(InlineCardUnauthorizedView)
-      .find(Button)
-      .simulate('click');
+    it('should track the reason for auth failure when attempting to connect with a different account', async () => {
+      const fakeClient = new FakeForbiddenClient({ loadingStateDelay: 0 });
+      const wrapper = mount(
+        <CardWithUrlContent
+          url="http://some.url"
+          client={fakeClient}
+          appearance="inline"
+          onClick={() => {}}
+          isSelected={false}
+          createAnalyticsEvent={Mock.fakeCreateAnalyticsEvent}
+          authFn={Mock.negativeAuthFn}
+        />,
+      );
+      // pending state for now...
+      await delay(1); // wait for client to respond...
+      wrapper.update();
 
-    await delay(1); // wait for async auth mock...
+      wrapper
+        .find(InlineCardForbiddenView)
+        .find(Frame)
+        .find(Button)
+        .simulate('click');
 
-    const reasons = Mock.fakeCreateAnalyticsEvent.mock.calls.map(
-      ([obj]) => obj.attributes.reason,
-    );
+      await delay(1); // wait for async auth mock...
 
-    expect(reasons).toEqual(['unauthorized', 'auth.window.was.closed']);
+      const reasons = Mock.fakeCreateAnalyticsEvent.mock.calls.map(([obj]) =>
+        obj.eventType === 'operational' ? obj.attributes.reason : 'none',
+      );
+      expect(reasons.filter(x => x !== 'none')).toEqual([
+        'forbidden',
+        'potentialSensitiveData',
+      ]);
+    });
   });
 });

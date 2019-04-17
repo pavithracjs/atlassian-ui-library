@@ -9,6 +9,7 @@ import {
 } from '../../__helpers/page-objects/_toolbar';
 import { clickEditableContent } from '../../__helpers/page-objects/_editor';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
+import { scrollToTable } from '../../__helpers/page-objects/_table';
 
 describe('Snapshot Test: Media', () => {
   describe('full page editor', () => {
@@ -35,6 +36,7 @@ describe('Snapshot Test: Media', () => {
         // now we can insert media as necessary
         await insertMedia(page);
         await waitForMediaToBeLoaded(page);
+        await scrollToTable(page);
 
         await snapshot(page, 0.01);
       });

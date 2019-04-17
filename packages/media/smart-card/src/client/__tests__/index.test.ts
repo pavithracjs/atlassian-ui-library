@@ -571,7 +571,7 @@ describe('Client', () => {
     it('should fire a resolved event when a url gets resolved', done => {
       mockResolvedFetchCall();
       const client = new Client();
-      const expectedEvent = resolvedEvent('some.url');
+      const expectedEvent = resolvedEvent('abc-123');
       const mockedHandler = jest.fn().mockImplementation(() => {
         expect(mockedHandler).toBeCalledWith(expectedEvent);
         done();
@@ -583,9 +583,7 @@ describe('Client', () => {
     it('should fire an unresolved analytics event otherwise', done => {
       mockNotFoundFetchCall();
       const client = new Client();
-      const expectedEvent = unresolvedEvent('some.url', {
-        status: 'not-found',
-      });
+      const expectedEvent = unresolvedEvent('not-found');
       const mockedHandler = jest.fn().mockImplementation(() => {
         expect(mockedHandler).toBeCalledWith(expectedEvent);
         done();

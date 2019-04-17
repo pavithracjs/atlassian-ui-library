@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.18.0
+- [minor] [272b64139f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/272b64139f):
+
+  - ED-5108 Adding padding in the bottom of full page editor appearance
+
 ## 107.17.1
 - [patch] [16290b0448](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/16290b0448):
 
