@@ -168,13 +168,6 @@ export default class Conversation extends React.PureComponent<Props, State> {
     }
   };
 
-  private onOpen = () => {
-    this.sendEditorAnalyticsEvent({
-      actionSubjectId: actionSubjectIds.createCommentInput,
-    });
-    this.onEditorOpen();
-  };
-
   private renderConversationsEditor() {
     const {
       isExpanded,
@@ -197,7 +190,7 @@ export default class Conversation extends React.PureComponent<Props, State> {
           isExpanded={isExpanded}
           onSave={this.onSave}
           onCancel={this.onCancel}
-          onOpen={this.onOpen}
+          onOpen={this.onEditorOpen}
           onClose={this.onEditorClose}
           onChange={this.handleEditorChange}
           dataProviders={dataProviders}
@@ -285,6 +278,10 @@ export default class Conversation extends React.PureComponent<Props, State> {
   };
 
   private onEditorOpen = () => {
+    this.sendEditorAnalyticsEvent({
+      actionSubjectId: actionSubjectIds.createCommentInput,
+    });
+
     this.setState({
       openEditorCount: this.state.openEditorCount + 1,
     });
