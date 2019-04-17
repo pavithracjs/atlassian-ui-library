@@ -119,23 +119,23 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     '我们不再为此向您收费。',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'How would you like the deleted user to appear?',
+    '您希望如何显示已删除的用户？ ',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'How would you like your deleted account to appear?',
+    '您希望如何显示您已删除的帐户？ ',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
-    'After the user’s account is deleted, they’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    '用户帐户删除后，他们向其他用户显示为“前用户”。请思考一下，然后回答我们的问卷问题。',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':
-    'After your account is deleted, you’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    '用户帐户删除后，您会向其他用户显示为“前用户”。请思考一下，然后回答我们的问卷问题。',
   'focused-task-close-account.delete-account.content-preview.line.survey.admin':
-    'If we gave you a choice, how would you like the deleted user to appear to other users?',
+    '如果我们让您选择，您希望已删除的用户如何向其他用户显示？',
   'focused-task-close-account.delete-account.content-preview.line.survey.self':
-    'If we gave you a choice, how would you like to appear to other users?',
+    '如果我们让您选择，您希望如何向其他用户显示？',
   'focused-task-close-account.delete-account.content-preview.footnote.admin':
-    'Note: Answering this survey will help us make a better experience for all users. The user will still appear as “Former user” after you delete their account.',
+    '注意：回答此调查问卷将帮助我们为所有用户提供更好的体验。在您删除用户帐户后，用户仍将作为“前用户”显示。',
   'focused-task-close-account.delete-account.content-preview.footnote.self':
-    'Note: Answering this survey will help us make a better experience for all users, including those deleting their accounts. You’ll still appear as “Former user” after you delete your account.',
+    '注意：回答此调查问卷将帮助我们为所有用户提供更好的体验，包括已删除其帐户的用户。在您删除帐户后，您仍将作为“前用户”显示。',
   'focused-task-close-account.delete-account.content-preview.formerUser':
-    'Former user',
+    '前用户',
   'focused-task-close-account.delete-account.drop-down-expand-button':
     '{num}更多',
   'focused-task-close-account.delete-account.drop-down-collapse-button':

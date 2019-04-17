@@ -119,23 +119,23 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     'Vi vil ikke lenger fakturere deg for dem.',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'How would you like the deleted user to appear?',
+    'Hvordan ville du foretrekke at den slettede brukeren ble vist?',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'How would you like your deleted account to appear?',
+    'Hvordan ville du foretrekke at den slettede kontoen din ble vist?',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
-    'After the user’s account is deleted, they’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Når konto er slettet, blir brukeren vist som «Tidligere bruker» for andre brukere. Vi vil sette pris på om du setter av et øyeblikk til å svare på spørreundersøkelsen vår.',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':
-    'After your account is deleted, you’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Når kontoen er slettet, vises du som «Tidligere bruker» for andre brukere. Vi vil sette pris på om du setter av et øyeblikk på å svare på spørreundersøkelsen vår.',
   'focused-task-close-account.delete-account.content-preview.line.survey.admin':
-    'If we gave you a choice, how would you like the deleted user to appear to other users?',
+    'Hvordan ville du foretrekke at den slettede brukeren ble vist til andre brukere hvis du kunne velge?',
   'focused-task-close-account.delete-account.content-preview.line.survey.self':
-    'If we gave you a choice, how would you like to appear to other users?',
+    'Hvordan ville du foretrekke å bli vist for andre brukere hvis du kunne velge?',
   'focused-task-close-account.delete-account.content-preview.footnote.admin':
-    'Note: Answering this survey will help us make a better experience for all users. The user will still appear as “Former user” after you delete their account.',
+    'Merknad: Når du svarer på denne spørreundersøkelsen, hjelper du oss til å skape en bedre opplevelse for alle brukere. Brukeren vil fortsatt vises som «Tidligere bruker» etter at kontoen er slettet.',
   'focused-task-close-account.delete-account.content-preview.footnote.self':
-    'Note: Answering this survey will help us make a better experience for all users, including those deleting their accounts. You’ll still appear as “Former user” after you delete your account.',
+    'Merknad: Når du svarer på denne spørreundersøkelsen, hjelper du oss med å skape en bedre opplevelse for alle brukere, også dem som sletter kontoen sin. Du vil fortsatt vises som «Tidligere bruker» etter at du har slettet kontoen.',
   'focused-task-close-account.delete-account.content-preview.formerUser':
-    'Former user',
+    'Tidligere bruker',
   'focused-task-close-account.delete-account.drop-down-expand-button':
     '{num} mer',
   'focused-task-close-account.delete-account.drop-down-collapse-button':

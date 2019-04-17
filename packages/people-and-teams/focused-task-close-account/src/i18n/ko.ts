@@ -119,23 +119,23 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     'Atlassian은 더 이상 해당 항목으로 귀하에게 청구하지 않습니다.',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'How would you like the deleted user to appear?',
+    '삭제된 사용자가 어떻게 표시되길 원하십니까?',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'How would you like your deleted account to appear?',
+    '삭제된 계정이 어떻게 표시되길 원하십니까?',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
-    'After the user’s account is deleted, they’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    "사용자 계정이 삭제되면 삭제된 사용자는 다른 사용자에게 '이전 사용자'로 표시됩니다. 잠시 시간을 내어 설문조사 질문에 답해주세요.",
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':
-    'After your account is deleted, you’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    "자신의 계정이 삭제되면 다른 사용자에게 '이전 사용자'로 표시됩니다. 잠시 시간을 내어 설문조사 질문에 답해주세요.",
   'focused-task-close-account.delete-account.content-preview.line.survey.admin':
-    'If we gave you a choice, how would you like the deleted user to appear to other users?',
+    '원하는 대로 선택할 수 있다면, 삭제된 사용자가 다른 사용자에게 어떻게 표시되길 원하시나요?',
   'focused-task-close-account.delete-account.content-preview.line.survey.self':
-    'If we gave you a choice, how would you like to appear to other users?',
+    '원하는 대로 선택할 수 있다면, 다른 사용자에게 어떻게 표시되기를 원하시나요?',
   'focused-task-close-account.delete-account.content-preview.footnote.admin':
-    'Note: Answering this survey will help us make a better experience for all users. The user will still appear as “Former user” after you delete their account.',
+    "참고: 이 설문조사의 질문에 답해주시면, Atlassian에서 전체 사용자를 위해 경험을 개선하는 데 큰 도움이 됩니다. 계정을 삭제하면 삭제한 사용자는 '이전 사용자'로 계속해서 표시됩니다.",
   'focused-task-close-account.delete-account.content-preview.footnote.self':
-    'Note: Answering this survey will help us make a better experience for all users, including those deleting their accounts. You’ll still appear as “Former user” after you delete your account.',
+    "참고: 이 설문조사의 질문에 답해주시면, Atlassian에서 계정을 삭제하는 사용자를 비롯하여 전체 사용자를 위해 경험을 개선하는 데 큰 도움이 됩니다. 계정을 삭제하면 '이전 사용자'로 계속해서 표시됩니다.",
   'focused-task-close-account.delete-account.content-preview.formerUser':
-    'Former user',
+    '이전 사용자',
   'focused-task-close-account.delete-account.drop-down-expand-button':
     '외 {num}개',
   'focused-task-close-account.delete-account.drop-down-collapse-button': '접기',

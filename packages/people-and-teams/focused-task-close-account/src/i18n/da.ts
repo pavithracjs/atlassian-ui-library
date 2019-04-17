@@ -119,17 +119,17 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     'Fakturerer vi dig ikke længere for vedkommende.',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'Hvordan skal den slettede bruger vises?',
+    'Hvordan foretrækker du, at den slettede bruger bliver vist?',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'Hvordan skal din slettede konto vises?',
+    'Hvordan foretrækker du, at din slettede konto bliver vist?',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
-    'Når din brugers konto slettes, fremstår de som "Tidligere bruger" overfor andre brugere. Brug et øjeblik på at besvare vores undersøgelsesspørgsmål.',
+    'Når din brugers konto slettes, bliver de vist som "Tidligere bruger" overfor andre brugere. Brug et øjeblik på at besvare vores undersøgelsesspørgsmål.',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':
-    'Når din konto slettes, fremstår du som "Tidligere bruger" overfor andre brugere. Brug et øjeblik på at besvare vores undersøgelsesspørgsmål.',
+    'Når din konto slettes, bliver du vist som "Tidligere bruger" overfor andre brugere. Brug et øjeblik på at besvare vores undersøgelsesspørgsmål.',
   'focused-task-close-account.delete-account.content-preview.line.survey.admin':
-    'Hvis du får valget, hvordan foretrækker du så, at den slettede bruger vises for andre brugere?',
+    'Hvis du fik valget, hvordan ville du så foretrække, at den slettede bruger blev vist overfor andre brugere?',
   'focused-task-close-account.delete-account.content-preview.line.survey.self':
-    'Hvis du får valget, hvordan foretrækker du så at blive vist for andre brugere?',
+    'Hvis du fik valget, hvordan ville du så foretrække at blive vist overfor andre brugere?',
   'focused-task-close-account.delete-account.content-preview.footnote.admin':
     'Bemærk: Du hjælper os med at sikre alle brugere en bedre oplevelse ved at svare på denne undersøgelse. Brugeren fremstår stadig som en "Tidligere bruger", efter kontoen slettes.',
   'focused-task-close-account.delete-account.content-preview.footnote.self':

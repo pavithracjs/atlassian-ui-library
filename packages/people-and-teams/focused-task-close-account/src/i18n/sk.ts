@@ -119,23 +119,23 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     'Túto položku vám už nebudeme účtovať.',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'How would you like the deleted user to appear?',
+    'Ako chcete zobrazovať odstráneného používateľa?',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'How would you like your deleted account to appear?',
+    'Ako chcete zobrazovať odstránené konto?',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
-    'After the user’s account is deleted, they’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Po odstránení konta používateľa sa používateľ bude ostatným používateľom zobrazovať ako „bývalý používateľ“. Nájdite si chvíľu čas a odpovedzte na otázku z nášho prieskumu.',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':
-    'After your account is deleted, you’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Po odstránení vášho konta sa ostatným používateľom budete zobrazovať ako „bývalý používateľ“. Nájdite si chvíľu čas a odpovedzte na otázku z nášho prieskumu.',
   'focused-task-close-account.delete-account.content-preview.line.survey.admin':
-    'If we gave you a choice, how would you like the deleted user to appear to other users?',
+    'Keby ste mali na výber, ako by sa mal odstránený používateľ zobrazovať ostatným používateľom?',
   'focused-task-close-account.delete-account.content-preview.line.survey.self':
-    'If we gave you a choice, how would you like to appear to other users?',
+    'Keby ste mali na výber, ako by ste sa chceli zobrazovať ostatným používateľom?',
   'focused-task-close-account.delete-account.content-preview.footnote.admin':
-    'Note: Answering this survey will help us make a better experience for all users. The user will still appear as “Former user” after you delete their account.',
+    'Poznámka: Vyplnením tohto prieskumu nám pomôžete vytvoriť lepšiu skúsenosť pre všetkých používateľov. Po odstránení konta sa používateľ bude stále zobrazovať ako „bývalý používateľ“.',
   'focused-task-close-account.delete-account.content-preview.footnote.self':
-    'Note: Answering this survey will help us make a better experience for all users, including those deleting their accounts. You’ll still appear as “Former user” after you delete your account.',
+    'Poznámka: Vyplnením tohto prieskumu nám pomôžete vytvoriť lepšiu skúsenosť pre všetkých používateľov vrátane tých, ktorí odstránili svoje kontá. Po odstránení konta sa stále budete zobrazovať ako „bývalý používateľ“.',
   'focused-task-close-account.delete-account.content-preview.formerUser':
-    'Former user',
+    'Bývalý používateľ',
   'focused-task-close-account.delete-account.drop-down-expand-button':
     'Ďalšie: {num}',
   'focused-task-close-account.delete-account.drop-down-collapse-button':

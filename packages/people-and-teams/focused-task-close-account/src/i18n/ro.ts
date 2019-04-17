@@ -119,23 +119,23 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     'Nu veți mai fi tarifat pentru aceste conturi.',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'How would you like the deleted user to appear?',
+    'Cum ați dori să apară utilizatorul șters?',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'How would you like your deleted account to appear?',
+    'Cum ați dori să apară contul șters?',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
-    'After the user’s account is deleted, they’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Ulterior ștergerii contului utilizatorului, acesta va apărea ca „Fost utilizator” față de alți utilizatori. Acordați un moment răspunsului la întrebarea din sondajul nostru.',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':
-    'After your account is deleted, you’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Ulterior ștergerii contului dvs., veți apărea ca „Fost utilizator” față de alți utilizatori. Acordați un moment răspunsului la întrebarea din sondajul nostru.',
   'focused-task-close-account.delete-account.content-preview.line.survey.admin':
-    'If we gave you a choice, how would you like the deleted user to appear to other users?',
+    'Dacă ați avea de ales, cum ați dori să apară utilizatorul șters față de ceilalți utilizatori?',
   'focused-task-close-account.delete-account.content-preview.line.survey.self':
-    'If we gave you a choice, how would you like to appear to other users?',
+    'Dacă ați avea de ales, cum ați dori să apăreți față de ceilalți utilizatori?',
   'focused-task-close-account.delete-account.content-preview.footnote.admin':
-    'Note: Answering this survey will help us make a better experience for all users. The user will still appear as “Former user” after you delete their account.',
+    'Notă: Răspunsul în acest sondaj ne va ajuta să creăm o experiență îmbunătățită pentru toti utilizatorii. Utilizatorul va apărea în continuare ca „Fost utilizator” ulterior ștergerii contului.',
   'focused-task-close-account.delete-account.content-preview.footnote.self':
-    'Note: Answering this survey will help us make a better experience for all users, including those deleting their accounts. You’ll still appear as “Former user” after you delete your account.',
+    'Notă: Răspunsul în acest sondaj ne va ajuta să creăm o experiență îmbunătățită pentru toți utilizatorii, inclusiv cei care își vor șterge conturile. Veți apărea în continuare ca „Fost utilizator” ulterior ștergerii contului.',
   'focused-task-close-account.delete-account.content-preview.formerUser':
-    'Former user',
+    'Fost utilizator',
   'focused-task-close-account.delete-account.drop-down-expand-button':
     'Încă {num}',
   'focused-task-close-account.delete-account.drop-down-collapse-button':

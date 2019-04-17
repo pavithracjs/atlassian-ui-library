@@ -119,23 +119,23 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     'Dafür wird Ihnen nichts mehr berechnet.',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'How would you like the deleted user to appear?',
+    'Wie sollte Ihrer Meinung nach der gelöschte Benutzer angezeigt werden?',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'How would you like your deleted account to appear?',
+    'Wie sollte Ihrer Meinung nach Ihr gelöschtes Konto angezeigt werden?',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
-    'After the user’s account is deleted, they’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Nach der Löschung des Kontos des Benutzers erscheint er für andere Benutzer als „Ehemaliger Benutzer”. Bitte nehmen Sie sich einen Moment Zeit, an unserer Umfrage teilzunehmen.',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':
-    'After your account is deleted, you’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Nach der Löschung Ihres Kontos erscheinen Sie für andere Benutzer als „Ehemaliger Benutzer”. Bitte nehmen Sie sich einen Moment Zeit, an unserer Umfrage teilzunehmen.',
   'focused-task-close-account.delete-account.content-preview.line.survey.admin':
-    'If we gave you a choice, how would you like the deleted user to appear to other users?',
+    'Wenn Sie die Wahl hätten, wie sollte Ihrer Meinung nach der gelöschte Benutzer für andere Benutzer angezeigt werden?',
   'focused-task-close-account.delete-account.content-preview.line.survey.self':
-    'If we gave you a choice, how would you like to appear to other users?',
+    'Wenn Sie die Wahl hätten, wie sollten Sie Ihrer Meinung nach für andere Benutzer angezeigt werden?',
   'focused-task-close-account.delete-account.content-preview.footnote.admin':
-    'Note: Answering this survey will help us make a better experience for all users. The user will still appear as “Former user” after you delete their account.',
+    'Hinweis: Wenn Sie an dieser Umfrage teilnehmen, können wir die Benutzerfreundlichkeit für alle verbessern. Wenn Sie sein Konto löschen, erscheint der Benutzer dennoch als „Ehemaliger Benutzer”.',
   'focused-task-close-account.delete-account.content-preview.footnote.self':
-    'Note: Answering this survey will help us make a better experience for all users, including those deleting their accounts. You’ll still appear as “Former user” after you delete your account.',
+    'Hinweis: Wenn Sie an dieser Umfrage teilnehmen, können wir die Benutzerfreundlichkeit für alle verbessern, auch für diejenigen, die ihr Konto löschen. Wenn Sie Ihr Konto löschen, erscheinen Sie dennoch als „Ehemaliger Benutzer”.',
   'focused-task-close-account.delete-account.content-preview.formerUser':
-    'Former user',
+    'Ehemaliger Benutzer',
   'focused-task-close-account.delete-account.drop-down-expand-button':
     '{num} weitere',
   'focused-task-close-account.delete-account.drop-down-collapse-button':

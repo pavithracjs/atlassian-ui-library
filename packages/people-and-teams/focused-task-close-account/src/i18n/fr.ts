@@ -119,15 +119,15 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     'Ils ne vous seront plus facturés.',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'Comment souhaiteriez-vous afficher les utilisateurs supprimés ?',
+    "Comment souhaiteriez-vous afficher l'utilisateur supprimé ?",
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'Comment voulez-vous que votre compte supprimé apparaisse ?',
+    'Comment préféreriez-vous afficher votre compte supprimé ?',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
     "Après la suppression du compte de l'utilisateur, il apparaît en « Ancien utilisateur ». Prenez un moment pour répondre à notre question d'enquête.",
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':
     "Une fois votre compte supprimé, vous apparaissez comme « Ancien utilisateur ». Prenez un moment pour répondre à notre question d'enquête.",
   'focused-task-close-account.delete-account.content-preview.line.survey.admin':
-    'Si vous aviez le choix, comment souhaiteriez-vous afficher les utilisateurs supprimés ?',
+    "Si vous aviez le choix, comment souhaiteriez-vous afficher l'utilisateur supprimé ?",
   'focused-task-close-account.delete-account.content-preview.line.survey.self':
     'Si vous aviez le choix, comment souhaiteriez-vous apparaître aux autres utilisateurs ?',
   'focused-task-close-account.delete-account.content-preview.footnote.admin':

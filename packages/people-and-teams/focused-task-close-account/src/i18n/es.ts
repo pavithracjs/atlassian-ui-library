@@ -119,9 +119,9 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     'Dejaremos de facturarte por estos usuarios.',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    '¿Cómo te gustaría ver al usuario eliminado?',
+    '¿Cómo preferirías ver al usuario eliminado?',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    '¿Cómo te gustaría que se viese tu cuenta eliminada?',
+    '¿Cómo preferirías que se viese tu cuenta eliminada?',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
     'Una vez que se elimine la cuenta del usuario, los demás lo verán como "Usuario antiguo". Tómate un momento para responder a la pregunta de nuestra encuesta.',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':

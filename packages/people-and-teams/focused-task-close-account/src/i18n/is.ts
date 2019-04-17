@@ -119,23 +119,23 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     'Við munum ekki rukka þig lengur fyrir þær.',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'How would you like the deleted user to appear?',
+    'Hvernig myndir þú vilja að notandinn sem eytt hefur verið myndi birtast?',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'How would you like your deleted account to appear?',
+    'Hvernig myndir þú vilja að reikningi sem eytt hefur verið myndi birtast?',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
-    'After the user’s account is deleted, they’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Eftir að reikningi notandans hefur verið eytt mun viðkomandi birtast öðrum notendum sem „Fyrrum notandi“. Vinsamlegast gefðu þér smá stund til að svara spurningu könnunarinnar okkar.',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':
-    'After your account is deleted, you’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    'Eftir að reikningnum þínum hefur verið eytt muntu birtast öðrum notendum sem „Fyrrum notandi“. Vinsamlegast gefðu þér smá stund til að svara spurningu könnunarinnar okkar.',
   'focused-task-close-account.delete-account.content-preview.line.survey.admin':
-    'If we gave you a choice, how would you like the deleted user to appear to other users?',
+    'Ef við gæfum þér val, hvernig myndir þú vilja að notandinn sem eytt hefur verið myndi birtast öðrum notendum?',
   'focused-task-close-account.delete-account.content-preview.line.survey.self':
-    'If we gave you a choice, how would you like to appear to other users?',
+    'Ef við gæfum þér val, hvernig myndir þú vilja birtast öðrum notendum?',
   'focused-task-close-account.delete-account.content-preview.footnote.admin':
-    'Note: Answering this survey will help us make a better experience for all users. The user will still appear as “Former user” after you delete their account.',
+    'Athugið: Með því að svara þessari könnun geturðu hjálpað okkur við að gera upplifunina betri fyrir alla notendur. Notandinn mun áfram birtast sem „Fyrrum notandi“ eftir að þú eyðir reikningi viðkomandi.',
   'focused-task-close-account.delete-account.content-preview.footnote.self':
-    'Note: Answering this survey will help us make a better experience for all users, including those deleting their accounts. You’ll still appear as “Former user” after you delete your account.',
+    'Athugið: Með því að svara þessari könnun geturðu hjálpað okkur við að gera upplifunina betri fyrir alla notendur, þar á meðal fyrir þá sem eru að eyða reikningum sínum. Þú munt áfram birtast sem „Fyrrum notandi“ eftir að þú eyðir reikningnum þínum.',
   'focused-task-close-account.delete-account.content-preview.formerUser':
-    'Former user',
+    'Fyrrum notandi',
   'focused-task-close-account.delete-account.drop-down-expand-button':
     '{num} meira',
   'focused-task-close-account.delete-account.drop-down-collapse-button':

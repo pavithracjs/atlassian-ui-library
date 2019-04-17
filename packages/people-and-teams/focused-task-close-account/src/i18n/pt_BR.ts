@@ -119,9 +119,9 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     'Não vamos mais cobrar você por isso.',
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'Como você quer que o usuário excluído seja exibido?',
+    'Como você prefere que o usuário excluído seja exibido?',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'Como você quer que sua conta excluída seja exibida?',
+    'Como você prefere que sua conta excluída seja exibida?',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
     'Depois que a conta do usuário for excluída, ele será exibido como "Ex-usuário" para os outros usuários. Reserve um momento para responder à pergunta da nossa pesquisa.',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':

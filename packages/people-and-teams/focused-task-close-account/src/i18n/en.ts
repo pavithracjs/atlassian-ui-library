@@ -119,9 +119,9 @@ export default {
   'focused-task-close-account.deactivate-account.overview.paragraph.billing.self':
     "We'll no longer bill you for them.",
   'focused-task-close-account.delete-account.content-preview.heading.admin':
-    'How would you like the deleted user to appear?',
+    'How would you prefer the deleted user to appear?',
   'focused-task-close-account.delete-account.content-preview.heading.self':
-    'How would you like your deleted account to appear?',
+    'How would you prefer your deleted account to appear?',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin':
     'After the user’s account is deleted, they’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
   'focused-task-close-account.delete-account.content-preview.paragraph.survey.self':
