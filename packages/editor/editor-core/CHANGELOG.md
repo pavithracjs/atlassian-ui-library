@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 107.17.0
+- [minor] [d6886fe651](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6886fe651):
+
+  - ED-6649 Add analytics events for layout toolbar buttons - changing layouts and deleting layouts
+- [patch] [77936321cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/77936321cd):
+
+  - [ED-4898] Fixes the Backspace event for empty codeBlocks when triggered from inside of tables or columns
+
 ## 107.16.0
 - [minor] [5d9455978b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5d9455978b):
 
