@@ -18,6 +18,10 @@ export class DeleteUserContentPreviewScreen extends React.Component<
     currentActive: -1,
   };
 
+  componentDidMount() {
+    this.props.preferenceSelection('');
+  }
+
   handleClickSection = (userName: string, position: number) => () => {
     this.props.preferenceSelection(userName);
     this.setState({ currentActive: position });

@@ -22,6 +22,11 @@ describe('DeleteUserContentPreviewScreen', () => {
     const wrapper = render();
     expect(wrapper).toMatchSnapshot();
   });
+  test('componentDidMount calls the preferenceSelection prop', () => {
+    const spyPreferenceSelection = jest.fn();
+    render({ preferenceSelection: spyPreferenceSelection });
+    expect(spyPreferenceSelection).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe('handleClickSelection', () => {
