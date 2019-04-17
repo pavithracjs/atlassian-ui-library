@@ -250,7 +250,7 @@ export const panelNote = nodeFactory(sampleSchema.nodes.panel, {
 });
 export const plain = nodeFactory(sampleSchema.nodes.plain, {});
 export const hardBreak = nodeFactory(sampleSchema.nodes.hardBreak, {});
-// tslint:disable-next-line:variable-name
+
 export const code_block = (attrs: {} = {}) =>
   nodeFactory(sampleSchema.nodes.codeBlock, attrs);
 export const img = (attrs: { src: string; alt?: string; title?: string }) =>

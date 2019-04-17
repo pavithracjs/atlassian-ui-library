@@ -188,6 +188,7 @@ export const generateMockConversation = (): Conversation => {
                     type: 'text',
                     text:
                       MESSAGES[
+                        // eslint-disable-next-line no-bitwise
                         Math.floor(Math.random() * MESSAGES.length) &
                           MESSAGES.length
                       ],

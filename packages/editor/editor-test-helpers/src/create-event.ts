@@ -6,7 +6,7 @@
 const supportsEvent = (event => {
   if (event) {
     try {
-      // tslint:disable-next-line:no-unused-expression
+      // eslint-disable-next-line no-unused-expressions
       new event('emit-init');
     } catch (e) {
       return false;

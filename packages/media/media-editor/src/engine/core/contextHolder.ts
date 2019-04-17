@@ -17,7 +17,7 @@ export class ContextHolder {
     if (gl) {
       this.gl = gl;
     } else {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error('webgl is not supported');
       throw new Error('WEBGL is not supported');
     }

@@ -28,6 +28,7 @@ import { cardClient, cardProvider } from '../providers/cardProvider';
 
 const params = parseLocationSearch();
 // @ts-ignore
+// eslint-disable-next-line no-redeclare
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
 
 export const bridge: WebBridgeImpl = ((window as any).bridge = new WebBridgeImpl());

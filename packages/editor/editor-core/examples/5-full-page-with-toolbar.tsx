@@ -16,10 +16,10 @@ import { Wrapper, Content } from './5-full-page';
 import withSentry from '../example-helpers/withSentry';
 import { EditorActions } from '../src';
 
-// tslint:disable-next-line:no-console
+// eslint-disable-next-line no-console
 const analyticsHandler = (actionName: string, props?: {}) =>
   console.log(actionName, props);
-// tslint:disable-next-line:no-console
+// eslint-disable-next-line no-console
 const SAVE_ACTION = () => console.log('Save');
 
 const SaveAndCancelButtons = (props: { editorActions: EditorActions }) => (
@@ -37,17 +37,13 @@ const SaveAndCancelButtons = (props: { editorActions: EditorActions }) => (
       onClick={() =>
         props.editorActions
           .getValue()
-          // tslint:disable-next-line:no-console
+          // eslint-disable-next-line no-console
           .then(value => console.log(value))
       }
     >
       Publish
     </Button>
-    <Button
-      appearance="subtle"
-      // tslint:disable-next-line:jsx-no-lambda
-      onClick={() => props.editorActions.clear()}
-    >
+    <Button appearance="subtle" onClick={() => props.editorActions.clear()}>
       Close
     </Button>
   </ButtonGroup>
@@ -132,7 +128,6 @@ class ExampleEditorFullPage extends React.Component<Props> {
                 disabled={disabled}
                 primaryToolbarComponents={
                   <WithEditorActions
-                    // tslint:disable-next-line:jsx-no-lambda
                     render={actions => (
                       <SaveAndCancelButtons editorActions={actions} />
                     )}

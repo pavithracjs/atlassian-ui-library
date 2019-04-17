@@ -8,10 +8,8 @@ import Client, { PubSubClientConfig, SpecialEventType } from '../src';
 
 let clientConfig: { serviceConfig: PubSubClientConfig };
 try {
-  // tslint:disable-next-line import/no-unresolved, no-var-requires
   clientConfig = require('../local-config')['default'];
 } catch (e) {
-  // tslint:disable-next-line import/no-unresolved, no-var-requires
   clientConfig = require('../local-config-example')['default'];
 }
 

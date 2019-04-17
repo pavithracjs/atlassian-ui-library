@@ -16,7 +16,6 @@ export interface MobileEditorProps {
   maxHeight?: number;
 }
 
-// tslint:disable-next-line:variable-name
 const MobileEditor: any = styled.div`
   height: 100%;
   min-height: 30px;
@@ -34,7 +33,6 @@ const MobileEditor: any = styled.div`
 `;
 MobileEditor.displayName = 'MobileEditor';
 
-// tslint:disable-next-line:variable-name
 const ContentArea = styled(ContentStyles)`
   height: 100%;
 

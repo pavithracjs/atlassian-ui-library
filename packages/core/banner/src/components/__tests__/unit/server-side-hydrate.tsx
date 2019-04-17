@@ -16,15 +16,15 @@ afterEach(() => {
 
 test('should ssr then hydrate banner correctly', async () => {
   const [example] = await getExamplesFor('banner');
-  const Example = require(example.filePath).default; // tslint:disable-line:import/no-dynamic-require
+  const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
 
   const elem = document.createElement('div');
   elem.innerHTML = await ssr(example.filePath);
 
   ReactDOM.hydrate(<Example />, elem);
 
-  /* tslint:disable no-console */
   // @ts-ignore
+  // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls;
   const filtered = mockCalls.filter((mock: any) => !warningRegEx.test(mock));
   const mockCallsWithoutStyleErrors = filtered.reduce(

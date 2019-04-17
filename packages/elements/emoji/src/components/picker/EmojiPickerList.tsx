@@ -323,7 +323,9 @@ export default class EmojiPickerVirtualList extends PureComponent<
       const root = this.refs.root as HTMLDivElement;
       const display = root.style.display;
       root.style.display = 'none';
-      // tslint:disable-next-line:no-unused-expression no-unused-variable we need to access offset to force repaint
+
+      // we need to access offset to force repaint
+      // eslint-disable-next-line no-unused-expressions
       root.offsetHeight;
       root.style.display = display;
     }

@@ -1,4 +1,4 @@
-/* tslint:disable:no-console */
+// eslint-disable-line no-console
 import * as React from 'react';
 import { Component } from 'react';
 import {

@@ -91,7 +91,6 @@ export default class EmojiPreview extends PureComponent<Props, State> {
       <div className={styles.buttons}>
         <EmojiButton
           emoji={previewEmoji}
-          // tslint:disable-next-line:jsx-no-lambda
           onSelected={() => this.onToneButtonClick()}
           selectOnHover={true}
         />
