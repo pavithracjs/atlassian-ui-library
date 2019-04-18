@@ -77,7 +77,6 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
 
   componentDidMount() {
     const { allowColumnResizing } = this.props;
-
     if (allowColumnResizing && this.wrapper && !isIE11) {
       this.wrapper.addEventListener('scroll', this.handleScrollDebounced);
     }
@@ -91,18 +90,15 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
           view.state,
           containerWidth.width,
         );
-        this.frameId = this.scaleTableDebounced(
-          view,
-          this.table,
+        this.frameId = this.scaleTableDebounced(view, this.table, {
           node,
-          node,
-          getPos(),
-          containerWidth.width,
-          true,
+          prevNode: node,
+          start: getPos() + 1,
+          containerWidth: containerWidth.width,
+          initialScale: true,
           parentWidth,
-          options && options.dynamicTextSizing,
-          options && options.isBreakoutEnabled,
-        );
+          ...options,
+        });
       }
 
       this.updateTableContainerWidth();
@@ -281,18 +277,15 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
       prevAttrs.isNumberColumnEnabled !== currentAttrs.isNumberColumnEnabled ||
       tablesHaveDifferentNoOfColumns(node, prevProps.node)
     ) {
-      scaleTable(
-        view,
-        this.table,
+      scaleTable(view, this.table, {
         node,
-        prevProps.node,
-        getPos(),
-        containerWidth.width,
-        false,
+        prevNode: prevProps.node,
         parentWidth,
-        options && options.dynamicTextSizing,
-        options && options.isBreakoutEnabled,
-      );
+        start: getPos() + 1,
+        containerWidth: containerWidth.width,
+        initialScale: false,
+        ...options,
+      });
 
       this.updateParentWidth(parentWidth);
     }
