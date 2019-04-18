@@ -233,8 +233,8 @@ export default class WithPluginState extends React.Component<Props> {
     );
 
     return {
-      ...this.recentEditorPluginState,
-      ...editorPluginStates,
+      ...this.recentEditorPluginState, // State with non editor plugin states updated
+      ...editorPluginStates, // Most recent editor plugin states
     };
   }
 
