@@ -1,8 +1,10 @@
 import { ErrorMessage, Field, HelperMessage } from '@atlaskit/form';
 import UserPicker, {
+  EmailValidationResponse,
   LoadOptions,
   OptionData,
   Value,
+  isValidEmail,
 } from '@atlaskit/user-picker';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -30,23 +32,33 @@ export type Props = {
   capabilitiesInfoMessage?: React.ReactNode;
 };
 
-type GetMessageDescriptorByConfigMode = (
+type GetPlaceHolderMessageDescriptor = (
   mode: ConfigResponseMode | '',
+) => MessageDescriptor;
+
+type GetNoOptionMessageDescriptor = (
+  mode: ConfigResponseMode | '',
+  emailValidity: EmailValidationResponse,
 ) => MessageDescriptor;
 
 type GetNoOptionMessage = (
   { inputValue }: { inputValue: string },
 ) => any | null;
 
-const getNoOptionsMessageDescriptor: GetMessageDescriptorByConfigMode = (
+const getNoOptionsMessageDescriptor: GetNoOptionMessageDescriptor = (
   mode: ConfigResponseMode | '',
+  emailValidity: EmailValidationResponse,
 ) => {
   switch (mode) {
     case 'EXISTING_USERS_ONLY':
       return messages.userPickerExistingUserOnlyNoOptionsMessage;
 
     case 'ONLY_DOMAIN_BASED_INVITE':
-      return messages.userPickerDomainBasedUserOnlyNoOptionsMessage;
+      if (emailValidity !== 'INVALID') {
+        return messages.userPickerDomainBasedUserOnlyNoOptionsMessage;
+      } else {
+        return messages.userPickerGenericNoOptionsMessage;
+      }
 
     default:
       return messages.userPickerGenericNoOptionsMessage;
@@ -55,11 +67,18 @@ const getNoOptionsMessageDescriptor: GetMessageDescriptorByConfigMode = (
 
 const getNoOptionsMessage = (
   config: ConfigResponse | undefined,
-): GetNoOptionMessage => ({ inputValue }): GetNoOptionMessage =>
+): GetNoOptionMessage => ({
+  inputValue,
+}: {
+  inputValue: string;
+}): GetNoOptionMessage =>
   inputValue && inputValue.trim().length > 0
     ? ((
         <FormattedMessage
-          {...getNoOptionsMessageDescriptor((config && config!.mode) || '')}
+          {...getNoOptionsMessageDescriptor(
+            (config && config!.mode) || '',
+            isValidEmail(inputValue),
+          )}
           values={{
             inputValue,
             domains: (
@@ -72,7 +91,7 @@ const getNoOptionsMessage = (
       ) as any)
     : null;
 
-const getPlaceHolderMessageDescriptor: GetMessageDescriptorByConfigMode = (
+const getPlaceHolderMessageDescriptor: GetPlaceHolderMessageDescriptor = (
   mode: ConfigResponseMode | '',
 ) =>
   mode === 'EXISTING_USERS_ONLY'
