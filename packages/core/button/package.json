@@ -41,6 +41,7 @@
     "@atlaskit/docs": "^7.0.3",
     "@atlaskit/icon": "^16.0.9",
     "@atlaskit/logo": "^10.0.4",
+    "@atlaskit/select": "^8.1.1",
     "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/visual-regression": "^0.0.1",
     "enzyme": "^3.7.0",
