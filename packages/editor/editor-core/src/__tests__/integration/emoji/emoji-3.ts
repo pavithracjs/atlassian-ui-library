@@ -22,14 +22,13 @@ BrowserTestCase(
     await page.type(editable, ':');
     await page.type(editable, 'smi');
     await page.waitForSelector(typeahead);
-    await page.type(editable, 'ArrowDown');
+    await page.keys('ArrowDown');
 
     // The typeahead may re-order our results.
     // Go down 5 items til we find our desired emoji
     await highlightEmojiInTypeahead(page, 'smile');
 
-    await page.type(editable, 'Return');
-    await page.waitForSelector(emojiItem('smile'), 1000);
+    await page.keys('Return');
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
   },
@@ -50,8 +49,7 @@ BrowserTestCase(
     // Grab the currently selected emoji, to reference in render.
     await highlightEmojiInTypeahead(page, 'wink');
 
-    await page.type(editable, 'Return');
-    await page.waitForSelector(emojiItem('wink'), 1000);
+    await page.keys('Return');
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
   },

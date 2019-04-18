@@ -12,14 +12,15 @@ import {
 // behaviour is OS specific:
 // windows moves to next paragraph up
 // osx moves to top of document
-const moveUp = (page: any, selector: string) => {
+const moveUp = async (page: any, selector: string) => {
   let keys;
-  if (page.browser.desiredCapabilities.os === 'Windows') {
+  if (page.browser.capabilities.os === 'Windows') {
     keys = ['Control', 'ArrowUp'];
   } else {
     keys = ['Command', 'ArrowUp'];
   }
-  return page.browser.addValue(selector, keys);
+  await page.browser.keys(keys);
+  return page.browser.keys(keys[0]);
 };
 
 BrowserTestCase(

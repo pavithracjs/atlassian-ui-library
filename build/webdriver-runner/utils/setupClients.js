@@ -18,17 +18,15 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
       os: 'Windows',
       os_version: '10',
       browserName: 'chrome',
-      browser_version: '71.0',
+      browser_version: '73.0',
       resolution: RESOLUTION,
     },
     firefox: {
       os: 'Windows',
       os_version: '10',
       browserName: 'firefox',
-      browser_version: '64.0',
+      browser_version: '66.0',
       resolution: RESOLUTION,
-      'browserstack.geckodriver': '0.22.0',
-      'browserstack.use_w3c': 'true',
     },
     ie: {
       os: 'Windows',
@@ -39,9 +37,9 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
     },
     safari: {
       os: 'OS X',
-      os_version: 'High Sierra',
+      os_version: 'Mojave',
       browserName: 'Safari',
-      browser_version: '11.0',
+      browser_version: '12.0',
       resolution: RESOLUTION,
     },
     // https://github.com/webdriverio/webdriverio/issues/3196
