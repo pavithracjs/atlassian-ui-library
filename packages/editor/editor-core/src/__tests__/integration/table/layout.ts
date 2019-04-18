@@ -30,7 +30,7 @@ BrowserTestCase(
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
-    await page.browser.windowHandleMaximize();
+    await page.browser.maximizeWindow();
 
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -57,7 +57,7 @@ BrowserTestCase(
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
-    await page.browser.windowHandleMaximize();
+    await page.browser.maximizeWindow();
 
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -86,7 +86,7 @@ BrowserTestCase(
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
-    await page.browser.windowHandleMaximize();
+    await page.browser.maximizeWindow();
 
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -138,7 +138,7 @@ BrowserTestCase(
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
-    await page.browser.windowHandleMaximize();
+    await page.browser.maximizeWindow();
 
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -166,7 +166,7 @@ BrowserTestCase(
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
-    await page.browser.windowHandleMaximize();
+    await page.browser.maximizeWindow();
 
     await mountEditor(page, {
       appearance: fullpage.appearance,
