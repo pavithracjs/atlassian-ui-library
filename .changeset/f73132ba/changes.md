@@ -1,0 +1,1 @@
+- Stop defaultValue from being omitted from props that are spread onto TextareaElement
