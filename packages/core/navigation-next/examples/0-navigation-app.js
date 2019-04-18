@@ -1,8 +1,19 @@
 // @flow
 
 import React, { Component } from 'react';
+
+/*
+ * Routing and Server Side Rendering
+ * Make sure you correctly configure your
+ * application's routes to be compatible
+ * with SSR. For instructions on how to
+ * SSR with React Router, check out their docs:
+ * https://reacttraining.com/react-router/web/guides/server-rendering
+ */
+
 import { Route, Switch } from 'react-router';
 import { MemoryRouter } from 'react-router-dom';
+
 import { Label } from '@atlaskit/field-base';
 import { ToggleStateless } from '@atlaskit/toggle';
 
