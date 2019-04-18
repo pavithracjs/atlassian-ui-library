@@ -1,0 +1,1 @@
+- [ED-6367] Fixes table header row toggle when there is cells with column span, preventing it from being adding new cells wrongly
