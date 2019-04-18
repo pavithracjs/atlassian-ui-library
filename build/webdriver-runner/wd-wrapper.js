@@ -20,10 +20,6 @@ export class JSHandle {
     return new ElementHandle(this.browser, this.selector);
   }
 
-  getProperty(propertyName) {
-    return this.browser.getAttribute(this.selector, propertyName);
-  }
-
   dispose = TODO;
   executionContext = TODO;
   getProperties = TODO;
@@ -61,8 +57,10 @@ export default class Page {
     return this.browser.url(url);
   }
 
-  hover(selector) {
-    return this.browser.moveToObject(selector).pause(500);
+  async hover(selector) {
+    const elem = await this.browser.$(selector);
+    elem.moveTo();
+    await this.browser.pause(500);
   }
 
   title() {
@@ -74,46 +72,46 @@ export default class Page {
   }
 
   $$(selector) {
-    return this.browser.elements(selector);
+    return this.browser.findElements('css selector', selector);
   }
 
   $eval(selector, pageFunction, param) {
-    return this.browser
-      .execute(
-        `return (${pageFunction}(document.querySelector("${selector}"), ${JSON.stringify(
-          param,
-        )}))`,
-      )
-      .then(obj => obj.value);
+    return this.browser.execute(
+      `return (${pageFunction}(document.querySelector("${selector}"), ${JSON.stringify(
+        param,
+      )}))`,
+    );
   }
 
-  count(selector) {
-    return this.$$(selector).then(function(result) {
-      return result.value.length;
-    });
+  async setValue(selector, text) {
+    const elem = await this.browser.$(selector);
+    return elem.setValue(text);
+  }
+
+  async count(selector) {
+    const result = await this.$$(selector);
+    return result.length;
   }
 
   async type(selector, text) {
+    const elem = await this.browser.$(selector);
     if (Array.isArray(text)) {
       for (let t of text) {
-        await this.browser.addValue(selector, t);
+        await elem.addValue(t);
       }
     } else {
-      await this.browser.addValue(selector, text);
+      await elem.addValue(text);
     }
   }
 
-  setValue(selector, text) {
-    return this.browser.setValue(selector, text);
+  async clear(selector) {
+    const elem = await this.browser.$(selector);
+    return elem.clearValue();
   }
 
-  // TODO: remove it
-  clear(selector) {
-    return this.browser.clearElement(selector);
-  }
-
-  click(selector) {
-    return this.browser.click(selector);
+  async click(selector) {
+    const elem = await this.browser.$(selector);
+    return elem.click();
   }
 
   keys(value) {
@@ -149,7 +147,7 @@ export default class Page {
   async checkConsoleErrors() {
     // Console errors can only be checked in Chrome
     if (this.isBrowser('chrome')) {
-      const logs = await this.browser.log('browser');
+      const logs = await this.browser.getLogs('browser');
       if (logs.value) {
         logs.value.forEach(val => {
           assert.notStrictEqual(val.level, 'SEVERE', `Error : ${val.message}`);
@@ -172,14 +170,19 @@ export default class Page {
   //  keyboard.up('Shift');
 
   //will need to have wrapper for these once moved to puppeteer
-  getText(selector) {
+  async getText(selector) {
     // replace with await page.evaluate(() => document.querySelector('p').textContent)
     // for puppteer
-    return this.browser.getText(selector);
+    const elem = await this.browser.$(selector);
+    return elem.getText();
+  }
+
+  async execute(func) {
+    return this.browser.execute(func);
   }
 
   getBrowserName() {
-    return this.browser.desiredCapabilities.browserName;
+    return this.browser.capabilities.browserName;
   }
 
   isBrowser(browserName) {
@@ -197,15 +200,24 @@ export default class Page {
   getHTML(selector) {
     return this.browser.getHTML(selector);
   }
-  isEnabled(selector) {
-    return this.browser.isEnabled(selector);
-  }
-  isExisting(selector) {
-    return this.browser.isExisting(selector);
+
+  async getProperty(selector, property) {
+    const elem = await this.browser.$(selector);
+    return elem.getProperty(property);
   }
 
-  isVisible(selector) {
-    return this.browser.isVisible(selector);
+  async isEnabled(selector) {
+    const elem = await this.browser.$(selector);
+    return elem.isEnabled();
+  }
+
+  async isExisting(selector) {
+    const elem = await this.browser.$(selector);
+    return elem.isExisting();
+  }
+
+  async isVisible(selector) {
+    return this.waitFor(selector);
   }
 
   hasFocus(selector) {
@@ -216,9 +228,9 @@ export default class Page {
     return this.browser.log(type);
   }
 
-  paste(selector) {
+  async paste(selector) {
     let keys;
-    if (this.browser.desiredCapabilities.os === 'Windows') {
+    if (this.browser.capabilities.os === 'Windows') {
       keys = ['Control', 'v'];
     } else if (this.isBrowser('chrome')) {
       // Workaround for https://bugs.chromium.org/p/chromedriver/issues/detail?id=30
@@ -226,12 +238,24 @@ export default class Page {
     } else {
       keys = ['Command', 'v'];
     }
-    return this.browser.addValue(selector, keys);
+
+    if (
+      this.browser.capabilities.os === 'Windows' &&
+      this.isBrowser('chrome')
+    ) {
+      // For Windows we need to send a keyup signal to release Control key
+      // https://webdriver.io/docs/api/browser/keys.html
+      await this.browser.keys(keys);
+      return this.browser.keys(['Control']);
+    }
+
+    await this.browser.keys(keys);
+    return this.browser.keys(keys[0]);
   }
 
-  copy(selector) {
+  async copy(selector) {
     let keys;
-    if (this.browser.desiredCapabilities.os === 'Windows') {
+    if (this.browser.capabilities.os === 'Windows') {
       keys = ['Control', 'c'];
     } else if (this.isBrowser('chrome')) {
       // Workaround for https://bugs.chromium.org/p/chromedriver/issues/detail?id=30
@@ -239,31 +263,56 @@ export default class Page {
     } else {
       keys = ['Command', 'c'];
     }
-    return this.browser.addValue(selector, keys);
+
+    if (
+      this.browser.capabilities.os === 'Windows' &&
+      this.isBrowser('chrome')
+    ) {
+      // For Windows we need to send a keyup signal to release Control key
+      // https://webdriver.io/docs/api/browser/keys.html
+      await this.browser.keys(keys);
+      return this.browser.keys('Control');
+    }
+
+    return this.browser.keys(keys);
+  }
+
+  // behaviour is OS specific:
+  // windows moves to next paragraph up
+  // osx moves to top of document
+  moveUp(selector) {
+    let control = 'Command';
+    if (this.browser.capabilities.os === 'Windows') {
+      control = 'Control';
+    }
+
+    const keys = [control, 'ArrowUp'];
+    if (this.isBrowser('chrome')) {
+      return this.type(selector, keys);
+    }
+
+    return this.browser.keys(keys);
   }
 
   // Wait
-  waitForSelector(selector, options = {}, reverse = false) {
-    return this.browser.waitForExist(
-      selector,
-      options.timeout || WAIT_TIMEOUT,
-      reverse,
-    );
+  async waitForSelector(selector, options = {}, reverse = false) {
+    const elem = await this.browser.$(selector);
+    return elem.waitForExist(options.timeout || WAIT_TIMEOUT, reverse);
   }
 
-  waitForVisible(selector, options = {}) {
-    return this.browser.waitForVisible(
-      selector,
-      options.timeout || WAIT_TIMEOUT,
-    );
+  async waitForVisible(selector, options = {}) {
+    const elem = await this.browser.$(selector);
+
+    return elem.waitForDisplayed(options.timeout || WAIT_TIMEOUT);
   }
 
   waitFor(selector, ms, reverse) {
-    return this.browser.waitForVisible(selector, ms, reverse);
+    return this.waitForSelector(selector, { timeout: ms }, reverse);
   }
 
-  waitUntil(predicate) {
-    return this.browser.waitUntil(predicate, WAIT_TIMEOUT);
+  async waitUntil(selector) {
+    const elem = await this.browser.$(selector);
+    return elem.waitUntil(selector, WAIT_TIMEOUT);
   }
 
   // Window
