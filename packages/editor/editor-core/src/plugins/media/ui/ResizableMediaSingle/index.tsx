@@ -212,6 +212,14 @@ export default class ResizableMediaSingle extends React.Component<
 
   highlights = (newWidth: number, snapPoints: number[]) => {
     const snapWidth = snapTo(newWidth, snapPoints);
+    const { layoutColumn } = this.props.view.state.schema.nodes;
+
+    if (
+      this.$pos &&
+      !!findParentNodeOfTypeClosestToPos(this.$pos, [layoutColumn])
+    ) {
+      return [];
+    }
 
     if (snapWidth > akEditorWideLayoutWidth) {
       return ['full-width'];
