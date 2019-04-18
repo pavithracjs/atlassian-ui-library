@@ -69,17 +69,6 @@ export default class extends Component {
             borderRadius: '5px',
           }}
         >
-          <Select
-            styles={{
-              container: (provided: CSSProperties) => ({
-                ...provided,
-                marginBottom: 100,
-              }),
-            }}
-            options={options}
-            defaultValue={mode}
-            onChange={(mode: { ['key']: string }) => this.setState({ mode })}
-          />
           <ButtonTheme.Provider
             value={(current, props) =>
               current({ ...props, mode: mode.value as any })
@@ -91,6 +80,17 @@ export default class extends Component {
               <Button appearance="subtle">Subtle Button</Button>
             </ButtonGroup>
           </ButtonTheme.Provider>
+          <Select
+            styles={{
+              container: (provided: CSSProperties) => ({
+                ...provided,
+                marginTop: 10,
+              }),
+            }}
+            options={options}
+            defaultValue={mode}
+            onChange={(mode: { ['key']: string }) => this.setState({ mode })}
+          />
         </div>
       </div>
     );
