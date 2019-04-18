@@ -11,19 +11,20 @@ const urlDrawer = getExampleUrl('core', 'droplist', 'basic-example');
 const droplistButton = 'button[type="button"]';
 const droplist = 'div[data-role="droplistContent"]';
 
+// TODO: fix for ie after webdriverio upgrade
 BrowserTestCase(
   'Droplist should close when Escape key is pressed in IE and Edge',
-  { skip: ['safari', 'firefox', 'chrome'] }, // the issue was only occurring in IE and Edge - AK-4523
+  { skip: ['safari', 'firefox', 'ie'] }, // the issue was only occurring in IE and Edge - AK-4523
   async client => {
     const droplistTest = new Page(client);
     await droplistTest.goto(urlDrawer);
-    await droplistTest.waitFor(droplistButton, 5000);
+    await droplistTest.waitForSelector(droplistButton);
     await droplistTest.click(droplistButton);
-    await droplistTest.waitFor(droplist, 1000);
 
-    expect(await droplistTest.isVisible(droplist)).toBe(true);
-    await droplistTest.keys(['Escape']);
-    expect(await droplistTest.isVisible(droplist)).toBe(false);
+    expect(await droplistTest.isExisting(droplist)).toBe(true);
+    await droplistTest.keys('Escape');
+    await droplistTest.waitForSelector(droplist, 1000, true);
+    expect(await droplistTest.isExisting(droplist)).toBe(false);
 
     await droplistTest.checkConsoleErrors();
   },

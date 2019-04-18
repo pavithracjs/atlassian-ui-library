@@ -22,7 +22,7 @@ export const insertMention = async (browser: any, query: string) => {
   await browser.type(editable, '@');
   await browser.waitForSelector(typeAheadPicker);
   await browser.type(editable, query);
-  await browser.type(editable, 'Return');
+  await browser.keys(['Return']);
 };
 
 export const gotoEditor = async (browser: any) => {
@@ -306,7 +306,7 @@ export const insertMenuItem = async (browser: any, title: string) => {
 };
 
 export const currentSelectedEmoji = '.emoji-typeahead-selected';
-export const typeahead = 'span[data-type-ahead-query]';
+export const typeahead = '.ak-emoji-typeahead-list';
 
 export const insertEmoji = async (browser: any, query: string) => {
   await browser.type(editable, ':');
@@ -337,7 +337,7 @@ export const highlightEmojiInTypeahead = async (
     if (selectedEmojiShortName === `:${emojiShortName}:`) {
       break;
     }
-    await browser.keys('ArrowDown');
+    await browser.keys(['ArrowDown']);
   }
 };
 

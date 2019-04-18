@@ -114,7 +114,7 @@ BrowserTestCase(
     await page.click(wideBreakoutButtonQuery);
 
     await page.type(editable, 'a');
-    await page.type(editable, 'Backspace');
+    await page.keys('Backspace');
     expect(
       await page.$eval(editable, getDocFromElement),
     ).toMatchCustomDocSnapshot(testName);

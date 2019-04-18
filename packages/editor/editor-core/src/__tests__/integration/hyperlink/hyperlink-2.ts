@@ -33,7 +33,7 @@ import {
       await sample.waitForSelector(editable);
       await sample.paste(editable);
       await sample.type(editable, '.');
-      await sample.type(editable, 'Return');
+      await sample.keys(['Return']);
 
       // paste link into list
       await sample.type(editable, '* ');

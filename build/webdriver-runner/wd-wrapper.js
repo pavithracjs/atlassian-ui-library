@@ -190,16 +190,19 @@ export default class Page {
     return this.getBrowserName() === browserName;
   }
 
-  getCssProperty(selector, cssProperty) {
-    return this.browser.getCssProperty(selector, cssProperty);
+  async getCssProperty(selector, cssProperty) {
+    const elem = this.browser.$(selector);
+    return elem.getCssProperty(selector, cssProperty);
   }
 
-  getElementSize(selector) {
-    return this.browser.getElementSize(selector);
+  async getElementSize(selector) {
+    const elem = this.browser.$(selector);
+    return elem.getSize(selector);
   }
 
-  getHTML(selector) {
-    return this.browser.getHTML(selector);
+  async getHTML(selector) {
+    const elem = await this.browser.$(selector);
+    return elem.getHTML(false);
   }
 
   async getProperty(selector, property) {
@@ -221,8 +224,9 @@ export default class Page {
     return this.waitFor(selector);
   }
 
-  hasFocus(selector) {
-    return this.browser.hasFocus(selector);
+  async hasFocus(selector) {
+    const elem = await this.browser.$(selector);
+    return elem.isFocused();
   }
 
   log(type) {
@@ -238,16 +242,6 @@ export default class Page {
       keys = ['Shift', 'Insert'];
     } else {
       keys = ['Command', 'v'];
-    }
-
-    if (
-      this.browser.capabilities.os === 'Windows' &&
-      this.isBrowser('chrome')
-    ) {
-      // For Windows we need to send a keyup signal to release Control key
-      // https://webdriver.io/docs/api/browser/keys.html
-      await this.browser.keys(keys);
-      return this.browser.keys(['Control']);
     }
 
     await this.browser.keys(keys);
