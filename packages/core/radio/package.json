@@ -31,7 +31,6 @@
     "@atlaskit/checkbox": "^6.0.4",
     "@atlaskit/docs": "^7.0.3",
     "@atlaskit/form": "^5.2.7",
-    "@atlaskit/section-message": "^2.0.3",
     "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/visual-regression": "^0.0.1",
     "enzyme": "^3.7.0",
