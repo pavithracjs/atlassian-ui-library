@@ -52,8 +52,8 @@ BrowserTestCase(
     await page.type(editable, 'gill');
     await page.isVisible('[data-mention-name=pgill]');
     await page.isVisible('[data-mention-name=jjackson]');
-    await page.type(editable, ' some');
-    await page.type(editable, ' text ');
+    await page.type(editable, [' some']);
+    await page.type(editable, [' text ']);
     const doc = await page.$eval(editable, getDocFromElement);
     await new Promise(resolve => setTimeout(resolve, 1000));
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -117,7 +117,7 @@ BrowserTestCase(
     await page.type(editable, '```');
     await page.waitForSelector('pre');
     await page.type(editable, ['this is a code block ', '@Caro']);
-    await page.type(editable, 'Return');
+    await page.keys(['Return']);
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
   },

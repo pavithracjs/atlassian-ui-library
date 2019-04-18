@@ -233,7 +233,7 @@ export default class Page {
     return this.browser.log(type);
   }
 
-  async paste(selector) {
+  async paste() {
     let keys;
     if (this.browser.capabilities.os === 'Windows') {
       keys = ['Control', 'v'];
@@ -245,7 +245,7 @@ export default class Page {
     }
 
     await this.browser.keys(keys);
-    return this.browser.keys(keys[0]);
+    //return this.browser.keys(keys[0]);
   }
 
   async copy(selector) {

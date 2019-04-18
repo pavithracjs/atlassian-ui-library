@@ -28,7 +28,7 @@ BrowserTestCase(
     await insertMention(browser, 'Carolyn');
     await browser.waitForSelector(lozenge);
 
-    await browser.type(editable, [
+    await browser.keys([
       'ArrowLeft',
       'ArrowLeft',
       'ArrowLeft',
@@ -38,10 +38,28 @@ BrowserTestCase(
       'Some text',
       'ArrowRight',
       'ArrowRight',
-      'Some text',
+      ' ',
+      'S',
+      'o',
+      'm',
+      'e',
+      ' ',
+      't',
+      'e',
+      'x',
+      't',
       'ArrowRight',
       'ArrowRight',
-      'Some text',
+      ' ',
+      'S',
+      'o',
+      'm',
+      'e',
+      ' ',
+      't',
+      'e',
+      'x',
+      't',
     ]);
 
     await browser.click(editable);

@@ -25,11 +25,20 @@ BrowserTestCase(
     await browser.waitForSelector(`[aria-label="Popup"] input`);
     await browser.type(`[aria-label="Popup"] input`, 'DONE');
     await browser.click(editable);
-    await browser.type(editable, [
+    await browser.keys([
       'Backspace',
       'ArrowLeft',
       'ArrowLeft',
-      'Some text',
+      ' ',
+      'S',
+      'o',
+      'm',
+      'e',
+      ' ',
+      't',
+      'e',
+      'x',
+      't',
     ]);
 
     const doc = await browser.$eval(editable, getDocFromElement);
@@ -54,13 +63,22 @@ BrowserTestCase(
     await browser.waitForSelector(`[aria-label="Popup"] input`);
     await browser.type(`[aria-label="Popup"] input`, 'DONE');
     await browser.click(editable);
-    await browser.type(editable, [
+    await browser.keys([
       'Backspace',
       'ArrowLeft',
       'ArrowLeft',
       'ArrowLeft',
       'ArrowRight',
-      'Some text',
+      ' ',
+      'S',
+      'o',
+      'm',
+      'e',
+      ' ',
+      't',
+      'e',
+      'x',
+      't',
     ]);
 
     const doc = await browser.$eval(editable, getDocFromElement);
