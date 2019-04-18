@@ -1,4 +1,4 @@
-/* tslint:disable:no-console */
+// eslint-disable-line no-console
 import {
   Router,
   Response,
@@ -47,6 +47,7 @@ class RouterWithLogging<M extends DatabaseSchema> extends Router<M> {
         error = e;
       }
 
+      // eslint-disable-next-line no-console
       console.log({
         method,
         path,

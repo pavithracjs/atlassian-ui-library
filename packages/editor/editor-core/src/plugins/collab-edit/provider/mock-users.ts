@@ -53,6 +53,7 @@ const participants = [
 
 export const getParticipant = (userId: string) => {
   const id = +userId.split('/')[1];
+  // eslint-disable-next-line no-bitwise
   const name = participants[(id | 0) % participants.length];
   return {
     userId,

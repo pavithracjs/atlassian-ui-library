@@ -12,24 +12,24 @@ export function enableStacktraces(enable: boolean): void {
 
 export function logStacktrace(): void {
   if (stacktracesEnabled) {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.log(new Error().stack);
   }
 }
 
 export function logDebug(msg: any, ...args: any[]): void {
   if (debugEnabled) {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.log(LOG_PREFIX + msg, ...args);
   }
 }
 
 export function logInfo(msg: any, ...args: any[]): void {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.info(LOG_PREFIX + msg, ...args);
 }
 
 export function logError(msg: any, ...args: any[]): void {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error(LOG_PREFIX + msg, ...args);
 }

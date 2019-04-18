@@ -1,4 +1,4 @@
-/* tslint:disable:variable-name no-console */
+/* eslint-disable no-console */
 import * as React from 'react';
 import { IntlProvider } from 'react-intl';
 import ImageCropper from '../src/image-cropper';

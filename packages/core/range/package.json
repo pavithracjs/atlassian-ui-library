@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/range",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A styled version of the native input[range] element.",
   "license": "Apache-2.0",
   "module": "index.js",

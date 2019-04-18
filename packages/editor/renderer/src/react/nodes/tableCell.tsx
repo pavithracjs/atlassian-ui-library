@@ -7,7 +7,6 @@ import { CellAttributes } from '@atlaskit/adf-schema';
 
 type Props = CellAttributes & { children?: React.ReactNode };
 
-// tslint:disable-next-line:variable-name
 const TableCell = (props: Props) => {
   const style: any = {};
   if (props.background) {

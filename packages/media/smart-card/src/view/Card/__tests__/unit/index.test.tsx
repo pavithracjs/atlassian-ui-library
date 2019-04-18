@@ -51,7 +51,7 @@ const getNow = (nows: number[]) => () => nows.shift() || new Date().getTime();
 const waitFor = (time = 1) => new Promise(res => setTimeout(res, time));
 
 describe('Card', () => {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error = jest.fn();
 
   describe('analytics', () => {

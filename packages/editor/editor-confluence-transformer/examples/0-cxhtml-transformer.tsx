@@ -33,7 +33,6 @@ import {
 import { ConfluenceTransformer } from '../src';
 import { Node } from 'prosemirror-model';
 
-// tslint:disable-next-line:variable-name
 export const Content = styled.div`
   padding: 0 20px;
   height: 100%;
@@ -42,11 +41,10 @@ export const Content = styled.div`
 `;
 Content.displayName = 'Content';
 
-// tslint:disable-next-line:no-console
+// eslint-disable-next-line no-console
 const analyticsHandler = (actionName: string, props: any) =>
   console.log(actionName, props);
 
-// tslint:disable-next-line:variable-name
 const SaveAndCancelButtons = (props: any) => (
   <ButtonGroup>
     <Button
@@ -54,17 +52,13 @@ const SaveAndCancelButtons = (props: any) => (
       onClick={() =>
         props.editorActions
           .getValue()
-          // tslint:disable-next-line:no-console
+          // eslint-disable-next-line no-console
           .then((value: Node) => console.log(value.toJSON()))
       }
     >
       Publish
     </Button>
-    <Button
-      appearance="subtle"
-      // tslint:disable-next-line:jsx-no-lambda
-      onClick={() => props.editorActions.clear()}
-    >
+    <Button appearance="subtle" onClick={() => props.editorActions.clear()}>
       Close
     </Button>
   </ButtonGroup>
@@ -148,7 +142,6 @@ class Example extends Component<ExampleProps, ExampleState> {
         <Content>
           <EditorContext>
             <WithEditorActions
-              // tslint:disable-next-line:jsx-no-lambda
               render={actions => (
                 <Editor
                   appearance="full-page"
@@ -170,7 +163,6 @@ class Example extends Component<ExampleProps, ExampleState> {
                   allowDate={true}
                   {...providers}
                   media={{ provider: mediaProvider, allowMediaSingle: true }}
-                  // tslint:disable-next-line:jsx-no-lambda
                   contentTransformerProvider={schema =>
                     new ConfluenceTransformer(schema)
                   }
@@ -180,12 +172,10 @@ class Example extends Component<ExampleProps, ExampleState> {
                   defaultValue={this.state.input}
                   key={this.state.input}
                   contentComponents={
-                    // tslint:disable-next-line:jsx-no-lambda
                     <TitleInput innerRef={ref => ref && ref.focus()} />
                   }
                   primaryToolbarComponents={
                     <WithEditorActions
-                      // tslint:disable-next-line:jsx-no-lambda
                       render={actions => (
                         <SaveAndCancelButtons editorActions={actions} />
                       )}
@@ -240,11 +230,11 @@ export default class ExampleWrapper extends Component<
   handleChange = (editorActions: EditorActions) => {
     this.setState({ isMediaReady: false });
 
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.log('Change');
 
     editorActions.getValue().then(value => {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.log('Value has been resolved', value);
       this.setState({
         isMediaReady: true,

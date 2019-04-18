@@ -9,6 +9,8 @@ import mixedContentAdf from './__fixtures__/mixed-content.adf.json';
 import layoutWithBreakoutAdf from './__fixtures__/layout-with-breakout.adf.json';
 import breakoutAdf from './__fixtures__/mixed-content-with-breakout.adf.json';
 import mediaAdf from './__fixtures__/media-single.adf.json';
+import resizedTableAdf from './__fixtures__/resized-table.adf.json';
+import resizedTableWideAdf from './__fixtures__/resized-table-wide.adf.json';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
 describe('Snapshot Test: Toggle between full-width and default mode', () => {
@@ -74,6 +76,18 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
   describe('Media', () => {
     it('resizes image correctly', async () => {
       await initEditor(mediaAdf);
+      await toggleFullWidthMode();
+    });
+  });
+
+  describe('Table resizing', () => {
+    it('scales column correctly', async () => {
+      await initEditor(resizedTableAdf);
+      await toggleFullWidthMode();
+    });
+
+    it('scales a wide layout table through modes correctly', async () => {
+      await initEditor(resizedTableWideAdf);
       await toggleFullWidthMode();
     });
   });

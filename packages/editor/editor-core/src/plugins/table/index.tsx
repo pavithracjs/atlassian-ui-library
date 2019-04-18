@@ -68,7 +68,13 @@ const tablesPlugin = (
     return [
       {
         name: 'table',
-        plugin: ({ props, eventDispatcher, dispatch, portalProviderAPI }) => {
+        plugin: ({
+          props,
+          prevProps,
+          eventDispatcher,
+          dispatch,
+          portalProviderAPI,
+        }) => {
           const {
             allowTables,
             appearance,
@@ -77,14 +83,17 @@ const tablesPlugin = (
           } = props;
           const isContextMenuEnabled = appearance !== 'mobile';
           const isBreakoutEnabled = !fullWidthMode;
+          const wasBreakoutEnabled =
+            prevProps && !prevProps.UNSAFE_fullWidthMode;
           return createPlugin(
             dispatch,
             portalProviderAPI,
             eventDispatcher,
             pluginConfig(allowTables),
             isContextMenuEnabled,
-            allowDynamicTextSizing && !fullWidthMode,
+            isBreakoutEnabled && allowDynamicTextSizing,
             isBreakoutEnabled,
+            wasBreakoutEnabled,
           );
         },
       },

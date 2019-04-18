@@ -16,7 +16,6 @@ export interface ChromelessEditorProps {
   maxHeight?: number;
 }
 
-// tslint:disable-next-line:variable-name
 const ChromelessEditor: any = styled.div`
   line-height: 20px;
   height: auto;
@@ -39,7 +38,6 @@ const ChromelessEditor: any = styled.div`
 `;
 ChromelessEditor.displayName = 'ChromelessEditor';
 
-// tslint:disable-next-line:variable-name
 const ContentArea = styled(ContentStyles)``;
 ContentArea.displayName = 'ContentArea';
 
