@@ -1,9 +1,9 @@
-export const enum EVENT_TYPE {
+export enum EVENT_TYPE {
   UI = 'ui',
   TRACK = 'track',
 }
 
-export const enum ACTION {
+export enum ACTION {
   CHANGED_LAYOUT = 'changedLayout',
   CHANGED_TYPE = 'changedType',
   CLICKED = 'clicked',
@@ -20,7 +20,7 @@ export const enum ACTION {
   VISITED = 'visited',
 }
 
-export const enum INPUT_METHOD {
+export enum INPUT_METHOD {
   ASCII = 'ascii',
   AUTO = 'auto',
   AUTO_DETECT = 'autoDetect',
@@ -43,7 +43,7 @@ export const enum INPUT_METHOD {
   BUTTON = 'button',
 }
 
-export const enum ACTION_SUBJECT {
+export enum ACTION_SUBJECT {
   BUTTON = 'button',
   DOCUMENT = 'document',
   EDITOR = 'editor',
@@ -57,7 +57,7 @@ export const enum ACTION_SUBJECT {
   TABLE = 'table',
 }
 
-export const enum ACTION_SUBJECT_ID {
+export enum ACTION_SUBJECT_ID {
   ACTION = 'action',
   ANNOTATE_BUTTON = 'annotateButton',
   BLOCK_QUOTE = 'blockQuote',
