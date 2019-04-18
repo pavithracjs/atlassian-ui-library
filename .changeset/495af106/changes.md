@@ -1,0 +1,1 @@
+- Add isRequired prop, remove duplicate defaultProps in code (internal change only) and add padding to examples on website to prevent unnecessary scrollbar

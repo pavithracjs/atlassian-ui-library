@@ -6,6 +6,8 @@ interface State {
   firstEditValue: string;
   secondEditValue: string;
   thirdEditValue: string;
+  fourthEditValue: string;
+  fifthEditValue: string;
 }
 
 export default class InlineEditExample extends React.Component<void, State> {
@@ -13,6 +15,8 @@ export default class InlineEditExample extends React.Component<void, State> {
     firstEditValue: 'Field value',
     secondEditValue: 'Field value',
     thirdEditValue: 'Field value',
+    fourthEditValue: 'Field value',
+    fifthEditValue: 'Field value',
   };
 
   validateValue = '';
@@ -44,27 +48,40 @@ export default class InlineEditExample extends React.Component<void, State> {
 
   render() {
     return (
-      <div style={{ padding: `0 ${gridSize()}px`, width: '50%' }}>
+      <div style={{ padding: `${gridSize()}px ${gridSize()}px`, width: '50%' }}>
         <InlineEditableTextfield
           defaultValue={this.state.firstEditValue}
-          label="Inline edit textfield + hide action buttons (Enter to confirm, Esc to cancel)"
+          label="Inline editable textfield + hideActionButtons (Enter to confirm, Esc to cancel)"
           onConfirm={value => this.onConfirm(value, 'firstEditValue')}
           placeholder="Click to enter text"
           hideActionButtons
         />
         <InlineEditableTextfield
           defaultValue={this.state.secondEditValue}
-          label="Inline edit textfield + start in edit view"
+          label="Inline editable textfield + startWithEditViewOpen"
           onConfirm={value => this.onConfirm(value, 'secondEditValue')}
           placeholder="Click to enter text"
           startWithEditViewOpen
         />
         <InlineEditableTextfield
           defaultValue={this.state.thirdEditValue}
-          label="Inline edit textfield + validation + compact"
+          label="Inline editable textfield + validate"
           onConfirm={value => this.onConfirm(value, 'thirdEditValue')}
           placeholder="Click to enter text"
           validate={this.validate}
+        />
+        <InlineEditableTextfield
+          defaultValue={this.state.fourthEditValue}
+          label="Inline editable textfield + isRequired"
+          onConfirm={value => this.onConfirm(value, 'fourthEditValue')}
+          placeholder="Click to enter text"
+          isRequired
+        />
+        <InlineEditableTextfield
+          defaultValue={this.state.fifthEditValue}
+          label="Inline editable textfield + isCompact"
+          onConfirm={value => this.onConfirm(value, 'fifthEditValue')}
+          placeholder="Click to enter text"
           isCompact
         />
       </div>
