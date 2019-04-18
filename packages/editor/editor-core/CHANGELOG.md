@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.19.0
+- [minor] [ee71c90037](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee71c90037):
+
+  - ED-6601: When toggling between Full Width appearance and Full Page appearance, resized tables now scale their sizes accordingly.
+
 ## 107.18.0
 - [minor] [272b64139f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/272b64139f):
 

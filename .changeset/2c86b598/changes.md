@@ -1,1 +1,0 @@
-- ED-6601: When toggling between Full Width appearance and Full Page appearance, resized tables now scale their sizes accordingly.
