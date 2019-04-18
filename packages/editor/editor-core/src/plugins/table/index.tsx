@@ -129,12 +129,8 @@ const tablesPlugin = (
           pluginState: pluginKey,
           tableResizingPluginState: tableResizingPluginKey,
         }}
-        render={_ => {
+        render={({ pluginState, tableResizingPluginState }) => {
           const { state } = editorView;
-          const pluginState = pluginKey.getState(state);
-          const tableResizingPluginState = tableResizingPluginKey.getState(
-            state,
-          );
           return (
             <>
               <FloatingContextualMenu
