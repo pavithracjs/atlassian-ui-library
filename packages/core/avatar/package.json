@@ -16,7 +16,6 @@
   ],
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "exenv": "^1.2.2",
     "@atlaskit/analytics-next": "^4.0.3",
     "@atlaskit/theme": "^8.1.7",
     "@atlaskit/tooltip": "^13.0.4",
