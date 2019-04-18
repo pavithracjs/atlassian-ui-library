@@ -1,0 +1,1 @@
+- Fix bug when content changes size between mount and object onload
