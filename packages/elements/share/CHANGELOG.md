@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.3.13
+- [patch] [f692c5e59c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f692c5e59c):
+
+  - updated user picker field email validity check and ui copies for domain based user only invite in share component
+
 ## 0.3.12
 - [patch] [00c4559516](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/00c4559516):
 
