@@ -1,1 +1,0 @@
-- DeleteUserContentPreviewScreen changes which include similar design to select if the user prefers nickname or former user but as a survey
