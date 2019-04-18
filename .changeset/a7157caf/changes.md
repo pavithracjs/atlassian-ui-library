@@ -1,1 +1,0 @@
-- onChange is no longer overridden by spread props. As a result this component should now work in uncontrolled mode
