@@ -28,6 +28,7 @@ export const renderExtension = (content: any, layout: string) => (
         className={RendererCssClassName.EXTENSION}
         style={{
           width: calcBreakoutWidth(layout, width),
+          overflowX: 'auto',
         }}
         data-layout={layout}
       >
