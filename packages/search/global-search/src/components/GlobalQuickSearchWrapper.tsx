@@ -34,6 +34,13 @@ export type ReferralContextIdentifiers = {
   currentContainerId?: string;
 };
 
+export type JiraApplicationPermission = {
+  hasCoreAccess: boolean;
+  hasSoftwareAccess: boolean;
+  hasServiceDeskAccess: boolean;
+  hasOpsAccess: boolean;
+};
+
 export type AdvancedSearchEvent = {
   /**
    * prevent navigation to advanced search page
@@ -145,6 +152,17 @@ export interface Props {
    * controls where to retrieve prequery results either from aggregator or directly from the product
    */
   enablePreQueryFromAggregator?: boolean;
+
+  /**
+   * A prop to provide additional elements to render on the right of the search bar, e.g. the feedback button.
+   */
+  inputControls?: JSX.Element;
+
+  /*
+   * detemrine jira application permission like software or servicedesk acess
+   * optional because it is passed only for jira
+   */
+  appPermission?: JiraApplicationPermission;
 }
 
 /**
@@ -253,6 +271,8 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
               logger,
               disableJiraPreQueryPeopleSearch,
               enablePreQueryFromAggregator,
+              inputControls,
+              appPermission,
             } = this.props;
 
             return (
@@ -269,6 +289,8 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
                 logger={logger}
                 onAdvancedSearch={this.onAdvancedSearch}
                 enablePreQueryFromAggregator={enablePreQueryFromAggregator}
+                inputControls={inputControls}
+                appPermission={appPermission}
               />
             );
           }}

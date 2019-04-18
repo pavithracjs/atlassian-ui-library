@@ -1,7 +1,6 @@
 /* eslint-disable */
 import 'whatwg-fetch';
 import 'jest-styled-components';
-import snakeCase from 'snake-case';
 import { toMatchSnapshot } from 'jest-snapshot';
 import { configureToMatchImageSnapshot } from 'jest-image-snapshot';
 import { createSerializer } from 'jest-emotion';

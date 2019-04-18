@@ -4,7 +4,7 @@ import { EditorState, Transaction, Selection } from 'prosemirror-state';
 import { EditorView, DirectEditorProps } from 'prosemirror-view';
 import { Node as PMNode } from 'prosemirror-model';
 import { intlShape } from 'react-intl';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import {
   ProviderFactory,
   Transformer,
@@ -157,8 +157,8 @@ export default class ReactEditorView<T = {}> extends React.Component<
     }
 
     if (
-      nextProps.editorProps.fullWidthMode !==
-      this.props.editorProps.fullWidthMode
+      nextProps.editorProps.UNSAFE_fullWidthMode !==
+      this.props.editorProps.UNSAFE_fullWidthMode
     ) {
       this.reconfigureState(nextProps);
     }
@@ -181,6 +181,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
       errorReporter: this.errorReporter,
       editorConfig: this.config,
       props: props.editorProps,
+      prevProps: this.props.editorProps,
       eventDispatcher: this.eventDispatcher,
       providerFactory: props.providerFactory,
       portalProviderAPI: props.portalProviderAPI,
@@ -257,7 +258,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
        * keeps a list of Steps to undo/redo (which are tied to the schema).
        * Without a good way to do work around this, we prevent this for now.
        */
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.warn(
         'The editor does not support changing the schema dynamically.',
       );

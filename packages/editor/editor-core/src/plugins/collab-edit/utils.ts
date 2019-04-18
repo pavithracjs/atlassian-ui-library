@@ -40,20 +40,20 @@ export const colors: Color[] = [
   selection: hexToRgba(solid, 0.2)!,
 }));
 
-// tslint:disable:no-bitwise
 export const getAvatarColor = (str: string) => {
   let hash = 0;
 
   for (let i = 0; i < str.length; i++) {
+    /* eslint-disable no-bitwise */
     hash = (hash << 5) - hash + str.charCodeAt(i);
     hash = hash & hash;
+    /* eslint-enable no-bitwise */
   }
 
   const index = Math.abs(hash) % colors.length;
 
   return { index, color: colors[index] };
 };
-// tslint:enable:no-bitwise
 
 export const findPointers = (
   id: string,

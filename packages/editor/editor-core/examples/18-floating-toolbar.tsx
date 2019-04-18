@@ -1,4 +1,4 @@
-// tslint:disable:no-console
+/* eslint-disable no-console */
 
 import * as React from 'react';
 import { Component } from 'react';
@@ -160,9 +160,8 @@ export default class Example extends Component {
 
   renderButton = (name: string, label: string) => (
     <Button
-      theme="dark"
       spacing="compact"
-      ariaLabel={name}
+      aria-label={name}
       appearance={this.state.active === name ? 'primary' : 'default'}
       onClick={() => this.setState({ active: name })}
     >

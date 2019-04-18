@@ -1,5 +1,54 @@
 # @atlaskit/button
 
+## 12.0.3
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/checkbox@6.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/logo@10.0.4
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/theme@8.1.7
+
+## 12.0.2
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
+## 12.0.1
+- Updated dependencies [d263485853](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d263485853):
+  - @atlaskit/spinner@10.0.6
+
+## 12.0.0
+- [major] [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+
+  ###️ Highlights
+
+  - **New theming API** - Button now supports the new Atlaskit theming API, which allows for powerful custom theming of Buttons and
+    its internal components.
+  - **Speed improvements** - Button has been re-written from the ground up - on heavy-load benchmarks, Button is twice as fast
+    (taking 48% of the time to load).
+  - **Emotion support** - Button is now built using Emotion 10! This is part of a wider push
+    for Emotion across all Atlaskit components.
+
+  ### Breaking Changes:
+
+  - The old theming API is no longer supported.
+  - Styling a Button using Styled Components is no longer supported.
+  - Button exports a Theme to use as context instead of using Styled Components' ThemeProvider.
+  - Camel-case ARIA props have been renamed (**ariaExpanded**, **ariaHaspopup** and **ariaLabel**).
+
+  See the [upgrade guide](atlaskit.atlassian.com/packages/core/button/docs/upgrade-guide) for more details
+
+## 11.0.11
+- [patch] [f8d92ffc5e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f8d92ffc5e):
+
+  - Revert the change to consume entry points from theme
+
+## 11.0.10
+- [patch] [5e3ad7f751](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e3ad7f751):
+
+  - Importing theme components from the root theme package instead of the theme build file
+
 ## 11.0.9
 - [patch] [872b3b905a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/872b3b905a):
 

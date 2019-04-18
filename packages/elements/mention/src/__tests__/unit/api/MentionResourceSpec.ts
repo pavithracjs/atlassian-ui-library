@@ -57,6 +57,7 @@ const FULL_CONTEXT = {
 
 describe('MentionResource', () => {
   beforeEach(() => {
+    // eslint-disable-next-line no-unused-expressions
     fetchMock.mock(
       /\/mentions\/search\?.*query=esoares(&|$)/,
       {

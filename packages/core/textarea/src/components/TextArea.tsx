@@ -69,7 +69,9 @@ export type Props = {
    * forwardRef, so you can also use the ref prop of this component to the
    * same effect.
    */
-  forwardedRef?: (e: HTMLTextAreaElement | null) => void;
+  forwardedRef?:
+    | React.RefObject<HTMLTextAreaElement>
+    | ((e: HTMLTextAreaElement | null) => void);
 };
 type State = {
   isFocused: boolean;

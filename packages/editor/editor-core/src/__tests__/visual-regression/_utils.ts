@@ -1,8 +1,6 @@
 import {
   getExampleUrl,
-  disableAllAnimations,
-  disableAllTransitions,
-  disableCaretCursor,
+  disableAllSideEffects,
 } from '@atlaskit/visual-regression/helper';
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
@@ -152,6 +150,13 @@ export enum Appearance {
   mobile = 'mobile',
 }
 
+type SideEffectsOption = {
+  cursor?: boolean;
+  animation?: boolean;
+  transition?: boolean;
+  scroll?: boolean;
+};
+
 type InitEditorWithADFOptions = {
   appearance: Appearance;
   adf?: Object;
@@ -159,6 +164,7 @@ type InitEditorWithADFOptions = {
   viewport?: { width: number; height: number };
   editorProps?: EditorProps;
   mode?: 'light' | 'dark';
+  allowSideEffects?: SideEffectsOption;
 };
 
 export const initEditorWithAdf = async (
@@ -170,6 +176,7 @@ export const initEditorWithAdf = async (
     viewport,
     editorProps = {},
     mode,
+    allowSideEffects = {},
   }: InitEditorWithADFOptions,
 ) => {
   const url = getExampleUrl('editor', 'editor-core', 'vr-testing');
@@ -180,12 +187,6 @@ export const initEditorWithAdf = async (
     // We don't have to load the already existing page
     await page.goto(url);
   }
-
-  // We disable possible side effects, like animation, transitions and caret cursor,
-  // because we cannot control and affect snapshots
-  await disableCaretCursor(page);
-  await disableAllAnimations(page);
-  await disableAllTransitions(page);
 
   // Set the viewport to the right one
   if (viewport) {
@@ -205,6 +206,11 @@ export const initEditorWithAdf = async (
     },
     mode,
   );
+
+  // We disable possible side effects, like animation, transitions and caret cursor,
+  // because we cannot control and affect snapshots
+  // You can override this disabling if you are sure that you need it in your test
+  await disableAllSideEffects(page, allowSideEffects);
 };
 
 export const initFullPageEditorWithAdf = async (
@@ -212,7 +218,9 @@ export const initFullPageEditorWithAdf = async (
   adf: Object,
   device?: Device,
   viewport?: { width: number; height: number },
-  editorProps: EditorProps = {},
+  editorProps?: EditorProps,
+  mode?: 'light' | 'dark',
+  allowSideEffects?: SideEffectsOption,
 ) => {
   await initEditorWithAdf(page, {
     adf,
@@ -220,6 +228,8 @@ export const initFullPageEditorWithAdf = async (
     device,
     viewport,
     editorProps,
+    mode,
+    allowSideEffects,
   });
 };
 
@@ -233,6 +243,19 @@ export const initCommentEditorWithAdf = async (
     appearance: Appearance.comment,
     device,
   });
+};
+
+/**
+ * Updates props of current mounted Editor component
+ * Pass in only the new props you wish to apply on top of the current ones
+ */
+export const updateEditorProps = async (
+  page: Page,
+  newProps: Partial<EditorProps>,
+) => {
+  await page.evaluate((props: EditorProps) => {
+    (window as any).__updateEditorProps(props);
+  }, newProps);
 };
 
 export const clearEditor = async (page: any) => {

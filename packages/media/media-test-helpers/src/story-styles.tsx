@@ -1,5 +1,3 @@
-/* tslint:disable:variable-name */
-
 import styled from 'styled-components';
 
 import { TableHTMLAttributes, ComponentClass } from 'react';

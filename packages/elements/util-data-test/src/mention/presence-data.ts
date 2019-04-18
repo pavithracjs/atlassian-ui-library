@@ -19,8 +19,6 @@ export interface PresenceBulk {
   stateMetadata?: string;
 }
 
-// tslint:disable-next-line:no-var-requires
 export const validPresenceData: PresenceValidInfo = require('../json-data/presence-valid-info.json') as PresenceValidInfo;
 
-// tslint:disable-next-line:no-var-requires
 export const invalidPresenceData: PresenceValidInfo = require('../json-data/presence-invalid-info.json') as PresenceValidInfo;

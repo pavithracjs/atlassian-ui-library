@@ -12,6 +12,7 @@ import {
   getBreakpoint,
   mapBreakpointToLayoutMaxWidth,
   absoluteBreakoutWidth,
+  akEditorBreakoutPadding,
 } from '@atlaskit/editor-common';
 import { gridSize } from '@atlaskit/theme';
 
@@ -29,9 +30,27 @@ export const tableLayoutToSize: Record<string, number> = {
 export function getLayoutSize(
   tableLayout: TableLayout,
   containerWidth: number = 0,
-  dynamicTextSizing?: boolean,
+  options: {
+    dynamicTextSizing?: boolean;
+    isBreakoutEnabled?: boolean;
+  },
 ) {
-  const calculatedTableWidth = calcTableWidth(tableLayout, containerWidth);
+  const { dynamicTextSizing, isBreakoutEnabled } = options;
+
+  if (isBreakoutEnabled === false) {
+    return containerWidth
+      ? Math.min(
+          containerWidth - akEditorBreakoutPadding,
+          akEditorFullWidthLayoutWidth,
+        )
+      : akEditorFullWidthLayoutWidth;
+  }
+
+  const calculatedTableWidth = calcTableWidth(
+    tableLayout,
+    containerWidth,
+    true,
+  );
   if (calculatedTableWidth.endsWith('px')) {
     return parseInt(calculatedTableWidth, 10);
   }

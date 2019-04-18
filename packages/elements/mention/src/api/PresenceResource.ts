@@ -315,7 +315,7 @@ export class DefaultPresenceParser implements PresenceParser {
           !user.hasOwnProperty('userId') ||
           !user.hasOwnProperty('state')
         ) {
-          // tslint:disable-next-line:no-console
+          // eslint-disable-next-line no-console
           console.error(
             'Unexpected response from presence service contains keys: ' +
               Object.keys(user),
@@ -344,13 +344,13 @@ export class DefaultPresenceParser implements PresenceParser {
         const metadata = JSON.parse(presence.stateMetadata);
         return metadata && !!metadata.focus;
       } catch (e) {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.error(
           `Failed to parse presence's stateMetadata for user with id ${
             presence.userId
           }: ${presence.stateMetadata}`,
         );
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.error(e);
       }
     }

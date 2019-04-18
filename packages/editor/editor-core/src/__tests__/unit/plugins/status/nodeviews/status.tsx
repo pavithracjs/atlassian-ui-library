@@ -10,10 +10,11 @@ import {
   status,
 } from '@atlaskit/editor-test-helpers';
 import { Status } from '@atlaskit/status';
-import StatusNodeView, {
-  Props as StatusNodeViewProps,
-  StatusContainer,
+import {
+  ContainerProps,
   messages,
+  IntlStatusContainerView,
+  StyledStatus,
 } from '../../../../../plugins/status/nodeviews/status';
 import statusPlugin from '../../../../../plugins/status';
 import { pluginKey, StatusType } from '../../../../../plugins/status/plugin';
@@ -44,9 +45,11 @@ describe('Status - NodeView', () => {
     Actions.updateStatus(testStatus)(view);
 
     const wrapper = mountWithIntl(
-      <StatusNodeView
+      <IntlStatusContainerView
         view={view}
-        node={view.state.selection.$from.nodeAfter!}
+        text="In progress"
+        color="blue"
+        localId="666"
       />,
     );
 
@@ -62,10 +65,7 @@ describe('Status - NodeView', () => {
     Actions.updateStatus({ ...testStatus, text: '' })(view);
 
     const wrapper = mountWithIntl(
-      <StatusNodeView
-        view={view}
-        node={view.state.selection.$from.nodeAfter!}
-      />,
+      <IntlStatusContainerView view={view} color="blue" localId="666" />,
     );
     expect(wrapper.find(Status).length).toBe(1);
     expect(wrapper.find(Status).prop('text')).toBe(
@@ -81,9 +81,11 @@ describe('Status - NodeView', () => {
     Actions.updateStatus({ ...testStatus, text: '        ' })(view);
 
     const wrapper = mountWithIntl(
-      <StatusNodeView
+      <IntlStatusContainerView
         view={view}
-        node={view.state.selection.$from.nodeAfter!}
+        text=""
+        color="blue"
+        localId="666"
       />,
     );
     expect(wrapper.find(Status).length).toBe(1);
@@ -101,9 +103,11 @@ describe('Status - NodeView', () => {
     Actions.updateStatus(testStatus)(view);
 
     const wrapper = mountWithIntl(
-      <StatusNodeView
+      <IntlStatusContainerView
         view={view}
-        node={(view.state.selection as NodeSelection).node}
+        text="In progress"
+        color="blue"
+        localId="666"
       />,
     );
     wrapper.find(Status).simulate('click');
@@ -112,7 +116,7 @@ describe('Status - NodeView', () => {
   });
 
   describe('selection', () => {
-    let wrapper: ReactWrapper<StatusNodeViewProps, {}>;
+    let wrapper: ReactWrapper<ContainerProps, {}>;
     let editorInstance: EditorInstance;
 
     const setTextSelection = (start: number, end?: number) => {
@@ -139,20 +143,20 @@ describe('Status - NodeView', () => {
     beforeEach(() => {
       jest.useFakeTimers();
       editorInstance = editor(doc(p('Status: {<>}')));
-
       const { editorView: view, eventDispatcher } = editorInstance;
 
       Actions.updateStatus(testStatus)(view);
 
       // @ts-ignore
       wrapper = mountWithIntl(
-        <StatusNodeView
-          eventDispatcher={eventDispatcher}
+        <IntlStatusContainerView
           view={view}
-          node={(view.state.selection as NodeSelection).node}
+          eventDispatcher={eventDispatcher}
+          text="In progress"
+          color="blue"
+          localId="666"
         />,
       );
-
       expect(wrapper.find(Status).length).toBe(1);
     });
 
@@ -161,7 +165,7 @@ describe('Status - NodeView', () => {
     });
 
     it('selected after insert', () => {
-      expect(wrapper.find(StatusContainer).prop('selected')).toBe(true);
+      expect(wrapper.find(StyledStatus).prop('selected')).toBe(true);
       expect(getPluginState()).toMatchObject({
         showStatusPickerAt: 9,
         selectedStatus: expect.objectContaining(testStatus),
@@ -175,7 +179,7 @@ describe('Status - NodeView', () => {
       jest.runOnlyPendingTimers(); // WithPluginState debounces updates
       wrapper.update();
 
-      expect(wrapper.find(StatusContainer).prop('selected')).toBe(false);
+      expect(wrapper.find(StyledStatus).prop('selected')).toBe(false);
       expect(getPluginState()).toMatchObject({
         showStatusPickerAt: null,
         selectedStatus: null,
@@ -185,7 +189,7 @@ describe('Status - NodeView', () => {
       setNodeSelection(9);
       jest.runOnlyPendingTimers(); // WithPluginState debounces updates
       wrapper.update();
-      expect(wrapper.find(StatusContainer).prop('selected')).toBe(true);
+      expect(wrapper.find(StyledStatus).prop('selected')).toBe(true);
       expect(getPluginState()).toMatchObject({
         showStatusPickerAt: 9,
         selectedStatus: expect.objectContaining(testStatus),
@@ -197,10 +201,9 @@ describe('Status - NodeView', () => {
       setTextSelection(10);
       jest.runOnlyPendingTimers(); // WithPluginState debounces updates
       wrapper.update();
-      expect(wrapper.find(StatusContainer).prop('selected')).toBe(false);
+      expect(wrapper.find(StyledStatus).prop('selected')).toBe(false);
     });
 
-    // FIXME
     // it('selection including status', () => {
     //   setTextSelection(5, 10);
     //   jest.runOnlyPendingTimers(); // WithPluginState debounces updates

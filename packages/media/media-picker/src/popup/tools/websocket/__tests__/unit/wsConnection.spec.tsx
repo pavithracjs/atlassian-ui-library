@@ -27,7 +27,7 @@ describe('WsConnection', () => {
   });
 
   it('should make only one call to Ws constructor if it returns successfully', () => {
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line no-unused-expressions
     new WsConnection(auth, onDataReceived, onConnectionLost);
     const ws: any = Ws;
 
@@ -46,7 +46,7 @@ describe('WsConnection', () => {
       throw new Error('Some-error');
     });
 
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line no-unused-expressions
     new WsConnection(auth, onDataReceived, onConnectionLost);
     expect(Ws).toHaveBeenCalledTimes(1);
 
@@ -69,7 +69,7 @@ describe('WsConnection', () => {
       throw new Error('Some-error');
     });
 
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line no-unused-expressions
     new WsConnection(auth, onDataReceived, onConnectionLost);
 
     jest.runTimersToTime(60 * 1000);
@@ -96,7 +96,7 @@ describe('WsConnection', () => {
   });
 
   it('should report about the connection as lost after 5 minutes of idle', () => {
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line no-unused-expressions
     new WsConnection(auth, onDataReceived, onConnectionLost);
 
     expect(Ws).toHaveBeenCalledTimes(1);
@@ -107,7 +107,7 @@ describe('WsConnection', () => {
   });
 
   it('should reset idle timeout when data comes to the websocket', () => {
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line no-unused-expressions
     new WsConnection(auth, onDataReceived, onConnectionLost);
     const dataReceivedHandler = (Ws as any).mock.calls[0][1];
 

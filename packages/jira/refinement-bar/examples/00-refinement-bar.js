@@ -14,12 +14,10 @@ import {
   SelectFilter,
   SearchFilter,
   TextFilter,
-} from '../src/fields';
-import {
   RefinementBarUI,
   RefinementBarProvider,
   RefinementBarConsumer,
-} from '../src/components';
+} from '../src';
 
 // ==============================
 // APP EXAMPLE

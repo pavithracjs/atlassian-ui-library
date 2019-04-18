@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { v4 } from 'uuid';
 import { GasPayload } from '@atlaskit/analytics-gas-types';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
 
 import { ANALYTICS_CHANNEL } from '../../utils/analytics';
 import { Client, ObjectState } from '../../client';

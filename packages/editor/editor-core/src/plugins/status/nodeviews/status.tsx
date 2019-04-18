@@ -2,44 +2,22 @@ import * as React from 'react';
 import { defineMessages, injectIntl, InjectedIntlProps } from 'react-intl';
 import styled from 'styled-components';
 import { Node as PMNode } from 'prosemirror-model';
-import { EditorView } from 'prosemirror-view';
-import { Status } from '@atlaskit/status';
+import { EditorView, NodeView } from 'prosemirror-view';
+import { Color, Status, StatusStyle } from '@atlaskit/status';
+import { colors } from '@atlaskit/theme';
 import { pluginKey, StatusState } from '../plugin';
 import { setStatusPickerAt } from '../actions';
-import { colors } from '@atlaskit/theme';
+import { ReactNodeView, getPosHandler } from '../../../nodeviews';
+import InlineNodeWrapper, {
+  createMobileInlineDomRef,
+} from '../../../ui/InlineNodeWrapper';
+import { PortalProviderAPI } from '../../../ui/PortalProvider';
+import { EditorAppearance } from '../../../types';
+import { ZeroWidthSpace } from '../../../utils';
 import WithPluginState from '../../../ui/WithPluginState';
 import { EventDispatcher } from '../../../event-dispatcher';
-import { ZeroWidthSpace } from '../../../utils';
 
 const { B100 } = colors;
-
-export interface StatusContainerProps {
-  selected: boolean;
-  placeholderStyle: boolean;
-}
-
-export const StatusContainer = styled.span`
-  cursor: pointer;
-
-  display: inline-block;
-  border-radius: 5px;
-  max-width: 100%;
-
-  /* Prevent responsive layouts increasing height of container by changing
-     font size and therefore line-height. */
-  line-height: 0;
-
-  opacity: ${(props: StatusContainerProps) =>
-    props.placeholderStyle ? 0.5 : 1};
-
-  border: 2px solid ${(props: StatusContainerProps) =>
-    props.selected ? B100 : 'transparent'};
-  }
-
-  * ::selection {
-    background-color: transparent;
-  }
-`;
 
 export const messages = defineMessages({
   placeholder: {
@@ -50,14 +28,48 @@ export const messages = defineMessages({
   },
 });
 
-export interface Props {
-  node: PMNode;
+export interface StyledStatusProps {
+  selected: boolean;
+  placeholderStyle: boolean;
+}
+
+export const StyledStatus = styled.span`
+  cursor: pointer;
+
+  display: inline-block;
+  border-radius: 5px;
+  max-width: 100%;
+
+  /* Prevent responsive layouts increasing height of container by changing
+     font size and therefore line-height. */
+  line-height: 0;
+
+  opacity: ${(props: StyledStatusProps) => (props.placeholderStyle ? 0.5 : 1)};
+
+  border: 2px solid ${(props: StyledStatusProps) =>
+    props.selected ? B100 : 'transparent'};
+  }
+
+  * ::selection {
+    background-color: transparent;
+  }
+`;
+
+export interface ContainerProps {
   view: EditorView;
+  text?: string;
+  color: Color;
+  style?: StatusStyle;
+  localId?: string;
+
   eventDispatcher?: EventDispatcher;
 }
 
-class StatusNodeView extends React.Component<Props & InjectedIntlProps, {}> {
-  constructor(props: Props & InjectedIntlProps) {
+class StatusContainerView extends React.Component<
+  ContainerProps & InjectedIntlProps,
+  {}
+> {
+  constructor(props: ContainerProps & InjectedIntlProps) {
     super(props);
   }
 
@@ -72,9 +84,10 @@ class StatusNodeView extends React.Component<Props & InjectedIntlProps, {}> {
         eventDispatcher={eventDispatcher}
         render={({ pluginState }: { pluginState: StatusState }) => {
           const {
-            node: {
-              attrs: { text, color, localId, style },
-            },
+            text,
+            color,
+            localId,
+            style,
             intl: { formatMessage },
           } = this.props;
 
@@ -84,18 +97,15 @@ class StatusNodeView extends React.Component<Props & InjectedIntlProps, {}> {
           const selected = selectedLocalId === localId;
 
           return (
-            <span>
-              <StatusContainer selected={selected} placeholderStyle={!text}>
-                <Status
-                  text={statusText}
-                  color={color}
-                  localId={localId}
-                  style={style}
-                  onClick={this.handleClick}
-                />
-              </StatusContainer>
-              {ZeroWidthSpace}
-            </span>
+            <StyledStatus selected={selected} placeholderStyle={!text}>
+              <Status
+                text={statusText}
+                color={color}
+                localId={localId}
+                style={style}
+                onClick={this.handleClick}
+              />
+            </StyledStatus>
           );
         }}
       />
@@ -111,4 +121,54 @@ class StatusNodeView extends React.Component<Props & InjectedIntlProps, {}> {
   };
 }
 
-export default injectIntl(StatusNodeView);
+export const IntlStatusContainerView = injectIntl(StatusContainerView);
+
+export interface Props {
+  editorAppearance?: EditorAppearance;
+}
+
+export class StatusNodeView extends ReactNodeView {
+  createDomRef() {
+    if (this.reactComponentProps.editorAppearance === 'mobile') {
+      return createMobileInlineDomRef();
+    }
+
+    return super.createDomRef();
+  }
+
+  setDomAttrs(node: PMNode, element: HTMLElement) {
+    const { color, localId, style } = node.attrs;
+
+    element.dataset.color = color;
+    element.dataset.localId = localId;
+    element.dataset.style = style;
+  }
+
+  render(props: Props) {
+    const { editorAppearance } = props;
+    const { text, color, localId, style } = this.node.attrs;
+
+    return (
+      <InlineNodeWrapper appearance={editorAppearance}>
+        <IntlStatusContainerView
+          view={this.view}
+          text={text}
+          color={color}
+          style={style}
+          localId={localId}
+        />
+        {editorAppearance !== 'mobile' && ZeroWidthSpace}
+      </InlineNodeWrapper>
+    );
+  }
+}
+
+export default function statusNodeView(
+  portalProviderAPI: PortalProviderAPI,
+  editorAppearance?: EditorAppearance,
+) {
+  return (node: PMNode, view: EditorView, getPos: getPosHandler): NodeView =>
+    new StatusNodeView(node, view, getPos, portalProviderAPI, {
+      editorAppearance,
+    }).init();
+}

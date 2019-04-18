@@ -329,6 +329,7 @@ export default class Layer extends Component<Props, State> {
           ),
         },
       },
+      positionFixed: props.isAlwaysFixed,
     };
 
     const flipBehavior = getFlipBehavior(props);

@@ -3,16 +3,16 @@ import { match } from 'react-router';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { Redirect } from 'react-router-dom';
-import { Link } from '../../components/WrappedLink';
+import LinkButton from '../../components/LinkButton';
 import { Helmet } from 'react-helmet';
 
+import Button from '@atlaskit/button';
 import CodeIcon from '@atlaskit/icon/glyph/code';
 import CloseIcon from '@atlaskit/icon/glyph/cross';
 import ScreenIcon from '@atlaskit/icon/glyph/screen';
 import LinkIcon from '@atlaskit/icon/glyph/link';
 
 import { ButtonGroup } from '@atlaskit/button';
-import Button from '../../components/RouterButton';
 import { FlagGroup } from '@atlaskit/flag';
 import Tooltip from '@atlaskit/tooltip';
 import Modal, {
@@ -94,12 +94,6 @@ const NavInner = styled.div`
   max-height: 100%;
   overflow-y: auto;
   padding: 2px;
-
-  /* Not ideal to be overriding AkButton styles, but we don't have a link list component */
-  a {
-    margin: 2px 0 0 0;
-    width: 100%;
-  }
 `;
 
 interface ExampleNavigationProps {
@@ -138,6 +132,17 @@ function ExampleNavigation({
                     onExampleSelected(
                       fs.normalize(filePath.replace('examples/', '')),
                     );
+                  }}
+                  theme={(current, props) => {
+                    const { buttonStyles, ...rest } = current(props);
+                    return {
+                      buttonStyles: {
+                        ...buttonStyles,
+                        width: '100%',
+                        margin: '2px 0 0 0',
+                      },
+                      ...rest,
+                    };
                   }}
                 >
                   {fs.titleize(file.id)}
@@ -274,9 +279,8 @@ const ModalHeaderComp = ({
           Source
         </Button>
         <Tooltip content="Fullscreen" position="bottom">
-          <Button
+          <LinkButton
             appearance="subtle"
-            component={Link}
             iconBefore={<ScreenIcon label="Screen Icon" />}
             to={toExampleUrl(groupId, packageId, exampleId)}
           />
@@ -284,7 +288,6 @@ const ModalHeaderComp = ({
         <Tooltip content="Isolated View" position="bottom">
           <Button
             appearance="subtle"
-            component={'a' as any}
             iconBefore={<LinkIcon label="Link Icon" />}
             href={loaderUrl}
             target={'_blank'}

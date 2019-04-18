@@ -21,7 +21,7 @@ describe('server side rendering and hydration', async () => {
   ])('ssr("%s")', async (fileName: string) => {
     await ssr_hydrate(__dirname, `${ExamplesPath}/${fileName}`);
 
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     expect(console.error).not.toBeCalled();
   });
 });

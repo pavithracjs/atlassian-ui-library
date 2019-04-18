@@ -1,7 +1,7 @@
-import { DecorationSet, Decoration } from 'prosemirror-view';
+import { DecorationSet, Decoration, EditorView } from 'prosemirror-view';
 import { EditorState, Plugin, PluginKey, Transaction } from 'prosemirror-state';
 import { Color as ColorType } from '@atlaskit/status';
-import StatusNodeView from './nodeviews/status';
+import statusNodeView from './nodeviews/status';
 import { ReactNodeView } from '../../nodeviews';
 import { PMPluginFactory } from '../../types';
 import { ZeroWidthSpace } from '../../utils';
@@ -26,7 +26,11 @@ export type StatusState = {
   selectedStatus: StatusType | null;
 };
 
-const createPlugin: PMPluginFactory = ({ dispatch, portalProviderAPI }) =>
+const createPlugin: PMPluginFactory = ({
+  dispatch,
+  portalProviderAPI,
+  props: { appearance },
+}) =>
   new Plugin({
     state: {
       init: () => ({
@@ -130,7 +134,7 @@ const createPlugin: PMPluginFactory = ({ dispatch, portalProviderAPI }) =>
     key: pluginKey,
     props: {
       nodeViews: {
-        status: ReactNodeView.fromComponent(StatusNodeView, portalProviderAPI),
+        status: statusNodeView(portalProviderAPI, appearance),
       },
       decorations(state: EditorState) {
         const { tr } = state;

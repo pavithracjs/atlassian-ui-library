@@ -6,6 +6,7 @@ export {
   ShareResponse,
 } from '../clients/ShareServiceClient';
 export * from './form';
+export * from './Flag';
 export * from './OriginTracing';
 export * from './ShareButton';
 export {
@@ -13,6 +14,7 @@ export {
   ShareContentState,
   ShareError,
 } from './ShareContentState';
+export * from './ShareDialogWithTrigger';
 export { Comment, Content, MetaData } from './ShareEntities';
 export { User, UserWithEmail, UserWithId } from './User';
 

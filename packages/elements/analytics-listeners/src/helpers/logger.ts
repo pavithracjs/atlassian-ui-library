@@ -1,4 +1,4 @@
-/* tslint-disable no-console */
+/* eslint-disable no-console */
 
 export const LOG_LEVEL = {
   DEBUG: 0,

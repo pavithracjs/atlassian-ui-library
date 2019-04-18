@@ -7,7 +7,7 @@ import DefaultNav from './navigations/Default';
 import { AtlaskitIcon } from './index';
 
 export type Props = {
-  closeDrawer: (e: Event) => void;
+  closeDrawer: (e: React.MouseEvent<HTMLElement>) => void;
   isOpen: boolean;
   pathname: string;
 };

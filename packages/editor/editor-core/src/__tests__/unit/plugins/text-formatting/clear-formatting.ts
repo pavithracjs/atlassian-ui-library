@@ -34,7 +34,7 @@ import {
   clearFormattingWithAnalytics,
 } from '../../../../plugins/text-formatting/commands/clear-formatting';
 import { checkFormattingIsPresent } from '../../../../plugins/text-formatting/utils';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 describe('clear-formatting', () => {

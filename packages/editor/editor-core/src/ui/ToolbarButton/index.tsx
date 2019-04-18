@@ -1,38 +1,44 @@
-import Tooltip from '@atlaskit/tooltip';
 import * as React from 'react';
-import { PureComponent, ReactElement } from 'react';
-import { AkButton } from './styles';
+import Tooltip from '@atlaskit/tooltip';
+import { ButtonProps } from '@atlaskit/button';
+import Button from './styles';
 
-export interface Props {
+export type Props = {
   className?: string;
   disabled?: boolean;
   hideTooltip?: boolean;
   href?: string;
-  iconAfter?: ReactElement<any>;
-  iconBefore?: ReactElement<any>;
-  onClick?: (event: Event) => void;
+  iconAfter?: React.ReactElement<any>;
+  iconBefore?: React.ReactElement<any>;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   selected?: boolean;
   spacing?: 'default' | 'compact' | 'none';
   target?: string;
-  theme?: 'dark';
   title?: string;
   titlePosition?: string;
-  ariaLabel?: string;
-}
+} & Pick<ButtonProps, 'theme' | 'aria-label'>;
 
-export default class ToolbarButton extends PureComponent<Props, {}> {
+export default class ToolbarButton extends React.PureComponent<Props, {}> {
   static defaultProps = {
     className: '',
   };
 
+  private handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    const { disabled, onClick } = this.props;
+
+    if (!disabled && onClick) {
+      onClick(event);
+    }
+  };
+
   render() {
     const button = (
-      <AkButton
+      <Button
         appearance="subtle"
-        ariaHaspopup={true}
+        aria-haspopup
         className={this.props.className}
         href={this.props.href}
-        ariaLabel={this.props.ariaLabel}
+        aria-label={this.props['aria-label']}
         iconAfter={this.props.iconAfter}
         iconBefore={this.props.iconBefore}
         isDisabled={this.props.disabled}
@@ -41,10 +47,10 @@ export default class ToolbarButton extends PureComponent<Props, {}> {
         spacing={this.props.spacing || 'default'}
         target={this.props.target}
         theme={this.props.theme}
-        shouldFitContainer={true}
+        shouldFitContainer
       >
         {this.props.children}
-      </AkButton>
+      </Button>
     );
 
     const position = this.props.titlePosition || 'top';
@@ -62,12 +68,4 @@ export default class ToolbarButton extends PureComponent<Props, {}> {
       button
     );
   }
-
-  private handleClick = (event: Event) => {
-    const { disabled, onClick } = this.props;
-
-    if (!disabled && onClick) {
-      onClick(event);
-    }
-  };
 }

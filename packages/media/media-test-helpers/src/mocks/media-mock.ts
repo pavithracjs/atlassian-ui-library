@@ -31,7 +31,7 @@ export class MediaMock {
 
   disable() {
     // TODO: add teardown logic to kakapo server
-    // tslint:disable:no-console
+    /* eslint-disable no-console */
     console.warn('Disabling logic is not implemented in MediaMock');
   }
 }

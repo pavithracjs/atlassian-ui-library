@@ -6,13 +6,12 @@ import { fireAnalyticsMentionEvent, fireAnalytics } from '../../util/analytics';
 
 import { FireAnalyticsEvent, withAnalytics } from '@atlaskit/analytics';
 
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-
 import {
+  withAnalyticsEvents,
   WithAnalyticsEventProps,
   CreateUIAnalyticsEventSignature,
   UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 
 export const ANALYTICS_HOVER_DELAY = 1000;
 
@@ -121,7 +120,6 @@ export class MentionInternal extends React.PureComponent<Props, {}> {
   }
 }
 
-// tslint:disable-next-line:variable-name
 const MentionWithAnalytics: React.ComponentClass<
   OwnProps
 > = withAnalyticsEvents({

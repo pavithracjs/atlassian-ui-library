@@ -1,11 +1,11 @@
-import Button from '@atlaskit/button';
 import CheckCircleIcon from '@atlaskit/icon/glyph/check-circle';
 import LinkFilledIcon from '@atlaskit/icon/glyph/link-filled';
 import InlineDialog from '@atlaskit/inline-dialog';
 import { colors } from '@atlaskit/theme';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import styled from 'styled-components';
+import Button from './styles';
 import { messages } from '../i18n';
 
 const AUTO_DISMISS_SECONDS = 8;
@@ -45,17 +45,12 @@ export type State = {
   shouldShowCopiedMessage: boolean;
 };
 
-export const NoPaddingButton = styled(Button)`
-  padding: 0;
-
-  > span > span:first-child {
-    margin: 0 !important;
-  }
-`;
-
 export const AUTO_DISMISS_MS = AUTO_DISMISS_SECONDS * 1000;
 
-export class CopyLinkButton extends React.Component<Props, State> {
+export class CopyLinkButton extends React.Component<
+  Props & InjectedIntlProps,
+  State
+> {
   private autoDismiss: number | undefined;
   private inputRef: React.RefObject<HTMLInputElement> = React.createRef();
 
@@ -101,6 +96,9 @@ export class CopyLinkButton extends React.Component<Props, State> {
 
   render() {
     const { shouldShowCopiedMessage } = this.state;
+    const {
+      intl: { formatMessage },
+    } = this.props;
 
     return (
       <>
@@ -109,7 +107,7 @@ export class CopyLinkButton extends React.Component<Props, State> {
           content={
             <MessageContainer>
               <CheckCircleIcon
-                label="check circle icon"
+                label={formatMessage(messages.copiedToClipboardIconLabel)}
                 primaryColor={colors.G300}
               />
               <MessageSpan>
@@ -121,15 +119,22 @@ export class CopyLinkButton extends React.Component<Props, State> {
           onClose={this.handleDismissCopiedMessage}
           placement="top-start"
         >
-          <NoPaddingButton
+          <Button
             appearance="subtle-link"
-            iconBefore={<LinkFilledIcon label="copy link icon" size="medium" />}
+            iconBefore={
+              <LinkFilledIcon
+                label={formatMessage(messages.copyLinkButtonIconLabel)}
+                size="medium"
+              />
+            }
             onClick={this.handleClick}
           >
             <FormattedMessage {...messages.copyLinkButtonText} />
-          </NoPaddingButton>
+          </Button>
         </InlineDialog>
       </>
     );
   }
 }
+
+export default injectIntl(CopyLinkButton);

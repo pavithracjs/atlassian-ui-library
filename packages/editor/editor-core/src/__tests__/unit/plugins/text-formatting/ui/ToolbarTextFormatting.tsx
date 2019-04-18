@@ -14,7 +14,7 @@ import {
   pluginKey,
 } from '../../../../../plugins/text-formatting/pm-plugins/main';
 import ToolbarTextFormatting from '../../../../../plugins/text-formatting/ui/ToolbarTextFormatting';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import {
   AnalyticsEventPayload,
   ACTION_SUBJECT_ID,

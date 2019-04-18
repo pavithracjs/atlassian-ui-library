@@ -112,8 +112,7 @@ export const codeBlock: NodeSpec = {
         const dom = domNode as HTMLElement;
         const code = Array.from(dom.children)
           .map(child => child.textContent)
-          // tslint:disable-next-line:triple-equals
-          .filter(x => x != undefined)
+          .filter(x => x !== undefined)
           .join('\n');
         return code ? Fragment.from(schema.text(code)) : Fragment.empty;
       },
@@ -130,7 +129,7 @@ export const codeBlock: NodeSpec = {
       },
     },
     {
-      tag: 'div.CodeBlock',
+      tag: 'div.code-block',
       preserveWhitespace: 'full',
       getAttrs: domNode => {
         const dom = domNode as HTMLElement;

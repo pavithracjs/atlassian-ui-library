@@ -1,4 +1,3 @@
-/* tslint:disable:variable-name */
 import styled from 'styled-components';
 import { absolute, borderRadius, size } from '@atlaskit/media-ui';
 import { colors, themed } from '@atlaskit/theme';

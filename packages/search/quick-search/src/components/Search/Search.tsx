@@ -5,6 +5,8 @@ import {
   SearchFieldBaseInner,
   SearchInner,
   SearchInput,
+  SearchFieldBaseOuter,
+  SearchInputControlsContainer,
 } from './styled';
 
 const controlKeys = ['ArrowUp', 'ArrowDown', 'Enter'];
@@ -12,6 +14,8 @@ const controlKeys = ['ArrowUp', 'ArrowDown', 'Enter'];
 type Props = {
   /** The elements to render as options to search from. */
   children?: React.ReactNode;
+  /** The elements to render to the right of the search input. */
+  inputControls?: React.ReactNode;
   /** Set whether the loading state should be shown. */
   isLoading?: boolean;
   /** Function to be called when the search input loses focus. */
@@ -65,6 +69,14 @@ export default class Search extends React.PureComponent<Props, State> {
     this.inputRef = ref;
   };
 
+  renderInputControls = () => {
+    return this.props.inputControls ? (
+      <SearchInputControlsContainer>
+        {this.props.inputControls}
+      </SearchInputControlsContainer>
+    ) : null;
+  };
+
   inputRef: React.Ref<any>;
 
   render() {
@@ -74,26 +86,29 @@ export default class Search extends React.PureComponent<Props, State> {
     return (
       <SearchInner>
         <SearchBox>
-          <FieldBase
-            appearance="none"
-            isFitContainerWidthEnabled
-            isPaddingDisabled
-            isLoading={isLoading}
-          >
-            <SearchFieldBaseInner>
-              <SearchInput
-                autoFocus
-                innerRef={this.setInputRef}
-                onBlur={onBlur}
-                onInput={this.onInput}
-                placeholder={placeholder}
-                spellCheck={false}
-                type="text"
-                value={value}
-                onKeyDown={this.onInputKeyDown}
-              />
-            </SearchFieldBaseInner>
-          </FieldBase>
+          <SearchFieldBaseOuter>
+            <FieldBase
+              appearance="none"
+              isFitContainerWidthEnabled
+              isPaddingDisabled
+              isLoading={isLoading}
+            >
+              <SearchFieldBaseInner>
+                <SearchInput
+                  autoFocus
+                  innerRef={this.setInputRef}
+                  onBlur={onBlur}
+                  onInput={this.onInput}
+                  placeholder={placeholder}
+                  spellCheck={false}
+                  type="text"
+                  value={value}
+                  onKeyDown={this.onInputKeyDown}
+                />
+              </SearchFieldBaseInner>
+            </FieldBase>
+          </SearchFieldBaseOuter>
+          {this.renderInputControls()}
         </SearchBox>
         {children}
       </SearchInner>

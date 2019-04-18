@@ -17,7 +17,7 @@ import {
   li,
   insertText,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import panelPlugin from '../../../../plugins/panel';
 import listPlugin from '../../../../plugins/lists';
 import tablesPlugin from '../../../../plugins/table';

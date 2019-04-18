@@ -5,10 +5,10 @@ export const logger = (
   data: any = null,
   style: string = 'color:blue;font-weight:bold;',
 ) => {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.log(`%cCollab-Edit: ${msg}`, style);
   if (data) {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.log(data);
   }
 };
