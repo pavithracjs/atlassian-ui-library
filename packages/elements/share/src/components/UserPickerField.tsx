@@ -38,24 +38,43 @@ type GetNoOptionMessage = (
   { inputValue }: { inputValue: string },
 ) => any | null;
 
-const noOptionsMessageProps: GetMessageDescriptorByConfigMode = mode =>
-  mode === 'EXISTING_USERS_ONLY'
-    ? messages.userPickerExistingUserOnlyNoOptionsMessage
-    : messages.userPickerGenericNoOptionsMessage;
-
-const getNoOptionsMessageByConfigMode = (
+const getNoOptionsMessageDescriptor: GetMessageDescriptorByConfigMode = (
   mode: ConfigResponseMode | '',
+) => {
+  switch (mode) {
+    case 'EXISTING_USERS_ONLY':
+      return messages.userPickerExistingUserOnlyNoOptionsMessage;
+
+    case 'ONLY_DOMAIN_BASED_INVITE':
+      return messages.userPickerDomainBasedUserOnlyNoOptionsMessage;
+
+    default:
+      return messages.userPickerGenericNoOptionsMessage;
+  }
+};
+
+const getNoOptionsMessage = (
+  config: ConfigResponse | undefined,
 ): GetNoOptionMessage => ({ inputValue }): GetNoOptionMessage =>
   inputValue && inputValue.trim().length > 0
     ? ((
         <FormattedMessage
-          {...noOptionsMessageProps(mode)}
-          values={{ inputValue }}
+          {...getNoOptionsMessageDescriptor((config && config!.mode) || '')}
+          values={{
+            inputValue,
+            domains: (
+              <strong>
+                {((config && config!.allowedDomains) || []).join(', ')}
+              </strong>
+            ),
+          }}
         />
       ) as any)
     : null;
 
-const getPlaceHolderMessage: GetMessageDescriptorByConfigMode = mode =>
+const getPlaceHolderMessageDescriptor: GetMessageDescriptorByConfigMode = (
+  mode: ConfigResponseMode | '',
+) =>
   mode === 'EXISTING_USERS_ONLY'
     ? messages.userPickerExistingUserOnlyPlaceholder
     : messages.userPickerGenericPlaceholder;
@@ -86,12 +105,14 @@ export class UserPickerField extends React.Component<Props> {
                   isMulti
                   width="100%"
                   placeholder={
-                    <FormattedMessage {...getPlaceHolderMessage(configMode)} />
+                    <FormattedMessage
+                      {...getPlaceHolderMessageDescriptor(configMode)}
+                    />
                   }
                   addMoreMessage={addMore as string}
                   allowEmail={allowEmails(config)}
                   isValidEmail={isValidEmailUsingConfig(config)}
-                  noOptionsMessage={getNoOptionsMessageByConfigMode(configMode)}
+                  noOptionsMessage={getNoOptionsMessage(config)}
                 />
               )}
             </FormattedMessage>
