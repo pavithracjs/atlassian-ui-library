@@ -5,8 +5,20 @@ import * as PropTypes from 'prop-types';
 import { EventDispatcher } from '../../event-dispatcher';
 import EditorActions from '../../actions';
 
-export interface State {
-  [name: string]: any;
+/**
+ * Remove all editor plugins states that use old event dispatcher architecture
+ */
+function cleanEditorState(editorPluginStates: { [key: string]: any }) {
+  return Object.keys(editorPluginStates).reduce((acc, pluginKey) => {
+    const state = editorPluginStates[pluginKey];
+    if (!state || state.subscribe) {
+      return acc;
+    }
+    return {
+      ...acc,
+      [pluginKey]: state,
+    };
+  }, {});
 }
 
 export type PluginsConfig = { [name: string]: PluginKey };
@@ -37,10 +49,10 @@ export interface Props {
  *
  * renderComponent: ({ hyperlink }) => React.Component;
  */
-export default class WithPluginState extends React.PureComponent<Props, State> {
+export default class WithPluginState extends React.PureComponent<Props> {
   private listeners = {};
   private debounce: number | null = null;
-  private notAppliedState = {};
+  private recentEditorPluginState: { [key: string]: any } = {};
   private isSubscribed = false;
   private hasBeenMounted = false;
 
@@ -48,16 +60,7 @@ export default class WithPluginState extends React.PureComponent<Props, State> {
     editorActions: PropTypes.object,
   };
 
-  state = {};
   context: Context;
-
-  constructor(props: Props, context: Context) {
-    super(props);
-    this.state = this.getPluginsStates(
-      props.plugins,
-      this.getEditorView(props, context),
-    );
-  }
 
   private getEditorView(
     maybeProps?: Props,
@@ -83,32 +86,42 @@ export default class WithPluginState extends React.PureComponent<Props, State> {
     );
   }
 
+  /**
+   * We use an internal object to map all the editor state, we cannot use react state
+   * because we need to debounce the react rendering, related to many updates in
+   * editor states. So, when the final React Components is been rendered the state is
+   * outdated.
+   *
+   * We detect if the internal state changed to force a debounce update.
+   *
+   */
   private handlePluginStateChange = (
     propName: string,
-    skipEqualityCheck?: boolean,
+    isPluginWithSubscribe?: boolean,
   ) => (pluginState: any) => {
-    // skipEqualityCheck is being used for old plugins since they are mutating plugin state instead of creating a new one
-    if ((this.state as any)[propName] !== pluginState || skipEqualityCheck) {
-      this.updateState({ [propName]: pluginState });
+    if (isPluginWithSubscribe) {
+      this.recentEditorPluginState[propName] = pluginState;
+      this.debounceForceUpdate();
+    } else {
+      if (this.recentEditorPluginState[propName] !== pluginState) {
+        this.debounceForceUpdate();
+      }
     }
   };
 
   /**
-   * Debounces setState calls in order to reduce number of re-renders caused by several plugin state changes.
+   * Debounces forceUpdate.
    */
-  private updateState(stateSubset: State) {
-    this.notAppliedState = { ...this.notAppliedState, ...stateSubset };
-
+  private debounceForceUpdate() {
     if (this.debounce) {
       clearTimeout(this.debounce);
     }
 
     this.debounce = window.setTimeout(() => {
       if (this.hasBeenMounted) {
-        this.setState(this.notAppliedState);
+        this.forceUpdate();
       }
       this.debounce = null;
-      this.notAppliedState = {};
     }, 10);
   }
 
@@ -206,32 +219,21 @@ export default class WithPluginState extends React.PureComponent<Props, State> {
     }
   }
 
+  /**
+   * Return the most recent editor plugin states, use the stored state for
+   * the plugins state with event dispatcher architecture.
+   */
   private getMostRecentState() {
     const plugins = this.props.plugins;
     const editorView = this.getEditorView(this.props);
 
-    const currentState = this.state;
-    const mostRecentStateWithSubscribers = this.getPluginsStates(
-      plugins,
-      editorView,
+    const editorPluginStates = cleanEditorState(
+      this.getPluginsStates(plugins, editorView),
     );
 
-    const recentStateWithoutSubscribers = Object.keys(
-      mostRecentStateWithSubscribers,
-    ).reduce((acc, pluginKey) => {
-      const state = mostRecentStateWithSubscribers[pluginKey];
-      if (!state || state.subscribe) {
-        return acc;
-      }
-      return {
-        ...acc,
-        [pluginKey]: state,
-      };
-    }, {});
-
     return {
-      ...currentState,
-      ...recentStateWithoutSubscribers,
+      ...this.recentEditorPluginState,
+      ...editorPluginStates,
     };
   }
 
@@ -255,6 +257,7 @@ export default class WithPluginState extends React.PureComponent<Props, State> {
 
   render() {
     const { render } = this.props;
-    return render(this.getMostRecentState());
+    this.recentEditorPluginState = this.getMostRecentState();
+    return render(this.recentEditorPluginState);
   }
 }
