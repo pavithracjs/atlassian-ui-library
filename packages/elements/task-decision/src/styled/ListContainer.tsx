@@ -3,11 +3,10 @@ import styled from 'styled-components';
 // prettier-ignore
 import { HTMLAttributes, ClassAttributes, ComponentClass } from 'react';
 
-// tslint:disable-next-line:variable-name
 const ListContainer: ComponentClass<
   HTMLAttributes<{}> & { theme?: any }
 > = styled.div`
-  margin: 0 ${props => (props.theme.appearance === 'card' ? '2px' : 0)};
+  margin: 0 0;
   box-sizing: border-box;
 `;
 

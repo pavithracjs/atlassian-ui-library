@@ -1,6 +1,5 @@
 import { HTMLAttributes } from 'react';
 import styled from 'styled-components';
-
 import {
   colors,
   gridSize,
@@ -17,6 +16,7 @@ import {
   headingsSharedStyles,
   panelSharedStyles,
   ruleSharedStyles,
+  whitespaceSharedStyles,
   paragraphSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
@@ -27,27 +27,22 @@ import {
   akEditorTableNumberColumnWidth,
   TableSharedCssClassName,
   tableMarginTop,
-  akEditorSmallZIndex,
   gridMediumMaxWidth,
   codeMarkSharedStyles,
+  shadowSharedStyle,
+  shadowClassNames,
 } from '@atlaskit/editor-common';
-import { RendererAppearance } from './';
 import { RendererCssClassName } from '../../consts';
+import { RendererAppearance } from './types';
 
 export const FullPagePadding = 32;
-const shadowWidth = 8;
 
-export const shadowClassNames = {
-  RIGHT_SHADOW: 'right-shadow',
-  LEFT_SHADOW: 'left-shadow',
-};
-
-export type Props = {
+export type RendererWrapperProps = {
   appearance?: RendererAppearance;
   theme?: any;
 };
 
-const tableStyles = ({ appearance }: Props) => {
+const tableStyles = ({ appearance }: RendererWrapperProps) => {
   if (appearance === 'mobile') {
     return 'table-layout: auto';
   }
@@ -55,13 +50,7 @@ const tableStyles = ({ appearance }: Props) => {
   return '';
 };
 
-const fullPageStyles = ({
-  theme,
-  appearance,
-}: {
-  appearance?: 'full-page' | 'mobile';
-  theme?: any;
-}) => {
+const fullPageStyles = ({ theme, appearance }: RendererWrapperProps) => {
   if (appearance !== 'full-page' && appearance !== 'mobile') {
     return '';
   }
@@ -75,14 +64,30 @@ const fullPageStyles = ({
   `;
 };
 
-// prettier-ignore
-export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
-  ${fullPageStyles}
+const fullWidthStyles = ({ appearance }: RendererWrapperProps) => {
+  if (appearance !== 'full-width') {
+    return '';
+  }
 
+  return `
+  max-width: 1800px;
+
+  .fabric-editor-breakout-mark,
+  .pm-table-container,
+  .ak-renderer-extension {
+    width: 100% !important;
+  }
+  `;
+};
+
+// prettier-ignore
+export const Wrapper = styled.div<RendererWrapperProps & HTMLAttributes<{}>>`
   font-size: ${editorFontSize}px;
   line-height: 24px;
   color: ${themed({ light: colors.N800, dark: '#B8C7E0' })};
-  word-wrap: break-word;
+
+  ${fullPageStyles}
+  ${fullWidthStyles}
 
   & span.akActionMark {
     color: ${colors.B400};
@@ -98,6 +103,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
     cursor: pointer;
   }
 
+  ${whitespaceSharedStyles};
   ${blockquoteSharedStyles};
   ${headingsSharedStyles};
   ${panelSharedStyles};
@@ -106,6 +112,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   ${indentationSharedStyles};
   ${blockMarksSharedStyles};
   ${codeMarkSharedStyles};
+  ${shadowSharedStyle};
 
   & .UnknownBlock {
     font-family: ${fontFamily()};
@@ -206,7 +213,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
     clear: both;
   }
 
-  & .CodeBlock,
+  & .code-block,
   & blockquote,
   & hr,
   & > div > div:not(.media-wrapped),
@@ -254,6 +261,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   ${tableSharedStyle}
 
   .${TableSharedCssClassName.TABLE_CONTAINER} {
+    z-index: 0;
     transition: all 0.1s linear;
 
     /** Shadow overrides */
@@ -284,7 +292,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
    * We wrap CodeBlock in a grid to prevent it from overflowing the container of the renderer.
    * See ED-4159.
    */
-  & .CodeBlock {
+  & .code-block {
     max-width: 100%;
     /* -ms- properties are necessary until MS supports the latest version of the grid spec */
     /* stylelint-disable value-no-vendor-prefix, declaration-block-no-duplicate-properties */
@@ -312,7 +320,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   }
 
   & .MediaGroup,
-  & .CodeBlock {
+  & .code-block {
     margin-top: ${blockNodesVerticalMargin};
 
     &:first-child {
@@ -332,39 +340,5 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
         margin-left: 0;
       }
     }
-  }
-
-  & .${shadowClassNames.RIGHT_SHADOW}::before, .${shadowClassNames.RIGHT_SHADOW}::after,
-    .${shadowClassNames.LEFT_SHADOW}::before, .${shadowClassNames.LEFT_SHADOW}::after {
-      display: none;
-      position: absolute;
-      pointer-events: none;
-      z-index: ${akEditorSmallZIndex};
-      width: ${shadowWidth}px;
-      content: '';
-      /* Scrollbar is outside the content in IE, inset in other browsers. */
-      height: calc(100%);
-  }
-
-  & .${shadowClassNames.LEFT_SHADOW}::before {
-    background: linear-gradient(
-      to left,
-      rgba(99, 114, 130, 0) 0,
-      ${colors.N40A} 100%
-    );
-    top: 0px;
-    left: 0;
-    display: block;
-  }
-
-  & .${shadowClassNames.RIGHT_SHADOW}::after {
-    background: linear-gradient(
-      to right,
-      rgba(99, 114, 130, 0) 0,
-      ${colors.N40A} 100%
-    );
-    left: calc(100% - ${shadowWidth}px);
-    top: 0px;
-    display: block;
   }
 `;

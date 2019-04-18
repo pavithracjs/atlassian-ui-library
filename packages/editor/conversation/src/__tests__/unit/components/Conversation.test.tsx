@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, ShallowWrapper } from 'enzyme';
 import {
   mockConversation,
   MOCK_USERS,
@@ -41,7 +41,7 @@ describe('Conversation', () => {
   });
 
   describe('beforeUnload behavior', () => {
-    let conversationWithWarning;
+    let conversationWithWarning: ShallowWrapper;
 
     beforeEach(() => {
       window.addEventListener = jest.fn();

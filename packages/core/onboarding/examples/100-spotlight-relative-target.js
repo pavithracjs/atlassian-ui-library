@@ -28,6 +28,7 @@ const RelativeDiv = styled.div`
 
 export default class SpotlightRelativeTarget extends Component<Object, State> {
   state: State = { active: false };
+
   render() {
     const { active } = this.state;
     return (

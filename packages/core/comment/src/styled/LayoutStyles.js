@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 import { colors, gridSize } from '@atlaskit/theme';
-import { verticalPadding } from '../styled/constants';
+import { verticalPadding } from './constants';
 
 const ThemeColor = {
   Highlight: {

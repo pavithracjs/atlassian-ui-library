@@ -18,8 +18,11 @@ import {
   LinkComponent,
   ReferralContextIdentifiers,
   Logger,
+  JiraApplicationPermission,
 } from '../GlobalQuickSearchWrapper';
-import QuickSearchContainer from '../common/QuickSearchContainer';
+import QuickSearchContainer, {
+  SearchResultProps,
+} from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
 import { sliceResults } from './JiraSearchResultsMapper';
 import SearchResultsComponent from '../common/SearchResults';
@@ -71,12 +74,14 @@ export interface Props {
   disableJiraPreQueryPeopleSearch?: boolean;
   logger: Logger;
   isSendSearchTermsEnabled?: boolean;
+  enablePreQueryFromAggregator?: boolean;
   onAdvancedSearch?: (
     e: CancelableEvent,
     entity: string,
     query: string,
     searchSessionId: string,
   ) => void;
+  appPermission?: JiraApplicationPermission;
 }
 
 const contentTypeToSection = {
@@ -86,7 +91,7 @@ const contentTypeToSection = {
   [ContentType.JiraProject]: 'projects',
 };
 
-const scopes = [Scope.JiraIssue, Scope.JiraBoardProjectFilter];
+const SCOPES = [Scope.JiraIssue, Scope.JiraBoardProjectFilter];
 
 export interface State {
   selectedAdvancedSearchType: JiraEntityTypes;
@@ -151,13 +156,15 @@ export class JiraQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
-  }) => {
+  }: SearchResultProps) => {
     const query = latestSearchQuery;
     const isPreQuery = !query; // it's true if the query is empty
     const {
       referralContextIdentifiers,
       onAdvancedSearch = () => {},
+      appPermission,
     } = this.props;
+
     return (
       <SearchResultsComponent
         query={query}
@@ -173,6 +180,7 @@ export class JiraQuickSearchContainer extends React.Component<
             <FormattedHTMLMessage {...messages.jira_no_recent_activity_body} />
             <NoResultsAdvancedSearchContainer>
               <JiraAdvancedSearch
+                appPermission={appPermission}
                 query={query}
                 analyticsData={{ resultsCount: 0, wasOnNoResultsScreen: true }}
                 onClick={(mouseEvent, entity) =>
@@ -185,6 +193,7 @@ export class JiraQuickSearchContainer extends React.Component<
         renderAdvancedSearchGroup={(analyticsData?) => (
           <StickyFooter style={{ marginTop: `${2 * gridSize()}px` }}>
             <JiraAdvancedSearch
+              appPermission={appPermission}
               analyticsData={analyticsData}
               query={query}
               showKeyboardLozenge={!isPreQuery && !keepPreQueryState}
@@ -209,9 +218,17 @@ export class JiraQuickSearchContainer extends React.Component<
             />
           </BeforePreQueryStateContainer>
         )}
-        getPreQueryGroups={() => mapRecentResultsToUIGroups(recentItems)}
+        getPreQueryGroups={() =>
+          mapRecentResultsToUIGroups(
+            recentItems as JiraResultsMap,
+            this.props.appPermission,
+          )
+        }
         getPostQueryGroups={() =>
-          mapSearchResultsToUIGroups(searchResults as JiraResultsMap)
+          mapSearchResultsToUIGroups(
+            searchResults as JiraResultsMap,
+            this.props.appPermission,
+          )
         }
         renderNoResult={() => (
           <NoResultsState
@@ -249,13 +266,16 @@ export class JiraQuickSearchContainer extends React.Component<
     }
   };
 
-  getJiraRecentItems = (sessionId: string): Promise<GenericResultMap> => {
-    const jiraRecentItemsPromise = this.props.jiraClient
+  getRecentItemsFromJira = (sessionId: string): Promise<GenericResultMap> => {
+    return this.props.jiraClient
       .getRecentItems(sessionId)
       .then(items =>
         items.reduce<GenericResultMap<JiraResult>>((acc, item) => {
           if (item.contentType) {
-            const section = contentTypeToSection[item.contentType];
+            const section =
+              contentTypeToSection[
+                item.contentType as keyof typeof contentTypeToSection
+              ];
             acc[section] = ([] as JiraResult[]).concat(
               acc[section] || [],
               item,
@@ -268,9 +288,26 @@ export class JiraQuickSearchContainer extends React.Component<
         objects: issues,
         containers: [...boards, ...projects, ...filters],
       }));
+  };
 
+  getRecentItemsFromXpsearch = (
+    sessionId: string,
+  ): Promise<GenericResultMap> => {
+    return this.props.crossProductSearchClient
+      .search('', { sessionId }, SCOPES)
+      .then(xpRecentResults => ({
+        objects: xpRecentResults.results.get(Scope.JiraIssue) || [],
+        containers:
+          xpRecentResults.results.get(Scope.JiraBoardProjectFilter) || [],
+      }));
+  };
+
+  getJiraRecentItems = (sessionId: string): Promise<GenericResultMap> => {
+    const recentItemsPromise = this.props.enablePreQueryFromAggregator
+      ? this.getRecentItemsFromXpsearch(sessionId)
+      : this.getRecentItemsFromJira(sessionId);
     return handlePromiseError(
-      jiraRecentItemsPromise,
+      recentItemsPromise,
       {
         objects: [],
         containers: [],
@@ -284,7 +321,7 @@ export class JiraQuickSearchContainer extends React.Component<
     );
   };
 
-  getAbTestData = (sessionId: string): Promise<ABTest | undefined> => {
+  getAbTestData = (sessionId: string): Promise<ABTest> => {
     return this.props.crossProductSearchClient.getAbTestData(Scope.JiraIssue, {
       sessionId,
     });
@@ -334,7 +371,7 @@ export class JiraQuickSearchContainer extends React.Component<
     const crossProductSearchPromise = this.props.crossProductSearchClient.search(
       query,
       { sessionId, referrerId },
-      scopes,
+      SCOPES,
       JIRA_RESULT_LIMIT,
     );
 
@@ -398,7 +435,7 @@ export class JiraQuickSearchContainer extends React.Component<
     }
   }
 
-  handleSelectedResultIdChanged(newSelectedId) {
+  handleSelectedResultIdChanged(newSelectedId?: string) {
     this.setState({
       selectedResultId: newSelectedId,
     });
@@ -410,6 +447,7 @@ export class JiraQuickSearchContainer extends React.Component<
       createAnalyticsEvent,
       isSendSearchTermsEnabled,
       logger,
+      enablePreQueryFromAggregator,
     } = this.props;
     const { selectedResultId } = this.state;
 
@@ -428,10 +466,11 @@ export class JiraQuickSearchContainer extends React.Component<
         createAnalyticsEvent={createAnalyticsEvent}
         logger={logger}
         selectedResultId={selectedResultId}
-        onSelectedResultIdChanged={newId =>
+        onSelectedResultIdChanged={(newId: any) =>
           this.handleSelectedResultIdChanged(newId)
         }
         isSendSearchTermsEnabled={isSendSearchTermsEnabled}
+        enablePreQueryFromAggregator={enablePreQueryFromAggregator}
       />
     );
   }

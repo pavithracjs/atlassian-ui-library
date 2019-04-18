@@ -1,5 +1,65 @@
 # @atlaskit/mention
 
+## 17.6.7
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/lozenge@7.0.2
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/theme@8.1.7
+
+## 17.6.6
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
+## 17.6.5
+- [patch] [ddb3238b1c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ddb3238b1c):
+
+  - TEAMS-396 : Changing byline logic for mention
+
+## 17.6.4
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 17.6.3
+- [patch] [14b89652d7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/14b89652d7):
+
+  - TEAMS-364 : Renaming the missed test files in the previous PR
+
+## 17.6.2
+- [patch] [c8b669eaec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c8b669eaec):
+
+  - TEAMS-364 : Renaming Team mention description highlight classes to Byline
+
+## 17.6.1
+- [patch] [d26570e3b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d26570e3b5):
+
+  - Update i18n for team mention
+  - Fix a bug in team mention: missing https protocol in team link
+
+## 17.6.0
+- [minor] [b31086fcf6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b31086fcf6):
+
+  - Add additional entry points for selective imports of mention components
+
+## 17.5.0
+- [minor] [b0210d7ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0210d7ccc):
+
+  - reset jest modules before hydration
+
+## 17.4.0
+- [minor] [1affe17dc4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1affe17dc4):
+
+  - add analytics events for team mention
+
+## 17.3.0
+- [minor] [073320a681](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/073320a681):
+
+  - Improve TeamMentionResource, both team and user requests are not blocked together
+
 ## 17.2.0
 - [patch] [5ca3696b14](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ca3696b14):
 

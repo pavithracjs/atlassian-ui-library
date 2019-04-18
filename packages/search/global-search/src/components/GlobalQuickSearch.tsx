@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import * as debounce from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 import { QuickSearch } from '@atlaskit/quick-search';
 import { LinkComponent } from './GlobalQuickSearchWrapper';
 import {
@@ -30,9 +30,9 @@ const QS_ANALYTICS_EV_KB_CTRLS_USED = `${ATLASKIT_QUICKSEARCH_NS}.keyboard-contr
 const QS_ANALYTICS_EV_SUBMIT = `${ATLASKIT_QUICKSEARCH_NS}.submit`;
 
 export interface Props {
-  onMount();
-  onSearch(query: string);
-  onSearchSubmit?(event: React.KeyboardEvent<HTMLInputElement>);
+  onMount(): void;
+  onSearch(query: string): void;
+  onSearchSubmit?(event: React.KeyboardEvent<HTMLInputElement>): void;
 
   isLoading: boolean;
   placeholder?: string;
@@ -43,6 +43,7 @@ export interface Props {
   isSendSearchTermsEnabled?: boolean;
   selectedResultId?: string;
   onSelectedResultIdChanged?: (id: string | number | null) => void;
+  inputControls?: JSX.Element;
 }
 
 export interface State {
@@ -67,8 +68,8 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
     this.props.onMount();
   }
 
-  handleSearchInput = ({ target }) => {
-    const query = target.value;
+  handleSearchInput = ({ target }: React.FormEvent<HTMLInputElement>) => {
+    const query = (target as HTMLInputElement).value;
     this.setState({
       query,
     });
@@ -162,6 +163,7 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
       onSearchSubmit,
       selectedResultId,
       onSelectedResultIdChanged,
+      inputControls,
     } = this.props;
 
     return (
@@ -176,6 +178,7 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
           onSearchSubmit={onSearchSubmit}
           selectedResultId={selectedResultId}
           onSelectedResultIdChanged={onSelectedResultIdChanged}
+          inputControls={inputControls}
         >
           {children}
         </QuickSearch>

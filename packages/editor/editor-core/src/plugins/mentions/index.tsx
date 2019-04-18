@@ -1,12 +1,11 @@
 import * as React from 'react';
-import * as uuid from 'uuid';
+import uuid from 'uuid';
 import { Schema, Node, Fragment } from 'prosemirror-model';
 import { EditorState, Plugin, PluginKey, StateField } from 'prosemirror-state';
 import {
   AnalyticsEventPayload,
   CreateUIAnalyticsEventSignature,
-} from '@atlaskit/analytics-next-types';
-import MentionIcon from '@atlaskit/icon/glyph/editor/mention';
+} from '@atlaskit/analytics-next';
 import {
   MentionProvider,
   MentionItem,
@@ -32,7 +31,6 @@ import {
   createInitialPluginState,
 } from '../type-ahead/pm-plugins/main';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
-import { ReactNodeView } from '../../nodeviews';
 import ToolbarMention from './ui/ToolbarMention';
 import mentionNodeView from './nodeviews/mention';
 import {
@@ -52,6 +50,14 @@ import {
   ACTION_SUBJECT_ID,
 } from '../analytics';
 import { TypeAheadItem } from '../type-ahead/types';
+import { isTeamStats, isTeamType } from './utils';
+import { IconMention } from '../quick-insert/assets';
+
+export interface TeamInfoAttrAnalytics {
+  teamId: String;
+  includesYou: boolean;
+  memberCount: number;
+}
 
 const mentionsPlugin = (
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
@@ -117,8 +123,10 @@ const mentionsPlugin = (
       quickInsert: ({ formatMessage }) => [
         {
           title: formatMessage(messages.mention),
+          description: formatMessage(messages.mentionDescription),
           priority: 400,
-          icon: () => <MentionIcon label={formatMessage(messages.mention)} />,
+          keyshortcut: '@',
+          icon: () => <IconMention label={formatMessage(messages.mention)} />,
           action(insert, state) {
             const mark = state.schema.mark('typeAheadQuery', {
               trigger: '@',
@@ -246,7 +254,7 @@ const mentionsPlugin = (
 
           sessionId = uuid();
 
-          if (mentionProvider && userType === 'TEAM') {
+          if (mentionProvider && isTeamType(userType)) {
             return insert(buildNodesForTeamMention(schema, item.mention));
           }
 
@@ -413,10 +421,10 @@ function mentionPluginFactory(
     } as StateField<MentionPluginState>,
     props: {
       nodeViews: {
-        mention: ReactNodeView.fromComponent(
-          mentionNodeView,
+        mention: mentionNodeView(
           portalProviderAPI,
-          { providerFactory, editorAppearance },
+          providerFactory,
+          editorAppearance,
         ),
       },
     },
@@ -448,13 +456,42 @@ function mentionPluginFactory(
                   (mentions, query, stats) => {
                     setResults(mentions)(editorView.state, editorView.dispatch);
 
-                    fireEvent(
-                      buildTypeAheadRenderedPayload(
-                        stats && stats.duration,
-                        mentions.map(mention => mention.id),
-                        query || '',
-                      ),
+                    let duration: number = 0;
+                    let userIds: string[] | null = null;
+                    let teams: TeamInfoAttrAnalytics[] | null = null;
+
+                    if (!isTeamStats(stats)) {
+                      duration = stats && stats.duration;
+                      teams = null;
+                      userIds = mentions
+                        .map(mention =>
+                          isTeamType(mention.userType) ? mention.id : null,
+                        )
+                        .filter(m => !!m) as string[];
+                    } else {
+                      // is from team mention
+                      duration = stats && stats.teamMentionDuration;
+                      userIds = null;
+                      teams = mentions
+                        .map(mention =>
+                          isTeamType(mention.userType)
+                            ? {
+                                teamId: mention.id,
+                                includesYou: mention.context!.includesYou,
+                                memberCount: mention.context!.memberCount,
+                              }
+                            : null,
+                        )
+                        .filter(m => !!m) as TeamInfoAttrAnalytics[];
+                    }
+
+                    const payload = buildTypeAheadRenderedPayload(
+                      duration,
+                      userIds,
+                      query || '',
+                      teams,
                     );
+                    fireEvent(payload);
                   },
                 );
               })
@@ -511,7 +548,7 @@ function buildNodesForTeamMention(
 ): Fragment {
   const { nodes, marks } = schema;
   const { name, id: teamId, accessLevel, context } = selectedMention;
-  const teamUrl = `${window.location.host}/people/team/${teamId}`;
+  const teamUrl = `${window.location.origin}/people/team/${teamId}`;
 
   const openBracketText = schema.text('(');
   const closeBracketText = schema.text(')');

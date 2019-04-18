@@ -18,7 +18,7 @@ import {
   TextDirection,
   Tool,
 } from '../common';
-import { colorSame, colorWithAlphaSame, dimensionsSame } from '../util';
+import { colorWithAlphaSame, dimensionsSame } from '../util';
 
 import {
   DefaultDrawingArea,
@@ -137,7 +137,7 @@ export class MediaEditor extends React.Component<
       addShadow: prevAddShadow,
     } = prevProps.shapeParameters;
     if (this.toolbar) {
-      if (!colorSame(currColor, prevColor)) {
+      if (currColor !== prevColor) {
         this.toolbar.setColor(currColor);
       }
       if (currLineWidth !== prevLineWidth) {
@@ -182,16 +182,11 @@ export class MediaEditor extends React.Component<
   render() {
     const { isImageLoaded } = this.state;
     const { dimensions } = this.props;
-    const width = `${dimensions.width}px`;
-    const height = `${dimensions.height}px`;
 
     return (
-      <MediaEditorContainer style={{ width, height }}>
+      <MediaEditorContainer style={dimensions}>
         {!isImageLoaded ? this.renderSpinner() : null}
-        <OutputArea
-          innerRef={this.handleOutputAreaInnerRef}
-          style={{ width, height }}
-        >
+        <OutputArea innerRef={this.handleOutputAreaInnerRef} style={dimensions}>
           <SupplementaryCanvas
             innerRef={this.handleSupplementaryCanvasInnerRef}
           />
@@ -204,11 +199,10 @@ export class MediaEditor extends React.Component<
           <HiddenTextHelperDiv
             innerRef={this.handleHiddenTextHelperDivInnerRef}
           />
-
           <DrawingCanvas
             onClick={this.onCanvasClick}
             innerRef={this.handleDrawingCanvasInnerRef}
-            style={{ width, height }}
+            style={dimensions}
           />
         </OutputArea>
       </MediaEditorContainer>
@@ -266,9 +260,9 @@ export class MediaEditor extends React.Component<
             .direction as TextDirection) || defaultTextDirection;
 
         const config = {
-          // tslint:disable-next-line:no-console
+          // eslint-disable-next-line no-console
           onCoreError: (message: string) => {
-            // tslint:disable-next-line
+            // eslint-disable-next-line
             console.error(message);
           },
           shapeParameters,

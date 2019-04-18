@@ -30,14 +30,18 @@ class InlineCardNode extends React.PureComponent<Props, {}> {
       ? this.context.contextAdapter.card
       : undefined;
 
+    // add an extra span at the start so the cursor doesn't appear next to the text inside the Card
     const card = (
-      <Card
-        url={url}
-        data={data}
-        appearance="inline"
-        isSelected={selected}
-        onClick={this.onClick}
-      />
+      <span>
+        <span />
+        <Card
+          url={url}
+          data={data}
+          appearance="inline"
+          isSelected={selected}
+          onClick={this.onClick}
+        />
+      </span>
     );
 
     return cardContext ? (

@@ -1,4 +1,4 @@
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 import { Store, Dispatch, Middleware } from 'redux';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import {
@@ -86,7 +86,7 @@ export function importFilesMiddleware(
   eventEmitter: PopupUploadEventEmitter,
   wsProvider: WsProvider,
 ): Middleware {
-  return store => (next: Dispatch<State>) => action => {
+  return store => (next: Dispatch<State>) => (action: any) => {
     if (isStartImportAction(action)) {
       importFiles(eventEmitter, store as any, wsProvider);
     }

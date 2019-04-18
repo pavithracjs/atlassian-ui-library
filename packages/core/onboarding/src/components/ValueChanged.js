@@ -17,6 +17,7 @@ export default class ValueChanged extends React.Component<Props> {
       this.props.onChange();
     }
   }
+
   render() {
     return this.props.children;
   }

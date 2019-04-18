@@ -1,5 +1,75 @@
 # @atlaskit/navigation-next
 
+## 5.1.6
+- [patch] [a81e516462](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a81e516462):
+
+  - Removes dev-dependency from dependencies
+
+## 5.1.5
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/badge@11.0.1
+  - @atlaskit/button@12.0.3
+  - @atlaskit/drawer@3.0.7
+  - @atlaskit/dropdown-menu@7.0.6
+  - @atlaskit/field-base@12.0.2
+  - @atlaskit/global-navigation@6.2.9
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/inline-dialog@10.0.4
+  - @atlaskit/logo@10.0.4
+  - @atlaskit/lozenge@7.0.2
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/onboarding@7.0.4
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/select@8.1.1
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/toggle@6.0.4
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/theme@8.1.7
+
+## 5.1.4
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/avatar@15.0.3
+  - @atlaskit/drawer@3.0.6
+  - @atlaskit/dropdown-menu@7.0.4
+  - @atlaskit/global-navigation@6.2.8
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/inline-dialog@10.0.3
+  - @atlaskit/logo@10.0.3
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/onboarding@7.0.3
+  - @atlaskit/section-message@2.0.2
+  - @atlaskit/select@8.0.5
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/toggle@6.0.3
+  - @atlaskit/tooltip@13.0.3
+  - @atlaskit/analytics-listeners@5.0.3
+  - @atlaskit/button@12.0.0
+
+## 5.1.3
+- [patch] [a28eb04426](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a28eb04426):
+
+  - Migrates package from emotion 9 to emotion 10. No behaviour or API changes.
+
+## 5.1.2
+- [patch] [da6ef8b69a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da6ef8b69a):
+
+  - Using new z-index values from theme
+
+## 5.1.1
+- Updated dependencies [c95557e3ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c95557e3ff):
+  - @atlaskit/global-navigation@6.2.2
+  - @atlaskit/badge@11.0.0
+
+## 5.1.0
+- [minor] [6d7faa9784](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6d7faa9784):
+
+  - Adds the ability to a function to access refs in navigation-next/GlobalItem. This function is exposed in GlobalNavigation for each of the items on GlobalNav in a prop called get<X>Ref, where X is product, create etc.
+
 ## 5.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

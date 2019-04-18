@@ -1,14 +1,15 @@
 import { snapshot, Appearance, initEditorWithAdf, Device } from '../_utils';
-import { insertMedia } from '../../__helpers/page-objects/_media';
+import {
+  insertMedia,
+  scrollToMedia,
+} from '../../__helpers/page-objects/_media';
 import { clickEditableContent } from '../../__helpers/page-objects/_editor';
-import { pressKey, KeyboardKeys } from '../../__helpers/page-objects/_keyboard';
+import { pressKey } from '../../__helpers/page-objects/_keyboard';
 
-// TODO: ED-6319 Selection is broken
 describe('Snapshot Test: Media', () => {
   describe('full page editor', () => {
     let page: any;
-    const threshold = 0.01;
-    beforeAll(async () => {
+    beforeEach(async () => {
       // @ts-ignore
       page = global.page;
 
@@ -22,20 +23,32 @@ describe('Snapshot Test: Media', () => {
 
       // insert single media item
       await insertMedia(page);
+      // Move mouse out of the page to not create fake cursor
+      await page.mouse.move(-1, -1);
     });
 
-    it('renders selection ring around media (via up)', async () => {
+    it('should renders selection ring around media (via up)', async () => {
+      await pressKey(page, 'ArrowUp');
+      await scrollToMedia(page);
       await snapshot(page);
-      await pressKey(page, KeyboardKeys.arrowUp);
-      await snapshot(page, threshold);
     });
 
-    it('renders selection ring around media (via gap cursor)', async () => {
-      await pressKey(page, [KeyboardKeys.arrowLeft, KeyboardKeys.arrowLeft]);
+    it('should render right side gap cursor (via arrow left)', async () => {
+      await pressKey(page, 'ArrowLeft');
+      await scrollToMedia(page);
       await snapshot(page);
+    });
 
-      await pressKey(page, KeyboardKeys.arrowLeft);
-      await snapshot(page, threshold);
+    it('renders selection ring around media (via 2 arrow left)', async () => {
+      await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
+      await scrollToMedia(page);
+      await snapshot(page);
+    });
+
+    it('should render left side gap cursor ( via 3 arrow left)', async () => {
+      await pressKey(page, ['ArrowLeft', 'ArrowLeft', 'ArrowLeft']);
+      await scrollToMedia(page);
+      await snapshot(page);
     });
   });
 
@@ -61,20 +74,20 @@ describe('Snapshot Test: Media', () => {
     it('renders selection ring around last media group item (via up)', async () => {
       await snapshot(page);
 
-      await pressKey(page, KeyboardKeys.arrowUp);
+      await pressKey(page, 'ArrowUp');
       await snapshot(page, threshold);
     });
 
     it('renders selection ring around media group items', async () => {
       await snapshot(page);
 
-      await pressKey(page, [KeyboardKeys.arrowLeft, KeyboardKeys.arrowLeft]);
+      await pressKey(page, ['ArrowLeft', 'ArrowLeft']);
       await snapshot(page, threshold);
 
-      await pressKey(page, KeyboardKeys.arrowLeft);
+      await pressKey(page, 'ArrowLeft');
       await snapshot(page, threshold);
 
-      await pressKey(page, KeyboardKeys.arrowLeft);
+      await pressKey(page, 'ArrowLeft');
       await snapshot(page, threshold);
     });
   });

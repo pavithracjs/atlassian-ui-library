@@ -1,10 +1,12 @@
 import { Dispatch } from '../../../event-dispatcher';
-import { EVENT_TYPE } from './enums';
+import { EVENT_TYPE, ACTION_SUBJECT } from './enums';
 import { UIEventPayload } from './ui-events';
 import { FormatEventPayload } from './format-events';
 import { SubstituteEventPayload } from './substitute-events';
 import { InsertEventPayload } from './insert-events';
 import { NodeEventPayload } from './node-events';
+import { TableEventPayload } from './table-events';
+import { PasteEventPayload } from './paste-events';
 
 type AEP<Action, ActionSubject, ActionSubjectID, Attributes, EventType> = {
   action: Action;
@@ -30,12 +32,21 @@ export type TrackAEP<Action, ActionSubject, ActionSubjectID, Attributes> = AEP<
   EVENT_TYPE.TRACK
 >;
 
+export type TableAEP<Action, Attributes> = TrackAEP<
+  Action,
+  ACTION_SUBJECT.TABLE,
+  null,
+  Attributes
+>;
+
 export type AnalyticsEventPayload =
   | UIEventPayload
   | FormatEventPayload
   | SubstituteEventPayload
   | InsertEventPayload
-  | NodeEventPayload;
+  | NodeEventPayload
+  | TableEventPayload
+  | PasteEventPayload;
 
 export type AnalyticsDispatch = Dispatch<{
   payload: AnalyticsEventPayload;

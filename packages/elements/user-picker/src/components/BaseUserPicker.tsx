@@ -1,6 +1,6 @@
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
-import * as debounce from 'lodash.debounce';
+import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
+import debounce from 'lodash.debounce';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import {
@@ -32,9 +32,9 @@ import {
   extractOptionValue,
   getOptions,
   isIterable,
+  isPopupUserPickerByComponent,
   isSingleValue,
   optionToSelectableOptions,
-  isPopupUserPickerByComponent,
 } from './utils';
 
 type Props = UserPickerProps &
@@ -45,6 +45,8 @@ type Props = UserPickerProps &
     components: any;
     width: string | number;
   };
+
+const loadingMessage = () => null;
 
 class UserPickerInternal extends React.Component<Props, UserPickerState> {
   static defaultProps = {
@@ -93,6 +95,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       hoveringClearIndicator: false,
       menuIsOpen: !!this.props.open,
       inputValue: props.search || '',
+      resolving: false,
     };
   }
 
@@ -167,10 +170,12 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
 
   private addOptions = batchByKey(
     (request: string, newOptions: (OptionData | OptionData[])[]) => {
+      const { resolving } = this.state;
+
       this.setState(({ inflightRequest, options, count }) => {
         if (inflightRequest.toString() === request) {
           return {
-            options: options.concat(
+            options: (resolving ? options : []).concat(
               newOptions.reduce<OptionData[]>(
                 (nextOptions, item) =>
                   Array.isArray(item)
@@ -180,6 +185,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
               ),
             ),
             count: count - newOptions.length,
+            resolving: count - newOptions.length !== 0,
           };
         }
         return null;
@@ -188,10 +194,16 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
   );
 
   private handleLoadOptionsError = () => {
+    const { count } = this.state;
+    const newCount = count - 1;
+    this.setState({
+      count: newCount,
+      resolving: newCount !== 0,
+    });
     this.fireEvent(failedEvent);
   };
 
-  private executeLoadOptions = debounce((search?: string) => {
+  private debouncedLoadOptions = debounce((search?: string) => {
     const { loadOptions } = this.props;
     if (loadOptions) {
       this.setState(({ inflightRequest: previousRequest }) => {
@@ -218,11 +230,21 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         return {
           inflightRequest,
           count,
+          resolving: count !== 0,
           options: [],
         };
       });
     }
   }, 200);
+
+  private executeLoadOptions = (search?: string) => {
+    const { loadOptions } = this.props;
+    if (loadOptions) {
+      this.setState({ resolving: true }, () =>
+        this.debouncedLoadOptions(search),
+      );
+    }
+  };
 
   private handleFocus = (event: React.FocusEvent) => {
     const { value } = this.state;
@@ -244,7 +266,6 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       inputValue: '',
     });
     callCallback(this.props.onInputChange, '');
-    this.executeLoadOptions('');
   };
 
   private handleBlur = () => {
@@ -255,6 +276,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     this.resetInputState();
     this.setState({
       menuIsOpen: false,
+      options: [],
     });
   };
 
@@ -263,6 +285,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     callCallback(this.props.onClose);
     this.setState({
       menuIsOpen: false,
+      options: [],
     });
   };
 
@@ -417,6 +440,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       menuIsOpen,
       value,
       inputValue,
+      resolving,
     } = this.state;
     const appearance = this.getAppearance();
 
@@ -436,7 +460,8 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onClose={this.handleClose}
-        isLoading={count > 0 || isLoading}
+        isLoading={count > 0 || resolving || isLoading}
+        loadingMessage={loadingMessage}
         onInputChange={this.handleInputChange}
         menuPlacement="auto"
         placeholder={
@@ -469,6 +494,6 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
   }
 }
 
-export const BaseUserPicker: React.ComponentClass<
-  Props
-> = withAnalyticsEvents()(UserPickerInternal);
+export const BaseUserPicker: React.ComponentType<Props> = withAnalyticsEvents()(
+  UserPickerInternal,
+);

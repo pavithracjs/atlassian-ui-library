@@ -1,5 +1,5 @@
 import * as URL from 'url';
-import * as USP from 'url-search-params'; // IE, Safari, Mobile Chrome, Mobile Safari
+import USP from 'url-search-params'; // IE, Safari, Mobile Chrome, Mobile Safari
 import {
   buildCredentials,
   KeyValues,

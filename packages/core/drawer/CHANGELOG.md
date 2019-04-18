@@ -1,5 +1,56 @@
 # @atlaskit/drawer
 
+## 3.0.8
+- [patch] [371becf9e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/371becf9e2):
+
+  - Internal changes only. Drawer is compatible with SSR.
+
+## 3.0.7
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/blanket@8.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/dropdown-menu@7.0.6
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/item@9.0.1
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/quick-search@6.1.1
+  - @atlaskit/theme@8.1.7
+
+## 3.0.6
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/blanket@8.0.2
+  - @atlaskit/dropdown-menu@7.0.4
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/portal@0.3.1
+  - @atlaskit/section-message@2.0.2
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/button@12.0.0
+
+## 3.0.5
+- [patch] [42d931a2fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/42d931a2fd):
+
+  - Move visual-regression to devDependncies
+
+## 3.0.4
+- [patch] [a28eb04426](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a28eb04426):
+
+  - Migrates package from emotion 9 to emotion 10. No behaviour or API changes.
+
+## 3.0.3
+- [patch] [211463f820](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/211463f820):
+
+  - Bugfix: fixes z-index problem causing drawer to appear underneath navigation.
+- Updated dependencies [ce4e1b4780](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce4e1b4780):
+  - @atlaskit/portal@0.3.0
+
+## 3.0.2
+- [patch] [37ee906cf7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/37ee906cf7):
+
+  - Internal changes only. Drawer uses @atlaskit/portal and is now SSR compatible.
+
 ## 3.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

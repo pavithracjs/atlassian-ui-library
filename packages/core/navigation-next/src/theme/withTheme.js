@@ -1,8 +1,7 @@
 // @flow
 
-import React, { Component, type ComponentType } from 'react';
-import { channel } from 'emotion-theming';
-import PropTypes from 'prop-types';
+import React, { type ComponentType } from 'react';
+import { withTheme as WithEmotionTheme } from 'emotion-theming';
 
 import { light } from './modes';
 import type {
@@ -12,60 +11,22 @@ import type {
   ThemeWrappedComp,
 } from './types';
 
-type State = { theme: Theme };
-
 const withTheme = <P: {}, C: ComponentType<P>>(
   defaultTheme: Theme,
 ): (C => ThemeWrappedComp<C>) => {
   return WrappedComponent => {
-    return class WithTheme extends Component<*, State> {
-      static contextTypes = {
-        [channel]: PropTypes.object,
-      };
+    // $FlowFixMe - Flow types for WithEmotionTheme only want a component with a single 'theme' prop
+    const WithTheme = WithEmotionTheme((props: P & { theme: Object }) => {
+      const { theme: ctxTheme, ...rest } = props;
+      const theme = Object.keys(ctxTheme).length > 0 ? ctxTheme : defaultTheme;
+      return <WrappedComponent theme={theme} {...rest} />;
+    });
 
-      static displayName = `WithTheme(${WrappedComponent.displayName ||
-        WrappedComponent.name ||
-        'Component'})`;
+    WithTheme.displayName = `WithTheme(${WrappedComponent.displayName ||
+      WrappedComponent.name ||
+      'Component'})`;
 
-      state = {
-        theme: undefined,
-      };
-
-      unsubscribeId: number;
-
-      subscribeToContext() {
-        if (this.unsubscribeId && this.unsubscribeId !== -1) {
-          return;
-        }
-
-        const themeContext = this.context[channel];
-
-        if (themeContext !== undefined) {
-          this.unsubscribeId = themeContext.subscribe(theme => {
-            this.setState({ theme });
-          });
-        }
-      }
-
-      componentWillMount() {
-        this.subscribeToContext();
-      }
-
-      componentDidUpdate() {
-        this.subscribeToContext();
-      }
-
-      componentWillUnmount() {
-        if (this.unsubscribeId && this.unsubscribeId !== -1) {
-          this.context[channel].unsubscribe(this.unsubscribeId);
-        }
-      }
-
-      render() {
-        const theme = this.state.theme || defaultTheme;
-        return <WrappedComponent theme={theme} {...this.props} />;
-      }
-    };
+    return WithTheme;
   };
 };
 

@@ -51,13 +51,50 @@ describe('PopupUserPicker', () => {
       );
     });
 
-    it('should pass popup props as pickerProps', () => {
-      const target = jest.fn();
-      const component = shallowPopupUserPicker({ target });
-      expect(component.prop('pickerProps')).toBeDefined();
-      expect(JSON.stringify(component.prop('pickerProps'))).toEqual(
-        JSON.stringify(getPopupProps(300, target, expect.any(Function))),
-      );
+    describe('popup pickerProps', () => {
+      it('should pass popup props as pickerProps', () => {
+        const target = jest.fn();
+        const component = shallowPopupUserPicker({ target });
+        expect(component.prop('pickerProps')).toBeDefined();
+        expect(JSON.stringify(component.prop('pickerProps'))).toEqual(
+          JSON.stringify(getPopupProps(300, target, expect.any(Function))),
+        );
+      });
+
+      it('should set the boundariesElement to viewport by default', () => {
+        const target = jest.fn();
+        const component = shallowPopupUserPicker({ target });
+        expect(component.prop('pickerProps')).toBeDefined();
+        expect(component.prop('pickerProps')).toHaveProperty(
+          'popperProps.modifiers.preventOverflow',
+          {
+            boundariesElement: 'viewport',
+          },
+        );
+      });
+
+      it('should set custom boundariesElement if passed in', () => {
+        const target = jest.fn();
+        const boundariesElement = jest.fn() as any;
+        const component = shallowPopupUserPicker({ target, boundariesElement });
+        expect(component.prop('pickerProps')).toBeDefined();
+        expect(component.prop('pickerProps')).toHaveProperty(
+          'popperProps.modifiers.preventOverflow',
+          {
+            boundariesElement,
+          },
+        );
+      });
+
+      it('should set popupTitle if passed in', () => {
+        const target = jest.fn();
+        const popupTitle = 'Test';
+        const component = shallowPopupUserPicker({ target, popupTitle });
+        expect(component.prop('pickerProps')).toBeDefined();
+        expect(component.prop('pickerProps')).toEqual(
+          expect.objectContaining({ popupTitle }),
+        );
+      });
     });
   });
 });

@@ -1,5 +1,3 @@
-// tslint:disable:variable-name
-
 import styled from 'styled-components';
 
 import { HTMLAttributes, ComponentClass } from 'react';
@@ -12,9 +10,8 @@ export const LineWidthPopupContainer: ComponentClass<
   display: flex;
   flex-wrap: wrap;
   right: 270px;
-  width: 160px;
   padding: 9px;
-  margin: -21px -28px; // Compensation for default big padding that inline dialog comes with
+  margin: -28px -20px; // Compensation for default big padding that inline dialog comes with
 `;
 
 export const ColorPopupContentWrapper: ComponentClass<
@@ -22,7 +19,7 @@ export const ColorPopupContentWrapper: ComponentClass<
 > = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 128px;
+  width: 144px;
   padding: 8px;
   margin: -16px -24px; // Compensation for default big padding that inline dialog comes with
 `;

@@ -1,7 +1,7 @@
 import { SecurityOptions } from '@atlaskit/util-service-support';
 import 'es6-promise/auto'; // 'whatwg-fetch' needs a Promise polyfill
-import 'whatwg-fetch';
-import * as fetchMock from 'fetch-mock/src/client';
+
+import fetchMock from 'fetch-mock/src/client';
 import * as queryString from 'query-string';
 import MentionResource, {
   MentionResourceConfig,
@@ -57,6 +57,7 @@ const FULL_CONTEXT = {
 
 describe('MentionResource', () => {
   beforeEach(() => {
+    // eslint-disable-next-line no-unused-expressions
     fetchMock.mock(
       /\/mentions\/search\?.*query=esoares(&|$)/,
       {

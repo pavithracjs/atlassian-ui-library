@@ -24,7 +24,9 @@ export default class ViewController extends Container<ViewControllerState>
   };
 
   reducers: { [ViewID]: Reducer[] } = {};
+
   views: { [ViewID]: View } = {};
+
   isDebugEnabled: boolean = false;
 
   constructor({ isDebugEnabled }: ViewControllerProps = defaultProps) {

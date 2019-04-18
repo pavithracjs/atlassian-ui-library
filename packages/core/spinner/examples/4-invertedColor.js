@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { colors } from '@atlaskit/theme';
+import * as colors from '@atlaskit/theme/colors';
 import Spinner from '../src';
 
 export default () => (

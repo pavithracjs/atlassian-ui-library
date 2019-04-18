@@ -28,7 +28,9 @@ type Resize = {
 export default class UIController extends Container<UIControllerShape>
   implements UIControllerInterface {
   getCache: ?UIControllerCacheGetter;
+
   setCache: ?UIControllerCacheSetter;
+
   isCollapsedStore: boolean | void;
 
   constructor(
@@ -57,7 +59,7 @@ export default class UIController extends Container<UIControllerShape>
       ...initialState,
     };
 
-    let isCollapsed = state.isCollapsed;
+    let { isCollapsed } = state;
 
     // isResizeDisabled takes precedence over isCollapsed
     if (initialState && initialState.isResizeDisabled) {
@@ -87,12 +89,14 @@ export default class UIController extends Container<UIControllerShape>
     }
     this.storeState({ isCollapsed: true });
   };
+
   expand = () => {
     if (this.state.isResizeDisabled) {
       return;
     }
     this.storeState({ isCollapsed: false });
   };
+
   toggleCollapse = () => {
     const toggle = this.state.isCollapsed ? this.expand : this.collapse;
     toggle();
@@ -108,6 +112,7 @@ export default class UIController extends Container<UIControllerShape>
       isCollapsed,
     });
   };
+
   manualResizeEnd = ({ productNavWidth, isCollapsed }: Resize) => {
     if (this.state.isResizeDisabled) {
       return;
@@ -129,6 +134,7 @@ export default class UIController extends Container<UIControllerShape>
     // this.
     this.setState({ isCollapsed, isResizeDisabled: false });
   };
+
   disableResize = () => {
     // Remember this so that we can reset it if resizing is enabled again.
     this.isCollapsedStore = this.state.isCollapsed;

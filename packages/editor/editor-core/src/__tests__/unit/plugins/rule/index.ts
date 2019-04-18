@@ -9,7 +9,7 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import rulePlugin from '../../../../plugins/rule';
 import extensionPlugin from '../../../../plugins/extension';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 describe('rule', () => {
   const createEditor = createEditorFactory();

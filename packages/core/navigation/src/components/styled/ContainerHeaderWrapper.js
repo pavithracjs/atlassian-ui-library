@@ -31,7 +31,8 @@ const minHeight = props => {
 const flexBasis = props => {
   if (props.isFullWidth) {
     return 0;
-  } else if (props.isInDrawer) {
+  }
+  if (props.isInDrawer) {
     return `
       ${props.iconOffset - layout.padding.top}px
     `;

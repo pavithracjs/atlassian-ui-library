@@ -70,7 +70,9 @@ class Form extends React.Component<Props, State> {
   };
 
   unsubscribe = () => {};
+
   formRef = React.createRef();
+
   form = createFinalForm(this.props.onSubmit, this.formRef);
 
   state = {

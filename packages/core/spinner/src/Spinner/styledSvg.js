@@ -1,7 +1,8 @@
 // @flow
 
 import styled, { css, keyframes } from 'styled-components';
-import { colors, themed } from '@atlaskit/theme';
+import { themed } from '@atlaskit/theme/components';
+import { N500, N0 } from '@atlaskit/theme/colors';
 import type { SpinnerPhases } from '../types';
 import { SIZES_MAP } from './constants';
 
@@ -76,8 +77,8 @@ const getEnterStrokeKeyframe = (size: number) => {
   `;
 };
 
-const spinnerColor = themed({ light: colors.N500, dark: colors.N0 });
-const spinnerColorInverted = themed({ light: colors.N0, dark: colors.N0 });
+const spinnerColor = themed({ light: N500, dark: N0 });
+const spinnerColorInverted = themed({ light: N0, dark: N0 });
 
 export const getStrokeColor = ({
   invertColor,
@@ -92,23 +93,22 @@ export const svgStyles = css`
   ${(props: StyleParams) => {
     const circumference = getStrokeCircumference(props.size);
 
-    const idleRotation = `0.86s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite ${
-      keyframeNames.rotate
-    }`;
-
-    const spinUpStroke = `0.8s ease-in-out ${getEnterStrokeKeyframe(
-      props.size,
-    )}`;
-
-    const spinUpOpacity = `0.2s ease-in-out ${keyframeNames.enterOpacity}`;
-
-    const activeAnimations = [idleRotation];
-    if (props.phase === 'ENTER') {
-      activeAnimations.push(spinUpStroke, spinUpOpacity);
-    }
+    const animation = animProps => {
+      const baseAnimation = '0.86s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite';
+      if (animProps.phase === 'ENTER') {
+        return css`
+          animation: ${baseAnimation} ${keyframeNames.rotate},
+            0.8s ease-in-out ${getEnterStrokeKeyframe(animProps.size)},
+            0.2s ease-in-out ${keyframeNames.enterOpacity};
+        `;
+      }
+      return css`
+        animation: ${baseAnimation} ${keyframeNames.rotate};
+      `;
+    };
 
     return css`
-      animation: ${activeAnimations.join(', ')};
+      ${animation}
       fill: none;
       stroke: ${getStrokeColor};
       stroke-dasharray: ${circumference}px;

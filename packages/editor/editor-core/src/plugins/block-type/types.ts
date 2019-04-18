@@ -9,9 +9,7 @@
 import { defineMessages } from 'react-intl';
 import { MessageDescriptor } from '../../types';
 
-export const messages = defineMessages<
-  { [key in BlockTypeName]: MessageDescriptor }
->({
+export const messages = defineMessages({
   normal: {
     id: 'fabric.editor.normal',
     defaultMessage: 'Normal text',
@@ -58,14 +56,30 @@ export const messages = defineMessages<
     defaultMessage: 'Quote',
     description: 'Quote some text',
   },
+  blockquoteDescription: {
+    id: 'fabric.editor.blockquote.description',
+    defaultMessage: 'Insert quote or citation',
+    description: 'Quote some text',
+  },
   codeblock: {
     id: 'fabric.editor.codeblock',
     defaultMessage: 'Code snippet',
     description: 'Insert a snippet/segment of code (code block)',
   },
-  panel: {
-    id: 'fabric.editor.panel',
-    defaultMessage: 'Panel',
+  codeblockDescription: {
+    id: 'fabric.editor.codeblock.description',
+    defaultMessage: 'Display code with syntax highlighting',
+    description: 'Insert a snippet/segment of code (code block)',
+  },
+  infoPanel: {
+    id: 'fabric.editor.infoPanel',
+    defaultMessage: 'Info Panel',
+    description:
+      'Visually distinguishes your text by adding a background colour (blue, purple, yellow, green, red)',
+  },
+  infoPanelDescription: {
+    id: 'fabric.editor.infoPanel.description',
+    defaultMessage: 'Highlight information in a colored panel',
     description:
       'Visually distinguishes your text by adding a background colour (blue, purple, yellow, green, red)',
   },
@@ -74,9 +88,19 @@ export const messages = defineMessages<
     defaultMessage: 'Note panel',
     description: 'Visually distinguishes your text by adding a note panel',
   },
+  notePanelDescription: {
+    id: 'fabric.editor.notePanel.description',
+    defaultMessage: 'Add a note in a colored panel',
+    description: 'Visually distinguishes your text by adding a note panel',
+  },
   successPanel: {
     id: 'fabric.editor.successPanel',
     defaultMessage: 'Success panel',
+    description: 'Visually distinguishes your text by adding a success panel',
+  },
+  successPanelDescription: {
+    id: 'fabric.editor.successPanel.description',
+    defaultMessage: 'Add tips in a colored panel',
     description: 'Visually distinguishes your text by adding a success panel',
   },
   warningPanel: {
@@ -84,9 +108,19 @@ export const messages = defineMessages<
     defaultMessage: 'Warning panel',
     description: 'Visually distinguishes your text by adding a warning panel',
   },
+  warningPanelDescription: {
+    id: 'fabric.editor.warningPanel.description',
+    defaultMessage: 'Add a note of caution in a colored panel',
+    description: 'Visually distinguishes your text by adding a warning panel',
+  },
   errorPanel: {
     id: 'fabric.editor.errorPanel',
     defaultMessage: 'Error panel',
+    description: 'Visually distinguishes your text by adding a error panel',
+  },
+  errorPanelDescription: {
+    id: 'fabric.editor.errorPanel.description',
+    defaultMessage: 'Call out errors in a colored panel',
     description: 'Visually distinguishes your text by adding a error panel',
   },
   other: {
@@ -157,7 +191,7 @@ export const CODE_BLOCK: BlockType = {
 };
 export const PANEL: BlockType = {
   name: 'panel',
-  title: messages.panel,
+  title: messages.infoPanel,
   nodeName: 'panel',
 };
 export const OTHER: BlockType = {

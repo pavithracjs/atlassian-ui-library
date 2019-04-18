@@ -20,10 +20,8 @@ export const Wrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
   vertical-align: middle;
   font-size: ${fontSize()}px;
 
-  .ProseMirror-selectednode > & > .extension-overlay {
-    border: 2px solid ${colors.B200};
-    top: -2px;
-    left: -2px;
+  .ProseMirror-selectednode > span > & > .extension-overlay {
+    box-shadow: inset 0px 0px 0px 2px ${colors.B200};
     opacity: 1;
   }
 

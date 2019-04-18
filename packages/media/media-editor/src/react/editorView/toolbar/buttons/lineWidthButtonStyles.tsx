@@ -1,5 +1,3 @@
-// tslint:disable:variable-name
-
 import styled from 'styled-components';
 
 import { HTMLAttributes, ComponentClass } from 'react';
@@ -9,12 +7,14 @@ export interface AreaProps {
   isActive: boolean;
 }
 
+export const TOTAL_CIRCLE_SIZE = 18;
+
 export const MainArea: ComponentClass<
   HTMLAttributes<{}> & AreaProps
 > = styled.div`
   box-sizing: border-box;
-  width: 18px;
-  height: 18px;
+  width: ${TOTAL_CIRCLE_SIZE}px;
+  height: ${TOTAL_CIRCLE_SIZE}px;
   border-radius: 15px;
   background-color: ${(props: AreaProps) =>
     props.isActive ? colors.N500 : colors.N30};

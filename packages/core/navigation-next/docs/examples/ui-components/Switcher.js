@@ -87,6 +87,7 @@ type State = {
 
 export default class MySwitcher extends React.Component<*, State> {
   state = { selected: projects[0].options[0] };
+
   create = () => ({
     onClick: () => {
       // eslint-disable-next-line
@@ -100,6 +101,7 @@ export default class MySwitcher extends React.Component<*, State> {
     },
     text: 'Create board',
   });
+
   target = ({ id, subText, text }: *) => {
     const avatar = s => (
       <ItemAvatar
@@ -121,9 +123,11 @@ export default class MySwitcher extends React.Component<*, State> {
       />
     );
   };
+
   onChange = (selected: *) => {
     this.setState({ selected });
   };
+
   render() {
     const { selected } = this.state;
     return (

@@ -1,4 +1,3 @@
-/* tslint:disable:variable-name */
 import {
   HTMLAttributes,
   ComponentClass,
@@ -90,6 +89,7 @@ export const DropzoneContentWrapper: ComponentClass<
   HTMLAttributes<{}>
 > = styled.div`
   display: flex;
+  min-height: 200px;
 `;
 
 export const PreviewsWrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
@@ -171,4 +171,33 @@ export const OptionsWrapper = styled.div`
   padding: 10px;
   justify-content: space-around;
   width: 250px;
+`;
+
+export const InfoContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  border: 5px dashed #81ebff;
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+
+  .info {
+    position: absolute;
+    left: 0;
+    bottom: -30px;
+    background-color: black;
+    opacity: 0.5;
+    color: white;
+    white-space: nowrap;
+  }
+
+  .close_button {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+`;
+
+export const PastedImage = styled.img`
+  width: 100%;
 `;

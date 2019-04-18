@@ -11,8 +11,8 @@ import {
   TypeaheadProps,
   TypeaheadState,
 } from '../example-helpers/typeahead-props';
-import EmojiTypeAhead from '../src/components/typeahead/EmojiTypeAhead';
-import { emojiTypeAheadMaxHeight } from '../src/shared-styles';
+import { EmojiTypeAhead } from '../src/typeahead';
+import { emojiTypeAheadMaxHeight } from '../src/util/shared-styles';
 import { EmojiId, OptionalEmojiDescription } from '../src/types';
 
 class EmojiTypeAheadTextInput extends Component<
@@ -64,12 +64,15 @@ class EmojiTypeAheadTextInput extends Component<
     this.updateSearch(query);
   };
   private handleSearchTextInputUp = () => {
+    // eslint-disable-next-line no-unused-expressions
     this.emojiTypeAheadRef && this.emojiTypeAheadRef.selectPrevious();
   };
   private handleSearchTextInputDown = () => {
+    // eslint-disable-next-line no-unused-expressions
     this.emojiTypeAheadRef && this.emojiTypeAheadRef.selectNext();
   };
   private handleSearchTextInputEnter = () => {
+    // eslint-disable-next-line no-unused-expressions
     this.emojiTypeAheadRef && this.emojiTypeAheadRef.chooseCurrentSelection();
   };
   private handleEmojiTypeAheadRef = (ref: EmojiTypeAhead | null) => {

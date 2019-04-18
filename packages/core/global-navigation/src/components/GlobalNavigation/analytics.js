@@ -9,6 +9,7 @@ export const analyticsIdMap: { [drawerName: DrawerName]: string } = {
   notification: 'notificationsDrawer',
   create: 'createDrawer',
   starred: 'starDrawer',
+  help: 'helpDrawer',
   settings: 'settingsDrawer',
   atlassianSwitcher: 'atlassianSwitcherDrawer',
 };
@@ -16,6 +17,7 @@ export const analyticsIdMap: { [drawerName: DrawerName]: string } = {
 export const fireDrawerDismissedEvents = (
   drawerName: DrawerName,
   analyticsEvent: UIAnalyticsEvent,
+  trigger?: string,
 ): void => {
   if (
     analyticsEvent.payload.attributes &&
@@ -31,6 +33,19 @@ export const fireDrawerDismissedEvents = (
     }));
     keyboardShortcutEvent.fire(NAVIGATION_CHANNEL);
   }
+
+  if (trigger) {
+    analyticsEvent
+      .update({
+        action: 'dismissed',
+        actionSubject: 'drawer',
+        actionSubjectId: analyticsIdMap[drawerName],
+        attributes: { trigger },
+      })
+      .fire(NAVIGATION_CHANNEL);
+    return;
+  }
+
   analyticsEvent
     .update({
       actionSubjectId: analyticsIdMap[drawerName],

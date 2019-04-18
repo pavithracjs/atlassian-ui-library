@@ -1,6 +1,10 @@
 import { Page } from './_types';
+
 export const selectors = {
   editor: '.ProseMirror',
+  lastEditorElement: '.ProseMirror > *:last-child',
+  lastEditorParagraph: '.ProseMirror > p:last-child',
+  selectedNode: '.ProseMirror-selectednode',
   scrollContainer: '.fabric-editor-popup-scroll-parent',
   dropList: 'div[data-role="droplistContent"]',
   emojiPicker: 'div[data-emoji-picker-container="true"]',
@@ -34,7 +38,15 @@ export const waitForElementWithText = async (
   await page.waitForXPath(elementPath, 5000);
 };
 
-export const clickElementWithText = async ({ page, tag, text }) => {
+export const clickElementWithText = async ({
+  page,
+  tag,
+  text,
+}: {
+  page: any;
+  tag: string;
+  text: string;
+}) => {
   const elementPath = getElementPathWithText(text, tag);
   await page.waitForXPath(elementPath, 5000);
   const target = await page.$x(elementPath);
@@ -42,10 +54,10 @@ export const clickElementWithText = async ({ page, tag, text }) => {
   await target[0].click();
 };
 
-export const getBoundingRect = async (page, selector) => {
-  return await page.evaluate(selector => {
-    const element = document.querySelector(selector);
-    const { x, y, width, height } = element.getBoundingClientRect();
+export const getBoundingRect = async (page: any, selector: string) => {
+  return await page.evaluate((selector: string) => {
+    const element = document.querySelector(selector)!;
+    const { x, y, width, height } = element.getBoundingClientRect() as DOMRect;
     return { left: x, top: y, width, height, id: element.id };
   }, selector);
 };
@@ -54,13 +66,13 @@ export const getBoundingRect = async (page, selector) => {
 // There appears to be a bug in Puppeteer which causes the
 // "Node is either not visible or not an HTMLElement" error.
 // https://product-fabric.atlassian.net/browse/ED-5688
-export const evaluateClick = (page, selector) => {
-  return page.evaluate(selector => {
-    document.querySelector(selector).click();
+export const evaluateClick = (page: any, selector: string) => {
+  return page.evaluate((selector: string) => {
+    (document.querySelector(selector)! as HTMLElement).click();
   }, selector);
 };
 
-export async function animationFrame(page) {
+export async function animationFrame(page: any) {
   // Give browser time to render, waitForFunction by default fires on RAF.
   await page.waitForFunction('1 === 1');
 }
@@ -70,18 +82,79 @@ export async function typeInEditor(page: Page, text: string) {
   await page.type(selectors.editor, text);
 }
 
-export async function getEditorWidth(page: Page) {
-  return page.$eval(selectors.editor, el => el.clientWidth);
+export async function setCaretInNewParagraphAtTheEnd(page: Page) {
+  // To find the end of the document in a content agnostic way we click beneath
+  // the last content node to insert a new paragaph prior to typing.
+  // Complex node structures which support nesting (e.g. tables) make standard
+  // clicking, focusing, and key pressing not suitable in an agnostic way.
+  await scrollToElement(page, selectors.lastEditorElement);
+  const bounds = await getBoundingRect(page, selectors.lastEditorElement);
+
+  await page.mouse.click(bounds.left, bounds.top + bounds.height - 5);
 }
 
-export async function disableTransition(page: Page, selector: string) {
-  const css = `
-  ${selector} {
-    -webkit-transition: none !important;
-    -moz-transition: none !important;
-    -o-transition: none !important;
-    transition: none !important;
-  }
-  `;
-  await page.addStyleTag({ content: css });
+export async function typeInEditorAtEndOfDocument(
+  page: Page,
+  text: string,
+  options?: any,
+) {
+  await setCaretInNewParagraphAtTheEnd(page);
+  await scrollToElement(page, selectors.lastEditorParagraph);
+
+  await page.type(selectors.lastEditorParagraph, text, options);
+}
+
+export async function getEditorWidth(page: Page) {
+  return page.$eval(selectors.editor, (el: HTMLElement) => el.clientWidth);
+}
+
+export async function scrollToElement(
+  page: Page,
+  elementSelector: string,
+  padding: number = 0,
+) {
+  return page.evaluate(
+    (
+      editorScrollSelector: string,
+      elementSelector: string,
+      padding: number,
+    ) => {
+      const editorScroll = document.querySelector(
+        editorScrollSelector,
+      ) as HTMLElement;
+      const element = document.querySelector(elementSelector);
+      if (!editorScroll || !element) {
+        return;
+      }
+
+      element.scrollIntoView({
+        block: 'center',
+        inline: 'center',
+        behavior: 'auto',
+      });
+    },
+    selectors.scrollContainer,
+    elementSelector,
+    padding,
+  );
+}
+
+export async function scrollToTop(page: Page) {
+  return page.evaluate(
+    (
+      editorScrollSelector: string,
+      elementSelector: string,
+      padding: number,
+    ) => {
+      const editorScroll = document.querySelector(
+        editorScrollSelector,
+      ) as HTMLElement;
+      if (!editorScroll) {
+        return;
+      }
+
+      editorScroll.scrollTo(0, 0);
+    },
+    selectors.scrollContainer,
+  );
 }

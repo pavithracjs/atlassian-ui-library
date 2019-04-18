@@ -13,7 +13,7 @@ import {
   hardBreak,
   a as link,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { analyticsService } from '../../../../analytics';
 import codeBlockPlugin from '../../../../plugins/code-block';
 import panelPlugin from '../../../../plugins/panel';
@@ -27,6 +27,7 @@ import {
   INPUT_METHOD,
 } from '../../../../plugins/analytics';
 import { HeadingLevels } from '../../../../plugins/block-type/types';
+import { EditorView } from 'prosemirror-view';
 
 describe('inputrules', () => {
   const createEditor = createEditorFactory();
@@ -267,8 +268,8 @@ describe('inputrules', () => {
       attributes: { inputMethod: 'autoformatting' },
       eventType: 'track',
     };
-    let editorView;
-    let sel;
+    let editorView: EditorView;
+    let sel: number;
 
     describe('typing "```" after text', () => {
       beforeEach(() => {

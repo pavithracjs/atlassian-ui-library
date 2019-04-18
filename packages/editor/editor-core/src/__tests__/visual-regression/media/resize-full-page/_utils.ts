@@ -1,8 +1,12 @@
-import { initEditorWithAdf, Appearance } from '../../_utils';
+import {
+  initEditorWithAdf,
+  Appearance,
+  initFullPageEditorWithAdf,
+  snapshot,
+} from '../../_utils';
 import {
   getEditorWidth,
   typeInEditor,
-  disableTransition,
 } from '../../../__helpers/page-objects/_editor';
 import {
   insertMedia,
@@ -12,13 +16,16 @@ import {
   MediaLayout,
   MediaResizeSide,
   TestPageConfig,
+  scrollToMedia,
   isLayoutAvailable,
+  waitForMediaToBeLoaded,
 } from '../../../__helpers/page-objects/_media';
+import * as layout2Col from '../../common/__fixtures__/basic-columns.adf.json';
 
 export function createResizeFullPageForConfig(config: TestPageConfig) {
   describe('Snapshot Test: Media', () => {
     describe('full page editor', () => {
-      let page;
+      let page: any;
 
       beforeAll(async () => {
         // @ts-ignore
@@ -31,10 +38,52 @@ export function createResizeFullPageForConfig(config: TestPageConfig) {
         viewport: { width, height },
       } = config;
 
+      describe(`at ${width}x${height}, without allow resizing, ${
+        dynamicTextSizing ? 'with' : 'without'
+      } dynamic text sizing`, () => {
+        beforeEach(async () => {
+          // setup the editor
+          await initEditorWithAdf(page, {
+            appearance: Appearance.fullPage,
+            viewport: { width, height },
+            editorProps: {
+              media: {
+                allowResizing: false,
+              },
+              allowDynamicTextSizing: dynamicTextSizing,
+            },
+          });
+        });
+
+        if (isLayoutAvailable(MediaLayout.wide, width)) {
+          it('can make an image wide', async () => {
+            // `insertMedia` etc are in each test so we don't load up
+            // the mediapicker for tests that don't end up running in beforeEach
+            await insertMedia(page);
+            await clickMediaInPosition(page, 0);
+            await changeMediaLayout(page, MediaLayout.wide);
+            await clickMediaInPosition(page, 0);
+            await scrollToMedia(page);
+            await snapshot(page);
+          });
+        }
+
+        if (isLayoutAvailable(MediaLayout.fullWidth, width)) {
+          it('can make an image full-width', async () => {
+            await insertMedia(page);
+            await clickMediaInPosition(page, 0);
+            await changeMediaLayout(page, MediaLayout.fullWidth);
+            await clickMediaInPosition(page, 0);
+            await scrollToMedia(page);
+            await snapshot(page);
+          });
+        }
+      });
+
       describe(`at ${width}x${height} ${
         dynamicTextSizing ? 'with' : 'without'
       } dynamic text sizing`, async () => {
-        let editorWidth;
+        let editorWidth: number;
 
         beforeEach(async () => {
           // setup the editor
@@ -46,26 +95,8 @@ export function createResizeFullPageForConfig(config: TestPageConfig) {
             },
           });
 
-          await disableTransition(page, '.gridLine');
-
           editorWidth = await getEditorWidth(page);
         });
-
-        if (isLayoutAvailable(MediaLayout.wide, width)) {
-          it('can make an image wide', async () => {
-            // `insertMedia` etc are in each test so we don't load up
-            // the mediapicker for tests that don't end up running in beforeEach
-            await insertMedia(page);
-            await resizeMediaInPositionWithSnapshot(page, 0, 300);
-          });
-        }
-
-        if (isLayoutAvailable(MediaLayout.fullWidth, width)) {
-          it('can make an image full-width', async () => {
-            await insertMedia(page);
-            await resizeMediaInPositionWithSnapshot(page, 0, 600);
-          });
-        }
 
         describe('center layout', () => {
           [2, 6, 10].forEach(cols => {
@@ -73,6 +104,7 @@ export function createResizeFullPageForConfig(config: TestPageConfig) {
               const distance = -((editorWidth / 2) * ((12 - cols) / 12));
 
               await insertMedia(page);
+              await scrollToMedia(page);
 
               await resizeMediaInPositionWithSnapshot(page, 0, distance);
             });
@@ -85,6 +117,7 @@ export function createResizeFullPageForConfig(config: TestPageConfig) {
               const distance = -((editorWidth / 12) * (12 - cols));
 
               await insertMedia(page);
+              await scrollToMedia(page);
               await clickMediaInPosition(page, 0);
               await changeMediaLayout(page, MediaLayout.wrapLeft);
 
@@ -98,6 +131,7 @@ export function createResizeFullPageForConfig(config: TestPageConfig) {
             it(`can make an wrap-right image ${cols} columns wide`, async () => {
               const distance = (editorWidth / 12) * (12 - cols);
               await insertMedia(page);
+              await scrollToMedia(page);
               await clickMediaInPosition(page, 0);
               await changeMediaLayout(page, MediaLayout.wrapRight);
 
@@ -118,10 +152,36 @@ export function createResizeFullPageForConfig(config: TestPageConfig) {
 
               await typeInEditor(page, '* ');
               await insertMedia(page);
+              await scrollToMedia(page);
 
               await resizeMediaInPositionWithSnapshot(page, 0, distance);
             });
           });
+        });
+      });
+
+      describe('in columns', () => {
+        it(`can resize images inside a column`, async () => {
+          await initFullPageEditorWithAdf(
+            page,
+            layout2Col,
+            undefined,
+            undefined,
+            {
+              allowLayouts: {
+                allowBreakout: true,
+                UNSAFE_addSidebarLayouts: true,
+              },
+            },
+          );
+
+          const editorWidth = await getEditorWidth(page);
+
+          const distance = -((editorWidth / 12) * 10);
+
+          await insertMedia(page);
+          await waitForMediaToBeLoaded(page);
+          await resizeMediaInPositionWithSnapshot(page, 0, distance);
         });
       });
     });

@@ -20,14 +20,23 @@ const extensionPlugin: EditorPlugin = {
     return [
       {
         name: 'extension',
-        plugin: ({ props, dispatch, providerFactory, portalProviderAPI }) =>
-          createPlugin(
+        plugin: ({ props, dispatch, providerFactory, portalProviderAPI }) => {
+          let allowBreakout =
+            (typeof props.allowExtension === 'object'
+              ? props.allowExtension
+              : { allowBreakout: false }
+            ).allowBreakout && !props.UNSAFE_fullWidthMode;
+
+          return createPlugin(
             dispatch,
             providerFactory,
             props.extensionHandlers || {},
             portalProviderAPI,
-            props.allowExtension,
-          ),
+            typeof props.allowExtension === 'object'
+              ? { ...props.allowExtension, allowBreakout }
+              : props.allowExtension,
+          );
+        },
       },
     ];
   },

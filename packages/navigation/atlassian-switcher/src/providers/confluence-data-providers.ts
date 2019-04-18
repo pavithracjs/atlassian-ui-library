@@ -8,4 +8,7 @@ export const MANAGE_HREF =
 const fetchCustomLinks = () =>
   fetchJson<CustomLinksResponse>(`/wiki/rest/menu/latest/appswitcher`);
 
-export const CustomLinksProvider = asDataProvider(fetchCustomLinks);
+export const CustomLinksProvider = asDataProvider(
+  'customLinks',
+  fetchCustomLinks,
+);

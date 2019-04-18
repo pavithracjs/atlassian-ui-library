@@ -11,6 +11,7 @@ import {
   storyMediaProviderFactory,
   storyContextIdentifierProviderFactory,
   macroProvider,
+  autoformattingProvider,
 } from '@atlaskit/editor-test-helpers';
 import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
 import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
@@ -43,16 +44,16 @@ export const Wrapper: any = styled.div`
 Wrapper.displayName = 'Wrapper';
 
 export const Content: any = styled.div`
-  padding: 0 20px;
+  padding: 0;
   height: 100%;
   box-sizing: border-box;
 `;
 Content.displayName = 'Content';
 
-// tslint:disable-next-line:no-console
+// eslint-disable-next-line no-console
 export const analyticsHandler = (actionName: string, props?: {}) =>
   console.log(actionName, props);
-// tslint:disable-next-line:no-console
+// eslint-disable-next-line no-console
 const SAVE_ACTION = () => console.log('Save');
 
 export const LOCALSTORAGE_defaultDocKey = 'fabric.editor.example.full-page';
@@ -72,7 +73,7 @@ export const SaveAndCancelButtons = (props: {
         }
 
         props.editorActions.getValue().then(value => {
-          // tslint:disable-next-line:no-console
+          // eslint-disable-next-line no-console
           console.log(value);
           localStorage.setItem(
             LOCALSTORAGE_defaultDocKey,
@@ -115,6 +116,7 @@ export const providers: any = {
   contextIdentifierProvider: storyContextIdentifierProviderFactory(),
   activityProvider: Promise.resolve(new MockActivityResource()),
   macroProvider: Promise.resolve(macroProvider),
+  autoformattingProvider: Promise.resolve(autoformattingProvider),
 };
 
 export const mediaProvider = storyMediaProviderFactory({
@@ -137,7 +139,7 @@ class ExampleEditorComponent extends React.Component<
   };
 
   componentDidMount() {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.log(`To try the macro paste handler, paste one of the following links:
 
   www.dumbmacro.com?paramA=CFE
@@ -172,6 +174,7 @@ class ExampleEditorComponent extends React.Component<
               allowDate={true}
               allowLayouts={{
                 allowBreakout: true,
+                UNSAFE_addSidebarLayouts: true,
               }}
               allowTextAlignment={true}
               allowIndentation={true}
@@ -198,12 +201,10 @@ class ExampleEditorComponent extends React.Component<
               }
               contentComponents={
                 <WithEditorActions
-                  // tslint:disable-next-line:jsx-no-lambda
                   render={actions => (
                     <TitleInput
                       value={this.state.title}
                       onChange={this.handleTitleChange}
-                      // tslint:disable-next-line:jsx-no-lambda
                       innerRef={this.handleTitleRef}
                       onFocus={this.handleTitleOnFocus}
                       onBlur={this.handleTitleOnBlur}
@@ -216,7 +217,6 @@ class ExampleEditorComponent extends React.Component<
               }
               primaryToolbarComponents={
                 <WithEditorActions
-                  // tslint:disable-next-line:jsx-no-lambda
                   render={actions => (
                     <SaveAndCancelButtons editorActions={actions} />
                   )}
@@ -263,7 +263,7 @@ class ExampleEditorComponent extends React.Component<
   };
 }
 
-export const ExampleEditor = withSentry(ExampleEditorComponent);
+export const ExampleEditor = withSentry<EditorProps>(ExampleEditorComponent);
 
 export default function Example(props: EditorProps & ExampleProps) {
   return (

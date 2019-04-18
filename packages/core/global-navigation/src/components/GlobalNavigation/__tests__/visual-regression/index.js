@@ -1,11 +1,8 @@
 // @flow
 import {
-  getExamplesFor,
   getExampleUrl,
   takeScreenShot,
 } from '@atlaskit/visual-regression/helper';
-
-const examples = getExamplesFor('global-navigation');
 
 describe('Snapshot Test', () => {
   it('Basic global navigation should match prod', async () => {
@@ -19,32 +16,76 @@ describe('Snapshot Test', () => {
     //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
   });
-});
-// TODO: Harsha to fix NAV-225
-it.skip('with-notification-integration should match prod', async () => {
-  const notificationExample = examples.find(
-    ({ exampleName }) => exampleName === 'with-notification-integration',
-  );
-  const url =
-    notificationExample &&
-    getExampleUrl(
-      notificationExample.team,
-      notificationExample.package,
-      notificationExample.exampleName,
+
+  it('with-notification-integration should match prod', async () => {
+    const url = getExampleUrl(
+      'core',
+      'global-navigation',
+      'with-notification-integration',
       global.__BASEURL__,
     );
+    const image = await takeScreenShot(global.page, url);
+    //$FlowFixMe
+    expect(image).toMatchProdImageSnapshot();
+  });
 
-  const { page } = global;
-  const notificationIcon = "[aria-label='Notifications']";
-  const notificationIframe = 'iframe[title="Notifications"';
+  it('dropdown example should match prod', async () => {
+    const url = getExampleUrl(
+      'core',
+      'global-navigation',
+      'with-dropdowns',
+      global.__BASEURL__,
+    );
+    const { page } = global;
+    const button = '#profileGlobalItem';
+    await page.goto(url);
+    await page.waitForSelector(button);
 
-  await page.goto(url);
+    await page.click(button);
+    await page.waitFor(300);
 
-  await page.waitForSelector(notificationIcon);
-  await page.click(notificationIcon);
-  await page.waitFor(notificationIframe);
+    const image = await page.screenshot();
+    //$FlowFixMe
+    expect(image).toMatchProdImageSnapshot();
+  });
 
-  const image = url && (await takeScreenShot(page, url));
-  //$FlowFixMe
-  expect(image).toMatchProdImageSnapshot();
+  it('drawer example should match prod', async () => {
+    const url = getExampleUrl(
+      'core',
+      'global-navigation',
+      'with-drawers-and-modal',
+      global.__BASEURL__,
+    );
+    const { page } = global;
+    const button = '#starDrawerGlobalItem';
+    await page.goto(url);
+    await page.waitForSelector(button);
+
+    await page.click(button);
+    await page.waitFor(300);
+
+    const image = await page.screenshot();
+    //$FlowFixMe
+    expect(image).toMatchProdImageSnapshot();
+  });
+  // TODO: https://ecosystem.atlassian.net/browse/AK-6093
+  it.skip('changeboarding example should match prod', async () => {
+    const url = getExampleUrl(
+      'core',
+      'global-navigation',
+      'with-changeboarding',
+      global.__BASEURL__,
+    );
+    const { page } = global;
+    const button = '[data-test-id="Navigation"] + div button';
+    await page.goto(url);
+    await page.waitForSelector(button);
+
+    await page.click(button);
+    await page.waitFor(350);
+
+    const image = await page.screenshot();
+    //$FlowFixMe
+    expect(image).toMatchProdImageSnapshot();
+  });
 });

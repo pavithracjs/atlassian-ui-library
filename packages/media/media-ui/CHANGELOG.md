@@ -1,5 +1,75 @@
 # @atlaskit/media-ui
 
+## 10.1.5
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/avatar-group@3.0.4
+  - @atlaskit/badge@11.0.1
+  - @atlaskit/button@12.0.3
+  - @atlaskit/checkbox@6.0.4
+  - @atlaskit/dropdown-menu@7.0.6
+  - @atlaskit/field-text@8.0.3
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/lozenge@7.0.2
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/theme@8.1.7
+
+## 10.1.4
+- [patch] [bee4101a63](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bee4101a63):
+
+  - instrument analytics for audio and video play and error events
+
+## 10.1.3
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/avatar@15.0.3
+  - @atlaskit/avatar-group@3.0.3
+  - @atlaskit/checkbox@6.0.3
+  - @atlaskit/dropdown-menu@7.0.4
+  - @atlaskit/field-text@8.0.2
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/page@9.0.3
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/tooltip@13.0.3
+  - @atlaskit/button@12.0.0
+
+## 10.1.2
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 10.1.1
+- [patch] [106d046114](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/106d046114):
+
+  - Fix issue with media-viewer opening in CC on inline video player controlls clicked
+
+## 10.1.0
+- [minor] [5d70c1ee30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5d70c1ee30):
+
+  - MediaImage component added (moved from @atlaskit/media-card). With extra fields: crossOrigin, onImageLoad, onImageError
+
+## 10.0.5
+- Updated dependencies [c95557e3ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c95557e3ff):
+  - @atlaskit/badge@11.0.0
+
+## 10.0.4
+- [patch] [62834d5210](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/62834d5210):
+
+  - update dependency version of @atlaskit/spinner
+
+## 10.0.3
+- [patch] [9b0dd21ce7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0dd21ce7):
+
+  - allow the appearance of lozenges within smart link tasks to be configured
+
+## 10.0.2
+- [patch] [aa117f5341](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aa117f5341):
+
+  - fix alignment and UI for inline Smart Links.
+
 ## 10.0.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

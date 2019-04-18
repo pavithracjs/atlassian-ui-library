@@ -1,4 +1,4 @@
-// tslint:disable:no-console
+/* eslint-disable no-console */
 
 import styled from 'styled-components';
 import * as React from 'react';
@@ -55,8 +55,6 @@ export const Column = styled.div`
 
 const analyticsHandler = (actionName: string, props?: {}) =>
   console.log(actionName, props);
-const inviteToEditHandler = (event: Event) =>
-  console.log('invite to edit clicked');
 
 const SaveAndCancelButtons = (props: { editorActions: EditorActions }) => (
   <ButtonGroup>
@@ -104,13 +102,9 @@ class DropzoneEditorWrapper extends React.Component<
 
 const mediaProvider1 = storyMediaProviderFactory();
 const mediaProvider2 = storyMediaProviderFactory();
-
 export type Props = {};
-export type State = { isInviteToEditButtonSelected: boolean };
 
-export default class Example extends React.Component<Props, State> {
-  state = { isInviteToEditButtonSelected: false };
-
+export default class Example extends React.Component<Props> {
   render() {
     return (
       <div>
@@ -160,8 +154,6 @@ export default class Example extends React.Component<Props, State> {
                     collabEdit={{
                       provider: collabEditProvider('rick'),
                       inviteToEditHandler: this.inviteToEditHandler,
-                      isInviteToEditButtonSelected: this.state
-                        .isInviteToEditButtonSelected,
                     }}
                     placeholder="Write something..."
                     shouldFocus={false}
@@ -225,8 +217,7 @@ export default class Example extends React.Component<Props, State> {
                     )}
                     collabEdit={{
                       provider: collabEditProvider('morty'),
-                      inviteToEditHandler,
-                      isInviteToEditButtonSelected: false,
+                      inviteToEditHandler: this.inviteToEditHandler,
                     }}
                     placeholder="Write something..."
                     shouldFocus={false}
@@ -254,10 +245,7 @@ export default class Example extends React.Component<Props, State> {
     );
   }
 
-  private inviteToEditHandler = (event: Event) => {
-    this.setState({
-      isInviteToEditButtonSelected: !this.state.isInviteToEditButtonSelected,
-    });
-    console.log('target', event.target);
+  private inviteToEditHandler = (event: React.MouseEvent<HTMLElement>) => {
+    console.log("'Invite to event' clicked");
   };
 }

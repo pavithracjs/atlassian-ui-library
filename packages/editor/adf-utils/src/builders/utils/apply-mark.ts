@@ -9,7 +9,7 @@ export function applyMark<T>(
   const node = typeof maybeNode === 'string' ? text(maybeNode) : maybeNode;
 
   if (isDuplicateMark(node, mark.type)) {
-    // tslint:disable-next-line
+    // eslint-disable-next-line
     console.error(duplicateMarkError(node, mark.type));
     return node;
   }

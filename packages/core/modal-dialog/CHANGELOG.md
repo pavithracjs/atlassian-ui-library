@@ -1,5 +1,61 @@
 # @atlaskit/modal-dialog
 
+## 8.0.7
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/blanket@8.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/checkbox@6.0.4
+  - @atlaskit/field-radio-group@5.0.3
+  - @atlaskit/field-text@8.0.3
+  - @atlaskit/form@5.2.7
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/inline-dialog@10.0.4
+  - @atlaskit/select@8.1.1
+  - @atlaskit/textfield@0.4.4
+  - @atlaskit/theme@8.1.7
+
+## 8.0.6
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/avatar@15.0.3
+  - @atlaskit/blanket@8.0.2
+  - @atlaskit/checkbox@6.0.3
+  - @atlaskit/field-radio-group@5.0.2
+  - @atlaskit/field-text@8.0.2
+  - @atlaskit/form@5.2.5
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/inline-dialog@10.0.3
+  - @atlaskit/portal@0.3.1
+  - @atlaskit/select@8.0.5
+  - @atlaskit/textfield@0.4.3
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/button@12.0.0
+
+## 8.0.5
+- [patch] [cc8378fcd4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc8378fcd4):
+
+  - Modal-dialog has been migrated from styled-components to Emotion (v10)
+  - styled-components is no longer a peer-dependency
+  - Render props Body, Header, Footer and Container continue to get styles applied via className
+  - Fixes an issue with modal contents that re-rendered on resize
+  - Fixes an issue with forms losing state
+  - SSR now works out of the box
+
+  ### Warning
+
+  Emotion 10 does not provide support for [Enzyme shallow rendering](https://airbnb.io/enzyme/docs/api/shallow.html). This is due to the fact that uses it's own [JSX pragma](https://emotion.sh/docs/css-prop#jsx-pragma) to support the [CSS prop](https://emotion.sh/docs/css-prop). The pragma internally wraps components and attaches a sibling style tag. Consequently, these implementation details may now be visible as conflicts in your snapshot tests and may be the cause of test failures for cases that reach into modal-dialog.
+
+  If you are using Enzyme to test components dependent on Modal-Dialog, you may need to replace calls to [shallow()](https://airbnb.io/enzyme/docs/api/shallow.html) with a call to [mount()](https://airbnb.io/enzyme/docs/api/mount.html) instead.
+
+  For more information please see: [Migrating to Emotion 10](https://emotion.sh/docs/migrating-to-emotion-10)
+
+## 8.0.4
+- Updated dependencies [ce4e1b4780](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce4e1b4780):
+  - @atlaskit/portal@0.3.0
+
 ## 8.0.3
 - Updated dependencies [8eff47cacb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eff47cacb):
   - @atlaskit/form@5.2.3

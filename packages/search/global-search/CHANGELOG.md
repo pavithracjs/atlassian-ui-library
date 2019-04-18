@@ -1,5 +1,98 @@
 # @atlaskit/global-search
 
+## 7.0.3
+- [patch] [3f48f041b0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f48f041b0):
+
+  - Fix bug where pre-fetching is attempted even if the cloud id isn't present
+
+## 7.0.2
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/button@12.0.3
+  - @atlaskit/drawer@3.0.7
+  - @atlaskit/dropdown-menu@7.0.6
+  - @atlaskit/feedback-collector@3.0.5
+  - @atlaskit/field-text-area@5.0.4
+  - @atlaskit/flag@10.0.6
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/icon-file-type@3.0.8
+  - @atlaskit/icon-object@3.0.8
+  - @atlaskit/logo@10.0.4
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/navigation@34.0.4
+  - @atlaskit/quick-search@6.1.1
+  - @atlaskit/theme@8.1.7
+
+## 7.0.1
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
+## 7.0.0
+- [major] [3b02028b52](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3b02028b52):
+
+  - New feedback component for @atlaskit/global-search - breaking feedback component API change
+
+## 6.2.6
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/avatar@15.0.3
+  - @atlaskit/drawer@3.0.6
+  - @atlaskit/dropdown-menu@7.0.4
+  - @atlaskit/field-text-area@5.0.3
+  - @atlaskit/flag@10.0.5
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/icon-file-type@3.0.7
+  - @atlaskit/icon-object@3.0.7
+  - @atlaskit/logo@10.0.3
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/navigation@34.0.3
+  - @atlaskit/page@9.0.3
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/button@12.0.0
+
+## 6.2.5
+- [patch] [8a95ba85f2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8a95ba85f2):
+
+  - remove boards from jira advanced search options if instance does not have software
+
+## 6.2.4
+- [patch] [f86b087b7c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f86b087b7c):
+
+  - Adding container ID to analytics to relevant analytics, including referral context params
+
+## 6.2.3
+- [patch] [47bb7e05e4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/47bb7e05e4):
+
+  - Add new API to allow pre-fetching of global search pre-query results before the component is opened
+
+## 6.2.2
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 6.2.1
+- [patch] [203d4c22bd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/203d4c22bd):
+
+  - Fix Confluence dead end screen by fixing text and removing People search button
+
+## 6.2.0
+- [minor] [347d237b8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/347d237b8e):
+
+  - Enable noImplicitAny for @atlaskit/global-search
+
+## 6.1.1
+- [patch] [befe3607e3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/befe3607e3):
+
+  - Attach experimentId to searchResults shown metric
+
+## 6.1.0
+- [minor] [3d5e64b87b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d5e64b87b):
+
+  - retrieve prequery results from Xpsearch
+
 ## 6.0.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

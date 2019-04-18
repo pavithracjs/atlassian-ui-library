@@ -3,6 +3,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import AkButton, { ButtonGroup } from '@atlaskit/button';
+import MenuIcon from '@atlaskit/icon/glyph/menu';
 
 import * as styles from '../styled';
 import MobileHeader from '../components/MobileHeader';
@@ -35,7 +36,7 @@ test('passing drawerState="navigation" should render nav', () => {
   const closeSpy = jest.fn();
   mount(
     <MobileHeader
-      menuIconLabel={''}
+      menuIconLabel=""
       navigation={navSpy}
       sidebar={sidebarSpy}
       onDrawerClose={closeSpy}
@@ -56,7 +57,7 @@ test('passing drawerState="sidebar" should render sidebar', () => {
   const closeSpy = jest.fn();
   mount(
     <MobileHeader
-      menuIconLabel={''}
+      menuIconLabel=""
       navigation={navSpy}
       sidebar={sidebarSpy}
       drawerState="sidebar"
@@ -75,7 +76,7 @@ test('clicking blanket calls onDrawerClose', () => {
   const closeSpy = jest.fn();
   const wrapper = mount(
     <MobileHeader
-      menuIconLabel={''}
+      menuIconLabel=""
       navigation={Navigation}
       sidebar={Sidebar}
       onDrawerClose={closeSpy}
@@ -115,7 +116,7 @@ test('renders the secondary content if provided', () => {
   const sidebarSpy = jest.fn();
   const wrapper = mount(
     <MobileHeader
-      menuIconLabel={''}
+      menuIconLabel=""
       navigation={navSpy}
       sidebar={sidebarSpy}
       onDrawerClose={closeSpy}
@@ -132,4 +133,26 @@ test('renders the secondary content if provided', () => {
   );
 
   expect(wrapper.find(ButtonGroup).length).toBe(1);
+});
+
+test('renders the custom menu content if provided', () => {
+  const closeSpy = jest.fn();
+  const openSpy = jest.fn();
+  const sidebarSpy = jest.fn();
+  const wrapper = mount(
+    <MobileHeader
+      customMenu={<AkButton>Test</AkButton>}
+      menuIconLabel="menu icon"
+      sidebar={sidebarSpy}
+      onDrawerClose={closeSpy}
+      onNavigationOpen={openSpy}
+      drawerState="none"
+      pageHeading=""
+    />,
+  );
+
+  const button = wrapper.find(AkButton);
+  expect(button.length).toBe(1);
+  expect(button.text()).toBe('Test');
+  expect(wrapper.find(MenuIcon).length).toBe(0);
 });

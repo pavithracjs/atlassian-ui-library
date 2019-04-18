@@ -1,7 +1,7 @@
 import { SecurityOptions } from '@atlaskit/util-service-support';
 import 'es6-promise/auto'; // 'whatwg-fetch' needs a Promise polyfill
-import 'whatwg-fetch';
-import * as fetchMock from 'fetch-mock/src/client';
+
+import fetchMock from 'fetch-mock/src/client';
 import * as sinon from 'sinon';
 import EmojiLoader from '../../../api/EmojiLoader';
 import { EmojiLoaderConfig } from '../../../api/EmojiUtils';
@@ -151,11 +151,11 @@ describe('EmojiLoader', () => {
       return resource.loadEmoji().then(emojiResponse => {
         expect(refreshedSecurityProvider.callCount).toEqual(1);
         const firstCall = fetchMock.lastCall('auth');
-        // tslint:disable-next-line
+        // eslint-disable-next-line
         expect(firstCall).not.toBeUndefined();
         expect(getSecurityHeader(firstCall)).toEqual(defaultSecurityCode);
         const secondCall = fetchMock.lastCall('auth2');
-        // tslint:disable-next-line
+        // eslint-disable-next-line
         expect(secondCall).not.toBeUndefined();
         expect(getSecurityHeader(secondCall)).toEqual('666');
 

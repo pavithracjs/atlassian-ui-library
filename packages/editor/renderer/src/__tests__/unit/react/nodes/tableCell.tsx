@@ -7,6 +7,7 @@ describe('Renderer - React/Nodes/TableCell', () => {
     colspan: 6,
     rowspan: 3,
     background: '#fab',
+    colwidth: [10],
   };
 
   it('should create a <td>-tag', () => {
@@ -20,9 +21,17 @@ describe('Renderer - React/Nodes/TableCell', () => {
 
     expect(tableRow.prop('rowSpan')).toEqual(3);
     expect(tableRow.prop('colSpan')).toEqual(6);
+    expect(tableRow.prop('data-colwidth')).toEqual('10');
 
     expect(tableRow.prop('style')).toEqual({
       'background-color': 'rgba(255,170,187,0.5)',
     });
+  });
+
+  it('should render the colwidths', () => {
+    const colwidth = [10, 12, 14];
+    const tableRow = shallow(<TableCell colwidth={colwidth} />);
+
+    expect(tableRow.prop('data-colwidth')).toEqual('10,12,14');
   });
 });

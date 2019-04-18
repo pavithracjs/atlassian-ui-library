@@ -5,7 +5,7 @@ import { colors, typography } from '@atlaskit/theme';
 import Tooltip from '@atlaskit/tooltip';
 import { LoadOptions, OptionData } from '@atlaskit/user-picker';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import styled from 'styled-components';
 import { messages } from '../i18n';
 import {
@@ -15,12 +15,13 @@ import {
   FormChildrenArgs,
 } from '../types';
 import { CommentField } from './CommentField';
-import { CopyLinkButton } from './CopyLinkButton';
+import CopyLinkButton from './CopyLinkButton';
 import { ShareHeader } from './ShareHeader';
 import { UserPickerField } from './UserPickerField';
 
-const LeftAlignmentContainer = styled.div`
-  margin-right: auto;
+const SubmitButtonWrapper = styled.div`
+  display: flex;
+  margin-left: auto;
 `;
 
 const CenterAlignedIconWrapper = styled.div`
@@ -33,10 +34,17 @@ const CenterAlignedIconWrapper = styled.div`
   }
 `;
 
-export const FromWrapper = styled.form`
+export const FromWrapper = styled.div`
   [class^='FormHeader__FormHeaderWrapper'] {
     h1 {
       ${typography.h500()}
+      
+      > span {
+        /* jira has a class override font settings on h1 > span in gh-custom-field-pickers.css */
+        font-size: inherit !important;
+        line-height: inherit !important;
+        letter-spacing: inherit !important;
+      }
     }
   }
 
@@ -45,6 +53,7 @@ export const FromWrapper = styled.form`
   }
 
   [class^='FormFooter__FormFooterWrapper'] {
+    justify-content: space-between;
     margin-top: 12px;
     margin-bottom: 24px;
   }
@@ -78,7 +87,9 @@ export type Props = {
   defaultValue?: DialogContentState;
 };
 
-export type InternalFormProps = FormChildrenArgs<ShareData> & Props;
+export type InternalFormProps = FormChildrenArgs<ShareData> &
+  Props &
+  InjectedIntlProps;
 
 class InternalForm extends React.PureComponent<InternalFormProps> {
   componentWillUnmount() {
@@ -89,7 +100,12 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
   }
 
   renderSubmitButton = () => {
-    const { isSharing, shareError, submitButtonLabel } = this.props;
+    const {
+      intl: { formatMessage },
+      isSharing,
+      shareError,
+      submitButtonLabel,
+    } = this.props;
     const shouldShowWarning = shareError && !isSharing;
     const buttonAppearance = !shouldShowWarning ? 'primary' : 'warning';
     const buttonLabel = shareError ? messages.formRetry : messages.formSend;
@@ -97,14 +113,17 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
       buttonAppearance === 'warning' ? 'strong' : React.Fragment;
 
     return (
-      <>
+      <SubmitButtonWrapper>
         <CenterAlignedIconWrapper>
           {shouldShowWarning && (
             <Tooltip
               content={<FormattedMessage {...messages.shareFailureMessage} />}
               position="top"
             >
-              <ErrorIcon label="errorIcon" primaryColor={colors.R400} />
+              <ErrorIcon
+                label={formatMessage(messages.shareFailureIconLabel)}
+                primaryColor={colors.R400}
+              />
             </Tooltip>
           )}
         </CenterAlignedIconWrapper>
@@ -117,7 +136,7 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
             {submitButtonLabel || <FormattedMessage {...buttonLabel} />}
           </ButtonLabelWrapper>
         </Button>
-      </>
+      </SubmitButtonWrapper>
     );
   };
 
@@ -133,34 +152,42 @@ class InternalForm extends React.PureComponent<InternalFormProps> {
       config,
     } = this.props;
     return (
-      <form {...formProps}>
-        <ShareHeader title={title} />
-        <FormSection>
-          <UserPickerField
-            loadOptions={loadOptions}
-            defaultValue={defaultValue && defaultValue.users}
-            capabilitiesInfoMessage={capabilitiesInfoMessage}
-            config={config}
-          />
-          {config && config.allowComment && (
-            <CommentField defaultValue={defaultValue && defaultValue.comment} />
-          )}
-        </FormSection>
-        <FormFooter>
-          <LeftAlignmentContainer>
+      <FromWrapper>
+        <form {...formProps}>
+          <ShareHeader title={title} />
+          <FormSection>
+            <UserPickerField
+              loadOptions={loadOptions}
+              defaultValue={defaultValue && defaultValue.users}
+              capabilitiesInfoMessage={capabilitiesInfoMessage}
+              config={config}
+            />
+            {config && config.allowComment && (
+              <CommentField
+                defaultValue={defaultValue && defaultValue.comment}
+              />
+            )}
+          </FormSection>
+          <FormFooter>
             <CopyLinkButton onLinkCopy={onLinkCopy} link={copyLink} />
-          </LeftAlignmentContainer>
-          {this.renderSubmitButton()}
-        </FormFooter>
-      </form>
+            {this.renderSubmitButton()}
+          </FormFooter>
+        </form>
+      </FromWrapper>
     );
   }
 }
 
+const InternalFormWithIntl = injectIntl(InternalForm);
+
 export const ShareForm: React.StatelessComponent<Props> = props => (
   <Form onSubmit={props.onShareClick}>
     {({ formProps, getValues }: FormChildrenArgs<ShareData>) => (
-      <InternalForm {...props} formProps={formProps} getValues={getValues} />
+      <InternalFormWithIntl
+        {...props}
+        formProps={formProps}
+        getValues={getValues}
+      />
     )}
   </Form>
 );

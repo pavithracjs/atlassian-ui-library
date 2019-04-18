@@ -141,7 +141,7 @@ export default class Editor extends React.Component<EditorProps, {}> {
           deprecatedProperties[property];
         const type = meta.type || 'enabled by default';
 
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.warn(
           `${property} property is deprecated. ${meta.message ||
             ''} [Will be ${type} in editor-core@${nextVersion}]`,
@@ -153,7 +153,7 @@ export default class Editor extends React.Component<EditorProps, {}> {
       props.hasOwnProperty('quickInsert') &&
       typeof props.quickInsert === 'boolean'
     ) {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.warn(
         `quickInsert property is deprecated. [Will be enabled by default in editor-core@${nextVersion}]`,
       );
@@ -164,7 +164,7 @@ export default class Editor extends React.Component<EditorProps, {}> {
       typeof props.allowTables !== 'boolean' &&
       (!props.allowTables || !props.allowTables.advanced)
     ) {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.warn(
         `Advanced table options are deprecated (except isHeaderRowRequired) to continue using advanced table features use - <Editor allowTables={{ advanced: true }} /> [Will be changed in editor-core@${nextVersion}]`,
       );
@@ -211,6 +211,7 @@ export default class Editor extends React.Component<EditorProps, {}> {
       media,
       collabEdit,
       quickInsert,
+      autoformattingProvider,
       UNSAFE_cards,
     } = props;
     this.providerFactory.setProvider('emojiProvider', emojiProvider);
@@ -244,6 +245,11 @@ export default class Editor extends React.Component<EditorProps, {}> {
     if (UNSAFE_cards && UNSAFE_cards.provider) {
       this.providerFactory.setProvider('cardProvider', UNSAFE_cards.provider);
     }
+
+    this.providerFactory.setProvider(
+      'autoformattingProvider',
+      autoformattingProvider,
+    );
 
     if (quickInsert && typeof quickInsert !== 'boolean') {
       this.providerFactory.setProvider(
@@ -309,10 +315,12 @@ export default class Editor extends React.Component<EditorProps, {}> {
                         }) => (
                           <BaseTheme
                             dynamicTextSizing={
-                              this.props.allowDynamicTextSizing
+                              this.props.allowDynamicTextSizing &&
+                              !this.props.UNSAFE_fullWidthMode
                             }
                           >
                             <Component
+                              fullWidthMode={this.props.UNSAFE_fullWidthMode}
                               disabled={this.props.disabled}
                               editorActions={this.editorActions}
                               editorDOMElement={editor}

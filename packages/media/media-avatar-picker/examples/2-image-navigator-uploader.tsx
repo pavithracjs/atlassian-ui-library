@@ -1,4 +1,4 @@
-/* tslint:disable:no-console */
+// eslint-disable-line no-console
 import * as React from 'react';
 import { IntlProvider } from 'react-intl';
 import ImageNavigator from '../src/image-navigator';

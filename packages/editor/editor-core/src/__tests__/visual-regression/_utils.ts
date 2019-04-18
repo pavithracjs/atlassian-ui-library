@@ -1,4 +1,7 @@
-import { getExampleUrl } from '@atlaskit/visual-regression/helper';
+import {
+  getExampleUrl,
+  disableAllSideEffects,
+} from '@atlaskit/visual-regression/helper';
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
 
@@ -126,17 +129,33 @@ function getEditorProps(appearance: Appearance) {
   return enableAllEditorProps;
 }
 
-export async function mountEditor(page: any, props) {
-  await page.evaluate(props => {
-    (window as any).__mountEditor(props);
-  }, props);
+export async function mountEditor(
+  page: any,
+  props: any,
+  mode?: 'light' | 'dark',
+) {
+  await page.evaluate(
+    (props: EditorProps, mode?: 'light' | 'dark') => {
+      (window as any).__mountEditor(props, mode);
+    },
+    props,
+    mode,
+  );
   await page.waitForSelector('.ProseMirror', 500);
 }
 
 export enum Appearance {
   fullPage = 'full-page',
   comment = 'comment',
+  mobile = 'mobile',
 }
+
+type SideEffectsOption = {
+  cursor?: boolean;
+  animation?: boolean;
+  transition?: boolean;
+  scroll?: boolean;
+};
 
 type InitEditorWithADFOptions = {
   appearance: Appearance;
@@ -144,16 +163,20 @@ type InitEditorWithADFOptions = {
   device?: Device;
   viewport?: { width: number; height: number };
   editorProps?: EditorProps;
+  mode?: 'light' | 'dark';
+  allowSideEffects?: SideEffectsOption;
 };
 
 export const initEditorWithAdf = async (
-  page,
+  page: any,
   {
     appearance,
     adf = {},
     device = Device.Default,
     viewport,
     editorProps = {},
+    mode,
+    allowSideEffects = {},
   }: InitEditorWithADFOptions,
 ) => {
   const url = getExampleUrl('editor', 'editor-core', 'vr-testing');
@@ -173,20 +196,31 @@ export const initEditorWithAdf = async (
   }
 
   // Mount the editor with the right attributes
-  await mountEditor(page, {
-    appearance: appearance,
-    defaultValue: JSON.stringify(adf),
-    ...getEditorProps(appearance),
-    ...editorProps,
-  });
+  await mountEditor(
+    page,
+    {
+      appearance: appearance,
+      defaultValue: JSON.stringify(adf),
+      ...getEditorProps(appearance),
+      ...editorProps,
+    },
+    mode,
+  );
+
+  // We disable possible side effects, like animation, transitions and caret cursor,
+  // because we cannot control and affect snapshots
+  // You can override this disabling if you are sure that you need it in your test
+  await disableAllSideEffects(page, allowSideEffects);
 };
 
 export const initFullPageEditorWithAdf = async (
-  page,
+  page: any,
   adf: Object,
   device?: Device,
   viewport?: { width: number; height: number },
-  editorProps: EditorProps = {},
+  editorProps?: EditorProps,
+  mode?: 'light' | 'dark',
+  allowSideEffects?: SideEffectsOption,
 ) => {
   await initEditorWithAdf(page, {
     adf,
@@ -194,11 +228,13 @@ export const initFullPageEditorWithAdf = async (
     device,
     viewport,
     editorProps,
+    mode,
+    allowSideEffects,
   });
 };
 
 export const initCommentEditorWithAdf = async (
-  page,
+  page: any,
   adf: Object,
   device?: Device,
 ) => {
@@ -209,7 +245,20 @@ export const initCommentEditorWithAdf = async (
   });
 };
 
-export const clearEditor = async page => {
+/**
+ * Updates props of current mounted Editor component
+ * Pass in only the new props you wish to apply on top of the current ones
+ */
+export const updateEditorProps = async (
+  page: Page,
+  newProps: Partial<EditorProps>,
+) => {
+  await page.evaluate((props: EditorProps) => {
+    (window as any).__updateEditorProps(props);
+  }, newProps);
+};
+
+export const clearEditor = async (page: any) => {
   await page.evaluate(() => {
     const dom = document.querySelector('.ProseMirror') as HTMLElement;
     dom.innerHTML = '<p><br /></p>';

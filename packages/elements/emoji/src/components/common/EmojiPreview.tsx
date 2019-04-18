@@ -1,6 +1,6 @@
 import AkButton from '@atlaskit/button';
 import AddIcon from '@atlaskit/icon/glyph/add';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as React from 'react';
 import { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -10,6 +10,7 @@ import {
   EmojiDescription,
   EmojiDescriptionWithVariations,
   OnToneSelected,
+  OnToneSelectorCancelled,
   ToneSelection,
 } from '../../types';
 import { messages } from '../i18n';
@@ -21,6 +22,7 @@ export interface Props {
   toneEmoji?: EmojiDescriptionWithVariations;
   selectedTone?: ToneSelection;
   onToneSelected?: OnToneSelected;
+  onToneSelectorCancelled?: OnToneSelectorCancelled;
   uploadEnabled?: boolean;
   onOpenUpload?: () => void;
 }
@@ -51,6 +53,13 @@ export default class EmojiPreview extends PureComponent<Props, State> {
   };
 
   onMouseLeave = () => {
+    const { selectingTone } = this.state;
+    const { onToneSelectorCancelled } = this.props;
+
+    if (selectingTone && onToneSelectorCancelled) {
+      onToneSelectorCancelled();
+    }
+
     this.setState({
       selectingTone: false,
     });
@@ -82,7 +91,6 @@ export default class EmojiPreview extends PureComponent<Props, State> {
       <div className={styles.buttons}>
         <EmojiButton
           emoji={previewEmoji}
-          // tslint:disable-next-line:jsx-no-lambda
           onSelected={() => this.onToneButtonClick()}
           selectOnHover={true}
         />

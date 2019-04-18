@@ -12,7 +12,7 @@ Our service desk is now open to public, you can access it [here](https://ecosyst
 
 ### Before submitting a ticket
 
-* **Perform a [cursory search][issuetracker]** to see if the problem has already been reported. If it has, add a comment to the existing issue instead of opening a new one.
+- **Perform a [cursory search][issuetracker]** to see if the problem has already been reported. If it has, add a comment to the existing issue instead of opening a new one.
 
 ### How do I submit a (good) bug report?
 
@@ -20,14 +20,14 @@ Follow these guidelines to help us and the community understand your issue, repr
 
 When you are creating a bug report, please include as many details as possible. Fill out [the required template](BUG_TEMPLATE.md) thoroughly to help us resolve issues faster.
 
-* **Use a clear and descriptive title** for the issue to identify the problem.
-* **Describe the exact steps which reproduce the problem** in as many details as possible. Add a link to a codesandbox example using [this codesanbox](http://go.atlassian.com/ak-sandbox) as starting point. When listing steps, **don't just say what you did, but explain how you did it**. For example, if you opened a inline dialog, explain if you used the mouse, or a keyboard shortcut.
-* **If the problem wasn't triggered by a specific action**, describe what you were doing before the problem happened and share more information using the guidelines below.
+- **Use a clear and descriptive title** for the issue to identify the problem.
+- **Describe the exact steps which reproduce the problem** in as many details as possible. Add a link to a codesandbox example using [this codesanbox](http://go.atlassian.com/ak-codesandbox) as starting point. When listing steps, **don't just say what you did, but explain how you did it**. For example, if you opened a inline dialog, explain if you used the mouse, or a keyboard shortcut.
+- **If the problem wasn't triggered by a specific action**, describe what you were doing before the problem happened and share more information using the guidelines below.
 
 Include details about your configuration and environment:
 
-* **Which version of the component are you using?** You can get this information by running `yarn list --pattern @atlaskit` or `npm list | grep '@atlaskit'` from the command line.
-* **What's the name and version of the browser and OS you're using**?
+- **Which version of the component are you using?** You can get this information by running `yarn list --pattern @atlaskit` or `npm list | grep '@atlaskit'` from the command line.
+- **What's the name and version of the browser and OS you're using**?
 
 ### Code Contributions
 
@@ -111,23 +111,22 @@ The main `bolt` / `bolt install` commands work on all platforms. However, custom
 
 #### In case you use IntelliJ IDEA or WebStorm
 
-After running `bolt install` you will most likely experiencing issues with IDE indexing taking forever. VS Code does not have this problem. If you do not want to change the IDE you use, do the following: 
+After running `bolt install` you will most likely experiencing issues with IDE indexing taking forever. VS Code does not have this problem. If you do not want to change the IDE you use, do the following:
 
 1. Close IntelliJ
-1. run in terminal 
-    ```
-    {find . -type d -name 'node_modules' | grep 'node_modules$' | grep -v 'node_modules/' | while read line ; do echo "<excludeFolder url=\"file://\$MODULE_DIR$/$line\" />"; done;} | pbcopy
-    ``` 
-    This will find paths to each node_modules/ folder in the project, create <excludeFolder> tags for each of them and copy resulting text to clipboard 
-1. Open `.idea/atlaskit-mk-2.iml` in your favorite text editor. 
+1. run in terminal
+   ```
+   {find . -type d -name 'node_modules' | grep 'node_modules$' | grep -v 'node_modules/' | while read line ; do echo "<excludeFolder url=\"file://\$MODULE_DIR$/$line\" />"; done;} | pbcopy
+   ```
+   This will find paths to each node_modules/ folder in the project, create <excludeFolder> tags for each of them and copy resulting text to clipboard
+1. Open `.idea/atlaskit-mk-2.iml` in your favorite text editor.
 1. Pres Ctrl + V to paste text from clipboard after existing `<excludeFolder>` tags. Or paste inside `<content>` if you do not have `<excludeFolder>` tags. Save the file.
 1. Open IntelliJ. You should be fine
 
 Unfortunately, you will have to repeat this process if you pulled repository and new packages were introduced.
 
-The root of this problem is in cyclical symbolic links between packages in node_modules, which exist because atlaskit-mk-2 is a mono repository. 
+The root of this problem is in cyclical symbolic links between packages in node_modules, which exist because atlaskit-mk-2 is a mono repository.
 IntelliJ and WebStorm don't handle it properly. There are tickets raised in YouTrack to handle this situation.
-
 
 ## Exploring the Project
 
@@ -186,12 +185,12 @@ uses one or the other depending on the team that owns the package.
 Be sure to setup IDE integrations for both so you get the full benefits out of
 them.
 
-* Atom: [IDE](https://ide.atom.io/)
-* Sublime: [Flow](https://flow.org/en/docs/editors/sublime-text/),
+- Atom: [IDE](https://ide.atom.io/)
+- Sublime: [Flow](https://flow.org/en/docs/editors/sublime-text/),
   [TypeScript](https://github.com/Microsoft/TypeScript-Sublime-Plugin)
-* Vim: [Flow](https://flow.org/en/docs/editors/vim/),
+- Vim: [Flow](https://flow.org/en/docs/editors/vim/),
   [TypeScript](https://github.com/leafgarland/typescript-vim)
-* VSCode: [Flow](https://flow.org/en/docs/editors/vscode/), TypeScript
+- VSCode: [Flow](https://flow.org/en/docs/editors/vscode/), TypeScript
   (built-in)
 
 If you want to run both type checkers on all files from the command line you can
@@ -203,21 +202,16 @@ bolt typecheck
 
 ## Linting your code
 
-We use ESLint to lint all of the JavaScript/Flow code within Atlaskit, and
-TSLint to lint all of the TypeScript code.
+We use ESLint to lint all JavaScript (with and without Flow annotations) and TypeScript code within Atlaskit.
 
 You'll probably want to setup IDE integrations for both within your editor,
 doing so will ensure that you don't have to go back and fix up lots of code
 later on.
 
-* Atom: [ESLint](https://github.com/AtomLinter/linter-eslint),
-  [TSLint](https://github.com/AtomLinter/linter-tslint)
-* Sublime: [ESLint](https://github.com/roadhump/SublimeLinter-eslint),
-  [TSLint](https://github.com/lavrton/SublimeLinter-contrib-tslint)
-* Vim: [Syntastic](https://github.com/vim-syntastic/syntastic)
-* VS Code:
-  [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint),
-  [TSLint](https://marketplace.visualstudio.com/items?itemName=eg2.tslint)
+- Atom: [ESLint](https://github.com/AtomLinter/linter-eslint),
+- Sublime: [ESLint](https://github.com/roadhump/SublimeLinter-eslint),
+- Vim: [Syntastic](https://github.com/vim-syntastic/syntastic)
+- VS Code: [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint),
 
 If you want to run the linter on all files from the command line you can run:
 
@@ -280,31 +274,40 @@ bolt start button toggle tabs
 It will start button, toggle and tabs packages on your local server.
 
 ## Testing your code
+
 ### Running tests
- - unit tests
- ```sh
-  yarn jest
- ```
- - browser unit tests
- ```sh
-  yarn run test:browser
- ```
- - webdriver tests
- ```sh
-  yarn run test:webdriver
- ```
- - visual regression tests
-  ```sh
-  yarn run test:vr
- ```
+
+- unit tests
+
+```sh
+ yarn jest
+```
+
+- browser unit tests
+
+```sh
+ yarn run test:browser
+```
+
+- webdriver tests
+
+```sh
+ yarn run test:webdriver
+```
+
+- visual regression tests
+
+```sh
+yarn run test:vr
+```
 
 Please refer to [testing in atlaskit][testing] for more information about testing.
 
 ### Building and linking packages
 
-You should almost never have to worry about this as everything is handled automatically in CI, but if for whatever reason you need to manually build packages (e.g you are trying to link them in another project) you *can* do this, but it can be a little tricky.
+You should almost never have to worry about this as everything is handled automatically in CI, but if for whatever reason you need to manually build packages (e.g you are trying to link them in another project) you _can_ do this, but it can be a little tricky.
 
-How you do this will completely depend on what *exactly* you are trying to achieve and with which packages. A single command would never be able to handle each of these edge cases safely.
+How you do this will completely depend on what _exactly_ you are trying to achieve and with which packages. A single command would never be able to handle each of these edge cases safely.
 
 > **"Can't you just give me a command to run though?"**
 >
@@ -324,7 +327,6 @@ How you do this will completely depend on what *exactly* you are trying to achie
 > **THESE WILL NOT COVER 100% OF USE CASES AND ARE PROVIDED WITHOUT WARRANTY**
 >
 > In certain circumstances you'll need to have a dependency be built, in others you'll need to make sure you've run `build:pkg` to copy the package.json's into `dist/`, in others, you will need to generate certain schema files.
-
 
 ## Documenting your code
 
@@ -370,7 +372,6 @@ change for each of these releases (`patch`, `minor` or `major`).
 
 The `summary` used during the creation of a changeset will also be used to
 create the changelog entry for each package being released.
-
 
 > **How does this work?** Running the `yarn changeset` command creates a commit
 > with all the information required to release a package. When a branch is

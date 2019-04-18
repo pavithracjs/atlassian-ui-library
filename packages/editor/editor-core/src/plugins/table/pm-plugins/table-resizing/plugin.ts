@@ -1,6 +1,6 @@
 import { Plugin, PluginKey, Transaction, EditorState } from 'prosemirror-state';
 import { TableMap } from 'prosemirror-tables';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import { EditorView } from 'prosemirror-view';
 import { akEditorTableToolbarSize } from '@atlaskit/editor-common';
 import { TableLayout, CellAttributes } from '@atlaskit/adf-schema';
@@ -20,6 +20,7 @@ import {
   edgeCell,
   currentColWidth,
   domCellAround,
+  getParentNodeWidth,
 } from './utils';
 
 import {
@@ -87,14 +88,14 @@ export function createPlugin(
             lastColumnResizable,
           );
           if (pluginKey.getState(view.state).dragging) {
-            updateControls(view.state);
+            updateControls(view);
             updateResizeHandle(view);
           }
           return false;
         },
         mouseleave(view) {
           handleMouseLeave(view);
-          updateControls(view.state);
+          updateControls(view);
           return true;
         },
         mousedown(view, event) {
@@ -240,14 +241,25 @@ function handleMouseDown(
     dom as HTMLTableElement,
   );
 
-  const containerWidth = widthPluginKey.getState(view.state).width;
+  const containerWidth = widthPluginKey.getState(view.state);
+  const tablePos = state.selection.$from.start(-1) - 1;
+  const parentWidth = getParentNodeWidth(
+    tablePos,
+    view.state,
+    containerWidth.width,
+  );
+
   const resizer = Resizer.fromDOM(view, dom, {
     minWidth: cellMinWidth,
-    maxSize: getLayoutSize(
-      dom.getAttribute('data-layout') as TableLayout,
-      containerWidth,
-      dynamicTextSizing,
-    ),
+    maxSize:
+      parentWidth ||
+      getLayoutSize(
+        dom.getAttribute('data-layout') as TableLayout,
+        containerWidth.width,
+        {
+          dynamicTextSizing,
+        },
+      ),
     node: $cell.node(-1),
     start,
   });

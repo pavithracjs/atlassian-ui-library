@@ -1,5 +1,257 @@
 # @atlaskit/renderer
 
+## 45.6.1
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/code@9.0.1
+  - @atlaskit/field-range@6.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/navigation-next@5.1.5
+  - @atlaskit/editor-common@36.1.12
+  - @atlaskit/mention@17.6.7
+  - @atlaskit/status@0.8.3
+  - @atlaskit/task-decision@14.0.5
+  - @atlaskit/media-card@60.0.3
+  - @atlaskit/media-filmstrip@31.0.4
+  - @atlaskit/smart-card@10.2.4
+  - @atlaskit/profilecard@9.0.2
+  - @atlaskit/theme@8.1.7
+
+## 45.6.0
+- [minor] [ca3c087624](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ca3c087624):
+
+  - ED-6606: Add 'full-width' appearance to renderer
+
+  Example:
+
+  ```js
+  import Renderer from '@atlaskit/renderer';
+
+  <Renderer document={...} appearance="full-width" />
+  ```
+
+## 45.5.1
+- [patch] [86d11a504b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86d11a504b):
+
+  - [ED-5837] Fix copy-paste table from renderer to editor to keep column widths
+
+## 45.5.0
+- [minor] [3d34915d24](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d34915d24):
+
+  - Fixed heading render for ADF->Email
+
+## 45.4.3
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/navigation-next@5.1.4
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/analytics-listeners@5.0.3
+  - @atlaskit/task-decision@14.0.3
+  - @atlaskit/media-card@60.0.1
+  - @atlaskit/media-core@29.1.4
+  - @atlaskit/media-filmstrip@31.0.3
+  - @atlaskit/smart-card@10.2.2
+  - @atlaskit/profilecard@9.0.1
+  - @atlaskit/field-range@6.0.3
+  - @atlaskit/button@12.0.0
+
+## 45.4.2
+- [patch] [c01f9e1cc7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c01f9e1cc7):
+
+  - Standardise code-block class between editor/renderer. Fix bg color when code-block is nested within a table heading.
+
+## 45.4.1
+- [patch] [55e47676aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55e47676aa):
+
+  - revert update status code splits in Renderer/Editor which causes component dist to be broken
+
+## 45.4.0
+- [minor] [969915d261](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/969915d261):
+
+  - update status import entrypoints in Renderer/editor
+
+## 45.3.3
+- [patch] [32317ff8f3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/32317ff8f3):
+
+  - MS-1633 Renderer passes a list of files and external images to a Card to be opened with Media Viewer
+
+## 45.3.2
+- [patch] [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
+
+  - Removed CardView and CardViewLoader from public APIs and replaced it with light-weight and stateless CardLoading and CardError components. Handling of external images is now done by Card component itself using ExternalImageIdentifier interface.
+
+  If you’ve been using CardView for loading:
+
+  ```js
+  <CardView
+    status="loading"
+    mediaItemType="file"
+    dimensions={cardDimensions}
+  />
+  ```
+
+  Now you can use new component:
+
+  ```js
+  <CardLoading dimensions={cardDimensions} />
+  ```
+
+  If you were using CardView to show an error
+
+  ```js
+  <CardView
+    status="error"
+    mediaItemType={type}
+    dimensions={cardDimensions}
+  />
+  ```
+
+  Now you can use new component:
+
+  ```js
+  <CardError dimensions={cardDimensions} />
+  ```
+
+  In case you were using CardView to show image with known external URI:
+
+  ```js
+  <CardView
+    status="complete"
+    dataURI={dataURI}
+    metadata={metadata}
+  />
+  ```
+
+  You will have to find a way to switch to using Card component using ExternalImageIdentifier interface:
+
+  ```js
+  <Card
+    identifier={identifier}
+    context={context}
+  />
+  ```
+
+## 45.3.1
+- [patch] [823d44ebb0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/823d44ebb0):
+
+  - ED-6667 Enfoce consistent whitespace between renderer & editor
+
+## 45.3.0
+- [minor] [7a656ef460](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7a656ef460):
+
+  - Email renderer - tables now honor table widths
+
+## 45.2.4
+- [patch] [370476ca07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/370476ca07):
+
+  - ED-6674: fix table shadow overlapping inline comments
+
+## 45.2.3
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 45.2.2
+- Updated dependencies [bfca144ea5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bfca144ea5):
+  - @atlaskit/editor-common@36.1.1
+  - @atlaskit/profilecard@9.0.0
+
+## 45.2.1
+- [patch] [acfd88ba22](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/acfd88ba22):
+
+  - ED-6639 Align lists styles between editor & renderer
+
+## 45.2.0
+- [minor] [b6f4afdec5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b6f4afdec5):
+
+  - add date renderer
+
+## 45.1.0
+- [minor] [827ed599a0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/827ed599a0):
+
+  - add placeholders for media nodes
+
+## 45.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/media-filmstrip@31.0.0
+  - @atlaskit/editor-json-transformer@5.0.2
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/task-decision@14.0.1
+  - @atlaskit/util-data-test@11.1.5
+  - @atlaskit/media-test-helpers@21.1.0
+  - @atlaskit/media-core@29.1.0
+
+## 44.7.0
+- [minor] [001fa9a7d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/001fa9a7d0):
+
+  - render adf - email actions and decisions
+
+## 44.6.1
+- [patch] [106d046114](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/106d046114):
+
+  - Fix issue with media-viewer opening in CC on inline video player controlls clicked
+
+## 44.6.0
+- [minor] [1593822e4d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1593822e4d):
+
+  - CS-857 Email renderer puts placeholders in place of extensions
+
+## 44.5.0
+- [minor] [e6f58b1837](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e6f58b1837):
+
+  - Email renderer layout column and section support
+
+## 44.4.3
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/editor-common@35.1.3
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-filmstrip@30.0.2
+  - @atlaskit/media-test-helpers@21.0.3
+  - @atlaskit/media-card@58.0.0
+
+## 44.4.2
+- Updated dependencies [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
+  - @atlaskit/util-data-test@11.1.4
+  - @atlaskit/task-decision@14.0.0
+
+## 44.4.1
+- Updated dependencies [97abf5e006](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97abf5e006):
+  - @atlaskit/status@0.8.0
+
+## 44.4.0
+- [minor] [1b3c18ae43](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b3c18ae43):
+
+  - CS-856: Create no-op nodes and marks for email renderer
+
+## 44.3.0
+- [minor] [0fea11af41](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0fea11af41):
+
+  - Email renderer supports numbered columns, adf-schema extended with colors
+
+## 44.2.1
+- [patch] [ea6b08700c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ea6b08700c):
+
+  - ED-6245: Ensure extensions scroll + overflow when they may break out of their parent container.
+
+## 44.2.0
+- [minor] [d91db66a8f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d91db66a8f):
+
+  - add support for block and inline smart cards in ADF to email renderer
+
+## 44.1.0
+- [minor] [b4ce89e3cb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b4ce89e3cb):
+
+  - improve the display of info panels in email renderer
+
+## 44.0.3
+- [patch] [abd1e85008](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/abd1e85008):
+
+  - ED-6536: Fixes non-resized tables accidently getting a width applied.
+
 ## 44.0.2
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

@@ -12,8 +12,11 @@ type State = {
 };
 
 export default class Expander extends Component<Props, State> {
-  props: Props; // eslint-disable-line react/sort-comp
+  props: Props;
+
+  // eslint-disable-line react/sort-comp
   static defaultProps = { isExpanded: false };
+
   state = { isAnimating: false };
 
   componentWillReceiveProps(nextProps: Props) {

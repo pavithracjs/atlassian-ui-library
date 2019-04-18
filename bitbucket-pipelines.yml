@@ -1,5 +1,5 @@
 # Note: This image can be found in build/pipelines/docker-image
-image: atlassianlabs/atlaskit-mk-2:1.0.8
+image: atlassianlabs/atlaskit-mk-2:1.0.10
 # This ensures we do a full clone on each build which prevents issues when cross referencing
 # changesets and releases
 clone:
@@ -31,6 +31,8 @@ pipelines:
             - node ./build/releases/bin/build-releases.js publish --public
             - git push --tags # Push only the tags.
             - (cd build/ci-scripts && yarn restart-stopped-build)
+          after-script:
+            - yarn send:buildEvents
           caches:
             - node
 
@@ -51,7 +53,6 @@ pipelines:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
               - node build/ci-scripts/run.tool.if.changed.js eslint -- yarn lint:eslint
-              - node build/ci-scripts/run.tool.if.changed.js tslint -- yarn lint:tslint
               - node build/ci-scripts/run.tool.if.changed.js stylelint -- yarn lint:stylelint
               - node build/ci-scripts/run.tool.if.changed.js flow -- yarn typecheck:flow
               - node build/ci-scripts/run.tool.if.changed.js typescript -- yarn typecheck:typescript
@@ -69,7 +70,7 @@ pipelines:
             script:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
-              - bolt measure:changed
+              - bolt measure:dependents
             caches:
               - node
         - step:
@@ -106,7 +107,7 @@ pipelines:
               - node
         - step:
             name: Visual Regression Tests
-            image: atlassianlabs/atlaskit-mk-2-vr:1.0.8
+            image: atlassianlabs/atlaskit-mk-2-vr:1.0.10
             script:
               - source ./build-setup.sh
               - git lfs pull
@@ -145,6 +146,8 @@ pipelines:
           - yarn install
           - node download.build.artefact.for.commit.js netlify-link.txt
           - node update.build.status.with.netlify.link.js
+        after-script:
+          - yarn send:buildEvents
 
   # Pipelines that can be scheduled or triggered manually.
   custom: 
@@ -158,6 +161,8 @@ pipelines:
             - WEBSITE_ENV=production yarn build
             - yarn build:copy
             - yarn deploy:production
+          after-script:
+            - yarn send:buildEvents
           caches:
             - node
 
@@ -176,6 +181,19 @@ pipelines:
             - cat deploy-log.txt | grep "URL:" | sed "s/Live Draft Url..//gi" > netlify-link.txt
             - echo "Uploading netlify build link to s3 so that we can fetch at the end..."
             - node ../build/ci-scripts/upload.build.artefact.for.commit.js netlify-link.txt
+          after-script:
+            - yarn send:buildEvents
+          caches:
+            - node
+
+    # This should only be called by a scheduled build to check the bundle-size after a merge to master and on dependent packages.
+    bundle-size-master-check:
+      - step:
+          script:
+            - source ./build-setup.sh
+            - git merge master --no-edit
+            - bolt install --pure-lockfile
+            - yarn measure:dependents
           caches:
             - node
 
@@ -208,7 +226,7 @@ pipelines:
     # This will run the full suite of the visual regression tests using Docker.
     build-visual-regression:
       - step:
-          image: atlassianlabs/atlaskit-mk-2-vr:1.0.8
+          image: atlassianlabs/atlaskit-mk-2-vr:1.0.10
           script:
             - source ./build-setup.sh
             - git lfs pull
@@ -226,21 +244,65 @@ pipelines:
     # This will run essentially the branch builds, but without any optimizations and should be manually.
     # This build should be run in any potentially risky builds.
     run-full-suite:
-      - step:
-          script:
-            - source ./build-setup.sh
-            - bolt install --pure-lockfile
-            - yarn build
-            - yarn lint
-            - yarn typecheck
-            - yarn test:CI
-            - yarn test:browser:browserstack
-            - yarn test:webdriver:browserstack
-            - yarn test:vr
-            - cd website
-            # don't worry about deploying, this build will always be run alongside a branch build
-            - yarn build
-
+      - parallel:
+        - step:
+            name: Building packages
+            script:
+              - source ./build-setup.sh
+              - bolt install --pure-lockfile
+              - yarn build
+        - step:
+            name: Lint + Typecheck
+            script:
+              - source ./build-setup.sh
+              - bolt install --pure-lockfile
+              - yarn lint
+              - yarn typecheck
+        - step:
+            name: Running All Unit tests
+            script:
+              - source ./build-setup.sh
+              - bolt install --pure-lockfile
+              # Run the non-editor tests.
+              - TEST_ONLY_PATTERN='!packages/editor' yarn test:CI
+              # Run the editor tests (runInBand is required or it fails in CI)
+              - TEST_ONLY_PATTERN='packages/editor' yarn test:CI --runInBand
+        - step:
+            name: Running All Browser Unit tests
+            script:
+              - source ./build-setup.sh
+              - bolt install --pure-lockfile
+              - yarn test:browser:browserstack
+        - step:
+            name: Running All Browser Integration tests
+            script:
+              - source ./build-setup.sh
+              - bolt install --pure-lockfile
+              - yarn test:webdriver:browserstack
+        - step:
+            name: Running All Visual Regression tests
+            image: atlassianlabs/atlaskit-mk-2-vr:1.0.10
+            script:
+              - source ./build-setup.sh
+              - bolt install --pure-lockfile
+              - yarn test:vr
+            after-script:
+            # Extract all the diff images and store them into a folder for download.
+              - mkdir ./imageSnapshotFailures && find . -name '*-diff.png' -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+            # If a failure occurs, you can download the image snapshot of the differences.
+            artifacts: 
+              - imageSnapshotFailures/**
+        - step:
+            name: Building the website
+            script:
+              - source ./build-setup.sh
+              - bolt install --pure-lockfile
+              - cd website
+              # don't worry about deploying, this build will always be run alongside a branch build
+              - yarn build
+            after-script:
+              - yarn send:buildEvents
+  
     # This will build all the packages and run bundle-analysis.
     run-bundle-analysis:
       - step:
@@ -284,38 +346,30 @@ pipelines:
                 - node ./build/releases/bin/build-releases.js version
           # Rest of the steps are jest tests. We no longer use the $BITBUCKET_PARALLEL_STEP_COUNT and $BITBUCKET_PARALLEL_STEP
           # variables as they mean the jest steps need to be in their own parallel block, so we just hardcode them here.
+          # Editor tests need to runInBand.
           - step:
-              name: Running Jest 1 of 4 chunks
+              name: Running Editor Unit tests - Jest 1 of 2 chunks
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
-                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="4" STEP_IDX="0" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
+                - STEPS="2" STEP_IDX="0" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
           - step:
-              name: Running Jest 2 of 4 chunks
+              name: Running Editor Unit tests - Jest 2 of 2 chunks
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
-                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="4" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
+                - STEPS="2" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand  
           - step:
-              name: Running Jest 3 of 4 chunks
+              name: Running Non Editor Unit tests
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
-                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="4" STEP_IDX="2" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
-          - step:
-              name: Running Jest 4 of 4 chunks
-              script:
-                - source ./build-setup.sh
-                - git merge master --no-edit
-                - bolt install --pure-lockfile
-                - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="4" STEP_IDX="3" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+                - TEST_ONLY_PATTERN='!packages/editor' yarn test
           - step:
               name: Running Browser Integration tests
               script:
@@ -325,7 +379,7 @@ pipelines:
                 - LANDKID=true yarn test:webdriver:browserstack:changed
           - step:
               name: Running Visual Regression tests
-              image: atlassianlabs/atlaskit-mk-2-vr:1.0.8
+              image: atlassianlabs/atlaskit-mk-2-vr:1.0.10
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
@@ -344,7 +398,10 @@ pipelines:
             - source ./build-setup.sh
             - cd build/ci-scripts
             - yarn --ignore-engines
-            - node ./wait.until.no.master.build.running.js
+            - node ./wait.until.no.master.build.running.js      
+          after-script:
+            - yarn send:buildEvents
+            
     # This build should only be run on the master branch, once per day.
     # It manually clears the cache and runs a very quick install node_modules.
     # We split into two steps so that one can clear the cache so that the second one starts with no cache.
@@ -386,3 +443,4 @@ pipelines:
             - for file in dists/*; do node build/ci-scripts/upload.build.artefact.for.commit.js $file dists/; done
           caches:
             - node
+    

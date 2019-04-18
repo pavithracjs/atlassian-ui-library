@@ -1,19 +1,16 @@
 import * as React from 'react';
 import { PureComponent, ReactElement } from 'react';
 import {
-  default as EmojiResource,
-  default as UploadingEmojiResource,
+  EmojiResource,
   EmojiProvider,
   EmojiResourceConfig,
-} from '../src/api/EmojiResource';
+} from '../src/resource';
 
 export function getEmojiConfig() {
   let emojiConfig;
   try {
-    // tslint:disable-next-line import/no-unresolved, no-var-requires
     emojiConfig = require('../local-config')['default'];
   } catch (e) {
-    // tslint:disable-next-line import/no-unresolved, no-var-requires
     emojiConfig = require('../local-config-example')['default'];
   }
 
@@ -22,7 +19,7 @@ export function getEmojiConfig() {
 }
 
 export function getRealEmojiResource() {
-  const resource = new UploadingEmojiResource(getEmojiConfig());
+  const resource = new EmojiResource(getEmojiConfig());
   return Promise.resolve(resource);
 }
 
@@ -87,7 +84,7 @@ export default class ResourcedEmojiControl extends PureComponent<Props, State> {
   }
 
   emojiConfigChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    // tslint:disable-next-line:no-eval
+    // eslint-disable-next-line no-eval
     const config = eval(`( () => (${event.target.value}) )()`);
     this.refreshEmoji(config);
   };

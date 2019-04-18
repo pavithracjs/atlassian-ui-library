@@ -1,9 +1,8 @@
 import { TableMap } from 'prosemirror-tables';
 import { EditorView } from 'prosemirror-view';
 import { Node as PMNode } from 'prosemirror-model';
-import { EditorState } from 'prosemirror-state';
 import { findDomRefAtPos } from 'prosemirror-utils';
-import { gridSize } from '@atlaskit/theme';
+
 import {
   tableCellMinWidth,
   akEditorTableNumberColumnWidth,
@@ -23,6 +22,7 @@ import {
   hasTableBeenResized,
   getTableWidth,
   insertColgroupFromNode as recreateResizeColsByNode,
+  getColumnsWidths,
 } from '../../utils';
 import { closestElement } from '../../../../utils';
 import {
@@ -30,6 +30,18 @@ import {
   getDefaultLayoutMaxWidth,
   tableLayoutToSize,
 } from './utils';
+
+interface ScaleOptions {
+  node: PMNode;
+  prevNode: PMNode;
+  start: number;
+  containerWidth?: number;
+  initialScale?: boolean;
+  parentWidth?: number;
+  dynamicTextSizing?: boolean;
+  isBreakoutEnabled?: boolean;
+  wasBreakoutEnabled?: boolean;
+}
 
 export function updateColumnWidth(
   view: EditorView,
@@ -112,7 +124,7 @@ export function handleBreakoutContent(
   );
 
   const state = resizeColumnTo(view, start, elem, colIdx, amount, node);
-  updateControls(view.state);
+  updateControls(view);
   const tr = applyColumnWidths(view, state, node, start);
 
   if (tr.docChanged) {
@@ -180,7 +192,8 @@ export const updateResizeHandle = (view: EditorView) => {
 /**
  * Updates the column controls on resize
  */
-export const updateControls = (state: EditorState) => {
+export const updateControls = (view: EditorView) => {
+  const { state } = view;
   const { tableRef } = getPluginState(state);
   if (!tableRef) {
     return;
@@ -189,7 +202,6 @@ export const updateControls = (state: EditorState) => {
   if (!tr) {
     return;
   }
-  const cols = tr.children;
   const wrapper = tableRef.parentElement;
   const columnControls: any = wrapper.querySelectorAll(
     `.${ClassName.COLUMN_CONTROLS_BUTTON_WRAP}`,
@@ -202,20 +214,16 @@ export const updateControls = (state: EditorState) => {
     ClassName.NUMBERED_COLUMN_BUTTON,
   );
 
-  const getWidth = (element: HTMLElement): number => {
-    const rect = element.getBoundingClientRect();
-    return rect ? rect.width : element.offsetWidth;
-  };
-
   const getHeight = (element: HTMLElement): number => {
     const rect = element.getBoundingClientRect();
     return rect ? rect.height : element.offsetHeight;
   };
 
+  const columnsWidths = getColumnsWidths(view);
   // update column controls width on resize
   for (let i = 0, count = columnControls.length; i < count; i++) {
-    if (cols[i]) {
-      columnControls[i].style.width = `${getWidth(cols[i]) + 1}px`;
+    if (columnsWidths[i]) {
+      columnControls[i].style.width = `${columnsWidths[i]}px`;
     }
   }
   // update rows controls height on resize
@@ -248,17 +256,13 @@ export const updateControls = (state: EditorState) => {
 export function scaleTable(
   view: EditorView,
   tableElem: HTMLTableElement | null,
-  node: PMNode,
-  prevNode: PMNode,
-  pos: number,
-  containerWidth: number | undefined,
-  initialScale?: boolean,
-  parentWidth?: number,
-  dynamicTextSizing?: boolean,
+  options: ScaleOptions,
 ) {
   if (!tableElem) {
     return;
   }
+
+  const { node, start, parentWidth } = options;
 
   // If a table has not been resized yet, columns should be auto.
   if (hasTableBeenResized(node) === false) {
@@ -268,22 +272,14 @@ export function scaleTable(
     return;
   }
 
-  const start = pos + 1;
-
   let state;
   if (parentWidth) {
     state = scaleWithParent(view, tableElem, parentWidth, node, start);
   } else {
-    state = scale(
-      view,
-      tableElem,
-      node,
+    state = scale(view, tableElem, {
       start,
-      prevNode,
-      containerWidth,
-      initialScale,
-      dynamicTextSizing,
-    );
+      ...options,
+    });
   }
 
   if (state) {
@@ -305,18 +301,28 @@ export function scaleTable(
 function scale(
   view: EditorView,
   tableElem: HTMLTableElement,
-  node: PMNode,
-  start: number,
-  prevNode: PMNode,
-  containerWidth?: number,
-  initialScale?: boolean,
-  dynamicTextSizing?: boolean,
+  options: ScaleOptions,
 ): ResizeState | undefined {
-  const maxSize = getLayoutSize(
-    node.attrs.layout,
+  /**
+   * isBreakoutEnabled === true -> default center aligned
+   * isBreakoutEnabled === false -> full width mode
+   */
+
+  const {
+    node,
     containerWidth,
     dynamicTextSizing,
-  );
+    prevNode,
+    initialScale,
+    start,
+    isBreakoutEnabled,
+    wasBreakoutEnabled,
+  } = options;
+
+  let maxSize = getLayoutSize(node.attrs.layout, containerWidth, {
+    dynamicTextSizing,
+    isBreakoutEnabled,
+  });
 
   const prevTableWidth = getTableWidth(prevNode);
   const previousLayout = prevNode.attrs.layout;
@@ -327,11 +333,19 @@ function scale(
   }
 
   if (!initialScale) {
-    previousMaxSize = getLayoutSize(
-      prevNode.attrs.layout,
-      containerWidth,
+    previousMaxSize = getLayoutSize(prevNode.attrs.layout, containerWidth, {
       dynamicTextSizing,
-    );
+      isBreakoutEnabled,
+    });
+  } else if (
+    initialScale &&
+    isBreakoutEnabled !== wasBreakoutEnabled &&
+    typeof wasBreakoutEnabled !== 'undefined'
+  ) {
+    previousMaxSize = getLayoutSize(prevNode.attrs.layout, containerWidth, {
+      dynamicTextSizing: !dynamicTextSizing,
+      isBreakoutEnabled: !isBreakoutEnabled,
+    });
   }
 
   let newWidth = maxSize;
@@ -369,9 +383,6 @@ function scaleWithParent(
     node: tableNode,
     start,
   });
-
-  // Need to acount for the padding of the extension.
-  parentWidth -= gridSize() * 4;
 
   if (tableNode.attrs.isNumberColumnEnabled) {
     parentWidth -= akEditorTableNumberColumnWidth;

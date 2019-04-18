@@ -12,17 +12,19 @@ import { FloatingToolbarHandler } from '../plugins/floating-toolbar/types';
 import { PortalProviderAPI } from '../ui/PortalProvider';
 import { NodeConfig, MarkConfig } from './editor-config';
 import { EditorProps, EditorAppearance } from './editor-props';
-import { AnalyticsEventPayload } from '../plugins/analytics';
+import { DispatchAnalyticsEvent } from '../plugins/analytics';
 
 export type PMPluginFactoryParams = {
   schema: Schema;
   props: EditorProps;
+  prevProps?: EditorProps;
   dispatch: Dispatch;
   eventDispatcher: EventDispatcher;
   providerFactory: ProviderFactory;
   errorReporter: ErrorReporter;
   portalProviderAPI: PortalProviderAPI;
   reactContext: () => { [key: string]: any };
+  dispatchAnalyticsEvent: DispatchAnalyticsEvent;
 };
 
 export type PMPluginFactory = (
@@ -33,7 +35,7 @@ export type UiComponentFactoryParams = {
   editorView: EditorView;
   editorActions: EditorActions;
   eventDispatcher: EventDispatcher;
-  dispatchAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
   providerFactory: ProviderFactory;
   appearance: EditorAppearance;
   popupsMountPoint?: HTMLElement;

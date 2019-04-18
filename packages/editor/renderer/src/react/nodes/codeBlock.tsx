@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { PureComponent } from 'react';
 import { AkCodeBlock } from '@atlaskit/code';
-import overflowShadow, { OverflowShadowProps } from '../../ui/overflow-shadow';
+import { overflowShadow, OverflowShadowProps } from '@atlaskit/editor-common';
 
 function identity<T = any>(text: T): T {
   return text;
@@ -21,7 +21,7 @@ class CodeBlock extends PureComponent<Props & OverflowShadowProps, {}> {
     };
 
     return (
-      <div className={`CodeBlock ${shadowClassNames}`} ref={handleRef}>
+      <div className={`code-block ${shadowClassNames}`} ref={handleRef}>
         <AkCodeBlock {...codeProps} />
       </div>
     );

@@ -1,4 +1,4 @@
-// tslint:disable-next-line no-implicit-dependencies
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   GasPurePayload,
   OPERATIONAL_EVENT_TYPE,
@@ -6,7 +6,7 @@ import {
 } from '@atlaskit/analytics-gas-types';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import { mount } from 'enzyme';
-import * as cases from 'jest-in-case';
+import cases from 'jest-in-case';
 import * as React from 'react';
 import { createButtonWithAnalytics } from '../../../../examples/helpers';
 import Logger from '../../../helpers/logger';

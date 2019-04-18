@@ -9,7 +9,7 @@ import Container from './styledContainer';
 import Svg from './styledSvg';
 import type { SpinnerProps, SpinnerState } from '../types';
 
-const Outer = styled.div`
+const Outer = styled.span`
   display: inline-block;
   vertical-align: middle;
 `;
@@ -65,7 +65,14 @@ export default class Spinner extends Component<SpinnerProps, SpinnerState> {
       }
       return node && node.removeEventListener('animationend', executeCallback);
     };
-    return node && node.addEventListener('animationend', executeCallback);
+
+    // FIX - jest-emotion doesn't recognise the DOM node so it can't add
+    // the eventListener in the @atlaskit/button tests.
+    // Should be fixed when we move to emotion@10
+    if (node && node.addEventListener) {
+      return node && node.addEventListener('animationend', executeCallback);
+    }
+    return done();
   };
 
   validateSize = () => {

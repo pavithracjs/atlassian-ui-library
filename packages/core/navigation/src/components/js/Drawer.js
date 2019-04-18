@@ -96,7 +96,9 @@ export class DrawerImpl extends PureComponent<Props, State> {
   };
 
   onBackButtonByBackButton = this.createBackButtonHandler('back-btn');
+
   onBackButtonByBlanket = this.createBackButtonHandler('blanket');
+
   onBackButtonByEscKey = this.createBackButtonHandler('esc-key');
 
   handleKeyDown = (event: KeyboardEvent) => {

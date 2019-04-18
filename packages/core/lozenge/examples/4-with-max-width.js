@@ -10,7 +10,7 @@ export default () => (
       </Lozenge>
     </p>
     <p>
-      <Lozenge appearance="success" maxWidth={'10vw'} isBold>
+      <Lozenge appearance="success" maxWidth="10vw" isBold>
         very very very wide text which truncates
       </Lozenge>
     </p>

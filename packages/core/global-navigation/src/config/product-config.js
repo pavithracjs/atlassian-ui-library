@@ -145,6 +145,7 @@ function notificationConfigFactory(
   onNotificationClick,
   isNotificationInbuilt,
   openDrawer,
+  getNotificationRef,
 ) {
   const notificationOnClickHandler = () => {
     if (onNotificationClick) {
@@ -155,11 +156,12 @@ function notificationConfigFactory(
   return isNotificationInbuilt
     ? configFactory(notificationOnClickHandler, notificationTooltip, {
         badgeCount,
+        getRef: getNotificationRef,
       })
     : configFactory(
         onNotificationClick || (notificationDrawerContents && openDrawer),
         notificationTooltip,
-        notificationBadge(badgeCount),
+        { ...notificationBadge(badgeCount), getRef: getNotificationRef },
       );
 }
 
@@ -176,46 +178,59 @@ export default function generateProductConfig(
     productTooltip,
     productIcon,
     productHref,
+    getProductRef,
 
     onCreateClick,
     createTooltip,
     createDrawerContents,
+    getCreateRef,
 
     enableAtlassianSwitcher,
 
     searchTooltip,
     onSearchClick,
     searchDrawerContents,
+    getSearchRef,
 
     onStarredClick,
     starredTooltip,
     starredDrawerContents,
+    getStarredRef,
 
     notificationTooltip,
     notificationCount,
     notificationDrawerContents,
     onNotificationClick,
+    getNotificationRef,
 
     appSwitcherComponent,
     appSwitcherTooltip,
+    getAppSwitcherRef,
 
+    enableHelpDrawer,
     helpItems,
+    onHelpClick,
     helpTooltip,
+    helpDrawerContents,
+    getHelpRef,
 
     onSettingsClick,
     settingsTooltip,
     settingsDrawerContents,
+    getSettingsRef,
 
     profileItems,
     profileTooltip,
     loginHref,
     profileIconUrl,
+    getProfileRef,
   } = props;
 
   const shouldRenderAtlassianSwitcher =
     enableAtlassianSwitcher && cloudId && product;
 
   if (enableAtlassianSwitcher && !shouldRenderAtlassianSwitcher) {
+    // eslint-disable-next-line no-console
     console.warn(
       'When using the enableAtlassianSwitcher prop, be sure to send the cloudId and product props. Falling back to the legacy app-switcher',
     );
@@ -225,25 +240,39 @@ export default function generateProductConfig(
     product: configFactory(onProductClick, productTooltip, {
       icon: productIcon,
       href: productHref,
+      getRef: getProductRef,
     }),
     create: configFactory(
       onCreateClick || (createDrawerContents && openDrawer('create')),
       createTooltip,
+      { getRef: getCreateRef },
     ),
     search: configFactory(
       onSearchClick || (searchDrawerContents && openDrawer('search')),
       searchTooltip,
+      { getRef: getSearchRef },
     ),
     starred: configFactory(
       onStarredClick || (starredDrawerContents && openDrawer('starred')),
       starredTooltip,
+      { getRef: getStarredRef },
     ),
+    help: enableHelpDrawer
+      ? configFactory(
+          onHelpClick || (helpDrawerContents && openDrawer('help')),
+          helpTooltip,
+          { getRef: getHelpRef },
+        )
+      : helpConfigFactory(helpItems, helpTooltip, { getRef: getHelpRef }),
     settings: configFactory(
       onSettingsClick || (settingsDrawerContents && openDrawer('settings')),
       settingsTooltip,
+      { getRef: getSettingsRef },
     ),
     atlassianSwitcher: shouldRenderAtlassianSwitcher
-      ? configFactory(openDrawer('atlassianSwitcher'))
+      ? configFactory(openDrawer('atlassianSwitcher'), '', {
+          getRef: getAppSwitcherRef,
+        })
       : null,
 
     notification: notificationConfigFactory(
@@ -253,13 +282,14 @@ export default function generateProductConfig(
       onNotificationClick,
       isNotificationInbuilt,
       openDrawer('notification'),
+      getNotificationRef,
     ),
-    help: helpConfigFactory(helpItems, helpTooltip),
     profile: profileConfigFactory(
       profileItems,
       profileTooltip,
       loginHref,
       profileIconUrl,
+      { getRef: getProfileRef },
     ),
     appSwitcher:
       appSwitcherComponent && !shouldRenderAtlassianSwitcher
@@ -267,6 +297,7 @@ export default function generateProductConfig(
             itemComponent: appSwitcherComponent,
             label: appSwitcherTooltip,
             tooltip: appSwitcherTooltip,
+            getRef: getAppSwitcherRef,
           }
         : null,
   };

@@ -87,7 +87,11 @@ const AppSwitcherComponent = itemProps => (
   />
 );
 
-const getGlobalNavigation = enableAtlassianSwitcher => () => (
+const getGlobalNavigation = (
+  enableAtlassianSwitcher,
+  enableSplitJira,
+  enableExpandLink,
+) => () => (
   <AnalyticsListener
     channel="navigation"
     onEvent={analyticsEvent => {
@@ -107,6 +111,8 @@ const getGlobalNavigation = enableAtlassianSwitcher => () => (
       appSwitcherComponent={AppSwitcherComponent}
       appSwitcherTooltip="Switch to ..."
       enableAtlassianSwitcher={enableAtlassianSwitcher}
+      experimental_enableSplitJira={enableSplitJira}
+      experimental_enableExpandLink={enableExpandLink}
       triggerXFlow={(...props) => {
         console.log('TRIGGERING XFLOW', props);
       }}
@@ -116,39 +122,65 @@ const getGlobalNavigation = enableAtlassianSwitcher => () => (
 
 type State = {
   enableAtlassianSwitcher: boolean,
+  enableSplitJira: boolean,
+  enableExpandLink: boolean,
 };
 
 export default class extends Component<{}, State> {
   state = {
     enableAtlassianSwitcher: true,
+    enableSplitJira: false,
+    enableExpandLink: false,
   };
 
   componentDidMount() {
     mockEndpoints();
   }
 
-  toggleAppSwitcher = () => {
-    const { enableAtlassianSwitcher } = this.state;
+  toggleStateValue = (stateProp: string) => () => {
+    const statePropValue = this.state[stateProp];
     this.setState({
-      enableAtlassianSwitcher: !enableAtlassianSwitcher,
+      [stateProp]: !statePropValue,
     });
   };
 
   render() {
-    const { enableAtlassianSwitcher } = this.state;
+    const {
+      enableAtlassianSwitcher,
+      enableSplitJira,
+      enableExpandLink,
+    } = this.state;
     return (
       <IntlProvider>
         <NavigationProvider>
           <LayoutManager
-            globalNavigation={getGlobalNavigation(enableAtlassianSwitcher)}
+            globalNavigation={getGlobalNavigation(
+              enableAtlassianSwitcher,
+              enableSplitJira,
+              enableExpandLink,
+            )}
             productNavigation={() => null}
             containerNavigation={() => null}
           >
-            <div css={{ padding: '32px 40px' }}>
+            <div css={{ padding: '32px 40px 0px' }}>
               Using Atlassian Switcher:
               <ToggleStateless
                 isChecked={enableAtlassianSwitcher}
-                onChange={this.toggleAppSwitcher}
+                onChange={this.toggleStateValue('enableAtlassianSwitcher')}
+              />
+            </div>
+            <div css={{ padding: '10px 40px 0px' }}>
+              Using enableJiraSplit:
+              <ToggleStateless
+                isChecked={enableSplitJira}
+                onChange={this.toggleStateValue('enableSplitJira')}
+              />
+            </div>
+            <div css={{ padding: '10px 40px' }}>
+              Using enableExpandLink:
+              <ToggleStateless
+                isChecked={enableExpandLink}
+                onChange={this.toggleStateValue('enableExpandLink')}
               />
             </div>
           </LayoutManager>

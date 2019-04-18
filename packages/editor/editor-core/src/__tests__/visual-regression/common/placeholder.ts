@@ -1,8 +1,8 @@
 import { initFullPageEditorWithAdf, snapshot } from '../_utils';
-import * as adf from './__fixtures__/noData-adf.json';
+import adf from './__fixtures__/noData-adf.json';
 
 describe('Placeholder', () => {
-  let page;
+  let page: any;
 
   beforeAll(() => {
     // @ts-ignore

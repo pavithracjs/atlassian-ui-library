@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/textfield",
-  "version": "0.4.0",
+  "version": "0.4.5",
   "description": "Text Field Component",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -16,21 +16,21 @@
   ],
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^4.0.1",
-    "@atlaskit/theme": "^8.0.1",
+    "@atlaskit/analytics-next": "^4.0.3",
+    "@atlaskit/theme": "^8.1.7",
     "@babel/runtime": "^7.0.0",
-    "emotion": "^9.1.1"
+    "@emotion/core": "^10.0.9"
   },
   "peerDependencies": {
     "react": "^16.4.0"
   },
   "devDependencies": {
-    "@atlaskit/avatar": "^15.0.0",
+    "@atlaskit/avatar": "^15.0.4",
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^11.0.0",
-    "@atlaskit/docs": "^7.0.1",
-    "@atlaskit/form": "^5.2.3",
-    "@atlaskit/icon": "^16.0.4",
+    "@atlaskit/button": "^12.0.3",
+    "@atlaskit/docs": "^7.0.3",
+    "@atlaskit/form": "^5.2.7",
+    "@atlaskit/icon": "^16.0.9",
     "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/visual-regression": "^0.0.1",
     "enzyme": "^3.7.0",

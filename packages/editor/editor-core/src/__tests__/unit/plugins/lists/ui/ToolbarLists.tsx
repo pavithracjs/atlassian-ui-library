@@ -17,9 +17,9 @@ import { messages } from '../../../../../plugins/lists/messages';
 import ToolbarButton from '../../../../../ui/ToolbarButton';
 import DropdownMenu from '../../../../../ui/DropdownMenu';
 import ToolbarLists from '../../../../../plugins/lists/ui/ToolbarLists';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { ReactWrapper } from 'enzyme';
-import { AnalyticsEventPayload } from '../../../../../plugins/analytics';
+import { DispatchAnalyticsEvent } from '../../../../../plugins/analytics';
 
 function clickToolbarOption(toolbarOption: ReactWrapper, title: string) {
   toolbarOption
@@ -86,9 +86,7 @@ describe('ToolbarLists', () => {
 
   describe('analytics', () => {
     let toolbarLists: ReactWrapper;
-    let dispatchAnalyticsEvent: jest.MockInstance<
-      (payload: AnalyticsEventPayload) => void
-    >;
+    let dispatchAnalyticsEvent: jest.MockInstance<DispatchAnalyticsEvent>;
     beforeEach(() => {
       dispatchAnalyticsEvent = jest.fn();
       ({ toolbarLists } = setup({ dispatchAnalyticsEvent }));

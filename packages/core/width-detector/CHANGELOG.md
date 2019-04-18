@@ -1,5 +1,20 @@
 # @atlaskit/width-detector
 
+## 0.3.4
+- [patch] [83b920afd3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/83b920afd3):
+
+  - Fix bug when content changes size between mount and object onload
+
+## 0.3.3
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
+## 0.3.2
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 0.3.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

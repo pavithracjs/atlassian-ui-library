@@ -34,7 +34,7 @@ import {
   clearFormattingWithAnalytics,
 } from '../../../../plugins/text-formatting/commands/clear-formatting';
 import { checkFormattingIsPresent } from '../../../../plugins/text-formatting/utils';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 describe('clear-formatting', () => {
@@ -213,7 +213,7 @@ describe('clear-formatting', () => {
     });
 
     describe('Analytics GAS V3', () => {
-      function createClearFormattingPayloadWithAttributes(attributes) {
+      function createClearFormattingPayloadWithAttributes(attributes: object) {
         return {
           action: 'formatted',
           actionSubject: 'text',

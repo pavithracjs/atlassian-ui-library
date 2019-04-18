@@ -1,24 +1,18 @@
 import { Transaction, Selection } from 'prosemirror-state';
-import { TableMap } from 'prosemirror-tables';
-import { findTable, getSelectionRect } from 'prosemirror-utils';
+import { TableMap, Rect } from 'prosemirror-tables';
+import { findTable } from 'prosemirror-utils';
 import { Node as PMNode } from 'prosemirror-model';
 import { CellAttributes } from '@atlaskit/adf-schema';
 
-export const deleteColumns = (columnsToDelete: number[] = []) => (
-  tr: Transaction,
-): Transaction => {
+export const deleteColumns = (rect: Rect) => (tr: Transaction): Transaction => {
   const table = findTable(tr.selection);
   if (!table) {
     return tr;
   }
-  if (!columnsToDelete.length) {
-    const rect = getSelectionRect(tr.selection);
-    if (rect) {
-      columnsToDelete = [];
-      for (let i = rect.left; i < rect.right; i++) {
-        columnsToDelete.push(i);
-      }
-    }
+
+  const columnsToDelete: number[] = [];
+  for (let i = rect.left; i < rect.right; i++) {
+    columnsToDelete.push(i);
   }
 
   if (!columnsToDelete.length) {

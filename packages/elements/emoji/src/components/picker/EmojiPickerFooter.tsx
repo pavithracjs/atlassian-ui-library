@@ -1,4 +1,4 @@
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as React from 'react';
 import { PureComponent } from 'react';
 import {
@@ -6,6 +6,7 @@ import {
   EmojiDescriptionWithVariations,
   Message,
   OnToneSelected,
+  OnToneSelectorCancelled,
   ToneSelection,
 } from '../../types';
 import EmojiDeletePreview, {
@@ -19,6 +20,7 @@ export interface Props {
   selectedEmoji?: EmojiDescription;
   selectedTone?: ToneSelection;
   onToneSelected?: OnToneSelected;
+  onToneSelectorCancelled?: OnToneSelectorCancelled;
   toneEmoji?: EmojiDescriptionWithVariations;
   uploading: boolean;
   uploadEnabled: boolean;
@@ -29,7 +31,7 @@ export interface Props {
   onUploadEmoji: OnUploadEmoji;
   onCloseDelete: () => void;
   onDeleteEmoji: OnDeleteEmoji;
-  onFileChosen?: (name: string) => void;
+  onFileChooserClicked?: () => void;
   onOpenUpload: () => void;
 }
 
@@ -38,6 +40,7 @@ export default class EmojiPickerFooter extends PureComponent<Props, {}> {
     const {
       initialUploadName,
       onToneSelected,
+      onToneSelectorCancelled,
       onUploadCancelled,
       onUploadEmoji,
       onCloseDelete,
@@ -47,7 +50,7 @@ export default class EmojiPickerFooter extends PureComponent<Props, {}> {
       toneEmoji,
       uploadErrorMessage,
       uploading,
-      onFileChosen,
+      onFileChooserClicked,
       onOpenUpload,
       uploadEnabled,
       emojiToDelete,
@@ -64,7 +67,7 @@ export default class EmojiPickerFooter extends PureComponent<Props, {}> {
           <EmojiUploadPicker
             onUploadCancelled={onUploadCancelled}
             onUploadEmoji={onUploadEmoji}
-            onFileChosen={onFileChosen}
+            onFileChooserClicked={onFileChooserClicked}
             errorMessage={uploadErrorMessage}
             initialUploadName={initialUploadName}
           />
@@ -91,6 +94,7 @@ export default class EmojiPickerFooter extends PureComponent<Props, {}> {
           toneEmoji={toneEmoji}
           selectedTone={selectedTone}
           onToneSelected={onToneSelected}
+          onToneSelectorCancelled={onToneSelectorCancelled}
           onOpenUpload={onOpenUpload}
           uploadEnabled={uploadEnabled}
         />

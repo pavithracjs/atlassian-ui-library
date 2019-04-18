@@ -13,13 +13,13 @@ import EmojiResource, {
 import EmojiRepository from './api/EmojiRepository';
 import EmojiLoader from './api/EmojiLoader';
 import { denormaliseEmojiServiceResponse } from './api/EmojiUtils';
-import { toEmojiId, toOptionalEmojiId } from './type-helpers';
+import { toEmojiId, toOptionalEmojiId } from './util/type-helpers';
 import {
   customCategory,
   defaultEmojiHeight,
   emojiPickerWidth,
   emojiPickerHeight,
-} from './constants';
+} from './util/constants';
 import { UsageFrequencyTracker } from './api/internal/UsageFrequencyTracker';
 
 export {

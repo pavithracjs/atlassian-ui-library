@@ -28,7 +28,7 @@ import {
 import { EditorView } from 'prosemirror-view';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { AnalyticsHandler } from '../../../../analytics';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 
 const createProductPayload = (product: string, originalSpelling: string) => ({
   action: 'autoSubstituted',
@@ -685,6 +685,38 @@ describe('text-formatting input rules', () => {
 
       expect(editorView.state.doc).toEqualDocument(
         doc(p('testing – testing → testing ', code('code'))),
+      );
+    });
+
+    it('should not apply when prefixed by text', () => {
+      const { editorView, sel } = editor(doc(p('words`code{<>}')));
+      insertText(editorView, '`', sel);
+
+      expect(editorView.state.doc).toEqualDocument(doc(p('words`code`{<>}')));
+    });
+
+    it('should not apply when prefixed by text and parentheses', () => {
+      const { editorView, sel } = editor(doc(p('words(`code{<>}')));
+      insertText(editorView, '`', sel);
+
+      expect(editorView.state.doc).toEqualDocument(doc(p('words(`code`{<>}')));
+    });
+
+    it('should apply when prefixed by a space and parentheses', () => {
+      const { editorView, sel } = editor(doc(p('words (`code{<>}')));
+      insertText(editorView, '`', sel);
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(p('words (', code('code'), '{<>}')),
+      );
+    });
+
+    it('should delete an existing selection and apply', () => {
+      const { editorView } = editor(doc(p('here `some{<} words{>}')));
+      typeText(editorView, '`');
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(p('here ', code('some{<>}'))),
       );
     });
   });

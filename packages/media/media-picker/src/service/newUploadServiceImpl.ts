@@ -1,4 +1,4 @@
-import * as uuid from 'uuid';
+import uuidV4 from 'uuid/v4';
 import {
   Context,
   UploadableFile,
@@ -118,8 +118,8 @@ export class NewUploadServiceImpl implements UploadService {
     })[] = [];
     for (let i = 0; i < files.length; i++) {
       touchFileDescriptors.push({
-        fileId: uuid.v4(),
-        occurrenceKey: uuid.v4(),
+        fileId: uuidV4(),
+        occurrenceKey: uuidV4(),
         collection,
       });
     }
@@ -171,7 +171,7 @@ export class NewUploadServiceImpl implements UploadService {
         let upfrontId = Promise.resolve(id);
 
         if (!shouldCopyFileToRecents) {
-          const tenantOccurrenceKey = uuid.v4();
+          const tenantOccurrenceKey = uuidV4();
           const { collection } = this.tenantUploadParams;
           const options = {
             collection,
@@ -333,7 +333,7 @@ export class NewUploadServiceImpl implements UploadService {
     const { mediaFile } = cancellableFileUpload;
 
     this.copyFileToUsersCollection(fileId)
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       .catch(console.log); // We intentionally swallow these errors
     this.emit('file-converting', {
       file: mediaFile,

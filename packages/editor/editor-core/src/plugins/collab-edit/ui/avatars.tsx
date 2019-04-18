@@ -14,7 +14,7 @@ import { getAvatarColor } from '../utils';
 import ToolbarButton from '../../../ui/ToolbarButton';
 
 export interface Props {
-  inviteToEditHandler?: (event: Event) => void;
+  inviteToEditHandler?: (event: React.MouseEvent<HTMLElement>) => void;
   isInviteToEditButtonSelected?: boolean;
   editorView?: EditorView;
   eventDispatcher?: EventDispatcher;

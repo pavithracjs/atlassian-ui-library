@@ -3,7 +3,6 @@ import { findParentDomRefOfType } from 'prosemirror-utils';
 import { EditorView, DecorationSet } from 'prosemirror-view';
 import { browser } from '@atlaskit/editor-common';
 import { PluginConfig, TablePluginState } from '../types';
-import { EditorAppearance } from '../../../types';
 import { Dispatch } from '../../../event-dispatcher';
 import { createTableView } from '../nodeviews/table';
 import { createCellView } from '../nodeviews/cell';
@@ -59,15 +58,24 @@ export enum ACTIONS {
   HIDE_INSERT_COLUMN_OR_ROW_BUTTON,
 }
 
+let isBreakoutEnabled: boolean | undefined;
+let wasBreakoutEnabled: boolean | undefined;
+let isDynamicTextSizingEnabled: boolean | undefined;
+
 export const createPlugin = (
   dispatch: Dispatch,
   portalProviderAPI: PortalProviderAPI,
   eventDispatcher: EventDispatcher,
   pluginConfig: PluginConfig,
-  appearance?: EditorAppearance,
+  isContextMenuEnabled?: boolean,
   dynamicTextSizing?: boolean,
-) =>
-  new Plugin({
+  breakoutEnabled?: boolean,
+  previousBreakoutEnabled?: boolean,
+) => {
+  wasBreakoutEnabled = previousBreakoutEnabled;
+  isBreakoutEnabled = breakoutEnabled;
+  isDynamicTextSizingEnabled = dynamicTextSizing;
+  return new Plugin({
     state: {
       init: (): TablePluginState => {
         return {
@@ -246,9 +254,14 @@ export const createPlugin = (
       },
 
       nodeViews: {
-        table: createTableView(portalProviderAPI, dynamicTextSizing),
-        tableCell: createCellView(portalProviderAPI, appearance),
-        tableHeader: createCellView(portalProviderAPI, appearance),
+        table: (node, view, getPos) =>
+          createTableView(node, view, getPos, portalProviderAPI, {
+            isBreakoutEnabled,
+            wasBreakoutEnabled,
+            dynamicTextSizing: isDynamicTextSizingEnabled,
+          }),
+        tableCell: createCellView(portalProviderAPI, isContextMenuEnabled),
+        tableHeader: createCellView(portalProviderAPI, isContextMenuEnabled),
       },
 
       handleDOMEvents: {
@@ -263,6 +276,7 @@ export const createPlugin = (
       handleTripleClick,
     },
   });
+};
 
 export const getPluginState = (state: EditorState) => {
   return pluginKey.getState(state);

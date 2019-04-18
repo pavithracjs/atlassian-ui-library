@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import {
   RecentUpdates,
   ACTION_DECISION_FPS_EVENTS,
@@ -50,13 +49,13 @@ describe('RecentUpdates', () => {
   });
 
   it('should not subscribe to any PubSub event if PubSubClient not provided', () => {
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line no-unused-expressions
     new RecentUpdates();
     expect(mockPubSubClient.on).not.toHaveBeenCalled();
   });
 
   it('should subscribe to all action&decision PubSub event if PubSubClient is provided', () => {
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line no-unused-expressions
     new RecentUpdates(mockPubSubClient);
     expect(mockPubSubClient.on).toHaveBeenCalledWith(
       ACTION_DECISION_FPS_EVENTS,

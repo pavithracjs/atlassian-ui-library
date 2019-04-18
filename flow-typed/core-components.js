@@ -9,10 +9,22 @@ declare module '@atlaskit/button' {
   declare module.exports: any;
 }
 
+declare module '@atlaskit/badge' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/banner' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/textarea' {
   declare module.exports: any;
 }
 
 declare module '@atlaskit/atlassian-switcher' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/inline-edit' {
   declare module.exports: any;
 }

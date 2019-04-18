@@ -1,5 +1,37 @@
 # @atlaskit/spinner
 
+## 10.0.7
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/theme@8.1.7
+
+## 10.0.6
+- [patch] [d263485853](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d263485853):
+
+  - update Spinner component's usage of styled-components to work in v3 and v4
+
+## 10.0.5
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/button@12.0.0
+
+## 10.0.4
+- [patch] [fd940a833b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fd940a833b):
+
+  - Update spinner imports to use alternative entry points of theme (to decrease bundle size)
+
+## 10.0.3
+- [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
+
+  - Removes duplicate babel-runtime dependency
+
+## 10.0.2
+- [patch] [986c5e47c8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/986c5e47c8):
+
+  - use <span> rather than <div> to allow the spinner to be used within <p> style tags
+
 ## 10.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

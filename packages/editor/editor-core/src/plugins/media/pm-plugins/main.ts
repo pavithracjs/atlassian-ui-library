@@ -1,4 +1,4 @@
-import * as assert from 'assert';
+import assert from 'assert';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Node as PMNode, Schema, Node } from 'prosemirror-model';
@@ -41,6 +41,10 @@ import {
   ACTION_SUBJECT,
   ACTION,
   EVENT_TYPE,
+  AnalyticsEventPayload,
+  INPUT_METHOD,
+  InputMethodInsertMedia,
+  DispatchAnalyticsEvent,
 } from '../../../plugins/analytics';
 export { MediaState, MediaProvider, MediaStateStatus };
 
@@ -84,6 +88,7 @@ export class MediaPluginState {
 
   public editorAppearance: EditorAppearance;
   private removeOnCloseListener: () => void = () => {};
+  private dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 
   private reactContext: () => {};
 
@@ -92,6 +97,7 @@ export class MediaPluginState {
     options: MediaPluginOptions,
     reactContext: () => {},
     editorAppearance?: EditorAppearance,
+    dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
   ) {
     this.reactContext = reactContext;
     this.options = options;
@@ -114,6 +120,7 @@ export class MediaPluginState {
     );
 
     this.errorReporter = options.errorReporter || new ErrorReporter();
+    this.dispatchAnalyticsEvent = dispatchAnalyticsEvent;
   }
 
   setMediaProvider = async (mediaProvider?: Promise<MediaProvider>) => {
@@ -260,7 +267,7 @@ export class MediaPluginState {
     if (!isEndState(mediaState)) {
       const updater = (promise: Promise<any>) => {
         // Chain the previous promise with a new one for this media item
-        return new Promise<MediaState | null>((resolve, reject) => {
+        return new Promise<MediaState | null>(resolve => {
           const onStateChange: MediaStateEventListener = newState => {
             // When media item reaches its final state, remove listener and resolve
             if (isEndState(newState)) {
@@ -667,8 +674,41 @@ export class MediaPluginState {
           ? { fileMimeType: mediaState.fileMimeType }
           : {},
       );
+
+      if (this.dispatchAnalyticsEvent) {
+        const inputMethod = this.getInputMethod(
+          pickerType,
+        ) as InputMethodInsertMedia;
+        const extensionIdx = mediaState.fileName!.lastIndexOf('.');
+        const fileExtension =
+          extensionIdx >= 0
+            ? mediaState.fileName!.substring(extensionIdx + 1)
+            : undefined;
+
+        const payload: AnalyticsEventPayload = {
+          action: ACTION.INSERTED,
+          actionSubject: ACTION_SUBJECT.DOCUMENT,
+          actionSubjectId: ACTION_SUBJECT_ID.MEDIA,
+          attributes: { inputMethod, fileExtension },
+          eventType: EVENT_TYPE.TRACK,
+        };
+        this.dispatchAnalyticsEvent(payload);
+      }
     };
   }
+
+  private getInputMethod = (
+    pickerType: string,
+  ): InputMethodInsertMedia | undefined => {
+    switch (pickerType) {
+      case 'popup':
+        return INPUT_METHOD.PICKER_CLOUD;
+      case 'clipboard':
+        return INPUT_METHOD.CLIPBOARD;
+      case 'dropzone':
+        return INPUT_METHOD.DRAG_AND_DROP;
+    }
+  };
 
   updateMediaNodeAttrs = (
     id: string,
@@ -807,6 +847,7 @@ export const createPlugin = (
   reactContext: () => {},
   dispatch?: Dispatch,
   editorAppearance?: EditorAppearance,
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
 ) => {
   const dropPlaceholder = createDropPlaceholder(editorAppearance);
 
@@ -818,6 +859,7 @@ export const createPlugin = (
           options,
           reactContext,
           editorAppearance,
+          dispatchAnalyticsEvent,
         );
       },
       apply(tr, pluginState: MediaPluginState, oldState, newState) {
@@ -858,6 +900,9 @@ export const createPlugin = (
       return {
         update: () => {
           pluginState.updateElement();
+        },
+        destroy: () => {
+          pluginState.destroy();
         },
       };
     },

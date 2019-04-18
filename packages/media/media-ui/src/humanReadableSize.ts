@@ -1,6 +1,6 @@
 import * as bytes from 'bytes';
 
-// tslint:disable-next-line:no-bitwise
+// eslint-disable-next-line no-bitwise
 const ONE_MEGABYTE_IN_BYTES = 1 << 20;
 
 /**

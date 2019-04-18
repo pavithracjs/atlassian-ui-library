@@ -8,11 +8,12 @@ import {
   ToolbarMenuItem,
 } from '../../__helpers/page-objects/_toolbar';
 import { clickEditableContent } from '../../__helpers/page-objects/_editor';
-import { pressKey, KeyboardKeys } from '../../__helpers/page-objects/_keyboard';
+import { pressKey } from '../../__helpers/page-objects/_keyboard';
+import { scrollToTable } from '../../__helpers/page-objects/_table';
 
 describe('Snapshot Test: Media', () => {
   describe('full page editor', () => {
-    let page;
+    let page: any;
     beforeEach(async () => {
       // @ts-ignore
       page = global.page;
@@ -30,19 +31,20 @@ describe('Snapshot Test: Media', () => {
         await clickToolbarMenu(page, ToolbarMenuItem.table);
 
         // second cell
-        await pressKey(page, KeyboardKeys.arrowDown);
+        await pressKey(page, 'ArrowDown');
 
         // now we can insert media as necessary
         await insertMedia(page);
         await waitForMediaToBeLoaded(page);
+        await scrollToTable(page);
 
-        await snapshot(page);
+        await snapshot(page, 0.01);
       });
     });
   });
 
   describe('comment editor', () => {
-    let page;
+    let page: any;
     beforeEach(async () => {
       // @ts-ignore
       page = global.page;
@@ -60,7 +62,7 @@ describe('Snapshot Test: Media', () => {
         await clickToolbarMenu(page, ToolbarMenuItem.table);
 
         // second cell
-        await pressKey(page, KeyboardKeys.arrowDown);
+        await pressKey(page, 'ArrowDown');
 
         // now we can insert media as necessary
         await insertMedia(page);

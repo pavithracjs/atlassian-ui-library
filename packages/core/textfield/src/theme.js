@@ -92,7 +92,8 @@ const getContainerBackgroundColor = ({
     return {
       backgroundColor: disabledRules[mode].backgroundColor,
     };
-  } else if (isInvalid) {
+  }
+  if (isInvalid) {
     // switch on focus then switch on hover
     if (isFocused) {
       return {
@@ -143,7 +144,8 @@ const getContainerBorderColor = ({
     return {
       borderColor: disabledRules[mode].borderColor,
     };
-  } else if (isInvalid) {
+  }
+  if (isInvalid) {
     // switch on focus then switch on hover
     if (isFocused) {
       return {
@@ -269,8 +271,8 @@ export const Theme = createTheme<ThemeTokens, ThemeProps>(props => ({
     '&[disabled]': {
       // Safari puts on some difficult to remove styles, mainly for disabled inputs
       // but we want full control so need to override them in all cases
-      '-webkit-text-fill-color': 'unset',
-      '-webkit-opacity': 1,
+      WebkitTextFillColor: 'unset',
+      WebkitOpacity: 1,
     },
     '&::-ms-clear': {
       display: 'none',

@@ -1,8 +1,5 @@
-import { Color, ColorWithAlpha, Dimensions } from './common';
-
-export const colorSame = (a: Color, b: Color): boolean => {
-  return a.red === b.red && a.green === b.green && a.blue === b.blue;
-};
+import { ColorWithAlpha, Dimensions } from './common';
+import { VeColor } from './engine/core/binaries/mediaEditor';
 
 export const colorWithAlphaSame = (
   a: ColorWithAlpha,
@@ -141,3 +138,24 @@ export const fileToBase64 = (blob: Blob) => {
     reader.readAsDataURL(blob);
   });
 };
+
+/* eslint-disable no-bitwise */
+export const hexToRgb = (hex: string) => {
+  const bigint = parseInt(hex.substring(hex.indexOf('#') + 1), 16);
+  const red = (bigint >> 16) & 255;
+  const green = (bigint >> 8) & 255;
+  const blue = bigint & 255;
+
+  return { red, green, blue };
+};
+
+export const rgbToHex = ({ red, green, blue }: VeColor) => {
+  return (
+    '#' +
+    ((1 << 24) + (red << 16) + (green << 8) + blue)
+      .toString(16)
+      .slice(1)
+      .toLowerCase()
+  );
+};
+/* eslint-enable no-bitwise */

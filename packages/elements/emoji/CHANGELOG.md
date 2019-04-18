@@ -1,5 +1,69 @@
 # @atlaskit/emoji
 
+## 59.2.3
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/field-base@12.0.2
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/theme@8.1.7
+
+## 59.2.2
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
+## 59.2.1
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/section-message@2.0.2
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/tooltip@13.0.3
+  - @atlaskit/media-core@29.1.4
+  - @atlaskit/button@12.0.0
+
+## 59.2.0
+- [minor] [b81d427d5c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b81d427d5c):
+
+  - ED-5373: Refactor emoji plugin to use new type ahead
+
+## 59.1.1
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 59.1.0
+- [minor] [ce6fec11a3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce6fec11a3):
+
+  - code split for emoji
+
+## 59.0.1
+- [patch] [3fa12076fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3fa12076fd):
+
+  - Fix import statement in emoji analytics
+
+## 59.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/util-data-test@11.1.5
+  - @atlaskit/media-core@29.1.0
+
+## 58.3.0
+- [minor] [fdc41108fa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fdc41108fa):
+
+  - Updated analytics to modern form
+
+## 58.2.0
+- [minor] [b0210d7ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0210d7ccc):
+
+  - reset jest modules before hydration
+
 ## 58.1.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

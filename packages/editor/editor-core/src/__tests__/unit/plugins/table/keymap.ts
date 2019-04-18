@@ -34,7 +34,7 @@ import {
   rulePlugin,
   listsPlugin,
 } from '../../../../plugins';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { AnalyticsHandler } from '../../../../analytics';
 
 describe('table keymap', () => {
@@ -179,7 +179,7 @@ describe('table keymap', () => {
         expect(editorView.state.selection.$from.pos).toEqual(32);
         expect(editorView.state.selection.empty).toEqual(true);
         expect(trackEvent).toHaveBeenCalledWith(
-          'atlassian.editor.format.table.next_cell.keyboard',
+          'atlassian.editor.format.table.row.keyboard',
         );
       });
     });
@@ -241,7 +241,7 @@ describe('table keymap', () => {
         expect(editorView.state.selection.$from.pos).toEqual(4);
         expect(editorView.state.selection.empty).toEqual(true);
         expect(trackEvent).toHaveBeenCalledWith(
-          'atlassian.editor.format.table.previous_cell.keyboard',
+          'atlassian.editor.format.table.row.keyboard',
         );
       });
     });

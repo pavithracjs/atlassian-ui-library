@@ -1,5 +1,5 @@
 import { initFullPageEditorWithAdf, Device, snapshot } from '../_utils';
-import * as adf from './__fixtures__/columns.adf.json';
+import adf from './__fixtures__/columns.adf.json';
 import {
   clickOnColumn,
   scrollToColumn,
@@ -28,6 +28,6 @@ describe('Columns:', () => {
     await clickOnColumn(page, columnNumber);
     await scrollToColumn(page, columnNumber, offset);
 
-    await snapshot(page);
+    await snapshot(page, 0.2);
   });
 });

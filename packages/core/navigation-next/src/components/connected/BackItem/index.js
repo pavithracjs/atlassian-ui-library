@@ -17,6 +17,7 @@ export default class BackItem extends Component<BackItemProps> {
   static defaultProps = {
     text: 'Back',
   };
+
   render() {
     const { before: beforeProp, text, ...props } = this.props;
     let before = beforeProp;

@@ -1,12 +1,7 @@
-// tslint:disable:variable-name
-
 import styled from 'styled-components';
 
 import { HTMLAttributes, ComponentClass } from 'react';
-import { colors } from '@atlaskit/theme';
 
-const optionsColorNormal = colors.N500;
-const optionsColorActive = colors.B400;
 const colorSampleOutlineColor = 'rgba(255, 255, 255, 0.5)';
 
 export const ToolbarButton: ComponentClass<HTMLAttributes<{}>> = styled.div`
@@ -20,27 +15,6 @@ export const ToolbarButton: ComponentClass<HTMLAttributes<{}>> = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-export const ActiveToolbarButton: ComponentClass<HTMLAttributes<{}>> = styled(
-  ToolbarButton,
-)`
-  background-color: ${colors.N500};
-  color: ${colors.N0};
-`;
-
-export interface OptionsIconWrapperProps {
-  isActive: boolean;
-}
-
-export const OptionsIconWrapper: ComponentClass<
-  HTMLAttributes<{}> & OptionsIconWrapperProps
-> = styled.div`
-  position: absolute;
-  right: -7px;
-  bottom: -10px;
-  color: ${({ isActive }: OptionsIconWrapperProps) =>
-    isActive ? optionsColorActive : optionsColorNormal};
 `;
 
 export const ColorSample: ComponentClass<HTMLAttributes<{}>> = styled.div`

@@ -32,7 +32,10 @@ class Example extends React.Component {
       <Page>
         <Grid>
           <GridColumn>
-            <Button ariaLabel="Is selected?" onClick={this.handleSelectedClick}>
+            <Button
+              aria-label="Is selected?"
+              onClick={this.handleSelectedClick}
+            >
               {this.state.isSelected ? 'Deselect' : 'Make those selected'}
             </Button>
             <h4>Loading</h4>

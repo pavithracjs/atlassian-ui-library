@@ -1,8 +1,7 @@
 import * as React from 'react';
 
-import ResourcedEmoji from '../src/components/common/ResourcedEmoji';
-import { EmojiProvider } from '../src/api/EmojiResource';
-
+import { EmojiProvider } from '../src/resource';
+import { ResourcedEmoji } from '../src/element';
 import { getEmojiResource, lorem } from '../example-helpers';
 
 interface SampleEmojiProps {
@@ -14,7 +13,6 @@ const lineStyle = (height: number = 24) => ({
   lineHeight: `${height}px`,
 });
 
-// tslint:disable-next-line:variable-name
 const SampleEmojis = (props: SampleEmojiProps) => (
   <span>
     <ResourcedEmoji

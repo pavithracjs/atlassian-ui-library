@@ -1,4 +1,4 @@
-/* tslint:disable:no-console */
+// eslint-disable-line no-console
 import {
   Router,
   Response,
@@ -9,7 +9,7 @@ import {
   Database,
 } from 'kakapo';
 import { TouchFileDescriptor } from '@atlaskit/media-store';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 
 import { mapDataUriToBlob } from '../../utils';
 import { mockDataUri } from '../database/mockData';
@@ -47,6 +47,7 @@ class RouterWithLogging<M extends DatabaseSchema> extends Router<M> {
         error = e;
       }
 
+      // eslint-disable-next-line no-console
       console.log({
         method,
         path,

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 // prettier-ignore
 import { HTMLAttributes, ClassAttributes, ComponentClass } from 'react';
 import { borderRadius, gridSize, colors, themed } from '@atlaskit/theme';
-import { Appearance } from '../types';
 
 const akGridSize = gridSize();
 
@@ -16,11 +15,9 @@ export const ContentWrapper: ComponentClass<
   flex: 1 1 auto;
 `;
 
-export const Wrapper: ComponentClass<
-  HTMLAttributes<{}> & { appearance?: Appearance }
-> = styled.div`
+export const Wrapper: ComponentClass<HTMLAttributes<{}>> = styled.div`
   display: flex;
-  flex-direction: ${props => (props.appearance === 'card' ? 'column' : 'row')};
+  flex-direction: row;
 
   line-height: 20px;
   border-radius: ${borderRadius()}px;
@@ -28,16 +25,10 @@ export const Wrapper: ComponentClass<
   padding: ${akGridSize}px ${akGridSize}px;
   min-height: 36px;
   box-sizing: border-box;
-  box-shadow: ${props =>
-    props.appearance === 'card'
-      ? `0 1px 1px ${colors.N50A}, 0 0 1px 0 ${colors.N60A}`
-      : 'none'};
+  box-shadow: none;
 
   &:hover {
-    box-shadow: ${props =>
-      props.appearance === 'card'
-        ? `0 4px 8px -2px ${colors.N60A}, 0 0 1px ${colors.N60A}`
-        : 'none'};
+    box-shadow: none;
     transition: box-shadow 0.2s ease-in-out;
   }
 
@@ -49,15 +40,6 @@ export const ParticipantWrapper: ComponentClass<
   HTMLAttributes<{}>
 > = styled.div`
   margin: -2px 8px;
-`;
-
-export const CardHeadingWrapper: ComponentClass<
-  HTMLAttributes<{}>
-> = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 4px;
-  min-height: 24px;
 `;
 
 export const AttributionWrapper: ComponentClass<

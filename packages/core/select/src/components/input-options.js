@@ -109,11 +109,22 @@ type OptionState = { isActive?: boolean };
 
 class ControlOption extends Component<OptionProps, OptionState> {
   state: OptionState = { isActive: false };
+
   onMouseDown = () => this.setState({ isActive: true });
+
   onMouseUp = () => this.setState({ isActive: false });
+
   onMouseLeave = () => this.setState({ isActive: false });
+
   render() {
-    const { getStyles, Icon, children, innerProps, ...rest } = this.props;
+    const {
+      getStyles,
+      Icon,
+      children,
+      innerProps,
+      innerRef,
+      ...rest
+    } = this.props;
 
     // prop assignment
     const props: InnerProps = {
@@ -126,7 +137,7 @@ class ControlOption extends Component<OptionProps, OptionState> {
     const [styles, classes] = getPrimitiveStyles({ getStyles, ...rest });
 
     return (
-      <div css={styles} className={classes} {...props}>
+      <div css={styles} className={classes} ref={innerRef} {...props}>
         <div css={iconWrapperCSS()}>
           <Icon
             primaryColor={getPrimaryColor({ ...this.props, ...this.state })}

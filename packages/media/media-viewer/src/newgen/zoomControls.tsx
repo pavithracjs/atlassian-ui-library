@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import Button from '@atlaskit/button';
+import { MediaButton } from '@atlaskit/media-ui';
 import ZoomOutIcon from '@atlaskit/icon/glyph/media-services/zoom-out';
 import ZoomInIcon from '@atlaskit/icon/glyph/media-services/zoom-in';
 import { ZoomLevel } from './domain/zoomLevel';
@@ -10,8 +10,10 @@ import {
   hideControlsClassName,
   ZoomLevelIndicator,
 } from './styled';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import {
+  withAnalyticsEvents,
+  WithAnalyticsEventProps,
+} from '@atlaskit/analytics-next';
 import { channel } from './analytics';
 import { ZoomControlsGasPayload, createZoomEvent } from './analytics/zoom';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
@@ -54,7 +56,7 @@ export class ZoomControlsBase extends Component<
     return (
       <ZoomWrapper className={hideControlsClassName}>
         <ZoomControlsWrapper>
-          <Button
+          <MediaButton
             appearance={'toolbar' as any}
             isDisabled={!zoomLevel.canZoomOut}
             onClick={this.zoomOut}
@@ -62,7 +64,7 @@ export class ZoomControlsBase extends Component<
               <ZoomOutIcon label={formatMessage(messages.zoom_out)} />
             }
           />
-          <Button
+          <MediaButton
             appearance={'toolbar' as any}
             isDisabled={!zoomLevel.canZoomIn}
             onClick={this.zoomIn}

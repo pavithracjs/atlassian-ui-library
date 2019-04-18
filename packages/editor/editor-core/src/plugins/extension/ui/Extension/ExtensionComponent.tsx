@@ -121,7 +121,7 @@ export default class ExtensionComponent extends Component<Props, State> {
         return extensionContent;
       }
     } catch (e) {
-      /* tslint:disable-next-line:no-console */
+      // eslint-disable-next-line no-console
       console.error('Provided extension handler has thrown an error\n', e);
       /** We don't want this error to block renderer */
       /** We keep rendering the default content */

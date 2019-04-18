@@ -18,6 +18,7 @@ const Button = withAnalytics(
         one: 1,
       });
     };
+
     render() {
       const props = cleanProps(this.props);
       return <button {...props} onClick={this.onClick} />;

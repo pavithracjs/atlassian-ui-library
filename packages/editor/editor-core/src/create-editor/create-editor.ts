@@ -17,6 +17,7 @@ import { name, version } from '../version-wrapper';
 import { Dispatch, EventDispatcher } from '../event-dispatcher';
 import { PortalProviderAPI } from '../ui/PortalProvider';
 import Ranks from '../plugins/rank';
+import { DispatchAnalyticsEvent } from '../plugins/analytics';
 
 export function sortByRank(a: { rank: number }, b: { rank: number }): number {
   return a.rank - b.rank;
@@ -143,22 +144,26 @@ export function createPMPlugins({
   editorConfig,
   schema,
   props,
+  prevProps,
   dispatch,
   eventDispatcher,
   providerFactory,
   errorReporter,
   portalProviderAPI,
   reactContext,
+  dispatchAnalyticsEvent,
 }: {
   editorConfig: EditorConfig;
   schema: Schema;
   props: EditorProps;
+  prevProps?: EditorProps;
   dispatch: Dispatch;
   eventDispatcher: EventDispatcher;
   providerFactory: ProviderFactory;
   errorReporter: ErrorReporter;
   portalProviderAPI: PortalProviderAPI;
   reactContext: () => { [key: string]: any };
+  dispatchAnalyticsEvent: DispatchAnalyticsEvent;
 }): Plugin[] {
   return editorConfig.pmPlugins
     .sort(sortByOrder('plugins'))
@@ -166,12 +171,14 @@ export function createPMPlugins({
       plugin({
         schema,
         props,
+        prevProps,
         dispatch,
         providerFactory,
         errorReporter,
         eventDispatcher,
         portalProviderAPI,
         reactContext,
+        dispatchAnalyticsEvent,
       }),
     )
     .filter(plugin => !!plugin) as Plugin[];

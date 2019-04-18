@@ -7,6 +7,7 @@ export const getPopupProps = memoizeOne(
     target: Target,
     onFlip: (data: any) => any,
     popupTitle?: string,
+    boundariesElement?: HTMLElement,
   ) => ({
     searchThreshold: -1,
     controlShouldRenderValue: true,
@@ -23,7 +24,7 @@ export const getPopupProps = memoizeOne(
           fn: (data: any) => onFlip(data),
         },
         preventOverflow: {
-          boundariesElement: 'viewport',
+          boundariesElement: boundariesElement || 'viewport',
         },
       },
     },

@@ -51,12 +51,15 @@ class Example extends Component<ExampleProps, ExampleState> {
     isChangeboardingOpen: this.props.navigationUIController.state.isCollapsed,
     spotlightTargetNode: null,
   };
+
   openChangeboarding = () => {
     this.setState({ isChangeboardingOpen: true });
   };
+
   closeChangeboarding = () => {
     this.setState({ isChangeboardingOpen: false });
   };
+
   getCollapseAffordanceRef = ({ expandCollapseAffordance }: *) => {
     if (
       expandCollapseAffordance &&
@@ -66,6 +69,7 @@ class Example extends Component<ExampleProps, ExampleState> {
       this.setState({ spotlightTargetNode: expandCollapseAffordance.current });
     }
   };
+
   render() {
     const { isChangeboardingOpen, spotlightTargetNode } = this.state;
 

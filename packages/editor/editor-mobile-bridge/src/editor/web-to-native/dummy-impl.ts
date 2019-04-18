@@ -1,4 +1,4 @@
-// tslint:disable:no-console
+/* eslint-disable no-console */
 import { Color as StatusColor } from '@atlaskit/status';
 import { EditorBridges, EditorPluginBridges } from './index';
 import NativeBridge from './bridge';
@@ -43,8 +43,17 @@ export default class DummyBridge implements NativeBridge {
   dismissStatusPicker(isNew: boolean) {
     this.log(`dismissStatusPicker(isNew=${isNew})`);
   }
-  currentSelection(text: string, url: string) {
-    this.log(`currentSelection(text=${text}, url=${url})`);
+  currentSelection(
+    text: string,
+    url: string,
+    top: number,
+    right: number,
+    bottom: number,
+    left: number,
+  ) {
+    this.log(
+      `currentSelection(text=${text}, url=${url}, top=${top}, right=${right}, bottom=${bottom}, left=${left})`,
+    );
   }
 
   call<T extends EditorPluginBridges>(

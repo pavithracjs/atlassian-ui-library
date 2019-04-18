@@ -1,5 +1,39 @@
 # @atlaskit/media-core
 
+## 29.1.4
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/media-card@60.0.1
+  - @atlaskit/media-store@11.0.7
+  - @atlaskit/button@12.0.0
+
+## 29.1.3
+- [patch] [30a9a7177e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/30a9a7177e):
+
+  - [MS-1791] Make fileState.representations optional, since media api might not return that value in all cases and we want to prevent a runtime error
+
+## 29.1.2
+- Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
+  - @atlaskit/media-store@11.0.5
+  - @atlaskit/media-test-helpers@21.2.2
+  - @atlaskit/media-card@60.0.0
+
+## 29.1.1
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 29.1.0
+- [minor] [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+
+  - Fix missing annotated images in recent uploads within media picker
+
+## 29.0.2
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/media-store@11.0.2
+  - @atlaskit/media-test-helpers@21.0.3
+  - @atlaskit/media-card@58.0.0
+
 ## 29.0.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

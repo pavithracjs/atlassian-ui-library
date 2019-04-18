@@ -6,6 +6,10 @@ import { Wrapper as WrapperDefault, padding } from '../styles';
 export const Wrapper = styled(WrapperDefault)`
   margin: ${blockNodesVerticalMargin} 0;
 
+  .extension-overflow-wrapper {
+    overflow-x: auto;
+  }
+
   /* extension container breakout, only works on top level */
   .ProseMirror > [extensiontype] &[data-layout='full-width'],
   .ProseMirror > [extensiontype] &[data-layout='wide'] {

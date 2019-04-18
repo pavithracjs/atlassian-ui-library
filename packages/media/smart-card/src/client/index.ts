@@ -202,9 +202,11 @@ export class Client implements ClientInterface {
       merge(resolving$, data$).subscribe(state => {
         if (handleAnalyticsCallback) {
           if (state.status === 'resolved') {
-            handleAnalyticsCallback(resolvedEvent(url));
+            handleAnalyticsCallback(resolvedEvent(state.definitionId));
           } else {
-            handleAnalyticsCallback(unresolvedEvent(url, state));
+            handleAnalyticsCallback(
+              unresolvedEvent(state.status, (state as any).definitionId),
+            );
           }
         }
 
