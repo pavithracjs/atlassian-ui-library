@@ -10,11 +10,6 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-/**
- * Skipping ssr tests while we investigate an issue with emotion 10 hydration errors
- * Ticket: https://ecosystem.atlassian.net/browse/AK-6059
- * */
-
 test('should ssr then hydrate dynamic-table correctly', async () => {
   const [example] = await getExamplesFor('dynamic-table');
   // $StringLitteral
@@ -24,7 +19,11 @@ test('should ssr then hydrate dynamic-table correctly', async () => {
   elem.innerHTML = await ssr(example.filePath);
 
   ReactDOM.hydrate(<Example />, elem);
-  // ignore emotion errors in server
+  /* Filter emotion related errors resulting from <style> tags being left in server
+   * while we investigate an issue with emotion 10 hydration errors
+   * Ticket: https://ecosystem.atlassian.net/browse/AK-6059
+   */
+
   const ignorePattern = /Did not expect server HTML to contain a <style> in <div>./;
   // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls.filter(
