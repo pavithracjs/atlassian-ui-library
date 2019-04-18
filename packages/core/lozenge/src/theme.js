@@ -1,5 +1,6 @@
 // @flow
 
+import { type Node } from 'react';
 import { colors, createTheme } from '@atlaskit/theme';
 
 /** Note
@@ -61,6 +62,7 @@ export type ThemeTokens = {
   backgroundColor: string,
   maxWidth: number | string,
   textColor: string,
+  children?: Node,
 };
 
 export const Theme = createTheme<ThemeTokens, ThemeProps>(
