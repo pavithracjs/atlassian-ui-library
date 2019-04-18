@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router';
-import { HashRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { Label } from '@atlaskit/field-base';
 import { ToggleStateless } from '@atlaskit/toggle';
 
@@ -68,7 +68,7 @@ export default class App extends Component<
     } = this.state;
 
     return (
-      <HashRouter>
+      <MemoryRouter>
         <NavigationProvider isDebugEnabled={isDebugEnabled}>
           <LayoutManagerWithViewController
             customComponents={{ LinkItem, ProjectSwitcher }}
@@ -116,7 +116,7 @@ export default class App extends Component<
             </div>
           </LayoutManagerWithViewController>
         </NavigationProvider>
-      </HashRouter>
+      </MemoryRouter>
     );
   }
 }
