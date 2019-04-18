@@ -195,10 +195,10 @@ export const insertMedia = async (
       );
     });
   } else {
-    await browser.browser.execute(() => {
+    browser.evaluate(() => {
       window.scrollBy(0, window.innerHeight);
     });
-    await browser.browser.waitFor(
+    await browser.waitFor(
       (mediaCardSelector: any, mediaCardCount: any) => {
         const mediaCards = document.querySelectorAll(mediaCardSelector);
         return mediaCards.length === mediaCardCount;
