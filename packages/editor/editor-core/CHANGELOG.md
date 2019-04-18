@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.20.0
+- [minor] [ce8ac59383](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce8ac59383):
+
+  - ED-6635: You can now resize media inside columns
+
 ## 107.19.0
 - [minor] [ee71c90037](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee71c90037):
 

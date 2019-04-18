@@ -1,1 +1,0 @@
-- ED-6635: You can now resize media inside columns
