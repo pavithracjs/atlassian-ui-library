@@ -117,6 +117,7 @@ type State = {
 
 type Props = {
   createItemOpens: 'drawer' | 'modal',
+  helpItemOpens: 'drawer' | 'menu',
   notificationCount: number,
   onNotificationDrawerOpen: () => void,
   unmountOnExit: boolean,
@@ -221,10 +222,13 @@ class GlobalNavWithDrawers extends Component<Props, State> {
 
     const {
       createItemOpens,
+      helpItemOpens,
       notificationCount,
       onNotificationDrawerOpen,
       unmountOnExit,
     } = this.props;
+
+    console.log(helpItemOpens === 'drawer');
 
     return (
       <Fragment>
@@ -266,6 +270,7 @@ class GlobalNavWithDrawers extends Component<Props, State> {
           helpDrawerContents={this.renderHelpDrawerContents}
           onHelpDrawerCloseComplete={this.onCloseComplete}
           shouldHelpDrawerUnmountOnExit={unmountOnExit}
+          enableHelpDrawer={helpItemOpens === 'drawer'}
           // Settings
           settingsDrawerContents={this.renderSettingsDrawerContents}
           onSettingsDrawerCloseComplete={this.onCloseComplete}
@@ -289,6 +294,7 @@ class GlobalNavWithDrawers extends Component<Props, State> {
 
 type NavState = {
   createItemOpens: 'drawer' | 'modal',
+  helpItemOpens: 'drawer' | 'menu',
   notificationCount: number,
   shouldUnmountOnExit: boolean,
 };
@@ -298,6 +304,7 @@ type NavState = {
 export default class extends Component<{||}, NavState> {
   state = {
     createItemOpens: 'modal',
+    helpItemOpens: 'menu',
     notificationCount: DEFAULT_NOTIFICATION_COUNT,
     shouldUnmountOnExit: false,
   };
@@ -308,6 +315,10 @@ export default class extends Component<{||}, NavState> {
 
   handleCreateChange = (e: *) => {
     this.setState({ createItemOpens: e.currentTarget.value });
+  };
+
+  handleHelpChange = (e: *) => {
+    this.setState({ helpItemOpens: e.currentTarget.value });
   };
 
   toggleUnmountBehaviour = () => {
@@ -324,12 +335,14 @@ export default class extends Component<{||}, NavState> {
   renderGlobalNavigation = () => {
     const {
       createItemOpens,
+      helpItemOpens,
       notificationCount,
       shouldUnmountOnExit,
     } = this.state;
     return (
       <GlobalNavWithDrawers
         createItemOpens={createItemOpens}
+        helpItemOpens={helpItemOpens}
         notificationCount={notificationCount}
         onNotificationDrawerOpen={this.clearNotificationCount}
         unmountOnExit={shouldUnmountOnExit}
@@ -340,6 +353,7 @@ export default class extends Component<{||}, NavState> {
   render() {
     const {
       createItemOpens,
+      helpItemOpens,
       notificationCount,
       shouldUnmountOnExit,
     } = this.state;
@@ -367,6 +381,24 @@ export default class extends Component<{||}, NavState> {
                 ]}
                 label="Create item opens a:"
                 onRadioChange={this.handleCreateChange}
+              />
+            </div>
+            <div>
+              <StatelessRadioGroup
+                items={[
+                  {
+                    value: 'menu',
+                    label: 'Menu',
+                    isSelected: helpItemOpens === 'menu',
+                  },
+                  {
+                    value: 'drawer',
+                    label: 'Drawer',
+                    isSelected: helpItemOpens === 'drawer',
+                  },
+                ]}
+                label="Help opens a:"
+                onRadioChange={this.handleHelpChange}
               />
             </div>
             <div css={{ display: 'block', paddingTop: '1rem' }}>
