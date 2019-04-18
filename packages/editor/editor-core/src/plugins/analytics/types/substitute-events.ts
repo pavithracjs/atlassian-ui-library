@@ -1,13 +1,13 @@
 import { TrackAEP } from './events';
 import { ACTION, ACTION_SUBJECT, ACTION_SUBJECT_ID } from './enums';
 
-export const enum SYMBOL {
+export enum SYMBOL {
   ARROW_RIGHT = 'rightArrow',
   ARROW_LEFT = 'leftArrow',
   ARROW_DOUBLE = 'doubleArrow',
 }
 
-export const enum PUNC {
+export enum PUNC {
   DASH = 'emDash',
   ELLIPSIS = 'ellipsis',
   QUOTE_SINGLE = 'singleQuote',

@@ -6,7 +6,7 @@ import {
   ACTION_SUBJECT_ID,
 } from './enums';
 
-export const enum PANEL_TYPE {
+export enum PANEL_TYPE {
   INFO = 'info',
   SUCCESS = 'success',
   NOTE = 'note',
@@ -14,7 +14,7 @@ export const enum PANEL_TYPE {
   ERROR = 'error',
 }
 
-export const enum LAYOUT_TYPE {
+export enum LAYOUT_TYPE {
   TWO_COLS_EQUAL = 'twoColumnsEqual',
   THREE_COLS_EQUAL = 'threeColumnsEqual',
   LEFT_SIDEBAR = 'twoColumnsLeftSidebar',

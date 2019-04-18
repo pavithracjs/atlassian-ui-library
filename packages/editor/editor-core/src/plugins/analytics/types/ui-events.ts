@@ -6,7 +6,7 @@ import {
   INPUT_METHOD,
 } from './enums';
 
-export const enum PLATFORMS {
+export enum PLATFORMS {
   NATIVE = 'mobileNative',
   HYBRID = 'mobileHybrid',
   WEB = 'web',
