@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 7.0.3
+- [patch] [3f48f041b0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f48f041b0):
+
+  - Fix bug where pre-fetching is attempted even if the cloud id isn't present
+
 ## 7.0.2
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
