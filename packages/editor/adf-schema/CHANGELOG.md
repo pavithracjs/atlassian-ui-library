@@ -1,5 +1,10 @@
 # @atlaskit/adf-schema
 
+## 2.5.3
+- [patch] [583f5db46d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/583f5db46d):
+
+  - Use tslib as dependency
+
 ## 2.5.2
 - [patch] [6695367885](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6695367885):
 
