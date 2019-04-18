@@ -1,1 +1,0 @@
-- Internal changes only. Makes DynamicTable compatible with SSR.
