@@ -127,8 +127,9 @@ export default class Page {
     return this.browser.getCssProperty(selector, cssProperty);
   }
 
-  getLocation(selector, property) {
-    return this.browser.getLocation(selector, property);
+  async getLocation(selector, property) {
+    const ele = await this.browser.$(selector);
+    return ele.getLocation(selector, property);
   }
 
   url() {

@@ -21,7 +21,7 @@ const timeOption = '.timepicker-select__menu-list';
 const dateTime = 'label[for="react-select-datetimepicker-1--input"]';
 const dateTimePicker = `${dateTime} + div > div`;
 const dateTimePickerDateInput = 'input#react-select-datetimepicker-1-input';
-const dateTimeValues = `${dateTimePicker} > div > div > div`;
+const dateTimeValues = `${dateTimePicker} > div > div > div > div > div`;
 
 // TODO:  Fix Datetimepicker tests - AK-5892
 // BrowserTestCase(
@@ -112,20 +112,10 @@ BrowserTestCase(
     const previousDate = await dateTimePickerTest.getText(dateValue);
 
     await dateTimePickerTest.click(datepickerDefault);
+    await dateTimePickerTest.keys(['ArrowLeft']);
+    await dateTimePickerTest.keys(['ArrowLeft']);
+    await dateTimePickerTest.keys(['Enter']);
 
-    if (dateTimePickerTest.isBrowser('firefox')) {
-      // Focus on the input - `type` will do it for you
-      await dateTimePickerTest.type(datepickerInput, [
-        'ArrowLeft',
-        'ArrowLeft',
-        'ArrowLeft',
-      ]);
-      await dateTimePickerTest.type(datepickerInput, ['Enter']);
-    } else {
-      await dateTimePickerTest.keys(['ArrowLeft']);
-      await dateTimePickerTest.keys(['ArrowLeft']);
-      await dateTimePickerTest.keys(['Enter']);
-    }
     expect(await dateTimePickerTest.getText(dateValue)).not.toBe(previousDate);
     await dateTimePickerTest.checkConsoleErrors();
   },
@@ -146,7 +136,7 @@ BrowserTestCase(
 
     await timePicker.type(timeInput, ['12:45pm']);
     await timePicker.waitForSelector(timeOption);
-    await timePicker.type(timeInput, ['Enter']);
+    await timePicker.keys('Enter');
     await timePicker.waitForSelector(timeValue);
 
     const currentTime = await timePicker.getText(timeValue);
@@ -169,14 +159,7 @@ BrowserTestCase(
     await timePicker.click(timepickerDefault);
     await timePicker.waitForSelector(timePickerMenu);
     await timePicker.type(timeInput, ['a', 's', 'd']);
-
-    if (timePicker.isBrowser('firefox')) {
-      // Focus on the input - `type` will do it for you
-      await timePicker.type(timeInput, ['Enter']);
-    } else {
-      // There is small issue there about the Key ENTER pressed too fast
-      timePicker.keys(['Enter']);
-    }
+    await timePicker.keys(['Enter']);
 
     await timePicker.waitForSelector(timeValue);
 
@@ -197,16 +180,17 @@ BrowserTestCase(
     await dateTimePickerTest.click(date);
     await dateTimePickerTest.waitForSelector(dateTimeValues);
 
-    const [previousDate, previousTime] = await dateTimePickerTest.getText(
-      dateTimeValues,
-    );
+    const previousDate = await dateTimePickerTest.getText(dateTimeValues);
 
-    await dateTimePickerTest.type(dateTimePickerDateInput, ['Backspace']);
+    const timevalue = `label[for="react-select-datetimepicker-1--input"] + div > div + div > div > div > div >div > div`;
+    const previousTime = await dateTimePickerTest.getText(timevalue);
+
+    await dateTimePickerTest.keys('Backspace');
     await dateTimePickerTest.waitForSelector(dateTimeValues);
 
-    const [afterDate, afterTime] = await dateTimePickerTest.getText(
-      dateTimeValues,
-    );
+    const afterDate = await dateTimePickerTest.getText(dateTimeValues);
+
+    const afterTime = await dateTimePickerTest.getText(timevalue);
 
     expect(afterDate).not.toBe(previousDate);
     expect(previousTime).toBe(afterTime);
@@ -229,10 +213,10 @@ BrowserTestCase(
       '1',
       '6',
     ]);
-    await dateTimePickerTest.type(dateTimePickerDateInput, ['Enter']);
+    await dateTimePickerTest.keys(['Enter']);
     await dateTimePickerTest.waitForSelector(dateTimeValues);
 
-    const [newDate] = await dateTimePickerTest.getText(dateTimeValues);
+    const newDate = await dateTimePickerTest.getText(dateTimeValues);
 
     expect(newDate.trim()).toBe('2016/01/01');
     await dateTimePickerTest.checkConsoleErrors();
