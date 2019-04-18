@@ -49,7 +49,7 @@ export interface Props {
  *
  * renderComponent: ({ hyperlink }) => React.Component;
  */
-export default class WithPluginState extends React.PureComponent<Props> {
+export default class WithPluginState extends React.Component<Props> {
   private listeners = {};
   private debounce: number | null = null;
   private recentEditorPluginState: { [key: string]: any } = {};
@@ -104,6 +104,7 @@ export default class WithPluginState extends React.PureComponent<Props> {
       this.debounceForceUpdate();
     } else {
       if (this.recentEditorPluginState[propName] !== pluginState) {
+        this.recentEditorPluginState[propName] = pluginState;
         this.debounceForceUpdate();
       }
     }
