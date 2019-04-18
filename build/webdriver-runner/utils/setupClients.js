@@ -1,6 +1,5 @@
 'use strict';
 // @flow
-const webdriverio = require('webdriverio');
 const uniqIdentifierStamp = process.env.LOCAL_IDENTIFIER || '';
 const commit = process.env.BITBUCKET_COMMIT
   ? process.env.BITBUCKET_COMMIT + uniqIdentifierStamp
@@ -45,13 +44,14 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
       browser_version: '11.0',
       resolution: RESOLUTION,
     },
-    edge: {
-      os: 'Windows',
-      os_version: '10',
-      browserName: 'edge',
-      browser_version: '17',
-      resolution: RESOLUTION,
-    },
+    // https://github.com/webdriverio/webdriverio/issues/3196
+    // edge: {
+    //   os: 'Windows',
+    //   os_version: '10',
+    //   browserName: 'edge',
+    //   browser_version: '17',
+    //   resolution: RESOLUTION,
+    // },
   };
   if (process.env.LANDKID) {
     delete launchers.safari;
@@ -61,13 +61,13 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
     process.env.BITBUCKET_BRANCH = 'Landkid';
   }
   const launchKeys = Object.keys(launchers);
-  const options = launchKeys.map(launchKey => {
-    const option = {
-      desiredCapabilities: {
+  const clients = launchKeys.map(launchKey => {
+    const options = {
+      capabilities: {
         os: launchers[launchKey].os,
         os_version: launchers[launchKey].os_version,
         browserName: launchers[launchKey].browserName,
-        browser_version: launchers[launchKey].browser_version,
+        browserVersion: launchers[launchKey].browser_version,
         project: 'Atlaskit Webdriver Tests',
         build: process.env.BITBUCKET_BRANCH,
         'browserstack.local': true,
@@ -75,22 +75,20 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
         'browserstack.idleTimeout': 300,
         'browserstack.localIdentifier': commit,
         resolution: launchers[launchKey].resolution,
+        acceptSslCerts: true,
       },
-      host: 'hub.browserstack.com',
-      port: 80,
+      logLevel: 'error',
       user: process.env.BROWSERSTACK_USERNAME,
       key: process.env.BROWSERSTACK_KEY,
       waitforTimeout: 3000,
     };
-    const driver = webdriverio.remote(option);
     return {
       browserName: launchers[launchKey].browserName,
-      driver: driver,
-      isReady: false,
+      options,
     };
   });
 
-  return options;
+  return clients;
 }
 
 function setLocalClients() /*: Array<?Object>*/ {
@@ -101,15 +99,15 @@ function setLocalClients() /*: Array<?Object>*/ {
   const windowSize = '--window-size=1920,1200';
   const options = {
     port,
-    desiredCapabilities: {
+    logLevel: 'error',
+    capabilities: {
       browserName: 'chrome',
       chromeOptions: isHeadless
         ? { args: ['--headless', windowSize] }
         : { args: [windowSize] },
     },
   };
-  const driver = webdriverio.remote(options);
-  return [{ browserName: 'chrome', driver: driver, isReady: false }];
+  return [{ browserName: 'chrome', options }];
 }
 
 module.exports = { setLocalClients, setBrowserStackClients };

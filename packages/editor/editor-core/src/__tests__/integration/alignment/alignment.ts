@@ -104,16 +104,15 @@ BrowserTestCase(
       allowTextAlignment: true,
     });
     await alignRight(page);
-    await page.type(editable, [
-      'this is right',
-      'Enter',
-      'this is still right',
-    ]);
+    await page.type(editable, ['this is right']);
+    await page.keys('Enter');
+    await page.type(editable, ['this is still right']);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
+
 
 BrowserTestCase(
   'alignment: should be able to add alignment to selected cells',
