@@ -1,0 +1,1 @@
+- updated user picker field email validity check and ui copies for domain based user only invite in share component
