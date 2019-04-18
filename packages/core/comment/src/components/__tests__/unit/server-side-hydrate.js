@@ -19,7 +19,10 @@ test('should ssr then hydrate comment correctly', async () => {
   elem.innerHTML = await ssr(example.filePath);
 
   ReactDOM.hydrate(<Example />, elem);
-  //Filter emotion related errors resulting from <style> tags being left in server.
+  /* Filter emotion related errors resulting from <style> tags being left in server
+   * while we investigate an issue with emotion 10 hydration errors
+   * Ticket: https://ecosystem.atlassian.net/browse/AK-6059
+   */
   const ignorePattern = /Did not expect server HTML to contain a <style> in <div>./;
   // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls.filter(
