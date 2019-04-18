@@ -105,6 +105,7 @@ export interface FileFetcher {
     source: SourceFile,
     destination: CopyDestination,
   ): Promise<MediaFile>;
+  getFileBinaryURL(id: string, collectionName?: string): Promise<string>;
 }
 
 export class FileFetcherImpl implements FileFetcher {
@@ -191,6 +192,10 @@ export class FileFetcherImpl implements FileFetcher {
       artifactName,
       collectionName,
     );
+  }
+
+  getFileBinaryURL(id: string, collectionName?: string): Promise<string> {
+    return this.mediaStore.getFileBinaryURL(id, collectionName);
   }
 
   private createDownloadFileStream = (

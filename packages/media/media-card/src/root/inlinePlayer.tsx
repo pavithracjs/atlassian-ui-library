@@ -99,6 +99,15 @@ export class InlinePlayer extends Component<
                 onError(error);
               }
             }
+          } else {
+            try {
+              const fileSrc = await context.file.getFileBinaryURL(
+                state.id,
+                collectionName,
+              );
+
+              this.setState({ fileSrc });
+            } catch (e) {}
           }
         },
       });
