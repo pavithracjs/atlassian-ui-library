@@ -1,5 +1,10 @@
 # @atlaskit/conversation
 
+## 14.2.0
+- [minor] [8cd293e322](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8cd293e322):
+
+  - Exposing lifecycle hooks for Conversation Editor
+
 ## 14.1.1
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 
