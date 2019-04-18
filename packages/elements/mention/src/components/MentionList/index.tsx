@@ -217,7 +217,6 @@ export default class MentionList extends React.PureComponent<Props, State> {
                  * onClick from firing.
                  */
                 onSelection={this.itemSelected}
-                // tslint:disable-next-line:jsx-no-lambda
                 ref={ref => {
                   if (ref) {
                     this.items[key] = ref;

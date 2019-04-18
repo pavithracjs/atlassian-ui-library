@@ -64,12 +64,15 @@ class EmojiTypeAheadTextInput extends Component<
     this.updateSearch(query);
   };
   private handleSearchTextInputUp = () => {
+    // eslint-disable-next-line no-unused-expressions
     this.emojiTypeAheadRef && this.emojiTypeAheadRef.selectPrevious();
   };
   private handleSearchTextInputDown = () => {
+    // eslint-disable-next-line no-unused-expressions
     this.emojiTypeAheadRef && this.emojiTypeAheadRef.selectNext();
   };
   private handleSearchTextInputEnter = () => {
+    // eslint-disable-next-line no-unused-expressions
     this.emojiTypeAheadRef && this.emojiTypeAheadRef.chooseCurrentSelection();
   };
   private handleEmojiTypeAheadRef = (ref: EmojiTypeAhead | null) => {

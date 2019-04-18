@@ -12,9 +12,11 @@ import {
   isDifferentIdentifier,
   isImageRepresentationReady,
 } from '@atlaskit/media-core';
-import { AnalyticsContext } from '@atlaskit/analytics-next';
 import DownloadIcon from '@atlaskit/icon/glyph/download';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import {
+  AnalyticsContext,
+  UIAnalyticsEventInterface,
+} from '@atlaskit/analytics-next';
 import { Subscription } from 'rxjs/Subscription';
 import { IntlProvider } from 'react-intl';
 import { MediaViewer, MediaViewerDataSource } from '@atlaskit/media-viewer';

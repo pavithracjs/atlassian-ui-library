@@ -12,7 +12,7 @@ import { ZoomLevel } from '../../domain/zoomLevel';
 
 export const pdfViewerClassName = 'pdfViewer';
 
-/* tslint:disable:no-unused-expression */
+/* eslint-disable no-unused-expressions */
 injectGlobal`
   .${pdfViewerClassName} {
     margin-top: 64px;
@@ -76,7 +76,7 @@ injectGlobal`
     }
   }
 `;
-/* tslint:enable:no-unused-expression */
+/* eslint-enable no-unused-expressions */
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/'; // TODO: use web workers instead of fake worker.
 

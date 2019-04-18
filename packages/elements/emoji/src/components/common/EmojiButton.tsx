@@ -21,7 +21,6 @@ const handleMouseDown = (props: Props, event: MouseEvent<any>) => {
   }
 };
 
-// tslint:disable-next-line:variable-name
 export const EmojiButton = (props: Props) => {
   const { emoji, selectOnHover } = props;
 
@@ -30,7 +29,6 @@ export const EmojiButton = (props: Props) => {
   return (
     <button
       className={classNames(classes)}
-      // tslint:disable-next-line:jsx-no-lambda
       onMouseDown={event => {
         handleMouseDown(props, event);
       }}

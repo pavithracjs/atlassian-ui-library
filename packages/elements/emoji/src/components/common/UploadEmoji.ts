@@ -22,7 +22,7 @@ export const uploadEmoji = (
       .then(emojiDescription => onSuccess(emojiDescription))
       .catch(err => {
         errorSetter(messages.emojiUploadFailed);
-        // tslint:disable-next-line no-console
+        // eslint-disable-next-line no-console
         console.error('Unable to upload emoji', err);
         onFailure(messages.emojiUploadFailed);
       });

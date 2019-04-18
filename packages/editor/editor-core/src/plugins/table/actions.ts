@@ -810,7 +810,11 @@ export const handleCut = (
 
         // Need this check again since we are overriding the tr in previous statement
         if (tr.selection instanceof CellSelection) {
-          if (tr.selection.isRowSelection()) {
+          const isTableSelected =
+            tr.selection.isRowSelection() && tr.selection.isColSelection();
+          if (isTableSelected) {
+            tr = removeTable(tr);
+          } else if (tr.selection.isRowSelection()) {
             const {
               pluginConfig: { isHeaderRowRequired },
             } = getPluginState(newState);

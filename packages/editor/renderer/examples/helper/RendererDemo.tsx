@@ -1,4 +1,4 @@
-// tslint:disable:no-console
+/* eslint-disable no-console */
 import * as React from 'react';
 import {
   profilecard as profilecardUtils,
@@ -24,7 +24,6 @@ import { document as storyDataDocument } from './story-data';
 import {
   default as Renderer,
   Props as RendererProps,
-  RendererAppearance,
 } from '../../src/ui/Renderer';
 
 import { ProfileClient, modifyResponse } from '@atlaskit/profilecard';
@@ -32,6 +31,7 @@ import { ProfileClient, modifyResponse } from '@atlaskit/profilecard';
 import { EmailSerializer, renderDocument, TextSerializer } from '../../src';
 
 import Sidebar, { getDefaultShowSidebarState } from './NavigationNext';
+import { RendererAppearance } from '../../src/ui/Renderer/types';
 
 const { getMockProfileClient: getMockProfileClientUtil } = profilecardUtils;
 const MockProfileClient = getMockProfileClientUtil(

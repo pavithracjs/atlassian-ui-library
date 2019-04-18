@@ -51,7 +51,10 @@ export const pluginConfig = (tablesConfig?: PluginConfig | boolean) => {
     : config;
 };
 
-const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
+const tablesPlugin = (
+  options?: PluginConfig | boolean,
+  disableBreakoutUI?: boolean,
+): EditorPlugin => ({
   nodes() {
     return [
       { name: 'table', node: table },
@@ -65,7 +68,13 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
     return [
       {
         name: 'table',
-        plugin: ({ props, eventDispatcher, dispatch, portalProviderAPI }) => {
+        plugin: ({
+          props,
+          prevProps,
+          eventDispatcher,
+          dispatch,
+          portalProviderAPI,
+        }) => {
           const {
             allowTables,
             appearance,
@@ -74,14 +83,17 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
           } = props;
           const isContextMenuEnabled = appearance !== 'mobile';
           const isBreakoutEnabled = !fullWidthMode;
+          const wasBreakoutEnabled =
+            prevProps && !prevProps.UNSAFE_fullWidthMode;
           return createPlugin(
             dispatch,
             portalProviderAPI,
             eventDispatcher,
             pluginConfig(allowTables),
             isContextMenuEnabled,
-            allowDynamicTextSizing && !fullWidthMode,
+            isBreakoutEnabled && allowDynamicTextSizing,
             isBreakoutEnabled,
+            wasBreakoutEnabled,
           );
         },
       },
@@ -101,6 +113,7 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
                 handleWidth: HANDLE_WIDTH,
                 cellMinWidth: tableCellMinWidth,
                 dynamicTextSizing: allowDynamicTextSizing && !fullWidthMode,
+                lastColumnResizable: !fullWidthMode,
               } as ColumnResizingPlugin)
             : undefined;
         },
@@ -141,19 +154,21 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
                 isOpen={pluginState.isContextualMenuOpen}
                 pluginConfig={pluginState.pluginConfig}
               />
-              {appearance === 'full-page' && isLayoutSupported(state) && (
-                <LayoutButton
-                  editorView={editorView}
-                  mountPoint={popupsMountPoint}
-                  boundariesElement={popupsBoundariesElement}
-                  scrollableElement={popupsScrollableElement}
-                  targetRef={pluginState.tableFloatingToolbarTarget}
-                  isResizing={
-                    !!tableResizingPluginState &&
-                    !!tableResizingPluginState.dragging
-                  }
-                />
-              )}
+              {appearance === 'full-page' &&
+                isLayoutSupported(state) &&
+                !disableBreakoutUI && (
+                  <LayoutButton
+                    editorView={editorView}
+                    mountPoint={popupsMountPoint}
+                    boundariesElement={popupsBoundariesElement}
+                    scrollableElement={popupsScrollableElement}
+                    targetRef={pluginState.tableFloatingToolbarTarget}
+                    isResizing={
+                      !!tableResizingPluginState &&
+                      !!tableResizingPluginState.dragging
+                    }
+                  />
+                )}
             </>
           );
         }}

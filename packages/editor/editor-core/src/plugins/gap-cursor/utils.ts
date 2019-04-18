@@ -193,6 +193,9 @@ export const fixCursorAlignment = (view: EditorView) => {
   const gapCursorRef = view.dom.querySelector(
     '.ProseMirror-gapcursor span',
   ) as HTMLElement;
+  if (!gapCursorRef) {
+    return;
+  }
 
   const gapCursorParentNodeRef = gapCursorRef.parentNode! as HTMLElement;
   const previousSibling = gapCursorParentNodeRef.previousSibling as HTMLElement;

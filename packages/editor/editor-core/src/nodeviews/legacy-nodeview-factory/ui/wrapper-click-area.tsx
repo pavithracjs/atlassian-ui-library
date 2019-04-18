@@ -38,7 +38,6 @@ interface State {
   selected: boolean;
 }
 
-// tslint:disable-next-line:variable-name
 export default function wrapComponentWithClickArea(
   ReactComponent: ReactComponentConstructor,
   inline?: boolean,

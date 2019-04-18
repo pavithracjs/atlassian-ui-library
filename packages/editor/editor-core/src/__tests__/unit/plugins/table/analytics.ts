@@ -12,7 +12,7 @@ import {
   tdCursor,
   td,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { colors } from '@atlaskit/theme';
 
 import { pluginKey } from '../../../../plugins/table/pm-plugins/main';
@@ -425,12 +425,12 @@ describe('Table analytic events', () => {
         toggleTableLayoutWithAnalytics()(editorView.state, editorView.dispatch);
 
         expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'changedLayout',
+          action: 'changedBreakoutMode',
           actionSubject: 'table',
           actionSubjectId: null,
           attributes: {
-            newLayout: 'wide',
-            previousLayout: 'normal',
+            newBreakoutMode: 'wide',
+            previousBreakoutMode: 'normal',
             totalRowCount: 3,
             totalColumnCount: 3,
           },
@@ -455,12 +455,12 @@ describe('Table analytic events', () => {
         toggleTableLayoutWithAnalytics()(editorView.state, editorView.dispatch);
 
         expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'changedLayout',
+          action: 'changedBreakoutMode',
           actionSubject: 'table',
           actionSubjectId: null,
           attributes: {
-            newLayout: 'fullWidth',
-            previousLayout: 'wide',
+            newBreakoutMode: 'fullWidth',
+            previousBreakoutMode: 'wide',
             totalRowCount: 3,
             totalColumnCount: 3,
           },
@@ -484,12 +484,12 @@ describe('Table analytic events', () => {
         toggleTableLayoutWithAnalytics()(editorView.state, editorView.dispatch);
 
         expect(createAnalyticsEvent).toHaveBeenCalledWith({
-          action: 'changedLayout',
+          action: 'changedBreakoutMode',
           actionSubject: 'table',
           actionSubjectId: null,
           attributes: {
-            newLayout: 'normal',
-            previousLayout: 'fullWidth',
+            newBreakoutMode: 'normal',
+            previousBreakoutMode: 'fullWidth',
             totalRowCount: 3,
             totalColumnCount: 3,
           },

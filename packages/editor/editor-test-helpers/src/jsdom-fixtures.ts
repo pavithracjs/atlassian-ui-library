@@ -39,7 +39,7 @@ export default (editorView: any) => {
         return;
       }
 
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.warn(
         'Warning! Test depends on DOM selection API which is not supported in JSDOM/Node environment.',
       );

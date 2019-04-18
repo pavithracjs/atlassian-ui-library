@@ -51,7 +51,7 @@ const getNow = (nows: number[]) => () => nows.shift() || new Date().getTime();
 const waitFor = (time = 1) => new Promise(res => setTimeout(res, time));
 
 describe('Card', () => {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error = jest.fn();
 
   describe('analytics', () => {
@@ -71,7 +71,8 @@ describe('Card', () => {
       }
       const customClient = new CustomClient();
       const url = 'some.url';
-      const expectedPayload = resolvedEvent(url);
+      const definitionId = 'd1';
+      const expectedPayload = resolvedEvent(definitionId);
       const logger = jest.fn().mockImplementation(arg => {
         expect(arg.payload).toEqual(expectedPayload);
         done();

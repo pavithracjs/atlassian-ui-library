@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
   AnalyticsEventPayload,
   WithAnalyticsEventProps,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import { gridSize } from '@atlaskit/theme';
 import { injectIntl, InjectedIntlProps, Messages } from 'react-intl';
 import { ErrorBoundaryWrapper } from '../primitives/wrapper';

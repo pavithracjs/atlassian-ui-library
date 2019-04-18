@@ -7,7 +7,7 @@ import {
 import {
   AnalyticsEventPayload,
   WithAnalyticsEventProps,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 
 const DATA_PROVIDER_SUBJECT = 'atlassianSwitcherDataProvider';
 

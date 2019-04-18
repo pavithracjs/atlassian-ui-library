@@ -369,9 +369,9 @@ describe('@atlaskit/inline-edit', () => {
         placeholder=""
       />,
     );
-    /* tslint:disable no-console */
+    /* eslint-disable no-console */
     expect(console.warn).not.toHaveBeenCalled();
     expect(console.error).not.toHaveBeenCalled();
-    /* tslint:disable no-console */
+    /* eslint-disable no-console */
   });
 });

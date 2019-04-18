@@ -5,8 +5,10 @@ import { ErrorMessageWrapper, ErrorImage } from './styled';
 import { FileState } from '@atlaskit/media-core';
 import { messages as i18nMessages } from '@atlaskit/media-ui';
 import { cannotViewFile, errorLoadingFile } from './error-images';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import {
+  withAnalyticsEvents,
+  WithAnalyticsEventProps,
+} from '@atlaskit/analytics-next';
 import { mediaPreviewFailedEvent } from './analytics/item-viewer';
 import {
   GasPayload,

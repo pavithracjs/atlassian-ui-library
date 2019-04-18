@@ -1,5 +1,113 @@
 # @atlaskit/editor-core
 
+## 107.19.0
+- [minor] [ee71c90037](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee71c90037):
+
+  - ED-6601: When toggling between Full Width appearance and Full Page appearance, resized tables now scale their sizes accordingly.
+
+## 107.18.0
+- [minor] [272b64139f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/272b64139f):
+
+  - ED-5108 Adding padding in the bottom of full page editor appearance
+
+## 107.17.1
+- [patch] [16290b0448](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/16290b0448):
+
+  - ED-6715 Fix issue with gap cursor + breakout + full-width mode where editor would crash
+
+## 107.17.0
+- [minor] [d6886fe651](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6886fe651):
+
+  - ED-6649 Add analytics events for layout toolbar buttons - changing layouts and deleting layouts
+- [patch] [77936321cd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/77936321cd):
+
+  - [ED-4898] Fixes the Backspace event for empty codeBlocks when triggered from inside of tables or columns
+
+## 107.16.0
+- [minor] [5d9455978b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5d9455978b):
+
+  - ED-5292: add support for custom autoformatting
+
+  You can now use the `customAutoformatting` prop to provide a custom autoformatting handler that replaces on particular regex strings.
+
+  See (Editor RFC 131: Injectable auto-formatting rules, AutoformattingProvider)[https://product-fabric.atlassian.net/wiki/spaces/E/pages/881141566/Editor+RFC+131+Injectable+auto-formatting+rules+AutoformattingProvider] for more details on how this works.
+
+  An example provider `autoformattingProvider` that is used in the storybook example is exported from the `@atlaskit/editor-test-helpers` package. Try typing ED-123.
+
+  A simplified provider might look like:
+
+      export const autoformattingProvider: AutoformattingProvider = {
+        getRules: () =>
+          Promise.resolve({
+            '[Ee][Dd]-(\\d+)': (match: string[]): Promise<ADFEntity> => {
+              const ticketNumber = match[1];
+              return new Promise.resolve({
+                type: 'inlineCard',
+                attrs: {
+                  url: 'https://www.atlassian.com/',
+                },
+              });
+            },
+          }),
+      };
+
+  At the moment, only text or `inlineCard` nodes are permitted to be replaced.
+
+## 107.15.1
+- [patch] [9210783b0e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9210783b0e):
+
+  - [ED-6432] Fix remove table after cut event happen on the entire table
+
+## 107.15.0
+- [minor] [af359aa8d1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af359aa8d1):
+
+  - ED-6602: Disable breakout for full width mode
+
+## 107.14.0
+- [minor] [799b7daf70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/799b7daf70):
+
+  - ED-6600: Adding full-width mode to media
+
+## 107.13.4
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/avatar-group@3.0.4
+  - @atlaskit/button@12.0.3
+  - @atlaskit/calendar@7.0.22
+  - @atlaskit/code@9.0.1
+  - @atlaskit/dropdown-menu@7.0.6
+  - @atlaskit/droplist@8.0.5
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/item@9.0.1
+  - @atlaskit/logo@10.0.4
+  - @atlaskit/lozenge@7.0.2
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/select@8.1.1
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/textarea@0.4.4
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/editor-common@36.1.12
+  - @atlaskit/renderer@45.6.1
+  - @atlaskit/date@0.6.4
+  - @atlaskit/emoji@59.2.3
+  - @atlaskit/mention@17.6.7
+  - @atlaskit/pubsub@4.0.4
+  - @atlaskit/status@0.8.3
+  - @atlaskit/task-decision@14.0.5
+  - @atlaskit/media-card@60.0.3
+  - @atlaskit/media-editor@32.0.6
+  - @atlaskit/media-filmstrip@31.0.4
+  - @atlaskit/media-picker@38.1.6
+  - @atlaskit/smart-card@10.2.4
+  - @atlaskit/theme@8.1.7
+
+## 107.13.3
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
 ## 107.13.2
 - [patch] [8e86c7c9d4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8e86c7c9d4):
 

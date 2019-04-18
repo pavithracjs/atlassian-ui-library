@@ -1,5 +1,24 @@
 # @atlaskit/editor-common
 
+## 36.2.0
+- [minor] [799b7daf70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/799b7daf70):
+
+  - ED-6600: Adding full-width mode to media
+
+## 36.1.12
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/emoji@59.2.3
+  - @atlaskit/mention@17.6.7
+  - @atlaskit/media-card@60.0.3
+  - @atlaskit/profilecard@9.0.2
+  - @atlaskit/theme@8.1.7
+
+## 36.1.11
+- [patch] [0b5e0311af](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0b5e0311af):
+
+  - Ed-5849 Add check to popup to ensure it's target position is mounted
+
 ## 36.1.10
 - [patch] [c01f9e1cc7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c01f9e1cc7):
 

@@ -82,7 +82,8 @@ class MediaNode extends Component<MediaNodeProps, MediaNodeState> {
       this.props.viewContext !== nextProps.viewContext ||
       this.props.node.attrs.id !== nextProps.node.attrs.id ||
       this.props.node.attrs.collection !== nextProps.node.attrs.collection ||
-      this.props.cardDimensions !== nextProps.cardDimensions
+      this.props.cardDimensions.height !== nextProps.cardDimensions.height ||
+      this.props.cardDimensions.width !== nextProps.cardDimensions.width
     ) {
       return true;
     }

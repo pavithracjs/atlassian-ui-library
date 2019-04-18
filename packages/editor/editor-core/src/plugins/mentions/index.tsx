@@ -5,7 +5,7 @@ import { EditorState, Plugin, PluginKey, StateField } from 'prosemirror-state';
 import {
   AnalyticsEventPayload,
   CreateUIAnalyticsEventSignature,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import {
   MentionProvider,
   MentionItem,

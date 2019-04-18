@@ -1,5 +1,13 @@
 # @atlaskit/reduced-ui-pack
 
+## 10.5.6
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/css-reset@3.0.8
+  - @atlaskit/theme@8.1.7
+
 ## 10.5.5
 - Updated dependencies [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
   - @atlaskit/icon@16.0.4

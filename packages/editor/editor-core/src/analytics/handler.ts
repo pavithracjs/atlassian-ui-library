@@ -18,7 +18,7 @@ export function hermentHandler(
   try {
     window.AJS.EventQueue.push({ name, properties });
   } catch (e) {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.warn(
       'Unable to send analytics event via Herment - has it been initialized?',
       e,
@@ -30,7 +30,7 @@ export function debugHandler(
   name: string,
   properties?: AnalyticsProperties,
 ): void {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.info(
     'analytics event: ',
     name,
@@ -57,7 +57,7 @@ export function detectHandler(): AnalyticsHandler {
 }
 
 // This declaration is needed for TS to allow invoking Herment queue methods
-// tslint:disable-next-line:no-namespace
+
 declare global {
   interface Window {
     AJS: {

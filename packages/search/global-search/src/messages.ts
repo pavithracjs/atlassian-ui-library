@@ -220,4 +220,9 @@ export const messages = defineMessages({
     defaultMessage: 'Filter',
     description: '',
   },
+  give_feedback: {
+    id: 'global_search.give_feedback',
+    defaultMessage: 'Give feedback',
+    description: '',
+  },
 });

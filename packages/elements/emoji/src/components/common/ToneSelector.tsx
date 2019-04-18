@@ -7,11 +7,11 @@ import {
   OnToneSelected,
 } from '../../types';
 import EmojiButton from './EmojiButton';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import {
+  withAnalyticsEvents,
   WithAnalyticsEventProps,
   AnalyticsEventPayload,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import {
   createAndFireEventInElementsChannel,
   toneSelectedEvent,
@@ -76,7 +76,6 @@ export class ToneSelectorInternal extends PureComponent<
         {toneEmojis.map((tone, i) => (
           <EmojiButton
             key={`${tone.id}`}
-            // tslint:disable-next-line:jsx-no-lambda
             onSelected={() => this.onToneSelectedHandler(i)}
             emoji={tone}
             selectOnHover={true}

@@ -31,6 +31,8 @@ const minimatch = require('minimatch');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const historyApiFallback = require('connect-history-api-fallback');
+const ora = require('ora');
+const chalk = require('chalk');
 const createWebpackConfig = require('../config');
 const utils = require('../config/utils');
 const { print, devServerBanner, errorMsg } = require('../banner');
@@ -119,6 +121,8 @@ async function runDevServer() {
   // Starting Webpack Dev Server
   //
 
+  const spinner = ora(chalk.cyan('Starting webpack dev server')).start();
+
   const server = new WebpackDevServer(compiler, {
     // Enable gzip compression of generated files.
     compress: true,
@@ -131,9 +135,14 @@ async function runDevServer() {
   });
 
   return new Promise((resolve, reject) => {
+    compiler.hooks.done.tap('done', () => {
+      spinner.succeed(chalk.cyan('Compiled packages!'));
+    });
+
     server.listen(PORT, HOST, err => {
       if (err) {
-        console.log(err.stack || err);
+        spinner.fail();
+        console.log(chalk.red(err.stack || err));
         return reject(1);
       }
 

@@ -1,11 +1,9 @@
 import {
   AnalyticsContext,
   withAnalyticsEvents,
-} from '@atlaskit/analytics-next';
-import {
   AnalyticsEventPayload,
   WithAnalyticsEventProps,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import { ButtonAppearances } from '@atlaskit/button';
 import InlineDialog from '@atlaskit/inline-dialog';
 import { LoadOptions } from '@atlaskit/user-picker';
@@ -31,7 +29,7 @@ import {
   screenEvent,
   submitShare,
 } from './analytics';
-import { ShareButton } from './ShareButton';
+import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
 
 type DialogState = {
@@ -127,23 +125,31 @@ class ShareDialogWithTriggerInternal extends React.Component<
       this.props.config.mode === 'INVITE_NEEDS_APPROVAL'
     ) {
       flags.push({
-        id: `${ADMIN_NOTIFIED}-${Date.now()}`,
+        appearance: 'success',
+        title: {
+          ...messages.adminNotifiedMessage,
+          defaultMessage: formatMessage(messages.adminNotifiedMessage),
+        },
         type: ADMIN_NOTIFIED,
-        localizedTitle: formatMessage(messages.adminNotifiedMessage),
       });
     }
 
     flags.push({
-      id: `${OBJECT_SHARED}-${Date.now()}`,
+      appearance: 'success',
+      title: {
+        ...messages.shareSuccessMessage,
+        defaultMessage: formatMessage(messages.shareSuccessMessage, {
+          object: this.props.shareContentType.toLowerCase(),
+        }),
+      },
       type: OBJECT_SHARED,
-      localizedTitle: formatMessage(messages.shareSuccessMessage, {
-        object: this.props.shareContentType.toLowerCase(),
-      }),
     });
 
-    // The reason for providing the both type and localizedTitle is that
-    // in jira, the Flag system takes only Message Descriptor as payload
+    // The reason for providing message property is that in jira,
+    // the Flag system takes only Message Descriptor as payload
     // and formatMessage is called for every flag
+    // if the translation data is not provided, a translated default message
+    // will be displayed
     return flags;
   };
 

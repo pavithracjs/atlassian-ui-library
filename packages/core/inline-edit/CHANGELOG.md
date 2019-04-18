@@ -1,5 +1,18 @@
 # @atlaskit/inline-edit
 
+## 9.0.1
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/form@5.2.7
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/inline-dialog@10.0.4
+  - @atlaskit/select@8.1.1
+  - @atlaskit/tag@7.0.2
+  - @atlaskit/textarea@0.4.4
+  - @atlaskit/textfield@0.4.4
+  - @atlaskit/theme@8.1.7
+
 ## 9.0.0
 - [major] [71e2d2cb3c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/71e2d2cb3c):
 

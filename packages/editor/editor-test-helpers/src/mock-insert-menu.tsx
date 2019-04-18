@@ -194,7 +194,7 @@ export const customInsertMenuItems = [
     tooltipPosition: 'right',
     elemBefore: <DevIcon label="dev" />,
     onClick: function(editorActions: EditorActions) {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.log(
         'Fake promise that simulates the macro browser opening. Will resolve in 1 sec with a selected macro to be inserted.',
       );

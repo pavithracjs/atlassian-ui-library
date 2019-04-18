@@ -1,5 +1,12 @@
 # @atlaskit/range
 
+## 0.2.1
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/checkbox@6.0.4
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/theme@8.1.7
+
 ## 0.2.0
 - [minor] [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
 
