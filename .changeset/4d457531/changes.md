@@ -1,0 +1,1 @@
+- Updated help button actions, if enableHelpDrawer is true, a drawer will be displayed otherwise a menu will be displayed
