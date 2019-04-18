@@ -1,1 +1,0 @@
-- Fix bug where pre-fetching is attempted even if the cloud id isn't present
