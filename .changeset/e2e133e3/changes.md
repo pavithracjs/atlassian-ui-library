@@ -1,0 +1,1 @@
+- Made Wrapper div flex to make it compatible with help-panel component
