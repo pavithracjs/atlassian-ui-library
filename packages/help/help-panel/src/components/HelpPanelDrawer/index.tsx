@@ -10,6 +10,19 @@ import { HelpDrawer, HelpDrawerContent } from './styled';
 
 import { gridSize } from '@atlaskit/theme';
 
+export const UNMOUNTED = 'unmounted';
+export const EXITED = 'exited';
+export const ENTERING = 'entering';
+export const ENTERED = 'entered';
+export const EXITING = 'exiting';
+
+export type TransitionStatus =
+  | typeof ENTERING
+  | typeof ENTERED
+  | typeof EXITING
+  | typeof EXITED
+  | typeof UNMOUNTED;
+
 export interface Props {
   children?: ReactNode;
 }
@@ -24,7 +37,7 @@ const defaultStyle = {
   flex: `0 0 0`,
 };
 
-const transitionStyles = {
+const transitionStyles: { [id: string]: React.CSSProperties } = {
   entered: { width: `${60 * gridSize()}px`, flex: `0 0 ${60 * gridSize()}px` },
   exited: { width: 0, flex: `0 0 0` },
 };
@@ -42,17 +55,14 @@ export class HelpPanelDrawer extends Component<
   render() {
     const { children, help } = this.props;
 
-    const transitionStyle =
-      transitionStyles[this.state.entered ? 'entered' : 'exited'];
-
     if (this.body) {
       return createPortal(
         <Transition in={help.isOpen} timeout={220}>
-          {(state: State) => (
+          {(state: TransitionStatus) => (
             <HelpDrawer
               style={{
                 ...defaultStyle,
-                ...transitionStyle,
+                ...transitionStyles[state],
               }}
             >
               <HelpDrawerContent>{children}</HelpDrawerContent>
