@@ -1,0 +1,1 @@
+- added display:flex to the div with id="app"
