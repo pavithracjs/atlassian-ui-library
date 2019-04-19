@@ -3,10 +3,10 @@ import ArticleContent from './ArticleContent';
 import RelatedArticles from './RelatedArticles';
 import RatingButton from './RatingButton';
 
-import { Article } from '../../model/Article';
+import { Article as ArticleModel } from '../../model/Article';
 
 export interface Props {
-  article: Article;
+  article: ArticleModel;
   children?: any;
 }
 
