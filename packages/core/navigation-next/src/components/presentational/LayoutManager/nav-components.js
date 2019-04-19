@@ -20,7 +20,7 @@ import {
 
 type ComposedContainerNavigationProps = {
   containerNavigation: ?ComponentType<{}>,
-  datasets: Object,
+  datasets?: Object,
   experimental_flyoutOnHover: boolean,
   productNavigation: ComponentType<{}>,
   transitionState: TransitionState,
@@ -29,6 +29,7 @@ type ComposedContainerNavigationProps = {
   isResizing: boolean,
   getNavRef: () => void,
   expand: () => void,
+  view?: Object | null,
 };
 export class ComposedContainerNavigation extends Component<ComposedContainerNavigationProps> {
   shouldComponentUpdate(nextProps: ComposedContainerNavigationProps) {
@@ -105,11 +106,12 @@ export class ComposedContainerNavigation extends Component<ComposedContainerNavi
 
 type ComposedGlobalNavigationProps = {
   containerNavigation: ?ComponentType<{}>,
-  datasets: Object,
+  datasets?: Object,
   globalNavigation: ComponentType<{}>,
-  topOffset: number,
+  topOffset?: number,
   experimental_alternateFlyoutBehaviour: boolean,
   closeFlyout: () => void,
+  view?: Object | null,
 };
 
 // Shallow comparision of props is sufficeint in this case

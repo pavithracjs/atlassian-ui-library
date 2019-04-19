@@ -183,6 +183,7 @@ export default class LayoutManager extends Component<
       globalNavigation,
       containerNavigation,
       productNavigation,
+      view,
     } = this.props;
     const { flyoutIsOpen, mouseIsOverNavigation, itemIsDragging } = this.state;
     const {
@@ -291,6 +292,7 @@ export default class LayoutManager extends Component<
                                 EXPERIMENTAL_ALTERNATE_FLYOUT_BEHAVIOUR
                               }
                               closeFlyout={this.closeFlyout}
+                              view={view}
                             />
 
                             <ComposedContainerNavigation
@@ -299,9 +301,7 @@ export default class LayoutManager extends Component<
                               experimental_flyoutOnHover={
                                 EXPERIMENTAL_FLYOUT_ON_HOVER
                               }
-                              navigationUIController={
-                                navigationUIController.expand
-                              }
+                              expand={navigationUIController.expand}
                               productNavigation={productNavigation}
                               transitionState={transitionState}
                               transitionStyle={transitionStyle}
@@ -310,6 +310,7 @@ export default class LayoutManager extends Component<
                               getNavRef={this.getNavRef}
                               isDragging={isDragging}
                               width={width}
+                              view={view}
                             />
                           </RenderBlocker>
                         </ContainerNavigationMask>
