@@ -25,8 +25,8 @@ export class Search extends React.Component<
     value: '',
   };
 
-  handleSearchInput = ({ target }) => {
-    const value = target.value;
+  handleSearchInput = ({ target }: React.FormEvent<HTMLInputElement>) => {
+    const value = (target as HTMLInputElement).value;
     this.setState({
       value,
     });

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { createAndFire, withAnalyticsEvents } from '../analytics';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 import { Analytics } from '../model/Analytics';
 
@@ -7,7 +8,9 @@ import CrossIcon from '@atlaskit/icon/glyph/cross';
 import { CloseButton as StyledCloseButton } from './styled';
 import { withHelp, HelpContextInterface } from './HelpContext';
 
-export interface Props {}
+export interface Props {
+  createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+}
 
 /**
  * This function will return a CloseButton component only if the function
@@ -21,7 +24,7 @@ const CloseButton = (props: Props & HelpContextInterface & Analytics) => {
     help: { onBtnCloseClick },
   } = props;
 
-  const handleOnBtnCloseClick = e => {
+  const handleOnBtnCloseClick = (e: React.MouseEvent<HTMLElement>) => {
     if (onBtnCloseClick) {
       createAndFire({
         action: 'help-panel-close',

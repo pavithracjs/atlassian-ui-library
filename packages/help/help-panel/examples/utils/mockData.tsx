@@ -361,7 +361,7 @@ export const getArticle = (id = '00') => {
   return articleExamples[articleIndex];
 };
 
-export const searchArticle = value => {
+export const searchArticle = (value: string) => {
   if (value === 'empty') {
     return [];
   } else {

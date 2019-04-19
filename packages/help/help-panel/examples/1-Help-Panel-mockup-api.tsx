@@ -7,7 +7,7 @@ import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 import { Article, ArticleItem } from '../src/model/Article';
 import { getArticle, searchArticle } from './utils/mockData';
 
-const handleEvent = analyticsEvent => {
+const handleEvent = (analyticsEvent: { payload: any; context: any }) => {
   const { payload, context } = analyticsEvent;
   console.log('Received event:', { payload, context });
 };
@@ -29,7 +29,7 @@ export default class extends React.Component {
       isOpen: false,
     });
 
-  onSearchArticlesSubmit = searchValue => {
+  onSearchArticlesSubmit = (searchValue: any) => {
     this.setState({ searchText: searchValue });
   };
 

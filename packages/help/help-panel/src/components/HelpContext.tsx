@@ -1,5 +1,6 @@
 import React, { createContext } from 'react';
 import { createAndFire, withAnalyticsEvents } from '../analytics';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 import { Analytics } from '../model/Analytics';
 import { Article, ArticleItem } from '../model/Article';
@@ -79,33 +80,40 @@ const defaultValues = {
   searchState: REQUEST_STATE.done,
 };
 
-const initialiseHelpData = data => {
+const initialiseHelpData = (data: State) => {
   return Object.assign(defaultValues, data);
 };
 
 const HelpContext = createContext<Partial<HelpContextInterface>>({});
 
 class HelpContextProviderImplementation extends React.Component<
-  Props & Analytics,
+  Props &
+    Analytics & {
+      createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+    },
   State
 > {
-  constructor(props) {
+  constructor(
+    props: Props &
+      Analytics & {
+        createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+      },
+  ) {
     super(props);
 
-    this.state = initialiseHelpData(props.defaultValues);
+    this.state = initialiseHelpData(defaultValues);
   }
 
   componentDidMount() {
     window.history.pushState = function(
       this: HelpContextProviderImplementation,
-      e,
     ) {
       PUSH_STATE.apply(window.history, arguments);
       this.onUrlChange(window.location);
     }.bind(this);
   }
 
-  async componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps: Props) {
     const { articleId } = this.props;
 
     if (this.props.isOpen && this.props.isOpen !== prevProps.isOpen) {

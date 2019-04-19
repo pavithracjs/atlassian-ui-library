@@ -1,22 +1,20 @@
 import styled from 'styled-components';
-import { colors, layers, gridSize } from '@atlaskit/theme';
+import { colors, gridSize } from '@atlaskit/theme';
 
 export const HelpDrawer = styled.div`
   background-color: white;
-  display: flex;
-  height: 100vh;
-  right: 0;
-  position: fixed;
-  top: 0;
-  border-left: 3px solid ${colors.N30}
   width: ${60 * gridSize()}px;
-  z-index: ${layers.blanket() + 1};
+  flex: 0 0 ${60 * gridSize()}px;
+  position relative;
 `;
 
 export const HelpDrawerContent = styled.div`
   flex: 1;
+  border-left: 3px solid ${colors.N30}
   overflow: auto;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   overflow-y: auto;
+  position: fixed;
 `;

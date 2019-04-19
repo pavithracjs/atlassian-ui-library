@@ -38,7 +38,7 @@ export class RelatedArticles extends React.Component<
     showMoreToggeled: true,
   };
 
-  getNumberOfArticlesToDisplay = showMoreToggeled => {
+  getNumberOfArticlesToDisplay = (showMoreToggeled: boolean) => {
     return showMoreToggeled ? 3 : 5;
   };
 

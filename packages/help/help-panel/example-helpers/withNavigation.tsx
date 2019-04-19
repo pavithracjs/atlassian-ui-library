@@ -48,13 +48,13 @@ export default function withNavigation(
     static displayName = `WithNavigation(${WrappedComponent.displayName ||
       WrappedComponent.name})`;
 
-    handleContextChange = e => {
+    handleContextChange = (e: { target: { value: any } }) => {
       this.setState({
         context: e.target.value,
       });
     };
 
-    handleLocaleChange = e => {
+    handleLocaleChange = (e: { target: { value: any } }) => {
       this.setState({
         locale: e.target.value,
       });
