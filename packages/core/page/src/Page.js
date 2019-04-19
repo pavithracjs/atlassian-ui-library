@@ -3,10 +3,8 @@ import React, { Component, type Node } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  width: 100%;
+  flex: 1;
+  height: 100vh;
 `;
 
 const NavigationAndContent = styled.div`
