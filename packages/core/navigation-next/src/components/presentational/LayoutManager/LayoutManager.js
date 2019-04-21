@@ -269,7 +269,7 @@ export default class LayoutManager extends Component<
                     ]}
                     navigation={navigationUIController}
                   >
-                    {({ isDragging, width }) => {
+                    {({ width }) => {
                       return (
                         <ContainerNavigationMask
                           disableInteraction={itemIsDragging}
