@@ -308,7 +308,6 @@ export default class LayoutManager extends Component<
                               isCollapsed={isCollapsed}
                               isResizing={isResizing}
                               getNavRef={this.getNavRef}
-                              isDragging={isDragging}
                               width={width}
                               view={view}
                             />
