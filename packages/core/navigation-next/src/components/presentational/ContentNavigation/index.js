@@ -25,7 +25,7 @@ export default class ContentNavigation extends Component<
 
   shouldComponentUpdate(nextProps: ContentNavigationProps) {
     const { props } = this;
-    return !props.container || !isEqual(props, nextProps);
+    return !isEqual(props, nextProps);
   }
 
   static getDerivedStateFromProps(

@@ -50,6 +50,7 @@ export class ComposedContainerNavigation extends Component<ComposedContainerNavi
       isResizing,
       getNavRef,
       expand,
+      view,
     } = this.props;
 
     const isVisible = transitionState !== 'exited';
@@ -71,6 +72,7 @@ export class ComposedContainerNavigation extends Component<ComposedContainerNavi
           isVisible={isVisible}
           key="product-nav"
           product={productNavigation}
+          view={view}
         />
         {isCollapsed && !EXPERIMENTAL_FLYOUT_ON_HOVER ? (
           /* eslint-disable jsx-a11y/click-events-have-key-events */
