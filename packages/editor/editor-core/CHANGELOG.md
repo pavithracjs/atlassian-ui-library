@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.21.0
+- [minor] [f005175d25](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f005175d25):
+
+  - ED-6710: Replace UNSAFE_fullWidthMode with full-width appearance to match renderer API
+
 ## 107.20.0
 - [minor] [ce8ac59383](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce8ac59383):
 
