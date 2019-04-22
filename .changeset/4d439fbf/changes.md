@@ -1,1 +1,0 @@
-- FS-3792 clear results after selection
