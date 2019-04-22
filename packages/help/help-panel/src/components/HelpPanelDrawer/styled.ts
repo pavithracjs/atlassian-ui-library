@@ -13,7 +13,7 @@ export const HelpDrawerContent = styled.div`
   border-left: 3px solid ${colors.N30}
   overflow: auto;
   flex-direction: column;
-  width: 100%;
+  width: ${60 * gridSize()}px;
   height: 100%;
   overflow-y: auto;
   position: fixed;
