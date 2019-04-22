@@ -1,0 +1,1 @@
+- Fixes performance bug in navigation-next caused that happebs during hover and resize
