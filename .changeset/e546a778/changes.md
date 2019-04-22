@@ -1,0 +1,1 @@
+- ED-6710: Replace UNSAFE_fullWidthMode with full-width appearance to match renderer API

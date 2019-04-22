@@ -21,6 +21,7 @@ import {
   imageAlignmentMap,
   alignmentLayouts,
 } from './utils';
+import { isFullPage } from '../../../../utils/is-full-page';
 
 type State = {
   offsetLeft: number;
@@ -190,7 +191,7 @@ export default class ResizableMediaSingle extends React.Component<
       : snapPoints;
 
     const isTopLevel = $pos.parent.type.name === 'doc';
-    if (isTopLevel && appearance === 'full-page') {
+    if (isTopLevel && isFullPage(appearance)) {
       snapPoints.push(akEditorWideLayoutWidth);
       const fullWidthPoint = containerWidth - akEditorBreakoutPadding;
       if (fullWidthPoint > akEditorWideLayoutWidth) {

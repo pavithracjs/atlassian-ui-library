@@ -117,7 +117,9 @@ export default class Example extends React.Component<any, State> {
                     Full width mode
                   </label>
                   <FullPageEditor
-                    UNSAFE_fullWidthMode={this.state.fullWidthMode}
+                    appearance={
+                      this.state.fullWidthMode ? 'full-width' : 'full-page'
+                    }
                   />
                 </React.Fragment>
               );
@@ -183,7 +185,7 @@ export default class Example extends React.Component<any, State> {
           url.length
         } characters which exceeds the 2000 character limit for safe urls. It _may_ not work in all browsers.
         Reduce the complexity of the document to reduce the url length if you're having problems.
-        
+
 ${url}`;
       }
       this.setState({ inputValue: url });

@@ -10,8 +10,10 @@ import {
 } from '../types';
 import { CollabEditOptions } from '../plugins/collab-edit';
 import { DispatchAnalyticsEvent } from '../plugins/analytics';
+import { EditorAppearance } from './editor-props';
 
 export interface EditorAppearanceComponentProps {
+  appearance?: EditorAppearance;
   onUiReady?: (ref: HTMLElement) => void;
   onSave?: (editorView: EditorView) => void;
   onCancel?: (editorView: EditorView) => void;
@@ -46,6 +48,4 @@ export interface EditorAppearanceComponentProps {
   disabled?: boolean;
 
   collabEdit?: CollabEditOptions;
-
-  fullWidthMode?: boolean;
 }
