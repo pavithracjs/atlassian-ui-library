@@ -1,0 +1,38 @@
+{
+  "name": "@atlaskit/help-article",
+  "version": "0.1.0",
+  "description": "A cross-product help-article component",
+  "license": "Apache-2.0",
+  "main": "dist/es5/index.js",
+  "jsnext:main": "dist/es2015/index.js",
+  "module": "dist/es2015/index.js",
+  "types": "dist/es5/index.d.ts",
+  "atlaskit:src": "src/index.ts",
+  "files": [
+    "dist"
+  ],
+  "author": "Atlassian Pty Ltd",
+  "maintainers": [
+    "Mauro Alvarez"
+  ],
+  "atlaskit": {
+    "name": "Help Article"
+  },
+  "repository": "bitbucket:atlaskit/atlaskit-mk-2",
+  "peerDependencies": {
+    "react": "^16.4.0",
+    "styled-components": "^3.2.6"
+  },
+  "devDependencies": {
+    "@atlaskit/build-utils": "^2.0.0",
+    "@atlaskit/code": "^9.0.1",
+    "@atlaskit/docs": "^7.0.3",
+    "@atlaskit/field-radio-group": "^5.0.3",
+    "@atlaskit/select": "^8.1.1",
+    "@atlaskit/ssr": "^0.0.1",
+    "@atlaskit/theme": "^8.1.7",
+    "@atlaskit/visual-regression": "^0.0.1",
+    "enzyme": "^3.7.0",
+    "react-dom": "^16.4.2"
+  }
+}
