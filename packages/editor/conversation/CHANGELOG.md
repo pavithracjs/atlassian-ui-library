@@ -1,5 +1,10 @@
 # @atlaskit/conversation
 
+## 14.2.1
+- [patch] [fdbc4744b3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fdbc4744b3):
+
+  - Fixed infinite recursion bug
+
 ## 14.2.0
 - [minor] [8cd293e322](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8cd293e322):
 
