@@ -1,0 +1,1 @@
+- ED-6486: added method for getting current editor bridge version
