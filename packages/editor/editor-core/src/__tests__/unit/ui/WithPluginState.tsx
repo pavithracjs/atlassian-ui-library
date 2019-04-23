@@ -222,8 +222,8 @@ describe('WithPluginState', () => {
     );
   });
 
-  describe('Subscribe/Unsubscribe Plugins', () => {
-    it('should update ', () => {
+  describe('Old Subscribe/Unsubscribe Plugins State Architecture', () => {
+    it('should update', () => {
       subscribePluginWrapper.pluginState.update(fooBarState);
 
       jest.runAllTimers(); // Run debounce timeout
