@@ -1,7 +1,12 @@
 import * as React from 'react';
 import { RendererContext } from '..';
 import { renderNodes, Serializer } from '../..';
-import { ADNode, ExtensionHandlers } from '@atlaskit/editor-common';
+import {
+  ADNode,
+  ExtensionHandlers,
+  overflowShadow,
+  OverflowShadowProps,
+} from '@atlaskit/editor-common';
 import { renderExtension } from './extension';
 
 export interface Props {
@@ -16,7 +21,9 @@ export interface Props {
   layout?: string;
 }
 
-const BodiedExtension: React.StatelessComponent<Props> = ({
+const BodiedExtension: React.StatelessComponent<
+  Props & OverflowShadowProps
+> = ({
   serializer,
   extensionHandlers,
   rendererContext,
@@ -26,6 +33,8 @@ const BodiedExtension: React.StatelessComponent<Props> = ({
   parameters,
   children,
   layout = 'default',
+  handleRef,
+  shadowClassNames,
 }) => {
   try {
     if (extensionHandlers && extensionHandlers[extensionType]) {
@@ -43,7 +52,10 @@ const BodiedExtension: React.StatelessComponent<Props> = ({
       switch (true) {
         case extensionContent && React.isValidElement(extensionContent):
           // Return the extensionContent directly if it's a valid JSX.Element
-          return renderExtension(extensionContent, layout);
+          return renderExtension(extensionContent, layout, {
+            handleRef,
+            shadowClassNames,
+          });
         case !!extensionContent:
           // We expect it to be Atlassian Document here
           const nodes = Array.isArray(extensionContent)
@@ -63,7 +75,9 @@ const BodiedExtension: React.StatelessComponent<Props> = ({
   }
 
   // Always return default content if anything goes wrong
-  return renderExtension(children, layout);
+  return renderExtension(children, layout, { handleRef, shadowClassNames });
 };
 
-export default BodiedExtension;
+export default overflowShadow(BodiedExtension, {
+  overflowSelector: 'ak-renderer-extension',
+});
