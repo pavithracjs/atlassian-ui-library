@@ -32,7 +32,7 @@
     "linkify-it": "^2.0.3",
     "prosemirror-model": "^1.7.0",
     "prosemirror-view": "^1.8.3",
-    "tslib": "^1.8.0"
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@atlaskit/editor-json-transformer": "^5.0.0",

@@ -33,7 +33,7 @@
     "react-redux": "^5.0.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "tslib": "^1.8.0"
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@atlaskit/analytics-listeners": "^5.0.2",
