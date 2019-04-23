@@ -1,0 +1,1 @@
+- Fixed a text selection bug for inline smart links

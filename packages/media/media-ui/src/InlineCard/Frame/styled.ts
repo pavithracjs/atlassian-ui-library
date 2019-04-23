@@ -77,7 +77,7 @@ export const Wrapper: ComponentClass<
   display: inline;
   box-decoration-break: clone;
   border-radius: ${akBorderRadius()}px;
-  user-select: none;
+  user-select: text;
   ${background};
   ${isInteractive}
   ${isSelected};
