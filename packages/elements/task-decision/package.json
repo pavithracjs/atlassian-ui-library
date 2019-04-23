@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/task-decision",
-  "version": "14.0.5",
+  "version": "14.0.6",
   "config": {
     "access": "public"
   },
@@ -10,14 +10,14 @@
   "types": "index.d.ts",
   "sideEffects": false,
   "dependencies": {
-    "@atlaskit/analytics-namespaced-context": "^3.0.2",
+    "@atlaskit/analytics-namespaced-context": "^3.0.3",
     "@atlaskit/analytics-next": "^4.0.5",
     "@atlaskit/avatar-group": "^3.0.4",
-    "@atlaskit/button": "^12.0.3",
+    "@atlaskit/button": "^12.0.4",
     "@atlaskit/icon": "^16.0.9",
     "@atlaskit/spinner": "^10.0.7",
     "@atlaskit/theme": "^8.1.7",
-    "@atlaskit/util-service-support": "^4.0.1",
+    "@atlaskit/util-service-support": "^4.0.2",
     "@types/react-loadable": "^5.4.1",
     "date-fns": "^1.30.1",
     "lodash.debounce": "^4.0.8",
@@ -40,14 +40,14 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
-    "@atlaskit/analytics-listeners": "^5.0.4",
+    "@atlaskit/analytics-listeners": "^5.0.5",
     "@atlaskit/avatar": "^15.0.4",
     "@atlaskit/docs": "^7.0.3",
     "@atlaskit/editor-common": "^36.1.12",
-    "@atlaskit/elements-test-helpers": "^0.5.0",
+    "@atlaskit/elements-test-helpers": "^0.5.1",
     "@atlaskit/renderer": "^45.6.1",
     "@atlaskit/util-common-test": "^2.4.2",
-    "@atlaskit/util-data-test": "^11.1.6",
+    "@atlaskit/util-data-test": "^11.1.7",
     "@types/url-search-params": "^0.10.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",

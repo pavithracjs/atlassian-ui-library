@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/nachos-textfield",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A React component that is a textfield.",
   "license": "Apache-2.0",
   "main": "dist/es5/index.js",

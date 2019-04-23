@@ -1,5 +1,13 @@
 # @atlaskit/adf-schema
 
+## 2.5.4
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+- [patch] [0ac39bd2dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ac39bd2dd):
+
+  - Bump tslib to 1.9
+
 ## 2.5.3
 - [patch] [583f5db46d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/583f5db46d):
 

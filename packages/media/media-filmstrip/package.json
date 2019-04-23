@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-filmstrip",
-  "version": "31.0.4",
+  "version": "31.0.5",
   "description": "Includes components that show media cards as a filmstrip",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.tsx",
@@ -16,25 +16,25 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/icon": "^16.0.9",
-    "@atlaskit/media-card": "^60.0.3",
+    "@atlaskit/media-card": "^60.0.4",
     "@atlaskit/theme": "^8.1.7",
     "debounce": "^1.0.0",
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
-    "@atlaskit/media-core": "^29.1.4",
+    "@atlaskit/media-core": "^29.1.5",
     "react": "^16.4.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.1.0",
-    "@atlaskit/button": "^12.0.3",
+    "@atlaskit/button": "^12.0.4",
     "@atlaskit/checkbox": "^6.0.4",
     "@atlaskit/docs": "^7.0.3",
     "@atlaskit/field-radio-group": "^5.0.3",
     "@atlaskit/field-range": "^6.0.4",
-    "@atlaskit/media-core": "^29.1.4",
-    "@atlaskit/media-test-helpers": "^21.2.2",
+    "@atlaskit/media-core": "^29.1.5",
+    "@atlaskit/media-test-helpers": "^21.2.3",
     "@types/debounce": "^1.2.0",
     "enzyme": "^3.7.0",
     "react": "^16.4.0",

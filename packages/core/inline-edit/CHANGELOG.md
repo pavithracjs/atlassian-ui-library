@@ -1,5 +1,10 @@
 # @atlaskit/inline-edit
 
+## 9.0.3
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 9.0.2
 - [patch] [074c382946](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/074c382946):
 

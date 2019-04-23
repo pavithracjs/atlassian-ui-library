@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/conversation",
-  "version": "14.2.1",
+  "version": "14.2.2",
   "config": {
     "access": "public"
   },
@@ -23,8 +23,8 @@
     "@atlaskit/avatar": "^15.0.1",
     "@atlaskit/comment": "^7.0.4",
     "@atlaskit/editor-common": "^36.1.2",
-    "@atlaskit/editor-core": "^107.8.2",
-    "@atlaskit/reactions": "^16.1.4",
+    "@atlaskit/editor-core": "^107.22.1",
+    "@atlaskit/reactions": "^16.1.8",
     "@atlaskit/renderer": "^45.2.3",
     "date-fns": "^1.30.1",
     "lodash.debounce": "^4.0.8",
@@ -36,10 +36,10 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@atlaskit/analytics-listeners": "^5.0.2",
+    "@atlaskit/analytics-listeners": "^5.0.5",
     "@atlaskit/docs": "^7.0.1",
     "@atlaskit/single-select": "^7.0.1",
-    "@atlaskit/util-data-test": "^11.1.6",
+    "@atlaskit/util-data-test": "^11.1.7",
     "enzyme": "^3.7.0"
   }
 }
