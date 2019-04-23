@@ -38,7 +38,7 @@ import listsPlugin from '../../../../plugins/lists';
 import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
 import extensionPlugin from '../../../../plugins/extension';
 import { INPUT_METHOD } from '../../../../plugins/analytics';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { createCardRequest, setupProvider, ProviderWrapper } from './_helpers';
 
 const inlineCardAdf = {
