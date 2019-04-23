@@ -1,0 +1,1 @@
+- index.ts is now ignored when published to npm to avoid ambiguity between ts and js files

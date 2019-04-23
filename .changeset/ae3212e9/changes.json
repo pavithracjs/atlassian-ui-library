@@ -1,0 +1,8 @@
+{
+  "releases": [
+    { "name": "@atlaskit/badge", "type": "patch" },
+    { "name": "@atlaskit/banner", "type": "patch" },
+    { "name": "@atlaskit/profilecard", "type": "patch" }
+  ],
+  "dependents": []
+}
