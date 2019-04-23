@@ -1,5 +1,10 @@
 # @atlaskit/inline-edit
 
+## 9.0.4
+- [patch] [458331c958](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/458331c958):
+
+  - Added index.ts to .npmignore to prevent jest tests resolving that instead of index.js
+
 ## 9.0.3
 - [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
 
