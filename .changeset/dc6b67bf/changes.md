@@ -1,1 +1,0 @@
-- ED-6728: Added scrollToSelection() method to bridge

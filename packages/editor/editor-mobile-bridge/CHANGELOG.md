@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.5.0
+- [minor] [8fb796b610](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8fb796b610):
+
+  - ED-6728: Added scrollToSelection() method to bridge
+
 ## 7.4.4
 - [patch] [f224fa19d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f224fa19d5):
 
