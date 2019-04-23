@@ -1,0 +1,1 @@
+- ED-6562 Fix WithPluginState rendering with outdated states.
