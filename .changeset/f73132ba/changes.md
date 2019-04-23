@@ -1,0 +1,2 @@
+- Stop defaultValue from being omitted from props that are spread onto textarea
+- Constraint type of value and defaultValue to string
