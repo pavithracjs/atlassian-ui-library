@@ -116,7 +116,7 @@ export const buildToolbar = (
     };
 
     return {
-      title: 'Columns floating controls',
+      title: 'Layout floating controls',
       getDomRef: view =>
         findDomRefAtPos(pos, view.domAtPos.bind(view)) as HTMLElement,
       nodeType: state.schema.nodes.layoutSection,

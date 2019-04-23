@@ -1,0 +1,1 @@
+- ED-6722 Rename 'Columns' to 'Layouts' in toolbar and quick insert menu
