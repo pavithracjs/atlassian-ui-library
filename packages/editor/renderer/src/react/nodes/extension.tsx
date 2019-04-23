@@ -26,9 +26,9 @@ export interface Props {
 export const renderExtension = (
   content: any,
   layout: string,
-  options: OverflowShadowProps,
-) => (
-  <div ref={options.handleRef} className={options.shadowClassNames}>
+  options?: OverflowShadowProps,
+) => {
+  let body = (
     <WidthConsumer>
       {({ width }) => (
         <div
@@ -43,8 +43,17 @@ export const renderExtension = (
         </div>
       )}
     </WidthConsumer>
-  </div>
-);
+  );
+
+  if (options) {
+    body = (
+      <div ref={options.handleRef} className={options.shadowClassNames}>
+        {body}
+      </div>
+    );
+  }
+  return body;
+};
 
 const Extension: React.StatelessComponent<Props & OverflowShadowProps> = ({
   serializer,
