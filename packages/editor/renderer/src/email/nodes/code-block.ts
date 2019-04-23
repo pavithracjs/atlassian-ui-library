@@ -22,26 +22,26 @@ const preTagCss = serializeStyle({
   '-moz-border-radius': '3px',
 });
 
+const codeTdStyle = {
+  ...codeFontStyle,
+  color: 'rgb(23, 43, 77)',
+  background: 'rgb(244, 245, 247)',
+  width: '100%',
+  'padding-right': '8px',
+  'padding-left': '8px',
+};
+
+const lineNumberTdStyle = {
+  ...codeFontStyle,
+  color: 'rgb(137, 147, 164)',
+  background: 'rgb(235, 236, 240)',
+  'padding-right': '8px',
+  'padding-left': '8px',
+  'font-size': '14px',
+  'text-align': 'right',
+};
+
 export default function codeBlock({ attrs, text }: NodeSerializerOpts) {
-  const codeTdStyle = {
-    ...codeFontStyle,
-    color: 'rgb(23, 43, 77)',
-    background: 'rgb(244, 245, 247)',
-    width: '100%',
-    'padding-right': '8px',
-    'padding-left': '8px',
-  };
-
-  const lineNumberTdStyle = {
-    ...codeFontStyle,
-    color: 'rgb(137, 147, 164)',
-    background: 'rgb(235, 236, 240)',
-    'padding-right': '8px',
-    'padding-left': '8px',
-    'font-size': '14px',
-    'text-align': 'right',
-  };
-
   const codeLines: string[] = (text || '').split('\n');
 
   const isFirstLine = (index: number): boolean => index === 0;
