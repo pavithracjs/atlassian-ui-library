@@ -14,7 +14,7 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/media-store": "^11.0.3",
-    "tslib": "^1.8.0"
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "@atlaskit/media-core": "^29.1.0",
