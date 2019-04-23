@@ -24,4 +24,5 @@ export default interface NativeToWebBridge {
   onStatusPickerDismissed(): void;
   onLinkUpdate(text: string, url: string): void;
   insertBlockType(type: string): void;
+  scrollToSelection(): void;
 }
