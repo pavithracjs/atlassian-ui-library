@@ -80,6 +80,8 @@ function createEditorWindowBindings(win: Window) {
     return;
   }
   const internalMediaMock = createMediaMockEnableOnce();
+  let Wrapper: React.ComponentType<EditorProps>;
+  let editorProps: EditorProps;
 
   class EditorWithState extends Editor {
     onEditorCreated(instance: EditorInstance) {
@@ -143,7 +145,9 @@ function createEditorWindowBindings(win: Window) {
         {...props}
       />
     );
-    let Wrapper: React.ComponentType<EditorProps> = Editor;
+
+    Wrapper = Editor;
+    editorProps = props;
 
     if (mode && mode === 'dark') {
       Wrapper = withDarkMode<EditorProps>(Wrapper);
@@ -151,6 +155,23 @@ function createEditorWindowBindings(win: Window) {
 
     ReactDOM.unmountComponentAtNode(target);
     ReactDOM.render(<Wrapper {...props} />, target);
+  };
+
+  (window as any)['__updateEditorProps'] = (
+    newProps: Partial<EditorProps> = {},
+  ) => {
+    if (!Wrapper) {
+      console.warn('No Editor currently mounted, call __mountEditor first');
+      return;
+    }
+
+    const target = document.getElementById('editor-container');
+    if (!target) {
+      return;
+    }
+
+    editorProps = { ...editorProps, ...newProps };
+    ReactDOM.render(<Wrapper {...editorProps} />, target);
   };
 }
 

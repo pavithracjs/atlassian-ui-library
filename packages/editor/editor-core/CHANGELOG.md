@@ -1,5 +1,47 @@
 # @atlaskit/editor-core
 
+## 107.22.1
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+- [patch] [0ac39bd2dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ac39bd2dd):
+
+  - Bump tslib to 1.9
+
+## 107.22.0
+- [minor] [229cb05e26](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/229cb05e26):
+
+  - ED-6722 Rename 'Columns' to 'Layouts' in toolbar and quick insert menu
+
+## 107.21.1
+- Updated dependencies [cd67ae87f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cd67ae87f8):
+  - @atlaskit/textarea@0.4.5
+
+## 107.21.0
+- [minor] [f005175d25](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f005175d25):
+
+  - ED-6710: Replace UNSAFE_fullWidthMode with full-width appearance to match renderer API
+
+## 107.20.0
+- [minor] [ce8ac59383](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce8ac59383):
+
+  - ED-6635: You can now resize media inside columns
+
+## 107.19.0
+- [minor] [ee71c90037](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee71c90037):
+
+  - ED-6601: When toggling between Full Width appearance and Full Page appearance, resized tables now scale their sizes accordingly.
+
+## 107.18.0
+- [minor] [272b64139f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/272b64139f):
+
+  - ED-5108 Adding padding in the bottom of full page editor appearance
+
+## 107.17.1
+- [patch] [16290b0448](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/16290b0448):
+
+  - ED-6715 Fix issue with gap cursor + breakout + full-width mode where editor would crash
+
 ## 107.17.0
 - [minor] [d6886fe651](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d6886fe651):
 

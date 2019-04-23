@@ -1,5 +1,3 @@
-/* tslint:disable:variable-name */
-
 import styled, { keyframes } from 'styled-components';
 import { borderRadius, colors, gridSize } from '@atlaskit/theme';
 import { checkeredBg } from './images';

@@ -33,7 +33,7 @@ export default class InlineEditExample extends React.Component {
     return (
       <div
         style={{
-          padding: `0 ${gridSize()}px`,
+          padding: `${gridSize()}px ${gridSize()}px`,
           fontSize: '24px',
           fontWeight: 'bold',
           lineHeight: '24px',

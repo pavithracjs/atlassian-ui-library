@@ -1,4 +1,3 @@
-/* tslint:disable variable-name */
 import * as React from 'react';
 import {
   ReactNode,

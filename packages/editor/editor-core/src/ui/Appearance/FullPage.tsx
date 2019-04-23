@@ -2,7 +2,10 @@ import * as React from 'react';
 import { MouseEvent } from 'react';
 import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
-import { akEditorMenuZIndex } from '@atlaskit/editor-common';
+import {
+  akEditorMenuZIndex,
+  akEditorFullWidthLayoutWidth,
+} from '@atlaskit/editor-common';
 import { taskListSelector, decisionListSelector } from '@atlaskit/adf-schema';
 import { EditorAppearanceComponentProps, EditorAppearance } from '../../types';
 import Avatars from '../../plugins/collab-edit/ui/avatars';
@@ -48,7 +51,8 @@ const ContentArea = styled.div`
   flex-grow: 1;
   padding-bottom: 55px;
   max-width: ${({ theme, fullWidthMode }: any) =>
-    fullWidthMode ? '1800' : theme.layoutMaxWidth + GUTTER_PADDING * 2}px;
+    (fullWidthMode ? akEditorFullWidthLayoutWidth : theme.layoutMaxWidth) +
+    GUTTER_PADDING * 2}px;
   transition: margin-left ${SWOOP_ANIMATION}, max-width ${SWOOP_ANIMATION};
   margin-left: ${({ theme, fullWidthMode }: any) =>
     fullWidthMode
@@ -82,6 +86,10 @@ const ContentArea = styled.div`
     > h6 {
       /* deliberately allow wrapping of text based nodes, just in case any are adjacent floated content */
       clear: none;
+    }
+
+    > p:last-child {
+      margin-bottom: 24px;
     }
   }
 
@@ -205,6 +213,7 @@ export default class Editor extends React.Component<
 
   render() {
     const {
+      appearance,
       editorDOMElement,
       editorView,
       editorActions,
@@ -220,7 +229,6 @@ export default class Editor extends React.Component<
       disabled,
       collabEdit,
       dispatchAnalyticsEvent,
-      fullWidthMode,
     } = this.props;
 
     const { showKeyline } = this.state;
@@ -259,7 +267,7 @@ export default class Editor extends React.Component<
         >
           <ClickAreaBlock editorView={editorView}>
             <ContentArea
-              fullWidthMode={fullWidthMode}
+              fullWidthMode={appearance === 'full-width'}
               innerRef={(contentArea: HTMLElement) => {
                 this.contentArea = contentArea;
               }}
@@ -268,7 +276,9 @@ export default class Editor extends React.Component<
                 style={{ padding: `0 ${GUTTER_PADDING}px` }}
                 className={[
                   'ak-editor-content-area',
-                  fullWidthMode ? 'fabric-editor--full-width-mode' : '',
+                  this.props.appearance === 'full-width'
+                    ? 'fabric-editor--full-width-mode'
+                    : '',
                 ].join(' ')}
               >
                 {customContentComponents}
@@ -278,7 +288,7 @@ export default class Editor extends React.Component<
                     editorActions={editorActions}
                     eventDispatcher={eventDispatcher}
                     providerFactory={providerFactory}
-                    appearance={this.appearance}
+                    appearance={this.props.appearance || this.appearance}
                     items={contentComponents}
                     contentArea={this.contentArea}
                     popupsMountPoint={popupsMountPoint}

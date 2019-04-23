@@ -1,4 +1,3 @@
-/* tslint:disable:variable-name */
 import {
   HTMLAttributes,
   ComponentClass,

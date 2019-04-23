@@ -1,10 +1,9 @@
-import { GasPayload } from '@atlaskit/analytics-gas-types';
 import {
   name as packageName,
   version as packageVersion,
 } from '../version.json';
-import { ObjectState } from '../client/types';
-
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { AnalyticsPayload } from './types.js';
 export const ANALYTICS_CHANNEL = 'media';
 
 export const context = {
@@ -13,73 +12,141 @@ export const context = {
   packageVersion,
 };
 
-export const resolvedEvent = (url: string): GasPayload => ({
+export const fireSmartLinkEvent = (
+  payload: AnalyticsPayload,
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+) => {
+  if (createAnalyticsEvent) {
+    createAnalyticsEvent(payload).fire(ANALYTICS_CHANNEL);
+  }
+};
+
+export const resolvedEvent = (definitionId?: string): AnalyticsPayload => ({
   action: 'resolved',
-  actionSubject: 'smartCard',
-  actionSubjectId: url,
+  actionSubject: 'smartLink',
   eventType: 'operational',
   attributes: {
     ...context,
-    url: url,
+    ...(definitionId ? { definitionId: definitionId } : {}),
   },
 });
 
 export const unresolvedEvent = (
-  url: string,
-  state: ObjectState,
-): GasPayload => ({
+  status: string,
+  definitionId?: string,
+): AnalyticsPayload => ({
   action: 'unresolved',
-  actionSubject: 'smartCard',
-  actionSubjectId: url,
+  actionSubject: 'smartLink',
   eventType: 'operational',
   attributes: {
     ...context,
-    url,
-    reason: state.status,
-    ...((state as any).definitionId
-      ? { definitionId: (state as any).definitionId }
-      : {}),
+    ...(definitionId ? { definitionId: definitionId } : {}),
+    reason: status,
   },
 });
 
 export const connectSucceededEvent = (
-  url: string,
-  state: ObjectState,
-): GasPayload => ({
+  definitionId?: string,
+): AnalyticsPayload => ({
   action: 'connectSucceeded',
-  actionSubject: 'smartCard',
-  actionSubjectId: url,
+  actionSubject: 'smartLink',
   eventType: 'operational',
   attributes: {
     ...context,
-    ...((state as any).definitionId
-      ? { definitionId: (state as any).definitionId }
-      : {}),
+    ...(definitionId ? { definitionId: definitionId } : {}),
   },
 });
 
 export const connectFailedEvent = (
-  reason: string,
-  url: string,
-  state: ObjectState,
-): GasPayload => ({
+  definitionId?: string,
+  reason?: string,
+): AnalyticsPayload => ({
   action: 'connectFailed',
-  actionSubject: 'smartCard',
-  actionSubjectId: url,
+  actionSubject: 'smartLink',
+  actionSubjectId: reason,
   eventType: 'operational',
   attributes: {
     ...context,
-    reason,
-    ...((state as any).definitionId
-      ? { definitionId: (state as any).definitionId }
-      : {}),
+    ...(reason ? { reason: reason } : {}),
+    ...(definitionId ? { definitionId: definitionId } : {}),
   },
 });
 
-export const trackAppAccountConnected = (definitionId?: string) => ({
+export const trackAppAccountConnected = (
+  definitionId?: string,
+): AnalyticsPayload => ({
   action: 'connected',
-  actionObject: 'applicationAccount',
+  actionSubject: 'applicationAccount',
   eventType: 'track',
+  attributes: {
+    ...context,
+    ...(definitionId ? { definitionId: definitionId } : {}),
+  },
+});
+
+export const uiAuthEvent = (
+  definitionId: string,
+  display: 'inline' | 'block',
+): AnalyticsPayload => ({
+  action: 'clicked',
+  actionSubject: 'button',
+  actionSubjectId: 'connectAccount',
+  eventType: 'ui',
+  attributes: {
+    ...context,
+    definitionId,
+    display,
+  },
+});
+
+export const uiAuthAlternateAccountEvent = (
+  definitionId: string,
+  display: 'inline' | 'block',
+): AnalyticsPayload => ({
+  action: 'clicked',
+  actionSubject: 'smartLink',
+  actionSubjectId: 'tryAnotherAccount',
+  eventType: 'ui',
+  attributes: {
+    ...context,
+    definitionId,
+    display,
+  },
+});
+
+export const uiCardClickedEvent = (
+  definitionId: string,
+  display: 'inline' | 'block',
+): AnalyticsPayload => ({
+  action: 'clicked',
+  actionSubject: 'smartLink',
+  eventType: 'ui',
+  attributes: {
+    ...context,
+    definitionId,
+    display,
+  },
+});
+
+export const uiClosedAuthEvent = (
+  definitionId: string,
+  display: 'inline' | 'block',
+): AnalyticsPayload => ({
+  action: 'closed',
+  actionSubject: 'consentModal',
+  eventType: 'ui',
+  attributes: {
+    ...context,
+    definitionId,
+    display,
+  },
+});
+
+export const screenAuthPopupEvent = (
+  definitionId: string,
+): AnalyticsPayload => ({
+  actionSubject: 'consentModal',
+  eventType: 'screen',
   attributes: {
     ...context,
     definitionId,

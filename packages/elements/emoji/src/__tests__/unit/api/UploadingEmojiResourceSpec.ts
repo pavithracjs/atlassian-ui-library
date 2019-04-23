@@ -318,7 +318,7 @@ describe('UploadingEmojiResource', () => {
 
 describe('#toneSelectionStorage', () => {
   it('retrieves previously stored tone selection upon construction', () => {
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line no-unused-expressions
     new EmojiResource(defaultApiConfig);
 
     global

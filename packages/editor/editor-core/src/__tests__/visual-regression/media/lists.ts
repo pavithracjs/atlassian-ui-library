@@ -7,6 +7,7 @@ import {
   insertMedia,
   waitForMediaToBeLoaded,
   resizeMediaInPosition,
+  scrollToMedia,
 } from '../../__helpers/page-objects/_media';
 import * as panelList from './__fixtures__/panel-list-adf.json';
 import { Page } from '../../__helpers/page-objects/_types';
@@ -29,6 +30,7 @@ describe('Snapshot Test: Media', () => {
 
       // now we can insert media as necessary
       await insertMedia(page);
+      await scrollToMedia(page);
       await waitForMediaToBeLoaded(page);
 
       await snapshot(page);
@@ -40,6 +42,7 @@ describe('Snapshot Test: Media', () => {
 
       // now we can insert media as necessary
       await insertMedia(page);
+      await scrollToMedia(page);
       await waitForMediaToBeLoaded(page);
 
       await snapshot(page);

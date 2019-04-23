@@ -221,7 +221,7 @@ describe('EmojiResource', () => {
         providers: [],
       };
       try {
-        // tslint:disable-next-line:no-unused-expression
+        // eslint-disable-next-line no-unused-expressions
         new EmojiResource(config);
         expect(true).toEqual(false);
       } catch (e) {

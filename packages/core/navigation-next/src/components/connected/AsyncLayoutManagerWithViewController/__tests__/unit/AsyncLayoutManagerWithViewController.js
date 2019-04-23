@@ -67,6 +67,32 @@ describe('AsyncLayoutManagerWithViewController', () => {
       expect(layerInitialised.props().initialised).toBe(false);
 
       layerInitialised.props().onInitialised();
+      // Enzyme only lets you set prop on the root
+      // The root in this case is NavigationProvider
+      // instead of AsyncLayoutManagerWithViewController as explained
+      // in the comment above.
+      wrapper.setProps({
+        children: (
+          //$FlowFixMe
+          <AsyncLayoutManagerWithViewController
+            globalNavigation={GlobalNavigationComponent}
+            firstSkeletonToRender="product"
+            onCollapseStart={onCollapseStart}
+            onCollapseEnd={onCollapseEnd}
+            onExpandStart={onExpandStart}
+            onExpandEnd={onExpandEnd}
+            containerSkeleton={SkeletonContainerView}
+            itemsRenderer={ItemsRenderer}
+            getRefs={getRefs}
+            view="some-view"
+          >
+            <p>
+              Children requires to have `NavigationProvider` as a parent Because
+              of `unstated`. This is an issue
+            </p>
+          </AsyncLayoutManagerWithViewController>
+        ),
+      });
       wrapper.update();
 
       expect(wrapper.find('LayerInitialised').props().initialised).toBe(true);

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 // prettier-ignore
 import { HTMLAttributes, ClassAttributes, ComponentClass } from 'react';
 
-// tslint:disable-next-line:variable-name
 export const TriggerWrapper: ComponentClass<HTMLAttributes<{}>> = styled.span`
   width: 42px;
 

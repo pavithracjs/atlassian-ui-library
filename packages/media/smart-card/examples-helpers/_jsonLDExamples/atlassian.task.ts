@@ -153,7 +153,7 @@ export const GitHubIssue = {
     },
   ],
   subscriberCount: 1,
-  tag: [
+  tags: [
     {
       '@type': 'Object',
       id: 576144926,

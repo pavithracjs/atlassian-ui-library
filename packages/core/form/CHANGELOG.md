@@ -1,5 +1,14 @@
 # @atlaskit/form
 
+## 5.2.9
+- Updated dependencies [6c4e41ff36](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6c4e41ff36):
+  - @atlaskit/radio@1.0.0
+
+## 5.2.8
+- [patch] [cb7ec50eca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cb7ec50eca):
+
+  - Internal changes only. Form is compatible with SSR.
+
 ## 5.2.7
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

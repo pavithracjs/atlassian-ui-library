@@ -1,5 +1,3 @@
-/* tslint:disable:variable-name */
-
 import styled, { ThemedOuterStyledProps } from 'styled-components';
 
 import { HTMLAttributes, ComponentClass, LiHTMLAttributes } from 'react';

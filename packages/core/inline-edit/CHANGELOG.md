@@ -1,5 +1,15 @@
 # @atlaskit/inline-edit
 
+## 9.0.3
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
+## 9.0.2
+- [patch] [074c382946](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/074c382946):
+
+  - Add isRequired prop, remove duplicate defaultProps in code (internal change only) and add padding to examples on website to prevent unnecessary scrollbar
+
 ## 9.0.1
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

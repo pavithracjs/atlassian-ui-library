@@ -68,23 +68,27 @@ const tablesPlugin = (
     return [
       {
         name: 'table',
-        plugin: ({ props, eventDispatcher, dispatch, portalProviderAPI }) => {
-          const {
-            allowTables,
-            appearance,
-            allowDynamicTextSizing,
-            UNSAFE_fullWidthMode: fullWidthMode,
-          } = props;
+        plugin: ({
+          props,
+          prevProps,
+          eventDispatcher,
+          dispatch,
+          portalProviderAPI,
+        }) => {
+          const { allowTables, appearance, allowDynamicTextSizing } = props;
           const isContextMenuEnabled = appearance !== 'mobile';
-          const isBreakoutEnabled = !fullWidthMode;
+          const isBreakoutEnabled = appearance === 'full-page';
+          const wasBreakoutEnabled =
+            prevProps && prevProps.appearance !== 'full-width';
           return createPlugin(
             dispatch,
             portalProviderAPI,
             eventDispatcher,
             pluginConfig(allowTables),
             isContextMenuEnabled,
-            allowDynamicTextSizing && !fullWidthMode,
+            isBreakoutEnabled && allowDynamicTextSizing,
             isBreakoutEnabled,
+            wasBreakoutEnabled,
           );
         },
       },
@@ -92,19 +96,16 @@ const tablesPlugin = (
         name: 'tablePMColResizing',
         plugin: ({
           dispatch,
-          props: {
-            allowTables,
-            allowDynamicTextSizing,
-            UNSAFE_fullWidthMode: fullWidthMode,
-          },
+          props: { appearance, allowTables, allowDynamicTextSizing },
         }) => {
           const { allowColumnResizing } = pluginConfig(allowTables);
           return allowColumnResizing
             ? createFlexiResizingPlugin(dispatch, {
                 handleWidth: HANDLE_WIDTH,
                 cellMinWidth: tableCellMinWidth,
-                dynamicTextSizing: allowDynamicTextSizing && !fullWidthMode,
-                lastColumnResizable: !fullWidthMode,
+                dynamicTextSizing:
+                  allowDynamicTextSizing && appearance !== 'full-width',
+                lastColumnResizable: appearance !== 'full-width',
               } as ColumnResizingPlugin)
             : undefined;
         },

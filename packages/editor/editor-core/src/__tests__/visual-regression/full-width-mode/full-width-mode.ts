@@ -3,6 +3,7 @@ import adf from './__fixtures__/mixed-content.adf.json';
 import adfWithMedia from './__fixtures__/content-with-media.adf.json';
 import adfWithBreakout from './__fixtures__/mixed-content-with-breakout.adf.json';
 import { Page } from '../../__helpers/page-objects/_types';
+import { scrollToTop } from '../../__helpers/page-objects/_editor';
 
 // In full-width mode we cap the max-width at 1800px, for sizes greater than this the
 // content will be left-aligned. so we want to test a size < 1800 and a size > 1800
@@ -18,11 +19,12 @@ widths.forEach(width => {
         adf,
         Device.LaptopHiDPI,
         { width, height: 800 },
-        { UNSAFE_fullWidthMode: true },
+        { appearance: 'full-width' },
       );
     });
 
     it('should display content in full-width mode', async () => {
+      await scrollToTop(page);
       await snapshot(page, 0.2);
     });
   });
@@ -37,7 +39,7 @@ widths.forEach(width => {
         adfWithMedia,
         Device.LaptopHiDPI,
         { width, height: 800 },
-        { UNSAFE_fullWidthMode: true },
+        { appearance: 'full-width' },
       );
       await snapshot(page, 0.2);
     });
@@ -53,7 +55,7 @@ describe('Full-width mode breakout', () => {
       adfWithBreakout,
       Device.LaptopHiDPI,
       { width: 2000, height: 800 },
-      { UNSAFE_fullWidthMode: true },
+      { appearance: 'full-width' },
     );
     await snapshot(page, 0.2);
   });

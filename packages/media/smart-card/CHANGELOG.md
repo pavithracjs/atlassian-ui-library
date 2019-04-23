@@ -1,5 +1,20 @@
 # @atlaskit/smart-card
 
+## 10.4.0
+- [minor] [da5a7f3390](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da5a7f3390):
+
+  - fix third-party link extractors to resolve URLs more accurately.
+
+## 10.3.1
+- Updated dependencies [6c4e41ff36](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6c4e41ff36):
+  - @atlaskit/form@5.2.9
+  - @atlaskit/radio@1.0.0
+
+## 10.3.0
+- [minor] [ce985861c3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce985861c3):
+
+  - Added analytics for UI actions, and updated existing operational analytics events
+
 ## 10.2.4
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

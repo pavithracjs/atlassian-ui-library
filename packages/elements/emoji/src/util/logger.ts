@@ -11,14 +11,14 @@ export function enableStacktraces(enable: boolean): void {
 
 export function logStacktrace(): void {
   if (stacktracesEnabled) {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.log(new Error().stack);
   }
 }
 
 export default function debug(msg: any, ...args: any[]): void {
   if (debugEnabled) {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.log(msg, ...args);
   }
 }

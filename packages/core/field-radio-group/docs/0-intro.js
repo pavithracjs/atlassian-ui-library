@@ -1,8 +1,17 @@
 // @flow
 import React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
 
 export default md`
+  ${(
+    <SectionMessage
+      appearance="warning"
+      title="Note: @atlaskit/field-radio-group is being deprecated in favor of @atlaskit/radio."
+    >
+      This is part of our forms update which will modernize all our form fields.
+    </SectionMessage>
+  )}
 
   Provides a standard way to select a single option from a list.
 

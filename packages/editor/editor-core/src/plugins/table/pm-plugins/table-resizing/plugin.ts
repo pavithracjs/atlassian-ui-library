@@ -256,7 +256,9 @@ function handleMouseDown(
       getLayoutSize(
         dom.getAttribute('data-layout') as TableLayout,
         containerWidth.width,
-        dynamicTextSizing,
+        {
+          dynamicTextSizing,
+        },
       ),
     node: $cell.node(-1),
     start,

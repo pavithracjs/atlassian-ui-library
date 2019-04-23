@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/nachos-textfield",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A React component that is a textfield.",
   "license": "Apache-2.0",
   "main": "dist/es5/index.js",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@atlaskit/textfield": "^0.4.0",
     "@babel/runtime": "^7.0.0",
-    "tslib": "^1.8.0"
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "react": "^16.4.0"

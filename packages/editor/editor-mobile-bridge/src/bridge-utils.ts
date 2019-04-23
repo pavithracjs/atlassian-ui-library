@@ -36,7 +36,7 @@ export const sendToBridge = (bridgeName: any, eventName: any, props = {}) => {
       try {
         bridge[eventName as any](...args);
       } catch (err) {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.error(
           `Could not call bridge.${eventName}() with args: ${JSON.stringify(
             args,

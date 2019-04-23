@@ -308,7 +308,7 @@ export default class WebBridgeImpl extends WebBridge
         return;
 
       default:
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.error(`${type} cannot be inserted as it's not supported`);
         return;
     }
@@ -363,6 +363,14 @@ export default class WebBridgeImpl extends WebBridge
 
     this.editorView.focus();
     return true;
+  }
+
+  scrollToSelection(): void {
+    if (!this.editorView) {
+      return;
+    }
+
+    this.editorView.dispatch(this.editorView.state.tr.scrollIntoView());
   }
 
   flushDOM() {

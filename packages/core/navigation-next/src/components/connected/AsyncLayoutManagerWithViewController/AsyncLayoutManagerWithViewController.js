@@ -191,6 +191,7 @@ class AsyncLayoutManagerWithViewControllerBase extends Component<
           onCollapseEnd={onCollapseEnd}
           getRefs={getRefs}
           topOffset={topOffset}
+          view={view}
         >
           {children}
         </LayoutManager>

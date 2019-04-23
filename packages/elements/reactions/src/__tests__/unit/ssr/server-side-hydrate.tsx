@@ -28,8 +28,8 @@ describe('server side rendering and hydration', async () => {
   ])('ssr("%s")', async (fileName: string) => {
     await ssr_hydrate(__dirname, `${ExamplesPath}/${fileName}`);
 
-    /* tslint:disable no-console */
     // @ts-ignore
+    // eslint-disable-next-line no-console
     const mockCalls = console.error.mock.calls;
     const filtered = mockCalls.filter((mock: any) => !warningRegEx.test(mock));
     const mockCallsWithoutStyleErrors = filtered.reduce(

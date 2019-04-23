@@ -228,6 +228,7 @@ export const createTableView = (
   portalProviderAPI: PortalProviderAPI,
   options: {
     isBreakoutEnabled?: boolean;
+    wasBreakoutEnabled?: boolean;
     dynamicTextSizing?: boolean;
   },
 ): NodeView => {

@@ -4,7 +4,6 @@ import { Node as PMNode } from 'prosemirror-model';
 import { JiraIcon } from '@atlaskit/logo';
 import { borderRadius, colors } from '@atlaskit/theme';
 
-// tslint:disable-next-line:variable-name
 const WrapperNode = styled.span`
   align-items: center;
   background: ${colors.N30};
@@ -27,7 +26,6 @@ const WrapperNode = styled.span`
   }
 `;
 
-// tslint:disable-next-line:variable-name
 const JiraChildNode = styled.span`
   display: inline-block;
   color: #707070;
@@ -40,7 +38,6 @@ const JiraChildNode = styled.span`
   }
 `;
 
-// tslint:disable-next-line:variable-name
 const SvgChildNode = styled.span`
   display: inline-block;
   height: 24px;

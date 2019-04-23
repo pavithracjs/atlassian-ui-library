@@ -765,13 +765,13 @@ describe('LayoutManager', () => {
 
       wrapper.setState({ mouseIsOverNavigation: true });
 
-      expect(globalNav).toHaveBeenCalledTimes(2);
-      expect(productNav).toHaveBeenCalledTimes(2);
+      expect(globalNav).toHaveBeenCalledTimes(1);
+      expect(productNav).toHaveBeenCalledTimes(1);
 
       wrapper.setState({ itemIsDragging: false });
 
-      expect(globalNav).toHaveBeenCalledTimes(2);
-      expect(productNav).toHaveBeenCalledTimes(2);
+      expect(globalNav).toHaveBeenCalledTimes(1);
+      expect(productNav).toHaveBeenCalledTimes(1);
     });
   });
 });

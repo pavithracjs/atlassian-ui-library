@@ -182,7 +182,7 @@ class EditorView extends Component<
       localStorage.setItem(propertyTool, tool);
       localStorage.setItem(propertyLineWidth, lineWidth.toString());
     } catch (error) {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.warn(
         `Failed to save properties for MediaEditor: ${color} ${tool} ${lineWidth}`,
       );
@@ -207,7 +207,7 @@ class EditorView extends Component<
           color: parsedColor,
         });
       } catch (error) {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.warn(
           `Failed to parse color property for MediaEditor: ${color}`,
         );

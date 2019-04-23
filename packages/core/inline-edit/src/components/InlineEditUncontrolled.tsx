@@ -53,6 +53,7 @@ class InlineEditUncontrolled extends React.Component<
   static defaultProps = {
     keepEditViewOpenOnBlur: false,
     hideActionButtons: false,
+    isRequired: false,
     readViewFitContainerWidth: false,
     editButtonLabel: 'Edit',
     confirmButtonLabel: 'Confirm',
@@ -214,6 +215,7 @@ class InlineEditUncontrolled extends React.Component<
       defaultValue,
       hideActionButtons,
       isEditing,
+      isRequired,
       label,
       validate,
     } = this.props;
@@ -243,6 +245,7 @@ class InlineEditUncontrolled extends React.Component<
                 label={label}
                 defaultValue={defaultValue}
                 validate={validate}
+                isRequired={isRequired}
                 /**
                  * This key is required so that value is reset when edit is
                  * cancelled and defaultValue is ""
@@ -285,6 +288,7 @@ class InlineEditUncontrolled extends React.Component<
                 name="inlineEdit"
                 label={label}
                 defaultValue=""
+                isRequired={isRequired}
                 /**
                  * This key is required so that value is reset when edit is
                  * cancelled and defaultValue is ""
