@@ -1,0 +1,14 @@
+{
+  "type": "paragraph",
+  "content": [
+    {
+      "type": "status",
+      "attrs": {
+        "text": "Foo Bar",
+        "color": "neutral",
+        "localId": "c3cf92f0-d0b7-4c49-b478-d1da897bafad",
+        "style": ""
+      }
+    }
+  ]
+}

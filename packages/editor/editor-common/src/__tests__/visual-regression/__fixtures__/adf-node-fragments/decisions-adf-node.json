@@ -1,0 +1,34 @@
+{
+  "type": "decisionList",
+  "attrs": {
+    "localId": "eaca2b3c-702c-4775-8e92-8c6360a178f9"
+  },
+  "content": [
+    {
+      "type": "decisionItem",
+      "attrs": {
+        "localId": "e279ff53-d6c3-4bf0-8bdb-62c799213d89",
+        "state": "DECIDED"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Lorem ipsum dolor sit amet"
+        }
+      ]
+    },
+    {
+      "type": "decisionItem",
+      "attrs": {
+        "localId": "262fec1b-9385-4499-849a-50ad817ecfc3",
+        "state": "DECIDED"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Aenean mi nisl, venenatis eget auctor vitae"
+        }
+      ]
+    }
+  ]
+}

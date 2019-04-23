@@ -1,0 +1,17 @@
+{
+  "type": "paragraph",
+  "content": [
+    {
+      "type": "mention",
+      "attrs": {
+        "id": "19",
+        "text": "@Jasmine",
+        "accessLevel": ""
+      }
+    },
+    {
+      "type": "text",
+      "text": " "
+    }
+  ]
+}

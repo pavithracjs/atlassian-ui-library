@@ -1,0 +1,34 @@
+{
+  "type": "taskList",
+  "attrs": {
+    "localId": "28068f87-5b79-4068-992c-35b425e952f5"
+  },
+  "content": [
+    {
+      "type": "taskItem",
+      "attrs": {
+        "localId": "901f6a02-af85-4ae1-9334-ccf5aa033da0",
+        "state": "TODO"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Lorem ipsum dolor sit amet"
+        }
+      ]
+    },
+    {
+      "type": "taskItem",
+      "attrs": {
+        "localId": "32aaaf99-5cb9-488f-9c10-e9697bc085ef",
+        "state": "TODO"
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Aenean mi nisl, venenatis eget auctor vitae"
+        }
+      ]
+    }
+  ]
+}

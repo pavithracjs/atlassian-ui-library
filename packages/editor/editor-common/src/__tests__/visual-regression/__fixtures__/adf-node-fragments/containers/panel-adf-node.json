@@ -1,0 +1,12 @@
+{
+  "type": "panel",
+  "attrs": {
+    "panelType": "info"
+  },
+  "content": [
+    {
+      "type": "paragraph",
+      "content": []
+    }
+  ]
+}

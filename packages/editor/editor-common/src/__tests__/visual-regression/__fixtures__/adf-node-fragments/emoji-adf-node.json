@@ -1,0 +1,17 @@
+{
+  "type": "paragraph",
+  "content": [
+    {
+      "type": "text",
+      "text": "Hello World "
+    },
+    {
+      "type": "emoji",
+      "attrs": {
+        "shortName": ":slight_smile:",
+        "id": "1f642",
+        "text": "🙂"
+      }
+    }
+  ]
+}

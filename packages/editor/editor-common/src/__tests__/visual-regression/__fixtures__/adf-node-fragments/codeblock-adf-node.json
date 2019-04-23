@@ -1,0 +1,10 @@
+{
+  "type": "codeBlock",
+  "attrs": {},
+  "content": [
+    {
+      "type": "text",
+      "text": "function() {\n    return false;\n}"
+    }
+  ]
+}
