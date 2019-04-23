@@ -58,25 +58,25 @@ export default class extends Component<{}> {
                 isRequired
                 validate={this.validate}
               >
-                {({ fieldProps, error, meta: { valid, touched, dirty } }) => (
+                {({ fieldProps, error, meta: { valid } }) => (
                   <Fragment>
                     <TextField {...fieldProps} />
-                    {!touched && !dirty && (
+                    {!error && !valid && (
                       <HelperMessage>
                         Pick a memorable name that others will see
                       </HelperMessage>
                     )}
-                    {(touched || dirty) && valid && (
+                    {!error && valid && (
                       <ValidMessage>
                         Nice one, this username is available
                       </ValidMessage>
                     )}
-                    {(touched || dirty) && error === 'TOO_SHORT' && (
+                    {error === 'TOO_SHORT' && (
                       <ErrorMessage>
                         Too short, username needs to be more than 2 characters
                       </ErrorMessage>
                     )}
-                    {(touched || dirty) && error === 'IN_USE' && (
+                    {error === 'IN_USE' && (
                       <ErrorMessage>
                         This username is taken by somebody, try something else
                       </ErrorMessage>
