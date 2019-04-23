@@ -10,7 +10,6 @@
     "importHelpers": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitThis": true,

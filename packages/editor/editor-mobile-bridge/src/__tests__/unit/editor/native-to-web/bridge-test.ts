@@ -13,6 +13,7 @@ const mockEditorCore = {
 };
 jest.mock('@atlaskit/editor-core', () => mockEditorCore);
 
+import semver from 'semver';
 import WebBridgeImpl from '../../../../editor/native-to-web';
 import {
   indentList,
@@ -25,8 +26,6 @@ import {
   setLinkHref,
   setLinkText,
 } from '@atlaskit/editor-core';
-
-import pkgConfig from '../../../../../package.json';
 
 afterEach(() => {
   (indentList as jest.Mock<{}>).mockClear();
@@ -43,8 +42,8 @@ afterEach(() => {
 describe('general', () => {
   let bridge: any = new WebBridgeImpl();
 
-  it('should return current package version', () => {
-    expect(bridge.currentVersion()).toEqual(pkgConfig.version);
+  it('should return valid bridge version', () => {
+    expect(semver.valid(bridge.currentVersion())).toBeTruthy();
   });
 });
 

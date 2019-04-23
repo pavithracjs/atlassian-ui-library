@@ -44,7 +44,7 @@ import { ProseMirrorDOMChange } from '../../types';
 import { hasValue } from '../../utils';
 import { rejectPromise, resolvePromise } from '../../cross-platform-promise';
 
-import pkgConfig from '../../../package.json';
+import { version as packageVersion } from '../../version.json';
 
 export default class WebBridgeImpl extends WebBridge
   implements NativeToWebBridge {
@@ -60,7 +60,7 @@ export default class WebBridgeImpl extends WebBridge
   mediaMap: Map<string, Function> = new Map();
 
   currentVersion(): string {
-    return pkgConfig.version;
+    return packageVersion;
   }
 
   onBoldClicked() {
