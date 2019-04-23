@@ -85,6 +85,7 @@ export type Props = {
 export type State = {
   config?: ConfigResponse;
   copyLinkOrigin: OriginTracing | null;
+  isFetchingConfig: boolean;
   prevShareLink: string | null;
   shareActionCount: number;
   shareOrigin: OriginTracing | null;
@@ -157,8 +158,6 @@ export class ShareDialogContainer extends React.Component<Props, State> {
 
   componentDidMount() {
     this._isMounted = true;
-
-    this.fetchConfig();
   }
 
   componentWillUnmount() {
@@ -166,17 +165,29 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   }
 
   fetchConfig = () => {
-    this.client
+    const fetchConfigPromise = this.client
       .getConfig(this.props.productId, this.props.cloudId)
       .then((config: ConfigResponse) => {
         if (this._isMounted) {
           // TODO: Send analytics event
-          this.setState({ config });
+          this.setState({
+            config,
+            isFetchingConfig: false,
+          });
         }
       })
       .catch(() => {
         // TODO: Send analytics event
       });
+
+    this.setState(
+      {
+        isFetchingConfig: true,
+      },
+      () => fetchConfigPromise,
+    );
+
+    return fetchConfigPromise;
   };
 
   handleSubmitShare = ({
@@ -231,7 +242,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       triggerButtonAppearance,
       triggerButtonStyle,
     } = this.props;
-    const { shareOrigin } = this.state;
+    const { isFetchingConfig, shareOrigin } = this.state;
     const copyLink = formatCopyLink(this.state.copyLinkOrigin!, shareLink);
     return (
       <MessagesIntlProvider>
@@ -239,6 +250,8 @@ export class ShareDialogContainer extends React.Component<Props, State> {
           config={this.state.config}
           copyLink={copyLink}
           dialogPlacement={dialogPlacement}
+          fetchConfig={this.fetchConfig}
+          isFetchingConfig={isFetchingConfig}
           loadUserOptions={loadUserOptions}
           onShareSubmit={this.handleSubmitShare}
           shareContentType={shareContentType}

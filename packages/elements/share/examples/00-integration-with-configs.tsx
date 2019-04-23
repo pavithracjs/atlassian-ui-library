@@ -136,7 +136,15 @@ export default class Example extends React.Component<{}, State> {
 
   key: number = 0;
 
-  getConfig = () => Promise.resolve(this.state);
+  // getConfig = () => Promise.resolve(this.state);
+
+  getConfig = () =>
+    new Promise(resolve => {
+      setTimeout(() => {
+        console.log('=== Config fetched');
+        resolve(this.state);
+      }, 1000);
+    });
 
   share = (
     _content: Content,

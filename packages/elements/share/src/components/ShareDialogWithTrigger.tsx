@@ -51,7 +51,9 @@ export type Props = {
   children?: RenderCustomTriggerButton;
   copyLink: string;
   dialogPlacement?: DialogPlacement;
+  fetchConfig: Function;
   isDisabled?: boolean;
+  isFetchingConfig?: boolean;
   loadUserOptions?: LoadOptions;
   onLinkCopy?: Function;
   onShareSubmit?: (shareContentState: DialogContentState) => Promise<any>;
@@ -169,22 +171,43 @@ class ShareDialogWithTriggerInternal extends React.Component<
   private onTriggerClick = () => {
     this.createAndFireEvent(buttonClicked());
 
-    this.setState(
-      {
-        isDialogOpen: !this.state.isDialogOpen,
-        ignoreIntermediateState: false,
-      },
-      () => {
-        const { isDialogOpen } = this.state;
-        if (isDialogOpen) {
-          this.start = Date.now();
-          this.createAndFireEvent(screenEvent());
-        }
-        if (this.containerRef.current) {
-          this.containerRef.current.focus();
-        }
-      },
-    );
+    if (!this.props.config) {
+      this.props.fetchConfig().then(() => {
+        this.setState(
+          {
+            isDialogOpen: !this.state.isDialogOpen,
+            ignoreIntermediateState: false,
+          },
+          () => {
+            const { isDialogOpen } = this.state;
+            if (isDialogOpen) {
+              this.start = Date.now();
+              this.createAndFireEvent(screenEvent());
+            }
+            if (this.containerRef.current) {
+              this.containerRef.current.focus();
+            }
+          },
+        );
+      });
+    } else {
+      this.setState(
+        {
+          isDialogOpen: !this.state.isDialogOpen,
+          ignoreIntermediateState: false,
+        },
+        () => {
+          const { isDialogOpen } = this.state;
+          if (isDialogOpen) {
+            this.start = Date.now();
+            this.createAndFireEvent(screenEvent());
+          }
+          if (this.containerRef.current) {
+            this.containerRef.current.focus();
+          }
+        },
+      );
+    }
   };
 
   private handleCloseDialog = (_: { isOpen: boolean; event: any }) => {
@@ -233,6 +256,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
       copyLink,
       dialogPlacement,
       isDisabled,
+      isFetchingConfig,
       loadUserOptions,
       shareFormTitle,
       config,
@@ -252,18 +276,20 @@ class ShareDialogWithTriggerInternal extends React.Component<
           content={
             <AnalyticsContext data={{ source: 'shareModal' }}>
               <InlineDialogFormWrapper>
-                <ShareForm
-                  copyLink={copyLink}
-                  loadOptions={loadUserOptions}
-                  isSharing={isSharing}
-                  onShareClick={this.handleShareSubmit}
-                  title={shareFormTitle}
-                  shareError={shareError}
-                  onDismiss={this.handleFormDismiss}
-                  defaultValue={defaultValue}
-                  config={config}
-                  onLinkCopy={this.handleCopyLink}
-                />
+                {config && (
+                  <ShareForm
+                    copyLink={copyLink}
+                    loadOptions={loadUserOptions}
+                    isSharing={isSharing}
+                    onShareClick={this.handleShareSubmit}
+                    title={shareFormTitle}
+                    shareError={shareError}
+                    onDismiss={this.handleFormDismiss}
+                    defaultValue={defaultValue}
+                    config={config}
+                    onLinkCopy={this.handleCopyLink}
+                  />
+                )}
               </InlineDialogFormWrapper>
             </AnalyticsContext>
           }
@@ -274,7 +300,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
           {this.props.children ? (
             this.props.children({
               onClick: this.onTriggerClick,
-              loading: isSharing,
+              loading: isSharing || isFetchingConfig,
               error: shareError,
             })
           ) : (
@@ -288,6 +314,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
               onClick={this.onTriggerClick}
               isSelected={isDialogOpen}
               isDisabled={isDisabled}
+              isLoading={isFetchingConfig}
             />
           )}
         </InlineDialog>
