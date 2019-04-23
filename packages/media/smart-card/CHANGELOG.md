@@ -1,5 +1,10 @@
 # @atlaskit/smart-card
 
+## 10.4.1
+- [patch] [3e4c4d7e2d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3e4c4d7e2d):
+
+  - fix: send 'Origin' header in resolve requests
+
 ## 10.4.0
 - [minor] [da5a7f3390](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da5a7f3390):
 

@@ -1,1 +1,0 @@
-- fix: send 'Origin' header in resolve requests
