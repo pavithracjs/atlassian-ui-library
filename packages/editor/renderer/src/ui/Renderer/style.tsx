@@ -252,6 +252,10 @@ export const Wrapper = styled.div<RendererWrapperProps & HTMLAttributes<{}>>`
     * .${RendererCssClassName.EXTENSION} {
       width: 100% !important;
     }
+
+    * .${RendererCssClassName.EXTENSION} {
+      overflow-x: auto;
+    }
   }
 
     .${TableSharedCssClassName.TABLE_NODE_WRAPPER} {

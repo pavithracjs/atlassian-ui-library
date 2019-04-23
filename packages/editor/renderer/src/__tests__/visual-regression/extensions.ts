@@ -11,7 +11,7 @@ describe('Snapshot Test: Extensions', () => {
     await page.setViewport({ width: 1120, height: 700 });
   });
 
-  it('iFrame should correctly stay within its parent layout', async () => {
+  it('should correctly stay within their parent layout regardless of specified width', async () => {
     await mountRenderer(page, {
       document: nestedIframe,
       appearance: 'full-page',
