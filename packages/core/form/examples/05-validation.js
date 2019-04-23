@@ -66,7 +66,7 @@ export default class extends Component<{}> {
                         Pick a memorable name that others will see
                       </HelperMessage>
                     )}
-                    {!error && valid && (
+                    {valid && (
                       <ValidMessage>
                         Nice one, this username is available
                       </ValidMessage>
