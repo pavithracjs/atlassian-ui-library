@@ -28,7 +28,6 @@
     "@atlaskit/global-navigation": "^6.2.9",
     "@atlaskit/logo": "^10.0.4",
     "@atlaskit/navigation-next": "^5.1.5",
-    "@atlaskit/section-message": "^2.0.3",
     "@atlaskit/ssr": "^0.0.1",
     "axios": "^0.18.0",
     "enzyme": "^3.7.0",

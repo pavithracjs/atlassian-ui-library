@@ -23,7 +23,6 @@
     "@atlaskit/docs": "^7.0.3",
     "@atlaskit/icon": "^16.0.9",
     "@atlaskit/navigation": "^34.0.4",
-    "@atlaskit/section-message": "^2.0.3",
     "@atlaskit/spinner": "^10.0.7",
     "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/theme": "^8.1.7",
