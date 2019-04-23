@@ -19,7 +19,7 @@
     "dataloader": "^1.4.0",
     "deep-equal": "^1.0.1",
     "lru-fast": "^0.2.2",
-    "tslib": "^1.8.0",
+    "tslib": "^1.9.3",
     "uuid": "^3.1.0",
     "uuid-validate": "^0.0.3"
   },

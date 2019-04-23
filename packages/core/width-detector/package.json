@@ -21,7 +21,7 @@
   "dependencies": {
     "@atlaskit/type-helpers": "^3.0.2",
     "raf-schd": "^2.1.0",
-    "tslib": "^1.8.0"
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "react": "^16.4.0",

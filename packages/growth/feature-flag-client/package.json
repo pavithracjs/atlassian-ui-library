@@ -12,7 +12,7 @@
     "Leandro Augusto Lemos"
   ],
   "dependencies": {
-    "tslib": "^1.8.0"
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@atlaskit/docs": "^7.0.1",

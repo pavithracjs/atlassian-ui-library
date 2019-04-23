@@ -22,7 +22,7 @@
     "@atlaskit/util-service-support": "^4.0.1",
     "classnames": "^2.2.5",
     "react-transition-group": "^2.2.1",
-    "tslib": "^1.8.0",
+    "tslib": "^1.9.3",
     "typestyle": "^1.4.4"
   },
   "peerDependencies": {
