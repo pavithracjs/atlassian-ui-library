@@ -5,9 +5,16 @@ import { DispatchAnalyticsEvent } from '../../../analytics';
 
 export interface Props {
   providerFactory: ProviderFactory;
-  onBlur?: (text: string) => void;
-  onSubmit?: (href: string, text?: string, type?: LinkInputType) => void;
   dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
+  onBlur?: (
+    type: string,
+    url: string,
+    text: string,
+    isTabPressed?: boolean,
+  ) => void;
+  onSubmit: (href: string, text: string, type?: LinkInputType) => void;
+  displayText?: string | null;
+  displayUrl?: string;
 }
 
 export default class HyperlinkAddToolbar extends React.PureComponent<
@@ -18,6 +25,8 @@ export default class HyperlinkAddToolbar extends React.PureComponent<
     const {
       onSubmit,
       onBlur,
+      displayText,
+      displayUrl,
       dispatchAnalyticsEvent,
       providerFactory,
     } = this.props;
@@ -31,6 +40,8 @@ export default class HyperlinkAddToolbar extends React.PureComponent<
             onSubmit={onSubmit}
             onBlur={onBlur}
             dispatchAnalyticsEvent={dispatchAnalyticsEvent}
+            displayText={displayText || ''}
+            displayUrl={displayUrl}
           />
         )}
       />

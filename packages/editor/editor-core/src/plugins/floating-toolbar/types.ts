@@ -19,10 +19,11 @@ export type AlignType = 'left' | 'center' | 'right';
 export type FloatingToolbarButton<T> = {
   type: 'button';
   title: string;
+  showTitle?: boolean;
   onClick: T;
   onMouseEnter?: T;
   onMouseLeave?: T;
-  icon: Icon;
+  icon?: Icon;
   selected?: boolean;
   disabled?: boolean;
   hidden?: boolean;

@@ -59,7 +59,7 @@ export default ({
           target={target}
           appearance={appearance}
           aria-haspopup={true}
-          iconBefore={icon}
+          iconBefore={icon || undefined}
           iconAfter={iconAfter}
           onClick={onClick}
           isSelected={selected}

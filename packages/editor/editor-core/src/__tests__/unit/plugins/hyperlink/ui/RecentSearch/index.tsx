@@ -8,11 +8,17 @@ import { mountWithIntl } from '@atlaskit/editor-test-helpers';
 const timeout = () => new Promise(resolve => window.setTimeout(resolve, 1));
 
 function pressDownArrowInputField(recentSearch: ReactWrapper<any, any>) {
-  recentSearch.find('input').simulate('keydown', { keyCode: 40 });
+  recentSearch
+    .find('input')
+    .first()
+    .simulate('keydown', { keyCode: 40 });
 }
 
 function pressReturnInputField(recentSearch: ReactWrapper<any, any>) {
-  recentSearch.find('input').simulate('keydown', { keyCode: 13 });
+  recentSearch
+    .find('input')
+    .first()
+    .simulate('keydown', { keyCode: 13 });
 }
 
 describe('@atlaskit/editor-core/ui/RecentSearch', () => {
@@ -102,7 +108,7 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
     await timeout();
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit).toHaveBeenCalledWith('example.com', undefined, 'manual');
+    expect(onSubmit).toHaveBeenCalledWith('example.com', 'example.com', 'manual');
   });
 
   describe('analytics v3', () => {

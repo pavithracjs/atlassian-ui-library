@@ -1,25 +1,27 @@
 import * as React from 'react';
 import { defineMessages } from 'react-intl';
+import { FloatingToolbarHandler, AlignType } from '../floating-toolbar/types';
 import {
-  FloatingToolbarHandler,
-  FloatingToolbarItem,
-  AlignType,
-} from '../floating-toolbar/types';
-import OpenIcon from '@atlaskit/icon/glyph/editor/open';
-import UnlinkIcon from '@atlaskit/icon/glyph/editor/unlink';
-import { stateKey, HyperlinkState } from './pm-plugins/main';
+  stateKey,
+  HyperlinkState,
+  InsertState,
+  EditInsertedState,
+} from './pm-plugins/main';
 import {
   removeLink,
   setLinkText,
-  setLinkHref,
   insertLink,
+  editInsertedLink,
   hideLinkToolbar,
+  setLinkHref,
+  updateLink,
 } from './commands';
-import { normalizeUrl } from './utils';
 import RecentList from './ui/RecentSearch';
-import { Command } from '../../types';
 import { EditorView } from 'prosemirror-view';
 import { DispatchAnalyticsEvent } from '../analytics';
+import { Mark } from 'prosemirror-model';
+import OpenIcon from '@atlaskit/icon/glyph/editor/open';
+import UnlinkIcon from '@atlaskit/icon/glyph/editor/unlink';
 
 export const messages = defineMessages({
   openLink: {
@@ -32,48 +34,12 @@ export const messages = defineMessages({
     defaultMessage: 'Unlink',
     description: 'Removes the hyperlink but keeps your text.',
   },
+  editLink: {
+    id: 'fabric.editor.editLink',
+    defaultMessage: 'Edit link',
+    description: 'Edit the link, update display text',
+  },
 });
-
-const showTextToolbar = (
-  text: string,
-  pos: number,
-): Array<FloatingToolbarItem<Command>> => {
-  return [
-    {
-      type: 'input',
-      onSubmit: text => setLinkText(text, pos),
-      placeholder: 'Text to display',
-      onBlur: text => setLinkText(text, pos),
-    },
-  ];
-};
-
-const showLinkEditToolbar = (
-  link: string | undefined,
-  pos: number,
-): Array<FloatingToolbarItem<Command>> => {
-  return [
-    {
-      type: 'input',
-      onSubmit: link => setLinkHref(link, pos),
-      placeholder: 'Setup link here',
-      defaultValue: link || '',
-      onBlur: link => setLinkHref(link, pos),
-    },
-  ];
-};
-
-const getToolbarToShow = (
-  link: string,
-  text: string | undefined | null,
-  pos: number,
-) => {
-  const isLinkTextTheSameAsTheLinkUrl = link === normalizeUrl(text);
-
-  return isLinkTextTheSameAsTheLinkUrl
-    ? showTextToolbar(text || '', pos)
-    : showLinkEditToolbar(link, pos);
-};
 
 export const getToolbarConfig: FloatingToolbarHandler = (
   state,
@@ -107,42 +73,63 @@ export const getToolbarConfig: FloatingToolbarHandler = (
           mark => mark.type === state.schema.marks.link,
         );
         const link = linkMark[0] && linkMark[0].attrs.href;
-        const text = node.text;
 
         const labelOpenLink = formatMessage(messages.openLink);
         const labelUnlink = formatMessage(messages.unlink);
+
+        const editLink = formatMessage(messages.editLink);
 
         return {
           ...hyperLinkToolbar,
           height: 32,
           width: 250,
           items: [
-            ...getToolbarToShow(link, text, pos),
+            {
+              type: 'button',
+              onClick: editInsertedLink(pos),
+              selected: false,
+              title: editLink,
+              showTitle: true,
+            },
             {
               type: 'separator',
             },
             {
               type: 'button',
-              icon: OpenIcon,
               target: '_blank',
               href: link,
               onClick: () => true,
               selected: false,
               title: labelOpenLink,
+              icon: OpenIcon,
+            },
+            {
+              type: 'separator',
             },
             {
               type: 'button',
-              icon: UnlinkIcon,
               onClick: removeLink(pos),
               selected: false,
               title: labelUnlink,
+              icon: UnlinkIcon,
             },
           ],
         };
       }
 
+      case 'EDIT_INSERTED':
       case 'INSERT': {
-        const { from, to } = activeLinkMark;
+        const { from, to } = activeLinkMark as InsertState;
+        const { node } = activeLinkMark as EditInsertedState;
+        let link: string;
+
+        if (node) {
+          const linkMark = node.marks.filter(
+            (mark: Mark) => mark.type === state.schema.marks.link,
+          );
+          link = linkMark[0] && linkMark[0].attrs.href;
+        }
+
         return {
           ...hyperLinkToolbar,
           height: 360,
@@ -165,16 +152,52 @@ export const getToolbarConfig: FloatingToolbarHandler = (
                 return (
                   <RecentList
                     key={idx}
+                    displayUrl={link}
+                    displayText={
+                      (activeLinkMark as EditInsertedState).node &&
+                      (activeLinkMark as EditInsertedState).node.text
+                    }
                     providerFactory={providerFactory}
-                    onSubmit={(href, text, type) => {
-                      insertLink(from, to, href, text, type)(
-                        view.state,
-                        view.dispatch,
-                      );
+                    onSubmit={(href, text) => {
+                      activeLinkMark.type === 'EDIT_INSERTED'
+                        ? updateLink(href, text, activeLinkMark.pos)(
+                            view.state,
+                            view.dispatch,
+                          )
+                        : insertLink(from, to, href, text, type)(
+                            view.state,
+                            view.dispatch,
+                          );
                       view.focus();
                     }}
-                    onBlur={() => hideLinkToolbar()(view.state, view.dispatch)}
-                    dispatchAnalyticsEvent={dispatchAnalyticsEvent}
+                    onBlur={(type, url, text, isTabPressed) => {
+                      switch (type) {
+                        case 'url': {
+                          if (url) {
+                            return setLinkHref(
+                              url,
+                              (activeLinkMark as EditInsertedState).pos ||
+                                (activeLinkMark as InsertState).from,
+                              undefined,
+                              isTabPressed,
+                            )(view.state, view.dispatch);
+                          }
+                          return hideLinkToolbar()(view.state, view.dispatch);
+                        }
+                        case 'text': {
+                          if (text && url) {
+                            return setLinkText(
+                              text,
+                              (activeLinkMark as EditInsertedState).pos,
+                            )(view.state, view.dispatch);
+                          }
+                          return hideLinkToolbar()(view.state, view.dispatch);
+                        }
+                        default: {
+                          return hideLinkToolbar()(view.state, view.dispatch);
+                        }
+                      }
+                    }}
                   />
                 );
               },
