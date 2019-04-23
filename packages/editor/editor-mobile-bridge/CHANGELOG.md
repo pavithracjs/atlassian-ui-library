@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.4.4
+- [patch] [f224fa19d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f224fa19d5):
+
+  - ED-6716 Enables allowConfluenceInlineComment for mobile editor bridge so inline comments are now no longer unsupported content
+
 ## 7.4.3
 - [patch] [83014a7395](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/83014a7395):
 
