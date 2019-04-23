@@ -11,23 +11,31 @@ import Form, {
 } from '../src';
 
 export default class extends Component<{}> {
-  textValue = '';
+  validateValue = '';
 
-  getUser = (value: string): Promise<?string> =>
+  serverValidate = (
+    value: string,
+  ): Promise<?{ value: string, error: string }> =>
     new Promise(resolve => {
       setTimeout(() => {
-        if (value === this.textValue) {
-          resolve(['jill', 'joe', 'jillian', 'jack'].find(v => v === value));
+        if (value.length <= 2) {
+          resolve({ value, error: 'TOO_SHORT' });
         }
-      }, 1000);
+        if (['jill', 'joe', 'jillian', 'jack'].find(v => v === value)) {
+          resolve({ value, error: 'IN_USE' });
+        }
+        resolve(undefined);
+      }, 500);
     });
 
   validate = (value: string) => {
-    this.textValue = value;
-    if (value.length < 3) {
-      return 'TOO_SHORT';
-    }
-    return this.getUser(value).then(user => (user ? 'IN_USE' : undefined));
+    this.validateValue = value;
+    return this.serverValidate(value).then(validateObject => {
+      if (validateObject && validateObject.value === this.validateValue) {
+        return validateObject.error;
+      }
+      return undefined;
+    });
   };
 
   render() {
@@ -50,25 +58,25 @@ export default class extends Component<{}> {
                 isRequired
                 validate={this.validate}
               >
-                {({ fieldProps, error, meta: { valid } }) => (
+                {({ fieldProps, error, meta: { valid, touched, dirty } }) => (
                   <Fragment>
                     <TextField {...fieldProps} />
-                    {!error && !valid && (
+                    {!touched && !dirty && (
                       <HelperMessage>
                         Pick a memorable name that others will see
                       </HelperMessage>
                     )}
-                    {valid && (
+                    {(touched || dirty) && valid && (
                       <ValidMessage>
                         Nice one, this username is available
                       </ValidMessage>
                     )}
-                    {error === 'TOO_SHORT' && (
+                    {(touched || dirty) && error === 'TOO_SHORT' && (
                       <ErrorMessage>
                         Too short, username needs to be more than 2 characters
                       </ErrorMessage>
                     )}
-                    {error === 'IN_USE' && (
+                    {(touched || dirty) && error === 'IN_USE' && (
                       <ErrorMessage>
                         This username is taken by somebody, try something else
                       </ErrorMessage>
