@@ -1,0 +1,1 @@
+- Added index.ts to .npmignore to prevent jest tests resolving that instead of index.js
