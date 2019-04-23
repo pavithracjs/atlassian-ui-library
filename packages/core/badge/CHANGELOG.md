@@ -1,5 +1,10 @@
 # @atlaskit/badge
 
+## 11.0.3
+- [patch] [50e8c82ec4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/50e8c82ec4):
+
+  - index.ts is now ignored when published to npm to avoid ambiguity between ts and js files
+
 ## 11.0.2
 - [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
 
