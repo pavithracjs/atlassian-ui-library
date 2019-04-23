@@ -50,7 +50,9 @@ export interface Props {
  * renderComponent: ({ hyperlink }) => React.Component;
  */
 export default class WithPluginState extends React.Component<Props> {
-  private listeners = {};
+  private listeners: {
+    [pluginKey: string]: { handler(pluginState: any): void; pluginKey: string };
+  } = {};
   private debounce: number | null = null;
   private recentEditorPluginState: { [key: string]: any } = {};
   private isSubscribed = false;
@@ -201,7 +203,7 @@ export default class WithPluginState extends React.Component<Props> {
       }
     });
 
-    this.listeners = [];
+    this.listeners = {};
   }
 
   private onContextUpdate = () => {

@@ -1,7 +1,6 @@
-import { name } from '../../../version.json';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
-import { Plugin, PluginKey } from 'prosemirror-state';
+import { Plugin, PluginKey, Transaction } from 'prosemirror-state';
 import { createEditorFactory, doc, p } from '@atlaskit/editor-test-helpers';
 import WithPluginState from '../../../ui/WithPluginState';
 import { EditorPlugin } from '../../../types/editor-plugin';
@@ -12,220 +11,320 @@ import {
 } from '../../../event-dispatcher';
 import EditorActions from '../../../actions';
 import EditorContext from '../../../ui/EditorContext';
+import { EditorView } from 'prosemirror-view';
 
-describe(name, () => {
-  const createEditor = createEditorFactory();
+type PluginWrapper = {
+  key: PluginKey;
+  editorPlugin: EditorPlugin;
+  pluginState: any;
+  setState: (view: EditorView, state: object) => void;
+};
 
-  const pluginKey = new PluginKey('plugin');
-  const pluginKey2 = new PluginKey('plugin2');
+type StateFn = (state: any) => void;
 
-  const setTimeoutPromise = (cb: Function, delay: number) =>
-    new Promise(resolve => window.setTimeout(() => resolve(cb()), delay));
-  const createPlugin = (state: any, key: PluginKey): EditorPlugin => {
-    return {
-      pmPlugins() {
-        return [
-          {
-            name: '',
-            plugin: () =>
-              new Plugin({
-                key,
-                state: {
-                  init() {
-                    return state;
-                  },
-                  apply() {
-                    return state;
-                  },
+/**
+ * Helper function to simulate a prosemirror plugin state
+ * using old architecture based on subscribe/unsubscribe
+ * methods.
+ */
+function createProsemirrorSubscribePluginState() {
+  const callbacks: Array<StateFn> = [];
+
+  return {
+    update: jest.fn((state: any) => {
+      callbacks.forEach(cb => cb(state));
+    }),
+    subscribe: jest.fn((cb: StateFn) => {
+      callbacks.push(cb);
+    }),
+    unsubscribe: jest.fn((cb: StateFn) => {
+      const index = callbacks.indexOf(cb);
+      if (index !== -1) {
+        callbacks.splice(index, 1);
+      }
+    }),
+  };
+}
+/**
+ * Helper to create a editor plugin based on a predefined state,
+ * or using old subscribe/unsubscribe architecture
+ */
+function createPlugin(
+  key: PluginKey,
+  options: { state?: any; subscribe?: boolean },
+): PluginWrapper {
+  const { state, subscribe } = options;
+  let pluginState = state || {};
+  if (subscribe) {
+    pluginState = createProsemirrorSubscribePluginState();
+  }
+
+  const editorPlugin = {
+    pmPlugins() {
+      return [
+        {
+          name: '',
+          plugin: () =>
+            new Plugin({
+              key,
+              state: {
+                init() {
+                  return pluginState;
                 },
-              }),
-          },
-        ];
-      },
-    };
+                apply(tr: Transaction) {
+                  const newState = tr.getMeta(key);
+                  if (newState) {
+                    return newState;
+                  }
+                  return pluginState;
+                },
+              },
+            }),
+        },
+      ];
+    },
   };
 
+  return {
+    key,
+    editorPlugin,
+    pluginState,
+    setState(view: EditorView, state: object) {
+      view.dispatch(view.state.tr.setMeta(key, state));
+    },
+  };
+}
+
+const setTimeoutPromise = (cb: Function, delay: number) =>
+  new Promise(resolve => window.setTimeout(() => resolve(cb()), delay));
+
+// Utils variables
+const emptyState = {};
+const fooBarState = { foo: 'bar' };
+const barFooState = { bar: 'foo' };
+
+jest.useFakeTimers();
+describe('WithPluginState', () => {
+  const createEditor = createEditorFactory();
   let eventDispatcher: EventDispatcher;
   let dispatch: Dispatch;
+  let editorView: EditorView;
+  let wrapper: ReactWrapper;
+  let renderMock: jest.MockInstance<React.ReactElement<any>>;
+  let pluginWrapper: PluginWrapper;
+  let plugin2Wrapper: PluginWrapper;
+  let subscribePluginWrapper: PluginWrapper;
 
   beforeEach(() => {
+    // Setup event dispatcher utils
     eventDispatcher = new EventDispatcher();
     dispatch = createDispatch(eventDispatcher);
+
+    // Create Editor Plugins
+    pluginWrapper = createPlugin(new PluginKey('plugin'), {
+      state: emptyState,
+    });
+    plugin2Wrapper = createPlugin(new PluginKey('plugin2'), {
+      state: emptyState,
+    });
+    subscribePluginWrapper = createPlugin(new PluginKey('subscriberPlugin'), {
+      subscribe: true,
+    });
+
+    // Setup editor with custom editor plugins
+    ({ editorView } = createEditor({
+      doc: doc(p()),
+      editorPlugins: [
+        pluginWrapper.editorPlugin,
+        plugin2Wrapper.editorPlugin,
+        subscribePluginWrapper.editorPlugin,
+      ],
+    }));
+
+    // Create render mock function
+    renderMock = jest.fn(() => null);
+
+    // Mount a base with plugin state
+    wrapper = mount(
+      <WithPluginState
+        editorView={editorView}
+        eventDispatcher={eventDispatcher}
+        plugins={{
+          pluginState: pluginWrapper.key,
+          plugin2State: plugin2Wrapper.key,
+          subscribePluginState: subscribePluginWrapper.key,
+        }}
+        render={renderMock as any}
+      />,
+    );
+
+    renderMock.mockClear();
   });
 
-  describe('WithPluginState', () => {
-    it('should call render with current plugin state', () => {
-      const pluginState = {};
-      const plugin = createPlugin(pluginState, pluginKey);
-      const { editorView } = createEditor({
-        doc: doc(p()),
-        editorPlugins: [plugin],
-      });
-      const wrapper = mount(
-        <WithPluginState
-          editorView={editorView}
-          eventDispatcher={eventDispatcher}
-          plugins={{ currentPluginState: pluginKey }}
-          render={({ currentPluginState }) => {
-            expect(currentPluginState).toEqual(pluginState);
-            return null;
-          }}
-        />,
-      );
+  afterEach(() => {
+    if (wrapper) {
       wrapper.unmount();
+    }
+
+    if (editorView) {
       editorView.destroy();
-    });
-
-    it('should call render once after changes in several plugins', () => {
-      let renders = 0;
-
-      const pluginState = {};
-      const plugin = createPlugin(pluginState, pluginKey);
-      const plugin2 = createPlugin(pluginState, pluginKey2);
-      const { editorView } = createEditor({
-        doc: doc(p()),
-        editorPlugins: [plugin, plugin2],
-      });
-      const wrapper = mount(
-        <WithPluginState
-          editorView={editorView}
-          eventDispatcher={eventDispatcher}
-          plugins={{ pluginState: pluginKey, plugin2State: pluginKey2 }}
-          render={({ currentPluginState }) => {
-            renders++;
-            return null;
-          }}
-        />,
-      );
-
-      return Promise.all([
-        setTimeoutPromise(() => dispatch(pluginKey, {}), 0),
-        setTimeoutPromise(() => dispatch(pluginKey2, {}), 8),
-        setTimeoutPromise(() => dispatch(pluginKey, {}), 5),
-        setTimeoutPromise(() => dispatch(pluginKey, {}), 0),
-        setTimeoutPromise(() => dispatch(pluginKey2, {}), 8),
-        setTimeoutPromise(() => dispatch(pluginKey, {}), 5),
-      ])
-        .then(() =>
-          setTimeoutPromise(() => {
-            wrapper.unmount();
-            editorView.destroy();
-          }, 100),
-        )
-        .then(() => expect(renders).toBeLessThan(6));
-    });
+    }
   });
 
-  it('should clean all listeners after unmount', () => {
-    const pluginState = {};
-    const plugin = createPlugin(pluginState, pluginKey);
-    const plugin2 = createPlugin(pluginState, pluginKey2);
-    const { editorView } = createEditor({
-      doc: doc(p()),
-      editorPlugins: [plugin, plugin2],
-    });
-    const wrapper = mount(
+  it('should render with current prosemirror plugin state', () => {
+    pluginWrapper.setState(editorView, fooBarState);
+
+    wrapper = mount(
       <WithPluginState
         editorView={editorView}
         eventDispatcher={eventDispatcher}
-        plugins={{ pluginState: pluginKey, plugin2State: pluginKey2 }}
-        render={() => null}
+        plugins={{ currentPluginState: pluginWrapper.key }}
+        render={renderMock as any}
       />,
     );
-    const wpsInstance = (wrapper.find(WithPluginState) as any)
-      .first()
-      .instance();
 
-    wrapper.unmount();
-    editorView.destroy();
-    expect(wpsInstance.listeners).toEqual([]);
+    expect(renderMock).toHaveBeenCalledWith({
+      currentPluginState: fooBarState,
+    });
   });
 
-  it('should support old plugins with subscribe/unsubscribe methods', () => {
-    const pluginState = {
-      cb(param?: any) {},
+  it('should update with current prosemirror plugin state', () => {
+    dispatch(pluginWrapper.key, fooBarState);
+    pluginWrapper.setState(editorView, barFooState);
 
-      update() {
-        this.cb({ a: 1 });
-      },
+    jest.runAllTimers();
 
-      subscribe(cb: (param?: any) => {}) {
-        this.cb = cb;
-      },
-      unsubscribe: jest.fn(),
-    };
-    const plugin = createPlugin(pluginState, pluginKey);
-    const { editorView } = createEditor({
-      editorPlugins: [plugin],
-    });
-
-    const renderMock = jest.fn(() => null);
-    const wrapper = mount(
-      <WithPluginState
-        editorView={editorView}
-        eventDispatcher={eventDispatcher}
-        plugins={{ pluginState: pluginKey }}
-        render={renderMock}
-      />,
+    // The source of true is prosemirror state, no dispatch.
+    expect(renderMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        pluginState: barFooState,
+      }),
     );
-
-    return setTimeoutPromise(() => pluginState.update(), 10)
-      .then(() => setTimeoutPromise(() => {}, 50))
-      .then(() => {
-        wrapper.unmount();
-        editorView.destroy();
-        expect(renderMock).toHaveBeenLastCalledWith({ pluginState: { a: 1 } });
-      });
-  });
-
-  it('should unsubscribe after unmount for old plugins with subscribe/unsubscribe methods', () => {
-    const unsubscribeMock = jest.fn();
-    const pluginState = {
-      subscribe: () => {},
-      unsubscribe: unsubscribeMock,
-    };
-    const plugin = createPlugin(pluginState, pluginKey);
-    const { editorView } = createEditor({
-      doc: doc(p()),
-      editorPlugins: [plugin],
-    });
-
-    const render = jest.fn(() => null);
-    const wrapper = mount(
-      <WithPluginState
-        editorView={editorView}
-        eventDispatcher={eventDispatcher}
-        plugins={{ pluginState: pluginKey }}
-        render={render}
-      />,
-    );
-
-    wrapper.unmount();
-    editorView.destroy();
-    expect(unsubscribeMock).toHaveBeenCalledTimes(1);
   });
 
   it('should support getting EditorView and EventDispatcher from the context', () => {
-    const pluginState = {};
-    const plugin = createPlugin(pluginState, pluginKey);
     const editorActions = new EditorActions();
-    const { editorView } = createEditor({
-      doc: doc(p()),
-      editorPlugins: [plugin],
-    });
     editorActions._privateRegisterEditor(editorView, eventDispatcher);
-    const wrapper = mount(
+
+    wrapper = mount(
       <EditorContext editorActions={editorActions}>
         <WithPluginState
-          plugins={{ currentPluginState: pluginKey }}
-          render={({ currentPluginState }) => {
-            expect(currentPluginState).toEqual(pluginState);
-            return null;
-          }}
+          plugins={{ pluginState: pluginWrapper.key }}
+          render={renderMock as any}
         />
       </EditorContext>,
     );
-    wrapper.unmount();
-    editorView.destroy();
+
+    expect(renderMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        pluginState: pluginWrapper.key.getState(editorView.state),
+      }),
+    );
+  });
+
+  describe('Subscribe/Unsubscribe Plugins', () => {
+    it('should update ', () => {
+      subscribePluginWrapper.pluginState.update(fooBarState);
+
+      jest.runAllTimers(); // Run debounce timeout
+
+      expect(renderMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({ subscribePluginState: fooBarState }),
+      );
+    });
+
+    it('should retain old plugin state when is updated by event dispatcher', () => {
+      // Setup
+      subscribePluginWrapper.pluginState.update(fooBarState);
+      jest.runAllTimers(); // Run debounce timeout
+      renderMock.mockClear();
+
+      dispatch(pluginWrapper.key, {}); // Update using event dispatcher
+      jest.runAllTimers(); // Run debounce timeout
+
+      expect(renderMock).toHaveBeenLastCalledWith(
+        expect.objectContaining({ subscribePluginState: fooBarState }),
+      );
+    });
+  });
+
+  describe('Debounce update with multiple plugins events dispatch', () => {
+    const debounceMilliseconds = 10;
+    const lastDispatchMilliseconds = 12;
+
+    beforeEach(() => {
+      // Set up multiple event dispatch with different timeouts
+      setTimeoutPromise(() => dispatch(pluginWrapper.key, {}), 0);
+      setTimeoutPromise(
+        () => dispatch(plugin2Wrapper.key, {}),
+        lastDispatchMilliseconds,
+      );
+      setTimeoutPromise(() => dispatch(pluginWrapper.key, {}), 5);
+      setTimeoutPromise(() => dispatch(pluginWrapper.key, {}), 0);
+      setTimeoutPromise(() => dispatch(plugin2Wrapper.key, {}), 8);
+      setTimeoutPromise(() => dispatch(pluginWrapper.key, {}), 5);
+    });
+
+    it('should update after debounce time', async () => {
+      jest.advanceTimersByTime(lastDispatchMilliseconds + debounceMilliseconds);
+
+      expect(renderMock.mock.calls.length).toEqual(1); // should update when debounce timer
+    });
+
+    it('should not update before debounce time', async () => {
+      jest.advanceTimersByTime(
+        lastDispatchMilliseconds + debounceMilliseconds - 1,
+      );
+
+      expect(renderMock.mock.calls.length).toEqual(0); // 1 second after debounce update should not update
+    });
+  });
+
+  describe('Unmount', () => {
+    it('should unsubscribe from event dispatcher', () => {
+      const eventDispatcherOff = jest.spyOn(eventDispatcher, 'off');
+
+      const wrapper = mount(
+        <WithPluginState
+          editorView={editorView}
+          eventDispatcher={eventDispatcher}
+          plugins={{
+            pluginState: pluginWrapper.key,
+            plugin2State: plugin2Wrapper.key,
+          }}
+          render={() => null}
+        />,
+      );
+
+      wrapper.unmount();
+
+      expect(eventDispatcherOff).toHaveBeenCalledWith(
+        (pluginWrapper.key as any).key,
+        expect.any(Function),
+      );
+      expect(eventDispatcherOff).toHaveBeenCalledWith(
+        (plugin2Wrapper.key as any).key,
+        expect.any(Function),
+      );
+    });
+
+    it('should unsubscribe for old plugins with subscribe/unsubscribe methods', () => {
+      const wrapper = mount(
+        <WithPluginState
+          editorView={editorView}
+          eventDispatcher={eventDispatcher}
+          plugins={{ pluginState: subscribePluginWrapper.key }}
+          render={() => null}
+        />,
+      );
+
+      subscribePluginWrapper.pluginState.unsubscribe.mockClear();
+
+      wrapper.unmount();
+
+      expect(
+        subscribePluginWrapper.pluginState.unsubscribe,
+      ).toHaveBeenCalledTimes(1);
+    });
   });
 });
