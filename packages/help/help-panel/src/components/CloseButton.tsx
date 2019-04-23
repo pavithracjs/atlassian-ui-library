@@ -24,12 +24,12 @@ const CloseButton = (props: Props & HelpContextInterface & Analytics) => {
     help: { onBtnCloseClick },
   } = props;
 
-  const handleOnBtnCloseClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleOnBtnCloseClick = (event: React.MouseEvent<any>) => {
     if (onBtnCloseClick) {
       createAndFire({
         action: 'help-panel-close',
       })(props.createAnalyticsEvent);
-      onBtnCloseClick(e);
+      onBtnCloseClick(event);
     }
   };
 

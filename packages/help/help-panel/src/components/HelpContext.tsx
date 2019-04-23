@@ -3,7 +3,7 @@ import { createAndFire, withAnalyticsEvents } from '../analytics';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 import { Analytics } from '../model/Analytics';
-import { Article, ArticleItem } from '../model/Article';
+import { Article, ArticleItem, ArticleFeedback } from '../model/Article';
 import { REQUEST_STATE } from '../model/Resquests';
 
 import { MIN_CHARACTERS_FOR_SEARCH, VIEW } from './constants';
@@ -59,7 +59,7 @@ export interface HelpContextInterface {
     defaultContent?: React.ReactNode;
     navigateBack(): void;
     navigateTo(id: string): void;
-    onWasHelpfulSubmit?(value: any): Promise<boolean>;
+    onWasHelpfulSubmit?(value: ArticleFeedback): Promise<boolean>;
     onSearch(value: string): void;
     searchResult: ArticleItem[];
     searchState: REQUEST_STATE;

@@ -14,9 +14,15 @@ export const ArticleContentTitle = styled.div`
   padding-bottom: ${2 * gridSize()}px;
 `;
 
-export const ArticleVoteInner = styled.div`
+export const ArticleRateText = styled.div`
   font-size: 0.75rem;
+  font-weight: bold;
   color: ${colors.N200};
   line-height: ${gridSize() * 2}px;
   position: relative;
+  display: inline-block;
+`;
+
+export const ArticleRateAnswerWrapper = styled.div`
+  padding-top: ${gridSize() * 2}px;
 `;

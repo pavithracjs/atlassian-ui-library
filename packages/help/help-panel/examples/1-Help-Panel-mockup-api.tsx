@@ -29,6 +29,11 @@ export default class extends React.Component {
       isOpen: false,
     });
 
+  onWasHelpfulSubmit = (value: string): Promise<boolean> => {
+    console.log(value);
+    return new Promise(resolve => setTimeout(() => resolve(true), 1000));
+  };
+
   onSearchArticlesSubmit = (searchValue: any) => {
     this.setState({ searchText: searchValue });
   };
@@ -52,6 +57,7 @@ export default class extends React.Component {
         <div style={{ padding: '2rem' }}>
           <LocaleIntlProvider locale={'en'}>
             <HelpPanel
+              onWasHelpfulSubmit={this.onWasHelpfulSubmit}
               isOpen={isOpen}
               onBtnCloseClick={this.closeDrawer}
               articleId="00"

@@ -10,12 +10,13 @@ export const truncate = (width: string = '100%') => css`
   width: ${width};
 `;
 
-export const CloseButton = styled.div`
+export const CloseButton = styled.button`
   color: ${colors.N100};
   cursor: pointer;
   width: 24px;
   height: 24px;
   min-width: 24px;
+  border: none;
 `;
 
 export const ItemGroupTitle = styled.div`

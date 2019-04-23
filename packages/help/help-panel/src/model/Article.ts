@@ -16,3 +16,8 @@ export interface ArticleItem {
   title: string;
   description: string;
 }
+
+export interface ArticleFeedback {
+  RateReasonText: string;
+  negativeRateReason?: string;
+}

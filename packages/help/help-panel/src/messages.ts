@@ -21,6 +21,21 @@ export const messages = defineMessages({
     defaultMessage: 'Was this helpful?',
     description: '',
   },
+  help_panel_article_rating_option_yes: {
+    id: 'global_help.article_rating.option.yes',
+    defaultMessage: 'Yes',
+    description: '',
+  },
+  help_panel_article_rating_option_no: {
+    id: 'global_help.article_rating.option.no',
+    defaultMessage: 'No',
+    description: '',
+  },
+  help_panel_article_rating_form_title: {
+    id: 'global_help.article_rating.form.title',
+    defaultMessage: 'Tell us why you gave this rating?',
+    description: '',
+  },
   help_panel_article_rating_accurate: {
     id: 'global_help.article_rating.accurate',
     defaultMessage: `It isn't accurate`,
