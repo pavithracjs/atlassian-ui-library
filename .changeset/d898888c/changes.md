@@ -1,0 +1,1 @@
+- ED-6736 Prevent iframe extensions from overflowing between layout cols.
