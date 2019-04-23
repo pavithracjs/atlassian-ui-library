@@ -1,13 +1,17 @@
 export enum EVENT_TYPE {
-  UI = 'ui',
+  OPERATIONAL = 'operational',
+  SCREEN = 'screen',
   TRACK = 'track',
+  UI = 'ui',
 }
 
 export enum ACTION {
+  CHANGED_FULL_WIDTH_MODE = 'changedFullWidthMode',
   CHANGED_LAYOUT = 'changedLayout',
   CHANGED_TYPE = 'changedType',
   CLICKED = 'clicked',
   DELETED = 'deleted',
+  DISPATCHED_INVALID_TRANSACTION = 'dispatchedInvalidTransaction',
   FORMATTED = 'formatted',
   INSERTED = 'inserted',
   INVOKED = 'invoked',
