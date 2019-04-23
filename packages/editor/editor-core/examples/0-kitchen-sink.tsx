@@ -350,6 +350,7 @@ class FullPageRendererExample extends React.Component<Props, State> {
                     </Button>
 
                     <Button
+                      id="adf-toggle"
                       appearance="primary"
                       isSelected={this.state.showADF}
                       onClick={this.showHideADF}
@@ -444,11 +445,15 @@ class FullPageRendererExample extends React.Component<Props, State> {
                       }}
                     >
                       <Textarea
+                        id="adf-input"
                         innerRef={ref => (this.inputRef = ref)}
                         value={this.state.adfInput}
                         onChange={this.handleInputChange}
                       />
-                      <Button onClick={() => this.importADF(actions)}>
+                      <Button
+                        id="import-adf"
+                        onClick={() => this.importADF(actions)}
+                      >
                         Import ADF
                       </Button>
                     </div>
@@ -467,7 +472,7 @@ class FullPageRendererExample extends React.Component<Props, State> {
       return;
     }
 
-    actions.replaceDocument(this.state.adfInput, false);
+    actions.replaceDocument(this.inputRef.value || '{}', false);
 
     this.setState({
       showADF: false,
