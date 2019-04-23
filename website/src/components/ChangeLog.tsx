@@ -90,7 +90,6 @@ export type Props = {
 };
 
 export default class ChangeLog extends React.Component<Props> {
-  props: Props; // eslint-disable-line react/sort-comp
   render() {
     const { changelog, packageName, range } = this.props;
     const logs = range

@@ -255,7 +255,7 @@ export const updateControls = (view: EditorView) => {
  */
 export function scaleTable(
   view: EditorView,
-  tableElem: HTMLTableElement | null,
+  tableElem: HTMLTableElement | null | undefined,
   options: ScaleOptions,
 ) {
   if (!tableElem) {

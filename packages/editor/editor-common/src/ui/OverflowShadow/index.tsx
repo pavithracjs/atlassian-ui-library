@@ -32,10 +32,10 @@ export default function overflowShadow<P extends OverflowShadowProps>(
     Pick<P, Exclude<keyof P, keyof OverflowShadowProps>>,
     OverflowShadowState
   > {
-    overflowContainer: HTMLElement | null;
-    container: HTMLElement;
-    scrollable: NodeList;
-    diff: number;
+    overflowContainer?: HTMLElement | null;
+    container?: HTMLElement;
+    scrollable?: NodeList;
+    diff?: number;
 
     state = {
       showLeftShadow: false,
@@ -108,6 +108,10 @@ export default function overflowShadow<P extends OverflowShadowProps>(
     calcScrollableWidth = () => {
       if (!this.scrollable && this.overflowContainer) {
         return this.overflowContainer.scrollWidth;
+      }
+
+      if (!this.scrollable) {
+        return 0;
       }
 
       let width = 0;

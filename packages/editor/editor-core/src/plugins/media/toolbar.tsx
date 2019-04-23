@@ -243,7 +243,7 @@ const renderAnnotationButton = (
     return (
       <AnnotationToolbar
         key={idx}
-        viewContext={pluginState.mediaContext}
+        viewContext={pluginState.mediaContext!}
         id={selectedContainer.firstChild!.attrs.id}
         view={view}
         intl={intl}

@@ -38,7 +38,7 @@ export class JIRATransformer implements Transformer<string> {
   private schema: Schema;
   private customEncoders: JIRACustomEncoders;
   private mediaContextInfo?: MediaContextInfo;
-  private doc: Document;
+  private doc!: Document;
 
   constructor(
     schema: Schema,
