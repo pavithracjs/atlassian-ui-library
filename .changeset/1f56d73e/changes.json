@@ -1,0 +1,30 @@
+{
+  "releases": [{ "name": "@atlaskit/textarea", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/feedback-collector",
+      "type": "patch",
+      "dependencies": ["@atlaskit/form", "@atlaskit/textarea"]
+    },
+    {
+      "name": "@atlaskit/form",
+      "type": "patch",
+      "dependencies": ["@atlaskit/textarea"]
+    },
+    {
+      "name": "@atlaskit/inline-edit",
+      "type": "patch",
+      "dependencies": ["@atlaskit/form", "@atlaskit/textarea"]
+    },
+    {
+      "name": "@atlaskit/editor-core",
+      "type": "patch",
+      "dependencies": ["@atlaskit/smart-card", "@atlaskit/textarea"]
+    },
+    {
+      "name": "@atlaskit/smart-card",
+      "type": "patch",
+      "dependencies": ["@atlaskit/form", "@atlaskit/textarea"]
+    }
+  ]
+}
