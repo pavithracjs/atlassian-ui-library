@@ -56,7 +56,6 @@ const cli = meow(
 
 if (cli.flags.debug) {
   process.env.DEBUG = 'true';
-  process.env.CI = 'true';
 }
 
 if (cli.flags.debug || cli.flags.watch) {
@@ -187,14 +186,14 @@ async function main() {
   // Listen for early exit and print help
   // If process exits while starting webpack dev server, then probably
   // this script was called with incorrect arguments
-  if (!process.env.CI) {
+  if (!process.env.CI && !process.env.DEBUG) {
     process.on('exit', exitHandler);
   }
 
   startServer ? await webpack.startDevServer() : console.log('start server');
   await isReachable('http://localhost:9000');
 
-  if (!process.env.CI) {
+  if (!process.env.CI && !process.env.DEBUG) {
     process.removeListener('exit', exitHandler);
   }
 
