@@ -1,5 +1,9 @@
 # @atlaskit/editor-core
 
+## 107.21.1
+- Updated dependencies [cd67ae87f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cd67ae87f8):
+  - @atlaskit/textarea@0.4.5
+
 ## 107.21.0
 - [minor] [f005175d25](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f005175d25):
 
