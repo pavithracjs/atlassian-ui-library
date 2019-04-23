@@ -1,1 +1,0 @@
-- Updated Blanket to TypeScript. Flow types are no longer exported.
