@@ -1,12 +1,21 @@
 // @flow
 /** @jsx jsx */
+import { type Node } from 'react';
 import { jsx } from '@emotion/core';
 import { borderRadius } from '@atlaskit/theme';
 import { type ThemeTokens } from '../theme';
 
 const BORDER_RADIUS = `${borderRadius()}px`;
 
-export default ({ backgroundColor, textColor, children }: ThemeTokens) => (
+type ThemeTokensWithChildren = ThemeTokens & {
+  children?: Node,
+};
+
+export default ({
+  backgroundColor,
+  textColor,
+  children,
+}: ThemeTokensWithChildren) => (
   <span
     css={{
       backgroundColor,
