@@ -1,0 +1,19 @@
+{
+  "releases": [
+    { "name": "@atlaskit/editor-common", "type": "minor" },
+    { "name": "@atlaskit/editor-confluence-transformer", "type": "minor" },
+    { "name": "@atlaskit/editor-core", "type": "minor" },
+    { "name": "@atlaskit/editor-jira-transformer", "type": "minor" },
+    { "name": "@atlaskit/editor-mobile-bridge", "type": "minor" },
+    { "name": "@atlaskit/editor-test-helpers", "type": "minor" },
+    { "name": "@atlaskit/renderer", "type": "minor" },
+    { "name": "@atlaskit/feature-flag-client", "type": "minor" },
+    { "name": "@atlaskit/media-filmstrip", "type": "minor" },
+    { "name": "@atlaskit/profilecard", "type": "minor" },
+    { "name": "@atlaskit/global-search", "type": "minor" },
+    { "name": "@atlaskit/quick-search", "type": "minor" },
+    { "name": "@atlaskit/editor-wikimarkup-transformer", "type": "minor" },
+    { "name": "@atlaskit/website", "type": "minor" }
+  ],
+  "dependents": []
+}
