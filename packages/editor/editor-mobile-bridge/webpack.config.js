@@ -59,7 +59,7 @@ module.exports = async function createWebpackConfig() {
       mode === 'development' || cli.flags.sourceMap ? 'source-map' : false,
     resolve: {
       mainFields: ['atlaskit:src', 'module', 'browser', 'main'],
-      extensions: ['.js', '.ts', '.tsx'],
+      extensions: ['.js', '.json', '.ts', '.tsx'],
       alias: {
         ...(await moduleResolveMapBuilder()),
       },

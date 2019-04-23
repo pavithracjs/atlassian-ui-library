@@ -44,6 +44,8 @@ import { ProseMirrorDOMChange } from '../../types';
 import { hasValue } from '../../utils';
 import { rejectPromise, resolvePromise } from '../../cross-platform-promise';
 
+import pkgConfig from '../../../package.json';
+
 export default class WebBridgeImpl extends WebBridge
   implements NativeToWebBridge {
   textFormatBridgeState: TextFormattingState | null = null;
@@ -56,6 +58,10 @@ export default class WebBridgeImpl extends WebBridge
   editorActions: EditorActions = new EditorActions();
   mediaPicker: CustomMediaPicker | undefined;
   mediaMap: Map<string, Function> = new Map();
+
+  currentVersion(): string {
+    return pkgConfig.version;
+  }
 
   onBoldClicked() {
     if (this.textFormatBridgeState && this.editorView) {

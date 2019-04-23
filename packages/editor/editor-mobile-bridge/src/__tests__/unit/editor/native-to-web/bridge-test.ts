@@ -26,6 +26,8 @@ import {
   setLinkText,
 } from '@atlaskit/editor-core';
 
+import pkgConfig from '../../../../../package.json';
+
 afterEach(() => {
   (indentList as jest.Mock<{}>).mockClear();
   (outdentList as jest.Mock<{}>).mockClear();
@@ -36,6 +38,14 @@ afterEach(() => {
   (isLinkAtPos as jest.Mock<{}>).mockClear();
   (setLinkHref as jest.Mock<{}>).mockClear();
   (setLinkText as jest.Mock<{}>).mockClear();
+});
+
+describe('general', () => {
+  let bridge: any = new WebBridgeImpl();
+
+  it('should return current package version', () => {
+    expect(bridge.currentVersion()).toEqual(pkgConfig.version);
+  });
 });
 
 describe('lists should work', () => {
