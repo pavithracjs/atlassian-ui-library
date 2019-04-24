@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.23.0
+- [minor] [69d92c210f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69d92c210f):
+
+  - ED-6582 Add Analytcs GAS V3 for insert SmartLinks
+
 ## 107.22.2
 - Updated dependencies [87f0209201](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87f0209201):
 - Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
