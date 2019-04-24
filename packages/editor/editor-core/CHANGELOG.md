@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.24.0
+- [minor] [6ab657abdc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6ab657abdc):
+
+  - ED-6644 Fire analytics event when full-width mode changes
+
 ## 107.23.1
 - [patch] [86975facf8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86975facf8):
 

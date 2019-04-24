@@ -1,1 +1,0 @@
-- ED-6644 Fire analytics event when full-width mode changes
