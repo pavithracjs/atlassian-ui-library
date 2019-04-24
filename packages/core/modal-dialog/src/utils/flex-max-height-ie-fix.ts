@@ -1,4 +1,3 @@
-// @flow
 /* Used to adjust flex parent height to account for the subtraction in children below */
 export const IEMaxHeightCalcPx = 1;
 

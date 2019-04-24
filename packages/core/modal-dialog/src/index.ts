@@ -1,4 +1,3 @@
-// @flow
 export { default } from './components/ModalWrapper';
 export { default as ModalTransition } from './components/ModalTransition';
 export {
@@ -7,3 +6,4 @@ export {
   Footer as ModalFooter,
   Title as ModalTitle,
 } from './styled/Content';
+export { AppearanceType as ModalAppearances } from './types';

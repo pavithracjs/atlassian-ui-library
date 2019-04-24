@@ -1,10 +1,9 @@
-// @flow
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 
 import { colors, gridSize, math, themed } from '@atlaskit/theme';
-
 import { flexMaxHeightIEFix } from '../utils/flex-max-height-ie-fix';
+import { AppearanceType } from 'src/types';
 
 // Constants
 // ==============================
@@ -25,6 +24,7 @@ export const wrapperStyles = css`
 
 // Header
 // ==============================
+type HeaderProps = { showKeyline: boolean | undefined };
 export const Header = styled.header`
   align-items: center;
   display: flex;
@@ -33,7 +33,7 @@ export const Header = styled.header`
   transition: box-shadow 200ms;
   z-index: 1;
   padding: ${outerGutter}px ${outerGutter}px ${innerGutter - keylineHeight}px;
-  box-shadow: ${props =>
+  box-shadow: ${(props: HeaderProps) =>
     props.showKeyline
       ? `0 ${keylineHeight}px 0 0 ${keylineColor(props)}`
       : 'none'};
@@ -51,12 +51,13 @@ export const Title = styled.h4`
   min-width: 0;
 `;
 
+type TitleTextProps = { isHeadingMultiline: boolean | undefined };
 export const TitleText = styled.span`
   flex: 1 1 auto;
   min-width: 0;
   word-wrap: break-word;
   width: 100%;
-  ${props =>
+  ${(props: TitleTextProps) =>
     !props.isHeadingMultiline &&
     `
       white-space: nowrap;
@@ -70,7 +71,7 @@ const iconColor = {
   warning: colors.Y400,
 };
 
-export const titleIconWrapperStyles = (appearance: string) => css`
+export const titleIconWrapperStyles = (appearance: AppearanceType) => css`
   color: ${iconColor[appearance]};
   margin-right: ${gridSize()}px;
   flex: 0 0 auto;
@@ -102,12 +103,14 @@ export const bodyStyles = (shouldScroll?: boolean) => css`
   }
 `;
 
+type BodyProps = { shouldScroll: boolean | undefined };
 export const Body = styled.div`
-  ${props => bodyStyles(props.shouldScroll)}
+  ${(props: BodyProps) => bodyStyles(props.shouldScroll)}
 `;
 
 // Footer
 // ==============================
+type FooterProps = { showKeyline: boolean | undefined };
 export const Footer = styled.footer`
   align-items: center;
   display: flex;
@@ -116,7 +119,7 @@ export const Footer = styled.footer`
   transition: box-shadow 200ms;
   z-index: 1;
   padding: ${innerGutter - keylineHeight}px ${outerGutter}px ${outerGutter}px;
-  box-shadow: ${props =>
+  box-shadow: ${(props: FooterProps) =>
     props.showKeyline
       ? `0 -${keylineHeight}px 0 0 ${keylineColor(props)}`
       : 'none'};

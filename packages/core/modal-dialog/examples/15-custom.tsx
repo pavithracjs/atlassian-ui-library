@@ -1,5 +1,4 @@
-// @flow
-import React, { Component, type Node } from 'react';
+import * as React from 'react';
 import styled from '@emotion/styled';
 import Lorem from 'react-lorem-component';
 
@@ -28,7 +27,7 @@ const Hint = styled.span`
 const HintText = styled.span`
   margin-left: 1em;
 `;
-const headerStyles = {
+const headerStyles: React.CSSProperties = {
   background:
     'url(https://atlassian.design/react_assets/images/cards/personality.png) center top no-repeat',
   backgroundSize: 'cover',
@@ -36,7 +35,7 @@ const headerStyles = {
   paddingTop: 170,
   position: 'relative',
 };
-const Header = ({ onClose }: { onClose: Function }) => (
+const Header = ({ onClose }: { onClose: any }) => (
   <div style={headerStyles}>
     <span style={{ position: 'absolute', right: 0, top: 4 }}>
       <Button onClick={onClose} appearance="link">
@@ -50,7 +49,7 @@ const Header = ({ onClose }: { onClose: Function }) => (
   </div>
 );
 
-const bodyStyles = {
+const bodyStyles: React.CSSProperties = {
   padding: 90,
   backgroundColor: colors.N30,
   overflowY: 'auto',
@@ -67,15 +66,15 @@ const Body = React.forwardRef((props: { children?: Node }, ref) => {
 });
 
 type FooterProps = {
-  onClose: Function,
-  showKeyline: boolean,
+  onClose: Function;
+  showKeyline: boolean;
 };
 type FooterState = {
-  isOpen: boolean,
+  isOpen: boolean;
 };
 
 // eslint-disable-next-line react/no-multi-comp
-class Footer extends Component<FooterProps, FooterState> {
+class Footer extends React.Component<FooterProps, FooterState> {
   state = { isOpen: false };
 
   open = () => this.setState({ isOpen: true });
@@ -108,7 +107,7 @@ class Footer extends Component<FooterProps, FooterState> {
 
 type State = { isOpen: string | null };
 // eslint-disable-next-line react/no-multi-comp
-export default class ModalDemo extends Component<{}, State> {
+export default class ModalDemo extends React.Component<{}, State> {
   state = { isOpen: null };
 
   close = (isOpen: any) => this.setState({ isOpen });

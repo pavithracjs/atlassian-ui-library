@@ -1,21 +1,24 @@
-// @flow
 import styled from '@emotion/styled';
 import { borderRadius, colors, themed, layers } from '@atlaskit/theme';
-import { WIDTH_ENUM, gutter } from '../shared-variables';
+import { WIDTH_ENUM, gutter, widthNames } from '../shared-variables';
 
 import {
   flexMaxHeightIEFix,
   IEMaxHeightCalcPx,
 } from '../utils/flex-max-height-ie-fix';
 
-const boxShadow = ({ isChromeless }) =>
+const boxShadow = ({ isChromeless }: { isChromeless: boolean | undefined }) =>
   isChromeless
     ? 'none'
     : `
       0 0 0 1px ${colors.N30A}, 0 2px 1px ${colors.N30A},
       0 0 20px -6px ${colors.N60A}
     `;
-const dialogBgColor = ({ isChromeless }) => {
+const dialogBgColor = ({
+  isChromeless,
+}: {
+  isChromeless: boolean | undefined;
+}) => {
   return isChromeless
     ? 'transparent'
     : themed({ light: colors.N0, dark: colors.DN50 })();
@@ -27,8 +30,8 @@ export const dialogWidth = ({
   widthName,
   widthValue,
 }: {
-  widthName?: string,
-  widthValue?: string | number,
+  widthName?: widthNames;
+  widthValue?: string | number;
 }) => {
   if (typeof widthValue === 'number') {
     return `${widthValue}px`;
@@ -36,15 +39,15 @@ export const dialogWidth = ({
 
   return widthName ? `${WIDTH_ENUM.widths[widthName]}px` : widthValue || 'auto';
 };
+
 export const dialogHeight = ({
   heightValue,
 }: {
-  heightValue?: string | number,
+  heightValue?: string | number;
 }) => {
   if (typeof heightValue === 'number') {
     return `${heightValue}px`;
   }
-
   return heightValue || 'auto';
 };
 
@@ -59,12 +62,13 @@ export const dialogHeight = ({
   overflow-y
   - only active when popper.js children envoked below the dialog
 */
+type FillScreenProps = { scrollDistance: number };
 export const FillScreen = styled.div`
   height: 100vh;
   left: 0;
   overflow-y: auto;
   position: absolute;
-  top: ${p => p.scrollDistance}px;
+  top: ${(props: FillScreenProps) => props.scrollDistance}px;
   width: 100%;
   z-index: ${layers.modal};
   -webkit-overflow-scrolling: touch;
@@ -112,8 +116,12 @@ export const PositionerRelative = styled.div`
   }
 `;
 
+type DialogProps = {
+  isChromeless: boolean | undefined;
+  heightValue: string | number | undefined;
+};
 export const Dialog = styled.div`
-  ${props =>
+  ${(props: DialogProps) =>
     props.isChromeless
       ? null
       : `
@@ -124,7 +132,8 @@ export const Dialog = styled.div`
   color: ${colors.text};
   display: flex;
   flex-direction: column;
-  height: ${dialogHeight};
+  height: ${(props: DialogProps) =>
+    dialogHeight({ heightValue: props.heightValue })};
   ${flexMaxHeightIEFix};
   outline: 0;
   pointer-events: auto;

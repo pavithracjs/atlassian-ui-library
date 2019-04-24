@@ -1,14 +1,13 @@
-// @flow
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import Lorem from 'react-lorem-component';
 import Button, { ButtonGroup } from '@atlaskit/button';
-import Modal, { ModalTransition } from '../src';
+import Modal, { ModalTransition, ModalAppearances } from '../src';
 
-const appearances = ['warning', 'danger'];
+const appearances: ModalAppearances[] = ['warning', 'danger'];
 
-export default class ExampleAppearance extends PureComponent<
+export default class ExampleAppearance extends React.PureComponent<
   {},
-  { isOpen: string | null },
+  { isOpen: string | null }
 > {
   state = { isOpen: null };
 

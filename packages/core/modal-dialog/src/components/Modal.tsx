@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import { canUseDOM } from 'exenv';
 import {
   withAnalyticsEvents,
@@ -13,7 +12,7 @@ import {
   version as packageVersion,
 } from '../version.json';
 
-import { WIDTH_ENUM } from '../shared-variables';
+// import { WIDTH_ENUM } from '../shared-variables';
 
 import {
   PositionerAbsolute,
@@ -24,13 +23,13 @@ import {
 import { Animation } from './Animation';
 import Content from './Content';
 import FocusLock from './FocusLock';
-import { type Props as OuterProps } from './ModalWrapper';
+import { Props as OuterProps } from './ModalWrapper';
 
 export const Positioner = ({
   scrollBehavior,
   ...props
 }: {
-  scrollBehavior: void | 'inside' | 'outside',
+  scrollBehavior: void | 'inside' | 'outside';
 }) => {
   const PositionComponent =
     scrollBehavior === 'inside' ? PositionerAbsolute : PositionerRelative;
@@ -51,15 +50,15 @@ type Props = OuterProps & {
   /**
     Whether or not the dialog is visible
   */
-  isOpen: boolean,
+  isOpen: boolean;
 };
 
 type State = {
-  dialogNode: Node | null,
-  scrollDistance: number,
+  dialogNode: Node | null;
+  scrollDistance: number;
 };
 
-class Modal extends Component<Props, State> {
+class Modal extends React.Component<Props, State> {
   static defaultProps = {
     autoFocus: true,
     scrollBehavior: 'inside',
@@ -100,7 +99,7 @@ class Modal extends Component<Props, State> {
     }
   };
 
-  handleOverlayClick = (e: SyntheticMouseEvent<>) => {
+  handleOverlayClick = (e: React.MouseEvent) => {
     if (this.props.shouldCloseOnOverlayClick) {
       this.props.onClose(e);
     }
@@ -127,7 +126,7 @@ class Modal extends Component<Props, State> {
       shouldCloseOnEscapePress,
       stackIndex,
       heading,
-      width,
+      // width,
       scrollBehavior,
     } = this.props;
 
@@ -137,8 +136,8 @@ class Modal extends Component<Props, State> {
 
     // If a custom width (number or percentage) is supplied, set inline style
     // otherwise allow styled component to consume as named prop
-    const widthName = WIDTH_ENUM.values.includes(width) ? width : null;
-    const widthValue = widthName ? null : width;
+    // const widthName = WIDTH_ENUM.values.includes(width) ? width : null;
+    // const widthValue = widthName ? null : width;
 
     return (
       <Animation
@@ -159,16 +158,17 @@ class Modal extends Component<Props, State> {
             >
               <Blanket isTinted onBlanketClicked={this.handleOverlayClick} />
               <Positioner
-                style={slide}
+                //TODO what's the deal with these props?
+                // style={slide}
                 scrollBehavior={scrollBehavior}
-                widthName={widthName}
-                widthValue={widthValue}
+                // widthName={widthName}
+                // widthValue={widthValue}
               >
                 <Dialog
                   heightValue={height}
                   isChromeless={isChromeless}
                   role="dialog"
-                  tabIndex="-1"
+                  tabIndex={-1}
                 >
                   <Content
                     actions={actions}

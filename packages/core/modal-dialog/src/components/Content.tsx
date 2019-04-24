@@ -1,17 +1,11 @@
-// @flow
-import React, {
-  Component,
-  type Node,
-  type ElementType,
-  type ElementRef,
-} from 'react';
+import * as React from 'react';
 import rafSchedule from 'raf-schd';
 import ScrollLock from 'react-scrolllock';
 
 import Footer from './Footer';
 import Header from './Header';
 
-import type { AppearanceType, KeyboardOrMouseEvent } from '../types';
+import { AppearanceType, KeyboardOrMouseEvent } from '../types';
 import {
   keylineHeight,
   Body as DefaultBody,
@@ -32,80 +26,80 @@ type Props = {
     Buttons to render in the footer
   */
   actions?: Array<{
-    onClick?: Function,
-    text?: string,
-  }>,
+    onClick?: () => void;
+    text?: string;
+  }>;
   /**
     Appearance of the primary action. Also adds an icon to the heading, if provided.
   */
-  appearance?: AppearanceType,
+  appearance?: AppearanceType;
   /**
     Deprecated, use components prop: Component to render the body of the modal.
   */
-  body?: ElementType,
+  body?: React.ComponentType;
   /**
     Content of the modal
   */
-  children?: Node,
+  children?: React.ReactNode;
   /**
     Object describing internal components. Use this to swap out the default components.
   */
   components: {
-    Header?: ElementType,
-    Body?: ElementType,
-    Footer?: ElementType,
-    Container?: ElementType,
-  },
+    Header?: React.ComponentType;
+    Body?: React.ComponentType;
+    Footer?: React.ComponentType;
+    Container?: React.ComponentType;
+  };
   /**
     Deprecated, use components prop: Component to render the header of the modal.
   */
-  header?: ElementType,
+  header?: React.ComponentType;
   /**
     Deprecated, use components prop: Component to render the footer of the moda.l
   */
-  footer?: ElementType,
+  footer?: React.ComponentType;
   /**
     Function that will be called to initiate the exit transition.
   */
-  onClose: KeyboardOrMouseEvent => void,
+  onClose: (event: KeyboardOrMouseEvent) => void;
   /**
     Function that will be called when the modal changes position in the stack.
   */
-  onStackChange?: number => void,
+  onStackChange?: (stackIndex: number) => void;
   /**
     Whether or not the body content should scroll
   */
-  shouldScroll?: boolean,
+  shouldScroll?: boolean;
   /**
     Boolean indicating if pressing the `esc` key should close the modal
   */
-  shouldCloseOnEscapePress?: boolean,
+  shouldCloseOnEscapePress?: boolean;
   /**
     Boolean indicating content should be rendered on a transparent background.
   */
-  isChromeless?: boolean,
+  isChromeless?: boolean;
   /**
     Number representing where in the stack of modals, this modal sits
   */
-  stackIndex?: number,
+  stackIndex?: number;
   /**
     The modal title; rendered in the header.
   */
-  heading?: string,
+  heading?: string;
   /**
    * Makes heading multiline.
    * If false and heading is longer than one line overflow will be not displayed.
    */
-  isHeadingMultiline?: boolean,
+  isHeadingMultiline?: boolean;
 };
 
 type State = {
-  showFooterKeyline: boolean,
-  showHeaderKeyline: boolean,
-  tabbableElements: Array<{}>,
+  showFooterKeyline: boolean;
+  showHeaderKeyline: boolean;
+  tabbableElements: Array<{}>;
 };
 
-export default class Content extends Component<Props, State> {
+export default class Content extends React.Component<Props, State> {
   static defaultProps = {
     autoFocus: false,
     components: {},
@@ -118,14 +112,13 @@ export default class Content extends Component<Props, State> {
 
   _isMounted: boolean = false;
 
-  scrollContainer: HTMLElement | void;
+  scrollContainer: HTMLElement | null = null;
 
   state: State = getInitialState();
 
   componentDidMount() {
     this._isMounted = true;
 
-    // $FlowFixMe - issue with document.addEventListener - Enum incompatible
     document.addEventListener('keydown', this.handleKeyDown, false);
     document.addEventListener('keyup', this.handleKeyUp, false);
 
@@ -178,7 +171,6 @@ export default class Content extends Component<Props, State> {
   componentWillUnmount() {
     this._isMounted = false;
 
-    // $FlowFixMe - issue with document.addEventListener - Enum incompatible
     document.removeEventListener('keydown', this.handleKeyDown, false);
     document.removeEventListener('keyup', this.handleKeyUp, false);
 
@@ -204,7 +196,7 @@ export default class Content extends Component<Props, State> {
     this.setState({ showHeaderKeyline, showFooterKeyline });
   });
 
-  getScrollContainer = (ref: ElementRef<*>) => {
+  getScrollContainer = (ref: HTMLElement) => {
     if (!ref) return;
     this.scrollContainer = ref;
   };
@@ -213,7 +205,8 @@ export default class Content extends Component<Props, State> {
     this.escapeIsHeldDown = false;
   };
 
-  handleKeyDown = (event: SyntheticKeyboardEvent<any>) => {
+  // TODO see if there's a way to be explicit
+  handleKeyDown = (event: any) => {
     const { onClose, shouldCloseOnEscapePress, stackIndex = 0 } = this.props;
 
     // avoid consumers accidently closing multiple modals if they hold escape.

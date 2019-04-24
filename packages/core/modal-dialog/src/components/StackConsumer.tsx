@@ -1,23 +1,22 @@
-// @flow
-import React, { type Node } from 'react';
+import * as React from 'react';
 
 type Props = {
   /**
    Whether the modal for this stack position is open
   */
-  isOpen: boolean,
+  isOpen: boolean;
   /**
    Children is a function that gets passed the current stack index
   */
-  children: number => Node,
+  children: (index: number) => React.ReactNode;
 };
 
 type State = {
-  stackIndex: number,
+  stackIndex: number;
 };
 
 // This is the source of truth for open modals
-let stackConsumers = [];
+let stackConsumers: (() => void)[] = [];
 
 // This component provides the position of a modal dialog in the list of all open dialogs.
 // The key behaviours are:

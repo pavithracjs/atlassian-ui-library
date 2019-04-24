@@ -1,5 +1,5 @@
 // @flow
-import React, { type Node } from 'react';
+import React, { Node } from 'react';
 import { Transition } from 'react-transition-group';
 
 const duration = 500;
@@ -13,11 +13,11 @@ const verticalOffset = 16;
 // This component calls it's children with the styles for both animations.
 
 type AnimationProps = {
-  in: boolean,
-  onExited?: HTMLElement => void,
-  onEntered?: (HTMLElement, boolean) => void,
-  stackIndex?: number,
-  children: ({ fade: Object, slide: Object }) => Node,
+  in: boolean;
+  onExited?: (element: HTMLElement) => void;
+  onEntered?: (element: HTMLElement, flag: boolean) => void;
+  stackIndex?: number;
+  children: ({ fade: Object, slide: Object }) => Node;
 };
 
 export const Animation = ({

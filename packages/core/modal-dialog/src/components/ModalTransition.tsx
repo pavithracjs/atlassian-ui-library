@@ -1,29 +1,33 @@
-// @flow
-import React, { createContext, type Node } from 'react';
+import * as React from 'react';
 
 type Props = {
   /**
     Children that are conditionally rendered. The transition happens based
     on the existence or non-existence of children.
   */
-  children?: Node,
+  children?: React.ReactNode;
 };
 
 type State = {
-  currentChildren: Node,
+  currentChildren: React.ReactNode;
 };
 
-const { Consumer, Provider } = createContext({
+const { Consumer, Provider } = React.createContext({
   isOpen: true,
-  onExited: undefined,
+  onExited: () => {},
 });
 
 // checks if children exist and are truthy
-const hasChildren = children =>
+const hasChildren = (children: React.ReactNode) =>
   React.Children.count(children) > 0 &&
   React.Children.map(children, child => !!child).filter(Boolean).length > 0;
 
 class Transition extends React.Component<Props, State> {
+  //TODO: put in a constructor?
+  state = {
+    currentChildren: undefined,
+  };
+
   static getDerivedStateFromProps(props: Props, state: State) {
     const { currentChildren: previousChildren } = state;
     const exiting =
@@ -32,10 +36,6 @@ class Transition extends React.Component<Props, State> {
       currentChildren: exiting ? previousChildren : props.children,
     };
   }
-
-  state = {
-    currentChildren: undefined,
-  };
 
   onExited = () => {
     this.setState({

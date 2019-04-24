@@ -1,9 +1,8 @@
-// @flow
-import React, { createElement, Component, type ElementType } from 'react';
+import * as React from 'react';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
 import WarningIcon from '@atlaskit/icon/glyph/warning';
 
-import type { AppearanceType } from '../types';
+import { AppearanceType } from '../types';
 import {
   Header,
   Title,
@@ -17,38 +16,37 @@ const TitleIcon = ({ appearance }: { appearance?: 'danger' | 'warning' }) => {
   const Icon = appearance === 'danger' ? ErrorIcon : WarningIcon;
 
   return (
-    <span css={titleIconWrapperStyles(appearance)} appearance={appearance}>
+    //TODO: investigate appearance={appearance} set here
+    <span css={titleIconWrapperStyles(appearance)}>
       <Icon label={`${appearance} icon`} />
     </span>
   );
 };
 
-type Props = {
+export type HeaderProps = {
   /** Appearance of the primary button. Also adds an icon to the heading, if provided. */
-  appearance?: AppearanceType,
+  appearance?: AppearanceType;
   /**
     Boolean OR Function indicating which element to focus when the component mounts
     TRUE will automatically find the first "tabbable" element within the modal
     Providing a function should return the element you want to focus
   */
   /** Component to render the header of the modal. */
-  component?: ElementType,
+  component?: React.ComponentType<any>;
   /** The modal heading */
-  heading?: string,
+  heading?: string;
   /** Function to close the dialog */
-  onClose: Function,
+  onClose: Function;
   /** Whether or not to display a line under the header */
-  showKeyline?: boolean,
+  showKeyline?: boolean;
   /**
    * Makes heading multiline.
    * If false and heading is longer than one line overflow will be not displayed.
    */
-  isHeadingMultiline?: boolean,
+  isHeadingMultiline?: boolean;
 };
 
-export default class ModalHeader extends Component<Props, {}> {
-  props: Props; // eslint-disable-line react/sort-comp
-
+export default class ModalHeader extends React.Component<HeaderProps, {}> {
   static defaultProps = {
     isHeadingMultiline: true,
   };
@@ -65,9 +63,12 @@ export default class ModalHeader extends Component<Props, {}> {
     const warning = 'You can provide `component` OR `heading`, not both.';
 
     if (!component && !heading) return null;
-    if (component && heading) return console.warn(warning); // eslint-disable-line no-console
+    if (component && heading) {
+      console.warn(warning);
+      return null;
+    } // eslint-disable-line no-console
     if (component) {
-      return createElement(component, {
+      return React.createElement(component, {
         appearance,
         onClose,
         showKeyline,

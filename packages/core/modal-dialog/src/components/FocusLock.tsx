@@ -1,6 +1,4 @@
-// @flow
-
-import React, { Component, type Node } from 'react';
+import * as React from 'react';
 import invariant from 'tiny-invariant';
 import ReactFocusLock from 'react-focus-lock';
 
@@ -8,24 +6,24 @@ type Props = {
   /**
     Boolean indicating whether to focus on the first tabbable element inside the focus lock.
   */
-  autoFocus: boolean | (() => HTMLElement | null),
+  autoFocus: boolean | (() => HTMLElement | null);
   /**
     Content inside the focus lock.
   */
-  children?: Node,
+  children?: React.ReactNode;
   /**
     Whether the focus lock is active or not.
   */
-  isEnabled: boolean,
+  isEnabled: boolean;
   /**
     Whether to return the focus to the previous active element.
   */
-  shouldReturnFocus: boolean,
+  shouldReturnFocus: boolean;
 };
 
 // Thin wrapper over react-focus-lock. This wrapper only exists to ensure API compatibility.
 // This component should be deleted during https://ecosystem.atlassian.net/browse/AK-5658
-export default class FocusLock extends Component<Props> {
+export default class FocusLock extends React.Component<Props> {
   static defaultProps = {
     autoFocus: true,
     isEnabled: true,
