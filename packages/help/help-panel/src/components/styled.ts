@@ -66,6 +66,10 @@ export const BackButton = styled.button`
   font-weight: bold;
 `;
 
+export const BackButtonText = styled.span`
+  height: 26px;
+`;
+
 export const HelpPanelBody = styled.div`
   flex: 1;
   overflow: auto;

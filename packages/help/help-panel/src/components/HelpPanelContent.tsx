@@ -10,6 +10,7 @@ import Search from './Search';
 import ArticleComponent from './Article';
 import {
   BackButton,
+  BackButtonText,
   HelpPanelHeader,
   HelpPanelBody,
   HelpPanelHeaderText,
@@ -55,7 +56,9 @@ export const HelpPanelContent = (
           <HelpPanelHeaderText>
             <BackButton onClick={help.navigateBack}>
               <ArrowleftIcon label="back" size="medium" />
-              {formatMessage(messages.help_panel_navigation_back)}
+              <BackButtonText>
+                {formatMessage(messages.help_panel_navigation_back)}
+              </BackButtonText>
             </BackButton>
           </HelpPanelHeaderText>
         </HelpPanelHeader>
