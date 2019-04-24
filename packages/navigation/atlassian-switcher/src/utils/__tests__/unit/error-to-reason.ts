@@ -2,8 +2,8 @@ import { errorToReason } from '../../error-to-reason';
 
 describe('utils/error-to-reason', () => {
   it('should handle weird values', () => {
-    [undefined, 1, '', 'string'].forEach(() => {
-      expect(errorToReason(undefined)).toEqual({
+    [null, undefined, 1, 0, NaN, '', 'string'].forEach(value => {
+      expect(errorToReason(value)).toEqual({
         name: 'Unknown',
         status: undefined,
       });
