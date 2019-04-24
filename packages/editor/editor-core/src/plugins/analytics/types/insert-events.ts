@@ -7,7 +7,7 @@ import {
 } from './enums';
 import { InsertSmartLinkAEP } from './smart-links';
 
-export const enum PANEL_TYPE {
+export enum PANEL_TYPE {
   INFO = 'info',
   SUCCESS = 'success',
   NOTE = 'note',
@@ -15,24 +15,24 @@ export const enum PANEL_TYPE {
   ERROR = 'error',
 }
 
-export const enum USER_CONTEXT {
+export enum USER_CONTEXT {
   EDIT = 'edit',
   NEW = 'new',
 }
 
-export const enum LINK_STATUS {
+export enum LINK_STATUS {
   RESOLVED = 'resolved',
   UNRESOLVED = 'unresolved',
 }
 
-export const enum LINK_REPRESENTATION {
+export enum LINK_REPRESENTATION {
   TEXT = 'text',
   INLINE_CARD = 'inlineCard',
   BLOCK_CARD = 'blockCard',
   EMBED = 'embed',
 }
 
-export const enum LINK_RESOURCE {
+export enum LINK_RESOURCE {
   JIRA = 'jiraIssue',
   CONFLUENCE = 'confluencePage',
   BITBUCKET_PR = 'bitbucketPR',
