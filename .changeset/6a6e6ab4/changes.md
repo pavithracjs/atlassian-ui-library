@@ -1,0 +1,1 @@
+- ED-6738: Table scaling is now less aggressive, we will only attempt to 'scale to fix' when neccessary.
