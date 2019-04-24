@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.23.1
+- [patch] [86975facf8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86975facf8):
+
+  - ED-6664 Fix i18n messages generation, replacing all const enum to just enums inside editor-core
+
 ## 107.23.0
 - [minor] [69d92c210f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69d92c210f):
 
