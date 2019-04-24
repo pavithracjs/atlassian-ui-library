@@ -4,7 +4,7 @@
   "description": "Table component with pagination and sorting functionality",
   "license": "Apache-2.0",
   "module": "index.js",
-  "atlaskit:src": "src/index.js",
+  "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/tables",
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",

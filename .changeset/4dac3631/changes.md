@@ -1,0 +1,1 @@
+- Migrate dynamic table component to TypeScript
