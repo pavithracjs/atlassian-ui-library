@@ -1,0 +1,15 @@
+{
+  "releases": [{ "name": "@atlaskit/width-detector", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/editor-common",
+      "type": "patch",
+      "dependencies": ["@atlaskit/width-detector"]
+    },
+    {
+      "name": "@atlaskit/editor-core",
+      "type": "patch",
+      "dependencies": ["@atlaskit/editor-common", "@atlaskit/width-detector"]
+    }
+  ]
+}
