@@ -1,0 +1,1 @@
+- ED-6736 Prevent extensions with specified width from overflowing between layout cols.
