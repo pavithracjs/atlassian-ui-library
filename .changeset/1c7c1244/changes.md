@@ -1,0 +1,1 @@
+- ED-6745 Fix and prevent bad floating bar configuration
