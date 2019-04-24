@@ -17,9 +17,10 @@ export default {
   'fabric.atlassianSwitcher.people': 'Persoane',
   'fabric.atlassianSwitcher.administration': 'Administrare',
   'fabric.atlassianSwitcher.discoverMore': 'Descoperiți mai multe',
-  'fabric.atlassianSwitcher.errorHeading': 'Something went wrong',
+  'fabric.atlassianSwitcher.errorHeading': 'Ceva nu a funcționat corect',
   'fabric.atlassianSwitcher.errorText':
-    'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    'Monitorizăm erorile de acest tip, însă ne puteți contacta dacă reîmprospătarea nu îmbunătățește lucrurile',
   'fabric.atlassianSwitcher.errorImageAltText':
-    'A broken robot and a number of people busy fixing it.',
+    'Un robot este defect și câțiva oameni sunt ocupați să îl repare. ',
+  'fabric.atlassianSwitcher.expand': 'Extindere',
 };
