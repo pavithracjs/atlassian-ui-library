@@ -7,7 +7,7 @@
 // Finnish
 export default {
   'fabric.atlassianSwitcher.switchTo': 'Vaihda kohteeseen',
-  'fabric.atlassianSwitcher.switchToTooltip': 'Vaihda kohteeseen …',
+  'fabric.atlassianSwitcher.switchToTooltip': 'Vaihda kohteeseen…',
   'fabric.atlassianSwitcher.recent': 'Viimeaikainen',
   'fabric.atlassianSwitcher.more': 'Lisää',
   'fabric.atlassianSwitcher.try': 'Yritä',

@@ -7,7 +7,7 @@
 // Estonian
 export default {
   'fabric.atlassianSwitcher.switchTo': 'Asenda tootega',
-  'fabric.atlassianSwitcher.switchToTooltip': 'Asenda tootega …',
+  'fabric.atlassianSwitcher.switchToTooltip': 'Asenda tootega…',
   'fabric.atlassianSwitcher.recent': 'Hiljutised',
   'fabric.atlassianSwitcher.more': 'Rohkem',
   'fabric.atlassianSwitcher.try': 'Proovi',

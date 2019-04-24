@@ -7,7 +7,7 @@
 // Korean
 export default {
   'fabric.atlassianSwitcher.switchTo': '전환 대상',
-  'fabric.atlassianSwitcher.switchToTooltip': '다음으로 전환 ...',
+  'fabric.atlassianSwitcher.switchToTooltip': '다음으로 전환…',
   'fabric.atlassianSwitcher.recent': '최근 항목',
   'fabric.atlassianSwitcher.more': '더 보기',
   'fabric.atlassianSwitcher.try': '시도',

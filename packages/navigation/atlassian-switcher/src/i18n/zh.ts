@@ -7,7 +7,7 @@
 // Chinese
 export default {
   'fabric.atlassianSwitcher.switchTo': '切换到',
-  'fabric.atlassianSwitcher.switchToTooltip': '切换到 …',
+  'fabric.atlassianSwitcher.switchToTooltip': '切换到…',
   'fabric.atlassianSwitcher.recent': '最近',
   'fabric.atlassianSwitcher.more': '更多',
   'fabric.atlassianSwitcher.try': '尝试',

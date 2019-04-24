@@ -7,7 +7,7 @@
 // Norwegian Bokmål
 export default {
   'fabric.atlassianSwitcher.switchTo': 'Bytt til',
-  'fabric.atlassianSwitcher.switchToTooltip': 'Bytt til …',
+  'fabric.atlassianSwitcher.switchToTooltip': 'Bytt til…',
   'fabric.atlassianSwitcher.recent': 'Nylige',
   'fabric.atlassianSwitcher.more': 'Mer',
   'fabric.atlassianSwitcher.try': 'Prøv',

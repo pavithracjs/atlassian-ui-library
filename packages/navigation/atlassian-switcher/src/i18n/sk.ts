@@ -7,7 +7,7 @@
 // Slovak
 export default {
   'fabric.atlassianSwitcher.switchTo': 'Prepnúť na',
-  'fabric.atlassianSwitcher.switchToTooltip': 'Prepnúť na ...',
+  'fabric.atlassianSwitcher.switchToTooltip': 'Prepnúť na…',
   'fabric.atlassianSwitcher.recent': 'Nedávne',
   'fabric.atlassianSwitcher.more': 'Ďalšie',
   'fabric.atlassianSwitcher.try': 'Vyskúšať',

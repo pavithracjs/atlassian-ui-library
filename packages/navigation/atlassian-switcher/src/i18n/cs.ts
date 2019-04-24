@@ -7,7 +7,7 @@
 // Czech
 export default {
   'fabric.atlassianSwitcher.switchTo': 'Přepnout na',
-  'fabric.atlassianSwitcher.switchToTooltip': 'Přepnout na ...',
+  'fabric.atlassianSwitcher.switchToTooltip': 'Přepnout na…',
   'fabric.atlassianSwitcher.recent': 'Nedávné',
   'fabric.atlassianSwitcher.more': 'Více',
   'fabric.atlassianSwitcher.try': 'Vyzkoušejte to',

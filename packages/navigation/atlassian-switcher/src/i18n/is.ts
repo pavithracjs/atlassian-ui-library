@@ -7,7 +7,7 @@
 // Icelandic
 export default {
   'fabric.atlassianSwitcher.switchTo': 'Skipta í',
-  'fabric.atlassianSwitcher.switchToTooltip': 'Skipta í ...',
+  'fabric.atlassianSwitcher.switchToTooltip': 'Skipta í…',
   'fabric.atlassianSwitcher.recent': 'Nýlegt',
   'fabric.atlassianSwitcher.more': 'Meira',
   'fabric.atlassianSwitcher.try': 'Prófa',

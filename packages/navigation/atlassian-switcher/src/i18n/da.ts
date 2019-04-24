@@ -7,7 +7,7 @@
 // Danish
 export default {
   'fabric.atlassianSwitcher.switchTo': 'Skift til',
-  'fabric.atlassianSwitcher.switchToTooltip': 'Skift til ...',
+  'fabric.atlassianSwitcher.switchToTooltip': 'Skift til…',
   'fabric.atlassianSwitcher.recent': 'Seneste',
   'fabric.atlassianSwitcher.more': 'Mere',
   'fabric.atlassianSwitcher.try': 'Prøv',

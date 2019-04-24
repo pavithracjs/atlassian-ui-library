@@ -7,7 +7,7 @@
 // Swedish
 export default {
   'fabric.atlassianSwitcher.switchTo': 'Byt till',
-  'fabric.atlassianSwitcher.switchToTooltip': 'Byt till ...',
+  'fabric.atlassianSwitcher.switchToTooltip': 'Byt till…',
   'fabric.atlassianSwitcher.recent': 'Senaste',
   'fabric.atlassianSwitcher.more': 'Mer',
   'fabric.atlassianSwitcher.try': 'Prova',
