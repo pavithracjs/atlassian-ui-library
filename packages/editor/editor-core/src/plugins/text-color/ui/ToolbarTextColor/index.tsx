@@ -1,21 +1,23 @@
+import { EditorView } from 'prosemirror-view';
 import * as React from 'react';
 import { defineMessages, injectIntl, InjectedIntlProps } from 'react-intl';
+import styled from 'styled-components';
 import ExpandIcon from '@atlaskit/icon/glyph/chevron-down';
-import TextColorIcon from '@atlaskit/icon/glyph/editor/text-color';
 import { akEditorMenuZIndex } from '@atlaskit/editor-common';
+import { borderRadius, colors } from '@atlaskit/theme';
 import { withAnalytics } from '../../../../analytics';
 import ToolbarButton from '../../../../ui/ToolbarButton';
 import ColorPalette from '../../../../ui/ColorPalette';
 import Dropdown from '../../../../ui/Dropdown';
 import { TextColorPluginState } from '../../pm-plugins/main';
+import * as commands from '../../commands/change-color';
+import { EditorTextColorIcon } from './icon';
 import {
   TriggerWrapper,
   Separator,
   Wrapper,
   ExpandIconWrapper,
 } from './styles';
-import { EditorView } from 'prosemirror-view';
-import * as commands from '../../commands/change-color';
 
 export const messages = defineMessages({
   textColor: {
@@ -24,6 +26,77 @@ export const messages = defineMessages({
     description: '',
   },
 });
+
+const EditorColorIconWrapper = styled.div`
+  position: relative;
+`;
+
+const EditorTextColorIconBar = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 16px;
+  margin: auto;
+  width: 12px;
+  height: 3px;
+  border-radius: ${borderRadius() + 'px'};
+
+  ${({
+    gradientColors,
+    selectedColor,
+  }: {
+    gradientColors: string[];
+    selectedColor?: string | false | null;
+  }) => {
+    if (selectedColor) {
+      return `background: ${selectedColor}`;
+    }
+
+    return `
+    background: linear-gradient(
+      to right,
+      ${gradientColors
+        .map((color, i) => {
+          const inc = 100 / gradientColors.length;
+          const pos = i + 1;
+
+          if (i === 0) {
+            return `${color} ${pos * inc}%,`;
+          }
+
+          if (i === gradientColors.length - 1) {
+            return `${color} ${(pos - 1) * inc}%`;
+          }
+
+          return `
+            ${color} ${(pos - 1) * inc}%,
+            ${color} ${pos * inc}%,
+          `;
+        })
+        .join('\n')}
+    );
+    
+    background: linear-gradient(
+      to right,
+      ${gradientColors
+        .map((color, i) => {
+          const inc = 100 / gradientColors.length;
+          const pos = i + 1;
+
+          if (i === 0) {
+            return `${color} ${pos * inc}%,`;
+          }
+
+          if (i === gradientColors.length - 1) {
+            return `${color} ${(pos - 1) * inc}%,`;
+          }
+
+          return `${color} ${(pos - 1) * inc}% ${pos * inc}%,`;
+        })
+        .join('\n')}
+    );`;
+  }};
+`;
 
 export interface State {
   isOpen: boolean;
@@ -84,15 +157,20 @@ class ToolbarTextColor extends React.Component<
               onClick={this.toggleOpen}
               iconBefore={
                 <TriggerWrapper>
-                  <TextColorIcon
-                    primaryColor={
-                      this.getIconColor(
-                        pluginState.color,
-                        pluginState.defaultColor,
-                      ) || undefined
-                    }
-                    label={labelTextColor}
-                  />
+                  <EditorColorIconWrapper>
+                    <EditorTextColorIcon />
+                    <EditorTextColorIconBar
+                      selectedColor={
+                        pluginState.color !== pluginState.defaultColor &&
+                        pluginState.color
+                      }
+                      gradientColors={
+                        pluginState.disabled
+                          ? [colors.N100, colors.N80, colors.N40, colors.N60]
+                          : [colors.P300, colors.G400, colors.Y400, colors.R400]
+                      }
+                    />
+                  </EditorColorIconWrapper>
                   <ExpandIconWrapper>
                     <ExpandIcon label={labelTextColor} />
                   </ExpandIconWrapper>
@@ -131,15 +209,6 @@ class ToolbarTextColor extends React.Component<
 
   private handleOpenChange = ({ isOpen }: { isOpen: boolean }) => {
     this.setState({ isOpen });
-  };
-
-  private getIconColor = (
-    color?: string | null,
-    defaultColor?: string,
-  ): string | undefined | null => {
-    const { isOpen } = this.state;
-    const isDefaultColor = defaultColor === color;
-    return isOpen || isDefaultColor ? undefined : color;
   };
 }
 
