@@ -1,0 +1,10 @@
+{
+  "releases": [{ "name": "@atlaskit/lozenge", "type": "patch" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/dropdown-menu",
+      "type": "patch",
+      "dependencies": ["@atlaskit/lozenge"]
+    }
+  ]
+}

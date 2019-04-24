@@ -1,19 +1,15 @@
 // @flow
-import React from 'react';
-import styled from 'styled-components';
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import Lozenge from '../src';
 
-const Hr = styled.div`
-  height: 1px;
-  background-color: #ddd;
-  margin: 2em 0;
-`;
-const Row = styled.div`
-  display: flex;
-`;
-const Col = styled.div`
-  flex: 1 1 auto;
-`;
+const Row = ({ children }) => <div css={{ display: 'flex' }}>{children}</div>;
+
+const Col = ({ children }) => <div css={{ flex: '1 1 auto' }}>{children}</div>;
+
+const Hr = () => (
+  <div css={{ height: '1px', backgroundColor: '#ddd', margin: '2em 0' }} />
+);
 
 const APPEARANCES = [
   { label: 'Default', value: 'default' },
