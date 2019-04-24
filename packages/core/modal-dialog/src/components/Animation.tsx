@@ -1,5 +1,4 @@
-// @flow
-import React, { Node } from 'react';
+import * as React from 'react';
 import { Transition } from 'react-transition-group';
 
 const duration = 500;
@@ -10,16 +9,19 @@ const verticalOffset = 16;
 // ==============================
 // Modal has two parts that need to be animated. Everything should fade in/out
 // and the popup should slide up/up (sic). These animations happen at the same time.
-// This component calls it's children with the styles for both animations.
+// This component calls its children with the styles for both animations.
 
 type AnimationProps = {
   in: boolean;
-  onExited?: (element: HTMLElement) => void;
-  onEntered?: (element: HTMLElement, flag: boolean) => void;
+  onExited?: (node: HTMLElement) => void;
+  onEntered?: (node: HTMLElement, isAppearing: boolean) => void;
   stackIndex?: number;
-  children: ({ fade: Object, slide: Object }) => Node;
+  children: (
+    { fade, slide }: { fade: Object; slide: Object },
+  ) => React.ReactNode;
 };
 
+type statusValues = 'entering' | 'entered' | 'exiting' | 'exited';
 export const Animation = ({
   in: hasEntered,
   stackIndex = 0,
@@ -34,32 +36,34 @@ export const Animation = ({
     onEntered={onEntered}
     appear
   >
-    {unadjustedStatus => {
+    {(unadjustedStatus: statusValues) => {
       // when we first render, we want to finish the 'entering' state render
       // then jump to the 'entered' state as quick as possible.
-      const adjustedStatus =
+      const adjustedStatus: statusValues =
         hasEntered && unadjustedStatus === 'exited'
           ? 'entering'
           : unadjustedStatus;
       // Fade styles
-      const fadeBase = {
+      const fadeBaseStyles = {
         transition: `opacity ${duration / 2}ms`,
         opacity: 1,
       };
-      const fadeTransitions = {
+      const fadeTransitionStyles = {
         entering: {
           opacity: 0,
         },
+        entered: {},
         exiting: {
           opacity: 0,
         },
+        exited: {},
       };
       // Slide styles
-      const slideBase = {
+      const slideBaseStyles = {
         transition: `transform ${duration}ms ${easing}`,
         transform: `translate3d(0, ${verticalOffset * 2}px, 0)`,
       };
-      const slideTransitions = {
+      const slideTransitionStyles = {
         entering: {},
         entered: {
           transform:
@@ -70,10 +74,11 @@ export const Animation = ({
         exiting: {
           transform: `translate3d(0, -${verticalOffset * 2}px, 0)`,
         },
+        exited: {},
       };
       return children({
-        fade: { ...fadeBase, ...fadeTransitions[adjustedStatus] },
-        slide: { ...slideBase, ...slideTransitions[adjustedStatus] },
+        fade: { ...fadeBaseStyles, ...fadeTransitionStyles[adjustedStatus] },
+        slide: { ...slideBaseStyles, ...slideTransitionStyles[adjustedStatus] },
       });
     }}
   </Transition>

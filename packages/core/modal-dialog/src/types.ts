@@ -1,5 +1,6 @@
-// @flow
+import * as React from 'react';
+
 export type KeyboardOrMouseEvent =
-  | SyntheticMouseEvent<any>
-  | SyntheticKeyboardEvent<any>;
+  | React.MouseEvent<any>
+  | React.KeyboardEvent<any>;
 export type AppearanceType = 'danger' | 'warning';

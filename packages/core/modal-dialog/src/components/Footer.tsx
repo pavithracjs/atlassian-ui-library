@@ -1,39 +1,40 @@
-// @flow
-import React, { createElement, Component, ElementType } from 'react';
+import * as React from 'react';
 import Button from '@atlaskit/button';
 
 import { AppearanceType } from '../types';
 import { Actions, ActionItem, Footer } from '../styled/Content';
 
-const JustifyShim = props => <span {...props} />;
+const JustifyShim = (props: any) => <span {...props} />;
 
-type Props = {
+export type FooterProps = {
   /** Buttons to render in the footer */
   actions?: Array<{
-    onClick?: Function;
+    onClick?: () => void;
     text?: string;
   }>;
   /** Appearance of the primary button. Also adds an icon to the heading, if provided. */
   appearance?: AppearanceType;
-  /** Component to render the footer of the moda.l */
-  component?: ElementType;
+  /** Component to render the footer of the modal */
+  component?: React.ComponentType<any>;
   /** Function to close the dialog */
   onClose: Function;
   /** Whether or not to display a line above the footer */
   showKeyline?: boolean;
 };
 
-export default class ModalFooter extends Component<Props, {}> {
-  props: Props; // eslint-disable-line react/sort-comp
-
+export default class ModalFooter extends React.Component<FooterProps, {}> {
   render() {
     const { actions, appearance, component, onClose, showKeyline } = this.props;
     const warning = 'You can provide `component` OR `actions`, not both.';
 
     if (!component && !actions) return null;
-    if (component && actions) return console.warn(warning); // eslint-disable-line no-console
+    if (component && actions) {
+      //TODO: check warning
+      console.warn(warning);
+      return null;
+    } // eslint-disable-line no-console
     if (component) {
-      return createElement(component, {
+      return React.createElement(component, {
         appearance,
         onClose,
         showKeyline,

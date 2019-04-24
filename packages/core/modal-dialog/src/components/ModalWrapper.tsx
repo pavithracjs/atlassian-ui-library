@@ -1,5 +1,4 @@
-// @flow
-import React, { Component, ElementType, Node } from 'react';
+import * as React from 'react';
 import { layers } from '@atlaskit/theme';
 import Portal from '@atlaskit/portal';
 import { ModalTransitionConsumer } from './ModalTransition';
@@ -34,27 +33,27 @@ export type Props = {
     - Container: wrapper around Header, Body and Footer components.
   */
   components?: {
-    Header?: ElementType;
-    Footer?: ElementType;
-    Body?: ElementType;
-    Container?: ElementType;
+    Header?: React.ReactNode;
+    Footer?: React.ReactNode;
+    Body?: React.ReactNode;
+    Container?: React.ReactNode;
   };
   /**
     Content of the modal
   */
-  children?: Node;
+  children?: React.ReactNode;
   /**
     Deprecated, use components prop: Component to render the body of the modal, replaces the internal implementation.
   */
-  body?: ElementType;
+  body?: React.ReactNode;
   /**
     Deprecated, use components prop: Component to render the footer of the modal, replaces internal implementation.
   */
-  footer?: ElementType;
+  footer?: React.ReactNode;
   /**
     Deprecated, use components prop: Component to render the header of the modal, replaces internal implementation.
   */
-  header?: ElementType;
+  header?: React.ReactNode;
   /**
     The modal title; rendered in the header.
   */
@@ -122,7 +121,7 @@ type State = {
   modalVisible: boolean;
 };
 
-class ModalWrapper extends Component<Props, State> {
+class ModalWrapper extends React.Component<Props, State> {
   static defaultProps = {
     autoFocus: true,
     scrollBehavior: 'inside',
