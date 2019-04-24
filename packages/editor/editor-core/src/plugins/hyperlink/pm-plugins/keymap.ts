@@ -85,6 +85,7 @@ const mayConvertLastWordToHyperlink: Command = (state, dispatch) => {
         pos: start,
         appearance: 'inline',
         compareLinkText: true,
+        source: INPUT_METHOD.AUTO_DETECT,
       },
     ])(state.tr.addMark(start, end, markType));
 

@@ -5,6 +5,7 @@ import {
   ACTION_SUBJECT_ID,
   INPUT_METHOD,
 } from './enums';
+import { InsertSmartLinkAEP } from './smart-links';
 
 export const enum PANEL_TYPE {
   INFO = 'info',
@@ -48,7 +49,7 @@ export const enum LINK_RESOURCE {
   OTHER = 'other',
 }
 
-type InsertAEP<ActionSubjectID, Attributes> = TrackAEP<
+export type InsertAEP<ActionSubjectID, Attributes> = TrackAEP<
   ACTION.INSERTED,
   ACTION_SUBJECT.DOCUMENT,
   ActionSubjectID,
@@ -216,4 +217,5 @@ export type InsertEventPayload =
   | InsertStatusAEP
   | InsertMediaAEP
   | InsertLinkAEP
-  | InsertLinkPreviewAEP;
+  | InsertLinkPreviewAEP
+  | InsertSmartLinkAEP;
