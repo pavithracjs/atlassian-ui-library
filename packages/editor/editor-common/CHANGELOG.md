@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 36.2.2
+- [patch] [0d23e11834](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d23e11834):
+
+  - ED-6736 Prevent extensions with specified width from overflowing between layout cols.
+
 ## 36.2.1
 - Updated dependencies [87f0209201](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87f0209201):
   - @atlaskit/width-detector@1.0.0
