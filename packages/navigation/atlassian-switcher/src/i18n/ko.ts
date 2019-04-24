@@ -17,9 +17,10 @@ export default {
   'fabric.atlassianSwitcher.people': '사람들',
   'fabric.atlassianSwitcher.administration': '관리',
   'fabric.atlassianSwitcher.discoverMore': '자세히 살펴보기',
-  'fabric.atlassianSwitcher.errorHeading': 'Something went wrong',
+  'fabric.atlassianSwitcher.errorHeading': '문제가 발생했습니다.',
   'fabric.atlassianSwitcher.errorText':
-    'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    '이 오류를 추적하고 있습니다. 새로 고침을 해도 문제가 해결되지 않는 경우 언제든지 문의해 주시기 바랍니다.',
   'fabric.atlassianSwitcher.errorImageAltText':
-    'A broken robot and a number of people busy fixing it.',
+    '고장 난 로봇과 여러 사람들이 이 문제를 해결하기 위해 노력하고 있습니다.',
+  'fabric.atlassianSwitcher.expand': '확장',
 };

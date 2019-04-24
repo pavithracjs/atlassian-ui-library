@@ -7,7 +7,7 @@
 // English (United Kingdom)
 export default {
   'fabric.atlassianSwitcher.switchTo': 'Switch to',
-  'fabric.atlassianSwitcher.switchToTooltip': 'Switch to…',
+  'fabric.atlassianSwitcher.switchToTooltip': 'Switch to …',
   'fabric.atlassianSwitcher.recent': 'Recent',
   'fabric.atlassianSwitcher.more': 'More',
   'fabric.atlassianSwitcher.try': 'Try',
@@ -22,4 +22,5 @@ export default {
     'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
   'fabric.atlassianSwitcher.errorImageAltText':
     'A broken robot and a number of people busy fixing it.',
+  'fabric.atlassianSwitcher.expand': 'Expand',
 };

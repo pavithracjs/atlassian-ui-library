@@ -17,9 +17,10 @@ export default {
   'fabric.atlassianSwitcher.people': 'Personen',
   'fabric.atlassianSwitcher.administration': 'Administration',
   'fabric.atlassianSwitcher.discoverMore': 'Mehr entdecken',
-  'fabric.atlassianSwitcher.errorHeading': 'Something went wrong',
+  'fabric.atlassianSwitcher.errorHeading': 'Irgendetwas ist schiefgelaufen',
   'fabric.atlassianSwitcher.errorText':
-    'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    'Wir verfolgen diese Fehler, aber Sie können uns gerne kontaktieren, wenn das Problem nach dem Aktualisieren weiterhin besteht.',
   'fabric.atlassianSwitcher.errorImageAltText':
-    'A broken robot and a number of people busy fixing it.',
+    'Ein kaputter Roboter und viele Menschen, die ihn reparieren.',
+  'fabric.atlassianSwitcher.expand': 'Erweiterte Erfahrung',
 };
