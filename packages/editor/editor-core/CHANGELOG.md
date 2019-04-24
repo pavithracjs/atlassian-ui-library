@@ -1,5 +1,13 @@
 # @atlaskit/editor-core
 
+## 107.22.2
+- Updated dependencies [87f0209201](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87f0209201):
+- Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
+  - @atlaskit/editor-common@36.2.1
+  - @atlaskit/width-detector@1.0.0
+  - @atlaskit/smart-card@10.4.2
+  - @atlaskit/textarea@1.0.0
+
 ## 107.22.1
 - [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
 

@@ -1,5 +1,10 @@
 # @atlaskit/range
 
+## 1.0.0
+- [major] [546b636a36](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/546b636a36):
+
+  - This major release indicates that this package is no longer under dev preview but is ready for use
+
 ## 0.2.2
 - [patch] [1f2a181b0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1f2a181b0f):
 

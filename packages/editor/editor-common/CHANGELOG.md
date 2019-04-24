@@ -1,5 +1,9 @@
 # @atlaskit/editor-common
 
+## 36.2.1
+- Updated dependencies [87f0209201](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87f0209201):
+  - @atlaskit/width-detector@1.0.0
+
 ## 36.2.0
 - [minor] [799b7daf70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/799b7daf70):
 
