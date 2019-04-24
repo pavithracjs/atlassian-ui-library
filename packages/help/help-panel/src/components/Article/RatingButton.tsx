@@ -35,7 +35,13 @@ export class RatingButton extends React.Component<
   onRateSubmit = (data: ArticleFeedback) => {
     const { help } = this.props;
     if (help.onWasHelpfulSubmit) {
-      help.onWasHelpfulSubmit(data);
+      try {
+        help.onWasHelpfulSubmit(data).then(result => {
+          this.setState({ wasHelpful: null });
+        });
+      } catch (error) {
+        // TODO: Display error
+      }
     }
   };
 
