@@ -164,6 +164,7 @@ export const typeAheadSelectedEvent = (
   emojiList?: EmojiDescription[],
   query?: string,
   skinToneModifier?: string,
+  exactMatch?: boolean,
 ) =>
   createEvent('ui', pressed ? 'pressed' : 'clicked', 'emojiTypeAhead', '', {
     baseEmojiId: emoji.id,
@@ -172,6 +173,7 @@ export const typeAheadSelectedEvent = (
     ...extractAttributesFromQuery(query),
     emojiType: emoji.type,
     skinToneModifier,
+    exactMatch: exactMatch || false,
   });
 
 export const typeAheadRenderedEvent = (duration: number) =>

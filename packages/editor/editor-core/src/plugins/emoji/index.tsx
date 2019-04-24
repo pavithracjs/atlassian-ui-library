@@ -1,13 +1,9 @@
 import * as React from 'react';
-import uuid from 'uuid';
 import { emoji, emojiQuery } from '@atlaskit/adf-schema';
 import { WithProviders, Providers } from '@atlaskit/editor-common';
 
 import { EditorPlugin } from '../../types';
-import {
-  AnalyticsEventPayload,
-  CreateUIAnalyticsEventSignature,
-} from '@atlaskit/analytics-next';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 import { createPlugin, emojiPluginKey } from './pm-plugins/main';
 import inputRulePlugin from './pm-plugins/input-rules';
@@ -27,143 +23,121 @@ import { IconEmoji } from '../quick-insert/assets';
 
 const emojiPlugin = (
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
-): EditorPlugin => {
-  let sessionId = uuid();
-  let selected = false;
-  const fireEvent = (payload: AnalyticsEventPayload): void => {
-    if (payload.attributes) {
-      payload.attributes.sessionId = sessionId;
-    }
-    if (payload.action === 'clicked' || payload.action === 'pressed') {
-      selected = true;
-    } else if (payload.action === 'cancelled') {
-      sessionId = uuid();
-      if (selected) {
-        selected = false;
-        return;
-      }
-      selected = false;
-    }
-    if (createAnalyticsEvent) {
-      createAnalyticsEvent(payload).fire('fabric-elements');
-    }
-  };
-  return {
-    nodes() {
-      return [{ name: 'emoji', node: emoji }];
-    },
+): EditorPlugin => ({
+  nodes() {
+    return [{ name: 'emoji', node: emoji }];
+  },
 
-    marks() {
-      return [{ name: 'emojiQuery', mark: emojiQuery }];
-    },
+  marks() {
+    return [{ name: 'emojiQuery', mark: emojiQuery }];
+  },
 
-    pmPlugins() {
-      return [
-        {
-          name: 'emoji',
-          plugin: ({ providerFactory, portalProviderAPI, props }) =>
-            createPlugin(portalProviderAPI, providerFactory, props.appearance),
-        },
-        {
-          name: 'emojiInputRule',
-          plugin: ({ schema }) => inputRulePlugin(schema),
-        },
-        { name: 'emojiKeymap', plugin: () => keymap() },
-        {
-          name: 'emojiAsciiInputRule',
-          plugin: ({ schema, providerFactory }) =>
-            asciiInputRulePlugin(schema, providerFactory),
-        },
-      ];
-    },
+  pmPlugins() {
+    return [
+      {
+        name: 'emoji',
+        plugin: ({ providerFactory, portalProviderAPI, props }) =>
+          createPlugin(portalProviderAPI, providerFactory, props.appearance),
+      },
+      {
+        name: 'emojiInputRule',
+        plugin: ({ schema }) => inputRulePlugin(schema),
+      },
+      { name: 'emojiKeymap', plugin: () => keymap() },
+      {
+        name: 'emojiAsciiInputRule',
+        plugin: ({ schema, providerFactory }) =>
+          asciiInputRulePlugin(schema, providerFactory),
+      },
+    ];
+  },
 
-    contentComponent({
-      editorView,
-      providerFactory,
-      popupsMountPoint,
-      popupsBoundariesElement,
-      dispatchAnalyticsEvent,
-    }) {
-      const renderNode = (providers: Providers) => {
-        return (
-          <EmojiTypeAhead
-            editorView={editorView}
-            pluginKey={emojiPluginKey}
-            emojiProvider={providers.emojiProvider}
-            popupsMountPoint={popupsMountPoint}
-            popupsBoundariesElement={popupsBoundariesElement}
-            dispatchAnalyticsEvent={dispatchAnalyticsEvent}
-            fireAnalyticsEvent={fireEvent}
-          />
-        );
-      };
-
+  contentComponent({
+    editorView,
+    providerFactory,
+    popupsMountPoint,
+    popupsBoundariesElement,
+    dispatchAnalyticsEvent,
+  }) {
+    const renderNode = (providers: Providers) => {
       return (
-        <WithProviders
-          providerFactory={providerFactory}
-          providers={['emojiProvider']}
-          renderNode={renderNode}
+        <EmojiTypeAhead
+          editorView={editorView}
+          pluginKey={emojiPluginKey}
+          emojiProvider={providers.emojiProvider}
+          popupsMountPoint={popupsMountPoint}
+          popupsBoundariesElement={popupsBoundariesElement}
+          dispatchAnalyticsEvent={dispatchAnalyticsEvent}
+          createAnalyticsEvent={createAnalyticsEvent}
         />
       );
-    },
+    };
 
-    secondaryToolbarComponent({
-      editorView,
-      providerFactory,
-      popupsMountPoint,
-      popupsBoundariesElement,
-      popupsScrollableElement,
-      disabled,
-    }) {
-      const renderNode = (providers: Providers) => {
-        return (
-          <ToolbarEmojiPicker
-            editorView={editorView}
-            pluginKey={emojiPluginKey}
-            emojiProvider={providers.emojiProvider}
-            numFollowingButtons={4}
-            isReducedSpacing={true}
-            isDisabled={disabled}
-            popupsMountPoint={popupsMountPoint}
-            popupsBoundariesElement={popupsBoundariesElement}
-            popupsScrollableElement={popupsScrollableElement}
-          />
-        );
-      };
+    return (
+      <WithProviders
+        providerFactory={providerFactory}
+        providers={['emojiProvider']}
+        renderNode={renderNode}
+      />
+    );
+  },
 
+  secondaryToolbarComponent({
+    editorView,
+    providerFactory,
+    popupsMountPoint,
+    popupsBoundariesElement,
+    popupsScrollableElement,
+    disabled,
+  }) {
+    const renderNode = (providers: Providers) => {
       return (
-        <WithProviders
-          providerFactory={providerFactory}
-          providers={['emojiProvider']}
-          renderNode={renderNode}
+        <ToolbarEmojiPicker
+          editorView={editorView}
+          pluginKey={emojiPluginKey}
+          emojiProvider={providers.emojiProvider}
+          numFollowingButtons={4}
+          isReducedSpacing={true}
+          isDisabled={disabled}
+          popupsMountPoint={popupsMountPoint}
+          popupsBoundariesElement={popupsBoundariesElement}
+          popupsScrollableElement={popupsScrollableElement}
         />
       );
-    },
+    };
 
-    pluginsOptions: {
-      quickInsert: ({ formatMessage }) => [
-        {
-          title: formatMessage(messages.emoji),
-          description: formatMessage(messages.emojiDescription),
-          priority: 500,
-          keyshortcut: ':',
-          icon: () => <IconEmoji label={formatMessage(messages.emoji)} />,
-          action(insert, state) {
-            const mark = state.schema.mark('emojiQuery');
-            const emojiText = state.schema.text(':', [mark]);
-            const tr = insert(emojiText);
-            return addAnalytics(tr, {
-              action: ACTION.INVOKED,
-              actionSubject: ACTION_SUBJECT.TYPEAHEAD,
-              actionSubjectId: ACTION_SUBJECT_ID.TYPEAHEAD_EMOJI,
-              attributes: { inputMethod: INPUT_METHOD.QUICK_INSERT },
-              eventType: EVENT_TYPE.UI,
-            });
-          },
+    return (
+      <WithProviders
+        providerFactory={providerFactory}
+        providers={['emojiProvider']}
+        renderNode={renderNode}
+      />
+    );
+  },
+
+  pluginsOptions: {
+    quickInsert: ({ formatMessage }) => [
+      {
+        title: formatMessage(messages.emoji),
+        description: formatMessage(messages.emojiDescription),
+        priority: 500,
+        keyshortcut: ':',
+        icon: () => <IconEmoji label={formatMessage(messages.emoji)} />,
+        action(insert, state) {
+          const mark = state.schema.mark('emojiQuery');
+          const emojiText = state.schema.text(':', [mark]);
+          const tr = insert(emojiText);
+          return addAnalytics(tr, {
+            action: ACTION.INVOKED,
+            actionSubject: ACTION_SUBJECT.TYPEAHEAD,
+            actionSubjectId: ACTION_SUBJECT_ID.TYPEAHEAD_EMOJI,
+            attributes: { inputMethod: INPUT_METHOD.QUICK_INSERT },
+            eventType: EVENT_TYPE.UI,
+          });
         },
-      ],
-    },
-  };
-};
+      },
+    ],
+  },
+});
 
 export default emojiPlugin;

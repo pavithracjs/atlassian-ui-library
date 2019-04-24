@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
+import uuid from 'uuid';
 import { PureComponent } from 'react';
 import { EmojiProvider, OnEmojiProviderChange } from '../../api/EmojiResource';
 import { defaultListLimit } from '../../util/constants';
@@ -23,7 +24,10 @@ import { EmojiContext } from '../common/internal-types';
 import { createRecordSelectionDefault } from '../common/RecordSelectionDefault';
 import EmojiList from './EmojiTypeAheadList';
 import * as styles from './styles';
-import { AnalyticsEventPayload } from '@atlaskit/analytics-next';
+import {
+  AnalyticsEventPayload,
+  CreateUIAnalyticsEventSignature,
+} from '@atlaskit/analytics-next';
 
 export interface OnLifecycle {
   (): void;
@@ -36,7 +40,7 @@ export interface EmojiTypeAheadBaseProps {
 
   onOpen?: OnLifecycle;
   onClose?: OnLifecycle;
-  fireAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature;
 }
 
 export interface Props extends EmojiTypeAheadBaseProps {
@@ -51,6 +55,7 @@ export interface State {
   selectedTone?: ToneSelection;
   openTime: number;
   renderStartTime: number;
+  fireAnalyticsEvent: (payload: AnalyticsEventPayload) => void;
 }
 
 const isFullShortName = (query?: string) =>
@@ -83,6 +88,32 @@ const uniqueExactShortNameMatchIndex = (
   return matchIndex;
 };
 
+const getEventFirer = (
+  createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
+) => {
+  let sessionId = uuid();
+  let selected = false;
+  const fireEvent = (payload: AnalyticsEventPayload): void => {
+    if (!createAnalyticsEvent) {
+      return;
+    }
+    payload.attributes.sessionId = sessionId;
+    if (payload.action === 'clicked' || payload.action === 'pressed') {
+      selected = true;
+    } else if (payload.action === 'cancelled') {
+      sessionId = uuid();
+      if (selected) {
+        selected = false;
+        return;
+      }
+      selected = false;
+    }
+    createAnalyticsEvent(payload).fire('fabric-elements');
+  };
+
+  return fireEvent;
+};
+
 export default class EmojiTypeAheadComponent extends PureComponent<
   Props,
   State
@@ -109,6 +140,7 @@ export default class EmojiTypeAheadComponent extends PureComponent<
       pressed: false,
       openTime: Date.now(),
       renderStartTime: Date.now(),
+      fireAnalyticsEvent: getEventFirer(props.createAnalyticsEvent),
       selectedTone: props.emojiProvider.getSelectedTone(),
     };
     if (this.props.onOpen) {
@@ -151,7 +183,7 @@ export default class EmojiTypeAheadComponent extends PureComponent<
   }
 
   fireAnalytics(payload: AnalyticsEventPayload) {
-    const { fireAnalyticsEvent } = this.props;
+    const { fireAnalyticsEvent } = this.state;
     if (fireAnalyticsEvent) {
       fireAnalyticsEvent(payload);
     }
@@ -261,18 +293,19 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     }
   };
 
-  private fireSelectionEvent(emoji: EmojiDescription, fullName?: boolean) {
+  private fireSelectionEvent(emoji: EmojiDescription, exactMatch?: boolean) {
     const { query } = this.props;
     const { emojis, openTime, pressed, selectedTone } = this.state;
 
     this.fireAnalytics(
       typeAheadSelectedEvent(
-        fullName || pressed,
+        exactMatch || pressed,
         Date.now() - openTime,
         emoji,
         emojis,
         query,
         this.getTone(selectedTone),
+        exactMatch,
       ),
     );
   }

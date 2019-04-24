@@ -2,7 +2,10 @@ import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import * as sinon from 'sinon';
 import { waitUntil } from '@atlaskit/util-common-test';
-import { AnalyticsEventPayload } from '@atlaskit/analytics-next';
+import {
+  AnalyticsEventPayload,
+  CreateUIAnalyticsEventSignature,
+} from '@atlaskit/analytics-next';
 
 import {
   atlassianBoomEmoji,
@@ -54,6 +57,29 @@ function setupTypeAhead(props?: Props): Promise<ReactWrapper<any, any>> {
     () => component,
   );
 }
+
+const getCreateAnalyticsSpy = (
+  spy: (payload: AnalyticsEventPayload) => void,
+): CreateUIAnalyticsEventSignature => {
+  const wrapper: CreateUIAnalyticsEventSignature = ((
+    payload: AnalyticsEventPayload,
+  ) => {
+    spy(payload);
+    return {
+      fire: (_: string) => {},
+    };
+  }) as any;
+
+  return wrapper;
+};
+
+const withSessionId = ({ attributes, ...rest }: AnalyticsEventPayload) => ({
+  attributes: {
+    sessionId: expect.any(String),
+    ...attributes,
+  },
+  ...rest,
+});
 
 const allEmojis = newEmojiRepository().all().emojis;
 
@@ -165,7 +191,7 @@ describe('EmojiTypeAhead', () => {
       onSelection: (_emojiId, emoji) => {
         choseEmoji = emoji;
       },
-      fireAnalyticsEvent: fireEventSpy,
+      createAnalyticsEvent: getCreateAnalyticsSpy(fireEventSpy),
     } as Props).then(component =>
       waitUntil(() => doneLoading(component)).then(() => {
         const defaultEmojiShown = () =>
@@ -179,11 +205,13 @@ describe('EmojiTypeAhead', () => {
         expect(chooseThirdItem()).toEqual(true);
         expect(fireEventSpy).toHaveBeenLastCalledWith(
           expect.objectContaining(
-            typeAheadSelectedEvent(
-              false,
-              expect.any(Number),
-              choseEmoji!,
-              allEmojis,
+            withSessionId(
+              typeAheadSelectedEvent(
+                false,
+                expect.any(Number),
+                choseEmoji!,
+                allEmojis,
+              ),
             ),
           ),
         );
@@ -324,15 +352,15 @@ describe('EmojiTypeAhead', () => {
     const fireEventSpy: (payload: AnalyticsEventPayload) => void = jest.fn();
 
     return setupTypeAhead({
-      fireAnalyticsEvent: fireEventSpy,
+      createAnalyticsEvent: getCreateAnalyticsSpy(fireEventSpy),
     } as Props).then(component =>
       waitUntil(() => doneLoading(component)).then(() => {
         expect(fireEventSpy).toHaveBeenCalledWith(
-          typeAheadRenderedEvent(expect.any(Number)),
+          withSessionId(typeAheadRenderedEvent(expect.any(Number))),
         );
         component.unmount();
         expect(fireEventSpy).toHaveBeenCalledWith(
-          typeAheadCancelledEvent(expect.any(Number)),
+          withSessionId(typeAheadCancelledEvent(expect.any(Number))),
         );
       }),
     );
@@ -441,18 +469,22 @@ describe('EmojiTypeAhead', () => {
     return setupTypeAhead({
       onSelection: onSelection as OnEmojiEvent,
       query: ':grin:',
-      fireAnalyticsEvent: fireEventSpy,
+      createAnalyticsEvent: getCreateAnalyticsSpy(fireEventSpy),
     } as Props).then(component =>
       waitUntil(() => doneLoading(component)).then(() => {
         expect(onSelection.callCount).toEqual(1);
         expect(fireEventSpy).toHaveBeenLastCalledWith(
           expect.objectContaining(
-            typeAheadSelectedEvent(
-              true,
-              expect.any(Number),
-              grinEmoji,
-              [grinEmoji],
-              ':grin:',
+            withSessionId(
+              typeAheadSelectedEvent(
+                true,
+                expect.any(Number),
+                grinEmoji,
+                [grinEmoji],
+                ':grin:',
+                undefined,
+                true,
+              ),
             ),
           ),
         );
