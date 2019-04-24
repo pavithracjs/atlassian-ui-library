@@ -17,6 +17,7 @@ export const CloseButton = styled.button`
   height: 24px;
   min-width: 24px;
   border: none;
+  padding: 0;
 `;
 
 export const ItemGroupTitle = styled.div`
@@ -33,7 +34,6 @@ export const HelpPanelHeader = styled.div`
   flex-direction: column;
   border-bottom: 2px solid ${colors.N30}
   padding: ${gridSize()}px ${gridSize() * 3}px;
-  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -70,7 +70,8 @@ export const HelpPanelBody = styled.div`
   flex: 1;
   overflow: auto;
   flex-direction: column;
-  padding: ${gridSize() * 2 + 42}px ${gridSize() * 3}px ${gridSize() * 2}px
+  padding: ${gridSize() * 2}px ${gridSize() * 3}px ${gridSize() * 2}px
     ${gridSize() * 3}px;
   overflow-y: auto;
+  height: calc(100vh - 58px - ${gridSize() * 2}px);
 `;
