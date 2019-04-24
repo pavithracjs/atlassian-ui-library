@@ -112,6 +112,7 @@
     "@atlaskit/renderer": "^45.6.1",
     "@atlaskit/section-message": "^2.0.3",
     "@atlaskit/textarea": "1.0.0",
+    "@atlaskit/toggle": "^6.0.4",
     "@atlaskit/util-data-test": "^11.1.7",
     "@atlaskit/visual-regression": "^0.0.1",
     "@atlaskit/webdriver-runner": "^0.1.1",
