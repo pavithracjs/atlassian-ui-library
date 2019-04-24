@@ -30,7 +30,6 @@ export class RatingButton extends React.Component<
 
   onWasHelpfulOptionClicked = (wasHelpful: boolean) => {
     this.setState({ wasHelpful });
-    console.log(wasHelpful);
   };
 
   onRateSubmit = (data: ArticleFeedback) => {
