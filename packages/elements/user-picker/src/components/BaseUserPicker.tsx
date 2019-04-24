@@ -1,5 +1,7 @@
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
+import {
+  WithAnalyticsEventProps,
+  withAnalyticsEvents,
+} from '@atlaskit/analytics-next';
 import debounce from 'lodash.debounce';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -293,7 +295,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
     search: string,
     { action }: { action: InputActionTypes },
   ) => {
-    if (action === 'input-change') {
+    if (action === 'input-change' || action === 'set-value') {
       callCallback(this.props.onInputChange, search);
       this.setState({ inputValue: search });
 

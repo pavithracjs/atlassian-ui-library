@@ -1,5 +1,10 @@
 # @atlaskit/elements-test-helpers
 
+## 0.5.1
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 0.5.0
 - [minor] [b0210d7ccc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b0210d7ccc):
 

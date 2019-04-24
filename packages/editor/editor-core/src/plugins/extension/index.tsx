@@ -25,7 +25,7 @@ const extensionPlugin: EditorPlugin = {
             (typeof props.allowExtension === 'object'
               ? props.allowExtension
               : { allowBreakout: false }
-            ).allowBreakout && !props.UNSAFE_fullWidthMode;
+            ).allowBreakout && props.appearance !== 'full-width';
 
           return createPlugin(
             dispatch,

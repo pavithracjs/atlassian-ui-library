@@ -7,6 +7,7 @@ import { EditorAppearance, ToolbarUIComponentFactory } from '../../types';
 import { EventDispatcher } from '../../event-dispatcher';
 import EditorActions from '../../actions';
 import { DispatchAnalyticsEvent } from '../../plugins/analytics';
+import { isFullPage } from '../../utils/is-full-page';
 
 const ToolbarComponentsWrapper = styled.div`
   display: flex;
@@ -120,10 +121,13 @@ export class ToolbarInner extends React.Component<ToolbarInnerProps> {
   }
 }
 
-const toolbarSizesForAppearance = (appearance?: string) =>
-  appearance === 'full-page' ? toolbarSizesFullPage : toolbarSizes;
+const toolbarSizesForAppearance = (appearance?: EditorAppearance) =>
+  isFullPage(appearance) ? toolbarSizesFullPage : toolbarSizes;
 
-const widthToToolbarSize = (toolbarWidth: number, appearance?: string) => {
+const widthToToolbarSize = (
+  toolbarWidth: number,
+  appearance?: EditorAppearance,
+) => {
   return (
     toolbarSizesForAppearance(appearance).find(
       ({ width }) => toolbarWidth > width,

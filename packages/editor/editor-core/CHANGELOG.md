@@ -1,5 +1,27 @@
 # @atlaskit/editor-core
 
+## 107.22.1
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+- [patch] [0ac39bd2dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ac39bd2dd):
+
+  - Bump tslib to 1.9
+
+## 107.22.0
+- [minor] [229cb05e26](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/229cb05e26):
+
+  - ED-6722 Rename 'Columns' to 'Layouts' in toolbar and quick insert menu
+
+## 107.21.1
+- Updated dependencies [cd67ae87f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cd67ae87f8):
+  - @atlaskit/textarea@0.4.5
+
+## 107.21.0
+- [minor] [f005175d25](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f005175d25):
+
+  - ED-6710: Replace UNSAFE_fullWidthMode with full-width appearance to match renderer API
+
 ## 107.20.0
 - [minor] [ce8ac59383](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce8ac59383):
 

@@ -1,5 +1,10 @@
 # @atlaskit/user-picker
 
+## 3.5.3
+- [patch] [171feaa473](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/171feaa473):
+
+  - FS-3792 clear results after selection
+
 ## 3.5.2
 - [patch] [7cb36f2603](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7cb36f2603):
 

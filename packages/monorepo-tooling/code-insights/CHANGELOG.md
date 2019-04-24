@@ -1,5 +1,10 @@
 # @atlaskit/code-insights
 
+## 1.1.3
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 1.1.2
 - [patch] [96d9e78615](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/96d9e78615):
 

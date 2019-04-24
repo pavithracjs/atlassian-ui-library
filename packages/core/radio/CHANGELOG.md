@@ -1,5 +1,10 @@
 # @atlaskit/radio
 
+## 1.0.0
+- [major] [6c4e41ff36](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6c4e41ff36):
+
+  - This major release indicates that this package is no longer under dev preview but is ready for use
+
 ## 0.5.3
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

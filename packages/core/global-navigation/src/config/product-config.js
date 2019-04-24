@@ -207,8 +207,11 @@ export default function generateProductConfig(
     appSwitcherTooltip,
     getAppSwitcherRef,
 
+    enableHelpDrawer,
     helpItems,
+    onHelpClick,
     helpTooltip,
+    helpDrawerContents,
     getHelpRef,
 
     onSettingsClick,
@@ -254,6 +257,13 @@ export default function generateProductConfig(
       starredTooltip,
       { getRef: getStarredRef },
     ),
+    help: enableHelpDrawer
+      ? configFactory(
+          onHelpClick || (helpDrawerContents && openDrawer('help')),
+          helpTooltip,
+          { getRef: getHelpRef },
+        )
+      : helpConfigFactory(helpItems, helpTooltip, { getRef: getHelpRef }),
     settings: configFactory(
       onSettingsClick || (settingsDrawerContents && openDrawer('settings')),
       settingsTooltip,
@@ -274,7 +284,6 @@ export default function generateProductConfig(
       openDrawer('notification'),
       getNotificationRef,
     ),
-    help: helpConfigFactory(helpItems, helpTooltip, { getRef: getHelpRef }),
     profile: profileConfigFactory(
       profileItems,
       profileTooltip,

@@ -49,7 +49,7 @@ describe('createPluginsList', () => {
     const tableOptions = { allowTables: true };
     createPluginsList(tableOptions);
     expect(tablesPlugin).toHaveBeenCalledTimes(1);
-    expect(tablesPlugin).toHaveBeenCalledWith(true, undefined);
+    expect(tablesPlugin).toHaveBeenCalledWith(true, false);
   });
 
   it('should always add submitEditorPlugin to the editor', () => {

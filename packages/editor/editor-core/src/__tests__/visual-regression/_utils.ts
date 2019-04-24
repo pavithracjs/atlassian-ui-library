@@ -103,7 +103,10 @@ function getEditorProps(appearance: Appearance) {
     UNSAFE_cards: true,
   };
 
-  if (appearance === Appearance.fullPage) {
+  if (
+    appearance === Appearance.fullPage ||
+    appearance === Appearance.fullWidth
+  ) {
     return {
       ...enableAllEditorProps,
       primaryToolbarComponents: true,
@@ -145,6 +148,7 @@ export async function mountEditor(
 }
 
 export enum Appearance {
+  fullWidth = 'full-width',
   fullPage = 'full-page',
   comment = 'comment',
   mobile = 'mobile',
