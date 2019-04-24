@@ -1,0 +1,1 @@
+- ED-6664 Fix i18n messages generation, replacing all const enum to just enums inside editor-core
