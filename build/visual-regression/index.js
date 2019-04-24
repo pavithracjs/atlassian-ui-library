@@ -78,6 +78,10 @@ if (cli.flags.debug) {
   }
 }
 
+if (cli.flags.updateSnapshot) {
+  process.env.UPDATE_SNAPSHOT = 'true';
+}
+
 if (cli.flags.debug || cli.flags.watch) {
   startServer = false;
 }

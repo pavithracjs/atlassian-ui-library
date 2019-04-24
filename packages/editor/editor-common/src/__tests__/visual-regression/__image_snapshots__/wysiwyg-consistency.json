@@ -1,0 +1,21 @@
+{
+  "name": "WYSIWYG Consistency Report for Editor & Renderer",
+  "description": "100% consistency is 0% divergence.",
+  "nodes": [
+    {
+      "name": "bullet list",
+      "divergence": 0.01455548128342246,
+      "consistency": "98.54%"
+    },
+    {
+      "name": "ordered list",
+      "divergence": 0.015909090909090907,
+      "consistency": "98.41%"
+    },
+    {
+      "name": "paragraph",
+      "divergence": 0.13316993464052287,
+      "consistency": "86.68%"
+    }
+  ]
+}
