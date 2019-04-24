@@ -82,14 +82,6 @@ export default md`
   )}
 
   ${(
-    <Example
-      Component={require('../examples/0-Help-Panel-Algolia').default}
-      title="Help Panel using Algolia"
-      source={require('!!raw-loader!../examples/0-Help-Panel-Algolia')}
-    />
-  )}
-
-  ${(
     <Props
       props={require('!!extract-react-types-loader!../src/components/HelpPanel')}
     />
