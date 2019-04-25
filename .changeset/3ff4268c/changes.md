@@ -1,0 +1,1 @@
+- add onCommentPermalinkClicked prop so consumers can handle that click for scrolling or other purpose
