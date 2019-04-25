@@ -24,18 +24,20 @@ export interface Props {
   onSearch?(value: string): Promise<ArticleItem[]>;
   // Function used when the user submits the "Was this helpful" form. This prop is optional, if is not defined the "Was this helpful" section will be hidden
   onWasHelpfulSubmit?(value: any): Promise<boolean>;
+  // ID for the HTML tag where we want to attach the help-panel ("#app" by default)
+  attachPanelTo?: string;
   // Default content. This prop is optional
   children?: React.ReactNode;
 }
 
 export class HelpPanel extends React.Component<Props> {
   render() {
-    const { children, ...rest } = this.props;
+    const { children, attachPanelTo, ...rest } = this.props;
 
     return (
       <HelpContextProvider {...rest} defaultContent={children}>
         <MessagesIntlProvider>
-          <HelpPanelDrawer>
+          <HelpPanelDrawer attachPanelTo={attachPanelTo}>
             <GlobalHelpContent />
           </HelpPanelDrawer>
         </MessagesIntlProvider>

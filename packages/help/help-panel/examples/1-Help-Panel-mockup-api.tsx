@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Button from '@atlaskit/button';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
+import Page from '@atlaskit/page';
 
 import { HelpPanel } from '../src';
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
@@ -53,29 +54,41 @@ export default class extends React.Component {
   render() {
     const { isOpen } = this.state;
     return (
-      <AnalyticsListener channel="atlaskit" onEvent={handleEvent}>
-        <div style={{ padding: '2rem' }}>
-          <LocaleIntlProvider locale={'en'}>
-            <HelpPanel
-              onWasHelpfulSubmit={this.onWasHelpfulSubmit}
-              isOpen={isOpen}
-              onBtnCloseClick={this.closeDrawer}
-              articleId="00"
-              onGetArticle={this.onGetArticle}
-              onSearch={this.onSearch}
-            >
-              <h1>Default content</h1>
-            </HelpPanel>
-          </LocaleIntlProvider>
-          <Button type="button" onClick={this.openDrawer}>
-            Open drawer
-          </Button>
+      <div
+        id="helpPanelExample"
+        style={{
+          display: 'flex',
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <Page>
+          <AnalyticsListener channel="atlaskit" onEvent={handleEvent}>
+            <LocaleIntlProvider locale={'en'}>
+              <HelpPanel
+                onWasHelpfulSubmit={this.onWasHelpfulSubmit}
+                isOpen={isOpen}
+                onBtnCloseClick={this.closeDrawer}
+                articleId="00"
+                onGetArticle={this.onGetArticle}
+                onSearch={this.onSearch}
+                attachPanelTo="helpPanelExample"
+              >
+                <h1>Default content</h1>
+              </HelpPanel>
+            </LocaleIntlProvider>
 
-          <Button type="button" onClick={this.closeDrawer}>
-            Close drawer
-          </Button>
-        </div>
-      </AnalyticsListener>
+            <Button type="button" onClick={this.openDrawer}>
+              Open drawer
+            </Button>
+
+            <Button type="button" onClick={this.closeDrawer}>
+              Close drawer
+            </Button>
+          </AnalyticsListener>
+        </Page>
+      </div>
     );
   }
 }

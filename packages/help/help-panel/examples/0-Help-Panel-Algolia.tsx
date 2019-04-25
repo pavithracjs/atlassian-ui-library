@@ -1,6 +1,8 @@
 import * as React from 'react';
 import algoliasearch from 'algoliasearch';
 import Button from '@atlaskit/button';
+import Page from '@atlaskit/page';
+
 import { HelpPanel } from '../src';
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 import { Article } from '../src/model/Article';
@@ -40,24 +42,35 @@ export default class extends React.Component {
   render() {
     const { isOpen } = this.state;
     return (
-      <div style={{ padding: '2rem' }}>
-        <LocaleIntlProvider locale={'en'}>
-          <HelpPanel
-            isOpen={isOpen}
-            onBtnCloseClick={this.closeDrawer}
-            articleId="kzkHVoTKjp72azitT1Hwv"
-            onGetArticle={this.onGetArticle}
-          >
-            <h1>Default content</h1>
-          </HelpPanel>
-        </LocaleIntlProvider>
-        <Button type="button" onClick={this.openDrawer}>
-          Open drawer
-        </Button>
+      <div
+        id="helpPanelExample"
+        style={{
+          display: 'flex',
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <Page>
+          <LocaleIntlProvider locale={'en'}>
+            <HelpPanel
+              isOpen={isOpen}
+              onBtnCloseClick={this.closeDrawer}
+              articleId="kzkHVoTKjp72azitT1Hwv"
+              onGetArticle={this.onGetArticle}
+              attachPanelTo="helpPanelExample"
+            >
+              <h1>Default content</h1>
+            </HelpPanel>
+          </LocaleIntlProvider>
+          <Button type="button" onClick={this.openDrawer}>
+            Open drawer
+          </Button>
 
-        <Button type="button" onClick={this.closeDrawer}>
-          Close drawer
-        </Button>
+          <Button type="button" onClick={this.closeDrawer}>
+            Close drawer
+          </Button>
+        </Page>
       </div>
     );
   }

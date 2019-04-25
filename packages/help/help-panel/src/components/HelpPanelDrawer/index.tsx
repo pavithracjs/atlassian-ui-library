@@ -24,10 +24,12 @@ export type TransitionStatus =
   | typeof UNMOUNTED;
 
 export interface Props {
+  attachPanelTo: string;
   children?: ReactNode;
 }
 export interface State {
   entered: boolean;
+  body: any;
 }
 
 const defaultStyle = {
@@ -46,16 +48,25 @@ export class HelpPanelDrawer extends Component<
   Props & HelpContextInterface,
   State
 > {
-  body = canUseDOM ? document.querySelector('#app') : undefined;
+  attachPanelTo = this.props.attachPanelTo ? this.props.attachPanelTo : 'app';
 
   state = {
     entered: false,
+    body: undefined,
   };
+
+  componentDidMount() {
+    this.setState({
+      body: canUseDOM
+        ? document.querySelector('#' + this.attachPanelTo)
+        : undefined,
+    });
+  }
 
   render() {
     const { children, help } = this.props;
 
-    if (this.body) {
+    if (this.state.body) {
       return createPortal(
         <Transition in={help.isOpen} timeout={220}>
           {(state: TransitionStatus) => (
@@ -69,7 +80,7 @@ export class HelpPanelDrawer extends Component<
             </HelpDrawer>
           )}
         </Transition>,
-        this.body,
+        this.state.body,
       );
     } else {
       return null;

@@ -73,13 +73,7 @@ export default md`
   
   `}
 
-  ${(
-    <Example
-      Component={require('../examples/1-Help-Panel-mockup-api').default}
-      title="Help Panel using Mockup API"
-      source={require('!!raw-loader!../examples/1-Help-Panel-mockup-api')}
-    />
-  )}
+  ${<a href="/examples/help/help-panel/Help-Panel-mockup-api">Open Example</a>}
 
   ${(
     <Props
