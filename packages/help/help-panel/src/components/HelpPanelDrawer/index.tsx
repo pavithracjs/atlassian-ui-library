@@ -63,25 +63,33 @@ export class HelpPanelDrawer extends Component<
     });
   }
 
-  render() {
+  renderDrawer = (Container: any) => {
     const { children, help } = this.props;
 
+    return createPortal(
+      <Transition in={help.isOpen} timeout={220}>
+        {(state: TransitionStatus) => (
+          <HelpDrawer
+            style={{
+              ...defaultStyle,
+              ...transitionStyles[state],
+            }}
+          >
+            <HelpDrawerContent>{children}</HelpDrawerContent>
+          </HelpDrawer>
+        )}
+      </Transition>,
+      Container,
+    );
+  };
+
+  render() {
     if (this.state.body) {
-      return createPortal(
-        <Transition in={help.isOpen} timeout={220}>
-          {(state: TransitionStatus) => (
-            <HelpDrawer
-              style={{
-                ...defaultStyle,
-                ...transitionStyles[state],
-              }}
-            >
-              <HelpDrawerContent>{children}</HelpDrawerContent>
-            </HelpDrawer>
-          )}
-        </Transition>,
-        this.state.body,
-      );
+      const body = this.state.body
+        ? this.state.body
+        : document.createElement('div');
+
+      return this.renderDrawer(body);
     } else {
       return null;
     }
