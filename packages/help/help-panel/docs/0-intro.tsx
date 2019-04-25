@@ -1,79 +1,131 @@
 import * as React from 'react';
 import { md, code, Props } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
+import Button from '@atlaskit/button';
 
 export default md`
+
+${(
+  <SectionMessage appearance="warning">
+    <p>
+      <strong>
+        Note: @atlaskit/help-panel is currently a developer preview.
+      </strong>
+    </p>
+    <p>
+      Please experiment with and test this package, but be aware that the API
+      may change at any time. Use at your own risk, preferrably not in
+      production.
+    </p>
+  </SectionMessage>
+)}
+
   ## Usage
 
   ${code`
   import * as React from 'react';
-  import algoliasearch from 'algoliasearch';
   import Button from '@atlaskit/button';
-  import { HelpPanel } from '../src';
+  import { AnalyticsListener } from '@atlaskit/analytics-next';
+  import Page from '@atlaskit/page';
+  
   import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
-  import { Article } from '../src/model/Article';
-
-  var client = algoliasearch('xxxxxxx', 'xxxxxxxxxxxxxxxxxxx');
-  var index = client.initIndex('xxxxxxxx');
-
+  import { Article, ArticleItem } from '../src/model/Article';
+  import { getArticle, searchArticle } from './utils/mockData';
+  import { ExampleWrapper } from './ExampleWrapper';
+  
+  import { HelpPanel } from '../src';
+  
+  const handleEvent = (analyticsEvent: { payload: any; context: any }) => {
+    const { payload, context } = analyticsEvent;
+    console.log('Received event:', { payload, context });
+  };
+  
   export default class extends React.Component {
     state = {
       isOpen: false,
       searchText: 'test',
     };
-
-    openDrawer = () =>
+  
+    openDrawer = () => {
       this.setState({
         isOpen: true,
       });
-
+    };
+  
     closeDrawer = () =>
       this.setState({
         isOpen: false,
       });
-
-    onGetArticle = async (articleId: string): Promise<Article> => {
-      return new Promise((resolve, reject) => {
-        index.getObjects([articleId], function(err, content) {
-          if (err) {
-            reject(err);
-          }
-
-          const article = content.results[0];
-          resolve(article);
-        });
-      });
+  
+    onWasHelpfulSubmit = (value: string): Promise<boolean> => {
+      return new Promise(resolve => setTimeout(() => resolve(true), 1000));
     };
-
+  
+    onSearchArticlesSubmit = (searchValue: any) => {
+      this.setState({ searchText: searchValue });
+    };
+  
+    onGetArticle = (articleId: string): Promise<Article> => {
+      return new Promise(resolve =>
+        setTimeout(() => resolve(getArticle(articleId)), 100),
+      );
+    };
+  
+    onSearch = (value: string): Promise<ArticleItem[]> => {
+      return new Promise(resolve =>
+        setTimeout(() => resolve(searchArticle(value)), 1000),
+      );
+    };
+  
     render() {
       const { isOpen } = this.state;
       return (
-        <div style={{ padding: '2rem' }}>
-          <LocaleIntlProvider locale={'en'}>
-            <HelpPanel
-              isOpen={isOpen}
-              onBtnCloseClick={this.closeDrawer}
-              articleId="xxxxxxxxxxxxxx"
-              onGetArticle={this.onGetArticle}
-            >
-              <h1>Default content</h1>
-            </HelpPanel>
-          </LocaleIntlProvider>
-          <Button type="button" onClick={this.openDrawer}>
-            Open drawer
-          </Button>
-
-          <Button type="button" onClick={this.closeDrawer}>
-            Close drawer
-          </Button>
-        </div>
+        <ExampleWrapper id="helpPanelExample">
+          <Page>
+            <AnalyticsListener channel="atlaskit" onEvent={handleEvent}>
+              <LocaleIntlProvider locale={'en'}>
+                <HelpPanel
+                  onWasHelpfulSubmit={this.onWasHelpfulSubmit}
+                  isOpen={isOpen}
+                  onBtnCloseClick={this.closeDrawer}
+                  articleId="00"
+                  onGetArticle={this.onGetArticle}
+                  onSearch={this.onSearch}
+                  attachPanelTo="helpPanelExample"
+                >
+                  <h1>Default content</h1>
+                </HelpPanel>
+              </LocaleIntlProvider>
+  
+              <Button type="button" onClick={this.openDrawer}>
+                Open drawer
+              </Button>
+  
+              <Button type="button" onClick={this.closeDrawer}>
+                Close drawer
+              </Button>
+            </AnalyticsListener>
+          </Page>
+        </ExampleWrapper>
       );
     }
-  }
-
-  
+  }  
   `}
 
-  ${<a href="/examples/help/help-panel/Help-Panel-mockup-api">Open Example</a>}
+  ${(
+    <div style={{ paddingTop: '15px' }}>
+      <Button
+        onClick={() =>
+          window.open(
+            '/examples/help/help-panel/Help-Panel-mockup-api',
+            '_self',
+          )
+        }
+      >
+        Open Example
+      </Button>
+    </div>
+  )}
 
   ${(
     <Props

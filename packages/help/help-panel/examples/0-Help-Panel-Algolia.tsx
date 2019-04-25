@@ -3,9 +3,11 @@ import algoliasearch from 'algoliasearch';
 import Button from '@atlaskit/button';
 import Page from '@atlaskit/page';
 
-import { HelpPanel } from '../src';
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 import { Article } from '../src/model/Article';
+import { ExampleWrapper } from './ExampleWrapper';
+
+import { HelpPanel } from '../src';
 
 var client = algoliasearch('8K6J5OJIQW', 'c982b4b1a6ca921131d35edb63359b8c');
 var index = client.initIndex('dev_spike_test');
@@ -42,15 +44,7 @@ export default class extends React.Component {
   render() {
     const { isOpen } = this.state;
     return (
-      <div
-        id="helpPanelExample"
-        style={{
-          display: 'flex',
-          position: 'relative',
-          width: '100%',
-          height: '100%',
-        }}
-      >
+      <ExampleWrapper id="helpPanelExample">
         <Page>
           <LocaleIntlProvider locale={'en'}>
             <HelpPanel
@@ -71,7 +65,7 @@ export default class extends React.Component {
             Close drawer
           </Button>
         </Page>
-      </div>
+      </ExampleWrapper>
     );
   }
 }

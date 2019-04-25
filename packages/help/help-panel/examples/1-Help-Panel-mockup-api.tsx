@@ -3,10 +3,12 @@ import Button from '@atlaskit/button';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import Page from '@atlaskit/page';
 
-import { HelpPanel } from '../src';
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 import { Article, ArticleItem } from '../src/model/Article';
 import { getArticle, searchArticle } from './utils/mockData';
+import { ExampleWrapper } from './ExampleWrapper';
+
+import { HelpPanel } from '../src';
 
 const handleEvent = (analyticsEvent: { payload: any; context: any }) => {
   const { payload, context } = analyticsEvent;
@@ -31,7 +33,6 @@ export default class extends React.Component {
     });
 
   onWasHelpfulSubmit = (value: string): Promise<boolean> => {
-    console.log(value);
     return new Promise(resolve => setTimeout(() => resolve(true), 1000));
   };
 
@@ -54,15 +55,7 @@ export default class extends React.Component {
   render() {
     const { isOpen } = this.state;
     return (
-      <div
-        id="helpPanelExample"
-        style={{
-          display: 'flex',
-          position: 'relative',
-          width: '100%',
-          height: '100%',
-        }}
-      >
+      <ExampleWrapper id="helpPanelExample">
         <Page>
           <AnalyticsListener channel="atlaskit" onEvent={handleEvent}>
             <LocaleIntlProvider locale={'en'}>
@@ -88,7 +81,7 @@ export default class extends React.Component {
             </Button>
           </AnalyticsListener>
         </Page>
-      </div>
+      </ExampleWrapper>
     );
   }
 }
