@@ -28,6 +28,7 @@ import { Context } from '@atlaskit/media-core';
 import Button from '../floating-toolbar/ui/Button';
 import Separator from '../floating-toolbar/ui/Separator';
 import { hoverDecoration } from '../base/pm-plugins/decoration';
+import { isFullPage } from '../../utils/is-full-page';
 
 export type IconMap = Array<
   { value: string; icon: React.ComponentClass<any> } | { value: 'separator' }
@@ -266,7 +267,7 @@ export const floatingToolbar = (
   }
 
   let layoutButtons: FloatingToolbarItem<Command>[] = [];
-  if (appearance === 'full-page') {
+  if (isFullPage(appearance)) {
     layoutButtons = buildLayoutButtons(state, intl, allowResizing);
     if (layoutButtons.length) {
       if (allowAnnotation) {

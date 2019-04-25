@@ -1,5 +1,22 @@
 # @atlaskit/smart-card
 
+## 10.4.2
+- Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/form@5.2.10
+  - @atlaskit/textarea@1.0.0
+  - @atlaskit/textfield@1.0.0
+
+## 10.4.1
+- [patch] [3e4c4d7e2d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3e4c4d7e2d):
+
+  - fix: send 'Origin' header in resolve requests
+
+## 10.4.0
+- [minor] [da5a7f3390](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da5a7f3390):
+
+  - fix third-party link extractors to resolve URLs more accurately.
+
 ## 10.3.1
 - Updated dependencies [6c4e41ff36](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6c4e41ff36):
   - @atlaskit/form@5.2.9

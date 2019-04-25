@@ -1,4 +1,4 @@
-import { UIAEP } from './events';
+import { UIAEP, TrackAEP } from './events';
 import {
   ACTION,
   ACTION_SUBJECT,
@@ -6,10 +6,15 @@ import {
   INPUT_METHOD,
 } from './enums';
 
-export const enum PLATFORMS {
+export enum PLATFORMS {
   NATIVE = 'mobileNative',
   HYBRID = 'mobileHybrid',
   WEB = 'web',
+}
+
+export enum FULL_WIDTH_MODE {
+  DEFAULT = 'default',
+  FULL_WIDTH = 'fullWidth',
 }
 
 type ButtonAEP<ActionSubjectID, Attributes> = UIAEP<
@@ -126,7 +131,17 @@ type TypeAheadMentionAEP = TypeAheadAEP<
   }
 >;
 
-export type UIEventPayload =
+type FullWidthModeAEP = TrackAEP<
+  ACTION.CHANGED_FULL_WIDTH_MODE,
+  ACTION_SUBJECT.EDITOR,
+  undefined,
+  {
+    previousMode: FULL_WIDTH_MODE;
+    newMode: FULL_WIDTH_MODE;
+  }
+>;
+
+export type GeneralEventPayload =
   | EditorStartAEP
   | EditorStopAEP
   | AnnotateButtonAEP
@@ -137,4 +152,5 @@ export type UIEventPayload =
   | TypeAheadQuickInsertAEP
   | TypeAheadEmojiAEP
   | TypeAheadLinkAEP
-  | TypeAheadMentionAEP;
+  | TypeAheadMentionAEP
+  | FullWidthModeAEP;

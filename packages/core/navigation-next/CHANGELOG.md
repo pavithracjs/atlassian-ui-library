@@ -1,5 +1,10 @@
 # @atlaskit/navigation-next
 
+## 5.1.7
+- [patch] [254dd9145a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/254dd9145a):
+
+  - Fixes performance bug in navigation-next caused that happebs during hover and resize
+
 ## 5.1.6
 - [patch] [a81e516462](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a81e516462):
 

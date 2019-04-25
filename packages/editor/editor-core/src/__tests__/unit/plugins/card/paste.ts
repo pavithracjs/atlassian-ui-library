@@ -43,6 +43,7 @@ describe('card', () => {
               pos: 1,
               appearance: 'inline',
               compareLinkText: true,
+              source: 'clipboard',
             },
           ],
           provider,

@@ -1,5 +1,10 @@
 # @atlaskit/lozenge
 
+## 7.0.3
+- [patch] [73a5c6f3dc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/73a5c6f3dc):
+
+  - Add emotion and remove styled-components
+
 ## 7.0.2
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

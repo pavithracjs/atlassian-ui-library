@@ -1,5 +1,10 @@
 # @atlaskit/popper
 
+## 1.0.0
+- [major] [8b5f052003](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b5f052003):
+
+  - This major release indicates that this package is no longer under dev preview but is ready for use
+
 ## 0.4.3
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

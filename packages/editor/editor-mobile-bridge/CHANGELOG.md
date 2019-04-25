@@ -1,5 +1,26 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.6.0
+- [minor] [089eae03fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/089eae03fd):
+
+  - ED-6486: added method for getting current editor bridge version
+
+## 7.5.1
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/form@5.2.10
+  - @atlaskit/smart-card@10.4.2
+  - @atlaskit/textfield@1.0.0
+
+## 7.5.0
+- [minor] [8fb796b610](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8fb796b610):
+
+  - ED-6728: Added scrollToSelection() method to bridge
+
+## 7.4.4
+- [patch] [f224fa19d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f224fa19d5):
+
+  - ED-6716 Enables allowConfluenceInlineComment for mobile editor bridge so inline comments are now no longer unsupported content
+
 ## 7.4.3
 - [patch] [83014a7395](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/83014a7395):
 

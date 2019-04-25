@@ -33,7 +33,7 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
   const toggleFullWidthProp = async () => {
     fullWidthMode = !fullWidthMode;
     await updateEditorProps(page, {
-      UNSAFE_fullWidthMode: fullWidthMode,
+      appearance: fullWidthMode ? 'full-width' : 'full-page',
     });
     await page.waitFor(1000); // wait for transition to complete
     await snapshot(page, 0.2);

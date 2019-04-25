@@ -525,7 +525,7 @@
     "toml": "^2.3.2",
     "transifex": "^1.5.0",
     "ts-node": "^6.1.1",
-    "tslib": "^1.8.0",
+    "tslib": "^1.9.3",
     "tti-polyfill": "^0.2.2",
     "typestyle": "^1.4.4",
     "ua-parser-js": "^0.7.9",

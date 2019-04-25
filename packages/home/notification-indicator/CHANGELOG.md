@@ -1,5 +1,10 @@
 # @atlaskit/notification-indicator
 
+## 6.0.1
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 6.0.0
 - [major] [987ab01f30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/987ab01f30):
 

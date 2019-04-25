@@ -90,8 +90,20 @@ const isValidAppearance = (appearance: any): appearance is LozengeColor => {
   return VALID_APPEARANCES.indexOf(appearance) !== -1;
 };
 
-const buildInlineTaskTag: BuildInlineTaskProps = json => {
-  if (json.tag && json.tag.name) {
+const buildInlineTaskLozenge: BuildInlineTaskProps = json => {
+  // Tasks should contain status information inside of
+  // the .taskStatus JSON tree (Asana, Github).
+  if (json.taskStatus && json.taskStatus.name) {
+    const { name } = json.taskStatus;
+    return {
+      lozenge: {
+        text: name,
+        appearance: 'success',
+      },
+    };
+    // As a fallback, the .tag property is used
+    // to extract information required for the task lozenge.
+  } else if (json.tag && json.tag.name) {
     const { name, appearance } = json.tag;
     return {
       lozenge: {
@@ -111,7 +123,7 @@ export function extractInlineViewPropsFromTask(
   const props = extractInlineViewPropsFromObject(json);
   return {
     ...props,
-    ...buildInlineTaskTag(json),
+    ...buildInlineTaskLozenge(json),
     ...buildInlineTaskIcon(json),
   };
 }

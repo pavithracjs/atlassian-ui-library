@@ -166,8 +166,8 @@ export const getToolbarConfig: FloatingToolbarHandler = (
                   <RecentList
                     key={idx}
                     providerFactory={providerFactory}
-                    onSubmit={(href, text) => {
-                      insertLink(from, to, href, text)(
+                    onSubmit={(href, text, type) => {
+                      insertLink(from, to, href, text, type)(
                         view.state,
                         view.dispatch,
                       );
