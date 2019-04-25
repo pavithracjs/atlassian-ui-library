@@ -29,7 +29,7 @@
     "@atlaskit/quick-search": "^6.0.1",
     "@atlaskit/radio": "^1.0.0",
     "@atlaskit/section-message": "^2.0.3",
-    "@atlaskit/textarea": "^0.4.4",
+    "@atlaskit/textarea": "^1.0.0",
     "@atlaskit/theme": "^8.0.0",
     "algoliasearch": "^3.32.1",
     "babel-runtime": "^6.26.0",

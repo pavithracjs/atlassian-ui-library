@@ -19,20 +19,21 @@
     "name": "Help Article"
   },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
+  "dependencies": {
+    "@atlaskit/section-message": "^2.0.3",
+    "@atlaskit/theme": "^8.0.0",
+    "babel-runtime": "^6.26.0",
+    "exenv": "^1.2.2",
+    "react-dom": "^16.4.2"
+  },
   "peerDependencies": {
     "react": "^16.4.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
-    "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/code": "^9.0.1",
-    "@atlaskit/docs": "^7.0.3",
-    "@atlaskit/field-radio-group": "^5.0.3",
-    "@atlaskit/select": "^8.1.1",
-    "@atlaskit/ssr": "^0.0.1",
-    "@atlaskit/theme": "^8.1.7",
-    "@atlaskit/visual-regression": "^0.0.1",
+    "@atlaskit/docs": "^7.0.0",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.4.2"
+    "react": "^16.4.0",
+    "react-test-renderer": "^16.3.0"
   }
 }
