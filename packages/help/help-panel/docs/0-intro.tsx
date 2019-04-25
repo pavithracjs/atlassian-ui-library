@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { md, code, Example, Props } from '@atlaskit/docs';
+import { md, code, Props } from '@atlaskit/docs';
 
 export default md`
   ## Usage
