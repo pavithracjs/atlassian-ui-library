@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.24.2
+- [patch] [1e37f1bfc2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e37f1bfc2):
+
+  - ED-6535: fix fallback for images without dimensions on upload
+
 ## 107.24.1
 - [patch] [a2e9e69a6a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a2e9e69a6a):
 
