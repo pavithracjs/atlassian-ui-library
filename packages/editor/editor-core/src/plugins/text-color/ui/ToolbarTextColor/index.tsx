@@ -166,8 +166,8 @@ class ToolbarTextColor extends React.Component<
                       }
                       gradientColors={
                         pluginState.disabled
-                          ? [colors.N100, colors.N80, colors.N40, colors.N60]
-                          : [colors.P300, colors.G400, colors.Y400, colors.R400]
+                          ? [colors.N80, colors.N60, colors.N40, colors.N60]
+                          : [colors.P300, colors.T300, colors.Y400, colors.R400]
                       }
                     />
                   </EditorColorIconWrapper>
