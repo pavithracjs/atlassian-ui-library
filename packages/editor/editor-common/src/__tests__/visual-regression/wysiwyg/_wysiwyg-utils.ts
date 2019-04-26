@@ -62,16 +62,16 @@ function loadFragmentADF(nodeName: string, isContainer = false) {
 const adfToggleSelector = '#adf-toggle';
 const editorContentSelector = '.ProseMirror';
 const rendererContentSelector = '.ak-renderer-document';
+const editorSelectedNode = '.ProseMirror-selectednode';
 
 // TODO: Convert to custom 99-wysiwyg-testing version once POC is proven?
 export const loadKitchenSinkWithAdf = async (page: any, adf: any) => {
   const currentUrl = await page.url();
   const url = getExampleUrl('editor', 'editor-core', 'kitchen-sink');
 
-  await page.setViewport({ width: 2000, height: 1000 });
-
   // Only load the page the first time. Subsequent calls simply replace the ADF.
   if (currentUrl !== url) {
+    await page.setViewport({ width: 2000, height: 1000 });
     await page.goto(url);
   }
 
@@ -79,31 +79,55 @@ export const loadKitchenSinkWithAdf = async (page: any, adf: any) => {
   await page.click(adfToggleSelector);
   await page.waitForSelector(adfInputSelector);
   await page.evaluate(
-    (editorSelector: string, adfInputSelector: string, adf: object) => {
+    (
+      editorSelector: string,
+      rendererSelector: string,
+      adfInputSelector: string,
+      adf: object,
+    ) => {
       const doc = document as any;
       const contentEditable = doc.querySelector(editorSelector);
+      // Reset the content height prior to assigning new ADF (renderer is removed from DOM at this point)
+      contentEditable.style.height = null;
       // Disable native spell checker for visual consistency
       contentEditable.setAttribute('spellcheck', false);
       // Assign ADF
       doc.querySelector(adfInputSelector).value = JSON.stringify(adf);
     },
     editorContentSelector,
+    rendererContentSelector,
     adfInputSelector,
     adf,
   );
   await page.click(importAdfBtnSelector);
   await page.evaluate(
-    (editorSelector: string, rendererSelector: string) => {
-      const editor = (document as any).querySelector(editorSelector);
-      const renderer = (document as any).querySelector(rendererSelector);
+    (
+      editorSelector: string,
+      rendererSelector: string,
+      selectedNodeSelector: string,
+    ) => {
+      const doc = document as any;
+      const editor = doc.querySelector(editorSelector);
+      const renderer = doc.querySelector(rendererSelector);
       const editorContentHeight = editor.offsetHeight;
       const rendererContentHeight = renderer.offsetHeight;
+
+      // Remove styles based on user selected node.
+      // These don't have a parellel in the renderer.
+      const selectedNodes: HTMLElement[] = Array.from(
+        doc.querySelectorAll(selectedNodeSelector),
+      );
+      selectedNodes.forEach((element: HTMLElement) =>
+        element.classList.remove(selectedNodeSelector.substr(1)),
+      );
+
       // Resize to match consistent height for snapshot comparison.
       editor.style.height = renderer.style.height =
         Math.max(editorContentHeight, rendererContentHeight) + 'px';
     },
     editorContentSelector,
     rendererContentSelector,
+    editorSelectedNode,
   );
   // Remove focus from the editor to ensure interactive UI control differences dissapear.
   await page.click(rendererContentSelector);
@@ -210,9 +234,15 @@ function clampPercentage(value: number): number {
  *
  * Tests will fail if the visual divergence widens.
  */
-export async function snapshotAndCompare(page: any, testName: string) {
+export async function snapshotAndCompare(
+  page: any,
+  testName: string,
+  waitForSelector?: string,
+) {
   const editor = await page.$(editorContentSelector);
   const renderer = await page.$(rendererContentSelector);
+
+  if (waitForSelector) await page.waitForSelector(waitForSelector);
 
   const snapshotsPath = path.join(__dirname, '../', '__image_snapshots__');
   const diffPath = path.join(snapshotsPath, '__diff_output__');

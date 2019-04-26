@@ -15,19 +15,36 @@ describe('WYSIWYG Snapshot Test: content nodes look consistent in editor & rende
    *
    * We declare this explicit list instead of reading the directory's files via the file system,
    * as this gives us greater control to skip specific nodes, should the need ever arise.
+   *
+   * Because these tests need to be deterministic, if a node requires additional time to load
+   * a resource you can add a `waitForSelector` value to defer the screenshot until it's available.
    */
-  const nodes = ['paragraph', 'bullet list', 'ordered list'];
+  const nodes: { node: string; waitForSelector?: string }[] = [
+    { node: 'actions' },
+    { node: 'blockquote' },
+    { node: 'bullet list' },
+    { node: 'codeblock' },
+    { node: 'date' },
+    { node: 'decisions' },
+    { node: 'divider' },
+    { node: 'emoji', waitForSelector: '.emoji-common-emoji-sprite' },
+    { node: 'heading' },
+    { node: 'mention' },
+    { node: 'ordered list' },
+    { node: 'paragraph' },
+    { node: 'status' },
+  ];
 
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;
   });
 
-  nodes.forEach((node: string) => {
+  nodes.forEach(({ node, waitForSelector }) => {
     it(`${node} looks consistent at document root`, async () => {
       const adf = createDocumentADF(node);
       await loadKitchenSinkWithAdf(page, adf);
-      await snapshotAndCompare(page, node);
+      await snapshotAndCompare(page, node, waitForSelector);
     });
   });
 });
