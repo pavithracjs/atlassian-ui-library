@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.24.1
+- [patch] [a2e9e69a6a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a2e9e69a6a):
+
+  - ED-6745 Fix and prevent bad floating bar configuration
+
 ## 107.24.0
 - [minor] [6ab657abdc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6ab657abdc):
 
