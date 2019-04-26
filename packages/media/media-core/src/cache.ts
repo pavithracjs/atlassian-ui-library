@@ -1,17 +1,18 @@
 import { LRUCache } from 'lru-fast';
+import { FileState } from '@atlaskit/media-client';
 
-export interface StateDeferredValue {
+export interface StateDeferredValue<T> {
   promise: Promise<any>;
   resolve: Function;
-  value?: any;
+  value?: T;
 }
 
-export interface CachedMediaState {
-  streams: LRUCache<string, any>;
-  stateDeferreds: Map<string, StateDeferredValue>;
+export interface CachedMediaState<T> {
+  streams: LRUCache<string, T>;
+  stateDeferreds: Map<string, StateDeferredValue<T>>;
 }
 
-export const mediaState: CachedMediaState = {
-  streams: new LRUCache<string, any>(1000),
-  stateDeferreds: new Map<string, StateDeferredValue>(),
+export const mediaState: CachedMediaState<FileState> = {
+  streams: new LRUCache<string, FileState>(1000),
+  stateDeferreds: new Map<string, StateDeferredValue<FileState>>(),
 };
