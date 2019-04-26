@@ -1,0 +1,1 @@
+- Changed smart link selection in editor mode to not include text selection, but retain it in renderer mode
