@@ -4,6 +4,8 @@ import { gridSize } from '@atlaskit/theme';
 import Form, { Field, FormFooter } from '@atlaskit/form';
 import { RadioGroup } from '@atlaskit/radio';
 import TextArea from '@atlaskit/textarea';
+import { createAndFire, withAnalyticsEvents } from '../../analytics';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { messages } from '../../messages';
@@ -17,7 +19,9 @@ import {
   ArticleRateAnswerWrapper,
 } from './styled';
 
-interface Props {}
+interface Props {
+  createAnalyticsEvent: CreateUIAnalyticsEventSignature;
+}
 interface State {
   wasHelpful: boolean | null;
 }
@@ -31,7 +35,15 @@ export class RatingButton extends React.Component<
   };
 
   onWasHelpfulOptionClicked = (wasHelpful: boolean) => {
+    const { help } = this.props;
     this.setState({ wasHelpful });
+
+    // fire Analytics event
+    const getCurrentArticle = help.getCurrentArticle();
+    this.fireArticleFeedbackAnalyticsEvent('help-panel-article-rated', {
+      articleId: getCurrentArticle ? getCurrentArticle.id : null,
+      wasHelpful,
+    });
   };
 
   onRateSubmit = (data: ArticleFeedback) => {
@@ -40,6 +52,16 @@ export class RatingButton extends React.Component<
       try {
         help.onWasHelpfulSubmit(data).then(result => {
           this.setState({ wasHelpful: null });
+
+          // fire Analytics event
+          const getCurrentArticle = help.getCurrentArticle();
+          this.fireArticleFeedbackAnalyticsEvent(
+            'help-panel-article-rated-feedback',
+            {
+              articleId: getCurrentArticle ? getCurrentArticle.id : null,
+              feedback: data,
+            },
+          );
         });
       } catch (error) {
         // TODO: Display error
@@ -49,6 +71,15 @@ export class RatingButton extends React.Component<
 
   onRateSubmitCancel = () => {
     this.setState({ wasHelpful: null });
+  };
+
+  fireArticleFeedbackAnalyticsEvent = (action: string, attributes?: any) => {
+    const { createAnalyticsEvent } = this.props;
+
+    createAndFire({
+      action,
+      attributes,
+    })(createAnalyticsEvent);
   };
 
   render() {
@@ -150,4 +181,4 @@ export class RatingButton extends React.Component<
   }
 }
 
-export default injectIntl(withHelp(RatingButton));
+export default withAnalyticsEvents()(injectIntl(withHelp(RatingButton)));

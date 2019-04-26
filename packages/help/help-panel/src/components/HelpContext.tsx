@@ -52,6 +52,7 @@ export interface HelpContextInterface {
     isOpen: boolean;
     isSearchVisible(): boolean;
     isArticleVisible(): boolean;
+    getCurrentArticle(): Article | null;
     onBtnCloseClick?(onBtnCloseClick: React.MouseEvent<HTMLElement>): void;
     defaultArticle: Article | null | undefined; // Article to display, if is empty the default content should be displayed
     articleState: REQUEST_STATE;
@@ -232,6 +233,19 @@ class HelpContextProviderImplementation extends React.Component<
     );
   };
 
+  getCurrentArticle = () => {
+    if (this.state.history.length > 0) {
+      return this.state.history[this.state.history.length - 1];
+    } else if (
+      this.state.defaultArticle !== undefined &&
+      this.state.defaultArticle !== null
+    ) {
+      return this.state.defaultArticle;
+    } else {
+      return null;
+    }
+  };
+
   render() {
     return (
       <HelpContext.Provider
@@ -244,6 +258,7 @@ class HelpContextProviderImplementation extends React.Component<
             navigateBack: this.navigateBack,
             navigateTo: this.navigateTo,
             onSearch: this.onSearch,
+            getCurrentArticle: this.getCurrentArticle,
             onBtnCloseClick: this.props.onBtnCloseClick,
             onWasHelpfulSubmit: this.props.onWasHelpfulSubmit,
           },
