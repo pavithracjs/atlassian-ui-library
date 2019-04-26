@@ -4,8 +4,8 @@
   "nodes": [
     {
       "name": "actions",
-      "divergence": 0.0558322192513369,
-      "consistency": "94.42%"
+      "divergence": 0.03348930481283423,
+      "consistency": "96.65%"
     },
     {
       "name": "blockquote",
@@ -14,8 +14,8 @@
     },
     {
       "name": "bullet list",
-      "divergence": 0.01455548128342246,
-      "consistency": "98.54%"
+      "divergence": 0.0063168449197860965,
+      "consistency": "99.37%"
     },
     {
       "name": "codeblock",
@@ -29,8 +29,8 @@
     },
     {
       "name": "decisions",
-      "divergence": 0.057904411764705885,
-      "consistency": "94.21%"
+      "divergence": 0.03348930481283423,
+      "consistency": "96.65%"
     },
     {
       "name": "divider",
@@ -54,8 +54,8 @@
     },
     {
       "name": "ordered list",
-      "divergence": 0.015909090909090907,
-      "consistency": "98.41%"
+      "divergence": 0.007286096256684492,
+      "consistency": "99.27%"
     },
     {
       "name": "paragraph",
