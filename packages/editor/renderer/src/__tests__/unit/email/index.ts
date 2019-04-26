@@ -22,6 +22,7 @@ import * as extensions from '../../__fixtures__/extensions.adf.json';
 import * as date from '../../__fixtures__/date.adf.json';
 import * as mediaSingle from '../../__fixtures__/media-single.adf.json';
 import * as mediaGroup from '../../__fixtures__/media-group.adf.json';
+import * as lists from '../../__fixtures__/lists.adf.json';
 
 import * as image from '../../__fixtures__/image.adf.json';
 import * as placeholder from '../../__fixtures__/placeholder.adf.json';
@@ -166,6 +167,11 @@ describe('Renderer - EmailSerializer', () => {
 
   it('should render dates in normal text and task lists', () => {
     const output = render(date);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render lists', () => {
+    const output = render(lists);
     expect(output).toMatchSnapshot();
   });
 });
