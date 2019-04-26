@@ -1,8 +1,6 @@
 import styled, { css } from 'styled-components';
 import { colors, gridSize } from '@atlaskit/theme';
 
-const ItemGroupTitleSize = 11;
-
 export const truncate = (width: string = '100%') => css`
   overflow-x: hidden;
   text-overflow: ellipsis;
@@ -18,14 +16,6 @@ export const CloseButton = styled.button`
   min-width: 24px;
   border: none;
   padding: 0;
-`;
-
-export const ItemGroupTitle = styled.div`
-  color: ${colors.N200};
-  font-size: ${ItemGroupTitleSize}px;
-  line-height: ${(gridSize() * 2) / ItemGroupTitleSize};
-  font-weight: 600;
-  ${truncate()}
 `;
 
 export const HelpPanelHeader = styled.div`
@@ -78,4 +68,13 @@ export const HelpPanelBody = styled.div`
     ${gridSize() * 3}px;
   overflow-y: auto;
   height: calc(100vh - 58px - ${gridSize() * 2}px);
+`;
+
+const ItemGroupTitleSize = 11;
+export const ItemGroupTitle = styled.div`
+  color: ${colors.N200};
+  font-size: ${ItemGroupTitleSize}px;
+  line-height: ${(gridSize() * 2) / ItemGroupTitleSize};
+  font-weight: 600;
+  ${truncate()}
 `;

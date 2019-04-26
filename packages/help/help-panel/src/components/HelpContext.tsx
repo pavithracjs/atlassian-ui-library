@@ -186,7 +186,6 @@ class HelpContextProviderImplementation extends React.Component<
   };
 
   navigateBack = async () => {
-    // debugger;
     if (this.state.history.length > 0 && this.state.history !== undefined) {
       this.setState(prevState => {
         const newState = { history: [...prevState.history.slice(0, -1)] };

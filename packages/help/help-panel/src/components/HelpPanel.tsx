@@ -6,9 +6,10 @@ import {
 } from '../analytics';
 
 import { HelpContextProvider } from './HelpContext';
-import GlobalHelpContent from './HelpPanelContent';
-import HelpPanelDrawer from './HelpPanelDrawer';
 import MessagesIntlProvider from './MessagesIntlProvider';
+
+import HelpPanelContent from './HelpPanelContent';
+import HelpPanelDrawer from './HelpPanelDrawer';
 import { Article, ArticleItem } from '../model/Article';
 
 export interface Props {
@@ -38,7 +39,7 @@ export class HelpPanel extends React.Component<Props> {
       <HelpContextProvider {...rest} defaultContent={children}>
         <MessagesIntlProvider>
           <HelpPanelDrawer attachPanelTo={attachPanelTo}>
-            <GlobalHelpContent />
+            <HelpPanelContent />
           </HelpPanelDrawer>
         </MessagesIntlProvider>
       </HelpContextProvider>

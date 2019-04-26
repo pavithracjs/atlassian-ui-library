@@ -2,10 +2,11 @@ import * as React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { itemThemeNamespace } from '@atlaskit/item';
 import { gridSize } from '@atlaskit/theme';
+
 import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { messages } from '../../messages';
 
 import { ArticleItem } from '../../model/Article';
-import { messages } from '../../messages';
 import RelatedArticlesList from './RelatedArticlesList';
 import ShowMoreArticlesButton from './ShowMoreArticlesButton';
 import { ItemGroupTitle } from '../styled';

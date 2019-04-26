@@ -1,9 +1,10 @@
 import * as React from 'react';
 import * as debounce from 'lodash.debounce';
 import { QuickSearch } from '@atlaskit/quick-search';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
 
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { messages } from '../../messages';
+
 import { REQUEST_STATE } from '../../model/Resquests';
 import { withHelp, HelpContextInterface } from '../HelpContext';
 

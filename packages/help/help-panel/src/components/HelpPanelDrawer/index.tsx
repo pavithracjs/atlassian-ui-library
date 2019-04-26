@@ -29,7 +29,7 @@ export interface Props {
 }
 export interface State {
   entered: boolean;
-  body: any;
+  container?: Element | null; // Element in where the HelpPanelDrawer will be attached
 }
 
 const defaultStyle = {
@@ -52,12 +52,12 @@ export class HelpPanelDrawer extends Component<
 
   state = {
     entered: false,
-    body: undefined,
+    container: undefined,
   };
 
   componentDidMount() {
     this.setState({
-      body: canUseDOM
+      container: canUseDOM
         ? document.querySelector('#' + this.attachPanelTo)
         : undefined,
     });
@@ -67,7 +67,7 @@ export class HelpPanelDrawer extends Component<
     const { children, help } = this.props;
 
     return createPortal(
-      <Transition in={help.isOpen} timeout={220}>
+      <Transition in={help.isOpen} timeout={transitionDurationMs}>
         {(state: TransitionStatus) => (
           <HelpDrawer
             style={{
@@ -84,12 +84,12 @@ export class HelpPanelDrawer extends Component<
   };
 
   render() {
-    if (this.state.body) {
-      const body = this.state.body
-        ? this.state.body
+    if (this.state.container) {
+      const container = this.state.container
+        ? this.state.container
         : document.createElement('div');
 
-      return this.renderDrawer(body);
+      return this.renderDrawer(container);
     } else {
       return null;
     }

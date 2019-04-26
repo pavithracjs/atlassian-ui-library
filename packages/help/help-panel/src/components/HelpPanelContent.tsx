@@ -1,10 +1,11 @@
 import * as React from 'react';
-import CloseButton from './CloseButton';
 import ArrowleftIcon from '@atlaskit/icon/glyph/arrow-left';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
 
-import { withHelp, HelpContextInterface } from './HelpContext';
+import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { messages } from '../messages';
+
+import CloseButton from './CloseButton';
+import { withHelp, HelpContextInterface } from './HelpContext';
 
 import Search from './Search';
 import ArticleComponent from './Article';
@@ -26,6 +27,8 @@ export const HelpPanelContent = (
     intl: { formatMessage },
   } = props;
 
+  // Display HelpContext.DefaultArticle content if its defined and there isn't any
+  // Article in the HelpContext.history[]
   if (
     help.defaultArticle !== undefined &&
     help.defaultArticle !== null &&
@@ -49,6 +52,8 @@ export const HelpPanelContent = (
     );
   }
 
+  // If there is one or more Articles in HelpContext.history[]
+  // display the last one
   if (help.history.length > 0) {
     return (
       <>
@@ -70,6 +75,7 @@ export const HelpPanelContent = (
     );
   }
 
+  // Display the HelpContext.defaultContent
   return (
     <>
       <HelpPanelHeader>

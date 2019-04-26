@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { messages } from '../../messages';
 
 import NoResultsImage from '../../assets/NoResultsImage';
-import { messages } from '../../messages';
 import { SearchResultEmptyMessage } from './styled';
 
 export interface Props {}

@@ -1,19 +1,21 @@
 import * as React from 'react';
-import { withHelp, HelpContextInterface } from '../HelpContext';
-import { ArticleFeedback } from '../../model/Article';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import { gridSize } from '@atlaskit/theme';
 import Form, { Field, FormFooter } from '@atlaskit/form';
 import { RadioGroup } from '@atlaskit/radio';
 import TextArea from '@atlaskit/textarea';
 
+import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { messages } from '../../messages';
+
+import { withHelp, HelpContextInterface } from '../HelpContext';
+import { ArticleFeedback } from '../../model/Article';
+
 import {
   ArticleContentInner,
   ArticleRateText,
   ArticleRateAnswerWrapper,
 } from './styled';
-import { messages } from '../../messages';
 
 interface Props {}
 interface State {
@@ -96,6 +98,7 @@ export class RatingButton extends React.Component<
               {intl.formatMessage(messages.help_panel_article_rating_option_no)}
             </Button>
           </ButtonGroup>
+
           {this.state.wasHelpful !== null && (
             <ArticleRateAnswerWrapper>
               <Form onSubmit={this.onRateSubmit}>
