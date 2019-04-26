@@ -96,19 +96,26 @@ export default class MediaSingle extends Component<Props, State> {
             height: `${cardHeight}px`,
           };
 
+          const isFullWidth = this.props.rendererAppearance === 'full-width';
+
+          const nonFullWidthSize =
+            containerWidth - padding >= akEditorFullPageMaxWidth
+              ? this.props.allowDynamicTextSizing
+                ? mapBreakpointToLayoutMaxWidth(breakpoint)
+                : akEditorFullPageMaxWidth
+              : containerWidth - padding;
+
+          const lineLength = isFullWidth
+            ? containerWidth - padding
+            : nonFullWidthSize;
+
           return (
             <ExtendedUIMediaSingle
               layout={props.layout}
               width={width}
               height={height}
               containerWidth={containerWidth}
-              lineLength={
-                containerWidth - padding >= akEditorFullPageMaxWidth
-                  ? this.props.allowDynamicTextSizing
-                    ? mapBreakpointToLayoutMaxWidth(breakpoint)
-                    : akEditorFullPageMaxWidth
-                  : containerWidth - padding
-              }
+              lineLength={lineLength}
               pctWidth={props.width}
             >
               {React.cloneElement(child, {
