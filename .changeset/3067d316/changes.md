@@ -1,0 +1,1 @@
+- ED-6639 Align lists styles between editor & renderer

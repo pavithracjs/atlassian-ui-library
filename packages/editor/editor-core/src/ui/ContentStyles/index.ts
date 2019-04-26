@@ -4,6 +4,7 @@ import {
   editorFontSize,
   whitespaceSharedStyles,
   paragraphSharedStyles,
+  listsSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
   shadowSharedStyle,
@@ -51,6 +52,7 @@ const ContentStyles: ComponentClass<
 
     ${whitespaceSharedStyles};
     ${paragraphSharedStyles};
+    ${listsSharedStyles};
     ${indentationSharedStyles};
     ${shadowSharedStyle};
     ${inlineNodeSharedStyle};
