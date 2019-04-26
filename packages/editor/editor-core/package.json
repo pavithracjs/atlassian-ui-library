@@ -115,6 +115,7 @@
     "@atlaskit/pubsub": "^5.0.1",
     "@atlaskit/renderer": "^48.6.0",
     "@atlaskit/section-message": "^4.0.0",
+    "@atlaskit/share": "^0.4.10",
     "@atlaskit/textarea": "2.0.0",
     "@atlaskit/toggle": "^7.0.0",
     "@atlaskit/util-data-test": "^12.2.0",

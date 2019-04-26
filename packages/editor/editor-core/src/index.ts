@@ -6,6 +6,7 @@ export { default as EditorContext } from './ui/EditorContext';
 export { default as WithEditorActions } from './ui/WithEditorActions';
 export { default as WithHelpTrigger } from './ui/WithHelpTrigger';
 export { default as CollapsedEditor } from './ui/CollapsedEditor';
+export { default as ToolbarButton } from './ui/ToolbarButton';
 export { default as ToolbarHelp } from './ui/ToolbarHelp';
 export { default as ToolbarFeedback } from './ui/ToolbarFeedback';
 export { EmojiResource } from '@atlaskit/emoji/resource';

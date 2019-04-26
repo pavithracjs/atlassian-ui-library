@@ -49,68 +49,89 @@ describe('collab-edit | Avatars', () => {
     providerFactory.destroy();
   });
 
-  describe('when inviteToEditHandler is undefined', () => {
-    it('should not render inviteToEdit button', () => {
-      const { editorView } = editor(doc(p('text')));
-      const node = mount(<Avatars editorView={editorView} />);
-      expect(node.find(ToolbarButton).length).toEqual(0);
-      node.unmount();
-    });
-  });
+  describe('when inviteToEditButton is provided', () => {
+    it('should render inviteToEditButton', () => {
+      const CustomButton = () => <button />;
 
-  describe('when inviteToEditHandler is provided', () => {
-    it('should render inviteToEdit button', () => {
       const { editorView } = editor(doc(p('text')));
       setPresence(editorView);
 
       const node = mount(
-        <Avatars editorView={editorView} inviteToEditHandler={() => {}} />,
+        <Avatars
+          editorView={editorView}
+          inviteToEditButton={<CustomButton />}
+        />,
       );
 
-      expect(node.find(ToolbarButton).length).toEqual(1);
+      expect(node.find(CustomButton).length).toEqual(1);
       node.unmount();
     });
+  });
 
-    describe('when inviteToEdit is clicked', () => {
-      it('should call inviteToEditHandler', () => {
+  describe('when inviteToEditButton is undefined', () => {
+    describe('when inviteToEditHandler is undefined', () => {
+      it('should not render inviteToEdit button', () => {
         const { editorView } = editor(doc(p('text')));
-        setPresence(editorView);
-        const inviteToEditHandler = jest.fn();
-        const node = mount(
-          <Avatars
-            editorView={editorView}
-            inviteToEditHandler={inviteToEditHandler}
-          />,
-        );
-        node
-          .find(ToolbarButton)
-          .at(0)
-          .find('button')
-          .simulate('click');
-        expect(inviteToEditHandler).toHaveBeenCalledTimes(1);
+        const node = mount(<Avatars editorView={editorView} />);
+        expect(node.find(ToolbarButton).length).toEqual(0);
         node.unmount();
       });
     });
 
-    describe('when isInviteToEditButtonSelected is true', () => {
-      it('should make inviteToEdit button selected', () => {
+    describe('when inviteToEditHandler is provided', () => {
+      it('should render inviteToEdit button', () => {
         const { editorView } = editor(doc(p('text')));
         setPresence(editorView);
-        const inviteToEditHandler = () => {};
+
         const node = mount(
-          <Avatars
-            editorView={editorView}
-            inviteToEditHandler={inviteToEditHandler}
-            isInviteToEditButtonSelected={true}
-          />,
+          <Avatars editorView={editorView} inviteToEditHandler={() => {}} />,
         );
-        expect(
+
+        expect(node.find(ToolbarButton).length).toEqual(1);
+        node.unmount();
+      });
+
+      describe('when inviteToEdit is clicked', () => {
+        it('should call inviteToEditHandler', () => {
+          const { editorView } = editor(doc(p('text')));
+          setPresence(editorView);
+          const inviteToEditHandler = jest.fn();
+          const node = mount(
+            <Avatars
+              editorView={editorView}
+              inviteToEditHandler={inviteToEditHandler}
+            />,
+          );
           node
             .find(ToolbarButton)
             .at(0)
-            .prop('selected'),
-        ).toBe(true);
-        node.unmount();
+            .find('button')
+            .simulate('click');
+          expect(inviteToEditHandler).toHaveBeenCalledTimes(1);
+          node.unmount();
+        });
+      });
+
+      describe('when isInviteToEditButtonSelected is true', () => {
+        it('should make inviteToEdit button selected', () => {
+          const { editorView } = editor(doc(p('text')));
+          setPresence(editorView);
+          const inviteToEditHandler = () => {};
+          const node = mount(
+            <Avatars
+              editorView={editorView}
+              inviteToEditHandler={inviteToEditHandler}
+              isInviteToEditButtonSelected={true}
+            />,
+          );
+          expect(
+            node
+              .find(ToolbarButton)
+              .at(0)
+              .prop('selected'),
+          ).toBe(true);
+          node.unmount();
+        });
       });
     });
   });

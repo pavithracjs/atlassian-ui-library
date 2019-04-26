@@ -46,4 +46,9 @@ export default defineMessages({
     defaultMessage: 'Open link in a new window',
     description: '',
   },
+  inviteToEditButtonTitle: {
+    id: 'fabric.editor.editMode.inviteToEditButton.title',
+    defaultMessage: 'Invite to edit',
+    description: '',
+  },
 });

@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { EditorState } from 'prosemirror-state';
 import { CollabEditProvider } from './provider';
 
@@ -45,6 +46,7 @@ export interface SendableSelection {
 
 export interface CollabEditOptions {
   provider?: Promise<CollabEditProvider>;
+  inviteToEditButton?: ReactNode;
   inviteToEditHandler?: (event: React.MouseEvent<HTMLElement>) => void;
   isInviteToEditButtonSelected?: boolean;
   userId?: string;
