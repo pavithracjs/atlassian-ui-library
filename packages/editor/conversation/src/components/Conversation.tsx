@@ -74,7 +74,6 @@ export default class Conversation extends React.PureComponent<Props, State> {
     placeholder: 'What do you want to say?',
     onEditorOpen: () => {},
     onEditorClose: () => {},
-    onCommentPermalinkClicked: () => {},
   };
 
   /*
@@ -291,11 +290,16 @@ export default class Conversation extends React.PureComponent<Props, State> {
     }
   };
 
-  private onHighlightComment = (commentId: string) => {
+  private onHighlightComment = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    commentId: string,
+  ) => {
     if (typeof this.props.onHighlightComment === 'function') {
-      this.props.onHighlightComment(commentId);
-      if (typeof this.props.onCommentPermalinkClicked === 'function') {
-        this.props.onCommentPermalinkClicked(commentId);
+      this.props.onHighlightComment(event, commentId);
+      if (typeof this.props.onCommentPermalinkClick === 'function') {
+        // let the consumer handle this click
+        event.preventDefault();
+        this.props.onCommentPermalinkClick(event, commentId);
       }
     }
   };

@@ -90,7 +90,10 @@ const mapDispatchToProps = (
     dispatch(revertComment(conversationId, commentId, provider));
   },
 
-  onHighlightComment(commentId: string) {
+  onHighlightComment(
+    e: React.MouseEvent<HTMLAnchorElement>,
+    commentId: string,
+  ) {
     dispatch({ type: HIGHLIGHT_COMMENT, payload: { commentId } });
   },
 
