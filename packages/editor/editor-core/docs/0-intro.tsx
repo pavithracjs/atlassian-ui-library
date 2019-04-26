@@ -204,7 +204,7 @@ ${code`
 
 ${code`
   <WithEditorActions
-    // tslint:disable-next-line:jsx-no-lambda
+     
     render={actions => (
       <TitleInput
         placeholder="Give this page a title..."

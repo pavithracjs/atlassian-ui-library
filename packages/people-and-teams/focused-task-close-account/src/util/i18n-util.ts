@@ -23,8 +23,33 @@ import {
   sk,
   sv,
   zh,
-  LanguageCode,
 } from '../i18n';
+
+type LanguageCode =
+  | 'zh'
+  | 'cs'
+  | 'da'
+  | 'nl'
+  | 'en'
+  | 'en_GB'
+  | 'et'
+  | 'fi'
+  | 'fr'
+  | 'de'
+  | 'hu'
+  | 'is'
+  | 'it'
+  | 'ja'
+  | 'ko'
+  | 'nb'
+  | 'pl'
+  | 'pt_BR'
+  | 'pt_PT'
+  | 'ro'
+  | 'ru'
+  | 'sk'
+  | 'es'
+  | 'sv';
 
 export type LangCode = LanguageCode | 'pt-BR' | 'pt-PT';
 type LocaleMessages = { [key: string]: string };

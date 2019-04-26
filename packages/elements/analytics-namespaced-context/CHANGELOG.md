@@ -1,5 +1,10 @@
 # @atlaskit/analytics-namespaced-context
 
+## 3.0.3
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 3.0.2
 - [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
 

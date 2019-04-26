@@ -1,5 +1,20 @@
 # @atlaskit/width-detector
 
+## 1.0.0
+- [major] [87f0209201](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87f0209201):
+
+  - This major release indicates that this package is no longer under dev preview but is ready for use
+
+## 0.3.5
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
+## 0.3.4
+- [patch] [83b920afd3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/83b920afd3):
+
+  - Fix bug when content changes size between mount and object onload
+
 ## 0.3.3
 - [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
 

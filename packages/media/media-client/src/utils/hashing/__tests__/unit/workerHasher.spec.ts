@@ -39,7 +39,7 @@ describe('WorkerHasher', () => {
   });
 
   it('should start 5 workers if 5 workers are specified in the constructor', () => {
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line no-unused-expressions
     new WorkerHasher(5);
     expect(createWorkerStub).toHaveBeenCalledTimes(5);
   });

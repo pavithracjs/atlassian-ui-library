@@ -6,7 +6,7 @@ export const BitbucketSourceCodeReference = {
   },
   '@id': 'https://bitbucket.org/tuser/test-repo/branch/branch-name',
   '@type': 'atlassian:SourceCodeReference',
-  '@url': 'https://bitbucket.org/tuser/test-repo/branch/branch-name',
+  url: 'https://bitbucket.org/tuser/test-repo/branch/branch-name',
   'atlassian:commit': {
     '@id': '0304dd88274bcc4ccc737fff22481dbac3945874',
     '@type': 'atlassian:SourceCodeCommit',
@@ -59,7 +59,7 @@ export const GithubSourceCodeReference = {
   },
   '@id': 'https://github.com/tuser/test-repo/tree/new-branch',
   '@type': 'atlassian:SourceCodeReference',
-  '@url': 'https://github.com/tuser/test-repo/tree/new-branch',
+  url: 'https://github.com/tuser/test-repo/tree/new-branch',
   'atlassian:commit': {
     '@id': '216bbb3ec969788969b95defcc995af2ebafef91',
     '@type': 'atlassian:SourceCodeCommit',

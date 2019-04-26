@@ -83,7 +83,6 @@ class StatusInternal extends PureComponent<Props, any> {
   }
 }
 
-// tslint:disable-next-line:variable-name
 export const Status: React.ComponentClass<OwnProps> = withAnalyticsEvents({
   onClick: (
     createEvent: CreateUIAnalyticsEventSignature,

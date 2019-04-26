@@ -49,7 +49,9 @@ import {
   indentationPlugin,
   annotationPlugin,
   analyticsPlugin,
+  customAutoformatPlugin,
 } from '../plugins';
+import { isFullPage } from '../utils/is-full-page';
 
 /**
  * Returns list of plugins that are absolutely necessary for editor to work
@@ -88,7 +90,7 @@ export default function createPluginsList(
 ): EditorPlugin[] {
   const plugins = getDefaultPluginsList(props, createAnalyticsEvent);
 
-  if (props.allowBreakout && props.appearance === 'full-page') {
+  if (props.allowBreakout && isFullPage(props.appearance)) {
     plugins.push(breakoutPlugin);
   }
 
@@ -130,7 +132,9 @@ export default function createPluginsList(
   }
 
   if (props.allowTables) {
-    plugins.push(tablesPlugin(props.allowTables));
+    plugins.push(
+      tablesPlugin(props.allowTables, props.appearance === 'full-width'),
+    );
   }
 
   if (props.allowTasksAndDecisions || props.taskDecisionProvider) {
@@ -204,6 +208,10 @@ export default function createPluginsList(
 
   if (props.UNSAFE_cards) {
     plugins.push(cardPlugin);
+  }
+
+  if (props.autoformattingProvider) {
+    plugins.push(customAutoformatPlugin);
   }
 
   let statusMenuDisabled = true;

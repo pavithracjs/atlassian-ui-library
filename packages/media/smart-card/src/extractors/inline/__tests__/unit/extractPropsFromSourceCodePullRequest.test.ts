@@ -17,7 +17,7 @@ describe('extractInlineViewPropsFromSourceCodePullRequest', () => {
 
   it('should set the name properly (if url ends in a number)', () => {
     const props = extractInlineViewPropsFromSourceCodePullRequest({
-      '@url': 'https://bitbucket.org/atlassian/pull-requests/190',
+      url: 'https://bitbucket.org/atlassian/pull-requests/190',
       name: 'some pr',
     });
     expect(props).toHaveProperty('title', '#190 some pr');
@@ -30,7 +30,7 @@ describe('extractInlineViewPropsFromSourceCodePullRequest', () => {
 
   it('should set the name properly (if url ends in a slash)', () => {
     const props = extractInlineViewPropsFromSourceCodePullRequest({
-      '@url': 'https://bitbucket.org/atlassian/pull-requests/190/',
+      url: 'https://bitbucket.org/atlassian/pull-requests/190/',
       name: 'some pr',
     });
     expect(props).toHaveProperty('title', '#190 some pr');
@@ -43,7 +43,7 @@ describe('extractInlineViewPropsFromSourceCodePullRequest', () => {
 
   it('should set the name properly (if url ends in a query parameter)', () => {
     const props = extractInlineViewPropsFromSourceCodePullRequest({
-      '@url': 'https://bitbucket.org/atlassian/pull-requests/190?rel=facebook',
+      url: 'https://bitbucket.org/atlassian/pull-requests/190?rel=facebook',
       name: 'some pr',
     });
     expect(props).toHaveProperty('title', '#190 some pr');

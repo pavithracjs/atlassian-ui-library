@@ -24,7 +24,6 @@ export const InlineNodeInnerWrapper: React.ComponentClass<
   display: block;
 `;
 
-// tslint:disable-next-line:variable-name
 const InlineNodeWrapper: React.StatelessComponent<{
   appearance?: EditorAppearance;
 }> = ({ appearance, children }) =>

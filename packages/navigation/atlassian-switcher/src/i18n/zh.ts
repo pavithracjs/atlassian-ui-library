@@ -7,7 +7,7 @@
 // Chinese
 export default {
   'fabric.atlassianSwitcher.switchTo': '切换到',
-  'fabric.atlassianSwitcher.switchToTooltip': '切换到 …',
+  'fabric.atlassianSwitcher.switchToTooltip': '切换到…',
   'fabric.atlassianSwitcher.recent': '最近',
   'fabric.atlassianSwitcher.more': '更多',
   'fabric.atlassianSwitcher.try': '尝试',
@@ -17,9 +17,10 @@ export default {
   'fabric.atlassianSwitcher.people': '人员',
   'fabric.atlassianSwitcher.administration': '管理',
   'fabric.atlassianSwitcher.discoverMore': '发现更多',
-  'fabric.atlassianSwitcher.errorHeading': 'Something went wrong',
+  'fabric.atlassianSwitcher.errorHeading': '出现问题',
   'fabric.atlassianSwitcher.errorText':
-    'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    '我们会跟踪这些错误，但是如果刷新不能修复问题，请随时与我们联系',
   'fabric.atlassianSwitcher.errorImageAltText':
-    'A broken robot and a number of people busy fixing it.',
+    '一个损坏的机器人和一些人员正在繁忙修理中。',
+  'fabric.atlassianSwitcher.expand': '扩展',
 };

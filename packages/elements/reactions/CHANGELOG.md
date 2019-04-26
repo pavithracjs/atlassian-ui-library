@@ -1,5 +1,19 @@
 # @atlaskit/reactions
 
+## 16.1.8
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
+## 16.1.7
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/emoji@59.2.3
+  - @atlaskit/theme@8.1.7
+
 ## 16.1.6
 - [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
 

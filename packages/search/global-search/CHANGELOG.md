@@ -1,5 +1,34 @@
 # @atlaskit/global-search
 
+## 7.0.4
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
+## 7.0.3
+- [patch] [3f48f041b0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f48f041b0):
+
+  - Fix bug where pre-fetching is attempted even if the cloud id isn't present
+
+## 7.0.2
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/button@12.0.3
+  - @atlaskit/drawer@3.0.7
+  - @atlaskit/dropdown-menu@7.0.6
+  - @atlaskit/feedback-collector@3.0.5
+  - @atlaskit/field-text-area@5.0.4
+  - @atlaskit/flag@10.0.6
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/icon-file-type@3.0.8
+  - @atlaskit/icon-object@3.0.8
+  - @atlaskit/logo@10.0.4
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/navigation@34.0.4
+  - @atlaskit/quick-search@6.1.1
+  - @atlaskit/theme@8.1.7
+
 ## 7.0.1
 - [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
 

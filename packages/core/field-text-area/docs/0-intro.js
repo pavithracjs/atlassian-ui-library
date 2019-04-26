@@ -1,8 +1,17 @@
 // @flow
 import React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
+import SectionMessage from '@atlaskit/section-message';
 
 export default md`
+  ${(
+    <SectionMessage
+      appearance="warning"
+      title="Note: @atlaskit/field-text-area is being deprecated in favor of @atlaskit/textarea."
+    >
+      This is part of our forms update which will modernize all our form fields.
+    </SectionMessage>
+  )}
 
   Provides a standard way to create a text-based form input with an associated label.
 

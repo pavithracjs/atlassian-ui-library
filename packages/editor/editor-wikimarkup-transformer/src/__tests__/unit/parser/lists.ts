@@ -58,7 +58,7 @@ describe('JIRA wiki markup - Lists', () => {
     ['should use mediaSingle nodes', '* !attached-image.gif!'],
     [
       'should not fail for multiple lists',
-      // tslint:disable-next-line:max-line-length
+
       "Steps to reproduce:\r\n* Type something\r\n* Type @\r\n* Type few letters\r\n* mention mark disappears \r\n\r\nExpected:\r\n* Mention mark doesn't disappear",
     ],
     [

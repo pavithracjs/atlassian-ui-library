@@ -139,6 +139,7 @@ const mediaPlugin = (
                   portalProviderAPI,
                   eventDispatcher,
                   props.appearance,
+                  props.appearance === 'full-width',
                 ),
               },
               errorReporter,

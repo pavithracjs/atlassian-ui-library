@@ -1,5 +1,19 @@
 # @atlaskit/button
 
+## 12.0.4
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
+## 12.0.3
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/checkbox@6.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/logo@10.0.4
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/theme@8.1.7
+
 ## 12.0.2
 - [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
 
@@ -12,7 +26,7 @@
 ## 12.0.0
 - [major] [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
 
-  ###️ Highlights
+  **Highlights**
 
   - **New theming API** - Button now supports the new Atlaskit theming API, which allows for powerful custom theming of Buttons and
     its internal components.
@@ -21,14 +35,14 @@
   - **Emotion support** - Button is now built using Emotion 10! This is part of a wider push
     for Emotion across all Atlaskit components.
 
-  ### Breaking Changes:
+  **Breaking Changes:**
 
   - The old theming API is no longer supported.
   - Styling a Button using Styled Components is no longer supported.
   - Button exports a Theme to use as context instead of using Styled Components' ThemeProvider.
   - Camel-case ARIA props have been renamed (**ariaExpanded**, **ariaHaspopup** and **ariaLabel**).
 
-  See the [upgrade guide](atlaskit.atlassian.com/packages/core/button/docs/upgrade-guide) for more details
+  See the [upgrade guide](https://atlaskit.atlassian.com/packages/core/button/docs/upgrade-guide) for more details
 
 ## 11.0.11
 - [patch] [f8d92ffc5e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f8d92ffc5e):

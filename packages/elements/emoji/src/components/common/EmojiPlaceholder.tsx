@@ -16,7 +16,6 @@ export interface Props {
   representation?: EmojiImageRepresentation;
 }
 
-// tslint:disable-next-line:variable-name
 const EmojiPlaceholder = (props: Props) => {
   const {
     shortName,

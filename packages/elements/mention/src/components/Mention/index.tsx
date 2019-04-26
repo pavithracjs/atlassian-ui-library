@@ -120,7 +120,6 @@ export class MentionInternal extends React.PureComponent<Props, {}> {
   }
 }
 
-// tslint:disable-next-line:variable-name
 const MentionWithAnalytics: React.ComponentClass<
   OwnProps
 > = withAnalyticsEvents({

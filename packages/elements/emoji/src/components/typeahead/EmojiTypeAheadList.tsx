@@ -199,7 +199,6 @@ export default class EmojiTypeAheadList extends PureComponent<Props, State> {
                 selected={this.isSelectedEmoji(emoji, idx)}
                 onMouseMove={this.selectIndexOnHover}
                 onSelection={this.itemSelected}
-                // tslint:disable-next-line:jsx-no-lambda
                 ref={ref => {
                   if (ref) {
                     this.items[key] = ref;

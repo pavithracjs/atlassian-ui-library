@@ -1,5 +1,27 @@
 # @atlaskit/textarea
 
+## 1.0.0
+- [major] [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
+
+  - This major release indicates that this package is no longer under dev preview but is ready for use
+
+## 0.4.6
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
+## 0.4.5
+- [patch] [cd67ae87f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cd67ae87f8):
+
+  - Stop defaultValue from being omitted from props that are spread onto textarea
+  - Constraint type of value and defaultValue to string
+
+## 0.4.4
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/theme@8.1.7
+
 ## 0.4.3
 - [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
 

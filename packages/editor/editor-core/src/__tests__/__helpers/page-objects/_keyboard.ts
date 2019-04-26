@@ -8,6 +8,8 @@ type KeyboardKey =
   | 'Shift'
   | 'Return'
   | 'Enter'
+  | 'End'
+  | 'Control'
   | 'Backspace';
 
 // https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#keyboardpresskey-options
