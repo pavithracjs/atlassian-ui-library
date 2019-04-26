@@ -5,6 +5,7 @@ import {
   MediaProvider as MediaProviderType,
   EditorProps,
 } from '@atlaskit/editor-core';
+import { EditorViewWithComposition } from '@atlaskit/editor-common';
 
 // @ts-ignore
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
@@ -21,7 +22,6 @@ import {
   TaskDecisionProvider,
   MockEmojiProvider,
 } from '../providers';
-import { ProseMirrorDOMChange } from '../types';
 import { parseLocationSearch } from '../bridge-utils';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 import { cardClient, cardProvider } from '../providers/cardProvider';
@@ -35,7 +35,7 @@ export const bridge: WebBridgeImpl = ((window as any).bridge = new WebBridgeImpl
 
 class EditorWithState extends Editor {
   onEditorCreated(instance: {
-    view: EditorView & ProseMirrorDOMChange;
+    view: EditorView & EditorViewWithComposition;
     eventDispatcher: any;
     transformer?: any;
   }) {

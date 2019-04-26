@@ -116,8 +116,8 @@ export default function createEditorFactoryForTests<T = any>() {
     );
     const editor = wrapper.find(TestReactEditorView);
 
-    // Work around JSDOM/Node not supporting DOM Selection API
-    if (!('getSelection' in window)) {
+    // Workaround JSDOM/Node not supporting DOM Selection API and MutationObserver API
+    if (!('getSelection' in window) || !('MutationObserver' in window)) {
       // TODO JEST-23
       patchEditorViewForJSDOM((editor.instance() as ReactEditorView).view);
     }

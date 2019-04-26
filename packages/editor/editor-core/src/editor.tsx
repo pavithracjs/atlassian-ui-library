@@ -264,19 +264,6 @@ export default class Editor extends React.Component<EditorProps, {}> {
       return;
     }
 
-    // ED-4021: if you type a short amount of content
-    // inside a content-editable on Android, Chrome only sends a
-    // compositionend when it feels like it.
-    //
-    // to work around the PM editable being out of sync with
-    // the document, force a DOM sync before calling onSave
-    // if we've already started typing
-    // @ts-ignore
-    if (view['inDOMChange']) {
-      // @ts-ignore
-      view['inDOMChange'].finish(true);
-    }
-
     return this.props.onSave(view);
   };
 
@@ -297,7 +284,7 @@ export default class Editor extends React.Component<EditorProps, {}> {
                 <PortalProvider
                   render={portalProviderAPI => (
                     <>
-                      <ReactEditorView
+                      <ReactEditorView<{ disabled?: boolean }>
                         editorProps={overriddenEditorProps}
                         createAnalyticsEvent={createAnalyticsEvent}
                         portalProviderAPI={portalProviderAPI}
