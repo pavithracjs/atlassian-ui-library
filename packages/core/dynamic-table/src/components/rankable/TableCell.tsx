@@ -5,10 +5,9 @@ import withDimensions, { WithDimensionsProps } from '../../hoc/withDimensions';
 import { inlineStylesIfRanking } from '../../internal/helpers';
 
 interface Props extends WithDimensionsProps {
-  head: HeadCellType | void;
+  head: HeadCellType | null;
   cell: RowCellType;
   isFixedSize: boolean;
-  isRanking: boolean;
 }
 
 const stopPropagation = (e: any) => e.stopPropagation();
@@ -24,7 +23,8 @@ export class RankableTableCell extends React.Component<Props, {}> {
       refWidth,
     } = this.props;
     const { content, ...restCellProps } = cell;
-    const { shouldTruncate, width }: any = head || {};
+    const { shouldTruncate, width }: HeadCellType =
+      head || ({} as HeadCellType);
     const inlineStyles = inlineStylesIfRanking(isRanking, refWidth);
 
     return (

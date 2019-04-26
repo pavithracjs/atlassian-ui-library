@@ -1,24 +1,25 @@
 import * as React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { RankableTableBodyRow } from '../../styled/rankable/TableRow';
-import { HeadCellType, HeadType, RowType } from '../../types';
+import { HeadType, RowType } from '../../types';
 import withDimensions, { WithDimensionsProps } from '../../hoc/withDimensions';
 import TableCell from './TableCell';
 import { inlineStylesIfRanking } from '../../internal/helpers';
 
-interface Props extends WithDimensionsProps {
+export interface Props extends WithDimensionsProps {
   head: HeadType | null;
   isFixedSize: boolean;
   row: RowType;
-  isRanking: boolean;
   rowIndex: number;
   isRankingDisabled: boolean;
 }
 
 export class RankableTableRow extends React.Component<Props, {}> {
-  innerRef = (innerRefFn: Function) => (ref: HTMLElement) => {
+  innerRef = (innerRefFn: Function) => (ref?: HTMLElement) => {
     innerRefFn(ref);
-    this.props.innerRef(ref);
+    if (this.props.innerRef) {
+      this.props.innerRef(ref);
+    }
   };
 
   render() {
@@ -57,9 +58,7 @@ export class RankableTableRow extends React.Component<Props, {}> {
             isRankingItem={snapshot.isDragging}
           >
             {cells.map((cell, cellIndex) => {
-              const headCell = (head || { cells: [] }).cells[
-                cellIndex
-              ] as HeadCellType;
+              const headCell = (head || { cells: [] }).cells[cellIndex];
               return (
                 <TableCell
                   head={headCell}

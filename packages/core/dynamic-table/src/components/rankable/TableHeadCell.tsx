@@ -3,12 +3,10 @@ import withDimensions, { WithDimensionsProps } from '../../hoc/withDimensions';
 import HeadCell, { Props as HeadCellProps } from '../TableHeadCell';
 import { inlineStylesIfRanking } from '../../internal/helpers';
 
-export type Props = {
-  isRanking: boolean;
-} & WithDimensionsProps &
-  HeadCellProps;
-
-class RankableTableHeadCell extends React.Component<Props, any> {
+class RankableTableHeadCell extends React.Component<
+  WithDimensionsProps & HeadCellProps,
+  any
+> {
   render() {
     const {
       isRanking,
@@ -28,4 +26,6 @@ class RankableTableHeadCell extends React.Component<Props, any> {
   }
 }
 
-export default withDimensions<Props>(RankableTableHeadCell);
+export default withDimensions<WithDimensionsProps & HeadCellProps>(
+  RankableTableHeadCell,
+);

@@ -4,6 +4,7 @@
   "description": "Table component with pagination and sorting functionality",
   "license": "Apache-2.0",
   "module": "index.js",
+  "types": "index.d.ts",
   "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/tables",
   "sideEffects": false,
@@ -24,6 +25,7 @@
     "@atlaskit/pagination": "^10.0.4",
     "@atlaskit/spinner": "^10.0.7",
     "@atlaskit/theme": "^8.1.7",
+    "@atlaskit/type-helpers": "^3.0.2",
     "@babel/runtime": "^7.0.0",
     "prop-types": "^15.5.10",
     "react-beautiful-dnd": "^10.0.2"

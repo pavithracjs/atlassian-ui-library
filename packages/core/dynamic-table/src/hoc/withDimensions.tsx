@@ -1,24 +1,24 @@
 import * as React from 'react';
+import { Omit } from '@atlaskit/type-helpers';
 
 export interface State {
   refWidth: number;
   refHeight: number;
 }
 
-export interface WithDimensionsProps extends State {
-  innerRef: (element: HTMLElement) => void;
-}
-
-export interface Props {
+export interface WithDimensionsProps {
+  innerRef?: (element?: HTMLElement) => void;
   isRanking: boolean;
+  refWidth: number;
+  refHeight: number;
 }
 
 // Compute height and width of wrapped component before ranking
-export default function withDimensions<WrappedComponentProps extends object>(
-  WrappedComponent: React.ComponentType<any>,
-) {
+export default function withDimensions<
+  WrappedComponentProps extends WithDimensionsProps
+>(WrappedComponent: React.ComponentType<WrappedComponentProps>) {
   return class WithDimensions extends React.Component<
-    Partial<WrappedComponentProps & Props>,
+    Omit<WrappedComponentProps, 'refWidth' | 'refHeight' | 'innerRef'>,
     State
   > {
     ref?: HTMLElement;
@@ -28,16 +28,17 @@ export default function withDimensions<WrappedComponentProps extends object>(
       refHeight: 0,
     };
 
-    innerRef = (ref: HTMLElement) => {
-      if (ref !== null && !this.props.isRanking) {
+    innerRef = (ref?: HTMLElement) => {
+      if (ref && !this.props.isRanking) {
         this.ref = ref;
       }
     };
 
-    componentWillMount(): void {}
-
     componentWillReceiveProps(
-      nextProps: Readonly<WrappedComponentProps & Props>,
+      nextProps: Omit<
+        WrappedComponentProps,
+        'refWidth' | 'refHeight' | 'innerRef'
+      >,
     ) {
       const wasRanking = this.props.isRanking;
       const willRanking = nextProps.isRanking;
@@ -66,6 +67,7 @@ export default function withDimensions<WrappedComponentProps extends object>(
       const { refWidth, refHeight } = this.state;
 
       return (
+        // @ts-ignore - TypeScript does not recognise that Omit<WrappedComponentProps, 'refWidth' | 'refHeight'> contains isRanking
         <WrappedComponent
           refWidth={refWidth}
           refHeight={refHeight}
