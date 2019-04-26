@@ -1,12 +1,12 @@
 import * as React from 'react';
-import Button from '@atlaskit/button';
+import Button, { ButtonGroup } from '@atlaskit/button';
 import { AnalyticsListener } from '@atlaskit/analytics-next';
 import Page from '@atlaskit/page';
 
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 import { Article, ArticleItem } from '../src/model/Article';
 import { getArticle, searchArticle } from './utils/mockData';
-import { ExampleWrapper } from './ExampleWrapper';
+import { ExampleWrapper, ButtonsWrapper } from './utils/styled';
 
 import { HelpPanel } from '../src';
 
@@ -72,13 +72,17 @@ export default class extends React.Component {
               </HelpPanel>
             </LocaleIntlProvider>
 
-            <Button type="button" onClick={this.openDrawer}>
-              Open drawer
-            </Button>
+            <ButtonsWrapper>
+              <ButtonGroup>
+                <Button type="button" onClick={this.openDrawer}>
+                  Open drawer
+                </Button>
 
-            <Button type="button" onClick={this.closeDrawer}>
-              Close drawer
-            </Button>
+                <Button type="button" onClick={this.closeDrawer}>
+                  Close drawer
+                </Button>
+              </ButtonGroup>
+            </ButtonsWrapper>
           </AnalyticsListener>
         </Page>
       </ExampleWrapper>

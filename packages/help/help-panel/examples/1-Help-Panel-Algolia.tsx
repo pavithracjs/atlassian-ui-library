@@ -1,11 +1,11 @@
 import * as React from 'react';
 import algoliasearch from 'algoliasearch';
-import Button from '@atlaskit/button';
+import Button, { ButtonGroup } from '@atlaskit/button';
 import Page from '@atlaskit/page';
 
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 import { Article } from '../src/model/Article';
-import { ExampleWrapper } from './ExampleWrapper';
+import { ExampleWrapper, ButtonsWrapper } from './utils/styled';
 
 import { HelpPanel } from '../src';
 
@@ -57,13 +57,17 @@ export default class extends React.Component {
               <h1>Default content</h1>
             </HelpPanel>
           </LocaleIntlProvider>
-          <Button type="button" onClick={this.openDrawer}>
-            Open drawer
-          </Button>
+          <ButtonsWrapper>
+            <ButtonGroup>
+              <Button type="button" onClick={this.openDrawer}>
+                Open drawer
+              </Button>
 
-          <Button type="button" onClick={this.closeDrawer}>
-            Close drawer
-          </Button>
+              <Button type="button" onClick={this.closeDrawer}>
+                Close drawer
+              </Button>
+            </ButtonGroup>
+          </ButtonsWrapper>
         </Page>
       </ExampleWrapper>
     );
