@@ -19,6 +19,7 @@ import EditorAlignLeftIcon from '@atlaskit/icon/glyph/editor/align-left';
 import LinkIcon from '@atlaskit/icon/glyph/link';
 import { colors } from '@atlaskit/theme';
 import { normalizeUrl } from '../../utils';
+import Tooltip from '@atlaskit/tooltip';
 
 const Container = styled.div`
   width: 420px;
@@ -37,7 +38,7 @@ const Container = styled.div`
 const InputWrapper = `
   display: flex;
   line-height: 0;
-
+  padding: 5px 0;
 `;
 
 const TextInputWrapper = styled.div`
@@ -52,7 +53,7 @@ const UrlInputWrapper = styled.div`
 const IconWrapper = styled.span`
   padding: 10px;
   color: ${colors.N80};
-  padding: 4px 8px 6px 8px;
+  padding: 4px 8px;
   width: 18px;
 `;
 
@@ -66,6 +67,16 @@ export const messages = defineMessages({
     id: 'fabric.editor.linkPlaceholder',
     defaultMessage: 'Paste link',
     description: 'Create a new link by pasting a URL.',
+  },
+  linkAddress: {
+    id: 'fabric.editor.linkAddress',
+    defaultMessage: 'Link address',
+    description: 'Insert the address of the link',
+  },
+  displayText: {
+    id: 'fabric.editor.displayText',
+    defaultMessage: 'Display text',
+    description: 'Text to display',
   },
 });
 
@@ -171,7 +182,9 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
         <Container provider={!!provider}>
           <UrlInputWrapper>
             <IconWrapper>
-              <LinkIcon label="" />
+              <Tooltip content={formatMessage(messages.linkAddress)}>
+                <LinkIcon label={formatMessage(messages.linkAddress)} />
+              </Tooltip>
             </IconWrapper>
             <PanelTextInput
               placeholder={placeholder}
@@ -193,7 +206,9 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
           />
           <TextInputWrapper>
             <IconWrapper>
-              <EditorAlignLeftIcon label="" />
+              <Tooltip content={formatMessage(messages.displayText)}>
+                <EditorAlignLeftIcon label="Text to display" />
+              </Tooltip>
             </IconWrapper>
             <PanelTextInput
               placeholder={'Text to display'}
@@ -216,7 +231,11 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
       },
       () => {
         if (this.props.onSubmit) {
-          this.props.onSubmit(href, this.state.displayText || text, INPUT_METHOD.TYPEAHEAD);
+          this.props.onSubmit(
+            href,
+            this.state.displayText || text,
+            INPUT_METHOD.TYPEAHEAD,
+          );
           this.trackAutoCompleteAnalyticsEvent(
             'atlassian.editor.format.hyperlink.autocomplete.click',
             INPUT_METHOD.TYPEAHEAD,
@@ -244,7 +263,11 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
     if (items && items.length > 0 && selectedIndex > -1) {
       const item = items[selectedIndex];
       if (this.props.onSubmit) {
-        this.props.onSubmit(item.url, this.state.displayText || item.name, INPUT_METHOD.TYPEAHEAD);
+        this.props.onSubmit(
+          item.url,
+          this.state.displayText || item.name,
+          INPUT_METHOD.TYPEAHEAD,
+        );
         this.trackAutoCompleteAnalyticsEvent(
           'atlassian.editor.format.hyperlink.autocomplete.keyboard',
           INPUT_METHOD.TYPEAHEAD,
@@ -252,7 +275,11 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
       }
     } else if (text && text.length > 0) {
       if (this.props.onSubmit) {
-        this.props.onSubmit(text, this.state.displayText || text, INPUT_METHOD.MANUAL);
+        this.props.onSubmit(
+          text,
+          this.state.displayText || text,
+          INPUT_METHOD.MANUAL,
+        );
         this.trackAutoCompleteAnalyticsEvent(
           'atlassian.editor.format.hyperlink.autocomplete.notselected',
           INPUT_METHOD.MANUAL,

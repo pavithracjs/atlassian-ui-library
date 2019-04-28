@@ -81,6 +81,7 @@ export default class Toolbar extends Component<Props> {
                   const ButtonIcon = item.icon as React.ComponentClass<any>;
                   return (
                     <Button
+                      className={item.className}
                       key={idx}
                       title={item.title}
                       href={item.href}

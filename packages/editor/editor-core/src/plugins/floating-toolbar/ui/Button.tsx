@@ -17,6 +17,7 @@ export interface Props {
   href?: string;
   target?: string;
   children?: React.ReactNode;
+  className?: string;
 }
 
 export default ({
@@ -32,11 +33,13 @@ export default ({
   target,
   appearance = 'subtle',
   children,
+  className,
 }: Props) => {
   return (
     <Tooltip content={title} hideTooltipOnClick={true} position="top">
       <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
         <Button
+          className={className}
           theme={(adgTheme, themeProps) => {
             const { buttonStyles, ...rest } = adgTheme(themeProps);
             return {

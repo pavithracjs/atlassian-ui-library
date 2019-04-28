@@ -20,14 +20,14 @@ import RecentList from './ui/RecentSearch';
 import { EditorView } from 'prosemirror-view';
 import { DispatchAnalyticsEvent } from '../analytics';
 import { Mark } from 'prosemirror-model';
-import OpenIcon from '@atlaskit/icon/glyph/editor/open';
 import UnlinkIcon from '@atlaskit/icon/glyph/editor/unlink';
+import OpenIcon from '@atlaskit/icon/glyph/shortcut';
 
 export const messages = defineMessages({
   openLink: {
     id: 'fabric.editor.openLink',
-    defaultMessage: 'Open link',
-    description: 'Follows the hyperlink.',
+    defaultMessage: 'Open link in a new tab',
+    description: 'Opens the link in a new tab',
   },
   unlink: {
     id: 'fabric.editor.unlink',
@@ -62,8 +62,9 @@ export const getToolbarConfig: FloatingToolbarHandler = (
         state.schema.nodes.decisionItem,
       ].filter(nodeType => !!nodeType), // Use only the node types existing in the schema ED-6745
       align: 'left' as AlignType,
-      className:
-        activeLinkMark.type === 'INSERT' ? 'hyperlink-floating-toolbar' : '',
+      className: activeLinkMark.type.match('INSERT|EDIT_INSERTED')
+        ? 'hyperlink-floating-toolbar'
+        : '',
     };
 
     switch (activeLinkMark.type) {
@@ -102,6 +103,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
               selected: false,
               title: labelOpenLink,
               icon: OpenIcon,
+              className: 'hyperlink-open-link',
             },
             {
               type: 'separator',
@@ -154,8 +156,9 @@ export const getToolbarConfig: FloatingToolbarHandler = (
                     key={idx}
                     displayUrl={link}
                     displayText={
-                      (activeLinkMark as EditInsertedState).node &&
-                      (activeLinkMark as EditInsertedState).node.text
+                      linkState.activeText ||
+                      ((activeLinkMark as EditInsertedState).node &&
+                        (activeLinkMark as EditInsertedState).node.text)
                     }
                     providerFactory={providerFactory}
                     onSubmit={(href, text) => {
@@ -164,7 +167,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
                             view.state,
                             view.dispatch,
                           )
-                        : insertLink(from, to, href, text, type)(
+                        : insertLink(from, to, href, text)(
                             view.state,
                             view.dispatch,
                           );

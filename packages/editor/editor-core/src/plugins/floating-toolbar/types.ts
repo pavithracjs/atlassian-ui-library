@@ -30,6 +30,7 @@ export type FloatingToolbarButton<T> = {
   appearance?: ButtonAppearance;
   href?: string;
   target?: string;
+  className?: string;
 };
 
 export type FloatingToolbarInput<T> = {
