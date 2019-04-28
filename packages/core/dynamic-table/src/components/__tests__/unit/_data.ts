@@ -1,4 +1,4 @@
-import { HeadType } from '../../../types';
+import { HeadType, RowType } from '../../../types';
 import testData from './_data-json.json';
 
 export const sortKey = 'first_name';
@@ -23,10 +23,9 @@ export const rows = testData;
 
 export const row = rows[0];
 
-// export const a = testData
 export const rowsWithKeys: Array<
   object & { key: string; cells: any[] }
-> = rows.map((tRow: any, rowIndex: any) => {
+> = rows.map((tRow: RowType, rowIndex: number) => {
   return {
     key: `${rowIndex}`,
     ...tRow,

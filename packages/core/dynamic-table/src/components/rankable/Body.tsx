@@ -19,7 +19,7 @@ import withSortedPageRows, {
 
 export interface Props extends WithSortedPageRowsProps {
   onRankStart: (rankStart: RankStart) => void;
-  onRankEnd: (rankEnd: RankEnd, UIAnalyticsEvent?: any) => void;
+  onRankEnd: (rankEnd: RankEnd) => void;
   isFixedSize: boolean;
   isRanking: boolean;
   isRankingDisabled: boolean;
@@ -32,7 +32,7 @@ export interface Props extends WithSortedPageRowsProps {
 const computeRankDestination = (
   result: DropResult,
   pageRows: RowType[],
-): RankEndLocation | void => {
+): RankEndLocation | undefined => {
   const {
     source: { index: sourceIndex },
     destination,

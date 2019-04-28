@@ -1,9 +1,10 @@
 import * as React from 'react';
 import Pagination from '@atlaskit/pagination';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
-export interface Props {
+interface Props {
   value?: number;
-  onChange: (newValue: any, analyticsEvent: any) => void;
+  onChange: (newValue: any, analyticsEvent?: UIAnalyticsEvent) => void;
   total: number;
   i18n?: {
     next: string;
@@ -16,8 +17,7 @@ export default class ManagedPagination extends React.Component<Props> {
     // @ts-ignore - never use
     event: React.SyntheticEvent<any>,
     newValue: any,
-    // AnalyticsEvent
-    analyticsEvent?: any,
+    analyticsEvent?: UIAnalyticsEvent,
   ) => {
     this.props.onChange(newValue, analyticsEvent);
   };

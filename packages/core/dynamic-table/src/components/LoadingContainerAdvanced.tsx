@@ -1,14 +1,13 @@
+import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import Spinner from '@atlaskit/spinner';
 import { SpinnerSizeType } from '../types';
-
 import { LARGE, LOADING_CONTENTS_OPACITY } from '../internal/constants';
 import {
   Container,
   SpinnerBackdrop,
   SpinnerContainer,
 } from '../styled/LoadingContainerAdvanced';
-import * as React from 'react';
 
 interface Props {
   children: React.ReactElement<any>;
@@ -70,10 +69,10 @@ export default class LoadingContainerAdvanced extends React.Component<
     return targetNode as HTMLElement;
   };
 
-  getThisNode = () => findDOMNode(this) as HTMLElement;
+  getThisNode = () => findDOMNode(this);
 
   // @ts-ignore - this.spinner type error
-  getSpinnerNode = () => findDOMNode(this.spinner) as HTMLElement;
+  getSpinnerNode = () => findDOMNode(this.spinner);
 
   hasTargetNode = (nextProps?: Props) => !!this.getTargetNode(nextProps);
 

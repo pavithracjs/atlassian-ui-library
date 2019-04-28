@@ -1,4 +1,5 @@
 import testDataNumeric from './_dataNumeric-json.json';
+import { RowType } from '../../../types';
 
 export const sortKey = 'first_name';
 export const numericSortKey = 'numeric';
@@ -15,7 +16,7 @@ export const rowsNumeric = testDataNumeric;
 
 export const rowsNumericWithKeys: Array<
   object & { key: string; cells: any[] }
-> = rowsNumeric.map((tRow: any, rowIndex: any) => {
+> = rowsNumeric.map((tRow: RowType, rowIndex: number) => {
   return {
     key: `${rowIndex}`,
     ...tRow,

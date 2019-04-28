@@ -1,9 +1,9 @@
+import * as React from 'react';
 import TableRow from './TableRow';
 import withSortedPageRows, {
   WithSortedPageRowsProps,
 } from '../hoc/withSortedPageRows';
 import { HeadType } from '../types';
-import * as React from 'react';
 
 interface Props extends WithSortedPageRowsProps {
   head?: HeadType;

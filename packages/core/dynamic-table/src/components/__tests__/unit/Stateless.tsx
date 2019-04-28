@@ -92,20 +92,18 @@ describe('DynamicTableWithAnalytics', () => {
     jest.spyOn(global.console, 'error');
   });
   afterEach(() => {
-    // @ts-ignore - property mockRestore does not exist
+    // @ts-ignore - property 'mockRestore' does not exist
     global.console.warn.mockRestore();
 
-    // @ts-ignore - property mockRestore does not exist
+    // @ts-ignore - property 'mockRestore' does not exist
     global.console.error.mockRestore();
   });
 
   it('should mount without errors', () => {
     mount(<DynamicTableWithAnalytics {...createProps() as any} />);
-    /* tslint:disable:no-console */
     /* eslint-disable no-console */
     expect(console.warn).not.toHaveBeenCalled();
     expect(console.error).not.toHaveBeenCalled();
     /* eslint-enable no-console */
-    /* tslint:enable:no-console */
   });
 });

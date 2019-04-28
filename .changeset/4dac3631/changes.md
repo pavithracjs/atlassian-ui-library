@@ -1,1 +1,4 @@
-- Migrate dynamic table component to TypeScript
+- Dynamic table has been internally converted to TypeScript.
+- Drops Flow support.
+- TypeScript consumers will get static type safety.
+- No API or behavioural changes.

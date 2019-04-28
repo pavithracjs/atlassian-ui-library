@@ -1,8 +1,8 @@
 import { computeIndex, reorderRows } from '../../../internal/helpers';
 import { rowsWithKeys } from './_data';
-import { RankEnd } from '../../../types';
+import { RankEnd, RowType } from '../../../types';
 
-const getKey = (rowIndex: any) => rowsWithKeys[rowIndex].key;
+const getKey = (rowIndex: number) => rowsWithKeys[rowIndex].key;
 
 const rankEnd = (sourceIndex: number, afterIndex: number): RankEnd => {
   return {
@@ -14,7 +14,9 @@ const rankEnd = (sourceIndex: number, afterIndex: number): RankEnd => {
   };
 };
 
-const extractKeys = (rows: any) => rows.map((row: any) => row.key);
+const extractKeys = (rows: Array<RowType>) =>
+  rows.map((row: RowType) => row.key);
+// @ts-ignore - getKey returns string | undefined but sourceKey is string
 const getKeys = (...params: any) => Array.from(params).map(getKey);
 
 test('computeIndex - if rowsPerPage are not passed, index is on first page', () => {

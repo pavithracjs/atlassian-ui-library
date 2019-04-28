@@ -35,9 +35,10 @@ import {
   RowCellType,
   RankStart,
   RankEnd,
+  SortOrderType,
 } from '../types';
 
-function toggleSortOrder(currentSortOrder: any) {
+function toggleSortOrder(currentSortOrder?: SortOrderType) {
   switch (currentSortOrder) {
     case DESC:
       return ASC;

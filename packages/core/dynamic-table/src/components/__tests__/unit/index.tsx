@@ -18,6 +18,7 @@ import { rows, head, rowsWithKeys } from './_data';
 import { headNumeric, rowsNumeric } from './_dataNumeric';
 
 import { name } from '../../../version.json';
+import { RowType, RowCellType } from '../../../types';
 
 describe(name, () => {
   describe('stateless', () => {
@@ -207,10 +208,10 @@ describe(name, () => {
           onClick: thOnClick,
         })),
       };
-      const newRows = rows.map((row: any) => ({
+      const newRows = rows.map((row: RowType) => ({
         ...row,
         onClick: trOnClick,
-        cells: row.cells.map((cell: any) => ({
+        cells: row.cells.map((cell: RowCellType) => ({
           ...cell,
           onClick: tdOnClick,
         })),

@@ -116,7 +116,7 @@ const testOnRankEnd = (
   });
 };
 
-const getKey = (index: any) => rowsWithKeys[index].key;
+const getKey = (index: number) => rowsWithKeys[index].key;
 
 test('onDragEnd - onRankEnd is called with proper destination if was dropped on first position', () => {
   testOnRankEnd(2, 0, undefined, getKey(0));

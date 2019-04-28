@@ -64,7 +64,7 @@ describe('LoadingContainerAdvanced', () => {
     );
     wrappers.push(wrapper);
     expect(wrapper.props().isLoading).toBe(true);
-    // @ts-ignore - property size does not exist
+    // @ts-ignore - property 'size' does not exist
     expect(wrapper.find(Spinner).props().size).toBe('large');
   });
 
@@ -75,7 +75,7 @@ describe('LoadingContainerAdvanced', () => {
       </LoadingContainerAdvanced>,
     );
     wrappers.push(wrapper);
-    // @ts-ignore - property size does not exist
+    // @ts-ignore - property 'size' does not exist
     expect(wrapper.find(Spinner).props().size).toBe('xlarge');
   });
 
