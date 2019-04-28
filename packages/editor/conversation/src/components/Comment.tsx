@@ -385,7 +385,7 @@ export default class Comment extends React.Component<Props, State> {
   }
 
   private renderComments() {
-    const { comments, ...commentProps } = this.props;
+    const { comment, comments, ...otherCommentProps } = this.props;
 
     if (!comments || comments.length === 0) {
       return null;
@@ -396,7 +396,7 @@ export default class Comment extends React.Component<Props, State> {
         key={child.localId}
         comment={child}
         renderComment={props => <Comment {...props} />}
-        {...commentProps}
+        {...otherCommentProps}
       />
     ));
   }

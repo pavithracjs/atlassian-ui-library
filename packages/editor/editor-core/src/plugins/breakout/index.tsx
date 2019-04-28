@@ -98,9 +98,7 @@ function createPlugin({
   });
 }
 
-const breakoutPlugin = ({
-  disableBreakoutUI,
-}: { disableBreakoutUI?: boolean } = {}): EditorPlugin => ({
+const breakoutPlugin: EditorPlugin = {
   pmPlugins() {
     return [{ name: 'breakout', plugin: createPlugin }];
   },
@@ -115,10 +113,6 @@ const breakoutPlugin = ({
     popupsBoundariesElement,
     popupsScrollableElement,
   }) {
-    if (disableBreakoutUI) {
-      return null;
-    }
-
     return (
       <WithPluginState
         plugins={{
@@ -140,6 +134,6 @@ const breakoutPlugin = ({
       />
     );
   },
-});
+};
 
 export default breakoutPlugin;

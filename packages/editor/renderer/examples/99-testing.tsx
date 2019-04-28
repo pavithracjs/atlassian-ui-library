@@ -10,6 +10,7 @@ import {
 import { default as Renderer } from '../src/ui/Renderer';
 import { document as doc } from './helper/story-data';
 import Sidebar from './helper/NavigationNext';
+import { extensionHandlers } from '../../editor-core/example-helpers/extension-handlers';
 
 const mediaProvider = storyMediaProviderFactory();
 const emojiProvider = emoji.storyData.getEmojiResource();
@@ -52,6 +53,7 @@ function createRendererWindowBindings(win: Window) {
             <Renderer
               dataProviders={providerFactory}
               document={doc}
+              extensionHandlers={extensionHandlers}
               {...reactProps}
               {...additionalRendererProps}
             />

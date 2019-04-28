@@ -324,12 +324,13 @@ describe('GlobalNavigation', () => {
         onSearchClick={noop}
         starredTooltip="starred tooltip"
         onStarredClick={noop}
+        helpTooltip="help tooltip"
+        onHelpClick={noop}
+        helpItems={() => <div>items</div>}
         notificationTooltip="notification tooltip"
         onNotificationClick={noop}
         profileTooltip="profile tooltip"
         loginHref="#login"
-        helpItems={() => <div>items</div>}
-        helpTooltip="help tooltip"
         onSettingsClick={noop}
         settingsTooltip="settings tooltip"
       />,
@@ -342,10 +343,11 @@ describe('GlobalNavigation', () => {
         onCreateClick={noop}
         onSearchClick={noop}
         onStarredClick={noop}
+        onHelpClick={noop}
+        helpItems={() => <div>items</div>}
         onNotificationClick={noop}
         onSettingsClick={noop}
         loginHref="#login"
-        helpItems={() => <div>items</div>}
       />,
     );
 
@@ -428,10 +430,11 @@ describe('GlobalNavigation', () => {
         onCreateClick={noop}
         onSearchClick={noop}
         onStarredClick={noop}
+        onHelpClick={noop}
+        helpItems={() => <div>items</div>}
         onNotificationClick={noop}
         onSettingsClick={noop}
         loginHref="#login"
-        helpItems={() => <div>items</div>}
       />,
     );
 
@@ -826,12 +829,13 @@ describe('GlobalNavigation', () => {
         onCreateClick={noop}
         onSearchClick={noop}
         onStarredClick={noop}
+        onHelpClick={noop}
+        helpItems={() => <div>items</div>}
         onNotificationClick={noop}
         onSettingsClick={noop}
         appSwitcherComponent={AppSwitcher}
         appSwitcherTooltip="appSwitcher tooltip"
         loginHref="#login"
-        helpItems={() => <div>items</div>}
       />,
     );
     it('should render the AppSwitcher component', () => {
@@ -890,13 +894,14 @@ describe('GlobalNavigation', () => {
             onCreateClick={noop}
             onSearchClick={noop}
             onStarredClick={noop}
+            onHelpClick={noop}
+            helpItems={() => <div>items</div>}
             onNotificationClick={noop}
             onSettingsClick={noop}
             appSwitcherComponent={AppSwitcher}
             appSwitcherTooltip="appSwitcher tooltip"
             enableAtlassianSwitcher
             loginHref="#login"
-            helpItems={() => <div>items</div>}
             triggerXFlow={triggerXFlowStub}
             {...propsToOverride}
           />
@@ -1098,6 +1103,10 @@ describe('GlobalNavigation', () => {
       {
         drawerName: 'starred',
         analyticsId: 'starDrawer',
+      },
+      {
+        drawerName: 'help',
+        analyticsId: 'helpDrawer',
       },
       {
         drawerName: 'settings',

@@ -136,18 +136,18 @@ describe('Client', () => {
 
   describe('environments', () => {
     it('should make a call to prod server if not other env is specified', async () => {
-      expect(new Client().env.resolverURL).toEqual(env.prod.resolverURL);
+      expect(new Client().env.resolverUrl).toEqual(env.prod.resolverUrl);
     });
 
     it('should make a call to prod server if not other env is specified', () => {
-      expect(new Client(undefined, 'dev').env.resolverURL).toEqual(
-        env.dev.resolverURL,
+      expect(new Client(undefined, 'dev').env.resolverUrl).toEqual(
+        env.dev.resolverUrl,
       );
     });
 
     it('should make a call to prod server if not other env is specified', () => {
-      expect(new Client(undefined, 'staging').env.resolverURL).toEqual(
-        env.staging.resolverURL,
+      expect(new Client(undefined, 'staging').env.resolverUrl).toEqual(
+        env.staging.resolverUrl,
       );
     });
   });

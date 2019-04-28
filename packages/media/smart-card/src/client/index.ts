@@ -134,7 +134,7 @@ export class Client implements ClientInterface {
   }
 
   fetchData(objectUrl: string): Promise<ResolveResponse> {
-    return fetch$<ResolveResponse>('post', `${this.env.resolverURL}/resolve`, {
+    return fetch$<ResolveResponse>('post', `${this.env.resolverUrl}/resolve`, {
       resourceUrl: encodeURI(objectUrl),
     }).toPromise();
   }

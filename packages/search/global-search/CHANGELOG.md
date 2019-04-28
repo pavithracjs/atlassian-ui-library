@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 7.0.4
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 7.0.3
 - [patch] [3f48f041b0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f48f041b0):
 

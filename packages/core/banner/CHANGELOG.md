@@ -1,5 +1,10 @@
 # @atlaskit/banner
 
+## 9.0.3
+- [patch] [50e8c82ec4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/50e8c82ec4):
+
+  - index.ts is now ignored when published to npm to avoid ambiguity between ts and js files
+
 ## 9.0.2
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

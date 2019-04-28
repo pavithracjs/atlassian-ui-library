@@ -51,6 +51,7 @@ import {
   analyticsPlugin,
   customAutoformatPlugin,
 } from '../plugins';
+import { isFullPage } from '../utils/is-full-page';
 
 /**
  * Returns list of plugins that are absolutely necessary for editor to work
@@ -89,10 +90,8 @@ export default function createPluginsList(
 ): EditorPlugin[] {
   const plugins = getDefaultPluginsList(props, createAnalyticsEvent);
 
-  if (props.allowBreakout && props.appearance === 'full-page') {
-    plugins.push(
-      breakoutPlugin({ disableBreakoutUI: props.UNSAFE_fullWidthMode }),
-    );
+  if (props.allowBreakout && isFullPage(props.appearance)) {
+    plugins.push(breakoutPlugin);
   }
 
   if (props.allowTextAlignment) {
@@ -133,7 +132,9 @@ export default function createPluginsList(
   }
 
   if (props.allowTables) {
-    plugins.push(tablesPlugin(props.allowTables, props.UNSAFE_fullWidthMode));
+    plugins.push(
+      tablesPlugin(props.allowTables, props.appearance === 'full-width'),
+    );
   }
 
   if (props.allowTasksAndDecisions || props.taskDecisionProvider) {
