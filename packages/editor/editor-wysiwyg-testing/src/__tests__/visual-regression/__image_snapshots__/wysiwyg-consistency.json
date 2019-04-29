@@ -14,8 +14,8 @@
     },
     {
       "name": "bullet list",
-      "divergence": 0.0004052802223251505,
-      "consistency": "99.96%"
+      "divergence": 0.0001513840830449827,
+      "consistency": "99.98%"
     },
     {
       "name": "codeblock",
@@ -54,8 +54,8 @@
     },
     {
       "name": "ordered list",
-      "divergence": 0.0004052802223251505,
-      "consistency": "99.96%"
+      "divergence": 0.0001513840830449827,
+      "consistency": "99.98%"
     },
     {
       "name": "paragraph",

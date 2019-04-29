@@ -12,18 +12,169 @@
               "text": "One"
             }
           ]
-        }
-      ]
-    },
-    {
-      "type": "listItem",
-      "content": [
+        },
         {
-          "type": "paragraph",
+          "type": "bulletList",
           "content": [
             {
-              "type": "text",
-              "text": "Two"
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Two"
+                    }
+                  ]
+                },
+                {
+                  "type": "bulletList",
+                  "content": [
+                    {
+                      "type": "listItem",
+                      "content": [
+                        {
+                          "type": "paragraph",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "Three"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "bulletList",
+                          "content": [
+                            {
+                              "type": "listItem",
+                              "content": [
+                                {
+                                  "type": "paragraph",
+                                  "content": [
+                                    {
+                                      "type": "text",
+                                      "text": "Four"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "bulletList",
+                                  "content": [
+                                    {
+                                      "type": "listItem",
+                                      "content": [
+                                        {
+                                          "type": "paragraph",
+                                          "content": [
+                                            {
+                                              "type": "text",
+                                              "text": "Five"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "bulletList",
+                                          "content": [
+                                            {
+                                              "type": "listItem",
+                                              "content": [
+                                                {
+                                                  "type": "paragraph",
+                                                  "content": [
+                                                    {
+                                                      "type": "text",
+                                                      "text": "Six"
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "type": "listItem",
+                                              "content": [
+                                                {
+                                                  "type": "paragraph",
+                                                  "content": [
+                                                    {
+                                                      "type": "text",
+                                                      "text": "Ono"
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "listItem",
+                                      "content": [
+                                        {
+                                          "type": "paragraph",
+                                          "content": [
+                                            {
+                                              "type": "text",
+                                              "text": "Rima"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "listItem",
+                              "content": [
+                                {
+                                  "type": "paragraph",
+                                  "content": [
+                                    {
+                                      "type": "text",
+                                      "text": "Whā"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "listItem",
+                      "content": [
+                        {
+                          "type": "paragraph",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "Toru"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "listItem",
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Rua"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -37,7 +188,7 @@
           "content": [
             {
               "type": "text",
-              "text": "Three"
+              "text": "Tahi"
             }
           ]
         }
