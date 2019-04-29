@@ -11,7 +11,7 @@ import {
   CellSelection,
 } from 'prosemirror-tables';
 import { EditorView } from 'prosemirror-view';
-import { Node as PMNode, Slice, Schema } from 'prosemirror-model';
+import { Node as PMNode, Slice, Schema, NodeType } from 'prosemirror-model';
 import {
   findTable,
   getCellsInColumn,
@@ -165,33 +165,45 @@ export const clearSelection: Command = (state, dispatch) => {
   return true;
 };
 
+const changeCellsType = (
+  cellsPositions: number[],
+  newType: NodeType,
+  tableStart: number,
+): Command => (state, dispatch) => {
+  const { tr } = state;
+
+  cellsPositions.forEach(relativeCellPos => {
+    const cellPos = relativeCellPos + tableStart;
+    const cell = tr.doc.nodeAt(cellPos);
+
+    if (cell) {
+      tr.setNodeMarkup(cellPos, newType, cell.attrs);
+    }
+  });
+
+  if (dispatch) {
+    dispatch(tr);
+  }
+
+  return true;
+};
+
 export const toggleHeaderRow: Command = (state, dispatch) => {
   const table = findTable(state.selection);
   if (!table) {
     return false;
   }
-  const { tr } = state;
-  const map = TableMap.get(table.node);
   const { tableHeader, tableCell } = state.schema.nodes;
-  const isHeaderRowEnabled = checkIfHeaderRowEnabled(state);
-  const isHeaderColumnEnabled = checkIfHeaderColumnEnabled(state);
-  const type = isHeaderRowEnabled ? tableCell : tableHeader;
+  const map = TableMap.get(table.node);
+  const cellPositions = map.cellsInRect({
+    left: checkIfHeaderColumnEnabled(state) ? 1 : 0,
+    top: 0,
+    right: map.width,
+    bottom: 1,
+  });
 
-  for (let column = 0; column < table.node.child(0).childCount; column++) {
-    // skip header column
-    if (isHeaderColumnEnabled && column === 0) {
-      continue;
-    }
-    const from = tr.mapping.map(table.start + map.map[column]);
-    const cell = table.node.child(0).child(column);
-
-    tr.setNodeMarkup(from, type, cell.attrs);
-  }
-
-  if (dispatch) {
-    dispatch(tr);
-  }
-  return true;
+  const type = checkIfHeaderRowEnabled(state) ? tableCell : tableHeader;
+  return changeCellsType(cellPositions, type, table.start)(state, dispatch);
 };
 
 export const toggleHeaderColumn: Command = (state, dispatch) => {
@@ -199,9 +211,8 @@ export const toggleHeaderColumn: Command = (state, dispatch) => {
   if (!table) {
     return false;
   }
-  const { tr } = state;
+  const { tableHeader, tableCell } = state.schema.nodes;
   const map = TableMap.get(table.node);
-
   const cellsPositions = map.cellsInRect({
     left: 0,
     // skip header row
@@ -210,22 +221,8 @@ export const toggleHeaderColumn: Command = (state, dispatch) => {
     bottom: map.height,
   });
 
-  const { tableHeader, tableCell } = state.schema.nodes;
   const type = checkIfHeaderColumnEnabled(state) ? tableCell : tableHeader;
-
-  cellsPositions.forEach(relativeCellPos => {
-    const cellPos = relativeCellPos + table.start;
-    const cell = tr.doc.nodeAt(cellPos);
-
-    if (cell) {
-      tr.setNodeMarkup(cellPos, type, cell.attrs);
-    }
-  });
-
-  if (dispatch) {
-    dispatch(tr);
-  }
-  return true;
+  return changeCellsType(cellsPositions, type, table.start)(state, dispatch);
 };
 
 export const toggleNumberColumn: Command = (state, dispatch) => {
