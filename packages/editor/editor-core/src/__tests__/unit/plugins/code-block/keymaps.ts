@@ -30,7 +30,7 @@ describe('codeBlock - keymaps', () => {
       doc,
       editorPlugins: [
         codeBlockPlugin(),
-        breakoutPlugin(),
+        breakoutPlugin,
         listsPlugin,
         tablesPlugin(),
         layoutPlugin,

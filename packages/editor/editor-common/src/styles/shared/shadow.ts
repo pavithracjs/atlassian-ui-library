@@ -35,6 +35,10 @@ const shadowSharedStyle = css`
     height: calc(100%);
   }
 
+  & .${shadowClassNames.RIGHT_SHADOW}, .${shadowClassNames.LEFT_SHADOW} {
+    position: relative;
+  }
+
   & .${shadowClassNames.LEFT_SHADOW}::before {
     background: linear-gradient(
       to left,

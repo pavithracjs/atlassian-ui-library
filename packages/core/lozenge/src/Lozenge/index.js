@@ -2,8 +2,8 @@
 
 import { type ThemeProp } from '@atlaskit/theme';
 import React, { PureComponent, type Node } from 'react';
-import Container from './styledContainer';
-import Content from './styledContent';
+import Container from './Container';
+import Content from './Content';
 import {
   Theme,
   type ThemeAppearance,
@@ -36,17 +36,15 @@ export default class Lozenge extends PureComponent<Props> {
   };
 
   render() {
-    const { props } = this;
+    const { theme, children } = this.props;
     return (
-      <Theme.Provider value={props.theme}>
-        <Theme.Consumer {...props}>
-          {tokens => {
-            return (
-              <Container {...tokens}>
-                <Content {...tokens}>{props.children}</Content>
-              </Container>
-            );
-          }}
+      <Theme.Provider value={theme}>
+        <Theme.Consumer {...this.props}>
+          {tokens => (
+            <Container {...tokens}>
+              <Content {...tokens}>{children}</Content>
+            </Container>
+          )}
         </Theme.Consumer>
       </Theme.Provider>
     );

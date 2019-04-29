@@ -1,5 +1,19 @@
 # @atlaskit/editor-common
 
+## 36.2.3
+- [patch] [a6fb248987](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6fb248987):
+
+  - ED-6639 Align lists styles between editor & renderer
+
+## 36.2.2
+- [patch] [0d23e11834](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d23e11834):
+
+  - ED-6736 Prevent extensions with specified width from overflowing between layout cols.
+
+## 36.2.1
+- Updated dependencies [87f0209201](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87f0209201):
+  - @atlaskit/width-detector@1.0.0
+
 ## 36.2.0
 - [minor] [799b7daf70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/799b7daf70):
 

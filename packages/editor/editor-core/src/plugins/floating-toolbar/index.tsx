@@ -165,6 +165,29 @@ export default floatingToolbarPlugin;
 
 export const pluginKey = new PluginKey('floatingToolbarPluginKey');
 
+/**
+ * Clean up floating toolbar configs from undesired properties.
+ */
+function sanitizeFloatingToolbarConfig(
+  config?: FloatingToolbarConfig,
+): FloatingToolbarConfig | undefined {
+  if (!config) {
+    return config;
+  }
+
+  const sanitizeConfig: FloatingToolbarConfig = {
+    ...config,
+  };
+
+  // Cleanup from non existing node types
+  if (Array.isArray(config.nodeType)) {
+    // TODO: Should I remove the configuration if no nodeType?
+    sanitizeConfig.nodeType = config.nodeType.filter(nodeType => !!nodeType); // Keep only valid nodeTypes
+  }
+
+  return sanitizeConfig;
+}
+
 function floatingToolbarPluginFactory(options: {
   floatingToolbarHandlers: Array<FloatingToolbarHandler>;
   dispatch: Dispatch<Array<FloatingToolbarConfig> | undefined>;
@@ -185,9 +208,14 @@ function floatingToolbarPluginFactory(options: {
       },
       apply(tr, pluginState, oldState, newState) {
         const { intl } = reactContext();
-        const newPluginState = floatingToolbarHandlers
-          .map(handler => handler(newState, intl, providerFactory))
-          .filter(Boolean) as Array<FloatingToolbarConfig>;
+        const newPluginState: Array<
+          FloatingToolbarConfig
+        > = floatingToolbarHandlers
+          .map<FloatingToolbarConfig | undefined>(handler =>
+            handler(newState, intl, providerFactory),
+          )
+          .map(config => sanitizeFloatingToolbarConfig(config)) // Clean config from bad configuration
+          .filter((config): config is FloatingToolbarConfig => !!config); // Remove undefined configs
 
         dispatch(pluginKey, newPluginState);
         return newPluginState;

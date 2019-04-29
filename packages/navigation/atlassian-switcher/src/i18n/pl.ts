@@ -17,9 +17,10 @@ export default {
   'fabric.atlassianSwitcher.people': 'Użytkownicy',
   'fabric.atlassianSwitcher.administration': 'Administracja',
   'fabric.atlassianSwitcher.discoverMore': 'Odkryj więcej',
-  'fabric.atlassianSwitcher.errorHeading': 'Something went wrong',
+  'fabric.atlassianSwitcher.errorHeading': 'Wystąpił błąd',
   'fabric.atlassianSwitcher.errorText':
-    'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    'Monitorujemy te błędy, ale nie wahaj się skontaktować z nami, jeśli odświeżanie nie rozwiąże problemów',
   'fabric.atlassianSwitcher.errorImageAltText':
-    'A broken robot and a number of people busy fixing it.',
+    'Zepsuty robot i wiele osób pracuje, aby usunąć błąd.',
+  'fabric.atlassianSwitcher.expand': 'Rozwiń',
 };

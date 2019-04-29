@@ -21,6 +21,7 @@ import {
   imageAlignmentMap,
   alignmentLayouts,
 } from './utils';
+import { isFullPage } from '../../../../utils/is-full-page';
 
 type State = {
   offsetLeft: number;
@@ -190,7 +191,7 @@ export default class ResizableMediaSingle extends React.Component<
       : snapPoints;
 
     const isTopLevel = $pos.parent.type.name === 'doc';
-    if (isTopLevel && appearance === 'full-page') {
+    if (isTopLevel && isFullPage(appearance)) {
       snapPoints.push(akEditorWideLayoutWidth);
       const fullWidthPoint = containerWidth - akEditorBreakoutPadding;
       if (fullWidthPoint > akEditorWideLayoutWidth) {
@@ -212,6 +213,14 @@ export default class ResizableMediaSingle extends React.Component<
 
   highlights = (newWidth: number, snapPoints: number[]) => {
     const snapWidth = snapTo(newWidth, snapPoints);
+    const { layoutColumn } = this.props.view.state.schema.nodes;
+
+    if (
+      this.$pos &&
+      !!findParentNodeOfTypeClosestToPos(this.$pos, [layoutColumn])
+    ) {
+      return [];
+    }
 
     if (snapWidth > akEditorWideLayoutWidth) {
       return ['full-width'];

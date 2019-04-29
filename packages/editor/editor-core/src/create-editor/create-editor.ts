@@ -144,6 +144,7 @@ export function createPMPlugins({
   editorConfig,
   schema,
   props,
+  prevProps,
   dispatch,
   eventDispatcher,
   providerFactory,
@@ -155,6 +156,7 @@ export function createPMPlugins({
   editorConfig: EditorConfig;
   schema: Schema;
   props: EditorProps;
+  prevProps?: EditorProps;
   dispatch: Dispatch;
   eventDispatcher: EventDispatcher;
   providerFactory: ProviderFactory;
@@ -169,6 +171,7 @@ export function createPMPlugins({
       plugin({
         schema,
         props,
+        prevProps,
         dispatch,
         providerFactory,
         errorReporter,

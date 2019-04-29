@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/flag",
-  "version": "10.0.6",
+  "version": "10.0.7",
   "description": "Flags are used for confirmations, alerts, and acknowledgments that require minimal user interaction.",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -19,7 +19,7 @@
     "@atlaskit/analytics-next": "^4.0.3",
     "@atlaskit/button": "^12.0.3",
     "@atlaskit/icon": "^16.0.9",
-    "@atlaskit/portal": "^0.3.1",
+    "@atlaskit/portal": "^1.0.0",
     "@atlaskit/theme": "^8.1.7",
     "@babel/runtime": "^7.0.0",
     "react-transition-group": "^2.2.1",

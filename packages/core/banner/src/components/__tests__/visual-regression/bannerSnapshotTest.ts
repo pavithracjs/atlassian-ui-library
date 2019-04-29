@@ -8,7 +8,19 @@ describe('Snapshot Test', () => {
     const url = getExampleUrl(
       'core',
       'banner',
-      'announcementBanner',
+      'AnnouncementBanner',
+      // @ts-ignore
+      global.__BASEURL__,
+    );
+    // @ts-ignore
+    const image = await takeScreenShot(global.page, url);
+    expect(image).toMatchProdImageSnapshot();
+  });
+  it('basic-usage example should match production example', async () => {
+    const url = getExampleUrl(
+      'core',
+      'banner',
+      'basic-usage',
       // @ts-ignore
       global.__BASEURL__,
     );

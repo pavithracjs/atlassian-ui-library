@@ -41,6 +41,10 @@ describe('Analytics', () => {
           drawerName: 'starred',
         },
         {
+          name: 'helpDrawer',
+          drawerName: 'help',
+        },
+        {
           name: 'settingsDrawer',
           drawerName: 'settings',
         },

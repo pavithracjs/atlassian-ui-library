@@ -17,9 +17,10 @@ export default {
   'fabric.atlassianSwitcher.people': 'Személyek',
   'fabric.atlassianSwitcher.administration': 'Adminisztráció',
   'fabric.atlassianSwitcher.discoverMore': 'Továbbiak felfedezése',
-  'fabric.atlassianSwitcher.errorHeading': 'Something went wrong',
+  'fabric.atlassianSwitcher.errorHeading': 'Valami baj történt',
   'fabric.atlassianSwitcher.errorText':
-    'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    'Nyomon követjük az ilyen hibákat, de bátran vegye fel velünk a kapcsolatot, ha az oldal frissítésével sem oldódnak meg a problémák.',
   'fabric.atlassianSwitcher.errorImageAltText':
-    'A broken robot and a number of people busy fixing it.',
+    'Meghibásodott robot, és számos ember, aki a javításán szorgoskodik.',
+  'fabric.atlassianSwitcher.expand': 'Kibontás',
 };

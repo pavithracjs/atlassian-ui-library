@@ -1,4 +1,9 @@
-import { initEditorWithAdf, Appearance, snapshot } from '../../_utils';
+import {
+  initEditorWithAdf,
+  Appearance,
+  initFullPageEditorWithAdf,
+  snapshot,
+} from '../../_utils';
 import {
   getEditorWidth,
   typeInEditor,
@@ -11,9 +16,11 @@ import {
   MediaLayout,
   MediaResizeSide,
   TestPageConfig,
-  isLayoutAvailable,
   scrollToMedia,
+  isLayoutAvailable,
+  waitForMediaToBeLoaded,
 } from '../../../__helpers/page-objects/_media';
+import * as layout2Col from '../../common/__fixtures__/basic-columns.adf.json';
 
 export function createResizeFullPageForConfig(config: TestPageConfig) {
   describe('Snapshot Test: Media', () => {
@@ -150,6 +157,31 @@ export function createResizeFullPageForConfig(config: TestPageConfig) {
               await resizeMediaInPositionWithSnapshot(page, 0, distance);
             });
           });
+        });
+      });
+
+      describe('in columns', () => {
+        it(`can resize images inside a column`, async () => {
+          await initFullPageEditorWithAdf(
+            page,
+            layout2Col,
+            undefined,
+            undefined,
+            {
+              allowLayouts: {
+                allowBreakout: true,
+                UNSAFE_addSidebarLayouts: true,
+              },
+            },
+          );
+
+          const editorWidth = await getEditorWidth(page);
+
+          const distance = -((editorWidth / 12) * 10);
+
+          await insertMedia(page);
+          await waitForMediaToBeLoaded(page);
+          await resizeMediaInPositionWithSnapshot(page, 0, distance);
         });
       });
     });

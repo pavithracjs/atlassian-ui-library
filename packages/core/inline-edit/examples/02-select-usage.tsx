@@ -54,7 +54,11 @@ export default class InlineEditExample extends React.Component<void, State> {
 
   render() {
     return (
-      <div style={{ padding: `0 ${gridSize()}px ${gridSize() * 6}px` }}>
+      <div
+        style={{
+          padding: `${gridSize()}px ${gridSize()}px ${gridSize() * 6}px`,
+        }}
+      >
         <InlineEdit
           defaultValue={this.state.editValue}
           label="Inline edit select"

@@ -1,5 +1,16 @@
 # @atlaskit/global-navigation
 
+## 6.3.1
+- Updated dependencies [38dab947e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/38dab947e6):
+  - @atlaskit/drawer@3.0.9
+  - @atlaskit/modal-dialog@8.0.8
+  - @atlaskit/blanket@9.0.0
+
+## 6.3.0
+- [minor] [a618e6d372](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a618e6d372):
+
+  - Updated help button actions, if enableHelpDrawer is true, a drawer will be displayed otherwise a menu will be displayed
+
 ## 6.2.9
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
