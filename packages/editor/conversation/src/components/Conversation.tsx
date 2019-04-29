@@ -297,8 +297,6 @@ export default class Conversation extends React.PureComponent<Props, State> {
     if (typeof this.props.onHighlightComment === 'function') {
       this.props.onHighlightComment(event, commentId);
       if (typeof this.props.onCommentPermalinkClick === 'function') {
-        // let the consumer handle this click
-        event.preventDefault();
         this.props.onCommentPermalinkClick(event, commentId);
       }
     }
