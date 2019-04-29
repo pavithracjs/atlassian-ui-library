@@ -20,6 +20,7 @@ import LinkIcon from '@atlaskit/icon/glyph/link';
 import { colors } from '@atlaskit/theme';
 import { normalizeUrl } from '../../utils';
 import Tooltip from '@atlaskit/tooltip';
+import CrossCircleIcon from '@atlaskit/icon/glyph/cross-circle';
 
 const Container = styled.div`
   width: 420px;
@@ -39,6 +40,17 @@ const InputWrapper = `
   display: flex;
   line-height: 0;
   padding: 5px 0;
+  align-items: center;
+
+  svg {
+    max-width: 18px;
+  }
+`;
+
+const ClearText = styled.span`
+  cursor: pointer;
+  padding-right: 8px;
+  color: ${colors.N80};
 `;
 
 const TextInputWrapper = styled.div`
@@ -78,6 +90,11 @@ export const messages = defineMessages({
     defaultMessage: 'Display text',
     description: 'Text to display',
   },
+  clearText: {
+    id: 'fabric.editor.clearLinkText',
+    defaultMessage: 'Clear text',
+    description: 'Clears text on the link toolbar',
+  },
 });
 
 export type LinkInputType = INPUT_METHOD.MANUAL | INPUT_METHOD.TYPEAHEAD;
@@ -110,6 +127,8 @@ export interface State {
 class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
   /* To not fire on-blur on tab-press */
   private isTabPressed: boolean;
+
+  private urlInputContainer: PanelTextInput | null;
 
   constructor(props: Props & InjectedIntlProps) {
     super(props);
@@ -167,6 +186,15 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
     }
   };
 
+  private clearUrl = () => {
+    this.setState({
+      text: '',
+    });
+    if (this.urlInputContainer) {
+      this.urlInputContainer.focus();
+    }
+  };
+
   render() {
     const { items, isLoading, selectedIndex } = this.state;
     const {
@@ -187,6 +215,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
               </Tooltip>
             </IconWrapper>
             <PanelTextInput
+              ref={ele => (this.urlInputContainer = ele)}
               placeholder={placeholder}
               onSubmit={this.handleSubmit}
               onChange={this.updateInput}
@@ -196,6 +225,9 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
               defaultValue={this.state.text}
               onKeyDown={this.handleKeyDown}
             />
+            <ClearText onClick={this.clearUrl}>
+              <CrossCircleIcon label="Clear text" />
+            </ClearText>
           </UrlInputWrapper>
           <RecentList
             items={items}
