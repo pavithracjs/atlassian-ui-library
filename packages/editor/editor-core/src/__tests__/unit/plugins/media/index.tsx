@@ -1,3 +1,4 @@
+import * as React from 'react';
 import assert from 'assert';
 import { EditorView } from 'prosemirror-view';
 
@@ -35,7 +36,8 @@ import {
 import { setNodeSelection, setTextSelection } from '../../../../utils';
 import { AnalyticsHandler, analyticsService } from '../../../../analytics';
 import listPlugin from '../../../../plugins/lists';
-import mediaPlugin, { renderSmartMediaEditor } from '../../../../plugins/media';
+import mediaPlugin from '../../../../plugins/media';
+import CustomSmartMediaEditor from '../../../../plugins/media/ui/CustomSmartMediaEditor';
 import codeBlockPlugin from '../../../../plugins/code-block';
 import rulePlugin from '../../../../plugins/rule';
 import tablePlugin from '../../../../plugins/table';
@@ -51,6 +53,8 @@ import {
   temporaryFileId,
 } from './_utils';
 import { SmartMediaEditor } from '@atlaskit/media-editor';
+import { MediaAttributes } from '../../../../../../adf-schema';
+import { ReactWrapper } from 'enzyme';
 
 const pdfFile = {
   id: `${randomId()}`,
@@ -1179,150 +1183,60 @@ describe('Media plugin', () => {
   });
 
   describe('media editor', () => {
-    it('sets the selected editing media id', () => {
-      const { pluginState, editorView } = editor(
+    let mediaPosition: number;
+    let editorView: EditorView;
+    let mediaState: MediaPluginState;
+    let mediaAttributes: MediaAttributes;
+    let wrapper: ReactWrapper;
+    let smartMediaEditor: ReactWrapper<any, any, any>;
+
+    beforeEach(async () => {
+      mediaAttributes = {
+        id: 'media',
+        type: 'file',
+        collection: testCollectionName,
+      };
+
+      ({ pluginState: mediaState, editorView } = editor(
         doc(
           p('hello'),
-          mediaSingle({ layout: 'center' })(
-            media({
-              id: 'media',
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
+          mediaSingle({ layout: 'center' })(media(mediaAttributes)()),
         ),
+      ));
+
+      await mediaState.setMediaProvider(mediaProvider);
+
+      mediaPosition = 7;
+
+      setNodeSelection(editorView, mediaPosition);
+
+      mediaState.openMediaEditor();
+
+      wrapper = mountWithIntl(
+        <CustomSmartMediaEditor mediaState={mediaState} />,
       );
 
-      setNodeSelection(editorView, 7);
-
-      pluginState.openMediaEditor();
-      expect(pluginState.editingMediaSinglePos).toEqual(7);
+      smartMediaEditor = wrapper.find(SmartMediaEditor);
     });
 
-    it('opens the media editor', async () => {
-      const { pluginState, editorView } = editor(
-        doc(
-          mediaSingle({ layout: 'center' })(
-            media({
-              id: 'media',
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-        ),
-      );
-
-      // wait for media provider so we set the upload context
-      await pluginState.setMediaProvider(mediaProvider);
-
-      setNodeSelection(editorView, 0);
-
-      pluginState.openMediaEditor();
-
-      const toolbar = renderSmartMediaEditor(pluginState);
-      expect(toolbar).toBeDefined();
-
-      const mountedToolbar = mountWithIntl(toolbar!);
-      expect(mountedToolbar.find(SmartMediaEditor).length).toEqual(1);
+    it('should store current media editing position in mediaState', () => {
+      expect(mediaState.editingMediaSinglePos).toEqual(7);
     });
 
-    it('passes the selected media identifier to the smart editor', async () => {
-      const { pluginState, editorView } = editor(
-        doc(
-          mediaSingle({ layout: 'center' })(
-            media({
-              id: 'media',
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-        ),
-      );
+    it('should open the media editor', async () => {
+      expect(smartMediaEditor.exists()).toBeTruthy();
+    });
 
-      await pluginState.setMediaProvider(mediaProvider);
-      setNodeSelection(editorView, 0);
-      pluginState.openMediaEditor();
-
-      const toolbar = mountWithIntl(renderSmartMediaEditor(pluginState)!);
-      expect(toolbar.prop('identifier')).toEqual({
+    it('should pass the selected media identifier to the smart editor', async () => {
+      expect(smartMediaEditor.prop('identifier')).toEqual({
         id: 'media',
         mediaItemType: 'file',
         collectionName: testCollectionName,
       });
     });
 
-    describe('when media editor sends back save action', () => {
-      let pluginState: MediaPluginState;
-      let editorView: EditorView;
-      let closeMediaEditorSpy: any;
-
-      beforeEach(async () => {
-        const _editor = editor(
-          doc(
-            mediaSingle({ layout: 'center' })(
-              media({
-                id: 'media',
-                type: 'file',
-                collection: testCollectionName,
-              })(),
-            ),
-          ),
-        );
-        editorView = _editor.editorView;
-        pluginState = _editor.pluginState;
-
-        // wait for media provider so we set the upload context
-        await pluginState.setMediaProvider(mediaProvider);
-
-        setNodeSelection(editorView, 0);
-        closeMediaEditorSpy = jest.spyOn(pluginState, 'closeMediaEditor');
-        pluginState.openMediaEditor();
-        const toolbar = mountWithIntl<SmartMediaEditor['props'], {}>(
-          renderSmartMediaEditor(pluginState)!,
-        );
-        const { onUploadStart } = toolbar.props();
-        onUploadStart(
-          { id: 'some-new-id', mediaItemType: 'file' },
-          { width: 200, height: 100 },
-        );
-      });
-      it('should close media editor', () => {
-        expect(closeMediaEditorSpy).toHaveBeenCalled();
-      });
-      it('should replace media in the content', () => {
-        expect(editorView.state.doc).toEqualDocument(
-          doc(
-            mediaSingle({ layout: 'center' })(
-              media({
-                id: 'some-new-id',
-                collection: testCollectionName,
-                type: 'file',
-                height: 100,
-                width: 200,
-              })(),
-            ),
-          ),
-        );
-      });
-    });
-
-    it('replaces the editing media node with a new one', async () => {
-      const { pluginState, editorView } = editor(
-        doc(
-          mediaSingle({ layout: 'center' })(
-            media({
-              id: 'media',
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-        ),
-      );
-
-      await pluginState.setMediaProvider(mediaProvider);
-      setNodeSelection(editorView, 0);
-      pluginState.openMediaEditor();
-      pluginState.replaceEditingMedia(
+    it('should replace the editing media node with a new one', async () => {
+      mediaState.replaceEditingMedia(
         {
           id: 'media2',
           collectionName: 'collection2',
@@ -1336,6 +1250,7 @@ describe('Media plugin', () => {
 
       expect(editorView.state.doc).toEqualDocument(
         doc(
+          p('hello'),
           mediaSingle({ layout: 'center' })(
             media({
               id: 'media2',
@@ -1349,7 +1264,7 @@ describe('Media plugin', () => {
       );
     });
 
-    it('replaces the editing media node even if selection changes', async () => {
+    it('should replace the editing media node even if selection changes', async () => {
       const { pluginState, editorView, refs } = editor(
         doc(
           mediaSingle({ layout: 'center' })(
@@ -1398,6 +1313,41 @@ describe('Media plugin', () => {
           p('hello {<>}addworld'),
         ),
       );
+    });
+
+    describe('save action', () => {
+      let closeMediaEditorSpy: any;
+
+      beforeEach(async () => {
+        closeMediaEditorSpy = jest.spyOn(mediaState, 'closeMediaEditor');
+        const { onUploadStart } = smartMediaEditor.props();
+
+        onUploadStart(
+          { id: 'some-new-id', mediaItemType: 'file' },
+          { width: 200, height: 100 },
+        );
+      });
+
+      it('should close media editor', () => {
+        expect(closeMediaEditorSpy).toHaveBeenCalled();
+      });
+
+      it('should replace media in the content', () => {
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            p('hello'),
+            mediaSingle({ layout: 'center' })(
+              media({
+                id: 'some-new-id',
+                collection: testCollectionName,
+                type: 'file',
+                height: 100,
+                width: 200,
+              })(),
+            ),
+          ),
+        );
+      });
     });
   });
 

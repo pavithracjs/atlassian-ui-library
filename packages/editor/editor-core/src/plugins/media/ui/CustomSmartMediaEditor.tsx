@@ -36,15 +36,15 @@ function getFileIdentifier(
  * Also prevent bad rendering caused by WithPluginState
  */
 export default class CustomSmartMediaEditor extends React.Component<Props> {
-  private handleUploadStart(
+  private handleUploadStart = (
     newFileIdentifier: FileIdentifier,
     dimensions: Dimensions,
-  ) {
+  ) => {
     const { mediaState } = this.props;
 
     mediaState.closeMediaEditor();
     mediaState.replaceEditingMedia(newFileIdentifier, dimensions);
-  }
+  };
 
   shouldComponentUpdate(nextProps: Props) {
     const fileIdentifier = getFileIdentifier(this.props.mediaState);
@@ -56,7 +56,6 @@ export default class CustomSmartMediaEditor extends React.Component<Props> {
 
     return (
       fileIdentifier.id !== newFileIdentifier.id ||
-      fileIdentifier.collectionName !== newFileIdentifier.collectionName ||
       this.props.mediaState.uploadContext !==
         nextProps.mediaState.uploadContext ||
       this.props.mediaState.showEditingDialog !==
