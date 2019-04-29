@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 45.6.5
+- [patch] [8eeac8c104](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eeac8c104):
+
+  - ED-6725: Update renderer nodes when appearances changes
+
 ## 45.6.4
 - [patch] [9047a1921a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9047a1921a):
 
