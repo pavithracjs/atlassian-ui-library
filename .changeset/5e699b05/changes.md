@@ -1,0 +1,1 @@
+- ED-6725: Update renderer nodes when appearances changes
