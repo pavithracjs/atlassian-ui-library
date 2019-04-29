@@ -1,5 +1,10 @@
 # @atlaskit/media-card
 
+## 60.0.5
+- [patch] [8f17450f46](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f17450f46):
+
+  - Fix media-card code split from 82kB to 10kB
+
 ## 60.0.4
 - [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
 
