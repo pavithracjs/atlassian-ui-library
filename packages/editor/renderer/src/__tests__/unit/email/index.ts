@@ -164,6 +164,7 @@ describe('Renderer - EmailSerializer', () => {
     expect(output).toMatchSnapshot();
   });
 
+  // Snapshot was updated as it was blocking master. See https://product-fabric.atlassian.net/browse/ED-6769
   it('should render dates in normal text and task lists', () => {
     const output = render(date);
     expect(output).toMatchSnapshot();
