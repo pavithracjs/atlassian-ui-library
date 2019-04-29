@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import { AkCodeBlock } from '@atlaskit/code';
 import FieldRange from '@atlaskit/field-range';
 import SectionMessage from '../src';
 
@@ -46,6 +47,12 @@ class Example extends Component<*, *> {
               to assure my dear sister of my welfare and increasing confidence
               in the success of my undertaking.
             </p>
+
+            <AkCodeBlock
+              language="javascript"
+              text="const CODE_BLOCK_FULL_PARENT_WIDTH = true;"
+              showLineNumbers
+            />
           </SectionMessage>
         </div>
       </div>
