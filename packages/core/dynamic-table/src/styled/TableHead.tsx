@@ -1,9 +1,10 @@
 import styled, { css } from 'styled-components';
 import {
-  onClickStyle,
-  truncateStyle,
   arrowsStyle,
   cellStyle,
+  onClickStyle,
+  StyleProps,
+  truncateStyle,
 } from './constants';
 import { head } from '../theme';
 
@@ -11,14 +12,17 @@ const rankingStyles = css`
   display: block;
 `;
 
+interface HeadProps {
+  isRanking?: boolean;
+}
+
 export const Head = styled.thead`
   border-bottom: 2px solid ${head.borderColor};
-
-  ${({ isRanking }: any) => isRanking && rankingStyles};
+  ${({ isRanking }: HeadProps) => isRanking && rankingStyles};
 `;
 
 export const HeadCell = styled.th`
-  ${(p: any) => onClickStyle(p)} ${p => truncateStyle(p)} ${p =>
+  ${(p: StyleProps) => onClickStyle(p)} ${p => truncateStyle(p)} ${p =>
   arrowsStyle(p)} ${cellStyle} border: none;
   color: ${head.textColor};
   box-sizing: border-box;

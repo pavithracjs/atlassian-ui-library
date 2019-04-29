@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import DynamicTable from '../src';
 import { caption, head, rows } from './content/sample-data-numerical';
@@ -8,7 +7,7 @@ const Wrapper = styled.div`
   min-width: 600px;
 `;
 
-export default class extends Component<{}, {}> {
+export default class extends React.Component<{}, {}> {
   render() {
     return (
       <Wrapper>

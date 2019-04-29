@@ -6,7 +6,7 @@ export const Container = styled.div`
 
 export const ContentsContainer = styled.div`
   pointer-events: none;
-  opacity: ${(p: any) => p.contentsOpacity};
+  opacity: ${(p: { contentsOpacity: string }) => p.contentsOpacity};
 `;
 
 export const SpinnerContainer = styled.div`

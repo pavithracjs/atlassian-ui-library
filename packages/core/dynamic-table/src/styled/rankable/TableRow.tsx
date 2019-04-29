@@ -15,7 +15,13 @@ const rankingItemStyles = css`
   ${elevation.e500()} border-radius: 2px;
 `;
 
-const draggableStyles = ({ isRanking, isRankingItem }: any) => css`
+const draggableStyles = ({
+  isRanking,
+  isRankingItem,
+}: {
+  isRanking?: boolean;
+  isRankingItem?: boolean;
+}) => css`
   ${isRanking && rankingStyles} ${isRankingItem && rankingItemStyles} &:focus {
     outline-style: solid;
     outline-color: ${colors.B100};

@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import DynamicTable from '../src';
 
@@ -56,7 +55,7 @@ const rows = [
   },
 ];
 
-export default class extends Component<{}, {}> {
+export default class extends React.Component<{}, {}> {
   render() {
     return (
       <Wrapper>

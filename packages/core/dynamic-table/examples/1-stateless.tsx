@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import { DynamicTableStateless } from '../src';
@@ -9,11 +8,11 @@ const Wrapper = styled.div`
   min-width: 600px;
 `;
 
-type StateType = {
-  pageNumber: number,
-};
+interface StateType {
+  pageNumber: number;
+}
 
-export default class extends Component<{}, StateType> {
+export default class extends React.Component<{}, StateType> {
   state = {
     pageNumber: 3,
   };

@@ -1,8 +1,7 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import { DynamicTableStateless } from '../src';
 
-export default class extends Component<{}, {}> {
+export default class extends React.Component<{}, {}> {
   render() {
     return (
       <DynamicTableStateless

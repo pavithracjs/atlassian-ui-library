@@ -1,7 +1,12 @@
 import styled from 'styled-components';
-import { onClickStyle, truncateStyle, cellStyle } from './constants';
+import {
+  onClickStyle,
+  truncateStyle,
+  cellStyle,
+  StyleProps,
+} from './constants';
 
 export const TableBodyCell = styled.td`
-  ${(props: any) => onClickStyle(props)} ${props =>
+  ${(props: StyleProps) => onClickStyle(props)} ${props =>
   truncateStyle(props)} ${cellStyle};
 `;

@@ -14,14 +14,14 @@ export const headNumeric = {
 
 export const rowsNumeric = testDataNumeric;
 
-export const rowsNumericWithKeys: Array<
-  object & { key: string; cells: any[] }
-> = rowsNumeric.map((tRow: RowType, rowIndex: number) => {
-  return {
-    key: `${rowIndex}`,
-    ...tRow,
-  };
-});
+export const rowsNumericWithKeys: Array<RowType> = rowsNumeric.map(
+  (tRow: RowType, rowIndex: number) => {
+    return {
+      key: `${rowIndex}`,
+      ...tRow,
+    };
+  },
+);
 
 export const rowNumericWithKey = rowsNumericWithKeys[0];
 
