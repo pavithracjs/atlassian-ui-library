@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/refinement-bar",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Jira Refinement Bar Component",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@atlaskit/docs": "7.0.3",
-    "@atlaskit/section-message": "2.0.3",
+    "@atlaskit/section-message": "2.0.4",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "react": "^16.4.0"

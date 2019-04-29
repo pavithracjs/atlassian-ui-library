@@ -1,1 +1,0 @@
-- Section message content area now takes 100% of its parent width
