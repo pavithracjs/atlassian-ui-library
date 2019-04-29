@@ -3,7 +3,6 @@ import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
 import fs from 'fs';
 import path from 'path';
-import { adfInputSelector, importAdfBtnSelector } from '../_utils';
 
 /**
  * Create an ADF document from a loaded JSON fragment.
@@ -41,7 +40,6 @@ function loadFragmentADF(nodeName: string, isContainer = false) {
   if (nodeName.indexOf(' ')) nodeName = nodeName.replace(' ', '-');
   const fixturePath = path.join(
     __dirname,
-    '../',
     '__fixtures__',
     'adf-node-fragments',
     isContainer ? 'containers' : '',
@@ -60,6 +58,8 @@ function loadFragmentADF(nodeName: string, isContainer = false) {
 }
 
 const adfToggleSelector = '#adf-toggle';
+const adfInputSelector = '#adf-input';
+const importAdfBtnSelector = '#import-adf';
 const editorContentSelector = '.ProseMirror';
 const rendererContentSelector = '.ak-renderer-document';
 const editorSelectedNode = '.ProseMirror-selectednode';
@@ -244,7 +244,7 @@ export async function snapshotAndCompare(
 
   if (waitForSelector) await page.waitForSelector(waitForSelector);
 
-  const snapshotsPath = path.join(__dirname, '../', '__image_snapshots__');
+  const snapshotsPath = path.join(__dirname, '__image_snapshots__');
   const diffPath = path.join(snapshotsPath, '__diff_output__');
   const consistencyReportPath = path.join(
     snapshotsPath,

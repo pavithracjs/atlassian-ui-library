@@ -1,0 +1,23 @@
+{
+  "name": "@atlaskit/editor-wysiwyg-testing",
+  "version": "0.0.1",
+  "description": "Compare VR snapshots of the editor & renderer to validate the WYSIWYG result",
+  "private": true,
+  "atlaskit": {
+    "internal": true
+  },
+  "author": "Atlassian Pty Ltd",
+  "maintainers": [
+    "Tim K"
+  ],
+  "main": "index.js",
+  "devDependencies": {
+    "@atlaskit/analytics-reporting": "0.1.0",
+    "@atlaskit/editor-common": "^36.2.3",
+    "@atlaskit/editor-core": "^107.24.3",
+    "@atlaskit/renderer": "^45.6.3",
+    "@atlaskit/visual-regression": "^0.0.1",
+    "pixelmatch": "^4.0.2",
+    "pngjs": "^3.4.0"
+  }
+}

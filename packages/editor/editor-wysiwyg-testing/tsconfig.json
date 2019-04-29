@@ -1,0 +1,13 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "noImplicitAny": true
+  },
+  "include": [
+    "./src/__tests__/visual-regression/*.ts",
+  ],
+  "exclude": [
+    "node_modules",
+  ]
+}

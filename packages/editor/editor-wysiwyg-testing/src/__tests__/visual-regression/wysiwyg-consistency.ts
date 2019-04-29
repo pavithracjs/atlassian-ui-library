@@ -20,6 +20,7 @@ describe('WYSIWYG Snapshot Test: content nodes look consistent in editor & rende
    * a resource you can add a `waitForSelector` value to defer the screenshot until it's available.
    */
   const nodes: { node: string; waitForSelector?: string }[] = [
+    /*
     { node: 'actions' },
     { node: 'blockquote' },
     { node: 'bullet list' },
@@ -31,8 +32,9 @@ describe('WYSIWYG Snapshot Test: content nodes look consistent in editor & rende
     { node: 'heading' },
     { node: 'mention' },
     { node: 'ordered list' },
+    */
     { node: 'paragraph' },
-    { node: 'status' },
+    // { node: 'status' },
   ];
 
   beforeEach(async () => {

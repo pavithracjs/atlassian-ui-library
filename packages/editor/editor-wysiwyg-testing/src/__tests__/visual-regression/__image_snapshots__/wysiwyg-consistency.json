@@ -1,0 +1,71 @@
+{
+  "name": "WYSIWYG Consistency Report for Editor & Renderer",
+  "description": "100% consistency is 0% divergence.",
+  "nodes": [
+    {
+      "name": "actions",
+      "divergence": 0,
+      "consistency": "100%"
+    },
+    {
+      "name": "blockquote",
+      "divergence": 0.01499798549556809,
+      "consistency": "98.5%"
+    },
+    {
+      "name": "bullet list",
+      "divergence": 0.0004052802223251505,
+      "consistency": "99.96%"
+    },
+    {
+      "name": "codeblock",
+      "divergence": 0.021318527410964384,
+      "consistency": "97.87%"
+    },
+    {
+      "name": "date",
+      "divergence": 0.008333333333333333,
+      "consistency": "99.17%"
+    },
+    {
+      "name": "decisions",
+      "divergence": 0,
+      "consistency": "100%"
+    },
+    {
+      "name": "divider",
+      "divergence": 0,
+      "consistency": "100%"
+    },
+    {
+      "name": "emoji",
+      "divergence": 0.009084967320261438,
+      "consistency": "99.09%"
+    },
+    {
+      "name": "heading",
+      "divergence": 0.00983741322616003,
+      "consistency": "99.02%"
+    },
+    {
+      "name": "mention",
+      "divergence": 0.004869281045751634,
+      "consistency": "99.51%"
+    },
+    {
+      "name": "ordered list",
+      "divergence": 0.0004052802223251505,
+      "consistency": "99.96%"
+    },
+    {
+      "name": "paragraph",
+      "divergence": 0,
+      "consistency": "100%"
+    },
+    {
+      "name": "status",
+      "divergence": 0.002187220065691251,
+      "consistency": "99.78%"
+    }
+  ]
+}
