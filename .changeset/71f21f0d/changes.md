@@ -1,1 +1,0 @@
-- Add inputId prop to allow label to open the user picker
