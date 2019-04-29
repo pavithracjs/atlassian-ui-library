@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import Button from '@atlaskit/button';
 import DynamicTable from '../src';
@@ -9,9 +8,11 @@ const Wrapper = styled.div`
   min-width: 600px;
 `;
 
-type State = { showPagination: boolean };
+interface State {
+  showPagination: boolean;
+}
 
-export default class extends Component<{}, State> {
+export default class extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
 

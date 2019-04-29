@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import { ToggleStateless as Toggle } from '@atlaskit/toggle';
 import DynamicTable from '../src';
@@ -9,11 +8,12 @@ const Wrapper = styled.div`
   min-width: 600px;
 `;
 
-type State = {
-  isFixedSize: boolean,
-  isLoading: boolean,
-};
-export default class extends Component<{}, State> {
+interface State {
+  isFixedSize: boolean;
+  isLoading: boolean;
+}
+
+export default class extends React.Component<{}, State> {
   state = {
     isFixedSize: false,
     isLoading: false,

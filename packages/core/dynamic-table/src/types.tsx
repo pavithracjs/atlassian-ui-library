@@ -4,7 +4,7 @@ import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 export interface RowCellType {
   key?: string | number;
   colSpan?: number;
-  content: React.ReactNode;
+  content?: React.ReactNode | string;
 }
 
 export interface I18nShape {
@@ -47,7 +47,7 @@ export interface StatelessProps {
 }
 
 export interface StatefulProps {
-  caption?: Node;
+  caption?: Node | string;
   head?: HeadType;
   rows?: Array<RowType>;
   emptyView?: React.ReactElement<any>;

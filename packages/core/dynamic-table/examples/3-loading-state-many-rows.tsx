@@ -1,14 +1,13 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import Button from '@atlaskit/button';
 import { DynamicTableStateless } from '../src';
-import { head } from './content/sample-data';
+import { head, rows } from './content/sample-data';
 
-type State = {
-  isLoading: boolean,
-};
+interface State {
+  isLoading: boolean;
+}
 
-export default class extends Component<{}, State> {
+export default class extends React.Component<{}, State> {
   state = {
     isLoading: true,
   };
@@ -25,7 +24,13 @@ export default class extends Component<{}, State> {
         >
           Toggle loading
         </Button>
-        <DynamicTableStateless head={head} isLoading={this.state.isLoading} />
+        <DynamicTableStateless
+          head={head}
+          rows={rows}
+          rowsPerPage={40}
+          page={1}
+          isLoading={this.state.isLoading}
+        />
       </div>
     );
   }

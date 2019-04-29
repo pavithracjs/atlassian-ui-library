@@ -23,14 +23,14 @@ export const rows = testData;
 
 export const row = rows[0];
 
-export const rowsWithKeys: Array<
-  object & { key: string; cells: any[] }
-> = rows.map((tRow: RowType, rowIndex: number) => {
-  return {
-    key: `${rowIndex}`,
-    ...tRow,
-  };
-});
+export const rowsWithKeys: Array<RowType> = rows.map(
+  (tRow: RowType, rowIndex: number) => {
+    return {
+      key: `${rowIndex}`,
+      ...tRow,
+    };
+  },
+);
 
 export const rowWithKey = rowsWithKeys[0];
 

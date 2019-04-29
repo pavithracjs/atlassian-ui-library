@@ -2,16 +2,20 @@ import { css } from 'styled-components';
 import { gridSize, math } from '@atlaskit/theme';
 import { ASC, DESC } from '../internal/constants';
 import { arrow } from '../theme';
+import { SortOrderType } from '@atlaskit/dynamic-table/types';
+
+export interface StyleProps {
+  width?: number;
+  isFixedSize?: boolean;
+  shouldTruncate?: boolean;
+  onClick?: boolean;
+}
 
 export const truncateStyle = ({
   width,
   isFixedSize,
   shouldTruncate,
-}: {
-  width: number;
-  isFixedSize: boolean;
-  shouldTruncate: boolean;
-}) => css`
+}: StyleProps) => css`
   ${width
     ? css`
         width: ${width}%;
@@ -29,7 +33,7 @@ export const truncateStyle = ({
     : ''};
 `;
 
-export const onClickStyle = ({ onClick }: { onClick: boolean }) =>
+export const onClickStyle = ({ onClick }: { onClick?: boolean }) =>
   onClick &&
   css`
     &:hover {
@@ -37,8 +41,11 @@ export const onClickStyle = ({ onClick }: { onClick: boolean }) =>
     }
   `;
 
-export const arrowsStyle = (props: Object) => {
-  const { isSortable, sortOrder } = props as any;
+export const arrowsStyle = (props: {
+  isSortable?: boolean;
+  sortOrder?: SortOrderType;
+}) => {
+  const { isSortable, sortOrder } = props;
 
   if (!isSortable) {
     return '';
