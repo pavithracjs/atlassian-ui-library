@@ -13,7 +13,7 @@ describe('Snapshot Test', () => {
     await page.waitForSelector(tooltipBtn);
     await page.click(tooltipBtn);
     // The tooltip is visible after 300 ms
-    await page.waitFor(500);
+    await page.waitFor(1000);
     const image = await page.screenshot();
     //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
