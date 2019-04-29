@@ -75,16 +75,28 @@ export const loadKitchenSinkWithAdf = async (page: any, adf: any) => {
     await page.goto(url);
   }
 
+  const errorMessage = await page.evaluate(() => {
+    const doc = document as any;
+    const renderedContent = doc.querySelector('#examples > div:first-child');
+    if (renderedContent && !renderedContent.children.length) {
+      const message = renderedContent.innerText;
+      if (~message.indexOf('does not have examples'))
+        return `This package has no examples`;
+    }
+    if (!renderedContent) return `Examples page error`;
+    return '';
+  });
+
+  if (errorMessage) {
+    throw new Error(`${errorMessage}. Unable to load kitchen sink: ${url}.`);
+  }
+
   // Load the ADF into the editor & renderer.
+  await page.waitForSelector(adfToggleSelector);
   await page.click(adfToggleSelector);
   await page.waitForSelector(adfInputSelector);
   await page.evaluate(
-    (
-      editorSelector: string,
-      rendererSelector: string,
-      adfInputSelector: string,
-      adf: object,
-    ) => {
+    (editorSelector: string, adfInputSelector: string, adf: object) => {
       const doc = document as any;
       const contentEditable = doc.querySelector(editorSelector);
       // Reset the content height prior to assigning new ADF (renderer is removed from DOM at this point)
@@ -95,7 +107,6 @@ export const loadKitchenSinkWithAdf = async (page: any, adf: any) => {
       doc.querySelector(adfInputSelector).value = JSON.stringify(adf);
     },
     editorContentSelector,
-    rendererContentSelector,
     adfInputSelector,
     adf,
   );

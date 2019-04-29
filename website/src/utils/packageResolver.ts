@@ -14,6 +14,7 @@ export default (
   const group = fs.getById(groups, resolvedGroupId);
   const packages = fs.getDirectories(group.children);
   const resolvedPackageId = packageId || packages[0].id;
+
   let pkg;
   try {
     pkg = fs.getById(packages, resolvedPackageId);
