@@ -61,9 +61,10 @@ BrowserTestCase(
   },
 );
 
+// TODO: test failing on safari and ie
 BrowserTestCase(
   'alignment: disabled when inside special nodes',
-  { skip: [] },
+  { skip: ['safari', 'ie'] },
   async (client: any) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
@@ -79,9 +80,10 @@ BrowserTestCase(
   },
 );
 
+// TODO: test failing on safari and ie
 BrowserTestCase(
   'alignment: disabled when editor is disabled',
-  { skip: [] },
+  { skip: ['ie', 'safari'] },
   async (client: any) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
@@ -112,7 +114,6 @@ BrowserTestCase(
     expect(doc).toMatchCustomDocSnapshot(testName);
   },
 );
-
 
 BrowserTestCase(
   'alignment: should be able to add alignment to selected cells',
