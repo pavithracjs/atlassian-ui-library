@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 107.24.4
+- [patch] [5bebbeb98e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5bebbeb98e):
+
+  - [ED-6367] Fixes table header row toggle when there is cells with column span, preventing it from being adding new cells wrongly
+
 ## 107.24.3
 - [patch] [a6fb248987](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6fb248987):
 
