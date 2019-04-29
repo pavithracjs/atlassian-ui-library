@@ -68,7 +68,6 @@
     "@types/react-helmet": "^5.0.8",
     "@types/react-router": "^4.4.1",
     "@types/recompose": "^0.30.3",
-    "babel-runtime": "^6.26.0",
     "codesandboxer": "^1.0.1",
     "commonmark": "^0.27.0",
     "commonmark-react-renderer": "^4.3.3",
