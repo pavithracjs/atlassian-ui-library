@@ -15,7 +15,8 @@ export default class extends React.PureComponent<CustomProgressBarProps> {
         {...this.props}
         theme={(currentTheme, props) => {
           const theme = currentTheme(props);
-          if (this.props.value < 1) {
+          const { value, isIndeterminate } = this.props;
+          if (value < 1 || isIndeterminate) {
             return theme;
           }
           return {
