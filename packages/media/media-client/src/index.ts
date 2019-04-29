@@ -4,7 +4,7 @@ export * from './models/item';
 export * from './models/media';
 export * from './models/artifacts';
 export * from './models/file-state';
-export { fileStreamsCache, StreamsCache } from './file-streams-cache';
+export { getFileStreamsCache, StreamsCache } from './file-streams-cache';
 export {
   uploadFile,
   UploadableFile,

@@ -69,7 +69,7 @@ export { getMediaTypeFromMimeType } from '@atlaskit/media-client';
 // export * from './context/fileStreamCache';
 import { FileState, StreamsCache } from '@atlaskit/media-client';
 export type FileStreamCache = StreamsCache<FileState>;
-export { fileStreamsCache } from '@atlaskit/media-client';
+export { getFileStreamsCache } from '@atlaskit/media-client';
 
 // export type ImageResizeMode = 'crop' | 'fit' | 'full-fit' | 'stretchy-fit';
 export { ImageResizeMode } from '@atlaskit/media-client';

@@ -2,7 +2,7 @@ jest.mock('@atlaskit/media-store');
 import { MediaStore } from '@atlaskit/media-store';
 import {
   ContextFactory,
-  fileStreamsCache,
+  getFileStreamsCache,
   FileState,
 } from '@atlaskit/media-core';
 import { mockStore, mockFetcher } from '@atlaskit/media-test-helpers';
@@ -209,11 +209,11 @@ describe('finalizeUploadMiddleware', () => {
     subject.next({
       id: copiedFile.id,
     });
-    fileStreamsCache.set(copiedFile.id, subject as Observable<FileState>);
+    getFileStreamsCache().set(copiedFile.id, subject as Observable<FileState>);
 
     await finalizeUpload(fetcher, store, action);
 
-    const observable = fileStreamsCache.get(copiedFile.id);
+    const observable = getFileStreamsCache().get(copiedFile.id);
     observable!.subscribe({ next });
 
     // Needed due usage of setTimeout in finalizeUpload

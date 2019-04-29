@@ -20,7 +20,7 @@ import {
   FileState,
   GetFileOptions,
   mapMediaItemToFileState,
-  fileStreamsCache,
+  getFileStreamsCache,
   MediaFile,
   MediaStoreCopyFileWithTokenBody,
   MediaStoreCopyFileWithTokenParams,
@@ -162,7 +162,7 @@ export class FileFetcherImpl implements FileFetcher {
       });
     }
 
-    return fileStreamsCache.getOrInsert(id, () => {
+    return getFileStreamsCache().getOrInsert(id, () => {
       const collection = options && options.collectionName;
       const fileStream$ = publishReplay<FileState>(1)(
         this.createDownloadFileStream(id, collection),
@@ -175,7 +175,7 @@ export class FileFetcherImpl implements FileFetcher {
   }
 
   getCurrentState(id: string): Promise<FileState> {
-    return fileStreamsCache.getCurrentState(id);
+    return getFileStreamsCache().getCurrentState(id);
   }
 
   public getArtifactURL(
@@ -338,7 +338,7 @@ export class FileFetcherImpl implements FileFetcher {
       },
     );
 
-    fileStreamsCache.set(id, subject);
+    getFileStreamsCache().set(id, subject);
 
     // We should report progress asynchronously, since this is what consumer expects
     // (otherwise in newUploadService file-converting event will be emitted before files-added)

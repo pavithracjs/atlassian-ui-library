@@ -13,10 +13,10 @@ import {
   UploadController,
   UploadingFileState,
   MediaClient,
-  fileStreamsCache,
+  getFileStreamsCache,
 } from '../..';
 
-const getOrInsertSpy = jest.spyOn(fileStreamsCache, 'getOrInsert');
+const getOrInsertSpy = jest.spyOn(getFileStreamsCache(), 'getOrInsert');
 const authProvider: AuthProvider = () =>
   Promise.resolve({
     token: 'some-token-that-does-not-really-matter-in-this-tests',

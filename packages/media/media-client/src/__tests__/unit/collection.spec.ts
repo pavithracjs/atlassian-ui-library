@@ -3,7 +3,7 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import {
   MediaCollectionItem,
   MediaCollectionItemDetails,
-  fileStreamsCache,
+  getFileStreamsCache,
 } from '../..';
 import {
   CollectionFetcher,
@@ -75,7 +75,7 @@ const setup = (nextInclusiveStartKey: string | null = 'first-key') => {
 
 describe('CollectionFetcher', () => {
   beforeEach(() => {
-    fileStreamsCache.removeAll();
+    getFileStreamsCache().removeAll();
     delete collectionCache.recents;
   });
 
@@ -122,12 +122,12 @@ describe('CollectionFetcher', () => {
     it('should populate cache', done => {
       const { collectionFetcher } = setup();
 
-      expect(fileStreamsCache.size).toEqual(0);
+      expect(getFileStreamsCache().size).toEqual(0);
       collectionFetcher.getItems('recents').subscribe({
         next() {
-          expect(fileStreamsCache.size).toEqual(2);
-          expect(fileStreamsCache.has('1')).toBeTruthy();
-          expect(fileStreamsCache.has('2')).toBeTruthy();
+          expect(getFileStreamsCache().size).toEqual(2);
+          expect(getFileStreamsCache().has('1')).toBeTruthy();
+          expect(getFileStreamsCache().has('2')).toBeTruthy();
           done();
         },
       });
@@ -318,7 +318,7 @@ describe('CollectionFetcher', () => {
     it("should NOT remove items from cache and cache collection if ID doesn't exist", async () => {
       const { collectionFetcher } = setup();
 
-      const removeSpy = spyOn(fileStreamsCache, 'remove');
+      const removeSpy = spyOn(getFileStreamsCache(), 'remove');
       await collectionFetcher.removeFile(
         'some-inexistent-id',
         'some-collection-name',
@@ -331,7 +331,7 @@ describe('CollectionFetcher', () => {
     it('should remove item from cache', async () => {
       const { collectionFetcher } = setup();
 
-      const removeSpy = spyOn(fileStreamsCache, 'remove');
+      const removeSpy = spyOn(getFileStreamsCache(), 'remove');
       await collectionFetcher.removeFile(
         'some-id',
         'some-collection-name',

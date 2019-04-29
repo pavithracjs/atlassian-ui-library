@@ -1,6 +1,5 @@
 import { LRUCache } from 'lru-fast';
 import { Observable } from 'rxjs/Observable';
-import { mediaState } from '@atlaskit/media-core';
 import { FileState } from './models/file-state';
 import { observableToPromise } from './utils';
 
@@ -69,7 +68,14 @@ export class StreamsCache<T> {
   }
 }
 
-export const fileStreamsCache = new StreamsCache<FileState>(
-  mediaState.stateDeferreds,
-  mediaState.streams,
-);
+let streamCache: StreamsCache<FileState>;
+export const getFileStreamsCache = () => {
+  if (!streamCache) {
+    const mediaState = require('@atlaskit/media-core').mediaState;
+    streamCache = new StreamsCache<FileState>(
+      mediaState.stateDeferreds,
+      mediaState.streams,
+    );
+  }
+  return streamCache;
+};

@@ -10,7 +10,7 @@ import {
   mapMediaFileToFileState,
   FileItem,
   FileDetails,
-  fileStreamsCache,
+  getFileStreamsCache,
 } from '..';
 
 export interface MediaCollectionFileItemDetails extends FileDetails {
@@ -71,7 +71,7 @@ export class CollectionFetcher {
         item.details as MediaCollectionItemFullDetails,
       );
 
-      fileStreamsCache.set(item.id, fileStream);
+      getFileStreamsCache().set(item.id, fileStream);
     });
   }
 
@@ -84,7 +84,7 @@ export class CollectionFetcher {
       return;
     }
 
-    fileStreamsCache.remove(id);
+    getFileStreamsCache().remove(id);
     collectionCache[collectionName].items.splice(collectionCacheIndex, 1);
   }
 
