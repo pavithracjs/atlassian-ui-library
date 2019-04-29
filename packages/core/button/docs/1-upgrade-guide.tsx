@@ -18,8 +18,11 @@ export default md`
 - Custom components will need refs forwarded via \`React.forwardRef()\`.
 - Camel-case ARIA props have been removed in favour for standard HTML aria-* attributes. 
 
-### Upgrade guide
-#### Theming
+<br/>
+
+---
+
+### Theming
 
 Button now supports the updated Theming API. Custom theming functions have access to all of Button's props, as well as the to the original ADG theme - meaning that the custom theme can
 change appearance based on different props, and even ignore the ADG styling completely. Custom
@@ -52,25 +55,17 @@ const CustomButton = styled(Button)\`
 \`)
 `}
 
-With the shift to Emotion in \`v12\`, we recommend using Emotion’s own \‘styled\’ function, or for more advanced use cases the new theming API:
+With the shift to Emotion in \`v12\`, Emotion’s own \‘styled\’ function is a functional drop-in replacement - however this is not explicitly supported and we recommend using the new theming API in its place.
 
-${code`
-import styled from '@emotion/styled'
+We recommend viewing the [Theming example](https://atlaskit.atlassian.com/packages/core/button/example/CustomTheme) for more information on how to use the new theming API with Button.
 
-const CustomButton = styled(Button)\`
-  background-color: red
-\`)
-`}
+<br/>
 
-The recommended action is to move your project from Styled Components to Emotion. We have created a codemod which aims to reduce the amount of busy work to upgrade, as much of the syntax is very similar. Here is how to get up and running:
+---
 
-1. Clone the [Atlaskit Codemod repository](https://bitbucket.org/atlassian/atlaskit-codemods/src/master/).
-2. Follow the setup instructions on the [README](https://bitbucket.org/atlassian/atlaskit-codemods/src/master/README.md).
-3. The codemod created for this upgrade is the [styled-components-to-emotion](https://bitbucket.org/atlassian/atlaskit-codemods/src/master/src/styled-components-to-emotion/README.md) codemod. The README in that directory contains all the information about setting up and running the codemod.
+### Custom component
+If you need to work with refs in a custom component, you'll need to make sure to forward on refs yourself using \`React.forwardRef()\`. A typical use case would look like this:
 
-
-#### Custom component
-If you need to work with refs in a custom component, you'll need to amke sure to forward on refs yourself using \`React.forwardRef()\`. A typical use case would look like this:
 ${code`
 const CustomButton = React.forwardRef<HTMLElement, React.AllHTMLAttributes<HTMLElement>>(
   (props, ref) => <button {...props} ref={ref} />
@@ -79,7 +74,11 @@ const CustomButton = React.forwardRef<HTMLElement, React.AllHTMLAttributes<HTMLE
 <Button component={CustomButton} />
 `}
 
-#### ARIA attributes
+<br/>
+
+---
+
+### ARIA attributes
 
 ARIA attributes for Button now use kebab-case standard in React. The old attributes have been deprecated.
 
@@ -91,7 +90,7 @@ ${code`
   ariaHaspopup
   ariaLabel="special button"
 >
-  Arial Button
+  Aria Button
 </Button>
 `}
 
@@ -103,9 +102,13 @@ ${code`
   aria-haspopup
   aria-label="special button"
 >
-  Arial Button
+  Aria Button
 </Button>
 `}
+
+<br/>
+
+---
 
 ### ⏫ Props updated
 - theme: Returns a function containing two args; the current ADG theme and props

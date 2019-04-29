@@ -1,5 +1,10 @@
 # @atlaskit/textfield
 
+## 1.0.0
+- [major] [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+
+  - This major release indicates that this package is no longer under dev preview but is ready for use
+
 ## 0.4.5
 - [patch] [7157a95389](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7157a95389):
 

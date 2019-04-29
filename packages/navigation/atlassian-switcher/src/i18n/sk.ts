@@ -7,7 +7,7 @@
 // Slovak
 export default {
   'fabric.atlassianSwitcher.switchTo': 'Prepnúť na',
-  'fabric.atlassianSwitcher.switchToTooltip': 'Prepnúť na ...',
+  'fabric.atlassianSwitcher.switchToTooltip': 'Prepnúť na…',
   'fabric.atlassianSwitcher.recent': 'Nedávne',
   'fabric.atlassianSwitcher.more': 'Ďalšie',
   'fabric.atlassianSwitcher.try': 'Vyskúšať',
@@ -17,9 +17,10 @@ export default {
   'fabric.atlassianSwitcher.people': 'Ľudia',
   'fabric.atlassianSwitcher.administration': 'Správa',
   'fabric.atlassianSwitcher.discoverMore': 'Zistite viac',
-  'fabric.atlassianSwitcher.errorHeading': 'Something went wrong',
+  'fabric.atlassianSwitcher.errorHeading': 'Vyskytol sa problém',
   'fabric.atlassianSwitcher.errorText':
-    'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    'Tieto chyby sledujeme, ale ak obnovenie neodstráni problém, neváhajte nás kontaktovať',
   'fabric.atlassianSwitcher.errorImageAltText':
-    'A broken robot and a number of people busy fixing it.',
+    'Pracujeme na odstránení chyby.',
+  'fabric.atlassianSwitcher.expand': 'Rozbaliť',
 };

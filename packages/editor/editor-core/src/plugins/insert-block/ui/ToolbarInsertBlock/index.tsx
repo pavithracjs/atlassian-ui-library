@@ -177,7 +177,7 @@ export const messages = defineMessages({
   },
   columns: {
     id: 'fabric.editor.columns',
-    defaultMessage: 'Columns',
+    defaultMessage: 'Layouts',
     description: 'Create a multi column section or layout',
   },
   columnsDescription: {

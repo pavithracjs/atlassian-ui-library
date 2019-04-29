@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/range",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "A styled version of the native input[range] element.",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -27,7 +27,7 @@
     "@atlaskit/checkbox": "^6.0.4",
     "@atlaskit/docs": "^7.0.3",
     "@atlaskit/ssr": "^0.0.1",
-    "@atlaskit/tooltip": "^13.0.4",
+    "@atlaskit/tooltip": "^13.0.5",
     "@atlaskit/visual-regression": "^0.0.1",
     "enzyme": "^3.7.0",
     "react-dom": "^16.4.2"

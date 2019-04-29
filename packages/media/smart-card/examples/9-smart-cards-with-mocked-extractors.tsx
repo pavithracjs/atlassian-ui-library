@@ -17,7 +17,10 @@ import {
   GithubFile,
 } from '../examples-helpers/_jsonLDExamples';
 import { IntlProvider } from 'react-intl';
-import { JiraTasks } from '../examples-helpers/_jsonLDExamples/atlassian.task';
+import {
+  JiraTasks,
+  GitHubIssue,
+} from '../examples-helpers/_jsonLDExamples/atlassian.task';
 
 const metaMock = {
   access: 'granted',
@@ -195,6 +198,14 @@ class Example extends React.Component {
                   url="https://github.com/some/file"
                   appearance="inline"
                   data={GithubFile}
+                />
+              </div>
+              <div>
+                The issue you're after is probably
+                <Card
+                  url="https://github.com/some/issue"
+                  appearance="inline"
+                  data={GitHubIssue}
                 />
               </div>
             </GridColumn>

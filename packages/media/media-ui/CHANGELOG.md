@@ -1,5 +1,20 @@
 # @atlaskit/media-ui
 
+## 10.1.8
+- [patch] [687f535a12](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/687f535a12):
+
+  - Changed smart link selection in editor mode to not include text selection, but retain it in renderer mode
+
+## 10.1.7
+- [patch] [cfec2f0b70](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cfec2f0b70):
+
+  - Fixed a text selection bug for inline smart links
+
+## 10.1.6
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 10.1.5
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

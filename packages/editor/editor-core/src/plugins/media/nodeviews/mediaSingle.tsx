@@ -207,11 +207,8 @@ export default class MediaSingleNode extends Component<
     const pos = getPos();
     if (pos) {
       const $pos = state.doc.resolve(pos);
-      const { table, layoutSection } = state.schema.nodes;
-      const disabledNode = !!findParentNodeOfTypeClosestToPos($pos, [
-        table,
-        layoutSection,
-      ]);
+      const { table } = state.schema.nodes;
+      const disabledNode = !!findParentNodeOfTypeClosestToPos($pos, [table]);
       canResize = canResize && !disabledNode;
     }
 

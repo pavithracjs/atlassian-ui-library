@@ -16,7 +16,7 @@ describe('ContentNavigation', () => {
 
     expect(wrapper.find('Transition').props().timeout).toBe(0);
 
-    wrapper.setProps({});
+    wrapper.setProps({ isVisible: true });
 
     expect(wrapper.find('Transition').props().timeout).toBe(
       transitionDurationMs,

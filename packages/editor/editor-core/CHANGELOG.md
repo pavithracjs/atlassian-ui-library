@@ -1,5 +1,75 @@
 # @atlaskit/editor-core
 
+## 107.24.3
+- [patch] [a6fb248987](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6fb248987):
+
+  - ED-6639 Align lists styles between editor & renderer
+
+## 107.24.2
+- [patch] [1e37f1bfc2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e37f1bfc2):
+
+  - ED-6535: fix fallback for images without dimensions on upload
+
+## 107.24.1
+- [patch] [a2e9e69a6a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a2e9e69a6a):
+
+  - ED-6745 Fix and prevent bad floating bar configuration
+
+## 107.24.0
+- [minor] [6ab657abdc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6ab657abdc):
+
+  - ED-6644 Fire analytics event when full-width mode changes
+
+## 107.23.1
+- [patch] [86975facf8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86975facf8):
+
+  - ED-6664 Fix i18n messages generation, replacing all const enum to just enums inside editor-core
+
+## 107.23.0
+- [minor] [69d92c210f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69d92c210f):
+
+  - ED-6582 Add Analytcs GAS V3 for insert SmartLinks
+
+## 107.22.2
+- Updated dependencies [87f0209201](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87f0209201):
+- Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
+  - @atlaskit/editor-common@36.2.1
+  - @atlaskit/width-detector@1.0.0
+  - @atlaskit/smart-card@10.4.2
+  - @atlaskit/textarea@1.0.0
+
+## 107.22.1
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+- [patch] [0ac39bd2dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ac39bd2dd):
+
+  - Bump tslib to 1.9
+
+## 107.22.0
+- [minor] [229cb05e26](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/229cb05e26):
+
+  - ED-6722 Rename 'Columns' to 'Layouts' in toolbar and quick insert menu
+
+## 107.21.1
+- Updated dependencies [cd67ae87f8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cd67ae87f8):
+  - @atlaskit/textarea@0.4.5
+
+## 107.21.0
+- [minor] [f005175d25](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f005175d25):
+
+  - ED-6710: Replace UNSAFE_fullWidthMode with full-width appearance to match renderer API
+
+## 107.20.0
+- [minor] [ce8ac59383](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce8ac59383):
+
+  - ED-6635: You can now resize media inside columns
+
+## 107.19.0
+- [minor] [ee71c90037](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee71c90037):
+
+  - ED-6601: When toggling between Full Width appearance and Full Page appearance, resized tables now scale their sizes accordingly.
+
 ## 107.18.0
 - [minor] [272b64139f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/272b64139f):
 

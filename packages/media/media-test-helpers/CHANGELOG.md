@@ -1,5 +1,10 @@
 # @atlaskit/media-test-helpers
 
+## 21.2.3
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 21.2.2
 - Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
   - @atlaskit/media-core@29.1.2

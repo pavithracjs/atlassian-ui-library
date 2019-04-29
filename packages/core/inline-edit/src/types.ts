@@ -15,6 +15,8 @@ interface CommonProps {
   keepEditViewOpenOnBlur?: boolean;
   /** Sets whether the checkmark and cross are displayed in the bottom right of the field. */
   hideActionButtons?: boolean;
+  /** Determines whether the input value can be confirmed as empty. */
+  isRequired?: boolean;
   /** Determines whether the read view has 100% width within its container, or whether it fits the content. */
   readViewFitContainerWidth?: boolean;
   /** Accessibility label for button which is used to enter edit view from keyboard. */

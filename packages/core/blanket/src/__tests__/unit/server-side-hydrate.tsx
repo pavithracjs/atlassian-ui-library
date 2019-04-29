@@ -1,6 +1,5 @@
-// @flow
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
 
@@ -25,10 +24,12 @@ test('should ssr then hydrate blanket correctly', async () => {
 
   ReactDOM.hydrate(<Example />, elem);
 
+  // @ts-ignore
+  // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls; // eslint-disable-line no-console
   const filtered = mockCalls.filter((mock: any) => !warningRegEx.test(mock));
   const mockCallsWithoutStyleErrors = filtered.reduce(
-    (a, v) => a.concat(v),
+    (a: any, v: any) => a.concat(v),
     [],
   );
   expect(mockCallsWithoutStyleErrors).toHaveLength(0);

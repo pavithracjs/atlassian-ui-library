@@ -5,6 +5,10 @@
 // If you are importing a typescript package into a flow package,
 // you will have to add a definition here.
 
+declare module '@atlaskit/blanket' {
+  declare module.exports: any;
+}
+
 declare module '@atlaskit/button' {
   declare module.exports: any;
 }

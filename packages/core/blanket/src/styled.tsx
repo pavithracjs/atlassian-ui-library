@@ -1,4 +1,3 @@
-// @flow
 import styled from 'styled-components';
 import { colors, themed, layers } from '@atlaskit/theme';
 

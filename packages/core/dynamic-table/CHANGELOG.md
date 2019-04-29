@@ -1,5 +1,10 @@
 # @atlaskit/dynamic-table
 
+## 11.0.4
+- [patch] [08321f585d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08321f585d):
+
+  - Internal changes only. Makes DynamicTable compatible with SSR.
+
 ## 11.0.3
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
