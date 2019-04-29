@@ -27,7 +27,7 @@ import {
   insertBlockTypesWithAnalytics,
 } from '../../../../plugins/block-type/commands';
 import { HEADING_1 } from '../../../../plugins/block-type/types';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import {
   AnalyticsEventPayload,
   ACTION,

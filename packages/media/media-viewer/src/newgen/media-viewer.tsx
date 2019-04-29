@@ -3,11 +3,11 @@ import { ComponentClass, SyntheticEvent } from 'react';
 import { Context, Identifier } from '@atlaskit/media-core';
 import { IntlProvider, intlShape } from 'react-intl';
 import { Shortcut } from '@atlaskit/media-ui';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import {
+  withAnalyticsEvents,
   WithAnalyticsEventProps,
   UIAnalyticsEvent,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import { mediaViewerModalEvent } from './analytics/media-viewer';
 import { closedEvent, ClosedInputType } from './analytics/closed';
 import { channel } from './analytics/index';

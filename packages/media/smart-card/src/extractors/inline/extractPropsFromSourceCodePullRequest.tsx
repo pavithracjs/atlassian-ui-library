@@ -17,7 +17,7 @@ export const buildName: AlterInlinePropsSourceCodePullRequest = (
   json,
 ) => {
   const nextProps = { ...props };
-  const link = nextProps.link || json['@url'];
+  const link = nextProps.link || json.url;
   if (link) {
     const repoNumber = link.match(/.*?(\d+)[^0-9]*$/).pop();
     return { title: `#${repoNumber} ${nextProps.title}` };

@@ -10,7 +10,6 @@ import { MentionEventHandler } from '../EventHandlers';
 import Popup from '../Popup';
 import withOuterListeners from '../with-outer-listeners';
 
-// tslint:disable-next-line:variable-name
 const ProfilecardResourcedWithListeners = withOuterListeners(ProfileCard);
 
 interface Coords {

@@ -1,22 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Lozenge appearance property should render correctly with text truncated 1`] = `
-.c0 {
-  background-color: #EAE6FF;
-  color: #403294;
-  border-radius: 3px;
-  box-sizing: border-box;
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1;
-  max-width: 100%;
-  padding: 2px 0 3px 0;
-  text-transform: uppercase;
-  vertical-align: baseline;
-}
-
-.c1 {
+.emotion-0 {
   display: inline-block;
   vertical-align: top;
   overflow: hidden;
@@ -28,23 +13,11 @@ exports[`Lozenge appearance property should render correctly with text truncated
   width: 100%;
 }
 
-<span
-  className="c0"
->
-  <span
-    className="c1"
-  >
-    Hello, I should truncate at a point.
-  </span>
-</span>
-`;
-
-exports[`Lozenge maxWidth property should render correctly with number maxWidth 1`] = `
-.c0 {
-  background-color: #DFE1E6;
-  color: #42526E;
+.emotion-1 {
+  background-color: #EAE6FF;
   border-radius: 3px;
   box-sizing: border-box;
+  color: #403294;
   display: inline-block;
   font-size: 11px;
   font-weight: 700;
@@ -55,7 +28,34 @@ exports[`Lozenge maxWidth property should render correctly with number maxWidth 
   vertical-align: baseline;
 }
 
-.c1 {
+<span
+  className="emotion-1"
+>
+  <span
+    className="emotion-0"
+  >
+    Hello, I should truncate at a point.
+  </span>
+</span>
+`;
+
+exports[`Lozenge maxWidth property should render correctly with number maxWidth 1`] = `
+.emotion-1 {
+  background-color: #DFE1E6;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #42526E;
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  max-width: 100%;
+  padding: 2px 0 3px 0;
+  text-transform: uppercase;
+  vertical-align: baseline;
+}
+
+.emotion-0 {
   display: inline-block;
   vertical-align: top;
   overflow: hidden;
@@ -68,10 +68,10 @@ exports[`Lozenge maxWidth property should render correctly with number maxWidth 
 }
 
 <span
-  className="c0"
+  className="emotion-1"
 >
   <span
-    className="c1"
+    className="emotion-0"
   >
     Hello
   </span>
@@ -79,11 +79,11 @@ exports[`Lozenge maxWidth property should render correctly with number maxWidth 
 `;
 
 exports[`Lozenge maxWidth property should render correctly with string maxWidth 1`] = `
-.c0 {
+.emotion-1 {
   background-color: #DFE1E6;
-  color: #42526E;
   border-radius: 3px;
   box-sizing: border-box;
+  color: #42526E;
   display: inline-block;
   font-size: 11px;
   font-weight: 700;
@@ -94,7 +94,7 @@ exports[`Lozenge maxWidth property should render correctly with string maxWidth 
   vertical-align: baseline;
 }
 
-.c1 {
+.emotion-0 {
   display: inline-block;
   vertical-align: top;
   overflow: hidden;
@@ -107,10 +107,10 @@ exports[`Lozenge maxWidth property should render correctly with string maxWidth 
 }
 
 <span
-  className="c0"
+  className="emotion-1"
 >
   <span
-    className="c1"
+    className="emotion-0"
   >
     Hello
   </span>

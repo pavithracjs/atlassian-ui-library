@@ -1,5 +1,53 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.6.0
+- [minor] [089eae03fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/089eae03fd):
+
+  - ED-6486: added method for getting current editor bridge version
+
+## 7.5.1
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/form@5.2.10
+  - @atlaskit/smart-card@10.4.2
+  - @atlaskit/textfield@1.0.0
+
+## 7.5.0
+- [minor] [8fb796b610](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8fb796b610):
+
+  - ED-6728: Added scrollToSelection() method to bridge
+
+## 7.4.4
+- [patch] [f224fa19d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f224fa19d5):
+
+  - ED-6716 Enables allowConfluenceInlineComment for mobile editor bridge so inline comments are now no longer unsupported content
+
+## 7.4.3
+- [patch] [83014a7395](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/83014a7395):
+
+  - ED-6716 Prevent mobile-bridge from deleting invalid marks. Temporary fix for inline comments being removed in the document.
+
+## 7.4.2
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/form@5.2.7
+  - @atlaskit/select@8.1.1
+  - @atlaskit/textfield@0.4.4
+  - @atlaskit/editor-common@36.1.12
+  - @atlaskit/editor-core@107.13.4
+  - @atlaskit/renderer@45.6.1
+  - @atlaskit/emoji@59.2.3
+  - @atlaskit/mention@17.6.7
+  - @atlaskit/status@0.8.3
+  - @atlaskit/task-decision@14.0.5
+  - @atlaskit/smart-card@10.2.4
+  - @atlaskit/theme@8.1.7
+
+## 7.4.1
+- [patch] [351e23aeb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/351e23aeb5):
+
+  - ED-6102: fixed inline node deletion on Android
+
 ## 7.4.0
 - [minor] [7964240a6a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7964240a6a):
 

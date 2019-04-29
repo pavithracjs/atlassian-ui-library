@@ -1,5 +1,10 @@
 # @atlaskit/layer
 
+## 6.1.0
+- [minor] [6fd20256f3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6fd20256f3):
+
+  - Add positionFixed property to Popper
+
 ## 6.0.0
 - [major] [76299208e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/76299208e6):
 

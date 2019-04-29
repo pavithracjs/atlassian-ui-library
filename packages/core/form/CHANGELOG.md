@@ -1,5 +1,47 @@
 # @atlaskit/form
 
+## 5.2.10
+- Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/textarea@1.0.0
+  - @atlaskit/modal-dialog@8.0.9
+  - @atlaskit/textfield@1.0.0
+
+## 5.2.9
+- Updated dependencies [6c4e41ff36](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6c4e41ff36):
+  - @atlaskit/radio@1.0.0
+
+## 5.2.8
+- [patch] [cb7ec50eca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cb7ec50eca):
+
+  - Internal changes only. Form is compatible with SSR.
+
+## 5.2.7
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/calendar@7.0.22
+  - @atlaskit/checkbox@6.0.4
+  - @atlaskit/datetime-picker@7.0.4
+  - @atlaskit/dropdown-menu@7.0.6
+  - @atlaskit/droplist@8.0.5
+  - @atlaskit/field-radio-group@5.0.3
+  - @atlaskit/field-range@6.0.4
+  - @atlaskit/field-text@8.0.3
+  - @atlaskit/field-text-area@5.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/multi-select@12.0.3
+  - @atlaskit/radio@0.5.3
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/select@8.1.1
+  - @atlaskit/single-select@7.0.3
+  - @atlaskit/textarea@0.4.4
+  - @atlaskit/textfield@0.4.4
+  - @atlaskit/toggle@6.0.4
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/theme@8.1.7
+
 ## 5.2.6
 - [patch] [9b0bdd73c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0bdd73c2):
 

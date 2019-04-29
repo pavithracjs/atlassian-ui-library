@@ -9,6 +9,7 @@ import { ReactRenderer } from '@atlaskit/renderer';
 import { colors } from '@atlaskit/theme';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
+import Toggle from '@atlaskit/toggle';
 
 import enMessages from '../src/i18n/en';
 import languages from '../src/i18n/languages';
@@ -29,6 +30,11 @@ import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 import ErrorReport, { Error } from '../example-helpers/ErrorReport';
 import KitchenSinkEditor from '../example-helpers/KitchenSinkEditor';
 import withSentry from '../example-helpers/withSentry';
+import {
+  LOCALSTORAGE_defaultMode,
+  DEFAULT_MODE,
+  FULL_WIDTH_MODE,
+} from '../example-helpers/example-constants';
 
 const Container = styled.div`
   display: flex;
@@ -173,7 +179,17 @@ export type State = {
   showErrors: boolean;
   waitingToValidate: boolean;
   theme: Theme;
+  fullWidthMode: boolean;
 };
+
+function getInitialTheme(): Theme {
+  if (typeof window !== 'undefined') {
+    // Retaining the preferred theme per browser session to aid development workflows.
+    const preferredTheme = window.sessionStorage.getItem('theme') as Theme;
+    return preferredTheme ? preferredTheme : themes[0].value;
+  }
+  return themes[0].value;
+}
 
 class FullPageRendererExample extends React.Component<Props, State> {
   private getJSONFromStorage = (key: string, fallback: any = undefined) => {
@@ -204,7 +220,9 @@ class FullPageRendererExample extends React.Component<Props, State> {
     errors: [],
     showErrors: false,
     waitingToValidate: false,
-    theme: themes[0].value,
+    theme: getInitialTheme(),
+    fullWidthMode:
+      localStorage.getItem(LOCALSTORAGE_defaultMode) === FULL_WIDTH_MODE,
   };
 
   private dataProviders = ProviderFactory.create({
@@ -214,6 +232,12 @@ class FullPageRendererExample extends React.Component<Props, State> {
 
   private inputRef: HTMLTextAreaElement | null;
   private popupMountPoint: HTMLElement | null;
+
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if (prevState.theme !== this.state.theme) {
+      window.sessionStorage.setItem('theme', this.state.theme);
+    }
+  }
 
   showHideADF = () =>
     this.setState(state => ({
@@ -243,11 +267,26 @@ class FullPageRendererExample extends React.Component<Props, State> {
   private legacyMediaEventHandlers = () => ({
     media: {
       onClick: () => {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.log('legacy event handler click!');
       },
     },
   });
+
+  private toggleFullWidthMode = () => {
+    this.setState(
+      prevState => ({
+        appearance:
+          prevState.appearance === 'full-width' ? 'full-page' : 'full-width',
+      }),
+      () => {
+        localStorage.setItem(
+          LOCALSTORAGE_defaultMode,
+          this.state.fullWidthMode ? FULL_WIDTH_MODE : DEFAULT_MODE,
+        );
+      },
+    );
+  };
 
   render() {
     const { locale, messages } = this.state;
@@ -288,6 +327,23 @@ class FullPageRendererExample extends React.Component<Props, State> {
                       display: 'flex',
                     }}
                   >
+                    <div
+                      style={{
+                        minWidth: '200px',
+                        padding: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Toggle
+                        size="large"
+                        isChecked={this.state.appearance === 'full-width'}
+                        onChange={this.toggleFullWidthMode}
+                        label="Full Width Mode"
+                      />
+                      <span>Full Width Mode</span>
+                    </div>
+
                     <Select
                       formatOptionLabel={formatAppearanceOption}
                       options={themes}
@@ -387,10 +443,10 @@ class FullPageRendererExample extends React.Component<Props, State> {
                   {!this.state.showADF ? (
                     <div
                       style={{
-                        paddingTop:
-                          this.state.appearance === 'full-page'
-                            ? '132px'
-                            : undefined,
+                        padding: '0 32px',
+                        paddingTop: this.state.appearance.match('full-')
+                          ? '132px'
+                          : undefined,
                       }}
                     >
                       <IntlProvider

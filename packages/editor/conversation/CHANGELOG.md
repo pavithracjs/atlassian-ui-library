@@ -1,5 +1,23 @@
 # @atlaskit/conversation
 
+## 14.2.2
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+- [patch] [0ac39bd2dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ac39bd2dd):
+
+  - Bump tslib to 1.9
+
+## 14.2.1
+- [patch] [fdbc4744b3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fdbc4744b3):
+
+  - Fixed infinite recursion bug
+
+## 14.2.0
+- [minor] [8cd293e322](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8cd293e322):
+
+  - Exposing lifecycle hooks for Conversation Editor
+
 ## 14.1.1
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 

@@ -5,6 +5,7 @@ import { EmailOption } from './EmailOption';
 import { TeamOption } from './TeamOption';
 import { UserOption } from './UserOption';
 import { isEmail, isTeam, isUser } from './utils';
+import { isValidEmail } from './emailValidation';
 
 export type OptionProps = {
   data: OptionType;
@@ -28,6 +29,7 @@ const dataOption = ({
     return (
       <EmailOption
         email={data}
+        emailValidity={isValidEmail(data.id)}
         isSelected={isSelected}
         label={selectProps.emailLabel}
       />

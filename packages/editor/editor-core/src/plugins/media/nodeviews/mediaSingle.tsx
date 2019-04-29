@@ -42,6 +42,7 @@ export interface MediaSingleNodeProps {
   lineLength: number;
   editorAppearance: EditorAppearance;
   mediaProvider?: Promise<MediaProvider>;
+  fullWidthMode?: boolean;
 }
 
 export interface MediaSingleNodeState {
@@ -181,6 +182,7 @@ export default class MediaSingleNode extends Component<
       node,
       view: { state },
       editorAppearance,
+      fullWidthMode,
     } = this.props;
 
     const { layout, width: mediaSingleWidth } = node.attrs;
@@ -205,11 +207,8 @@ export default class MediaSingleNode extends Component<
     const pos = getPos();
     if (pos) {
       const $pos = state.doc.resolve(pos);
-      const { table, layoutSection } = state.schema.nodes;
-      const disabledNode = !!findParentNodeOfTypeClosestToPos($pos, [
-        table,
-        layoutSection,
-      ]);
+      const { table } = state.schema.nodes;
+      const disabledNode = !!findParentNodeOfTypeClosestToPos($pos, [table]);
       canResize = canResize && !disabledNode;
     }
 
@@ -254,6 +253,7 @@ export default class MediaSingleNode extends Component<
         {...props}
         view={this.props.view}
         getPos={getPos}
+        fullWidthMode={fullWidthMode}
         updateSize={this.updateSize}
         displayGrid={createDisplayGrid(this.props.eventDispatcher)}
         gridSize={12}
@@ -315,7 +315,11 @@ class MediaSingleNodeView extends ReactNodeView {
   }
 
   render() {
-    const { eventDispatcher, editorAppearance } = this.reactComponentProps;
+    const {
+      eventDispatcher,
+      editorAppearance,
+      fullWidthMode,
+    } = this.reactComponentProps;
     const mediaPluginState = stateKey.getState(
       this.view.state,
     ) as MediaPluginState;
@@ -341,6 +345,7 @@ class MediaSingleNodeView extends ReactNodeView {
                     getPos={this.getPos}
                     mediaProvider={mediaProvider}
                     view={this.view}
+                    fullWidthMode={fullWidthMode}
                     selected={() => this.isSelected(reactNodeViewState)}
                     eventDispatcher={eventDispatcher}
                     editorAppearance={editorAppearance}
@@ -372,9 +377,11 @@ export const ReactMediaSingleNode = (
   portalProviderAPI: PortalProviderAPI,
   eventDispatcher: EventDispatcher,
   editorAppearance?: EditorAppearance,
+  fullWidthMode?: boolean,
 ) => (node: PMNode, view: EditorView, getPos: () => number) => {
   return new MediaSingleNodeView(node, view, getPos, portalProviderAPI, {
     eventDispatcher,
     editorAppearance,
+    fullWidthMode,
   }).init();
 };

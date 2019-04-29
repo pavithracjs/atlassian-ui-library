@@ -43,7 +43,6 @@ interface ValidatorSpec {
   required?: Array<string>;
 }
 
-// tslint:disable-next-line:triple-equals
 const isDefined = <T>(x: T): x is NonNullable<T> => x != null;
 
 const isNumber = (x: any): x is number =>

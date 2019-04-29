@@ -59,6 +59,8 @@ export enum ACTIONS {
 }
 
 let isBreakoutEnabled: boolean | undefined;
+let wasBreakoutEnabled: boolean | undefined;
+let isDynamicTextSizingEnabled: boolean | undefined;
 
 export const createPlugin = (
   dispatch: Dispatch,
@@ -68,8 +70,11 @@ export const createPlugin = (
   isContextMenuEnabled?: boolean,
   dynamicTextSizing?: boolean,
   breakoutEnabled?: boolean,
+  previousBreakoutEnabled?: boolean,
 ) => {
+  wasBreakoutEnabled = previousBreakoutEnabled;
   isBreakoutEnabled = breakoutEnabled;
+  isDynamicTextSizingEnabled = dynamicTextSizing;
   return new Plugin({
     state: {
       init: (): TablePluginState => {
@@ -252,7 +257,8 @@ export const createPlugin = (
         table: (node, view, getPos) =>
           createTableView(node, view, getPos, portalProviderAPI, {
             isBreakoutEnabled,
-            dynamicTextSizing,
+            wasBreakoutEnabled,
+            dynamicTextSizing: isDynamicTextSizingEnabled,
           }),
         tableCell: createCellView(portalProviderAPI, isContextMenuEnabled),
         tableHeader: createCellView(portalProviderAPI, isContextMenuEnabled),

@@ -202,7 +202,7 @@ describe('<EmojiUploader />', () => {
 
     it('retry on upload error', async () => {
       // Silence error being internally logged by `uploadEmoji` on failure
-      // tslint:disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.error = jest.fn();
       const spy = jest
         .spyOn(MockEmojiResource.prototype, 'uploadCustomEmoji')

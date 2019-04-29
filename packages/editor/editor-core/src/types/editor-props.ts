@@ -29,10 +29,12 @@ import { CollabEditOptions } from '../plugins/collab-edit/types';
 import { CodeBlockOptions } from '../plugins/code-block';
 import { CardProvider, CardOptions } from '../plugins/card/types';
 import { QuickInsertOptions } from '../plugins/quick-insert/types';
+import { AutoformattingProvider } from '../plugins/custom-autoformat/types';
 
 export type EditorAppearance =
   | 'comment'
   | 'full-page'
+  | 'full-width'
   | 'chromeless'
   | 'mobile';
 
@@ -193,6 +195,9 @@ export interface EditorProps {
   mentionProvider?: Promise<MentionProvider>;
   mediaProvider?: Promise<MediaProvider>;
 
+  // Allows you to define custom autoformatting rules.
+  autoformattingProvider?: Promise<AutoformattingProvider>;
+
   // This is temporary for Confluence. **Please do not use**.
   macroProvider?: Promise<MacroProvider>;
   cardProvider?: Promise<CardProvider>;
@@ -243,8 +248,4 @@ export interface EditorProps {
 
   // Set to provide your extensions handlers.
   extensionHandlers?: ExtensionHandlers;
-
-  // Set to enable a left aligned mode with a max width of 1800px
-  // This only takes effect on the 'full-page' appearance.
-  UNSAFE_fullWidthMode?: boolean;
 }

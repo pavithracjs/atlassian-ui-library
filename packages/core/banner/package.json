@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/banner",
-  "version": "9.0.1",
+  "version": "9.0.3",
   "description": "React component that displays a prominent banner message and icon",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -16,7 +16,7 @@
   ],
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/theme": "^8.1.6",
+    "@atlaskit/theme": "^8.1.7",
     "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {
@@ -25,9 +25,9 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^12.0.0",
-    "@atlaskit/docs": "^7.0.2",
-    "@atlaskit/icon": "^16.0.8",
+    "@atlaskit/button": "^12.0.3",
+    "@atlaskit/docs": "^7.0.3",
+    "@atlaskit/icon": "^16.0.9",
     "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/visual-regression": "^0.0.1",
     "@types/react-test-renderer": "^16.8.1",

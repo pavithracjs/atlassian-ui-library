@@ -1,4 +1,4 @@
-// tslint:disable:no-console
+/* eslint-disable no-console */
 import * as React from 'react';
 import { Avatar, AvatarPickerDialog } from '../src';
 import { generateAvatars } from '../example-helpers';

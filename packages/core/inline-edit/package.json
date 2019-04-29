@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/inline-edit",
-  "version": "9.0.0",
+  "version": "9.0.5",
   "description": "A base component used to build inline-editable components that match the Atlassian Design Guidelines",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -22,16 +22,15 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/analytics-next": "^4.0.4",
-    "@atlaskit/analytics-next-types": "^4.0.1",
-    "@atlaskit/button": "^12.0.0",
-    "@atlaskit/form": "^5.2.6",
-    "@atlaskit/icon": "^16.0.0",
-    "@atlaskit/inline-dialog": "^10.0.1",
-    "@atlaskit/textfield": "^0.4.0",
-    "@atlaskit/theme": "^8.0.0",
+    "@atlaskit/button": "^12.0.4",
+    "@atlaskit/form": "^5.2.10",
+    "@atlaskit/icon": "^16.0.9",
+    "@atlaskit/inline-dialog": "^10.0.5",
+    "@atlaskit/textfield": "^1.0.0",
+    "@atlaskit/theme": "^8.1.7",
     "@babel/runtime": "^7.0.0",
     "react-loadable": "^5.1.0",
-    "tslib": "^1.8.0"
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
     "react": "^16.4.0",
@@ -39,12 +38,12 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/docs": "^7.0.0",
-    "@atlaskit/select": "^8.0.3",
+    "@atlaskit/docs": "^7.0.3",
+    "@atlaskit/select": "^8.1.1",
     "@atlaskit/ssr": "^0.0.1",
-    "@atlaskit/tag": "^7.0.0",
+    "@atlaskit/tag": "^7.0.2",
     "@atlaskit/tag-group": "^7.0.0",
-    "@atlaskit/textarea": "^0.4.2",
+    "@atlaskit/textarea": "^1.0.0",
     "@atlaskit/visual-regression": "^0.0.1",
     "@atlaskit/webdriver-runner": "^0.1.0",
     "enzyme": "^3.7.0",

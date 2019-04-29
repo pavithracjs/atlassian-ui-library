@@ -143,7 +143,7 @@ describe('status plugin: plugin', () => {
       pluginKeyGetStateSpy.mockImplementation(() => ({
         selectionChanges,
       }));
-      const plugin = createPlugin({} as any) as Plugin;
+      const plugin = createPlugin({ props: {} } as any) as Plugin;
       const spec = plugin.spec;
       update = spec.view().update;
 

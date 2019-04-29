@@ -4,9 +4,11 @@ import {
   editorFontSize,
   whitespaceSharedStyles,
   paragraphSharedStyles,
+  listsSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
   shadowSharedStyle,
+  inlineNodeSharedStyle,
 } from '@atlaskit/editor-common';
 import { telepointerStyle } from '../../plugins/collab-edit/styles';
 import { gapCursorStyles } from '../../plugins/gap-cursor/styles';
@@ -50,8 +52,10 @@ const ContentStyles: ComponentClass<
 
     ${whitespaceSharedStyles};
     ${paragraphSharedStyles};
+    ${listsSharedStyles};
     ${indentationSharedStyles};
-    ${shadowSharedStyle}
+    ${shadowSharedStyle};
+    ${inlineNodeSharedStyle};
   }
 
   .ProseMirror-hideselection *::selection {

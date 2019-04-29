@@ -1,5 +1,33 @@
 # @atlaskit/refinement-bar
 
+## 0.1.6
+- Updated dependencies [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+  - @atlaskit/docs@7.0.4
+  - @atlaskit/button@12.0.5
+
+## 0.1.5
+- Updated dependencies [2020ab9db1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2020ab9db1):
+  - @atlaskit/section-message@2.0.4
+
+## 0.1.4
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/textfield@1.0.0
+
+## 0.1.3
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/badge@11.0.1
+  - @atlaskit/button@12.0.3
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/icon-object@3.0.8
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/select@8.1.1
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/textfield@0.4.4
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/theme@8.1.7
+
 ## 0.1.2
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2

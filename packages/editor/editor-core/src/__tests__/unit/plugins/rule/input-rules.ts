@@ -10,7 +10,7 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import rulePlugin from '../../../../plugins/rule';
 import codeBlockPlugin from '../../../../plugins/code-block';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 describe('inputrules', () => {
   const createEditor = createEditorFactory();

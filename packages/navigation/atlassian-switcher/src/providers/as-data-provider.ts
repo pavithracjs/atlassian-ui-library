@@ -7,7 +7,8 @@ import {
 import {
   AnalyticsEventPayload,
   WithAnalyticsEventProps,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
+import { errorToReason } from '../utils/error-to-reason';
 
 const DATA_PROVIDER_SUBJECT = 'atlassianSwitcherDataProvider';
 
@@ -149,6 +150,7 @@ export default function<P, D>(
       this.fireOperationalEvent({
         action: 'failed',
         actionSubjectId: name,
+        reason: errorToReason(error),
       });
     }
 

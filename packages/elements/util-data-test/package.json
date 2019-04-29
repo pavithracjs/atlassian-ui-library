@@ -1,7 +1,7 @@
 {
   "name": "@atlaskit/util-data-test",
   "description": "Shared test and story data",
-  "version": "11.1.6",
+  "version": "11.1.7",
   "config": {
     "access": "public"
   },
@@ -10,13 +10,13 @@
   "module": "index.js",
   "types": "index.d.ts",
   "dependencies": {
-    "@atlaskit/emoji": "^59.1.1",
-    "@atlaskit/mention": "^17.6.4",
-    "@atlaskit/task-decision": "^14.0.2",
-    "@atlaskit/util-service-support": "^4.0.1",
+    "@atlaskit/emoji": "^59.2.4",
+    "@atlaskit/mention": "^17.6.8",
+    "@atlaskit/task-decision": "^14.0.6",
+    "@atlaskit/util-service-support": "^4.0.2",
     "date-fns": "^1.30.1",
     "lodash.sample": "^4.2.1",
-    "tslib": "^1.8.0",
+    "tslib": "^1.9.3",
     "uuid": "^3.1.0"
   },
   "peerDependencies": {

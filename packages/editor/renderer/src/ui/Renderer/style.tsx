@@ -1,6 +1,5 @@
 import { HTMLAttributes } from 'react';
 import styled from 'styled-components';
-
 import {
   colors,
   gridSize,
@@ -19,6 +18,7 @@ import {
   ruleSharedStyles,
   whitespaceSharedStyles,
   paragraphSharedStyles,
+  listsSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
   mediaSingleSharedStyle,
@@ -33,17 +33,17 @@ import {
   shadowSharedStyle,
   shadowClassNames,
 } from '@atlaskit/editor-common';
-import { RendererAppearance } from './';
 import { RendererCssClassName } from '../../consts';
+import { RendererAppearance } from './types';
 
 export const FullPagePadding = 32;
 
-export type Props = {
+export type RendererWrapperProps = {
   appearance?: RendererAppearance;
   theme?: any;
 };
 
-const tableStyles = ({ appearance }: Props) => {
+const tableStyles = ({ appearance }: RendererWrapperProps) => {
   if (appearance === 'mobile') {
     return 'table-layout: auto';
   }
@@ -51,13 +51,7 @@ const tableStyles = ({ appearance }: Props) => {
   return '';
 };
 
-const fullPageStyles = ({
-  theme,
-  appearance,
-}: {
-  appearance?: 'full-page' | 'mobile';
-  theme?: any;
-}) => {
+const fullPageStyles = ({ theme, appearance }: RendererWrapperProps) => {
   if (appearance !== 'full-page' && appearance !== 'mobile') {
     return '';
   }
@@ -71,13 +65,30 @@ const fullPageStyles = ({
   `;
 };
 
-// prettier-ignore
-export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
-  ${fullPageStyles}
+const fullWidthStyles = ({ appearance }: RendererWrapperProps) => {
+  if (appearance !== 'full-width') {
+    return '';
+  }
 
+  return `
+  max-width: 1800px;
+
+  .fabric-editor-breakout-mark,
+  .pm-table-container,
+  .ak-renderer-extension {
+    width: 100% !important;
+  }
+  `;
+};
+
+// prettier-ignore
+export const Wrapper = styled.div<RendererWrapperProps & HTMLAttributes<{}>>`
   font-size: ${editorFontSize}px;
   line-height: 24px;
   color: ${themed({ light: colors.N800, dark: '#B8C7E0' })};
+
+  ${fullPageStyles}
+  ${fullWidthStyles}
 
   & span.akActionMark {
     color: ${colors.B400};
@@ -99,6 +110,7 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   ${panelSharedStyles};
   ${ruleSharedStyles};
   ${paragraphSharedStyles};
+  ${listsSharedStyles};
   ${indentationSharedStyles};
   ${blockMarksSharedStyles};
   ${codeMarkSharedStyles};
@@ -125,72 +137,6 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
   & span.date-node-highlighted {
     background: ${colors.R50};
     color: ${colors.R500};
-  }
-
-  & ul {
-    list-style-type: disc;
-
-    & ul {
-      list-style-type: circle;
-    }
-
-    & ul ul {
-      list-style-type: square;
-    }
-
-    & ul ul ul {
-      list-style-type: disc;
-    }
-
-    & ul ul ul ul {
-      list-style-type: circle;
-    }
-
-    & ul ul ul ul ul {
-      list-style-type: square;
-    }
-  }
-
-  & ol {
-    list-style-type: decimal;
-
-    & ol {
-      list-style-type: lower-alpha;
-    }
-
-    & ol ol {
-      list-style-type: lower-roman;
-    }
-
-    & ol ol ol {
-      list-style-type: decimal;
-    }
-
-    & ol ol ol ol {
-      list-style-type: lower-alpha;
-    }
-
-    & ol ol ol ol ol {
-      list-style-type: lower-roman;
-    }
-
-    & ol ol ol ol ol ol {
-      list-style-type: decimal;
-    }
-
-    & ol ol ol ol ol ol ol {
-      list-style-type: lower-alpha;
-    }
-
-    & ol ol ol ol ol ol ol ol {
-      list-style-type: lower-roman;
-    }
-  }
-
-  & .akTaskList > ol,
-  & .akDecisionList > ol {
-    list-style-type: none;
-    font-size: ${fontSize()}px;
   }
 
   & .renderer-image {
@@ -241,6 +187,10 @@ export const Wrapper = styled.div < Props & HTMLAttributes < {} >> `
     * .${TableSharedCssClassName.TABLE_CONTAINER},
     * .${RendererCssClassName.EXTENSION} {
       width: 100% !important;
+    }
+
+    * .${RendererCssClassName.EXTENSION} {
+      overflow-x: auto;
     }
   }
 

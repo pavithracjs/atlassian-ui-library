@@ -1,4 +1,4 @@
-// tslint:disable:no-console
+/* eslint-disable no-console */
 
 import styled from 'styled-components';
 import * as React from 'react';

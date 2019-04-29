@@ -1,4 +1,4 @@
-/* tslint:disable:no-console */
+// eslint-disable-line no-console
 import * as React from 'react';
 import { Component } from 'react';
 import {
@@ -110,7 +110,9 @@ class ClipboardWrapper extends Component<{}, ClipboardWrapperState> {
     clipboard.on('uploads-start', data => {
       console.log('uploads started');
       console.log('uploads-start:', data);
-      this.setState({ isLoading: true });
+      this.setState({
+        isLoading: true,
+      });
     });
 
     clipboard.on('upload-end', data => {

@@ -21,6 +21,7 @@ const renderToolbar = (mode: DocumentMode, editorActions?: any) => (
                 appearance="primary"
                 onClick={async () => {
                   const value = await editorActions!.getValue();
+                  // eslint-disable-next-line no-unused-expressions
                   mode === 'create'
                     ? actions.createDocument(value)
                     : actions.updateDocument(value);

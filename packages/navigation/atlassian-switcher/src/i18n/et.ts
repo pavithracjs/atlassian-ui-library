@@ -7,7 +7,7 @@
 // Estonian
 export default {
   'fabric.atlassianSwitcher.switchTo': 'Asenda tootega',
-  'fabric.atlassianSwitcher.switchToTooltip': 'Asenda tootega …',
+  'fabric.atlassianSwitcher.switchToTooltip': 'Asenda tootega…',
   'fabric.atlassianSwitcher.recent': 'Hiljutised',
   'fabric.atlassianSwitcher.more': 'Rohkem',
   'fabric.atlassianSwitcher.try': 'Proovi',
@@ -17,9 +17,10 @@ export default {
   'fabric.atlassianSwitcher.people': 'Inimesed',
   'fabric.atlassianSwitcher.administration': 'Administreerimine',
   'fabric.atlassianSwitcher.discoverMore': 'Avasta veel',
-  'fabric.atlassianSwitcher.errorHeading': 'Something went wrong',
+  'fabric.atlassianSwitcher.errorHeading': 'Midagi läks valesti',
   'fabric.atlassianSwitcher.errorText':
-    'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    'Hoiame neil vigadel silma peal, ent võid ka meiega ühendust võtta, kui värskendamine ei tee asju paremaks.',
   'fabric.atlassianSwitcher.errorImageAltText':
-    'A broken robot and a number of people busy fixing it.',
+    'Robot on katki ja mitu inimest tegelevad praegu selle parandamisega.',
+  'fabric.atlassianSwitcher.expand': 'Laienda',
 };

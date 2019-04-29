@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
 import { CardLinkView } from '@atlaskit/media-ui';
 import { auth } from '@atlaskit/outbound-auth-flow-client';
 

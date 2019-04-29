@@ -1,5 +1,66 @@
 # @atlaskit/renderer
 
+## 45.6.5
+- [patch] [8eeac8c104](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eeac8c104):
+
+  - ED-6725: Update renderer nodes when appearances changes
+
+## 45.6.4
+- [patch] [9047a1921a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9047a1921a):
+
+  - Bugfix of email renderer list vertical indentation
+
+## 45.6.3
+- [patch] [a6fb248987](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6fb248987):
+
+  - ED-6639 Align lists styles between editor & renderer
+
+## 45.6.2
+- [patch] [0d23e11834](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d23e11834):
+
+  - ED-6736 Prevent extensions with specified width from overflowing between layout cols.
+
+## 45.6.1
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/code@9.0.1
+  - @atlaskit/field-range@6.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/navigation-next@5.1.5
+  - @atlaskit/editor-common@36.1.12
+  - @atlaskit/mention@17.6.7
+  - @atlaskit/status@0.8.3
+  - @atlaskit/task-decision@14.0.5
+  - @atlaskit/media-card@60.0.3
+  - @atlaskit/media-filmstrip@31.0.4
+  - @atlaskit/smart-card@10.2.4
+  - @atlaskit/profilecard@9.0.2
+  - @atlaskit/theme@8.1.7
+
+## 45.6.0
+- [minor] [ca3c087624](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ca3c087624):
+
+  - ED-6606: Add 'full-width' appearance to renderer
+
+  Example:
+
+  ```js
+  import Renderer from '@atlaskit/renderer';
+
+  <Renderer document={...} appearance="full-width" />
+  ```
+
+## 45.5.1
+- [patch] [86d11a504b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86d11a504b):
+
+  - [ED-5837] Fix copy-paste table from renderer to editor to keep column widths
+
+## 45.5.0
+- [minor] [3d34915d24](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d34915d24):
+
+  - Fixed heading render for ADF->Email
+
 ## 45.4.3
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2

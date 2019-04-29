@@ -1,5 +1,24 @@
 # @atlaskit/media-editor
 
+## 32.0.7
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
+## 32.0.6
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/field-range@6.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/inline-dialog@10.0.4
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/media-card@60.0.3
+  - @atlaskit/media-ui@10.1.5
+  - @atlaskit/theme@8.1.7
+
 ## 32.0.5
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2

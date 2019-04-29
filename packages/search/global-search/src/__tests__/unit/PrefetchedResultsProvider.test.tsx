@@ -17,17 +17,28 @@ import { QuickSearchContext } from '../../api/types';
 
 jest.mock('../../api/prefetchResults');
 
-function render(context: QuickSearchContext, childComponent: JSX.Element) {
+function render(
+  context: QuickSearchContext,
+  childComponent: JSX.Element,
+  cloudId: string | null,
+) {
   return mount(
-    <PrefetchedResultsProvider context={context} cloudId="cloudId">
+    // @ts-ignore (cloud id can be null when passed in from javascript code)
+    <PrefetchedResultsProvider context={context} cloudId={cloudId}>
       {childComponent}
     </PrefetchedResultsProvider>,
   );
 }
 
 describe('PrefetchedResultsProvider', () => {
+  afterEach(() => {
+    // @ts-ignore
+    getConfluencePrefetchedData.mockClear();
+  });
+
   describe('confluence', () => {
     const context = 'confluence';
+    let cloudId = 'cloudId';
     let prefetchedResultsHelper: jest.Mock;
 
     beforeEach(() => {
@@ -41,7 +52,7 @@ describe('PrefetchedResultsProvider', () => {
         </GlobalSearchPreFetchContext.Consumer>
       );
 
-      render(context, child);
+      render(context, child, cloudId);
     });
 
     it('should get confluence prefetch data', async () => {
@@ -70,5 +81,24 @@ describe('PrefetchedResultsProvider', () => {
         prefetchedResultsHelper.mock.calls[1][0].recentPeoplePromise,
       ).toEqual(recentPeoplePromise);
     });
+  });
+
+  it('should not pre fetch if no cloud id is supplied', async () => {
+    const cloudId = null;
+    const child = <div />;
+
+    render('confluence', child, cloudId);
+
+    expect(getConfluencePrefetchedData).not.toHaveBeenCalled();
+  });
+
+  it('should not pre fetch if no cloud id is supplied', async () => {
+    const child = <div />;
+
+    const mount = render('confluence', child, 'abc123');
+
+    mount.update();
+
+    expect(getConfluencePrefetchedData).toHaveBeenCalledTimes(1);
   });
 });

@@ -23,8 +23,10 @@ import { hasSelector } from '../../_emoji-selectors';
 import { getEmojiResourcePromise, newEmojiRepository } from '../../_test-data';
 import { FormattedMessage } from 'react-intl';
 import FileChooser from '../../../../components/common/FileChooser';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
-import { AnalyticsListener } from '@atlaskit/analytics-next';
+import {
+  WithAnalyticsEventProps,
+  AnalyticsListener,
+} from '@atlaskit/analytics-next';
 
 export function setupPickerWithoutToneSelector(): Promise<
   ReactWrapper<any, any>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { UIAnalyticsEvent } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
 import InlineEditUncontrolled from './InlineEditUncontrolled';
 import { InlineEditProps } from '../types';
@@ -10,13 +10,7 @@ interface State {
 
 class InlineEdit extends React.Component<InlineEditProps, State> {
   static defaultProps = {
-    keepEditViewOpenOnBlur: false,
-    hideActionButtons: false,
-    readViewFitContainerWidth: false,
     startWithEditViewOpen: false,
-    editButtonLabel: 'Edit',
-    confirmButtonLabel: 'Confirm',
-    cancelButtonLabel: 'Cancel',
   };
 
   editViewRef = React.createRef<HTMLElement>();

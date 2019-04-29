@@ -89,7 +89,7 @@ export default class Widgets extends React.Component<WidgetsProps> {
     }
 
     if (attrs.length === 0) {
-      // tslint:disable-next-line
+      // eslint-disable-next-line
       console.warn(
         `Widgets: A widget doesn't contain any supported attributes: ${JSON.stringify(
           attrs,

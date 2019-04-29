@@ -40,6 +40,10 @@ export default class DeleteUserDrawerExample extends React.Component {
 
   handleDeactivateUser = () => <React.Fragment />;
 
+  handlePreferenceSelection = (name: string) => {
+    // do nothing
+  };
+
   toggleIsCurrentUser = (event: any) =>
     this.setState({ isCurrentUser: event.target.checked });
 
@@ -57,7 +61,11 @@ export default class DeleteUserDrawerExample extends React.Component {
   );
 
   renderDeleteUserContentPreviewScreen = () => (
-    <DeleteUserContentPreviewScreen user={catherineHirons} />
+    <DeleteUserContentPreviewScreen
+      user={catherineHirons}
+      isCurrentUser={this.state.isCurrentUser}
+      preferenceSelection={this.handlePreferenceSelection}
+    />
   );
 
   render() {

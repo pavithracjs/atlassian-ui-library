@@ -178,11 +178,9 @@ const renderAsSprite = (props: Props) => {
   return (
     <span
       className={classNames(classes)}
-      // tslint:disable-next-line:jsx-no-lambda
       onMouseDown={event => {
         handleMouseDown(props, event);
       }}
-      // tslint:disable-next-line:jsx-no-lambda
       onMouseMove={event => {
         handleMouseMove(props, event);
       }}
@@ -288,11 +286,9 @@ const renderAsImage = (props: Props) => {
   return (
     <span
       className={classNames(classes)}
-      // tslint:disable-next-line:jsx-no-lambda
       onMouseDown={event => {
         handleMouseDown(props, event);
       }}
-      // tslint:disable-next-line:jsx-no-lambda
       onMouseMove={event => {
         handleMouseMove(props, event);
       }}
@@ -310,7 +306,6 @@ const renderAsImage = (props: Props) => {
   );
 };
 
-// tslint:disable-next-line:variable-name
 export const Emoji = (props: Props) => {
   const { emoji } = props;
   if (isSpriteRepresentation(emoji.representation)) {

@@ -6,8 +6,12 @@ import {
   insertText,
   sendKeyToPm,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import quickInsertPlugin from '../../../../plugins/quick-insert';
+import taskAndDecisionPlugin from '../../../../plugins/tasks-and-decisions';
+import floatingToolbarPlugin from '../../../../plugins/floating-toolbar';
+import * as HyperlinkPlugin from '../../../../plugins/hyperlink';
+import { FloatingToolbarHandler } from '../../../../plugins/floating-toolbar/types';
 
 describe('hyperlink', () => {
   const createEditor = createEditorFactory();
@@ -68,6 +72,56 @@ describe('hyperlink', () => {
         attributes: { inputMethod: 'quickInsert' },
         eventType: 'ui',
       });
+    });
+  });
+
+  describe('floating toolbar', () => {
+    let getFloatingToolbarSpy: jest.SpyInstance<
+      FloatingToolbarHandler | undefined
+    >;
+    beforeAll(() => {
+      getFloatingToolbarSpy = jest.spyOn(
+        HyperlinkPlugin.default.pluginsOptions!,
+        'floatingToolbar',
+      );
+    });
+
+    beforeEach(() => {
+      getFloatingToolbarSpy.mockClear();
+    });
+
+    afterAll(() => {
+      getFloatingToolbarSpy.mockRestore();
+    });
+
+    it('should only add text, paragraph and heading, if no task/decision in schema', () => {
+      editor(doc(p(a({ href: 'google.com' })('web{<>}site'))));
+
+      expect(getFloatingToolbarSpy).toHaveLastReturnedWith(
+        expect.objectContaining({
+          nodeType: [
+            expect.objectContaining({ name: 'text' }),
+            expect.objectContaining({ name: 'paragraph' }),
+            expect.objectContaining({ name: 'heading' }),
+          ],
+        }),
+      );
+    });
+
+    it('should include task and decision items from node type, if they exist in schema', () => {
+      editor(doc(p(a({ href: 'google.com' })('web{<>}site'))), [
+        taskAndDecisionPlugin,
+        floatingToolbarPlugin,
+      ]);
+
+      expect(getFloatingToolbarSpy).toHaveLastReturnedWith(
+        expect.objectContaining({
+          nodeType: expect.arrayContaining([
+            expect.objectContaining({ name: 'taskItem' }),
+            expect.objectContaining({ name: 'decisionItem' }),
+          ]),
+        }),
+      );
     });
   });
 });

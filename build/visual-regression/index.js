@@ -5,6 +5,7 @@ const path = require('path');
 const isReachable = require('is-reachable');
 const jest = require('jest');
 const meow = require('meow');
+const chalk = require('chalk');
 const webpack = require('../../build/webdriver-runner/utils/webpack');
 const reporting = require('./reporting');
 
@@ -20,22 +21,38 @@ let startServer = true;
 process.env.NODE_ENV = 'test';
 process.env.VISUAL_REGRESSION = 'true';
 
-const cli = meow({
-  flags: {
-    updateSnapshot: {
-      type: 'boolean',
-      alias: 'u',
-    },
-    debug: {
-      type: 'boolean',
-      alias: 'debug',
-    },
-    watch: {
-      type: 'boolean',
-      alias: 'watch',
+const cli = meow(
+  `
+  Usage
+    $ yarn test:vr <[paths]> | <[pkgs]>
+
+  Options
+    --debug, -d              Runs tests in non-headless Chromium
+    --watch, -w              Run VR tests in watch mode (you must start the webpack server in another terminal)
+    --updateSnapshot, -u     Update image snapshots
+
+  Examples
+    $ yarn test:vr editor-core --updateSnaphot
+    $ yarn test:vr packages/editor/renderer/src/__tests__/visual-regression/layouts.ts --debug
+    $ yarn test:vr editor-common packages/editor/editor-core/src/__tests__/visual-regression/common/layouts.ts
+  `,
+  {
+    flags: {
+      updateSnapshot: {
+        type: 'boolean',
+        alias: 'u',
+      },
+      debug: {
+        type: 'boolean',
+        alias: 'd',
+      },
+      watch: {
+        type: 'boolean',
+        alias: 'w',
+      },
     },
   },
-});
+);
 
 if (cli.flags.debug) {
   process.env.DEBUG = 'true';
@@ -163,8 +180,24 @@ function runTestsWithRetry() {
 }
 
 async function main() {
+  const exitHandler = exitCode => {
+    console.log(chalk.dim(cli.help));
+  };
+
+  // Listen for early exit and print help
+  // If process exits while starting webpack dev server, then probably
+  // this script was called with incorrect arguments
+  if (!process.env.CI) {
+    process.on('exit', exitHandler);
+  }
+
   startServer ? await webpack.startDevServer() : console.log('start server');
   await isReachable('http://localhost:9000');
+
+  if (!process.env.CI) {
+    process.removeListener('exit', exitHandler);
+  }
+
   const code = await runTestsWithRetry();
   console.log(`Exiting tests with exit code: ${+code}`);
   startServer ? await webpack.stopDevServer() : console.log('test completed');
