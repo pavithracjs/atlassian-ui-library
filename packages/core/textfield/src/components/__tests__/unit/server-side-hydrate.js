@@ -10,12 +10,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-/**
- * Skipping ssr tests while we investigate an issue with emotion 10 hydration errors
- * Ticket: https://ecosystem.atlassian.net/browse/AK-6059
- */
-/* eslint-disable jest/no-disabled-tests */
-test('should ssr then hydrate drawer correctly', async () => {
+test('should ssr then hydrate textfield correctly', async () => {
   const [example] = await getExamplesFor('textfield');
   // $StringLitteral
   const Example = require(example.filePath).default; // eslint-disable-line import/no-dynamic-require
@@ -24,11 +19,15 @@ test('should ssr then hydrate drawer correctly', async () => {
   elem.innerHTML = await ssr(example.filePath);
 
   ReactDOM.hydrate(<Example />, elem);
-  // ignore emotion errors in server
-  const ignorePattern = /Did not expect server HTML to contain a <style> in <div>./;
+  // ignore warnings caused by emotion's server-side rendering approach
   // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls.filter(
-    e => !e[0].match(ignorePattern),
+    ([f, s]) =>
+      !(
+        f ===
+          'Warning: Did not expect server HTML to contain a <%s> in <%s>.' &&
+        s === 'style'
+      ),
   );
 
   expect(mockCalls.length).toBe(0); // eslint-disable-line no-console
