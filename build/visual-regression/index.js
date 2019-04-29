@@ -9,7 +9,7 @@ const chalk = require('chalk');
 const webpack = require('../../build/webdriver-runner/utils/webpack');
 const reporting = require('./reporting');
 
-const LONG_RUNNING_TESTS_THRESHOLD_SECS = 10;
+const LONG_RUNNING_TESTS_THRESHOLD_SECS = 30;
 let startServer = true;
 
 /*
