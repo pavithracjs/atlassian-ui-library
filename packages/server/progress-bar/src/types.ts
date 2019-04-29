@@ -16,7 +16,7 @@ export interface CustomProgressBarProps {
   /** Current progress, a number between 0 and 1. */
   value: number;
   /** When true the component is in indeterminate state. */
-  indeterminate: boolean;
+  isIndeterminate: boolean;
 }
 
 export interface DefaultProgressBarProps extends CustomProgressBarProps {

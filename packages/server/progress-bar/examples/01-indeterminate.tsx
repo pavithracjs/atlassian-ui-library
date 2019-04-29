@@ -4,6 +4,6 @@ import { containerStyle } from './00-basic';
 
 export default () => (
   <div style={containerStyle}>
-    <ProgressBar indeterminate />
+    <ProgressBar isIndeterminate />
   </div>
 );

@@ -7,13 +7,13 @@ import { DefaultProgressBarProps, ThemeTokens } from '../types';
 const maxValue = 1;
 
 const Bar = ({
-  indeterminate,
+  isIndeterminate,
   tokens,
 }: {
-  indeterminate: boolean;
+  isIndeterminate: boolean;
   tokens: ThemeTokens;
 }) => {
-  if (indeterminate) {
+  if (isIndeterminate) {
     return (
       <React.Fragment>
         <span css={[tokens.bar, tokens.increasingBar]} />
@@ -29,12 +29,12 @@ export default class ProgressBar extends React.PureComponent<
 > {
   static defaultProps = {
     value: 0,
-    indeterminate: false,
+    isIndeterminate: false,
   };
 
   render() {
-    const { value, indeterminate, theme } = this.props;
-    const valueParsed = indeterminate
+    const { value, isIndeterminate, theme } = this.props;
+    const valueParsed = isIndeterminate
       ? 0
       : Math.max(0, Math.min(value, maxValue));
 
@@ -50,7 +50,7 @@ export default class ProgressBar extends React.PureComponent<
               aria-valuemax={maxValue}
               tabIndex={0}
             >
-              <Bar indeterminate={indeterminate} tokens={tokens} />
+              <Bar isIndeterminate={isIndeterminate} tokens={tokens} />
             </div>
           )}
         </Theme.Consumer>

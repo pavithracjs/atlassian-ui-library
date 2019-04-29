@@ -5,7 +5,7 @@ import { CustomProgressBarProps } from '../types';
 export default class extends React.PureComponent<CustomProgressBarProps> {
   static defaultProps = {
     value: 0,
-    indeterminate: false,
+    isIndeterminate: false,
   };
 
   render() {
