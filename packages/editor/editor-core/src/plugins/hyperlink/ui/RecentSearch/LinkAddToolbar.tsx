@@ -87,13 +87,18 @@ export const messages = defineMessages({
   },
   displayText: {
     id: 'fabric.editor.displayText',
-    defaultMessage: 'Display text',
+    defaultMessage: 'Text to display',
     description: 'Text to display',
   },
   clearText: {
     id: 'fabric.editor.clearLinkText',
     defaultMessage: 'Clear text',
     description: 'Clears text on the link toolbar',
+  },
+  clearLink: {
+    id: 'fabric.editor.clearLink',
+    defaultMessage: 'Clear link',
+    description: 'Clears link in the link toolbar',
   },
 });
 
@@ -129,6 +134,9 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
   private isTabPressed: boolean;
 
   private urlInputContainer: PanelTextInput | null;
+  private displayTextInputContainer: PanelTextInput | null;
+  private urlBlur: () => void;
+  private textBlur: () => void;
 
   constructor(props: Props & InjectedIntlProps) {
     super(props);
@@ -140,6 +148,10 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
       items: [],
     };
     this.isTabPressed = false;
+
+    /* Cache functions */
+    this.urlBlur = this.handleBlur.bind(this, 'url');
+    this.textBlur = this.handleBlur.bind(this, 'text');
   }
 
   async resolveProvider() {
@@ -186,25 +198,25 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
     }
   };
 
-  private clearUrl = () => {
+  private clearUrl = (field: keyof State, component: PanelTextInput) => {
     this.setState({
-      text: '',
-    });
-    if (this.urlInputContainer) {
-      this.urlInputContainer.focus();
+      [field]: '',
+    } as any);
+    if (component) {
+      component.focus();
     }
   };
 
   render() {
-    const { items, isLoading, selectedIndex } = this.state;
+    const { items, isLoading, selectedIndex, text, displayText } = this.state;
     const {
       intl: { formatMessage },
       provider,
-      displayText,
     } = this.props;
     const placeholder = formatMessage(
       provider ? messages.placeholder : messages.linkPlaceholder,
     );
+
     return (
       <div className="recent-list">
         <Container provider={!!provider}>
@@ -220,14 +232,24 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
               onSubmit={this.handleSubmit}
               onChange={this.updateInput}
               autoFocus={true}
-              onCancel={this.handleBlur.bind(this, 'url')}
-              onBlur={this.handleBlur.bind(this, 'url')}
-              defaultValue={this.state.text}
+              onCancel={this.urlBlur}
+              onBlur={this.urlBlur}
+              defaultValue={text}
               onKeyDown={this.handleKeyDown}
             />
-            <ClearText onClick={this.clearUrl}>
-              <CrossCircleIcon label="Clear text" />
-            </ClearText>
+            {text && (
+              <Tooltip content={formatMessage(messages.clearLink)}>
+                <ClearText
+                  onClick={this.clearUrl.bind(
+                    null,
+                    'text',
+                    this.urlInputContainer,
+                  )}
+                >
+                  <CrossCircleIcon label={formatMessage(messages.clearLink)} />
+                </ClearText>
+              </Tooltip>
+            )}
           </UrlInputWrapper>
           <RecentList
             items={items}
@@ -239,17 +261,33 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
           <TextInputWrapper>
             <IconWrapper>
               <Tooltip content={formatMessage(messages.displayText)}>
-                <EditorAlignLeftIcon label="Text to display" />
+                <EditorAlignLeftIcon
+                  label={formatMessage(messages.displayText)}
+                />
               </Tooltip>
             </IconWrapper>
             <PanelTextInput
-              placeholder={'Text to display'}
+              ref={ele => (this.displayTextInputContainer = ele)}
+              placeholder={formatMessage(messages.displayText)}
               onChange={this.handleTextKeyDown}
-              onCancel={this.handleBlur.bind(this, 'text')}
-              onBlur={this.handleBlur.bind(this, 'text')}
+              onCancel={this.textBlur}
+              onBlur={this.textBlur}
               defaultValue={displayText}
               onSubmit={this.handleSubmit}
             />
+            {displayText && (
+              <Tooltip content={formatMessage(messages.clearText)}>
+                <ClearText
+                  onClick={this.clearUrl.bind(
+                    null,
+                    'displayText',
+                    this.displayTextInputContainer,
+                  )}
+                >
+                  <CrossCircleIcon label={formatMessage(messages.clearText)} />
+                </ClearText>
+              </Tooltip>
+            )}
           </TextInputWrapper>
         </Container>
       </div>

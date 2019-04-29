@@ -11,14 +11,18 @@ function pressDownArrowInputField(recentSearch: ReactWrapper<any, any>) {
   recentSearch
     .find('input')
     .first()
-    .simulate('keydown', { keyCode: 40 });
+    .simulate('keydown', {
+      keyCode: 40,
+    });
 }
 
 function pressReturnInputField(recentSearch: ReactWrapper<any, any>) {
   recentSearch
     .find('input')
     .first()
-    .simulate('keydown', { keyCode: 13 });
+    .simulate('keydown', {
+      keyCode: 13,
+    });
 }
 
 describe('@atlaskit/editor-core/ui/RecentSearch', () => {
@@ -108,7 +112,11 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
     await timeout();
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit).toHaveBeenCalledWith('example.com', 'example.com', 'manual');
+    expect(onSubmit).toHaveBeenCalledWith(
+      'example.com',
+      'example.com',
+      'manual',
+    );
   });
 
   describe('analytics v3', () => {
@@ -122,7 +130,9 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
           action: 'inserted',
           actionSubject: 'document',
           actionSubjectId: 'link',
-          attributes: { inputMethod: 'typeAhead' },
+          attributes: {
+            inputMethod: 'typeAhead',
+          },
           eventType: 'track',
         });
       });
@@ -137,7 +147,9 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
           action: 'inserted',
           actionSubject: 'document',
           actionSubjectId: 'link',
-          attributes: { inputMethod: 'typeAhead' },
+          attributes: {
+            inputMethod: 'typeAhead',
+          },
           eventType: 'track',
         });
       });
@@ -152,7 +164,9 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
         action: 'inserted',
         actionSubject: 'document',
         actionSubjectId: 'link',
-        attributes: { inputMethod: 'manual' },
+        attributes: {
+          inputMethod: 'manual',
+        },
         eventType: 'track',
       });
     });
