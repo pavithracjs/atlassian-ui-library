@@ -1,1 +1,0 @@
-- Removes babel-runtime in favour of @babel/runtime

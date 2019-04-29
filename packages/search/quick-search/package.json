@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/quick-search",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "description": "A quick-search component",
   "license": "Apache-2.0",
   "jsnext:main": "index.js",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@atlaskit/avatar": "^15.0.4",
-    "@atlaskit/docs": "^7.0.3",
+    "@atlaskit/docs": "^7.0.4",
     "@atlaskit/drawer": "^3.0.7",
     "@atlaskit/navigation": "^34.0.4",
     "enzyme": "^3.7.0",
