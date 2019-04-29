@@ -176,12 +176,10 @@ describe('finalizeUploadMiddleware', () => {
       config: { uploadParams: { collection: 'some-tenant-collection' } },
       tenantContext,
     });
-    //ReturnType<MediaStore['copyFileWithToken']>
-    const copyFileWithToken = jest
-      .fn()
-      .mockResolvedValue({
-        data: { id: 'some-id' },
-      }) as MediaStore['copyFileWithToken'];
+
+    const copyFileWithToken = jest.fn().mockResolvedValue({
+      data: { id: 'some-id' },
+    }) as MediaStore['copyFileWithToken'];
 
     asMock(MediaStore).mockImplementation(() => ({
       copyFileWithToken,
