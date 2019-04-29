@@ -818,6 +818,106 @@ exports[`Renderer - EmailSerializer should render link 1`] = `
 </div>
 `;
 
+exports[`Renderer - EmailSerializer should render lists 1`] = `
+<div
+  class="wrapper"
+  style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
+>
+  <ul
+    style="list-style-type: disc;margin-top: 12px;margin-bottom: 12px;"
+  >
+    <li
+      class="listItem"
+      style="margin-top: 4px;"
+    >
+      <p
+        style="margin: 0; padding: 0px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px; margin-bottom: 0px; padding-top: 0px;"
+      >
+        list item 1
+      </p>
+    </li>
+    <li
+      class="listItem"
+      style="margin-top: 4px;"
+    >
+      <p
+        style="margin: 0; padding: 0px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px; margin-bottom: 0px; padding-top: 0px;"
+      >
+        list item 2
+      </p>
+    </li>
+    <li
+      class="listItem"
+      style="margin-top: 4px;"
+    >
+      <p
+        style="margin: 0; padding: 0px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px; margin-bottom: 0px; padding-top: 0px;"
+      >
+        list item 3 
+        <br />
+        with line breaks
+      </p>
+    </li>
+    <li
+      class="listItem"
+      style="margin-top: 4px;"
+    >
+      <p
+        style="margin: 0; padding: 0px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px; margin-bottom: 0px; padding-top: 0px;"
+      >
+        list item 4
+      </p>
+    </li>
+  </ul>
+  <ol
+    style="list-style-type: decimal;margin-top: 12px;margin-bottom: 12px;"
+  >
+    <li
+      class="listItem"
+      style="margin-top: 4px;"
+    >
+      <p
+        style="margin: 0; padding: 0px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px; margin-bottom: 0px; padding-top: 0px;"
+      >
+        list item 1
+      </p>
+    </li>
+    <li
+      class="listItem"
+      style="margin-top: 4px;"
+    >
+      <p
+        style="margin: 0; padding: 0px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px; margin-bottom: 0px; padding-top: 0px;"
+      >
+        list item 2
+      </p>
+    </li>
+    <li
+      class="listItem"
+      style="margin-top: 4px;"
+    >
+      <p
+        style="margin: 0; padding: 0px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px; margin-bottom: 0px; padding-top: 0px;"
+      >
+        list item 3 
+        <br />
+        with line breaks
+      </p>
+    </li>
+    <li
+      class="listItem"
+      style="margin-top: 4px;"
+    >
+      <p
+        style="margin: 0; padding: 0px; mso-line-height-rule: exactly; line-height: 24px; font-size: 14px; margin-bottom: 0px; padding-top: 0px;"
+      >
+        list item 4
+      </p>
+    </li>
+  </ol>
+</div>
+`;
+
 exports[`Renderer - EmailSerializer should render media group correctly 1`] = `
 <div
   class="wrapper"

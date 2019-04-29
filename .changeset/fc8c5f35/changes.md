@@ -1,0 +1,1 @@
+- Bugfix of email renderer list vertical indentation
