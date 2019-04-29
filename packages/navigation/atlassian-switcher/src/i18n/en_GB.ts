@@ -17,7 +17,7 @@ export default {
   'fabric.atlassianSwitcher.people': 'People',
   'fabric.atlassianSwitcher.administration': 'Administration',
   'fabric.atlassianSwitcher.discoverMore': 'Discover more',
-  'fabric.atlassianSwitcher.errorHeading': 'Something went wrong',
+  'fabric.atlassianSwitcher.errorHeading': 'Something’s gone wrong',
   'fabric.atlassianSwitcher.errorText':
     'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
   'fabric.atlassianSwitcher.errorImageAltText':
