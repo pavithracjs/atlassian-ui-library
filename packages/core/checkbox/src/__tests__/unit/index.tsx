@@ -127,9 +127,9 @@ describe('CheckboxWithAnalytics', () => {
         value="stub value"
       />,
     );
-    /* tslint:disable:no-console */
+    /* eslint-disable no-console */
     expect(console.warn).not.toHaveBeenCalled();
     expect(console.error).not.toHaveBeenCalled();
-    /* tslint:enable:no-console */
+    /* eslint-enable no-console */
   });
 });
