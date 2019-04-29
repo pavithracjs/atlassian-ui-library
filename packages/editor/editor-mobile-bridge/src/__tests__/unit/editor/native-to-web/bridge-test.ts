@@ -29,7 +29,6 @@ import {
   setLinkHref,
   setLinkText,
 } from '@atlaskit/editor-core';
-import { version as packageVersion } from '../../../../version.json';
 
 afterEach(() => {
   (indentList as jest.Mock<{}>).mockClear();
@@ -47,7 +46,7 @@ describe('general', () => {
   let bridge: any = new WebBridgeImpl();
 
   it('should return valid bridge version', () => {
-    expect(bridge.currentVersion()).toEqual(packageVersion);
+    expect(bridge.currentVersion()).toEqual('1.2.3.4');
   });
 });
 
