@@ -1,1 +1,0 @@
-- add status lozenge to source code issue references.
