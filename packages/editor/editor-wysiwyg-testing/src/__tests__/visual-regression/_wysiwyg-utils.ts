@@ -323,7 +323,7 @@ export async function snapshotAndCompare(
       // Write percentages to disk
       fs.writeFileSync(
         textPath,
-        `WYSIWYG Divergence\n\nbaseline: ${divergenceBaseline}\ncurrent: ${divergence}\n${
+        `baseline: ${divergenceBaseline}\ncurrent: ${divergence}\n${
           regressed ? 'regressed' : 'improved'
         }: ${percent}%`,
       );

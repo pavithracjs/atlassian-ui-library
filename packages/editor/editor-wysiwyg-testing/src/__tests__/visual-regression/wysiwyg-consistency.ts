@@ -4,7 +4,7 @@ import {
   snapshotAndCompare,
 } from './_wysiwyg-utils';
 
-describe('WYSIWYG Snapshot Test: content nodes look consistent in editor & renderer', () => {
+describe('WYSIWYG Snapshot Test: looks consistent in editor & renderer', () => {
   let page: any;
 
   /**
@@ -20,7 +20,6 @@ describe('WYSIWYG Snapshot Test: content nodes look consistent in editor & rende
    * a resource you can add a `waitForSelector` value to defer the screenshot until it's available.
    */
   const nodes: { node: string; waitForSelector?: string }[] = [
-    /*
     { node: 'actions' },
     { node: 'blockquote' },
     { node: 'bullet list' },
@@ -32,9 +31,8 @@ describe('WYSIWYG Snapshot Test: content nodes look consistent in editor & rende
     { node: 'heading' },
     { node: 'mention' },
     { node: 'ordered list' },
-    */
     { node: 'paragraph' },
-    // { node: 'status' },
+    { node: 'status' },
   ];
 
   beforeEach(async () => {
@@ -42,11 +40,9 @@ describe('WYSIWYG Snapshot Test: content nodes look consistent in editor & rende
     page = global.page;
   });
 
-  nodes.forEach(({ node, waitForSelector }) => {
-    it(`${node} looks consistent at document root`, async () => {
-      const adf = createDocumentADF(node);
-      await loadKitchenSinkWithAdf(page, adf);
-      await snapshotAndCompare(page, node, waitForSelector);
-    });
+  it.each(nodes)('%o', async ({ node, waitForSelector }) => {
+    const adf = createDocumentADF(node);
+    await loadKitchenSinkWithAdf(page, adf);
+    await snapshotAndCompare(page, node, waitForSelector);
   });
 });
