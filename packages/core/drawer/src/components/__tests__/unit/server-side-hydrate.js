@@ -27,6 +27,7 @@ test('should ssr then hydrate drawer correctly', async () => {
 
   // ignore emotion errors in server
   const ignorePattern = /Did not expect server HTML to contain a <style> in <div>./;
+  // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls.filter(
     e => !e[0].match(ignorePattern),
   );
