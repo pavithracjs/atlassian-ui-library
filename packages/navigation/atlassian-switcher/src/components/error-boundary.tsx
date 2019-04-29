@@ -100,7 +100,7 @@ class ErrorBoundary extends React.Component<
           </Button>
         </React.Fragment>
       ) : (
-        // Not authorised http error
+        // All other http errors
         <FormattedMessage {...messages.errorTextNetwork} />
       );
     }
