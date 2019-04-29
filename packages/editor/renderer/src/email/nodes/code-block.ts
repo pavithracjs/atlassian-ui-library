@@ -4,9 +4,15 @@ import { createTag, serializeStyle, createTable, TableData } from '../util';
 export const codeBlockStyles = `
 .codeBlock tr:first-child td {
   padding-top: 8px;
+  border-radius: 3px 3px 0 0;
+  -webkit-border-radius: 3px 3px 0 0;
+  -moz-border-radius: 3px 3px 0 0;
 }
 .codeBlock tr:last-child td {
   padding-bottom: 8px;
+  border-radius: 0 0 3px 3px;
+  -webkit-border-radius: 0 0 3px 3px;
+  -moz-border-radius: 0 0 3px 3px;
 }
 `;
 
