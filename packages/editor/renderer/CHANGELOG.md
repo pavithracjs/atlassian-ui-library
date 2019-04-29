@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 45.6.4
+- [patch] [9047a1921a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9047a1921a):
+
+  - Bugfix of email renderer list vertical indentation
+
 ## 45.6.3
 - [patch] [a6fb248987](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6fb248987):
 
