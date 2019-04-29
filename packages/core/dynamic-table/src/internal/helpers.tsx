@@ -1,8 +1,8 @@
 import { HeadType, RowType, RankEnd } from '../types';
 
 export const getPageRows = (
-  pageNumber: number | null | undefined,
   allRows: Array<RowType>,
+  pageNumber?: number,
   rowsPerPage?: number,
 ): Array<RowType> => {
   if (!pageNumber || !rowsPerPage || !allRows.length) {
@@ -26,7 +26,6 @@ export const assertIsSortable = (head?: HeadType) => {
           "isSortable can't be set to true, if the 'key' prop is missing.",
         );
       } catch (e) {
-        // tslint:disable-next-line
         // eslint-disable-next-line no-console
         console.error(e);
       }
@@ -36,10 +35,7 @@ export const assertIsSortable = (head?: HeadType) => {
   return null;
 };
 
-export const validateSortKey = (
-  sortKey?: string | null,
-  head?: HeadType | null,
-) => {
+export const validateSortKey = (sortKey?: string, head?: HeadType) => {
   if (!sortKey) {
     return null;
   }
@@ -49,7 +45,6 @@ export const validateSortKey = (
     try {
       throw Error(`Cell with ${sortKey} key not found in head.`);
     } catch (e) {
-      // tslint:disable-next-line
       // eslint-disable-next-line no-console
       console.error(e);
     }

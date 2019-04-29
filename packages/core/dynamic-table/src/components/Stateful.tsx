@@ -23,8 +23,8 @@ export default class DynamicTable extends React.Component<Props, State> {
     isLoading: false,
     isFixedSize: false,
     isRankable: false,
-    onSetPage() {},
-    onSort() {},
+    onSetPage: () => {},
+    onSort: () => {},
     rowsPerPage: Infinity,
   };
 

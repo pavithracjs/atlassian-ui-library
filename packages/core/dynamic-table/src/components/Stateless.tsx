@@ -103,20 +103,16 @@ class DynamicTable extends React.Component<Props, State> {
     this.onSetPage(1, undefined);
 
     if (isRankable && key === sortKey && sortOrder === DESC) {
-      // @ts-ignore TypeScript 3.1 does not recognise defaultProps correctly. This will be fixed in TypeScript 3.2.
       onSort({ key: null, sortOrder: null, item });
-
       return;
     }
 
     const sortOrderFormatted =
       key !== sortKey ? ASC : toggleSortOrder(sortOrder);
-    // @ts-ignore TypeScript 3.1 does not recognise defaultProps correctly. This will be fixed in TypeScript 3.2.
     onSort({ key, item, sortOrder: sortOrderFormatted });
   };
 
   onSetPage = (page: number, event?: UIAnalyticsEvent) => {
-    // @ts-ignore TypeScript 3.1 does not recognise defaultProps correctly. This will be fixed in TypeScript 3.2.
     this.props.onSetPage(page, event);
   };
 
@@ -147,7 +143,7 @@ class DynamicTable extends React.Component<Props, State> {
       return loadingSpinnerSize;
     }
 
-    return getPageRows(page, rows || [], rowsPerPage).length > 2
+    return getPageRows(rows || [], page, rowsPerPage).length > 2
       ? LARGE
       : SMALL;
   };

@@ -7,7 +7,7 @@ import TableCell from './TableCell';
 import { inlineStylesIfRanking } from '../../internal/helpers';
 
 export interface Props extends WithDimensionsProps {
-  head: HeadType | null;
+  head?: HeadType;
   isFixedSize: boolean;
   row: RowType;
   rowIndex: number;

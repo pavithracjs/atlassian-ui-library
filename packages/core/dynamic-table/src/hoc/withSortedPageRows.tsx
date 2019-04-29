@@ -1,14 +1,15 @@
 import * as React from 'react';
+import { Omit } from '@atlaskit/type-helpers';
 import { ASC } from '../internal/constants';
 import { getPageRows, validateSortKey } from '../internal/helpers';
 import { HeadType, RowType, SortOrderType } from '../types';
 
 // sort all rows based on sort key and order
 const getSortedRows = (
-  head: any,
-  rows: any[],
-  sortKey: any,
-  sortOrder: any,
+  head?: HeadType,
+  rows?: Array<RowType>,
+  sortKey?: string,
+  sortOrder?: SortOrderType,
 ) => {
   if (!sortKey || !head) {
     return rows;
@@ -78,30 +79,31 @@ const getSortedRows = (
 };
 
 export interface Props {
-  head: HeadType | null;
-  page: number | null;
-  rows: Array<RowType> | null;
+  head?: HeadType;
+  page?: number;
+  rows?: Array<RowType>;
   rowsPerPage?: number;
-  sortKey?: null | string;
-  sortOrder: SortOrderType | null;
+  sortKey?: string;
+  sortOrder?: SortOrderType;
 }
 
 export interface WithSortedPageRowsProps {
-  pageRows: RowType[];
+  pageRows: Array<RowType>;
 }
 
 // get one page of data in table, sorting all rows previously
 export default function withSortedPageRows<
-  WrappedComponentProps extends object
->(WrappedComponent: React.ComponentType<any>) {
+  WrappedComponentProps extends WithSortedPageRowsProps & Props
+>(WrappedComponent: React.ComponentType<WrappedComponentProps>) {
   return class WithSortedPageRows extends React.Component<
-    Partial<WrappedComponentProps & WithSortedPageRows & Props>
+    Omit<WrappedComponentProps & Props, 'pageRows'>
   > {
     componentWillMount() {
       validateSortKey(this.props.sortKey, this.props.head);
     }
+
     componentWillReceiveProps(
-      nextProps: WrappedComponentProps & WithSortedPageRows & Props,
+      nextProps: Omit<WrappedComponentProps & Props, 'pageRows'>,
     ) {
       if (
         this.props.sortKey !== nextProps.sortKey ||
@@ -119,11 +121,12 @@ export default function withSortedPageRows<
         sortOrder,
         rowsPerPage,
         page,
+        // @ts-ignore - Rest types may only be created from object types
         ...restProps
-      } = this.props as any;
+      } = this.props;
 
       const sortedRows = getSortedRows(head, rows, sortKey, sortOrder) || [];
-      const pageRows = getPageRows(page, sortedRows, rowsPerPage);
+      const pageRows = getPageRows(sortedRows, page, rowsPerPage);
 
       return (
         <WrappedComponent pageRows={pageRows} head={head} {...restProps} />

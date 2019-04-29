@@ -23,7 +23,7 @@ export interface Props extends WithSortedPageRowsProps {
   isFixedSize: boolean;
   isRanking: boolean;
   isRankingDisabled: boolean;
-  head: HeadType | null;
+  head?: HeadType;
 }
 
 // computes destination of ranking
