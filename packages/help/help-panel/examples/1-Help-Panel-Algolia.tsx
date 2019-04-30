@@ -4,7 +4,6 @@ import Button, { ButtonGroup } from '@atlaskit/button';
 import Page from '@atlaskit/page';
 
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
-import { Article } from '../src/model/Article';
 import { ExampleWrapper, ButtonsWrapper } from './utils/styled';
 
 import { HelpPanel } from '../src';
