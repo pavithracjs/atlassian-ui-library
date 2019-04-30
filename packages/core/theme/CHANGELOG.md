@@ -1,5 +1,10 @@
 # @atlaskit/theme
 
+## 8.1.8
+- [patch] [453838d3c5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/453838d3c5):
+
+  - Removes an import which referes to the old entry point of this component. Bundle size should now be slightly smaller
+
 ## 8.1.7
 - [patch] [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
 
