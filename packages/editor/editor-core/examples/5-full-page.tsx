@@ -38,7 +38,6 @@ import withSentry from '../example-helpers/withSentry';
  */
 export const Wrapper: any = styled.div`
   box-sizing: border-box;
-  padding: 2px;
   height: calc(100vh - 32px);
 `;
 Wrapper.displayName = 'Wrapper';

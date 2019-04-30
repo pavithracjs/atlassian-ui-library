@@ -61,6 +61,7 @@ export enum ACTIONS {
 let isBreakoutEnabled: boolean | undefined;
 let wasBreakoutEnabled: boolean | undefined;
 let isDynamicTextSizingEnabled: boolean | undefined;
+let isFullWidthModeEnabled: boolean | undefined;
 
 export const createPlugin = (
   dispatch: Dispatch,
@@ -71,10 +72,12 @@ export const createPlugin = (
   dynamicTextSizing?: boolean,
   breakoutEnabled?: boolean,
   previousBreakoutEnabled?: boolean,
+  fullWidthModeEnabled?: boolean,
 ) => {
   wasBreakoutEnabled = previousBreakoutEnabled;
   isBreakoutEnabled = breakoutEnabled;
   isDynamicTextSizingEnabled = dynamicTextSizing;
+  isFullWidthModeEnabled = fullWidthModeEnabled;
   return new Plugin({
     state: {
       init: (): TablePluginState => {
@@ -84,6 +87,7 @@ export const createPlugin = (
           insertRowButtonIndex: undefined,
           decorationSet: DecorationSet.empty,
           ...defaultTableSelection,
+          isFullWidthModeEnabled,
         };
       },
       apply(
@@ -259,6 +263,7 @@ export const createPlugin = (
             isBreakoutEnabled,
             wasBreakoutEnabled,
             dynamicTextSizing: isDynamicTextSizingEnabled,
+            isFullWidthModeEnabled,
           }),
         tableCell: createCellView(portalProviderAPI, isContextMenuEnabled),
         tableHeader: createCellView(portalProviderAPI, isContextMenuEnabled),
