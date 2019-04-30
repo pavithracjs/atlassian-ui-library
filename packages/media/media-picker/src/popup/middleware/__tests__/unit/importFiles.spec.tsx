@@ -512,6 +512,31 @@ describe('importFiles middleware', () => {
         });
       });
     });
+
+    it('should emit file-uploaded in the tenant context', done => {
+      const { eventEmitter, mockWsProvider, store, nextDispatch } = setup();
+
+      importFilesMiddleware(eventEmitter, mockWsProvider)(store)(nextDispatch)(
+        action,
+      );
+
+      window.setTimeout(() => {
+        const { tenantContext } = store.getState();
+
+        expect(tenantContext.emit).toBeCalledTimes(4);
+        expect(tenantContext.emit).lastCalledWith('file-uploaded', {
+          id: expectUUID,
+          mediaType: 'image',
+          mimeType: 'image/jpg',
+          name: 'picture5.jpg',
+          preview: undefined,
+          representations: {},
+          size: 47,
+          status: 'processing',
+        });
+        done();
+      });
+    });
   });
 
   describe('isRemoteService', () => {

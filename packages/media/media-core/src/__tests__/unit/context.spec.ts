@@ -17,6 +17,7 @@ import {
 } from '../../../src';
 import { ContextFactory } from '../../../src/context/context';
 import { fileStreamsCache } from '../../../src/context/fileStreamCache';
+import { FileState } from 'src/fileState';
 
 const getOrInsertSpy = jest.spyOn(fileStreamsCache, 'getOrInsert');
 const authProvider: AuthProvider = () =>
@@ -464,6 +465,42 @@ describe('Context', () => {
             done();
           },
         });
+    });
+  });
+
+  describe('#events', () => {
+    const fileState: FileState = {
+      status: 'uploading',
+      id: '1',
+      mediaType: 'image',
+      mimeType: '',
+      name: 'some-file',
+      progress: 1,
+      size: 1,
+    };
+
+    it('Should call event listener when an event is emitted', () => {
+      const context = createContext();
+      const onFileUploaded = jest.fn();
+
+      context.emit('file-uploaded', fileState);
+      context.on('file-uploaded', onFileUploaded);
+      context.emit('file-uploaded', fileState);
+
+      expect(onFileUploaded).toBeCalledTimes(1);
+      expect(onFileUploaded).toBeCalledWith(fileState);
+    });
+
+    it('Should not call event listener if we unsubscribe', () => {
+      const context = createContext();
+      const onFileUploaded = jest.fn();
+
+      context.on('file-uploaded', onFileUploaded);
+      context.emit('file-uploaded', fileState);
+      context.off('file-uploaded', onFileUploaded);
+      context.emit('file-uploaded', fileState);
+
+      expect(onFileUploaded).toBeCalledTimes(1);
     });
   });
 });
