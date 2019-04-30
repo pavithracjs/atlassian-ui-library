@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from '@emotion/styled';
 import Lorem from 'react-lorem-component';
 
@@ -19,7 +18,7 @@ const variants = [
   multiLineBreakableString,
 ];
 
-const variantToHeading = variant => {
+const variantToHeading = (variant: string) => {
   switch (variant) {
     case oneLineNonBreakableString:
     case multiLineNonBreakableString:
@@ -34,8 +33,8 @@ const variantToHeading = variant => {
   }
 };
 
-const variantToMultiline = variant =>
-  ![oneLineBreakableString, oneLineNonBreakableString].includes(variant);
+const variantToMultiline = (variant: string) =>
+  variant in [oneLineBreakableString, oneLineNonBreakableString];
 
 const H4 = styled.h4`
   margin-bottom: 0.66em;
@@ -43,18 +42,19 @@ const H4 = styled.h4`
 
 type State = { isOpen: string | null };
 // eslint-disable-next-line react/no-multi-comp
-export default class ModalDemo extends Component<{}, State> {
+export default class ModalDemo extends React.Component<{}, State> {
   state = { isOpen: null };
 
   open = (isOpen: string) => this.setState({ isOpen });
 
   close = (isOpen: string) => this.setState({ isOpen });
 
-  secondaryAction = ({ target }: Object) => console.log(target.innerText);
+  secondaryAction = ({ target }: { [index: string]: any }) =>
+    console.log(target.innerText);
 
   render() {
     const { isOpen } = this.state;
-    const btn = name => (
+    const btn = (name: string) => (
       <Button key={name} onClick={() => this.open(name)}>
         {name}
       </Button>

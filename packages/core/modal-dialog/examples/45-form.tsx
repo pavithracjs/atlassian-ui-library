@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import Button from '@atlaskit/button';
 
 import Form, { Field, CheckboxField } from '@atlaskit/form';
@@ -8,9 +7,10 @@ import Textfield from '@atlaskit/textfield';
 import RadioGroup, { AkRadio } from '@atlaskit/field-radio-group';
 
 import ModalDialog, { ModalFooter, ModalTransition } from '../src';
+import { FooterProps } from '../src/components/Footer';
 
 type State = { isOpen: boolean };
-export default class AtlaskitFormDemo extends Component<{}, State> {
+export default class AtlaskitFormDemo extends React.Component<{}, State> {
   state = { isOpen: false };
 
   open = () => this.setState({ isOpen: true });
@@ -21,7 +21,7 @@ export default class AtlaskitFormDemo extends Component<{}, State> {
 
   render() {
     const { isOpen } = this.state;
-    const footer = props => (
+    const footer = (props: FooterProps) => (
       <ModalFooter showKeyline={props.showKeyline}>
         <span />
         <Button appearance="primary" type="submit">
@@ -36,6 +36,11 @@ export default class AtlaskitFormDemo extends Component<{}, State> {
       { name: 'color', value: 'yellow', label: 'Yellow' },
     ];
 
+    interface ContainerProps {
+      children: React.ReactNode;
+      className: string | undefined;
+    }
+
     return (
       <div>
         <Button onClick={this.open}>Open Modal</Button>
@@ -46,9 +51,9 @@ export default class AtlaskitFormDemo extends Component<{}, State> {
               heading="Form Demo"
               onClose={this.close}
               components={{
-                Container: ({ children, className }) => (
+                Container: ({ children, className }: ContainerProps) => (
                   <Form onSubmit={this.onFormSubmit}>
-                    {({ formProps }) => (
+                    {({ formProps }: { formProps: any }) => (
                       <form {...formProps} className={className}>
                         {children}
                       </form>
@@ -60,10 +65,12 @@ export default class AtlaskitFormDemo extends Component<{}, State> {
             >
               <p>Enter some text then submit the form to see the response.</p>
               <Field label="Name" name="my-name" defaultValue="">
-                {({ fieldProps }) => <Textfield {...fieldProps} />}
+                {({ fieldProps }: { fieldProps: any }) => (
+                  <Textfield {...fieldProps} />
+                )}
               </Field>
               <Field label="Email" name="my-email" defaultValue="">
-                {({ fieldProps }) => (
+                {({ fieldProps }: { fieldProps: any }) => (
                   <Textfield
                     autoComplete="off"
                     placeholder="gbelson@hooli.com"
@@ -73,13 +80,17 @@ export default class AtlaskitFormDemo extends Component<{}, State> {
               </Field>
 
               <CheckboxField name="checkbox" defaultIsChecked>
-                {({ fieldProps }) => (
+                {({ fieldProps }: { fieldProps: any }) => (
                   <Checkbox {...fieldProps} value="example" label="Checkbox" />
                 )}
               </CheckboxField>
 
               <Field name="radiogroup" defaultValue="">
-                {({ fieldProps: { value, ...others } }) => (
+                {({
+                  fieldProps: { value, ...others },
+                }: {
+                  fieldProps: any;
+                }) => (
                   <RadioGroup
                     items={radioItems}
                     label="Basic Radio Group Example"

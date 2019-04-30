@@ -1,5 +1,4 @@
-// @flow
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import Lorem from 'react-lorem-component';
 import Button from '@atlaskit/button';
 import Modal, { ModalTransition } from '../src';
@@ -7,14 +6,14 @@ import Modal, { ModalTransition } from '../src';
 type State = {
   isOpen: boolean;
 };
-export default class ExampleBasic extends PureComponent<{}, State> {
+export default class ExampleBasic extends React.PureComponent<{}, State> {
   state: State = { isOpen: false };
 
   open = () => this.setState({ isOpen: true });
 
   close = () => this.setState({ isOpen: false });
 
-  secondaryAction = ({ target }: Object) => console.log(target.innerText);
+  secondaryAction = ({ target }: any) => console.log(target.innerText);
 
   render() {
     const { isOpen } = this.state;

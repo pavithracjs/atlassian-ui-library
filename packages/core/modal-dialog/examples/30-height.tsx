@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from '@emotion/styled';
 import Lorem from 'react-lorem-component';
 import Button, { ButtonGroup } from '@atlaskit/button';
@@ -12,18 +11,18 @@ const H4 = styled.h4`
 
 type State = { isOpen: any };
 
-export default class ModalDemo extends Component<{}, State> {
+export default class ModalDemo extends React.Component<{}, State> {
   state = { isOpen: null };
 
   close = (isOpen: any) => this.setState({ isOpen });
 
   open = (isOpen: any) => this.setState({ isOpen });
 
-  secondaryAction = ({ target }: Object) => console.log(target.innerText);
+  secondaryAction = ({ target }: any) => console.log(target.innerText);
 
   render() {
     const { isOpen } = this.state;
-    const btn = name => (
+    const btn = (name: string | number | undefined) => (
       <Button key={name} onClick={() => this.open(name)}>
         {name}
       </Button>

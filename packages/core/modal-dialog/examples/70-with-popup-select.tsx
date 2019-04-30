@@ -1,6 +1,4 @@
-// @flow
-
-import React, { Component } from 'react';
+import * as React from 'react';
 import { PopupSelect } from '@atlaskit/select';
 import ModalDialog from '../src';
 
@@ -22,13 +20,15 @@ function onClose() {
   console.log('the "onClose" handler is fired');
 }
 
-export default class ModalWithPopupSelect extends Component<{}> {
+export default class ModalWithPopupSelect extends React.Component<{}> {
   render() {
     return (
       <ModalDialog onClose={onClose}>
         <PopupSelect
           {...defaults}
-          target={({ ref }) => <button ref={ref}>Click me</button>}
+          target={({ ref }: { ref: React.RefObject<any> }) => (
+            <button ref={ref}>Click me</button>
+          )}
           popperProps={{ placement: 'bottom', positionFixed: true }}
           searchThreshold={10}
         />

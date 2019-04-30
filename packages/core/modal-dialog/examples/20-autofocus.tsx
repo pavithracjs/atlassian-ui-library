@@ -7,6 +7,12 @@ const H4 = styled.h4`
   margin-bottom: 0.66em;
 `;
 
+type stubDialogProps = {
+  children: React.ReactNode;
+  heading?: string;
+  autoFocus?: boolean;
+};
+
 /* eslint-disable jsx-a11y/no-autofocus */
 export default class ModalDemo extends React.Component<
   {},
@@ -26,7 +32,7 @@ export default class ModalDemo extends React.Component<
       { text: 'Close', onClick: this.close },
       { text: 'Secondary Action', onClick: this.secondaryAction },
     ];
-    const StubDialog = ({ children, ...props }) => (
+    const StubDialog = ({ children, ...props }: stubDialogProps) => (
       <ModalDialog actions={actions} onClose={this.close} {...props}>
         {children}
       </ModalDialog>

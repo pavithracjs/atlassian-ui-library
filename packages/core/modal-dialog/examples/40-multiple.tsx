@@ -1,13 +1,12 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import Lorem from 'react-lorem-component';
 import Modal, { ModalTransition } from '../src';
 
 const sizes = ['large', 'medium', 'small'];
-type State = { isOpen: Array<any> };
-export default class NestedDemo extends Component<{}, State> {
-  state = { isOpen: [] };
+type State = { isOpen: string[] };
+export default class NestedDemo extends React.Component<{}, State> {
+  state: { isOpen: string[] } = { isOpen: [] };
 
   open = (isOpen: string) => {
     const openModals = this.state.isOpen.slice(0);
@@ -56,17 +55,20 @@ export default class NestedDemo extends Component<{}, State> {
         {sizes.map(name => {
           const next = sizes[sizes.indexOf(name) + 1];
           const onClick = next ? () => this.open(next) : undefined;
-          const actions = [{ text: 'Close', onClick: this.close }];
+          const actions: {
+            text: string;
+            onClick: (() => void) | undefined;
+          }[] = [{ text: 'Close', onClick: this.close }];
           if (next) actions.push({ text: `Open: ${next}`, onClick });
 
           return (
             <ModalTransition key={name}>
-              {isOpen.includes(name) && (
+              {name in isOpen && (
                 <Modal
                   actions={actions}
                   autoFocus
                   onClose={this.close}
-                  onCloseComplete={next && this.handleCloseComplete}
+                  onCloseComplete={next ? this.handleCloseComplete : undefined}
                   onStackChange={
                     next ? id => this.handleStackChange(id, name) : undefined
                   }

@@ -3,17 +3,32 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 import Button from '@atlaskit/button';
 import { colors } from '@atlaskit/theme';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import {
+  Draggable,
+  DragDropContext,
+  Droppable,
+  DropResult,
+  DraggableProvidedDragHandleProps as DragHandleProps,
+} from 'react-beautiful-dnd';
 import Modal, { ModalTransition } from '../src';
 
 const noop = () => {};
 
 const gridUnit = 4;
 
+interface CardProps {
+  isActive?: boolean;
+  isDraggable?: boolean;
+  isDragging?: boolean;
+  isHovering?: boolean;
+  ref: ((ref: HTMLElement | null) => any);
+}
+
 const Card = styled.div`
   background: ${colors.Y75};
   border-radius: 3px;
-  cursor: ${({ isDragging }) => (isDragging ? 'grabbing' : 'pointer')};
+  cursor: ${({ isDragging }: CardProps) =>
+    isDragging ? 'grabbing' : 'pointer'};
   display: flex;
   position: relative;
   height: ${gridUnit * 5}px;
@@ -34,7 +49,7 @@ const Card = styled.div`
   }
 `;
 
-const isMiddleClick = event => event.button === 1;
+const isMiddleClick = (event: React.MouseEvent) => event.button === 1;
 
 type Item = {
   id: string;
@@ -50,7 +65,7 @@ type ItemLineCardProps = {
     isActive: boolean,
     isFocused: boolean,
     item: Item,
-  ) => Node;
+  ) => React.ReactNode;
   onClick: (item: Item, e?: any) => void;
 };
 
@@ -77,7 +92,7 @@ class ItemLineCard extends React.Component<
 
   eventHandlers = {
     onBlur: () => this.setState({ isFocused: false }),
-    onClick: event => {
+    onClick: (event: React.MouseEvent) => {
       // Middle clicks are handled in onMouseDown
       // for cross browser support.
       if (!isMiddleClick(event)) {
@@ -88,7 +103,7 @@ class ItemLineCard extends React.Component<
     onFocus: () => this.setState({ isFocused: true }),
     onMouseEnter: () => this.setState({ isHovering: true }),
     onMouseLeave: () => this.setState({ isHovering: false, isActive: false }),
-    onMouseDown: event => {
+    onMouseDown: (event: React.MouseEvent) => {
       if (isMiddleClick(event)) {
         this.propagateClick(event);
       }
@@ -97,18 +112,18 @@ class ItemLineCard extends React.Component<
     onMouseUp: () => this.setState({ isActive: false }),
   };
 
-  propagateClick = event => {
+  propagateClick = (event: React.MouseEvent) => {
     event.persist();
     this.props.onClick(this.props.item, event);
   };
 
-  patchedHandlers = dragHandleProps => {
+  patchedHandlers = (dragHandleProps: DragHandleProps | null) => {
     // The 'isActive' state is determined by the
     // draggable state, i.e. if isDragging then
     // the state is considered active. The below
     // ensures the events are still propagated
     // correctly to the drag-and-drop library.
-    const onMouseDown = (() => event => {
+    const onMouseDown = (() => (event: React.MouseEvent) => {
       if (isMiddleClick(event)) {
         this.propagateClick(event);
       }
@@ -123,7 +138,7 @@ class ItemLineCard extends React.Component<
     };
   };
 
-  renderCard = cardProps => {
+  renderCard = (cardProps: CardProps) => {
     const { isHovering, isFocused } = this.state;
     const isActive = !!cardProps.isDragging || this.state.isActive;
     return (
@@ -139,7 +154,7 @@ class ItemLineCard extends React.Component<
         {(provided, snapshot) => (
           <div>
             {this.renderCard({
-              ref: ref => provided.innerRef(ref),
+              ref: (ref: HTMLElement | null) => provided.innerRef(ref),
               isDraggable: true,
               isDragging: snapshot.isDragging,
               ...provided.draggableProps,
@@ -159,12 +174,13 @@ class ItemLineCard extends React.Component<
 type ItemLineCardGroupProps = {
   groupId: string;
   items: Item[];
+  isReorderEnabled?: boolean;
   children: (
     isHovering: boolean,
     isActive: boolean,
     isFocused: boolean,
     item: Item,
-  ) => Node;
+  ) => React.ReactNode;
   onOrderChange: (
     items: Item[],
     target: Item,
@@ -180,7 +196,7 @@ class ItemLineCardGroup extends React.Component<ItemLineCardGroupProps> {
     onClick: noop,
   };
 
-  onDragEnd = result => {
+  onDragEnd = (result: DropResult) => {
     const { source } = result;
     const { destination } = result;
 
@@ -297,7 +313,7 @@ export default class extends React.PureComponent<{}, State> {
 
   close = () => this.setState({ isOpen: false });
 
-  secondaryAction = ({ target }: Object) => console.log(target.innerText);
+  secondaryAction = ({ target }: any) => console.log(target.innerText);
 
   render() {
     const { isOpen } = this.state;

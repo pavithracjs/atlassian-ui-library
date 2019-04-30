@@ -1,5 +1,4 @@
-// @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from '@emotion/styled';
 import Lorem from 'react-lorem-component';
 import Button, { ButtonGroup } from '@atlaskit/button';
@@ -9,24 +8,24 @@ import { WIDTH_ENUM } from '../src/shared-variables';
 import ModalDialog, { ModalTransition } from '../src';
 
 const units = [420, '42%', '42em'];
-const sizes = WIDTH_ENUM.values;
+const sizes: (string | number)[] = WIDTH_ENUM.values;
 const allWidths = sizes.concat(units);
 const H4 = styled.h4`
   margin-bottom: 0.66em;
 `;
 
-export default class ModalDemo extends Component<{}, { isOpen: any }> {
+export default class ModalDemo extends React.Component<{}, { isOpen: any }> {
   state = { isOpen: null };
 
   open = (isOpen: any) => this.setState({ isOpen });
 
   close = (isOpen: any) => this.setState({ isOpen });
 
-  secondaryAction = ({ target }: Object) => console.log(target.innerText);
+  secondaryAction = ({ target }: any) => console.log(target.innerText);
 
   render() {
     const { isOpen } = this.state;
-    const btn = name => (
+    const btn = (name: string | number) => (
       <Button key={name} onClick={() => this.open(name)}>
         {name}
       </Button>
@@ -45,8 +44,8 @@ export default class ModalDemo extends Component<{}, { isOpen: any }> {
 
         <ModalTransition>
           {allWidths
-            .filter(w => w === isOpen)
-            .map(name => (
+            .filter((w: string | number) => w === isOpen)
+            .map((name: string | number) => (
               <ModalDialog
                 actions={actions}
                 key={name}

@@ -15,7 +15,7 @@ export default class ExampleAppearance extends React.PureComponent<
 
   close = () => this.setState({ isOpen: null });
 
-  secondaryAction = ({ target }: Object) => console.log(target.innerText);
+  secondaryAction = ({ target }: any) => console.log(target.innerText);
 
   render() {
     const { isOpen } = this.state;

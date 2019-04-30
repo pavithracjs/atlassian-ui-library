@@ -56,7 +56,7 @@ const bodyStyles: React.CSSProperties = {
   overflowX: 'hidden',
 };
 
-const Body = React.forwardRef((props: { children?: Node }, ref) => {
+const Body = React.forwardRef((props: { children?: Node }, ref: any) => {
   return (
     <div ref={ref} style={bodyStyles}>
       {props.children}
@@ -65,7 +65,7 @@ const Body = React.forwardRef((props: { children?: Node }, ref) => {
 });
 
 type FooterProps = {
-  onClose: Function;
+  onClose: () => void;
   showKeyline: boolean;
 };
 type FooterState = {
@@ -113,11 +113,11 @@ export default class ModalDemo extends React.Component<{}, State> {
 
   open = (isOpen: string) => this.setState({ isOpen });
 
-  secondaryAction = ({ target }: Object) => console.log(target.innerText);
+  secondaryAction = ({ target }: any) => console.log(target.innerText);
 
   render() {
     const { isOpen } = this.state;
-    const btn = name => (
+    const btn = (name: string) => (
       <Button key={name} onClick={() => this.open(name)}>
         {name}
       </Button>
@@ -141,9 +141,7 @@ export default class ModalDemo extends React.Component<{}, State> {
             .map(name => (
               <ModalDialog
                 key={name}
-                actions={
-                  ['footer', 'both'].indexOf(name) !== -1 ? actions : undefined
-                }
+                actions={name in ['footer', 'both'] ? actions : undefined}
                 components={{
                   Header: name === 'custom header' ? Header : undefined,
                   Body: name === 'custom body' ? Body : undefined,
@@ -151,9 +149,7 @@ export default class ModalDemo extends React.Component<{}, State> {
                   Container: 'div',
                 }}
                 heading={
-                  ['header', 'both'].indexOf(name) !== -1
-                    ? `Modal: ${name}`
-                    : undefined
+                  name in ['header', 'both'] ? `Modal: ${name}` : undefined
                 }
                 onClose={this.close}
                 width={name === 'custom header' ? 300 : undefined}
