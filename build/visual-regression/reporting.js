@@ -51,8 +51,8 @@ const buildEventPayload = (properties, eventName) => {
 
 module.exports = {
   reportInconsistency(results /*: any */) {
-    const props = extractInconsistentTest(results);
-    if (!props.length) {
+    const properties = extractInconsistentTest(results);
+    if (!properties.length) {
       return;
     }
     return sendLogs(
