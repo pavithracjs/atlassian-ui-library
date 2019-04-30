@@ -4,6 +4,11 @@ declare module '@atlaskit/theme/components' {
   const GlobalTheme: Theme<GlobalThemeTokens, any>;
   export default GlobalTheme;
 
+  export type ThemeProp<ThemeTokens, ThemeProps> = (
+    themeFn: (ThemeProps: ThemeProps) => ThemeTokens,
+    themeProps: ThemeProps,
+  ) => ThemeTokens;
+
   export interface Theme<ThemeTokens, ThemeProps> {
     Consumer: React.ComponentType<
       ThemeProps & {
