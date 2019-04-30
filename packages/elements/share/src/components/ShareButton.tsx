@@ -3,7 +3,7 @@ import * as React from 'react';
 
 export type Props = {
   appearance?: ButtonAppearances;
-  iconBefore?: React.Node;
+  iconBefore?: React.ReactNode;
   isLoading?: boolean;
   isSelected?: boolean;
   isDisabled?: boolean;
