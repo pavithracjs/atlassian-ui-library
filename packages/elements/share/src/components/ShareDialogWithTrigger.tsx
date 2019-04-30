@@ -18,6 +18,7 @@ import {
   Flag,
   OriginTracing,
   ShareButtonStyle,
+  ShareError,
   RenderCustomTriggerButton,
   ADMIN_NOTIFIED,
   OBJECT_SHARED,
@@ -42,19 +43,15 @@ type DialogState = {
 
 export type State = DialogState;
 
-type ShareError = {
-  message: string;
-};
-
 export type Props = {
   config?: ConfigResponse;
-  children?: RenderCustomTriggerButton;
   copyLink: string;
   dialogPlacement?: DialogPlacement;
   isDisabled?: boolean;
   loadUserOptions?: LoadOptions;
   onLinkCopy?: Function;
   onShareSubmit?: (shareContentState: DialogContentState) => Promise<any>;
+  renderCustomTriggerButton?: RenderCustomTriggerButton;
   shareContentType: string;
   shareFormTitle?: React.ReactNode;
   shareOrigin?: OriginTracing | null;
@@ -271,11 +268,11 @@ class ShareDialogWithTriggerInternal extends React.Component<
           onClose={this.handleCloseDialog}
           placement={dialogPlacement}
         >
-          {this.props.children ? (
-            this.props.children({
-              onClick: this.onTriggerClick,
-              loading: isSharing,
+          {this.props.renderCustomTriggerButton ? (
+            this.props.renderCustomTriggerButton({
               error: shareError,
+              isSelected: isDialogOpen,
+              onClick: this.onTriggerClick,
             })
           ) : (
             <ShareButton
