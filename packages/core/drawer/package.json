@@ -14,6 +14,7 @@
   "sideEffects": false,
   "dependencies": {
     "@atlaskit/analytics-next": "^4.0.3",
+    "@atlaskit/avatar": "^15.0.5",
     "@atlaskit/blanket": "^9.0.0",
     "@atlaskit/docs": "^7.0.3",
     "@atlaskit/icon": "^16.0.9",
