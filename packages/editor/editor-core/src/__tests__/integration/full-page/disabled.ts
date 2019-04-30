@@ -6,12 +6,10 @@ import { fullpageDisabled } from '../_helpers';
 // TODO: fix error thrown  api
 BrowserTestCase(
   "disabled.ts: Shouldn't be able to type in the disabled editor",
-  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
+  { skip: ['edge', 'ie', 'firefox', 'safari'] },
   async (client: any) => {
     const browser = new Page(client);
     await browser.goto(fullpageDisabled.path);
-    await browser.waitForSelector(fullpageDisabled.placeholder);
-    await browser.click(fullpageDisabled.placeholder);
 
     return expect(
       browser.click(fullpageDisabled.placeholder),
@@ -27,7 +25,7 @@ BrowserTestCase(
     await browser.goto(fullpageDisabled.path);
     await browser.waitForSelector(fullpageDisabled.placeholder);
 
-    const elem = browser.$('.ak-editor-panel__content');
+    const elem = browser.$$('.ak-editor-panel__content');
     return expect(elem.click()).rejects.toThrowError(
       'unknown error: Element is not clickable at point',
     );
@@ -41,7 +39,6 @@ BrowserTestCase(
     const browser = new Page(client);
     await browser.goto(fullpageDisabled.path);
     await browser.waitForSelector(fullpageDisabled.placeholder);
-    console.log(await browser.click('.pm-table-cell-nodeview-content-dom'));
     return expect(
       await browser.click('.pm-table-cell-nodeview-content-dom'),
     ).rejects.toThrowError('unknown error: Element is not clickable at point');
