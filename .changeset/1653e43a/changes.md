@@ -1,0 +1,1 @@
+- removes the undesirable grey background on Safari
