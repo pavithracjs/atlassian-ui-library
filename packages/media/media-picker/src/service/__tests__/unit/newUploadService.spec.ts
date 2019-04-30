@@ -13,7 +13,7 @@ import {
   UploadableFile,
   Context,
   Auth,
-  fileStreamsCache,
+  getFileStreamsCache,
   FileState,
 } from '@atlaskit/media-core';
 import { TouchedFiles } from '@atlaskit/media-store';
@@ -31,7 +31,7 @@ import {
   UploadsStartEventPayload,
 } from '../../../domain/uploadEvent';
 
-const fileStreamCacheSpy = jest.spyOn(fileStreamsCache, 'set');
+const fileStreamCacheSpy = jest.spyOn(getFileStreamsCache(), 'set');
 
 describe('UploadService', () => {
   const baseUrl = 'some-api-url';

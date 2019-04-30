@@ -1,0 +1,1 @@
+- Add support for media-client objects: fakeMediaClient, getDefaultMediaClientConfig, createStorybookMediaClient, createStorybookMediaClientConfig, createUploadMediaClient, createUploadMediaClientConfig, createUserMediaClient

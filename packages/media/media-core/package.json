@@ -15,7 +15,7 @@
   ],
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/media-store": "^11.0.7",
+    "@atlaskit/media-client": "^0.0.1",
     "dataloader": "^1.4.0",
     "deep-equal": "^1.0.1",
     "lru-fast": "^0.2.2",
