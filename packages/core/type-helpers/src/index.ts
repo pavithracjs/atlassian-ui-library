@@ -79,10 +79,7 @@ export type PropsInjector<InjectedProps extends object> = <
 >(
   Component: C,
 ) => React.ComponentType<
-  JSX.LibraryManagedAttributes<
-    C,
-    Omit<PropsOf<C>, keyof Shared<InjectedProps, PropsOf<C>>>
-  >
+  Omit<PropsOf<C>, keyof Shared<InjectedProps, PropsOf<C>>>
 >;
 
 /**

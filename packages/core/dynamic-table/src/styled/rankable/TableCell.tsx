@@ -6,5 +6,5 @@ const rankingStyles = css`
 `;
 
 export const RankableTableBodyCell = styled(TableBodyCell)`
-  ${({ isRanking }) => isRanking && rankingStyles};
+  ${({ isRanking }: { isRanking: boolean }) => isRanking && rankingStyles};
 `;

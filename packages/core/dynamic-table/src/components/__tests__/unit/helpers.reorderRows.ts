@@ -2,7 +2,7 @@ import { computeIndex, reorderRows } from '../../../internal/helpers';
 import { rowsWithKeys } from './_data';
 import { RankEnd, RowType } from '../../../types';
 
-const getKey = (rowIndex: number) => rowsWithKeys[rowIndex].key;
+const getKey = (rowIndex: number) => rowsWithKeys[rowIndex].key || '';
 
 const rankEnd = (sourceIndex: number, afterIndex: number): RankEnd => {
   return {
@@ -16,8 +16,8 @@ const rankEnd = (sourceIndex: number, afterIndex: number): RankEnd => {
 
 const extractKeys = (rows: Array<RowType>) =>
   rows.map((row: RowType) => row.key);
-// @ts-ignore - getKey returns string | undefined but sourceKey is string
-const getKeys = (...params: any) => Array.from(params).map(getKey);
+const getKeys = (params: Array<number>) =>
+  Array.from(params).map(rowIndex => getKey(rowIndex));
 
 test('computeIndex - if rowsPerPage are not passed, index is on first page', () => {
   const index = 5;
@@ -48,10 +48,10 @@ test('original rows table is not mutated', () => {
 const testReordering = (
   fromIndex: number,
   toIndex: number,
-  expectedOrder: any,
+  expectedOrder: Array<number>,
 ) => {
   const reordered = reorderRows(rankEnd(fromIndex, toIndex), rowsWithKeys, 1);
-  const expected = getKeys(...expectedOrder);
+  const expected = getKeys(expectedOrder);
 
   expect(extractKeys(reordered)).toEqual(expected);
 };

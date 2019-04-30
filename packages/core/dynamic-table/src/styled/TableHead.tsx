@@ -3,9 +3,10 @@ import {
   arrowsStyle,
   cellStyle,
   onClickStyle,
-  StyleProps,
   truncateStyle,
+  TruncateStyleProps,
 } from './constants';
+import { SortOrderType } from '../types';
 import { head } from '../theme';
 
 const rankingStyles = css`
@@ -21,9 +22,15 @@ export const Head = styled.thead`
   ${({ isRanking }: HeadProps) => isRanking && rankingStyles};
 `;
 
-export const HeadCell = styled.th`
-  ${(p: StyleProps) => onClickStyle(p)} ${p => truncateStyle(p)} ${p =>
-  arrowsStyle(p)} ${cellStyle} border: none;
+interface HeadCellProps extends TruncateStyleProps {
+  onClick?: () => void;
+  isSortable?: boolean;
+  sortOrder?: SortOrderType;
+}
+
+export const HeadCell = styled.th<HeadCellProps>`
+  ${p => onClickStyle({ onClick: Boolean(p.onClick) })} ${p =>
+  truncateStyle(p)} ${p => arrowsStyle(p)} ${cellStyle} border: none;
   color: ${head.textColor};
   box-sizing: border-box;
   font-size: 12px;

@@ -13,7 +13,7 @@ interface Props {
   children: React.ReactNode;
   isLoading?: boolean;
   spinnerSize?: SpinnerSizeType;
-  contentsOpacity?: number;
+  contentsOpacity: number;
 }
 
 export default class LoadingContainer extends React.Component<Props, {}> {

@@ -4,18 +4,17 @@ import { ASC, DESC } from '../internal/constants';
 import { arrow } from '../theme';
 import { SortOrderType } from '@atlaskit/dynamic-table/types';
 
-export interface StyleProps {
+export interface TruncateStyleProps {
   width?: number;
   isFixedSize?: boolean;
   shouldTruncate?: boolean;
-  onClick?: boolean;
 }
 
 export const truncateStyle = ({
   width,
   isFixedSize,
   shouldTruncate,
-}: StyleProps) => css`
+}: TruncateStyleProps) => css`
   ${width
     ? css`
         width: ${width}%;

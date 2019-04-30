@@ -102,18 +102,23 @@ class DynamicTable extends React.Component<Props, State> {
     }
     this.onSetPage(1, undefined);
 
-    if (isRankable && key === sortKey && sortOrder === DESC) {
+    if (onSort && isRankable && key === sortKey && sortOrder === DESC) {
       onSort({ key: null, sortOrder: null, item });
       return;
     }
 
     const sortOrderFormatted =
       key !== sortKey ? ASC : toggleSortOrder(sortOrder);
-    onSort({ key, item, sortOrder: sortOrderFormatted });
+    if (onSort) {
+      onSort({ key, item, sortOrder: sortOrderFormatted });
+    }
   };
 
   onSetPage = (page: number, event?: UIAnalyticsEvent) => {
-    this.props.onSetPage(page, event);
+    const { onSetPage } = this.props;
+    if (onSetPage) {
+      onSetPage(page, event);
+    }
   };
 
   onRankStart = (params: RankStart) => {
@@ -182,7 +187,7 @@ class DynamicTable extends React.Component<Props, State> {
       sortOrder,
       rowsPerPage,
       page,
-      isFixedSize,
+      isFixedSize: isFixedSize || false,
       ref: (el: any) => {
         this.tableBody = el;
       },
@@ -220,7 +225,7 @@ class DynamicTable extends React.Component<Props, State> {
                   isRanking={this.state.isRanking}
                   onRankStart={this.onRankStart}
                   onRankEnd={this.onRankEnd}
-                  isRankingDisabled={isRankingDisabled || isLoading}
+                  isRankingDisabled={isRankingDisabled || isLoading || false}
                 />
               ) : (
                 <Body {...bodyProps} />

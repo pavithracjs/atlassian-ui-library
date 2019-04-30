@@ -4,12 +4,6 @@ import { SortOrderType, StatefulProps, RankEnd, RowType } from '../types';
 import { reorderRows } from '../internal/helpers';
 import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 
-interface Props extends StatefulProps {
-  defaultPage: number;
-  defaultSortKey?: string;
-  defaultSortOrder?: SortOrderType;
-}
-
 interface State {
   page?: number;
   sortKey?: string;
@@ -17,7 +11,10 @@ interface State {
   rows?: RowType[];
 }
 
-export default class DynamicTable extends React.Component<Props, State> {
+export default class DynamicTable extends React.Component<
+  StatefulProps,
+  State
+> {
   static defaultProps = {
     defaultPage: 1,
     isLoading: false,
@@ -35,7 +32,7 @@ export default class DynamicTable extends React.Component<Props, State> {
     rows: this.props.rows,
   };
 
-  componentWillReceiveProps(newProps: Props) {
+  componentWillReceiveProps(newProps: StatefulProps) {
     this.setState({
       page: newProps.page,
       sortKey: newProps.defaultSortKey,
@@ -45,13 +42,19 @@ export default class DynamicTable extends React.Component<Props, State> {
   }
 
   onSetPage = (page: number, event?: UIAnalyticsEvent) => {
-    this.props.onSetPage(page, event);
-    this.setState({ page });
+    const { onSetPage } = this.props;
+    if (onSetPage) {
+      onSetPage(page, event);
+      this.setState({ page });
+    }
   };
 
   onSort = ({ key, item, sortOrder }: any) => {
-    this.props.onSort({ key, item, sortOrder });
-    this.setState({ sortKey: key, sortOrder, page: 1 });
+    const { onSort } = this.props;
+    if (onSort) {
+      onSort({ key, item, sortOrder });
+      this.setState({ sortKey: key, sortOrder, page: 1 });
+    }
   };
 
   onRankEndIfExists = (params: RankEnd) => {

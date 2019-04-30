@@ -9,8 +9,8 @@ export interface Props {
   isFixedSize?: boolean;
   innerRef?: (element?: React.ReactElement<any>) => void;
   inlineStyles?: {};
-  content: React.ReactNode;
-  onClick?: Function;
+  content?: React.ReactNode;
+  onClick?: () => void;
 }
 
 class TableHeadCell extends React.Component<Props, {}> {
@@ -20,10 +20,23 @@ class TableHeadCell extends React.Component<Props, {}> {
   };
 
   render() {
-    const { content, inlineStyles, ...restCellProps } = this.props;
+    const {
+      content,
+      inlineStyles,
+      onClick,
+      isSortable,
+      sortOrder,
+      isFixedSize,
+    } = this.props;
 
     return (
-      <HeadCell {...restCellProps} style={inlineStyles}>
+      <HeadCell
+        onClick={onClick}
+        sortOrder={sortOrder}
+        isSortable={isSortable}
+        isFixedSize={isFixedSize}
+        style={inlineStyles}
+      >
         <span>{content}</span>
       </HeadCell>
     );

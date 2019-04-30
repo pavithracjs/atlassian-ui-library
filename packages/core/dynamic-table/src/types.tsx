@@ -23,27 +23,27 @@ export interface StatelessProps {
   /** Controls the size of the rendered spinner */
   loadingSpinnerSize?: LoadingSpinnerSizeType;
   /** Whether to show the loading state or not */
-  isLoading: boolean;
-  isFixedSize: boolean;
+  isLoading?: boolean;
+  isFixedSize?: boolean;
   /** The maximum number of rows per page. No maximum by default. */
-  rowsPerPage: number;
+  rowsPerPage?: number;
   /** Called when the page changes. Provides an analytics event when the page change was from a click on pagination component. */
-  onSetPage: (page: number, UIAnalyticsEvent?: UIAnalyticsEvent) => void;
+  onSetPage?: (page: number, UIAnalyticsEvent?: UIAnalyticsEvent) => void;
   /** Called when a column is sorted. Provides information about what was sorted and an analytics event. */
-  onSort: (data: any, UIAnalyticsEvent?: UIAnalyticsEvent) => void;
+  onSort?: (data: any, UIAnalyticsEvent?: UIAnalyticsEvent) => void;
   /** The current page number */
-  page: number;
+  page?: number;
   defaultPage?: number;
   /** The property to sort items by */
   sortKey?: string;
   /** Whether to sort in ascending or descending order */
   sortOrder?: SortOrderType;
   /** Whether to allow 'rank' sort in addition to ascending/descending */
-  isRankable: boolean;
-  isRankingDisabled: boolean;
-  onRankStart: (rankStart: RankStart) => void;
-  onRankEnd: (rankEnd: RankEnd, uiAnalyticsEvent?: UIAnalyticsEvent) => void;
-  paginationi18n: I18nShape;
+  isRankable?: boolean;
+  isRankingDisabled?: boolean;
+  onRankStart?: (rankStart: RankStart) => void;
+  onRankEnd?: (rankEnd: RankEnd, uiAnalyticsEvent?: UIAnalyticsEvent) => void;
+  paginationi18n?: I18nShape;
 }
 
 export interface StatefulProps {
@@ -55,11 +55,14 @@ export interface StatefulProps {
   isLoading?: boolean;
   isFixedSize?: boolean;
   rowsPerPage?: number;
-  onSetPage: (page: number, UIAnalyticsEvent?: UIAnalyticsEvent) => void;
-  onSort: (data: any, UIAnalyticsEvent?: UIAnalyticsEvent) => void;
+  onSetPage?: (page: number, UIAnalyticsEvent?: UIAnalyticsEvent) => void;
+  onSort?: (data: any, UIAnalyticsEvent?: UIAnalyticsEvent) => void;
   page?: number;
+  defaultPage?: number;
   sortKey?: string;
+  defaultSortKey?: string;
   sortOrder?: SortOrderType;
+  defaultSortOrder?: SortOrderType;
   isRankable?: boolean;
   isRankingDisabled?: boolean;
   onRankStart?: (rankStart: RankStart) => void;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Head } from '../styled/TableHead';
 import { validateSortKey } from '../internal/helpers';
-import { HeadType, SortOrderType } from '../types';
+import { HeadType, SortOrderType, RowCellType } from '../types';
 import HeadCell from './TableHeadCell';
 import RankableHeadCell from './rankable/TableHeadCell';
 
@@ -10,7 +10,7 @@ interface Props {
   sortKey?: string;
   sortOrder?: SortOrderType;
   isFixedSize?: boolean;
-  onSort: Function;
+  onSort: (item: RowCellType) => () => void;
   isRankable?: boolean;
   isRanking: boolean;
 }
