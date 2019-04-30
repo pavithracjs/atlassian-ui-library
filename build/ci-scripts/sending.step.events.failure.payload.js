@@ -6,19 +6,16 @@
 const getStepEvents = require('./buildEventsUtils/getBuildEvents')
   .getStepEvents;
 
-const getStepName = require('./buildEventsUtils/getBuildEvents')
-  .getBuildStepName;
-
 const sendBuildEventsPayload = require('./buildEventsUtils/sendBuildEventsPayload')
   .sendBuildEventsPayload;
 
 (async () => {
   try {
-    const buildId = process.env.BITBUCKET_BUILD_NUMBER;
-    await getStepName();
-    // const stepId = '';
-    // const stepEvents = await getStepEvents(buildId, );
-    // await sendBuildEventsPayload(buildEvents);
+    const buildId = process.env.BITBUCKET_BUILD_NUMBER || '58247';
+    const stepEvents = await getStepEvents(buildId);
+    console.log(stepEvents, 'step before sent');
+    // TODO: Add the logic on Failure
+    await sendBuildEventsPayload(stepEvents);
   } catch (err) {
     console.error(`You face some issues while sending data: ${err.message}`);
     // It is not required to fail the step.

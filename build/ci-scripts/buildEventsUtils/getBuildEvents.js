@@ -26,19 +26,6 @@ type IStepsDataType = {
   build_steps: Array<IStepsDataType>
 }
 */
-
-async function getBuildStepName() {
-  try {
-    const config = yaml.safeLoad(
-      fs.readFileSync('./../../../bitbucket-pipelines.yml', 'utf8'),
-    );
-    const indentedJson = JSON.stringify(config, null, 4);
-    console.log(indentedJson);
-  } catch (e) {
-    console.log(e);
-  }
-}
-
 async function getPipelinesBuildEvents(
   buildId /*: string */,
 ) /*: Promise<IBuildEventProperties> */ {
@@ -64,10 +51,16 @@ async function getPipelinesBuildEvents(
         // - custom
         // Most of the time, build.target.selector.pattern === build.target.ref_name.
         // It depends on what is available for the particular build.
-        build_type: build.target.selector.pattern || 'default',
+        build_type:
+          build.target.selector.pattern ||
+          build.target.selector.type ||
+          'default',
         // build_name refers to the branch name that runs this build.
         // In case, the build_name is undefined, we will refer it as its type.
-        build_name: build.target.ref_name || build.target.selector.pattern,
+        build_name:
+          build.target.ref_name ||
+          build.target.selector.pattern ||
+          build.target.selector.type,
         build_number_steps: stepsData.length,
         build_steps: stepsData,
       };
@@ -107,35 +100,87 @@ async function getStepsEvents(buildId /*: string*/) {
   }
 }
 
-async function getStepId(buildId /*: string*/, stepName /*: string*/) {
-  const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
+async function getStepNamePerBuildType(buildId /*: string */) {
   try {
-    const resp = await axios.get(url);
-    const stepFound = resp.data.values.filter(step => step.name === stepName);
-    return stepFound.uuid;
+    const config = yaml.safeLoad(
+      fs.readFileSync('bitbucket-pipelines.yml', 'utf8'),
+    );
+    const indentedJson = JSON.parse(JSON.stringify(config, null, 4));
+    const apiEndpoint = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}`;
+    const res = await axios.get(apiEndpoint);
+    const buildType = res.data.target.selector.type || 'default';
+    // Only the 3 types of build below will have parallel steps.
+    // process.env.BITBUCKET_PARALLEL_STEP retruns zero-based index of the current step in the group, for example: 0, 1, 2, … - only for parallel step.
+    // This will return the actual step where the build is currently running.
+    // Note: indentedJson.pipelines.<branch_name> returns an array.
+    // TODO: remove this line below
+    process.env.BITBUCKET_PARALLEL_STEP = '2';
+    if (buildType === 'default') {
+      return {
+        step_name:
+          indentedJson.pipelines.default[0].parallel[
+            process.env.BITBUCKET_PARALLEL_STEP
+          ].step.name,
+        build_type: 'default',
+        build_name:
+          res.data.target.ref_name ||
+          res.data.target.selector.pattern ||
+          res.data.target.selector.type,
+      };
+    }
+    if (buildType === 'landkid') {
+      return {
+        step_name:
+          indentedJson.pipelines.custom['landkid'][0].parallel[
+            process.env.BITBUCKET_PARALLEL_STEP
+          ].step.name,
+        build_type: 'custom',
+        build_name: 'landkid',
+      };
+    }
+    if (buildType === 'run-full-suite') {
+      return {
+        step_name:
+          indentedJson.pipelines.custom['run-full-suite'][0].parallel[
+            process.env.BITBUCKET_PARALLEL_STEP
+          ].step.name,
+        build_type: 'custom',
+        build_name: 'run-full-suite',
+      };
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
+async function getStepEvents(buildId /*: string*/) {
+  const stepsUrl = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
+  try {
+    const stepPayload = await getStepNamePerBuildType(buildId);
+    const res = await axios.get(stepsUrl);
+    // Filter returns an array and we need the first value.
+    if (stepPayload) {
+      const stepFound = res.data.values.filter(
+        step => step.name === stepPayload.step_name,
+      )[0];
+      const buildStatus =
+        process.env.BITBUCKET_EXIT_CODE === '0' ? 'SUCCESSFUL' : 'FAILED';
+      return {
+        build_status: buildStatus,
+        build_name: stepPayload.build_name,
+        build_type: stepPayload.build_type,
+        build_steps: [
+          {
+            step_duration: stepFound.duration_in_seconds,
+            step_status: buildStatus,
+            step_name: stepFound.name || 'master', // on Master, there is no step name,
+          },
+        ],
+      };
+    }
   } catch (err) {
     console.error(err.toString());
     process.exit(1);
   }
 }
 
-async function getStepEvents(buildId /*: string*/, stepName /*: string*/) {
-  try {
-    const stepId = await getStepId(buildId, stepName);
-    const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/${stepId}`;
-
-    const resp = await axios.get(url);
-    const step = resp.data;
-    const buildStatus = process.env.BITBUCKET_EXIT_CODE;
-    process.env.BITBUCKET_EXIT_CODE === '0' ? 'SUCCESSFUL' : 'FAILED';
-    return {
-      step_status: buildStatus,
-      step_name: step.name || 'master', // on Master, there is no step name,
-    };
-  } catch (err) {
-    console.error(err.toString());
-    process.exit(1);
-  }
-}
-
-module.exports = { getPipelinesBuildEvents, getStepEvents, getBuildStepName };
+module.exports = { getPipelinesBuildEvents, getStepEvents };
