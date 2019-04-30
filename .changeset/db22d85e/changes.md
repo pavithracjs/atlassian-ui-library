@@ -1,1 +1,0 @@
-- Export new media-store interfaces and methods: `ClientAltBasedAuth`, `MediaClientConfig` and `authToOwner`. Also introduce cache related members related to future migration to media-client: `mediaState`, `CachedMediaState`, `StateDeferredValue`. 
