@@ -1,1 +1,0 @@
-- Removes an import which referes to the old entry point of this component. Bundle size should now be slightly smaller
