@@ -5,7 +5,7 @@ import {
 } from '@atlaskit/visual-regression/helper';
 
 describe('Snapshot Test', () => {
-  it('Basic global navigation should match prod', async () => {
+  it.skip('Basic global navigation should match prod', async () => {
     const url = getExampleUrl(
       'core',
       'global-navigation',
@@ -29,7 +29,7 @@ describe('Snapshot Test', () => {
     expect(image).toMatchProdImageSnapshot();
   });
 
-  it('dropdown example should match prod', async () => {
+  it.skip('dropdown example should match prod', async () => {
     const url = getExampleUrl(
       'core',
       'global-navigation',
