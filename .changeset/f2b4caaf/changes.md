@@ -1,1 +1,0 @@
-- ED-6486: fixed version number obtained from editor-mobile-bridge
