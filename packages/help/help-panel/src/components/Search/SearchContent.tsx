@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { MIN_CHARACTERS_FOR_SEARCH } from '../constants';
-import { REQUEST_STATE } from '../../model/Resquests';
+import { REQUEST_STATE } from '../../model/Requests';
 
 import { withHelp, HelpContextInterface } from '../HelpContext';
 import SearchResult from './SearchResults';

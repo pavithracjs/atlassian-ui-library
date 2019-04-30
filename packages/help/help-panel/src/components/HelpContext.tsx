@@ -4,7 +4,7 @@ import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 import { Analytics } from '../model/Analytics';
 import { Article, ArticleItem, ArticleFeedback } from '../model/Article';
-import { REQUEST_STATE } from '../model/Resquests';
+import { REQUEST_STATE } from '../model/Requests';
 
 import { MIN_CHARACTERS_FOR_SEARCH, VIEW } from './constants';
 
@@ -132,8 +132,7 @@ class HelpContextProviderImplementation extends React.Component<
 
   onUrlChange(newLocation: Location) {
     if (!this.props.isOpen) {
-      // console.log(newLocation.pathname);
-      // this.getArticle(newLocation.pathname);
+      // TODO: Milestome 2 - get article when url changes
     }
   }
 
