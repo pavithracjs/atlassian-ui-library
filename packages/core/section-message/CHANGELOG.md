@@ -1,5 +1,10 @@
 # @atlaskit/section-message
 
+## 2.0.4
+- [patch] [2020ab9db1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2020ab9db1):
+
+  - Section message content area now takes 100% of its parent width
+
 ## 2.0.3
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

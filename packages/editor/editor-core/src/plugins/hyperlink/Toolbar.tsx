@@ -94,7 +94,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
         state.schema.nodes.heading,
         state.schema.nodes.taskItem,
         state.schema.nodes.decisionItem,
-      ],
+      ].filter(nodeType => !!nodeType), // Use only the node types existing in the schema ED-6745
       align: 'left' as AlignType,
       className:
         activeLinkMark.type === 'INSERT' ? 'hyperlink-floating-toolbar' : '',

@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 36.2.3
+- [patch] [a6fb248987](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6fb248987):
+
+  - ED-6639 Align lists styles between editor & renderer
+
 ## 36.2.2
 - [patch] [0d23e11834](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d23e11834):
 

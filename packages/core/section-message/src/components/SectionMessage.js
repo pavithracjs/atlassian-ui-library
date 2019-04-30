@@ -6,6 +6,7 @@ import type { Appearance } from '../types';
 
 import {
   Container,
+  ContentContainer,
   Title,
   Description,
   Actions,
@@ -105,7 +106,7 @@ export default class SectionMessage extends Component<Props, *> {
             secondaryColor={appearanceObj.backgroundColor}
           />
         </IconWrapper>
-        <div>
+        <ContentContainer>
           {title ? <Title>{title}</Title> : null}
           {children ? <Description>{children}</Description> : null}
           {actions && actions.length ? (
@@ -113,7 +114,7 @@ export default class SectionMessage extends Component<Props, *> {
               {actions.map(action => this.renderAction(action, linkComponent))}
             </Actions>
           ) : null}
-        </div>
+        </ContentContainer>
       </Container>
     );
   }

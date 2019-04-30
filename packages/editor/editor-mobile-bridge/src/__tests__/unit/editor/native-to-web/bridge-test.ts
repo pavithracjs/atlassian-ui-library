@@ -12,8 +12,11 @@ const mockEditorCore = {
   setLinkText: jest.fn(() => () => mockCalls.push('setLinkText')),
 };
 jest.mock('@atlaskit/editor-core', () => mockEditorCore);
+jest.mock('../../../../version.json', () => ({
+  name: '@atlaskit/editor-mobile-bridge',
+  version: '1.2.3.4',
+}));
 
-import semver from 'semver';
 import WebBridgeImpl from '../../../../editor/native-to-web';
 import {
   indentList,
@@ -43,7 +46,7 @@ describe('general', () => {
   let bridge: any = new WebBridgeImpl();
 
   it('should return valid bridge version', () => {
-    expect(semver.valid(bridge.currentVersion())).toBeTruthy();
+    expect(bridge.currentVersion()).toEqual('1.2.3.4');
   });
 });
 

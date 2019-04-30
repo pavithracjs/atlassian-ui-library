@@ -51,7 +51,10 @@ export default class Renderer extends PureComponent<Props, {}> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.portal !== this.props.portal) {
+    if (
+      nextProps.portal !== this.props.portal ||
+      nextProps.appearance !== this.props.appearance
+    ) {
       this.updateSerializer(nextProps);
     }
   }

@@ -15,6 +15,7 @@ import {
   MetaData,
   OriginTracing,
   OriginTracingFactory,
+  RenderCustomTriggerButton,
   ShareButtonStyle,
   ShareResponse,
 } from '../types';
@@ -42,6 +43,8 @@ export type Props = {
    * jira-software
    */
   productId: string;
+  /** Render function for a custom Share Dialog Trigger Button*/
+  renderCustomTriggerButton?: RenderCustomTriggerButton;
   /** Atlassian Resource Identifier of a Site resource to be shared */
   shareAri: string;
   /** Content Type of the resource to be shared
@@ -223,6 +226,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       dialogPlacement,
       formatCopyLink,
       loadUserOptions,
+      renderCustomTriggerButton,
       shareContentType,
       shareFormTitle,
       shareLink,
@@ -241,6 +245,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
           dialogPlacement={dialogPlacement}
           loadUserOptions={loadUserOptions}
           onShareSubmit={this.handleSubmitShare}
+          renderCustomTriggerButton={renderCustomTriggerButton}
           shareContentType={shareContentType}
           shareFormTitle={shareFormTitle}
           shareOrigin={shareOrigin}

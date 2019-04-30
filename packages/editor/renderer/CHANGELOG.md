@@ -1,5 +1,20 @@
 # @atlaskit/renderer
 
+## 45.6.5
+- [patch] [8eeac8c104](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eeac8c104):
+
+  - ED-6725: Update renderer nodes when appearances changes
+
+## 45.6.4
+- [patch] [9047a1921a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9047a1921a):
+
+  - Bugfix of email renderer list vertical indentation
+
+## 45.6.3
+- [patch] [a6fb248987](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6fb248987):
+
+  - ED-6639 Align lists styles between editor & renderer
+
 ## 45.6.2
 - [patch] [0d23e11834](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d23e11834):
 

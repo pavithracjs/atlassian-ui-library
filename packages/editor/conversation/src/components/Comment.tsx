@@ -492,11 +492,11 @@ export default class Comment extends React.Component<Props, State> {
     return actions;
   }
 
-  private handleTimeClick = () => {
+  private handleTimeClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const { comment, onHighlightComment, disableScrollTo } = this.props;
 
     if (!disableScrollTo && comment && onHighlightComment) {
-      onHighlightComment(comment.commentId);
+      onHighlightComment(event, comment.commentId);
     }
   };
 

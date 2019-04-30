@@ -1,5 +1,10 @@
 # @atlaskit/emoji
 
+## 59.2.5
+- [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+
+  - Removes babel-runtime in favour of @babel/runtime
+
 ## 59.2.4
 - [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
 

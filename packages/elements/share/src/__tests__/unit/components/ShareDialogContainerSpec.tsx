@@ -48,6 +48,7 @@ const mockClient = {
   share: mockShare,
 };
 const mockShowFlags = jest.fn();
+const mockRenderCustomTriggerButton = jest.fn();
 
 beforeEach(() => {
   mockOriginTracing = {
@@ -73,6 +74,7 @@ beforeEach(() => {
       loadUserOptions={mockLoadUserOptions}
       originTracingFactory={mockOriginTracingFactory}
       productId={mockProductId}
+      renderCustomTriggerButton={mockRenderCustomTriggerButton}
       shareAri={mockShareAri}
       shareContentType={mockShareContentType}
       shareLink={mockShareLink}
@@ -108,6 +110,9 @@ describe('ShareDialogContainer', () => {
     );
     expect(shareDialogWithTrigger.prop('loadUserOptions')).toEqual(
       mockLoadUserOptions,
+    );
+    expect(shareDialogWithTrigger.prop('renderCustomTriggerButton')).toEqual(
+      mockRenderCustomTriggerButton,
     );
     expect(shareDialogWithTrigger.prop('shouldCloseOnEscapePress')).toEqual(
       mockShouldCloseOnEscapePress,

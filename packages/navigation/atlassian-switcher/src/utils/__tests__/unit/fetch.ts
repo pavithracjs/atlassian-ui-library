@@ -1,5 +1,10 @@
 declare var global: any;
-import { fetchJson, postJson } from '../../fetch';
+import {
+  FETCH_ERROR_NAME,
+  enrichFetchError,
+  fetchJson,
+  postJson,
+} from '../../fetch';
 
 const REQUEST_URL = '/some/url';
 const REQUEST_DATA = {
@@ -43,5 +48,12 @@ describe('utils fetch', () => {
       expect(jsonReponse).toBe(RESPONSE_DATA);
       done();
     });
+  });
+
+  it('should add additional properties', () => {
+    const error = enrichFetchError(new Error(), 400);
+
+    expect(error).toHaveProperty('name', FETCH_ERROR_NAME);
+    expect(error).toHaveProperty('status', 400);
   });
 });

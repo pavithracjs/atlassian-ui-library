@@ -37,7 +37,7 @@ async function disableCaretCursor(page /*: any */) {
 
 async function disableAllTransitions(page /*: any */) {
   const css = `
-  * {
+  *, *:after, *:before {
     -webkit-transition: none !important;
     -moz-transition: none !important;
     -o-transition: none !important;
@@ -49,7 +49,7 @@ async function disableAllTransitions(page /*: any */) {
 
 async function disableAllAnimations(page /*: any */) {
   const css = `
-  * {
+  *, *:after, *:before {
     animation: none !important;
   }
   `;

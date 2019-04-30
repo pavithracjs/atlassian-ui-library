@@ -92,6 +92,8 @@ export type UserPickerProps = {
   autoFocus?: boolean;
   /** The maximum number options to be displayed in the dropdown menu during any state of search. The value should be non-negative. */
   maxOptions?: number;
+  /** Allows clicking on a label with the same id to open user picker. */
+  inputId?: string;
 };
 
 export type PopupUserPickerProps = UserPickerProps & {
