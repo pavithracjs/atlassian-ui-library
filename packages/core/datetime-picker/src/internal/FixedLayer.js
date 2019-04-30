@@ -2,7 +2,6 @@
 
 import React, { Component, type Node } from 'react';
 import { layers } from '@atlaskit/theme';
-import ScrollLock from 'react-scrolllock';
 import { Popper, Manager, Reference } from '@atlaskit/popper';
 
 type Props = {
@@ -57,7 +56,6 @@ export default class FixedLayer extends Component<Props> {
        * We need to set the intial top value to where the container is and zIndex so that it still
        * applies since we're creating a new stacking context. */
       <Manager>
-        <ScrollLock />
         <Reference>
           {({ ref }) => (
             <div
