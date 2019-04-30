@@ -28,7 +28,7 @@ export default class extends React.Component {
       isOpen: false,
     });
 
-  onGetArticle = async (articleId: string): Promise<Article> => {
+  onGetArticle = async (articleId: string): Promise<any> => {
     return new Promise((resolve, reject) => {
       index.getObjects([articleId], function(err, content) {
         if (err) {
