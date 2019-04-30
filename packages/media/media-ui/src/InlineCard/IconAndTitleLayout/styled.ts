@@ -6,6 +6,7 @@ export const IconWrapper: ComponentClass<HTMLAttributes<{}>> = styled.span`
   line-height: 12px;
   margin-right: 4px;
   vertical-align: text-bottom;
+  user-select: none;
   & > span {
     height: 14px;
     width: 14px;
@@ -23,6 +24,14 @@ export const IconTitleWrapper: ComponentClass<HTMLAttributes<{}>> = styled.span`
   word-break: break-word;
   white-space: pre-wrap;
   hyphens: auto;
+`;
+
+export const IconTitleHeadNoBreakWrapper: ComponentClass<
+  HTMLAttributes<{}>
+> = styled.span`
+  white-space: nowrap;
+  overflow-wrap: break-word;
+  min-width: 8ch;
 `;
 
 // TODO: Replace overrides with proper AtlasKit solution.
