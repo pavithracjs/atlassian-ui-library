@@ -160,10 +160,7 @@ function runTestsWithRetry() {
           console.log('reporting test as flaky');
           await reporting.reportInconsistency(results);
         } else {
-          await reporting.reportFailure(
-            results,
-            'atlaskit.qa.vr_test.testfailure',
-          );
+          await reporting.reportFailure(results, 'atlaskit.qa.vr_test.failure');
         }
       }
     } catch (err) {
