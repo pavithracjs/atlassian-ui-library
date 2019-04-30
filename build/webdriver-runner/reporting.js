@@ -26,6 +26,19 @@ const extractResultInformationIntoProperties = results => {
     }));
 };
 
+const extractInconsistentTest = results => {
+  return results.testResults
+    .filter(test => test.numPassingTests > 0)
+    .map(test => ({
+      inconsistenTests: test.numPassingTests,
+      testFilePath: test.testFilePath.replace(process.cwd(), ''),
+      duration: get(test, 'testResults[0].duration', 0),
+      testName: get(test, 'testResults[0].fullName'),
+      buildNumber: process.env.BITBUCKET_BUILD_NUMBER,
+      branch: process.env.BITBUCKET_BRANCH,
+    }));
+};
+
 const buildEventPayload = (properties, eventName) => {
   return {
     name: eventName,
@@ -39,21 +52,18 @@ const buildEventPayload = (properties, eventName) => {
 
 module.exports = {
   reportInconsistency(results /*: any */) {
+    const props = extractInconsistentTest(results);
+    if (!props.length) {
+      return;
+    }
     return sendLogs(
       JSON.stringify({
-        events: results.map(result => {
-          return {
-            name: 'atlaskit.qa.integration_test.inconsistent',
-            server: process.env.CI ? 'master' : 'test',
-            product: 'atlaskit',
-            properties: {
-              timeTaken: result.timeTaken,
-              testFilePath: result.testFilePath,
-            },
-            user: process.env.CI ? '-' : process.env.USER, // On CI we send as an anonymous user
-            serverTime: Date.now(),
-          };
-        }),
+        events: properties.map(property =>
+          buildEventPayload(
+            property,
+            'atlaskit.qa.integration_test.inconsistency',
+          ),
+        ),
       }),
     ).then(res => {
       console.log(
