@@ -1,5 +1,10 @@
 # @atlaskit/profilecard
 
+## 9.0.5
+- [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+
+  - Removes babel-runtime in favour of @babel/runtime
+
 ## 9.0.4
 - Updated dependencies [5b6b4d6a0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5b6b4d6a0f):
 - Updated dependencies [8b5f052003](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8b5f052003):

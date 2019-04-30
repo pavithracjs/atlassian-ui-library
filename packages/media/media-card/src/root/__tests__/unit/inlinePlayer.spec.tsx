@@ -9,7 +9,7 @@ import {
   InlinePlayerProps,
   getPreferredVideoArtifact,
 } from '../../../root/inlinePlayer';
-import { CardLoading } from '../../../utils';
+import { CardLoading } from '../../../utils/lightCards/cardLoading';
 import { InlinePlayerWrapper } from '../../../root/styled';
 
 describe('<InlinePlayer />', () => {

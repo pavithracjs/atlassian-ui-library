@@ -3,8 +3,9 @@ import { shallow, mount } from 'enzyme';
 import FileIcon from '@atlaskit/icon/glyph/file';
 import WarningIcon from '@atlaskit/icon/glyph/editor/warning';
 
-import { CardLoading, CardError } from '../..';
-import { getDimensionsWithDefault } from '../../lightCards';
+import { CardLoading } from '../../lightCards/cardLoading';
+import { CardError } from '../../lightCards/cardError';
+import { getDimensionsWithDefault } from '../../lightCards/getDimensionsWithDefault';
 import { ErrorIcon } from '../../../../src/utils/errorIcon';
 
 describe('<CardLoading />', () => {

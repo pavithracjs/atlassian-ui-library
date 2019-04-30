@@ -105,7 +105,6 @@ export default class Conversation extends React.PureComponent<Props, State> {
       onUpdateComment,
       onDeleteComment,
       onRevertComment,
-      onHighlightComment,
       onUserClick,
       onCancel,
       user,
@@ -138,7 +137,7 @@ export default class Conversation extends React.PureComponent<Props, State> {
         onEditorOpen={this.onEditorOpen}
         onEditorClose={this.onEditorClose}
         onEditorChange={this.handleEditorChange}
-        onHighlightComment={onHighlightComment}
+        onHighlightComment={this.onHighlightComment}
         onRetry={this.onRetry(comment.document)}
         onCancel={onCancel}
         onUserClick={onUserClick}
@@ -288,6 +287,18 @@ export default class Conversation extends React.PureComponent<Props, State> {
 
     if (typeof this.props.onEditorOpen === 'function') {
       this.props.onEditorOpen();
+    }
+  };
+
+  private onHighlightComment = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    commentId: string,
+  ) => {
+    if (typeof this.props.onHighlightComment === 'function') {
+      this.props.onHighlightComment(event, commentId);
+      if (typeof this.props.onCommentPermalinkClick === 'function') {
+        this.props.onCommentPermalinkClick(event, commentId);
+      }
     }
   };
 

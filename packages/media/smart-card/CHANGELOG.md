@@ -1,5 +1,10 @@
 # @atlaskit/smart-card
 
+## 10.5.0
+- [minor] [593404cba8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/593404cba8):
+
+  - add status lozenge to source code issue references.
+
 ## 10.4.2
 - Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
 - Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):

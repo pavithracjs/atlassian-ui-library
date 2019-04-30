@@ -36,7 +36,7 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
       appearance: fullWidthMode ? 'full-width' : 'full-page',
     });
     await page.waitFor(1000); // wait for transition to complete
-    await snapshot(page, 0.2);
+    await snapshot(page, 0.02);
   };
 
   const toggleFullWidthMode = async () => {
