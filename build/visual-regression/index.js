@@ -9,7 +9,7 @@ const chalk = require('chalk');
 const webpack = require('../../build/webdriver-runner/utils/webpack');
 const reporting = require('./reporting');
 
-const LONG_RUNNING_TESTS_THRESHOLD_SECS = 10;
+const LONG_RUNNING_TESTS_THRESHOLD_SECS = 30;
 let startServer = true;
 
 /*
@@ -55,8 +55,8 @@ const cli = meow(
 );
 
 if (cli.flags.debug) {
+  // Add an env debug flag for access outside of this file
   process.env.DEBUG = 'true';
-  process.env.CI = 'true';
 }
 
 if (cli.flags.debug || cli.flags.watch) {
@@ -158,15 +158,9 @@ function runTestsWithRetry() {
          */
         if (code === 0) {
           console.log('reporting test as flaky');
-          await reporting.reportFailure(
-            results,
-            'atlaskit.qa.vr_test.flakiness',
-          );
+          await reporting.reportInconsistency(results);
         } else {
-          await reporting.reportFailure(
-            results,
-            'atlaskit.qa.vr_test.testfailure',
-          );
+          await reporting.reportFailure(results, 'atlaskit.qa.vr_test.failure');
         }
       }
     } catch (err) {

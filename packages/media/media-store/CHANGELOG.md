@@ -1,5 +1,13 @@
 # @atlaskit/media-store
 
+## 11.1.0
+- [minor] [231193388e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/231193388e):
+
+  - Add MediaClientConfig interface to support media-client package
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/media-card@61.0.0
+  - @atlaskit/media-test-helpers@21.3.0
+
 ## 11.0.7
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2

@@ -1,0 +1,49 @@
+{
+  "name": "@atlaskit/media-client",
+  "version": "1.0.0",
+  "description": "Media API Web Client Library",
+  "license": "Apache-2.0",
+  "types": "index.d.ts",
+  "module": "index.js",
+  "atlaskit:src": "src/index.ts",
+  "sideEffects": false,
+  "author": "Atlassian Pty Ltd",
+  "maintainers": [
+    "Aleksandr Motsjonov",
+    "Hector Zarco Garcia"
+  ],
+  "repository": "bitbucket:atlaskit/atlaskit-mk-2",
+  "dependencies": {
+    "@types/query-string": "^4.3.1",
+    "chunkinator": "^2.0.4",
+    "dataloader": "^1.4.0",
+    "deep-equal": "^1.0.1",
+    "lru-fast": "^0.2.2",
+    "query-string": "^4.3.2",
+    "rusha": "^0.8.13",
+    "uuid": "^3.1.0",
+    "uuid-validate": "^0.0.3"
+  },
+  "devDependencies": {
+    "@atlaskit/build-utils": "^2.2.0",
+    "@atlaskit/button": "^12.0.2",
+    "@atlaskit/docs": "^7.0.2",
+    "@atlaskit/media-card": "^61.0.0",
+    "@atlaskit/media-core": "^29.2.0",
+    "@atlaskit/media-test-helpers": "^21.3.0",
+    "@types/fetch-mock": "^6.0.3",
+    "fetch-mock": "^6.5.2",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.2",
+    "rxjs": "^5.5.0",
+    "styled-components": "^3.2.6",
+    "whatwg-fetch": "^2.0.3"
+  },
+  "peerDependencies": {
+    "@atlaskit/media-core": "^29.2.0",
+    "rxjs": "^5.5.0"
+  },
+  "resolutions": {
+    "lru-fast": "0.2.2"
+  }
+}

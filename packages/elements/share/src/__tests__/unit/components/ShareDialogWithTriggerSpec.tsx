@@ -1,5 +1,6 @@
 import { shallowWithIntl } from '@atlaskit/editor-test-helpers';
 import InlineDialog from '@atlaskit/inline-dialog';
+import ShareIcon from '@atlaskit/icon/glyph/share';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import { FormattedMessage, InjectedIntlProps } from 'react-intl';
@@ -117,7 +118,7 @@ describe('ShareDialogWithTrigger', () => {
   });
 
   describe('triggerButtonStyle prop', () => {
-    it('should render no text in the share button if the value is "icon-only"', () => {
+    it('should render only ShareIcon without text in the share button if the value is "icon-only"', () => {
       const newWrapper: ShallowWrapper<
         Props & InjectedIntlProps
       > = shallowWithIntl<Props>(
@@ -140,6 +141,12 @@ describe('ShareDialogWithTrigger', () => {
           .find(ShareButton)
           .prop('text'),
       ).toBeNull();
+      expect(
+        newWrapper
+          .find(InlineDialog)
+          .find(ShareButton)
+          .prop('iconBefore'),
+      ).toEqual(<ShareIcon label="Share icon" />);
     });
 
     it('should render text in the share button if the value is "icon-with-text"', () => {
@@ -165,39 +172,43 @@ describe('ShareDialogWithTrigger', () => {
           .find(ShareButton)
           .prop('text'),
       ).toEqual(<FormattedMessage {...messages.shareTriggerButtonText} />);
+      expect(
+        newWrapper
+          .find(InlineDialog)
+          .find(ShareButton)
+          .prop('iconBefore'),
+      ).toEqual(<ShareIcon label="Share icon" />);
     });
-  });
 
-  describe('children prop', () => {
-    it('should render a ShareButton if children prop is not given', () => {
-      expect(wrapper.find(ShareButton).length).toBe(1);
-    });
-
-    it('should be called with the this.handleOpenDialog function as argument if given', () => {
-      const spiedRenderer: jest.Mock = jest.fn();
-      wrapper = shallowWithIntl<Props>(
+    it('should render only text without ShareIcon in the share button if the value is "text-only"', () => {
+      const newWrapper: ShallowWrapper<
+        Props & InjectedIntlProps
+      > = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
+          triggerButtonStyle="text-only"
           copyLink="copyLink"
           loadUserOptions={mockLoadOptions}
           onShareSubmit={mockOnShareSubmit}
           shareContentType="page"
           showFlags={mockShowFlags}
-        >
-          {spiedRenderer}
-        </ShareDialogWithTrigger>,
+        />,
       )
         .dive()
         .dive()
         .dive();
-      const wrapperState: State = wrapper.state() as State;
-      expect(spiedRenderer).toHaveBeenCalledTimes(1);
-      expect(spiedRenderer).toHaveBeenCalledWith(
-        expect.objectContaining({
-          onClick: expect.any(Function),
-          loading: wrapperState.isSharing,
-          error: wrapperState.shareError,
-        }),
-      );
+      newWrapper.setState({ isDialogOpen: true });
+      expect(
+        newWrapper
+          .find(InlineDialog)
+          .find(ShareButton)
+          .prop('text'),
+      ).toEqual(<FormattedMessage {...messages.shareTriggerButtonText} />);
+      expect(
+        newWrapper
+          .find(InlineDialog)
+          .find(ShareButton)
+          .prop('iconBefore'),
+      ).toBeUndefined();
     });
   });
 
@@ -252,6 +263,42 @@ describe('ShareDialogWithTrigger', () => {
 
       shareButtonProps = wrapper.find(ShareButton).props();
       expect(shareButtonProps.isDisabled).toEqual(!isDisabled);
+    });
+  });
+
+  describe('renderCustomTriggerButton prop', () => {
+    it('should render a ShareButton if children prop is not given', () => {
+      expect(wrapper.find(ShareButton).length).toBe(1);
+    });
+
+    it('should call renderCustomTriggerButton prop if it is given', () => {
+      const mockRenderCustomTriggerButton: jest.Mock = jest.fn(() => (
+        <button />
+      ));
+      const wrapper: ShallowWrapper<
+        Props & InjectedIntlProps
+      > = shallowWithIntl<Props>(
+        <ShareDialogWithTrigger
+          copyLink="copyLink"
+          loadUserOptions={mockLoadOptions}
+          onShareSubmit={mockOnShareSubmit}
+          renderCustomTriggerButton={mockRenderCustomTriggerButton}
+          shareContentType="page"
+          shareFormTitle="Share this page"
+          showFlags={mockShowFlags}
+        />,
+      )
+        .dive()
+        .dive()
+        .dive();
+      expect(mockRenderCustomTriggerButton).toHaveBeenCalledTimes(1);
+      expect(mockRenderCustomTriggerButton).toHaveBeenCalledWith({
+        error: (wrapper.state() as State).shareError,
+        isSelected: (wrapper.state() as State).isDialogOpen,
+        onClick: (wrapper.instance() as any).onTriggerClick,
+      });
+      expect(wrapper.find('button').length).toBe(1);
+      expect(wrapper.find(ShareButton).length).toBe(0);
     });
   });
 

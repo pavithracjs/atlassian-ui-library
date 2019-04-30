@@ -2,7 +2,7 @@
 import { css } from 'styled-components';
 
 import * as colors from './colors';
-import { gridSize, fontSize } from './index';
+import { gridSize, fontSize } from './constants';
 
 const baseHeading = (size, lineHeight) => `
   font-size: ${size / fontSize()}em;

@@ -9,7 +9,7 @@ const meow = require('meow');
 const webpack = require('./utils/webpack');
 const reporting = require('./reporting');
 
-const LONG_RUNNING_TESTS_THRESHOLD_SECS = 70;
+const LONG_RUNNING_TESTS_THRESHOLD_SECS = 60;
 
 /*
  * function main() to
@@ -137,14 +137,11 @@ function runTestsWithRetry() {
          */
         if (code === 0) {
           console.log('reporting test as flaky');
-          await reporting.reportFailure(
-            results,
-            'atlaskit.qa.integration_test.flakiness',
-          );
+          await reporting.reportInconsistency(results);
         } else {
           await reporting.reportFailure(
             results,
-            'atlaskit.qa.integration_test.testfailure',
+            'atlaskit.qa.integration_test.failure',
           );
         }
       }

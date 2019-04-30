@@ -1,5 +1,10 @@
 # @atlaskit/atlassian-switcher
 
+## 0.4.8
+- [patch] [7f9fd0ddfc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7f9fd0ddfc):
+
+  - Improve error messages and analytics
+
 ## 0.4.7
 - [patch] [3eeb2ccf51](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3eeb2ccf51):
 

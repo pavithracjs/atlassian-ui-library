@@ -393,6 +393,36 @@ describe('table plugin', () => {
   });
 
   describe('toggleHeaderRow()', () => {
+    describe('when the table has rowspan and colspan', () => {
+      const buildTableDoc = (hasHeaderRow: boolean) => {
+        const cell = hasHeaderRow ? th : td;
+        return doc(
+          p('text'),
+          table()(
+            tr(cell({ colspan: 2 })(p('')), cell({ rowspan: 2 })(p(''))),
+            tr(tdEmpty, tdEmpty),
+            tr(tdEmpty, tdEmpty, tdEmpty),
+          ),
+        );
+      };
+
+      it('should add header cells on the first line', () => {
+        const { editorView } = editor(buildTableDoc(false));
+
+        toggleHeaderRow(editorView.state, editorView.dispatch);
+
+        expect(editorView.state.doc).toEqualDocument(buildTableDoc(true));
+      });
+
+      it('should remove header cells on first line', () => {
+        const { editorView } = editor(buildTableDoc(true));
+
+        toggleHeaderRow(editorView.state, editorView.dispatch);
+
+        expect(editorView.state.doc).toEqualDocument(buildTableDoc(false));
+      });
+    });
+
     describe("when there's no header row yet", () => {
       it('it should convert first row to a header row', () => {
         // p('text') goes before table to ensure that conversion uses absolute position of cells relative to the document
