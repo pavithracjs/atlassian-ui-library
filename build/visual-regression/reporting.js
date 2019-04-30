@@ -69,6 +69,25 @@ module.exports = {
       );
     });
   },
+  reportFailure(results /*: any */, eventName /*: string */) {
+    const properties = extractResultInformationIntoProperties(results);
+    if (!properties.length) {
+      return;
+    }
+    return sendLogs(
+      JSON.stringify({
+        events: properties.map(property =>
+          buildEventPayload(property, eventName),
+        ),
+      }),
+    ).then(() => {
+      console.log(
+        `Sent ${properties.length} vr test failure event${
+          properties.length > 1 ? 's' : ''
+        }`,
+      );
+    });
+  },
   reportLongRunningTests(results /*: any */, threshold /*: number */) {
     return sendLogs(
       JSON.stringify({
