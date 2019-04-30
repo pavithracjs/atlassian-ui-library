@@ -1,1 +1,0 @@
-- added support to text-only Dialog Trigger Button

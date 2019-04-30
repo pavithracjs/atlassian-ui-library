@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.3.15
+- [patch] [7461d7df4e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7461d7df4e):
+
+  - added support to text-only Dialog Trigger Button
+
 ## 0.3.14
 - [patch] [ffd178d638](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ffd178d638):
 
