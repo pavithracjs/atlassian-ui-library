@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/comment",
-  "version": "7.0.6",
+  "version": "7.0.7",
   "description": "Comments enable discussions on an entity such as a page, blog post, issue or pull request",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -31,7 +31,7 @@
     "@atlaskit/avatar": "^15.0.4",
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/docs": "^7.0.3",
-    "@atlaskit/editor-core": "^107.13.4",
+    "@atlaskit/editor-core": "^108.0.0",
     "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/visual-regression": "^0.0.1",
     "enzyme": "^3.7.0",

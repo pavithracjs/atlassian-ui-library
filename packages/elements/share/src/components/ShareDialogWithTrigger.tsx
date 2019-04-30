@@ -7,6 +7,7 @@ import {
 import { ButtonAppearances } from '@atlaskit/button';
 import InlineDialog from '@atlaskit/inline-dialog';
 import { LoadOptions } from '@atlaskit/user-picker';
+import ShareIcon from '@atlaskit/icon/glyph/share';
 import * as React from 'react';
 import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import styled from 'styled-components';
@@ -18,6 +19,7 @@ import {
   Flag,
   OriginTracing,
   ShareButtonStyle,
+  ShareError,
   RenderCustomTriggerButton,
   ADMIN_NOTIFIED,
   OBJECT_SHARED,
@@ -42,19 +44,15 @@ type DialogState = {
 
 export type State = DialogState;
 
-type ShareError = {
-  message: string;
-};
-
 export type Props = {
   config?: ConfigResponse;
-  children?: RenderCustomTriggerButton;
   copyLink: string;
   dialogPlacement?: DialogPlacement;
   isDisabled?: boolean;
   loadUserOptions?: LoadOptions;
   onLinkCopy?: Function;
   onShareSubmit?: (shareContentState: DialogContentState) => Promise<any>;
+  renderCustomTriggerButton?: RenderCustomTriggerButton;
   shareContentType: string;
   shareFormTitle?: React.ReactNode;
   shareOrigin?: OriginTracing | null;
@@ -230,6 +228,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
   render() {
     const { isDialogOpen, isSharing, shareError, defaultValue } = this.state;
     const {
+      intl: { formatMessage },
       copyLink,
       dialogPlacement,
       isDisabled,
@@ -271,21 +270,30 @@ class ShareDialogWithTriggerInternal extends React.Component<
           onClose={this.handleCloseDialog}
           placement={dialogPlacement}
         >
-          {this.props.children ? (
-            this.props.children({
-              onClick: this.onTriggerClick,
-              loading: isSharing,
+          {this.props.renderCustomTriggerButton ? (
+            this.props.renderCustomTriggerButton({
               error: shareError,
+              isSelected: isDialogOpen,
+              onClick: this.onTriggerClick,
             })
           ) : (
             <ShareButton
               appearance={triggerButtonAppearance}
               text={
-                triggerButtonStyle === 'icon-with-text' ? (
+                triggerButtonStyle !== 'icon-only' ? (
                   <FormattedMessage {...messages.shareTriggerButtonText} />
                 ) : null
               }
               onClick={this.onTriggerClick}
+              iconBefore={
+                triggerButtonStyle !== 'text-only' ? (
+                  <ShareIcon
+                    label={formatMessage(messages.shareTriggerButtonIconLabel)}
+                  />
+                ) : (
+                  undefined
+                )
+              }
               isSelected={isDialogOpen}
               isDisabled={isDisabled}
             />
