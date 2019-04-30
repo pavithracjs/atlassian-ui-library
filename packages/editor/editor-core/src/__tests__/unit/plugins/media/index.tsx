@@ -53,7 +53,7 @@ import {
   temporaryFileId,
 } from './_utils';
 import { SmartMediaEditor } from '@atlaskit/media-editor';
-import { MediaAttributes } from '../../../../../../adf-schema';
+import { MediaAttributes } from '@atlaskit/adf-schema';
 import { ReactWrapper } from 'enzyme';
 
 const pdfFile = {
