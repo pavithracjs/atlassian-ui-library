@@ -1,4 +1,3 @@
-// @flow
 import {
   getExampleUrl,
   takeElementScreenShot,
@@ -14,8 +13,10 @@ describe.skip('Snapshot Test', () => {
       'core',
       'modal-dialog',
       'basic',
+      // @ts-ignore custom properties on global are untyped
       global.__BASEURL__,
     );
+    // @ts-ignore custom properties on global are untyped
     const { page } = global;
 
     await page.goto(url);
@@ -24,7 +25,6 @@ describe.skip('Snapshot Test', () => {
     await page.waitFor(modalDialog);
 
     const image = await takeElementScreenShot(page, modalDialog);
-    //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
   });
 });

@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
@@ -25,10 +24,11 @@ test('should ssr then hydrate modal-dialog correctly', async () => {
 
   ReactDOM.hydrate(<Example />, elem);
 
+  // @ts-ignore
   const mockCalls = console.error.mock.calls; // eslint-disable-line no-console
   const filtered = mockCalls.filter((mock: any) => !warningRegEx.test(mock));
   const mockCallsWithoutStyleErrors = filtered.reduce(
-    (a, v) => a.concat(v),
+    (a: any, v: any) => a.concat(v),
     [],
   );
   expect(mockCallsWithoutStyleErrors).toHaveLength(0);

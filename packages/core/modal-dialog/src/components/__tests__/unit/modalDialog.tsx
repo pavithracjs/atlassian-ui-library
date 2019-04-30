@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { mount } from 'enzyme';
 import Blanket from '@atlaskit/blanket';
@@ -169,7 +168,6 @@ describe('modal-dialog', () => {
 
     describe('body', () => {
       it('should render when set via components prop', () => {
-        // $FlowFixMe React 16.4 had no type definition for forwardRef
         const node = React.forwardRef((props, ref) => {
           return <span ref={ref}>My body</span>;
         });
@@ -184,7 +182,6 @@ describe('modal-dialog', () => {
           .spyOn(console, 'warn')
           .mockImplementation(() => {});
 
-        // $FlowFixMe React 16.4 had no type definition for forwardRef
         const node = React.forwardRef((props, ref) => (
           <span ref={ref}>My body</span>
         ));
@@ -198,7 +195,6 @@ describe('modal-dialog', () => {
         const warnSpy = jest
           .spyOn(console, 'warn')
           .mockImplementation(() => {});
-        // $FlowFixMe React 16.4 had no type definition for forwardRef
         const node = React.forwardRef((props, ref) => {
           return <span ref={ref}>My body</span>;
         });
@@ -282,7 +278,6 @@ describe('modal-dialog', () => {
 
   describe('scrolling header/footer keylines', () => {
     it('should enable header keyline only when header provided', () => {
-      // $FlowFixMe React 16.4 had no type definition for forwardRef
       const CustomBody = React.forwardRef((props, ref) => {
         ref({
           addEventListener: jest.fn(),
@@ -301,7 +296,6 @@ describe('modal-dialog', () => {
     });
 
     it('should enable footer keyline only when footer provided', () => {
-      // $FlowFixMe React 16.4 had no type definition for forwardRef
       const CustomBody = React.forwardRef((props, ref) => {
         ref({
           addEventListener: jest.fn(),
@@ -440,8 +434,8 @@ describe('ModalDialog', () => {
     jest.spyOn(global.console, 'error');
   });
   afterEach(() => {
-    global.console.warn.mockRestore();
-    global.console.error.mockRestore();
+    (global.console.warn as jest.Mock).mockRestore();
+    (global.console.error as jest.Mock).mockRestore();
   });
 
   it('should mount without errors', () => {
