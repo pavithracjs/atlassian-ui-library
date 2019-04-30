@@ -1,5 +1,13 @@
 # @atlaskit/drawer
 
+## 3.0.10
+- Updated dependencies [5b6b4d6a0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5b6b4d6a0f):
+  - @atlaskit/portal@1.0.0
+
+## 3.0.9
+- Updated dependencies [38dab947e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/38dab947e6):
+  - @atlaskit/blanket@9.0.0
+
 ## 3.0.8
 - [patch] [371becf9e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/371becf9e2):
 

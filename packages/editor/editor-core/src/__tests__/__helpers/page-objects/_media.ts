@@ -170,8 +170,10 @@ export async function resizeMediaInPositionWithSnapshot(
 
   await moveHandle(page, distance, side);
 
-  await snapshot(page);
   await releaseHandle(page);
+
+  await pickupHandle(page, side);
+  await snapshot(page);
 }
 
 export async function resizeMediaInPosition(

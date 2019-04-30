@@ -1,5 +1,22 @@
 # @atlaskit/smart-card
 
+## 10.5.0
+- [minor] [593404cba8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/593404cba8):
+
+  - add status lozenge to source code issue references.
+
+## 10.4.2
+- Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/form@5.2.10
+  - @atlaskit/textarea@1.0.0
+  - @atlaskit/textfield@1.0.0
+
+## 10.4.1
+- [patch] [3e4c4d7e2d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3e4c4d7e2d):
+
+  - fix: send 'Origin' header in resolve requests
+
 ## 10.4.0
 - [minor] [da5a7f3390](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da5a7f3390):
 

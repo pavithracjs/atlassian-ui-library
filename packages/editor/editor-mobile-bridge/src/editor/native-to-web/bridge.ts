@@ -1,6 +1,7 @@
 import { Color as StatusColor } from '@atlaskit/status';
 
 export default interface NativeToWebBridge {
+  currentVersion(): string;
   onBoldClicked(): void;
   onItalicClicked(): void;
   onUnderlineClicked(): void;

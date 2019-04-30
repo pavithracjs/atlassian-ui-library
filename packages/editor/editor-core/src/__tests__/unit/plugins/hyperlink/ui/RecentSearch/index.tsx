@@ -63,7 +63,11 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
       .simulate('mousedown');
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit).toHaveBeenCalledWith('recent2-url.com', 'recent item 2');
+    expect(onSubmit).toHaveBeenCalledWith(
+      'recent2-url.com',
+      'recent item 2',
+      'typeAhead',
+    );
   });
 
   it('should submit with selected activity item when enter is pressed', async () => {
@@ -72,7 +76,11 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
     pressReturnInputField(wrapper);
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit).toHaveBeenCalledWith('recent1-url.com', 'recent item 1');
+    expect(onSubmit).toHaveBeenCalledWith(
+      'recent1-url.com',
+      'recent item 1',
+      'typeAhead',
+    );
   });
 
   it('should submit with selected activity item when navigated to via keyboard and enter pressed', () => {
@@ -81,7 +89,11 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
     pressReturnInputField(wrapper);
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit).toHaveBeenCalledWith('recent2-url.com', 'recent item 2');
+    expect(onSubmit).toHaveBeenCalledWith(
+      'recent2-url.com',
+      'recent item 2',
+      'typeAhead',
+    );
   });
 
   it('should submit arbitrary link', async () => {
@@ -90,7 +102,7 @@ describe('@atlaskit/editor-core/ui/RecentSearch', () => {
     await timeout();
 
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(onSubmit).toHaveBeenCalledWith('example.com');
+    expect(onSubmit).toHaveBeenCalledWith('example.com', undefined, 'manual');
   });
 
   describe('analytics v3', () => {

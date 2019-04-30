@@ -1,5 +1,10 @@
 # @atlaskit/user-picker
 
+## 3.5.4
+- [patch] [b8bc454675](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b8bc454675):
+
+  - Add inputId prop to allow label to open the user picker
+
 ## 3.5.3
 - [patch] [171feaa473](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/171feaa473):
 

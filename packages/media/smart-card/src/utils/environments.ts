@@ -1,11 +1,18 @@
+const devBaseUrl = 'https://api-private.dev.atlassian.com';
+const stgBaseUrl = 'https://api-private.stg.atlassian.com';
+const prodBaseUrl = 'https://api-private.atlassian.com';
+
 export default {
-  prod: {
-    resolverURL: 'https://api-private.atlassian.com/object-resolver',
-  },
   dev: {
-    resolverURL: 'https://api-private.dev.atlassian.com/object-resolver',
+    baseUrl: devBaseUrl,
+    resolverUrl: `${devBaseUrl}/object-resolver`,
   },
   staging: {
-    resolverURL: 'https://api-private.stg.atlassian.com/object-resolver',
+    baseUrl: stgBaseUrl,
+    resolverUrl: `${stgBaseUrl}/object-resolver`,
+  },
+  prod: {
+    baseUrl: prodBaseUrl,
+    resolverUrl: `${prodBaseUrl}/object-resolver`,
   },
 };

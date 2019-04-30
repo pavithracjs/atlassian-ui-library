@@ -1,5 +1,4 @@
-// @flow
-import React from 'react';
+import * as React from 'react';
 import { mount } from 'enzyme';
 
 import BlanketWithAnalytics, {
@@ -66,8 +65,8 @@ describe('BlanketWithAnalytics', () => {
     jest.spyOn(global.console, 'error');
   });
   afterEach(() => {
-    global.console.warn.mockRestore();
-    global.console.error.mockRestore();
+    (global.console.warn as jest.Mock).mockRestore();
+    (global.console.error as jest.Mock).mockRestore();
   });
 
   it('should mount without errors', () => {

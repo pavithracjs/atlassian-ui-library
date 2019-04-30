@@ -7,7 +7,7 @@
 // Finnish
 export default {
   'fabric.atlassianSwitcher.switchTo': 'Vaihda kohteeseen',
-  'fabric.atlassianSwitcher.switchToTooltip': 'Vaihda kohteeseen …',
+  'fabric.atlassianSwitcher.switchToTooltip': 'Vaihda kohteeseen…',
   'fabric.atlassianSwitcher.recent': 'Viimeaikainen',
   'fabric.atlassianSwitcher.more': 'Lisää',
   'fabric.atlassianSwitcher.try': 'Yritä',
@@ -17,9 +17,10 @@ export default {
   'fabric.atlassianSwitcher.people': 'Henkilöt',
   'fabric.atlassianSwitcher.administration': 'Hallinto',
   'fabric.atlassianSwitcher.discoverMore': 'Löydä enemmän',
-  'fabric.atlassianSwitcher.errorHeading': 'Something went wrong',
+  'fabric.atlassianSwitcher.errorHeading': 'Jotain meni pieleen',
   'fabric.atlassianSwitcher.errorText':
-    'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    'Huomioimme nämä virheet, mutta ota meihin yhteyttä, jos sivun lataus ei paranna asiaa',
   'fabric.atlassianSwitcher.errorImageAltText':
-    'A broken robot and a number of people busy fixing it.',
+    'Rikkoutunut robotti ja monta ihmistä korjaamassa sitä.',
+  'fabric.atlassianSwitcher.expand': 'Laajenna',
 };

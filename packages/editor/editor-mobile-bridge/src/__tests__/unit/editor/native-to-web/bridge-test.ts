@@ -12,6 +12,10 @@ const mockEditorCore = {
   setLinkText: jest.fn(() => () => mockCalls.push('setLinkText')),
 };
 jest.mock('@atlaskit/editor-core', () => mockEditorCore);
+jest.mock('../../../../version.json', () => ({
+  name: '@atlaskit/editor-mobile-bridge',
+  version: '1.2.3.4',
+}));
 
 import WebBridgeImpl from '../../../../editor/native-to-web';
 import {
@@ -36,6 +40,14 @@ afterEach(() => {
   (isLinkAtPos as jest.Mock<{}>).mockClear();
   (setLinkHref as jest.Mock<{}>).mockClear();
   (setLinkText as jest.Mock<{}>).mockClear();
+});
+
+describe('general', () => {
+  let bridge: any = new WebBridgeImpl();
+
+  it('should return valid bridge version', () => {
+    expect(bridge.currentVersion()).toEqual('1.2.3.4');
+  });
 });
 
 describe('lists should work', () => {

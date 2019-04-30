@@ -1,5 +1,21 @@
 # @atlaskit/editor-mobile-bridge
 
+## 7.6.1
+- [patch] [3ffe0451d1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3ffe0451d1):
+
+  - ED-6486: fixed version number obtained from editor-mobile-bridge
+
+## 7.6.0
+- [minor] [089eae03fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/089eae03fd):
+
+  - ED-6486: added method for getting current editor bridge version
+
+## 7.5.1
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/form@5.2.10
+  - @atlaskit/smart-card@10.4.2
+  - @atlaskit/textfield@1.0.0
+
 ## 7.5.0
 - [minor] [8fb796b610](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8fb796b610):
 

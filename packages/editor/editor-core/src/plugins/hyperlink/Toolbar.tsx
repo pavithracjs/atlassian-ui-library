@@ -94,7 +94,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
         state.schema.nodes.heading,
         state.schema.nodes.taskItem,
         state.schema.nodes.decisionItem,
-      ],
+      ].filter(nodeType => !!nodeType), // Use only the node types existing in the schema ED-6745
       align: 'left' as AlignType,
       className:
         activeLinkMark.type === 'INSERT' ? 'hyperlink-floating-toolbar' : '',
@@ -166,8 +166,8 @@ export const getToolbarConfig: FloatingToolbarHandler = (
                   <RecentList
                     key={idx}
                     providerFactory={providerFactory}
-                    onSubmit={(href, text) => {
-                      insertLink(from, to, href, text)(
+                    onSubmit={(href, text, type) => {
+                      insertLink(from, to, href, text, type)(
                         view.state,
                         view.dispatch,
                       );

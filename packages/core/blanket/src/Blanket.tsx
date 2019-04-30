@@ -1,5 +1,4 @@
-// @flow
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -10,14 +9,14 @@ import Div from './styled';
 
 type Props = {
   /** Whether mouse events can pierce the blanket. If true, onBlanketClicked will not be fired */
-  canClickThrough: boolean,
+  canClickThrough?: boolean;
   /** Whether the blanket has a tinted background color. */
-  isTinted: boolean,
+  isTinted?: boolean;
   /** Handler function to be called when the blanket is clicked */
-  onBlanketClicked: (event: SyntheticMouseEvent<*>) => void,
+  onBlanketClicked?: (event: React.SyntheticEvent<EventTarget>) => void;
 };
 
-class Blanket extends PureComponent<Props, void> {
+class Blanket extends React.Component<Props, {}> {
   static defaultProps = {
     canClickThrough: false,
     isTinted: false,

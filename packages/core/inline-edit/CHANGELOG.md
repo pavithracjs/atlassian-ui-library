@@ -1,5 +1,17 @@
 # @atlaskit/inline-edit
 
+## 9.0.5
+- Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/form@5.2.10
+  - @atlaskit/textarea@1.0.0
+  - @atlaskit/textfield@1.0.0
+
+## 9.0.4
+- [patch] [458331c958](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/458331c958):
+
+  - Added index.ts to .npmignore to prevent jest tests resolving that instead of index.js
+
 ## 9.0.3
 - [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
 

@@ -36,14 +36,15 @@ export type BuildInlineTaskProps = BuildInlineProps<
 
 const buildInlineTaskIcon: BuildInlineTaskProps = json => {
   // Render Atlaskit icons for all supported Jira issue types.
+  const taskType = json['atlassian:taskType'] || json.taskType;
   if (
     json.generator &&
     json.generator['@id'] === JIRA_GENERATOR_ID &&
-    json.taskType &&
-    json.taskType['@id']
+    taskType &&
+    taskType['@id']
   ) {
-    const taskType = json.taskType['@id'];
-    const taskTypeName = taskType.split('#').pop();
+    const taskTypeId = taskType['@id'];
+    const taskTypeName = taskTypeId.split('#').pop();
     const taskLabel = json.name || '';
     switch (taskTypeName) {
       case JIRA_TASK:
@@ -91,25 +92,28 @@ const isValidAppearance = (appearance: any): appearance is LozengeColor => {
 };
 
 const buildInlineTaskLozenge: BuildInlineTaskProps = json => {
-  // Tasks should contain status information inside of
-  // the .taskStatus JSON tree (Asana, Github).
-  if (json.taskStatus && json.taskStatus.name) {
-    const { name } = json.taskStatus;
-    return {
-      lozenge: {
-        text: name,
-        appearance: 'success',
-      },
-    };
-    // As a fallback, the .tag property is used
-    // to extract information required for the task lozenge.
-  } else if (json.tag && json.tag.name) {
+  // The .tag property is used by some consumers
+  // to extract information required for the task lozenge.
+  // We check this property first to privilege this behaviour e.g.
+  // Jira's current implementation of Native Resolving.
+  if (json.tag && json.tag.name) {
     const { name, appearance } = json.tag;
     return {
       lozenge: {
         appearance:
           (isValidAppearance(appearance) && appearance) || VALID_APPEARANCES[0],
         text: name,
+      },
+    };
+  }
+  // Per the JSON-LD spec, all other tasks should contain status information inside of
+  // the .taskStatus JSON tree (Asana, Github, Bitbucket).
+  const taskStatus = json['atlassian:taskStatus'];
+  if (taskStatus && taskStatus.name) {
+    return {
+      lozenge: {
+        text: taskStatus.name,
+        appearance: 'success',
       },
     };
   }

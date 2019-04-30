@@ -6,6 +6,8 @@ import {
   ADNode,
   ExtensionHandlers,
   WidthConsumer,
+  overflowShadow,
+  OverflowShadowProps,
 } from '@atlaskit/editor-common';
 import { calcBreakoutWidth } from '@atlaskit/editor-common';
 import { RendererCssClassName } from '../../consts';
@@ -21,23 +23,38 @@ export interface Props {
   layout?: ExtensionLayout;
 }
 
-export const renderExtension = (content: any, layout: string) => (
-  <WidthConsumer>
-    {({ width }) => (
-      <div
-        className={RendererCssClassName.EXTENSION}
-        style={{
-          width: calcBreakoutWidth(layout, width),
-        }}
-        data-layout={layout}
-      >
-        {content}
-      </div>
-    )}
-  </WidthConsumer>
-);
+export const renderExtension = (
+  content: any,
+  layout: string,
+  options?: OverflowShadowProps,
+) => {
+  let body = (
+    <WidthConsumer>
+      {({ width }) => (
+        <div
+          className={RendererCssClassName.EXTENSION}
+          style={{
+            width: calcBreakoutWidth(layout, width),
+          }}
+          data-layout={layout}
+        >
+          {content}
+        </div>
+      )}
+    </WidthConsumer>
+  );
 
-const Extension: React.StatelessComponent<Props> = ({
+  if (options) {
+    body = (
+      <div ref={options.handleRef} className={options.shadowClassNames}>
+        {body}
+      </div>
+    );
+  }
+  return body;
+};
+
+const Extension: React.StatelessComponent<Props & OverflowShadowProps> = ({
   serializer,
   extensionHandlers,
   rendererContext,
@@ -46,6 +63,8 @@ const Extension: React.StatelessComponent<Props> = ({
   text,
   parameters,
   layout = 'default',
+  handleRef,
+  shadowClassNames,
 }) => {
   try {
     if (extensionHandlers && extensionHandlers[extensionType]) {
@@ -63,7 +82,10 @@ const Extension: React.StatelessComponent<Props> = ({
       switch (true) {
         case content && React.isValidElement(content):
           // Return the content directly if it's a valid JSX.Element
-          return renderExtension(content, layout);
+          return renderExtension(content, layout, {
+            handleRef,
+            shadowClassNames,
+          });
         case !!content:
           // We expect it to be Atlassian Document here
           const nodes = Array.isArray(content) ? content : [content];
@@ -80,7 +102,12 @@ const Extension: React.StatelessComponent<Props> = ({
     /** We keep rendering the default content */
   }
   // Always return default content if anything goes wrong
-  return renderExtension(text || 'extension', layout);
+  return renderExtension(text || 'extension', layout, {
+    handleRef,
+    shadowClassNames,
+  });
 };
 
-export default Extension;
+export default overflowShadow(Extension, {
+  overflowSelector: `.${RendererCssClassName.EXTENSION}`,
+});

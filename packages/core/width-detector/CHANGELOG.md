@@ -1,5 +1,10 @@
 # @atlaskit/width-detector
 
+## 1.0.0
+- [major] [87f0209201](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87f0209201):
+
+  - This major release indicates that this package is no longer under dev preview but is ready for use
+
 ## 0.3.5
 - [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
 
