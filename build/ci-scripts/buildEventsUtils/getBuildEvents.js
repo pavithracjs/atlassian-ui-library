@@ -4,6 +4,9 @@
  * Utilities helper to get build data.
  */
 const axios = require('axios');
+const yaml = require('js-yaml');
+const fs = require('fs');
+const path = require('path');
 
 /*::
 type IStepsDataType = {
@@ -23,6 +26,18 @@ type IStepsDataType = {
   build_steps: Array<IStepsDataType>
 }
 */
+
+async function getBuildStepName() {
+  try {
+    const config = yaml.safeLoad(
+      fs.readFileSync('./../../../bitbucket-pipelines.yml', 'utf8'),
+    );
+    const indentedJson = JSON.stringify(config, null, 4);
+    console.log(indentedJson);
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 async function getPipelinesBuildEvents(
   buildId /*: string */,
@@ -92,4 +107,35 @@ async function getStepsEvents(buildId /*: string*/) {
   }
 }
 
-module.exports = { getPipelinesBuildEvents };
+async function getStepId(buildId /*: string*/, stepName /*: string*/) {
+  const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
+  try {
+    const resp = await axios.get(url);
+    const stepFound = resp.data.values.filter(step => step.name === stepName);
+    return stepFound.uuid;
+  } catch (err) {
+    console.error(err.toString());
+    process.exit(1);
+  }
+}
+
+async function getStepEvents(buildId /*: string*/, stepName /*: string*/) {
+  try {
+    const stepId = await getStepId(buildId, stepName);
+    const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/${stepId}`;
+
+    const resp = await axios.get(url);
+    const step = resp.data;
+    const buildStatus = process.env.BITBUCKET_EXIT_CODE;
+    process.env.BITBUCKET_EXIT_CODE === '0' ? 'SUCCESSFUL' : 'FAILED';
+    return {
+      step_status: buildStatus,
+      step_name: step.name || 'master', // on Master, there is no step name,
+    };
+  } catch (err) {
+    console.error(err.toString());
+    process.exit(1);
+  }
+}
+
+module.exports = { getPipelinesBuildEvents, getStepEvents, getBuildStepName };
