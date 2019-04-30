@@ -1,0 +1,1 @@
+- Add event emitter api to context + add first known event 'file-uploaded'
