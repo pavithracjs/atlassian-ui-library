@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { colors, gridSize } from '@atlaskit/theme';
 
 export const HelpDrawer = styled.div`
@@ -10,7 +10,7 @@ export const HelpDrawer = styled.div`
 
 export const HelpDrawerContent = styled.div`
   flex: 1;
-  border-left: 3px solid ${colors.N30}
+  border-left: 3px solid ${colors.N30};
   overflow: auto;
   flex-direction: column;
   width: ${60 * gridSize()}px;

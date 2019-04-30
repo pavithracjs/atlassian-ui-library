@@ -1,4 +1,5 @@
-import styled, { css } from 'styled-components';
+import { css, cx } from 'emotion';
+import styled from '@emotion/styled';
 import { colors, gridSize } from '@atlaskit/theme';
 
 export const truncate = (width: string = '100%') => css`
@@ -22,7 +23,7 @@ export const HelpPanelHeader = styled.div`
   flex: 1;
   overflow: auto;
   flex-direction: column;
-  border-bottom: 2px solid ${colors.N30}
+  border-bottom: 2px solid ${colors.N30};
   padding: ${gridSize()}px ${gridSize() * 3}px;
   top: 0;
   left: 0;
