@@ -63,8 +63,8 @@ module.exports = {
       }),
     ).then(res => {
       console.log(
-        `Sent ${results.length} inconsistent vr tests event${
-          results.length > 1 ? 's' : ''
+        `Sent ${properties.length} inconsistent vr tests event${
+          properties.length > 1 ? 's' : ''
         }`,
       );
     });

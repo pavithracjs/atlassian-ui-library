@@ -67,8 +67,8 @@ module.exports = {
       }),
     ).then(res => {
       console.log(
-        `Sent ${results.length} inconsistent integration tests event${
-          results.length > 1 ? 's' : ''
+        `Sent ${properties.length} inconsistent integration tests event${
+          properties.length > 1 ? 's' : ''
         }`,
       );
     });
