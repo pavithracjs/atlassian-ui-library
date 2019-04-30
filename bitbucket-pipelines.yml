@@ -45,6 +45,8 @@ pipelines:
               - bolt install --pure-lockfile
               - yarn build
               - node build/ci-scripts/run.if.package.changed.js @atlaskit/editor-mobile-bridge -- yarn build:editor-mobile-bridge
+            after-script:
+              - yarn send:stepEvents:failure
             caches:
               - node
         - step:
@@ -63,6 +65,8 @@ pipelines:
               # The below runs prettier over all changed files and fails if anyone of them don't match prettier's rules.
               # We add fileMock.js to the list of files so that we never pass an empty list to prettier.
               - yarn prettier --no-editorconfig "{$CHANGED_FILES,fileMock.js}" --list-different
+            after-script:
+              - yarn send:stepEvents:failure
             caches:
               - node
         - step:
@@ -71,6 +75,8 @@ pipelines:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
               - bolt measure:dependents
+            after-script:
+              - yarn send:stepEvents:failure
             caches:
               - node
         - step:
@@ -84,6 +90,8 @@ pipelines:
               - TEST_ONLY_PATTERN='packages/editor' yarn test:changed --runInBand --passWithNoTests
               # This script acts like a unit test to check changes to @atlaskit/adf-schema.
               - node build/ci-scripts/run.if.package.changed.js @atlaskit/adf-schema -- yarn build:adf-schema:checkuptodate
+            after-script:
+              - yarn send:stepEvents:failure
             caches:
               - node
         - step:
@@ -93,6 +101,8 @@ pipelines:
               - bolt install --pure-lockfile
               - echo "Run browser unit tests using Karma + Browserstack"
               - node build/ci-scripts/run.tool.if.changed.js karma -- yarn test:browser:browserstack
+            after-script:
+              - yarn send:stepEvents:failure 
             caches:
               - node
         - step:
@@ -103,6 +113,8 @@ pipelines:
               - echo "Run browser integration tests using Webdriver + Browserstack"
               # If we have changed any packages with webdriver tests, we wait until browserstack has free resources, then run our tests
               - LOCAL_IDENTIFIER=$(date +%s) BS_RETRY=5 BS_BUILD_ALLOWED=3 node build/ci-scripts/run.tool.if.changed.js webdriver -- node build/ci-scripts/wait.for.browserstack.resources.js && yarn test:webdriver:browserstack:changed
+            after-script:
+              - yarn send:stepEvents:failure
             caches:
               - node
         - step:
@@ -116,6 +128,7 @@ pipelines:
             after-script:
               # Extract all the diff images and store them into a folder for download.
               - mkdir ./imageSnapshotFailures && find . -name '*-diff.png' -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+              - yarn send:stepEvents:failure
             # If a failure occurs, you can download the image snapshot of the differences.
             artifacts: 
               - imageSnapshotFailures/**
@@ -136,6 +149,8 @@ pipelines:
               - cat deploy-log.txt | grep "URL:" | sed "s/Live Draft Url..//gi" > netlify-link.txt
               - echo "Uploading netlify build link to s3 so that we can fetch at the end..."
               - node ../build/ci-scripts/upload.build.artefact.for.commit.js netlify-link.txt
+            after-script:
+              - yarn send:stepEvents:failure
             caches:
               - node
     - step:
@@ -194,6 +209,8 @@ pipelines:
             - git merge master --no-edit
             - bolt install --pure-lockfile
             - yarn measure:dependents
+          after-script:
+            - yarn send:buildEvents
           caches:
             - node
 
@@ -210,6 +227,8 @@ pipelines:
             # - node ../build/ci-scripts/upload.build.artefact.for.commit.js dist/report.html
             # - node ../build/ci-scripts/upload.build.artefact.for.commit.js dist/stats.json
             - node ./scripts/uploadBundleAnalyticsEvent.js
+          after-script:
+            - yarn send:buildEvents
           caches:
             - node
    
@@ -220,6 +239,8 @@ pipelines:
             - source ./build-setup.sh
             - bolt install --pure-lockfile
             - yarn test:webdriver:browserstack
+          after-script:
+            - yarn send:buildEvents
           caches:
             - node
             
@@ -235,6 +256,7 @@ pipelines:
           after-script:
               # Extract all the diff images and store them into a folder for download.
               - mkdir ./imageSnapshotFailures && find . -name '*-diff.png' -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+              - yarn send:buildEvents
           # If a failure occurs, you can download the image snapshot of the differences.
           artifacts: 
             - imageSnapshotFailures/**
@@ -251,6 +273,8 @@ pipelines:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
               - yarn build
+            after-script:
+              - yarn send:stepEvents:failure
         - step:
             name: Lint + Typecheck
             script:
@@ -258,6 +282,8 @@ pipelines:
               - bolt install --pure-lockfile
               - yarn lint
               - yarn typecheck
+            after-script:
+              - yarn send:stepEvents:failure
         - step:
             name: Running All Unit tests
             script:
@@ -267,18 +293,24 @@ pipelines:
               - TEST_ONLY_PATTERN='!packages/editor' yarn test:CI
               # Run the editor tests (runInBand is required or it fails in CI)
               - TEST_ONLY_PATTERN='packages/editor' yarn test:CI --runInBand
+            after-script:
+              - yarn send:stepEvents:failure
         - step:
             name: Running All Browser Unit tests
             script:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
               - yarn test:browser:browserstack
+            after-script:
+              - yarn send:stepEvents:failure
         - step:
             name: Running All Browser Integration tests
             script:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
               - yarn test:webdriver:browserstack
+            after-script:
+              - yarn send:stepEvents:failure
         - step:
             name: Running All Visual Regression tests
             image: atlassianlabs/atlaskit-mk-2-vr:1.0.10
@@ -289,6 +321,7 @@ pipelines:
             after-script:
             # Extract all the diff images and store them into a folder for download.
               - mkdir ./imageSnapshotFailures && find . -name '*-diff.png' -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+              - yarn send:stepEvents:failure
             # If a failure occurs, you can download the image snapshot of the differences.
             artifacts: 
               - imageSnapshotFailures/**
@@ -311,6 +344,8 @@ pipelines:
             - bolt install --pure-lockfile
             - yarn build
             - yarn build:bundle-analysis
+          after-script:
+              - yarn send:buildEvents
           caches:
             - node
     # This build is used as our `merge` build when managing concurrent PR to master.
@@ -323,7 +358,8 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
                 - yarn build
-
+              after-script:
+                - yarn send:stepEvents:failure
           - step:
               name: Linting
               script:
@@ -331,7 +367,8 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
                 - yarn lint
-
+              after-script:
+                - yarn send:stepEvents:failure
           - step:
               name: Typechecking (and checking changesets)
               script:
@@ -344,6 +381,8 @@ pipelines:
                 - echo "If the step below fails, it's because a changeset may be bumping a package that is depended upon by a package that didn't exist when the changeset was created"
                 - echo "Read the very last error message, it will tell you exactly what is wrong (ignore all the first warnings you'll see)"
                 - node ./build/releases/bin/build-releases.js version
+              after-script:
+                - yarn send:stepEvents:failure
           # Rest of the steps are jest tests. We no longer use the $BITBUCKET_PARALLEL_STEP_COUNT and $BITBUCKET_PARALLEL_STEP
           # variables as they mean the jest steps need to be in their own parallel block, so we just hardcode them here.
           # Editor tests need to runInBand.
@@ -355,6 +394,8 @@ pipelines:
                 - bolt install --pure-lockfile
                 - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
                 - STEPS="2" STEP_IDX="0" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+              after-script:
+                - yarn send:stepEvents:failure
           - step:
               name: Running Editor Unit tests - Jest 2 of 2 chunks
               script:
@@ -362,7 +403,9 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
                 - export TMPFILE=$(mktemp /tmp/jest.XXXXXX) && TEST_ONLY_PATTERN='packages/editor' yarn --silent jest --listTests --json > $TMPFILE
-                - STEPS="2" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand  
+                - STEPS="2" STEP_IDX="1" PARALLELIZE_TESTS_FILE="$TMPFILE" yarn jest --runInBand
+              after-script:
+                - yarn send:stepEvents:failure
           - step:
               name: Running Non Editor Unit tests
               script:
@@ -370,6 +413,8 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
                 - TEST_ONLY_PATTERN='!packages/editor' yarn test
+              after-script:
+                - yarn send:stepEvents:failure
           - step:
               name: Running Browser Integration tests
               script:
@@ -377,6 +422,8 @@ pipelines:
                 - git merge master --no-edit
                 - bolt install --pure-lockfile
                 - LANDKID=true yarn test:webdriver:browserstack:changed
+              after-script:
+                - yarn send:stepEvents:failure
           - step:
               name: Running Visual Regression tests
               image: atlassianlabs/atlaskit-mk-2-vr:1.0.10
@@ -389,6 +436,7 @@ pipelines:
               after-script:
                 # Extract all the diff images and store them into a folder for download.
                 - mkdir ./imageSnapshotFailures && find . -name '*-diff.png' -not -path "./node_modules/*" -exec cp {} ./imageSnapshotFailures \;
+                - yarn send:stepEvents:failure
               # If a failure occurs, you can download the image snapshot of the differences.
               artifacts: 
                 - imageSnapshotFailures/**
