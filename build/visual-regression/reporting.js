@@ -63,7 +63,7 @@ module.exports = {
       }),
     ).then(res => {
       console.log(
-        `Sent ${properties.length} inconsistent vr tests event${
+        `Sent ${properties.length} inconsistent visual-regression tests event${
           properties.length > 1 ? 's' : ''
         }`,
       );
@@ -82,7 +82,7 @@ module.exports = {
       }),
     ).then(() => {
       console.log(
-        `Sent ${properties.length} vr test failure event${
+        `Sent ${properties.length} failure visual-regression tests event${
           properties.length > 1 ? 's' : ''
         }`,
       );
