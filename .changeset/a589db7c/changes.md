@@ -1,0 +1,1 @@
+- Changed Unauthorized and Errored inline view for smart cards to be text only and added color theming for smart link titles
