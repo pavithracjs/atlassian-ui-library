@@ -434,6 +434,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
       styles,
       autoFocus,
       fieldId,
+      inputId,
     } = this.props;
 
     const {
@@ -490,6 +491,7 @@ class UserPickerInternal extends React.Component<Props, UserPickerState> {
         menuPortalTarget={menuPortalTarget}
         disableInput={disableInput}
         instanceId={fieldId}
+        inputId={inputId}
         {...pickerProps}
       />
     );

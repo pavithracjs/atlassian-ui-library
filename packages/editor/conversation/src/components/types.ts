@@ -34,7 +34,10 @@ export interface SharedProps {
   onRevertComment?: (conversationId: string, commentId: string) => void;
   onCancelComment?: (conversationId: string, commentId: string) => void;
   onCancel?: () => void;
-  onHighlightComment?: (commentId: string) => void;
+  onHighlightComment?: (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    commentId: string,
+  ) => void;
   onEditorOpen?: () => void;
   onEditorClose?: () => void;
   onEditorChange?: (
@@ -53,6 +56,10 @@ export interface SharedProps {
   // Event Hooks
   onUserClick?: (user: User) => void;
   onRetry?: (localId?: string) => void;
+  onCommentPermalinkClick?: (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    commentId: string,
+  ) => void;
 
   // Editor
   renderEditor?: (Editor: typeof AkEditor, props: EditorProps) => JSX.Element;

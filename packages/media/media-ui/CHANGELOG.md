@@ -1,5 +1,10 @@
 # @atlaskit/media-ui
 
+## 10.1.9
+- [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+
+  - Removes babel-runtime in favour of @babel/runtime
+
 ## 10.1.8
 - [patch] [687f535a12](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/687f535a12):
 

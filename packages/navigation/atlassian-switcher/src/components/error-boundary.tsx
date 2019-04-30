@@ -1,18 +1,23 @@
 import * as React from 'react';
+import { injectIntl, InjectedIntlProps, Messages } from 'react-intl';
 import styled from 'styled-components';
 import {
   AnalyticsEventPayload,
+  UIAnalyticsEvent,
   WithAnalyticsEventProps,
 } from '@atlaskit/analytics-next';
 import { gridSize } from '@atlaskit/theme';
-import { injectIntl, InjectedIntlProps, Messages } from 'react-intl';
+import Button from '@atlaskit/button';
 import { ErrorBoundaryWrapper } from '../primitives/wrapper';
 import FormattedMessage from '../primitives/formatted-message';
 import {
   NAVIGATION_CHANNEL,
   OPERATIONAL_EVENT_TYPE,
+  UI_EVENT_TYPE,
   withAnalyticsEvents,
 } from '../utils/analytics';
+import { errorToReason, Reason } from '../utils/error-to-reason';
+import { FETCH_ERROR_NAME } from '../utils/fetch';
 
 const TRIGGER_SUBJECT = 'errorBoundary';
 const ACTION_SUBJECT = 'rendered';
@@ -29,8 +34,16 @@ type ErrorBoundaryProps = {
 } & InjectedIntlProps &
   WithAnalyticsEventProps;
 
-class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
-  state = { hasError: false };
+type ErrorBoundaryState = {
+  hasError: boolean;
+  reason?: Reason;
+};
+
+class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
+  state: ErrorBoundaryState = { hasError: false };
 
   fireOperationalEvent = (payload: AnalyticsEventPayload) => {
     if (this.props.createAnalyticsEvent) {
@@ -44,22 +57,63 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
     }
   };
 
-  componentDidCatch() {
+  componentDidCatch(error: any) {
+    const reason = errorToReason(error);
+
     this.setState(
       {
         hasError: true,
+        reason,
       },
       () => {
         this.fireOperationalEvent({
           action: ACTION_SUBJECT,
+          reason,
         });
       },
     );
   }
 
+  handleLogin(
+    _: React.MouseEvent<HTMLElement>,
+    analyticsEvent: UIAnalyticsEvent,
+  ) {
+    analyticsEvent
+      .update({
+        eventType: UI_EVENT_TYPE,
+        actionSubjectId: 'login',
+      })
+      .fire(NAVIGATION_CHANNEL);
+    window.location.reload();
+  }
+
+  renderErrorBody(reason: Reason, messages: Messages) {
+    if (reason.name === FETCH_ERROR_NAME) {
+      return reason.status === 401 ? (
+        // Not authorised http error
+        <React.Fragment>
+          <FormattedMessage {...messages.errorTextLoggedOut} />
+          <br />
+          <br />
+          <Button onClick={this.handleLogin}>
+            <FormattedMessage {...messages.login} />
+          </Button>
+        </React.Fragment>
+      ) : (
+        // All other http errors
+        <FormattedMessage {...messages.errorTextNetwork} />
+      );
+    }
+
+    // Default error message
+    return <FormattedMessage {...messages.errorText} />;
+  }
+
   render() {
     const { messages, intl } = this.props;
-    if (this.state.hasError) {
+    const { hasError, reason } = this.state;
+
+    if (hasError) {
       return (
         <ErrorBoundaryWrapper>
           <NotFoundImage
@@ -69,9 +123,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
           <h3>
             <FormattedMessage {...messages.errorHeading} />
           </h3>
-          <p>
-            <FormattedMessage {...messages.errorText} />
-          </p>
+          <p>{this.renderErrorBody(reason!, messages)}</p>
         </ErrorBoundaryWrapper>
       );
     }

@@ -1,5 +1,6 @@
 import { fontFamily, fontSize } from '@atlaskit/theme';
 import { paragraphStyles } from './nodes/paragraph';
+import { listItemStyles } from './nodes/list-item';
 export default `
   .wrapper {
     font-family: ${fontFamily()};
@@ -22,4 +23,5 @@ export default `
     margin-bottom: 0px;
   }
   ${paragraphStyles}
+  ${listItemStyles}
 `;

@@ -1,5 +1,14 @@
 # @atlaskit/refinement-bar
 
+## 0.1.6
+- Updated dependencies [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+  - @atlaskit/docs@7.0.4
+  - @atlaskit/button@12.0.5
+
+## 0.1.5
+- Updated dependencies [2020ab9db1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2020ab9db1):
+  - @atlaskit/section-message@2.0.4
+
 ## 0.1.4
 - Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
   - @atlaskit/textfield@1.0.0
