@@ -86,7 +86,7 @@ module.exports = {
       }),
     ).then(() => {
       console.log(
-        `Sent ${properties.length} integration test failure event${
+        `Sent ${properties.length} failure integration tests event${
           properties.length > 1 ? 's' : ''
         }`,
       );
