@@ -4,7 +4,7 @@
   "description": "A React component that displays content in a layer blocking the interaction with the page.",
   "license": "Apache-2.0",
   "module": "index.js",
-  "typings": "src/typings/",
+  "types": "./index.d.ts",
   "atlaskit:src": "src/index.ts",
   "atlaskit:designLink": "https://atlassian.design/guidelines/product/components/modal-dialog",
   "sideEffects": false,
