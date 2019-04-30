@@ -1,13 +1,13 @@
 export interface Article {
-  body?: string;
-  context?: string[];
+  body: string;
+  context: string[];
   description?: string;
-  id?: string;
-  lastPublished?: string;
-  objectId?: string;
+  id: string;
+  lastPublished: string;
+  objectId: string;
   productUrl?: string;
-  title?: string;
-  type?: string;
+  title: string;
+  type: string;
   relatedArticles?: ArticleItem[];
 }
 
