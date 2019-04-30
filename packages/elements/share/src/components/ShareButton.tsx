@@ -1,11 +1,9 @@
 import Button, { ButtonAppearances } from '@atlaskit/button';
-import ShareIcon from '@atlaskit/icon/glyph/share';
 import * as React from 'react';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
-import { messages } from '../i18n';
 
 export type Props = {
   appearance?: ButtonAppearances;
+  iconBefore?: React.Node;
   isLoading?: boolean;
   isSelected?: boolean;
   isDisabled?: boolean;
@@ -13,17 +11,9 @@ export type Props = {
   text?: React.ReactNode;
 };
 
-export const ShareButton: React.StatelessComponent<
-  Props & InjectedIntlProps
-> = ({ intl: { formatMessage }, text, ...props }) => (
-  <Button
-    {...props}
-    iconBefore={
-      <ShareIcon label={formatMessage(messages.shareTriggerButtonIconLabel)} />
-    }
-  >
-    {text}
-  </Button>
-);
+export const ShareButton: React.StatelessComponent<Props> = ({
+  text,
+  ...props
+}) => <Button {...props}>{text}</Button>;
 
-export default injectIntl(ShareButton);
+export default ShareButton;
