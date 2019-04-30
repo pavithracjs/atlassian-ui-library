@@ -22,7 +22,6 @@
   "dependencies": {
     "@atlaskit/section-message": "^2.0.3",
     "@atlaskit/theme": "^8.0.0",
-    "babel-runtime": "^6.26.0",
     "exenv": "^1.2.2",
     "react-dom": "^16.4.2"
   },
