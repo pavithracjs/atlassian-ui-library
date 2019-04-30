@@ -55,8 +55,8 @@ const cli = meow(
 );
 
 if (cli.flags.debug) {
+  // Add an env debug flag for access outside of this file
   process.env.DEBUG = 'true';
-  process.env.CI = 'true';
 }
 
 if (cli.flags.debug || cli.flags.watch) {

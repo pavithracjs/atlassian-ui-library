@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.3.14
+- [patch] [ffd178d638](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ffd178d638):
+
+  - exposed renderCustomTriggerButton prop in ShareDialogContainer
+
 ## 0.3.13
 - [patch] [f692c5e59c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f692c5e59c):
 

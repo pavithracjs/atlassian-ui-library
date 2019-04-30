@@ -168,39 +168,6 @@ describe('ShareDialogWithTrigger', () => {
     });
   });
 
-  describe('children prop', () => {
-    it('should render a ShareButton if children prop is not given', () => {
-      expect(wrapper.find(ShareButton).length).toBe(1);
-    });
-
-    it('should be called with the this.handleOpenDialog function as argument if given', () => {
-      const spiedRenderer: jest.Mock = jest.fn();
-      wrapper = shallowWithIntl<Props>(
-        <ShareDialogWithTrigger
-          copyLink="copyLink"
-          loadUserOptions={mockLoadOptions}
-          onShareSubmit={mockOnShareSubmit}
-          shareContentType="page"
-          showFlags={mockShowFlags}
-        >
-          {spiedRenderer}
-        </ShareDialogWithTrigger>,
-      )
-        .dive()
-        .dive()
-        .dive();
-      const wrapperState: State = wrapper.state() as State;
-      expect(spiedRenderer).toHaveBeenCalledTimes(1);
-      expect(spiedRenderer).toHaveBeenCalledWith(
-        expect.objectContaining({
-          onClick: expect.any(Function),
-          loading: wrapperState.isSharing,
-          error: wrapperState.shareError,
-        }),
-      );
-    });
-  });
-
   describe('dialogPlacement prop', () => {
     it('should be passed into InlineDialog component as placement prop', () => {
       const defaultPlacement: string = 'bottom-end';
@@ -252,6 +219,42 @@ describe('ShareDialogWithTrigger', () => {
 
       shareButtonProps = wrapper.find(ShareButton).props();
       expect(shareButtonProps.isDisabled).toEqual(!isDisabled);
+    });
+  });
+
+  describe('renderCustomTriggerButton prop', () => {
+    it('should render a ShareButton if children prop is not given', () => {
+      expect(wrapper.find(ShareButton).length).toBe(1);
+    });
+
+    it('should call renderCustomTriggerButton prop if it is given', () => {
+      const mockRenderCustomTriggerButton: jest.Mock = jest.fn(() => (
+        <button />
+      ));
+      const wrapper: ShallowWrapper<
+        Props & InjectedIntlProps
+      > = shallowWithIntl<Props>(
+        <ShareDialogWithTrigger
+          copyLink="copyLink"
+          loadUserOptions={mockLoadOptions}
+          onShareSubmit={mockOnShareSubmit}
+          renderCustomTriggerButton={mockRenderCustomTriggerButton}
+          shareContentType="page"
+          shareFormTitle="Share this page"
+          showFlags={mockShowFlags}
+        />,
+      )
+        .dive()
+        .dive()
+        .dive();
+      expect(mockRenderCustomTriggerButton).toHaveBeenCalledTimes(1);
+      expect(mockRenderCustomTriggerButton).toHaveBeenCalledWith({
+        error: (wrapper.state() as State).shareError,
+        isSelected: (wrapper.state() as State).isDialogOpen,
+        onClick: (wrapper.instance() as any).onTriggerClick,
+      });
+      expect(wrapper.find('button').length).toBe(1);
+      expect(wrapper.find(ShareButton).length).toBe(0);
     });
   });
 
