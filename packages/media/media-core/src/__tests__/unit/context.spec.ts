@@ -14,10 +14,10 @@ import {
   UploadableFile,
   UploadController,
   UploadingFileState,
+  FileState,
 } from '../../../src';
 import { ContextFactory } from '../../../src/context/context';
 import { fileStreamsCache } from '../../../src/context/fileStreamCache';
-import { FileState } from 'src/fileState';
 
 const getOrInsertSpy = jest.spyOn(fileStreamsCache, 'getOrInsert');
 const authProvider: AuthProvider = () =>
