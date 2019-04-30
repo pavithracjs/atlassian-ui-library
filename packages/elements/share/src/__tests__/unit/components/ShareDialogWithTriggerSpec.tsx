@@ -208,7 +208,7 @@ describe('ShareDialogWithTrigger', () => {
           .find(InlineDialog)
           .find(ShareButton)
           .prop('iconBefore'),
-      ).toBeNull();
+      ).toBeUndefined();
     });
   });
 

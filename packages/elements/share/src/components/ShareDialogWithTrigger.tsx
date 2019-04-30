@@ -290,7 +290,9 @@ class ShareDialogWithTriggerInternal extends React.Component<
                   <ShareIcon
                     label={formatMessage(messages.shareTriggerButtonIconLabel)}
                   />
-                ) : null
+                ) : (
+                  undefined
+                )
               }
               isSelected={isDialogOpen}
               isDisabled={isDisabled}
