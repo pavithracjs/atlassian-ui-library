@@ -4,7 +4,6 @@ import { AnalyticsListener } from '@atlaskit/analytics-next';
 import Page from '@atlaskit/page';
 
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
-import { Article, ArticleItem } from '../src/model/Article';
 import { getArticle, searchArticle } from './utils/mockData';
 import { ExampleWrapper, ButtonsWrapper } from './utils/styled';
 
@@ -40,13 +39,13 @@ export default class extends React.Component {
     this.setState({ searchText: searchValue });
   };
 
-  onGetArticle = (articleId: string): Promise<Article> => {
+  onGetArticle = (articleId: string): Promise<any> => {
     return new Promise(resolve =>
       setTimeout(() => resolve(getArticle(articleId)), 100),
     );
   };
 
-  onSearch = (value: string): Promise<ArticleItem[]> => {
+  onSearch = (value: string): Promise<any> => {
     return new Promise(resolve =>
       setTimeout(() => resolve(searchArticle(value)), 1000),
     );
