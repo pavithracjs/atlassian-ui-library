@@ -113,8 +113,6 @@ async function getStepNamePerBuildType(buildId /*: string */) {
     // process.env.BITBUCKET_PARALLEL_STEP retruns zero-based index of the current step in the group, for example: 0, 1, 2, … - only for parallel step.
     // This will return the actual step where the build is currently running.
     // Note: indentedJson.pipelines.<branch_name> returns an array.
-    // TODO: remove this line below
-    process.env.BITBUCKET_PARALLEL_STEP = '2';
     if (buildType === 'default') {
       return {
         step_name:
