@@ -22,6 +22,7 @@ async function globalSetup() {
         '--no-sandbox',
         '--disable-setuid-sandbox',
         '--disable-dev-shm-usage',
+        '--font-render-hinting=medium',
       ],
     };
     if (process.env.DEBUG) {

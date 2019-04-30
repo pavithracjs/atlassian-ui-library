@@ -24,6 +24,9 @@ async function disableAllSideEffects(
   if (!allowSideEffects.scroll) {
     await disableScrollBehavior(page);
   }
+  if (!allowSideEffects.fonts) {
+    await disableDefaultSystemFonts(page);
+  }
 }
 
 async function disableCaretCursor(page /*: any */) {
@@ -62,6 +65,22 @@ async function disableScrollBehavior(page /*: any */) {
     scroll-behavior: auto !important;
   }
   `;
+  await page.addStyleTag({ content: css });
+}
+
+async function disableDefaultSystemFonts(page /*: any */) {
+  // Standardise the font used in VR for more consistent results between operating systems.
+  // Due to font rendering engine differences, it's impossible to get cross platform pixel
+  // perfect comparisons.
+  // Always generate snapshot images from a Docker image for consistent results.
+  const css = `
+    body {
+      font-family: 'Open Sans', sans-serif;
+    }
+  `;
+  await page.addStyleTag({
+    url: 'https://fonts.googleapis.com/css?family=Open+Sans',
+  });
   await page.addStyleTag({ content: css });
 }
 
