@@ -6,9 +6,9 @@ const assert = require('assert').strict;
 
 const WAIT_TIMEOUT = 5000;
 
-const TODO = () => {
-  throw new Error('To be implemented!');
-};
+// const TODO = () => {
+//   throw new Error('To be implemented!');
+// };
 
 export class JSHandle {
   constructor(client, selector) {
@@ -63,16 +63,19 @@ export default class Page {
     await this.browser.pause(500);
   }
 
-  title() {
-    return this.browser.getTitle();
+  async title() {
+    return await this.browser.getTitle();
   }
 
-  $(selector) {
-    return new ElementHandle(this.browser, selector);
+  async $(selector) {
+    const ele = await this.browser.$(selector);
+
+    return ele;
   }
 
-  $$(selector) {
-    return this.browser.findElements('css selector', selector);
+  async $$(selector) {
+    const ele = await this.browser.$$(selector);
+    return ele;
   }
 
   $eval(selector, pageFunction, param) {
@@ -110,8 +113,12 @@ export default class Page {
   }
 
   async click(selector) {
-    const elem = await this.browser.$(selector);
-    return elem.click();
+    try {
+      const elem = await this.browser.$(selector);
+      return elem.click();
+    } catch (e) {
+      return e;
+    }
   }
 
   keys(value) {

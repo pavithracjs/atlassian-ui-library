@@ -9,7 +9,7 @@ const datepickerDefault = 'label[for="react-select-datepicker-1--input"] + div';
 const datepickerMenu = '[aria-label="calendar"]';
 const date =
   '[aria-label="calendar"] > table > tbody > tr:nth-child(5) > td:nth-child(6)';
-const datepickerInput = 'input#react-select-datepicker-1-input';
+// const datepickerInput = 'input#react-select-datepicker-1-input';
 const dateValue = `${datepickerDefault} > div > div > div:first-child > div:first-child`;
 
 const timepickerDefault = 'label[for="react-select-timepicker-4--input"] + div';
