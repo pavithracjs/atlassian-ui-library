@@ -350,13 +350,17 @@ export const articlesSearchExample = [
 
 export const getArticle = (id = '00') => {
   const articleIndex = parseInt(id, 10);
-  return articleExamples[articleIndex];
+  return new Promise(resolve =>
+    setTimeout(() => resolve(articleExamples[articleIndex]), 1000),
+  );
 };
 
 export const searchArticle = (value: string) => {
   if (value === 'empty') {
-    return [];
+    return new Promise(resolve => setTimeout(() => resolve([]), 100));
   } else {
-    return articlesSearchExample;
+    return new Promise(resolve =>
+      setTimeout(() => resolve(articlesSearchExample), 100),
+    );
   }
 };
