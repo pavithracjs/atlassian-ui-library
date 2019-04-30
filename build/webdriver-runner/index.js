@@ -137,10 +137,7 @@ function runTestsWithRetry() {
          */
         if (code === 0) {
           console.log('reporting test as flaky');
-          await reporting.reportFailure(
-            results,
-            'atlaskit.qa.integration_test.flakiness',
-          );
+          await reporting.reportInconsistency(results);
         } else {
           await reporting.reportFailure(
             results,

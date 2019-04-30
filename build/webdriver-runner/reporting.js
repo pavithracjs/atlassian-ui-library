@@ -38,6 +38,31 @@ const buildEventPayload = (properties, eventName) => {
 };
 
 module.exports = {
+  reportInconsistency(results /*: any */) {
+    return sendLogs(
+      JSON.stringify({
+        events: results.map(result => {
+          return {
+            name: 'atlaskit.qa.integration_test.inconsistent',
+            server: process.env.CI ? 'master' : 'test',
+            product: 'atlaskit',
+            properties: {
+              timeTaken: result.timeTaken,
+              testFilePath: result.testFilePath,
+            },
+            user: process.env.CI ? '-' : process.env.USER, // On CI we send as an anonymous user
+            serverTime: Date.now(),
+          };
+        }),
+      }),
+    ).then(res => {
+      console.log(
+        `Sent ${results.length} inconsistent integration tests event${
+          results.length > 1 ? 's' : ''
+        }`,
+      );
+    });
+  },
   reportFailure(results /*: any */, eventName /*: string */) {
     const properties = extractResultInformationIntoProperties(results);
     if (!properties.length) {
