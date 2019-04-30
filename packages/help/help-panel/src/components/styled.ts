@@ -1,4 +1,4 @@
-import { css, cx } from 'emotion';
+import { css } from 'emotion';
 import styled from '@emotion/styled';
 import { colors, gridSize } from '@atlaskit/theme';
 
