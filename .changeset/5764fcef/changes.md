@@ -1,0 +1,1 @@
+- Removes scroll locking from the datetime-picker. This component should now follow the same behaviour as native input fields
