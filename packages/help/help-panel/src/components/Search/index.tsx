@@ -1,5 +1,5 @@
 import * as React from 'react';
-import debounce from 'lodash/debounce';
+import debounce from 'lodash.debounce';
 import { QuickSearch } from '@atlaskit/quick-search';
 
 import { injectIntl, InjectedIntlProps } from 'react-intl';
