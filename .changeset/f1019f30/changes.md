@@ -1,0 +1,1 @@
+- exposed renderCustomTriggerButton prop in ShareDialogContainer
