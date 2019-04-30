@@ -8,13 +8,14 @@ const getStepEvents = require('./buildEventsUtils/getBuildEvents')
 
 const getStepName = require('./buildEventsUtils/getBuildEvents')
   .getBuildStepName;
+
 const sendBuildEventsPayload = require('./buildEventsUtils/sendBuildEventsPayload')
   .sendBuildEventsPayload;
 
 (async () => {
   try {
     const buildId = process.env.BITBUCKET_BUILD_NUMBER;
-    await getBuildStepName();
+    await getStepName();
     // const stepId = '';
     // const stepEvents = await getStepEvents(buildId, );
     // await sendBuildEventsPayload(buildEvents);
