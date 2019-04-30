@@ -5,7 +5,7 @@ import Button from '@atlaskit/button';
 import Modal, { ModalTransition } from '../src';
 
 type State = {
-  isOpen: boolean,
+  isOpen: boolean;
 };
 export default class ExampleBasic extends PureComponent<{}, State> {
   state: State = { isOpen: false };

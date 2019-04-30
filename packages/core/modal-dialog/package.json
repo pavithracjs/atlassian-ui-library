@@ -28,6 +28,7 @@
     "@babel/runtime": "^7.0.0",
     "@emotion/core": "^10.0.9",
     "@emotion/styled": "^10.0.7",
+    "@types/react-beautiful-dnd": "^11.0.1",
     "exenv": "^1.2.2",
     "prop-types": "^15.5.10",
     "raf-schd": "^2.1.0",

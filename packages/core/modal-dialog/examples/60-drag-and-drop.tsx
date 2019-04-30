@@ -1,6 +1,5 @@
-// @flow
 /* eslint-disable react/no-multi-comp */
-import React, { Component, PureComponent, type Node } from 'react';
+import * as React from 'react';
 import styled from '@emotion/styled';
 import Button from '@atlaskit/button';
 import { colors } from '@atlaskit/theme';
@@ -38,30 +37,33 @@ const Card = styled.div`
 const isMiddleClick = event => event.button === 1;
 
 type Item = {
-  id: string,
-  message: string,
+  id: string;
+  message: string;
 };
 
 type ItemLineCardProps = {
-  item: Item,
-  index: number,
-  isReorderEnabled: boolean,
+  item: Item;
+  index: number;
+  isReorderEnabled: boolean;
   children: (
     isHovering: boolean,
     isActive: boolean,
     isFocused: boolean,
     item: Item,
-  ) => Node,
-  onClick: (item: Item, e?: any) => void,
+  ) => Node;
+  onClick: (item: Item, e?: any) => void;
 };
 
 type ItemLineCardState = {
-  isHovering: boolean,
-  isActive: boolean,
-  isFocused: boolean,
+  isHovering: boolean;
+  isActive: boolean;
+  isFocused: boolean;
 };
 
-class ItemLineCard extends Component<ItemLineCardProps, ItemLineCardState> {
+class ItemLineCard extends React.Component<
+  ItemLineCardProps,
+  ItemLineCardState
+> {
   static defaultProps = {
     isReorderEnabled: true,
     onClick: noop,
@@ -155,24 +157,24 @@ class ItemLineCard extends Component<ItemLineCardProps, ItemLineCardState> {
 }
 
 type ItemLineCardGroupProps = {
-  groupId: string,
-  items: Item[],
+  groupId: string;
+  items: Item[];
   children: (
     isHovering: boolean,
     isActive: boolean,
     isFocused: boolean,
     item: Item,
-  ) => Node,
+  ) => Node;
   onOrderChange: (
     items: Item[],
     target: Item,
     sourceIndex: number,
     destIndex: number,
-  ) => void,
-  onClick: () => void,
+  ) => void;
+  onClick: () => void;
 };
 
-class ItemLineCardGroup extends Component<ItemLineCardGroupProps> {
+class ItemLineCardGroup extends React.Component<ItemLineCardGroupProps> {
   static defaultProps = {
     onOrderChange: noop,
     onClick: noop,
@@ -244,10 +246,10 @@ const items = [...new Array(5).keys()].map(item => ({
 }));
 
 type WrapperState = {
-  items: Item[],
+  items: Item[];
 };
 
-class Wrapper extends Component<*, WrapperState> {
+class Wrapper extends React.Component<any, WrapperState> {
   state = {
     items: [...items],
   };
@@ -286,9 +288,9 @@ class Wrapper extends Component<*, WrapperState> {
 }
 
 type State = {
-  isOpen: boolean,
+  isOpen: boolean;
 };
-export default class extends PureComponent<{}, State> {
+export default class extends React.PureComponent<{}, State> {
   state: State = { isOpen: false };
 
   open = () => this.setState({ isOpen: true });

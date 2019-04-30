@@ -21,8 +21,8 @@ const scrollBehaviors = [
 ];
 
 type State = {
-  isOpen: boolean,
-  scrollBehavior: 'inside' | 'outside',
+  isOpen: boolean;
+  scrollBehavior: 'inside' | 'outside';
 };
 export default class ExampleScroll extends PureComponent<{}, State> {
   bottomRef: any;

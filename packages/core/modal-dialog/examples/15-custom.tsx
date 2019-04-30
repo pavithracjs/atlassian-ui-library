@@ -56,7 +56,6 @@ const bodyStyles: React.CSSProperties = {
   overflowX: 'hidden',
 };
 
-// $FlowFixMe
 const Body = React.forwardRef((props: { children?: Node }, ref) => {
   return (
     <div ref={ref} style={bodyStyles}>
@@ -143,7 +142,7 @@ export default class ModalDemo extends React.Component<{}, State> {
               <ModalDialog
                 key={name}
                 actions={
-                  ['footer', 'both'].includes(name) ? actions : undefined
+                  ['footer', 'both'].indexOf(name) !== -1 ? actions : undefined
                 }
                 components={{
                   Header: name === 'custom header' ? Header : undefined,
@@ -152,7 +151,7 @@ export default class ModalDemo extends React.Component<{}, State> {
                   Container: 'div',
                 }}
                 heading={
-                  ['header', 'both'].includes(name)
+                  ['header', 'both'].indexOf(name) !== -1
                     ? `Modal: ${name}`
                     : undefined
                 }
