@@ -1,0 +1,1 @@
+- Changed behaviour so that icon and first 8 characters of a smart link no longer break when wrapping.
