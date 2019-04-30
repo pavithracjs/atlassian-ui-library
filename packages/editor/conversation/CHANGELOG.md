@@ -1,5 +1,10 @@
 # @atlaskit/conversation
 
+## 14.3.0
+- [minor] [0e8d32ceb6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0e8d32ceb6):
+
+  - add onCommentPermalinkClick prop so consumers can handle that click for scrolling or other purpose
+
 ## 14.2.2
 - [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
 

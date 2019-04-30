@@ -33,7 +33,7 @@ describe('extractInlineViewPropsFromTask', () => {
 
   it('should return task lozenge when taskStatus details are present', () => {
     const props = extractInlineViewPropsFromTask({
-      taskStatus: { name: 'byeeeeee' },
+      'atlassian:taskStatus': { name: 'byeeeeee' },
     });
     expect(props).toHaveProperty(
       'lozenge',
@@ -47,7 +47,7 @@ describe('extractInlineViewPropsFromTask', () => {
   // Note: Custom issue type does not return a React element - tested separately below.
   JiraTaskTypes.map(task => {
     it(`should return an icon when a Jira generator is provided, with issue type: ${
-      task.taskType.name
+      task['atlassian:taskType'].name
     }`, () => {
       const props = extractInlineViewPropsFromTask(task);
       expect(props).toHaveProperty('title');

@@ -123,7 +123,7 @@ class Example extends React.Component {
               <br />
               {JiraTasks.map((task, i) => (
                 <div>
-                  Maybe checkout the {task.taskType.name} at{' '}
+                  Maybe checkout the {task['atlassian:taskType'].name} at{' '}
                   <Card
                     key={String(i) + task['@id']}
                     url={task.url}

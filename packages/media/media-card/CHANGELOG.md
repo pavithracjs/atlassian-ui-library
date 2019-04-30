@@ -1,5 +1,10 @@
 # @atlaskit/media-card
 
+## 60.0.6
+- [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+
+  - Removes babel-runtime in favour of @babel/runtime
+
 ## 60.0.5
 - [patch] [8f17450f46](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f17450f46):
 
