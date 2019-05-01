@@ -1,5 +1,10 @@
 # @atlaskit/media-client
 
+## 1.1.1
+- [patch] [2f58d39758](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f58d39758):
+
+  - Fix problem with double exporting one of the existing items
+
 ## 1.1.0
 - [minor] [8536258182](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8536258182):
 
