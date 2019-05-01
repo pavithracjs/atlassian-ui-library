@@ -19,24 +19,33 @@ const getSortedRows = (
   }
 
   // return value which will be used for sorting
-  const getSortingCellValue = (cells: Array<RowCellType>) =>
-    cells.reduce(
-      (result: {} | null | undefined, cell, index) =>
-        result ||
-        (head &&
-          head.cells[index].key === sortKey &&
-          (cell.key !== undefined ? cell.key : cell.content)),
-      null,
-    );
+  const getSortingCellValue = (
+    cells: Array<RowCellType>,
+  ): string | number | undefined => {
+    for (let i = 0; i < cells.length; i++) {
+      if (head.cells[i] && head.cells[i].key === sortKey) {
+        return cells[i].key;
+      }
+    }
+
+    return undefined;
+  };
+
+  // Get copy of rows to avoid sorting prop in place
+  const sortableRows = Array.from(rows);
 
   // Reorder rows in table based on sorting cell value
   // Algorithm will sort numerics or strings, but not both
-  return rows.slice().sort((a, b) => {
+  return sortableRows.sort((a, b) => {
     const valA = getSortingCellValue(a.cells);
     const valB = getSortingCellValue(b.cells);
 
     // modifier used for sorting type (ascending or descending)
     const modifier = sortOrder === ASC ? 1 : -1;
+    if (valA === undefined || valB === undefined) {
+      return modifier;
+    }
+
     if (typeof valA !== typeof valB) {
       // numbers are always grouped higher in the sort
       if (typeof valA === 'number') {
