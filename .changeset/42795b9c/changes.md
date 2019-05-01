@@ -1,0 +1,1 @@
+- expose on + off + emmit methods on client in order to communicate events with integrators. At this point the only emmited event is 'file-added'
