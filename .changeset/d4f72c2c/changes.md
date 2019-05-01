@@ -1,1 +1,0 @@
-- Emit file-added events in the tenant context

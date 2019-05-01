@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-client",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Media API Web Client Library",
   "license": "Apache-2.0",
   "types": "index.d.ts",
@@ -29,9 +29,9 @@
     "@atlaskit/build-utils": "^2.2.0",
     "@atlaskit/button": "^12.0.2",
     "@atlaskit/docs": "^7.0.2",
-    "@atlaskit/media-card": "^61.0.0",
-    "@atlaskit/media-core": "^29.2.0",
-    "@atlaskit/media-test-helpers": "^21.3.0",
+    "@atlaskit/media-card": "^62.0.0",
+    "@atlaskit/media-core": "^29.3.0",
+    "@atlaskit/media-test-helpers": "^21.4.0",
     "@types/fetch-mock": "^6.0.3",
     "fetch-mock": "^6.5.2",
     "react": "^16.4.0",
@@ -41,7 +41,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "peerDependencies": {
-    "@atlaskit/media-core": "^29.2.0",
+    "@atlaskit/media-core": "^29.3.0",
     "rxjs": "^5.5.0"
   },
   "resolutions": {
