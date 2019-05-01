@@ -63,7 +63,7 @@ export class HelpPanelDrawer extends Component<
     });
   }
 
-  renderDrawer = (Container: any) => {
+  renderDrawer = (Container: HTMLElement) => {
     const { children, help } = this.props;
 
     return createPortal(
@@ -84,15 +84,9 @@ export class HelpPanelDrawer extends Component<
   };
 
   render() {
-    if (this.state.container) {
-      const container = this.state.container
-        ? this.state.container
-        : document.createElement('div');
+    const { container } = this.state;
 
-      return this.renderDrawer(container);
-    } else {
-      return null;
-    }
+    return !!container ? this.renderDrawer(container) : null;
   }
 }
 
