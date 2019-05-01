@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 108.0.4
+- [patch] [cc47b65340](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc47b65340):
+
+  - ED-6738: Table scaling is now less aggressive, we will only attempt to 'scale to fix' when neccessary.
+
 ## 108.0.3
 - [patch] [553c7e4fed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/553c7e4fed):
 
