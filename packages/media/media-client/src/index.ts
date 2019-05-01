@@ -21,3 +21,4 @@ export * from './utils';
 export * from './utils/getMediaTypeFromMimeType';
 
 export * from './identifier';
+export { EventPayloadListener, UploadEventPayloadMap } from './client/events';
