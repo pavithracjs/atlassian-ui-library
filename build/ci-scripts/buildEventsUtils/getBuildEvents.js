@@ -25,6 +25,8 @@ type IStepsDataType = {
   build_steps: Array<IStepsDataType>
 }
 */
+
+/* This function returns the payload for the build / pipelines.*/
 async function getPipelinesBuildEvents(
   buildId /*: string */,
 ) /*: Promise<IBuildEventProperties> */ {
@@ -71,6 +73,7 @@ async function getPipelinesBuildEvents(
   return payload;
 }
 
+/* This function returns the payload for the build steps.*/
 async function getStepsEvents(buildId /*: string*/) {
   const url = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
   try {
@@ -99,6 +102,16 @@ async function getStepsEvents(buildId /*: string*/) {
   }
 }
 
+/* This function returns a payload depending on the build type.*/
+const createPayloadPerBuildType = (
+  step_name /*: string */,
+  build_type /*: string */,
+  build_name /*: string */,
+) => {
+  step_name, build_type, build_name;
+};
+
+/* This function identifies the step currently running and build a partial payload based on the build type.*/
 async function getStepNamePerBuildType(buildId /*: string */) {
   try {
     const config = yaml.safeLoad(
@@ -109,46 +122,44 @@ async function getStepNamePerBuildType(buildId /*: string */) {
     const res = await axios.get(apiEndpoint);
     const buildType = res.data.target.selector.type || 'default';
     // Only the 3 types of build below will have parallel steps.
-    // process.env.BITBUCKET_PARALLEL_STEP retruns zero-based index of the current step in the group, for example: 0, 1, 2, … - only for parallel step.
+    // process.env.BITBUCKET_PARALLEL_STEP returns zero-based index of the current step in the group, for example: 0, 1, 2, … - only for parallel step.
     // This will return the actual step where the build is currently running.
     // Note: indentedJson.pipelines.<branch_name> returns an array.
     if (buildType === 'default') {
-      return {
-        step_name:
-          indentedJson.pipelines.default[0].parallel[
-            process.env.BITBUCKET_PARALLEL_STEP
-          ].step.name,
-        build_type: 'default',
-        build_name:
-          res.data.target.ref_name ||
+      return createPayloadPerBuildType(
+        indentedJson.pipelines.default[0].parallel[
+          process.env.BITBUCKET_PARALLEL_STEP
+        ].step.name,
+        'default',
+        res.data.target.ref_name ||
           res.data.target.selector.pattern ||
           res.data.target.selector.type,
-      };
+      );
     }
     if (buildType === 'landkid') {
-      return {
-        step_name:
-          indentedJson.pipelines.custom['landkid'][0].parallel[
-            process.env.BITBUCKET_PARALLEL_STEP
-          ].step.name,
-        build_type: 'custom',
-        build_name: 'landkid',
-      };
+      return createPayloadPerBuildType(
+        indentedJson.pipelines.custom['landkid'][0].parallel[
+          process.env.BITBUCKET_PARALLEL_STEP
+        ].step.name,
+        'custom',
+        'landkid',
+      );
     }
     if (buildType === 'run-full-suite') {
-      return {
-        step_name:
-          indentedJson.pipelines.custom['run-full-suite'][0].parallel[
-            process.env.BITBUCKET_PARALLEL_STEP
-          ].step.name,
-        build_type: 'custom',
-        build_name: 'run-full-suite',
-      };
+      return createPayloadPerBuildType(
+        indentedJson.pipelines.custom['run-full-suite'][0].parallel[
+          process.env.BITBUCKET_PARALLEL_STEP
+        ].step.name,
+        'custom',
+        'run-full-suite',
+      );
     }
   } catch (e) {
     console.log(e);
   }
 }
+
+/* This function the final step payload when a build with parallel step is running in Bitbucket.*/
 async function getStepEvents(buildId /*: string*/) {
   const stepsUrl = `https://api.bitbucket.org/2.0/repositories/atlassian/atlaskit-mk-2/pipelines/${buildId}/steps/`;
   try {
@@ -156,7 +167,7 @@ async function getStepEvents(buildId /*: string*/) {
     const res = await axios.get(stepsUrl);
     // Filter returns an array and we need the first value.
     if (stepPayload) {
-      const stepFound = res.data.values.filter(
+      const stepObject = res.data.values.filter(
         step => step.name === stepPayload.step_name,
       )[0];
       const buildStatus =
@@ -167,9 +178,9 @@ async function getStepEvents(buildId /*: string*/) {
         build_type: stepPayload.build_type,
         build_steps: [
           {
-            step_duration: stepFound.duration_in_seconds,
+            step_duration: stepObject.duration_in_seconds,
             step_status: buildStatus,
-            step_name: stepFound.name || 'master', // on Master, there is no step name,
+            step_name: stepObject.name || 'master', // on Master, there is no step name,
           },
         ],
       };
