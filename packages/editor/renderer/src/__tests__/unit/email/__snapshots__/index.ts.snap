@@ -86,31 +86,67 @@ exports[`Renderer - EmailSerializer should apply no mark for breakout marks 1`] 
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
 >
   <pre
-    style="background: rgb(244, 245, 247);border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;margin: 0px;"
+    style="background: rgb(244, 245, 247);margin: 0px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;"
   >
-    <table
-      border="0"
-      cellpadding="0"
-      cellspacing="0"
-      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%;"
-      width="100%"
+    <code
+      style="color: rgb(23, 43, 77);display: block;"
     >
-      <tbody>
-        <tr>
-          <td
-            style="padding: 8px 16px;background-color: rgb(244, 245, 247);border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;font-size: 12px;line-height: 20px;color: rgb(23, 43, 77);"
-          >
-            <code
-              style="color: rgb(23, 43, 77);display: block;font-size: 12px;line-height: 20px;white-space: pre;font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;"
+      <table
+        border="0"
+        cellpadding="0"
+        cellspacing="0"
+        class="codeBlock"
+        style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%;"
+        width="100%"
+      >
+        <tbody>
+          <tr>
+            <td
+              align="right"
+              style="padding-top: 8px; border-radius: 3px 3px 0 0; -webkit-border-radius: 3px 3px 0 0; -moz-border-radius: 3px 3px 0 0; font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace; font-size: 14px; line-height: 20px; white-space: pre; vertical-align: top; color: rgb(137, 147, 164); background: rgb(235, 236, 240); padding-right: 8px; padding-left: 8px; text-align: right;"
+              valign="top"
+            >
+              1
+            </td>
+            <td
+              style="padding-top: 8px; border-radius: 3px 3px 0 0; -webkit-border-radius: 3px 3px 0 0; -moz-border-radius: 3px 3px 0 0; font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace; font-size: 12px; line-height: 20px; white-space: pre; vertical-align: top; color: rgb(23, 43, 77); background: rgb(244, 245, 247); width: 100%; padding-right: 8px; padding-left: 8px;"
+              valign="top"
+              width="100%"
             >
               #!/bin/bash
-# Bomb diggity.
-:(){ :|: & };:
-            </code>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 14px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(137, 147, 164);background: rgb(235, 236, 240);padding-right: 8px;padding-left: 8px;text-align: right;"
+            >
+              2
+            </td>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 12px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(23, 43, 77);background: rgb(244, 245, 247);width: 100%;padding-right: 8px;padding-left: 8px;"
+            >
+              # Bomb diggity.
+            </td>
+          </tr>
+          <tr>
+            <td
+              align="right"
+              style="padding-bottom: 8px; border-radius: 0 0 3px 3px; -webkit-border-radius: 0 0 3px 3px; -moz-border-radius: 0 0 3px 3px; font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace; font-size: 14px; line-height: 20px; white-space: pre; vertical-align: top; color: rgb(137, 147, 164); background: rgb(235, 236, 240); padding-right: 8px; padding-left: 8px; text-align: right;"
+              valign="top"
+            >
+              3
+            </td>
+            <td
+              style="padding-bottom: 8px; border-radius: 0 0 3px 3px; -webkit-border-radius: 0 0 3px 3px; -moz-border-radius: 0 0 3px 3px; font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace; font-size: 12px; line-height: 20px; white-space: pre; vertical-align: top; color: rgb(23, 43, 77); background: rgb(244, 245, 247); width: 100%; padding-right: 8px; padding-left: 8px;"
+              valign="top"
+              width="100%"
+            >
+              :(){ :|: & };:
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </code>
   </pre>
 </div>
 `;
@@ -245,42 +281,199 @@ exports[`Renderer - EmailSerializer should render codeblock correctly 1`] = `
   style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;"
 >
   <pre
-    style="background: rgb(244, 245, 247);border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;margin: 0px;"
+    style="background: rgb(244, 245, 247);margin: 0px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;"
   >
-    <table
-      border="0"
-      cellpadding="0"
-      cellspacing="0"
-      style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%;"
-      width="100%"
+    <code
+      style="color: rgb(23, 43, 77);display: block;"
     >
-      <tbody>
-        <tr>
-          <td
-            style="padding: 8px 16px;background-color: rgb(244, 245, 247);border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;font-size: 12px;line-height: 20px;color: rgb(23, 43, 77);"
-          >
-            <code
-              style="color: rgb(23, 43, 77);display: block;font-size: 12px;line-height: 20px;white-space: pre;font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;"
+      <table
+        border="0"
+        cellpadding="0"
+        cellspacing="0"
+        class="codeBlock"
+        style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; font-size: 14px; font-weight: 400; line-height: 24px; margin: 0px; padding: 0px; display: table; border-spacing: 0px; width: 100%;"
+        width="100%"
+      >
+        <tbody>
+          <tr>
+            <td
+              align="right"
+              style="padding-top: 8px; border-radius: 3px 3px 0 0; -webkit-border-radius: 3px 3px 0 0; -moz-border-radius: 3px 3px 0 0; font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace; font-size: 14px; line-height: 20px; white-space: pre; vertical-align: top; color: rgb(137, 147, 164); background: rgb(235, 236, 240); padding-right: 8px; padding-left: 8px; text-align: right;"
+              valign="top"
+            >
+              1
+            </td>
+            <td
+              style="padding-top: 8px; border-radius: 3px 3px 0 0; -webkit-border-radius: 3px 3px 0 0; -moz-border-radius: 3px 3px 0 0; font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace; font-size: 12px; line-height: 20px; white-space: pre; vertical-align: top; color: rgb(23, 43, 77); background: rgb(244, 245, 247); width: 100%; padding-right: 8px; padding-left: 8px;"
+              valign="top"
+              width="100%"
             >
               // Create a map.
-final IntIntOpenHashMap map = new IntIntOpenHashMap();
-map.put(1, 2);
-map.put(2, 5);
-map.put(3, 10);
-int count = map.forEach(new IntIntProcedure()
-{
-   int count;
-   public void apply(int key, int value)
-   {
-       if (value &gt;= 5) count++;
-   }
-}).count;
-System.out.println("There are " + count + " values &gt;= 5");
-            </code>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 14px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(137, 147, 164);background: rgb(235, 236, 240);padding-right: 8px;padding-left: 8px;text-align: right;"
+            >
+              2
+            </td>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 12px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(23, 43, 77);background: rgb(244, 245, 247);width: 100%;padding-right: 8px;padding-left: 8px;"
+            >
+              final IntIntOpenHashMap map = new IntIntOpenHashMap();
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 14px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(137, 147, 164);background: rgb(235, 236, 240);padding-right: 8px;padding-left: 8px;text-align: right;"
+            >
+              3
+            </td>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 12px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(23, 43, 77);background: rgb(244, 245, 247);width: 100%;padding-right: 8px;padding-left: 8px;"
+            >
+              map.put(1, 2);
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 14px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(137, 147, 164);background: rgb(235, 236, 240);padding-right: 8px;padding-left: 8px;text-align: right;"
+            >
+              4
+            </td>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 12px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(23, 43, 77);background: rgb(244, 245, 247);width: 100%;padding-right: 8px;padding-left: 8px;"
+            >
+              map.put(2, 5);
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 14px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(137, 147, 164);background: rgb(235, 236, 240);padding-right: 8px;padding-left: 8px;text-align: right;"
+            >
+              5
+            </td>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 12px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(23, 43, 77);background: rgb(244, 245, 247);width: 100%;padding-right: 8px;padding-left: 8px;"
+            >
+              map.put(3, 10);
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 14px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(137, 147, 164);background: rgb(235, 236, 240);padding-right: 8px;padding-left: 8px;text-align: right;"
+            >
+              6
+            </td>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 12px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(23, 43, 77);background: rgb(244, 245, 247);width: 100%;padding-right: 8px;padding-left: 8px;"
+            >
+              int count = map.forEach(new IntIntProcedure()
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 14px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(137, 147, 164);background: rgb(235, 236, 240);padding-right: 8px;padding-left: 8px;text-align: right;"
+            >
+              7
+            </td>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 12px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(23, 43, 77);background: rgb(244, 245, 247);width: 100%;padding-right: 8px;padding-left: 8px;"
+            >
+              {
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 14px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(137, 147, 164);background: rgb(235, 236, 240);padding-right: 8px;padding-left: 8px;text-align: right;"
+            >
+              8
+            </td>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 12px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(23, 43, 77);background: rgb(244, 245, 247);width: 100%;padding-right: 8px;padding-left: 8px;"
+            >
+                 int count;
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 14px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(137, 147, 164);background: rgb(235, 236, 240);padding-right: 8px;padding-left: 8px;text-align: right;"
+            >
+              9
+            </td>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 12px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(23, 43, 77);background: rgb(244, 245, 247);width: 100%;padding-right: 8px;padding-left: 8px;"
+            >
+                 public void apply(int key, int value)
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 14px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(137, 147, 164);background: rgb(235, 236, 240);padding-right: 8px;padding-left: 8px;text-align: right;"
+            >
+              10
+            </td>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 12px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(23, 43, 77);background: rgb(244, 245, 247);width: 100%;padding-right: 8px;padding-left: 8px;"
+            >
+                 {
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 14px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(137, 147, 164);background: rgb(235, 236, 240);padding-right: 8px;padding-left: 8px;text-align: right;"
+            >
+              11
+            </td>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 12px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(23, 43, 77);background: rgb(244, 245, 247);width: 100%;padding-right: 8px;padding-left: 8px;"
+            >
+                     if (value &gt;= 5) count++;
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 14px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(137, 147, 164);background: rgb(235, 236, 240);padding-right: 8px;padding-left: 8px;text-align: right;"
+            >
+              12
+            </td>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 12px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(23, 43, 77);background: rgb(244, 245, 247);width: 100%;padding-right: 8px;padding-left: 8px;"
+            >
+                 }
+            </td>
+          </tr>
+          <tr>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 14px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(137, 147, 164);background: rgb(235, 236, 240);padding-right: 8px;padding-left: 8px;text-align: right;"
+            >
+              13
+            </td>
+            <td
+              style="font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace;font-size: 12px;line-height: 20px;white-space: pre;vertical-align: top;color: rgb(23, 43, 77);background: rgb(244, 245, 247);width: 100%;padding-right: 8px;padding-left: 8px;"
+            >
+              }).count;
+            </td>
+          </tr>
+          <tr>
+            <td
+              align="right"
+              style="padding-bottom: 8px; border-radius: 0 0 3px 3px; -webkit-border-radius: 0 0 3px 3px; -moz-border-radius: 0 0 3px 3px; font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace; font-size: 14px; line-height: 20px; white-space: pre; vertical-align: top; color: rgb(137, 147, 164); background: rgb(235, 236, 240); padding-right: 8px; padding-left: 8px; text-align: right;"
+              valign="top"
+            >
+              14
+            </td>
+            <td
+              style="padding-bottom: 8px; border-radius: 0 0 3px 3px; -webkit-border-radius: 0 0 3px 3px; -moz-border-radius: 0 0 3px 3px; font-family: 'SFMono-Medium', 'SF Mono', 'Segoe UI Mono', 'Roboto Mono', 'Ubuntu Mono', Menlo, Consolas, Courier, monospace; font-size: 12px; line-height: 20px; white-space: pre; vertical-align: top; color: rgb(23, 43, 77); background: rgb(244, 245, 247); width: 100%; padding-right: 8px; padding-left: 8px;"
+              valign="top"
+              width="100%"
+            >
+              System.out.println("There are " + count + " values &gt;= 5");
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </code>
   </pre>
 </div>
 `;
