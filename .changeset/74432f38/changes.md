@@ -1,0 +1,1 @@
+- ensure that arbitary HTML does not get evaluated by email clients

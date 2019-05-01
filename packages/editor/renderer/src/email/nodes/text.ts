@@ -1,6 +1,7 @@
-import { applyMarks } from '../util';
+import { applyMarks, escapeHtmlString } from '../util';
 import { NodeSerializerOpts } from '../interfaces';
 
 export default function text({ marks, text }: NodeSerializerOpts) {
-  return applyMarks(marks, text!);
+  const escapedText = escapeHtmlString(text!);
+  return applyMarks(marks, escapedText);
 }

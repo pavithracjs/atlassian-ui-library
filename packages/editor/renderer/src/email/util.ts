@@ -1,7 +1,7 @@
 import { Mark } from 'prosemirror-model';
 import { Style } from './interfaces';
 import { markSerializers } from './serializers';
-
+import * as _ from 'lodash';
 export * from './table-util';
 
 export const createTag = (
@@ -49,4 +49,20 @@ export const applyMarks = (marks: Mark[], text: string): string => {
   }
 
   return output;
+};
+
+export const escapeHtmlString = (content: string) => {
+  // ensures that arbitary HTML is not interpreted by the email client
+  // in outlook, we cannot use html character entities such as '&lt;'
+  // As a workaround, we replace '<' with '≺', etc
+  const entitites = {
+    '&pr;': '≺',
+    '&sc;': '≻',
+  };
+
+  const escapedContent = content
+    .replace(/</g, entitites['&pr;'])
+    .replace(/>/g, entitites['&sc;']);
+
+  return escapedContent;
 };
