@@ -242,9 +242,8 @@ function handleMouseDown(
   );
 
   const containerWidth = widthPluginKey.getState(view.state);
-  const tablePos = state.selection.$from.start(-1) - 1;
   const parentWidth = getParentNodeWidth(
-    tablePos,
+    start,
     view.state,
     containerWidth.width,
   );

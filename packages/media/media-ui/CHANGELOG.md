@@ -1,5 +1,10 @@
 # @atlaskit/media-ui
 
+## 10.1.11
+- [patch] [682279973f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/682279973f):
+
+  - Changed Unauthorized and Errored inline view for smart cards to be text only and added color theming for smart link titles
+
 ## 10.1.10
 - [patch] [1a18876567](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1a18876567):
 
