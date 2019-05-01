@@ -11,24 +11,20 @@ import RemoveIcon from '@atlaskit/icon/glyph/editor/remove';
 import EditorAlignImageLeft from '@atlaskit/icon/glyph/editor/align-image-left';
 import EditorAlignImageRight from '@atlaskit/icon/glyph/editor/align-image-right';
 import EditorAlignImageCenter from '@atlaskit/icon/glyph/editor/align-image-center';
-import AnnotateIcon from '@atlaskit/icon/glyph/media-services/annotate';
 
-import commonMessages from '../../messages';
-import { Command, EditorAppearance } from '../../../src/types';
+import commonMessages from '../../../messages';
+import { Command, EditorAppearance } from '../../../../src/types';
 import {
   FloatingToolbarConfig,
   FloatingToolbarItem,
   FloatingToolbarSeparator,
-} from '../../../src/plugins/floating-toolbar/types';
-import { stateKey, MediaPluginState } from './pm-plugins/main';
+} from '../../../../src/plugins/floating-toolbar/types';
+import { stateKey, MediaPluginState } from '../pm-plugins/main';
 import { MediaSingleLayout } from '@atlaskit/adf-schema';
 import { Schema } from 'prosemirror-model';
-import { EditorView } from 'prosemirror-view';
-import { Context } from '@atlaskit/media-core';
-import Button from '../floating-toolbar/ui/Button';
-import Separator from '../floating-toolbar/ui/Separator';
-import { hoverDecoration } from '../base/pm-plugins/decoration';
-import { isFullPage } from '../../utils/is-full-page';
+import { hoverDecoration } from '../../base/pm-plugins/decoration';
+import { isFullPage } from '../../../utils/is-full-page';
+import { renderAnnotationButton } from './annotation';
 
 export type IconMap = Array<
   { value: string; icon: React.ComponentClass<any> } | { value: 'separator' }
@@ -77,16 +73,6 @@ const layoutToMessages: Record<string, any> = {
   'full-width': commonMessages.layoutFullWidth,
   'align-end': commonMessages.alignImageRight,
   'align-start': commonMessages.alignImageLeft,
-};
-
-const annotate: Command = state => {
-  const pluginState: MediaPluginState | undefined = stateKey.getState(state);
-  if (!pluginState) {
-    return false;
-  }
-
-  pluginState.openMediaEditor();
-  return true;
 };
 
 const remove: Command = (state, dispatch) => {
@@ -163,93 +149,6 @@ const buildLayoutButtons = (
   }
 
   return toolbarItems;
-};
-
-type AnnotationToolbarProps = {
-  viewContext: Context;
-  id: string;
-  intl: InjectedIntl;
-  view?: EditorView;
-};
-
-export class AnnotationToolbar extends React.Component<AnnotationToolbarProps> {
-  state = {
-    isImage: false,
-  };
-
-  async componentDidMount() {
-    await this.checkIsImage();
-  }
-
-  async checkIsImage() {
-    const state = await this.props.viewContext.file.getCurrentState(
-      this.props.id,
-    );
-
-    if (state && state.status !== 'error' && state.mediaType === 'image') {
-      this.setState({
-        isImage: true,
-      });
-    }
-  }
-
-  componentDidUpdate(prevProps: AnnotationToolbarProps) {
-    if (prevProps.id !== this.props.id) {
-      this.setState({ isImage: false }, () => {
-        this.checkIsImage();
-      });
-    }
-  }
-
-  onClickAnnotation = () => {
-    const { view } = this.props;
-    if (view) {
-      annotate(view.state, view.dispatch);
-    }
-  };
-
-  render() {
-    if (!this.state.isImage) {
-      return null;
-    }
-
-    const { intl } = this.props;
-
-    const title = intl.formatMessage(messages.annotate);
-
-    return (
-      <>
-        <Separator />
-        <Button
-          title={title}
-          icon={<AnnotateIcon label={title} />}
-          onClick={this.onClickAnnotation}
-        />
-      </>
-    );
-  }
-}
-
-const renderAnnotationButton = (
-  pluginState: MediaPluginState,
-  intl: InjectedIntl,
-) => {
-  return (view?: EditorView, idx?: number) => {
-    const selectedContainer = pluginState.selectedMediaContainerNode();
-    if (!selectedContainer) {
-      return null;
-    }
-
-    return (
-      <AnnotationToolbar
-        key={idx}
-        viewContext={pluginState.mediaContext!}
-        id={selectedContainer.firstChild!.attrs.id}
-        view={view}
-        intl={intl}
-      />
-    );
-  };
 };
 
 export const floatingToolbar = (
