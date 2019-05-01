@@ -2,7 +2,7 @@ import * as React from 'react';
 import { md, code, Props } from '@atlaskit/docs';
 import SectionMessage from '@atlaskit/section-message';
 import Button from '@atlaskit/button';
-import { gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
 
 export default md`
 

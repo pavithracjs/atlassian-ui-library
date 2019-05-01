@@ -8,7 +8,7 @@ import { withHelp, HelpContextInterface } from '../HelpContext';
 import { transitionDurationMs } from './constants';
 import { HelpDrawer, HelpDrawerContent } from './styled';
 
-import { gridSize } from '@atlaskit/theme';
+import { gridSize } from '@atlaskit/theme/constants';
 
 export const UNMOUNTED = 'unmounted';
 export const EXITED = 'exited';
