@@ -92,10 +92,12 @@ const mapIconsToToolbarItem = (
   });
 
 const shouldHideLayoutToolbar = (selection: NodeSelection, { nodes }: Schema) =>
-  hasParentNodeOfType(nodes.bodiedExtension)(selection) ||
-  hasParentNodeOfType(nodes.layoutSection)(selection) ||
-  hasParentNodeOfType(nodes.listItem)(selection) ||
-  hasParentNodeOfType(nodes.table)(selection);
+  hasParentNodeOfType([
+    nodes.bodiedExtension,
+    nodes.layoutSection,
+    nodes.listItem,
+    nodes.table,
+  ])(selection);
 
 export const buildLayoutButtons = (
   state: EditorState,
