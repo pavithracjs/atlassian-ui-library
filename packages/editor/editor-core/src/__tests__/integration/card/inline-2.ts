@@ -47,7 +47,7 @@ BrowserTestCase(
     await browser.type(editable, 'hello have a link ');
 
     // paste the link
-    await browser.paste(editable);
+    await browser.paste();
 
     // type some text around it
     await browser.type(editable, 'more typing');

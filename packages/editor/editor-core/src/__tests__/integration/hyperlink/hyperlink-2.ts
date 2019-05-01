@@ -31,14 +31,14 @@ import {
       await sample.waitForSelector(editor.placeholder);
       await sample.click(editor.placeholder);
       await sample.waitForSelector(editable);
-      await sample.paste(editable);
+      await sample.paste();
       await sample.type(editable, '.');
       await sample.keys(['Return']);
 
       // paste link into list
       await sample.type(editable, '* ');
       await sample.waitForSelector('li');
-      await sample.paste(editable);
+      await sample.paste();
 
       await sample.waitForSelector('a');
       const doc = await sample.$eval(editable, getDocFromElement);

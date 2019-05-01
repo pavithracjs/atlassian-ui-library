@@ -3,10 +3,10 @@ import Page from '@atlaskit/webdriver-runner/wd-wrapper';
 
 import { fullpageDisabled } from '../_helpers';
 
-// TODO: fix error thrown  api
+// TODO: fix expect condition or find a way to fetch error from api
 BrowserTestCase(
   "disabled.ts: Shouldn't be able to type in the disabled editor",
-  { skip: ['edge', 'ie', 'firefox', 'safari'] },
+  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
   async (client: any) => {
     const browser = new Page(client);
     await browser.goto(fullpageDisabled.path);

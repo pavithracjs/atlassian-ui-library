@@ -252,7 +252,7 @@ export default class Page {
     }
 
     await this.browser.keys(keys);
-    //return this.browser.keys(keys[0]);
+    return this.browser.keys(keys[0]);
   }
 
   async copy(selector) {
