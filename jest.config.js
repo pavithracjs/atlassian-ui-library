@@ -195,7 +195,7 @@ if (process.env.VISUAL_REGRESSION) {
   config.globalTeardown = `${__dirname}/build/visual-regression/config/jest/globalTeardown.js`;
   config.testEnvironment = `${__dirname}/build/visual-regression/config/jest/jsdomEnvironment.js`;
 
-  if (!process.env.CI) {
+  if (!process.env.CI && !process.env.DEBUG) {
     config.globals.__BASEURL__ = 'http://testing.local.com:9000';
   }
 }

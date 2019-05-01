@@ -5,7 +5,7 @@ import {
   akEditorDefaultLayoutWidth,
   akEditorTableLegacyCellMinWidth as tableCellMinWidth,
 } from '@atlaskit/editor-common';
-import Table from '../../../../react/nodes/table';
+import Table, { calcScalePercent } from '../../../../react/nodes/table';
 import TableCell from '../../../../react/nodes/tableCell';
 import TableHeader from '../../../../react/nodes/tableHeader';
 import TableRow from '../../../../react/nodes/tableRow';
@@ -389,6 +389,47 @@ describe('Renderer - React/Nodes/Table', () => {
       expect(table.find('col')).toHaveLength(3);
       table.find('col').forEach((col, index) => {
         const width = columnWidths[index] - columnWidths[index] * 0.15;
+        expect(col.prop('style')!.width).toEqual(`${width}px`);
+      });
+    });
+  });
+
+  describe('tables created when dynamic text sizing is enabled', () => {
+    it('should scale down columns widths that were created at a large breakpoint.', () => {
+      const columnWidths = [81, 425, 253];
+
+      const table = mount(
+        <Table
+          layout="default"
+          isNumberColumnEnabled={false}
+          columnWidths={columnWidths}
+          allowDynamicTextSizing={true}
+          renderWidth={847}
+        >
+          <TableRow>
+            <TableCell />
+            <TableCell />
+            <TableCell />
+          </TableRow>
+          <TableRow>
+            <TableCell />
+            <TableCell />
+            <TableCell />
+          </TableRow>
+        </Table>,
+      );
+
+      expect(table.find('col')).toHaveLength(3);
+      // Render width is 680 here since the layout is default, we use that over the actual render width for calculations.
+      const scale = calcScalePercent({
+        renderWidth: 680,
+        tableWidth: 759,
+        maxScale: 0.15,
+      });
+      table.find('col').forEach((col, index) => {
+        const width = Math.floor(
+          columnWidths[index] - columnWidths[index] * scale,
+        );
         expect(col.prop('style')!.width).toEqual(`${width}px`);
       });
     });

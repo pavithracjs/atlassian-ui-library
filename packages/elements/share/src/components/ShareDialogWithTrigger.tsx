@@ -7,6 +7,7 @@ import {
 import { ButtonAppearances } from '@atlaskit/button';
 import InlineDialog from '@atlaskit/inline-dialog';
 import { LoadOptions } from '@atlaskit/user-picker';
+import ShareIcon from '@atlaskit/icon/glyph/share';
 import * as React from 'react';
 import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import styled from 'styled-components';
@@ -227,6 +228,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
   render() {
     const { isDialogOpen, isSharing, shareError, defaultValue } = this.state;
     const {
+      intl: { formatMessage },
       copyLink,
       dialogPlacement,
       isDisabled,
@@ -278,11 +280,20 @@ class ShareDialogWithTriggerInternal extends React.Component<
             <ShareButton
               appearance={triggerButtonAppearance}
               text={
-                triggerButtonStyle === 'icon-with-text' ? (
+                triggerButtonStyle !== 'icon-only' ? (
                   <FormattedMessage {...messages.shareTriggerButtonText} />
                 ) : null
               }
               onClick={this.onTriggerClick}
+              iconBefore={
+                triggerButtonStyle !== 'text-only' ? (
+                  <ShareIcon
+                    label={formatMessage(messages.shareTriggerButtonIconLabel)}
+                  />
+                ) : (
+                  undefined
+                )
+              }
               isSelected={isDialogOpen}
               isDisabled={isDisabled}
             />
