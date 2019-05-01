@@ -5,6 +5,7 @@ import * as layout2Col from '../__fixtures__/layout-2-columns.adf.json';
 import * as layout3Col from '../__fixtures__/layout-3-columns.adf.json';
 import * as layoutLeftSidebar from '../__fixtures__/layout-left-sidebar.adf.json';
 import * as layoutRightSidebar from '../__fixtures__/layout-right-sidebar.adf.json';
+import * as layout3ColWithSidebars from '../__fixtures__/layout-3-columns-with-sidebars.adf.json';
 
 describe('Snapshot Test: Layouts', () => {
   let page: Page;
@@ -14,6 +15,7 @@ describe('Snapshot Test: Layouts', () => {
     { name: '3 columns', adf: layout3Col },
     { name: 'left sidebar', adf: layoutLeftSidebar },
     { name: 'right sidebar', adf: layoutRightSidebar },
+    { name: '3 columns with sidebars', adf: layout3ColWithSidebars },
   ];
 
   beforeAll(async () => {

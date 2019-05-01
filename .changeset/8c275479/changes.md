@@ -1,0 +1,1 @@
+- ED-6725 Add new "Three columns with sidebars" layout
