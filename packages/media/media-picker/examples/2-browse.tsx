@@ -49,7 +49,7 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
     }
     const fileBrowser = await MediaPicker('browser', context, browseConfig);
 
-    context.on('file-uploaded', this.onFileUploaded);
+    context.on('file-added', this.onFileUploaded);
     this.setState({
       fileBrowser,
     });

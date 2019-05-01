@@ -80,7 +80,7 @@ class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
       },
     });
 
-    dropzoneContext.on('file-uploaded', this.onFileUploaded);
+    dropzoneContext.on('file-added', this.onFileUploaded);
 
     dropzone.activate();
 

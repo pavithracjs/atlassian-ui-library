@@ -217,7 +217,7 @@ export class NewUploadServiceImpl implements UploadService {
             if (state.status === 'processing') {
               subscription.unsubscribe();
               if (shouldCopyFileToRecents) {
-                context.emit('file-uploaded', state);
+                context.emit('file-added', state);
               }
               this.onFileSuccess(cancellableFileUpload, id);
             }

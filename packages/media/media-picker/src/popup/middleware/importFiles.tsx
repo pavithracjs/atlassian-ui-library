@@ -177,7 +177,7 @@ export const touchSelectedFiles = (
         representations: {},
       };
 
-      tenantContext.emit('file-uploaded', fileState);
+      tenantContext.emit('file-added', fileState);
       const subject = new ReplaySubject<FileState>(1);
       subject.next(fileState);
       getFileStreamsCache().set(id, subject);

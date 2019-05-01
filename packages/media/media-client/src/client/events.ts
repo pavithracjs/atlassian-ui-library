@@ -11,5 +11,5 @@ export type EventPayloadListener<
 > = (payload: M[E]) => void;
 
 export type UploadEventPayloadMap = {
-  'file-uploaded': FileState;
+  'file-added': FileState;
 };

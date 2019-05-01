@@ -478,9 +478,9 @@ describe('MediaClient', () => {
       const context = createMediaClient();
       const onFileUploaded = jest.fn();
 
-      context.emit('file-uploaded', fileState);
-      context.on('file-uploaded', onFileUploaded);
-      context.emit('file-uploaded', fileState);
+      context.emit('file-added', fileState);
+      context.on('file-added', onFileUploaded);
+      context.emit('file-added', fileState);
 
       expect(onFileUploaded).toBeCalledTimes(1);
       expect(onFileUploaded).toBeCalledWith(fileState);
@@ -490,10 +490,10 @@ describe('MediaClient', () => {
       const context = createMediaClient();
       const onFileUploaded = jest.fn();
 
-      context.on('file-uploaded', onFileUploaded);
-      context.emit('file-uploaded', fileState);
-      context.off('file-uploaded', onFileUploaded);
-      context.emit('file-uploaded', fileState);
+      context.on('file-added', onFileUploaded);
+      context.emit('file-added', fileState);
+      context.off('file-added', onFileUploaded);
+      context.emit('file-added', fileState);
 
       expect(onFileUploaded).toBeCalledTimes(1);
     });
