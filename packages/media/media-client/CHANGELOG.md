@@ -1,5 +1,15 @@
 # @atlaskit/media-client
 
+## 1.1.1
+- [patch] [2f58d39758](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2f58d39758):
+
+  - Fix problem with double exporting one of the existing items
+
+## 1.1.0
+- [minor] [8536258182](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8536258182):
+
+  - expose on + off + emit methods on client in order to communicate events with integrators. At this point the only emitted event is 'file-added'
+
 ## 1.0.0
 - [major] [e38d662f7d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e38d662f7d):
 
