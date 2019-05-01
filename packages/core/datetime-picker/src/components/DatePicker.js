@@ -3,7 +3,13 @@
 import Calendar from '@atlaskit/calendar';
 import CalendarIcon from '@atlaskit/icon/glyph/calendar';
 import Select, { mergeStyles } from '@atlaskit/select';
-import { borderRadius, colors, layers, elevation } from '@atlaskit/theme';
+import {
+  borderRadius,
+  colors,
+  layers,
+  elevation,
+  gridSize,
+} from '@atlaskit/theme';
 import {
   withAnalyticsEvents,
   withAnalyticsContext,
@@ -25,7 +31,6 @@ import {
   DropdownIndicator,
   padToTwo,
 } from '../internal';
-import FixedLayer from '../internal/FixedLayer';
 
 /* eslint-disable react/no-unused-prop-types */
 type Props = {
@@ -113,29 +118,25 @@ const arrowKeys = {
 const StyledMenu = styled.div`
   background-color: ${colors.N20};
   border-radius: ${borderRadius()}px;
+  margin-top: ${gridSize}px;
+  position: absolute;
   z-index: ${layers.dialog};
   ${elevation.e200};
 `;
 
 const Menu = ({ selectProps, innerProps }: Object) => (
-  <FixedLayer
-    inputValue={selectProps.inputValue}
-    containerRef={selectProps.calendarContainerRef}
-    content={
-      <StyledMenu>
-        <Calendar
-          {...getValidDate(selectProps.calendarValue)}
-          {...getValidDate(selectProps.calendarView)}
-          disabled={selectProps.calendarDisabled}
-          onChange={selectProps.onCalendarChange}
-          onSelect={selectProps.onCalendarSelect}
-          ref={selectProps.calendarRef}
-          selected={[selectProps.calendarValue]}
-          innerProps={innerProps}
-        />
-      </StyledMenu>
-    }
-  />
+  <StyledMenu>
+    <Calendar
+      {...getValidDate(selectProps.calendarValue)}
+      {...getValidDate(selectProps.calendarView)}
+      disabled={selectProps.calendarDisabled}
+      onChange={selectProps.onCalendarChange}
+      onSelect={selectProps.onCalendarSelect}
+      ref={selectProps.calendarRef}
+      selected={[selectProps.calendarValue]}
+      innerProps={innerProps}
+    />
+  </StyledMenu>
 );
 
 class DatePicker extends Component<Props, State> {
@@ -424,6 +425,7 @@ class DatePicker extends Component<Props, State> {
               ...base,
               ...controlStyles,
               ...disabledStyle,
+              minWidth: 240,
             }),
           })}
           placeholder={placeholder}
