@@ -1,5 +1,5 @@
 import { of } from 'rxjs/observable/of';
-import { Context, ContextConfig, FileFetcher } from '@atlaskit/media-core';
+import { Context, ContextConfig } from '@atlaskit/media-core';
 
 export const getDefaultContextConfig = () => ({
   authProvider: jest.fn().mockReturnValue(() =>
@@ -33,7 +33,7 @@ export const fakeContext = (
     touchFiles,
     getCurrentState: jest.fn(),
     copyFile: jest.fn(),
-  } as FileFetcher;
+  };
   const defaultContext: Context = {
     getImageMetadata,
     getImage,
