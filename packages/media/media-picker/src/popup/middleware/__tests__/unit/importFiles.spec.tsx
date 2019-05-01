@@ -513,7 +513,7 @@ describe('importFiles middleware', () => {
       });
     });
 
-    it('should emit file-uploaded in the tenant context', done => {
+    it('should emit file-added in the tenant context', done => {
       const { eventEmitter, mockWsProvider, store, nextDispatch } = setup();
 
       importFilesMiddleware(eventEmitter, mockWsProvider)(store)(nextDispatch)(
@@ -524,7 +524,7 @@ describe('importFiles middleware', () => {
         const { tenantContext } = store.getState();
 
         expect(tenantContext.emit).toBeCalledTimes(4);
-        expect(tenantContext.emit).lastCalledWith('file-uploaded', {
+        expect(tenantContext.emit).lastCalledWith('file-added', {
           id: expectUUID,
           mediaType: 'image',
           mimeType: 'image/jpg',
