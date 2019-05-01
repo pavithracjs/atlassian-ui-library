@@ -97,6 +97,11 @@ export interface Props {
   confluenceUrl?: string;
 
   /**
+   * The URL for Autocomplete service. Overrides the URL to the autocomplete service
+   */
+  autocompleteUrl?: string;
+
+  /**
    * The URL for Jira. Must include the context path.
    */
   jiraUrl?: string;
@@ -127,6 +132,11 @@ export interface Props {
    * Indicates whether or not CPUS should be used for people searches.
    */
   useCPUSForPeopleResults?: boolean;
+
+  /**
+   * Indicates whether or not autocompletion features is acti
+   */
+  isAutocompleteEnabled?: boolean;
 
   /**
    * Indicates whether to add sessionId to jira result query param
@@ -183,6 +193,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       directoryServiceUrl,
       confluenceUrl,
       addSessionIdToJiraResult,
+      autocompleteUrl,
     } = this.props;
 
     if (activityServiceUrl) {
@@ -199,6 +210,10 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
 
     if (confluenceUrl) {
       config.confluenceUrl = confluenceUrl;
+    }
+
+    if (autocompleteUrl) {
+      config.autocompleteUrl = autocompleteUrl;
     }
 
     config.addSessionIdToJiraResult = addSessionIdToJiraResult;

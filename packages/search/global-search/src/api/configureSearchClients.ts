@@ -13,6 +13,10 @@ import {
 import RecentSearchClientImpl, {
   RecentSearchClient,
 } from './RecentSearchClient';
+import {
+  AutoCompleteClientImpl,
+  AutoCompleteClient,
+} from './AutoCompleteClient';
 
 export interface SearchClients {
   recentSearchClient: RecentSearchClient;
@@ -20,6 +24,7 @@ export interface SearchClients {
   peopleSearchClient: PeopleSearchClient;
   confluenceClient: ConfluenceClient;
   jiraClient: JiraClient;
+  autocompleteClient: AutoCompleteClient;
 }
 
 export interface Config {
@@ -28,6 +33,7 @@ export interface Config {
   directoryServiceUrl: string;
   confluenceUrl: string;
   jiraUrl: string;
+  autocompleteUrl: string;
   addSessionIdToJiraResult?: boolean;
 }
 
@@ -37,6 +43,7 @@ const defaultConfig: Config = {
   directoryServiceUrl: '/gateway/api/directory',
   confluenceUrl: '/wiki',
   jiraUrl: '',
+  autocompleteUrl: '/gateway/api/xpsearch-autocomplete',
   addSessionIdToJiraResult: false,
 };
 
@@ -82,6 +89,10 @@ export default function configureSearchClients(
       config.jiraUrl,
       cloudId,
       config.addSessionIdToJiraResult,
+    ),
+    autocompleteClient: new AutoCompleteClientImpl(
+      config.autocompleteUrl,
+      cloudId,
     ),
   };
 }
