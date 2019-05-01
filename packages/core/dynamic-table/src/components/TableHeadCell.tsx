@@ -20,23 +20,10 @@ class TableHeadCell extends React.Component<Props, {}> {
   };
 
   render() {
-    const {
-      content,
-      inlineStyles,
-      onClick,
-      isSortable,
-      sortOrder,
-      isFixedSize,
-    } = this.props;
+    const { content, inlineStyles, ...rest } = this.props;
 
     return (
-      <HeadCell
-        onClick={onClick}
-        sortOrder={sortOrder}
-        isSortable={isSortable}
-        isFixedSize={isFixedSize}
-        style={inlineStyles}
-      >
+      <HeadCell style={inlineStyles} {...rest}>
         <span>{content}</span>
       </HeadCell>
     );

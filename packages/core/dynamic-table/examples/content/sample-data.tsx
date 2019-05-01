@@ -9,7 +9,14 @@ import styled from 'styled-components';
 import presidents from './presidents.json';
 import lorem from './lorem.json';
 
-function createKey(input?: string) {
+interface President {
+  id: number;
+  nm: string;
+  pp: string;
+  tm: string;
+}
+
+function createKey(input: string) {
   return input ? input.replace(/^(the|a|an)/, '').replace(/\s/g, '') : input;
 }
 
@@ -66,7 +73,7 @@ export const createHead = (withWidth: boolean) => {
 
 export const head = createHead(true);
 
-export const rows = presidents.map((president: any, index: number) => ({
+export const rows = presidents.map((president: President, index: number) => ({
   key: `row-${index}-${president.nm}`,
   cells: [
     {

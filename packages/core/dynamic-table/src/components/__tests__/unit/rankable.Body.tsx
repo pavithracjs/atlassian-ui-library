@@ -20,7 +20,7 @@ const createProps = () => ({
 const createDragEndProps = (
   sourceKey: string,
   sourceIndex: number,
-  destinationIndex = null,
+  destinationIndex?: number,
 ) => {
   return {
     draggableId: sourceKey,
@@ -28,7 +28,7 @@ const createDragEndProps = (
       index: sourceIndex,
     },
     destination:
-      destinationIndex !== null
+      destinationIndex !== undefined
         ? {
             index: destinationIndex,
           }
@@ -88,9 +88,9 @@ test('onDragEnd - onRankEnd is called with proper empty destination if drag was 
 
 const testOnRankEnd = (
   sourceIndex: number,
-  destinationIndex: any,
-  afterKey: any,
-  beforeKey: any,
+  destinationIndex: number,
+  afterKey?: string,
+  beforeKey?: string,
 ) => {
   const props = createProps();
   const sourceKey = 'source-key-draggable';

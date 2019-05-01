@@ -16,7 +16,7 @@ export const getPageRows = (
 
 export const assertIsSortable = (head?: HeadType) => {
   if (!head || !head.cells) {
-    return null;
+    return;
   }
 
   head.cells.forEach(cell => {
@@ -30,14 +30,12 @@ export const assertIsSortable = (head?: HeadType) => {
         console.error(e);
       }
     }
-    return null;
   });
-  return null;
 };
 
 export const validateSortKey = (sortKey?: string, head?: HeadType) => {
   if (!sortKey) {
-    return null;
+    return;
   }
   const headHasKey = head && head.cells.map(cell => cell.key).includes(sortKey);
 
@@ -49,7 +47,6 @@ export const validateSortKey = (sortKey?: string, head?: HeadType) => {
       console.error(e);
     }
   }
-  return null;
 };
 
 // creates inline styles if flag ranking is true

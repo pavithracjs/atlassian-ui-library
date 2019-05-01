@@ -49,7 +49,7 @@ function toggleSortOrder(currentSortOrder?: SortOrderType) {
   }
 }
 
-interface State {
+export interface State {
   isRanking: boolean;
 }
 

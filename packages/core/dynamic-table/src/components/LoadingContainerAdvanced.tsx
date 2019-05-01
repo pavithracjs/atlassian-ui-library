@@ -9,20 +9,20 @@ import {
   SpinnerContainer,
 } from '../styled/LoadingContainerAdvanced';
 
-interface Props {
+export interface Props {
   children: React.ReactElement<any>;
   isLoading?: boolean;
   spinnerSize?: SpinnerSizeType;
   contentsOpacity: number;
-  targetRef?: Function; // eslint-disable-line react/no-unused-prop-types
+  targetRef?: () => React.ComponentType<any> | undefined;
 }
 
 export default class LoadingContainerAdvanced extends React.Component<
   Props,
   {}
 > {
-  children: Element | null = null;
-  spinner: React.ComponentType<any> | void | null = null;
+  children?: HTMLElement;
+  spinner?: HTMLElement;
   static defaultProps = {
     isLoading: true,
     spinnerSize: LARGE,
@@ -64,14 +64,15 @@ export default class LoadingContainerAdvanced extends React.Component<
 
     // targetRef prop may be defined but it is not guaranteed it returns an element
     const targetElement = targetRef ? targetRef() : this.children;
+    // @ts-ignore - targetElement is not assignable to type 'ReactInstance'
     const targetNode = findDOMNode(targetElement);
 
-    return targetNode as HTMLElement;
+    return targetNode;
   };
 
   getThisNode = () => findDOMNode(this);
 
-  // @ts-ignore - this.spinner type error
+  // @ts-ignore - this.spinner is not assignable to type 'ReactInstance'
   getSpinnerNode = () => findDOMNode(this.spinner);
 
   hasTargetNode = (nextProps?: Props) => !!this.getTargetNode(nextProps);
@@ -124,7 +125,7 @@ export default class LoadingContainerAdvanced extends React.Component<
   };
 
   updateTargetAppearance = () => {
-    const targetNode = this.getTargetNode();
+    const targetNode = this.getTargetNode() as HTMLElement;
     const { isLoading, contentsOpacity } = this.props;
     if (
       targetNode &&
@@ -138,8 +139,8 @@ export default class LoadingContainerAdvanced extends React.Component<
 
   updateSpinnerPosition() {
     const viewportHeight = window.innerHeight;
-    const targetNode = this.getTargetNode();
-    const spinnerNode = this.getSpinnerNode();
+    const targetNode = this.getTargetNode() as HTMLElement;
+    const spinnerNode = this.getSpinnerNode() as HTMLElement;
 
     if (!targetNode || !spinnerNode) {
       return;
@@ -206,14 +207,14 @@ export default class LoadingContainerAdvanced extends React.Component<
     return (
       <Container>
         {React.cloneElement(children, {
-          ref: (el: any) => {
+          ref: (el: HTMLElement) => {
             this.children = el;
           },
         })}
         {isLoading && (
           <SpinnerBackdrop>
             <SpinnerContainer
-              ref={(el: any) => {
+              innerRef={(el: HTMLElement) => {
                 this.spinner = el;
               }}
             >

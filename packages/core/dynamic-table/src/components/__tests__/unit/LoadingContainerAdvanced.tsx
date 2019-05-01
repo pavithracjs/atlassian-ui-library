@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount, shallow, ReactWrapper, ShallowWrapper } from 'enzyme';
 import styled from 'styled-components';
 import Spinner from '@atlaskit/spinner';
 import {
@@ -7,19 +7,28 @@ import {
   SpinnerBackdrop,
 } from '../../../styled/LoadingContainerAdvanced';
 
-import LoadingContainerAdvanced from '../../LoadingContainerAdvanced';
+import LoadingContainerAdvanced, {
+  Props as LoadingContainerAdvancedProps,
+} from '../../LoadingContainerAdvanced';
 
 describe('LoadingContainerAdvanced', () => {
   const Contents = styled.div``;
 
-  let wrappers: any[];
+  let wrappers: Array<
+    | ReactWrapper<LoadingContainerAdvancedProps, {}, LoadingContainerAdvanced>
+    | ShallowWrapper<LoadingContainerAdvancedProps>
+  >;
 
   beforeEach(() => {
     wrappers = [];
   });
 
   it('should always wrap contents into the container with a relative position so absolute positioned elements inside the children behave consistently despite the loading mode', () => {
-    const wrapper = mount(
+    const wrapper: ReactWrapper<
+      LoadingContainerAdvancedProps,
+      {},
+      LoadingContainerAdvanced
+    > = mount(
       <LoadingContainerAdvanced isLoading>
         <Contents />
       </LoadingContainerAdvanced>,
@@ -32,7 +41,7 @@ describe('LoadingContainerAdvanced', () => {
   });
 
   it('should always render children as is right inside the container', () => {
-    const wrapper = shallow(
+    const wrapper: ShallowWrapper<LoadingContainerAdvancedProps> = shallow(
       <LoadingContainerAdvanced isLoading={false}>
         <Contents />
       </LoadingContainerAdvanced>,
@@ -46,7 +55,11 @@ describe('LoadingContainerAdvanced', () => {
   });
 
   it('should not render the spinner container when the loading mode is off', () => {
-    const wrapper = mount(
+    const wrapper: ReactWrapper<
+      LoadingContainerAdvancedProps,
+      {},
+      LoadingContainerAdvanced
+    > = mount(
       <LoadingContainerAdvanced isLoading={false}>
         <Contents />
       </LoadingContainerAdvanced>,
@@ -57,26 +70,32 @@ describe('LoadingContainerAdvanced', () => {
   });
 
   it('should render with a proper default values', () => {
-    const wrapper = mount(
+    const wrapper: ReactWrapper<
+      LoadingContainerAdvancedProps,
+      {},
+      LoadingContainerAdvanced
+    > = mount(
       <LoadingContainerAdvanced>
         <Contents />
       </LoadingContainerAdvanced>,
     );
     wrappers.push(wrapper);
     expect(wrapper.props().isLoading).toBe(true);
-    // @ts-ignore - property 'size' does not exist
-    expect(wrapper.find(Spinner).props().size).toBe('large');
+    expect(wrapper.find(Spinner).prop('size')).toBe('large');
   });
 
   it('should render the spinner of a given size', () => {
-    const wrapper = mount(
+    const wrapper: ReactWrapper<
+      LoadingContainerAdvancedProps,
+      {},
+      LoadingContainerAdvanced
+    > = mount(
       <LoadingContainerAdvanced spinnerSize="xlarge">
         <Contents />
       </LoadingContainerAdvanced>,
     );
     wrappers.push(wrapper);
-    // @ts-ignore - property 'size' does not exist
-    expect(wrapper.find(Spinner).props().size).toBe('xlarge');
+    expect(wrapper.find(Spinner).prop('size')).toBe('xlarge');
   });
 
   describe('target manipulations', () => {
@@ -89,8 +108,12 @@ describe('LoadingContainerAdvanced', () => {
     };
 
     it('should update styles on mount only when loading and there is a target node', () => {
-      let target: any;
-      let wrapper: any;
+      let target: React.ComponentType<any>;
+      let wrapper: ReactWrapper<
+        LoadingContainerAdvancedProps,
+        {},
+        LoadingContainerAdvanced
+      >;
 
       // targetRef returns invalid target
       wrapper = mount(
@@ -99,7 +122,10 @@ describe('LoadingContainerAdvanced', () => {
         </LoadingContainerAdvanced>,
       );
       wrappers.push(wrapper);
-      assertTargetStylesAreCorrect(wrapper.find(Contents).getDOMNode(), false);
+      assertTargetStylesAreCorrect(
+        wrapper.find(Contents).getDOMNode() as HTMLElement,
+        false,
+      );
 
       // Not loading
       wrapper = mount(
@@ -108,7 +134,10 @@ describe('LoadingContainerAdvanced', () => {
         </LoadingContainerAdvanced>,
       );
       wrappers.push(wrapper);
-      assertTargetStylesAreCorrect(wrapper.find(Contents).getDOMNode(), false);
+      assertTargetStylesAreCorrect(
+        wrapper.find(Contents).getDOMNode() as HTMLElement,
+        false,
+      );
 
       // Loading and has children
       wrapper = mount(
@@ -117,7 +146,10 @@ describe('LoadingContainerAdvanced', () => {
         </LoadingContainerAdvanced>,
       );
       wrappers.push(wrapper);
-      assertTargetStylesAreCorrect(wrapper.find(Contents).getDOMNode(), true);
+      assertTargetStylesAreCorrect(
+        wrapper.find(Contents).getDOMNode() as HTMLElement,
+        true,
+      );
 
       // Loading and has a valid target
       wrapper = mount(
@@ -130,30 +162,47 @@ describe('LoadingContainerAdvanced', () => {
         </LoadingContainerAdvanced>,
       );
       wrappers.push(wrapper);
-      assertTargetStylesAreCorrect(wrapper.find(Contents).getDOMNode(), true);
+      assertTargetStylesAreCorrect(
+        wrapper.find(Contents).getDOMNode() as HTMLElement,
+        true,
+      );
     });
 
     it('should set styles to the children if the targetRef is not defined and revert them on loading mode change', () => {
-      const wrapper: any = mount(
+      const wrapper: ReactWrapper<
+        LoadingContainerAdvancedProps,
+        {},
+        LoadingContainerAdvanced
+      > = mount(
         <LoadingContainerAdvanced>
           <Contents />
         </LoadingContainerAdvanced>,
       );
       wrappers.push(wrapper);
-      assertTargetStylesAreCorrect(wrapper.find(Contents).getDOMNode(), true);
+      assertTargetStylesAreCorrect(
+        wrapper.find(Contents).getDOMNode() as HTMLElement,
+        true,
+      );
       wrapper.setProps({ isLoading: false });
-      assertTargetStylesAreCorrect(wrapper.find(Contents).getDOMNode(), false);
+      assertTargetStylesAreCorrect(
+        wrapper.find(Contents).getDOMNode() as HTMLElement,
+        false,
+      );
     });
 
     it('should set styles to the target and revert them on loading mode change', () => {
-      let target: any;
+      let target: React.ComponentType<any>;
 
       const InnerComponent = styled.div``;
-      const wrapper: any = mount(
+      const wrapper: ReactWrapper<
+        LoadingContainerAdvancedProps,
+        {},
+        LoadingContainerAdvanced
+      > = mount(
         <LoadingContainerAdvanced targetRef={() => target}>
           <Contents>
             <InnerComponent
-              ref={(el: any) => {
+              innerRef={(el: React.ComponentType<any>) => {
                 target = el;
               }}
             />
@@ -162,19 +211,23 @@ describe('LoadingContainerAdvanced', () => {
       );
       wrappers.push(wrapper);
       assertTargetStylesAreCorrect(
-        wrapper.find(InnerComponent).getDOMNode(),
+        wrapper.find(InnerComponent).getDOMNode() as HTMLElement,
         true,
       );
       wrapper.setProps({ isLoading: false });
       assertTargetStylesAreCorrect(
-        wrapper.find(InnerComponent).getDOMNode(),
+        wrapper.find(InnerComponent).getDOMNode() as HTMLElement,
         false,
       );
     });
   });
 
   describe('spinner manipulations', () => {
-    let wrapper: any;
+    let wrapper: ReactWrapper<
+      LoadingContainerAdvancedProps,
+      {},
+      LoadingContainerAdvanced
+    >;
     let componentClientRect: any;
     let targetClientRect: any;
     let spinnerClientRect: any;
@@ -475,7 +528,11 @@ describe('LoadingContainerAdvanced', () => {
   });
 
   describe('helpers', () => {
-    let wrapper: any;
+    let wrapper: ReactWrapper<
+      LoadingContainerAdvancedProps,
+      {},
+      LoadingContainerAdvanced
+    >;
 
     beforeEach(() => {
       wrapper = mount(
@@ -610,7 +667,7 @@ describe('LoadingContainerAdvanced', () => {
     });
 
     it('should attach the listeners on mount only when loading and there is a target node', () => {
-      let target: any;
+      let target: React.ComponentType<any>;
 
       // targetRef returns invalid target
       wrappers.push(
@@ -658,9 +715,13 @@ describe('LoadingContainerAdvanced', () => {
     });
 
     it('should attach the listeners on props change only when it makes sense', () => {
-      let target: any;
+      let target: React.ComponentType<any>;
 
-      const wrapper = mount(
+      const wrapper: ReactWrapper<
+        LoadingContainerAdvancedProps,
+        {},
+        LoadingContainerAdvanced
+      > = mount(
         <LoadingContainerAdvanced isLoading={false}>
           <Contents
             innerRef={el => {
@@ -680,7 +741,7 @@ describe('LoadingContainerAdvanced', () => {
 
       // Still loading and non-important props were changed
       wrapper.setProps({
-        spinnerSize: 123,
+        spinnerSize: 'small',
         contentsOpacity: 1,
         targetRef: () => target,
       });
@@ -716,7 +777,11 @@ describe('LoadingContainerAdvanced', () => {
     });
 
     it('should detach the listeners on unmount', () => {
-      const wrapper = mount(
+      const wrapper: ReactWrapper<
+        LoadingContainerAdvancedProps,
+        {},
+        LoadingContainerAdvanced
+      > = mount(
         <LoadingContainerAdvanced>
           <Contents />
         </LoadingContainerAdvanced>,
@@ -735,8 +800,7 @@ describe('LoadingContainerAdvanced', () => {
      */
     /* eslint-disable jest/no-disabled-tests */
     it.skip('should update spinner position on resize', () => {
-      // @ts-ignore - no-unused-vars
-      const wrapper: any = mount(
+      mount(
         <LoadingContainerAdvanced>
           <Contents />
         </LoadingContainerAdvanced>,

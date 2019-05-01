@@ -14,8 +14,7 @@ interface Props {
 
 export default class ManagedPagination extends React.Component<Props> {
   onChange = (
-    // @ts-ignore - never use
-    event: React.SyntheticEvent<any>,
+    _event: any,
     newValue: any,
     analyticsEvent?: UIAnalyticsEvent,
   ) => {

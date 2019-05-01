@@ -5,7 +5,7 @@ import { inlineStylesIfRanking } from '../../internal/helpers';
 
 class RankableTableHeadCell extends React.Component<
   WithDimensionsProps & HeadCellProps,
-  any
+  {}
 > {
   render() {
     const {

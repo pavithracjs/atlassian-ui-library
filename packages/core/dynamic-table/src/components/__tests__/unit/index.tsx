@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import Button from '@atlaskit/button';
 import Pagination from '../../managedPagination';
@@ -18,7 +18,8 @@ import { rows, head, rowsWithKeys } from './_data';
 import { headNumeric, rowsNumeric } from './_dataNumeric';
 
 import { name } from '../../../version.json';
-import { RowType, RowCellType } from '../../../types';
+import { RowType, RowCellType, StatelessProps } from '../../../types';
+import { State } from '../../Stateless';
 
 describe(name, () => {
   describe('stateless', () => {
@@ -234,7 +235,11 @@ describe(name, () => {
 
     describe('loading mode', () => {
       describe('with rows', () => {
-        let wrapper: any;
+        let wrapper: ReactWrapper<
+          StatelessProps,
+          State,
+          React.Component<StatelessProps>
+        >;
 
         beforeEach(() => {
           wrapper = mount(<DynamicTableStateless rows={rows} isLoading />);
@@ -275,7 +280,7 @@ describe(name, () => {
         it('should pass a proper target ref', () => {
           const loadingContainer = wrapper.find(LoadingContainerAdvanced);
           const body = wrapper.find(Body);
-          const target = loadingContainer.props().targetRef();
+          const target = loadingContainer.prop('targetRef')!();
           expect(target).toBe(body.instance());
         });
 
@@ -286,7 +291,11 @@ describe(name, () => {
       });
 
       describe('without rows (empty)', () => {
-        let wrapper: any;
+        let wrapper: ReactWrapper<
+          StatelessProps,
+          State,
+          React.Component<StatelessProps>
+        >;
 
         beforeEach(() => {
           wrapper = mount(
@@ -319,9 +328,13 @@ describe(name, () => {
     });
 
     describe('should invoke callbacks', () => {
-      let onSetPage: any;
-      let onSort: any;
-      let wrapper: any;
+      let onSetPage: jest.Mock;
+      let onSort: jest.Mock;
+      let wrapper: ReactWrapper<
+        StatelessProps,
+        State,
+        React.Component<StatelessProps>
+      >;
 
       beforeEach(() => {
         onSetPage = jest.fn();

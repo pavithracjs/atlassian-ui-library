@@ -82,7 +82,7 @@ export class RankableBody extends React.Component<Props, {}> {
       sourceIndex,
       sourceKey,
       destination,
-    } as RankEnd;
+    };
 
     onRankEnd(rankEndProps);
   };

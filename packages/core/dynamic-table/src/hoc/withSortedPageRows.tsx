@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Omit } from '@atlaskit/type-helpers';
 import { ASC } from '../internal/constants';
 import { getPageRows, validateSortKey } from '../internal/helpers';
-import { HeadType, RowType, SortOrderType } from '../types';
+import { HeadType, RowCellType, RowType, SortOrderType } from '../types';
 
 // sort all rows based on sort key and order
 const getSortedRows = (
@@ -19,9 +19,9 @@ const getSortedRows = (
   }
 
   // return value which will be used for sorting
-  const getSortingCellValue = (cells: any) =>
+  const getSortingCellValue = (cells: Array<RowCellType>) =>
     cells.reduce(
-      (result: any, cell: any, index: number) =>
+      (result: {} | null | undefined, cell, index) =>
         result ||
         (head &&
           head.cells[index].key === sortKey &&

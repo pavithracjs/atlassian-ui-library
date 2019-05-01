@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { RankableTableCell } from '../../rankable/TableCell';
+import { RankableTableCell, Props } from '../../rankable/TableCell';
 
 import { head, cellWithKey as cell } from './_data';
 
 const createProps = () => ({
   cell,
-  head,
+  head: head.cells[0],
   isRanking: false,
   innerRef: jest.fn(),
   refWidth: -1,
@@ -15,7 +15,7 @@ const createProps = () => ({
 });
 
 test('onKeyDown events are not propagated', () => {
-  const props: any = createProps();
+  const props: Props = createProps();
   const wrapper = shallow(<RankableTableCell {...props} />);
 
   const stopPropagation = jest.fn();

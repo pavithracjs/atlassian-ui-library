@@ -48,7 +48,7 @@ describe('LoadingContainer', () => {
 
   describe('when loading is enabled', () => {
     it('should render with a proper default values', () => {
-      const wrapper: any = mount(
+      const wrapper = mount(
         <LoadingContainer>
           <Contents />
         </LoadingContainer>,
@@ -57,7 +57,7 @@ describe('LoadingContainer', () => {
       expect(wrapper.find(ContentsContainer).props().contentsOpacity).toBe(
         0.22,
       );
-      expect(wrapper.find(Spinner).props().size).toBe('large');
+      expect(wrapper.find(Spinner).prop('size')).toBe('large');
     });
 
     it('should wrap children into another container with a specified opacity', () => {
@@ -72,12 +72,12 @@ describe('LoadingContainer', () => {
     });
 
     it('should render the spinner of a given size', () => {
-      const wrapper: any = mount(
+      const wrapper = mount(
         <LoadingContainer spinnerSize="xlarge">
           <Contents />
         </LoadingContainer>,
       );
-      expect(wrapper.find(Spinner).props().size).toBe('xlarge');
+      expect(wrapper.find(Spinner).prop('size')).toBe('xlarge');
     });
   });
 });

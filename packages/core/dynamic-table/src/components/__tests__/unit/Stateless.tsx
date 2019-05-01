@@ -1,19 +1,20 @@
 import * as React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow, mount, ShallowWrapper } from 'enzyme';
 import DynamicTableWithAnalytics, {
   DynamicTableWithoutAnalytics as StatelessDynamicTable,
 } from '../../Stateless';
 import TableHead from '../../TableHead';
-import { head, sortKey, secondSortKey, rowsWithKeys } from './_data';
+import { StatelessProps } from '../../../types';
+import { head, rowsWithKeys, sortKey, secondSortKey } from './_data';
 
-const simulateOnSort = (wrapper: any) => {
+const simulateOnSort = (wrapper: ShallowWrapper<StatelessProps>) => {
   const tableHead = wrapper.find(TableHead);
   const item = { key: sortKey };
   tableHead.prop('onSort')(item)();
   return item;
 };
 
-const createProps = () => ({
+const createProps: () => StatelessProps = () => ({
   head,
   rows: rowsWithKeys,
   sortKey,
@@ -100,7 +101,7 @@ describe('DynamicTableWithAnalytics', () => {
   });
 
   it('should mount without errors', () => {
-    mount(<DynamicTableWithAnalytics {...createProps() as any} />);
+    mount(<DynamicTableWithAnalytics {...createProps()} />);
     /* eslint-disable no-console */
     expect(console.warn).not.toHaveBeenCalled();
     expect(console.error).not.toHaveBeenCalled();

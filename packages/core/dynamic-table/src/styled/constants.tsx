@@ -2,7 +2,7 @@ import { css } from 'styled-components';
 import { gridSize, math } from '@atlaskit/theme';
 import { ASC, DESC } from '../internal/constants';
 import { arrow } from '../theme';
-import { SortOrderType } from '@atlaskit/dynamic-table/types';
+import { SortOrderType } from '../types';
 
 export interface TruncateStyleProps {
   width?: number;

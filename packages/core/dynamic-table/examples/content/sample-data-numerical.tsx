@@ -4,7 +4,14 @@ import Avatar from '@atlaskit/avatar';
 import styled from 'styled-components';
 import presidents from './numerical.json';
 
-function createKey(input?: string) {
+interface President {
+  id: number;
+  nm: string;
+  pp: string;
+  num: number;
+}
+
+function createKey(input: string) {
   return input ? input.replace(/\s/g, '') : input;
 }
 
@@ -47,7 +54,7 @@ export const createHead = (withWidth: boolean) => {
 
 export const head = createHead(true);
 
-export const rows = presidents.map((president: any, index: number) => ({
+export const rows = presidents.map((president: President, index: number) => ({
   key: `row-${index}-${president.nm}`,
   cells: [
     {

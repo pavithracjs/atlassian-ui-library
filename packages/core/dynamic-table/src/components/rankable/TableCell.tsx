@@ -4,13 +4,11 @@ import { HeadCellType, RowCellType } from '../../types';
 import withDimensions, { WithDimensionsProps } from '../../hoc/withDimensions';
 import { inlineStylesIfRanking } from '../../internal/helpers';
 
-interface Props extends WithDimensionsProps {
-  head: HeadCellType | null;
+export interface Props extends WithDimensionsProps {
+  head?: HeadCellType;
   cell: RowCellType;
   isFixedSize: boolean;
 }
-
-const stopPropagation = (e: any) => e.stopPropagation();
 
 export class RankableTableCell extends React.Component<Props, {}> {
   render() {
@@ -36,7 +34,7 @@ export class RankableTableCell extends React.Component<Props, {}> {
         isRanking={isRanking}
         style={inlineStyles}
         innerRef={innerRef}
-        onKeyDown={stopPropagation}
+        onKeyDown={(e: React.KeyboardEvent<HTMLElement>) => e.stopPropagation()}
       >
         {content}
       </RankableTableBodyCell>
