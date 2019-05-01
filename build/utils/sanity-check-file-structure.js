@@ -1,5 +1,7 @@
 const { readFile, readdir } = require('./fs');
 
+const exceptionList = ['__tests__', '@types'];
+
 const main = async () => {
   const [src, root, packageJSON] = await Promise.all([
     readdir('./src'),
@@ -12,7 +14,7 @@ const main = async () => {
   }
 
   const missing = src
-    .filter(fileName => fileName !== '__tests__')
+    .filter(fileName => !exceptionList.includes(fileName))
     .filter(fileName => !root.includes(fileName.replace(/\.tsx?/, '.js')));
   if (missing.length > 0) {
     throw new Error(
