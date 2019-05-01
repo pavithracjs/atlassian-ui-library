@@ -51,7 +51,7 @@
     "measure:dependents": "                  node build/ci-scripts/get.changed.packages.since.master.js --dependents='direct' --spaceDelimited --only='packages' | xargs -n1 -P2 yarn measure --lint",
     "measure:updateSnapshot": "              node build/ci-scripts/get.changed.packages.since.master.js --spaceDelimited --only='packages' | xargs -n1 -P2 yarn measure --updateSnapshot",
     "website:start": "                       cd website && yarn start",
-    "send:buildEvents": "                     node build/ci-scripts/sending.build.events.payload.js",
+    "send:buildEvents": "                    node build/ci-scripts/sending.build.events.payload.js",
     "start": "                               yarn run website:start",
     "start:bitbucket": "                     yarn run website:start **/packages/bitbucket/**",
     "start:confluence": "                    yarn run website:start **/packages/confluence/**",
