@@ -1,0 +1,1 @@
+- Always include Jira Service Desk cross sell link if the instance does not have Jira Service Desk license.
