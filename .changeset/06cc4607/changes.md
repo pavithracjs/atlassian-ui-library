@@ -1,1 +1,0 @@
-- Change button to use theme's multiple entry points. This should reduce the bundle size of button

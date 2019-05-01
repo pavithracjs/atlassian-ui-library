@@ -1,5 +1,10 @@
 # @atlaskit/button
 
+## 12.0.6
+- [patch] [e0e3fabf8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0e3fabf8e):
+
+  - Change button to use theme's multiple entry points. This should reduce the bundle size of button
+
 ## 12.0.5
 - [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
 
