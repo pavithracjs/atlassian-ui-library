@@ -1,0 +1,1 @@
+- ED-6779: Update CollabProvider types to cater for removing event listeners.
