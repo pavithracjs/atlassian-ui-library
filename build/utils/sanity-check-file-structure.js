@@ -1,5 +1,9 @@
 const { readFile, readdir } = require('./fs');
 
+/*
+Does your package have a path that shouldn't be distributed?
+Cool just add it to the exceptionlist
+ */
 const exceptionList = ['__tests__', '@types'];
 
 const main = async () => {
@@ -9,7 +13,7 @@ const main = async () => {
     readFile('./package.json').then(res => JSON.parse(res)),
   ]);
 
-  if (packageJSON.module !== 'index.js') {
+  if (packageJSON.module !== 'index.js' || packageJSON.private) {
     return;
   }
 
