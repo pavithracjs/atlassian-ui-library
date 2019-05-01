@@ -1,0 +1,4 @@
+{
+  "releases": [{ "name": "@atlaskit/media-client", "type": "patch" }],
+  "dependents": []
+}
