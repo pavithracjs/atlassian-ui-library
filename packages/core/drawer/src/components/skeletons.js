@@ -1,34 +1,62 @@
 // @flow
 import React from 'react';
 import { Skeleton as SkeletonAvatar } from '@atlaskit/avatar';
-import { gridSize } from '@atlaskit/theme';
+import { gridSize as gridSizeFn } from '@atlaskit/theme';
 
-type IsAvatarHidden = { isAvatarHidden?: boolean };
-type IsCollapsed = { isCollapsed?: boolean };
-type DrawerSkeletonHeaderProps = IsAvatarHidden & IsCollapsed;
+type WrapperProps = {
+  isAvatarHidden?: boolean,
+  isHeader?: boolean,
+};
+type DrawerSkeletonItemProps = {
+  isCollapsed?: boolean,
+  itemTextWidth?: string,
+  isAvatarHidden?: boolean,
+};
+type DrawerSkeletonHeaderProps = {
+  isCollapsed?: boolean,
+  isAvatarHidden?: boolean,
+};
+type SkeletonTextProps = {
+  isHeader?: boolean,
+  itemTextWidth?: string,
+  isAvatarHidden?: boolean,
+};
 
-const Wrapper = ({ isAvatarHidden, ...props }: IsAvatarHidden) => (
+const gridSize = gridSizeFn();
+const Wrapper = ({ isAvatarHidden, isHeader, ...props }: WrapperProps) => (
   <div
     css={{
       display: 'flex',
       alignItems: 'center',
       margin: isAvatarHidden
-        ? `${gridSize() * 2}px`
-        : `${gridSize() / 2}px ${gridSize()}px 0 ${gridSize()}px`,
+        ? `${gridSize * 2}px`
+        : `${gridSize / 2}px ${gridSize}px ${gridSize}px ${gridSize * 2}px`,
+      ...(isHeader && !isAvatarHidden ? { marginLeft: `${gridSize}px` } : {}),
     }}
     {...props}
   />
 );
 
-const SkeletonText = ({ isAvatarHidden }: IsAvatarHidden) => (
+const headerStylesOverride = isAvatarHidden => ({
+  ...(!isAvatarHidden ? { marginLeft: `${gridSize * 2}px` } : null),
+  width: `${gridSize * 18}px`,
+  opacity: 0.3,
+});
+
+const SkeletonText = ({
+  isAvatarHidden,
+  isHeader,
+  itemTextWidth,
+}: SkeletonTextProps) => (
   <div
     css={{
-      height: `${gridSize() * 2.5}px`,
+      height: `${gridSize * 2.5}px`,
       backgroundColor: 'currentColor',
-      borderRadius: gridSize() / 2,
-      opacity: 0.3,
-      width: `${gridSize() * 18}px`,
-      ...(!isAvatarHidden ? { marginLeft: `${gridSize() * 2}px` } : null),
+      borderRadius: gridSize / 2,
+      opacity: 0.15,
+      width: itemTextWidth || `${gridSize * 17}px`,
+      ...(!isAvatarHidden ? { marginLeft: `${gridSize * 3}px` } : null),
+      ...(isHeader ? headerStylesOverride(isAvatarHidden) : null),
     }}
   />
 );
@@ -36,11 +64,29 @@ const SkeletonText = ({ isAvatarHidden }: IsAvatarHidden) => (
 export const DrawerSkeletonHeader = (props: DrawerSkeletonHeaderProps) => {
   const { isAvatarHidden, isCollapsed } = props;
   return (
-    <Wrapper isAvatarHidden={isAvatarHidden}>
+    <Wrapper isAvatarHidden={isAvatarHidden} isHeader>
       {!isAvatarHidden && (
         <SkeletonAvatar appearance="square" size="large" weight="strong" />
       )}
-      {!isCollapsed && <SkeletonText isAvatarHidden={isAvatarHidden} />}
+      {!isCollapsed && (
+        <SkeletonText isHeader isAvatarHidden={isAvatarHidden} />
+      )}
+    </Wrapper>
+  );
+};
+
+export const DrawerSkeletonItem = (props: DrawerSkeletonItemProps) => {
+  const { isAvatarHidden, isCollapsed, itemTextWidth } = props;
+
+  return (
+    <Wrapper isAvatarHidden={isAvatarHidden}>
+      {!isAvatarHidden && <SkeletonAvatar size="small" weight="normal" />}
+      {!isCollapsed && (
+        <SkeletonText
+          itemTextWidth={itemTextWidth}
+          isAvatarHidden={isAvatarHidden}
+        />
+      )}
     </Wrapper>
   );
 };
