@@ -1,5 +1,10 @@
 # @atlaskit/atlassian-switcher
 
+## 0.5.0
+- [minor] [59024ff4c5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59024ff4c5):
+
+  - Always include Jira Service Desk cross sell link if the instance does not have Jira Service Desk license.
+
 ## 0.4.8
 - [patch] [7f9fd0ddfc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7f9fd0ddfc):
 
