@@ -108,7 +108,11 @@ const createPayloadPerBuildType = (
   build_type /*: string */,
   build_name /*: string */,
 ) => {
-  step_name, build_type, build_name;
+  return {
+    step_name,
+    build_type,
+    build_name,
+  };
 };
 
 /* This function identifies the step currently running and build a partial payload based on the build type.*/
