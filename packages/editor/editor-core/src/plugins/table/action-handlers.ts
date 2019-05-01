@@ -1,11 +1,13 @@
+// #region Imports
 import { EditorState, Transaction } from 'prosemirror-state';
-import { findTable, findParentNodeOfType } from 'prosemirror-utils';
 import { DecorationSet, Decoration } from 'prosemirror-view';
+import { findTable, findParentNodeOfType } from 'prosemirror-utils';
 import { Dispatch } from '../../event-dispatcher';
+import { closestElement } from '../../utils';
 import { pluginKey, defaultTableSelection } from './pm-plugins/main';
 import { TablePluginState, TableCssClassName as ClassName } from './types';
-import { closestElement } from '../../utils';
 import { findControlsHoverDecoration } from './utils';
+// #endregion
 
 const processDecorations = (
   state: EditorState,

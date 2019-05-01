@@ -1,0 +1,1 @@
+- ED-6130 Refactor table actions
