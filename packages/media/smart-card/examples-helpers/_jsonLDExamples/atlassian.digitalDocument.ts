@@ -7,7 +7,7 @@ export const BitbucketFile = {
   '@id':
     'https://bitbucket.org/owner-name/repo-name/src/q1w2e3r4/server/package.json',
   '@type': ['schema:DigitalDocument', 'Document'],
-  '@url':
+  url:
     'https://bitbucket.org/owner-name/repo-name/src/q1w2e3r4/server/package.json',
   'atlassian:fileSize': 1483,
   'atlassian:isDeleted': false,
@@ -35,7 +35,7 @@ export const GithubFile = {
   },
   '@id': 'https://github.com/tuser/test-repo/blob/tuser-patch-1/test.txt',
   '@type': ['schema:DigitalDocument', 'Document'],
-  '@url': 'https://github.com/tuser/test-repo/blob/tuser-patch-1/test.txt',
+  url: 'https://github.com/tuser/test-repo/blob/tuser-patch-1/test.txt',
   'atlassian:fileSize': 10,
   'atlassian:isDeleted': false,
   context: {

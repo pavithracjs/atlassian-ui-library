@@ -14,8 +14,8 @@ function createKey(input) {
   return input ? input.replace(/^(the|a|an)/, '').replace(/\s/g, '') : input;
 }
 
-function getRandomString() {
-  return `${lorem[Math.floor(Math.random() * lorem.length)]}`;
+function iterateThroughLorem(index: number) {
+  return index > lorem.length ? index - lorem.length : index;
 }
 
 const NameWrapper = styled.span`
@@ -96,7 +96,7 @@ export const rows = presidents.map((president, index) => ({
       content: president.tm,
     },
     {
-      content: getRandomString(),
+      content: iterateThroughLorem(index),
     },
     {
       content: (

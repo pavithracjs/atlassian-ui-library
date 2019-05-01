@@ -1,5 +1,32 @@
 # @atlaskit/conversation
 
+## 14.3.1
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-common@37.0.0
+  - @atlaskit/editor-core@108.0.0
+  - @atlaskit/renderer@46.0.0
+  - @atlaskit/comment@7.0.7
+  - @atlaskit/reactions@16.1.9
+  - @atlaskit/util-data-test@11.1.8
+
+## 14.3.0
+- [minor] [0e8d32ceb6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0e8d32ceb6):
+
+  - add onCommentPermalinkClick prop so consumers can handle that click for scrolling or other purpose
+
+## 14.2.2
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+- [patch] [0ac39bd2dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ac39bd2dd):
+
+  - Bump tslib to 1.9
+
+## 14.2.1
+- [patch] [fdbc4744b3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fdbc4744b3):
+
+  - Fixed infinite recursion bug
+
 ## 14.2.0
 - [minor] [8cd293e322](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8cd293e322):
 

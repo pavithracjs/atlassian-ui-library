@@ -1,5 +1,10 @@
 # @atlaskit/portal
 
+## 1.0.0
+- [major] [5b6b4d6a0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5b6b4d6a0f):
+
+  - This major release indicates that this package is no longer under dev preview but is ready for use
+
 ## 0.3.1
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2

@@ -1,25 +1,11 @@
 // @flow
 import React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
 
 export default md`
-
-  ${(
-    <SectionMessage appearance="warning">
-      <p>
-        <strong>Note: @atlaskit/tree is currently a developer preview.</strong>
-      </p>
-      <p>
-        Please experiment with and test this package but be aware that the API
-        may & probably will change with future releases.
-      </p>
-    </SectionMessage>
-  )}
-
-  Tree component provides a generic way to visualize tree structures. It was built on top of the popular [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd) 
+  Tree component provides a generic way to visualize tree structures. It was built on top of the popular [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)
   library in order to provide a natural way of reorganizing the nodes.
-  
+
   ## Feature set
 
    - Fully customizable node rendering
@@ -46,15 +32,15 @@ export default md`
   ### Tree data structure
 
   Tree is defined by a normalized data structure, where _rootId_ defines the _id_ of the root node and _items_ map contains all the nodes indexed by their _id_.
-  Child relationship is defined in the _children_ field of parent in form of list of _id_'s.  
+  Child relationship is defined in the _children_ field of parent in form of list of _id_'s.
 
   **Data attribute:** Any consumer data should be defined in the _data_ attribute of item, e.g. title, color, selection etc.
 
   **State handling:** This data structure is the single source of truth. After any interaction the consumer's responsibility to execute the mutation
-   on the tree, which will be passed down in props to refresh the rendered tree. A few utils functions (_mutateTree_, _moveItemOnTree_) are provided 
+   on the tree, which will be passed down in props to refresh the rendered tree. A few utils functions (_mutateTree_, _moveItemOnTree_) are provided
    in order to help you make those changes easily and in a efficient way.
 
-  **Performance / Side-effects:** We put some effort into optimizing rendering based on reference equality. We only re-render an Item if it's reference changed or 
+  **Performance / Side-effects:** We put some effort into optimizing rendering based on reference equality. We only re-render an Item if it's reference changed or
   moved on the tree.
 
   ${code`
@@ -118,7 +104,7 @@ renderItem = ({
 }: RenderItemParams) => {
   return (
     <div
-      ref={provided.innerRef} 
+      ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
     >
@@ -131,7 +117,7 @@ renderItem = ({
 
   ### Expand & Collapse
 
-  _onExpand_ and _onCollapse_ functions are triggered when there is a need to change the state of a parent. This is the right time to trigger requests to load the subtree or 
+  _onExpand_ and _onCollapse_ functions are triggered when there is a need to change the state of a parent. This is the right time to trigger requests to load the subtree or
   flip the _isExpanded_ attribute to show the already loaded children nodes.
 
   **Example**
@@ -151,10 +137,10 @@ onExpand = (itemId: ItemId) => {
   _provided_ from _renderItem_ must be used as defined earlier in the Rendering section. For custom behavior you can also act on a few additional information conveyed in
   _snapshot_ attribute.
 
-  **Events:** _onDragStart_ and _onDragEnd_ functions will be triggered at the beginning and the end of re-ordering. They provide the necessary information as _TreePosition_ 
+  **Events:** _onDragStart_ and _onDragEnd_ functions will be triggered at the beginning and the end of re-ordering. They provide the necessary information as _TreePosition_
    to change the tree.
 
-  **Current limitations = Plans:** Currently it's not possible to drag a parent, which is already expanded. Addition to this, it's not possible to hover over another item to 
+  **Current limitations = Plans:** Currently it's not possible to drag a parent, which is already expanded. Addition to this, it's not possible to hover over another item to
   expand it or drop on top to nest. We are actively working on these features and we will update the documentation once they are ready.
 
   **Example**

@@ -1,5 +1,27 @@
 # @atlaskit/inline-edit
 
+## 9.0.5
+- Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/form@5.2.10
+  - @atlaskit/textarea@1.0.0
+  - @atlaskit/textfield@1.0.0
+
+## 9.0.4
+- [patch] [458331c958](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/458331c958):
+
+  - Added index.ts to .npmignore to prevent jest tests resolving that instead of index.js
+
+## 9.0.3
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
+## 9.0.2
+- [patch] [074c382946](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/074c382946):
+
+  - Add isRequired prop, remove duplicate defaultProps in code (internal change only) and add padding to examples on website to prevent unnecessary scrollbar
+
 ## 9.0.1
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

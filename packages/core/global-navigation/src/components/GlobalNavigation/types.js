@@ -126,6 +126,25 @@ export type GlobalNavDrawerProps = {
   /** A prop to decide if the contents of the drawer should unmount on drawer
    * close. It is true by default. */
   shouldSettingsDrawerUnmountOnExit?: boolean,
+
+  /** A prop to take control over the opening and closing of the help drawer. NOTE:
+   * GlobalNavigation controls the drawer behaviour by default. */
+  isHelpDrawerOpen?: boolean,
+  /** The contents of the help drawer. */
+  helpDrawerContents?: ComponentType<*>,
+  /** The width of the help drawer. This is "wide" by default. */
+  HelpDrawerWidth?: DrawerWidth,
+  /** A callback function which will be called when the help drawer is
+   * opened. */
+  onHelpDrawerOpen?: () => void,
+  /** A callback function which will be called when the help drawer is
+   * closed. */
+  onHelpDrawerClose?: () => void,
+  /** A callback function which will be fired when the help drawer has finished its close transition. **/
+  onHelpDrawerCloseComplete?: (node: HTMLElement) => void,
+  /** A prop to decide if the contents of the drawer should unmount on drawer
+   * close. It is true by default. */
+  shouldHelpDrawerUnmountOnExit?: boolean,
 };
 
 export type GlobalNavigationProps = {
@@ -177,12 +196,18 @@ export type GlobalNavigationProps = {
   /** A callback used to trigger the product implementation of XFlow */
   triggerXFlow?: ?(productKey: string, sourceComponent: string) => void,
 
-  /** The text to display in the tooltip for the help item. */
+  /** A callback function which will be called when the help item is clicked.
+   * */
+  onHelpClick?: ?() => void,
+  /** The text to display in the tooltip for the help drawer item. */
   helpTooltip?: string,
-  /** A component to render into the help menu dropdown. */
-  helpItems?: ComponentType<{}>,
   /** A function to get ref of the help icon */
   getHelpRef?: (node: NonStringRef<'div'>) => void,
+
+  /** The boolean that controls whether to display a drawer instead of a menu dropdown. */
+  enableHelpDrawer?: boolean,
+  /** A component to render into the help menu dropdown. */
+  helpItems?: ComponentType<{}>,
 
   /** The text to display in the tooltip for the profile item. */
   profileTooltip?: string,
@@ -239,6 +264,7 @@ export type DrawerName =
   | 'notification'
   | 'starred'
   | 'create'
+  | 'help'
   | 'settings'
   | 'atlassianSwitcher';
 

@@ -2,7 +2,7 @@ import { TableAEP } from './events';
 import { INPUT_METHOD } from './enums';
 
 //#region Constants
-export const enum TABLE_ACTION {
+export enum TABLE_ACTION {
   DELETED = 'deleted',
   CLEARED = 'cleared',
   MERGED = 'merged',
@@ -20,7 +20,7 @@ export const enum TABLE_ACTION {
   DELETED_COLUMN = 'deletedColumn',
 }
 
-export const enum TABLE_BREAKOUT {
+export enum TABLE_BREAKOUT {
   WIDE = 'wide',
   FULL_WIDTH = 'fullWidth',
   NORMAL = 'normal',

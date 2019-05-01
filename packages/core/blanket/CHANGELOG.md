@@ -1,5 +1,10 @@
 # @atlaskit/blanket
 
+## 9.0.0
+- [major] [38dab947e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/38dab947e6):
+
+  - Updated Blanket to TypeScript. Flow types are no longer exported.
+
 ## 8.0.3
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

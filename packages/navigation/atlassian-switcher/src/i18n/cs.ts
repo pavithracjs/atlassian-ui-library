@@ -7,7 +7,7 @@
 // Czech
 export default {
   'fabric.atlassianSwitcher.switchTo': 'Přepnout na',
-  'fabric.atlassianSwitcher.switchToTooltip': 'Přepnout na ...',
+  'fabric.atlassianSwitcher.switchToTooltip': 'Přepnout na…',
   'fabric.atlassianSwitcher.recent': 'Nedávné',
   'fabric.atlassianSwitcher.more': 'Více',
   'fabric.atlassianSwitcher.try': 'Vyzkoušejte to',
@@ -17,9 +17,10 @@ export default {
   'fabric.atlassianSwitcher.people': 'Lidé',
   'fabric.atlassianSwitcher.administration': 'Správa',
   'fabric.atlassianSwitcher.discoverMore': 'Objevte více',
-  'fabric.atlassianSwitcher.errorHeading': 'Something went wrong',
+  'fabric.atlassianSwitcher.errorHeading': 'Něco se pokazilo',
   'fabric.atlassianSwitcher.errorText':
-    'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    'Tyto chyby zaznamenáváme, ale nebojte se nás kontaktovat, pokud obnovení stránky problém nevyřeší.',
   'fabric.atlassianSwitcher.errorImageAltText':
-    'A broken robot and a number of people busy fixing it.',
+    'Rozbitý robot a několik lidí se ho snaží opravit.',
+  'fabric.atlassianSwitcher.expand': 'Rozbalit',
 };

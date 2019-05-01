@@ -1,5 +1,27 @@
 # @atlaskit/media-card
 
+## 61.0.0
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/media-viewer@41.0.0
+  - @atlaskit/media-store@11.1.0
+  - @atlaskit/media-test-helpers@21.3.0
+  - @atlaskit/media-core@29.2.0
+
+## 60.0.6
+- [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+
+  - Removes babel-runtime in favour of @babel/runtime
+
+## 60.0.5
+- [patch] [8f17450f46](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f17450f46):
+
+  - Fix media-card code split from 82kB to 10kB
+
+## 60.0.4
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 60.0.3
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

@@ -1,3 +1,5 @@
+import { INPUT_METHOD } from '../analytics';
+
 export type CardAppearance = 'inline' | 'block';
 export type CardType = 'smart-card' | 'custom' | 'unsupported';
 
@@ -14,6 +16,7 @@ export type Request = {
   url: string;
   appearance: CardAppearance;
   compareLinkText: boolean;
+  source: CardReplacementInputMethod;
 };
 
 export type CardPluginState = {
@@ -38,3 +41,10 @@ export type Resolve = {
 };
 
 export type CardPluginAction = SetProvider | Queue | Resolve;
+
+export type CardReplacementInputMethod =
+  | INPUT_METHOD.CLIPBOARD
+  | INPUT_METHOD.AUTO_DETECT
+  | INPUT_METHOD.FORMATTING
+  | INPUT_METHOD.MANUAL
+  | INPUT_METHOD.TYPEAHEAD;

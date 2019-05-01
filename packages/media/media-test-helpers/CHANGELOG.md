@@ -1,5 +1,22 @@
 # @atlaskit/media-test-helpers
 
+## 21.3.0
+- [minor] [5489810e15](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5489810e15):
+
+  - Add support for media-client objects: fakeMediaClient, getDefaultMediaClientConfig, createStorybookMediaClient, createStorybookMediaClientConfig, createUploadMediaClient, createUploadMediaClientConfig, createUserMediaClient
+- Updated dependencies [e38d662f7d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e38d662f7d):
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/media-client@1.0.0
+  - @atlaskit/media-card@61.0.0
+  - @atlaskit/media-picker@39.0.0
+  - @atlaskit/media-store@11.1.0
+  - @atlaskit/media-core@29.2.0
+
+## 21.2.3
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
 ## 21.2.2
 - Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
   - @atlaskit/media-core@29.1.2

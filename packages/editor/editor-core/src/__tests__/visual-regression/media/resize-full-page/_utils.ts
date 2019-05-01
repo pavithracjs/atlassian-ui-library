@@ -160,8 +160,8 @@ export function createResizeFullPageForConfig(config: TestPageConfig) {
         });
       });
 
-      describe.only('in columns', () => {
-        it(`can make an image in a list 2 columns wide`, async () => {
+      describe('in columns', () => {
+        it(`can resize images inside a column`, async () => {
           await initFullPageEditorWithAdf(
             page,
             layout2Col,

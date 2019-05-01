@@ -13,23 +13,11 @@ class InlineEditableTextfield extends React.Component<
   {}
 > {
   static defaultProps = {
-    keepEditViewOpenOnBlur: false,
-    hideActionButtons: false,
-    readViewFitContainerWidth: false,
-    startWithEditViewOpen: false,
-    editButtonLabel: 'Edit',
-    confirmButtonLabel: 'Confirm',
-    cancelButtonLabel: 'Cancel',
     isCompact: false,
   };
 
   render() {
-    const {
-      defaultValue,
-      isCompact,
-      placeholder,
-      startWithEditViewOpen,
-    } = this.props;
+    const { defaultValue, isCompact, placeholder } = this.props;
     return (
       <InlineEdit
         {...this.props}
@@ -53,7 +41,6 @@ class InlineEditableTextfield extends React.Component<
             {defaultValue || placeholder}
           </ReadViewContainer>
         )}
-        startWithEditViewOpen={startWithEditViewOpen}
       />
     );
   }

@@ -19,13 +19,13 @@ widths.forEach(width => {
         adf,
         Device.LaptopHiDPI,
         { width, height: 800 },
-        { UNSAFE_fullWidthMode: true },
+        { appearance: 'full-width' },
       );
     });
 
     it('should display content in full-width mode', async () => {
       await scrollToTop(page);
-      await snapshot(page, 0.2);
+      await snapshot(page, 0.02);
     });
   });
 
@@ -39,9 +39,9 @@ widths.forEach(width => {
         adfWithMedia,
         Device.LaptopHiDPI,
         { width, height: 800 },
-        { UNSAFE_fullWidthMode: true },
+        { appearance: 'full-width' },
       );
-      await snapshot(page, 0.2);
+      await snapshot(page, 0.02);
     });
   });
 });
@@ -55,8 +55,8 @@ describe('Full-width mode breakout', () => {
       adfWithBreakout,
       Device.LaptopHiDPI,
       { width: 2000, height: 800 },
-      { UNSAFE_fullWidthMode: true },
+      { appearance: 'full-width' },
     );
-    await snapshot(page, 0.2);
+    await snapshot(page, 0.02);
   });
 });
