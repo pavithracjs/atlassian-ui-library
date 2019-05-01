@@ -140,6 +140,7 @@ const createPlugin: PMPluginFactory = ({
         const nodeAtSelection = tr.doc.nodeAt(tr.selection.from);
 
         if (
+          appearance !== 'mobile' &&
           nodeAtSelection &&
           nodeAtSelection.type === state.schema.nodes.status
         ) {
