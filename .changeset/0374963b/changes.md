@@ -1,0 +1,1 @@
+- ED-5844 Refactor media floating toolbar into little pieces
