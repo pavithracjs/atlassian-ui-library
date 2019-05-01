@@ -1,5 +1,5 @@
 # Note: This image can be found in build/pipelines/docker-image
-image: atlassianlabs/atlaskit-mk-2:1.0.11
+image: atlassianlabs/atlaskit-mk-2:1.0.12
 # This ensures we do a full clone on each build which prevents issues when cross referencing
 # changesets and releases
 clone:
@@ -119,7 +119,7 @@ pipelines:
               - node
         - step:
             name: Visual Regression Tests
-            image: atlassianlabs/atlaskit-mk-2-vr:1.0.11
+            image: atlassianlabs/atlaskit-mk-2-vr:1.0.12
             script:
               - source ./build-setup.sh
               - git lfs pull
@@ -247,7 +247,7 @@ pipelines:
     # This will run the full suite of the visual regression tests using Docker.
     build-visual-regression:
       - step:
-          image: atlassianlabs/atlaskit-mk-2-vr:1.0.11
+          image: atlassianlabs/atlaskit-mk-2-vr:1.0.12
           script:
             - source ./build-setup.sh
             - git lfs pull
@@ -313,7 +313,7 @@ pipelines:
               - yarn send:stepFailureEvents
         - step:
             name: Running All Visual Regression tests
-            image: atlassianlabs/atlaskit-mk-2-vr:1.0.11
+            image: atlassianlabs/atlaskit-mk-2-vr:1.0.12
             script:
               - source ./build-setup.sh
               - bolt install --pure-lockfile
@@ -426,7 +426,7 @@ pipelines:
                 - yarn send:stepFailureEvents
           - step:
               name: Running Visual Regression tests
-              image: atlassianlabs/atlaskit-mk-2-vr:1.0.11
+              image: atlassianlabs/atlaskit-mk-2-vr:1.0.12
               script:
                 - source ./build-setup.sh
                 - git merge master --no-edit
