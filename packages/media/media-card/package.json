@@ -53,6 +53,7 @@
     "@atlaskit/media-core": "^29.1.5",
     "@atlaskit/media-store": "^11.0.7",
     "@atlaskit/media-test-helpers": "^21.2.3",
+    "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/toggle": "^6.0.4",
     "@types/classnames": "^2.2.6",
     "deepcopy": "0.6.3",
