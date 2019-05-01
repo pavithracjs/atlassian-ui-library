@@ -1,5 +1,25 @@
 # @atlaskit/editor-core
 
+## 108.0.4
+- [patch] [cc47b65340](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc47b65340):
+
+  - ED-6738: Table scaling is now less aggressive, we will only attempt to 'scale to fix' when neccessary.
+
+## 108.0.3
+- [patch] [553c7e4fed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/553c7e4fed):
+
+  - ED-6779: Update CollabProvider types to cater for removing event listeners.
+
+## 108.0.2
+- [patch] [55925d8946](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55925d8946):
+
+  - Fix flickering in media annotation modal
+
+## 108.0.1
+- [patch] [312076749f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/312076749f):
+
+  - [ED-6784] Fixes resize bar position when the mouse comes from a paragraph
+
 ## 108.0.0
 - Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
   - @atlaskit/editor-common@37.0.0

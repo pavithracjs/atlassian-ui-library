@@ -1,5 +1,9 @@
 # @atlaskit/global-navigation
 
+## 6.3.2
+- Updated dependencies [59024ff4c5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59024ff4c5):
+  - @atlaskit/atlassian-switcher@0.5.0
+
 ## 6.3.1
 - Updated dependencies [38dab947e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/38dab947e6):
   - @atlaskit/drawer@3.0.9
