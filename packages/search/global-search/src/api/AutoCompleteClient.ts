@@ -11,7 +11,7 @@ export interface AutoCompleteClient {
 export class AutoCompleteClientImpl implements AutoCompleteClient {
   private serviceConfig: ServiceConfig;
   private cloudId: string;
-  /* Indicate the number of character difference for auto-correction */
+  /* Indicates the number of character difference for auto-correction */
   private AUTO_FIX: number = 1;
 
   constructor(url: string, cloudId: string) {
@@ -19,12 +19,14 @@ export class AutoCompleteClientImpl implements AutoCompleteClient {
     this.cloudId = cloudId;
   }
 
-  private createAutocompleteRequestPromise<T>(term: string): Promise<string[]> {
+  private createAutocompleteRequestPromise<T>(
+    query: string,
+  ): Promise<string[]> {
     const options: RequestServiceOptions = {
       queryParams: {
         cloudId: this.cloudId,
         autofix: this.AUTO_FIX,
-        term: term,
+        query,
       },
     };
 

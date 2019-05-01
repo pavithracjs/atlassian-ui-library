@@ -451,7 +451,7 @@ const getRecentItems = (product: string) =>
 
         beforeAll(async () => {
           writeQuery(query);
-          await waitUntil(() => updateSpy.mock.calls.length === 2, 1000);
+          await waitUntil(() => updateSpy.mock.calls.length >= 2, 1000);
         });
 
         it('should trigger entered text event', () => {
@@ -490,7 +490,7 @@ const getRecentItems = (product: string) =>
             updateSpy.mockReset();
             onEventSpy.mockReset();
             writeQuery('');
-            await waitUntil(() => updateSpy.mock.calls.length === 1, 1000);
+            await waitUntil(() => updateSpy.mock.calls.length >= 1, 1000);
           });
 
           afterAll(() => {

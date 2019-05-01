@@ -9,6 +9,7 @@ import {
   makeConfluenceRecentSpacesData,
   makeQuickNavSearchData,
   makeCrossProductExperimentData,
+  makeAutocompleteData,
 } from './mockData';
 import { jiraRecentResponseWithAttributes } from './jiraRecentResponseDataWithAttributes';
 import {
@@ -27,6 +28,7 @@ export type MocksConfig = {
   quickNavDelay: number;
   jiraRecentDelay: number;
   peopleSearchDelay: number;
+  autocompleteDelay: number;
   canSearchUsers: boolean;
 };
 
@@ -35,6 +37,7 @@ export const ZERO_DELAY_CONFIG: MocksConfig = {
   quickNavDelay: 0,
   jiraRecentDelay: 0,
   peopleSearchDelay: 0,
+  autocompleteDelay: 0,
   canSearchUsers: true,
 };
 
@@ -43,6 +46,7 @@ export const DEFAULT_MOCKS_CONFIG: MocksConfig = {
   quickNavDelay: 500,
   jiraRecentDelay: 500,
   peopleSearchDelay: 500,
+  autocompleteDelay: 500,
   canSearchUsers: true,
 };
 
@@ -138,6 +142,25 @@ function mockAnalyticsApi() {
   fetchMock.mock('https://analytics.atlassian.com/analytics/events', 200);
 }
 
+function mockAutocompleteApi(delayMs: number, autocomplete: string[]) {
+  fetchMock.get(
+    new RegExp('gateway/api/xpsearch-autocomplete'),
+    (request: Request) => {
+      const query = request.split('query=')[1];
+      if (query.length == 0) {
+        return delay(delayMs, []);
+      }
+      const tokens = query.split('+');
+      const lastToken = tokens.slice(-1)[0];
+      const restTokens = tokens.slice(0, -1);
+      const autocompleteList = autocomplete
+        .filter(token => token.startsWith(lastToken))
+        .map(token => restTokens.concat([token]).join(' '));
+      return delay(delayMs, autocompleteList);
+    },
+  );
+}
+
 export function setupMocks(config: MocksConfig = DEFAULT_MOCKS_CONFIG) {
   seedrandom('random seed', { global: true });
   const recentResponse = recentData();
@@ -145,6 +168,7 @@ export function setupMocks(config: MocksConfig = DEFAULT_MOCKS_CONFIG) {
   const confluenceRecentSpacesResponse = makeConfluenceRecentSpacesData();
   const queryMockSearch = makeCrossProductSearchData();
   const queryMockExperiments = makeCrossProductExperimentData();
+  const autocompleteMockData = makeAutocompleteData();
   const queryMockQuickNav = makeQuickNavSearchData();
   const queryPeopleSearch = makePeopleSearchData();
 
@@ -162,6 +186,7 @@ export function setupMocks(config: MocksConfig = DEFAULT_MOCKS_CONFIG) {
   });
   mockQuickNavApi(config.quickNavDelay, queryMockQuickNav);
   mockJiraApi(config.jiraRecentDelay, config.canSearchUsers);
+  mockAutocompleteApi(config.autocompleteDelay, autocompleteMockData);
 }
 
 export function teardownMocks() {

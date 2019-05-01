@@ -41,6 +41,7 @@ export interface Props {
     startTime: number,
   ): Promise<ResultsWithTiming>;
   getAbTestData(sessionId: string): Promise<ABTest>;
+  getAutocomplete?(query: string): Promise<string[]>;
 
   /**
    * return displayed groups from result groups
@@ -71,6 +72,7 @@ export interface State {
   searchResults: GenericResultMap | null;
   recentItems: GenericResultMap | null;
   abTest: ABTest;
+  autocomplete: string[];
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
@@ -97,6 +99,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       searchResults: null,
       keepPreQueryState: true,
       abTest: DEFAULT_AB_TEST,
+      autocomplete: [],
     };
   }
 
@@ -394,6 +397,30 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     }
   };
 
+  handleAutocomplete = async (query: string) => {
+    const { getAutocomplete } = this.props;
+    if (!getAutocomplete) {
+      return;
+    }
+    try {
+      const results = await getAutocomplete(query);
+
+      if (this.unmounted) {
+        return;
+      }
+
+      this.setState({
+        autocomplete: results,
+      });
+    } catch (e) {
+      this.props.logger.safeError(
+        LOGGER_NAME,
+        'error while getting autocompletion',
+        e,
+      );
+    }
+  };
+
   handleSearchSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { handleSearchSubmit } = this.props;
     if (handleSearchSubmit) {
@@ -420,6 +447,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       recentItems,
       keepPreQueryState,
       abTest,
+      autocomplete,
     } = this.state;
 
     return (
@@ -427,6 +455,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         onMount={this.handleMount}
         onSearch={this.handleSearch}
         onSearchSubmit={this.handleSearchSubmit}
+        onAutocomplete={this.handleAutocomplete}
         isLoading={isLoading}
         placeholder={placeholder}
         linkComponent={linkComponent}
@@ -435,6 +464,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         selectedResultId={selectedResultId}
         onSelectedResultIdChanged={onSelectedResultIdChanged}
         inputControls={inputControls}
+        autocomplete={autocomplete}
       >
         {getSearchResultsComponent({
           retrySearch: this.retrySearch,

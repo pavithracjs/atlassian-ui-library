@@ -46,11 +46,13 @@ import {
   mapRecentResultsToUIGroups,
   mapSearchResultsToUIGroups,
 } from './ConfluenceSearchResultsMapper';
+import { AutoCompleteClient } from 'src/api/AutoCompleteClient';
 
 export interface Props {
   crossProductSearchClient: CrossProductSearchClient;
   peopleSearchClient: PeopleSearchClient;
   confluenceClient: ConfluenceClient;
+  autocompleteClient: AutoCompleteClient;
   firePrivateAnalyticsEvent?: FireAnalyticsEvent;
   linkComponent?: LinkComponent;
   createAnalyticsEvent?: CreateAnalyticsEventFn;
@@ -288,6 +290,18 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     );
   };
 
+  getAutocomplete = (query: string): Promise<string[]> => {
+    const { autocompleteClient } = this.props;
+
+    const autocompletePromise = handlePromiseError(
+      autocompleteClient.getAutocomplete(query),
+      [query],
+      this.handleSearchErrorAnalyticsThunk('xpsearch-autocomplete'),
+    );
+
+    return autocompletePromise;
+  };
+
   getSearchResultsComponent = ({
     retrySearch,
     latestSearchQuery,
@@ -371,6 +385,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
         getAbTestData={this.getAbTestData}
+        getAutocomplete={this.getAutocomplete}
         handleSearchSubmit={this.handleSearchSubmit}
         isSendSearchTermsEnabled={isSendSearchTermsEnabled}
         getDisplayedResults={sliceResults}
