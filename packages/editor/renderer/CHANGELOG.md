@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 47.1.0
+- [minor] [69a8870b4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69a8870b4b):
+
+  - adds support for line numbers in email renderer code blocks
+
 ## 47.0.0
 - Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
   - @atlaskit/editor-common@38.0.0

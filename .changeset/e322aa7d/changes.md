@@ -1,1 +1,0 @@
-- adds support for line numbers in email renderer code blocks
