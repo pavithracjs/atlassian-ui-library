@@ -42,6 +42,7 @@ export class InlineCardForbiddenView extends React.Component<
             truncateUrlForErrorView(url) +
             " - You don't have permissions to view"
           }
+          titleColor={colors.N500}
         />
         {!onAuthorise ? (
           ''

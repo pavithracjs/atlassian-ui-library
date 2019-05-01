@@ -46,11 +46,8 @@ export class InlineCardErroredView extends React.Component<
               />
             </AKIconWrapper>
           }
-          title={
-            <span style={{ color: colors.R300 }}>
-              {truncateUrlForErrorView(url) + ' - ' + message.trim()}
-            </span>
-          }
+          title={truncateUrlForErrorView(url) + ' - ' + message.trim()}
+          titleColor={colors.R300}
         />{' '}
         {onRetry && (
           <Button spacing="none" appearance="link" onClick={this.handleRetry}>
