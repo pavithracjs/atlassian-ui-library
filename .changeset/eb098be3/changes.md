@@ -1,1 +1,0 @@
-- [ED-6784] Fixes resize bar position when the mouse comes from a paragraph

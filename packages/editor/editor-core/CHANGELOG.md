@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 108.0.1
+- [patch] [312076749f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/312076749f):
+
+  - [ED-6784] Fixes resize bar position when the mouse comes from a paragraph
+
 ## 108.0.0
 - Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
   - @atlaskit/editor-common@37.0.0
