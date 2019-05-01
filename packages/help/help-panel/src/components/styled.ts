@@ -1,7 +1,7 @@
 import { css } from 'emotion';
 import styled from '@emotion/styled';
 import { gridSize } from '@atlaskit/theme/constants';
-import { colors } from '@atlaskit/theme/colors';
+import * as colors from '@atlaskit/theme/colors';
 
 export const truncate = (width: string = '100%') => css`
   overflow-x: hidden;

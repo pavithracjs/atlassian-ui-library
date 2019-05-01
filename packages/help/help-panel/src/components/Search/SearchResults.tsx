@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ObjectResult } from '@atlaskit/quick-search';
-import { colors } from '@atlaskit/theme/colors';
+import * as colors from '@atlaskit/theme/colors';
 import DocumentFilledIcon from '@atlaskit/icon/glyph/document-filled';
 
 import { ArticleItem } from '../../model/Article';

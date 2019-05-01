@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { gridSize } from '@atlaskit/theme/constants';
-import { colors } from '@atlaskit/theme/colors';
+import * as colors from '@atlaskit/theme/colors';
 
 export const SelectedIcon = styled.div`
   margin-top: 0.3em;
