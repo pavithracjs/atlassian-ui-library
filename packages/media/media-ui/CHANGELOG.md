@@ -1,5 +1,10 @@
 # @atlaskit/media-ui
 
+## 10.1.10
+- [patch] [1a18876567](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1a18876567):
+
+  - Changed behaviour so that icon and first 8 characters of a smart link no longer break when wrapping.
+
 ## 10.1.9
 - [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
 

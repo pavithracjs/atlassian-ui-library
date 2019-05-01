@@ -13,7 +13,7 @@ const docker = require('../../docker-helper');
  *  - Local stop docker
  */
 async function globalTeardown() {
-  if (process.env.CI) {
+  if (process.env.CI || process.env.DEBUG) {
     // Close browser created in globalSetup and remove web socket file
     await global.__BROWSER__.close();
     rimraf.sync(DIR);

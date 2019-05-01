@@ -1,5 +1,26 @@
 # @atlaskit/renderer
 
+## 46.0.1
+- [patch] [166ca915ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/166ca915ac):
+
+  - ED-6737: Prevent default tables from going into overflow in the renderer straight away after publish.
+
+  This issue was caused by dynamic sizing, a default table being created in 760 width and then being rendered in 680 width.
+
+  Also included in this patch: Preventing the shadow appearing on the right hand side of the table, when there is no overflow.
+
+## 46.0.0
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-common@37.0.0
+  - @atlaskit/media-card@61.0.0
+  - @atlaskit/media-filmstrip@32.0.0
+  - @atlaskit/editor-json-transformer@5.0.3
+  - @atlaskit/editor-test-helpers@8.0.7
+  - @atlaskit/task-decision@14.0.8
+  - @atlaskit/util-data-test@11.1.8
+  - @atlaskit/media-test-helpers@21.3.0
+  - @atlaskit/media-core@29.2.0
+
 ## 45.6.5
 - [patch] [8eeac8c104](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eeac8c104):
 

@@ -90,10 +90,11 @@ export const buildTaskCommentCount = (json: any) => {
 };
 
 export const buildTaskDetailsLozenge = (json: any) => {
-  if (json.taskStatus && json.taskStatus.name) {
+  const taskStatus = json['atlassian:taskStatus'];
+  if (taskStatus && taskStatus.name) {
     return {
       lozenge: {
-        text: json.taskStatus.name,
+        text: taskStatus.name,
         appearance: 'success',
       } as LozengeViewModel,
     };
@@ -102,7 +103,7 @@ export const buildTaskDetailsLozenge = (json: any) => {
 };
 
 export const buildTaskDetails = (json: any) => {
-  if (json.taskStatus || json.commentCount) {
+  if (json['atlassian:taskStatus'] || json.commentCount) {
     return {
       details: [buildTaskDetailsLozenge(json), buildTaskCommentCount(json)],
     };

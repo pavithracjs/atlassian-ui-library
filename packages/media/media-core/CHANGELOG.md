@@ -1,5 +1,10 @@
 # @atlaskit/media-core
 
+## 29.2.0
+- [minor] [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+
+  - Export new media-store interfaces and methods: `ClientAltBasedAuth`, `MediaClientConfig` and `authToOwner`. Also introduce cache related members related to future migration to media-client: `mediaState`, `CachedMediaState`, `StateDeferredValue`.
+
 ## 29.1.5
 - [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
 
