@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 108.0.3
+- [patch] [553c7e4fed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/553c7e4fed):
+
+  - ED-6779: Update CollabProvider types to cater for removing event listeners.
+
 ## 108.0.2
 - [patch] [55925d8946](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55925d8946):
 
