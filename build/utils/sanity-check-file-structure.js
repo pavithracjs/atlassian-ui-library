@@ -1,13 +1,27 @@
-const fs = require('fs');
+const { readFile, readdir } = require('./fs');
 
-const src = fs.readdirSync('./src');
-const root = fs.readdirSync('./');
+const main = async () => {
+  const [src, root, packageJSON] = await Promise.all([
+    readdir('./src'),
+    readdir('./'),
+    readFile('./package.json').then(res => JSON.parse(res)),
+  ]);
 
-const missing = src
-  .filter(fileName => fileName !== '__tests__')
-  .filter(fileName => !root.includes(fileName.replace(/\.tsx?/, '.js')));
-if (missing.length > 0) {
-  throw new Error(
-    `Build files in root are  missing some files: ${missing.join(',')}`,
-  );
-}
+  if (packageJSON.module !== 'index.js') {
+    return;
+  }
+
+  const missing = src
+    .filter(fileName => fileName !== '__tests__')
+    .filter(fileName => !root.includes(fileName.replace(/\.tsx?/, '.js')));
+  if (missing.length > 0) {
+    throw new Error(
+      `Build files in root are  missing some files: ${missing.join(',')}`,
+    );
+  }
+};
+
+main().catch(err => {
+  console.error(err.toString());
+  process.exit(1);
+});
