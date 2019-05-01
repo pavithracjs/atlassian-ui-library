@@ -4,11 +4,16 @@ import Portal from '@atlaskit/portal';
 import { ModalTransitionConsumer } from './ModalTransition';
 import StackConsumer from './StackConsumer';
 
-import { AppearanceType, KeyboardOrMouseEvent } from '../types';
+import {
+  AppearanceType,
+  KeyboardOrMouseEvent,
+  CustomComponentType,
+} from '../types';
 
 import Modal from './Modal';
+import { WidthNames } from 'src/shared-variables';
 
-export type Props = {
+export interface Props {
   /**
     Buttons to render in the footer
   */
@@ -24,7 +29,10 @@ export type Props = {
     Boolean indicating whether to focus on the first tabbable element inside the focus lock.
   */
   autoFocus: boolean | (() => HTMLElement | null);
-
+  /**
+    Content of the modal
+  */
+  children?: React.ReactNode;
   /**
     Object containing header, footer, body and container components. Components here will be used instead of the defaults.
     - Header: container for the title
@@ -33,27 +41,23 @@ export type Props = {
     - Container: wrapper around Header, Body and Footer components.
   */
   components?: {
-    Header?: React.ReactNode;
-    Footer?: React.ReactNode;
-    Body?: React.ReactNode;
-    Container?: React.ReactNode;
+    Header?: CustomComponentType;
+    Footer?: CustomComponentType;
+    Body?: CustomComponentType;
+    Container?: CustomComponentType;
   };
-  /**
-    Content of the modal
-  */
-  children?: React.ReactNode;
   /**
     Deprecated, use components prop: Component to render the body of the modal, replaces the internal implementation.
   */
-  body?: React.ReactNode;
+  body?: CustomComponentType;
   /**
     Deprecated, use components prop: Component to render the footer of the modal, replaces internal implementation.
   */
-  footer?: React.ReactNode;
+  footer?: CustomComponentType;
   /**
     Deprecated, use components prop: Component to render the header of the modal, replaces internal implementation.
   */
-  header?: React.ReactNode;
+  header?: CustomComponentType;
   /**
     The modal title; rendered in the header.
   */
@@ -114,12 +118,12 @@ export type Props = {
     A string including pixels, or a percentage, will be directly applied as a style.
     Several size options are also recognised.
   */
-  width?: number | string | ('small' | 'medium' | 'large' | 'x-large');
-};
+  width?: number | string | WidthNames;
+}
 
-type State = {
+interface State {
   modalVisible: boolean;
-};
+}
 
 class ModalWrapper extends React.Component<Props, State> {
   static defaultProps = {

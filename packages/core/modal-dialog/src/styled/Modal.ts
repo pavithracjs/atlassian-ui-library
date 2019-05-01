@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { borderRadius, colors, themed, layers } from '@atlaskit/theme';
-import { WIDTH_ENUM, gutter, widthNames } from '../shared-variables';
+import { WIDTH_ENUM, gutter, WidthNames } from '../shared-variables';
 
 import {
   flexMaxHeightIEFix,
@@ -30,7 +30,7 @@ export const dialogWidth = ({
   widthName,
   widthValue,
 }: {
-  widthName?: widthNames;
+  widthName?: WidthNames;
   widthValue?: string | number;
 }) => {
   if (typeof widthValue === 'number') {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-type Props = {
+interface Props {
   /**
    Whether the modal for this stack position is open
   */
@@ -9,11 +9,11 @@ type Props = {
    Children is a function that gets passed the current stack index
   */
   children: (index: number) => React.ReactNode;
-};
+}
 
-type State = {
+interface State {
   stackIndex: number;
-};
+}
 
 // This is the source of truth for open modals
 let stackConsumers: (() => void)[] = [];

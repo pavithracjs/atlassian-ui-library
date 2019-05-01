@@ -9,7 +9,7 @@ import Header from '../../Header';
 import Footer from '../../Footer';
 import { dialogHeight, dialogWidth, Dialog } from '../../../styled/Modal';
 
-jest.mock('raf-schd', () => fn => fn);
+jest.mock('raf-schd', () => (fn: Function) => fn);
 
 // dialogs require an onClose function
 const noop = () => {};
@@ -168,9 +168,11 @@ describe('modal-dialog', () => {
 
     describe('body', () => {
       it('should render when set via components prop', () => {
-        const node = React.forwardRef((props, ref) => {
-          return <span ref={ref}>My body</span>;
-        });
+        const node = React.forwardRef(
+          (ref: React.RefObject<HTMLSpanElement>) => {
+            return <span ref={ref}>My body</span>;
+          },
+        );
         const wrapper = mount(
           <ModalDialog components={{ Body: node }} onClose={noop} />,
         );
@@ -182,9 +184,11 @@ describe('modal-dialog', () => {
           .spyOn(console, 'warn')
           .mockImplementation(() => {});
 
-        const node = React.forwardRef((props, ref) => (
-          <span ref={ref}>My body</span>
-        ));
+        const node = React.forwardRef(
+          (ref: React.RefObject<HTMLSpanElement>) => (
+            <span ref={ref}>My body</span>
+          ),
+        );
         const wrapper = mount(<ModalDialog body={node} onClose={noop} />);
 
         expect(wrapper.contains(node)).toBe(true);
@@ -195,9 +199,11 @@ describe('modal-dialog', () => {
         const warnSpy = jest
           .spyOn(console, 'warn')
           .mockImplementation(() => {});
-        const node = React.forwardRef((props, ref) => {
-          return <span ref={ref}>My body</span>;
-        });
+        const node = React.forwardRef(
+          (ref: React.RefObject<HTMLSpanElement>) => {
+            return <span ref={ref}>My body</span>;
+          },
+        );
         const nodeDeprecated = <span>My deprecated body</span>;
         const wrapper = mount(
           <ModalDialog
@@ -220,7 +226,7 @@ describe('modal-dialog', () => {
           .spyOn(console, 'error')
           .mockImplementation(() => {});
 
-        const node = props => {
+        const node = (props: any) => {
           return (
             <>
               <span>My body</span>
@@ -278,7 +284,7 @@ describe('modal-dialog', () => {
 
   describe('scrolling header/footer keylines', () => {
     it('should enable header keyline only when header provided', () => {
-      const CustomBody = React.forwardRef((props, ref) => {
+      const CustomBody = React.forwardRef((ref: any) => {
         ref({
           addEventListener: jest.fn(),
           removeEventListener: jest.fn(),
@@ -296,7 +302,7 @@ describe('modal-dialog', () => {
     });
 
     it('should enable footer keyline only when footer provided', () => {
-      const CustomBody = React.forwardRef((props, ref) => {
+      const CustomBody = React.forwardRef((ref: any) => {
         ref({
           addEventListener: jest.fn(),
           removeEventListener: jest.fn(),
@@ -317,7 +323,7 @@ describe('modal-dialog', () => {
 
   describe('chromeless', () => {
     it('header should not render if dialog is chromeless', () => {
-      const MyHeader = () => <span>My header</span>;
+      const MyHeader = <span>My header</span>;
       const wrapper = mount(
         <ModalDialog isChromeless header={MyHeader} onClose={noop} />,
       );
@@ -326,7 +332,7 @@ describe('modal-dialog', () => {
     });
 
     it('footer should not render if dialog is chromeless', () => {
-      const MyFooter = () => <span>My footer</span>;
+      const MyFooter = <span>My footer</span>;
       const wrapper = mount(
         <ModalDialog isChromeless footer={MyFooter} onClose={noop} />,
       );
@@ -414,7 +420,7 @@ test('no transform is applied to content', () => {
   jest.runAllTimers();
   // update enzyme's view of component tree after animations have finished
   wrapper.update();
-  const style = wrapper.find(Positioner).prop('style');
+  const style: React.CSSProperties = wrapper.find(Positioner).prop('style');
   expect(style.transform).toBeNull();
 });
 

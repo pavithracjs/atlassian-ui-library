@@ -12,7 +12,7 @@ import {
   version as packageVersion,
 } from '../version.json';
 
-// import { WIDTH_ENUM } from '../shared-variables';
+import { WIDTH_ENUM, WidthNames } from '../shared-variables';
 
 import {
   PositionerAbsolute,
@@ -25,12 +25,13 @@ import Content from './Content';
 import FocusLock from './FocusLock';
 import { Props as OuterProps } from './ModalWrapper';
 
-export const Positioner = ({
-  scrollBehavior,
-  ...props
-}: {
+interface PositionerProps {
   scrollBehavior: void | 'inside' | 'outside';
-}) => {
+  style: Object;
+  widthName?: WidthNames;
+  widthValue?: string | number;
+}
+export const Positioner = ({ scrollBehavior, ...props }: PositionerProps) => {
   const PositionComponent =
     scrollBehavior === 'inside' ? PositionerAbsolute : PositionerRelative;
 
@@ -46,17 +47,17 @@ function getScrollDistance() {
   );
 }
 
-type Props = OuterProps & {
+interface Props extends OuterProps {
   /**
     Whether or not the dialog is visible
   */
   isOpen: boolean;
-};
+}
 
-type State = {
+interface State {
   dialogNode: Node | null;
   scrollDistance: number;
-};
+}
 
 class Modal extends React.Component<Props, State> {
   static defaultProps = {
@@ -126,7 +127,7 @@ class Modal extends React.Component<Props, State> {
       shouldCloseOnEscapePress,
       stackIndex,
       heading,
-      // width,
+      width,
       scrollBehavior,
     } = this.props;
 
@@ -136,8 +137,12 @@ class Modal extends React.Component<Props, State> {
 
     // If a custom width (number or percentage) is supplied, set inline style
     // otherwise allow styled component to consume as named prop
-    // const widthName = WIDTH_ENUM.values.includes(width) ? width : null;
-    // const widthValue = widthName ? null : width;
+    const widthName = width
+      ? WIDTH_ENUM.values.indexOf(width.toString()) !== -1
+        ? (width as WidthNames)
+        : undefined
+      : undefined;
+    const widthValue = widthName ? undefined : width;
 
     return (
       <Animation
@@ -158,11 +163,10 @@ class Modal extends React.Component<Props, State> {
             >
               <Blanket isTinted onBlanketClicked={this.handleOverlayClick} />
               <Positioner
-                //TODO what's the deal with these props?
-                // style={slide}
+                style={slide}
                 scrollBehavior={scrollBehavior}
-                // widthName={widthName}
-                // widthValue={widthValue}
+                widthName={widthName}
+                widthValue={widthValue}
               >
                 <Dialog
                   heightValue={height}

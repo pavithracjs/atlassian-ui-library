@@ -2,7 +2,7 @@ import * as React from 'react';
 import invariant from 'tiny-invariant';
 import ReactFocusLock from 'react-focus-lock';
 
-type Props = {
+interface Props {
   /**
     Boolean indicating whether to focus on the first tabbable element inside the focus lock.
   */
@@ -19,7 +19,7 @@ type Props = {
     Whether to return the focus to the previous active element.
   */
   shouldReturnFocus: boolean;
-};
+}
 
 // Thin wrapper over react-focus-lock. This wrapper only exists to ensure API compatibility.
 // This component should be deleted during https://ecosystem.atlassian.net/browse/AK-5658

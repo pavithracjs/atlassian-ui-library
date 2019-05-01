@@ -11,7 +11,7 @@ const verticalOffset = 16;
 // and the popup should slide up/up (sic). These animations happen at the same time.
 // This component calls its children with the styles for both animations.
 
-type AnimationProps = {
+interface AnimationProps {
   in: boolean;
   onExited?: (node: HTMLElement) => void;
   onEntered?: (node: HTMLElement, isAppearing: boolean) => void;
@@ -19,7 +19,7 @@ type AnimationProps = {
   children: (
     { fade, slide }: { fade: Object; slide: Object },
   ) => React.ReactNode;
-};
+}
 
 type statusValues = 'entering' | 'entered' | 'exiting' | 'exited';
 export const Animation = ({

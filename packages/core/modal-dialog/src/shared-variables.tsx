@@ -10,12 +10,12 @@ export const WIDTH_ENUM: WidthEnumType = {
   defaultValue: 'medium',
 };
 
-export type WidthEnumType = {
+export type WidthNames = 'small' | 'medium' | 'large' | 'x-large';
+export interface WidthEnumType {
   values: string[];
-  widths: { small: number; medium: number; large: number; 'x-large': number };
+  // widths: { small: number; medium: number; large: number; 'x-large': number };
+  widths: { [index: string]: number };
   defaultValue: string;
-};
-
-export type widthNames = 'small' | 'medium' | 'large' | 'x-large';
+}
 
 export const gutter = 60;

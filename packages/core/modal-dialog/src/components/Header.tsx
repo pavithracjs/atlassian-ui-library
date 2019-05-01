@@ -2,7 +2,7 @@ import * as React from 'react';
 import ErrorIcon from '@atlaskit/icon/glyph/error';
 import WarningIcon from '@atlaskit/icon/glyph/warning';
 
-import { AppearanceType } from '../types';
+import { AppearanceType, CustomComponentType } from '../types';
 import {
   Header,
   Title,
@@ -23,7 +23,7 @@ const TitleIcon = ({ appearance }: { appearance?: 'danger' | 'warning' }) => {
   );
 };
 
-export type HeaderProps = {
+export interface HeaderProps {
   /** Appearance of the primary button. Also adds an icon to the heading, if provided. */
   appearance?: AppearanceType;
   /**
@@ -32,7 +32,7 @@ export type HeaderProps = {
     Providing a function should return the element you want to focus
   */
   /** Component to render the header of the modal. */
-  component?: React.ComponentType<any>;
+  component?: CustomComponentType;
   /** The modal heading */
   heading?: string;
   /** Function to close the dialog */
@@ -44,7 +44,7 @@ export type HeaderProps = {
    * If false and heading is longer than one line overflow will be not displayed.
    */
   isHeadingMultiline?: boolean;
-};
+}
 
 export default class ModalHeader extends React.Component<HeaderProps, {}> {
   static defaultProps = {

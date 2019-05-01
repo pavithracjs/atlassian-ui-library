@@ -1,16 +1,16 @@
 import * as React from 'react';
 
-type Props = {
+interface Props {
   /**
     Children that are conditionally rendered. The transition happens based
     on the existence or non-existence of children.
   */
   children?: React.ReactNode;
-};
+}
 
-type State = {
+interface State {
   currentChildren: React.ReactNode;
-};
+}
 
 const { Consumer, Provider } = React.createContext({
   isOpen: true,
@@ -23,7 +23,6 @@ const hasChildren = (children: React.ReactNode) =>
   React.Children.map(children, child => !!child).filter(Boolean).length > 0;
 
 class Transition extends React.Component<Props, State> {
-  //TODO: put in a constructor?
   state = {
     currentChildren: undefined,
   };

@@ -5,7 +5,11 @@ import ScrollLock from 'react-scrolllock';
 import Footer from './Footer';
 import Header from './Header';
 
-import { AppearanceType, KeyboardOrMouseEvent } from '../types';
+import {
+  AppearanceType,
+  KeyboardOrMouseEvent,
+  CustomComponentType,
+} from '../types';
 import {
   keylineHeight,
   Body as DefaultBody,
@@ -21,12 +25,12 @@ function getInitialState() {
   };
 }
 
-type Props = {
+interface Props {
   /**
     Buttons to render in the footer
   */
   actions?: Array<{
-    onClick?: () => void;
+    onClick?: Function;
     text?: string;
   }>;
   /**
@@ -36,7 +40,7 @@ type Props = {
   /**
     Deprecated, use components prop: Component to render the body of the modal.
   */
-  body?: React.ComponentType;
+  body?: CustomComponentType;
   /**
     Content of the modal
   */
@@ -45,19 +49,19 @@ type Props = {
     Object describing internal components. Use this to swap out the default components.
   */
   components: {
-    Header?: React.ComponentType;
-    Body?: React.ComponentType;
-    Footer?: React.ComponentType;
-    Container?: React.ComponentType;
+    Header?: CustomComponentType;
+    Body?: CustomComponentType;
+    Footer?: CustomComponentType;
+    Container?: CustomComponentType;
   };
   /**
     Deprecated, use components prop: Component to render the header of the modal.
   */
-  header?: React.ComponentType;
+  header?: CustomComponentType;
   /**
     Deprecated, use components prop: Component to render the footer of the moda.l
   */
-  footer?: React.ComponentType;
+  footer?: CustomComponentType;
   /**
     Function that will be called to initiate the exit transition.
   */
@@ -91,13 +95,13 @@ type Props = {
    * If false and heading is longer than one line overflow will be not displayed.
    */
   isHeadingMultiline?: boolean;
-};
+}
 
-type State = {
+interface State {
   showFooterKeyline: boolean;
   showHeaderKeyline: boolean;
   tabbableElements: Array<{}>;
-};
+}
 
 export default class Content extends React.Component<Props, State> {
   static defaultProps = {
@@ -265,7 +269,7 @@ export default class Content extends React.Component<Props, State> {
               showKeyline={showHeaderKeyline}
             />
             {/* Backwards compatibility for styled-components innerRefs */}
-            {!Body.styledComponentId ? (
+            {!Body.hasOwnProperty('styledComponentId') ? (
               <Body
                 css={bodyStyles(shouldScroll)}
                 ref={this.getScrollContainer}
