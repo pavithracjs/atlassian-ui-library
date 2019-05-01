@@ -20,8 +20,8 @@
   },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/section-message": "^2.0.3",
-    "@atlaskit/theme": "^8.0.0",
+    "@atlaskit/section-message": "^2.0.4",
+    "@atlaskit/theme": "^8.1.9",
     "exenv": "^1.2.2",
     "react-dom": "^16.4.2"
   },
@@ -31,7 +31,7 @@
     "@emotion/styled": "^10.0.7"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^7.0.0",
+    "@atlaskit/docs": "^7.0.4",
     "enzyme": "^3.7.0",
     "react": "^16.4.0",
     "react-test-renderer": "^16.3.0"
