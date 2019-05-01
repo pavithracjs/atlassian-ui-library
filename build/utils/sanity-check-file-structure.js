@@ -43,7 +43,9 @@ const main = async () => {
 
   const missing = src
     .filter(fileName => !exceptionList.includes(fileName))
-    .filter(fileName => !root.includes(fileName.replace(/\.tsx?/, '.js')));
+    .map(fileName => fileName.replace(/\.tsx?/, '.js'))
+    .filter(fileName => !root.includes(fileName));
+
   if (missing.length > 0) {
     throw new Error(
       `Build files in root are  missing some files: ${missing.join(',')}`,
