@@ -1,5 +1,15 @@
 # @atlaskit/media-test-helpers
 
+## 21.4.0
+- [minor] [6f463c4d88](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6f463c4d88):
+
+  - add new methods to fake context
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/media-card@62.0.0
+  - @atlaskit/media-picker@40.0.0
+  - @atlaskit/media-store@11.1.1
+  - @atlaskit/media-core@29.3.0
+
 ## 21.3.0
 - [minor] [5489810e15](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5489810e15):
 

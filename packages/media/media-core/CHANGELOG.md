@@ -1,5 +1,24 @@
 # @atlaskit/media-core
 
+## 29.3.0
+- [minor] [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+
+  - Add event emitter api to context + add first known event 'file-added'
+
+  Integrators can now do:
+
+  ```
+  import {ContextFactory, FileState} from '@atlaskit/media-core'
+
+  const context = ContextFactory.create();
+
+  context.on('file-added', (file: FileState) => {
+    console.log(file.id)
+  })
+  ```
+
+  check the **FileState** for the all the properties included in the payload
+
 ## 29.2.0
 - [minor] [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
 

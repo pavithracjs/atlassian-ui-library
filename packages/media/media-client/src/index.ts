@@ -119,3 +119,5 @@ export {
   isExternalImageIdentifier,
   isDifferentIdentifier,
 } from './identifier';
+
+export { EventPayloadListener, UploadEventPayloadMap } from './client/events';

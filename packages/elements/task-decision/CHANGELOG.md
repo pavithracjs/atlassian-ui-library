@@ -1,5 +1,11 @@
 # @atlaskit/task-decision
 
+## 14.0.9
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-common@38.0.0
+  - @atlaskit/renderer@47.0.0
+  - @atlaskit/util-data-test@11.1.9
+
 ## 14.0.8
 - Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
   - @atlaskit/editor-common@37.0.0
