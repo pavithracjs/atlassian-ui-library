@@ -55,7 +55,7 @@ function setBrowserStackClients() /*: Array<?Object>*/ {
     delete launchers.safari;
     delete launchers.ie;
     delete launchers.firefox;
-    delete launchers.edge;
+    // delete launchers.edge;
     process.env.BITBUCKET_BRANCH = 'Landkid';
   }
   const launchKeys = Object.keys(launchers);

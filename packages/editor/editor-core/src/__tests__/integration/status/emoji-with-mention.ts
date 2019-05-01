@@ -11,7 +11,7 @@ import {
   lozenge,
 } from '../_helpers';
 
-// TODO: Firefox and Safari seem to have bug confrim if this is product behavior
+// TODO: Firefox and Safari seem to have bug confrim if this is product behavior or webdriver api
 BrowserTestCase(
   'emoji.ts: Insert an emoji, then a mention, move to right before the emoji and try to add text between both',
   { skip: ['ie', 'safari', 'firefox'] },
