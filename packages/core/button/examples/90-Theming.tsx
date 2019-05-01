@@ -4,7 +4,7 @@ import { Component, CSSProperties } from 'react';
 import Button, { ButtonGroup, Theme as ButtonTheme, ButtonProps } from '../src';
 import AddIcon from '@atlaskit/icon/glyph/editor/add';
 import Select from '@atlaskit/select';
-import { colors } from '@atlaskit/theme';
+import * as colors from '@atlaskit/theme/colors';
 
 interface ThemeProps {
   mode?: any;
