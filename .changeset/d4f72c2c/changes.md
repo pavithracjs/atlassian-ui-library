@@ -1,1 +1,1 @@
-- Emmit file-upload events in the tenant context
+- Emit file-added events in the tenant context

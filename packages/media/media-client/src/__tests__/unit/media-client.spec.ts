@@ -53,7 +53,7 @@ describe('MediaClient', () => {
     });
 
     it('should fetch the file if it doesnt exist locally', done => {
-      const context = createMediaClient();
+      const mediaClient = createMediaClient();
       const response = Promise.resolve({
         data: {
           items: [
@@ -73,9 +73,9 @@ describe('MediaClient', () => {
       const fakeStore = {
         getItems,
       };
-      (context as any).mediaStore = fakeStore;
-      (context.file as any).mediaStore = fakeStore;
-      const observer = context.file.getFileState(id, {
+      (mediaClient as any).mediaStore = fakeStore;
+      (mediaClient.file as any).mediaStore = fakeStore;
+      const observer = mediaClient.file.getFileState(id, {
         collectionName: 'some-collection',
       });
 
@@ -99,7 +99,7 @@ describe('MediaClient', () => {
     });
 
     it('should poll for changes and return the latest file state', done => {
-      const context = createMediaClient();
+      const mediaClient = createMediaClient();
       const getFilePromiseWithProcessingStatus = (processingStatus: string) =>
         Promise.resolve({
           data: {
@@ -122,10 +122,10 @@ describe('MediaClient', () => {
       const fakeStore = {
         getItems,
       };
-      (context as any).mediaStore = fakeStore;
-      (context.file as any).mediaStore = fakeStore;
+      (mediaClient as any).mediaStore = fakeStore;
+      (mediaClient.file as any).mediaStore = fakeStore;
 
-      const observer = context.file.getFileState(id);
+      const observer = mediaClient.file.getFileState(id);
       const next = jest.fn();
       observer.subscribe({
         next,
@@ -140,9 +140,9 @@ describe('MediaClient', () => {
     });
 
     it('should pass options down', () => {
-      const context = createMediaClient();
+      const mediaClient = createMediaClient();
 
-      context.file.getFileState(id, {
+      mediaClient.file.getFileState(id, {
         collectionName: 'my-collection',
         occurrenceKey: 'some-occurrenceKey',
       });
@@ -151,24 +151,24 @@ describe('MediaClient', () => {
     });
 
     it('should return local file state while file is still uploading', done => {
-      const context = createMediaClient();
+      const mediaClient = createMediaClient();
       const getFile = jest.fn();
       const content = new Blob();
       const file = {
         content,
       };
-      (context as any).mediaStore = {
+      (mediaClient as any).mediaStore = {
         getFile,
       };
       uploadFileMock.mockReturnValue(jest.fn());
 
-      const subscription = context.file
+      const subscription = mediaClient.file
         .upload(file, controller, uploadableFileUpfrontIds)
         .subscribe({
           next(state) {
             const fileId = state.id;
             const occurrenceKey = state.occurrenceKey;
-            context.file.getFileState(fileId).subscribe({
+            mediaClient.file.getFileState(fileId).subscribe({
               next(state) {
                 const expectedState: UploadingFileState = {
                   id: fileId,
@@ -194,7 +194,7 @@ describe('MediaClient', () => {
     });
 
     it('should return file state regardless of the state', done => {
-      const context = createMediaClient();
+      const mediaClient = createMediaClient();
       const getFile = jest.fn().mockReturnValue({
         data: {
           processingStatus: 'succeeded',
@@ -209,13 +209,13 @@ describe('MediaClient', () => {
       const file = {
         content: 'data:image/gif;base64,R0lGODlhAQABAAAAACw=',
       };
-      (context as any).mediaStore = { getFile };
+      (mediaClient as any).mediaStore = { getFile };
       uploadFileMock.mockImplementation((_, __, ___, callbacks) => {
         callbacks.onUploadFinish();
         return {};
       });
 
-      context.file
+      mediaClient.file
         .upload(file, controller, uploadableFileUpfrontIds)
         .subscribe({
           next,
@@ -260,7 +260,7 @@ describe('MediaClient', () => {
     });
 
     it('should call media-store uploadFile with given arguments', () => {
-      const context = createMediaClient();
+      const mediaClient = createMediaClient();
       const file: UploadableFile = {} as any;
       uploadFileMock.mockImplementation((_, __, ___, callbacks) => {
         callbacks.onProgress(0.1);
@@ -270,11 +270,11 @@ describe('MediaClient', () => {
       const fakeStore: Partial<MediaStore> = {
         touchFiles,
       };
-      (context as any).mediaStore = fakeStore;
-      (context.file as any).mediaStore = fakeStore;
+      (mediaClient as any).mediaStore = fakeStore;
+      (mediaClient.file as any).mediaStore = fakeStore;
       touchFiles.mockReturnValue(new Promise(() => {}));
 
-      const subscription = context.file.upload(file).subscribe({
+      const subscription = mediaClient.file.upload(file).subscribe({
         next() {
           expect(uploadFile).toHaveBeenCalled();
           expect(uploadFileMock.mock.calls[0][0]).toBe(file);
@@ -291,7 +291,7 @@ describe('MediaClient', () => {
     });
 
     it('should generate file id and get deferred uploadId', done => {
-      const context = createMediaClient();
+      const mediaClient = createMediaClient();
       const file: UploadableFile = {
         collection: 'some-collection',
         name: 'some-name',
@@ -306,8 +306,8 @@ describe('MediaClient', () => {
       const fakeStore: Partial<MediaStore> = {
         touchFiles,
       };
-      (context as any).mediaStore = fakeStore;
-      (context.file as any).mediaStore = fakeStore;
+      (mediaClient as any).mediaStore = fakeStore;
+      (mediaClient.file as any).mediaStore = fakeStore;
       const touchFilesResult: Promise<
         MediaStoreResponse<TouchedFiles>
       > = Promise.resolve({
@@ -322,7 +322,7 @@ describe('MediaClient', () => {
       });
       touchFiles.mockReturnValue(touchFilesResult);
 
-      const subcription = context.file.upload(file).subscribe({
+      const subcription = mediaClient.file.upload(file).subscribe({
         async next() {
           expect(touchFiles).toHaveBeenCalledWith(
             {
@@ -349,7 +349,7 @@ describe('MediaClient', () => {
     });
 
     it('should call subscription error when upload is cancelled', () => {
-      const context = createMediaClient();
+      const mediaClient = createMediaClient();
       const getFile = jest.fn().mockReturnValue({
         data: {
           processingStatus: 'succeeded',
@@ -368,8 +368,8 @@ describe('MediaClient', () => {
         collection: 'some-collection',
       };
       const cancelMock = jest.fn();
-      (context as any).mediaStore = { getFile };
-      (context as any).createDownloadFileStream = createDownloadFileStream;
+      (mediaClient as any).mediaStore = { getFile };
+      (mediaClient as any).createDownloadFileStream = createDownloadFileStream;
       uploadFileMock.mockImplementation(
         (_, __, ___, callbacks: UploadFileCallbacks) => {
           callbacks.onProgress(0.1);
@@ -383,7 +383,7 @@ describe('MediaClient', () => {
       );
 
       return new Promise(resolve => {
-        context.file
+        mediaClient.file
           .upload(file, controller, uploadableFileUpfrontIds)
           .subscribe({
             error() {
@@ -396,7 +396,7 @@ describe('MediaClient', () => {
     });
 
     it('should emit file preview when file is a Blob', done => {
-      const context = createMediaClient();
+      const mediaClient = createMediaClient();
       const getFile = jest.fn().mockReturnValue({
         data: {
           processingStatus: 'succeeded',
@@ -414,9 +414,9 @@ describe('MediaClient', () => {
         return {};
       });
 
-      (context as any).mediaStore = { getFile };
+      (mediaClient as any).mediaStore = { getFile };
 
-      const subscription = context.file
+      const subscription = mediaClient.file
         .upload(file, controller, uploadableFileUpfrontIds)
         .subscribe({
           async next(state) {
@@ -436,7 +436,7 @@ describe('MediaClient', () => {
     });
 
     it('should pass right mimeType when file is a Blob', done => {
-      const context = createMediaClient();
+      const mediaClient = createMediaClient();
       const getFile = jest.fn().mockReturnValue({
         data: {
           processingStatus: 'succeeded',
@@ -449,9 +449,9 @@ describe('MediaClient', () => {
         return {};
       });
 
-      (context as any).mediaStore = { getFile };
+      (mediaClient as any).mediaStore = { getFile };
 
-      const subscription = context.file
+      const subscription = mediaClient.file
         .upload(file, controller, uploadableFileUpfrontIds)
         .subscribe({
           next(state) {
@@ -475,25 +475,25 @@ describe('MediaClient', () => {
     };
 
     it('Should call event listener when an event is emitted', () => {
-      const context = createMediaClient();
+      const mediaClient = createMediaClient();
       const onFileUploaded = jest.fn();
 
-      context.emit('file-added', fileState);
-      context.on('file-added', onFileUploaded);
-      context.emit('file-added', fileState);
+      mediaClient.emit('file-added', fileState);
+      mediaClient.on('file-added', onFileUploaded);
+      mediaClient.emit('file-added', fileState);
 
       expect(onFileUploaded).toBeCalledTimes(1);
       expect(onFileUploaded).toBeCalledWith(fileState);
     });
 
     it('Should not call event listener if we unsubscribe', () => {
-      const context = createMediaClient();
+      const mediaClient = createMediaClient();
       const onFileUploaded = jest.fn();
 
-      context.on('file-added', onFileUploaded);
-      context.emit('file-added', fileState);
-      context.off('file-added', onFileUploaded);
-      context.emit('file-added', fileState);
+      mediaClient.on('file-added', onFileUploaded);
+      mediaClient.emit('file-added', fileState);
+      mediaClient.off('file-added', onFileUploaded);
+      mediaClient.emit('file-added', fileState);
 
       expect(onFileUploaded).toBeCalledTimes(1);
     });
