@@ -122,5 +122,3 @@ function mapAuthToRequestHeaders(auth: Auth): RequestHeaders {
     };
   }
 }
-
-export default request;
