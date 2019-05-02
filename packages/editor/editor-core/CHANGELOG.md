@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 110.0.1
+- [patch] [52846a2537](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/52846a2537):
+
+  - ED-6633 Fix issue with size of table controls in new sidebar layouts
+
 ## 110.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
