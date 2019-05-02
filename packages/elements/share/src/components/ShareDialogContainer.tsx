@@ -105,7 +105,7 @@ const memoizedFormatCopyLink: (
 const getDefaultShareLink: () => string = () =>
   window ? window.location!.href : '';
 
-export const defaultConfig = {
+export const defaultConfig: ConfigResponse = {
   mode: 'EXISTING_USERS_ONLY',
   allowComment: false,
 };
@@ -137,9 +137,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       prevShareLink: null,
       shareActionCount: 0,
       shareOrigin: null,
-      config: {
-        ...defaultConfig,
-      },
+      config: defaultConfig,
     };
   }
 
