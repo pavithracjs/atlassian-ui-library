@@ -31,10 +31,8 @@
     "@atlaskit/section-message": "^3.0.0",
     "@atlaskit/textarea": "^2.0.0",
     "@atlaskit/theme": "^9.0.0",
-    "algoliasearch": "^3.32.1",
     "exenv": "^1.2.2",
     "lodash.debounce": "^4.0.8",
-    "react-intl": "^2.6.0",
     "react-transition-group": "^2.2.1",
     "@emotion/core": "^10.0.9",
     "@emotion/styled": "^10.0.7"
@@ -42,7 +40,8 @@
   "peerDependencies": {
     "react": "^16.8.0",
     "react-intl": "^2.6.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "algoliasearch": "^3.32.1"
   },
   "devDependencies": {
     "@atlaskit/docs": "^8.0.0",
