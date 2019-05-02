@@ -21,8 +21,8 @@
   },
   "peerDependencies": {
     "js-search": "^1.3.7",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.2"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   },
   "devDependencies": {
     "@atlaskit/docs": "^7.0.1"

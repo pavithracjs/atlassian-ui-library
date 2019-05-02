@@ -22,7 +22,7 @@
     "@emotion/core": "^10.0.9"
   },
   "peerDependencies": {
-    "react": "^16.4.0"
+    "react": "^16.8.0"
   },
   "devDependencies": {
     "@atlaskit/avatar": "^15.0.4",
@@ -34,7 +34,7 @@
     "@atlaskit/ssr": "^0.0.1",
     "@atlaskit/visual-regression": "^0.0.1",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.8.0"
   },
   "keywords": [
     "atlaskit",

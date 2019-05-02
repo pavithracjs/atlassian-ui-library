@@ -37,8 +37,8 @@
   },
   "peerDependencies": {
     "@atlaskit/media-core": "^29.3.0",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.2",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "enzyme": "^3.7.0",
     "prosemirror-state": "^1.2.2",
     "raf-stub": "^2.0.1",
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "sinon": "^2.2.0"
   }
 }

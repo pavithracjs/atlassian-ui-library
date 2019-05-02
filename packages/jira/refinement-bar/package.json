@@ -38,14 +38,14 @@
     "tabbable": "^4.0.0"
   },
   "peerDependencies": {
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   },
   "devDependencies": {
     "@atlaskit/docs": "7.0.4",
     "@atlaskit/section-message": "2.0.4",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
-    "react": "^16.4.0"
+    "react": "^16.8.0"
   }
 }

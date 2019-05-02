@@ -26,7 +26,7 @@
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
@@ -36,7 +36,7 @@
     "@atlaskit/visual-regression": "^0.0.1",
     "@types/react": "^16.4.18",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.4.2",
+    "react-dom": "^16.8.0",
     "react-test-renderer": "^16.3.0"
   }
 }

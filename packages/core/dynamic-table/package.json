@@ -29,8 +29,8 @@
     "react-beautiful-dnd": "^10.0.2"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
-    "react-dom": "^16.4.2",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
@@ -43,6 +43,6 @@
     "@atlaskit/toggle": "^6.0.4",
     "@atlaskit/visual-regression": "^0.0.1",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.8.0"
   }
 }

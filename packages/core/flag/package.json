@@ -26,7 +26,7 @@
     "uuid": "^3.1.0"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
@@ -38,7 +38,7 @@
     "@atlaskit/theme": "^8.1.7",
     "@atlaskit/visual-regression": "^0.0.1",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.8.0"
   },
   "keywords": [
     "atlaskit",
