@@ -183,6 +183,50 @@ async function takeElementScreenShot(page /*:any*/, selector /*:string*/) {
   return element.screenshot();
 }
 
+/**
+ * Load Example Url
+ *
+ * Useful if a package leverages another package's example and you wish to validate
+ * that it's available.
+ */
+async function loadExampleUrl(
+  page /*:any*/,
+  url /*:string*/,
+  reuseExistingSession /*:boolean*/ = true,
+) {
+  if (reuseExistingSession) {
+    const currentUrl /*:string*/ = await page.url();
+    if (currentUrl === url) return;
+  }
+  await page.goto(url, { waitUntil: 'networkidle0' });
+  const errorMessage = await validateExampleLoaded(page);
+
+  if (errorMessage) {
+    // Throw to fail the test up front instead of waiting for a selector timeout.
+    throw new Error(
+      `${errorMessage}. Page loaded with unexpected content: ${url}`,
+    );
+  }
+}
+
+// If the required example isn't available, the page resolves with either
+// an inline error message, or as empty content.
+// Here we check for both scenarios and if discovered we return an error message.
+async function validateExampleLoaded(page /*:any*/) {
+  return await page.evaluate(() => {
+    const doc = document /* as any*/;
+    const renderedContent = doc.querySelector('#examples > div:first-child');
+    if (renderedContent && !renderedContent.children.length) {
+      const message = renderedContent.innerText || '';
+      if (~message.indexOf('does not have an example built for'))
+        return `This example isn't available`;
+    }
+    if (!renderedContent) return `Examples page error`;
+    // It's assumed the example loaded correctly
+    return '';
+  });
+}
+
 // get all examples from the code sync
 function getAllExamplesSync() /*: Array<Object> */ {
   return glob
@@ -222,6 +266,7 @@ module.exports = {
   takeScreenShot,
   takeElementScreenShot,
   getExampleUrl,
+  loadExampleUrl,
   disableAllAnimations,
   disableAllTransitions,
   disableCaretCursor,
