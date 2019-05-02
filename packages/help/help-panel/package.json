@@ -50,7 +50,6 @@
     "@atlaskit/navigation": "^35.0.0",
     "@atlaskit/page": "^10.0.0",
     "enzyme": "^3.7.0",
-    "react": "^16.4.0",
     "react-test-renderer": "^16.3.0"
   }
 }
