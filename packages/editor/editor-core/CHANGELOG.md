@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 110.0.2
+- [patch] [e88b52e27c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e88b52e27c):
+
+  - ED-6130 Refactor table actions
+
 ## 110.0.1
 - [patch] [52846a2537](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/52846a2537):
 
