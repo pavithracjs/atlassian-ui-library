@@ -1,5 +1,10 @@
 # @atlaskit/media-card
 
+## 63.0.1
+- [patch] [cbc9ff5b6a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cbc9ff5b6a):
+
+  - Fix support for exif orientation when dropping a picture
+
 ## 63.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

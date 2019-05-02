@@ -1,1 +1,0 @@
-- Fix support for exif orientation when dropping a picture
