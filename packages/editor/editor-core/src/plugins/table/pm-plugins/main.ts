@@ -8,7 +8,7 @@ import { createTableView } from '../nodeviews/table';
 import { createCellView } from '../nodeviews/cell';
 import { EventDispatcher } from '../../../event-dispatcher';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
-import { setTableRef, clearHoverSelection, handleCut } from '../actions';
+import { setTableRef, clearHoverSelection } from '../actions';
 import {
   handleSetFocus,
   handleSetTableRef,
@@ -31,6 +31,7 @@ import {
   handleFocus,
   handleClick,
   handleTripleClick,
+  handleCut,
 } from '../event-handlers';
 import { findControlsHoverDecoration } from '../utils';
 import { fixTables } from '../transforms';
