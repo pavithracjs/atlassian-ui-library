@@ -7,6 +7,7 @@ import {
   Props,
   ShareDialogContainer,
   State,
+  defaultConfig,
 } from '../../../components/ShareDialogContainer';
 import { ShareDialogWithTrigger } from '../../../components/ShareDialogWithTrigger';
 import { OriginTracing } from '../../../types';
@@ -157,6 +158,19 @@ describe('ShareDialogContainer', () => {
     const client: Client = newWrapper.instance().client;
     expect(client.getConfig).toEqual(mockGetConfig);
     expect(client.share).toEqual(mockShare);
+  });
+
+  it('should reset the state.config to default config if client.getConfig failed', async () => {
+    wrapper.instance().client.getConfig = jest
+      .fn()
+      .mockRejectedValue(new Error('Not Found'));
+    wrapper.instance().forceUpdate();
+
+    wrapper.setState({ config: {} });
+    wrapper.instance().fetchConfig();
+
+    await new Promise(resolve => setTimeout(resolve, 0));
+    expect(wrapper.state().config).toMatchObject(defaultConfig);
   });
 
   describe('handleSubmitShare', () => {

@@ -105,6 +105,11 @@ const memoizedFormatCopyLink: (
 const getDefaultShareLink: () => string = () =>
   window ? window.location!.href : '';
 
+export const defaultConfig = {
+  mode: 'EXISTING_USERS_ONLY',
+  allowComment: false,
+};
+
 /**
  * This component serves as a Provider to provide customizable implementations
  * to ShareDialogTrigger component
@@ -132,6 +137,9 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       prevShareLink: null,
       shareActionCount: 0,
       shareOrigin: null,
+      config: {
+        ...defaultConfig,
+      },
     };
   }
 
@@ -179,6 +187,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       })
       .catch(() => {
         // TODO: Send analytics event
+        this.setState({ config: defaultConfig });
       });
   };
 
