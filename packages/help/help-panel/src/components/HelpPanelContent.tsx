@@ -29,11 +29,7 @@ export const HelpPanelContent = (
 
   // Display HelpContext.DefaultArticle content if its defined and there isn't any
   // Article in the HelpContext.history[]
-  if (
-    help.defaultArticle !== undefined &&
-    help.defaultArticle !== null &&
-    help.history.length === 0
-  ) {
+  if (help.defaultArticle && help.history.length === 0) {
     return (
       <>
         <HelpPanelHeader>
