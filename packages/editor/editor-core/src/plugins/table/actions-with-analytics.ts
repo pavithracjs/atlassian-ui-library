@@ -17,14 +17,14 @@ import {
 import {
   insertColumn,
   insertRow,
-  emptyMultipleCells,
+  clearMultipleCells,
   setMultipleCellAttrs,
   toggleHeaderRow,
   toggleHeaderColumn,
   toggleNumberColumn,
   deleteTable,
   toggleTableLayout,
-  nextLayout,
+  getNextLayout,
 } from './actions';
 import {
   getSelectedCellInfo,
@@ -72,7 +72,7 @@ export const emptyMultipleCellsWithAnalytics = (
       `atlassian.editor.format.table.delete_content.${
         inputMethod === INPUT_METHOD.KEYBOARD ? 'keyboard' : 'button'
       }`,
-      emptyMultipleCells(targetCellPosition),
+      clearMultipleCells(targetCellPosition),
     ),
   );
 
@@ -391,7 +391,7 @@ export const toggleTableLayoutWithAnalytics = () =>
         actionSubject: ACTION_SUBJECT.TABLE,
         actionSubjectId: null,
         attributes: {
-          newBreakoutMode: TABLE_BREAKOUT_NAME_MAPPING[nextLayout(layout)],
+          newBreakoutMode: TABLE_BREAKOUT_NAME_MAPPING[getNextLayout(layout)],
           previousBreakoutMode: TABLE_BREAKOUT_NAME_MAPPING[layout],
           totalRowCount,
           totalColumnCount,
@@ -400,3 +400,4 @@ export const toggleTableLayoutWithAnalytics = () =>
       };
     }
   })(toggleTableLayout);
+// #endregion
