@@ -98,6 +98,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
        */
       window.addEventListener('resize', this.handleWindowResizeDebounced);
       this.updateTableContainerWidth();
+      this.frameId = this.handleTableResizingDebounced(this.props);
     }
   }
 
@@ -393,7 +394,8 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     getParentNodeWidth(
       this.props.getPos(),
       this.props.view.state,
-      this.props.containerWidth.width,
+      this.props.containerWidth,
+      this.props.options && this.props.options.isFullWidthModeEnabled,
     );
 
   private updateParentWidth = (width?: number) => {
