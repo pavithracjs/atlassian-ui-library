@@ -181,8 +181,8 @@ export default class Page {
     return elem.getText();
   }
 
-  async execute(func) {
-    return this.browser.execute(func);
+  async execute(func, ...args) {
+    return this.browser.execute(func, ...args);
   }
 
   getBrowserName() {
