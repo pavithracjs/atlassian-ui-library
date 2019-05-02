@@ -1,5 +1,10 @@
 # @atlaskit/tag-group
 
+## 7.0.2
+- [patch] [1b1a519188](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1b1a519188):
+
+  - Updating to latest tag changes
+
 ## 7.0.1
 - [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
 

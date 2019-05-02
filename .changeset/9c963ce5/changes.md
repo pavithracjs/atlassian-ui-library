@@ -1,1 +1,0 @@
-- Fixed size of tag remove icon
