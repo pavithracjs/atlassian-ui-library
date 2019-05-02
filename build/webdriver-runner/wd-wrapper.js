@@ -6,10 +6,6 @@ const assert = require('assert').strict;
 
 const WAIT_TIMEOUT = 5000;
 
-// const TODO = () => {
-//   throw new Error('To be implemented!');
-// };
-
 export class JSHandle {
   constructor(client, selector) {
     this.browser = client;
@@ -135,8 +131,8 @@ export default class Page {
   }
 
   async getLocation(selector, property) {
-    const ele = await this.browser.$(selector);
-    return ele.getLocation(selector, property);
+    const elem = await this.browser.$(selector);
+    return elem.getLocation(selector, property);
   }
 
   url() {

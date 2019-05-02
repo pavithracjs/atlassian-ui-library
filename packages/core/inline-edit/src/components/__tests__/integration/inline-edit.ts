@@ -80,6 +80,7 @@ BrowserTestCase(
   },
 );
 
+// https://ecosystem.atlassian.net/browse/AK-6176
 // TODO: Alt + Tab key not working with Safari any longer fix it
 BrowserTestCase(
   'The edit view should remain open when tab is pressed in the input and when tab is pressed on the confirm button',
@@ -92,9 +93,15 @@ BrowserTestCase(
     await inlineEditTest.click(readViewContentWrapper);
 
     await inlineEditTest.waitForSelector(input);
-    await inlineEditTest.waitForSelector(confirmButton);
+    //const browser = inlineEditTest.isBrowser('Safari');
 
+    // if (browser === 'Safari') {
+    //   await inlineEditTest.keys(['Alt', 'Tab']);
+    // } else {
+    //   await inlineEditTest.keys(['Tab']);
+    // }
     await inlineEditTest.keys(['Tab']);
+    await inlineEditTest.waitForSelector(confirmButton);
     expect(await inlineEditTest.hasFocus(confirmButton)).toBe(true);
 
     await inlineEditTest.keys(['Tab']);
@@ -106,6 +113,7 @@ BrowserTestCase(
   },
 );
 
+// https://ecosystem.atlassian.net/browse/AK-6176
 // TODO: bug in safari - error message is not shown
 BrowserTestCase(
   'An error message is displayed correctly',

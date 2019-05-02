@@ -42,6 +42,7 @@ BrowserTestCase(
 );
 
 // TODO: fix for chrome , italics is being selected on paste
+// https://product-fabric.atlassian.net/browse/ED-6802
 BrowserTestCase(
   'task-decision-2.ts: can paste plain text into an action',
   { skip: ['ie', 'safari', 'chrome'] },
