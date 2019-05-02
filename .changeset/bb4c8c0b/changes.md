@@ -1,0 +1,1 @@
+- ED-6633 Fix issue with size of table controls in new sidebar layouts
