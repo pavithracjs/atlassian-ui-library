@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 110.0.3
+- [patch] [80cf1c1e82](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80cf1c1e82):
+
+  - [ED-6654] Update prosemirror-view to 1.8.9 that fixes a few issues with mouse selections on prosemirror like click on table and the controls doesn't show up
+
 ## 110.0.2
 - [patch] [e88b52e27c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e88b52e27c):
 
