@@ -1,10 +1,12 @@
 import { Node as PmNode, DOMSerializer } from 'prosemirror-model';
-import { getFragmentBackingArray } from '../../../utils/slice';
+import { getFragmentBackingArray } from '../../../../../utils/slice';
 
-export const generateColgroup = (node: PmNode) => {
-  const cols: Array<string | { [attr: string]: string } | {}> = [];
+type Col = Array<string | { [name: string]: string }>;
 
-  node.content.firstChild!.content.forEach(cell => {
+export const generateColgroup = (table: PmNode): Col[] => {
+  const cols: Col[] = [];
+
+  table.content.firstChild!.content.forEach(cell => {
     const colspan = cell.attrs.colspan || 1;
     if (Array.isArray(cell.attrs.colwidth)) {
       // We slice here to guard against our colwidth array having more entries
@@ -23,35 +25,33 @@ export const generateColgroup = (node: PmNode) => {
   return cols;
 };
 
-export const renderColgroupFromNode = (node: PmNode) => {
-  const rendered = DOMSerializer.renderSpec(
-    document,
-    // @ts-ignore
-    ['colgroup', {}].concat(generateColgroup(node)),
-  );
-
-  if (rendered.dom) {
-    return rendered.dom;
-  }
-};
-
 export const insertColgroupFromNode = (
-  tableElem: HTMLTableElement,
-  node: PmNode,
+  tableRef: HTMLTableElement,
+  table: PmNode,
 ): HTMLCollection => {
-  let colgroup = tableElem.querySelector('colgroup') as HTMLElement;
+  let colgroup = tableRef.querySelector('colgroup') as HTMLElement;
   if (colgroup) {
-    tableElem.removeChild(colgroup);
+    tableRef.removeChild(colgroup);
   }
 
-  colgroup = renderColgroupFromNode(node) as HTMLElement;
-  tableElem.insertBefore(colgroup, tableElem.firstChild);
+  colgroup = renderColgroupFromNode(table);
+  tableRef.insertBefore(colgroup, tableRef.firstChild);
 
   return colgroup.children;
 };
 
-export const hasTableBeenResized = (node: PmNode) => {
-  return !!getFragmentBackingArray(node.content.firstChild!.content).find(
+export const hasTableBeenResized = (table: PmNode) => {
+  return !!getFragmentBackingArray(table.content.firstChild!.content).find(
     cell => cell.attrs.colwidth,
   );
 };
+
+function renderColgroupFromNode(table: PmNode): HTMLElement {
+  const rendered = DOMSerializer.renderSpec(
+    document,
+    // @ts-ignore
+    ['colgroup', {}].concat(generateColgroup(table)),
+  );
+
+  return rendered.dom as HTMLElement;
+}

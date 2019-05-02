@@ -16,8 +16,11 @@ import {
   akEditorGutterPadding,
 } from '@atlaskit/editor-common';
 import { gridSize } from '@atlaskit/theme';
-import { LAYOUT_OFFSET, LAYOUT_SECTION_MARGIN } from '../../../layout/styles';
-import { WidthPluginState } from '../../../width';
+import {
+  LAYOUT_OFFSET,
+  LAYOUT_SECTION_MARGIN,
+} from '../../../../layout/styles';
+import { WidthPluginState } from '../../../../width';
 
 export const tableLayoutToSize: Record<string, number> = {
   default: akEditorDefaultLayoutWidth,
@@ -25,11 +28,7 @@ export const tableLayoutToSize: Record<string, number> = {
   'full-width': akEditorFullWidthLayoutWidth,
 };
 
-/**
- * Translates named layouts in number values.
- * @param tableLayout
- * @param containerWidth
- */
+// Translates named layouts in number values.
 export function getLayoutSize(
   tableLayout: TableLayout,
   containerWidth: number = 0,
@@ -37,7 +36,7 @@ export function getLayoutSize(
     dynamicTextSizing?: boolean;
     isBreakoutEnabled?: boolean;
   },
-) {
+): number {
   const { dynamicTextSizing, isBreakoutEnabled } = options;
 
   if (isBreakoutEnabled === false) {
@@ -65,14 +64,11 @@ export function getLayoutSize(
   return tableLayoutToSize[tableLayout] || containerWidth;
 }
 
-export function getDefaultLayoutMaxWidth(containerWidth?: number) {
+export function getDefaultLayoutMaxWidth(containerWidth?: number): number {
   return mapBreakpointToLayoutMaxWidth(getBreakpoint(containerWidth));
 }
 
-/**
- * Does the current position point at a cell.
- * @param $pos
- */
+// Does the current position point at a cell.
 export function pointsAtCell($pos: ResolvedPos<any>) {
   return (
     ($pos.parent.type.spec as NodeSpec & { tableRole: string }).tableRole ===
@@ -80,18 +76,13 @@ export function pointsAtCell($pos: ResolvedPos<any>) {
   );
 }
 
-/**
- * Returns the pos of the cell on the side requested.
- * @param view
- * @param event
- * @param side
- */
+// Returns the pos of the cell on the side requested.
 export function edgeCell(
   view: EditorView,
   event: MouseEvent,
   side: string,
   handleWidth: number,
-) {
+): number {
   const buffer = side === 'right' ? -handleWidth : handleWidth; // Fixes finicky bug where posAtCoords could return wrong pos.
   let posResult = view.posAtCoords({
     left: event.clientX + buffer,
@@ -117,17 +108,12 @@ export function edgeCell(
   return index % map.width === 0 ? -1 : start + map.map[index - 1];
 }
 
-/**
- * Get the current col width, handles colspan.
- * @param view
- * @param cellPos
- * @param param2
- */
+// Get the current col width, handles colspan.
 export function currentColWidth(
   view: EditorView,
   cellPos: number,
   { colspan, colwidth }: CellAttributes,
-) {
+): number {
   let width = colwidth && colwidth[colwidth.length - 1];
   if (width) {
     return width;
@@ -147,11 +133,8 @@ export function currentColWidth(
   return domWidth / parts;
 }
 
-/**
- * Attempts to find a parent TD/TH depending on target element.
- * @param target
- */
-export function domCellAround(target: HTMLElement | null) {
+// Attempts to find a parent TD/TH depending on target element.
+export function domCellAround(target: HTMLElement | null): HTMLElement | null {
   while (target && target.nodeName !== 'TD' && target.nodeName !== 'TH') {
     target = target.classList.contains('ProseMirror')
       ? null
