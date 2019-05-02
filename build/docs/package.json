@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/docs",
-  "version": "7.0.4",
+  "version": "8.0.0",
   "description": "Utilities for building documentation",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -15,10 +15,10 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/button": "^12.0.5",
-    "@atlaskit/code": "^9.0.1",
-    "@atlaskit/icon": "^16.0.9",
-    "@atlaskit/theme": "^8.1.7",
+    "@atlaskit/button": "^13.0.0",
+    "@atlaskit/code": "^10.0.0",
+    "@atlaskit/icon": "^17.0.0",
+    "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",
     "codesandboxer": "^1.0.1",
     "pretty-proptypes": "^0.5.0",
@@ -26,13 +26,13 @@
     "string-raw": "^1.0.1"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "enzyme": "^3.7.0",
     "jest-in-case": "^1.0.2",
-    "react-dom": "^16.4.2",
+    "react-dom": "^16.8.0",
     "react-test-renderer": "^16.3.0"
   }
 }

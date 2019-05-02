@@ -1,5 +1,23 @@
 # @atlaskit/editor-common
 
+## 39.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/adf-schema@2.5.5
+  - @atlaskit/emoji@62.0.0
+  - @atlaskit/media-card@63.0.0
+  - @atlaskit/visual-regression@0.1.0
+  - @atlaskit/icon@17.0.0
+  - @atlaskit/theme@9.0.0
+  - @atlaskit/width-detector@2.0.0
+  - @atlaskit/editor-json-transformer@6.0.0
+  - @atlaskit/editor-test-helpers@9.0.0
+  - @atlaskit/mention@18.0.0
+  - @atlaskit/media-core@30.0.0
+  - @atlaskit/profilecard@10.0.0
+
 ## 38.0.0
 - Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
   - @atlaskit/emoji@61.0.0

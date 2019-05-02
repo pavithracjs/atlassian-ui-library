@@ -42,6 +42,7 @@ export interface ScaleOptions {
   dynamicTextSizing?: boolean;
   isBreakoutEnabled?: boolean;
   wasBreakoutEnabled?: boolean;
+  isFullWidthModeEnabled?: boolean;
 }
 
 export function updateColumnWidth(

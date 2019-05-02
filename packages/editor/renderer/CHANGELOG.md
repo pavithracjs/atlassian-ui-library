@@ -1,5 +1,36 @@
 # @atlaskit/renderer
 
+## 48.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/adf-utils@6.0.5
+  - @atlaskit/adf-schema@2.5.5
+  - @atlaskit/editor-common@39.0.0
+  - @atlaskit/media-card@63.0.0
+  - @atlaskit/media-filmstrip@34.0.0
+  - @atlaskit/docs@8.0.0
+  - @atlaskit/visual-regression@0.1.0
+  - @atlaskit/button@13.0.0
+  - @atlaskit/code@10.0.0
+  - @atlaskit/field-range@7.0.0
+  - @atlaskit/icon@17.0.0
+  - @atlaskit/navigation-next@6.0.0
+  - @atlaskit/theme@9.0.0
+  - @atlaskit/editor-json-transformer@6.0.0
+  - @atlaskit/editor-test-helpers@9.0.0
+  - @atlaskit/analytics-listeners@6.0.0
+  - @atlaskit/analytics-namespaced-context@4.0.0
+  - @atlaskit/mention@18.0.0
+  - @atlaskit/status@0.9.0
+  - @atlaskit/task-decision@15.0.0
+  - @atlaskit/util-data-test@12.0.0
+  - @atlaskit/media-core@30.0.0
+  - @atlaskit/media-test-helpers@22.0.0
+  - @atlaskit/smart-card@11.0.0
+  - @atlaskit/profilecard@10.0.0
+
 ## 47.1.0
 - [minor] [69a8870b4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69a8870b4b):
 

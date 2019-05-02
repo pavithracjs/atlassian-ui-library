@@ -224,6 +224,10 @@ export default class ReactEditorView<T = {}> extends React.Component<
       selection: state.selection,
     });
 
+    // need to update the state first so when the view builds the nodeviews it is
+    // using the latest plugins
+    this.view.updateState(newState);
+
     return this.view.update(this.getDirectEditorProps(newState));
   };
 

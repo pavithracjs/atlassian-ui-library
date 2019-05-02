@@ -153,159 +153,6 @@ Object {
 }
 `;
 
-exports[`Maintains the full-width layout size without overflow 1`] = `
-Object {
-  "content": Array [
-    Object {
-      "attrs": Object {
-        "__autoSize": false,
-        "isNumberColumnEnabled": false,
-        "layout": "full-width",
-      },
-      "content": Array [
-        Object {
-          "content": Array [
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  900,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableHeader",
-            },
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  899,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableHeader",
-            },
-          ],
-          "type": "tableRow",
-        },
-        Object {
-          "content": Array [
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  900,
-                ],
-                "rowspan": 2,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  899,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-          ],
-          "type": "tableRow",
-        },
-        Object {
-          "content": Array [
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  899,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-          ],
-          "type": "tableRow",
-        },
-        Object {
-          "content": Array [
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  900,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  899,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-          ],
-          "type": "tableRow",
-        },
-      ],
-      "type": "table",
-    },
-    Object {
-      "type": "paragraph",
-    },
-  ],
-  "type": "doc",
-}
-`;
-
 exports[`Maintains the wide layout size without overflow 1`] = `
 Object {
   "content": Array [
@@ -435,159 +282,6 @@ Object {
                 "colspan": 1,
                 "colwidth": Array [
                   479,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-          ],
-          "type": "tableRow",
-        },
-      ],
-      "type": "table",
-    },
-    Object {
-      "type": "paragraph",
-    },
-  ],
-  "type": "doc",
-}
-`;
-
-exports[`Maintains the wide layout size without overflow with dynamic text sizing 1`] = `
-Object {
-  "content": Array [
-    Object {
-      "attrs": Object {
-        "__autoSize": false,
-        "isNumberColumnEnabled": false,
-        "layout": "wide",
-      },
-      "content": Array [
-        Object {
-          "content": Array [
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  481,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableHeader",
-            },
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  478,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableHeader",
-            },
-          ],
-          "type": "tableRow",
-        },
-        Object {
-          "content": Array [
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  481,
-                ],
-                "rowspan": 2,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  478,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-          ],
-          "type": "tableRow",
-        },
-        Object {
-          "content": Array [
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  478,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-          ],
-          "type": "tableRow",
-        },
-        Object {
-          "content": Array [
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  481,
-                ],
-                "rowspan": 1,
-              },
-              "content": Array [
-                Object {
-                  "type": "paragraph",
-                },
-              ],
-              "type": "tableCell",
-            },
-            Object {
-              "attrs": Object {
-                "background": null,
-                "colspan": 1,
-                "colwidth": Array [
-                  478,
                 ],
                 "rowspan": 1,
               },
@@ -966,6 +660,313 @@ Object {
 }
 `;
 
+exports[`Maintains the wide layout size without overflow with dynamic text sizing 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "attrs": Object {
+        "__autoSize": false,
+        "isNumberColumnEnabled": false,
+        "layout": "wide",
+      },
+      "content": Array [
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  481,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  478,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  481,
+                ],
+                "rowspan": 2,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  478,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  478,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  481,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  478,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+      ],
+      "type": "table",
+    },
+    Object {
+      "type": "paragraph",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
+
+exports[`Maintains the full-width layout size without overflow 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "attrs": Object {
+        "__autoSize": false,
+        "isNumberColumnEnabled": false,
+        "layout": "full-width",
+      },
+      "content": Array [
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  900,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  899,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableHeader",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  900,
+                ],
+                "rowspan": 2,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  899,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  899,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+        Object {
+          "content": Array [
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  900,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+            Object {
+              "attrs": Object {
+                "background": null,
+                "colspan": 1,
+                "colwidth": Array [
+                  899,
+                ],
+                "rowspan": 1,
+              },
+              "content": Array [
+                Object {
+                  "type": "paragraph",
+                },
+              ],
+              "type": "tableCell",
+            },
+          ],
+          "type": "tableRow",
+        },
+      ],
+      "type": "table",
+    },
+    Object {
+      "type": "paragraph",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
 exports[`Scales down column sizes when bodied extension parent layout changes 1`] = `
 Object {
   "content": Array [
@@ -1208,7 +1209,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      242,
+                      258,
                     ],
                     "rowspan": 1,
                   },
@@ -1224,7 +1225,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      209,
+                      223,
                     ],
                     "rowspan": 1,
                   },
@@ -1240,7 +1241,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      227,
+                      243,
                     ],
                     "rowspan": 1,
                   },
@@ -1261,7 +1262,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      242,
+                      258,
                     ],
                     "rowspan": 1,
                   },
@@ -1277,7 +1278,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      209,
+                      223,
                     ],
                     "rowspan": 1,
                   },
@@ -1293,7 +1294,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      227,
+                      243,
                     ],
                     "rowspan": 1,
                   },
@@ -1314,7 +1315,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      242,
+                      258,
                     ],
                     "rowspan": 1,
                   },
@@ -1330,7 +1331,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      209,
+                      223,
                     ],
                     "rowspan": 1,
                   },
@@ -1346,7 +1347,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      227,
+                      243,
                     ],
                     "rowspan": 1,
                   },
@@ -1395,7 +1396,7 @@ Object {
                         "background": null,
                         "colspan": 1,
                         "colwidth": Array [
-                          98,
+                          110,
                         ],
                         "rowspan": 1,
                       },
@@ -1411,7 +1412,7 @@ Object {
                         "background": null,
                         "colspan": 1,
                         "colwidth": Array [
-                          48,
+                          54,
                         ],
                         "rowspan": 1,
                       },
@@ -1427,7 +1428,7 @@ Object {
                         "background": null,
                         "colspan": 1,
                         "colwidth": Array [
-                          177,
+                          198,
                         ],
                         "rowspan": 1,
                       },
@@ -1448,7 +1449,7 @@ Object {
                         "background": null,
                         "colspan": 1,
                         "colwidth": Array [
-                          98,
+                          110,
                         ],
                         "rowspan": 1,
                       },
@@ -1464,7 +1465,7 @@ Object {
                         "background": null,
                         "colspan": 1,
                         "colwidth": Array [
-                          48,
+                          54,
                         ],
                         "rowspan": 1,
                       },
@@ -1480,7 +1481,7 @@ Object {
                         "background": null,
                         "colspan": 1,
                         "colwidth": Array [
-                          177,
+                          198,
                         ],
                         "rowspan": 1,
                       },
@@ -1501,7 +1502,7 @@ Object {
                         "background": null,
                         "colspan": 1,
                         "colwidth": Array [
-                          98,
+                          110,
                         ],
                         "rowspan": 1,
                       },
@@ -1517,7 +1518,7 @@ Object {
                         "background": null,
                         "colspan": 1,
                         "colwidth": Array [
-                          48,
+                          54,
                         ],
                         "rowspan": 1,
                       },
@@ -1533,7 +1534,7 @@ Object {
                         "background": null,
                         "colspan": 1,
                         "colwidth": Array [
-                          177,
+                          198,
                         ],
                         "rowspan": 1,
                       },
@@ -1605,7 +1606,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      360,
+                      348,
                     ],
                     "rowspan": 1,
                   },
@@ -1621,7 +1622,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      311,
+                      301,
                     ],
                     "rowspan": 1,
                   },
@@ -1637,7 +1638,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      338,
+                      327,
                     ],
                     "rowspan": 1,
                   },
@@ -1658,7 +1659,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      360,
+                      348,
                     ],
                     "rowspan": 1,
                   },
@@ -1674,7 +1675,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      311,
+                      301,
                     ],
                     "rowspan": 1,
                   },
@@ -1690,7 +1691,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      338,
+                      327,
                     ],
                     "rowspan": 1,
                   },
@@ -1711,7 +1712,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      360,
+                      348,
                     ],
                     "rowspan": 1,
                   },
@@ -1727,7 +1728,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      311,
+                      301,
                     ],
                     "rowspan": 1,
                   },
@@ -1743,7 +1744,7 @@ Object {
                     "background": null,
                     "colspan": 1,
                     "colwidth": Array [
-                      338,
+                      327,
                     ],
                     "rowspan": 1,
                   },
