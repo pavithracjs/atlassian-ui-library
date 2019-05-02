@@ -46,16 +46,12 @@
   },
   "devDependencies": {
     "@atlaskit/docs": "^7.0.4",
-    "@atlaskit/drawer": "^3.0.10",
     "@atlaskit/i18n-tools": "^0.5.0",
     "@atlaskit/navigation": "^34.0.5",
     "@atlaskit/page": "^9.0.3",
     "@atlaskit/quick-search": "^6.0.2",
     "enzyme": "^3.7.0",
-    "fetch-mock": "^6.5.2",
     "react": "^16.4.0",
-    "react-test-renderer": "^16.3.0",
-    "seedrandom": "^2.4.4",
-    "whatwg-fetch": "^2.0.3"
+    "react-test-renderer": "^16.3.0"
   }
 }
