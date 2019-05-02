@@ -1,0 +1,1 @@
+- Getting updated styles from tag
