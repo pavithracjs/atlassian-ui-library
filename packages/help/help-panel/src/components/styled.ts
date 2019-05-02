@@ -1,3 +1,4 @@
+/** @jsx jsx */
 import { css } from 'emotion';
 import styled from '@emotion/styled';
 import { gridSize } from '@atlaskit/theme/constants';

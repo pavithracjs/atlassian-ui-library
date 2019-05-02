@@ -10,14 +10,12 @@ const ArticleContent: React.SFC<Props> = props => {
   const { title = '', body = '' } = props;
   return (
     <ArticleContentInner>
-      {title && title !== undefined && (
+      {title && (
         <ArticleContentTitle>
           <h2>{title}</h2>
         </ArticleContentTitle>
       )}
-      {body && body !== undefined && (
-        <div dangerouslySetInnerHTML={{ __html: body }} />
-      )}
+      {body && <div dangerouslySetInnerHTML={{ __html: body }} />}
     </ArticleContentInner>
   );
 };

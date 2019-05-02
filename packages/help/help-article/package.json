@@ -23,12 +23,12 @@
     "@atlaskit/section-message": "^2.0.4",
     "@atlaskit/theme": "^8.1.9",
     "exenv": "^1.2.2",
-    "react-dom": "^16.4.2"
+    "@emotion/core": "^10.0.9",
+    "@emotion/styled": "^10.0.7"
   },
   "peerDependencies": {
     "react": "^16.4.0",
-    "@emotion/core": "^10.0.9",
-    "@emotion/styled": "^10.0.7"
+    "react-dom": "^16.4.2"
   },
   "devDependencies": {
     "@atlaskit/docs": "^7.0.4",
