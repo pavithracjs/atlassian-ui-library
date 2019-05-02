@@ -154,9 +154,9 @@ describe('ShareDialogContainer', () => {
       />,
     );
 
-    // @ts-ignore: accessing private variable for testing purpose
-    const client: ShareServiceExports.ShareClient = newWrapper.instance()
-      .client;
+    const client: ShareServiceExports.ShareClient =
+      // @ts-ignore: accessing private variable for testing purpose
+      newWrapper.instance().client;
     expect(client.getConfig).toEqual(mockGetConfig);
     expect(client.share).toEqual(mockShare);
   });
