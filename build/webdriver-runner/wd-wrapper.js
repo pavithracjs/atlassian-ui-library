@@ -312,10 +312,9 @@ export default class Page {
     return this.waitForSelector(selector, { timeout: ms }, reverse);
   }
 
-  // async waitUntil(selector) {
-  //   const elem = await this.browser.$(selector);
-  //   return elem.waitUntil(selector, WAIT_TIMEOUT);
-  // }
+  waitUntil(predicate) {
+    return this.browser.waitUntil(predicate, WAIT_TIMEOUT);
+  }
 
   // Window
   setViewPort(size, type) {

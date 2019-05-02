@@ -61,6 +61,7 @@ BrowserTestCase(
   },
 );
 
+// https://product-fabric.atlassian.net/browse/ED-6802
 // TODO: test failing on safari and ie
 BrowserTestCase(
   'alignment: disabled when inside special nodes',
@@ -80,6 +81,7 @@ BrowserTestCase(
   },
 );
 
+//  https://product-fabric.atlassian.net/browse/ED-6802
 // TODO: test failing on safari and ie
 BrowserTestCase(
   'alignment: disabled when editor is disabled',
