@@ -23,6 +23,8 @@ type SkeletonTextProps = {
 };
 
 const gridSize = gridSizeFn();
+
+/* Primitives */
 const Wrapper = ({ isAvatarHidden, isHeader, ...props }: WrapperProps) => (
   <div
     css={{
@@ -61,6 +63,7 @@ const SkeletonText = ({
   />
 );
 
+/* Exported Components */
 export const DrawerSkeletonHeader = (props: DrawerSkeletonHeaderProps) => {
   const { isAvatarHidden, isCollapsed } = props;
   return (

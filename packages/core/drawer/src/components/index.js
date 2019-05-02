@@ -147,6 +147,7 @@ export const DrawerItemTheme = (props: { children: Node }) => (
 );
 
 export * from './skeletons';
+export * from './item-group';
 
 export default withAnalyticsContext({
   componentName: 'drawer',
