@@ -140,10 +140,15 @@ const extractAttributesFromQuery = (query?: string): QueryAttributes => {
   };
 };
 
-export const typeAheadCancelledEvent = (duration: number, query?: string) =>
+export const typeAheadCancelledEvent = (
+  duration: number,
+  query?: string,
+  emojiList?: EmojiDescription[],
+) =>
   createEvent('ui', 'cancelled', 'emojiTypeAhead', '', {
     duration,
     ...extractAttributesFromQuery(query),
+    emojiIds: emojiList ? emojiList.map(emojiItem => emojiItem.id) : [],
   });
 
 const getPosition = (
@@ -172,6 +177,7 @@ export const typeAheadSelectedEvent = (
     position: getPosition(emojiList, emoji),
     ...extractAttributesFromQuery(query),
     emojiType: emoji.type,
+    emojiIds: emojiList ? emojiList.map(emojiItem => emojiItem.id) : [],
     skinToneModifier,
     exactMatch: exactMatch || false,
   });

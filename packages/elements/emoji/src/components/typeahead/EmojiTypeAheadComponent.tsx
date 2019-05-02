@@ -164,9 +164,10 @@ export default class EmojiTypeAheadComponent extends PureComponent<
 
   componentWillUnmount() {
     const { emojiProvider, query } = this.props;
+    const { emojis } = this.state;
     emojiProvider.unsubscribe(this.onProviderChange);
     this.fireAnalytics(
-      typeAheadCancelledEvent(Date.now() - this.state.openTime, query),
+      typeAheadCancelledEvent(Date.now() - this.state.openTime, query, emojis),
     );
   }
 

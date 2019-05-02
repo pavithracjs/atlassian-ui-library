@@ -81,6 +81,14 @@ const withSessionId = ({ attributes, ...rest }: AnalyticsEventPayload) => ({
   ...rest,
 });
 
+const withEmojiIds = ({ attributes, ...rest }: AnalyticsEventPayload) => ({
+  attributes: {
+    ...attributes,
+    emojiIds: expect.arrayContaining([]),
+  },
+  ...rest,
+});
+
 const allEmojis = newEmojiRepository().all().emojis;
 
 const leftClick = {
@@ -205,12 +213,14 @@ describe('EmojiTypeAhead', () => {
         expect(chooseThirdItem()).toEqual(true);
         expect(fireEventSpy).toHaveBeenLastCalledWith(
           expect.objectContaining(
-            withSessionId(
-              typeAheadSelectedEvent(
-                false,
-                expect.any(Number),
-                choseEmoji!,
-                allEmojis,
+            withEmojiIds(
+              withSessionId(
+                typeAheadSelectedEvent(
+                  false,
+                  expect.any(Number),
+                  choseEmoji!,
+                  allEmojis,
+                ),
               ),
             ),
           ),
@@ -360,7 +370,9 @@ describe('EmojiTypeAhead', () => {
         );
         component.unmount();
         expect(fireEventSpy).toHaveBeenCalledWith(
-          withSessionId(typeAheadCancelledEvent(expect.any(Number))),
+          withEmojiIds(
+            withSessionId(typeAheadCancelledEvent(expect.any(Number))),
+          ),
         );
       }),
     );
@@ -475,15 +487,17 @@ describe('EmojiTypeAhead', () => {
         expect(onSelection.callCount).toEqual(1);
         expect(fireEventSpy).toHaveBeenLastCalledWith(
           expect.objectContaining(
-            withSessionId(
-              typeAheadSelectedEvent(
-                true,
-                expect.any(Number),
-                grinEmoji,
-                [grinEmoji],
-                ':grin:',
-                undefined,
-                true,
+            withEmojiIds(
+              withSessionId(
+                typeAheadSelectedEvent(
+                  true,
+                  expect.any(Number),
+                  grinEmoji,
+                  [grinEmoji],
+                  ':grin:',
+                  undefined,
+                  true,
+                ),
               ),
             ),
           ),
