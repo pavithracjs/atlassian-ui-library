@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/react-experiment-framework",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Experimentation React components",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -16,8 +16,8 @@
     "react-dom": "^16.8.0"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^7.0.0",
-    "@atlaskit/section-message": "^2.0.0",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/section-message": "^3.0.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0"
   }
