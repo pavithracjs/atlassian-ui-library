@@ -135,7 +135,6 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
         <FullNameLabel noMeta={!meta}>{fullName}</FullNameLabel>
         {meta && <JobTitleLabel>{meta}</JobTitleLabel>}
         <IconLabel icon="email">{email}</IconLabel>
-        {/* nick name is aka public name */}
         <IconLabel icon="mention">{nickname && `${nickname}`}</IconLabel>
         <IconLabel icon="time">{timestring}</IconLabel>
         <IconLabel icon="companyName">{companyName}</IconLabel>
