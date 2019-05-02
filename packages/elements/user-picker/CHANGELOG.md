@@ -1,5 +1,10 @@
 # @atlaskit/user-picker
 
+## 3.5.5
+- [patch] [87c47cd667](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/87c47cd667):
+
+  - Getting updated styles from tag
+
 ## 3.5.4
 - [patch] [b8bc454675](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b8bc454675):
 

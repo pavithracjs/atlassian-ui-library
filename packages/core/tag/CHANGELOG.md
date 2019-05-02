@@ -1,5 +1,10 @@
 # @atlaskit/tag
 
+## 7.0.3
+- [patch] [ef0875bb53](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ef0875bb53):
+
+  - Fixed size of tag remove icon
+
 ## 7.0.2
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3
