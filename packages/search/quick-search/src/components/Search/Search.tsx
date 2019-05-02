@@ -40,7 +40,7 @@ type Props = {
   autocomplete?: Autocomplete;
 };
 
-export default class Search extends React.PureComponent<Props, State> {
+export default class Search extends React.PureComponent<Props> {
   static defaultProps: Partial<Props> = {
     isLoading: false,
     onBlur: () => {},

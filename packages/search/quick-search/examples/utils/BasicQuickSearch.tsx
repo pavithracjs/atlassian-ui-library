@@ -173,7 +173,7 @@ export default class BasicQuickSearch extends React.Component<Props, State> {
         onSearchSubmit={() => console.log('onSearchSubmit', this.state.query)}
         value={this.state.query}
         autocomplete={
-          this.props.isAutocompleteEnabled && this.state.autocomplete
+          this.props.isAutocompleteEnabled ? this.state.autocomplete : undefined
         }
       >
         <div style={{ paddingLeft: '10px' }}>
