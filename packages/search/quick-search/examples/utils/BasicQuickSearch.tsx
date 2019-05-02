@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { objectData, personData, containerData } from './mockData';
+import {
+  objectData,
+  personData,
+  containerData,
+  makeAutocompleteData,
+} from './mockData';
 import {
   QuickSearch,
   ResultItemGroup,
@@ -9,6 +14,7 @@ import {
   PersonResultProps,
   ObjectResult,
   ObjectResultProps,
+  Autocomplete,
 } from '../../src';
 
 type DataShape = {
@@ -52,6 +58,8 @@ const mapResultsDataToComponents = (resultData: DataShape[]) => {
   ));
 };
 
+const mockAutocompleteData = makeAutocompleteData();
+
 function contains(string: string, query: string) {
   return string.toLowerCase().indexOf(query.toLowerCase()) > -1;
 }
@@ -76,23 +84,29 @@ const store: Store = {};
 
 type Props = {
   fakeNetworkLatency?: number;
+  isAutocompleteEnabled?: boolean;
 };
 
 type State = {
   query: string;
   results: DataShape[];
   isLoading: boolean;
+  autocomplete: Autocomplete;
 };
 
 export default class BasicQuickSearch extends React.Component<Props, State> {
   static defaultProps = {
     fakeNetworkLatency: 0,
+    isAutocompleteEnabled: false,
   };
 
   state = {
     query: store.query || '',
     results: searchData(''),
     isLoading: false,
+    autocomplete: {
+      text: '',
+    },
   };
 
   searchTimeoutId: any;
@@ -121,15 +135,46 @@ export default class BasicQuickSearch extends React.Component<Props, State> {
     }, this.props.fakeNetworkLatency);
   };
 
+  autocomplete = (query: string) => {
+    const tokens = query.split(' ');
+    const lastToken = tokens.slice(-1)[0];
+    if (lastToken.length === 0) {
+      this.setState({
+        autocomplete: {
+          text: query,
+        },
+      });
+      return;
+    }
+    const restTokens = tokens.slice(0, -1);
+    const autocompleteList = mockAutocompleteData
+      .filter(token => token.startsWith(lastToken))
+      .map(token => restTokens.concat([token]).join(' '));
+    this.setState({
+      autocomplete: {
+        text: autocompleteList[0] || query,
+      },
+    });
+  };
+
+  onSearchInput = ({ target }: React.FormEvent<HTMLInputElement>) => {
+    const query = (target as HTMLInputElement).value;
+    this.search(query);
+    if (this.props.isAutocompleteEnabled) {
+      this.autocomplete(query);
+    }
+  };
+
   render() {
     return (
       <QuickSearch
         isLoading={this.state.isLoading}
-        onSearchInput={event => {
-          this.search(event.currentTarget.value);
-        }}
+        onSearchInput={this.onSearchInput}
         onSearchSubmit={() => console.log('onSearchSubmit', this.state.query)}
         value={this.state.query}
+        autocomplete={
+          this.props.isAutocompleteEnabled && this.state.autocomplete
+        }
       >
         <div style={{ paddingLeft: '10px' }}>
           {mapResultsDataToComponents(this.state.results)}

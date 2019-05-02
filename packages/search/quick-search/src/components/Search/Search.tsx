@@ -7,9 +7,17 @@ import {
   SearchInput,
   SearchFieldBaseOuter,
   SearchInputControlsContainer,
+  SearchInputTypeAhead,
 } from './styled';
+import { Autocomplete } from '../QuickSearch';
 
-const controlKeys = ['ArrowUp', 'ArrowDown', 'Enter'];
+export const controlKeys = [
+  'ArrowUp',
+  'ArrowDown',
+  'Enter',
+  'Tab',
+  'ArrowRight',
+];
 
 type Props = {
   /** The elements to render as options to search from. */
@@ -28,11 +36,8 @@ type Props = {
   placeholder?: string;
   /** Current value of search field. */
   value?: string;
-};
-
-type State = {
-  /** Current value of search field. */
-  value?: string;
+  /** Autocomplete information */
+  autocomplete?: Autocomplete;
 };
 
 export default class Search extends React.PureComponent<Props, State> {
@@ -42,13 +47,9 @@ export default class Search extends React.PureComponent<Props, State> {
     placeholder: 'Search',
   };
 
-  state = {
-    value: this.props.value,
-  };
-
   onInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { onKeyDown } = this.props;
-    if (controlKeys.indexOf(event.key) === -1) {
+    if (!controlKeys.includes(event.key)) {
       return;
     }
     if (onKeyDown) {
@@ -80,8 +81,14 @@ export default class Search extends React.PureComponent<Props, State> {
   inputRef: React.Ref<any>;
 
   render() {
-    const { children, onBlur, placeholder, isLoading } = this.props;
-    const { value } = this.state;
+    const {
+      children,
+      onBlur,
+      placeholder,
+      isLoading,
+      value,
+      autocomplete,
+    } = this.props;
 
     return (
       <SearchInner>
@@ -94,6 +101,13 @@ export default class Search extends React.PureComponent<Props, State> {
               isLoading={isLoading}
             >
               <SearchFieldBaseInner>
+                {autocomplete && (
+                  <SearchInputTypeAhead
+                    spellCheck={false}
+                    type="text"
+                    value={`${autocomplete.text}`}
+                  />
+                )}
                 <SearchInput
                   autoFocus
                   innerRef={this.setInputRef}

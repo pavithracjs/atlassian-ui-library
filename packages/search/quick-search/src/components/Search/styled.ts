@@ -58,13 +58,20 @@ export const getPlaceholderColor = css`
 `;
 
 export const SearchInput = styled.input`
-  background-color: ${colors.N0};
+  background-color: transparent;
   border: 0;
   color: ${colors.N500};
   flex-grow: 1;
   font-size: 1.4em;
   outline: 0;
   ${getPlaceholderStyle(getPlaceholderColor)};
+`;
+
+export const SearchInputTypeAhead = styled(SearchInput)`
+  color: ${colors.N50};
+  position: absolute;
+  width: 100%;
+  z-index: -1;
 `;
 
 export const SearchInputControlsContainer = styled.span`

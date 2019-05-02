@@ -82,6 +82,11 @@ const adjustIndex = (
   return adjustedIndex >= 0 ? adjustedIndex : adjustedIndex + arrayLength;
 };
 
+export type Autocomplete = {
+  /** One string that is used to autocomplete the current search query */
+  text: string;
+};
+
 export type Props = {
   /** Search results in the form of ResultItemGroups containing Result components */
   children: React.ReactNode;
@@ -109,6 +114,8 @@ export type Props = {
   linkComponent?: React.ComponentType<any>;
   /** The elements to render to the right of the search input. */
   inputControls?: React.ReactNode;
+  /** Autocomplete information */
+  autocomplete?: Autocomplete;
 };
 
 export type State = {
@@ -332,14 +339,7 @@ export class QuickSearch extends React.Component<Props, State> {
     const { firePrivateAnalyticsEvent } = this.props;
     this.props.onSearchKeyDown!(event);
 
-    // Capture whether users are using keyboard controls
-    if (
-      event.key === 'ArrowUp' ||
-      event.key === 'ArrowDown' ||
-      event.key === 'Enter'
-    ) {
-      this.lastKeyPressed = event.key;
-    }
+    this.lastKeyPressed = event.key;
 
     if (event.key === 'ArrowUp') {
       event.preventDefault(); // Don't move cursor around in search input field
@@ -398,6 +398,32 @@ export class QuickSearch extends React.Component<Props, State> {
           window.location.assign(result.props.href);
         }
       }
+    } else if (event.key === 'Tab' || event.key === 'ArrowRight') {
+      const { autocomplete } = this.props;
+      if (
+        autocomplete &&
+        autocomplete.text.length > 0 &&
+        // multiple Tab or ArrowRight
+        autocomplete.text.slice(-1) != ' '
+      ) {
+        this.acceptAutocomplete(event, autocomplete.text);
+      }
+      event.preventDefault();
+    }
+  };
+
+  acceptAutocomplete = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+    autocomplete?: string,
+  ) => {
+    const { onSearchInput } = this.props;
+    const newValue = `${autocomplete} `;
+    if (this.inputSearchRef) {
+      // @ts-ignore unchecked
+      this.inputSearchRef.value = newValue;
+    }
+    if (onSearchInput) {
+      onSearchInput(event);
     }
   };
 
@@ -428,6 +454,7 @@ export class QuickSearch extends React.Component<Props, State> {
         onKeyDown={this.handleSearchKeyDown}
         placeholder={this.props.placeholder}
         value={this.props.value}
+        autocomplete={this.props.autocomplete}
         ref={this.setSearchInputRef}
       >
         <ResultContext.Provider value={this.state.context}>
