@@ -379,7 +379,7 @@ describe('ShareDialogWithTrigger', () => {
   });
 
   describe('handleKeyDown', () => {
-    it('should clear the state if an escape key is pressed down', () => {
+    it('should clear the state if an escape key is pressed down if event.preventDefault is false', () => {
       const escapeKeyDownEvent: Partial<KeyboardEvent> = {
         target: document,
         type: 'keydown',
@@ -410,6 +410,36 @@ describe('ShareDialogWithTrigger', () => {
         defaultShareContentState,
       );
       expect((wrapper.state() as State).shareError).toBeUndefined();
+    });
+
+    it('should not clear the state if an escape key is pressed if event.preventDefault is true', () => {
+      const escapeKeyDownEvent: Partial<KeyboardEvent> = {
+        target: document,
+        type: 'keydown',
+        key: 'Escape',
+        stopPropagation: jest.fn(),
+        defaultPrevented: true,
+      };
+      const mockShareData: ShareData = {
+        users: [
+          { type: 'user', id: 'id', name: 'name' },
+          { type: 'email', id: 'email', name: 'email' },
+        ],
+        comment: {
+          format: 'plain_text',
+          value: 'comment',
+        },
+      };
+      const state = {
+        isDialogOpen: true,
+        ignoreIntermediateState: false,
+        defaultValue: mockShareData,
+        shareError: new Error('unable to share'),
+      };
+      wrapper.setState(state);
+      wrapper.find('div').simulate('keydown', escapeKeyDownEvent);
+      expect(escapeKeyDownEvent.stopPropagation).not.toHaveBeenCalled();
+      expect(wrapper.state() as State).toMatchObject(state);
     });
   });
 
