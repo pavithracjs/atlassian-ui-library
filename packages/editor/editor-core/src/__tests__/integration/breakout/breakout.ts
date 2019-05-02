@@ -95,6 +95,8 @@ BrowserTestCase(
   },
 );
 
+// TODO: https://product-fabric.atlassian.net/browse/ED-6802
+// skipped on ie
 BrowserTestCase(
   'breakout: should be able to delete last character inside a "wide" codeBlock preserving the node',
   { skip: ['ie'] },

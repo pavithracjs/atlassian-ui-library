@@ -12,6 +12,8 @@ const droplistButton = 'button[type="button"]';
 const droplist = 'div[data-role="droplistContent"]';
 
 // TODO: fix for ie after webdriverio upgrade
+// https://ecosystem.atlassian.net/browse/AK-6175
+
 BrowserTestCase(
   'Droplist should close when Escape key is pressed in IE and Edge',
   { skip: ['safari', 'firefox', 'ie'] }, // the issue was only occurring in IE and Edge - AK-4523
