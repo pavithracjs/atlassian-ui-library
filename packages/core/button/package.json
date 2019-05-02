@@ -32,7 +32,7 @@
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
-    "react": "^16.4.0"
+    "react": "^16.8.0"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
@@ -46,7 +46,7 @@
     "enzyme": "^3.7.0",
     "jest-emotion": "^10.0.10",
     "jest-in-case": "^1.0.2",
-    "react-dom": "^16.4.2",
+    "react-dom": "^16.8.0",
     "react-router-dom": "^4.2.2",
     "react-test-renderer": "^16.3.0"
   }

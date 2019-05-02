@@ -13,7 +13,7 @@
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
-    "react": "^16.4.0"
+    "react": "^16.8.0"
   },
   "author": "Atlassian Pty. Ltd",
   "maintainers": [
@@ -29,7 +29,7 @@
     "@atlaskit/docs": "^7.0.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
-    "react": "^16.4.0"
+    "react": "^16.8.0"
   },
   "atlaskit": {
     "internal": true

@@ -5,8 +5,8 @@
   "main": "index.js",
   "description": "utility script used to server side render components in an isolated non-virtual dom environment to ensure components can be properly rehydrated",
   "peerDependencies": {
-    "react": "^16.4.0",
-    "react-dom": "^16.4.2"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   },
   "dependencies": {
     "@babel/core": "^7.1.0",

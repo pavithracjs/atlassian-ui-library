@@ -10,10 +10,10 @@
   "author": "Atlassian Pty Ltd",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "react": "^16.4.0"
+    "react": "^16.8.0"
   },
   "peerDependencies": {
-    "react": "^16.4.0"
+    "react": "^16.8.0"
   },
   "atlaskit": {
     "internal": true

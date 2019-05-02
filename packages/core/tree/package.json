@@ -15,7 +15,7 @@
     "react-beautiful-dnd": "^10.0.2"
   },
   "peerDependencies": {
-    "react": "^16.4.0"
+    "react": "^16.8.0"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
@@ -30,7 +30,7 @@
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "exenv": "^1.2.2",
-    "react-dom": "^16.4.2",
+    "react-dom": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "keywords": [
