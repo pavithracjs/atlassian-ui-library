@@ -11,8 +11,8 @@
     "id": "src.async",
     "name": "async",
     "stats": {
-      "size": 41583,
-      "gzipSize": 11251
+      "size": 43495,
+      "gzipSize": 11786
     }
   },
   {
@@ -20,7 +20,7 @@
     "name": "node_modules [main]",
     "stats": {
       "size": 297250,
-      "gzipSize": 76951
+      "gzipSize": 76964
     }
   },
   {
@@ -36,7 +36,7 @@
     "name": "main",
     "stats": {
       "size": 68527,
-      "gzipSize": 17820
+      "gzipSize": 17824
     }
   },
   {
@@ -76,15 +76,19 @@
     "name": "main",
     "stats": {
       "size": 459962,
+<<<<<<< HEAD
       "gzipSize": 125512
+=======
+      "gzipSize": 125520
+>>>>>>> Updated bundle size snapshots
     }
   },
   {
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 115902,
-      "gzipSize": 28466
+      "size": 117814,
+      "gzipSize": 29055
     }
   }
 ]

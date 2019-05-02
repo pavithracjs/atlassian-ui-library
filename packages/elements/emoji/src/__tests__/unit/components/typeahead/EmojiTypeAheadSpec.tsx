@@ -84,7 +84,7 @@ const withSessionId = ({ attributes, ...rest }: AnalyticsEventPayload) => ({
 const withEmojiIds = ({ attributes, ...rest }: AnalyticsEventPayload) => ({
   attributes: {
     ...attributes,
-    emojiIds: expect.arrayContaining([]),
+    emojiIds: expect.any(Array),
   },
   ...rest,
 });
