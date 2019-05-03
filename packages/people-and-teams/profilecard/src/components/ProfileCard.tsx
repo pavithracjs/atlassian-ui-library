@@ -135,7 +135,7 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
         <FullNameLabel noMeta={!meta}>{fullName}</FullNameLabel>
         {meta && <JobTitleLabel>{meta}</JobTitleLabel>}
         <IconLabel icon="email">{email}</IconLabel>
-        <IconLabel icon="mention">{nickname && `@${nickname}`}</IconLabel>
+        <IconLabel icon="mention">{nickname && `${nickname}`}</IconLabel>
         <IconLabel icon="time">{timestring}</IconLabel>
         <IconLabel icon="companyName">{companyName}</IconLabel>
         <IconLabel icon="location">{location}</IconLabel>
@@ -174,7 +174,7 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
 
         {status === 'inactive' && (
           <>
-            <IconLabel icon="mention">{nickname && `@${nickname}`}</IconLabel>
+            <IconLabel icon="mention">{nickname && `${nickname}`}</IconLabel>
             <IconLabel icon="companyName">{companyName}</IconLabel>
           </>
         )}
@@ -242,7 +242,7 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
         <FullNameLabel>{this.props.fullName}</FullNameLabel>
         <AppTitleLabel>App</AppTitleLabel>
         <IconLabel icon="mention">
-          {this.props.nickname && `@${this.props.nickname}`}
+          {this.props.nickname && `${this.props.nickname}`}
         </IconLabel>
       </DetailsGroup>
     );

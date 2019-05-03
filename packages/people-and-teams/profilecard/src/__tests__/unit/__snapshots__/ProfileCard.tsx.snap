@@ -262,7 +262,7 @@ exports[`Profilecard ProfileCard status property should match snapshot when stat
           <IconLabel
             icon="mention"
           >
-            @jscrazy
+            jscrazy
           </IconLabel>
           <IconLabel
             icon="companyName"
@@ -318,7 +318,7 @@ exports[`Profilecard ProfileCard status property should match snapshot when stat
           <IconLabel
             icon="mention"
           >
-            @jscrazy
+            jscrazy
           </IconLabel>
           <IconLabel
             icon="companyName"
@@ -388,7 +388,7 @@ exports[`Profilecard ProfileCard status property should match snapshot when stat
           <IconLabel
             icon="mention"
           >
-            @jscrazy
+            jscrazy
           </IconLabel>
           <IconLabel
             icon="companyName"
@@ -458,7 +458,7 @@ exports[`Profilecard ProfileCard status property should match snapshot when stat
           <IconLabel
             icon="mention"
           >
-            @jscrazy
+            jscrazy
           </IconLabel>
           <IconLabel
             icon="companyName"
