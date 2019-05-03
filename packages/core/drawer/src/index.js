@@ -2,4 +2,10 @@
 
 export { default, DrawerItemTheme } from './components';
 
-export * from './components/types';
+export type {
+  DrawerWidth,
+  BaseProps,
+  DrawerPrimitiveProps,
+  DrawerProps,
+  CloseTrigger,
+} from './components/types';
