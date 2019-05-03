@@ -91,6 +91,7 @@ async function runJest(testPaths) {
       updateSnapshot: cli.flags.updateSnapshot,
       debug: cli.flags.debug,
       watch: cli.flags.watch,
+      ci: process.env.CI,
     },
     [process.cwd()],
   );
@@ -165,15 +166,11 @@ function runTestsWithRetry() {
         results = await rerunFailedTests(results);
 
         code = getExitCode(results);
-
-        console.log('results after rerun', results);
-        console.log('rerunTestExitStatus', code);
         /**
          * If the re-run succeeds,
          * log the previously failed tests to indicate flakiness
          */
         if (code === 0) {
-          console.log('reporting test as flaky');
           await reporting.reportInconsistency(results);
         } else {
           await reporting.reportFailure(results, 'atlaskit.qa.vr_test.failure');
