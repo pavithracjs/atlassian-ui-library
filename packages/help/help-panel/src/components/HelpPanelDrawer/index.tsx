@@ -16,12 +16,13 @@ export const ENTERING = 'entering';
 export const ENTERED = 'entered';
 export const EXITING = 'exiting';
 
-export type TransitionStatus =
-  | typeof ENTERING
-  | typeof ENTERED
-  | typeof EXITING
-  | typeof EXITED
-  | typeof UNMOUNTED;
+export enum TransitionStatus {
+  UNMOUNTED = 'unmounted',
+  EXITED = 'exited',
+  ENTERING = 'entering',
+  ENTERED = 'entered',
+  EXITING = 'exiting',
+}
 
 export interface Props {
   attachPanelTo: string;
