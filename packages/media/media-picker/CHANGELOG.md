@@ -1,5 +1,10 @@
 # @atlaskit/media-picker
 
+## 41.0.1
+- [patch] [5cfa2ddf93](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5cfa2ddf93):
+
+  - add clipboard support to MediaPicker
+
 ## 41.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

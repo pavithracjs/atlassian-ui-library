@@ -1,1 +1,0 @@
-- add clipboard support to MediaPicker
