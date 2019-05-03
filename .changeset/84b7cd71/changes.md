@@ -1,1 +1,0 @@
-- Email renderer - nested lists do not have vertical margins
