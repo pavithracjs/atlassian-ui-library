@@ -28,11 +28,6 @@ describe('Snapshot Test', () => {
     const image = await takeElementScreenShot(page, atlaskitLogo);
     expect(image).toMatchProdImageSnapshot();
   });
-  // TODO: adding for testing
-  it('Testing page logo should match production', async () => {
-    const image = await takeElementScreenShot(page, atlaskitLogo);
-    expect(image).toMatchProdImageSnapshot();
-  });
   it('Home page cards should match production', async () => {
     // The animation requires to wait couple of seconds to have the cards to be loaded.
     await page.waitFor(5000);
