@@ -31,6 +31,9 @@ const SkeletonGroupTitle = ({ ...props }) => (
 const ItemChildrenWrapper = ({ ...props }) => (
   <div css={{ marginLeft: `${gridSize}px` }} {...props} />
 );
+const ItemGroupWrapper = ({ ...props }) => (
+  <div css={{ paddingRight: `${gridSize * 4}px` }} {...props} />
+);
 
 export const DrawerItemGroup = ({ title, isCompact, children }: Props) => {
   const wrappedTitle = title ? (
@@ -38,8 +41,10 @@ export const DrawerItemGroup = ({ title, isCompact, children }: Props) => {
   ) : null;
 
   return (
-    <ItemGroup title={wrappedTitle} isCompact={isCompact}>
-      <ItemChildrenWrapper>{children}</ItemChildrenWrapper>
-    </ItemGroup>
+    <ItemGroupWrapper>
+      <ItemGroup title={wrappedTitle} isCompact={isCompact}>
+        <ItemChildrenWrapper>{children}</ItemChildrenWrapper>
+      </ItemGroup>
+    </ItemGroupWrapper>
   );
 };
