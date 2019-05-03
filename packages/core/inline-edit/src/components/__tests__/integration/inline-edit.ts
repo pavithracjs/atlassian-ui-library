@@ -19,14 +19,6 @@ const cancelButton = 'button[aria-label="Cancel"]';
 const errorMessage = 'div#error-message';
 const label = 'label';
 
-const safariCompatibleTab = async (page: any) => {
-  if (page.isBrowser('Safari')) {
-    await page.keys(['Alt', 'Tab']);
-  } else {
-    await page.keys(['Tab']);
-  }
-};
-
 BrowserTestCase(
   'The edit button should have focus after edit is confirmed by pressing Enter',
   { skip: [] },
@@ -36,7 +28,7 @@ BrowserTestCase(
     await inlineEditTest.click(label);
 
     await inlineEditTest.waitForSelector(editButton);
-    await safariCompatibleTab(inlineEditTest);
+    await inlineEditTest.safariCompatibleTab();
     await inlineEditTest.keys(['Enter']);
 
     await inlineEditTest.waitForSelector(input);
@@ -57,7 +49,7 @@ BrowserTestCase(
 
     await inlineEditTest.waitForSelector(editButton);
     await inlineEditTest.click(label);
-    await safariCompatibleTab(inlineEditTest);
+    await inlineEditTest.safariCompatibleTab();
     await inlineEditTest.keys(['Enter']);
 
     await inlineEditTest.waitForSelector(confirmButton);
@@ -100,11 +92,11 @@ BrowserTestCase(
 
     await inlineEditTest.waitForSelector(input);
 
-    await safariCompatibleTab(inlineEditTest);
+    await inlineEditTest.safariCompatibleTab();
     await inlineEditTest.waitForSelector(confirmButton);
     expect(await inlineEditTest.hasFocus(confirmButton)).toBe(true);
 
-    await safariCompatibleTab(inlineEditTest);
+    await inlineEditTest.safariCompatibleTab();
     await inlineEditTest.waitForSelector(cancelButton);
     expect(await inlineEditTest.hasFocus(cancelButton)).toBe(true);
     expect(await inlineEditTest.isVisible(input)).toBe(true);

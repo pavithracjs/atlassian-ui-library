@@ -356,6 +356,14 @@ export default class Page {
       });
     };
   }
+
+  async safariCompatibleTab() {
+    if (this.browser.isBrowser('Safari')) {
+      await this.browser.keys(['Alt', 'Tab']);
+    } else {
+      await this.browser.keys(['Tab']);
+    }
+  }
 }
 //TODO: Maybe wrapping all functions?
 async function wrapper(fn) {
