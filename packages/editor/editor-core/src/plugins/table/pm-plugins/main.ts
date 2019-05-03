@@ -8,7 +8,7 @@ import { createTableView } from '../nodeviews/table';
 import { createCellView } from '../nodeviews/cell';
 import { EventDispatcher } from '../../../event-dispatcher';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
-import { setTableRef, clearHoverSelection, handleCut } from '../actions';
+import { setTableRef, clearHoverSelection } from '../actions';
 import {
   handleSetFocus,
   handleSetTableRef,
@@ -31,6 +31,7 @@ import {
   handleFocus,
   handleClick,
   handleTripleClick,
+  handleCut,
 } from '../event-handlers';
 import { findControlsHoverDecoration } from '../utils';
 import { fixTables } from '../transforms';
@@ -59,6 +60,9 @@ export enum ACTIONS {
 }
 
 let isBreakoutEnabled: boolean | undefined;
+let wasBreakoutEnabled: boolean | undefined;
+let isDynamicTextSizingEnabled: boolean | undefined;
+let isFullWidthModeEnabled: boolean | undefined;
 
 export const createPlugin = (
   dispatch: Dispatch,
@@ -68,8 +72,13 @@ export const createPlugin = (
   isContextMenuEnabled?: boolean,
   dynamicTextSizing?: boolean,
   breakoutEnabled?: boolean,
+  previousBreakoutEnabled?: boolean,
+  fullWidthModeEnabled?: boolean,
 ) => {
+  wasBreakoutEnabled = previousBreakoutEnabled;
   isBreakoutEnabled = breakoutEnabled;
+  isDynamicTextSizingEnabled = dynamicTextSizing;
+  isFullWidthModeEnabled = fullWidthModeEnabled;
   return new Plugin({
     state: {
       init: (): TablePluginState => {
@@ -79,6 +88,7 @@ export const createPlugin = (
           insertRowButtonIndex: undefined,
           decorationSet: DecorationSet.empty,
           ...defaultTableSelection,
+          isFullWidthModeEnabled,
         };
       },
       apply(
@@ -252,7 +262,9 @@ export const createPlugin = (
         table: (node, view, getPos) =>
           createTableView(node, view, getPos, portalProviderAPI, {
             isBreakoutEnabled,
-            dynamicTextSizing,
+            wasBreakoutEnabled,
+            dynamicTextSizing: isDynamicTextSizingEnabled,
+            isFullWidthModeEnabled,
           }),
         tableCell: createCellView(portalProviderAPI, isContextMenuEnabled),
         tableHeader: createCellView(portalProviderAPI, isContextMenuEnabled),

@@ -17,7 +17,7 @@ import { messages } from '../../../../../plugins/lists/messages';
 import ToolbarButton from '../../../../../ui/ToolbarButton';
 import DropdownMenu from '../../../../../ui/DropdownMenu';
 import ToolbarLists from '../../../../../plugins/lists/ui/ToolbarLists';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { ReactWrapper } from 'enzyme';
 import { DispatchAnalyticsEvent } from '../../../../../plugins/analytics';
 

@@ -33,6 +33,7 @@ export interface Props {
   options?: {
     dynamicTextSizing?: boolean;
     isBreakoutEnabled?: boolean;
+    isFullWidthModeEnabled?: boolean;
   };
 }
 
@@ -228,7 +229,9 @@ export const createTableView = (
   portalProviderAPI: PortalProviderAPI,
   options: {
     isBreakoutEnabled?: boolean;
+    wasBreakoutEnabled?: boolean;
     dynamicTextSizing?: boolean;
+    isFullWidthModeEnabled?: boolean;
   },
 ): NodeView => {
   const { pluginConfig } = getPluginState(view.state);

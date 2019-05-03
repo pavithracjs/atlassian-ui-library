@@ -72,6 +72,8 @@ export default class Conversation extends React.PureComponent<Props, State> {
 
   static defaultProps = {
     placeholder: 'What do you want to say?',
+    onEditorOpen: () => {},
+    onEditorClose: () => {},
   };
 
   /*
@@ -103,7 +105,6 @@ export default class Conversation extends React.PureComponent<Props, State> {
       onUpdateComment,
       onDeleteComment,
       onRevertComment,
-      onHighlightComment,
       onUserClick,
       onCancel,
       user,
@@ -136,7 +137,7 @@ export default class Conversation extends React.PureComponent<Props, State> {
         onEditorOpen={this.onEditorOpen}
         onEditorClose={this.onEditorClose}
         onEditorChange={this.handleEditorChange}
-        onHighlightComment={onHighlightComment}
+        onHighlightComment={this.onHighlightComment}
         onRetry={this.onRetry(comment.document)}
         onCancel={onCancel}
         onUserClick={onUserClick}
@@ -164,13 +165,6 @@ export default class Conversation extends React.PureComponent<Props, State> {
     }
   };
 
-  private onOpen = () => {
-    this.sendEditorAnalyticsEvent({
-      actionSubjectId: actionSubjectIds.createCommentInput,
-    });
-    this.onEditorOpen();
-  };
-
   private renderConversationsEditor() {
     const {
       isExpanded,
@@ -193,7 +187,7 @@ export default class Conversation extends React.PureComponent<Props, State> {
           isExpanded={isExpanded}
           onSave={this.onSave}
           onCancel={this.onCancel}
-          onOpen={this.onOpen}
+          onOpen={this.onEditorOpen}
           onClose={this.onEditorClose}
           onChange={this.handleEditorChange}
           dataProviders={dataProviders}
@@ -276,12 +270,36 @@ export default class Conversation extends React.PureComponent<Props, State> {
         openEditorCount: this.state.openEditorCount - 1,
       });
     }
+
+    if (typeof this.props.onEditorClose === 'function') {
+      this.props.onEditorClose();
+    }
   };
 
   private onEditorOpen = () => {
+    this.sendEditorAnalyticsEvent({
+      actionSubjectId: actionSubjectIds.createCommentInput,
+    });
+
     this.setState({
       openEditorCount: this.state.openEditorCount + 1,
     });
+
+    if (typeof this.props.onEditorOpen === 'function') {
+      this.props.onEditorOpen();
+    }
+  };
+
+  private onHighlightComment = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    commentId: string,
+  ) => {
+    if (typeof this.props.onHighlightComment === 'function') {
+      this.props.onHighlightComment(event, commentId);
+      if (typeof this.props.onCommentPermalinkClick === 'function') {
+        this.props.onCommentPermalinkClick(event, commentId);
+      }
+    }
   };
 
   private handleEditorChange = (value: any, commentId?: string) => {

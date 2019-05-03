@@ -50,5 +50,5 @@ export { default as alignment } from './alignment';
 export { default as editorDisabledPlugin } from './editor-disabled';
 export { default as indentationPlugin } from './indentation';
 export { default as annotationPlugin } from './annotation';
-export { default as compositionPlugin } from './composition';
 export { default as analyticsPlugin } from './analytics';
+export { default as customAutoformatPlugin } from './custom-autoformat';

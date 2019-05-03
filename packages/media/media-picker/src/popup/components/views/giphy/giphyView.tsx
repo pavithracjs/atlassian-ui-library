@@ -7,7 +7,8 @@ import { messages } from '@atlaskit/media-ui';
 import FieldText from '@atlaskit/field-text';
 import Button from '@atlaskit/button';
 import Spinner from '@atlaskit/spinner';
-import { CardView } from '@atlaskit/media-card';
+import { Card } from '@atlaskit/media-card';
+import { ExternalImageIdentifier } from '@atlaskit/media-core';
 import { BricksLayout } from './bricksGrid';
 import { fileClick } from '../../../actions/fileClick';
 import { setUpfrontIdDeferred } from '../../../actions/setUpfrontIdDeferred';
@@ -193,13 +194,17 @@ export class GiphyView extends Component<GiphyViewProps, GiphyViewState> {
         containerWidth: CONTAINER_WIDTH,
         numberOfColumns: NUMBER_OF_COLUMNS,
       });
+      const identifier: ExternalImageIdentifier = {
+        mediaItemType: 'external-image',
+        dataURI,
+        name: metadata.name,
+      };
 
       return (
         <GridCell key={`${i}-metadata.id`} width={dimensions.width}>
-          <CardView
-            status="complete"
-            dataURI={dataURI}
-            metadata={metadata}
+          <Card
+            identifier={identifier}
+            context={{} as any}
             dimensions={dimensions}
             selectable={true}
             selected={selected}

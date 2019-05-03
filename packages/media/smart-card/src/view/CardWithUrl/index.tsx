@@ -1,7 +1,7 @@
 import * as React from 'react';
 import LazyRender from 'react-lazily-render';
 import { CardLinkView } from '@atlaskit/media-ui';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import { WithAnalyticsEventProps } from '@atlaskit/analytics-next';
 
 import { Client } from '../../client';
 import { DefinedState } from '../../client/types';
@@ -10,7 +10,12 @@ import {
   connectFailedEvent,
   connectSucceededEvent,
   trackAppAccountConnected,
-  ANALYTICS_CHANNEL,
+  uiAuthEvent,
+  uiCardClickedEvent,
+  uiAuthAlternateAccountEvent,
+  screenAuthPopupEvent,
+  uiClosedAuthEvent,
+  fireSmartLinkEvent,
 } from '../../utils/analytics';
 import { CardContainer } from '../../containers/CardContainer';
 import { renderBlockCard } from '../BlockCard';
@@ -59,40 +64,78 @@ export function CardWithUrlContent(props: CardWithUrlContentProps) {
             const firstAuthService =
               (state as DefinedState).services &&
               (state as DefinedState).services[0];
+            const definitionId = (state as any).definitionId;
 
             const handleAuthorise = () => {
+              // UI Analytics for clicking connectAccount
+              if (state.status === 'unauthorized') {
+                fireSmartLinkEvent(
+                  uiAuthEvent(definitionId, appearance),
+                  createAnalyticsEvent,
+                );
+              }
+              if (state.status === 'forbidden') {
+                fireSmartLinkEvent(
+                  uiAuthAlternateAccountEvent(definitionId, appearance),
+                  createAnalyticsEvent,
+                );
+              }
+
+              fireSmartLinkEvent(
+                screenAuthPopupEvent(definitionId),
+                createAnalyticsEvent,
+              );
+
+              // Operational Analytics for auth
               authFn(firstAuthService.startAuthUrl).then(
                 () => {
-                  if (createAnalyticsEvent) {
-                    createAnalyticsEvent(
-                      trackAppAccountConnected((state as any).definitionId),
-                    ).fire(ANALYTICS_CHANNEL);
-                    createAnalyticsEvent(
-                      connectSucceededEvent(url, state),
-                    ).fire(ANALYTICS_CHANNEL);
-                  }
+                  fireSmartLinkEvent(
+                    trackAppAccountConnected(definitionId),
+                    createAnalyticsEvent,
+                  );
+                  fireSmartLinkEvent(
+                    connectSucceededEvent(definitionId),
+                    createAnalyticsEvent,
+                  );
                   reload();
                 },
                 (err: Error) => {
-                  if (createAnalyticsEvent) {
-                    createAnalyticsEvent(
+                  if (err.message === 'The auth window was closed') {
+                    fireSmartLinkEvent(
+                      connectFailedEvent(definitionId, 'authWindowClosed'),
+                      createAnalyticsEvent,
+                    );
+                    fireSmartLinkEvent(
+                      uiClosedAuthEvent(definitionId, appearance),
+                      createAnalyticsEvent,
+                    );
+                  } else {
+                    fireSmartLinkEvent(
                       // Yes, dirty, but we had a ticket for that
-                      err.message === 'The auth window was closed'
-                        ? connectFailedEvent(
-                            'auth.window.was.closed',
-                            url,
-                            state,
-                          )
-                        : connectFailedEvent(
-                            'potential.sensitive.data',
-                            url,
-                            state,
-                          ),
-                    ).fire(ANALYTICS_CHANNEL);
+                      connectFailedEvent(
+                        definitionId,
+                        'potentialSensitiveData',
+                      ),
+                      createAnalyticsEvent,
+                    );
                   }
                   reload();
                 },
               );
+            };
+
+            const defaultOnClick = () => {
+              if (state.status === 'resolved') {
+                fireSmartLinkEvent(
+                  uiCardClickedEvent(definitionId, appearance),
+                  createAnalyticsEvent,
+                );
+              }
+              if (onClick) {
+                onClick();
+              } else {
+                window.open(url);
+              }
             };
 
             if (appearance === 'inline') {
@@ -100,7 +143,7 @@ export function CardWithUrlContent(props: CardWithUrlContentProps) {
                 url,
                 state,
                 firstAuthService ? handleAuthorise : undefined,
-                () => (onClick ? onClick() : window.open(url)),
+                () => defaultOnClick(),
                 isSelected,
               );
             }
@@ -110,7 +153,7 @@ export function CardWithUrlContent(props: CardWithUrlContentProps) {
               state,
               firstAuthService ? handleAuthorise : undefined,
               reload,
-              () => (onClick ? onClick() : window.open(url)),
+              () => defaultOnClick(),
               isSelected,
             );
           }}

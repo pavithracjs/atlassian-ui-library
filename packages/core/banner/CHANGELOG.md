@@ -1,5 +1,34 @@
 # @atlaskit/banner
 
+## 10.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 9.0.3
+- [patch] [50e8c82ec4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/50e8c82ec4):
+
+  - index.ts is now ignored when published to npm to avoid ambiguity between ts and js files
+
+## 9.0.2
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/theme@8.1.7
+
+## 9.0.1
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/button@12.0.0
+
+## 9.0.0
+- [major] [1433f91820](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1433f91820):
+
+  - Banner has been internally converted to TypeScript. Typescript consumers will get static type safety. No API or behaviour changes. Flow Support has been dropped.
+
 ## 8.0.2
 - [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
 

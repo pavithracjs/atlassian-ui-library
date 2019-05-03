@@ -31,6 +31,20 @@ import {
   tableLayoutToSize,
 } from './utils';
 
+export interface ScaleOptions {
+  node: PMNode;
+  prevNode: PMNode;
+  start: number;
+  containerWidth?: number;
+  previousContainerWidth?: number;
+  initialScale?: boolean;
+  parentWidth?: number;
+  dynamicTextSizing?: boolean;
+  isBreakoutEnabled?: boolean;
+  wasBreakoutEnabled?: boolean;
+  isFullWidthModeEnabled?: boolean;
+}
+
 export function updateColumnWidth(
   view: EditorView,
   cell: number,
@@ -244,17 +258,13 @@ export const updateControls = (view: EditorView) => {
 export function scaleTable(
   view: EditorView,
   tableElem: HTMLTableElement | null,
-  node: PMNode,
-  prevNode: PMNode,
-  pos: number,
-  containerWidth: number | undefined,
-  initialScale?: boolean,
-  parentWidth?: number,
-  dynamicTextSizing?: boolean,
+  options: ScaleOptions,
 ) {
   if (!tableElem) {
     return;
   }
+
+  const { node, start, parentWidth } = options;
 
   // If a table has not been resized yet, columns should be auto.
   if (hasTableBeenResized(node) === false) {
@@ -264,22 +274,14 @@ export function scaleTable(
     return;
   }
 
-  const start = pos + 1;
-
   let state;
   if (parentWidth) {
     state = scaleWithParent(view, tableElem, parentWidth, node, start);
   } else {
-    state = scale(
-      view,
-      tableElem,
-      node,
+    state = scale(view, tableElem, {
       start,
-      prevNode,
-      containerWidth,
-      initialScale,
-      dynamicTextSizing,
-    );
+      ...options,
+    });
   }
 
   if (state) {
@@ -301,32 +303,59 @@ export function scaleTable(
 function scale(
   view: EditorView,
   tableElem: HTMLTableElement,
-  node: PMNode,
-  start: number,
-  prevNode: PMNode,
-  containerWidth?: number,
-  initialScale?: boolean,
-  dynamicTextSizing?: boolean,
+  options: ScaleOptions,
 ): ResizeState | undefined {
-  const maxSize = getLayoutSize(
-    node.attrs.layout,
+  /**
+   * isBreakoutEnabled === true -> default center aligned
+   * isBreakoutEnabled === false -> full width mode
+   */
+
+  const {
+    node,
     containerWidth,
+    previousContainerWidth,
     dynamicTextSizing,
-  );
+    prevNode,
+    initialScale,
+    start,
+    isBreakoutEnabled,
+    wasBreakoutEnabled,
+  } = options;
+
+  let maxSize = getLayoutSize(node.attrs.layout, containerWidth, {
+    dynamicTextSizing,
+    isBreakoutEnabled,
+  });
 
   const prevTableWidth = getTableWidth(prevNode);
   const previousLayout = prevNode.attrs.layout;
 
   let previousMaxSize = tableLayoutToSize[previousLayout];
   if (dynamicTextSizing && previousLayout === 'default') {
-    previousMaxSize = getDefaultLayoutMaxWidth(containerWidth);
+    previousMaxSize = getDefaultLayoutMaxWidth(previousContainerWidth);
   }
 
   if (!initialScale) {
     previousMaxSize = getLayoutSize(
       prevNode.attrs.layout,
-      containerWidth,
-      dynamicTextSizing,
+      previousContainerWidth,
+      {
+        dynamicTextSizing,
+        isBreakoutEnabled,
+      },
+    );
+  } else if (
+    initialScale &&
+    isBreakoutEnabled !== wasBreakoutEnabled &&
+    typeof wasBreakoutEnabled !== 'undefined'
+  ) {
+    previousMaxSize = getLayoutSize(
+      prevNode.attrs.layout,
+      previousContainerWidth,
+      {
+        dynamicTextSizing: !dynamicTextSizing,
+        isBreakoutEnabled: !isBreakoutEnabled,
+      },
     );
   }
 

@@ -39,7 +39,7 @@ export { JSONDocNode, JSONNode };
 
 export { filterContentByType } from './filter';
 
-export const ZWSP = '\u200b';
+export const ZeroWidthSpace = '\u200b';
 
 function validateNode(node: Node): boolean {
   return false;
@@ -147,6 +147,15 @@ export function canMoveDown(state: EditorState): boolean {
   }
 
   return !atTheEndOfDoc(state);
+}
+
+export function isSelectionInsideLastNodeInDocument(
+  selection: Selection,
+): boolean {
+  const docNode = selection.$anchor.node(0);
+  const rootNode = selection.$anchor.node(1);
+
+  return docNode.lastChild === rootNode;
 }
 
 export function atTheEndOfDoc(state: EditorState): boolean {
@@ -614,6 +623,27 @@ export function closestElement(
   return closest(node, s);
 }
 
+/*
+ * From Modernizr
+ * Returns the kind of transitionevent available for the element
+ */
+export function whichTransitionEvent() {
+  const el = document.createElement('fakeelement');
+  const transitions = {
+    transition: 'transitionend',
+    OTransition: 'oTransitionEnd',
+    MozTransition: 'transitionend',
+    WebkitTransition: 'webkitTransitionEnd',
+  } as any;
+
+  let t: any;
+  for (t in transitions) {
+    if (el.style[t] !== undefined) {
+      return transitions[t];
+    }
+  }
+}
+
 export function moveLeft(view: EditorView) {
   const event = new CustomEvent('keydown', {
     bubbles: true,
@@ -692,7 +722,7 @@ export const isEmptyNode = (schema: Schema) => {
     mediaGroup,
     mediaSingle,
   } = schema.nodes;
-  const innerIsEmptyNode = (node: Node): any => {
+  const innerIsEmptyNode = (node: Node): boolean => {
     switch (node.type) {
       case media:
       case mediaGroup:

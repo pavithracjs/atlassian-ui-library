@@ -8,13 +8,13 @@ exports[`Wrapper it should have interactive styles 1`] = `
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   border-radius: 3px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   background-color: white;
   box-shadow: 0 1px 1px rgba(9,30,66,0.25),0 0 1px 0 rgba(9,30,66,0.31);
   cursor: pointer;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
   -webkit-transition: 0.3s all ease-in-out;
   transition: 0.3s all ease-in-out;
 }
@@ -35,6 +35,10 @@ exports[`Wrapper it should have interactive styles 1`] = `
   cursor: pointer;
   box-shadow: 0 0 0 2px #4C9AFF;
   outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   -webkit-text-decoration: none;
   text-decoration: none;
 }
@@ -60,15 +64,15 @@ exports[`Wrapper it should have selected styles 1`] = `
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   border-radius: 3px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   background-color: white;
   box-shadow: 0 1px 1px rgba(9,30,66,0.25),0 0 1px 0 rgba(9,30,66,0.31);
   cursor: pointer;
   box-shadow: 0 0 0 2px #4C9AFF;
   outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   -webkit-transition: 0.3s all ease-in-out;
   transition: 0.3s all ease-in-out;
 }
@@ -94,12 +98,12 @@ exports[`Wrapper it should not have interactive or selected styles 1`] = `
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   border-radius: 3px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   background-color: white;
   box-shadow: 0 1px 1px rgba(9,30,66,0.25),0 0 1px 0 rgba(9,30,66,0.31);
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
   -webkit-transition: 0.3s all ease-in-out;
   transition: 0.3s all ease-in-out;
 }

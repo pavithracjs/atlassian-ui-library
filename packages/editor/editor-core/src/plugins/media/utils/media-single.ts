@@ -116,12 +116,12 @@ export const createMediaSingleNode = (schema: Schema, collection: string) => (
     id,
     type: 'file',
     collection,
-    width: (width && Math.round(width / scaleFactor)) || null,
-    height: (height && Math.round(height / scaleFactor)) || null,
+    width: width && Math.round(width / scaleFactor),
+    height: height && Math.round(height / scaleFactor),
   });
 
   copyOptionalAttrsFromMediaState(mediaState, mediaNode);
-  return mediaSingle.create({}, mediaNode);
+  return mediaSingle.createChecked({}, mediaNode);
 };
 
 export function transformSliceForMedia(slice: Slice, schema: Schema) {

@@ -17,6 +17,7 @@ import { DispatchAnalyticsEvent } from '../plugins/analytics';
 export type PMPluginFactoryParams = {
   schema: Schema;
   props: EditorProps;
+  prevProps?: EditorProps;
   dispatch: Dispatch;
   eventDispatcher: EventDispatcher;
   providerFactory: ProviderFactory;

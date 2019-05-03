@@ -19,13 +19,13 @@ export type PropsOf<C> = C extends new (props: infer P) => React.Component
 
 export const withDefaultProps = <P, DP extends Partial<P>>(
   defaultProps: DP,
-  Component: React.ComponentClass<P>,
+  Component: React.ComponentType<P>,
 ) => {
   type NonDefaultProps = Omit<P, keyof Shared<P, DP>>;
   type DefaultedProps = Omit<P, keyof NonDefaultProps>;
   type Props = Partial<DefaultedProps> & NonDefaultProps;
   Component.defaultProps = defaultProps;
-  return (Component as any) as React.ComponentClass<Props>;
+  return (Component as any) as React.ComponentType<Props>;
 };
 
 export type ResultantProps<InjectedProps, P extends InjectedProps> = Omit<
@@ -75,10 +75,10 @@ export type PropsPasser<Extra extends object = {}> = <
  * such a way that the resultant component does not accept those props any more
  */
 export type PropsInjector<InjectedProps extends object> = <
-  C extends React.ComponentClass<any>
+  C extends React.ComponentType<any>
 >(
   Component: C,
-) => React.ComponentClass<
+) => React.ComponentType<
   Omit<PropsOf<C>, keyof Shared<InjectedProps, PropsOf<C>>>
 >;
 

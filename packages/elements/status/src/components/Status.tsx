@@ -5,8 +5,8 @@ import {
   WithAnalyticsEventProps,
   CreateUIAnalyticsEventSignature,
   UIAnalyticsEventInterface,
-} from '@atlaskit/analytics-next-types';
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
+  withAnalyticsEvents,
+} from '@atlaskit/analytics-next';
 import { createStatusAnalyticsAndFire } from './analytics';
 import { ANALYTICS_HOVER_DELAY } from './constants';
 
@@ -83,7 +83,6 @@ class StatusInternal extends PureComponent<Props, any> {
   }
 }
 
-// tslint:disable-next-line:variable-name
 export const Status: React.ComponentClass<OwnProps> = withAnalyticsEvents({
   onClick: (
     createEvent: CreateUIAnalyticsEventSignature,

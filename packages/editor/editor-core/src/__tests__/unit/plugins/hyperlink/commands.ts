@@ -20,6 +20,7 @@ import {
   LinkAction,
 } from '../../../../plugins/hyperlink/pm-plugins/main';
 import { pluginKey as cardPluginKey } from '../../../../plugins/card/pm-plugins/main';
+import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 describe('hyperlink commands', () => {
   const createEditor = createEditorFactory();
@@ -209,10 +210,13 @@ describe('hyperlink commands', () => {
       const { editorView: view, sel } = editor(doc(p('{<>}')));
 
       expect(
-        insertLink(sel, sel, 'http://www.atlassian.com/')(
-          view.state,
-          view.dispatch,
-        ),
+        insertLink(
+          sel,
+          sel,
+          'http://www.atlassian.com/',
+          undefined,
+          INPUT_METHOD.TYPEAHEAD,
+        )(view.state, view.dispatch),
       ).toBe(true);
       expect(cardPluginKey.getState(view.state)).toEqual({
         requests: [
@@ -221,6 +225,7 @@ describe('hyperlink commands', () => {
             pos: 1,
             appearance: 'inline',
             compareLinkText: false,
+            source: 'typeAhead',
           },
         ],
         provider: null, // cardProvider would have been set yet

@@ -7,7 +7,7 @@ import {
   MediaProvider,
 } from '../../../../plugins/media/pm-plugins/main';
 import mediaPlugin from '../../../../plugins/media';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import PickerFacade from '../../../../plugins/media/picker-facade';
 import { MediaFile } from '../../../../../../../media/media-picker';
 import {

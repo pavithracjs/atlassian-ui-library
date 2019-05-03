@@ -1,5 +1,39 @@
 # @atlaskit/mention
 
+## 18.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 17.6.9
+- [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+
+  - Removes babel-runtime in favour of @babel/runtime
+
+## 17.6.8
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
+## 17.6.7
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/lozenge@7.0.2
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/theme@8.1.7
+
+## 17.6.6
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
+## 17.6.5
+- [patch] [ddb3238b1c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ddb3238b1c):
+
+  - TEAMS-396 : Changing byline logic for mention
+
 ## 17.6.4
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 

@@ -36,9 +36,9 @@ export type Props = {
   /** The maxheight of the textarea */
   maxHeight: string;
   /** The value of the text-area. */
-  value?: string | number;
+  value?: string;
   /** The default value of the text-area */
-  defaultValue?: string | number;
+  defaultValue?: string;
   /** Handler to be called when the input is blurred */
   onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
   /** Handler to be called when the input changes. */
@@ -69,7 +69,9 @@ export type Props = {
    * forwardRef, so you can also use the ref prop of this component to the
    * same effect.
    */
-  forwardedRef?: (e: HTMLTextAreaElement | null) => void;
+  forwardedRef?:
+    | React.RefObject<HTMLTextAreaElement>
+    | ((e: HTMLTextAreaElement | null) => void);
 };
 type State = {
   isFocused: boolean;
@@ -140,7 +142,6 @@ class TextAreaWithoutForwardRef extends React.Component<Props, State> {
       maxHeight,
       theme,
       forwardedRef,
-      defaultValue,
       ...rest
     } = this.props;
 

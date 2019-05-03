@@ -177,7 +177,7 @@ export const messages = defineMessages({
   },
   columns: {
     id: 'fabric.editor.columns',
-    defaultMessage: 'Columns',
+    defaultMessage: 'Layouts',
     description: 'Create a multi column section or layout',
   },
   columnsDescription: {
@@ -581,6 +581,14 @@ class ToolbarInsertBlock extends React.PureComponent<
         shortcut: shortcutTable,
       });
     }
+    if (layoutSectionEnabled) {
+      const labelColumns = formatMessage(messages.columns);
+      items.push({
+        content: labelColumns,
+        value: { name: 'layout' },
+        elemBefore: <LayoutTwoEqualIcon label={labelColumns} />,
+      });
+    }
     if (availableWrapperBlockTypes) {
       availableWrapperBlockTypes.forEach(blockType => {
         const BlockTypeIcon =
@@ -637,15 +645,6 @@ class ToolbarInsertBlock extends React.PureComponent<
         content: labelPlaceholderText,
         value: { name: 'placeholder text' },
         elemBefore: <PlaceholderTextIcon label={labelPlaceholderText} />,
-      });
-    }
-
-    if (layoutSectionEnabled) {
-      const labelColumns = formatMessage(messages.columns);
-      items.push({
-        content: labelColumns,
-        value: { name: 'layout' },
-        elemBefore: <LayoutTwoEqualIcon label={labelColumns} />,
       });
     }
 

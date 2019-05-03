@@ -13,7 +13,7 @@ import { Context, ImageResizeMode, Identifier } from '@atlaskit/media-core';
 import {
   Card,
   CardDimensions,
-  CardView,
+  CardLoading,
   CardEventHandler,
   CardOnClickCallback,
 } from '@atlaskit/media-card';
@@ -82,7 +82,8 @@ class MediaNode extends Component<MediaNodeProps, MediaNodeState> {
       this.props.viewContext !== nextProps.viewContext ||
       this.props.node.attrs.id !== nextProps.node.attrs.id ||
       this.props.node.attrs.collection !== nextProps.node.attrs.collection ||
-      this.props.cardDimensions !== nextProps.cardDimensions
+      this.props.cardDimensions.height !== nextProps.cardDimensions.height ||
+      this.props.cardDimensions.width !== nextProps.cardDimensions.width
     ) {
       return true;
     }
@@ -127,7 +128,7 @@ class MediaNode extends Component<MediaNodeProps, MediaNodeState> {
       : true;
 
     if (type !== 'external' && (!viewContext || !isMobileReady)) {
-      return <CardView status="loading" dimensions={cardDimensions} />;
+      return <CardLoading dimensions={cardDimensions} />;
     }
 
     const identifier: Identifier =

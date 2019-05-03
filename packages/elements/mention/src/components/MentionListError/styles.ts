@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { HTMLAttributes, ClassAttributes, ComponentClass } from 'react';
 import { borderRadius, colors, typography } from '@atlaskit/theme';
 
-// tslint:disable:next-line variable-name
 export const MentionListErrorStyle: ComponentClass<
   HTMLAttributes<{}>
 > = styled.div`

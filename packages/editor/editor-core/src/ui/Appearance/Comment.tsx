@@ -33,7 +33,6 @@ export interface CommentEditorProps {
 const CommentEditorMargin = 14;
 const CommentEditorSmallerMargin = 8;
 
-// tslint:disable-next-line:variable-name
 const CommentEditor: any = styled.div`
   display: flex;
   flex-direction: column;
@@ -61,7 +60,6 @@ const CommentEditor: any = styled.div`
 CommentEditor.displayName = 'CommentEditor';
 const TableControlsPadding = 16;
 
-// tslint:disable-next-line:variable-name
 const MainToolbar = styled.div`
   position: relative;
   align-items: center;
@@ -81,7 +79,6 @@ const MainToolbar = styled.div`
 `;
 MainToolbar.displayName = 'MainToolbar';
 
-// tslint:disable-next-line:variable-name
 const MainToolbarCustomComponentsSlot = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -95,7 +92,6 @@ const MainToolbarCustomComponentsSlot = styled.div`
 `;
 MainToolbarCustomComponentsSlot.displayName = 'MainToolbar';
 
-// tslint:disable-next-line:variable-name
 const ContentArea = styled(ContentStyles)`
   flex-grow: 1;
   overflow-x: hidden;
@@ -120,7 +116,6 @@ const ContentArea = styled(ContentStyles)`
 `;
 ContentArea.displayName = 'ContentArea';
 
-// tslint:disable-next-line:variable-name
 const SecondaryToolbar = styled.div`
   box-sizing: border-box;
   justify-content: flex-end;

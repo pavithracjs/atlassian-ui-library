@@ -55,7 +55,7 @@ export default class Panel extends PureComponent<Props, State> {
               <styles.ButtonWrapper isHidden={isExpanded}>
                 <Button
                   appearance="subtle"
-                  ariaExpanded={isExpanded}
+                  aria-expanded={isExpanded}
                   spacing="none"
                   iconBefore={
                     isExpanded ? (

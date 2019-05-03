@@ -100,3 +100,9 @@ export const Shortcut = styled.small`
   color: ${colors.N50};
   margin-top: 0;
 `;
+
+export const ClickSelectWrapper: React.ComponentClass<
+  React.HTMLAttributes<{}>
+> = styled.span`
+  user-select: all;
+`;

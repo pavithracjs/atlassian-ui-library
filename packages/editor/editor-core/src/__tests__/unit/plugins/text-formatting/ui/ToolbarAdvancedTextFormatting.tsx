@@ -28,7 +28,7 @@ import ToolbarButton from '../../../../../ui/ToolbarButton';
 import DropdownMenuWrapper from '../../../../../ui/DropdownMenu';
 import panelPlugin from '../../../../../plugins/panel';
 import codeBlockPlugin from '../../../../../plugins/code-block';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 import { AnalyticsHandler } from '../../../../../analytics';
 

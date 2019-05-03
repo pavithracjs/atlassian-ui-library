@@ -1,5 +1,26 @@
 # @atlaskit/portal
 
+## 2.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 1.0.0
+- [major] [5b6b4d6a0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5b6b4d6a0f):
+
+  - This major release indicates that this package is no longer under dev preview but is ready for use
+
+## 0.3.1
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/flag@10.0.5
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/inline-dialog@10.0.3
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/onboarding@7.0.3
+  - @atlaskit/tooltip@13.0.3
+  - @atlaskit/button@12.0.0
+
 ## 0.3.0
 - [minor] [ce4e1b4780](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ce4e1b4780):
 

@@ -1,5 +1,232 @@
 # @atlaskit/renderer
 
+## 48.0.1
+- [patch] [8f2d13f0ec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f2d13f0ec):
+
+  - Email renderer - nested lists do not have vertical margins
+
+## 48.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/adf-utils@6.0.5
+  - @atlaskit/adf-schema@2.5.5
+  - @atlaskit/editor-common@39.0.0
+  - @atlaskit/media-card@63.0.0
+  - @atlaskit/media-filmstrip@34.0.0
+  - @atlaskit/docs@8.0.0
+  - @atlaskit/visual-regression@0.1.0
+  - @atlaskit/button@13.0.0
+  - @atlaskit/code@10.0.0
+  - @atlaskit/field-range@7.0.0
+  - @atlaskit/icon@17.0.0
+  - @atlaskit/navigation-next@6.0.0
+  - @atlaskit/theme@9.0.0
+  - @atlaskit/editor-json-transformer@6.0.0
+  - @atlaskit/editor-test-helpers@9.0.0
+  - @atlaskit/analytics-listeners@6.0.0
+  - @atlaskit/analytics-namespaced-context@4.0.0
+  - @atlaskit/mention@18.0.0
+  - @atlaskit/status@0.9.0
+  - @atlaskit/task-decision@15.0.0
+  - @atlaskit/util-data-test@12.0.0
+  - @atlaskit/media-core@30.0.0
+  - @atlaskit/media-test-helpers@22.0.0
+  - @atlaskit/smart-card@11.0.0
+  - @atlaskit/profilecard@10.0.0
+
+## 47.1.0
+- [minor] [69a8870b4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69a8870b4b):
+
+  - adds support for line numbers in email renderer code blocks
+
+## 47.0.0
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-common@38.0.0
+  - @atlaskit/media-card@62.0.0
+  - @atlaskit/media-filmstrip@33.0.0
+  - @atlaskit/editor-json-transformer@5.0.4
+  - @atlaskit/editor-test-helpers@8.0.8
+  - @atlaskit/task-decision@14.0.9
+  - @atlaskit/util-data-test@11.1.9
+  - @atlaskit/media-test-helpers@21.4.0
+  - @atlaskit/media-core@29.3.0
+
+## 46.0.1
+- [patch] [166ca915ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/166ca915ac):
+
+  - ED-6737: Prevent default tables from going into overflow in the renderer straight away after publish.
+
+  This issue was caused by dynamic sizing, a default table being created in 760 width and then being rendered in 680 width.
+
+  Also included in this patch: Preventing the shadow appearing on the right hand side of the table, when there is no overflow.
+
+## 46.0.0
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-common@37.0.0
+  - @atlaskit/media-card@61.0.0
+  - @atlaskit/media-filmstrip@32.0.0
+  - @atlaskit/editor-json-transformer@5.0.3
+  - @atlaskit/editor-test-helpers@8.0.7
+  - @atlaskit/task-decision@14.0.8
+  - @atlaskit/util-data-test@11.1.8
+  - @atlaskit/media-test-helpers@21.3.0
+  - @atlaskit/media-core@29.2.0
+
+## 45.6.5
+- [patch] [8eeac8c104](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eeac8c104):
+
+  - ED-6725: Update renderer nodes when appearances changes
+
+## 45.6.4
+- [patch] [9047a1921a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9047a1921a):
+
+  - Bugfix of email renderer list vertical indentation
+
+## 45.6.3
+- [patch] [a6fb248987](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6fb248987):
+
+  - ED-6639 Align lists styles between editor & renderer
+
+## 45.6.2
+- [patch] [0d23e11834](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0d23e11834):
+
+  - ED-6736 Prevent extensions with specified width from overflowing between layout cols.
+
+## 45.6.1
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/code@9.0.1
+  - @atlaskit/field-range@6.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/navigation-next@5.1.5
+  - @atlaskit/editor-common@36.1.12
+  - @atlaskit/mention@17.6.7
+  - @atlaskit/status@0.8.3
+  - @atlaskit/task-decision@14.0.5
+  - @atlaskit/media-card@60.0.3
+  - @atlaskit/media-filmstrip@31.0.4
+  - @atlaskit/smart-card@10.2.4
+  - @atlaskit/profilecard@9.0.2
+  - @atlaskit/theme@8.1.7
+
+## 45.6.0
+- [minor] [ca3c087624](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ca3c087624):
+
+  - ED-6606: Add 'full-width' appearance to renderer
+
+  Example:
+
+  ```js
+  import Renderer from '@atlaskit/renderer';
+
+  <Renderer document={...} appearance="full-width" />
+  ```
+
+## 45.5.1
+- [patch] [86d11a504b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/86d11a504b):
+
+  - [ED-5837] Fix copy-paste table from renderer to editor to keep column widths
+
+## 45.5.0
+- [minor] [3d34915d24](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d34915d24):
+
+  - Fixed heading render for ADF->Email
+
+## 45.4.3
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/navigation-next@5.1.4
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/analytics-listeners@5.0.3
+  - @atlaskit/task-decision@14.0.3
+  - @atlaskit/media-card@60.0.1
+  - @atlaskit/media-core@29.1.4
+  - @atlaskit/media-filmstrip@31.0.3
+  - @atlaskit/smart-card@10.2.2
+  - @atlaskit/profilecard@9.0.1
+  - @atlaskit/field-range@6.0.3
+  - @atlaskit/button@12.0.0
+
+## 45.4.2
+- [patch] [c01f9e1cc7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c01f9e1cc7):
+
+  - Standardise code-block class between editor/renderer. Fix bg color when code-block is nested within a table heading.
+
+## 45.4.1
+- [patch] [55e47676aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55e47676aa):
+
+  - revert update status code splits in Renderer/Editor which causes component dist to be broken
+
+## 45.4.0
+- [minor] [969915d261](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/969915d261):
+
+  - update status import entrypoints in Renderer/editor
+
+## 45.3.3
+- [patch] [32317ff8f3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/32317ff8f3):
+
+  - MS-1633 Renderer passes a list of files and external images to a Card to be opened with Media Viewer
+
+## 45.3.2
+- [patch] [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
+
+  - Removed CardView and CardViewLoader from public APIs and replaced it with light-weight and stateless CardLoading and CardError components. Handling of external images is now done by Card component itself using ExternalImageIdentifier interface.
+
+  If you’ve been using CardView for loading:
+
+  ```js
+  <CardView
+    status="loading"
+    mediaItemType="file"
+    dimensions={cardDimensions}
+  />
+  ```
+
+  Now you can use new component:
+
+  ```js
+  <CardLoading dimensions={cardDimensions} />
+  ```
+
+  If you were using CardView to show an error
+
+  ```js
+  <CardView
+    status="error"
+    mediaItemType={type}
+    dimensions={cardDimensions}
+  />
+  ```
+
+  Now you can use new component:
+
+  ```js
+  <CardError dimensions={cardDimensions} />
+  ```
+
+  In case you were using CardView to show image with known external URI:
+
+  ```js
+  <CardView
+    status="complete"
+    dataURI={dataURI}
+    metadata={metadata}
+  />
+  ```
+
+  You will have to find a way to switch to using Card component using ExternalImageIdentifier interface:
+
+  ```js
+  <Card
+    identifier={identifier}
+    context={context}
+  />
+  ```
+
 ## 45.3.1
 - [patch] [823d44ebb0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/823d44ebb0):
 

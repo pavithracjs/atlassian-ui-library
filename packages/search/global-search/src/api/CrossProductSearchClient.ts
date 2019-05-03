@@ -14,6 +14,12 @@ import {
 } from '@atlaskit/util-service-support';
 import { Scope, ConfluenceItem, JiraItem, PersonItem } from './types';
 
+export const DEFAULT_AB_TEST: ABTest = Object.freeze({
+  experimentId: 'default',
+  abTestId: 'default',
+  controlId: 'default',
+});
+
 export type CrossProductSearchResults = {
   results: Map<Scope, Result[]>;
   abTest?: ABTest;
@@ -54,7 +60,7 @@ export interface ScopeResult {
 export interface Experiment {
   id: Scope;
   error?: string;
-  abTest?: ABTest;
+  abTest: ABTest;
 }
 
 export interface CrossProductSearchClient {
@@ -65,10 +71,7 @@ export interface CrossProductSearchClient {
     resultLimit?: Number,
   ): Promise<CrossProductSearchResults>;
 
-  getAbTestData(
-    scope: Scope,
-    searchSession: SearchSession,
-  ): Promise<ABTest | undefined>;
+  getAbTestData(scope: Scope, searchSession: SearchSession): Promise<ABTest>;
 }
 
 export default class CrossProductSearchClientImpl
@@ -115,7 +118,7 @@ export default class CrossProductSearchClientImpl
   public async getAbTestData(
     scope: Scope,
     searchSession: SearchSession,
-  ): Promise<ABTest | undefined> {
+  ): Promise<ABTest> {
     const path = 'experiment/v1';
     const body = {
       cloudId: this.cloudId,
@@ -135,7 +138,7 @@ export default class CrossProductSearchClientImpl
       return Promise.resolve(scopeWithAbTest.abTest);
     }
 
-    return Promise.resolve(undefined);
+    return Promise.resolve(DEFAULT_AB_TEST);
   }
 
   private async makeRequest<T>(path: string, body: object): Promise<T> {

@@ -49,7 +49,7 @@ class BreadcrumbsItem extends Component<Props, State> {
   button: ?HTMLButtonElement;
 
   static defaultProps = {
-    component: '',
+    component: undefined,
     hasSeparator: false,
     href: '#',
     truncationWidth: 0,

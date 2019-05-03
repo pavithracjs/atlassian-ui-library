@@ -24,10 +24,11 @@ import {
 import { ProseMirrorDOMChange } from '../types';
 import { parseLocationSearch } from '../bridge-utils';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
-import { cardProvider } from '../providers/cardProvider';
+import { cardClient, cardProvider } from '../providers/cardProvider';
 
 const params = parseLocationSearch();
 // @ts-ignore
+// eslint-disable-next-line no-redeclare
 import { AtlaskitThemeProvider } from '@atlaskit/theme';
 
 export const bridge: WebBridgeImpl = ((window as any).bridge = new WebBridgeImpl());
@@ -74,7 +75,7 @@ export default function mobileEditor(props: Props) {
   // eg. If the URL parameter is like ?mode=dark use that, otherwise check the prop (used in example)
   const mode = (params && params.theme) || props.mode || 'light';
   return (
-    <SmartCardProvider>
+    <SmartCardProvider client={cardClient}>
       <AtlaskitThemeProvider mode={mode}>
         <EditorWithState
           appearance="mobile"
@@ -85,6 +86,7 @@ export default function mobileEditor(props: Props) {
             provider: props.mediaProvider || MediaProvider,
             allowMediaSingle: true,
           }}
+          allowConfluenceInlineComment={true}
           allowLists={true}
           onChange={() => {
             toNativeBridge.updateText(bridge.getContent());

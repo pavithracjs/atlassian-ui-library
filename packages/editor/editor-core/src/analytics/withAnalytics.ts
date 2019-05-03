@@ -7,7 +7,7 @@ export function withAnalytics(analyticsEventName: string, trackedFn: Function) {
       try {
         analyticsService.trackEvent(analyticsEventName);
       } catch (e) {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.error(
           'An exception has been thrown when trying to track analytics event:',
           e,

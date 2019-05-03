@@ -39,6 +39,7 @@ export interface TablePluginState {
   isInDanger?: boolean;
   insertColumnButtonIndex?: number;
   insertRowButtonIndex?: number;
+  isFullWidthModeEnabled?: boolean;
 }
 
 export interface ColumnResizingPlugin {

@@ -68,7 +68,8 @@ export type ClientConfig = {
 };
 
 export type ClientEnvironment = {
-  resolverURL: string;
+  baseUrl: string;
+  resolverUrl: string;
 };
 
 export type EnvironmentsKeys = keyof typeof Environments;

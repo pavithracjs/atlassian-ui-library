@@ -46,6 +46,7 @@ import {
   InputMethodInsertMedia,
   DispatchAnalyticsEvent,
 } from '../../../plugins/analytics';
+import { isFullPage } from '../../../utils/is-full-page';
 export { MediaState, MediaProvider, MediaStateStatus };
 
 const MEDIA_RESOLVED_STATES = ['ready', 'error', 'cancelled'];
@@ -824,7 +825,7 @@ export class MediaPluginState {
 
 const createDropPlaceholder = (editorAppearance?: EditorAppearance) => {
   const dropPlaceholder = document.createElement('div');
-  if (editorAppearance === 'full-page') {
+  if (isFullPage(editorAppearance)) {
     ReactDOM.render(
       React.createElement(DropPlaceholder, { type: 'single' } as {
         type: PlaceholderType;
@@ -874,7 +875,6 @@ export const createPlugin = (
         if (meta && dispatch) {
           const { showMediaPicker } = pluginState;
           const { allowsUploads } = meta;
-
           dispatch(stateKey, {
             ...pluginState,
             allowsUploads:

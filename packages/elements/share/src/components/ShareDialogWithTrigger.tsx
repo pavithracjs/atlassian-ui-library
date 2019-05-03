@@ -1,23 +1,28 @@
 import {
   AnalyticsContext,
   withAnalyticsEvents,
-} from '@atlaskit/analytics-next';
-import {
   AnalyticsEventPayload,
   WithAnalyticsEventProps,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import { ButtonAppearances } from '@atlaskit/button';
 import InlineDialog from '@atlaskit/inline-dialog';
 import { LoadOptions } from '@atlaskit/user-picker';
+import ShareIcon from '@atlaskit/icon/glyph/share';
 import * as React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import styled from 'styled-components';
 import { messages } from '../i18n';
 import {
   ConfigResponse,
   DialogContentState,
+  DialogPlacement,
+  Flag,
   OriginTracing,
   ShareButtonStyle,
+  ShareError,
+  RenderCustomTriggerButton,
+  ADMIN_NOTIFIED,
+  OBJECT_SHARED,
 } from '../types';
 import {
   buttonClicked,
@@ -26,12 +31,8 @@ import {
   screenEvent,
   submitShare,
 } from './analytics';
-import { ShareButton } from './ShareButton';
+import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
-
-type RenderChildren = (
-  args: { onClick: () => void; loading?: boolean; error?: ShareError },
-) => React.ReactNode;
 
 type DialogState = {
   isDialogOpen: boolean;
@@ -43,24 +44,22 @@ type DialogState = {
 
 export type State = DialogState;
 
-type ShareError = {
-  message: string;
-};
-
 export type Props = {
   config?: ConfigResponse;
-  children?: RenderChildren;
   copyLink: string;
-  dialogPlacement?: string;
+  dialogPlacement?: DialogPlacement;
   isDisabled?: boolean;
   loadUserOptions?: LoadOptions;
   onLinkCopy?: Function;
   onShareSubmit?: (shareContentState: DialogContentState) => Promise<any>;
+  renderCustomTriggerButton?: RenderCustomTriggerButton;
+  shareContentType: string;
   shareFormTitle?: React.ReactNode;
+  shareOrigin?: OriginTracing | null;
   shouldCloseOnEscapePress?: boolean;
+  showFlags: (flags: Array<Flag>) => void;
   triggerButtonAppearance?: ButtonAppearances;
   triggerButtonStyle?: ShareButtonStyle;
-  shareOrigin?: OriginTracing | null;
 };
 
 const InlineDialogFormWrapper = styled.div`
@@ -77,14 +76,14 @@ export const defaultShareContentState: DialogContentState = {
 };
 
 class ShareDialogWithTriggerInternal extends React.Component<
-  Props & WithAnalyticsEventProps,
+  Props & InjectedIntlProps & WithAnalyticsEventProps,
   State
 > {
   static defaultProps = {
     isDisabled: false,
-    dialogPlacement: 'bottom-end',
-    shouldCloseOnEscapePress: false,
-    triggerButtonAppearance: 'subtle',
+    dialogPlacement: 'bottom-end' as 'bottom-end',
+    shouldCloseOnEscapePress: true,
+    triggerButtonAppearance: 'subtle' as 'subtle',
     triggerButtonStyle: 'icon-only' as 'icon-only',
   };
   private containerRef = React.createRef<HTMLDivElement>();
@@ -115,11 +114,59 @@ class ShareDialogWithTriggerInternal extends React.Component<
     }
   };
 
+  private getFlags = () => {
+    const { formatMessage } = this.props.intl;
+    const flags: Array<Flag> = [];
+
+    if (
+      this.props.config &&
+      this.props.config.mode === 'INVITE_NEEDS_APPROVAL'
+    ) {
+      flags.push({
+        appearance: 'success',
+        title: {
+          ...messages.adminNotifiedMessage,
+          defaultMessage: formatMessage(messages.adminNotifiedMessage),
+        },
+        type: ADMIN_NOTIFIED,
+      });
+    }
+
+    flags.push({
+      appearance: 'success',
+      title: {
+        ...messages.shareSuccessMessage,
+        defaultMessage: formatMessage(messages.shareSuccessMessage, {
+          object: this.props.shareContentType.toLowerCase(),
+        }),
+      },
+      type: OBJECT_SHARED,
+    });
+
+    // The reason for providing message property is that in jira,
+    // the Flag system takes only Message Descriptor as payload
+    // and formatMessage is called for every flag
+    // if the translation data is not provided, a translated default message
+    // will be displayed
+    return flags;
+  };
+
   private handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     const { isDialogOpen } = this.state;
-    if (isDialogOpen) {
+    const { shouldCloseOnEscapePress } = this.props;
+    if (isDialogOpen && shouldCloseOnEscapePress) {
       switch (event.key) {
         case 'Escape':
+          // react-select will always capture the event via onKeyDown
+          // and trigger event.preventDefault()
+          if (event.defaultPrevented) {
+            // put the focus back onto the share dialog so that
+            // the user can press the escape key again to close the dialog
+            if (this.containerRef.current) {
+              this.containerRef.current.focus();
+            }
+            return;
+          }
           event.stopPropagation();
           this.closeAndResetDialog();
           this.createAndFireEvent(cancelShare(this.start));
@@ -153,7 +200,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
   };
 
   private handleShareSubmit = (data: DialogContentState) => {
-    const { onShareSubmit, shareOrigin, config } = this.props;
+    const { onShareSubmit, shareOrigin, showFlags, config } = this.props;
     if (!onShareSubmit) {
       return;
     }
@@ -166,6 +213,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
       .then(() => {
         this.closeAndResetDialog();
         this.setState({ isSharing: false });
+        showFlags(this.getFlags());
       })
       .catch((err: Error) => {
         this.setState({
@@ -183,11 +231,6 @@ class ShareDialogWithTriggerInternal extends React.Component<
     );
   };
 
-  handleShareFailure = (_err: Error) => {
-    // TBC: FS-3429 replace send button with retry button
-    // will need a prop to pass through the error message to the ShareForm
-  };
-
   handleCopyLink = () => {
     this.createAndFireEvent(copyShareLink(this.start, this.props.shareOrigin));
   };
@@ -195,6 +238,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
   render() {
     const { isDialogOpen, isSharing, shareError, defaultValue } = this.state;
     const {
+      intl: { formatMessage },
       copyLink,
       dialogPlacement,
       isDisabled,
@@ -236,21 +280,30 @@ class ShareDialogWithTriggerInternal extends React.Component<
           onClose={this.handleCloseDialog}
           placement={dialogPlacement}
         >
-          {this.props.children ? (
-            this.props.children({
-              onClick: this.onTriggerClick,
-              loading: isSharing,
+          {this.props.renderCustomTriggerButton ? (
+            this.props.renderCustomTriggerButton({
               error: shareError,
+              isSelected: isDialogOpen,
+              onClick: this.onTriggerClick,
             })
           ) : (
             <ShareButton
               appearance={triggerButtonAppearance}
               text={
-                triggerButtonStyle === 'icon-with-text' ? (
+                triggerButtonStyle !== 'icon-only' ? (
                   <FormattedMessage {...messages.shareTriggerButtonText} />
                 ) : null
               }
               onClick={this.onTriggerClick}
+              iconBefore={
+                triggerButtonStyle !== 'text-only' ? (
+                  <ShareIcon
+                    label={formatMessage(messages.shareTriggerButtonIconLabel)}
+                  />
+                ) : (
+                  undefined
+                )
+              }
               isSelected={isDialogOpen}
               isDisabled={isDisabled}
             />
@@ -261,7 +314,6 @@ class ShareDialogWithTriggerInternal extends React.Component<
   }
 }
 
-export const ShareDialogWithTrigger: React.ComponentClass<
-  Props,
-  State
-> = withAnalyticsEvents()(ShareDialogWithTriggerInternal);
+export const ShareDialogWithTrigger: React.ComponentType<
+  Props
+> = withAnalyticsEvents()(injectIntl(ShareDialogWithTriggerInternal));

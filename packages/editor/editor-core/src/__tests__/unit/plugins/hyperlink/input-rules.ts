@@ -11,7 +11,7 @@ import {
   dispatchPasteEvent,
 } from '@atlaskit/editor-test-helpers';
 import codeBlockPlugin from '../../../../plugins/code-block';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { AnalyticsHandler } from '../../../../analytics';
 
 describe('hyperlink', () => {

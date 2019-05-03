@@ -6,6 +6,7 @@ import {
   Providers,
   WithProviders,
 } from '@atlaskit/editor-common';
+import { ClickSelectWrapper } from '../../../../ui/styles';
 
 export interface EmojiProps extends EmojiId {
   allowTextFallback?: boolean;
@@ -43,12 +44,14 @@ export default class EmojiNode extends PureComponent<EmojiProps, {}> {
     }
 
     return (
-      <ResourcedEmoji
-        emojiId={{ id, fallback, shortName }}
-        emojiProvider={providers.emojiProvider}
-        showTooltip={true}
-        fitToHeight={fitToHeight}
-      />
+      <ClickSelectWrapper>
+        <ResourcedEmoji
+          emojiId={{ id, fallback, shortName }}
+          emojiProvider={providers.emojiProvider}
+          showTooltip={true}
+          fitToHeight={fitToHeight}
+        />
+      </ClickSelectWrapper>
     );
   };
 

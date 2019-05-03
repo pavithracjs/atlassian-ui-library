@@ -13,7 +13,6 @@ const lineStyle = (height: number = 24) => ({
   lineHeight: `${height}px`,
 });
 
-// tslint:disable-next-line:variable-name
 const SampleEmojis = (props: SampleEmojiProps) => (
   <span>
     <ResourcedEmoji

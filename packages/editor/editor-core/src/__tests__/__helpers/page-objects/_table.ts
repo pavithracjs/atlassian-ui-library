@@ -1,4 +1,8 @@
-import { clickElementWithText, getBoundingRect } from './_editor';
+import {
+  clickElementWithText,
+  getBoundingRect,
+  scrollToElement,
+} from './_editor';
 import { clickToolbarMenu, ToolbarMenuItem } from './_toolbar';
 import { TableCssClassName as ClassName } from '../../../plugins/table/types';
 import messages from '../../../messages';
@@ -310,4 +314,8 @@ export const toggleBreakout = async (page: any, times: number) => {
   for (let _iter of timesArray) {
     await page.click(tableSelectors.breakoutButton);
   }
+};
+
+export const scrollToTable = async (page: any) => {
+  await scrollToElement(page, tableSelectors.tableTd, 50);
 };

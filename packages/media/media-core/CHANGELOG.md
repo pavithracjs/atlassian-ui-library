@@ -1,5 +1,57 @@
 # @atlaskit/media-core
 
+## 30.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 29.3.0
+- [minor] [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+
+  - Add event emitter api to context + add first known event 'file-added'
+
+  Integrators can now do:
+
+  ```
+  import {ContextFactory, FileState} from '@atlaskit/media-core'
+
+  const context = ContextFactory.create();
+
+  context.on('file-added', (file: FileState) => {
+    console.log(file.id)
+  })
+  ```
+
+  check the **FileState** for the all the properties included in the payload
+
+## 29.2.0
+- [minor] [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+
+  - Export new media-store interfaces and methods: `ClientAltBasedAuth`, `MediaClientConfig` and `authToOwner`. Also introduce cache related members related to future migration to media-client: `mediaState`, `CachedMediaState`, `StateDeferredValue`.
+
+## 29.1.5
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
+## 29.1.4
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/media-card@60.0.1
+  - @atlaskit/media-store@11.0.7
+  - @atlaskit/button@12.0.0
+
+## 29.1.3
+- [patch] [30a9a7177e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/30a9a7177e):
+
+  - [MS-1791] Make fileState.representations optional, since media api might not return that value in all cases and we want to prevent a runtime error
+
+## 29.1.2
+- Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
+  - @atlaskit/media-store@11.0.5
+  - @atlaskit/media-test-helpers@21.2.2
+  - @atlaskit/media-card@60.0.0
+
 ## 29.1.1
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 

@@ -3,8 +3,8 @@ import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-conte
 import {
   createAndFireEvent,
   withAnalyticsEvents,
+  CreateUIAnalyticsEventSignature,
 } from '@atlaskit/analytics-next';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
 import {
   UI_EVENT_TYPE,
   OPERATIONAL_EVENT_TYPE,

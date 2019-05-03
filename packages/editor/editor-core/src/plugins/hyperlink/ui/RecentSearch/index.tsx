@@ -1,12 +1,12 @@
 import * as React from 'react';
-import RecentList from './LinkAddToolbar';
+import RecentList, { LinkInputType } from './LinkAddToolbar';
 import { ProviderFactory, WithProviders } from '@atlaskit/editor-common';
 import { DispatchAnalyticsEvent } from '../../../analytics';
 
 export interface Props {
   providerFactory: ProviderFactory;
   onBlur?: (text: string) => void;
-  onSubmit?: (href: string, text?: string) => void;
+  onSubmit?: (href: string, text?: string, type?: LinkInputType) => void;
   dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 }
 

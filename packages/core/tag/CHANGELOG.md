@@ -1,5 +1,23 @@
 # @atlaskit/tag
 
+## 8.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 7.0.3
+- [patch] [ef0875bb53](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ef0875bb53):
+
+  - Fixed size of tag remove icon
+
+## 7.0.2
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/theme@8.1.7
+
 ## 7.0.1
 - [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
 

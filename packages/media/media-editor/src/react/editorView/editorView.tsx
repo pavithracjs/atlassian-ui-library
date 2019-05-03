@@ -8,6 +8,7 @@ import { Tool, Dimensions, ShapeParameters } from '../../common';
 import Toolbar, { tools } from './toolbar/toolbar';
 import { EditorContainer } from './styles';
 import { colors } from '@atlaskit/theme';
+import { Theme as ButtonTheme } from '@atlaskit/button';
 import { rgbToHex } from '../../util';
 import { DEFAULT_COLOR } from './toolbar/popups/colorPopup';
 
@@ -77,10 +78,16 @@ class EditorView extends Component<
     const theme = { __ATLASKIT_THEME__: { mode: 'dark' } };
     return (
       <ThemeProvider theme={theme}>
-        <EditorContainer innerRef={refHandler}>
-          {this.renderEditor()}
-          {this.renderToolbar()}
-        </EditorContainer>
+        <ButtonTheme.Provider
+          value={(currentTheme, themeProps) =>
+            currentTheme({ ...themeProps, mode: 'dark' })
+          }
+        >
+          <EditorContainer innerRef={refHandler} onKeyDown={this.handleEsc}>
+            {this.renderEditor()}
+            {this.renderToolbar()}
+          </EditorContainer>
+        </ButtonTheme.Provider>
       </ThemeProvider>
     );
   }
@@ -175,7 +182,7 @@ class EditorView extends Component<
       localStorage.setItem(propertyTool, tool);
       localStorage.setItem(propertyLineWidth, lineWidth.toString());
     } catch (error) {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.warn(
         `Failed to save properties for MediaEditor: ${color} ${tool} ${lineWidth}`,
       );
@@ -200,7 +207,7 @@ class EditorView extends Component<
           color: parsedColor,
         });
       } catch (error) {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.warn(
           `Failed to parse color property for MediaEditor: ${color}`,
         );
@@ -221,6 +228,14 @@ class EditorView extends Component<
       });
     }
   }
+
+  private handleEsc = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      e.stopPropagation();
+      e.nativeEvent.stopImmediatePropagation();
+      this.props.onCancel();
+    }
+  };
 }
 
 function isTool(value: string): value is Tool {

@@ -1,5 +1,6 @@
 import { EditorState, TextSelection, PluginSpec } from 'prosemirror-state';
-import { Decoration, DecorationSet } from 'prosemirror-view';
+import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
+import { Node, Slice } from 'prosemirror-model';
 import {
   layoutSection,
   layoutColumn,
@@ -13,16 +14,20 @@ import {
 import {
   default as createLayoutPlugin,
   pluginKey,
+  LayoutState,
 } from '../../../../../plugins/layout/pm-plugins/main';
 import {
   forceSectionToPresetLayout,
   PresetLayout,
 } from '../../../../../plugins/layout/actions';
-import { Node } from 'prosemirror-model';
+import { layouts, buildLayoutForWidths } from '../_utils';
 
 describe('layout', () => {
   const createEditor = createEditorFactory();
-  const layoutPlugin = createLayoutPlugin({ allowBreakout: true });
+  const layoutPlugin = createLayoutPlugin({
+    allowBreakout: true,
+    UNSAFE_addSidebarLayouts: true,
+  });
   const editor = (doc: any) =>
     createEditor({ doc, editorProps: { allowLayouts: true } });
   const toState = (node: RefsNode) =>
@@ -32,73 +37,107 @@ describe('layout', () => {
         ? TextSelection.create(node, node.refs['<>'])
         : undefined,
     });
+
   describe('plugin', () => {
     describe('#init', () => {
-      it('should set pos when selection in layout', () => {
-        const document = doc(
-          layoutSection(
-            layoutColumn({ width: 50 })(p('{<>}')),
-            layoutColumn({ width: 50 })(p('')),
-          ),
-        )(defaultSchema);
-        const state = toState(document);
-        const pluginState = (layoutPlugin.spec as PluginSpec).state!.init(
-          {},
-          state,
-        );
-        expect(pluginState).toEqual({ pos: 0, allowBreakout: true });
+      const initState = (document: RefsNode): LayoutState =>
+        (layoutPlugin.spec as PluginSpec).state!.init({}, toState(document));
+
+      describe('when selection in layout', () => {
+        it('should set pos', () => {
+          const document = doc(buildLayoutForWidths([50, 50], true))(
+            defaultSchema,
+          );
+          const pluginState = initState(document);
+          expect(pluginState.pos).toBe(0);
+        });
+
+        layouts.forEach(layout => {
+          it(`should set selectedLayout to "${layout.name}"`, () => {
+            const document = doc(buildLayoutForWidths(layout.widths, true))(
+              defaultSchema,
+            );
+            const pluginState = initState(document);
+            expect(pluginState.selectedLayout).toBe(layout.name);
+          });
+        });
       });
-      it('should set pos to null when selection is not in layout', () => {
-        const document = doc(p('{<>}'))(defaultSchema);
-        const state = toState(document);
-        const pluginState = (layoutPlugin.spec as PluginSpec).state!.init(
-          {},
-          state,
-        );
-        expect(pluginState.pos).toEqual(null);
+
+      describe('when selection not in layout', () => {
+        let pluginState: LayoutState;
+
+        beforeEach(() => {
+          pluginState = initState(doc(p('{<>}'))(defaultSchema));
+        });
+
+        it('should set pos to null', () => {
+          expect(pluginState.pos).toEqual(null);
+        });
+
+        it('should set selectedLayout to default (two_equal)', () => {
+          expect(pluginState.selectedLayout).toEqual('two_equal');
+        });
       });
     });
 
     describe('#apply', () => {
-      it('should set pos when selection in layout', () => {
-        const {
-          editorView,
-          refs: { layoutPos },
-        } = editor(
-          doc(
-            p('{<>}'),
-            layoutSection(
-              layoutColumn({ width: 50 })(p('{layoutPos}')),
-              layoutColumn({ width: 50 })(p('')),
-            ),
-          ),
-        );
+      const dispatchTransaction = (
+        editorView: EditorView,
+        selectionPos: number,
+      ) => {
         editorView.dispatch(
           editorView.state.tr.setSelection(
-            TextSelection.create(editorView.state.doc, layoutPos),
+            TextSelection.create(editorView.state.doc, selectionPos),
           ),
         );
-        expect(pluginKey.getState(editorView.state).pos).toEqual(2);
+      };
+
+      describe('when selection in layout', () => {
+        it('should set pos', () => {
+          const {
+            editorView,
+            refs: { layoutPos },
+          } = editor(
+            doc(p('{<>}'), buildLayoutForWidths([50, 50], '{layoutPos}')),
+          );
+          dispatchTransaction(editorView, layoutPos);
+          expect(pluginKey.getState(editorView.state).pos).toEqual(2);
+        });
+
+        layouts.forEach(layout => {
+          it(`should set selectedLayout to "${layout.name}"`, () => {
+            const document = doc(
+              p('{<>}'),
+              buildLayoutForWidths(layout.widths, '{layoutPos}'),
+            );
+
+            const {
+              editorView,
+              refs: { layoutPos },
+            } = editor(document);
+            dispatchTransaction(editorView, layoutPos);
+            expect(pluginKey.getState(editorView.state).selectedLayout).toEqual(
+              layout.name,
+            );
+          });
+        });
       });
-      it('should set pos to null when selection is not in layout', () => {
-        const {
-          editorView,
-          refs: { pPos },
-        } = editor(
-          doc(
-            p('{pPos}'),
-            layoutSection(
-              layoutColumn({ width: 50 })(p('{<>}')),
-              layoutColumn({ width: 50 })(p('')),
-            ),
-          ),
-        );
-        editorView.dispatch(
-          editorView.state.tr.setSelection(
-            TextSelection.create(editorView.state.doc, pPos),
-          ),
-        );
-        expect(pluginKey.getState(editorView.state).pos).toEqual(null);
+
+      describe('when selection not in layout', () => {
+        let editorView: EditorView;
+        let pPos: number;
+
+        beforeEach(() => {
+          ({
+            editorView,
+            refs: { pPos },
+          } = editor(doc(p('{pPos}'), buildLayoutForWidths([50, 50], true))));
+          dispatchTransaction(editorView, pPos);
+        });
+
+        it('should set pos to null', () => {
+          expect(pluginKey.getState(editorView.state).pos).toEqual(null);
+        });
       });
     });
 
@@ -168,6 +207,7 @@ describe('layout', () => {
       });
     });
   });
+
   describe('#forceSectionToPresetLayout', () => {
     (['two_equal'] as Array<PresetLayout>).forEach(
       (layoutType: PresetLayout) => {
@@ -279,9 +319,10 @@ describe('layout', () => {
           const state = toState(document);
           const pos = 0;
           const node = document.nodeAt(pos) as Node;
-          expect(
-            forceSectionToPresetLayout(state, node, pos, layoutType).docChanged,
-          ).toBe(false);
+          const newState = state.apply(
+            forceSectionToPresetLayout(state, node, pos, layoutType),
+          );
+          expect(newState.doc).toEqualDocument(document);
         });
       },
     );
@@ -298,9 +339,10 @@ describe('layout', () => {
           const state = toState(document);
           const pos = 0;
           const node = document.nodeAt(pos) as Node;
-          expect(
-            forceSectionToPresetLayout(state, node, pos, layoutType).docChanged,
-          ).toBe(false);
+          const newState = state.apply(
+            forceSectionToPresetLayout(state, node, pos, layoutType),
+          );
+          expect(newState.doc).toEqualDocument(document);
         });
 
         it(`should add a third column when layout is ${layoutType}`, () => {
@@ -330,14 +372,14 @@ describe('layout', () => {
       },
     );
   });
+
   describe('appendTransaction', () => {
     it(`ensure all column sizes add to 100%`, () => {
       const { editorView } = editor(
         doc(
           layoutSection(
-            layoutColumn({ width: 33.33 })(p('Over')),
-            layoutColumn({ width: 33.33 })(p('Fl{<>}ow')),
-            layoutColumn({ width: 50 })(p('Column')),
+            layoutColumn({ width: 55 })(p('Overfl{<>}ow')),
+            layoutColumn({ width: 55 })(p('Column')),
           ),
         ),
       );
@@ -345,12 +387,29 @@ describe('layout', () => {
       expect(editorView.state.doc).toEqualDocument(
         doc(
           layoutSection(
-            layoutColumn({ width: 33.33 })(p('Over')),
-            layoutColumn({ width: 33.33 })(p('Flow')),
-            layoutColumn({ width: 33.33 })(p('Column')),
+            layoutColumn({ width: 50 })(p('Overfl{<>}ow')),
+            layoutColumn({ width: 50 })(p('Column')),
           ),
         ),
       );
+    });
+
+    it('ensures correct number of columns for the selected layout', () => {
+      const threeColDoc = doc(
+        layoutSection(
+          layoutColumn({ width: 33.33 })(p('{<>}')),
+          layoutColumn({ width: 33.33 })(p('')),
+          layoutColumn({ width: 33.33 })(p('')),
+        ),
+      );
+      const { editorView } = editor(threeColDoc);
+      // selected layout will be three_equal
+
+      // dispatch transaction that removes a column
+      const tr = editorView.state.tr.replaceRange(7, 11, Slice.empty);
+      const newState = editorView.state.apply(tr);
+
+      expect(newState.doc).toEqualDocument(threeColDoc);
     });
   });
 });
