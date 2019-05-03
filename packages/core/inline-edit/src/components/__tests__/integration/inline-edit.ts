@@ -19,17 +19,25 @@ const cancelButton = 'button[aria-label="Cancel"]';
 const errorMessage = 'div#error-message';
 const label = 'label';
 
+const safariCompatibleTab = async (page: any) => {
+  if (page.isBrowser('Safari')) {
+    await page.keys(['Alt', 'Tab']);
+  } else {
+    await page.keys(['Tab']);
+  }
+};
+
 BrowserTestCase(
   'The edit button should have focus after edit is confirmed by pressing Enter',
-  /** Skipping safari because could not tab to editButton - should be fixed by BUILDTOOLS-63 */
-  { skip: ['safari'] },
+  { skip: [] },
   async (client: any) => {
     const inlineEditTest = new Page(client);
     await inlineEditTest.goto(inlineEditExampleUrl);
     await inlineEditTest.click(label);
 
     await inlineEditTest.waitForSelector(editButton);
-    await inlineEditTest.keys(['Tab', 'Enter']);
+    await safariCompatibleTab(inlineEditTest);
+    await inlineEditTest.keys(['Enter']);
 
     await inlineEditTest.waitForSelector(input);
     await inlineEditTest.keys(['Enter']);
@@ -42,15 +50,15 @@ BrowserTestCase(
 
 BrowserTestCase(
   'The edit button should not have focus after edit is confirmed by clicking on the confirm button',
-  /** Skipping safari because could not tab to editButton - should be fixed by BUILDTOOLS-63 */
-  { skip: ['safari'] },
+  { skip: [] },
   async (client: any) => {
     const inlineEditTest = new Page(client);
     await inlineEditTest.goto(inlineEditExampleUrl);
 
     await inlineEditTest.waitForSelector(editButton);
     await inlineEditTest.click(label);
-    await inlineEditTest.keys(['Tab', 'Enter']);
+    await safariCompatibleTab(inlineEditTest);
+    await inlineEditTest.keys(['Enter']);
 
     await inlineEditTest.waitForSelector(confirmButton);
     await inlineEditTest.click(confirmButton);
@@ -80,11 +88,9 @@ BrowserTestCase(
   },
 );
 
-// https://ecosystem.atlassian.net/browse/AK-6176
-// TODO: Alt + Tab key not working with Safari any longer fix it
 BrowserTestCase(
   'The edit view should remain open when tab is pressed in the input and when tab is pressed on the confirm button',
-  { skip: ['safari'] },
+  { skip: [] },
   async (client: any) => {
     const inlineEditTest = new Page(client);
     await inlineEditTest.goto(inlineEditExampleUrl);
@@ -93,18 +99,12 @@ BrowserTestCase(
     await inlineEditTest.click(readViewContentWrapper);
 
     await inlineEditTest.waitForSelector(input);
-    //const browser = inlineEditTest.isBrowser('Safari');
 
-    // if (browser === 'Safari') {
-    //   await inlineEditTest.keys(['Alt', 'Tab']);
-    // } else {
-    //   await inlineEditTest.keys(['Tab']);
-    // }
-    await inlineEditTest.keys(['Tab']);
+    await safariCompatibleTab(inlineEditTest);
     await inlineEditTest.waitForSelector(confirmButton);
     expect(await inlineEditTest.hasFocus(confirmButton)).toBe(true);
 
-    await inlineEditTest.keys(['Tab']);
+    await safariCompatibleTab(inlineEditTest);
     await inlineEditTest.waitForSelector(cancelButton);
     expect(await inlineEditTest.hasFocus(cancelButton)).toBe(true);
     expect(await inlineEditTest.isVisible(input)).toBe(true);
@@ -113,11 +113,9 @@ BrowserTestCase(
   },
 );
 
-// https://ecosystem.atlassian.net/browse/AK-6176
-// TODO: bug in safari - error message is not shown
 BrowserTestCase(
   'An error message is displayed correctly',
-  { skip: ['safari'] },
+  { skip: [] },
   async (client: any) => {
     const inlineEditTest = new Page(client);
     await inlineEditTest.goto(validationExampleUrl);
@@ -127,13 +125,11 @@ BrowserTestCase(
 
     await inlineEditTest.waitForSelector(input);
     await inlineEditTest.click('input');
-    await inlineEditTest.keys([
-      'Backspace',
-      'Backspace',
-      'Backspace',
-      'Backspace',
-      'Backspace',
-    ]);
+    await inlineEditTest.keys('Backspace');
+    await inlineEditTest.keys('Backspace');
+    await inlineEditTest.keys('Backspace');
+    await inlineEditTest.keys('Backspace');
+    await inlineEditTest.keys('Backspace');
     await inlineEditTest.waitForSelector(errorMessage);
     expect(await inlineEditTest.isVisible(errorMessage));
 
