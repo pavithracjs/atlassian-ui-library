@@ -50,7 +50,7 @@ function getSibling(
   const index = $from.index($from.depth - 1);
   const grandParent = $from.node($from.depth - 1); // Get GrandParent
 
-  return grandParent.maybeChild(index + sibling);
+  return grandParent ? grandParent.maybeChild(index + sibling) : null;
 }
 
 /**
@@ -233,7 +233,7 @@ const maybeRemoveMediaSingleNodeForMobile: Command = (state, dispatch) => {
 
 export default function keymapPlugin(
   schema: Schema,
-  appearance: EditorAppearance,
+  appearance?: EditorAppearance,
 ): Plugin {
   const list = {};
   const removeMediaSingleCommand = maybeRemoveMediaSingleNode(schema);
