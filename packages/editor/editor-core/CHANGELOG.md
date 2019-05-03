@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 110.1.0
+- [minor] [85d8a0831b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85d8a0831b):
+
+  - ED-6725 Add new "Three columns with sidebars" layout
+
 ## 110.0.3
 - [patch] [80cf1c1e82](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80cf1c1e82):
 
