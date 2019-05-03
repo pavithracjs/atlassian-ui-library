@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "description": "A collection of codeshifts",
-  "scripts": {
-  },
+  "scripts": {},
   "author": "Atlassian Pty Ltd",
   "license": "Apache-2.0",
-  "dependencies": {}
+  "dependencies": {
+    "app-root-path": "^2.2.1"
+  }
 }
