@@ -22,7 +22,7 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/analytics-next": "^5.0.0",
-    "@atlaskit/spinner": "11.0.0",
+    "@atlaskit/spinner": "^11.0.0",
     "@atlaskit/theme": "^9.0.0",
     "@atlaskit/type-helpers": "^4.0.0",
     "@babel/runtime": "^7.0.0",
