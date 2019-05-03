@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import { gridSize } from '@atlaskit/theme/constants';
 import * as colors from '@atlaskit/theme/colors';
