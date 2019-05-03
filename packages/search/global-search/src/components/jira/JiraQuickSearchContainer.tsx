@@ -7,6 +7,7 @@ import {
 import styled from 'styled-components';
 import { gridSize } from '@atlaskit/theme';
 import { withAnalytics } from '@atlaskit/analytics';
+import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import { CancelableEvent } from '@atlaskit/quick-search';
 import StickyFooter from '../common/StickyFooter';
 import { CreateAnalyticsEventFn } from '../analytics/types';
@@ -36,6 +37,7 @@ import {
   handlePromiseError,
   JiraEntityTypes,
   redirectToJiraAdvancedSearch,
+  ADVANCED_JIRA_SEARCH_RESULT_ID,
 } from '../SearchResultsUtil';
 import {
   ContentType,
@@ -44,6 +46,7 @@ import {
   ResultsWithTiming,
   GenericResultMap,
   JiraResultsMap,
+  AnalyticsType,
 } from '../../model/Result';
 import { getUniqueResultId } from '../ResultList';
 import {
@@ -52,6 +55,7 @@ import {
   ABTest,
 } from '../../api/CrossProductSearchClient';
 import performanceNow from '../../util/performance-now';
+import { fireSelectedAdvancedSearch } from '../../util/analytics-event-helper';
 import AdvancedIssueSearchLink from './AdvancedIssueSearchLink';
 
 const JIRA_RESULT_LIMIT = 6;
@@ -165,6 +169,40 @@ export class JiraQuickSearchContainer extends React.Component<
       appPermission,
     } = this.props;
 
+    const getAdvancedSearchHandler = () => {
+      return (
+        event: CancelableEvent,
+        entity: string,
+        query: string,
+        searchSessionId: string,
+        analyticsData: Object,
+      ) => {
+        // searchResults
+        const eventData = {
+          resultId: ADVANCED_JIRA_SEARCH_RESULT_ID,
+          ...analyticsData,
+          query,
+          // queryversion is missing
+          contentType: entity,
+          type: AnalyticsType.AdvancedSearchJira,
+          isLoading,
+        };
+
+        fireSelectedAdvancedSearch(
+          eventData,
+          searchSessionId,
+          this.props.createAnalyticsEvent,
+        );
+        console.log({
+          entity,
+          query,
+          searchSessionId,
+          eventData,
+        });
+        onAdvancedSearch(event, entity, query, searchSessionId);
+      };
+    };
+
     return (
       <SearchResultsComponent
         query={query}
@@ -182,9 +220,15 @@ export class JiraQuickSearchContainer extends React.Component<
               <JiraAdvancedSearch
                 appPermission={appPermission}
                 query={query}
-                analyticsData={{ resultsCount: 0, wasOnNoResultsScreen: true }}
+                analyticsData={{}}
                 onClick={(mouseEvent, entity) =>
-                  onAdvancedSearch(mouseEvent, entity, query, searchSessionId)
+                  getAdvancedSearchHandler()(
+                    mouseEvent,
+                    entity,
+                    query,
+                    searchSessionId,
+                    { resultsCount: 0, wasOnNoResultsScreen: true },
+                  )
                 }
               />
             </NoResultsAdvancedSearchContainer>
@@ -199,7 +243,13 @@ export class JiraQuickSearchContainer extends React.Component<
               showKeyboardLozenge={!isPreQuery && !keepPreQueryState}
               showSearchIcon
               onClick={(mouseEvent, entity) =>
-                onAdvancedSearch(mouseEvent, entity, query, searchSessionId)
+                getAdvancedSearchHandler()(
+                  mouseEvent,
+                  entity,
+                  query,
+                  searchSessionId,
+                  analyticsData,
+                )
               }
             />
           </StickyFooter>
@@ -234,7 +284,14 @@ export class JiraQuickSearchContainer extends React.Component<
           <NoResultsState
             query={query}
             onAdvancedSearch={(mouseEvent, entity) =>
-              onAdvancedSearch(mouseEvent, entity, query, searchSessionId)
+              // onAdvancedSearch(mouseEvent, entity, query, searchSessionId)
+              getAdvancedSearchHandler()(
+                mouseEvent,
+                entity,
+                query,
+                searchSessionId,
+                { resultsCount: 0, wasOnNoResultsScreen: true },
+              )
             }
           />
         )}
@@ -442,6 +499,8 @@ export class JiraQuickSearchContainer extends React.Component<
   }
 
   render() {
+    console.log('pripos is ', this.props);
+
     const {
       linkComponent,
       createAnalyticsEvent,
@@ -476,6 +535,8 @@ export class JiraQuickSearchContainer extends React.Component<
   }
 }
 
-export default injectIntl<Props>(
+const JiraQuickSearchContainerWithIntl = injectIntl<Props>(
   withAnalytics(JiraQuickSearchContainer, {}, {}),
 );
+
+export default withAnalyticsEvents()(JiraQuickSearchContainerWithIntl);

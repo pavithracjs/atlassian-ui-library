@@ -124,5 +124,6 @@ export enum AnalyticsType {
   AdvancedSearchConfluence = 'advanced-search-confluence',
   AdvancedSearchJira = 'advanced-search-jira',
   TopLinkPreQueryAdvancedSearchJira = 'top-link-prequery-advanced-search-jira',
+  LinkPostQueryAdvancedSearchJira = 'link-postquery-advanced-search-jira',
   AdvancedSearchPeople = 'advanced-search-people',
 }
