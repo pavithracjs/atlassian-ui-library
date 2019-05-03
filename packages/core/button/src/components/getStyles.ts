@@ -1,4 +1,4 @@
-import { borderRadius, fontSize, gridSize } from '@atlaskit/theme';
+import { borderRadius, fontSize, gridSize } from '@atlaskit/theme/constants';
 import { applyPropertyStyle, baseTheme } from '../theme';
 import { ThemeProps } from '../types';
 

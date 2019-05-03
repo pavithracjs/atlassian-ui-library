@@ -31,16 +31,18 @@ import {
   tableLayoutToSize,
 } from './utils';
 
-interface ScaleOptions {
+export interface ScaleOptions {
   node: PMNode;
   prevNode: PMNode;
   start: number;
   containerWidth?: number;
+  previousContainerWidth?: number;
   initialScale?: boolean;
   parentWidth?: number;
   dynamicTextSizing?: boolean;
   isBreakoutEnabled?: boolean;
   wasBreakoutEnabled?: boolean;
+  isFullWidthModeEnabled?: boolean;
 }
 
 export function updateColumnWidth(
@@ -311,6 +313,7 @@ function scale(
   const {
     node,
     containerWidth,
+    previousContainerWidth,
     dynamicTextSizing,
     prevNode,
     initialScale,
@@ -329,23 +332,31 @@ function scale(
 
   let previousMaxSize = tableLayoutToSize[previousLayout];
   if (dynamicTextSizing && previousLayout === 'default') {
-    previousMaxSize = getDefaultLayoutMaxWidth(containerWidth);
+    previousMaxSize = getDefaultLayoutMaxWidth(previousContainerWidth);
   }
 
   if (!initialScale) {
-    previousMaxSize = getLayoutSize(prevNode.attrs.layout, containerWidth, {
-      dynamicTextSizing,
-      isBreakoutEnabled,
-    });
+    previousMaxSize = getLayoutSize(
+      prevNode.attrs.layout,
+      previousContainerWidth,
+      {
+        dynamicTextSizing,
+        isBreakoutEnabled,
+      },
+    );
   } else if (
     initialScale &&
     isBreakoutEnabled !== wasBreakoutEnabled &&
     typeof wasBreakoutEnabled !== 'undefined'
   ) {
-    previousMaxSize = getLayoutSize(prevNode.attrs.layout, containerWidth, {
-      dynamicTextSizing: !dynamicTextSizing,
-      isBreakoutEnabled: !isBreakoutEnabled,
-    });
+    previousMaxSize = getLayoutSize(
+      prevNode.attrs.layout,
+      previousContainerWidth,
+      {
+        dynamicTextSizing: !dynamicTextSizing,
+        isBreakoutEnabled: !isBreakoutEnabled,
+      },
+    );
   }
 
   let newWidth = maxSize;

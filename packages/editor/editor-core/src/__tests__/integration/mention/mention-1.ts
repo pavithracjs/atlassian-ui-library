@@ -125,8 +125,7 @@ BrowserTestCase(
 
     await page.type(editable, '@');
     await page.waitForSelector(typeAheadPicker);
-    await page.type(editable, 'ArrowDown');
-    await page.type(editable, 'Enter');
+    await page.keys(['ArrowDown', 'Enter']);
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
   },

@@ -80,6 +80,7 @@ const tablesPlugin = (
           const isBreakoutEnabled = appearance === 'full-page';
           const wasBreakoutEnabled =
             prevProps && prevProps.appearance !== 'full-width';
+          const isFullWidthModeEnabled = appearance === 'full-width';
           return createPlugin(
             dispatch,
             portalProviderAPI,
@@ -89,6 +90,7 @@ const tablesPlugin = (
             isBreakoutEnabled && allowDynamicTextSizing,
             isBreakoutEnabled,
             wasBreakoutEnabled,
+            isFullWidthModeEnabled,
           );
         },
       },

@@ -242,12 +242,7 @@ function handleMouseDown(
   );
 
   const containerWidth = widthPluginKey.getState(view.state);
-  const tablePos = state.selection.$from.start(-1) - 1;
-  const parentWidth = getParentNodeWidth(
-    tablePos,
-    view.state,
-    containerWidth.width,
-  );
+  const parentWidth = getParentNodeWidth(start, view.state, containerWidth);
 
   const resizer = Resizer.fromDOM(view, dom, {
     minWidth: cellMinWidth,

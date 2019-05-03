@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/share",
-  "version": "0.3.15",
+  "version": "0.4.1",
   "config": {
     "access": "private"
   },
@@ -21,34 +21,34 @@
     "elements"
   ],
   "dependencies": {
-    "@atlaskit/analytics-next": "^4.0.5",
-    "@atlaskit/button": "^12.0.3",
-    "@atlaskit/field-text-area": "^5.0.4",
-    "@atlaskit/form": "^5.2.7",
-    "@atlaskit/icon": "^16.0.9",
-    "@atlaskit/inline-dialog": "^10.0.4",
-    "@atlaskit/theme": "^8.1.7",
-    "@atlaskit/tooltip": "^13.0.4",
-    "@atlaskit/user-picker": "^3.4.2",
-    "@atlaskit/util-service-support": "^4.0.1",
+    "@atlaskit/analytics-next": "^5.0.0",
+    "@atlaskit/button": "^13.0.0",
+    "@atlaskit/field-text-area": "^6.0.0",
+    "@atlaskit/form": "^6.0.0",
+    "@atlaskit/icon": "^17.0.0",
+    "@atlaskit/inline-dialog": "^11.0.0",
+    "@atlaskit/theme": "^9.0.0",
+    "@atlaskit/tooltip": "^14.0.0",
+    "@atlaskit/user-picker": "^4.0.0",
+    "@atlaskit/util-service-support": "^4.0.3",
     "memoize-one": "^3.0.1"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^7.0.3",
-    "@atlaskit/editor-test-helpers": "^8.0.5",
-    "@atlaskit/flag": "^10.0.6",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/editor-test-helpers": "^9.0.0",
+    "@atlaskit/flag": "^11.0.0",
     "@atlaskit/i18n-tools": "^0.5.0",
-    "@atlaskit/section-message": "^2.0.3",
-    "@atlaskit/select": "^8.1.1",
-    "@atlaskit/toggle": "^6.0.4",
-    "@atlaskit/util-data-test": "^11.1.1",
+    "@atlaskit/section-message": "^3.0.0",
+    "@atlaskit/select": "^9.0.0",
+    "@atlaskit/toggle": "^7.0.0",
+    "@atlaskit/util-data-test": "^12.0.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "react-intl": "^2.6.0"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "react-intl": "^2.6.0",
     "styled-components": "^3.2.6"
   },

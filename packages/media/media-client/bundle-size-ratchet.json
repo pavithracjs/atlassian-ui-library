@@ -3,8 +3,8 @@
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 25133,
-      "gzipSize": 7202
+      "size": 28618,
+      "gzipSize": 7707
     }
   },
   {
@@ -19,8 +19,8 @@
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 114596,
-      "gzipSize": 24147
+      "size": 124278,
+      "gzipSize": 26529
     }
   },
   {
@@ -35,16 +35,16 @@
     "id": "atlaskit.media.main",
     "name": "main",
     "stats": {
-      "size": 3600,
-      "gzipSize": 844
+      "size": 3601,
+      "gzipSize": 845
     }
   },
   {
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 142861,
-      "gzipSize": 31419
+      "size": 156051,
+      "gzipSize": 34636
     }
   },
   {

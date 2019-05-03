@@ -13,7 +13,10 @@ import ColumnControls from '../ui/TableFloatingControls/ColumnControls';
 
 import { getPluginState } from '../pm-plugins/main';
 import { ResizeState, scaleTable } from '../pm-plugins/table-resizing';
-import { getParentNodeWidth } from '../pm-plugins/table-resizing/utils';
+import {
+  getParentNodeWidth,
+  getLayoutSize,
+} from '../pm-plugins/table-resizing/utils';
 
 import { TablePluginState, TableCssClassName as ClassName } from '../types';
 import classnames from 'classnames';
@@ -27,9 +30,16 @@ import {
   tablesHaveDifferentColumnWidths,
   tablesHaveDifferentNoOfColumns,
   insertColgroupFromNode as recreateResizeColsByNode,
+  getTableWidth,
 } from '../utils';
 import { autoSizeTable } from '../actions';
 import { WidthPluginState } from '../../width';
+
+/**
+ * The sum of column widths usually never equal the layout width (off by up to 5, depending on amount of cols),
+ * 20 is a safe number to determine they belong to a layout, but big enough to tell the difference between layouts.
+ */
+const TABLE_LAYOUT_DIFF_BUFFER = 20;
 
 export interface ComponentProps extends Props {
   view: EditorView;
@@ -82,26 +92,13 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     }
 
     if (allowColumnResizing) {
-      const { view, node, containerWidth, getPos, options } = this.props;
-
-      if (node.attrs.__autoSize === false) {
-        const parentWidth = getParentNodeWidth(
-          getPos(),
-          view.state,
-          containerWidth.width,
-        );
-        this.frameId = this.scaleTableDebounced(view, this.table, {
-          node,
-          prevNode: node,
-          start: getPos() + 1,
-          containerWidth: containerWidth.width,
-          initialScale: true,
-          parentWidth,
-          ...options,
-        });
-      }
-
+      /**
+       * We no longer use `containerWidth` as a variable to determine an update for table resizing (avoids unneccesary updates).
+       * Instead we use the resize event to only trigger updates when necessary.
+       */
+      window.addEventListener('resize', this.handleWindowResizeDebounced);
       this.updateTableContainerWidth();
+      this.frameId = this.handleTableResizingDebounced(this.props);
     }
   }
 
@@ -111,6 +108,10 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     }
 
     this.handleScrollDebounced.cancel();
+
+    if (this.props.allowColumnResizing) {
+      window.removeEventListener('resize', this.handleWindowResizeDebounced);
+    }
 
     if (this.frameId && window) {
       window.cancelAnimationFrame(this.frameId);
@@ -252,45 +253,86 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
   };
 
   private handleTableResizing = (prevProps: ComponentProps) => {
-    const { view, node, getPos, containerWidth, options } = this.props;
-
-    const prevAttrs = prevProps.node.attrs;
-    const currentAttrs = node.attrs;
+    const {
+      node: prevNode,
+      containerWidth: prevWidth,
+      pluginState: prevPluginState,
+    } = prevProps;
+    const { node, pluginState } = this.props;
+    const prevAttrs = prevNode.attrs;
 
     // We only consider a layout change valid if it's done outside of an autoSize.
     const layoutChanged =
-      prevAttrs.layout !== currentAttrs.layout &&
-      prevAttrs.__autoSize === currentAttrs.__autoSize;
+      prevAttrs.layout !== node.attrs.layout &&
+      prevAttrs.__autoSize === node.attrs.__autoSize;
 
-    const parentWidth = getParentNodeWidth(
-      getPos(),
-      view.state,
-      containerWidth.width,
-    );
+    const parentWidth = this.getParentNodeWidth();
     const parentWidthChanged =
       parentWidth && parentWidth !== this.state.parentWidth;
 
-    if (
-      layoutChanged ||
-      parentWidthChanged ||
-      prevProps.containerWidth !== containerWidth ||
-      prevAttrs.isNumberColumnEnabled !== currentAttrs.isNumberColumnEnabled ||
-      tablesHaveDifferentNoOfColumns(node, prevProps.node)
-    ) {
-      scaleTable(view, this.table, {
-        node,
-        prevNode: prevProps.node,
-        parentWidth,
-        start: getPos() + 1,
-        containerWidth: containerWidth.width,
-        initialScale: false,
-        ...options,
-      });
+    const currentLayoutSize = this.tableNodeLayoutSize(node);
+    const prevLayoutSize = this.tableNodeLayoutSize(prevNode, prevWidth.width);
+    const tableColWidths = getTableWidth(node);
 
+    /**
+     * When we focus the table, we may need to scale the table
+     * We only want to scale if the size of table doesn't match
+     * the current layout of the table, this is generally due to
+     * dynamic text sizing (once unshipped we can delete these lines :) ).
+     */
+    const shouldScaleForDynamicTextSizing =
+      pluginState.tableRef === this.table &&
+      prevPluginState.tableRef !== this.table &&
+      currentLayoutSize % tableColWidths > TABLE_LAYOUT_DIFF_BUFFER;
+
+    if (
+      // Breakout mode/layout changed
+      layoutChanged ||
+      // We need to react if our parent changes
+      // Scales the cols widths relative to the new parent width.
+      parentWidthChanged ||
+      // Enabling / disabling this feature reduces or adds size to the table.
+      prevAttrs.isNumberColumnEnabled !== node.attrs.isNumberColumnEnabled ||
+      // Adding or removing columns from the table, should snap the remaining / new columns to the layout width.
+      tablesHaveDifferentNoOfColumns(node, prevNode) ||
+      // Controls read from col widths, when the table is focused we want to ensure that current layout
+      // matches with the current dynamically sized layout. Shouldn't trigger often.
+      shouldScaleForDynamicTextSizing ||
+      // This last check is also to cater for dynamic text sizing changing the 'default' layout width
+      // Usually happens on window resize.
+      currentLayoutSize !== prevLayoutSize
+    ) {
+      this.scaleTable(parentWidth, prevProps);
       this.updateParentWidth(parentWidth);
     }
 
     this.updateTableContainerWidth();
+  };
+
+  private scaleTable = (
+    parentWidth?: number,
+    prevProps?: ComponentProps,
+    opts?: { initialScale?: boolean },
+  ) => {
+    const { view, node, getPos, containerWidth, options } = this.props;
+
+    if (this.frameId && window) {
+      window.cancelAnimationFrame(this.frameId);
+    }
+
+    const width = containerWidth.width;
+
+    scaleTable(view, this.table, {
+      node,
+      prevNode: (prevProps && prevProps.node) || node,
+      parentWidth,
+      start: getPos() + 1,
+      containerWidth: width,
+      previousContainerWidth:
+        (prevProps && prevProps.containerWidth.width) || width,
+      initialScale: (opts && opts.initialScale) || false,
+      ...options,
+    });
   };
 
   private handleAutoSize = () => {
@@ -304,17 +346,27 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     }
   };
 
+  private handleWindowResize = () => {
+    const { node, containerWidth } = this.props;
+
+    const layoutSize = this.tableNodeLayoutSize(node);
+
+    if (containerWidth.width > layoutSize) {
+      return;
+    }
+
+    const parentWidth = this.getParentNodeWidth();
+    this.frameId = this.scaleTableDebounced(parentWidth);
+  };
+
   private updateTableContainerWidth = () => {
     const { node, containerWidth, options } = this.props;
 
     if (options && options.isBreakoutEnabled === false) {
       return;
     }
-    this.setState((prevState: TableState) => {
-      if (options && options.isBreakoutEnabled === false) {
-        return { tableContainerWidth: 'inherit' };
-      }
 
+    this.setState((prevState: TableState) => {
       const tableContainerWidth = calcTableWidth(
         node.attrs.layout,
         containerWidth.width,
@@ -338,14 +390,30 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     });
   };
 
+  private getParentNodeWidth = () =>
+    getParentNodeWidth(
+      this.props.getPos(),
+      this.props.view.state,
+      this.props.containerWidth,
+      this.props.options && this.props.options.isFullWidthModeEnabled,
+    );
+
   private updateParentWidth = (width?: number) => {
     this.setState({ parentWidth: width });
   };
 
-  private scaleTableDebounced = rafSchedule(scaleTable);
+  private tableNodeLayoutSize = (node: PmNode, containerWidth?: number) =>
+    getLayoutSize(
+      node.attrs.layout,
+      containerWidth || this.props.containerWidth.width,
+      this.props.options || {},
+    );
+
+  private scaleTableDebounced = rafSchedule(this.scaleTable);
   private handleTableResizingDebounced = rafSchedule(this.handleTableResizing);
   private handleScrollDebounced = rafSchedule(this.handleScroll);
   private handleAutoSizeDebounced = rafSchedule(this.handleAutoSize);
+  private handleWindowResizeDebounced = rafSchedule(this.handleWindowResize);
 }
 
 export const updateRightShadow = (

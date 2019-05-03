@@ -1,6 +1,7 @@
 import { fontFamily, fontSize } from '@atlaskit/theme';
 import { paragraphStyles } from './nodes/paragraph';
 import { listItemStyles } from './nodes/list-item';
+import { codeBlockStyles } from './nodes/code-block';
 export default `
   .wrapper {
     font-family: ${fontFamily()};
@@ -22,6 +23,7 @@ export default `
   .tableNode th > :last-child{
     margin-bottom: 0px;
   }
+  ${codeBlockStyles}
   ${paragraphStyles}
   ${listItemStyles}
 `;

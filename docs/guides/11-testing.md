@@ -57,6 +57,7 @@ For further details or a test template, please consult this [link](https://hello
 - install git lfs through `brew install git-lfs`,
 - once latest master is checkout, run `yarn run enable:lfs`
 - run `git lfs pull` to pull lfs assets
+- **troubleshooting:** If you get the error `Skipping object checkout, Git LFS is not installed.` try running `git lfs install` and then `git lfs update --force` to recreate your hooks.
 
 - visual regression tests are used to identify visual differences on **UI components** with or without **user interactions**.
 - use **Jest runner** for running the visual regression tests.
@@ -76,6 +77,8 @@ For further details or a test template, please consult this [link](https://hello
 **Note:** you can still use the `--watch` and `--debug` flags with `<pkg>`, `<path_to_directory>` and for all tests but it is not recommended.
 
 For further details or a test template, please consult this [link](https://hello.atlassian.net/wiki/spaces/Atlaskit/pages/136113035/How+to+add+visual+regression+tests+in+Atlaskit).
+
+
 
 ### Flow tests
 - flow tests can be used to explicitly verify that components are being typed correctly from the consumers perspective.

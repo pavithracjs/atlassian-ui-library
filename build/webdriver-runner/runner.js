@@ -16,6 +16,7 @@ const isBrowserStack = process.env.TEST_ENV === 'browserstack';
 const setupClients = require('./utils/setupClients');
 const path = require('path');
 const Queue = require('promise-queue');
+const webdriverio = require('webdriverio');
 
 let clients /*: Array<?Object>*/ = [];
 
@@ -26,16 +27,20 @@ if (isBrowserStack) {
 }
 
 const launchClient = client => {
-  if (
-    client &&
-    (client.driver.requestHandler && client.driver.requestHandler.sessionID)
-  ) {
-    return;
+  if (client && client.driver && client.driver.sessionId) {
+    return client.driver;
   }
 
-  client.driver.desiredCapabilities.name = filename;
+  client.options.capabilities.name = filename;
+  const init = webdriverio.remote(client.options);
   client.queue = new Queue(1, 100);
-  return client.driver.init();
+
+  init.then(driver => {
+    driver.capabilities.os = client.options.capabilities.os;
+    client.driver = driver;
+  });
+
+  return init;
 };
 
 const endSession = client => {
@@ -43,7 +48,7 @@ const endSession = client => {
     return Promise.resolve();
   }
 
-  return client.driver.end();
+  return client.driver.deleteSession();
 };
 
 const filename = path.basename(module.parent.filename);

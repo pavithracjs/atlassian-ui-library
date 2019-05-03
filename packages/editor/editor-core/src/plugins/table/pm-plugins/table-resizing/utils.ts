@@ -12,9 +12,12 @@ import {
   getBreakpoint,
   mapBreakpointToLayoutMaxWidth,
   absoluteBreakoutWidth,
-  akEditorBreakoutPadding,
+  gridMediumMaxWidth,
+  akEditorGutterPadding,
 } from '@atlaskit/editor-common';
 import { gridSize } from '@atlaskit/theme';
+import { LAYOUT_OFFSET, LAYOUT_SECTION_MARGIN } from '../../../layout/styles';
+import { WidthPluginState } from '../../../width';
 
 export const tableLayoutToSize: Record<string, number> = {
   default: akEditorDefaultLayoutWidth,
@@ -40,7 +43,7 @@ export function getLayoutSize(
   if (isBreakoutEnabled === false) {
     return containerWidth
       ? Math.min(
-          containerWidth - akEditorBreakoutPadding,
+          containerWidth - akEditorGutterPadding * 2,
           akEditorFullWidthLayoutWidth,
         )
       : akEditorFullWidthLayoutWidth;
@@ -158,7 +161,7 @@ export function domCellAround(target: HTMLElement | null) {
 }
 
 const getParentNode = (tablePos: number, state: EditorState): PMNode | null => {
-  if (!tablePos) {
+  if (tablePos === undefined) {
     return null;
   }
 
@@ -174,7 +177,8 @@ const getParentNode = (tablePos: number, state: EditorState): PMNode | null => {
 export const getParentNodeWidth = (
   tablePos: number,
   state: EditorState,
-  containerWidth: number,
+  containerWidth: WidthPluginState,
+  isFullWidthModeEnabled?: boolean,
 ) => {
   const node = getParentNode(tablePos, state);
 
@@ -182,32 +186,55 @@ export const getParentNodeWidth = (
     return;
   }
 
-  if (node.attrs.layout) {
-    return absoluteBreakoutWidth(node.attrs.layout, containerWidth);
-  }
-
-  let parentWidth = absoluteBreakoutWidth('default', containerWidth);
-
+  let layout = node.attrs.layout || 'default';
   const { schema } = state;
   const breakoutMark =
     schema.marks.breakout && schema.marks.breakout.isInSet(node.marks);
   if (breakoutMark && breakoutMark.attrs.mode) {
-    parentWidth = absoluteBreakoutWidth(
-      breakoutMark.attrs.mode,
-      containerWidth,
-    );
+    layout = breakoutMark.attrs.mode;
   }
+  let parentWidth = calcBreakoutNodeWidth(
+    layout,
+    containerWidth,
+    isFullWidthModeEnabled,
+  );
 
   if (node.type === schema.nodes.layoutSection) {
-    parentWidth = parentWidth / node.childCount;
+    parentWidth += LAYOUT_OFFSET * 2; // extra width that gets added to layout
+
+    if (containerWidth.width > gridMediumMaxWidth) {
+      parentWidth -= (LAYOUT_SECTION_MARGIN + 2) * (node.childCount - 1); // margin between sections
+
+      const $pos = state.doc.resolve(tablePos);
+      const column = findParentNodeOfTypeClosestToPos($pos, [
+        state.schema.nodes.layoutColumn,
+      ]);
+      if (column && column.node && !isNaN(column.node.attrs.width)) {
+        parentWidth = Math.round(parentWidth * column.node.attrs.width * 0.01);
+      }
+    }
   }
 
   // Need to account for the padding of the parent node
   const padding =
     node.type === schema.nodes.layoutSection
-      ? gridSize() * 2 // layout
+      ? gridSize() * 3 // layout
       : gridSize() * 4; // bodied extension
   parentWidth -= padding;
+  parentWidth -= 2; // border
 
   return parentWidth;
+};
+
+const calcBreakoutNodeWidth = (
+  layout: 'full-width' | 'wide' | string,
+  containerWidth: WidthPluginState,
+  isFullWidthModeEnabled?: boolean,
+) => {
+  return isFullWidthModeEnabled
+    ? Math.min(
+        containerWidth.lineLength as number,
+        akEditorFullWidthLayoutWidth,
+      )
+    : absoluteBreakoutWidth(layout, containerWidth.width);
 };
