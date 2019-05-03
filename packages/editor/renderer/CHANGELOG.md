@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 48.0.1
+- [patch] [8f2d13f0ec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f2d13f0ec):
+
+  - Email renderer - nested lists do not have vertical margins
+
 ## 48.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
