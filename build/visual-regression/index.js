@@ -75,6 +75,7 @@ async function runJest(testPaths) {
       updateSnapshot: cli.flags.updateSnapshot,
       debug: cli.flags.debug,
       watch: cli.flags.watch,
+      ci: process.env.CI,
     },
     [process.cwd()],
   );

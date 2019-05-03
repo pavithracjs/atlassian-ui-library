@@ -54,6 +54,7 @@ async function runJest(testPaths) {
       ],
       passWithNoTests: true,
       updateSnapshot: cli.flags.updateSnapshot,
+      ci: process.env.CI,
     },
     [process.cwd()],
   );
