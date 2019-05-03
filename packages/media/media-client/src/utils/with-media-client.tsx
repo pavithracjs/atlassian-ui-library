@@ -13,11 +13,11 @@ export interface WithOptionalMediaClientProps {
   readonly mediaClient?: MediaClient;
 }
 
+const mediaClientsMap = new Map<MediaClientConfig, MediaClient>();
+
 export function withMediaClient<P>(
   Component: React.ComponentType<P & WithOptionalMediaClientProps>,
 ) {
-  const mediaClientsMap = new Map<MediaClientConfig, MediaClient>();
-
   return class extends React.Component<P> {
     render() {
       return (
