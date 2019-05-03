@@ -1,0 +1,1 @@
+- added faster search analytics
