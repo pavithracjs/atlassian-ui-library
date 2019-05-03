@@ -157,6 +157,16 @@ class ShareDialogWithTriggerInternal extends React.Component<
     if (isDialogOpen && shouldCloseOnEscapePress) {
       switch (event.key) {
         case 'Escape':
+          // react-select will always capture the event via onKeyDown
+          // and trigger event.preventDefault()
+          if (event.defaultPrevented) {
+            // put the focus back onto the share dialog so that
+            // the user can press the escape key again to close the dialog
+            if (this.containerRef.current) {
+              this.containerRef.current.focus();
+            }
+            return;
+          }
           event.stopPropagation();
           this.closeAndResetDialog();
           this.createAndFireEvent(cancelShare(this.start));

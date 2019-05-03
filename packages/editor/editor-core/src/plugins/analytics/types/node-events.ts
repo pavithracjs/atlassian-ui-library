@@ -19,6 +19,7 @@ export enum LAYOUT_TYPE {
   THREE_COLS_EQUAL = 'threeColumnsEqual',
   LEFT_SIDEBAR = 'twoColumnsLeftSidebar',
   RIGHT_SIDEBAR = 'twoColumnsRightSidebar',
+  THREE_WITH_SIDEBARS = 'threeColumnsWithSidebars ',
 }
 
 type DeletePanelAEP = TrackAEP<
