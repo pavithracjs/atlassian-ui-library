@@ -1,1 +1,0 @@
-- added and set default config when client.getConfig fails
