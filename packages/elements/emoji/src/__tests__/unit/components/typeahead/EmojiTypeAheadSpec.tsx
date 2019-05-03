@@ -366,7 +366,9 @@ describe('EmojiTypeAhead', () => {
     } as Props).then(component =>
       waitUntil(() => doneLoading(component)).then(() => {
         expect(fireEventSpy).toHaveBeenCalledWith(
-          withSessionId(typeAheadRenderedEvent(expect.any(Number))),
+          withEmojiIds(
+            withSessionId(typeAheadRenderedEvent(expect.any(Number))),
+          ),
         );
         component.unmount();
         expect(fireEventSpy).toHaveBeenCalledWith(

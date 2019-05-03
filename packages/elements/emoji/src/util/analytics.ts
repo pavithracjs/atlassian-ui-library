@@ -122,21 +122,25 @@ export const deleteCancelEvent = (attributes: EmojiId) =>
 export const selectedFileEvent = () =>
   createEvent('ui', 'clicked', 'emojiUploader', 'selectFile');
 
-interface QueryAttributes {
+interface CommonAttributes {
   queryLength: number;
   spaceInQuery: boolean;
+  emojiIds: string[];
 }
 
-const extractAttributesFromQuery = (query?: string): QueryAttributes => {
-  if (query) {
-    return {
-      queryLength: query.length,
-      spaceInQuery: query.indexOf(' ') !== -1,
-    };
-  }
+const extractCommonAttributes = (
+  query?: string,
+  emojiList?: EmojiDescription[],
+): CommonAttributes => {
   return {
-    queryLength: 0,
-    spaceInQuery: false,
+    queryLength: query ? query.length : 0,
+    spaceInQuery: query ? query.indexOf(' ') !== -1 : false,
+    emojiIds: emojiList
+      ? emojiList
+          .map(emoji => emoji.id!)
+          .filter(Boolean)
+          .slice(0, 20)
+      : [],
   };
 };
 
@@ -147,8 +151,7 @@ export const typeAheadCancelledEvent = (
 ) =>
   createEvent('ui', 'cancelled', 'emojiTypeAhead', '', {
     duration,
-    ...extractAttributesFromQuery(query),
-    emojiIds: emojiList ? emojiList.map(emojiItem => emojiItem.id) : [],
+    ...extractCommonAttributes(query, emojiList),
   });
 
 const getPosition = (
@@ -175,14 +178,18 @@ export const typeAheadSelectedEvent = (
     baseEmojiId: emoji.id,
     duration,
     position: getPosition(emojiList, emoji),
-    ...extractAttributesFromQuery(query),
+    ...extractCommonAttributes(query, emojiList),
     emojiType: emoji.type,
-    emojiIds: emojiList ? emojiList.map(emojiItem => emojiItem.id) : [],
     skinToneModifier,
     exactMatch: exactMatch || false,
   });
 
-export const typeAheadRenderedEvent = (duration: number) =>
+export const typeAheadRenderedEvent = (
+  duration: number,
+  query?: string,
+  emojiList?: EmojiDescription[],
+) =>
   createEvent('operational', 'rendered', 'emojiTypeAhead', '', {
     duration,
+    ...extractCommonAttributes(query, emojiList),
   });

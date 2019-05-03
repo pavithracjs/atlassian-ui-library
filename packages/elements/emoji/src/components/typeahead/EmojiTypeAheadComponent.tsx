@@ -250,7 +250,11 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     const wasVisible = this.state.visible;
     const visible = emojis.length > 0;
     this.fireAnalytics(
-      typeAheadRenderedEvent(Date.now() - this.state.renderStartTime),
+      typeAheadRenderedEvent(
+        Date.now() - this.state.renderStartTime,
+        query,
+        emojis,
+      ),
     );
     debug(
       'emoji-typeahead.applyPropChanges',
