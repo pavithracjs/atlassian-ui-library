@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ArticleContent from './ArticleContent';
+import { HelpArticle } from '@atlaskit/help-article';
 import RelatedArticles from './RelatedArticles';
 import RatingButton from './RatingButton';
 
@@ -16,7 +16,7 @@ const Article: React.SFC<Props> = props => {
   if (article) {
     return (
       <>
-        <ArticleContent title={article.title} body={article.body} />
+        <HelpArticle title={article.title} body={article.body} />
         <RatingButton />
         <RelatedArticles relatedArticles={article.relatedArticles} />
       </>
