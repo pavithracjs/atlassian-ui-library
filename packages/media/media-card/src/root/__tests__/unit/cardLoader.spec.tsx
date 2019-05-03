@@ -1,17 +1,18 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import CardLoader from '../../card/cardLoader';
-import { CardLoading } from '../../../utils/lightCards/cardLoading';
+import { CardLoading } from '../../..';
 
 describe('CardLoader', () => {
-  it('shold pass dimensions to the loading component', () => {
+  it('should pass dimensions to the loading component', () => {
     const dimensions = {
       width: 10,
       height: 10,
     };
     const context = {} as any;
     const identifier = {} as any;
-    const component = shallow(
+
+    const component = mount(
       <CardLoader
         context={context}
         identifier={identifier}
@@ -19,6 +20,8 @@ describe('CardLoader', () => {
       />,
     );
 
-    expect(component.find(CardLoading).prop('dimensions')).toEqual(dimensions);
+    expect(component.find(CardLoading).props()['dimensions']).toEqual(
+      dimensions,
+    );
   });
 });

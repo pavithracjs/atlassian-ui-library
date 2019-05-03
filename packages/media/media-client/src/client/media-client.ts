@@ -13,8 +13,7 @@ export class MediaClient {
   public readonly mediaStore: MediaStore;
   public readonly collection: CollectionFetcher;
   public readonly file: FileFetcher;
-  // TODO move it to private after MS-1833
-  public readonly eventEmitter: EventEmitter2;
+  private readonly eventEmitter: EventEmitter2;
 
   constructor(readonly config: MediaClientConfig) {
     this.mediaStore = new MediaStore({
