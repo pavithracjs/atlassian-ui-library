@@ -1,10 +1,8 @@
 {
   "releases": [
-    { "name": "@atlaskit/analytics-next", "type": "patch" },
     { "name": "@atlaskit/avatar-group", "type": "patch" },
     { "name": "@atlaskit/avatar", "type": "patch" },
     { "name": "@atlaskit/datetime-picker", "type": "patch" },
-    { "name": "@atlaskit/dropdown-menu", "type": "patch" },
     { "name": "@atlaskit/droplist", "type": "patch" },
     { "name": "@atlaskit/global-navigation", "type": "patch" },
     { "name": "@atlaskit/inline-dialog", "type": "patch" },
@@ -13,9 +11,7 @@
     { "name": "@atlaskit/multi-select", "type": "patch" },
     { "name": "@atlaskit/onboarding", "type": "patch" },
     { "name": "@atlaskit/select", "type": "patch" },
-    { "name": "@atlaskit/tag", "type": "patch" },
-    { "name": "@atlaskit/adf-schema", "type": "patch" },
-    { "name": "@atlaskit/editor-core", "type": "patch" }
+    { "name": "@atlaskit/tag", "type": "patch" }
   ],
   "dependents": []
 }
