@@ -13,15 +13,13 @@ export class MediaClient {
   public readonly mediaStore: MediaStore;
   public readonly collection: CollectionFetcher;
   public readonly file: FileFetcher;
-  private readonly eventEmitter: EventEmitter2;
-  // Deprecated value introduced for backward compatibility with Context
-  public readonly config: MediaClientConfig;
+  // TODO move it to private after MS-1833
+  public readonly eventEmitter: EventEmitter2;
 
-  constructor(readonly mediaClientConfig: MediaClientConfig) {
+  constructor(readonly config: MediaClientConfig) {
     this.mediaStore = new MediaStore({
-      authProvider: mediaClientConfig.authProvider,
+      authProvider: config.authProvider,
     });
-    this.config = mediaClientConfig;
     this.collection = new CollectionFetcher(this.mediaStore);
     this.file = new FileFetcherImpl(this.mediaStore);
     this.eventEmitter = new EventEmitter2();

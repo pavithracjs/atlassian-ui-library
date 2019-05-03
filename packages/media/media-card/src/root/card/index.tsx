@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Component } from 'react';
+import { Context } from '@atlaskit/media-core';
+
 import {
-  Context,
   FileDetails,
   Identifier,
   FileIdentifier,
@@ -11,7 +12,8 @@ import {
   isExternalImageIdentifier,
   isDifferentIdentifier,
   isImageRepresentationReady,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
+
 import DownloadIcon from '@atlaskit/icon/glyph/download';
 import {
   AnalyticsContext,
@@ -24,7 +26,7 @@ import {
   CardAnalyticsContext,
   CardAction,
   CardDimensions,
-  CardProps,
+  BaseCardProps,
   CardState,
   CardEvent,
 } from '../..';
@@ -37,6 +39,10 @@ import { extendMetadata } from '../../utils/metadata';
 import { isBigger } from '../../utils/dimensionComparer';
 import { getCardStatus } from './getCardStatus';
 import { InlinePlayer } from '../inlinePlayer';
+
+export type CardProps = BaseCardProps & {
+  readonly context: Context;
+}; // TODO add `& WithMediaClientProp` and remove context during MS-1833
 
 export class Card extends Component<CardProps, CardState> {
   private hasBeenMounted: boolean = false;
@@ -74,12 +80,12 @@ export class Card extends Component<CardProps, CardState> {
     } = this.props;
     const {
       context: nextContext,
-      identifier: nextIdenfifier,
+      identifier: nextIdentifier,
       dimensions: nextDimensions,
     } = nextProps;
     const isDifferent = isDifferentIdentifier(
       currentIdentifier,
-      nextIdenfifier,
+      nextIdentifier,
     );
 
     if (
@@ -87,7 +93,7 @@ export class Card extends Component<CardProps, CardState> {
       isDifferent ||
       this.shouldRefetchImage(currentDimensions, nextDimensions)
     ) {
-      this.subscribe(nextIdenfifier, nextContext);
+      this.subscribe(nextIdentifier, nextContext);
     }
   }
 

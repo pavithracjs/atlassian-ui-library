@@ -113,8 +113,8 @@ export interface CardViewAnalyticsContext extends BaseAnalyticsContext {
   linkAttributes?: AnalyticsLinkAttributes;
 }
 
-export interface CardProps extends SharedCardProps, CardEventProps {
-  readonly context: Context;
+export interface BaseCardProps extends SharedCardProps, CardEventProps {
+  readonly context?: Context; // TODO remove this during MS-1833
   readonly identifier: Identifier;
   readonly isLazy?: boolean;
   readonly resizeMode?: ImageResizeMode;

@@ -3,7 +3,6 @@
 // StreamsCache will try to import mediaState from here.
 export { mediaState, CachedMediaState, StateDeferredValue } from './cache';
 
-// export * from './item';
 export {
   MediaItemType,
   FileItem,
@@ -28,6 +27,8 @@ export {
   authToOwner,
 } from './auth';
 
+export { MediaClientConfigContext } from './media-client-config-context';
+
 export {
   UploadableFile,
   UploadFileCallbacks,
@@ -42,10 +43,8 @@ export {
 export { FileFetcher, FileFetcherImpl } from '@atlaskit/media-client';
 export * from './context/context';
 
-// export * from './utils';
 export { isImageRemote } from '@atlaskit/media-client';
 
-// export * from './fileState';
 export {
   FileStatus,
   FilePreview,
@@ -63,18 +62,14 @@ export {
   mapMediaItemToFileState,
 } from '@atlaskit/media-client';
 
-// export * from './utils/getMediaTypeFromMimeType';
 export { getMediaTypeFromMimeType } from '@atlaskit/media-client';
 
-// export * from './context/fileStreamCache';
 import { FileState, StreamsCache } from '@atlaskit/media-client';
 export type FileStreamCache = StreamsCache<FileState>;
 export { getFileStreamsCache } from '@atlaskit/media-client';
 
-// export type ImageResizeMode = 'crop' | 'fit' | 'full-fit' | 'stretchy-fit';
 export { ImageResizeMode } from '@atlaskit/media-client';
 
-// export * from './identifier';
 export {
   Identifier,
   FileIdentifier,

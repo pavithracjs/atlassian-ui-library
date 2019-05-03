@@ -1,40 +1,47 @@
 import * as React from 'react';
 import { CardLoading } from '../../utils/lightCards/cardLoading';
-import { Card as CardType } from './index';
-import { CardProps } from '../..';
+import {
+  withMediaClient,
+  WithOptionalMediaClientProps,
+} from '@atlaskit/media-client';
+import { CardProps } from './index';
+import { BaseCardProps } from '../..';
 
-interface AsyncCardProps {
-  Card?: typeof CardType;
+interface State {
+  Card?: React.ComponentType<CardProps>;
 }
 
-export default class Card extends React.PureComponent<
-  CardProps & AsyncCardProps,
-  AsyncCardProps
-> {
+export type Props = BaseCardProps & WithOptionalMediaClientProps;
+
+export class CardLoader extends React.PureComponent<Props, State> {
   static displayName = 'AsyncCard';
-  static Card?: typeof CardType;
+  static Card?: React.ComponentType<CardProps>;
 
   state = {
-    Card: Card.Card,
+    Card: CardLoader.Card,
   };
 
   componentWillMount() {
     if (!this.state.Card) {
       import(/* webpackChunkName:"@atlaskit-internal_Card" */
       './index').then(module => {
-        Card.Card = module.Card;
+        CardLoader.Card = module.Card;
         this.setState({ Card: module.Card });
       });
     }
   }
 
   render() {
-    const { dimensions } = this.props;
-
-    if (!this.state.Card) {
+    const { dimensions, mediaClient, context } = this.props;
+    const contextToUse = mediaClient || context;
+    if (!this.state.Card || !contextToUse) {
       return <CardLoading dimensions={dimensions} />;
     }
+    const CardComponent = this.state.Card;
 
-    return <this.state.Card {...this.props} />;
+    // return <CardComponent {...this.props} mediaClient={mediaClient} />; // <- TODO Replace during MS-1833
+    return <CardComponent {...this.props} context={contextToUse} />;
   }
 }
+
+export default withMediaClient(CardLoader);

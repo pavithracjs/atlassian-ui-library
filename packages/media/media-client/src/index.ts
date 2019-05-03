@@ -121,3 +121,9 @@ export {
 } from './identifier';
 
 export { EventPayloadListener, UploadEventPayloadMap } from './client/events';
+
+export {
+  WithOptionalMediaClientProps,
+  WithMediaClientProps,
+  withMediaClient,
+} from './utils/with-media-client';

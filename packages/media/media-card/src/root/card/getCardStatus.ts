@@ -1,11 +1,11 @@
 import { FileDetails } from '@atlaskit/media-core';
-import { CardState, CardProps, CardStatus } from '../../';
+import { CardState, BaseCardProps, CardStatus } from '../../';
 
 // we don't want to show complete status for empty files, ideally there should be no such file on the media api,
 // but there are some edge cases when using id upfront that can result on that.
 export const getCardStatus = (
   state: CardState,
-  props: CardProps,
+  props: BaseCardProps,
 ): CardStatus => {
   const { status, metadata, dataURI } = state;
   const { identifier, disableOverlay } = props;

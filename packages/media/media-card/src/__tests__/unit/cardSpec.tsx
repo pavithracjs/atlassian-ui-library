@@ -16,7 +16,7 @@ import {
   UIAnalyticsEventInterface,
 } from '@atlaskit/analytics-next';
 import { MediaViewer } from '@atlaskit/media-viewer';
-import { CardAction, CardProps, CardDimensions } from '../../../src';
+import { CardAction, BaseCardProps, CardDimensions } from '../../../src';
 
 import { CardView } from '../../../src/root/cardView';
 
@@ -38,7 +38,7 @@ describe('Card', () => {
   };
   const setup = (
     context: Context = fakeContext(),
-    props?: Partial<CardProps>,
+    props?: Partial<BaseCardProps>,
     filePreview: FilePreview = { src: 'some-data-uri', orientation: 6 },
   ) => {
     (getDataURIFromFileState as any).mockReset();

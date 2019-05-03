@@ -1,5 +1,5 @@
 import { getCardStatus } from '../../card/getCardStatus';
-import { CardState, CardProps } from '../../..';
+import { CardState, BaseCardProps } from '../../..';
 
 describe('getCardStatus()', () => {
   describe('image files', () => {
@@ -14,7 +14,7 @@ describe('getCardStatus()', () => {
         identifier: {
           mediaItemType: 'file',
         },
-      } as CardProps;
+      } as BaseCardProps;
 
       expect(getCardStatus(state, props)).toEqual('uploading');
     });
@@ -30,7 +30,7 @@ describe('getCardStatus()', () => {
         identifier: {
           mediaItemType: 'file',
         },
-      } as CardProps;
+      } as BaseCardProps;
 
       expect(getCardStatus(state, props)).toEqual('processing');
     });
@@ -50,7 +50,7 @@ describe('getCardStatus()', () => {
         identifier: {
           mediaItemType: 'file',
         },
-      } as CardProps;
+      } as BaseCardProps;
 
       expect(getCardStatus(state, props)).toEqual('complete');
     });
@@ -69,7 +69,7 @@ describe('getCardStatus()', () => {
           mediaItemType: 'external-image',
           dataURI: 'some-image',
         },
-      } as CardProps;
+      } as BaseCardProps;
 
       expect(getCardStatus(state, props)).toEqual('processing');
     });
@@ -87,7 +87,7 @@ describe('getCardStatus()', () => {
         identifier: {
           mediaItemType: 'file',
         },
-      } as CardProps;
+      } as BaseCardProps;
 
       expect(getCardStatus(state, props)).toEqual('processing');
     });
