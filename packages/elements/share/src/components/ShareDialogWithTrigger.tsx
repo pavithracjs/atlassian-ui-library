@@ -33,6 +33,7 @@ import {
 } from './analytics';
 import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
+import { showInviteWarning } from './utils';
 
 type DialogState = {
   isDialogOpen: boolean;
@@ -114,14 +115,15 @@ class ShareDialogWithTriggerInternal extends React.Component<
     }
   };
 
-  private getFlags = () => {
+  private getFlags = (
+    config: ConfigResponse | undefined,
+    data: DialogContentState,
+  ) => {
     const { formatMessage } = this.props.intl;
     const flags: Array<Flag> = [];
+    const shouldShowAdminNotifiedFlag = showInviteWarning(config, data.users);
 
-    if (
-      this.props.config &&
-      this.props.config.mode === 'INVITE_NEEDS_APPROVAL'
-    ) {
+    if (shouldShowAdminNotifiedFlag) {
       flags.push({
         appearance: 'success',
         title: {
@@ -213,7 +215,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
       .then(() => {
         this.closeAndResetDialog();
         this.setState({ isSharing: false });
-        showFlags(this.getFlags());
+        showFlags(this.getFlags(config, data));
       })
       .catch((err: Error) => {
         this.setState({
