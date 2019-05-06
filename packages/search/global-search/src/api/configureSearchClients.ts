@@ -1,7 +1,7 @@
 import CachingConfluenceClient from './CachingConfluenceClient';
 import { CachingPeopleSearchClient } from './CachingPeopleSearchClient';
 import { ConfluenceClient } from './ConfluenceClient';
-import CrossProductSearchClientImpl, {
+import CachingCrossProductSearchClientImpl, {
   CrossProductSearchClient,
 } from './CrossProductSearchClient';
 import JiraClientImpl, { JiraClient } from './JiraClient';
@@ -70,10 +70,11 @@ export default function configureSearchClients(
       config.activityServiceUrl,
       cloudId,
     ),
-    crossProductSearchClient: new CrossProductSearchClientImpl(
+    crossProductSearchClient: new CachingCrossProductSearchClientImpl(
       config.searchAggregatorServiceUrl,
       cloudId,
       config.addSessionIdToJiraResult,
+      prefetchedResults ? prefetchedResults.abTestPromise : undefined,
     ),
     peopleSearchClient: new CachingPeopleSearchClient(
       config.directoryServiceUrl,
@@ -82,7 +83,6 @@ export default function configureSearchClients(
     ),
     confluenceClient: new CachingConfluenceClient(
       config.confluenceUrl,
-      cloudId,
       confluencePrefetchedResults,
     ),
     jiraClient: new JiraClientImpl(

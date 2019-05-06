@@ -158,7 +158,7 @@ export default class ResizableMediaSingle extends React.Component<
       : 0;
   };
 
-  wrapper: HTMLElement | null;
+  wrapper?: HTMLElement;
   calcSnapPoints() {
     const { offsetLeft } = this.state;
 

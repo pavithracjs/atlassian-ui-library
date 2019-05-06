@@ -18,7 +18,7 @@ function getType(style: string): CellType {
 export class TableBuilder implements Builder {
   private schema: Schema;
   private root: Table;
-  private lastRow: TableRow;
+  private lastRow?: TableRow;
 
   constructor(schema: Schema) {
     this.schema = schema;
@@ -56,7 +56,7 @@ export class TableBuilder implements Builder {
       }
 
       const newCell = { type: cellType, content };
-      this.lastRow.cells.push(newCell);
+      this.lastRow!.cells.push(newCell);
 
       index += 1;
     }

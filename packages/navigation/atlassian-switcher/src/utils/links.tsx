@@ -220,26 +220,28 @@ export const getAdministrationLinks = (
 export const getSuggestedProductLink = (
   licenseInformationData: LicenseInformationResponse,
 ): SwitcherItemType[] => {
+  const productLinks = [];
+
   if (!getProductIsActive(licenseInformationData, ProductKey.CONFLUENCE)) {
-    return [
+    productLinks.push(
       getProductLink(
         ProductKey.CONFLUENCE,
         licenseInformationData.products[ProductKey.CONFLUENCE],
       ),
-    ];
+    );
   }
   if (
     !getProductIsActive(licenseInformationData, ProductKey.JIRA_SERVICE_DESK)
   ) {
-    return [
+    productLinks.push(
       getProductLink(
         ProductKey.JIRA_SERVICE_DESK,
         licenseInformationData.products[ProductKey.JIRA_SERVICE_DESK],
       ),
-    ];
+    );
   }
 
-  return [];
+  return productLinks;
 };
 
 export const getCustomLinkItems = (

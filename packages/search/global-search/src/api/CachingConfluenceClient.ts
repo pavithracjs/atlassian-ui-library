@@ -4,12 +4,8 @@ import ConfluenceClientImpl from './ConfluenceClient';
 export default class CachingConfluenceClient extends ConfluenceClientImpl {
   prefetchedResults?: Promise<ConfluenceRecentsMap>;
 
-  constructor(
-    url: string,
-    cloudId: string,
-    prefetchedResults?: Promise<ConfluenceRecentsMap>,
-  ) {
-    super(url, cloudId);
+  constructor(url: string, prefetchedResults?: Promise<ConfluenceRecentsMap>) {
+    super(url);
     this.prefetchedResults = prefetchedResults;
   }
 

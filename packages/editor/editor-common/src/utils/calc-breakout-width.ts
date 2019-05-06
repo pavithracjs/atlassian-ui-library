@@ -55,7 +55,7 @@ export const absoluteBreakoutWidth = (
       case 'wide':
         return akEditorWideLayoutWidth;
       default:
-        return akEditorDefaultLayoutWidth;
+        return mapBreakpointToLayoutMaxWidth(getBreakpoint(containerWidth));
     }
   }
 

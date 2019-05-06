@@ -38,7 +38,7 @@ BrowserTestCase(
     const browser = new Page(client);
     await browser.goto(fullPageEditor);
     await browser.waitForSelector(fullpage.placeholder);
-    await browser.type(titleSelector, 'Tab');
+    await browser.keys(['Tab']);
 
     expect(await browser.hasFocus(fullpage.placeholder)).toBe(true);
   },

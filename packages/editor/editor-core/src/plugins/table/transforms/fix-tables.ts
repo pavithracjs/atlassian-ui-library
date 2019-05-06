@@ -8,12 +8,12 @@ import {
   tableCellMinWidth,
 } from '@atlaskit/editor-common';
 
-import { contentWidth } from '../pm-plugins/table-resizing/resizer/contentWidth';
 import {
-  calculateColWidth,
+  calculateColumnWidth,
   getCellsRefsInColumn,
-} from '../pm-plugins/table-resizing/resizer/utils';
-import { getLayoutSize } from '../pm-plugins/table-resizing/utils';
+  contentWidth,
+  getLayoutSize,
+} from '../pm-plugins/table-resizing/utils';
 import { sendLogs } from '../../../utils/sendLogs';
 
 export const fireAnalytics = (properties = {}) =>
@@ -188,7 +188,7 @@ function parseDOMColumnWidths(
         tableStart,
         domAtPos,
       );
-      const colWidth = calculateColWidth(cells, col => {
+      const colWidth = calculateColumnWidth(cells, (_, col) => {
         return contentWidth(col as HTMLElement, tableRef).width;
       });
 

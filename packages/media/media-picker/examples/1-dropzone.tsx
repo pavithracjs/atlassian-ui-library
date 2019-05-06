@@ -10,7 +10,7 @@ import {
 import Button from '@atlaskit/button';
 import Toggle from '@atlaskit/toggle';
 import Spinner from '@atlaskit/spinner';
-import { ContextFactory } from '@atlaskit/media-core';
+import { ContextFactory, FileState } from '@atlaskit/media-core';
 import { MediaPicker, Dropzone } from '../src';
 import {
   DropzoneContainer,
@@ -80,12 +80,18 @@ class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
       },
     });
 
+    dropzoneContext.on('file-added', this.onFileUploaded);
+
     dropzone.activate();
 
     this.setState({
       dropzone,
     });
   }
+
+  onFileUploaded = (fileState: FileState) => {
+    console.log('onFileUploaded', fileState);
+  };
 
   saveDropzoneContainer = async (element: HTMLDivElement) => {
     this.dropzoneContainer = element;
