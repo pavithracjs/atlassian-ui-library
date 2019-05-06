@@ -1,0 +1,1 @@
+- Make full name and public name in the same line. Remove `@` symbol in front of public name. Remove mention icon
