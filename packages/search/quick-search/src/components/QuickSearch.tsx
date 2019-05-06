@@ -128,7 +128,7 @@ export class QuickSearch extends React.Component<Props, State> {
     value: '',
   };
 
-  inputSearchRef: React.Ref<any>;
+  inputSearchRef?: React.Ref<any>;
   flatResults: Array<ResultBase> = [];
   hasSearchQueryEventFired: boolean = false;
   hasKeyDownEventFired: boolean = false;
