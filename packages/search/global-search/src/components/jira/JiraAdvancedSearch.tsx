@@ -66,6 +66,7 @@ const getI18nItemName = (i18nKeySuffix: string) => {
  * 1- check with mark if no issues and we have project/boards results what will happen to the advanced link
  * 2- move the top recent link as the bottom advanced link
  * 3- check if we need the callback or link component is enough
+ * 4- analytics query version is missing
  */
 export default class JiraAdvancedSearch extends React.Component<Props, State> {
   constructor(props: Props) {

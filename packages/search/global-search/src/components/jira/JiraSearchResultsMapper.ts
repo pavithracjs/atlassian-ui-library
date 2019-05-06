@@ -20,6 +20,8 @@ const DEFAULT_JIRA_RESULTS_MAP: GenericResultMap = {
   containers: [],
 };
 
+const isEmpty = (arr: Array<any> = []) => !arr.length;
+
 export const sliceResults = (resultsMap: GenericResultMap | null) => {
   const { objects, containers, people } = resultsMap
     ? resultsMap
@@ -84,14 +86,20 @@ export const mapSearchResultsToUIGroups = (
     {
       items: [
         ...objectsToDisplay,
-        {
-          resultType: ResultType.JiraIssueAdvancedSearch,
-          resultId: 'search-jira',
-          name: 'jira',
-          href: `/secure/QuickSearch.jspa?searchString=${query}`,
-          analyticsType: AnalyticsType.LinkPostQueryAdvancedSearchJira,
-          contentType: ContentType.JiraIssue,
-        },
+        ...(!isEmpty(objectsToDisplay) ||
+        !isEmpty(peopleToDisplay) ||
+        !isEmpty(containersToDisplay)
+          ? [
+              {
+                resultType: ResultType.JiraIssueAdvancedSearch,
+                resultId: 'search-jira',
+                name: 'jira',
+                href: `/secure/QuickSearch.jspa?searchString=${query}`,
+                analyticsType: AnalyticsType.LinkPostQueryAdvancedSearchJira,
+                contentType: ContentType.JiraIssue,
+              },
+            ]
+          : []),
       ],
       key: 'issues',
       title: messages.jira_search_result_issues_heading,

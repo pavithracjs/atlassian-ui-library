@@ -23,7 +23,7 @@ import { SelectedIcon } from './styled';
 import { getAvatarForConfluenceObjectResult } from '../util/confluence-avatar-util';
 import { getDefaultAvatar } from '../util/jira-avatar-util';
 import DarkReturn from '../assets/DarkReturn';
-import Return from 'src/assets/Return';
+import Return from '../assets/Return';
 
 export interface Props {
   results: Result[];
@@ -215,7 +215,8 @@ export default class ResultList extends React.Component<Props> {
               text={<FormattedMessage {...messages.jira_view_all_issues} />}
               icon={<SearchIcon size="medium" label="View all issues" />}
               type={AnalyticsType.LinkPostQueryAdvancedSearchJira}
-              key="advanced-search-link"
+              key={uniqueKey}
+              elemAfter={<Return />}
             />
           );
         }
