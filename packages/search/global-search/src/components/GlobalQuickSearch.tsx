@@ -139,7 +139,11 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
   };
 
   fireSearchResultEvents = (eventName: string, eventData: Object) => {
-    const { createAnalyticsEvent, searchSessionId } = this.props;
+    const {
+      createAnalyticsEvent,
+      searchSessionId,
+      referralContextIdentifiers,
+    } = this.props;
     if (eventName === QS_ANALYTICS_EV_SUBMIT) {
       this.fireSearchResultSelectedEvent(
         eventData as SelectedSearchResultEvent,
@@ -150,6 +154,7 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
         fireHighlightedSearchResult(
           data,
           searchSessionId,
+          referralContextIdentifiers,
           createAnalyticsEvent,
         );
       }
