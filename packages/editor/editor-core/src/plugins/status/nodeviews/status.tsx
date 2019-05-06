@@ -122,8 +122,7 @@ class StatusContainerView extends React.Component<
     if (event.nativeEvent.stopImmediatePropagation) {
       event.nativeEvent.stopImmediatePropagation();
     }
-    const { state, dispatch } = this.props.view;
-    setStatusPickerAt(state.selection.from)(state, dispatch);
+    // handling of popup is done in plugin.apply on selection change.
   };
 }
 

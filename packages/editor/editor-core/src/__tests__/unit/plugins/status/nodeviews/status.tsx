@@ -95,25 +95,6 @@ describe('Status - NodeView', () => {
     expect(wrapper.find(Status).prop('localId')).toBe('666');
   });
 
-  it('should call setStatusPickerAt on click', () => {
-    const setStatusPickerAtSpy = jest.spyOn(Actions, 'setStatusPickerAt');
-    const { editorView: view } = editor(doc(p('Status: {<>}'), p(' ')));
-
-    Actions.updateStatus(testStatus)(view);
-
-    const wrapper = mountWithIntl(
-      <IntlStatusContainerView
-        view={view}
-        text="In progress"
-        color="blue"
-        localId="666"
-      />,
-    );
-    wrapper.find(Status).simulate('click');
-
-    expect(setStatusPickerAtSpy).toBeCalled();
-  });
-
   describe('selection', () => {
     let wrapper: ReactWrapper<ContainerProps, {}>;
     let editorInstance: EditorInstance;
