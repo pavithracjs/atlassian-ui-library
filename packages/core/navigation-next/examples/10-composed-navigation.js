@@ -21,13 +21,15 @@ import IssuesIcon from '@atlaskit/icon/glyph/issues';
 import ShortcutIcon from '@atlaskit/icon/glyph/shortcut';
 import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
 import SearchIcon from '@atlaskit/icon/glyph/search';
-import { JiraIcon, JiraWordmark } from '@atlaskit/logo';
+import ChevD from '@atlaskit/icon/glyph/chevron-down';
+import { JiraIcon } from '@atlaskit/logo';
 import { ToggleStateless } from '@atlaskit/toggle';
 import { gridSize as gridSizeFn } from '@atlaskit/theme';
 import InlineDialog from '@atlaskit/inline-dialog';
 
 import {
   ContainerHeader,
+  Switcher,
   GlobalNav,
   GroupHeading,
   HeaderSection,
@@ -103,9 +105,7 @@ const ProductNavigation = () => (
     <HeaderSection>
       {({ className }) => (
         <div className={className}>
-          <TestMark id="product-header">
-            <Wordmark wordmark={JiraWordmark} />
-          </TestMark>
+          <MySwitcher />
         </div>
       )}
     </HeaderSection>
@@ -243,3 +243,116 @@ export default class Example extends Component<{}, State> {
     );
   }
 }
+type State = {
+  selected: *,
+};
+class MySwitcher extends React.Component<*, State> {
+  state = { selected: projects[0].options[0] };
+
+  create = () => ({
+    onClick: () => {
+      // eslint-disable-next-line
+      const boardName = window.prompt(
+        'What would you like to call your new board?',
+      );
+      if (boardName && boardName.length) {
+        // eslint-disable-next-line
+        console.log(`You created the board "${boardName}"`);
+      }
+    },
+    text: 'Create board',
+  });
+
+  target = ({ id, subText, text }: *) => {
+    const avatar = s => (
+      <ItemAvatar
+        appearance="square"
+        href={null}
+        isInteractive={false}
+        itemState={s}
+        onClick={null}
+      />
+    );
+
+    return (
+      <ContainerHeader
+        before={avatar}
+        after={ChevD}
+        id={id}
+        subText={subText}
+        text={text}
+      />
+    );
+  };
+
+  onChange = (selected: *) => {
+    this.setState({ selected });
+  };
+
+  render() {
+    const { selected } = this.state;
+    return (
+      <Switcher
+        create={this.create()}
+        onChange={this.onChange}
+        options={projects}
+        target={this.target(selected)}
+        value={selected}
+      />
+    );
+  }
+}
+const projects = [
+  {
+    label: 'Recent Projects',
+    options: [
+      {
+        avatar: 'endeavour',
+        id: 'endeavour',
+        pathname: '/projects/endeavour',
+        text: 'Endeavour',
+        subText: 'Software project',
+      },
+      {
+        avatar: 'design-system-support',
+        id: 'design-system-support',
+        pathname: '/projects/design-system-support',
+        text: 'Design System Support',
+        subText: 'Service desk project',
+      },
+    ],
+  },
+  {
+    label: 'Other Projects',
+    options: [
+      {
+        avatar: 'design-platform',
+        id: 'design-platform',
+        pathname: '/projects/design-platform',
+        text: 'Design Platform',
+        subText: 'Software project',
+      },
+      {
+        avatar: 'donut-world',
+        id: 'donut-world',
+        pathname: '/projects/donut-world',
+        text: 'Donut World',
+        subText: 'Software project',
+      },
+      {
+        avatar: 'kitkat',
+        id: 'kitkat',
+        pathname: '/projects/kitkat',
+        text: 'KitKat',
+        subText: 'Software project',
+      },
+      {
+        avatar: 'tangerine',
+        id: 'tangerine',
+        pathname: '/projects/tangerine',
+        text: 'Tangerine',
+        subText: 'Software project',
+      },
+    ],
+  },
+];
