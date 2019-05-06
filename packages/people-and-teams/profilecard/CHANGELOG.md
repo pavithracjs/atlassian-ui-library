@@ -1,5 +1,10 @@
 # @atlaskit/profilecard
 
+## 10.2.0
+- [minor] [e7d7fe8252](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7d7fe8252):
+
+  - Make full name and public name in the same line. Remove `@` symbol in front of public name. Remove mention icon
+
 ## 10.1.0
 - [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
 
