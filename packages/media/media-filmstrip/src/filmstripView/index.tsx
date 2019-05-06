@@ -118,10 +118,10 @@ export class FilmstripView extends React.Component<
     offset: 0,
   };
 
-  bufferElement: HTMLElement;
-  windowElement: HTMLElement;
+  bufferElement?: HTMLElement;
+  windowElement?: HTMLElement;
 
-  mutationObserver: MutationObserver;
+  mutationObserver?: MutationObserver;
 
   childOffsets: ChildOffset[];
   previousOffset: number = 0;
@@ -133,6 +133,7 @@ export class FilmstripView extends React.Component<
 
   constructor(props: FilmstripViewProps) {
     super(props);
+    this.childOffsets = [];
     try {
       this.mutationObserver = new MutationObserver(
         debounce(this.handleMutation, 30, true),
@@ -190,7 +191,7 @@ export class FilmstripView extends React.Component<
 
   initMutationObserver() {
     const { mutationObserver } = this;
-    if (mutationObserver) {
+    if (mutationObserver && this.bufferElement) {
       mutationObserver.disconnect();
       mutationObserver.observe(this.bufferElement, MUTATION_CONFIG);
     }

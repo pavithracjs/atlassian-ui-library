@@ -25,6 +25,9 @@ export const fakeContext = (
   const getImageMetadata = jest.fn();
   const touchFiles = jest.fn();
   const downloadBinary = jest.fn();
+  const on = jest.fn();
+  const off = jest.fn();
+  const emit = jest.fn();
   const file = {
     getFileState: getFile,
     downloadBinary,
@@ -41,6 +44,9 @@ export const fakeContext = (
     config,
     collection,
     file,
+    on,
+    off,
+    emit,
   };
 
   const wrappedStubbedContext: any = {};

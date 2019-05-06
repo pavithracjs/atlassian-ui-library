@@ -1,6 +1,6 @@
 import { EditorState, TextSelection, PluginSpec } from 'prosemirror-state';
 import { Decoration, DecorationSet, EditorView } from 'prosemirror-view';
-import { Node } from 'prosemirror-model';
+import { Node, Slice } from 'prosemirror-model';
 import {
   layoutSection,
   layoutColumn,
@@ -74,8 +74,8 @@ describe('layout', () => {
           expect(pluginState.pos).toEqual(null);
         });
 
-        it('should set selectedLayout to undefined', () => {
-          expect(pluginState.selectedLayout).toEqual(undefined);
+        it('should set selectedLayout to default (two_equal)', () => {
+          expect(pluginState.selectedLayout).toEqual('two_equal');
         });
       });
     });
@@ -378,9 +378,8 @@ describe('layout', () => {
       const { editorView } = editor(
         doc(
           layoutSection(
-            layoutColumn({ width: 33.33 })(p('Over')),
-            layoutColumn({ width: 33.33 })(p('Fl{<>}ow')),
-            layoutColumn({ width: 50 })(p('Column')),
+            layoutColumn({ width: 55 })(p('Overfl{<>}ow')),
+            layoutColumn({ width: 55 })(p('Column')),
           ),
         ),
       );
@@ -388,12 +387,29 @@ describe('layout', () => {
       expect(editorView.state.doc).toEqualDocument(
         doc(
           layoutSection(
-            layoutColumn({ width: 33.33 })(p('Over')),
-            layoutColumn({ width: 33.33 })(p('Flow')),
-            layoutColumn({ width: 33.33 })(p('Column')),
+            layoutColumn({ width: 50 })(p('Overfl{<>}ow')),
+            layoutColumn({ width: 50 })(p('Column')),
           ),
         ),
       );
+    });
+
+    it('ensures correct number of columns for the selected layout', () => {
+      const threeColDoc = doc(
+        layoutSection(
+          layoutColumn({ width: 33.33 })(p('{<>}')),
+          layoutColumn({ width: 33.33 })(p('')),
+          layoutColumn({ width: 33.33 })(p('')),
+        ),
+      );
+      const { editorView } = editor(threeColDoc);
+      // selected layout will be three_equal
+
+      // dispatch transaction that removes a column
+      const tr = editorView.state.tr.replaceRange(7, 11, Slice.empty);
+      const newState = editorView.state.apply(tr);
+
+      expect(newState.doc).toEqualDocument(threeColDoc);
     });
   });
 });

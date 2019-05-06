@@ -12,14 +12,18 @@ export type PresetLayout =
   | 'two_equal'
   | 'three_equal'
   | 'two_right_sidebar'
-  | 'two_left_sidebar';
+  | 'two_left_sidebar'
+  | 'three_with_sidebars';
 
 export const TWO_COL_LAYOUTS: PresetLayout[] = [
   'two_equal',
   'two_left_sidebar',
   'two_right_sidebar',
 ];
-export const THREE_COL_LAYOUTS: PresetLayout[] = ['three_equal'];
+export const THREE_COL_LAYOUTS: PresetLayout[] = [
+  'three_equal',
+  'three_with_sidebars',
+];
 
 const getWidthsForPreset = (presetLayout: PresetLayout): number[] => {
   switch (presetLayout) {
@@ -31,27 +35,29 @@ const getWidthsForPreset = (presetLayout: PresetLayout): number[] => {
       return [33.33, 66.66];
     case 'two_right_sidebar':
       return [66.66, 33.33];
+    case 'three_with_sidebars':
+      return [25, 50, 25];
   }
 };
 
 /**
- * Finds the most likely layout based on the number of layoutColumn nodes inside the
- * layoutSection node as well as their width attrs
+ * Finds layout preset based on the width attrs of all the layoutColumn nodes
+ * inside the layoutSection node
  */
 export const getPresetLayout = (section: Node): PresetLayout | undefined => {
-  const widths = mapChildren(section, column => column.attrs.width);
+  const widths = mapChildren(section, column => column.attrs.width).join(',');
 
-  if (widths.length === 3) {
-    return 'three_equal';
-  } else if (widths.length === 2) {
-    switch (widths[0]) {
-      case 50:
-        return 'two_equal';
-      case 33.33:
-        return 'two_left_sidebar';
-      case 66.66:
-        return 'two_right_sidebar';
-    }
+  switch (widths) {
+    case '33.33,33.33,33.33':
+      return 'three_equal';
+    case '25,50,25':
+      return 'three_with_sidebars';
+    case '50,50':
+      return 'two_equal';
+    case '33.33,66.66':
+      return 'two_left_sidebar';
+    case '66.66,33.33':
+      return 'two_right_sidebar';
   }
 };
 
@@ -223,30 +229,38 @@ export const fixColumnSizes = (
 
   changedTr.doc.nodesBetween(range.from, range.to, (node, pos) => {
     if (node.type === layoutSection) {
-      const widths = mapChildren(node, column => column.attrs.width);
-      const totalWidth = Math.round(
-        widths.reduce((acc, width) => acc + width, 0),
-      );
-      if (totalWidth !== 100) {
-        const fixedColumns = columnWidth(
-          node,
-          state.schema,
-          getWidthsForPreset(presetLayout),
-        );
-        change = {
-          from: pos + 1,
-          to: pos + node.nodeSize - 1,
-          slice: new Slice(fixedColumns, 0, 0),
-        };
-
+      if (presetLayout === getPresetLayout(node)) {
         return false;
       }
+
+      const fixedColumns = columnWidth(
+        node,
+        state.schema,
+        getWidthsForPreset(presetLayout),
+      );
+      change = {
+        from: pos + 1,
+        to: pos + node.nodeSize - 1,
+        slice: new Slice(fixedColumns, 0, 0),
+      };
+
+      return false;
     } else {
       return true;
     }
   });
 
   return change;
+};
+
+export const fixColumnStructure = (state: EditorState) => {
+  const { pos, selectedLayout } = pluginKey.getState(state) as LayoutState;
+  if (pos !== null && selectedLayout) {
+    const node = state.doc.nodeAt(pos);
+    if (node && node.childCount !== getWidthsForPreset(selectedLayout).length) {
+      return forceSectionToPresetLayout(state, node, pos, selectedLayout);
+    }
+  }
 };
 
 export const deleteActiveLayoutNode: Command = (state, dispatch) => {
@@ -278,5 +292,7 @@ const formatLayoutName = (layout: PresetLayout): LAYOUT_TYPE => {
       return LAYOUT_TYPE.LEFT_SIDEBAR;
     case 'two_right_sidebar':
       return LAYOUT_TYPE.RIGHT_SIDEBAR;
+    case 'three_with_sidebars':
+      return LAYOUT_TYPE.THREE_WITH_SIDEBARS;
   }
 };

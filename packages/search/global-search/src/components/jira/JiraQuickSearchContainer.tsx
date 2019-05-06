@@ -380,9 +380,7 @@ export class JiraQuickSearchContainer extends React.Component<
   };
 
   getAbTestData = (sessionId: string): Promise<ABTest> => {
-    return this.props.crossProductSearchClient.getAbTestData(Scope.JiraIssue, {
-      sessionId,
-    });
+    return this.props.crossProductSearchClient.getAbTestData(Scope.JiraIssue);
   };
 
   canSearchUsers = (): Promise<boolean> => {

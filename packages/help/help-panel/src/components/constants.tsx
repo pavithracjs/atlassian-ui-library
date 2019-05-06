@@ -1,0 +1,6 @@
+export const MIN_CHARACTERS_FOR_SEARCH = 0;
+export enum VIEW {
+  DEFAULT_CONTENT,
+  ARTICLE,
+  ARTICLE_NAVIGATION,
+}

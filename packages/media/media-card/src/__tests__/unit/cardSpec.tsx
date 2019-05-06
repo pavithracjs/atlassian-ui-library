@@ -9,11 +9,13 @@ import {
   FileDetails,
   FileIdentifier,
   ExternalImageIdentifier,
+  Identifier,
 } from '@atlaskit/media-core';
 import {
   AnalyticsListener,
   UIAnalyticsEventInterface,
 } from '@atlaskit/analytics-next';
+import { MediaViewer } from '@atlaskit/media-viewer';
 import { CardAction, CardProps, CardDimensions } from '../../../src';
 
 import { CardView } from '../../../src/root/cardView';
@@ -26,10 +28,9 @@ import {
   FilePreview,
 } from '../../../src/utils/getDataURIFromFileState';
 import { InlinePlayer } from '../../../src/root/inlinePlayer';
-import { MediaViewer } from '@atlaskit/media-viewer';
 
 describe('Card', () => {
-  const fileIdentifier: FileIdentifier = {
+  const identifier: Identifier = {
     id: 'some-random-id',
     mediaItemType: 'file',
     collectionName: 'some-collection-name',
@@ -42,10 +43,10 @@ describe('Card', () => {
   ) => {
     (getDataURIFromFileState as any).mockReset();
     (getDataURIFromFileState as any).mockReturnValue(filePreview);
-    const component = shallow(
+    const component = shallow<Card>(
       <Card
         context={context}
-        identifier={fileIdentifier}
+        identifier={identifier}
         isLazy={false}
         {...props}
       />,
@@ -77,9 +78,9 @@ describe('Card', () => {
     const firstContext = fakeContext({});
     const secondContext = fakeContext({}) as Context;
     const { component } = setup(firstContext);
-    component.setProps({ context: secondContext, fileIdentifier });
+    component.setProps({ context: secondContext, identifier });
 
-    const { id, collectionName, occurrenceKey } = fileIdentifier;
+    const { id, collectionName, occurrenceKey } = identifier;
     await nextTick();
     expect(secondContext.file.getFileState).toHaveBeenCalledTimes(1);
     expect(secondContext.file.getFileState).toBeCalledWith(id, {
@@ -102,7 +103,7 @@ describe('Card', () => {
     const { component } = setup(
       context,
       {
-        identifier: fileIdentifier,
+        identifier,
         dimensions: initialDimensions,
       },
       emptyPreview,
@@ -133,7 +134,7 @@ describe('Card', () => {
     const { component } = setup(
       context,
       {
-        identifier: fileIdentifier,
+        identifier,
         dimensions: initialDimensions,
       },
       emptyPreview,
@@ -166,7 +167,7 @@ describe('Card', () => {
     const { component } = setup(
       context,
       {
-        identifier: fileIdentifier,
+        identifier,
         dimensions: initialDimensions,
       },
       emptyPreview,
@@ -190,7 +191,7 @@ describe('Card', () => {
     const { component } = setup(
       context,
       {
-        identifier: fileIdentifier,
+        identifier,
         dimensions: initialDimensions,
       },
       emptyPreview,
@@ -205,11 +206,7 @@ describe('Card', () => {
     const context = fakeContext() as any;
     const clickHandler = jest.fn();
     const card = shallow(
-      <Card
-        context={context}
-        identifier={fileIdentifier}
-        onClick={clickHandler}
-      />,
+      <Card context={context} identifier={identifier} onClick={clickHandler} />,
     );
     const cardViewOnClick = card.find(CardView).props().onClick;
 
@@ -228,7 +225,7 @@ describe('Card', () => {
     const card = shallow(
       <Card
         context={context}
-        identifier={fileIdentifier}
+        identifier={identifier}
         onMouseEnter={hoverHandler}
       />,
     );
@@ -242,7 +239,7 @@ describe('Card', () => {
     const card = shallow(
       <Card
         context={context}
-        identifier={fileIdentifier}
+        identifier={identifier}
         onMouseEnter={hoverHandler}
       />,
     );
@@ -256,7 +253,7 @@ describe('Card', () => {
       <Card
         isLazy={false}
         context={context}
-        identifier={fileIdentifier}
+        identifier={identifier}
         onMouseEnter={hoverHandler}
       />,
     );
@@ -269,7 +266,7 @@ describe('Card', () => {
     const card = shallow(
       <Card
         context={context}
-        identifier={fileIdentifier}
+        identifier={identifier}
         dimensions={{ width: 100, height: 50 }}
       />,
     );
@@ -285,7 +282,7 @@ describe('Card', () => {
     const fileCard = shallow(
       <Card
         context={context}
-        identifier={fileIdentifier}
+        identifier={identifier}
         dimensions={{ width: 100, height: 50 }}
       />,
     );
@@ -300,7 +297,7 @@ describe('Card', () => {
   it('should use "crop" as default resizeMode', () => {
     const context = fakeContext();
     const card = mount(
-      <Card context={context} identifier={fileIdentifier} isLazy={false} />,
+      <Card context={context} identifier={identifier} isLazy={false} />,
     );
 
     expect(card.find(CardView).prop('resizeMode')).toBe('crop');
@@ -311,7 +308,7 @@ describe('Card', () => {
     const card = mount(
       <Card
         context={context}
-        identifier={fileIdentifier}
+        identifier={identifier}
         isLazy={false}
         resizeMode="full-fit"
       />,
@@ -332,7 +329,7 @@ describe('Card', () => {
       <AnalyticsListener channel="media" onEvent={analyticsEventHandler}>
         <Card
           context={context}
-          identifier={fileIdentifier}
+          identifier={identifier}
           isLazy={false}
           resizeMode="full-fit"
         />
@@ -359,7 +356,7 @@ describe('Card', () => {
     const card = shallow(
       <Card
         context={context}
-        identifier={fileIdentifier}
+        identifier={identifier}
         isLazy={false}
         resizeMode="full-fit"
         disableOverlay={true}
@@ -717,6 +714,20 @@ describe('Card', () => {
     expect(currentDataURI).toEqual(newDataURI);
   });
 
+  it('should keep orientation in the state if it was already acquired', async () => {
+    const { component } = setup(undefined, {
+      dimensions: { width: 50, height: 50 },
+    });
+
+    await nextTick();
+    component.setProps({ dimensions: { width: 100, height: 100 } });
+    const previewOrientation = component.state('previewOrientation');
+    await nextTick();
+    const newDataPreviewOrientation = component.state('previewOrientation');
+    expect(previewOrientation).toEqual(6);
+    expect(newDataPreviewOrientation).toEqual(6);
+  });
+
   describe('Retry', () => {
     it('should pass down "onRetry" prop when an error occurs', async () => {
       const { component, context } = setup();
@@ -774,7 +785,9 @@ describe('Card', () => {
     });
     component.setState({
       status: 'failed-processing',
-      metadata: {},
+      metadata: {
+        id: 'some-id',
+      },
     });
     component.update();
     const actions = component.find(CardView).prop('actions')!;
@@ -787,17 +800,18 @@ describe('Card', () => {
     component.setState({
       status: 'failed-processing',
       metadata: {
+        id: 'some-id',
         name: 'some-file-name',
       },
     });
     component.update();
     const actions = component.find(CardView).prop('actions')!;
     actions[0].handler();
-    await fileIdentifier.id;
+    await identifier.id;
     expect(context.file.downloadBinary).toHaveBeenCalledWith(
-      fileIdentifier.id,
+      identifier.id,
       'some-file-name',
-      fileIdentifier.collectionName,
+      identifier.collectionName,
     );
   });
 
@@ -842,15 +856,13 @@ describe('Card', () => {
 
       const MV = component.find(MediaViewer);
 
-      expect(component.state('mediaViewerSelectedItem')).toEqual(
-        fileIdentifier,
-      );
+      expect(component.state('mediaViewerSelectedItem')).toEqual(identifier);
       expect(MV).toHaveLength(1);
       expect(MV.props()).toEqual(
         expect.objectContaining({
           collectionName: 'some-collection-name',
           dataSource: { list: [] },
-          selectedItem: fileIdentifier,
+          selectedItem: identifier,
         }),
       );
     });
@@ -858,14 +870,14 @@ describe('Card', () => {
     it('should pass dataSource to MV', async () => {
       const { component } = setup(undefined, {
         shouldOpenMediaViewer: true,
-        mediaViewerDataSource: { list: [fileIdentifier, fileIdentifier] },
+        mediaViewerDataSource: { list: [identifier, identifier] },
       });
       const instance = component.instance() as Card;
 
       instance.onClick(clickedIdentifier);
       await nextTick();
       expect(component.find(MediaViewer).prop('dataSource')).toEqual({
-        list: [fileIdentifier, fileIdentifier],
+        list: [identifier, identifier],
       });
     });
 

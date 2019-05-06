@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/profilecard",
-  "version": "9.0.5",
+  "version": "10.1.0",
   "config": {
     "access": "public"
   },
@@ -13,15 +13,15 @@
     "i18n:pull": "i18n-tools pull --resource profilecard . --type ts"
   },
   "dependencies": {
-    "@atlaskit/avatar": "^15.0.4",
-    "@atlaskit/button": "^12.0.5",
-    "@atlaskit/icon": "^16.0.9",
-    "@atlaskit/layer": "^6.0.0",
-    "@atlaskit/lozenge": "^7.0.2",
-    "@atlaskit/popper": "^1.0.0",
-    "@atlaskit/portal": "^1.0.0",
-    "@atlaskit/spinner": "^10.0.7",
-    "@atlaskit/theme": "^8.1.7",
+    "@atlaskit/avatar": "^16.0.0",
+    "@atlaskit/button": "^13.0.0",
+    "@atlaskit/icon": "^17.0.0",
+    "@atlaskit/layer": "^7.0.0",
+    "@atlaskit/lozenge": "^8.0.0",
+    "@atlaskit/popper": "^2.0.0",
+    "@atlaskit/portal": "^2.0.0",
+    "@atlaskit/spinner": "^11.0.0",
+    "@atlaskit/theme": "^9.0.0",
     "@atlaskit/util-shared-styles": "^2.10.3",
     "@babel/runtime": "^7.0.0",
     "date-fns": "^1.30.1",
@@ -32,10 +32,10 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^7.0.4",
-    "@atlaskit/dynamic-table": "^11.0.3",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/dynamic-table": "^12.0.0",
     "@atlaskit/i18n-tools": "^0.5.0",
-    "@atlaskit/util-data-test": "^11.0.0",
+    "@atlaskit/util-data-test": "^12.0.0",
     "enzyme": "^3.7.0",
     "fetch-mock": "^6.5.2",
     "loader-utils": "^1.1.0",
@@ -49,8 +49,8 @@
   ],
   "license": "Apache-2.0",
   "peerDependencies": {
-    "react": "^16.4.0",
-    "react-dom": "^16.4.2",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "react-intl": "^2.6.0",
     "styled-components": "^3.2.6"
   },

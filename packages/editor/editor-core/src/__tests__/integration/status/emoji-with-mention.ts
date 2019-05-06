@@ -11,9 +11,11 @@ import {
   lozenge,
 } from '../_helpers';
 
+// https://product-fabric.atlassian.net/browse/ED-6802
+// TODO: unskip firefox and safari
 BrowserTestCase(
   'emoji.ts: Insert an emoji, then a mention, move to right before the emoji and try to add text between both',
-  { skip: ['ie'] },
+  { skip: ['ie', 'safari', 'firefox'] },
   async (client: any, testName: string) => {
     const browser = new Page(client);
 
@@ -27,23 +29,19 @@ BrowserTestCase(
     await browser.waitForSelector(emojiItem('grinning'));
     await insertMention(browser, 'Carolyn');
     await browser.waitForSelector(lozenge);
-
-    await browser.type(editable, [
+    await browser.keys([
       'ArrowLeft',
       'ArrowLeft',
       'ArrowLeft',
       'ArrowLeft',
       'ArrowLeft',
       'ArrowRight',
-      'Some text',
-      'ArrowRight',
-      'ArrowRight',
-      'Some text',
-      'ArrowRight',
-      'ArrowRight',
-      'Some text',
     ]);
-
+    await browser.type(editable, 'Some text');
+    await browser.keys(['ArrowRight', 'ArrowRight']);
+    await browser.type(editable, 'Some text');
+    await browser.keys(['ArrowRight', 'ArrowRight']);
+    await browser.type(editable, 'Some text');
     await browser.click(editable);
     const doc = await browser.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);

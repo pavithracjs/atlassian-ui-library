@@ -91,11 +91,11 @@ export default class ReactEditorView<T = {}> extends React.Component<
   view?: EditorView;
   eventDispatcher: EventDispatcher;
   contentTransformer?: Transformer<string>;
-  config: EditorConfig;
+  config!: EditorConfig;
   editorState: EditorState;
   errorReporter: ErrorReporter;
   dispatch: Dispatch;
-  analyticsEventHandler: (
+  analyticsEventHandler!: (
     payloadChannel: { payload: AnalyticsEventPayload; channel?: string },
   ) => void;
 
@@ -107,6 +107,11 @@ export default class ReactEditorView<T = {}> extends React.Component<
   constructor(props: EditorViewProps & T) {
     super(props);
 
+    this.eventDispatcher = new EventDispatcher();
+    this.dispatch = createDispatch(this.eventDispatcher);
+    this.errorReporter = createErrorReporter(
+      props.editorProps.errorReporterHandler,
+    );
     this.editorState = this.createEditorState({ props, replaceDoc: true });
 
     const { createAnalyticsEvent, allowAnalyticsGASV3 } = props;
@@ -224,6 +229,10 @@ export default class ReactEditorView<T = {}> extends React.Component<
       selection: state.selection,
     });
 
+    // need to update the state first so when the view builds the nodeviews it is
+    // using the latest plugins
+    this.view.updateState(newState);
+
     return this.view.update(this.getDirectEditorProps(newState));
   };
 
@@ -305,12 +314,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
     const {
       contentTransformerProvider,
       defaultValue,
-      errorReporterHandler,
     } = options.props.editorProps;
-
-    this.eventDispatcher = new EventDispatcher();
-    this.dispatch = createDispatch(this.eventDispatcher);
-    this.errorReporter = createErrorReporter(errorReporterHandler);
 
     const plugins = createPMPlugins({
       schema,

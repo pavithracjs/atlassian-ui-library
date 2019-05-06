@@ -6,6 +6,7 @@ export const layouts: { name: PresetLayout; widths: number[] }[] = [
   { name: 'three_equal', widths: [33.33, 33.33, 33.33] },
   { name: 'two_left_sidebar', widths: [33.33, 66.66] },
   { name: 'two_right_sidebar', widths: [66.66, 33.33] },
+  { name: 'three_with_sidebars', widths: [25, 50, 25] },
 ];
 
 export const buildLayoutForWidths = (

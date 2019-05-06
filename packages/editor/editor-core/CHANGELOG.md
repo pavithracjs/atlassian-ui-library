@@ -1,5 +1,128 @@
 # @atlaskit/editor-core
 
+## 110.2.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
+## 110.1.1
+- [patch] [6614c81995](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6614c81995):
+
+  - ED-6792: refactor column resizing classes to helper functions
+
+## 110.1.0
+- [minor] [85d8a0831b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85d8a0831b):
+
+  - ED-6725 Add new "Three columns with sidebars" layout
+
+## 110.0.3
+- [patch] [80cf1c1e82](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80cf1c1e82):
+
+  - [ED-6654] Update prosemirror-view to 1.8.9 that fixes a few issues with mouse selections on prosemirror like click on table and the controls doesn't show up
+
+## 110.0.2
+- [patch] [e88b52e27c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e88b52e27c):
+
+  - ED-6130 Refactor table actions
+
+## 110.0.1
+- [patch] [52846a2537](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/52846a2537):
+
+  - ED-6633 Fix issue with size of table controls in new sidebar layouts
+
+## 110.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/adf-utils@6.0.5
+  - @atlaskit/editor-markdown-transformer@3.0.6
+  - @atlaskit/analytics-gas-types@4.0.4
+  - @atlaskit/util-service-support@4.0.3
+  - @atlaskit/adf-schema@2.5.5
+  - @atlaskit/editor-common@39.0.0
+  - @atlaskit/renderer@48.0.0
+  - @atlaskit/emoji@62.0.0
+  - @atlaskit/media-card@63.0.0
+  - @atlaskit/media-editor@35.0.0
+  - @atlaskit/media-filmstrip@34.0.0
+  - @atlaskit/media-picker@41.0.0
+  - @atlaskit/docs@8.0.0
+  - @atlaskit/visual-regression@0.1.0
+  - @atlaskit/analytics-next@5.0.0
+  - @atlaskit/avatar-group@4.0.0
+  - @atlaskit/avatar@16.0.0
+  - @atlaskit/button@13.0.0
+  - @atlaskit/calendar@8.0.0
+  - @atlaskit/code@10.0.0
+  - @atlaskit/dropdown-menu@8.0.0
+  - @atlaskit/droplist@9.0.0
+  - @atlaskit/icon@17.0.0
+  - @atlaskit/item@10.0.0
+  - @atlaskit/logo@11.0.0
+  - @atlaskit/lozenge@8.0.0
+  - @atlaskit/modal-dialog@9.0.0
+  - @atlaskit/section-message@3.0.0
+  - @atlaskit/select@9.0.0
+  - @atlaskit/spinner@11.0.0
+  - @atlaskit/textarea@2.0.0
+  - @atlaskit/theme@9.0.0
+  - @atlaskit/toggle@7.0.0
+  - @atlaskit/tooltip@14.0.0
+  - @atlaskit/width-detector@2.0.0
+  - @atlaskit/editor-bitbucket-transformer@6.0.0
+  - @atlaskit/editor-json-transformer@6.0.0
+  - @atlaskit/editor-test-helpers@9.0.0
+  - @atlaskit/analytics-listeners@6.0.0
+  - @atlaskit/analytics-namespaced-context@4.0.0
+  - @atlaskit/date@0.7.0
+  - @atlaskit/mention@18.0.0
+  - @atlaskit/pubsub@5.0.0
+  - @atlaskit/status@0.9.0
+  - @atlaskit/task-decision@15.0.0
+  - @atlaskit/util-data-test@12.0.0
+  - @atlaskit/media-core@30.0.0
+  - @atlaskit/media-test-helpers@22.0.0
+  - @atlaskit/smart-card@11.0.0
+
+## 109.0.0
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-common@38.0.0
+  - @atlaskit/renderer@47.0.0
+  - @atlaskit/emoji@61.0.0
+  - @atlaskit/media-card@62.0.0
+  - @atlaskit/media-editor@34.0.0
+  - @atlaskit/media-filmstrip@33.0.0
+  - @atlaskit/media-picker@40.0.0
+  - @atlaskit/editor-bitbucket-transformer@5.0.5
+  - @atlaskit/editor-json-transformer@5.0.4
+  - @atlaskit/editor-markdown-transformer@3.0.5
+  - @atlaskit/editor-test-helpers@8.0.8
+  - @atlaskit/task-decision@14.0.9
+  - @atlaskit/util-data-test@11.1.9
+  - @atlaskit/media-test-helpers@21.4.0
+  - @atlaskit/media-core@29.3.0
+
+## 108.0.4
+- [patch] [cc47b65340](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cc47b65340):
+
+  - ED-6738: Table scaling is now less aggressive, we will only attempt to 'scale to fix' when neccessary.
+
+## 108.0.3
+- [patch] [553c7e4fed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/553c7e4fed):
+
+  - ED-6779: Update CollabProvider types to cater for removing event listeners.
+
+## 108.0.2
+- [patch] [55925d8946](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55925d8946):
+
+  - Fix flickering in media annotation modal
+
+## 108.0.1
+- [patch] [312076749f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/312076749f):
+
+  - [ED-6784] Fixes resize bar position when the mouse comes from a paragraph
+
 ## 108.0.0
 - Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
   - @atlaskit/editor-common@37.0.0

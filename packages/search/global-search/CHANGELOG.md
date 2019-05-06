@@ -1,5 +1,20 @@
 # @atlaskit/global-search
 
+## 8.2.0
+- [minor] [a8a4ab0c5b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a8a4ab0c5b):
+
+  - Added support for faster search by pre-loading some search results from Confluence's recently view pages
+
+## 8.1.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
+## 8.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
 ## 7.0.5
 - [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
 

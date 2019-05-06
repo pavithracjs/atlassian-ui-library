@@ -31,7 +31,7 @@ import {
       await sample.waitForSelector(editable);
 
       await sample.type(editable, ['[link1](']);
-      await sample.paste(editable);
+      await sample.paste();
       await sample.type(editable, [')']);
 
       const doc = await sample.$eval(editable, getDocFromElement);
