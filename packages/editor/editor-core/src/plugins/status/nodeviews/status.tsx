@@ -6,7 +6,6 @@ import { EditorView, NodeView } from 'prosemirror-view';
 import { Color, Status, StatusStyle } from '@atlaskit/status';
 import { borderRadius, colors } from '@atlaskit/theme';
 import { pluginKey } from '../plugin';
-import { setStatusPickerAt } from '../actions';
 import { ReactNodeView, getPosHandler } from '../../../nodeviews';
 import InlineNodeWrapper, {
   createMobileInlineDomRef,
