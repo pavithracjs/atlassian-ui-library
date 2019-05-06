@@ -24,6 +24,7 @@
   "devDependencies": {
     "@atlaskit/visual-regression": "^0.1.0",
     "@atlaskit/webdriver-runner": "^0.1.0",
+    "@types/react-router": "^4.4.1",
     "bolt-query": "^1.1.4",
     "chalk": "^2.1.0",
     "extract-react-types-loader": "^0.3.0",
@@ -50,6 +51,7 @@
     "@atlaskit/media-core": "^30.0.1",
     "@atlaskit/media-filmstrip": "^34.1.1",
     "@atlaskit/media-test-helpers": "^23.0.0",
+    "@atlaskit/mobile-header": "^3.0.0",
     "@atlaskit/modal-dialog": "^9.0.0",
     "@atlaskit/navigation": "^35.1.1",
     "@atlaskit/page": "^10.0.2",
@@ -87,6 +89,7 @@
     "react-helmet": "^5.2.0",
     "react-loadable": "^5.1.0",
     "react-markdown": "^2.5.0",
+    "react-media": "^1.9.2",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-transition-group": "^2.2.1",
