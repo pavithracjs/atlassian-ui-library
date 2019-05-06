@@ -7,6 +7,7 @@ export enum ResultType {
   GenericContainerResult = 'generic-container-result',
   PersonResult = 'person-result',
   ConfluenceObjectResult = 'confluence-object-result',
+  JiraIssueAdvancedSearch = 'JiraIssueAdvancedSearch',
 }
 
 export enum JiraProjectType {

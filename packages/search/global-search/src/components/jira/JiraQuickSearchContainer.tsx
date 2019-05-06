@@ -55,7 +55,10 @@ import {
   ABTest,
 } from '../../api/CrossProductSearchClient';
 import performanceNow from '../../util/performance-now';
-import { fireSelectedAdvancedSearch } from '../../util/analytics-event-helper';
+import {
+  fireSelectedAdvancedSearch,
+  AdvancedSearchSelectedEvent,
+} from '../../util/analytics-event-helper';
 import AdvancedIssueSearchLink from './AdvancedIssueSearchLink';
 
 const JIRA_RESULT_LIMIT = 6;
@@ -186,19 +189,13 @@ export class JiraQuickSearchContainer extends React.Component<
           contentType: entity,
           type: AnalyticsType.AdvancedSearchJira,
           isLoading,
-        };
+        } as AdvancedSearchSelectedEvent;
 
         fireSelectedAdvancedSearch(
           eventData,
           searchSessionId,
           this.props.createAnalyticsEvent,
         );
-        console.log({
-          entity,
-          query,
-          searchSessionId,
-          eventData,
-        });
         onAdvancedSearch(event, entity, query, searchSessionId);
       };
     };
