@@ -76,24 +76,24 @@ describe('GlobalQuickSearch', () => {
       (
         eventData: AnalyticsHelper.KeyboardControlEvent,
         searchSessionId: string,
-        createAnalyticsEvent?: CreateAnalyticsEventFn | undefined,
         referralContextIdentifiers?: ReferralContextIdentifiers,
+        createAnalyticsEvent?: CreateAnalyticsEventFn | undefined,
       ) => void
     >;
     let fireSearchResultSelectedEventSpy: jest.SpyInstance<
       (
         eventData: AnalyticsHelper.SelectedSearchResultEvent,
         searchSessionId: string,
-        createAnalyticsEvent?: CreateAnalyticsEventFn | undefined,
         referralContextIdentifiers?: ReferralContextIdentifiers,
+        createAnalyticsEvent?: CreateAnalyticsEventFn | undefined,
       ) => void
     >;
     let fireAdvancedSearchSelectedEventSpy: jest.SpyInstance<
       (
         eventData: AnalyticsHelper.AdvancedSearchSelectedEvent,
         searchSessionId: string,
-        createAnalyticsEvent?: CreateAnalyticsEventFn | undefined,
         referralContextIdentifiers?: ReferralContextIdentifiers,
+        createAnalyticsEvent?: CreateAnalyticsEventFn | undefined,
       ) => void
     >;
     beforeEach(() => {
