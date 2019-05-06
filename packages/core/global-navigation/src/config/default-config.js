@@ -8,6 +8,7 @@ import SettingsIcon from '@atlaskit/icon/glyph/settings';
 import AtlassianSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 import { SwitchToTooltipText } from '@atlaskit/atlassian-switcher';
 import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
+import RecentIcon from '@atlaskit/icon/glyph/recent';
 
 import type { DefaultConfigShape } from './types';
 
@@ -20,10 +21,18 @@ export default function generateDefaultConfig(): DefaultConfigShape {
       tooltip: 'Atlassian',
       id: 'productLogo',
     },
+    recent: {
+      icon: RecentIcon,
+      label: 'Recently visited',
+      rank: 2,
+      section: 'primary',
+      tooltip: 'Recently visited',
+      id: 'recentIcon',
+    },
     starred: {
       icon: StarLargeIcon,
       label: 'Starred and recent',
-      rank: 2,
+      rank: 3,
       section: 'primary',
       tooltip: 'Starred and recent',
       id: 'starDrawer',
@@ -32,7 +41,7 @@ export default function generateDefaultConfig(): DefaultConfigShape {
       icon: SearchIcon,
       label: 'Search',
       section: 'primary',
-      rank: 3,
+      rank: 4,
       tooltip: 'Search',
       id: 'quickSearch',
     },
@@ -40,7 +49,7 @@ export default function generateDefaultConfig(): DefaultConfigShape {
       icon: CreateIcon,
       label: 'Create',
       section: 'primary',
-      rank: 4,
+      rank: 5,
       tooltip: 'Create',
       id: 'create',
     },

@@ -266,6 +266,7 @@ export type DrawerName =
   | 'create'
   | 'help'
   | 'settings'
+  | 'recent'
   | 'atlassianSwitcher';
 
 export type { DrawerWidth };
