@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 110.1.1
+- [patch] [6614c81995](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6614c81995):
+
+  - ED-6792: refactor column resizing classes to helper functions
+
 ## 110.1.0
 - [minor] [85d8a0831b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85d8a0831b):
 
