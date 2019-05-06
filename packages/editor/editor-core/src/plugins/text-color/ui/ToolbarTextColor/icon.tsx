@@ -12,5 +12,5 @@ const textColorGlyph = () => (
 );
 
 export const EditorTextColorIcon = () => {
-  return <Icon glyph={textColorGlyph} label="Custom icon" />;
+  return <Icon glyph={textColorGlyph} label="Text color icon" />;
 };
