@@ -51,11 +51,6 @@ export interface State {
   visible: boolean;
   emojis: EmojiDescription[];
   loading: boolean;
-  pressed: boolean;
-  selectedTone?: ToneSelection;
-  openTime: number;
-  renderStartTime: number;
-  fireAnalyticsEvent: (payload: AnalyticsEventPayload) => void;
 }
 
 const isFullShortName = (query?: string) =>
@@ -88,9 +83,11 @@ const uniqueExactShortNameMatchIndex = (
   return matchIndex;
 };
 
+type EventFirer = (payload: AnalyticsEventPayload) => void;
+
 const getEventFirer = (
   createAnalyticsEvent?: CreateUIAnalyticsEventSignature,
-) => {
+): EventFirer => {
   let sessionId = uuid();
   let selected = false;
   const fireEvent = (payload: AnalyticsEventPayload): void => {
@@ -131,21 +128,27 @@ export default class EmojiTypeAheadComponent extends PureComponent<
 
   private emojiListRef: EmojiList | null = null;
 
+  private openTime: number = 0;
+  private renderStartTime: number = 0;
+  private fireAnalyticsEvent: EventFirer;
+  private selectedTone: ToneSelection;
+  private pressed: boolean;
+
   constructor(props: Props) {
     super(props);
     this.state = {
       visible: true,
       emojis: [],
       loading: true,
-      pressed: false,
-      openTime: Date.now(),
-      renderStartTime: Date.now(),
-      fireAnalyticsEvent: getEventFirer(props.createAnalyticsEvent),
-      selectedTone: props.emojiProvider.getSelectedTone(),
     };
     if (this.props.onOpen) {
       this.props.onOpen();
     }
+    this.openTime = Date.now();
+    this.renderStartTime = this.openTime;
+    this.fireAnalyticsEvent = getEventFirer(props.createAnalyticsEvent);
+    this.selectedTone = props.emojiProvider.getSelectedTone();
+    this.pressed = false;
   }
 
   getChildContext(): EmojiContext {
@@ -166,8 +169,8 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     const { emojiProvider, query } = this.props;
     const { emojis } = this.state;
     emojiProvider.unsubscribe(this.onProviderChange);
-    this.fireAnalytics(
-      typeAheadCancelledEvent(Date.now() - this.state.openTime, query, emojis),
+    this.fireAnalyticsEvent(
+      typeAheadCancelledEvent(Date.now() - this.openTime, query, emojis),
     );
   }
 
@@ -180,13 +183,6 @@ export default class EmojiTypeAheadComponent extends PureComponent<
       this.onSearch(nextProps.query);
     } else if (this.props.query !== nextProps.query) {
       this.onSearch(nextProps.query);
-    }
-  }
-
-  fireAnalytics(payload: AnalyticsEventPayload) {
-    const { fireAnalyticsEvent } = this.state;
-    if (fireAnalyticsEvent) {
-      fireAnalyticsEvent(payload);
     }
   }
 
@@ -203,7 +199,7 @@ export default class EmojiTypeAheadComponent extends PureComponent<
   };
 
   chooseCurrentSelection = () => {
-    this.setState({ pressed: true });
+    this.pressed = true;
     if (this.emojiListRef) {
       this.emojiListRef.chooseCurrentSelection();
     }
@@ -228,7 +224,7 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     const { emojiProvider, listLimit } = this.props;
     const options: SearchOptions = {
       limit: listLimit || defaultListLimit,
-      skinTone: this.state.selectedTone,
+      skinTone: this.selectedTone,
     };
 
     if (query && query.replace(':', '').length > 0) {
@@ -238,9 +234,7 @@ export default class EmojiTypeAheadComponent extends PureComponent<
       options.sort = SearchSort.UsageFrequency;
     }
 
-    this.setState({
-      renderStartTime: Date.now(),
-    });
+    this.renderStartTime = Date.now();
 
     emojiProvider.filter(query, options);
   }
@@ -249,12 +243,8 @@ export default class EmojiTypeAheadComponent extends PureComponent<
     const { emojis, query } = result;
     const wasVisible = this.state.visible;
     const visible = emojis.length > 0;
-    this.fireAnalytics(
-      typeAheadRenderedEvent(
-        Date.now() - this.state.renderStartTime,
-        query,
-        emojis,
-      ),
+    this.fireAnalyticsEvent(
+      typeAheadRenderedEvent(Date.now() - this.renderStartTime, query, emojis),
     );
     debug(
       'emoji-typeahead.applyPropChanges',
@@ -300,16 +290,16 @@ export default class EmojiTypeAheadComponent extends PureComponent<
 
   private fireSelectionEvent(emoji: EmojiDescription, exactMatch?: boolean) {
     const { query } = this.props;
-    const { emojis, openTime, pressed, selectedTone } = this.state;
+    const { emojis } = this.state;
 
-    this.fireAnalytics(
+    this.fireAnalyticsEvent(
       typeAheadSelectedEvent(
-        exactMatch || pressed,
-        Date.now() - openTime,
+        exactMatch || this.pressed,
+        Date.now() - this.openTime,
         emoji,
         emojis,
         query,
-        this.getTone(selectedTone),
+        this.getTone(this.selectedTone),
         exactMatch,
       ),
     );
