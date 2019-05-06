@@ -34,7 +34,7 @@ export interface TablePluginState {
   // e.g. when pressing enter inside of a cell, it creates a new p and we need to update row controls
   tableNode?: PmNode;
   tableRef?: HTMLElement;
-  tableFloatingToolbarTarget?: HTMLElement;
+  tableWrapperTarget?: HTMLElement;
   isContextualMenuOpen?: boolean;
   isInDanger?: boolean;
   insertColumnButtonIndex?: number;
@@ -48,8 +48,8 @@ export type TablePluginAction =
       type: 'SET_TABLE_REF';
       data: {
         tableRef?: HTMLElement;
-        tableFloatingToolbarTarget?: HTMLElement;
         tableNode?: PmNode;
+        tableWrapperTarget?: HTMLElement;
       };
     }
   | {

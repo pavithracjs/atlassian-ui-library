@@ -4,14 +4,13 @@ import classnames from 'classnames';
 import { EditorView } from 'prosemirror-view';
 import { findTable } from 'prosemirror-utils';
 import { TableLayout } from '@atlaskit/adf-schema';
-import { Popup, tableMarginTop } from '@atlaskit/editor-common';
+import { Popup } from '@atlaskit/editor-common';
 import ExpandIcon from '@atlaskit/icon/glyph/editor/expand';
 import CollapseIcon from '@atlaskit/icon/glyph/editor/collapse';
 
 import commonMessages from '../../../../messages';
 import ToolbarButton from '../../../../ui/ToolbarButton';
 import { TableCssClassName as ClassName } from '../../types';
-import { layoutButtonSize } from '../styles';
 import { toggleTableLayoutWithAnalytics } from '../../commands-with-analytics';
 
 export interface Props {
@@ -24,8 +23,12 @@ export interface Props {
 }
 
 const POPUP_OFFSET = [
-  -layoutButtonSize - 5,
-  -layoutButtonSize - tableMarginTop + 2,
+  // -15 pixels after the table wrapper container
+  // to give some space to the button after the table
+  -15,
+  // -22 pixels to align y position with
+  // the columns controls
+  -22,
 ];
 
 const getTitle = (layout: TableLayout) => {
@@ -65,8 +68,8 @@ class LayoutButton extends React.Component<Props & InjectedIntlProps, any> {
         ariaLabel={title}
         offset={POPUP_OFFSET}
         target={targetRef}
-        alignY="top"
-        alignX="right"
+        alignY="start"
+        alignX="end"
         stick={true}
         mountTo={mountPoint}
         boundariesElement={boundariesElement}

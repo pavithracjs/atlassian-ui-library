@@ -57,8 +57,9 @@ export const getToolbarConfig: FloatingToolbarHandler = (
     const { pluginConfig } = tableState;
     return {
       title: 'Table floating controls',
-      getDomRef: () => tableState.tableFloatingToolbarTarget!,
+      getDomRef: () => tableState.tableWrapperTarget!,
       nodeType: state.schema.nodes.table,
+      offset: [0, 3],
       items: [
         {
           type: 'dropdown',
