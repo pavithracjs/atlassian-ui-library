@@ -6,6 +6,7 @@ import GlobalQuickSearchWithAnalytics, {
 } from '../../components/GlobalQuickSearch';
 import * as AnalyticsHelper from '../../util/analytics-event-helper';
 import { CreateAnalyticsEventFn } from '../../components/analytics/types';
+import { ReferralContextIdentifiers } from '../../components/GlobalQuickSearchWrapper';
 
 const noop = () => {};
 const DEFAULT_PROPS = {
@@ -76,6 +77,7 @@ describe('GlobalQuickSearch', () => {
         eventData: AnalyticsHelper.KeyboardControlEvent,
         searchSessionId: string,
         createAnalyticsEvent?: CreateAnalyticsEventFn | undefined,
+        referralContextIdentifiers?: ReferralContextIdentifiers,
       ) => void
     >;
     let fireSearchResultSelectedEventSpy: jest.SpyInstance<
@@ -83,6 +85,7 @@ describe('GlobalQuickSearch', () => {
         eventData: AnalyticsHelper.SelectedSearchResultEvent,
         searchSessionId: string,
         createAnalyticsEvent?: CreateAnalyticsEventFn | undefined,
+        referralContextIdentifiers?: ReferralContextIdentifiers,
       ) => void
     >;
     let fireAdvancedSearchSelectedEventSpy: jest.SpyInstance<
@@ -90,6 +93,7 @@ describe('GlobalQuickSearch', () => {
         eventData: AnalyticsHelper.AdvancedSearchSelectedEvent,
         searchSessionId: string,
         createAnalyticsEvent?: CreateAnalyticsEventFn | undefined,
+        referralContextIdentifiers?: ReferralContextIdentifiers,
       ) => void
     >;
     beforeEach(() => {

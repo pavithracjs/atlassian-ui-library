@@ -16,7 +16,7 @@ import {
   PerformanceTiming,
 } from '../../../util/analytics-util';
 import { CreateAnalyticsEventFn } from '../../../components/analytics/types';
-import { ReferralContextIdentifiers } from 'src/components/GlobalQuickSearchWrapper';
+import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
 
 const defaultABTestData = {
   experimentId: 'test-experiement-id',
