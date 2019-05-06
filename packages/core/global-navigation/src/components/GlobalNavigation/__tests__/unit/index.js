@@ -11,6 +11,7 @@ import AppSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import CreateIcon from '@atlaskit/icon/glyph/add';
 import StarLargeIcon from '@atlaskit/icon/glyph/star-large';
+import RecentIcon from '@atlaskit/icon/glyph/recent';
 import NotificationIcon from '@atlaskit/icon/glyph/notification';
 import SettingsIcon from '@atlaskit/icon/glyph/settings';
 import SignInIcon from '@atlaskit/icon/glyph/sign-in';
@@ -110,6 +111,11 @@ describe('GlobalNavigation', () => {
         akIcon: SettingsIcon,
         capitalisedName: 'Settings',
         name: 'settings',
+      },
+      {
+        akIcon: RecentIcon,
+        capitalisedName: 'Recent',
+        name: 'recent',
       },
     ];
 
