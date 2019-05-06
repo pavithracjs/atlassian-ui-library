@@ -45,6 +45,7 @@
     "@atlaskit/media-core": "^30.0.0",
     "@atlaskit/media-test-helpers": "^22.0.0",
     "@atlaskit/modal-dialog": "^9.0.0",
+    "@atlaskit/visual-regression": "^0.1.0",
     "@types/enzyme": "^3.1.15",
     "@types/query-string": "^4.3.1",
     "enzyme": "^3.7.0",

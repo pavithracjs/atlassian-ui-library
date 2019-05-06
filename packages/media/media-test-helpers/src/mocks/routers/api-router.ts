@@ -94,7 +94,10 @@ export function createApiRouter(): Router<DatabaseSchema> {
     database.push('collectionItem', item);
 
     return {
-      data: item.details,
+      data: {
+        id: item.id,
+        ...item.details,
+      },
     };
   });
 

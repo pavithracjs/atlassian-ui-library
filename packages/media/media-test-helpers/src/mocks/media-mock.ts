@@ -1,5 +1,8 @@
 import { Server } from 'kakapo';
 import * as exenv from 'exenv';
+
+import { MediaFile } from '@atlaskit/media-store';
+
 import { createApiRouter, createMediaPlaygroundRouter } from './routers';
 import {
   createDatabase,
@@ -7,16 +10,16 @@ import {
   generateTenantData,
 } from './database';
 
-export type MockUserCollection = { [filename: string]: string };
+export type MockCollection = { [filename: string]: string };
 export class MediaMock {
   private server = new Server();
-  private collection: MockUserCollection | undefined;
 
-  constructor(collection?: MockUserCollection) {
-    this.collection = collection;
-  }
+  constructor(
+    readonly collection?: MockCollection,
+    readonly tenantCollection?: MockCollection,
+  ) {}
 
-  enable() {
+  enable(): [Promise<MediaFile[]>, Promise<MediaFile[]>] | undefined {
     if (!exenv.canUseDOM) {
       return;
     }
@@ -25,8 +28,10 @@ export class MediaMock {
     this.server.use(createMediaPlaygroundRouter());
     this.server.use(createApiRouter());
 
-    generateUserData(this.collection);
-    generateTenantData();
+    return [
+      generateUserData(this.collection),
+      generateTenantData(this.tenantCollection),
+    ];
   }
 
   disable() {

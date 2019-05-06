@@ -1,7 +1,8 @@
-import { ClientBasedAuth } from '@atlaskit/media-core';
-import { MediaStore, MediaCollection } from '@atlaskit/media-store';
 import { Database } from 'kakapo';
 import uuidV4 from 'uuid/v4';
+
+import { ClientBasedAuth } from '@atlaskit/media-core';
+import { MediaStore, MediaCollection, MediaFile } from '@atlaskit/media-store';
 
 import { getFakeFileName, fakeImage } from './mockData';
 import { mapDataUriToBlob } from '../../utils';
@@ -10,7 +11,8 @@ import { CollectionItem, createCollectionItem } from './collection-item';
 import { createUpload, Upload } from './upload';
 import { Chunk } from './chunk';
 import { defaultBaseUrl } from '../../contextProvider';
-import { MockUserCollection } from '../media-mock';
+import { MockCollection } from '../media-mock';
+import { defaultCollectionName } from '../../index';
 
 export * from './collection';
 export * from './collection-item';
@@ -48,9 +50,9 @@ export function createDatabase(): Database<DatabaseSchema> {
   return database;
 }
 
-export function generateUserData(
-  collectionData: MockUserCollection | undefined,
-): void {
+export async function generateUserData(
+  collectionData: MockCollection = {},
+): Promise<Array<MediaFile>> {
   const mediaStore = new MediaStore({
     authProvider: userAuthProvider,
   });
@@ -59,34 +61,55 @@ export function generateUserData(
   mediaStore.createCollection(collection);
 
   if (collectionData) {
-    Object.keys(collectionData).forEach(filename => {
-      const dataUri = collectionData[filename];
-      const image = mapDataUriToBlob(dataUri);
+    return Promise.all(
+      Object.keys(collectionData).map(async filename => {
+        const dataUri = collectionData[filename];
+        const image = mapDataUriToBlob(dataUri);
 
-      mediaStore.createFileFromBinary(image, {
-        name: filename,
-        collection,
-        occurrenceKey: uuidV4(),
-      });
-    });
+        return (await mediaStore.createFileFromBinary(image, {
+          name: filename,
+          collection,
+          occurrenceKey: uuidV4(),
+        })).data;
+      }),
+    );
   } else {
     // just insert 10 random files with the same image
     const image = mapDataUriToBlob(fakeImage);
 
-    for (let i = 0; i < 10; i++) {
-      mediaStore.createFileFromBinary(image, {
-        name: getFakeFileName(),
-        collection,
-        occurrenceKey: uuidV4(),
-      });
-    }
+    return Promise.all(
+      (Array.apply(null, { length: 10 }) as number[])
+        .map(Number.call, Number)
+        .map(
+          async () =>
+            (await mediaStore.createFileFromBinary(image, {
+              name: getFakeFileName(),
+              collection,
+              occurrenceKey: uuidV4(),
+            })).data,
+        ),
+    );
   }
 }
 
-export function generateTenantData(): void {
+export async function generateTenantData(
+  collection: MockCollection = {},
+): Promise<Array<MediaFile>> {
   const mediaStore = new MediaStore({
     authProvider: tenantAuthProvider,
   });
 
-  mediaStore.createCollection('MediaServicesSample');
+  mediaStore.createCollection(defaultCollectionName);
+  return Promise.all(
+    Object.keys(collection).map(
+      async fileName =>
+        (await mediaStore.createFileFromBinary(
+          mapDataUriToBlob(collection[fileName]),
+          {
+            collection: defaultCollectionName,
+            name: fileName,
+          },
+        )).data,
+    ),
+  );
 }
