@@ -32,7 +32,7 @@ import PickerFacade, {
   MediaStateEventSubscriber,
 } from '../picker-facade';
 import { MediaState, MediaProvider, MediaStateStatus } from '../types';
-import { insertMediaSingleNode } from '../utils/media-single';
+import { insertMediaSingleNode, isMediaSingle } from '../utils/media-single';
 
 import { findDomRefAtPos } from 'prosemirror-utils';
 import {
@@ -68,6 +68,7 @@ export class MediaPluginState {
   public layout: MediaSingleLayout = 'center';
   public mediaNodes: MediaNodeWithPosHandler[] = [];
   public mediaGroupNodes: Record<string, any> = {};
+  public mobileUploadComplete: Record<string, boolean> = {};
   private pendingTask = Promise.resolve<MediaState | null>(null);
   public options: MediaPluginOptions;
   private view!: EditorView;
@@ -244,15 +245,18 @@ export class MediaPluginState {
     mediaState: MediaState,
     onMediaStateChanged: MediaStateEventSubscriber,
   ) => {
-    const { mediaSingle } = this.view.state.schema.nodes;
     const collection = this.collectionFromProvider();
     if (collection === undefined) {
       return;
     }
 
+    if (this.editorAppearance === 'mobile') {
+      this.mobileUploadComplete[mediaState.id] = false;
+    }
+
     this.allUploadsFinished = false;
 
-    if (mediaSingle && isImage(mediaState.fileMimeType)) {
+    if (isMediaSingle(this.view.state.schema, mediaState.fileMimeType)) {
       insertMediaSingleNode(this.view, mediaState, collection);
     } else {
       insertMediaGroupNode(this.view, [mediaState], collection);
@@ -736,11 +740,7 @@ export class MediaPluginState {
         break;
 
       case 'mobile-upload-end':
-        const isMediaSingle =
-          isImage(state.fileMimeType) &&
-          !!this.view.state.schema.nodes.mediaSingle;
-
-        let attrs: { id?: string; collection?: string } = {
+        const attrs: { id: string; collection?: string } = {
           id: state.publicId || state.id,
         };
 
@@ -748,11 +748,25 @@ export class MediaPluginState {
           attrs.collection = state.collection;
         }
 
-        this.updateMediaNodeAttrs(state.id, attrs, isMediaSingle);
+        this.updateMediaNodeAttrs(
+          state.id,
+          attrs,
+          isMediaSingle(this.view.state.schema, state.fileMimeType),
+        );
+
+        // mark mobile upload as complete
+        this.mobileUploadComplete[attrs.id] = true;
+
         delete this.mediaGroupNodes[state.id];
         break;
     }
   };
+
+  isMobileUploadCompleted = (mediaId: string) =>
+    this.editorAppearance === 'mobile' &&
+    typeof this.mobileUploadComplete[mediaId] === 'boolean'
+      ? this.mobileUploadComplete[mediaId]
+      : undefined;
 
   removeNodeById = (state: MediaState) => {
     const { id } = state;
