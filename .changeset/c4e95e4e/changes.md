@@ -1,0 +1,1 @@
+- [ED-6344] Remove scrollbar overlap from the last table row
