@@ -179,6 +179,14 @@ export type GlobalNavigationProps = {
   /** A function to get ref of the product icon */
   getProductRef?: (node: NonStringRef<'div'>) => void,
 
+  /** A callback function which will be called when the recent item is clicked.
+   * */
+  onRecentClick?: ?() => void,
+  /** The text to display in the tooltip for the recent drawer item. */
+  recentTooltip?: string,
+  /** A function to get ref of the recent icon */
+  getRecentRef?: (node: NonStringRef<'div'>) => void,
+
   /** A callback function which will be called when the product logo item is
    * clicked. If this is passed, the drawer does not show up. */
   onCreateClick?: ?() => void,
