@@ -48,7 +48,10 @@ export interface Props {
    * for example in jira we pass (issues, boards, filters and projects but we display only 2 groups issues and others combined)
    * @param results
    */
-  getDisplayedResults?(results: GenericResultMap | null): GenericResultMap;
+  getDisplayedResults?(
+    results: GenericResultMap | null,
+    abTest: ABTest,
+  ): GenericResultMap;
   createAnalyticsEvent?: CreateAnalyticsEventFn;
   handleSearchSubmit?(
     event: React.KeyboardEvent<HTMLInputElement>,
@@ -247,7 +250,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         : 0;
 
       const resultsArray: Result[][] = resultMapToArray(
-        getDisplayedResults(recentItems),
+        getDisplayedResults(recentItems, abTest),
       );
       const eventAttributes: ShownAnalyticsAttributes = {
         ...buildShownEventDetails(...resultsArray),
@@ -284,7 +287,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     const { createAnalyticsEvent, getDisplayedResults } = this.props;
     if (createAnalyticsEvent && getDisplayedResults) {
       const resultsArray: Result[][] = resultMapToArray(
-        getDisplayedResults(searchResults),
+        getDisplayedResults(searchResults, abTest),
       );
       const resultsDetails: ShownAnalyticsAttributes = buildShownEventDetails(
         ...resultsArray,

@@ -338,7 +338,10 @@ export class ConfluenceQuickSearchContainer extends React.Component<
           />
         )}
         getPreQueryGroups={() =>
-          mapRecentResultsToUIGroups(recentItems as ConfluenceResultsMap)
+          mapRecentResultsToUIGroups(
+            recentItems as ConfluenceResultsMap,
+            abTest,
+          )
         }
         getPostQueryGroups={() => {
           if (inFasterSearchExperiment) {
@@ -357,10 +360,14 @@ export class ConfluenceQuickSearchContainer extends React.Component<
               currentSearchResults,
               recentResults,
             );
-            return mapSearchResultsToUIGroups(mergedRecentSearchResults);
+            return mapSearchResultsToUIGroups(
+              mergedRecentSearchResults,
+              abTest,
+            );
           } else {
             return mapSearchResultsToUIGroups(
               searchResults as ConfluenceResultsMap,
+              abTest,
             );
           }
         }}
