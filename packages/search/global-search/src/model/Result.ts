@@ -79,7 +79,7 @@ export interface ConfluenceObjectResult extends Result {
 export type ResultsGroup = {
   items: Result[];
   key: string;
-  title: FormattedMessage.MessageDescriptor;
+  title?: FormattedMessage.MessageDescriptor;
 };
 
 export interface JiraResult extends Result {

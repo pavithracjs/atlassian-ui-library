@@ -4,7 +4,7 @@ import { Result } from '../model/Result';
 import ResultList from './ResultList';
 
 export interface Props {
-  title: JSX.Element | string;
+  title?: JSX.Element | string;
   results: Result[];
   sectionIndex: number;
   analyticsData?: {};
@@ -16,6 +16,16 @@ export default class ResultGroup extends React.Component<Props> {
 
     if (results.length === 0) {
       return null;
+    }
+
+    if (!title) {
+      return (
+        <ResultList
+          analyticsData={this.props.analyticsData}
+          results={results}
+          sectionIndex={sectionIndex}
+        />
+      );
     }
 
     return (

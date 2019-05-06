@@ -22,6 +22,12 @@ const DEFAULT_JIRA_RESULTS_MAP: GenericResultMap = {
 
 const isEmpty = (arr: Array<any> = []) => !arr.length;
 
+const hasNoResults = (
+  objects: Array<Result> = [],
+  poeple: Array<Result> = [],
+  containers: Array<Result> = [],
+): boolean => isEmpty(objects) && isEmpty(poeple) && isEmpty(containers);
+
 export const sliceResults = (resultsMap: GenericResultMap | null) => {
   const { objects, containers, people } = resultsMap
     ? resultsMap
@@ -84,12 +90,14 @@ export const mapSearchResultsToUIGroups = (
   } = sliceResults(searchResultsObjects);
   return [
     {
-      items: [
-        ...objectsToDisplay,
-        ...(!isEmpty(objectsToDisplay) ||
-        !isEmpty(peopleToDisplay) ||
-        !isEmpty(containersToDisplay)
-          ? [
+      items: objectsToDisplay,
+      key: 'issues',
+      title: messages.jira_search_result_issues_heading,
+    },
+    ...(!hasNoResults(objectsToDisplay, peopleToDisplay, containersToDisplay)
+      ? [
+          {
+            items: [
               {
                 resultType: ResultType.JiraIssueAdvancedSearch,
                 resultId: 'search-jira',
@@ -98,12 +106,14 @@ export const mapSearchResultsToUIGroups = (
                 analyticsType: AnalyticsType.LinkPostQueryAdvancedSearchJira,
                 contentType: ContentType.JiraIssue,
               },
-            ]
-          : []),
-      ],
-      key: 'issues',
-      title: messages.jira_search_result_issues_heading,
-    },
+            ],
+            key: 'issue-advanced',
+            title: isEmpty(objectsToDisplay)
+              ? messages.jira_search_result_issues_heading
+              : undefined,
+          },
+        ]
+      : []),
     {
       items: containersToDisplay,
       key: 'containers',
