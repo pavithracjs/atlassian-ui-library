@@ -55,9 +55,48 @@ interface EmojiAttributes {
   type: string;
 }
 
+const getGender = (emojiId?: string) => {
+  if (!emojiId) {
+    return undefined;
+  }
+  if (emojiId.indexOf('2640') !== -1 || emojiId.indexOf('1f469') === 0) {
+    return 'female';
+  } else if (emojiId.indexOf('2642') !== -1 || emojiId.indexOf('1f468') === 0) {
+    return 'male';
+  }
+  return undefined;
+};
+
+const getSkintone = (emojiId?: string) => {
+  if (!emojiId) {
+    return undefined;
+  }
+  if (emojiId.indexOf('1f3fb') !== -1) {
+    return 'light';
+  } else if (emojiId.indexOf('1f3fc') !== -1) {
+    return 'mediumLight';
+  } else if (emojiId.indexOf('1f3fd') !== -1) {
+    return 'medium';
+  } else if (emojiId.indexOf('1f3fe') !== -1) {
+    return 'mediumDark';
+  } else if (emojiId.indexOf('1f3ff') !== -1) {
+    return 'dark';
+  }
+  return undefined;
+};
+
 export const pickerClickedEvent = (
   attributes: { queryLength: number } & EmojiAttributes & Duration,
-) => emojiPickerEvent('clicked', attributes, 'emoji');
+) =>
+  emojiPickerEvent(
+    'clicked',
+    {
+      gender: getGender(attributes.emojiId),
+      skinToneModifier: getSkintone(attributes.emojiId),
+      ...attributes,
+    },
+    'emoji',
+  );
 
 export const categoryClickedEvent = (attributes: { category: string }) =>
   emojiPickerEvent('clicked', attributes, 'category');
