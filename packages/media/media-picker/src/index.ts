@@ -7,9 +7,7 @@ import {
   BinaryUploader,
   BinaryUploaderConstructor,
   BinaryConfig,
-  Browser,
   BrowserConfig,
-  BrowserConstructor,
   ClipboardConstructor,
   ClipboardConfig,
   Clipboard,
@@ -28,8 +26,6 @@ export const isBinaryUploader = (
 ): component is BinaryUploader => {
   return 'upload' in component;
 };
-export const isBrowser = (component: any): component is Browser =>
-  component && 'browse' in component && 'teardown' in component;
 export const isClipboard = (component: any): component is Clipboard =>
   component && 'activate' in component && 'deactivate' in component;
 export const isDropzone = (component: any): component is Dropzone =>
@@ -60,23 +56,20 @@ export { ImagePreview, Preview, NonImagePreview } from './domain/preview';
 // Constructor public API and types
 export interface MediaPickerConstructors {
   binary: BinaryUploaderConstructor;
-  browser: BrowserConstructor;
   clipboard: ClipboardConstructor;
   dropzone: DropzoneConstructor;
   popup: PopupConstructor;
 }
 
-export { BinaryUploader, Browser, Clipboard, Dropzone, Popup };
+export { BinaryUploader, Clipboard, Dropzone, Popup };
 export type MediaPickerComponent =
   | BinaryUploader
-  | Browser
   | Clipboard
   | Dropzone
   | Popup;
 
 export interface MediaPickerComponents {
   binary: BinaryUploader;
-  browser: Browser;
   clipboard: Clipboard;
   dropzone: Dropzone;
   popup: Popup;
@@ -101,7 +94,6 @@ export interface ComponentConfigs {
 
 export {
   BinaryUploaderConstructor,
-  BrowserConstructor,
   ClipboardConstructor,
   DropzoneConstructor,
   PopupConstructor,
@@ -118,13 +110,6 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
         BinaryUploaderImpl,
       } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-binary" */ './components/binary');
       return new BinaryUploaderImpl(context, pickerConfig as BinaryConfig);
-    case 'browser':
-      const {
-        BrowserImpl,
-      } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-browser" */ './components/browser');
-      return new BrowserImpl(context, pickerConfig as
-        | BrowserConfig
-        | undefined);
     case 'clipboard':
       const {
         ClipboardImpl,
@@ -148,3 +133,7 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
       throw new Error(`The component ${componentName} does not exist`);
   }
 }
+
+// REACT COMPONENTS
+
+export { BrowserReact } from './components/browserReact';

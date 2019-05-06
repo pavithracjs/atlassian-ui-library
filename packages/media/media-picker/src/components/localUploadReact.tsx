@@ -4,7 +4,6 @@ import { UploadService } from '../service/types';
 import {
   UploadEndEventPayload,
   UploadErrorEventPayload,
-  UploadEventPayloadMap,
   UploadPreviewUpdateEventPayload,
   UploadProcessingEventPayload,
   UploadsStartEventPayload,
@@ -29,12 +28,12 @@ import { LocalUploadConfig } from './types';
 export type LocalUploadComponentBaseProps = {
   context: Context;
   config: LocalUploadConfig;
-  onUploadsStart?: () => void;
-  onPreviewUpdate?: () => void;
-  onStatusUpdate?: () => void;
-  onProcessing?: () => void;
-  onEnd?: () => void;
-  onError?: () => void;
+  onUploadsStart: (payload: UploadsStartEventPayload) => void;
+  onPreviewUpdate: (payload: UploadPreviewUpdateEventPayload) => void;
+  onStatusUpdate: (payload: UploadStatusUpdateEventPayload) => void;
+  onProcessing: (payload: UploadProcessingEventPayload) => void;
+  onEnd: (payload: UploadEndEventPayload) => void;
+  onError: (payload: UploadErrorEventPayload) => void;
   // item: FileState;
   // collectionName?: string;
 };

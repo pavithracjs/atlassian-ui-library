@@ -13,7 +13,7 @@ import {
 import { ServiceName, State } from '../domain';
 
 import { BinaryUploaderImpl as MpBinary } from '../../components/binary';
-import { BrowserImpl as MpBrowser } from '../../components/browser';
+// import { BrowserImpl as MpBrowser } from '../../components/browser';
 import { DropzoneImpl as MpDropzone } from '../../components/dropzone';
 import { ClipboardImpl as MpClipboard } from '../../components/clipboard';
 import { UploadParams, PopupConfig } from '../..';
@@ -107,6 +107,7 @@ export class App extends Component<AppProps, AppState> {
   private readonly mpBinary: MpBinary;
   private readonly componentContext: Context;
   private readonly mpClipboard: MpClipboard;
+  private browseRef = React.createRef<BrowserReact>();
 
   constructor(props: AppProps) {
     super(props);
@@ -234,17 +235,19 @@ export class App extends Component<AppProps, AppState> {
       shouldCopyFileToRecents: false,
       multiple: true,
     };
-
+    console.log('renderBrowser');
+    // this.browseRef.current!.browse
     return (
       <BrowserReact
+        ref={this.browseRef}
         context={this.componentContext}
         config={config}
         onUploadsStart={onUploadsStart}
-        // onPreviewUpdate={onUploadPreviewUpdate}
-        // onStatusUpdate={onUploadStatusUpdate}
-        // onProcessing={onUploadProcessing}
-        // onEnd={onUploadEnd}
-        // onError={onUploadError}
+        onPreviewUpdate={onUploadPreviewUpdate}
+        onStatusUpdate={onUploadStatusUpdate}
+        onProcessing={onUploadProcessing}
+        onEnd={onUploadEnd}
+        onError={onUploadError}
       />
     );
   };
@@ -276,6 +279,7 @@ export class App extends Component<AppProps, AppState> {
                   <Dropzone isActive={isDropzoneActive} />
                   <MainEditorView binaryUploader={this.mpBinary} />
                 </MediaPickerPopupWrapper>
+                {this.renderBrowser()}
               </PassContext>
             </ModalDialog>
           </Provider>
@@ -290,7 +294,7 @@ export class App extends Component<AppProps, AppState> {
       const { userContext } = this.props;
       return (
         <UploadView
-          // mpBrowser={this.mpBrowser}
+          browserRef={this.browseRef}
           context={userContext}
           recentsCollection={RECENTS_COLLECTION}
         />

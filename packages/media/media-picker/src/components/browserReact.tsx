@@ -1,43 +1,41 @@
 import * as React from 'react';
-import { Component } from 'react';
-import { LocalUploadComponent } from './localUpload';
-import { Context } from '@atlaskit/media-core';
-import * as exenv from 'exenv';
-import { Browser, BrowserConfig } from './types';
-import { LocalUploadComponentReact } from './localUploadReact';
+import { ReactNode } from 'react';
+import { BrowserConfig } from './types';
+import {
+  LocalUploadComponentReact,
+  LocalUploadComponentBaseProps,
+} from './localUploadReact';
 
-export interface BrowserReactProps {
-  context: Context;
+export type RenderBrowserFunc = () => ReactNode;
+export interface BrowserReactOwnProps {
   config: BrowserConfig;
-  // onUploadsStart: () => void;
-  // onPreviewUpdate: () => void;
-  // onStatusUpdate: () => void;
-  // onProcessing: () => void;
-  // onEnd: () => void;
-  // onError: () => void;
 }
+
+export type BrowserReactProps = BrowserReactOwnProps &
+  LocalUploadComponentBaseProps;
 
 const defaultConfig: BrowserConfig = { uploadParams: {} };
 
 export class BrowserReact extends LocalUploadComponentReact<BrowserReactProps> {
-  private browseRef = React.createRef<HTMLInputElement>();
+  private browserRef = React.createRef<HTMLInputElement>();
 
   private onFilePicked = () => {
-    if (!this.browseRef.current) {
+    if (!this.browserRef.current) {
       return;
     }
 
-    const filesArray = [].slice.call(this.browseRef.current.files);
+    const filesArray = [].slice.call(this.browserRef.current.files);
     this.uploadService.addFiles(filesArray);
   };
 
   // TODO: automatically call this when rendering
 
   public browse(): void {
-    if (!this.browseRef.current) {
+    console.log('browse()', this.browserRef.current);
+    if (!this.browserRef.current) {
       return;
     }
-    this.browseRef.current.click();
+    this.browserRef.current.click();
   }
 
   render() {
@@ -45,9 +43,10 @@ export class BrowserReact extends LocalUploadComponentReact<BrowserReactProps> {
     const multiple = config.multiple;
     const fileExtensions =
       config.fileExtensions && config.fileExtensions.join(',');
-
+    console.log('BrowserReact render');
     return (
       <input
+        ref={this.browserRef}
         type="file"
         style={{ display: 'none' }}
         multiple={multiple}

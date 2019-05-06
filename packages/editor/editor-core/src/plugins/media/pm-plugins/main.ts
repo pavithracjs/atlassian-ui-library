@@ -616,8 +616,8 @@ export class MediaPluginState {
       } else {
         pickers.push(
           (this.popupPicker = await new Picker(
-            // Fallback to browser picker for unauthenticated users
-            context.config.userAuthProvider ? 'popup' : 'browser',
+            // TODO: do we still need to support non popup in Editor?
+            'popup',
             pickerFacadeConfig,
             defaultPickerConfig,
           ).init()),

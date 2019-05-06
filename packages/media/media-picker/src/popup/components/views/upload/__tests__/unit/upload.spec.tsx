@@ -126,7 +126,7 @@ describe('<StatelessUploadView />', () => {
     return (
       <Provider store={store}>
         <StatelessUploadView
-          mpBrowser={{} as any}
+          browserRef={{} as any}
           context={context}
           recentsCollection="some-collection-name"
           isLoading={isLoading}

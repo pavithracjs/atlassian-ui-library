@@ -33,15 +33,6 @@ export interface BrowserConfig extends LocalUploadConfig {
   readonly fileExtensions?: Array<string>;
 }
 
-export interface BrowserConstructor {
-  new (context: Context, browserConfig: BrowserConfig): Browser;
-}
-
-export interface Browser extends LocalUploadComponent {
-  browse(): void;
-  teardown(): void;
-}
-
 export interface ClipboardConfig extends LocalUploadConfig {}
 
 export interface ClipboardConstructor {
