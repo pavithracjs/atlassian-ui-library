@@ -91,7 +91,8 @@ async function runJest(testPaths) {
       updateSnapshot: cli.flags.updateSnapshot,
       debug: cli.flags.debug,
       watch: cli.flags.watch,
-      ci: process.env.CI,
+      // https://product-fabric.atlassian.net/browse/BUILDTOOLS-108
+      // ci: process.env.CI,
     },
     [process.cwd()],
   );
