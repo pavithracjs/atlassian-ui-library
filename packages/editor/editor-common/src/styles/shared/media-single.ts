@@ -7,6 +7,14 @@ const mediaSingleSharedStyle = css`
     margin: 0;
   }
 
+  /* Hack for chrome to fix media single position
+     inside a list when media is the first child */
+  &.ua-chrome li > .mediaSingleView-content-wrap::before {
+    content: '';
+    display: block;
+    height: 0;
+  }
+
   table .media-single {
     margin: 0;
   }

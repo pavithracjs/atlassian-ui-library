@@ -1,4 +1,4 @@
 export const panelSelectors = {
-  panel: '.panelView-content-wrap',
-  infoPanel: '.panelView-content-wrap[paneltype=info]',
+  panel: '.ak-editor-panel',
+  infoPanel: '.ak-editor-panel[data-panel-type=info]',
 };
