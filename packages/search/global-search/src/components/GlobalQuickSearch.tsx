@@ -2,7 +2,10 @@ import * as React from 'react';
 
 import debounce from 'lodash.debounce';
 import { QuickSearch } from '@atlaskit/quick-search';
-import { LinkComponent } from './GlobalQuickSearchWrapper';
+import {
+  LinkComponent,
+  ReferralContextIdentifiers,
+} from './GlobalQuickSearchWrapper';
 import {
   withAnalyticsEvents,
   AnalyticsContext,
@@ -44,6 +47,7 @@ export interface Props {
   selectedResultId?: string;
   onSelectedResultIdChanged?: (id: string | number | null) => void;
   inputControls?: JSX.Element;
+  referralContextIdentifiers?: ReferralContextIdentifiers;
 }
 
 export interface State {
@@ -97,7 +101,11 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
   }
 
   fireSearchResultSelectedEvent = (eventData: SelectedSearchResultEvent) => {
-    const { createAnalyticsEvent, searchSessionId } = this.props;
+    const {
+      createAnalyticsEvent,
+      searchSessionId,
+      referralContextIdentifiers,
+    } = this.props;
     this.resultSelected = true;
     const resultId =
       eventData.resultCount && eventData.method === 'shortcut'
@@ -113,6 +121,7 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
           isLoading: this.props.isLoading,
         } as AdvancedSearchSelectedEvent,
         searchSessionId,
+        referralContextIdentifiers,
         createAnalyticsEvent,
       );
     } else {
@@ -123,6 +132,7 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
           queryVersion: this.queryVersion,
         },
         searchSessionId,
+        referralContextIdentifiers,
         createAnalyticsEvent,
       );
     }
