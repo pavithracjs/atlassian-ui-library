@@ -1,0 +1,1 @@
+- Remove the Reactions component's white background
