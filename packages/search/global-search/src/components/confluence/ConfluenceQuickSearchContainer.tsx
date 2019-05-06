@@ -47,7 +47,7 @@ import {
   mapRecentResultsToUIGroups,
   mapSearchResultsToUIGroups,
 } from './ConfluenceSearchResultsMapper';
-import { AutoCompleteClient } from 'src/api/AutoCompleteClient';
+import { AutoCompleteClient } from '../../api/AutoCompleteClient';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { isInFasterSearchExperiment } from '../../util/experiment-utils';
 
