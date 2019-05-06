@@ -17,8 +17,6 @@ type onAdvancedSearchClick = (
 ) => void;
 export interface Props {
   query: string;
-  showKeyboardLozenge?: boolean;
-  showSearchIcon?: boolean;
   analyticsData?: object;
   onClick?: onAdvancedSearchClick;
   appPermission?: JiraApplicationPermission;
@@ -65,11 +63,6 @@ const getI18nItemName = (i18nKeySuffix: string) => {
  * 4- analytics query version is missing
  */
 export default class JiraAdvancedSearch extends React.Component<Props, State> {
-  static defaultProps = {
-    showKeyboardLozenge: false,
-    showSearchIcon: false,
-  };
-
   state = {
     entity: JiraEntityTypes.Issues,
   };
