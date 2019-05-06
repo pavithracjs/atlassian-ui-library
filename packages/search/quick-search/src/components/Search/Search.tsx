@@ -106,6 +106,7 @@ export default class Search extends React.PureComponent<Props> {
                     spellCheck={false}
                     type="text"
                     value={`${autocomplete.text}`}
+                    readOnly
                   />
                 )}
                 <SearchInput

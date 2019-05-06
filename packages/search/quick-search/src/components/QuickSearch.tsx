@@ -121,6 +121,7 @@ export type Props = {
 export type State = {
   selectedResultId: SelectedResultId;
   context: ResultContextType;
+  value?: string;
 };
 
 export class QuickSearch extends React.Component<Props, State> {
@@ -158,6 +159,7 @@ export class QuickSearch extends React.Component<Props, State> {
         },
         linkComponent: this.props.linkComponent,
       },
+      value: props.value,
     };
   }
 
@@ -419,6 +421,9 @@ export class QuickSearch extends React.Component<Props, State> {
     const { onSearchInput } = this.props;
     const newValue = `${autocomplete} `;
     if (this.inputSearchRef) {
+      this.setState({
+        value: newValue,
+      });
       // @ts-ignore unchecked
       this.inputSearchRef.value = newValue;
     }
@@ -453,7 +458,7 @@ export class QuickSearch extends React.Component<Props, State> {
         onInput={this.props.onSearchInput}
         onKeyDown={this.handleSearchKeyDown}
         placeholder={this.props.placeholder}
-        value={this.props.value}
+        value={this.state.value}
         autocomplete={this.props.autocomplete}
         ref={this.setSearchInputRef}
       >
