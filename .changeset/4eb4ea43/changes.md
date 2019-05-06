@@ -1,0 +1,1 @@
+- FS-3877 - Fix being unable to select a status element inside a list.
