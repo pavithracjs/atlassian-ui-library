@@ -11,7 +11,7 @@ import {
 import { GasPayload, EventType } from '@atlaskit/analytics-gas-types';
 import { CreateAnalyticsEventFn } from '../components/analytics/types';
 import { ABTest } from '../api/CrossProductSearchClient';
-import { ReferralContextIdentifiers } from 'src/components/GlobalQuickSearchWrapper';
+import { ReferralContextIdentifiers } from '../components/GlobalQuickSearchWrapper';
 
 const fireGasEvent = (
   createAnalyticsEvent: CreateAnalyticsEventFn | undefined,
