@@ -12,7 +12,6 @@ import {
 
 import { ServiceName, State } from '../domain';
 
-import { BinaryUploaderImpl as MpBinary } from '../../components/binary';
 import { BrowserImpl as MpBrowser } from '../../components/browser';
 import { DropzoneImpl as MpDropzone } from '../../components/dropzone';
 import { ClipboardImpl as MpClipboard } from '../../components/clipboard';
@@ -104,7 +103,6 @@ export interface AppState {
 export class App extends Component<AppProps, AppState> {
   private readonly mpBrowser: MpBrowser;
   private readonly mpDropzone: MpDropzone;
-  private readonly mpBinary: MpBinary;
   private readonly mpClipboard: MpClipboard;
 
   constructor(props: AppProps) {
@@ -161,17 +159,6 @@ export class App extends Component<AppProps, AppState> {
     this.mpDropzone.on('upload-end', onUploadEnd);
     this.mpDropzone.on('upload-error', onUploadError);
 
-    this.mpBinary = new MpBinary(context, {
-      uploadParams: tenantUploadParams,
-      shouldCopyFileToRecents: false,
-    });
-    this.mpBinary.on('uploads-start', onUploadsStart);
-    this.mpBinary.on('upload-preview-update', onUploadPreviewUpdate);
-    this.mpBinary.on('upload-status-update', onUploadStatusUpdate);
-    this.mpBinary.on('upload-processing', onUploadProcessing);
-    this.mpBinary.on('upload-end', onUploadEnd);
-    this.mpBinary.on('upload-error', onUploadError);
-
     this.mpClipboard = new MpClipboard(context, {
       uploadParams: tenantUploadParams,
       shouldCopyFileToRecents: false,
@@ -188,7 +175,6 @@ export class App extends Component<AppProps, AppState> {
       onCancelUpload: uploadId => {
         this.mpBrowser.cancel(uploadId);
         this.mpDropzone.cancel(uploadId);
-        this.mpBinary.cancel(uploadId);
       },
     });
   }
@@ -253,7 +239,7 @@ export class App extends Component<AppProps, AppState> {
                     <Footer />
                   </ViewWrapper>
                   <Dropzone isActive={isDropzoneActive} />
-                  <MainEditorView binaryUploader={this.mpBinary} />
+                  <MainEditorView />
                 </MediaPickerPopupWrapper>
               </PassContext>
             </ModalDialog>

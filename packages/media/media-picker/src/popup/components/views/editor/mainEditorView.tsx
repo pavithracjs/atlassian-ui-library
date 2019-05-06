@@ -3,22 +3,20 @@ import { deselectItem } from '../../../actions/deselectItem';
 import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-
-import { BinaryUploader } from '../../../../components/types';
 import { State, EditorData, EditorError, FileReference } from '../../../domain';
 import ErrorView from './errorView/errorView';
 import { SpinnerView } from './spinnerView/spinnerView';
 import { Selection, editorClose } from '../../../actions/editorClose';
 import { editorShowError } from '../../../actions/editorShowError';
 import { CenterView } from './styles';
+import { Context } from '@atlaskit/media-core';
 
 export interface MainEditorViewStateProps {
   readonly editorData?: EditorData;
+  readonly tenantContext: Context;
 }
 
-export interface MainEditorViewOwnProps {
-  readonly binaryUploader: BinaryUploader;
-}
+export interface MainEditorViewOwnProps {}
 
 export interface MainEditorViewDispatchProps {
   readonly onCloseEditor: (selection: Selection) => void;
@@ -81,9 +79,21 @@ export class MainEditorView extends Component<MainEditorViewProps> {
   private onEditorSave = (originalFile: FileReference) => (
     image: string,
   ): void => {
-    const { binaryUploader, onDeselectFile, onCloseEditor } = this.props;
+    const { tenantContext, onDeselectFile, onCloseEditor } = this.props;
 
-    binaryUploader.upload(image, originalFile.name);
+    // TODO: use tenantContext or SmartMediaEditor
+    const subscription = tenantContext.file
+      .upload({
+        content: image,
+        name: originalFile.name,
+      })
+      .subscribe({
+        next(fileState) {
+          // TODO: subscription.unsubscribe()
+          console.log(fileState);
+        },
+      });
+
     onDeselectFile(originalFile.id);
     onCloseEditor('Save');
   };
@@ -94,12 +104,12 @@ export class MainEditorView extends Component<MainEditorViewProps> {
 }
 
 export default connect<
-  {},
+  MainEditorViewStateProps,
   MainEditorViewDispatchProps,
   MainEditorViewOwnProps,
   State
 >(
-  ({ editorData }) => ({ editorData }),
+  ({ editorData, tenantContext }) => ({ editorData, tenantContext }),
   dispatch => ({
     onShowEditorError: ({ message, retryHandler }) =>
       dispatch(editorShowError(message, retryHandler)),
