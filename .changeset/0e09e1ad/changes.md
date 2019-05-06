@@ -1,1 +1,0 @@
-- ED-6774: Adds a FF to priortize smart links resolution over Jira Issue Macro
