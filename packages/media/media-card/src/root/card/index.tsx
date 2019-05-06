@@ -152,8 +152,12 @@ export class Card extends Component<CardProps, CardState> {
       .getFileState(resolvedId, { collectionName, occurrenceKey })
       .subscribe({
         next: async fileState => {
-          let previewOrientation = 1;
-          let { status, progress, dataURI } = this.state;
+          let {
+            status,
+            progress,
+            dataURI,
+            previewOrientation = 1,
+          } = this.state;
           const metadata = extendMetadata(fileState, this.state.metadata);
 
           if (!dataURI) {

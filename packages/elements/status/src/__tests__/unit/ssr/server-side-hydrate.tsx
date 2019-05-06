@@ -2,14 +2,9 @@ import { ssr_hydrate } from '@atlaskit/elements-test-helpers';
 
 const ExamplesPath = '../../../../examples';
 
-// Warning from React referring to @emotion's injected style tag
-const warningRegEx = new RegExp(
-  'Warning: Did not expect server HTML to contain a <style*',
-);
-
 describe('server side rendering and hydration', async () => {
   beforeEach(() => {
-    jest.spyOn(global.console, 'error');
+    jest.spyOn(global.console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -22,17 +17,19 @@ describe('server side rendering and hydration', async () => {
     async (fileName: string) => {
       await ssr_hydrate(__dirname, `${ExamplesPath}/${fileName}`);
 
+      // ignore warnings caused by emotion's server-side rendering approach
       // @ts-ignore
       // eslint-disable-next-line no-console
-      const mockCalls = console.error.mock.calls;
-      const filtered = mockCalls.filter(
-        (mock: any) => !warningRegEx.test(mock),
+      const mockCalls = console.error.mock.calls.filter(
+        ([f, s]: [any, any]) =>
+          !(
+            f ===
+              'Warning: Did not expect server HTML to contain a <%s> in <%s>.' &&
+            s === 'style'
+          ),
       );
-      const mockCallsWithoutStyleErrors = filtered.reduce(
-        (a: any, v: any) => a.concat(v),
-        [],
-      );
-      expect(mockCallsWithoutStyleErrors).toHaveLength(0);
+
+      expect(mockCalls).toHaveLength(0);
     },
   );
 });

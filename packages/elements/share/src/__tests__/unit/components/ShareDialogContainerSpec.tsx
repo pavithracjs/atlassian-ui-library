@@ -7,6 +7,7 @@ import {
   Props,
   ShareDialogContainer,
   State,
+  defaultConfig,
 } from '../../../components/ShareDialogContainer';
 import { ShareDialogWithTrigger } from '../../../components/ShareDialogWithTrigger';
 import { OriginTracing } from '../../../types';
@@ -37,17 +38,18 @@ const mockComment = {
   value: 'comment',
 };
 const mockLoadUserOptions = () => [];
-const mockConfig = {
+const mockConfig: ShareServiceExports.ConfigResponse = {
   mode: 'EXISTING_USERS_ONLY',
   allowComment: true,
 };
 const mockGetConfig = jest.fn().mockResolvedValue(mockConfig);
 const mockShare = jest.fn().mockResolvedValue({});
-const mockClient = {
+const mockClient: ShareServiceExports.ShareClient = {
   getConfig: mockGetConfig,
   share: mockShare,
 };
 const mockShowFlags = jest.fn();
+const mockRenderCustomTriggerButton = jest.fn();
 
 beforeEach(() => {
   mockOriginTracing = {
@@ -73,6 +75,7 @@ beforeEach(() => {
       loadUserOptions={mockLoadUserOptions}
       originTracingFactory={mockOriginTracingFactory}
       productId={mockProductId}
+      renderCustomTriggerButton={mockRenderCustomTriggerButton}
       shareAri={mockShareAri}
       shareContentType={mockShareContentType}
       shareLink={mockShareLink}
@@ -108,6 +111,9 @@ describe('ShareDialogContainer', () => {
     );
     expect(shareDialogWithTrigger.prop('loadUserOptions')).toEqual(
       mockLoadUserOptions,
+    );
+    expect(shareDialogWithTrigger.prop('renderCustomTriggerButton')).toEqual(
+      mockRenderCustomTriggerButton,
     );
     expect(shareDialogWithTrigger.prop('shouldCloseOnEscapePress')).toEqual(
       mockShouldCloseOnEscapePress,
@@ -148,10 +154,19 @@ describe('ShareDialogContainer', () => {
       />,
     );
 
-    // @ts-ignore: accessing private variable for testing purpose
-    const client: Client = newWrapper.instance().client;
+    const client: ShareServiceExports.ShareClient =
+      // @ts-ignore: accessing private variable for testing purpose
+      newWrapper.instance().client;
     expect(client.getConfig).toEqual(mockGetConfig);
     expect(client.share).toEqual(mockShare);
+  });
+
+  it('should reset the state.config to default config if client.getConfig failed', async () => {
+    mockGetConfig.mockRejectedValueOnce(new Error('error'));
+    wrapper.setState({ config: mockConfig });
+    wrapper.instance().fetchConfig();
+    await new Promise(resolve => setTimeout(resolve, 0));
+    expect(wrapper.state().config).toMatchObject(defaultConfig);
   });
 
   describe('handleSubmitShare', () => {

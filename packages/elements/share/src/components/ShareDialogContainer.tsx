@@ -15,6 +15,7 @@ import {
   MetaData,
   OriginTracing,
   OriginTracingFactory,
+  RenderCustomTriggerButton,
   ShareButtonStyle,
   ShareResponse,
 } from '../types';
@@ -42,6 +43,8 @@ export type Props = {
    * jira-software
    */
   productId: string;
+  /** Render function for a custom Share Dialog Trigger Button*/
+  renderCustomTriggerButton?: RenderCustomTriggerButton;
   /** Atlassian Resource Identifier of a Site resource to be shared */
   shareAri: string;
   /** Content Type of the resource to be shared
@@ -102,6 +105,11 @@ const memoizedFormatCopyLink: (
 const getDefaultShareLink: () => string = () =>
   window ? window.location!.href : '';
 
+export const defaultConfig: ConfigResponse = {
+  mode: 'EXISTING_USERS_ONLY',
+  allowComment: false,
+};
+
 /**
  * This component serves as a Provider to provide customizable implementations
  * to ShareDialogTrigger component
@@ -129,6 +137,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       prevShareLink: null,
       shareActionCount: 0,
       shareOrigin: null,
+      config: defaultConfig,
     };
   }
 
@@ -176,6 +185,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       })
       .catch(() => {
         // TODO: Send analytics event
+        this.setState({ config: defaultConfig });
       });
   };
 
@@ -223,6 +233,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       dialogPlacement,
       formatCopyLink,
       loadUserOptions,
+      renderCustomTriggerButton,
       shareContentType,
       shareFormTitle,
       shareLink,
@@ -241,6 +252,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
           dialogPlacement={dialogPlacement}
           loadUserOptions={loadUserOptions}
           onShareSubmit={this.handleSubmitShare}
+          renderCustomTriggerButton={renderCustomTriggerButton}
           shareContentType={shareContentType}
           shareFormTitle={shareFormTitle}
           shareOrigin={shareOrigin}

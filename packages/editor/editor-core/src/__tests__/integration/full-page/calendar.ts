@@ -56,7 +56,7 @@ BrowserTestCase(
     expect(await page.isExisting(calendar)).toBe(true);
 
     await page.click(dateView);
-    await page.type(editorSelector, ['ArrowRight', 'ArrowRight']);
+    await page.keys(['ArrowRight', 'ArrowRight']);
     await page.click(dateMenu);
     expect(await page.isExisting(calendar)).toBe(true);
 

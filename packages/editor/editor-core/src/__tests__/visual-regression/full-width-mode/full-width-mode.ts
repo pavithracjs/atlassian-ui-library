@@ -25,7 +25,7 @@ widths.forEach(width => {
 
     it('should display content in full-width mode', async () => {
       await scrollToTop(page);
-      await snapshot(page, 0.2);
+      await snapshot(page, 0.02);
     });
   });
 
@@ -41,7 +41,7 @@ widths.forEach(width => {
         { width, height: 800 },
         { appearance: 'full-width' },
       );
-      await snapshot(page, 0.2);
+      await snapshot(page, 0.02);
     });
   });
 });
@@ -57,6 +57,6 @@ describe('Full-width mode breakout', () => {
       { width: 2000, height: 800 },
       { appearance: 'full-width' },
     );
-    await snapshot(page, 0.2);
+    await snapshot(page, 0.02);
   });
 });

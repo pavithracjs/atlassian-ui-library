@@ -17,16 +17,16 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import {
   transformSliceToAddTableHeaders,
-  emptyMultipleCells,
+  clearMultipleCells,
   setMultipleCellAttrs,
   toggleContextualMenu,
   setEditorFocus,
   setTableRef,
   selectColumn,
   selectRow,
-  handleCut,
   toggleHeaderColumn,
 } from '../../../../plugins/table/actions';
+import { handleCut } from '../../../../plugins/table/event-handlers';
 import { TablePluginState } from '../../../../plugins/table/types';
 import tablesPlugin from '../../../../plugins/table';
 import panelPlugin from '../../../../plugins/panel';
@@ -187,7 +187,7 @@ describe('table plugin: actions', () => {
     });
   });
 
-  describe('#emptyMultipleCells', () => {
+  describe('#clearMultipleCells', () => {
     it('should empty selected cells', () => {
       const { editorView } = editor(
         doc(
@@ -200,7 +200,7 @@ describe('table plugin: actions', () => {
       );
       const { state, dispatch } = editorView;
       selectColumn(0)(state, dispatch);
-      emptyMultipleCells()(editorView.state, dispatch);
+      clearMultipleCells()(editorView.state, dispatch);
       expect(editorView.state.doc).toEqualDocument(
         doc(p('text'), table()(tr(tdEmpty, tdEmpty), tr(tdEmpty, tdEmpty))),
       );
@@ -217,7 +217,7 @@ describe('table plugin: actions', () => {
         ),
       );
       const { state, dispatch } = editorView;
-      emptyMultipleCells(state.selection.$from.pos)(editorView.state, dispatch);
+      clearMultipleCells(state.selection.$from.pos)(editorView.state, dispatch);
 
       expect(editorView.state.doc).toEqualDocument(
         doc(

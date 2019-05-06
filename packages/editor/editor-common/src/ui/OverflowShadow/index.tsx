@@ -90,17 +90,7 @@ export default function overflowShadow<P extends OverflowShadowProps>(
         return 0;
       }
 
-      const overflowContainer = document.querySelector(
-        options.overflowSelector,
-      );
-      if (
-        !this.diff ||
-        (overflowContainer &&
-          overflowContainer.isEqualNode(this.overflowContainer) === false)
-      ) {
-        const scrollableWidth = this.calcScrollableWidth();
-        this.diff = scrollableWidth;
-      }
+      this.diff = this.calcScrollableWidth();
 
       return this.diff - this.overflowContainer.offsetWidth;
     };

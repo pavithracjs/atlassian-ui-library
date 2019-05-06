@@ -1,5 +1,42 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.0.1
+- [patch] [80cf1c1e82](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80cf1c1e82):
+
+  - [ED-6654] Update prosemirror-view to 1.8.9 that fixes a few issues with mouse selections on prosemirror like click on table and the controls doesn't show up
+
+## 8.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 7.6.3
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-common@38.0.0
+  - @atlaskit/editor-core@109.0.0
+  - @atlaskit/renderer@47.0.0
+  - @atlaskit/emoji@61.0.0
+  - @atlaskit/editor-json-transformer@5.0.4
+  - @atlaskit/editor-test-helpers@8.0.8
+  - @atlaskit/task-decision@14.0.9
+  - @atlaskit/media-core@29.3.0
+
+## 7.6.2
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-common@37.0.0
+  - @atlaskit/editor-core@108.0.0
+  - @atlaskit/renderer@46.0.0
+  - @atlaskit/emoji@60.0.0
+  - @atlaskit/editor-json-transformer@5.0.3
+  - @atlaskit/editor-test-helpers@8.0.7
+  - @atlaskit/task-decision@14.0.8
+  - @atlaskit/media-core@29.2.0
+
+## 7.6.1
+- [patch] [3ffe0451d1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3ffe0451d1):
+
+  - ED-6486: fixed version number obtained from editor-mobile-bridge
+
 ## 7.6.0
 - [minor] [089eae03fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/089eae03fd):
 

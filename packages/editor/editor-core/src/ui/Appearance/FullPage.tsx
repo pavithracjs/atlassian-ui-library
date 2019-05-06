@@ -5,6 +5,7 @@ import { colors } from '@atlaskit/theme';
 import {
   akEditorMenuZIndex,
   akEditorFullWidthLayoutWidth,
+  akEditorGutterPadding,
 } from '@atlaskit/editor-common';
 import { taskListSelector, decisionListSelector } from '@atlaskit/adf-schema';
 import { EditorAppearanceComponentProps, EditorAppearance } from '../../types';
@@ -19,7 +20,6 @@ import rafSchedule from 'raf-schd';
 import { scrollbarStyles } from '../styles';
 import WidthEmitter from '../WidthEmitter';
 
-const GUTTER_PADDING = 32;
 const SWOOP_ANIMATION = '0.5s cubic-bezier(.15,1,.3,1)';
 
 const FullPageEditorWrapper = styled.div`
@@ -52,15 +52,16 @@ const ContentArea = styled.div`
   padding-bottom: 55px;
   max-width: ${({ theme, fullWidthMode }: any) =>
     (fullWidthMode ? akEditorFullWidthLayoutWidth : theme.layoutMaxWidth) +
-    GUTTER_PADDING * 2}px;
+    akEditorGutterPadding * 2}px;
   transition: margin-left ${SWOOP_ANIMATION}, max-width ${SWOOP_ANIMATION};
   margin-left: ${({ theme, fullWidthMode }: any) =>
     fullWidthMode
       ? 0
-      : `calc(50% - ${(theme.layoutMaxWidth + GUTTER_PADDING * 2) / 2}px)`};
+      : `calc(50% - ${(theme.layoutMaxWidth + akEditorGutterPadding * 2) /
+          2}px)`};
 
   ${({ theme }) => `
-    @media (max-width: ${theme.layoutMaxWidth + GUTTER_PADDING * 2}px) {
+    @media (max-width: ${theme.layoutMaxWidth + akEditorGutterPadding * 2}px) {
       margin-left: auto;
     }
   `}
@@ -273,7 +274,7 @@ export default class Editor extends React.Component<
               }}
             >
               <div
-                style={{ padding: `0 ${GUTTER_PADDING}px` }}
+                style={{ padding: `0 ${akEditorGutterPadding}px` }}
                 className={[
                   'ak-editor-content-area',
                   this.props.appearance === 'full-width'

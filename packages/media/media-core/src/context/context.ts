@@ -1,11 +1,13 @@
 import {
-  MediaStore,
-  ContextConfig,
+  CollectionFetcher,
   MediaStoreGetFileImageParams,
   ImageMetadata,
-} from '@atlaskit/media-store';
-import { CollectionFetcher } from '../collection';
-import { FileFetcherImpl, FileFetcher } from '../file';
+  FileFetcher,
+  MediaClient,
+  UploadEventPayloadMap,
+  EventPayloadListener,
+} from '@atlaskit/media-client';
+import { ContextConfig } from '..';
 
 export interface Context {
   getImage(
@@ -21,6 +23,18 @@ export interface Context {
     id: string,
     params?: MediaStoreGetFileImageParams,
   ): Promise<string>;
+  on<E extends keyof UploadEventPayloadMap>(
+    event: E,
+    listener: EventPayloadListener<UploadEventPayloadMap, E>,
+  ): void;
+  off<E extends keyof UploadEventPayloadMap>(
+    event: E,
+    listener: EventPayloadListener<UploadEventPayloadMap, E>,
+  ): void;
+  emit<E extends keyof UploadEventPayloadMap>(
+    event: E,
+    payload: UploadEventPayloadMap[E],
+  ): boolean;
 
   readonly collection: CollectionFetcher;
   readonly file: FileFetcher;
@@ -29,42 +43,6 @@ export interface Context {
 
 export class ContextFactory {
   public static create(config: ContextConfig): Context {
-    return new ContextImpl(config);
-  }
-}
-
-class ContextImpl implements Context {
-  private readonly mediaStore: MediaStore;
-  readonly collection: CollectionFetcher;
-  readonly file: FileFetcher;
-
-  constructor(readonly config: ContextConfig) {
-    this.mediaStore = new MediaStore({
-      authProvider: config.authProvider,
-    });
-    this.collection = new CollectionFetcher(this.mediaStore);
-    this.file = new FileFetcherImpl(this.mediaStore);
-  }
-
-  getImage(
-    id: string,
-    params?: MediaStoreGetFileImageParams,
-    controller?: AbortController,
-  ): Promise<Blob> {
-    return this.mediaStore.getImage(id, params, controller);
-  }
-
-  getImageUrl(
-    id: string,
-    params?: MediaStoreGetFileImageParams,
-  ): Promise<string> {
-    return this.mediaStore.getFileImageURL(id, params);
-  }
-
-  async getImageMetadata(
-    id: string,
-    params?: MediaStoreGetFileImageParams,
-  ): Promise<ImageMetadata> {
-    return (await this.mediaStore.getImageMetadata(id, params)).metadata;
+    return new MediaClient(config);
   }
 }

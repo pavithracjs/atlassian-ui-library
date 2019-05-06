@@ -1,8 +1,8 @@
 import {
   initFullPageEditorWithAdf,
-  Device,
   snapshot,
   updateEditorProps,
+  Device,
 } from '../_utils';
 import { Page } from '../../__helpers/page-objects/_types';
 import mixedContentAdf from './__fixtures__/mixed-content.adf.json';
@@ -11,7 +11,13 @@ import breakoutAdf from './__fixtures__/mixed-content-with-breakout.adf.json';
 import mediaAdf from './__fixtures__/media-single.adf.json';
 import resizedTableAdf from './__fixtures__/resized-table.adf.json';
 import resizedTableWideAdf from './__fixtures__/resized-table-wide.adf.json';
+import resizedTableFullWidthAdf from './__fixtures__/resized-table-full-width.adf.json';
+import resizedTableInLayout from './__fixtures__/resized-table-in-layout.adf.json';
+import resizedTableInExt from '../table/__fixtures__/nested-table-inside-bodied-ext.adf.json';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
+import { clickFirstCell } from '../../../__tests__/__helpers/page-objects/_table';
+
+const editorSelector = '.akEditor';
 
 describe('Snapshot Test: Toggle between full-width and default mode', () => {
   let page: Page;
@@ -24,7 +30,7 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
       adf,
       Device.LaptopHiDPI,
       undefined,
-      undefined,
+      { allowDynamicTextSizing: true },
       undefined,
       { transition: true },
     );
@@ -36,14 +42,15 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
       appearance: fullWidthMode ? 'full-width' : 'full-page',
     });
     await page.waitFor(1000); // wait for transition to complete
-    await snapshot(page, 0.2);
   };
 
   const toggleFullWidthMode = async () => {
     // go from default -> full-width
     await toggleFullWidthProp();
+    await snapshot(page);
     // then from full-width -> default
     await toggleFullWidthProp();
+    await snapshot(page);
   };
 
   beforeEach(() => {
@@ -70,6 +77,7 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
       await page.click(panelContentSelector);
       await pressKey(page, ['ArrowRight']);
       await toggleFullWidthProp();
+      await snapshot(page);
     });
   });
 
@@ -86,9 +94,43 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
       await toggleFullWidthMode();
     });
 
-    it('scales a wide layout table through modes correctly', async () => {
-      await initEditor(resizedTableWideAdf);
-      await toggleFullWidthMode();
+    it('scales table inside layouts correctly', async () => {
+      await initEditor(resizedTableInLayout);
+      await toggleFullWidthProp();
+      await clickFirstCell(page);
+      await snapshot(page);
+
+      await toggleFullWidthProp();
+      await page.click(editorSelector);
+      await clickFirstCell(page);
+      await snapshot(page);
+    });
+
+    it('scales table inside extension correctly', async () => {
+      await initEditor(resizedTableInExt);
+      await toggleFullWidthProp();
+      await clickFirstCell(page);
+      await snapshot(page);
+
+      await toggleFullWidthProp();
+      await page.click(editorSelector);
+      await clickFirstCell(page);
+      await snapshot(page);
+    });
+
+    describe('breakout modes', () => {
+      const breakoutModes = [
+        { name: 'wide', adf: resizedTableWideAdf },
+        { name: 'full-width', adf: resizedTableFullWidthAdf },
+      ];
+      breakoutModes.forEach(breakout => {
+        it(`scales a ${
+          breakout.name
+        } layout table through modes correctly`, async () => {
+          await initEditor(breakout.adf);
+          await toggleFullWidthMode();
+        });
+      });
     });
   });
 });

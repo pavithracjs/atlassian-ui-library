@@ -15,6 +15,7 @@ import { ServiceName, State } from '../domain';
 import { BinaryUploaderImpl as MpBinary } from '../../components/binary';
 import { BrowserImpl as MpBrowser } from '../../components/browser';
 import { DropzoneImpl as MpDropzone } from '../../components/dropzone';
+import { ClipboardImpl as MpClipboard } from '../../components/clipboard';
 import { UploadParams, PopupConfig } from '../..';
 
 /* Components */
@@ -104,6 +105,7 @@ export class App extends Component<AppProps, AppState> {
   private readonly mpBrowser: MpBrowser;
   private readonly mpDropzone: MpDropzone;
   private readonly mpBinary: MpBinary;
+  private readonly mpClipboard: MpClipboard;
 
   constructor(props: AppProps) {
     super(props);
@@ -170,6 +172,18 @@ export class App extends Component<AppProps, AppState> {
     this.mpBinary.on('upload-end', onUploadEnd);
     this.mpBinary.on('upload-error', onUploadError);
 
+    this.mpClipboard = new MpClipboard(context, {
+      uploadParams: tenantUploadParams,
+      shouldCopyFileToRecents: false,
+    });
+
+    this.mpClipboard.on('uploads-start', onUploadsStart);
+    this.mpClipboard.on('upload-preview-update', onUploadPreviewUpdate);
+    this.mpClipboard.on('upload-status-update', onUploadStatusUpdate);
+    this.mpClipboard.on('upload-processing', onUploadProcessing);
+    this.mpClipboard.on('upload-end', onUploadEnd);
+    this.mpClipboard.on('upload-error', onUploadError);
+
     onStartApp({
       onCancelUpload: uploadId => {
         this.mpBrowser.cancel(uploadId);
@@ -201,8 +215,10 @@ export class App extends Component<AppProps, AppState> {
     if (isVisible !== this.props.isVisible) {
       if (isVisible) {
         this.mpDropzone.activate();
+        this.mpClipboard.activate();
       } else {
         this.mpDropzone.deactivate();
+        this.mpClipboard.deactivate();
       }
     }
   }

@@ -19,15 +19,41 @@ export const AsanaTask = {
   },
   '@id': 'https://app.asana.com/0/759475196256783/759474743020981',
   '@type': ['Object', 'atlassian:Task'],
-  url: 'https://app.asana.com/0/759475196256783/759474743020981',
-  assigned: '2018-07-27T11:15:06.815Z',
-  assignedBy: {
+  'atlassian:assigned': '2018-07-27T11:15:06.815Z',
+  'atlassian:assignedBy': {
     '@type': 'Person',
     image:
       'https://s3.amazonaws.com/profile_photos/759476127806059.0DzzEW07pkfWviGTroc8_128x128.png',
     name: 'Test User',
   },
-  assignedTo: {
+  'atlassian:assignedTo': {
+    '@type': 'Person',
+    image:
+      'https://s3.amazonaws.com/profile_photos/759476127806059.0DzzEW07pkfWviGTroc8_128x128.png',
+    name: 'Test User',
+  },
+  'atlassian:completed': undefined,
+  'atlassian:isCompleted': false,
+  'atlassian:isDeleted': false,
+  'atlassian:subscriber': {
+    '@type': 'Person',
+    image:
+      'https://s3.amazonaws.com/profile_photos/759476127806059.0DzzEW07pkfWviGTroc8_128x128.png',
+    name: 'Test User',
+  },
+  'atlassian:subscriberCount': 1,
+  'atlassian:taskStatus': {
+    '@type': 'Object',
+    name: 'Today',
+    url: 'https://app.asana.com/0/759475196256783/list',
+  },
+  'atlassian:taskType': {
+    '@type': 'Object',
+    id: 'https://app.asana.com/0/759475196256783/759474743020981',
+    name: 'project-board-task-1',
+    url: 'https://app.asana.com/0/759475196256783/759474743020981',
+  },
+  'atlassian:updatedBy': {
     '@type': 'Person',
     image:
       'https://s3.amazonaws.com/profile_photos/759476127806059.0DzzEW07pkfWviGTroc8_128x128.png',
@@ -39,30 +65,25 @@ export const AsanaTask = {
       'https://s3.amazonaws.com/profile_photos/759476127806059.0DzzEW07pkfWviGTroc8_128x128.png',
     name: 'Test User',
   },
-  commentCount: 1,
   content: 'Some raw text with new lines',
   context: {
     '@type': 'Collection',
     name: 'NEXT UP',
   },
-  dateCreated: '2018-07-27T11:14:57.392Z',
   endTime: '2018-07-31T00:00:00.000Z',
   generator: {
     '@type': 'Application',
-    icon: 'https://asana.com/favicon.ico',
+    icon: {
+      '@type': 'Image',
+      url: 'https://asana.com/favicon.ico',
+    },
     name: 'Asana',
   },
-  isCompleted: false,
-  isDeleted: false,
   mediaType: 'text/plain',
   name: 'project-board-task-1',
-  subscriber: {
-    '@type': 'Person',
-    image:
-      'https://s3.amazonaws.com/profile_photos/759476127806059.0DzzEW07pkfWviGTroc8_128x128.png',
-    name: 'Test User',
-  },
-  subscriberCount: 1,
+  'schema:commentCount': 1,
+  'schema:dateCreated': '2018-07-27T11:14:57.392Z',
+  startTime: undefined,
   summary: 'Some raw text with new lines',
   tags: [
     {
@@ -72,24 +93,8 @@ export const AsanaTask = {
       url: 'https://app.asana.com/0/759494272065666/list',
     },
   ],
-  taskStatus: {
-    '@type': 'Object',
-    name: 'Today',
-    url: 'https://app.asana.com/0/759475196256783/list',
-  },
-  taskType: {
-    '@type': 'Object',
-    id: 'https://app.asana.com/0/759475196256783/759474743020981',
-    name: 'project-board-task-1',
-    url: 'https://app.asana.com/0/759475196256783/759474743020981',
-  },
   updated: '2018-07-31T11:48:17.741Z',
-  updatedBy: {
-    '@type': 'Person',
-    image:
-      'https://s3.amazonaws.com/profile_photos/759476127806059.0DzzEW07pkfWviGTroc8_128x128.png',
-    name: 'Test User',
-  },
+  url: 'https://app.asana.com/0/759475196256783/759474743020981',
 };
 
 export const GitHubIssue = {
@@ -100,13 +105,13 @@ export const GitHubIssue = {
   },
   '@id': 'https://github.com/User/repo-name/issues/8',
   '@type': ['Object', 'atlassian:Task'],
-  url: 'https://github.com/user/repo-name/issues/8?somefilter=true',
-  assignedBy: {
+  'atlassian:assigned': undefined,
+  'atlassian:assignedBy': {
     '@type': 'Person',
     image: 'https://avatars2.githubusercontent.com/u/15986691?v=4',
     name: 'User',
   },
-  assignedTo: [
+  'atlassian:assignedTo': [
     {
       '@type': 'Person',
       image: 'https://avatars2.githubusercontent.com/u/15986691?v=4',
@@ -118,29 +123,11 @@ export const GitHubIssue = {
       name: 'Partner',
     },
   ],
-  attributedTo: {
-    '@type': 'Person',
-    image: 'https://avatars2.githubusercontent.com/u/15986691?v=4',
-    name: 'User',
-  },
-  commentCount: 24,
-  content: 'Issue descriptions bla bla',
-  context: {
-    '@type': 'atlassian:Project',
-    name: 'User/repo-name',
-  },
-  dateCreated: '2018-07-10T15:00:32Z',
-  generator: {
-    '@type': 'Application',
-    icon: 'https://git-scm.com/favicon.ico',
-    name: 'GitHub',
-  },
-  isCompleted: false,
-  isDeleted: false,
-  mediaType: 'text/markdown',
-  name: 'Some issue with icons',
-  startTime: '2018-07-10T15:00:32Z',
-  subscriber: [
+  'atlassian:isCompleted': false,
+  'atlassian:isDeleted': false,
+  'atlassian:priority': undefined,
+  'atlassian:priorityName': undefined,
+  'atlassian:subscriber': [
     {
       '@type': 'Person',
       image: 'https://avatars0.githubusercontent.com/u/385?v=4',
@@ -152,7 +139,46 @@ export const GitHubIssue = {
       name: 'subscriber2',
     },
   ],
-  subscriberCount: 1,
+  'atlassian:subscriberCount': 1,
+  'atlassian:taskStatus': {
+    '@type': 'Link',
+    href: 'https://github.com/user/repo-name/issues?q=is%3Aissue%20is%3Aopen',
+    name: 'open',
+  },
+  'atlassian:taskType': {
+    '@type': 'Link',
+    href: 'https://github.com/user/repo-name/issues',
+    name: 'Issue',
+  },
+  'atlassian:updatedBy': undefined,
+  attributedTo: {
+    '@type': 'Person',
+    image: 'https://avatars2.githubusercontent.com/u/15986691?v=4',
+    name: 'User',
+  },
+  completed: undefined,
+  content: 'Issue descriptions bla bla',
+  context: {
+    '@type': 'atlassian:Project',
+    name: 'User/repo-name',
+  },
+  endTime: undefined,
+  generator: {
+    '@type': 'Application',
+    icon: {
+      '@type': 'Image',
+      url: 'https://github.githubassets.com/favicon.ico',
+    },
+    name: 'git',
+  },
+  image: undefined,
+  mediaType: 'text/markdown',
+  name: 'w1',
+  'schema:commentCount': 24,
+  'schema:dateCreated': '2018-07-10T15:00:32Z',
+  'schema:potentialAction': undefined,
+  startTime: '2018-07-10T15:00:32Z',
+  summary: undefined,
   tags: [
     {
       '@type': 'Object',
@@ -173,17 +199,8 @@ export const GitHubIssue = {
       url: 'https://github.com/user/repo-name/labels/invalid',
     },
   ],
-  taskStatus: {
-    '@type': 'Link',
-    href: 'https://github.com/user/repo-name/issues?q=is%3Aissue%20is%3Aopen',
-    name: 'open',
-  },
-  taskType: {
-    '@type': 'Link',
-    href: 'https://github.com/user/repo-name/issues',
-    name: 'Issue',
-  },
   updated: '2018-07-30T16:15:03Z',
+  url: 'https://github.com/user/repo-name/issues/535123525?a=2',
 };
 
 const generateJiraTask = (
@@ -203,13 +220,13 @@ const generateJiraTask = (
   icon: {
     url: 'https://cdn.iconscout.com/icon/free/png-256/guitar-61-160923.png',
   },
-  assignedBy: {
+  'atlassian:assignedBy': {
     '@type': 'Person',
     image:
       'http://www.bohemiaticket.cz/photos/db/57/db57d4caf42e8d79b3e3b891d510bf3e-7324-750x450-fit.jpg',
     name: 'Frank Sinatra 🎺',
   },
-  assignedTo: [
+  'atlassian:assignedTo': [
     {
       '@type': 'Person',
       image: 'https://avatars2.githubusercontent.com/u/15986691?v=4',
@@ -223,19 +240,19 @@ const generateJiraTask = (
       name: 'Don Rickles ✨',
     },
   ],
-  attributedTo: {
+  'atlassian:attributedTo': {
     '@type': 'Person',
     image:
       'http://www.bohemiaticket.cz/photos/db/57/db57d4caf42e8d79b3e3b891d510bf3e-7324-750x450-fit.jpg',
     name: 'Frank Sinatra 🎺',
   },
-  commentCount: 24,
+  'schema:commentCount': 24,
   content: 'Frank needs Don to perform for him',
   context: {
     '@type': 'atlassian:Project',
     name: 'Musicians and Comedians unite',
   },
-  dateCreated: '2018-07-10T15:00:32Z',
+  'schema:dateCreated': '2018-07-10T15:00:32Z',
   generator: {
     '@type': 'Application',
     '@id': 'https://www.atlassian.com/#Jira',
@@ -243,17 +260,17 @@ const generateJiraTask = (
       'https://product-fabric.atlassian.net/s/tmq6us/b/15/4b814c568b5302d1d1376067007f07c2/_/favicon-software.ico',
     name: 'Jira',
   },
-  isCompleted: false,
-  isDeleted: false,
+  'atlassian:isCompleted': false,
+  'atlassian:isDeleted': false,
   name: taskName,
   startTime: '2018-07-10T15:00:32Z',
-  taskType: {
+  'atlassian:taskType': {
     '@type': ['Object', 'atlassian:TaskType'],
     '@id': `https://www.atlassian.com/#${taskType}`,
     name: `${taskTypeName}`,
   },
   tag: taskTag,
-  taskStatus: {
+  'atlassian:taskStatus': {
     '@type': 'Link',
     href:
       'https://jira.atlassian.com/projects/MAC/issues/?filter=allopenissues',

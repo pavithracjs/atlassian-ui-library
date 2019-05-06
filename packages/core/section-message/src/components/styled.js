@@ -15,6 +15,10 @@ export const Container = styled.section`
   padding: ${math.multiply(gridSize, 2)}px;
 `;
 
+export const ContentContainer = styled.div`
+  flex-grow: 1;
+`;
+
 export const Title = styled.h1`
   margin: 0;
   ${typography.h500};

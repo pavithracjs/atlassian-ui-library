@@ -875,7 +875,6 @@ export const createPlugin = (
         if (meta && dispatch) {
           const { showMediaPicker } = pluginState;
           const { allowsUploads } = meta;
-
           dispatch(stateKey, {
             ...pluginState,
             allowsUploads:
