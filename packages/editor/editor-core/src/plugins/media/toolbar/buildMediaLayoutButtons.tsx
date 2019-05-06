@@ -6,10 +6,7 @@ import {
   FloatingToolbarSeparator,
   FloatingToolbarItem,
 } from '../../floating-toolbar/types';
-import {
-  MediaSingleLayout,
-  MediaSingleAttributes,
-} from '../../../../../adf-schema';
+import { MediaSingleLayout, MediaSingleAttributes } from '@atlaskit/adf-schema';
 import { stateKey, MediaPluginState } from '../pm-plugins/main';
 import { Command } from '../../../types';
 import commonMessages from '../../../messages';

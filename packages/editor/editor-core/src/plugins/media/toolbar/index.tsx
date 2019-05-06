@@ -14,7 +14,7 @@ import { stateKey, MediaPluginState } from '../pm-plugins/main';
 import { hoverDecoration } from '../../base/pm-plugins/decoration';
 import { isFullPage } from '../../../utils/is-full-page';
 import { renderAnnotationButton } from './annotation';
-import buildLayoutButtons from './buildMediaLayoutButtons';
+import buildMediaLayoutButtons from './buildMediaLayoutButtons';
 
 const remove: Command = (state, dispatch) => {
   if (dispatch) {
@@ -39,7 +39,7 @@ export const floatingToolbar = (
 
   let layoutButtons: FloatingToolbarItem<Command>[] = [];
   if (isFullPage(appearance)) {
-    layoutButtons = buildLayoutButtons(state, intl, allowResizing);
+    layoutButtons = buildMediaLayoutButtons(state, intl, allowResizing);
     if (layoutButtons.length) {
       if (allowAnnotation) {
         layoutButtons.push({
