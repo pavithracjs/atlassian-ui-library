@@ -14,15 +14,13 @@ export const listsStyles = css`
   }
 
   .ProseMirror li {
-    > {
-      * {
-        /* Restore pointer events. */
-        pointer-events: auto;
-      }
-      p {
-        /* Support clicking adjacent floated content */
-        pointer-events: inherit;
-      }
+    * {
+      /* Restore pointer events. */
+      pointer-events: auto;
+    }
+    p {
+      /* Support clicking adjacent floated content */
+      pointer-events: inherit;
     }
   }
   /* Make sure li selections wrap around markers */
