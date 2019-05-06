@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 110.2.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
 ## 110.1.1
 - [patch] [6614c81995](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6614c81995):
 

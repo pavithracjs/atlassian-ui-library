@@ -1,5 +1,10 @@
 # @atlaskit/profilecard
 
+## 10.1.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
 ## 10.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
