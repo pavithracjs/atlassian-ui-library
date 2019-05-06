@@ -16,7 +16,7 @@ export function transformToCodeBlockAction(
   const parentPos = startOfCodeBlockText.before();
   const end = startOfCodeBlockText.end();
 
-  const codeBlockSliceContent = mapSlice(
+  const codeBlockSlice = mapSlice(
     state.doc.slice(startOfCodeBlockText.pos, end),
     node => {
       if (node.type === state.schema.nodes.hardBreak) {
@@ -36,7 +36,7 @@ export function transformToCodeBlockAction(
   const tr = state.tr.replaceRange(
     startOfCodeBlockText.pos,
     end,
-    codeBlockSliceContent,
+    codeBlockSlice,
   );
   // If our offset isnt at 3 (backticks) at the start of line, cater for content.
   if (startOfCodeBlockText.parentOffset >= 3) {
