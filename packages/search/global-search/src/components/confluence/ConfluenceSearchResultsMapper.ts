@@ -20,9 +20,12 @@ const GRAPE_EXPERIMENT = 'grape';
 
 const getMaxObjects = (abTest: ABTest) => {
   if (abTest.experimentId.startsWith(GRAPE_EXPERIMENT)) {
-    const maxObjects = Number.parseInt(abTest.experimentId.split('-')[1], 10);
+    const parsedMaxObjects = Number.parseInt(
+      abTest.experimentId.split('-')[1],
+      10,
+    );
 
-    return maxObjects || DEFAULT_MAX_OBJECTS;
+    return parsedMaxObjects || DEFAULT_MAX_OBJECTS;
   }
   return DEFAULT_MAX_OBJECTS;
 };
