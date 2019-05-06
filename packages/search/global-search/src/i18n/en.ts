@@ -40,6 +40,7 @@ export default {
   'global_search.jira.advanced_search_filters': 'Filters',
   'global_search.jira.advanced_search_people': 'People',
   'global_search.jira.advanced_issue_search': 'Advanced search for issues',
+  'global_search.jira.view_all_issues': 'View all issues',
   'global_search.jira.no_results_title':
     "We couldn't find anything matching your search",
   'global_search.jira.no_results_body':

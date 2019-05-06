@@ -61,7 +61,12 @@ const getI18nItemName = (i18nKeySuffix: string) => {
   const id = `jira_advanced_search_${i18nKeySuffix}` as keyof typeof messages;
   return <FormattedMessage {...messages[id]} />;
 };
-
+/**
+ * Questions:
+ * 1- check with mark if no issues and we have project/boards results what will happen to the advanced link
+ * 2- move the top recent link as the bottom advanced link
+ * 3- check if we need the callback or link component is enough
+ */
 export default class JiraAdvancedSearch extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -77,7 +82,7 @@ export default class JiraAdvancedSearch extends React.Component<Props, State> {
     entity: JiraEntityTypes.Issues,
   };
 
-  renderLinks = (onItemClick: onAdvancedSearchClick = () => {}) =>
+  renderLinks = () =>
     itemI18nKeySuffix
       .filter(
         key =>
@@ -92,7 +97,7 @@ export default class JiraAdvancedSearch extends React.Component<Props, State> {
             key={`btn_${item}`}
             spacing="compact"
             onMouseEnter={e => e.stopPropagation()}
-            onClick={e => onItemClick(e, item)}
+            onClick={e => this.props.onClick && this.props.onClick(e, item)}
             href={getJiraAdvancedSearchUrl(item, this.props.query)}
           >
             {getI18nItemName(item)}
@@ -105,14 +110,12 @@ export default class JiraAdvancedSearch extends React.Component<Props, State> {
   enrichedAnalyticsData?: object;
 
   render() {
-    const { onClick } = this.props;
-
     return (
       <Container>
         <TextContainer>
           <FormattedMessage {...messages.jira_advanced_search} />
         </TextContainer>
-        {this.renderLinks(onClick)}
+        {this.renderLinks()}
       </Container>
     );
   }

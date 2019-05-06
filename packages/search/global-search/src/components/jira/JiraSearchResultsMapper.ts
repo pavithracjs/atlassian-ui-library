@@ -3,6 +3,9 @@ import {
   JiraResultsMap,
   GenericResultMap,
   Result,
+  ResultType,
+  AnalyticsType,
+  ContentType,
 } from '../../model/Result';
 import { take } from '../SearchResultsUtil';
 import { messages } from '../../messages';
@@ -70,6 +73,7 @@ export const mapRecentResultsToUIGroups = (
 export const mapSearchResultsToUIGroups = (
   searchResultsObjects: JiraResultsMap | null,
   appPermission?: JiraApplicationPermission,
+  query?: String,
 ): ResultsGroup[] => {
   const {
     objectsToDisplay,
@@ -78,7 +82,17 @@ export const mapSearchResultsToUIGroups = (
   } = sliceResults(searchResultsObjects);
   return [
     {
-      items: objectsToDisplay,
+      items: [
+        ...objectsToDisplay,
+        {
+          resultType: ResultType.JiraIssueAdvancedSearch,
+          resultId: 'search-jira',
+          name: 'jira',
+          href: `/secure/QuickSearch.jspa?searchString=${query}`,
+          analyticsType: AnalyticsType.LinkPostQueryAdvancedSearchJira,
+          contentType: ContentType.JiraIssue,
+        },
+      ],
       key: 'issues',
       title: messages.jira_search_result_issues_heading,
     },

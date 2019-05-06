@@ -278,6 +278,7 @@ export class JiraQuickSearchContainer extends React.Component<
           mapSearchResultsToUIGroups(
             searchResults as JiraResultsMap,
             this.props.appPermission,
+            query,
           )
         }
         renderNoResult={() => (

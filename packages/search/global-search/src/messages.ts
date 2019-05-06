@@ -174,6 +174,11 @@ export const messages = defineMessages({
     defaultMessage: 'Advanced search for issues',
     description: '',
   },
+  jira_view_all_issues: {
+    id: 'global_search.jira.view_all_issues',
+    defaultMessage: 'View all issues',
+    description: 'Advanced search for issues in post query screen',
+  },
   jira_no_results_title: {
     id: 'global_search.jira.no_results_title',
     defaultMessage: "We couldn't find anything matching your search",
