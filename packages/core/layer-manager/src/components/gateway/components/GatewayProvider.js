@@ -13,9 +13,11 @@ type Context = {
 
 export default class GatewayProvider extends Component<Props> {
   gatewayRegistry: GatewayRegistry;
+
   static childContextTypes = {
     gatewayRegistry: PropTypes.instanceOf(GatewayRegistry).isRequired,
   };
+
   static defaultProps = {
     component: 'div',
   };

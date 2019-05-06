@@ -1,5 +1,84 @@
 # @atlaskit/form
 
+## 6.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 5.2.10
+- Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/textarea@1.0.0
+  - @atlaskit/modal-dialog@8.0.9
+  - @atlaskit/textfield@1.0.0
+
+## 5.2.9
+- Updated dependencies [6c4e41ff36](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6c4e41ff36):
+  - @atlaskit/radio@1.0.0
+
+## 5.2.8
+- [patch] [cb7ec50eca](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cb7ec50eca):
+
+  - Internal changes only. Form is compatible with SSR.
+
+## 5.2.7
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/calendar@7.0.22
+  - @atlaskit/checkbox@6.0.4
+  - @atlaskit/datetime-picker@7.0.4
+  - @atlaskit/dropdown-menu@7.0.6
+  - @atlaskit/droplist@8.0.5
+  - @atlaskit/field-radio-group@5.0.3
+  - @atlaskit/field-range@6.0.4
+  - @atlaskit/field-text@8.0.3
+  - @atlaskit/field-text-area@5.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/multi-select@12.0.3
+  - @atlaskit/radio@0.5.3
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/select@8.1.1
+  - @atlaskit/single-select@7.0.3
+  - @atlaskit/textarea@0.4.4
+  - @atlaskit/textfield@0.4.4
+  - @atlaskit/toggle@6.0.4
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/theme@8.1.7
+
+## 5.2.6
+- [patch] [9b0bdd73c2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9b0bdd73c2):
+
+  - Remove unused inline edit dependency from package
+
+## 5.2.5
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/calendar@7.0.21
+  - @atlaskit/checkbox@6.0.3
+  - @atlaskit/datetime-picker@7.0.3
+  - @atlaskit/dropdown-menu@7.0.4
+  - @atlaskit/droplist@8.0.3
+  - @atlaskit/field-radio-group@5.0.2
+  - @atlaskit/field-text@8.0.2
+  - @atlaskit/field-text-area@5.0.3
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/inline-edit@8.0.2
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/multi-select@12.0.2
+  - @atlaskit/radio@0.5.2
+  - @atlaskit/section-message@2.0.2
+  - @atlaskit/select@8.0.5
+  - @atlaskit/single-select@7.0.2
+  - @atlaskit/textarea@0.4.1
+  - @atlaskit/textfield@0.4.3
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/toggle@6.0.3
+  - @atlaskit/tooltip@13.0.3
+  - @atlaskit/field-range@6.0.3
+  - @atlaskit/button@12.0.0
+
 ## 5.2.4
 - Updated dependencies [f504850fe2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f504850fe2):
   - @atlaskit/textarea@0.4.0

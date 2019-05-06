@@ -1,4 +1,4 @@
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as React from 'react';
 import { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -106,7 +106,6 @@ export default class CategorySelector extends PureComponent<Props, State> {
               categoryClasses.push(styles.disable);
             }
 
-            // tslint:disable-next-line:variable-name
             const Icon = category.icon;
             return (
               <li key={category.id}>

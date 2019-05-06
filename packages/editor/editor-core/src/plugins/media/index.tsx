@@ -5,13 +5,10 @@ import {
   EditorAppearance,
   PMPluginFactoryParams,
 } from '../../types';
-import { SmartMediaEditor, Dimensions } from '@atlaskit/media-editor';
-import { FileIdentifier } from '@atlaskit/media-core';
 import {
   stateKey as pluginKey,
   createPlugin,
   MediaState,
-  MediaPluginState,
 } from './pm-plugins/main';
 import keymapMediaSinglePlugin from './pm-plugins/keymap-media-single';
 import keymapPlugin from './pm-plugins/keymap';
@@ -32,6 +29,7 @@ import {
 } from '../analytics';
 import WithPluginState from '../../ui/WithPluginState';
 import { IconImages } from '../quick-insert/assets';
+import CustomSmartMediaEditor from './ui/CustomSmartMediaEditor';
 
 export { MediaState, MediaProvider, CustomMediaPicker };
 
@@ -48,43 +46,6 @@ export interface MediaOptions {
 export interface MediaSingleOptions {
   disableLayout?: boolean;
 }
-
-export const renderSmartMediaEditor = (mediaState: MediaPluginState) => {
-  if (!mediaState) {
-    return null;
-  }
-
-  const node = mediaState.selectedMediaContainerNode();
-  if (!node) {
-    return null;
-  }
-  const { id } = node.firstChild!.attrs;
-
-  if (mediaState.uploadContext && mediaState.showEditingDialog) {
-    const identifier: FileIdentifier = {
-      id,
-      mediaItemType: 'file',
-      collectionName: node.firstChild!.attrs.collection,
-    };
-
-    return (
-      <SmartMediaEditor
-        identifier={identifier}
-        context={mediaState.uploadContext}
-        onUploadStart={(
-          newFileIdentifier: FileIdentifier,
-          dimensions: Dimensions,
-        ) => {
-          mediaState.closeMediaEditor();
-          mediaState.replaceEditingMedia(newFileIdentifier, dimensions);
-        }}
-        onFinish={mediaState.closeMediaEditor}
-      />
-    );
-  }
-
-  return null;
-};
 
 const mediaPlugin = (
   options?: MediaOptions,
@@ -139,6 +100,7 @@ const mediaPlugin = (
                   portalProviderAPI,
                   eventDispatcher,
                   props.appearance,
+                  props.appearance === 'full-width',
                 ),
               },
               errorReporter,
@@ -174,7 +136,9 @@ const mediaPlugin = (
         plugins={{
           mediaState: pluginKey,
         }}
-        render={({ mediaState }) => renderSmartMediaEditor(mediaState)}
+        render={({ mediaState }) => (
+          <CustomSmartMediaEditor mediaState={mediaState} />
+        )}
       />
     );
   },

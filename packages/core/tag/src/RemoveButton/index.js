@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import RemoveIcon from '@atlaskit/icon/glyph/cross';
+import TagCrossIcon from './TagCrossIcon';
 import { Button } from './styled';
 
 type Props = {
@@ -31,6 +31,10 @@ export default class RemoveButton extends PureComponent<Props> {
     if (this.props.onHoverChange) this.props.onHoverChange(false);
   };
 
+  onBlur = () => {};
+
+  onFocus = () => {};
+
   render() {
     const { isRounded, onRemoveAction, removeText } = this.props;
 
@@ -42,9 +46,12 @@ export default class RemoveButton extends PureComponent<Props> {
         onKeyPress={this.onKeyPress}
         onMouseOut={this.onMouseOut}
         onMouseOver={this.onMouseOver}
+        onBlur={this.onBlur}
+        onFocus={this.onFocus}
         type="button"
+        spacing="none"
       >
-        <RemoveIcon label={removeText} size="small" />
+        <TagCrossIcon />
       </Button>
     );
   }

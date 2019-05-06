@@ -1,5 +1,85 @@
 # @atlaskit/website
 
+## 5.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 4.1.55
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/media-card@62.0.0
+  - @atlaskit/media-filmstrip@33.0.0
+  - @atlaskit/media-test-helpers@21.4.0
+  - @atlaskit/media-core@29.3.0
+
+## 4.1.54
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/media-card@61.0.0
+  - @atlaskit/media-filmstrip@32.0.0
+  - @atlaskit/media-test-helpers@21.3.0
+  - @atlaskit/media-core@29.2.0
+
+## 4.1.53
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/badge@11.0.1
+  - @atlaskit/button@12.0.3
+  - @atlaskit/code@9.0.1
+  - @atlaskit/dynamic-table@11.0.3
+  - @atlaskit/field-text@8.0.3
+  - @atlaskit/flag@10.0.6
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/icon-object@3.0.8
+  - @atlaskit/inline-dialog@10.0.4
+  - @atlaskit/logo@10.0.4
+  - @atlaskit/lozenge@7.0.2
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/navigation@34.0.4
+  - @atlaskit/select@8.1.1
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/tag@7.0.2
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/css-reset@3.0.8
+  - @atlaskit/media-card@60.0.3
+  - @atlaskit/media-filmstrip@31.0.4
+  - @atlaskit/quick-search@6.1.1
+  - @atlaskit/theme@8.1.7
+
+## 4.1.52
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/dynamic-table@11.0.2
+  - @atlaskit/field-text@8.0.2
+  - @atlaskit/flag@10.0.5
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/icon-object@3.0.7
+  - @atlaskit/inline-dialog@10.0.3
+  - @atlaskit/logo@10.0.3
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/navigation@34.0.3
+  - @atlaskit/page@9.0.3
+  - @atlaskit/select@8.0.5
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/tooltip@13.0.3
+  - @atlaskit/analytics-listeners@5.0.3
+  - @atlaskit/media-card@60.0.1
+  - @atlaskit/media-core@29.1.4
+  - @atlaskit/media-filmstrip@31.0.3
+  - @atlaskit/button@12.0.0
+
+## 4.1.51
+- Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
+  - @atlaskit/media-core@29.1.2
+  - @atlaskit/media-test-helpers@21.2.2
+  - @atlaskit/media-card@60.0.0
+  - @atlaskit/media-filmstrip@31.0.2
+
+## 4.1.50
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 4.1.49
 - Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
   - @atlaskit/media-card@59.0.0

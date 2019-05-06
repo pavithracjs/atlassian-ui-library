@@ -1,5 +1,73 @@
 # @atlaskit/adf-schema
 
+## 2.5.6
+- [patch] [80cf1c1e82](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80cf1c1e82):
+
+  - [ED-6654] Update prosemirror-view to 1.8.9 that fixes a few issues with mouse selections on prosemirror like click on table and the controls doesn't show up
+
+## 2.5.5
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/editor-json-transformer@6.0.0
+  - @atlaskit/editor-test-helpers@9.0.0
+
+## 2.5.4
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+- [patch] [0ac39bd2dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ac39bd2dd):
+
+  - Bump tslib to 1.9
+
+## 2.5.3
+- [patch] [583f5db46d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/583f5db46d):
+
+  - Use tslib as dependency
+
+## 2.5.2
+- [patch] [6695367885](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6695367885):
+
+  - Revert emoji refactor
+
+## 2.5.1
+- [patch] [c01f9e1cc7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c01f9e1cc7):
+
+  - Standardise code-block class between editor/renderer. Fix bg color when code-block is nested within a table heading.
+
+## 2.5.0
+- [minor] [64dd2ab46f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/64dd2ab46f):
+
+  - ED-6558 Fix clicking to set the cursor placement after an inline node that's at the end of a line. Set the default style attribute of Status nodes to be empty instead of 'null'.
+
+## 2.4.1
+- [patch] [97e555c168](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97e555c168):
+
+  - Revert "[ED-5259 - ED-6200] adds defaultMarks on tableNode (pull request #5259)"
+
+## 2.4.0
+- [minor] [09a90e4af1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/09a90e4af1):
+
+  - ED-6319 Supporting select media using gap cursor, fix behaviour of backspace key and gap cursor in media single with layout wrap-right.
+
+## 2.3.2
+- [patch] [b425ea772b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b425ea772b):
+
+  - Revert "ED-5505 add strong as default mark to table header (pull request #5291)"
+
+## 2.3.1
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 2.3.0
+- [minor] [02dd1f7287](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/02dd1f7287):
+
+  - [ED-5505] Persists formatting to table cells and headers when toggling header row, column or applying any text formatting to empty cells.
+
+## 2.2.1
+- [patch] [3f8a08fc88](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f8a08fc88):
+
+  Release a new version of adf-schema
+
 ## 2.2.0
 - [minor] [63133d8704](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/63133d8704):
 

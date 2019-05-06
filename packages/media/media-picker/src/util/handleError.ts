@@ -3,6 +3,6 @@ export const handleError = function(alias: string, description?: string): void {
   const descr = description || '';
   const errorMessage = `${alias}: ${descr} \n ${stackTrace}`;
 
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error(errorMessage);
 };

@@ -4,7 +4,7 @@ import {
   initFullPageEditorWithAdf,
   initCommentEditorWithAdf,
 } from '../_utils';
-import * as adf from './__fixtures__/table-with-blocks.adf.json';
+import adf from './__fixtures__/table-with-blocks.adf.json';
 import {
   setTableLayout,
   getSelectorForTableCell,
@@ -26,6 +26,18 @@ describe('Table with block looks correct for fullpage:', () => {
 
   it('default layout ', async () => {
     await initFullPageEditorWithAdf(page, adf, Device.LaptopMDPI);
+    await page.click(getSelectorForTableCell({ row: 4, cell: 1 }));
+  });
+
+  it('default layout with dark theme', async () => {
+    await initFullPageEditorWithAdf(
+      page,
+      adf,
+      Device.LaptopMDPI,
+      undefined,
+      undefined,
+      'dark',
+    );
     await page.click(getSelectorForTableCell({ row: 4, cell: 1 }));
   });
 

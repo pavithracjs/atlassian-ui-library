@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/panel",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A React component rendering a collapsible panel",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -15,21 +15,21 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/button": "^11.0.0",
-    "@atlaskit/icon": "^16.0.5",
-    "@atlaskit/size-detector": "^7.0.0",
-    "@atlaskit/theme": "^8.0.1",
+    "@atlaskit/button": "^13.0.0",
+    "@atlaskit/icon": "^17.0.0",
+    "@atlaskit/size-detector": "^8.0.0",
+    "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",
     "react-animate-height": "^2.0.5",
     "react-focus-within": "^2.0.1"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
-    "@atlaskit/docs": "^7.0.1",
-    "@atlaskit/page": "^9.0.1",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/page": "^10.0.0",
     "enzyme": "^3.7.0"
   }
 }

@@ -126,6 +126,7 @@ const getRecentItems = (product: string) =>
                   context={product as Props['context']}
                   referralContextIdentifiers={{
                     currentContentId: '123',
+                    currentContainerId: '456',
                     searchReferrerId: '123',
                   }}
                 />

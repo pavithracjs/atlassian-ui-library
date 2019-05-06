@@ -39,6 +39,7 @@ const webpackConfig = {
     alias: {
       sinon: 'sinon/pkg/sinon',
     },
+    mainFields: ['atlaskit:src', 'module', 'browser', 'main'],
   },
   externals: {
     'react/addons': true,
@@ -48,54 +49,18 @@ const webpackConfig = {
   },
 };
 
-async function getAliases(cwd) {
-  const results = await boltQuery({
-    cwd,
-    projectFiles: {
-      releases: 'releases/*.md',
-      patterns: 'patterns/**/*.{js,ts,tsx}',
-    },
-    workspaceFiles: {
-      docs: 'docs/**/*.{js,ts,tsx}',
-      examples: 'examples/**/*.{js,ts,tsx}',
-    },
-  });
-
-  return results.workspaces.reduce((acc, workspace) => {
-    if (workspace.pkg['atlaskit:src']) {
-      acc[workspace.pkg.name] = path.resolve(
-        workspace.dir,
-        workspace.pkg['atlaskit:src'],
-      );
-    }
-
-    return acc;
-  }, {});
-}
-
 async function getKarmaConfig({ cwd, watch, browserstack }) {
   const revisionInfo = await browserFetcher.download(ChromiumRevision);
   process.env.CHROME_BIN = revisionInfo.executablePath;
 
   const moduleResolveMapBuilder = require('@atlaskit/multi-entry-tools/module-resolve-map-builder');
-  const aliases = await getAliases(cwd);
+
   const alternativeEntries = await moduleResolveMapBuilder();
 
-  webpackConfig.resolve.mainFields = [
-    'atlaskit:src',
-    'module',
-    'browser',
-    'main',
-  ];
-
   webpackConfig.resolve.alias = {
-    ...aliases,
     ...webpackConfig.resolve.alias,
     ...alternativeEntries,
   };
-
-  // TODO: Temporary need to find a more "correct" fix
-  delete webpackConfig.resolve.alias['@atlaskit/theme'];
 
   const config = {
     port: 9876,

@@ -16,11 +16,13 @@ module.exports = {
      */
     {
       test: [
-        './packages/core/navigation-next',
         './packages/core/drawer',
         './packages/core/global-navigation',
-        './packages/core/textfield',
+        './packages/core/lozenge',
+        './packages/core/modal-dialog',
+        './packages/core/navigation-next',
         './packages/core/select',
+        './packages/core/textfield',
       ],
       presets: ['@emotion/babel-preset-css-prop'],
     },

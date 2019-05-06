@@ -46,14 +46,14 @@ export default class DrawersExample extends React.Component<{}, State> {
 
               <ResultItemGroup title="Object examples">
                 <ObjectResult
-                  resultId={'result_id_1'}
+                  resultId="result_id_1"
                   name="quick-search is too hilarious!"
                   avatarUrl={exampleJiraIconUrl}
                   objectKey="AK-007"
                   containerName="Search'n'Smarts"
                 />
                 <ObjectResult
-                  resultId={'result_id_2'}
+                  resultId="result_id_2"
                   avatarUrl={exampleJiraIconUrl}
                   name="Yeah, I cut my dev loop in half, but you'll never guess what happened next!"
                   containerName="Buzzfluence"

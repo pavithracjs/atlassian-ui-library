@@ -9,7 +9,7 @@ const meow = require('meow');
 const webpack = require('./utils/webpack');
 const reporting = require('./reporting');
 
-const LONG_RUNNING_TESTS_THRESHOLD_SECS = 70;
+const LONG_RUNNING_TESTS_THRESHOLD_SECS = 60;
 
 /*
  * function main() to
@@ -54,6 +54,7 @@ async function runJest(testPaths) {
       ],
       passWithNoTests: true,
       updateSnapshot: cli.flags.updateSnapshot,
+      ci: process.env.CI,
     },
     [process.cwd()],
   );
@@ -94,8 +95,8 @@ async function rerunFailedTests(result) {
 
 function runTestsWithRetry() {
   return new Promise(async resolve => {
-    let code = 0;
     let results;
+    let code = 0;
     try {
       results = await runJest();
       const perfStats = results.testResults
@@ -122,24 +123,22 @@ function runTestsWithRetry() {
       }
 
       code = getExitCode(results);
+      console.log('initalTestExitStatus', code);
       // Only retry and report results in CI.
       if (code !== 0 && process.env.CI) {
         results = await rerunFailedTests(results);
-        code = getExitCode(results);
 
+        code = getExitCode(results);
         /**
          * If the re-run succeeds,
          * log the previously failed tests to indicate flakiness
          */
         if (code === 0) {
-          await reporting.reportFailure(
-            results,
-            'atlaskit.qa.integration_test.flakiness',
-          );
+          await reporting.reportInconsistency(results);
         } else {
           await reporting.reportFailure(
             results,
-            'atlaskit.qa.integration_test.testfailure',
+            'atlaskit.qa.integration_test.failure',
           );
         }
       }

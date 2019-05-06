@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 import { LinkComponent, Logger } from '../GlobalQuickSearchWrapper';
 import GlobalQuickSearch from '../GlobalQuickSearch';
 import performanceNow from '../../util/performance-now';
@@ -21,16 +21,10 @@ import {
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import { CreateAnalyticsEventFn } from '../analytics/types';
 import { objectValues } from '../SearchResultsUtil';
-import { ABTest } from '../../api/CrossProductSearchClient';
+import { ABTest, DEFAULT_AB_TEST } from '../../api/CrossProductSearchClient';
 
 const resultMapToArray = (results: GenericResultMap): Result[][] =>
   objectValues(results).reduce((acc: Result[][], value) => [...acc, value], []);
-
-const DEFAULT_AB_TEST: ABTest = Object.freeze({
-  experimentId: 'default',
-  abTestId: 'default',
-  controlId: 'default',
-});
 
 export interface SearchResultProps extends State {
   retrySearch: () => void;
@@ -46,7 +40,7 @@ export interface Props {
     sessionId: string,
     startTime: number,
   ): Promise<ResultsWithTiming>;
-  getAbTestData(sessionId: string): Promise<ABTest | undefined>;
+  getAbTestData(sessionId: string): Promise<ABTest>;
 
   /**
    * return displayed groups from result groups
@@ -65,6 +59,7 @@ export interface Props {
   selectedResultId?: string;
   onSelectedResultIdChanged?: (id: string | null | number) => void;
   enablePreQueryFromAggregator?: boolean;
+  inputControls?: JSX.Element;
 }
 
 export interface State {
@@ -89,7 +84,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
   };
 
   // used to terminate if component is unmounted while waiting for a promise
-  unmounted: Boolean = false;
+  unmounted: boolean = false;
 
   constructor(props: Props) {
     super(props);
@@ -187,9 +182,9 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     const { getAbTestData } = this.props;
     const startTime = performanceNow();
 
-    let abTest;
+    let abTest: ABTest;
     try {
-      abTest = (await getAbTestData(searchSessionId)) || DEFAULT_AB_TEST;
+      abTest = await getAbTestData(searchSessionId);
     } catch (error) {
       abTest = DEFAULT_AB_TEST;
     }
@@ -208,7 +203,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
 
   fireExperimentExposureEvent = async (
     searchSessionId: string,
-    abTestPromise: Promise<ABTest | undefined>,
+    abTestPromise: Promise<ABTest>,
   ) => {
     const { createAnalyticsEvent, logger } = this.props;
 
@@ -414,6 +409,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       placeholder,
       selectedResultId,
       onSelectedResultIdChanged,
+      inputControls,
     } = this.props;
     const {
       isLoading,
@@ -438,6 +434,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         isSendSearchTermsEnabled={isSendSearchTermsEnabled}
         selectedResultId={selectedResultId}
         onSelectedResultIdChanged={onSelectedResultIdChanged}
+        inputControls={inputControls}
       >
         {getSearchResultsComponent({
           retrySearch: this.retrySearch,

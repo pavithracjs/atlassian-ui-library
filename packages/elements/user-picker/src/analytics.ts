@@ -1,9 +1,9 @@
-import { createAndFireEvent } from '@atlaskit/analytics-next';
 import {
+  createAndFireEvent,
   AnalyticsEventPayload,
   CreateAndFireEventFunction,
-} from '@atlaskit/analytics-next-types';
-import * as uuid from 'uuid/v4';
+} from '@atlaskit/analytics-next';
+import uuid from 'uuid/v4';
 import { name as packageName, version as packageVersion } from './version.json';
 import {
   Option,

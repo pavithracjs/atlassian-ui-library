@@ -1,5 +1,31 @@
 # @atlaskit/quick-search
 
+## 7.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 6.1.2
+- [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
+
+  - Removes babel-runtime in favour of @babel/runtime
+
+## 6.1.1
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/drawer@3.0.7
+  - @atlaskit/field-base@12.0.2
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/item@9.0.1
+  - @atlaskit/navigation@34.0.4
+  - @atlaskit/theme@8.1.7
+
+## 6.1.0
+- [minor] [038e080474](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/038e080474):
+
+  - Expose inputControls as a prop for passing in additional controls to the search input box
+
 ## 6.0.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

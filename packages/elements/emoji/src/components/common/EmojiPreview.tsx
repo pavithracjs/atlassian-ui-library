@@ -1,6 +1,6 @@
 import AkButton from '@atlaskit/button';
 import AddIcon from '@atlaskit/icon/glyph/add';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as React from 'react';
 import { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -91,7 +91,6 @@ export default class EmojiPreview extends PureComponent<Props, State> {
       <div className={styles.buttons}>
         <EmojiButton
           emoji={previewEmoji}
-          // tslint:disable-next-line:jsx-no-lambda
           onSelected={() => this.onToneButtonClick()}
           selectOnHover={true}
         />

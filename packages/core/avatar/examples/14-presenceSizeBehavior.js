@@ -11,10 +11,13 @@ export default class PresenceWidthExample extends Component<*, State> {
   state: State = {
     width: 60,
   };
+
   decrement = (key: string) =>
     this.setState(state => ({ [key]: state[key] - 1 }));
+
   increment = (key: string) =>
     this.setState(state => ({ [key]: state[key] + 1 }));
+
   render() {
     const { width } = this.state;
 

@@ -19,7 +19,7 @@ import {
   Title,
 } from './styled';
 import { isLoadingImage } from '../../utils/isLoadingImage';
-import { CardLoading } from '../../utils/cardLoading';
+import { CardLoading } from '../../utils/lightCards/cardLoading';
 import { shouldDisplayImageThumbnail } from '../../utils/shouldDisplayImageThumbnail';
 import { ProgressBar } from '../../utils/progressBar';
 import CardActions from '../../utils/cardActions';

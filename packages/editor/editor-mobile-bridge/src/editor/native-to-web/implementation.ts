@@ -34,7 +34,7 @@ import {
   setLinkText,
 } from '@atlaskit/editor-core';
 import { EditorView } from 'prosemirror-view';
-import { EditorState } from 'prosemirror-state';
+import { EditorState, Selection } from 'prosemirror-state';
 import { JSONTransformer } from '@atlaskit/editor-json-transformer';
 import { Color as StatusColor } from '@atlaskit/status';
 
@@ -43,6 +43,8 @@ import WebBridge from '../../web-bridge';
 import { ProseMirrorDOMChange } from '../../types';
 import { hasValue } from '../../utils';
 import { rejectPromise, resolvePromise } from '../../cross-platform-promise';
+
+import { version as packageVersion } from '../../version.json';
 
 export default class WebBridgeImpl extends WebBridge
   implements NativeToWebBridge {
@@ -56,6 +58,10 @@ export default class WebBridgeImpl extends WebBridge
   editorActions: EditorActions = new EditorActions();
   mediaPicker: CustomMediaPicker | undefined;
   mediaMap: Map<string, Function> = new Map();
+
+  currentVersion(): string {
+    return packageVersion;
+  }
 
   onBoldClicked() {
     if (this.textFormatBridgeState && this.editorView) {
@@ -122,8 +128,39 @@ export default class WebBridgeImpl extends WebBridge
   }
 
   setContent(content: string) {
-    if (this.editorActions) {
-      this.editorActions.replaceDocument(content, false);
+    // TODO: Re-enable (https://product-fabric.atlassian.net/browse/ED-6714)
+    // Prevent deletion of invalid marks. Temporary fix for inline comments being removed in the document.
+    // This is to prevent the validator running (which deletes invalid marks).
+    // Waiting on Confluence to change from confluenceInlineComment to annotation mark
+
+    // if (this.editorActions) {
+    //   this.editorActions.replaceDocument(content, false);
+    // }
+
+    if (this.editorView) {
+      const { state, dispatch } = this.editorView;
+      const tr = state.tr;
+      let parsedContent;
+      try {
+        parsedContent = JSON.parse(content);
+      } catch (e) {
+        return;
+      }
+
+      parsedContent = (parsedContent.content || []).map((child: any) => {
+        try {
+          return state.schema.nodeFromJSON(child);
+        } catch (e) {
+          return state.schema.nodes.unsupportedBlock.createChecked({
+            originalValue: child,
+          });
+        }
+      });
+
+      tr.setMeta('addToHistory', false);
+      tr.replaceWith(0, state.doc.nodeSize - 2, parsedContent);
+      tr.setSelection(Selection.atStart(tr.doc));
+      dispatch(tr);
     }
   }
 
@@ -277,7 +314,7 @@ export default class WebBridgeImpl extends WebBridge
         return;
 
       default:
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.error(`${type} cannot be inserted as it's not supported`);
         return;
     }
@@ -332,6 +369,14 @@ export default class WebBridgeImpl extends WebBridge
 
     this.editorView.focus();
     return true;
+  }
+
+  scrollToSelection(): void {
+    if (!this.editorView) {
+      return;
+    }
+
+    this.editorView.dispatch(this.editorView.state.tr.scrollIntoView());
   }
 
   flushDOM() {

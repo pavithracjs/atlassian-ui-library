@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import * as debounce from 'lodash.debounce';
+import debounce from 'lodash.debounce';
 import { QuickSearch } from '@atlaskit/quick-search';
 import { LinkComponent } from './GlobalQuickSearchWrapper';
 import {
@@ -43,6 +43,7 @@ export interface Props {
   isSendSearchTermsEnabled?: boolean;
   selectedResultId?: string;
   onSelectedResultIdChanged?: (id: string | number | null) => void;
+  inputControls?: JSX.Element;
 }
 
 export interface State {
@@ -162,6 +163,7 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
       onSearchSubmit,
       selectedResultId,
       onSelectedResultIdChanged,
+      inputControls,
     } = this.props;
 
     return (
@@ -176,6 +178,7 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
           onSearchSubmit={onSearchSubmit}
           selectedResultId={selectedResultId}
           onSelectedResultIdChanged={onSelectedResultIdChanged}
+          inputControls={inputControls}
         >
           {children}
         </QuickSearch>

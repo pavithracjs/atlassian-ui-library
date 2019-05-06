@@ -13,7 +13,7 @@ const docker = require('../../docker-helper');
  *  - Local start a docker instance running puppeteer
  */
 async function globalSetup() {
-  if (process.env.CI) {
+  if (process.env.CI || process.env.DEBUG) {
     // If it is in CI start puppeteer and stored websocket endpoint
     // launch and run puppeteer if inside of CI
     console.log('puppeteer:', puppeteer.executablePath());
@@ -24,7 +24,7 @@ async function globalSetup() {
         '--disable-dev-shm-usage',
       ],
     };
-    if (process.env.DEBUG == 'true') {
+    if (process.env.DEBUG) {
       puppeteerOptions.slowMo = 100;
       puppeteerOptions.headless = false;
     }
@@ -33,6 +33,7 @@ async function globalSetup() {
     mkdirp.sync(DIR);
     fs.writeFileSync(path.join(DIR, 'wsEndpoint'), browser.wsEndpoint()); // Shared endpoint with all thread nodes
   } else {
+    await docker.deleteOldDockerImage();
     await docker.startDocker();
   }
 }

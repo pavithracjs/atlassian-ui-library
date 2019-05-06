@@ -3,96 +3,96 @@
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 35774,
-      "gzipSize": 9013
+      "size": 35656,
+      "gzipSize": 8989
     }
   },
   {
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 644162,
-      "gzipSize": 193067
+      "size": 728732,
+      "gzipSize": 219410
     }
   },
   {
     "id": "node_modules.async",
     "name": "node_modules [async]",
     "stats": {
-      "size": 1828010,
-      "gzipSize": 538364
+      "size": 1835016,
+      "gzipSize": 541727
     }
   },
   {
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 264318,
-      "gzipSize": 58087
+      "size": 252721,
+      "gzipSize": 56459
     }
   },
   {
     "id": "atlaskit.core.async",
     "name": "async",
     "stats": {
-      "size": 152939,
-      "gzipSize": 29541
+      "size": 164537,
+      "gzipSize": 31573
     }
   },
   {
     "id": "atlaskit.editor.main",
     "name": "main",
     "stats": {
-      "size": 781813,
-      "gzipSize": 202278
+      "size": 822947,
+      "gzipSize": 212524
     }
   },
   {
     "id": "atlaskit.editor.async",
     "name": "async",
     "stats": {
-      "size": 27161,
-      "gzipSize": 6915
+      "size": 46708,
+      "gzipSize": 11056
     }
   },
   {
     "id": "atlaskit.elements.main",
     "name": "main",
     "stats": {
-      "size": 107780,
-      "gzipSize": 26919
+      "size": 108928,
+      "gzipSize": 27162
     }
   },
   {
     "id": "atlaskit.elements.async",
     "name": "async",
     "stats": {
-      "size": 68955,
-      "gzipSize": 21089
+      "size": 71987,
+      "gzipSize": 21844
     }
   },
   {
     "id": "atlaskit.media.main",
     "name": "main",
     "stats": {
-      "size": 188098,
-      "gzipSize": 43497
+      "size": 39518,
+      "gzipSize": 9268
     }
   },
   {
     "id": "atlaskit.media.async",
     "name": "async",
     "stats": {
-      "size": 892492,
-      "gzipSize": 221604
+      "size": 1044600,
+      "gzipSize": 256516
     }
   },
   {
     "id": "atlaskit.people-and-teams.main",
     "name": "main",
     "stats": {
-      "size": 68865,
-      "gzipSize": 12341
+      "size": 71756,
+      "gzipSize": 12576
     }
   },
   {
@@ -107,16 +107,16 @@
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 2079950,
-      "gzipSize": 554359
+      "size": 2048899,
+      "gzipSize": 555425
     }
   },
   {
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 2968025,
-      "gzipSize": 820754
+      "size": 3160980,
+      "gzipSize": 867504
     }
   }
 ]

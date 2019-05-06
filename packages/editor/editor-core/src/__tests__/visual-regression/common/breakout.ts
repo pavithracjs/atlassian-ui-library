@@ -1,5 +1,5 @@
 import { initFullPageEditorWithAdf, Device, snapshot } from '../_utils';
-import * as adf from './__fixtures__/columns.adf.json';
+import adf from './__fixtures__/columns.adf.json';
 import {
   clickOnColumn,
   scrollToColumn,

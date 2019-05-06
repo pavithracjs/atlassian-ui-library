@@ -96,6 +96,7 @@ export function insertLink(
   to: number,
   href: string,
   text?: string,
+  source?: INPUT_METHOD.MANUAL | INPUT_METHOD.TYPEAHEAD,
 ): Command {
   return filter(canLinkBeCreatedInRange(from, to), (state, dispatch) => {
     const link = state.schema.marks.link;
@@ -114,7 +115,7 @@ export function insertLink(
         tr.setSelection(Selection.near(tr.doc.resolve(to)));
       }
 
-      queueCardsFromChangedTr(state, tr);
+      queueCardsFromChangedTr(state, tr, source!, false);
 
       if (dispatch) {
         tr.setMeta(stateKey, LinkAction.HIDE_TOOLBAR);

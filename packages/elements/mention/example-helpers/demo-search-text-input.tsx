@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ChangeEventHandler, Component, FocusEventHandler } from 'react';
-import * as uuid from 'uuid/v1';
+import uuid from 'uuid/v1';
 
 function noModifiers(event: React.KeyboardEvent<HTMLInputElement>) {
   return !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey;

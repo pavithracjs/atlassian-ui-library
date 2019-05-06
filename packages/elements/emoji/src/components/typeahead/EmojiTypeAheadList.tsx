@@ -1,5 +1,5 @@
 import Spinner from '@atlaskit/spinner';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as React from 'react';
 import { MouseEvent, PureComponent } from 'react';
 import { emojiTypeAheadMaxHeight } from '../../util/shared-styles';
@@ -199,7 +199,6 @@ export default class EmojiTypeAheadList extends PureComponent<Props, State> {
                 selected={this.isSelectedEmoji(emoji, idx)}
                 onMouseMove={this.selectIndexOnHover}
                 onSelection={this.itemSelected}
-                // tslint:disable-next-line:jsx-no-lambda
                 ref={ref => {
                   if (ref) {
                     this.items[key] = ref;

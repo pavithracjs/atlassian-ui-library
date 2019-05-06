@@ -488,11 +488,68 @@ export const deactivateUserOverviewMessages: ReactIntlMessages = defineMessages(
 );
 
 export const contentPreviewMessages: ReactIntlMessages = defineMessages({
-  heading: {
-    id: 'focused-task-close-account.delete-account.content-preview.heading',
-    defaultMessage: 'How users will see this account',
+  headingAdmin: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.heading.admin',
+    defaultMessage: 'How would you prefer the deleted user to appear?',
     description:
-      'Heading for the screen that explains what other users will see when viewing the deleted/deactivated user',
+      'Heading for the screen that explains admin would prefer user to be remembered',
+  },
+  headingSelf: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.heading.self',
+    defaultMessage: 'How would you prefer your deleted account to appear?',
+    description:
+      'Heading for the screen that explains how users would prefer to be remembered',
+  },
+  paragraphSurveyAdmin: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.paragraph.survey.admin',
+    defaultMessage:
+      'After the user’s account is deleted, they’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    description: 'First paragraph for the survey for admins',
+  },
+  paragraphSurveySelf: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.paragraph.survey.self',
+    defaultMessage:
+      'After your account is deleted, you’ll appear as “Former user” to other users. Please take a moment to answer our survey question.',
+    description: 'First paragraph for the survey for personal accounts',
+  },
+  lineSurveyAdmin: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.line.survey.admin',
+    defaultMessage:
+      'If we gave you a choice, how would you like the deleted user to appear to other users?',
+    description: 'Second paragraph for the survey for admins',
+  },
+  lineSurveySelf: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.line.survey.self',
+    defaultMessage:
+      'If we gave you a choice, how would you like to appear to other users?',
+    description: 'Second paragraph for the survey for personal accounts',
+  },
+  footnoteAdmin: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.footnote.admin',
+    defaultMessage:
+      'Note: Answering this survey will help us make a better experience for all users. The user will still appear as “Former user” after you delete their account.',
+    description:
+      'Note to admins that the users would still be saved as Former User',
+  },
+  footnoteSelf: {
+    id:
+      'focused-task-close-account.delete-account.content-preview.footnote.self',
+    defaultMessage:
+      'Note: Answering this survey will help us make a better experience for all users, including those deleting their accounts. You’ll still appear as “Former user” after you delete your account.',
+    description: 'Note to users that they would still be saved as Former User',
+  },
+  formerUser: {
+    id: 'focused-task-close-account.delete-account.content-preview.formerUser',
+    defaultMessage: 'Former user',
+    description:
+      'The display name for a user when they do not select their name',
   },
 });
 

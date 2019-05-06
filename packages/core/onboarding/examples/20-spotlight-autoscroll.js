@@ -30,9 +30,13 @@ export default class SpotlightAutoscrollExample extends Component<*, State> {
       spotlight: 'off',
     };
   }
+
   highlightOne = () => this.setState({ spotlight: 'target-one' });
+
   highlightTwo = () => this.setState({ spotlight: 'target-two' });
+
   close = () => this.setState({ spotlight: 'off' });
+
   render() {
     const { spotlight } = this.state;
     return (

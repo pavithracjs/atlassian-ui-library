@@ -3,6 +3,7 @@ import cardPlugin from '../../../../plugins/card';
 import {
   setProvider,
   queueCards,
+  resolveCard,
 } from '../../../../plugins/card/pm-plugins/actions';
 
 import {
@@ -15,10 +16,13 @@ import {
   blockCard,
   Refs,
 } from '@atlaskit/editor-test-helpers';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { setNodeSelection } from '../../../../utils';
 import { visitCardLink, removeCard } from '../../../../plugins/card/toolbar';
 import { EditorView } from 'prosemirror-view';
+import { createCardRequest } from './_helpers';
+
+const atlassianUrl = 'http://www.atlassian.com/';
 
 describe('card', () => {
   const createEditor = createEditorFactory();
@@ -56,62 +60,49 @@ describe('card', () => {
     describe('queueCard', () => {
       it('queues a url', () => {
         const { editorView } = editor(doc(p()));
+        const cardRequest = createCardRequest(atlassianUrl, 24);
         const {
           dispatch,
           state: { tr },
         } = editorView;
-        dispatch(
-          queueCards([
-            { url: 'http://www.atlassian.com/', pos: 24, appearance: 'inline' },
-          ])(tr),
+
+        dispatch(queueCards([cardRequest])(tr));
+
+        expect(pluginKey.getState(editorView.state)).toEqual(
+          expect.objectContaining({
+            requests: [cardRequest],
+          }),
         );
-        expect(pluginKey.getState(editorView.state)).toEqual({
-          requests: [
-            {
-              url: 'http://www.atlassian.com/',
-              pos: 24,
-              appearance: 'inline',
-            },
-          ],
-          provider: null,
-        });
       });
 
       it('can queue the same url with different positions', () => {
         const { editorView } = editor(doc(p()));
         const { dispatch } = editorView;
 
+        const cardRequestOne = createCardRequest(atlassianUrl, 24);
+        const cardRequestTwo = createCardRequest(atlassianUrl, 420);
+
         dispatch(
-          queueCards([
-            { url: 'http://www.atlassian.com/', pos: 24, appearance: 'inline' },
-            { url: 'http://www.atlassian.com/', pos: 420, appearance: 'block' },
-          ])(editorView.state.tr),
+          queueCards([cardRequestOne, cardRequestTwo])(editorView.state.tr),
         );
 
-        expect(pluginKey.getState(editorView.state)).toEqual({
-          requests: [
-            {
-              url: 'http://www.atlassian.com/',
-              pos: 24,
-              appearance: 'inline',
-            },
-            {
-              url: 'http://www.atlassian.com/',
-              pos: 420,
-              appearance: 'block',
-            },
-          ],
-          provider: null,
-        });
+        expect(pluginKey.getState(editorView.state)).toEqual(
+          expect.objectContaining({
+            requests: [cardRequestOne, cardRequestTwo],
+          }),
+        );
       });
     });
 
     describe('resolve', () => {
       it('eventually resolves the url from the queue', async () => {
         const { editorView } = editor(doc(p()));
-        queueCards([
-          { url: 'http://www.atlassian.com/', pos: 1, appearance: 'inline' },
-        ])(editorView.state.tr);
+        const atlassianCardRequest = createCardRequest(atlassianUrl, 1);
+        editorView.dispatch(
+          queueCards([atlassianCardRequest])(editorView.state.tr),
+        );
+
+        editorView.dispatch(resolveCard(atlassianUrl)(editorView.state.tr));
 
         expect(pluginKey.getState(editorView.state)).toEqual({
           requests: [],
@@ -122,7 +113,6 @@ describe('card', () => {
   });
 
   describe('analytics', () => {
-    const atlassianUrl = 'http://www.atlassian.com/';
     const linkTypes = [
       {
         name: 'inlineCard',

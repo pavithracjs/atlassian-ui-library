@@ -2,7 +2,7 @@ import * as React from 'react';
 import FormattedMessage from './formatted-message';
 import messages from '../utils/messages';
 import Button from '@atlaskit/button';
-import { UIAnalyticsEvent } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import { NAVIGATION_CHANNEL, UI_EVENT_TYPE } from '../utils/analytics';
 
 type ManageButtonProps = {
@@ -10,7 +10,10 @@ type ManageButtonProps = {
 };
 
 export default class ManageButton extends React.Component<ManageButtonProps> {
-  onClick = (_: any, analyticsEvent: UIAnalyticsEvent) => {
+  onClick = (
+    _: React.MouseEvent<HTMLElement>,
+    analyticsEvent: UIAnalyticsEvent,
+  ) => {
     analyticsEvent
       .update({
         eventType: UI_EVENT_TYPE,

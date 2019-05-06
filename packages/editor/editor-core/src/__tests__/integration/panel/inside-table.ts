@@ -35,7 +35,7 @@ BrowserTestCase(
     await page.click(insertTableMenu);
     await page.waitForSelector(tableControls);
 
-    await quickInsert(page, 'Panel');
+    await quickInsert(page, 'Info Panel');
     await page.waitForSelector(selectors.PANEL_EDITOR_CONTAINER);
 
     // type some text
@@ -48,6 +48,5 @@ BrowserTestCase(
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
     expect(await page.isExisting(tableControls)).toBe(false);
-    expect(await page.isVisible(tableControls)).toBe(false);
   },
 );

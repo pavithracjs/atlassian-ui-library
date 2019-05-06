@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { Observable } from 'rxjs';
-import { nextTick } from '@atlaskit/media-test-helpers';
+import { nextTick, createStorybookContext } from '@atlaskit/media-test-helpers';
+import { Context } from '@atlaskit/media-core';
 import MediaImage, { MediaImageProps } from '../../mediaImage';
 
 import { imageFileId } from '@atlaskit/media-test-helpers';
@@ -34,6 +35,7 @@ const shallowRender = async (props: MediaImageProps) => {
 
 describe('<MediaImage />', () => {
   let defaultProps: Partial<MediaImageProps>;
+  let context: Context;
   const getFileState = jest.fn();
   const getImage = jest.fn();
   beforeEach(() => {
@@ -48,8 +50,13 @@ describe('<MediaImage />', () => {
 
     getImage.mockReturnValue({});
 
-    const context: any = {
-      file: { getFileState },
+    const mockContext = createStorybookContext();
+    context = {
+      ...mockContext,
+      file: {
+        ...mockContext.file,
+        getFileState,
+      },
       getImage,
     };
 
@@ -76,15 +83,19 @@ describe('<MediaImage />', () => {
         observer.error('');
       }),
     );
-    const getImage = jest.fn().mockReturnValue({});
-    const context: any = {
-      file: { getFileState },
+
+    const newContext: Context = {
+      ...context,
+      file: {
+        ...context.file,
+        getFileState,
+      },
       getImage,
     };
 
     const props = {
       ...defaultProps,
-      context,
+      context: newContext,
     };
     const wrapper = await shallowRender(props as MediaImageProps);
 
@@ -103,10 +114,20 @@ describe('<MediaImage />', () => {
       getImage,
     };
 
+    const newContext: Context = {
+      ...context,
+      file: {
+        ...context.file,
+        getFileState,
+      },
+      getImage,
+    };
+
     const props = {
       ...defaultProps,
-      context,
+      context: newContext,
     };
+
     const wrapper = await shallowRender(props as MediaImageProps);
 
     expect(wrapper.find('div').text()).toEqual('error');
@@ -116,15 +137,19 @@ describe('<MediaImage />', () => {
     const getFileState = jest
       .fn()
       .mockReturnValue(Observable.of({ status: 'error', mediaType: 'image' }));
-    const getImage = jest.fn().mockReturnValue({});
-    const context: any = {
-      file: { getFileState },
+
+    const newContext: Context = {
+      ...context,
+      file: {
+        ...context.file,
+        getFileState,
+      },
       getImage,
     };
 
     const props = {
       ...defaultProps,
-      context,
+      context: newContext,
     };
     const wrapper = await shallowRender(props as MediaImageProps);
 
@@ -148,15 +173,18 @@ describe('<MediaImage />', () => {
       .mockReturnValue(
         Observable.of({ status: 'loading', mediaType: 'image' }),
       );
-    const getImage = jest.fn().mockReturnValue({});
-    const context: any = {
-      file: { getFileState },
+    const newContext: Context = {
+      ...context,
+      file: {
+        ...context.file,
+        getFileState,
+      },
       getImage,
     };
 
     const props = {
       ...defaultProps,
-      context,
+      context: newContext,
     };
     const wrapper = await shallowRender(props as MediaImageProps);
 
@@ -188,6 +216,24 @@ describe('<MediaImage />', () => {
     expect(getFileState).toHaveBeenCalledTimes(1);
 
     wrapper.setProps({ apiConfig: { width: 110, heigth: 110 } });
+    await wrapper.update();
+
+    expect(getFileState).toHaveBeenCalledTimes(2);
+  });
+
+  it('should trigger subscribe if context has changed', async () => {
+    const wrapper = await shallowRender(defaultProps as MediaImageProps);
+    expect(getFileState).toHaveBeenCalledTimes(1);
+    const dummyContext = createStorybookContext();
+    const newContext = {
+      ...dummyContext,
+      file: {
+        ...dummyContext.file,
+        getFileState,
+      },
+      getImage,
+    };
+    wrapper.setProps({ context: newContext });
     await wrapper.update();
 
     expect(getFileState).toHaveBeenCalledTimes(2);
@@ -230,15 +276,20 @@ describe('<MediaImage />', () => {
     const getImage = jest
       .fn()
       .mockReturnValue(new Blob([img], { type: 'image/jpeg' }));
-    const context: any = {
-      file: { getFileState },
+    const newContext: Context = {
+      ...context,
+      file: {
+        ...context.file,
+        getFileState,
+      },
       getImage,
     };
 
     const props = {
       ...defaultProps,
-      context,
+      context: newContext,
     };
+
     const wrapper = await shallowRender(props as MediaImageProps);
 
     expect(getImage).toHaveBeenCalledTimes(1);

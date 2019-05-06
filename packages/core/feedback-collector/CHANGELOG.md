@@ -1,5 +1,49 @@
 # @atlaskit/feedback-collector
 
+## 4.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 3.0.6
+- Updated dependencies [dd95622388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd95622388):
+  - @atlaskit/form@5.2.10
+  - @atlaskit/textarea@1.0.0
+
+## 3.0.5
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/checkbox@6.0.4
+  - @atlaskit/flag@10.0.6
+  - @atlaskit/form@5.2.7
+  - @atlaskit/global-navigation@6.2.9
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/logo@10.0.4
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/navigation-next@5.1.5
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/select@8.1.1
+  - @atlaskit/textarea@0.4.4
+  - @atlaskit/theme@8.1.7
+
+## 3.0.4
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/checkbox@6.0.3
+  - @atlaskit/flag@10.0.5
+  - @atlaskit/form@5.2.5
+  - @atlaskit/global-navigation@6.2.8
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/logo@10.0.3
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/navigation-next@5.1.4
+  - @atlaskit/section-message@2.0.2
+  - @atlaskit/select@8.0.5
+  - @atlaskit/textarea@0.4.1
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/button@12.0.0
+
 ## 3.0.3
 - [patch] [4c6816d81b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4c6816d81b):
 

@@ -15,7 +15,10 @@ BrowserTestCase(
   { skip: ['ie', 'safari'] },
   async (client: any, testName: string) => {
     const page = new Page(client);
+
     await page.goto(fullpage.path);
+    await page.browser.maximizeWindow();
+
     await page.waitForSelector(fullpage.placeholder);
     await page.click(fullpage.placeholder);
 

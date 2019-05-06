@@ -1,4 +1,5 @@
 jest.mock('../../../plugins', () => ({
+  basePlugin: jest.fn(),
   analyticsPlugin: jest.fn(),
   mediaPlugin: jest.fn(),
   tablesPlugin: jest.fn(),
@@ -10,6 +11,7 @@ jest.mock('../../../plugins', () => ({
 }));
 
 import {
+  basePlugin,
   analyticsPlugin,
   tablesPlugin,
   mediaPlugin,
@@ -26,6 +28,7 @@ import createPluginsList from '../../../create-editor/create-plugins-list';
 
 describe('createPluginsList', () => {
   beforeEach(() => {
+    (basePlugin as any).mockReset();
     (analyticsPlugin as any).mockReset();
     (insertBlockPlugin as any).mockReset();
     (placeholderTextPlugin as any).mockReset();
@@ -46,7 +49,7 @@ describe('createPluginsList', () => {
     const tableOptions = { allowTables: true };
     createPluginsList(tableOptions);
     expect(tablesPlugin).toHaveBeenCalledTimes(1);
-    expect(tablesPlugin).toHaveBeenCalledWith(true);
+    expect(tablesPlugin).toHaveBeenCalledWith(true, false);
   });
 
   it('should always add submitEditorPlugin to the editor', () => {
@@ -89,7 +92,7 @@ describe('createPluginsList', () => {
     expect(plugins).toContain(layoutPlugin);
   });
 
-  it('should not add statuPlugin if allowStatus prop is false', () => {
+  it('should not add statusPlugin if allowStatus prop is false', () => {
     createPluginsList({ allowStatus: false });
     expect(statusPlugin).not.toBeCalled();
     expect(insertBlockPlugin).toBeCalledWith(
@@ -97,7 +100,7 @@ describe('createPluginsList', () => {
     );
   });
 
-  it('should add statuPlugin if allowStatus prop is true', () => {
+  it('should add statusPlugin if allowStatus prop is true', () => {
     createPluginsList({ allowStatus: true });
     expect(statusPlugin).toHaveBeenCalledTimes(1);
     expect(statusPlugin).toHaveBeenCalledWith({ menuDisabled: false });
@@ -106,7 +109,7 @@ describe('createPluginsList', () => {
     );
   });
 
-  it('should add statuPlugin if allowStatus prop is provided with menuDisabled true', () => {
+  it('should add statusPlugin if allowStatus prop is provided with menuDisabled true', () => {
     createPluginsList({ allowStatus: { menuDisabled: true } });
     expect(statusPlugin).toHaveBeenCalledTimes(1);
     expect(statusPlugin).toHaveBeenCalledWith({ menuDisabled: true });
@@ -115,7 +118,7 @@ describe('createPluginsList', () => {
     );
   });
 
-  it('should add statuPlugin if allowStatus prop is provided with menuDisabled false', () => {
+  it('should add statusPlugin if allowStatus prop is provided with menuDisabled false', () => {
     createPluginsList({ allowStatus: { menuDisabled: false } });
     expect(statusPlugin).toHaveBeenCalledTimes(1);
     expect(statusPlugin).toHaveBeenCalledWith({ menuDisabled: false });

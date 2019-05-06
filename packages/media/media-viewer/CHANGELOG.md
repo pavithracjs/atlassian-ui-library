@@ -1,5 +1,113 @@
 # @atlaskit/media-viewer
 
+## 43.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/analytics-gas-types@4.0.4
+  - @atlaskit/media-card@63.0.0
+  - @atlaskit/docs@8.0.0
+  - @atlaskit/analytics-next@5.0.0
+  - @atlaskit/button@13.0.0
+  - @atlaskit/field-range@7.0.0
+  - @atlaskit/icon@17.0.0
+  - @atlaskit/modal-dialog@9.0.0
+  - @atlaskit/spinner@11.0.0
+  - @atlaskit/theme@9.0.0
+  - @atlaskit/media-core@30.0.0
+  - @atlaskit/media-store@12.0.0
+  - @atlaskit/media-test-helpers@22.0.0
+  - @atlaskit/media-ui@11.0.0
+
+## 42.0.0
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/media-card@62.0.0
+  - @atlaskit/media-store@11.1.1
+  - @atlaskit/media-test-helpers@21.4.0
+  - @atlaskit/media-core@29.3.0
+
+## 41.0.0
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/media-card@61.0.0
+  - @atlaskit/media-store@11.1.0
+  - @atlaskit/media-test-helpers@21.3.0
+  - @atlaskit/media-core@29.2.0
+
+## 40.1.11
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
+## 40.1.10
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/field-range@6.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/media-card@60.0.3
+  - @atlaskit/media-ui@10.1.5
+  - @atlaskit/theme@8.1.7
+
+## 40.1.9
+- [patch] [3f28e6443c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3f28e6443c):
+
+  - @atlaskit/analytics-next-types is deprecated. Now you can use types for @atlaskit/analytics-next supplied from itself.
+
+## 40.1.8
+- [patch] [8bdebe02f1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8bdebe02f1):
+
+  - Remove tests from MediaViewer dist
+
+## 40.1.7
+- [patch] [bee4101a63](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bee4101a63):
+
+  - instrument analytics for audio and video play and error events
+
+## 40.1.6
+- [patch] [caf134141e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/caf134141e):
+
+  - Fix incorrect MediaButton imports
+
+## 40.1.5
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/media-card@60.0.1
+  - @atlaskit/media-core@29.1.4
+  - @atlaskit/media-store@11.0.7
+  - @atlaskit/media-ui@10.1.3
+  - @atlaskit/field-range@6.0.3
+  - @atlaskit/button@12.0.0
+
+## 40.1.4
+- [patch] [4e1138a13a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4e1138a13a):
+
+  - add close event to MVNG
+
+## 40.1.3
+- [patch] [32317ff8f3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/32317ff8f3):
+
+  - MS-1633 Renderer passes a list of files and external images to a Card to be opened with Media Viewer
+
+## 40.1.2
+- Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
+  - @atlaskit/media-core@29.1.2
+  - @atlaskit/media-store@11.0.5
+  - @atlaskit/media-test-helpers@21.2.2
+  - @atlaskit/media-card@60.0.0
+
+## 40.1.1
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
 ## 40.1.0
 - [minor] [e1c1fa454a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e1c1fa454a):
 

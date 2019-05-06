@@ -2,7 +2,7 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import { Filmstrip, FilmstripView, FilmstripProps, FilmstripItem } from '../..';
 import { fakeContext } from '@atlaskit/media-test-helpers';
-import { Card } from '@atlaskit/media-card';
+import { Card, CardLoading } from '@atlaskit/media-card';
 import { Identifier } from '@atlaskit/media-core';
 
 describe('<Filmstrip />', () => {
@@ -93,6 +93,6 @@ describe('<Filmstrip />', () => {
     const { component } = setup({
       context: undefined,
     });
-    expect(component.find('CardView[status="loading"]')).toHaveLength(2);
+    expect(component.find(CardLoading)).toHaveLength(2);
   });
 });

@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 import { getEventHandler } from '../../utils';
 
-// tslint:disable-next-line:variable-name
 const StyledAnchor = styled.a`
   color: ${colors.B400};
 

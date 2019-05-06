@@ -14,6 +14,7 @@ type State = {
 
 class AnimationDemo extends Component<{}, State> {
   checkbox: ?HTMLInputElement;
+
   timer: ?IntervalID;
 
   state = {

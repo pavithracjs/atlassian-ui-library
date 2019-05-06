@@ -5,14 +5,11 @@ import { MentionUserType as UserType } from '@atlaskit/adf-schema';
 import { MentionProvider, ResourcedMention } from '@atlaskit/mention';
 
 import { ProfilecardProvider } from './types';
-import ProfileCard, {
-  AkProfilecardTriggerActions,
-} from '@atlaskit/profilecard';
+import ProfileCard, { ProfileCardAction } from '@atlaskit/profilecard';
 import { MentionEventHandler } from '../EventHandlers';
 import Popup from '../Popup';
 import withOuterListeners from '../with-outer-listeners';
 
-// tslint:disable-next-line:variable-name
 const ProfilecardResourcedWithListeners = withOuterListeners(ProfileCard);
 
 interface Coords {
@@ -99,7 +96,7 @@ export default class MentionWithProfileCard extends PureComponent<
     id: string,
     text: string,
     accessLevel?: string,
-  ): AkProfilecardTriggerActions[] {
+  ): ProfileCardAction[] {
     const { profilecardProvider } = this.props;
     const actions = profilecardProvider.getActions(id, text, accessLevel);
 
@@ -108,7 +105,9 @@ export default class MentionWithProfileCard extends PureComponent<
         ...action,
         callback: () => {
           this.setState({ visible: false });
-          action.callback();
+          if (action && action.callback) {
+            action.callback();
+          }
         },
       };
     });

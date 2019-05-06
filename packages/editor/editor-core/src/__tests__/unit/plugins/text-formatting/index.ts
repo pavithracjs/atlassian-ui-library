@@ -20,7 +20,7 @@ import {
 } from '../../../../plugins/text-formatting/pm-plugins/main';
 import * as commands from '../../../../plugins/text-formatting/commands/text-formatting';
 import { anyMarkActive } from '../../../../plugins/text-formatting/utils';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import {
   AnalyticsEventPayload,
   ACTION,

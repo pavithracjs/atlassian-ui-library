@@ -21,9 +21,13 @@ ${code`
 
 ${code`
 import * as React from 'react';
-import { withAnalyticsEvents, createAndFireEvent, AnalyticsListener } from '@atlaskit/analytics-next';
+import { 
+  withAnalyticsEvents, 
+  createAndFireEvent, 
+  AnalyticsListener,
+  WithAnalyticsEventProps 
+} from '@atlaskit/analytics-next';
 import { FabricElementsAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
 
 export type Props = WithAnalyticsEventProps & {
   onClick: (e) => void;

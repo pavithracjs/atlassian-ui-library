@@ -17,9 +17,10 @@ export default {
   'fabric.atlassianSwitcher.people': 'Gebruikers',
   'fabric.atlassianSwitcher.administration': 'Beheer',
   'fabric.atlassianSwitcher.discoverMore': 'Meer ontdekken',
-  'fabric.atlassianSwitcher.errorHeading': 'Something went wrong',
+  'fabric.atlassianSwitcher.errorHeading': 'Er is iets misgegaan',
   'fabric.atlassianSwitcher.errorText':
-    'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    'We houden deze fouten bij, maar aarzel niet om contact met ons op te nemen als de pagina vernieuwen het probleem niet oplost.',
   'fabric.atlassianSwitcher.errorImageAltText':
-    'A broken robot and a number of people busy fixing it.',
+    'Een defecte robot en een aantal mensen die bezig zijn hem te repareren.',
+  'fabric.atlassianSwitcher.expand': 'Meer weergeven',
 };

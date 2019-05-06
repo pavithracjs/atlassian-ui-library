@@ -1,45 +1,32 @@
 // @flow
 
-import React, { Component, Fragment, type ElementRef } from 'react';
+import React, { Component, type ElementRef } from 'react';
 import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-context';
-import { colors } from '@atlaskit/theme';
 
 import {
   name as packageName,
   version as packageVersion,
 } from '../../../version.json';
-import { Shadow } from '../../../common/primitives';
-import { light, ThemeProvider } from '../../../theme';
-import ContentNavigation from '../ContentNavigation';
 import PageContent from '../PageContent';
-import ResizeTransition, {
-  isTransitioning,
-  type TransitionState,
-} from '../ResizeTransition';
+import ResizeTransition from '../ResizeTransition';
 import ResizeControl from './ResizeControl';
 import { LayoutContainer, NavigationContainer } from './primitives';
 import type { LayoutManagerProps } from './types';
+import { ContainerNavigationMask } from '../ContentNavigation/primitives';
 import {
-  ContainerNavigationMask,
-  ContentNavigationWrapper,
-} from '../ContentNavigation/primitives';
+  ComposedGlobalNavigation,
+  ComposedContainerNavigation,
+} from './nav-components';
 
 import {
   CONTENT_NAV_WIDTH_COLLAPSED,
   CONTENT_NAV_WIDTH_FLYOUT,
-  GLOBAL_NAV_WIDTH,
   FLYOUT_DELAY,
   ALTERNATE_FLYOUT_DELAY,
 } from '../../../common/constants';
 import RenderBlocker from '../../common/RenderBlocker';
 import { LayoutEventListener } from './LayoutEvent';
 
-type RenderContentNavigationArgs = {
-  isDragging: boolean,
-  transitionState: TransitionState,
-  transitionStyle: Object,
-  width: number,
-};
 type State = {
   flyoutIsOpen: boolean,
   mouseIsOverNavigation: boolean,
@@ -63,9 +50,13 @@ export default class LayoutManager extends Component<
     mouseIsOverNavigation: false,
     itemIsDragging: false,
   };
+
   productNavRef: HTMLElement;
+
   pageRef: HTMLElement;
+
   containerRef: HTMLElement;
+
   flyoutMouseOverTimeout: TimeoutID;
 
   static defaultProps = {
@@ -119,9 +110,11 @@ export default class LayoutManager extends Component<
   getContainerRef = (ref: ElementRef<*>) => {
     this.containerRef = ref;
   };
+
   getNavRef = (ref: ElementRef<*>) => {
     this.productNavRef = ref;
   };
+
   getPageRef = (ref: ElementRef<*>) => {
     this.pageRef = ref;
   };
@@ -131,6 +124,7 @@ export default class LayoutManager extends Component<
     clearTimeout(this.flyoutMouseOverTimeout);
     this.setState({ flyoutIsOpen: false });
   };
+
   mouseOverFlyoutArea = ({ currentTarget, target }: *) => {
     if (!currentTarget.contains(target)) return;
 
@@ -148,6 +142,7 @@ export default class LayoutManager extends Component<
       this.setState({ flyoutIsOpen: true });
     }, delay);
   };
+
   closeFlyout = (e: any) => {
     e.stopPropagation();
     clearTimeout(this.flyoutMouseOverTimeout);
@@ -159,6 +154,7 @@ export default class LayoutManager extends Component<
   mouseEnter = () => {
     this.setState({ mouseIsOverNavigation: true });
   };
+
   mouseLeave = () => {
     clearTimeout(this.flyoutMouseOverTimeout);
     this.setState({ mouseIsOverNavigation: false });
@@ -170,106 +166,6 @@ export default class LayoutManager extends Component<
 
   onItemDragEnd = () => {
     this.setState({ itemIsDragging: false });
-  };
-
-  renderGlobalNavigation = () => {
-    const {
-      containerNavigation,
-      datasets,
-      globalNavigation: GlobalNavigation,
-      topOffset,
-      // eslint-disable-next-line camelcase
-      experimental_alternateFlyoutBehaviour: EXPERIMENTAL_ALTERNATE_FLYOUT_BEHAVIOUR,
-    } = this.props;
-
-    const dataset = datasets ? datasets.globalNavigation : {};
-
-    return (
-      <div
-        {...dataset}
-        onMouseOver={
-          EXPERIMENTAL_ALTERNATE_FLYOUT_BEHAVIOUR ? this.closeFlyout : null
-        }
-      >
-        <ThemeProvider
-          theme={theme => ({
-            topOffset,
-            mode: light, // If no theme already exists default to light mode
-            ...theme,
-          })}
-        >
-          <Fragment>
-            <Shadow
-              isBold={!!containerNavigation}
-              isOverDarkBg
-              style={{ marginLeft: GLOBAL_NAV_WIDTH }}
-            />
-            <GlobalNavigation />
-          </Fragment>
-        </ThemeProvider>
-      </div>
-    );
-  };
-
-  renderContentNavigation = (args: RenderContentNavigationArgs) => {
-    const { transitionState, transitionStyle } = args;
-    const {
-      containerNavigation,
-      datasets,
-      // eslint-disable-next-line camelcase
-      experimental_flyoutOnHover: EXPERIMENTAL_FLYOUT_ON_HOVER,
-      navigationUIController,
-      productNavigation,
-    } = this.props;
-    const { isCollapsed, isResizing } = navigationUIController.state;
-
-    const isVisible = transitionState !== 'exited';
-    const shouldDisableInteraction =
-      isResizing || isTransitioning(transitionState);
-
-    const dataset = datasets ? datasets.contextualNavigation : {};
-
-    return (
-      <ContentNavigationWrapper
-        key="product-nav-wrapper"
-        innerRef={this.getNavRef}
-        disableInteraction={shouldDisableInteraction}
-        style={transitionStyle}
-        {...dataset}
-      >
-        <ContentNavigation
-          container={containerNavigation}
-          isVisible={isVisible}
-          key="product-nav"
-          product={productNavigation}
-        />
-        {isCollapsed && !EXPERIMENTAL_FLYOUT_ON_HOVER ? (
-          <div
-            aria-label="Click to expand the navigation"
-            role="button"
-            onClick={navigationUIController.expand}
-            css={{
-              cursor: 'pointer',
-              height: '100%',
-              outline: 0,
-              position: 'absolute',
-              transition: 'background-color 100ms',
-              width: CONTENT_NAV_WIDTH_COLLAPSED,
-
-              ':hover': {
-                backgroundColor: containerNavigation
-                  ? colors.N30
-                  : 'rgba(255, 255, 255, 0.08)',
-              },
-              ':active': {
-                backgroundColor: colors.N40A,
-              },
-            }}
-            tabIndex="0"
-          />
-        ) : null}
-      </ContentNavigationWrapper>
-    );
   };
 
   renderNavigation = () => {
@@ -284,6 +180,10 @@ export default class LayoutManager extends Component<
       experimental_fullWidthFlyout: EXPERIMENTAL_FULL_WIDTH_FLYOUT,
       collapseToggleTooltipContent,
       topOffset,
+      globalNavigation,
+      containerNavigation,
+      productNavigation,
+      view,
     } = this.props;
     const { flyoutIsOpen, mouseIsOverNavigation, itemIsDragging } = this.state;
     const {
@@ -369,7 +269,7 @@ export default class LayoutManager extends Component<
                     ]}
                     navigation={navigationUIController}
                   >
-                    {({ isDragging, width }) => {
+                    {({ width }) => {
                       return (
                         <ContainerNavigationMask
                           disableInteraction={itemIsDragging}
@@ -383,13 +283,34 @@ export default class LayoutManager extends Component<
                             blockOnChange
                             itemIsDragging={itemIsDragging}
                           >
-                            {this.renderGlobalNavigation()}
-                            {this.renderContentNavigation({
-                              isDragging,
-                              transitionState,
-                              transitionStyle,
-                              width,
-                            })}
+                            <ComposedGlobalNavigation
+                              containerNavigation={containerNavigation}
+                              datasets={datasets}
+                              globalNavigation={globalNavigation}
+                              topOffset={topOffset}
+                              experimental_alternateFlyoutBehaviour={
+                                EXPERIMENTAL_ALTERNATE_FLYOUT_BEHAVIOUR
+                              }
+                              closeFlyout={this.closeFlyout}
+                              view={view}
+                            />
+
+                            <ComposedContainerNavigation
+                              containerNavigation={containerNavigation}
+                              datasets={datasets}
+                              experimental_flyoutOnHover={
+                                EXPERIMENTAL_FLYOUT_ON_HOVER
+                              }
+                              expand={navigationUIController.expand}
+                              productNavigation={productNavigation}
+                              transitionState={transitionState}
+                              transitionStyle={transitionStyle}
+                              isCollapsed={isCollapsed}
+                              isResizing={isResizing}
+                              getNavRef={this.getNavRef}
+                              width={width}
+                              view={view}
+                            />
                           </RenderBlocker>
                         </ContainerNavigationMask>
                       );

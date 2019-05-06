@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import Tooltip from '@atlaskit/tooltip';
 import { placeholder, placeholderContainer } from './styles';
 import { defaultEmojiHeight } from '../../util/constants';
@@ -16,7 +16,6 @@ export interface Props {
   representation?: EmojiImageRepresentation;
 }
 
-// tslint:disable-next-line:variable-name
 const EmojiPlaceholder = (props: Props) => {
   const {
     shortName,

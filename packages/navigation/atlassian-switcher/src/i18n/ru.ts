@@ -17,9 +17,10 @@ export default {
   'fabric.atlassianSwitcher.people': 'Люди',
   'fabric.atlassianSwitcher.administration': 'Администрирование',
   'fabric.atlassianSwitcher.discoverMore': 'Другие продукты',
-  'fabric.atlassianSwitcher.errorHeading': 'Something went wrong',
+  'fabric.atlassianSwitcher.errorHeading': 'Произошла ошибка',
   'fabric.atlassianSwitcher.errorText':
-    'We keep track of these errors, but feel free to contact us if refreshing doesn’t fix things',
+    'Мы стараемся отслеживать все ошибки. Если обновление страницы не поможет, обязательно сообщите нам об этом.',
   'fabric.atlassianSwitcher.errorImageAltText':
-    'A broken robot and a number of people busy fixing it.',
+    'Несколько людей и один робот уже всё чинят.',
+  'fabric.atlassianSwitcher.expand': 'Открыть',
 };

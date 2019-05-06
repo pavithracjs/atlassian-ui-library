@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import * as dateformat from 'dateformat'; // ToDo: FIL-3207 | replace dateformat library with native solution
-import * as filesize from 'filesize'; // ToDo: FIL-3208 | replace filesize library with native solution
+import dateformat from 'dateformat'; // ToDo: FIL-3207 | replace dateformat library with native solution
+import filesize from 'filesize'; // ToDo: FIL-3208 | replace filesize library with native solution
 import CheckCircleIcon from '@atlaskit/icon/glyph/check-circle';
 import { changeCloudAccountFolder } from '../../../../actions/changeCloudAccountFolder';
 import { fetchNextCloudFilesPage } from '../../../../actions/fetchNextCloudFilesPage';

@@ -1,4 +1,4 @@
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 import { Service } from '../../../../domain';
 import {
   MediaApiFetcher,

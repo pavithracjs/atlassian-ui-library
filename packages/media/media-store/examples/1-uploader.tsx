@@ -4,7 +4,7 @@ import {
   defaultMediaPickerAuthProvider,
   tallImage,
 } from '@atlaskit/media-test-helpers';
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 import {
   ImagePreview,
   MetadataWrapper,
@@ -12,8 +12,13 @@ import {
   Wrapper,
   FileInput,
 } from '../example-helpers/styled';
-import { uploadFile, MediaStore, UploadableFileUpfrontIds } from '../src';
-import { UploadableFile, UploadFileCallbacks } from '../src/uploader';
+import {
+  uploadFile,
+  MediaStore,
+  UploadableFileUpfrontIds,
+  UploadableFile,
+  UploadFileCallbacks,
+} from '../src';
 
 type UploaderExampleProps = {};
 export interface UploaderExampleState {

@@ -57,7 +57,7 @@ export default class ConfigurableMentionPicker extends React.Component<
   mentionConfigChange: React.ChangeEventHandler<
     HTMLTextAreaElement
   > = event => {
-    // tslint:disable:next-line no-eval
+    // eslint-disable-next-line no-eval
     const config = eval(`( () => (${event.target.value}) )()`);
     this.refreshMentions(config);
   };

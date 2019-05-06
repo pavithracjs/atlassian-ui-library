@@ -1,6 +1,7 @@
 import { N20, N50, N200 } from '@atlaskit/adf-schema';
 import { createTag, serializeStyle } from '../util';
 import { NodeSerializerOpts } from '../interfaces';
+import { numberedColumnWidth } from './table';
 
 const style = serializeStyle({
   'background-color': N20,
@@ -12,12 +13,11 @@ const style = serializeStyle({
   padding: '6px 10px',
   'text-align': 'center',
   'vertical-align': 'top',
+  width: `${numberedColumnWidth}px`,
 });
 const pStyle = serializeStyle({
   margin: '0',
-  'margin-bottom': '7px',
   padding: '0px',
-  'padding-top': '7px',
   'mso-line-height-rule': 'exactly',
   'line-height': '24px',
   'font-size': '14px',

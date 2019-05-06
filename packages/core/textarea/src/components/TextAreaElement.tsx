@@ -1,7 +1,9 @@
 import * as React from 'react';
 
 type Props = {
-  forwardedRef?: (elem: HTMLTextAreaElement | null) => void;
+  forwardedRef?:
+    | React.RefObject<HTMLTextAreaElement>
+    | ((e: HTMLTextAreaElement | null) => void);
   /**
    * Enables the resizing of the textarea:
    * auto: both directions.
@@ -28,7 +30,6 @@ export default class TextAreaElement extends React.Component<Props, State> {
 
   componentDidMount() {
     if (this.props.resize === 'smart' && this.textareaElement) {
-      // eslint-disable-next-line
       this.setState({
         height: `${this.textareaElement.scrollHeight}px`,
       });
@@ -37,8 +38,13 @@ export default class TextAreaElement extends React.Component<Props, State> {
 
   getTextAreaRef = (ref: HTMLTextAreaElement | null) => {
     this.textareaElement = ref;
-    if (this.props.forwardedRef) {
-      this.props.forwardedRef(ref);
+    const { forwardedRef } = this.props;
+    if (forwardedRef && typeof forwardedRef === 'object') {
+      // @ts-ignore
+      forwardedRef.current = ref;
+    }
+    if (forwardedRef && typeof forwardedRef === 'function') {
+      forwardedRef(ref);
     }
   };
 

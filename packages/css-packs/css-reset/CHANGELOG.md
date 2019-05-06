@@ -1,5 +1,15 @@
 # @atlaskit/css-reset
 
+## 4.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 3.0.8
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/theme@8.1.7
+
 ## 3.0.7
 - [patch] [6c0d9da30e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6c0d9da30e):
 

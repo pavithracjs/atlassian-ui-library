@@ -46,9 +46,10 @@ export const messages = defineMessages({
   },
 });
 
+export type LinkInputType = INPUT_METHOD.MANUAL | INPUT_METHOD.TYPEAHEAD;
 export interface Props {
   onBlur?: (text: string) => void;
-  onSubmit?: (href: string, text?: string) => void;
+  onSubmit?: (href: string, text?: string, type?: LinkInputType) => void;
   popupsMountPoint?: HTMLElement;
   popupsBoundariesElement?: HTMLElement;
   autoFocus?: boolean;
@@ -145,7 +146,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
 
   private handleSelected = (href: string, text: string) => {
     if (this.props.onSubmit) {
-      this.props.onSubmit(href, text);
+      this.props.onSubmit(href, text, INPUT_METHOD.TYPEAHEAD);
       this.trackAutoCompleteAnalyticsEvent(
         'atlassian.editor.format.hyperlink.autocomplete.click',
         INPUT_METHOD.TYPEAHEAD,
@@ -171,7 +172,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
     if (items && items.length > 0 && selectedIndex > -1) {
       const item = items[selectedIndex];
       if (this.props.onSubmit) {
-        this.props.onSubmit(item.url, item.name);
+        this.props.onSubmit(item.url, item.name, INPUT_METHOD.TYPEAHEAD);
         this.trackAutoCompleteAnalyticsEvent(
           'atlassian.editor.format.hyperlink.autocomplete.keyboard',
           INPUT_METHOD.TYPEAHEAD,
@@ -179,7 +180,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
       }
     } else if (text && text.length > 0) {
       if (this.props.onSubmit) {
-        this.props.onSubmit(text);
+        this.props.onSubmit(text, undefined, INPUT_METHOD.MANUAL);
         this.trackAutoCompleteAnalyticsEvent(
           'atlassian.editor.format.hyperlink.autocomplete.notselected',
           INPUT_METHOD.MANUAL,

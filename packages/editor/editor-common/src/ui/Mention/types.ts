@@ -1,13 +1,10 @@
-import { AkProfileClient } from '@atlaskit/profilecard';
+import { ProfileClient, ProfileCardAction } from '@atlaskit/profilecard';
 
-export interface ProfileCardAction {
-  callback: () => void;
-  label: string;
-}
+export { ProfileCardAction };
 
 export interface ProfilecardProvider {
   cloudId: string;
-  resourceClient: AkProfileClient;
+  resourceClient: ProfileClient;
   getActions: (
     id: string,
     text: string,

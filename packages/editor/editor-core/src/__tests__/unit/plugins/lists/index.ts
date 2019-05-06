@@ -28,7 +28,7 @@ import {
 } from '../../../../plugins/lists/commands';
 import { insertMediaAsMediaSingle } from '../../../../plugins/media/utils/media-single';
 import { GapCursorSelection } from '../../../../plugins/gap-cursor';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { AnalyticsHandler } from '../../../../analytics';
 import { EditorView } from 'prosemirror-view';
 

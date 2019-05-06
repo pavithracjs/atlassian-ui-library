@@ -33,8 +33,7 @@ export async function goToEditorTestingExample(client: any) {
     await page.goto(url);
   }
 
-  await page.browser.windowHandleMaximize();
-
+  await page.browser.maximizeWindow();
   return page;
 }
 

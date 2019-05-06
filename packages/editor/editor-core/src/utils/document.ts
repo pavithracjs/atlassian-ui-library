@@ -1,5 +1,5 @@
 import { Node, Schema } from 'prosemirror-model';
-import { Transaction, Selection } from 'prosemirror-state';
+import { Transaction, Selection, EditorState } from 'prosemirror-state';
 import { validator, ADFEntity, ValidationError } from '@atlaskit/adf-utils';
 import { analyticsService } from '../analytics';
 import { ContentNodeWithPos } from 'prosemirror-utils';
@@ -138,7 +138,7 @@ export function processRawValue(
     try {
       node = JSON.parse(value);
     } catch (e) {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error(`Error processing value: ${value} isn't a valid JSON`);
       return;
     }
@@ -147,7 +147,7 @@ export function processRawValue(
   }
 
   if (Array.isArray(node)) {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.error(
       `Error processing value: ${node} is an array, but it must be an object.`,
     );
@@ -226,7 +226,7 @@ export function processRawValue(
     parsedDoc.check();
     return parsedDoc;
   } catch (e) {
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     console.error(
       `Error processing value: "${JSON.stringify(node)}" – ${e.message}`,
     );
@@ -278,3 +278,7 @@ export const findFarthestParentNode = (predicate: (node: Node) => boolean) => (
   }
   return candidate;
 };
+
+export const isSelectionEndOfParagraph = (state: EditorState): boolean =>
+  state.selection.$to.parent.type === state.schema.nodes.paragraph &&
+  state.selection.$to.pos === state.doc.resolve(state.selection.$to.pos).end();

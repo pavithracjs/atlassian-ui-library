@@ -116,7 +116,7 @@ export function hexToRgb(color: string): string | null {
   }
 
   const rgb = Number(`0x${colorBits.join('')}`);
-  // tslint:disable-next-line:no-bitwise
+  // eslint-disable-next-line no-bitwise
   return `rgb(${(rgb >> 16) & 255},${(rgb >> 8) & 255},${rgb & 255})`;
 }
 
@@ -144,7 +144,7 @@ export function rgbToHex(value: string): string | null {
     const [red, green, blue] = matches.map(Number);
     return (
       '#' +
-      (blue | (green << 8) | (red << 16) | (1 << 24)).toString(16).slice(1) // tslint:disable-line:no-bitwise
+      (blue | (green << 8) | (red << 16) | (1 << 24)).toString(16).slice(1) // eslint-disable-line no-bitwise
     );
   }
 

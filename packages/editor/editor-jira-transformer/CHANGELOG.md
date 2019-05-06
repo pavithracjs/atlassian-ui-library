@@ -1,5 +1,33 @@
 # @atlaskit/editor-jira-transformer
 
+## 7.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 6.0.5
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-common@38.0.0
+  - @atlaskit/editor-core@109.0.0
+  - @atlaskit/editor-json-transformer@5.0.4
+  - @atlaskit/editor-test-helpers@8.0.8
+  - @atlaskit/util-data-test@11.1.9
+
+## 6.0.4
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-common@37.0.0
+  - @atlaskit/editor-core@108.0.0
+  - @atlaskit/editor-json-transformer@5.0.3
+  - @atlaskit/editor-test-helpers@8.0.7
+  - @atlaskit/util-data-test@11.1.8
+
+## 6.0.3
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/editor-common@36.1.12
+  - @atlaskit/editor-core@107.13.4
+  - @atlaskit/theme@8.1.7
+
 ## 6.0.2
 - Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
   - @atlaskit/editor-common@36.0.0

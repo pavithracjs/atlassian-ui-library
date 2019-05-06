@@ -26,7 +26,6 @@ export interface CachingEmojiProps extends EmojiProps {
  * Renders an emoji from a cached image, if required.
  */
 export const CachingEmoji = (props: CachingEmojiProps) => {
-  // tslint:disable-line:variable-name
   // Optimisation to only render the class based CachingMediaEmoji if necessary
   // slight performance hit, which accumulates for a large number of emoji.
   const { placeholderSize, ...emojiProps } = props;

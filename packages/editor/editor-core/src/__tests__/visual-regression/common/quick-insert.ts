@@ -1,5 +1,5 @@
 import { initFullPageEditorWithAdf, Device, snapshot } from '../_utils';
-import * as adf from './__fixtures__/blank-adf.json';
+import adf from './__fixtures__/blank-adf.json';
 import { Page } from '../../__helpers/page-objects/_types';
 import { typeInEditorAtEndOfDocument } from '../../__helpers/page-objects/_editor';
 

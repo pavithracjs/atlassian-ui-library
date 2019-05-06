@@ -6,8 +6,7 @@ import {
 import { messages } from '../../../plugins/insert-block/ui/ToolbarInsertBlock';
 
 const editorSelector = '.ProseMirror';
-const insertMenu = `[aria-label="${messages.insertMenu.defaultMessage}"]`;
-const dateMenu = `span=${messages.date.defaultMessage}`;
+const dateMenu = `[aria-label="${messages.date.defaultMessage}"]`;
 const calendar = '[aria-label="calendar"]';
 const dateView = `span.dateView-content-wrap`;
 
@@ -19,7 +18,6 @@ BrowserTestCase(
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page', allowDate: true });
     await page.click(editorSelector);
-    await page.click(insertMenu);
     await page.click(dateMenu);
     await page.waitForSelector(calendar);
     expect(await page.isExisting(calendar)).toBe(true);
@@ -36,7 +34,6 @@ BrowserTestCase(
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page', allowDate: true });
     await page.click(editorSelector);
-    await page.click(insertMenu);
     await page.click(dateMenu);
     await page.waitForSelector(calendar);
     expect(await page.isExisting(calendar)).toBe(true);
@@ -55,12 +52,11 @@ BrowserTestCase(
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, { appearance: 'full-page', allowDate: true });
     await page.click(editorSelector);
-    await page.click(insertMenu);
     await page.click(dateMenu);
     expect(await page.isExisting(calendar)).toBe(true);
 
-    await page.type(editorSelector, ['ArrowRight', 'ArrowRight']);
-    await page.click(insertMenu);
+    await page.click(dateView);
+    await page.keys(['ArrowRight', 'ArrowRight']);
     await page.click(dateMenu);
     expect(await page.isExisting(calendar)).toBe(true);
 

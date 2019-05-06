@@ -34,7 +34,7 @@ import {
   rulePlugin,
   listsPlugin,
 } from '../../../../plugins';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { AnalyticsHandler } from '../../../../analytics';
 
 describe('table keymap', () => {

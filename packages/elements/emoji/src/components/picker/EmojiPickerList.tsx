@@ -1,4 +1,4 @@
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import { PureComponent } from 'react';
@@ -323,7 +323,9 @@ export default class EmojiPickerVirtualList extends PureComponent<
       const root = this.refs.root as HTMLDivElement;
       const display = root.style.display;
       root.style.display = 'none';
-      // tslint:disable-next-line:no-unused-expression no-unused-variable we need to access offset to force repaint
+
+      // we need to access offset to force repaint
+      // eslint-disable-next-line no-unused-expressions
       root.offsetHeight;
       root.style.display = display;
     }

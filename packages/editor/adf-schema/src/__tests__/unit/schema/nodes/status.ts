@@ -58,7 +58,6 @@ describe(`${name}/schema status node`, () => {
         text: 'In progress',
         color,
         localId: expect.stringMatching(StatusLocalIdRegex),
-        style: null,
       });
     });
   });
@@ -114,7 +113,7 @@ describe(`${name}/schema status node`, () => {
       expect(dom.textContent).toEqual(attrs.text);
       expect(dom.getAttribute('data-color')).toEqual(attrs.color);
       expect(dom.getAttribute('data-local-id')).toEqual(attrs.localId);
-      expect(dom.getAttribute('data-style')).toEqual(null);
+      expect(dom.getAttribute('data-style')).toEqual('');
     });
   });
 });

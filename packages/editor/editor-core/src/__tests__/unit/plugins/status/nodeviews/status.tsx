@@ -10,11 +10,12 @@ import {
   status,
 } from '@atlaskit/editor-test-helpers';
 import { Status } from '@atlaskit/status';
-import StatusNodeView, {
-  Props as StatusNodeViewProps,
-  State as StatusNodeViewState,
-  StatusContainer,
+import {
+  ContainerProps,
+  ContainerState,
   messages,
+  IntlStatusContainerView,
+  StyledStatus,
 } from '../../../../../plugins/status/nodeviews/status';
 import statusPlugin from '../../../../../plugins/status';
 import {
@@ -47,10 +48,12 @@ describe('Status - NodeView', () => {
     })(view);
 
     const wrapper = mountWithIntl(
-      <StatusNodeView
+      <IntlStatusContainerView
         view={view}
-        node={view.state.selection.$from.nodeAfter!}
         getPos={jest.fn()}
+        text="In progress"
+        color="blue"
+        localId="666"
       />,
     );
 
@@ -70,10 +73,11 @@ describe('Status - NodeView', () => {
     })(view);
 
     const wrapper = mountWithIntl(
-      <StatusNodeView
+      <IntlStatusContainerView
         view={view}
-        node={view.state.selection.$from.nodeAfter!}
         getPos={jest.fn()}
+        color="blue"
+        localId="666"
       />,
     );
     expect(wrapper.find(Status).length).toBe(1);
@@ -94,10 +98,12 @@ describe('Status - NodeView', () => {
     })(view);
 
     const wrapper = mountWithIntl(
-      <StatusNodeView
+      <IntlStatusContainerView
         view={view}
-        node={view.state.selection.$from.nodeAfter!}
         getPos={jest.fn()}
+        text=""
+        color="blue"
+        localId="666"
       />,
     );
     expect(wrapper.find(Status).length).toBe(1);
@@ -119,10 +125,12 @@ describe('Status - NodeView', () => {
     })(view);
 
     const wrapper = mountWithIntl(
-      <StatusNodeView
+      <IntlStatusContainerView
         view={view}
-        node={view.state.selection.$from.nodeBefore!}
         getPos={jest.fn()}
+        text="In progress"
+        color="blue"
+        localId="666"
       />,
     );
     wrapper.find(Status).simulate('click');
@@ -131,7 +139,7 @@ describe('Status - NodeView', () => {
   });
 
   describe('selection', () => {
-    let wrapper: ReactWrapper<StatusNodeViewProps, StatusNodeViewState>;
+    let wrapper: ReactWrapper<ContainerProps, ContainerState>;
     let getPos: jest.Mock<number>;
     let selectionChanges: SelectionChange;
     let editorInstance: EditorInstance;
@@ -163,10 +171,12 @@ describe('Status - NodeView', () => {
 
       // @ts-ignore
       wrapper = mountWithIntl(
-        <StatusNodeView
+        <IntlStatusContainerView
           view={view}
-          node={view.state.selection.$from.nodeBefore!}
           getPos={getPos}
+          text="In progress"
+          color="blue"
+          localId="666"
         />,
       );
       expect(wrapper.find(Status).length).toBe(1);
@@ -174,7 +184,7 @@ describe('Status - NodeView', () => {
 
     it('not selected after insert', () => {
       expect(wrapper.state().selected).toBe(false);
-      expect(wrapper.find(StatusContainer).prop('selected')).toBe(false);
+      expect(wrapper.find(StyledStatus).prop('selected')).toBe(false);
     });
 
     it('selection of status', () => {
@@ -185,7 +195,7 @@ describe('Status - NodeView', () => {
       );
       wrapper.update();
       expect(wrapper.state().selected).toBe(true);
-      expect(wrapper.find(StatusContainer).prop('selected')).toBe(true);
+      expect(wrapper.find(StyledStatus).prop('selected')).toBe(true);
     });
 
     it('collapsed selection immediately after status', () => {
@@ -196,7 +206,7 @@ describe('Status - NodeView', () => {
       );
       wrapper.update();
       expect(wrapper.state().selected).toBe(false);
-      expect(wrapper.find(StatusContainer).prop('selected')).toBe(false);
+      expect(wrapper.find(StyledStatus).prop('selected')).toBe(false);
     });
 
     it('selection including status', () => {
@@ -207,7 +217,7 @@ describe('Status - NodeView', () => {
       );
       wrapper.update();
       expect(wrapper.state().selected).toBe(true);
-      expect(wrapper.find(StatusContainer).prop('selected')).toBe(true);
+      expect(wrapper.find(StyledStatus).prop('selected')).toBe(true);
     });
 
     it('Copying/pasting a Status instance should generate a new localId', () => {
@@ -221,7 +231,7 @@ describe('Status - NodeView', () => {
       );
       wrapper.update();
       expect(wrapper.state().selected).toBe(true);
-      expect(wrapper.find(StatusContainer).prop('selected')).toBe(true);
+      expect(wrapper.find(StyledStatus).prop('selected')).toBe(true);
 
       const { dom, text } = __serializeForClipboard(
         editorView,

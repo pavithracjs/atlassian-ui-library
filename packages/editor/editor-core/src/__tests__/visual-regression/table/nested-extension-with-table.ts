@@ -1,5 +1,5 @@
 import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
-import * as adf from './__fixtures__/nested-table.adf.json';
+import adf from './__fixtures__/nested-table.adf.json';
 import { clickFirstCell } from '../../__helpers/page-objects/_table';
 import { animationFrame } from '../../__helpers/page-objects/_editor';
 

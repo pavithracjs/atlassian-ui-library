@@ -6,8 +6,8 @@ import {
 import {
   createAndFireEvent,
   withAnalyticsEvents,
+  WithAnalyticsEventProps,
 } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
 import Button from '@atlaskit/button';
 import * as React from 'react';
 import { FabricChannel } from '../../src/types';
@@ -106,7 +106,7 @@ const componentChannels = {
 
 export const createComponentWithAnalytics = (
   channel: FabricChannel,
-): React.ComponentClass<OwnProps> =>
+): React.ComponentType<OwnProps> =>
   withAnalyticsEvents({
     onClick: createAndFireEvent(channel)({
       action: 'someAction',
@@ -117,7 +117,7 @@ export const createComponentWithAnalytics = (
 
 export const createComponentWithAttributesWithAnalytics = (
   channel: FabricChannel,
-): React.ComponentClass<OwnProps> =>
+): React.ComponentType<OwnProps> =>
   withAnalyticsEvents({
     onClick: createAndFireEvent(channel)({
       action: 'someAction',
@@ -135,7 +135,7 @@ export const createComponentWithAttributesWithAnalytics = (
 export const createTaggedComponentWithAnalytics = (
   channel: FabricChannel,
   tag: string,
-): React.ComponentClass<OwnProps> =>
+): React.ComponentType<OwnProps> =>
   withAnalyticsEvents({
     onClick: createAndFireEvent(channel)({
       action: 'someAction',
@@ -147,7 +147,7 @@ export const createTaggedComponentWithAnalytics = (
 
 export const IncorrectEventType = (
   channel: FabricChannel,
-): React.ComponentClass<OwnProps> =>
+): React.ComponentType<OwnProps> =>
   withAnalyticsEvents({
     onClick: createAndFireEvent(channel)({
       action: 'someAction',

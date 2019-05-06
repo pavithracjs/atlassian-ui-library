@@ -1,21 +1,8 @@
 // @flow
 import React from 'react';
 import { md, Example, Props, code } from '@atlaskit/docs';
-import SectionMessage from '@atlaskit/section-message';
 
 export default md`
-${(
-  <SectionMessage appearance="warning">
-    <p>
-      <strong>Note: @atlaskit/radio is currently a developer preview.</strong>
-    </p>
-    <p>
-      Please experiment with and test this package but be aware that the API may
-      & probably will change with future releases.
-    </p>
-  </SectionMessage>
-)}
-
   ## With Radio Group
 
   Provides a standard way to select a single option from a list.

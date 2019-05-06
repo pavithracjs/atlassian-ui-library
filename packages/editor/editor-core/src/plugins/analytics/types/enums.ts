@@ -1,12 +1,17 @@
-export const enum EVENT_TYPE {
-  UI = 'ui',
+export enum EVENT_TYPE {
+  OPERATIONAL = 'operational',
+  SCREEN = 'screen',
   TRACK = 'track',
+  UI = 'ui',
 }
 
-export const enum ACTION {
+export enum ACTION {
+  CHANGED_FULL_WIDTH_MODE = 'changedFullWidthMode',
+  CHANGED_LAYOUT = 'changedLayout',
   CHANGED_TYPE = 'changedType',
   CLICKED = 'clicked',
   DELETED = 'deleted',
+  DISPATCHED_INVALID_TRANSACTION = 'dispatchedInvalidTransaction',
   FORMATTED = 'formatted',
   INSERTED = 'inserted',
   INVOKED = 'invoked',
@@ -19,7 +24,7 @@ export const enum ACTION {
   VISITED = 'visited',
 }
 
-export const enum INPUT_METHOD {
+export enum INPUT_METHOD {
   ASCII = 'ascii',
   AUTO = 'auto',
   AUTO_DETECT = 'autoDetect',
@@ -42,10 +47,11 @@ export const enum INPUT_METHOD {
   BUTTON = 'button',
 }
 
-export const enum ACTION_SUBJECT {
+export enum ACTION_SUBJECT {
   BUTTON = 'button',
   DOCUMENT = 'document',
   EDITOR = 'editor',
+  LAYOUT = 'layout',
   MEDIA = 'media',
   PANEL = 'panel',
   PICKER = 'picker',
@@ -55,7 +61,7 @@ export const enum ACTION_SUBJECT {
   TABLE = 'table',
 }
 
-export const enum ACTION_SUBJECT_ID {
+export enum ACTION_SUBJECT_ID {
   ACTION = 'action',
   ANNOTATE_BUTTON = 'annotateButton',
   BLOCK_QUOTE = 'blockQuote',
@@ -94,6 +100,7 @@ export const enum ACTION_SUBJECT_ID {
   PUNC = 'punctuation',
   SAVE = 'save',
   SECTION = 'section',
+  SMART_LINK = 'smartLink',
   STATUS = 'status',
   SYMBOL = 'symbol',
   TABLE = 'table',

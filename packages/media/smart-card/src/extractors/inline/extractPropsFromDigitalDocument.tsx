@@ -4,14 +4,17 @@ import FileIcon from '@atlaskit/icon-file-type/glyph/generic/16';
 
 import { BuildInlineProps } from './types';
 import { extractInlineViewPropsFromDocument } from './extractPropsFromDocument';
+import { getIconForFileType } from '../../utils';
 
 type BuildInlinePropsDigitalDocument = BuildInlineProps<
   InlineCardResolvedViewProps
 >;
 
 export const buildIcon: BuildInlinePropsDigitalDocument = json => {
-  const name = json.name;
-  return { icon: <FileIcon label={name} /> };
+  if (json.fileFormat) {
+    return { icon: getIconForFileType(json.fileFormat) };
+  }
+  return { icon: <FileIcon label={json.name} /> };
 };
 
 export const extractInlineViewPropsFromDigitalDocument = (

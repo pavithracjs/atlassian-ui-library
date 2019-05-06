@@ -2,7 +2,7 @@
 
 import { shallow } from 'enzyme';
 import React from 'react';
-import { DateDiv } from '../../../styled/Date';
+import { DateDiv } from '../../Date';
 
 test('cursor should be "default"', () => {
   expect(shallow(<DateDiv />)).toHaveStyleRule('cursor', 'pointer');

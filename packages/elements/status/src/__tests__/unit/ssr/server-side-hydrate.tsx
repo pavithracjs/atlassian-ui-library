@@ -4,7 +4,7 @@ const ExamplesPath = '../../../../examples';
 
 describe('server side rendering and hydration', async () => {
   beforeEach(() => {
-    jest.spyOn(global.console, 'error');
+    jest.spyOn(global.console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -17,8 +17,19 @@ describe('server side rendering and hydration', async () => {
     async (fileName: string) => {
       await ssr_hydrate(__dirname, `${ExamplesPath}/${fileName}`);
 
-      // tslint:disable-next-line:no-console
-      expect(console.error).not.toBeCalled();
+      // ignore warnings caused by emotion's server-side rendering approach
+      // @ts-ignore
+      // eslint-disable-next-line no-console
+      const mockCalls = console.error.mock.calls.filter(
+        ([f, s]: [any, any]) =>
+          !(
+            f ===
+              'Warning: Did not expect server HTML to contain a <%s> in <%s>.' &&
+            s === 'style'
+          ),
+      );
+
+      expect(mockCalls).toHaveLength(0);
     },
   );
 });

@@ -1,7 +1,7 @@
 import { BrowserTestCase } from '@atlaskit/webdriver-runner/runner';
 import Page from '@atlaskit/webdriver-runner/wd-wrapper';
-import * as constant from 'lodash.constant';
-import * as times from 'lodash.times';
+import constant from 'lodash.constant';
+import times from 'lodash.times';
 
 import {
   callNativeBridge,
@@ -70,7 +70,7 @@ BrowserTestCase(
       browser,
       'onLinkUpdate',
       'Atlassian',
-      'https://www.atlassian.com',
+      'https://www.google.com',
     );
     await browser.type(editable, ['ArrowLeft']);
 
@@ -96,7 +96,7 @@ BrowserTestCase(
       browser,
       'onLinkUpdate',
       'Atlassian',
-      'https://www.atlassian.com',
+      'https://www.google.com',
     );
 
     await browser.type(editable, [
@@ -128,7 +128,7 @@ BrowserTestCase(
       browser,
       'onLinkUpdate',
       'link',
-      'https://www.atlassian.com',
+      'https://www.google.com',
     );
 
     await browser.type(editable, [

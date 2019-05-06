@@ -7,10 +7,20 @@ import {
   li,
   code_block,
   breakout,
+  table,
+  tr,
+  td,
+  tdEmpty,
+  layoutSection,
+  layoutColumn,
 } from '@atlaskit/editor-test-helpers';
-import codeBlockPlugin from '../../../../plugins/code-block';
-import breakoutPlugin from '../../../../plugins/breakout';
-import listPlugin from '../../../../plugins/lists';
+import {
+  codeBlockPlugin,
+  breakoutPlugin,
+  listsPlugin,
+  tablesPlugin,
+  layoutPlugin,
+} from '../../../../plugins';
 
 describe('codeBlock - keymaps', () => {
   const createEditor = createEditorFactory();
@@ -18,7 +28,13 @@ describe('codeBlock - keymaps', () => {
   const editor = (doc: any) =>
     createEditor({
       doc,
-      editorPlugins: [codeBlockPlugin(), breakoutPlugin, listPlugin],
+      editorPlugins: [
+        codeBlockPlugin(),
+        breakoutPlugin,
+        listsPlugin,
+        tablesPlugin(),
+        layoutPlugin,
+      ],
     });
 
   describe('Enter keypress', () => {
@@ -108,6 +124,38 @@ describe('codeBlock - keymaps', () => {
       expect(editorView.state.doc).toEqualDocument(
         doc(code_block()('const x = 1;')),
       );
+    });
+
+    it('should remove empty code block if it is inside of a table', () => {
+      const { editorView } = editor(
+        doc(table()(tr(td()(code_block()('{<>}'))))),
+      );
+
+      const expectedDoc = doc(table()(tr(tdEmpty)));
+
+      sendKeyToPm(editorView, 'Backspace');
+      expect(editorView.state.doc).toEqualDocument(expectedDoc);
+    });
+
+    it('should remove empty code block if it is inside of a layoutColumn', () => {
+      const { editorView } = editor(
+        doc(
+          layoutSection(
+            layoutColumn({ width: 50 })(code_block()('{<>}')),
+            layoutColumn({ width: 50 })(p('')),
+          ),
+        ),
+      );
+
+      const expectedDoc = doc(
+        layoutSection(
+          layoutColumn({ width: 50 })(p('')),
+          layoutColumn({ width: 50 })(p('')),
+        ),
+      );
+
+      sendKeyToPm(editorView, 'Backspace');
+      expect(editorView.state.doc).toEqualDocument(expectedDoc);
     });
   });
 });

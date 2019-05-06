@@ -8,6 +8,10 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import reduce from '../../../../plugins/card/pm-plugins/reducers';
 import { CardPluginState } from '../../../../plugins/card/types';
+import { createCardRequest } from './_helpers';
+
+const atlassianUrl = 'http://www.atlassian.com/';
+const googleUrl = 'http://www.google.com/';
 
 describe('card', () => {
   const createEditor = createEditorFactory();
@@ -39,159 +43,111 @@ describe('card', () => {
     describe('#state.update', () => {
       describe('queue', () => {
         it('can queue an item', () => {
+          const item = createCardRequest(atlassianUrl, 42);
           expect(
             reduce(initialState, {
               type: 'QUEUE',
-              requests: [
-                {
-                  url: 'http://www.atlassian.com/',
-                  pos: 42,
-                  appearance: 'inline',
-                },
-              ],
+              requests: [item],
             }),
           ).toEqual({
-            requests: [
-              {
-                url: 'http://www.atlassian.com/',
-                pos: 42,
-                appearance: 'inline',
-              },
-            ],
+            requests: [item],
             provider: null,
           } as CardPluginState);
         });
 
         it('queues multiple items for the same URL', () => {
-          const first = reduce(initialState, {
-            type: 'QUEUE',
-            requests: [
-              {
-                url: 'http://www.atlassian.com/',
-                pos: 42,
-                appearance: 'inline',
-              },
-            ],
+          const firstItem = createCardRequest(atlassianUrl, 42);
+          const secondItem = createCardRequest(atlassianUrl, 420);
+          const expectedState = expect.objectContaining({
+            requests: [firstItem, secondItem],
           });
 
-          expect(
-            reduce(first, {
-              type: 'QUEUE',
-              requests: [
-                {
-                  url: 'http://www.atlassian.com/',
-                  pos: 420,
-                  appearance: 'inline',
-                },
-              ],
-            }),
-          ).toEqual({
-            requests: [
-              {
-                url: 'http://www.atlassian.com/',
-                pos: 42,
-                appearance: 'inline',
-              },
-              {
-                url: 'http://www.atlassian.com/',
-                pos: 420,
-                appearance: 'inline',
-              },
-            ],
-            provider: null,
-          } as CardPluginState);
+          const stateWithFirstItem = reduce(initialState, {
+            type: 'QUEUE',
+            requests: [firstItem],
+          });
+
+          const finalState = reduce(stateWithFirstItem, {
+            type: 'QUEUE',
+            requests: [secondItem],
+          });
+
+          expect(finalState).toEqual(expectedState);
         });
       });
 
-      describe('set provider', () => {
-        it('sets provider', () => {
-          expect(
-            reduce(initialState, {
-              type: 'SET_PROVIDER',
-              provider: cardProvider,
-            }),
-          ).toEqual({
-            requests: [],
-            provider: cardProvider,
-          });
+      it('should sets provider', () => {
+        const expectedState = expect.objectContaining({
+          provider: cardProvider,
         });
+
+        const state = reduce(initialState, {
+          type: 'SET_PROVIDER',
+          provider: cardProvider,
+        });
+
+        expect(state).toEqual(expectedState);
       });
 
       describe('resolve', () => {
         it('does nothing to an unqueued URL', () => {
-          expect(
-            reduce(initialState, {
-              type: 'RESOLVE',
-              url: 'http://www.unknown.com/',
-            }),
-          ).toEqual(initialState);
+          const state = reduce(initialState, {
+            type: 'RESOLVE',
+            url: 'http://www.unknown.com/',
+          });
+
+          expect(state).toEqual(initialState);
         });
 
         it('resolves a single queued URL', () => {
-          const added = reduce(initialState, {
+          const stateWithItem = reduce(initialState, {
             type: 'QUEUE',
-            requests: [
-              {
-                url: 'http://www.atlassian.com/',
-                pos: 42,
-                appearance: 'inline',
-              },
-            ],
+            requests: [createCardRequest(atlassianUrl, 42)],
           });
 
-          expect(
-            reduce(added, {
-              type: 'RESOLVE',
-              url: 'http://www.atlassian.com/',
-            }),
-          ).toEqual(initialState);
+          const stateResolved = reduce(stateWithItem, {
+            type: 'RESOLVE',
+            url: atlassianUrl,
+          });
+
+          expect(stateResolved).toEqual(initialState);
         });
 
         it('resolves multiple queued URLs', () => {
+          const googleCardRequest = createCardRequest(googleUrl, 0);
+          const expectedState = expect.objectContaining({
+            requests: [googleCardRequest],
+          });
+
           // queue two links with the same URL
-          const withSameUrl = [42, 420].reduce(
+          const stateWithTwoAtlassianRequests = [42, 420].reduce(
             (state, pos) =>
               reduce(state, {
                 type: 'QUEUE',
-                requests: [
-                  {
-                    url: 'http://www.atlassian.com/',
-                    pos,
-                    appearance: 'inline',
-                  },
-                ],
+                requests: [createCardRequest(atlassianUrl, pos)],
               }),
             initialState,
           );
 
           // add another, distinct URL which we don't intend to resolve
-          const combined = reduce(withSameUrl, {
-            type: 'QUEUE',
-            requests: [
-              {
-                url: 'http://www.google.com/',
-                pos: 0,
-                appearance: 'inline',
-              },
-            ],
-          });
+          const stateWithGoogleCardRequest = reduce(
+            stateWithTwoAtlassianRequests,
+            {
+              type: 'QUEUE',
+              requests: [googleCardRequest],
+            },
+          );
 
           // resolve the first one, leaving the other one
-          expect(
-            reduce(combined, {
+          const stateResolvedAtlassianRequest = reduce(
+            stateWithGoogleCardRequest,
+            {
               type: 'RESOLVE',
-              url: 'http://www.atlassian.com/',
-            }),
-          ).toEqual({
-            requests: [
-              {
-                url: 'http://www.google.com/',
-                pos: 0,
-                appearance: 'inline',
-              },
-            ],
-            provider: null,
-          } as CardPluginState);
+              url: atlassianUrl,
+            },
+          );
+
+          expect(stateResolvedAtlassianRequest).toEqual(expectedState);
         });
       });
     });

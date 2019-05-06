@@ -15,8 +15,7 @@ import { ReactSerializer, renderDocument, RendererContext } from '../../';
 import { RenderOutputStat } from '../../render-document';
 import { Wrapper } from './style';
 import { TruncatedWrapper } from './truncated-wrapper';
-
-export type RendererAppearance = 'comment' | 'full-page' | 'mobile' | undefined;
+import { RendererAppearance } from './types';
 
 export interface Extension<T> {
   extensionKey: string;
@@ -52,7 +51,10 @@ export default class Renderer extends PureComponent<Props, {}> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.portal !== this.props.portal) {
+    if (
+      nextProps.portal !== this.props.portal ||
+      nextProps.appearance !== this.props.appearance
+    ) {
       this.updateSerializer(nextProps);
     }
   }

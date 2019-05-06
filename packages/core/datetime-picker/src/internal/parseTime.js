@@ -41,7 +41,7 @@ export function formatSemi24(time: string): string {
 export function checkHour(hour: string, meridiem: string): string | null {
   if (hour > '24') return null;
   if (hour === '12' && meridiem === 'a') return '00';
-  else if (hour < '12' && meridiem === 'p') return map24[hour];
+  if (hour < '12' && meridiem === 'p') return map24[hour];
   return hour;
 }
 

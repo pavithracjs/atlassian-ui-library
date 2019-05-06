@@ -1,15 +1,73 @@
 import { Transaction, EditorState, NodeSelection } from 'prosemirror-state';
 
 import { pluginKey } from './main';
-import { CardPluginState, Request, CardAppearance } from '../types';
+import {
+  CardPluginState,
+  Request,
+  CardAppearance,
+  CardReplacementInputMethod,
+} from '../types';
 import { resolveCard, queueCards } from './actions';
 import { appearanceForNodeType } from '../utils';
 
 import { Command } from '../../../types';
 import { processRawValue, getStepRange } from '../../../utils';
-import { Schema } from 'prosemirror-model';
+import { Schema, Node } from 'prosemirror-model';
 import { md } from '../../paste/pm-plugins/main';
 import { closeHistory } from 'prosemirror-history';
+import {
+  addAnalytics,
+  ACTION,
+  ACTION_SUBJECT,
+  ACTION_SUBJECT_ID,
+  EVENT_TYPE,
+} from '../../../plugins/analytics';
+import { SmartLinkNodeContext } from '../../analytics/types/smart-links';
+
+/**
+ * Attempt to replace the link into the respective card.
+ */
+function replaceLinksToCards(
+  tr: Transaction,
+  cardAdf: Node,
+  schema: Schema,
+  request: Request,
+): string | undefined {
+  const { inlineCard } = schema.nodes;
+  const { url } = request;
+  // replace all the outstanding links with their cards
+  const pos = tr.mapping.map(request.pos);
+  const $pos = tr.doc.resolve(pos);
+
+  const node = tr.doc.nodeAt(pos);
+  if (!node || !node.type.isText) {
+    return;
+  }
+
+  // not a link anymore
+  const linkMark = node.marks.find(mark => mark.type.name === 'link');
+  if (!linkMark) {
+    return;
+  }
+
+  const textSlice = node.text;
+  if (
+    request.compareLinkText &&
+    (linkMark.attrs.href !== url || textSlice !== url)
+  ) {
+    return;
+  }
+
+  // ED-5638: add an extra space after inline cards to avoid re-rendering them
+  const nodes = [cardAdf];
+  if (cardAdf.type === inlineCard) {
+    nodes.push(schema.text(' '));
+  }
+
+  tr.replaceWith(pos, pos + (textSlice || url).length, nodes);
+
+  return $pos.node($pos.depth - 1).type.name;
+}
 
 export const replaceQueuedUrlWithCard = (
   url: string,
@@ -29,34 +87,42 @@ export const replaceQueuedUrlWithCard = (
   const cardAdf = processRawValue(schema, cardData);
 
   let tr = editorState.tr;
+
   if (cardAdf) {
-    requests.forEach(request => {
-      // replace all the outstanding links with their cards
-      const pos = tr.mapping.map(request.pos);
-      const node = tr.doc.nodeAt(pos);
-      if (!node || !node.type.isText) {
-        return;
-      }
+    // Should prevent any other node than cards? [inlineCard, blockCard].includes(cardAdf.type)
+    const nodeContexts: Array<string | undefined> = requests
+      .map(request => replaceLinksToCards(tr, cardAdf, schema, request))
+      .filter(context => !!context); // context exist
 
-      // not a link anymore
-      const linkMark = node.marks.find(mark => mark.type.name === 'link');
-      if (!linkMark) {
-        return;
-      }
+    // Send analytics information
+    if (nodeContexts.length) {
+      const nodeContext = nodeContexts.every(
+        context => context === nodeContexts[0],
+      )
+        ? nodeContexts[0]
+        : 'mixed';
+      const nodeType = cardAdf.type === inlineCard ? 'inlineCard' : 'blockCard';
+      const [, , domainName] = url.split('/');
 
-      const textSlice = node.text;
-      if (linkMark.attrs.href !== url || textSlice !== url) {
-        return;
-      }
+      addAnalytics(tr, {
+        action: ACTION.INSERTED,
+        actionSubject: ACTION_SUBJECT.DOCUMENT,
+        actionSubjectId: ACTION_SUBJECT_ID.SMART_LINK,
+        eventType: EVENT_TYPE.TRACK,
+        attributes: {
+          inputMethod:
+            requests[0]
+              .source /* TODO: what if each request has a different source?
+                         unlikely, but need to define behaviour.
 
-      // ED-5638: add an extra space after inline cards to avoid re-rendering them
-      const nodes = [cardAdf];
-      if (cardAdf.type === inlineCard) {
-        nodes.push(schema.text(' '));
-      }
-
-      tr = tr.replaceWith(pos, pos + url.length, nodes);
-    });
+                         ignore analytics event? take first? provide 'mixed' as well?*/,
+          nodeType,
+          nodeContext: nodeContext as SmartLinkNodeContext,
+          domainName,
+          // don't pass domainName yet
+        },
+      });
+    }
   }
 
   if (dispatch) {
@@ -68,6 +134,7 @@ export const replaceQueuedUrlWithCard = (
 export const queueCardsFromChangedTr = (
   state: EditorState,
   tr: Transaction,
+  source: CardReplacementInputMethod,
   normalizeLinkText: boolean = true,
 ): Transaction => {
   const { schema } = state;
@@ -90,17 +157,21 @@ export const queueCardsFromChangedTr = (
     if (linkMark) {
       // ED-6041: compare normalised link text after linkfy from Markdown transformer
       // instead, since it always decodes URL ('%20' -> ' ') on the link text
-      const normalizedLinkText = md.normalizeLinkText(linkMark.attrs.href);
+      if (normalizeLinkText) {
+        const normalizedLinkText = md.normalizeLinkText(linkMark.attrs.href);
 
-      // don't bother queueing nodes that have user-defined text for a link
-      if (node.text !== normalizedLinkText) {
-        return false;
+        // don't bother queueing nodes that have user-defined text for a link
+        if (node.text !== normalizedLinkText) {
+          return false;
+        }
       }
 
       requests.push({
         url: linkMark.attrs.href,
         pos,
         appearance: 'inline',
+        compareLinkText: normalizeLinkText,
+        source,
       } as Request);
     }
 

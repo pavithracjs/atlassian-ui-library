@@ -51,7 +51,10 @@ export const pluginConfig = (tablesConfig?: PluginConfig | boolean) => {
     : config;
 };
 
-const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
+const tablesPlugin = (
+  options?: PluginConfig | boolean,
+  disableBreakoutUI?: boolean,
+): EditorPlugin => ({
   nodes() {
     return [
       { name: 'table', node: table },
@@ -65,23 +68,29 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
     return [
       {
         name: 'table',
-        plugin: ({ props, eventDispatcher, dispatch, portalProviderAPI }) => {
-          const {
-            allowTables,
-            appearance,
-            allowDynamicTextSizing,
-            fullWidthMode,
-          } = props;
+        plugin: ({
+          props,
+          prevProps,
+          eventDispatcher,
+          dispatch,
+          portalProviderAPI,
+        }) => {
+          const { allowTables, appearance, allowDynamicTextSizing } = props;
           const isContextMenuEnabled = appearance !== 'mobile';
-          const isBreakoutEnabled = !fullWidthMode;
+          const isBreakoutEnabled = appearance === 'full-page';
+          const wasBreakoutEnabled =
+            prevProps && prevProps.appearance !== 'full-width';
+          const isFullWidthModeEnabled = appearance === 'full-width';
           return createPlugin(
             dispatch,
             portalProviderAPI,
             eventDispatcher,
             pluginConfig(allowTables),
             isContextMenuEnabled,
-            allowDynamicTextSizing && !fullWidthMode,
+            isBreakoutEnabled && allowDynamicTextSizing,
             isBreakoutEnabled,
+            wasBreakoutEnabled,
+            isFullWidthModeEnabled,
           );
         },
       },
@@ -89,14 +98,16 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
         name: 'tablePMColResizing',
         plugin: ({
           dispatch,
-          props: { allowTables, allowDynamicTextSizing, fullWidthMode },
+          props: { appearance, allowTables, allowDynamicTextSizing },
         }) => {
           const { allowColumnResizing } = pluginConfig(allowTables);
           return allowColumnResizing
             ? createFlexiResizingPlugin(dispatch, {
                 handleWidth: HANDLE_WIDTH,
                 cellMinWidth: tableCellMinWidth,
-                dynamicTextSizing: allowDynamicTextSizing && !fullWidthMode,
+                dynamicTextSizing:
+                  allowDynamicTextSizing && appearance !== 'full-width',
+                lastColumnResizable: appearance !== 'full-width',
               } as ColumnResizingPlugin)
             : undefined;
         },
@@ -137,19 +148,21 @@ const tablesPlugin = (options?: PluginConfig | boolean): EditorPlugin => ({
                 isOpen={pluginState.isContextualMenuOpen}
                 pluginConfig={pluginState.pluginConfig}
               />
-              {appearance === 'full-page' && isLayoutSupported(state) && (
-                <LayoutButton
-                  editorView={editorView}
-                  mountPoint={popupsMountPoint}
-                  boundariesElement={popupsBoundariesElement}
-                  scrollableElement={popupsScrollableElement}
-                  targetRef={pluginState.tableFloatingToolbarTarget}
-                  isResizing={
-                    !!tableResizingPluginState &&
-                    !!tableResizingPluginState.dragging
-                  }
-                />
-              )}
+              {appearance === 'full-page' &&
+                isLayoutSupported(state) &&
+                !disableBreakoutUI && (
+                  <LayoutButton
+                    editorView={editorView}
+                    mountPoint={popupsMountPoint}
+                    boundariesElement={popupsBoundariesElement}
+                    scrollableElement={popupsScrollableElement}
+                    targetRef={pluginState.tableFloatingToolbarTarget}
+                    isResizing={
+                      !!tableResizingPluginState &&
+                      !!tableResizingPluginState.dragging
+                    }
+                  />
+                )}
             </>
           );
         }}

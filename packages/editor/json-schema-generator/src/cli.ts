@@ -1,4 +1,4 @@
-import * as meow from 'meow';
+import meow from 'meow';
 import app from './';
 
 const cli = meow(
@@ -37,7 +37,7 @@ const cli = meow(
 const { input, flags } = cli;
 
 if (input.length === 0 && process.stdin.isTTY) {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.error('Input required');
   process.exit(1);
 }

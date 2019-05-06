@@ -16,10 +16,11 @@ export default class ControlledRadioGroup extends Component<*, State> {
   onChange = (event: SyntheticEvent<*>) => {
     console.log('onChange called with value: ', event.currentTarget.value);
   };
+
   render() {
     return (
       <RadioGroup
-        label={'Pick a color'}
+        label="Pick a color"
         onChange={this.onChange}
         defaultValue={radioValues[2].value}
         options={radioValues}

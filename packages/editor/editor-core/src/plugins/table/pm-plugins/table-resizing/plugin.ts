@@ -1,6 +1,6 @@
 import { Plugin, PluginKey, Transaction, EditorState } from 'prosemirror-state';
 import { TableMap } from 'prosemirror-tables';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import { EditorView } from 'prosemirror-view';
 import { akEditorTableToolbarSize } from '@atlaskit/editor-common';
 import { TableLayout, CellAttributes } from '@atlaskit/adf-schema';
@@ -9,12 +9,10 @@ import {
   updateControls,
   updateResizeHandle,
   updateColumnWidth,
-  resizeColumn,
 } from './actions';
-
-import Resizer from './resizer/resizer';
-
 import {
+  getResizeStateFromDOM,
+  resizeColumn,
   getLayoutSize,
   pointsAtCell,
   edgeCell,
@@ -22,18 +20,15 @@ import {
   domCellAround,
   getParentNodeWidth,
 } from './utils';
-
 import {
   ColumnResizingPlugin,
   TableCssClassName as ClassName,
 } from '../../types';
-
 import {
   pluginKey as editorDisabledPluginKey,
   EditorDisabledPluginState,
 } from '../../../editor-disabled';
 import { pluginKey as widthPluginKey } from '../../../width';
-
 import { Dispatch } from '../../../../event-dispatcher';
 import { closestElement } from '../../../../utils';
 
@@ -88,14 +83,14 @@ export function createPlugin(
             lastColumnResizable,
           );
           if (pluginKey.getState(view.state).dragging) {
-            updateControls(view);
+            updateControls(view.state, view.domAtPos.bind(view));
             updateResizeHandle(view);
           }
           return false;
         },
         mouseleave(view) {
           handleMouseLeave(view);
-          updateControls(view);
+          updateControls(view.state, view.domAtPos.bind(view));
           return true;
         },
         mousedown(view, event) {
@@ -230,7 +225,7 @@ function handleMouseDown(
 
   let cell = view.state.doc.nodeAt(activeHandle);
   let $cell = view.state.doc.resolve(activeHandle);
-  let $originalTable = $cell.node(-1);
+  let originalTable = $cell.node(-1);
   let start = $cell.start(-1);
   let dom: HTMLTableElement = view.domAtPos(start).node as HTMLTableElement;
   while (dom.nodeName !== 'TABLE') {
@@ -242,27 +237,24 @@ function handleMouseDown(
   );
 
   const containerWidth = widthPluginKey.getState(view.state);
-  const tablePos = state.selection.$from.start(-1) - 1;
-  const parentWidth = getParentNodeWidth(
-    tablePos,
-    view.state,
-    containerWidth.width,
-  );
+  const parentWidth = getParentNodeWidth(start, view.state, containerWidth);
 
-  const resizer = Resizer.fromDOM(view, dom, {
+  const resizeState = getResizeStateFromDOM({
     minWidth: cellMinWidth,
     maxSize:
       parentWidth ||
       getLayoutSize(
         dom.getAttribute('data-layout') as TableLayout,
         containerWidth.width,
-        dynamicTextSizing,
+        {
+          dynamicTextSizing,
+        },
       ),
-    node: $cell.node(-1),
+    table: $cell.node(-1),
+    tableRef: dom,
     start,
+    domAtPos: view.domAtPos.bind(view),
   });
-
-  resizer.apply(resizer.currentState);
 
   const width = currentColWidth(view, activeHandle, cell!
     .attrs as CellAttributes);
@@ -282,7 +274,7 @@ function handleMouseDown(
     // activeHandle could be remapped via a collab change.
     // Fetch a fresh reference of the table.
     const $cell = view.state.doc.resolve(activeHandle);
-    const $table = $cell.node(-1);
+    const table = $cell.node(-1);
 
     if (resizeHandleRef && resizeHandleRef.parentNode) {
       resizeHandleRef.parentNode.removeChild(resizeHandleRef);
@@ -301,8 +293,8 @@ function handleMouseDown(
       // If the table has changed (via collab for example) don't apply column widths
       // For example, if a table col is deleted we won't be able to reliably remap the new widths
       // There may be a more elegant solution to this, to avoid a jarring experience.
-      if ($table.eq($originalTable)) {
-        updateColumnWidth(view, activeHandle, clientX - startX, resizer);
+      if (table.eq(originalTable)) {
+        updateColumnWidth(view, activeHandle, clientX - startX, resizeState);
       }
 
       view.dispatch(view.state.tr.setMeta(pluginKey, { setDragging: null }));
@@ -321,7 +313,15 @@ function handleMouseDown(
       dragging: { startX },
     } = pluginKey.getState(view.state);
 
-    resizeColumn(view, activeHandle, clientX - startX, resizer);
+    const $cell = view.state.doc.resolve(activeHandle);
+    const table = $cell.node(-1);
+    const map = TableMap.get(table);
+    const colIndex =
+      map.colCount($cell.pos - $cell.start(-1)) +
+      $cell.nodeAfter!.attrs.colspan -
+      1;
+
+    resizeColumn(resizeState, colIndex, clientX - startX);
   }
 
   window.addEventListener('mouseup', finish);

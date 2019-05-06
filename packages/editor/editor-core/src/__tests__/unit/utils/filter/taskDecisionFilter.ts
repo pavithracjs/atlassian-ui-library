@@ -69,6 +69,7 @@ describe('@atlaskit/editor-core/utils/filter', () => {
             text: 'yay',
             color: 'blue',
             localId: '7f4189c0-89f2-4f0e-a439-3fa9e57934fa',
+            style: '',
           },
         },
         {
@@ -152,7 +153,7 @@ describe('@atlaskit/editor-core/utils/filter', () => {
           type: 'status',
           attrs: {
             text: 'yay',
-            style: null,
+            style: '',
             color: 'blue',
             localId: '7f4189c0-89f2-4f0e-a439-3fa9e57934fa',
           },

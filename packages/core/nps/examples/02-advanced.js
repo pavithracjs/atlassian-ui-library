@@ -7,7 +7,7 @@ import {
   ThankyouPage,
   getDefaultMessages,
 } from '../src';
-import { WithDataDisplay } from '../examples/helpers/helpers';
+import { WithDataDisplay } from './helpers/helpers';
 
 export default function Advanced() {
   const defaultMessages = getDefaultMessages('Stride');

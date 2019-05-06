@@ -7,7 +7,7 @@ import AkComment, {
 import { WithProviders } from '@atlaskit/editor-common';
 import { ConnectedReactionsView } from '@atlaskit/reactions';
 import { ReactRenderer } from '@atlaskit/renderer';
-import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import * as React from 'react';
 import styled from 'styled-components';
 import { HttpError } from '../api/HttpError';
@@ -385,7 +385,7 @@ export default class Comment extends React.Component<Props, State> {
   }
 
   private renderComments() {
-    const { comments, ...commentProps } = this.props;
+    const { comment, comments, ...otherCommentProps } = this.props;
 
     if (!comments || comments.length === 0) {
       return null;
@@ -396,7 +396,7 @@ export default class Comment extends React.Component<Props, State> {
         key={child.localId}
         comment={child}
         renderComment={props => <Comment {...props} />}
-        {...commentProps}
+        {...otherCommentProps}
       />
     ));
   }
@@ -492,11 +492,11 @@ export default class Comment extends React.Component<Props, State> {
     return actions;
   }
 
-  private handleTimeClick = () => {
+  private handleTimeClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const { comment, onHighlightComment, disableScrollTo } = this.props;
 
     if (!disableScrollTo && comment && onHighlightComment) {
-      onHighlightComment(comment.commentId);
+      onHighlightComment(event, comment.commentId);
     }
   };
 

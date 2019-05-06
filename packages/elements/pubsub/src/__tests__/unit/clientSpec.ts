@@ -1,6 +1,6 @@
 import 'es6-promise/auto'; // 'whatwg-fetch' needs a Promise polyfill
 
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 import { Client, MAX_RETRY, RETRY_STEP_IN_MILLISECONDS } from '../../client';
 import { EventType, Protocol } from '../../types';
 

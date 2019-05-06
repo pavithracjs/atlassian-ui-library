@@ -98,7 +98,7 @@ describe(name, () => {
         },
       ];
       const select = mount(
-        <StatelessSelect items={selectItems} isOpen filterValue={'1'} />,
+        <StatelessSelect items={selectItems} isOpen filterValue="1" />,
       );
       expect(select.find(Group).length).toBe(1);
       expect(select.find(Group).find(Item).length).toBe(1);
@@ -116,7 +116,7 @@ describe(name, () => {
         },
       ];
       const select = mount(
-        <StatelessSelect items={selectItems} isOpen filterValue={'5'} />,
+        <StatelessSelect items={selectItems} isOpen filterValue="5" />,
       );
       expect(select.find(Group).length).toBe(0);
       expect(select.find(Group).find(Item).length).toBe(0);

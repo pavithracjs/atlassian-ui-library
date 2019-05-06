@@ -17,6 +17,7 @@ import {
 import { compose } from '../../utils';
 import { CommandDispatch, Command } from '../../types';
 import { insertMediaAsMediaSingle } from '../media/utils/media-single';
+import { INPUT_METHOD } from '../analytics';
 
 export function handlePasteIntoTaskAndDecision(slice: Slice): Command {
   return (state: EditorState, dispatch?: CommandDispatch): boolean => {
@@ -77,7 +78,7 @@ export function handlePasteIntoTaskAndDecision(slice: Slice): Command {
       .replaceSelection(transformedSlice)
       .scrollIntoView();
 
-    queueCardsFromChangedTr(state, tr);
+    queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
     if (dispatch) {
       dispatch(tr);
     }
@@ -173,7 +174,7 @@ export function handlePastePreservingMarks(slice: Slice): Command {
         .setStoredMarks(selectionMarks)
         .scrollIntoView();
 
-      queueCardsFromChangedTr(state, tr);
+      queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
       if (dispatch) {
         dispatch(tr);
       }
@@ -202,7 +203,7 @@ export function handlePastePreservingMarks(slice: Slice): Command {
         .setStoredMarks(selectionMarks)
         .scrollIntoView();
 
-      queueCardsFromChangedTr(state, tr);
+      queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
       if (dispatch) {
         dispatch(tr);
       }
@@ -277,7 +278,7 @@ export function handleMarkdown(markdownSlice: Slice): Command {
     const tr = closeHistory(state.tr);
     tr.replaceSelection(markdownSlice);
 
-    queueCardsFromChangedTr(state, tr);
+    queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
     if (dispatch) {
       dispatch(tr.scrollIntoView());
     }
@@ -323,7 +324,7 @@ export function handleRichText(slice: Slice): Command {
 
     // queue link cards, ignoring any errors
     if (dispatch) {
-      dispatch(queueCardsFromChangedTr(state, tr));
+      dispatch(queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD));
     }
     return true;
   };

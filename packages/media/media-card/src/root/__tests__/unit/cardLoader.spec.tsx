@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import CardLoader from '../../card/cardLoader';
-import { CardLoading } from '../../../utils/cardLoading';
+import { CardLoading } from '../../../utils/lightCards/cardLoading';
 
 describe('CardLoader', () => {
   it('shold pass dimensions to the loading component', () => {

@@ -7,7 +7,6 @@ type Props = {
   children?: React.ReactNode;
 };
 
-// tslint:disable-next-line:variable-name
 const TableRow = (props: Props) => {
   return (
     <tr>
