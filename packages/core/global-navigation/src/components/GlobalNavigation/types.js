@@ -42,6 +42,25 @@ export type GlobalNavDrawerProps = {
    * close. It is true by default. */
   shouldCreateDrawerUnmountOnExit?: boolean,
 
+  /** A prop to take control over the opening and closing of the recent drawer. NOTE:
+   * GlobalNavigation controls the drawer behaviour by default. */
+  isRecentDrawerOpen?: boolean,
+  /** The contents of the recent drawer. */
+  recentDrawerContents?: ComponentType<*>,
+  /** The width of the recent drawer. This is "wide" by default. */
+  recentDrawerWidth?: DrawerWidth,
+  /** A callback function which will be called when the recent drawer is
+   * opened. */
+  onRecentDrawerOpen?: () => void,
+  /** A callback function which will be called when the recent drawer is
+   * closed. */
+  onRecentDrawerClose?: () => void,
+  /** A callback function which will be fired when the recent drawer has finished its close transition. **/
+  onRecentDrawerCloseComplete?: (node: HTMLElement) => void,
+  /** A prop to decide if the contents of the drawer should unmount on drawer
+   * close. It is true by default. */
+  shouldRecentDrawerUnmountOnExit?: boolean,
+
   /** A prop to take control over the opening and closing of drawer. NOTE:
    * GlobalNavigation controls the drawer behaviour by default. */
   isSearchDrawerOpen?: boolean,
