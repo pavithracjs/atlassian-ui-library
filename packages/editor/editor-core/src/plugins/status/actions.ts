@@ -23,8 +23,6 @@ export const createStatus = (showStatusPickerAtOffset = -2) => (
     localId: uuid.generate(),
   });
 
-  const selectedStatus = statusNode.attrs;
-
   const tr = insert(statusNode);
   const showStatusPickerAt = tr.selection.from + showStatusPickerAtOffset;
   return tr
@@ -32,7 +30,6 @@ export const createStatus = (showStatusPickerAtOffset = -2) => (
     .setMeta(pluginKey, {
       showStatusPickerAt,
       isNew: true,
-      selectedStatus,
     });
 };
 
@@ -68,7 +65,6 @@ export const updateStatus = (status?: StatusType) => (
     tr = tr
       .setMeta(pluginKey, {
         showStatusPickerAt: newShowStatusPickerAt,
-        selectedStatus: null,
         isNew: true,
       })
       .scrollIntoView();
@@ -79,9 +75,7 @@ export const updateStatus = (status?: StatusType) => (
   if (state.doc.nodeAt(showStatusPickerAt)) {
     tr = tr.setNodeMarkup(showStatusPickerAt, schema.nodes.status, statusProps);
     tr = tr.setSelection(NodeSelection.create(tr.doc, showStatusPickerAt));
-    tr = tr
-      .setMeta(pluginKey, { showStatusPickerAt, selectedStatus })
-      .scrollIntoView();
+    tr = tr.setMeta(pluginKey, { showStatusPickerAt }).scrollIntoView();
 
     dispatch(tr);
     return true;
@@ -98,7 +92,6 @@ export const setStatusPickerAt = (showStatusPickerAt: number | null) => (
     state.tr.setMeta(pluginKey, {
       showStatusPickerAt,
       isNew: false,
-      selectedStatus: null,
     }),
   );
   return true;
@@ -122,14 +115,16 @@ export const commitStatusPicker = () => (editorView: EditorView) => {
   tr = tr.setMeta(pluginKey, {
     showStatusPickerAt: null,
     isNew: false,
-    selectedStatus: null,
   });
 
   if (statusNode.attrs.text) {
-    // still has content - keep content, move selection after status
-    tr = tr.setSelection(
-      Selection.near(state.tr.doc.resolve(showStatusPickerAt + 2)),
-    );
+    // still has content - keep content
+    // move selection after status if selection did not change
+    if (tr.selection.from === showStatusPickerAt) {
+      tr = tr.setSelection(
+        Selection.near(state.tr.doc.resolve(showStatusPickerAt + 2)),
+      );
+    }
   } else {
     // no content - remove node
     tr = tr.delete(showStatusPickerAt, showStatusPickerAt + 1);

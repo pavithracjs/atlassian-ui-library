@@ -4,11 +4,7 @@ import { Color as ColorType } from '@atlaskit/status';
 import statusNodeView from './nodeviews/status';
 import { PMPluginFactory } from '../../types';
 import { ZeroWidthSpace } from '../../utils';
-import {
-  mayGetStatusAtSelection,
-  isEmptyStatus,
-  mayGetStatusAtPos,
-} from './utils';
+import { mayGetStatusAtSelection, isEmptyStatus } from './utils';
 
 export const pluginKeyName = 'statusPlugin';
 export const pluginKey = new PluginKey('statusPlugin');
@@ -22,7 +18,6 @@ export type StatusType = {
 export type StatusState = {
   isNew: boolean;
   showStatusPickerAt: number | null;
-  selectedStatus: StatusType | null;
 };
 
 const createPlugin: PMPluginFactory = ({
@@ -35,49 +30,12 @@ const createPlugin: PMPluginFactory = ({
       init: () => ({
         isNew: false,
         showStatusPickerAt: null,
-        selectedStatus: null,
       }),
       apply(tr, state: StatusState, oldEditorState) {
         const meta = tr.getMeta(pluginKey);
-        const nodeAtSelection = tr.doc.nodeAt(tr.selection.from);
-
-        if (
-          state.showStatusPickerAt &&
-          (!nodeAtSelection ||
-            nodeAtSelection.type !== oldEditorState.schema.nodes.status ||
-            // note: Status node has to==from+1 so from==to is positioned just before the Status node and StatusPicker should be dismissed
-            tr.selection.from === tr.selection.to)
-        ) {
-          let newState = {
-            ...state,
-            showStatusPickerAt: null,
-            selectedStatus: null,
-          };
-          dispatch(pluginKey, newState);
-          return newState;
-        }
 
         if (meta) {
-          const selectedStatus: StatusType | null = mayGetStatusAtPos(
-            meta.showStatusPickerAt,
-            tr.doc,
-          );
-          const newState = { ...state, ...meta, selectedStatus };
-
-          dispatch(pluginKey, newState);
-          return newState;
-        }
-
-        // Selection changed, check is still status status change required
-        const oldSelection = oldEditorState.selection;
-        const newSelection = tr.selection;
-        if (oldSelection !== newSelection) {
-          const selectedStatus = mayGetStatusAtSelection(newSelection);
-          const newState = {
-            showStatusPickerAt: selectedStatus ? newSelection.from : null,
-            selectedStatus,
-            isNew: false,
-          };
+          const newState = { ...state, ...meta };
 
           dispatch(pluginKey, newState);
           return newState;
@@ -93,12 +51,33 @@ const createPlugin: PMPluginFactory = ({
           const newState = {
             ...state,
             showStatusPickerAt,
-            selectedStatus: mayGetStatusAtPos(showStatusPickerAt, tr.doc),
           };
 
           if (newState.showStatusPickerAt !== state.showStatusPickerAt) {
             dispatch(pluginKey, newState);
 
+            return newState;
+          }
+        }
+
+        if (!tr.selection.eq(oldEditorState.selection)) {
+          // Change in selection, while status picker was open, update state, if required.
+          const selectionFrom = tr.selection.from;
+          const nodeAtSelection = tr.doc.nodeAt(selectionFrom);
+          let showStatusPickerAt = null;
+          if (
+            nodeAtSelection &&
+            nodeAtSelection.type === oldEditorState.schema.nodes.status
+          ) {
+            showStatusPickerAt = selectionFrom;
+          }
+          if (showStatusPickerAt !== state.showStatusPickerAt) {
+            const newState = {
+              ...state,
+              isNew: false,
+              showStatusPickerAt,
+            };
+            dispatch(pluginKey, newState);
             return newState;
           }
         }

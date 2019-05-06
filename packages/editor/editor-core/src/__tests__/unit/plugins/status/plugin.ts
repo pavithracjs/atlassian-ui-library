@@ -33,11 +33,6 @@ export const validateSelection = (pos: number, text: string, color: string) => (
   expect(statusState).toMatchObject({
     isNew: false,
     showStatusPickerAt: pos, // status node start position
-    selectedStatus: expect.objectContaining({
-      text,
-      color,
-      localId: expect.stringMatching(StatusLocalIdRegex),
-    }),
   });
 };
 
@@ -80,32 +75,25 @@ describe('status plugin: plugin', () => {
       expect(statusState).toMatchObject({
         isNew: true,
         showStatusPickerAt: editorView.state.tr.selection.from, // status node start position
-        selectedStatus: expect.objectContaining({
-          text: 'Yay',
-          color: 'blue',
-          localId: expect.stringMatching(StatusLocalIdRegex),
-        }),
       });
 
       const statusFromPosition = editorView.state.tr.selection.from;
 
       // simulate the scenario where user uses left arrow to move cursor outside the status node
+      const beforeStatus = editorView.state.tr.doc.resolve(
+        statusFromPosition - 1,
+      );
       editorView.dispatch(
-        editorView.state.tr.setSelection(
-          TextSelection.create(editorView.state.doc, statusFromPosition),
-        ),
+        editorView.state.tr.setSelection(new TextSelection(beforeStatus)),
       );
 
       statusState = pluginKey.getState(editorView.state);
 
       // expects the showStatusPickerAt to be reset to null
       expect(editorView.state.tr.selection).toBeInstanceOf(TextSelection);
-      expect(editorView.state.tr.selection.to).toBe(
-        editorView.state.tr.selection.from,
-      );
+      expect(editorView.state.tr.selection.to).toBe(statusFromPosition - 1);
       expect(statusState).toMatchObject({
         showStatusPickerAt: null,
-        selectedStatus: null,
       });
     });
 

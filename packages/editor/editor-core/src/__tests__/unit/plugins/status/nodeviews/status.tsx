@@ -14,7 +14,6 @@ import {
   ContainerProps,
   messages,
   IntlStatusContainerView,
-  StyledStatus,
 } from '../../../../../plugins/status/nodeviews/status';
 import statusPlugin from '../../../../../plugins/status';
 import { pluginKey, StatusType } from '../../../../../plugins/status/plugin';
@@ -165,10 +164,8 @@ describe('Status - NodeView', () => {
     });
 
     it('selected after insert', () => {
-      expect(wrapper.find(StyledStatus).prop('selected')).toBe(true);
       expect(getPluginState()).toMatchObject({
         showStatusPickerAt: 9,
-        selectedStatus: expect.objectContaining(testStatus),
         isNew: true,
       });
     });
@@ -179,20 +176,16 @@ describe('Status - NodeView', () => {
       jest.runOnlyPendingTimers(); // WithPluginState debounces updates
       wrapper.update();
 
-      expect(wrapper.find(StyledStatus).prop('selected')).toBe(false);
       expect(getPluginState()).toMatchObject({
         showStatusPickerAt: null,
-        selectedStatus: null,
       });
 
       // Select status
       setNodeSelection(9);
       jest.runOnlyPendingTimers(); // WithPluginState debounces updates
       wrapper.update();
-      expect(wrapper.find(StyledStatus).prop('selected')).toBe(true);
       expect(getPluginState()).toMatchObject({
         showStatusPickerAt: 9,
-        selectedStatus: expect.objectContaining(testStatus),
         isNew: false,
       });
     });
@@ -201,15 +194,19 @@ describe('Status - NodeView', () => {
       setTextSelection(10);
       jest.runOnlyPendingTimers(); // WithPluginState debounces updates
       wrapper.update();
-      expect(wrapper.find(StyledStatus).prop('selected')).toBe(false);
+      expect(getPluginState()).toMatchObject({
+        showStatusPickerAt: null,
+      });
     });
 
-    // it('selection including status', () => {
-    //   setTextSelection(5, 10);
-    //   jest.runOnlyPendingTimers(); // WithPluginState debounces updates
-    //   wrapper.update();
-    //   expect(wrapper.find(StatusContainer).prop('selected')).toBe(true);
-    // });
+    it('selection including status', () => {
+      setTextSelection(5, 10);
+      jest.runOnlyPendingTimers(); // WithPluginState debounces updates
+      wrapper.update();
+      expect(getPluginState()).toMatchObject({
+        showStatusPickerAt: null,
+      });
+    });
 
     it('Copying/pasting a Status instance should generate a new localId', () => {
       const { editorView } = editorInstance;
@@ -218,9 +215,6 @@ describe('Status - NodeView', () => {
       setTextSelection(1, 10);
       jest.runOnlyPendingTimers(); // WithPluginState debounces updates
       wrapper.update();
-
-      // FIXME (as for previus test)
-      // expect(wrapper.find(StatusContainer).prop('selected')).toBe(true);
 
       const { dom, text } = __serializeForClipboard(
         editorView,
@@ -232,6 +226,10 @@ describe('Status - NodeView', () => {
 
       // paste Status
       dispatchPasteEvent(editorView, { html: dom.innerHTML, plain: text });
+
+      expect(getPluginState()).toMatchObject({
+        showStatusPickerAt: null,
+      });
 
       expect(editorView.state.doc).toEqualDocument(
         doc(

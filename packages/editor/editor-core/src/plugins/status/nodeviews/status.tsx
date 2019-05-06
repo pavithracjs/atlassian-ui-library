@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { Node as PMNode } from 'prosemirror-model';
 import { EditorView, NodeView } from 'prosemirror-view';
 import { Color, Status, StatusStyle } from '@atlaskit/status';
-import { colors } from '@atlaskit/theme';
-import { pluginKey, StatusState } from '../plugin';
+import { borderRadius, colors } from '@atlaskit/theme';
+import { pluginKey } from '../plugin';
 import { setStatusPickerAt } from '../actions';
 import { ReactNodeView, getPosHandler } from '../../../nodeviews';
 import InlineNodeWrapper, {
@@ -17,8 +17,6 @@ import { ZeroWidthSpace } from '../../../utils';
 import WithPluginState from '../../../ui/WithPluginState';
 import { EventDispatcher } from '../../../event-dispatcher';
 
-const { B100 } = colors;
-
 export const messages = defineMessages({
   placeholder: {
     id: 'fabric.editor.statusPlaceholder',
@@ -29,7 +27,6 @@ export const messages = defineMessages({
 });
 
 export interface StyledStatusProps {
-  selected: boolean;
   placeholderStyle: boolean;
 }
 
@@ -37,21 +34,33 @@ export const StyledStatus = styled.span`
   cursor: pointer;
 
   display: inline-block;
-  border-radius: 5px;
-  max-width: 100%;
-
-  /* Prevent responsive layouts increasing height of container by changing
-     font size and therefore line-height. */
-  line-height: 0;
-
   opacity: ${(props: StyledStatusProps) => (props.placeholderStyle ? 0.5 : 1)};
 
-  border: 2px solid ${(props: StyledStatusProps) =>
-    props.selected ? B100 : 'transparent'};
-  }
+  max-width: 100%;
+
+  /* Prevent responsive layouts increasing height of container. */
+  line-height: 0;
 
   * ::selection {
     background-color: transparent;
+  }
+
+  .ProseMirror-selectednode & {
+    position: relative;
+    &::before {
+      content: '';
+      border: 2px solid ${colors.B200};
+      background: transparent;
+      border-radius: ${borderRadius()}px;
+      box-sizing: border-box;
+      position: absolute;
+      /* Size selection larger (around) status node */
+      top: -1px;
+      left: -1px;
+      width: calc(100% + 2px);
+      height: calc(100% + 2px);
+      pointer-events: none;
+    }
   }
 `;
 
@@ -82,7 +91,7 @@ class StatusContainerView extends React.Component<
         }}
         editorView={view}
         eventDispatcher={eventDispatcher}
-        render={({ pluginState }: { pluginState: StatusState }) => {
+        render={() => {
           const {
             text,
             color,
@@ -92,12 +101,9 @@ class StatusContainerView extends React.Component<
           } = this.props;
 
           const statusText = text ? text : formatMessage(messages.placeholder);
-          const selectedLocalId =
-            pluginState.selectedStatus && pluginState.selectedStatus.localId;
-          const selected = selectedLocalId === localId;
 
           return (
-            <StyledStatus selected={selected} placeholderStyle={!text}>
+            <StyledStatus placeholderStyle={!text}>
               <Status
                 text={statusText}
                 color={color}
