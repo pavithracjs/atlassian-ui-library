@@ -1,0 +1,1 @@
+- ED-6792: refactor column resizing classes to helper functions

@@ -16,6 +16,7 @@ import { ResizeState, scaleTable } from '../pm-plugins/table-resizing';
 import {
   getParentNodeWidth,
   getLayoutSize,
+  insertColgroupFromNode as recreateResizeColsByNode,
 } from '../pm-plugins/table-resizing/utils';
 
 import { TablePluginState, TableCssClassName as ClassName } from '../types';
@@ -29,7 +30,6 @@ import {
   checkIfHeaderRowEnabled,
   tablesHaveDifferentColumnWidths,
   tablesHaveDifferentNoOfColumns,
-  insertColgroupFromNode as recreateResizeColsByNode,
   getTableWidth,
 } from '../utils';
 import { autoSizeTable } from '../actions';

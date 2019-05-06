@@ -1,52 +1,13 @@
-import { unitToNumber } from './utils';
+import { unitToNumber } from './column-state';
 
-/**
- * Measure text via Canvas context API.
- * @param {HTMLCanvasElement} canvas
- * @param {string} text
- * @param {string} font
- */
-function measureText(
-  canvas: HTMLCanvasElement,
-  text: string | null,
-  font: string | null,
-) {
-  const ctx = canvas.getContext('2d');
-
-  if (!ctx) {
-    return 0;
-  }
-
-  if (font) {
-    ctx.font = font;
-  }
-  return Math.round(ctx.measureText(text || '').width);
-}
-
-function handlePreText(
-  canvas: HTMLCanvasElement,
-  node: HTMLElement,
-  textContent: string | null,
-  font: string | null,
-) {
-  let parent = node;
-  if (node.nodeName === 'CODE') {
-    parent = node.parentNode! as HTMLElement;
-  }
-
-  const computedStyle = getComputedStyle(parent!);
-
-  if (textContent && computedStyle.whiteSpace === 'pre') {
-    // If white space is pre grab the longest line in the block.
-    return textContent
-      .split('\n')
-      .reduce(
-        (acc, current) => Math.max(measureText(canvas, current, font), acc),
-        0,
-      );
-  }
-
-  return measureText(canvas, textContent, font);
+// calculates content width of a cell
+export function contentWidth(
+  elem: HTMLElement,
+  container: HTMLElement,
+  colWidths: number[] = [],
+  canvas: HTMLCanvasElement = document.createElement('canvas'),
+): { minWidth: number; width: number } {
+  return calcContentWidth(elem, container || elem, canvas, colWidths);
 }
 
 function calcContentWidth(
@@ -54,7 +15,7 @@ function calcContentWidth(
   container: HTMLElement,
   canvas: HTMLCanvasElement,
   colWidths: number[],
-) {
+): { minWidth: number; width: number } {
   const flowWidths = [] as number[];
   let curWidth = 0;
 
@@ -128,13 +89,42 @@ function calcContentWidth(
   };
 }
 
-function contentWidth(
-  elem: HTMLElement,
-  container: HTMLElement,
-  colWidths: number[] = [],
-  canvas: HTMLCanvasElement = document.createElement('canvas'),
-): { minWidth: number; width: number } {
-  return calcContentWidth(elem, container || elem, canvas, colWidths);
+function measureText(
+  canvas: HTMLCanvasElement,
+  text: string | null,
+  font: string | null,
+): number {
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    return 0;
+  }
+  if (font) {
+    ctx.font = font;
+  }
+  return Math.round(ctx.measureText(text || '').width);
 }
 
-export { contentWidth };
+function handlePreText(
+  canvas: HTMLCanvasElement,
+  node: HTMLElement,
+  textContent: string | null,
+  font: string | null,
+): number {
+  let parent = node;
+  if (node.nodeName === 'CODE') {
+    parent = node.parentNode! as HTMLElement;
+  }
+
+  const computedStyle = getComputedStyle(parent!);
+  if (textContent && computedStyle.whiteSpace === 'pre') {
+    // If white space is pre grab the longest line in the block.
+    return textContent
+      .split('\n')
+      .reduce(
+        (acc, current) => Math.max(measureText(canvas, current, font), acc),
+        0,
+      );
+  }
+
+  return measureText(canvas, textContent, font);
+}
