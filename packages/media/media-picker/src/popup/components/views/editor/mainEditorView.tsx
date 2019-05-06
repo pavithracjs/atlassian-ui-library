@@ -1,19 +1,29 @@
 import { EditorView } from '@atlaskit/media-editor';
-import { deselectItem } from '../../../actions/deselectItem';
+import uuidV4 from 'uuid/v4';
 import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import {
+  UploadableFileUpfrontIds,
+  MediaCollectionItem,
+} from '@atlaskit/media-store';
+import { deselectItem } from '../../../actions/deselectItem';
 import { State, EditorData, EditorError, FileReference } from '../../../domain';
 import ErrorView from './errorView/errorView';
 import { SpinnerView } from './spinnerView/spinnerView';
 import { Selection, editorClose } from '../../../actions/editorClose';
 import { editorShowError } from '../../../actions/editorShowError';
 import { CenterView } from './styles';
-import { Context } from '@atlaskit/media-core';
+import {
+  Context,
+  TouchFileDescriptor,
+  getFileStreamsCache,
+} from '@atlaskit/media-core';
+import { RECENTS_COLLECTION } from '../../../../popup/config';
 
 export interface MainEditorViewStateProps {
   readonly editorData?: EditorData;
-  readonly tenantContext: Context;
+  readonly userContext: Context;
 }
 
 export interface MainEditorViewOwnProps {}
@@ -79,20 +89,67 @@ export class MainEditorView extends Component<MainEditorViewProps> {
   private onEditorSave = (originalFile: FileReference) => (
     image: string,
   ): void => {
-    const { tenantContext, onDeselectFile, onCloseEditor } = this.props;
+    const { userContext, onDeselectFile, onCloseEditor } = this.props;
+    const collection = RECENTS_COLLECTION;
+    const occurrenceKey = uuidV4();
+    const touchFileDescriptor: TouchFileDescriptor = {
+      fileId: uuidV4(),
+      occurrenceKey,
+      collection,
+    };
+    const touchFileDescriptors: TouchFileDescriptor[] = [touchFileDescriptor];
+    const promisedTouchFiles = userContext.file.touchFiles(
+      touchFileDescriptors,
+      collection,
+    );
+    const deferredUploadId = new Promise<string>(async resolve => {
+      const touchedFiles = await promisedTouchFiles;
+      const created = touchedFiles.created[0];
 
-    // TODO: use tenantContext or SmartMediaEditor
-    const subscription = tenantContext.file
-      .upload({
+      resolve(created.uploadId);
+    });
+    const uploadableUpfrontIds: UploadableFileUpfrontIds = {
+      id: touchFileDescriptor.fileId,
+      occurrenceKey: occurrenceKey,
+      deferredUploadId,
+    };
+    const observable = userContext.file.upload(
+      {
         content: image,
         name: originalFile.name,
-      })
-      .subscribe({
-        next(fileState) {
-          // TODO: subscription.unsubscribe()
-          console.log(fileState);
-        },
-      });
+        collection,
+      },
+      undefined,
+      uploadableUpfrontIds,
+    );
+    const subscription = observable.subscribe({
+      next(fileState) {
+        if (fileState.status === 'error') {
+          return;
+        }
+
+        getFileStreamsCache().set(fileState.id, observable);
+
+        const item: MediaCollectionItem = {
+          id: fileState.id,
+          insertedAt: new Date().getTime(),
+          occurrenceKey,
+          details: {
+            artifacts: {},
+            mediaType: fileState.mediaType,
+            mimeType: fileState.mimeType,
+            name: fileState.name,
+            processingStatus: 'pending',
+            representations: {},
+            size: fileState.size,
+          },
+        };
+        userContext.collection.prependItem(item, collection);
+        subscription.unsubscribe();
+
+        // TODO: add file to selected files to upload
+      },
+    });
 
     onDeselectFile(originalFile.id);
     onCloseEditor('Save');
@@ -109,7 +166,7 @@ export default connect<
   MainEditorViewOwnProps,
   State
 >(
-  ({ editorData, tenantContext }) => ({ editorData, tenantContext }),
+  ({ editorData, userContext }) => ({ editorData, userContext }),
   dispatch => ({
     onShowEditorError: ({ message, retryHandler }) =>
       dispatch(editorShowError(message, retryHandler)),
