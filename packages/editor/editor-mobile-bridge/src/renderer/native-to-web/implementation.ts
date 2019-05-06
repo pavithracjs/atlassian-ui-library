@@ -8,9 +8,9 @@ import { TaskDecisionProviderImpl } from '../../providers/taskDecisionProvider';
 
 export default class RendererBridgeImpl extends WebBridge
   implements RendererBridge {
-  taskDecisionProvider: TaskDecisionProviderImpl;
-  containerAri: string;
-  objectAri: string;
+  taskDecisionProvider?: TaskDecisionProviderImpl;
+  containerAri?: string;
+  objectAri?: string;
 
   /** Renderer bridge MVP to set the content */
   setContent(content: string) {
@@ -36,8 +36,8 @@ export default class RendererBridgeImpl extends WebBridge
     if (this.taskDecisionProvider) {
       const key: ObjectKey = {
         localId: taskId,
-        objectAri: this.objectAri,
-        containerAri: this.containerAri,
+        objectAri: this.objectAri!,
+        containerAri: this.containerAri!,
       };
 
       this.taskDecisionProvider.notifyUpdated(key, state);

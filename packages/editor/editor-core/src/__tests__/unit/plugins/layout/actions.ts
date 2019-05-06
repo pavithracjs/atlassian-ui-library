@@ -25,9 +25,11 @@ describe('layout actions', () => {
       return getPresetLayout(section(editorView.state.schema));
     };
 
-    layouts.forEach(layout => {
-      it(`should detect "${layout.name}" layout`, () => {
-        expect(getLayoutForWidths(layout.widths)).toBe(layout.name);
+    describe('detecting exact layout', () => {
+      layouts.forEach(layout => {
+        it(`should detect "${layout.name}" layout`, () => {
+          expect(getLayoutForWidths(layout.widths)).toBe(layout.name);
+        });
       });
     });
   });

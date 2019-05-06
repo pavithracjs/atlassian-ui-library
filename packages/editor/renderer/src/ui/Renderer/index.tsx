@@ -42,7 +42,7 @@ export interface Props {
 
 export default class Renderer extends PureComponent<Props, {}> {
   private providerFactory: ProviderFactory;
-  private serializer: ReactSerializer;
+  private serializer?: ReactSerializer;
 
   constructor(props: Props) {
     super(props);
@@ -103,7 +103,7 @@ export default class Renderer extends PureComponent<Props, {}> {
     try {
       const { result, stat } = renderDocument(
         document,
-        this.serializer,
+        this.serializer!,
         schema || defaultSchema,
         adfStage,
       );

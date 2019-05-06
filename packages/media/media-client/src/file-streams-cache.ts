@@ -1,7 +1,7 @@
 import { LRUCache } from 'lru-fast';
 import { Observable } from 'rxjs/Observable';
 import { FileState } from './models/file-state';
-import { observableToPromise } from './utils';
+import { observableToPromise } from './utils/observableToPromise';
 
 export class StreamsCache<T> {
   constructor(

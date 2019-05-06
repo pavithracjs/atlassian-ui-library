@@ -10,7 +10,12 @@ import { keydownHandler } from 'prosemirror-keymap';
 import { findParentNodeOfType, ContentNodeWithPos } from 'prosemirror-utils';
 import { filter } from '../../../utils/commands';
 import { Command } from '../../../types';
-import { fixColumnSizes, PresetLayout, getPresetLayout } from '../actions';
+import {
+  fixColumnSizes,
+  PresetLayout,
+  getPresetLayout,
+  fixColumnStructure,
+} from '../actions';
 
 export type LayoutState = {
   pos: number | null;
@@ -69,7 +74,7 @@ const getSelectedLayout = (
     maybeLayoutSection.node &&
     getPresetLayout(maybeLayoutSection.node)
   ) {
-    return getPresetLayout(maybeLayoutSection.node);
+    return getPresetLayout(maybeLayoutSection.node) || current;
   }
   return current;
 };
@@ -92,7 +97,7 @@ const getInitialPluginState = (
       ? !!pluginConfig.UNSAFE_addSidebarLayouts
       : false;
   const pos = maybeLayoutSection ? maybeLayoutSection.pos : null;
-  const selectedLayout = getSelectedLayout(maybeLayoutSection, undefined);
+  const selectedLayout = getSelectedLayout(maybeLayoutSection, 'two_equal');
   return { pos, allowBreakout, addSidebarLayouts, selectedLayout };
 };
 
@@ -173,12 +178,16 @@ export default (
       });
 
       if (changes.length) {
-        const tr = newState.tr;
+        let tr = newState.tr;
         const selection = newState.selection;
 
         changes.forEach(change => {
           tr.replaceRange(change.from, change.to, change.slice);
         });
+
+        // selecting and deleting across columns in 3 col layouts can remove
+        // a layoutColumn so we fix the structure here
+        tr = fixColumnStructure(newState) || tr;
 
         if (tr.docChanged) {
           tr.setSelection(selection);

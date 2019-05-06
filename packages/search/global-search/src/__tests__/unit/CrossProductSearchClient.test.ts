@@ -27,14 +27,15 @@ import {
 const DEFAULT_XPSEARCH_OPTS = {
   method: 'post',
   name: 'xpsearch',
+  overwriteRoutes: false,
 };
 
 function apiWillReturn(state: CrossProductSearchResponse) {
-  fetchMock.mock('localhost/quicksearch/v1', state, DEFAULT_XPSEARCH_OPTS);
+  fetchMock.once('localhost/quicksearch/v1', state, DEFAULT_XPSEARCH_OPTS);
 }
 
 function experimentApiWillReturn(state: CrossProductExperimentResponse) {
-  fetchMock.mock('localhost/experiment/v1', state, DEFAULT_XPSEARCH_OPTS);
+  fetchMock.once('localhost/experiment/v1', state, DEFAULT_XPSEARCH_OPTS);
 }
 
 const abTest: ABTest = {
@@ -361,10 +362,8 @@ describe('CrossProductSearchClient', () => {
         ],
       });
 
-      const result = await searchClient.getAbTestData(
-        Scope.ConfluencePageBlog,
-        searchSession,
-      );
+      const result = await searchClient.getAbTestData(Scope.ConfluencePageBlog);
+
       expect(result).toEqual(abTest);
     });
 
@@ -379,11 +378,66 @@ describe('CrossProductSearchClient', () => {
         ],
       });
 
-      const result = await searchClient.getAbTestData(
-        Scope.ConfluencePageBlog,
-        searchSession,
-      );
+      const result = await searchClient.getAbTestData(Scope.ConfluencePageBlog);
+
       expect(result).toEqual(DEFAULT_AB_TEST);
+    });
+
+    it('should not make REST request to retrieve ab test data if the scope has been requested before', async () => {
+      experimentApiWillReturn({
+        scopes: [
+          {
+            id: 'confluence.page,blogpost' as Scope,
+            abTest: DEFAULT_AB_TEST,
+          },
+        ],
+      });
+
+      const result1 = await searchClient.getAbTestData(
+        Scope.ConfluencePageBlog,
+      );
+      const result2 = await searchClient.getAbTestData(
+        Scope.ConfluencePageBlog,
+      );
+
+      expect(result1).toEqual(result2);
+    });
+
+    it('should make REST request to retrieve ab test data if the scope has not been requested before', async () => {
+      experimentApiWillReturn({
+        scopes: [
+          {
+            id: Scope.ConfluencePageBlog,
+            abTest: {
+              abTestId: 'firstAbTest',
+              experimentId: 'firstExperimentId',
+              controlId: 'firstControlId',
+            },
+          },
+        ],
+      });
+
+      experimentApiWillReturn({
+        scopes: [
+          {
+            id: Scope.ConfluencePageBlogAttachment,
+            abTest: {
+              abTestId: 'secondAbTest',
+              experimentId: 'secondExperimentId',
+              controlId: 'secondControlId',
+            },
+          },
+        ],
+      });
+
+      const result1 = await searchClient.getAbTestData(
+        Scope.ConfluencePageBlog,
+      );
+      const result2 = await searchClient.getAbTestData(
+        Scope.ConfluencePageBlogAttachment,
+      );
+
+      expect(result1).not.toEqual(result2);
     });
   });
 });

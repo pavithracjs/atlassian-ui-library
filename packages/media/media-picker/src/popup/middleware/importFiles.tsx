@@ -166,7 +166,7 @@ export const touchSelectedFiles = (
         selectedFile.id,
       );
 
-      const state: FileState = {
+      const fileState: FileState = {
         id,
         status: 'processing',
         mediaType,
@@ -176,8 +176,10 @@ export const touchSelectedFiles = (
         preview,
         representations: {},
       };
+
+      tenantContext.emit('file-added', fileState);
       const subject = new ReplaySubject<FileState>(1);
-      subject.next(state);
+      subject.next(fileState);
       getFileStreamsCache().set(id, subject);
     },
   );

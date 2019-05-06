@@ -137,6 +137,16 @@ export class MockCollabEditProvider implements CollabEditProvider {
     return this;
   }
 
+  off(evt: CollabEvent, handler: (args: any) => void) {
+    this.eventBus.off(evt, handler);
+    return this;
+  }
+
+  unsubscribeAll(evt: CollabEvent) {
+    this.eventBus.removeAllListeners(evt);
+    return this;
+  }
+
   emit(evt: CollabEvent, ...args: any) {
     const { sid } = this;
     if (sid) {
