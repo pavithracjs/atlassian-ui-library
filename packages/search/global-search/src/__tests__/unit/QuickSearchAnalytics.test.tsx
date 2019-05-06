@@ -79,9 +79,9 @@ const JIRA_RECENT_ITEMS = [
 ];
 
 const AB_TEST_DATA = {
-  experimentId: 'experiment-1',
+  experimentId: 'default',
   controlId: 'control-id',
-  abTestId: 'abtest-id',
+  abTestId: 'abTest_default',
 };
 
 const getRecentItems = (product: string) =>

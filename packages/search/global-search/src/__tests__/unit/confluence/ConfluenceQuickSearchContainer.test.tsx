@@ -36,6 +36,7 @@ function render(partialProps?: Partial<Props>) {
     peopleSearchClient: noResultsPeopleSearchClient,
     useQuickNavForPeopleResults: false,
     useCPUSForPeopleResults: false,
+    fasterSearchFFEnabled: false,
     logger,
     ...partialProps,
   };
@@ -173,7 +174,7 @@ describe('ConfluenceQuickSearchContainer', () => {
 
           return Promise.resolve(EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE);
         },
-        getAbTestData(scope: Scope, searchSession: SearchSession) {
+        getAbTestData(scope: Scope) {
           return Promise.resolve(DEFAULT_AB_TEST);
         },
       },

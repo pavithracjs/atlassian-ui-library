@@ -1,0 +1,1 @@
+- Added support for faster search by pre-loading some search results from Confluence's recently view pages
