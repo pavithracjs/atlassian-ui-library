@@ -5,12 +5,9 @@ import { gridSize } from '@atlaskit/theme';
 import styled from 'styled-components';
 import { CancelableEvent } from '@atlaskit/quick-search';
 import { messages } from '../../messages';
-import AdvancedSearchResult from '../AdvancedSearchResult';
-import { AnalyticsType } from '../../model/Result';
 import {
   getJiraAdvancedSearchUrl,
   JiraEntityTypes,
-  ADVANCED_JIRA_SEARCH_RESULT_ID,
 } from '../SearchResultsUtil';
 import { JiraApplicationPermission } from '../GlobalQuickSearchWrapper';
 
@@ -32,7 +29,6 @@ interface State {
 }
 
 const TextContainer = styled.div`
-  // padding: ${gridSize()}px 0;
   margin-right: ${gridSize()}px;
   height: 24px;
   line-height: 24px;
@@ -69,11 +65,6 @@ const getI18nItemName = (i18nKeySuffix: string) => {
  * 4- analytics query version is missing
  */
 export default class JiraAdvancedSearch extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.enrichedAnalyticsData = props.analyticsData;
-  }
-
   static defaultProps = {
     showKeyboardLozenge: false,
     showSearchIcon: false,
@@ -105,10 +96,6 @@ export default class JiraAdvancedSearch extends React.Component<Props, State> {
           </Button>
         </ButtonWrapper>
       ));
-
-  selectedItem?: JiraEntityTypes;
-
-  enrichedAnalyticsData?: object;
 
   render() {
     return (

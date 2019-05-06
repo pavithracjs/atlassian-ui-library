@@ -1,4 +1,6 @@
 import * as React from 'react';
+import styled from 'styled-components';
+import { gridSize } from '@atlaskit/theme';
 import { ResultItemGroup } from '@atlaskit/quick-search';
 import { Result } from '../model/Result';
 import ResultList from './ResultList';
@@ -10,6 +12,10 @@ export interface Props {
   analyticsData?: {};
 }
 
+const TitlelessGroupWrapper = styled.div`
+  margin-top: ${gridSize() * 1.5}px;
+`;
+
 export default class ResultGroup extends React.Component<Props> {
   render() {
     const { title, results, sectionIndex } = this.props;
@@ -20,11 +26,13 @@ export default class ResultGroup extends React.Component<Props> {
 
     if (!title) {
       return (
-        <ResultList
-          analyticsData={this.props.analyticsData}
-          results={results}
-          sectionIndex={sectionIndex}
-        />
+        <TitlelessGroupWrapper>
+          <ResultList
+            analyticsData={this.props.analyticsData}
+            results={results}
+            sectionIndex={sectionIndex}
+          />
+        </TitlelessGroupWrapper>
       );
     }
 
