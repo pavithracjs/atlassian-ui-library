@@ -59,7 +59,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'Remains in overflow on table scale to full width',
-  { skip: ['ie', 'edge', 'safari', 'firefox'] },
+  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
@@ -105,7 +105,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'Maintains the wide layout size without overflow with dynamic text sizing',
-  { skip: ['ie', 'edge', 'safari', 'firefox'] },
+  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 

@@ -100,7 +100,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'alignment: should maintain alignment when hit return',
-  { skip: [] },
+  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
     await mountEditor(page, {
