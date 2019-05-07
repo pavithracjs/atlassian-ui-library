@@ -133,7 +133,7 @@ describe('Media plugin', () => {
   });
 
   it('should invoke binary picker when calling insertFileFromDataUrl', async () => {
-    const { pluginState } = editor(doc(p('{<>}')));
+    const { pluginState, renderFn } = editor(doc(p('{<>}')));
     const provider = await mediaProvider;
     await provider.uploadContext;
 
@@ -149,6 +149,7 @@ describe('Media plugin', () => {
     );
 
     expect(pluginState.binaryPicker!.upload as any).toHaveBeenCalledTimes(1);
+    expect(renderFn).toHaveBeenCalledTimes(1);
     pluginState.destroy();
   });
 

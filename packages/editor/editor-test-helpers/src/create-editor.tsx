@@ -20,6 +20,8 @@ import { Schema } from 'prosemirror-model';
 import { PluginKey } from 'prosemirror-state';
 import patchEditorViewForJSDOM from './jsdom-fixtures';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
+import { mountWithIntl } from './enzyme';
+import WithPluginState from '@atlaskit/editor-core/src/ui/WithPluginState';
 
 class TestReactEditorView extends ReactEditorView<{
   plugins?: EditorPlugin[];
@@ -77,6 +79,7 @@ export default function createEditorFactoryForTests<T = any>() {
     sel: number;
     plugin: any;
     pluginState: T;
+    renderFn: jest.MockInstance<React.StatelessComponent>;
   } => {
     let portalProviderAPI: PortalProviderAPI | undefined;
     const plugins = editorPlugins
@@ -184,10 +187,23 @@ export default function createEditorFactoryForTests<T = any>() {
 
     let plugin;
     let pluginState;
-
+    const renderFn = jest.fn(() => () => null);
     if (pluginKey) {
       plugin = pluginKey.get(editorView!.state);
       pluginState = pluginKey.getState(editorView!.state);
+
+      mountWithIntl(
+        <WithPluginState
+          eventDispatcher={eventDispatcher}
+          editorView={editorView}
+          withDebounce={false} // We don't want debounce here. We want to know the real timer that It's been renderer.
+          plugins={{
+            pluginState: pluginKey,
+          }}
+          render={renderFn}
+        />,
+      );
+      renderFn.mockClear();
     }
 
     return {
@@ -201,6 +217,7 @@ export default function createEditorFactoryForTests<T = any>() {
       sel: refs ? refs['<>'] : 0,
       plugin,
       pluginState,
+      renderFn,
     };
   };
 }
