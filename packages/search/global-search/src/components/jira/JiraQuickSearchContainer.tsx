@@ -217,7 +217,7 @@ export class JiraQuickSearchContainer extends React.Component<
               <JiraAdvancedSearch
                 appPermission={appPermission}
                 query={query}
-                analyticsData={{}}
+                analyticsData={{ resultsCount: 0, wasOnNoResultsScreen: true }}
                 onClick={(mouseEvent, entity) =>
                   getAdvancedSearchHandler()(
                     mouseEvent,
@@ -237,8 +237,6 @@ export class JiraQuickSearchContainer extends React.Component<
               appPermission={appPermission}
               analyticsData={analyticsData}
               query={query}
-              showKeyboardLozenge={!isPreQuery && !keepPreQueryState}
-              showSearchIcon
               onClick={(mouseEvent, entity) =>
                 getAdvancedSearchHandler()(
                   mouseEvent,
