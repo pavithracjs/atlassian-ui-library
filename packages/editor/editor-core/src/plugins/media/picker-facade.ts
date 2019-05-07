@@ -9,7 +9,6 @@ import {
   UploadParams,
   UploadErrorEventPayload,
   isDropzone,
-  isClipboard,
   isPopup,
   isBinaryUploader,
   isBrowser,
@@ -89,7 +88,7 @@ export default class PickerFacade {
       (picker as any).on('drag-leave', this.handleDragLeave);
     }
 
-    if (isDropzone(picker) || isClipboard(picker)) {
+    if (isDropzone(picker)) {
       picker.activate();
     }
 
@@ -124,7 +123,7 @@ export default class PickerFacade {
     this.onDragListeners = [];
 
     try {
-      if (isDropzone(picker) || isClipboard(picker)) {
+      if (isDropzone(picker)) {
         picker.deactivate();
       }
 
@@ -153,14 +152,14 @@ export default class PickerFacade {
 
   activate() {
     const { picker } = this;
-    if (isDropzone(picker) || isClipboard(picker)) {
+    if (isDropzone(picker)) {
       picker.activate();
     }
   }
 
   deactivate() {
     const { picker } = this;
-    if (isDropzone(picker) || isClipboard(picker)) {
+    if (isDropzone(picker)) {
       picker.deactivate();
     }
   }
