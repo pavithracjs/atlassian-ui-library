@@ -1,5 +1,10 @@
 # @atlaskit/reactions
 
+## 17.0.1
+- [patch] [5e00c40c32](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e00c40c32):
+
+  - Remove the Reactions component's white background
+
 ## 17.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

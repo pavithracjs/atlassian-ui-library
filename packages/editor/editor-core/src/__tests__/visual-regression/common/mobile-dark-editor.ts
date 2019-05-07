@@ -16,6 +16,6 @@ describe('Snapshot Test: Mobile Dark Editor', () => {
   });
 
   it('should correctly render dark mode in mobile editor', async () => {
-    await snapshot(page, 0.2);
+    await snapshot(page, 0.02);
   });
 });

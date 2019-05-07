@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.2.1
+- [patch] [4051c8b935](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4051c8b935):
+
+  - Add support for experiments to change the number of search results shown
+
 ## 8.2.0
 - [minor] [a8a4ab0c5b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a8a4ab0c5b):
 
