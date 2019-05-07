@@ -33,7 +33,7 @@ export interface RecentSearchClient {
 export default class RecentSearchClientImpl implements RecentSearchClient {
   private serviceConfig: ServiceConfig;
   private cloudId: string;
-  private getRecentRequestPromise: Promise<RecentItemsResponse>;
+  private getRecentRequestPromise?: Promise<RecentItemsResponse>;
 
   constructor(url: string, cloudId: string) {
     this.serviceConfig = { url: url };

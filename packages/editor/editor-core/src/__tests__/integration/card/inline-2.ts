@@ -25,9 +25,7 @@ const moveUp = async (page: any, selector: string) => {
 
 BrowserTestCase(
   `inline-2.ts: pasting an link then typing still converts to inline card`,
-  {
-    skip: ['ie', 'safari'],
-  },
+  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
   async (client: any, testName: string) => {
     let browser = new Page(client);
 

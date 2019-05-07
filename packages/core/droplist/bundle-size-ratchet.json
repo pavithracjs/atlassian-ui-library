@@ -4,7 +4,7 @@
     "name": "main",
     "stats": {
       "size": 17146,
-      "gzipSize": 5058
+      "gzipSize": 5057
     }
   },
   {
@@ -12,23 +12,23 @@
     "name": "node_modules [main]",
     "stats": {
       "size": 77362,
-      "gzipSize": 22252
+      "gzipSize": 22257
     }
   },
   {
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 49164,
-      "gzipSize": 13302
+      "size": 49364,
+      "gzipSize": 13313
     }
   },
   {
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 141616,
-      "gzipSize": 38520
+      "size": 141817,
+      "gzipSize": 38539
     }
   }
 ]
