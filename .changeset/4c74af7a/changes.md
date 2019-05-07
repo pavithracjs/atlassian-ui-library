@@ -1,0 +1,1 @@
+- ED-6804: pasting URLs with spaces properly convert to smart links
