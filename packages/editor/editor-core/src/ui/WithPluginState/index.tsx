@@ -18,6 +18,9 @@ export interface Props {
   eventDispatcher?: EventDispatcher;
   editorView?: EditorView;
   plugins: PluginsConfig;
+  // Only for testing purpose, We need to be able to know the real render.
+  // Debounce the render in tests only hide the issue.
+  withDebounce?: boolean;
   render: (pluginsState: any) => React.ReactElement<any> | null;
 }
 
@@ -46,6 +49,10 @@ export default class WithPluginState extends React.Component<Props, State> {
 
   static contextTypes = {
     editorActions: PropTypes.object,
+  };
+
+  static defaultProps = {
+    withDebounce: true, // By default is true, we don't want unnecessary renders
   };
 
   state = {};
@@ -97,6 +104,12 @@ export default class WithPluginState extends React.Component<Props, State> {
    * Debounces setState calls in order to reduce number of re-renders caused by several plugin state changes.
    */
   private updateState(stateSubset: State) {
+    if (!this.props.withDebounce) {
+      // Update right away, if we don't want to debounce
+      this.setState(stateSubset);
+      return;
+    }
+
     this.notAppliedState = { ...this.notAppliedState, ...stateSubset };
 
     if (this.debounce) {
