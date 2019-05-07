@@ -146,7 +146,7 @@ export default class BasicQuickSearch extends React.Component<Props, State> {
       .filter(token => token.startsWith(lastToken))
       .map(token => restTokens.concat([token]).join(' '));
     this.setState({
-      autocompleteText: autocompleteList[0] || query,
+      autocompleteText: autocompleteList[0],
     });
   };
 
