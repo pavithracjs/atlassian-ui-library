@@ -21,7 +21,7 @@ export { default as AkSearch } from './components/Search/Search';
 export { resultTypes as quickSearchResultTypes };
 
 // API v1 Exports:
-export { default as QuickSearch, Autocomplete } from './components/QuickSearch';
+export { default as QuickSearch } from './components/QuickSearch';
 export {
   default as ResultItemGroup,
 } from './components/ResultItem/ResultItemGroup';
