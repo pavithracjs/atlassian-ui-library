@@ -1,6 +1,10 @@
 import * as React from 'react';
 import uuid from 'uuid/v4';
-import { LinkComponent, Logger } from '../GlobalQuickSearchWrapper';
+import {
+  LinkComponent,
+  Logger,
+  ReferralContextIdentifiers,
+} from '../GlobalQuickSearchWrapper';
 import GlobalQuickSearch from '../GlobalQuickSearch';
 import performanceNow from '../../util/performance-now';
 import {
@@ -41,6 +45,7 @@ export interface Props {
     startTime: number,
   ): Promise<ResultsWithTiming>;
   getAbTestData(sessionId: string): Promise<ABTest>;
+  referralContextIdentifiers?: ReferralContextIdentifiers;
 
   /**
    * return displayed groups from result groups
@@ -239,6 +244,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       createAnalyticsEvent,
       getDisplayedResults,
       enablePreQueryFromAggregator,
+      referralContextIdentifiers,
     } = this.props;
     if (createAnalyticsEvent && getDisplayedResults) {
       const elapsedMs: number = requestStartTime
@@ -263,6 +269,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         searchSessionId,
         createAnalyticsEvent,
         abTest,
+        referralContextIdentifiers,
         experimentRequestDurationMs,
         !!enablePreQueryFromAggregator,
       );
@@ -284,7 +291,11 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       ...timings,
     };
 
-    const { createAnalyticsEvent, getDisplayedResults } = this.props;
+    const {
+      createAnalyticsEvent,
+      getDisplayedResults,
+      referralContextIdentifiers,
+    } = this.props;
     if (createAnalyticsEvent && getDisplayedResults) {
       const resultsArray: Result[][] = resultMapToArray(
         getDisplayedResults(searchResults, abTest),
@@ -299,6 +310,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         latestSearchQuery,
         createAnalyticsEvent,
         abTest,
+        referralContextIdentifiers,
       );
     }
   };
