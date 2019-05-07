@@ -99,6 +99,7 @@ export default class Search extends React.PureComponent<Props> {
                     type="text"
                     value={`${autocomplete}`}
                     readOnly
+                    tabIndex={-1}
                   />
                 )}
                 <SearchInput
