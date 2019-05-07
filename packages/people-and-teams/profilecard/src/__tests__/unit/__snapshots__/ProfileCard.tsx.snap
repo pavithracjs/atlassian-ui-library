@@ -1,5 +1,89 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Profilecard ProfileCard fullName property should match snapshot when fullName and nickName are set 1`] = `
+<MockMessagesIntlProvider>
+  <styled.div
+    customElevation="e200"
+  >
+    <styled.div
+      isDisabledUser={false}
+    >
+      <styled.div>
+        <WithAnalyticsContext(WithAnalyticsEvents(mapProps(withPseudoState(Avatar))))
+          borderColor="#FFFFFF"
+          size="xlarge"
+        />
+      </styled.div>
+      <styled.div>
+        <styled.div>
+          <styled.span
+            noMeta={true}
+          >
+            full name test (jscrazy) 
+          </styled.span>
+          <IconLabel
+            icon="email"
+          />
+          <IconLabel
+            icon="time"
+          />
+          <IconLabel
+            icon="companyName"
+          >
+            Atlassian
+          </IconLabel>
+          <IconLabel
+            icon="location"
+          />
+        </styled.div>
+      </styled.div>
+    </styled.div>
+  </styled.div>
+</MockMessagesIntlProvider>
+`;
+
+exports[`Profilecard ProfileCard fullName property should match snapshot when nickName is missing 1`] = `
+<MockMessagesIntlProvider>
+  <styled.div
+    customElevation="e200"
+  >
+    <styled.div
+      isDisabledUser={false}
+    >
+      <styled.div>
+        <WithAnalyticsContext(WithAnalyticsEvents(mapProps(withPseudoState(Avatar))))
+          borderColor="#FFFFFF"
+          size="xlarge"
+        />
+      </styled.div>
+      <styled.div>
+        <styled.div>
+          <styled.span
+            noMeta={true}
+          >
+            full name test
+          </styled.span>
+          <IconLabel
+            icon="email"
+          />
+          <IconLabel
+            icon="time"
+          />
+          <IconLabel
+            icon="companyName"
+          >
+            Atlassian
+          </IconLabel>
+          <IconLabel
+            icon="location"
+          />
+        </styled.div>
+      </styled.div>
+    </styled.div>
+  </styled.div>
+</MockMessagesIntlProvider>
+`;
+
 exports[`Profilecard ProfileCard status property should match snapshot when status=closed and disabledAccountMessage is defined 1`] = `
 <MockMessagesIntlProvider>
   <styled.div
@@ -260,11 +344,6 @@ exports[`Profilecard ProfileCard status property should match snapshot when stat
             </p>
           </styled.div>
           <IconLabel
-            icon="mention"
-          >
-            jscrazy
-          </IconLabel>
-          <IconLabel
             icon="companyName"
           >
             Atlassian
@@ -315,11 +394,6 @@ exports[`Profilecard ProfileCard status property should match snapshot when stat
               />
             </p>
           </styled.div>
-          <IconLabel
-            icon="mention"
-          >
-            jscrazy
-          </IconLabel>
           <IconLabel
             icon="companyName"
           >
@@ -386,11 +460,6 @@ exports[`Profilecard ProfileCard status property should match snapshot when stat
             </p>
           </styled.div>
           <IconLabel
-            icon="mention"
-          >
-            jscrazy
-          </IconLabel>
-          <IconLabel
             icon="companyName"
           >
             Atlassian
@@ -455,11 +524,6 @@ exports[`Profilecard ProfileCard status property should match snapshot when stat
               />
             </p>
           </styled.div>
-          <IconLabel
-            icon="mention"
-          >
-            jscrazy
-          </IconLabel>
           <IconLabel
             icon="companyName"
           >

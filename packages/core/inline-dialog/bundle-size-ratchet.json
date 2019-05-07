@@ -4,7 +4,7 @@
     "name": "main",
     "stats": {
       "size": 4518,
-      "gzipSize": 1948
+      "gzipSize": 1949
     }
   },
   {
@@ -20,15 +20,15 @@
     "name": "main",
     "stats": {
       "size": 20194,
-      "gzipSize": 5350
+      "gzipSize": 5345
     }
   },
   {
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 74908,
-      "gzipSize": 22517
+      "size": 74903,
+      "gzipSize": 22516
     }
   }
 ]

@@ -16,6 +16,7 @@ import { ResizeState, scaleTable } from '../pm-plugins/table-resizing';
 import {
   getParentNodeWidth,
   getLayoutSize,
+  insertColgroupFromNode as recreateResizeColsByNode,
 } from '../pm-plugins/table-resizing/utils';
 
 import { TablePluginState, TableCssClassName as ClassName } from '../types';
@@ -29,7 +30,6 @@ import {
   checkIfHeaderRowEnabled,
   tablesHaveDifferentColumnWidths,
   tablesHaveDifferentNoOfColumns,
-  insertColgroupFromNode as recreateResizeColsByNode,
   getTableWidth,
 } from '../utils';
 import { autoSizeTable } from '../actions';
@@ -66,9 +66,9 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     parentWidth: undefined,
   };
 
-  private wrapper: HTMLDivElement | null;
-  private table: HTMLTableElement | null;
-  private rightShadow: HTMLDivElement | null;
+  private wrapper?: HTMLDivElement | null;
+  private table?: HTMLTableElement | null;
+  private rightShadow?: HTMLDivElement | null;
   private frameId?: number;
 
   constructor(props: ComponentProps) {
@@ -417,9 +417,9 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
 }
 
 export const updateRightShadow = (
-  wrapper: HTMLElement | null,
-  table: HTMLElement | null,
-  rightShadow: HTMLElement | null,
+  wrapper?: HTMLElement | null,
+  table?: HTMLElement | null,
+  rightShadow?: HTMLElement | null,
 ) => {
   if (table && wrapper && rightShadow) {
     const diff = table.offsetWidth - wrapper.offsetWidth;

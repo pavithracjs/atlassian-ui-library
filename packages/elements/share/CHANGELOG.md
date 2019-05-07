@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.4.3
+- [patch] [c63137e1ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c63137e1ed):
+
+  - fixed admin is notified flag shows up with no request access
+
 ## 0.4.2
 - [patch] [50cd881689](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/50cd881689):
 
