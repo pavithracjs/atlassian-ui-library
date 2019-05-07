@@ -192,18 +192,20 @@ export default function createEditorFactoryForTests<T = any>() {
       plugin = pluginKey.get(editorView!.state);
       pluginState = pluginKey.getState(editorView!.state);
 
-      mountWithIntl(
-        <WithPluginState
-          eventDispatcher={eventDispatcher}
-          editorView={editorView}
-          withDebounce={false} // We don't want debounce here. We want to know the real timer that It's been renderer.
-          plugins={{
-            pluginState: pluginKey,
-          }}
-          render={renderFn}
-        />,
-      );
-      renderFn.mockClear();
+      if (!jest) {
+        mountWithIntl(
+          <WithPluginState
+            eventDispatcher={eventDispatcher}
+            editorView={editorView}
+            withDebounce={false} // We don't want debounce here. We want to know the real timer that It's been renderer.
+            plugins={{
+              pluginState: pluginKey,
+            }}
+            render={renderFn}
+          />,
+        );
+        renderFn.mockClear();
+      }
     }
 
     return {
