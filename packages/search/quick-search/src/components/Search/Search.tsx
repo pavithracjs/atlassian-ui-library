@@ -9,7 +9,6 @@ import {
   SearchInputControlsContainer,
   SearchInputTypeAhead,
 } from './styled';
-import { Autocomplete } from '../QuickSearch';
 
 export const controlKeys = [
   'ArrowUp',
@@ -37,7 +36,7 @@ type Props = {
   /** Current value of search field. */
   value?: string;
   /** Autocomplete information */
-  autocomplete?: Autocomplete;
+  autocompleteText?: string;
 };
 
 export default class Search extends React.PureComponent<Props> {
@@ -58,14 +57,6 @@ export default class Search extends React.PureComponent<Props> {
     event.stopPropagation();
   };
 
-  onInput = (event: React.FormEvent<HTMLInputElement>) => {
-    const { onInput } = this.props;
-    this.setState({ value: event.currentTarget.value });
-    if (onInput) {
-      onInput(event);
-    }
-  };
-
   setInputRef = (ref: React.Ref<any>) => {
     this.inputRef = ref;
   };
@@ -84,10 +75,11 @@ export default class Search extends React.PureComponent<Props> {
     const {
       children,
       onBlur,
+      onInput,
       placeholder,
       isLoading,
       value,
-      autocomplete,
+      autocompleteText: autocomplete,
     } = this.props;
 
     return (
@@ -105,7 +97,7 @@ export default class Search extends React.PureComponent<Props> {
                   <SearchInputTypeAhead
                     spellCheck={false}
                     type="text"
-                    value={`${autocomplete.text}`}
+                    value={`${autocomplete}`}
                     readOnly
                   />
                 )}
@@ -113,7 +105,7 @@ export default class Search extends React.PureComponent<Props> {
                   autoFocus
                   innerRef={this.setInputRef}
                   onBlur={onBlur}
-                  onInput={this.onInput}
+                  onInput={onInput}
                   placeholder={placeholder}
                   spellCheck={false}
                   type="text"

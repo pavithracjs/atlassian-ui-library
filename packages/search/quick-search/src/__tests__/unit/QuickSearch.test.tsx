@@ -425,21 +425,21 @@ describe('<QuickSearch />', () => {
     });
 
     it('should autocomplete when Tab is pressed', () => {
-      render({ autocomplete: { text: 'autocomplete' } });
+      render({ autocompleteText: 'autocomplete' });
       searchInput.simulate('keydown', { key: 'Tab' });
 
       expect(wrapper.find(AkSearch).prop('value')).toBe('autocomplete ');
     });
 
     it('should autocomplete when ArrowRight is pressed', () => {
-      render({ autocomplete: { text: 'autocomplete' } });
+      render({ autocompleteText: 'autocomplete' });
       searchInput.simulate('keydown', { key: 'ArrowRight' });
 
       expect(wrapper.find(AkSearch).prop('value')).toBe('autocomplete ');
     });
 
     it('should not autocomplete when Tab is pressed repeatedly', () => {
-      render({ autocomplete: { text: 'autocomplete' } });
+      render({ autocompleteText: 'autocomplete' });
       searchInput.simulate('keydown', { key: 'Tab' });
       expect(wrapper.find(AkSearch).prop('value')).toBe('autocomplete ');
       searchInput.simulate('keydown', { key: 'Tab' });

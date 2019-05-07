@@ -14,7 +14,6 @@ import {
   PersonResultProps,
   ObjectResult,
   ObjectResultProps,
-  Autocomplete,
 } from '../../src';
 
 type DataShape = {
@@ -91,7 +90,7 @@ type State = {
   query: string;
   results: DataShape[];
   isLoading: boolean;
-  autocomplete: Autocomplete;
+  autocompleteText: string;
 };
 
 export default class BasicQuickSearch extends React.Component<Props, State> {
@@ -104,9 +103,7 @@ export default class BasicQuickSearch extends React.Component<Props, State> {
     query: store.query || '',
     results: searchData(''),
     isLoading: false,
-    autocomplete: {
-      text: '',
-    },
+    autocompleteText: '',
   };
 
   searchTimeoutId: any;
@@ -140,9 +137,7 @@ export default class BasicQuickSearch extends React.Component<Props, State> {
     const lastToken = tokens.slice(-1)[0];
     if (lastToken.length === 0) {
       this.setState({
-        autocomplete: {
-          text: query,
-        },
+        autocompleteText: query,
       });
       return;
     }
@@ -151,9 +146,7 @@ export default class BasicQuickSearch extends React.Component<Props, State> {
       .filter(token => token.startsWith(lastToken))
       .map(token => restTokens.concat([token]).join(' '));
     this.setState({
-      autocomplete: {
-        text: autocompleteList[0] || query,
-      },
+      autocompleteText: autocompleteList[0] || query,
     });
   };
 
@@ -172,8 +165,10 @@ export default class BasicQuickSearch extends React.Component<Props, State> {
         onSearchInput={this.onSearchInput}
         onSearchSubmit={() => console.log('onSearchSubmit', this.state.query)}
         value={this.state.query}
-        autocomplete={
-          this.props.isAutocompleteEnabled ? this.state.autocomplete : undefined
+        autocompleteText={
+          this.props.isAutocompleteEnabled
+            ? this.state.autocompleteText
+            : undefined
         }
       >
         <div style={{ paddingLeft: '10px' }}>
