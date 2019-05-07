@@ -10,6 +10,7 @@ import { createUpload, Upload } from './upload';
 import { Chunk } from './chunk';
 import { defaultBaseUrl } from '../../contextProvider';
 import { MockCollections } from '../media-mock';
+import { defaultCollectionName } from '../../collectionNames';
 
 export * from './collection';
 export * from './collection-item';
@@ -65,6 +66,12 @@ export function createDatabase(
           }),
         ),
       );
+    });
+  } else {
+    database.push('collection', { name: 'recents', createdAt: Date.now() });
+    database.push('collection', {
+      name: defaultCollectionName,
+      createdAt: Date.now(),
     });
   }
 

@@ -17,8 +17,6 @@ import { MediaViewer } from '../src/components/media-viewer';
 export interface State {
   files?: Array<MediaFile>;
 }
-
-console.log(wideImage);
 export default class Example extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);

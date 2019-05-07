@@ -19,6 +19,8 @@ import {
 import { defaultBaseUrl } from '../..';
 import { Chunk } from '../database/chunk';
 import { createUpload } from '../database/upload';
+import { mockDataUri } from '../database/mockData';
+import { mapDataUriToBlob } from '../../utils';
 
 class RouterWithLogging<M extends DatabaseSchema> extends Router<M> {
   constructor(options?: RouterOptions) {
@@ -116,8 +118,19 @@ export function createApiRouter(): Router<DatabaseSchema> {
 
   router.get('/file/:fileId/image', ({ params, query }, database) => {
     const { fileId } = params;
-    const { 'max-age': maxAge = 3600 } = query;
-    const { blob } = database.findOne('collectionItem', { id: fileId }).data;
+    const { width, height, 'max-age': maxAge = 3600 } = query;
+    const record = database.findOne('collectionItem', { id: fileId });
+    let blob: Blob;
+    if (!record) {
+      const dataUri = mockDataUri(
+        Number.parseInt(width, 10),
+        Number.parseInt(height, 10),
+      );
+
+      blob = mapDataUriToBlob(dataUri);
+    } else {
+      blob = record.data.blob;
+    }
 
     return new Response(200, blob, {
       'content-type': blob.type,
