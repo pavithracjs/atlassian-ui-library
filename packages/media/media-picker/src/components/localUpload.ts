@@ -18,7 +18,6 @@ export class LocalUploadComponent<
   M extends UploadEventPayloadMap = UploadEventPayloadMap
 > extends UploadComponent<M> implements LocalUploadComponent {
   protected readonly uploadService: UploadService;
-  // uploadService: UploadService;
   protected readonly context: Context;
   protected config: LocalUploadConfig;
 

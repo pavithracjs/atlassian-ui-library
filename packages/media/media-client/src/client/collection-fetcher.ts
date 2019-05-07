@@ -37,7 +37,6 @@ export type CollectionCache = {
   [collectionName: string]: CollectionCacheEntry;
 };
 
-// TODO: why is this not in media-core/cache?
 export const collectionCache: CollectionCache = {};
 
 const createCacheEntry = (): CollectionCacheEntry => ({
@@ -166,16 +165,5 @@ export class CollectionFetcher {
       subject,
       isLoadingNextPage: false,
     };
-  }
-
-  prependItem(item: MediaCollectionItem, collectionName: string) {
-    const collection = collectionCache[collectionName];
-    if (!collection) {
-      return;
-    }
-
-    const { items, subject } = collection;
-    items.unshift(item);
-    subject.next(items);
   }
 }

@@ -105,7 +105,7 @@ export class App extends Component<AppProps, AppState> {
   private readonly mpBrowser: MpBrowser;
   private readonly mpDropzone: MpDropzone;
   private readonly mpClipboard: MpClipboard;
-  private readonly localUpload: LocalUploadComponent;
+  private readonly localUploader: LocalUploadComponent;
 
   constructor(props: AppProps) {
     super(props);
@@ -135,17 +135,17 @@ export class App extends Component<AppProps, AppState> {
       cacheSize: tenantContext.config.cacheSize,
     });
 
-    this.localUpload = new LocalUploadComponent(context, {
+    this.localUploader = new LocalUploadComponent(context, {
       uploadParams: tenantUploadParams,
       shouldCopyFileToRecents: false,
     });
 
-    this.localUpload.on('uploads-start', onUploadsStart);
-    this.localUpload.on('upload-preview-update', onUploadPreviewUpdate);
-    this.localUpload.on('upload-status-update', onUploadStatusUpdate);
-    this.localUpload.on('upload-processing', onUploadProcessing);
-    this.localUpload.on('upload-end', onUploadEnd);
-    this.localUpload.on('upload-error', onUploadError);
+    this.localUploader.on('uploads-start', onUploadsStart);
+    this.localUploader.on('upload-preview-update', onUploadPreviewUpdate);
+    this.localUploader.on('upload-status-update', onUploadStatusUpdate);
+    this.localUploader.on('upload-processing', onUploadProcessing);
+    this.localUploader.on('upload-end', onUploadEnd);
+    this.localUploader.on('upload-error', onUploadError);
 
     this.mpBrowser = new MpBrowser(context, {
       uploadParams: tenantUploadParams,
@@ -190,6 +190,7 @@ export class App extends Component<AppProps, AppState> {
       onCancelUpload: uploadId => {
         this.mpBrowser.cancel(uploadId);
         this.mpDropzone.cancel(uploadId);
+        this.localUploader.cancel(uploadId);
       },
     });
   }
@@ -254,7 +255,7 @@ export class App extends Component<AppProps, AppState> {
                     <Footer />
                   </ViewWrapper>
                   <Dropzone isActive={isDropzoneActive} />
-                  <MainEditorView localUpload={this.localUpload} />
+                  <MainEditorView localUploader={this.localUploader} />
                 </MediaPickerPopupWrapper>
               </PassContext>
             </ModalDialog>

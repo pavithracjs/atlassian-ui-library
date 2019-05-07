@@ -9,16 +9,14 @@ import { SpinnerView } from './spinnerView/spinnerView';
 import { Selection, editorClose } from '../../../actions/editorClose';
 import { editorShowError } from '../../../actions/editorShowError';
 import { CenterView } from './styles';
-import { Context } from '@atlaskit/media-core';
 import { LocalUploadComponent } from '../../../../components/localUpload';
 
 export interface MainEditorViewStateProps {
   readonly editorData?: EditorData;
-  readonly userContext: Context;
 }
 
 export interface MainEditorViewOwnProps {
-  readonly localUpload: LocalUploadComponent;
+  readonly localUploader: LocalUploadComponent;
 }
 
 export interface MainEditorViewDispatchProps {
@@ -82,10 +80,10 @@ export class MainEditorView extends Component<MainEditorViewProps> {
   private onEditorSave = (originalFile: FileReference) => (
     image: string,
   ): void => {
-    const { localUpload, onDeselectFile, onCloseEditor } = this.props;
+    const { localUploader, onDeselectFile, onCloseEditor } = this.props;
     const filename = originalFile.name;
     const file = urltoFile(image, filename);
-    localUpload.addFiles([file]);
+    localUploader.addFiles([file]);
 
     onDeselectFile(originalFile.id);
     onCloseEditor('Save');
@@ -124,7 +122,7 @@ export default connect<
   MainEditorViewOwnProps,
   State
 >(
-  ({ editorData, userContext }) => ({ editorData, userContext }),
+  ({ editorData }) => ({ editorData }),
   dispatch => ({
     onShowEditorError: ({ message, retryHandler }) =>
       dispatch(editorShowError(message, retryHandler)),
