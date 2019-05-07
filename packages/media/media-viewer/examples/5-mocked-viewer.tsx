@@ -5,18 +5,20 @@ import {
   defaultCollectionName,
   smallImage,
   tallImage,
-  wideImage,
   defaultBaseUrl,
+  generateFilesFromTestData,
 } from '@atlaskit/media-test-helpers';
 import { MediaFile } from '@atlaskit/media-store';
 import { FileIdentifier, ContextFactory } from '@atlaskit/media-core';
 
+import { wideImage } from '../example-helpers/assets/wide-image';
 import { MediaViewer } from '../src/components/media-viewer';
 
 export interface State {
   files?: Array<MediaFile>;
 }
 
+console.log(wideImage);
 export default class Example extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
@@ -24,20 +26,28 @@ export default class Example extends React.Component<{}, State> {
   }
 
   async componentDidMount() {
-    const mediaMock = new MediaMock(
-      {},
+    const files = generateFilesFromTestData([
       {
-        'media-test-file-1.jpg': smallImage,
-        'media-test-file-2.jpg': tallImage,
-        'media-test-file-3.jpg': wideImage,
+        name: 'media-test-file-1.png',
+        dataUri: smallImage,
       },
-    );
-    const testData = await mediaMock.enable();
-    if (testData) {
-      this.setState({
-        files: await testData[1],
-      });
-    }
+      {
+        name: 'media-test-file-2.jpg',
+        dataUri: wideImage,
+      },
+      {
+        name: 'media-test-file-3.png',
+        dataUri: tallImage,
+      },
+    ]);
+    const mediaMock = new MediaMock({
+      [defaultCollectionName]: files,
+    });
+    mediaMock.enable();
+
+    this.setState({
+      files,
+    });
   }
 
   render() {

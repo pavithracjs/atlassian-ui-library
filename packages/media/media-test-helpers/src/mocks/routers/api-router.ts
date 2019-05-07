@@ -11,8 +11,6 @@ import {
 import { TouchFileDescriptor } from '@atlaskit/media-store';
 import uuid from 'uuid/v4';
 
-import { mapDataUriToBlob } from '../../utils';
-import { mockDataUri } from '../database/mockData';
 import {
   DatabaseSchema,
   createCollection,
@@ -116,14 +114,10 @@ export function createApiRouter(): Router<DatabaseSchema> {
     };
   });
 
-  router.get('/file/:fileId/image', ({ query }) => {
-    const { width, height, 'max-age': maxAge = 3600 } = query;
-    const dataUri = mockDataUri(
-      Number.parseInt(width, 10),
-      Number.parseInt(height, 10),
-    );
-
-    const blob = mapDataUriToBlob(dataUri);
+  router.get('/file/:fileId/image', ({ params, query }, database) => {
+    const { fileId } = params;
+    const { 'max-age': maxAge = 3600 } = query;
+    const { blob } = database.findOne('collectionItem', { id: fileId }).data;
 
     return new Response(200, blob, {
       'content-type': blob.type,
