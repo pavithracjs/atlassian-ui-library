@@ -16,11 +16,11 @@ describe('Dynamic Text Sizing', () => {
     await initFullPageEditorWithAdf(page, dynamicTextExample);
   });
 
-  dynamicTextViewportSizes.forEach(size => {
-    it(`should correctly render ${size.width}`, async () => {
-      await page.setViewport(size);
-      await page.waitFor(100);
-      await snapshot(page, 10);
+  for (const viewSize of dynamicTextViewportSizes) {
+    it(`should correctly render ${viewSize.width}`, async () => {
+      await page.setViewport(viewSize);
+      await page.waitFor(1000);
+      await snapshot(page, 0.02);
     });
-  });
+  }
 });

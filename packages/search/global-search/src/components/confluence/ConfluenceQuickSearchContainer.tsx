@@ -115,6 +115,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   async searchCrossProductConfluence(
     query: string,
     sessionId: string,
+    queryVersion: number,
   ): Promise<CrossProductSearchResults> {
     const {
       crossProductSearchClient,
@@ -135,6 +136,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       query,
       { sessionId, referrerId },
       scopes,
+      queryVersion,
     );
     return results;
   }
@@ -206,11 +208,12 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     query: string,
     sessionId: string,
     startTime: number,
+    queryVersion: number,
   ): Promise<ResultsWithTiming> => {
     const { useCPUSForPeopleResults } = this.props;
 
     const confXpSearchPromise = handlePromiseError(
-      this.searchCrossProductConfluence(query, sessionId),
+      this.searchCrossProductConfluence(query, sessionId, queryVersion),
       EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
       this.handleSearchErrorAnalyticsThunk('xpsearch-confluence'),
     );

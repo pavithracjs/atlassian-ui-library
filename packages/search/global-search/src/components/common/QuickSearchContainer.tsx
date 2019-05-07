@@ -1,6 +1,10 @@
 import * as React from 'react';
 import uuid from 'uuid/v4';
-import { LinkComponent, Logger } from '../GlobalQuickSearchWrapper';
+import {
+  LinkComponent,
+  Logger,
+  ReferralContextIdentifiers,
+} from '../GlobalQuickSearchWrapper';
 import GlobalQuickSearch from '../GlobalQuickSearch';
 import performanceNow from '../../util/performance-now';
 import {
@@ -39,8 +43,10 @@ export interface Props {
     query: string,
     sessionId: string,
     startTime: number,
+    queryVersion: number,
   ): Promise<ResultsWithTiming>;
   getAbTestData(sessionId: string): Promise<ABTest>;
+  referralContextIdentifiers?: ReferralContextIdentifiers;
 
   /**
    * return displayed groups from result groups
@@ -88,6 +94,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
 
   // used to terminate if component is unmounted while waiting for a promise
   unmounted: boolean = false;
+  latestQueryVersion: number = 0;
 
   constructor(props: Props) {
     super(props);
@@ -127,8 +134,9 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     this.unmounted = true;
   }
 
-  doSearch = async (query: string) => {
+  doSearch = async (query: string, queryVersion: number) => {
     const startTime: number = performanceNow();
+    this.latestQueryVersion = queryVersion;
 
     this.setState({
       isLoading: true,
@@ -139,6 +147,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         query,
         this.state.searchSessionId,
         startTime,
+        queryVersion,
       );
 
       if (this.unmounted) {
@@ -239,6 +248,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       createAnalyticsEvent,
       getDisplayedResults,
       enablePreQueryFromAggregator,
+      referralContextIdentifiers,
     } = this.props;
     if (createAnalyticsEvent && getDisplayedResults) {
       const elapsedMs: number = requestStartTime
@@ -263,6 +273,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         searchSessionId,
         createAnalyticsEvent,
         abTest,
+        referralContextIdentifiers,
         experimentRequestDurationMs,
         !!enablePreQueryFromAggregator,
       );
@@ -284,7 +295,11 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       ...timings,
     };
 
-    const { createAnalyticsEvent, getDisplayedResults } = this.props;
+    const {
+      createAnalyticsEvent,
+      getDisplayedResults,
+      referralContextIdentifiers,
+    } = this.props;
     if (createAnalyticsEvent && getDisplayedResults) {
       const resultsArray: Result[][] = resultMapToArray(
         getDisplayedResults(searchResults, abTest),
@@ -299,11 +314,12 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         latestSearchQuery,
         createAnalyticsEvent,
         abTest,
+        referralContextIdentifiers,
       );
     }
   };
 
-  handleSearch = (newLatestSearchQuery: string) => {
+  handleSearch = (newLatestSearchQuery: string, queryVersion: number) => {
     if (this.state.latestSearchQuery !== newLatestSearchQuery) {
       this.setState({
         latestSearchQuery: newLatestSearchQuery,
@@ -329,12 +345,12 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           ),
       );
     } else {
-      this.doSearch(newLatestSearchQuery);
+      this.doSearch(newLatestSearchQuery, queryVersion);
     }
   };
 
   retrySearch = () => {
-    this.handleSearch(this.state.latestSearchQuery);
+    this.handleSearch(this.state.latestSearchQuery, this.latestQueryVersion);
   };
 
   handleMount = async () => {

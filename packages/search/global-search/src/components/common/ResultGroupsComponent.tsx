@@ -32,7 +32,7 @@ const mapGroupsToSections = (
     .map((group, index) => (
       <ResultGroup
         key={`${group.key}-${index}`}
-        title={<FormattedMessage {...group.title} />}
+        title={group.title ? <FormattedMessage {...group.title} /> : undefined}
         results={group.items}
         sectionIndex={index}
         analyticsData={analyticsData}
