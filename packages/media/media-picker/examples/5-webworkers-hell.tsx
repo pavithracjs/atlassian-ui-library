@@ -6,7 +6,11 @@ import {
   defaultMediaPickerCollectionName,
 } from '@atlaskit/media-test-helpers';
 import Button from '@atlaskit/button';
-import { MediaPicker, Browser, BrowserConfig } from '../src';
+import {
+  Browser,
+  BrowserConfig,
+  UploadPreviewUpdateEventPayload,
+} from '../src';
 import {
   PreviewsWrapper,
   PopupHeader,
@@ -18,46 +22,54 @@ import { ContextFactory } from '@atlaskit/media-core';
 
 export interface BrowserWrapperState {
   previewsData: any[];
+  isOpen: boolean;
 }
+
+const context = ContextFactory.create({
+  authProvider: mediaPickerAuthProvider(),
+});
+
+const browseConfig: BrowserConfig = {
+  multiple: true,
+  fileExtensions: ['image/jpeg', 'image/png'],
+  uploadParams: {
+    collection: defaultMediaPickerCollectionName,
+  },
+};
 
 class BrowserWrapper extends Component<{}, BrowserWrapperState> {
   browserComponents: Browser[] = [];
   dropzoneContainer?: HTMLDivElement;
 
-  constructor() {
-    super({});
-    this.state = {
-      previewsData: [],
-    };
-  }
+  state: BrowserWrapperState = {
+    previewsData: [],
+    isOpen: false,
+  };
 
-  async componentDidMount() {
-    this.browserComponents = (Array(5) as any).fill().map(this.createBrowse);
-  }
+  renderBrowser = () => {
+    const { isOpen } = this.state;
 
-  createBrowse = async () => {
-    const context = ContextFactory.create({
-      authProvider: mediaPickerAuthProvider(),
-    });
+    return (
+      <Browser
+        context={context}
+        config={browseConfig}
+        isOpen={isOpen}
+        onClose={this.onClose}
+        onPreviewUpdate={this.onUploadPreviewUpdate}
+      />
+    );
+  };
 
-    const browseConfig: BrowserConfig = {
-      multiple: true,
-      fileExtensions: ['image/jpeg', 'image/png'],
-      uploadParams: {
-        collection: defaultMediaPickerCollectionName,
-      },
-    };
-    const fileBrowser = await MediaPicker('browser', context, browseConfig);
-
-    fileBrowser.on('upload-preview-update', data => {
-      this.setState({ previewsData: [...this.state.previewsData, data] });
-    });
-
-    return fileBrowser;
+  onUploadPreviewUpdate = (data: UploadPreviewUpdateEventPayload) => {
+    this.setState({ previewsData: [...this.state.previewsData, data] });
   };
 
   onOpen = (fileBrowser: Browser) => () => {
     fileBrowser.browse();
+  };
+
+  onClose = () => {
+    this.setState({ isOpen: false });
   };
 
   private renderPreviews = () => {
@@ -76,6 +88,7 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
         </Button>
       );
     });
+    const browsers = (Array(5) as any).fill().map(this.renderBrowser());
 
     return (
       <PopupContainer>
@@ -83,6 +96,7 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
         <PreviewsWrapper>
           <PreviewsTitle>Upload previews</PreviewsTitle>
           {this.renderPreviews()}
+          {browsers}
         </PreviewsWrapper>
       </PopupContainer>
     );

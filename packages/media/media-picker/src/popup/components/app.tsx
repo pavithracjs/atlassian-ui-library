@@ -56,7 +56,7 @@ import {
   DropzoneDragEnterEventPayload,
   DropzoneDragLeaveEventPayload,
 } from '../../components/types';
-import { BrowserReact } from '../../components/browserReact';
+import { Browser as BrowserComponent } from '../../components/browserReact';
 
 export interface AppStateProps {
   readonly selectedServiceName: ServiceName;
@@ -107,7 +107,7 @@ export class App extends Component<AppProps, AppState> {
   private readonly mpBinary: MpBinary;
   private readonly componentContext: Context;
   private readonly mpClipboard: MpClipboard;
-  private browseRef = React.createRef<BrowserReact>();
+  private browseRef = React.createRef<BrowserComponent>();
 
   constructor(props: AppProps) {
     super(props);
@@ -235,10 +235,9 @@ export class App extends Component<AppProps, AppState> {
       shouldCopyFileToRecents: false,
       multiple: true,
     };
-    console.log('renderBrowser');
-    // this.browseRef.current!.browse
+
     return (
-      <BrowserReact
+      <BrowserComponent
         ref={this.browseRef}
         context={this.componentContext}
         config={config}

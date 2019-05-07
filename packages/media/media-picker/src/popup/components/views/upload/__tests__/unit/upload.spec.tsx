@@ -46,7 +46,6 @@ import { Dropzone } from '../../dropzone';
 
 import { SpinnerWrapper, Wrapper } from '../../styled';
 import { LocalBrowserButton } from '../../../../views/upload/uploadButton';
-import { BrowserImpl } from '../../../../../../components/browser';
 import { menuDelete } from '../../../editor/phrases';
 import { LocalUploadFileMetadata } from '../../../../../domain/local-upload';
 
@@ -66,7 +65,6 @@ const createConnectedComponent = (
     <IntlProvider locale="en">
       <Provider store={store}>
         <ConnectedUploadViewWithStore
-          mpBrowser={new BrowserImpl(context) as any}
           context={context}
           recentsCollection="some-collection-name"
         />

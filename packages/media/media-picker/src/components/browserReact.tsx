@@ -7,18 +7,17 @@ import {
 } from './localUploadReact';
 
 export type RenderBrowserFunc = () => ReactNode;
-export interface BrowserReactOwnProps {
+export interface BrowserOwnProps {
   config: BrowserConfig;
-  isOpen: boolean;
-  onClose: () => void;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
-export type BrowserReactProps = BrowserReactOwnProps &
-  LocalUploadComponentBaseProps;
+export type BrowserProps = BrowserOwnProps & LocalUploadComponentBaseProps;
 
 const defaultConfig: BrowserConfig = { uploadParams: {} };
 
-export class BrowserReact extends LocalUploadComponentReact<BrowserReactProps> {
+export class Browser extends LocalUploadComponentReact<BrowserProps> {
   private browserRef = React.createRef<HTMLInputElement>();
 
   private onFilePicked = () => {
@@ -34,7 +33,7 @@ export class BrowserReact extends LocalUploadComponentReact<BrowserReactProps> {
     // TODO: handle initial isOpen
   }
 
-  componentWillReceiveProps(nextProps: BrowserReactProps) {
+  componentWillReceiveProps(nextProps: BrowserProps) {
     const { isOpen } = this.props;
     const { isOpen: nextIsOpen } = nextProps;
 
@@ -52,7 +51,9 @@ export class BrowserReact extends LocalUploadComponentReact<BrowserReactProps> {
     this.browserRef.current.click();
     // Calling onClose directly since there is no dom api to notify us when
     // the native file picker is closed
-    onClose();
+    if (onClose) {
+      onClose();
+    }
   }
 
   render() {

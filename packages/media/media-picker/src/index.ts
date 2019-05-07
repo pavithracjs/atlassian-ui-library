@@ -136,4 +136,4 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
 
 // REACT COMPONENTS
 
-export { BrowserReact as Browser } from './components/browserReact';
+export { Browser } from './components/browserReact';

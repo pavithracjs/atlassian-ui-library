@@ -12,7 +12,6 @@ import {
   isClipboard,
   isPopup,
   isBinaryUploader,
-  isBrowser,
   isImagePreview,
 } from '@atlaskit/media-picker';
 import { Context } from '@atlaskit/media-core';
@@ -128,7 +127,7 @@ export default class PickerFacade {
         picker.deactivate();
       }
 
-      if (isPopup(picker) || isBrowser(picker)) {
+      if (isPopup(picker)) {
         picker.teardown();
       }
     } catch (ex) {
@@ -172,8 +171,6 @@ export default class PickerFacade {
       } catch (ex) {
         this.errorReporter.captureException(ex);
       }
-    } else if (isBrowser(this.picker)) {
-      this.picker.browse();
     }
   }
 

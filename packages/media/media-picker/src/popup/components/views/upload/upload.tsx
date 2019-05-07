@@ -51,7 +51,7 @@ import {
 } from './styled';
 import { RECENTS_COLLECTION } from '../../../config';
 import { removeFileFromRecents } from '../../../actions/removeFileFromRecents';
-import { BrowserReact } from '../../../../components/browserReact';
+import { Browser } from '../../../../components/browserReact';
 
 const createEditCardAction = (
   handler: CardEventHandler,
@@ -75,7 +75,7 @@ const createDeleteCardAction = (handler: CardEventHandler): CardAction => {
 const cardDimension = { width: 162, height: 108 };
 
 export interface UploadViewOwnProps {
-  readonly browserRef: React.RefObject<BrowserReact>;
+  readonly browserRef: React.RefObject<Browser>;
   readonly context: Context;
   readonly recentsCollection: string;
 }

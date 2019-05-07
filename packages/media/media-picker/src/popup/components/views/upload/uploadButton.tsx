@@ -5,10 +5,10 @@ import { FormattedMessage } from 'react-intl';
 import { messages } from '@atlaskit/media-ui';
 import { startFileBrowser } from '../../../actions/startFileBrowser';
 import { State } from '../../../domain';
-import { BrowserReact } from '../../../../components/browserReact';
+import { Browser } from '../../../../components/browserReact';
 
 export interface LocalBrowserButtonProps {
-  readonly browserRef: React.RefObject<BrowserReact>;
+  readonly browserRef: React.RefObject<Browser>;
 }
 
 export interface LocalBrowserButtonDispatchProps {
@@ -30,7 +30,6 @@ export class LocalBrowserButton extends React.Component<Props> {
 
   render() {
     const { browserRef } = this.props;
-    // const browser = renderBrowser();
 
     return (
       <Button
@@ -40,7 +39,6 @@ export class LocalBrowserButton extends React.Component<Props> {
         isDisabled={!browserRef} // TODO: why is this needed when mpBrowser/renderBrowser is a required prop?
       >
         <FormattedMessage {...messages.upload_file} />
-        {/* {renderBrowser()} */}
       </Button>
     );
   }

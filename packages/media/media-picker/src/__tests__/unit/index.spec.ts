@@ -2,7 +2,6 @@ import { AuthProvider, ContextFactory } from '@atlaskit/media-core';
 import { MediaPicker } from '../..';
 import { PopupImpl } from '../../components/popup';
 import { BinaryUploaderImpl } from '../../components/binary';
-import { BrowserImpl } from '../../components/browser';
 import { ClipboardImpl } from '../../components/clipboard';
 import { DropzoneImpl } from '../../components/dropzone';
 import { PopupConfig } from '../../components/types';
@@ -47,39 +46,6 @@ describe('MediaPicker', () => {
       binary.on('upload-processing', () => {});
       binary.on('upload-end', () => {});
       binary.on('upload-error', () => {});
-    });
-  });
-
-  describe('browser', () => {
-    it('should be instance of MediaPickerBrowser given just module config', async () => {
-      const browser = await MediaPicker('browser', context, config);
-
-      expect(browser).toBeInstanceOf(BrowserImpl);
-    });
-
-    it('should be instance of MediaPickerBrowser given moduleConfig and pickerConfig', async () => {
-      const browser = await MediaPicker('browser', context, {
-        ...config,
-        multiple: true,
-        fileExtensions: ['image/jpeg', 'image/png'],
-      });
-
-      expect(browser).toBeInstanceOf(BrowserImpl);
-    });
-
-    // it('should be a class constructor given no options', () => {
-    //   expect(MediaPicker('browser')).toEqual(Browser);
-    // });
-
-    it('should be able to register listeners to generic upload events', async () => {
-      const browser = await MediaPicker('browser', context, config);
-
-      browser.on('uploads-start', () => {});
-      browser.on('upload-status-update', () => {});
-      browser.on('upload-preview-update', () => {});
-      browser.on('upload-processing', () => {});
-      browser.on('upload-end', () => {});
-      browser.on('upload-error', () => {});
     });
   });
 
