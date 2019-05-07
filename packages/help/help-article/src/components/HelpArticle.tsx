@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { ArticleContentInner, ArticleContentTitle } from './styled';
+import './styles.less';
 
 export interface Props {
   title?: string;
   body?: string;
 }
+
+// console.log(css);
 
 const ArticleContent: React.SFC<Props> = props => {
   const { title = '', body = '' } = props;
@@ -15,7 +18,13 @@ const ArticleContent: React.SFC<Props> = props => {
           <h2>{title}</h2>
         </ArticleContentTitle>
       )}
-      {body && <div dangerouslySetInnerHTML={{ __html: body }} />}
+      {body && (
+        <div
+          // className={css.contentPlatformSupport}
+          className={'content-platform-support'}
+          dangerouslySetInnerHTML={{ __html: body }}
+        />
+      )}
     </ArticleContentInner>
   );
 };
