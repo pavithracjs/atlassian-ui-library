@@ -233,7 +233,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     } else if (this.props.context === 'home') {
       return HomeQuickSearchContainer;
     } else if (this.props.context === 'jira') {
-      return JiraQuickSearchContainer;
+      return JiraQuickSearchContainer as React.ComponentClass<any>;
     } else {
       // fallback to home if nothing specified
       return HomeQuickSearchContainer;

@@ -37,7 +37,7 @@ const changeLayout = async (page: any) => {
 
 BrowserTestCase(
   'Remains in overflow on table scale to wide',
-  { skip: ['ie', 'edge', 'safari', 'firefox'] },
+  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
@@ -83,7 +83,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'Maintains the wide layout size without overflow',
-  { skip: ['ie', 'edge', 'safari', 'firefox'] },
+  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
@@ -128,7 +128,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'Maintains the full-width layout size without overflow',
-  { skip: ['ie', 'edge', 'safari', 'firefox'] },
+  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 

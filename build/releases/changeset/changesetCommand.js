@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 const { green } = require('chalk');
-// TODO: Make these pull from the actual packages once we have a firm repo structure
 const cli = require('@atlaskit/build-utils/cli');
 const git = require('@atlaskit/build-utils/git');
 const logger = require('@atlaskit/build-utils/logger');

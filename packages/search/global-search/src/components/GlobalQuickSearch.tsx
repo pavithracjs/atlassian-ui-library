@@ -2,7 +2,10 @@ import * as React from 'react';
 
 import debounce from 'lodash.debounce';
 import { QuickSearch } from '@atlaskit/quick-search';
-import { LinkComponent } from './GlobalQuickSearchWrapper';
+import {
+  LinkComponent,
+  ReferralContextIdentifiers,
+} from './GlobalQuickSearchWrapper';
 import {
   withAnalyticsEvents,
   AnalyticsContext,
@@ -31,7 +34,7 @@ const QS_ANALYTICS_EV_SUBMIT = `${ATLASKIT_QUICKSEARCH_NS}.submit`;
 
 export interface Props {
   onMount(): void;
-  onSearch(query: string): void;
+  onSearch(query: string, queryVersion: number): void;
   onSearchSubmit?(event: React.KeyboardEvent<HTMLInputElement>): void;
   onAutocomplete?(query: string): void;
 
@@ -46,6 +49,7 @@ export interface Props {
   onSelectedResultIdChanged?: (id: string | number | null) => void;
   inputControls?: JSX.Element;
   autocomplete?: string[];
+  referralContextIdentifiers?: ReferralContextIdentifiers;
 }
 
 export interface State {
@@ -88,7 +92,7 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
       createAnalyticsEvent,
       isSendSearchTermsEnabled,
     } = this.props;
-    onSearch(query.trim());
+    onSearch(query.trim(), this.queryVersion);
     fireTextEnteredEvent(
       query,
       searchSessionId,
@@ -107,7 +111,11 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
   }
 
   fireSearchResultSelectedEvent = (eventData: SelectedSearchResultEvent) => {
-    const { createAnalyticsEvent, searchSessionId } = this.props;
+    const {
+      createAnalyticsEvent,
+      searchSessionId,
+      referralContextIdentifiers,
+    } = this.props;
     this.resultSelected = true;
     const resultId =
       eventData.resultCount && eventData.method === 'shortcut'
@@ -123,6 +131,7 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
           isLoading: this.props.isLoading,
         } as AdvancedSearchSelectedEvent,
         searchSessionId,
+        referralContextIdentifiers,
         createAnalyticsEvent,
       );
     } else {
@@ -133,13 +142,18 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
           queryVersion: this.queryVersion,
         },
         searchSessionId,
+        referralContextIdentifiers,
         createAnalyticsEvent,
       );
     }
   };
 
   fireSearchResultEvents = (eventName: string, eventData: Object) => {
-    const { createAnalyticsEvent, searchSessionId } = this.props;
+    const {
+      createAnalyticsEvent,
+      searchSessionId,
+      referralContextIdentifiers,
+    } = this.props;
     if (eventName === QS_ANALYTICS_EV_SUBMIT) {
       this.fireSearchResultSelectedEvent(
         eventData as SelectedSearchResultEvent,
@@ -150,6 +164,7 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
         fireHighlightedSearchResult(
           data,
           searchSessionId,
+          referralContextIdentifiers,
           createAnalyticsEvent,
         );
       }

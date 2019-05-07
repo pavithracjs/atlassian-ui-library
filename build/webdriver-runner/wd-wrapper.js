@@ -365,7 +365,3 @@ export default class Page {
     }
   }
 }
-//TODO: Maybe wrapping all functions?
-async function wrapper(fn) {
-  return fn;
-}

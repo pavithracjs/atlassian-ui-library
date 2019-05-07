@@ -16,6 +16,7 @@ import {
   PerformanceTiming,
 } from '../../../util/analytics-util';
 import { CreateAnalyticsEventFn } from '../../../components/analytics/types';
+import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
 
 const defaultABTestData = {
   experimentId: 'test-experiement-id',
@@ -24,6 +25,11 @@ const defaultABTestData = {
 };
 
 const defaultAutocompleteData = ['autocomplete', 'automock', 'automation'];
+const defaultReferralContext = {
+  searchReferrerId: 'referrerId',
+  currentContentId: 'currentContentId',
+  currentContainerId: 'currentContainerId',
+};
 
 const defaultProps = {
   logger: DEVELOPMENT_LOGGER,
@@ -43,6 +49,7 @@ const defaultProps = {
   ),
   createAnalyticsEvent: jest.fn(),
   handleSearchSubmit: jest.fn(),
+  referralContextIdentifiers: defaultReferralContext,
 };
 
 const mountQuickSearchContainer = (partialProps?: Partial<Props>) => {
@@ -74,6 +81,7 @@ describe('QuickSearchContainer', () => {
       searchSessionId: string,
       createAnalyticsEvent: CreateAnalyticsEventFn,
       abTest: ABTest,
+      referralContextIdentifiers?: ReferralContextIdentifiers,
       experimentRequestDurationMs?: number | undefined,
       retrievedFromAggregator?: boolean | undefined,
     ) => void
@@ -86,6 +94,7 @@ describe('QuickSearchContainer', () => {
       query: string,
       createAnalyticsEvent: CreateAnalyticsEventFn,
       abTest: ABTest,
+      referralContextIdentifiers?: ReferralContextIdentifiers,
     ) => void
   >;
   let fireExperimentExposureEventSpy: jest.SpyInstance<
@@ -117,6 +126,7 @@ describe('QuickSearchContainer', () => {
       expect.any(String),
       defaultProps.createAnalyticsEvent,
       abTest,
+      defaultReferralContext,
       expect.any(Number),
       expect.any(Boolean),
     ]);
@@ -149,6 +159,7 @@ describe('QuickSearchContainer', () => {
       query,
       defaultProps.createAnalyticsEvent,
       defaultABTestData,
+      defaultReferralContext,
     ]);
   };
 
@@ -308,7 +319,7 @@ describe('QuickSearchContainer', () => {
     ) => {
       getSearchResults.mockReturnValueOnce(resultPromise);
       let globalQuickSearch = wrapper.find(GlobalQuickSearch);
-      await globalQuickSearch.props().onSearch(query);
+      await globalQuickSearch.props().onSearch(query, 0);
       await waitForRender(wrapper, 10);
 
       globalQuickSearch = wrapper.find(GlobalQuickSearch);
