@@ -1,1 +1,0 @@
-- Adds referral context identifiers to more analytics events.

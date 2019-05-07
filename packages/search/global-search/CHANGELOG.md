@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.2.2
+- [patch] [ebc992e51d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ebc992e51d):
+
+  - Adds referral context identifiers to more analytics events.
+
 ## 8.2.1
 - [patch] [4051c8b935](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4051c8b935):
 
