@@ -57,16 +57,19 @@ describe('Media PickerFacade', () => {
       ...commonSpies,
       teardown: jest.fn(),
       browse: jest.fn(),
+      addFiles: jest.fn(),
     },
     clipboard: {
       ...commonSpies,
       activate: jest.fn(),
       deactivate: jest.fn(),
+      addFiles: jest.fn(),
     },
     dropzone: {
       ...commonSpies,
       activate: jest.fn(),
       deactivate: jest.fn(),
+      addFiles: jest.fn(),
     },
     popup: {
       ...commonSpies,

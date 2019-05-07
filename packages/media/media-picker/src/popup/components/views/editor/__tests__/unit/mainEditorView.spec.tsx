@@ -26,8 +26,12 @@ describe('MainEditorView', () => {
     const onCloseEditor: MainEditorViewDispatchProps['onCloseEditor'] = jest.fn();
     const onShowEditorError: MainEditorViewDispatchProps['onShowEditorError'] = jest.fn();
     const onDeselectFile: MainEditorViewDispatchProps['onDeselectFile'] = jest.fn();
+    const localUploader: any = {
+      addFiles: jest.fn(),
+    };
     const mainView = shallow(
       <MainEditorView
+        localUploader={localUploader}
         editorData={{}}
         onCloseEditor={onCloseEditor}
         onShowEditorError={onShowEditorError}
@@ -40,6 +44,7 @@ describe('MainEditorView', () => {
       mainView,
       editorLoaderPromise,
       onCloseEditor,
+      localUploader,
     };
   };
 
@@ -71,7 +76,7 @@ describe('MainEditorView', () => {
     expectToEqual(mainView.find(EditorView).props().imageUrl, 'some-image-url');
   });
   it('should upload an image and call onCloseEditor when editor viewer calls onSave', () => {
-    const { mainView, onCloseEditor } = setup({
+    const { mainView, onCloseEditor, localUploader } = setup({
       editorData: {
         imageUrl: 'some-image-url',
         originalFile: {
@@ -80,14 +85,17 @@ describe('MainEditorView', () => {
         },
       },
     });
+
+    const instance: any = mainView.instance();
+    instance.urltoFile = jest.fn().mockReturnValue('some-image-string');
+
     mainView
       .find(EditorView)
       .props()
       .onSave('some-image-string', { width: 200, height: 100 });
-    // expectFunctionToHaveBeenCalledWith(binaryUploader.upload, [
-    //   'some-image-string',
-    //   'some-file-name',
-    // ]);
+    expectFunctionToHaveBeenCalledWith(localUploader.addFiles, [
+      ['some-image-string'],
+    ]);
     expectFunctionToHaveBeenCalledWith(onCloseEditor, ['Save']);
   });
 
