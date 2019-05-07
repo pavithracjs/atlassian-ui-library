@@ -7,8 +7,6 @@ export interface Props {
   body?: string;
 }
 
-// console.log(css);
-
 const ArticleContent: React.SFC<Props> = props => {
   const { title = '', body = '' } = props;
   return (
