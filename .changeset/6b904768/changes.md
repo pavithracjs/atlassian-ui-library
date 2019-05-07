@@ -1,1 +1,0 @@
-- Put queryVersion into the request for searches

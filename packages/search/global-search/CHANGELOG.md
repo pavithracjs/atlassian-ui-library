@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.2.3
+- [patch] [1e01ef79e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e01ef79e2):
+
+  - Put queryVersion into the request for searches
+
 ## 8.2.2
 - [patch] [ebc992e51d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ebc992e51d):
 
