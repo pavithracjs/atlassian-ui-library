@@ -1,1 +1,0 @@
-- Jira new design for advanced search
