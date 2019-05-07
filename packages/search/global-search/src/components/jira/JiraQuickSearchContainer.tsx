@@ -165,7 +165,6 @@ export class JiraQuickSearchContainer extends React.Component<
     searchSessionId,
   }: SearchResultProps) => {
     const query = latestSearchQuery;
-    const isPreQuery = !query; // it's true if the query is empty
     const {
       referralContextIdentifiers,
       onAdvancedSearch = () => {},
