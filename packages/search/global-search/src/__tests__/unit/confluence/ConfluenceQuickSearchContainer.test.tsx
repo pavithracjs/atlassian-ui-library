@@ -9,6 +9,7 @@ import {
   noResultsConfluenceClient,
   makeConfluenceClient,
   singleResultQuickNav,
+  mockAutocompleteClient,
 } from '../mocks/_mockConfluenceClient';
 import { shallowWithIntl } from '../helpers/_intl-enzyme-test-helper';
 import QuickSearchContainer, {
@@ -37,6 +38,8 @@ function render(partialProps?: Partial<Props>) {
     useQuickNavForPeopleResults: false,
     useCPUSForPeopleResults: false,
     fasterSearchFFEnabled: false,
+    autocompleteClient: mockAutocompleteClient,
+    isAutocompleteEnabled: false,
     logger,
     ...partialProps,
   };
@@ -295,6 +298,24 @@ describe('ConfluenceQuickSearchContainer', () => {
       expect(mockedEvent.preventDefault).toHaveBeenCalledTimes(1);
       expect(mockedEvent.stopPropagation).toHaveBeenCalledTimes(1);
       expect(redirectSpy).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('Autocomplete', () => {
+    it('should not pass down getAutocomplete if isAutocompleteEnabled', () => {
+      const wrapper = render();
+      const quickSearchContainer = wrapper.find(QuickSearchContainer);
+
+      const props = quickSearchContainer.props();
+      expect(props.getAutocomplete).toBeUndefined();
+    });
+
+    it('should pass down getAutocomplete if isAutocompleteEnabled', () => {
+      const wrapper = render({ isAutocompleteEnabled: true });
+      const quickSearchContainer = wrapper.find(QuickSearchContainer);
+
+      const props = quickSearchContainer.props();
+      expect(props.getAutocomplete).not.toBeUndefined();
     });
   });
 });

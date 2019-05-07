@@ -23,6 +23,8 @@ const defaultABTestData = {
   controlId: 'test-control-id',
 };
 
+const defaultAutocompleteData = ['autocomplete', 'automock', 'automation'];
+
 const defaultProps = {
   logger: DEVELOPMENT_LOGGER,
   getSearchResultsComponent: jest.fn((props: SearchResultProps) => null),
@@ -35,6 +37,9 @@ const defaultProps = {
   ),
   getAbTestData: jest.fn((sesionId: string) =>
     Promise.resolve(defaultABTestData),
+  ),
+  getAutocomplete: jest.fn((query: string) =>
+    Promise.resolve(defaultAutocompleteData),
   ),
   createAnalyticsEvent: jest.fn(),
   handleSearchSubmit: jest.fn(),
@@ -386,6 +391,54 @@ describe('QuickSearchContainer', () => {
         latestSearchQuery: newQuery,
       });
       assertPostQueryAnalytics(newQuery, searchResults);
+    });
+  });
+
+  describe('Autocomplete', () => {
+    it('renders GlobalQuickSearch with undefined autocomplete data', () => {
+      const wrapper = mountQuickSearchContainer();
+
+      const globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      expect(globalQuickSearch.prop('autocomplete')).toBeUndefined();
+    });
+
+    it('should call getAutocomplete when onAutocomplete is triggered', async () => {
+      const query = 'auto';
+      const wrapper = mountQuickSearchContainer();
+
+      const globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      const onAutocomplete = globalQuickSearch.props().onAutocomplete;
+      onAutocomplete && (await onAutocomplete(query));
+      expect(defaultProps.getAutocomplete).toHaveBeenCalledWith(query);
+    });
+
+    it('should pass down the results of getAutocomplete to GlobalQuickSearch', async () => {
+      const query = 'auto';
+      const wrapper = mountQuickSearchContainer();
+
+      let globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      const onAutocomplete = globalQuickSearch.props().onAutocomplete;
+      onAutocomplete && (await onAutocomplete(query));
+      await waitForRender(wrapper, 10);
+      globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      expect(globalQuickSearch.prop('autocomplete')).toBe(
+        defaultAutocompleteData,
+      );
+    });
+
+    it('should handle error', async () => {
+      const query = 'auto';
+      const wrapper = mountQuickSearchContainer({
+        getAutocomplete: () =>
+          Promise.reject(new Error('everything is broken')),
+      });
+
+      let globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      const onAutocomplete = globalQuickSearch.props().onAutocomplete;
+      onAutocomplete && (await onAutocomplete(query));
+      await waitForRender(wrapper, 10);
+      globalQuickSearch = wrapper.find(GlobalQuickSearch);
+      expect(globalQuickSearch.prop('autocomplete')).toBeUndefined();
     });
   });
 });

@@ -10,6 +10,7 @@ import { CreateAnalyticsEventFn } from '../../components/analytics/types';
 const noop = () => {};
 const DEFAULT_PROPS = {
   onSearch: noop,
+  onAutocomplete: noop,
   onMount: noop,
   isLoading: false,
   searchSessionId: 'abc',

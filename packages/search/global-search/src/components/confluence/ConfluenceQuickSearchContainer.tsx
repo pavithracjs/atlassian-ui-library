@@ -72,6 +72,7 @@ export interface Props {
     searchSessionId: string,
   ) => void;
   inputControls?: JSX.Element;
+  isAutocompleteEnabled?: boolean;
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.ConfluenceQuickSearchContainer';
@@ -435,6 +436,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       isSendSearchTermsEnabled,
       logger,
       inputControls,
+      isAutocompleteEnabled,
     } = this.props;
 
     return (
@@ -447,7 +449,9 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}
         getAbTestData={this.getAbTestData}
-        getAutocomplete={this.getAutocomplete}
+        getAutocomplete={
+          isAutocompleteEnabled ? this.getAutocomplete : undefined
+        }
         handleSearchSubmit={this.handleSearchSubmit}
         isSendSearchTermsEnabled={isSendSearchTermsEnabled}
         getDisplayedResults={sliceResults}

@@ -295,6 +295,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
               inputControls,
               appPermission,
               fasterSearchFFEnabled,
+              isAutocompleteEnabled,
             } = this.props;
 
             return (
@@ -314,6 +315,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
                 inputControls={inputControls}
                 appPermission={appPermission}
                 fasterSearchFFEnabled={fasterSearchFFEnabled}
+                isAutocompleteEnabled={isAutocompleteEnabled}
               />
             );
           }}

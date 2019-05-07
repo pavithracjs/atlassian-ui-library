@@ -75,7 +75,7 @@ export interface State {
   searchResults: GenericResultMap | null;
   recentItems: GenericResultMap | null;
   abTest: ABTest;
-  autocomplete: string[];
+  autocomplete?: string[];
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
@@ -102,7 +102,6 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       searchResults: null,
       keepPreQueryState: true,
       abTest: DEFAULT_AB_TEST,
-      autocomplete: [],
     };
   }
 

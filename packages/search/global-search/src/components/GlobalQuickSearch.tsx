@@ -33,7 +33,7 @@ export interface Props {
   onMount(): void;
   onSearch(query: string): void;
   onSearchSubmit?(event: React.KeyboardEvent<HTMLInputElement>): void;
-  onAutocomplete(query: string): void;
+  onAutocomplete?(query: string): void;
 
   isLoading: boolean;
   placeholder?: string;
@@ -45,7 +45,7 @@ export interface Props {
   selectedResultId?: string;
   onSelectedResultIdChanged?: (id: string | number | null) => void;
   inputControls?: JSX.Element;
-  autocomplete: string[];
+  autocomplete?: string[];
 }
 
 export interface State {
@@ -58,7 +58,6 @@ export interface State {
 export class GlobalQuickSearch extends React.Component<Props, State> {
   public static defaultProps: Partial<Props> = {
     isSendSearchTermsEnabled: false,
-    autocomplete: [],
   };
   queryVersion: number = 0;
   resultSelected: boolean = false;
