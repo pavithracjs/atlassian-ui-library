@@ -18,6 +18,7 @@ export class LocalUploadComponent<
   M extends UploadEventPayloadMap = UploadEventPayloadMap
 > extends UploadComponent<M> implements LocalUploadComponent {
   protected readonly uploadService: UploadService;
+  // uploadService: UploadService;
   protected readonly context: Context;
   protected config: LocalUploadConfig;
 
@@ -42,6 +43,8 @@ export class LocalUploadComponent<
     this.uploadService.on('file-converted', this.onFileConverted);
     this.uploadService.on('file-upload-error', this.onUploadError);
   }
+
+  public addFiles = (files: File[]) => this.uploadService.addFiles(files);
 
   public cancel(uniqueIdentifier?: string): void {
     this.uploadService.cancel(uniqueIdentifier);

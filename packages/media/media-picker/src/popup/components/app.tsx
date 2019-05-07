@@ -55,6 +55,7 @@ import {
   DropzoneDragEnterEventPayload,
   DropzoneDragLeaveEventPayload,
 } from '../../components/types';
+import { LocalUploadComponent } from '../../components/localUpload';
 
 export interface AppStateProps {
   readonly selectedServiceName: ServiceName;
@@ -104,6 +105,7 @@ export class App extends Component<AppProps, AppState> {
   private readonly mpBrowser: MpBrowser;
   private readonly mpDropzone: MpDropzone;
   private readonly mpClipboard: MpClipboard;
+  private readonly localUpload: LocalUploadComponent;
 
   constructor(props: AppProps) {
     super(props);
@@ -133,11 +135,24 @@ export class App extends Component<AppProps, AppState> {
       cacheSize: tenantContext.config.cacheSize,
     });
 
+    this.localUpload = new LocalUploadComponent(context, {
+      uploadParams: tenantUploadParams,
+      shouldCopyFileToRecents: false,
+    });
+
+    this.localUpload.on('uploads-start', onUploadsStart);
+    this.localUpload.on('upload-preview-update', onUploadPreviewUpdate);
+    this.localUpload.on('upload-status-update', onUploadStatusUpdate);
+    this.localUpload.on('upload-processing', onUploadProcessing);
+    this.localUpload.on('upload-end', onUploadEnd);
+    this.localUpload.on('upload-error', onUploadError);
+
     this.mpBrowser = new MpBrowser(context, {
       uploadParams: tenantUploadParams,
       shouldCopyFileToRecents: false,
       multiple: true,
     });
+
     this.mpBrowser.on('uploads-start', onUploadsStart);
     this.mpBrowser.on('upload-preview-update', onUploadPreviewUpdate);
     this.mpBrowser.on('upload-status-update', onUploadStatusUpdate);
@@ -239,7 +254,7 @@ export class App extends Component<AppProps, AppState> {
                     <Footer />
                   </ViewWrapper>
                   <Dropzone isActive={isDropzoneActive} />
-                  <MainEditorView />
+                  <MainEditorView localUpload={this.localUpload} />
                 </MediaPickerPopupWrapper>
               </PassContext>
             </ModalDialog>
