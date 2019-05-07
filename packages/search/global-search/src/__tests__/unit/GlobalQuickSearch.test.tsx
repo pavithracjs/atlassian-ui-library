@@ -53,7 +53,23 @@ describe('GlobalQuickSearch', () => {
       .prop('onSearchInput');
     onSearchInput({ target: { value: 'foo' } });
 
-    expect(searchMock).toHaveBeenCalledWith('foo');
+    expect(searchMock).toHaveBeenCalledWith('foo', 0);
+  });
+
+  it('should fire searches with the queryVersion parameter incrementing', () => {
+    const searchMock = jest.fn();
+    const wrapper = render({ onSearch: searchMock });
+
+    const onSearchInput: Function = wrapper
+      .children()
+      .first()
+      .prop('onSearchInput');
+
+    onSearchInput({ target: { value: 'foo' } });
+    expect(searchMock).toHaveBeenNthCalledWith(1, 'foo', 0);
+
+    onSearchInput({ target: { value: 'foo' } });
+    expect(searchMock).toHaveBeenNthCalledWith(2, 'foo', 1);
   });
 
   it('should trim the search input', () => {
@@ -66,7 +82,7 @@ describe('GlobalQuickSearch', () => {
       .prop('onSearchInput');
     onSearchInput({ target: { value: '  pattio   ' } });
 
-    expect(searchMock).toHaveBeenCalledWith('pattio');
+    expect(searchMock).toHaveBeenCalledWith('pattio', 0);
   });
 
   describe('Search result events', () => {

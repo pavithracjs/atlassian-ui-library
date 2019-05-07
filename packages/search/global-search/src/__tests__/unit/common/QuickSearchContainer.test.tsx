@@ -303,7 +303,7 @@ describe('QuickSearchContainer', () => {
     ) => {
       getSearchResults.mockReturnValueOnce(resultPromise);
       let globalQuickSearch = wrapper.find(GlobalQuickSearch);
-      await globalQuickSearch.props().onSearch(query);
+      await globalQuickSearch.props().onSearch(query, 0);
       await waitForRender(wrapper, 10);
 
       globalQuickSearch = wrapper.find(GlobalQuickSearch);

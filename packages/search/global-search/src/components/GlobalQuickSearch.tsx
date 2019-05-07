@@ -31,7 +31,7 @@ const QS_ANALYTICS_EV_SUBMIT = `${ATLASKIT_QUICKSEARCH_NS}.submit`;
 
 export interface Props {
   onMount(): void;
-  onSearch(query: string): void;
+  onSearch(query: string, queryVersion: number): void;
   onSearchSubmit?(event: React.KeyboardEvent<HTMLInputElement>): void;
 
   isLoading: boolean;
@@ -85,7 +85,7 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
       createAnalyticsEvent,
       isSendSearchTermsEnabled,
     } = this.props;
-    onSearch(query.trim());
+    onSearch(query.trim(), this.queryVersion);
     fireTextEnteredEvent(
       query,
       searchSessionId,

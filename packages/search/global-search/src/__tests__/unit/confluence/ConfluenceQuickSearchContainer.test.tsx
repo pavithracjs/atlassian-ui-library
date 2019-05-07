@@ -88,6 +88,33 @@ describe('ConfluenceQuickSearchContainer', () => {
     });
   });
 
+  it('should call cross product search client with correct query version', async () => {
+    const searchSpy = jest.spyOn(noResultsCrossProductSearchClient, 'search');
+    const dummyQueryVersion = 123;
+
+    const wrapper = render({
+      confluenceClient: noResultsConfluenceClient,
+      crossProductSearchClient: noResultsCrossProductSearchClient,
+    });
+
+    const quickSearchContainer = wrapper.find(QuickSearchContainer);
+    (quickSearchContainer.props() as QuickSearchContainerProps).getSearchResults(
+      'query',
+      sessionId,
+      100,
+      dummyQueryVersion,
+    );
+
+    expect(searchSpy).toHaveBeenCalledWith(
+      'query',
+      expect.any(Object),
+      expect.any(Array),
+      dummyQueryVersion,
+    );
+
+    searchSpy.mockRestore();
+  });
+
   it('should return ab test data', async () => {
     const abTest: ABTest = {
       abTestId: 'abTestId',
@@ -131,6 +158,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       'query',
       sessionId,
       100,
+      0,
     );
 
     expect(searchResults).toMatchObject({
@@ -157,7 +185,7 @@ describe('ConfluenceQuickSearchContainer', () => {
     });
   });
 
-  it('should use CPUs for people results when enabled', async () => {
+  it('should use CPUS for people results when enabled', async () => {
     const wrapper = render({
       useCPUSForPeopleResults: true,
       crossProductSearchClient: {
@@ -185,6 +213,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       'query',
       sessionId,
       100,
+      0,
     );
 
     expect(searchResults.results.people).toEqual([
@@ -213,6 +242,7 @@ describe('ConfluenceQuickSearchContainer', () => {
       'query',
       sessionId,
       100,
+      0,
     );
 
     expect(searchResults.results.people).toEqual([
