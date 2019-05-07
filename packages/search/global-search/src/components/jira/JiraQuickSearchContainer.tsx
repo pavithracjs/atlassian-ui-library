@@ -154,6 +154,33 @@ export class JiraQuickSearchContainer extends React.Component<
     }
   };
 
+  handleAdvancedSearch = (
+    event: CancelableEvent,
+    entity: string,
+    query: string,
+    searchSessionId: string,
+    analyticsData: Object,
+    isLoading: boolean,
+  ) => {
+    const { onAdvancedSearch = () => {} } = this.props;
+    const eventData = {
+      resultId: ADVANCED_JIRA_SEARCH_RESULT_ID,
+      ...analyticsData,
+      query,
+      // queryversion is missing
+      contentType: entity,
+      type: AnalyticsType.AdvancedSearchJira,
+      isLoading,
+    } as AdvancedSearchSelectedEvent;
+
+    fireSelectedAdvancedSearch(
+      eventData,
+      searchSessionId,
+      this.props.createAnalyticsEvent,
+    );
+    onAdvancedSearch(event, entity, query, searchSessionId);
+  };
+
   getSearchResultsComponent = ({
     retrySearch,
     latestSearchQuery,
@@ -170,34 +197,6 @@ export class JiraQuickSearchContainer extends React.Component<
       onAdvancedSearch = () => {},
       appPermission,
     } = this.props;
-
-    const getAdvancedSearchHandler = () => {
-      return (
-        event: CancelableEvent,
-        entity: string,
-        query: string,
-        searchSessionId: string,
-        analyticsData: Object,
-      ) => {
-        // searchResults
-        const eventData = {
-          resultId: ADVANCED_JIRA_SEARCH_RESULT_ID,
-          ...analyticsData,
-          query,
-          // queryversion is missing
-          contentType: entity,
-          type: AnalyticsType.AdvancedSearchJira,
-          isLoading,
-        } as AdvancedSearchSelectedEvent;
-
-        fireSelectedAdvancedSearch(
-          eventData,
-          searchSessionId,
-          this.props.createAnalyticsEvent,
-        );
-        onAdvancedSearch(event, entity, query, searchSessionId);
-      };
-    };
 
     return (
       <SearchResultsComponent
@@ -218,12 +217,13 @@ export class JiraQuickSearchContainer extends React.Component<
                 query={query}
                 analyticsData={{ resultsCount: 0, wasOnNoResultsScreen: true }}
                 onClick={(mouseEvent, entity) =>
-                  getAdvancedSearchHandler()(
+                  this.handleAdvancedSearch(
                     mouseEvent,
                     entity,
                     query,
                     searchSessionId,
                     { resultsCount: 0, wasOnNoResultsScreen: true },
+                    isLoading,
                   )
                 }
               />
@@ -237,12 +237,13 @@ export class JiraQuickSearchContainer extends React.Component<
               analyticsData={analyticsData}
               query={query}
               onClick={(mouseEvent, entity) =>
-                getAdvancedSearchHandler()(
+                this.handleAdvancedSearch(
                   mouseEvent,
                   entity,
                   query,
                   searchSessionId,
                   analyticsData,
+                  isLoading,
                 )
               }
             />
@@ -279,13 +280,13 @@ export class JiraQuickSearchContainer extends React.Component<
           <NoResultsState
             query={query}
             onAdvancedSearch={(mouseEvent, entity) =>
-              // onAdvancedSearch(mouseEvent, entity, query, searchSessionId)
-              getAdvancedSearchHandler()(
+              this.handleAdvancedSearch(
                 mouseEvent,
                 entity,
                 query,
                 searchSessionId,
                 { resultsCount: 0, wasOnNoResultsScreen: true },
+                isLoading,
               )
             }
           />
@@ -492,8 +493,6 @@ export class JiraQuickSearchContainer extends React.Component<
   }
 
   render() {
-    console.log('pripos is ', this.props);
-
     const {
       linkComponent,
       createAnalyticsEvent,

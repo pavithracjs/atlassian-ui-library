@@ -7,7 +7,11 @@ import {
   AnalyticsType,
   ContentType,
 } from '../../model/Result';
-import { take } from '../SearchResultsUtil';
+import {
+  take,
+  getJiraAdvancedSearchUrl,
+  JiraEntityTypes,
+} from '../SearchResultsUtil';
 import { messages } from '../../messages';
 import { JiraApplicationPermission } from '../GlobalQuickSearchWrapper';
 
@@ -81,7 +85,7 @@ export const mapRecentResultsToUIGroups = (
 export const mapSearchResultsToUIGroups = (
   searchResultsObjects: JiraResultsMap | null,
   appPermission?: JiraApplicationPermission,
-  query?: String,
+  query?: string,
 ): ResultsGroup[] => {
   const {
     objectsToDisplay,
@@ -102,7 +106,7 @@ export const mapSearchResultsToUIGroups = (
                 resultType: ResultType.JiraIssueAdvancedSearch,
                 resultId: 'search-jira',
                 name: 'jira',
-                href: `/secure/QuickSearch.jspa?searchString=${query}`,
+                href: getJiraAdvancedSearchUrl(JiraEntityTypes.Issues, query),
                 analyticsType: AnalyticsType.LinkPostQueryAdvancedSearchJira,
                 contentType: ContentType.JiraIssue,
               },
