@@ -1,0 +1,1 @@
+- Clean couple of TODO's that were already done

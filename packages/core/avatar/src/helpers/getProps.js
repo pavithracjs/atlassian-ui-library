@@ -76,7 +76,6 @@ const getButtonElementProps = props => {
   return { id, type: 'button', disabled: isDisabled };
 };
 
-// TODO: type this correctly
 export default function getProps(component: Object) {
   const { props } = component;
 

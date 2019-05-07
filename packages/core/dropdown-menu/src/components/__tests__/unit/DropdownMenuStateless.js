@@ -41,7 +41,7 @@ describe('dropdown menu - DropdownMenuStateless', () => {
       });
     });
 
-    // Disabling test as it fails. TODO: reimplement using intergration test
+    // Disabling test as it fails. TODO: reimplement using integration test
     /*
     ['ArrowDown', 'Enter'].forEach(triggerKey => {
       test(`should set DropdownItemFocusManager.autoFocus when opened via "${triggerKey}" key on trigger`, () => {
