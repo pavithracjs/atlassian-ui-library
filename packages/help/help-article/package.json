@@ -19,6 +19,9 @@
     "name": "Help Article"
   },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
+  "scripts": {
+    "build": "babel-node --ignore WE_WILL_NOT_IGNORE_ANYTHING build/js-to-css.js --config-file=../../../babel.config.js --env-name=production:cjs"
+  },
   "dependencies": {
     "@atlaskit/section-message": "^3.0.0",
     "@atlaskit/theme": "^9.0.0",
