@@ -65,6 +65,52 @@ async function disableScrollBehavior(page /*: any */) {
   await page.addStyleTag({ content: css });
 }
 
+/**
+ * Image Loading Helpers
+ *
+ * We use `page.goto(url, { waitUntil: 'networkidle0' })` which waits for network requests on initial page
+ * load to complete.
+ *
+ * If your example loads content after initial page load (e.g. `waitUntil: 'networkidle0'` isn't sufficient),
+ * you can use `waitForLoadedImageElements` or `waitForLoadedBackgroundImages` to wait for all the images
+ * on the page to load prior to taking a screenshot.
+ */
+
+// Wait for all image elements on the page to have loaded.
+function areAllImageElementsLoaded() {
+  const images = Array.from(document.images);
+  if (!images.length) {
+    throw new Error(`
+      'waitForLoadedImageElements' was used but no images existed on the page.
+      Ensure the page contains images.
+      You can increase the delay via the 'mediaDelayMs' parameter
+    `);
+  }
+  return images.every(i => i.complete);
+}
+
+/**
+ * Wait for resolved image elements to have all loaded.
+ *
+ * Ensure any `<img />` element's on the page have finished loading their `src` URI.
+ *
+ * Note: this won't help for Media items which are unresolved (e.g. due to authentication
+ * or a media id mismatch) as those scenarios don't render an `<img />`.
+ */
+async function waitForLoadedImageElements(
+  page /*:any*/,
+  timeout /*:number*/,
+  mediaDelayMs /*:number*/ = 150,
+) {
+  // Wait for Media API to resolve urls
+  await page.waitFor(mediaDelayMs);
+  // polling at 50ms (roughly every 3 rendered frames)
+  return await page.waitForFunction(areAllImageElementsLoaded, {
+    polling: 50,
+    timeout,
+  });
+}
+
 async function takeScreenShot(page /*:any*/, url /*:string*/) {
   await page.goto(url, { waitUntil: 'networkidle0' });
   await disableAllAnimations(page);
@@ -114,6 +160,7 @@ const getExampleUrl = (
 
 module.exports = {
   getExamplesFor,
+  waitForLoadedImageElements,
   takeScreenShot,
   takeElementScreenShot,
   getExampleUrl,
