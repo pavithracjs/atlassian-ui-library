@@ -81,9 +81,9 @@ function areAllImageElementsLoaded() {
   const images = Array.from(document.images);
   if (!images.length) {
     throw new Error(`
-      'waitForLoadedImageElements' was used but no images existed on the page.
+      'waitForLoadedImageElements' was used, but no images existed on the page within the time threshold.
       Ensure the page contains images.
-      You can increase the delay via the 'mediaDelayMs' parameter
+      You can increase the wait time via the 'mediaDelayMs' parameter.
     `);
   }
   return images.every(i => i.complete);
@@ -109,6 +109,63 @@ async function waitForLoadedImageElements(
     polling: 50,
     timeout,
   });
+}
+
+/**
+ * Wait for images loaded via the CSS background-image property.
+ *
+ * Ensure elements using a `background-image` have finished loading their `url`.
+ */
+async function waitForLoadedBackgroundImages(
+  page /*:any*/,
+  rootSelector /*:string*/ = '*',
+  timeoutMs /*:number*/ = 30000,
+) {
+  return await page
+    .evaluate(
+      (selector /*:string*/, raceTimeout /*:number*/) => {
+        const urlSrcRegex = /url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i;
+        const bgImageUrlSet = Array.from(
+          document.querySelectorAll(selector),
+        ).reduce(
+          (collection, node) => {
+            let prop = window
+              .getComputedStyle(node, null)
+              .getPropertyValue('background-image');
+            // Find elements which have a bg image set
+            let match = urlSrcRegex.exec(prop);
+            if (match) {
+              collection.add(match[1]);
+            }
+            return collection;
+          },
+          // Using a Set for automatic de-duplication
+          new Set(),
+        );
+        // Wait for images to load, or abort if timeout threshold is exceeded
+        return Promise.race([
+          new Promise((resolve, reject) => setTimeout(reject, raceTimeout)),
+          Promise.all(
+            [...bgImageUrlSet].map(
+              url =>
+                new Promise((resolve, reject) => {
+                  const img = new Image();
+                  img.onload = () => resolve({ url, loaded: true });
+                  img.onerror = () => reject({ url, loaded: false });
+                  img.src = url;
+                }),
+            ),
+          ),
+        ]);
+      },
+      rootSelector,
+      timeoutMs,
+    )
+    .catch(e => {
+      console.warn(
+        `waitForLoadedBackgroundImages: Failed to resolve background images within the threshold of ${timeoutMs} milliseconds`,
+      );
+    });
 }
 
 async function takeScreenShot(page /*:any*/, url /*:string*/) {
@@ -161,6 +218,7 @@ const getExampleUrl = (
 module.exports = {
   getExamplesFor,
   waitForLoadedImageElements,
+  waitForLoadedBackgroundImages,
   takeScreenShot,
   takeElementScreenShot,
   getExampleUrl,
