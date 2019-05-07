@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 /**
- * This component will inject the an <style> tag with a copy of the style
+ * This component will inject the <style> tag with a copy of the style
  * shared in this url: https://support.atlassian.com/resources/main.css
  *
  * - Why I did not import the styles using "import './styles.css'"?
