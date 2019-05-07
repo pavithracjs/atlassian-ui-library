@@ -242,7 +242,7 @@ describe('QuickSearchContainer', () => {
     });
 
     let globalQuickSearch = wrapper.find(GlobalQuickSearch);
-    await globalQuickSearch.props().onMount();
+    await globalQuickSearch.props().onMount!();
     await wrapper.update();
 
     // after update
@@ -300,7 +300,7 @@ describe('QuickSearchContainer', () => {
     });
 
     let globalQuickSearch = wrapper.find(GlobalQuickSearch);
-    await globalQuickSearch.props().onMount();
+    await globalQuickSearch.props().onMount!();
     await wrapper.update();
 
     assertPreQueryAnalytics(recentItems, defaultAbTest);

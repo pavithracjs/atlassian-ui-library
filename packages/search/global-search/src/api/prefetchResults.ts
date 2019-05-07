@@ -5,7 +5,7 @@ import { ABTest } from './CrossProductSearchClient';
 import { Scope } from './types';
 
 interface CommonPrefetchedResults {
-  abTestPromise: Promise<ABTest>;
+  abTestPromise: { [scope: string]: Promise<ABTest> };
   recentPeoplePromise: Promise<Result[]>;
 }
 
@@ -53,9 +53,11 @@ export const getConfluencePrefetchedData = (
   } = configureSearchClients(cloudId, config);
   return {
     confluenceRecentItemsPromise: prefetchConfluence(confluenceClient),
-    abTestPromise: crossProductSearchClient.getAbTestData(
-      Scope.ConfluencePageBlogAttachment,
-    ),
+    abTestPromise: {
+      [Scope.ConfluencePageBlogAttachment]: crossProductSearchClient.getAbTestData(
+        Scope.ConfluencePageBlogAttachment,
+      ),
+    },
     recentPeoplePromise: peopleSearchClient.getRecentPeople(),
   };
 };
