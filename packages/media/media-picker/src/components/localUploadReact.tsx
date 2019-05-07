@@ -28,12 +28,12 @@ import { LocalUploadConfig } from './types';
 export type LocalUploadComponentBaseProps = {
   context: Context;
   config: LocalUploadConfig;
-  onUploadsStart: (payload: UploadsStartEventPayload) => void;
-  onPreviewUpdate: (payload: UploadPreviewUpdateEventPayload) => void;
-  onStatusUpdate: (payload: UploadStatusUpdateEventPayload) => void;
-  onProcessing: (payload: UploadProcessingEventPayload) => void;
-  onEnd: (payload: UploadEndEventPayload) => void;
-  onError: (payload: UploadErrorEventPayload) => void;
+  onUploadsStart?: (payload: UploadsStartEventPayload) => void;
+  onPreviewUpdate?: (payload: UploadPreviewUpdateEventPayload) => void;
+  onStatusUpdate?: (payload: UploadStatusUpdateEventPayload) => void;
+  onProcessing?: (payload: UploadProcessingEventPayload) => void;
+  onEnd?: (payload: UploadEndEventPayload) => void;
+  onError?: (payload: UploadErrorEventPayload) => void;
   // item: FileState;
   // collectionName?: string;
 };
@@ -61,12 +61,24 @@ export class LocalUploadComponentReact<
     const tenantUploadParams = config.uploadParams;
     const { shouldCopyFileToRecents = true } = config;
 
-    this.uploadComponent.on('uploads-start', onUploadsStart);
-    this.uploadComponent.on('upload-preview-update', onPreviewUpdate);
-    this.uploadComponent.on('upload-status-update', onStatusUpdate);
-    this.uploadComponent.on('upload-processing', onProcessing);
-    this.uploadComponent.on('upload-end', onEnd);
-    this.uploadComponent.on('upload-error', onError);
+    if (onUploadsStart) {
+      this.uploadComponent.on('uploads-start', onUploadsStart!);
+    }
+    if (onPreviewUpdate) {
+      this.uploadComponent.on('upload-preview-update', onPreviewUpdate!);
+    }
+    if (onStatusUpdate) {
+      this.uploadComponent.on('upload-status-update', onStatusUpdate!);
+    }
+    if (onProcessing) {
+      this.uploadComponent.on('upload-processing', onProcessing!);
+    }
+    if (onEnd) {
+      this.uploadComponent.on('upload-end', onEnd!);
+    }
+    if (onError) {
+      this.uploadComponent.on('upload-error', onError!);
+    }
 
     this.uploadService = new NewUploadServiceImpl(
       context,
