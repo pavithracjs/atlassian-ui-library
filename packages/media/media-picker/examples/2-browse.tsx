@@ -3,20 +3,26 @@ import * as React from 'react';
 import { Component } from 'react';
 import {
   mediaPickerAuthProvider,
-  defaultCollectionName,
   defaultMediaPickerCollectionName,
 } from '@atlaskit/media-test-helpers';
 import Button from '@atlaskit/button';
-import DropdownMenu, { DropdownItem } from '@atlaskit/dropdown-menu';
-import { Browser, UploadParams, BrowserConfig } from '../src';
+import {
+  Browser,
+  UploadParams,
+  BrowserConfig,
+  UploadsStartEventPayload,
+} from '../src';
 import { PopupHeader, PopupContainer } from '../example-helpers/styled';
-import { UploadPreviews } from '../example-helpers/upload-previews';
-import { AuthEnvironment } from '../example-helpers/types';
-import { ContextFactory, FileState } from '@atlaskit/media-core';
+import {
+  ContextFactory,
+  FileState,
+  FileIdentifier,
+} from '@atlaskit/media-core';
+import { Card } from '../../media-card';
 
 export interface BrowserWrapperState {
-  collectionName: string;
-  authEnvironment: AuthEnvironment;
+  isOpen: boolean;
+  fileIds: string[];
 }
 
 const context = ContextFactory.create({
@@ -32,56 +38,49 @@ const browseConfig: BrowserConfig = {
 };
 
 class BrowserWrapper extends Component<{}, BrowserWrapperState> {
-  dropzoneContainer?: HTMLDivElement;
-
   state: BrowserWrapperState = {
-    authEnvironment: 'client',
-    collectionName: defaultMediaPickerCollectionName,
+    isOpen: false,
+    fileIds: [],
   };
 
-  async componentWillMount() {
-    await this.createBrowse();
-  }
-
-  async createBrowse() {
-    // const fileBrowser = await MediaPicker('browser', context, browseConfig);
-
+  componentWillMount() {
     context.on('file-added', this.onFileAdded);
   }
 
-  onFileAdded = (fileState: FileState) => {
-    console.log('onFileAdded', fileState);
+  onFileAdded = (_: FileState) => {
+    // console.log('onFileAdded', fileState);
   };
 
   onOpen = () => {
-    // const { fileBrowser } = this.state;
-    // if (fileBrowser) {
-    //   fileBrowser.browse();
-    // }
+    this.setState({ isOpen: !this.state.isOpen });
   };
 
-  // onCollectionChange = (e: React.SyntheticEvent<HTMLElement>) => {
-  //   const { innerText: collectionName } = e.currentTarget;
-  //   const { fileBrowser } = this.state;
-  //   if (!fileBrowser) {
-  //     return;
-  //   }
+  onUploadsStart = (payload: UploadsStartEventPayload) => {
+    const { files } = payload;
+    const newFileIds = files.map(file => file.id);
+    console.log({ newFileIds });
+    this.setState({ fileIds: [...this.state.fileIds, ...newFileIds] });
+  };
 
-  //   this.setState({ collectionName }, () => {
-  //     fileBrowser.setUploadParams({
-  //       collection: collectionName,
-  //     });
-  //   });
-  // };
+  onClose = () => {
+    this.setState({ isOpen: false });
+  };
 
-  // onAuthTypeChange = (e: React.SyntheticEvent<HTMLElement>) => {
-  //   const { innerText: authEnvironment } = e.currentTarget;
+  renderCards = () => {
+    const { fileIds } = this.state;
 
-  //   this.setState({ authEnvironment: authEnvironment as AuthEnvironment });
-  // };
+    return fileIds.map(id => {
+      const identifier: FileIdentifier = {
+        id,
+        mediaItemType: 'file',
+      };
+
+      return <Card key={id} context={context} identifier={identifier} />;
+    });
+  };
 
   render() {
-    const { collectionName, authEnvironment } = this.state;
+    const { isOpen } = this.state;
 
     return (
       <PopupContainer>
@@ -89,20 +88,15 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
           <Button appearance="primary" onClick={this.onOpen}>
             Open
           </Button>
-          <DropdownMenu trigger={collectionName} triggerType="button">
-            {/* <DropdownItem onClick={this.onCollectionChange}>
-              {defaultMediaPickerCollectionName}
-            </DropdownItem>
-            <DropdownItem onClick={this.onCollectionChange}>
-              {defaultCollectionName}
-            </DropdownItem> */}
-          </DropdownMenu>
-          {/* <DropdownMenu trigger={authEnvironment} triggerType="button">
-            <DropdownItem onClick={this.onAuthTypeChange}>client</DropdownItem>
-            <DropdownItem onClick={this.onAuthTypeChange}>asap</DropdownItem>
-          </DropdownMenu> */}
         </PopupHeader>
-        <Browser context={context} config={browseConfig} />
+        {this.renderCards()}
+        <Browser
+          isOpen={isOpen}
+          context={context}
+          config={browseConfig}
+          onUploadsStart={this.onUploadsStart}
+          onClose={this.onClose}
+        />
       </PopupContainer>
     );
   }

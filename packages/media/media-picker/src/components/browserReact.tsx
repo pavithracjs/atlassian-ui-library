@@ -9,6 +9,8 @@ import {
 export type RenderBrowserFunc = () => ReactNode;
 export interface BrowserReactOwnProps {
   config: BrowserConfig;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 export type BrowserReactProps = BrowserReactOwnProps &
@@ -28,14 +30,29 @@ export class BrowserReact extends LocalUploadComponentReact<BrowserReactProps> {
     this.uploadService.addFiles(filesArray);
   };
 
-  // TODO: automatically call this when rendering
+  componentDidMount() {
+    // TODO: handle initial isOpen
+  }
+
+  componentWillReceiveProps(nextProps: BrowserReactProps) {
+    const { isOpen } = this.props;
+    const { isOpen: nextIsOpen } = nextProps;
+
+    if (nextIsOpen && nextIsOpen !== isOpen) {
+      this.browse();
+    }
+  }
 
   public browse(): void {
-    console.log('browse()', this.browserRef.current);
+    const { onClose } = this.props;
     if (!this.browserRef.current) {
       return;
     }
+
     this.browserRef.current.click();
+    // Calling onClose directly since there is no dom api to notify us when
+    // the native file picker is closed
+    onClose();
   }
 
   render() {
@@ -43,7 +60,7 @@ export class BrowserReact extends LocalUploadComponentReact<BrowserReactProps> {
     const multiple = config.multiple;
     const fileExtensions =
       config.fileExtensions && config.fileExtensions.join(',');
-    console.log('BrowserReact render');
+
     return (
       <input
         ref={this.browserRef}
