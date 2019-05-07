@@ -256,7 +256,7 @@ const getJiraPostQueryResults = () => [
       {
         analyticsType: 'link-postquery-advanced-search-jira',
         contentType: 'jira-issue',
-        href: '/secure/QuickSearch.jspa?searchString=query',
+        href: 'jiraUrl',
         name: 'jira',
         resultId: 'search-jira',
         resultType: 'JiraIssueAdvancedSearch',
@@ -390,6 +390,7 @@ const getPreqQueryResults = (product: QuickSearchContext) =>
       });
 
       it('should return postQueryGroups', () => {
+        getAdvancedSearchUrlSpy.mockReturnValue('jiraUrl');
         const { getPostQueryGroups } = getProps();
         const postQueryGroups = getPostQueryGroups();
         expect(postQueryGroups).toMatchObject(getPostQueryResults(product));

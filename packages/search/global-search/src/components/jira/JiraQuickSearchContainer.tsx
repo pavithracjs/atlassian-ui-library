@@ -162,7 +162,10 @@ export class JiraQuickSearchContainer extends React.Component<
     analyticsData: Object,
     isLoading: boolean,
   ) => {
-    const { onAdvancedSearch = () => {} } = this.props;
+    const {
+      referralContextIdentifiers,
+      onAdvancedSearch = () => {},
+    } = this.props;
     const eventData = {
       resultId: ADVANCED_JIRA_SEARCH_RESULT_ID,
       ...analyticsData,
@@ -176,6 +179,7 @@ export class JiraQuickSearchContainer extends React.Component<
     fireSelectedAdvancedSearch(
       eventData,
       searchSessionId,
+      referralContextIdentifiers,
       this.props.createAnalyticsEvent,
     );
     onAdvancedSearch(event, entity, query, searchSessionId);
