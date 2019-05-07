@@ -362,6 +362,7 @@ export class JiraQuickSearchContainer extends React.Component<
     query: string,
     sessionId: string,
     startTime: number,
+    queryVersion: number,
   ): Promise<ResultsWithTiming> => {
     const referrerId =
       this.props.referralContextIdentifiers &&
@@ -370,6 +371,7 @@ export class JiraQuickSearchContainer extends React.Component<
       query,
       { sessionId, referrerId },
       SCOPES,
+      queryVersion,
       JIRA_RESULT_LIMIT,
     );
 
