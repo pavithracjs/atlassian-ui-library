@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ArticleContentInner, ArticleContentTitle } from './styled';
-import './styles.less';
+import './styles.css';
 
 export interface Props {
   title?: string;
@@ -18,7 +18,6 @@ const ArticleContent: React.SFC<Props> = props => {
       )}
       {body && (
         <div
-          // className={css.contentPlatformSupport}
           className={'content-platform-support'}
           dangerouslySetInnerHTML={{ __html: body }}
         />
