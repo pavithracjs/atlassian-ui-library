@@ -37,6 +37,7 @@ const Container = styled.div`
   margin: ${1.5 * gridSize()}px;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: left;
 `;
 
