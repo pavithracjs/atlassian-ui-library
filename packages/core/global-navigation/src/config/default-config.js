@@ -1,5 +1,6 @@
 // @flow
 
+import React from 'react';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import CreateIcon from '@atlaskit/icon/glyph/add';
 import StarLargeIcon from '@atlaskit/icon/glyph/star-large';
@@ -8,8 +9,7 @@ import SettingsIcon from '@atlaskit/icon/glyph/settings';
 import AtlassianSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 import { SwitchToTooltipText } from '@atlaskit/atlassian-switcher';
 import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
-import RecentIcon from '@atlaskit/icon/glyph/recent';
-
+import RecentIcon from '../components/GlobalNavigation/recent-icon';
 import type { DefaultConfigShape } from './types';
 
 export default function generateDefaultConfig(): DefaultConfigShape {
