@@ -632,6 +632,14 @@ export class MediaPluginState {
         );
 
         pickers.push(
+          (this.clipboardPicker = await new Picker(
+            'clipboard',
+            pickerFacadeConfig,
+            defaultPickerConfig,
+          ).init()),
+        );
+
+        pickers.push(
           (this.dropzonePicker = await new Picker(
             'dropzone',
             pickerFacadeConfig,
