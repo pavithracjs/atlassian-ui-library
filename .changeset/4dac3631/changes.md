@@ -1,0 +1,5 @@
+- Dynamic table has been internally converted to TypeScript.
+- Drops Flow support.
+- TypeScript consumers will get static type safety.
+- No longer falls back to cell.content for ordering when cell.key is not provided. When cell.key is not provided, it will now preserve original ordering, while still respecting sort order (i.e. ASC and DESC).
+- No other API or behavioural changes.

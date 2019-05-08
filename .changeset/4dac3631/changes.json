@@ -1,0 +1,25 @@
+{
+  "releases": [{ "name": "@atlaskit/dynamic-table", "type": "major" }],
+  "dependents": [
+    {
+      "name": "@atlaskit/icon",
+      "type": "patch",
+      "dependencies": ["@atlaskit/dynamic-table"]
+    },
+    {
+      "name": "@atlaskit/pagination",
+      "type": "patch",
+      "dependencies": ["@atlaskit/icon", "@atlaskit/dynamic-table"]
+    },
+    {
+      "name": "@atlaskit/profilecard",
+      "type": "patch",
+      "dependencies": ["@atlaskit/icon", "@atlaskit/dynamic-table"]
+    },
+    {
+      "name": "@atlaskit/website",
+      "type": "patch",
+      "dependencies": ["@atlaskit/icon", "@atlaskit/dynamic-table"]
+    }
+  ]
+}
