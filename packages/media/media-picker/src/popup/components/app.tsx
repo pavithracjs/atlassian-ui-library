@@ -14,7 +14,7 @@ import { ServiceName, State } from '../domain';
 
 import { BinaryUploaderImpl as MpBinary } from '../../components/binary';
 // import { BrowserImpl as MpBrowser } from '../../components/browser';
-import { DropzoneImpl as MpDropzone } from '../../components/dropzone';
+// import { DropzoneImpl as MpDropzone } from '../../components/dropzone';
 import { ClipboardImpl as MpClipboard } from '../../components/clipboard';
 import { UploadParams, PopupConfig } from '../..';
 
@@ -55,8 +55,10 @@ import { MediaPickerPopupWrapper, SidebarWrapper, ViewWrapper } from './styled';
 import {
   DropzoneDragEnterEventPayload,
   DropzoneDragLeaveEventPayload,
+  DropzoneConfig,
 } from '../../components/types';
 import { BrowserReact } from '../../components/browserReact';
+import { DropzoneReact } from '../../components/dropzone/dropzoneReact';
 
 export interface AppStateProps {
   readonly selectedServiceName: ServiceName;
@@ -103,7 +105,7 @@ export interface AppState {
 }
 
 export class App extends Component<AppProps, AppState> {
-  private readonly mpDropzone: MpDropzone;
+  // private readonly mpDropzone: MpDropzone;
   private readonly mpBinary: MpBinary;
   private readonly componentContext: Context;
   private readonly mpClipboard: MpClipboard;
@@ -139,20 +141,6 @@ export class App extends Component<AppProps, AppState> {
 
     this.componentContext = context;
 
-    this.mpDropzone = new MpDropzone(context, {
-      uploadParams: tenantUploadParams,
-      shouldCopyFileToRecents: false,
-      headless: true,
-    });
-    this.mpDropzone.on('drag-enter', this.onDragEnter);
-    this.mpDropzone.on('drag-leave', this.onDragLeave);
-    this.mpDropzone.on('uploads-start', this.onDrop);
-    this.mpDropzone.on('upload-preview-update', onUploadPreviewUpdate);
-    this.mpDropzone.on('upload-status-update', onUploadStatusUpdate);
-    this.mpDropzone.on('upload-processing', onUploadProcessing);
-    this.mpDropzone.on('upload-end', onUploadEnd);
-    this.mpDropzone.on('upload-error', onUploadError);
-
     this.mpBinary = new MpBinary(context, {
       uploadParams: tenantUploadParams,
       shouldCopyFileToRecents: false,
@@ -179,7 +167,7 @@ export class App extends Component<AppProps, AppState> {
     onStartApp({
       onCancelUpload: uploadId => {
         // this.mpBrowser.cancel(uploadId);
-        this.mpDropzone.cancel(uploadId);
+        // this.mpDropzone.cancel(uploadId);
         this.mpBinary.cancel(uploadId);
       },
     });
@@ -206,17 +194,14 @@ export class App extends Component<AppProps, AppState> {
   componentWillReceiveProps({ isVisible }: Readonly<AppProps>): void {
     if (isVisible !== this.props.isVisible) {
       if (isVisible) {
-        this.mpDropzone.activate();
         this.mpClipboard.activate();
       } else {
-        this.mpDropzone.deactivate();
         this.mpClipboard.deactivate();
       }
     }
   }
 
   componentWillUnmount(): void {
-    this.mpDropzone.deactivate();
     // this.mpBrowser.teardown();
   }
 
@@ -252,6 +237,38 @@ export class App extends Component<AppProps, AppState> {
     );
   };
 
+  renderDragZone = () => {
+    const {
+      onUploadPreviewUpdate,
+      onUploadStatusUpdate,
+      onUploadProcessing,
+      onUploadEnd,
+      onUploadError,
+      tenantUploadParams,
+    } = this.props;
+
+    const config: DropzoneConfig = {
+      uploadParams: tenantUploadParams,
+      shouldCopyFileToRecents: false,
+      // constainer: // No container provided
+    };
+
+    return (
+      <DropzoneReact
+        context={this.componentContext}
+        config={config}
+        onUploadsStart={this.onDrop}
+        onPreviewUpdate={onUploadPreviewUpdate}
+        onStatusUpdate={onUploadStatusUpdate}
+        onProcessing={onUploadProcessing}
+        onEnd={onUploadEnd}
+        onError={onUploadError}
+        onDragEnter={this.onDragEnter}
+        onDragLeave={this.onDragLeave}
+      />
+    );
+  };
+
   render() {
     const {
       selectedServiceName,
@@ -280,6 +297,7 @@ export class App extends Component<AppProps, AppState> {
                   <MainEditorView binaryUploader={this.mpBinary} />
                 </MediaPickerPopupWrapper>
                 {this.renderBrowser()}
+                {this.renderDragZone()}
               </PassContext>
             </ModalDialog>
           </Provider>
