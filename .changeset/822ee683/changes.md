@@ -1,1 +1,0 @@
-- ED-6788: refactor columns resize actions to commands
