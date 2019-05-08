@@ -8,7 +8,7 @@ import SettingsIcon from '@atlaskit/icon/glyph/settings';
 import AtlassianSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 import { SwitchToTooltipText } from '@atlaskit/atlassian-switcher';
 import QuestionCircleIcon from '@atlaskit/icon/glyph/question-circle';
-import RecentIcon from '../components/GlobalNavigation/recent-icon';
+import RecentIcon from '../components/CustomIcons';
 import type { DefaultConfigShape } from './types';
 
 export default function generateDefaultConfig(): DefaultConfigShape {

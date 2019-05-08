@@ -24,6 +24,10 @@ const RecentIconGlyph = () => (
 );
 
 type RecentIconProps = { label: string, title: string };
-export default (props: RecentIconProps) => (
+
+const RecentIcon = (props: RecentIconProps) => (
   <Icon glyph={RecentIconGlyph} {...props} />
 );
+RecentIcon.displayName = 'RecentIcon';
+
+export default RecentIcon;

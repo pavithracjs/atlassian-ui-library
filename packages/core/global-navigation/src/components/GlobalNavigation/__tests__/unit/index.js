@@ -11,7 +11,6 @@ import AppSwitcherIcon from '@atlaskit/icon/glyph/app-switcher';
 import SearchIcon from '@atlaskit/icon/glyph/search';
 import CreateIcon from '@atlaskit/icon/glyph/add';
 import StarLargeIcon from '@atlaskit/icon/glyph/star-large';
-import RecentIcon from '@atlaskit/icon/glyph/recent';
 import NotificationIcon from '@atlaskit/icon/glyph/notification';
 import SettingsIcon from '@atlaskit/icon/glyph/settings';
 import SignInIcon from '@atlaskit/icon/glyph/sign-in';
@@ -20,6 +19,7 @@ import { NotificationIndicator } from '@atlaskit/notification-indicator';
 import GlobalNavigation from '../../index';
 import ScreenTracker from '../../../ScreenTracker';
 import ItemComponent from '../../../ItemComponent';
+import RecentIcon from '../../../CustomIcons';
 import { mockJestEndpoints } from '../../../../../examples/helpers/mock-atlassian-switcher-endpoints';
 
 const DrawerContents = () => <div>drawer</div>;
