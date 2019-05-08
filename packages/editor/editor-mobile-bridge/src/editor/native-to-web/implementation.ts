@@ -32,6 +32,7 @@ import {
   isLinkAtPos,
   setLinkHref,
   setLinkText,
+  clearEditorContent,
 } from '@atlaskit/editor-core';
 import { EditorView } from 'prosemirror-view';
 import { EditorState, Selection } from 'prosemirror-state';
@@ -167,10 +168,7 @@ export default class WebBridgeImpl extends WebBridge
   clearContent() {
     if (this.editorView) {
       const { state, dispatch } = this.editorView;
-      const tr = state.tr;
-      tr.replace(0, state.doc.nodeSize - 2);
-      tr.setSelection(Selection.atStart(tr.doc));
-      dispatch(tr);
+      clearEditorContent(state, dispatch);
     }
   }
 
