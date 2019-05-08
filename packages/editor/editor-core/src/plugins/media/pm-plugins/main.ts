@@ -58,7 +58,7 @@ export interface MediaNodeWithPosHandler {
 
 export class MediaPluginState {
   public allowsUploads: boolean = false;
-  public mediaContext?: Context;
+  public mediaContext: Context;
   public uploadContext?: Context;
   public ignoreLinks: boolean = false;
   public waitForMediaUpload: boolean = true;
@@ -626,14 +626,6 @@ export class MediaPluginState {
         pickers.push(
           (this.binaryPicker = await new Picker(
             'binary',
-            pickerFacadeConfig,
-            defaultPickerConfig,
-          ).init()),
-        );
-
-        pickers.push(
-          (this.clipboardPicker = await new Picker(
-            'clipboard',
             pickerFacadeConfig,
             defaultPickerConfig,
           ).init()),

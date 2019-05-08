@@ -9,9 +9,10 @@ import {
   isImagePreview,
   UploadPreviewUpdateEventPayload,
   UploadParams,
-  UploadsStartEventPayload,
+  UploadErrorEventPayload,
 } from '@atlaskit/media-picker';
-import { Context, FileIdentifier } from '@atlaskit/media-core';
+import { Context } from '@atlaskit/media-core';
+import { ErrorReporter } from '@atlaskit/editor-common';
 import {
   MediaStateEventSubscriber,
   MediaStateEventListener,
@@ -69,13 +70,24 @@ export default class CustomSmartMediaEditor extends React.Component<
     const cb: MediaStateEventSubscriber = (
       listener: MediaStateEventListener,
     ) => {
-      console.log('listener', listener);
+      // Do we need this ?
     };
     mediaState.insertFile(state, cb);
   };
 
-  onUploadStart = () => {
-    console.log('onUploadStart');
+  onError = ({ error }: UploadErrorEventPayload) => {
+    const {
+      mediaState: { options },
+    } = this.props;
+    if (!error || !error.fileId) {
+      const err = new Error(
+        `Media: unknown upload-error received from Media Picker: ${error &&
+          error.name}`,
+      );
+      const errorReporter = options.errorReporter || new ErrorReporter();
+      errorReporter.captureException(err);
+      return;
+    }
   };
 
   render() {
@@ -91,13 +103,7 @@ export default class CustomSmartMediaEditor extends React.Component<
       <Clipboard
         context={context}
         config={config}
-        onUploadsStart={this.onUploadStart}
-        onEnd={() => {
-          console.log('onEnd');
-        }}
-        onError={() => {
-          console.log('onError');
-        }}
+        onError={this.onError}
         onPreviewUpdate={this.onPreviewUpdate}
       />
     );
