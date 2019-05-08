@@ -88,8 +88,4 @@ function configureSearchClients(
   };
 }
 
-const simpleIsEqual: any = (previousArg: any, newArg: any): boolean => {
-  return deepEqual(previousArg, newArg);
-};
-
-export default memoizeOne(configureSearchClients, simpleIsEqual);
+export default memoizeOne(configureSearchClients, deepEqual);
