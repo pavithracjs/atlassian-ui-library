@@ -1,0 +1,1 @@
+- ED-6073: fix cursor selection and prevent jumping around inline smart links
