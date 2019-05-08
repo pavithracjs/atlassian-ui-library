@@ -157,7 +157,9 @@ function mockAutocompleteApi(delayMs: number, autocomplete: string[]) {
       const lastToken = tokens.slice(-1)[0];
       const restTokens = tokens.slice(0, -1);
       const autocompleteList = autocomplete
-        .filter(token => token.startsWith(lastToken))
+        .filter(token =>
+          token.toLowerCase().startsWith(lastToken.toLowerCase()),
+        )
         .map(token => restTokens.concat([token]).join(' '));
       return delay(delayMs, autocompleteList);
     },
