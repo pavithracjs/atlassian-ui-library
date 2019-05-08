@@ -99,6 +99,8 @@ const mediaPlugin = (
                 mediaSingle: ReactMediaSingleNode(
                   portalProviderAPI,
                   eventDispatcher,
+                  providerFactory,
+                  options,
                   props.appearance,
                   props.appearance === 'full-width',
                 ),

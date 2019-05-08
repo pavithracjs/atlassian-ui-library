@@ -13,10 +13,11 @@ import {
   DEFAULT_IMAGE_HEIGHT,
   DEFAULT_IMAGE_WIDTH,
   browser,
+  ProviderFactory,
 } from '@atlaskit/editor-common';
 import { CardEvent } from '@atlaskit/media-card';
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
-import { stateKey, MediaPluginState } from '../pm-plugins/main';
+
 import { SelectionBasedNodeView } from '../../../nodeviews/ReactNodeView';
 import MediaItem from './media';
 import WithPluginState from '../../../ui/WithPluginState';
@@ -30,6 +31,8 @@ import { EditorAppearance } from '../../../types';
 import { Context } from '@atlaskit/media-core';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { NodeSelection } from 'prosemirror-state';
+import { MediaOptions } from '..';
+import { updateMediaNodeAttrs } from '../commands/media';
 
 export interface MediaSingleNodeProps {
   node: PMNode;
@@ -40,6 +43,7 @@ export interface MediaSingleNodeProps {
   getPos: () => number;
   lineLength: number;
   editorAppearance: EditorAppearance;
+  mediaOptions: MediaOptions;
   mediaProvider?: Promise<MediaProvider>;
   fullWidthMode?: boolean;
 }
@@ -54,20 +58,15 @@ export default class MediaSingleNode extends Component<
   MediaSingleNodeProps,
   MediaSingleNodeState
 > {
-  private mediaPluginState: MediaPluginState;
+  static defaultProps: Partial<MediaSingleNodeProps> = {
+    mediaOptions: {},
+  };
 
   state = {
     height: undefined,
     width: undefined,
     viewContext: undefined,
   };
-
-  constructor(props: MediaSingleNodeProps) {
-    super(props);
-    this.mediaPluginState = stateKey.getState(
-      this.props.view.state,
-    ) as MediaPluginState;
-  }
 
   async componentDidMount() {
     const mediaProvider = await this.props.mediaProvider;
@@ -79,14 +78,14 @@ export default class MediaSingleNode extends Component<
     }
     const updatedDimensions = await this.getRemoteDimensions();
     if (updatedDimensions) {
-      this.mediaPluginState.updateMediaNodeAttrs(
+      updateMediaNodeAttrs(
         updatedDimensions.id,
         {
           height: updatedDimensions.height,
           width: updatedDimensions.width,
         },
         true,
-      );
+      )(this.props.view.state, this.props.view.dispatch);
     }
   }
 
@@ -201,7 +200,7 @@ export default class MediaSingleNode extends Component<
       }
     }
 
-    let canResize = !!this.mediaPluginState.options.allowResizing;
+    let canResize = !!this.props.mediaOptions.allowResizing;
 
     const pos = getPos();
     if (pos) {
@@ -258,7 +257,7 @@ export default class MediaSingleNode extends Component<
         gridSize={12}
         viewContext={this.state.viewContext}
         state={this.props.view.state}
-        appearance={this.mediaPluginState.options.appearance}
+        appearance={this.props.editorAppearance}
         selected={this.props.selected()}
       >
         {MediaChild}
@@ -320,15 +319,14 @@ class MediaSingleNodeView extends SelectionBasedNodeView {
       eventDispatcher,
       editorAppearance,
       fullWidthMode,
+      providerFactory,
+      mediaOptions,
     } = this.reactComponentProps;
-    const mediaPluginState = stateKey.getState(
-      this.view.state,
-    ) as MediaPluginState;
 
     return (
       <WithProviders
         providers={['mediaProvider']}
-        providerFactory={mediaPluginState.options.providerFactory}
+        providerFactory={providerFactory}
         renderNode={({ mediaProvider }) => {
           return (
             <WithPluginState
@@ -350,6 +348,7 @@ class MediaSingleNodeView extends SelectionBasedNodeView {
                     node={this.node}
                     getPos={this.getPos}
                     mediaProvider={mediaProvider}
+                    mediaOptions={mediaOptions || {}}
                     view={this.view}
                     fullWidthMode={fullWidthMode}
                     selected={isSelected}
@@ -385,6 +384,8 @@ class MediaSingleNodeView extends SelectionBasedNodeView {
 export const ReactMediaSingleNode = (
   portalProviderAPI: PortalProviderAPI,
   eventDispatcher: EventDispatcher,
+  providerFactory: ProviderFactory,
+  mediaOptions: MediaOptions = {},
   editorAppearance?: EditorAppearance,
   fullWidthMode?: boolean,
 ) => (node: PMNode, view: EditorView, getPos: () => number) => {
@@ -392,5 +393,7 @@ export const ReactMediaSingleNode = (
     eventDispatcher,
     editorAppearance,
     fullWidthMode,
+    providerFactory,
+    mediaOptions,
   }).init();
 };
