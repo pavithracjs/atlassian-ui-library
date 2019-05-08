@@ -1,0 +1,1 @@
+- Fixed regression of font-weight for <small> elements
