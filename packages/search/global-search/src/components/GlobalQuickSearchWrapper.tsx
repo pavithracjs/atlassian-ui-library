@@ -163,6 +163,12 @@ export interface Props {
    * optional because it is passed only for jira
    */
   appPermission?: JiraApplicationPermission;
+
+  /**
+   * Determine whether to enable faster search for control (aka 'default').
+   * This is used for Confluence only.
+   */
+  fasterSearchFFEnabled?: boolean;
 }
 
 /**
@@ -212,7 +218,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     } else if (this.props.context === 'home') {
       return HomeQuickSearchContainer;
     } else if (this.props.context === 'jira') {
-      return JiraQuickSearchContainer;
+      return JiraQuickSearchContainer as React.ComponentClass<any>;
     } else {
       // fallback to home if nothing specified
       return HomeQuickSearchContainer;
@@ -273,6 +279,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
               enablePreQueryFromAggregator,
               inputControls,
               appPermission,
+              fasterSearchFFEnabled,
             } = this.props;
 
             return (
@@ -291,6 +298,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
                 enablePreQueryFromAggregator={enablePreQueryFromAggregator}
                 inputControls={inputControls}
                 appPermission={appPermission}
+                fasterSearchFFEnabled={fasterSearchFFEnabled}
               />
             );
           }}

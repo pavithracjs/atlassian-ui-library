@@ -1,5 +1,35 @@
 # @atlaskit/global-search
 
+## 8.3.0
+- [minor] [4d5fb33572](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d5fb33572):
+
+  - Jira new design for advanced search
+
+## 8.2.3
+- [patch] [1e01ef79e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e01ef79e2):
+
+  - Put queryVersion into the request for searches
+
+## 8.2.2
+- [patch] [ebc992e51d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ebc992e51d):
+
+  - Adds referral context identifiers to more analytics events.
+
+## 8.2.1
+- [patch] [4051c8b935](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4051c8b935):
+
+  - Add support for experiments to change the number of search results shown
+
+## 8.2.0
+- [minor] [a8a4ab0c5b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a8a4ab0c5b):
+
+  - Added support for faster search by pre-loading some search results from Confluence's recently view pages
+
+## 8.1.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
 ## 8.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

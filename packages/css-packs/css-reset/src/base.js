@@ -169,6 +169,7 @@ export default evaluateInner`
   /* Other typographical elements */
   small {
     ${typography.h100()}
+    font-weight: normal;
   }
 
   code,

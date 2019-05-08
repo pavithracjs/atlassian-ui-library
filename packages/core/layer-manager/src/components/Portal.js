@@ -82,7 +82,6 @@ class Portal extends Component<Props> {
 }
 
 // Pass theme through to be consumed
-// TODO: @thejameskyle - Fix Styled Components for Flow 53+
 const PortalWithTheme = (withTheme: any)(Portal);
 
 // Wrap the default export in a ThemeProvider component so that withTheme

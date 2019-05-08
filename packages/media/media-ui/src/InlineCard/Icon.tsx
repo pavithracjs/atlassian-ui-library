@@ -11,7 +11,6 @@ export const Icon: ComponentClass<ImgHTMLAttributes<{}>> = styled.img`
   height: 14px;
   width: 14px;
   margin-right: 4px;
-  margin-left: 2px;
   border-radius: 2px;
   user-select: none;
 `;

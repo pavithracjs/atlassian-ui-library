@@ -26,7 +26,7 @@ export const withImageLoader = <P extends {}>(
       imageStatus: 'loading',
     };
 
-    img: HTMLImageElement | null;
+    img?: HTMLImageElement | null;
 
     componentDidMount() {
       this.fetchImage(this.props);

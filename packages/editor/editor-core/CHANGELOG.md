@@ -1,5 +1,35 @@
 # @atlaskit/editor-core
 
+## 110.3.3
+- [patch] [d9eccd861e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d9eccd861e):
+
+  - ED-6804: pasting URLs with spaces properly convert to smart links
+
+## 110.3.2
+- [patch] [47273cabd4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/47273cabd4):
+
+  - ED-6803: Added bridge.clearContent() method for Android
+
+## 110.3.1
+- [patch] [7890fa64fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7890fa64fc):
+
+  - ED-6723 Fix code block to be indented, if it's created using auto formating.
+
+## 110.3.0
+- [minor] [652ef1e6be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/652ef1e6be):
+
+  - ED-6774: Adds a FF to priortize smart links resolution over Jira Issue Macro
+
+## 110.2.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
+## 110.1.1
+- [patch] [6614c81995](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6614c81995):
+
+  - ED-6792: refactor column resizing classes to helper functions
+
 ## 110.1.0
 - [minor] [85d8a0831b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85d8a0831b):
 

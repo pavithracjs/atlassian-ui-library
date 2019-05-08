@@ -1,7 +1,6 @@
 import * as React from 'react';
 import IconLocation from '@atlaskit/icon/glyph/location';
 import IconRecent from '@atlaskit/icon/glyph/recent';
-import IconMention from '@atlaskit/icon/glyph/mention';
 import IconEmail from '@atlaskit/icon/glyph/email';
 import OfficeBuildingIcon from '@atlaskit/icon/glyph/office-building';
 
@@ -14,7 +13,6 @@ import {
 const icons = {
   location: IconLocation,
   time: IconRecent,
-  mention: IconMention,
   email: IconEmail,
   companyName: OfficeBuildingIcon,
 };

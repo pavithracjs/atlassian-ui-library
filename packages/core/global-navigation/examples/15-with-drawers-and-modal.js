@@ -214,6 +214,13 @@ class GlobalNavWithDrawers extends Component<Props, State> {
     />
   );
 
+  renderRecentDrawerContents = () => (
+    <DrawerContent
+      drawerTitle="Recent drawer"
+      drawerBody="Can be controlled by passing the onRecentClick prop"
+    />
+  );
+
   render() {
     const actions = [
       { text: 'Close', onClick: this.closeCreateModal },
@@ -227,8 +234,6 @@ class GlobalNavWithDrawers extends Component<Props, State> {
       onNotificationDrawerOpen,
       unmountOnExit,
     } = this.props;
-
-    console.log(helpItemOpens === 'drawer');
 
     return (
       <Fragment>
@@ -275,6 +280,10 @@ class GlobalNavWithDrawers extends Component<Props, State> {
           settingsDrawerContents={this.renderSettingsDrawerContents}
           onSettingsDrawerCloseComplete={this.onCloseComplete}
           shouldSettingsDrawerUnmountOnExit={unmountOnExit}
+          // Recent drawer
+          recentDrawerContents={this.renderRecentDrawerContents}
+          onRecentDrawerCloseComplete={this.onCloseComplete}
+          shouldRecentDrawerUnmountOnExit={unmountOnExit}
         />
         <ModalTransition>
           {this.state.isCreateModalOpen && (

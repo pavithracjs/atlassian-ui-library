@@ -14,6 +14,7 @@ import {
   State,
 } from '../../../components/ShareDialogWithTrigger';
 import { ShareData, ShareForm } from '../../../components/ShareForm';
+import { ConfigResponse } from '../../../clients/ShareServiceClient';
 import { messages } from '../../../i18n';
 import { DialogPlacement, ADMIN_NOTIFIED, OBJECT_SHARED } from '../../../types';
 import mockPopper from '../_mockPopper';
@@ -485,10 +486,15 @@ describe('ShareDialogWithTrigger', () => {
 
     it('should close inline dialog and reset the state and call props.showFlags when onSubmit resolves a value', async () => {
       const mockOnSubmit: jest.Mock = jest.fn().mockResolvedValue({});
+      const mockConfig: ConfigResponse = {
+        allowComment: false,
+        allowedDomains: [],
+        mode: 'DOMAIN_BASED_INVITE' as 'DOMAIN_BASED_INVITE',
+      };
       const values: ShareData = {
         users: [
           { type: 'user', id: 'id', name: 'name' },
-          { type: 'email', id: 'email', name: 'email' },
+          { type: 'email', id: 'email@atlassian.com', name: 'email' },
         ],
         comment: {
           format: 'plain_text',
@@ -504,6 +510,7 @@ describe('ShareDialogWithTrigger', () => {
       };
       wrapper = shallowWithIntl<Props>(
         <ShareDialogWithTrigger
+          config={mockConfig}
           copyLink="copyLink"
           onShareSubmit={mockOnSubmit}
           loadUserOptions={mockLoadOptions}
@@ -536,6 +543,14 @@ describe('ShareDialogWithTrigger', () => {
       expect(mockShowFlags).toHaveBeenCalledWith([
         {
           appearance: 'success',
+          title: {
+            ...messages.adminNotifiedMessage,
+            defaultMessage: expect.any(String),
+          },
+          type: ADMIN_NOTIFIED,
+        },
+        {
+          appearance: 'success',
           title: expect.objectContaining({
             ...messages.shareSuccessMessage,
             defaultMessage: expect.any(String),
@@ -547,7 +562,7 @@ describe('ShareDialogWithTrigger', () => {
       wrapper.setProps({
         config: {
           allowComment: false,
-          mode: 'INVITE_NEEDS_APPROVAL' as 'INVITE_NEEDS_APPROVAL',
+          mode: 'ANYONE' as 'ANYONE',
         },
       });
 
@@ -561,14 +576,6 @@ describe('ShareDialogWithTrigger', () => {
 
       expect(mockShowFlags).toHaveBeenCalledTimes(1);
       expect(mockShowFlags).toHaveBeenCalledWith([
-        {
-          appearance: 'success',
-          title: {
-            ...messages.adminNotifiedMessage,
-            defaultMessage: expect.any(String),
-          },
-          type: ADMIN_NOTIFIED,
-        },
         {
           appearance: 'success',
           title: {

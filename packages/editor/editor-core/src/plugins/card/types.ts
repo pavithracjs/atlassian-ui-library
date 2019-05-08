@@ -9,6 +9,7 @@ export interface CardProvider {
 
 export interface CardOptions {
   provider?: Promise<CardProvider>;
+  resolveBeforeMacros?: string[];
 }
 
 export type Request = {
