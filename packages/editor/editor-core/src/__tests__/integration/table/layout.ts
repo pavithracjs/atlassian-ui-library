@@ -32,7 +32,7 @@ const clickFirstCell = async (page: any) => {
 
 BrowserTestCase(
   'Remains in overflow on table scale to wide',
-  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
+  { skip: ['edge', 'ie', 'safari', 'firefox'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
@@ -76,7 +76,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'Maintains the wide layout size without overflow',
-  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
+  { skip: ['edge', 'ie', 'firefox', 'safari'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
@@ -121,7 +121,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'Maintains the full-width layout size without overflow',
-  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
+  { skip: ['edge', 'ie', 'firefox', 'safari'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 

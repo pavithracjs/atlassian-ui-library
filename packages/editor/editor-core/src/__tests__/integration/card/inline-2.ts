@@ -9,7 +9,7 @@ import {
 
 BrowserTestCase(
   `inline-2.ts: pasting an link then typing still converts to inline card`,
-  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
+  { skip: ['ie', 'safari'] },
   async (client: any, testName: string) => {
     let browser = new Page(client);
 
