@@ -51,7 +51,10 @@ describe('<QuickSearch />', () => {
         childContextTypes: { onAnalyticsEvent: PropTypes.func },
       },
     );
-    searchInput = wrapper.find(AkSearch).find('input');
+    searchInput = wrapper
+      .find(AkSearch)
+      .find('input')
+      .last();
   };
 
   beforeEach(() => {
@@ -419,6 +422,28 @@ describe('<QuickSearch />', () => {
       expect(
         wrapper.find(ResultItem).filterWhere(n => !!n.prop('isSelected')),
       ).toHaveLength(0);
+    });
+
+    it('should autocomplete when Tab is pressed', () => {
+      render({ autocompleteText: 'autocomplete' });
+      searchInput.simulate('keydown', { key: 'Tab' });
+
+      expect(wrapper.find(AkSearch).prop('value')).toBe('autocomplete ');
+    });
+
+    it('should autocomplete when ArrowRight is pressed', () => {
+      render({ autocompleteText: 'autocomplete' });
+      searchInput.simulate('keydown', { key: 'ArrowRight' });
+
+      expect(wrapper.find(AkSearch).prop('value')).toBe('autocomplete ');
+    });
+
+    it('should not autocomplete when Tab is pressed repeatedly', () => {
+      render({ autocompleteText: 'autocomplete' });
+      searchInput.simulate('keydown', { key: 'Tab' });
+      expect(wrapper.find(AkSearch).prop('value')).toBe('autocomplete ');
+      searchInput.simulate('keydown', { key: 'Tab' });
+      expect(wrapper.find(AkSearch).prop('value')).toBe('autocomplete ');
     });
   });
 
