@@ -29,7 +29,7 @@ BrowserTestCase(
     await browser.paste();
 
     // type some text after and before it
-    await browser.browser.keys(['more typing', 'Home', 'more typing']);
+    await browser.browser.keys(['more typing', 'Home', 'more typing ']);
 
     const doc = await browser.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
