@@ -1,1 +1,0 @@
-- Adds support for recent drawer in global navigation
