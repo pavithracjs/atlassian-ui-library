@@ -1,0 +1,1 @@
+- ED-6723 Fix code block to be indented, if it's created using auto formating.
