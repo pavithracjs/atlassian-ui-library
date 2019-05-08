@@ -1,0 +1,1 @@
+- ED-6803: Added bridge.clearContent() method for Android
