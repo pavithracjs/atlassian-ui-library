@@ -7,7 +7,9 @@ import {
   BinaryUploader,
   BinaryUploaderConstructor,
   BinaryConfig,
+  Browser,
   BrowserConfig,
+  BrowserConstructor,
   ClipboardConfig,
   Popup,
   PopupConfig,
@@ -24,6 +26,8 @@ export const isBinaryUploader = (
 ): component is BinaryUploader => {
   return 'upload' in component;
 };
+export const isBrowser = (component: any): component is Browser =>
+  component && 'browse' in component && 'teardown' in component;
 export const isDropzone = (component: any): component is Dropzone =>
   component && 'activate' in component && 'deactivate' in component;
 export const isPopup = (component: any): component is Popup =>
@@ -52,15 +56,17 @@ export { ImagePreview, Preview, NonImagePreview } from './domain/preview';
 // Constructor public API and types
 export interface MediaPickerConstructors {
   binary: BinaryUploaderConstructor;
+  browser: BrowserConstructor;
   dropzone: DropzoneConstructor;
   popup: PopupConstructor;
 }
 
-export { BinaryUploader, Dropzone, Popup };
+export { BinaryUploader, Browser, Dropzone, Popup };
 export type MediaPickerComponent = BinaryUploader | Dropzone | Popup;
 
 export interface MediaPickerComponents {
   binary: BinaryUploader;
+  browser: Browser;
   dropzone: Dropzone;
   popup: Popup;
 }
@@ -95,13 +101,13 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
         BinaryUploaderImpl,
       } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-binary" */ './components/binary');
       return new BinaryUploaderImpl(context, pickerConfig as BinaryConfig);
-    // case 'clipboard':
-    //   const {
-    //     ClipboardImpl,
-    //   } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-clipboard" */ './components/clipboard');
-    //   return new ClipboardImpl(context, pickerConfig as
-    //     | ClipboardConfig
-    //     | undefined);
+    case 'browser':
+      const {
+        BrowserImpl,
+      } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-browser" */ './components/browser');
+      return new BrowserImpl(context, pickerConfig as
+        | BrowserConfig
+        | undefined);
     case 'dropzone':
       const {
         DropzoneImpl,
@@ -121,5 +127,4 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
 
 // REACT COMPONENTS
 
-export { BrowserReact as Browser } from './components/browserReact';
 export { ClipboardReact as Clipboard } from './components/clipboardReact';
