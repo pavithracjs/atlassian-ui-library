@@ -1,5 +1,9 @@
 # @atlaskit/icon
 
+## 17.0.1
+- Updated dependencies [3d95467c4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d95467c4b):
+  - @atlaskit/dynamic-table@13.0.0
+
 ## 17.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

@@ -1,5 +1,10 @@
 # @atlaskit/website
 
+## 5.1.1
+- Updated dependencies [3d95467c4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d95467c4b):
+  - @atlaskit/icon@17.0.1
+  - @atlaskit/dynamic-table@13.0.0
+
 ## 5.1.0
 - [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
 

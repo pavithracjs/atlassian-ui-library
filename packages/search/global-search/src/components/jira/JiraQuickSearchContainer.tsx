@@ -25,7 +25,6 @@ import QuickSearchContainer, {
   SearchResultProps,
 } from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
-import { sliceResults } from './JiraSearchResultsMapper';
 import SearchResultsComponent from '../common/SearchResults';
 import NoResultsState from './NoResultsState';
 import JiraAdvancedSearch from './JiraAdvancedSearch';
@@ -185,6 +184,22 @@ export class JiraQuickSearchContainer extends React.Component<
     onAdvancedSearch(event, entity, query, searchSessionId);
   };
 
+  getPreQueryDisplayedResults = (recentItems: GenericResultMap | null) =>
+    mapRecentResultsToUIGroups(
+      recentItems as JiraResultsMap,
+      this.props.appPermission,
+    );
+
+  getPostQueryDisplayedResults = (
+    searchResults: GenericResultMap | null,
+    query: string,
+  ) =>
+    mapSearchResultsToUIGroups(
+      searchResults as JiraResultsMap,
+      this.props.appPermission,
+      query,
+    );
+
   getSearchResultsComponent = ({
     retrySearch,
     latestSearchQuery,
@@ -267,18 +282,9 @@ export class JiraQuickSearchContainer extends React.Component<
             />
           </BeforePreQueryStateContainer>
         )}
-        getPreQueryGroups={() =>
-          mapRecentResultsToUIGroups(
-            recentItems as JiraResultsMap,
-            this.props.appPermission,
-          )
-        }
+        getPreQueryGroups={() => this.getPreQueryDisplayedResults(recentItems)}
         getPostQueryGroups={() =>
-          mapSearchResultsToUIGroups(
-            searchResults as JiraResultsMap,
-            this.props.appPermission,
-            query,
-          )
+          this.getPostQueryDisplayedResults(searchResults, query)
         }
         renderNoResult={() => (
           <NoResultsState
@@ -515,7 +521,8 @@ export class JiraQuickSearchContainer extends React.Component<
           messages.jira_search_placeholder,
         )}
         linkComponent={linkComponent}
-        getDisplayedResults={sliceResults}
+        getPreQueryDisplayedResults={this.getPreQueryDisplayedResults}
+        getPostQueryDisplayedResults={this.getPostQueryDisplayedResults}
         getSearchResultsComponent={this.getSearchResultsComponent}
         getRecentItems={this.getRecentItems}
         getSearchResults={this.getSearchResults}

@@ -89,7 +89,8 @@ describe('Jira Quick Search Container', () => {
     const quickSearch = wrapper.find(QuickSearchContainer);
     expect(quickSearch.props()).toMatchObject({
       placeholder: 'Search Jira',
-      getDisplayedResults: expect.any(Function),
+      getPreQueryDisplayedResults: expect.any(Function),
+      getPostQueryDisplayedResults: expect.any(Function),
       getSearchResultsComponent: expect.any(Function),
       getRecentItems: expect.any(Function),
       getSearchResults: expect.any(Function),

@@ -9,7 +9,7 @@ import { GlobalQuickSearch } from '../../../components/GlobalQuickSearch';
 import { delay } from '../_test-util';
 import * as AnalyticsHelper from '../../../util/analytics-event-helper';
 import { DEVELOPMENT_LOGGER } from '../../../../example-helpers/logger';
-import { ResultsWithTiming } from '../../../model/Result';
+import { ResultsWithTiming, GenericResultMap } from '../../../model/Result';
 import { ABTest } from '../../../api/CrossProductSearchClient';
 import {
   ShownAnalyticsAttributes,
@@ -31,6 +31,13 @@ const defaultReferralContext = {
   currentContainerId: 'currentContainerId',
 };
 
+const mapToResultGroup = (resultMap: GenericResultMap) =>
+  Object.keys(resultMap).map(key => ({
+    key,
+    title: `title_${key}` as any,
+    items: resultMap[key],
+  }));
+
 const defaultProps = {
   logger: DEVELOPMENT_LOGGER,
   getSearchResultsComponent: jest.fn((props: SearchResultProps) => null),
@@ -50,6 +57,8 @@ const defaultProps = {
   createAnalyticsEvent: jest.fn(),
   handleSearchSubmit: jest.fn(),
   referralContextIdentifiers: defaultReferralContext,
+  getPreQueryDisplayedResults: jest.fn(mapToResultGroup),
+  getPostQueryDisplayedResults: jest.fn(mapToResultGroup),
 };
 
 const mountQuickSearchContainer = (partialProps?: Partial<Props>) => {
@@ -110,6 +119,9 @@ describe('QuickSearchContainer', () => {
     abTest: ABTest,
   ) => {
     expect(firePreQueryShownEventSpy).toBeCalled();
+    expect(defaultProps.getPreQueryDisplayedResults).toBeCalled();
+    expect(defaultProps.getPostQueryDisplayedResults).not.toBeCalled();
+
     const lastCall =
       firePreQueryShownEventSpy.mock.calls[
         firePreQueryShownEventSpy.mock.calls.length - 1
@@ -140,6 +152,9 @@ describe('QuickSearchContainer', () => {
     },
   ) => {
     expect(firePostQueryShownEventSpy).toBeCalled();
+    expect(defaultProps.getPreQueryDisplayedResults).not.toBeCalled();
+    expect(defaultProps.getPostQueryDisplayedResults).toBeCalled();
+
     const lastCall =
       firePostQueryShownEventSpy.mock.calls[
         firePostQueryShownEventSpy.mock.calls.length - 1
@@ -188,6 +203,7 @@ describe('QuickSearchContainer', () => {
 
   afterEach(() => {
     // reset mocks of default props
+    jest.clearAllMocks();
     defaultProps.getRecentItems.mockReset();
     defaultProps.getSearchResults.mockReset();
     defaultProps.getSearchResultsComponent.mockReset();

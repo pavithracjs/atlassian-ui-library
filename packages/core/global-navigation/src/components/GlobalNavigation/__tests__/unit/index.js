@@ -19,6 +19,7 @@ import { NotificationIndicator } from '@atlaskit/notification-indicator';
 import GlobalNavigation from '../../index';
 import ScreenTracker from '../../../ScreenTracker';
 import ItemComponent from '../../../ItemComponent';
+import RecentIcon from '../../../CustomIcons';
 import { mockJestEndpoints } from '../../../../../examples/helpers/mock-atlassian-switcher-endpoints';
 
 const DrawerContents = () => <div>drawer</div>;
@@ -110,6 +111,11 @@ describe('GlobalNavigation', () => {
         akIcon: SettingsIcon,
         capitalisedName: 'Settings',
         name: 'settings',
+      },
+      {
+        akIcon: RecentIcon,
+        capitalisedName: 'Recent',
+        name: 'recent',
       },
     ];
 

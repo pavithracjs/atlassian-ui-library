@@ -102,6 +102,7 @@ export default class ResultList extends React.Component<Props> {
         ...this.props.analyticsData,
         contentType: result.contentType,
         resultId: result.resultId,
+        isRecentResult: !!result.isRecentResult,
       };
 
       // Make sure that key and resultId are unique across all search results

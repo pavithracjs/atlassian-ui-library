@@ -38,7 +38,6 @@ import QuickSearchContainer, {
   SearchResultProps,
 } from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
-import { sliceResults } from './ConfluenceSearchResultsMapper';
 import NoResultsState from './NoResultsState';
 import SearchResultsComponent from '../common/SearchResults';
 import { getConfluenceAdvancedSearchLink } from '../SearchResultsUtil';
@@ -46,6 +45,7 @@ import AdvancedSearchGroup from './AdvancedSearchGroup';
 import {
   mapRecentResultsToUIGroups,
   mapSearchResultsToUIGroups,
+  MAX_RECENT_RESULTS_TO_SHOW,
 } from './ConfluenceSearchResultsMapper';
 import { AutoCompleteClient } from '../../api/AutoCompleteClient';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
@@ -74,6 +74,36 @@ export interface Props {
   inputControls?: JSX.Element;
   isAutocompleteEnabled?: boolean;
 }
+
+const getRecentItemMatches = (
+  query: string,
+  recentItems: GenericResultMap,
+): Result[] => {
+  return recentItems.objects
+    .filter(result => {
+      return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
+    })
+    .slice(0, MAX_RECENT_RESULTS_TO_SHOW);
+};
+
+const mergeSearchResultsWithRecentItems = (
+  searchResults: ConfluenceResultsMap | undefined,
+  recentItems: Result[],
+): ConfluenceResultsMap => {
+  const defaultSearchResults = {
+    objects: [],
+    spaces: [],
+    people: [],
+  };
+
+  const results = { ...defaultSearchResults, ...searchResults };
+
+  return {
+    objects: appendListWithoutDuplication(recentItems, results.objects),
+    spaces: results.spaces,
+    people: results.people,
+  };
+};
 
 const LOGGER_NAME = 'AK.GlobalSearch.ConfluenceQuickSearchContainer';
 /**
@@ -141,6 +171,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       scopes,
       queryVersion,
     );
+
     return results;
   }
 
@@ -307,6 +338,44 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     return autocompletePromise;
   };
 
+  getPreQueryDisplayedResults = (
+    recentItems: ConfluenceResultsMap,
+    abTest: ABTest,
+  ) => mapRecentResultsToUIGroups(recentItems, abTest);
+
+  getPostQueryDisplayedResults = (
+    searchResults: ConfluenceResultsMap,
+    latestSearchQuery: string,
+    recentItems: ConfluenceResultsMap,
+    abTest: ABTest,
+    isLoading: boolean,
+    inFasterSearchExperiment: boolean,
+  ) => {
+    if (inFasterSearchExperiment) {
+      const currentSearchResults: ConfluenceResultsMap = isLoading
+        ? ({
+            ...searchResults,
+            objects: [] as Result[],
+          } as ConfluenceResultsMap)
+        : (searchResults as ConfluenceResultsMap);
+
+      const recentResults = getRecentItemMatches(
+        latestSearchQuery,
+        recentItems as ConfluenceResultsMap,
+      );
+      const mergedRecentSearchResults = mergeSearchResultsWithRecentItems(
+        currentSearchResults,
+        recentResults,
+      );
+      return mapSearchResultsToUIGroups(mergedRecentSearchResults, abTest);
+    } else {
+      return mapSearchResultsToUIGroups(
+        searchResults as ConfluenceResultsMap,
+        abTest,
+      );
+    }
+  };
+
   getSearchResultsComponent = ({
     retrySearch,
     latestSearchQuery,
@@ -356,39 +425,21 @@ export class ConfluenceQuickSearchContainer extends React.Component<
           />
         )}
         getPreQueryGroups={() =>
-          mapRecentResultsToUIGroups(
+          this.getPreQueryDisplayedResults(
             recentItems as ConfluenceResultsMap,
             abTest,
           )
         }
-        getPostQueryGroups={() => {
-          if (inFasterSearchExperiment) {
-            const currentSearchResults: ConfluenceResultsMap = isLoading
-              ? ({
-                  ...searchResults,
-                  objects: [] as Result[],
-                } as ConfluenceResultsMap)
-              : (searchResults as ConfluenceResultsMap);
-
-            const recentResults = this.getRecentItemMatches(
-              latestSearchQuery,
-              recentItems as ConfluenceResultsMap,
-            );
-            const mergedRecentSearchResults = this.mergeSearchResultsWithRecentItems(
-              currentSearchResults,
-              recentResults,
-            );
-            return mapSearchResultsToUIGroups(
-              mergedRecentSearchResults,
-              abTest,
-            );
-          } else {
-            return mapSearchResultsToUIGroups(
-              searchResults as ConfluenceResultsMap,
-              abTest,
-            );
-          }
-        }}
+        getPostQueryGroups={() =>
+          this.getPostQueryDisplayedResults(
+            searchResults as ConfluenceResultsMap,
+            latestSearchQuery,
+            recentItems as ConfluenceResultsMap,
+            abTest,
+            isLoading,
+            inFasterSearchExperiment,
+          )
+        }
         renderNoResult={() => (
           <NoResultsState
             query={latestSearchQuery}
@@ -406,33 +457,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     );
   };
 
-  mergeSearchResultsWithRecentItems(
-    searchResults: ConfluenceResultsMap | undefined,
-    recentItems: Result[],
-  ): ConfluenceResultsMap {
-    const defaultSearchResults = {
-      objects: [],
-      spaces: [],
-      people: [],
-    };
-
-    const results = { ...defaultSearchResults, ...searchResults };
-
-    return {
-      objects: appendListWithoutDuplication(recentItems, results.objects),
-      spaces: results.spaces,
-      people: results.people,
-    };
-  }
-
-  getRecentItemMatches(query: string, recentItems: GenericResultMap): Result[] {
-    return recentItems.objects
-      .filter(result => {
-        return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
-      })
-      .slice(0, 3);
-  }
-
   render() {
     const {
       linkComponent,
@@ -440,6 +464,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       logger,
       inputControls,
       isAutocompleteEnabled,
+      fasterSearchFFEnabled,
     } = this.props;
 
     return (
@@ -457,9 +482,11 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         }
         handleSearchSubmit={this.handleSearchSubmit}
         isSendSearchTermsEnabled={isSendSearchTermsEnabled}
-        getDisplayedResults={sliceResults}
+        getPreQueryDisplayedResults={this.getPreQueryDisplayedResults}
+        getPostQueryDisplayedResults={this.getPostQueryDisplayedResults}
         logger={logger}
         inputControls={inputControls}
+        fasterSearchFFEnabled={fasterSearchFFEnabled}
       />
     );
   }

@@ -146,6 +146,7 @@ function recentPageToResult(
     contentType: `confluence-${recentPage.contentType}` as ContentType,
     iconClass: recentPage.iconClass,
     containerId: recentPage.spaceKey,
+    isRecentResult: true,
   } as ConfluenceObjectResult;
 }
 
