@@ -11,6 +11,17 @@ import type { NavigationRendererItemType } from '../../../../src';
 
 import ViewRegistrar from '../common/view-registrar';
 
+const generateItems = (num = 1) =>
+  Array(num)
+    .fill(0)
+    .map((_item, idx) => ({
+      before: IssuesIcon,
+      goTo: 'root/sortable-issues',
+      id: `Item ${idx}`,
+      text: `Item ${idx}`,
+      key: `Item ${idx}`,
+      type: 'GoToItem',
+    }));
 const getItems = (): NavigationRendererItemType<{
   type: 'LinkItem',
   id: string,
@@ -56,6 +67,7 @@ const getItems = (): NavigationRendererItemType<{
         text: 'Sortable Issues',
         type: 'GoToItem',
       },
+      ...generateItems(500),
     ],
     nestedGroupKey: 'menu',
     parentId: null,
