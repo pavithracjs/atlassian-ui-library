@@ -1,5 +1,10 @@
 # @atlaskit/media-ui
 
+## 11.1.0
+- [minor] [121c945cc6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/121c945cc6):
+
+  - fix padding, hover, icon for Inline Links.
+
 ## 11.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
