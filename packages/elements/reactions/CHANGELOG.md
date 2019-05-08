@@ -1,5 +1,15 @@
 # @atlaskit/reactions
 
+## 17.0.1
+- [patch] [5e00c40c32](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e00c40c32):
+
+  - Remove the Reactions component's white background
+
+## 17.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
 ## 16.1.10
 - Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
   - @atlaskit/emoji@61.0.0

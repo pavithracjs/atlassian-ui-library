@@ -8,6 +8,7 @@ import {
 import {
   EditorState,
   NodeSelection,
+  Selection,
   TextSelection,
   Transaction,
 } from 'prosemirror-state';
@@ -314,6 +315,19 @@ export const toggleBlockMark = <T = object>(
     if (dispatch) {
       dispatch(tr.scrollIntoView());
     }
+    return true;
+  }
+
+  return false;
+};
+
+export const clearEditorContent: Command = (state, dispatch) => {
+  const tr = state.tr;
+  tr.replace(0, state.doc.nodeSize - 2);
+  tr.setSelection(Selection.atStart(tr.doc));
+
+  if (dispatch) {
+    dispatch(tr);
     return true;
   }
 

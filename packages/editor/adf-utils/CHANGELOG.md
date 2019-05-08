@@ -1,5 +1,10 @@
 # @atlaskit/adf-utils
 
+## 6.0.5
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/adf-schema@2.5.5
+  - @atlaskit/docs@8.0.0
+
 ## 6.0.4
 - [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
 

@@ -95,9 +95,11 @@ BrowserTestCase(
   },
 );
 
+// TODO: https://product-fabric.atlassian.net/browse/ED-6802
+// skipped on ie
 BrowserTestCase(
   'breakout: should be able to delete last character inside a "wide" codeBlock preserving the node',
-  { skip: [] },
+  { skip: ['ie'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
@@ -114,7 +116,7 @@ BrowserTestCase(
     await page.click(wideBreakoutButtonQuery);
 
     await page.type(editable, 'a');
-    await page.type(editable, 'Backspace');
+    await page.keys('Backspace');
     expect(
       await page.$eval(editable, getDocFromElement),
     ).toMatchCustomDocSnapshot(testName);

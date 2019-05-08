@@ -29,7 +29,7 @@ describe('Profilecard', () => {
     });
 
     describe('should render LabelIcon with valid icons', () => {
-      const validIcons = ['location', 'time', 'mention', 'email'];
+      const validIcons = ['location', 'time', 'email'];
 
       validIcons.forEach(label => {
         it(`should render LabelIcon for ${label}`, () => {

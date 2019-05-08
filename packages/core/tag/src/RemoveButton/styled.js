@@ -10,6 +10,7 @@ const focusColor = themed({ light: colors.R300, dark: colors.R200 });
 // the focus ring is red unless combined with hover, then uses default blue
 export const Button = styled.button`
   align-items: center;
+  align-self: center;
   appearance: none;
   background: none;
   border: none;
@@ -18,6 +19,7 @@ export const Button = styled.button`
   color: ${colors.N500};
   display: flex;
   justify-content: center;
+  height: 16px;
   margin: 0;
   padding: 0;
 

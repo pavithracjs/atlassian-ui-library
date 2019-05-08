@@ -41,6 +41,7 @@ export interface ShownResultContextItem {
   resultContentId: string;
   resultType?: string;
   containerId?: string;
+  isRecentResult?: boolean;
 }
 
 export interface PostQueryShownAttributes extends ShownAnalyticsAttributes {
@@ -84,6 +85,7 @@ function mapResultToShownResult(result: Result): ShownResultContextItem {
       resultContentId: result.resultId,
       resultType: confluenceResult.contentType,
       containerId: sanitizeContainerId(confluenceResult.containerId),
+      isRecentResult: !!result.isRecentResult,
     };
   } else if (result.resultType === ResultType.JiraObjectResult) {
     const jiraResult = result as JiraResult;

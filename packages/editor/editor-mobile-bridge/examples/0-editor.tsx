@@ -48,7 +48,7 @@ export const mediaProvider = storyMediaProviderFactory({
 });
 
 export default class Example extends React.Component {
-  private el: HTMLTextAreaElement | null;
+  private el?: HTMLTextAreaElement | null;
   copyAs = () => {
     if (!this.el) {
       return;

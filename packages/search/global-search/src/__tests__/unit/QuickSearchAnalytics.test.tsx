@@ -79,9 +79,9 @@ const JIRA_RECENT_ITEMS = [
 ];
 
 const AB_TEST_DATA = {
-  experimentId: 'experiment-1',
+  experimentId: 'default',
   controlId: 'control-id',
-  abTestId: 'abtest-id',
+  abTestId: 'abTest_default',
 };
 
 const getRecentItems = (product: string) =>
@@ -248,7 +248,7 @@ const getRecentItems = (product: string) =>
                 globalIndex: index + 1,
                 indexWithinSection: index % (count - 2),
                 sectionIndex: Math.floor(index / (count - 2)),
-                resultCount: 18,
+                resultCount: 17,
                 sectionId: 'recent-jira',
                 type: index >= 7 ? 'jira-board' : 'jira-issue',
               }),
@@ -275,11 +275,13 @@ const getRecentItems = (product: string) =>
                   type: undefined,
                 }
               : {
-                  globalIndex: 17,
-                  resultCount: 18, // 14 + 3 advanced (1 top + 2 bottom)
-                  sectionIndex: undefined, // advanced results is not a section
-                  sectionId: 'advanced-search-jira',
-                  type: undefined,
+                  // got jira no advanced results in results count, new design advanced is not part of result list
+                  globalIndex: 16,
+                  resultCount: 17,
+                  sectionIndex: 2,
+                  indexWithinSection: 2,
+                  sectionId: 'recent-person',
+                  type: 'person',
                 }),
           }),
         );
@@ -287,7 +289,7 @@ const getRecentItems = (product: string) =>
 
       it('should trigger advanced result selected', () => {
         const results = wrapper.find(ResultBase);
-        const expectedResultsCount = product === 'confluence' ? 16 : 18;
+        const expectedResultsCount = product === 'confluence' ? 16 : 17;
         expect(results.length).toBe(expectedResultsCount);
         const advancedSearchResult = results.last();
         advancedSearchResult.simulate('click', {
@@ -305,18 +307,24 @@ const getRecentItems = (product: string) =>
                 resultCount: 14, // does not include advanced search links
               }
             : {
-                actionSubjectId: 'advanced_search_jira',
-                resultContentId: 'search_jira',
-                sectionId: 'advanced-search-jira',
-                globalIndex: 17,
+                actionSubjectId: 'navigationItem',
+                sectionIndex: 2,
                 resultCount: 16, // does not include advanced search links
+                globalIndex: 16,
+                indexWithinSection: 2,
+                sectionId: 'recent-person',
+                type: 'person',
+                newTab: true,
+                trigger: 'click',
               };
-        validateEvent(event, getAdvancedSearchLinkSelectedEvent(payload));
+        product === 'confluence'
+          ? validateEvent(event, getAdvancedSearchLinkSelectedEvent(payload))
+          : validateEvent(event, getResultSelectedEvent(payload));
       });
 
       it('should trigger result selected', () => {
         const results = wrapper.find(ResultBase);
-        const expectedResultsCount = product === 'confluence' ? 16 : 18;
+        const expectedResultsCount = product === 'confluence' ? 16 : 17;
         expect(results.length).toBe(expectedResultsCount);
         const result = results.at(10);
         result.simulate('click', {
@@ -372,7 +380,7 @@ const getRecentItems = (product: string) =>
             : {
                 sectionId: 'recent-jira',
                 globalIndex: 1,
-                resultCount: 18, // include advanced search links
+                resultCount: 17, // include advanced search links
                 sectionIndex: 0,
                 indexWithinSection: 0,
                 trigger: 'returnKey',
@@ -406,6 +414,11 @@ const getRecentItems = (product: string) =>
                     id: 'jira-object-result',
                     hasContainerId: true,
                     resultsCount: 8,
+                  },
+                  {
+                    id: 'JiraIssueAdvancedSearch',
+                    hasContainerId: false,
+                    resultsCount: 1,
                   },
                   {
                     id: 'jira-project-result',

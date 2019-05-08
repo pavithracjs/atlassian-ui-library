@@ -10,14 +10,14 @@ import ReactNodeView, {
   getPosHandler,
 } from '../../../nodeviews/ReactNodeView';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
-import { generateColgroup } from '../utils';
+import { generateColgroup } from '../pm-plugins/table-resizing/utils';
 import TableComponent from './TableComponent';
 
 import WithPluginState from '../../../ui/WithPluginState';
 import { pluginKey as widthPluginKey } from '../../width';
 import { pluginKey, getPluginState } from '../pm-plugins/main';
 import { pluginKey as tableResizingPluginKey } from '../pm-plugins/table-resizing/index';
-import { contentWidth } from '../pm-plugins/table-resizing/resizer/contentWidth';
+import { contentWidth } from '../pm-plugins/table-resizing/utils';
 import { handleBreakoutContent } from '../pm-plugins/table-resizing/actions';
 import { pluginConfig as getPluginConfig } from '../index';
 import { TableCssClassName as ClassName } from '../types';
@@ -33,6 +33,7 @@ export interface Props {
   options?: {
     dynamicTextSizing?: boolean;
     isBreakoutEnabled?: boolean;
+    isFullWidthModeEnabled?: boolean;
   };
 }
 
@@ -155,7 +156,7 @@ export default class TableView extends ReactNodeView {
       const cellPos = this.view.posAtDOM(elemOrWrapper, 0);
       handleBreakoutContent(
         this.view,
-        elemOrWrapper,
+        elemOrWrapper as HTMLTableElement,
         cellPos - 1,
         this.getPos() + 1,
         minWidth,
@@ -164,7 +165,7 @@ export default class TableView extends ReactNodeView {
     }
   };
 
-  private resizeForExtensionContent = (target: HTMLElement) => {
+  private resizeForExtensionContent = (target: HTMLTableElement) => {
     if (!this.node) {
       return;
     }
@@ -183,7 +184,7 @@ export default class TableView extends ReactNodeView {
       `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
         ClassName.TABLE_CELL_NODE_WRAPPER
       }`,
-    );
+    ) as HTMLTableElement;
 
     if (!container) {
       return;
@@ -209,7 +210,7 @@ export default class TableView extends ReactNodeView {
 
     const uniqueTargets: Set<HTMLElement> = new Set();
     records.forEach(record => {
-      const target = record.target as HTMLElement;
+      const target = record.target as HTMLTableElement;
       // If we've seen this target already in this set of targets
       // We dont need to reprocess.
       if (!uniqueTargets.has(target)) {
@@ -230,6 +231,7 @@ export const createTableView = (
     isBreakoutEnabled?: boolean;
     wasBreakoutEnabled?: boolean;
     dynamicTextSizing?: boolean;
+    isFullWidthModeEnabled?: boolean;
   },
 ): NodeView => {
   const { pluginConfig } = getPluginState(view.state);

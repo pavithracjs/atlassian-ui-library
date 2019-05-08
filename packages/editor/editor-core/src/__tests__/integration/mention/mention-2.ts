@@ -63,7 +63,7 @@ BrowserTestCase(
     await insertMention(page, 'Carolyn');
     await insertMention(page, 'Summer');
     await insertMention(page, 'Amber');
-    await page.type(editable, ['Backspace', 'Backspace']);
+    await page.keys(['Backspace', 'Backspace']);
     await page.waitForSelector(lozenge);
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);

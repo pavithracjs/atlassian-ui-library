@@ -51,9 +51,11 @@ function replaceLinksToCards(
   }
 
   const textSlice = node.text;
+  const normalizedLinkText = textSlice && md.normalizeLinkText(url);
   if (
     request.compareLinkText &&
-    (linkMark.attrs.href !== url || textSlice !== url)
+    normalizedLinkText !== textSlice &&
+    url !== textSlice
   ) {
     return;
   }
@@ -119,7 +121,6 @@ export const replaceQueuedUrlWithCard = (
           nodeType,
           nodeContext: nodeContext as SmartLinkNodeContext,
           domainName,
-          // don't pass domainName yet
         },
       });
     }
@@ -161,7 +162,10 @@ export const queueCardsFromChangedTr = (
         const normalizedLinkText = md.normalizeLinkText(linkMark.attrs.href);
 
         // don't bother queueing nodes that have user-defined text for a link
-        if (node.text !== normalizedLinkText) {
+        if (
+          node.text !== normalizedLinkText &&
+          node.text !== linkMark.attrs.href
+        ) {
           return false;
         }
       }

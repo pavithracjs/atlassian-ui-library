@@ -157,17 +157,6 @@ const iconWrapperCSS = () => ({
   paddingRight: '4px',
 });
 
-/* TODO:
-  to be removed
-  the label of an option in the menu
-  should ideally be something we can customise
-  as part of the react-select component API
-  at the moment we are hardcoding it into
-  the custom input-option components for Radio and Checkbox Select
-  and so this behaviour is not customisable / disableable
-  by users who buy into radio / checkbox select.
-*/
-
 const truncateCSS = () => ({
   textOverflow: 'ellipsis',
   overflowX: 'hidden',

@@ -9,7 +9,7 @@ export type ForwardRef = (node: HTMLElement | null) => void;
 
 export default class ReactNodeView implements NodeView {
   private domRef?: HTMLElement;
-  private contentDOMWrapper: Node | null;
+  private contentDOMWrapper?: Node;
   private reactComponent?: React.ComponentType<any>;
   private portalProviderAPI: PortalProviderAPI;
   private hasContext: boolean;
