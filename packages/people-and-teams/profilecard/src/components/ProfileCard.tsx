@@ -120,22 +120,13 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
   }
 
   renderCardDetailsDefault() {
-    const {
-      meta,
-      nickname,
-      fullName,
-      location,
-      email,
-      timestring,
-      companyName,
-    } = this.props;
+    const { meta, location, email, timestring, companyName } = this.props;
 
     return (
       <DetailsGroup>
-        <FullNameLabel noMeta={!meta}>{fullName}</FullNameLabel>
+        {this.renderFullNameAndPublicName(meta)}
         {meta && <JobTitleLabel>{meta}</JobTitleLabel>}
         <IconLabel icon="email">{email}</IconLabel>
-        <IconLabel icon="mention">{nickname && `@${nickname}`}</IconLabel>
         <IconLabel icon="time">{timestring}</IconLabel>
         <IconLabel icon="companyName">{companyName}</IconLabel>
         <IconLabel icon="location">{location}</IconLabel>
@@ -144,12 +135,7 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
   }
 
   renderCardDetailsForDisabledAccount() {
-    const {
-      nickname,
-      status,
-      companyName,
-      hasDisabledAccountLozenge,
-    } = this.props;
+    const { status, companyName, hasDisabledAccountLozenge } = this.props;
 
     return (
       <DetailsGroup>
@@ -173,10 +159,7 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
         <DisabledInfo>{this.getDisabledAccountDesc()}</DisabledInfo>
 
         {status === 'inactive' && (
-          <>
-            <IconLabel icon="mention">{nickname && `@${nickname}`}</IconLabel>
-            <IconLabel icon="companyName">{companyName}</IconLabel>
-          </>
+          <IconLabel icon="companyName">{companyName}</IconLabel>
         )}
       </DetailsGroup>
     );
@@ -236,14 +219,25 @@ export default class Profilecard extends React.PureComponent<ProfilecardProps> {
     );
   }
 
+  private renderFullNameAndPublicName(meta?: string) {
+    const { nickname, fullName } = this.props;
+
+    if (!fullName && !nickname) {
+      return null;
+    }
+
+    return (
+      <FullNameLabel noMeta={!meta}>
+        {`${fullName}${nickname ? ` (${nickname}) ` : ''}`}
+      </FullNameLabel>
+    );
+  }
+
   renderCardDetailsApp() {
     return (
       <DetailsGroup>
-        <FullNameLabel>{this.props.fullName}</FullNameLabel>
+        {this.renderFullNameAndPublicName()}
         <AppTitleLabel>App</AppTitleLabel>
-        <IconLabel icon="mention">
-          {this.props.nickname && `@${this.props.nickname}`}
-        </IconLabel>
       </DetailsGroup>
     );
   }

@@ -9,19 +9,33 @@ import { GlobalQuickSearch } from '../../../components/GlobalQuickSearch';
 import { delay } from '../_test-util';
 import * as AnalyticsHelper from '../../../util/analytics-event-helper';
 import { DEVELOPMENT_LOGGER } from '../../../../example-helpers/logger';
-import { ResultsWithTiming } from '../../../model/Result';
+import { ResultsWithTiming, GenericResultMap } from '../../../model/Result';
 import { ABTest } from '../../../api/CrossProductSearchClient';
 import {
   ShownAnalyticsAttributes,
   PerformanceTiming,
 } from '../../../util/analytics-util';
 import { CreateAnalyticsEventFn } from '../../../components/analytics/types';
+import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
 
 const defaultABTestData = {
   experimentId: 'test-experiement-id',
   abTestId: 'test-abtest-id',
   controlId: 'test-control-id',
 };
+
+const defaultReferralContext = {
+  searchReferrerId: 'referrerId',
+  currentContentId: 'currentContentId',
+  currentContainerId: 'currentContainerId',
+};
+
+const mapToResultGroup = (resultMap: GenericResultMap) =>
+  Object.keys(resultMap).map(key => ({
+    key,
+    title: `title_${key}` as any,
+    items: resultMap[key],
+  }));
 
 const defaultProps = {
   logger: DEVELOPMENT_LOGGER,
@@ -38,6 +52,9 @@ const defaultProps = {
   ),
   createAnalyticsEvent: jest.fn(),
   handleSearchSubmit: jest.fn(),
+  referralContextIdentifiers: defaultReferralContext,
+  getPreQueryDisplayedResults: jest.fn(mapToResultGroup),
+  getPostQueryDisplayedResults: jest.fn(mapToResultGroup),
 };
 
 const mountQuickSearchContainer = (partialProps?: Partial<Props>) => {
@@ -69,6 +86,7 @@ describe('QuickSearchContainer', () => {
       searchSessionId: string,
       createAnalyticsEvent: CreateAnalyticsEventFn,
       abTest: ABTest,
+      referralContextIdentifiers?: ReferralContextIdentifiers,
       experimentRequestDurationMs?: number | undefined,
       retrievedFromAggregator?: boolean | undefined,
     ) => void
@@ -81,6 +99,7 @@ describe('QuickSearchContainer', () => {
       query: string,
       createAnalyticsEvent: CreateAnalyticsEventFn,
       abTest: ABTest,
+      referralContextIdentifiers?: ReferralContextIdentifiers,
     ) => void
   >;
   let fireExperimentExposureEventSpy: jest.SpyInstance<
@@ -96,6 +115,9 @@ describe('QuickSearchContainer', () => {
     abTest: ABTest,
   ) => {
     expect(firePreQueryShownEventSpy).toBeCalled();
+    expect(defaultProps.getPreQueryDisplayedResults).toBeCalled();
+    expect(defaultProps.getPostQueryDisplayedResults).not.toBeCalled();
+
     const lastCall =
       firePreQueryShownEventSpy.mock.calls[
         firePreQueryShownEventSpy.mock.calls.length - 1
@@ -112,6 +134,7 @@ describe('QuickSearchContainer', () => {
       expect.any(String),
       defaultProps.createAnalyticsEvent,
       abTest,
+      defaultReferralContext,
       expect.any(Number),
       expect.any(Boolean),
     ]);
@@ -125,6 +148,9 @@ describe('QuickSearchContainer', () => {
     },
   ) => {
     expect(firePostQueryShownEventSpy).toBeCalled();
+    expect(defaultProps.getPreQueryDisplayedResults).not.toBeCalled();
+    expect(defaultProps.getPostQueryDisplayedResults).toBeCalled();
+
     const lastCall =
       firePostQueryShownEventSpy.mock.calls[
         firePostQueryShownEventSpy.mock.calls.length - 1
@@ -144,6 +170,7 @@ describe('QuickSearchContainer', () => {
       query,
       defaultProps.createAnalyticsEvent,
       defaultABTestData,
+      defaultReferralContext,
     ]);
   };
 
@@ -172,6 +199,7 @@ describe('QuickSearchContainer', () => {
 
   afterEach(() => {
     // reset mocks of default props
+    jest.clearAllMocks();
     defaultProps.getRecentItems.mockReset();
     defaultProps.getSearchResults.mockReset();
     defaultProps.getSearchResultsComponent.mockReset();
@@ -303,7 +331,7 @@ describe('QuickSearchContainer', () => {
     ) => {
       getSearchResults.mockReturnValueOnce(resultPromise);
       let globalQuickSearch = wrapper.find(GlobalQuickSearch);
-      await globalQuickSearch.props().onSearch(query);
+      await globalQuickSearch.props().onSearch(query, 0);
       await waitForRender(wrapper, 10);
 
       globalQuickSearch = wrapper.find(GlobalQuickSearch);

@@ -14,7 +14,6 @@ import {
 } from '../../model/Result';
 import {
   buildMockPage,
-  DUMMY_CLOUD_ID,
   DUMMY_CONFLUENCE_HOST,
   mockRecentlyViewedPages,
   MOCK_SPACE,
@@ -42,6 +41,7 @@ describe('CachingConfluenceClient', () => {
       contentType: `confluence-${page.contentType}` as ContentType,
       containerId: 'abc',
       iconClass: 'iconClass',
+      isRecentResult: true,
     })),
     spaces: spaces.map(space => ({
       resultId: space.id,
@@ -57,10 +57,7 @@ describe('CachingConfluenceClient', () => {
   };
 
   beforeEach(() => {
-    confluenceClient = new CachingConfluenceClient(
-      DUMMY_CONFLUENCE_HOST,
-      DUMMY_CLOUD_ID,
-    );
+    confluenceClient = new CachingConfluenceClient(DUMMY_CONFLUENCE_HOST);
   });
 
   afterEach(() => {
@@ -79,6 +76,7 @@ describe('CachingConfluenceClient', () => {
         contentType: ContentType.ConfluencePage,
         containerId: 'abc',
         iconClass: 'iconClass',
+        isRecentResult: true,
       },
       {
         resultId: pages[1].id,
@@ -90,13 +88,13 @@ describe('CachingConfluenceClient', () => {
         contentType: ContentType.ConfluenceBlogpost,
         containerId: 'abc',
         iconClass: 'iconClass',
+        isRecentResult: true,
       },
     ];
 
     it('should return the pre fetched results if present', async () => {
       confluenceClient = new CachingConfluenceClient(
         DUMMY_CONFLUENCE_HOST,
-        DUMMY_CLOUD_ID,
         Promise.resolve(prefetchedResults),
       );
 
@@ -143,7 +141,6 @@ describe('CachingConfluenceClient', () => {
     it('should return the pre fetched results if present', async () => {
       confluenceClient = new CachingConfluenceClient(
         DUMMY_CONFLUENCE_HOST,
-        DUMMY_CLOUD_ID,
         Promise.resolve(prefetchedResults),
       );
 

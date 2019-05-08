@@ -32,7 +32,6 @@ const reactionsStyle = style({
   display: 'flex',
   flexWrap: 'wrap',
   position: 'relative',
-  background: 'white',
   alignItems: 'center',
   borderRadius: '15px',
   // To allow to row spacing of 2px on wrap, and 0px on first row

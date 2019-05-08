@@ -81,6 +81,7 @@ export const akEditorWideLayoutWidth = 960;
 export const akEditorFullWidthLayoutWidth = 1800;
 export const akEditorTableNumberColumnWidth = 42;
 export const akEditorBreakoutPadding = 96;
+export const akEditorGutterPadding = 32;
 export const akEditorMobileBreakoutPoint = 720;
 export const akEditorTableCellMinWidth = 48;
 export const akEditorTableLegacyCellMinWidth = 128;

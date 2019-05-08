@@ -44,7 +44,7 @@ export default class MentionWithProfileCard extends PureComponent<
   Props,
   State
 > {
-  private domNode: HTMLElement | null;
+  private domNode: HTMLElement | null | undefined;
   state: State = {
     target: null,
     visible: false,

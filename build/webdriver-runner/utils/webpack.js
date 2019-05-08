@@ -57,7 +57,9 @@ const CHANGED_PACKAGES = process.env.CHANGED_PACKAGES;
 let server;
 let config;
 
-const patterns = process.argv.slice(2) || [];
+const patterns = (process.argv.slice(2) || []).filter(
+  arg => !arg.startsWith('-'),
+);
 
 function packageIsInPatternOrChanged(workspace) {
   if (!workspace.files.matchedTests.length) return false;

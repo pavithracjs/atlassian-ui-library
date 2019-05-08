@@ -69,7 +69,7 @@ export default class Search extends React.PureComponent<Props> {
     ) : null;
   };
 
-  inputRef: React.Ref<any>;
+  inputRef?: React.Ref<any>;
 
   render() {
     const {

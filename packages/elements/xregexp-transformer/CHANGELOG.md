@@ -1,5 +1,9 @@
 # @atlaskit/xregexp-transformer
 
+## 2.0.3
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/docs@8.0.0
+
 ## 2.0.2
 - [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
 

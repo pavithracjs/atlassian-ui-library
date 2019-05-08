@@ -93,7 +93,7 @@ class Example extends Component<ExampleProps, ExampleState> {
     output: '',
   };
 
-  refs: {
+  refs!: {
     input: HTMLTextAreaElement;
   };
 

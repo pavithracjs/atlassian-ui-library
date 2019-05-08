@@ -56,6 +56,6 @@ export const layoutColumn: NodeSpec = {
       attrs['data-column-width'] = width;
     }
 
-    return ['div', attrs, 0];
+    return ['div', attrs, ['div', {}, 0]];
   },
 };

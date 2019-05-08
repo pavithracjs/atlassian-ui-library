@@ -11,8 +11,8 @@ describe('Snapshot Test', () => {
     //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
   });
-  it('Tag-color should match production example', async () => {
-    const url = getExampleUrl('core', 'tag', 'color', global.__BASEURL__);
+  it('Tag-colors should match production example', async () => {
+    const url = getExampleUrl('core', 'tag', 'colors', global.__BASEURL__);
     const image = await takeScreenShot(global.page, url);
     //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
