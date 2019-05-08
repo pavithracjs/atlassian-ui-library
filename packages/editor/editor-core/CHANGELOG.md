@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 110.3.3
+- [patch] [d9eccd861e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d9eccd861e):
+
+  - ED-6804: pasting URLs with spaces properly convert to smart links
+
 ## 110.3.2
 - [patch] [47273cabd4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/47273cabd4):
 
