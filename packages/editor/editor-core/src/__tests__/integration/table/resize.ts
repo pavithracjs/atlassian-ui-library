@@ -249,7 +249,28 @@ BrowserTestCase(
       },
     });
 
-    await resizeColumn(page, { cellHandlePos: 18, resizeWidth: -200 });
+    await resizeColumn(page, { cellHandlePos: 14, resizeWidth: -200 });
+
+    const doc = await page.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  'Should stack columns to the right and go to overflow',
+  { skip: ['ie'] },
+  async (client: any, testName: string) => {
+    const page = await goToEditorTestingExample(client);
+
+    await mountEditor(page, {
+      appearance: fullpage.appearance,
+      defaultValue: JSON.stringify(resizedTableWithStackedColumns),
+      allowTables: {
+        advanced: true,
+      },
+    });
+
+    await resizeColumn(page, { cellHandlePos: 2, resizeWidth: 420 });
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
