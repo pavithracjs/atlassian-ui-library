@@ -99,17 +99,11 @@ class ClipboardWrapper extends Component<{}, ClipboardWrapperState> {
   onConnectionChange = () => {
     const isConnectedToUsersCollection = !this.state
       .isConnectedToUsersCollection;
-    this.setState({ isConnectedToUsersCollection }, () => {
-      // this.createClipboard();
-    });
+    this.setState({ isConnectedToUsersCollection });
   };
 
   onActiveChange = () => {
-    // const { clipboard } = this;
-    this.setState({ isActive: !this.state.isActive }, () => {
-      // const { isActive } = this.state;
-      // isActive ? clipboard.activate() : clipboard.deactivate();
-    });
+    this.setState({ isActive: !this.state.isActive });
   };
 
   renderLastItems = () => {
