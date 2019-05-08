@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { messages } from '@atlaskit/media-ui';
 import LocalBrowserButton from './uploadButton';
 import { filesIcon } from '../../../../icons';
+import { Browser } from '../../../../components/types';
 import {
   ButtonWrapper,
   DefaultImage,
@@ -13,16 +14,15 @@ import {
   DropzoneContentWrapper,
   TextWrapper,
 } from './styled';
-import { BrowserReact } from '../../../../components/browserReact';
 
 export interface DropzoneProps {
   readonly isEmpty?: boolean;
-  readonly browserRef: React.RefObject<BrowserReact>;
+  readonly mpBrowser: Browser;
 }
 
 export class Dropzone extends Component<DropzoneProps> {
   render() {
-    const { isEmpty, browserRef } = this.props;
+    const { isEmpty, mpBrowser } = this.props;
     return (
       <DropzoneContainer isEmpty={isEmpty}>
         <DropzoneContentWrapper>
@@ -32,7 +32,7 @@ export class Dropzone extends Component<DropzoneProps> {
               <FormattedMessage {...messages.drag_and_drop_your_files} />
             </DropzoneText>
             <ButtonWrapper>
-              <LocalBrowserButton browserRef={browserRef} />
+              <LocalBrowserButton mpBrowser={mpBrowser} />
             </ButtonWrapper>
           </TextWrapper>
         </DropzoneContentWrapper>

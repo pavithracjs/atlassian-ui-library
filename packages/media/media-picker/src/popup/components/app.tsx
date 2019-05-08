@@ -13,7 +13,7 @@ import {
 import { ServiceName, State } from '../domain';
 
 import { BinaryUploaderImpl as MpBinary } from '../../components/binary';
-// import { BrowserImpl as MpBrowser } from '../../components/browser';
+import { BrowserImpl as MpBrowser } from '../../components/browser';
 import { DropzoneImpl as MpDropzone } from '../../components/dropzone';
 import { ClipboardImpl as MpClipboard } from '../../components/clipboard';
 import { UploadParams, PopupConfig } from '../..';
@@ -56,7 +56,6 @@ import {
   DropzoneDragEnterEventPayload,
   DropzoneDragLeaveEventPayload,
 } from '../../components/types';
-import { BrowserReact } from '../../components/browserReact';
 
 export interface AppStateProps {
   readonly selectedServiceName: ServiceName;
@@ -103,11 +102,10 @@ export interface AppState {
 }
 
 export class App extends Component<AppProps, AppState> {
+  private readonly mpBrowser: MpBrowser;
   private readonly mpDropzone: MpDropzone;
   private readonly mpBinary: MpBinary;
-  private readonly componentContext: Context;
   private readonly mpClipboard: MpClipboard;
-  private browseRef = React.createRef<BrowserReact>();
 
   constructor(props: AppProps) {
     super(props);
@@ -137,7 +135,17 @@ export class App extends Component<AppProps, AppState> {
       cacheSize: tenantContext.config.cacheSize,
     });
 
-    this.componentContext = context;
+    this.mpBrowser = new MpBrowser(context, {
+      uploadParams: tenantUploadParams,
+      shouldCopyFileToRecents: false,
+      multiple: true,
+    });
+    this.mpBrowser.on('uploads-start', onUploadsStart);
+    this.mpBrowser.on('upload-preview-update', onUploadPreviewUpdate);
+    this.mpBrowser.on('upload-status-update', onUploadStatusUpdate);
+    this.mpBrowser.on('upload-processing', onUploadProcessing);
+    this.mpBrowser.on('upload-end', onUploadEnd);
+    this.mpBrowser.on('upload-error', onUploadError);
 
     this.mpDropzone = new MpDropzone(context, {
       uploadParams: tenantUploadParams,
@@ -178,7 +186,7 @@ export class App extends Component<AppProps, AppState> {
 
     onStartApp({
       onCancelUpload: uploadId => {
-        // this.mpBrowser.cancel(uploadId);
+        this.mpBrowser.cancel(uploadId);
         this.mpDropzone.cancel(uploadId);
         this.mpBinary.cancel(uploadId);
       },
@@ -217,40 +225,8 @@ export class App extends Component<AppProps, AppState> {
 
   componentWillUnmount(): void {
     this.mpDropzone.deactivate();
-    // this.mpBrowser.teardown();
+    this.mpBrowser.teardown();
   }
-
-  renderBrowser = () => {
-    const {
-      tenantUploadParams,
-      onUploadsStart,
-      onUploadPreviewUpdate,
-      onUploadStatusUpdate,
-      onUploadProcessing,
-      onUploadEnd,
-      onUploadError,
-    } = this.props;
-    const config = {
-      uploadParams: tenantUploadParams,
-      shouldCopyFileToRecents: false,
-      multiple: true,
-    };
-    console.log('renderBrowser');
-    // this.browseRef.current!.browse
-    return (
-      <BrowserReact
-        ref={this.browseRef}
-        context={this.componentContext}
-        config={config}
-        onUploadsStart={onUploadsStart}
-        onPreviewUpdate={onUploadPreviewUpdate}
-        onStatusUpdate={onUploadStatusUpdate}
-        onProcessing={onUploadProcessing}
-        onEnd={onUploadEnd}
-        onError={onUploadError}
-      />
-    );
-  };
 
   render() {
     const {
@@ -279,7 +255,6 @@ export class App extends Component<AppProps, AppState> {
                   <Dropzone isActive={isDropzoneActive} />
                   <MainEditorView binaryUploader={this.mpBinary} />
                 </MediaPickerPopupWrapper>
-                {this.renderBrowser()}
               </PassContext>
             </ModalDialog>
           </Provider>
@@ -294,7 +269,7 @@ export class App extends Component<AppProps, AppState> {
       const { userContext } = this.props;
       return (
         <UploadView
-          browserRef={this.browseRef}
+          mpBrowser={this.mpBrowser}
           context={userContext}
           recentsCollection={RECENTS_COLLECTION}
         />

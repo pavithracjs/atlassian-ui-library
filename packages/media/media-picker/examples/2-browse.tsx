@@ -3,84 +3,91 @@ import * as React from 'react';
 import { Component } from 'react';
 import {
   mediaPickerAuthProvider,
+  defaultCollectionName,
   defaultMediaPickerCollectionName,
 } from '@atlaskit/media-test-helpers';
 import Button from '@atlaskit/button';
-import {
-  Browser,
-  UploadParams,
-  BrowserConfig,
-  UploadsStartEventPayload,
-} from '../src';
+import DropdownMenu, { DropdownItem } from '@atlaskit/dropdown-menu';
+import { MediaPicker, Browser, UploadParams, BrowserConfig } from '../src';
 import { PopupHeader, PopupContainer } from '../example-helpers/styled';
-import {
-  ContextFactory,
-  FileState,
-  FileIdentifier,
-} from '@atlaskit/media-core';
-import { Card } from '../../media-card';
+import { UploadPreviews } from '../example-helpers/upload-previews';
+import { AuthEnvironment } from '../example-helpers/types';
+import { ContextFactory, FileState } from '@atlaskit/media-core';
 
 export interface BrowserWrapperState {
-  isOpen: boolean;
-  fileIds: string[];
+  collectionName: string;
+  authEnvironment: AuthEnvironment;
+  fileBrowser?: Browser;
 }
 
-const context = ContextFactory.create({
-  authProvider: mediaPickerAuthProvider(),
-});
-const uploadParams: UploadParams = {
-  collection: defaultMediaPickerCollectionName,
-};
-const browseConfig: BrowserConfig = {
-  multiple: true,
-  fileExtensions: ['image/jpeg', 'image/png', 'video/mp4'],
-  uploadParams,
-};
-
 class BrowserWrapper extends Component<{}, BrowserWrapperState> {
+  dropzoneContainer?: HTMLDivElement;
+
   state: BrowserWrapperState = {
-    isOpen: false,
-    fileIds: [],
+    authEnvironment: 'client',
+    collectionName: defaultMediaPickerCollectionName,
   };
 
-  componentWillMount() {
-    context.on('file-added', this.onFileAdded);
+  async componentWillMount() {
+    await this.createBrowse();
   }
 
-  onFileAdded = (_: FileState) => {
-    // console.log('onFileAdded', fileState);
+  async createBrowse() {
+    const context = ContextFactory.create({
+      authProvider: mediaPickerAuthProvider(),
+    });
+    const uploadParams: UploadParams = {
+      collection: defaultMediaPickerCollectionName,
+    };
+    const browseConfig: BrowserConfig = {
+      multiple: true,
+      fileExtensions: ['image/jpeg', 'image/png', 'video/mp4'],
+      uploadParams,
+    };
+    if (this.state.fileBrowser) {
+      this.state.fileBrowser.teardown();
+    }
+    const fileBrowser = await MediaPicker('browser', context, browseConfig);
+
+    context.on('file-added', this.onFileAdded);
+    this.setState({
+      fileBrowser,
+    });
+  }
+
+  onFileAdded = (fileState: FileState) => {
+    console.log('onFileAdded', fileState);
   };
 
   onOpen = () => {
-    this.setState({ isOpen: !this.state.isOpen });
+    const { fileBrowser } = this.state;
+    if (fileBrowser) {
+      fileBrowser.browse();
+    }
   };
 
-  onUploadsStart = (payload: UploadsStartEventPayload) => {
-    const { files } = payload;
-    const newFileIds = files.map(file => file.id);
-    console.log({ newFileIds });
-    this.setState({ fileIds: [...this.state.fileIds, ...newFileIds] });
-  };
+  onCollectionChange = (e: React.SyntheticEvent<HTMLElement>) => {
+    const { innerText: collectionName } = e.currentTarget;
+    const { fileBrowser } = this.state;
+    if (!fileBrowser) {
+      return;
+    }
 
-  onClose = () => {
-    this.setState({ isOpen: false });
-  };
-
-  renderCards = () => {
-    const { fileIds } = this.state;
-
-    return fileIds.map(id => {
-      const identifier: FileIdentifier = {
-        id,
-        mediaItemType: 'file',
-      };
-
-      return <Card key={id} context={context} identifier={identifier} />;
+    this.setState({ collectionName }, () => {
+      fileBrowser.setUploadParams({
+        collection: collectionName,
+      });
     });
   };
 
+  onAuthTypeChange = (e: React.SyntheticEvent<HTMLElement>) => {
+    const { innerText: authEnvironment } = e.currentTarget;
+
+    this.setState({ authEnvironment: authEnvironment as AuthEnvironment });
+  };
+
   render() {
-    const { isOpen } = this.state;
+    const { collectionName, authEnvironment, fileBrowser } = this.state;
 
     return (
       <PopupContainer>
@@ -88,15 +95,20 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
           <Button appearance="primary" onClick={this.onOpen}>
             Open
           </Button>
+          <DropdownMenu trigger={collectionName} triggerType="button">
+            <DropdownItem onClick={this.onCollectionChange}>
+              {defaultMediaPickerCollectionName}
+            </DropdownItem>
+            <DropdownItem onClick={this.onCollectionChange}>
+              {defaultCollectionName}
+            </DropdownItem>
+          </DropdownMenu>
+          <DropdownMenu trigger={authEnvironment} triggerType="button">
+            <DropdownItem onClick={this.onAuthTypeChange}>client</DropdownItem>
+            <DropdownItem onClick={this.onAuthTypeChange}>asap</DropdownItem>
+          </DropdownMenu>
         </PopupHeader>
-        {this.renderCards()}
-        <Browser
-          isOpen={isOpen}
-          context={context}
-          config={browseConfig}
-          onUploadsStart={this.onUploadsStart}
-          onClose={this.onClose}
-        />
+        {fileBrowser ? <UploadPreviews picker={fileBrowser} /> : null}
       </PopupContainer>
     );
   }
