@@ -62,7 +62,7 @@ export interface MediaPickerConstructors {
 }
 
 export { BinaryUploader, Browser, Dropzone, Popup };
-export type MediaPickerComponent = BinaryUploader | Dropzone | Popup;
+export type MediaPickerComponent = BinaryUploader | Browser | Dropzone | Popup;
 
 export interface MediaPickerComponents {
   binary: BinaryUploader;
@@ -88,7 +88,12 @@ export interface ComponentConfigs {
   popup: PopupConfig;
 }
 
-export { BinaryUploaderConstructor, DropzoneConstructor, PopupConstructor };
+export {
+  BinaryUploaderConstructor,
+  BrowserConstructor,
+  DropzoneConstructor,
+  PopupConstructor,
+};
 
 export async function MediaPicker<K extends keyof MediaPickerComponents>(
   componentName: K,
