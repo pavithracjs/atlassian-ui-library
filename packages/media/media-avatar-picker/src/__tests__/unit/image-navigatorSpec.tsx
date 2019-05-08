@@ -9,7 +9,7 @@ import * as MediaUI from '@atlaskit/media-ui';
 import ImageNavigator, {
   ImageNavigator as ImageNavigatorView,
   CONTAINER_INNER_SIZE,
-  containerRect,
+  CONTAINER_RECT,
   Props as ImageNavigatorProps,
 } from '../../image-navigator';
 import { MAX_SIZE_MB } from '../../avatar-picker-dialog';
@@ -156,7 +156,7 @@ describe('Image navigator', () => {
     });
 
     it('should change scale in state when slider is moved', () => {
-      const camera = new Camera(containerRect, new Rectangle(10000, 10000));
+      const camera = new Camera(CONTAINER_RECT, new Rectangle(10000, 10000));
       component.setState({ camera });
       slider()
         .props()
@@ -236,7 +236,7 @@ describe('Image navigator', () => {
     describe('when image is scaled', () => {
       it('should call onSizeChanged with new size', () => {
         const imageWidth = 20;
-        const camera = new Camera(containerRect, new Rectangle(imageWidth, 1));
+        const camera = new Camera(CONTAINER_RECT, new Rectangle(imageWidth, 1));
         component.setState({ camera });
         const { value } = slider().props();
         // decrease the slider by 5%
@@ -249,7 +249,7 @@ describe('Image navigator', () => {
       });
       it('should call onPositionChanged with new coordinates', () => {
         const imageWidth = 20;
-        const camera = new Camera(containerRect, new Rectangle(imageWidth, 1));
+        const camera = new Camera(CONTAINER_RECT, new Rectangle(imageWidth, 1));
         component.setState({ camera });
         const { value } = slider().props();
         // decrease the slider by 5%

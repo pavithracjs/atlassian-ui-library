@@ -20,6 +20,10 @@ export interface AvatarPickerDialogProps {
    * This still allows access to the image byte data to facilitate uploads, essentially minus the filename and date attributes.
    */
   onImagePicked?: (file: File, crop: CropProperties) => void;
+  /**
+   * This property is raised when the crop values change for the component
+   */
+  onCropChanged?: (crop: CropProperties) => void;
   /** This property is raised when the user clicks the **Save** button and there is a selected image. The selected image is provided as a dataURI string. */
   onImagePickedDataURI?: (dataUri: string) => void;
   /** This property is raised when the user clicks **Cancel** button.

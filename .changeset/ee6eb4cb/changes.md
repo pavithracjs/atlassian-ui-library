@@ -1,0 +1,1 @@
+- Fix panning and zooming with avatar picker using new viewport.

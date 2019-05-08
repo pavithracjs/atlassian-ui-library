@@ -121,6 +121,22 @@ export class Bounds extends Rectangle {
     return new Rectangle(this.width, this.height);
   }
 
+  get left() {
+    return this.x;
+  }
+
+  get top() {
+    return this.y;
+  }
+
+  get right() {
+    return this.x + this.width;
+  }
+
+  get bottom() {
+    return this.y + this.height;
+  }
+
   flipped(): Bounds {
     const rect = this.rect.flipped();
     return new Bounds(this.x, this.y, rect.width, rect.height);
@@ -152,20 +168,44 @@ export class Bounds extends Rectangle {
     return new Bounds(fn(this.x), fn(this.y), fn(this.width), fn(this.height));
   }
 
-  get left() {
-    return this.x;
+  hFlipWithin(containerBounds: Bounds) {
+    const hGap = containerBounds.right - this.right;
+    return new Bounds(
+      containerBounds.left + hGap,
+      this.top,
+      this.width,
+      this.height,
+    );
   }
 
-  get top() {
-    return this.y;
+  vFlipWithin(containerBounds: Bounds) {
+    const vGap = this.top - containerBounds.top;
+    return new Bounds(
+      this.left,
+      containerBounds.bottom - vGap - this.height,
+      this.width,
+      this.height,
+    );
   }
 
-  get right() {
-    return this.x + this.width;
+  rotate90DegWithin(containerBounds: Bounds) {
+    const hGap = containerBounds.right - this.right;
+    const vGap = this.top - containerBounds.top;
+    return new Bounds(
+      containerBounds.left + vGap,
+      containerBounds.top + hGap,
+      this.height,
+      this.width,
+    );
   }
 
-  get bottom() {
-    return this.y + this.height;
+  translated(xDelta: number, yDelta: number) {
+    return new Bounds(
+      this.x + xDelta,
+      this.y + yDelta,
+      this.width,
+      this.height,
+    );
   }
 }
 

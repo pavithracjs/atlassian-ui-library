@@ -5,7 +5,10 @@ import Button from '@atlaskit/button';
 import { FormattedMessage, intlShape, IntlProvider } from 'react-intl';
 import { fileToDataURI, dataURItoFile, messages } from '@atlaskit/media-ui';
 import { Avatar } from '../avatar-list';
-import ImageNavigator, { CropProperties } from '../image-navigator';
+import ImageNavigator, {
+  CropProperties,
+  CONTAINER_INNER_SIZE,
+} from '../image-navigator';
 import { PredefinedAvatarList } from '../predefined-avatar-list';
 import {
   AvatarPickerViewWrapper,
@@ -14,8 +17,7 @@ import {
   ModalFooterButtons,
 } from './styled';
 import { PredefinedAvatarView } from '../predefined-avatar-view';
-import { CONTAINER_SIZE } from '../image-navigator/index';
-import { LoadParameters } from '../image-cropper';
+import { CONTAINER_SIZE, LoadParameters } from '../image-navigator/index';
 
 import { DEFAULT_VISIBLE_PREDEFINED_AVATARS } from './layout-const';
 import { AVATAR_DIALOG_WIDTH, AVATAR_DIALOG_HEIGHT } from './layout-const';
@@ -33,7 +35,7 @@ export const ERROR = {
   SIZE: messages.image_size_too_large_error,
 };
 
-export const ACCEPT = ['image/gif', 'image/jpeg', 'image/png'];
+export const ACCEPT = ['image/gif', 'image/jpeg', 'image/png', 'image/svg+xml'];
 
 export class AvatarPickerDialog extends PureComponent<
   AvatarPickerDialogProps,
@@ -74,20 +76,12 @@ export class AvatarPickerDialog extends PureComponent<
     });
   };
 
-  /**
-   * Updates the image position state. These numbers are always positive.
-   *
-   * @param x the number of pixels from the left edge of the image
-   * @param y the number of pixels from the top edge of the image
-   */
-  setPositionState = (x: number, y: number) => {
-    const { size } = this.state.crop;
-    this.setState({ crop: { x, y, size } });
-  };
-
-  setSizeState = (size: number) => {
-    const { x, y } = this.state.crop;
-    this.setState({ crop: { x, y, size } });
+  onCropChanged = (x: number, y: number, size: number) => {
+    const { onCropChanged } = this.props;
+    const crop = { x, y, size };
+    this.setState({ crop });
+    //onCropChanged && onCropChanged(crop);
+    onCropChanged && onCropChanged({ x: 0, y: 0, size: CONTAINER_INNER_SIZE });
   };
 
   onImageNavigatorLoad = (loadParams: LoadParameters) => {
@@ -278,8 +272,7 @@ export class AvatarPickerDialog extends PureComponent<
               errorMessage={errorMessage}
               onImageLoaded={this.setSelectedImageState}
               onLoad={this.onImageNavigatorLoad}
-              onPositionChanged={this.setPositionState}
-              onSizeChanged={this.setSizeState}
+              onCropChanged={this.onCropChanged}
               onRemoveImage={this.onRemoveImage}
               onImageUploaded={this.onImageUploaded}
               onImageError={this.onImageError}

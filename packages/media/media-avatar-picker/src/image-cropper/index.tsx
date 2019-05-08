@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import CrossIcon from '@atlaskit/icon/glyph/cross';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { messages, isRotated, MediaImage } from '@atlaskit/media-ui';
+import { messages, MediaImage } from '@atlaskit/media-ui';
 import { isImageRemote } from './isImageRemote';
 import {
   CircularMask,
@@ -14,65 +14,41 @@ import {
   ImageContainer,
 } from './styled';
 import { ERROR } from '../avatar-picker-dialog';
-import { CONTAINER_INNER_SIZE } from '../image-navigator';
-import { cropToDataURI } from './crop-to-data-uri';
-
-export interface LoadParameters {
-  export: () => string;
-}
-
-export type OnLoadHandler = (params: LoadParameters) => void;
+import { CONTAINER_INNER_SIZE, CONTAINER_PADDING } from '../image-navigator';
 
 export interface ImageCropperProp {
   imageSource: string;
-  scale?: number; // Value from 0 to 1
   containerSize?: number;
   isCircularMask?: boolean;
   top: number;
   left: number;
   imageWidth?: number;
+  imageHeight?: number;
   imageOrientation: number;
   onDragStarted?: (x: number, y: number) => void;
-  onImageSize: (width: number, height: number) => void;
-  onLoad?: OnLoadHandler;
+  onImageLoaded: (image: HTMLImageElement) => void;
   onRemoveImage: () => void;
   onImageError: (errorMessage: string) => void;
+  onViewportMouseMove: (x: number, y: number) => void;
 }
-
-export interface State {
-  naturalWidth?: number;
-  naturalHeight?: number;
-}
-
-const defaultScale = 1;
 
 export class ImageCropper extends Component<
   ImageCropperProp & InjectedIntlProps,
-  State
+  {}
 > {
-  private imageElement?: HTMLImageElement;
-  state: State = {};
-
   static defaultProps = {
     containerSize: CONTAINER_INNER_SIZE,
     isCircleMask: false,
-    scale: defaultScale,
     onDragStarted: () => {},
     onImageSize: () => {},
   };
 
   componentDidMount() {
     const {
-      onLoad,
       imageSource,
       onImageError,
       intl: { formatMessage },
     } = this.props;
-    if (onLoad) {
-      onLoad({
-        export: this.export,
-      });
-    }
     try {
       isImageRemote(imageSource);
     } catch (e) {
@@ -86,13 +62,6 @@ export class ImageCropper extends Component<
     }
   };
 
-  onImageLoaded = (image: HTMLImageElement) => {
-    const { naturalWidth, naturalHeight } = image;
-    this.setState({ naturalWidth, naturalHeight });
-    this.props.onImageSize(naturalWidth, naturalHeight);
-    this.imageElement = image;
-  };
-
   onImageError = () => {
     const {
       onImageError,
@@ -101,23 +70,36 @@ export class ImageCropper extends Component<
     onImageError(formatMessage(ERROR.FORMAT));
   };
 
+  onContainerMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const { onViewportMouseMove } = this.props;
+    if (onViewportMouseMove) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left - CONTAINER_PADDING;
+      const y = e.clientY - rect.top - CONTAINER_PADDING;
+      onViewportMouseMove(x, y);
+    }
+  };
+
   render() {
     const {
       isCircularMask,
       containerSize,
       top,
       left,
+      imageWidth,
+      imageHeight,
       imageSource,
       onRemoveImage,
       imageOrientation,
+      onImageLoaded,
       intl: { formatMessage },
     } = this.props;
     const containerStyle = {
       width: `${containerSize}px`,
       height: `${containerSize}px`,
     };
-    const width = this.width ? `${this.width}px` : 'auto';
-    const height = this.height ? `${this.height}px` : 'auto';
+    const width = imageWidth ? `${imageWidth}px` : 'auto';
+    const height = imageHeight ? `${imageHeight}px` : 'auto';
 
     const imageContainerStyle = {
       width,
@@ -135,7 +117,7 @@ export class ImageCropper extends Component<
     }
 
     return (
-      <Container style={containerStyle}>
+      <Container style={containerStyle} onMouseMove={this.onContainerMouseMove}>
         <ImageContainer style={imageContainerStyle}>
           <MediaImage
             crossOrigin={crossOrigin}
@@ -143,7 +125,7 @@ export class ImageCropper extends Component<
             crop={false}
             stretch={true}
             previewOrientation={imageOrientation}
-            onImageLoad={this.onImageLoaded}
+            onImageLoad={onImageLoaded}
             onImageError={this.onImageError}
           />
         </ImageContainer>
@@ -160,51 +142,6 @@ export class ImageCropper extends Component<
       </Container>
     );
   }
-
-  private get width() {
-    const { imageWidth, scale } = this.props;
-
-    return imageWidth ? imageWidth * (scale || defaultScale) : 0;
-  }
-
-  private get height() {
-    const { naturalHeight, naturalWidth } = this.state;
-    if (!naturalWidth || !naturalHeight) {
-      return 0;
-    }
-
-    const { imageOrientation } = this.props;
-
-    const [newNaturalHeight, newNaturalWidth] = isRotated(imageOrientation)
-      ? [naturalWidth, naturalHeight]
-      : [naturalHeight, naturalWidth];
-
-    return (newNaturalHeight * this.width) / newNaturalWidth;
-  }
-
-  private cropOut = () => {
-    const {
-      top,
-      left,
-      scale = 1,
-      containerSize = 0,
-      imageOrientation,
-    } = this.props;
-    if (this.imageElement && containerSize) {
-      return cropToDataURI(
-        this.imageElement,
-        { width: this.width, height: this.height, top: 0, left: 0 },
-        { top, left, width: containerSize, height: containerSize },
-        scale,
-        imageOrientation,
-      );
-    }
-    return '';
-  };
-
-  export = (): string => {
-    return this.cropOut();
-  };
 }
 
 export default injectIntl(ImageCropper);
