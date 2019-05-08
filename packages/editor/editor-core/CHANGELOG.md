@@ -1,5 +1,15 @@
 # @atlaskit/editor-core
 
+## 110.3.0
+- [minor] [652ef1e6be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/652ef1e6be):
+
+  - ED-6774: Adds a FF to priortize smart links resolution over Jira Issue Macro
+
+## 110.2.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
 ## 110.1.1
 - [patch] [6614c81995](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6614c81995):
 

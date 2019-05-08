@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/multi-select",
-  "version": "13.0.0",
+  "version": "13.0.1",
   "description": "React component which allows selection of multiple items from a dropdown list. Substitute for the native multiple select element",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -21,11 +21,11 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/droplist": "^9.0.0",
+    "@atlaskit/droplist": "^9.0.1",
     "@atlaskit/field-base": "^13.0.0",
     "@atlaskit/icon": "^17.0.0",
     "@atlaskit/spinner": "^11.0.0",
-    "@atlaskit/tag": "^8.0.0",
+    "@atlaskit/tag": "^8.0.1",
     "@atlaskit/tag-group": "^8.0.0",
     "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",
@@ -38,7 +38,7 @@
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
-    "@atlaskit/avatar": "^16.0.0",
+    "@atlaskit/avatar": "^16.0.1",
     "@atlaskit/button": "^13.0.0",
     "@atlaskit/docs": "^8.0.0",
     "@atlaskit/section-message": "^3.0.0",

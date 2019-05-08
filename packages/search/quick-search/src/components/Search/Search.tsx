@@ -77,7 +77,7 @@ export default class Search extends React.PureComponent<Props, State> {
     ) : null;
   };
 
-  inputRef: React.Ref<any>;
+  inputRef?: React.Ref<any>;
 
   render() {
     const { children, onBlur, placeholder, isLoading } = this.props;

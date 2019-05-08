@@ -229,7 +229,7 @@ export const updateControls = (
 // Scale the table to meet new requirements (col, layout change etc)
 export function scaleTable(
   view: EditorView,
-  tableElem: HTMLTableElement | null,
+  tableElem: HTMLTableElement | null | undefined,
   options: ScaleOptions,
 ) {
   if (!tableElem) {

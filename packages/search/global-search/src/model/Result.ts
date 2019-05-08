@@ -7,6 +7,7 @@ export enum ResultType {
   GenericContainerResult = 'generic-container-result',
   PersonResult = 'person-result',
   ConfluenceObjectResult = 'confluence-object-result',
+  JiraIssueAdvancedSearch = 'JiraIssueAdvancedSearch',
 }
 
 export enum JiraProjectType {
@@ -79,7 +80,7 @@ export interface ConfluenceObjectResult extends Result {
 export type ResultsGroup = {
   items: Result[];
   key: string;
-  title: FormattedMessage.MessageDescriptor;
+  title?: FormattedMessage.MessageDescriptor;
 };
 
 export interface JiraResult extends Result {
@@ -124,5 +125,6 @@ export enum AnalyticsType {
   AdvancedSearchConfluence = 'advanced-search-confluence',
   AdvancedSearchJira = 'advanced-search-jira',
   TopLinkPreQueryAdvancedSearchJira = 'top-link-prequery-advanced-search-jira',
+  LinkPostQueryAdvancedSearchJira = 'link-postquery-advanced-search-jira',
   AdvancedSearchPeople = 'advanced-search-people',
 }

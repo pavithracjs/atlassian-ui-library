@@ -127,20 +127,69 @@
     "visibility": "public",
     "type": "Collection",
     "url": "https://trello.com/b/8B5zyiSn/test-smart-card-board",
-    "description": "A Trello board"
+    "description": "Trello public board (Collection)"
   },
   {
     "provider": "Trello (Public)",
     "visibility": "public",
     "type": "Task",
     "url": "https://trello.com/c/gfrst89H/4-much-muffins",
-    "description": "A Trello issue"
+    "description": "Trello public card (Task)"
   },
   {
     "provider": "Trello (Public)",
     "visibility": "public",
     "type": "Task",
     "url": "https://trello.com/c/gfrst89H/4-much-muffins",
-    "description": "A Trello issue"
+    "description": "Trello public card (Task)"
+  },
+  {
+    "provider": "Bitbucket",
+    "visibility": "public",
+    "type": "Source Code Pull Request",
+    "url": "https://bitbucket.org/atlassian/atlaskit-mk-2/pull-requests/5359"
+  },
+  {
+    "provider": "Bitbucket",
+    "visibility": "public",
+    "type": "Source Code Branch",
+    "url": "https://bitbucket.org/atlassian/atlaskit-mk-2/branch/more-docs"
+  },
+  {
+    "provider": "Bitbucket",
+    "visibility": "public",
+    "type": "Source Code Commit",
+    "url": "https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad82d53c91c84b7a789a79388a5ad4f0ae7de7f8"
+  },
+  {
+    "provider": "Bitbucket",
+    "visibility": "public",
+    "type": "Source Code File",
+    "url": "https://bitbucket.org/atlassian/atlaskit-mk-2/src/master/package.json"
+  },
+  {
+    "provider": "Bitbucket",
+    "visibility": "public",
+    "type": "Task",
+    "url": "https://bitbucket.org/atlassian/squeegee/issues/22/drop-columns-in-upgrade-config"
+  },
+  {
+    "provider": "Bitbucket",
+    "visibility": "public",
+    "type": "Project",
+    "url": "https://bitbucket.org/account/user/berkeleylab/projects/NB"
+  },
+  {
+    "provider": "Bitbucket",
+    "visibility": "public",
+    "type": "Source Code Repository",
+    "url": "https://bitbucket.org/berkeleylab/upcxx"
+  },
+  {
+    "provider": "Bitbucket",
+    "visibility": "public",
+    "type": "Profile",
+    "url": "https://bitbucket.org/ajtritt/",
+    "description": "Bitbucket public user profile"
   }
 ]

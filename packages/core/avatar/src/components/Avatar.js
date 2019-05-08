@@ -169,7 +169,6 @@ class Avatar extends Component<AvatarPropTypes> {
     const enhancedProps: AvatarPropTypes = (getProps(this): any);
 
     // provide element type based on props
-    // TODO: why not enhanced props?
     const Inner: any = getStyledAvatar(this.props);
 
     Inner.displayName = 'Inner';
