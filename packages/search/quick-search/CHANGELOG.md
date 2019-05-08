@@ -1,5 +1,10 @@
 # @atlaskit/quick-search
 
+## 7.3.0
+- [minor] [42b0b6f253](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/42b0b6f253):
+
+  - Adding autocomplete functionality to quick-search. New prop `autocomplete`.
+
 ## 7.2.0
 - [minor] [4d5fb33572](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d5fb33572):
 
