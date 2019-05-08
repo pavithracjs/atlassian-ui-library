@@ -175,4 +175,8 @@ export class DropzoneReact extends LocalUploadComponentReact<
       }, 50);
     }
   }
+
+  render() {
+    return null;
+  }
 }
