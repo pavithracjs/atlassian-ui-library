@@ -18,22 +18,24 @@ import {
   removeTable,
   findParentNodeOfType,
   safeInsert,
-  createTable as createTableNode,
+  createTable,
   findCellClosestToPos,
   setCellAttrs,
   getSelectionRect,
   selectColumn as selectColumnTransform,
   selectRow as selectRowTransform,
 } from 'prosemirror-utils';
-import { getPluginState, pluginKey, ACTIONS } from '../pm-plugins/main';
+import { getPluginState, createCommand } from '../pm-plugins/main';
 import { checkIfHeaderRowEnabled, isIsolating } from '../utils';
 import { Command } from '../../../types';
 import { analyticsService } from '../../../analytics';
 import { outdentList } from '../../lists/commands';
 import { mapSlice } from '../../../utils/slice';
+import { closestElement } from '../../../utils';
 import { fixAutoSizedTable } from '../transforms';
 import { INPUT_METHOD } from '../../analytics';
-import { insertRowWithAnalytics } from '../actions-with-analytics';
+import { insertRowWithAnalytics } from '../commands-with-analytics';
+import { TableCssClassName as ClassName } from '../types';
 // #endregion
 
 // #region Constants
@@ -41,7 +43,30 @@ const TAB_FORWARD_DIRECTION = 1;
 const TAB_BACKWARD_DIRECTION = -1;
 // #endregion
 
-// #region Actions
+// #region Commands
+export const setEditorFocus = (editorHasFocus: boolean) =>
+  createCommand({
+    type: 'SET_EDITOR_FOCUS',
+    data: { editorHasFocus },
+  });
+
+export const setTableRef = (ref?: HTMLElement | null) =>
+  createCommand(
+    state => {
+      const tableRef = ref || undefined;
+      const tableFloatingToolbarTarget =
+        closestElement(tableRef, `.${ClassName.TABLE_NODE_WRAPPER}`) ||
+        undefined;
+      const tableNode = ref ? findTable(state.selection)!.node : undefined;
+
+      return {
+        type: 'SET_TABLE_REF',
+        data: { tableRef, tableFloatingToolbarTarget, tableNode },
+      };
+    },
+    tr => tr.setMeta('addToHistory', false),
+  );
+
 export const setCellAttr = (name: string, value: any): Command => (
   state,
   dispatch,
@@ -194,11 +219,11 @@ export const convertFirstRowToHeader = (schema: Schema) => (
   return tr;
 };
 
-export const createTable: Command = (state, dispatch) => {
-  if (!pluginKey.get(state)) {
+export const insertTable: Command = (state, dispatch) => {
+  if (!getPluginState(state)) {
     return false;
   }
-  const table = createTableNode(state.schema);
+  const table = createTable(state.schema);
 
   if (dispatch) {
     dispatch(safeInsert(table)(state.tr).scrollIntoView());
@@ -241,15 +266,9 @@ export const goToNextCell = (direction: number): Command => (
 };
 
 export const moveCursorBackward: Command = (state, dispatch) => {
-  const pluginState = getPluginState(state);
   const { $cursor } = state.selection as TextSelection;
   // if cursor is in the middle of a text node, do nothing
-  if (
-    !$cursor ||
-    (pluginState.view
-      ? !pluginState.view.endOfTextblock('backward', state)
-      : $cursor.parentOffset > 0)
-  ) {
+  if (!$cursor || $cursor.parentOffset > 0) {
     return false;
   }
 
@@ -339,150 +358,65 @@ export const setMultipleCellAttrs = (
   return false;
 };
 
-export const setEditorFocus = (editorHasFocus: boolean): Command => (
-  state,
-  dispatch,
-) => {
-  if (dispatch) {
-    dispatch(
-      state.tr.setMeta(pluginKey, {
-        action: ACTIONS.SET_EDITOR_FOCUS,
-        data: { editorHasFocus },
-      }),
-    );
-  }
-  return true;
-};
+export const selectColumn = (column: number) =>
+  createCommand(
+    state => {
+      let targetCellPosition;
+      const cells = getCellsInColumn(column)(state.tr.selection);
+      if (cells && cells.length) {
+        targetCellPosition = cells[0].pos;
+      }
 
-export const setTableRef = (tableRef?: HTMLElement | null): Command => (
-  state,
-  dispatch,
-) => {
-  if (dispatch) {
-    dispatch(
-      state.tr
-        .setMeta(pluginKey, {
-          action: ACTIONS.SET_TABLE_REF,
-          data: { tableRef },
-        })
-        .setMeta('addToHistory', false),
-    );
-  }
-  return true;
-};
-
-export const selectColumn = (column: number): Command => (state, dispatch) => {
-  const tr = selectColumnTransform(column)(state.tr);
-
-  let targetCellPosition;
-  const cells = getCellsInColumn(column)(tr.selection);
-  if (cells && cells.length) {
-    targetCellPosition = cells[0].pos;
-  }
-  // update contextual menu target cell position on column selection
-  if (dispatch) {
-    dispatch(
-      tr
-        .setMeta(pluginKey, {
-          action: ACTIONS.SET_TARGET_CELL_POSITION,
-          data: { targetCellPosition },
-        })
-        .setMeta('addToHistory', false),
-    );
-  }
-  return true;
-};
-
-export const selectRow = (row: number): Command => (state, dispatch) => {
-  const tr = selectRowTransform(row)(state.tr);
-
-  let targetCellPosition;
-  const cells = getCellsInRow(row)(tr.selection);
-  if (cells && cells.length) {
-    targetCellPosition = cells[0].pos;
-  }
-  // update contextual menu target cell position on row selection
-  if (dispatch) {
-    dispatch(
-      tr
-        .setMeta(pluginKey, {
-          action: ACTIONS.SET_TARGET_CELL_POSITION,
-          data: { targetCellPosition },
-        })
-        .setMeta('addToHistory', false),
-    );
-  }
-  return true;
-};
-
-export const showInsertColumnButton = (columnIndex: number): Command => (
-  state,
-  dispatch,
-) => {
-  const { insertColumnButtonIndex } = getPluginState(state);
-  if (columnIndex > -1 && insertColumnButtonIndex !== columnIndex) {
-    if (dispatch) {
-      dispatch(
-        state.tr
-          .setMeta(pluginKey, {
-            action: ACTIONS.SHOW_INSERT_COLUMN_BUTTON,
-            data: {
-              insertColumnButtonIndex: columnIndex,
-            },
-          })
-          .setMeta('addToHistory', false),
-      );
-    }
-    return true;
-  }
-  return false;
-};
-
-export const showInsertRowButton = (rowIndex: number): Command => (
-  state,
-  dispatch,
-) => {
-  const { insertRowButtonIndex } = getPluginState(state);
-  if (rowIndex > -1 && insertRowButtonIndex !== rowIndex) {
-    if (dispatch) {
-      dispatch(
-        state.tr
-          .setMeta(pluginKey, {
-            action: ACTIONS.SHOW_INSERT_ROW_BUTTON,
-            data: {
-              insertRowButtonIndex: rowIndex,
-            },
-          })
-          .setMeta('addToHistory', false),
-      );
-    }
-    return true;
-  }
-  return false;
-};
-
-export const hideInsertColumnOrRowButton: Command = (state, dispatch) => {
-  const { insertColumnButtonIndex, insertRowButtonIndex } = getPluginState(
-    state,
+      return { type: 'SET_TARGET_CELL_POSITION', data: { targetCellPosition } };
+    },
+    tr => selectColumnTransform(column)(tr).setMeta('addToHistory', false),
   );
-  if (
-    typeof insertColumnButtonIndex === 'number' ||
-    typeof insertRowButtonIndex === 'number'
-  ) {
-    if (dispatch) {
-      dispatch(
-        state.tr
-          .setMeta(pluginKey, {
-            action: ACTIONS.HIDE_INSERT_COLUMN_OR_ROW_BUTTON,
-          })
-          .setMeta('addToHistory', false),
-      );
-    }
-    return true;
-  }
 
-  return false;
-};
+export const selectRow = (row: number) =>
+  createCommand(
+    state => {
+      let targetCellPosition;
+      const cells = getCellsInRow(row)(state.tr.selection);
+      if (cells && cells.length) {
+        targetCellPosition = cells[0].pos;
+      }
+
+      return { type: 'SET_TARGET_CELL_POSITION', data: { targetCellPosition } };
+    },
+    tr => selectRowTransform(row)(tr).setMeta('addToHistory', false),
+  );
+
+export const showInsertColumnButton = (columnIndex: number) =>
+  createCommand(
+    _ =>
+      columnIndex > -1
+        ? {
+            type: 'SHOW_INSERT_COLUMN_BUTTON',
+            data: { insertColumnButtonIndex: columnIndex },
+          }
+        : false,
+    tr => tr.setMeta('addToHistory', false),
+  );
+
+export const showInsertRowButton = (rowIndex: number) =>
+  createCommand(
+    _ =>
+      rowIndex > -1
+        ? {
+            type: 'SHOW_INSERT_ROW_BUTTON',
+            data: { insertRowButtonIndex: rowIndex },
+          }
+        : false,
+    tr => tr.setMeta('addToHistory', false),
+  );
+
+export const hideInsertColumnOrRowButton = () =>
+  createCommand(
+    {
+      type: 'HIDE_INSERT_COLUMN_OR_ROW_BUTTON',
+    },
+    tr => tr.setMeta('addToHistory', false),
+  );
 
 export const autoSizeTable = (
   view: EditorView,

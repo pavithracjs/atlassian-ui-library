@@ -16,7 +16,7 @@ import { transformSliceToRemoveOpenLayoutNodes } from '../../layout/utils';
 import { linkifyContent } from '../../hyperlink/utils';
 import { pluginKey as tableStateKey } from '../../table/pm-plugins/main';
 import { transformSliceToRemoveOpenTable } from '../../table/utils';
-import { transformSliceToAddTableHeaders } from '../../table/actions';
+import { transformSliceToAddTableHeaders } from '../../table/commands';
 import { handleMacroAutoConvert } from '../handlers';
 import {
   transformSliceToJoinAdjacentCodeBlocks,

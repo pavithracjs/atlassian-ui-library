@@ -17,7 +17,7 @@ import {
   getPluginState,
 } from '../../../../../plugins/table/pm-plugins/main';
 import { TablePluginState } from '../../../../../plugins/table/types';
-import { hoverTable } from '../../../../../plugins/table/actions';
+import { hoverTable } from '../../../../../plugins/table/commands';
 import TableFloatingControls from '../../../../../plugins/table/ui/TableFloatingControls';
 import CornerControls from '../../../../../plugins/table/ui/TableFloatingControls/CornerControls';
 import RowControls from '../../../../../plugins/table/ui/TableFloatingControls/RowControls';

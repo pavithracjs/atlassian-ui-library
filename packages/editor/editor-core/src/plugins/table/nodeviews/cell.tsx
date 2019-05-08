@@ -14,7 +14,7 @@ import {
   pluginKey as tableResizingPluginKey,
   ResizeState,
 } from '../pm-plugins/table-resizing';
-import { toggleContextualMenu } from '../actions';
+import { toggleContextualMenu } from '../commands';
 import { TableCssClassName as ClassName, TablePluginState } from '../types';
 import { closestElement } from '../../../utils';
 import {
@@ -81,7 +81,7 @@ class Cell extends React.Component<CellProps & InjectedIntlProps> {
 
   private handleClick = () => {
     const { state, dispatch } = this.props.view;
-    toggleContextualMenu(state, dispatch);
+    toggleContextualMenu()(state, dispatch);
   };
 }
 
@@ -125,27 +125,27 @@ class CellView extends ReactNodeView {
     return (
       <WithPluginState
         plugins={{
-          pluginState: pluginKey,
+          tablePluginState: pluginKey,
           tableResizingPluginState: tableResizingPluginKey,
           editorDisabledPlugin: editorDisabledPluginKey,
         }}
         editorView={props.view}
         render={({
-          pluginState,
+          tablePluginState,
           tableResizingPluginState,
           editorDisabledPlugin,
         }: {
-          pluginState: TablePluginState;
+          tablePluginState: TablePluginState;
           tableResizingPluginState: ResizeState;
           editorDisabledPlugin: EditorDisabledPluginState;
         }) => (
           <CellComponent
             forwardRef={forwardRef}
-            withCursor={this.getPos() === pluginState.targetCellPosition}
+            withCursor={this.getPos() === tablePluginState.targetCellPosition}
             isResizing={
               !!tableResizingPluginState && !!tableResizingPluginState.dragging
             }
-            isContextualMenuOpen={!!pluginState.isContextualMenuOpen}
+            isContextualMenuOpen={!!tablePluginState.isContextualMenuOpen}
             isContextMenuEnabled={props.isContextMenuEnabled}
             view={props.view}
             disabled={(editorDisabledPlugin || {}).editorDisabled}

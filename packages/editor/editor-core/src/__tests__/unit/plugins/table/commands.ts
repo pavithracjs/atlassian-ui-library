@@ -25,7 +25,7 @@ import {
   selectColumn,
   selectRow,
   toggleHeaderColumn,
-} from '../../../../plugins/table/actions';
+} from '../../../../plugins/table/commands';
 import { handleCut } from '../../../../plugins/table/event-handlers';
 import { TablePluginState } from '../../../../plugins/table/types';
 import tablesPlugin from '../../../../plugins/table';
@@ -288,7 +288,7 @@ describe('table plugin: actions', () => {
         doc(p('text'), table()(tr(tdEmpty, tdEmpty))),
       );
       const { state, dispatch } = editorView;
-      toggleContextualMenu(state, dispatch);
+      toggleContextualMenu()(state, dispatch);
       const { isContextualMenuOpen } = getPluginState(editorView.state);
       expect(isContextualMenuOpen).toBe(true);
     });
