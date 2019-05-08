@@ -180,6 +180,11 @@ export default function generateProductConfig(
     productHref,
     getProductRef,
 
+    onRecentClick,
+    recentTooltip,
+    recentDrawerContents,
+    getRecentRef,
+
     onCreateClick,
     createTooltip,
     createDrawerContents,
@@ -242,6 +247,11 @@ export default function generateProductConfig(
       href: productHref,
       getRef: getProductRef,
     }),
+    recent: configFactory(
+      onRecentClick || (recentDrawerContents && openDrawer('recent')),
+      recentTooltip,
+      { getRef: getRecentRef },
+    ),
     create: configFactory(
       onCreateClick || (createDrawerContents && openDrawer('create')),
       createTooltip,

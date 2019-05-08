@@ -9,6 +9,7 @@ import {
   insertText,
   createEditorFactory,
   p,
+  indentation,
   code,
   hardBreak,
   a as link,
@@ -17,6 +18,7 @@ import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { analyticsService } from '../../../../analytics';
 import codeBlockPlugin from '../../../../plugins/code-block';
 import panelPlugin from '../../../../plugins/panel';
+import indentationPlugin from '../../../../plugins/indentation';
 import listPlugin from '../../../../plugins/lists';
 import {
   AnalyticsEventPayload,
@@ -39,7 +41,12 @@ describe('inputrules', () => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     return createEditor({
       doc,
-      editorPlugins: [listPlugin, codeBlockPlugin(), panelPlugin],
+      editorPlugins: [
+        listPlugin,
+        codeBlockPlugin(),
+        panelPlugin,
+        indentationPlugin,
+      ],
       editorProps: {
         analyticsHandler: trackEvent as any,
         allowAnalyticsGASV3: true,
@@ -270,6 +277,17 @@ describe('inputrules', () => {
     };
     let editorView: EditorView;
     let sel: number;
+
+    it('should remove indentation and convert "```" to a code block', () => {
+      ({ editorView, sel } = editor(
+        doc(indentation({ level: 3 })(p('{<>}hello', br(), 'world'))),
+      ));
+      insertText(editorView, '```', sel);
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(code_block()('hello\nworld')),
+      );
+    });
 
     describe('typing "```" after text', () => {
       beforeEach(() => {

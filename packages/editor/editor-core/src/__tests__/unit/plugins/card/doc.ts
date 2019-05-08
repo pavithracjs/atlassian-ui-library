@@ -406,6 +406,76 @@ describe('card', () => {
         );
       });
 
+      it('replaces a link encoded with spaces', async () => {
+        const { editorView } = editor(
+          doc(
+            p(
+              'hello have a link ',
+              a({
+                href:
+                  'https://www.atlassian.com/s/7xr7xdqto7trhvr/Media%20picker.sketch?dl=0',
+              })(
+                '{<>}https://www.atlassian.com/s/7xr7xdqto7trhvr/Media%20picker.sketch?dl=0',
+              ),
+            ),
+          ),
+        );
+
+        const { dispatch } = editorView;
+        providerWrapper.addProvider(editorView);
+
+        // queue it
+        dispatch(
+          queueCards([
+            createCardRequest(
+              'https://www.atlassian.com/s/7xr7xdqto7trhvr/Media%20picker.sketch?dl=0',
+              editorView.state.selection.from,
+            ),
+          ])(editorView.state.tr),
+        );
+
+        await providerWrapper.waitForRequests();
+
+        expect(editorView.state.doc).toEqualDocument(
+          doc(p('hello have a link '), p('hello world'), p()),
+        );
+      });
+
+      it('replaces when link text is unencoded', async () => {
+        const { editorView } = editor(
+          doc(
+            p(
+              'hello have a link ',
+              a({
+                href:
+                  'https://www.atlassian.com/s/7xr7xdqto7trhvr/Media%20picker.sketch?dl=0',
+              })(
+                '{<>}https://www.atlassian.com/s/7xr7xdqto7trhvr/Media picker.sketch?dl=0',
+              ),
+            ),
+          ),
+        );
+
+        const { dispatch } = editorView;
+        providerWrapper.addProvider(editorView);
+
+        // queue it
+        dispatch(
+          queueCards([
+            createCardRequest(
+              'https://www.atlassian.com/s/7xr7xdqto7trhvr/Media%20picker.sketch?dl=0',
+              editorView.state.selection.from,
+            ),
+          ])(editorView.state.tr),
+        );
+
+        await providerWrapper.waitForRequests();
+
+        expect(editorView.state.doc).toEqualDocument(
+          doc(p('hello have a link '), p('hello world'), p()),
+        );
+      });
+
       it('does not replace if position is some other content', async () => {
         const initialDoc = doc(
           p('hello have a link '),
