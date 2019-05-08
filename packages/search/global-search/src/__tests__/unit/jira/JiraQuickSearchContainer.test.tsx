@@ -30,6 +30,7 @@ import { Scope } from '../../../api/types';
 import * as SearchUtils from '../../../components/SearchResultsUtil';
 import { ShallowWrapper } from 'enzyme';
 import { CancelableEvent } from '../../../../../quick-search';
+import { DEFAULT_AB_TEST } from '../../../api/CrossProductSearchClient';
 
 const issues = [
   makeJiraObjectResult({
@@ -88,7 +89,8 @@ describe('Jira Quick Search Container', () => {
     const quickSearch = wrapper.find(QuickSearchContainer);
     expect(quickSearch.props()).toMatchObject({
       placeholder: 'Search Jira',
-      getDisplayedResults: expect.any(Function),
+      getPreQueryDisplayedResults: expect.any(Function),
+      getPostQueryDisplayedResults: expect.any(Function),
       getSearchResultsComponent: expect.any(Function),
       getRecentItems: expect.any(Function),
       getSearchResults: expect.any(Function),
@@ -205,11 +207,35 @@ describe('Jira Quick Search Container', () => {
       );
 
       try {
-        await getSearchResults('query', sessionId, 100);
+        await getSearchResults('query', sessionId, 100, 0);
         expect(true).toBe(false);
       } catch (e) {
         expect(e).toBeDefined();
       }
+    });
+
+    it('should call cross product search client with correct query version', async () => {
+      const searchSpy = jest.spyOn(noResultsCrossProductSearchClient, 'search');
+      const dummyQueryVersion = 123;
+
+      const getSearchResults = getQuickSearchProperty(
+        renderComponent({
+          crossProductSearchClient: noResultsCrossProductSearchClient,
+        }),
+        'getSearchResults',
+      );
+
+      getSearchResults('query', sessionId, 100, dummyQueryVersion);
+
+      expect(searchSpy).toHaveBeenCalledWith(
+        'query',
+        expect.any(Object),
+        expect.any(Array),
+        dummyQueryVersion,
+        expect.any(Number),
+      );
+
+      searchSpy.mockRestore();
     });
 
     it('should return search results', async () => {
@@ -221,14 +247,17 @@ describe('Jira Quick Search Container', () => {
       const resultsMap = new Map<Scope, Result[]>();
       resultsMap.set(Scope.JiraIssue, issues);
       resultsMap.set(Scope.JiraBoardProjectFilter, boards);
-      const crossProductSearchClient = mockCrossProductSearchClient({
-        results: resultsMap,
-      });
+      const crossProductSearchClient = mockCrossProductSearchClient(
+        {
+          results: resultsMap,
+        },
+        DEFAULT_AB_TEST,
+      );
       const getSearchResults = getQuickSearchProperty(
         renderComponent({ peopleSearchClient, crossProductSearchClient }),
         'getSearchResults',
       );
-      const searchResults = await getSearchResults('query', sessionId, 100);
+      const searchResults = await getSearchResults('query', sessionId, 100, 0);
       expect(searchResults).toMatchObject({
         results: {
           objects: issues,
@@ -251,9 +280,13 @@ describe('Jira Quick Search Container', () => {
       const resultsMap = new Map<Scope, Result[]>();
       resultsMap.set(Scope.JiraIssue, issues);
       resultsMap.set(Scope.JiraBoardProjectFilter, boards);
-      const crossProductSearchClient = mockCrossProductSearchClient({
-        results: resultsMap,
-      });
+      const crossProductSearchClient = mockCrossProductSearchClient(
+        {
+          results: resultsMap,
+          abTest: DEFAULT_AB_TEST,
+        },
+        DEFAULT_AB_TEST,
+      );
       const getSearchResults = getQuickSearchProperty(
         renderComponent({
           peopleSearchClient,
@@ -262,7 +295,7 @@ describe('Jira Quick Search Container', () => {
         }),
         'getSearchResults',
       );
-      const searchResults = await getSearchResults('query', sessionId, 100);
+      const searchResults = await getSearchResults('query', sessionId, 100, 0);
       expect(searchResults).toMatchObject({
         results: {
           objects: issues,

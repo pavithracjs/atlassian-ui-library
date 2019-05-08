@@ -5,7 +5,7 @@ import {
   MediaType,
   getMediaTypeFromMimeType,
   ContextFactory,
-  fileStreamsCache,
+  getFileStreamsCache,
 } from '@atlaskit/media-core';
 import {
   MediaStore,
@@ -216,7 +216,9 @@ export class NewUploadServiceImpl implements UploadService {
 
             if (state.status === 'processing') {
               subscription.unsubscribe();
-
+              if (shouldCopyFileToRecents) {
+                context.emit('file-added', state);
+              }
               this.onFileSuccess(cancellableFileUpload, id);
             }
           },
@@ -228,7 +230,7 @@ export class NewUploadServiceImpl implements UploadService {
         this.cancellableFilesUploads[id] = cancellableFileUpload;
         // Save observable in the cache
         // We want to save the observable without collection too, due consumers using cards without collection.
-        fileStreamsCache.set(id, observable);
+        getFileStreamsCache().set(id, observable);
         upfrontId.then(id => {
           // We assign the tenant id to the observable to not emit user id instead
           const tenantObservable = observable.pipe(
@@ -237,7 +239,7 @@ export class NewUploadServiceImpl implements UploadService {
               id,
             })),
           );
-          fileStreamsCache.set(id, tenantObservable);
+          getFileStreamsCache().set(id, tenantObservable);
         });
 
         return cancellableFileUpload;
@@ -333,7 +335,7 @@ export class NewUploadServiceImpl implements UploadService {
     const { mediaFile } = cancellableFileUpload;
 
     this.copyFileToUsersCollection(fileId)
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       .catch(console.log); // We intentionally swallow these errors
     this.emit('file-converting', {
       file: mediaFile,

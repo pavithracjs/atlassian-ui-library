@@ -5,13 +5,24 @@ import {
   SearchFieldBaseInner,
   SearchInner,
   SearchInput,
+  SearchFieldBaseOuter,
+  SearchInputControlsContainer,
+  SearchInputTypeAhead,
 } from './styled';
 
-const controlKeys = ['ArrowUp', 'ArrowDown', 'Enter'];
+export const controlKeys = [
+  'ArrowUp',
+  'ArrowDown',
+  'Enter',
+  'Tab',
+  'ArrowRight',
+];
 
 type Props = {
   /** The elements to render as options to search from. */
   children?: React.ReactNode;
+  /** The elements to render to the right of the search input. */
+  inputControls?: React.ReactNode;
   /** Set whether the loading state should be shown. */
   isLoading?: boolean;
   /** Function to be called when the search input loses focus. */
@@ -24,27 +35,20 @@ type Props = {
   placeholder?: string;
   /** Current value of search field. */
   value?: string;
+  /** Autocomplete information */
+  autocompleteText?: string;
 };
 
-type State = {
-  /** Current value of search field. */
-  value?: string;
-};
-
-export default class Search extends React.PureComponent<Props, State> {
+export default class Search extends React.PureComponent<Props> {
   static defaultProps: Partial<Props> = {
     isLoading: false,
     onBlur: () => {},
     placeholder: 'Search',
   };
 
-  state = {
-    value: this.props.value,
-  };
-
   onInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { onKeyDown } = this.props;
-    if (controlKeys.indexOf(event.key) === -1) {
+    if (!controlKeys.includes(event.key)) {
       return;
     }
     if (onKeyDown) {
@@ -53,47 +57,66 @@ export default class Search extends React.PureComponent<Props, State> {
     event.stopPropagation();
   };
 
-  onInput = (event: React.FormEvent<HTMLInputElement>) => {
-    const { onInput } = this.props;
-    this.setState({ value: event.currentTarget.value });
-    if (onInput) {
-      onInput(event);
-    }
-  };
-
   setInputRef = (ref: React.Ref<any>) => {
     this.inputRef = ref;
   };
 
-  inputRef: React.Ref<any>;
+  renderInputControls = () => {
+    return this.props.inputControls ? (
+      <SearchInputControlsContainer>
+        {this.props.inputControls}
+      </SearchInputControlsContainer>
+    ) : null;
+  };
+
+  inputRef?: React.Ref<any>;
 
   render() {
-    const { children, onBlur, placeholder, isLoading } = this.props;
-    const { value } = this.state;
+    const {
+      children,
+      onBlur,
+      onInput,
+      placeholder,
+      isLoading,
+      value,
+      autocompleteText: autocomplete,
+    } = this.props;
 
     return (
       <SearchInner>
         <SearchBox>
-          <FieldBase
-            appearance="none"
-            isFitContainerWidthEnabled
-            isPaddingDisabled
-            isLoading={isLoading}
-          >
-            <SearchFieldBaseInner>
-              <SearchInput
-                autoFocus
-                innerRef={this.setInputRef}
-                onBlur={onBlur}
-                onInput={this.onInput}
-                placeholder={placeholder}
-                spellCheck={false}
-                type="text"
-                value={value}
-                onKeyDown={this.onInputKeyDown}
-              />
-            </SearchFieldBaseInner>
-          </FieldBase>
+          <SearchFieldBaseOuter>
+            <FieldBase
+              appearance="none"
+              isFitContainerWidthEnabled
+              isPaddingDisabled
+              isLoading={isLoading}
+            >
+              <SearchFieldBaseInner>
+                {autocomplete && (
+                  <SearchInputTypeAhead
+                    spellCheck={false}
+                    type="text"
+                    value={`${autocomplete}`}
+                    readOnly
+                    tabIndex={-1}
+                  />
+                )}
+                <SearchInput
+                  autoFocus
+                  innerRef={this.setInputRef}
+                  onBlur={onBlur}
+                  onInput={onInput}
+                  placeholder={placeholder}
+                  spellCheck={false}
+                  type="text"
+                  value={value}
+                  onKeyDown={this.onInputKeyDown}
+                />
+              </SearchFieldBaseInner>
+            </FieldBase>
+          </SearchFieldBaseOuter>
+          {this.renderInputControls()}
         </SearchBox>
         {children}
       </SearchInner>

@@ -82,7 +82,7 @@ describe('utils functions', () => {
       ['INVALID', '123'],
       ['POTENTIAL', 'someEmail@'],
       ['POTENTIAL', 'someEmail@atlassian'],
-      ['POTENTIAL', 'someEmail@trello.com'],
+      ['INVALID', 'someEmail@trello.com'],
       ['VALID', 'someEmail@atlassian.com'],
     ];
     describe.each`

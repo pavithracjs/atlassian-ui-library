@@ -4,7 +4,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import Item from '../../../Item';
-import ContainerHeader from '../../';
+import ContainerHeader from '../..';
 import ItemAvatar from '../../../ItemAvatar/index';
 
 const commonProps = {

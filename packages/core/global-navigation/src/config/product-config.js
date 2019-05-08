@@ -180,6 +180,11 @@ export default function generateProductConfig(
     productHref,
     getProductRef,
 
+    onRecentClick,
+    recentTooltip,
+    recentDrawerContents,
+    getRecentRef,
+
     onCreateClick,
     createTooltip,
     createDrawerContents,
@@ -207,8 +212,11 @@ export default function generateProductConfig(
     appSwitcherTooltip,
     getAppSwitcherRef,
 
+    enableHelpDrawer,
     helpItems,
+    onHelpClick,
     helpTooltip,
+    helpDrawerContents,
     getHelpRef,
 
     onSettingsClick,
@@ -227,6 +235,7 @@ export default function generateProductConfig(
     enableAtlassianSwitcher && cloudId && product;
 
   if (enableAtlassianSwitcher && !shouldRenderAtlassianSwitcher) {
+    // eslint-disable-next-line no-console
     console.warn(
       'When using the enableAtlassianSwitcher prop, be sure to send the cloudId and product props. Falling back to the legacy app-switcher',
     );
@@ -238,6 +247,11 @@ export default function generateProductConfig(
       href: productHref,
       getRef: getProductRef,
     }),
+    recent: configFactory(
+      onRecentClick || (recentDrawerContents && openDrawer('recent')),
+      recentTooltip,
+      { getRef: getRecentRef },
+    ),
     create: configFactory(
       onCreateClick || (createDrawerContents && openDrawer('create')),
       createTooltip,
@@ -253,6 +267,13 @@ export default function generateProductConfig(
       starredTooltip,
       { getRef: getStarredRef },
     ),
+    help: enableHelpDrawer
+      ? configFactory(
+          onHelpClick || (helpDrawerContents && openDrawer('help')),
+          helpTooltip,
+          { getRef: getHelpRef },
+        )
+      : helpConfigFactory(helpItems, helpTooltip, { getRef: getHelpRef }),
     settings: configFactory(
       onSettingsClick || (settingsDrawerContents && openDrawer('settings')),
       settingsTooltip,
@@ -273,7 +294,6 @@ export default function generateProductConfig(
       openDrawer('notification'),
       getNotificationRef,
     ),
-    help: helpConfigFactory(helpItems, helpTooltip, { getRef: getHelpRef }),
     profile: profileConfigFactory(
       profileItems,
       profileTooltip,

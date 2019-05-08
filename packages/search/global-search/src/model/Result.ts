@@ -7,6 +7,7 @@ export enum ResultType {
   GenericContainerResult = 'generic-container-result',
   PersonResult = 'person-result',
   ConfluenceObjectResult = 'confluence-object-result',
+  JiraIssueAdvancedSearch = 'JiraIssueAdvancedSearch',
 }
 
 export enum JiraProjectType {
@@ -34,6 +35,8 @@ export interface Result {
   experimentId?: string;
   contentType: ContentType;
   key?: string;
+  // used to indicate the result came from the recently viewed FE cache
+  isRecentResult?: boolean;
 }
 /**
  * Map of String keys and Array of results value, but can be empty as well
@@ -56,6 +59,11 @@ export interface ConfluenceResultsMap extends GenericResultMap {
   spaces: Result[];
 }
 
+export interface ConfluenceRecentsMap extends GenericResultMap {
+  objects: Result[];
+  spaces: Result[];
+}
+
 export interface JiraResultsMap extends GenericResultMap {
   issues: Result[];
   boards: Result[];
@@ -74,7 +82,7 @@ export interface ConfluenceObjectResult extends Result {
 export type ResultsGroup = {
   items: Result[];
   key: string;
-  title: FormattedMessage.MessageDescriptor;
+  title?: FormattedMessage.MessageDescriptor;
 };
 
 export interface JiraResult extends Result {
@@ -119,5 +127,6 @@ export enum AnalyticsType {
   AdvancedSearchConfluence = 'advanced-search-confluence',
   AdvancedSearchJira = 'advanced-search-jira',
   TopLinkPreQueryAdvancedSearchJira = 'top-link-prequery-advanced-search-jira',
+  LinkPostQueryAdvancedSearchJira = 'link-postquery-advanced-search-jira',
   AdvancedSearchPeople = 'advanced-search-people',
 }

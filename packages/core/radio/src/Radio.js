@@ -47,24 +47,28 @@ class Radio extends Component<RadioProps, State> {
       this.props.onBlur(event);
     }
   };
+
   onFocus = (event: SyntheticInputEvent<*>) => {
     this.setState({ isFocused: true });
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
+
   onMouseLeave = (event: SyntheticInputEvent<*>) => {
     this.setState({ isActive: false, isHovered: false });
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(event);
     }
   };
+
   onMouseEnter = (event: SyntheticInputEvent<*>) => {
     this.setState({ isHovered: true });
     if (this.props.onMouseEnter) {
       this.props.onMouseEnter(event);
     }
   };
+
   onMouseUp = (event: SyntheticInputEvent<*>) => {
     this.setState({ isActive: false, isMouseDown: false });
     if (this.props.onMouseUp) {

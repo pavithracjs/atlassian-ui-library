@@ -7,15 +7,14 @@ import { pressKey } from '../../__helpers/page-objects/_keyboard';
 describe('Gap cursor:', () => {
   let page: any;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     // @ts-ignore
     page = global.page;
     await initFullPageEditorWithAdf(page, gapcursor, Device.LaptopMDPI);
   });
 
   afterEach(async () => {
-    const threshold = 0.005;
-    await snapshot(page, threshold);
+    await snapshot(page);
   });
 
   it('should render gap cursor for code when ArrowRight', async () => {

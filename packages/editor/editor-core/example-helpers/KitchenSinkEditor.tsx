@@ -82,6 +82,7 @@ export default class KitchenSinkEditor extends React.Component<Props, State> {
           allowDate={true}
           allowLayouts={{
             allowBreakout: true,
+            UNSAFE_addSidebarLayouts: true,
           }}
           allowTextAlignment={true}
           allowTemplatePlaceholders={{ allowInserting: true }}

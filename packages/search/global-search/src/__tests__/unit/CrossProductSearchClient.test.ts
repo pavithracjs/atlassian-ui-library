@@ -4,6 +4,7 @@ import CrossProductSearchClient, {
   ScopeResult,
   ABTest,
   CrossProductExperimentResponse,
+  DEFAULT_AB_TEST,
 } from '../../api/CrossProductSearchClient';
 import { Scope, ConfluenceItem, PersonItem } from '../../api/types';
 
@@ -26,14 +27,15 @@ import {
 const DEFAULT_XPSEARCH_OPTS = {
   method: 'post',
   name: 'xpsearch',
+  overwriteRoutes: false,
 };
 
 function apiWillReturn(state: CrossProductSearchResponse) {
-  fetchMock.mock('localhost/quicksearch/v1', state, DEFAULT_XPSEARCH_OPTS);
+  fetchMock.once('localhost/quicksearch/v1', state, DEFAULT_XPSEARCH_OPTS);
 }
 
 function experimentApiWillReturn(state: CrossProductExperimentResponse) {
-  fetchMock.mock('localhost/experiment/v1', state, DEFAULT_XPSEARCH_OPTS);
+  fetchMock.once('localhost/experiment/v1', state, DEFAULT_XPSEARCH_OPTS);
 }
 
 const abTest: ABTest = {
@@ -73,6 +75,9 @@ describe('CrossProductSearchClient', () => {
                 content: {
                   id: '123',
                   type: 'page',
+                  space: {
+                    id: '123',
+                  },
                 },
               } as ConfluenceItem,
             ],
@@ -80,9 +85,12 @@ describe('CrossProductSearchClient', () => {
         ],
       });
 
-      const result = await searchClient.search('query', searchSession, [
-        Scope.ConfluencePageBlog,
-      ]);
+      const result = await searchClient.search(
+        'query',
+        searchSession,
+        [Scope.ConfluencePageBlog],
+        0,
+      );
       expect(result.results.get(Scope.ConfluencePageBlog)).toHaveLength(1);
 
       const item = result.results.get(
@@ -92,6 +100,7 @@ describe('CrossProductSearchClient', () => {
       expect(item.name).toEqual('page name');
       expect(item.href).toEqual('/wiki/url?search_id=test_uuid');
       expect(item.containerName).toEqual('containerTitle');
+      expect(item.containerId).toEqual('123');
       expect(item.analyticsType).toEqual(AnalyticsType.ResultConfluence);
       expect(item.resultType).toEqual(ResultType.ConfluenceObjectResult);
       expect(item.contentType).toEqual(ContentType.ConfluencePage);
@@ -125,9 +134,12 @@ describe('CrossProductSearchClient', () => {
         ],
       });
 
-      const result = await searchClient.search('query', searchSession, [
-        Scope.ConfluenceSpace,
-      ]);
+      const result = await searchClient.search(
+        'query',
+        searchSession,
+        [Scope.ConfluenceSpace],
+        0,
+      );
       expect(result.results.get(Scope.ConfluenceSpace)).toHaveLength(1);
       expect(result.abTest!.experimentId).toBe('experimentId');
 
@@ -168,9 +180,12 @@ describe('CrossProductSearchClient', () => {
         ],
       });
 
-      const result = await searchClient.search('query', searchSession, [
-        Scope.JiraIssue,
-      ]);
+      const result = await searchClient.search(
+        'query',
+        searchSession,
+        [Scope.JiraIssue],
+        0,
+      );
       expect(result.results.get(Scope.JiraIssue)).toHaveLength(1);
       expect(result.abTest!.experimentId).toBe('experimentId');
 
@@ -210,6 +225,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         searchSession,
         jiraScopes,
+        0,
       );
       expect(result.results.get(Scope.JiraIssue)).toHaveLength(0);
       expect(result.results.get(Scope.JiraBoardProjectFilter)).toHaveLength(3);
@@ -239,6 +255,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         { sessionId: 'sessionId' },
         [Scope.People],
+        0,
       );
       expect(result.results.get(Scope.People)).toHaveLength(1);
 
@@ -273,6 +290,7 @@ describe('CrossProductSearchClient', () => {
         'query',
         { sessionId: 'sessionId' },
         [Scope.People],
+        0,
       );
 
       const item = result.results.get(Scope.People)![0] as PersonResult;
@@ -309,10 +327,12 @@ describe('CrossProductSearchClient', () => {
       ],
     });
 
-    const result = await searchClient.search('query', searchSession, [
-      Scope.ConfluencePageBlog,
-      Scope.ConfluenceSpace,
-    ]);
+    const result = await searchClient.search(
+      'query',
+      searchSession,
+      [Scope.ConfluencePageBlog, Scope.ConfluenceSpace],
+      0,
+    );
 
     expect(result.results.get(Scope.JiraIssue)).toHaveLength(1);
     expect(result.results.get(Scope.ConfluencePageBlog)).toHaveLength(0);
@@ -322,11 +342,14 @@ describe('CrossProductSearchClient', () => {
     apiWillReturn({
       scopes: [],
     });
-    // @ts-ignore
-    const result = await searchClient.search('query', searchSession, [
-      Scope.ConfluencePageBlog,
-      Scope.JiraIssue,
-    ]);
+
+    await searchClient.search(
+      'query',
+      searchSession,
+      [Scope.ConfluencePageBlog, Scope.JiraIssue],
+      0,
+    );
+
     const call = fetchMock.calls('xpsearch')[0];
     // @ts-ignore
     const body = JSON.parse(call[1].body);
@@ -337,6 +360,28 @@ describe('CrossProductSearchClient', () => {
     expect(body.scopes).toEqual(
       expect.arrayContaining(['jira.issue', 'confluence.page,blogpost']),
     );
+    expect(body.modelParams).toEqual([
+      {
+        '@type': 'queryParams',
+        queryVersion: 0,
+      },
+    ]);
+  });
+
+  it('should omit model params if queryVersion is not provided', async () => {
+    apiWillReturn({
+      scopes: [],
+    });
+
+    await searchClient.search('query', searchSession, [
+      Scope.ConfluencePageBlog,
+      Scope.JiraIssue,
+    ]);
+    const call = fetchMock.calls('xpsearch')[0];
+    // @ts-ignore
+    const body = JSON.parse(call[1].body);
+
+    expect(body.modelParams).toBeUndefined();
   });
 
   describe('ABTest', () => {
@@ -356,10 +401,8 @@ describe('CrossProductSearchClient', () => {
         ],
       });
 
-      const result = await searchClient.getAbTestData(
-        Scope.ConfluencePageBlog,
-        searchSession,
-      );
+      const result = await searchClient.getAbTestData(Scope.ConfluencePageBlog);
+
       expect(result).toEqual(abTest);
     });
 
@@ -369,15 +412,71 @@ describe('CrossProductSearchClient', () => {
           {
             id: 'confluence.page,blogpost' as Scope,
             error: 'did not work',
+            abTest: DEFAULT_AB_TEST,
           },
         ],
       });
 
-      const result = await searchClient.getAbTestData(
+      const result = await searchClient.getAbTestData(Scope.ConfluencePageBlog);
+
+      expect(result).toEqual(DEFAULT_AB_TEST);
+    });
+
+    it('should not make REST request to retrieve ab test data if the scope has been requested before', async () => {
+      experimentApiWillReturn({
+        scopes: [
+          {
+            id: 'confluence.page,blogpost' as Scope,
+            abTest: DEFAULT_AB_TEST,
+          },
+        ],
+      });
+
+      const result1 = await searchClient.getAbTestData(
         Scope.ConfluencePageBlog,
-        searchSession,
       );
-      expect(result).toBeUndefined();
+      const result2 = await searchClient.getAbTestData(
+        Scope.ConfluencePageBlog,
+      );
+
+      expect(result1).toEqual(result2);
+    });
+
+    it('should make REST request to retrieve ab test data if the scope has not been requested before', async () => {
+      experimentApiWillReturn({
+        scopes: [
+          {
+            id: Scope.ConfluencePageBlog,
+            abTest: {
+              abTestId: 'firstAbTest',
+              experimentId: 'firstExperimentId',
+              controlId: 'firstControlId',
+            },
+          },
+        ],
+      });
+
+      experimentApiWillReturn({
+        scopes: [
+          {
+            id: Scope.ConfluencePageBlogAttachment,
+            abTest: {
+              abTestId: 'secondAbTest',
+              experimentId: 'secondExperimentId',
+              controlId: 'secondControlId',
+            },
+          },
+        ],
+      });
+
+      const result1 = await searchClient.getAbTestData(
+        Scope.ConfluencePageBlog,
+      );
+      const result2 = await searchClient.getAbTestData(
+        Scope.ConfluencePageBlogAttachment,
+      );
+
+      expect(result1).not.toEqual(result2);
     });
   });
 });

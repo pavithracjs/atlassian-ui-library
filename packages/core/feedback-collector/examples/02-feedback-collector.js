@@ -15,8 +15,11 @@ export default class DisplayFeedback extends Component<void, State> {
   state = { isOpen: false, displayFlag: false };
 
   open = () => this.setState({ isOpen: true });
+
   close = () => this.setState({ isOpen: false });
+
   displayFlag = () => this.setState({ displayFlag: true });
+
   hideFlag = () => this.setState({ displayFlag: false });
 
   render() {

@@ -7,11 +7,11 @@ import ManageButton from '../../primitives/manage-button';
 import messages from '../../utils/messages';
 import { IntlProvider } from 'react-intl';
 import createStream, { Stream } from '../../../test-helpers/stream';
-import { AnalyticsListener } from '@atlaskit/analytics-next';
 import {
+  AnalyticsListener,
   UIAnalyticsEventInterface,
   ObjectType,
-} from '@atlaskit/analytics-next-types/index';
+} from '@atlaskit/analytics-next';
 
 const DefaultAtlassianSwitcher = (props: any = {}) => {
   const stubIcon = () => <span />;

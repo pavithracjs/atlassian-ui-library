@@ -1,5 +1,3 @@
-/* tslint:disable:variable-name */
-
 import styled, { keyframes } from 'styled-components';
 
 import { HTMLAttributes, ComponentClass, SVGAttributes, SVGProps } from 'react';

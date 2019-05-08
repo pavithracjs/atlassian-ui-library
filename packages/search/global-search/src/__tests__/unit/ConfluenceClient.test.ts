@@ -1,86 +1,34 @@
+import fetchMock from 'fetch-mock';
 import ConfluenceClient, {
   RecentPage,
   RecentSpace,
-  ConfluenceContentType,
-  QuickNavResponse,
-  QuickNavResult,
 } from '../../api/ConfluenceClient';
 import {
   AnalyticsType,
-  ResultType,
-  ContentType,
   ContainerResult,
+  ContentType,
   PersonResult,
+  ResultType,
 } from '../../model/Result';
-
-import fetchMock from 'fetch-mock';
-
-const DUMMY_CONFLUENCE_HOST = 'http://localhost';
-const DUMMY_CLOUD_ID = '123';
-const PAGE_CLASSNAME = 'content-type-page';
-const BLOG_CLASSNAME = 'content-type-blogpost';
-const SPACE_CLASSNAME = 'content-type-space';
-const PEOPLE_CLASSNAME = 'content-type-userinfo';
-
-function buildMockPage(type: ConfluenceContentType): RecentPage {
-  return {
-    available: true,
-    contentType: type,
-    id: '123',
-    lastSeen: 123,
-    space: 'Search & Smarts',
-    spaceKey: 'abc',
-    title: 'Page title',
-    type: 'page',
-    url: '/content/123',
-    iconClass: 'iconClass',
-  };
-}
-
-const MOCK_SPACE = {
-  id: '123',
-  key: 'S&S',
-  icon: 'icon',
-  name: 'Search & Smarts',
-};
-
-const MOCK_QUICKNAV_RESULT_BASE = {
-  href: '/href',
-  name: 'name',
-  id: '123',
-  icon: 'icon',
-};
-
-const mockQuickNavResult = (className: string) => ({
-  className: className,
-  ...MOCK_QUICKNAV_RESULT_BASE,
-});
-
-function mockRecentlyViewedPages(pages: RecentPage[]) {
-  fetchMock.get('begin:http://localhost/rest/recentlyviewed/1.0/recent', pages);
-}
-
-function mockRecentlyViewedSpaces(spaces: RecentSpace[]) {
-  fetchMock.get(
-    'begin:http://localhost/rest/recentlyviewed/1.0/recent/spaces',
-    spaces,
-  );
-}
-
-function mockQuickNavSearch(results: QuickNavResult[][]) {
-  fetchMock.get('begin:http://localhost/rest/quicknav/1', {
-    contentNameMatches: results,
-  } as QuickNavResponse);
-}
+import {
+  BLOG_CLASSNAME,
+  buildMockPage,
+  DUMMY_CONFLUENCE_HOST,
+  mockQuickNavResult,
+  mockQuickNavSearch,
+  mockRecentlyViewedPages,
+  mockRecentlyViewedSpaces,
+  MOCK_SPACE,
+  PAGE_CLASSNAME,
+  PEOPLE_CLASSNAME,
+  SPACE_CLASSNAME,
+} from './helpers/_confluence-client-mocks';
 
 describe('ConfluenceClient', () => {
   let confluenceClient: ConfluenceClient;
 
   beforeEach(() => {
-    confluenceClient = new ConfluenceClient(
-      DUMMY_CONFLUENCE_HOST,
-      DUMMY_CLOUD_ID,
-    );
+    confluenceClient = new ConfluenceClient(DUMMY_CONFLUENCE_HOST);
   });
 
   afterEach(() => {
@@ -109,6 +57,7 @@ describe('ConfluenceClient', () => {
           contentType: ContentType.ConfluencePage,
           containerId: 'abc',
           iconClass: 'iconClass',
+          isRecentResult: true,
         },
         {
           resultId: pages[1].id,
@@ -120,6 +69,7 @@ describe('ConfluenceClient', () => {
           contentType: ContentType.ConfluenceBlogpost,
           containerId: 'abc',
           iconClass: 'iconClass',
+          isRecentResult: true,
         },
       ]);
     });

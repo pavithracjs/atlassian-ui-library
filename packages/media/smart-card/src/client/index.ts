@@ -134,7 +134,7 @@ export class Client implements ClientInterface {
   }
 
   fetchData(objectUrl: string): Promise<ResolveResponse> {
-    return fetch$<ResolveResponse>('post', `${this.env.resolverURL}/resolve`, {
+    return fetch$<ResolveResponse>('post', `${this.env.resolverUrl}/resolve`, {
       resourceUrl: encodeURI(objectUrl),
     }).toPromise();
   }
@@ -202,9 +202,11 @@ export class Client implements ClientInterface {
       merge(resolving$, data$).subscribe(state => {
         if (handleAnalyticsCallback) {
           if (state.status === 'resolved') {
-            handleAnalyticsCallback(resolvedEvent(url));
+            handleAnalyticsCallback(resolvedEvent(state.definitionId));
           } else {
-            handleAnalyticsCallback(unresolvedEvent(url, state));
+            handleAnalyticsCallback(
+              unresolvedEvent(state.status, (state as any).definitionId),
+            );
           }
         }
 

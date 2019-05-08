@@ -42,7 +42,13 @@ export default class DrawersExample extends Component<{}, State> {
           <label htmlFor="textbox" css={{ display: 'block' }}>
             Type something in the textarea below and see if it is retained
           </label>
-          <textarea input="textbox" type="text" rows="50" cols="50" />
+          <textarea
+            input="textbox"
+            type="text"
+            id="textbox"
+            rows="50"
+            cols="50"
+          />
         </Drawer>
         <Button type="button" onClick={this.openDrawer}>
           Open drawer

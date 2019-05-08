@@ -32,9 +32,11 @@ export default {
   },
   pluginsOptions: {
     floatingToolbar(state, intl): FloatingToolbarConfig | undefined {
-      const { pos, allowBreakout } = pluginKey.getState(state) as LayoutState;
+      const { pos, allowBreakout, addSidebarLayouts } = pluginKey.getState(
+        state,
+      ) as LayoutState;
       if (pos !== null) {
-        return buildToolbar(state, intl, pos, allowBreakout);
+        return buildToolbar(state, intl, pos, allowBreakout, addSidebarLayouts);
       }
       return undefined;
     },
@@ -42,7 +44,7 @@ export default {
       {
         title: formatMessage(messages.columns),
         description: formatMessage(messages.columnsDescription),
-        keywords: ['layout', 'section'],
+        keywords: ['layout', 'section', 'column'],
         priority: 1100,
         icon: () => <IconLayout label={formatMessage(messages.columns)} />,
         action(insert, state) {

@@ -9,7 +9,7 @@ export type ForwardRef = (node: HTMLElement | null) => void;
 
 export default class ReactNodeView implements NodeView {
   private domRef?: HTMLElement;
-  private contentDOMWrapper: Node | null;
+  private contentDOMWrapper?: Node;
   private reactComponent?: React.ComponentType<any>;
   private portalProviderAPI: PortalProviderAPI;
   private hasContext: boolean;
@@ -67,7 +67,7 @@ export default class ReactNodeView implements NodeView {
     // something gets messed up during mutation processing inside of a
     // nodeView if DOM structure has nested plain "div"s, it doesn't see the
     // difference between them and it kills the nodeView
-    this.domRef.className = `${this.node.type.name}View-content-wrap`;
+    this.domRef.classList.add(`${this.node.type.name}View-content-wrap`);
 
     this.renderReactComponent(() =>
       this.render(this.reactComponentProps, this.handleRef),

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CardLoading } from '../../utils/cardLoading';
+import { CardLoading } from '../../utils/lightCards/cardLoading';
 import { Card as CardType } from './index';
 import { CardProps } from '../..';
 

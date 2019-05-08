@@ -21,7 +21,7 @@ export interface InlineCardUnauthorizedViewProps {
 export class InlineCardUnauthorizedView extends React.Component<
   InlineCardUnauthorizedViewProps
 > {
-  handleConnectAccount = (event: React.MouseEvent<HTMLButtonElement>) => {
+  handleConnectAccount = (event: React.MouseEvent<HTMLElement>) => {
     const { onAuthorise } = this.props;
     event.preventDefault();
     event.stopPropagation();
@@ -34,11 +34,8 @@ export class InlineCardUnauthorizedView extends React.Component<
       <Frame onClick={onClick} isSelected={isSelected}>
         <IconAndTitleLayout
           icon={icon}
-          title={
-            <span style={{ color: colors.N500 }}>
-              {truncateUrlForErrorView(url)}
-            </span>
-          }
+          title={truncateUrlForErrorView(url)}
+          titleColor={colors.N500}
         />
         {!onAuthorise ? (
           ''

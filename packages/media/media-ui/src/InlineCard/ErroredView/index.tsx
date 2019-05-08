@@ -23,7 +23,7 @@ export interface InlineCardErroredViewProps {
 export class InlineCardErroredView extends React.Component<
   InlineCardErroredViewProps
 > {
-  handleRetry = (event: React.MouseEvent<HTMLButtonElement>) => {
+  handleRetry = (event: React.MouseEvent<HTMLElement>) => {
     const { onRetry } = this.props;
     if (onRetry) {
       event.preventDefault();
@@ -46,11 +46,8 @@ export class InlineCardErroredView extends React.Component<
               />
             </AKIconWrapper>
           }
-          title={
-            <span style={{ color: colors.R300 }}>
-              {truncateUrlForErrorView(url) + ' - ' + message.trim()}
-            </span>
-          }
+          title={truncateUrlForErrorView(url) + ' - ' + message.trim()}
+          titleColor={colors.R300}
         />{' '}
         {onRetry && (
           <Button spacing="none" appearance="link" onClick={this.handleRetry}>

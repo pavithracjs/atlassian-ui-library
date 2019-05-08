@@ -54,6 +54,7 @@ type Props = {
 
 export default class ResizeTransition extends PureComponent<Props> {
   target: HTMLElement;
+
   static defaultProps = {
     onExpandStart: NOOP,
     onExpandEnd: NOOP,

@@ -1,4 +1,4 @@
-/* tslint:disable:no-console */
+// eslint-disable-line no-console
 import * as React from 'react';
 import { atlassianLogoUrl, tallImage } from '@atlaskit/media-test-helpers';
 import { Checkbox } from '@atlaskit/checkbox';

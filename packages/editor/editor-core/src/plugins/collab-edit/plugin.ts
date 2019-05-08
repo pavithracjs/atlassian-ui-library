@@ -19,7 +19,7 @@ import {
 } from './types';
 import { Participants, ReadOnlyParticipants } from './participants';
 import { findPointers, createTelepointers } from './utils';
-import { CollabEditProvider } from './provider';
+import { CollabEditProvider, CollabEvent } from './provider';
 import { CollabEditOptions } from './types';
 
 export { CollabEditProvider };
@@ -137,6 +137,21 @@ export const createPlugin = (
       return {
         destroy() {
           providerFactory.unsubscribeAll('collabEditProvider');
+          const collabEvents: Array<CollabEvent> = [
+            'init',
+            'connected',
+            'data',
+            'presence',
+            'telepointer',
+            'local-steps',
+            'error',
+          ];
+
+          collabEvents.forEach(evt => {
+            if (collabEditProvider) {
+              collabEditProvider.unsubscribeAll(evt);
+            }
+          });
           collabEditProvider = null;
         },
       };

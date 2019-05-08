@@ -1,5 +1,52 @@
 # @atlaskit/drawer
 
+## 4.1.0
+- [minor] [3301793aae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3301793aae):
+
+  - Add DrawerSkeletonHeader, DrawerSkeletonItem and DrawerItemGroup components to drawer
+
+## 4.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 3.0.10
+- Updated dependencies [5b6b4d6a0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5b6b4d6a0f):
+  - @atlaskit/portal@1.0.0
+
+## 3.0.9
+- Updated dependencies [38dab947e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/38dab947e6):
+  - @atlaskit/blanket@9.0.0
+
+## 3.0.8
+- [patch] [371becf9e2](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/371becf9e2):
+
+  - Internal changes only. Drawer is compatible with SSR.
+
+## 3.0.7
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/blanket@8.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/dropdown-menu@7.0.6
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/item@9.0.1
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/quick-search@6.1.1
+  - @atlaskit/theme@8.1.7
+
+## 3.0.6
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/blanket@8.0.2
+  - @atlaskit/dropdown-menu@7.0.4
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/portal@0.3.1
+  - @atlaskit/section-message@2.0.2
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/button@12.0.0
+
 ## 3.0.5
 - [patch] [42d931a2fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/42d931a2fd):
 

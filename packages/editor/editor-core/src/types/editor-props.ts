@@ -29,10 +29,12 @@ import { CollabEditOptions } from '../plugins/collab-edit/types';
 import { CodeBlockOptions } from '../plugins/code-block';
 import { CardProvider, CardOptions } from '../plugins/card/types';
 import { QuickInsertOptions } from '../plugins/quick-insert/types';
+import { AutoformattingProvider } from '../plugins/custom-autoformat/types';
 
 export type EditorAppearance =
   | 'comment'
   | 'full-page'
+  | 'full-width'
   | 'chromeless'
   | 'mobile';
 
@@ -140,10 +142,12 @@ export interface EditorProps {
   allowInlineAction?: boolean;
 
   // Temporary flag to enable layouts while it's under development
+  // Use object form to enable breakout for layouts, and to enable the newer layouts - left sidebar & right sidebar
   allowLayouts?:
     | boolean
     | {
         allowBreakout: boolean;
+        UNSAFE_addSidebarLayouts?: boolean;
       };
 
   // Enable status, if menuDisabled is passed then plugin is enabled by default
@@ -190,6 +194,9 @@ export interface EditorProps {
   legacyImageUploadProvider?: Promise<ImageUploadHandler>;
   mentionProvider?: Promise<MentionProvider>;
   mediaProvider?: Promise<MediaProvider>;
+
+  // Allows you to define custom autoformatting rules.
+  autoformattingProvider?: Promise<AutoformattingProvider>;
 
   // This is temporary for Confluence. **Please do not use**.
   macroProvider?: Promise<MacroProvider>;
@@ -241,8 +248,4 @@ export interface EditorProps {
 
   // Set to provide your extensions handlers.
   extensionHandlers?: ExtensionHandlers;
-
-  // Set to enable a left aligned mode with a max width of 1800px
-  // This only takes effect on the 'full-page' appearance.
-  fullWidthMode?: boolean;
 }

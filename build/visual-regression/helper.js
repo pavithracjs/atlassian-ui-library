@@ -8,6 +8,24 @@
 const glob = require('glob');
 const pageSelector = '#examples';
 
+async function disableAllSideEffects(
+  page /*: any */,
+  allowSideEffects /*: Object */ = {},
+) {
+  if (!allowSideEffects.cursor) {
+    await disableCaretCursor(page);
+  }
+  if (!allowSideEffects.animation) {
+    await disableAllAnimations(page);
+  }
+  if (!allowSideEffects.transition) {
+    await disableAllTransitions(page);
+  }
+  if (!allowSideEffects.scroll) {
+    await disableScrollBehavior(page);
+  }
+}
+
 async function disableCaretCursor(page /*: any */) {
   const css = `
   * {
@@ -19,7 +37,7 @@ async function disableCaretCursor(page /*: any */) {
 
 async function disableAllTransitions(page /*: any */) {
   const css = `
-  * {
+  *, *:after, *:before {
     -webkit-transition: none !important;
     -moz-transition: none !important;
     -o-transition: none !important;
@@ -31,11 +49,123 @@ async function disableAllTransitions(page /*: any */) {
 
 async function disableAllAnimations(page /*: any */) {
   const css = `
-  * {
+  *, *:after, *:before {
     animation: none !important;
   }
   `;
   await page.addStyleTag({ content: css });
+}
+
+async function disableScrollBehavior(page /*: any */) {
+  const css = `
+  * {
+    scroll-behavior: auto !important;
+  }
+  `;
+  await page.addStyleTag({ content: css });
+}
+
+/**
+ * Image Loading Helpers
+ *
+ * We use `page.goto(url, { waitUntil: 'networkidle0' })` which waits for network requests on initial page
+ * load to complete.
+ *
+ * If your example loads content after initial page load (e.g. `waitUntil: 'networkidle0'` isn't sufficient),
+ * you can use `waitForLoadedImageElements` or `waitForLoadedBackgroundImages` to wait for all the images
+ * on the page to load prior to taking a screenshot.
+ */
+
+// Wait for all image elements on the page to have loaded.
+function areAllImageElementsLoaded() {
+  const images = Array.from(document.images);
+  if (!images.length) {
+    throw new Error(`
+      'waitForLoadedImageElements' was used, but no images existed on the page within the time threshold.
+      Ensure the page contains images.
+      You can increase the wait time via the 'mediaDelayMs' parameter.
+    `);
+  }
+  return images.every(i => i.complete);
+}
+
+/**
+ * Wait for resolved image elements to have all loaded.
+ *
+ * Ensure any `<img />` element's on the page have finished loading their `src` URI.
+ *
+ * Note: this won't help for Media items which are unresolved (e.g. due to authentication
+ * or a media id mismatch) as those scenarios don't render an `<img />`.
+ */
+async function waitForLoadedImageElements(
+  page /*:any*/,
+  timeout /*:number*/,
+  mediaDelayMs /*:number*/ = 150,
+) {
+  // Wait for Media API to resolve urls
+  await page.waitFor(mediaDelayMs);
+  // polling at 50ms (roughly every 3 rendered frames)
+  return await page.waitForFunction(areAllImageElementsLoaded, {
+    polling: 50,
+    timeout,
+  });
+}
+
+/**
+ * Wait for images loaded via the CSS background-image property.
+ *
+ * Ensure elements using a `background-image` have finished loading their `url`.
+ */
+async function waitForLoadedBackgroundImages(
+  page /*:any*/,
+  rootSelector /*:string*/ = '*',
+  timeoutMs /*:number*/ = 30000,
+) {
+  return await page
+    .evaluate(
+      (selector /*:string*/, raceTimeout /*:number*/) => {
+        const urlSrcRegex = /url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i;
+        const bgImageUrlSet = Array.from(
+          document.querySelectorAll(selector),
+        ).reduce(
+          (collection, node) => {
+            let prop = window
+              .getComputedStyle(node, null)
+              .getPropertyValue('background-image');
+            // Find elements which have a bg image set
+            let match = urlSrcRegex.exec(prop);
+            if (match) {
+              collection.add(match[1]);
+            }
+            return collection;
+          },
+          // Using a Set for automatic de-duplication
+          new Set(),
+        );
+        // Wait for images to load, or abort if timeout threshold is exceeded
+        return Promise.race([
+          new Promise((resolve, reject) => setTimeout(reject, raceTimeout)),
+          Promise.all(
+            [...bgImageUrlSet].map(
+              url =>
+                new Promise((resolve, reject) => {
+                  const img = new Image();
+                  img.onload = () => resolve({ url, loaded: true });
+                  img.onerror = () => reject({ url, loaded: false });
+                  img.src = url;
+                }),
+            ),
+          ),
+        ]);
+      },
+      rootSelector,
+      timeoutMs,
+    )
+    .catch(e => {
+      console.warn(
+        `waitForLoadedBackgroundImages: Failed to resolve background images within the threshold of ${timeoutMs} milliseconds`,
+      );
+    });
 }
 
 async function takeScreenShot(page /*:any*/, url /*:string*/) {
@@ -87,10 +217,14 @@ const getExampleUrl = (
 
 module.exports = {
   getExamplesFor,
+  waitForLoadedImageElements,
+  waitForLoadedBackgroundImages,
   takeScreenShot,
   takeElementScreenShot,
   getExampleUrl,
   disableAllAnimations,
   disableAllTransitions,
   disableCaretCursor,
+  disableScrollBehavior,
+  disableAllSideEffects,
 };

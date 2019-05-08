@@ -38,14 +38,14 @@ export default md`
 
   ${(
     <Props
-      heading={'Stateful Props'}
+      heading="Stateful Props"
       props={require('!!extract-react-types-loader!../src/components/SingleSelect')}
     />
   )}
 
   ${(
     <Props
-      heading={'Stateless Props'}
+      heading="Stateless Props"
       props={require('!!extract-react-types-loader!../src/components/StatelessSelect')}
     />
   )}

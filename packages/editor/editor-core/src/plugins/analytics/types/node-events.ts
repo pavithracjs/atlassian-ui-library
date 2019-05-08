@@ -6,12 +6,20 @@ import {
   ACTION_SUBJECT_ID,
 } from './enums';
 
-export const enum PANEL_TYPE {
+export enum PANEL_TYPE {
   INFO = 'info',
   SUCCESS = 'success',
   NOTE = 'note',
   WARNING = 'warning',
   ERROR = 'error',
+}
+
+export enum LAYOUT_TYPE {
+  TWO_COLS_EQUAL = 'twoColumnsEqual',
+  THREE_COLS_EQUAL = 'threeColumnsEqual',
+  LEFT_SIDEBAR = 'twoColumnsLeftSidebar',
+  RIGHT_SIDEBAR = 'twoColumnsRightSidebar',
+  THREE_WITH_SIDEBARS = 'threeColumnsWithSidebars ',
 }
 
 type DeletePanelAEP = TrackAEP<
@@ -45,8 +53,27 @@ type DeletedSmartLink = TrackAEP<
   }
 >;
 
+type ChangedLayoutAEP = TrackAEP<
+  ACTION.CHANGED_LAYOUT,
+  ACTION_SUBJECT.LAYOUT,
+  undefined,
+  {
+    previousLayout: LAYOUT_TYPE;
+    newLayout: LAYOUT_TYPE;
+  }
+>;
+
+type DeletedLayoutAEP = TrackAEP<
+  ACTION.DELETED,
+  ACTION_SUBJECT.LAYOUT,
+  undefined,
+  { layout: LAYOUT_TYPE }
+>;
+
 export type NodeEventPayload =
   | ChangePanelAEP
   | DeletePanelAEP
   | DeletedSmartLink
-  | VisitedSmartLink;
+  | VisitedSmartLink
+  | ChangedLayoutAEP
+  | DeletedLayoutAEP;

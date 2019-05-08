@@ -3,6 +3,7 @@ import { defaultSchema as schema } from '@atlaskit/adf-schema';
 
 import * as paragraphIndents from '../../__fixtures__/paragraph-indents.adf.json';
 import * as paragraphAlign from '../../__fixtures__/paragraph-align.adf.json';
+import * as heading from '../../__fixtures__/heading.adf.json';
 import * as headingAlign from '../../__fixtures__/heading-align.adf.json';
 import * as em from '../../__fixtures__/em.adf.json';
 import * as codeBlock from '../../__fixtures__/code-block.adf.json';
@@ -21,6 +22,7 @@ import * as extensions from '../../__fixtures__/extensions.adf.json';
 import * as date from '../../__fixtures__/date.adf.json';
 import * as mediaSingle from '../../__fixtures__/media-single.adf.json';
 import * as mediaGroup from '../../__fixtures__/media-group.adf.json';
+import * as lists from '../../__fixtures__/lists.adf.json';
 
 import * as image from '../../__fixtures__/image.adf.json';
 import * as placeholder from '../../__fixtures__/placeholder.adf.json';
@@ -113,6 +115,11 @@ describe('Renderer - EmailSerializer', () => {
     expect(output).toMatchSnapshot();
   });
 
+  it('should render headings 1-6 correctly', () => {
+    const output = render(heading);
+    expect(output).toMatchSnapshot();
+  });
+
   it('should inline text properties correctly', () => {
     const output = render(inlineTextProps);
     expect(output).toMatchSnapshot();
@@ -158,8 +165,14 @@ describe('Renderer - EmailSerializer', () => {
     expect(output).toMatchSnapshot();
   });
 
+  // Snapshot was updated as it was blocking master. See https://product-fabric.atlassian.net/browse/ED-6769
   it('should render dates in normal text and task lists', () => {
     const output = render(date);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render lists', () => {
+    const output = render(lists);
     expect(output).toMatchSnapshot();
   });
 });

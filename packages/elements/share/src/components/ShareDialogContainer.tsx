@@ -10,30 +10,78 @@ import {
 import {
   Content,
   DialogContentState,
+  DialogPlacement,
+  Flag,
   MetaData,
   OriginTracing,
   OriginTracingFactory,
+  RenderCustomTriggerButton,
   ShareButtonStyle,
   ShareResponse,
 } from '../types';
+import MessagesIntlProvider from './MessagesIntlProvider';
 import { ShareDialogWithTrigger } from './ShareDialogWithTrigger';
 import { optionDataToUsers } from './utils';
 
 export type Props = {
+  /** Share service client implementation that gets share configs and performs share */
   client?: ShareClient;
+  /** Cloud ID of the instance */
   cloudId: string;
-  dialogPlacement?: string;
+  /** Placement of the modal to the trigger button */
+  dialogPlacement?: DialogPlacement;
+  /** Transform function to provide custom formatted copy link, a default memorized function is provided */
   formatCopyLink: (origin: OriginTracing, link: string) => string;
+  /** Function used to load users options asynchronously */
   loadUserOptions: LoadOptions;
+  /** Factory function to generate new Origin Tracing instance */
   originTracingFactory: OriginTracingFactory;
+  /** Product ID of the share
+   * confluence
+   * jira-core
+   * jira-servicedesk
+   * jira-software
+   */
   productId: string;
+  /** Render function for a custom Share Dialog Trigger Button*/
+  renderCustomTriggerButton?: RenderCustomTriggerButton;
+  /** Atlassian Resource Identifier of a Site resource to be shared */
   shareAri: string;
+  /** Content Type of the resource to be shared
+   * board
+   * calendar
+   * draft
+   * filter
+   * issue
+   * media
+   * page
+   * project
+   * pullrequest
+   * question
+   * report
+   * repository
+   * request
+   * roadmap
+   * site
+   * space
+   */
   shareContentType: string;
+  /** Link of the resource to be shared */
   shareLink: string;
+  /** Title of the resource to be shared that will be sent in notifications */
   shareTitle: string;
+  /** Title of the share modal */
   shareFormTitle?: React.ReactNode;
+  /** To enable closing the modal on escape key press */
   shouldCloseOnEscapePress?: boolean;
+  /**
+   * Callback function for showing successful share flag(s) with a parameter providing details of the flag, including the type of the message with a localized default title
+   * This package has an opinion on showing flag(s) upon successful share, and Flag system is NOT provided. Instead, showFlag prop is available for this purpose.
+   */
+  showFlags: (flags: Array<Flag>) => void;
+  /** Appearance of the share modal trigger button  */
   triggerButtonAppearance?: ButtonAppearances;
+  /** Style of the share modal trigger button */
   triggerButtonStyle?: ShareButtonStyle;
 };
 
@@ -52,6 +100,16 @@ const memoizedFormatCopyLink: (
   (origin: OriginTracing, link: string): string => origin.addToUrl(link),
 );
 
+// This is a work around for an issue in extract-react-types
+// https://github.com/atlassian/extract-react-types/issues/59
+const getDefaultShareLink: () => string = () =>
+  window ? window.location!.href : '';
+
+export const defaultConfig: ConfigResponse = {
+  mode: 'EXISTING_USERS_ONLY',
+  allowComment: false,
+};
+
 /**
  * This component serves as a Provider to provide customizable implementations
  * to ShareDialogTrigger component
@@ -61,7 +119,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
   private _isMounted = false;
 
   static defaultProps = {
-    shareLink: window && window.location!.href,
+    shareLink: getDefaultShareLink(),
     formatCopyLink: memoizedFormatCopyLink,
   };
 
@@ -79,6 +137,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       prevShareLink: null,
       shareActionCount: 0,
       shareOrigin: null,
+      config: defaultConfig,
     };
   }
 
@@ -126,6 +185,7 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       })
       .catch(() => {
         // TODO: Send analytics event
+        this.setState({ config: defaultConfig });
       });
   };
 
@@ -173,27 +233,35 @@ export class ShareDialogContainer extends React.Component<Props, State> {
       dialogPlacement,
       formatCopyLink,
       loadUserOptions,
-      shareLink,
+      renderCustomTriggerButton,
+      shareContentType,
       shareFormTitle,
+      shareLink,
       shouldCloseOnEscapePress,
+      showFlags,
       triggerButtonAppearance,
       triggerButtonStyle,
     } = this.props;
     const { shareOrigin } = this.state;
     const copyLink = formatCopyLink(this.state.copyLinkOrigin!, shareLink);
     return (
-      <ShareDialogWithTrigger
-        config={this.state.config}
-        copyLink={copyLink}
-        dialogPlacement={dialogPlacement}
-        loadUserOptions={loadUserOptions}
-        onShareSubmit={this.handleSubmitShare}
-        shareFormTitle={shareFormTitle}
-        shouldCloseOnEscapePress={shouldCloseOnEscapePress}
-        triggerButtonAppearance={triggerButtonAppearance}
-        triggerButtonStyle={triggerButtonStyle}
-        shareOrigin={shareOrigin}
-      />
+      <MessagesIntlProvider>
+        <ShareDialogWithTrigger
+          config={this.state.config}
+          copyLink={copyLink}
+          dialogPlacement={dialogPlacement}
+          loadUserOptions={loadUserOptions}
+          onShareSubmit={this.handleSubmitShare}
+          renderCustomTriggerButton={renderCustomTriggerButton}
+          shareContentType={shareContentType}
+          shareFormTitle={shareFormTitle}
+          shareOrigin={shareOrigin}
+          shouldCloseOnEscapePress={shouldCloseOnEscapePress}
+          showFlags={showFlags}
+          triggerButtonAppearance={triggerButtonAppearance}
+          triggerButtonStyle={triggerButtonStyle}
+        />
+      </MessagesIntlProvider>
     );
   }
 }

@@ -2,10 +2,13 @@ import styled from 'styled-components';
 import { HTMLAttributes, ComponentClass } from 'react';
 import {
   editorFontSize,
+  whitespaceSharedStyles,
   paragraphSharedStyles,
+  listsSharedStyles,
   indentationSharedStyles,
   blockMarksSharedStyles,
   shadowSharedStyle,
+  inlineNodeSharedStyle,
 } from '@atlaskit/editor-common';
 import { telepointerStyle } from '../../plugins/collab-edit/styles';
 import { gapCursorStyles } from '../../plugins/gap-cursor/styles';
@@ -44,14 +47,15 @@ const ContentStyles: ComponentClass<
   }
 
   .ProseMirror {
-    word-wrap: break-word;
-    white-space: pre-wrap;
     outline: none;
     font-size: ${editorFontSize}px;
 
+    ${whitespaceSharedStyles};
     ${paragraphSharedStyles};
+    ${listsSharedStyles};
     ${indentationSharedStyles};
-    ${shadowSharedStyle}
+    ${shadowSharedStyle};
+    ${inlineNodeSharedStyle};
   }
 
   .ProseMirror-hideselection *::selection {
@@ -122,7 +126,7 @@ const ContentStyles: ComponentClass<
   }
 
   /* Danger when top level node */
-  .danger > .extension-container {
+  .danger > span > .extension-container {
     background: ${akEditorDeleteBackground};
     .extension-overlay {
       box-shadow: inset 0px 0px 0px ${akEditorDeleteBorderBoldSize}px ${akEditorDeleteBorder} !important;

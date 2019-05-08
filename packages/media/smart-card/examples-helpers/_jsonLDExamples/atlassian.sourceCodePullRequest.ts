@@ -6,7 +6,7 @@ export const BitbucketPullRequest = {
   },
   '@id': 'https://bitbucket.org/tuser/test-repo/pull-requests/7',
   '@type': ['', 'atlassian:SourceCodePullRequest'],
-  '@url': 'https://bitbucket.org/tuser/test-repo/pull-requests/7',
+  url: 'https://bitbucket.org/tuser/test-repo/pull-requests/7',
   'atlassian:isMerged': true,
   'atlassian:mergeCommit': {
     '@type': 'Link',
@@ -96,7 +96,7 @@ export const GithubPullRequest = {
   },
   '@id': 'https://github.com/testuser/test-repo/pull/3',
   '@type': ['Object', 'atlassian:SourceCodePullRequest'],
-  '@url': 'https://github.com/testuser/test-repo/pull/3',
+  url: 'https://github.com/testuser/test-repo/pull/3',
   'atlassian:isMerged': false,
   'atlassian:mergeCommit': {
     '@type': 'Link',

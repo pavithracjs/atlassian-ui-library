@@ -24,8 +24,10 @@ import {
 import { MediaViewer } from '../src';
 import { videoFileId } from '@atlaskit/media-test-helpers';
 import { MediaViewerDataSource } from '..';
-import { AnalyticsListener } from '@atlaskit/analytics-next';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import {
+  AnalyticsListener,
+  UIAnalyticsEventInterface,
+} from '@atlaskit/analytics-next';
 import { I18NWrapper } from '@atlaskit/media-test-helpers';
 import { Identifier, FileIdentifier } from '@atlaskit/media-core';
 import { Card } from '@atlaskit/media-card';
@@ -96,6 +98,27 @@ export default class Example extends React.Component<{}, State> {
           ],
         },
         identifier: imageIdentifier,
+      },
+    });
+  };
+
+  private openListWithItemNotOnList = () => {
+    this.setState({
+      selected: {
+        dataSource: {
+          list: [
+            imageIdentifier,
+            videoIdentifier,
+            videoHorizontalFileItem,
+            wideImageIdentifier,
+            audioItem,
+            audioItemNoCover,
+            largePdfIdentifier,
+            imageIdentifier2,
+            unsupportedIdentifier,
+          ],
+        },
+        identifier: docIdentifier,
       },
     });
   };
@@ -192,6 +215,11 @@ export default class Example extends React.Component<{}, State> {
             <ButtonList>
               <li>
                 <Button onClick={this.openList}>Small list</Button>
+              </li>
+              <li>
+                <Button onClick={this.openListWithItemNotOnList}>
+                  Small list with selected item not on the list
+                </Button>
               </li>
             </ButtonList>
           </Group>

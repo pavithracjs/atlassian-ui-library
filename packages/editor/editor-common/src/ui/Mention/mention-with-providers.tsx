@@ -77,7 +77,6 @@ export default class MentionWithProviders extends PureComponent<Props, State> {
         (eventHandlers && eventHandlers[handler]) || noop;
     });
 
-    // tslint:disable-next-line:variable-name
     const MentionComponent =
       profilecardProvider && GENERIC_USER_IDS.indexOf(id) === -1
         ? ResourcedMentionWithProfilecard

@@ -21,7 +21,7 @@ export interface InlineCardForbiddenViewProps {
 export class InlineCardForbiddenView extends React.Component<
   InlineCardForbiddenViewProps
 > {
-  handleRetry = (event: React.MouseEvent<HTMLButtonElement>) => {
+  handleRetry = (event: React.MouseEvent<HTMLElement>) => {
     const { onAuthorise } = this.props;
     event.preventDefault();
     event.stopPropagation();
@@ -42,6 +42,7 @@ export class InlineCardForbiddenView extends React.Component<
             truncateUrlForErrorView(url) +
             " - You don't have permissions to view"
           }
+          titleColor={colors.N500}
         />
         {!onAuthorise ? (
           ''

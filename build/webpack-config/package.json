@@ -5,7 +5,7 @@
     "webpack-dev": "./bin/dev.js",
     "webpack-build": "./bin/build.js"
   },
-  "version": "2.0.9",
+  "version": "2.0.10",
   "description": "Configurations for webpack used in Atlaskit",
   "main": "config/index.js",
   "scripts": {
@@ -16,7 +16,7 @@
   "dependencies": {
     "@atlaskit/multi-entry-tools": "^0.0.1",
     "babel-loader": "^8.0.2",
-    "bolt": "^0.22.1",
+    "bolt": "^0.23.1",
     "bolt-fs-loader": "^0.0.1",
     "chalk": "^2.1.0",
     "changelog-md-loader": "^0.0.1",
@@ -35,5 +35,8 @@
     "webpack": "^4.16.1",
     "webpack-bundle-analyzer": "^2.13.0",
     "webpack-dev-server": "^3.1.4"
+  },
+  "devDependencies": {
+    "@atlaskit/visual-regression": "^0.1.0"
   }
 }

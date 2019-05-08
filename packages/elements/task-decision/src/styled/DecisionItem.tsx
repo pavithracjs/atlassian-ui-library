@@ -8,7 +8,6 @@ export interface EditorIconWrapperProps {
   showPlaceholder?: boolean;
 }
 
-// tslint:disable-next-line:variable-name
 export const EditorIconWrapper: ComponentClass<
   HTMLAttributes<{}> & EditorIconWrapperProps
 > = styled.span`

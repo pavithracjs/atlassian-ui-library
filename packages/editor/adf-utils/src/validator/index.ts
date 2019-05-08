@@ -43,7 +43,6 @@ interface ValidatorSpec {
   required?: Array<string>;
 }
 
-// tslint:disable-next-line:triple-equals
 const isDefined = <T>(x: T): x is NonNullable<T> => x != null;
 
 const isNumber = (x: any): x is number =>
@@ -492,12 +491,7 @@ export function validator(
                   isForceContentValidationSpec(v) &&
                   v.forceContentValidation
                 ) {
-                  const items = (entity.attrs as any)[k];
-                  if (!items) {
-                    newEntity.attrs![k] = items;
-                    return true;
-                  }
-
+                  const items = (entity.attrs as any)[k] || [];
                   const newItems: Array<ADFEntity> = [];
                   const specItemsAllowed = v.items;
                   const entitySet = specItemsAllowed.reduce((xs, x) =>

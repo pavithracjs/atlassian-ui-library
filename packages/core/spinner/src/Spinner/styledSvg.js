@@ -93,23 +93,22 @@ export const svgStyles = css`
   ${(props: StyleParams) => {
     const circumference = getStrokeCircumference(props.size);
 
-    const idleRotation = `0.86s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite ${
-      keyframeNames.rotate
-    }`;
-
-    const spinUpStroke = `0.8s ease-in-out ${getEnterStrokeKeyframe(
-      props.size,
-    )}`;
-
-    const spinUpOpacity = `0.2s ease-in-out ${keyframeNames.enterOpacity}`;
-
-    const activeAnimations = [idleRotation];
-    if (props.phase === 'ENTER') {
-      activeAnimations.push(spinUpStroke, spinUpOpacity);
-    }
+    const animation = animProps => {
+      const baseAnimation = '0.86s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite';
+      if (animProps.phase === 'ENTER') {
+        return css`
+          animation: ${baseAnimation} ${keyframeNames.rotate},
+            0.8s ease-in-out ${getEnterStrokeKeyframe(animProps.size)},
+            0.2s ease-in-out ${keyframeNames.enterOpacity};
+        `;
+      }
+      return css`
+        animation: ${baseAnimation} ${keyframeNames.rotate};
+      `;
+    };
 
     return css`
-      animation: ${activeAnimations.join(', ')};
+      ${animation}
       fill: none;
       stroke: ${getStrokeColor};
       stroke-dasharray: ${circumference}px;

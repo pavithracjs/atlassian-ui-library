@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/progress-tracker",
-  "version": "5.0.1",
+  "version": "6.0.0",
   "description": "A React component that shows the steps and progress in a journey",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -20,23 +20,23 @@
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-22",
   "dependencies": {
-    "@atlaskit/page": "^9.0.0",
-    "@atlaskit/theme": "^8.0.0",
+    "@atlaskit/page": "^10.0.0",
+    "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",
     "react-router-dom": "^4.2.2",
     "react-transition-group": "^2.2.1"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/ssr": "^0.0.1",
-    "@atlaskit/docs": "^7.0.0",
-    "@atlaskit/visual-regression": "^0.0.1",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/ssr": "^0.1.0",
+    "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.4.2",
+    "react-dom": "^16.8.0",
     "react-test-renderer": "^16.3.0"
   }
 }

@@ -1,5 +1,5 @@
 import { TextSelection, Selection } from 'prosemirror-state';
-import { hasParentNodeOfType } from 'prosemirror-utils';
+import { hasParentNodeOfType, safeInsert } from 'prosemirror-utils';
 
 import { taskDecisionSliceFilter } from '../../utils/filter';
 import { linkifyContent } from '../hyperlink/utils';
@@ -17,6 +17,10 @@ import {
 import { compose } from '../../utils';
 import { CommandDispatch, Command } from '../../types';
 import { insertMediaAsMediaSingle } from '../media/utils/media-single';
+import { INPUT_METHOD } from '../analytics';
+import { CardOptions } from '../card';
+import { CardAppearance } from '@atlaskit/smart-card';
+import { Node as ProsemirrorNode } from 'prosemirror-model';
 
 export function handlePasteIntoTaskAndDecision(slice: Slice): Command {
   return (state: EditorState, dispatch?: CommandDispatch): boolean => {
@@ -77,7 +81,7 @@ export function handlePasteIntoTaskAndDecision(slice: Slice): Command {
       .replaceSelection(transformedSlice)
       .scrollIntoView();
 
-    queueCardsFromChangedTr(state, tr);
+    queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
     if (dispatch) {
       dispatch(tr);
     }
@@ -173,7 +177,7 @@ export function handlePastePreservingMarks(slice: Slice): Command {
         .setStoredMarks(selectionMarks)
         .scrollIntoView();
 
-      queueCardsFromChangedTr(state, tr);
+      queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
       if (dispatch) {
         dispatch(tr);
       }
@@ -202,7 +206,7 @@ export function handlePastePreservingMarks(slice: Slice): Command {
         .setStoredMarks(selectionMarks)
         .scrollIntoView();
 
-      queueCardsFromChangedTr(state, tr);
+      queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
       if (dispatch) {
         dispatch(tr);
       }
@@ -213,7 +217,48 @@ export function handlePastePreservingMarks(slice: Slice): Command {
   };
 }
 
-export function handleMacroAutoConvert(text: string, slice: Slice): Command {
+async function isLinkSmart(
+  text: string,
+  type: CardAppearance,
+  cardOptions: CardOptions,
+): Promise<boolean> {
+  if (!cardOptions.provider) {
+    return false;
+  }
+  const provider = await cardOptions.provider;
+  return await provider.resolve(text, type);
+}
+
+function insertAutoMacro(
+  slice: Slice,
+  macro: ProsemirrorNode,
+  view?: EditorView,
+): boolean {
+  if (view) {
+    // insert the text or linkified/md-converted clipboard data
+    const selection = view.state.tr.selection;
+
+    const tr = view.state.tr.replaceSelection(slice);
+    const before = tr.mapping.map(selection.from, -1);
+    view.dispatch(tr);
+
+    // replace the text with the macro as a separate transaction
+    // so the autoconversion generates 2 undo steps
+    view.dispatch(
+      closeHistory(view.state.tr)
+        .replaceRangeWith(before, before + slice.size, macro)
+        .scrollIntoView(),
+    );
+    return true;
+  }
+  return false;
+}
+
+export function handleMacroAutoConvert(
+  text: string,
+  slice: Slice,
+  cardsOptions?: CardOptions,
+): Command {
   return (
     state: EditorState,
     dispatch?: CommandDispatch,
@@ -221,22 +266,35 @@ export function handleMacroAutoConvert(text: string, slice: Slice): Command {
   ) => {
     const macro = runMacroAutoConvert(state, text);
     if (macro) {
-      const selection = state.tr.selection;
-      const tr = state.tr.replaceSelection(slice);
-      const before = tr.mapping.map(selection.from, -1);
+      /**
+       * if FF enabled, run through smart links and check for result
+       */
+      if (
+        cardsOptions &&
+        cardsOptions.resolveBeforeMacros &&
+        cardsOptions.resolveBeforeMacros.length
+      ) {
+        if (
+          cardsOptions.resolveBeforeMacros.indexOf(macro.attrs.extensionKey) < 0
+        ) {
+          return insertAutoMacro(slice, macro, view);
+        }
 
-      if (dispatch && view) {
-        // insert the text or linkified/md-converted clipboard data
-        dispatch(tr);
+        isLinkSmart(text, 'inline', cardsOptions)
+          .then((res: any) => {
+            if (!res || !res.attrs || !view) {
+              throw new Error('Smart link could not be inserted on paste');
+            }
+            const node = state.schema.nodes.inlineCard.createChecked(res.attrs);
 
-        // replace the text with the macro as a separate transaction
-        // so the autoconversion generates 2 undo steps
-        dispatch(
-          closeHistory(view.state.tr)
-            .replaceRangeWith(before, before + slice.size, macro)
-            .scrollIntoView(),
-        );
+            view.dispatch(
+              safeInsert(node, view.state.selection.from)(view.state.tr),
+            );
+          })
+          .catch(() => insertAutoMacro(slice, macro, view));
+        return true;
       }
+      return insertAutoMacro(slice, macro, view);
     }
     return !!macro;
   };
@@ -277,7 +335,7 @@ export function handleMarkdown(markdownSlice: Slice): Command {
     const tr = closeHistory(state.tr);
     tr.replaceSelection(markdownSlice);
 
-    queueCardsFromChangedTr(state, tr);
+    queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD);
     if (dispatch) {
       dispatch(tr.scrollIntoView());
     }
@@ -323,7 +381,7 @@ export function handleRichText(slice: Slice): Command {
 
     // queue link cards, ignoring any errors
     if (dispatch) {
-      dispatch(queueCardsFromChangedTr(state, tr));
+      dispatch(queueCardsFromChangedTr(state, tr, INPUT_METHOD.CLIPBOARD));
     }
     return true;
   };

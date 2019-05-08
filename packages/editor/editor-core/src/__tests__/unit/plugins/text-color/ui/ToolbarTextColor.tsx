@@ -21,7 +21,7 @@ import textColorPlugin from '../../../../../plugins/text-color';
 import codeBlockPlugin from '../../../../../plugins/code-block';
 import { ReactWrapper } from 'enzyme';
 import { AnalyticsHandler } from '../../../../../analytics';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 
 /**
  * Simulate a click color

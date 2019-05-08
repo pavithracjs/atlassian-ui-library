@@ -29,7 +29,7 @@ class PuppeteerEnvironment extends JSDOMEnvironment {
     await super.setup();
     let wsEndpoint;
 
-    if (process.env.CI) {
+    if (process.env.CI || process.env.DEBUG) {
       // If it is in CI retrieve wsEndpoint from file stored in global setup
       wsEndpoint = fs.readFileSync(wsEndpointDir, 'utf8');
     } else {

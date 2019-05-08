@@ -145,8 +145,8 @@ export default class extends Component<*, *> {
             items={items}
             render={({ title, numbering, page, hasChildren, children }) => (
               <Row
-                expandLabel={'Expand'}
-                collapseLabel={'Collapse'}
+                expandLabel="Expand"
+                collapseLabel="Collapse"
                 itemId={numbering}
                 onExpand={this.loadTableData}
                 items={children}

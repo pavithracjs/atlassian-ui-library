@@ -42,6 +42,22 @@ const validDoc = {
 };
 
 describe('@atlaskit/renderer/ui/Renderer', () => {
+  it('should re-render when appearance changes', () => {
+    const doc = {
+      type: 'doc',
+      content: 'foo',
+    };
+
+    const renderer = mount(<Renderer document={doc} />);
+    const renderSpy = jest.spyOn(
+      renderer.instance() as any,
+      'updateSerializer',
+    );
+    renderer.setProps({ appearance: 'full-width' });
+    renderer.setProps({ appearance: 'full-page' });
+    expect(renderSpy).toHaveBeenCalledTimes(2);
+  });
+
   it('should catch errors and render unsupported content text', () => {
     const doc = {
       type: 'doc',

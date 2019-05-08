@@ -12,19 +12,19 @@ import {
   ACTION_SUBJECT,
   EVENT_TYPE,
   INPUT_METHOD,
-  TABLE_LAYOUT,
+  TABLE_BREAKOUT,
 } from '../analytics';
 import {
   insertColumn,
   insertRow,
-  emptyMultipleCells,
+  clearMultipleCells,
   setMultipleCellAttrs,
   toggleHeaderRow,
   toggleHeaderColumn,
   toggleNumberColumn,
   deleteTable,
   toggleTableLayout,
-  nextLayout,
+  getNextLayout,
 } from './actions';
 import {
   getSelectedCellInfo,
@@ -35,10 +35,10 @@ import {
 } from './utils';
 import { mergeCells, deleteColumns, deleteRows } from './transforms';
 
-const TABLE_LAYOUT_NAME_MAPPING = {
-  default: TABLE_LAYOUT.NORMAL,
-  wide: TABLE_LAYOUT.WIDE,
-  'full-width': TABLE_LAYOUT.FULL_WIDTH,
+const TABLE_BREAKOUT_NAME_MAPPING = {
+  default: TABLE_BREAKOUT.NORMAL,
+  wide: TABLE_BREAKOUT.WIDE,
+  'full-width': TABLE_BREAKOUT.FULL_WIDTH,
 };
 
 // #region Analytics wrappers
@@ -72,7 +72,7 @@ export const emptyMultipleCellsWithAnalytics = (
       `atlassian.editor.format.table.delete_content.${
         inputMethod === INPUT_METHOD.KEYBOARD ? 'keyboard' : 'button'
       }`,
-      emptyMultipleCells(targetCellPosition),
+      clearMultipleCells(targetCellPosition),
     ),
   );
 
@@ -387,12 +387,12 @@ export const toggleTableLayoutWithAnalytics = () =>
     if (table) {
       const { layout } = table.node.attrs as { layout: TableLayout };
       return {
-        action: TABLE_ACTION.CHANGED_LAYOUT,
+        action: TABLE_ACTION.CHANGED_BREAKOUT_MODE,
         actionSubject: ACTION_SUBJECT.TABLE,
         actionSubjectId: null,
         attributes: {
-          newLayout: TABLE_LAYOUT_NAME_MAPPING[nextLayout(layout)],
-          previousLayout: TABLE_LAYOUT_NAME_MAPPING[layout],
+          newBreakoutMode: TABLE_BREAKOUT_NAME_MAPPING[getNextLayout(layout)],
+          previousBreakoutMode: TABLE_BREAKOUT_NAME_MAPPING[layout],
           totalRowCount,
           totalColumnCount,
         },
@@ -400,3 +400,4 @@ export const toggleTableLayoutWithAnalytics = () =>
       };
     }
   })(toggleTableLayout);
+// #endregion

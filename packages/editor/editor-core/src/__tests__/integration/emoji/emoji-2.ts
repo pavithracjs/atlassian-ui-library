@@ -64,7 +64,7 @@ BrowserTestCase(
     await page.type(editable, 'this ');
     await insertEmoji(page, 'joy');
     await page.waitForSelector(emojiItem('joy'), 1000);
-    await page.type(editable, ['Backspace', 'Backspace']);
+    await page.keys(['Backspace', 'Backspace']);
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
   },

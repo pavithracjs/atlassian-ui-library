@@ -43,6 +43,7 @@ export const mediaSingle: NodeSpec = {
   inline: false,
   group: 'block',
   selectable: true,
+  atom: true,
   content: 'media',
   attrs: defaultAttrs,
   parseDOM: [

@@ -2,8 +2,7 @@ import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import { PureComponent, ReactInstance } from 'react';
 import { MentionUserType as UserType } from '@atlaskit/adf-schema';
-import { MentionProvider } from '@atlaskit/mention/resource';
-import { ResourcedMention } from '@atlaskit/mention/element';
+import { MentionProvider, ResourcedMention } from '@atlaskit/mention';
 
 import { ProfilecardProvider } from './types';
 import ProfileCard, { ProfileCardAction } from '@atlaskit/profilecard';
@@ -11,7 +10,6 @@ import { MentionEventHandler } from '../EventHandlers';
 import Popup from '../Popup';
 import withOuterListeners from '../with-outer-listeners';
 
-// tslint:disable-next-line:variable-name
 const ProfilecardResourcedWithListeners = withOuterListeners(ProfileCard);
 
 interface Coords {
@@ -46,7 +44,7 @@ export default class MentionWithProfileCard extends PureComponent<
   Props,
   State
 > {
-  private domNode: HTMLElement | null;
+  private domNode: HTMLElement | null | undefined;
   state: State = {
     target: null,
     visible: false,

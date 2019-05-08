@@ -106,7 +106,6 @@ export default class CategorySelector extends PureComponent<Props, State> {
               categoryClasses.push(styles.disable);
             }
 
-            // tslint:disable-next-line:variable-name
             const Icon = category.icon;
             return (
               <li key={category.id}>

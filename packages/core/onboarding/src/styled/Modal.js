@@ -7,8 +7,6 @@ export const Body = styled.div`
   text-align: center;
 `;
 
-// TODO: equivilant to H600, need to replace with mixin when available from
-// the @atlaskit/theme package
 export const Heading = styled.h4`
   color: inherit;
   font-size: 20px;

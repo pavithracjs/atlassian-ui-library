@@ -1,19 +1,19 @@
 import {
-  ContainerResult,
-  ResultType,
-  Result,
-  AnalyticsType,
-  ConfluenceObjectResult,
-  ContentType,
-  PersonResult,
-} from '../model/Result';
-import {
   RequestServiceOptions,
-  utils,
   ServiceConfig,
+  utils,
 } from '@atlaskit/util-service-support';
 import URI from 'urijs';
 import unescapeHtml from 'unescape';
+import {
+  AnalyticsType,
+  ConfluenceObjectResult,
+  ContainerResult,
+  ContentType,
+  PersonResult,
+  Result,
+  ResultType,
+} from '../model/Result';
 
 const RECENT_PAGES_PATH: string = 'rest/recentlyviewed/1.0/recent';
 const RECENT_SPACE_PATH: string = 'rest/recentlyviewed/1.0/recent/spaces';
@@ -66,13 +66,9 @@ export interface QuickNavResult {
 
 export default class ConfluenceClientImpl implements ConfluenceClient {
   private serviceConfig: ServiceConfig;
-  private cloudId: string;
 
-  private readonly RESULT_LIMIT = 10;
-
-  constructor(url: string, cloudId: string) {
+  constructor(url: string) {
     this.serviceConfig = { url: url };
-    this.cloudId = cloudId;
   }
 
   public async searchPeopleInQuickNav(
@@ -125,10 +121,6 @@ export default class ConfluenceClientImpl implements ConfluenceClient {
   private createRecentRequestPromise<T>(path: string): Promise<Array<T>> {
     const options: RequestServiceOptions = {
       path: path,
-      queryParams: {
-        cloudId: this.cloudId,
-        limit: this.RESULT_LIMIT,
-      },
     };
 
     return utils.requestService(this.serviceConfig, options);
@@ -154,6 +146,7 @@ function recentPageToResult(
     contentType: `confluence-${recentPage.contentType}` as ContentType,
     iconClass: recentPage.iconClass,
     containerId: recentPage.spaceKey,
+    isRecentResult: true,
   } as ConfluenceObjectResult;
 }
 

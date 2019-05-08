@@ -3,9 +3,10 @@ import { BrowserTestCase } from '@atlaskit/webdriver-runner/runner';
 
 import { gotoPopupSimplePage } from '../../../pages/popup-simple-page';
 
+// TODO: fix after webdriverio upgrade
 BrowserTestCase(
   'local-upload.ts: MediaPicker - local upload',
-  { skip: ['edge', 'ie', 'safari', 'firefox'] },
+  { skip: ['edge', 'ie', 'safari', 'firefox', 'chrome'] },
   async client => {
     const page = await gotoPopupSimplePage(client);
     const filename = 'popup.png';

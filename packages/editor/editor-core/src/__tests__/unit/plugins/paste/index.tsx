@@ -34,6 +34,8 @@ import {
   MockMacroProvider,
   createAnalyticsEventMock,
   RefsNode,
+  sleep,
+  inlineCard,
 } from '@atlaskit/editor-test-helpers';
 import { TextSelection } from 'prosemirror-state';
 import mediaPlugin from '../../../../plugins/media';
@@ -41,28 +43,34 @@ import codeBlockPlugin from '../../../../plugins/code-block';
 import extensionPlugin from '../../../../plugins/extension';
 import listPlugin from '../../../../plugins/lists';
 import tablesPlugin from '../../../../plugins/table';
-import macroPlugin, { setMacroProvider } from '../../../../plugins/macro';
+import macroPlugin, {
+  setMacroProvider,
+  MacroAttributes,
+} from '../../../../plugins/macro';
 import { uuid } from '@atlaskit/adf-schema';
 import tasksAndDecisionsPlugin from '../../../../plugins/tasks-and-decisions';
-import { panelPlugin } from '../../../../plugins';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { panelPlugin, cardPlugin } from '../../../../plugins';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 import {
   PASTE_ACTION_SUBJECT_ID,
   ACTION_SUBJECT_ID,
 } from '../../../../plugins/analytics';
 import { Schema } from 'prosemirror-model';
+import { CardProvider } from '../../../../plugins/card';
+import { EditorProps } from '../../../..';
 
 describe('paste plugins', () => {
   const createEditor = createEditorFactory();
   let createAnalyticsEvent: jest.MockInstance<UIAnalyticsEventInterface>;
-  const editor = (doc: any) => {
+  const editor = (doc: any, props: Partial<EditorProps> = {}) => {
     createAnalyticsEvent = createAnalyticsEventMock();
     const wrapper = createEditor({
       doc,
       createAnalyticsEvent: createAnalyticsEvent as any,
       editorProps: {
         allowAnalyticsGASV3: true,
+        ...props,
       },
       editorPlugins: [
         mediaPlugin({ allowMediaSingle: true }),
@@ -73,6 +81,7 @@ describe('paste plugins', () => {
         panelPlugin,
         tasksAndDecisionsPlugin,
         tablesPlugin(),
+        cardPlugin,
       ],
     });
 
@@ -717,6 +726,28 @@ describe('paste plugins', () => {
       },
     };
 
+    const extensionProps = (cardOptions = {}): Partial<EditorProps> => {
+      return {
+        macroProvider: Promise.resolve({
+          config: {},
+          openMacroBrowser: () => Promise.resolve({} as MacroAttributes),
+          autoConvert: () => {
+            return null;
+          },
+        }),
+        UNSAFE_cards: {
+          provider: Promise.resolve({
+            resolve: () =>
+              Promise.resolve({
+                type: 'inlineCard',
+                attrs: { url: 'https://jdog.jira-dev.com/browse/BENTO-3677' },
+              }),
+          } as CardProvider),
+          ...cardOptions,
+        },
+      };
+    };
+
     describe('should convert pasted content to inlineExtension (confluence macro)', () => {
       it('from plain text url', async () => {
         const macroProvider = Promise.resolve(new MockMacroProvider({}));
@@ -726,6 +757,45 @@ describe('paste plugins', () => {
         dispatchPasteEvent(editorView, {
           plain: 'http://www.dumbmacro.com?paramA=CFE',
         });
+        expect(editorView.state.doc).toEqualDocument(
+          doc(p(inlineExtension(attrs)())),
+        );
+      });
+
+      it('inserts inline card when FF for resolving links over extensions is enabled', async () => {
+        const macroProvider = Promise.resolve(new MockMacroProvider({}));
+        const { editorView } = editor(
+          doc(p('{<>}')),
+          extensionProps({ resolveBeforeMacros: ['dumbMacro'] }),
+        );
+
+        await setMacroProvider(macroProvider)(editorView);
+
+        await dispatchPasteEvent(editorView, {
+          plain: 'https://jdog.jira-dev.com/browse/BENTO-3677',
+        });
+        await sleep(100);
+        expect(editorView.state.doc).toEqualDocument(
+          doc(
+            p(
+              inlineCard({
+                url: 'https://jdog.jira-dev.com/browse/BENTO-3677',
+              })(),
+            ),
+          ),
+        );
+      });
+
+      it('inserts inlineExtension when FF for resolving links over extensions is disabled', async () => {
+        const macroProvider = Promise.resolve(new MockMacroProvider({}));
+        const { editorView } = editor(doc(p('{<>}')), extensionProps());
+
+        await setMacroProvider(macroProvider)(editorView);
+
+        await dispatchPasteEvent(editorView, {
+          plain: 'https://jdog.jira-dev.com/browse/BENTO-3677',
+        });
+        await sleep(100);
         expect(editorView.state.doc).toEqualDocument(
           doc(p(inlineExtension(attrs)())),
         );

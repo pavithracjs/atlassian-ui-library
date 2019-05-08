@@ -46,6 +46,7 @@ import {
   InputMethodInsertMedia,
   DispatchAnalyticsEvent,
 } from '../../../plugins/analytics';
+import { isFullPage } from '../../../utils/is-full-page';
 export { MediaState, MediaProvider, MediaStateStatus };
 
 const MEDIA_RESOLVED_STATES = ['ready', 'error', 'cancelled'];
@@ -57,7 +58,7 @@ export interface MediaNodeWithPosHandler {
 
 export class MediaPluginState {
   public allowsUploads: boolean = false;
-  public mediaContext: Context;
+  public mediaContext?: Context;
   public uploadContext?: Context;
   public ignoreLinks: boolean = false;
   public waitForMediaUpload: boolean = true;
@@ -69,9 +70,9 @@ export class MediaPluginState {
   public mediaGroupNodes: Record<string, any> = {};
   private pendingTask = Promise.resolve<MediaState | null>(null);
   public options: MediaPluginOptions;
-  private view: EditorView;
+  private view!: EditorView;
   private destroyed = false;
-  public mediaProvider: MediaProvider;
+  public mediaProvider?: MediaProvider;
   private errorReporter: ErrorReporter;
 
   public pickers: PickerFacade[] = [];
@@ -824,7 +825,7 @@ export class MediaPluginState {
 
 const createDropPlaceholder = (editorAppearance?: EditorAppearance) => {
   const dropPlaceholder = document.createElement('div');
-  if (editorAppearance === 'full-page') {
+  if (isFullPage(editorAppearance)) {
     ReactDOM.render(
       React.createElement(DropPlaceholder, { type: 'single' } as {
         type: PlaceholderType;
@@ -874,7 +875,6 @@ export const createPlugin = (
         if (meta && dispatch) {
           const { showMediaPicker } = pluginState;
           const { allowsUploads } = meta;
-
           dispatch(stateKey, {
             ...pluginState,
             allowsUploads:

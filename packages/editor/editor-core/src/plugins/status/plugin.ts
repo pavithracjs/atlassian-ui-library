@@ -1,4 +1,4 @@
-import { DecorationSet, Decoration } from 'prosemirror-view';
+import { DecorationSet, Decoration, EditorView } from 'prosemirror-view';
 import {
   EditorState,
   Plugin,
@@ -6,12 +6,10 @@ import {
   Selection,
   Transaction,
 } from 'prosemirror-state';
-import { EditorView } from 'prosemirror-view';
 import { Color as ColorType } from '@atlaskit/status';
-import StatusNodeView from './nodeviews/status';
-import { ReactNodeView } from '../../nodeviews';
+import statusNodeView from './nodeviews/status';
 import { PMPluginFactory } from '../../types';
-import { ZWSP } from '../../utils';
+import { ZeroWidthSpace } from '../../utils';
 import { mayGetStatusNodeAt, isEmptyStatus } from './utils';
 
 export const pluginKey = new PluginKey('statusPlugin');
@@ -54,7 +52,11 @@ export class SelectionChange {
   }
 }
 
-const createPlugin: PMPluginFactory = ({ dispatch, portalProviderAPI }) =>
+const createPlugin: PMPluginFactory = ({
+  dispatch,
+  portalProviderAPI,
+  props: { appearance },
+}) =>
   new Plugin({
     state: {
       init: () => ({
@@ -148,18 +150,19 @@ const createPlugin: PMPluginFactory = ({ dispatch, portalProviderAPI }) =>
     key: pluginKey,
     props: {
       nodeViews: {
-        status: ReactNodeView.fromComponent(StatusNodeView, portalProviderAPI),
+        status: statusNodeView(portalProviderAPI, appearance),
       },
       decorations(state: EditorState) {
         const { tr } = state;
         const nodeAtSelection = tr.doc.nodeAt(tr.selection.from);
 
         if (
+          appearance !== 'mobile' &&
           nodeAtSelection &&
           nodeAtSelection.type === state.schema.nodes.status
         ) {
           const delayedNodeRendering = () => {
-            return document.createTextNode(ZWSP);
+            return document.createTextNode(ZeroWidthSpace);
           };
 
           const decoration = Decoration.widget(
