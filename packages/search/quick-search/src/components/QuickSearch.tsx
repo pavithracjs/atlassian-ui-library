@@ -410,7 +410,7 @@ export class QuickSearch extends React.Component<Props, State> {
         autocompleteText &&
         autocompleteText.length > 0 &&
         // multiple Tab or ArrowRight
-        autocompleteText.slice(-1) != ' '
+        autocompleteText.slice(-1) !== ' '
       ) {
         this.acceptAutocomplete(event, autocompleteText);
         event.preventDefault();
