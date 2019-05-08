@@ -41,6 +41,7 @@ describe('CachingConfluenceClient', () => {
       contentType: `confluence-${page.contentType}` as ContentType,
       containerId: 'abc',
       iconClass: 'iconClass',
+      isRecentResult: true,
     })),
     spaces: spaces.map(space => ({
       resultId: space.id,
@@ -75,6 +76,7 @@ describe('CachingConfluenceClient', () => {
         contentType: ContentType.ConfluencePage,
         containerId: 'abc',
         iconClass: 'iconClass',
+        isRecentResult: true,
       },
       {
         resultId: pages[1].id,
@@ -86,6 +88,7 @@ describe('CachingConfluenceClient', () => {
         contentType: ContentType.ConfluenceBlogpost,
         containerId: 'abc',
         iconClass: 'iconClass',
+        isRecentResult: true,
       },
     ];
 

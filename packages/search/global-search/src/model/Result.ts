@@ -35,6 +35,8 @@ export interface Result {
   experimentId?: string;
   contentType: ContentType;
   key?: string;
+  // used to indicate the result came from the recently viewed FE cache
+  isRecentResult?: boolean;
 }
 /**
  * Map of String keys and Array of results value, but can be empty as well
