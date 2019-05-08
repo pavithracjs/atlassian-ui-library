@@ -4,15 +4,15 @@
     "name": "main",
     "stats": {
       "size": 20057,
-      "gzipSize": 6904
+      "gzipSize": 6905
     }
   },
   {
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 196445,
-      "gzipSize": 59112
+      "size": 196446,
+      "gzipSize": 59107
     }
   },
   {
@@ -20,7 +20,7 @@
     "name": "main",
     "stats": {
       "size": 236514,
-      "gzipSize": 55087
+      "gzipSize": 54821
     }
   },
   {
@@ -28,7 +28,7 @@
     "name": "main",
     "stats": {
       "size": 2656,
-      "gzipSize": 1121
+      "gzipSize": 1122
     }
   },
   {
@@ -36,7 +36,7 @@
     "name": "main",
     "stats": {
       "size": 3990,
-      "gzipSize": 1474
+      "gzipSize": 1472
     }
   },
   {
@@ -44,15 +44,15 @@
     "name": "main",
     "stats": {
       "size": 59056,
-      "gzipSize": 15585
+      "gzipSize": 15599
     }
   },
   {
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 508457,
-      "gzipSize": 135954
+      "size": 508459,
+      "gzipSize": 135376
     }
   }
 ]
