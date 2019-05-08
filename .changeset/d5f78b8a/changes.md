@@ -1,1 +1,0 @@
-- Fixes issue where the Switcher component opens with the wrong width
