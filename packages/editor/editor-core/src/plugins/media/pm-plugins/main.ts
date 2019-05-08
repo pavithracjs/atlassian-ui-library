@@ -18,7 +18,7 @@ import { ErrorReporter } from '@atlaskit/editor-common';
 import { Dimensions } from '@atlaskit/media-editor';
 
 import analyticsService from '../../../analytics/service';
-import { isImage, SetAttrsStep } from '../../../utils';
+import { isImage } from '../../../utils';
 import { Dispatch } from '../../../event-dispatcher';
 import { ProsemirrorGetPosHandler } from '../../../nodeviews';
 import { EditorAppearance } from '../../../types/editor-props';
@@ -47,6 +47,8 @@ import {
   DispatchAnalyticsEvent,
 } from '../../../plugins/analytics';
 import { isFullPage } from '../../../utils/is-full-page';
+import { findMediaNode, findMediaSingleNode } from '../commands/helpers';
+import { updateMediaNodeAttrs } from '../commands/media';
 export { MediaState, MediaProvider, MediaStateStatus };
 
 const MEDIA_RESOLVED_STATES = ['ready', 'error', 'cancelled'];
@@ -478,27 +480,7 @@ export class MediaPluginState {
   }
 
   findMediaNode = (id: string): MediaNodeWithPosHandler | null => {
-    const { mediaNodes } = this;
-
-    // Array#find... no IE support
-    return mediaNodes.reduce(
-      (
-        memo: MediaNodeWithPosHandler | null,
-        nodeWithPos: MediaNodeWithPosHandler,
-      ) => {
-        if (memo) {
-          return memo;
-        }
-
-        const { node } = nodeWithPos;
-        if (node.attrs.id === id) {
-          return nodeWithPos;
-        }
-
-        return memo;
-      },
-      null,
-    );
+    return findMediaSingleNode(this, id);
   };
 
   private destroyPickers = () => {
@@ -636,18 +618,9 @@ export class MediaPluginState {
       return;
     }
 
-    const mediaNodeWithPos = isMediaSingle
-      ? this.findMediaNode(id)
-      : this.mediaGroupNodes[id];
-
-    if (!mediaNodeWithPos) {
-      return;
-    }
-
-    view.dispatch(
-      view.state.tr
-        .step(new SetAttrsStep(mediaNodeWithPos.getPos(), attrs))
-        .setMeta('addToHistory', false),
+    return updateMediaNodeAttrs(id, attrs, isMediaSingle)(
+      view.state,
+      view.dispatch,
     );
   };
 
@@ -699,9 +672,12 @@ export class MediaPluginState {
 
   removeNodeById = (state: MediaState) => {
     const { id } = state;
-    const mediaNodeWithPos = isImage(state.fileMimeType)
-      ? this.findMediaNode(id)
-      : this.mediaGroupNodes[id];
+    const mediaNodeWithPos = findMediaNode(
+      this,
+      id,
+      isImage(state.fileMimeType),
+    );
+
     if (mediaNodeWithPos) {
       removeMediaNode(
         this.view,
