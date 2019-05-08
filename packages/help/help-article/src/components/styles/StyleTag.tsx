@@ -4,7 +4,7 @@ import * as React from 'react';
  * This component will inject the <style> tag with a copy of the style
  * shared in this url: https://support.atlassian.com/resources/main.css
  *
- * - Why I did not import the styles using "import './styles.css'"?
+ * - Why didn't we import the styles using "import './styles.css'"?
  * The bundle size checking will throw an error if we do that.
  *
  * - Why do we need to use a css file?
