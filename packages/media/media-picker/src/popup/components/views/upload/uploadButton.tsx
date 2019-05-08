@@ -20,7 +20,6 @@ export type Props = LocalBrowserButtonProps & LocalBrowserButtonDispatchProps;
 export class LocalBrowserButton extends React.Component<Props> {
   private onUploadClick = (): void => {
     const { browserRef, onClick } = this.props;
-
     onClick();
 
     if (browserRef.current) {
@@ -29,14 +28,11 @@ export class LocalBrowserButton extends React.Component<Props> {
   };
 
   render() {
-    const { browserRef } = this.props;
-
     return (
       <Button
         className="e2e-upload-button"
         appearance="default"
         onClick={this.onUploadClick}
-        isDisabled={!browserRef} // TODO: why is this needed when mpBrowser/renderBrowser is a required prop?
       >
         <FormattedMessage {...messages.upload_file} />
       </Button>

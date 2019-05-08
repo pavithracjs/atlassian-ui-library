@@ -178,6 +178,7 @@ export class App extends Component<AppProps, AppState> {
 
     onStartApp({
       onCancelUpload: uploadId => {
+        // TODO: find how cancel upload
         // this.mpBrowser.cancel(uploadId);
         this.mpDropzone.cancel(uploadId);
         this.mpBinary.cancel(uploadId);

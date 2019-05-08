@@ -38,7 +38,6 @@ const browseConfig: BrowserConfig = {
 };
 
 class BrowserWrapper extends Component<{}, BrowserWrapperState> {
-  browserComponents: Browser[] = [];
   dropzoneContainer?: HTMLDivElement;
 
   state: BrowserWrapperState = {
@@ -46,11 +45,12 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
     isOpen: false,
   };
 
-  renderBrowser = () => {
+  renderBrowser = (key: number) => {
     const { isOpen } = this.state;
 
     return (
       <Browser
+        key={key}
         context={context}
         config={browseConfig}
         isOpen={isOpen}
@@ -64,8 +64,10 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
     this.setState({ previewsData: [...this.state.previewsData, data] });
   };
 
-  onOpen = (fileBrowser: Browser) => () => {
-    fileBrowser.browse();
+  onOpen = () => () => {
+    this.setState({
+      isOpen: true,
+    });
   };
 
   onClose = () => {
@@ -81,14 +83,17 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
   };
 
   render() {
-    const buttons = this.browserComponents.map((browser, key) => {
+    const array = (Array(5) as any).fill();
+    const buttons = array.map((_: any, key: number) => {
       return (
-        <Button key={key} appearance="primary" onClick={this.onOpen(browser)}>
+        <Button key={key} appearance="primary" onClick={this.onOpen}>
           Open
         </Button>
       );
     });
-    const browsers = (Array(5) as any).fill().map(this.renderBrowser());
+    const browsers = array.map((_: any, key: number) =>
+      this.renderBrowser(key),
+    );
 
     return (
       <PopupContainer>
