@@ -30,11 +30,6 @@ const clickFirstCell = async (page: any) => {
   await animationFrame(page);
 };
 
-const changeLayout = async (page: any) => {
-  await toggleBreakout(page, 1);
-  await animationFrame(page);
-};
-
 BrowserTestCase(
   'Remains in overflow on table scale to wide',
   { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
@@ -50,7 +45,7 @@ BrowserTestCase(
     });
 
     await clickFirstCell(page);
-    await changeLayout(page);
+    await toggleBreakout(page, 1);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -72,9 +67,7 @@ BrowserTestCase(
     });
 
     await clickFirstCell(page);
-    await changeLayout(page);
-    await page.browser.pause(100);
-    await changeLayout(page);
+    await toggleBreakout(page, 2);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -96,7 +89,7 @@ BrowserTestCase(
     });
 
     await clickFirstCell(page);
-    await changeLayout(page);
+    await toggleBreakout(page, 1);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -119,7 +112,7 @@ BrowserTestCase(
     });
 
     await clickFirstCell(page);
-    await changeLayout(page);
+    await toggleBreakout(page, 1);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -141,9 +134,7 @@ BrowserTestCase(
     });
 
     await clickFirstCell(page);
-    await changeLayout(page);
-    await page.browser.pause(100);
-    await changeLayout(page);
+    await toggleBreakout(page, 2);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -165,11 +156,7 @@ BrowserTestCase(
     });
 
     await clickFirstCell(page);
-    await changeLayout(page);
-    await page.browser.pause(100);
-    await changeLayout(page);
-    await page.browser.pause(100);
-    await changeLayout(page);
+    await toggleBreakout(page, 3);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);

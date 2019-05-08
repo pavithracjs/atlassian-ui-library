@@ -293,6 +293,7 @@ export const toggleBreakout = async (page: any, times: number) => {
   for (let _iter of timesArray) {
     await page.waitForSelector(breakoutSelector);
     await page.click(breakoutSelector);
+    await animationFrame(page);
   }
 };
 
