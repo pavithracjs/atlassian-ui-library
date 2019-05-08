@@ -1,0 +1,1 @@
+- Made HelpArticle the default export (fix)
