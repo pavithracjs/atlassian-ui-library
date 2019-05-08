@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 110.3.1
+- [patch] [7890fa64fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7890fa64fc):
+
+  - ED-6723 Fix code block to be indented, if it's created using auto formating.
+
 ## 110.3.0
 - [minor] [652ef1e6be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/652ef1e6be):
 
