@@ -24,7 +24,7 @@ import {
   getHighlightEvent,
   getDismissedEvent,
   getExperimentExposureEvent,
-} from './helpers/_events_payloads';
+} from '../unit/helpers/_events_payloads';
 
 const spyOnComponentDidUpdate = () => {
   if (QuickSearchContainer.prototype.componentDidUpdate) {
