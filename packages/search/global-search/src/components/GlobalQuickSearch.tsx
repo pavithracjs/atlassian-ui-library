@@ -81,7 +81,9 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
       query,
     });
     this.debouncedSearch(query);
-    this.debouncedAutocomplete(query);
+    if (query.length > 0) {
+      this.debouncedAutocomplete(query);
+    }
   };
 
   debouncedSearch = debounce(this.doSearch, 350);

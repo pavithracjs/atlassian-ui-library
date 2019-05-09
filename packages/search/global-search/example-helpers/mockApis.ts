@@ -150,11 +150,11 @@ function mockAutocompleteApi(delayMs: number, autocomplete: string[]) {
     new RegExp('gateway/api/xpsearch-autocomplete'),
     (request: Request) => {
       const query = request.split('query=')[1];
-      if (query.length == 0) {
-        return delay(delayMs, []);
-      }
       const tokens = query.split('+');
       const lastToken = tokens.slice(-1)[0];
+      if (lastToken.length == 0) {
+        return delay(delayMs, []);
+      }
       const restTokens = tokens.slice(0, -1);
       const autocompleteList = autocomplete
         .filter(token =>
