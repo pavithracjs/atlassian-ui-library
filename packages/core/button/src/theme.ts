@@ -1,4 +1,5 @@
-import { colors, createTheme } from '@atlaskit/theme';
+import { createTheme } from '@atlaskit/theme/components';
+import * as colors from '@atlaskit/theme/colors';
 import { hex2rgba } from './components/utils';
 import { ThemeProps, ThemeTokens, ThemeMode, ThemeFallbacks } from './types';
 import { getButtonStyles, getSpinnerStyles } from './components/getStyles';

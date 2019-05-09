@@ -31,11 +31,11 @@ export type Example = {
 };
 
 export default class ExampleDisplay extends React.Component<Props> {
-  iframeRef: HTMLIFrameElement;
-  ExampleCode:
+  iframeRef?: HTMLIFrameElement;
+  ExampleCode!:
     | (React.ComponentClass & Loadable.LoadableComponent)
     | (React.StatelessComponent & Loadable.LoadableComponent);
-  Example: () => JSX.Element;
+  Example!: () => JSX.Element;
   constructor(props: Props) {
     super(props);
     this.buildExampleComponents(props);

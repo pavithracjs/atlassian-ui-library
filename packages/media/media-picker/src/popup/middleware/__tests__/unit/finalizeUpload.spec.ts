@@ -2,10 +2,16 @@ jest.mock('@atlaskit/media-store');
 import { MediaStore } from '@atlaskit/media-store';
 import {
   ContextFactory,
-  fileStreamsCache,
+  getFileStreamsCache,
   FileState,
+  Auth,
 } from '@atlaskit/media-core';
-import { mockStore, mockFetcher } from '@atlaskit/media-test-helpers';
+import {
+  mockStore,
+  mockFetcher,
+  expectFunctionToHaveBeenCalledWith,
+  asMock,
+} from '@atlaskit/media-test-helpers';
 import { sendUploadEvent } from '../../../actions/sendUploadEvent';
 import finalizeUploadMiddleware, { finalizeUpload } from '../../finalizeUpload';
 import {
@@ -16,9 +22,10 @@ import { State } from '../../../domain';
 import { ReplaySubject, Observable } from 'rxjs';
 
 describe('finalizeUploadMiddleware', () => {
-  const auth = {
+  const auth: Auth = {
     clientId: 'some-client-id',
     token: 'some-token',
+    baseUrl: 'some-base-url',
   };
   const upfrontId = Promise.resolve('1');
   const file = {
@@ -169,25 +176,27 @@ describe('finalizeUploadMiddleware', () => {
       config: { uploadParams: { collection: 'some-tenant-collection' } },
       tenantContext,
     });
-    const copyFileWithToken = jest
-      .fn()
-      .mockReturnValue(Promise.resolve({ data: { id: 'some-id' } }));
 
-    (MediaStore as any).mockImplementation(() => ({
+    const copyFileWithToken = jest.fn().mockResolvedValue({
+      data: { id: 'some-id' },
+    }) as MediaStore['copyFileWithToken'];
+
+    asMock(MediaStore).mockImplementation(() => ({
       copyFileWithToken,
     }));
 
     await finalizeUpload(fetcher, store, action);
 
     expect(copyFileWithToken).toBeCalledTimes(1);
-    expect(copyFileWithToken).toBeCalledWith(
+    expectFunctionToHaveBeenCalledWith(copyFileWithToken, [
       {
         sourceFile: {
           collection: 'some-collection',
           id: 'some-file-id',
           owner: {
-            clientId: 'some-client-id',
+            id: 'some-client-id',
             token: 'some-token',
+            baseUrl: 'some-base-url',
           },
         },
       },
@@ -196,7 +205,7 @@ describe('finalizeUploadMiddleware', () => {
         occurrenceKey: undefined,
         replaceFileId: undefined,
       },
-    );
+    ]);
     expect(tenantContext.config.authProvider).toBeCalledWith({
       collectionName: 'some-tenant-collection',
     });
@@ -209,11 +218,11 @@ describe('finalizeUploadMiddleware', () => {
     subject.next({
       id: copiedFile.id,
     });
-    fileStreamsCache.set(copiedFile.id, subject as Observable<FileState>);
+    getFileStreamsCache().set(copiedFile.id, subject as Observable<FileState>);
 
     await finalizeUpload(fetcher, store, action);
 
-    const observable = fileStreamsCache.get(copiedFile.id);
+    const observable = getFileStreamsCache().get(copiedFile.id);
     observable!.subscribe({ next });
 
     // Needed due usage of setTimeout in finalizeUpload

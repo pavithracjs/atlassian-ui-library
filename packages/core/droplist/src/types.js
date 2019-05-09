@@ -1,7 +1,5 @@
 // @flow
 
-// TODO: work out how to import this from @atlaskit/item
-
 type Color = string;
 type Background = Color;
 type Text = Color;

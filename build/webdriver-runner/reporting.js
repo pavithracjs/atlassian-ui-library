@@ -26,6 +26,19 @@ const extractResultInformationIntoProperties = results => {
     }));
 };
 
+const extractInconsistentTest = results => {
+  return results.testResults
+    .filter(test => test.numPassingTests > 0)
+    .map(test => ({
+      inconsistenTests: test.numPassingTests,
+      testFilePath: test.testFilePath.replace(process.cwd(), ''),
+      duration: get(test, 'testResults[0].duration', 0),
+      testName: get(test, 'testResults[0].fullName'),
+      buildNumber: process.env.BITBUCKET_BUILD_NUMBER,
+      branch: process.env.BITBUCKET_BRANCH,
+    }));
+};
+
 const buildEventPayload = (properties, eventName) => {
   return {
     name: eventName,
@@ -38,6 +51,28 @@ const buildEventPayload = (properties, eventName) => {
 };
 
 module.exports = {
+  reportInconsistency(results /*: any */) {
+    const properties = extractInconsistentTest(results);
+    if (!properties.length) {
+      return;
+    }
+    return sendLogs(
+      JSON.stringify({
+        events: properties.map(property =>
+          buildEventPayload(
+            property,
+            'atlaskit.qa.integration_test.inconsistency',
+          ),
+        ),
+      }),
+    ).then(res => {
+      console.log(
+        `Sent ${properties.length} inconsistent integration tests event${
+          properties.length > 1 ? 's' : ''
+        }`,
+      );
+    });
+  },
   reportFailure(results /*: any */, eventName /*: string */) {
     const properties = extractResultInformationIntoProperties(results);
     if (!properties.length) {
@@ -51,7 +86,7 @@ module.exports = {
       }),
     ).then(() => {
       console.log(
-        `Sent ${properties.length} integration test failure event${
+        `Sent ${properties.length} failure integration tests event${
           properties.length > 1 ? 's' : ''
         }`,
       );

@@ -34,6 +34,7 @@ import {
 } from './analytics';
 import { PasteTypes } from '../../analytics';
 import { insideTable } from '../../../utils';
+import { CardOptions } from '../../card';
 
 export const stateKey = new PluginKey('pastePlugin');
 
@@ -60,6 +61,7 @@ function isHeaderRowRequired(state: EditorState) {
 export function createPlugin(
   schema: Schema,
   editorAppearance?: EditorAppearance,
+  cardOptions?: CardOptions,
 ) {
   const atlassianMarkDownParser = new MarkdownTransformer(schema, md);
 
@@ -128,7 +130,11 @@ export function createPlugin(
           // run macro autoconvert prior to other conversions
           if (
             markdownSlice &&
-            handleMacroAutoConvert(text, markdownSlice)(state, dispatch, view)
+            handleMacroAutoConvert(text, markdownSlice, cardOptions)(
+              state,
+              dispatch,
+              view,
+            )
           ) {
             // TODO: handleMacroAutoConvert dispatch twice, so we can't use the helper
             sendPasteAnalyticsEvent(view, event, markdownSlice, {
@@ -195,7 +201,13 @@ export function createPlugin(
           slice = linkifyContent(state.schema)(slice);
 
           // run macro autoconvert prior to other conversions
-          if (handleMacroAutoConvert(text, slice)(state, dispatch, view)) {
+          if (
+            handleMacroAutoConvert(text, slice, cardOptions)(
+              state,
+              dispatch,
+              view,
+            )
+          ) {
             // TODO: handleMacroAutoConvert dispatch twice, so we can't use the helper
             sendPasteAnalyticsEvent(view, event, slice, {
               type: PasteTypes.richText,

@@ -1,5 +1,22 @@
 # @atlaskit/task-decision
 
+## 15.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 14.0.9
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-common@38.0.0
+  - @atlaskit/renderer@47.0.0
+  - @atlaskit/util-data-test@11.1.9
+
+## 14.0.8
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-common@37.0.0
+  - @atlaskit/renderer@46.0.0
+  - @atlaskit/util-data-test@11.1.8
+
 ## 14.0.7
 - [patch] [a6fb248987](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6fb248987):
 

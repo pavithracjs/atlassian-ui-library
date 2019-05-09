@@ -230,8 +230,8 @@ class FullPageRendererExample extends React.Component<Props, State> {
     mediaProvider,
   });
 
-  private inputRef: HTMLTextAreaElement | null;
-  private popupMountPoint: HTMLElement | null;
+  private inputRef?: HTMLTextAreaElement | null;
+  private popupMountPoint?: HTMLElement | null;
 
   componentDidUpdate(prevProps: Props, prevState: State) {
     if (prevState.theme !== this.state.theme) {

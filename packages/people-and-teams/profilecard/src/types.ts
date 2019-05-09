@@ -108,6 +108,7 @@ export interface ProfilecardProps {
   avatarUrl?: string;
   fullName?: string;
   meta?: string;
+  // Nick name is also known as public name
   nickname?: string;
   email?: string;
   location?: string;

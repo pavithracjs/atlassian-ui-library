@@ -1,5 +1,49 @@
 # @atlaskit/editor-common
 
+## 39.1.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
+## 39.0.1
+- [patch] [80cf1c1e82](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80cf1c1e82):
+
+  - [ED-6654] Update prosemirror-view to 1.8.9 that fixes a few issues with mouse selections on prosemirror like click on table and the controls doesn't show up
+
+## 39.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/adf-schema@2.5.5
+  - @atlaskit/emoji@62.0.0
+  - @atlaskit/media-card@63.0.0
+  - @atlaskit/visual-regression@0.1.0
+  - @atlaskit/icon@17.0.0
+  - @atlaskit/theme@9.0.0
+  - @atlaskit/width-detector@2.0.0
+  - @atlaskit/editor-json-transformer@6.0.0
+  - @atlaskit/editor-test-helpers@9.0.0
+  - @atlaskit/mention@18.0.0
+  - @atlaskit/media-core@30.0.0
+  - @atlaskit/profilecard@10.0.0
+
+## 38.0.0
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/emoji@61.0.0
+  - @atlaskit/media-card@62.0.0
+  - @atlaskit/editor-json-transformer@5.0.4
+  - @atlaskit/editor-test-helpers@8.0.8
+  - @atlaskit/media-core@29.3.0
+
+## 37.0.0
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/emoji@60.0.0
+  - @atlaskit/media-card@61.0.0
+  - @atlaskit/editor-json-transformer@5.0.3
+  - @atlaskit/editor-test-helpers@8.0.7
+  - @atlaskit/media-core@29.2.0
+
 ## 36.2.3
 - [patch] [a6fb248987](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6fb248987):
 

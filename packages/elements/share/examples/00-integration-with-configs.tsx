@@ -112,6 +112,7 @@ const triggerButtonAppearanceOptions = [
 const triggerButtonStyleOptions = [
   { label: 'icon-only', value: 'icon-only' },
   { label: 'icon-with-text', value: 'icon-with-text' },
+  { label: 'text-only', value: 'text-only' },
 ];
 
 type ExampleState = {

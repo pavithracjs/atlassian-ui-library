@@ -1,7 +1,7 @@
 import CachingConfluenceClient from './CachingConfluenceClient';
 import { CachingPeopleSearchClient } from './CachingPeopleSearchClient';
 import { ConfluenceClient } from './ConfluenceClient';
-import CrossProductSearchClientImpl, {
+import CachingCrossProductSearchClientImpl, {
   CrossProductSearchClient,
 } from './CrossProductSearchClient';
 import JiraClientImpl, { JiraClient } from './JiraClient';
@@ -13,6 +13,8 @@ import {
 import RecentSearchClientImpl, {
   RecentSearchClient,
 } from './RecentSearchClient';
+import memoizeOne from 'memoize-one';
+import deepEqual from 'deep-equal';
 
 export interface SearchClients {
   recentSearchClient: RecentSearchClient;
@@ -40,7 +42,7 @@ const defaultConfig: Config = {
   addSessionIdToJiraResult: false,
 };
 
-export default function configureSearchClients(
+function configureSearchClients(
   cloudId: string,
   partialConfig: Partial<Config>,
   prefetchedResults?: GlobalSearchPrefetchedResults,
@@ -63,10 +65,11 @@ export default function configureSearchClients(
       config.activityServiceUrl,
       cloudId,
     ),
-    crossProductSearchClient: new CrossProductSearchClientImpl(
+    crossProductSearchClient: new CachingCrossProductSearchClientImpl(
       config.searchAggregatorServiceUrl,
       cloudId,
       config.addSessionIdToJiraResult,
+      prefetchedResults ? prefetchedResults.abTestPromise : undefined,
     ),
     peopleSearchClient: new CachingPeopleSearchClient(
       config.directoryServiceUrl,
@@ -75,7 +78,6 @@ export default function configureSearchClients(
     ),
     confluenceClient: new CachingConfluenceClient(
       config.confluenceUrl,
-      cloudId,
       confluencePrefetchedResults,
     ),
     jiraClient: new JiraClientImpl(
@@ -85,3 +87,5 @@ export default function configureSearchClients(
     ),
   };
 }
+
+export default memoizeOne(configureSearchClients, deepEqual);

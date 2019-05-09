@@ -1,4 +1,5 @@
 const mockCalls = [] as string[];
+
 const mockEditorCore = {
   ...jest.genMockFromModule('@atlaskit/editor-core'),
   indentList: jest.fn(() => () => {}),
@@ -10,14 +11,16 @@ const mockEditorCore = {
   isLinkAtPos: jest.fn(pos => () => pos === 6),
   setLinkHref: jest.fn(() => () => mockCalls.push('setLinkHref')),
   setLinkText: jest.fn(() => () => mockCalls.push('setLinkText')),
+  clearEditorContent: jest.fn(() => {}),
 };
-jest.mock('@atlaskit/editor-core', () => mockEditorCore);
+
 jest.mock('../../../../version.json', () => ({
   name: '@atlaskit/editor-mobile-bridge',
   version: '1.2.3.4',
 }));
 
-import WebBridgeImpl from '../../../../editor/native-to-web';
+jest.mock('@atlaskit/editor-core', () => mockEditorCore);
+
 import {
   indentList,
   outdentList,
@@ -28,22 +31,13 @@ import {
   isLinkAtPos,
   setLinkHref,
   setLinkText,
+  clearEditorContent,
 } from '@atlaskit/editor-core';
 
-afterEach(() => {
-  (indentList as jest.Mock<{}>).mockClear();
-  (outdentList as jest.Mock<{}>).mockClear();
-  (toggleOrderedList as jest.Mock<{}>).mockClear();
-  (toggleBulletList as jest.Mock<{}>).mockClear();
-  (insertLink as jest.Mock<{}>).mockClear();
-  (isTextAtPos as jest.Mock<{}>).mockClear();
-  (isLinkAtPos as jest.Mock<{}>).mockClear();
-  (setLinkHref as jest.Mock<{}>).mockClear();
-  (setLinkText as jest.Mock<{}>).mockClear();
-});
+import WebBridgeImpl from '../../../../editor/native-to-web';
 
 describe('general', () => {
-  let bridge: any = new WebBridgeImpl();
+  const bridge: any = new WebBridgeImpl();
 
   it('should return valid bridge version', () => {
     expect(bridge.currentVersion()).toEqual('1.2.3.4');
@@ -51,7 +45,8 @@ describe('general', () => {
 });
 
 describe('lists should work', () => {
-  let bridge: any = new WebBridgeImpl();
+  const bridge: any = new WebBridgeImpl();
+
   beforeEach(() => {
     mockCalls.length = 0;
     bridge.editorView = {};
@@ -61,6 +56,11 @@ describe('lists should work', () => {
   afterEach(() => {
     bridge.editorView = undefined;
     bridge.listBridgeState = undefined;
+
+    (indentList as jest.Mock<{}>).mockClear();
+    (outdentList as jest.Mock<{}>).mockClear();
+    (toggleOrderedList as jest.Mock<{}>).mockClear();
+    (toggleBulletList as jest.Mock<{}>).mockClear();
   });
 
   it('should call ordered list toggle', () => {
@@ -133,10 +133,21 @@ describe('lists should work', () => {
 });
 
 describe('links should work', () => {
-  let bridge: any = new WebBridgeImpl();
+  const bridge: any = new WebBridgeImpl();
+
   beforeEach(() => {
     mockCalls.length = 0;
     bridge.editorView = {};
+  });
+
+  afterEach(() => {
+    bridge.editorView = undefined;
+
+    (insertLink as jest.Mock<{}>).mockClear();
+    (isTextAtPos as jest.Mock<{}>).mockClear();
+    (isLinkAtPos as jest.Mock<{}>).mockClear();
+    (setLinkHref as jest.Mock<{}>).mockClear();
+    (setLinkText as jest.Mock<{}>).mockClear();
   });
 
   it('should call insertLink when not on text node', () => {
@@ -300,5 +311,25 @@ describe('links should work', () => {
     expect(mockCalls).toEqual(
       expect.arrayContaining(['setLinkText', 'setLinkHref']),
     );
+  });
+});
+
+describe('content should work', () => {
+  const bridge: any = new WebBridgeImpl();
+
+  beforeEach(() => {
+    mockCalls.length = 0;
+    bridge.editorView = {};
+  });
+
+  afterEach(() => {
+    bridge.editorView = undefined;
+
+    (clearEditorContent as jest.Mock<{}>).mockClear();
+  });
+
+  it('should clear content', () => {
+    bridge.clearContent();
+    expect(clearEditorContent).toHaveBeenCalled();
   });
 });

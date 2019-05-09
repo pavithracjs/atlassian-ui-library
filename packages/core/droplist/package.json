@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/droplist",
-  "version": "8.0.5",
+  "version": "9.0.1",
   "description": "Droplist component",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -14,34 +14,38 @@
     "Daniel D",
     "Kang C"
   ],
+  "atlaskit": {
+    "name": "Droplist",
+    "team": "core"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^4.0.3",
-    "@atlaskit/icon": "^16.0.9",
-    "@atlaskit/item": "^9.0.1",
-    "@atlaskit/layer": "^6.1.0",
-    "@atlaskit/spinner": "^10.0.7",
-    "@atlaskit/theme": "^8.1.7",
-    "@atlaskit/tooltip": "^13.0.4",
+    "@atlaskit/analytics-next": "^5.0.0",
+    "@atlaskit/icon": "^17.0.0",
+    "@atlaskit/item": "^10.0.0",
+    "@atlaskit/layer": "^7.0.1",
+    "@atlaskit/spinner": "^11.0.0",
+    "@atlaskit/theme": "^9.0.0",
+    "@atlaskit/tooltip": "^14.0.0",
     "@babel/runtime": "^7.0.0",
     "classnames": "^2.2.5",
     "keycode": "^2.1.7",
     "prop-types": "^15.5.10"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
-    "react-dom": "^16.4.2",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^12.0.3",
-    "@atlaskit/docs": "^7.0.3",
-    "@atlaskit/field-base": "^12.0.2",
-    "@atlaskit/ssr": "^0.0.1",
+    "@atlaskit/button": "^13.0.0",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/field-base": "^13.0.0",
+    "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/webdriver-runner": "^0.1.0",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.8.0"
   },
   "keywords": [
     "atlaskit",

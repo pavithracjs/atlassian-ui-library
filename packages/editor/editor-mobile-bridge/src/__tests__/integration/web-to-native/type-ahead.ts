@@ -60,14 +60,9 @@ BrowserTestCase(
     await browser.waitForSelector(editable);
 
     // Navigating cursor away from query mark should dismiss typeahead
-    await browser.type(editable, ['Enter']);
+    await browser.keys('Enter');
     await browser.type(editable, 'word @sg');
-    await browser.type(editable, [
-      'ArrowLeft',
-      'ArrowLeft',
-      'ArrowLeft',
-      'ArrowLeft',
-    ]);
+    await browser.keys(['ArrowLeft', 'ArrowLeft', 'ArrowLeft', 'ArrowLeft']);
 
     const typeAheadPayloads = await getBridgeOutput(
       browser,

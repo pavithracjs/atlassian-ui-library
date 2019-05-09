@@ -36,6 +36,10 @@ describe('layout toolbar', () => {
   const sidebarLayoutButtons = [
     { name: LAYOUT_TYPE.LEFT_SIDEBAR, message: messages.leftSidebar },
     { name: LAYOUT_TYPE.RIGHT_SIDEBAR, message: messages.rightSidebar },
+    {
+      name: LAYOUT_TYPE.THREE_WITH_SIDEBARS,
+      message: messages.threeColumnsWithSidebars,
+    },
   ];
   let editorView: EditorView;
   let toolbar: FloatingToolbarConfig;
@@ -64,7 +68,7 @@ describe('layout toolbar', () => {
       ) as FloatingToolbarConfig;
     });
 
-    it('displays all 4 layout buttons', () => {
+    it('displays all 5 layout buttons', () => {
       stdLayoutButtons.forEach(button => {
         expect(findToolbarBtn(toolbar, button.message)).toBeDefined();
       });

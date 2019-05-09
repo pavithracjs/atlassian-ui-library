@@ -9,9 +9,10 @@ import ResultGroupsComponent, {
 } from './ResultGroupsComponent';
 import { ResultsGroup } from '../../model/Result';
 import SearchError from '../SearchError';
+import deepEqual from 'deep-equal';
 
 export interface Props {
-  query: string;
+  isPreQuery: boolean;
   isError: boolean;
   isLoading: boolean;
   renderNoResult: () => JSX.Element;
@@ -29,6 +30,10 @@ export interface Props {
 }
 
 export default class SearchResults extends React.Component<Props> {
+  shouldComponentUpdate(nextProps: Props) {
+    return !deepEqual(nextProps, this.props);
+  }
+
   hasNoResult() {
     return this.props
       .getPostQueryGroups()
@@ -58,7 +63,6 @@ export default class SearchResults extends React.Component<Props> {
 
   renderPreQueryState() {
     const {
-      query,
       searchSessionId,
       preQueryScreenCounter,
       renderNoRecentActivity,
@@ -73,7 +77,6 @@ export default class SearchResults extends React.Component<Props> {
         <PreQueryState
           resultsGroups={getPreQueryGroups()}
           renderNoRecentActivity={renderNoRecentActivity}
-          query={query}
           searchSessionId={searchSessionId}
           screenCounter={preQueryScreenCounter}
           referralContextIdentifiers={referralContextIdentifiers}
@@ -105,7 +108,7 @@ export default class SearchResults extends React.Component<Props> {
 
   render() {
     const {
-      query,
+      isPreQuery,
       isError,
       isLoading,
       retrySearch,
@@ -116,7 +119,7 @@ export default class SearchResults extends React.Component<Props> {
       return <SearchError onRetryClick={retrySearch} />;
     }
 
-    if (query.length === 0) {
+    if (isPreQuery) {
       if (isLoading) {
         return null;
       }

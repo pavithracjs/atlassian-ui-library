@@ -1,5 +1,4 @@
 import * as React from 'react';
-import memoizeOne from 'memoize-one';
 import { CancelableEvent } from '@atlaskit/quick-search';
 import HomeQuickSearchContainer from './home/HomeQuickSearchContainer';
 import ConfluenceQuickSearchContainer from './confluence/ConfluenceQuickSearchContainer';
@@ -163,6 +162,12 @@ export interface Props {
    * optional because it is passed only for jira
    */
   appPermission?: JiraApplicationPermission;
+
+  /**
+   * Determine whether to enable faster search for control (aka 'default').
+   * This is used for Confluence only.
+   */
+  fasterSearchFFEnabled?: boolean;
 }
 
 /**
@@ -172,8 +177,6 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
   static defaultProps = {
     logger: DEFAULT_NOOP_LOGGER,
   };
-  // configureSearchClients is a potentially expensive function that we don't want to invoke on re-renders
-  memoizedConfigureSearchClients = memoizeOne(configureSearchClients);
 
   private makeConfig() {
     const config: Partial<Config> = {};
@@ -212,7 +215,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     } else if (this.props.context === 'home') {
       return HomeQuickSearchContainer;
     } else if (this.props.context === 'jira') {
-      return JiraQuickSearchContainer;
+      return JiraQuickSearchContainer as React.ComponentClass<any>;
     } else {
       // fallback to home if nothing specified
       return HomeQuickSearchContainer;
@@ -257,11 +260,12 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
       <MessagesIntlProvider>
         <GlobalSearchPreFetchContext.Consumer>
           {({ prefetchedResults }) => {
-            const searchClients = this.memoizedConfigureSearchClients(
+            const searchClients = configureSearchClients(
               this.props.cloudId,
               this.makeConfig(),
               prefetchedResults,
             );
+
             const {
               linkComponent,
               isSendSearchTermsEnabled,
@@ -273,6 +277,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
               enablePreQueryFromAggregator,
               inputControls,
               appPermission,
+              fasterSearchFFEnabled,
             } = this.props;
 
             return (
@@ -291,6 +296,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
                 enablePreQueryFromAggregator={enablePreQueryFromAggregator}
                 inputControls={inputControls}
                 appPermission={appPermission}
+                fasterSearchFFEnabled={fasterSearchFFEnabled}
               />
             );
           }}
