@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components';
 import { colors, gridSize } from '@atlaskit/theme';
 
+const inputRightPadding = gridSize() * 2;
+
 export const SearchBox = styled.div`
   position: sticky;
   top: 0;
@@ -21,8 +23,8 @@ export const SearchFieldBaseOuter = styled.div`
 `;
 
 export const SearchFieldBaseInner = styled.div`
-  padding-right: ${gridSize() *
-    2}px; /* pad search text from FieldBase's isLoading spinner */
+  position: relative;
+  padding-right: ${inputRightPadding}px; /* pad search text from FieldBase's isLoading spinner */
   display: flex;
   flex-grow: 1;
 `;
@@ -58,13 +60,22 @@ export const getPlaceholderColor = css`
 `;
 
 export const SearchInput = styled.input`
-  background-color: ${colors.N0};
+  background-color: transparent;
   border: 0;
   color: ${colors.N500};
   flex-grow: 1;
   font-size: 1.4em;
   outline: 0;
+  // Safari adds 2px margin-left
+  margin-left: 0;
   ${getPlaceholderStyle(getPlaceholderColor)};
+`;
+
+export const SearchInputTypeAhead = styled(SearchInput)`
+  color: ${colors.N50};
+  position: absolute;
+  width: calc(100% - ${inputRightPadding}px);
+  z-index: -1;
 `;
 
 export const SearchInputControlsContainer = styled.span`

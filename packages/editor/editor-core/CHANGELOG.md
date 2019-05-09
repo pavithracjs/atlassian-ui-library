@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 110.3.4
+- [patch] [d1741c1f40](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d1741c1f40):
+
+  - ED-6788: refactor columns resize actions to commands
+
 ## 110.3.3
 - [patch] [d9eccd861e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d9eccd861e):
 

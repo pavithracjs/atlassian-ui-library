@@ -6,7 +6,7 @@ export interface Props {
   body?: string;
 }
 
-const ArticleContent: React.SFC<Props> = props => {
+const HelpArticle: React.SFC<Props> = props => {
   const { title = '', body = '' } = props;
   return (
     <ArticleContentInner>
@@ -26,4 +26,4 @@ const ArticleContent: React.SFC<Props> = props => {
   );
 };
 
-export default ArticleContent;
+export default HelpArticle;

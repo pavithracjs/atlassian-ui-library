@@ -1215,6 +1215,12 @@ describe('Media plugin', () => {
       smartMediaEditor = wrapper.find(SmartMediaEditor);
     });
 
+    afterEach(() => {
+      if (wrapper && typeof wrapper.unmount === 'function') {
+        wrapper.unmount();
+      }
+    });
+
     it('should store current media editing position in mediaState', () => {
       expect(mediaState.editingMediaSinglePos).toEqual(7);
     });
