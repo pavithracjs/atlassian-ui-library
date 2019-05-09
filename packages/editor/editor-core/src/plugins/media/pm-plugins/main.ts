@@ -78,8 +78,6 @@ export class MediaPluginState {
   public pickers: PickerFacade[] = [];
   public binaryPicker?: PickerFacade;
   private popupPicker?: PickerFacade;
-  // @ts-ignore
-  private clipboardPicker?: PickerFacade;
   private dropzonePicker?: PickerFacade;
   // @ts-ignore
   private customPicker?: PickerFacade;
@@ -579,7 +577,6 @@ export class MediaPluginState {
 
     this.popupPicker = undefined;
     this.binaryPicker = undefined;
-    this.clipboardPicker = undefined;
     this.dropzonePicker = undefined;
     this.customPicker = undefined;
   };
