@@ -8,8 +8,9 @@ import {
   RequestHandler,
   Database,
 } from 'kakapo';
-import { TouchFileDescriptor } from '@atlaskit/media-store';
 import uuid from 'uuid/v4';
+
+import { TouchFileDescriptor } from '@atlaskit/media-store';
 
 import {
   DatabaseSchema,
@@ -121,15 +122,49 @@ export function createApiRouter(): Router<DatabaseSchema> {
     const { width, height, 'max-age': maxAge = 3600 } = query;
     const record = database.findOne('collectionItem', { id: fileId });
     let blob: Blob;
-    if (!record) {
-      const dataUri = mockDataUri(
-        Number.parseInt(width, 10),
-        Number.parseInt(height, 10),
-      );
+    if (!record || record.data.blob.type === 'image/svg+xml') {
+      const dataUri = mockDataUri(width, height);
 
       blob = mapDataUriToBlob(dataUri);
     } else {
       blob = record.data.blob;
+      // This stays here for now as I haven't decided if I want to resize the images or not
+      /* const dataUri = await new Promise<string>(resolve => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => resolve(e.target.result);
+        reader.readAsDataURL(record.data.blob);
+      });
+      const canvas = document.createElement('canvas');
+      const widthN = Number.parseInt(width, 10);
+      const heightN = Number.parseInt(height, 10);
+      const image = new Image();
+      const imageData = await new Promise<any>(resolve => {
+        image.onload = () => resolve({width: image.width, height: image.height} as any);
+        image.src = dataUri
+      });
+
+      if (mode === 'fit') {
+        const scaleX = imageData.width / widthN;
+        const scaleY = imageData.height / heightN;
+        if (scaleX > 1 && scaleX >= scaleY) {
+          canvas.width = widthN
+          canvas.height = heightN / scaleX
+        } else if (scaleY > 1 && scaleX < scaleY) {
+          canvas.width = widthN / scaleY
+          canvas.height = heightN
+        } else {
+          canvas.width = imageData.width
+          canvas.height = imageData.height
+        }
+      } else {
+        canvas.width = widthN;
+        canvas.height = heightN;
+      }
+      
+      const ctx = canvas.getContext('2d')!;
+      
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+      blob = mapDataUriToBlob(canvas.toDataURL(record.data.blob.type)); */
     }
 
     return new Response(200, blob, {
@@ -335,9 +370,14 @@ export function createApiRouter(): Router<DatabaseSchema> {
 
     const { details, blob } = sourceRecord.data;
 
-    const record = database.push('collectionItem', {
+    const existingRecord = database.findOne('collectionItem', {
       id: replaceFileId,
-      insertedAt: Date.now(),
+      collectionName: destinationCollection,
+      occurrenceKey,
+    });
+    const record = database.update('collectionItem', existingRecord.id, {
+      id: replaceFileId,
+      insertedAt: sourceRecord.data.insertedAt,
       occurrenceKey,
       details,
       blob,
