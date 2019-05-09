@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 110.3.6
+- [patch] [72fc33f8e7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72fc33f8e7):
+
+  - FS-3243 - Refactor status plugin to use new architecture
+
 ## 110.3.5
 - [patch] [284e2d0b0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/284e2d0b0b):
 

@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.2.1
+- [patch] [72fc33f8e7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72fc33f8e7):
+
+  - FS-3243 - Refactor status plugin to use new architecture
+
 ## 8.2.0
 - [minor] [47273cabd4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/47273cabd4):
 
