@@ -7,8 +7,11 @@ import {
 import StyleTag from './styles/StyleTag';
 import ShortcutIcon from '@atlaskit/icon/glyph/shortcut';
 export interface Props {
+  // Article Title
   title?: string;
+  // Article Content
   body?: string;
+  // URL used as href value of the Article Title. If is undefined, the title will a regular H2 tag instead of a link
   titleLinkUrl?: string;
 }
 
