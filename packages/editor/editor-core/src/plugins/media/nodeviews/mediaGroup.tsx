@@ -18,6 +18,7 @@ import {
   EditorDisabledPluginState,
 } from '../../editor-disabled';
 import { EditorAppearance } from '../../../types';
+import { removeMediaNodeInPos } from '../commands/media';
 
 export interface Props {
   children?: React.ReactNode;
@@ -110,6 +111,16 @@ export default class MediaGroup extends React.Component<
       };
 
       const nodePos = this.props.getPos() + idx + 1;
+      const deleteHandler = () => {
+        if (this.props.disabled) {
+          return;
+        }
+        removeMediaNodeInPos(() => nodePos)(
+          this.props.view.state,
+          this.props.view.dispatch,
+          this.props.view,
+        );
+      };
       return {
         identifier,
         selectable: true,
@@ -120,13 +131,7 @@ export default class MediaGroup extends React.Component<
         },
         actions: [
           {
-            handler: this.props.disabled
-              ? {}
-              : this.mediaPluginState.handleMediaNodeRemoval.bind(
-                  null,
-                  null,
-                  () => nodePos,
-                ),
+            handler: deleteHandler,
             icon: <EditorCloseIcon label="delete" />,
           },
         ],
