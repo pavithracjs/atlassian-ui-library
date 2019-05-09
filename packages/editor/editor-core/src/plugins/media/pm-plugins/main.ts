@@ -610,7 +610,9 @@ export class MediaPluginState {
         pickers.push(
           (this.popupPicker = await new Picker(
             // Fallback to browser picker for unauthenticated users
-            context.config.userAuthProvider ? 'popup' : 'browser',
+            context.config && context.config.userAuthProvider
+              ? 'popup'
+              : 'browser',
             pickerFacadeConfig,
             defaultPickerConfig,
           ).init()),
