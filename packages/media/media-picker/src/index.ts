@@ -132,4 +132,4 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
 
 // REACT COMPONENTS
 
-export { ClipboardReact as Clipboard } from './components/clipboardReact';
+export { Clipboard } from './components/clipboard';
