@@ -1,5 +1,9 @@
 # @atlaskit/editor-test-helpers
 
+## 9.1.2
+- Updated dependencies [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
+  - @atlaskit/editor-core@111.0.0
+
 ## 9.1.1
 - [patch] [652ef1e6be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/652ef1e6be):
 
