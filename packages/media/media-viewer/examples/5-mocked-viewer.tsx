@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { canUseDOM } from 'exenv';
 
 import {
   MediaMock,
@@ -13,18 +14,20 @@ import { FileIdentifier, ContextFactory } from '@atlaskit/media-core';
 import { wideImage } from '../example-helpers/assets/wide-image';
 import { MediaViewer } from '../src/components/media-viewer';
 
-(window as any).areControlsRendered = () => {
-  return !!document.querySelector('.mvng-hide-controls');
-};
+if (canUseDOM) {
+  (window as any).areControlsRendered = () => {
+    return !!document.querySelector('.mvng-hide-controls');
+  };
 
-(window as any).areControlsVisible = () => {
-  const controls = document.querySelector('.mvng-hide-controls');
-  if (!controls) {
-    return false;
-  } else {
-    return window.getComputedStyle(controls).opacity === '1';
-  }
-};
+  (window as any).areControlsVisible = () => {
+    const controls = document.querySelector('.mvng-hide-controls');
+    if (!controls) {
+      return false;
+    } else {
+      return window.getComputedStyle(controls).opacity === '1';
+    }
+  };
+}
 
 const files = generateFilesFromTestData([
   {
