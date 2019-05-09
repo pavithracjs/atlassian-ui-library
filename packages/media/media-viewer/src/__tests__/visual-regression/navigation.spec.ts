@@ -2,6 +2,7 @@ import {
   getExampleUrl,
   pageSelector,
 } from '@atlaskit/visual-regression/helper';
+import { sleep } from '../../../../media-test-helpers';
 
 describe('Media Viewer Navigation', () => {
   const url = getExampleUrl(
@@ -20,8 +21,9 @@ describe('Media Viewer Navigation', () => {
     await page.waitForSelector(pageSelector);
     await page.waitForSelector('img');
     await page.waitForFunction(
-      `window.getComputedStyle(document.querySelector('.mvng-hide-controls')).opacity === '1'`,
+      `window.areControlsRendered() && window.areControlsVisible()`,
     );
+    await sleep(500);
     const image = await page.screenshot();
 
     expect(image).toMatchProdImageSnapshot();
@@ -35,8 +37,9 @@ describe('Media Viewer Navigation', () => {
     await page.waitForSelector(pageSelector);
     await page.waitForSelector('img');
     await page.waitForFunction(
-      `window.getComputedStyle(document.querySelector('.mvng-hide-controls')).opacity === '0'`,
+      `window.areControlsRendered() && !window.areControlsVisible()`,
     );
+    await sleep(500);
     const image = await page.screenshot();
 
     expect(image).toMatchProdImageSnapshot();
