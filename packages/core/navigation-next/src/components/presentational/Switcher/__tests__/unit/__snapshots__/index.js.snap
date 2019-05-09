@@ -16,8 +16,8 @@ exports[`Switcher should render correctly 1`] = `
   isNavResizing={false}
   isOptionSelected={[Function]}
   maxMenuHeight={300}
-  maxMenuWidth={0}
-  minMenuWidth={0}
+  maxMenuWidth={224}
+  minMenuWidth={224}
   navWidth={240}
   options={
     Array [

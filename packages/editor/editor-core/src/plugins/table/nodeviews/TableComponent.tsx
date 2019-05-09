@@ -309,12 +309,10 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     this.updateTableContainerWidth();
   };
 
-  private scaleTable = (
-    parentWidth?: number,
-    prevProps?: ComponentProps,
-    opts?: { initialScale?: boolean },
-  ) => {
+  private scaleTable = (parentWidth?: number, prevProps?: ComponentProps) => {
     const { view, node, getPos, containerWidth, options } = this.props;
+    const { state, dispatch } = view;
+    const domAtPos = view.domAtPos.bind(view);
 
     if (this.frameId && window) {
       window.cancelAnimationFrame(this.frameId);
@@ -322,17 +320,20 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
 
     const width = containerWidth.width;
 
-    scaleTable(view, this.table, {
-      node,
-      prevNode: (prevProps && prevProps.node) || node,
-      parentWidth,
-      start: getPos() + 1,
-      containerWidth: width,
-      previousContainerWidth:
-        (prevProps && prevProps.containerWidth.width) || width,
-      initialScale: (opts && opts.initialScale) || false,
-      ...options,
-    });
+    scaleTable(
+      this.table,
+      {
+        node,
+        prevNode: (prevProps && prevProps.node) || node,
+        parentWidth,
+        start: getPos() + 1,
+        containerWidth: width,
+        previousContainerWidth:
+          (prevProps && prevProps.containerWidth.width) || width,
+        ...options,
+      },
+      domAtPos,
+    )(state, dispatch);
   };
 
   private handleAutoSize = () => {

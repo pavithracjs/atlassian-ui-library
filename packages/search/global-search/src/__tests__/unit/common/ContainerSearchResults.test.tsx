@@ -110,8 +110,6 @@ const assertJiraNoRecentActivity = (element: JSX.Element) => {
     props: {
       query: 'query',
       analyticsData: { resultsCount: 0, wasOnNoResultsScreen: true },
-      showKeyboardLozenge: false,
-      showSearchIcon: false,
     },
   });
 };
@@ -143,8 +141,6 @@ const assertJiraAdvancedSearchGroup = (element: JSX.Element) => {
     props: {
       analyticsData: { resultsCount: 10 },
       query: 'query',
-      showKeyboardLozenge: true,
-      showSearchIcon: true,
     },
   });
 };
@@ -256,6 +252,20 @@ const getJiraPostQueryResults = () => [
     title: messages.jira_search_result_issues_heading,
   },
   {
+    items: [
+      {
+        analyticsType: 'link-postquery-advanced-search-jira',
+        contentType: 'jira-issue',
+        href: 'jiraUrl',
+        name: 'jira',
+        resultId: 'search-jira',
+        resultType: 'JiraIssueAdvancedSearch',
+      },
+    ],
+    key: 'issue-advanced',
+    title: undefined,
+  },
+  {
     items: boards,
     key: 'containers',
     title: messages.jira_search_result_containers_heading,
@@ -338,7 +348,7 @@ const getPreqQueryResults = (product: QuickSearchContext) =>
           >) || {};
         expect(type).toBe(SearchResultsComponent);
         expect(props).toMatchObject({
-          query: 'query',
+          isPreQuery: false,
           isError: false,
           isLoading: false,
           keepPreQueryState: false,
@@ -380,6 +390,7 @@ const getPreqQueryResults = (product: QuickSearchContext) =>
       });
 
       it('should return postQueryGroups', () => {
+        getAdvancedSearchUrlSpy.mockReturnValue('jiraUrl');
         const { getPostQueryGroups } = getProps();
         const postQueryGroups = getPostQueryGroups();
         expect(postQueryGroups).toMatchObject(getPostQueryResults(product));
@@ -405,8 +416,6 @@ describe('jira', () => {
       props: {
         analyticsData: { resultsCount: 10 },
         query: '',
-        showKeyboardLozenge: false,
-        showSearchIcon: true,
       },
     });
   });

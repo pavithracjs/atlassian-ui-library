@@ -33,13 +33,14 @@ export default {
   'global_search.jira.search_result_containers_heading':
     'Boards, projects and filters',
   'global_search.jira.search_result_people_heading': 'People',
-  'global_search.jira.advanced_search': 'Advanced search for',
-  'global_search.jira.advanced_search_issues': 'issues',
-  'global_search.jira.advanced_search_projects': 'projects',
-  'global_search.jira.advanced_search_boards': 'boards',
-  'global_search.jira.advanced_search_filters': 'filters',
-  'global_search.jira.advanced_search_people': 'people',
+  'global_search.jira.advanced_search': 'View all:',
+  'global_search.jira.advanced_search_issues': 'Issues',
+  'global_search.jira.advanced_search_projects': 'Projects',
+  'global_search.jira.advanced_search_boards': 'Boards',
+  'global_search.jira.advanced_search_filters': 'Filters',
+  'global_search.jira.advanced_search_people': 'People',
   'global_search.jira.advanced_issue_search': 'Advanced search for issues',
+  'global_search.jira.view_all_issues': 'View all issues',
   'global_search.jira.no_results_title':
     "We couldn't find anything matching your search",
   'global_search.jira.no_results_body':

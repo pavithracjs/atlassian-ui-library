@@ -24,7 +24,7 @@ const isInteractive = ({ isInteractive }: WrapperProps) => {
     return `
       cursor: pointer;
       :hover {
-        background-color: ${colors.N40A};
+        background-color: ${colors.N20};
         text-decoration: none;
       }
       :active {
@@ -81,5 +81,5 @@ export const Wrapper: ComponentClass<
   ${background};
   ${isInteractive}
   ${isSelected};
-  transition: 0.3s all ease-in-out;
+  transition: 0.1s all ease-in-out;
 `;

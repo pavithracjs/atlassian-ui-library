@@ -72,7 +72,8 @@ export interface CrossProductSearchClient {
     query: string,
     searchSession: SearchSession,
     scopes: Scope[],
-    resultLimit?: Number,
+    queryVersion?: number,
+    resultLimit?: number,
   ): Promise<CrossProductSearchResults>;
 
   getAbTestData(scope: Scope): Promise<ABTest>;
@@ -92,26 +93,36 @@ export default class CachingCrossProductSearchClientImpl
     url: string,
     cloudId: string,
     addSessionIdToJiraResult?: boolean,
-    prefetchedAbTestResult?: Promise<ABTest>,
+    prefetchedAbTestResult?: { [scope: string]: Promise<ABTest> },
   ) {
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
     this.addSessionIdToJiraResult = addSessionIdToJiraResult;
-    this.abTestDataCache = {};
+    this.abTestDataCache = prefetchedAbTestResult || {};
   }
 
   public async search(
     query: string,
     searchSession: SearchSession,
     scopes: Scope[],
-    resultLimit?: Number,
+    queryVersion?: number,
+    resultLimit?: number,
   ): Promise<CrossProductSearchResults> {
     const path = 'quicksearch/v1';
+
+    const modelParams = [
+      {
+        '@type': 'queryParams',
+        queryVersion,
+      },
+    ];
+
     const body = {
       query: query,
       cloudId: this.cloudId,
       limit: resultLimit || this.RESULT_LIMIT,
       scopes: scopes,
+      ...(queryVersion !== undefined ? { modelParams: modelParams } : {}),
     };
 
     const response = await this.makeRequest<CrossProductSearchResponse>(
