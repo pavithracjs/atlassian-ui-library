@@ -185,6 +185,11 @@ export default function generateProductConfig(
     recentDrawerContents,
     getRecentRef,
 
+    onGlobalInviteClick,
+    globalInviteTooltip,
+    globalInviteDrawerContents,
+    getGlobalInviteRef,
+
     onCreateClick,
     createTooltip,
     createDrawerContents,
@@ -251,6 +256,12 @@ export default function generateProductConfig(
       onRecentClick || (recentDrawerContents && openDrawer('recent')),
       recentTooltip,
       { getRef: getRecentRef },
+    ),
+    globalInvite: configFactory(
+      onGlobalInviteClick ||
+        (globalInviteDrawerContents && openDrawer('globalInvite')),
+      globalInviteTooltip,
+      { getRef: getGlobalInviteRef },
     ),
     create: configFactory(
       onCreateClick || (createDrawerContents && openDrawer('create')),

@@ -11,6 +11,7 @@ export const analyticsIdMap: { [drawerName: DrawerName]: string } = {
   starred: 'starDrawer',
   help: 'helpDrawer',
   settings: 'settingsDrawer',
+  globalInvite: 'globalInviteDrawer',
   atlassianSwitcher: 'atlassianSwitcherDrawer',
 };
 
