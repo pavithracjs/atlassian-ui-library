@@ -12,7 +12,7 @@ import LocaleIntlProvider from '../../../example-helpers/LocaleIntlProvider';
 import { ResultBase } from '@atlaskit/quick-search';
 
 import { mount, ReactWrapper } from 'enzyme';
-import { waitUntil } from './_test-util';
+
 import {
   validateEvent,
   getGlobalSearchDrawerEvent,
@@ -24,7 +24,7 @@ import {
   getHighlightEvent,
   getDismissedEvent,
   getExperimentExposureEvent,
-} from './helpers/_events_payloads';
+} from '../unit/helpers/_events_payloads';
 
 const spyOnComponentDidUpdate = () => {
   if (QuickSearchContainer.prototype.componentDidUpdate) {
@@ -35,10 +35,24 @@ const spyOnComponentDidUpdate = () => {
   return spy;
 };
 
-const findAnalyticsEvent = (eventSpy: jest.Mock<{}>, actionSubject: string) => {
-  const [event] = eventSpy.mock.calls.find(
-    ([event]) => event.payload.actionSubject === actionSubject,
-  );
+/**
+ * Find an analytic event by looking into the event spy and finding the analytic event that matches the given
+ * set of properties.
+ * Use {#validateEvent} to validate that the attributes of said event is correct.
+ * @param eventSpy
+ * @param analyticProperties
+ */
+const findAnalyticEventWithProperties = (
+  eventSpy: jest.Mock<{}>,
+  analyticProperties: Object,
+) => {
+  const [event] = [...eventSpy.mock.calls]
+    .reverse()
+    .find(([event]) =>
+      Object.keys(analyticProperties).every(
+        key => event.payload[key] === (analyticProperties as any)[key],
+      ),
+    );
   return event;
 };
 
@@ -94,10 +108,18 @@ const getRecentItems = (product: string) =>
     let wrapper: ReactWrapper;
     let originalWindowAssign = window.location.assign;
 
-    beforeAll(async () => {
+    const keyPress = (key: 'ArrowUp' | 'ArrowDown' | 'Enter') => {
+      const input = wrapper.find('input');
+      expect(input.length).toBe(1);
+      input.simulate('keyDown', {
+        key,
+        shiftKey: false,
+      });
+    };
+
+    beforeAll(() => {
       window.location.assign = jest.fn();
       setupMocks(ZERO_DELAY_CONFIG);
-      wrapper = await renderAndWaitForUpdate();
     });
 
     afterAll(() => {
@@ -105,15 +127,10 @@ const getRecentItems = (product: string) =>
       teardownMocks();
     });
 
-    const inputFocus = (focus = true) => {
-      const input = wrapper.find('input');
-      expect(input.length).toBe(1);
-      input.simulate(focus ? 'focus' : 'blur');
-    };
-
-    const inputBlur = () => {
-      inputFocus(false);
-    };
+    beforeEach(async () => {
+      jest.clearAllMocks();
+      wrapper = await renderAndWaitForUpdate();
+    });
 
     const renderComponent = (onEvent: jest.Mock<{}>) => {
       return mount(
@@ -137,23 +154,45 @@ const getRecentItems = (product: string) =>
       );
     };
 
+    const checkIfNoMoreUpdates = (
+      resolve: Function,
+      lastCount: number = 0,
+      noUpdateCycles = 0,
+    ) => {
+      // Keep checking until the component no longer sees anymore updates.
+
+      // Due to timing issues we will wait double check there is no updates by checking that
+      // at least 2 event loops have passed with no updates.
+      setTimeout(() => {
+        const updateCallCount = updateSpy.mock.calls.length;
+        if (updateCallCount === lastCount && noUpdateCycles >= 2) {
+          resolve();
+        } else {
+          // reset no update cycle count if the number of update call changes
+          const newNoUpdateCycleCount =
+            updateCallCount > lastCount ? 0 : noUpdateCycles + 1;
+          checkIfNoMoreUpdates(resolve, updateCallCount, newNoUpdateCycleCount);
+        }
+      }, 0);
+    };
+
+    const waitForAllUpdates = () =>
+      new Promise(resolve => checkIfNoMoreUpdates(resolve));
+
     const renderAndWaitForUpdate = async () => {
       const wrapper = renderComponent(onEventSpy);
-      const container = wrapper.find(QuickSearchContainer);
-      expect(container.length).toBe(1);
-      await waitUntil(() => updateSpy.mock.calls.length > 0, 1000);
+      await waitForAllUpdates();
+      wrapper.update();
       return wrapper;
     };
 
     describe('Initial events', () => {
-      afterAll(() => {
-        updateSpy.mockReset();
-        onEventSpy.mockReset();
-      });
-
       it('should trigger globalSearchDrawer', async () => {
         expect(onEventSpy).toBeCalled();
-        const event = findAnalyticsEvent(onEventSpy, 'globalSearchDrawer');
+        const event = findAnalyticEventWithProperties(onEventSpy, {
+          actionSubject: 'globalSearchDrawer',
+          action: 'viewed',
+        });
 
         validateEvent(
           event,
@@ -174,8 +213,10 @@ const getRecentItems = (product: string) =>
       });
 
       it('should trigger experiment exposure event', () => {
-        expect(onEventSpy).toBeCalled();
-        const event = findAnalyticsEvent(onEventSpy, 'quickSearchExperiment');
+        const event = findAnalyticEventWithProperties(onEventSpy, {
+          actionSubject: 'quickSearchExperiment',
+          action: 'exposed',
+        });
 
         validateEvent(
           event,
@@ -188,23 +229,10 @@ const getRecentItems = (product: string) =>
     });
 
     describe('Highlight and select', () => {
-      afterEach(() => {
-        updateSpy.mockReset();
-        onEventSpy.mockReset();
-        inputBlur();
+      beforeEach(() => {
+        // This clears all the onMount events so we can start on a clean slate
+        onEventSpy.mockClear();
       });
-
-      const keyPress = (
-        key: 'ArrowUp' | 'ArrowDown' | 'Enter',
-        withShift?: undefined,
-      ) => {
-        const input = wrapper.find('input');
-        expect(input.length).toBe(1);
-        input.simulate('keyDown', {
-          key,
-          shiftKey: withShift,
-        });
-      };
 
       if (product === 'confluence') {
         it('should trigger highlight result event', () => {
@@ -287,7 +315,8 @@ const getRecentItems = (product: string) =>
         );
       });
 
-      it('should trigger advanced result selected', () => {
+      it('should trigger advanced result selected', async () => {
+        keyPress('Enter');
         const results = wrapper.find(ResultBase);
         const expectedResultsCount = product === 'confluence' ? 16 : 17;
         expect(results.length).toBe(expectedResultsCount);
@@ -295,8 +324,12 @@ const getRecentItems = (product: string) =>
         advancedSearchResult.simulate('click', {
           metaKey: true,
         });
-        expect(onEventSpy).toHaveBeenCalledTimes(1);
-        const event = onEventSpy.mock.calls[0][0];
+
+        const event = findAnalyticEventWithProperties(onEventSpy, {
+          actionSubject: 'navigationItem',
+          action: 'selected',
+        });
+
         const payload =
           product === 'confluence'
             ? {
@@ -323,6 +356,7 @@ const getRecentItems = (product: string) =>
       });
 
       it('should trigger result selected', () => {
+        keyPress('Enter');
         const results = wrapper.find(ResultBase);
         const expectedResultsCount = product === 'confluence' ? 16 : 17;
         expect(results.length).toBe(expectedResultsCount);
@@ -331,8 +365,11 @@ const getRecentItems = (product: string) =>
           metaKey: true,
         });
 
-        expect(onEventSpy).toHaveBeenCalledTimes(1);
-        const event = onEventSpy.mock.calls[0][0];
+        const event = findAnalyticEventWithProperties(onEventSpy, {
+          actionSubject: 'navigationItem',
+          action: 'selected',
+        });
+
         const payload =
           product === 'confluence'
             ? {
@@ -444,15 +481,15 @@ const getRecentItems = (product: string) =>
         expectedResults: {
           textEnteredEvent: {
             queryLength: 9,
-            queryVersion: 2,
+            queryVersion: 0,
             wordCount: 2,
           },
           postQueryResults: [],
         },
       },
-    ].forEach(({ query, expectedResults }, index) => {
+    ].forEach(({ query, expectedResults }) => {
       describe(`Search query=${query}`, () => {
-        const writeQuery = (query: string) => {
+        const writeQuery = async (query: string) => {
           const input = wrapper.find('input');
           expect(input.length).toBe(1);
           input.simulate('input', {
@@ -460,34 +497,48 @@ const getRecentItems = (product: string) =>
               value: query,
             },
           });
+
+          await waitForAllUpdates();
         };
 
-        beforeAll(async () => {
-          writeQuery(query);
-          await waitUntil(() => updateSpy.mock.calls.length === 2, 1000);
+        beforeEach(async () => {
+          await writeQuery(query);
         });
 
         it('should trigger entered text event', () => {
-          const textEnteredEvent = onEventSpy.mock.calls[0][0];
+          const event = findAnalyticEventWithProperties(onEventSpy, {
+            actionSubject: 'text',
+            action: 'entered',
+          });
+
           validateEvent(
-            textEnteredEvent,
+            event,
             getTextEnteredEvent(expectedResults.textEnteredEvent),
           );
         });
 
         it('should trigger postquery drawer view event', () => {
-          const event = onEventSpy.mock.calls[1][0];
+          const event = findAnalyticEventWithProperties(onEventSpy, {
+            actionSubject: 'globalSearchDrawer',
+            action: 'viewed',
+          });
+
           validateEvent(
             event,
             getGlobalSearchDrawerEvent({
               subscreen: 'GlobalSearchPostQueryDrawer',
-              timesViewed: 1 + index,
+              timesViewed: 1,
             }),
           );
         });
 
         it('should trigger post query search results event', () => {
-          const event = onEventSpy.mock.calls[2][0];
+          const event = findAnalyticEventWithProperties(onEventSpy, {
+            actionSubject: 'searchResults',
+            actionSubjectId: 'postQuerySearchResults',
+            action: 'shown',
+          });
+
           validateEvent(
             event,
             getPostQuerySearchResultsEvent(
@@ -499,44 +550,48 @@ const getRecentItems = (product: string) =>
         });
 
         describe('Clear Query', () => {
-          beforeAll(async () => {
-            updateSpy.mockReset();
-            onEventSpy.mockReset();
-            writeQuery('');
-            await waitUntil(() => updateSpy.mock.calls.length === 1, 1000);
-          });
-
-          afterAll(() => {
-            updateSpy.mockReset();
-            onEventSpy.mockReset();
+          beforeEach(async () => {
+            await writeQuery('');
           });
 
           it('should trigger entered text event', () => {
-            const textEnteredEvent = onEventSpy.mock.calls[0][0];
+            const event = findAnalyticEventWithProperties(onEventSpy, {
+              actionSubject: 'text',
+              action: 'entered',
+            });
+
             validateEvent(
-              textEnteredEvent,
+              event,
               getTextEnteredEvent({
                 queryLength: 0,
-                queryVersion: 1 + index * 2,
+                queryVersion: 1,
                 wordCount: 0,
               }),
             );
           });
 
           it('should trigger prequery drawer view event', () => {
-            const event = onEventSpy.mock.calls[1][0];
+            const event = findAnalyticEventWithProperties(onEventSpy, {
+              actionSubject: 'globalSearchDrawer',
+              action: 'viewed',
+            });
+
             validateEvent(
               event,
               getGlobalSearchDrawerEvent({
                 subscreen: 'GlobalSearchPreQueryDrawer',
-                timesViewed: 2 + index,
+                timesViewed: 2,
               }),
             );
           });
 
           it('should trigger show prequery results event ', () => {
-            expect(onEventSpy).toBeCalled();
-            const event = onEventSpy.mock.calls[2][0];
+            const event = findAnalyticEventWithProperties(onEventSpy, {
+              actionSubject: 'searchResults',
+              actionSubjectId: 'preQuerySearchResults',
+              action: 'shown',
+            });
+
             validateEvent(
               event,
               getPreQuerySearchResultsEvent(
@@ -551,16 +606,27 @@ const getRecentItems = (product: string) =>
 
     describe('Dismissed Event', () => {
       it('should not trigger dismissed Event when result is selected', () => {
+        // setup
+        keyPress('Enter');
+        onEventSpy.mockClear();
+
+        // execute
         wrapper.unmount();
+
+        // assert
         expect(onEventSpy).not.toHaveBeenCalled();
       });
 
       it('should be trigger dismissed event', () => {
-        // remount
+        // execute
         wrapper.mount();
         wrapper.unmount();
-        expect(onEventSpy).toHaveBeenCalledTimes(1);
-        const dismissedEvent = onEventSpy.mock.calls[0][0];
+
+        // assert
+        const dismissedEvent = findAnalyticEventWithProperties(onEventSpy, {
+          actionSubject: 'globalSearchDrawer',
+          action: 'dismissed',
+        });
         validateEvent(dismissedEvent, getDismissedEvent());
       });
     });

@@ -373,6 +373,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     abTest,
   }: SearchResultProps) => {
     const { onAdvancedSearch = () => {}, fasterSearchFFEnabled } = this.props;
+
     const inFasterSearchExperiment = isInFasterSearchExperiment(
       abTest,
       fasterSearchFFEnabled,
@@ -380,7 +381,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
     return (
       <SearchResultsComponent
-        query={latestSearchQuery}
+        isPreQuery={!latestSearchQuery}
         isError={isError}
         isLoading={isLoading}
         retrySearch={retrySearch}

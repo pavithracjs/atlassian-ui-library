@@ -219,7 +219,7 @@ export class JiraQuickSearchContainer extends React.Component<
 
     return (
       <SearchResultsComponent
-        query={query}
+        isPreQuery={!query}
         isError={isError}
         isLoading={isLoading}
         retrySearch={retrySearch}

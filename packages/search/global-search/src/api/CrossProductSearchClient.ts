@@ -93,12 +93,12 @@ export default class CachingCrossProductSearchClientImpl
     url: string,
     cloudId: string,
     addSessionIdToJiraResult?: boolean,
-    prefetchedAbTestResult?: Promise<ABTest>,
+    prefetchedAbTestResult?: { [scope: string]: Promise<ABTest> },
   ) {
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
     this.addSessionIdToJiraResult = addSessionIdToJiraResult;
-    this.abTestDataCache = {};
+    this.abTestDataCache = prefetchedAbTestResult || {};
   }
 
   public async search(
