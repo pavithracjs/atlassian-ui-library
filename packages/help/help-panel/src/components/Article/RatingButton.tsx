@@ -50,7 +50,7 @@ export class RatingButton extends React.Component<
     const { help } = this.props;
     if (help.onWasHelpfulSubmit) {
       try {
-        help.onWasHelpfulSubmit(data).then(() => {
+        help.onWasHelpfulSubmit(data).then(result => {
           this.setState({ wasHelpful: null });
 
           // fire Analytics event
