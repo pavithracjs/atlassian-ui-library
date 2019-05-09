@@ -44,6 +44,15 @@ const mediaMock = new MediaMock({
   [defaultCollectionName]: files,
 });
 mediaMock.enable();
+
+const context = ContextFactory.create({
+  authProvider: () =>
+    Promise.resolve({
+      clientId: '',
+      token: '',
+      baseUrl: defaultBaseUrl,
+    }),
+});
 export default class Example extends React.Component<{}, {}> {
   render() {
     return (
@@ -64,14 +73,7 @@ export default class Example extends React.Component<{}, {}> {
           mediaItemType: 'file',
         }}
         collectionName={defaultCollectionName}
-        context={ContextFactory.create({
-          authProvider: () =>
-            Promise.resolve({
-              clientId: '',
-              token: '',
-              baseUrl: defaultBaseUrl,
-            }),
-        })}
+        context={context}
       />
     );
   }
