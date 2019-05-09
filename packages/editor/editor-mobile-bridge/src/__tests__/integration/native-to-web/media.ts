@@ -9,8 +9,35 @@ import {
   skipBrowsers as skip,
 } from '../_utils';
 
+const fakeMobileId = `fake-aaaa-bbbb-cccc-dddddddddd`;
+
+const uploadPreviewUpdatePayload = (dimensions?: {
+  width: number;
+  height: number;
+}) => ({
+  file: {
+    dimensions,
+    id: fakeMobileId,
+    name: 'test-file.jpeg',
+    type: 'image/jpeg',
+  },
+  preview: {
+    dimensions,
+  },
+});
+
+const mobileUploadEndPayload = (publicId: string, collectionName: string) => ({
+  file: {
+    id: fakeMobileId,
+    publicId,
+    collectionName,
+    name: 'test-file.jpeg',
+    type: 'image/jpeg',
+  },
+});
+
 BrowserTestCase(
-  `media.ts: Insert media single having dimensions`,
+  `media.ts: Collection + Dimensions => uploading`,
   { skip },
   async (client: any, testName: string) => {
     const browser = new Page(client);
@@ -18,46 +45,16 @@ BrowserTestCase(
     await browser.goto(editor.path);
     await browser.waitForSelector(editable);
 
-    const uploadPreviewUpdatePayload = {
-      file: {
-        dimensions: {
-          width: 2265,
-          height: 1500,
-        },
-        id: 'cc6359f2-dcd6-47f9-ae22-4ac8b86cddb2',
-        name: 'rose-blue-flower-rose-blooms-67636.jpeg',
-        type: 'image/jpeg',
-      },
-      preview: {
-        dimensions: {
-          width: 2265,
-          height: 1500,
-        },
-      },
-    };
-
     await callNativeBridge(
       browser,
       'onMediaPicked',
       'upload-preview-update',
-      JSON.stringify(uploadPreviewUpdatePayload),
-    );
-
-    const mobileUploadEndPayload = {
-      file: {
-        collectionName: 'TestCollection',
-        id: 'cc6359f2-dcd6-47f9-ae22-4ac8b86cddb2',
-        publicId: '12d5234f-eb29-424a-84fe-36fe14a33754',
-        name: 'rose-blue-flower-rose-blooms-67636.jpeg',
-        type: 'image/jpeg',
-      },
-    };
-
-    await callNativeBridge(
-      browser,
-      'onMediaPicked',
-      'upload-end',
-      JSON.stringify(mobileUploadEndPayload),
+      JSON.stringify(
+        uploadPreviewUpdatePayload({
+          width: 2265,
+          height: 1500,
+        }),
+      ),
     );
 
     const doc = await browser.$eval(editable, getDocFromElement);
@@ -66,7 +63,45 @@ BrowserTestCase(
 );
 
 BrowserTestCase(
-  `media.ts: Insert media single unknown dimensions`,
+  `media.ts: Collection + Dimensions => complete`,
+  { skip },
+  async (client: any, testName: string) => {
+    const browser = new Page(client);
+
+    await browser.goto(editor.path);
+    await browser.waitForSelector(editable);
+
+    await callNativeBridge(
+      browser,
+      'onMediaPicked',
+      'upload-preview-update',
+      JSON.stringify(
+        uploadPreviewUpdatePayload({
+          width: 2265,
+          height: 1500,
+        }),
+      ),
+    );
+
+    await callNativeBridge(
+      browser,
+      'onMediaPicked',
+      'upload-end',
+      JSON.stringify(
+        mobileUploadEndPayload(
+          '03907bf7-7dbb-408f-a334-27a5ae6bb7b9',
+          'MediaServicesDemoCollection',
+        ),
+      ),
+    );
+
+    const doc = await browser.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  `media.ts: Collection + No dimension => uploading`,
   { skip: skip.concat('safari') },
   async (client: any, testName: string) => {
     const browser = new Page(client);
@@ -74,36 +109,161 @@ BrowserTestCase(
     await browser.goto(editor.path);
     await browser.waitForSelector(editable);
 
-    const uploadPreviewUpdatePayload = {
-      file: {
-        id: 'dc6359f2-dcd6-47f9-ae22-4ac8b86cddb2',
-        name: 'rose-blue-flower-rose-blooms-67636.jpeg',
-        type: 'image/jpeg',
-      },
-    };
+    await callNativeBridge(
+      browser,
+      'onMediaPicked',
+      'upload-preview-update',
+      JSON.stringify(uploadPreviewUpdatePayload()),
+    );
+
+    const doc = await browser.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  `media.ts: Collection + No dimension => complete`,
+  { skip: skip.concat('safari') },
+  async (client: any, testName: string) => {
+    const browser = new Page(client);
+
+    await browser.goto(editor.path);
+    await browser.waitForSelector(editable);
 
     await callNativeBridge(
       browser,
       'onMediaPicked',
       'upload-preview-update',
-      JSON.stringify(uploadPreviewUpdatePayload),
+      JSON.stringify(uploadPreviewUpdatePayload()),
     );
-
-    const mobileUploadEndPayload = {
-      file: {
-        collectionName: 'TestCollection',
-        id: 'dc6359f2-dcd6-47f9-ae22-4ac8b86cddb2',
-        publicId: 'e2d5234f-eb29-424a-84fe-36fe14a33754',
-        name: 'rose-blue-flower-rose-blooms-67636.jpeg',
-        type: 'image/jpeg',
-      },
-    };
 
     await callNativeBridge(
       browser,
       'onMediaPicked',
       'upload-end',
-      JSON.stringify(mobileUploadEndPayload),
+      JSON.stringify(
+        mobileUploadEndPayload(
+          '03907bf7-7dbb-408f-a334-27a5ae6bb7b9',
+          'MediaServicesDemoCollection',
+        ),
+      ),
+    );
+
+    const doc = await browser.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  `media.ts: Empty collection + Dimensions => uploading`,
+  { skip },
+  async (client: any, testName: string) => {
+    const browser = new Page(client);
+
+    await browser.goto(editor.path);
+    await browser.waitForSelector(editable);
+
+    await callNativeBridge(
+      browser,
+      'onMediaPicked',
+      'upload-preview-update',
+      JSON.stringify(
+        uploadPreviewUpdatePayload({
+          width: 2265,
+          height: 1500,
+        }),
+      ),
+    );
+
+    const doc = await browser.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  `media.ts: Empty collection + Dimensions => complete`,
+  { skip },
+  async (client: any, testName: string) => {
+    const browser = new Page(client);
+
+    await browser.goto(editor.path);
+    await browser.waitForSelector(editable);
+
+    await callNativeBridge(
+      browser,
+      'onMediaPicked',
+      'upload-preview-update',
+      JSON.stringify(
+        uploadPreviewUpdatePayload({
+          width: 2265,
+          height: 1500,
+        }),
+      ),
+    );
+
+    await callNativeBridge(
+      browser,
+      'onMediaPicked',
+      'upload-end',
+      JSON.stringify(
+        mobileUploadEndPayload('03907bf7-7dbb-408f-a334-27a5ae6bb7b9', ''),
+      ),
+    );
+
+    const doc = await browser.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  `media.ts: Empty collection + No dimension => uploading`,
+  { skip },
+  async (client: any, testName: string) => {
+    const browser = new Page(client);
+
+    await browser.goto(editor.path);
+    await browser.waitForSelector(editable);
+
+    await callNativeBridge(
+      browser,
+      'onMediaPicked',
+      'upload-preview-update',
+      JSON.stringify(uploadPreviewUpdatePayload()),
+    );
+
+    const doc = await browser.$eval(editable, getDocFromElement);
+    expect(doc).toMatchCustomDocSnapshot(testName);
+  },
+);
+
+BrowserTestCase(
+  `media.ts: Empty collection + No dimension => complete`,
+  { skip },
+  async (client: any, testName: string) => {
+    const browser = new Page(client);
+
+    await browser.goto(editor.path);
+    await browser.waitForSelector(editable);
+
+    await callNativeBridge(
+      browser,
+      'onMediaPicked',
+      'upload-preview-update',
+      JSON.stringify(
+        uploadPreviewUpdatePayload({
+          width: 2265,
+          height: 1500,
+        }),
+      ),
+    );
+
+    await callNativeBridge(
+      browser,
+      'onMediaPicked',
+      'upload-end',
+      JSON.stringify(
+        mobileUploadEndPayload('03907bf7-7dbb-408f-a334-27a5ae6bb7b9', ''),
+      ),
     );
 
     const doc = await browser.$eval(editable, getDocFromElement);

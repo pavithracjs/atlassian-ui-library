@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`media.ts: Insert media single having dimensions 1`] = `
+exports[`media.ts: Collection + Dimensions => complete 1`] = `
 Object {
   "content": Array [
     Object {
@@ -15,7 +15,7 @@ Object {
             "__fileMimeType": "image/jpeg",
             "__fileName": "example.png",
             "__fileSize": null,
-            "collection": "TestCollection",
+            "collection": "MediaServicesDemoCollection",
             "height": 1500,
             "id": "1234-5678-abcd-efgh",
             "occurrenceKey": null,
@@ -36,7 +36,7 @@ Object {
 }
 `;
 
-exports[`media.ts: Insert media single unknown dimensions 1`] = `
+exports[`media.ts: Collection + Dimensions => uploading 1`] = `
 Object {
   "content": Array [
     Object {
@@ -51,13 +51,229 @@ Object {
             "__fileMimeType": "image/jpeg",
             "__fileName": "example.png",
             "__fileSize": null,
-            "collection": "TestCollection",
+            "collection": "InitialCollectionForTesting",
+            "height": 1500,
+            "id": "1234-5678-abcd-efgh",
+            "occurrenceKey": null,
+            "type": "file",
+            "url": null,
+            "width": 2265,
+          },
+          "type": "media",
+        },
+      ],
+      "type": "mediaSingle",
+    },
+    Object {
+      "type": "paragraph",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
+exports[`media.ts: Collection + No dimension => complete 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "attrs": Object {
+        "layout": "center",
+        "width": null,
+      },
+      "content": Array [
+        Object {
+          "attrs": Object {
+            "__displayType": null,
+            "__fileMimeType": "image/jpeg",
+            "__fileName": "example.png",
+            "__fileSize": null,
+            "collection": "MediaServicesDemoCollection",
             "height": 200,
             "id": "1234-5678-abcd-efgh",
             "occurrenceKey": null,
             "type": "file",
             "url": null,
             "width": 250,
+          },
+          "type": "media",
+        },
+      ],
+      "type": "mediaSingle",
+    },
+    Object {
+      "type": "paragraph",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
+exports[`media.ts: Collection + No dimension => uploading 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "attrs": Object {
+        "layout": "center",
+        "width": null,
+      },
+      "content": Array [
+        Object {
+          "attrs": Object {
+            "__displayType": null,
+            "__fileMimeType": "image/jpeg",
+            "__fileName": "example.png",
+            "__fileSize": null,
+            "collection": "InitialCollectionForTesting",
+            "height": 200,
+            "id": "1234-5678-abcd-efgh",
+            "occurrenceKey": null,
+            "type": "file",
+            "url": null,
+            "width": 250,
+          },
+          "type": "media",
+        },
+      ],
+      "type": "mediaSingle",
+    },
+    Object {
+      "type": "paragraph",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
+exports[`media.ts: Empty collection + Dimensions => complete 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "attrs": Object {
+        "layout": "center",
+        "width": null,
+      },
+      "content": Array [
+        Object {
+          "attrs": Object {
+            "__displayType": null,
+            "__fileMimeType": "image/jpeg",
+            "__fileName": "example.png",
+            "__fileSize": null,
+            "collection": "",
+            "height": 1500,
+            "id": "1234-5678-abcd-efgh",
+            "occurrenceKey": null,
+            "type": "file",
+            "url": null,
+            "width": 2265,
+          },
+          "type": "media",
+        },
+      ],
+      "type": "mediaSingle",
+    },
+    Object {
+      "type": "paragraph",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
+exports[`media.ts: Empty collection + Dimensions => uploading 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "attrs": Object {
+        "layout": "center",
+        "width": null,
+      },
+      "content": Array [
+        Object {
+          "attrs": Object {
+            "__displayType": null,
+            "__fileMimeType": "image/jpeg",
+            "__fileName": "example.png",
+            "__fileSize": null,
+            "collection": "InitialCollectionForTesting",
+            "height": 1500,
+            "id": "1234-5678-abcd-efgh",
+            "occurrenceKey": null,
+            "type": "file",
+            "url": null,
+            "width": 2265,
+          },
+          "type": "media",
+        },
+      ],
+      "type": "mediaSingle",
+    },
+    Object {
+      "type": "paragraph",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
+exports[`media.ts: Empty collection + No dimension => complete 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "attrs": Object {
+        "layout": "center",
+        "width": null,
+      },
+      "content": Array [
+        Object {
+          "attrs": Object {
+            "__displayType": null,
+            "__fileMimeType": "image/jpeg",
+            "__fileName": "example.png",
+            "__fileSize": null,
+            "collection": "",
+            "height": 1500,
+            "id": "1234-5678-abcd-efgh",
+            "occurrenceKey": null,
+            "type": "file",
+            "url": null,
+            "width": 2265,
+          },
+          "type": "media",
+        },
+      ],
+      "type": "mediaSingle",
+    },
+    Object {
+      "type": "paragraph",
+    },
+  ],
+  "type": "doc",
+}
+`;
+
+exports[`media.ts: Empty collection + No dimension => uploading 1`] = `
+Object {
+  "content": Array [
+    Object {
+      "attrs": Object {
+        "layout": "center",
+        "width": null,
+      },
+      "content": Array [
+        Object {
+          "attrs": Object {
+            "__displayType": null,
+            "__fileMimeType": "image/jpeg",
+            "__fileName": "example.png",
+            "__fileSize": null,
+            "collection": "InitialCollectionForTesting",
+            "height": null,
+            "id": "1234-5678-abcd-efgh",
+            "occurrenceKey": null,
+            "type": "file",
+            "url": null,
+            "width": null,
           },
           "type": "media",
         },
