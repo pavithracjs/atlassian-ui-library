@@ -134,7 +134,7 @@ export function CardWithUrlContent(props: CardWithUrlContentProps) {
               if (onClick) {
                 onClick();
               } else {
-                window.open(url);
+                window.open(url, '_self');
               }
             };
 
