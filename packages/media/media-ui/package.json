@@ -16,6 +16,10 @@
       "name": "James N"
     }
   ],
+  "atlaskit": {
+    "name": "Media UI",
+    "team": "media"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "scripts": {
     "i18n:push": "i18n-tools push --resource media-ui --type ts .",

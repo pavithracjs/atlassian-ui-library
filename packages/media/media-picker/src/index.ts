@@ -4,9 +4,6 @@ export {
 } from './components/types';
 
 import {
-  BinaryUploader,
-  BinaryUploaderConstructor,
-  BinaryConfig,
   Browser,
   BrowserConfig,
   BrowserConstructor,
@@ -21,11 +18,6 @@ import {
 
 import { Context } from '@atlaskit/media-core';
 
-export const isBinaryUploader = (
-  component: any,
-): component is BinaryUploader => {
-  return 'upload' in component;
-};
 export const isBrowser = (component: any): component is Browser =>
   component && 'browse' in component && 'teardown' in component;
 export const isDropzone = (component: any): component is Dropzone =>
@@ -55,17 +47,15 @@ export { ImagePreview, Preview, NonImagePreview } from './domain/preview';
 
 // Constructor public API and types
 export interface MediaPickerConstructors {
-  binary: BinaryUploaderConstructor;
   browser: BrowserConstructor;
   dropzone: DropzoneConstructor;
   popup: PopupConstructor;
 }
 
-export { BinaryUploader, Browser, Dropzone, Popup };
-export type MediaPickerComponent = BinaryUploader | Browser | Dropzone | Popup;
+export { Browser, Dropzone, Popup };
+export type MediaPickerComponent = Browser | Dropzone | Popup;
 
 export interface MediaPickerComponents {
-  binary: BinaryUploader;
   browser: Browser;
   dropzone: Dropzone;
   popup: Popup;
@@ -73,27 +63,15 @@ export interface MediaPickerComponents {
 
 export { UploadParams } from './domain/config';
 
-export {
-  BrowserConfig,
-  DropzoneConfig,
-  PopupConfig,
-  BinaryConfig,
-  ClipboardConfig,
-};
+export { BrowserConfig, DropzoneConfig, PopupConfig, ClipboardConfig };
 export interface ComponentConfigs {
-  binary: BinaryConfig;
   browser: BrowserConfig;
   clipboard: ClipboardConfig;
   dropzone: DropzoneConfig;
   popup: PopupConfig;
 }
 
-export {
-  BinaryUploaderConstructor,
-  BrowserConstructor,
-  DropzoneConstructor,
-  PopupConstructor,
-};
+export { BrowserConstructor, DropzoneConstructor, PopupConstructor };
 
 export async function MediaPicker<K extends keyof MediaPickerComponents>(
   componentName: K,
@@ -101,11 +79,6 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
   pickerConfig?: ComponentConfigs[K],
 ): Promise<MediaPickerComponents[K]> {
   switch (componentName) {
-    case 'binary':
-      const {
-        BinaryUploaderImpl,
-      } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-binary" */ './components/binary');
-      return new BinaryUploaderImpl(context, pickerConfig as BinaryConfig);
     case 'browser':
       const {
         BrowserImpl,

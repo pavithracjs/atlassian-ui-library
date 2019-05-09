@@ -128,26 +128,6 @@ describe('Media plugin', () => {
     providerFactory.destroy();
   });
 
-  it('should invoke binary picker when calling insertFileFromDataUrl', async () => {
-    const { pluginState } = editor(doc(p('{<>}')));
-    const provider = await mediaProvider;
-    await provider.uploadContext;
-
-    await waitForAllPickersInitialised(pluginState);
-
-    expect(typeof pluginState.binaryPicker!).toBe('object');
-
-    pluginState.binaryPicker!.upload = jest.fn();
-
-    pluginState.insertFileFromDataUrl(
-      'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
-      'test.gif',
-    );
-
-    expect(pluginState.binaryPicker!.upload as any).toHaveBeenCalledTimes(1);
-    pluginState.destroy();
-  });
-
   describe('editor', () => {
     describe('when all of the files are images', () => {
       it('inserts single medias', async () => {
@@ -441,7 +421,6 @@ describe('Media plugin', () => {
     await provider.uploadContext;
     await provider.viewContext;
     await waitForAllPickersInitialised(pluginState);
-    expect(typeof pluginState.binaryPicker!).toBe('object');
 
     const testFileData = {
       file: {
@@ -479,7 +458,6 @@ describe('Media plugin', () => {
     await provider.uploadContext;
     await provider.viewContext;
     await waitForAllPickersInitialised(pluginState);
-    expect(typeof pluginState.binaryPicker!).toBe('object');
 
     const testFileData = {
       file: {
@@ -498,43 +476,6 @@ describe('Media plugin', () => {
 
     (pluginState as any).popupPicker!.handleUploadPreviewUpdate(testFileData);
     expect(spy).toHaveBeenCalledWith('atlassian.editor.media.file.popup', {
-      fileMimeType: 'file/test',
-    });
-  });
-
-  it('should trigger analytics events for picking and binary', async () => {
-    const { pluginState } = editor(doc(p('{<>}')));
-    const spy = jest.fn();
-    analyticsService.handler = spy as AnalyticsHandler;
-
-    afterEach(() => {
-      analyticsService.handler = null;
-    });
-
-    const provider = await mediaProvider;
-    await provider.uploadContext;
-    await provider.viewContext;
-    await waitForAllPickersInitialised(pluginState);
-
-    expect(typeof pluginState.binaryPicker!).toBe('object');
-
-    const testFileData = {
-      file: {
-        id: 'test',
-        name: 'test.png',
-        size: 1,
-        type: 'file/test',
-      },
-      preview: {
-        dimensions: {
-          height: 200,
-          width: 200,
-        },
-      },
-    };
-
-    (pluginState as any).binaryPicker!.handleUploadPreviewUpdate(testFileData);
-    expect(spy).toHaveBeenCalledWith('atlassian.editor.media.file.binary', {
       fileMimeType: 'file/test',
     });
   });

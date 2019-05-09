@@ -76,7 +76,6 @@ export class MediaPluginState {
   private errorReporter: ErrorReporter;
 
   public pickers: PickerFacade[] = [];
-  public binaryPicker?: PickerFacade;
   private popupPicker?: PickerFacade;
   private dropzonePicker?: PickerFacade;
   // @ts-ignore
@@ -292,16 +291,6 @@ export class MediaPluginState {
   };
 
   splitMediaGroup = (): boolean => splitMediaGroup(this.view);
-
-  insertFileFromDataUrl = (url: string, fileName: string) => {
-    const { binaryPicker } = this;
-    assert(
-      binaryPicker,
-      'Unable to insert file because media pickers have not been initialized yet',
-    );
-
-    binaryPicker!.upload(url, fileName);
-  };
 
   // TODO [MSW-454]: remove this logic from Editor
   onPopupPickerClose = () => {
@@ -576,7 +565,6 @@ export class MediaPluginState {
     pickers.splice(0, pickers.length);
 
     this.popupPicker = undefined;
-    this.binaryPicker = undefined;
     this.dropzonePicker = undefined;
     this.customPicker = undefined;
   };
@@ -615,14 +603,6 @@ export class MediaPluginState {
           (this.popupPicker = await new Picker(
             // Fallback to browser picker for unauthenticated users
             context.config.userAuthProvider ? 'popup' : 'browser',
-            pickerFacadeConfig,
-            defaultPickerConfig,
-          ).init()),
-        );
-
-        pickers.push(
-          (this.binaryPicker = await new Picker(
-            'binary',
             pickerFacadeConfig,
             defaultPickerConfig,
           ).init()),

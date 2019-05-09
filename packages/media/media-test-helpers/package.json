@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-test-helpers",
-  "version": "22.0.0",
+  "version": "22.0.1",
   "description": "Collection of test helpers used in media component stories and specs",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.tsx",
@@ -27,7 +27,7 @@
     "@atlaskit/media-card": "^63.0.0",
     "@atlaskit/media-client": "^1.1.2",
     "@atlaskit/media-core": "^30.0.0",
-    "@atlaskit/media-picker": "^41.0.0",
+    "@atlaskit/media-picker": "^42.0.0",
     "@atlaskit/media-store": "^12.0.0",
     "@atlaskit/media-ui": "^11.0.0",
     "@atlaskit/select": "^9.0.0",
