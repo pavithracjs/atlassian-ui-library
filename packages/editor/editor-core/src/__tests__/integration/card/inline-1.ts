@@ -4,9 +4,7 @@ import {
   getDocFromElement,
   fullpage,
   editable,
-  clipboardHelper,
-  copyAsPlaintextButton,
-  clipboardInput,
+  copyToClipboard,
 } from '../_helpers';
 
 BrowserTestCase(
@@ -18,10 +16,7 @@ BrowserTestCase(
     let browser = new Page(client);
 
     // copy stuff to clipboard
-    await browser.goto(clipboardHelper);
-    await browser.isVisible(clipboardInput);
-    await browser.type(clipboardInput, 'https://www.atlassian.com');
-    await browser.click(copyAsPlaintextButton);
+    await copyToClipboard(browser, 'https://www.atlassian.com');
 
     // open up editor
     await browser.goto(fullpage.path);
