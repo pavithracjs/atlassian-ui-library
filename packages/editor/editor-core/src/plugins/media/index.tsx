@@ -30,6 +30,7 @@ import {
 import WithPluginState from '../../ui/WithPluginState';
 import { IconImages } from '../quick-insert/assets';
 import CustomSmartMediaEditor from './ui/CustomSmartMediaEditor';
+import DropzoneReactWrapper from './ui/DropzoneReactWrapper';
 
 export { MediaState, MediaProvider, CustomMediaPicker };
 
@@ -130,6 +131,7 @@ const mediaPlugin = (
   },
 
   contentComponent({ editorView }) {
+    // todo pass container element
     return (
       <WithPluginState
         editorView={editorView}
@@ -137,7 +139,10 @@ const mediaPlugin = (
           mediaState: pluginKey,
         }}
         render={({ mediaState }) => (
-          <CustomSmartMediaEditor mediaState={mediaState} />
+          <>
+            <CustomSmartMediaEditor mediaState={mediaState} />
+            <DropzoneReactWrapper mediaState={mediaState} />
+          </>
         )}
       />
     );

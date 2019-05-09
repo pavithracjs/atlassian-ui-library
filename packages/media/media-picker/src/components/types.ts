@@ -1,10 +1,10 @@
 import { LocalUploadComponent } from './localUpload';
 import { Context } from '@atlaskit/media-core';
 import { AppProxyReactContext } from '../popup/components/app';
-import { Dropzone, UploadEventPayloadMap, UploadParams } from '..';
+import { UploadEventPayloadMap, UploadParams } from '..';
 import { UploadComponent, UploadEventEmitter } from './component';
 import { EventEmitter } from '../util/eventEmitter';
-import { InjectedIntl } from 'react-intl';
+import { DragEventPayloadMap } from 'src/domain/uploadEvent';
 
 export interface LocalUploadConfig {
   uploadParams: UploadParams; // This is tenant upload params
@@ -80,17 +80,8 @@ export interface Popup
   emitClosed(): void;
 }
 
-export interface DropzoneReactContext {
-  intl?: InjectedIntl;
-}
 export interface DropzoneConfig extends LocalUploadConfig {
   container?: HTMLElement;
-  headless?: boolean;
-  proxyReactContext?: DropzoneReactContext;
-}
-
-export interface DropzoneConstructor {
-  new (context: Context, dropzoneConfig: DropzoneConfig): Dropzone;
 }
 
 export interface DropzoneDragEnterEventPayload {
@@ -106,9 +97,3 @@ export type DropzoneUploadEventPayloadMap = UploadEventPayloadMap & {
   readonly 'drag-enter': DropzoneDragEnterEventPayload;
   readonly 'drag-leave': DropzoneDragLeaveEventPayload;
 };
-
-export interface Dropzone
-  extends LocalUploadComponent<DropzoneUploadEventPayloadMap> {
-  activate(): Promise<void>;
-  deactivate(): void;
-}

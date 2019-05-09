@@ -11,7 +11,7 @@ import {
   PluginKey,
 } from 'prosemirror-state';
 import { Context, FileIdentifier } from '@atlaskit/media-core';
-import { UploadParams } from '@atlaskit/media-picker';
+import { UploadParams, DragEventName } from '@atlaskit/media-picker';
 import { MediaSingleLayout, MediaBaseAttributes } from '@atlaskit/adf-schema';
 
 import { ErrorReporter } from '@atlaskit/editor-common';
@@ -638,23 +638,6 @@ export class MediaPluginState {
             defaultPickerConfig,
           ).init()),
         );
-
-        pickers.push(
-          (this.dropzonePicker = await new Picker(
-            'dropzone',
-            pickerFacadeConfig,
-            {
-              container: this.options.customDropzoneContainer,
-              headless: true,
-              ...defaultPickerConfig,
-            },
-          ).init()),
-        );
-
-        this.dropzonePicker.onDrag(this.handleDrag);
-        this.removeOnCloseListener = this.popupPicker.onClose(
-          this.onPopupPickerClose,
-        );
       }
 
       pickers.forEach(picker => {
@@ -810,7 +793,7 @@ export class MediaPluginState {
     }
   };
 
-  private handleDrag = (dragState: 'enter' | 'leave') => {
+  public handleDrag = (dragState: 'enter' | 'leave') => {
     const isActive = dragState === 'enter';
     if (this.showDropzone === isActive) {
       return;

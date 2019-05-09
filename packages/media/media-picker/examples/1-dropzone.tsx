@@ -26,8 +26,8 @@ import {
 
 import { Card } from '@atlaskit/media-card';
 import { DropzoneReact } from '../src/components/dropzone/dropzoneReact';
-import { DropzoneConfig } from 'src/components/types';
-import { UploadsStartEventPayload } from 'src';
+import { DropzoneConfig } from '../src/components/types';
+import { UploadsStartEventPayload } from '../src';
 
 export interface DropzoneWrapperState {
   isConnectedToUsersCollection: boolean;

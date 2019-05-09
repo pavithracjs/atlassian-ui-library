@@ -1,7 +1,4 @@
-export {
-  DropzoneUploadEventPayloadMap,
-  PopupUploadEventPayloadMap,
-} from './components/types';
+export { PopupUploadEventPayloadMap } from './components/types';
 
 import {
   BinaryUploader,
@@ -16,9 +13,6 @@ import {
   Popup,
   PopupConfig,
   PopupConstructor,
-  DropzoneConfig,
-  DropzoneConstructor,
-  Dropzone,
 } from './components/types';
 
 import { Context } from '@atlaskit/media-core';
@@ -31,8 +25,6 @@ export const isBinaryUploader = (
 export const isBrowser = (component: any): component is Browser =>
   component && 'browse' in component && 'teardown' in component;
 export const isClipboard = (component: any): component is Clipboard =>
-  component && 'activate' in component && 'deactivate' in component;
-export const isDropzone = (component: any): component is Dropzone =>
   component && 'activate' in component && 'deactivate' in component;
 export const isPopup = (component: any): component is Popup =>
   component &&
@@ -62,40 +54,26 @@ export interface MediaPickerConstructors {
   binary: BinaryUploaderConstructor;
   browser: BrowserConstructor;
   clipboard: ClipboardConstructor;
-  dropzone: DropzoneConstructor;
   popup: PopupConstructor;
 }
 
-export { BinaryUploader, Browser, Clipboard, Dropzone, Popup };
-export type MediaPickerComponent =
-  | BinaryUploader
-  | Browser
-  | Clipboard
-  | Dropzone
-  | Popup;
+export { BinaryUploader, Browser, Clipboard, Popup };
+export type MediaPickerComponent = BinaryUploader | Browser | Clipboard | Popup;
 
 export interface MediaPickerComponents {
   binary: BinaryUploader;
   browser: Browser;
   clipboard: Clipboard;
-  dropzone: Dropzone;
   popup: Popup;
 }
 
 export { UploadParams } from './domain/config';
 
-export {
-  BrowserConfig,
-  DropzoneConfig,
-  PopupConfig,
-  BinaryConfig,
-  ClipboardConfig,
-};
+export { BrowserConfig, PopupConfig, BinaryConfig, ClipboardConfig };
 export interface ComponentConfigs {
   binary: BinaryConfig;
   browser: BrowserConfig;
   clipboard: ClipboardConfig;
-  dropzone: DropzoneConfig;
   popup: PopupConfig;
 }
 
@@ -103,7 +81,6 @@ export {
   BinaryUploaderConstructor,
   BrowserConstructor,
   ClipboardConstructor,
-  DropzoneConstructor,
   PopupConstructor,
 };
 
@@ -132,13 +109,6 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
       return new ClipboardImpl(context, pickerConfig as
         | ClipboardConfig
         | undefined);
-    case 'dropzone':
-      const {
-        DropzoneImpl,
-      } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-dropzone" */ './components/dropzone');
-      return new DropzoneImpl(context, pickerConfig as
-        | DropzoneConfig
-        | undefined);
     case 'popup':
       const {
         PopupImpl,
@@ -148,3 +118,7 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
       throw new Error(`The component ${componentName} does not exist`);
   }
 }
+
+// REACT COMPONENTS
+
+export { DropzoneReact as Dropzone } from './components/dropzone/dropzoneReact';

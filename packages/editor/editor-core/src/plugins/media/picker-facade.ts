@@ -8,7 +8,6 @@ import {
   UploadEndEventPayload,
   UploadParams,
   UploadErrorEventPayload,
-  isDropzone,
   isClipboard,
   isPopup,
   isBinaryUploader,
@@ -84,12 +83,7 @@ export default class PickerFacade {
     (picker as any).on('upload-error', this.handleUploadError);
     (picker as any).on('mobile-upload-end', this.handleMobileUploadEnd);
 
-    if (isDropzone(picker)) {
-      (picker as any).on('drag-enter', this.handleDragEnter);
-      (picker as any).on('drag-leave', this.handleDragLeave);
-    }
-
-    if (isDropzone(picker) || isClipboard(picker)) {
+    if (isClipboard(picker)) {
       picker.activate();
     }
 
@@ -115,16 +109,11 @@ export default class PickerFacade {
     (picker as any).removeAllListeners('upload-processing');
     (picker as any).removeAllListeners('upload-error');
 
-    if (isDropzone(picker)) {
-      (picker as any).removeAllListeners('drag-enter');
-      (picker as any).removeAllListeners('drag-leave');
-    }
-
     this.onStartListeners = [];
     this.onDragListeners = [];
 
     try {
-      if (isDropzone(picker) || isClipboard(picker)) {
+      if (isClipboard(picker)) {
         picker.deactivate();
       }
 
@@ -153,14 +142,14 @@ export default class PickerFacade {
 
   activate() {
     const { picker } = this;
-    if (isDropzone(picker) || isClipboard(picker)) {
+    if (isClipboard(picker)) {
       picker.activate();
     }
   }
 
   deactivate() {
     const { picker } = this;
-    if (isDropzone(picker) || isClipboard(picker)) {
+    if (isClipboard(picker)) {
       picker.deactivate();
     }
   }
@@ -294,13 +283,5 @@ export default class PickerFacade {
 
     // remove listeners
     delete this.eventListeners[file.id];
-  };
-
-  private handleDragEnter = () => {
-    this.onDragListeners.forEach(cb => cb.call(cb, 'enter'));
-  };
-
-  private handleDragLeave = () => {
-    this.onDragListeners.forEach(cb => cb.call(cb, 'leave'));
   };
 }

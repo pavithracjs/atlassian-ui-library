@@ -14,7 +14,7 @@ const toArray = (arr: any) => [].slice.call(arr, 0);
 
 export type DropzoneReactProps = LocalUploadComponentBaseProps & {
   config: DropzoneConfig;
-  onDrop?: () => void; // What is this for?
+  onDrop?: () => void;
   onDragEnter?: (payload: DropzoneDragEnterEventPayload) => void;
   onDragLeave?: (payload: DropzoneDragLeaveEventPayload) => void;
 };
@@ -35,23 +35,6 @@ export class DropzoneReact extends LocalUploadComponentReact<
 
   constructor(props: DropzoneReactProps) {
     super(props);
-
-    const { onDragEnter, onDragLeave, onDrop } = this.props;
-
-    if (onDragEnter) {
-      this.uploadComponent.on('drag-enter', onDragEnter!);
-    }
-    if (onDragLeave) {
-      this.uploadComponent.on('drag-leave', onDragLeave!);
-    }
-
-    if (onDragLeave) {
-      this.uploadComponent.on('drag-leave', onDragLeave!);
-    }
-
-    if (onDrop) {
-      this.uploadComponent.on('drop', onDrop);
-    }
   }
 
   private getContainer(): HTMLElement {
@@ -149,15 +132,16 @@ export class DropzoneReact extends LocalUploadComponentReact<
     if (e.dataTransfer && dragContainsFiles(e)) {
       const dataTransfer = e.dataTransfer;
       const length = this.getDraggedItemsLength(dataTransfer);
-      this.uploadComponent.emit('drop', undefined);
+      if (this.props.onDrop) this.props.onDrop();
       this.emitDragLeave({ length });
     }
   };
 
   private emitDragOver(e: DropzoneDragEnterEventPayload): void {
     if (!this.uiActive) {
+      const { onDragEnter } = this.props;
       this.uiActive = true;
-      this.uploadComponent.emit('drag-enter', e);
+      if (onDragEnter) onDragEnter(e);
     }
   }
 
@@ -170,7 +154,8 @@ export class DropzoneReact extends LocalUploadComponentReact<
        */
       window.setTimeout(() => {
         if (!this.uiActive) {
-          this.uploadComponent.emit('drag-leave', payload);
+          const { onDragLeave } = this.props;
+          if (onDragLeave) onDragLeave(payload);
         }
       }, 50);
     }
