@@ -1,1 +1,0 @@
-- ED-6841 Fix inconsistent integration tests for inline card and table layout

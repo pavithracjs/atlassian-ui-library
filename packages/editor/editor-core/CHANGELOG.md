@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 110.3.5
+- [patch] [284e2d0b0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/284e2d0b0b):
+
+  - ED-6841 Fix inconsistent integration tests for inline card and table layout
+
 ## 110.3.4
 - [patch] [d1741c1f40](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d1741c1f40):
 
