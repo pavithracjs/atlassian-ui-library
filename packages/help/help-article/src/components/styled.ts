@@ -10,9 +10,3 @@ export const ArticleContentInner = styled.div`
 export const ArticleContentTitle = styled.div`
   padding-bottom: ${2 * gridSize()}px;
 `;
-
-export const ArticleContentTitleLink = styled.a`
-  &:hover {
-    text-decoration: none;
-  }
-`;
