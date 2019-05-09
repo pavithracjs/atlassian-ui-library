@@ -11,6 +11,7 @@
     "milavsky"
   ],
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
+  "dependencies": {},
   "peerDependencies": {
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
