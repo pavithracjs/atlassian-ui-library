@@ -22,7 +22,7 @@ export class Channel {
   private eventEmitter: EventEmitter2 = new EventEmitter2();
   private pubSubClient: PubSubClient;
   private config: Config;
-  private isSending: boolean;
+  private isSending?: boolean;
   private debounced?: number;
 
   constructor(config: Config, pubSubClient: PubSubClient) {

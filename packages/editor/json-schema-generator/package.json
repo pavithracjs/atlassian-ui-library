@@ -28,6 +28,8 @@
     "typescript": "~3.1.0"
   },
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "JSON Schema Generator",
+    "team": "editor"
   }
 }

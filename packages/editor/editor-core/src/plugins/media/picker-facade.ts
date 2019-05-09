@@ -46,7 +46,7 @@ export type NewMediaEvent = (
 ) => void;
 
 export default class PickerFacade {
-  private picker: MediaPickerComponent | CustomMediaPicker;
+  private picker?: MediaPickerComponent | CustomMediaPicker;
   private onDragListeners: Array<Function> = [];
   private errorReporter: ErrorReportingHandler;
   private pickerType: PickerType;
@@ -136,7 +136,9 @@ export default class PickerFacade {
   }
 
   setUploadParams(params: UploadParams): void {
-    this.picker.setUploadParams(params);
+    if (this.picker) {
+      this.picker.setUploadParams(params);
+    }
   }
 
   onClose(cb: () => void): () => void {

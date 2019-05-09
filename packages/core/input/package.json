@@ -37,6 +37,8 @@
     "internal"
   ],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Input",
+    "team": "core"
   }
 }

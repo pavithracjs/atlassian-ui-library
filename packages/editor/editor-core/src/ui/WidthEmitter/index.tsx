@@ -10,7 +10,7 @@ export interface Props {
 }
 
 export default class WidthEmitter extends Component<Props> {
-  private width: number;
+  private width?: number;
   private debounce: number | null = null;
 
   render() {

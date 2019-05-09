@@ -8,7 +8,6 @@ import ResultGroupsComponent from '../../../components/common/ResultGroupsCompon
 
 function render(partialProps: Partial<Props>) {
   const props: Props = {
-    query: '',
     resultsGroups: [],
     searchSessionId: '0',
     renderNoRecentActivity: () => <div id="search link" />,

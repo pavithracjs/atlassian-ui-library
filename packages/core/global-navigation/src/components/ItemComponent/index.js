@@ -90,7 +90,7 @@ type ItemComponentWithRefProps = {
 
 // eslint-disable-next-line react/no-multi-comp
 export default class ItemComponentWithRef extends Component<ItemComponentWithRefProps> {
-  // TODO: Try to refractor this component to a React Functoinal Component
+  // TODO: Try to refractor this component to a React Functional Component
   // using React.forwardRef
   node = createRef();
 

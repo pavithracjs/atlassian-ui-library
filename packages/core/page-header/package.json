@@ -2,6 +2,7 @@
   "name": "@atlaskit/page-header",
   "version": "8.0.0",
   "description": "A React component that represents Header of an application page",
+  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
   "module": "index.js",
   "atlaskit:src": "src/index.js",
@@ -14,7 +15,10 @@
     "Daniel D",
     "Kang C"
   ],
-  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
+  "atlaskit": {
+    "name": "Page Header",
+    "team": "core"
+  },
   "dependencies": {
     "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0"

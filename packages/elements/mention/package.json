@@ -52,6 +52,10 @@
     "Eduardo S",
     "Paul C"
   ],
+  "atlaskit": {
+    "name": "Mention",
+    "team": "elements"
+  },
   "license": "Apache-2.0",
   "peerDependencies": {
     "react": "^16.8.0",

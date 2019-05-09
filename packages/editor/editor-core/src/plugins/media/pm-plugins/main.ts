@@ -58,7 +58,7 @@ export interface MediaNodeWithPosHandler {
 
 export class MediaPluginState {
   public allowsUploads: boolean = false;
-  public mediaContext: Context;
+  public mediaContext?: Context;
   public uploadContext?: Context;
   public ignoreLinks: boolean = false;
   public waitForMediaUpload: boolean = true;

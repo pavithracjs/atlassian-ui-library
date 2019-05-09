@@ -17,6 +17,10 @@
     "Mario Maradiaga",
     "Harsha Ivaturi"
   ],
+  "atlaskit": {
+    "name": "Atlassian Switcher",
+    "team": "navigation"
+  },
   "dependencies": {
     "@atlaskit/analytics-gas-types": "^4.0.4",
     "@atlaskit/analytics-namespaced-context": "^4.0.0",

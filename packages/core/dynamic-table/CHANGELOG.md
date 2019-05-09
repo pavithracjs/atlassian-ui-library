@@ -1,5 +1,14 @@
 # @atlaskit/dynamic-table
 
+## 13.0.0
+- [major] [3d95467c4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d95467c4b):
+
+  - Dynamic table has been internally converted to TypeScript.
+  - Drops Flow support.
+  - TypeScript consumers will get static type safety.
+  - No longer falls back to cell.content for ordering when cell.key is not provided. When cell.key is not provided, it will now preserve original ordering, while still respecting sort order (i.e. ASC and DESC).
+  - No other API or behavioural changes.
+
 ## 12.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

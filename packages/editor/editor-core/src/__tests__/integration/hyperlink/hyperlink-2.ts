@@ -5,12 +5,9 @@ import {
   comment,
   fullpage,
   editable,
-  clipboardHelper,
-  clipboardInput,
-  copyAsHTMLButton,
+  copyToClipboard,
 } from '../_helpers';
 
-// broken on firefox - https://product-fabric.atlassian.net/browse/ED-4337
 [comment, fullpage].forEach(editor => {
   BrowserTestCase(
     `hyperlink-2.ts: Link - paste link and add text, paste link into list for ${
@@ -20,13 +17,11 @@ import {
     async (client: any, testName: string) => {
       const sample = new Page(client);
       const linkText1 = 'https://www.google.com';
-      await sample.goto(clipboardHelper);
-      await sample.isVisible(clipboardInput);
-      await sample.type(
-        clipboardInput,
+      await copyToClipboard(
+        sample,
         `<a href="${linkText1}">${linkText1}</a>`,
+        'html',
       );
-      await sample.click(copyAsHTMLButton);
       await sample.goto(editor.path);
       await sample.waitForSelector(editor.placeholder);
       await sample.click(editor.placeholder);

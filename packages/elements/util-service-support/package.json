@@ -16,7 +16,9 @@
   "author": "Atlassian Pty. Ltd",
   "maintainers": [],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Util Service Support",
+    "team": "elements"
   },
   "license": "Apache-2.0",
   "repository": {

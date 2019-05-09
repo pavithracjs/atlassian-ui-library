@@ -16,7 +16,9 @@
     "Michael J"
   ],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Media Test Helpers",
+    "team": "media"
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {

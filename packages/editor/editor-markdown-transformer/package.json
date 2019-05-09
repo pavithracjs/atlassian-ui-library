@@ -9,6 +9,14 @@
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "author": "Atlassian Pty. Ltd",
   "license": "MIT",
+  "maintainers": [
+    "Stan S",
+    "Rifat N"
+  ],
+  "atlaskit": {
+    "name": "Editor Markdown Transformer",
+    "team": "editor"
+  },
   "dependencies": {
     "@atlaskit/adf-schema": "^2.5.5",
     "@atlaskit/editor-common": "^39.0.0",

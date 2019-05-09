@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/quick-search",
-  "version": "7.0.0",
+  "version": "7.3.0",
   "description": "A quick-search component",
   "license": "Apache-2.0",
   "jsnext:main": "index.js",
@@ -14,7 +14,7 @@
   ],
   "atlaskit": {
     "name": "Quick Search",
-    "team": "Search"
+    "team": "search"
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {

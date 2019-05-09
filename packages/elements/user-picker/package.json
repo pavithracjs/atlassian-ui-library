@@ -38,6 +38,10 @@
       "name": "Luiz P"
     }
   ],
+  "atlaskit": {
+    "name": "User Picker",
+    "team": "elements"
+  },
   "license": "Apache-2.0",
   "devDependencies": {
     "@atlaskit/analytics-viewer": "^0.3.0",

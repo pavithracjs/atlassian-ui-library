@@ -65,10 +65,6 @@ const pdfFile = {
   fileId: Promise.resolve('pdf'),
 };
 
-/**
- * Currently skipping these three failing tests
- * TODO: JEST-23 Fix these tests
- */
 describe('Media plugin', () => {
   const createEditor = createEditorFactory<MediaPluginState>();
 
@@ -1174,6 +1170,12 @@ describe('Media plugin', () => {
       );
 
       smartMediaEditor = wrapper.find(SmartMediaEditor);
+    });
+
+    afterEach(() => {
+      if (wrapper && typeof wrapper.unmount === 'function') {
+        wrapper.unmount();
+      }
     });
 
     it('should store current media editing position in mediaState', () => {

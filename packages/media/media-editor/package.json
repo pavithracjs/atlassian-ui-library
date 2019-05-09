@@ -12,6 +12,10 @@
     "Vadim K",
     "Michael J"
   ],
+  "atlaskit": {
+    "name": "Media Editor",
+    "team": "media"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/button": "^13.0.0",

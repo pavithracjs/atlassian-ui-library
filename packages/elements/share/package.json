@@ -20,6 +20,10 @@
     "fabric",
     "elements"
   ],
+  "atlaskit": {
+    "name": "Share",
+    "team": "elements"
+  },
   "dependencies": {
     "@atlaskit/analytics-next": "^5.0.0",
     "@atlaskit/button": "^13.0.0",

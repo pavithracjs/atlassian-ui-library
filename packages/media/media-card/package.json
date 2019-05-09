@@ -18,6 +18,10 @@
       "name": "James N"
     }
   ],
+  "atlaskit": {
+    "name": "Media Card",
+    "team": "media"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/analytics-next": "^5.0.0",
