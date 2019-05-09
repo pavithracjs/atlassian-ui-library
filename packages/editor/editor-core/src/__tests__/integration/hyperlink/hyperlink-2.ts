@@ -8,7 +8,6 @@ import {
   copyToClipboard,
 } from '../_helpers';
 
-// broken on firefox - https://product-fabric.atlassian.net/browse/ED-4337
 [comment, fullpage].forEach(editor => {
   BrowserTestCase(
     `hyperlink-2.ts: Link - paste link and add text, paste link into list for ${

@@ -26,6 +26,7 @@ describe('Dynamic Text Sizing', () => {
       await page.setViewport(viewSize);
       await waitForEmojis(page);
       await waitForLoadedBackgroundImages(page, emojiReadySelector, 10000);
+      await page.waitFor(1000); // waiting for resize to occur :(
       await snapshot(page, 0.02);
     });
   }
