@@ -17,7 +17,6 @@ export {
   ResizeState,
   getResizeStateFromDOM,
   resizeColumn,
-  scaleTable,
   updateColgroup,
   getTotalWidth,
 } from './resize-state';
@@ -31,3 +30,5 @@ export {
   domCellAround,
   getParentNodeWidth,
 } from './misc';
+export { updateControls, updateResizeHandle } from './update-ui';
+export { ScaleOptions, scale, scaleWithParent } from './scale-table';

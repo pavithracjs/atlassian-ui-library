@@ -1,5 +1,5 @@
 import { Node as PMNode } from 'prosemirror-model';
-import { reduceSpace, growColumn, shrinkColumn } from './resize-logic';
+import { growColumn, shrinkColumn } from './resize-logic';
 import {
   ColumnState,
   getCellsRefsInColumn,
@@ -43,48 +43,16 @@ export const getResizeStateFromDOM = ({
 
 // Resize a given column by an amount from the current state
 export const resizeColumn = (
-  state: ResizeState,
+  resizeState: ResizeState,
   colIndex: number,
   amount: number,
 ): ResizeState => {
   const newState =
     amount > 0
-      ? growColumn(state, colIndex, amount)
+      ? growColumn(resizeState, colIndex, amount)
       : amount < 0
-      ? shrinkColumn(state, colIndex, amount)
-      : state;
-
-  updateColgroup(newState);
-
-  return newState;
-};
-
-// Scale the table to a given size and colgroup DOM
-export const scaleTable = (
-  state: ResizeState,
-  newWidth: number,
-): ResizeState => {
-  const scaleFactor = newWidth / getTotalWidth(state);
-
-  const newState = {
-    ...state,
-    maxSize: newWidth,
-    cols: state.cols.map(col => {
-      const { minWidth, width } = col;
-      let newColWidth = Math.floor(width * scaleFactor);
-
-      // enforce min width
-      if (newColWidth < minWidth) {
-        newColWidth = minWidth;
-      }
-
-      return { ...col, width: newColWidth };
-    }),
-  };
-
-  if (getTotalWidth(newState) > newWidth) {
-    return reduceSpace(newState, getTotalWidth(newState) - newWidth);
-  }
+      ? shrinkColumn(resizeState, colIndex, amount)
+      : resizeState;
 
   updateColgroup(newState);
 

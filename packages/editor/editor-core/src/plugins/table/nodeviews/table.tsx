@@ -18,7 +18,7 @@ import { pluginKey as widthPluginKey } from '../../width';
 import { pluginKey, getPluginState } from '../pm-plugins/main';
 import { pluginKey as tableResizingPluginKey } from '../pm-plugins/table-resizing/index';
 import { contentWidth } from '../pm-plugins/table-resizing/utils';
-import { handleBreakoutContent } from '../pm-plugins/table-resizing/actions';
+import { handleBreakoutContent } from '../pm-plugins/table-resizing/commands';
 import { pluginConfig as getPluginConfig } from '../index';
 import { TableCssClassName as ClassName } from '../types';
 import { closestElement } from '../../../utils';
@@ -141,6 +141,7 @@ export default class TableView extends ReactNodeView {
   }
 
   private resizeForBreakoutContent = (target: HTMLElement) => {
+    const { view } = this;
     const elemOrWrapper =
       closestElement(
         target,
@@ -148,20 +149,21 @@ export default class TableView extends ReactNodeView {
           ClassName.TABLE_CELL_NODE_WRAPPER
         }`,
       ) || target;
-
     const { minWidth } = contentWidth(target, target);
 
     // This can also trigger for a non-resized table.
     if (this.node && elemOrWrapper && elemOrWrapper.offsetWidth < minWidth) {
-      const cellPos = this.view.posAtDOM(elemOrWrapper, 0);
+      const cellPos = view.posAtDOM(elemOrWrapper, 0);
+      const domAtPos = view.domAtPos.bind(view);
+      const { state, dispatch } = view;
       handleBreakoutContent(
-        this.view,
         elemOrWrapper as HTMLTableElement,
         cellPos - 1,
         this.getPos() + 1,
         minWidth,
         this.node,
-      );
+        domAtPos,
+      )(state, dispatch);
     }
   };
 
@@ -169,37 +171,36 @@ export default class TableView extends ReactNodeView {
     if (!this.node) {
       return;
     }
-
+    const { view } = this;
     const elemOrWrapper = closestElement(
       target,
       '.inlineExtensionView-content-wrap, .extensionView-content-wrap',
     );
-
     if (!elemOrWrapper) {
       return;
     }
-
     const container = closestElement(
       target,
       `.${ClassName.TABLE_HEADER_NODE_WRAPPER}, .${
         ClassName.TABLE_CELL_NODE_WRAPPER
       }`,
     ) as HTMLTableElement;
-
     if (!container) {
       return;
     }
 
     if (container.offsetWidth < elemOrWrapper.offsetWidth) {
-      const cellPos = this.view.posAtDOM(container, 0);
+      const domAtPos = view.domAtPos.bind(view);
+      const cellPos = view.posAtDOM(container, 0);
+      const { state, dispatch } = view;
       handleBreakoutContent(
-        this.view,
         container,
         cellPos - 1,
         this.getPos() + 1,
         elemOrWrapper.offsetWidth,
         this.node,
-      );
+        domAtPos,
+      )(state, dispatch);
     }
   };
 

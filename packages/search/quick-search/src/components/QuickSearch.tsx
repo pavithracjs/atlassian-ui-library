@@ -109,11 +109,14 @@ export type Props = {
   linkComponent?: React.ComponentType<any>;
   /** The elements to render to the right of the search input. */
   inputControls?: React.ReactNode;
+  /** One string that is used to autocomplete the current search query */
+  autocompleteText?: string;
 };
 
 export type State = {
   selectedResultId: SelectedResultId;
   context: ResultContextType;
+  value?: string;
 };
 
 export class QuickSearch extends React.Component<Props, State> {
@@ -151,6 +154,7 @@ export class QuickSearch extends React.Component<Props, State> {
         },
         linkComponent: this.props.linkComponent,
       },
+      value: props.value,
     };
   }
 
@@ -322,24 +326,26 @@ export class QuickSearch extends React.Component<Props, State> {
     this.setState({ selectedResultId: null });
   };
 
+  onInput = (event: React.FormEvent<HTMLInputElement>) => {
+    const { onSearchInput } = this.props;
+    this.setState({ value: event.currentTarget.value });
+    if (onSearchInput) {
+      onSearchInput(event);
+    }
+  };
+
   /**
    * Keyboard controls
    * Up - Select previous result
    * Down - Select next result
    * Enter - Submit selected result
+   * Tab / ArrowRight - Accept autocomplete
    */
   handleSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { firePrivateAnalyticsEvent } = this.props;
     this.props.onSearchKeyDown!(event);
 
-    // Capture whether users are using keyboard controls
-    if (
-      event.key === 'ArrowUp' ||
-      event.key === 'ArrowDown' ||
-      event.key === 'Enter'
-    ) {
-      this.lastKeyPressed = event.key;
-    }
+    this.lastKeyPressed = event.key;
 
     if (event.key === 'ArrowUp') {
       event.preventDefault(); // Don't move cursor around in search input field
@@ -398,6 +404,35 @@ export class QuickSearch extends React.Component<Props, State> {
           window.location.assign(result.props.href);
         }
       }
+    } else if (event.key === 'Tab' || event.key === 'ArrowRight') {
+      const { autocompleteText } = this.props;
+      if (
+        autocompleteText &&
+        autocompleteText.length > 0 &&
+        // multiple Tab or ArrowRight
+        autocompleteText.slice(-1) !== ' '
+      ) {
+        this.acceptAutocomplete(event, autocompleteText);
+        event.preventDefault();
+      }
+    }
+  };
+
+  acceptAutocomplete = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+    text?: string,
+  ) => {
+    const { onSearchInput } = this.props;
+    const newValue = `${text} `;
+    if (this.inputSearchRef) {
+      this.setState({
+        value: newValue,
+      });
+      // @ts-ignore unchecked
+      this.inputSearchRef.value = newValue;
+    }
+    if (onSearchInput) {
+      onSearchInput(event);
     }
   };
 
@@ -424,10 +459,11 @@ export class QuickSearch extends React.Component<Props, State> {
         isLoading={this.props.isLoading}
         inputControls={this.props.inputControls}
         onBlur={this.handleSearchBlur}
-        onInput={this.props.onSearchInput}
+        onInput={this.onInput}
         onKeyDown={this.handleSearchKeyDown}
         placeholder={this.props.placeholder}
-        value={this.props.value}
+        value={this.state.value}
+        autocompleteText={this.props.autocompleteText}
         ref={this.setSearchInputRef}
       >
         <ResultContext.Provider value={this.state.context}>

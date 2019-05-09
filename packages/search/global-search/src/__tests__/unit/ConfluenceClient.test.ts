@@ -57,6 +57,7 @@ describe('ConfluenceClient', () => {
           contentType: ContentType.ConfluencePage,
           containerId: 'abc',
           iconClass: 'iconClass',
+          isRecentResult: true,
         },
         {
           resultId: pages[1].id,
@@ -68,6 +69,7 @@ describe('ConfluenceClient', () => {
           contentType: ContentType.ConfluenceBlogpost,
           containerId: 'abc',
           iconClass: 'iconClass',
+          isRecentResult: true,
         },
       ]);
     });
