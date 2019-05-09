@@ -355,7 +355,7 @@ describe('Media plugin', () => {
 
     await waitForAllPickersInitialised(pluginState);
 
-    expect(pluginState.pickers.length).toBe(4);
+    expect(pluginState.pickers.length).toBe(3);
   });
 
   it('should re-use old pickers when new media provider is set', async () => {
@@ -367,7 +367,7 @@ describe('Media plugin', () => {
     await waitForAllPickersInitialised(pluginState);
 
     const pickersAfterMediaProvider1 = pluginState.pickers;
-    expect(pickersAfterMediaProvider1.length).toBe(4);
+    expect(pickersAfterMediaProvider1.length).toBe(3);
 
     await getFreshMediaProvider();
 
