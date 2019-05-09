@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { EditorView } from 'prosemirror-view';
 import { mention, emoji, taskDecision } from '@atlaskit/util-data-test';
 import { EmojiProvider } from '@atlaskit/emoji/resource';
+import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 import {
   cardProvider,
   storyMediaProviderFactory,
@@ -154,7 +155,16 @@ function createEditorWindowBindings(win: Window) {
     }
 
     ReactDOM.unmountComponentAtNode(target);
-    ReactDOM.render(<Wrapper {...props} />, target);
+
+    const WrapperComponent = <Wrapper {...props} />;
+    if (props && props.UNSAFE_cards && props.UNSAFE_cards.provider) {
+      ReactDOM.render(
+        <SmartCardProvider>{WrapperComponent}</SmartCardProvider>,
+        target,
+      );
+    } else {
+      ReactDOM.render(WrapperComponent, target);
+    }
   };
 
   (window as any)['__updateEditorProps'] = (
@@ -171,7 +181,19 @@ function createEditorWindowBindings(win: Window) {
     }
 
     editorProps = { ...editorProps, ...newProps };
-    ReactDOM.render(<Wrapper {...editorProps} />, target);
+    const WrapperComponent = <Wrapper {...editorProps} />;
+    if (
+      editorProps &&
+      editorProps.UNSAFE_cards &&
+      editorProps.UNSAFE_cards.provider
+    ) {
+      ReactDOM.render(
+        <SmartCardProvider>{WrapperComponent}</SmartCardProvider>,
+        target,
+      );
+    } else {
+      ReactDOM.render(WrapperComponent, target);
+    }
   };
 }
 

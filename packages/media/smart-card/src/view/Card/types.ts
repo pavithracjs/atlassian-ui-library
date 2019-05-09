@@ -1,5 +1,3 @@
-import { Client } from '../../client';
-
 export type CardAppearance = 'inline' | 'block';
 
 type BaseCardProps = {
@@ -16,7 +14,6 @@ export type CardWithData = BaseCardProps & {
 
 export type CardWithUrl = BaseCardProps & {
   url: string;
-  client?: Client;
 };
 
 export type CardProps = CardWithUrl | CardWithData;
