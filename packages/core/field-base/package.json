@@ -34,7 +34,9 @@
     "react-dom": "^16.8.0"
   },
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Field Base",
+    "team": "core"
   },
   "keywords": [
     "atlaskit",

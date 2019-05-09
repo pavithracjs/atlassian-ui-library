@@ -6,7 +6,9 @@
   "types": "dist/es5/types.d.ts",
   "atlaskit:src": "src/index.ts",
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Color Picker",
+    "team": "jira"
   },
   "repository": {
     "type": "git",

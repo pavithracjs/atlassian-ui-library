@@ -12,6 +12,10 @@
     "Harsha Ivaturi",
     "Ajay M"
   ],
+  "atlaskit": {
+    "name": "Global Navigation",
+    "team": "core"
+  },
   "dependencies": {
     "@atlaskit/analytics-namespaced-context": "^4.0.0",
     "@atlaskit/analytics-next": "^5.0.0",

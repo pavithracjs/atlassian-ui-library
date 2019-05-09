@@ -11,6 +11,10 @@
   "maintainers": [
     "Eduard S"
   ],
+  "atlaskit": {
+    "name": "Editor Confluence Transformer",
+    "team": "editor"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/adf-schema": "^2.5.5",

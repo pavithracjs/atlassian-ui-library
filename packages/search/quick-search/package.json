@@ -14,7 +14,7 @@
   ],
   "atlaskit": {
     "name": "Quick Search",
-    "team": "Search"
+    "team": "search"
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {

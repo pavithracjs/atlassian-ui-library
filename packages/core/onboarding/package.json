@@ -2,6 +2,7 @@
   "name": "@atlaskit/onboarding",
   "version": "8.0.1",
   "description": "Highlight elements of the UI to the user and display a complementary dialog.",
+  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
   "module": "index.js",
   "atlaskit:src": "src/index.js",
@@ -13,7 +14,10 @@
     "Daniel D",
     "Kang C"
   ],
-  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
+  "atlaskit": {
+    "name": "Onboarding",
+    "team": "core"
+  },
   "dependencies": {
     "@atlaskit/analytics-next": "^5.0.0",
     "@atlaskit/button": "^13.0.0",

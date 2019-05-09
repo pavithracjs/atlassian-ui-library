@@ -8,6 +8,10 @@
     "Harsha Ivaturi",
     "Ajay M"
   ],
+  "atlaskit": {
+    "name": "Drawer",
+    "team": "core"
+  },
   "license": "Apache-2.0",
   "module": "index.js",
   "atlaskit:src": "src/index.js",

@@ -2,6 +2,7 @@
   "name": "@atlaskit/navigation-next",
   "version": "6.0.1",
   "description": "The Atlassian navigation component.",
+  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
   "module": "index.js",
   "atlaskit:src": "src/index.js",
@@ -11,7 +12,10 @@
     "Harsha Ivaturi",
     "Ajay M"
   ],
-  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
+  "atlaskit": {
+    "name": "Navigation Next",
+    "team": "core"
+  },
   "dependencies": {
     "@atlaskit/analytics-namespaced-context": "^4.0.0",
     "@atlaskit/analytics-next": "^5.0.0",

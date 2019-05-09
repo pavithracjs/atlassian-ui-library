@@ -13,6 +13,10 @@
   "maintainers": [
     "Oscar W"
   ],
+  "atlaskit": {
+    "name": "Conversation",
+    "team": "editor"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "peerDependencies": {
     "react-dom": "^16.8.0",

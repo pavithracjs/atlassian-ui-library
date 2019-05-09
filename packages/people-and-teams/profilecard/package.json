@@ -47,6 +47,10 @@
   "maintainers": [
     "Thorsten B"
   ],
+  "atlaskit": {
+    "name": "Profilecard",
+    "team": "people and teams"
+  },
   "license": "Apache-2.0",
   "peerDependencies": {
     "react": "^16.8.0",

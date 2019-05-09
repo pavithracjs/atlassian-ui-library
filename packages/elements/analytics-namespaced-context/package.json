@@ -32,7 +32,9 @@
     "react": "^16.8.0"
   },
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Analytics Namespaced Context",
+    "team": "elements"
   },
   "keywords": [
     "fabric",

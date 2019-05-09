@@ -9,8 +9,13 @@
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
-    "Scott S"
+    "Stan S",
+    "Vijay S"
   ],
+  "atlaskit": {
+    "name": "Editor Bitbucket Transformer",
+    "team": "editor"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/editor-common": "^39.0.0",

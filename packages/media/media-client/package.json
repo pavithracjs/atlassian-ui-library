@@ -12,6 +12,10 @@
     "Aleksandr Motsjonov",
     "Hector Zarco Garcia"
   ],
+  "atlaskit": {
+    "name": "Media Client",
+    "team": "media"
+  },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
   "dependencies": {
     "@types/query-string": "^4.3.1",

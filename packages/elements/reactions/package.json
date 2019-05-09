@@ -48,6 +48,10 @@
       "name": "Tara T"
     }
   ],
+  "atlaskit": {
+    "name": "Reactions",
+    "team": "elements"
+  },
   "license": "Apache-2.0",
   "devDependencies": {
     "@atlaskit/docs": "^8.0.0",

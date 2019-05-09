@@ -13,6 +13,10 @@
     "Michael J",
     "James N"
   ],
+  "atlaskit": {
+    "name": "Media Filmstrip",
+    "team": "media"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/icon": "^17.0.0",

@@ -11,6 +11,10 @@
   "maintainers": [
     "Hector Z"
   ],
+  "atlaskit": {
+    "name": "Media Image",
+    "team": "media"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/media-store": "^12.0.0",

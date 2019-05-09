@@ -14,7 +14,7 @@
   ],
   "atlaskit": {
     "name": "Global search",
-    "team": "fabric"
+    "team": "search"
   },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
   "scripts": {

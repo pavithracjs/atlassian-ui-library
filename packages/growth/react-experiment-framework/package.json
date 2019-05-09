@@ -10,6 +10,10 @@
     "Growth team",
     "milavsky"
   ],
+  "atlaskit": {
+    "name": "React Experiment Framework",
+    "team": "growth"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {},
   "peerDependencies": {
