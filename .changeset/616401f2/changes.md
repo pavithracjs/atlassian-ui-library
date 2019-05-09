@@ -1,1 +1,0 @@
-- Improved performance with a number of small changes to reduce re-rendering

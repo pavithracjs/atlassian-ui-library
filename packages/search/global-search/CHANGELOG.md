@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.4.0
+- [minor] [438313ec7a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/438313ec7a):
+
+  - Improved performance with a number of small changes to reduce re-rendering
+
 ## 8.3.1
 - [patch] [40c934a6dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/40c934a6dd):
 
