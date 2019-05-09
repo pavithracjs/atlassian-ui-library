@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HelpArticle } from '@atlaskit/help-article';
+import HelpArticle from '@atlaskit/help-article';
 import RelatedArticles from './RelatedArticles';
 import RatingButton from './RatingButton';
 
