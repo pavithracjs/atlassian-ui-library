@@ -31,6 +31,7 @@ import * as SearchUtils from '../../../components/SearchResultsUtil';
 import { ShallowWrapper } from 'enzyme';
 import { CancelableEvent } from '../../../../../quick-search';
 import { DEFAULT_AB_TEST } from '../../../api/CrossProductSearchClient';
+import { ReferralContextIdentifiers } from '../../../components/GlobalQuickSearchWrapper';
 
 const issues = [
   makeJiraObjectResult({
@@ -46,6 +47,11 @@ const boards = [
   }),
 ];
 const people = [makePersonResult(), makePersonResult(), makePersonResult()];
+const referralContextIdentifiers: ReferralContextIdentifiers = {
+  currentContainerId: '123-container',
+  currentContentId: '123-content',
+  searchReferrerId: '123-search-referrer',
+};
 
 describe('Jira Quick Search Container', () => {
   let createAnalyticsEventSpy: jest.Mock;
@@ -58,6 +64,7 @@ describe('Jira Quick Search Container', () => {
       jiraClient: mockNoResultJiraClient(),
       logger,
       createAnalyticsEvent: createAnalyticsEventSpy,
+      referralContextIdentifiers,
       ...partialProps,
     };
 
@@ -229,10 +236,12 @@ describe('Jira Quick Search Container', () => {
 
       expect(searchSpy).toHaveBeenCalledWith(
         'query',
-        expect.any(Object),
+        sessionId,
         expect.any(Array),
+        'jira',
         dummyQueryVersion,
         expect.any(Number),
+        referralContextIdentifiers,
       );
 
       searchSpy.mockRestore();
