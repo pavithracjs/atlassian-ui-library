@@ -4,11 +4,11 @@ import Button from '@atlaskit/button';
 import { FormattedMessage } from 'react-intl';
 import { messages } from '@atlaskit/media-ui';
 import { startFileBrowser } from '../../../actions/startFileBrowser';
+import { Browser } from '../../../../components/types';
 import { State } from '../../../domain';
-import { BrowserReact } from '../../../../components/browserReact';
 
 export interface LocalBrowserButtonProps {
-  readonly browserRef: React.RefObject<BrowserReact>;
+  mpBrowser: Browser;
 }
 
 export interface LocalBrowserButtonDispatchProps {
@@ -19,28 +19,25 @@ export type Props = LocalBrowserButtonProps & LocalBrowserButtonDispatchProps;
 
 export class LocalBrowserButton extends React.Component<Props> {
   private onUploadClick = (): void => {
-    const { browserRef, onClick } = this.props;
+    const { mpBrowser, onClick } = this.props;
 
     onClick();
-
-    if (browserRef.current) {
-      browserRef.current.browse();
+    if (mpBrowser) {
+      mpBrowser.browse();
     }
   };
 
   render() {
-    const { browserRef } = this.props;
-    // const browser = renderBrowser();
+    const { mpBrowser } = this.props;
 
     return (
       <Button
         className="e2e-upload-button"
         appearance="default"
         onClick={this.onUploadClick}
-        isDisabled={!browserRef} // TODO: why is this needed when mpBrowser/renderBrowser is a required prop?
+        isDisabled={!mpBrowser}
       >
         <FormattedMessage {...messages.upload_file} />
-        {/* {renderBrowser()} */}
       </Button>
     );
   }

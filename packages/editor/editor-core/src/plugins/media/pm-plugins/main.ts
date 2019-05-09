@@ -58,7 +58,7 @@ export interface MediaNodeWithPosHandler {
 
 export class MediaPluginState {
   public allowsUploads: boolean = false;
-  public mediaContext: Context;
+  public mediaContext?: Context;
   public uploadContext?: Context;
   public ignoreLinks: boolean = false;
   public waitForMediaUpload: boolean = true;
@@ -70,9 +70,9 @@ export class MediaPluginState {
   public mediaGroupNodes: Record<string, any> = {};
   private pendingTask = Promise.resolve<MediaState | null>(null);
   public options: MediaPluginOptions;
-  private view: EditorView;
+  private view!: EditorView;
   private destroyed = false;
-  public mediaProvider: MediaProvider;
+  public mediaProvider?: MediaProvider;
   private errorReporter: ErrorReporter;
 
   public pickers: PickerFacade[] = [];
@@ -616,8 +616,8 @@ export class MediaPluginState {
       } else {
         pickers.push(
           (this.popupPicker = await new Picker(
-            // TODO: do we still need to support non popup in Editor?
-            'popup',
+            // Fallback to browser picker for unauthenticated users
+            context.config.userAuthProvider ? 'popup' : 'browser',
             pickerFacadeConfig,
             defaultPickerConfig,
           ).init()),
