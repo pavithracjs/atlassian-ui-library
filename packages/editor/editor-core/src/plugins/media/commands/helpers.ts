@@ -1,4 +1,6 @@
 import { MediaPluginState, MediaNodeWithPosHandler } from '../pm-plugins/main';
+import { EditorState, NodeSelection } from 'prosemirror-state';
+import { Node } from 'prosemirror-model';
 
 export const findMediaSingleNode = (
   mediaPluginState: MediaPluginState,
@@ -36,4 +38,17 @@ export const findMediaNode = (
     ? findMediaSingleNode(mediaPluginState, id)
     : mediaPluginState.mediaGroupNodes[id];
   return mediaNodeWithPos;
+};
+
+export const selectedMediaContainerNode = (
+  editorState: EditorState,
+): Node | undefined => {
+  const { selection, schema } = editorState;
+  if (
+    selection instanceof NodeSelection &&
+    (selection.node.type === schema.nodes.mediaSingle ||
+      selection.node.type === schema.nodes.mediaGroup)
+  ) {
+    return selection.node;
+  }
 };

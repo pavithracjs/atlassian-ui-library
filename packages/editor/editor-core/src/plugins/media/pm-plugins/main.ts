@@ -25,7 +25,7 @@ import { EditorAppearance } from '../../../types/editor-props';
 import DropPlaceholder, { PlaceholderType } from '../ui/Media/DropPlaceholder';
 import { MediaPluginOptions } from '../media-plugin-options';
 import { insertMediaGroupNode } from '../utils/media-files';
-import { removeMediaNode, splitMediaGroup } from '../utils/media-common';
+import { splitMediaGroup } from '../utils/media-common';
 import PickerFacade, {
   PickerFacadeConfig,
   MediaStateEventListener,
@@ -47,8 +47,8 @@ import {
   DispatchAnalyticsEvent,
 } from '../../../plugins/analytics';
 import { isFullPage } from '../../../utils/is-full-page';
-import { findMediaNode, findMediaSingleNode } from '../commands/helpers';
-import { updateMediaNodeAttrs } from '../commands';
+import * as helpers from '../commands/helpers';
+import * as mediaCommands from '../commands';
 export { MediaState, MediaProvider, MediaStateStatus };
 
 const MEDIA_RESOLVED_STATES = ['ready', 'error', 'cancelled'];
@@ -367,11 +367,11 @@ export class MediaPluginState {
    * inside of it
    */
   handleMediaNodeRemoval = (node: PMNode, getPos: ProsemirrorGetPosHandler) => {
-    let getNode = node;
-    if (!getNode) {
-      getNode = this.view.state.doc.nodeAt(getPos()) as PMNode;
-    }
-    removeMediaNode(this.view, getNode, getPos);
+    mediaCommands.removeMediaNodeInPos(getPos)(
+      this.view.state,
+      this.view.dispatch,
+      this.view,
+    );
   };
 
   /**
@@ -539,7 +539,7 @@ export class MediaPluginState {
   }
 
   findMediaNode = (id: string): MediaNodeWithPosHandler | null => {
-    return findMediaSingleNode(this, id);
+    return helpers.findMediaSingleNode(this, id);
   };
 
   private destroyPickers = () => {
@@ -683,7 +683,7 @@ export class MediaPluginState {
       return;
     }
 
-    return updateMediaNodeAttrs(id, attrs, isMediaSingle)(
+    return mediaCommands.updateMediaNodeAttrs(id, attrs, isMediaSingle)(
       view.state,
       view.dispatch,
     );
@@ -726,44 +726,23 @@ export class MediaPluginState {
   };
 
   removeNodeById = (state: MediaState) => {
-    const { id } = state;
-    const mediaNodeWithPos = findMediaNode(
-      this,
-      id,
-      isImage(state.fileMimeType),
+    mediaCommands.removeNodeById(state)(
+      this.view.state,
+      this.view.dispatch,
+      this.view,
     );
-
-    if (mediaNodeWithPos) {
-      removeMediaNode(
-        this.view,
-        mediaNodeWithPos.node,
-        mediaNodeWithPos.getPos,
-      );
-    }
   };
 
   removeSelectedMediaContainer = (): boolean => {
-    const { view } = this;
-
-    const selectedNode = this.selectedMediaContainerNode();
-    if (!selectedNode) {
-      return false;
-    }
-
-    let { from } = view.state.selection;
-    removeMediaNode(view, selectedNode.firstChild!, () => from + 1);
-    return true;
+    return mediaCommands.removeSelectedMediaContainer()(
+      this.view.state,
+      this.view.dispatch,
+      this.view,
+    );
   };
 
   selectedMediaContainerNode = (): Node | undefined => {
-    const { selection, schema } = this.view.state;
-    if (
-      selection instanceof NodeSelection &&
-      (selection.node.type === schema.nodes.mediaSingle ||
-        selection.node.type === schema.nodes.mediaGroup)
-    ) {
-      return selection.node;
-    }
+    return helpers.selectedMediaContainerNode(this.view.state);
   };
 
   private handleDrag = (dragState: 'enter' | 'leave') => {

@@ -7,15 +7,13 @@ import {
   createNewParagraphBelow,
 } from '../../../commands';
 import {
-  moveLeft,
-  atTheBeginningOfDoc,
-  isTemporary,
   atTheEndOfBlock,
   atTheBeginningOfBlock,
   endPositionOfParent,
   startPositionOfParent,
 } from '../../../utils';
 import { ProsemirrorGetPosHandler } from '../../../nodeviews';
+import { removeMediaNode as removeMediaNodeCommand } from '../commands/media';
 import { MediaState } from '../types';
 
 export const posOfMediaGroupNearby = (
@@ -146,33 +144,7 @@ export const removeMediaNode = (
   node: PMNode,
   getPos: ProsemirrorGetPosHandler,
 ) => {
-  const { id } = node.attrs;
-  const { state } = view;
-  const { tr, selection, doc } = state;
-
-  const currentMediaNodePos = getPos();
-  tr.deleteRange(currentMediaNodePos, currentMediaNodePos + node.nodeSize);
-
-  if (isTemporary(id)) {
-    tr.setMeta('addToHistory', false);
-  }
-
-  view.dispatch(tr);
-
-  const $currentMediaNodePos = doc.resolve(currentMediaNodePos);
-  const isLastMediaNode =
-    $currentMediaNodePos.index() === $currentMediaNodePos.parent.childCount - 1;
-
-  // If deleting a selected media node, we need to tell where the cursor to go next.
-  // Prosemirror didn't gave us the behaviour of moving left if the media node is not the last one.
-  // So we handle it ourselves.
-  if (
-    selection.from === currentMediaNodePos &&
-    !isLastMediaNode &&
-    !atTheBeginningOfDoc(state)
-  ) {
-    moveLeft(view);
-  }
+  removeMediaNodeCommand(node, getPos)(view.state, view.dispatch, view);
 };
 
 export const splitMediaGroup = (view: EditorView): boolean => {
