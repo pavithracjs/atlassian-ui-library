@@ -27,7 +27,7 @@ type State = {
   context?: Context;
 };
 
-export default class CustomSmartMediaEditor extends React.Component<
+export default class ClipboardMediaPickerWrapper extends React.Component<
   Props,
   State
 > {
