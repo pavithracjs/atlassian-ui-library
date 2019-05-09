@@ -32,9 +32,6 @@ type PopperProps = {
  * This component renders layered content with fixed positioning.
  * Scroll is locked outside the layer to prevent the layered content from detaching from the
  * container ref.
- *
- * TODO: Fix a bug in layer/popper.js where auto flip isn't occuring when it should because of vertical scroll distance incorrectly
- * making the library think the component is further up the page than it is.
  */
 export default class FixedLayer extends Component<Props> {
   scheduleUpdate: () => void = () => {};

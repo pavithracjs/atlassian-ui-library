@@ -152,16 +152,7 @@ class Switcher extends PureComponent<SwitcherProps, SwitcherState> {
     return null;
   }
 
-  componentDidMount() {
-    this.setTargetWidth();
-  }
-
-  componentDidUpdate({ navWidth, isNavResizing }: SwitcherProps) {
-    // reset the target width if the user has resized the navigation pane
-    if (navWidth !== this.props.navWidth) {
-      this.setTargetWidth();
-    }
-
+  componentDidUpdate({ isNavResizing }: SwitcherProps) {
     if (
       isNavResizing &&
       this.selectRef.current &&
@@ -177,10 +168,6 @@ class Switcher extends PureComponent<SwitcherProps, SwitcherState> {
       this.targetRef = ref;
       popupRef(ref);
     }
-  };
-
-  setTargetWidth = () => {
-    this.targetWidth = this.props.navWidth - gridSize * 2;
   };
 
   getFooter = () => {
@@ -205,6 +192,7 @@ class Switcher extends PureComponent<SwitcherProps, SwitcherState> {
   render() {
     const { create, options, target, ...props } = this.props;
     const { mergedComponents } = this.state;
+    const targetWidth = this.props.navWidth - gridSize * 2;
 
     return (
       <PopupSelect
@@ -214,8 +202,8 @@ class Switcher extends PureComponent<SwitcherProps, SwitcherState> {
         footer={this.getFooter()}
         getOptionValue={getOptionValue}
         options={options}
-        maxMenuWidth={this.targetWidth}
-        minMenuWidth={this.targetWidth}
+        maxMenuWidth={targetWidth}
+        minMenuWidth={targetWidth}
         target={({ ref, isOpen }) => (
           <NodeResolver innerRef={this.resolveTargetRef(ref)}>
             {cloneElement(target, { isSelected: isOpen })}

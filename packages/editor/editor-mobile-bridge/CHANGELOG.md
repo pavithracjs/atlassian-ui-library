@@ -1,5 +1,10 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.2.0
+- [minor] [47273cabd4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/47273cabd4):
+
+  - ED-6803: Added bridge.clearContent() method for Android
+
 ## 8.1.0
 - [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
 

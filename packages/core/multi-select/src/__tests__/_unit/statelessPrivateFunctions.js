@@ -6,13 +6,6 @@ import { MultiSelectStateless } from '../..';
 import { name } from '../../version.json';
 import type { ItemType, GroupType } from '../../types';
 
-/**
- * Skipped two tests in here that are failing, not entirely sure why. We are passing a synthetic event
- * into the component where the "target" is an object, not an element, and that's what's failing, but
- * I have no idea why it was working originally, unless it supposed to be transformed at some point in
- * normal operation.
- * TODO: JEST-23 Fix these tests
- */
 /* eslint-disable jest/no-disabled-tests */
 describe(`${name} - stateless`, () => {
   const animStub = window.cancelAnimationFrame;

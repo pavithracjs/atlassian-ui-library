@@ -416,6 +416,11 @@ const getRecentItems = (product: string) =>
                     resultsCount: 8,
                   },
                   {
+                    id: 'JiraIssueAdvancedSearch',
+                    hasContainerId: false,
+                    resultsCount: 1,
+                  },
+                  {
                     id: 'jira-project-result',
                     hasContainerId: false,
                     resultsCount: 6,

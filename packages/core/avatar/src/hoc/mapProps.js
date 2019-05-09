@@ -11,7 +11,6 @@ export default function mapProps(mapping: { [string]: any }) {
   return <Props: {}, WrappedComponent: ComponentType<Props>>(
     DecoratedComponent: WrappedComponent,
   ): ComponentType<ElementConfig<WrappedComponent>> =>
-    // TODO: type this correctly
     class MapProps extends Component<*> {
       static displayName: string | void | null = getDisplayName(
         'mapProps',

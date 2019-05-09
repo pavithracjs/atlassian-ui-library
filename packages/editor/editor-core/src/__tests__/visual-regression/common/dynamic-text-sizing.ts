@@ -1,5 +1,10 @@
 import { initFullPageEditorWithAdf, snapshot } from '../_utils';
 import dynamicTextExample from './__fixtures__/dynamic-text-adf.json';
+import {
+  waitForEmojis,
+  emojiReadySelector,
+} from '../../__helpers/page-objects/_emoji';
+import { waitForLoadedBackgroundImages } from '@atlaskit/visual-regression/helper';
 
 describe('Dynamic Text Sizing', () => {
   let page: any;
@@ -19,7 +24,8 @@ describe('Dynamic Text Sizing', () => {
   for (const viewSize of dynamicTextViewportSizes) {
     it(`should correctly render ${viewSize.width}`, async () => {
       await page.setViewport(viewSize);
-      await page.waitFor(1000);
+      await waitForEmojis(page);
+      await waitForLoadedBackgroundImages(page, emojiReadySelector, 10000);
       await snapshot(page, 0.02);
     });
   }

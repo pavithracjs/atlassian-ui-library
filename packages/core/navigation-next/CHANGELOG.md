@@ -1,5 +1,10 @@
 # @atlaskit/navigation-next
 
+## 6.0.1
+- [patch] [b98d0779a6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b98d0779a6):
+
+  - Fixes issue where the Switcher component opens with the wrong width
+
 ## 6.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

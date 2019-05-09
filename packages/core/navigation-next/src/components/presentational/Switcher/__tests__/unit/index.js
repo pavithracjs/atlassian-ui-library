@@ -182,7 +182,7 @@ describe('Switcher', () => {
     });
     wrapper.instance().forceUpdate();
     expect(wrapper.find(PopupSelect).props().minMenuWidth).toBe(
-      300 - gridSize() * 2 - 60, // ¯\_(ツ)_/¯
+      300 - gridSize() * 2,
     );
   });
 });

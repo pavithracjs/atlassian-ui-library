@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.3.1
+- [patch] [40c934a6dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/40c934a6dd):
+
+  - added faster search analytics
+
 ## 8.3.0
 - [minor] [4d5fb33572](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4d5fb33572):
 

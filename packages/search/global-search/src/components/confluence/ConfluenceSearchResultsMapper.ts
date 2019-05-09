@@ -6,6 +6,7 @@ import { ABTest } from '../../api/CrossProductSearchClient';
 export const DEFAULT_MAX_OBJECTS = 8;
 export const MAX_SPACES = 3;
 export const MAX_PEOPLE = 3;
+export const MAX_RECENT_RESULTS_TO_SHOW = 3;
 
 const EMPTY_CONFLUENCE_RESULT = {
   people: [],
