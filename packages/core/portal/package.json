@@ -2,6 +2,7 @@
   "name": "@atlaskit/portal",
   "version": "2.0.0",
   "description": "Atlaskit wrapper for rendering components in React portals",
+  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
   "module": "index.js",
   "atlaskit:src": "src/index.js",
@@ -13,7 +14,10 @@
     "Daniel D",
     "Kang C"
   ],
-  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
+  "atlaskit": {
+    "name": "Portal",
+    "team": "core"
+  },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "exenv": "^1.2.2",

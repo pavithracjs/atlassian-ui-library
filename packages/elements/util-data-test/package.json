@@ -30,7 +30,9 @@
   "author": "Atlassian Pty. Ltd",
   "maintainers": [],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Util Data Test",
+    "team": "elements"
   },
   "license": "Apache-2.0",
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",

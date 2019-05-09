@@ -14,7 +14,9 @@
     "Phil P"
   ],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Nachos Textfield",
+    "team": "trello"
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {

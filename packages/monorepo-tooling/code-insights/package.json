@@ -12,7 +12,9 @@
     "Marco J"
   ],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Code Insights",
+    "team": "monorepo tooling"
   },
   "dependencies": {
     "@types/node": "^11.11.7",

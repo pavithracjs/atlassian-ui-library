@@ -13,7 +13,9 @@
     "Stanislav S"
   ],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Editor Common",
+    "team": "editor"
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {

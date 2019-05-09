@@ -12,6 +12,10 @@
     "Eduard S",
     "Rifat N"
   ],
+  "atlaskit": {
+    "name": "Editor Core",
+    "team": "editor"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "scripts": {
     "i18n:push": "i18n-tools push --resource editor-core --type ts .",

@@ -2,6 +2,7 @@
   "name": "@atlaskit/section-message",
   "version": "3.0.0",
   "description": "A react component used to alert users of a particular screen area that needs user action",
+  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "Apache-2.0",
   "module": "index.js",
   "atlaskit:src": "src/index.js",
@@ -13,7 +14,10 @@
     "Daniel D",
     "Kang C"
   ],
-  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
+  "atlaskit": {
+    "name": "Section Message",
+    "team": "core"
+  },
   "dependencies": {
     "@atlaskit/button": "^13.0.0",
     "@atlaskit/icon": "^17.0.0",

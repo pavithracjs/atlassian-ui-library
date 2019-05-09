@@ -11,6 +11,13 @@
     "prebuild": "copy-pkg package.json tmp/package.json --only name,version,sideEffects && mv tmp/package.json src/version.json",
     "build": "webpack -p"
   },
+  "maintainers": [
+    "Nathan F"
+  ],
+  "atlaskit": {
+    "name": "Editor Mobile Bridge",
+    "team": "editor"
+  },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
   "keywords": [
     "editor",

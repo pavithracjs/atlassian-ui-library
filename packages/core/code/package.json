@@ -35,7 +35,8 @@
     "Kang C"
   ],
   "atlaskit": {
-    "name": "Code"
+    "name": "Code",
+    "team": "core"
   },
   "license": "Apache-2.0",
   "repository": {

@@ -13,7 +13,10 @@
     "Ajay M",
     "Daniel D",
     "Kang C"
-  ],
+  ],"atlaskit": {
+    "name": "Inline Message",
+    "team": "core"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/button": "^13.0.0",

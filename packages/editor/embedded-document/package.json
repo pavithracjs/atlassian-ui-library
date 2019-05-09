@@ -32,6 +32,8 @@
     "whatwg-fetch": "^2.0.3"
   },
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Embedded Document",
+    "team": "editor"
   }
 }

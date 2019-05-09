@@ -11,7 +11,9 @@
     "Stanislas S"
   ],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Editor Test Helpers",
+    "team": "editor"
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
