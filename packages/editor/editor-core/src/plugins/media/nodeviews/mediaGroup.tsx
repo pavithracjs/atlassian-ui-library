@@ -69,6 +69,8 @@ export default class MediaGroup extends React.Component<MediaGroupProps> {
   setMediaItems = (props: MediaGroupProps) => {
     const { node } = props;
     this.mediaNodes = [] as Array<PMNode>;
+    // We need to move this logic inside media plugin state, maybe dispatching the group nodes in the meta.
+    // I dont now if this cause unnecesary renders.
     node.forEach((item, childOffset) => {
       this.mediaPluginState.mediaGroupNodes[item.attrs.id] = {
         node: item,
