@@ -19,6 +19,8 @@ import {
 } from '../../editor-disabled';
 import { EditorAppearance } from '../../../types';
 import { removeMediaNodeInPos } from '../commands/media';
+import { WithProviders, ProviderFactory } from '../../../../../editor-common';
+import withMediaContext from '../utils/withMediaContext';
 
 export interface Props {
   children?: React.ReactNode;
@@ -34,22 +36,12 @@ export type MediaGroupProps = {
   selected: number | null;
   disabled?: boolean;
   editorAppearance: EditorAppearance;
+  mediaContext?: Context;
 };
 
-export interface MediaGroupState {
-  viewContext?: Context;
-}
-
-export default class MediaGroup extends React.Component<
-  MediaGroupProps,
-  MediaGroupState
-> {
+export default class MediaGroup extends React.Component<MediaGroupProps> {
   private mediaPluginState: MediaPluginState;
   private mediaNodes: PMNode[];
-
-  state: MediaGroupState = {
-    viewContext: undefined,
-  };
 
   constructor(props: MediaGroupProps) {
     super(props);
@@ -58,12 +50,7 @@ export default class MediaGroup extends React.Component<
     this.setMediaItems(props);
   }
 
-  componentDidMount() {
-    this.updateMediaContext();
-  }
-
   componentWillReceiveProps(props: MediaGroupProps) {
-    this.updateMediaContext();
     this.setMediaItems(props);
   }
 
@@ -71,22 +58,12 @@ export default class MediaGroup extends React.Component<
     if (
       this.props.selected !== nextProps.selected ||
       this.props.node !== nextProps.node ||
-      this.state.viewContext !== this.mediaPluginState.mediaContext
+      this.props.mediaContext !== nextProps.mediaContext
     ) {
       return true;
     }
 
     return false;
-  }
-
-  updateMediaContext() {
-    const { viewContext } = this.state;
-    const { mediaContext } = this.mediaPluginState;
-    if (!viewContext && mediaContext) {
-      this.setState({
-        viewContext: mediaContext,
-      });
-    }
   }
 
   setMediaItems = (props: MediaGroupProps) => {
@@ -102,7 +79,7 @@ export default class MediaGroup extends React.Component<
   };
 
   renderChildNodes = () => {
-    const { viewContext } = this.state;
+    const { mediaContext } = this.props;
     const items = this.mediaNodes.map((item, idx) => {
       const identifier: FileIdentifier = {
         id: item.attrs.id,
@@ -138,7 +115,7 @@ export default class MediaGroup extends React.Component<
       };
     });
 
-    return <Filmstrip items={items} context={viewContext} />;
+    return <Filmstrip items={items} context={mediaContext} />;
   };
 
   render() {
@@ -146,37 +123,46 @@ export default class MediaGroup extends React.Component<
   }
 }
 
+const MediaGroupWithContext = withMediaContext<MediaGroupProps>(MediaGroup);
 class MediaGroupNodeView extends ReactNodeView {
   render(_props: any, forwardRef: ForwardRef) {
-    const { editorAppearance } = this.reactComponentProps;
+    const { editorAppearance, providerFactory } = this.reactComponentProps;
     return (
-      <WithPluginState
-        editorView={this.view}
-        plugins={{
-          reactNodeViewState: reactNodeViewStateKey,
-          editorDisabledPlugin: editorDisabledPluginKey,
-        }}
-        render={({
-          editorDisabledPlugin,
-        }: {
-          editorDisabledPlugin: EditorDisabledPluginState;
-        }) => {
-          const nodePos = this.getPos();
-          const { $anchor, $head } = this.view.state.selection;
-          const isSelected =
-            nodePos < $anchor.pos && $head.pos < nodePos + this.node.nodeSize;
-          return (
-            <MediaGroup
-              node={this.node}
-              getPos={this.getPos}
-              view={this.view}
-              forwardRef={forwardRef}
-              selected={isSelected ? $anchor.pos : null}
-              disabled={(editorDisabledPlugin || {}).editorDisabled}
-              editorAppearance={editorAppearance}
-            />
-          );
-        }}
+      <WithProviders
+        providers={['mediaProvider']}
+        providerFactory={providerFactory}
+        renderNode={({ mediaProvider }) => (
+          <WithPluginState
+            editorView={this.view}
+            plugins={{
+              reactNodeViewState: reactNodeViewStateKey,
+              editorDisabledPlugin: editorDisabledPluginKey,
+            }}
+            render={({
+              editorDisabledPlugin,
+            }: {
+              editorDisabledPlugin: EditorDisabledPluginState;
+            }) => {
+              const nodePos = this.getPos();
+              const { $anchor, $head } = this.view.state.selection;
+              const isSelected =
+                nodePos < $anchor.pos &&
+                $head.pos < nodePos + this.node.nodeSize;
+              return (
+                <MediaGroupWithContext
+                  node={this.node}
+                  getPos={this.getPos}
+                  view={this.view}
+                  forwardRef={forwardRef}
+                  selected={isSelected ? $anchor.pos : null}
+                  disabled={(editorDisabledPlugin || {}).editorDisabled}
+                  editorAppearance={editorAppearance}
+                  mediaProvider={mediaProvider}
+                />
+              );
+            }}
+          />
+        )}
       />
     );
   }
@@ -189,9 +175,11 @@ class MediaGroupNodeView extends ReactNodeView {
 
 export const ReactMediaGroupNode = (
   portalProviderAPI: PortalProviderAPI,
+  providerFactory: ProviderFactory,
   editorAppearance?: EditorAppearance,
 ) => (node: PMNode, view: EditorView, getPos: () => number): NodeView => {
   return new MediaGroupNodeView(node, view, getPos, portalProviderAPI, {
     editorAppearance,
+    providerFactory,
   }).init();
 };
