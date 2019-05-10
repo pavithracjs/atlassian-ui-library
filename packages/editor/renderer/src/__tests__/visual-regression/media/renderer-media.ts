@@ -6,10 +6,9 @@ import {
   mountRenderer,
 } from '../_utils';
 import adf from './__fixtures__/renderer-media.adf.json';
-// import { selectors as mediaSelectors } from '../../__helpers/page-objects/_media';
 import { selectors as rendererSelectors } from '../../__helpers/page-objects/_renderer';
 import { Page } from 'puppeteer';
-import { cleanseAdfMedia } from '../../__helpers/page-objects/_media';
+import { parseAndInlineAdfMedia } from '@atlaskit/editor-test-helpers';
 import { waitForLoadedImageElements } from '@atlaskit/visual-regression/helper';
 
 const devices = [
@@ -34,16 +33,11 @@ describe('Snapshot Test: Media', () => {
       devices.forEach(device => {
         it(`should correctly render ${device}`, async () => {
           await page.setViewport(deviceViewPorts[device]);
-          const _adf = cleanseAdfMedia(adf);
           await mountRenderer(page, {
             appearance: 'full-page',
             allowDynamicTextSizing: true,
-            // document: adf,
-            document: _adf,
+            document: parseAndInlineAdfMedia(adf),
           });
-
-          // await page.waitForSelector(mediaSelectors.errorLoading); // In test should show overlay error
-
           await page.waitForSelector(rendererSelectors.document);
           await waitForLoadedImageElements(page, 1000, 0); // 1 second timeout and no media API delay.
           await snapshot(page, 0.01, rendererSelectors.document);

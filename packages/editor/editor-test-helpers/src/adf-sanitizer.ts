@@ -1,28 +1,20 @@
 import { traverse } from '@atlaskit/adf-utils/traverse';
 
-/*
-export const selectors = {
-  errorLoading: '.media-single .overlay.error',
-};
-*/
-
 // 1px grey image
 const greyImage =
   'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==';
 // const blackImage = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
 
 /**
- * Cleanse ADF Media Nodes
+ * Parses an ADF document and converts media nodes to an inlined image.
  *
- * Converts media nodes to an inlined black image.
- *
- * This allows us to bypass a network request to the Media API,
- * which increases reliability in CI, and avoids mismatches via
- * authenticaton or incorrect identifiers (which ar environmental).
+ * * Bypasses a network request to the Media APIs.
+ * * Removes environmental dependency for matching IDs and authentication.
+ * * Improves reliability in CI environment.
  *
  * @param adf An parsed ADF document
  */
-export function cleanseAdfMedia(adf: any) {
+export function parseAndInlineAdfMedia(adf: any): any {
   // Deep copy clone just in case the original state is needed later
   adf = JSON.parse(JSON.stringify(adf));
   const cleansedAdf = traverse(adf, {

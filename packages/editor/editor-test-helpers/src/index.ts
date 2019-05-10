@@ -116,3 +116,4 @@ export * from './table';
 export * from './constants';
 export { autoformattingProvider } from './autoformatting-provider';
 export { extensionHandlers } from './extensions';
+export { parseAndInlineAdfMedia } from './adf-sanitizer';
