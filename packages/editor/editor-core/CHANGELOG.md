@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 111.0.1
+- [patch] [58948126ef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58948126ef):
+
+  - ED-6073: fix cursor selection and prevent jumping around inline smart links
+
 ## 111.0.0
 - [major] [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
 
