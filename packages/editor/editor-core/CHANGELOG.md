@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 111.0.3
+- [patch] [519046cd9b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/519046cd9b):
+
+  - ED-6789: improve table column stacking when resizing columns to the right by going to overflown state only when all resized columns are minWidths
+
 ## 111.0.2
 - Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
   - @atlaskit/editor-test-helpers@9.1.3
