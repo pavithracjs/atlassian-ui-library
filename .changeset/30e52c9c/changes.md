@@ -1,0 +1,1 @@
+- ED-6789: improve table column stacking when resizing columns to the right by going to overflown state only when all resized columns are minWidths
