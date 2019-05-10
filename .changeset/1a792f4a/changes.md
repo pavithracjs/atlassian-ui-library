@@ -1,0 +1,1 @@
+- Remove files key in package.json
