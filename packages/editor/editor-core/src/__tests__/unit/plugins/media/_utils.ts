@@ -67,7 +67,7 @@ export const getFreshMediaProvider = (collectionName = testCollectionName) =>
 export const waitForAllPickersInitialised = async (
   pluginState: MediaPluginState,
 ) => {
-  while (pluginState.pickers.length < 3) {
+  while (pluginState.pickers.length < 2) {
     await new Promise(resolve => resolve());
   }
 };

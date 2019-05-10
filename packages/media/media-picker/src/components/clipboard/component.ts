@@ -1,11 +1,11 @@
 import {
   LocalUploadComponentReact,
   LocalUploadComponentBaseProps,
-} from './localUploadReact';
+} from '../localUploadReact';
 
-import { appendTimestamp } from '../util/appendTimestamp';
-import { LocalFileSource, LocalFileWithSource } from '../service/types';
-import { ClipboardConfig } from './types';
+import { appendTimestamp } from '../../util/appendTimestamp';
+import { LocalFileSource, LocalFileWithSource } from '../../service/types';
+import { ClipboardConfig } from '../types';
 
 export const getFilesFromClipboard = (files: FileList) => {
   return Array.from(files).map(file => {

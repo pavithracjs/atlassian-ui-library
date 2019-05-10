@@ -5,7 +5,7 @@ jest.mock('../../../service/newUploadServiceImpl');
 import { ContextFactory } from '@atlaskit/media-core';
 import { MockFile } from '@atlaskit/media-test-helpers';
 import { LocalFileSource } from '../../../service/types';
-import { Clipboard as ClipboardComponent } from '../../clipboard';
+import { Clipboard as ClipboardComponent } from '../../clipboard/component';
 import { Clipboard } from '../../types';
 import { mount, ReactWrapper } from 'enzyme';
 
