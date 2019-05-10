@@ -6,31 +6,10 @@ import {
   findCellClosestToPos,
   emptyCell,
 } from 'prosemirror-utils';
-import { pluginKey, ACTIONS } from '../pm-plugins/main';
 import { Command } from '../../../types';
 // #endregion
 
-// #region Actions
-export const clearHoverSelection: Command = (state, dispatch) => {
-  if (dispatch) {
-    dispatch(
-      state.tr.setMeta(pluginKey, { action: ACTIONS.CLEAR_HOVER_SELECTION }),
-    );
-  }
-  return true;
-};
-
-export const clearSelection: Command = (state, dispatch) => {
-  if (dispatch) {
-    dispatch(
-      state.tr
-        .setSelection(Selection.near(state.selection.$from))
-        .setMeta('addToHistory', false),
-    );
-  }
-  return true;
-};
-
+// #region Commands
 export const clearMultipleCells = (targetCellPosition?: number): Command => (
   state,
   dispatch,
@@ -63,5 +42,16 @@ export const clearMultipleCells = (targetCellPosition?: number): Command => (
     return true;
   }
   return false;
+};
+
+export const clearSelection: Command = (state, dispatch) => {
+  if (dispatch) {
+    dispatch(
+      state.tr
+        .setSelection(Selection.near(state.selection.$from))
+        .setMeta('addToHistory', false),
+    );
+  }
+  return true;
 };
 // #endregion

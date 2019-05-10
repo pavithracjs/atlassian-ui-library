@@ -42,6 +42,53 @@ export interface TablePluginState {
   isFullWidthModeEnabled?: boolean;
 }
 
+export type TablePluginAction =
+  | { type: 'SET_EDITOR_FOCUS'; data: { editorHasFocus: boolean } }
+  | {
+      type: 'SET_TABLE_REF';
+      data: {
+        tableRef?: HTMLElement;
+        tableFloatingToolbarTarget?: HTMLElement;
+        tableNode?: PmNode;
+      };
+    }
+  | {
+      type: 'HOVER_ROWS';
+      data: {
+        decorationSet: DecorationSet;
+        hoveredRows: number[];
+        isInDanger?: boolean;
+      };
+    }
+  | {
+      type: 'HOVER_COLUMNS';
+      data: {
+        decorationSet: DecorationSet;
+        hoveredColumns: number[];
+        isInDanger?: boolean;
+      };
+    }
+  | {
+      type: 'HOVER_TABLE';
+      data: {
+        decorationSet: DecorationSet;
+        hoveredRows: number[];
+        hoveredColumns: number[];
+        isInDanger?: boolean;
+      };
+    }
+  | { type: 'CLEAR_HOVER_SELECTION'; data: { decorationSet: DecorationSet } }
+  | { type: 'SET_TARGET_CELL_POSITION'; data: { targetCellPosition?: number } }
+  | { type: 'SHOW_INSERT_ROW_BUTTON'; data: { insertRowButtonIndex: number } }
+  | {
+      type: 'SHOW_INSERT_COLUMN_BUTTON';
+      data: { insertColumnButtonIndex: number };
+    }
+  | {
+      type: 'HIDE_INSERT_COLUMN_OR_ROW_BUTTON';
+    }
+  | { type: 'TOGGLE_CONTEXTUAL_MENU' };
+
 export interface ColumnResizingPlugin {
   handleWidth?: number;
   cellMinWidth?: number;

@@ -1,0 +1,1 @@
+- ED-6129 Refactor table plugin state to use pluginFactory

@@ -9,7 +9,7 @@ import {
   pluginKey as tableResizingPluginKey,
   ResizeState,
 } from './pm-plugins/table-resizing/index';
-import { hoverTable, clearHoverSelection } from './actions';
+import { hoverTable, clearHoverSelection } from './commands';
 import {
   checkIfHeaderRowEnabled,
   checkIfHeaderColumnEnabled,
@@ -20,7 +20,7 @@ import {
   toggleHeaderColumnWithAnalytics,
   toggleNumberColumnWithAnalytics,
   deleteTableWithAnalytics,
-} from './actions-with-analytics';
+} from './commands-with-analytics';
 
 export const messages = defineMessages({
   tableOptions: {
@@ -108,7 +108,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
           onClick: deleteTableWithAnalytics(),
           disabled: !!resizeState && !!resizeState.dragging,
           onMouseEnter: hoverTable(true),
-          onMouseLeave: clearHoverSelection,
+          onMouseLeave: clearHoverSelection(),
           title: formatMessage(commonMessages.remove),
         },
       ],
