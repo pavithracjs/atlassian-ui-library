@@ -53,12 +53,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
   const resizeState: ResizeState | undefined = tableResizingPluginKey.getState(
     state,
   );
-  if (
-    tableState &&
-    tableState.tableRef &&
-    tableState.tableNode &&
-    tableState.pluginConfig
-  ) {
+  if (tableState && tableState.tableRef && tableState.pluginConfig) {
     const { pluginConfig } = tableState;
     return {
       title: 'Table floating controls',
