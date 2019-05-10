@@ -1,5 +1,10 @@
 # @atlaskit/refinement-bar
 
+## 0.3.0
+- [minor] [00a1cd96c3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/00a1cd96c3):
+
+  - use verbose export syntax and remove root index.js
+
 ## 0.2.0
 - [minor] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
