@@ -1,1 +1,0 @@
-- Changes to `MediaMock` signature: `MediaMock` constructor now takes an object where destination collection name is the key and the value is a list of `<MediaFile & {blob: Blob}>` objects that will be loaded directly into a database for the corresponding collections. MediaMock now also exports `generateFilesFromTestData` helper function which simplifies test data generation.
