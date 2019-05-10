@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 111.0.4
+- [patch] [a3264821d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a3264821d0):
+
+  - ED-6129 Refactor table plugin state to use pluginFactory
+
 ## 111.0.3
 - [patch] [519046cd9b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/519046cd9b):
 
