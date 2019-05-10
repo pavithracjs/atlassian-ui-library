@@ -4,7 +4,6 @@ import { AppProxyReactContext } from '../popup/components/app';
 import { UploadEventPayloadMap, UploadParams } from '..';
 import { UploadComponent, UploadEventEmitter } from './component';
 import { EventEmitter } from '../util/eventEmitter';
-import { DragEventPayloadMap } from 'src/domain/uploadEvent';
 
 export interface LocalUploadConfig {
   uploadParams: UploadParams; // This is tenant upload params

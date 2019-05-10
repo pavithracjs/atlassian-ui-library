@@ -214,7 +214,7 @@ export class App extends Component<AppProps, AppState> {
     this.mpBrowser.teardown();
   }
 
-  renderDragZone = () => {
+  renderDropZone = () => {
     const {
       onUploadPreviewUpdate,
       onUploadStatusUpdate,
@@ -227,7 +227,6 @@ export class App extends Component<AppProps, AppState> {
     const config: DropzoneConfig = {
       uploadParams: tenantUploadParams,
       shouldCopyFileToRecents: false,
-      // constainer: // No container provided
     };
 
     return (
@@ -273,7 +272,7 @@ export class App extends Component<AppProps, AppState> {
                   <Dropzone isActive={isDropzoneActive} />
                   <MainEditorView binaryUploader={this.mpBinary} />
                 </MediaPickerPopupWrapper>
-                {this.renderDragZone()}
+                {this.renderDropZone()}
               </PassContext>
             </ModalDialog>
           </Provider>

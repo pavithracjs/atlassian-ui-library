@@ -11,7 +11,7 @@ import {
   PluginKey,
 } from 'prosemirror-state';
 import { Context, FileIdentifier } from '@atlaskit/media-core';
-import { UploadParams, DragEventName } from '@atlaskit/media-picker';
+import { UploadParams } from '@atlaskit/media-picker';
 import { MediaSingleLayout, MediaBaseAttributes } from '@atlaskit/adf-schema';
 
 import { ErrorReporter } from '@atlaskit/editor-common';

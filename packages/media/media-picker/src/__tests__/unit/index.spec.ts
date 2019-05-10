@@ -4,7 +4,6 @@ import { PopupImpl } from '../../components/popup';
 import { BinaryUploaderImpl } from '../../components/binary';
 import { BrowserImpl } from '../../components/browser';
 import { ClipboardImpl } from '../../components/clipboard';
-import { DropzoneImpl } from '../../components/dropzone';
 import { PopupConfig } from '../../components/types';
 
 /**
@@ -137,46 +136,6 @@ describe('MediaPicker', () => {
       clipboard.on('upload-processing', () => {});
       clipboard.on('upload-end', () => {});
       clipboard.on('upload-error', () => {});
-    });
-  });
-
-  describe('dropzone', () => {
-    it('should be instance of MediaPickerDropzone given just moduleConfig', async () => {
-      const dropzone = await MediaPicker('dropzone', context, config);
-
-      expect(dropzone).toBeInstanceOf(DropzoneImpl);
-    });
-
-    it('should be instance of MediaPickerDropzone given moduleConfig and pickerConfig', async () => {
-      const dropzone = await MediaPicker('dropzone', context, {
-        ...config,
-        container,
-      });
-
-      expect(dropzone).toBeInstanceOf(DropzoneImpl);
-    });
-
-    // it('should be a class constructor given no options', () => {
-    //   expect(MediaPicker('dropzone')).toEqual(Dropzone);
-    // });
-
-    it('should be able to register listeners to generic upload events', async () => {
-      const dropzone = await MediaPicker('dropzone', context, config);
-
-      dropzone.on('uploads-start', () => {});
-      dropzone.on('upload-status-update', () => {});
-      dropzone.on('upload-preview-update', () => {});
-      dropzone.on('upload-processing', () => {});
-      dropzone.on('upload-end', () => {});
-      dropzone.on('upload-error', () => {});
-    });
-
-    it('consumers should be able to listen for "drop", "drag-enter" and "drag-leave" events', async () => {
-      const dropzone = await MediaPicker('dropzone', context, config);
-
-      dropzone.on('drop', () => {});
-      dropzone.on('drag-enter', () => {});
-      dropzone.on('drag-leave', () => {});
     });
   });
 

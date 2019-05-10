@@ -22,10 +22,12 @@ import { Dropzone } from '../../../components/dropzone/dropzone';
 import { MediaFile } from '../../../../domain/file';
 import { showPopup } from '../../../actions/showPopup';
 import reducers from '../../../reducers/reducers';
+import { DropzoneReact } from '../../../../../src/components/dropzone/dropzoneReact';
 
 const tenantUploadParams: UploadParams = {};
 const baseUrl = 'some-api-url';
 const clientId = 'some-client-id';
+
 const token = 'some-token';
 const userAuthProvider: AuthProvider = () =>
   Promise.resolve({
@@ -191,7 +193,8 @@ describe('App', () => {
     expect(handlers.onStartApp).toHaveBeenCalledTimes(1);
   });
 
-  it('should activate dropzone when visible', () => {
+  // No longer needed?
+  /* it('should activate dropzone when visible', () => {
     const { handlers, store, context, userContext } = setup();
     const element = (
       <App
@@ -211,9 +214,9 @@ describe('App', () => {
     wrapper.setProps({ isVisible: true });
 
     expect(spy).toBeCalled();
-  });
+  }); */
 
-  it('should deactivate dropzone when not visible', () => {
+  /* it('should deactivate dropzone when not visible', () => {
     const { handlers, store, context, userContext } = setup();
     const element = (
       <App
@@ -233,9 +236,9 @@ describe('App', () => {
     wrapper.setProps({ isVisible: false });
 
     expect(spy).toBeCalled();
-  });
+  }); */
 
-  it('should deactivate dropzone when unmounted', () => {
+  /* it('should deactivate dropzone when unmounted', () => {
     const { handlers, store, context, userContext } = setup();
     const element = (
       <App
@@ -255,59 +258,97 @@ describe('App', () => {
     wrapper.unmount();
 
     expect(spy).toBeCalled();
-  });
+  }); */
 
-  it.skip('should activate both dropzones on onDragEnter call and deactivate on onDragLeave and onDrop', async () => {
-    const { handlers, store, context, userContext } = setup();
-    const element = (
-      <App
-        store={store}
-        selectedServiceName="upload"
-        tenantContext={context}
-        userContext={userContext}
-        isVisible={false}
-        tenantUploadParams={tenantUploadParams}
-        {...handlers}
-      />
-    );
+  describe('Dropzone', () => {
+    it('should render <Dropzone />', () => {
+      const { handlers, store, context, userContext } = setup();
 
-    const wrapper = mount(element);
+      const config = {
+        uploadParams: tenantUploadParams,
+        shouldCopyFileToRecents: false,
+      };
 
-    wrapper.setProps({ isVisible: true });
+      const element = (
+        <App
+          store={store}
+          selectedServiceName="upload"
+          tenantContext={context}
+          userContext={userContext}
+          isVisible={true}
+          tenantUploadParams={tenantUploadParams}
+          {...handlers}
+        />
+      );
 
-    await waitForDropzoneToRender();
+      const dropzoneContext = ContextFactory.create({
+        authProvider: context.config.authProvider,
+        userAuthProvider: userContext.config.authProvider,
+        cacheSize: context.config.cacheSize,
+      });
 
-    verifyEventHandling(wrapper, createDragEvent('dragover'));
-    verifyEventHandling(wrapper, createDragEvent('dragleave'));
-    verifyEventHandling(wrapper, createDragEvent('dragover'));
-    verifyEventHandling(wrapper, createDragEvent('drop'));
-  });
-
-  it('should call dispatch props for onDragEnter, onDragLeave and onDrop', async () => {
-    const { handlers, store, context, userContext } = setup();
-    const element = (
-      <App
-        store={store}
-        selectedServiceName="upload"
-        tenantContext={context}
-        userContext={userContext}
-        isVisible={true}
-        tenantUploadParams={tenantUploadParams}
-        {...handlers}
-      />
-    );
-    const wrapper = mount(element);
-    const instance = wrapper.instance() as App;
-    instance.onDragEnter({ length: 3 });
-    expect(handlers.onDropzoneDragIn).toBeCalledWith(3);
-
-    instance.onDragLeave({ length: 3 });
-    expect(handlers.onDropzoneDragOut).toBeCalledWith(3);
-
-    instance.onDrop({
-      files: [makeFile('1'), makeFile('2'), makeFile('3')],
+      const wrapper = mount(element);
+      const dropzone = wrapper.find(DropzoneReact);
+      expect(JSON.stringify(dropzone.prop('context'))).toEqual(
+        JSON.stringify(dropzoneContext),
+      );
+      expect(JSON.stringify(dropzone.prop('config'))).toEqual(
+        JSON.stringify(config),
+      );
     });
-    expect(handlers.onDropzoneDropIn).toBeCalledWith(3);
+
+    it.skip('should activate both dropzones on onDragEnter call and deactivate on onDragLeave and onDrop', async () => {
+      const { handlers, store, context, userContext } = setup();
+      const element = (
+        <App
+          store={store}
+          selectedServiceName="upload"
+          tenantContext={context}
+          userContext={userContext}
+          isVisible={false}
+          tenantUploadParams={tenantUploadParams}
+          {...handlers}
+        />
+      );
+
+      const wrapper = mount(element);
+
+      wrapper.setProps({ isVisible: true });
+
+      await waitForDropzoneToRender();
+
+      verifyEventHandling(wrapper, createDragEvent('dragover'));
+      verifyEventHandling(wrapper, createDragEvent('dragleave'));
+      verifyEventHandling(wrapper, createDragEvent('dragover'));
+      verifyEventHandling(wrapper, createDragEvent('drop'));
+    });
+
+    it('should call dispatch props for onDragEnter, onDragLeave and onDrop', async () => {
+      const { handlers, store, context, userContext } = setup();
+      const element = (
+        <App
+          store={store}
+          selectedServiceName="upload"
+          tenantContext={context}
+          userContext={userContext}
+          isVisible={true}
+          tenantUploadParams={tenantUploadParams}
+          {...handlers}
+        />
+      );
+      const wrapper = mount(element);
+      const instance = wrapper.instance() as App;
+      instance.onDragEnter({ length: 3 });
+      expect(handlers.onDropzoneDragIn).toBeCalledWith(3);
+
+      instance.onDragLeave({ length: 3 });
+      expect(handlers.onDropzoneDragOut).toBeCalledWith(3);
+
+      instance.onDrop({
+        files: [makeFile('1'), makeFile('2'), makeFile('3')],
+      });
+      expect(handlers.onDropzoneDropIn).toBeCalledWith(3);
+    });
   });
 });
 
