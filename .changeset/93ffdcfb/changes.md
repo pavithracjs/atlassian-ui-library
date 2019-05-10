@@ -1,0 +1,1 @@
+- Fix re-rendering FullPage appearance on every scroll
