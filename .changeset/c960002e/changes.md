@@ -1,1 +1,0 @@
-- Added prop titleLinkUrl to make the title of the article a link
