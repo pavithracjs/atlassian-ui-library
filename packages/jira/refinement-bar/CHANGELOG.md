@@ -1,5 +1,10 @@
 # @atlaskit/refinement-bar
 
+## 0.4.1
+- [patch] [da4644083b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/da4644083b):
+
+  - Remove files key in package.json
+
 ## 0.4.0
 - [minor] [3dab4a0906](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3dab4a0906):
 
