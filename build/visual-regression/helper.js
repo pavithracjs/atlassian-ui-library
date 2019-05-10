@@ -227,4 +227,5 @@ module.exports = {
   disableCaretCursor,
   disableScrollBehavior,
   disableAllSideEffects,
+  pageSelector,
 };
