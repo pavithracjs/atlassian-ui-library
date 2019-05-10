@@ -1,1 +1,0 @@
-- added blogpost shared message and improved on documentation
