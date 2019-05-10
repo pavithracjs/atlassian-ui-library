@@ -110,7 +110,7 @@ class HelpContextProviderImplementation extends React.Component<
       this: HelpContextProviderImplementation,
     ) {
       PUSH_STATE.apply(window.history, arguments);
-    }.bind(this);
+    };
   }
 
   async componentDidUpdate(prevProps: Props) {
