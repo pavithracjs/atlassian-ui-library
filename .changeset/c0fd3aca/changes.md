@@ -1,0 +1,1 @@
+- Changed smart link functionality so that it will open in the same tab if clicked.
