@@ -159,14 +159,14 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       scopes.push(Scope.People);
     }
 
-    const referrerId =
-      referralContextIdentifiers && referralContextIdentifiers.searchReferrerId;
-
     const results = await crossProductSearchClient.search(
       query,
-      { sessionId, referrerId },
+      sessionId,
       scopes,
+      'confluence',
       queryVersion,
+      null,
+      referralContextIdentifiers,
     );
 
     return results;
