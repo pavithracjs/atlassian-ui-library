@@ -13,10 +13,10 @@
   "main": "index.js",
   "devDependencies": {
     "@atlaskit/analytics-reporting": "0.1.0",
-    "@atlaskit/editor-common": "^36.2.3",
-    "@atlaskit/editor-core": "^107.24.3",
-    "@atlaskit/renderer": "^45.6.3",
-    "@atlaskit/visual-regression": "^0.0.1",
+    "@atlaskit/editor-common": "^39.2.0",
+    "@atlaskit/editor-core": "^111.0.0",
+    "@atlaskit/renderer": "^48.1.0",
+    "@atlaskit/visual-regression": "^0.1.0",
     "pixelmatch": "^4.0.2",
     "pngjs": "^3.4.0"
   }
