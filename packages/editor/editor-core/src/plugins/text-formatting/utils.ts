@@ -30,7 +30,7 @@ export const domIndex = function(node: Node | null): number | undefined {
   }
 };
 
-export const deepEqual = (obj1: any, obj2: any) => {
+export const shallowEqual = (obj1: any, obj2: any) => {
   for (let key in obj1) {
     if (obj1[key] !== obj2[key]) {
       return false;

@@ -1,4 +1,10 @@
-export { hoverColumns, hoverRows, hoverTable } from './hover';
+export {
+  hoverColumns,
+  hoverRows,
+  hoverTable,
+  clearHoverSelection,
+} from './hover';
+export { insertColumn, insertRow, createTable } from './insert';
 export {
   getNextLayout,
   toggleContextualMenu,
@@ -7,20 +13,13 @@ export {
   toggleNumberColumn,
   toggleTableLayout,
 } from './toggle';
-export {
-  clearHoverSelection,
-  clearMultipleCells,
-  clearSelection,
-} from './clear';
+export { clearMultipleCells } from './clear';
 export {
   autoSizeTable,
   convertFirstRowToHeader,
-  createTable,
   deleteTable,
   goToNextCell,
   hideInsertColumnOrRowButton,
-  insertColumn,
-  insertRow,
   moveCursorBackward,
   selectColumn,
   selectRow,

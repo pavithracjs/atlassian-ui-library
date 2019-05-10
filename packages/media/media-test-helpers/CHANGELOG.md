@@ -1,5 +1,10 @@
 # @atlaskit/media-test-helpers
 
+## 23.0.0
+- [major] [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+
+  - Changes to `MediaMock` signature: `MediaMock` constructor now takes an object where destination collection name is the key and the value is a list of `<MediaFile & {blob: Blob}>` objects that will be loaded directly into a database for the corresponding collections. MediaMock now also exports `generateFilesFromTestData` helper function which simplifies test data generation.
+
 ## 22.0.1
 - Updated dependencies [59cce82fd1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59cce82fd1):
   - @atlaskit/media-picker@42.0.0

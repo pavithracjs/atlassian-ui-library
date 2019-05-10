@@ -877,7 +877,7 @@ export const resizedTableWithStackedColumns = {
             {
               type: 'tableHeader',
               attrs: {
-                colwidth: [95],
+                colwidth: [84],
               },
               content: [
                 {
@@ -889,7 +889,7 @@ export const resizedTableWithStackedColumns = {
             {
               type: 'tableHeader',
               attrs: {
-                colwidth: [134],
+                colwidth: [118],
               },
               content: [
                 {
@@ -913,7 +913,7 @@ export const resizedTableWithStackedColumns = {
             {
               type: 'tableHeader',
               attrs: {
-                colwidth: [126],
+                colwidth: [111],
               },
               content: [
                 {
@@ -925,7 +925,7 @@ export const resizedTableWithStackedColumns = {
             {
               type: 'tableHeader',
               attrs: {
-                colwidth: [357],
+                colwidth: [318],
               },
               content: [
                 {
@@ -942,7 +942,7 @@ export const resizedTableWithStackedColumns = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [95],
+                colwidth: [84],
               },
               content: [
                 {
@@ -954,7 +954,7 @@ export const resizedTableWithStackedColumns = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [134],
+                colwidth: [118],
               },
               content: [
                 {
@@ -978,7 +978,7 @@ export const resizedTableWithStackedColumns = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [126],
+                colwidth: [111],
               },
               content: [
                 {
@@ -990,7 +990,7 @@ export const resizedTableWithStackedColumns = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [357],
+                colwidth: [318],
               },
               content: [
                 {
@@ -1007,7 +1007,7 @@ export const resizedTableWithStackedColumns = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [95],
+                colwidth: [84],
               },
               content: [
                 {
@@ -1019,7 +1019,7 @@ export const resizedTableWithStackedColumns = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [134],
+                colwidth: [118],
               },
               content: [
                 {
@@ -1043,7 +1043,7 @@ export const resizedTableWithStackedColumns = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [126],
+                colwidth: [111],
               },
               content: [
                 {
@@ -1055,7 +1055,7 @@ export const resizedTableWithStackedColumns = {
             {
               type: 'tableCell',
               attrs: {
-                colwidth: [357],
+                colwidth: [318],
               },
               content: [
                 {
