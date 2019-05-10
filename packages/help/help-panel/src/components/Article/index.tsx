@@ -16,7 +16,11 @@ const Article: React.SFC<Props> = props => {
   if (article) {
     return (
       <>
-        <HelpArticle title={article.title} body={article.body} />
+        <HelpArticle
+          title={article.title}
+          body={article.body}
+          titleLinkUrl={article.productUrl}
+        />
         <RatingButton />
         <RelatedArticles relatedArticles={article.relatedArticles} />
       </>
