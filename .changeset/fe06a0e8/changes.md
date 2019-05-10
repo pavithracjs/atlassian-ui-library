@@ -1,0 +1,1 @@
+- use verbose export syntax and remove root index.js
