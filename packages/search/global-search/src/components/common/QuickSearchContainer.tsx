@@ -82,7 +82,6 @@ export interface Props {
     event: React.KeyboardEvent<HTMLInputElement>,
     searchSessionId: string,
   ): void;
-  isSendSearchTermsEnabled?: boolean;
   placeholder?: string;
   selectedResultId?: string;
   onSelectedResultIdChanged?: (id: string | null | number) => void;
@@ -457,7 +456,6 @@ export class QuickSearchContainer extends React.Component<Props, State> {
   render() {
     const {
       linkComponent,
-      isSendSearchTermsEnabled,
       getSearchResultsComponent,
       placeholder,
       selectedResultId,
@@ -487,7 +485,6 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         placeholder={placeholder}
         linkComponent={linkComponent}
         searchSessionId={searchSessionId}
-        isSendSearchTermsEnabled={isSendSearchTermsEnabled}
         selectedResultId={selectedResultId}
         onSelectedResultIdChanged={onSelectedResultIdChanged}
         inputControls={inputControls}
