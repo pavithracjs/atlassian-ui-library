@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-common",
-  "version": "39.1.0",
+  "version": "39.2.0",
   "description": "A package that contains common classes and components for editor and renderer",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -13,7 +13,9 @@
     "Stanislav S"
   ],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Editor Common",
+    "team": "editor"
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {

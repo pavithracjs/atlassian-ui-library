@@ -8,11 +8,10 @@ import {
   RequestHandler,
   Database,
 } from 'kakapo';
-import { TouchFileDescriptor } from '@atlaskit/media-store';
 import uuid from 'uuid/v4';
 
-import { mapDataUriToBlob } from '../../utils';
-import { mockDataUri } from '../database/mockData';
+import { TouchFileDescriptor } from '@atlaskit/media-store';
+
 import {
   DatabaseSchema,
   createCollection,
@@ -21,6 +20,8 @@ import {
 import { defaultBaseUrl } from '../..';
 import { Chunk } from '../database/chunk';
 import { createUpload } from '../database/upload';
+import { mockDataUri } from '../database/mockData';
+import { mapDataUriToBlob } from '../../utils';
 
 class RouterWithLogging<M extends DatabaseSchema> extends Router<M> {
   constructor(options?: RouterOptions) {
@@ -94,7 +95,10 @@ export function createApiRouter(): Router<DatabaseSchema> {
     database.push('collectionItem', item);
 
     return {
-      data: item.details,
+      data: {
+        id: item.id,
+        ...item.details,
+      },
     };
   });
 
@@ -113,14 +117,18 @@ export function createApiRouter(): Router<DatabaseSchema> {
     };
   });
 
-  router.get('/file/:fileId/image', ({ query }) => {
+  router.get('/file/:fileId/image', ({ params, query }, database) => {
+    const { fileId } = params;
     const { width, height, 'max-age': maxAge = 3600 } = query;
-    const dataUri = mockDataUri(
-      Number.parseInt(width, 10),
-      Number.parseInt(height, 10),
-    );
+    const record = database.findOne('collectionItem', { id: fileId });
+    let blob: Blob;
+    if (!record || record.data.blob.type === 'image/svg+xml') {
+      const dataUri = mockDataUri(width, height);
 
-    const blob = mapDataUriToBlob(dataUri);
+      blob = mapDataUriToBlob(dataUri);
+    } else {
+      blob = record.data.blob;
+    }
 
     return new Response(200, blob, {
       'content-type': blob.type,
@@ -325,9 +333,14 @@ export function createApiRouter(): Router<DatabaseSchema> {
 
     const { details, blob } = sourceRecord.data;
 
-    const record = database.push('collectionItem', {
+    const existingRecord = database.findOne('collectionItem', {
       id: replaceFileId,
-      insertedAt: Date.now(),
+      collectionName: destinationCollection,
+      occurrenceKey,
+    });
+    const record = database.update('collectionItem', existingRecord.id, {
+      id: replaceFileId,
+      insertedAt: sourceRecord.data.insertedAt,
       occurrenceKey,
       details,
       blob,

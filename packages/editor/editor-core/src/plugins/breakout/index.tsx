@@ -73,10 +73,11 @@ function createPlugin({
           tr.selection,
         );
 
-        if (!breakoutNode || breakoutNode.node !== pluginState.breakoutNode) {
+        const node = breakoutNode ? breakoutNode.node : null;
+        if (node !== pluginState.breakoutNode) {
           const nextPluginState = {
             ...pluginState,
-            breakoutNode: breakoutNode ? breakoutNode.node : null,
+            breakoutNode: node,
           };
           dispatch(pluginKey, nextPluginState);
           return nextPluginState;

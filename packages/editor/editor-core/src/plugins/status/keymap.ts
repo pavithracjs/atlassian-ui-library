@@ -3,7 +3,7 @@ import { Plugin } from 'prosemirror-state';
 
 import * as keymaps from '../../keymaps';
 import { Command } from '../../types';
-import { mayGetStatusNodeAt } from './utils';
+import { mayGetStatusAtSelection } from './utils';
 
 export function keymapPlugin(): Plugin {
   const list = {};
@@ -14,6 +14,6 @@ export function keymapPlugin(): Plugin {
 
 // consume event to prevent status node problems with positioning and selection
 const consumeKeyEvent: Command = (state, _dispatch) =>
-  !!mayGetStatusNodeAt(state.tr.selection);
+  !!mayGetStatusAtSelection(state.tr.selection);
 
 export default keymapPlugin;

@@ -13,6 +13,10 @@
     "Daniel D",
     "Kang C"
   ],
+  "atlaskit": {
+    "name": "Layer Manager",
+    "team": "core"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@babel/runtime": "^7.0.0",

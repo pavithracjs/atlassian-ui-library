@@ -34,11 +34,10 @@ const QS_ANALYTICS_EV_KB_CTRLS_USED = `${ATLASKIT_QUICKSEARCH_NS}.keyboard-contr
 const QS_ANALYTICS_EV_SUBMIT = `${ATLASKIT_QUICKSEARCH_NS}.submit`;
 
 export interface Props {
-  onMount(): void;
+  onMount?: () => void;
   onSearch(query: string, queryVersion: number): void;
   onSearchSubmit?(event: React.KeyboardEvent<HTMLInputElement>): void;
   onAutocomplete?(query: string): void;
-
   isLoading: boolean;
   placeholder?: string;
   searchSessionId: string;
@@ -72,7 +71,7 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.props.onMount();
+    this.props.onMount && this.props.onMount();
   }
 
   handleSearchInput = ({ target }: React.FormEvent<HTMLInputElement>) => {

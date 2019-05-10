@@ -9,6 +9,7 @@ import {
   ProviderFactory,
   Transformer,
   ErrorReporter,
+  browser,
 } from '@atlaskit/editor-common';
 
 import { EventDispatcher, createDispatch, Dispatch } from '../event-dispatcher';
@@ -451,7 +452,13 @@ export default class ReactEditorView<T = {}> extends React.Component<
   };
 
   render() {
-    const editor = <div key="ProseMirror" ref={this.handleEditorViewRef} />;
+    const editor = (
+      <div
+        className={getUAPrefix()}
+        key="ProseMirror"
+        ref={this.handleEditorViewRef}
+      />
+    );
     return this.props.render
       ? this.props.render({
           editor,
@@ -463,4 +470,16 @@ export default class ReactEditorView<T = {}> extends React.Component<
         })
       : editor;
   }
+}
+
+function getUAPrefix() {
+  if (browser.chrome) {
+    return 'ua-chrome';
+  } else if (browser.ie) {
+    return 'ua-ie';
+  } else if (browser.gecko) {
+    return 'ua-firefox';
+  }
+
+  return '';
 }

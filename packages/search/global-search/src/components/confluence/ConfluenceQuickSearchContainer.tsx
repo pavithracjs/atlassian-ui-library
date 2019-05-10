@@ -162,14 +162,14 @@ export class ConfluenceQuickSearchContainer extends React.Component<
       scopes.push(Scope.People);
     }
 
-    const referrerId =
-      referralContextIdentifiers && referralContextIdentifiers.searchReferrerId;
-
     const results = await crossProductSearchClient.search(
       query,
-      { sessionId, referrerId },
+      sessionId,
       scopes,
+      'confluence',
       queryVersion,
+      null,
+      referralContextIdentifiers,
     );
 
     return results;
@@ -388,6 +388,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     abTest,
   }: SearchResultProps) => {
     const { onAdvancedSearch = () => {}, fasterSearchFFEnabled } = this.props;
+
     const inFasterSearchExperiment = isInFasterSearchExperiment(
       abTest,
       fasterSearchFFEnabled,
@@ -395,7 +396,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
     return (
       <SearchResultsComponent
-        query={latestSearchQuery}
+        isPreQuery={!latestSearchQuery}
         isError={isError}
         isLoading={isLoading}
         retrySearch={retrySearch}

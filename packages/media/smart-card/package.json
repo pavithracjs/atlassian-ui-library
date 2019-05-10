@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/smart-card",
-  "version": "11.0.0",
+  "version": "11.0.1",
   "description": "Smart card component",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -10,6 +10,10 @@
   "maintainers": [
     "James N"
   ],
+  "atlaskit": {
+    "name": "Smart Card",
+    "team": "media"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/analytics-gas-types": "^4.0.4",

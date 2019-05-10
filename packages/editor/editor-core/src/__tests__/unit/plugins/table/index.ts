@@ -30,14 +30,15 @@ import {
   TablePluginState,
   PluginConfig,
 } from '../../../../plugins/table/types';
-import { createTable, setEditorFocus } from '../../../../plugins/table/actions';
-import { setNodeSelection } from '../../../../utils';
 import {
+  createTable,
+  setEditorFocus,
   toggleHeaderRow,
   toggleHeaderColumn,
   insertColumn,
   insertRow,
-} from '../../../../plugins/table/actions';
+} from '../../../../plugins/table/commands';
+import { setNodeSelection } from '../../../../utils';
 import {
   checkIfNumberColumnEnabled,
   checkIfHeaderColumnEnabled,
@@ -80,7 +81,7 @@ describe('table plugin', () => {
     });
   };
 
-  describe('createTable()', () => {
+  describe('insertTable()', () => {
     describe('when the cursor is outside the table', () => {
       it('it should create a new table and return true', () => {
         const { editorView } = editor(doc(p('{<>}')));
@@ -803,7 +804,7 @@ describe('table plugin', () => {
       );
       const { tableNode } = getPluginState(view.state);
       expect(tableNode).toBeDefined();
-      expect(tableNode.type.name).toEqual('table');
+      expect(tableNode!.type.name).toEqual('table');
     });
     it('should update targetCellPosition when document changes', () => {
       const { editorView } = editor(doc(table()(tr(tdCursor, tdEmpty))));

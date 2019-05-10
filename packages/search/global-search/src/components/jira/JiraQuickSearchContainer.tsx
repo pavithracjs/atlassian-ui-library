@@ -219,7 +219,7 @@ export class JiraQuickSearchContainer extends React.Component<
 
     return (
       <SearchResultsComponent
-        query={query}
+        isPreQuery={!query}
         isError={isError}
         isLoading={isLoading}
         retrySearch={retrySearch}
@@ -357,7 +357,15 @@ export class JiraQuickSearchContainer extends React.Component<
     sessionId: string,
   ): Promise<GenericResultMap> => {
     return this.props.crossProductSearchClient
-      .search('', { sessionId }, SCOPES)
+      .search(
+        '',
+        sessionId,
+        SCOPES,
+        'jira',
+        null,
+        null,
+        this.props.referralContextIdentifiers,
+      )
       .then(xpRecentResults => ({
         objects: xpRecentResults.results.get(Scope.JiraIssue) || [],
         containers:
@@ -427,15 +435,14 @@ export class JiraQuickSearchContainer extends React.Component<
     startTime: number,
     queryVersion: number,
   ): Promise<ResultsWithTiming> => {
-    const referrerId =
-      this.props.referralContextIdentifiers &&
-      this.props.referralContextIdentifiers.searchReferrerId;
     const crossProductSearchPromise = this.props.crossProductSearchClient.search(
       query,
-      { sessionId, referrerId },
+      sessionId,
       SCOPES,
+      'jira',
       queryVersion,
       JIRA_RESULT_LIMIT,
+      this.props.referralContextIdentifiers,
     );
 
     const searchPeoplePromise = Promise.resolve([] as Result[]);

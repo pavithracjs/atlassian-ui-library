@@ -1,5 +1,9 @@
 # @atlaskit/media-ui
 
+## 11.1.1
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/media-test-helpers@23.0.0
+
 ## 11.1.0
 - [minor] [121c945cc6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/121c945cc6):
 

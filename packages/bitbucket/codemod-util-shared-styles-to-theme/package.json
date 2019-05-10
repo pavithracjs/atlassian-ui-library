@@ -13,7 +13,9 @@
     "Ben G"
   ],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Codemod-util-shared-styles-to-theme",
+    "team": "bitbucket"
   },
   "license": "Apache-2.0",
   "devDependencies": {

@@ -14,6 +14,10 @@
     "Daniel D",
     "Kang C"
   ],
+  "atlaskit": {
+    "name": "Form",
+    "team": "core"
+  },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/icon": "^17.0.0",

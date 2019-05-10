@@ -1,23 +1,23 @@
 {
   "name": "@atlaskit/refinement-bar",
-  "version": "0.2.0",
+  "version": "0.4.1",
   "description": "Jira Refinement Bar Component",
   "license": "Apache-2.0",
   "module": "index.js",
   "atlaskit:src": "src/index.js",
+  "sideEffects": false,
   "atlaskit": {
     "name": "Refinement Bar",
     "team": "jira"
   },
-  "files": [
-    "dist",
-    "src"
-  ],
   "repository": {
     "type": "git",
     "url": "https://bitbucket.org/atlassian/atlaskit-mk-2"
   },
   "author": "Atlassian Pty Ltd",
+  "maintainers": [
+    "Joss M"
+  ],
   "dependencies": {
     "@atlaskit/analytics-next": "^5.0.0",
     "@atlaskit/avatar": "^16.0.0",

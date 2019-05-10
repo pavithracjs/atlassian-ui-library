@@ -189,7 +189,7 @@ export const initEditorWithAdf = async (
 
   if (currentUrl !== url) {
     // We don't have to load the already existing page
-    await page.goto(url);
+    await page.goto(url, { waitUntil: 'networkidle0' });
   }
 
   // Set the viewport to the right one

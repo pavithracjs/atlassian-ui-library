@@ -61,7 +61,10 @@ export const changePanelType = (panelType: PanelType): Command => (
   if (dispatch) {
     dispatch(
       addAnalytics(
-        setParentNodeMarkup(nodes.panel, null, { panelType })(tr),
+        setParentNodeMarkup(nodes.panel, null, { panelType })(tr).setMeta(
+          pluginKey,
+          { activePanelType: panelType },
+        ),
         payload,
       ),
     );

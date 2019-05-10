@@ -3,7 +3,6 @@ import {
   CrossProductSearchClient,
   CrossProductSearchResults,
   EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
-  SearchSession,
   DEFAULT_AB_TEST,
 } from '../../../api/CrossProductSearchClient';
 import { Scope } from '../../../api/types';
@@ -56,7 +55,7 @@ export const mockCrossProductSearchClient = (
 ): CrossProductSearchClient => ({
   search(
     query: string,
-    searchSession: SearchSession,
+    sessionId: string,
     scopes: Scope[],
   ): Promise<CrossProductSearchResults> {
     return Promise.resolve(data);

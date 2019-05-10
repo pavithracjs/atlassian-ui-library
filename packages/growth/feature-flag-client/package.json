@@ -11,6 +11,10 @@
     "Houda Chehab",
     "Leandro Augusto Lemos"
   ],
+  "atlaskit": {
+    "name": "Feature Flag Client",
+    "team": "growth"
+  },
   "dependencies": {
     "tslib": "^1.9.3"
   },

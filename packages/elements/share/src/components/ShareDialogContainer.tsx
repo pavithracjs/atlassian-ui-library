@@ -36,35 +36,37 @@ export type Props = {
   loadUserOptions: LoadOptions;
   /** Factory function to generate new Origin Tracing instance */
   originTracingFactory: OriginTracingFactory;
-  /** Product ID of the share
-   * confluence
-   * jira-core
-   * jira-servicedesk
-   * jira-software
-   */
+  /** Product ID (Canonical ID) in ARI of the share request */
+  /** bitbucket */
+  /** confluence */
+  /** jira-core */
+  /** jira-servicedesk */
+  /** jira-software */
+  /** trello */
   productId: string;
   /** Render function for a custom Share Dialog Trigger Button*/
   renderCustomTriggerButton?: RenderCustomTriggerButton;
   /** Atlassian Resource Identifier of a Site resource to be shared */
   shareAri: string;
-  /** Content Type of the resource to be shared
-   * board
-   * calendar
-   * draft
-   * filter
-   * issue
-   * media
-   * page
-   * project
-   * pullrequest
-   * question
-   * report
-   * repository
-   * request
-   * roadmap
-   * site
-   * space
-   */
+  /** Content Type of the resource to be shared. It will also affect on the successful share message in the flag. A pre-defined list as follows:*/
+  /** blogpost */
+  /** board */
+  /** calendar */
+  /** draft */
+  /** filter */
+  /** issue */
+  /** media */
+  /** page */
+  /** project */
+  /** pullrequest */
+  /** question */
+  /** report */
+  /** repository */
+  /** request */
+  /** roadmap */
+  /** site */
+  /** space */
+  /** Any other unlisted type will have a default message of "Link shared"*/
   shareContentType: string;
   /** Link of the resource to be shared */
   shareLink: string;

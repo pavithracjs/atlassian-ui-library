@@ -1,5 +1,105 @@
 # @atlaskit/editor-core
 
+## 111.1.0
+- [minor] [9626153146](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9626153146):
+
+  - ED-6564: improve typing performance, especially in tables
+
+  Be more selective about when to re-render certain nodes. In particular, only re-render table cells when selecting in/out of them, or their contents change. This applies to:
+
+  * tables
+  * images
+  * emojis
+  * mentions
+  * tasks and decisions
+
+  Also prevents a number of plugins from notifying about status changes when nothing has changed. In particular:
+
+  * breakout
+  * emoji
+  * hyperlink
+  * table
+
+## 111.0.6
+- [patch] [1c88068498](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1c88068498):
+
+  - Fix re-rendering FullPage appearance on every scroll
+
+## 111.0.5
+- [patch] [2b85ca535a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2b85ca535a):
+
+  - ED-6828: fix smart link selection inside lists
+
+## 111.0.4
+- [patch] [a3264821d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a3264821d0):
+
+  - ED-6129 Refactor table plugin state to use pluginFactory
+
+## 111.0.3
+- [patch] [519046cd9b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/519046cd9b):
+
+  - ED-6789: improve table column stacking when resizing columns to the right by going to overflown state only when all resized columns are minWidths
+
+## 111.0.2
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/editor-test-helpers@9.1.3
+  - @atlaskit/renderer@48.1.1
+  - @atlaskit/media-card@63.0.2
+  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-editor@35.0.1
+  - @atlaskit/media-filmstrip@34.1.1
+  - @atlaskit/media-picker@42.0.1
+  - @atlaskit/media-test-helpers@23.0.0
+
+## 111.0.1
+- [patch] [58948126ef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58948126ef):
+
+  - ED-6073: fix cursor selection and prevent jumping around inline smart links
+
+## 111.0.0
+- [major] [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
+
+  - Remove insertFileFromDataUrl action
+
+  If you want to upload a dataUrl to media, you should instead use **context.file.upload** from **@atlaskit/media-core**
+
+  ```typescript
+  import {ContextFactory} from '@atlaskit/media-core'
+
+  const mediaContext = ContextFactory.create()
+
+  mediaContext.file.upload({
+    content: 'some-external-url',
+    name: 'some-file-name.png',
+    collection: 'destination-collection'
+  })
+  ```
+
+  For more info check `atlaskit-mk-2/packages/media/media-client/src/client/file-fetcher.ts`
+- Updated dependencies [59cce82fd1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59cce82fd1):
+  - @atlaskit/media-test-helpers@22.0.1
+  - @atlaskit/media-picker@42.0.0
+
+## 110.4.0
+- [minor] [a8e3fc91ae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a8e3fc91ae):
+
+  - Remove react from panel node view
+
+## 110.3.6
+- [patch] [72fc33f8e7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72fc33f8e7):
+
+  - FS-3243 - Refactor status plugin to use new architecture
+
+## 110.3.5
+- [patch] [284e2d0b0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/284e2d0b0b):
+
+  - ED-6841 Fix inconsistent integration tests for inline card and table layout
+
+## 110.3.4
+- [patch] [d1741c1f40](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d1741c1f40):
+
+  - ED-6788: refactor columns resize actions to commands
+
 ## 110.3.3
 - [patch] [d9eccd861e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d9eccd861e):
 

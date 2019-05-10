@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/editor-mobile-bridge",
-  "version": "8.2.0",
+  "version": "8.2.2",
   "description": "Mobile distribution of the Editor",
   "module": "index.js",
   "atlaskit:src": "src/index.ts",
@@ -10,6 +10,13 @@
     "build:dev": "webpack -d",
     "prebuild": "copy-pkg package.json tmp/package.json --only name,version,sideEffects && mv tmp/package.json src/version.json",
     "build": "webpack -p"
+  },
+  "maintainers": [
+    "Nathan F"
+  ],
+  "atlaskit": {
+    "name": "Editor Mobile Bridge",
+    "team": "editor"
   },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
   "keywords": [
@@ -21,8 +28,8 @@
   "homepage": "https://bitbucket.org/atlaskit/atlaskit-mk-2#readme",
   "dependencies": {
     "@atlaskit/editor-common": "^39.1.0",
-    "@atlaskit/editor-core": "^110.3.2",
-    "@atlaskit/editor-json-transformer": "^6.0.0",
+    "@atlaskit/editor-core": "^111.0.0",
+    "@atlaskit/editor-json-transformer": "^6.0.1",
     "@atlaskit/emoji": "^62.0.0",
     "@atlaskit/media-core": "^30.0.0",
     "@atlaskit/mention": "^18.0.0",
@@ -44,7 +51,7 @@
   "devDependencies": {
     "@atlaskit/button": "^13.0.0",
     "@atlaskit/docs": "^8.0.0",
-    "@atlaskit/editor-test-helpers": "^9.1.0",
+    "@atlaskit/editor-test-helpers": "^9.1.2",
     "@atlaskit/form": "^6.0.0",
     "@atlaskit/multi-entry-tools": "^0.0.1",
     "@atlaskit/select": "^9.0.0",

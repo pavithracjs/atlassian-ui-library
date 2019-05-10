@@ -33,7 +33,9 @@
     "react-dom": "^16.8.0"
   },
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Layer",
+    "team": "core"
   },
   "keywords": [
     "atlaskit",
