@@ -1,5 +1,10 @@
 # @atlaskit/refinement-bar
 
+## 0.4.0
+- [minor] [3dab4a0906](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3dab4a0906):
+
+  - add license and npmignore
+
 ## 0.3.0
 - [minor] [00a1cd96c3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/00a1cd96c3):
 
