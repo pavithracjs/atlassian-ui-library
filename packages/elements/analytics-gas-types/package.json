@@ -25,7 +25,9 @@
     "@atlaskit/docs": "^8.0.0"
   },
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Analytics Gas Types",
+    "team": "elements"
   },
   "keywords": [
     "fabric",

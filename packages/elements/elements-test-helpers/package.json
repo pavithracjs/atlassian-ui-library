@@ -31,7 +31,9 @@
     "url": "https://bitbucket.org/atlassian/atlaskit-mk-2"
   },
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Elements Test Helpers",
+    "team": "elements"
   },
   "devDependencies": {
     "@atlaskit/docs": "^8.0.0"

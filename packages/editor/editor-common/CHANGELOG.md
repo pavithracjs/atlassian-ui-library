@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 39.2.0
+- [minor] [a8e3fc91ae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a8e3fc91ae):
+
+  - Remove react from panel node view
+
 ## 39.1.0
 - [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
 

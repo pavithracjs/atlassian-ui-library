@@ -8,6 +8,18 @@
   "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
+  "maintainers": [
+    "Sean C",
+    "Ajay M",
+    "Daniel D",
+    "Kang C",
+    "Balasz N",
+    "Alex R"
+  ],
+  "atlaskit": {
+    "name": "Tree",
+    "team": "core"
+  },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "css-box-model": "^1.0.0",

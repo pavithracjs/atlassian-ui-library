@@ -348,7 +348,7 @@ const getPreqQueryResults = (product: QuickSearchContext) =>
           >) || {};
         expect(type).toBe(SearchResultsComponent);
         expect(props).toMatchObject({
-          query: 'query',
+          isPreQuery: false,
           isError: false,
           isLoading: false,
           keepPreQueryState: false,

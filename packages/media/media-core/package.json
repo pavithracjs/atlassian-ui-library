@@ -13,6 +13,10 @@
     "James N",
     "Aleksandr M"
   ],
+  "atlaskit": {
+    "name": "Media Core",
+    "team": "media"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/media-client": "^1.1.2",

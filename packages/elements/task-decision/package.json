@@ -30,6 +30,10 @@
     "Craig P",
     "Oscar W"
   ],
+  "atlaskit": {
+    "name": "Task Decision",
+    "team": "elements"
+  },
   "license": "Apache-2.0",
   "peerDependencies": {
     "react": "^16.8.0",

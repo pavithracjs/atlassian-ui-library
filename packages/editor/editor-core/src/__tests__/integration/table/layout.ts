@@ -30,14 +30,9 @@ const clickFirstCell = async (page: any) => {
   await animationFrame(page);
 };
 
-const changeLayout = async (page: any) => {
-  await toggleBreakout(page, 1);
-  await animationFrame(page);
-};
-
 BrowserTestCase(
   'Remains in overflow on table scale to wide',
-  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
+  { skip: ['edge', 'ie', 'safari', 'firefox'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
@@ -50,7 +45,7 @@ BrowserTestCase(
     });
 
     await clickFirstCell(page);
-    await changeLayout(page);
+    await toggleBreakout(page, 1);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -72,9 +67,7 @@ BrowserTestCase(
     });
 
     await clickFirstCell(page);
-    await changeLayout(page);
-    await page.browser.pause(100);
-    await changeLayout(page);
+    await toggleBreakout(page, 2);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -83,7 +76,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'Maintains the wide layout size without overflow',
-  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
+  { skip: ['edge', 'ie', 'firefox', 'safari'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
@@ -96,7 +89,7 @@ BrowserTestCase(
     });
 
     await clickFirstCell(page);
-    await changeLayout(page);
+    await toggleBreakout(page, 1);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -119,7 +112,7 @@ BrowserTestCase(
     });
 
     await clickFirstCell(page);
-    await changeLayout(page);
+    await toggleBreakout(page, 1);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -128,7 +121,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   'Maintains the full-width layout size without overflow',
-  { skip: ['edge', 'ie', 'firefox', 'safari', 'chrome'] },
+  { skip: ['edge', 'ie', 'firefox', 'safari'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
 
@@ -141,9 +134,7 @@ BrowserTestCase(
     });
 
     await clickFirstCell(page);
-    await changeLayout(page);
-    await page.browser.pause(100);
-    await changeLayout(page);
+    await toggleBreakout(page, 2);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -165,11 +156,7 @@ BrowserTestCase(
     });
 
     await clickFirstCell(page);
-    await changeLayout(page);
-    await page.browser.pause(100);
-    await changeLayout(page);
-    await page.browser.pause(100);
-    await changeLayout(page);
+    await toggleBreakout(page, 3);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);

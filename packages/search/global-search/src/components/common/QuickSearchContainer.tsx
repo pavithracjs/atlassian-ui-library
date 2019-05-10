@@ -27,12 +27,14 @@ import { withAnalyticsEvents } from '@atlaskit/analytics-next';
 import { CreateAnalyticsEventFn } from '../analytics/types';
 import { ABTest, DEFAULT_AB_TEST } from '../../api/CrossProductSearchClient';
 import { isInFasterSearchExperiment } from '../../util/experiment-utils';
+import deepEqual from 'deep-equal';
 
 const resultMapToArray = (results: ResultsGroup[]): Result[][] =>
   results.map(result => result.items);
 
 export interface SearchResultProps extends State {
   retrySearch: () => void;
+  abTest: ABTest;
 }
 
 export interface Props {
@@ -97,7 +99,7 @@ export interface State {
   keepPreQueryState: boolean;
   searchResults: GenericResultMap | null;
   recentItems: GenericResultMap | null;
-  abTest: ABTest;
+  abTest?: ABTest;
 }
 
 const LOGGER_NAME = 'AK.GlobalSearch.QuickSearchContainer';
@@ -119,8 +121,13 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       recentItems: null,
       searchResults: null,
       keepPreQueryState: true,
-      abTest: DEFAULT_AB_TEST,
     };
+  }
+
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
+    return (
+      !deepEqual(nextProps, this.props) || !deepEqual(nextState, this.state)
+    );
   }
 
   componentDidCatch(error: any, info: any) {
@@ -173,18 +180,20 @@ export class QuickSearchContainer extends React.Component<Props, State> {
             keepPreQueryState: false,
           },
           () => {
-            this.fireShownPostQueryEvent(
-              startTime,
-              elapsedMs,
-              this.state.searchResults || {},
-              this.state.recentItems || {},
-              timings || {},
-              this.state.searchSessionId,
-              this.state.latestSearchQuery,
-              this.state.abTest,
-              this.state.isLoading,
-              !!this.props.fasterSearchFFEnabled,
-            );
+            if (this.state.abTest) {
+              this.fireShownPostQueryEvent(
+                startTime,
+                elapsedMs,
+                this.state.searchResults || {},
+                this.state.recentItems || {},
+                timings || {},
+                this.state.searchSessionId,
+                this.state.latestSearchQuery,
+                this.state.abTest,
+                this.state.isLoading,
+                !!this.props.fasterSearchFFEnabled,
+              );
+            }
           },
         );
       }
@@ -352,8 +361,6 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     });
 
     if (newLatestSearchQuery.length === 0) {
-      const { abTest } = this.state;
-
       // reset search results so that internal state between query and results stays consistent
       this.setState(
         {
@@ -361,12 +368,15 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           isLoading: false,
           keepPreQueryState: true,
         },
-        () =>
-          this.fireShownPreQueryEvent(
-            this.state.searchSessionId,
-            this.state.recentItems || {},
-            abTest,
-          ),
+        () => {
+          if (this.state.abTest) {
+            this.fireShownPreQueryEvent(
+              this.state.searchSessionId,
+              this.state.recentItems || {},
+              this.state.abTest,
+            );
+          }
+        },
       );
     } else {
       this.doSearch(newLatestSearchQuery, queryVersion);
@@ -377,7 +387,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
     this.handleSearch(this.state.latestSearchQuery, this.latestQueryVersion);
   };
 
-  handleMount = async () => {
+  async componentDidMount() {
     const startTime = performanceNow();
 
     if (!this.state.isLoading) {
@@ -435,7 +445,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         });
       }
     }
-  };
+  }
 
   handleSearchSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { handleSearchSubmit } = this.props;
@@ -465,9 +475,12 @@ export class QuickSearchContainer extends React.Component<Props, State> {
       abTest,
     } = this.state;
 
+    if (!abTest) {
+      return null;
+    }
+
     return (
       <GlobalQuickSearch
-        onMount={this.handleMount}
         onSearch={this.handleSearch}
         onSearchSubmit={this.handleSearchSubmit}
         isLoading={isLoading}

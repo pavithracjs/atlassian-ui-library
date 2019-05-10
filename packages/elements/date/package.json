@@ -20,6 +20,10 @@
     "fabric",
     "elements"
   ],
+  "atlaskit": {
+    "name": "Date",
+    "team": "elements"
+  },
   "dependencies": {
     "@atlaskit/theme": "^9.0.0",
     "@types/date-fns": "^2.6.0",

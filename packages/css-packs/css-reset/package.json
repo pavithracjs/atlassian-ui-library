@@ -13,6 +13,10 @@
     "Daniel D",
     "Kang C"
   ],
+  "atlaskit": {
+    "name": "Css Reset",
+    "team": "css packs"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "scripts": {
     "build": "babel-node --ignore WE_WILL_NOT_IGNORE_ANYTHING build/js-to-css.js --config-file=../../../babel.config.js --env-name=production:cjs"

@@ -94,6 +94,22 @@ export const clipboardInput = 'textarea';
 export const copyAsPlaintextButton = '.copy-as-plaintext';
 export const copyAsHTMLButton = '.copy-as-html';
 
+/**
+ * Copies plain text or HTML to clipboard for tests that need to paste
+ */
+export const copyToClipboard = async (
+  browser: any,
+  text: string,
+  copyAs: 'plain' | 'html' = 'plain',
+) => {
+  await browser.goto(clipboardHelper);
+  await browser.isVisible(clipboardInput);
+  await browser.type(clipboardInput, text);
+  await browser.click(
+    copyAs === 'html' ? copyAsHTMLButton : copyAsPlaintextButton,
+  );
+};
+
 export const mediaInsertDelay = 1000;
 
 const mediaPickerMock = '.mediaPickerMock';
@@ -277,6 +293,7 @@ export const toggleBreakout = async (page: any, times: number) => {
   for (let _iter of timesArray) {
     await page.waitForSelector(breakoutSelector);
     await page.click(breakoutSelector);
+    await animationFrame(page);
   }
 };
 
