@@ -49,7 +49,7 @@ export default class WithPluginState extends React.Component<Props, State> {
   };
 
   state = {};
-  context: Context;
+  context!: Context;
 
   constructor(props: Props, context: Context) {
     super(props);

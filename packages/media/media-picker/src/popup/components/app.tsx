@@ -12,8 +12,6 @@ import {
 
 import { ServiceName, State } from '../domain';
 
-import { BinaryUploaderImpl as MpBinary } from '../../components/binary';
-// import { BrowserImpl as MpBrowser } from '../../components/browser';
 import { DropzoneImpl as MpDropzone } from '../../components/dropzone';
 import { ClipboardImpl as MpClipboard } from '../../components/clipboard';
 import { UploadParams, PopupConfig } from '../..';
@@ -57,6 +55,7 @@ import {
   DropzoneDragLeaveEventPayload,
 } from '../../components/types';
 import { Browser as BrowserComponent } from '../../components/browserReact';
+import { LocalUploadComponent } from '../../components/localUpload';
 
 export interface AppStateProps {
   readonly selectedServiceName: ServiceName;
@@ -104,10 +103,10 @@ export interface AppState {
 
 export class App extends Component<AppProps, AppState> {
   private readonly mpDropzone: MpDropzone;
-  private readonly mpBinary: MpBinary;
   private readonly componentContext: Context;
   private readonly mpClipboard: MpClipboard;
   private browseRef = React.createRef<BrowserComponent>();
+  private readonly localUploader: LocalUploadComponent;
 
   constructor(props: AppProps) {
     super(props);
@@ -138,6 +137,17 @@ export class App extends Component<AppProps, AppState> {
     });
 
     this.componentContext = context;
+    this.localUploader = new LocalUploadComponent(context, {
+      uploadParams: tenantUploadParams,
+      shouldCopyFileToRecents: false,
+    });
+
+    this.localUploader.on('uploads-start', onUploadsStart);
+    this.localUploader.on('upload-preview-update', onUploadPreviewUpdate);
+    this.localUploader.on('upload-status-update', onUploadStatusUpdate);
+    this.localUploader.on('upload-processing', onUploadProcessing);
+    this.localUploader.on('upload-end', onUploadEnd);
+    this.localUploader.on('upload-error', onUploadError);
 
     this.mpDropzone = new MpDropzone(context, {
       uploadParams: tenantUploadParams,
@@ -152,17 +162,6 @@ export class App extends Component<AppProps, AppState> {
     this.mpDropzone.on('upload-processing', onUploadProcessing);
     this.mpDropzone.on('upload-end', onUploadEnd);
     this.mpDropzone.on('upload-error', onUploadError);
-
-    this.mpBinary = new MpBinary(context, {
-      uploadParams: tenantUploadParams,
-      shouldCopyFileToRecents: false,
-    });
-    this.mpBinary.on('uploads-start', onUploadsStart);
-    this.mpBinary.on('upload-preview-update', onUploadPreviewUpdate);
-    this.mpBinary.on('upload-status-update', onUploadStatusUpdate);
-    this.mpBinary.on('upload-processing', onUploadProcessing);
-    this.mpBinary.on('upload-end', onUploadEnd);
-    this.mpBinary.on('upload-error', onUploadError);
 
     this.mpClipboard = new MpClipboard(context, {
       uploadParams: tenantUploadParams,
@@ -181,7 +180,7 @@ export class App extends Component<AppProps, AppState> {
         // TODO: find how cancel upload
         // this.mpBrowser.cancel(uploadId);
         this.mpDropzone.cancel(uploadId);
-        this.mpBinary.cancel(uploadId);
+        this.localUploader.cancel(uploadId);
       },
     });
   }
@@ -277,7 +276,7 @@ export class App extends Component<AppProps, AppState> {
                     <Footer />
                   </ViewWrapper>
                   <Dropzone isActive={isDropzoneActive} />
-                  <MainEditorView binaryUploader={this.mpBinary} />
+                  <MainEditorView localUploader={this.localUploader} />
                 </MediaPickerPopupWrapper>
                 {this.renderBrowser()}
               </PassContext>

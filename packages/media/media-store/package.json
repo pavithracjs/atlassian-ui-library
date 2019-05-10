@@ -11,6 +11,10 @@
   "maintainers": [
     "Jimmy Luong"
   ],
+  "atlaskit": {
+    "name": "Media Store",
+    "team": "media"
+  },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/media-client": "^1.1.2",

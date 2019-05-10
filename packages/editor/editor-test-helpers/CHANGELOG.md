@@ -1,5 +1,19 @@
 # @atlaskit/editor-test-helpers
 
+## 9.1.2
+- Updated dependencies [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
+  - @atlaskit/editor-core@111.0.0
+
+## 9.1.1
+- [patch] [652ef1e6be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/652ef1e6be):
+
+  - ED-6774: Adds a FF to priortize smart links resolution over Jira Issue Macro
+
+## 9.1.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
 ## 9.0.1
 - [patch] [80cf1c1e82](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80cf1c1e82):
 

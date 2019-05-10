@@ -23,7 +23,9 @@
     "@atlaskit/docs": "^8.0.0"
   },
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Outbound Auth Flow Client",
+    "team": "teamwork ecosystem"
   },
   "keywords": [
     "fabric",

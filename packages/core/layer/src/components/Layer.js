@@ -97,7 +97,6 @@ export default class Layer extends Component<Props, State> {
 
   fixedRef: ?ElementRef<any>;
 
-  // TODO: get the value of zIndex from theme, not using it now as it is not
   // working with extract-react-types
   static defaultProps = {
     autoFlip: true,

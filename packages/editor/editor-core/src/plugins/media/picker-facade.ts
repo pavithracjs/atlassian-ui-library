@@ -11,7 +11,6 @@ import {
   isDropzone,
   isClipboard,
   isPopup,
-  isBinaryUploader,
   isImagePreview,
 } from '@atlaskit/media-picker';
 import { Context } from '@atlaskit/media-core';
@@ -46,7 +45,7 @@ export type NewMediaEvent = (
 ) => void;
 
 export default class PickerFacade {
-  private picker: MediaPickerComponent | CustomMediaPicker;
+  private picker?: MediaPickerComponent | CustomMediaPicker;
   private onDragListeners: Array<Function> = [];
   private errorReporter: ErrorReportingHandler;
   private pickerType: PickerType;
@@ -136,7 +135,9 @@ export default class PickerFacade {
   }
 
   setUploadParams(params: UploadParams): void {
-    this.picker.setUploadParams(params);
+    if (this.picker) {
+      this.picker.setUploadParams(params);
+    }
   }
 
   onClose(cb: () => void): () => void {
@@ -177,12 +178,6 @@ export default class PickerFacade {
   hide(): void {
     if (isPopup(this.picker)) {
       this.picker.hide();
-    }
-  }
-
-  upload(url: string, fileName: string): void {
-    if (isBinaryUploader(this.picker)) {
-      this.picker.upload(url, fileName);
     }
   }
 

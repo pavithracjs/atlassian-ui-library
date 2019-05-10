@@ -13,6 +13,7 @@ export default interface NativeToWebBridge {
   onMentionPickerResult(result: string): void;
   setContent(content: string): void;
   getContent(): string;
+  clearContent(): void;
   onMediaPicked(eventName: string, payload: string): void;
   onPromiseResolved(uuid: string, paylaod: string): void;
   onPromiseRejected(uuid: string): void;

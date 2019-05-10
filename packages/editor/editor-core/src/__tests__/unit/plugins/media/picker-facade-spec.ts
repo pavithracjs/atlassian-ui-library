@@ -53,19 +53,17 @@ describe('Media PickerFacade', () => {
       [S in Partial<keyof MediaPickerComponents[K]>]: jest.Mock
     }
   } = {
-    binary: {
-      ...commonSpies,
-      upload: jest.fn(),
-    },
     clipboard: {
       ...commonSpies,
       activate: jest.fn(),
       deactivate: jest.fn(),
+      addFiles: jest.fn(),
     },
     dropzone: {
       ...commonSpies,
       activate: jest.fn(),
       deactivate: jest.fn(),
+      addFiles: jest.fn(),
     },
     popup: {
       ...commonSpies,
@@ -76,12 +74,7 @@ describe('Media PickerFacade', () => {
     },
   };
 
-  const pickerTypes: Array<PickerType> = [
-    'popup',
-    'binary',
-    'clipboard',
-    'dropzone',
-  ];
+  const pickerTypes: Array<PickerType> = ['popup', 'clipboard', 'dropzone'];
 
   pickerTypes.forEach(pickerType => {
     describe(`Picker: ${pickerType}`, () => {
@@ -206,16 +199,6 @@ describe('Media PickerFacade', () => {
           spies.deactivate.mockClear();
           facade.deactivate();
           expect(spies.deactivate).toHaveBeenCalledTimes(1);
-        });
-      }
-
-      if (pickerType === 'binary') {
-        it(`calls picker's upload() on destruction`, () => {
-          const url = 'https://atlassian.com/file.ext';
-          const fileName = 'file.ext';
-          facade.upload(url, fileName);
-          expect(spies.upload).toHaveBeenCalledTimes(1);
-          expect(spies.upload).toHaveBeenCalledWith(url, fileName);
         });
       }
     });

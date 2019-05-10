@@ -21,7 +21,9 @@
     "Rifat N"
   ],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Adf Schema",
+    "team": "editor"
   },
   "dependencies": {
     "@types/linkify-it": "^2.0.4",

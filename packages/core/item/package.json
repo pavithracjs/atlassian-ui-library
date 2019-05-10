@@ -42,7 +42,9 @@
     "recompose": "^0.26.0"
   },
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Item",
+    "team": "core"
   },
   "keywords": [
     "atlaskit",

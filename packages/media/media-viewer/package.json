@@ -13,6 +13,10 @@
     "Damien K",
     "Hector Z"
   ],
+  "atlaskit": {
+    "name": "Media Viewer",
+    "team": "media"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/analytics-gas-types": "^4.0.4",

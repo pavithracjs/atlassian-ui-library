@@ -141,38 +141,43 @@ export const messages = defineMessages({
   },
   jira_advanced_search: {
     id: 'global_search.jira.advanced_search',
-    defaultMessage: 'Advanced search for',
+    defaultMessage: 'View all:',
     description: '',
   },
   jira_advanced_search_issues: {
     id: 'global_search.jira.advanced_search_issues',
-    defaultMessage: 'issues',
+    defaultMessage: 'Issues',
     description: 'Plural of issue',
   },
   jira_advanced_search_projects: {
     id: 'global_search.jira.advanced_search_projects',
-    defaultMessage: 'projects',
+    defaultMessage: 'Projects',
     description: 'Plural of project',
   },
   jira_advanced_search_boards: {
     id: 'global_search.jira.advanced_search_boards',
-    defaultMessage: 'boards',
+    defaultMessage: 'Boards',
     description: 'Plural of board',
   },
   jira_advanced_search_filters: {
     id: 'global_search.jira.advanced_search_filters',
-    defaultMessage: 'filters',
+    defaultMessage: 'Filters',
     description: 'Plural of filter',
   },
   jira_advanced_search_people: {
     id: 'global_search.jira.advanced_search_people',
-    defaultMessage: 'people',
+    defaultMessage: 'People',
     description: '',
   },
   jira_advanced_issue_search: {
     id: 'global_search.jira.advanced_issue_search',
     defaultMessage: 'Advanced search for issues',
     description: '',
+  },
+  jira_view_all_issues: {
+    id: 'global_search.jira.view_all_issues',
+    defaultMessage: 'View all issues',
+    description: 'Advanced search for issues in post query screen',
   },
   jira_no_results_title: {
     id: 'global_search.jira.no_results_title',

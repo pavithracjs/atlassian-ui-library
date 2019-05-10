@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-picker",
-  "version": "41.0.1",
+  "version": "42.0.0",
   "description": "Library for handling file uploads",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -13,6 +13,10 @@
     "Aleksandr M",
     "Jimmy L"
   ],
+  "atlaskit": {
+    "name": "Media Picker",
+    "team": "media"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/analytics-gas-types": "^4.0.4",
@@ -59,7 +63,7 @@
     "@atlaskit/build-utils": "^2.1.0",
     "@atlaskit/docs": "^8.0.0",
     "@atlaskit/media-core": "^30.0.0",
-    "@atlaskit/media-test-helpers": "^22.0.0",
+    "@atlaskit/media-test-helpers": "^22.0.1",
     "@atlaskit/media-viewer": "^43.0.0",
     "@atlaskit/select": "^9.0.0",
     "@atlaskit/toggle": "^7.0.0",

@@ -66,13 +66,18 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
     parentWidth: undefined,
   };
 
-  private wrapper: HTMLDivElement | null;
-  private table: HTMLTableElement | null;
-  private rightShadow: HTMLDivElement | null;
+  private wrapper?: HTMLDivElement | null;
+  private table?: HTMLTableElement | null;
+  private rightShadow?: HTMLDivElement | null;
   private frameId?: number;
+  private node?: PmNode;
+  private containerWidth?: WidthPluginState;
 
   constructor(props: ComponentProps) {
     super(props);
+
+    this.node = props.node;
+    this.containerWidth = props.containerWidth;
 
     // Disable inline table editing and resizing controls in Firefox
     // https://github.com/ProseMirror/prosemirror/issues/432
@@ -253,12 +258,10 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
   };
 
   private handleTableResizing = (prevProps: ComponentProps) => {
-    const {
-      node: prevNode,
-      containerWidth: prevWidth,
-      pluginState: prevPluginState,
-    } = prevProps;
-    const { node, pluginState } = this.props;
+    const { pluginState: prevPluginState } = prevProps;
+    const { node, pluginState, containerWidth } = this.props;
+    const prevWidth = this.containerWidth!.width;
+    const prevNode = this.node!;
     const prevAttrs = prevNode.attrs;
 
     // We only consider a layout change valid if it's done outside of an autoSize.
@@ -271,7 +274,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
       parentWidth && parentWidth !== this.state.parentWidth;
 
     const currentLayoutSize = this.tableNodeLayoutSize(node);
-    const prevLayoutSize = this.tableNodeLayoutSize(prevNode, prevWidth.width);
+    const prevLayoutSize = this.tableNodeLayoutSize(prevNode, prevWidth);
     const tableColWidths = getTableWidth(node);
 
     /**
@@ -302,37 +305,38 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
       // Usually happens on window resize.
       currentLayoutSize !== prevLayoutSize
     ) {
-      this.scaleTable(parentWidth, prevProps);
+      this.scaleTable(parentWidth);
       this.updateParentWidth(parentWidth);
     }
 
     this.updateTableContainerWidth();
+    this.node = node;
+    this.containerWidth = containerWidth;
   };
 
-  private scaleTable = (
-    parentWidth?: number,
-    prevProps?: ComponentProps,
-    opts?: { initialScale?: boolean },
-  ) => {
+  private scaleTable = (parentWidth?: number) => {
     const { view, node, getPos, containerWidth, options } = this.props;
+    const { state, dispatch } = view;
+    const domAtPos = view.domAtPos.bind(view);
+    const { width } = containerWidth;
 
     if (this.frameId && window) {
       window.cancelAnimationFrame(this.frameId);
     }
 
-    const width = containerWidth.width;
-
-    scaleTable(view, this.table, {
-      node,
-      prevNode: (prevProps && prevProps.node) || node,
-      parentWidth,
-      start: getPos() + 1,
-      containerWidth: width,
-      previousContainerWidth:
-        (prevProps && prevProps.containerWidth.width) || width,
-      initialScale: (opts && opts.initialScale) || false,
-      ...options,
-    });
+    scaleTable(
+      this.table,
+      {
+        node,
+        prevNode: this.node || node,
+        parentWidth,
+        start: getPos() + 1,
+        containerWidth: width,
+        previousContainerWidth: this.containerWidth!.width || width,
+        ...options,
+      },
+      domAtPos,
+    )(state, dispatch);
   };
 
   private handleAutoSize = () => {
@@ -417,9 +421,9 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
 }
 
 export const updateRightShadow = (
-  wrapper: HTMLElement | null,
-  table: HTMLElement | null,
-  rightShadow: HTMLElement | null,
+  wrapper?: HTMLElement | null,
+  table?: HTMLElement | null,
+  rightShadow?: HTMLElement | null,
 ) => {
   if (table && wrapper && rightShadow) {
     const diff = table.offsetWidth - wrapper.offsetWidth;

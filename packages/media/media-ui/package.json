@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-ui",
-  "version": "11.0.0",
+  "version": "11.1.0",
   "description": "Includes common components and utilities used by other media packages",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -16,6 +16,10 @@
       "name": "James N"
     }
   ],
+  "atlaskit": {
+    "name": "Media UI",
+    "team": "media"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "scripts": {
     "i18n:push": "i18n-tools push --resource media-ui --type ts .",

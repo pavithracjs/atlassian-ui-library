@@ -16,7 +16,8 @@
     "Mauro Alvarez"
   ],
   "atlaskit": {
-    "name": "Help Panel"
+    "name": "Help Panel",
+    "team": "Help"
   },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
   "dependencies": {

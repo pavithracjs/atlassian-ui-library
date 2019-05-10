@@ -10,6 +10,7 @@ import {
   ListsState,
   statusPluginKey,
   StatusState,
+  StatusType,
   textColorPluginKey,
   TextColorPluginState,
   typeAheadPluginKey,
@@ -49,8 +50,19 @@ const configs: Array<BridgePluginListener<any>> = [
   createListenerConfig<StatusState>({
     bridge: 'statusBridge',
     pluginKey: statusPluginKey,
-    updater: pluginState => {
-      const { selectedStatus: status, showStatusPickerAt, isNew } = pluginState;
+    updater: (pluginState, view) => {
+      const { showStatusPickerAt, isNew } = pluginState;
+      let status: StatusType | undefined;
+
+      if (view && showStatusPickerAt) {
+        const node = view.state.doc.nodeAt(showStatusPickerAt);
+        if (node && node.type === view.state.schema.nodes.status) {
+          status = {
+            ...node.attrs,
+          } as StatusType;
+        }
+      }
+
       if (status) {
         toNativeBridge.call('statusBridge', 'showStatusPicker', {
           text: status.text,

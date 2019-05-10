@@ -43,6 +43,8 @@ export class LocalUploadComponent<
     this.uploadService.on('file-upload-error', this.onUploadError);
   }
 
+  public addFiles = (files: File[]) => this.uploadService.addFiles(files);
+
   public cancel(uniqueIdentifier?: string): void {
     this.uploadService.cancel(uniqueIdentifier);
   }
