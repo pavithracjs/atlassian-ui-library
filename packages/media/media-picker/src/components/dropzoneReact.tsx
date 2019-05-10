@@ -56,7 +56,6 @@ export class DropzoneReact extends LocalUploadComponentReact<
   private addContainerListeners = () => {
     this.getContainer().addEventListener('dragover', this.onDragOver, false);
     this.getContainer().addEventListener('dragleave', this.onDragLeave, false);
-
     this.getContainer().addEventListener('drop', this.onFileDropped);
   };
 
@@ -67,7 +66,6 @@ export class DropzoneReact extends LocalUploadComponentReact<
       this.onDragLeave,
       false,
     );
-
     this.getContainer().removeEventListener('drop', this.onFileDropped);
   };
 
