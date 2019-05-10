@@ -25,7 +25,7 @@ import {
 // import { UploadPreviews } from '../example-helpers/upload-previews';
 
 import { Card } from '@atlaskit/media-card';
-import { DropzoneReact } from '../src/components/dropzone/dropzoneReact';
+import { DropzoneReact } from '../src/components/dropzoneReact';
 import { DropzoneConfig } from '../src/components/types';
 import { UploadsStartEventPayload } from '../src';
 

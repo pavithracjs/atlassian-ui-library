@@ -1,14 +1,14 @@
 import {
   LocalUploadComponentReact,
   LocalUploadComponentBaseProps,
-} from '../localUploadReact';
+} from './localUploadReact';
 
 import {
   DropzoneConfig,
   DropzoneDragEnterEventPayload,
   DropzoneDragLeaveEventPayload,
   DropzoneUploadEventPayloadMap,
-} from '../types';
+} from './types';
 
 const toArray = (arr: any) => [].slice.call(arr, 0);
 

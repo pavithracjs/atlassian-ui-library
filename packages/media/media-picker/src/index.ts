@@ -121,4 +121,4 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
 
 // REACT COMPONENTS
 
-export { DropzoneReact as Dropzone } from './components/dropzone/dropzoneReact';
+export { DropzoneReact as Dropzone } from './components/dropzoneReact';

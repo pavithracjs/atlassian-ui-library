@@ -22,7 +22,7 @@ import { Dropzone } from '../../../components/dropzone/dropzone';
 import { MediaFile } from '../../../../domain/file';
 import { showPopup } from '../../../actions/showPopup';
 import reducers from '../../../reducers/reducers';
-import { DropzoneReact } from '../../../../../src/components/dropzone/dropzoneReact';
+import { DropzoneReact } from '../../../../../src/components/dropzoneReact';
 
 const tenantUploadParams: UploadParams = {};
 const baseUrl = 'some-api-url';

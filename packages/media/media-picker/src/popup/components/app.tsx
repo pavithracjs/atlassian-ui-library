@@ -56,7 +56,7 @@ import {
   DropzoneDragLeaveEventPayload,
   DropzoneConfig,
 } from '../../components/types';
-import { DropzoneReact } from '../../components/dropzone/dropzoneReact';
+import { DropzoneReact } from '../../components/dropzoneReact';
 
 export interface AppStateProps {
   readonly selectedServiceName: ServiceName;

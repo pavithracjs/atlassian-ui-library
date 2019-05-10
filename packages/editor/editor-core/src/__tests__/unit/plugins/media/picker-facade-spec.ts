@@ -118,7 +118,7 @@ describe('Media PickerFacade', () => {
         facade.destroy();
       });
 
-      /* it(`listens to picker events`, () => {
+      it.skip(`listens to picker events`, () => {
         const fn = jasmine.any(Function);
         expect(spies.on).toHaveBeenCalledTimes(
           pickerType === 'clipboard' ? 6 : 4,
@@ -127,7 +127,7 @@ describe('Media PickerFacade', () => {
         expect(spies.on).toHaveBeenCalledWith('upload-processing', fn);
       });
 
-      it('removes listeners on destruction', () => {
+      it.skip('removes listeners on destruction', () => {
         facade.destroy();
         expect(spies.removeAllListeners).toHaveBeenCalledTimes(
           pickerType === 'clipboard' ? 5 : 3,
@@ -138,7 +138,7 @@ describe('Media PickerFacade', () => {
         expect(spies.removeAllListeners).toHaveBeenCalledWith(
           'upload-processing',
         );
-      }); */
+      });
 
       // Picker Specific Tests
       if (pickerType === 'clipboard') {
