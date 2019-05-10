@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 111.0.6
+- [patch] [1c88068498](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1c88068498):
+
+  - Fix re-rendering FullPage appearance on every scroll
+
 ## 111.0.5
 - [patch] [2b85ca535a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2b85ca535a):
 
