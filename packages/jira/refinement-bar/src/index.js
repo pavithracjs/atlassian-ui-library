@@ -1,5 +1,20 @@
 // @flow
 
-export * from './fields';
-export * from './components';
-export { default } from './components';
+export {
+  AsyncSelectFilter,
+  AvatarSelectFilter,
+  AvatarAsyncSelectFilter,
+  IssueSelectFilter,
+  IssueAsyncSelectFilter,
+  NumberFilter,
+  SelectFilter,
+  SearchFilter,
+  TextFilter,
+} from './fields';
+
+export {
+  default,
+  RefinementBarUI,
+  RefinementBarProvider,
+  RefinementBarConsumer,
+} from './components';
