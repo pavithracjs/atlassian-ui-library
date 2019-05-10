@@ -23,7 +23,7 @@ const HelpArticle: React.SFC<Props> = props => {
       {title && (
         <ArticleContentTitle>
           {titleLinkUrl ? (
-            <ArticleContentTitleLink href={titleLinkUrl}>
+            <ArticleContentTitleLink href={titleLinkUrl} target="_blank">
               <h2>
                 {title}
                 <span> </span>
