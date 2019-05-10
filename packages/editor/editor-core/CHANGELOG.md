@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 111.0.5
+- [patch] [2b85ca535a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2b85ca535a):
+
+  - ED-6828: fix smart link selection inside lists
+
 ## 111.0.4
 - [patch] [a3264821d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a3264821d0):
 

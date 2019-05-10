@@ -1,1 +1,0 @@
-- ED-6828: fix smart link selection inside lists
