@@ -3,15 +3,11 @@ import {
   ConfluenceQuickSearchContainer,
   Props,
 } from '../../../components/confluence/ConfluenceQuickSearchContainer';
-import {
-  noResultsCrossProductSearchClient,
-  singleResultCrossProductSearchClient,
-} from '../mocks/_mockCrossProductSearchClient';
+import { noResultsCrossProductSearchClient } from '../mocks/_mockCrossProductSearchClient';
 import { noResultsPeopleSearchClient } from '../mocks/_mockPeopleSearchClient';
 import {
   noResultsConfluenceClient,
   makeConfluenceClient,
-  singleResultQuickNav,
 } from '../mocks/_mockConfluenceClient';
 import { shallowWithIntl } from '../helpers/_intl-enzyme-test-helper';
 import QuickSearchContainer, {
