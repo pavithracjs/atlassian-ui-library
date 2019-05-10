@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.5.0
+- [minor] [7b604091c7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7b604091c7):
+
+  - Added support for project affinity for jira in global search
+
 ## 8.4.0
 - [minor] [438313ec7a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/438313ec7a):
 

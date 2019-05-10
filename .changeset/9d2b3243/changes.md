@@ -1,1 +1,0 @@
-- Added support for project affinity for jira in global search
