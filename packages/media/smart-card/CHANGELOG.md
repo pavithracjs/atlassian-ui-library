@@ -1,5 +1,10 @@
 # @atlaskit/smart-card
 
+## 11.0.1
+- [patch] [b7687b9981](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b7687b9981):
+
+  - Changed smart link functionality so that it will open in the same tab if clicked.
+
 ## 11.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 
