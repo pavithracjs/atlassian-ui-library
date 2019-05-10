@@ -1,4 +1,7 @@
-import { getExampleUrl } from '@atlaskit/visual-regression/helper';
+import {
+  getExampleUrl,
+  loadExampleUrl,
+} from '@atlaskit/visual-regression/helper';
 import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
 import fs from 'fs';
@@ -66,30 +69,8 @@ const editorSelectedNode = '.ProseMirror-selectednode';
 
 // TODO: Convert to custom 99-wysiwyg-testing version once POC is proven?
 export const loadKitchenSinkWithAdf = async (page: any, adf: any) => {
-  const currentUrl = await page.url();
   const url = getExampleUrl('editor', 'editor-core', 'kitchen-sink');
-
-  // Only load the page the first time. Subsequent calls simply replace the ADF.
-  if (currentUrl !== url) {
-    await page.setViewport({ width: 2000, height: 1000 });
-    await page.goto(url);
-  }
-
-  const errorMessage = await page.evaluate(() => {
-    const doc = document as any;
-    const renderedContent = doc.querySelector('#examples > div:first-child');
-    if (renderedContent && !renderedContent.children.length) {
-      const message = renderedContent.innerText;
-      if (~message.indexOf('does not have examples'))
-        return `This package has no examples`;
-    }
-    if (!renderedContent) return `Examples page error`;
-    return '';
-  });
-
-  if (errorMessage) {
-    throw new Error(`${errorMessage}. Unable to load kitchen sink: ${url}.`);
-  }
+  await loadExampleUrl(page, url);
 
   // Load the ADF into the editor & renderer.
   await page.waitForSelector(adfToggleSelector);
@@ -258,7 +239,7 @@ export async function snapshotAndCompare(
   const snapshotsPath = path.join(__dirname, '__image_snapshots__');
   const diffPath = path.join(snapshotsPath, '__diff_output__');
   const consistencyReportPath = path.join(
-    snapshotsPath,
+    __dirname,
     'wysiwyg-consistency.json',
   );
 
