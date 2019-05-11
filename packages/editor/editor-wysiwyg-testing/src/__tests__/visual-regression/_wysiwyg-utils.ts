@@ -54,7 +54,7 @@ function loadFragmentADF(nodeName: string, isContainer = false) {
     const fragment: any = JSON.parse(fixture as any);
     return fragment;
   } else {
-    // TODO: log the error...
+    // eslint-disable-next-line no-console
     console.error(`Unable to load ADF Fragment: '${fixturePath}'`);
   }
   return {};
@@ -143,6 +143,7 @@ function loadConsistencyReport(path: string): ConsistencyReport {
     const reportData = fs.readFileSync(path);
     return JSON.parse(reportData as any);
   } else {
+    // eslint-disable-next-line no-console
     console.error(`Unable to load WYSIWYG consistency report: ${path}`);
   }
 
@@ -156,7 +157,7 @@ function getReportNode(
 ): ConsistencyReportNode {
   const { nodes } = report;
   let reportNode = nodes.find(
-    (node: { name: string }) => node.name == testName,
+    (node: { name: string }) => node.name === testName,
   );
 
   if (!reportNode) {
@@ -198,6 +199,7 @@ function cleanupFile(filePath: string): string {
     try {
       fs.unlinkSync(filePath);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err);
     }
   }
