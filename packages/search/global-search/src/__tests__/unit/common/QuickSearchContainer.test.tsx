@@ -424,8 +424,8 @@ describe('QuickSearchContainer', () => {
   });
 
   describe('Autocomplete', () => {
-    it('renders GlobalQuickSearch with undefined autocomplete data', () => {
-      const wrapper = mountQuickSearchContainer();
+    it('renders GlobalQuickSearch with undefined autocomplete data', async () => {
+      const wrapper = await mountQuickSearchContainerWaitingForRender();
 
       const globalQuickSearch = wrapper.find(GlobalQuickSearch);
       expect(globalQuickSearch.prop('autocomplete')).toBeUndefined();
@@ -433,7 +433,7 @@ describe('QuickSearchContainer', () => {
 
     it('should call getAutocomplete when onAutocomplete is triggered', async () => {
       const query = 'auto';
-      const wrapper = mountQuickSearchContainer();
+      const wrapper = await mountQuickSearchContainerWaitingForRender();
 
       const globalQuickSearch = wrapper.find(GlobalQuickSearch);
       const onAutocomplete = globalQuickSearch.props().onAutocomplete;
@@ -443,12 +443,12 @@ describe('QuickSearchContainer', () => {
 
     it('should pass down the results of getAutocomplete to GlobalQuickSearch', async () => {
       const query = 'auto';
-      const wrapper = mountQuickSearchContainer();
+      const wrapper = await mountQuickSearchContainerWaitingForRender();
 
       let globalQuickSearch = wrapper.find(GlobalQuickSearch);
       const onAutocomplete = globalQuickSearch.props().onAutocomplete;
       onAutocomplete && (await onAutocomplete(query));
-      await waitForRender(wrapper, 10);
+      wrapper.update();
       globalQuickSearch = wrapper.find(GlobalQuickSearch);
       expect(globalQuickSearch.prop('autocomplete')).toBe(
         defaultAutocompleteData,
@@ -457,7 +457,7 @@ describe('QuickSearchContainer', () => {
 
     it('should handle error', async () => {
       const query = 'auto';
-      const wrapper = mountQuickSearchContainer({
+      const wrapper = await mountQuickSearchContainerWaitingForRender({
         getAutocomplete: () =>
           Promise.reject(new Error('everything is broken')),
       });
@@ -465,7 +465,6 @@ describe('QuickSearchContainer', () => {
       let globalQuickSearch = wrapper.find(GlobalQuickSearch);
       const onAutocomplete = globalQuickSearch.props().onAutocomplete;
       onAutocomplete && (await onAutocomplete(query));
-      await waitForRender(wrapper, 10);
       globalQuickSearch = wrapper.find(GlobalQuickSearch);
       expect(globalQuickSearch.prop('autocomplete')).toBeUndefined();
     });
