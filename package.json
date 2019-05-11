@@ -489,6 +489,7 @@
     "react-intl": "^2.6.0",
     "react-is": "^16.8.0",
     "react-lazily-render": "^1.1.0",
+    "react-lazily-render-scroll-parent": "^1.1.1",
     "react-loadable": "^5.1.0",
     "react-markdown": "^2.5.0",
     "react-markings": "^1.3.0",
