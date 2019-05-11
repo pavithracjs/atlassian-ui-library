@@ -9,8 +9,8 @@
     },
     {
       "name": "blockquote",
-      "divergence": 0.01499798549556809,
-      "consistency": "98.5%"
+      "divergence": 0.07712418300653595,
+      "consistency": "92.29%"
     },
     {
       "name": "bullet list",
@@ -19,13 +19,13 @@
     },
     {
       "name": "codeblock",
-      "divergence": 0.01978159684926602,
-      "consistency": "98.02%"
+      "divergence": 0.021318527410964384,
+      "consistency": "97.87%"
     },
     {
       "name": "date",
-      "divergence": 0.008333333333333333,
-      "consistency": "99.17%"
+      "divergence": 0.012096774193548387,
+      "consistency": "98.79%"
     },
     {
       "name": "decisions",
@@ -39,8 +39,8 @@
     },
     {
       "name": "emoji",
-      "divergence": 0.009084967320261438,
-      "consistency": "99.09%"
+      "divergence": 0.01318785578747628,
+      "consistency": "98.68%"
     },
     {
       "name": "heading",
@@ -49,8 +49,8 @@
     },
     {
       "name": "mention",
-      "divergence": 0.004869281045751634,
-      "consistency": "99.51%"
+      "divergence": 0.007068311195445921,
+      "consistency": "99.29%"
     },
     {
       "name": "ordered list",
@@ -59,13 +59,13 @@
     },
     {
       "name": "paragraph",
-      "divergence": 0,
-      "consistency": "100%"
+      "divergence": 0.07167755991285403,
+      "consistency": "92.83%"
     },
     {
       "name": "status",
-      "divergence": 0.002187220065691251,
-      "consistency": "99.78%"
+      "divergence": 0.006688804554079697,
+      "consistency": "99.33%"
     }
   ]
 }
