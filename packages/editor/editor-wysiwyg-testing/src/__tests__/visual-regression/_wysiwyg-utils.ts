@@ -237,6 +237,8 @@ export async function snapshotAndCompare(
   if (waitForSelector) await page.waitForSelector(waitForSelector);
 
   const snapshotsPath = path.join(__dirname, '__image_snapshots__');
+  if (!fs.existsSync(snapshotsPath)) fs.mkdirSync(snapshotsPath);
+
   const diffPath = path.join(snapshotsPath, '__diff_output__');
   const consistencyReportPath = path.join(
     __dirname,

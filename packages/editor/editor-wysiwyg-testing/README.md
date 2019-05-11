@@ -10,6 +10,28 @@ Tests will fail if the visual divergence widens.
 
 If tests fail, the composite image is written to disk to be reviewed by a developer.
 
+To run:
+
+```
+yarn vr:test editor-wysiwyg-testing
+```
+
 If the consistency of a content node worsens after up-merging master, you can set the latest values as the new baseline using the `-u` or `--updateSnapshot` flag.
 
 Using the `--debug` flag will also write the composite image and values to disk to aid in debugging.
+
+If changes result in an improvement you can see them in the generated text file:
+
+```
+baseline: 0.0558322192513369
+current: 0.03348930481283423
+improved: 2.23%
+```
+
+If changes result in a regression you can see the figures in the generated text file:
+
+```
+baseline: 0.07712418300653595
+current: 0.14052287581699346
+regressed: 6.34%
+```

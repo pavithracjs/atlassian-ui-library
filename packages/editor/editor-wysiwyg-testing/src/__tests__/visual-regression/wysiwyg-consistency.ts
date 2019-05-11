@@ -38,6 +38,7 @@ describe('WYSIWYG Snapshot Test: looks consistent in editor & renderer', () => {
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;
+    await page.setViewport({ width: 2000, height: 1000 });
   });
 
   it.each(nodes)('%o', async ({ node, waitForSelector }) => {
