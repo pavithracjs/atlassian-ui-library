@@ -1,1 +1,0 @@
-- Use @atlaskit/help-article instead of custom component
