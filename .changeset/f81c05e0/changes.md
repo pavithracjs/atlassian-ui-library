@@ -1,1 +1,0 @@
-- Fix analytics for the toggle dropdownMenu event
