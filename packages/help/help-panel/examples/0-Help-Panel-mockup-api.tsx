@@ -7,7 +7,7 @@ import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 import { getArticle, searchArticle } from './utils/mockData';
 import { ExampleWrapper, ButtonsWrapper } from './utils/styled';
 
-import { HelpPanel } from '../src';
+import HelpPanel from '../src';
 
 const handleEvent = (analyticsEvent: { payload: any; context: any }) => {
   const { payload, context } = analyticsEvent;
