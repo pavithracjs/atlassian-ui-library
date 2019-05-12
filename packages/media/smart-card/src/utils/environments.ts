@@ -16,7 +16,7 @@ const prodEnvironment = {
   resolverUrl: `${prodBaseUrl}/object-resolver`,
 };
 
-export default {
+export const Environments = {
   dev: devEnvironment,
   development: devEnvironment,
 
@@ -27,3 +27,8 @@ export default {
   prod: prodEnvironment,
   production: prodEnvironment,
 };
+
+export const getEnvironment = (envKey: keyof typeof Environments) =>
+  envKey in Environments ? Environments[envKey] : prodEnvironment;
+
+export default Environments;
