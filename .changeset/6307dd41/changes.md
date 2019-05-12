@@ -1,1 +1,0 @@
-- improve type safety when defining smart-card environment
