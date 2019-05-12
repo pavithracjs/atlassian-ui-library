@@ -87,5 +87,3 @@ it('should support many children', () => {
   wrapper.find(ContextConsumer).forEach(consumer => consumer.simulate('click'));
   expect(onEvent).toHaveBeenCalledTimes(2);
 });
-
-// TODO: Add channel stuff once listener swallow branch has been merged

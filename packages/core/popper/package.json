@@ -38,6 +38,8 @@
     "ui"
   ],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Popper",
+    "team": "core"
   }
 }

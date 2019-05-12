@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-avatar-picker",
-  "version": "21.0.0",
+  "version": "21.0.1",
   "description": "A component to select, drag and resize image avatars. It also provides a default list of predefined avatars.",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -14,12 +14,16 @@
     "Michael J",
     "Aleksandr Motsjonov"
   ],
+  "atlaskit": {
+    "name": "Media Avatar Picker",
+    "team": "media"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/button": "^13.0.0",
     "@atlaskit/field-range": "^7.0.0",
     "@atlaskit/icon": "^17.0.0",
-    "@atlaskit/media-ui": "^11.0.0",
+    "@atlaskit/media-ui": "^11.1.1",
     "@atlaskit/modal-dialog": "^9.0.0",
     "@atlaskit/spinner": "^11.0.0",
     "@atlaskit/theme": "^9.0.0",
@@ -27,7 +31,7 @@
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
-    "@atlaskit/media-core": "^30.0.0",
+    "@atlaskit/media-core": "^30.0.1",
     "react": "^16.8.0",
     "react-intl": "^2.6.0",
     "styled-components": "^3.2.6"
@@ -35,8 +39,8 @@
   "devDependencies": {
     "@atlaskit/build-utils": "^2.1.0",
     "@atlaskit/docs": "^8.0.0",
-    "@atlaskit/media-core": "^30.0.0",
-    "@atlaskit/media-test-helpers": "^22.0.0",
+    "@atlaskit/media-core": "^30.0.1",
+    "@atlaskit/media-test-helpers": "^23.0.0",
     "@atlaskit/page": "^10.0.0",
     "@types/enzyme": "^3.1.15",
     "enzyme": "^3.7.0",

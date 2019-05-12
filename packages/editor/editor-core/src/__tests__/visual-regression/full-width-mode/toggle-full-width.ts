@@ -16,6 +16,7 @@ import resizedTableInLayout from './__fixtures__/resized-table-in-layout.adf.jso
 import resizedTableInExt from '../table/__fixtures__/nested-table-inside-bodied-ext.adf.json';
 import { pressKey } from '../../__helpers/page-objects/_keyboard';
 import { clickFirstCell } from '../../../__tests__/__helpers/page-objects/_table';
+import { waitForLoadedImageElements } from '@atlaskit/visual-regression/helper';
 
 const editorSelector = '.akEditor';
 
@@ -84,6 +85,7 @@ describe('Snapshot Test: Toggle between full-width and default mode', () => {
   describe('Media', () => {
     it('resizes image correctly', async () => {
       await initEditor(mediaAdf);
+      await waitForLoadedImageElements(page);
       await toggleFullWidthMode();
     });
   });

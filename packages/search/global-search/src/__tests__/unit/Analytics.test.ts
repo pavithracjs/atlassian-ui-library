@@ -36,6 +36,34 @@ describe('Analytics', () => {
                 resultContentId: '1',
                 resultType: 'confluence-page',
                 containerId: 'containerId',
+                isRecentResult: false,
+              },
+            ],
+          },
+        ],
+      });
+    });
+
+    it('should correctly transform recent confluence object results', () => {
+      const mockConfluenceObjectResult = makeConfluenceObjectResult({
+        resultId: '1',
+        isRecentResult: true,
+      });
+
+      const attributes = buildShownEventDetails([mockConfluenceObjectResult]);
+
+      expect(attributes).toEqual({
+        resultCount: 1,
+        resultSectionCount: 1,
+        resultContext: [
+          {
+            sectionId: ResultType.ConfluenceObjectResult,
+            results: [
+              {
+                resultContentId: '1',
+                resultType: 'confluence-page',
+                containerId: 'containerId',
+                isRecentResult: true,
               },
             ],
           },

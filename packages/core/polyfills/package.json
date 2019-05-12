@@ -6,7 +6,9 @@
   "module": "index.js",
   "sideEffects": false,
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Polyfills",
+    "team": "core"
   },
   "author": "Atlassian Pty Ltd",
   "maintainers": [

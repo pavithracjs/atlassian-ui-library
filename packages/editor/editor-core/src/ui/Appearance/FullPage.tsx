@@ -193,7 +193,10 @@ export default class Editor extends React.Component<
     }
 
     const { scrollTop } = this.scrollContainer;
-    this.setState({ showKeyline: scrollTop > akEditorToolbarKeylineHeight });
+    const showKeyline = scrollTop > akEditorToolbarKeylineHeight;
+    if (showKeyline !== this.state.showKeyline) {
+      this.setState({ showKeyline });
+    }
 
     return false;
   };

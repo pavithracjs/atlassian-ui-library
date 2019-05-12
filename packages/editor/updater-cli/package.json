@@ -12,7 +12,9 @@
     "Stanislav S"
   ],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Updater CLI",
+    "team": "editor"
   },
   "dependencies": {
     "chalk": "^2.1.0",

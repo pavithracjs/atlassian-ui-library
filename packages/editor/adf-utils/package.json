@@ -31,7 +31,9 @@
     "Stanislav S"
   ],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Adf utils",
+    "team": "editor"
   },
   "dependencies": {
     "@atlaskit/adf-schema": "^2.5.5",

@@ -137,7 +137,7 @@ export type CardProps = {
   title: string;
   image?: string;
   alt?: string;
-  to?: string;
+  to: string;
   href?: string;
 };
 
@@ -198,6 +198,7 @@ const cards = [
   },
   {
     href: 'http://atlassian.design',
+    to: '',
     title: 'Atlassian Design Guidelines',
     image: multiTool,
     icon: () => (
@@ -231,6 +232,7 @@ const cards = [
   },
   {
     href: 'https://bitbucket.org/atlassian/atlaskit-mk-2',
+    to: '',
     title: 'Atlaskit Repository',
     icon: () => (
       <CardIcon color={colors.Y400}>
@@ -247,6 +249,7 @@ const cards = [
   },
   {
     href: 'https://developer.atlassian.com/blog/',
+    to: '',
     title: 'Atlassian Developer Blog',
     icon: () => (
       <CardIcon color={colors.N0}>
@@ -266,15 +269,17 @@ export default class Cards extends React.Component {
   state = {
     columnCount: 3,
   };
-  debouncedDetect: () => void;
+  debouncedDetect?: () => void;
 
   componentDidMount() {
     this.debouncedDetect = debounce(this.detectColumns, 500);
-    window.addEventListener('resize', this.debouncedDetect);
+    window.addEventListener('resize', this.debouncedDetect!);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.debouncedDetect);
+    if (this.debouncedDetect) {
+      window.removeEventListener('resize', this.debouncedDetect);
+    }
   }
 
   detectColumns = () => {

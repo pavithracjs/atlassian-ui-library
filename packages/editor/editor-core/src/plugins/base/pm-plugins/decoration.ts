@@ -6,10 +6,7 @@ import {
   NodeSelection,
 } from 'prosemirror-state';
 import { Command } from '../../../types';
-import {
-  pluginKey as floatingToolbarPluginKey,
-  getRelevantConfig,
-} from '../../floating-toolbar/index';
+import { pluginKey as floatingToolbarPluginKey } from '../../floating-toolbar/index';
 import { FloatingToolbarConfig } from '../../floating-toolbar/types';
 import { findParentNodeOfType } from 'prosemirror-utils';
 import { Node } from 'prosemirror-model';
@@ -25,15 +22,10 @@ export const hoverDecoration = (
   add: boolean,
   className: string = 'danger',
 ): Command => (state, dispatch) => {
-  const floatingToolbarConfigs:
-    | Array<FloatingToolbarConfig>
+  const config:
+    | FloatingToolbarConfig
     | undefined = floatingToolbarPluginKey.getState(state);
 
-  if (!floatingToolbarConfigs) {
-    return false;
-  }
-
-  const config = getRelevantConfig(state, floatingToolbarConfigs);
   if (!config) {
     return false;
   }

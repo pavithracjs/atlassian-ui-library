@@ -1,5 +1,10 @@
 # @atlaskit/drawer
 
+## 4.1.0
+- [minor] [3301793aae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3301793aae):
+
+  - Add DrawerSkeletonHeader, DrawerSkeletonItem and DrawerItemGroup components to drawer
+
 ## 4.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

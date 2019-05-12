@@ -52,6 +52,7 @@ export default class MediaGroup extends React.Component<
 
   constructor(props: MediaGroupProps) {
     super(props);
+    this.mediaNodes = [];
     this.mediaPluginState = mediaStateKey.getState(props.view.state);
     this.setMediaItems(props);
   }

@@ -36,7 +36,7 @@ import {
   showInsertColumnButton,
   showInsertRowButton,
   hideInsertColumnOrRowButton,
-} from './actions';
+} from './commands';
 import { getPluginState } from './pm-plugins/main';
 import { getSelectedCellInfo } from './utils';
 import { deleteColumns, deleteRows } from './transforms';
@@ -119,7 +119,7 @@ export const handleMouseOver = (
   if (isInsertRowButton(target)) {
     return showInsertRowButton(getIndex(target))(state, dispatch);
   }
-  if (hideInsertColumnOrRowButton(state, dispatch)) {
+  if (hideInsertColumnOrRowButton()(state, dispatch)) {
     return true;
   }
   return false;
@@ -127,7 +127,7 @@ export const handleMouseOver = (
 
 export const handleMouseLeave = (view: EditorView): boolean => {
   const { state, dispatch } = view;
-  if (hideInsertColumnOrRowButton(state, dispatch)) {
+  if (hideInsertColumnOrRowButton()(state, dispatch)) {
     return true;
   }
   return false;

@@ -50,7 +50,7 @@ import {
 } from '../../../../ui/styles';
 import { BlockType } from '../../../block-type/types';
 import { MacroProvider } from '../../../macro/types';
-import { createTable } from '../../../table/actions';
+import { createTable } from '../../../table/commands';
 import { insertDate, openDatePicker } from '../../../date/actions';
 import { showPlaceholderFloatingToolbar } from '../../../placeholder-text/actions';
 import { createHorizontalRule } from '../../../rule/pm-plugins/input-rule';
@@ -691,7 +691,7 @@ class ToolbarInsertBlock extends React.PureComponent<
     },
   );
 
-  private createTable = withAnalytics(
+  private insertTable = withAnalytics(
     'atlassian.editor.format.table.button',
     (inputMethod: TOOLBAR_MENU_TYPE): boolean => {
       const { editorView } = this.props;
@@ -882,7 +882,7 @@ class ToolbarInsertBlock extends React.PureComponent<
         this.toggleLinkPanel(inputMethod);
         break;
       case 'table':
-        this.createTable(inputMethod);
+        this.insertTable(inputMethod);
         break;
       case 'image upload':
         if (handleImageUpload) {

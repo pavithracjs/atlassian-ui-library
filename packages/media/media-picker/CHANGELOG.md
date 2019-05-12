@@ -1,5 +1,36 @@
 # @atlaskit/media-picker
 
+## 42.0.1
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/media-card@63.0.2
+  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-editor@35.0.1
+  - @atlaskit/media-store@12.0.1
+  - @atlaskit/media-ui@11.1.1
+  - @atlaskit/media-viewer@43.0.1
+  - @atlaskit/media-test-helpers@23.0.0
+
+## 42.0.0
+- [major] [59cce82fd1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59cce82fd1):
+
+  - Remove Binary component from MediaPicker
+
+  If you want to upload a file (string or blob) to media, you should instead use **context.file.upload** from **@atlaskit/media-core**
+
+  ```typescript
+  import {ContextFactory} from '@atlaskit/media-core'
+
+  const mediaContext = ContextFactory.create()
+
+  mediaContext.file.upload({
+    content: 'some-external-url',
+    name: 'some-file-name.png',
+    collection: 'destination-collection'
+  })
+  ```
+
+  For more info check `atlaskit-mk-2/packages/media/media-client/src/client/file-fetcher.ts`
+
 ## 41.0.1
 - [patch] [5cfa2ddf93](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5cfa2ddf93):
 

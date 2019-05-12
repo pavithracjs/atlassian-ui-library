@@ -37,7 +37,7 @@ import {
   insertColumnWithAnalytics,
   deleteRowsWithAnalytics,
   deleteColumnsWithAnalytics,
-} from '../../../../plugins/table/actions-with-analytics';
+} from '../../../../plugins/table/commands-with-analytics';
 import { INPUT_METHOD } from '../../../../plugins/analytics';
 import { handleCut } from '../../../../plugins/table/event-handlers';
 

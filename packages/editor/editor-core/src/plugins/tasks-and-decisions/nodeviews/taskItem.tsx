@@ -139,6 +139,10 @@ class Task extends ReactNodeView {
     );
   }
 
+  viewShouldUpdate() {
+    return false;
+  }
+
   update(node: PMNode, decorations: Decoration[]) {
     /**
      * Returning false here when the previous content was empty fixes an error where the editor fails to set selection
@@ -150,7 +154,7 @@ class Task extends ReactNodeView {
     return super.update(
       node,
       decorations,
-      (currentNode, newNode) =>
+      (currentNode: PMNode, newNode: PMNode) =>
         !this.isContentEmpty() &&
         !!(currentNode.attrs.state === newNode.attrs.state),
     );

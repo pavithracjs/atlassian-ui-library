@@ -2,6 +2,7 @@
   "name": "@atlaskit/icon-file-type",
   "version": "4.0.0",
   "description": "A React package that contains file-type icons",
+  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "SEE LICENSE IN LICENSE",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -13,7 +14,10 @@
     "Daniel D",
     "Kang C"
   ],
-  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
+  "atlaskit": {
+    "name": "Icon File Type",
+    "team": "core"
+  },
   "scripts": {
     "update": "node ./build/index.js && yarn build:babel:cjs",
     "build:babel:cjs": "NODE_ENV=production BABEL_ENV=production:cjs babel src -d cjs --root-mode=\"upward\""

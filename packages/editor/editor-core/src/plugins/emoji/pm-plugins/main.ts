@@ -104,12 +104,14 @@ export class EmojiState {
       return;
     }
 
-    const newAnchorElement = this.view.dom.querySelector(
-      '[data-emoji-query]',
-    ) as HTMLElement;
-    if (newAnchorElement !== this.anchorElement) {
-      dirty = true;
-      this.anchorElement = newAnchorElement;
+    if (this.queryActive) {
+      const newAnchorElement = this.view.dom.querySelector(
+        'span[data-emoji-query]',
+      ) as HTMLElement;
+      if (newAnchorElement !== this.anchorElement) {
+        dirty = true;
+        this.anchorElement = newAnchorElement;
+      }
     }
 
     if (dirty) {
@@ -134,6 +136,7 @@ export class EmojiState {
           .removeStoredMark(markType),
       );
     }
+    this.notifySubscribers();
     this.onDismiss();
     return true;
   }

@@ -11,6 +11,10 @@
     "Leonard Osang",
     "Kim Damevin"
   ],
+  "atlaskit": {
+    "name": "Notification Log Client",
+    "team": "home"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/util-service-support": "^4.0.3",
