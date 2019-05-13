@@ -194,11 +194,12 @@ export default class PickerFacade {
   private handleUploadPreviewUpdate = (
     event: UploadPreviewUpdateEventPayload,
   ) => {
-    let { file, preview } = event;
+    const { file, preview } = event;
     const { dimensions, scaleFactor } = isImagePreview(preview)
       ? preview
       : { dimensions: undefined, scaleFactor: undefined };
-    const state: MediaState = {
+
+    const state = {
       id: file.id,
       fileName: file.name,
       fileSize: file.size,

@@ -1,22 +1,16 @@
 import * as React from 'react';
-import {
-  MediaPluginState,
-  MediaProvider,
-  MediaState,
-} from '../pm-plugins/main';
+import { MediaPluginState, MediaProvider } from '../pm-plugins/main';
 import {
   Clipboard,
-  isImagePreview,
   UploadPreviewUpdateEventPayload,
   UploadParams,
   UploadErrorEventPayload,
+  UploadProcessingEventPayload,
+  isImagePreview,
 } from '@atlaskit/media-picker';
 import { Context } from '@atlaskit/media-core';
 import { ErrorReporter } from '@atlaskit/editor-common';
-import {
-  MediaStateEventSubscriber,
-  MediaStateEventListener,
-} from '../picker-facade';
+import PickerFacade, { MediaStateEventListener } from '../picker-facade';
 
 type Props = {
   mediaState: MediaPluginState;
@@ -25,13 +19,16 @@ type Props = {
 type State = {
   uploadParams?: UploadParams;
   context?: Context;
+  onMediaStateChangedCallback: MediaStateEventListener;
 };
 
 export default class ClipboardMediaPickerWrapper extends React.Component<
   Props,
   State
 > {
-  state: State = {};
+  state: State = {
+    onMediaStateChangedCallback: () => {},
+  };
 
   componentDidMount() {
     this.props.mediaState.options.providerFactory.subscribe(
@@ -51,14 +48,16 @@ export default class ClipboardMediaPickerWrapper extends React.Component<
   }
 
   onPreviewUpdate = (event: UploadPreviewUpdateEventPayload) => {
-    const { mediaState } = this.props;
+    const {
+      mediaState: { insertFile },
+    } = this.props;
+    const { preview, file } = event;
 
-    let { file, preview } = event;
     const { dimensions, scaleFactor } = isImagePreview(preview)
       ? preview
       : { dimensions: undefined, scaleFactor: undefined };
 
-    const state: MediaState = {
+    const state = {
       id: file.id,
       fileName: file.name,
       fileSize: file.size,
@@ -67,15 +66,14 @@ export default class ClipboardMediaPickerWrapper extends React.Component<
       scaleFactor,
     };
 
-    const cb: MediaStateEventSubscriber = (
-      listener: MediaStateEventListener,
-    ) => {
-      // Do we need this ?
-    };
-    mediaState.insertFile(state, cb);
+    insertFile(state, onMediaStateChangedCallback => {
+      this.setState({
+        onMediaStateChangedCallback,
+      });
+    });
   };
 
-  onError = ({ error }: UploadErrorEventPayload) => {
+  onError = ({ file, error }: UploadErrorEventPayload) => {
     const {
       mediaState: { options },
     } = this.props;
@@ -88,6 +86,19 @@ export default class ClipboardMediaPickerWrapper extends React.Component<
       errorReporter.captureException(err);
       return;
     }
+
+    this.state.onMediaStateChangedCallback({
+      id: error.fileId!,
+      status: 'error',
+      error: error && { description: error.description, name: error.name },
+    });
+  };
+
+  onProcessing = ({ file }: UploadProcessingEventPayload) => {
+    this.state.onMediaStateChangedCallback({
+      id: file.id,
+      status: 'ready',
+    });
   };
 
   render() {
@@ -105,6 +116,7 @@ export default class ClipboardMediaPickerWrapper extends React.Component<
         config={config}
         onError={this.onError}
         onPreviewUpdate={this.onPreviewUpdate}
+        onProcessing={this.onProcessing}
       />
     );
   }
