@@ -1,0 +1,1 @@
+- Added version.json and update analytics.json to read the info from there
