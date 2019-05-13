@@ -193,9 +193,11 @@ export const initEditorWithAdf = async (
     // We don't have to load the already existing page
     await page.goto(url, { waitUntil: 'networkidle0' }).catch(e => {
       console.warn('Navigation failed: ' + e.message);
+      console.warn('Trying to navigate to: ' + url);
       const inflight = tracker.inflightRequests();
       console.warn(
-        inflight.map(_requests => '  ' + _requests.url()).join('\n'),
+        'Waiting on requests:\n' +
+          inflight.map(_requests => '  ' + _requests.url()).join('\n'),
       );
     });
     tracker.dispose();

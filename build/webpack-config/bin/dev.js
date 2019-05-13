@@ -135,6 +135,8 @@ async function runDevServer() {
     historyApiFallback: true,
     disableHostCheck,
 
+    hot: false,
+    inline: false,
     overlay: true,
     stats,
   });
