@@ -2,7 +2,7 @@ import * as x from '@atlaskit/analytics-next';
 import {
   name as packageName,
   version as packageVersion,
-} from '../package.json';
+} from '../version.json';
 
 export const withAnalyticsEvents = x.withAnalyticsEvents;
 export const withAnalyticsContext = x.withAnalyticsContext;
