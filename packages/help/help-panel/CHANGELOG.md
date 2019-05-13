@@ -1,5 +1,10 @@
 ## 0.1.0
 
+## 0.4.0
+- [minor] [f479974eb4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f479974eb4):
+
+  - Added version.json and update analytics.json to read the info from there
+
 ## 0.3.0
 - [minor] [875ff270e8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/875ff270e8):
 
