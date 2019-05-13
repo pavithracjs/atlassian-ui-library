@@ -1,5 +1,35 @@
 # @atlaskit/share
 
+## 0.4.4
+- [patch] [c27888ddff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c27888ddff):
+
+  - added blogpost shared message and improved on documentation
+
+## 0.4.3
+- [patch] [c63137e1ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c63137e1ed):
+
+  - fixed admin is notified flag shows up with no request access
+
+## 0.4.2
+- [patch] [50cd881689](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/50cd881689):
+
+  - fixed escape key press closes share dialog when user picker menu is open
+
+## 0.4.1
+- [patch] [b684bc706c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b684bc706c):
+
+  - added and set default config when client.getConfig fails
+
+## 0.4.0
+- [minor] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 0.3.15
+- [patch] [7461d7df4e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7461d7df4e):
+
+  - added support to text-only Dialog Trigger Button
+
 ## 0.3.14
 - [patch] [ffd178d638](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ffd178d638):
 

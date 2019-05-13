@@ -1,5 +1,20 @@
 # @atlaskit/smart-card
 
+## 11.0.2
+- [patch] [7e18a6398b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e18a6398b):
+
+  - improve type safety when defining smart-card environment
+
+## 11.0.1
+- [patch] [b7687b9981](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b7687b9981):
+
+  - Changed smart link functionality so that it will open in the same tab if clicked.
+
+## 11.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
 ## 10.5.0
 - [minor] [593404cba8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/593404cba8):
 

@@ -1,5 +1,92 @@
 # @atlaskit/renderer
 
+## 48.1.1
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/editor-test-helpers@9.1.3
+  - @atlaskit/media-card@63.0.2
+  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-filmstrip@34.1.1
+  - @atlaskit/media-test-helpers@23.0.0
+
+## 48.1.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
+## 48.0.1
+- [patch] [8f2d13f0ec](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8f2d13f0ec):
+
+  - Email renderer - nested lists do not have vertical margins
+
+## 48.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/adf-utils@6.0.5
+  - @atlaskit/adf-schema@2.5.5
+  - @atlaskit/editor-common@39.0.0
+  - @atlaskit/media-card@63.0.0
+  - @atlaskit/media-filmstrip@34.0.0
+  - @atlaskit/docs@8.0.0
+  - @atlaskit/visual-regression@0.1.0
+  - @atlaskit/button@13.0.0
+  - @atlaskit/code@10.0.0
+  - @atlaskit/field-range@7.0.0
+  - @atlaskit/icon@17.0.0
+  - @atlaskit/navigation-next@6.0.0
+  - @atlaskit/theme@9.0.0
+  - @atlaskit/editor-json-transformer@6.0.0
+  - @atlaskit/editor-test-helpers@9.0.0
+  - @atlaskit/analytics-listeners@6.0.0
+  - @atlaskit/analytics-namespaced-context@4.0.0
+  - @atlaskit/mention@18.0.0
+  - @atlaskit/status@0.9.0
+  - @atlaskit/task-decision@15.0.0
+  - @atlaskit/util-data-test@12.0.0
+  - @atlaskit/media-core@30.0.0
+  - @atlaskit/media-test-helpers@22.0.0
+  - @atlaskit/smart-card@11.0.0
+  - @atlaskit/profilecard@10.0.0
+
+## 47.1.0
+- [minor] [69a8870b4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/69a8870b4b):
+
+  - adds support for line numbers in email renderer code blocks
+
+## 47.0.0
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-common@38.0.0
+  - @atlaskit/media-card@62.0.0
+  - @atlaskit/media-filmstrip@33.0.0
+  - @atlaskit/editor-json-transformer@5.0.4
+  - @atlaskit/editor-test-helpers@8.0.8
+  - @atlaskit/task-decision@14.0.9
+  - @atlaskit/util-data-test@11.1.9
+  - @atlaskit/media-test-helpers@21.4.0
+  - @atlaskit/media-core@29.3.0
+
+## 46.0.1
+- [patch] [166ca915ac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/166ca915ac):
+
+  - ED-6737: Prevent default tables from going into overflow in the renderer straight away after publish.
+
+  This issue was caused by dynamic sizing, a default table being created in 760 width and then being rendered in 680 width.
+
+  Also included in this patch: Preventing the shadow appearing on the right hand side of the table, when there is no overflow.
+
+## 46.0.0
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-common@37.0.0
+  - @atlaskit/media-card@61.0.0
+  - @atlaskit/media-filmstrip@32.0.0
+  - @atlaskit/editor-json-transformer@5.0.3
+  - @atlaskit/editor-test-helpers@8.0.7
+  - @atlaskit/task-decision@14.0.8
+  - @atlaskit/util-data-test@11.1.8
+  - @atlaskit/media-test-helpers@21.3.0
+  - @atlaskit/media-core@29.2.0
+
 ## 45.6.5
 - [patch] [8eeac8c104](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8eeac8c104):
 

@@ -51,6 +51,7 @@ export class Footer extends Component<FooterProps> {
         appearance="primary"
         onClick={onClick}
         isDisabled={!canInsert}
+        autoFocus
       >
         <FormattedMessage
           {...messages.insert_files}

@@ -19,11 +19,8 @@ describe('@atlaskit/editor-core utils/plugin-state-factory', () => {
         const dispatch = jest.fn();
         const reducer = jest.fn();
         const pluginKey = getPluginKeyMock();
-        const { createPluginState } = pluginFactory({
-          pluginKey,
-          reducer,
-        });
-        const pluginState = createPluginState(dispatch);
+        const { createPluginState } = pluginFactory(pluginKey, reducer);
+        const pluginState = createPluginState(dispatch, {});
         expect((pluginState as any).init()).toEqual({});
       });
 
@@ -35,12 +32,8 @@ describe('@atlaskit/editor-core utils/plugin-state-factory', () => {
           pos: 1,
           name: 'aaa',
         };
-        const { createPluginState } = pluginFactory({
-          pluginKey,
-          reducer,
-          initialState,
-        });
-        const pluginState = createPluginState(dispatch);
+        const { createPluginState } = pluginFactory(pluginKey, reducer);
+        const pluginState = createPluginState(dispatch, initialState);
         expect((pluginState as any).init()).toEqual(initialState);
       });
     });
@@ -51,12 +44,10 @@ describe('@atlaskit/editor-core utils/plugin-state-factory', () => {
         const reducer = jest.fn();
         const mapping = jest.fn();
         const pluginKey = getPluginKeyMock();
-        const { createPluginState } = pluginFactory({
-          pluginKey,
-          reducer,
+        const { createPluginState } = pluginFactory(pluginKey, reducer, {
           mapping,
         });
-        const state = createPluginState(dispatch);
+        const state = createPluginState(dispatch, {});
         const tr = getTransactionMock();
         const pluginState = { pos: 3 };
         state.apply(tr, pluginState, {} as EditorState, {} as EditorState);
@@ -69,11 +60,8 @@ describe('@atlaskit/editor-core utils/plugin-state-factory', () => {
         const dispatch = jest.fn();
         const reducer = jest.fn();
         const pluginKey = getPluginKeyMock();
-        const { createPluginState } = pluginFactory({
-          pluginKey,
-          reducer,
-        });
-        const state = createPluginState(dispatch);
+        const { createPluginState } = pluginFactory(pluginKey, reducer);
+        const state = createPluginState(dispatch, {});
         state.apply(
           getTransactionMock(),
           {},
@@ -87,11 +75,8 @@ describe('@atlaskit/editor-core utils/plugin-state-factory', () => {
         const dispatch = jest.fn();
         const reducer = jest.fn();
         const pluginKey = getPluginKeyMock();
-        const { createPluginState } = pluginFactory({
-          pluginKey,
-          reducer,
-        });
-        const state = createPluginState(dispatch);
+        const { createPluginState } = pluginFactory(pluginKey, reducer);
+        const state = createPluginState(dispatch, {});
         const meta = { someProp: '123123' };
         const tr = getTransactionMock();
         tr.getMeta = () => meta;
@@ -107,11 +92,8 @@ describe('@atlaskit/editor-core utils/plugin-state-factory', () => {
         const dispatch = jest.fn();
         const pluginKey = getPluginKeyMock();
         const reducer = jest.fn();
-        const { createPluginState } = pluginFactory({
-          pluginKey,
-          reducer,
-        });
-        const state = createPluginState(dispatch);
+        const { createPluginState } = pluginFactory(pluginKey, reducer);
+        const state = createPluginState(dispatch, {});
         state.apply(
           getTransactionMock(),
           {},
@@ -127,11 +109,8 @@ describe('@atlaskit/editor-core utils/plugin-state-factory', () => {
         const pluginState = { pos: 3 };
         const newPluginState = { pos: 4 };
         const reducer = () => newPluginState;
-        const { createPluginState } = pluginFactory({
-          pluginKey,
-          reducer,
-        });
-        const state = createPluginState(dispatch);
+        const { createPluginState } = pluginFactory(pluginKey, reducer);
+        const state = createPluginState(dispatch, pluginState);
         const meta = { someProp: '123123' };
         const tr = getTransactionMock();
         tr.getMeta = () => meta;
@@ -147,12 +126,10 @@ describe('@atlaskit/editor-core utils/plugin-state-factory', () => {
         const reducer = jest.fn();
         const pluginKey = getPluginKeyMock();
         const onDocChanged = jest.fn();
-        const { createPluginState } = pluginFactory({
-          pluginKey,
-          reducer,
+        const { createPluginState } = pluginFactory(pluginKey, reducer, {
           onDocChanged,
         });
-        const state = createPluginState(dispatch);
+        const state = createPluginState(dispatch, {});
         state.apply(
           getTransactionMock(),
           {},
@@ -167,17 +144,15 @@ describe('@atlaskit/editor-core utils/plugin-state-factory', () => {
         const reducer = jest.fn();
         const pluginKey = getPluginKeyMock();
         const onDocChanged = jest.fn();
-        const { createPluginState } = pluginFactory({
-          pluginKey,
-          reducer,
+        const { createPluginState } = pluginFactory(pluginKey, reducer, {
           onDocChanged,
         });
-        const state = createPluginState(dispatch);
+        const state = createPluginState(dispatch, {});
         const tr = getTransactionMock();
         tr.docChanged = true;
         const pluginState = { pos: 11 };
         state.apply(tr, pluginState, {} as EditorState, {} as EditorState);
-        expect(onDocChanged).toHaveBeenCalledWith(pluginState);
+        expect(onDocChanged).toHaveBeenCalledWith(tr, pluginState);
       });
     });
 
@@ -187,12 +162,11 @@ describe('@atlaskit/editor-core utils/plugin-state-factory', () => {
         const reducer = jest.fn();
         const pluginKey = getPluginKeyMock();
         const onSelectionChanged = jest.fn();
-        const { createPluginState } = pluginFactory({
-          pluginKey,
-          reducer,
+        const { createPluginState } = pluginFactory(pluginKey, reducer, {
           onSelectionChanged,
         });
-        const state = createPluginState(dispatch);
+        const state = createPluginState(dispatch, {});
+
         state.apply(
           getTransactionMock(),
           {},
@@ -208,33 +182,30 @@ describe('@atlaskit/editor-core utils/plugin-state-factory', () => {
       const reducer = jest.fn();
       const pluginKey = getPluginKeyMock();
       const onSelectionChanged = jest.fn();
-      const { createPluginState } = pluginFactory({
-        pluginKey,
-        reducer,
+      const { createPluginState } = pluginFactory(pluginKey, reducer, {
         onSelectionChanged,
       });
-      const state = createPluginState(dispatch);
+      const state = createPluginState(dispatch, {});
       const tr = getTransactionMock();
       tr.selectionSet = true;
       const pluginState = { pos: 12 };
       state.apply(tr, pluginState, {} as EditorState, {} as EditorState);
-      expect(onSelectionChanged).toHaveBeenCalledWith(pluginState);
+      expect(onSelectionChanged).toHaveBeenCalledWith(tr, pluginState);
     });
   });
 
-  describe('#createAction', () => {
+  describe('#createCommand', () => {
     it('should set "meta" on a transaction', () => {
       const reducer = jest.fn();
-      const action = {
-        type: 'hello',
-      };
+      const dispatch = jest.fn();
+      const action = { type: 'hello' };
       const pluginKey = getPluginKeyMock();
       const tr = getTransactionMock();
-      const { createAction } = pluginFactory({
-        pluginKey,
-        reducer,
-      });
-      createAction(tr, action);
+      const state = { tr } as EditorState;
+
+      const { createCommand } = pluginFactory(pluginKey, reducer);
+
+      createCommand(action)(state, dispatch);
       expect(tr.setMeta).toHaveBeenCalledWith(pluginKey, action);
     });
   });
@@ -244,10 +215,7 @@ describe('@atlaskit/editor-core utils/plugin-state-factory', () => {
       const reducer = jest.fn();
       const state = {} as EditorState;
       const pluginKey = getPluginKeyMock();
-      const { getPluginState } = pluginFactory({
-        pluginKey,
-        reducer,
-      });
+      const { getPluginState } = pluginFactory(pluginKey, reducer);
       getPluginState(state);
       expect(pluginKey.getState).toHaveBeenCalledWith(state);
     });

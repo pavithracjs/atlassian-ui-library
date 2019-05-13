@@ -11,6 +11,7 @@ import { decisionItemNodeView } from '../nodeviews/decisionItem';
 import { taskItemNodeViewFactory } from '../nodeviews/taskItem';
 import { EditorAppearance, Command } from '../../../types';
 import { Dispatch } from '../../../event-dispatcher';
+import { nodesBetweenChanged } from '../../../utils';
 
 export const stateKey = new PluginKey('tasksAndDecisionsPlugin');
 
@@ -182,9 +183,13 @@ export function createPlugin(
     appendTransaction: (transactions, _oldState, newState) => {
       const tr = newState.tr;
       let modified = false;
-      if (transactions.some(transaction => transaction.docChanged)) {
+      transactions.forEach(transaction => {
+        if (!transaction.docChanged) {
+          return;
+        }
+
         // Adds a unique id to a node
-        newState.doc.descendants((node, pos) => {
+        nodesBetweenChanged(transaction, (node, pos) => {
           const {
             decisionList,
             decisionItem,
@@ -208,7 +213,7 @@ export function createPlugin(
             }
           }
         });
-      }
+      });
 
       if (modified) {
         return tr;

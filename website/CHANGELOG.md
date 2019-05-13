@@ -1,5 +1,41 @@
 # @atlaskit/website
 
+## 5.1.2
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/media-card@63.0.2
+  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-filmstrip@34.1.1
+  - @atlaskit/media-test-helpers@23.0.0
+
+## 5.1.1
+- Updated dependencies [3d95467c4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d95467c4b):
+  - @atlaskit/icon@17.0.1
+  - @atlaskit/dynamic-table@13.0.0
+
+## 5.1.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
+## 5.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 4.1.55
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/media-card@62.0.0
+  - @atlaskit/media-filmstrip@33.0.0
+  - @atlaskit/media-test-helpers@21.4.0
+  - @atlaskit/media-core@29.3.0
+
+## 4.1.54
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/media-card@61.0.0
+  - @atlaskit/media-filmstrip@32.0.0
+  - @atlaskit/media-test-helpers@21.3.0
+  - @atlaskit/media-core@29.2.0
+
 ## 4.1.53
 - Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
   - @atlaskit/docs@7.0.3

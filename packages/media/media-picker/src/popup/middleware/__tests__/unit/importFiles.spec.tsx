@@ -37,7 +37,7 @@ import {
   SendUploadEventActionPayload,
 } from '../../../actions/sendUploadEvent';
 import { SCALE_FACTOR_DEFAULT } from '../../../../util/getPreviewFromImage';
-import { fileStreamsCache, FileState } from '@atlaskit/media-core';
+import { getFileStreamsCache, FileState } from '@atlaskit/media-core';
 import { ReplaySubject, Observable } from 'rxjs';
 
 describe('importFiles middleware', () => {
@@ -512,6 +512,31 @@ describe('importFiles middleware', () => {
         });
       });
     });
+
+    it('should emit file-added in the tenant context', done => {
+      const { eventEmitter, mockWsProvider, store, nextDispatch } = setup();
+
+      importFilesMiddleware(eventEmitter, mockWsProvider)(store)(nextDispatch)(
+        action,
+      );
+
+      window.setTimeout(() => {
+        const { tenantContext } = store.getState();
+
+        expect(tenantContext.emit).toBeCalledTimes(4);
+        expect(tenantContext.emit).lastCalledWith('file-added', {
+          id: expectUUID,
+          mediaType: 'image',
+          mimeType: 'image/jpg',
+          name: 'picture5.jpg',
+          preview: undefined,
+          representations: {},
+          size: 47,
+          status: 'processing',
+        });
+        done();
+      });
+    });
   });
 
   describe('isRemoteService', () => {
@@ -568,7 +593,7 @@ describe('importFiles middleware', () => {
         },
       });
       touchSelectedFiles(selectedFiles, store);
-      const observable = fileStreamsCache.get('id-1');
+      const observable = getFileStreamsCache().get('id-1');
 
       observable!.subscribe({
         next(state) {
@@ -591,7 +616,7 @@ describe('importFiles middleware', () => {
           value: 'some-local-preview',
         },
       });
-      fileStreamsCache.set('id-1', subject as Observable<FileState>);
+      getFileStreamsCache().set('id-1', subject as Observable<FileState>);
       const selectedFiles: SelectedUploadFile[] = [
         {
           file,
@@ -603,7 +628,7 @@ describe('importFiles middleware', () => {
       ];
       const store = mockStore();
       touchSelectedFiles(selectedFiles, store);
-      const observable = fileStreamsCache.get('id-1');
+      const observable = getFileStreamsCache().get('id-1');
 
       observable!.subscribe({
         async next(state) {
@@ -629,7 +654,7 @@ describe('importFiles middleware', () => {
       ];
       const store = mockStore();
       touchSelectedFiles(selectedFiles, store);
-      const observable = fileStreamsCache.get('id-1');
+      const observable = getFileStreamsCache().get('id-1');
 
       observable!.subscribe({
         async next(state) {

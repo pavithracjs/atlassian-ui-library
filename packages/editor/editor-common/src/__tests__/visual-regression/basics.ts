@@ -1,13 +1,16 @@
 import { loadFullPageEditorWithAdf, snapshot } from './_utils';
+import { waitForLoadedBackgroundImages } from '@atlaskit/visual-regression/helper';
 import adf from './adf/basic-content.adf.json';
 
-// TODO: There is an issue Error: Evaluation failed: TypeError: Cannot set property 'value' of null
-describe.skip('Snapshot Test: Basic Content', () => {
+describe('Snapshot Test: Basic Content', () => {
   it('looks correct', async () => {
     // @ts-ignore
     const page = global.page;
-    await loadFullPageEditorWithAdf(page, adf);
     await page.setViewport({ width: 1000, height: 1000 });
+    await loadFullPageEditorWithAdf(page, adf);
+    // Wait for loaded emoji image (contained within ADF)
+    await page.waitForSelector('.emoji-common-emoji-sprite');
+    await waitForLoadedBackgroundImages(page);
     await snapshot(page);
   });
 });

@@ -1,5 +1,19 @@
 # @atlaskit/dynamic-table
 
+## 13.0.0
+- [major] [3d95467c4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d95467c4b):
+
+  - Dynamic table has been internally converted to TypeScript.
+  - Drops Flow support.
+  - TypeScript consumers will get static type safety.
+  - No longer falls back to cell.content for ordering when cell.key is not provided. When cell.key is not provided, it will now preserve original ordering, while still respecting sort order (i.e. ASC and DESC).
+  - No other API or behavioural changes.
+
+## 12.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
 ## 11.0.4
 - [patch] [08321f585d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/08321f585d):
 

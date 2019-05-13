@@ -1,5 +1,30 @@
 # @atlaskit/media-store
 
+## 12.0.1
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/media-card@63.0.2
+  - @atlaskit/media-client@1.1.3
+  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-test-helpers@23.0.0
+
+## 12.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 11.1.1
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/media-card@62.0.0
+  - @atlaskit/media-test-helpers@21.4.0
+
+## 11.1.0
+- [minor] [231193388e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/231193388e):
+
+  - Add MediaClientConfig interface to support media-client package
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/media-card@61.0.0
+  - @atlaskit/media-test-helpers@21.3.0
+
 ## 11.0.7
 - Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
   - @atlaskit/docs@7.0.2

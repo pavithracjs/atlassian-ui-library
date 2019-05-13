@@ -14,7 +14,12 @@ export default (
   const group = fs.getById(groups, resolvedGroupId);
   const packages = fs.getDirectories(group.children);
   const resolvedPackageId = packageId || packages[0].id;
-  const pkg = fs.getById(packages, resolvedPackageId);
+  let pkg;
+  try {
+    pkg = fs.getById(packages, resolvedPackageId);
+  } catch (e) {
+    pkg = { type: 'dir', id: '__404__', children: [] } as fs.Directory;
+  }
 
   let examples = fs.findNormalized(pkg, `${resolvedPackageId}/${examplesPath}`);
 

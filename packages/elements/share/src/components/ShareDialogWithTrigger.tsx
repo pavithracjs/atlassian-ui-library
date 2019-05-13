@@ -7,6 +7,7 @@ import {
 import { ButtonAppearances } from '@atlaskit/button';
 import InlineDialog from '@atlaskit/inline-dialog';
 import { LoadOptions } from '@atlaskit/user-picker';
+import ShareIcon from '@atlaskit/icon/glyph/share';
 import * as React from 'react';
 import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
 import styled from 'styled-components';
@@ -32,6 +33,7 @@ import {
 } from './analytics';
 import ShareButton from './ShareButton';
 import { ShareForm } from './ShareForm';
+import { showInviteWarning } from './utils';
 
 type DialogState = {
   isDialogOpen: boolean;
@@ -113,14 +115,15 @@ class ShareDialogWithTriggerInternal extends React.Component<
     }
   };
 
-  private getFlags = () => {
+  private getFlags = (
+    config: ConfigResponse | undefined,
+    data: DialogContentState,
+  ) => {
     const { formatMessage } = this.props.intl;
     const flags: Array<Flag> = [];
+    const shouldShowAdminNotifiedFlag = showInviteWarning(config, data.users);
 
-    if (
-      this.props.config &&
-      this.props.config.mode === 'INVITE_NEEDS_APPROVAL'
-    ) {
+    if (shouldShowAdminNotifiedFlag) {
       flags.push({
         appearance: 'success',
         title: {
@@ -156,6 +159,16 @@ class ShareDialogWithTriggerInternal extends React.Component<
     if (isDialogOpen && shouldCloseOnEscapePress) {
       switch (event.key) {
         case 'Escape':
+          // react-select will always capture the event via onKeyDown
+          // and trigger event.preventDefault()
+          if (event.defaultPrevented) {
+            // put the focus back onto the share dialog so that
+            // the user can press the escape key again to close the dialog
+            if (this.containerRef.current) {
+              this.containerRef.current.focus();
+            }
+            return;
+          }
           event.stopPropagation();
           this.closeAndResetDialog();
           this.createAndFireEvent(cancelShare(this.start));
@@ -202,7 +215,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
       .then(() => {
         this.closeAndResetDialog();
         this.setState({ isSharing: false });
-        showFlags(this.getFlags());
+        showFlags(this.getFlags(config, data));
       })
       .catch((err: Error) => {
         this.setState({
@@ -227,6 +240,7 @@ class ShareDialogWithTriggerInternal extends React.Component<
   render() {
     const { isDialogOpen, isSharing, shareError, defaultValue } = this.state;
     const {
+      intl: { formatMessage },
       copyLink,
       dialogPlacement,
       isDisabled,
@@ -278,11 +292,20 @@ class ShareDialogWithTriggerInternal extends React.Component<
             <ShareButton
               appearance={triggerButtonAppearance}
               text={
-                triggerButtonStyle === 'icon-with-text' ? (
+                triggerButtonStyle !== 'icon-only' ? (
                   <FormattedMessage {...messages.shareTriggerButtonText} />
                 ) : null
               }
               onClick={this.onTriggerClick}
+              iconBefore={
+                triggerButtonStyle !== 'text-only' ? (
+                  <ShareIcon
+                    label={formatMessage(messages.shareTriggerButtonIconLabel)}
+                  />
+                ) : (
+                  undefined
+                )
+              }
               isSelected={isDialogOpen}
               isDisabled={isDisabled}
             />

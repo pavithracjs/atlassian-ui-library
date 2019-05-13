@@ -22,7 +22,7 @@ export const insertMention = async (browser: any, query: string) => {
   await browser.type(editable, '@');
   await browser.waitForSelector(typeAheadPicker);
   await browser.type(editable, query);
-  await browser.type(editable, 'Return');
+  await browser.keys(['Return']);
 };
 
 export const gotoEditor = async (browser: any) => {
@@ -93,6 +93,22 @@ export const clipboardInput = 'textarea';
 
 export const copyAsPlaintextButton = '.copy-as-plaintext';
 export const copyAsHTMLButton = '.copy-as-html';
+
+/**
+ * Copies plain text or HTML to clipboard for tests that need to paste
+ */
+export const copyToClipboard = async (
+  browser: any,
+  text: string,
+  copyAs: 'plain' | 'html' = 'plain',
+) => {
+  await browser.goto(clipboardHelper);
+  await browser.isVisible(clipboardInput);
+  await browser.type(clipboardInput, text);
+  await browser.click(
+    copyAs === 'html' ? copyAsHTMLButton : copyAsPlaintextButton,
+  );
+};
 
 export const mediaInsertDelay = 1000;
 
@@ -182,7 +198,7 @@ export const insertMedia = async (
   const mediaCardCount = get$$Length(existingMediaCards) + filenames.length;
 
   // Workaround - we need to use different wait methods depending on where we are running.
-  if (browser.browser.desiredCapabilities) {
+  if (browser.browser.capabilities) {
     await browser.browser.waitUntil(async () => {
       const mediaCards = await browser.$$(mediaCardSelector);
 
@@ -195,7 +211,7 @@ export const insertMedia = async (
       );
     });
   } else {
-    await browser.evaluate(() => {
+    browser.evaluate(() => {
       window.scrollBy(0, window.innerHeight);
     });
     await browser.waitFor(
@@ -277,6 +293,7 @@ export const toggleBreakout = async (page: any, times: number) => {
   for (let _iter of timesArray) {
     await page.waitForSelector(breakoutSelector);
     await page.click(breakoutSelector);
+    await animationFrame(page);
   }
 };
 
@@ -306,7 +323,7 @@ export const insertMenuItem = async (browser: any, title: string) => {
 };
 
 export const currentSelectedEmoji = '.emoji-typeahead-selected';
-export const typeahead = '.ak-emoji-typeahead';
+export const typeahead = '.ak-emoji-typeahead-list';
 
 export const insertEmoji = async (browser: any, query: string) => {
   await browser.type(editable, ':');
@@ -324,7 +341,7 @@ export const insertEmojiBySelect = async (browser: any, select: string) => {
 };
 
 export const currentSelectedEmojiShortName = async (browser: any) => {
-  return await browser.$(currentSelectedEmoji).getProperty('data-emoji-id');
+  return await browser.getProperty(currentSelectedEmoji, 'data-emoji-id');
 };
 
 export const highlightEmojiInTypeahead = async (
@@ -337,12 +354,12 @@ export const highlightEmojiInTypeahead = async (
     if (selectedEmojiShortName === `:${emojiShortName}:`) {
       break;
     }
-    await browser.type(editable, 'ArrowDown');
+    await browser.keys(['ArrowDown']);
   }
 };
 
 export const emojiItem = (emojiShortName: string): string => {
-  return `span[data-emoji-short-name=":${emojiShortName}:"]`;
+  return `span[shortname=":${emojiShortName}:"]`;
 };
 
 interface ResizeOptions {

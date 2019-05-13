@@ -20,7 +20,7 @@ import {
 } from '../../../../../plugins/table/types';
 import RowControls from '../../../../../plugins/table/ui/TableFloatingControls/RowControls';
 import TableFloatingControls from '../../../../../plugins/table/ui/TableFloatingControls';
-import { hoverRows } from '../../../../../plugins/table/actions';
+import { hoverRows } from '../../../../../plugins/table/commands';
 import { tablesPlugin } from '../../../../../plugins';
 import { setTextSelection } from '../../../../../index';
 

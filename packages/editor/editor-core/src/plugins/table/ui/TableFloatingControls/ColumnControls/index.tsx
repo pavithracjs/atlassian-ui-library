@@ -10,11 +10,11 @@ import {
   hoverColumns,
   selectColumn,
   clearHoverSelection,
-} from '../../../actions';
+} from '../../../commands';
 import {
   insertColumnWithAnalytics,
   deleteColumnsWithAnalytics,
-} from '../../../actions-with-analytics';
+} from '../../../commands-with-analytics';
 import { TableCssClassName as ClassName } from '../../../types';
 import {
   isSelectionUpdated,
@@ -89,7 +89,10 @@ export default class ColumnControls extends Component<Props, any> {
     }
 
     const { selection } = editorView.state;
-    const columnsWidths = getColumnsWidths(editorView);
+    const columnsWidths = getColumnsWidths(
+      editorView.state,
+      editorView.domAtPos.bind(editorView),
+    );
     const columnsParams = getColumnsParams(columnsWidths);
     const deleteBtnParams = getColumnDeleteButtonParams(
       columnsWidths,
@@ -197,7 +200,7 @@ export default class ColumnControls extends Component<Props, any> {
 
   private clearHoverSelection = () => {
     const { state, dispatch } = this.props.editorView;
-    clearHoverSelection(state, dispatch);
+    clearHoverSelection()(state, dispatch);
   };
 
   private insertColumn = (column: number) => {

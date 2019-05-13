@@ -1,5 +1,55 @@
 # @atlaskit/media-card
 
+## 63.0.2
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-store@12.0.1
+  - @atlaskit/media-ui@11.1.1
+  - @atlaskit/media-viewer@43.0.1
+  - @atlaskit/media-test-helpers@23.0.0
+
+## 63.0.1
+- [patch] [cbc9ff5b6a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/cbc9ff5b6a):
+
+  - Fix support for exif orientation when dropping a picture
+
+## 63.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/media-viewer@43.0.0
+  - @atlaskit/docs@8.0.0
+  - @atlaskit/analytics-next@5.0.0
+  - @atlaskit/button@13.0.0
+  - @atlaskit/checkbox@7.0.0
+  - @atlaskit/dropdown-menu@8.0.0
+  - @atlaskit/field-radio-group@6.0.0
+  - @atlaskit/field-range@7.0.0
+  - @atlaskit/field-text@9.0.0
+  - @atlaskit/icon@17.0.0
+  - @atlaskit/spinner@11.0.0
+  - @atlaskit/theme@9.0.0
+  - @atlaskit/toggle@7.0.0
+  - @atlaskit/media-core@30.0.0
+  - @atlaskit/media-store@12.0.0
+  - @atlaskit/media-test-helpers@22.0.0
+  - @atlaskit/media-ui@11.0.0
+
+## 62.0.0
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/media-viewer@42.0.0
+  - @atlaskit/media-store@11.1.1
+  - @atlaskit/media-test-helpers@21.4.0
+  - @atlaskit/media-core@29.3.0
+
+## 61.0.0
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/media-viewer@41.0.0
+  - @atlaskit/media-store@11.1.0
+  - @atlaskit/media-test-helpers@21.3.0
+  - @atlaskit/media-core@29.2.0
+
 ## 60.0.6
 - [patch] [d3cad2622e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d3cad2622e):
 

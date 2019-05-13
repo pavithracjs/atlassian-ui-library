@@ -25,7 +25,6 @@ export type ResolvedLog = {
   log: string;
 };
 export default class ChangelogExplorer extends React.Component<Props, State> {
-  props: Props;
   state: State = { isInvalid: false, range: '' };
 
   componentWillMount() {

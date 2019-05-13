@@ -35,7 +35,7 @@ const getPlaceholderColor = css`
 
 const Content = styled.div`
   flex: 1 1 auto;
-  margin: 3px ${gridSizeUnitless}px; /* magic number to make multi-select the same height as field-text, to be fixed TODO: AK-1699 */
+  margin: 3px ${gridSizeUnitless}px; /* magic number to make multi-select the same height as field-text. */
   white-space: nowrap;
   width: 100%;
 `;
@@ -68,7 +68,7 @@ const TriggerDiv = styled.div`
   align-items: center;
   display: flex;
   width: 100%;
-  min-height: 37px; /* magic number to make multi-select the same height as field-text, to be fixed TODO: AK-1699 */
+  min-height: 37px; /* magic number to make multi-select the same height as field-text. */
 
   ${({ isDisabled }) =>
     isDisabled

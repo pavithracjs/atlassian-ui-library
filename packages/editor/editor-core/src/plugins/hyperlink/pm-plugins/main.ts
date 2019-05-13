@@ -8,6 +8,7 @@ import {
   Transaction,
 } from 'prosemirror-state';
 import { Dispatch } from '../../../event-dispatcher';
+import { shallowEqual } from '../../../plugins/text-formatting/utils';
 
 export enum LinkAction {
   SHOW_INSERT_TOOLBAR = 'SHOW_INSERT_TOOLBAR',
@@ -261,7 +262,7 @@ export const plugin = (dispatch: Dispatch) =>
           };
         }
 
-        if (state !== pluginState) {
+        if (!shallowEqual(state, pluginState)) {
           dispatch(stateKey, state);
         }
         return state;

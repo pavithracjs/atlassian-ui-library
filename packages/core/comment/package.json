@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/comment",
-  "version": "7.0.6",
+  "version": "8.0.1",
   "description": "Comments enable discussions on an entity such as a page, blog post, issue or pull request",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -14,28 +14,32 @@
     "Daniel D",
     "Kang C"
   ],
+  "atlaskit": {
+    "name": "Comment",
+    "team": "core"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^4.0.3",
-    "@atlaskit/button": "^12.0.3",
-    "@atlaskit/icon": "^16.0.9",
-    "@atlaskit/lozenge": "^7.0.2",
-    "@atlaskit/theme": "^8.1.7",
+    "@atlaskit/analytics-next": "^5.0.0",
+    "@atlaskit/button": "^13.0.0",
+    "@atlaskit/icon": "^17.0.0",
+    "@atlaskit/lozenge": "^8.0.0",
+    "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
-    "@atlaskit/avatar": "^15.0.4",
+    "@atlaskit/avatar": "^16.0.0",
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/docs": "^7.0.3",
-    "@atlaskit/editor-core": "^107.13.4",
-    "@atlaskit/ssr": "^0.0.1",
-    "@atlaskit/visual-regression": "^0.0.1",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/editor-core": "^111.0.0",
+    "@atlaskit/ssr": "^0.1.0",
+    "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.8.0"
   },
   "keywords": [
     "atlaskit",
