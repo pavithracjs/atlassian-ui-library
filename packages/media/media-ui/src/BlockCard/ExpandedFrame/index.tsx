@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { MouseEvent } from 'react';
 import {
   className,
   LinkWrapper,
@@ -21,7 +20,7 @@ export interface ExpandedFrameProps {
   /** A flag that determines whether the card is selected in edit mode. */
   isSelected?: boolean;
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
 }
 
 export class ExpandedFrame extends React.Component<ExpandedFrameProps> {
@@ -30,12 +29,12 @@ export class ExpandedFrame extends React.Component<ExpandedFrameProps> {
     return !isPlaceholder && (Boolean(href) || Boolean(onClick));
   }
 
-  handleClick = (event: MouseEvent<HTMLElement>) => {
+  handleClick = (event: React.MouseEvent<HTMLElement>) => {
     const { onClick } = this.props;
     if (onClick) {
       event.preventDefault();
       event.stopPropagation();
-      onClick();
+      onClick(event);
     }
   };
 

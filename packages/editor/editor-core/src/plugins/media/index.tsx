@@ -123,7 +123,8 @@ const mediaPlugin = (
       options && options.allowMediaSingle
         ? {
             name: 'mediaSingleKeymap',
-            plugin: ({ schema }) => keymapMediaSinglePlugin(schema),
+            plugin: ({ schema, props }) =>
+              keymapMediaSinglePlugin(schema, props.appearance),
           }
         : [],
     );
