@@ -1,1 +1,0 @@
-- Adds missing type def to typings for the /component.ts entrypoint
