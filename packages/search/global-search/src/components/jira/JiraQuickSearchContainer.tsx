@@ -79,7 +79,6 @@ export interface Props {
   crossProductSearchClient: CrossProductSearchClient;
   disableJiraPreQueryPeopleSearch?: boolean;
   logger: Logger;
-  isSendSearchTermsEnabled?: boolean;
   enablePreQueryFromAggregator?: boolean;
   onAdvancedSearch?: (
     e: CancelableEvent,
@@ -515,7 +514,6 @@ export class JiraQuickSearchContainer extends React.Component<
     const {
       linkComponent,
       createAnalyticsEvent,
-      isSendSearchTermsEnabled,
       logger,
       enablePreQueryFromAggregator,
       referralContextIdentifiers,
@@ -541,7 +539,6 @@ export class JiraQuickSearchContainer extends React.Component<
         onSelectedResultIdChanged={(newId: any) =>
           this.handleSelectedResultIdChanged(newId)
         }
-        isSendSearchTermsEnabled={isSendSearchTermsEnabled}
         enablePreQueryFromAggregator={enablePreQueryFromAggregator}
         referralContextIdentifiers={referralContextIdentifiers}
       />

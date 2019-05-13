@@ -112,7 +112,6 @@ export function fireTextEnteredEvent(
   query: string,
   searchSessionId: string,
   queryVersion: number,
-  isSendSearchTermsEnabled?: boolean,
   createAnalyticsEvent?: CreateAnalyticsEventFn,
 ) {
   fireGasEvent(
@@ -127,7 +126,7 @@ export function fireTextEnteredEvent(
       ...getQueryAttributes(query),
       searchSessionId: searchSessionId,
     },
-    isSendSearchTermsEnabled ? getNonPrivacySafeAttributes(query) : undefined,
+    getNonPrivacySafeAttributes(query),
   );
 }
 
