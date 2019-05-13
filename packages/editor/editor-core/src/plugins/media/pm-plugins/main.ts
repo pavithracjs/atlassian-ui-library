@@ -49,6 +49,7 @@ import {
 import { isFullPage } from '../../../utils/is-full-page';
 import * as helpers from '../commands/helpers';
 import * as mediaCommands from '../commands';
+import { SetMediaGroupItemsPayload, MediaActions } from '../commands/actions';
 export { MediaState, MediaProvider, MediaStateStatus };
 
 const MEDIA_RESOLVED_STATES = ['ready', 'error', 'cancelled'];
@@ -673,6 +674,15 @@ export class MediaPluginState {
     }
   };
 
+  setMediaGroupItems = (items: SetMediaGroupItemsPayload) => {
+    items.forEach(item => {
+      this.mediaGroupNodes[item.id] = {
+        node: item.node,
+        getPos: item.getPos,
+      };
+    });
+  };
+
   updateMediaNodeAttrs = (
     id: string,
     attrs: object,
@@ -808,16 +818,26 @@ export const createPlugin = (
 
         const meta = tr.getMeta(stateKey);
         if (meta && dispatch) {
-          const { showMediaPicker } = pluginState;
-          const { allowsUploads } = meta;
-          dispatch(stateKey, {
-            ...pluginState,
-            allowsUploads:
-              typeof allowsUploads === 'undefined'
-                ? pluginState.allowsUploads
-                : allowsUploads,
-            showMediaPicker,
-          });
+          if (meta.type) {
+            const action = meta as MediaActions;
+            switch (action.type) {
+              case 'SET_MEDIA_GROUP_ITEMS': {
+                pluginState.setMediaGroupItems(meta.payload);
+                break;
+              }
+            }
+          } else {
+            const { showMediaPicker } = pluginState;
+            const { allowsUploads } = meta;
+            dispatch(stateKey, {
+              ...pluginState,
+              allowsUploads:
+                typeof allowsUploads === 'undefined'
+                  ? pluginState.allowsUploads
+                  : allowsUploads,
+              showMediaPicker,
+            });
+          }
         }
 
         // NOTE: We're not calling passing new state to the Editor, because we depend on the view.state reference

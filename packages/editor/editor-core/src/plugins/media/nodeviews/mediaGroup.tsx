@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { Node as PMNode } from 'prosemirror-model';
+import { Node as PMNode, Node } from 'prosemirror-model';
 import { EditorView, NodeView } from 'prosemirror-view';
-import ReactNodeView, { ForwardRef } from '../../../nodeviews/ReactNodeView';
-import { PortalProviderAPI } from '../../../ui/PortalProvider';
-import { Filmstrip } from '@atlaskit/media-filmstrip';
 import {
-  MediaPluginState,
-  stateKey as mediaStateKey,
-} from '../pm-plugins/main';
+  ForwardRef,
+  SelectionBasedNodeView,
+} from '../../../nodeviews/ReactNodeView';
+import { PortalProviderAPI } from '../../../ui/PortalProvider';
+import { Filmstrip, FilmstripItem } from '@atlaskit/media-filmstrip';
 import { Context, FileIdentifier } from '@atlaskit/media-core';
 import { setNodeSelection } from '../../../utils';
 import WithPluginState from '../../../ui/WithPluginState';
@@ -21,6 +20,10 @@ import { EditorAppearance } from '../../../types';
 import { removeMediaNodeInPos } from '../commands/media';
 import { WithProviders, ProviderFactory } from '../../../../../editor-common';
 import withMediaContext from '../utils/withMediaContext';
+import {
+  setMediaGroupItems,
+  SetMediaGroupItemsPayload,
+} from '../commands/actions';
 
 export interface Props {
   children?: React.ReactNode;
@@ -39,25 +42,47 @@ export type MediaGroupProps = {
   mediaContext?: Context;
 };
 
-export default class MediaGroup extends React.Component<MediaGroupProps> {
-  private mediaPluginState: MediaPluginState;
-  private mediaNodes: PMNode[];
+function getMediaIds(mediaGroupNode: Node) {
+  const mediaNodesId: Array<string> = [];
+  mediaGroupNode.forEach(item => {
+    mediaNodesId.push(item.attrs.id);
+  });
 
-  constructor(props: MediaGroupProps) {
-    super(props);
-    this.mediaNodes = [];
-    this.mediaPluginState = mediaStateKey.getState(props.view.state);
-    this.setMediaItems(props);
+  return mediaNodesId;
+}
+
+function hasSameMediaItems(
+  mediaIds: Array<string>,
+  newMediaGroupNode: PMNode,
+): Boolean {
+  if (mediaIds.length !== newMediaGroupNode.childCount) {
+    return false;
   }
 
-  componentWillReceiveProps(props: MediaGroupProps) {
-    this.setMediaItems(props);
+  // Check if all the items are in both arrays
+  const newMediaNodesId: Array<string> = [];
+  newMediaGroupNode.forEach(item => {
+    newMediaNodesId.push(item.attrs.id);
+  });
+
+  return newMediaNodesId.every(
+    mediaNodeId => mediaIds.indexOf(mediaNodeId) !== -1,
+  );
+}
+
+export default class MediaGroup extends React.Component<MediaGroupProps> {
+  componentDidMount() {
+    this.updateMediaGroupItems(this.props);
+  }
+
+  componentDidUpdate() {
+    this.updateMediaGroupItems(this.props);
   }
 
   shouldComponentUpdate(nextProps: MediaGroupProps) {
     if (
       this.props.selected !== nextProps.selected ||
-      this.props.node !== nextProps.node ||
+      !hasSameMediaItems(getMediaIds(this.props.node), nextProps.node) ||
       this.props.mediaContext !== nextProps.mediaContext
     ) {
       return true;
@@ -66,30 +91,38 @@ export default class MediaGroup extends React.Component<MediaGroupProps> {
     return false;
   }
 
-  setMediaItems = (props: MediaGroupProps) => {
+  updateMediaGroupItems = (props: MediaGroupProps) => {
     const { node } = props;
-    this.mediaNodes = [] as Array<PMNode>;
+
     // We need to move this logic inside media plugin state, maybe dispatching the group nodes in the meta.
     // I dont now if this cause unnecesary renders.
+    const items: SetMediaGroupItemsPayload = [];
     node.forEach((item, childOffset) => {
-      this.mediaPluginState.mediaGroupNodes[item.attrs.id] = {
+      items.push({
+        id: item.attrs.id,
         node: item,
         getPos: () => props.getPos() + childOffset + 1,
-      };
-      this.mediaNodes.push(item);
+      });
     });
+
+    setMediaGroupItems(items)(
+      this.props.view.state,
+      this.props.view.dispatch,
+      this.props.view,
+    );
   };
 
-  renderChildNodes = () => {
-    const { mediaContext } = this.props;
-    const items = this.mediaNodes.map((item, idx) => {
+  getFilmstripItems(): Array<FilmstripItem> {
+    const filmstripItems: Array<FilmstripItem> = [];
+
+    this.props.node.forEach((mediaNode, mediaOffset) => {
       const identifier: FileIdentifier = {
-        id: item.attrs.id,
+        id: mediaNode.attrs.id,
         mediaItemType: 'file',
-        collectionName: item.attrs.collection,
+        collectionName: mediaNode.attrs.collection,
       };
 
-      const nodePos = this.props.getPos() + idx + 1;
+      const nodePos = this.props.getPos() + mediaOffset + 1;
       const deleteHandler = () => {
         if (this.props.disabled) {
           return;
@@ -100,10 +133,10 @@ export default class MediaGroup extends React.Component<MediaGroupProps> {
           this.props.view,
         );
       };
-      return {
+
+      filmstripItems.push({
         identifier,
         selectable: true,
-        isLazy: this.props.editorAppearance !== 'mobile',
         selected: this.props.selected === nodePos,
         onClick: () => {
           setNodeSelection(this.props.view, nodePos);
@@ -114,19 +147,35 @@ export default class MediaGroup extends React.Component<MediaGroupProps> {
             icon: <EditorCloseIcon label="delete" />,
           },
         ],
-      };
+      });
     });
 
-    return <Filmstrip items={items} context={mediaContext} />;
-  };
+    return filmstripItems;
+  }
 
   render() {
-    return this.renderChildNodes();
+    const { mediaContext } = this.props;
+
+    // Is good to do this here, because should component update is preventing unnecessary calls
+    const items = this.getFilmstripItems();
+    return <Filmstrip items={items} context={mediaContext} />;
   }
 }
 
 const MediaGroupWithContext = withMediaContext<MediaGroupProps>(MediaGroup);
-class MediaGroupNodeView extends ReactNodeView {
+class MediaGroupNodeView extends SelectionBasedNodeView {
+  private mediaItemsId: Array<string> = [];
+
+  viewShouldUpdate(node: PMNode) {
+    // Update if new media id items
+    if (!hasSameMediaItems(this.mediaItemsId, node)) {
+      this.mediaItemsId = getMediaIds(node);
+      return true;
+    }
+
+    return super.viewShouldUpdate(node);
+  }
+
   render(_props: any, forwardRef: ForwardRef) {
     const { editorAppearance, providerFactory } = this.reactComponentProps;
     return (

@@ -23,27 +23,35 @@ function withMediaContext<P extends WrappedComponentProps>(
     Omit<P, 'mediaContext'> & WithMediaContextProps,
     WithMediaContextState
   > {
+    mediaProvider?: MediaProvider;
+    updatingMediaContext = false;
     state: WithMediaContextState = {};
 
     async componentDidMount() {
       await this.updateMediaContext();
     }
 
-    async componentWillReceiveProps(props: WithMediaContextProps) {
-      await this.updateMediaContext(props);
+    componentDidUpdate() {
+      return this.updateMediaContext();
     }
 
     async updateMediaContext(props: WithMediaContextProps = this.props) {
+      if (this.updatingMediaContext || this.state.mediaContext) {
+        return; // Prevent multiple update media context
+      }
+      this.updatingMediaContext = true;
+
       const { mediaContext } = this.state;
 
       const mediaProvider = await props.mediaProvider;
-      if (mediaProvider) {
-        const newMediaContext = await mediaProvider.viewContext;
-        if (mediaContext !== newMediaContext) {
+      if (mediaProvider && this.mediaProvider !== mediaProvider) {
+        this.mediaProvider = mediaProvider;
+        const newMediaContext = await this.mediaProvider.viewContext;
+        if (!mediaContext && newMediaContext) {
           // Slightly different from original implementation :(, check with Alex and Vijay
-          this.setState({
+          this.setState(() => ({
             mediaContext: newMediaContext,
-          });
+          }));
         }
       }
     }
