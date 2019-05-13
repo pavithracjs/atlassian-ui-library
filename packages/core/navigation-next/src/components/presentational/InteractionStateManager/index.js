@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
+import isEqual from 'lodash.isequal';
 
 import type { InteractionState, InteractionStateProps } from './types';
 
@@ -13,6 +14,15 @@ export default class InteractionStateManager extends Component<
     isHover: false,
     isFocused: false,
   };
+
+  shouldComponentUpdate(
+    nextProps: InteractionStateProps,
+    nextState: InteractionState,
+  ) {
+    const shouldRender =
+      !isEqual(this.state, nextState) || !isEqual(this.props, nextProps);
+    return shouldRender;
+  }
 
   onMouseDown = (e: SyntheticMouseEvent<HTMLDivElement>) => {
     e.preventDefault();

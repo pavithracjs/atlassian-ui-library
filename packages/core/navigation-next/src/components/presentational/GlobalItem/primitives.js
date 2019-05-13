@@ -3,6 +3,7 @@
 import React, { Fragment, Component } from 'react';
 import Tooltip from '@atlaskit/tooltip';
 
+import isEqual from 'lodash.isequal';
 import { styleReducerNoOp, withGlobalTheme } from '../../../theme';
 import type {
   GlobalItemPresentationProps,
@@ -23,6 +24,11 @@ class GlobalNavigationItemPrimitive extends Component<GlobalItemPrimitiveProps> 
     size: 'large',
     styles: styleReducerNoOp,
   };
+
+  shouldComponentUpdate(nextProps: GlobalItemPrimitiveProps) {
+    const shouldRender = !isEqual(this.props, nextProps);
+    return shouldRender;
+  }
 
   renderIconAndBadge = (badgeWrapper: {}) => {
     const { icon: Icon, badge: Badge, label, tooltip } = this.props;

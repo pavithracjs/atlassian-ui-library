@@ -1,9 +1,10 @@
 // @flow
 
-import React, { PureComponent, type ElementType, type Ref } from 'react';
+import React, { Component, type ElementType, type Ref } from 'react';
 
-import { styleReducerNoOp, withContentTheme } from '../../../theme';
+import isEqual from 'lodash.isequal';
 import type { Dataset, ItemPrimitiveProps } from './types';
+import { styleReducerNoOp, withContentTheme } from '../../../theme';
 
 const isString = x => typeof x === 'string';
 
@@ -46,7 +47,7 @@ const getItemComponentProps = (props: ItemPrimitiveProps) => {
   return componentProps;
 };
 
-class ItemPrimitive extends PureComponent<ItemPrimitiveProps> {
+class ItemPrimitive extends Component<ItemPrimitiveProps> {
   static defaultProps = {
     dataset: {
       'data-test-id': 'NavigationItem',
@@ -61,6 +62,11 @@ class ItemPrimitive extends PureComponent<ItemPrimitiveProps> {
     text: '',
   };
 
+  shouldComponentUpdate(nextProps: ItemPrimitiveProps) {
+    const shouldRender = !isEqual(this.props, nextProps);
+    return shouldRender;
+  }
+
   render() {
     const {
       after: After,
@@ -74,8 +80,8 @@ class ItemPrimitive extends PureComponent<ItemPrimitiveProps> {
       isDragging,
       isHover,
       isSelected,
-      onClick,
       isFocused,
+      onClick,
       spacing,
       styles: styleReducer,
       subText,

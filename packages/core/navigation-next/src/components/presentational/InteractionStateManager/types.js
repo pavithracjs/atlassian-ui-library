@@ -9,5 +9,6 @@ export type InteractionState = {|
 |};
 
 export type InteractionStateProps = {|
+  isSelected: boolean,
   children: InteractionState => Node,
 |};
