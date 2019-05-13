@@ -1,6 +1,7 @@
 import {
   getExampleUrl,
   disableAllSideEffects,
+  InflightRequests,
 } from '@atlaskit/visual-regression/helper';
 import { EditorProps } from '../../types';
 import { Page } from '../__helpers/page-objects/_types';
@@ -188,8 +189,16 @@ export const initEditorWithAdf = async (
   const currentUrl = page.url();
 
   if (currentUrl !== url) {
+    const tracker = new InflightRequests(page);
     // We don't have to load the already existing page
-    await page.goto(url, { waitUntil: 'networkidle0' });
+    await page.goto(url, { waitUntil: 'networkidle0' }).catch(e => {
+      console.warn('Navigation failed: ' + e.message);
+      const inflight = tracker.inflightRequests();
+      console.warn(
+        inflight.map(_requests => '  ' + _requests.url()).join('\n'),
+      );
+    });
+    tracker.dispose();
   }
 
   // Set the viewport to the right one
