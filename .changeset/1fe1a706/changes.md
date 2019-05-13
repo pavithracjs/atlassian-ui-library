@@ -1,1 +1,0 @@
-- fix for clicking behaviour in view/edit mode for Inline Smart Links.

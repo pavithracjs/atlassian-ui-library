@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 111.1.2
+- [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
+
+  - fix for clicking behaviour in view/edit mode for Inline Smart Links.
+
 ## 111.1.1
 - [patch] [287036e319](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/287036e319):
 
