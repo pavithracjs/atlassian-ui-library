@@ -4,38 +4,17 @@ import {
   getDocFromElement,
   fullpage,
   editable,
-  clipboardHelper,
-  copyAsPlaintextButton,
-  clipboardInput,
+  copyToClipboard,
 } from '../_helpers';
-
-// behaviour is OS specific:
-// windows moves to next paragraph up
-// osx moves to top of document
-const moveUp = async (page: any, selector: string) => {
-  let keys;
-  if (page.browser.capabilities.os === 'Windows') {
-    keys = ['Control', 'ArrowUp'];
-  } else {
-    keys = ['Command', 'ArrowUp'];
-  }
-  await page.browser.keys(keys);
-  return page.browser.keys(keys[0]);
-};
 
 BrowserTestCase(
   `inline-2.ts: pasting an link then typing still converts to inline card`,
-  {
-    skip: ['ie', 'safari'],
-  },
+  { skip: ['ie', 'safari'] },
   async (client: any, testName: string) => {
     let browser = new Page(client);
 
     // copy stuff to clipboard
-    await browser.goto(clipboardHelper);
-    await browser.isVisible(clipboardInput);
-    await browser.type(clipboardInput, 'https://www.atlassian.com');
-    await browser.click(copyAsPlaintextButton);
+    await copyToClipboard(browser, 'https://www.atlassian.com');
 
     // open up editor
     await browser.goto(fullpage.path);
@@ -49,10 +28,8 @@ BrowserTestCase(
     // paste the link
     await browser.paste();
 
-    // type some text around it
+    // type some text after it
     await browser.type(editable, 'more typing');
-    await moveUp(browser, editable);
-    await browser.type(editable, 'more typing ');
 
     const doc = await browser.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);

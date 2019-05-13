@@ -5,26 +5,12 @@ import { css, Styles, StyledComponentClass } from 'styled-components';
 export const listsStyles = css`
   .ProseMirror li {
     position: relative;
-    /* Dont do weird stuff with marker clicks */
-    pointer-events: none;
 
     > p:not(:first-child) {
       margin: 4px 0 0 0;
     }
   }
 
-  .ProseMirror li {
-    > {
-      * {
-        /* Restore pointer events. */
-        pointer-events: auto;
-      }
-      p {
-        /* Support clicking adjacent floated content */
-        pointer-events: inherit;
-      }
-    }
-  }
   /* Make sure li selections wrap around markers */
   li.ProseMirror-selectednode {
     outline: none;

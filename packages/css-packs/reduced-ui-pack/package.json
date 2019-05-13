@@ -18,6 +18,10 @@
     "Daniel D",
     "Kang C"
   ],
+  "atlaskit": {
+    "name": "Reduced UI Pack",
+    "team": "css packs"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/theme": "^9.0.0",

@@ -11,7 +11,7 @@ import { resolveCard, queueCards } from './actions';
 import { appearanceForNodeType } from '../utils';
 
 import { Command } from '../../../types';
-import { processRawValue, getStepRange } from '../../../utils';
+import { processRawValue, nodesBetweenChanged } from '../../../utils';
 import { Schema, Node } from 'prosemirror-model';
 import { md } from '../../paste/pm-plugins/main';
 import { closeHistory } from 'prosemirror-history';
@@ -51,9 +51,11 @@ function replaceLinksToCards(
   }
 
   const textSlice = node.text;
+  const normalizedLinkText = textSlice && md.normalizeLinkText(url);
   if (
     request.compareLinkText &&
-    (linkMark.attrs.href !== url || textSlice !== url)
+    normalizedLinkText !== textSlice &&
+    url !== textSlice
   ) {
     return;
   }
@@ -119,7 +121,6 @@ export const replaceQueuedUrlWithCard = (
           nodeType,
           nodeContext: nodeContext as SmartLinkNodeContext,
           domainName,
-          // don't pass domainName yet
         },
       });
     }
@@ -140,14 +141,8 @@ export const queueCardsFromChangedTr = (
   const { schema } = state;
   const { link } = schema.marks;
 
-  const stepRange = getStepRange(tr);
-  if (!stepRange) {
-    // no steps mutate this document, do nothing
-    return tr;
-  }
-
   const requests: Request[] = [];
-  tr.doc.nodesBetween(stepRange.from, stepRange.to, (node, pos) => {
+  nodesBetweenChanged(tr, (node, pos) => {
     if (!node.isText) {
       return true;
     }
@@ -161,7 +156,10 @@ export const queueCardsFromChangedTr = (
         const normalizedLinkText = md.normalizeLinkText(linkMark.attrs.href);
 
         // don't bother queueing nodes that have user-defined text for a link
-        if (node.text !== normalizedLinkText) {
+        if (
+          node.text !== normalizedLinkText &&
+          node.text !== linkMark.attrs.href
+        ) {
           return false;
         }
       }

@@ -1,5 +1,15 @@
 # @atlaskit/global-navigation
 
+## 7.1.0
+- [minor] [75c3e9cb69](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c3e9cb69):
+
+  - Adds support for recent drawer in global navigation
+
+## 7.0.1
+- [patch] [21854842b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21854842b5):
+
+  - Clean couple of TODO's that were already done
+
 ## 7.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

@@ -10,7 +10,6 @@ import { PreQueryAnalyticsComponent } from './ScreenAnalyticsHelper';
 import { ReferralContextIdentifiers } from '../GlobalQuickSearchWrapper';
 
 export interface Props {
-  query: string;
   resultsGroups: ResultsGroup[];
   searchSessionId: string;
   screenCounter?: ScreenCounter;

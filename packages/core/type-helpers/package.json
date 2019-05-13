@@ -16,7 +16,9 @@
     "react": "^16.8.0"
   },
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Type Helpers",
+    "team": "core"
   },
   "devDependencies": {},
   "keywords": [

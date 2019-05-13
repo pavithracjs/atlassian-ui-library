@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/css-reset",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Base stylesheet for ADG",
   "license": "Apache-2.0",
   "main": "dist/bundle.css",
@@ -13,6 +13,10 @@
     "Daniel D",
     "Kang C"
   ],
+  "atlaskit": {
+    "name": "Css Reset",
+    "team": "css packs"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "scripts": {
     "build": "babel-node --ignore WE_WILL_NOT_IGNORE_ANYTHING build/js-to-css.js --config-file=../../../babel.config.js --env-name=production:cjs"

@@ -1,5 +1,10 @@
 # @atlaskit/css-reset
 
+## 4.0.1
+- [patch] [52868d4352](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/52868d4352):
+
+  - Fixed regression of font-weight for <small> elements
+
 ## 4.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

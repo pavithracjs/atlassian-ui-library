@@ -33,10 +33,9 @@ const QS_ANALYTICS_EV_KB_CTRLS_USED = `${ATLASKIT_QUICKSEARCH_NS}.keyboard-contr
 const QS_ANALYTICS_EV_SUBMIT = `${ATLASKIT_QUICKSEARCH_NS}.submit`;
 
 export interface Props {
-  onMount(): void;
-  onSearch(query: string): void;
+  onMount?: () => void;
+  onSearch(query: string, queryVersion: number): void;
   onSearchSubmit?(event: React.KeyboardEvent<HTMLInputElement>): void;
-
   isLoading: boolean;
   placeholder?: string;
   searchSessionId: string;
@@ -58,9 +57,6 @@ export interface State {
  * Presentational component that renders the search input and search results.
  */
 export class GlobalQuickSearch extends React.Component<Props, State> {
-  public static defaultProps: Partial<Props> = {
-    isSendSearchTermsEnabled: false,
-  };
   queryVersion: number = 0;
   resultSelected: boolean = false;
 
@@ -69,7 +65,7 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.props.onMount();
+    this.props.onMount && this.props.onMount();
   }
 
   handleSearchInput = ({ target }: React.FormEvent<HTMLInputElement>) => {
@@ -83,18 +79,12 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
   debouncedSearch = debounce(this.doSearch, 350);
 
   doSearch(query: string) {
-    const {
-      onSearch,
-      searchSessionId,
-      createAnalyticsEvent,
-      isSendSearchTermsEnabled,
-    } = this.props;
-    onSearch(query.trim());
+    const { onSearch, searchSessionId, createAnalyticsEvent } = this.props;
+    onSearch(query.trim(), this.queryVersion);
     fireTextEnteredEvent(
       query,
       searchSessionId,
       this.queryVersion,
-      isSendSearchTermsEnabled,
       createAnalyticsEvent,
     );
     this.queryVersion++;

@@ -12,6 +12,10 @@
     "Ajay M",
     "Bartosz S"
   ],
+  "atlaskit": {
+    "name": "Table Tree",
+    "team": "core"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/analytics-next": "^5.0.0",

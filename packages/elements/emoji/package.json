@@ -47,6 +47,10 @@
       "name": "Julien H"
     }
   ],
+  "atlaskit": {
+    "name": "Emoji",
+    "team": "elements"
+  },
   "license": "Apache-2.0",
   "devDependencies": {
     "@atlaskit/docs": "^8.0.0",

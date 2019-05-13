@@ -88,8 +88,9 @@ export class HomeQuickSearchContainer extends React.Component<Props, State> {
   async searchCrossProduct(query: string): Promise<Map<Scope, Result[]>> {
     const results = await this.props.crossProductSearchClient.search(
       query,
-      { sessionId: this.state.searchSessionId },
+      this.state.searchSessionId,
       [Scope.ConfluencePageBlog, Scope.JiraIssue],
+      'home',
     );
 
     if (this.state.latestSearchQuery === query) {

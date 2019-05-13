@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { HelpArticle } from '../src';
+import HelpArticle from '../src';
 
 export default class extends React.Component {
   render() {

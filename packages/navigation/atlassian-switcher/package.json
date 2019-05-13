@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/atlassian-switcher",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
   "module": "index.js",
@@ -17,6 +17,10 @@
     "Mario Maradiaga",
     "Harsha Ivaturi"
   ],
+  "atlaskit": {
+    "name": "Atlassian Switcher",
+    "team": "navigation"
+  },
   "dependencies": {
     "@atlaskit/analytics-gas-types": "^4.0.4",
     "@atlaskit/analytics-namespaced-context": "^4.0.0",

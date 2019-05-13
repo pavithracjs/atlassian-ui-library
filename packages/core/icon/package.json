@@ -1,7 +1,8 @@
 {
   "name": "@atlaskit/icon",
-  "version": "17.0.0",
+  "version": "17.0.1",
   "description": "A React package that contains icons",
+  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "license": "SEE LICENSE IN LICENSE",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -13,7 +14,10 @@
     "Daniel D",
     "Kang C"
   ],
-  "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
+  "atlaskit": {
+    "name": "Icon",
+    "team": "core"
+  },
   "scripts": {
     "update": "node ./build/index.js && yarn build:babel:cjs",
     "build:babel:cjs": "NODE_ENV=production BABEL_ENV=production:cjs babel src -d cjs --root-mode=\"upward\""
@@ -31,7 +35,7 @@
     "@atlaskit/build-utils": "^2.0.0",
     "@atlaskit/button": "^13.0.0",
     "@atlaskit/docs": "^8.0.0",
-    "@atlaskit/dynamic-table": "^12.0.0",
+    "@atlaskit/dynamic-table": "^13.0.0",
     "@atlaskit/field-text": "^9.0.0",
     "@atlaskit/icon-build-process": "^0.1.0",
     "@atlaskit/icon-file-type": "^4.0.0",

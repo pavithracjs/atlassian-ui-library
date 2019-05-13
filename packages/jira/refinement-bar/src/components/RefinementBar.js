@@ -10,7 +10,6 @@ import {
   type ElementRef,
 } from 'react';
 import memoize from 'memoize-one';
-import { applyRefs } from 'apply-ref';
 import { jsx } from '@emotion/core';
 import Badge from '@atlaskit/badge';
 import Button from '@atlaskit/button';
@@ -335,7 +334,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
         {/* Show More/Less Control */}
         {!isExpanded && selectedKeys.length ? (
           <Button
-            innerRef={applyRefs(this.showAllRef)}
+            ref={this.showAllRef}
             onClick={this.showAll(true)}
             iconAfter={
               <Badge appearance="primary">{selectedKeys.length}</Badge>
@@ -354,7 +353,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
             <Button
               appearance="link"
               iconBefore={<AddIcon />}
-              innerRef={ref}
+              ref={ref}
               isSelected={isOpen}
               onClick={onClick}
             >
@@ -376,7 +375,7 @@ class ActualRefinementBar extends PureComponent<Props, State> {
 
         {isExpanded && selectedKeys.length ? (
           <Button
-            innerRef={applyRefs(this.showLessRef)}
+            ref={this.showLessRef}
             appearance="subtle-link"
             onClick={this.showAll(false)}
           >

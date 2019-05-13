@@ -45,7 +45,8 @@
     "Ajay M"
   ],
   "atlaskit": {
-    "name": "Feedback Collector"
+    "name": "Feedback Collector",
+    "team": "core"
   },
   "license": "Apache-2.0",
   "repository": {

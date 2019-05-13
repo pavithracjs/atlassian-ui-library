@@ -38,7 +38,6 @@ import QuickSearchContainer, {
   SearchResultProps,
 } from '../common/QuickSearchContainer';
 import { messages } from '../../messages';
-import { sliceResults } from './ConfluenceSearchResultsMapper';
 import NoResultsState from './NoResultsState';
 import SearchResultsComponent from '../common/SearchResults';
 import { getConfluenceAdvancedSearchLink } from '../SearchResultsUtil';
@@ -46,6 +45,7 @@ import AdvancedSearchGroup from './AdvancedSearchGroup';
 import {
   mapRecentResultsToUIGroups,
   mapSearchResultsToUIGroups,
+  MAX_RECENT_RESULTS_TO_SHOW,
 } from './ConfluenceSearchResultsMapper';
 import { appendListWithoutDuplication } from '../../util/search-results-utils';
 import { isInFasterSearchExperiment } from '../../util/experiment-utils';
@@ -58,9 +58,6 @@ export interface Props {
   linkComponent?: LinkComponent;
   createAnalyticsEvent?: CreateAnalyticsEventFn;
   referralContextIdentifiers?: ReferralContextIdentifiers;
-  isSendSearchTermsEnabled?: boolean;
-  useQuickNavForPeopleResults?: boolean;
-  useCPUSForPeopleResults?: boolean;
   logger: Logger;
   fasterSearchFFEnabled: boolean;
   onAdvancedSearch?: (
@@ -71,6 +68,36 @@ export interface Props {
   ) => void;
   inputControls?: JSX.Element;
 }
+
+const getRecentItemMatches = (
+  query: string,
+  recentItems: GenericResultMap,
+): Result[] => {
+  return recentItems.objects
+    .filter(result => {
+      return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
+    })
+    .slice(0, MAX_RECENT_RESULTS_TO_SHOW);
+};
+
+const mergeSearchResultsWithRecentItems = (
+  searchResults: ConfluenceResultsMap | undefined,
+  recentItems: Result[],
+): ConfluenceResultsMap => {
+  const defaultSearchResults = {
+    objects: [],
+    spaces: [],
+    people: [],
+  };
+
+  const results = { ...defaultSearchResults, ...searchResults };
+
+  return {
+    objects: appendListWithoutDuplication(recentItems, results.objects),
+    spaces: results.spaces,
+    people: results.people,
+  };
+};
 
 const LOGGER_NAME = 'AK.GlobalSearch.ConfluenceQuickSearchContainer';
 /**
@@ -115,57 +142,25 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   async searchCrossProductConfluence(
     query: string,
     sessionId: string,
+    queryVersion: number,
   ): Promise<CrossProductSearchResults> {
-    const {
-      crossProductSearchClient,
-      useCPUSForPeopleResults,
-      referralContextIdentifiers,
-    } = this.props;
+    const { crossProductSearchClient, referralContextIdentifiers } = this.props;
 
     let scopes = [Scope.ConfluencePageBlogAttachment, Scope.ConfluenceSpace];
 
-    if (useCPUSForPeopleResults) {
-      scopes.push(Scope.People);
-    }
-
-    const referrerId =
-      referralContextIdentifiers && referralContextIdentifiers.searchReferrerId;
+    scopes.push(Scope.People);
 
     const results = await crossProductSearchClient.search(
       query,
-      { sessionId, referrerId },
+      sessionId,
       scopes,
+      'confluence',
+      queryVersion,
+      null,
+      referralContextIdentifiers,
     );
+
     return results;
-  }
-
-  async searchPeople(query: string, sessionId: string): Promise<Result[]> {
-    const {
-      useCPUSForPeopleResults,
-      useQuickNavForPeopleResults,
-      confluenceClient,
-      peopleSearchClient,
-    } = this.props;
-
-    if (useQuickNavForPeopleResults) {
-      return handlePromiseError(
-        confluenceClient.searchPeopleInQuickNav(query, sessionId),
-        [],
-        this.handleSearchErrorAnalyticsThunk('search-people-quicknav'),
-      );
-    }
-
-    // people results will be returned by xpsearch
-    if (useCPUSForPeopleResults) {
-      return Promise.resolve([]);
-    }
-
-    // fall back to directory search
-    return handlePromiseError(
-      peopleSearchClient.search(query),
-      [],
-      this.handleSearchErrorAnalyticsThunk('search-people'),
-    );
   }
 
   // TODO extract
@@ -206,47 +201,31 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     query: string,
     sessionId: string,
     startTime: number,
+    queryVersion: number,
   ): Promise<ResultsWithTiming> => {
-    const { useCPUSForPeopleResults } = this.props;
-
     const confXpSearchPromise = handlePromiseError(
-      this.searchCrossProductConfluence(query, sessionId),
+      this.searchCrossProductConfluence(query, sessionId, queryVersion),
       EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
       this.handleSearchErrorAnalyticsThunk('xpsearch-confluence'),
     );
 
-    const searchPeoplePromise = this.searchPeople(query, sessionId);
-
     const mapPromiseToPerformanceTime = (p: Promise<any>) =>
       p.then(() => performanceNow() - startTime);
 
-    return Promise.all<CrossProductSearchResults, Result[], number, number>([
+    return Promise.all<CrossProductSearchResults, number>([
       confXpSearchPromise,
-      searchPeoplePromise,
       mapPromiseToPerformanceTime(confXpSearchPromise),
-      mapPromiseToPerformanceTime(searchPeoplePromise),
-    ]).then(
-      ([
-        xpsearchResults,
-        peopleResults,
+    ]).then(([xpsearchResults, confSearchElapsedMs]) => ({
+      results: {
+        objects:
+          xpsearchResults.results.get(Scope.ConfluencePageBlogAttachment) || [],
+        spaces: xpsearchResults.results.get(Scope.ConfluenceSpace) || [],
+        people: xpsearchResults.results.get(Scope.People) || [],
+      },
+      timings: {
         confSearchElapsedMs,
-        peopleElapsedMs,
-      ]) => ({
-        results: {
-          objects:
-            xpsearchResults.results.get(Scope.ConfluencePageBlogAttachment) ||
-            [],
-          spaces: xpsearchResults.results.get(Scope.ConfluenceSpace) || [],
-          people: useCPUSForPeopleResults
-            ? xpsearchResults.results.get(Scope.People) || []
-            : peopleResults,
-        },
-        timings: {
-          confSearchElapsedMs,
-          peopleElapsedMs,
-        },
-      }),
-    );
+      },
+    }));
   };
 
   getAbTestData = (sessionId: string): Promise<ABTest> => {
@@ -289,6 +268,44 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     );
   };
 
+  getPreQueryDisplayedResults = (
+    recentItems: ConfluenceResultsMap,
+    abTest: ABTest,
+  ) => mapRecentResultsToUIGroups(recentItems, abTest);
+
+  getPostQueryDisplayedResults = (
+    searchResults: ConfluenceResultsMap,
+    latestSearchQuery: string,
+    recentItems: ConfluenceResultsMap,
+    abTest: ABTest,
+    isLoading: boolean,
+    inFasterSearchExperiment: boolean,
+  ) => {
+    if (inFasterSearchExperiment) {
+      const currentSearchResults: ConfluenceResultsMap = isLoading
+        ? ({
+            ...searchResults,
+            objects: [] as Result[],
+          } as ConfluenceResultsMap)
+        : (searchResults as ConfluenceResultsMap);
+
+      const recentResults = getRecentItemMatches(
+        latestSearchQuery,
+        recentItems as ConfluenceResultsMap,
+      );
+      const mergedRecentSearchResults = mergeSearchResultsWithRecentItems(
+        currentSearchResults,
+        recentResults,
+      );
+      return mapSearchResultsToUIGroups(mergedRecentSearchResults, abTest);
+    } else {
+      return mapSearchResultsToUIGroups(
+        searchResults as ConfluenceResultsMap,
+        abTest,
+      );
+    }
+  };
+
   getSearchResultsComponent = ({
     retrySearch,
     latestSearchQuery,
@@ -301,6 +318,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     abTest,
   }: SearchResultProps) => {
     const { onAdvancedSearch = () => {}, fasterSearchFFEnabled } = this.props;
+
     const inFasterSearchExperiment = isInFasterSearchExperiment(
       abTest,
       fasterSearchFFEnabled,
@@ -308,7 +326,7 @@ export class ConfluenceQuickSearchContainer extends React.Component<
 
     return (
       <SearchResultsComponent
-        query={latestSearchQuery}
+        isPreQuery={!latestSearchQuery}
         isError={isError}
         isLoading={isLoading}
         retrySearch={retrySearch}
@@ -338,39 +356,21 @@ export class ConfluenceQuickSearchContainer extends React.Component<
           />
         )}
         getPreQueryGroups={() =>
-          mapRecentResultsToUIGroups(
+          this.getPreQueryDisplayedResults(
             recentItems as ConfluenceResultsMap,
             abTest,
           )
         }
-        getPostQueryGroups={() => {
-          if (inFasterSearchExperiment) {
-            const currentSearchResults: ConfluenceResultsMap = isLoading
-              ? ({
-                  ...searchResults,
-                  objects: [] as Result[],
-                } as ConfluenceResultsMap)
-              : (searchResults as ConfluenceResultsMap);
-
-            const recentResults = this.getRecentItemMatches(
-              latestSearchQuery,
-              recentItems as ConfluenceResultsMap,
-            );
-            const mergedRecentSearchResults = this.mergeSearchResultsWithRecentItems(
-              currentSearchResults,
-              recentResults,
-            );
-            return mapSearchResultsToUIGroups(
-              mergedRecentSearchResults,
-              abTest,
-            );
-          } else {
-            return mapSearchResultsToUIGroups(
-              searchResults as ConfluenceResultsMap,
-              abTest,
-            );
-          }
-        }}
+        getPostQueryGroups={() =>
+          this.getPostQueryDisplayedResults(
+            searchResults as ConfluenceResultsMap,
+            latestSearchQuery,
+            recentItems as ConfluenceResultsMap,
+            abTest,
+            isLoading,
+            inFasterSearchExperiment,
+          )
+        }
         renderNoResult={() => (
           <NoResultsState
             query={latestSearchQuery}
@@ -388,39 +388,12 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     );
   };
 
-  mergeSearchResultsWithRecentItems(
-    searchResults: ConfluenceResultsMap | undefined,
-    recentItems: Result[],
-  ): ConfluenceResultsMap {
-    const defaultSearchResults = {
-      objects: [],
-      spaces: [],
-      people: [],
-    };
-
-    const results = { ...defaultSearchResults, ...searchResults };
-
-    return {
-      objects: appendListWithoutDuplication(recentItems, results.objects),
-      spaces: results.spaces,
-      people: results.people,
-    };
-  }
-
-  getRecentItemMatches(query: string, recentItems: GenericResultMap): Result[] {
-    return recentItems.objects
-      .filter(result => {
-        return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
-      })
-      .slice(0, 3);
-  }
-
   render() {
     const {
       linkComponent,
-      isSendSearchTermsEnabled,
       logger,
       inputControls,
+      fasterSearchFFEnabled,
     } = this.props;
 
     return (
@@ -434,10 +407,11 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         getSearchResults={this.getSearchResults}
         getAbTestData={this.getAbTestData}
         handleSearchSubmit={this.handleSearchSubmit}
-        isSendSearchTermsEnabled={isSendSearchTermsEnabled}
-        getDisplayedResults={sliceResults}
+        getPreQueryDisplayedResults={this.getPreQueryDisplayedResults}
+        getPostQueryDisplayedResults={this.getPostQueryDisplayedResults}
         logger={logger}
         inputControls={inputControls}
+        fasterSearchFFEnabled={fasterSearchFFEnabled}
       />
     );
   }

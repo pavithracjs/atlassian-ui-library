@@ -13,6 +13,8 @@ import {
 import RecentSearchClientImpl, {
   RecentSearchClient,
 } from './RecentSearchClient';
+import memoizeOne from 'memoize-one';
+import deepEqual from 'deep-equal';
 
 export interface SearchClients {
   recentSearchClient: RecentSearchClient;
@@ -40,7 +42,7 @@ const defaultConfig: Config = {
   addSessionIdToJiraResult: false,
 };
 
-export default function configureSearchClients(
+function configureSearchClients(
   cloudId: string,
   partialConfig: Partial<Config>,
   prefetchedResults?: GlobalSearchPrefetchedResults,
@@ -85,3 +87,5 @@ export default function configureSearchClients(
     ),
   };
 }
+
+export default memoizeOne(configureSearchClients, deepEqual);

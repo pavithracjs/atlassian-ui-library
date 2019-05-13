@@ -114,6 +114,7 @@ export const messages = defineMessages({
     id: 'fabric.elements.share.success.message',
     defaultMessage:
       '{object, select,' +
+      'blogpost {Blog post shared}' +
       'board {Board shared}' +
       'calendar {Calendar shared}' +
       'draft {Draft shared}' + // this is a placeholder for Invite to edit in Confluence
