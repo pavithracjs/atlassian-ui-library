@@ -23,7 +23,12 @@ class Item extends PureComponent<ItemProps> {
   };
 
   render() {
-    return <InteractionStateManager>{this.renderItem}</InteractionStateManager>;
+    const { isSelected } = this.props;
+    return (
+      <InteractionStateManager isSelected={isSelected}>
+        {this.renderItem}
+      </InteractionStateManager>
+    );
   }
 }
 
