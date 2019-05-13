@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 111.1.1
+- [patch] [287036e319](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/287036e319):
+
+  - ED-6765: workaround for mediaSingle deletion on Android
+
 ## 111.1.0
 - [minor] [9626153146](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9626153146):
 
