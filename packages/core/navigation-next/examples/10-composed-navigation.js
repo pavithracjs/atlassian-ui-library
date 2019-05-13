@@ -47,18 +47,6 @@ const Item = ({ testKey, ...props }: { testKey?: string }) => {
   return testKey ? <div data-webdriver-test-key={testKey}>{item}</div> : item;
 };
 
-const generateItems = (num = 1) =>
-  Array(num)
-    .fill(0)
-    .map((_item, idx) => [
-      <Item
-        before={GraphLineIcon}
-        text={`Item ${idx}`}
-        key={`Item ${idx}`}
-        testKey="container-item-reports"
-      />,
-    ]);
-
 /**
  * Global navigation
  */
@@ -139,7 +127,6 @@ const ProductNavigation = () => (
             text="Issues"
             testKey="product-item-issues"
           />
-          {generateItems(100)}
         </div>
       )}
     </MenuSection>
@@ -203,7 +190,6 @@ export default class Example extends Component<{}, State> {
               text="Reports"
               testKey="container-item-reports"
             />
-            {generateItems(100)}
             <Separator />
             <GroupHeading>Shortcuts</GroupHeading>
             <Item before={ShortcutIcon} text="Project space" />
