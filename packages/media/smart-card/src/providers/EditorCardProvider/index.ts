@@ -1,5 +1,6 @@
 import { CardAppearance } from '../../view/Card';
-import Environments from '../../utils/environments';
+import { getEnvironment } from '../../utils/environments';
+import { EnvironmentsKeys, ClientEnvironment } from '../../client/types';
 
 export interface CardProvider {
   resolve(url: string, appearance: CardAppearance): Promise<any>;
@@ -9,21 +10,23 @@ export type ORSCheckResponse = {
   isSupported: boolean;
 };
 
-export type EnvironmentsKeys = keyof typeof Environments;
-
 export class EditorCardProvider implements CardProvider {
-  constructor(private envKey: EnvironmentsKeys = 'prod') {}
+  private env: ClientEnvironment;
+
+  constructor(envKey: EnvironmentsKeys = 'prod') {
+    this.env = getEnvironment(envKey);
+  }
 
   async resolve(url: string, appearance: CardAppearance): Promise<any> {
     try {
-      const constructedUrl = `${Environments[this.envKey].resolverUrl}/check`;
+      const constructedUrl = `${this.env.resolverUrl}/check`;
       const result: ORSCheckResponse = await (await fetch(constructedUrl, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Origin: Environments[this.envKey].baseUrl,
+          Origin: this.env.baseUrl,
         },
         body: JSON.stringify({ resourceUrl: url }),
       })).json();
