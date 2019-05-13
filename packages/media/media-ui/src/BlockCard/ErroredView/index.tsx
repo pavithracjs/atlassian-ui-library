@@ -10,7 +10,7 @@ export interface BlockCardErroredViewProps {
   /** The url to display */
   url: string;
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   /** The error message to display */
   message: string;
   /** What to do when a user clicks "Try again" button. */

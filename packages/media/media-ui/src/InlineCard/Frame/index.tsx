@@ -9,7 +9,7 @@ export interface FrameViewProps {
   children?: React.ReactNode;
   link?: string;
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
 }
 
 export class Frame extends React.Component<FrameViewProps> {
@@ -18,7 +18,7 @@ export class Frame extends React.Component<FrameViewProps> {
     if (onClick) {
       event.preventDefault();
       event.stopPropagation();
-      onClick();
+      onClick(event);
     }
   };
 
@@ -30,7 +30,7 @@ export class Frame extends React.Component<FrameViewProps> {
     if (onClick) {
       event.preventDefault();
       event.stopPropagation();
-      onClick();
+      onClick(event);
     }
   };
 
