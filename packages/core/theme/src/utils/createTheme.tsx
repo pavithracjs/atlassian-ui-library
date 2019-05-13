@@ -1,43 +1,44 @@
-// @flow
+import React, { createContext, ComponentType, ReactNode } from 'react';
 
-import React, { createContext, type ComponentType, type Node } from 'react';
-
-export type ThemeProp<ThemeTokens = {}, ThemeProps = *> = (
-  (ThemeProps) => ThemeTokens,
-  ThemeProps,
+export type ThemeProp<ThemeTokens = {}, ThemeProps = any> = (
+  themeFn: (themeProps: ThemeProps) => ThemeTokens,
+  themeProps: ThemeProps,
 ) => ThemeTokens;
 
 export function createTheme<ThemeTokens, ThemeProps>(
-  defaultThemeFn: ThemeProps => ThemeTokens,
+  defaultThemeFn: (themeProps: ThemeProps) => ThemeTokens,
 ): {
   Consumer: ComponentType<
     ThemeProps & {
-      children: ThemeTokens => Node,
-    },
-  >,
+      children: (themeTokens: ThemeTokens) => ReactNode;
+    }
+  >;
   Provider: ComponentType<{
-    children?: Node,
-    value?: ThemeProp<ThemeTokens, ThemeProps>,
-  }>,
+    children?: ReactNode;
+    value?: ThemeProp<ThemeTokens, ThemeProps>;
+  }>;
 } {
-  const emptyThemeFn = (tokens, props) => tokens(props);
+  const emptyThemeFn = (
+    theme: (themeProps: ThemeProps) => ThemeTokens,
+    props: ThemeProps,
+  ) => theme(props);
   const ThemeContext = createContext(defaultThemeFn);
 
-  function Consumer(props: ThemeProps & { children: ThemeTokens => Node }) {
+  function Consumer(props: { children: (tokens: ThemeTokens) => ReactNode }) {
     const { children, ...themeProps } = props;
     return (
       <ThemeContext.Consumer>
         {theme => {
           const themeFn = theme || emptyThemeFn;
-          return props.children(themeFn(themeProps));
+          return props.children(themeFn((themeProps as unknown) as ThemeProps));
         }}
       </ThemeContext.Consumer>
     );
   }
 
   function Provider(props: {
-    children?: Node,
-    value?: ThemeProp<ThemeTokens, ThemeProps>,
+    children?: ReactNode;
+    value?: ThemeProp<ThemeTokens, ThemeProps>;
   }) {
     return (
       <ThemeContext.Consumer>
