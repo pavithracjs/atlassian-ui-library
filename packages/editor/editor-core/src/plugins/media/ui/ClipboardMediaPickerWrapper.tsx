@@ -11,6 +11,7 @@ import {
 import { Context } from '@atlaskit/media-core';
 import { ErrorReporter } from '@atlaskit/editor-common';
 import PickerFacade, { MediaStateEventListener } from '../picker-facade';
+import { CustomMediaPicker } from '../types';
 
 type Props = {
   mediaState: MediaPluginState;
@@ -22,101 +23,131 @@ type State = {
   onMediaStateChangedCallback: MediaStateEventListener;
 };
 
+class DummyMediaPicker implements CustomMediaPicker {
+  on(event: string, cb: import('../types').Listener): void {}
+
+  removeAllListeners(event: any): void {}
+  emit(event: string, data: any): void {}
+  destroy(): void {}
+  setUploadParams(uploadParams: UploadParams): void {}
+}
+
 export default class ClipboardMediaPickerWrapper extends React.Component<
   Props,
   State
 > {
-  state: State = {
-    onMediaStateChangedCallback: () => {},
-  };
+  state: State = {};
 
   componentDidMount() {
-    this.props.mediaState.options.providerFactory.subscribe(
+    const { mediaState } = this.props;
+    mediaState.options.providerFactory.subscribe(
       'mediaProvider',
       async (name, provider?: Promise<MediaProvider>) => {
         const mediaProvider = await provider;
-        if (!mediaProvider) {
-          return;
+        if (!mediaProvider || !mediaProvider.uploadParams) {
+          throw new Error('no media provider');
         }
 
-        this.setState({
+        const context = await mediaProvider.uploadContext;
+        if (!context) {
+          throw new Error('no context');
+        }
+        const pickerFacadeConfig = {
+          context,
+          errorReporter:
+            mediaState.options.errorReporter || new ErrorReporter(),
+        };
+
+        const config = {
           uploadParams: mediaProvider.uploadParams,
-          context: await mediaProvider.uploadContext,
+        };
+
+        const pickerFacadeInstance = await new PickerFacade(
+          'customMediaPicker',
+          pickerFacadeConfig,
+          new DummyMediaPicker(),
+        ).init();
+
+        pickerFacadeInstance.onNewMedia(mediaState.insertFile);
+        pickerFacadeInstance.setUploadParams(mediaProvider.uploadParams);
+
+        this.setState({
+          pickerFacadeInstance,
+          config,
+          context,
         });
       },
     );
   }
 
-  onPreviewUpdate = (event: UploadPreviewUpdateEventPayload) => {
-    const {
-      mediaState: { insertFile },
-    } = this.props;
-    const { preview, file } = event;
+  // onPreviewUpdate = (event: UploadPreviewUpdateEventPayload) => {
+  //   const {
+  //     mediaState: { insertFile },
+  //   } = this.props;
+  //   const { preview, file } = event;
 
-    const { dimensions, scaleFactor } = isImagePreview(preview)
-      ? preview
-      : { dimensions: undefined, scaleFactor: undefined };
+  //   const { dimensions, scaleFactor } = isImagePreview(preview)
+  //     ? preview
+  //     : { dimensions: undefined, scaleFactor: undefined };
 
-    const state = {
-      id: file.id,
-      fileName: file.name,
-      fileSize: file.size,
-      fileMimeType: file.type,
-      dimensions,
-      scaleFactor,
-    };
+  //   const state = {
+  //     id: file.id,
+  //     fileName: file.name,
+  //     fileSize: file.size,
+  //     fileMimeType: file.type,
+  //     dimensions,
+  //     scaleFactor,
+  //   };
 
-    insertFile(state, onMediaStateChangedCallback => {
-      this.setState({
-        onMediaStateChangedCallback,
-      });
-    });
-  };
+  //   insertFile(state, onMediaStateChangedCallback => {
+  //     this.setState({
+  //       onMediaStateChangedCallback,
+  //     });
+  //   });
+  // };
 
-  onError = ({ file, error }: UploadErrorEventPayload) => {
-    const {
-      mediaState: { options },
-    } = this.props;
-    if (!error || !error.fileId) {
-      const err = new Error(
-        `Media: unknown upload-error received from Media Picker: ${error &&
-          error.name}`,
-      );
-      const errorReporter = options.errorReporter || new ErrorReporter();
-      errorReporter.captureException(err);
-      return;
-    }
+  // onError = ({ file, error }: UploadErrorEventPayload) => {
+  //   const {
+  //     mediaState: { options },
+  //   } = this.props;
+  //   if (!error || !error.fileId) {
+  //     const err = new Error(
+  //       `Media: unknown upload-error received from Media Picker: ${error &&
+  //         error.name}`,
+  //     );
+  //     const errorReporter = options.errorReporter || new ErrorReporter();
+  //     errorReporter.captureException(err);
+  //     return;
+  //   }
 
-    this.state.onMediaStateChangedCallback({
-      id: error.fileId!,
-      status: 'error',
-      error: error && { description: error.description, name: error.name },
-    });
-  };
+  //   this.state.onMediaStateChangedCallback({
+  //     id: error.fileId!,
+  //     status: 'error',
+  //     error: error && { description: error.description, name: error.name },
+  //   });
+  // };
 
-  onProcessing = ({ file }: UploadProcessingEventPayload) => {
-    this.state.onMediaStateChangedCallback({
-      id: file.id,
-      status: 'ready',
-    });
-  };
+  // onProcessing = ({ file }: UploadProcessingEventPayload) => {
+  //   this.state.onMediaStateChangedCallback({
+  //     id: file.id,
+  //     status: 'ready',
+  //   });
+  // };
 
   render() {
-    const { context, uploadParams } = this.state;
+    const { context, config, pickerFacadeInstance } = this.state;
 
-    if (!context || !uploadParams) {
+    if (!context || !config) {
       return null;
     }
-    const config = {
-      uploadParams,
-    };
+
     return (
       <Clipboard
         context={context}
         config={config}
-        onError={this.onError}
-        onPreviewUpdate={this.onPreviewUpdate}
-        onProcessing={this.onProcessing}
+        onError={pickerFacadeInstance.handleUploadError}
+        onPreviewUpdate={pickerFacadeInstance.handleUploadPreviewUpdate}
+        onProcessing={pickerFacadeInstance.handleReady}
       />
     );
   }
