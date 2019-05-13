@@ -1,0 +1,1 @@
+- use componentDidMount in CardLoader to make it SSR hydrate friendly
