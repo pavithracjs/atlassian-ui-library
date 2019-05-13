@@ -297,9 +297,12 @@ export class SelectionBasedNodeView extends ReactNodeView {
     return this.pos < from && to < this.posEnd;
   };
 
-  viewShouldUpdate(nextNode: PMNode) {
-    this.updatePos();
+  insideSelection = () => {
+    const { from, to } = this.view.state.selection;
+    return this.isSelectionInsideNode(from, to);
+  };
 
+  viewShouldUpdate(nextNode: PMNode) {
     const {
       state: { selection },
     } = this.view;
@@ -307,6 +310,15 @@ export class SelectionBasedNodeView extends ReactNodeView {
     // update selection
     const oldSelection = this.oldSelection;
     this.oldSelection = selection;
+
+    // update cached positions
+    const { pos: oldPos } = this;
+    this.updatePos();
+
+    if (oldPos !== this.pos) {
+      // node has moved position
+      return true;
+    }
 
     const { from, to } = selection;
     const { from: oldFrom, to: oldTo } = oldSelection;
