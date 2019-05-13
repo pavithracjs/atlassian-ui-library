@@ -1,1 +1,0 @@
-- Removing old feature flags from global search
