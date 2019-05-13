@@ -1,1 +1,0 @@
-- ED-6849: Prevent the collab plugin from re-initing on a reconfigure, also maintains previous state when reconfiguring

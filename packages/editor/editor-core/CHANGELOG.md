@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 111.1.3
+- [patch] [897c83c32a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/897c83c32a):
+
+  - ED-6849: Prevent the collab plugin from re-initing on a reconfigure, also maintains previous state when reconfiguring
+
 ## 111.1.2
 - [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
 
