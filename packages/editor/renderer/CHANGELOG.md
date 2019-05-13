@@ -1,5 +1,10 @@
 # @atlaskit/renderer
 
+## 48.1.2
+- [patch] [5539fc187f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5539fc187f):
+
+  - Email renderer - single-line codeBlock still has rounded corners
+
 ## 48.1.1
 - Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
   - @atlaskit/editor-test-helpers@9.1.3

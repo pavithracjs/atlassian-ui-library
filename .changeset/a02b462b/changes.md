@@ -1,1 +1,0 @@
-- Email renderer - single-line codeBlock still has rounded corners
