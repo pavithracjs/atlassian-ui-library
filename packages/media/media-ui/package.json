@@ -63,6 +63,7 @@
     "@atlaskit/docs": "^8.0.0",
     "@atlaskit/i18n-tools": "^0.5.0",
     "@atlaskit/media-test-helpers": "^23.0.0",
+    "@atlaskit/ssr": "^0.1.0",
     "@types/enzyme": "^3.1.15",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",

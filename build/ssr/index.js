@@ -33,3 +33,5 @@ export const ssr = async example =>
       resolve(html);
     }
   });
+
+export { filterEmotionWarnings } from './filterEmotionWarnings';

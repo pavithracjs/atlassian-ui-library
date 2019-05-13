@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
-import { ssr } from '@atlaskit/ssr';
+import { ssr, filterEmotionWarnings } from '@atlaskit/ssr';
 
-jest.spyOn(global.console, 'error');
+const getConsoleMockCalls = filterEmotionWarnings(console);
 
 afterEach(() => {
   jest.resetAllMocks();
@@ -17,5 +17,6 @@ test('should ssr then hydrate media-core correctly', async () => {
   elem.innerHTML = await ssr(example.filePath);
 
   ReactDOM.hydrate(<Example />, elem);
-  expect(console.error).not.toBeCalled(); // eslint-disable-line no-console
+  const mockCalls = getConsoleMockCalls();
+  expect(mockCalls.length).toBe(0);
 });
