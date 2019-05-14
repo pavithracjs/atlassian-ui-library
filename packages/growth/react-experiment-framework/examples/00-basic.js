@@ -65,7 +65,16 @@ const resolveAfterDelay = (resolvesTo, delay = 2000) =>
     }, delay);
   });
 
-const scenarios = [
+type Scenario = {
+  name: string,
+  resolvesTo: {
+    cohort: string,
+    isEligible: boolean,
+    ineligibilityReasons?: string[],
+  },
+  hasError?: boolean,
+};
+const scenarios: Scenario[] = [
   {
     name: 'Control cohort and eligible',
     resolvesTo: {
@@ -101,6 +110,7 @@ const scenarios = [
       cohort: 'nonExistentCohort',
       isEligible: true,
     },
+    hasError: true,
   },
   {
     name: 'Reverts to control when variant component throws at render',
@@ -108,45 +118,79 @@ const scenarios = [
       cohort: 'broken',
       isEligible: true,
     },
+    hasError: true,
   },
 ];
 
-export default () => (
-  <table style={{ tableLayout: 'fixed', margin: 20 }}>
-    <thead>
-      <tr>
-        <th />
-        <th>Sync</th>
-        <th>Async (2s delay)</th>
-      </tr>
-    </thead>
+type State = {
+  showErrorHandlingScenarios: boolean,
+};
 
-    <tbody>
-      {scenarios.map(({ name, resolvesTo }) => (
-        <tr key={name}>
-          <td>{name}</td>
+export default class extends Component<{}, State> {
+  state = {
+    showErrorHandlingScenarios: false,
+  };
 
-          <td>
-            <ExperimentController
-              experimentEnrollmentConfig={{
-                myExperimentKey: () => Promise.resolve(resolvesTo),
-              }}
-            >
-              <ExperimentWrapped title="Component" />
-            </ExperimentController>
-          </td>
+  handleErrorHandlingChange = (
+    event: SyntheticInputEvent<HTMLInputElement>,
+  ) => {
+    this.setState({ showErrorHandlingScenarios: !!event.target.checked });
+  };
 
-          <td>
-            <ExperimentController
-              experimentEnrollmentConfig={{
-                myExperimentKey: () => resolveAfterDelay(resolvesTo, 2000),
-              }}
-            >
-              <ExperimentWrapped title="Component" />
-            </ExperimentController>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-);
+  render() {
+    const { showErrorHandlingScenarios } = this.state;
+    const filteredScenarios = showErrorHandlingScenarios
+      ? scenarios
+      : scenarios.filter(s => !s.hasError);
+    return (
+      <table style={{ tableLayout: 'fixed' }}>
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Sync render</th>
+            <th>Async render (2s delay)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredScenarios.map(({ name, resolvesTo }) => (
+            <tr key={name}>
+              <td>{name}</td>
+              <td>
+                <ExperimentController
+                  experimentEnrollmentConfig={{
+                    myExperimentKey: () => Promise.resolve(resolvesTo),
+                  }}
+                >
+                  <ExperimentWrapped title="Component" />
+                </ExperimentController>
+              </td>
+              <td>
+                <ExperimentController
+                  experimentEnrollmentConfig={{
+                    myExperimentKey: () => resolveAfterDelay(resolvesTo, 2000),
+                  }}
+                >
+                  <ExperimentWrapped title="Component" />
+                </ExperimentController>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan={3}>
+              <label>
+                <input
+                  type="checkbox"
+                  value={showErrorHandlingScenarios}
+                  onChange={this.handleErrorHandlingChange}
+                />
+                Show error handling scenarios
+              </label>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    );
+  }
+}
