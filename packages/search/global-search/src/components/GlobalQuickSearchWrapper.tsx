@@ -113,21 +113,6 @@ export interface Props {
   referralContextIdentifiers?: ReferralContextIdentifiers;
 
   /**
-   * Indicates if search terms should be send in analytic events when a search is performed.
-   */
-  isSendSearchTermsEnabled?: boolean;
-
-  /**
-   * Indicates whether or not quick nav should be used for people searches.
-   */
-  useQuickNavForPeopleResults?: boolean;
-
-  /**
-   * Indicates whether or not CPUS should be used for people searches.
-   */
-  useCPUSForPeopleResults?: boolean;
-
-  /**
    * Indicates whether to add sessionId to jira result query param
    */
   addSessionIdToJiraResult?: boolean;
@@ -268,10 +253,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
 
             const {
               linkComponent,
-              isSendSearchTermsEnabled,
-              useQuickNavForPeopleResults,
               referralContextIdentifiers,
-              useCPUSForPeopleResults,
               logger,
               disableJiraPreQueryPeopleSearch,
               enablePreQueryFromAggregator,
@@ -284,10 +266,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
               <ContainerComponent
                 {...searchClients}
                 linkComponent={linkComponent}
-                isSendSearchTermsEnabled={isSendSearchTermsEnabled}
-                useQuickNavForPeopleResults={useQuickNavForPeopleResults}
                 referralContextIdentifiers={referralContextIdentifiers}
-                useCPUSForPeopleResults={useCPUSForPeopleResults}
                 disableJiraPreQueryPeopleSearch={
                   disableJiraPreQueryPeopleSearch
                 }

@@ -8,7 +8,7 @@ export interface InlineCardResolvingViewProps {
   /** The url to display */
   url: string;
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   /** A flag that determines whether the card is selected in edit mode. */
   isSelected?: boolean;
 }

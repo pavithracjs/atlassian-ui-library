@@ -124,7 +124,8 @@ const mediaPlugin = (
       options && options.allowMediaSingle
         ? {
             name: 'mediaSingleKeymap',
-            plugin: ({ schema }) => keymapMediaSinglePlugin(schema),
+            plugin: ({ schema, props }) =>
+              keymapMediaSinglePlugin(schema, props.appearance),
           }
         : [],
     );
@@ -165,7 +166,7 @@ const mediaPlugin = (
         title: formatMessage(messages.filesAndImages),
         description: formatMessage(messages.filesAndImagesDescription),
         priority: 400,
-        keywords: ['media'],
+        keywords: ['media', 'attachment'],
         icon: () => (
           <IconImages label={formatMessage(messages.filesAndImages)} />
         ),

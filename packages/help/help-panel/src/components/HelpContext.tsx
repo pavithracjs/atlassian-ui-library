@@ -110,8 +110,7 @@ class HelpContextProviderImplementation extends React.Component<
       this: HelpContextProviderImplementation,
     ) {
       PUSH_STATE.apply(window.history, arguments);
-      this.onUrlChange(window.location);
-    }.bind(this);
+    };
   }
 
   async componentDidUpdate(prevProps: Props) {
@@ -127,12 +126,6 @@ class HelpContextProviderImplementation extends React.Component<
     if (this.props.isOpen !== prevProps.isOpen && articleId) {
       const article = await this.getArticle(articleId);
       this.setState({ defaultArticle: article, view: VIEW.ARTICLE });
-    }
-  }
-
-  onUrlChange(newLocation: Location) {
-    if (!this.props.isOpen) {
-      // TODO: Milestome 2 - get article when url changes
     }
   }
 
@@ -183,6 +176,8 @@ class HelpContextProviderImplementation extends React.Component<
         this.setState({ articleState: REQUEST_STATE.error });
       }
     }
+
+    return null;
   };
 
   navigateBack = async () => {

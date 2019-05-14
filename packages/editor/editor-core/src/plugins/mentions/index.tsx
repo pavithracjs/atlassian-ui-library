@@ -188,11 +188,11 @@ const mentionsPlugin = (
           return mentions.map(
             (mention: MentionDescription): TypeAheadItem => ({
               title: mention.id,
-              render: ({ isSelected, onClick, onMouseMove }) => (
+              render: ({ isSelected, onClick, onHover }) => (
                 <MentionItem
                   mention={mention}
                   selected={isSelected}
-                  onMouseMove={onMouseMove}
+                  onMouseEnter={onHover}
                   onSelection={onClick}
                 />
               ),

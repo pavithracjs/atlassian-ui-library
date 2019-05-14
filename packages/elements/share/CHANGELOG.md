@@ -1,5 +1,10 @@
 # @atlaskit/share
 
+## 0.4.4
+- [patch] [c27888ddff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c27888ddff):
+
+  - added blogpost shared message and improved on documentation
+
 ## 0.4.3
 - [patch] [c63137e1ed](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c63137e1ed):
 

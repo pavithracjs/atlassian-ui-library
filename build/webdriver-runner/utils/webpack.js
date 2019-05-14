@@ -154,7 +154,12 @@ async function startDevServer() {
     globs = globs.map(glob =>
       glob
         .replace('website', 'packages/core/polyfills')
-        .replace('build/webpack-config', 'packages/core/polyfills'),
+        .replace('build/webpack-config', 'packages/core/polyfills')
+        // Remap packages without examples to a package they indend to leverage within their tests
+        .replace(
+          'packages/editor/editor-common',
+          'packages/editor/editor-core',
+        ),
     );
   }
   if (!globs.length) {

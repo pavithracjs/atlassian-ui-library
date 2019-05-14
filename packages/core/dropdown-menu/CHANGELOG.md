@@ -1,5 +1,10 @@
 # @atlaskit/dropdown-menu
 
+## 8.0.1
+- [patch] [ee788e6434](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ee788e6434):
+
+  - Fix analytics for the toggle dropdownMenu event
+
 ## 8.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

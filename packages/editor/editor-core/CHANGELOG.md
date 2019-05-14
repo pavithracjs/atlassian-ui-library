@@ -1,5 +1,110 @@
 # @atlaskit/editor-core
 
+## 112.0.0
+- [major] [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
+
+  - Fix typeahead re-rendering when moving mouse
+
+  Breaking change -> TypeAheadItem:
+
+  ```ts
+  export type TypeAheadItemRenderProps = {
+    onClick: () => void;
+
+    // BREAKING CHANGE
+    // onMouseMove -> onHover
+    onHover: () => void;
+
+    isSelected: boolean;
+  };
+
+  export type TypeAheadItem = {
+    /*...*/
+    render?: (
+      props: TypeAheadItemRenderProps,
+    ) => React.ReactElement<TypeAheadItemRenderProps> | null;
+    /*...*/
+  };
+  ```
+
+  Items returned from `QuickInsertProvider#getItems` method that have custom `render` function will now get `onHover` instead of `onMouseMove`.
+
+## 111.1.4
+- [patch] [c5b70ffbdb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c5b70ffbdb):
+
+  - fix regression where multiple cell context menu dropdowns would appear when adding rows
+
+## 111.1.3
+- [patch] [897c83c32a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/897c83c32a):
+
+  - ED-6849: Prevent the collab plugin from re-initing on a reconfigure, also maintains previous state when reconfiguring
+
+## 111.1.2
+- [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
+
+  - fix for clicking behaviour in view/edit mode for Inline Smart Links.
+
+## 111.1.1
+- [patch] [287036e319](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/287036e319):
+
+  - ED-6765: workaround for mediaSingle deletion on Android
+
+## 111.1.0
+- [minor] [9626153146](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9626153146):
+
+  - ED-6564: improve typing performance, especially in tables
+
+  Be more selective about when to re-render certain nodes. In particular, only re-render table cells when selecting in/out of them, or their contents change. This applies to:
+
+  * tables
+  * images
+  * emojis
+  * mentions
+  * tasks and decisions
+
+  Also prevents a number of plugins from notifying about status changes when nothing has changed. In particular:
+
+  * breakout
+  * emoji
+  * hyperlink
+  * table
+
+## 111.0.6
+- [patch] [1c88068498](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1c88068498):
+
+  - Fix re-rendering FullPage appearance on every scroll
+
+## 111.0.5
+- [patch] [2b85ca535a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2b85ca535a):
+
+  - ED-6828: fix smart link selection inside lists
+
+## 111.0.4
+- [patch] [a3264821d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a3264821d0):
+
+  - ED-6129 Refactor table plugin state to use pluginFactory
+
+## 111.0.3
+- [patch] [519046cd9b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/519046cd9b):
+
+  - ED-6789: improve table column stacking when resizing columns to the right by going to overflown state only when all resized columns are minWidths
+
+## 111.0.2
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/editor-test-helpers@9.1.3
+  - @atlaskit/renderer@48.1.1
+  - @atlaskit/media-card@63.0.2
+  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-editor@35.0.1
+  - @atlaskit/media-filmstrip@34.1.1
+  - @atlaskit/media-picker@42.0.1
+  - @atlaskit/media-test-helpers@23.0.0
+
+## 111.0.1
+- [patch] [58948126ef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58948126ef):
+
+  - ED-6073: fix cursor selection and prevent jumping around inline smart links
+
 ## 111.0.0
 - [major] [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
 

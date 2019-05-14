@@ -1,5 +1,10 @@
 # @atlaskit/adf-schema
 
+## 2.5.7
+- [patch] [1ec6367e00](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1ec6367e00):
+
+  - ED-6551 - Lists should correctly wrap adjacent floated content without overlapping
+
 ## 2.5.6
 - [patch] [80cf1c1e82](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80cf1c1e82):
 

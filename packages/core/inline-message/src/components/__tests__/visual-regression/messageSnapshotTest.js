@@ -16,4 +16,15 @@ describe('Snapshot Test', () => {
     //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
   });
+  it('Inline message different-types should match production example', async () => {
+    const url = getExampleUrl(
+      'core',
+      'inline-message',
+      'different-types',
+      global.__BASEURL__,
+    );
+    const image = await takeScreenShot(global.page, url);
+    //$FlowFixMe
+    expect(image).toMatchProdImageSnapshot();
+  });
 });

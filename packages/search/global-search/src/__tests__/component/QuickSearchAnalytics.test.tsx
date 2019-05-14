@@ -468,7 +468,6 @@ const getRecentItems = (product: string) =>
               ? {
                   confSearchElapsedMs: expect.any(Number),
                   postQueryRequestDurationMs: expect.any(Number),
-                  peopleElapsedMs: expect.any(Number),
                 }
               : {
                   postQueryRequestDurationMs: expect.any(Number),

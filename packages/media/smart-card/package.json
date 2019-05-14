@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/smart-card",
-  "version": "11.0.0",
+  "version": "11.0.3",
   "description": "Smart card component",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -21,7 +21,7 @@
     "@atlaskit/icon": "^17.0.0",
     "@atlaskit/icon-file-type": "^4.0.0",
     "@atlaskit/icon-object": "^4.0.0",
-    "@atlaskit/media-ui": "^11.0.0",
+    "@atlaskit/media-ui": "^11.1.2",
     "@atlaskit/outbound-auth-flow-client": "^2.0.2",
     "@atlaskit/theme": "^9.0.0",
     "@types/react-loadable": "^5.4.1",

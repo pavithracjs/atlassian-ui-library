@@ -1,6 +1,10 @@
 declare module '@atlaskit/theme/components' {
   import * as React from 'react';
 
+  export type GlobalThemeTokens = {
+    mode: 'dark' | 'light';
+  };
+
   const GlobalTheme: Theme<GlobalThemeTokens, any>;
   export default GlobalTheme;
 

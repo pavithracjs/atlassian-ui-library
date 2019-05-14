@@ -1,10 +1,30 @@
-import { MediaMock } from '@atlaskit/media-test-helpers';
+import {
+  MediaMock,
+  generateFilesFromTestData,
+} from '@atlaskit/media-test-helpers';
 import { fakeImage } from '../../../media/media-test-helpers/src/mocks/database/mockData';
 
 export default new MediaMock({
-  'one.svg': fakeImage,
-  'two.svg': fakeImage,
-  'three.svg': fakeImage,
-  'four.svg': fakeImage,
-  'five.svg': fakeImage,
+  recents: generateFilesFromTestData([
+    {
+      name: 'one.svg',
+      dataUri: fakeImage,
+    },
+    {
+      name: 'two.svg',
+      dataUri: fakeImage,
+    },
+    {
+      name: 'three.svg',
+      dataUri: fakeImage,
+    },
+    {
+      name: 'four.svg',
+      dataUri: fakeImage,
+    },
+    {
+      name: 'five.svg',
+      dataUri: fakeImage,
+    },
+  ]),
 });

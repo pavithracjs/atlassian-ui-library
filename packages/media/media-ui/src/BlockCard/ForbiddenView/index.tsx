@@ -11,7 +11,7 @@ export interface BlockCardForbiddenViewProps {
   /** The url to display */
   url: string;
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   /** The optional click handler */
   onAuthorise?: () => void;
 

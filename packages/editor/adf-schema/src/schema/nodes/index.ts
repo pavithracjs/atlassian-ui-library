@@ -11,7 +11,11 @@ export {
   MarksObject,
 } from './doc';
 export { blockquote, BlockQuoteDefinition } from './blockquote';
-export { bulletList, BulletListDefinition } from './bullet-list';
+export {
+  bulletList,
+  BulletListDefinition,
+  bulletListSelector,
+} from './bullet-list';
 export {
   codeBlock,
   toJSON as codeBlockToJSON,
@@ -21,7 +25,11 @@ export {
 export { hardBreak, HardBreakDefinition } from './hard-break';
 export { heading, HeadingDefinition } from './heading';
 export { rule, RuleDefinition } from './rule';
-export { orderedList, OrderedListDefinition } from './ordered-list';
+export {
+  orderedList,
+  OrderedListDefinition,
+  orderedListSelector,
+} from './ordered-list';
 export { paragraph, ParagraphDefinition } from './paragraph';
 export { emoji, EmojiAttributes, EmojiDefinition } from './emoji';
 export { image } from './image';

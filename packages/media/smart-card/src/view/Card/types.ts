@@ -5,7 +5,7 @@ export type CardAppearance = 'inline' | 'block';
 type BaseCardProps = {
   appearance: CardAppearance;
   isSelected?: boolean;
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   importer?: (target: any) => void;
 };
 
