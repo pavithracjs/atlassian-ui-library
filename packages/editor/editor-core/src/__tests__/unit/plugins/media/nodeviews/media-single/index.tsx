@@ -23,7 +23,7 @@ import { EventDispatcher } from '../../../../../../event-dispatcher';
 import { PortalProviderAPI } from '../../../../../../ui/PortalProvider';
 import { stateKey as SelectionChangePluginKey } from '../../../../../../plugins/base/pm-plugins/react-nodeview';
 import { MediaOptions } from '../../../../../../plugins/media';
-import * as mediaCommands from '../../../../../../plugins/media/commands/media';
+import * as mediaCommands from '../../../../../../plugins/media/commands';
 
 const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 

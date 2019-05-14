@@ -9,7 +9,7 @@ import mediaPlugin from '../../../../../plugins/media';
 import { MediaPluginState } from '../../../../../plugins/media/pm-plugins/main';
 import { stateKey as mediaPluginKey } from '../../../../../plugins/media/pm-plugins/main';
 import { getFreshMediaProvider, testCollectionName } from '../_utils';
-import { updateMediaNodeAttrs } from '../../../../../plugins/media/commands/media';
+import { updateMediaNodeAttrs } from '../../../../../plugins/media/commands';
 
 describe('Media plugin commands', () => {
   const createEditor = createEditorFactory<MediaPluginState>();

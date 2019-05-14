@@ -32,7 +32,7 @@ import { Context } from '@atlaskit/media-core';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { NodeSelection } from 'prosemirror-state';
 import { MediaOptions } from '../';
-import { updateMediaNodeAttrs } from '../commands/media';
+import { updateMediaNodeAttrs } from '../commands';
 
 export interface MediaSingleNodeProps {
   node: PMNode;
