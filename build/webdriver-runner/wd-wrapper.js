@@ -304,6 +304,13 @@ export default class Page {
     return elem.waitForDisplayed(options.timeout || WAIT_TIMEOUT);
   }
 
+  async waitUntilContainsText(selector, text) {
+    await this.waitUntil(async () => {
+      const content = await this.getText(selector);
+      return content.indexOf(text) !== -1;
+    });
+  }
+
   waitFor(selector, ms, reverse) {
     return this.waitForSelector(selector, { timeout: ms }, reverse);
   }

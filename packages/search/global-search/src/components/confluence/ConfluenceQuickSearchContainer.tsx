@@ -58,9 +58,6 @@ export interface Props {
   linkComponent?: LinkComponent;
   createAnalyticsEvent?: CreateAnalyticsEventFn;
   referralContextIdentifiers?: ReferralContextIdentifiers;
-  isSendSearchTermsEnabled?: boolean;
-  useQuickNavForPeopleResults?: boolean;
-  useCPUSForPeopleResults?: boolean;
   logger: Logger;
   fasterSearchFFEnabled: boolean;
   onAdvancedSearch?: (
@@ -147,58 +144,23 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     sessionId: string,
     queryVersion: number,
   ): Promise<CrossProductSearchResults> {
-    const {
-      crossProductSearchClient,
-      useCPUSForPeopleResults,
-      referralContextIdentifiers,
-    } = this.props;
+    const { crossProductSearchClient, referralContextIdentifiers } = this.props;
 
     let scopes = [Scope.ConfluencePageBlogAttachment, Scope.ConfluenceSpace];
 
-    if (useCPUSForPeopleResults) {
-      scopes.push(Scope.People);
-    }
-
-    const referrerId =
-      referralContextIdentifiers && referralContextIdentifiers.searchReferrerId;
+    scopes.push(Scope.People);
 
     const results = await crossProductSearchClient.search(
       query,
-      { sessionId, referrerId },
+      sessionId,
       scopes,
+      'confluence',
       queryVersion,
+      null,
+      referralContextIdentifiers,
     );
 
     return results;
-  }
-
-  async searchPeople(query: string, sessionId: string): Promise<Result[]> {
-    const {
-      useCPUSForPeopleResults,
-      useQuickNavForPeopleResults,
-      confluenceClient,
-      peopleSearchClient,
-    } = this.props;
-
-    if (useQuickNavForPeopleResults) {
-      return handlePromiseError(
-        confluenceClient.searchPeopleInQuickNav(query, sessionId),
-        [],
-        this.handleSearchErrorAnalyticsThunk('search-people-quicknav'),
-      );
-    }
-
-    // people results will be returned by xpsearch
-    if (useCPUSForPeopleResults) {
-      return Promise.resolve([]);
-    }
-
-    // fall back to directory search
-    return handlePromiseError(
-      peopleSearchClient.search(query),
-      [],
-      this.handleSearchErrorAnalyticsThunk('search-people'),
-    );
   }
 
   // TODO extract
@@ -241,46 +203,29 @@ export class ConfluenceQuickSearchContainer extends React.Component<
     startTime: number,
     queryVersion: number,
   ): Promise<ResultsWithTiming> => {
-    const { useCPUSForPeopleResults } = this.props;
-
     const confXpSearchPromise = handlePromiseError(
       this.searchCrossProductConfluence(query, sessionId, queryVersion),
       EMPTY_CROSS_PRODUCT_SEARCH_RESPONSE,
       this.handleSearchErrorAnalyticsThunk('xpsearch-confluence'),
     );
 
-    const searchPeoplePromise = this.searchPeople(query, sessionId);
-
     const mapPromiseToPerformanceTime = (p: Promise<any>) =>
       p.then(() => performanceNow() - startTime);
 
-    return Promise.all<CrossProductSearchResults, Result[], number, number>([
+    return Promise.all<CrossProductSearchResults, number>([
       confXpSearchPromise,
-      searchPeoplePromise,
       mapPromiseToPerformanceTime(confXpSearchPromise),
-      mapPromiseToPerformanceTime(searchPeoplePromise),
-    ]).then(
-      ([
-        xpsearchResults,
-        peopleResults,
+    ]).then(([xpsearchResults, confSearchElapsedMs]) => ({
+      results: {
+        objects:
+          xpsearchResults.results.get(Scope.ConfluencePageBlogAttachment) || [],
+        spaces: xpsearchResults.results.get(Scope.ConfluenceSpace) || [],
+        people: xpsearchResults.results.get(Scope.People) || [],
+      },
+      timings: {
         confSearchElapsedMs,
-        peopleElapsedMs,
-      ]) => ({
-        results: {
-          objects:
-            xpsearchResults.results.get(Scope.ConfluencePageBlogAttachment) ||
-            [],
-          spaces: xpsearchResults.results.get(Scope.ConfluenceSpace) || [],
-          people: useCPUSForPeopleResults
-            ? xpsearchResults.results.get(Scope.People) || []
-            : peopleResults,
-        },
-        timings: {
-          confSearchElapsedMs,
-          peopleElapsedMs,
-        },
-      }),
-    );
+      },
+    }));
   };
 
   getAbTestData = (sessionId: string): Promise<ABTest> => {
@@ -446,7 +391,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
   render() {
     const {
       linkComponent,
-      isSendSearchTermsEnabled,
       logger,
       inputControls,
       fasterSearchFFEnabled,
@@ -463,7 +407,6 @@ export class ConfluenceQuickSearchContainer extends React.Component<
         getSearchResults={this.getSearchResults}
         getAbTestData={this.getAbTestData}
         handleSearchSubmit={this.handleSearchSubmit}
-        isSendSearchTermsEnabled={isSendSearchTermsEnabled}
         getPreQueryDisplayedResults={this.getPreQueryDisplayedResults}
         getPostQueryDisplayedResults={this.getPostQueryDisplayedResults}
         logger={logger}

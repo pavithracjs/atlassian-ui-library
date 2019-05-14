@@ -15,7 +15,7 @@ export function renderInlineCard(
   url: string,
   state: ObjectState,
   handleAuthorise: (() => void) | undefined,
-  handleFrameClick: () => void,
+  handleFrameClick: React.EventHandler<React.MouseEvent | React.KeyboardEvent>,
   isSelected?: boolean,
 ): React.ReactNode {
   switch (state.status) {

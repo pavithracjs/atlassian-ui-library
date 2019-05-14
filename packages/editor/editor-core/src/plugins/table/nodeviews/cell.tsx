@@ -4,17 +4,19 @@ import { Node as PmNode } from 'prosemirror-model';
 import { EditorView, NodeView } from 'prosemirror-view';
 import { setCellAttrs } from '@atlaskit/adf-schema';
 import ExpandIcon from '@atlaskit/icon/glyph/chevron-down';
-import ReactNodeView, { ForwardRef } from '../../../nodeviews/ReactNodeView';
+import {
+  ForwardRef,
+  SelectionBasedNodeView,
+} from '../../../nodeviews/ReactNodeView';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import ToolbarButton from '../../../ui/ToolbarButton';
-import WithPluginState from '../../../ui/WithPluginState';
 import messages from '../ui/messages';
 import { pluginKey } from '../pm-plugins/main';
 import {
   pluginKey as tableResizingPluginKey,
   ResizeState,
 } from '../pm-plugins/table-resizing';
-import { toggleContextualMenu } from '../actions';
+import { toggleContextualMenu } from '../commands';
 import { TableCssClassName as ClassName, TablePluginState } from '../types';
 import { closestElement } from '../../../utils';
 import {
@@ -41,14 +43,6 @@ export type CellProps = {
 };
 
 class Cell extends React.Component<CellProps & InjectedIntlProps> {
-  shouldComponentUpdate(nextProps: CellProps & InjectedIntlProps) {
-    return (
-      this.props.withCursor !== nextProps.withCursor ||
-      this.props.isResizing !== nextProps.isResizing ||
-      this.props.isContextualMenuOpen !== nextProps.isContextualMenuOpen
-    );
-  }
-
   render() {
     const {
       withCursor,
@@ -60,7 +54,6 @@ class Cell extends React.Component<CellProps & InjectedIntlProps> {
       isContextMenuEnabled,
     } = this.props;
     const labelCellOptions = formatMessage(messages.cellOptions);
-
     return (
       <div className={ClassName.CELL_NODEVIEW_WRAPPER} ref={forwardRef}>
         {isContextMenuEnabled && withCursor && !disabled && (
@@ -81,17 +74,19 @@ class Cell extends React.Component<CellProps & InjectedIntlProps> {
 
   private handleClick = () => {
     const { state, dispatch } = this.props.view;
-    toggleContextualMenu(state, dispatch);
+    toggleContextualMenu()(state, dispatch);
   };
 }
 
 const CellComponent = injectIntl(Cell);
 
-class CellView extends ReactNodeView {
+class CellView extends SelectionBasedNodeView {
   private cell: HTMLElement | undefined;
+  private oldTableState: TablePluginState;
 
   constructor(props: CellViewProps) {
     super(props.node, props.view, props.getPos, props.portalProviderAPI, props);
+    this.oldTableState = pluginKey.getState(props.view.state);
   }
 
   createDomRef() {
@@ -119,38 +114,54 @@ class CellView extends ReactNodeView {
     }
   }
 
+  viewShouldUpdate(nextNode: PmNode) {
+    const tableState: TablePluginState = pluginKey.getState(this.view.state);
+    const tableResizingState: ResizeState = tableResizingPluginKey.getState(
+      this.view.state,
+    );
+    const disabledState: EditorDisabledPluginState = editorDisabledPluginKey.getState(
+      this.view.state,
+    );
+    const oldTableState = this.oldTableState;
+    this.oldTableState = tableState;
+
+    if (
+      nextNode.attrs !== this.node.attrs ||
+      oldTableState.isContextualMenuOpen !== tableState.isContextualMenuOpen ||
+      (oldTableState.editorHasFocus !== tableState.editorHasFocus &&
+        tableState.isContextualMenuOpen)
+    ) {
+      return true;
+    }
+
+    if (
+      (tableResizingState && tableResizingState.dragging) ||
+      (disabledState && disabledState.editorDisabled)
+    ) {
+      return false;
+    }
+
+    return super.viewShouldUpdate(nextNode);
+  }
+
   render(props: CellViewProps, forwardRef: ForwardRef) {
-    // nodeview does not re-render on selection changes
-    // so we trigger render manually to hide/show contextual menu button when `targetCellPosition` is updated
+    const tableState: TablePluginState = pluginKey.getState(this.view.state);
+    const tableResizingState: ResizeState = tableResizingPluginKey.getState(
+      this.view.state,
+    );
+    const disabledState: EditorDisabledPluginState = editorDisabledPluginKey.getState(
+      this.view.state,
+    );
+
     return (
-      <WithPluginState
-        plugins={{
-          pluginState: pluginKey,
-          tableResizingPluginState: tableResizingPluginKey,
-          editorDisabledPlugin: editorDisabledPluginKey,
-        }}
-        editorView={props.view}
-        render={({
-          pluginState,
-          tableResizingPluginState,
-          editorDisabledPlugin,
-        }: {
-          pluginState: TablePluginState;
-          tableResizingPluginState: ResizeState;
-          editorDisabledPlugin: EditorDisabledPluginState;
-        }) => (
-          <CellComponent
-            forwardRef={forwardRef}
-            withCursor={this.getPos() === pluginState.targetCellPosition}
-            isResizing={
-              !!tableResizingPluginState && !!tableResizingPluginState.dragging
-            }
-            isContextualMenuOpen={!!pluginState.isContextualMenuOpen}
-            isContextMenuEnabled={props.isContextMenuEnabled}
-            view={props.view}
-            disabled={(editorDisabledPlugin || {}).editorDisabled}
-          />
-        )}
+      <CellComponent
+        forwardRef={forwardRef}
+        withCursor={this.insideSelection() && !!tableState.editorHasFocus}
+        isResizing={!!tableResizingState && !!tableResizingState.dragging}
+        isContextualMenuOpen={!!tableState.isContextualMenuOpen}
+        isContextMenuEnabled={props.isContextMenuEnabled}
+        view={props.view}
+        disabled={(disabledState || {}).editorDisabled}
       />
     );
   }

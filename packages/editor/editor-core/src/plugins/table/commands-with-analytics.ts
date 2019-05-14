@@ -25,7 +25,7 @@ import {
   deleteTable,
   toggleTableLayout,
   getNextLayout,
-} from './actions';
+} from './commands';
 import {
   getSelectedCellInfo,
   getSelectedTableInfo,

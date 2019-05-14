@@ -4,6 +4,7 @@ import React, { Component, Fragment, type Node } from 'react';
 import { findDOMNode } from 'react-dom';
 import { uid } from 'react-uid';
 import {
+  withAnalyticsContext,
   withAnalyticsEvents,
   createAndFireEvent,
 } from '@atlaskit/analytics-next';
@@ -495,15 +496,21 @@ class DropdownMenuStateless extends Component<
 export { DropdownMenuStateless as DropdownMenuStatelessWithoutAnalytics };
 const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
-export default withAnalyticsEvents({
-  onOpenChange: createAndFireEventOnAtlaskit({
-    action: 'toggled',
-    actionSubject: 'dropdownMenu',
+export default withAnalyticsContext({
+  componentName: 'dropdownMenu',
+  packageName,
+  packageVersion,
+})(
+  withAnalyticsEvents({
+    onOpenChange: createAndFireEventOnAtlaskit({
+      action: 'toggled',
+      actionSubject: 'dropdownMenu',
 
-    attributes: {
-      componentName: 'dropdownMenu',
-      packageName,
-      packageVersion,
-    },
-  }),
-})(DropdownMenuStateless);
+      attributes: {
+        componentName: 'dropdownMenu',
+        packageName,
+        packageVersion,
+      },
+    }),
+  })(DropdownMenuStateless),
+);

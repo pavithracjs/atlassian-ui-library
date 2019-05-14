@@ -79,7 +79,6 @@ export interface Props {
   crossProductSearchClient: CrossProductSearchClient;
   disableJiraPreQueryPeopleSearch?: boolean;
   logger: Logger;
-  isSendSearchTermsEnabled?: boolean;
   enablePreQueryFromAggregator?: boolean;
   onAdvancedSearch?: (
     e: CancelableEvent,
@@ -357,7 +356,15 @@ export class JiraQuickSearchContainer extends React.Component<
     sessionId: string,
   ): Promise<GenericResultMap> => {
     return this.props.crossProductSearchClient
-      .search('', { sessionId }, SCOPES)
+      .search(
+        '',
+        sessionId,
+        SCOPES,
+        'jira',
+        null,
+        null,
+        this.props.referralContextIdentifiers,
+      )
       .then(xpRecentResults => ({
         objects: xpRecentResults.results.get(Scope.JiraIssue) || [],
         containers:
@@ -427,15 +434,14 @@ export class JiraQuickSearchContainer extends React.Component<
     startTime: number,
     queryVersion: number,
   ): Promise<ResultsWithTiming> => {
-    const referrerId =
-      this.props.referralContextIdentifiers &&
-      this.props.referralContextIdentifiers.searchReferrerId;
     const crossProductSearchPromise = this.props.crossProductSearchClient.search(
       query,
-      { sessionId, referrerId },
+      sessionId,
       SCOPES,
+      'jira',
       queryVersion,
       JIRA_RESULT_LIMIT,
+      this.props.referralContextIdentifiers,
     );
 
     const searchPeoplePromise = Promise.resolve([] as Result[]);
@@ -508,7 +514,6 @@ export class JiraQuickSearchContainer extends React.Component<
     const {
       linkComponent,
       createAnalyticsEvent,
-      isSendSearchTermsEnabled,
       logger,
       enablePreQueryFromAggregator,
       referralContextIdentifiers,
@@ -534,7 +539,6 @@ export class JiraQuickSearchContainer extends React.Component<
         onSelectedResultIdChanged={(newId: any) =>
           this.handleSelectedResultIdChanged(newId)
         }
-        isSendSearchTermsEnabled={isSendSearchTermsEnabled}
         enablePreQueryFromAggregator={enablePreQueryFromAggregator}
         referralContextIdentifiers={referralContextIdentifiers}
       />

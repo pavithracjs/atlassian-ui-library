@@ -19,7 +19,7 @@ import {
   hoverColumns,
   hoverRows,
   hoverTable,
-} from '../../../../plugins/table/actions';
+} from '../../../../plugins/table/commands';
 import {
   pluginKey,
   getPluginState,
@@ -216,7 +216,7 @@ describe('table hover selection plugin', () => {
         ).toHaveLength(6);
 
         // reset hover selection plugin to an empty DecorationSet
-        clearHoverSelection(editorView.state, editorView.dispatch);
+        clearHoverSelection()(editorView.state, editorView.dispatch);
         expect(getPluginState(editorView.state).decorationSet).toEqual(
           DecorationSet.empty,
         );

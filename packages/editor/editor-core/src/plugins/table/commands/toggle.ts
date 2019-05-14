@@ -3,7 +3,7 @@ import { TableMap } from 'prosemirror-tables';
 import { NodeType } from 'prosemirror-model';
 import { findTable } from 'prosemirror-utils';
 import { TableLayout } from '@atlaskit/adf-schema';
-import { pluginKey, ACTIONS } from '../pm-plugins/main';
+import { createCommand } from '../pm-plugins/main';
 import { checkIfHeaderRowEnabled, checkIfHeaderColumnEnabled } from '../utils';
 import { Command } from '../../../types';
 //#endregion
@@ -121,16 +121,11 @@ export const toggleTableLayout: Command = (state, dispatch): boolean => {
   return true;
 };
 
-export const toggleContextualMenu: Command = (state, dispatch) => {
-  if (dispatch) {
-    dispatch(
-      state.tr
-        .setMeta(pluginKey, {
-          action: ACTIONS.TOGGLE_CONTEXTUAL_MENU,
-        })
-        .setMeta('addToHistory', false),
-    );
-  }
-  return true;
-};
+export const toggleContextualMenu = () =>
+  createCommand(
+    {
+      type: 'TOGGLE_CONTEXTUAL_MENU',
+    },
+    tr => tr.setMeta('addToHistory', false),
+  );
 // #endregion

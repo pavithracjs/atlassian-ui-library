@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-ui",
-  "version": "11.1.0",
+  "version": "11.1.2",
   "description": "Includes common components and utilities used by other media packages",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -16,6 +16,10 @@
       "name": "James N"
     }
   ],
+  "atlaskit": {
+    "name": "Media UI",
+    "team": "media"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "scripts": {
     "i18n:push": "i18n-tools push --resource media-ui --type ts .",
@@ -58,7 +62,7 @@
     "@atlaskit/checkbox": "^7.0.0",
     "@atlaskit/docs": "^8.0.0",
     "@atlaskit/i18n-tools": "^0.5.0",
-    "@atlaskit/media-test-helpers": "^22.0.0",
+    "@atlaskit/media-test-helpers": "^23.0.0",
     "@types/enzyme": "^3.1.15",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",

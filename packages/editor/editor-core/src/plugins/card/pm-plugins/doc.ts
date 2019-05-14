@@ -11,7 +11,7 @@ import { resolveCard, queueCards } from './actions';
 import { appearanceForNodeType } from '../utils';
 
 import { Command } from '../../../types';
-import { processRawValue, getStepRange } from '../../../utils';
+import { processRawValue, nodesBetweenChanged } from '../../../utils';
 import { Schema, Node } from 'prosemirror-model';
 import { md } from '../../paste/pm-plugins/main';
 import { closeHistory } from 'prosemirror-history';
@@ -141,14 +141,8 @@ export const queueCardsFromChangedTr = (
   const { schema } = state;
   const { link } = schema.marks;
 
-  const stepRange = getStepRange(tr);
-  if (!stepRange) {
-    // no steps mutate this document, do nothing
-    return tr;
-  }
-
   const requests: Request[] = [];
-  tr.doc.nodesBetween(stepRange.from, stepRange.to, (node, pos) => {
+  nodesBetweenChanged(tr, (node, pos) => {
     if (!node.isText) {
       return true;
     }

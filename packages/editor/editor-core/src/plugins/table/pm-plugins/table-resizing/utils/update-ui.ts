@@ -21,14 +21,18 @@ export const updateControls = (
     return;
   }
   const wrapper = tableRef.parentElement;
-  const columnControls: any = wrapper.querySelectorAll(
+  if (!(wrapper && wrapper.parentElement)) {
+    return;
+  }
+
+  const columnControls = wrapper.querySelectorAll<HTMLElement>(
     `.${ClassName.COLUMN_CONTROLS_BUTTON_WRAP}`,
   );
   const rows = tableRef.querySelectorAll('tr');
-  const rowControls: any = wrapper.parentElement.querySelectorAll(
+  const rowControls = wrapper.parentElement.querySelectorAll<HTMLElement>(
     `.${ClassName.ROW_CONTROLS_BUTTON_WRAP}`,
   );
-  const numberedRows = wrapper.parentElement.querySelectorAll(
+  const numberedRows = wrapper.parentElement.querySelectorAll<HTMLElement>(
     ClassName.NUMBERED_COLUMN_BUTTON,
   );
 
@@ -53,7 +57,9 @@ export const updateControls = (
   updateRightShadow(
     wrapper,
     tableRef,
-    wrapper.parentElement.querySelector(`.${ClassName.TABLE_RIGHT_SHADOW}`),
+    wrapper.parentElement.querySelector<HTMLElement>(
+      `.${ClassName.TABLE_RIGHT_SHADOW}`,
+    ),
   );
 };
 
