@@ -113,36 +113,40 @@ const scenarios = [
 
 export default () => (
   <table style={{ tableLayout: 'fixed', margin: 20 }}>
-    <tr>
-      <th />
-      <th>Sync</th>
-      <th>Async (2s delay)</th>
-    </tr>
-
-    {scenarios.map(({ name, resolvesTo }) => (
+    <thead>
       <tr>
-        <td>{name}</td>
-
-        <td>
-          <ExperimentController
-            experimentEnrollmentConfig={{
-              myExperimentKey: () => Promise.resolve(resolvesTo),
-            }}
-          >
-            <ExperimentWrapped title="Component" />
-          </ExperimentController>
-        </td>
-
-        <td>
-          <ExperimentController
-            experimentEnrollmentConfig={{
-              myExperimentKey: () => resolveAfterDelay(resolvesTo, 2000),
-            }}
-          >
-            <ExperimentWrapped title="Component" />
-          </ExperimentController>
-        </td>
+        <th />
+        <th>Sync</th>
+        <th>Async (2s delay)</th>
       </tr>
-    ))}
+    </thead>
+
+    <tbody>
+      {scenarios.map(({ name, resolvesTo }) => (
+        <tr key={name}>
+          <td>{name}</td>
+
+          <td>
+            <ExperimentController
+              experimentEnrollmentConfig={{
+                myExperimentKey: () => Promise.resolve(resolvesTo),
+              }}
+            >
+              <ExperimentWrapped title="Component" />
+            </ExperimentController>
+          </td>
+
+          <td>
+            <ExperimentController
+              experimentEnrollmentConfig={{
+                myExperimentKey: () => resolveAfterDelay(resolvesTo, 2000),
+              }}
+            >
+              <ExperimentWrapped title="Component" />
+            </ExperimentController>
+          </td>
+        </tr>
+      ))}
+    </tbody>
   </table>
 );
