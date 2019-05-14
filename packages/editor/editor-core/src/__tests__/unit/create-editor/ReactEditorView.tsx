@@ -113,12 +113,12 @@ describe(name, () => {
       wrapper.unmount();
     });
 
-    it('should place the initial selection near the end if a valid selection at the end does not exist', () => {
+    it.only('should place the initial selection near the end if a valid selection at the end does not exist', () => {
       // See ED-3507
       const mediaNode = media({ id: '1', type: 'file', collection: '2' });
       const document = doc(p('Start'), mediaGroup(mediaNode()))(defaultSchema);
       const mediaProvider = storyMediaProviderFactory();
-      const wrapper = shallow(
+      const wrapper = mountWithIntl(
         <ReactEditorView
           {...requiredProps()}
           editorProps={{
@@ -159,7 +159,7 @@ describe(name, () => {
     });
 
     it('should trigger editor started analytics event', () => {
-      mountWithIntl(
+      const wrapper = mountWithIntl(
         <ReactEditorView {...requiredProps()} {...analyticsProps()} />,
       );
 
