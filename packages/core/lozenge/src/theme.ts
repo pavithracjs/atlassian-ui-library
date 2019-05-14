@@ -1,4 +1,3 @@
-// @flow
 import { colors, createTheme } from '@atlaskit/theme';
 
 /** Note
@@ -50,17 +49,17 @@ export type ThemeAppearance =
   | 'success'
   | {};
 
-export type ThemeProps = {
-  appearance: ThemeAppearance | {},
-  isBold: boolean,
-  maxWidth: number | string,
-};
+export interface ThemeProps {
+  appearance: ThemeAppearance | {};
+  isBold: boolean;
+  maxWidth: number | string;
+}
 
-export type ThemeTokens = {
-  backgroundColor: string,
-  maxWidth: number | string,
-  textColor: string,
-};
+export interface ThemeTokens {
+  backgroundColor: string;
+  maxWidth: number | string;
+  textColor: string;
+}
 
 export const Theme = createTheme<ThemeTokens, ThemeProps>(
   ({ appearance, isBold, maxWidth }) => ({

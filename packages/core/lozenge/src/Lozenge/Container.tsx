@@ -1,15 +1,14 @@
-// @flow
 /** @jsx jsx */
-import { type Node } from 'react';
+import { ReactChild } from 'react';
 import { jsx } from '@emotion/core';
 import { borderRadius } from '@atlaskit/theme';
-import { type ThemeTokens } from '../theme';
+import { ThemeTokens } from '../theme';
 
 const BORDER_RADIUS = `${borderRadius()}px`;
 
-type ThemeTokensWithChildren = ThemeTokens & {
-  children?: Node,
-};
+interface ThemeTokensWithChildren extends ThemeTokens {
+  children?: ReactChild;
+}
 
 export default ({
   backgroundColor,
