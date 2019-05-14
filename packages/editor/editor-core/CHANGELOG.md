@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.0.3
+- [patch] [74b05d57c4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/74b05d57c4):
+
+  - Fix slowness after "fix regression where multiple cell context menu dropdowns would appear when adding rows"
+
 ## 112.0.2
 - [patch] [1f276f95d4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1f276f95d4):
 
