@@ -168,15 +168,14 @@ describe('modal-dialog', () => {
 
     describe('body', () => {
       it('should render when set via components prop', () => {
-        const node = React.forwardRef(
-          (ref: React.RefObject<HTMLSpanElement>) => {
-            return <span ref={ref}>My body</span>;
-          },
-        );
+        const Node = React.forwardRef((_, ref: any) => {
+          return <span ref={ref}>My body</span>;
+        });
         const wrapper = mount(
-          <ModalDialog components={{ Body: node }} onClose={noop} />,
+          <ModalDialog components={{ Body: Node }} onClose={noop} />,
         );
-        expect(wrapper.contains(node)).toBe(true);
+        const TestSpan = <span>My body</span>;
+        expect(wrapper.contains(TestSpan)).toBe(true);
       });
 
       it('should render when set via (deprecated) body prop', () => {
@@ -184,14 +183,13 @@ describe('modal-dialog', () => {
           .spyOn(console, 'warn')
           .mockImplementation(() => {});
 
-        const node = React.forwardRef(
-          (ref: React.RefObject<HTMLSpanElement>) => (
-            <span ref={ref}>My body</span>
-          ),
-        );
+        const node = React.forwardRef((_, ref: any) => (
+          <span ref={ref}>My body</span>
+        ));
         const wrapper = mount(<ModalDialog body={node} onClose={noop} />);
 
-        expect(wrapper.contains(node)).toBe(true);
+        const TestSpan = <span>My body</span>;
+        expect(wrapper.contains(TestSpan)).toBe(true);
         expect(warnSpy).toHaveBeenCalled();
       });
 
@@ -199,11 +197,9 @@ describe('modal-dialog', () => {
         const warnSpy = jest
           .spyOn(console, 'warn')
           .mockImplementation(() => {});
-        const node = React.forwardRef(
-          (ref: React.RefObject<HTMLSpanElement>) => {
-            return <span ref={ref}>My body</span>;
-          },
-        );
+        const node = React.forwardRef((_, ref: any) => {
+          return <span ref={ref}>My body</span>;
+        });
         const nodeDeprecated = <span>My deprecated body</span>;
         const wrapper = mount(
           <ModalDialog
@@ -213,7 +209,8 @@ describe('modal-dialog', () => {
           />,
         );
 
-        expect(wrapper.contains(node)).toBe(true);
+        const TestSpan = <span>My body</span>;
+        expect(wrapper.contains(TestSpan)).toBe(true);
         expect(wrapper.contains(nodeDeprecated)).toBe(false);
         expect(warnSpy).toHaveBeenCalled();
       });
@@ -284,7 +281,7 @@ describe('modal-dialog', () => {
 
   describe('scrolling header/footer keylines', () => {
     it('should enable header keyline only when header provided', () => {
-      const CustomBody = React.forwardRef((ref: any) => {
+      const CustomBody = React.forwardRef((_, ref: any) => {
         ref({
           addEventListener: jest.fn(),
           removeEventListener: jest.fn(),
@@ -302,7 +299,7 @@ describe('modal-dialog', () => {
     });
 
     it('should enable footer keyline only when footer provided', () => {
-      const CustomBody = React.forwardRef((ref: any) => {
+      const CustomBody = React.forwardRef((_, ref: any) => {
         ref({
           addEventListener: jest.fn(),
           removeEventListener: jest.fn(),
@@ -323,21 +320,31 @@ describe('modal-dialog', () => {
 
   describe('chromeless', () => {
     it('header should not render if dialog is chromeless', () => {
-      const MyHeader = <span>My header</span>;
+      const HeaderSpan = <span>My header</span>;
+      const MyHeader = () => HeaderSpan;
       const wrapper = mount(
-        <ModalDialog isChromeless header={MyHeader} onClose={noop} />,
+        <ModalDialog
+          isChromeless
+          components={{ Header: MyHeader }}
+          onClose={noop}
+        />,
       );
 
-      expect(wrapper.contains(MyHeader)).toBe(false);
+      expect(wrapper.contains(HeaderSpan)).toBe(false);
     });
 
     it('footer should not render if dialog is chromeless', () => {
-      const MyFooter = <span>My footer</span>;
+      const FooterSpan = <span>My footer</span>;
+      const MyFooter = () => FooterSpan;
       const wrapper = mount(
-        <ModalDialog isChromeless footer={MyFooter} onClose={noop} />,
+        <ModalDialog
+          isChromeless
+          components={{ Footer: MyFooter }}
+          onClose={noop}
+        />,
       );
 
-      expect(wrapper.contains(MyFooter)).toBe(false);
+      expect(wrapper.contains(FooterSpan)).toBe(false);
     });
   });
 });
