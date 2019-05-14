@@ -162,12 +162,10 @@ export const getToolbarConfig: FloatingToolbarHandler = (
 
       case 'EDIT_INSERTED':
       case 'INSERT': {
-        const { from, to } = activeLinkMark as InsertState;
-        const { node } = activeLinkMark as EditInsertedState;
         let link: string;
 
-        if (node) {
-          const linkMark = node.marks.filter(
+        if (isEditLink(activeLinkMark) && activeLinkMark.node) {
+          const linkMark = activeLinkMark.node.marks.filter(
             (mark: Mark) => mark.type === state.schema.marks.link,
           );
           link = linkMark[0] && linkMark[0].attrs.href;
@@ -197,21 +195,23 @@ export const getToolbarConfig: FloatingToolbarHandler = (
                     key={idx}
                     displayUrl={link}
                     displayText={
-                      ((activeLinkMark as EditInsertedState).node &&
-                        (activeLinkMark as EditInsertedState).node.text) ||
-                      linkState.activeText
+                      isEditLink(activeLinkMark)
+                        ? activeLinkMark.node && activeLinkMark.node.text
+                        : linkState.activeText
                     }
                     providerFactory={providerFactory}
                     onSubmit={(href, text) => {
-                      activeLinkMark.type === 'EDIT_INSERTED'
+                      isEditLink(activeLinkMark)
                         ? updateLink(href, text, activeLinkMark.pos)(
                             view.state,
                             view.dispatch,
                           )
-                        : insertLink(from, to, href, text)(
-                            view.state,
-                            view.dispatch,
-                          );
+                        : insertLink(
+                            activeLinkMark.from,
+                            activeLinkMark.to,
+                            href,
+                            text,
+                          )(view.state, view.dispatch);
                       view.focus();
                     }}
                     onBlur={handleBlur(activeLinkMark, view)}
