@@ -3,7 +3,8 @@
   "compilerOptions": {
     "declaration": true,
     "outDir": "../../dist/es2015",
-    "rootDir": "../../src"
+    "rootDir": "../../src",
+    "path": {}
   },
   "include": [
     "../../src/**/*.ts",

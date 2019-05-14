@@ -2,7 +2,8 @@
   "extends": "../../tsconfig",
   "compilerOptions": {
     "declaration": true,
-    "outDir": "../../"
+    "outDir": "../../",
+    "path": {}
   },
   "include": ["../../src/**/*.ts", "../../src/**/*.tsx"],
   "exclude": [
