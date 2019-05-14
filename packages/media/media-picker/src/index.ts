@@ -66,7 +66,6 @@ export { UploadParams } from './domain/config';
 export { BrowserConfig, DropzoneConfig, PopupConfig, ClipboardConfig };
 export interface ComponentConfigs {
   browser: BrowserConfig;
-  clipboard: ClipboardConfig;
   dropzone: DropzoneConfig;
   popup: PopupConfig;
 }
