@@ -29,10 +29,9 @@ export default class ModalFooter extends React.Component<FooterProps, {}> {
 
     if (!component && !actions) return null;
     if (component && actions) {
-      //TODO: check warning
-      console.warn(warning);
+      console.warn(warning); // eslint-disable-line no-console
       return null;
-    } // eslint-disable-line no-console
+    }
     if (component) {
       return React.createElement(component, {
         appearance,

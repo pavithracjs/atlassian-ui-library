@@ -64,9 +64,9 @@ export default class ModalHeader extends React.Component<HeaderProps, {}> {
 
     if (!component && !heading) return null;
     if (component && heading) {
-      console.warn(warning);
+      console.warn(warning); // eslint-disable-line no-console
       return null;
-    } // eslint-disable-line no-console
+    }
     if (component) {
       return React.createElement(component, {
         appearance,
