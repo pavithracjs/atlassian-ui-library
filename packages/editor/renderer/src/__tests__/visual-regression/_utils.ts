@@ -1,4 +1,7 @@
-import { getExampleUrl } from '@atlaskit/visual-regression/helper';
+import {
+  getExampleUrl,
+  navigateToUrl,
+} from '@atlaskit/visual-regression/helper';
 import { Props } from '../../ui/Renderer';
 import { Page } from 'puppeteer';
 
@@ -85,7 +88,7 @@ export async function goToRendererTestingExample(page: Page) {
     global.__BASEURL__,
   );
 
-  await page.goto(url, { waitUntil: 'networkidle0' });
+  await navigateToUrl(page, url);
 }
 
 export async function animationFrame(page: Page) {

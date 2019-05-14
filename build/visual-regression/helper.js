@@ -8,6 +8,65 @@
 const glob = require('glob');
 const pageSelector = '#examples';
 
+function trackers(page /*:any*/) {
+  let requests = new Set();
+  const onStarted = request => requests.add(request);
+  const onFinished = request => requests.delete(request);
+  page.on('request', onStarted);
+  page.on('requestfinished', onFinished);
+  page.on('requestfailed', onFinished);
+
+  return {
+    dispose() {
+      page.removeListener('request', onStarted);
+      page.removeListener('requestfinished', onFinished);
+      page.removeListener('requestfailed', onFinished);
+    },
+
+    inflightRequests() {
+      return Array.from(requests);
+    },
+  };
+}
+
+async function navigateToUrl(
+  page /*:any*/,
+  url /*:string*/,
+  failHandler /*:?(error: Error) => void*/,
+) {
+  if (page.url() === url) {
+    return;
+  }
+
+  // disable webpack, which breaks the 'networkidle0' setting
+  await page.setRequestInterception(true);
+  page.on('request', request => {
+    if (request.url().includes('xhr_streaming')) {
+      console.log('Aborted connection request to webpack xhr_streaming');
+      request.abort();
+    } else {
+      request.continue();
+    }
+  });
+
+  const tracker = trackers(page);
+  if (!failHandler) {
+    failHandler = error => {
+      console.warn('Navigation failed: ' + error.message);
+      console.warn('Trying to navigate to: ' + url);
+      const inflight = tracker.inflightRequests();
+      console.warn(
+        'Waiting on requests:\n' +
+          inflight.map(requests => '  ' + requests.url()).join('\n'),
+      );
+    };
+  }
+
+  // Track requests and log any hanging connections
+  await page.goto(url, { waitUntil: 'networkidle0' }).catch(failHandler);
+  tracker.dispose();
+}
+
 async function disableAllSideEffects(
   page /*: any */,
   allowSideEffects /*: Object */ = {},
@@ -170,7 +229,7 @@ async function waitForLoadedBackgroundImages(
 }
 
 async function takeScreenShot(page /*:any*/, url /*:string*/) {
-  await page.goto(url, { waitUntil: 'networkidle0' });
+  await navigateToUrl(page, url);
   await disableAllAnimations(page);
   await disableAllTransitions(page);
   await disableCaretCursor(page);
@@ -199,7 +258,7 @@ async function loadExampleUrl(
     const currentUrl /*:string*/ = await page.url();
     if (currentUrl === url) return;
   }
-  await page.goto(url, { waitUntil: 'networkidle0' });
+  await navigateToUrl(page, url);
   const errorMessage = await validateExampleLoaded(page);
 
   if (errorMessage) {
@@ -260,35 +319,6 @@ const getExampleUrl = (
 ) =>
   `${environment}/examples.html?groupId=${group}&packageId=${packageName}&exampleId=${exampleName}`;
 
-class InflightRequests {
-  constructor(page) {
-    this._page = page;
-    this._requests = new Set();
-    this._onStarted = this._onStarted.bind(this);
-    this._onFinished = this._onFinished.bind(this);
-    this._page.on('request', this._onStarted);
-    this._page.on('requestfinished', this._onFinished);
-    this._page.on('requestfailed', this._onFinished);
-  }
-
-  _onStarted(request) {
-    this._requests.add(request);
-  }
-  _onFinished(request) {
-    this._requests.delete(request);
-  }
-
-  inflightRequests() {
-    return Array.from(this._requests);
-  }
-
-  dispose() {
-    this._page.removeListener('request', this._onStarted);
-    this._page.removeListener('requestfinished', this._onFinished);
-    this._page.removeListener('requestfailed', this._onFinished);
-  }
-}
-
 module.exports = {
   getExamplesFor,
   waitForLoadedImageElements,
@@ -297,11 +327,11 @@ module.exports = {
   takeElementScreenShot,
   getExampleUrl,
   loadExampleUrl,
+  navigateToUrl,
   disableAllAnimations,
   disableAllTransitions,
   disableCaretCursor,
   disableScrollBehavior,
   disableAllSideEffects,
   pageSelector,
-  InflightRequests,
 };

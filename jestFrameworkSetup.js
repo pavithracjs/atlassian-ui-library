@@ -346,19 +346,20 @@ if (typeof document !== 'undefined' && typeof window !== 'undefined') {
 }
 
 if (process.env.CI) {
-  // beforeEach(() => {
-  //   consoleError = console.error;
-  //   consoleWarn = console.warn;
-  //   consoleLog = console.log;
-  //   console.error = jest.fn();
-  //   console.warn = jest.fn();
-  //   console.log = jest.fn();
-  // });
-  // afterEach(() => {
-  //   console.error = consoleError;
-  //   console.warn = consoleWarn;
-  //   console.log = consoleLog;
-  // });
+  beforeEach(() => {
+    consoleError = console.error;
+    consoleWarn = console.warn;
+    consoleLog = console.log;
+    console.error = jest.fn();
+    console.warn = jest.fn();
+    console.log = jest.fn();
+  });
+
+  afterEach(() => {
+    console.error = consoleError;
+    console.warn = consoleWarn;
+    console.log = consoleLog;
+  });
 }
 
 expect.addSnapshotSerializer(createSerializer());
