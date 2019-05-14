@@ -29,6 +29,7 @@
     "@atlaskit/portal": "^2.0.0",
     "@atlaskit/textfield": "^2.0.0",
     "@atlaskit/theme": "^9.0.0",
+    "@atlaskit/type-helpers": "^4.0.0",
     "@babel/runtime": "^7.0.0",
     "@emotion/core": "^10.0.9",
     "@emotion/styled": "^10.0.7",

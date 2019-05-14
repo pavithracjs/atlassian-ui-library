@@ -31,12 +31,12 @@ interface PositionerProps {
   widthName?: WidthNames;
   widthValue?: string | number;
 }
-export const Positioner = ({ scrollBehavior, ...props }: PositionerProps) => {
+export function Positioner({ scrollBehavior, ...props }: PositionerProps) {
   const PositionComponent =
     scrollBehavior === 'inside' ? PositionerAbsolute : PositionerRelative;
 
   return <PositionComponent {...props} />;
-};
+}
 
 function getScrollDistance() {
   return (
@@ -60,7 +60,7 @@ interface State {
 }
 
 class Modal extends React.Component<Props, State> {
-  static defaultProps = {
+  static defaultProps: Partial<Props> = {
     autoFocus: true,
     scrollBehavior: 'inside',
     shouldCloseOnEscapePress: true,
@@ -70,6 +70,7 @@ class Modal extends React.Component<Props, State> {
     stackIndex: 0,
     width: 'medium',
     isHeadingMultiline: true,
+    onClose: () => {},
   };
 
   state = {

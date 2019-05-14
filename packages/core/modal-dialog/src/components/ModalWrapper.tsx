@@ -126,7 +126,7 @@ interface State {
 }
 
 class ModalWrapper extends React.Component<Props, State> {
-  static defaultProps = {
+  static defaultProps: Partial<Props> = {
     autoFocus: true,
     scrollBehavior: 'inside',
     shouldCloseOnEscapePress: true,
@@ -158,7 +158,9 @@ class ModalWrapper extends React.Component<Props, State> {
                   isOpen={isOpen}
                   stackIndex={this.props.stackIndex || naturalStackIndex}
                   onCloseComplete={this.onModalClosed(onExited)}
-                />
+                >
+                  {this.props.children}
+                </Modal>
               )}
             </StackConsumer>
           </Portal>
