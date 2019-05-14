@@ -7,7 +7,8 @@ import { nodeSerializers } from './serializers';
 import styles from './styles';
 import juice from 'juice';
 import { escapeHtmlString } from './util';
-import * as _ from 'lodash';
+import flow from 'lodash.flow';
+import property from 'lodash.property';
 import { defaultSchema as schema } from '@atlaskit/adf-schema';
 
 const serializeNode = (
@@ -83,14 +84,14 @@ const juicify = (html: string): string =>
   juice(`<style>${styles}</style><div class="wrapper">${html}</div>`);
 
 export default class EmailSerializer implements Serializer<string> {
-  serializeFragment: (fragment: Fragment) => string = _.flow(
+  serializeFragment: (fragment: Fragment) => string = flow(
     (fragment: Fragment) => fragment.toJSON(),
     JSON.stringify,
     escapeHtmlString,
     JSON.parse,
     content => ({ version: 1, type: 'doc', content }),
     schema.nodeFromJSON,
-    _.property('content'),
+    property('content'),
     traverseTree,
     juicify,
   );
