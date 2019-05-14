@@ -36,7 +36,7 @@ function withMediaContext<P extends WrappedComponentProps>(
     }
 
     async updateMediaContext(props: WithMediaContextProps = this.props) {
-      if (this.updatingMediaContext || this.state.mediaContext) {
+      if (this.updatingMediaContext) {
         return; // Prevent multiple update media context
       }
       this.updatingMediaContext = true;
@@ -47,11 +47,16 @@ function withMediaContext<P extends WrappedComponentProps>(
       if (mediaProvider && this.mediaProvider !== mediaProvider) {
         this.mediaProvider = mediaProvider;
         const newMediaContext = await this.mediaProvider.viewContext;
-        if (!mediaContext && newMediaContext) {
+        if (mediaContext !== newMediaContext) {
           // Slightly different from original implementation :(, check with Alex and Vijay
-          this.setState(() => ({
-            mediaContext: newMediaContext,
-          }));
+          this.setState(
+            () => ({
+              mediaContext: newMediaContext,
+            }),
+            () => {
+              this.updatingMediaContext = false;
+            },
+          );
         }
       }
     }

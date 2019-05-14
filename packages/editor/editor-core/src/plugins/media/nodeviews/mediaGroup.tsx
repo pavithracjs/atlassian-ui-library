@@ -17,7 +17,7 @@ import {
   EditorDisabledPluginState,
 } from '../../editor-disabled';
 import { EditorAppearance } from '../../../types';
-import { removeMediaNodeInPos } from '../commands/media';
+import { removeMediaNodeInPos } from '../commands';
 import { WithProviders, ProviderFactory } from '../../../../../editor-common';
 import withMediaContext from '../utils/withMediaContext';
 import {

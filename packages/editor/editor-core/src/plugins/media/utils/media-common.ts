@@ -13,7 +13,7 @@ import {
   startPositionOfParent,
 } from '../../../utils';
 import { ProsemirrorGetPosHandler } from '../../../nodeviews';
-import { removeMediaNode as removeMediaNodeCommand } from '../commands/media';
+import { removeMediaNode as removeMediaNodeCommand } from '../commands';
 import { MediaState } from '../types';
 
 export const posOfMediaGroupNearby = (
