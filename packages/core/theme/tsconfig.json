@@ -8,7 +8,7 @@
     "./examples/**/*.ts",
     "./examples/**/*.tsx",
     "./example-helpers/**/*.ts",
-    "./example-helpers/**/*.tsx"
+    "./example-helpers/**/*.tsx", "src/utils/getTheme.js"
   ],
   "compilerOptions": {
     "baseUrl": "./"
