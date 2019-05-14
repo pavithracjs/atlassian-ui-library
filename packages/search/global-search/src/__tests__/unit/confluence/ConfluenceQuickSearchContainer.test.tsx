@@ -8,7 +8,6 @@ import { noResultsPeopleSearchClient } from '../mocks/_mockPeopleSearchClient';
 import {
   noResultsConfluenceClient,
   makeConfluenceClient,
-  singleResultQuickNav,
   mockAutocompleteClient,
 } from '../mocks/_mockConfluenceClient';
 import { shallowWithIntl } from '../helpers/_intl-enzyme-test-helper';
