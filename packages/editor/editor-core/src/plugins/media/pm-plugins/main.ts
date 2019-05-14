@@ -636,7 +636,7 @@ export class MediaPluginState {
     pickers.forEach(picker => picker.setUploadParams(uploadParams));
   }
 
-  private trackNewMediaEvent(pickerType: string) {
+  public trackNewMediaEvent(pickerType: string) {
     return (mediaState: MediaState) => {
       analyticsService.trackEvent(
         `atlassian.editor.media.file.${pickerType}`,

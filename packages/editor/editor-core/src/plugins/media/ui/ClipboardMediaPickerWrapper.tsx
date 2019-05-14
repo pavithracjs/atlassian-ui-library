@@ -60,6 +60,9 @@ export default class ClipboardMediaPickerWrapper extends React.Component<
         ).init();
 
         pickerFacadeInstance.onNewMedia(mediaState.insertFile);
+        pickerFacadeInstance.onNewMedia(
+          mediaState.trackNewMediaEvent('clipboard'),
+        );
         pickerFacadeInstance.setUploadParams(mediaProvider.uploadParams);
 
         const config = {
