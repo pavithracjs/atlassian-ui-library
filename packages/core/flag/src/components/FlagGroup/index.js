@@ -31,15 +31,14 @@ export default class FlagGroup extends Component<Props, {}> {
         <Transition
           key={id}
           addEndListener={(node, done) => {
+            if (idx > 0) {
+              done();
+              return;
+            }
             node.addEventListener('animationstart', (...args) => {
               setTimeout(() => done(...args), flagAnimationTime);
             });
-            node.addEventListener('animationend', (...args) => {
-              done(...args);
-            });
-            if (idx > 0) {
-              done();
-            }
+            node.addEventListener('animationend', done);
           }}
         >
           {transitionState => (
