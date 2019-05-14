@@ -1,5 +1,7 @@
 import { initFullPageEditorWithAdf, snapshot, Device } from '../_utils';
-import longContent from './__fixtures__/long-content-adf.json';
+import longContentAdf from './__fixtures__/long-content-adf.json';
+import { parseAndInlineAdfMedia } from '@atlaskit/editor-test-helpers';
+import { waitForLoadedImageElements } from '@atlaskit/visual-regression/helper';
 import { typeInEditorAtEndOfDocument } from '../../__helpers/page-objects/_editor';
 import { tableSelectors } from '../../__helpers/page-objects/_table';
 import { panelSelectors } from '../../__helpers/page-objects/_panel';
@@ -9,10 +11,13 @@ import { pressKey } from '../../__helpers/page-objects/_keyboard';
 describe('Gutter:', () => {
   let page: any;
 
+  const adf = parseAndInlineAdfMedia(longContentAdf);
+
   beforeEach(async () => {
     // @ts-ignore
     page = global.page;
-    await initFullPageEditorWithAdf(page, longContent, Device.LaptopMDPI);
+    await initFullPageEditorWithAdf(page, adf, Device.LaptopMDPI);
+    await waitForLoadedImageElements(page, 1000); // 1 second timeout for inlined media.
   });
 
   it('should add gutter at the bottom of the page', async () => {

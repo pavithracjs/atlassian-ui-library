@@ -1,9 +1,8 @@
-import { traverse } from '@atlaskit/adf-utils/traverse';
+import { traverse } from '@atlaskit/adf-utils';
 
 // 1px grey image
-const greyImage =
+const placeholderImage =
   'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==';
-// const blackImage = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
 
 /**
  * Parses an ADF document and converts media nodes to an inlined image.
@@ -17,17 +16,16 @@ const greyImage =
 export function parseAndInlineAdfMedia(adf: any): any {
   // Deep copy clone just in case the original state is needed later
   adf = JSON.parse(JSON.stringify(adf));
-  const cleansedAdf = traverse(adf, {
+  return traverse(adf, {
     media: (node: any) => {
       const { attrs } = node;
-      if (node.type === 'media' && attrs.type !== 'external') {
+      if (attrs.type !== 'external') {
         // Instead of looking up the url by resolving the ID at runtime
-        // we set an external url for immediate access.
+        // we set an external url to our placeholder image.
         attrs.type = 'external';
-        attrs.url = greyImage;
+        attrs.url = placeholderImage;
       }
       return node;
     },
   });
-  return cleansedAdf;
 }

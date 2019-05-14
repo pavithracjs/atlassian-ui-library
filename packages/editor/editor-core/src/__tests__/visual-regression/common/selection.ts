@@ -1,5 +1,7 @@
 import { snapshot, Device, initEditorWithAdf, Appearance } from '../_utils';
-import adf from './__fixtures__/nested-elements.adf.json';
+import elementsAdf from './__fixtures__/nested-elements.adf.json';
+import { parseAndInlineAdfMedia } from '@atlaskit/editor-test-helpers';
+import { waitForLoadedImageElements } from '@atlaskit/visual-regression/helper';
 import {
   tableSelectors,
   clickFirstCell,
@@ -10,6 +12,7 @@ import { EditorTestCardProvider } from '../../../../../editor-test-helpers';
 describe('Danger for nested elements', () => {
   let page: any;
   const cardProvider = new EditorTestCardProvider();
+  const adf = parseAndInlineAdfMedia(elementsAdf);
 
   describe(`Full page`, () => {
     const threshold = 0.01;
@@ -29,6 +32,7 @@ describe('Danger for nested elements', () => {
       });
       await clickFirstCell(page);
       await animationFrame(page);
+      await waitForLoadedImageElements(page, 1000); // 1 second timeout for inlined media.
     });
 
     afterEach(async () => {

@@ -1,5 +1,5 @@
 import { snapshot, Device, initEditorWithAdf, Appearance } from '../_utils';
-import { traverse } from '@atlaskit/adf-utils/traverse';
+import { traverse } from '@atlaskit/adf-utils';
 import smartLinksAdf from './__fixtures__/smart-link-nested-in-list.adf.json';
 import extensionAdf from './__fixtures__/inline-extension-inside-lists.adf.json';
 import statusAdf from './__fixtures__/status-inside-lists.adf.json';

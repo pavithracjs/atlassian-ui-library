@@ -1,13 +1,19 @@
 import { initFullPageEditorWithAdf, snapshot } from '../_utils';
-import dynamicTextExample from './__fixtures__/dynamic-text-adf.json';
+import dynamicTextAdf from './__fixtures__/dynamic-text-adf.json';
+import { parseAndInlineAdfMedia } from '@atlaskit/editor-test-helpers';
 import {
   waitForEmojis,
   emojiReadySelector,
 } from '../../__helpers/page-objects/_emoji';
-import { waitForLoadedBackgroundImages } from '@atlaskit/visual-regression/helper';
+import {
+  waitForLoadedImageElements,
+  waitForLoadedBackgroundImages,
+} from '@atlaskit/visual-regression/helper';
 
 describe('Dynamic Text Sizing', () => {
   let page: any;
+
+  const adf = parseAndInlineAdfMedia(dynamicTextAdf);
   // move this to the test since its used only here
   const dynamicTextViewportSizes = [
     { width: 768, height: 4500 },
@@ -18,12 +24,13 @@ describe('Dynamic Text Sizing', () => {
   beforeAll(async () => {
     // @ts-ignore
     page = global.page;
-    await initFullPageEditorWithAdf(page, dynamicTextExample);
+    await initFullPageEditorWithAdf(page, adf);
   });
 
   for (const viewSize of dynamicTextViewportSizes) {
     it(`should correctly render ${viewSize.width}`, async () => {
       await page.setViewport(viewSize);
+      await waitForLoadedImageElements(page, 1000); // 1 second timeout for inlined media.
       await waitForEmojis(page);
       await waitForLoadedBackgroundImages(page, emojiReadySelector, 10000);
       await page.waitFor(1000); // waiting for resize to occur :(

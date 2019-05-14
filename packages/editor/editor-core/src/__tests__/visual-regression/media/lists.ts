@@ -9,7 +9,9 @@ import {
   resizeMediaInPosition,
   scrollToMedia,
 } from '../../__helpers/page-objects/_media';
-import * as panelList from './__fixtures__/panel-list-adf.json';
+import panelListAdf from './__fixtures__/panel-list-adf.json';
+import { parseAndInlineAdfMedia } from '@atlaskit/editor-test-helpers';
+import { waitForLoadedImageElements } from '@atlaskit/visual-regression/helper';
 import { Page } from '../../__helpers/page-objects/_types';
 
 describe('Snapshot Test: Media', () => {
@@ -52,9 +54,12 @@ describe('Snapshot Test: Media', () => {
 
   // TODO: Convert to integration test (https://product-fabric.atlassian.net/browse/ED-6692)
   describe('Lists in panels', async () => {
+    const adf = parseAndInlineAdfMedia(panelListAdf);
+
     beforeEach(async () => {
-      await initFullPageEditorWithAdf(page, panelList, Device.LaptopHiDPI);
+      await initFullPageEditorWithAdf(page, adf, Device.LaptopHiDPI);
       await clickEditableContent(page);
+      await waitForLoadedImageElements(page, 1000); // 1 second timeout for inlined media.
     });
 
     it('can be resized in a list in a panel', async () => {
