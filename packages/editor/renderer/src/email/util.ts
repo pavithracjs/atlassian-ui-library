@@ -17,7 +17,9 @@ export const createTag = (
       return;
     }
 
-    attrsList.push(`${key}="${String(value).replace(/"/g, "'")}"`);
+    const attrValue = escapeHtmlString(String(value)).replace(/"/g, "'");
+
+    attrsList.push(`${key}="${attrValue}"`);
   });
 
   const attrsSerialized = attrsList.length ? ` ${attrsList.join(' ')}` : '';
@@ -50,7 +52,9 @@ export const applyMarks = (marks: Mark[], text: string): string => {
   return output;
 };
 
-export const escapeHtmlString = (content: string) => {
+export const escapeHtmlString = (content: string | undefined | null) => {
+  if (!content) return '';
+
   // ensures that arbitrary HTML is not interpreted by the email client
   // in outlook, we cannot use html character entities such as '&lt;'
   // As a workaround, we replace '<' with '≺', etc
