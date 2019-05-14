@@ -98,13 +98,6 @@ function getValidDate(iso: string) {
   return isValid(date) ? getDateObj(date) : {};
 }
 
-const arrowKeys = {
-  ArrowDown: 'down',
-  ArrowLeft: 'left',
-  ArrowRight: 'right',
-  ArrowUp: 'up',
-};
-
 const StyledMenu = styled.div`
   background-color: ${colors.N20};
   border-radius: ${borderRadius()}px;
@@ -135,7 +128,7 @@ const Menu = ({ selectProps, innerProps }: Object) => (
 
 class DatePicker extends Component<Props, State> {
   // $FlowFixMe - Calendar isn't being correctly detected as a react component
-  calendar: ElementRef<Calendar>;
+  calendarRef: ElementRef<Calendar>;
 
   containerRef: ?HTMLElement;
 
@@ -262,58 +255,62 @@ class DatePicker extends Component<Props, State> {
   onSelectKeyDown = (e: SyntheticKeyboardEvent<*>) => {
     const { key, target } = e;
     const { view, selectedValue } = this.getState();
-    const dir = arrowKeys[key];
 
-    if (dir) {
-      // Calendar will not exist if it's not open and this also doubles as a
-      // ref check since it may not exist.
-      if (this.calendar) {
-        // We don't want to move the caret if the calendar is open.
-        if (dir === 'left' || dir === 'right') {
+    const keyPressed = key.toLowerCase();
+
+    switch (keyPressed) {
+      case 'arrowup':
+      case 'arrowdown':
+        if (this.calendarRef) {
           e.preventDefault();
+          this.calendarRef.navigate(keyPressed.replace('arrow', ''));
         }
-
-        this.calendar.navigate(dir);
-      }
-
-      if (dir === 'down' || dir === 'up') {
         this.setState({ isOpen: true });
-      }
-    } else if (key === 'Escape') {
-      this.setState({ isOpen: false });
-    } else if (
-      key === 'Backspace' &&
-      selectedValue &&
-      target instanceof HTMLInputElement &&
-      target.value.length < 1
-    ) {
-      this.setState({
-        selectedValue: '',
-        value: '',
-        view: this.props.defaultValue || format(new Date(), 'YYYY-MM-DD'),
-      });
-      this.props.onChange('');
-      // Dates may be disabled
-    } else if (!this.isDateDisabled(view)) {
-      if (key === 'Enter') {
-        this.setState({
-          inputValue: '',
-          isOpen: false,
-          selectedValue: view,
-          value: view,
-          view,
-        });
-        this.props.onChange(view);
-      }
-
-      if (key === 'Tab') {
+        break;
+      case 'arrowleft':
+      case 'arrowright':
+        if (this.calendarRef) {
+          e.preventDefault();
+          this.calendarRef.navigate(keyPressed.replace('arrow', ''));
+        }
+        break;
+      case 'escape':
+      case 'tab':
         this.setState({ isOpen: false });
-      }
+        break;
+      case 'backspace':
+        if (
+          selectedValue &&
+          target instanceof HTMLInputElement &&
+          target.value.length < 1
+        ) {
+          this.setState({
+            selectedValue: '',
+            value: '',
+            view: this.props.defaultValue || format(new Date(), 'YYYY-MM-DD'),
+          });
+          this.props.onChange('');
+        }
+        break;
+      case 'enter':
+        if (!this.isDateDisabled(view)) {
+          this.setState({
+            inputValue: '',
+            isOpen: false,
+            selectedValue: view,
+            value: view,
+            view,
+          });
+          this.props.onChange(view);
+        }
+        break;
+      default:
+        break;
     }
   };
 
   refCalendar = (ref: ElementRef<typeof Calendar>) => {
-    this.calendar = ref;
+    this.calendarRef = ref;
   };
 
   handleInputChange = (inputValue: string, actionMeta: {}) => {
