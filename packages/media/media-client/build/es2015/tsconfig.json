@@ -3,8 +3,14 @@
   "compilerOptions": {
     "declaration": true,
     "outDir": "../../",
-    "path": {}
+    "rootDir": "../../src",
+    "target": "es5",
+    "module": "esnext",
+    "paths": {}
   },
-  "include": ["../../src/**/*.ts", "../../src/**/*.tsx"],
- "exclude": ["../../src/**/__tests__/*"]
+  "include": [
+    "../../src/**/*.ts",
+    "../../src/**/*.tsx"
+  ],
+  "exclude": ["../../src/**/__tests__/*"]
 }
