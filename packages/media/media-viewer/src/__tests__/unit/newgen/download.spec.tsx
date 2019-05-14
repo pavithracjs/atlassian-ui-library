@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import { ErrorFileState, ProcessingFailedState } from '@atlaskit/media-core';
+import { ErrorFileState, ProcessingFailedState } from '@atlaskit/media-client';
 import {
   createItemDownloader,
   ToolbarDownloadButton,

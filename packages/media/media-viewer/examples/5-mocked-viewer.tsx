@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { canUseDOM } from 'exenv';
 
-import { FileIdentifier, ContextFactory } from '@atlaskit/media-core';
+import { FileIdentifier, ContextFactory } from '@atlaskit/media-client';
 import { MediaFile } from '@atlaskit/media-store';
 import {
   MediaMock,

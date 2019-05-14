@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Component, RefObject } from 'react';
 import {
-  createUploadContext,
+  createUploadMediaClient,
   defaultMediaPickerCollectionName,
   I18NWrapper,
 } from '@atlaskit/media-test-helpers';
@@ -46,7 +46,7 @@ class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
       return;
     }
 
-    const context = createUploadContext();
+    const context = createUploadMediaClient();
     const dropzone = await MediaPicker('dropzone', context, {
       container: this.dropzoneRef.current,
       uploadParams: {

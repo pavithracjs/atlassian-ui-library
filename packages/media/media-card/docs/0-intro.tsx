@@ -18,10 +18,10 @@ This component provides 2 exports:
 
   ${code`
   import { Card } from '@atlaskit/media-card';
-  import { ContextFactory } from '@atlaskit/media-core';
+  import { MediaClient } from '@atlaskit/media-client';
 
-  const context = ContextFactory.create({
-    tokenProvider,
+  const mediaClient = new MediaClient({
+    authProvider,
   });
 
   // url preview
@@ -30,7 +30,7 @@ This component provides 2 exports:
     url: 'https://atlassian.com',
   };
 
-  <Card context={context} identifier={urlPreviewId} />;
+  <Card mediaClient={mediaClient} identifier={urlPreviewId} />;
 
   // stored link
   const linkId = {
@@ -39,7 +39,7 @@ This component provides 2 exports:
     collectionName: 'some-collection-name',
   };
 
-  <Card context={context} identifier={linkId} />;
+  <Card mediaClient={mediaClient} identifier={linkId} />;
 
   // stored file
   const fileId = {
@@ -48,7 +48,7 @@ This component provides 2 exports:
     collectionName: 'some-collection-name',
   };
 
-  <Card context={context} identifier={fileId} />;
+  <Card mediaClient={mediaClient} identifier={fileId} />;
 `}
 
 ### Card View

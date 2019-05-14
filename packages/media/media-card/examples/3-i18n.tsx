@@ -2,14 +2,14 @@ import * as React from 'react';
 import {
   I18NWrapper,
   errorFileId,
-  createStorybookContext,
+  createStorybookMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { Card } from '../src';
 
-const context = createStorybookContext();
+const mediaClient = createStorybookMediaClient();
 
 export default () => (
   <I18NWrapper>
-    <Card context={context} identifier={errorFileId} />
+    <Card mediaClient={mediaClient} identifier={errorFileId} />
   </I18NWrapper>
 );

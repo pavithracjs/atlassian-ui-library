@@ -19,7 +19,7 @@ import {
   FileIdentifier,
   FileState,
   Identifier,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { mountWithIntlContext } from '@atlaskit/media-test-helpers';
 import {
   ItemViewer,

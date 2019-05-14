@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ProcessedFileState, Context, FileState } from '@atlaskit/media-core';
+import { ProcessedFileState, Context, FileState } from '@atlaskit/media-client';
 import AudioIcon from '@atlaskit/icon/glyph/media-services/audio';
 import { constructAuthTokenUrl } from '../utils';
 import { Outcome, MediaViewerFeatureFlags } from '../domain';

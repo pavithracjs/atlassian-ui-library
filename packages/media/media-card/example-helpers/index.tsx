@@ -1,8 +1,8 @@
 // eslint-disable-line no-console
 
 import * as React from 'react';
-import { Context, FileItem, Identifier } from '@atlaskit/media-core';
-import { createStorybookContext } from '@atlaskit/media-test-helpers';
+import { FileItem, Identifier } from '@atlaskit/media-client';
+import { createStorybookMediaClient } from '@atlaskit/media-test-helpers';
 import CrossIcon from '@atlaskit/icon/glyph/cross';
 import AnnotateIcon from '@atlaskit/icon/glyph/media-services/annotate';
 import { SelectableCard } from './selectableCard';
@@ -14,7 +14,7 @@ import {
   CardAction,
 } from '../src';
 
-const context = createStorybookContext();
+const mediaClient = createStorybookMediaClient();
 
 export const clickHandler = (result: CardEvent) => {
   result.event.preventDefault();
@@ -40,7 +40,7 @@ export const createApiCards = (
       title: 'not selectable',
       content: (
         <Card
-          context={context}
+          mediaClient={mediaClient}
           appearance={appearance}
           identifier={identifier}
           onClick={clickHandler}
@@ -54,7 +54,7 @@ export const createApiCards = (
     title: 'selectable',
     content: (
       <SelectableCard
-        context={context}
+        mediaClient={mediaClient}
         identifier={identifier}
         onSelectChange={onSelectChangeHandler}
       />
@@ -118,7 +118,7 @@ export const annotateAction: CardAction = {
 };
 
 export const cardsActions = [anotherAction, annotateAction];
-export const wrongContext: Context = createStorybookContext({
+export const wrongMediaClient = createStorybookMediaClient({
   authType: 'client',
 });
 export const wrongCollection = 'adfasdf';

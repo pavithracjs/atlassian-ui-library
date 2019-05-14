@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { Component } from 'react';
 import {
-  createStorybookContext,
+  createStorybookMediaClient,
   atlassianLogoUrl,
   imageFileId,
 } from '@atlaskit/media-test-helpers';
-import { ExternalImageIdentifier } from '@atlaskit/media-core';
+import { ExternalImageIdentifier } from '@atlaskit/media-client';
 import { Card } from '../src';
 import { ExternalIdentifierWrapper } from '../example-helpers/styled';
 
-const context = createStorybookContext();
+const mediaClient = createStorybookMediaClient();
 const externalIdentifierWithName: ExternalImageIdentifier = {
   mediaItemType: 'external-image',
   dataURI: atlassianLogoUrl,
@@ -26,15 +26,18 @@ class Example extends Component {
       <ExternalIdentifierWrapper>
         <div>
           <h2>External image identifier</h2>
-          <Card context={context} identifier={externalIdentifier} />
+          <Card mediaClient={mediaClient} identifier={externalIdentifier} />
         </div>
         <div>
           <h2>External image identifier with name</h2>
-          <Card context={context} identifier={externalIdentifierWithName} />
+          <Card
+            mediaClient={mediaClient}
+            identifier={externalIdentifierWithName}
+          />
         </div>
         <div>
           <h2>File identifier</h2>
-          <Card context={context} identifier={imageFileId} />
+          <Card mediaClient={mediaClient} identifier={imageFileId} />
         </div>
       </ExternalIdentifierWrapper>
     );

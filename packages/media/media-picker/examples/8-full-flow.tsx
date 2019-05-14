@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   defaultCollectionName,
-  createUploadContext,
+  createUploadMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
 import { MediaViewerDataSource } from '@atlaskit/media-viewer';
@@ -16,7 +16,7 @@ import {
   Popup,
 } from '../src';
 
-const context = createUploadContext();
+const context = createUploadMediaClient();
 
 const dataSourceOptions = [
   { label: 'List', value: 'list' },

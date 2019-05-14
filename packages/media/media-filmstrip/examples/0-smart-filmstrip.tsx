@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Component, SyntheticEvent } from 'react';
 import { first } from 'rxjs/operators/first';
 import {
-  createUploadContext,
+  createUploadMediaClient,
   genericFileId,
   audioFileId,
   errorFileId,
@@ -27,7 +27,7 @@ export interface ExampleState {
   context?: Context;
 }
 
-const defaultContext = createUploadContext();
+const defaultContext = createUploadMediaClient();
 
 class Example extends Component<{}, ExampleState> {
   onCardClick = (result: CardEvent) => {

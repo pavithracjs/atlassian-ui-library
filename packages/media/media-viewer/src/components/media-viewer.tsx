@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { Identifier, isExternalImageIdentifier } from '@atlaskit/media-core';
+import { Identifier, isExternalImageIdentifier } from '@atlaskit/media-client';
 import { MediaViewer as MediaViewerNextGen } from '../newgen/media-viewer';
 import { ItemSource } from '../newgen/domain';
 import { MediaViewerProps, MediaViewerDataSource } from './types';

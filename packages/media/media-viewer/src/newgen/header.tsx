@@ -8,7 +8,7 @@ import {
   ProcessingFileState,
   Identifier,
   isExternalImageIdentifier,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { Subscription } from 'rxjs/Subscription';
 import deepEqual from 'deep-equal';
 import { messages, toHumanReadableMediaSize } from '@atlaskit/media-ui';

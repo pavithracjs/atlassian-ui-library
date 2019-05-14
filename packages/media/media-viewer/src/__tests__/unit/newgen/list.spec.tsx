@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Identifier, FileIdentifier } from '@atlaskit/media-core';
+import { Identifier, FileIdentifier } from '@atlaskit/media-client';
 import { Observable } from 'rxjs';
 import { List, Props, State } from '../../../newgen/list';
 import ArrowRightCircleIcon from '@atlaskit/icon/glyph/chevron-right-circle';

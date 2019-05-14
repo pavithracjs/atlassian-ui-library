@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ComponentClass, SyntheticEvent } from 'react';
-import { Context, Identifier } from '@atlaskit/media-core';
+import { Context, Identifier } from '@atlaskit/media-client';
 import { IntlProvider, intlShape } from 'react-intl';
 import { Shortcut } from '@atlaskit/media-ui';
 import {

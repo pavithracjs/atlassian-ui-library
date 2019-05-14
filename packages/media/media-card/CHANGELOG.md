@@ -162,7 +162,7 @@
   ```js
   <Card
     identifier={identifier}
-    context={context}
+    mediaClient={mediaClient}
   />
   ```
 

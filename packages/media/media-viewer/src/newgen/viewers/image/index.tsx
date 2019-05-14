@@ -4,7 +4,7 @@ import {
   FileItem,
   FileState,
   isImageRepresentationReady,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { getOrientation } from '@atlaskit/media-ui';
 import { Outcome } from '../../domain';
 import { createError, MediaViewerError } from '../../error';

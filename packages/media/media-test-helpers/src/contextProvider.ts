@@ -45,7 +45,7 @@ export const createStorybookContext = (
   });
 };
 
-export const createUploadContext = (): Context =>
+export const createUploadMediaClient = (): Context =>
   ContextFactory.create({
     authProvider: mediaPickerAuthProvider('asap'),
     userAuthProvider,

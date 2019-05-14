@@ -4,7 +4,7 @@ import {
   externalImageIdentifier,
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
-import { Identifier } from '@atlaskit/media-core';
+import { Identifier } from '@atlaskit/media-client';
 import { ButtonList, Container, Group } from '../example-helpers/styled';
 import {
   archiveItem,

@@ -3,7 +3,7 @@ import Button, { ButtonGroup } from '@atlaskit/button';
 import { Card } from '@atlaskit/media-card';
 import {
   imageFileId,
-  createUploadContext,
+  createUploadMediaClient,
   I18NWrapper,
 } from '@atlaskit/media-test-helpers';
 import { FileIdentifier } from '@atlaskit/media-core';
@@ -15,7 +15,7 @@ interface State {
   newFileIdentifier?: FileIdentifier;
 }
 
-const context = createUploadContext();
+const context = createUploadMediaClient();
 
 class SmartMediaEditorExample extends React.Component<{}, State> {
   state: State = {

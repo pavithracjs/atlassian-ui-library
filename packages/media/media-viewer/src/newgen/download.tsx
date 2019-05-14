@@ -7,7 +7,7 @@ import {
   isErrorFileState,
   Identifier,
   isExternalImageIdentifier,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { DownloadButtonWrapper } from './styled';
 import { MediaButton } from '@atlaskit/media-ui';
 import { withAnalyticsEvents } from '@atlaskit/analytics-next';

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Component } from 'react';
 import {
   userAuthProvider,
-  createUploadContext,
+  createUploadMediaClient,
   mediaPickerAuthProvider,
   defaultMediaPickerCollectionName,
 } from '@atlaskit/media-test-helpers';
@@ -29,7 +29,7 @@ export interface DropzoneWrapperState {
   inflightUploads: string[];
   dropzone?: Dropzone;
 }
-const context = createUploadContext();
+const context = createUploadMediaClient();
 const nonUserContext = ContextFactory.create({
   authProvider: mediaPickerAuthProvider('asap'),
 });

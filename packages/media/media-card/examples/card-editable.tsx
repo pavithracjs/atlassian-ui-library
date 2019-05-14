@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Component } from 'react';
 import {
-  createStorybookContext,
+  createStorybookMediaClient,
   genericFileId,
 } from '@atlaskit/media-test-helpers';
 import Toggle from '@atlaskit/toggle';
 import Slider from '@atlaskit/field-range';
-import { Identifier } from '@atlaskit/media-core';
+import { Identifier } from '@atlaskit/media-client';
 import { Card, CardDimensions } from '../src';
 import { CardDimensionsWrapper } from '../example-helpers/styled';
 import {
@@ -14,7 +14,7 @@ import {
   EditableCardContent,
 } from '../example-helpers/styled';
 
-const context = createStorybookContext();
+const mediaClient = createStorybookMediaClient();
 
 export interface EditableCardState {
   identifier: Identifier;
@@ -182,7 +182,7 @@ class EditableCard extends Component<{}, EditableCardState> {
         </EditableCardOptions>
         <EditableCardContent style={parentStyle}>
           <Card
-            context={context}
+            mediaClient={mediaClient}
             identifier={identifier}
             dimensions={useDimensions ? newDimensions : undefined}
             isLazy={isLazy}

@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from '@atlaskit/button';
 import styled from 'styled-components';
 import { MediaStore } from '../src';
-import { createUploadContext } from '../../media-test-helpers';
+import { createUploadMediaClient } from '../../media-test-helpers';
 import * as uuid from 'uuid';
 
 const Wrapper = styled.div`
@@ -29,7 +29,7 @@ const Response = styled.div`
   white-space: pre;
 `;
 
-const context = createUploadContext();
+const context = createUploadMediaClient();
 
 export interface State {
   result: any;

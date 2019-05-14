@@ -7,7 +7,7 @@ import { Component } from 'react';
 import Button from '@atlaskit/button';
 import {
   defaultMediaPickerCollectionName,
-  createUploadContext,
+  createUploadMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
 import { MediaPicker, Popup } from '../src';
@@ -23,7 +23,7 @@ import {
   UploadPreviewUpdateEventPayload,
 } from '../src/domain/uploadEvent';
 
-const context = createUploadContext();
+const context = createUploadMediaClient();
 
 export interface PopupWrapperState {
   files: Promise<string>[];
