@@ -272,7 +272,7 @@ describe('media', () => {
 
       button.onClick(editorView.state, editorView.dispatch);
       expect(editorView.state.doc).toEqualDocument(
-        doc(mediaSingle({ layout: 'align-start' })(temporaryMedia)),
+        doc(mediaSingle({ layout: 'align-start', width: 50 })(temporaryMedia)),
       );
     });
 
