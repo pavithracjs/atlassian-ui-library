@@ -1,17 +1,16 @@
-// @flow
 /* eslint-disable prefer-rest-params */
 
 import getTheme from './getTheme';
-import { type ThemedValue, type ThemeProps } from '../types';
+import { ThemedValue, ThemeProps, Theme } from '../types';
 
 type Value = string | number;
-type Modes = { light: Value, dark: Value };
-type VariantModes = { [string]: Modes };
+type Modes = { light: Value; dark: Value };
+type VariantModes = { [key: string]: Modes };
 
-function themedVariants(variantProp, variants) {
-  return (props: ?ThemeProps) => {
-    const theme = getTheme(props);
-    if (props && props[variantProp] && variants) {
+function themedVariants(variantProp: string, variants?: VariantModes) {
+  return (props?: ThemeProps & VariantModes) => {
+    const theme = getTheme(props); // returns Theme
+    if (props && props.variantProp && variants) {
       const modes = variants[props[variantProp]];
       if (modes) {
         return modes[theme.mode];
@@ -23,13 +22,13 @@ function themedVariants(variantProp, variants) {
 
 export default function themed(
   modesOrVariant: Modes | string,
-  variantModes: ?VariantModes,
+  variantModes?: VariantModes,
 ): ThemedValue {
   if (typeof modesOrVariant === 'string') {
     return themedVariants(modesOrVariant, variantModes);
   }
   const modes = modesOrVariant;
-  return (props: ?ThemeProps) => {
+  return (props?: ThemeProps) => {
     const theme = getTheme(props);
     return modes[theme.mode];
   };

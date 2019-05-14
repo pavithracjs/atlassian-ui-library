@@ -1,4 +1,3 @@
-// @flow
 import { css } from 'styled-components';
 import { B100 } from './colors';
 

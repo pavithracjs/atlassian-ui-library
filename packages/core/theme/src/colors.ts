@@ -1,7 +1,5 @@
-// @flow
-
 import themed from './utils/themed';
-import type { colorPaletteType } from './types';
+import { colorPaletteType } from './types';
 
 // Reds
 export const R50 = '#FFEBE6';

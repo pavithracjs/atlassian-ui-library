@@ -1,10 +1,8 @@
-// @flow
-
 import { createTheme } from '../utils/createTheme';
 
-export type GlobalThemeProps = *;
+export type GlobalThemeProps = any;
 export type GlobalThemeTokens = {
-  mode: 'dark' | 'light',
+  mode: 'dark' | 'light';
 };
 
 export default createTheme<GlobalThemeTokens, GlobalThemeProps>(() => ({
