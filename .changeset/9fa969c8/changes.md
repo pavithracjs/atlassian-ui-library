@@ -1,1 +1,0 @@
-- ED-6871 Remove unused duplicate functions from table commands

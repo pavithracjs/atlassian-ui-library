@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.0.2
+- [patch] [1f276f95d4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1f276f95d4):
+
+  - ED-6871 Remove unused duplicate functions from table commands
+
 ## 112.0.1
 - [patch] [5ad66b6d1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ad66b6d1a):
 
