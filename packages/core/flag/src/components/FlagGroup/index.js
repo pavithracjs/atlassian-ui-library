@@ -4,7 +4,7 @@ import { Transition } from 'react-transition-group';
 import Portal from '@atlaskit/portal';
 import { layers } from '@atlaskit/theme';
 
-import Wrapper from '../../styled/Wrapper';
+import Wrapper, { flagAnimationTime } from '../../styled/Wrapper';
 import Group, { SROnly, Inner } from './styledFlagGroup';
 import type { ChildrenType, FunctionType } from '../../types';
 
@@ -31,7 +31,15 @@ export default class FlagGroup extends Component<Props, {}> {
         <Transition
           key={id}
           addEndListener={(node, done) => {
-            node.addEventListener('animationend', done);
+            node.addEventListener('animationstart', (...args) => {
+              setTimeout(() => done(...args), flagAnimationTime);
+            });
+            node.addEventListener('animationend', (...args) => {
+              done(...args);
+            });
+            if (idx > 0) {
+              done();
+            }
           }}
         >
           {transitionState => (
