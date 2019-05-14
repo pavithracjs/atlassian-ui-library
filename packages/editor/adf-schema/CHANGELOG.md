@@ -1,5 +1,10 @@
 # @atlaskit/adf-schema
 
+## 2.5.8
+- [patch] [5ad66b6d1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ad66b6d1a):
+
+  - [ED-6860] Revert prosemirror-view 1.8.9 bumps, this version was making the cursor typing slowly. this version is recreating all plugins when we use `EditorView.setProps`
+
 ## 2.5.7
 - [patch] [1ec6367e00](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1ec6367e00):
 
