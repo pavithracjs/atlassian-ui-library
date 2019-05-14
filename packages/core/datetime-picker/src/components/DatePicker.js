@@ -139,8 +139,6 @@ class DatePicker extends Component<Props, State> {
 
   containerRef: ?HTMLElement;
 
-  input: Element | null;
-
   static defaultProps = {
     appearance: 'default',
     autoFocus: false,
@@ -193,9 +191,6 @@ class DatePicker extends Component<Props, State> {
     };
   };
 
-  /**
-   * Checks if a date is one of the disabled
-   */
   isDateDisabled = (date: String) => {
     return this.props.disabled.indexOf(date) > -1;
   };
@@ -342,13 +337,6 @@ class DatePicker extends Component<Props, State> {
     backgroundColor: 'transparent',
     padding: '1px',
   });
-
-  isValidDate(value: string): boolean {
-    const { parseInputValue, dateFormat } = this.props;
-    const date = parseInputValue(value, dateFormat);
-
-    return isValid(date);
-  }
 
   render() {
     const {
