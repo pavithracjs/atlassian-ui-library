@@ -11,17 +11,23 @@ Related reading:
 
 ## Code of Conduct
 
-This project is bound by a [Code of Conduct](https://bitbucket.org/atlassian/atlaskit-mk-2/src/HEAD/CODE_OF_CONDUCT.md).
+This project is bound by a [Code of Conduct][conduct].
 
 ## Introduction
 
 Although it's our job to look after all the components in our repo, we rely heavily on contributions outside of our team to make Atlaskit great. At its core, our contrubution model is very much like contributing to any open source library, but because we get several contributions from within Atlassian from other teams, we have the ability to build on that model to help make inter-team contributions more efficient.
 
+## Prerequisites
+
+Before you can start making contributions to Atlaskit, you will need to be granted contributor permissions
+to the Atlaskit repo. Contributors are given permission to create branches and pull requests.
+
+Follow the instructions under the 'Become a contributor' section of our [`CONTRIBUTING.md`][contributing] guide
+in order to receive these permissions to contribute to the Atlaskit repo.
+
 ## Open source contribution model
 
-If this is your first time or if you don't have permission to create a branch, follow the instructions under 'Become a contributor' in our [README.md](https://bitbucket.org/atlassian/atlaskit-mk-2/src) to [request permission on our public portal](https://ecosystem.atlassian.net/servicedesk/customer/portal/24).
-
-We want to keep this model very simple. At it's core, we make the assumptions that developers looking to contribute will look at the `README.md` and thus, be directed to the `CONTRIBUTING.md`. Even so, both of those files are widely known as convention in an open source project and developers will be able to direct themselves there.
+We want to keep this model very simple. At its core, we make the assumptions that developers looking to contribute will look at the [`README.md`][readme] and thus, be directed to the [`CONTRIBUTING.md`][contributing]. Even so, both of those files are widely known as convention in an open source project and developers will be able to direct themselves there.
 
 The process consists of:
 
@@ -115,3 +121,8 @@ To keep the quality bar high, we should do our best to ensure the contribution c
 In an ideal world, the contributor would be able to support the component for some time after mergin. This isn't always the case, however. Either way, we should ensure that both the shepherd and contributor - in that order - are mentioned as the `maintainers` in the `package.json`. The first person listed - the shepherd - will be the primary point of contact. The second person listed - the contributor - will be the secondary point of contact, just in case, since they were the ones that contributed it.
 
 Over time, this may evolve and both the contributor and shepherd may be removed in favour of a new maintainer. This is fine and should be considered normal.
+
+
+[conduct]: https://bitbucket.org/atlassian/atlaskit-mk-2/src/HEAD/CODE_OF_CONDUCT.md
+[contributing]: https://bitbucket.org/atlassian/atlaskit-mk-2/src/HEAD/CONTRIBUTING.md
+[readme]: https://bitbucket.org/atlassian/atlaskit-mk-2/src/HEAD/README.md
