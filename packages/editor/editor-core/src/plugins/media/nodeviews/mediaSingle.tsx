@@ -31,7 +31,7 @@ import { EditorAppearance } from '../../../types';
 import { Context } from '@atlaskit/media-core';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { NodeSelection } from 'prosemirror-state';
-import { MediaOptions } from '..';
+import { MediaOptions } from '../';
 import { updateMediaNodeAttrs } from '../commands/media';
 
 export interface MediaSingleNodeProps {
