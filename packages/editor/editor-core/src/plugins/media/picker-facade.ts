@@ -5,13 +5,12 @@ import {
   MediaFile,
   ComponentConfigs,
   UploadPreviewUpdateEventPayload,
-  UploadEndEventPayload,
   UploadParams,
   UploadErrorEventPayload,
-  isClipboard,
   isPopup,
   isBrowser,
   isImagePreview,
+  UploadProcessingEventPayload,
 } from '@atlaskit/media-picker';
 import { Context } from '@atlaskit/media-core';
 
@@ -82,10 +81,6 @@ export default class PickerFacade {
     (picker as any).on('upload-error', this.handleUploadError);
     (picker as any).on('mobile-upload-end', this.handleMobileUploadEnd);
 
-    if (isClipboard(picker)) {
-      picker.activate();
-    }
-
     return this;
   }
 
@@ -112,10 +107,6 @@ export default class PickerFacade {
     this.onDragListeners = [];
 
     try {
-      if (isClipboard(picker)) {
-        picker.deactivate();
-      }
-
       if (isPopup(picker) || isBrowser(picker)) {
         picker.teardown();
       }
@@ -141,19 +132,9 @@ export default class PickerFacade {
     return () => {};
   }
 
-  activate() {
-    const { picker } = this;
-    if (isClipboard(picker)) {
-      picker.activate();
-    }
-  }
+  activate() {}
 
-  deactivate() {
-    const { picker } = this;
-    if (isClipboard(picker)) {
-      picker.deactivate();
-    }
-  }
+  deactivate() {}
 
   show(): void {
     if (isPopup(this.picker)) {
@@ -181,14 +162,15 @@ export default class PickerFacade {
     this.onDragListeners.push(cb);
   }
 
-  private handleUploadPreviewUpdate = (
+  public handleUploadPreviewUpdate = (
     event: UploadPreviewUpdateEventPayload,
   ) => {
-    let { file, preview } = event;
+    const { file, preview } = event;
     const { dimensions, scaleFactor } = isImagePreview(preview)
       ? preview
       : { dimensions: undefined, scaleFactor: undefined };
-    const state: MediaState = {
+
+    const state = {
       id: file.id,
       fileName: file.name,
       fileSize: file.size,
@@ -215,7 +197,7 @@ export default class PickerFacade {
     subscribers.push(onStateChanged);
   };
 
-  private handleUploadError = ({ error }: UploadErrorEventPayload) => {
+  public handleUploadError = ({ error }: UploadErrorEventPayload) => {
     if (!error || !error.fileId) {
       const err = new Error(
         `Media: unknown upload-error received from Media Picker: ${error &&
@@ -242,7 +224,7 @@ export default class PickerFacade {
     delete this.eventListeners[error.fileId];
   };
 
-  private handleMobileUploadEnd = (event: MobileUploadEndEventPayload) => {
+  public handleMobileUploadEnd = (event: MobileUploadEndEventPayload) => {
     const { file } = event;
 
     const listeners = this.eventListeners[file.id];
@@ -261,7 +243,7 @@ export default class PickerFacade {
     );
   };
 
-  private handleReady = (event: UploadEndEventPayload) => {
+  public handleReady = (event: UploadProcessingEventPayload) => {
     const { file } = event;
 
     const listeners = this.eventListeners[file.id];

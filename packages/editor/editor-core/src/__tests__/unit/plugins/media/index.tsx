@@ -408,48 +408,6 @@ describe('Media plugin', () => {
     });
   });
 
-  it('should trigger analytics events for picking and clipboard', async () => {
-    const { pluginState } = editor(doc(p('{<>}')));
-    const spy = jest.fn();
-    analyticsService.handler = spy as AnalyticsHandler;
-
-    afterEach(() => {
-      analyticsService.handler = null;
-    });
-
-    const collectionFromProvider = jest.spyOn(
-      pluginState,
-      'collectionFromProvider' as any,
-    );
-    collectionFromProvider.mockImplementation(() => testCollectionName);
-    const provider = await mediaProvider;
-    await provider.uploadContext;
-    await provider.viewContext;
-    await waitForAllPickersInitialised(pluginState);
-
-    const testFileData = {
-      file: {
-        id: 'test',
-        name: 'test.png',
-        size: 1,
-        type: 'file/test',
-      },
-      preview: {
-        dimensions: {
-          height: 200,
-          width: 200,
-        },
-      },
-    };
-
-    (pluginState as any).clipboardPicker!.handleUploadPreviewUpdate(
-      testFileData,
-    );
-    expect(spy).toHaveBeenCalledWith('atlassian.editor.media.file.clipboard', {
-      fileMimeType: 'file/test',
-    });
-  });
-
   it('should trigger analytics events for picking and popup', async () => {
     const { pluginState } = editor(doc(p('{<>}')));
     const spy = jest.fn();

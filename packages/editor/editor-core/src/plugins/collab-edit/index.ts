@@ -21,8 +21,8 @@ const collabEditPlugin = (options?: CollabEditOptions): EditorPlugin => ({
         : []),
       {
         name: 'collab',
-        plugin: ({ dispatch, providerFactory }) =>
-          createPlugin(dispatch, providerFactory, options),
+        plugin: ({ dispatch, providerFactory, oldState }) =>
+          createPlugin(dispatch, providerFactory, options, oldState),
       },
     ];
   },

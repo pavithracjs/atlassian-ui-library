@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 39.2.1
+- [patch] [1ec6367e00](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1ec6367e00):
+
+  - ED-6551 - Lists should correctly wrap adjacent floated content without overlapping
+
 ## 39.2.0
 - [minor] [a8e3fc91ae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a8e3fc91ae):
 

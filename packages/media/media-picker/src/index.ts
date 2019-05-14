@@ -4,9 +4,7 @@ import {
   Browser,
   BrowserConfig,
   BrowserConstructor,
-  ClipboardConstructor,
   ClipboardConfig,
-  Clipboard,
   Popup,
   PopupConfig,
   PopupConstructor,
@@ -16,8 +14,6 @@ import { Context } from '@atlaskit/media-core';
 
 export const isBrowser = (component: any): component is Browser =>
   component && 'browse' in component && 'teardown' in component;
-export const isClipboard = (component: any): component is Clipboard =>
-  component && 'activate' in component && 'deactivate' in component;
 export const isPopup = (component: any): component is Popup =>
   component &&
   ['show', 'cancel', 'teardown', 'hide'].every(
@@ -44,16 +40,14 @@ export { ImagePreview, Preview, NonImagePreview } from './domain/preview';
 // Constructor public API and types
 export interface MediaPickerConstructors {
   browser: BrowserConstructor;
-  clipboard: ClipboardConstructor;
   popup: PopupConstructor;
 }
 
-export { Browser, Clipboard, Popup };
-export type MediaPickerComponent = Browser | Clipboard | Popup;
+export { Browser, Popup };
+export type MediaPickerComponent = Browser | Popup;
 
 export interface MediaPickerComponents {
   browser: Browser;
-  clipboard: Clipboard;
   popup: Popup;
 }
 
@@ -61,11 +55,10 @@ export { UploadParams } from './domain/config';
 export { BrowserConfig, PopupConfig, ClipboardConfig };
 export interface ComponentConfigs {
   browser: BrowserConfig;
-  clipboard: ClipboardConfig;
   popup: PopupConfig;
 }
 
-export { BrowserConstructor, ClipboardConstructor, PopupConstructor };
+export { BrowserConstructor, PopupConstructor };
 
 export async function MediaPicker<K extends keyof MediaPickerComponents>(
   componentName: K,
@@ -80,13 +73,6 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
       return new BrowserImpl(context, pickerConfig as
         | BrowserConfig
         | undefined);
-    case 'clipboard':
-      const {
-        ClipboardImpl,
-      } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-clipboard" */ './components/clipboard');
-      return new ClipboardImpl(context, pickerConfig as
-        | ClipboardConfig
-        | undefined);
     case 'popup':
       const {
         PopupImpl,
@@ -100,3 +86,4 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
 // REACT COMPONENTS
 
 export { default as Dropzone } from './components/dropzoneReactLoader';
+export { ClipboardLoader as Clipboard } from './components/clipboard';

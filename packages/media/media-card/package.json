@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/media-card",
-  "version": "63.0.2",
+  "version": "63.0.3",
   "description": "Includes all media card related components, CardView, CardViewSmall, Card...",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.1.0",
+    "@atlaskit/ssr": "^0.1.0",
     "@atlaskit/button": "^13.0.0",
     "@atlaskit/checkbox": "^7.0.0",
     "@atlaskit/docs": "^8.0.0",

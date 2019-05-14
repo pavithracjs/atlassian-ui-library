@@ -1,5 +1,54 @@
 # @atlaskit/editor-core
 
+## 112.0.0
+- [major] [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
+
+  - Fix typeahead re-rendering when moving mouse
+
+  Breaking change -> TypeAheadItem:
+
+  ```ts
+  export type TypeAheadItemRenderProps = {
+    onClick: () => void;
+
+    // BREAKING CHANGE
+    // onMouseMove -> onHover
+    onHover: () => void;
+
+    isSelected: boolean;
+  };
+
+  export type TypeAheadItem = {
+    /*...*/
+    render?: (
+      props: TypeAheadItemRenderProps,
+    ) => React.ReactElement<TypeAheadItemRenderProps> | null;
+    /*...*/
+  };
+  ```
+
+  Items returned from `QuickInsertProvider#getItems` method that have custom `render` function will now get `onHover` instead of `onMouseMove`.
+
+## 111.1.4
+- [patch] [c5b70ffbdb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c5b70ffbdb):
+
+  - fix regression where multiple cell context menu dropdowns would appear when adding rows
+
+## 111.1.3
+- [patch] [897c83c32a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/897c83c32a):
+
+  - ED-6849: Prevent the collab plugin from re-initing on a reconfigure, also maintains previous state when reconfiguring
+
+## 111.1.2
+- [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
+
+  - fix for clicking behaviour in view/edit mode for Inline Smart Links.
+
+## 111.1.1
+- [patch] [287036e319](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/287036e319):
+
+  - ED-6765: workaround for mediaSingle deletion on Android
+
 ## 111.1.0
 - [minor] [9626153146](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9626153146):
 

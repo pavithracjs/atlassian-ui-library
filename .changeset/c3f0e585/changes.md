@@ -1,0 +1,1 @@
+- MediaPicker Clipboard component migrated to be a React Component

@@ -31,6 +31,7 @@ import WithPluginState from '../../ui/WithPluginState';
 import { IconImages } from '../quick-insert/assets';
 import CustomSmartMediaEditor from './ui/CustomSmartMediaEditor';
 import DropzoneReactWrapper from './ui/DropzoneReactWrapper';
+import ClipboardMediaPickerWrapper from './ui/ClipboardMediaPickerWrapper';
 
 export { MediaState, MediaProvider, CustomMediaPicker };
 
@@ -124,7 +125,8 @@ const mediaPlugin = (
       options && options.allowMediaSingle
         ? {
             name: 'mediaSingleKeymap',
-            plugin: ({ schema }) => keymapMediaSinglePlugin(schema),
+            plugin: ({ schema, props }) =>
+              keymapMediaSinglePlugin(schema, props.appearance),
           }
         : [],
     );
@@ -142,6 +144,7 @@ const mediaPlugin = (
           <>
             <CustomSmartMediaEditor mediaState={mediaState} />
             <DropzoneReactWrapper mediaState={mediaState} />
+            <ClipboardMediaPickerWrapper mediaState={mediaState} />
           </>
         )}
       />
@@ -166,7 +169,7 @@ const mediaPlugin = (
         title: formatMessage(messages.filesAndImages),
         description: formatMessage(messages.filesAndImagesDescription),
         priority: 400,
-        keywords: ['media'],
+        keywords: ['media', 'attachment'],
         icon: () => (
           <IconImages label={formatMessage(messages.filesAndImages)} />
         ),

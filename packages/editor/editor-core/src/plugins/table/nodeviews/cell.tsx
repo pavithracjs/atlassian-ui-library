@@ -152,15 +152,11 @@ class CellView extends SelectionBasedNodeView {
     const disabledState: EditorDisabledPluginState = editorDisabledPluginKey.getState(
       this.view.state,
     );
+
     return (
       <CellComponent
         forwardRef={forwardRef}
-        withCursor={
-          this.isSelectionInsideNode(
-            this.view.state.selection.from,
-            this.view.state.selection.to,
-          ) && !!tableState.editorHasFocus
-        }
+        withCursor={this.insideSelection() && !!tableState.editorHasFocus}
         isResizing={!!tableResizingState && !!tableResizingState.dragging}
         isContextualMenuOpen={!!tableState.isContextualMenuOpen}
         isContextMenuEnabled={props.isContextMenuEnabled}

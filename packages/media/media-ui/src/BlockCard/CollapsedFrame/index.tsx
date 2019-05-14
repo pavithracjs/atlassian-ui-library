@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Wrappper } from './styled';
+import { Wrapper } from './styled';
 
 export interface CollapsedFrameProps {
   minWidth?: number;
   maxWidth?: number;
   children?: React.ReactNode;
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   /** A flag that determines whether the card is selected in edit mode. */
   isSelected?: boolean;
 }
@@ -17,7 +17,7 @@ export class CollapsedFrame extends React.Component<CollapsedFrameProps> {
     if (onClick) {
       event.preventDefault();
       event.stopPropagation();
-      onClick();
+      onClick(event);
     }
   };
 
@@ -30,7 +30,7 @@ export class CollapsedFrame extends React.Component<CollapsedFrameProps> {
     if (onClick) {
       event.preventDefault();
       event.stopPropagation();
-      onClick();
+      onClick(event);
     }
   };
 
@@ -38,7 +38,7 @@ export class CollapsedFrame extends React.Component<CollapsedFrameProps> {
     const { isSelected, minWidth, maxWidth, children, onClick } = this.props;
     const isInteractive = Boolean(onClick);
     return (
-      <Wrappper
+      <Wrapper
         minWidth={minWidth}
         maxWidth={maxWidth}
         isInteractive={isInteractive}
@@ -49,7 +49,7 @@ export class CollapsedFrame extends React.Component<CollapsedFrameProps> {
         onKeyPress={this.handleKeyPress}
       >
         {children}
-      </Wrappper>
+      </Wrapper>
     );
   }
 }

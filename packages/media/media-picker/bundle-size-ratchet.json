@@ -3,16 +3,16 @@
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 8135,
-      "gzipSize": 2604
+      "size": 8185,
+      "gzipSize": 2615
     }
   },
   {
     "id": "src.async",
     "name": "async",
     "stats": {
-      "size": 116068,
-      "gzipSize": 29914
+      "size": 119357,
+      "gzipSize": 30994
     }
   },
   {
@@ -20,7 +20,7 @@
     "name": "node_modules [async]",
     "stats": {
       "size": 1558931,
-      "gzipSize": 442296
+      "gzipSize": 442356
     }
   },
   {
@@ -28,7 +28,7 @@
     "name": "async",
     "stats": {
       "size": 206135,
-      "gzipSize": 46745
+      "gzipSize": 46679
     }
   },
   {
@@ -44,23 +44,23 @@
     "name": "async",
     "stats": {
       "size": 870281,
-      "gzipSize": 212684
+      "gzipSize": 212703
     }
   },
   {
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 7813,
-      "gzipSize": 2502
+      "size": 7811,
+      "gzipSize": 2496
     }
   },
   {
     "id": "combined.async",
     "name": "async",
     "stats": {
-      "size": 2749146,
-      "gzipSize": 736106
+      "size": 2752431,
+      "gzipSize": 737041
     }
   }
 ]
