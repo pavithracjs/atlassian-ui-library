@@ -77,7 +77,7 @@ export const HelpPanelContent = (
       <HelpPanelHeader>
         {formatMessage(messages.help_panel_header)}
       </HelpPanelHeader>
-      {help.defaultContent}
+      <HelpPanelBody>{help.defaultContent}</HelpPanelBody>
     </>
   );
 };
