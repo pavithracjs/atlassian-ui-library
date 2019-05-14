@@ -27,7 +27,7 @@ export default class GlobalQuickSearchExample extends React.Component {
   render() {
     return (
       <AnalyticsListener onEvent={logEvent} channel="fabric-elements">
-        <GlobalQuickSearchWrapper isAutocompleteEnabled />
+        <GlobalQuickSearchWrapper isAutocompleteEnabled context="confluence" />
       </AnalyticsListener>
     );
   }

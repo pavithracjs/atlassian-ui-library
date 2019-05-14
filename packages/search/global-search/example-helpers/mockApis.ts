@@ -155,6 +155,12 @@ function mockAutocompleteApi(delayMs: number, autocomplete: string[]) {
       if (lastToken.length == 0) {
         return delay(delayMs, []);
       }
+      if (lastToken === 'error') {
+        return Promise.reject({
+          code: 500,
+          reason: 'Sensitive Data',
+        });
+      }
       const restTokens = tokens.slice(0, -1);
       const autocompleteList = autocomplete
         .filter(token =>
