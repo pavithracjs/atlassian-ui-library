@@ -444,7 +444,6 @@ class DatePicker extends Component<Props, State> {
 }
 
 export { DatePicker as DatePickerWithoutAnalytics };
-const createAndFireEventOnAtlaskit = createAndFireEvent('atlaskit');
 
 export default withAnalyticsContext({
   componentName: 'datePicker',
@@ -452,7 +451,7 @@ export default withAnalyticsContext({
   packageVersion,
 })(
   withAnalyticsEvents({
-    onChange: createAndFireEventOnAtlaskit({
+    onChange: createAndFireEvent('atlaskit')({
       action: 'selectedDate',
       actionSubject: 'datePicker',
       attributes: {
