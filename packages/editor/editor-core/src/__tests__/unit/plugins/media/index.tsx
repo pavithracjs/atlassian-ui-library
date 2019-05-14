@@ -522,50 +522,6 @@ describe('Media plugin', () => {
     });
   });
 
-  describe('handleMediaNodeRemove', () => {
-    it('removes media node', () => {
-      const deletingMediaNodeId = 'foo';
-      const deletingMediaNode = media({
-        id: deletingMediaNodeId,
-        type: 'file',
-        __fileMimeType: 'pdf',
-        collection: testCollectionName,
-      })();
-      const { editorView, pluginState } = editor(
-        doc(
-          mediaGroup(deletingMediaNode),
-          mediaGroup(
-            media({
-              id: 'bar',
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-        ),
-      );
-
-      const pos = getNodePos(pluginState, deletingMediaNodeId, false);
-      pluginState.handleMediaNodeRemoval(
-        deletingMediaNode(editorView.state.schema),
-        () => pos,
-      );
-
-      expect(editorView.state.doc).toEqualDocument(
-        doc(
-          mediaGroup(
-            media({
-              id: 'bar',
-              type: 'file',
-              collection: testCollectionName,
-            })(),
-          ),
-        ),
-      );
-
-      pluginState.destroy();
-    });
-  });
-
   describe('removeSelectedMediaContainer', () => {
     describe('when selection is a mediaSingle node', () => {
       it('removes node', () => {

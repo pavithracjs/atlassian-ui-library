@@ -23,7 +23,6 @@ describe('nodeviews/mediaGroup', () => {
     pluginState = {} as MediaPluginState;
     pluginState.getMediaOptions = () => ({} as any);
     pluginState.mediaGroupNodes = {};
-    pluginState.handleMediaNodeRemoval = () => {};
     jest.spyOn(mediaStateKey, 'getState').mockImplementation(() => pluginState);
   });
 

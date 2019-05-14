@@ -42,6 +42,10 @@ export const removeMediaNode = (
   node: Node,
   getPos: ProsemirrorGetPosHandler,
 ): Command => (state, dispatch?, view?) => {
+  const { media } = state.schema.nodes;
+  if (node.type !== media) {
+    return false; // No remove no media nodes
+  }
   const { id } = node.attrs;
   const { tr, selection, doc } = state;
 
@@ -82,7 +86,10 @@ export const removeMediaNodeInPos = (getPos: () => number): Command => (
   dispatch,
   view,
 ) => {
-  const node = state.doc.nodeAt(getPos()) as Node;
+  const node = state.doc.nodeAt(getPos());
+  if (!node) {
+    return false; // If node doesn't exist return false
+  }
 
   return removeMediaNode(node, getPos)(state, dispatch, view);
 };

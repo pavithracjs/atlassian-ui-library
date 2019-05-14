@@ -3,13 +3,17 @@ import {
   createEditorFactory,
   doc,
   mediaSingle,
+  mediaGroup,
   media,
 } from '@atlaskit/editor-test-helpers';
 import mediaPlugin from '../../../../../plugins/media';
 import { MediaPluginState } from '../../../../../plugins/media/pm-plugins/main';
 import { stateKey as mediaPluginKey } from '../../../../../plugins/media/pm-plugins/main';
 import { getFreshMediaProvider, testCollectionName } from '../_utils';
-import { updateMediaNodeAttrs } from '../../../../../plugins/media/commands';
+import {
+  updateMediaNodeAttrs,
+  removeMediaNodeInPos,
+} from '../../../../../plugins/media/commands';
 
 describe('Media plugin commands', () => {
   const createEditor = createEditorFactory<MediaPluginState>();
@@ -91,6 +95,51 @@ describe('Media plugin commands', () => {
           ),
         ),
       );
+    });
+  });
+
+  describe('Remove Media Node in Pos', () => {
+    it('removes media node', async () => {
+      const deletingMediaNodeId = 'foo';
+      const deletingMediaNode = media({
+        id: deletingMediaNodeId,
+        type: 'file',
+        __fileMimeType: 'pdf',
+        collection: testCollectionName,
+      })();
+      const { editorView, pluginState } = editor(
+        doc(
+          mediaGroup(deletingMediaNode),
+          mediaGroup(
+            media({
+              id: 'bar',
+              type: 'file',
+              collection: testCollectionName,
+            })(),
+          ),
+        ),
+      );
+      const mediaToBeDeletedPosition = 1;
+
+      removeMediaNodeInPos(() => mediaToBeDeletedPosition)(
+        editorView.state,
+        editorView.dispatch,
+        editorView,
+      );
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          mediaGroup(
+            media({
+              id: 'bar',
+              type: 'file',
+              collection: testCollectionName,
+            })(),
+          ),
+        ),
+      );
+
+      pluginState.destroy();
     });
   });
 });
