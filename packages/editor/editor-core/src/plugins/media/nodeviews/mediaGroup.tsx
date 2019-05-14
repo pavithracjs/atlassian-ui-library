@@ -105,10 +105,15 @@ export default class MediaGroup extends React.Component<MediaGroupProps> {
       });
     });
 
-    setMediaGroupItems(items)(
-      this.props.view.state,
-      this.props.view.dispatch,
-      this.props.view,
+    // We cannot dispatch in the nodeview creation, its go to remove the current node
+    setTimeout(
+      () =>
+        setMediaGroupItems(items)(
+          this.props.view.state,
+          this.props.view.dispatch,
+          this.props.view,
+        ),
+      1,
     );
   };
 
@@ -182,38 +187,40 @@ class MediaGroupNodeView extends SelectionBasedNodeView {
       <WithProviders
         providers={['mediaProvider']}
         providerFactory={providerFactory}
-        renderNode={({ mediaProvider }) => (
-          <WithPluginState
-            editorView={this.view}
-            plugins={{
-              reactNodeViewState: reactNodeViewStateKey,
-              editorDisabledPlugin: editorDisabledPluginKey,
-            }}
-            render={({
-              editorDisabledPlugin,
-            }: {
-              editorDisabledPlugin: EditorDisabledPluginState;
-            }) => {
-              const nodePos = this.getPos();
-              const { $anchor, $head } = this.view.state.selection;
-              const isSelected =
-                nodePos < $anchor.pos &&
-                $head.pos < nodePos + this.node.nodeSize;
-              return (
-                <MediaGroupWithContext
-                  node={this.node}
-                  getPos={this.getPos}
-                  view={this.view}
-                  forwardRef={forwardRef}
-                  selected={isSelected ? $anchor.pos : null}
-                  disabled={(editorDisabledPlugin || {}).editorDisabled}
-                  editorAppearance={editorAppearance}
-                  mediaProvider={mediaProvider}
-                />
-              );
-            }}
-          />
-        )}
+        renderNode={({ mediaProvider }) => {
+          return (
+            <WithPluginState
+              editorView={this.view}
+              plugins={{
+                reactNodeViewState: reactNodeViewStateKey,
+                editorDisabledPlugin: editorDisabledPluginKey,
+              }}
+              render={({
+                editorDisabledPlugin,
+              }: {
+                editorDisabledPlugin: EditorDisabledPluginState;
+              }) => {
+                const nodePos = this.getPos();
+                const { $anchor, $head } = this.view.state.selection;
+                const isSelected =
+                  nodePos < $anchor.pos &&
+                  $head.pos < nodePos + this.node.nodeSize;
+                return (
+                  <MediaGroupWithContext
+                    node={this.node}
+                    getPos={this.getPos}
+                    view={this.view}
+                    forwardRef={forwardRef}
+                    selected={isSelected ? $anchor.pos : null}
+                    disabled={(editorDisabledPlugin || {}).editorDisabled}
+                    editorAppearance={editorAppearance}
+                    mediaProvider={mediaProvider}
+                  />
+                );
+              }}
+            />
+          );
+        }}
       />
     );
   }
