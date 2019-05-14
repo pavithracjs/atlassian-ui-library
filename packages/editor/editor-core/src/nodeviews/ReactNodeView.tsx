@@ -289,12 +289,20 @@ export class SelectionBasedNodeView extends ReactNodeView {
     this.posEnd = this.pos + this.node.nodeSize;
   }
 
-  isSelectionInsideNode = (from: number, to: number) => {
-    if (typeof this.pos !== 'number' || typeof this.posEnd !== 'number') {
+  isSelectionInsideNode = (
+    from: number,
+    to: number,
+    pos?: number,
+    posEnd?: number,
+  ) => {
+    pos = typeof pos !== 'number' ? this.pos : pos;
+    posEnd = typeof posEnd !== 'number' ? this.posEnd : posEnd;
+
+    if (typeof pos !== 'number' || typeof posEnd !== 'number') {
       return false;
     }
 
-    return this.pos < from && to < this.posEnd;
+    return pos < from && to < posEnd;
   };
 
   insideSelection = () => {
@@ -312,13 +320,8 @@ export class SelectionBasedNodeView extends ReactNodeView {
     this.oldSelection = selection;
 
     // update cached positions
-    const { pos: oldPos } = this;
+    const { pos: oldPos, posEnd: oldPosEnd } = this;
     this.updatePos();
-
-    if (oldPos !== this.pos) {
-      // node has moved position
-      return true;
-    }
 
     const { from, to } = selection;
     const { from: oldFrom, to: oldTo } = oldSelection;
@@ -337,12 +340,19 @@ export class SelectionBasedNodeView extends ReactNodeView {
       }
     }
 
-    if (
-      (this.isSelectionInsideNode(from, to) &&
-        !this.isSelectionInsideNode(oldFrom, oldTo)) ||
-      (!this.isSelectionInsideNode(from, to) &&
-        this.isSelectionInsideNode(oldFrom, oldTo))
-    ) {
+    const movedInToSelection =
+      this.isSelectionInsideNode(from, to) &&
+      !this.isSelectionInsideNode(oldFrom, oldTo);
+
+    const movedOutOfSelection =
+      !this.isSelectionInsideNode(from, to) &&
+      this.isSelectionInsideNode(oldFrom, oldTo);
+
+    const moveOutFromOldSelection =
+      this.isSelectionInsideNode(from, to, oldPos, oldPosEnd) &&
+      !this.isSelectionInsideNode(from, to);
+
+    if (movedInToSelection || movedOutOfSelection || moveOutFromOldSelection) {
       return true;
     }
 
