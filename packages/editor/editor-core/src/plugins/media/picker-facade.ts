@@ -5,13 +5,13 @@ import {
   MediaFile,
   ComponentConfigs,
   UploadPreviewUpdateEventPayload,
-  UploadEndEventPayload,
   UploadParams,
   UploadErrorEventPayload,
   isDropzone,
   isPopup,
   isBrowser,
   isImagePreview,
+  UploadProcessingEventPayload,
 } from '@atlaskit/media-picker';
 import { Context } from '@atlaskit/media-core';
 
@@ -191,7 +191,7 @@ export default class PickerFacade {
     this.onDragListeners.push(cb);
   }
 
-  private handleUploadPreviewUpdate = (
+  public handleUploadPreviewUpdate = (
     event: UploadPreviewUpdateEventPayload,
   ) => {
     const { file, preview } = event;
@@ -226,7 +226,7 @@ export default class PickerFacade {
     subscribers.push(onStateChanged);
   };
 
-  private handleUploadError = ({ error }: UploadErrorEventPayload) => {
+  public handleUploadError = ({ error }: UploadErrorEventPayload) => {
     if (!error || !error.fileId) {
       const err = new Error(
         `Media: unknown upload-error received from Media Picker: ${error &&
@@ -253,7 +253,7 @@ export default class PickerFacade {
     delete this.eventListeners[error.fileId];
   };
 
-  private handleMobileUploadEnd = (event: MobileUploadEndEventPayload) => {
+  public handleMobileUploadEnd = (event: MobileUploadEndEventPayload) => {
     const { file } = event;
 
     const listeners = this.eventListeners[file.id];
@@ -272,7 +272,7 @@ export default class PickerFacade {
     );
   };
 
-  private handleReady = (event: UploadEndEventPayload) => {
+  public handleReady = (event: UploadProcessingEventPayload) => {
     const { file } = event;
 
     const listeners = this.eventListeners[file.id];
