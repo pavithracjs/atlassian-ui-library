@@ -1,10 +1,8 @@
-// @flow
-
-import React, { Component, type Node } from 'react';
+import React, { Component, ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import styled, { ThemeProvider } from 'styled-components';
 import exenv from 'exenv';
-import type { ThemeModes, ThemeProps } from '../types';
+import { ThemeModes, ThemeProps } from '../types';
 import * as colors from '../colors';
 
 import { CHANNEL, DEFAULT_THEME_MODE } from '../constants';
@@ -20,11 +18,11 @@ function getStylesheetResetCSS(state: ThemeProps) {
 }
 
 type Props = {
-  children: Node,
-  mode: ThemeModes,
+  children: ReactNode;
+  mode: ThemeModes;
 };
 
-function buildThemeState(mode): ThemeProps {
+function buildThemeState(mode: Props['mode']): ThemeProps {
   return { theme: { [CHANNEL]: { mode } } };
 }
 
@@ -69,7 +67,7 @@ const LegacyReset = styled.div`
 
 export default class AtlaskitThemeProvider extends Component<
   Props,
-  ThemeProps,
+  ThemeProps
 > {
   stylesheet: any;
 
@@ -133,9 +131,10 @@ export default class AtlaskitThemeProvider extends Component<
       allows us to use components converted to use the new API with consumers
       using the old provider along side components that may still be using the
       old theming API. */
+      // TODO: TS LegacyReset expects `theme`?
       <Theme.Provider value={() => ({ mode: theme[CHANNEL].mode })}>
         <ThemeProvider theme={theme}>
-          <LegacyReset>{children}</LegacyReset>
+          <LegacyReset theme={undefined}>{children}</LegacyReset>
         </ThemeProvider>
       </Theme.Provider>
     );

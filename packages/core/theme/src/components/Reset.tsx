@@ -1,23 +1,27 @@
-// @flow
-
-import React, { type Node } from 'react';
+import React, { ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 import * as colors from '../colors';
-import { createTheme, type ThemeProp } from '../utils/createTheme';
+import { createTheme, ThemeProp } from '../utils/createTheme';
 
-export type ResetThemeProps = *;
-export type ResetThemeTokens = {
-  backgroundColor: string,
-  textColor: string,
-  linkColor?: string,
-  linkColorHover?: string,
-  linkColorActive?: string,
-  linkColorOutline?: string,
-  headingColor?: string,
-  subtleHeadingColor?: string,
-  subtleTextColor?: string,
+type LooseObject = {
+  [key: string]: any;
 };
 
+export type ResetThemeProps = any;
+export type ResetThemeTokens = {
+  backgroundColor: string;
+  textColor: string;
+  linkColor?: string;
+  linkColorHover?: string;
+  linkColorActive?: string;
+  linkColorOutline?: string;
+  headingColor?: string;
+  subtleHeadingColor?: string;
+  subtleTextColor?: string;
+} & LooseObject;
+
+// TODO: TS no index signature for ResetThemeTokens
+// TODO: TS style components types
 const orTextColor = (preferred: string) => (p: ResetThemeTokens) =>
   p[preferred] || p.textColor;
 const Div = styled.div`
@@ -68,13 +72,13 @@ export const ResetTheme = createTheme<ResetThemeTokens, ResetThemeProps>(
 );
 
 export function Reset(props: {
-  children?: Node,
-  theme?: ThemeProp<ResetThemeTokens, ResetThemeProps>,
+  children?: ReactNode;
+  theme?: ThemeProp<ResetThemeTokens, ResetThemeProps>;
 }) {
   return (
     <ResetTheme.Provider value={props.theme}>
       <ResetTheme.Consumer>
-        {tokens => {
+        {(tokens: { [key: string]: string }) => {
           return (
             <Div {...{ ...tokens, mode: undefined }} {...props}>
               {props.children}

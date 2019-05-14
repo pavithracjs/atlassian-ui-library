@@ -1,7 +1,7 @@
 /* eslint-disable prefer-rest-params */
 
 import getTheme from './getTheme';
-import { ThemedValue, ThemeProps, Theme } from '../types';
+import { ThemedValue, ThemeProps } from '../types';
 
 type Value = string | number;
 type Modes = { light: Value; dark: Value };

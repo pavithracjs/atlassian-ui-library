@@ -1,5 +1,3 @@
-// @flow
-
 /*
    This file will become the new index for theme once the codemod is mature enough.
    For now we're keeping the index file to avoid having to do a major change.
@@ -15,12 +13,12 @@ export {
 export { default as Appearance } from './components/Appearance';
 
 // New API
-export type { ResetThemeProps, ResetThemeTokens } from './components/Reset';
+export { ResetThemeProps, ResetThemeTokens } from './components/Reset';
 export { ResetTheme, Reset } from './components/Reset';
 
 export { default } from './components/Theme';
 export { withTheme } from './hoc';
 
-export type { ThemeProp } from './utils/createTheme';
+export { ThemeProp } from './utils/createTheme';
 
 export { createTheme } from './utils/createTheme';

@@ -1,4 +1,3 @@
-// @flow
 import * as colors from './colors';
 import * as elevation from './elevation';
 import * as typography from './typography';
