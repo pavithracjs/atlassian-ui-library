@@ -1,4 +1,4 @@
-export const filterEmotionWarnings = console => {
+export const mockConsole = console => {
   jest.spyOn(console, 'error').mockImplementation(() => {});
 
   return () => {

@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
-import { ssr, filterEmotionWarnings } from '@atlaskit/ssr';
+import { ssr, mockConsole } from '@atlaskit/ssr';
 
-const getConsoleMockCalls = filterEmotionWarnings(console);
+const getConsoleMockCalls = mockConsole(console);
 
 afterEach(() => {
   jest.resetAllMocks();

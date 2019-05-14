@@ -34,4 +34,4 @@ export const ssr = async example =>
     }
   });
 
-export { filterEmotionWarnings } from './filterEmotionWarnings';
+export { mockConsole } from './mockConsole';
