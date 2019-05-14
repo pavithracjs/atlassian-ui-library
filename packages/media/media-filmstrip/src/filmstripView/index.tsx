@@ -335,7 +335,7 @@ export class FilmstripView extends React.Component<
     this.handleSizeChange();
   };
 
-  handleLeftClick = (event: MouseEvent<HTMLDivElement>) => {
+  handleLeftClick = (event: MouseEvent<HTMLDivElement, any>) => {
     // Stop the click event from bubling up and being handled by other components
     // See https://product-fabric.atlassian.net/browse/MSW-165
     event.stopPropagation();
@@ -352,7 +352,7 @@ export class FilmstripView extends React.Component<
     }
   };
 
-  handleRightClick = (event: MouseEvent<HTMLDivElement>) => {
+  handleRightClick = (event: MouseEvent<HTMLDivElement, any>) => {
     // Stop the click event from bubling up and being handled by other components
     // See https://product-fabric.atlassian.net/browse/MSW-165
     event.stopPropagation();
