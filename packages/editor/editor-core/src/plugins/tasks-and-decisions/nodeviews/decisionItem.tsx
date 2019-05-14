@@ -62,6 +62,10 @@ class Decision extends ReactNodeView {
     );
   }
 
+  viewShouldUpdate() {
+    return false;
+  }
+
   update(node: PMNode, decorations: Decoration[]) {
     /**
      * Returning false here when the previous content was empty – fixes an error where the editor fails to set selection

@@ -99,11 +99,11 @@ export const getPostQuerySearchResultsEvent = (
     | {
         confSearchElapsedMs: any;
         postQueryRequestDurationMs: any;
-        peopleElapsedMs: any;
+        peopleElapsedMs?: any;
       }
     | {
         postQueryRequestDurationMs: any;
-        peopleElapsedMs: any;
+        peopleElapsedMs?: any;
         confSearchElapsedMs?: undefined;
       }
     | undefined,

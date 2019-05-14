@@ -126,7 +126,7 @@ describe('status plugin: actions', () => {
         localId: '666',
       })(editorView);
 
-      expect(editorView.state.doc).toEqualDocument(
+      expect(editorView.state.tr.doc).toEqualDocument(
         doc(
           p(
             '',

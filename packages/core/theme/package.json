@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/theme",
-  "version": "8.1.9",
+  "version": "9.0.1",
   "description": "The Atlaskit theme framework",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -14,6 +14,10 @@
     "Daniel D",
     "Kang C"
   ],
+  "atlaskit": {
+    "name": "Theme",
+    "team": "core"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
@@ -21,20 +25,20 @@
     "prop-types": "^15.5.10"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^12.0.6",
-    "@atlaskit/docs": "^7.0.3",
-    "@atlaskit/lozenge": "^7.0.2",
-    "@atlaskit/section-message": "^2.0.3",
-    "@atlaskit/ssr": "^0.0.1",
-    "@atlaskit/visual-regression": "^0.0.1",
+    "@atlaskit/button": "^13.0.0",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/lozenge": "^8.0.0",
+    "@atlaskit/section-message": "^3.0.0",
+    "@atlaskit/ssr": "^0.1.0",
+    "@atlaskit/visual-regression": "^0.1.0",
     "color": "^3.0.0",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.8.0"
   },
   "keywords": [
     "atlaskit",

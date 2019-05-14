@@ -9,6 +9,7 @@ import {
   ProviderFactory,
   Transformer,
   ErrorReporter,
+  browser,
 } from '@atlaskit/editor-common';
 
 import { EventDispatcher, createDispatch, Dispatch } from '../event-dispatcher';
@@ -27,6 +28,7 @@ import {
   FULL_WIDTH_MODE,
   PLATFORMS,
   AnalyticsEventPayloadWithChannel,
+  analyticsPluginKey,
 } from '../plugins/analytics';
 import {
   EditorProps,
@@ -47,7 +49,6 @@ import {
   createPMPlugins,
   initAnalytics,
 } from './create-editor';
-import { analyticsPluginKey } from '../plugins/analytics/plugin';
 import { getDocStructure } from '../utils/document-logger';
 import { isFullPage } from '../utils/is-full-page';
 
@@ -91,11 +92,11 @@ export default class ReactEditorView<T = {}> extends React.Component<
   view?: EditorView;
   eventDispatcher: EventDispatcher;
   contentTransformer?: Transformer<string>;
-  config: EditorConfig;
+  config!: EditorConfig;
   editorState: EditorState;
   errorReporter: ErrorReporter;
   dispatch: Dispatch;
-  analyticsEventHandler: (
+  analyticsEventHandler!: (
     payloadChannel: { payload: AnalyticsEventPayload; channel?: string },
   ) => void;
 
@@ -107,6 +108,11 @@ export default class ReactEditorView<T = {}> extends React.Component<
   constructor(props: EditorViewProps & T) {
     super(props);
 
+    this.eventDispatcher = new EventDispatcher();
+    this.dispatch = createDispatch(this.eventDispatcher);
+    this.errorReporter = createErrorReporter(
+      props.editorProps.errorReporterHandler,
+    );
     this.editorState = this.createEditorState({ props, replaceDoc: true });
 
     const { createAnalyticsEvent, allowAnalyticsGASV3 } = props;
@@ -215,6 +221,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
       portalProviderAPI: props.portalProviderAPI,
       reactContext: () => this.context,
       dispatchAnalyticsEvent: this.dispatchAnalyticsEvent,
+      oldState: state,
     });
 
     const newState = EditorState.create({
@@ -223,6 +230,10 @@ export default class ReactEditorView<T = {}> extends React.Component<
       doc: state.doc,
       selection: state.selection,
     });
+
+    // need to update the state first so when the view builds the nodeviews it is
+    // using the latest plugins
+    this.view.updateState(newState);
 
     return this.view.update(this.getDirectEditorProps(newState));
   };
@@ -305,12 +316,7 @@ export default class ReactEditorView<T = {}> extends React.Component<
     const {
       contentTransformerProvider,
       defaultValue,
-      errorReporterHandler,
     } = options.props.editorProps;
-
-    this.eventDispatcher = new EventDispatcher();
-    this.dispatch = createDispatch(this.eventDispatcher);
-    this.errorReporter = createErrorReporter(errorReporterHandler);
 
     const plugins = createPMPlugins({
       schema,
@@ -447,7 +453,13 @@ export default class ReactEditorView<T = {}> extends React.Component<
   };
 
   render() {
-    const editor = <div key="ProseMirror" ref={this.handleEditorViewRef} />;
+    const editor = (
+      <div
+        className={getUAPrefix()}
+        key="ProseMirror"
+        ref={this.handleEditorViewRef}
+      />
+    );
     return this.props.render
       ? this.props.render({
           editor,
@@ -459,4 +471,16 @@ export default class ReactEditorView<T = {}> extends React.Component<
         })
       : editor;
   }
+}
+
+function getUAPrefix() {
+  if (browser.chrome) {
+    return 'ua-chrome';
+  } else if (browser.ie) {
+    return 'ua-ie';
+  } else if (browser.gecko) {
+    return 'ua-firefox';
+  }
+
+  return '';
 }

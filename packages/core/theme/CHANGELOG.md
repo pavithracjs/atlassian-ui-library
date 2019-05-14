@@ -1,5 +1,15 @@
 # @atlaskit/theme
 
+## 9.0.1
+- [patch] [d5f0e7d767](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5f0e7d767):
+
+  - Adds missing type def to typings for the /component.ts entrypoint
+
+## 9.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
 ## 8.1.9
 - [patch] [e0e3fabf8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0e3fabf8e):
 

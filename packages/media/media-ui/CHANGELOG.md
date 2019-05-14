@@ -1,5 +1,24 @@
 # @atlaskit/media-ui
 
+## 11.1.2
+- [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
+
+  - fix for clicking behaviour in view/edit mode for Inline Smart Links.
+
+## 11.1.1
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/media-test-helpers@23.0.0
+
+## 11.1.0
+- [minor] [121c945cc6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/121c945cc6):
+
+  - fix padding, hover, icon for Inline Links.
+
+## 11.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
 ## 10.1.11
 - [patch] [682279973f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/682279973f):
 

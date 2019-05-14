@@ -57,7 +57,9 @@ const CHANGED_PACKAGES = process.env.CHANGED_PACKAGES;
 let server;
 let config;
 
-const patterns = process.argv.slice(2) || [];
+const patterns = (process.argv.slice(2) || []).filter(
+  arg => !arg.startsWith('-'),
+);
 
 function packageIsInPatternOrChanged(workspace) {
   if (!workspace.files.matchedTests.length) return false;
@@ -152,7 +154,12 @@ async function startDevServer() {
     globs = globs.map(glob =>
       glob
         .replace('website', 'packages/core/polyfills')
-        .replace('build/webpack-config', 'packages/core/polyfills'),
+        .replace('build/webpack-config', 'packages/core/polyfills')
+        // Remap packages without examples to a package they indend to leverage within their tests
+        .replace(
+          'packages/editor/editor-common',
+          'packages/editor/editor-core',
+        ),
     );
   }
   if (!globs.length) {

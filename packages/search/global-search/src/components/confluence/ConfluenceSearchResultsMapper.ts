@@ -1,10 +1,12 @@
 import { ResultsGroup, ConfluenceResultsMap } from '../../model/Result';
 import { take } from '../SearchResultsUtil';
 import { messages } from '../../messages';
+import { ABTest } from '../../api/CrossProductSearchClient';
 
-export const MAX_PAGES = 8;
+export const DEFAULT_MAX_OBJECTS = 8;
 export const MAX_SPACES = 3;
 export const MAX_PEOPLE = 3;
+export const MAX_RECENT_RESULTS_TO_SHOW = 3;
 
 const EMPTY_CONFLUENCE_RESULT = {
   people: [],
@@ -12,15 +14,33 @@ const EMPTY_CONFLUENCE_RESULT = {
   spaces: [],
 };
 
+/**
+ * Grape is an experiment to increase the number of search results shown to the user
+ */
+const GRAPE_EXPERIMENT = 'grape';
+
+const getMaxObjects = (abTest: ABTest) => {
+  if (abTest.experimentId.startsWith(GRAPE_EXPERIMENT)) {
+    const parsedMaxObjects = Number.parseInt(
+      abTest.experimentId.split('-')[1],
+      10,
+    );
+
+    return parsedMaxObjects || DEFAULT_MAX_OBJECTS;
+  }
+  return DEFAULT_MAX_OBJECTS;
+};
+
 export const sliceResults = (
   resultsMap: ConfluenceResultsMap | null,
+  abTest: ABTest,
 ): ConfluenceResultsMap => {
   if (!resultsMap) {
     return EMPTY_CONFLUENCE_RESULT;
   }
   const { people, objects, spaces } = resultsMap;
   return {
-    objects: take(objects, MAX_PAGES),
+    objects: take(objects, getMaxObjects(abTest)),
     spaces: take(spaces, MAX_SPACES),
     people: take(people, MAX_PEOPLE),
   };
@@ -28,8 +48,12 @@ export const sliceResults = (
 
 export const mapRecentResultsToUIGroups = (
   recentlyViewedObjects: ConfluenceResultsMap | null,
+  abTest: ABTest,
 ): ResultsGroup[] => {
-  const { people, objects, spaces } = sliceResults(recentlyViewedObjects);
+  const { people, objects, spaces } = sliceResults(
+    recentlyViewedObjects,
+    abTest,
+  );
 
   return [
     {
@@ -52,8 +76,12 @@ export const mapRecentResultsToUIGroups = (
 
 export const mapSearchResultsToUIGroups = (
   searchResultsObjects: ConfluenceResultsMap | null,
+  abTest: ABTest,
 ): ResultsGroup[] => {
-  const { people, objects, spaces } = sliceResults(searchResultsObjects);
+  const { people, objects, spaces } = sliceResults(
+    searchResultsObjects,
+    abTest,
+  );
   return [
     {
       items: objects,

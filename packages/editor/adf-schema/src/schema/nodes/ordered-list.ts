@@ -18,11 +18,16 @@ export interface OrderedListDefinition {
   };
 }
 
+export const orderedListSelector = '.ak-ol';
+
 export const orderedList: NodeSpec = {
   group: 'block',
   content: 'listItem+',
   parseDOM: [{ tag: 'ol' }],
   toDOM() {
-    return ['ol', 0];
+    const attrs = {
+      class: orderedListSelector.substr(1),
+    };
+    return ['ol', attrs, 0];
   },
 };

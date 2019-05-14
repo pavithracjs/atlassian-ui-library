@@ -35,6 +35,7 @@ type GlobalNavigationState = {
   isNotificationDrawerOpen: boolean,
   isStarredDrawerOpen: boolean,
   isHelpDrawerOpen: boolean,
+  isRecentDrawerOpen: boolean,
   isSettingsDrawerOpen: boolean,
   isAtlassianSwitcherDrawerOpen: boolean,
   notificationCount: number,
@@ -69,6 +70,9 @@ export default class GlobalNavigation extends Component<
     create: {
       isControlled: false,
     },
+    recent: {
+      isControlled: false,
+    },
     atlassianSwitcher: {
       isControlled: false,
     },
@@ -86,6 +90,7 @@ export default class GlobalNavigation extends Component<
     starredDrawerWidth: 'wide',
     helpDrawerWidth: 'wide',
     settingsDrawerWidth: 'wide',
+    recentDrawerWidth: 'wide',
   };
 
   constructor(props: GlobalNavigationProps) {
@@ -98,6 +103,7 @@ export default class GlobalNavigation extends Component<
       isStarredDrawerOpen: false,
       isHelpDrawerOpen: false,
       isSettingsDrawerOpen: false,
+      isRecentDrawerOpen: false,
       isAtlassianSwitcherDrawerOpen: false,
       notificationCount: 0,
     };

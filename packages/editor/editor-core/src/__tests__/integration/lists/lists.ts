@@ -14,10 +14,10 @@ BrowserTestCase(
     await page.click(fullpage.placeholder);
 
     await page.type(editable, '* abc');
-    await page.type(editable, 'Return');
-    await page.type(editable, 'Tab');
+    await page.keys('Return');
+    await page.keys('Tab');
     await page.type(editable, '123');
-    await page.type(editable, 'Tab');
+    await page.keys('Tab');
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { colors, gridSize } from '@atlaskit/theme';
 import { BORDER_WIDTH } from '@atlaskit/avatar';
 
-// TODO: use math utilities within styled component
 const gutterUnitless = gridSize() / 2;
 const gutter = `${gutterUnitless}px`;
 

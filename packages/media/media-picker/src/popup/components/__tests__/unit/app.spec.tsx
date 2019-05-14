@@ -2,18 +2,16 @@ import * as React from 'react';
 import { shallow, mount, ShallowWrapper, ReactWrapper } from 'enzyme';
 import { createStore, applyMiddleware, Middleware } from 'redux';
 import { Store } from 'react-redux';
-
 import { AuthProvider, ContextFactory } from '@atlaskit/media-core';
 import { waitUntil } from '@atlaskit/media-test-helpers';
-
-import { State } from '../../../domain';
-import ConnectedApp, { App, AppDispatchProps } from '../../app';
-import UploadView from '../../views/upload/upload';
-import Browser from '../../views/browser/browser';
 import {
   getComponentClassWithStore,
   mockStore,
 } from '@atlaskit/media-test-helpers';
+import { State } from '../../../domain';
+import ConnectedApp, { App, AppDispatchProps } from '../../app';
+import UploadView from '../../views/upload/upload';
+import Browser from '../../views/browser/browser';
 import { fileUploadsStart } from '../../../actions/fileUploadsStart';
 import { UploadParams } from '../../../../domain/config';
 import { LocalBrowserButton } from '../../views/upload/uploadButton';
@@ -308,6 +306,27 @@ describe('App', () => {
       files: [makeFile('1'), makeFile('2'), makeFile('3')],
     });
     expect(handlers.onDropzoneDropIn).toBeCalledWith(3);
+  });
+
+  it('should render media-editor view with localUploader', () => {
+    const { handlers, store, context, userContext } = setup();
+    const element = (
+      <App
+        store={store}
+        selectedServiceName="upload"
+        tenantContext={context}
+        userContext={userContext}
+        isVisible={true}
+        tenantUploadParams={tenantUploadParams}
+        {...handlers}
+      />
+    );
+    const wrapper = shallow(element);
+    const instace: any = wrapper.instance();
+    const editorView = wrapper.find('Connect(MainEditorView)');
+
+    expect(editorView).toHaveLength(1);
+    expect(editorView.prop('localUploader')).toEqual(instace.localUploader);
   });
 });
 

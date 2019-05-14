@@ -1,5 +1,35 @@
 # @atlaskit/media-core
 
+## 30.0.1
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/media-card@63.0.2
+  - @atlaskit/media-client@1.1.3
+  - @atlaskit/media-test-helpers@23.0.0
+
+## 30.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 29.3.0
+- [minor] [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+
+  - Add event emitter api to context + add first known event 'file-added'
+
+  Integrators can now do:
+
+  ```
+  import {ContextFactory, FileState} from '@atlaskit/media-core'
+
+  const context = ContextFactory.create();
+
+  context.on('file-added', (file: FileState) => {
+    console.log(file.id)
+  })
+  ```
+
+  check the **FileState** for the all the properties included in the payload
+
 ## 29.2.0
 - [minor] [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
 

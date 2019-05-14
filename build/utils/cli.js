@@ -41,7 +41,6 @@ async function askCheckboxPlus(message, choices) {
         searchable: true,
         pageSize: 10,
         type: 'checkbox-plus',
-        // TODO: allow chaining this to a custom sort function that is run first
         source: fuzzySearch,
       },
     ])

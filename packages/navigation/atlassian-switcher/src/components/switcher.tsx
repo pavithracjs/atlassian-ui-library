@@ -23,6 +23,7 @@ import now from '../utils/performance-now';
 import FormattedMessage from '../primitives/formatted-message';
 import TryLozenge from '../primitives/try-lozenge';
 import { TriggerXFlowCallback } from '../types';
+import { urlToHostname } from '../utils/url-to-hostname';
 
 type SwitcherProps = {
   messages: Messages;
@@ -48,11 +49,13 @@ const getItemAnalyticsContext = (
   index: number,
   id: string | null,
   type: string,
+  href: string,
 ) => ({
   ...analyticsAttributes({
     groupItemIndex: index,
     itemId: id,
     itemType: type,
+    domain: urlToHostname(href),
   }),
 });
 
@@ -147,6 +150,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   switchToLinks.indexOf(item),
                   item.key,
                   'product',
+                  item.href,
                 )}
               >
                 <SwitcherItem
@@ -164,6 +168,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   switchToLinks.indexOf(item),
                   item.key,
                   'try',
+                  item.href,
                 )}
               >
                 <SwitcherItem
@@ -184,6 +189,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   switchToLinks.indexOf(item),
                   item.key,
                   'product',
+                  item.href,
                 )}
               >
                 <SwitcherItem
@@ -201,6 +207,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   switchToLinks.indexOf(item),
                   item.key,
                   'admin',
+                  item.href,
                 )}
               >
                 <SwitcherItem
@@ -220,7 +227,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
               ({ key, label, href, type, description, Icon }, idx) => (
                 <NavigationAnalyticsContext
                   key={key}
-                  data={getItemAnalyticsContext(idx, type, 'recent')}
+                  data={getItemAnalyticsContext(idx, type, 'recent', href)}
                 >
                   <SwitcherItem
                     icon={<Icon theme="recent" />}
@@ -241,7 +248,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
               // todo: id in SwitcherItem should be consumed from custom link resolver
               <NavigationAnalyticsContext
                 key={idx + '.' + label}
-                data={getItemAnalyticsContext(idx, null, 'customLink')}
+                data={getItemAnalyticsContext(idx, null, 'customLink', href)}
               >
                 <SwitcherItem icon={<Icon theme="custom" />} href={href}>
                   {label}

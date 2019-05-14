@@ -11,6 +11,7 @@ import {
 import { GasPayload, EventType } from '@atlaskit/analytics-gas-types';
 import { CreateAnalyticsEventFn } from '../components/analytics/types';
 import { ABTest } from '../api/CrossProductSearchClient';
+import { ReferralContextIdentifiers } from '../components/GlobalQuickSearchWrapper';
 
 const fireGasEvent = (
   createAnalyticsEvent: CreateAnalyticsEventFn | undefined,
@@ -48,6 +49,7 @@ export function firePreQueryShownEvent(
   searchSessionId: string,
   createAnalyticsEvent: CreateAnalyticsEventFn,
   abTest: ABTest,
+  referralContextIdentifiers?: ReferralContextIdentifiers,
   experimentRequestDurationMs?: number,
   retrievedFromAggregator?: boolean,
 ) {
@@ -62,6 +64,7 @@ export function firePreQueryShownEvent(
       experimentRequestDurationMs,
       renderTimeMs,
       searchSessionId: searchSessionId,
+      referralContextIdentifiers,
       ...eventAttributes,
       retrievedFromAggregator,
       ...abTest,
@@ -109,7 +112,6 @@ export function fireTextEnteredEvent(
   query: string,
   searchSessionId: string,
   queryVersion: number,
-  isSendSearchTermsEnabled?: boolean,
   createAnalyticsEvent?: CreateAnalyticsEventFn,
 ) {
   fireGasEvent(
@@ -124,7 +126,7 @@ export function fireTextEnteredEvent(
       ...getQueryAttributes(query),
       searchSessionId: searchSessionId,
     },
-    isSendSearchTermsEnabled ? getNonPrivacySafeAttributes(query) : undefined,
+    getNonPrivacySafeAttributes(query),
   );
 }
 
@@ -148,6 +150,7 @@ export function firePostQueryShownEvent(
   query: string,
   createAnalyticsEvent: CreateAnalyticsEventFn,
   abTest: ABTest,
+  referralContextIdentifiers?: ReferralContextIdentifiers,
 ) {
   const event = createAnalyticsEvent();
 
@@ -162,6 +165,7 @@ export function firePostQueryShownEvent(
       ...getQueryAttributes(query),
       postQueryRequestDurationMs: elapsedMs,
       searchSessionId,
+      referralContextIdentifiers,
       ...otherPerformanceTimings,
       ...resultsDetails,
       ...DEFAULT_GAS_ATTRIBUTES,
@@ -181,6 +185,7 @@ const transformSearchResultEventData = (eventData: SearchResultEvent) => ({
   containerId: sanitizeContainerId(eventData.containerId),
   resultCount: eventData.resultCount,
   experimentId: eventData.experimentId,
+  isRecentResult: eventData.isRecentResult,
 });
 
 const hash = (str: string): string =>
@@ -198,6 +203,7 @@ export interface SearchResultEvent {
   containerId?: string;
   resultCount?: string;
   experimentId?: string;
+  isRecentResult?: boolean;
 }
 
 export interface KeyboardControlEvent extends SearchResultEvent {
@@ -228,6 +234,7 @@ export type AnalyticsNextEvent = {
 export function fireSelectedSearchResult(
   eventData: SelectedSearchResultEvent,
   searchSessionId: string,
+  referralContextIdentifiers?: ReferralContextIdentifiers,
   createAnalyticsEvent?: CreateAnalyticsEventFn,
 ) {
   const { method, newTab, query, queryVersion } = eventData;
@@ -245,6 +252,7 @@ export function fireSelectedSearchResult(
       searchSessionId: searchSessionId,
       newTab,
       ...transformSearchResultEventData(eventData),
+      referralContextIdentifiers,
     },
   );
 }
@@ -252,6 +260,7 @@ export function fireSelectedSearchResult(
 export function fireSelectedAdvancedSearch(
   eventData: AdvancedSearchSelectedEvent,
   searchSessionId: string,
+  referralContextIdentifiers?: ReferralContextIdentifiers,
   createAnalyticsEvent?: CreateAnalyticsEventFn,
 ) {
   const { method, newTab, query, queryVersion } = eventData;
@@ -271,6 +280,7 @@ export function fireSelectedAdvancedSearch(
       ...getQueryAttributes(query),
       wasOnNoResultsScreen: eventData.wasOnNoResultsScreen || false,
       ...transformSearchResultEventData(eventData),
+      referralContextIdentifiers,
     },
   );
 }
@@ -278,6 +288,7 @@ export function fireSelectedAdvancedSearch(
 export function fireHighlightedSearchResult(
   eventData: KeyboardControlEvent,
   searchSessionId: string,
+  referralContextIdentifiers?: ReferralContextIdentifiers,
   createAnalyticsEvent?: CreateAnalyticsEventFn,
 ) {
   const { key } = eventData;
@@ -291,6 +302,7 @@ export function fireHighlightedSearchResult(
       searchSessionId: searchSessionId,
       ...transformSearchResultEventData(eventData),
       key,
+      referralContextIdentifiers,
     },
   );
 }
