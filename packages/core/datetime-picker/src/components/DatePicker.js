@@ -19,12 +19,7 @@ import {
   version as packageVersion,
 } from '../version.json';
 
-import {
-  ClearIndicator,
-  defaultDateFormat,
-  DropdownIndicator,
-  padToTwo,
-} from '../internal';
+import { ClearIndicator, defaultDateFormat, padToTwo } from '../internal';
 import FixedLayer from '../internal/FixedLayer';
 
 /* eslint-disable react/no-unused-prop-types */
@@ -374,8 +369,11 @@ class DatePicker extends Component<Props, State> {
       spacing,
     } = this.props;
     const { value, view, isOpen, inputValue } = this.getState();
-    const validationState = isInvalid ? 'error' : 'default';
     const dropDownIcon = appearance === 'subtle' || hideIcon ? null : icon;
+    const { styles: selectStyles = {} } = selectProps;
+    const controlStyles =
+      appearance === 'subtle' ? this.getSubtleControlStyles(isOpen) : {};
+    const disabledStyle = isDisabled ? { pointerEvents: 'none' } : {};
 
     const calendarProps = {
       calendarContainerRef: this.containerRef,
@@ -383,15 +381,9 @@ class DatePicker extends Component<Props, State> {
       calendarDisabled: disabled,
       calendarValue: value,
       calendarView: view,
-      dropdownIndicatorIcon: dropDownIcon,
       onCalendarChange: this.onCalendarChange,
       onCalendarSelect: this.onCalendarSelect,
     };
-
-    const { styles: selectStyles = {} } = selectProps;
-    const controlStyles =
-      appearance === 'subtle' ? this.getSubtleControlStyles(isOpen) : {};
-    const disabledStyle = isDisabled ? { pointerEvents: 'none' } : {};
 
     return (
       <div
@@ -416,7 +408,7 @@ class DatePicker extends Component<Props, State> {
           onInputChange={this.handleInputChange}
           components={{
             ClearIndicator,
-            DropdownIndicator,
+            DropdownIndicator: dropDownIcon,
             Menu,
           }}
           styles={mergeStyles(selectStyles, {
@@ -436,7 +428,7 @@ class DatePicker extends Component<Props, State> {
           {...selectProps}
           {...calendarProps}
           spacing={spacing}
-          validationState={validationState}
+          validationState={isInvalid ? 'error' : 'default'}
         />
       </div>
     );
