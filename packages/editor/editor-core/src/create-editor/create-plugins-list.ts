@@ -50,6 +50,7 @@ import {
   annotationPlugin,
   analyticsPlugin,
   customAutoformatPlugin,
+  compositionPlugin,
 } from '../plugins';
 import { isFullPage } from '../utils/is-full-page';
 
@@ -248,6 +249,10 @@ export default function createPluginsList(
 
   if (props.appearance !== 'mobile') {
     plugins.push(quickInsertPlugin);
+  }
+
+  if (props.appearance === 'mobile') {
+    plugins.push(compositionPlugin);
   }
 
   return plugins;
