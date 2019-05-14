@@ -15,6 +15,7 @@ export type State = {
 };
 
 type Props = {
+  children: React.ReactChild;
   getValue: () => any[];
   selectProps: any;
 };
@@ -73,10 +74,12 @@ export class MultiValueContainer extends React.PureComponent<Props, State> {
   };
 
   private addPlaceholder = (placeholder: string) =>
-    React.Children.map(this.props.children, child =>
-      isChildInput(child) && this.showPlaceholder()
-        ? React.cloneElement(child, { placeholder })
-        : child,
+    React.Children.map<React.ReactChild, React.ReactChild>(
+      this.props.children,
+      child =>
+        isChildInput(child) && this.showPlaceholder()
+          ? React.cloneElement(child, { placeholder })
+          : child,
     );
 
   private renderChildren = () => {

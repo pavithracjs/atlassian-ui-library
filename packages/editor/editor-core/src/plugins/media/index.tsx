@@ -162,7 +162,7 @@ const mediaPlugin = (
         title: formatMessage(messages.filesAndImages),
         description: formatMessage(messages.filesAndImagesDescription),
         priority: 400,
-        keywords: ['media'],
+        keywords: ['media', 'attachment'],
         icon: () => (
           <IconImages label={formatMessage(messages.filesAndImages)} />
         ),

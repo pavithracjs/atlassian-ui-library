@@ -29,7 +29,7 @@ export const Input: ComponentClass<
     }
 
     &::placeholder {
-      color: ${colors.N400};
+      color: ${colors.N800};
       opacity: 0.5;
     }
   }

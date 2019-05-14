@@ -161,7 +161,7 @@ export default class Editor extends React.Component<
   private scheduledKeylineUpdate: number | undefined;
   private contentArea: HTMLElement | undefined;
 
-  stopPropagation = (event: MouseEvent<HTMLDivElement>) =>
+  stopPropagation = (event: MouseEvent<HTMLDivElement, any>) =>
     event.stopPropagation();
 
   scrollContainerRef = (ref: HTMLElement | null) => {
