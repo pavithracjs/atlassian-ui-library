@@ -1,6 +1,5 @@
 import { Component, ReactNode, MouseEvent, KeyboardEvent } from 'react';
 import { Props } from './components/ModalWrapper';
-type KeyboardOrMouseEvent = MouseEvent<any> | KeyboardEvent<any>;
 
 interface State {}
 
