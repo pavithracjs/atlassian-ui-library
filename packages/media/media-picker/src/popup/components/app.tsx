@@ -53,7 +53,10 @@ import { MediaPickerPopupWrapper, SidebarWrapper, ViewWrapper } from './styled';
 import {
   DropzoneDragEnterEventPayload,
   DropzoneDragLeaveEventPayload,
+  ClipboardConfig,
 } from '../../components/types';
+
+import { Clipboard } from '../../components/clipboard/component';
 import { LocalUploadComponent } from '../../components/localUpload';
 
 export interface AppStateProps {
@@ -104,6 +107,7 @@ export class App extends Component<AppProps, AppState> {
   private readonly mpBrowser: MpBrowser;
   private readonly mpDropzone: MpDropzone;
   private readonly localUploader: LocalUploadComponent;
+  private readonly componentContext: Context;
 
   constructor(props: AppProps) {
     super(props);
@@ -132,6 +136,8 @@ export class App extends Component<AppProps, AppState> {
       userAuthProvider: userContext.config.authProvider,
       cacheSize: tenantContext.config.cacheSize,
     });
+
+    this.componentContext = context;
 
     this.localUploader = new LocalUploadComponent(context, {
       uploadParams: tenantUploadParams,
@@ -241,6 +247,7 @@ export class App extends Component<AppProps, AppState> {
                   <Dropzone isActive={isDropzoneActive} />
                   <MainEditorView localUploader={this.localUploader} />
                 </MediaPickerPopupWrapper>
+                {this.renderClipboard()}
               </PassContext>
             </ModalDialog>
           </Provider>
@@ -271,6 +278,35 @@ export class App extends Component<AppProps, AppState> {
     this.setState({
       isDropzoneActive,
     });
+  };
+
+  private renderClipboard = () => {
+    const {
+      onUploadPreviewUpdate,
+      onUploadStatusUpdate,
+      onUploadProcessing,
+      onUploadEnd,
+      onUploadError,
+      tenantUploadParams,
+    } = this.props;
+
+    const config: ClipboardConfig = {
+      uploadParams: tenantUploadParams,
+      shouldCopyFileToRecents: false,
+    };
+
+    return (
+      <Clipboard
+        context={this.componentContext}
+        config={config}
+        onUploadsStart={this.onDrop}
+        onPreviewUpdate={onUploadPreviewUpdate}
+        onStatusUpdate={onUploadStatusUpdate}
+        onProcessing={onUploadProcessing}
+        onEnd={onUploadEnd}
+        onError={onUploadError}
+      />
+    );
   };
 }
 
