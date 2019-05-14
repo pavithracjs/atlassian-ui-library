@@ -48,7 +48,7 @@ import {
 } from '../../../plugins/analytics';
 import { isFullPage } from '../../../utils/is-full-page';
 import { findMediaNode, findMediaSingleNode } from '../commands/helpers';
-import { updateMediaNodeAttrs } from '../commands/media';
+import { updateMediaNodeAttrs } from '../commands';
 export { MediaState, MediaProvider, MediaStateStatus };
 
 const MEDIA_RESOLVED_STATES = ['ready', 'error', 'cancelled'];
