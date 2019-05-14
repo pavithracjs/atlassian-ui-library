@@ -12,20 +12,16 @@ import {
   findTable,
   getCellsInColumn,
   getCellsInRow,
-  addColumnAt,
-  addRowAt,
   isCellSelection,
   removeTable,
   findParentNodeOfType,
-  safeInsert,
-  createTable,
   findCellClosestToPos,
   setCellAttrs,
   getSelectionRect,
   selectColumn as selectColumnTransform,
   selectRow as selectRowTransform,
 } from 'prosemirror-utils';
-import { getPluginState, createCommand } from '../pm-plugins/main';
+import { createCommand } from '../pm-plugins/main';
 import { checkIfHeaderRowEnabled, isIsolating } from '../utils';
 import { Command } from '../../../types';
 import { analyticsService } from '../../../analytics';
@@ -101,39 +97,6 @@ export const setCellAttr = (name: string, value: any): Command => (
     }
   }
   return false;
-};
-
-export const insertColumn = (column: number): Command => (state, dispatch) => {
-  const tr = addColumnAt(column)(state.tr);
-  const table = findTable(tr.selection)!;
-  // move the cursor to the newly created column
-  const pos = TableMap.get(table.node).positionAt(0, column, table.node);
-  if (dispatch) {
-    dispatch(
-      tr.setSelection(Selection.near(tr.doc.resolve(table.start + pos))),
-    );
-  }
-  return true;
-};
-
-export const insertRow = (row: number): Command => (state, dispatch) => {
-  // Dont clone the header row
-  const headerRowEnabled = checkIfHeaderRowEnabled(state);
-  const clonePreviousRow =
-    (headerRowEnabled && row > 1) || (!headerRowEnabled && row >= 0);
-
-  const tr = addRowAt(row, clonePreviousRow)(state.tr);
-
-  const table = findTable(tr.selection)!;
-  // move the cursor to the newly created row
-  const pos = TableMap.get(table.node).positionAt(row, 0, table.node);
-
-  if (dispatch) {
-    dispatch(
-      tr.setSelection(Selection.near(tr.doc.resolve(table.start + pos))),
-    );
-  }
-  return true;
 };
 
 export const triggerUnlessTableHeader = (command: Command): Command => (
@@ -217,18 +180,6 @@ export const convertFirstRowToHeader = (schema: Schema) => (
     );
   }
   return tr;
-};
-
-export const insertTable: Command = (state, dispatch) => {
-  if (!getPluginState(state)) {
-    return false;
-  }
-  const table = createTable(state.schema);
-
-  if (dispatch) {
-    dispatch(safeInsert(table)(state.tr).scrollIntoView());
-  }
-  return true;
 };
 
 export const goToNextCell = (direction: number): Command => (
