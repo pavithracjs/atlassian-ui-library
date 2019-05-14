@@ -1,1 +1,0 @@
-- fix regression where multiple cell context menu dropdowns would appear when adding rows
