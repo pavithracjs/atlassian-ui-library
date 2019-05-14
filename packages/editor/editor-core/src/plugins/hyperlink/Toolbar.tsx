@@ -41,6 +41,47 @@ export const messages = defineMessages({
   },
 });
 
+/* type guard for edit links */
+function isEditLink(
+  linkMark: EditInsertedState | InsertState,
+): linkMark is EditInsertedState {
+  return (linkMark as EditInsertedState).pos !== undefined;
+}
+
+const handleBlur = (
+  activeLinkMark: EditInsertedState | InsertState,
+  view: EditorView,
+) => (type: string, url: string, text: string, isTabPressed?: boolean) => {
+  switch (type) {
+    case 'url': {
+      if (url) {
+        return setLinkHref(
+          url,
+          isEditLink(activeLinkMark) ? activeLinkMark.pos : activeLinkMark.from,
+          undefined,
+          isTabPressed,
+        )(view.state, view.dispatch);
+      }
+      if (isEditLink(activeLinkMark) && activeLinkMark.node && !url) {
+        removeLink(activeLinkMark.pos)(view.state, view.dispatch);
+      }
+      return hideLinkToolbar()(view.state, view.dispatch);
+    }
+    case 'text': {
+      if (text && url) {
+        return setLinkText(text, (activeLinkMark as EditInsertedState).pos)(
+          view.state,
+          view.dispatch,
+        );
+      }
+      return hideLinkToolbar()(view.state, view.dispatch);
+    }
+    default: {
+      return hideLinkToolbar()(view.state, view.dispatch);
+    }
+  }
+};
+
 export const getToolbarConfig: FloatingToolbarHandler = (
   state,
   { formatMessage },
@@ -156,9 +197,9 @@ export const getToolbarConfig: FloatingToolbarHandler = (
                     key={idx}
                     displayUrl={link}
                     displayText={
-                      linkState.activeText ||
                       ((activeLinkMark as EditInsertedState).node &&
-                        (activeLinkMark as EditInsertedState).node.text)
+                        (activeLinkMark as EditInsertedState).node.text) ||
+                      linkState.activeText
                     }
                     providerFactory={providerFactory}
                     onSubmit={(href, text) => {
@@ -173,34 +214,7 @@ export const getToolbarConfig: FloatingToolbarHandler = (
                           );
                       view.focus();
                     }}
-                    onBlur={(type, url, text, isTabPressed) => {
-                      switch (type) {
-                        case 'url': {
-                          if (url) {
-                            return setLinkHref(
-                              url,
-                              (activeLinkMark as EditInsertedState).pos ||
-                                (activeLinkMark as InsertState).from,
-                              undefined,
-                              isTabPressed,
-                            )(view.state, view.dispatch);
-                          }
-                          return hideLinkToolbar()(view.state, view.dispatch);
-                        }
-                        case 'text': {
-                          if (text && url) {
-                            return setLinkText(
-                              text,
-                              (activeLinkMark as EditInsertedState).pos,
-                            )(view.state, view.dispatch);
-                          }
-                          return hideLinkToolbar()(view.state, view.dispatch);
-                        }
-                        default: {
-                          return hideLinkToolbar()(view.state, view.dispatch);
-                        }
-                      }
-                    }}
+                    onBlur={handleBlur(activeLinkMark, view)}
                   />
                 );
               },

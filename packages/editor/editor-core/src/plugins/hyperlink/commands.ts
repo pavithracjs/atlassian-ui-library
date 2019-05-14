@@ -82,13 +82,13 @@ export function updateLink(
   to?: number,
 ): Command {
   return (state, dispatch) => {
-    const $pos = state.doc.resolve(pos) as ResolvedPos;
-    const node = state.doc.nodeAt(pos) as Node;
-    const mark = state.schema.marks.link.isInSet(node.marks) as Mark;
-    const linkMark = state.schema.marks.link;
+    const $pos: ResolvedPos = state.doc.resolve(pos);
+    const node: Node | null | undefined = state.doc.nodeAt(pos);
     if (!node) {
       return false;
     }
+    const mark: Mark = state.schema.marks.link.isInSet(node.marks);
+    const linkMark = state.schema.marks.link;
 
     const rightBound =
       to && pos !== to ? to : pos - $pos.textOffset + node.nodeSize;

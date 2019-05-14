@@ -131,10 +131,10 @@ export interface State {
 
 class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
   /* To not fire on-blur on tab-press */
-  private isTabPressed: boolean;
+  private isTabPressed: boolean = false;
 
-  private urlInputContainer: PanelTextInput | null;
-  private displayTextInputContainer: PanelTextInput | null;
+  private urlInputContainer: PanelTextInput | null = null;
+  private displayTextInputContainer: PanelTextInput | null = null;
   private urlBlur: () => void;
   private textBlur: () => void;
 
@@ -147,7 +147,6 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
       displayText: props.displayText || '',
       items: [],
     };
-    this.isTabPressed = false;
 
     /* Cache functions */
     this.urlBlur = this.handleBlur.bind(this, 'url');
@@ -217,13 +216,17 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
       provider ? messages.placeholder : messages.linkPlaceholder,
     );
 
+    const formatLinkAddressText = formatMessage(messages.linkAddress);
+    const formatClearLinkText = formatMessage(messages.clearLink);
+    const formatDisplayText = formatMessage(messages.displayText);
+
     return (
       <div className="recent-list">
         <Container provider={!!provider}>
           <UrlInputWrapper>
             <IconWrapper>
-              <Tooltip content={formatMessage(messages.linkAddress)}>
-                <LinkIcon label={formatMessage(messages.linkAddress)} />
+              <Tooltip content={formatLinkAddressText}>
+                <LinkIcon label={formatLinkAddressText} />
               </Tooltip>
             </IconWrapper>
             <PanelTextInput
@@ -238,7 +241,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
               onKeyDown={this.handleKeyDown}
             />
             {text && (
-              <Tooltip content={formatMessage(messages.clearLink)}>
+              <Tooltip content={formatClearLinkText}>
                 <ClearText
                   onClick={this.clearUrl.bind(
                     null,
@@ -246,7 +249,7 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
                     this.urlInputContainer,
                   )}
                 >
-                  <CrossCircleIcon label={formatMessage(messages.clearLink)} />
+                  <CrossCircleIcon label={formatClearLinkText} />
                 </ClearText>
               </Tooltip>
             )}
@@ -260,15 +263,13 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
           />
           <TextInputWrapper>
             <IconWrapper>
-              <Tooltip content={formatMessage(messages.displayText)}>
-                <EditorAlignLeftIcon
-                  label={formatMessage(messages.displayText)}
-                />
+              <Tooltip content={formatDisplayText}>
+                <EditorAlignLeftIcon label={formatDisplayText} />
               </Tooltip>
             </IconWrapper>
             <PanelTextInput
               ref={ele => (this.displayTextInputContainer = ele)}
-              placeholder={formatMessage(messages.displayText)}
+              placeholder={formatDisplayText}
               onChange={this.handleTextKeyDown}
               onCancel={this.textBlur}
               onBlur={this.textBlur}
