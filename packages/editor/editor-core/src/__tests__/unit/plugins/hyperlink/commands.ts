@@ -261,9 +261,9 @@ describe('hyperlink commands', () => {
       const { editorView: view } = editor(doc(p('{<>}')));
       const dispatchMock = jest.spyOn(view, 'dispatch');
       expect(showLinkToolbar()(view.state, view.dispatch)).toBe(true);
-      expect(dispatchMock.mock.calls[0][0].getMeta(hyperlinkStateKey)).toBe(
-        LinkAction.SHOW_INSERT_TOOLBAR,
-      );
+      expect(
+        dispatchMock.mock.calls[0][0].getMeta(hyperlinkStateKey).type,
+      ).toBe(LinkAction.SHOW_INSERT_TOOLBAR);
     });
   });
 
@@ -272,9 +272,9 @@ describe('hyperlink commands', () => {
       const { editorView: view } = editor(doc(p('{<>}')));
       const dispatchMock = jest.spyOn(view, 'dispatch');
       expect(hideLinkToolbar()(view.state, view.dispatch)).toBe(true);
-      expect(dispatchMock.mock.calls[0][0].getMeta(hyperlinkStateKey)).toBe(
-        LinkAction.HIDE_TOOLBAR,
-      );
+      expect(
+        dispatchMock.mock.calls[0][0].getMeta(hyperlinkStateKey).type,
+      ).toBe(LinkAction.HIDE_TOOLBAR);
     });
   });
 });
