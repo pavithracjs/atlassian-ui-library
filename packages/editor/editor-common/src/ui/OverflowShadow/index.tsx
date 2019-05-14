@@ -131,7 +131,7 @@ export default function overflowShadow<P extends OverflowShadowProps>(
         );
       }
 
-      this.updateRightShadow();
+      this.handleUpdateRightShadow();
       if (!isIE11) {
         this.overflowContainer.addEventListener(
           'scroll',

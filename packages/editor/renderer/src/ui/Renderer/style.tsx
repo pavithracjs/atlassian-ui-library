@@ -189,7 +189,7 @@ export const Wrapper = styled.div<RendererWrapperProps & HTMLAttributes<{}>>`
       width: 100% !important;
     }
 
-    * .${RendererCssClassName.EXTENSION} {
+    * .${RendererCssClassName.EXTENSION_OVERFLOW_CONTAINER} {
       overflow-x: auto;
     }
   }
