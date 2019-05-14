@@ -57,7 +57,7 @@ const hyperlinkPlugin: EditorPlugin = {
             return false;
           }
           const tr = state.tr
-            .setMeta(stateKey, LinkAction.SHOW_INSERT_TOOLBAR)
+            .setMeta(stateKey, { type: LinkAction.SHOW_INSERT_TOOLBAR })
             .delete(pos - nodeBefore.nodeSize, pos);
 
           return addAnalytics(tr, {

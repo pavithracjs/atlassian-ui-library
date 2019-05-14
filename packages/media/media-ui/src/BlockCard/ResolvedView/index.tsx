@@ -103,7 +103,7 @@ export interface BlockCardResolvedViewProps {
   /** A flag that determines whether the card is selected in edit mode. */
   isSelected?: boolean;
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
 }
 
 export interface ResolvedViewState {

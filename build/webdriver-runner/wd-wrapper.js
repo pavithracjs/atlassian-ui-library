@@ -121,6 +121,12 @@ export default class Page {
     return this.browser.keys(value);
   }
 
+  async pressKey(key, x = 1) {
+    for (let i = 0; i < x; i++) {
+      await this.browser.keys(key);
+    }
+  }
+
   debug() {
     return this.browser.debug();
   }
@@ -302,6 +308,13 @@ export default class Page {
     const elem = await this.browser.$(selector);
 
     return elem.waitForDisplayed(options.timeout || WAIT_TIMEOUT);
+  }
+
+  async waitUntilContainsText(selector, text) {
+    await this.waitUntil(async () => {
+      const content = await this.getText(selector);
+      return content.indexOf(text) !== -1;
+    });
   }
 
   waitFor(selector, ms, reverse) {

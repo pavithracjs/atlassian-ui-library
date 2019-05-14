@@ -1,9 +1,4 @@
-import {
-  initEditorWithAdf,
-  Appearance,
-  initFullPageEditorWithAdf,
-  snapshot,
-} from '../../_utils';
+import { initFullPageEditorWithAdf, snapshot } from '../../_utils';
 import {
   getEditorWidth,
   typeInEditor,
@@ -21,8 +16,29 @@ import {
   waitForMediaToBeLoaded,
 } from '../../../__helpers/page-objects/_media';
 import * as layout2Col from '../../common/__fixtures__/basic-columns.adf.json';
+import { EditorProps } from '../../../../types';
+import { Page } from '../../../__helpers/page-objects/_types';
+import { editable } from '../../../integration/_helpers';
 
 export function createResizeFullPageForConfig(config: TestPageConfig) {
+  const initEditor = async (
+    page: Page,
+    editorProps: Partial<EditorProps>,
+    viewport?: { width: number; height: number },
+    defaultValue?: Object,
+  ) => {
+    await initFullPageEditorWithAdf(
+      page,
+      defaultValue || {},
+      undefined,
+      viewport,
+      editorProps,
+    );
+    // wait for editor
+    await page.waitForSelector(editable);
+    await page.click(editable);
+  };
+
   describe('Snapshot Test: Media', () => {
     describe('full page editor', () => {
       let page: any;
@@ -43,16 +59,14 @@ export function createResizeFullPageForConfig(config: TestPageConfig) {
       } dynamic text sizing`, () => {
         beforeEach(async () => {
           // setup the editor
-          await initEditorWithAdf(page, {
-            appearance: Appearance.fullPage,
-            viewport: { width, height },
-            editorProps: {
-              media: {
-                allowResizing: false,
-              },
+          await initEditor(
+            page,
+            {
+              media: { allowResizing: false },
               allowDynamicTextSizing: dynamicTextSizing,
             },
-          });
+            { width, height },
+          );
         });
 
         if (isLayoutAvailable(MediaLayout.wide, width)) {
@@ -87,14 +101,11 @@ export function createResizeFullPageForConfig(config: TestPageConfig) {
 
         beforeEach(async () => {
           // setup the editor
-          await initEditorWithAdf(page, {
-            appearance: Appearance.fullPage,
-            viewport: { width, height },
-            editorProps: {
-              allowDynamicTextSizing: dynamicTextSizing,
-            },
-          });
-
+          await initEditor(
+            page,
+            { allowDynamicTextSizing: dynamicTextSizing },
+            { width, height },
+          );
           editorWidth = await getEditorWidth(page);
         });
 
@@ -158,30 +169,33 @@ export function createResizeFullPageForConfig(config: TestPageConfig) {
             });
           });
         });
-      });
 
-      describe('in columns', () => {
-        it(`can resize images inside a column`, async () => {
-          await initFullPageEditorWithAdf(
-            page,
-            layout2Col,
-            undefined,
-            undefined,
-            {
-              allowLayouts: {
-                allowBreakout: true,
-                UNSAFE_addSidebarLayouts: true,
+        describe('in columns', () => {
+          it(`can resize images inside a column`, async () => {
+            await initEditor(
+              page,
+              {
+                allowLayouts: {
+                  allowBreakout: true,
+                  UNSAFE_addSidebarLayouts: true,
+                },
               },
-            },
-          );
+              { width, height },
+              layout2Col,
+            );
 
-          const editorWidth = await getEditorWidth(page);
+            const editorWidth = await getEditorWidth(page);
+            const distance = -((editorWidth / 12) * 10);
 
-          const distance = -((editorWidth / 12) * 10);
+            const firstLayoutColSelector =
+              'div[data-layout-section] > div:first-of-type';
+            await page.waitForSelector(firstLayoutColSelector);
+            await page.click(firstLayoutColSelector);
 
-          await insertMedia(page);
-          await waitForMediaToBeLoaded(page);
-          await resizeMediaInPositionWithSnapshot(page, 0, distance);
+            await insertMedia(page);
+            await waitForMediaToBeLoaded(page);
+            await resizeMediaInPositionWithSnapshot(page, 0, distance);
+          });
         });
       });
     });

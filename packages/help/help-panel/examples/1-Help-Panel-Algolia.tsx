@@ -6,10 +6,10 @@ import Page from '@atlaskit/page';
 import LocaleIntlProvider from '../example-helpers/LocaleIntlProvider';
 import { ExampleWrapper, ButtonsWrapper } from './utils/styled';
 
-import { HelpPanel } from '../src';
+import HelpPanel from '../src';
 
 var client = algoliasearch('8K6J5OJIQW', 'c982b4b1a6ca921131d35edb63359b8c');
-var index = client.initIndex('dev_spike_test');
+var index = client.initIndex('product_help_uat');
 
 export default class extends React.Component {
   state = {
@@ -49,7 +49,7 @@ export default class extends React.Component {
             <HelpPanel
               isOpen={isOpen}
               onBtnCloseClick={this.closeDrawer}
-              articleId="kzkHVoTKjp72azitT1Hwv"
+              articleId="nbgju45fddcNAvvH9lhHc"
               onGetArticle={this.onGetArticle}
               attachPanelTo="helpPanelExample"
             >

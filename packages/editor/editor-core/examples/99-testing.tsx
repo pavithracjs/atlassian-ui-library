@@ -9,10 +9,10 @@ import {
   storyContextIdentifierProviderFactory,
   macroProvider,
   customInsertMenuItems,
+  extensionHandlers,
 } from '@atlaskit/editor-test-helpers';
 import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
-import { extensionHandlers } from '../example-helpers/extension-handlers';
 import { Editor, EditorProps, EventDispatcher } from './../src';
 import ClipboardHelper from './1-clipboard-helper';
 import { SaveAndCancelButtons } from './5-full-page';

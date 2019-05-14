@@ -1,5 +1,15 @@
 # @atlaskit/smart-card
 
+## 11.0.3
+- [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
+
+  - fix for clicking behaviour in view/edit mode for Inline Smart Links.
+
+## 11.0.2
+- [patch] [7e18a6398b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e18a6398b):
+
+  - improve type safety when defining smart-card environment
+
 ## 11.0.1
 - [patch] [b7687b9981](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b7687b9981):
 

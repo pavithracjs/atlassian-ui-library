@@ -6,7 +6,7 @@ import { SingleLineLayout } from '../SingleLineLayout';
 
 export interface BlockCardResolvingViewProps {
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   /** A flag that determines whether the card is selected in edit mode. */
   isSelected?: boolean;
 }
