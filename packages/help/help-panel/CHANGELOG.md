@@ -1,5 +1,10 @@
 ## 0.1.0
 
+## 0.4.1
+- [patch] [a77b18b718](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a77b18b718):
+
+  - fix - Display DefaultContent
+
 ## 0.4.0
 - [minor] [f479974eb4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f479974eb4):
 
