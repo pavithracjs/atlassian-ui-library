@@ -4,7 +4,7 @@ import { getBoundingRect, scrollToElement } from './_editor';
 
 import { snapshot } from '../../visual-regression/_utils';
 import commonMessages from '../../../messages';
-import { messages as mediaLayoutToolbarMessages } from '../../../plugins/media/toolbar/layout';
+import { messages as mediaLayoutToolbarMessages } from '../../../plugins/media/toolbar/buildMediaLayoutButtons';
 
 export enum MediaLayout {
   center,

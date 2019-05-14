@@ -14,7 +14,7 @@ import { stateKey, MediaPluginState } from '../pm-plugins/main';
 import { hoverDecoration } from '../../base/pm-plugins/decoration';
 import { isFullPage } from '../../../utils/is-full-page';
 import { renderAnnotationButton } from './annotation';
-import { buildLayoutButtons } from './layout';
+import buildLayoutButtons from './buildMediaLayoutButtons';
 
 const remove: Command = (state, dispatch) => {
   if (dispatch) {

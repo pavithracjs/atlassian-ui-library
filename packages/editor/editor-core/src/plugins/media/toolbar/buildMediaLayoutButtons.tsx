@@ -99,7 +99,7 @@ const shouldHideLayoutToolbar = (selection: NodeSelection, { nodes }: Schema) =>
     nodes.table,
   ])(selection);
 
-export const buildLayoutButtons = (
+const buildLayoutButtons = (
   state: EditorState,
   intl: InjectedIntl,
   allowResizing?: boolean,
@@ -133,3 +133,5 @@ export const buildLayoutButtons = (
 
   return toolbarItems;
 };
+
+export default buildLayoutButtons;
