@@ -107,23 +107,6 @@ describe('Media plugin', () => {
     });
   };
 
-  const getNodePos = (
-    pluginState: MediaPluginState,
-    id: string,
-    isMediaSingle: boolean,
-  ) => {
-    const mediaNodeWithPos = isMediaSingle
-      ? pluginState.findMediaNode(id)
-      : pluginState.mediaGroupNodes[id];
-
-    assert(
-      mediaNodeWithPos,
-      `Media node with id "${id}" has not been mounted yet`,
-    );
-
-    return mediaNodeWithPos!.getPos();
-  };
-
   afterAll(() => {
     providerFactory.destroy();
   });
