@@ -1,0 +1,1 @@
+- ED-6863: Fix the rendering of extensions in the renderer when they have breakout layouts.

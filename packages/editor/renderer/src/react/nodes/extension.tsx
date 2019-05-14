@@ -28,30 +28,25 @@ export const renderExtension = (
   layout: string,
   options?: OverflowShadowProps,
 ) => {
-  let body = (
+  return (
     <WidthConsumer>
       {({ width }) => (
         <div
-          className={RendererCssClassName.EXTENSION}
+          ref={options && options.handleRef}
+          className={`${RendererCssClassName.EXTENSION} ${options &&
+            options.shadowClassNames}`}
           style={{
             width: calcBreakoutWidth(layout, width),
           }}
           data-layout={layout}
         >
-          {content}
+          <div className={RendererCssClassName.EXTENSION_OVERFLOW_CONTAINER}>
+            {content}
+          </div>
         </div>
       )}
     </WidthConsumer>
   );
-
-  if (options) {
-    body = (
-      <div ref={options.handleRef} className={options.shadowClassNames}>
-        {body}
-      </div>
-    );
-  }
-  return body;
 };
 
 const Extension: React.StatelessComponent<Props & OverflowShadowProps> = ({
@@ -109,5 +104,5 @@ const Extension: React.StatelessComponent<Props & OverflowShadowProps> = ({
 };
 
 export default overflowShadow(Extension, {
-  overflowSelector: `.${RendererCssClassName.EXTENSION}`,
+  overflowSelector: `.${RendererCssClassName.EXTENSION_OVERFLOW_CONTAINER}`,
 });

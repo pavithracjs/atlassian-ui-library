@@ -7,8 +7,10 @@ import WithEditorActions from './../src/ui/WithEditorActions';
 import { macroProvider, cardProvider } from '@atlaskit/editor-test-helpers';
 import ToolsDrawer from '../example-helpers/ToolsDrawer';
 
-import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
-import { extensionHandlers } from '../example-helpers/extension-handlers';
+import {
+  customInsertMenuItems,
+  extensionHandlers,
+} from '@atlaskit/editor-test-helpers';
 import { exampleDocument } from '../example-helpers/example-document';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
 import { DevTools } from '../example-helpers/DevTools';
