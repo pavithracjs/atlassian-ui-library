@@ -1,0 +1,1 @@
+- ED-6765: fixed mediaSingle deletion on Android using legacy composition plugin
