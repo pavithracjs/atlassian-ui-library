@@ -56,7 +56,7 @@ export const buildOutlookConditional = (
   ifOutlook: string,
   ifNotOutlook: string,
 ) =>
-  `<!--[if mso]>${ifOutlook}<span style=\\"mso-hide:all; overflow:hidden; display:none; visibility:hidden; width:0px; height:0px;\\"><![endif]-->${ifNotOutlook}<!--[if mso]></span><![endif]-->`;
+  `<!--[if mso]>${ifOutlook}<![endif]--><!--[if !mso]><!-- -->${ifNotOutlook}<!--<![endif]-->`;
 
 export const escapeHtmlString = (content: string | undefined | null) => {
   if (!content) return '';
