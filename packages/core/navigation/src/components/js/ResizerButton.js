@@ -6,12 +6,15 @@ type Props = {
   isPointingRight: boolean,
   isVisible: boolean,
   onClick?: () => void,
+  resizerButtonLabel?: string,
 };
 
 export default class ResizerButton extends PureComponent<Props> {
   static defaultProps = {
     isPointingRight: false,
     isVisible: false,
+    resizerButtonLabel:
+      'Click or tap to collapse navigation or press the [ (left bracket) key',
   };
 
   // Note: we always render the ResizerButtonInner here (instead of returning null immediately
@@ -19,6 +22,7 @@ export default class ResizerButton extends PureComponent<Props> {
   render() {
     return (
       <ResizerButtonInner
+        aria-label={this.props.resizerButtonLabel}
         aria-expanded={!this.props.isPointingRight}
         isPointingRight={this.props.isPointingRight}
         onClick={this.props.onClick}
