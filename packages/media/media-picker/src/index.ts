@@ -5,6 +5,7 @@ import {
   BrowserConfig,
   BrowserConstructor,
   ClipboardConfig,
+  DropzoneConfig,
   Popup,
   PopupConfig,
   PopupConstructor,
@@ -52,7 +53,7 @@ export interface MediaPickerComponents {
 }
 
 export { UploadParams } from './domain/config';
-export { BrowserConfig, PopupConfig, ClipboardConfig };
+export { BrowserConfig, PopupConfig, ClipboardConfig, DropzoneConfig };
 export interface ComponentConfigs {
   browser: BrowserConfig;
   popup: PopupConfig;

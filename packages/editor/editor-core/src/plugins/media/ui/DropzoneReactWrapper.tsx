@@ -1,30 +1,27 @@
 import * as React from 'react';
-import {
-  MediaPluginState,
-  MediaProvider,
-  MediaState,
-} from '../pm-plugins/main';
-import {
-  Dropzone,
-  isImagePreview,
-  UploadPreviewUpdateEventPayload,
-  UploadParams,
-  UploadErrorEventPayload,
-} from '@atlaskit/media-picker';
+import { MediaPluginState, MediaProvider } from '../pm-plugins/main';
+import { Dropzone, DropzoneConfig } from '@atlaskit/media-picker';
 import { Context } from '@atlaskit/media-core';
 import { ErrorReporter } from '@atlaskit/editor-common';
-import {
-  MediaStateEventSubscriber,
-  MediaStateEventListener,
-} from '../picker-facade';
+import PickerFacade from '../picker-facade';
+import { CustomMediaPicker } from '../types';
+
+const dummyMediaPickerObject: CustomMediaPicker = {
+  on: () => {},
+  removeAllListeners: () => {},
+  emit: () => {},
+  destroy: () => {},
+  setUploadParams: () => {},
+};
 
 type Props = {
   mediaState: MediaPluginState;
 };
 
 type State = {
-  uploadParams?: UploadParams;
+  config?: DropzoneConfig;
   context?: Context;
+  pickerFacadeInstance?: PickerFacade;
 };
 
 export default class DropzoneReactWrapper extends React.Component<
@@ -34,61 +31,51 @@ export default class DropzoneReactWrapper extends React.Component<
   state: State = {};
 
   componentDidMount() {
+    const { mediaState } = this.props;
     this.props.mediaState.options.providerFactory.subscribe(
       'mediaProvider',
       async (name, provider?: Promise<MediaProvider>) => {
         const mediaProvider = await provider;
-        if (!mediaProvider) {
+
+        if (!mediaProvider || !mediaProvider.uploadParams) {
           return;
         }
 
-        this.setState({
+        const context = await mediaProvider.uploadContext;
+
+        if (!context) {
+          return;
+        }
+
+        const pickerFacadeConfig = {
+          context,
+          errorReporter:
+            mediaState.options.errorReporter || new ErrorReporter(),
+        };
+
+        const pickerFacadeInstance = await new PickerFacade(
+          'customMediaPicker',
+          pickerFacadeConfig,
+          dummyMediaPickerObject,
+        ).init();
+
+        pickerFacadeInstance.onNewMedia(mediaState.insertFile);
+        pickerFacadeInstance.onNewMedia(
+          mediaState.trackNewMediaEvent('dropzone'),
+        );
+        pickerFacadeInstance.setUploadParams(mediaProvider.uploadParams);
+
+        const config = {
           uploadParams: mediaProvider.uploadParams,
-          context: await mediaProvider.uploadContext,
+        };
+        this.setState({
+          pickerFacadeInstance,
+          config,
+          context,
         });
       },
     );
   }
-
-  private onPreviewUpdate = (event: UploadPreviewUpdateEventPayload) => {
-    const { mediaState } = this.props;
-
-    let { file, preview } = event;
-    const { dimensions, scaleFactor } = isImagePreview(preview)
-      ? preview
-      : { dimensions: undefined, scaleFactor: undefined };
-
-    const state: MediaState = {
-      id: file.id,
-      fileName: file.name,
-      fileSize: file.size,
-      fileMimeType: file.type,
-      dimensions,
-      scaleFactor,
-    };
-
-    const cb: MediaStateEventSubscriber = (
-      listener: MediaStateEventListener,
-    ) => {
-      // Do we need this ?
-    };
-    mediaState.insertFile(state, cb);
-  };
-
-  private onError = ({ error }: UploadErrorEventPayload) => {
-    const {
-      mediaState: { options },
-    } = this.props;
-    if (!error || !error.fileId) {
-      const err = new Error(
-        `Media: unknown upload-error received from Media Picker: ${error &&
-          error.name}`,
-      );
-      const errorReporter = options.errorReporter || new ErrorReporter();
-      errorReporter.captureException(err);
-      return;
-    }
-  };
 
   private onDragEnter = () => {
     const {
@@ -105,20 +92,19 @@ export default class DropzoneReactWrapper extends React.Component<
   };
 
   render() {
-    const { context, uploadParams } = this.state;
+    const { context, config, pickerFacadeInstance } = this.state;
 
-    if (!context || !uploadParams) {
+    if (!context || !config || !pickerFacadeInstance) {
       return null;
     }
-    const config = {
-      uploadParams,
-    };
+
     return (
       <Dropzone
         context={context}
         config={config}
-        onError={this.onError}
-        onPreviewUpdate={this.onPreviewUpdate}
+        onError={pickerFacadeInstance.handleUploadError}
+        onPreviewUpdate={pickerFacadeInstance.handleUploadPreviewUpdate}
+        onProcessing={pickerFacadeInstance.handleReady}
         onDragEnter={this.onDragEnter}
         onDragLeave={this.onDragLeave}
       />

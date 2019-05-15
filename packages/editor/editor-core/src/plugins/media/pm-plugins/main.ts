@@ -77,7 +77,6 @@ export class MediaPluginState {
 
   public pickers: PickerFacade[] = [];
   private popupPicker?: PickerFacade;
-  private dropzonePicker?: PickerFacade;
   // @ts-ignore
   private customPicker?: PickerFacade;
 
@@ -293,22 +292,11 @@ export class MediaPluginState {
   splitMediaGroup = (): boolean => splitMediaGroup(this.view);
 
   // TODO [MSW-454]: remove this logic from Editor
-  onPopupPickerClose = () => {
-    if (
-      this.dropzonePicker &&
-      this.popupPicker &&
-      this.popupPicker.type === 'popup'
-    ) {
-      this.dropzonePicker.activate();
-    }
-  };
+  onPopupPickerClose = () => {};
 
   showMediaPicker = () => {
     if (!this.popupPicker) {
       return;
-    }
-    if (this.dropzonePicker && this.popupPicker.type === 'popup') {
-      this.dropzonePicker.deactivate();
     }
     this.popupPicker.show();
   };
@@ -565,7 +553,6 @@ export class MediaPluginState {
     pickers.splice(0, pickers.length);
 
     this.popupPicker = undefined;
-    this.dropzonePicker = undefined;
     this.customPicker = undefined;
   };
 
@@ -606,6 +593,10 @@ export class MediaPluginState {
             pickerFacadeConfig,
             defaultPickerConfig,
           ).init()),
+        );
+
+        this.removeOnCloseListener = this.popupPicker.onClose(
+          this.onPopupPickerClose,
         );
       }
 

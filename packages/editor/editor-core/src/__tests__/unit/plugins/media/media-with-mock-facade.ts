@@ -100,37 +100,4 @@ describe('Media with mock facade', () => {
     pluginState.destroy();
     expect(removeOnCloseListener).toHaveBeenCalledTimes(1);
   });
-
-  it('should deactivate the drop-zone picker on showMediaPicker', async () => {
-    spies.popup.show.mockClear();
-    spies.dropzone.deactivate.mockClear();
-    const { pluginState } = editor(doc(p('{<>}')));
-    await waitForAllPickersInitialised(pluginState);
-
-    const provider = await mediaProvider;
-    await provider.uploadContext;
-    await provider.viewContext;
-
-    pluginState.showMediaPicker();
-    expect(spies.popup.show).toHaveBeenCalledTimes(1);
-    expect(spies.dropzone.deactivate).toHaveBeenCalledTimes(1);
-    pluginState.destroy();
-  });
-
-  it('should activate the drop-zone picker after media picker closed', async () => {
-    spies.popup.show.mockClear();
-    spies.dropzone.activate.mockClear();
-    const { pluginState } = editor(doc(p('{<>}')));
-    await waitForAllPickersInitialised(pluginState);
-
-    const provider = await mediaProvider;
-    await provider.uploadContext;
-    await provider.viewContext;
-
-    pluginState.showMediaPicker();
-    expect(spies.dropzone.activate).toHaveBeenCalledTimes(0);
-    pluginState.onPopupPickerClose();
-    expect(spies.dropzone.activate).toHaveBeenCalledTimes(1);
-    pluginState.destroy();
-  });
 });
