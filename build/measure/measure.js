@@ -201,11 +201,6 @@ module.exports = async function main(
     } catch (e) {}
   }
 
-  // Cleanup measure output directory
-  try {
-    exec(`rm -rf ${measureCompiledOutputPath}`);
-  } catch (e) {}
-
   const prevStatsPath = path.join(filePath, `bundle-size-ratchet.json`);
 
   let prevStats;
