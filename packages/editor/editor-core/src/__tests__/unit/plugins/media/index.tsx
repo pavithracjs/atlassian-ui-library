@@ -45,6 +45,11 @@ import quickInsertPlugin from '../../../../plugins/quick-insert';
 import { insertMediaAsMediaSingle } from '../../../../plugins/media/utils/media-single';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import {
+  Clipboard,
+  UploadPreviewUpdateEventPayload,
+} from '@atlaskit/media-picker';
+import { waitUntil } from '@atlaskit/media-test-helpers';
+import {
   temporaryMedia,
   temporaryMediaGroup,
   getFreshMediaProvider,
@@ -55,6 +60,7 @@ import {
 import { SmartMediaEditor } from '@atlaskit/media-editor';
 import { MediaAttributes } from '@atlaskit/adf-schema';
 import { ReactWrapper } from 'enzyme';
+import ClipboardMediaPickerWrapper from '../../../../plugins/media/ui/ClipboardMediaPickerWrapper';
 
 const pdfFile = {
   id: `${randomId()}`,
@@ -1048,6 +1054,7 @@ describe('Media plugin', () => {
     let mediaAttributes: MediaAttributes;
     let wrapper: ReactWrapper;
     let smartMediaEditor: ReactWrapper<any, any, any>;
+    let clipboardMediaPickerWrapper: ReactWrapper<any, any, any>;
 
     beforeEach(async () => {
       mediaAttributes = {
@@ -1076,6 +1083,10 @@ describe('Media plugin', () => {
       );
 
       smartMediaEditor = wrapper.find(SmartMediaEditor);
+
+      clipboardMediaPickerWrapper = mountWithIntl(
+        <ClipboardMediaPickerWrapper mediaState={mediaState} />,
+      );
     });
 
     afterEach(() => {
@@ -1213,6 +1224,55 @@ describe('Media plugin', () => {
           ),
         );
       });
+    });
+
+    it('should trigger analytics for clipboard', async () => {
+      const spy = jest.fn();
+      analyticsService.handler = spy as AnalyticsHandler;
+
+      afterEach(() => {
+        analyticsService.handler = null;
+      });
+
+      const testFileData: UploadPreviewUpdateEventPayload = {
+        file: {
+          id: 'test',
+          name: 'test.png',
+          size: 1,
+          type: 'file/test',
+          upfrontId: Promise.resolve('test'),
+          creationDate: 1,
+        },
+        preview: {
+          dimensions: {
+            height: 200,
+            width: 200,
+          },
+          scaleFactor: 1,
+        },
+      };
+
+      await waitUntil(
+        () =>
+          (clipboardMediaPickerWrapper as any).state('pickerFacadeInstance') !==
+            undefined &&
+          !clipboardMediaPickerWrapper
+            .update()
+            .find(Clipboard)
+            .isEmpty(),
+      );
+
+      const onPreviewUpdate = clipboardMediaPickerWrapper
+        .find(Clipboard)
+        .prop('onPreviewUpdate');
+
+      onPreviewUpdate && onPreviewUpdate(testFileData);
+      expect(spy).toHaveBeenCalledWith(
+        'atlassian.editor.media.file.clipboard',
+        {
+          fileMimeType: 'file/test',
+        },
+      );
     });
   });
 
