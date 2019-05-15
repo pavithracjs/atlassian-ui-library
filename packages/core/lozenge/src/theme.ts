@@ -47,10 +47,10 @@ export type ThemeAppearance =
   | 'new'
   | 'removed'
   | 'success'
-  | {};
+  | Record<string, any>;
 
 export interface ThemeProps {
-  appearance: ThemeAppearance | {};
+  appearance: ThemeAppearance;
   isBold: boolean;
   maxWidth: number | string;
 }

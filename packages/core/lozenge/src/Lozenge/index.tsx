@@ -1,5 +1,5 @@
 import { ThemeProp } from '@atlaskit/theme';
-import React, { PureComponent, ReactChild } from 'react';
+import React, { PureComponent, ReactNode } from 'react';
 import Container from './Container';
 import Content from './Content';
 import { Theme, ThemeAppearance, ThemeProps, ThemeTokens } from '../theme';
@@ -9,7 +9,7 @@ interface Props {
   appearance: ThemeAppearance;
 
   /** Elements to be rendered inside the lozenge. This should ideally be just a word or two. */
-  children?: ReactChild;
+  children?: ReactNode | string;
 
   /** Determines whether to apply the bold style or not. */
   isBold: boolean;

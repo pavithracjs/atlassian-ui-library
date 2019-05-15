@@ -1,16 +1,33 @@
 /** @jsx jsx */
+import { ReactNode } from 'react';
 import { jsx } from '@emotion/core';
 import Lozenge from '../src';
 
-const Row = ({ children }) => <div css={{ display: 'flex' }}>{children}</div>;
+interface ChildrenNode {
+  children: ReactNode;
+}
 
-const Col = ({ children }) => <div css={{ flex: '1 1 auto' }}>{children}</div>;
+type ThemeAppearance =
+  | 'default'
+  | 'inprogress'
+  | 'moved'
+  | 'new'
+  | 'removed'
+  | 'success';
+
+const Row = ({ children }: ChildrenNode) => (
+  <div css={{ display: 'flex' }}>{children}</div>
+);
+
+const Col = ({ children }: ChildrenNode) => (
+  <div css={{ flex: '1 1 auto' }}>{children}</div>
+);
 
 const Hr = () => (
   <div css={{ height: '1px', backgroundColor: '#ddd', margin: '2em 0' }} />
 );
 
-const APPEARANCES = [
+const APPEARANCES: { label: string; value: ThemeAppearance }[] = [
   { label: 'Default', value: 'default' },
   { label: 'Success', value: 'success' },
   { label: 'Removed', value: 'removed' },
