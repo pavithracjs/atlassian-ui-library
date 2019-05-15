@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
@@ -20,9 +19,10 @@ test('should ssr then hydrate icon correctly', async () => {
 
   ReactDOM.hydrate(<Example />, elem);
   // ignore warnings caused by emotion's server-side rendering approach
+  // @ts-ignore
   // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls.filter(
-    ([f, s]) =>
+    ([f, s]: [any, any]) =>
       !(
         f ===
           'Warning: Did not expect server HTML to contain a <%s> in <%s>.' &&

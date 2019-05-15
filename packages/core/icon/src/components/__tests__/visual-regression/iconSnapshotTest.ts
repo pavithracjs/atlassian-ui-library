@@ -1,8 +1,9 @@
-// @flow
 import {
   getExampleUrl,
   takeScreenShot,
 } from '@atlaskit/visual-regression/helper';
+
+type Global = NodeJS.Global & { __BASEURL__: string; page: string };
 
 describe('Snapshot Test', () => {
   it('Icon size example should match production example', async () => {
@@ -10,9 +11,9 @@ describe('Snapshot Test', () => {
       'core',
       'icon',
       'size-example',
-      global.__BASEURL__,
+      (global as Global).__BASEURL__,
     );
-    const image = await takeScreenShot(global.page, url);
+    const image = await takeScreenShot((global as Global).page, url);
     //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
   });

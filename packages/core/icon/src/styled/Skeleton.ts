@@ -1,11 +1,10 @@
-// @flow
-
 import styled from 'styled-components';
 import { sizes } from '../constants';
+import { sizeOpts } from '../types';
 
-export default styled.div`
-  width: ${props => sizes[props.size]};
-  height: ${props => sizes[props.size]};
+export default styled.div<{ size?: sizeOpts; weight?: string }>`
+  width: ${props => props.size && sizes[props.size]};
+  height: ${props => props.size && sizes[props.size]};
   display: inline-block;
   border-radius: 50%;
   background-color: ${({ color }) => color || 'currentColor'};

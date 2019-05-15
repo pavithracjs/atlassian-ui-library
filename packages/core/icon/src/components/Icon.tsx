@@ -1,21 +1,25 @@
-// @flow
-import React, { Component, type Node } from 'react';
+import React, { Component, ReactElement } from 'react';
 import styled from 'styled-components';
 import uuid from 'uuid';
 import { colors } from '@atlaskit/theme';
 import { sizes } from '../constants';
+import { sizeOpts } from '../types';
 
-const getSize = props => {
+const getSize = (props: { size?: sizeOpts }) => {
   if (props.size) {
     return `height: ${sizes[props.size]}; width: ${sizes[props.size]};`;
   }
   return null;
 };
 
-export const IconWrapper = styled.span`
-  ${getSize} color: ${p => p.primaryColor || 'currentColor'};
+type IconWrapperProps = Partial<Props>;
+
+export const IconWrapper = styled.span<IconWrapperProps>`
+  ${getSize} 
+  color: ${(p: { primaryColor?: string }) => p.primaryColor || 'currentColor'};
   display: inline-block;
-  fill: ${p => p.secondaryColor || colors.background};
+  fill: ${(p: { secondaryColor?: string }) =>
+    p.secondaryColor || colors.background};
   flex-shrink: 0;
   line-height: 1;
 
@@ -37,18 +41,18 @@ export const IconWrapper = styled.span`
 
 type Props = {
   /** Glyph to show by Icon component (not required when you import a glyph directly) */
-  glyph?: (props?: {}) => Node,
+  glyph?: (props: { role: string }) => ReactElement;
   /** More performant than the glyph prop, but potentially dangerous if the SVG string hasn't
    been "sanitised" */
-  dangerouslySetGlyph?: string,
+  dangerouslySetGlyph?: string;
   /** String to use as the aria-label for the icon. Set to an empty string if you are rendering the icon with visible text to prevent accessibility label duplication. */
-  label: string,
+  label: string;
   /** For primary colour for icons */
-  primaryColor?: string,
+  primaryColor?: string;
   /** For secondary colour for 2-color icons. Set to inherit to control this via "fill" in CSS */
-  secondaryColor?: string,
+  secondaryColor?: string;
   /** Control the size of the icon */
-  size?: 'small' | 'medium' | 'large' | 'xlarge',
+  size?: sizeOpts;
 };
 
 export default class Icon extends Component<Props, {}> {
@@ -111,6 +115,6 @@ export default class Icon extends Component<Props, {}> {
 }
 
 export const size = Object.keys(sizes).reduce(
-  (p, c) => Object.assign(p, { [c]: c }),
+  (result, next) => ({ ...result, [next]: next }),
   {},
 );

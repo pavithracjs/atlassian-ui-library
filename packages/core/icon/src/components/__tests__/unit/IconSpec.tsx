@@ -1,11 +1,11 @@
-// @flow
-import React, { Component, type Node } from 'react';
+import React, { Component, ReactElement } from 'react';
 import { mount, render } from 'enzyme';
 
 import { colors } from '@atlaskit/theme';
 import { name } from '../../../version.json';
 import Icon, { size } from '../../..';
 import { IconWrapper } from '../../Icon';
+import { sizeOpts } from '../../../types.js';
 
 const sizeValues = {
   small: '16px',
@@ -19,7 +19,11 @@ describe(name, () => {
     const secretContent = 'secret content';
     const secretWrapper = () => <div>{secretContent}</div>;
     const empty = () => <div>Icon</div>;
-    const MyIcon = props => <Icon glyph={secretWrapper} {...props} />;
+    const MyIcon = (props: {
+      label: string;
+      primaryColor?: string;
+      secondaryColor?: string;
+    }) => <Icon glyph={secretWrapper} {...props} />;
 
     it('should match the DOM Snapshot', () => {
       const wrapper = mount(<Icon glyph={empty} label="My icon" />);
@@ -81,12 +85,11 @@ describe(name, () => {
         expect(size).not.toBe(undefined);
 
         expect(new Icon({ label: 'My icon' })).toBeInstanceOf(Component);
-        expect(Object.keys(size).map(index => size[index])).toEqual([
-          'small',
-          'medium',
-          'large',
-          'xlarge',
-        ]);
+        expect(
+          Object.keys(size).map(
+            index => (size as { [key: string]: string })[index],
+          ),
+        ).toEqual(['small', 'medium', 'large', 'xlarge']);
       });
     });
 
@@ -98,9 +101,10 @@ describe(name, () => {
     describe('label property', () => {
       it('is accessed by glyph', () => {
         /* eslint-disable react/prop-types */
-        const LabelWriter = (props: { label: string }): Node => (
-          <div>{props.label}</div>
-        );
+        const LabelWriter = (props: {
+          label?: string;
+          role: string;
+        }): ReactElement => <div>{props.label}</div>;
         const labelContent = 'label content';
         const wrapper = mount(
           // $FlowFixMe - LabelWriter function signature interpreted incorrectly
@@ -113,14 +117,16 @@ describe(name, () => {
     });
 
     describe('size property', () => {
-      const sizes = ['small', 'medium', 'large', 'xlarge'];
+      const sizes: sizeOpts[] = ['small', 'medium', 'large', 'xlarge'];
       sizes.forEach(s => {
         const wrapper = mount(<Icon glyph={empty} label="My icon" size={s} />);
         const iconWrapper = wrapper.find(IconWrapper);
 
+        const values = sizeValues as { [key: string]: string };
+
         it(`with value ${s}`, () => {
-          expect(iconWrapper).toHaveStyleRule('height', sizeValues[s]);
-          expect(iconWrapper).toHaveStyleRule('width', sizeValues[s]);
+          expect(iconWrapper).toHaveStyleRule('height', values[s]);
+          expect(iconWrapper).toHaveStyleRule('width', values[s]);
         });
       });
     });
@@ -158,10 +164,12 @@ describe(name, () => {
         const props = wrapper.props();
         const iconWrapper = wrapper.find(IconWrapper);
 
-        expect(iconWrapper).toHaveStyleRule(
-          'fill',
-          colors.background(props).toString(),
-        );
+        // FIXME this is a workaround considering the colors typing being wrong in the theme package
+        const bg = (colors.background as unknown) as (
+          props?: {},
+        ) => number | string;
+
+        expect(iconWrapper).toHaveStyleRule('fill', bg(props).toString());
       });
       it('can be changed to a hex value', () => {
         const secondaryColor = '#ff0000';
