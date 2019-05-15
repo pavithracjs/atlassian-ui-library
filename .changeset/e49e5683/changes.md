@@ -1,1 +1,0 @@
-- added close button and styles for header when the component renders the default content
