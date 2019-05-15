@@ -17,17 +17,17 @@ import { ExampleWrapper, FilmstripWrapper } from '../example-helpers/styled';
 import {
   FileItem,
   UploadableFile,
-  Context,
+  MediaClient,
   FileIdentifier,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import Button from '@atlaskit/button';
 
 export interface ExampleState {
   items: FilmstripItem[];
-  context?: Context;
+  mediaClient?: MediaClient;
 }
 
-const defaultContext = createUploadMediaClient();
+const defaultMediaClient = createUploadMediaClient();
 
 class Example extends Component<{}, ExampleState> {
   onCardClick = (result: CardEvent) => {
@@ -116,7 +116,7 @@ class Example extends Component<{}, ExampleState> {
         ...this.cardProps,
       },
     ],
-    context: defaultContext,
+    mediaClient: defaultMediaClient,
   };
 
   createOnClickFromId = (id: string) => (event: any) => {
@@ -147,11 +147,11 @@ class Example extends Component<{}, ExampleState> {
   };
 
   uploadFile = async (event: SyntheticEvent<HTMLInputElement>) => {
-    const { context } = this.state;
+    const { mediaClient } = this.state;
     if (
       !event.currentTarget.files ||
       !event.currentTarget.files.length ||
-      !context
+      !mediaClient
     ) {
       return;
     }
@@ -163,7 +163,7 @@ class Example extends Component<{}, ExampleState> {
       collection: defaultCollectionName,
     };
 
-    context.file
+    mediaClient.file
       .upload(uplodableFile)
       .pipe(first())
       .subscribe({
@@ -194,30 +194,30 @@ class Example extends Component<{}, ExampleState> {
       });
   };
 
-  toggleContext = () => {
-    const { context: currentContext } = this.state;
+  toggleMediaClient = () => {
+    const { mediaClient: currentMediaClient } = this.state;
 
     this.setState({
-      context: currentContext ? undefined : defaultContext,
+      mediaClient: currentMediaClient ? undefined : defaultMediaClient,
     });
   };
 
   render() {
-    const { items, context } = this.state;
+    const { items, mediaClient } = this.state;
 
     return (
       <ExampleWrapper>
         <FilmstripWrapper>
-          <Filmstrip context={context} items={items} />
+          <Filmstrip mediaClient={mediaClient} items={items} />
         </FilmstripWrapper>
         <div>
           Upload file <input type="file" onChange={this.uploadFile} />
         </div>
         <div>
-          <Button appearance="primary" onClick={this.toggleContext}>
-            toggle context
+          <Button appearance="primary" onClick={this.toggleMediaClient}>
+            toggle mediaClient
           </Button>
-          Context is: {context ? 'ON' : 'OFF'}
+          MediaClient is: {mediaClient ? 'ON' : 'OFF'}
         </div>
       </ExampleWrapper>
     );

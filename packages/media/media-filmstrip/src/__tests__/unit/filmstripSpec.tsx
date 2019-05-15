@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { Filmstrip, FilmstripView, FilmstripProps, FilmstripItem } from '../..';
-import { fakeContext } from '@atlaskit/media-test-helpers';
+import { fakeMediaClient } from '@atlaskit/media-test-helpers';
 import { Card, CardLoading } from '@atlaskit/media-card';
-import { Identifier } from '@atlaskit/media-core';
+import { Identifier } from '@atlaskit/media-client';
 
 describe('<Filmstrip />', () => {
   const firstIdenfier: Identifier = {
@@ -11,7 +11,7 @@ describe('<Filmstrip />', () => {
     mediaItemType: 'file',
   };
   const setup = (props?: Partial<FilmstripProps>) => {
-    const context = fakeContext();
+    const mediaClient = fakeMediaClient();
     const items: FilmstripItem[] = [
       {
         identifier: firstIdenfier,
@@ -24,12 +24,12 @@ describe('<Filmstrip />', () => {
       },
     ];
     const component = shallow(
-      <Filmstrip context={context} items={items} {...props} />,
+      <Filmstrip mediaClient={mediaClient} items={items} {...props} />,
     );
 
     return {
       component,
-      context,
+      mediaClient,
     };
   };
 
@@ -60,7 +60,7 @@ describe('<Filmstrip />', () => {
   });
 
   it('should pass properties down to Cards', () => {
-    const { component, context } = setup({
+    const { component, mediaClient } = setup({
       items: [
         {
           identifier: firstIdenfier,
@@ -78,7 +78,7 @@ describe('<Filmstrip />', () => {
         .props(),
     ).toEqual(
       expect.objectContaining({
-        context,
+        mediaClient,
         selectable: true,
         selected: true,
         identifier: {
@@ -89,9 +89,9 @@ describe('<Filmstrip />', () => {
     );
   });
 
-  it('should render loading cards if context is missing', () => {
+  it('should render loading cards if mediaClient is missing', () => {
     const { component } = setup({
-      context: undefined,
+      mediaClient: undefined,
     });
     expect(component.find(CardLoading)).toHaveLength(2);
   });

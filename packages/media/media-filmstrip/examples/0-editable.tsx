@@ -8,7 +8,7 @@ import Slider from '@atlaskit/field-range';
 import Button from '@atlaskit/button';
 import { Card } from '@atlaskit/media-card';
 import {
-  createStorybookContext,
+  createStorybookMediaClient,
   genericFileId,
 } from '@atlaskit/media-test-helpers';
 import { FilmstripView } from '../src/filmstripView';
@@ -45,14 +45,14 @@ const Box: ComponentClass<HTMLAttributes<{}> & BoxProps> = styled.div`
   ${({ grow }: { grow?: number }) => (grow && `flex-grow: ${grow};`) || ''};
 `;
 
-const context = createStorybookContext() as any;
+const mediaClient = createStorybookMediaClient();
 
 const exampleActions = [{ label: 'View', handler: () => console.log('View') }];
 
 const cards = [
   <Card
     key="card3"
-    context={context}
+    mediaClient={mediaClient}
     identifier={genericFileId}
     actions={exampleActions}
   />,
