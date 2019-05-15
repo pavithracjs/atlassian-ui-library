@@ -337,6 +337,21 @@ export const JiraCustomTaskType = generateJiraTask(
   'Musician Request',
   { name: 'done', appearance: 'success' },
 );
+export const JiraCustomTaskTypeWithIcon = (() => {
+  const json: any = generateJiraTask(
+    'Perform at the Conga Club',
+    JIRA_CUSTOM_TASK_TYPE,
+    'Musician Request',
+    { name: 'done', appearance: 'success' },
+  );
+
+  json['atlassian:taskType'].icon = {
+    '@type': 'Image',
+    url: 'https://cdn.iconscout.com/icon/free/png-256/guitar-61-160923.png',
+  };
+
+  return json;
+})();
 
 export const JiraTasks = [
   JiraTask,
@@ -349,4 +364,5 @@ export const JiraTasks = [
   JiraChange,
   JiraProblem,
   JiraCustomTaskType,
+  JiraCustomTaskTypeWithIcon,
 ];
