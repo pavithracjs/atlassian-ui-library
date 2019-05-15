@@ -67,7 +67,7 @@ export type RendererPropsOverrides = { [T in keyof Props]?: Props[T] } & {
 export async function mountRenderer(page: Page, props: RendererPropsOverrides) {
   await page.$eval(
     '#renderer-container',
-    (e, props) => {
+    (_e, props) => {
       (window as Window & {
         __mountRenderer: (props: RendererPropsOverrides) => void;
       }).__mountRenderer(props);

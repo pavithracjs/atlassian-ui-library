@@ -206,7 +206,7 @@ export const initialState = {
 };
 
 export const reducers = createReducer(initialState, {
-  [FETCH_CONVERSATIONS_REQUEST](state: State, action: Action) {
+  [FETCH_CONVERSATIONS_REQUEST](state: State) {
     return {
       ...state,
     };

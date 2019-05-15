@@ -78,9 +78,7 @@ const mdToPmMapping = {
   },
   media_single: {
     block: 'mediaSingle',
-    attrs: (tok: any) => {
-      return {};
-    },
+    attrs: () => ({}),
   },
   media: {
     node: 'media',
@@ -145,7 +143,7 @@ export class MarkdownTransformer implements Transformer<Markdown> {
       filterMdToPmSchemaMapping(schema, mdToPmMapping),
     );
   }
-  encode(node: PMNode): Markdown {
+  encode(_node: PMNode): Markdown {
     throw new Error('This is not implemented yet');
   }
 

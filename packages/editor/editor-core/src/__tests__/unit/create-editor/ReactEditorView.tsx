@@ -551,12 +551,7 @@ describe(name, () => {
             {...requiredProps()}
             {...analyticsProps()}
             allowAnalyticsGASV3={allowAnalyticsGASV3}
-            render={({
-              editor,
-              config,
-              eventDispatcher,
-              dispatchAnalyticsEvent,
-            }) => {
+            render={({ dispatchAnalyticsEvent }) => {
               dispatch = dispatchAnalyticsEvent;
               return <p>Component</p>;
             }}

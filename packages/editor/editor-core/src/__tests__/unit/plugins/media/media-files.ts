@@ -33,7 +33,7 @@ import {
 
 describe('media-files', () => {
   const createEditor = createEditorFactory();
-  const editor = (doc: any, uploadErrorHandler?: () => void) =>
+  const editor = (doc: any) =>
     createEditor({
       doc,
       editorPlugins: [

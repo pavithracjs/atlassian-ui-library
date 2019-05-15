@@ -83,11 +83,7 @@ export function calcResizedWidth(
   }
 }
 
-function calcMaxWidth(
-  layout: MediaSingleLayout,
-  width: number,
-  containerWidth: number,
-) {
+function calcMaxWidth(layout: MediaSingleLayout, containerWidth: number) {
   switch (layout) {
     case 'wide':
       return calcWideWidth(containerWidth);
@@ -137,7 +133,6 @@ export interface WrapperProps {
  */
 export const MediaSingleDimensionHelper = ({
   width,
-  height,
   layout,
   containerWidth = 0,
   pctWidth,
@@ -150,7 +145,7 @@ export const MediaSingleDimensionHelper = ({
   width: ${pctWidth
     ? calcResizedWidth(layout, width, containerWidth)
     : calcLegacyWidth(layout, width, containerWidth, fullWidthMode, isResized)};
-  max-width: ${calcMaxWidth(layout, width, containerWidth)};
+  max-width: ${calcMaxWidth(layout, containerWidth)};
   float: ${float(layout)};
   margin: ${calcMargin(layout)};
   ${isImageAligned(layout)};

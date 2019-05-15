@@ -40,7 +40,7 @@ describe('status - keymaps', () => {
       );
       const cursorPos = editorView.state.tr.selection.from;
       let state = setSelectionAndPickerAt(cursorPos)(editorView);
-      validateSelection(cursorPos, 'Hello', 'blue')(state);
+      validateSelection(cursorPos)(state);
       let nodes = getStatusesInDocument(state, 1);
       const pos = nodes[0].pos;
 

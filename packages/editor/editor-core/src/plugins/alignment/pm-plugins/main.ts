@@ -39,10 +39,10 @@ export function createPlugin(
   return new Plugin({
     key: pluginKey,
     state: {
-      init(config, editorState) {
+      init(_config, editorState) {
         return createInitialPluginState(editorState, pluginConfig);
       },
-      apply(tr, state: AlignmentPluginState, prevState, nextState) {
+      apply(_tr, state: AlignmentPluginState, _prevState, nextState) {
         const nextPluginState = getActiveAlignment(nextState);
         const isEnabled = isAlignable(nextPluginState)(
           nextState,

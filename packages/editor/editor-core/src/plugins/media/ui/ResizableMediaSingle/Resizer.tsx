@@ -54,9 +54,9 @@ export default class Resizer extends React.Component<
   };
 
   handleResize = (
-    event: MouseEvent | TouchEvent,
-    direction: ResizableDirection,
-    elementRef: HTMLDivElement,
+    _event: MouseEvent | TouchEvent,
+    _direction: ResizableDirection,
+    _elementRef: HTMLDivElement,
     delta: NumberSize,
   ) => {
     const resizable = this.resizable.current;
@@ -84,9 +84,9 @@ export default class Resizer extends React.Component<
   };
 
   handleResizeStop = (
-    event: MouseEvent | TouchEvent,
-    direction: string,
-    refToElement: HTMLElement,
+    _event: MouseEvent | TouchEvent,
+    _direction: string,
+    _refToElement: HTMLElement,
     delta: { width: number; height: number },
   ) => {
     const resizable = this.resizable.current;

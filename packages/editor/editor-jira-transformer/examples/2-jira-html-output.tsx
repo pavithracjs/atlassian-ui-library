@@ -41,11 +41,7 @@ export default class EditorWithFeedback extends React.Component<Props, State> {
       <EditorContext>
         <div>
           <ToolsDrawer
-            renderEditor={({
-              mentionProvider,
-              onChange,
-              disabled,
-            }: RenderEditorProps) => (
+            renderEditor={({ onChange, disabled }: RenderEditorProps) => (
               <div style={{ padding: '20px' }}>
                 <CollapsedEditor
                   placeholder="What do you want to say?"

@@ -150,7 +150,7 @@ export default (
         Tab: filter(isWholeSelectionInsideLayoutColumn, moveCursorToNextColumn),
       }),
     },
-    appendTransaction: (transactions, oldState, newState) => {
+    appendTransaction: (transactions, _oldState, newState) => {
       let changes: Change[] = [];
       transactions.forEach(prevTr => {
         // remap change segments across the transaction set
@@ -195,5 +195,7 @@ export default (
           return tr;
         }
       }
+
+      return;
     },
   });

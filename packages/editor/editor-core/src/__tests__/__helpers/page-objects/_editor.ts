@@ -114,11 +114,7 @@ export async function scrollToElement(
   padding: number = 0,
 ) {
   return page.evaluate(
-    (
-      editorScrollSelector: string,
-      elementSelector: string,
-      padding: number,
-    ) => {
+    (editorScrollSelector: string, elementSelector: string) => {
       const editorScroll = document.querySelector(
         editorScrollSelector,
       ) as HTMLElement;
@@ -140,21 +136,14 @@ export async function scrollToElement(
 }
 
 export async function scrollToTop(page: Page) {
-  return page.evaluate(
-    (
-      editorScrollSelector: string,
-      elementSelector: string,
-      padding: number,
-    ) => {
-      const editorScroll = document.querySelector(
-        editorScrollSelector,
-      ) as HTMLElement;
-      if (!editorScroll) {
-        return;
-      }
+  return page.evaluate((editorScrollSelector: string) => {
+    const editorScroll = document.querySelector(
+      editorScrollSelector,
+    ) as HTMLElement;
+    if (!editorScroll) {
+      return;
+    }
 
-      editorScroll.scrollTo(0, 0);
-    },
-    selectors.scrollContainer,
-  );
+    editorScroll.scrollTo(0, 0);
+  }, selectors.scrollContainer);
 }

@@ -61,7 +61,7 @@ const getAttrsFromParent = (
 
 const traverseTree = (fragment: Fragment, parent?: PMNode): string => {
   let output = '';
-  fragment.forEach((childNode, offset, idx) => {
+  fragment.forEach((childNode, _offset, idx) => {
     if (childNode.isLeaf) {
       output += serializeNode(childNode, idx, parent);
     } else {
@@ -96,7 +96,7 @@ export default class EmailSerializer implements Serializer<string> {
     juicify,
   );
 
-  static fromSchema(schema: Schema): EmailSerializer {
+  static fromSchema(_schema: Schema): EmailSerializer {
     return new EmailSerializer();
   }
 }

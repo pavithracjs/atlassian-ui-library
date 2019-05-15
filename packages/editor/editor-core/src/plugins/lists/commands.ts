@@ -531,6 +531,7 @@ export function liftListItems(): Command {
 
         tr.lift(range, target);
       }
+      return;
     });
 
     if (dispatch) {

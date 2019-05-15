@@ -26,7 +26,7 @@ import {
 import { AlignmentState } from '../plugins/alignment/pm-plugins/main';
 
 export function preventDefault(): Command {
-  return function(state, dispatch) {
+  return function() {
     return true;
   };
 }
@@ -229,7 +229,7 @@ export const changeImageAlignment = (align?: AlignmentState): Command => (
 
   const tr = state.tr;
 
-  state.doc.nodesBetween(from, to, (node, pos, parent) => {
+  state.doc.nodesBetween(from, to, (node, pos) => {
     if (node.type === state.schema.nodes.mediaSingle) {
       tr.setNodeMarkup(pos, undefined, {
         ...node.attrs,
@@ -299,6 +299,7 @@ export const toggleBlockMark = <T = object>(
           markApplied = true;
         }
       }
+      return;
     });
   };
 

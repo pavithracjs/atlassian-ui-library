@@ -41,7 +41,7 @@ export { filterContentByType } from './filter';
 
 export const ZeroWidthSpace = '\u200b';
 
-function validateNode(node: Node): boolean {
+function validateNode(_node: Node): boolean {
   return false;
 }
 
@@ -669,7 +669,7 @@ function getSelectedWrapperNodes(state: EditorState): NodeType[] {
       listItem,
       codeBlock,
     } = state.schema.nodes;
-    state.doc.nodesBetween($from.pos, $to.pos, (node, pos) => {
+    state.doc.nodesBetween($from.pos, $to.pos, node => {
       if (
         (node.isBlock &&
           [blockquote, panel, orderedList, bulletList, listItem].indexOf(

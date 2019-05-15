@@ -114,7 +114,6 @@ function addMark(
 
 function addCodeMark(
   markType: MarkType,
-  schema: Schema,
   specialChar: string,
 ): InputRuleHandler {
   return (state, match, start, end) => {
@@ -283,7 +282,7 @@ function getCodeInputRules(schema: Schema): InputRule[] {
 
   const backTickRule = createInputRule(
     codeRegex,
-    addCodeMark(schema.marks.code, schema, '`'),
+    addCodeMark(schema.marks.code, '`'),
   );
 
   return [ruleWithCodeAnalytics(backTickRule)];
@@ -311,6 +310,7 @@ export function inputRulePlugin(schema: Schema): Plugin | undefined {
   if (rules.length !== 0) {
     return inputRules({ rules });
   }
+  return;
 }
 
 export default inputRulePlugin;

@@ -106,9 +106,9 @@ export default class WebBridgeImpl extends WebBridge
     }
   }
 
-  onMentionSelect(mention: string) {}
+  onMentionSelect(_mention: string) {}
 
-  onMentionPickerResult(result: string) {}
+  onMentionPickerResult(_result: string) {}
 
   onMentionPickerDismissed() {}
 

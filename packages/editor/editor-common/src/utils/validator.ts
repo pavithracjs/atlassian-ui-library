@@ -311,6 +311,7 @@ export const getValidNode = (
             if (parameters && !isValidObject(parameters)) {
               return true;
             }
+            return;
           })
         ) {
           break;
@@ -336,6 +337,7 @@ export const getValidNode = (
             if (users && !users.every(isValidUser)) {
               return true;
             }
+            return;
           })
         ) {
           break;

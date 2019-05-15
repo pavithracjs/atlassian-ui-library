@@ -199,6 +199,7 @@ export default class Conversation extends React.PureComponent<Props, State> {
         />
       );
     }
+    return;
   }
 
   private onRetry = (document: any) => (commentLocalId?: string) => {

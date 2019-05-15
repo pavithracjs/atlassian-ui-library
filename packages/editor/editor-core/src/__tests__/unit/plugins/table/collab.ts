@@ -30,7 +30,7 @@ describe('Tables with Collab editing', () => {
     } as PluginConfig;
     return createEditor({
       doc,
-      editorPlugins: [tablesPlugin(tableOptions)],
+      editorPlugins: [tablesPlugin()],
       editorProps: {
         allowTables: tableOptions,
       },

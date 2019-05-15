@@ -54,7 +54,6 @@ export const resolveWithProvider = (
 
 export const createPlugin = ({
   portalProviderAPI,
-  dispatch,
   providerFactory,
 }: PMPluginFactoryParams) =>
   new Plugin({

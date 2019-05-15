@@ -67,7 +67,7 @@ const textFormatting = (options: TextFormattingOptions): EditorPlugin => ({
       },
       {
         name: 'textFormattingSmartRule',
-        plugin: ({ schema }) =>
+        plugin: () =>
           !options.disableSmartTextCompletion
             ? textFormattingSmartInputRulePlugin
             : undefined,
@@ -78,7 +78,7 @@ const textFormatting = (options: TextFormattingOptions): EditorPlugin => ({
       },
       {
         name: 'textFormattingClearKeymap',
-        plugin: ({ schema }) => clearFormattingKeymapPlugin(schema),
+        plugin: () => clearFormattingKeymapPlugin(),
       },
       {
         name: 'textFormattingKeymap',

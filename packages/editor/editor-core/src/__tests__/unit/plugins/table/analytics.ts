@@ -72,7 +72,7 @@ describe('Table analytic events', () => {
 
     const _editor = createEditor({
       doc,
-      editorPlugins: [tablesPlugin(tableOptions), quickInsertPlugin],
+      editorPlugins: [tablesPlugin(), quickInsertPlugin],
       editorProps: {
         analyticsHandler: trackEvent,
         allowTables: tableOptions,

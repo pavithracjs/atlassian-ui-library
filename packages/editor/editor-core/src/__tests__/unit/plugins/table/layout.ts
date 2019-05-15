@@ -44,11 +44,7 @@ describe('table toolbar', () => {
     };
     return createEditor({
       doc,
-      editorPlugins: [
-        tablesPlugin(tableOptions),
-        layoutPlugin,
-        extensionPlugin,
-      ],
+      editorPlugins: [tablesPlugin(), layoutPlugin, extensionPlugin],
       editorProps: {
         allowTables: tableOptions,
       },
