@@ -7,14 +7,14 @@ import {
 import * as React from 'react';
 import { Component } from 'react';
 import Button from '@atlaskit/button';
-import { ContextFactory } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 
 import { MediaPicker } from '../src';
 import { Popup } from '../index';
 
 mediaMock.enable();
 
-const context = ContextFactory.create({
+const mediaClient = new MediaClient({
   authProvider: defaultMediaPickerAuthProvider,
   userAuthProvider,
 });
@@ -37,7 +37,7 @@ export default class Example extends Component<Props, State> {
   };
 
   async componentDidMount() {
-    const popup = await MediaPicker('popup', context, {
+    const popup = await MediaPicker('popup', mediaClient, {
       uploadParams: {
         collection: defaultCollectionName,
       },

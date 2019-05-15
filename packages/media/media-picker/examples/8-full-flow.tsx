@@ -5,7 +5,7 @@ import {
 } from '@atlaskit/media-test-helpers';
 import { Card } from '@atlaskit/media-card';
 import { MediaViewerDataSource } from '@atlaskit/media-viewer';
-import { FileIdentifier } from '@atlaskit/media-core';
+import { FileIdentifier } from '@atlaskit/media-client';
 import Button from '@atlaskit/button';
 import Select from '@atlaskit/select';
 import { SelectWrapper, OptionsWrapper } from '../example-helpers/styled';
@@ -16,7 +16,7 @@ import {
   Popup,
 } from '../src';
 
-const context = createUploadMediaClient();
+const mediaClient = createUploadMediaClient();
 
 const dataSourceOptions = [
   { label: 'List', value: 'list' },
@@ -38,13 +38,13 @@ export default class Example extends React.Component<{}, State> {
   state: State = { events: [], dataSourceType: 'list' };
 
   async componentDidMount() {
-    const popup = await MediaPicker('popup', context, {
+    const popup = await MediaPicker('popup', mediaClient, {
       uploadParams: {
         collection: defaultCollectionName,
       },
     });
 
-    context.on('file-added', file => {
+    mediaClient.on('file-added', file => {
       console.log('on file-added', file);
     });
 
@@ -114,7 +114,7 @@ export default class Example extends React.Component<{}, State> {
       return (
         <div key={key} style={{ display: 'inline-block', margin: '10px' }}>
           <Card
-            context={context}
+            mediaClient={mediaClient}
             identifier={identifier}
             dimensions={{
               width: 200,

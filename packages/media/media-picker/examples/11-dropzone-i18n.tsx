@@ -21,7 +21,7 @@ export interface DropzoneWrapperState {
 class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
   dropzoneRef: RefObject<HTMLDivElement>;
 
-  static contextTypes = {
+  static mediaClientTypes = {
     intl: intlShape,
   };
 
@@ -46,8 +46,8 @@ class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
       return;
     }
 
-    const context = createUploadMediaClient();
-    const dropzone = await MediaPicker('dropzone', context, {
+    const mediaClient = createUploadMediaClient();
+    const dropzone = await MediaPicker('dropzone', mediaClient, {
       container: this.dropzoneRef.current,
       uploadParams: {
         collection: defaultMediaPickerCollectionName,

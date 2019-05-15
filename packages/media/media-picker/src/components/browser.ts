@@ -1,5 +1,5 @@
 import { LocalUploadComponent } from './localUpload';
-import { Context } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import * as exenv from 'exenv';
 import { Browser, BrowserConfig } from './types';
 
@@ -7,10 +7,10 @@ export class BrowserImpl extends LocalUploadComponent implements Browser {
   private readonly browseElement: HTMLInputElement;
 
   constructor(
-    context: Context,
+    mediaClient: MediaClient,
     browserConfig: BrowserConfig = { uploadParams: {} },
   ) {
-    super(context, browserConfig);
+    super(mediaClient, browserConfig);
     if (!exenv.canUseDOM) {
       this.browseElement = {} as any;
       return;

@@ -1,4 +1,4 @@
-import { Context } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 
 import { LocalUploadComponent } from './localUpload';
 import { whenDomReady } from '../util/documentReady';
@@ -23,10 +23,10 @@ export class ClipboardImpl extends LocalUploadComponent implements Clipboard {
   static instances: ClipboardImpl[] = [];
 
   constructor(
-    context: Context,
+    mediaClient: MediaClient,
     config: ClipboardConfig = { uploadParams: {} },
   ) {
-    super(context, config);
+    super(mediaClient, config);
   }
 
   static get latestInstance(): ClipboardImpl | undefined {

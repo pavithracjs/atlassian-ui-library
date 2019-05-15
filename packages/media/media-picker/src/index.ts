@@ -18,7 +18,7 @@ import {
   Dropzone,
 } from './components/types';
 
-import { Context } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 
 export const isBrowser = (component: any): component is Browser =>
   component && 'browse' in component && 'teardown' in component;
@@ -86,7 +86,7 @@ export {
 
 export async function MediaPicker<K extends keyof MediaPickerComponents>(
   componentName: K,
-  context: Context,
+  mediaClient: MediaClient,
   pickerConfig?: ComponentConfigs[K],
 ): Promise<MediaPickerComponents[K]> {
   switch (componentName) {
@@ -94,28 +94,28 @@ export async function MediaPicker<K extends keyof MediaPickerComponents>(
       const {
         BrowserImpl,
       } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-browser" */ './components/browser');
-      return new BrowserImpl(context, pickerConfig as
+      return new BrowserImpl(mediaClient, pickerConfig as
         | BrowserConfig
         | undefined);
     case 'clipboard':
       const {
         ClipboardImpl,
       } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-clipboard" */ './components/clipboard');
-      return new ClipboardImpl(context, pickerConfig as
+      return new ClipboardImpl(mediaClient, pickerConfig as
         | ClipboardConfig
         | undefined);
     case 'dropzone':
       const {
         DropzoneImpl,
       } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-dropzone" */ './components/dropzone');
-      return new DropzoneImpl(context, pickerConfig as
+      return new DropzoneImpl(mediaClient, pickerConfig as
         | DropzoneConfig
         | undefined);
     case 'popup':
       const {
         PopupImpl,
       } = await import(/* webpackChunkName:"@atlaskit-internal_media-picker-popup" */ './components/popup');
-      return new PopupImpl(context, pickerConfig as PopupConfig);
+      return new PopupImpl(mediaClient, pickerConfig as PopupConfig);
     default:
       throw new Error(`The component ${componentName} does not exist`);
   }

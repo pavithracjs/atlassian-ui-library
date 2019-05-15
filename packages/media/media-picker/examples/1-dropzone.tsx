@@ -10,7 +10,7 @@ import {
 import Button from '@atlaskit/button';
 import Toggle from '@atlaskit/toggle';
 import Spinner from '@atlaskit/spinner';
-import { ContextFactory, FileState } from '@atlaskit/media-core';
+import { MediaClient, FileState } from '@atlaskit/media-client';
 import { MediaPicker, Dropzone } from '../src';
 import {
   DropzoneContainer,
@@ -29,8 +29,8 @@ export interface DropzoneWrapperState {
   inflightUploads: string[];
   dropzone?: Dropzone;
 }
-const context = createUploadMediaClient();
-const nonUserContext = ContextFactory.create({
+const mediaClient = createUploadMediaClient();
+const nonUserMediaClient = new MediaClient({
   authProvider: mediaPickerAuthProvider('asap'),
 });
 
@@ -66,21 +66,21 @@ class DropzoneWrapper extends Component<{}, DropzoneWrapperState> {
 
   async createDropzone() {
     const { isConnectedToUsersCollection } = this.state;
-    const dropzoneContext = isConnectedToUsersCollection
-      ? context
-      : nonUserContext;
+    const dropzoneMediaClient = isConnectedToUsersCollection
+      ? mediaClient
+      : nonUserMediaClient;
 
     if (this.state.dropzone) {
       this.state.dropzone.deactivate();
     }
-    const dropzone = await MediaPicker('dropzone', dropzoneContext, {
+    const dropzone = await MediaPicker('dropzone', dropzoneMediaClient, {
       container: this.dropzoneContainer,
       uploadParams: {
         collection: defaultMediaPickerCollectionName,
       },
     });
 
-    dropzoneContext.on('file-added', this.onFileUploaded);
+    dropzoneMediaClient.on('file-added', this.onFileUploaded);
 
     dropzone.activate();
 

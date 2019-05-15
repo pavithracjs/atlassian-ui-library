@@ -23,7 +23,7 @@ import {
   UploadPreviewUpdateEventPayload,
 } from '../src/domain/uploadEvent';
 
-const context = createUploadMediaClient();
+const mediaClient = createUploadMediaClient();
 
 export interface PopupWrapperState {
   files: Promise<string>[];
@@ -38,7 +38,7 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
   };
 
   async componentDidMount() {
-    const popup = await MediaPicker('popup', context, {
+    const popup = await MediaPicker('popup', mediaClient, {
       uploadParams: {
         collection: defaultMediaPickerCollectionName,
       },
@@ -106,7 +106,7 @@ class PopupWrapper extends Component<{}, PopupWrapperState> {
       return (
         <CardItemWrapper key={key}>
           <Card
-            context={context}
+            mediaClient={mediaClient}
             isLazy={false}
             identifier={{
               id: upfrontId,

@@ -30,17 +30,17 @@ describe('getPreviewMiddleware', () => {
   };
   const setup = () => {
     const store = mockStore();
-    const { userContext } = store.getState();
-    (userContext.config.authProvider as jest.Mock<any>).mockReturnValue(
+    const { userMediaClient } = store.getState();
+    (userMediaClient.config.authProvider as jest.Mock<any>).mockReturnValue(
       Promise.resolve(auth),
     );
-    (userContext.file.getFileState as any) = jest.fn().mockReturnValue(
+    (userMediaClient.file.getFileState as any) = jest.fn().mockReturnValue(
       Observable.of({
         status: 'processing',
         mediaType: 'image',
       }),
     );
-    (userContext.getImageMetadata as any) = jest.fn().mockReturnValue({
+    (userMediaClient.getImageMetadata as any) = jest.fn().mockReturnValue({
       original: {
         url: 'some-preview-src',
         width: 10,

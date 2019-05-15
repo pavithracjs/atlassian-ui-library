@@ -14,7 +14,7 @@ import {
   PreviewsTitle,
 } from '../example-helpers/styled';
 import { UploadPreview } from '../example-helpers/upload-preview';
-import { ContextFactory } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 
 export interface BrowserWrapperState {
   previewsData: any[];
@@ -36,7 +36,7 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
   }
 
   createBrowse = async () => {
-    const context = ContextFactory.create({
+    const mediaClient = new MediaClient({
       authProvider: mediaPickerAuthProvider(),
     });
 
@@ -47,7 +47,7 @@ class BrowserWrapper extends Component<{}, BrowserWrapperState> {
         collection: defaultMediaPickerCollectionName,
       },
     };
-    const fileBrowser = await MediaPicker('browser', context, browseConfig);
+    const fileBrowser = await MediaPicker('browser', mediaClient, browseConfig);
 
     fileBrowser.on('upload-preview-update', data => {
       this.setState({ previewsData: [...this.state.previewsData, data] });

@@ -6,23 +6,23 @@ import {
 } from '@atlaskit/media-test-helpers';
 import * as React from 'react';
 import { Component } from 'react';
-import { ContextFactory } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import { MediaPicker, Popup } from '../src';
 import { intlShape } from 'react-intl';
 
-const mediaContext = ContextFactory.create({
+const mediaMediaClient = new MediaClient({
   authProvider: defaultMediaPickerAuthProvider,
   userAuthProvider,
 });
 
 interface ExampleChildrenProps {}
 
-// This class simulates a real integration where the React legacy context it's passed manually.
+// This class simulates a real integration where the React legacy mediaClient it's passed manually.
 // That's pretty much what Editor does.
 class ExampleChildren extends Component<ExampleChildrenProps, {}> {
   popup?: Popup;
 
-  static contextTypes = {
+  static mediaClientTypes = {
     intl: intlShape,
   };
 
@@ -38,7 +38,7 @@ class ExampleChildren extends Component<ExampleChildrenProps, {}> {
   }
 
   async createMediaPicker(reactContext: any) {
-    this.popup = await MediaPicker('popup', mediaContext, {
+    this.popup = await MediaPicker('popup', mediaMediaClient, {
       container: document.body,
       uploadParams: {
         collection: defaultCollectionName,

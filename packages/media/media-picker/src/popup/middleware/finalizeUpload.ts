@@ -4,7 +4,7 @@ import {
   MediaStoreCopyFileWithTokenBody,
   MediaStoreCopyFileWithTokenParams,
 } from '@atlaskit/media-store';
-import { getFileStreamsCache, FileState } from '@atlaskit/media-core';
+import { getFileStreamsCache, FileState } from '@atlaskit/media-client';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Fetcher } from '../tools/fetcher/fetcher';
 import {
@@ -33,8 +33,8 @@ export function finalizeUpload(
   store: Store<State>,
   { file, uploadId, source, replaceFileId }: FinalizeUploadAction,
 ): Promise<SendUploadEventAction> {
-  const { userContext } = store.getState();
-  return userContext.config
+  const { userMediaClient } = store.getState();
+  return userMediaClient.config
     .authProvider()
     .then(mapAuthToSourceFileOwner)
     .then(owner => {
@@ -72,11 +72,11 @@ async function copyFile({
   sourceFile,
   replaceFileId,
 }: CopyFileParams): Promise<SendUploadEventAction> {
-  const { deferredIdUpfronts, tenantContext, config } = store.getState();
+  const { deferredIdUpfronts, tenantMediaClient, config } = store.getState();
   const collection = config.uploadParams && config.uploadParams.collection;
   const deferred = deferredIdUpfronts[sourceFile.id];
   const mediaStore = new MediaStore({
-    authProvider: tenantContext.config.authProvider,
+    authProvider: tenantMediaClient.config.authProvider,
   });
   const body: MediaStoreCopyFileWithTokenBody = {
     sourceFile,
@@ -108,10 +108,10 @@ async function copyFile({
           uploadId,
         }),
       );
-      const auth = await tenantContext.config.authProvider({
+      const auth = await tenantMediaClient.config.authProvider({
         collectionName: collection,
       });
-      // TODO [MS-725]: replace by context.getFile
+      // TODO [MS-725]: replace by mediaClient.getFile
       return fetcher.pollFile(auth, publicId, collection);
     })
     .then(processedDestinationFile => {

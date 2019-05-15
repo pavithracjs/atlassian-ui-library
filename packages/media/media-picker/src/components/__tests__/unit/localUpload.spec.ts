@@ -1,5 +1,6 @@
 import { LocalUploadComponent } from '../../localUpload';
-import { Auth, ContextFactory } from '@atlaskit/media-core';
+import { Auth } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import { NewUploadServiceImpl } from '../../../service/newUploadServiceImpl';
 import { MediaFile } from '../../../domain/file';
 import { SCALE_FACTOR_DEFAULT } from '../../../util/getPreviewFromImage';
@@ -14,7 +15,7 @@ describe('MediaLocalUpload', () => {
     upfrontId: Promise.resolve('some-public-id'),
   };
   const setup = (options: { shouldCopyFileToRecents?: boolean } = {}) => {
-    const context = ContextFactory.create({
+    const mediaClient = new MediaClient({
       authProvider: () =>
         Promise.resolve<Auth>({ clientId: '', baseUrl: '', token: '' }),
     });
@@ -24,7 +25,7 @@ describe('MediaLocalUpload', () => {
       },
       shouldCopyFileToRecents: options.shouldCopyFileToRecents,
     };
-    const localUpload = new LocalUploadComponent(context, config);
+    const localUpload = new LocalUploadComponent(mediaClient, config);
     const uploadService = localUpload['uploadService'] as NewUploadServiceImpl;
     const emitUploadServiceEvent = uploadService['emit'];
     const emitter = localUpload['emitter'];

@@ -19,7 +19,7 @@ import {
   InfoContainer,
   PastedImage,
 } from '../example-helpers/styled';
-import { ContextFactory } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import { fileToDataURI } from '@atlaskit/media-ui';
 
 export interface ClipboardWrapperState {
@@ -93,13 +93,13 @@ class ClipboardWrapper extends Component<{}, ClipboardWrapperState> {
 
   async createClipboard() {
     const { isConnectedToUsersCollection, isActive } = this.state;
-    const context = ContextFactory.create({
+    const mediaClient = new MediaClient({
       authProvider: defaultMediaPickerAuthProvider,
       userAuthProvider: isConnectedToUsersCollection
         ? userAuthProvider
         : undefined,
     });
-    const clipboard = await MediaPicker('clipboard', context, {
+    const clipboard = await MediaPicker('clipboard', mediaClient, {
       uploadParams: {
         collection: defaultMediaPickerCollectionName,
       },

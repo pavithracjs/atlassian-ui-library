@@ -8,14 +8,14 @@ import { Card, CardAction } from '@atlaskit/media-card';
 import { MediaCollectionItem } from '@atlaskit/media-store';
 import {
   asMock,
-  fakeContext,
+  fakeMediaClient,
   fakeIntl,
   nextTick,
 } from '@atlaskit/media-test-helpers';
 import ModalDialog from '@atlaskit/modal-dialog';
 import Button from '@atlaskit/button';
 import { InfiniteScroll } from '@atlaskit/media-ui';
-import { Context } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import {
   State,
   SelectedItem,
@@ -58,7 +58,7 @@ const ConnectedUploadViewWithStore = getComponentClassWithStore(
 const createConnectedComponent = (
   state: State,
   reactContext: {} = {},
-  context: Context = fakeContext(),
+  mediaClient: MediaClient = fakeMediaClient(),
 ) => {
   const store = mockStore(state);
   const dispatch = store.dispatch;
@@ -66,8 +66,8 @@ const createConnectedComponent = (
     <IntlProvider locale="en">
       <Provider store={store}>
         <ConnectedUploadViewWithStore
-          mpBrowser={new BrowserImpl(context) as any}
-          context={context}
+          mpBrowser={new BrowserImpl(mediaClient) as any}
+          mediaClient={mediaClient}
           recentsCollection="some-collection-name"
         />
       </Provider>
@@ -80,7 +80,7 @@ const createConnectedComponent = (
     },
   );
   const component = root.find(StatelessUploadView);
-  return { component, dispatch, root, context };
+  return { component, dispatch, root, mediaClient };
 };
 
 const getDeleteActionHandler = (
@@ -113,7 +113,7 @@ describe('<StatelessUploadView />', () => {
       ...mockState,
       ...mockStateOverride,
     } as State;
-    const context = fakeContext();
+    const mediaClient = fakeMediaClient();
     const store = mockStore(state);
 
     const { selectedItems, uploads } = state;
@@ -127,7 +127,7 @@ describe('<StatelessUploadView />', () => {
       <Provider store={store}>
         <StatelessUploadView
           mpBrowser={{} as any}
-          context={context}
+          mediaClient={mediaClient}
           recentsCollection="some-collection-name"
           isLoading={isLoading}
           recents={recents}
@@ -539,7 +539,7 @@ describe('<UploadView />', () => {
     });
   });
 
-  it('should fire an analytics event when given a react context', () => {
+  it('should fire an analytics event when given a react mediaClient', () => {
     const aHandler = jest.fn();
 
     const { component } = createConnectedComponent(state, {
@@ -556,18 +556,18 @@ describe('<UploadView />', () => {
     ) => component.find(InfiniteScroll).props().onThresholdReached!();
 
     it('should load next collection page when threshold is reached', () => {
-      const { component, context } = createConnectedComponent(state);
+      const { component, mediaClient } = createConnectedComponent(state);
 
       simulateThresholdReached(component);
 
-      expect(context.collection.loadNextPage).toHaveBeenCalledTimes(1);
-      expect(context.collection.loadNextPage).toBeCalledWith('recents');
+      expect(mediaClient.collection.loadNextPage).toHaveBeenCalledTimes(1);
+      expect(mediaClient.collection.loadNextPage).toBeCalledWith('recents');
     });
 
     it('should render loading next page state if next page is being loaded', async () => {
-      const { component, root, context } = createConnectedComponent(state);
+      const { component, root, mediaClient } = createConnectedComponent(state);
       const nextItems = new Promise(resolve => window.setTimeout(resolve));
-      asMock(context.collection.loadNextPage).mockReturnValue(nextItems);
+      asMock(mediaClient.collection.loadNextPage).mockReturnValue(nextItems);
 
       expect(root.find(LoadingNextPageWrapper).find(Spinner)).toHaveLength(0);
       simulateThresholdReached(component);
@@ -580,12 +580,12 @@ describe('<UploadView />', () => {
     });
 
     it('should not load next collection page if its already being loaded', () => {
-      const { component, context } = createConnectedComponent(state);
+      const { component, mediaClient } = createConnectedComponent(state);
 
       simulateThresholdReached(component);
       simulateThresholdReached(component);
 
-      expect(context.collection.loadNextPage).toHaveBeenCalledTimes(1);
+      expect(mediaClient.collection.loadNextPage).toHaveBeenCalledTimes(1);
     });
   });
 });

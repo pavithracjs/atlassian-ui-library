@@ -9,7 +9,7 @@ import {
   FilePreview,
   isPreviewableType,
   MediaType,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { State, SelectedItem, LocalUpload, ServiceName } from '../domain';
 import { isStartImportAction } from '../actions/startImport';
 import { finalizeUpload } from '../actions/finalizeUpload';
@@ -100,7 +100,7 @@ const getPreviewByService = (
   mediaType: MediaType,
   fileId: string,
 ) => {
-  const { userContext, giphy } = store.getState();
+  const { userMediaClient, giphy } = store.getState();
 
   if (serviceName === 'giphy') {
     const selectedGiphy = giphy.imageCardModels.find(
@@ -128,7 +128,7 @@ const getPreviewByService = (
   } else if (serviceName === 'recent_files' && isPreviewableType(mediaType)) {
     return new Promise<FilePreview>(async resolve => {
       // We fetch a good size image, since it can be opened later on in MV
-      const blob = await userContext.getImage(fileId, {
+      const blob = await userMediaClient.getImage(fileId, {
         collection: RECENTS_COLLECTION,
         width: 1920,
         height: 1080,
@@ -150,7 +150,7 @@ export const touchSelectedFiles = (
     return;
   }
 
-  const { tenantContext, config } = store.getState();
+  const { tenantMediaClient, config } = store.getState();
   const tenantCollection =
     config.uploadParams && config.uploadParams.collection;
 
@@ -177,7 +177,7 @@ export const touchSelectedFiles = (
         representations: {},
       };
 
-      tenantContext.emit('file-added', fileState);
+      tenantMediaClient.emit('file-added', fileState);
       const subject = new ReplaySubject<FileState>(1);
       subject.next(fileState);
       getFileStreamsCache().set(id, subject);
@@ -187,7 +187,7 @@ export const touchSelectedFiles = (
   const touchFileDescriptors = selectedUploadFiles.map(
     selectedUploadFile => selectedUploadFile.touchFileDescriptor,
   );
-  tenantContext.file.touchFiles(touchFileDescriptors, tenantCollection);
+  tenantMediaClient.file.touchFiles(touchFileDescriptors, tenantCollection);
 };
 
 export async function importFiles(
@@ -195,12 +195,12 @@ export async function importFiles(
   store: Store<State>,
   wsProvider: WsProvider,
 ): Promise<void> {
-  const { uploads, selectedItems, userContext, config } = store.getState();
+  const { uploads, selectedItems, userMediaClient, config } = store.getState();
   const tenantCollection =
     config.uploadParams && config.uploadParams.collection;
   store.dispatch(hidePopup());
 
-  const auth = await userContext.config.authProvider();
+  const auth = await userMediaClient.config.authProvider();
   const selectedUploadFiles = selectedItems.map(item =>
     mapSelectedItemToSelectedUploadFile(item, tenantCollection),
   );

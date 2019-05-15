@@ -1,4 +1,4 @@
-import { Context, ContextFactory } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import { Store } from 'redux';
 import * as React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
@@ -30,7 +30,7 @@ export class PopupImpl extends UploadComponent<PopupUploadEventPayloadMap>
   private proxyReactContext?: AppProxyReactContext;
 
   constructor(
-    readonly tenantContext: Context,
+    readonly tenantMediaClient: MediaClient,
     {
       container = exenv.canUseDOM ? document.body : undefined,
       uploadParams, // tenant
@@ -41,14 +41,14 @@ export class PopupImpl extends UploadComponent<PopupUploadEventPayloadMap>
     super();
     this.proxyReactContext = proxyReactContext;
 
-    const { userAuthProvider, cacheSize } = tenantContext.config;
+    const { userAuthProvider, cacheSize } = tenantMediaClient.config;
     if (!userAuthProvider) {
       throw new Error(
-        'When using Popup media picker userAuthProvider must be provided in the context',
+        'When using Popup media picker userAuthProvider must be provided in the mediaClient',
       );
     }
 
-    const userContext = ContextFactory.create({
+    const userMediaClient = new MediaClient({
       cacheSize,
       authProvider: userAuthProvider,
     });
@@ -57,7 +57,7 @@ export class PopupImpl extends UploadComponent<PopupUploadEventPayloadMap>
       ...uploadParams,
     };
 
-    this.store = createStore(this, tenantContext, userContext, {
+    this.store = createStore(this, tenantMediaClient, userMediaClient, {
       proxyReactContext,
       singleSelect,
       uploadParams: tenantUploadParams,

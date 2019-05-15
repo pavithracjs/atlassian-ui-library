@@ -34,15 +34,15 @@ export default md`
   
   ${code`import { MediaPicker } from '@atlaskit/media-picker';
 
-  const authProvider = (context) => Promise.resolve({
+  const authProvider = (mediaClient) => Promise.resolve({
     clientId: 'your-app-client-id',
     token: 'your-generated-token',
     baseUrl: 'https://media-api.atlassian.io'
   });
 
-  const context = ContextFactory.create({authProvider});
+  const mediaClient = new MediaClient({authProvider});
 
-  const browser = MediaPicker('browser', context);
+  const browser = MediaPicker('browser', mediaClient);
   browser.on('upload-end', payload => {console.log(payload.public)});
 
   ...
@@ -60,7 +60,7 @@ export default md`
 
   There are two required and 1 optional arguments:
 
-  ${code`const browser = MediaPicker(typeOfPicker, context, config);`}
+  ${code`const browser = MediaPicker(typeOfPicker, mediaClient, config);`}
 
   ### Type of picker
 
@@ -71,13 +71,13 @@ export default md`
   - **dropzone**: allows user to drag and drop a file
   - **popup**: will open a custom rich user experience for picking file from multiple sources
 
-  ### Context object
+  ### MediaClient object
 
   Second argument is all about providing authentication. To create object of this type special factory
   needs to be used:
 
 
-  ${code`const context = ContextFactory.create({
+  ${code`const mediaClient = new MediaClient({
     authProvider, // Required property. See bellow
     userAuthProvider, // Optional property. Required if popup type is chosen.
     cacheSize  // Optional property. Number of items cached. Default ios 200
@@ -94,10 +94,10 @@ export default md`
   ## Component creation
 
   All MediaPicker components are created the same way. The first parameter is always the name of the component,
-  the second is the general MediaPicker context and the third is the component-specific config
+  the second is the general MediaPicker mediaClient and the third is the component-specific config
 
  ${code`
-  const dropzone = MediaPicker('dropzone', context, {
+  const dropzone = MediaPicker('dropzone', mediaClient, {
     container: document.body,
   });
   `}
@@ -164,7 +164,7 @@ export default md`
   #### Usage
 
  ${code`
-  const context = ContextFactory.create({
+  const mediaClient = new MediaClient({
     authProvider: () =>
       Promise.resolve({
         clientId: 'your-app-client-id',
@@ -173,7 +173,7 @@ export default md`
       }),
   });
 
-  const dropzone = MediaPicker('dropzone', context, {
+  const dropzone = MediaPicker('dropzone', mediaClient, {
     container: document.getElementById('container'),
   });
   dropzone.on('upload-end', payload => {
@@ -224,7 +224,7 @@ export default md`
   #### Usage
 
  ${code`
-  const context = ContextFactory.create({
+  const mediaClient = new MediaClient({
     authProvider: () =>
       Promise.resolve({
         clientId: 'your-app-client-id',
@@ -233,7 +233,7 @@ export default md`
       }),
   });
 
-  const clipboard = MediaPicker('clipboard', context);
+  const clipboard = MediaPicker('clipboard', mediaClient);
   clipboard.on('upload-end', payload => {
     console.log(payload.public);
   });
@@ -256,7 +256,7 @@ export default md`
 
   #### Usage
 
-  ${code`const context = ContextFactory.create({
+  ${code`const mediaClient = new MediaClient({
     authProvider: () =>
       Promise.resolve({
         clientId: 'your-app-client-id',
@@ -270,7 +270,7 @@ export default md`
     fileExtensions: ['.jpg'],
   };
 
-  const browser = MediaPicker('browser', context, browserConfig);
+  const browser = MediaPicker('browser', mediaClient, browserConfig);
   browser.on('upload-end', payload => {
     console.log(payload.public);
   });
@@ -312,13 +312,13 @@ export default md`
   token returned by userAuthProvider because the popup will call this provider on every request
   to the media api concerning the users collection and cloud accounts. You cannot use the popup component
   if you can't obtain a token for the user's collection - use the Browser component instead.
-  It can be optionally passed Legacy Context from any "parent" element to make analytics-next events bubble up to listeners.
+  It can be optionally passed Legacy MediaClient from any "parent" element to make analytics-next events bubble up to listeners.
 
   ${CreateImage(popup)}
 
   #### Usage
 
-  ${code`const context = ContextFactory.create({
+  ${code`const mediaClient = new MediaClient({
     authProvider: () =>
       Promise.resolve({
         clientId: 'your-app-client-id',
@@ -340,7 +340,7 @@ export default md`
     }
   };
 
-  const popup = MediaPicker('popup', context, popupConfig);
+  const popup = MediaPicker('popup', mediaClient, popupConfig);
   popup.on('upload-end', payload => {
     console.log(payload.public);
   });

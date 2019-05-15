@@ -5,13 +5,16 @@ import { State } from '../domain';
 import { UIAnalyticsEventHandlerSignature } from '@atlaskit/analytics-next';
 import { intlShape, IntlProvider } from 'react-intl';
 
-export interface PassContextProps {
+export interface PassMediaClientProps {
   store: Store<State>;
   proxyReactContext?: AppProxyReactContext;
 }
-export default class PassContext extends Component<PassContextProps, any> {
-  // We need to manually specify all the child contexts
-  static childContextTypes = {
+export default class PassMediaClient extends Component<
+  PassMediaClientProps,
+  any
+> {
+  // We need to manually specify all the child mediaClients
+  static childMediaClientTypes = {
     store() {},
     getAtlaskitAnalyticsEventHandlers() {},
     intl: intlShape,
