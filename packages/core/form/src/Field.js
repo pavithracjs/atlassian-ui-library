@@ -23,17 +23,14 @@ type FieldProps = {
   'aria-labelledby': string,
 };
 
-type Meta = {
-  dirty: boolean,
-  touched: boolean,
-  valid: boolean,
-  error: any,
-  submitError: any,
-};
-
 type Props = {
   /* Children to render in the field. Called with props for the field component and other information about the field. */
-  children: ({ fieldProps: FieldProps, error: any, meta: Meta }) => Node,
+  children: ({
+    fieldProps: FieldProps,
+    error: any,
+    valid: boolean,
+    meta: Meta,
+  }) => Node,
   /* The default value of the field. If a function is provided it is called with the current default value of the field. */
   defaultValue: any,
   /* Passed to the ID attribute of the field. Randomly generated if not specified */
@@ -67,16 +64,27 @@ type InnerProps = Props & {
   ) => any,
 };
 
-type State = {
-  onChange: any => any,
-  onBlur: () => any,
-  onFocus: () => any,
+export type Meta = {
   dirty: boolean,
+  dirtySinceLastSubmit: boolean,
+  submitFailed: boolean,
+  submitting: boolean,
   touched: boolean,
   valid: boolean,
-  value: any,
   error: any,
   submitError: any,
+};
+
+type State = {
+  fieldProps: {
+    onChange: any => any,
+    onBlur: () => any,
+    onFocus: () => any,
+    value: any,
+  },
+  error: any,
+  valid: boolean,
+  meta: Meta,
 };
 
 const shallowEqual = (a, b) =>
@@ -100,19 +108,27 @@ class FieldInner extends React.Component<InnerProps, State> {
   getFieldId = memoizeOne(name => `${name}-${uid({ id: name })}`);
 
   state = {
-    // eslint-disable-next-line no-unused-vars
-    onChange: (e, value) => {},
-    onBlur: () => {},
-    onFocus: () => {},
-    dirty: false,
-    touched: false,
-    valid: false,
-    value:
-      typeof this.props.defaultValue === 'function'
-        ? this.props.defaultValue()
-        : this.props.defaultValue,
+    fieldProps: {
+      onChange: () => {},
+      onBlur: () => {},
+      onFocus: () => {},
+      value:
+        typeof this.props.defaultValue === 'function'
+          ? this.props.defaultValue()
+          : this.props.defaultValue,
+    },
     error: undefined,
-    submitError: undefined,
+    valid: false,
+    meta: {
+      dirty: false,
+      dirtySinceLastSubmit: false,
+      touched: false,
+      valid: false,
+      submitting: false,
+      submitFailed: false,
+      error: undefined,
+      submitError: undefined,
+    },
   };
 
   register = () => {
@@ -133,28 +149,75 @@ class FieldInner extends React.Component<InnerProps, State> {
         blur,
         focus,
         dirty,
+        dirtySinceLastSubmit,
         touched,
         valid,
+        submitting,
+        submitFailed,
         value,
         error,
         submitError,
       }) => {
+        /** Do not update dirtySinceLastSubmit until submission has finished. */
+        const modifiedDirtySinceLastSubmit = submitting
+          ? this.state.meta.dirtySinceLastSubmit
+          : dirtySinceLastSubmit;
+        /** Do not update submitFailed until submission has finished. */
+        const modifiedSubmitFailed = submitting
+          ? this.state.meta.submitFailed
+          : submitFailed;
+
+        /** Do not use submitError if the value has changed. */
+        const modifiedSubmitError =
+          modifiedDirtySinceLastSubmit && this.props.validate
+            ? undefined
+            : submitError;
+        const modifiedError =
+          modifiedSubmitError || ((touched || dirty) && error);
+
+        /**
+         * If there has been a submit error, then use logic in modifiedError to determine validity,
+         * so we can determine when there is a submit error which we do not want to display
+         * because the value has been changed.
+         */
+        const modifiedValid = modifiedSubmitFailed
+          ? modifiedError === undefined
+          : valid;
+
         this.setState({
-          onChange: change,
-          onBlur: blur,
-          onFocus: focus,
-          dirty,
-          touched,
-          valid,
-          value,
-          error,
-          submitError,
+          fieldProps: {
+            onChange: e => {
+              change(this.props.transform(e, value));
+            },
+            onBlur: blur,
+            onFocus: focus,
+            value,
+          },
+          error: modifiedError,
+          /**
+           * The following parameters are optionally typed in final-form to indicate that not all parameters need
+           * to be subscribed to. We cast them as booleans (using || false), since this is what they are semantically.
+           */
+          valid: modifiedValid || false,
+          meta: {
+            dirty: dirty || false,
+            dirtySinceLastSubmit: dirtySinceLastSubmit || false,
+            touched: touched || false,
+            valid: valid || false,
+            submitting: submitting || false,
+            submitFailed: submitFailed || false,
+            error,
+            submitError,
+          },
         });
       },
       {
         dirty: true,
+        dirtySinceLastSubmit: true,
         touched: true,
         valid: true,
+        submitting: true,
+        submitFailed: true,
         value: true,
         error: true,
         submitError: true,
@@ -185,26 +248,11 @@ class FieldInner extends React.Component<InnerProps, State> {
   }
 
   render() {
-    const {
-      children,
-      isRequired,
-      isDisabled,
-      label,
-      name,
-      id,
-      transform,
-    } = this.props;
-    const { onChange, onBlur, onFocus, value, ...rest } = this.state;
-    const error =
-      rest.submitError || ((rest.touched || rest.dirty) && rest.error);
+    const { children, isRequired, isDisabled, label, name, id } = this.props;
+    const { fieldProps, error, valid, meta } = this.state;
     const fieldId = id || this.getFieldId(name);
-    const fieldProps = {
-      onChange: e => {
-        onChange(transform(e, value));
-      },
-      onBlur,
-      onFocus,
-      value,
+    const extendedFieldProps = {
+      ...fieldProps,
       name,
       isDisabled,
       isInvalid: Boolean(error),
@@ -224,7 +272,7 @@ class FieldInner extends React.Component<InnerProps, State> {
           </Label>
         )}
         <FieldId.Provider value={fieldId}>
-          {children({ fieldProps, error, meta: rest })}
+          {children({ fieldProps: extendedFieldProps, error, valid, meta })}
         </FieldId.Provider>
       </FieldWrapper>
     );

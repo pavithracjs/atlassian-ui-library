@@ -1,1 +1,2 @@
-- - Improved form validation user experience when field validation and submission validation used together on the same field+ improve form validation docs
+- Improved form validation user experience when field validation and submission validation used together on the same field
+- Improved form validation docs
