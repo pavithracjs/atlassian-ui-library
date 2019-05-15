@@ -18,7 +18,7 @@ export default class Card extends React.PureComponent<
     Card: Card.Card,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     if (!this.state.Card) {
       import(/* webpackChunkName:"@atlaskit-internal_Card" */
       './index').then(module => {

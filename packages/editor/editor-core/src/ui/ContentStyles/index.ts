@@ -166,6 +166,18 @@ const ContentStyles: ComponentClass<
     padding: 0;
   }
 
+  /* Link icon in the Atlaskit package 
+     is bigger than the others
+  */
+  .hyperlink-open-link {
+    svg {
+      max-width: 18px;
+    }
+    &[href] {
+      padding: 0 4px;
+    }
+  }
+
 `;
 
 export default ContentStyles;

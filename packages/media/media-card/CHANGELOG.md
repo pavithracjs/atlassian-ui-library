@@ -1,5 +1,10 @@
 # @atlaskit/media-card
 
+## 63.0.3
+- [patch] [a6f27f106a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a6f27f106a):
+
+  - use componentDidMount in CardLoader to make it SSR hydrate friendly
+
 ## 63.0.2
 - Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
   - @atlaskit/media-core@30.0.1

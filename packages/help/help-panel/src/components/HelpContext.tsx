@@ -255,6 +255,7 @@ class HelpContextProviderImplementation extends React.Component<
             getCurrentArticle: this.getCurrentArticle,
             onBtnCloseClick: this.props.onBtnCloseClick,
             onWasHelpfulSubmit: this.props.onWasHelpfulSubmit,
+            defaultContent: this.props.defaultContent,
           },
         }}
         children={this.props.children}

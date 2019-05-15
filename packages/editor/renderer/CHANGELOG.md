@@ -1,5 +1,15 @@
 # @atlaskit/renderer
 
+## 48.1.4
+- [patch] [dfc7aaa563](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfc7aaa563):
+
+  - ED-6863: Fix the rendering of extensions in the renderer when they have breakout layouts.
+
+## 48.1.3
+- [patch] [1ec6367e00](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1ec6367e00):
+
+  - ED-6551 - Lists should correctly wrap adjacent floated content without overlapping
+
 ## 48.1.2
 - [patch] [5539fc187f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5539fc187f):
 

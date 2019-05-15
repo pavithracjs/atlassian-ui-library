@@ -1,7 +1,5 @@
 import { BrowserTestCase } from '@atlaskit/webdriver-runner/runner';
 import Page from '@atlaskit/webdriver-runner/wd-wrapper';
-import constant from 'lodash.constant';
-import times from 'lodash.times';
 
 import {
   callNativeBridge,
@@ -22,7 +20,7 @@ BrowserTestCase(
     await browser.waitForSelector(editable);
 
     await browser.type(editable, 'Normal Text');
-    await browser.type(editable, ['ArrowLeft']);
+    await browser.keys('ArrowLeft');
 
     const currentSelection = await getBridgeOutput(
       browser,
@@ -44,10 +42,10 @@ BrowserTestCase(
 
     await browser.type(editable, 'Normal Text');
 
-    await browser.type(editable, [
-      ...times(4, constant('ArrowLeft')),
-      ...times(4, constant(['Shift', 'ArrowRight'])),
-    ]);
+    await browser.pressKey('ArrowLeft', 4);
+    await browser.keys('Shift');
+    await browser.pressKey('ArrowRight', 4);
+    await browser.keys('Shift');
 
     const currentSelection = await getBridgeOutput(
       browser,
@@ -67,13 +65,14 @@ BrowserTestCase(
     await browser.goto(editor.path);
     await browser.waitForSelector(editable);
 
+    await browser.type(editable, '');
     await callNativeBridge(
       browser,
       'onLinkUpdate',
       'Atlassian',
       'https://www.google.com',
     );
-    await browser.type(editable, ['ArrowLeft']);
+    await browser.keys('ArrowLeft');
 
     const currentSelection = await getBridgeOutput(
       browser,
@@ -94,6 +93,7 @@ BrowserTestCase(
     await browser.goto(editor.path);
     await browser.waitForSelector(editable);
 
+    await browser.type(editable, '');
     await callNativeBridge(
       browser,
       'onLinkUpdate',
@@ -101,10 +101,10 @@ BrowserTestCase(
       'https://www.google.com',
     );
 
-    await browser.type(editable, [
-      ...times(9, constant('ArrowLeft')),
-      ...times(9, constant(['Shift', 'ArrowRight'])),
-    ]);
+    await browser.pressKey('ArrowLeft', 9);
+    await browser.keys('Shift');
+    await browser.pressKey('ArrowRight', 9);
+    await browser.keys('Shift');
 
     const currentSelection = await getBridgeOutput(
       browser,
@@ -125,7 +125,6 @@ BrowserTestCase(
     await browser.waitForSelector(editable);
 
     await browser.type(editable, 'This is a ');
-
     await callNativeBridge(
       browser,
       'onLinkUpdate',
@@ -133,16 +132,17 @@ BrowserTestCase(
       'https://www.google.com',
     );
 
-    await browser.type(editable, [
-      ...times(10, constant('ArrowLeft')),
-      ...times(10, constant(['Shift', 'ArrowRight'])),
-    ]);
+    await browser.pressKey('ArrowLeft', 10);
+    await browser.keys('Shift');
+    await browser.pressKey('ArrowRight', 10);
+    await browser.keys('Shift');
 
     const currentSelection = await getBridgeOutput(
       browser,
       'linkBridge',
       'currentSelection',
     );
+
     expect(currentSelection).toMatchCustomSnapshot(testName);
   },
 );

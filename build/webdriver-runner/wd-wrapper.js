@@ -121,6 +121,12 @@ export default class Page {
     return this.browser.keys(value);
   }
 
+  async pressKey(key, x = 1) {
+    for (let i = 0; i < x; i++) {
+      await this.browser.keys(key);
+    }
+  }
+
   debug() {
     return this.browser.debug();
   }

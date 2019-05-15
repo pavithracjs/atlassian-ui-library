@@ -5,6 +5,7 @@ import { EditorView } from 'prosemirror-view';
 import {
   cardProvider,
   customInsertMenuItems,
+  extensionHandlers,
 } from '@atlaskit/editor-test-helpers';
 
 import { validator, ErrorCallback, ADFEntity } from '@atlaskit/adf-utils';
@@ -20,7 +21,6 @@ import {
   analyticsHandler,
   quickInsertProvider,
 } from '../examples/5-full-page';
-import { extensionHandlers } from './extension-handlers';
 import { Error } from './ErrorReport';
 
 export type Props = {
