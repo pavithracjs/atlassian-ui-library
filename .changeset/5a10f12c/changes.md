@@ -1,0 +1,1 @@
+- Updated modal-dialog to TypeScript. Flow types are no longer exported.
