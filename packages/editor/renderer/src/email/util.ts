@@ -52,20 +52,21 @@ export const applyMarks = (marks: Mark[], text: string): string => {
   return output;
 };
 
+export const buildOutlookConditional = (
+  ifOutlook: string,
+  ifNotOutlook: string,
+) =>
+  `<!--[if mso]>${ifOutlook}<span style=\\"mso-hide:all; overflow:hidden; display:none; visibility:hidden; width:0px; height:0px;\\"><![endif]-->${ifNotOutlook}<!--[if mso]></span><![endif]-->`;
+
 export const escapeHtmlString = (content: string | undefined | null) => {
   if (!content) return '';
 
-  // ensures that arbitrary HTML is not interpreted by the email client
-  // in outlook, we cannot use html character entities such as '&lt;'
-  // As a workaround, we replace '<' with '≺', etc
-  const entitites = {
-    '&pr;': '≺',
-    '&sc;': '≻',
-  };
-
+  // We need to first replace with temp placeholders to avoid recursion, as buildOutlookConditional() returns html, too!
   const escapedContent = content
-    .replace(/</g, entitites['&pr;'])
-    .replace(/>/g, entitites['&sc;']);
+    .replace(/</g, '$TMP_LT$')
+    .replace(/>/g, '$TMP_GT$')
+    .replace(/\$TMP_LT\$/g, buildOutlookConditional('≺', '&lt;'))
+    .replace(/\$TMP_GT\$/g, buildOutlookConditional('≻', '&gt;'));
 
   return escapedContent;
 };
