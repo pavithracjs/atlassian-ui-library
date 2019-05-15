@@ -1,5 +1,4 @@
 import * as React from 'react';
-import assert from 'assert';
 import { EditorView } from 'prosemirror-view';
 
 import { ProviderFactory } from '@atlaskit/editor-common';
