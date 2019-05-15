@@ -52,7 +52,7 @@ describe('Media plugin', async () => {
   });
 
   describe('updateUploadState', () => {
-    it.only('should change upload state to unfinished when uploads start', async () => {
+    it('should change upload state to unfinished when uploads start', async () => {
       const { pluginState } = editor(doc(p('')));
       const provider = await mediaProvider;
       await provider.uploadContext;
