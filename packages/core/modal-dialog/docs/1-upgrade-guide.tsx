@@ -1,5 +1,3 @@
-// @flow
-
 import { code, md } from '@atlaskit/docs';
 
 export default md`

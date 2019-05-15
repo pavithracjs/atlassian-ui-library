@@ -1,5 +1,4 @@
-// @flow
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import styled from '@emotion/styled';
 import Lorem from 'react-lorem-component';
 import Button from '@atlaskit/button';
@@ -24,7 +23,7 @@ type State = {
   isOpen: boolean;
   scrollBehavior: 'inside' | 'outside';
 };
-export default class ExampleScroll extends PureComponent<{}, State> {
+export default class ExampleScroll extends React.PureComponent<{}, State> {
   bottomRef: any;
 
   state: State = {
