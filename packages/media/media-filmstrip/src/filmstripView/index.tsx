@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-  ReactNode,
-  ReactChild,
-  WheelEvent,
-  MouseEvent,
-  ReactElement,
-} from 'react';
+import { ReactNode, WheelEvent, MouseEvent, ReactElement } from 'react';
 import ArrowLeft from '@atlaskit/icon/glyph/arrow-left';
 import ArrowRight from '@atlaskit/icon/glyph/arrow-right';
 import debounce from 'debounce';
@@ -341,7 +335,7 @@ export class FilmstripView extends React.Component<
     this.handleSizeChange();
   };
 
-  handleLeftClick = (event: MouseEvent<HTMLDivElement>) => {
+  handleLeftClick = (event: MouseEvent<HTMLDivElement, any>) => {
     // Stop the click event from bubling up and being handled by other components
     // See https://product-fabric.atlassian.net/browse/MSW-165
     event.stopPropagation();
@@ -358,7 +352,7 @@ export class FilmstripView extends React.Component<
     }
   };
 
-  handleRightClick = (event: MouseEvent<HTMLDivElement>) => {
+  handleRightClick = (event: MouseEvent<HTMLDivElement, any>) => {
     // Stop the click event from bubling up and being handled by other components
     // See https://product-fabric.atlassian.net/browse/MSW-165
     event.stopPropagation();
@@ -469,11 +463,11 @@ export class FilmstripView extends React.Component<
   }
 }
 
-function mapReactChildToReactNode(child: ReactChild, index: number): ReactNode {
+function mapReactChildToReactNode(child: ReactNode, index: number): ReactNode {
   const key = (isReactElement(child) && child.key) || index;
   return <FilmStripListItem key={key}>{child}</FilmStripListItem>;
 }
 
-function isReactElement<P>(child: ReactChild): child is ReactElement<P> {
+function isReactElement<P>(child: ReactNode): child is ReactElement<P> {
   return !!(child as ReactElement<P>).type;
 }

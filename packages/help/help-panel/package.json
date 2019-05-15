@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/help-panel",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "description": "A cross-product help-panel component",
   "license": "Apache-2.0",
   "module": "index.js",

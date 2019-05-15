@@ -78,13 +78,20 @@ export default class Toolbar extends Component<Props> {
             .map((item, idx) => {
               switch (item.type) {
                 case 'button':
-                  const ButtonIcon = item.icon;
+                  const ButtonIcon = item.icon as React.ComponentClass<any>;
                   return (
                     <Button
+                      className={item.className}
                       key={idx}
                       title={item.title}
                       href={item.href}
-                      icon={<ButtonIcon label={item.title} />}
+                      icon={
+                        item.icon ? (
+                          <ButtonIcon label={item.title} />
+                        ) : (
+                          undefined
+                        )
+                      }
                       appearance={item.appearance}
                       target={item.target}
                       onClick={() => dispatchCommand(item.onClick)}
@@ -92,7 +99,9 @@ export default class Toolbar extends Component<Props> {
                       onMouseLeave={() => dispatchCommand(item.onMouseLeave)}
                       selected={item.selected}
                       disabled={item.disabled}
-                    />
+                    >
+                      {item.showTitle && item.title}
+                    </Button>
                   );
 
                 case 'input':

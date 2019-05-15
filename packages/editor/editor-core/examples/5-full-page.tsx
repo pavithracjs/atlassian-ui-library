@@ -18,8 +18,10 @@ import { MockActivityResource } from '@atlaskit/activity/dist/es5/support';
 import { EmojiProvider } from '@atlaskit/emoji';
 import { Provider as SmartCardProvider } from '@atlaskit/smart-card';
 
-import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
-import { extensionHandlers } from '../example-helpers/extension-handlers';
+import {
+  customInsertMenuItems,
+  extensionHandlers,
+} from '@atlaskit/editor-test-helpers';
 import quickInsertProviderFactory from '../example-helpers/quick-insert-provider';
 import { DevTools } from '../example-helpers/DevTools';
 import { TitleInput } from '../example-helpers/PageElements';
