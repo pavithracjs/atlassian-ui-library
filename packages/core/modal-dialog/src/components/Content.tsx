@@ -1,3 +1,6 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
+
 import * as React from 'react';
 import rafSchedule from 'raf-schd';
 import ScrollLock from 'react-scrolllock';
@@ -259,7 +262,7 @@ export default class Content extends React.Component<Props, State> {
         {isChromeless ? (
           children
         ) : (
-          <>
+          <React.Fragment>
             <Header
               appearance={appearance}
               component={components.Header ? components.Header : header}
@@ -291,7 +294,7 @@ export default class Content extends React.Component<Props, State> {
               onClose={onClose}
               showKeyline={showFooterKeyline}
             />
-          </>
+          </React.Fragment>
         )}
         <ScrollLock />
       </Container>
