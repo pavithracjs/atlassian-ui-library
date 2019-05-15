@@ -35,7 +35,7 @@ export type ConfluenceContentType = 'blogpost' | 'page';
 export interface RecentPage {
   available: boolean;
   contentType: ConfluenceContentType;
-  id: string;
+  id: number;
   lastSeen: number;
   space: string;
   spaceKey: string;
@@ -137,7 +137,7 @@ function recentPageToResult(
   href.addQuery('search_id', searchSessionId);
 
   return {
-    resultId: recentPage.id,
+    resultId: String(recentPage.id),
     name: recentPage.title,
     href: href.toString(),
     containerName: recentPage.space,
