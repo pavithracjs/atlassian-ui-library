@@ -83,6 +83,8 @@ const EditorSection: React.ComponentClass<
   -ms-grid-column: 2;
   /* stylelint-enable */
   grid-area: editor-area;
+  /* min-width: 0; behavior is described here https://stackoverflow.com/a/43312314 */
+  min-width: 0;
 `;
 
 export default class Editor extends React.Component<Props, State> {
