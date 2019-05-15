@@ -74,7 +74,8 @@ const tableSharedStyle = css`
       tbody {
         border-bottom: none;
       }
-      th td {
+      th,
+      td {
         background-color: white;
         font-weight: normal;
       }
@@ -103,12 +104,6 @@ const tableSharedStyle = css`
           dark: akEditorTableToolbarDark,
         })};
         text-align: left;
-        & *:not(strong) {
-          font-weight: normal;
-        }
-        & .${TableSharedCssClassName.TABLE_CELL_NODEVIEW_CONTENT_DOM} > p {
-          font-weight: bold;
-        }
 
         .code-block {
           /*
