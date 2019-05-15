@@ -2,7 +2,6 @@
   "extends": "../../tsconfig",
   "compilerOptions": {
     "declaration": true,
-    "noImplicitAny": false,
     "outDir": "../../",
     "rootDir": "../../src",
     "target": "es5",
