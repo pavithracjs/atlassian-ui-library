@@ -169,6 +169,7 @@ describe(name, () => {
           actionSubject: 'editor',
         }),
       });
+      wrapper.unmount();
     });
 
     describe('when a transaction is dispatched', () => {
