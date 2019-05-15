@@ -46,6 +46,7 @@ import { insertMediaAsMediaSingle } from '../../../../plugins/media/utils/media-
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import {
   Clipboard,
+  Dropzone,
   UploadPreviewUpdateEventPayload,
 } from '@atlaskit/media-picker';
 import { waitUntil } from '@atlaskit/media-test-helpers';
@@ -61,6 +62,7 @@ import { SmartMediaEditor } from '@atlaskit/media-editor';
 import { MediaAttributes } from '@atlaskit/adf-schema';
 import { ReactWrapper } from 'enzyme';
 import ClipboardMediaPickerWrapper from '../../../../plugins/media/ui/ClipboardMediaPickerWrapper';
+import DropzoneReactWrapper from '../../../../plugins/media/ui/DropzoneReactWrapper';
 
 const pdfFile = {
   id: `${randomId()}`,
@@ -1055,6 +1057,7 @@ describe('Media plugin', () => {
     let wrapper: ReactWrapper;
     let smartMediaEditor: ReactWrapper<any, any, any>;
     let clipboardMediaPickerWrapper: ReactWrapper<any, any, any>;
+    let dropzoneMediaPickerWrapper: ReactWrapper<any, any, any>;
 
     beforeEach(async () => {
       mediaAttributes = {
@@ -1086,6 +1089,10 @@ describe('Media plugin', () => {
 
       clipboardMediaPickerWrapper = mountWithIntl(
         <ClipboardMediaPickerWrapper mediaState={mediaState} />,
+      );
+
+      dropzoneMediaPickerWrapper = mountWithIntl(
+        <DropzoneReactWrapper mediaState={mediaState} />,
       );
     });
 
@@ -1223,6 +1230,52 @@ describe('Media plugin', () => {
             ),
           ),
         );
+      });
+    });
+
+    it('should trigger analytics events for dropzone', async () => {
+      const spy = jest.fn();
+      analyticsService.handler = spy as AnalyticsHandler;
+
+      afterEach(() => {
+        analyticsService.handler = null;
+      });
+
+      const testFileData: UploadPreviewUpdateEventPayload = {
+        file: {
+          id: 'test',
+          name: 'test.png',
+          size: 1,
+          type: 'file/test',
+          upfrontId: Promise.resolve('test'),
+          creationDate: 1,
+        },
+        preview: {
+          dimensions: {
+            height: 200,
+            width: 200,
+          },
+          scaleFactor: 1,
+        },
+      };
+
+      await waitUntil(
+        () =>
+          (dropzoneMediaPickerWrapper as any).state('pickerFacadeInstance') !==
+            undefined &&
+          !dropzoneMediaPickerWrapper
+            .update()
+            .find(Dropzone)
+            .isEmpty(),
+      );
+
+      const onPreviewUpdate = dropzoneMediaPickerWrapper
+        .find(Dropzone)
+        .prop('onPreviewUpdate');
+
+      onPreviewUpdate && onPreviewUpdate(testFileData);
+      expect(spy).toHaveBeenCalledWith('atlassian.editor.media.file.dropzone', {
+        fileMimeType: 'file/test',
       });
     });
 

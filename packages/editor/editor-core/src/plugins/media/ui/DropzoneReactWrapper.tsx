@@ -30,50 +30,60 @@ export default class DropzoneReactWrapper extends React.Component<
 > {
   state: State = {};
 
-  componentDidMount() {
+  private handleMediaProvider = async (
+    name: any,
+    provider?: Promise<MediaProvider>,
+  ) => {
     const { mediaState } = this.props;
+    const mediaProvider = await provider;
+
+    if (!mediaProvider || !mediaProvider.uploadParams) {
+      return;
+    }
+
+    const context = await mediaProvider.uploadContext;
+
+    if (!context) {
+      return;
+    }
+
+    const pickerFacadeConfig = {
+      context,
+      errorReporter: mediaState.options.errorReporter || new ErrorReporter(),
+    };
+
+    const pickerFacadeInstance = await new PickerFacade(
+      'customMediaPicker',
+      pickerFacadeConfig,
+      dummyMediaPickerObject,
+    ).init();
+
+    pickerFacadeInstance.onNewMedia(mediaState.insertFile);
+    pickerFacadeInstance.onNewMedia(mediaState.trackNewMediaEvent('dropzone'));
+    pickerFacadeInstance.setUploadParams(mediaProvider.uploadParams);
+
+    const config = {
+      uploadParams: mediaProvider.uploadParams,
+    };
+
+    this.setState({
+      pickerFacadeInstance,
+      config,
+      context,
+    });
+  };
+
+  componentDidMount() {
     this.props.mediaState.options.providerFactory.subscribe(
       'mediaProvider',
-      async (name, provider?: Promise<MediaProvider>) => {
-        const mediaProvider = await provider;
+      this.handleMediaProvider,
+    );
+  }
 
-        if (!mediaProvider || !mediaProvider.uploadParams) {
-          return;
-        }
-
-        const context = await mediaProvider.uploadContext;
-
-        if (!context) {
-          return;
-        }
-
-        const pickerFacadeConfig = {
-          context,
-          errorReporter:
-            mediaState.options.errorReporter || new ErrorReporter(),
-        };
-
-        const pickerFacadeInstance = await new PickerFacade(
-          'customMediaPicker',
-          pickerFacadeConfig,
-          dummyMediaPickerObject,
-        ).init();
-
-        pickerFacadeInstance.onNewMedia(mediaState.insertFile);
-        pickerFacadeInstance.onNewMedia(
-          mediaState.trackNewMediaEvent('dropzone'),
-        );
-        pickerFacadeInstance.setUploadParams(mediaProvider.uploadParams);
-
-        const config = {
-          uploadParams: mediaProvider.uploadParams,
-        };
-        this.setState({
-          pickerFacadeInstance,
-          config,
-          context,
-        });
-      },
+  componentWillUnmount() {
+    this.props.mediaState.options.providerFactory.unsubscribe(
+      'mediaProvider',
+      this.handleMediaProvider,
     );
   }
 
