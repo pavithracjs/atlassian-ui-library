@@ -200,6 +200,7 @@ export function applyPropertyStyle(
   return stateStyles[mode] || appearanceStyles.default[mode];
 }
 
+// @ts-ignore: TODO: Create a ticket to follow-up on this issue.
 export const Theme = createTheme<ThemeTokens, ThemeProps>(themeProps => ({
   buttonStyles: getButtonStyles(themeProps),
   spinnerStyles: getSpinnerStyles(),
