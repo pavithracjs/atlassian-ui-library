@@ -355,7 +355,7 @@ describe('Media plugin', () => {
 
     await waitForAllPickersInitialised(pluginState);
 
-    expect(pluginState.pickers.length).toBe(2);
+    expect(pluginState.pickers.length).toBe(1);
   });
 
   it('should re-use old pickers when new media provider is set', async () => {
@@ -367,7 +367,7 @@ describe('Media plugin', () => {
     await waitForAllPickersInitialised(pluginState);
 
     const pickersAfterMediaProvider1 = pluginState.pickers;
-    expect(pickersAfterMediaProvider1.length).toBe(2);
+    expect(pickersAfterMediaProvider1.length).toBe(1);
 
     await getFreshMediaProvider();
 
@@ -568,75 +568,77 @@ describe('Media plugin', () => {
     });
   });
 
-  it('should focus the editor after files are added to the document', async () => {
-    const { editorView, pluginState } = editor(doc(p('')));
-    await mediaProvider;
+  describe('more more', () => {
+    it('should focus the editor after files are added to the document', async () => {
+      const { editorView, pluginState } = editor(doc(p('')));
+      await mediaProvider;
 
-    const spy = jest.spyOn(editorView, 'focus');
+      const spy = jest.spyOn(editorView, 'focus');
 
-    pluginState.insertFile({ id: 'foo' }, () => {});
-    expect(spy).toHaveBeenCalled();
+      pluginState.insertFile({ id: 'foo' }, () => {});
+      expect(spy).toHaveBeenCalled();
 
-    pluginState.insertFile({ id: 'bar' }, () => {});
-    expect(editorView.state.doc).toEqualDocument(
-      doc(
-        mediaGroup(
-          media({
-            id: 'bar',
-            type: 'file',
-            collection: testCollectionName,
-          })(),
-          media({
-            id: 'foo',
-            type: 'file',
-            collection: testCollectionName,
-          })(),
+      pluginState.insertFile({ id: 'bar' }, () => {});
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          mediaGroup(
+            media({
+              id: 'bar',
+              type: 'file',
+              collection: testCollectionName,
+            })(),
+            media({
+              id: 'foo',
+              type: 'file',
+              collection: testCollectionName,
+            })(),
+          ),
+          p(),
         ),
-        p(),
-      ),
-    );
-    spy.mockRestore();
+      );
+      spy.mockRestore();
 
-    pluginState.destroy();
-  });
+      pluginState.destroy();
+    });
 
-  it('should copy optional attributes from MediaState to Node attrs', () => {
-    const { editorView, pluginState } = editor(doc(p('{<>}')));
-    const collectionFromProvider = jest.spyOn(
-      pluginState,
-      'collectionFromProvider' as any,
-    );
-    collectionFromProvider.mockImplementation(() => testCollectionName);
+    it('should copy optional attributes from MediaState to Node attrs', () => {
+      const { editorView, pluginState } = editor(doc(p('{<>}')));
+      const collectionFromProvider = jest.spyOn(
+        pluginState,
+        'collectionFromProvider' as any,
+      );
+      collectionFromProvider.mockImplementation(() => testCollectionName);
 
-    pluginState.insertFile(
-      {
-        id: temporaryFileId,
-        status: 'preview',
-        fileName: 'foo.png',
-        fileSize: 1234,
-        fileMimeType: 'pdf',
-      },
-      () => {},
-    );
+      pluginState.insertFile(
+        {
+          id: temporaryFileId,
+          status: 'preview',
+          fileName: 'foo.png',
+          fileSize: 1234,
+          fileMimeType: 'pdf',
+        },
+        () => {},
+      );
 
-    expect(editorView.state.doc).toEqualDocument(
-      doc(
-        mediaGroup(
-          media({
-            id: temporaryFileId,
-            type: 'file',
-            collection: testCollectionName,
-            __fileName: 'foo.png',
-            __fileSize: 1234,
-            __fileMimeType: 'pdf',
-          })(),
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          mediaGroup(
+            media({
+              id: temporaryFileId,
+              type: 'file',
+              collection: testCollectionName,
+              __fileName: 'foo.png',
+              __fileSize: 1234,
+              __fileMimeType: 'pdf',
+            })(),
+          ),
+          p(),
         ),
-        p(),
-      ),
-    );
-    collectionFromProvider.mockRestore();
+      );
+      collectionFromProvider.mockRestore();
 
-    pluginState.destroy();
+      pluginState.destroy();
+    });
   });
 
   describe('splitMediaGroup', () => {
