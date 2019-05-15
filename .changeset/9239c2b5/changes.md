@@ -1,0 +1,1 @@
+- [ED-6817] Extract the current toggleHeader logic to prosemirror-table 0.8.0
