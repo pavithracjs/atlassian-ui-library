@@ -1,0 +1,1 @@
+- Conversation editor long text wrapping fix
