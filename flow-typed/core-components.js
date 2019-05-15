@@ -1,3 +1,4 @@
+// @flow
 // This file is used to create flow definitions for core packages that
 // have been converted to typescript. This is a temporary solution
 // while we are converting all core packages to typescript.
@@ -18,6 +19,10 @@ declare module '@atlaskit/badge' {
 }
 
 declare module '@atlaskit/banner' {
+  declare module.exports: any;
+}
+
+declare module '@atlaskit/lozenge' {
   declare module.exports: any;
 }
 
