@@ -19,7 +19,6 @@ const TitleIcon = ({ appearance }: { appearance?: 'danger' | 'warning' }) => {
   const Icon = appearance === 'danger' ? ErrorIcon : WarningIcon;
 
   return (
-    //TODO: investigate appearance={appearance} set here
     <span css={titleIconWrapperStyles(appearance)}>
       <Icon label={`${appearance} icon`} />
     </span>

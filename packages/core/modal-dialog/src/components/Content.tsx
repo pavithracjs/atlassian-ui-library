@@ -212,7 +212,6 @@ export default class Content extends React.Component<Props, State> {
     this.escapeIsHeldDown = false;
   };
 
-  // TODO see if there's a way to be explicit
   handleKeyDown = (event: any) => {
     const { onClose, shouldCloseOnEscapePress, stackIndex = 0 } = this.props;
 
