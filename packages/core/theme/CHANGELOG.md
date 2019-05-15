@@ -1,5 +1,10 @@
 # @atlaskit/theme
 
+## 9.0.1
+- [patch] [d5f0e7d767](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5f0e7d767):
+
+  - Adds missing type def to typings for the /component.ts entrypoint
+
 ## 9.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

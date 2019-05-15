@@ -1,5 +1,10 @@
 # @atlaskit/atlassian-switcher
 
+## 1.1.0
+- [minor] [b3381f5c07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b3381f5c07):
+
+  - Add domain to analytics
+
 ## 1.0.0
 - [minor] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

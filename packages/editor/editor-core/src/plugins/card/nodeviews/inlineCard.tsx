@@ -17,7 +17,9 @@ export interface Props {
 }
 
 class InlineCardNode extends React.PureComponent<Props, {}> {
-  onClick = () => {};
+  onClick: React.EventHandler<
+    React.MouseEvent | React.KeyboardEvent
+  > = () => {};
 
   static contextTypes = {
     contextAdapter: PropTypes.object,

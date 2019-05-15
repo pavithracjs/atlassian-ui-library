@@ -17,7 +17,7 @@ export function renderBlockCard(
   state: ObjectState,
   handleAuthorise: (() => void) | undefined,
   handleErrorRetry: () => void,
-  handleFrameClick: () => void,
+  handleFrameClick: React.EventHandler<React.MouseEvent | React.KeyboardEvent>,
   isSelected?: boolean,
 ): React.ReactNode {
   switch (state.status) {
