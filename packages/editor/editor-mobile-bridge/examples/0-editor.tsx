@@ -1,5 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import CopyIcon from '@atlaskit/icon/glyph/copy';
+import TextArea from '@atlaskit/textarea';
+import { colors } from '@atlaskit/theme';
 
 import {
   cardProvider,
@@ -19,15 +22,51 @@ export const Wrapper: any = styled.div`
   box-sizing: border-box;
 `;
 
+export const Toolbar: any = styled.div`
+  border-bottom: 1px dashed ${colors.N50};
+  padding: 1em;
+`;
+
+export const ClipboardZone: any = styled.div`
+  max-width: 500px;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+`;
+
 Wrapper.displayName = 'Wrapper';
 
 // @ts-ignore
 window.logBridge = window.logBridge || [];
 
 export default class Example extends React.Component {
+  private textAreaRef?: HTMLTextAreaElement | null;
+
+  copyToClipboard = () => {
+    if (!this.textAreaRef) {
+      return;
+    }
+    this.textAreaRef.select();
+    document.execCommand('copy');
+  };
+
   render() {
     return (
       <Wrapper>
+        <Toolbar>
+          <ClipboardZone>
+            <p>Copy to clipboard:</p>
+            <TextArea
+              data-id="clipboardInput"
+              isCompact
+              resize="smart"
+              forwardedRef={(ref: HTMLTextAreaElement | null) =>
+                (this.textAreaRef = ref)
+              }
+            />
+            <CopyIcon label="copy" onClick={this.copyToClipboard} />
+          </ClipboardZone>
+        </Toolbar>
         <Editor
           cardProvider={Promise.resolve(cardProvider)}
           mediaProvider={storyMediaProviderFactory({

@@ -38,7 +38,7 @@ const mobileUploadEndPayload = (publicId: string, collectionName: string) => ({
 
 BrowserTestCase(
   `media.ts: Collection + Dimensions => uploading`,
-  { skip },
+  { skip: skip.concat('safari') },
   async (client: any, testName: string) => {
     const browser = new Page(client);
 
@@ -64,7 +64,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   `media.ts: Collection + Dimensions => complete`,
-  { skip },
+  { skip: skip.concat('safari') },
   async (client: any, testName: string) => {
     const browser = new Page(client);
 
@@ -156,7 +156,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   `media.ts: Empty collection + Dimensions => uploading`,
-  { skip },
+  { skip: skip.concat('safari') },
   async (client: any, testName: string) => {
     const browser = new Page(client);
 
@@ -182,7 +182,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   `media.ts: Empty collection + Dimensions => complete`,
-  { skip },
+  { skip: skip.concat('safari') },
   async (client: any, testName: string) => {
     const browser = new Page(client);
 
@@ -217,7 +217,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   `media.ts: Empty collection + No dimension => uploading`,
-  { skip },
+  { skip: skip.concat('safari') },
   async (client: any, testName: string) => {
     const browser = new Page(client);
 
@@ -238,7 +238,7 @@ BrowserTestCase(
 
 BrowserTestCase(
   `media.ts: Empty collection + No dimension => complete`,
-  { skip },
+  { skip: skip.concat('safari') },
   async (client: any, testName: string) => {
     const browser = new Page(client);
 
