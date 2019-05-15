@@ -13,7 +13,7 @@ type Props = {
   /** Whether the blanket has a tinted background color. */
   isTinted?: boolean;
   /** Handler function to be called when the blanket is clicked */
-  onBlanketClicked?: (event: React.SyntheticEvent<EventTarget>) => void;
+  onBlanketClicked?: (event: React.MouseEvent) => void;
 };
 
 class Blanket extends React.Component<Props, {}> {
