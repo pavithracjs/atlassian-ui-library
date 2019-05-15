@@ -106,13 +106,13 @@ describe('Media PickerFacade', () => {
         facade.destroy();
       });
 
-      it.skip(`listens to picker events`, () => {
+      it(`listens to picker events`, () => {
         const fn = jasmine.any(Function);
         expect(spies.on).toHaveBeenCalledWith('upload-preview-update', fn);
         expect(spies.on).toHaveBeenCalledWith('upload-processing', fn);
       });
 
-      it.skip('removes listeners on destruction', () => {
+      it('removes listeners on destruction', () => {
         facade.destroy();
         expect(spies.removeAllListeners).toHaveBeenCalledWith(
           'upload-preview-update',
