@@ -1,1 +1,0 @@
-- Fixed bug with recent item duplication on search

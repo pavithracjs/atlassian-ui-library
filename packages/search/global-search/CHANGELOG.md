@@ -1,5 +1,10 @@
 # @atlaskit/global-search
 
+## 8.6.1
+- [patch] [71f75b2699](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/71f75b2699):
+
+  - Fixed bug with recent item duplication on search
+
 ## 8.6.0
 - [minor] [1bcb87f888](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcb87f888):
 
