@@ -146,7 +146,7 @@ async function waitForLoadedBackgroundImages(
         return Promise.race([
           new Promise((resolve, reject) => setTimeout(reject, raceTimeout)),
           Promise.all(
-            [...bgImageUrlSet].map(
+            Array.from(bgImageUrlSet).map(
               url =>
                 new Promise((resolve, reject) => {
                   const img = new Image();
@@ -164,6 +164,7 @@ async function waitForLoadedBackgroundImages(
     .catch(e => {
       console.warn(
         `waitForLoadedBackgroundImages: Failed to resolve background images within the threshold of ${timeoutMs} milliseconds`,
+        e,
       );
     });
 }
