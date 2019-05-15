@@ -1,1 +1,0 @@
-- Makes dependency on @atlaskit/spinner a caret version. No API or behaviour changes.
