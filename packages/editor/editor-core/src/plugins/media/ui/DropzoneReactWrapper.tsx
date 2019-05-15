@@ -92,16 +92,26 @@ export default class DropzoneReactWrapper extends React.Component<
   };
 
   render() {
+    const {
+      mediaState: {
+        options: { customDropzoneContainer },
+      },
+    } = this.props;
     const { context, config, pickerFacadeInstance } = this.state;
 
     if (!context || !config || !pickerFacadeInstance) {
       return null;
     }
+    // Not quite sure where the container is coming from. Will try both:
+    const theConfig: DropzoneConfig = {
+      ...config,
+      container: config.container || customDropzoneContainer,
+    };
 
     return (
       <Dropzone
         context={context}
-        config={config}
+        config={theConfig}
         onError={pickerFacadeInstance.handleUploadError}
         onPreviewUpdate={pickerFacadeInstance.handleUploadPreviewUpdate}
         onProcessing={pickerFacadeInstance.handleReady}

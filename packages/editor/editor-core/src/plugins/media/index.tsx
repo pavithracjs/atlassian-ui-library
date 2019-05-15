@@ -133,7 +133,6 @@ const mediaPlugin = (
   },
 
   contentComponent({ editorView }) {
-    // todo pass container element
     return (
       <WithPluginState
         editorView={editorView}
