@@ -1,0 +1,1 @@
+- converting spinner to typescript
