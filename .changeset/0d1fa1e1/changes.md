@@ -1,1 +1,0 @@
-- check for taskType icon in the json payload
