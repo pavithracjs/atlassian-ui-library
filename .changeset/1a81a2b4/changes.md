@@ -1,0 +1,1 @@
+- Updated event type for `onBlanketClicked` prop
