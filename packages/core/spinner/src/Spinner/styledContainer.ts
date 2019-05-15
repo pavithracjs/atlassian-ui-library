@@ -1,11 +1,9 @@
-// @flow
-
 import styled, { keyframes, css } from 'styled-components';
-import type { SpinnerPhases } from '../types';
+import { SpinnerPhases } from '../types';
 
 type AnimationParams = {
-  delay: number,
-  phase: SpinnerPhases,
+  delay: number;
+  phase: SpinnerPhases;
 };
 
 /* Define keyframes statically to prevent a perfomance issue in styled components v1 where the keyframes function
@@ -59,7 +57,7 @@ export const getContainerAnimation = ({ delay, phase }: AnimationParams) => {
 
 const getSize = ({ size }: { size: number }) => `${size}px`;
 
-const Container = styled.span`
+const Container = styled.span<AnimationParams & { size: number }>`
   ${getContainerAnimation}
   display: flex;
   height: ${getSize};

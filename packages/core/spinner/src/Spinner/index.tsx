@@ -1,13 +1,11 @@
-// @flow
-
-import React, { Component } from 'react';
+import React, { Component, AnimationEvent } from 'react';
 import { Transition } from 'react-transition-group';
 import styled from 'styled-components';
 
 import { SIZES_MAP, DEFAULT_SIZE } from './constants';
 import Container from './styledContainer';
 import Svg from './styledSvg';
-import type { SpinnerProps, SpinnerState } from '../types';
+import { SpinnerProps, SpinnerState } from '../types';
 
 const Outer = styled.span`
   display: inline-block;
@@ -24,7 +22,7 @@ export default class Spinner extends Component<SpinnerProps, SpinnerState> {
     size: 'medium',
   };
 
-  transitionNode: ?HTMLElement;
+  transitionNode: Transition | null = null;
 
   constructor(props: SpinnerProps) {
     super(props);
@@ -50,12 +48,12 @@ export default class Spinner extends Component<SpinnerProps, SpinnerState> {
     this.setState({ phase: 'LEAVE' });
   };
 
-  endListener = (node: ?HTMLElement, done: Function) => {
-    const executeCallback = (event: AnimationEvent) => {
+  endListener = (node: HTMLElement, done: () => void) => {
+    const executeCallback = (event: AnimationEvent): void => {
       // ignore animation events on the glyph
-      // $FlowFixMe - tagName does not exist in event.target
-      if (event.target.tagName === 'svg') {
-        return false;
+
+      if ((event.target as SVGElement).tagName === 'svg') {
+        return;
       }
       if (this.state.phase === 'DELAY') {
         this.setState({ phase: 'ENTER' });
@@ -63,14 +61,26 @@ export default class Spinner extends Component<SpinnerProps, SpinnerState> {
       } else {
         done();
       }
-      return node && node.removeEventListener('animationend', executeCallback);
+      return (
+        node &&
+        node.removeEventListener(
+          'animationend',
+          (executeCallback as unknown) as EventListener,
+        )
+      );
     };
 
     // FIX - jest-emotion doesn't recognise the DOM node so it can't add
     // the eventListener in the @atlaskit/button tests.
     // Should be fixed when we move to emotion@10
     if (node && node.addEventListener) {
-      return node && node.addEventListener('animationend', executeCallback);
+      return (
+        node &&
+        node.addEventListener(
+          'animationend',
+          (executeCallback as unknown) as EventListener,
+        )
+      );
     }
     return done();
   };
@@ -100,6 +110,7 @@ export default class Spinner extends Component<SpinnerProps, SpinnerState> {
           onEntered={this.idle}
           onExit={this.exit}
           onExited={() => this.props.onComplete()}
+          timeout={0}
           ref={node => {
             this.transitionNode = node;
           }}

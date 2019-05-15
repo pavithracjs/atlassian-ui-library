@@ -1,15 +1,13 @@
-// @flow
-
 import styled, { css, keyframes } from 'styled-components';
-import { themed } from '@atlaskit/theme/components';
+import { themed } from '@atlaskit/theme';
 import { N500, N0 } from '@atlaskit/theme/colors';
-import type { SpinnerPhases } from '../types';
+import { SpinnerPhases } from '../types';
 import { SIZES_MAP } from './constants';
 
 type StyleParams = {
-  invertColor: boolean,
-  phase: SpinnerPhases,
-  size: number,
+  invertColor: boolean;
+  phase: SpinnerPhases;
+  size: number;
 };
 
 const getStrokeWidth = (size: number) => Math.round(size / 10);
@@ -25,7 +23,7 @@ const getStrokeCircumference = (size: number) => {
  * in the DOM.
  * This can be reverted to dynamic keyframes when we upgrade to styled components v2
  */
-const keyframeNames = {
+const keyframeNames: { [key: string]: string } = {
   noop: keyframes`
     from { opacity: 0; }
     to { opacity: 0; }
@@ -84,16 +82,19 @@ export const getStrokeColor = ({
   invertColor,
   ...props
 }: {
-  invertColor?: boolean,
+  invertColor?: boolean;
 }): string | number =>
-  // $FlowFixMe - theme is not found in props
   invertColor ? spinnerColorInverted(props) : spinnerColor(props);
 
 export const svgStyles = css`
   ${(props: StyleParams) => {
     const circumference = getStrokeCircumference(props.size);
 
-    const animation = animProps => {
+    const animation = (animProps: {
+      size: number;
+      phase: SpinnerPhases;
+      invertColor: boolean;
+    }) => {
       const baseAnimation = '0.86s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite';
       if (animProps.phase === 'ENTER') {
         return css`
