@@ -1,0 +1,1 @@
+- Removing dependency of media-core on media-avatar-picker
