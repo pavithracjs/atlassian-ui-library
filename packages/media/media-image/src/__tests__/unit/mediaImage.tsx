@@ -3,7 +3,6 @@ import { shallow } from 'enzyme';
 import { Observable } from 'rxjs';
 import {
   nextTick,
-  createStorybookMediaClient,
   asMock,
   fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
@@ -13,7 +12,7 @@ import MediaImage, { MediaImageProps } from '../../mediaImage';
 import { imageFileId } from '@atlaskit/media-test-helpers';
 
 const shallowRender = async (props: MediaImageProps) => {
-  const wrapper = shallow(
+  const wrapper = shallow<MediaImage, MediaImageProps, any>(
     <MediaImage {...props}>
       {({ loading, error, data }) => {
         if (loading) {
@@ -39,10 +38,11 @@ const shallowRender = async (props: MediaImageProps) => {
 };
 
 describe('<MediaImage />', () => {
-  let defaultProps: Partial<MediaImageProps>;
+  let defaultProps: MediaImageProps;
   let mediaClient: MediaClient;
   const getFileState = jest.fn();
   const getImage = jest.fn();
+
   beforeEach(() => {
     jest.spyOn(URL, 'revokeObjectURL');
 
@@ -55,9 +55,9 @@ describe('<MediaImage />', () => {
 
     getImage.mockReturnValue({});
 
-    const mockMediaClient = createStorybookMediaClient();
-    asMock(mockMediaClient.file.getFileState).mockImplementation(getFileState);
-    asMock(mockMediaClient.getImage).mockImplementation(getImage);
+    mediaClient = fakeMediaClient();
+    asMock(mediaClient.file.getFileState).mockImplementation(getFileState);
+    asMock(mediaClient.getImage).mockImplementation(getImage);
 
     defaultProps = {
       apiConfig: {
@@ -67,13 +67,15 @@ describe('<MediaImage />', () => {
         mode: 'full-fit',
       },
       identifier: imageFileId,
-      mediaClient: mediaClient,
+      mediaClient,
+      children: () => ({} as any),
     };
   });
 
   afterEach(() => {
     getFileState.mockReset();
     getImage.mockReset();
+    jest.resetAllMocks();
   });
 
   it('should render error placeholder if request fails', async () => {
@@ -83,7 +85,7 @@ describe('<MediaImage />', () => {
       }),
     );
 
-    const newMediaClient = createStorybookMediaClient();
+    const newMediaClient = fakeMediaClient();
     asMock(newMediaClient.file.getFileState).mockImplementation(getFileState);
     asMock(newMediaClient.getImage).mockImplementation(getImage);
 
@@ -91,7 +93,7 @@ describe('<MediaImage />', () => {
       ...defaultProps,
       mediaClient: newMediaClient,
     };
-    const wrapper = await shallowRender(props as MediaImageProps);
+    const wrapper = await shallowRender(props);
 
     expect(wrapper.find('div').text()).toEqual('error');
   });
@@ -116,7 +118,7 @@ describe('<MediaImage />', () => {
       mediaClient: newMediaClient,
     };
 
-    const wrapper = await shallowRender(props as MediaImageProps);
+    const wrapper = await shallowRender(props);
 
     expect(wrapper.find('div').text()).toEqual('error');
   });
@@ -126,7 +128,7 @@ describe('<MediaImage />', () => {
       .fn()
       .mockReturnValue(Observable.of({ status: 'error', mediaType: 'image' }));
 
-    const newMediaClient = createStorybookMediaClient();
+    const newMediaClient = fakeMediaClient();
     asMock(newMediaClient.file.getFileState).mockImplementation(getFileState);
     asMock(newMediaClient.getImage).mockImplementation(getImage);
 
@@ -134,14 +136,14 @@ describe('<MediaImage />', () => {
       ...defaultProps,
       mediaClient: newMediaClient,
     };
-    const wrapper = await shallowRender(props as MediaImageProps);
+    const wrapper = await shallowRender(props);
 
     expect(wrapper.find('div').text()).toEqual('error');
   });
 
   it('should remove subscription if the component is unmounted', async () => {
-    const wrapper = await shallowRender(defaultProps as MediaImageProps);
-    const instance = wrapper.instance() as MediaImage;
+    const wrapper = await shallowRender(defaultProps);
+    const instance = wrapper.instance();
     jest.spyOn(instance, 'unsubscribe');
 
     wrapper.unmount();
@@ -157,7 +159,7 @@ describe('<MediaImage />', () => {
         Observable.of({ status: 'loading', mediaType: 'image' }),
       );
 
-    const newMediaClient = createStorybookMediaClient();
+    const newMediaClient = fakeMediaClient();
     asMock(newMediaClient.file.getFileState).mockImplementation(getFileState);
     asMock(newMediaClient.getImage).mockImplementation(getImage);
 
@@ -165,23 +167,23 @@ describe('<MediaImage />', () => {
       ...defaultProps,
       mediaClient: newMediaClient,
     };
-    const wrapper = await shallowRender(props as MediaImageProps);
+    const wrapper = await shallowRender(props);
 
     expect(wrapper.find('div').text()).toEqual('loading');
   });
 
   it('should NOT trigger subscribe if new dimension is smaller than the current used', async () => {
-    const wrapper = await shallowRender(defaultProps as MediaImageProps);
+    const wrapper = await shallowRender(defaultProps);
     expect(getFileState).toHaveBeenCalledTimes(1);
 
-    wrapper.setProps({ apiConfig: { width: 90, heigth: 90 } });
+    wrapper.setProps({ apiConfig: { width: 90, height: 90 } });
     await wrapper.update();
 
     expect(getFileState).toHaveBeenCalledTimes(1);
   });
 
   it('should NOT trigger subscribe if new dimension is smaller than the current used', async () => {
-    const wrapper = await shallowRender(defaultProps as MediaImageProps);
+    const wrapper = await shallowRender(defaultProps);
     expect(getFileState).toHaveBeenCalledTimes(1);
 
     wrapper.setProps({ identifier: defaultProps.identifier });
@@ -191,19 +193,19 @@ describe('<MediaImage />', () => {
   });
 
   it('should trigger subscribe if new dimension is smaller than the current used', async () => {
-    const wrapper = await shallowRender(defaultProps as MediaImageProps);
+    const wrapper = await shallowRender(defaultProps);
     expect(getFileState).toHaveBeenCalledTimes(1);
 
-    wrapper.setProps({ apiConfig: { width: 110, heigth: 110 } });
+    wrapper.setProps({ apiConfig: { width: 110, height: 110 } });
     await wrapper.update();
 
     expect(getFileState).toHaveBeenCalledTimes(2);
   });
 
   it('should trigger subscribe if mediaClient has changed', async () => {
-    const wrapper = await shallowRender(defaultProps as MediaImageProps);
+    const wrapper = await shallowRender(defaultProps);
     expect(getFileState).toHaveBeenCalledTimes(1);
-    const dummyMediaClient = createStorybookMediaClient();
+    const dummyMediaClient = fakeMediaClient();
     asMock(dummyMediaClient.file.getFileState).mockImplementation(getFileState);
     asMock(dummyMediaClient.getImage).mockImplementation(getImage);
 
@@ -225,7 +227,7 @@ describe('<MediaImage />', () => {
     jest.spyOn(URL as any, 'createObjectURL').mockReturnValue(img);
     const getImage = jest.fn().mockReturnValue({});
 
-    const mediaClient = createStorybookMediaClient();
+    const mediaClient = fakeMediaClient();
     asMock(mediaClient.file.getFileState).mockImplementation(getFileState);
     asMock(mediaClient.getImage).mockImplementation(getImage);
 
@@ -233,7 +235,7 @@ describe('<MediaImage />', () => {
       ...defaultProps,
       mediaClient,
     };
-    const wrapper = await shallowRender(props as MediaImageProps);
+    const wrapper = await shallowRender(props);
 
     expect(getImage).toHaveBeenCalledTimes(0);
     expect(wrapper.find('img').props().src).toEqual(img);
@@ -251,7 +253,7 @@ describe('<MediaImage />', () => {
       .fn()
       .mockReturnValue(new Blob([img], { type: 'image/jpeg' }));
 
-    const newMediaClient = createStorybookMediaClient();
+    const newMediaClient = fakeMediaClient();
     asMock(newMediaClient.file.getFileState).mockImplementation(getFileState);
     asMock(newMediaClient.getImage).mockImplementation(getImage);
 
