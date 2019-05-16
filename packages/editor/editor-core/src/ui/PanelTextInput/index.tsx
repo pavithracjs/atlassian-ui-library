@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { KeyboardEvent, PureComponent } from 'react';
 import { Input } from './styles';
+import { FocusEvent } from 'react';
 
 export interface Props {
   autoFocus?: boolean;
@@ -45,10 +46,10 @@ export default class PanelTextInput extends PureComponent<Props, State> {
     }
   };
 
-  onBlur = () => {
+  onBlur = (e: FocusEvent<any>) => {
     const { onBlur } = this.props;
     if (onBlur) {
-      onBlur();
+      onBlur(e);
     }
   };
 

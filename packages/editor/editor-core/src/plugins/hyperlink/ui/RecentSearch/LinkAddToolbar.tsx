@@ -15,22 +15,58 @@ import {
   AnalyticsEventPayload,
   DispatchAnalyticsEvent,
 } from '../../../analytics';
+import EditorAlignLeftIcon from '@atlaskit/icon/glyph/editor/align-left';
+import LinkIcon from '@atlaskit/icon/glyph/link';
+import { colors } from '@atlaskit/theme';
+import { normalizeUrl } from '../../utils';
+import Tooltip from '@atlaskit/tooltip';
+import CrossCircleIcon from '@atlaskit/icon/glyph/cross-circle';
 
 const Container = styled.div`
   width: 420px;
   display: flex;
   flex-direction: column;
   overflow: auto;
+  padding: 0;
 
   ${({ provider }: { provider: boolean }) =>
     css`
       width: ${provider ? '420x' : '360'}px;
     `};
   line-height: 2;
+`;
 
-  input {
-    padding: 8px;
+const InputWrapper = `
+  display: flex;
+  line-height: 0;
+  padding: 5px 0;
+  align-items: center;
+
+  svg {
+    max-width: 18px;
   }
+`;
+
+const ClearText = styled.span`
+  cursor: pointer;
+  padding-right: 8px;
+  color: ${colors.N80};
+`;
+
+const TextInputWrapper = styled.div`
+  ${InputWrapper}
+  border-top: 1px solid ${colors.N30}
+`;
+
+const UrlInputWrapper = styled.div`
+  ${InputWrapper}
+`;
+
+const IconWrapper = styled.span`
+  padding: 10px;
+  color: ${colors.N80};
+  padding: 4px 8px;
+  width: 18px;
 `;
 
 export const messages = defineMessages({
@@ -44,17 +80,44 @@ export const messages = defineMessages({
     defaultMessage: 'Paste link',
     description: 'Create a new link by pasting a URL.',
   },
+  linkAddress: {
+    id: 'fabric.editor.linkAddress',
+    defaultMessage: 'Link address',
+    description: 'Insert the address of the link',
+  },
+  displayText: {
+    id: 'fabric.editor.displayText',
+    defaultMessage: 'Text to display',
+    description: 'Text to display',
+  },
+  clearText: {
+    id: 'fabric.editor.clearLinkText',
+    defaultMessage: 'Clear text',
+    description: 'Clears text on the link toolbar',
+  },
+  clearLink: {
+    id: 'fabric.editor.clearLink',
+    defaultMessage: 'Clear link',
+    description: 'Clears link in the link toolbar',
+  },
 });
 
 export type LinkInputType = INPUT_METHOD.MANUAL | INPUT_METHOD.TYPEAHEAD;
 export interface Props {
-  onBlur?: (text: string) => void;
-  onSubmit?: (href: string, text?: string, type?: LinkInputType) => void;
+  onBlur?: (
+    type: string,
+    url: string,
+    displayText: string,
+    isTabPressed?: boolean,
+  ) => void;
+  onSubmit?: (href: string, text: string, type?: LinkInputType) => void;
   popupsMountPoint?: HTMLElement;
   popupsBoundariesElement?: HTMLElement;
   autoFocus?: boolean;
   provider: Promise<ActivityProvider>;
   dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
+  displayText?: string;
+  displayUrl?: string;
 }
 
 export interface State {
@@ -63,15 +126,32 @@ export interface State {
   selectedIndex: number;
   text: string;
   isLoading: boolean;
+  displayText: string;
 }
 
 class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
-  state = {
-    selectedIndex: -1,
-    isLoading: false,
-    text: '',
-    items: [],
-  } as State;
+  /* To not fire on-blur on tab-press */
+  private isTabPressed: boolean = false;
+
+  private urlInputContainer: PanelTextInput | null = null;
+  private displayTextInputContainer: PanelTextInput | null = null;
+  private urlBlur: () => void;
+  private textBlur: () => void;
+
+  constructor(props: Props & InjectedIntlProps) {
+    super(props);
+    this.state = {
+      selectedIndex: -1,
+      isLoading: false,
+      text: props.displayUrl || '',
+      displayText: props.displayText || '',
+      items: [],
+    };
+
+    /* Cache functions */
+    this.urlBlur = this.handleBlur.bind(this, 'url');
+    this.textBlur = this.handleBlur.bind(this, 'text');
+  }
 
   async resolveProvider() {
     const provider = await this.props.provider;
@@ -88,8 +168,12 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
 
   private async loadRecentItems(activityProvider: ActivityProvider) {
     try {
-      this.setState({ isLoading: true });
-      this.setState({ items: limit(await activityProvider.getRecentItems()) });
+      if (!this.state.text) {
+        this.setState({
+          isLoading: true,
+          items: limit(await activityProvider.getRecentItems()),
+        });
+      }
     } finally {
       this.setState({ isLoading: false });
     }
@@ -113,8 +197,17 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
     }
   };
 
+  private clearUrl = (field: keyof State, component: PanelTextInput) => {
+    this.setState({
+      [field]: '',
+    } as any);
+    if (component) {
+      component.focus();
+    }
+  };
+
   render() {
-    const { items, isLoading, selectedIndex } = this.state;
+    const { items, isLoading, selectedIndex, text, displayText } = this.state;
     const {
       intl: { formatMessage },
       provider,
@@ -122,36 +215,105 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
     const placeholder = formatMessage(
       provider ? messages.placeholder : messages.linkPlaceholder,
     );
+
+    const formatLinkAddressText = formatMessage(messages.linkAddress);
+    const formatClearLinkText = formatMessage(messages.clearLink);
+    const formatDisplayText = formatMessage(messages.displayText);
+
     return (
-      <Container provider={!!provider}>
-        <PanelTextInput
-          placeholder={placeholder}
-          autoFocus={true}
-          onSubmit={this.handleSubmit}
-          onChange={this.updateInput}
-          onBlur={this.handleBlur}
-          onCancel={this.handleBlur}
-          onKeyDown={this.handleKeyDown}
-        />
-        <RecentList
-          items={items}
-          isLoading={isLoading}
-          selectedIndex={selectedIndex}
-          onSelect={this.handleSelected}
-          onMouseMove={this.handleMouseMove}
-        />
-      </Container>
+      <div className="recent-list">
+        <Container provider={!!provider}>
+          <UrlInputWrapper>
+            <IconWrapper>
+              <Tooltip content={formatLinkAddressText}>
+                <LinkIcon label={formatLinkAddressText} />
+              </Tooltip>
+            </IconWrapper>
+            <PanelTextInput
+              ref={ele => (this.urlInputContainer = ele)}
+              placeholder={placeholder}
+              onSubmit={this.handleSubmit}
+              onChange={this.updateInput}
+              autoFocus={true}
+              onCancel={this.urlBlur}
+              onBlur={this.urlBlur}
+              defaultValue={text}
+              onKeyDown={this.handleKeyDown}
+            />
+            {text && (
+              <Tooltip content={formatClearLinkText}>
+                <ClearText
+                  onClick={this.clearUrl.bind(
+                    null,
+                    'text',
+                    this.urlInputContainer,
+                  )}
+                >
+                  <CrossCircleIcon label={formatClearLinkText} />
+                </ClearText>
+              </Tooltip>
+            )}
+          </UrlInputWrapper>
+          <RecentList
+            items={items}
+            isLoading={isLoading}
+            selectedIndex={selectedIndex}
+            onSelect={this.handleSelected}
+            onMouseMove={this.handleMouseMove}
+          />
+          <TextInputWrapper>
+            <IconWrapper>
+              <Tooltip content={formatDisplayText}>
+                <EditorAlignLeftIcon label={formatDisplayText} />
+              </Tooltip>
+            </IconWrapper>
+            <PanelTextInput
+              ref={ele => (this.displayTextInputContainer = ele)}
+              placeholder={formatDisplayText}
+              onChange={this.handleTextKeyDown}
+              onCancel={this.textBlur}
+              onBlur={this.textBlur}
+              defaultValue={displayText}
+              onSubmit={this.handleSubmit}
+            />
+            {displayText && (
+              <Tooltip content={formatMessage(messages.clearText)}>
+                <ClearText
+                  onClick={this.clearUrl.bind(
+                    null,
+                    'displayText',
+                    this.displayTextInputContainer,
+                  )}
+                >
+                  <CrossCircleIcon label={formatMessage(messages.clearText)} />
+                </ClearText>
+              </Tooltip>
+            )}
+          </TextInputWrapper>
+        </Container>
+      </div>
     );
   }
 
   private handleSelected = (href: string, text: string) => {
-    if (this.props.onSubmit) {
-      this.props.onSubmit(href, text, INPUT_METHOD.TYPEAHEAD);
-      this.trackAutoCompleteAnalyticsEvent(
-        'atlassian.editor.format.hyperlink.autocomplete.click',
-        INPUT_METHOD.TYPEAHEAD,
-      );
-    }
+    this.setState(
+      {
+        displayText: text,
+      },
+      () => {
+        if (this.props.onSubmit) {
+          this.props.onSubmit(
+            href,
+            this.state.displayText || text,
+            INPUT_METHOD.TYPEAHEAD,
+          );
+          this.trackAutoCompleteAnalyticsEvent(
+            'atlassian.editor.format.hyperlink.autocomplete.click',
+            INPUT_METHOD.TYPEAHEAD,
+          );
+        }
+      },
+    );
   };
 
   private handleMouseMove = (objectId: string) => {
@@ -172,7 +334,11 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
     if (items && items.length > 0 && selectedIndex > -1) {
       const item = items[selectedIndex];
       if (this.props.onSubmit) {
-        this.props.onSubmit(item.url, item.name, INPUT_METHOD.TYPEAHEAD);
+        this.props.onSubmit(
+          item.url,
+          this.state.displayText || item.name,
+          INPUT_METHOD.TYPEAHEAD,
+        );
         this.trackAutoCompleteAnalyticsEvent(
           'atlassian.editor.format.hyperlink.autocomplete.keyboard',
           INPUT_METHOD.TYPEAHEAD,
@@ -180,7 +346,11 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
       }
     } else if (text && text.length > 0) {
       if (this.props.onSubmit) {
-        this.props.onSubmit(text, undefined, INPUT_METHOD.MANUAL);
+        this.props.onSubmit(
+          text,
+          this.state.displayText || text,
+          INPUT_METHOD.MANUAL,
+        );
         this.trackAutoCompleteAnalyticsEvent(
           'atlassian.editor.format.hyperlink.autocomplete.notselected',
           INPUT_METHOD.MANUAL,
@@ -191,6 +361,9 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
 
   private handleKeyDown = (e: KeyboardEvent<any>) => {
     const { items, selectedIndex } = this.state;
+
+    this.isTabPressed = e.keyCode === 9;
+
     if (!items || !items.length) {
       return;
     }
@@ -210,9 +383,21 @@ class RecentSearch extends PureComponent<Props & InjectedIntlProps, State> {
     }
   };
 
-  private handleBlur = () => {
+  private handleTextKeyDown = (displayText: string) => {
+    this.setState({
+      displayText,
+    });
+  };
+
+  private handleBlur = (type: string, e: FocusEvent) => {
+    const url = normalizeUrl(this.state.text);
     if (this.props.onBlur) {
-      this.props.onBlur(this.state.text);
+      this.props.onBlur(
+        type,
+        url,
+        this.state.displayText || this.state.text,
+        this.isTabPressed,
+      );
     }
   };
 

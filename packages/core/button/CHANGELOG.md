@@ -1,5 +1,10 @@
 # @atlaskit/button
 
+## 13.0.1
+- [patch] [754f83b6f0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/754f83b6f0):
+
+  - Makes dependency on @atlaskit/spinner a caret version. No API or behaviour changes.
+
 ## 13.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

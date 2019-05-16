@@ -1,5 +1,10 @@
 # @atlaskit/editor-common
 
+## 39.2.3
+- [patch] [dfc7aaa563](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dfc7aaa563):
+
+  - ED-6863: Fix the rendering of extensions in the renderer when they have breakout layouts.
+
 ## 39.2.2
 - [patch] [5ad66b6d1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ad66b6d1a):
 

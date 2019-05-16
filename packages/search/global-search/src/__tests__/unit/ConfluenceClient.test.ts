@@ -48,7 +48,7 @@ describe('ConfluenceClient', () => {
 
       expect(result).toEqual([
         {
-          resultId: pages[0].id,
+          resultId: pages[0].id + '',
           name: pages[0].title,
           href: `${DUMMY_CONFLUENCE_HOST}${pages[0].url}?search_id=search_id`,
           containerName: pages[0].space,
@@ -60,7 +60,7 @@ describe('ConfluenceClient', () => {
           isRecentResult: true,
         },
         {
-          resultId: pages[1].id,
+          resultId: pages[1].id + '',
           name: pages[1].title,
           href: `${DUMMY_CONFLUENCE_HOST}${pages[1].url}?search_id=search_id`,
           containerName: pages[1].space,

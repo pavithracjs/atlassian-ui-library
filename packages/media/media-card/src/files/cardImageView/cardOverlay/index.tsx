@@ -184,7 +184,7 @@ export class CardOverlay extends Component<CardOverlayProps, CardOverlayState> {
   };
 
   removeBtnClick(handler: CardEventHandler) {
-    return (e: MouseEvent<HTMLDivElement>) => {
+    return (e: MouseEvent<HTMLDivElement, any>) => {
       e.preventDefault();
       e.stopPropagation();
       handler();
