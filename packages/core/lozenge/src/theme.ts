@@ -50,7 +50,7 @@ export type ThemeAppearance =
   | Record<string, any>;
 
 export interface ThemeProps {
-  appearance: ThemeAppearance;
+  appearance: ThemeAppearance | Record<string, any>;
   isBold: boolean;
   maxWidth: number | string;
 }
