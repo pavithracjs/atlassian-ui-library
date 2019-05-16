@@ -1,5 +1,3 @@
-// @flow
-
 import styled, { css } from 'styled-components';
 import { gridSize, typography } from '@atlaskit/theme';
 
@@ -9,7 +7,11 @@ const truncationStyles = css`
   white-space: nowrap;
 `;
 
-const getTruncationStyles = ({ truncate }) =>
+interface StyledProps {
+  truncate?: boolean;
+}
+
+const getTruncationStyles = ({ truncate }: StyledProps) =>
   truncate ? truncationStyles : null;
 
 export const Outer = styled.div`
@@ -25,7 +27,7 @@ export const StyledTitle = styled.h1`
 export const TitleWrapper = styled.div`
   align-items: flex-start;
   display: flex;
-  ${({ truncate }) =>
+  ${({ truncate }: StyledProps) =>
     truncate
       ? 'flex-wrap: no-wrap;'
       : 'flex-wrap: wrap;'}
@@ -34,7 +36,7 @@ export const TitleWrapper = styled.div`
 
 export const TitleContainer = styled.div`
   flex: 1 0 auto;
-  ${({ truncate }) => (truncate ? 'flex-shrink: 1;' : null)}
+  ${({ truncate }: StyledProps) => (truncate ? 'flex-shrink: 1;' : null)}
   margin-bottom: ${gridSize()}px;
   max-width: 100%;
   min-width: 0;
