@@ -1,5 +1,15 @@
 # @atlaskit/smart-card
 
+## 11.0.5
+- [patch] [27f666ed85](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/27f666ed85):
+
+  - Fixed example.
+
+## 11.0.4
+- [patch] [94ffb3b638](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/94ffb3b638):
+
+  - check for taskType icon in the json payload
+
 ## 11.0.3
 - [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
 

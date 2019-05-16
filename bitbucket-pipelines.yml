@@ -6,7 +6,7 @@ clone:
   depth: full
 options:
   size: 2x
-
+ 
 pipelines:
   branches:
     master:
