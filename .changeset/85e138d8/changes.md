@@ -1,1 +1,0 @@
-- Fixed aria-hidden attribute for banner container
