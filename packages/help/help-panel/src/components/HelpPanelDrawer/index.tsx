@@ -68,7 +68,13 @@ export class HelpPanelDrawer extends Component<
     const { children, help } = this.props;
 
     return createPortal(
-      <Transition in={help.isOpen} timeout={transitionDurationMs}>
+      <Transition
+        in={help.isOpen}
+        timeout={transitionDurationMs}
+        mountOnEnter
+        unmountOnExit
+        appear
+      >
         {(state: TransitionStatus) => (
           <HelpDrawer
             style={{
