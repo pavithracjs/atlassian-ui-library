@@ -1,1 +1,0 @@
-- Update transition configuration of the panel. If the initial value of isOpen is true, fire analytics event and request the article
