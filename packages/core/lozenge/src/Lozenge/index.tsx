@@ -9,7 +9,7 @@ interface Props {
   appearance: ThemeAppearance;
 
   /** Elements to be rendered inside the lozenge. This should ideally be just a word or two. */
-  children?: ReactNode | string;
+  children?: ReactNode;
 
   /** Determines whether to apply the bold style or not. */
   isBold: boolean;
