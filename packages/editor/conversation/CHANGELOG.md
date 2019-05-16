@@ -1,5 +1,10 @@
 # @atlaskit/conversation
 
+## 15.1.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
 ## 15.0.2
 - Updated dependencies [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
   - @atlaskit/comment@8.0.2

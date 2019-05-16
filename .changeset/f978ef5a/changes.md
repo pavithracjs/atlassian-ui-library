@@ -1,1 +1,0 @@
-- Use strict tsconfig to compile editor packages
