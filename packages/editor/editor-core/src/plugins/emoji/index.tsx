@@ -116,12 +116,12 @@ const emojiPlugin: EditorPlugin = {
         return emojis.map<TypeAheadItem>(emoji => ({
           title: emoji.shortName || '',
           key: emoji.id || emoji.shortName,
-          render({ isSelected, onClick, onMouseMove }) {
+          render({ isSelected, onClick, onHover }) {
             return (
               <EmojiTypeAheadItem
                 emoji={emoji}
                 selected={isSelected}
-                onMouseMove={onMouseMove}
+                onMouseMove={onHover}
                 onSelection={onClick}
               />
             );
@@ -137,6 +137,7 @@ const emojiPlugin: EditorPlugin = {
         );
       },
       selectItem(state, item, insert, { mode }) {
+        console.log({ item });
         const { id = '', type = '', fallback, shortName } = item.emoji;
         const text = fallback || shortName;
         const emojiPluginState = emojiPluginKey.getState(
@@ -165,6 +166,7 @@ const emojiPlugin: EditorPlugin = {
           queryLength: (typeAheadPluginState.query || '').length,
         });
 
+        console.log({ shortName, id, text });
         return addAnalytics(
           insert(
             state.schema.nodes.emoji.createChecked({
