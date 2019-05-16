@@ -25,9 +25,8 @@ function checkBSBuildQueues() {
       if (response.data.length - 5 > numberOfBuildsAllowed) {
         return Promise.reject(
           new Error(
-            `Browserstack is currently running with ${
-              response.data.length
-            } builds concurrently, please try again later`,
+            `Browserstack is currently running with ${response.data.length -
+              5} builds concurrently, please try again later`,
           ),
         );
       }
