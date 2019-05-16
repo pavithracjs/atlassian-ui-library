@@ -1,5 +1,10 @@
 # @atlaskit/select
 
+## 9.1.0
+- [minor] [3d5ab16856](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d5ab16856):
+
+  - Add missing dependency @emotion/core
+
 ## 9.0.1
 - [patch] [21854842b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21854842b5):
 

@@ -21,12 +21,12 @@ function checkBSBuildQueues() {
       },
     })
     .then(response => {
-      if (response.data.length > numberOfBuildsAllowed) {
+      // TODO: remove `-5` when https://product-fabric.atlassian.net/browse/BUILDTOOLS-137 is fixed.
+      if (response.data.length - 5 > numberOfBuildsAllowed) {
         return Promise.reject(
           new Error(
-            `Browserstack is currently running with ${
-              response.data.length
-            } builds concurrently, please try again later`,
+            `Browserstack is currently running with ${response.data.length -
+              5} builds concurrently, please try again later`,
           ),
         );
       }

@@ -1,5 +1,10 @@
 # @atlaskit/blanket
 
+## 10.0.1
+- [patch] [27cf35ca9d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/27cf35ca9d):
+
+  - Updated event type for `onBlanketClicked` prop
+
 ## 10.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

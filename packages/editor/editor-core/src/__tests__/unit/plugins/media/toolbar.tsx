@@ -1,9 +1,9 @@
 import * as React from 'react';
+import { floatingToolbar } from '../../../../plugins/media/toolbar';
 import {
-  floatingToolbar,
-  messages,
   AnnotationToolbar,
-} from '../../../../plugins/media/toolbar';
+  messages as annotateMessages,
+} from '../../../../plugins/media/toolbar/annotation';
 import { IntlProvider } from 'react-intl';
 import {
   createEditorFactory,
@@ -328,7 +328,7 @@ describe('media', () => {
             .find(Button)
             .first()
             .prop('title'),
-        ).toEqual(messages.annotate.defaultMessage);
+        ).toEqual(annotateMessages.annotate.defaultMessage);
       });
 
       it('fires analytics when the annotate button is clicked', async () => {

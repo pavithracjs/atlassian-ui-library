@@ -1,5 +1,10 @@
 # @atlaskit/media-avatar-picker
 
+## 21.0.2
+- [patch] [6f712416f4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6f712416f4):
+
+  - Removing dependency of media-core on media-avatar-picker
+
 ## 21.0.1
 - Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
   - @atlaskit/media-core@30.0.1
