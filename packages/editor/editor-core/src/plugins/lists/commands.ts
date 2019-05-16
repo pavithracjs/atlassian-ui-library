@@ -20,7 +20,7 @@ import {
   hasParentNodeOfType,
   findPositionOfNodeBefore,
 } from 'prosemirror-utils';
-import { isEmptyNode, hasVisibleContent } from '../../utils/document';
+import { hasVisibleContent, isNodeEmpty } from '../../utils/document';
 import {
   filter,
   isEmptySelectionAtStart,
@@ -217,7 +217,7 @@ export const enterKeyCommand: Command = (state, dispatch): boolean => {
     if (wrapper && wrapper.type === listItem) {
       /** Check if the wrapper has any visible content */
       const wrapperHasContent = hasVisibleContent(wrapper);
-      if (isEmptyNode(node) && !wrapperHasContent) {
+      if (isNodeEmpty(node) && !wrapperHasContent) {
         return outdentList()(state, dispatch);
       } else if (!hasParentNodeOfType(codeBlock)(selection)) {
         return splitListItem(listItem)(state, dispatch);

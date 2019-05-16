@@ -1,0 +1,1 @@
+- Remove duplicate isEmptyNode function from same code path, to prevent compilation errors

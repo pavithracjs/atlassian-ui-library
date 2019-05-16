@@ -48,7 +48,7 @@ export function hasVisibleContent(node: Node): boolean {
 /**
  * Checks if a node has any content. Ignores node that only contain empty block nodes.
  */
-export function isEmptyNode(node?: Node): boolean {
+export function isNodeEmpty(node?: Node): boolean {
   if (node && node.textContent) {
     return false;
   }
