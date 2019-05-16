@@ -1,6 +1,6 @@
 import { TextFormattingState } from '@atlaskit/editor-core';
 
-export class MarkState {
+export interface MarkState {
   name: string;
   active: boolean;
   enabled: boolean;

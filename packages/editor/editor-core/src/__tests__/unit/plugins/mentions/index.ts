@@ -10,7 +10,7 @@ import { dismissCommand } from '../../../../plugins/type-ahead/commands/dismiss'
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { MentionProvider, MentionDescription } from '@atlaskit/mention';
 import { EditorView } from 'prosemirror-view';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 
 describe('mentionTypeahead', () => {
   const createEditor = createEditorFactory();
@@ -459,7 +459,7 @@ describe('mentionTypeahead', () => {
             doc(
               p(
                 '',
-                a({ href: 'localhost/people/team/team-2' })('Team Beta'),
+                a({ href: 'http://localhost/people/team/team-2' })('Team Beta'),
                 ' (',
                 mention({
                   id: 'member-1',

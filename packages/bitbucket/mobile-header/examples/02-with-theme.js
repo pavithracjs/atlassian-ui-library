@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import Navigation from '@atlaskit/navigation';
-import DetailViewIcon from '@atlaskit/icon/glyph/detail-view';
+import RoomMenuIcon from '@atlaskit/icon/glyph/room-menu';
 import MobileHeader from '../src';
 
 const FakeSideBar = styled.div`
@@ -41,13 +41,13 @@ class MobileHeaderDemo extends Component<*, State> {
     return (
       <MobileHeader
         drawerState={this.state.drawerState}
-        menuIconLabel={'Menu'}
+        menuIconLabel="Menu"
         navigation={isOpen => isOpen && <Navigation onResize={() => {}} />}
         secondaryContent={
           <ButtonGroup>
             <Button>One</Button>
             <Button
-              iconBefore={<DetailViewIcon label="Show sidebar" />}
+              iconBefore={<RoomMenuIcon label="Show sidebar" />}
               onClick={this.sidebarOpened}
             />
           </ButtonGroup>

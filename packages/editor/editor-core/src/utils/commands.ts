@@ -136,6 +136,8 @@ const toggleMark = (
 };
 
 export {
+  // https://github.com/typescript-eslint/typescript-eslint/issues/131
+  // eslint-disable-next-line no-undef
   Predicate,
   filter,
   isEmptySelectionAtStart,

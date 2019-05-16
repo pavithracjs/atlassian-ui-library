@@ -1,4 +1,5 @@
 {
+    "extends": "./tsconfig.entry-points.json",
     "compilerOptions": {
       "allowJs": false,
       "alwaysStrict": true,
@@ -30,10 +31,12 @@
         "es2015.collection",
         "es2015.symbol",
         "es2015.iterable",
-        "es2015.promise"
+        "es2015.promise",
+        "es2016.array.include"
       ],
       "types": ["jest", "react", "enzyme", "css-color-names", "jest-styled-components", "styled-components", "linkify-it"],
-      "typeRoots": ["./typings", "./node_modules/@types"]
+      "typeRoots": ["./typings", "./node_modules/@types"],
+      "esModuleInterop": true
     },
     "files": [
       "./typings/atlaskit.d.ts",

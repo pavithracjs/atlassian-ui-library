@@ -62,8 +62,14 @@ export type UserPickerProps = {
   placeholder?: React.ReactNode;
   /** Message to encourage the user to add more items to user picker. */
   addMoreMessage?: string;
-  /** Message to be shown when the menu is open but no options are provided. */
-  noOptionsMessage?: string | ((value: { inputValue: string }) => string);
+  /** Message to be shown when the menu is open but no options are provided.
+   * If message is null, no message will be displayed.
+   * If message is undefined, default message will be displayed.
+   */
+  noOptionsMessage?:
+    | ((value: { inputValue: string }) => string | null)
+    | string
+    | null;
   /** Controls if the user picker has a value or not. If not provided, UserPicker will control the value internally. */
   value?: Value;
   /** Disable all interactions with the picker, putting it in a read-only state. */
@@ -86,6 +92,8 @@ export type UserPickerProps = {
   autoFocus?: boolean;
   /** The maximum number options to be displayed in the dropdown menu during any state of search. The value should be non-negative. */
   maxOptions?: number;
+  /** Allows clicking on a label with the same id to open user picker. */
+  inputId?: string;
 };
 
 export type PopupUserPickerProps = UserPickerProps & {
@@ -93,6 +101,11 @@ export type PopupUserPickerProps = UserPickerProps & {
   target: Target;
   /** Optional title assigned to popup picker */
   popupTitle?: string;
+  /**
+   *  Reference to the HTMLElement that should be used as a boundary for the popup.
+   *  Viewport is used by default.
+   */
+  boundariesElement?: HTMLElement;
 };
 
 export type UserPickerState = {
@@ -103,6 +116,7 @@ export type UserPickerState = {
   hoveringClearIndicator: boolean;
   menuIsOpen: boolean;
   inputValue: string;
+  resolving: boolean;
 };
 
 export interface HighlightRange {

@@ -23,7 +23,7 @@ import {
   TimeStyle,
 } from './styles';
 import { renderHighlight } from './MentionHighlightHelpers';
-import MentionDescriptionHighlight from '../MentionDescriptionHighlight';
+import MentionDescriptionByline from '../MentionDescriptionByline';
 
 function renderLozenge(lozenge?: string) {
   if (lozenge) {
@@ -42,7 +42,9 @@ function renderTime(time?: string) {
 export interface Props {
   mention: MentionDescription;
   selected?: boolean;
+  // TODO: Remove onMouseMove -> https://product-fabric.atlassian.net/browse/FS-3897
   onMouseMove?: OnMentionEvent;
+  onMouseEnter?: OnMentionEvent;
   onSelection?: OnMentionEvent;
 }
 
@@ -58,6 +60,12 @@ export default class MentionItem extends React.PureComponent<Props, {}> {
   private onMentionMenuItemMouseMove = (event: React.MouseEvent<any>) => {
     if (this.props.onMouseMove) {
       this.props.onMouseMove(this.props.mention, event);
+    }
+  };
+
+  private onMentionMenuItemMouseEnter = (event: React.MouseEvent<any>) => {
+    if (this.props.onMouseEnter) {
+      this.props.onMouseEnter(this.props.mention, event);
     }
   };
 
@@ -85,6 +93,7 @@ export default class MentionItem extends React.PureComponent<Props, {}> {
         selected={selected}
         onMouseDown={this.onMentionSelected}
         onMouseMove={this.onMentionMenuItemMouseMove}
+        onMouseEnter={this.onMentionMenuItemMouseEnter}
         data-mention-id={id}
         data-mention-name={mentionName}
       >
@@ -99,7 +108,7 @@ export default class MentionItem extends React.PureComponent<Props, {}> {
           </AvatarStyle>
           <NameSectionStyle restricted={restricted}>
             {renderHighlight(FullNameStyle, name, nameHighlights)}
-            <MentionDescriptionHighlight mention={mention} />
+            <MentionDescriptionByline mention={mention} />
           </NameSectionStyle>
           <InfoSectionStyle restricted={restricted}>
             {renderLozenge(lozenge)}

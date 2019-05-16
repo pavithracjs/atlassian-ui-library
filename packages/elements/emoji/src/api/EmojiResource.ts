@@ -6,8 +6,8 @@ import {
   utils as serviceUtils,
 } from '@atlaskit/util-service-support';
 import { CategoryId } from '../components/picker/categories';
-import { selectedToneStorageKey } from '../constants';
-import { isMediaEmoji, isPromise, toEmojiId } from '../type-helpers';
+import { selectedToneStorageKey } from '../util/constants';
+import { isMediaEmoji, isPromise, toEmojiId } from '../util/type-helpers';
 import {
   EmojiDescription,
   EmojiId,
@@ -553,7 +553,7 @@ export class EmojiResource
           return false;
         })
         .catch(err => {
-          // tslint:disable-next-line:no-console
+          // eslint-disable-next-line no-console
           console.error('failed to delete site emoji', err);
           return false;
         });
@@ -574,7 +574,7 @@ export class EmojiResource
           tone ? tone.toString() : '',
         );
       } catch (e) {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.error('failed to store selected emoji skin tone', e);
       }
     }

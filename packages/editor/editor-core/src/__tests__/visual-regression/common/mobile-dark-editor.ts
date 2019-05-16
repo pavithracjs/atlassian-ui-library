@@ -1,6 +1,11 @@
 import { snapshot, initEditorWithAdf, Appearance } from '../_utils';
-import * as adf from './__fixtures__/with-content.json';
+import adf from './__fixtures__/with-content.json';
 import { Page } from '../../__helpers/page-objects/_types';
+import {
+  waitForEmojis,
+  emojiReadySelector,
+} from '../../__helpers/page-objects/_emoji';
+import { waitForLoadedBackgroundImages } from '@atlaskit/visual-regression/helper';
 
 describe('Snapshot Test: Mobile Dark Editor', () => {
   let page: Page;
@@ -16,6 +21,8 @@ describe('Snapshot Test: Mobile Dark Editor', () => {
   });
 
   it('should correctly render dark mode in mobile editor', async () => {
-    await snapshot(page, 0.2);
+    await waitForEmojis(page);
+    await waitForLoadedBackgroundImages(page, emojiReadySelector, 10000);
+    await snapshot(page, 0.02);
   });
 });

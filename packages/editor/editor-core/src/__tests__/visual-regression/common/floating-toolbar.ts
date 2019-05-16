@@ -3,7 +3,7 @@ import {
   getSelectorForTableCell,
   tableSelectors,
 } from '../../__helpers/page-objects/_table';
-import * as table from './__fixtures__/toolbar-adf.json';
+import table from './__fixtures__/toolbar-adf.json';
 import { waitForElementWithText } from '../../__helpers/page-objects/_editor';
 import {
   clickOnExtension,
@@ -11,7 +11,7 @@ import {
 } from '../../__helpers/page-objects/_extensions';
 
 describe('Floating toolbars:', () => {
-  let page;
+  let page: any;
   beforeAll(async () => {
     // @ts-ignore
     page = global.page;

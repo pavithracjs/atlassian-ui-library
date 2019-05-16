@@ -48,12 +48,15 @@ type Props = {
 
 class IconExplorerCell extends Component<Props, { isModalOpen: boolean }> {
   props: Props;
+
   state = {
     isModalOpen: false,
   };
 
   ref: ?ElementRef<typeof FieldTextStateless>;
+
   input: ?HTMLInputElement;
+
   importCodeField: ?HTMLElement;
 
   setInputRef = (ref: ?ElementRef<typeof FieldTextStateless>) => {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { mount, shallow, ShallowWrapper, ReactWrapper } from 'enzyme';
 import VidPlayIcon from '@atlaskit/icon/glyph/vid-play';
 import { expectToEqual } from '@atlaskit/media-test-helpers';
-import { Ellipsify } from '@atlaskit/media-ui';
+import { Ellipsify, MediaImage } from '@atlaskit/media-ui';
 
 import { FileCardImageView, FileCardImageViewProps } from '../..';
 import { CardOverlay } from '../../cardImageView/cardOverlay';
@@ -11,7 +11,7 @@ import {
   PlayIconWrapper,
   ProgressBarWrapper,
 } from '../../cardImageView/styled';
-import { CardLoading, MediaImage } from '../../../utils';
+import { CardLoading } from '../../../utils/lightCards/cardLoading';
 import { ProgressBar } from '../../../utils/progressBar';
 import CardActions from '../../../utils/cardActions';
 

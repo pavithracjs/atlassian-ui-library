@@ -37,7 +37,7 @@ export default class Chevron extends Component<Props> {
         <Button
           spacing="none"
           appearance="subtle"
-          ariaControls={ariaControls}
+          aria-controls={ariaControls}
           onClick={this.handleClick}
         >
           <ChevronIconContainer>

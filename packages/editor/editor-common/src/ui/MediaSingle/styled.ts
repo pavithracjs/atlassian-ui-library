@@ -2,7 +2,10 @@ import * as React from 'react';
 import { HTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
 import { MediaSingleLayout } from '@atlaskit/adf-schema';
-import { akEditorFullPageMaxWidth } from '../../styles';
+import {
+  akEditorFullPageMaxWidth,
+  akEditorFullWidthLayoutWidth,
+} from '../../styles';
 import { calcWideWidth, calcBreakoutWidth } from '../../utils';
 
 function float(layout: MediaSingleLayout): string {
@@ -16,6 +19,14 @@ function float(layout: MediaSingleLayout): string {
   }
 }
 
+function getWidthIfFullWidthMode(width: number): string {
+  return width > akEditorFullWidthLayoutWidth ? '100%' : `${width}px`;
+}
+
+function getWidthIfDefaultMode(width: number): string {
+  return width > akEditorFullPageMaxWidth ? '100%' : `${width}px`;
+}
+
 /**
  * Calculates the image width for non-resized images.
  *
@@ -27,6 +38,8 @@ export function calcLegacyWidth(
   layout: MediaSingleLayout,
   width: number,
   containerWidth: number = 0,
+  fullWidthMode?: boolean,
+  isResized?: boolean,
 ): string {
   switch (layout) {
     case 'align-start':
@@ -41,7 +54,11 @@ export function calcLegacyWidth(
     case 'full-width':
       return calcBreakoutWidth(layout, containerWidth);
     default:
-      return width > akEditorFullPageMaxWidth ? '100%' : `${width}px`;
+      return isResized
+        ? `${width}px`
+        : fullWidthMode
+        ? getWidthIfFullWidthMode(width)
+        : getWidthIfDefaultMode(width);
   }
 }
 
@@ -110,6 +127,8 @@ export interface WrapperProps {
   containerWidth?: number;
   pctWidth?: number;
   innerRef?: (elem: HTMLElement) => void;
+  fullWidthMode?: boolean;
+  isResized?: boolean;
 }
 
 /**
@@ -122,17 +141,23 @@ export const MediaSingleDimensionHelper = ({
   layout,
   containerWidth = 0,
   pctWidth,
+  fullWidthMode,
+  isResized,
 }: WrapperProps) => css`
   tr & {
     max-width: 100%;
   }
   width: ${pctWidth
     ? calcResizedWidth(layout, width, containerWidth)
-    : calcLegacyWidth(layout, width, containerWidth)};
+    : calcLegacyWidth(layout, width, containerWidth, fullWidthMode, isResized)};
   max-width: ${calcMaxWidth(layout, width, containerWidth)};
   float: ${float(layout)};
   margin: ${calcMargin(layout)};
   ${isImageAligned(layout)};
+
+  &:not(.is-resizing) {
+    transition: width 100ms ease-in;
+  }
 `;
 
 const Wrapper: React.ComponentClass<
@@ -145,6 +170,10 @@ const Wrapper: React.ComponentClass<
     content: '';
     display: block;
     padding-bottom: ${p => (p.height / p.width) * 100}%;
+
+    /* Fixes extra padding problem in Firefox */
+    font-size: 0;
+    line-height: 0;
   }
 
   & > div {

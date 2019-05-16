@@ -12,7 +12,7 @@ test('sets color as currentColor by default', () => {
 });
 
 test('sets color from prop', () => {
-  expect(shallow(<Skeleton color={'#FFFFFF'} />)).toHaveStyleRule(
+  expect(shallow(<Skeleton color="#FFFFFF" />)).toHaveStyleRule(
     'background-color',
     '#FFFFFF',
   );

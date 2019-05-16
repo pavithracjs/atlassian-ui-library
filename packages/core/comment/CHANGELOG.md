@@ -1,5 +1,50 @@
 # @atlaskit/comment
 
+## 8.0.2
+- Updated dependencies [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
+  - @atlaskit/editor-core@112.0.0
+
+## 8.0.1
+- Updated dependencies [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
+  - @atlaskit/editor-core@111.0.0
+
+## 8.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 7.0.8
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-core@109.0.0
+
+## 7.0.7
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-core@108.0.0
+
+## 7.0.6
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/button@12.0.3
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/lozenge@7.0.2
+  - @atlaskit/editor-core@107.13.4
+  - @atlaskit/theme@8.1.7
+
+## 7.0.5
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/avatar@15.0.3
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/editor-core@107.12.5
+  - @atlaskit/button@12.0.0
+
+## 7.0.4
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-core@107.0.0
+
 ## 7.0.3
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

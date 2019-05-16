@@ -1,5 +1,68 @@
 # @atlaskit/editor-cq-transformer
 
+## 7.1.2
+- Updated dependencies [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
+  - @atlaskit/editor-test-helpers@9.1.4
+  - @atlaskit/editor-core@112.0.0
+
+## 7.1.1
+- Updated dependencies [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
+  - @atlaskit/editor-test-helpers@9.1.2
+  - @atlaskit/editor-core@111.0.0
+
+## 7.1.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
+## 7.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 6.0.7
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-common@38.0.0
+  - @atlaskit/editor-core@109.0.0
+  - @atlaskit/editor-test-helpers@8.0.8
+  - @atlaskit/util-data-test@11.1.9
+
+## 6.0.6
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-common@37.0.0
+  - @atlaskit/editor-core@108.0.0
+  - @atlaskit/editor-test-helpers@8.0.7
+  - @atlaskit/util-data-test@11.1.8
+
+## 6.0.5
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/editor-common@36.1.12
+  - @atlaskit/editor-core@107.13.4
+  - @atlaskit/theme@8.1.7
+
+## 6.0.4
+- [patch] [6695367885](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6695367885):
+
+  - Revert emoji refactor
+
+## 6.0.3
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/editor-core@107.12.5
+  - @atlaskit/button@12.0.0
+
+## 6.0.2
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/editor-core@107.0.0
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/util-data-test@11.1.5
+
 ## 6.0.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

@@ -3,6 +3,7 @@ import { NavigationAnalyticsContext } from '@atlaskit/analytics-namespaced-conte
 import {
   createAndFireEvent,
   withAnalyticsEvents,
+  CreateUIAnalyticsEventSignature,
 } from '@atlaskit/analytics-next';
 import {
   UI_EVENT_TYPE,
@@ -48,7 +49,10 @@ type RenderTrackerProps = {
 };
 
 export const RenderTracker = withAnalyticsEvents({
-  onRender: (createAnalyticsEvent, props: RenderTrackerProps) => {
+  onRender: (
+    createAnalyticsEvent: CreateUIAnalyticsEventSignature,
+    props: RenderTrackerProps,
+  ) => {
     return createAnalyticsEvent({
       eventType: OPERATIONAL_EVENT_TYPE,
       action: 'rendered',

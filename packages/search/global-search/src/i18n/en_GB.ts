@@ -14,7 +14,8 @@ export default {
   'global_search.no_recent_activity_title': 'Search for what you need',
   'global_search.no_recent_activity_body':
     'Or use <a href={url}>advanced search</a> (`shift + enter`) to focus your results.',
-  'global_search.no_results_title': 'No results in titles and people',
+  'global_search.no_results_title':
+    "We couldn't find anything matching your search",
   'global_search.no_results_body':
     'Try again with a different term, or refine your results with our advanced search.',
   'global_search.people.recent_people_heading': 'Recently worked with',
@@ -28,9 +29,12 @@ export default {
   'global_search.jira.recent_issues_heading': 'Recent issues',
   'global_search.jira.recent_people_heading': 'Recently worked with',
   'global_search.jira.recent_containers': 'Recent boards, projects and filters',
+  'global_search.jira.recent_core_containers': 'Recent projects and filters',
   'global_search.jira.search_result_issues_heading': 'Issues',
   'global_search.jira.search_result_containers_heading':
     'Boards, projects and filters',
+  'global_search.jira.search_result_core_containers_heading':
+    'Projects and filters',
   'global_search.jira.search_result_people_heading': 'People',
   'global_search.jira.advanced_search': 'Advanced search for',
   'global_search.jira.advanced_search_issues': 'issues',
@@ -52,4 +56,5 @@ export default {
   'global_search.jira.project_type.ops_project': 'Ops Project',
   'global_search.jira.result_type.board': 'Board',
   'global_search.jira.result_type.filter': 'Filter',
+  'global_search.give_feedback': 'Give feedback',
 };

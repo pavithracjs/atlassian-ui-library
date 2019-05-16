@@ -2,7 +2,12 @@ import * as React from 'react';
 import { MouseEvent } from 'react';
 import styled from 'styled-components';
 import { colors } from '@atlaskit/theme';
-import { akEditorMenuZIndex } from '@atlaskit/editor-common';
+import {
+  akEditorMenuZIndex,
+  akEditorFullWidthLayoutWidth,
+  akEditorGutterPadding,
+} from '@atlaskit/editor-common';
+import { taskListSelector, decisionListSelector } from '@atlaskit/adf-schema';
 import { EditorAppearanceComponentProps, EditorAppearance } from '../../types';
 import Avatars from '../../plugins/collab-edit/ui/avatars';
 import PluginSlot from '../PluginSlot';
@@ -15,7 +20,7 @@ import rafSchedule from 'raf-schd';
 import { scrollbarStyles } from '../styles';
 import WidthEmitter from '../WidthEmitter';
 
-const GUTTER_PADDING = 32;
+const SWOOP_ANIMATION = '0.5s cubic-bezier(.15,1,.3,1)';
 
 const FullPageEditorWrapper = styled.div`
   min-width: 340px;
@@ -41,36 +46,64 @@ const ContentArea = styled.div`
   line-height: 24px;
   height: 100%;
   width: 100%;
-  max-width: ${({ theme }: any) => theme.layoutMaxWidth + GUTTER_PADDING * 2}px;
   padding-top: 50px;
-  margin: 0 auto;
-  display: flex;
   flex-direction: column;
   flex-grow: 1;
   padding-bottom: 55px;
+  max-width: ${({ theme, fullWidthMode }: any) =>
+    (fullWidthMode ? akEditorFullWidthLayoutWidth : theme.layoutMaxWidth) +
+    akEditorGutterPadding * 2}px;
+  transition: margin-left ${SWOOP_ANIMATION}, max-width ${SWOOP_ANIMATION};
+  margin-left: ${({ theme, fullWidthMode }: any) =>
+    fullWidthMode
+      ? 0
+      : `calc(50% - ${(theme.layoutMaxWidth + akEditorGutterPadding * 2) /
+          2}px)`};
+
+  ${({ theme }) => `
+    @media (max-width: ${theme.layoutMaxWidth + akEditorGutterPadding * 2}px) {
+      margin-left: auto;
+    }
+  `}
 
   & .ProseMirror {
     flex-grow: 1;
     box-sizing: border-box;
   }
 
-  && .ProseMirror {
+  & .ProseMirror {
     & > * {
+      /* pre-emptively clear all direct descendant content, just in case any are adjacent floated content */
       clear: both;
     }
     > p,
     > ul,
-    > ol,
+    > ol:not(${taskListSelector}):not(${decisionListSelector}),
     > h1,
     > h2,
     > h3,
     > h4,
     > h5,
     > h6 {
+      /* deliberately allow wrapping of text based nodes, just in case any are adjacent floated content */
       clear: none;
     }
+
+    > p:last-child {
+      margin-bottom: 24px;
+    }
   }
+
   ${tableFullPageEditorStyles};
+
+  .fabric-editor--full-width-mode {
+    /* Full Width Mode styles for ignoring breakout sizes */
+    .fabric-editor-breakout-mark,
+    .extension-container,
+    .pm-table-container {
+      width: 100% !important;
+    }
+  }
 `;
 ContentArea.displayName = 'ContentArea';
 
@@ -126,8 +159,9 @@ export default class Editor extends React.Component<
   private appearance: EditorAppearance = 'full-page';
   private scrollContainer: HTMLElement | undefined;
   private scheduledKeylineUpdate: number | undefined;
+  private contentArea: HTMLElement | undefined;
 
-  stopPropagation = (event: MouseEvent<HTMLDivElement>) =>
+  stopPropagation = (event: MouseEvent<HTMLDivElement, any>) =>
     event.stopPropagation();
 
   scrollContainerRef = (ref: HTMLElement | null) => {
@@ -159,7 +193,10 @@ export default class Editor extends React.Component<
     }
 
     const { scrollTop } = this.scrollContainer;
-    this.setState({ showKeyline: scrollTop > akEditorToolbarKeylineHeight });
+    const showKeyline = scrollTop > akEditorToolbarKeylineHeight;
+    if (showKeyline !== this.state.showKeyline) {
+      this.setState({ showKeyline });
+    }
 
     return false;
   };
@@ -180,6 +217,7 @@ export default class Editor extends React.Component<
 
   render() {
     const {
+      appearance,
       editorDOMElement,
       editorView,
       editorActions,
@@ -232,10 +270,20 @@ export default class Editor extends React.Component<
           className="fabric-editor-popup-scroll-parent"
         >
           <ClickAreaBlock editorView={editorView}>
-            <ContentArea>
+            <ContentArea
+              fullWidthMode={appearance === 'full-width'}
+              innerRef={(contentArea: HTMLElement) => {
+                this.contentArea = contentArea;
+              }}
+            >
               <div
-                style={{ padding: `0 ${GUTTER_PADDING}px` }}
-                className="ak-editor-content-area"
+                style={{ padding: `0 ${akEditorGutterPadding}px` }}
+                className={[
+                  'ak-editor-content-area',
+                  this.props.appearance === 'full-width'
+                    ? 'fabric-editor--full-width-mode'
+                    : '',
+                ].join(' ')}
               >
                 {customContentComponents}
                 {
@@ -244,8 +292,9 @@ export default class Editor extends React.Component<
                     editorActions={editorActions}
                     eventDispatcher={eventDispatcher}
                     providerFactory={providerFactory}
-                    appearance={this.appearance}
+                    appearance={this.props.appearance || this.appearance}
                     items={contentComponents}
+                    contentArea={this.contentArea}
                     popupsMountPoint={popupsMountPoint}
                     popupsBoundariesElement={popupsBoundariesElement}
                     popupsScrollableElement={popupsScrollableElement}

@@ -4,7 +4,6 @@ import {
   editable,
   getDocFromElement,
   fullpage,
-  forEach,
   changeSelectedNodeLayout,
   animationFrame,
   toggleBreakout,
@@ -25,12 +24,17 @@ import { TableCssClassName } from '../../../plugins/table/types';
 
 import messages from '../../../messages';
 
+const clickFirstCell = async (page: any) => {
+  await page.waitForSelector(TableCssClassName.TOP_LEFT_CELL);
+  await page.click(TableCssClassName.TOP_LEFT_CELL);
+  await animationFrame(page);
+};
+
 BrowserTestCase(
   'Remains in overflow on table scale to wide',
-  { skip: ['ie', 'edge', 'safari', 'firefox'] },
+  { skip: ['edge', 'ie', 'safari', 'firefox'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
-    await page.browser.windowHandleMaximize();
 
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -40,12 +44,8 @@ BrowserTestCase(
       },
     });
 
-    await page.waitForSelector(TableCssClassName.TOP_LEFT_CELL);
-    await page.click(TableCssClassName.TOP_LEFT_CELL);
-
-    // Change layout to wide
-    await page.waitForSelector(`.${TableCssClassName.LAYOUT_BUTTON}`);
-    await page.click(`.${TableCssClassName.LAYOUT_BUTTON}`);
+    await clickFirstCell(page);
+    await toggleBreakout(page, 1);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -57,7 +57,6 @@ BrowserTestCase(
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
-    await page.browser.windowHandleMaximize();
 
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -67,14 +66,8 @@ BrowserTestCase(
       },
     });
 
-    await page.waitForSelector(TableCssClassName.TOP_LEFT_CELL);
-    await page.click(TableCssClassName.TOP_LEFT_CELL);
-
-    // Toggle layout twice.
-    await forEach([0, 1], async _ => {
-      await page.waitForSelector(`.${TableCssClassName.LAYOUT_BUTTON}`);
-      await page.click(`.${TableCssClassName.LAYOUT_BUTTON}`);
-    });
+    await clickFirstCell(page);
+    await toggleBreakout(page, 2);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -83,10 +76,9 @@ BrowserTestCase(
 
 BrowserTestCase(
   'Maintains the wide layout size without overflow',
-  { skip: ['ie', 'edge', 'safari', 'firefox'] },
+  { skip: ['edge', 'ie', 'firefox', 'safari'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
-    await page.browser.windowHandleMaximize();
 
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -96,11 +88,8 @@ BrowserTestCase(
       },
     });
 
-    await page.waitForSelector(TableCssClassName.TOP_LEFT_CELL);
-    await page.click(TableCssClassName.TOP_LEFT_CELL);
-
-    await page.waitForSelector(`.${TableCssClassName.LAYOUT_BUTTON}`);
-    await page.click(`.${TableCssClassName.LAYOUT_BUTTON}`);
+    await clickFirstCell(page);
+    await toggleBreakout(page, 1);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -122,11 +111,8 @@ BrowserTestCase(
       allowDynamicTextSizing: true,
     });
 
-    await page.waitForSelector(TableCssClassName.TOP_LEFT_CELL);
-    await page.click(TableCssClassName.TOP_LEFT_CELL);
-
-    await page.waitForSelector(`.${TableCssClassName.LAYOUT_BUTTON}`);
-    await page.click(`.${TableCssClassName.LAYOUT_BUTTON}`);
+    await clickFirstCell(page);
+    await toggleBreakout(page, 1);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -135,10 +121,9 @@ BrowserTestCase(
 
 BrowserTestCase(
   'Maintains the full-width layout size without overflow',
-  { skip: ['ie', 'edge', 'safari', 'firefox'] },
+  { skip: ['edge', 'ie', 'firefox', 'safari'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
-    await page.browser.windowHandleMaximize();
 
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -148,13 +133,8 @@ BrowserTestCase(
       },
     });
 
-    await page.waitForSelector(TableCssClassName.TOP_LEFT_CELL);
-    await page.click(TableCssClassName.TOP_LEFT_CELL);
-
-    await forEach([0, 1], async _ => {
-      await page.waitForSelector(`.${TableCssClassName.LAYOUT_BUTTON}`);
-      await page.click(`.${TableCssClassName.LAYOUT_BUTTON}`);
-    });
+    await clickFirstCell(page);
+    await toggleBreakout(page, 2);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -166,7 +146,6 @@ BrowserTestCase(
   { skip: ['ie', 'edge', 'safari', 'firefox'] },
   async (client: any, testName: string) => {
     const page = await goToEditorTestingExample(client);
-    await page.browser.windowHandleMaximize();
 
     await mountEditor(page, {
       appearance: fullpage.appearance,
@@ -176,13 +155,8 @@ BrowserTestCase(
       },
     });
 
-    await page.waitForSelector(TableCssClassName.TOP_LEFT_CELL);
-    await page.click(TableCssClassName.TOP_LEFT_CELL);
-
-    await forEach([0, 1, 2], async _ => {
-      await page.waitForSelector(`.${TableCssClassName.LAYOUT_BUTTON}`);
-      await page.click(`.${TableCssClassName.LAYOUT_BUTTON}`);
-    });
+    await clickFirstCell(page);
+    await toggleBreakout(page, 3);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);
@@ -216,7 +190,6 @@ BrowserTestCase(
       page,
       messages.layoutFixedWidth.defaultMessage,
     );
-
     await animationFrame(page);
 
     const doc = await page.$eval(editable, getDocFromElement);
@@ -248,7 +221,6 @@ BrowserTestCase(
     await page.waitForSelector('div[data-layout-section]');
     await page.click('div[data-layout-section]');
     await toggleBreakout(page, 2);
-
     await animationFrame(page);
 
     const doc = await page.$eval(editable, getDocFromElement);

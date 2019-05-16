@@ -6,7 +6,8 @@ import { ProviderFactory } from '@atlaskit/editor-common';
 import { EditorAppearance, ToolbarUIComponentFactory } from '../../types';
 import { EventDispatcher } from '../../event-dispatcher';
 import EditorActions from '../../actions';
-import { AnalyticsEventPayload } from '../../plugins/analytics';
+import { DispatchAnalyticsEvent } from '../../plugins/analytics';
+import { isFullPage } from '../../utils/is-full-page';
 
 const ToolbarComponentsWrapper = styled.div`
   display: flex;
@@ -50,7 +51,7 @@ export interface ToolbarProps {
   popupsScrollableElement?: HTMLElement;
   disabled: boolean;
   width?: number;
-  dispatchAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 }
 
 export interface ToolbarInnerProps extends ToolbarProps {
@@ -120,10 +121,13 @@ export class ToolbarInner extends React.Component<ToolbarInnerProps> {
   }
 }
 
-const toolbarSizesForAppearance = (appearance?: string) =>
-  appearance === 'full-page' ? toolbarSizesFullPage : toolbarSizes;
+const toolbarSizesForAppearance = (appearance?: EditorAppearance) =>
+  isFullPage(appearance) ? toolbarSizesFullPage : toolbarSizes;
 
-const widthToToolbarSize = (toolbarWidth: number, appearance?: string) => {
+const widthToToolbarSize = (
+  toolbarWidth: number,
+  appearance?: EditorAppearance,
+) => {
   return (
     toolbarSizesForAppearance(appearance).find(
       ({ width }) => toolbarWidth > width,

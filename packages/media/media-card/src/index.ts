@@ -7,22 +7,14 @@ import {
   Identifier,
   ImageResizeMode,
 } from '@atlaskit/media-core';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
 
 import { CardAction } from './actions';
 import { MediaViewerDataSource } from '@atlaskit/media-viewer';
 
-// the only components we expose to consumers is Card and CardView
 export { default as Card } from './root/card/cardLoader';
 
-export { CardView } from './root/cardViewLoader';
-
-export {
-  CardViewState,
-  CardViewOwnProps as CardViewProps,
-} from './root/cardView';
-
-export * from './actions';
+export { CardAction, CardEventHandler } from './actions';
 
 export type CardStatus =
   | 'uploading'
@@ -146,4 +138,6 @@ export interface CardState {
   error?: Error;
 }
 
-export { defaultImageCardDimensions } from './utils';
+export { CardLoading } from './utils/lightCards/cardLoading';
+export { CardError } from './utils/lightCards/cardError';
+export { defaultImageCardDimensions } from './utils/cardDimensions';

@@ -1,5 +1,6 @@
 // Used in products integration code
 export { name, version } from './version-wrapper';
+export { clearEditorContent } from './commands';
 export { default as Editor } from './editor';
 export { default as EditorContext } from './ui/EditorContext';
 export { default as WithEditorActions } from './ui/WithEditorActions';
@@ -59,7 +60,7 @@ export {
   toggleStrong,
 } from './plugins/text-formatting/commands/text-formatting';
 export { insertBlockType, setBlockType } from './plugins/block-type/commands';
-export { createTable } from './plugins/table/actions';
+export { createTable } from './plugins/table/commands';
 export { insertTaskDecision } from './plugins/tasks-and-decisions/commands';
 export { EventDispatcher } from './event-dispatcher';
 export {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { mountWithIntl } from '@atlaskit/editor-test-helpers';
 import { StatusPickerWithoutAnalytcs as StatusPicker } from '../../../../../plugins/status/ui/statusPicker';
 import { FABRIC_CHANNEL } from '../../../../../plugins/status/analytics';
-import { AnalyticsEventPayload } from '@atlaskit/analytics-next-types';
+import { AnalyticsEventPayload } from '@atlaskit/analytics-next';
 
 describe('StatusPicker', () => {
   const closeStatusPicker = jest.fn();
@@ -98,7 +98,7 @@ describe('StatusPicker', () => {
     expect(fireEvent).toBeCalledWith(FABRIC_CHANNEL);
   };
 
-  const registerDocumentListeners = (map = {}) => {
+  const registerDocumentListeners = (map: Record<any, any> = {}) => {
     document.addEventListener = jest.fn((event, cb) => {
       map[event] = cb;
     });

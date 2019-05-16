@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { EditorView } from 'prosemirror-view';
-import { Plugin, PluginKey, EditorState } from 'prosemirror-state';
+import { Plugin, PluginKey, Selection } from 'prosemirror-state';
 import { findDomRefAtPos, findSelectedNodeOfType } from 'prosemirror-utils';
 import { Popup, ProviderFactory } from '@atlaskit/editor-common';
 
@@ -16,12 +16,12 @@ import {
 } from '../editor-disabled';
 
 export const getRelevantConfig = (
-  state: EditorState,
+  selection: Selection<any>,
   configs: Array<FloatingToolbarConfig>,
 ): FloatingToolbarConfig | undefined => {
   // node selections always take precedence, see if
   const selectedConfig = configs.find(
-    config => !!findSelectedNodeOfType(config.nodeType)(state.selection),
+    config => !!findSelectedNodeOfType(config.nodeType)(selection),
   );
 
   if (selectedConfig) {
@@ -41,7 +41,7 @@ export const getRelevantConfig = (
   });
 
   // search up the tree from selection
-  const { $from } = state.selection;
+  const { $from } = selection;
   for (let i = $from.depth; i > 0; i--) {
     const node = $from.node(i);
 
@@ -85,24 +85,22 @@ const floatingToolbarPlugin: EditorPlugin = {
     popupsScrollableElement,
     editorView,
     providerFactory,
+    dispatchAnalyticsEvent,
   }) {
     return (
       <WithPluginState
         plugins={{
-          floatingToolbarConfigs: pluginKey,
+          floatingToolbarConfig: pluginKey,
           editorDisabledPlugin: editorDisabledPluginKey,
         }}
         render={({
           editorDisabledPlugin,
-          floatingToolbarConfigs,
+          floatingToolbarConfig,
         }: {
-          floatingToolbarConfigs?: Array<FloatingToolbarConfig>;
+          floatingToolbarConfig?: FloatingToolbarConfig;
           editorDisabledPlugin: EditorDisabledPluginState;
         }) => {
-          const relevantConfig =
-            floatingToolbarConfigs &&
-            getRelevantConfig(editorView.state, floatingToolbarConfigs);
-          if (relevantConfig) {
+          if (floatingToolbarConfig) {
             const {
               title,
               getDomRef = getDomRefFromSelection,
@@ -111,7 +109,7 @@ const floatingToolbarPlugin: EditorPlugin = {
               className = '',
               height,
               width,
-            } = relevantConfig;
+            } = floatingToolbarConfig;
             const targetRef = getDomRef(editorView);
 
             if (targetRef && !(editorDisabledPlugin || {}).editorDisabled) {
@@ -141,6 +139,7 @@ const floatingToolbarPlugin: EditorPlugin = {
                     popupsMountPoint={popupsMountPoint}
                     popupsBoundariesElement={popupsBoundariesElement}
                     popupsScrollableElement={popupsScrollableElement}
+                    dispatchAnalyticsEvent={dispatchAnalyticsEvent}
                   />
                 </Popup>
               );
@@ -163,9 +162,32 @@ export default floatingToolbarPlugin;
 
 export const pluginKey = new PluginKey('floatingToolbarPluginKey');
 
+/**
+ * Clean up floating toolbar configs from undesired properties.
+ */
+function sanitizeFloatingToolbarConfig(
+  config?: FloatingToolbarConfig,
+): FloatingToolbarConfig | undefined {
+  if (!config) {
+    return config;
+  }
+
+  const sanitizeConfig: FloatingToolbarConfig = {
+    ...config,
+  };
+
+  // Cleanup from non existing node types
+  if (Array.isArray(config.nodeType)) {
+    // TODO: Should I remove the configuration if no nodeType?
+    sanitizeConfig.nodeType = config.nodeType.filter(nodeType => !!nodeType); // Keep only valid nodeTypes
+  }
+
+  return sanitizeConfig;
+}
+
 function floatingToolbarPluginFactory(options: {
   floatingToolbarHandlers: Array<FloatingToolbarHandler>;
-  dispatch: Dispatch<Array<FloatingToolbarConfig> | undefined>;
+  dispatch: Dispatch<FloatingToolbarConfig | undefined>;
   reactContext: () => { [key: string]: any };
   providerFactory: ProviderFactory;
 }) {
@@ -183,12 +205,16 @@ function floatingToolbarPluginFactory(options: {
       },
       apply(tr, pluginState, oldState, newState) {
         const { intl } = reactContext();
-        const newPluginState = floatingToolbarHandlers
+        const activeConfigs = floatingToolbarHandlers
           .map(handler => handler(newState, intl, providerFactory))
+          .map(config => sanitizeFloatingToolbarConfig(config)) // Clean config from bad configuration
           .filter(Boolean) as Array<FloatingToolbarConfig>;
 
-        dispatch(pluginKey, newPluginState);
-        return newPluginState;
+        const relevantConfig =
+          activeConfigs && getRelevantConfig(newState.selection, activeConfigs);
+
+        dispatch(pluginKey, relevantConfig);
+        return relevantConfig;
       },
     },
   });

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/embedded-document",
-  "version": "0.4.1",
+  "version": "0.5.2",
   "description": "Embedded Document component",
   "license": "Apache-2.0",
   "atlaskit:src": "src/index.ts",
@@ -13,25 +13,27 @@
   ],
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/button": "^11.0.2",
-    "@atlaskit/editor-common": "^35.0.2",
-    "@atlaskit/editor-core": "^106.0.5",
-    "@atlaskit/renderer": "^44.0.2",
-    "@atlaskit/theme": "^8.0.1",
-    "@atlaskit/util-service-support": "^4.0.1"
+    "@atlaskit/button": "^13.0.0",
+    "@atlaskit/editor-common": "^39.0.0",
+    "@atlaskit/editor-core": "^112.0.0",
+    "@atlaskit/renderer": "^48.0.0",
+    "@atlaskit/theme": "^9.0.0",
+    "@atlaskit/util-service-support": "^4.0.3"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "@types/fetch-mock": "^6.0.3",
     "enzyme": "^3.7.0",
     "fetch-mock": "^6.5.2",
-    "react": "^16.4.0",
+    "react": "^16.8.0",
     "whatwg-fetch": "^2.0.3"
   },
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Embedded Document",
+    "team": "editor"
   }
 }

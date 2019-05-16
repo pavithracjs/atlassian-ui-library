@@ -1,4 +1,4 @@
-// tslint:disable:no-console
+/* eslint-disable no-console */
 
 import * as React from 'react';
 
@@ -13,8 +13,10 @@ import CollapsedEditor from '../src/ui/CollapsedEditor';
 import ToolbarFeedback from '../src/ui/ToolbarFeedback';
 import { name, version } from '../package.json';
 
-import { customInsertMenuItems } from '@atlaskit/editor-test-helpers';
-import { extensionHandlers } from '../example-helpers/extension-handlers';
+import {
+  customInsertMenuItems,
+  extensionHandlers,
+} from '@atlaskit/editor-test-helpers';
 import { DevTools } from '../example-helpers/DevTools';
 import withSentry from '../example-helpers/withSentry';
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Messages } from 'react-intl';
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
-import * as isEqual from 'lodash.isequal';
+import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next';
+import isEqual from 'lodash.isequal';
 
 import {
   SwitcherWrapper,
@@ -9,6 +9,7 @@ import {
   Section,
   ManageButton,
   Skeleton,
+  ExpandLink,
 } from '../primitives';
 import { SwitcherItemType, RecentItemType } from '../utils/links';
 
@@ -22,6 +23,7 @@ import now from '../utils/performance-now';
 import FormattedMessage from '../primitives/formatted-message';
 import TryLozenge from '../primitives/try-lozenge';
 import { TriggerXFlowCallback } from '../types';
+import { urlToHostname } from '../utils/url-to-hostname';
 
 type SwitcherProps = {
   messages: Messages;
@@ -34,6 +36,7 @@ type SwitcherProps = {
   recentLinks: RecentItemType[];
   customLinks: SwitcherItemType[];
   manageLink?: string;
+  expandLink?: string;
 };
 
 const getAnalyticsContext = (itemsCount: number) => ({
@@ -46,11 +49,13 @@ const getItemAnalyticsContext = (
   index: number,
   id: string | null,
   type: string,
+  href: string,
 ) => ({
   ...analyticsAttributes({
     groupItemIndex: index,
     itemId: id,
     itemType: type,
+    domain: urlToHostname(href),
   }),
 });
 
@@ -61,29 +66,31 @@ export default class Switcher extends React.Component<SwitcherProps> {
     this.mountedAt = now();
   }
 
-  timeSinceMounted(): number {
-    return this.mountedAt ? Math.round(now() - this.mountedAt) : 0;
-  }
-
-  triggerXFlow = (event: any, analyticsEvent: UIAnalyticsEventInterface) => {
-    const { triggerXFlow, suggestedProductLinks } = this.props;
-    if (suggestedProductLinks.length) {
-      triggerXFlow(
-        suggestedProductLinks[0].key,
-        'atlassian-switcher',
-        event,
-        analyticsEvent,
-      );
-    }
-  };
-
   shouldComponentUpdate(nextProps: SwitcherProps) {
     return !(isEqual(this.props, nextProps) as boolean);
   }
 
+  timeSinceMounted(): number {
+    return this.mountedAt ? Math.round(now() - this.mountedAt) : 0;
+  }
+
+  triggerXFlow = (key: string) => (
+    event: any,
+    analyticsEvent: UIAnalyticsEventInterface,
+  ) => {
+    const { triggerXFlow } = this.props;
+    triggerXFlow(key, 'atlassian-switcher', event, analyticsEvent);
+  };
+
+  getExpandHref = (hostname: string) => {
+    const isStagingInstance = hostname.indexOf('.jira-dev.com') !== -1;
+    return `//start.${isStagingInstance ? 'stg.' : ''}atlassian.com`;
+  };
+
   render() {
     const {
       messages,
+      expandLink,
       licensedProductLinks,
       suggestedProductLinks,
       fixedLinks,
@@ -121,7 +128,16 @@ export default class Switcher extends React.Component<SwitcherProps> {
           )}
           <Section
             sectionId="switchTo"
-            title={<FormattedMessage {...messages.switchTo} />}
+            title={
+              expandLink ? (
+                <ExpandLink
+                  href={expandLink}
+                  title={<FormattedMessage {...messages.switchTo} />}
+                />
+              ) : (
+                <FormattedMessage {...messages.switchTo} />
+              )
+            }
           >
             {licensedProductLinks.map(item => (
               <NavigationAnalyticsContext
@@ -130,6 +146,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   switchToLinks.indexOf(item),
                   item.key,
                   'product',
+                  item.href,
                 )}
               >
                 <SwitcherItem
@@ -147,11 +164,12 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   switchToLinks.indexOf(item),
                   item.key,
                   'try',
+                  item.href,
                 )}
               >
                 <SwitcherItem
                   icon={<item.Icon theme="product" />}
-                  onClick={this.triggerXFlow}
+                  onClick={this.triggerXFlow(item.key)}
                 >
                   {item.label}
                   <TryLozenge>
@@ -167,6 +185,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   switchToLinks.indexOf(item),
                   item.key,
                   'product',
+                  item.href,
                 )}
               >
                 <SwitcherItem
@@ -184,6 +203,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
                   switchToLinks.indexOf(item),
                   item.key,
                   'admin',
+                  item.href,
                 )}
               >
                 <SwitcherItem
@@ -203,7 +223,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
               ({ key, label, href, type, description, Icon }, idx) => (
                 <NavigationAnalyticsContext
                   key={key}
-                  data={getItemAnalyticsContext(idx, type, 'recent')}
+                  data={getItemAnalyticsContext(idx, type, 'recent', href)}
                 >
                   <SwitcherItem
                     icon={<Icon theme="recent" />}
@@ -224,7 +244,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
               // todo: id in SwitcherItem should be consumed from custom link resolver
               <NavigationAnalyticsContext
                 key={idx + '.' + label}
-                data={getItemAnalyticsContext(idx, null, 'customLink')}
+                data={getItemAnalyticsContext(idx, null, 'customLink', href)}
               >
                 <SwitcherItem icon={<Icon theme="custom" />} href={href}>
                   {label}

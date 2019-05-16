@@ -12,6 +12,7 @@ export default function getUiComponent(
 
   switch (appearance) {
     case 'full-page':
+    case 'full-width':
       return FullPage;
     case 'chromeless':
       return Chromeless;

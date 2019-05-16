@@ -7,11 +7,11 @@ import ManageButton from '../../primitives/manage-button';
 import messages from '../../utils/messages';
 import { IntlProvider } from 'react-intl';
 import createStream, { Stream } from '../../../test-helpers/stream';
-import { AnalyticsListener } from '@atlaskit/analytics-next';
 import {
+  AnalyticsListener,
   UIAnalyticsEventInterface,
   ObjectType,
-} from '@atlaskit/analytics-next-types/index';
+} from '@atlaskit/analytics-next';
 
 const DefaultAtlassianSwitcher = (props: any = {}) => {
   const stubIcon = () => <span />;
@@ -124,6 +124,7 @@ describe('Atlassian Switcher - Component Analytics', () => {
           itemsCount: 6,
           groupItemIndex: 0,
           groupItemsCount: 4,
+          domain: 'invalid',
         },
       },
       {
@@ -134,6 +135,7 @@ describe('Atlassian Switcher - Component Analytics', () => {
           itemsCount: 6,
           groupItemIndex: 1,
           groupItemsCount: 4,
+          domain: 'invalid',
         },
       },
       {
@@ -144,6 +146,7 @@ describe('Atlassian Switcher - Component Analytics', () => {
           itemsCount: 6,
           groupItemIndex: 2,
           groupItemsCount: 4,
+          domain: 'invalid',
         },
       },
       {
@@ -154,6 +157,7 @@ describe('Atlassian Switcher - Component Analytics', () => {
           itemsCount: 6,
           groupItemIndex: 3,
           groupItemsCount: 4,
+          domain: 'invalid',
         },
       },
       {
@@ -165,6 +169,7 @@ describe('Atlassian Switcher - Component Analytics', () => {
           itemsCount: 6,
           groupItemIndex: 0,
           groupItemsCount: 1,
+          domain: 'invalid',
         },
       },
       {
@@ -176,6 +181,7 @@ describe('Atlassian Switcher - Component Analytics', () => {
           itemsCount: 6,
           groupItemIndex: 0,
           groupItemsCount: 1,
+          domain: 'example.com',
         },
       },
     ];
@@ -203,9 +209,9 @@ describe('Atlassian Switcher - Component Analytics', () => {
   it('should fire "button clicked - manageListButton"', async () => {
     await eventStream.skip(1);
     /*
-      This is needed as there's a slight delay between the rendered event being fired 
-      and the last endpoint being proccessed. This can be removed once we instrument 
-      the data providers with analytics and we intentionally skip the events triggered 
+      This is needed as there's a slight delay between the rendered event being fired
+      and the last endpoint being proccessed. This can be removed once we instrument
+      the data providers with analytics and we intentionally skip the events triggered
       by the fetch calls.
      */
     process.nextTick(() => {

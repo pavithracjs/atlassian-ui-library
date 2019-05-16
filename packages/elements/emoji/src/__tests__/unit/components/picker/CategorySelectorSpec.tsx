@@ -8,8 +8,8 @@ import CategorySelector, {
   sortCategories,
 } from '../../../../components/picker/CategorySelector';
 import * as styles from '../../../../components/picker/styles';
-import { defaultCategories } from '../../../../constants';
-import { isMessagesKey } from '../../../../type-helpers';
+import { defaultCategories } from '../../../../util/constants';
+import { isMessagesKey } from '../../../../util/type-helpers';
 import { CategoryId } from '../../../../types';
 
 const setupComponent = (props?: Props): ReactWrapper<any, any> =>
@@ -42,7 +42,7 @@ describe('<CategorySelector />', () => {
     orderedCategories.forEach((categoryId, i) => {
       const button = categoryButtons.at(i);
       const categoryKey = CategoryDescriptionMap[categoryId].name;
-      // tslint:disable-next-line
+      // eslint-disable-next-line
       expect(isMessagesKey(categoryKey)).toBeTruthy();
       if (isMessagesKey(categoryKey)) {
         expect(button.prop('title')).toEqual(
@@ -59,7 +59,7 @@ describe('<CategorySelector />', () => {
     defaultCategories.forEach((categoryId, i) => {
       const button = categoryButtons.at(i);
       const categoryKey = CategoryDescriptionMap[categoryId].name;
-      // tslint:disable-next-line
+      // eslint-disable-next-line
       expect(isMessagesKey(categoryKey)).toBeTruthy();
       if (isMessagesKey(categoryKey)) {
         expect(button.prop('title')).toEqual(
@@ -93,7 +93,7 @@ describe('<CategorySelector />', () => {
     defaultCategories.forEach((categoryId, i) => {
       const button = categoryButtons.at(i);
       const categoryKey = CategoryDescriptionMap[categoryId].name;
-      // tslint:disable-next-line
+      // eslint-disable-next-line
       expect(isMessagesKey(categoryKey)).toBeTruthy();
       if (isMessagesKey(categoryKey)) {
         expect(button.prop('title')).toEqual(

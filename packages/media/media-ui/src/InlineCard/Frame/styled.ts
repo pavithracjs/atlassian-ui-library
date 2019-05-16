@@ -13,6 +13,7 @@ const selected = `
   cursor: pointer;
   box-shadow: 0 0 0 2px ${colors.B100};
   outline: none;
+  user-select: none;
   &, :hover, :focus, :active {
     text-decoration: none;
   }
@@ -23,7 +24,7 @@ const isInteractive = ({ isInteractive }: WrapperProps) => {
     return `
       cursor: pointer;
       :hover {
-        background-color: ${colors.N40A};
+        background-color: ${colors.N20};
         text-decoration: none;
       }
       :active {
@@ -53,7 +54,7 @@ const isSelected = ({ isSelected }: WrapperProps) => {
   if (isSelected) {
     return selected;
   } else {
-    return '';
+    return 'user-select: text';
   }
 };
 
@@ -77,9 +78,8 @@ export const Wrapper: ComponentClass<
   display: inline;
   box-decoration-break: clone;
   border-radius: ${akBorderRadius()}px;
-  user-select: none;
   ${background};
   ${isInteractive}
   ${isSelected};
-  transition: 0.3s all ease-in-out;
+  transition: 0.1s all ease-in-out;
 `;

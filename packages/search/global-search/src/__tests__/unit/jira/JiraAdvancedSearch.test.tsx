@@ -3,10 +3,9 @@ import { shallow } from 'enzyme';
 import JiraAdvancedSearch, {
   Props,
 } from '../../../components/jira/JiraAdvancedSearch';
-import AdvancedSearchResult from '../../../components/AdvancedSearchResult';
 import * as Utils from '../../../components/SearchResultsUtil';
-import { AnalyticsType } from '../../../model/Result';
-import DropdownMenu, { DropdownItem } from '@atlaskit/dropdown-menu';
+import Button from '@atlaskit/button';
+import { JiraEntityTypes } from '../../../components/SearchResultsUtil';
 
 const defaultProps: Props = {
   query: 'query',
@@ -18,68 +17,64 @@ const renderComponent = (overriddenProps?: Partial<Props>) => {
 };
 
 describe('JiraAdvancedSearch', () => {
-  let getJiraAdvancedSearchUrlMock;
+  let getJiraAdvancedSearchUrlMock: jest.SpyInstance<
+    (entityType: Utils.JiraEntityTypes, query?: string | undefined) => string
+  >;
   beforeEach(() => {
     getJiraAdvancedSearchUrlMock = jest.spyOn(
       Utils,
       'getJiraAdvancedSearchUrl',
     );
-    getJiraAdvancedSearchUrlMock.mockReturnValue('advancedSearchUrl');
+    getJiraAdvancedSearchUrlMock.mockImplementation(x => x);
   });
 
   afterEach(() => {
     getJiraAdvancedSearchUrlMock.mockReset();
   });
 
-  it('should default to issues search', () => {
+  it('should render buttons with possible choices', () => {
     const wrapper = renderComponent();
-    const advancedSearchResult = wrapper.find(AdvancedSearchResult);
-
-    expect(advancedSearchResult.length).toBe(1);
-    expect(advancedSearchResult.props()).toMatchObject({
-      href: 'advancedSearchUrl',
-      icon: undefined,
-      type: AnalyticsType.AdvancedSearchJira,
-      showKeyboardLozenge: false,
-    });
-    expect(getJiraAdvancedSearchUrlMock).toHaveBeenCalledWith(
-      'issues',
-      'query',
-    );
-  });
-
-  it('should render icon and showKeyboardLonzge', () => {
-    const wrapper = renderComponent({
-      showSearchIcon: true,
-      showKeyboardLozenge: true,
-    });
-    const advancedSearchResult = wrapper.find(AdvancedSearchResult);
-    expect(advancedSearchResult.length).toBe(1);
-    expect(advancedSearchResult.props().showKeyboardLozenge).toBe(true);
-
-    const icon = advancedSearchResult.props().icon;
-    expect(icon).toBeDefined();
-  });
-
-  it('should render dropdown items with possible choices', () => {
-    const wrapper = renderComponent({
-      showSearchIcon: true,
-      showKeyboardLozenge: true,
-    });
-    const advancedSearchResult = wrapper.find(AdvancedSearchResult);
-
-    const dropDownMenu = shallow(advancedSearchResult.props()
-      .text as JSX.Element).find(DropdownMenu);
-    expect(dropDownMenu.length).toBe(1);
-
-    const items = dropDownMenu.find(DropdownItem);
-    expect(items.length).toBe(5);
-    expect(items.map(item => item.key())).toMatchObject([
-      'issues',
-      'boards',
-      'projects',
-      'filters',
-      'people',
+    const advancedSearchLinks = wrapper.find(Button);
+    expect(advancedSearchLinks.length).toBe(5);
+    expect(advancedSearchLinks.map(link => link.props().href)).toMatchObject([
+      JiraEntityTypes.Issues,
+      JiraEntityTypes.Boards,
+      JiraEntityTypes.Projects,
+      JiraEntityTypes.Filters,
+      JiraEntityTypes.People,
     ]);
+  });
+
+  it('should filter out boards without software permission', () => {
+    const wrapper = renderComponent({
+      appPermission: {
+        hasSoftwareAccess: false,
+        hasCoreAccess: true,
+        hasOpsAccess: true,
+        hasServiceDeskAccess: true,
+      },
+    });
+
+    const advancedSearchLinks = wrapper.find(Button);
+    expect(advancedSearchLinks.length).toBe(4);
+    expect(advancedSearchLinks.map(link => link.props().href)).toMatchObject([
+      JiraEntityTypes.Issues,
+      JiraEntityTypes.Projects,
+      JiraEntityTypes.Filters,
+      JiraEntityTypes.People,
+    ]);
+  });
+
+  it('should call onclick when any advanced link clicked', () => {
+    const spy = jest.fn();
+    const wrapper = renderComponent({
+      onClick: spy,
+    });
+    const advancedSearchLinks = wrapper.find(Button);
+    expect(advancedSearchLinks.length).toBe(5);
+
+    advancedSearchLinks.first().simulate('click');
+    expect(spy.mock.calls.length).toBe(1);
+    expect(spy.mock.calls[0][1]).toBe('issues');
   });
 });

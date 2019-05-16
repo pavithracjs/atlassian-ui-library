@@ -392,15 +392,18 @@ class TypedItemsRenderer<T: TypeShape = empty> extends PureComponent<
             customComponents={customComponents}
           />
         );
-      } else if (Object.keys(groupComponents).includes(props.type)) {
+      }
+      if (Object.keys(groupComponents).includes(props.type)) {
         // If they've provided a type which matches one of our in-built group
         // components
         return renderGroupComponent(props, key, customComponents);
         // If they've provided a type which matches one of our in-built item
         // components.
-      } else if (Object.keys(itemComponents).includes(props.type)) {
+      }
+      if (Object.keys(itemComponents).includes(props.type)) {
         return renderItemComponent(props, key, index);
-      } else if (Object.keys(customComponents).includes(props.type)) {
+      }
+      if (Object.keys(customComponents).includes(props.type)) {
         const { type, ...componentProps } = props;
         // If they've provided a type which matches one of their defined custom
         // components.

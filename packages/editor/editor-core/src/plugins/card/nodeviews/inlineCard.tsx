@@ -6,6 +6,7 @@ import { Card } from '@atlaskit/smart-card';
 import { EditorView } from 'prosemirror-view';
 import wrapComponentWithClickArea from '../../../nodeviews/legacy-nodeview-factory/ui/wrapper-click-area';
 import { stateKey as ReactNodeViewState } from '../../../plugins/base/pm-plugins/react-nodeview';
+import { ZeroWidthSpace } from '../../../utils';
 
 export interface Props {
   children?: React.ReactNode;
@@ -16,7 +17,9 @@ export interface Props {
 }
 
 class InlineCardNode extends React.PureComponent<Props, {}> {
-  onClick = () => {};
+  onClick: React.EventHandler<
+    React.MouseEvent | React.KeyboardEvent
+  > = () => {};
 
   static contextTypes = {
     contextAdapter: PropTypes.object,
@@ -31,13 +34,18 @@ class InlineCardNode extends React.PureComponent<Props, {}> {
       : undefined;
 
     const card = (
-      <Card
-        url={url}
-        data={data}
-        appearance="inline"
-        isSelected={selected}
-        onClick={this.onClick}
-      />
+      <span>
+        <span>{ZeroWidthSpace}</span>
+        <span className="card">
+          <Card
+            url={url}
+            data={data}
+            appearance="inline"
+            isSelected={selected}
+            onClick={this.onClick}
+          />
+        </span>
+      </span>
     );
 
     return cardContext ? (

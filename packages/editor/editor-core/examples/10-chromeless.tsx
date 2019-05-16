@@ -1,4 +1,4 @@
-// tslint:disable:no-console
+/* eslint-disable no-console */
 
 import * as React from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';

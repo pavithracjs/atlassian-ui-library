@@ -1,5 +1,4 @@
-import { AnalyticsListener } from '@atlaskit/analytics-next';
-import { UIAnalyticsEvent } from '@atlaskit/analytics-next-types';
+import { AnalyticsListener, UIAnalyticsEvent } from '@atlaskit/analytics-next';
 import * as React from 'react';
 import styled from 'styled-components';
 import { AnalyticsViewer, EventsArray } from './AnalyticsViewer';

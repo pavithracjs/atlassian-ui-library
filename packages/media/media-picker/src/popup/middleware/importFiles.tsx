@@ -1,10 +1,10 @@
-import * as uuid from 'uuid/v4';
+import uuid from 'uuid/v4';
 import { Store, Dispatch, Middleware } from 'redux';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import {
   TouchFileDescriptor,
   FileState,
-  fileStreamsCache,
+  getFileStreamsCache,
   getMediaTypeFromMimeType,
   FilePreview,
   isPreviewableType,
@@ -86,7 +86,7 @@ export function importFilesMiddleware(
   eventEmitter: PopupUploadEventEmitter,
   wsProvider: WsProvider,
 ): Middleware {
-  return store => (next: Dispatch<State>) => action => {
+  return store => (next: Dispatch<State>) => (action: any) => {
     if (isStartImportAction(action)) {
       importFiles(eventEmitter, store as any, wsProvider);
     }
@@ -112,7 +112,7 @@ const getPreviewByService = (
       };
     }
   } else if (serviceName === 'upload') {
-    const observable = fileStreamsCache.get(fileId);
+    const observable = getFileStreamsCache().get(fileId);
     if (observable) {
       return new Promise<FilePreview>(resolve => {
         const subscription = observable.subscribe({
@@ -166,7 +166,7 @@ export const touchSelectedFiles = (
         selectedFile.id,
       );
 
-      const state: FileState = {
+      const fileState: FileState = {
         id,
         status: 'processing',
         mediaType,
@@ -176,9 +176,11 @@ export const touchSelectedFiles = (
         preview,
         representations: {},
       };
+
+      tenantContext.emit('file-added', fileState);
       const subject = new ReplaySubject<FileState>(1);
-      subject.next(state);
-      fileStreamsCache.set(id, subject);
+      subject.next(fileState);
+      getFileStreamsCache().set(id, subject);
     },
   );
 

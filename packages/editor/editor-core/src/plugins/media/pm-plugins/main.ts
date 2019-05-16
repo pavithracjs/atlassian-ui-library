@@ -1,4 +1,4 @@
-import * as assert from 'assert';
+import assert from 'assert';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Node as PMNode, Schema, Node } from 'prosemirror-model';
@@ -41,7 +41,12 @@ import {
   ACTION_SUBJECT,
   ACTION,
   EVENT_TYPE,
+  AnalyticsEventPayload,
+  INPUT_METHOD,
+  InputMethodInsertMedia,
+  DispatchAnalyticsEvent,
 } from '../../../plugins/analytics';
+import { isFullPage } from '../../../utils/is-full-page';
 export { MediaState, MediaProvider, MediaStateStatus };
 
 const MEDIA_RESOLVED_STATES = ['ready', 'error', 'cancelled'];
@@ -53,7 +58,7 @@ export interface MediaNodeWithPosHandler {
 
 export class MediaPluginState {
   public allowsUploads: boolean = false;
-  public mediaContext: Context;
+  public mediaContext?: Context;
   public uploadContext?: Context;
   public ignoreLinks: boolean = false;
   public waitForMediaUpload: boolean = true;
@@ -65,13 +70,12 @@ export class MediaPluginState {
   public mediaGroupNodes: Record<string, any> = {};
   private pendingTask = Promise.resolve<MediaState | null>(null);
   public options: MediaPluginOptions;
-  private view: EditorView;
+  private view!: EditorView;
   private destroyed = false;
-  public mediaProvider: MediaProvider;
+  public mediaProvider?: MediaProvider;
   private errorReporter: ErrorReporter;
 
   public pickers: PickerFacade[] = [];
-  public binaryPicker?: PickerFacade;
   private popupPicker?: PickerFacade;
   // @ts-ignore
   private clipboardPicker?: PickerFacade;
@@ -84,6 +88,7 @@ export class MediaPluginState {
 
   public editorAppearance: EditorAppearance;
   private removeOnCloseListener: () => void = () => {};
+  private dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 
   private reactContext: () => {};
 
@@ -92,6 +97,7 @@ export class MediaPluginState {
     options: MediaPluginOptions,
     reactContext: () => {},
     editorAppearance?: EditorAppearance,
+    dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
   ) {
     this.reactContext = reactContext;
     this.options = options;
@@ -114,6 +120,7 @@ export class MediaPluginState {
     );
 
     this.errorReporter = options.errorReporter || new ErrorReporter();
+    this.dispatchAnalyticsEvent = dispatchAnalyticsEvent;
   }
 
   setMediaProvider = async (mediaProvider?: Promise<MediaProvider>) => {
@@ -260,7 +267,7 @@ export class MediaPluginState {
     if (!isEndState(mediaState)) {
       const updater = (promise: Promise<any>) => {
         // Chain the previous promise with a new one for this media item
-        return new Promise<MediaState | null>((resolve, reject) => {
+        return new Promise<MediaState | null>(resolve => {
           const onStateChange: MediaStateEventListener = newState => {
             // When media item reaches its final state, remove listener and resolve
             if (isEndState(newState)) {
@@ -286,16 +293,6 @@ export class MediaPluginState {
   };
 
   splitMediaGroup = (): boolean => splitMediaGroup(this.view);
-
-  insertFileFromDataUrl = (url: string, fileName: string) => {
-    const { binaryPicker } = this;
-    assert(
-      binaryPicker,
-      'Unable to insert file because media pickers have not been initialized yet',
-    );
-
-    binaryPicker!.upload(url, fileName);
-  };
 
   // TODO [MSW-454]: remove this logic from Editor
   onPopupPickerClose = () => {
@@ -570,7 +567,6 @@ export class MediaPluginState {
     pickers.splice(0, pickers.length);
 
     this.popupPicker = undefined;
-    this.binaryPicker = undefined;
     this.clipboardPicker = undefined;
     this.dropzonePicker = undefined;
     this.customPicker = undefined;
@@ -610,14 +606,6 @@ export class MediaPluginState {
           (this.popupPicker = await new Picker(
             // Fallback to browser picker for unauthenticated users
             context.config.userAuthProvider ? 'popup' : 'browser',
-            pickerFacadeConfig,
-            defaultPickerConfig,
-          ).init()),
-        );
-
-        pickers.push(
-          (this.binaryPicker = await new Picker(
-            'binary',
             pickerFacadeConfig,
             defaultPickerConfig,
           ).init()),
@@ -667,8 +655,41 @@ export class MediaPluginState {
           ? { fileMimeType: mediaState.fileMimeType }
           : {},
       );
+
+      if (this.dispatchAnalyticsEvent) {
+        const inputMethod = this.getInputMethod(
+          pickerType,
+        ) as InputMethodInsertMedia;
+        const extensionIdx = mediaState.fileName!.lastIndexOf('.');
+        const fileExtension =
+          extensionIdx >= 0
+            ? mediaState.fileName!.substring(extensionIdx + 1)
+            : undefined;
+
+        const payload: AnalyticsEventPayload = {
+          action: ACTION.INSERTED,
+          actionSubject: ACTION_SUBJECT.DOCUMENT,
+          actionSubjectId: ACTION_SUBJECT_ID.MEDIA,
+          attributes: { inputMethod, fileExtension },
+          eventType: EVENT_TYPE.TRACK,
+        };
+        this.dispatchAnalyticsEvent(payload);
+      }
     };
   }
+
+  private getInputMethod = (
+    pickerType: string,
+  ): InputMethodInsertMedia | undefined => {
+    switch (pickerType) {
+      case 'popup':
+        return INPUT_METHOD.PICKER_CLOUD;
+      case 'clipboard':
+        return INPUT_METHOD.CLIPBOARD;
+      case 'dropzone':
+        return INPUT_METHOD.DRAG_AND_DROP;
+    }
+  };
 
   updateMediaNodeAttrs = (
     id: string,
@@ -784,7 +805,7 @@ export class MediaPluginState {
 
 const createDropPlaceholder = (editorAppearance?: EditorAppearance) => {
   const dropPlaceholder = document.createElement('div');
-  if (editorAppearance === 'full-page') {
+  if (isFullPage(editorAppearance)) {
     ReactDOM.render(
       React.createElement(DropPlaceholder, { type: 'single' } as {
         type: PlaceholderType;
@@ -807,6 +828,7 @@ export const createPlugin = (
   reactContext: () => {},
   dispatch?: Dispatch,
   editorAppearance?: EditorAppearance,
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent,
 ) => {
   const dropPlaceholder = createDropPlaceholder(editorAppearance);
 
@@ -818,6 +840,7 @@ export const createPlugin = (
           options,
           reactContext,
           editorAppearance,
+          dispatchAnalyticsEvent,
         );
       },
       apply(tr, pluginState: MediaPluginState, oldState, newState) {
@@ -832,7 +855,6 @@ export const createPlugin = (
         if (meta && dispatch) {
           const { showMediaPicker } = pluginState;
           const { allowsUploads } = meta;
-
           dispatch(stateKey, {
             ...pluginState,
             allowsUploads:
@@ -858,6 +880,9 @@ export const createPlugin = (
       return {
         update: () => {
           pluginState.updateElement();
+        },
+        destroy: () => {
+          pluginState.destroy();
         },
       };
     },

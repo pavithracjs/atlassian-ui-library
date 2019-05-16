@@ -1,21 +1,16 @@
 import { Schema, MarkSpec, NodeSpec } from 'prosemirror-model';
 import { Plugin } from 'prosemirror-state';
 import { sanitizeNodes } from '@atlaskit/adf-schema';
-import {
-  ProviderFactory,
-  ErrorReporter,
-  ErrorReportingHandler,
-} from '@atlaskit/editor-common';
+import { ErrorReporter, ErrorReportingHandler } from '@atlaskit/editor-common';
 import { analyticsService, AnalyticsHandler } from '../analytics';
 import {
   EditorPlugin,
   EditorProps,
   EditorConfig,
   PluginsOptions,
+  PMPluginCreateConfig,
 } from '../types';
 import { name, version } from '../version-wrapper';
-import { Dispatch, EventDispatcher } from '../event-dispatcher';
-import { PortalProviderAPI } from '../ui/PortalProvider';
 import Ranks from '../plugins/rank';
 
 export function sortByRank(a: { rank: number }, b: { rank: number }): number {
@@ -143,35 +138,31 @@ export function createPMPlugins({
   editorConfig,
   schema,
   props,
+  prevProps,
   dispatch,
   eventDispatcher,
   providerFactory,
   errorReporter,
   portalProviderAPI,
   reactContext,
-}: {
-  editorConfig: EditorConfig;
-  schema: Schema;
-  props: EditorProps;
-  dispatch: Dispatch;
-  eventDispatcher: EventDispatcher;
-  providerFactory: ProviderFactory;
-  errorReporter: ErrorReporter;
-  portalProviderAPI: PortalProviderAPI;
-  reactContext: () => { [key: string]: any };
-}): Plugin[] {
+  dispatchAnalyticsEvent,
+  oldState,
+}: PMPluginCreateConfig): Plugin[] {
   return editorConfig.pmPlugins
     .sort(sortByOrder('plugins'))
     .map(({ plugin }) =>
       plugin({
         schema,
         props,
+        prevProps,
         dispatch,
         providerFactory,
         errorReporter,
         eventDispatcher,
         portalProviderAPI,
         reactContext,
+        dispatchAnalyticsEvent,
+        oldState,
       }),
     )
     .filter(plugin => !!plugin) as Plugin[];

@@ -1,10 +1,10 @@
 import { insertMedia as integrationInsertMedia } from '../../integration/_helpers';
 import { Page } from './_types';
-import { getBoundingRect } from './_editor';
+import { getBoundingRect, scrollToElement } from './_editor';
 
 import { snapshot } from '../../visual-regression/_utils';
 import commonMessages from '../../../messages';
-import { messages as mediaToolbarMessages } from '../../../plugins/media/toolbar';
+import { messages as mediaLayoutToolbarMessages } from '../../../plugins/media/toolbar/buildMediaLayoutButtons';
 
 export enum MediaLayout {
   center,
@@ -48,13 +48,13 @@ const LayoutSelectors = {
   },
   [MediaLayout.wrapLeft]: {
     button: `[aria-label="Media floating controls"] [aria-label="${
-      mediaToolbarMessages.wrapLeft.defaultMessage
+      mediaLayoutToolbarMessages.wrapLeft.defaultMessage
     }"]`,
     modifier: '.media-single.image-wrap-left',
   },
   [MediaLayout.wrapRight]: {
     button: `[aria-label="Media floating controls"] [aria-label="${
-      mediaToolbarMessages.wrapRight.defaultMessage
+      mediaLayoutToolbarMessages.wrapRight.defaultMessage
     }"]`,
     modifier: '.media-single.image-wrap-right',
   },
@@ -97,6 +97,10 @@ export async function waitForMediaToBeLoaded(page: Page) {
   });
 }
 
+export const scrollToMedia = async (page: Page) => {
+  await scrollToElement(page, mediaImageSelector, 50);
+};
+
 export const insertMedia = async (page: Page, filenames = ['one.svg']) => {
   // We need to wrap this as the xpath selector used in integration tests
   // isnt valid in puppeteer
@@ -115,7 +119,7 @@ export async function changeMediaLayout(page: Page, layout: MediaLayout) {
 
 export async function clickMediaInPosition(page: Page, position: number) {
   await page.evaluate(
-    (position, mediaImageSelector) => {
+    (position: number, mediaImageSelector: string) => {
       (document.querySelectorAll(mediaImageSelector)[
         position
       ]! as HTMLElement).click();
@@ -166,7 +170,21 @@ export async function resizeMediaInPositionWithSnapshot(
 
   await moveHandle(page, distance, side);
 
-  await snapshot(page, 0.01);
+  await releaseHandle(page);
+
+  await pickupHandle(page, side);
+  await snapshot(page);
+}
+
+export async function resizeMediaInPosition(
+  page: Page,
+  position: number,
+  distance: number,
+  side: MediaResizeSide = MediaResizeSide.right,
+) {
+  await clickMediaInPosition(page, position);
+  await pickupHandle(page, side);
+  await moveHandle(page, distance, side);
   await releaseHandle(page);
 }
 

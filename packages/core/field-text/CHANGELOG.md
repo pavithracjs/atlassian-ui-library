@@ -1,5 +1,24 @@
 # @atlaskit/field-text
 
+## 9.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 8.0.3
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/field-base@12.0.2
+  - @atlaskit/theme@8.1.7
+
+## 8.0.2
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/button@12.0.0
+
 ## 8.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

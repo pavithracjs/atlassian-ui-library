@@ -3,6 +3,7 @@ import { defaultSchema as schema } from '@atlaskit/adf-schema';
 
 import * as paragraphIndents from '../../__fixtures__/paragraph-indents.adf.json';
 import * as paragraphAlign from '../../__fixtures__/paragraph-align.adf.json';
+import * as heading from '../../__fixtures__/heading.adf.json';
 import * as headingAlign from '../../__fixtures__/heading-align.adf.json';
 import * as em from '../../__fixtures__/em.adf.json';
 import * as codeBlock from '../../__fixtures__/code-block.adf.json';
@@ -10,10 +11,19 @@ import * as inlineCodeProps from '../../__fixtures__/inline-code-props.adf.json'
 import * as inlineTextProps from '../../__fixtures__/inline-text-props.adf.json';
 import * as panels from '../../__fixtures__/panels.adf.json';
 import * as link from '../../__fixtures__/link.adf.json';
+import * as decisionList from '../../__fixtures__/decision-list.adf.json';
+import * as taskList from '../../__fixtures__/task-list.adf.json';
 import * as blockCards from '../../__fixtures__/block-cards.adf.json';
 import * as inlineCards from '../../__fixtures__/inline-cards.adf.json';
 import * as status from '../../__fixtures__/status.adf.json';
 import * as tableNumberedColumn from '../../__fixtures__/table-numbered-column.adf.json';
+import * as layoutColumnSection from '../../__fixtures__/layout-column-section.adf.json';
+import * as extensions from '../../__fixtures__/extensions.adf.json';
+import * as date from '../../__fixtures__/date.adf.json';
+import * as mediaSingle from '../../__fixtures__/media-single.adf.json';
+import * as mediaGroup from '../../__fixtures__/media-group.adf.json';
+import * as lists from '../../__fixtures__/lists.adf.json';
+import * as text from '../../__fixtures__/text.adf.json';
 
 import * as image from '../../__fixtures__/image.adf.json';
 import * as placeholder from '../../__fixtures__/placeholder.adf.json';
@@ -56,6 +66,26 @@ describe('Renderer - EmailSerializer', () => {
     expect(output).toMatchSnapshot();
   });
 
+  it('should render media single correctly', () => {
+    const output = render(mediaSingle);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render media group correctly', () => {
+    const output = render(mediaGroup);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render decision list correctly', () => {
+    const output = render(decisionList);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render task list correctly', () => {
+    const output = render(taskList);
+    expect(output).toMatchSnapshot();
+  });
+
   it('should render block cards correctly', () => {
     const output = render(blockCards);
     expect(output).toMatchSnapshot();
@@ -86,6 +116,11 @@ describe('Renderer - EmailSerializer', () => {
     expect(output).toMatchSnapshot();
   });
 
+  it('should render headings 1-6 correctly', () => {
+    const output = render(heading);
+    expect(output).toMatchSnapshot();
+  });
+
   it('should inline text properties correctly', () => {
     const output = render(inlineTextProps);
     expect(output).toMatchSnapshot();
@@ -111,6 +146,11 @@ describe('Renderer - EmailSerializer', () => {
     expect(output).toMatchSnapshot();
   });
 
+  it('should render text and does not interpret HTML', () => {
+    const output = render(text);
+    expect(output).toMatchSnapshot();
+  });
+
   it('should render status correctly', () => {
     const output = render(status);
     expect(output).toMatchSnapshot();
@@ -118,6 +158,27 @@ describe('Renderer - EmailSerializer', () => {
 
   it('should render numbered column for table', () => {
     const output = render(tableNumberedColumn);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render layout column and sections', () => {
+    const output = render(layoutColumnSection);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render extension placeholders', () => {
+    const output = render(extensions);
+    expect(output).toMatchSnapshot();
+  });
+
+  // Snapshot was updated as it was blocking master. See https://product-fabric.atlassian.net/browse/ED-6769
+  it('should render dates in normal text and task lists', () => {
+    const output = render(date);
+    expect(output).toMatchSnapshot();
+  });
+
+  it('should render lists', () => {
+    const output = render(lists);
     expect(output).toMatchSnapshot();
   });
 });

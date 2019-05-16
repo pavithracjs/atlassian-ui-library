@@ -4,7 +4,7 @@ import {
   MediaStoreCopyFileWithTokenBody,
   MediaStoreCopyFileWithTokenParams,
 } from '@atlaskit/media-store';
-import { fileStreamsCache, FileState } from '@atlaskit/media-core';
+import { getFileStreamsCache, FileState } from '@atlaskit/media-core';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Fetcher } from '../tools/fetcher/fetcher';
 import {
@@ -20,7 +20,7 @@ import {
 } from '../actions/sendUploadEvent';
 
 export default function(fetcher: Fetcher): Middleware {
-  return store => (next: Dispatch<State>) => action => {
+  return store => (next: Dispatch<State>) => (action: any) => {
     if (isFinalizeUploadAction(action)) {
       finalizeUpload(fetcher, store as any, action);
     }
@@ -115,7 +115,7 @@ async function copyFile({
       return fetcher.pollFile(auth, publicId, collection);
     })
     .then(processedDestinationFile => {
-      const subject = fileStreamsCache.get(
+      const subject = getFileStreamsCache().get(
         processedDestinationFile.id,
       ) as ReplaySubject<FileState>;
       // We need to cast to ReplaySubject and check for "next" method since the current

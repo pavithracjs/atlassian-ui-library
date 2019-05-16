@@ -126,3 +126,13 @@ export const tablesHaveDifferentColumnWidths = (
 
   return sameWidths === false;
 };
+
+export const tablesHaveDifferentNoOfColumns = (
+  currentTable: PmNode,
+  previousTable: PmNode,
+): boolean => {
+  const prevMap = TableMap.get(previousTable);
+  const currentMap = TableMap.get(currentTable);
+
+  return prevMap.width !== currentMap.width;
+};

@@ -21,6 +21,7 @@ export default class MultiLineSearchInput extends Component<*, State> {
     inputValue: '',
     value: [],
   };
+
   handleChange = (value: any, actionMeta: any) => {
     console.group('Value Changed');
     console.log(value);
@@ -28,9 +29,11 @@ export default class MultiLineSearchInput extends Component<*, State> {
     console.groupEnd();
     this.setState({ value });
   };
+
   handleInputChange = (inputValue: string) => {
     this.setState({ inputValue });
   };
+
   handleKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
     const { inputValue, value } = this.state;
     if (!inputValue) return;
@@ -50,6 +53,7 @@ export default class MultiLineSearchInput extends Component<*, State> {
         break;
     }
   };
+
   render() {
     const { inputValue, value } = this.state;
     return (

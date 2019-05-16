@@ -1,5 +1,62 @@
 # @atlaskit/theme
 
+## 9.0.1
+- [patch] [d5f0e7d767](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d5f0e7d767):
+
+  - Adds missing type def to typings for the /component.ts entrypoint
+
+## 9.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 8.1.9
+- [patch] [e0e3fabf8e](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e0e3fabf8e):
+
+  - Change button to use theme's multiple entry points. This should reduce the bundle size of button
+
+## 8.1.8
+- [patch] [453838d3c5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/453838d3c5):
+
+  - Removes an import which referes to the old entry point of this component. Bundle size should now be slightly smaller
+
+## 8.1.7
+- [patch] [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+
+  - Crucial bugfix: Fixes problem where default theme was undefined in production builds. This caused styles to not be applied to components.
+
+## 8.1.6
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/section-message@2.0.2
+  - @atlaskit/button@12.0.0
+
+## 8.1.5
+- [patch] [9ac668e13d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9ac668e13d):
+
+  - Release math js as a module
+
+## 8.1.4
+- [patch] [4368278bb4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/4368278bb4):
+
+  - Added components entry point allowing consumers to pull in just what they need out of theme (smaller bundle sizes!)
+
+  ```
+  import { N500, N0 } from '@atlaskit/theme/colors';
+  import { focusRing } from '@atlaskit/theme/constants';
+  import { withTheme } from '@atlaskit/theme/components';
+  ```
+
+## 8.1.3
+- [patch] [b4732a178b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b4732a178b):
+
+  - Fixing incorrect z-index for navigation-next and inline dialog
+
+## 8.1.2
+- [patch] [0f17bb7c20](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0f17bb7c20):
+
+  - Theme TypeScript annotations are now exported as a module declaration.
+
 ## 8.1.1
 - [patch] [7fe933beaa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7fe933beaa):
 

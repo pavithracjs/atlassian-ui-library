@@ -1,5 +1,112 @@
 # @atlaskit/global-navigation
 
+## 7.1.0
+- [minor] [75c3e9cb69](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/75c3e9cb69):
+
+  - Adds support for recent drawer in global navigation
+
+## 7.0.1
+- [patch] [21854842b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21854842b5):
+
+  - Clean couple of TODO's that were already done
+
+## 7.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 6.3.2
+- Updated dependencies [59024ff4c5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59024ff4c5):
+  - @atlaskit/atlassian-switcher@0.5.0
+
+## 6.3.1
+- Updated dependencies [38dab947e6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/38dab947e6):
+  - @atlaskit/drawer@3.0.9
+  - @atlaskit/modal-dialog@8.0.8
+  - @atlaskit/blanket@9.0.0
+
+## 6.3.0
+- [minor] [a618e6d372](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a618e6d372):
+
+  - Updated help button actions, if enableHelpDrawer is true, a drawer will be displayed otherwise a menu will be displayed
+
+## 6.2.9
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/avatar@15.0.4
+  - @atlaskit/badge@11.0.1
+  - @atlaskit/blanket@8.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/drawer@3.0.7
+  - @atlaskit/dropdown-menu@7.0.6
+  - @atlaskit/field-base@12.0.2
+  - @atlaskit/field-radio-group@5.0.3
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/logo@10.0.4
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/navigation-next@5.1.5
+  - @atlaskit/onboarding@7.0.4
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/spinner@10.0.7
+  - @atlaskit/tag@7.0.2
+  - @atlaskit/toggle@6.0.4
+  - @atlaskit/atlassian-switcher@0.4.5
+  - @atlaskit/theme@8.1.7
+
+## 6.2.8
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/analytics-next@4.0.3
+  - @atlaskit/avatar@15.0.3
+  - @atlaskit/blanket@8.0.2
+  - @atlaskit/drawer@3.0.6
+  - @atlaskit/dropdown-menu@7.0.4
+  - @atlaskit/field-radio-group@5.0.2
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/logo@10.0.3
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/navigation-next@5.1.4
+  - @atlaskit/onboarding@7.0.3
+  - @atlaskit/section-message@2.0.2
+  - @atlaskit/spinner@10.0.5
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/toggle@6.0.3
+  - @atlaskit/analytics-listeners@5.0.3
+  - @atlaskit/atlassian-switcher@0.4.3
+  - @atlaskit/button@12.0.0
+
+## 6.2.7
+- [patch] [bcb3d443fc](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/bcb3d443fc):
+
+  - Addressing QA fixes
+
+## 6.2.6
+- [patch] [a28eb04426](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a28eb04426):
+
+  - Migrates package from emotion 9 to emotion 10. No behaviour or API changes.
+
+## 6.2.5
+- Updated dependencies [e36f791fd6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e36f791fd6):
+  - @atlaskit/atlassian-switcher@0.4.0
+
+## 6.2.4
+- [patch] [db2a7ffde6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/db2a7ffde6):
+
+  - Fixing recent containers bug
+
+## 6.2.3
+- [patch] [9d6f8d516a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d6f8d516a):
+
+  - Adding expand link support to Atlassian Switcher
+
+## 6.2.2
+- Updated dependencies [987ab01f30](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/987ab01f30):
+- Updated dependencies [c95557e3ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c95557e3ff):
+  - @atlaskit/notification-log-client@4.0.2
+  - @atlaskit/notification-indicator@6.0.0
+  - @atlaskit/navigation-next@5.1.1
+  - @atlaskit/badge@11.0.0
+
 ## 6.2.1
 - [patch] [aacc698f07](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/aacc698f07):
 

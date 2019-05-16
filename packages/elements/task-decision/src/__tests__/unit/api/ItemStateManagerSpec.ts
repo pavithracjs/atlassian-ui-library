@@ -1,4 +1,4 @@
-import * as fetchMock from 'fetch-mock/src/client';
+import fetchMock from 'fetch-mock/src/client';
 import {
   ItemStateManager,
   ACTION_STATE_CHANGED_FPS_EVENT,
@@ -57,7 +57,7 @@ describe('ItemStateManager', () => {
   });
 
   it('should subscribe to PubSub event if PubSubClient provided', () => {
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line no-unused-expressions
     new ItemStateManager({ url: '', pubSubClient: mockPubSubClient });
     expect(mockPubSubClient.on).toHaveBeenCalledWith(
       ACTION_STATE_CHANGED_FPS_EVENT,
@@ -66,13 +66,13 @@ describe('ItemStateManager', () => {
   });
 
   it('should not subscribe to any PubSub event if PubSubClient not provided', () => {
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line no-unused-expressions
     new ItemStateManager({ url: '' });
     expect(mockPubSubClient.on).not.toHaveBeenCalled();
   });
 
   it('should subscribe to PubSub Reconnect event if PubSubClient provided', () => {
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line no-unused-expressions
     new ItemStateManager({ url: '', pubSubClient: mockPubSubClient });
     expect(mockPubSubClient.on).toHaveBeenCalledWith(
       PubSubSpecialEventType.RECONNECT,

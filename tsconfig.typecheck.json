@@ -3,5 +3,9 @@
   "include": [
     "./packages/**/*",
     "./website/**/*",
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    
+  }
 }

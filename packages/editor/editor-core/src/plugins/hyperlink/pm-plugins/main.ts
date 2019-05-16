@@ -8,27 +8,43 @@ import {
   Transaction,
 } from 'prosemirror-state';
 import { Dispatch } from '../../../event-dispatcher';
+import { shallowEqual } from '../../../plugins/text-formatting/utils';
 
 export enum LinkAction {
   SHOW_INSERT_TOOLBAR = 'SHOW_INSERT_TOOLBAR',
   HIDE_TOOLBAR = 'HIDE_TOOLBAR',
   SELECTION_CHANGE = 'SELECTION_CHANGE',
+  INSERT_LINK_TOOLBAR = 'INSERT',
+  EDIT_INSERTED_TOOLBAR = 'EDIT_INSERTED_TOOLBAR',
 }
 export enum InsertStatus {
   EDIT_LINK_TOOLBAR = 'EDIT',
   INSERT_LINK_TOOLBAR = 'INSERT',
+  EDIT_INSERTED_TOOLBAR = 'EDIT_INSERTED',
 }
+
+export type InsertState = {
+  type: InsertStatus.INSERT_LINK_TOOLBAR;
+  from: number;
+  to: number;
+};
+
+export type EditInsertedState = {
+  type: InsertStatus.EDIT_INSERTED_TOOLBAR;
+  node: Node;
+  pos: number;
+};
+
+export type EditState = {
+  type: InsertStatus.EDIT_LINK_TOOLBAR;
+  node: Node;
+  pos: number;
+};
+
 export type LinkToolbarState =
-  | {
-      type: InsertStatus.EDIT_LINK_TOOLBAR;
-      node: Node;
-      pos: number;
-    }
-  | {
-      type: InsertStatus.INSERT_LINK_TOOLBAR;
-      from: number;
-      to: number;
-    }
+  | EditState
+  | EditInsertedState
+  | InsertState
   | undefined;
 
 export const canLinkBeCreatedInRange = (from: number, to: number) => (
@@ -73,7 +89,10 @@ const mapTransactionToState = (
 ): LinkToolbarState => {
   if (!state) {
     return undefined;
-  } else if (state.type === InsertStatus.EDIT_LINK_TOOLBAR) {
+  } else if (
+    state.type === InsertStatus.EDIT_LINK_TOOLBAR ||
+    state.type === InsertStatus.EDIT_INSERTED_TOOLBAR
+  ) {
     const { pos, deleted } = tr.mapping.mapResult(state.pos, 1);
     const node = tr.doc.nodeAt(pos) as Node;
     // If the position was not deleted & it is still a link
@@ -102,12 +121,17 @@ const toState = (
   // Show insert or edit toolbar
   if (!state) {
     switch (action) {
-      case LinkAction.SHOW_INSERT_TOOLBAR:
+      case LinkAction.SHOW_INSERT_TOOLBAR: {
         const { from, to } = editorState.selection;
         if (canLinkBeCreatedInRange(from, to)(editorState)) {
-          return { type: InsertStatus.INSERT_LINK_TOOLBAR, from, to };
+          return {
+            type: InsertStatus.INSERT_LINK_TOOLBAR,
+            from,
+            to,
+          };
         }
         return undefined;
+      }
       case LinkAction.SELECTION_CHANGE:
         // If the user has moved their cursor, see if they're in a link
         const link = getActiveLinkMark(editorState);
@@ -119,10 +143,19 @@ const toState = (
         return undefined;
     }
   }
-
   // Update toolbar state if selection changes, or if toolbar is hidden
   if (state.type === InsertStatus.EDIT_LINK_TOOLBAR) {
     switch (action) {
+      case LinkAction.EDIT_INSERTED_TOOLBAR: {
+        const link = getActiveLinkMark(editorState);
+        if (link) {
+          if (link.pos === state.pos && link.node === state.node) {
+            return { ...state, type: InsertStatus.EDIT_INSERTED_TOOLBAR };
+          }
+          return { ...link, type: InsertStatus.EDIT_INSERTED_TOOLBAR };
+        }
+        return undefined;
+      }
       case LinkAction.SELECTION_CHANGE:
         const link = getActiveLinkMark(editorState);
         if (link) {
@@ -180,9 +213,13 @@ const getActiveText = (
 
   if (
     currentSlice.content.childCount === 1 &&
-    [schema.nodes.paragraph, schema.nodes.text].indexOf(
-      currentSlice.content.firstChild!.type,
-    ) !== -1
+    [
+      schema.nodes.text,
+      schema.nodes.paragraph,
+      schema.nodes.heading,
+      schema.nodes.taskItem,
+      schema.nodes.decisionItem,
+    ].indexOf(currentSlice.content.firstChild!.type) !== -1
   ) {
     return currentSlice.content.firstChild!.textContent;
   }
@@ -221,7 +258,8 @@ export const plugin = (dispatch: Dispatch) =>
         newState,
       ): HyperlinkState {
         let state = pluginState;
-        const action = tr.getMeta(stateKey) as LinkAction;
+        const action =
+          tr.getMeta(stateKey) && (tr.getMeta(stateKey).type as LinkAction);
 
         if (tr.docChanged) {
           state = {
@@ -257,7 +295,7 @@ export const plugin = (dispatch: Dispatch) =>
           };
         }
 
-        if (state !== pluginState) {
+        if (!shallowEqual(state, pluginState)) {
           dispatch(stateKey, state);
         }
         return state;

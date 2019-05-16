@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MouseEvent, Component, ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import { MediaType } from '@atlaskit/media-core';
 import TickIcon from '@atlaskit/icon/glyph/check';
 import { Ellipsify } from '@atlaskit/media-ui';
@@ -184,7 +184,7 @@ export class CardOverlay extends Component<CardOverlayProps, CardOverlayState> {
   };
 
   removeBtnClick(handler: CardEventHandler) {
-    return (e: MouseEvent<HTMLDivElement>) => {
+    return (e: MouseEvent<HTMLDivElement, any>) => {
       e.preventDefault();
       e.stopPropagation();
       handler();

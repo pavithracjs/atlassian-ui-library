@@ -14,7 +14,6 @@ import {
 } from '../../../types';
 
 const HOSTNAME = 'my-hostname.com';
-const CLOUD_ID = 'some-cloud-id';
 const ACTIVE_PRODUCT_STATE = {
   state: 'ACTIVE',
 };
@@ -191,16 +190,13 @@ describe('utils/links', () => {
   describe('getAdministrationLinks', () => {
     it('should assemble admin links for site admins', () => {
       const isAdmin = true;
-      const result = getAdministrationLinks(CLOUD_ID, isAdmin);
-      const expectedResult = [
-        `/admin/s/some-cloud-id/billing/addapplication`,
-        `/admin/s/some-cloud-id`,
-      ];
+      const result = getAdministrationLinks(isAdmin);
+      const expectedResult = [`/admin/billing/addapplication`, `/admin`];
       expect(result.map(({ href }) => href)).toMatchObject(expectedResult);
     });
     it('should assemble admin links for site trusted users', () => {
       const isAdmin = false;
-      const result = getAdministrationLinks(CLOUD_ID, isAdmin);
+      const result = getAdministrationLinks(isAdmin);
       const expectedResult = [
         `/trusted-admin/billing/addapplication`,
         `/trusted-admin`,
@@ -213,6 +209,7 @@ describe('utils/links', () => {
     it("should offer Confluence if it hasn't being activated", () => {
       const licenseInformation = generateLicenseInformation([
         'jira-software.ondemand',
+        'jira-servicedesk.ondemand',
       ]);
       const result = getSuggestedProductLink(licenseInformation);
       expect(result.length).toEqual(1);
@@ -226,6 +223,13 @@ describe('utils/links', () => {
       const result = getSuggestedProductLink(licenseInformation);
       expect(result.length).toEqual(1);
       expect(result[0]).toHaveProperty('key', 'jira-servicedesk.ondemand');
+    });
+    it('should offer both Confluence and Jira Service Desk if both are not active', () => {
+      const licenseInformation = generateLicenseInformation([]);
+      const result = getSuggestedProductLink(licenseInformation);
+      expect(result).toHaveLength(2);
+      expect(result[0]).toHaveProperty('key', 'confluence.ondemand');
+      expect(result[1]).toHaveProperty('key', 'jira-servicedesk.ondemand');
     });
     it('should return empty array if Confluence and JSD are active', () => {
       const licenseInformation = generateLicenseInformation([

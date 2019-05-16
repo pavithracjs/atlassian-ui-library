@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/textfield",
-  "version": "0.4.1",
+  "version": "2.0.0",
   "description": "Text Field Component",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -14,27 +14,31 @@
     "Daniel D",
     "Kang C"
   ],
+  "atlaskit": {
+    "name": "Textfield",
+    "team": "core"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^4.0.1",
-    "@atlaskit/theme": "^8.0.1",
+    "@atlaskit/analytics-next": "^5.0.0",
+    "@atlaskit/theme": "^9.0.0",
     "@babel/runtime": "^7.0.0",
-    "emotion": "^9.1.1"
+    "@emotion/core": "^10.0.9"
   },
   "peerDependencies": {
-    "react": "^16.4.0"
+    "react": "^16.8.0"
   },
   "devDependencies": {
-    "@atlaskit/avatar": "^15.0.0",
+    "@atlaskit/avatar": "^16.0.0",
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/button": "^11.0.0",
-    "@atlaskit/docs": "^7.0.1",
-    "@atlaskit/form": "^5.2.3",
-    "@atlaskit/icon": "^16.0.4",
-    "@atlaskit/ssr": "^0.0.1",
-    "@atlaskit/visual-regression": "^0.0.1",
+    "@atlaskit/button": "^13.0.0",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/form": "^6.0.0",
+    "@atlaskit/icon": "^17.0.0",
+    "@atlaskit/ssr": "^0.1.0",
+    "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0",
-    "react-dom": "^16.4.2"
+    "react-dom": "^16.8.0"
   },
   "keywords": [
     "atlaskit",

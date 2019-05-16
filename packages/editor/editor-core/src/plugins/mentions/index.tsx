@@ -1,12 +1,11 @@
 import * as React from 'react';
-import * as uuid from 'uuid';
+import uuid from 'uuid';
 import { Schema, Node, Fragment } from 'prosemirror-model';
 import { EditorState, Plugin, PluginKey, StateField } from 'prosemirror-state';
 import {
   AnalyticsEventPayload,
   CreateUIAnalyticsEventSignature,
-} from '@atlaskit/analytics-next-types';
-import MentionIcon from '@atlaskit/icon/glyph/editor/mention';
+} from '@atlaskit/analytics-next';
 import {
   MentionProvider,
   MentionItem,
@@ -32,7 +31,6 @@ import {
   createInitialPluginState,
 } from '../type-ahead/pm-plugins/main';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
-import { ReactNodeView } from '../../nodeviews';
 import ToolbarMention from './ui/ToolbarMention';
 import mentionNodeView from './nodeviews/mention';
 import {
@@ -53,6 +51,7 @@ import {
 } from '../analytics';
 import { TypeAheadItem } from '../type-ahead/types';
 import { isTeamStats, isTeamType } from './utils';
+import { IconMention } from '../quick-insert/assets';
 
 export interface TeamInfoAttrAnalytics {
   teamId: String;
@@ -124,8 +123,10 @@ const mentionsPlugin = (
       quickInsert: ({ formatMessage }) => [
         {
           title: formatMessage(messages.mention),
+          description: formatMessage(messages.mentionDescription),
           priority: 400,
-          icon: () => <MentionIcon label={formatMessage(messages.mention)} />,
+          keyshortcut: '@',
+          icon: () => <IconMention label={formatMessage(messages.mention)} />,
           action(insert, state) {
             const mark = state.schema.mark('typeAheadQuery', {
               trigger: '@',
@@ -187,11 +188,11 @@ const mentionsPlugin = (
           return mentions.map(
             (mention: MentionDescription): TypeAheadItem => ({
               title: mention.id,
-              render: ({ isSelected, onClick, onMouseMove }) => (
+              render: ({ isSelected, onClick, onHover }) => (
                 <MentionItem
                   mention={mention}
                   selected={isSelected}
-                  onMouseMove={onMouseMove}
+                  onMouseEnter={onHover}
                   onSelection={onClick}
                 />
               ),
@@ -420,10 +421,10 @@ function mentionPluginFactory(
     } as StateField<MentionPluginState>,
     props: {
       nodeViews: {
-        mention: ReactNodeView.fromComponent(
-          mentionNodeView,
+        mention: mentionNodeView(
           portalProviderAPI,
-          { providerFactory, editorAppearance },
+          providerFactory,
+          editorAppearance,
         ),
       },
     },
@@ -547,7 +548,7 @@ function buildNodesForTeamMention(
 ): Fragment {
   const { nodes, marks } = schema;
   const { name, id: teamId, accessLevel, context } = selectedMention;
-  const teamUrl = `${window.location.host}/people/team/${teamId}`;
+  const teamUrl = `${window.location.origin}/people/team/${teamId}`;
 
   const openBracketText = schema.text('(');
   const closeBracketText = schema.text(')');

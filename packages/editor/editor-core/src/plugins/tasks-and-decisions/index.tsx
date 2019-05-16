@@ -1,7 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import EditorTaskIcon from '@atlaskit/icon/glyph/editor/task';
-import EditorDecisionIcon from '@atlaskit/icon/glyph/editor/decision';
 import {
   decisionItem,
   decisionList,
@@ -20,8 +18,8 @@ import { INPUT_METHOD } from '../analytics';
 import { insertTaskDecisionWithAnalytics, getListTypes } from './commands';
 import { Transaction, EditorState } from 'prosemirror-state';
 import { TaskDecisionListType } from './types';
+import { IconAction, IconDecision } from '../quick-insert/assets';
 
-// tslint:disable-next-line:variable-name
 const TaskDecisionToolbarGroup = styled.div`
   display: flex;
 `;
@@ -110,10 +108,12 @@ const tasksAndDecisionsPlugin: EditorPlugin = {
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(insertBlockMessages.action),
+        description: formatMessage(insertBlockMessages.actionDescription),
         priority: 100,
         keywords: ['checkbox', 'task', 'todo'],
+        keyshortcut: '[]',
         icon: () => (
-          <EditorTaskIcon label={formatMessage(insertBlockMessages.action)} />
+          <IconAction label={formatMessage(insertBlockMessages.action)} />
         ),
         action(insert, state) {
           return quickInsertItem(insert, state, 'taskList');
@@ -121,11 +121,11 @@ const tasksAndDecisionsPlugin: EditorPlugin = {
       },
       {
         title: formatMessage(insertBlockMessages.decision),
+        description: formatMessage(insertBlockMessages.decisionDescription),
         priority: 900,
+        keyshortcut: '<>',
         icon: () => (
-          <EditorDecisionIcon
-            label={formatMessage(insertBlockMessages.decision)}
-          />
+          <IconDecision label={formatMessage(insertBlockMessages.decision)} />
         ),
         action(insert, state) {
           return quickInsertItem(insert, state, 'decisionList');

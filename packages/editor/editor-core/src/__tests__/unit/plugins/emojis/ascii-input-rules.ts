@@ -11,7 +11,7 @@ import {
   emojiQuery,
   emoji,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { emoji as emojiData } from '@atlaskit/util-data-test';
 import emojiPlugin from '../../../../plugins/emoji';
 import codeBlockPlugin from '../../../../plugins/code-block';

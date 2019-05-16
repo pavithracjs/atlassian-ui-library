@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable react/no-multi-comp */
 import React, { Component, PureComponent, type Node } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Button from '@atlaskit/button';
 import { colors } from '@atlaskit/theme';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
@@ -137,7 +137,7 @@ class ItemLineCard extends Component<ItemLineCardProps, ItemLineCardState> {
         {(provided, snapshot) => (
           <div>
             {this.renderCard({
-              innerRef: ref => provided.innerRef(ref),
+              ref: ref => provided.innerRef(ref),
               isDraggable: true,
               isDragging: snapshot.isDragging,
               ...provided.draggableProps,
@@ -179,8 +179,8 @@ class ItemLineCardGroup extends Component<ItemLineCardGroupProps> {
   };
 
   onDragEnd = result => {
-    const source = result.source;
-    const destination = result.destination;
+    const { source } = result;
+    const { destination } = result;
 
     if (!destination || source.droppableId !== destination.droppableId) {
       return;
@@ -290,8 +290,11 @@ type State = {
 };
 export default class extends PureComponent<{}, State> {
   state: State = { isOpen: false };
+
   open = () => this.setState({ isOpen: true });
+
   close = () => this.setState({ isOpen: false });
+
   secondaryAction = ({ target }: Object) => console.log(target.innerText);
 
   render() {

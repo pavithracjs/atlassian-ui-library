@@ -14,7 +14,9 @@ const FirstChild = ({ children }) => Children.toArray(children)[0] || null;
 
 class Portal extends Component<Props> {
   portalElement = null;
+
   mountTimeout = null;
+
   componentDidMount() {
     const node = document.createElement('span');
     if (document.body) {
@@ -28,6 +30,7 @@ class Portal extends Component<Props> {
       this.mountTimeout = setTimeout(() => this.componentDidUpdate(), 1);
     }
   }
+
   componentDidUpdate() {
     const { children } = this.props;
     if (this.portalElement) {
@@ -35,6 +38,7 @@ class Portal extends Component<Props> {
       render(this.renderChildren(children), portal);
     }
   }
+
   componentWillUnmount() {
     // re-render an empty react tree into the portal element so that any
     // mounted components get cleaned up and have a chance to complete their
@@ -57,6 +61,7 @@ class Portal extends Component<Props> {
       });
     }
   }
+
   renderChildren = children => {
     const { theme, withTransitionGroup } = this.props;
 
@@ -70,13 +75,13 @@ class Portal extends Component<Props> {
       </ThemeProvider>
     );
   };
+
   render() {
     return null;
   }
 }
 
 // Pass theme through to be consumed
-// TODO: @thejameskyle - Fix Styled Components for Flow 53+
 const PortalWithTheme = (withTheme: any)(Portal);
 
 // Wrap the default export in a ThemeProvider component so that withTheme

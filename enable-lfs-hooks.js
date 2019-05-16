@@ -11,7 +11,7 @@ modifyHook.forEach(hook => {
   hookfiles.push(`.git/hooks/${hook}`);
 });
 
-console.log('updating hooks -', hookfiles);
+console.log('updating hooks -', hookfiles); //eslint-disable-line no-console
 
 hookfiles.forEach(file => {
   fs.appendFileSync(file, `\n${command} || ${message} \n`);

@@ -1,4 +1,10 @@
-import { Plugin, PluginKey, Transaction, Selection } from 'prosemirror-state';
+import {
+  Plugin,
+  PluginKey,
+  Transaction,
+  Selection,
+  EditorState,
+} from 'prosemirror-state';
 import { Decoration, DecorationSet } from 'prosemirror-view';
 import { Step, ReplaceStep } from 'prosemirror-transform';
 import { ProviderFactory } from '@atlaskit/editor-common';
@@ -19,25 +25,48 @@ import {
 } from './types';
 import { Participants, ReadOnlyParticipants } from './participants';
 import { findPointers, createTelepointers } from './utils';
-import { CollabEditProvider } from './provider';
+import { CollabEditProvider, CollabEvent } from './provider';
 import { CollabEditOptions } from './types';
 
 export { CollabEditProvider };
 
 export const pluginKey = new PluginKey('collabEditPlugin');
 
+const unsubscribeAllEvents = (provider: CollabEditProvider) => {
+  const collabEvents: Array<CollabEvent> = [
+    'init',
+    'connected',
+    'data',
+    'presence',
+    'telepointer',
+    'local-steps',
+    'error',
+  ];
+
+  collabEvents.forEach(evt => {
+    provider.unsubscribeAll(evt);
+  });
+};
+
 export const createPlugin = (
   dispatch: Dispatch,
   providerFactory: ProviderFactory,
   options?: CollabEditOptions,
+  // This will only be populated when the editor is reloaded/reconfigured
+  oldState?: EditorState,
 ) => {
+  const isInitialLoad = !oldState;
   let collabEditProvider: CollabEditProvider | null;
   let isReady = false;
 
   return new Plugin({
     key: pluginKey,
     state: {
-      init: PluginState.init,
+      init(config) {
+        return (
+          (oldState && pluginKey.getState(oldState)) || PluginState.init(config)
+        );
+      },
       apply(tr, prevPluginState: PluginState, oldState, newState) {
         const pluginState = prevPluginState.apply(tr);
 
@@ -100,6 +129,12 @@ export const createPlugin = (
           if (providerPromise) {
             collabEditProvider = await providerPromise;
 
+            if (!isInitialLoad) {
+              // We set `isReady = true` here as our init handler won't be fired again.
+              isReady = true;
+              unsubscribeAllEvents(collabEditProvider);
+            }
+
             // Initialize provider
             collabEditProvider
               .on('init', data => {
@@ -122,11 +157,18 @@ export const createPlugin = (
               })
               .on('error', err => {
                 // TODO: Handle errors property (ED-2580)
-              })
-              .initialize(
+              });
+
+            /**
+             * We only want to initialise once, if we reload/reconfigure this plugin
+             * We dont want to re-init collab, it would break existing sessions
+             */
+            if (isInitialLoad) {
+              collabEditProvider.initialize(
                 () => view.state,
                 json => Step.fromJSON(view.state.schema, json),
               );
+            }
           } else {
             collabEditProvider = null;
             isReady = false;
@@ -137,6 +179,9 @@ export const createPlugin = (
       return {
         destroy() {
           providerFactory.unsubscribeAll('collabEditProvider');
+          if (collabEditProvider) {
+            unsubscribeAllEvents(collabEditProvider);
+          }
           collabEditProvider = null;
         },
       };

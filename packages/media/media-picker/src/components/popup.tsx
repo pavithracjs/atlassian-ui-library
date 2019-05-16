@@ -101,6 +101,7 @@ export class PopupImpl extends UploadComponent<PopupUploadEventPayloadMap>
       return;
     }
     unmountComponentAtNode(this.container);
+    this.container.remove();
   }
 
   public hide(): void {

@@ -2,24 +2,27 @@ import { baseKeymap } from 'prosemirror-commands';
 import { history } from 'prosemirror-history';
 import { keymap } from 'prosemirror-keymap';
 import { doc, paragraph, text } from '@atlaskit/adf-schema';
-import { EditorPlugin } from '../../types';
+import { EditorPlugin, EditorAppearance, PMPluginFactory } from '../../types';
 import filterStepsPlugin from './pm-plugins/filter-steps';
 import focusHandlerPlugin from './pm-plugins/focus-handler';
 import newlinePreserveMarksPlugin from './pm-plugins/newline-preserve-marks';
 import inlineCursorTargetPlugin from './pm-plugins/inline-cursor-target';
 import { plugin as reactNodeView } from './pm-plugins/react-nodeview';
 import decorationPlugin from './pm-plugins/decoration';
+import scrollGutter from './pm-plugins/scroll-gutter';
+import { isFullPage } from '../../utils/is-full-page';
 
-const basePlugin: EditorPlugin = {
+const basePlugin = (appearance?: EditorAppearance): EditorPlugin => ({
   pmPlugins() {
-    return [
+    const plugins: { name: string; plugin: PMPluginFactory }[] = [
       {
         name: 'filterStepsPlugin',
         plugin: () => filterStepsPlugin(),
       },
       {
         name: 'inlineCursorTargetPlugin',
-        plugin: () => inlineCursorTargetPlugin(),
+        plugin: () =>
+          appearance !== 'mobile' ? inlineCursorTargetPlugin() : undefined,
       },
       {
         name: 'focusHandlerPlugin',
@@ -43,6 +46,15 @@ const basePlugin: EditorPlugin = {
           }),
       },
     ];
+
+    if (isFullPage('full-page')) {
+      plugins.push({
+        name: 'scrollGutterPlugin',
+        plugin: () => scrollGutter(),
+      });
+    }
+
+    return plugins;
   },
   nodes() {
     return [
@@ -51,6 +63,6 @@ const basePlugin: EditorPlugin = {
       { name: 'text', node: text },
     ];
   },
-};
+});
 
 export default basePlugin;

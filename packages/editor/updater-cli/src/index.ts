@@ -1,7 +1,7 @@
 /// <reference lib="es2017.object" />
 
 import chalk from 'chalk';
-import * as meow from 'meow';
+import meow from 'meow';
 import { updateCommand } from './commands/update';
 import { changelogCommand } from './commands/changelog';
 import { UpdateTaskFlags } from './commands/update/types';
@@ -42,6 +42,6 @@ export function run() {
     return changelogCommand(inputs[0], inputs[1]);
   }
 
-  // tslint:disable:no-console
+  /* eslint-disable no-console */
   return Promise.resolve(console.log(cli.help));
 }

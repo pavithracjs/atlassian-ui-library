@@ -4,8 +4,12 @@ import { Fragment, Node as PMNode, Schema } from 'prosemirror-model';
 
 import { Serializer } from '../serializer';
 import { nodeSerializers } from './serializers';
-import { serializeStyle } from './util';
-import { calcTableColumnWidths } from '@atlaskit/adf-schema';
+import styles from './styles';
+import juice from 'juice';
+import { escapeHtmlString } from './util';
+import flow from 'lodash.flow';
+import property from 'lodash.property';
+import { defaultSchema as schema } from '@atlaskit/adf-schema';
 
 const serializeNode = (
   node: PMNode,
@@ -18,15 +22,16 @@ const serializeNode = (
     return `[UNKNOWN_NODE_TYPE: ${node.type.name}]`;
   }
 
-  const attrs = node.type.name === 'table' ? getTableAttrs(node) : node.attrs;
   const parentAttrs = getAttrsFromParent(index, parent);
 
   return nodeSerializers[node.type.name]({
+    node,
     attrs: {
-      ...attrs,
+      ...node.attrs,
       ...parentAttrs,
     },
     marks: node.marks,
+    parent: parent,
     text:
       serializedHTML || node.attrs.text || node.attrs.shortName || node.text,
   });
@@ -54,13 +59,6 @@ const getAttrsFromParent = (
   return {};
 };
 
-const getTableAttrs = (node: PMNode): any => {
-  return {
-    ...node.attrs,
-    columnWidths: calcTableColumnWidths(node),
-  };
-};
-
 const traverseTree = (fragment: Fragment, parent?: PMNode): string => {
   let output = '';
   fragment.forEach((childNode, offset, idx) => {
@@ -82,13 +80,21 @@ export const commonStyle = {
   'line-height': '24px',
 };
 
-const wrapperCSS = serializeStyle(commonStyle);
+const juicify = (html: string): string =>
+  juice(`<style>${styles}</style><div class="wrapper">${html}</div>`);
 
 export default class EmailSerializer implements Serializer<string> {
-  serializeFragment(fragment: Fragment): string {
-    const innerHTML = traverseTree(fragment);
-    return `<div style="${wrapperCSS}">${innerHTML}</div>`;
-  }
+  serializeFragment: (fragment: Fragment) => string = flow(
+    (fragment: Fragment) => fragment.toJSON(),
+    JSON.stringify,
+    escapeHtmlString,
+    JSON.parse,
+    content => ({ version: 1, type: 'doc', content }),
+    schema.nodeFromJSON,
+    property('content'),
+    traverseTree,
+    juicify,
+  );
 
   static fromSchema(schema: Schema): EmailSerializer {
     return new EmailSerializer();

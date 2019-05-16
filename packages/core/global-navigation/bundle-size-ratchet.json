@@ -3,32 +3,32 @@
     "id": "src.main",
     "name": "main",
     "stats": {
-      "size": 16786,
-      "gzipSize": 5492
+      "size": 20057,
+      "gzipSize": 6905
     }
   },
   {
     "id": "node_modules.main",
     "name": "node_modules [main]",
     "stats": {
-      "size": 192386,
-      "gzipSize": 58411
+      "size": 196446,
+      "gzipSize": 59107
     }
   },
   {
     "id": "atlaskit.core.main",
     "name": "main",
     "stats": {
-      "size": 183942,
-      "gzipSize": 45565
+      "size": 236514,
+      "gzipSize": 54821
     }
   },
   {
     "id": "atlaskit.elements.main",
     "name": "main",
     "stats": {
-      "size": 2642,
-      "gzipSize": 1113
+      "size": 2656,
+      "gzipSize": 1122
     }
   },
   {
@@ -36,23 +36,23 @@
     "name": "main",
     "stats": {
       "size": 3990,
-      "gzipSize": 1473
+      "gzipSize": 1472
     }
   },
   {
     "id": "atlaskit.navigation.main",
     "name": "main",
     "stats": {
-      "size": 49461,
-      "gzipSize": 10499
+      "size": 59056,
+      "gzipSize": 15599
     }
   },
   {
     "id": "combined.main",
     "name": "main",
     "stats": {
-      "size": 440590,
-      "gzipSize": 118999
+      "size": 508459,
+      "gzipSize": 135376
     }
   }
 ]

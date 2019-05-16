@@ -17,10 +17,11 @@ BrowserTestCase(
     await browser.goto(fullpage.path);
     await browser.waitForSelector(editable);
     await browser.click(editable);
-    await quickInsert(browser, 'Hyperlink');
+    await quickInsert(browser, 'Link');
 
     await browser.waitForSelector(linkToolbar);
-    await browser.type(linkToolbar, ['atlassian.com', 'Return']);
+    await browser.type(linkToolbar, ['google.com']);
+    await browser.keys(['Return']);
     await browser.waitForSelector('a');
 
     const doc = await browser.$eval(editable, getDocFromElement);

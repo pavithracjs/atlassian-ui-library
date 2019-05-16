@@ -1,4 +1,4 @@
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 import ORIGINAL_MOCK_DATA, { MockData } from './mock-data';
 
 interface DataTransformer {
@@ -88,10 +88,11 @@ export const mockEndpoints = (
   );
   fetchMock.post(
     '/gateway/api/permissions/permitted',
-    () =>
+    (_: string, options: any) =>
       new Promise(res =>
         setTimeout(
-          () => res(USER_PERMISSION_DATA),
+          () =>
+            res(USER_PERMISSION_DATA[JSON.parse(options.body).permissionId]),
           loadTimes && loadTimes.permitted,
         ),
       ),

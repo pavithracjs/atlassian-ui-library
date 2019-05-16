@@ -1,5 +1,80 @@
 # @atlaskit/conversation
 
+## 15.0.2
+- Updated dependencies [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
+  - @atlaskit/comment@8.0.2
+  - @atlaskit/editor-core@112.0.0
+
+## 15.0.1
+- Updated dependencies [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
+  - @atlaskit/comment@8.0.1
+  - @atlaskit/editor-core@111.0.0
+
+## 15.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 14.3.2
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-common@38.0.0
+  - @atlaskit/editor-core@109.0.0
+  - @atlaskit/renderer@47.0.0
+  - @atlaskit/comment@7.0.8
+  - @atlaskit/reactions@16.1.10
+  - @atlaskit/util-data-test@11.1.9
+
+## 14.3.1
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-common@37.0.0
+  - @atlaskit/editor-core@108.0.0
+  - @atlaskit/renderer@46.0.0
+  - @atlaskit/comment@7.0.7
+  - @atlaskit/reactions@16.1.9
+  - @atlaskit/util-data-test@11.1.8
+
+## 14.3.0
+- [minor] [0e8d32ceb6](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0e8d32ceb6):
+
+  - add onCommentPermalinkClick prop so consumers can handle that click for scrolling or other purpose
+
+## 14.2.2
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+- [patch] [0ac39bd2dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ac39bd2dd):
+
+  - Bump tslib to 1.9
+
+## 14.2.1
+- [patch] [fdbc4744b3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/fdbc4744b3):
+
+  - Fixed infinite recursion bug
+
+## 14.2.0
+- [minor] [8cd293e322](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8cd293e322):
+
+  - Exposing lifecycle hooks for Conversation Editor
+
+## 14.1.1
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 14.1.0
+- [minor] [33563e651d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/33563e651d):
+
+  - Add support for user-state lozenges
+
+## 14.0.2
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/editor-core@107.0.0
+  - @atlaskit/renderer@45.0.0
+  - @atlaskit/comment@7.0.4
+  - @atlaskit/reactions@16.1.3
+  - @atlaskit/util-data-test@11.1.5
+
 ## 14.0.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

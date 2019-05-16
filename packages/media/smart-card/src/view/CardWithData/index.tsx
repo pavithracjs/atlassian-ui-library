@@ -12,7 +12,7 @@ import { extractBlockPropsFromJSONLD } from '../../extractors/block';
 export interface CardWithDataContentProps {
   appearance: CardAppearance;
   data: DefinedState['data'];
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   isSelected?: boolean;
 }
 

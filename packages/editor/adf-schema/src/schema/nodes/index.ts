@@ -11,7 +11,11 @@ export {
   MarksObject,
 } from './doc';
 export { blockquote, BlockQuoteDefinition } from './blockquote';
-export { bulletList, BulletListDefinition } from './bullet-list';
+export {
+  bulletList,
+  BulletListDefinition,
+  bulletListSelector,
+} from './bullet-list';
 export {
   codeBlock,
   toJSON as codeBlockToJSON,
@@ -21,7 +25,11 @@ export {
 export { hardBreak, HardBreakDefinition } from './hard-break';
 export { heading, HeadingDefinition } from './heading';
 export { rule, RuleDefinition } from './rule';
-export { orderedList, OrderedListDefinition } from './ordered-list';
+export {
+  orderedList,
+  OrderedListDefinition,
+  orderedListSelector,
+} from './ordered-list';
 export { paragraph, ParagraphDefinition } from './paragraph';
 export { emoji, EmojiAttributes, EmojiDefinition } from './emoji';
 export { image } from './image';
@@ -82,9 +90,13 @@ export {
   AppCardAction,
   ApplicationCardDefinition,
 } from './applicationCard';
-export { decisionList, DecisionListDefinition } from './decision-list';
+export {
+  decisionList,
+  DecisionListDefinition,
+  decisionListSelector,
+} from './decision-list';
 export { decisionItem, DecisionItemDefinition } from './decision-item';
-export { taskList, TaskListDefinition } from './task-list';
+export { taskList, TaskListDefinition, taskListSelector } from './task-list';
 export { taskItem, TaskItemDefinition } from './task-item';
 export { extension, ExtensionDefinition } from './extension';
 export { inlineExtension, InlineExtensionDefinition } from './inline-extension';

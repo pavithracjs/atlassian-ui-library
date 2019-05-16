@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RefObject } from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import { MediaSingleLayout } from '@atlaskit/adf-schema';
 import { Props as ResizableMediaSingleProps, EnabledHandles } from './types';
 

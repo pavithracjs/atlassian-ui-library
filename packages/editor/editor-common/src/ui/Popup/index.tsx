@@ -7,6 +7,7 @@ import {
   calculatePlacement,
   findOverflowScrollParent,
   Position,
+  validatePosition,
 } from './utils';
 
 export interface Props {
@@ -37,6 +38,7 @@ export interface State {
   position?: Position;
 
   overflowScrollParent: HTMLElement | false;
+  validPosition: boolean;
 }
 
 export default class Popup extends React.Component<Props, State> {
@@ -47,6 +49,7 @@ export default class Popup extends React.Component<Props, State> {
 
   state: State = {
     overflowScrollParent: false,
+    validPosition: true,
   };
 
   private placement: [string, string] = ['', ''];
@@ -97,7 +100,10 @@ export default class Popup extends React.Component<Props, State> {
     });
     position = onPositionCalculated ? onPositionCalculated(position) : position;
 
-    this.setState({ position });
+    this.setState({
+      position,
+      validPosition: validatePosition(position, target),
+    });
   }
 
   private cannotSetPopup(
@@ -204,12 +210,15 @@ export default class Popup extends React.Component<Props, State> {
   }
 
   render() {
-    if (!this.props.target) {
+    const { target, mountTo } = this.props;
+    const { validPosition } = this.state;
+
+    if (!target || !validPosition) {
       return null;
     }
 
-    if (this.props.mountTo) {
-      return createPortal(this.renderPopup(), this.props.mountTo);
+    if (mountTo) {
+      return createPortal(this.renderPopup(), mountTo);
     }
 
     // Without mountTo property renders popup as is,

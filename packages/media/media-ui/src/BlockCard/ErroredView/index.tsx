@@ -10,7 +10,7 @@ export interface BlockCardErroredViewProps {
   /** The url to display */
   url: string;
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   /** The error message to display */
   message: string;
   /** What to do when a user clicks "Try again" button. */
@@ -22,7 +22,7 @@ export interface BlockCardErroredViewProps {
 export class BlockCardErroredView extends React.Component<
   BlockCardErroredViewProps
 > {
-  handleRetry = (event: React.MouseEvent<HTMLButtonElement>) => {
+  handleRetry = (event: React.MouseEvent<HTMLElement>) => {
     const { onRetry } = this.props;
     if (onRetry) {
       event.preventDefault();

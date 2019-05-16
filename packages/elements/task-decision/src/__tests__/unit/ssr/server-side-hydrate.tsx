@@ -19,17 +19,7 @@ describe('server side rendering and hydration', async () => {
   ])('ssr("%s")', async (fileName: string) => {
     await ssr_hydrate(__dirname, fileName);
 
-    // tslint:disable-next-line:no-console
-    expect(console.error).not.toBeCalled();
-  });
-
-  test.skip.each([
-    [`${SamplesPath}/_decision-card.tsx`], // TODO: https://product-fabric.atlassian.net/browse/FS-3681
-    [`${SamplesPath}/_task-card.tsx`], // TODO: https://product-fabric.atlassian.net/browse/FS-3681
-  ])('ssr("%s")', async (fileName: string) => {
-    await ssr_hydrate(__dirname, fileName);
-
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     expect(console.error).not.toBeCalled();
   });
 });

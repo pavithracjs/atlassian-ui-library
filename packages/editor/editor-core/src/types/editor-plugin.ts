@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Schema } from 'prosemirror-model';
-import { Plugin } from 'prosemirror-state';
+import { Plugin, EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { ProviderFactory, ErrorReporter } from '@atlaskit/editor-common';
 import { Dispatch, EventDispatcher } from '../event-dispatcher';
@@ -10,19 +10,26 @@ import { QuickInsertHandler } from '../plugins/quick-insert/types';
 import { TypeAheadHandler } from '../plugins/type-ahead/types';
 import { FloatingToolbarHandler } from '../plugins/floating-toolbar/types';
 import { PortalProviderAPI } from '../ui/PortalProvider';
-import { NodeConfig, MarkConfig } from './editor-config';
+import { NodeConfig, MarkConfig, EditorConfig } from './editor-config';
 import { EditorProps, EditorAppearance } from './editor-props';
-import { AnalyticsEventPayload } from '../plugins/analytics';
+import { DispatchAnalyticsEvent } from '../plugins/analytics';
 
 export type PMPluginFactoryParams = {
   schema: Schema;
   props: EditorProps;
+  prevProps?: EditorProps;
   dispatch: Dispatch;
   eventDispatcher: EventDispatcher;
   providerFactory: ProviderFactory;
   errorReporter: ErrorReporter;
   portalProviderAPI: PortalProviderAPI;
   reactContext: () => { [key: string]: any };
+  dispatchAnalyticsEvent: DispatchAnalyticsEvent;
+  oldState?: EditorState;
+};
+
+export type PMPluginCreateConfig = PMPluginFactoryParams & {
+  editorConfig: EditorConfig;
 };
 
 export type PMPluginFactory = (
@@ -33,7 +40,7 @@ export type UiComponentFactoryParams = {
   editorView: EditorView;
   editorActions: EditorActions;
   eventDispatcher: EventDispatcher;
-  dispatchAnalyticsEvent?: (payload: AnalyticsEventPayload) => void;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
   providerFactory: ProviderFactory;
   appearance: EditorAppearance;
   popupsMountPoint?: HTMLElement;

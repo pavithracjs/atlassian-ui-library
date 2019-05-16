@@ -85,7 +85,7 @@ export type BuilderContent = string | BuilderContentFn;
  * - a refs tracker -- when given a string that *only* contains refs.
  */
 export class RefsTracker {
-  refs: Refs;
+  refs!: Refs;
 }
 
 /**

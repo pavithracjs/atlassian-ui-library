@@ -1,5 +1,39 @@
 # @atlaskit/util-data-test
 
+## 12.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 11.1.9
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/emoji@61.0.0
+  - @atlaskit/task-decision@14.0.9
+
+## 11.1.8
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/emoji@60.0.0
+  - @atlaskit/task-decision@14.0.8
+
+## 11.1.7
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
+## 11.1.6
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 11.1.5
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/emoji@59.0.0
+  - @atlaskit/task-decision@14.0.1
+
+## 11.1.4
+- Updated dependencies [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
+  - @atlaskit/task-decision@14.0.0
+
 ## 11.1.3
 - [patch] [1affe17dc4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1affe17dc4):
 

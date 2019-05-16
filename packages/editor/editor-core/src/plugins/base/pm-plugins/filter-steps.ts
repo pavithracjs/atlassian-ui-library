@@ -11,7 +11,7 @@ export default () => {
   return new Plugin({
     filterTransaction(tr) {
       if (hasInvalidSteps(tr)) {
-        // tslint:disable-next-line:no-console
+        // eslint-disable-next-line no-console
         console.warn(
           'The transaction was blocked because it contains invalid steps',
           tr.steps,

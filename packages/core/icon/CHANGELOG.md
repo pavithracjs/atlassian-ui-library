@@ -1,5 +1,49 @@
 # @atlaskit/icon
 
+## 17.0.1
+- Updated dependencies [3d95467c4b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3d95467c4b):
+  - @atlaskit/dynamic-table@13.0.0
+
+## 17.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 16.0.9
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/dynamic-table@11.0.3
+  - @atlaskit/field-text@8.0.3
+  - @atlaskit/icon-file-type@3.0.8
+  - @atlaskit/icon-object@3.0.8
+  - @atlaskit/icon-priority@3.0.5
+  - @atlaskit/logo@10.0.4
+  - @atlaskit/modal-dialog@8.0.7
+  - @atlaskit/section-message@2.0.3
+  - @atlaskit/tooltip@13.0.4
+  - @atlaskit/theme@8.1.7
+
+## 16.0.8
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/dynamic-table@11.0.2
+  - @atlaskit/field-text@8.0.2
+  - @atlaskit/icon-file-type@3.0.7
+  - @atlaskit/icon-object@3.0.7
+  - @atlaskit/icon-priority@3.0.4
+  - @atlaskit/logo@10.0.3
+  - @atlaskit/modal-dialog@8.0.6
+  - @atlaskit/section-message@2.0.2
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/tooltip@13.0.3
+  - @atlaskit/button@12.0.0
+
+## 16.0.7
+- [patch] [a143c9758f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a143c9758f):
+
+  - New Icon: Add the PremiumIcon
+
 ## 16.0.6
 - [patch] [98e11001ff](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/98e11001ff):
 

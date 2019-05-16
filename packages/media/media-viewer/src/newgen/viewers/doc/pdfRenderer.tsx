@@ -12,7 +12,7 @@ import { ZoomLevel } from '../../domain/zoomLevel';
 
 export const pdfViewerClassName = 'pdfViewer';
 
-/* tslint:disable:no-unused-expression */
+/* eslint-disable no-unused-expressions */
 injectGlobal`
   .${pdfViewerClassName} {
     margin-top: 64px;
@@ -76,11 +76,11 @@ injectGlobal`
     }
   }
 `;
-/* tslint:enable:no-unused-expression */
+/* eslint-enable no-unused-expressions */
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/'; // TODO: use web workers instead of fake worker.
 
-const fetch = (url: string): Promise<Blob> => {
+const fetchPdf = (url: string): Promise<Blob> => {
   return pdfjsLib.getDocument(url).promise;
 };
 
@@ -111,7 +111,7 @@ export class PDFRenderer extends React.Component<Props, State> {
 
   private async init() {
     try {
-      const doc = await fetch(this.props.src);
+      const doc = await fetchPdf(this.props.src);
       this.setState({ doc: Outcome.successful(doc) }, () => {
         this.pdfViewer = new PDFJSViewer.PDFViewer({ container: this.el });
         this.pdfViewer.setDocument(doc);

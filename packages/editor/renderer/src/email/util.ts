@@ -1,7 +1,7 @@
 import { Mark } from 'prosemirror-model';
 import { Style } from './interfaces';
 import { markSerializers } from './serializers';
-import { commonStyle } from '.';
+export * from './table-util';
 
 export const createTag = (
   tagName: string,
@@ -17,7 +17,9 @@ export const createTag = (
       return;
     }
 
-    attrsList.push(`${key}="${String(value).replace(/"/g, "'")}"`);
+    const attrValue = escapeHtmlString(String(value)).replace(/"/g, "'");
+
+    attrsList.push(`${key}="${attrValue}"`);
   });
 
   const attrsSerialized = attrsList.length ? ` ${attrsList.join(' ')}` : '';
@@ -50,42 +52,21 @@ export const applyMarks = (marks: Mark[], text: string): string => {
   return output;
 };
 
-type TableData = {
-  text?: string | null;
-  style: Style;
-};
+export const buildOutlookConditional = (
+  ifOutlook: string,
+  ifNotOutlook: string,
+) =>
+  `<!--[if mso]>${ifOutlook}<![endif]--><!--[if !mso]><!-- -->${ifNotOutlook}<!--<![endif]-->`;
 
-export const commonTableStyle = {
-  ...commonStyle,
-  margin: '0px',
-  padding: '0px',
-  'border-spacing': '0px',
-  width: '100%',
-};
+export const escapeHtmlString = (content: string | undefined | null) => {
+  if (!content) return '';
 
-export const createTable = (
-  tableData: TableData[][],
-  tableStyle: Style = {},
-): string => {
-  // Tables override font size, weight and other stuff, thus we reset it here with commonStyle
-  const attrs = {
-    cellspacing: 0,
-    cellpadding: 0,
-    border: 0,
-    style: serializeStyle({
-      ...commonTableStyle,
-      // Allow overriding any tableStyle, via tableStyle param
-      ...tableStyle,
-    }),
-  };
+  // We need to first replace with temp placeholders to avoid recursion, as buildOutlookConditional() returns html, too!
+  const escapedContent = content
+    .replace(/</g, '$TMP_LT$')
+    .replace(/>/g, '$TMP_GT$')
+    .replace(/\$TMP_LT\$/g, buildOutlookConditional('≺', '&lt;'))
+    .replace(/\$TMP_GT\$/g, buildOutlookConditional('≻', '&gt;'));
 
-  const tableRows = tableData.map(tableRow => {
-    const tableColumns = tableRow.map(({ style, text }) => {
-      const css = serializeStyle(style);
-      return createTag('td', { style: css }, text ? text : '');
-    });
-    return createTag('tr', {}, tableColumns.join(''));
-  });
-
-  return createTag('table', attrs, tableRows.join(''));
+  return escapedContent;
 };

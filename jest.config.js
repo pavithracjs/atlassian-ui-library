@@ -2,13 +2,13 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 
-const CHANGED_PACKAGES = process.env.CHANGED_PACKAGES;
-const COVERAGE_PACKAGES = process.env.COVERAGE_PACKAGES;
-const INTEGRATION_TESTS = process.env.INTEGRATION_TESTS;
-const VISUAL_REGRESSION = process.env.VISUAL_REGRESSION;
-const PARALLELIZE_TESTS = process.env.PARALLELIZE_TESTS;
-const PARALLELIZE_TESTS_FILE = process.env.PARALLELIZE_TESTS_FILE;
-const TEST_ONLY_PATTERN = process.env.TEST_ONLY_PATTERN;
+const { CHANGED_PACKAGES } = process.env;
+const { COVERAGE_PACKAGES } = process.env;
+const { INTEGRATION_TESTS } = process.env;
+const { VISUAL_REGRESSION } = process.env;
+const { PARALLELIZE_TESTS } = process.env;
+const { PARALLELIZE_TESTS_FILE } = process.env;
+const { TEST_ONLY_PATTERN } = process.env;
 
 // These are set by Pipelines if you are running in a parallel steps
 const STEP_IDX = Number(process.env.STEP_IDX);
@@ -195,7 +195,7 @@ if (process.env.VISUAL_REGRESSION) {
   config.globalTeardown = `${__dirname}/build/visual-regression/config/jest/globalTeardown.js`;
   config.testEnvironment = `${__dirname}/build/visual-regression/config/jest/jsdomEnvironment.js`;
 
-  if (!process.env.CI) {
+  if (!process.env.CI && !process.env.DEBUG) {
     config.globals.__BASEURL__ = 'http://testing.local.com:9000';
   }
 }

@@ -1,10 +1,10 @@
 import { ITokenizer, Search, UnorderedSearchIndex } from 'js-search';
 import { CategoryId } from '../components/picker/categories';
-import { defaultCategories, frequentCategory } from '../constants';
+import { defaultCategories, frequentCategory } from '../util/constants';
 import {
   getCategoryId,
   isEmojiDescriptionWithVariations,
-} from '../type-helpers';
+} from '../util/type-helpers';
 import {
   EmojiDescription,
   EmojiSearchResult,

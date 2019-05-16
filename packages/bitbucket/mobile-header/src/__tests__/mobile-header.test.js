@@ -36,7 +36,7 @@ test('passing drawerState="navigation" should render nav', () => {
   const closeSpy = jest.fn();
   mount(
     <MobileHeader
-      menuIconLabel={''}
+      menuIconLabel=""
       navigation={navSpy}
       sidebar={sidebarSpy}
       onDrawerClose={closeSpy}
@@ -57,7 +57,7 @@ test('passing drawerState="sidebar" should render sidebar', () => {
   const closeSpy = jest.fn();
   mount(
     <MobileHeader
-      menuIconLabel={''}
+      menuIconLabel=""
       navigation={navSpy}
       sidebar={sidebarSpy}
       drawerState="sidebar"
@@ -76,7 +76,7 @@ test('clicking blanket calls onDrawerClose', () => {
   const closeSpy = jest.fn();
   const wrapper = mount(
     <MobileHeader
-      menuIconLabel={''}
+      menuIconLabel=""
       navigation={Navigation}
       sidebar={Sidebar}
       onDrawerClose={closeSpy}
@@ -116,7 +116,7 @@ test('renders the secondary content if provided', () => {
   const sidebarSpy = jest.fn();
   const wrapper = mount(
     <MobileHeader
-      menuIconLabel={''}
+      menuIconLabel=""
       navigation={navSpy}
       sidebar={sidebarSpy}
       onDrawerClose={closeSpy}

@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Node as PMNode } from 'prosemirror-model';
 import { EditorView, NodeView, Decoration } from 'prosemirror-view';
 import { ProviderFactory } from '@atlaskit/editor-common';
-import { AnalyticsListener } from '@atlaskit/analytics-next';
 import {
+  AnalyticsListener,
   UIAnalyticsEventInterface,
   AnalyticsEventPayload,
-} from '@atlaskit/analytics-next-types';
+} from '@atlaskit/analytics-next';
 import { ReactNodeView, ReactComponentProps } from '../../../nodeviews';
 import TaskItem from '../ui/Task';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
@@ -139,6 +139,10 @@ class Task extends ReactNodeView {
     );
   }
 
+  viewShouldUpdate() {
+    return false;
+  }
+
   update(node: PMNode, decorations: Decoration[]) {
     /**
      * Returning false here when the previous content was empty fixes an error where the editor fails to set selection
@@ -150,7 +154,7 @@ class Task extends ReactNodeView {
     return super.update(
       node,
       decorations,
-      (currentNode, newNode) =>
+      (currentNode: PMNode, newNode: PMNode) =>
         !this.isContentEmpty() &&
         !!(currentNode.attrs.state === newNode.attrs.state),
     );

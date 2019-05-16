@@ -34,19 +34,15 @@ export type CodeBlockStateSubscriber = (state: CodeBlockState) => any;
 
 export const pluginKey = new PluginKey('codeBlockPlugin');
 
-export const createPlugin = ({
-  portalProviderAPI,
-  dispatch,
-  providerFactory,
-}: PMPluginFactoryParams) =>
+export const createPlugin = ({ dispatch }: PMPluginFactoryParams) =>
   new Plugin({
     state: {
-      init(config, state: EditorState): CodeBlockState {
+      init(): CodeBlockState {
         return {
           toolbarVisible: false,
         };
       },
-      apply(tr, pluginState: CodeBlockState, oldState, newState) {
+      apply(tr, pluginState: CodeBlockState) {
         const nextPluginState = tr.getMeta(pluginKey);
         if (nextPluginState) {
           dispatch(pluginKey, nextPluginState);
@@ -58,7 +54,7 @@ export const createPlugin = ({
     key: pluginKey,
     view: (view: EditorView) => {
       return {
-        update: (view: EditorView, prevState: EditorState) => {
+        update: (view: EditorView) => {
           const {
             state: {
               selection,

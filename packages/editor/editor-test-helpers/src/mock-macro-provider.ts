@@ -44,6 +44,12 @@ export class MockMacroProvider implements MacroProvider {
   }
 
   autoConvert(link: String): MacroAttributes | null {
+    if (link.match('https://jdog.jira-dev.com/browse')) {
+      return getMacroADFNode('dumbMacro', {
+        paramA: { value: 'CFE' },
+      });
+    }
+
     switch (link) {
       case 'http://www.dumbmacro.com?paramA=CFE':
       case 'https://www.dumbmacro.com?paramA=CFE':

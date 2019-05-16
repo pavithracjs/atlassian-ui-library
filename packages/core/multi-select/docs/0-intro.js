@@ -49,7 +49,7 @@ export default md`
 
   ${(
     <Props
-      heading={'Stateful MultiSelect Props'}
+      heading="Stateful MultiSelect Props"
       props={require('!!extract-react-types-loader!../src/components/Stateful')}
     />
   )}

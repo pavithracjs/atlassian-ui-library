@@ -1,10 +1,13 @@
 import { editorAnalyticsChannel } from './index';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { AnalyticsEventPayload } from './types';
 import { Transaction, EditorState } from 'prosemirror-state';
 import { Command } from '../../types';
 import { InputRuleWithHandler } from '../../utils/input-rules';
 import { analyticsPluginKey } from './plugin';
+
+export type DispatchAnalyticsEvent = (payload: AnalyticsEventPayload) => void;
+export type HigherOrderCommand = (command: Command) => Command;
 
 export function addAnalytics(
   tr: Transaction,
@@ -16,27 +19,29 @@ export function addAnalytics(
   return tr.setMeta(analyticsPluginKey, analyticsMeta);
 }
 
-export type HigherOrderCommand = (command: Command) => Command;
-
 export function withAnalytics(
   payload:
     | AnalyticsEventPayload
     | ((state: EditorState) => AnalyticsEventPayload | undefined),
   channel?: string,
 ): HigherOrderCommand {
-  return command => (state, dispatch) =>
-    command(state, tr => {
-      if (dispatch) {
-        if (payload instanceof Function) {
-          const dynamicPayload = payload(state);
-          if (dynamicPayload) {
-            dispatch(addAnalytics(tr, dynamicPayload, channel));
+  return command => (state, dispatch, view) =>
+    command(
+      state,
+      tr => {
+        if (dispatch) {
+          if (payload instanceof Function) {
+            const dynamicPayload = payload(state);
+            if (dynamicPayload) {
+              dispatch(addAnalytics(tr, dynamicPayload, channel));
+            }
+          } else {
+            dispatch(addAnalytics(tr, payload, channel));
           }
-        } else {
-          dispatch(addAnalytics(tr, payload, channel));
         }
-      }
-    });
+      },
+      view,
+    );
 }
 
 export function ruleWithAnalytics(

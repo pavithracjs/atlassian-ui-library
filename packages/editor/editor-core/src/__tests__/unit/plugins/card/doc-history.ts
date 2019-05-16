@@ -10,6 +10,7 @@ import {
   setProvider,
   queueCards,
 } from '../../../../plugins/card/pm-plugins/actions';
+import { INPUT_METHOD } from '../../../../plugins/analytics';
 
 describe('card', () => {
   const createEditor = createEditorFactory();
@@ -79,6 +80,8 @@ describe('card', () => {
                 url: href,
                 pos: editorView.state.selection.from,
                 appearance: 'inline',
+                compareLinkText: true,
+                source: INPUT_METHOD.CLIPBOARD,
               },
             ])(editorView.state.tr),
           );

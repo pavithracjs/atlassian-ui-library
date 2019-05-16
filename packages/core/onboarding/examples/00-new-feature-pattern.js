@@ -28,6 +28,7 @@ class NewFeature extends React.Component<{}, { spotlightVisible: boolean }> {
   state = {
     spotlightVisible: false,
   };
+
   render() {
     const { spotlightVisible } = this.state;
     return (

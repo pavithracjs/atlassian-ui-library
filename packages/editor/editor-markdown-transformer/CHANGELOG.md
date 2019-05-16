@@ -1,5 +1,50 @@
 # @atlaskit/editor-markdown-transformer
 
+## 3.0.8
+- Updated dependencies [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
+  - @atlaskit/editor-test-helpers@9.1.4
+  - @atlaskit/editor-core@112.0.0
+
+## 3.0.7
+- Updated dependencies [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
+  - @atlaskit/editor-test-helpers@9.1.2
+  - @atlaskit/editor-core@111.0.0
+
+## 3.0.6
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/adf-schema@2.5.5
+  - @atlaskit/editor-common@39.0.0
+  - @atlaskit/editor-core@110.0.0
+  - @atlaskit/docs@8.0.0
+  - @atlaskit/editor-test-helpers@9.0.0
+  - @atlaskit/util-data-test@12.0.0
+
+## 3.0.5
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-common@38.0.0
+  - @atlaskit/editor-core@109.0.0
+  - @atlaskit/editor-test-helpers@8.0.8
+  - @atlaskit/util-data-test@11.1.9
+
+## 3.0.4
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-common@37.0.0
+  - @atlaskit/editor-core@108.0.0
+  - @atlaskit/editor-test-helpers@8.0.7
+  - @atlaskit/util-data-test@11.1.8
+
+## 3.0.3
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 3.0.2
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/editor-core@107.0.0
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/util-data-test@11.1.5
+
 ## 3.0.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

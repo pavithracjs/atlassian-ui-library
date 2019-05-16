@@ -1,5 +1,31 @@
 # @atlaskit/section-message
 
+## 3.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 2.0.4
+- [patch] [2020ab9db1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2020ab9db1):
+
+  - Section message content area now takes 100% of its parent width
+
+## 2.0.3
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/field-range@6.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/theme@8.1.7
+
+## 2.0.2
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/field-range@6.0.3
+  - @atlaskit/button@12.0.0
+
 ## 2.0.1
 - Updated dependencies [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
   - @atlaskit/docs@7.0.1

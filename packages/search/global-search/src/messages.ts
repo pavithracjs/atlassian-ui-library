@@ -54,7 +54,7 @@ export const messages = defineMessages({
   },
   no_results_title: {
     id: 'global_search.no_results_title',
-    defaultMessage: 'No results in titles and people',
+    defaultMessage: "We couldn't find anything matching your search",
     description: '',
   },
   no_results_body: {
@@ -113,6 +113,12 @@ export const messages = defineMessages({
     defaultMessage: 'Recent boards, projects and filters',
     description: '',
   },
+  jira_recent_core_containers: {
+    id: 'global_search.jira.recent_core_containers',
+    defaultMessage: 'Recent projects and filters',
+    description: '',
+  },
+
   jira_search_result_issues_heading: {
     id: 'global_search.jira.search_result_issues_heading',
     defaultMessage: 'Issues',
@@ -123,6 +129,11 @@ export const messages = defineMessages({
     defaultMessage: 'Boards, projects and filters',
     description: '',
   },
+  jira_search_result_core_containers_heading: {
+    id: 'global_search.jira.search_result_core_containers_heading',
+    defaultMessage: 'Projects and filters',
+    description: '',
+  },
   jira_search_result_people_heading: {
     id: 'global_search.jira.search_result_people_heading',
     defaultMessage: 'People',
@@ -130,38 +141,43 @@ export const messages = defineMessages({
   },
   jira_advanced_search: {
     id: 'global_search.jira.advanced_search',
-    defaultMessage: 'Advanced search for',
+    defaultMessage: 'View all:',
     description: '',
   },
   jira_advanced_search_issues: {
     id: 'global_search.jira.advanced_search_issues',
-    defaultMessage: 'issues',
+    defaultMessage: 'Issues',
     description: 'Plural of issue',
   },
   jira_advanced_search_projects: {
     id: 'global_search.jira.advanced_search_projects',
-    defaultMessage: 'projects',
+    defaultMessage: 'Projects',
     description: 'Plural of project',
   },
   jira_advanced_search_boards: {
     id: 'global_search.jira.advanced_search_boards',
-    defaultMessage: 'boards',
+    defaultMessage: 'Boards',
     description: 'Plural of board',
   },
   jira_advanced_search_filters: {
     id: 'global_search.jira.advanced_search_filters',
-    defaultMessage: 'filters',
+    defaultMessage: 'Filters',
     description: 'Plural of filter',
   },
   jira_advanced_search_people: {
     id: 'global_search.jira.advanced_search_people',
-    defaultMessage: 'people',
+    defaultMessage: 'People',
     description: '',
   },
   jira_advanced_issue_search: {
     id: 'global_search.jira.advanced_issue_search',
     defaultMessage: 'Advanced search for issues',
     description: '',
+  },
+  jira_view_all_issues: {
+    id: 'global_search.jira.view_all_issues',
+    defaultMessage: 'View all issues',
+    description: 'Advanced search for issues in post query screen',
   },
   jira_no_results_title: {
     id: 'global_search.jira.no_results_title',
@@ -207,6 +223,11 @@ export const messages = defineMessages({
   jira_result_type_filter: {
     id: 'global_search.jira.result_type.filter',
     defaultMessage: 'Filter',
+    description: '',
+  },
+  give_feedback: {
+    id: 'global_search.give_feedback',
+    defaultMessage: 'Give feedback',
     description: '',
   },
 });

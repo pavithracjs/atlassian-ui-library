@@ -1,5 +1,5 @@
 import { snapshot, Device, initEditorWithAdf, Appearance } from '../_utils';
-import * as adf from './__fixtures__/nested-elements.adf.json';
+import adf from './__fixtures__/nested-elements.adf.json';
 import {
   tableSelectors,
   clickFirstCell,
@@ -8,7 +8,7 @@ import { animationFrame } from '../../__helpers/page-objects/_editor';
 import { EditorTestCardProvider } from '../../../../../editor-test-helpers';
 
 describe('Danger for nested elements', () => {
-  let page;
+  let page: any;
   const cardProvider = new EditorTestCardProvider();
 
   describe(`Full page`, () => {

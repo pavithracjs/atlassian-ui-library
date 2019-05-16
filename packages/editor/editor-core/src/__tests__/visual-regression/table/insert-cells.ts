@@ -1,5 +1,5 @@
 import { snapshot, initFullPageEditorWithAdf, Device } from '../_utils';
-import * as adf from './__fixtures__/default-table.adf.json';
+import adf from './__fixtures__/default-table.adf.json';
 import {
   insertRow,
   insertColumn,
@@ -9,7 +9,7 @@ import {
 import { animationFrame } from '../../__helpers/page-objects/_editor';
 
 describe('Snapshot Test: table insert/delete', () => {
-  let page;
+  let page: any;
   const tolerance = 0.01;
   beforeAll(async () => {
     // @ts-ignore
@@ -49,6 +49,12 @@ describe('Snapshot Test: table insert/delete', () => {
 
   // TODO: move this to integration tests in future
   it(`should be able to insert row`, async () => {
+    await insertRow(page, 1);
+  });
+
+  it(`inserts multiple rows in succession`, async () => {
+    await insertRow(page, 1);
+    await insertRow(page, 1);
     await insertRow(page, 1);
   });
 

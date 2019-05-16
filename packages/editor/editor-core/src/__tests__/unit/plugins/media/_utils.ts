@@ -15,6 +15,10 @@ import mediaPlugin from '../../../../plugins/media';
 import { EditorPlugin } from '../../../../types';
 import { EditorView } from 'prosemirror-view';
 import { insertMediaGroupNode } from '../../../../plugins/media/utils/media-files';
+import {
+  ImagePreview,
+  MediaFile,
+} from '../../../../../../../media/media-picker';
 
 export const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 export const temporaryFileId = `temporary:${randomId()}`;
@@ -36,6 +40,37 @@ export const temporaryMediaWithDimensions = (width = 256, height = 128) => {
 };
 
 export const temporaryMediaGroup = mediaGroup(temporaryMedia);
+
+export const imageFile: MediaFile = {
+  id: '1',
+  upfrontId: Promise.resolve('1'),
+  type: 'image/jpeg',
+  name: 'quokka.jpg',
+  size: 100,
+  creationDate: 1553664168293,
+};
+
+export const imagePreview: ImagePreview = {
+  dimensions: {
+    height: 100,
+    width: 100,
+  },
+  scaleFactor: 2,
+};
+
+export const getFreshMediaProvider = (collectionName = testCollectionName) =>
+  storyMediaProviderFactory({
+    collectionName,
+    includeUserAuthProvider: true,
+  });
+
+export const waitForAllPickersInitialised = async (
+  pluginState: MediaPluginState,
+) => {
+  while (pluginState.pickers.length < 3) {
+    await new Promise(resolve => resolve());
+  }
+};
 
 const createEditor = createEditorFactory<MediaPluginState>();
 export const mediaEditor = (

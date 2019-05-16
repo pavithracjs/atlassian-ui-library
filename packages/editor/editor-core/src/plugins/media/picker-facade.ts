@@ -8,12 +8,11 @@ import {
   UploadEndEventPayload,
   UploadParams,
   UploadErrorEventPayload,
-  ImagePreview,
   isDropzone,
   isClipboard,
   isPopup,
-  isBinaryUploader,
   isBrowser,
+  isImagePreview,
 } from '@atlaskit/media-picker';
 import { Context } from '@atlaskit/media-core';
 
@@ -47,7 +46,7 @@ export type NewMediaEvent = (
 ) => void;
 
 export default class PickerFacade {
-  private picker: MediaPickerComponent | CustomMediaPicker;
+  private picker?: MediaPickerComponent | CustomMediaPicker;
   private onDragListeners: Array<Function> = [];
   private errorReporter: ErrorReportingHandler;
   private pickerType: PickerType;
@@ -100,6 +99,10 @@ export default class PickerFacade {
     return this.pickerType;
   }
 
+  get mediaPicker() {
+    return this.picker;
+  }
+
   destroy() {
     const { picker } = this;
 
@@ -133,7 +136,9 @@ export default class PickerFacade {
   }
 
   setUploadParams(params: UploadParams): void {
-    this.picker.setUploadParams(params);
+    if (this.picker) {
+      this.picker.setUploadParams(params);
+    }
   }
 
   onClose(cb: () => void): () => void {
@@ -179,12 +184,6 @@ export default class PickerFacade {
     }
   }
 
-  upload(url: string, fileName: string): void {
-    if (isBinaryUploader(this.picker)) {
-      this.picker.upload(url, fileName);
-    }
-  }
-
   onNewMedia(cb: NewMediaEvent) {
     this.onStartListeners.push(cb);
   }
@@ -197,8 +196,9 @@ export default class PickerFacade {
     event: UploadPreviewUpdateEventPayload,
   ) => {
     let { file, preview } = event;
-    const { dimensions, scaleFactor } = preview as ImagePreview;
-
+    const { dimensions, scaleFactor } = isImagePreview(preview)
+      ? preview
+      : { dimensions: undefined, scaleFactor: undefined };
     const state: MediaState = {
       id: file.id,
       fileName: file.name,

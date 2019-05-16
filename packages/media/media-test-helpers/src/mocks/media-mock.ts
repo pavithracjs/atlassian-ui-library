@@ -1,39 +1,58 @@
 import { Server } from 'kakapo';
 import * as exenv from 'exenv';
-import { createApiRouter, createMediaPlaygroundRouter } from './routers';
-import {
-  createDatabase,
-  generateUserData,
-  generateTenantData,
-} from './database';
+import uuid from 'uuid/v4';
 
-export type MockUserCollection = { [filename: string]: string };
+import { MediaFile, MediaType } from '@atlaskit/media-store';
+
+import { createApiRouter, createMediaPlaygroundRouter } from './routers';
+import { createDatabase } from './database';
+import { mapDataUriToBlob } from '../utils';
+
+export type MockCollections = {
+  [key: string]: Array<MediaFile & { blob: Blob }>;
+};
 export class MediaMock {
   private server = new Server();
-  private collection: MockUserCollection | undefined;
 
-  constructor(collection?: MockUserCollection) {
-    this.collection = collection;
-  }
+  constructor(readonly collections?: MockCollections) {}
 
-  enable() {
+  enable(): void {
     if (!exenv.canUseDOM) {
       return;
     }
 
-    this.server.use(createDatabase());
+    this.server.use(createDatabase(this.collections));
     this.server.use(createMediaPlaygroundRouter());
     this.server.use(createApiRouter());
-
-    generateUserData(this.collection);
-    generateTenantData();
   }
 
-  disable() {
+  disable(): void {
     // TODO: add teardown logic to kakapo server
-    // tslint:disable:no-console
+    /* eslint-disable no-console */
     console.warn('Disabling logic is not implemented in MediaMock');
   }
+}
+
+export function generateFilesFromTestData(
+  files: (Partial<MediaFile> & { dataUri: string })[],
+): Array<MediaFile & { blob: Blob }> {
+  return files.map(file => {
+    const blob = mapDataUriToBlob(file.dataUri);
+    const id = file.id || uuid();
+    const name = file.name || `test-file-${id}`;
+    return {
+      id,
+      blob,
+      mimeType: blob.type,
+      mediaType: 'image' as MediaType,
+      name,
+      size: blob.size,
+      artifacts: {},
+      representations: {
+        image: {},
+      },
+    };
+  });
 }
 
 export const mediaMock = new MediaMock();

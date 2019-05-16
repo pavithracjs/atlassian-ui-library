@@ -1,6 +1,6 @@
 import { ListsState } from '@atlaskit/editor-core';
 
-export class ListState {
+export interface ListState {
   name: string;
   active: boolean;
   enabled: boolean;

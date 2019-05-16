@@ -138,7 +138,7 @@ export type ExampleNavigationProps = {
   onPackageSelected?: (selected: { value: string }) => void;
   exampleId?: string;
   groupId: string;
-  loaderUrl?: string | null;
+  loaderUrl?: string;
   packageId: string;
   config?: any;
   codeIsVisible: boolean;
@@ -200,14 +200,14 @@ class ExampleNavigation extends React.Component<ExampleNavigationProps> {
               pkgJSON={config}
               afterDeployError={(error: Error) => this.setState({ error })}
               loadingButton={() => (
-                <NavButton style={{ marginRight: 8 }} type="Submit" disabled>
+                <NavButton style={{ marginRight: 8 }} type="submit" disabled>
                   <CodeSandboxLogo />
                 </NavButton>
               )}
               deployButton={({ isDisabled }: { isDisabled: boolean }) => (
                 <NavButton
                   style={{ marginRight: 8 }}
-                  type="Submit"
+                  type="submit"
                   disabled={isDisabled}
                 >
                   <CodeSandboxLogo />

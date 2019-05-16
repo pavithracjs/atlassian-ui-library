@@ -41,7 +41,9 @@ export default class StatelessExample extends PureComponent<{}, State> {
       filterValue: '',
     });
   };
+
   toggleOpen = ({ isOpen }: Object) => this.setState({ isOpen });
+
   updateFilter = (filterValue: string) => this.setState({ filterValue });
 
   render() {

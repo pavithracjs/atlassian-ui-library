@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { Component } from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import { EditorView } from 'prosemirror-view';
 import { isTableSelected, selectTable, findTable } from 'prosemirror-utils';
 import { TableMap } from 'prosemirror-tables';
 
 import { INPUT_METHOD } from '../../../../analytics';
-import { clearHoverSelection, hoverTable } from '../../../actions';
+import { clearHoverSelection, hoverTable } from '../../../commands';
 import { TableCssClassName as ClassName } from '../../../types';
 import {
   insertRowWithAnalytics,
   insertColumnWithAnalytics,
-} from '../../../actions-with-analytics';
+} from '../../../commands-with-analytics';
 import InsertButton from '../InsertButton';
 
 export interface Props {
@@ -97,7 +97,7 @@ export default class CornerControls extends Component<Props, any> {
 
   private clearHoverSelection = () => {
     const { state, dispatch } = this.props.editorView;
-    clearHoverSelection(state, dispatch);
+    clearHoverSelection()(state, dispatch);
   };
 
   private selectTable = () => {

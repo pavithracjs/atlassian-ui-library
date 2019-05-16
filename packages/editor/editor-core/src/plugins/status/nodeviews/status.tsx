@@ -2,42 +2,19 @@ import * as React from 'react';
 import { defineMessages, injectIntl, InjectedIntlProps } from 'react-intl';
 import styled from 'styled-components';
 import { Node as PMNode } from 'prosemirror-model';
-import { Selection } from 'prosemirror-state';
-import { EditorView } from 'prosemirror-view';
-import { Status } from '@atlaskit/status';
+import { EditorView, NodeView } from 'prosemirror-view';
+import { Color, Status, StatusStyle } from '@atlaskit/status';
+import { borderRadius, colors } from '@atlaskit/theme';
 import { pluginKey } from '../plugin';
-import { setStatusPickerAt } from '../actions';
-import { colors } from '@atlaskit/theme';
-
-const { B100 } = colors;
-
-export interface StatusContainerProps {
-  selected: boolean;
-  placeholderStyle: boolean;
-}
-
-export const StatusContainer = styled.span`
-  cursor: pointer;
-
-  display: inline-block;
-  border-radius: 5px;
-  max-width: 100%;
-
-  /* Prevent responsive layouts increasing height of container by changing
-     font size and therefore line-height. */
-  line-height: 0;
-
-  opacity: ${(props: StatusContainerProps) =>
-    props.placeholderStyle ? 0.5 : 1};
-
-  border: 2px solid ${(props: StatusContainerProps) =>
-    props.selected ? B100 : 'transparent'};
-  }
-
-  * ::selection {
-    background-color: transparent;
-  }
-`;
+import { ReactNodeView, getPosHandler } from '../../../nodeviews';
+import InlineNodeWrapper, {
+  createMobileInlineDomRef,
+} from '../../../ui/InlineNodeWrapper';
+import { PortalProviderAPI } from '../../../ui/PortalProvider';
+import { EditorAppearance } from '../../../types';
+import { ZeroWidthSpace } from '../../../utils';
+import WithPluginState from '../../../ui/WithPluginState';
+import { EventDispatcher } from '../../../event-dispatcher';
 
 export const messages = defineMessages({
   placeholder: {
@@ -48,76 +25,95 @@ export const messages = defineMessages({
   },
 });
 
-export interface Props {
-  node: PMNode;
+export interface StyledStatusProps {
+  placeholderStyle: boolean;
+}
+
+export const StyledStatus = styled.span`
+  cursor: pointer;
+
+  display: inline-block;
+  opacity: ${(props: StyledStatusProps) => (props.placeholderStyle ? 0.5 : 1)};
+
+  max-width: 100%;
+
+  /* Prevent responsive layouts increasing height of container. */
+  line-height: 0;
+
+  * ::selection {
+    background-color: transparent;
+  }
+
+  .ProseMirror-selectednode & {
+    position: relative;
+    &::before {
+      content: '';
+      border: 2px solid ${colors.B200};
+      background: transparent;
+      border-radius: ${borderRadius()}px;
+      box-sizing: border-box;
+      position: absolute;
+      /* Size selection larger (around) status node */
+      top: -1px;
+      left: -1px;
+      width: calc(100% + 2px);
+      height: calc(100% + 2px);
+      pointer-events: none;
+    }
+  }
+`;
+
+export interface ContainerProps {
   view: EditorView;
-  getPos: () => number;
+  text?: string;
+  color: Color;
+  style?: StatusStyle;
+  localId?: string;
+
+  eventDispatcher?: EventDispatcher;
 }
 
-export interface State {
-  selected: boolean;
-}
-
-class StatusNodeView extends React.Component<Props & InjectedIntlProps, State> {
-  constructor(props: Props & InjectedIntlProps) {
+class StatusContainerView extends React.Component<
+  ContainerProps & InjectedIntlProps,
+  {}
+> {
+  constructor(props: ContainerProps & InjectedIntlProps) {
     super(props);
-    this.state = {
-      selected: false,
-    };
   }
-
-  componentDidMount() {
-    const { view } = this.props;
-    const { selectionChanges } = pluginKey.getState(view.state);
-    if (selectionChanges) {
-      selectionChanges.subscribe(this.handleSelectionChange);
-    }
-  }
-
-  componentWillUnmount() {
-    const { view } = this.props;
-    const { selectionChanges } = pluginKey.getState(view.state);
-    if (selectionChanges) {
-      selectionChanges.unsubscribe(this.handleSelectionChange);
-    }
-  }
-
-  private handleSelectionChange = (
-    newSelection: Selection,
-    _prevSelection: Selection,
-  ) => {
-    const { getPos } = this.props;
-    const { from, to } = newSelection;
-    const statusPos = getPos();
-    const selected = from <= statusPos && to > statusPos;
-
-    if (this.state.selected !== selected) {
-      this.setState({
-        selected,
-      });
-    }
-  };
 
   render() {
-    const {
-      node: {
-        attrs: { text, color, localId, style },
-      },
-      intl: { formatMessage },
-    } = this.props;
-    const { selected } = this.state;
-    const statusText = text ? text : formatMessage(messages.placeholder);
-
+    const { eventDispatcher, view } = this.props;
     return (
-      <StatusContainer selected={selected} placeholderStyle={!text}>
-        <Status
-          text={statusText}
-          color={color}
-          localId={localId}
-          style={style}
-          onClick={this.handleClick}
-        />
-      </StatusContainer>
+      <WithPluginState
+        plugins={{
+          pluginState: pluginKey,
+        }}
+        editorView={view}
+        eventDispatcher={eventDispatcher}
+        render={() => {
+          const {
+            text,
+            color,
+            localId,
+            style,
+            intl: { formatMessage },
+          } = this.props;
+
+          const statusText = text ? text : formatMessage(messages.placeholder);
+
+          return (
+            <StyledStatus placeholderStyle={!text}>
+              <Status
+                text={statusText}
+                color={color}
+                localId={localId}
+                style={style}
+                onClick={this.handleClick}
+              />
+            </StyledStatus>
+          );
+        }}
+      />
     );
   }
 
@@ -125,9 +121,58 @@ class StatusNodeView extends React.Component<Props & InjectedIntlProps, State> {
     if (event.nativeEvent.stopImmediatePropagation) {
       event.nativeEvent.stopImmediatePropagation();
     }
-    const { state, dispatch } = this.props.view;
-    setStatusPickerAt(state.selection.from)(state, dispatch);
+    // handling of popup is done in plugin.apply on selection change.
   };
 }
 
-export default injectIntl(StatusNodeView);
+export const IntlStatusContainerView = injectIntl(StatusContainerView);
+
+export interface Props {
+  editorAppearance?: EditorAppearance;
+}
+
+export class StatusNodeView extends ReactNodeView {
+  createDomRef() {
+    if (this.reactComponentProps.editorAppearance === 'mobile') {
+      return createMobileInlineDomRef();
+    }
+
+    return super.createDomRef();
+  }
+
+  setDomAttrs(node: PMNode, element: HTMLElement) {
+    const { color, localId, style } = node.attrs;
+
+    element.dataset.color = color;
+    element.dataset.localId = localId;
+    element.dataset.style = style;
+  }
+
+  render(props: Props) {
+    const { editorAppearance } = props;
+    const { text, color, localId, style } = this.node.attrs;
+
+    return (
+      <InlineNodeWrapper appearance={editorAppearance}>
+        <IntlStatusContainerView
+          view={this.view}
+          text={text}
+          color={color}
+          style={style}
+          localId={localId}
+        />
+        {editorAppearance !== 'mobile' && ZeroWidthSpace}
+      </InlineNodeWrapper>
+    );
+  }
+}
+
+export default function statusNodeView(
+  portalProviderAPI: PortalProviderAPI,
+  editorAppearance?: EditorAppearance,
+) {
+  return (node: PMNode, view: EditorView, getPos: getPosHandler): NodeView =>
+    new StatusNodeView(node, view, getPos, portalProviderAPI, {
+      editorAppearance,
+    }).init();
+}

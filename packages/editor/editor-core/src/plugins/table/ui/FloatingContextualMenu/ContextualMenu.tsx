@@ -15,7 +15,7 @@ import {
   hoverRows,
   clearHoverSelection,
   toggleContextualMenu,
-} from '../../actions';
+} from '../../commands';
 import { TableCssClassName as ClassName } from '../../types';
 import { contextualMenuDropdownWidth } from '../styles';
 import { Shortcut } from '../../../../ui/styles';
@@ -32,7 +32,8 @@ import {
   splitCellWithAnalytics,
   emptyMultipleCellsWithAnalytics,
   insertColumnWithAnalytics,
-} from '../../actions-with-analytics';
+} from '../../commands-with-analytics';
+import { closestElement } from '../../../../utils';
 
 export const messages = defineMessages({
   cellBackground: {
@@ -110,16 +111,16 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
   }
 
   private handleSubMenuRef = (ref: HTMLDivElement | null) => {
-    const { boundariesElement } = this.props;
-
-    if (!(boundariesElement && ref)) {
+    const parent = closestElement(
+      this.props.editorView.dom as HTMLElement,
+      '.fabric-editor-popup-scroll-parent',
+    );
+    if (!(parent && ref)) {
       return;
     }
-
-    const boundariesRect = boundariesElement.getBoundingClientRect();
+    const boundariesRect = parent.getBoundingClientRect();
     const rect = ref.getBoundingClientRect();
-
-    if (rect.left + rect.width - boundariesRect.left > boundariesRect.width) {
+    if (rect.left + rect.width > boundariesRect.width) {
       ref.style.left = `-${rect.width}px`;
     }
   };
@@ -274,7 +275,7 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
         deleteRowsWithAnalytics(
           INPUT_METHOD.CONTEXT_MENU,
           selectionRect,
-          isHeaderRowRequired,
+          !!isHeaderRowRequired,
         )(state, dispatch);
         this.toggleOpen();
         break;
@@ -286,7 +287,7 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
       isOpen,
       editorView: { state, dispatch },
     } = this.props;
-    toggleContextualMenu(state, dispatch);
+    toggleContextualMenu()(state, dispatch);
     if (!isOpen) {
       this.setState({
         isSubmenuOpen: false,
@@ -298,7 +299,7 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
     const {
       editorView: { state, dispatch },
     } = this.props;
-    toggleContextualMenu(state, dispatch);
+    toggleContextualMenu()(state, dispatch);
     this.setState({ isSubmenuOpen: false });
   };
 
@@ -334,7 +335,7 @@ class ContextualMenu extends Component<Props & InjectedIntlProps, State> {
       item.value.name === 'delete_column' ||
       item.value.name === 'delete_row'
     ) {
-      clearHoverSelection(state, dispatch);
+      clearHoverSelection()(state, dispatch);
     }
   };
 

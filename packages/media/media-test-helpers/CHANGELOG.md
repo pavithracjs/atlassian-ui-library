@@ -1,5 +1,80 @@
 # @atlaskit/media-test-helpers
 
+## 23.0.0
+- [major] [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+
+  - Changes to `MediaMock` signature: `MediaMock` constructor now takes an object where destination collection name is the key and the value is a list of `<MediaFile & {blob: Blob}>` objects that will be loaded directly into a database for the corresponding collections. MediaMock now also exports `generateFilesFromTestData` helper function which simplifies test data generation.
+
+## 22.0.1
+- Updated dependencies [59cce82fd1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59cce82fd1):
+  - @atlaskit/media-picker@42.0.0
+
+## 22.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 21.4.0
+- [minor] [6f463c4d88](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6f463c4d88):
+
+  - add new methods to fake context
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/media-card@62.0.0
+  - @atlaskit/media-picker@40.0.0
+  - @atlaskit/media-store@11.1.1
+  - @atlaskit/media-core@29.3.0
+
+## 21.3.0
+- [minor] [5489810e15](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5489810e15):
+
+  - Add support for media-client objects: fakeMediaClient, getDefaultMediaClientConfig, createStorybookMediaClient, createStorybookMediaClientConfig, createUploadMediaClient, createUploadMediaClientConfig, createUserMediaClient
+- Updated dependencies [e38d662f7d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e38d662f7d):
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/media-client@1.0.0
+  - @atlaskit/media-card@61.0.0
+  - @atlaskit/media-picker@39.0.0
+  - @atlaskit/media-store@11.1.0
+  - @atlaskit/media-core@29.2.0
+
+## 21.2.3
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
+## 21.2.2
+- Updated dependencies [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
+  - @atlaskit/media-core@29.1.2
+  - @atlaskit/media-store@11.0.5
+  - @atlaskit/media-card@60.0.0
+  - @atlaskit/media-picker@38.1.3
+
+## 21.2.1
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 21.2.0
+- [minor] [e1c1fa454a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e1c1fa454a):
+
+  - Support external image identifier in MediaViewer
+
+## 21.1.0
+- [minor] [dd14a0a1f0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dd14a0a1f0):
+
+  - export getDefaultContextConfig
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/media-picker@38.0.0
+  - @atlaskit/media-store@11.0.3
+  - @atlaskit/media-core@29.1.0
+
+## 21.0.3
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-picker@37.0.3
+  - @atlaskit/media-store@11.0.2
+  - @atlaskit/media-card@58.0.0
+
 ## 21.0.2
 - [patch] [1d09298688](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1d09298688):
 

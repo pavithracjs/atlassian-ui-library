@@ -1,28 +1,28 @@
-import { ClientBasedAuth } from '@atlaskit/media-core';
-import { MediaStore, MediaCollection } from '@atlaskit/media-store';
 import { Database } from 'kakapo';
-import * as uuid from 'uuid';
+import uuidV4 from 'uuid/v4';
 
-import { getFakeFileName, fakeImage } from './mockData';
-import { mapDataUriToBlob } from '../../utils';
+import { ClientBasedAuth } from '@atlaskit/media-core';
+import { MediaCollection } from '@atlaskit/media-store';
+
 import { createCollection } from './collection';
 import { CollectionItem, createCollectionItem } from './collection-item';
 import { createUpload, Upload } from './upload';
 import { Chunk } from './chunk';
 import { defaultBaseUrl } from '../../contextProvider';
-import { MockUserCollection } from '../media-mock';
+import { MockCollections } from '../media-mock';
+import { defaultCollectionName } from '../../collectionNames';
 
 export * from './collection';
 export * from './collection-item';
 
 export const tenantAuth: ClientBasedAuth = {
-  clientId: uuid.v4(),
+  clientId: uuidV4(),
   token: 'some-tenant-token',
   baseUrl: defaultBaseUrl,
 };
 
 export const userAuth: ClientBasedAuth = {
-  clientId: uuid.v4(),
+  clientId: uuidV4(),
   token: 'some-user-token',
   baseUrl: defaultBaseUrl,
 };
@@ -37,7 +37,9 @@ export type DatabaseSchema = {
   chunk: Chunk;
 };
 
-export function createDatabase(): Database<DatabaseSchema> {
+export function createDatabase(
+  collections: MockCollections = {},
+): Database<DatabaseSchema> {
   const database = new Database<DatabaseSchema>();
 
   database.register('collectionItem', createCollectionItem);
@@ -45,48 +47,33 @@ export function createDatabase(): Database<DatabaseSchema> {
   database.register('upload', createUpload);
   database.register('chunk');
 
-  return database;
-}
-
-export function generateUserData(
-  collectionData: MockUserCollection | undefined,
-): void {
-  const mediaStore = new MediaStore({
-    authProvider: userAuthProvider,
-  });
-
-  const collection = 'recents';
-  mediaStore.createCollection(collection);
-
-  if (collectionData) {
-    Object.keys(collectionData).forEach(filename => {
-      const dataUri = collectionData[filename];
-      const image = mapDataUriToBlob(dataUri);
-
-      mediaStore.createFileFromBinary(image, {
-        name: filename,
-        collection,
-        occurrenceKey: uuid.v4(),
+  if (Object.keys(collections).length > 0) {
+    Object.keys(collections).forEach(collectionName => {
+      database.push('collection', {
+        name: collectionName,
+        createdAt: Date.now(),
       });
+      collections[collectionName].forEach(({ id, name, blob, mimeType }) =>
+        database.push(
+          'collectionItem',
+          createCollectionItem({
+            id,
+            collectionName,
+            blob,
+            occurrenceKey: uuidV4(),
+            mimeType,
+            name,
+          }),
+        ),
+      );
     });
   } else {
-    // just insert 10 random files with the same image
-    const image = mapDataUriToBlob(fakeImage);
-
-    for (let i = 0; i < 10; i++) {
-      mediaStore.createFileFromBinary(image, {
-        name: getFakeFileName(),
-        collection,
-        occurrenceKey: uuid.v4(),
-      });
-    }
+    database.push('collection', { name: 'recents', createdAt: Date.now() });
+    database.push('collection', {
+      name: defaultCollectionName,
+      createdAt: Date.now(),
+    });
   }
-}
 
-export function generateTenantData(): void {
-  const mediaStore = new MediaStore({
-    authProvider: tenantAuthProvider,
-  });
-
-  mediaStore.createCollection('MediaServicesSample');
+  return database;
 }

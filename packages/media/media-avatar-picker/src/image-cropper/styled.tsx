@@ -1,13 +1,6 @@
-/* tslint:disable:variable-name */
-
 import styled from 'styled-components';
 
-import {
-  HTMLAttributes,
-  ComponentClass,
-  ImgHTMLAttributes,
-  ButtonHTMLAttributes,
-} from 'react';
+import { HTMLAttributes, ComponentClass, ButtonHTMLAttributes } from 'react';
 import { borderRadius, colors } from '@atlaskit/theme';
 
 // Using module augmentation to add crossOrigin attribute as it does not exist yet, PR has been opened in
@@ -28,32 +21,32 @@ declare module 'react' {
 export const Container: ComponentClass<HTMLAttributes<{}>> = styled.div`
   position: relative;
   overflow: hidden;
-  border-radius: ${borderRadius()};
+  border-radius: ${borderRadius()}px;
 `;
 
-export const Image: ComponentClass<ImgHTMLAttributes<{}>> = styled.img`
+export const ImageContainer = styled.div`
   position: absolute;
   /* Is needed so image is not selected, when dragged */
   -webkit-user-select: none; /* Chrome all / Safari all */
   -moz-user-select: none; /* Firefox all */
   -ms-user-select: none; /* IE 10+ */
   user-select: none; /* Likely future */
-  border-radius: ${borderRadius()};
+  border-radius: ${borderRadius()}px;
 `;
 
-export const containerPadding = 28;
+export const CONTAINER_PADDING = 28;
 
 const Mask: ComponentClass<HTMLAttributes<{}>> = styled.div`
   position: absolute;
-  top: ${containerPadding}px;
-  bottom: ${containerPadding}px;
-  left: ${containerPadding}px;
-  right: ${containerPadding}px;
+  top: ${CONTAINER_PADDING}px;
+  bottom: ${CONTAINER_PADDING}px;
+  left: ${CONTAINER_PADDING}px;
+  right: ${CONTAINER_PADDING}px;
   box-shadow: 0 0 0 100px rgba(255, 255, 255, 0.5);
 `;
 
 export const RectMask: ComponentClass<HTMLAttributes<{}>> = styled(Mask)`
-  border-radius: ${borderRadius()};
+  border-radius: ${borderRadius()}px;
 `;
 
 export const CircularMask: ComponentClass<HTMLAttributes<{}>> = styled(Mask)`
@@ -78,7 +71,7 @@ export const RemoveImageContainer: ComponentClass<
 export const RemoveImageButton: ComponentClass<
   ButtonHTMLAttributes<{}>
 > = styled.button`
-  border-radius: ${borderRadius()};
+  border-radius: ${borderRadius()}px;
   background-color: transparent;
   width: 24px;
   height: 24px;

@@ -6,7 +6,7 @@ import { Fragment, Mark, MarkType, Node, Schema } from 'prosemirror-model';
 
 import { Serializer } from '../';
 import { getText } from '../utils';
-import { RendererAppearance } from '../ui/Renderer';
+import { RendererAppearance } from '../ui/Renderer/types';
 
 import {
   Doc,

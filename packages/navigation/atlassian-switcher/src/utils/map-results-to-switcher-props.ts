@@ -19,6 +19,19 @@ import {
 } from '../types';
 import { createCollector } from './create-collector';
 
+function getExpandLink(
+  licenseInformation: ProviderResults['licenseInformation'],
+) {
+  if (licenseInformation === undefined || isError(licenseInformation)) {
+    return '//start.atlassian.com';
+  }
+  if (isComplete(licenseInformation)) {
+    const isStagingInstance =
+      licenseInformation.data.hostname.indexOf('.jira-dev.com') !== -1;
+    return `//start.${isStagingInstance ? 'stg.' : ''}atlassian.com`;
+  }
+}
+
 function collectProductLinks(
   cloudId: string,
   licenseInformation: ProviderResults['licenseInformation'],
@@ -67,7 +80,7 @@ function collectAdminLinks(
 
   if (isComplete(managePermission) && isComplete(addProductsPermission)) {
     if (managePermission.data || addProductsPermission.data) {
-      return getAdministrationLinks(cloudId, managePermission.data);
+      return getAdministrationLinks(managePermission.data);
     }
 
     return [];
@@ -80,13 +93,17 @@ export function collectFixedProductLinks() {
 
 function collectRecentLinks(
   recentContainers: ProviderResults['recentContainers'],
+  licenseInformation: ProviderResults['licenseInformation'],
 ) {
-  if (isError(recentContainers)) {
+  if (isError(recentContainers) || isError(licenseInformation)) {
     return [];
   }
 
-  if (isComplete(recentContainers)) {
-    return getRecentLinkItems(recentContainers.data.data.slice(0, 6));
+  if (isComplete(recentContainers) && isComplete(licenseInformation)) {
+    return getRecentLinkItems(
+      recentContainers.data.data,
+      licenseInformation.data,
+    );
   }
 }
 
@@ -115,6 +132,7 @@ interface ProviderResults {
 interface SwitcherFeatures {
   xflow: boolean;
   enableSplitJira: boolean;
+  enableExpandLink: boolean;
 }
 
 export function mapResultsToSwitcherProps(
@@ -138,6 +156,9 @@ export function mapResultsToSwitcherProps(
   }
 
   return {
+    expandLink: features.enableExpandLink
+      ? getExpandLink(licenseInformation)
+      : '',
     licensedProductLinks: collect(
       collectProductLinks(
         cloudId,
@@ -154,7 +175,10 @@ export function mapResultsToSwitcherProps(
       collectAdminLinks(cloudId, managePermission, addProductsPermission),
       [],
     ),
-    recentLinks: collect(collectRecentLinks(recentContainers), []),
+    recentLinks: collect(
+      collectRecentLinks(recentContainers, licenseInformation),
+      [],
+    ),
     customLinks: collect(
       collectCustomLinks(customLinks, licenseInformation),
       [],

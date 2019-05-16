@@ -1,5 +1,7 @@
-import { withAnalyticsEvents } from '@atlaskit/analytics-next';
-import { WithAnalyticsEventProps } from '@atlaskit/analytics-next-types';
+import {
+  withAnalyticsEvents,
+  WithAnalyticsEventProps,
+} from '@atlaskit/analytics-next';
 import { EmojiProvider } from '@atlaskit/emoji';
 import Tooltip from '@atlaskit/tooltip';
 import * as React from 'react';
@@ -30,7 +32,6 @@ const reactionsStyle = style({
   display: 'flex',
   flexWrap: 'wrap',
   position: 'relative',
-  background: 'white',
   alignItems: 'center',
   borderRadius: '15px',
   // To allow to row spacing of 2px on wrap, and 0px on first row

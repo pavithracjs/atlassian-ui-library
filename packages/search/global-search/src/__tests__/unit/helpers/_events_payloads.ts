@@ -10,12 +10,15 @@ const COMMON_EVENT_DATA = {
   ]),
 };
 
-export function validateEvent(actual, expected) {
+export function validateEvent(actual: any, expected: any) {
   expect(actual.payload.attributes).toMatchObject(expected.payload.attributes);
   expect(actual).toMatchObject(expected);
 }
 
-export const getGlobalSearchDrawerEvent = ({ subscreen, timesViewed }) => ({
+export const getGlobalSearchDrawerEvent = ({
+  subscreen,
+  timesViewed,
+}: any) => ({
   payload: {
     action: 'viewed',
     actionSubject: 'globalSearchDrawer',
@@ -36,7 +39,7 @@ export const getGlobalSearchDrawerEvent = ({ subscreen, timesViewed }) => ({
   ...COMMON_EVENT_DATA,
 });
 
-const generateResults = section => {
+const generateResults = (section: any) => {
   const arr: any[] = [];
   for (let i = 0; i < section.resultsCount; i++) {
     arr.push({
@@ -54,9 +57,9 @@ const generateResults = section => {
 
 const getSearchResultsEvent = (
   type: 'pre' | 'post',
-  sections,
-  timings,
-  abTest,
+  sections: Array<{ resultsCount: any; id: any }>,
+  timings?: any,
+  abTest?: any,
 ) => ({
   payload: {
     action: 'shown',
@@ -70,7 +73,7 @@ const getSearchResultsEvent = (
       searchSessionId: expect.any(String),
       resultCount: sections
         .map(section => section.resultsCount)
-        .reduce((acc, value) => acc + value, 0),
+        .reduce((acc: number, value: number) => acc + value, 0),
       resultSectionCount: sections.length,
       resultContext: sections.map(section => ({
         sectionId: section.id,
@@ -84,16 +87,34 @@ const getSearchResultsEvent = (
   },
   ...COMMON_EVENT_DATA,
 });
-export const getPreQuerySearchResultsEvent = (sections, abTest) =>
-  getSearchResultsEvent('pre', sections, undefined, abTest);
-export const getPostQuerySearchResultsEvent = (sections, timings, abTest) =>
-  getSearchResultsEvent('post', sections, timings, abTest);
+export const getPreQuerySearchResultsEvent = (
+  sections: { id: string; hasContainerId: boolean; resultsCount: number }[],
+  abTest: { experimentId: string; controlId: string; abTestId: string },
+) => getSearchResultsEvent('pre', sections, undefined, abTest);
+export const getPostQuerySearchResultsEvent = (
+  sections:
+    | never[]
+    | { id: string; hasContainerId: boolean; resultsCount: number }[],
+  timings:
+    | {
+        confSearchElapsedMs: any;
+        postQueryRequestDurationMs: any;
+        peopleElapsedMs?: any;
+      }
+    | {
+        postQueryRequestDurationMs: any;
+        peopleElapsedMs?: any;
+        confSearchElapsedMs?: undefined;
+      }
+    | undefined,
+  abTest: { experimentId: string; controlId: string; abTestId: string },
+) => getSearchResultsEvent('post', sections, timings, abTest);
 
 export const getTextEnteredEvent = ({
   queryLength,
   queryVersion,
   wordCount,
-}) => ({
+}: any) => ({
   payload: {
     action: 'entered',
     actionSubject: 'text',
@@ -139,7 +160,7 @@ export const getHighlightEvent = ({
   sectionIndex,
   sectionId,
   type,
-}) => ({
+}: any) => ({
   payload: {
     action: 'highlighted',
     actionSubject: 'navigationItem',
@@ -171,7 +192,7 @@ export const getAdvancedSearchLinkSelectedEvent = ({
   sectionId,
   globalIndex,
   resultCount,
-}) => ({
+}: any) => ({
   clone: [Function],
   payload: {
     action: 'selected',
@@ -215,7 +236,7 @@ export const getResultSelectedEvent = ({
   newTab,
   trigger,
   type,
-}) => ({
+}: any) => ({
   payload: {
     action: 'selected',
     actionSubject: 'navigationItem',
@@ -242,7 +263,10 @@ export const getResultSelectedEvent = ({
   ...COMMON_EVENT_DATA,
 });
 
-export const getExperimentExposureEvent = ({ searchSessionId, abTest }) => ({
+export const getExperimentExposureEvent = ({
+  searchSessionId,
+  abTest,
+}: any) => ({
   payload: {
     action: 'exposed',
     actionSubject: 'quickSearchExperiment',

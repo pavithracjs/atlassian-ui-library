@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/nachos-textfield",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "A React component that is a textfield.",
   "license": "Apache-2.0",
   "main": "dist/es5/index.js",
@@ -14,21 +14,23 @@
     "Phil P"
   ],
   "atlaskit": {
-    "internal": true
+    "internal": true,
+    "name": "Nachos Textfield",
+    "team": "trello"
   },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/textfield": "^0.4.0",
+    "@atlaskit/textfield": "^2.0.0",
     "@babel/runtime": "^7.0.0",
-    "tslib": "^1.8.0"
+    "tslib": "^1.9.3"
   },
   "peerDependencies": {
-    "react": "^16.4.0"
+    "react": "^16.8.0"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.2.0",
-    "@atlaskit/docs": "^7.0.0",
-    "@atlaskit/visual-regression": "^0.0.1",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0"
   }
 }

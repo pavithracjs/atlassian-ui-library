@@ -1,18 +1,14 @@
 import * as React from 'react';
-import EditorImageIcon from '@atlaskit/icon/glyph/editor/image';
 import { media, mediaGroup, mediaSingle } from '@atlaskit/adf-schema';
 import {
   EditorPlugin,
   EditorAppearance,
   PMPluginFactoryParams,
 } from '../../types';
-import { SmartMediaEditor, Dimensions } from '@atlaskit/media-editor';
-import { FileIdentifier } from '@atlaskit/media-core';
 import {
   stateKey as pluginKey,
   createPlugin,
   MediaState,
-  MediaPluginState,
 } from './pm-plugins/main';
 import keymapMediaSinglePlugin from './pm-plugins/keymap-media-single';
 import keymapPlugin from './pm-plugins/keymap';
@@ -32,6 +28,8 @@ import {
   ACTION_SUBJECT_ID,
 } from '../analytics';
 import WithPluginState from '../../ui/WithPluginState';
+import { IconImages } from '../quick-insert/assets';
+import CustomSmartMediaEditor from './ui/CustomSmartMediaEditor';
 
 export { MediaState, MediaProvider, CustomMediaPicker };
 
@@ -48,39 +46,6 @@ export interface MediaOptions {
 export interface MediaSingleOptions {
   disableLayout?: boolean;
 }
-
-export const renderSmartMediaEditor = (mediaState: MediaPluginState) => {
-  const node = mediaState.selectedMediaContainerNode();
-  if (!node) {
-    return null;
-  }
-  const { id } = node.firstChild!.attrs;
-
-  if (mediaState.uploadContext && mediaState.showEditingDialog) {
-    const identifier: FileIdentifier = {
-      id,
-      mediaItemType: 'file',
-      collectionName: node.firstChild!.attrs.collection,
-    };
-
-    return (
-      <SmartMediaEditor
-        identifier={identifier}
-        context={mediaState.uploadContext}
-        onUploadStart={(
-          newFileIdentifier: FileIdentifier,
-          dimensions: Dimensions,
-        ) => {
-          mediaState.closeMediaEditor();
-          mediaState.replaceEditingMedia(newFileIdentifier, dimensions);
-        }}
-        onFinish={mediaState.closeMediaEditor}
-      />
-    );
-  }
-
-  return null;
-};
 
 const mediaPlugin = (
   options?: MediaOptions,
@@ -120,6 +85,7 @@ const mediaPlugin = (
           errorReporter,
           portalProviderAPI,
           reactContext,
+          dispatchAnalyticsEvent,
         }: PMPluginFactoryParams) =>
           createPlugin(
             schema,
@@ -134,6 +100,7 @@ const mediaPlugin = (
                   portalProviderAPI,
                   eventDispatcher,
                   props.appearance,
+                  props.appearance === 'full-width',
                 ),
               },
               errorReporter,
@@ -148,17 +115,16 @@ const mediaPlugin = (
             reactContext,
             dispatch,
             props.appearance,
+            dispatchAnalyticsEvent,
           ),
       },
-      {
-        name: 'mediaKeymap',
-        plugin: ({ schema }: PMPluginFactoryParams) => keymapPlugin(),
-      },
+      { name: 'mediaKeymap', plugin: () => keymapPlugin() },
     ].concat(
       options && options.allowMediaSingle
         ? {
             name: 'mediaSingleKeymap',
-            plugin: ({ schema }) => keymapMediaSinglePlugin(schema),
+            plugin: ({ schema, props }) =>
+              keymapMediaSinglePlugin(schema, props.appearance),
           }
         : [],
     );
@@ -171,7 +137,9 @@ const mediaPlugin = (
         plugins={{
           mediaState: pluginKey,
         }}
-        render={({ mediaState }) => renderSmartMediaEditor(mediaState)}
+        render={({ mediaState }) => (
+          <CustomSmartMediaEditor mediaState={mediaState} />
+        )}
       />
     );
   },
@@ -192,10 +160,11 @@ const mediaPlugin = (
     quickInsert: ({ formatMessage }) => [
       {
         title: formatMessage(messages.filesAndImages),
+        description: formatMessage(messages.filesAndImagesDescription),
         priority: 400,
-        keywords: ['media'],
+        keywords: ['media', 'attachment'],
         icon: () => (
-          <EditorImageIcon label={formatMessage(messages.filesAndImages)} />
+          <IconImages label={formatMessage(messages.filesAndImages)} />
         ),
         action(insert, state) {
           const pluginState = pluginKey.getState(state);

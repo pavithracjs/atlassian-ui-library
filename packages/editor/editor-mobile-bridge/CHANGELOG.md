@@ -1,5 +1,196 @@
 # @atlaskit/editor-mobile-bridge
 
+## 8.2.4
+- [patch] [5ad66b6d1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ad66b6d1a):
+
+  - [ED-6860] Revert prosemirror-view 1.8.9 bumps, this version was making the cursor typing slowly. this version is recreating all plugins when we use `EditorView.setProps`
+
+## 8.2.3
+- Updated dependencies [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
+  - @atlaskit/editor-json-transformer@6.0.2
+  - @atlaskit/editor-test-helpers@9.1.4
+  - @atlaskit/mention@18.1.0
+  - @atlaskit/editor-core@112.0.0
+
+## 8.2.2
+- Updated dependencies [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
+  - @atlaskit/editor-json-transformer@6.0.1
+  - @atlaskit/editor-test-helpers@9.1.2
+  - @atlaskit/editor-core@111.0.0
+
+## 8.2.1
+- [patch] [72fc33f8e7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72fc33f8e7):
+
+  - FS-3243 - Refactor status plugin to use new architecture
+
+## 8.2.0
+- [minor] [47273cabd4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/47273cabd4):
+
+  - ED-6803: Added bridge.clearContent() method for Android
+
+## 8.1.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
+## 8.0.1
+- [patch] [80cf1c1e82](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/80cf1c1e82):
+
+  - [ED-6654] Update prosemirror-view to 1.8.9 that fixes a few issues with mouse selections on prosemirror like click on table and the controls doesn't show up
+
+## 8.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+
+## 7.6.3
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/editor-common@38.0.0
+  - @atlaskit/editor-core@109.0.0
+  - @atlaskit/renderer@47.0.0
+  - @atlaskit/emoji@61.0.0
+  - @atlaskit/editor-json-transformer@5.0.4
+  - @atlaskit/editor-test-helpers@8.0.8
+  - @atlaskit/task-decision@14.0.9
+  - @atlaskit/media-core@29.3.0
+
+## 7.6.2
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/editor-common@37.0.0
+  - @atlaskit/editor-core@108.0.0
+  - @atlaskit/renderer@46.0.0
+  - @atlaskit/emoji@60.0.0
+  - @atlaskit/editor-json-transformer@5.0.3
+  - @atlaskit/editor-test-helpers@8.0.7
+  - @atlaskit/task-decision@14.0.8
+  - @atlaskit/media-core@29.2.0
+
+## 7.6.1
+- [patch] [3ffe0451d1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3ffe0451d1):
+
+  - ED-6486: fixed version number obtained from editor-mobile-bridge
+
+## 7.6.0
+- [minor] [089eae03fd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/089eae03fd):
+
+  - ED-6486: added method for getting current editor bridge version
+
+## 7.5.1
+- Updated dependencies [6cdf11238d](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6cdf11238d):
+  - @atlaskit/form@5.2.10
+  - @atlaskit/smart-card@10.4.2
+  - @atlaskit/textfield@1.0.0
+
+## 7.5.0
+- [minor] [8fb796b610](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8fb796b610):
+
+  - ED-6728: Added scrollToSelection() method to bridge
+
+## 7.4.4
+- [patch] [f224fa19d5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/f224fa19d5):
+
+  - ED-6716 Enables allowConfluenceInlineComment for mobile editor bridge so inline comments are now no longer unsupported content
+
+## 7.4.3
+- [patch] [83014a7395](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/83014a7395):
+
+  - ED-6716 Prevent mobile-bridge from deleting invalid marks. Temporary fix for inline comments being removed in the document.
+
+## 7.4.2
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/form@5.2.7
+  - @atlaskit/select@8.1.1
+  - @atlaskit/textfield@0.4.4
+  - @atlaskit/editor-common@36.1.12
+  - @atlaskit/editor-core@107.13.4
+  - @atlaskit/renderer@45.6.1
+  - @atlaskit/emoji@59.2.3
+  - @atlaskit/mention@17.6.7
+  - @atlaskit/status@0.8.3
+  - @atlaskit/task-decision@14.0.5
+  - @atlaskit/smart-card@10.2.4
+  - @atlaskit/theme@8.1.7
+
+## 7.4.1
+- [patch] [351e23aeb5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/351e23aeb5):
+
+  - ED-6102: fixed inline node deletion on Android
+
+## 7.4.0
+- [minor] [7964240a6a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7964240a6a):
+
+  - ED-6698: Adding smart cards to the renderer and on document load
+
+## 7.3.2
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/form@5.2.5
+  - @atlaskit/select@8.0.5
+  - @atlaskit/textfield@0.4.3
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/editor-core@107.12.5
+  - @atlaskit/renderer@45.4.3
+  - @atlaskit/emoji@59.2.1
+  - @atlaskit/task-decision@14.0.3
+  - @atlaskit/media-core@29.1.4
+  - @atlaskit/smart-card@10.2.2
+  - @atlaskit/button@12.0.0
+
+## 7.3.1
+- [patch] [55e47676aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/55e47676aa):
+
+  - revert update status code splits in Renderer/Editor which causes component dist to be broken
+
+## 7.3.0
+- [minor] [db29d1eca9](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/db29d1eca9):
+
+  - ED-6357: bridge.currentSelection() provides rectangle coords of selected link
+
+## 7.2.0
+- [minor] [969915d261](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/969915d261):
+
+  - update status import entrypoints in Renderer/editor
+
+## 7.1.10
+- [patch] [97e555c168](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97e555c168):
+
+  - Revert "[ED-5259 - ED-6200] adds defaultMarks on tableNode (pull request #5259)"
+
+## 7.1.9
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 7.1.8
+- [patch] [92c8c14019](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/92c8c14019):
+
+  - ED-6492: Fixed media single without dimensions not rendering on mobile
+
+## 7.1.7
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/editor-common@36.0.0
+  - @atlaskit/editor-core@107.0.0
+  - @atlaskit/renderer@45.0.0
+  - @atlaskit/emoji@59.0.0
+  - @atlaskit/editor-json-transformer@5.0.2
+  - @atlaskit/editor-test-helpers@8.0.3
+  - @atlaskit/task-decision@14.0.1
+  - @atlaskit/media-core@29.1.0
+
+## 7.1.6
+- Updated dependencies [eb4323c388](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/eb4323c388):
+  - @atlaskit/editor-core@106.7.3
+  - @atlaskit/renderer@44.4.2
+  - @atlaskit/task-decision@14.0.0
+
+## 7.1.5
+- Updated dependencies [97abf5e006](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97abf5e006):
+  - @atlaskit/editor-core@106.7.2
+  - @atlaskit/renderer@44.4.1
+  - @atlaskit/status@0.8.0
+
 ## 7.1.4
 - [patch] [9e97d4186b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9e97d4186b):
 

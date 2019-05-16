@@ -1,5 +1,5 @@
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
-import * as fetchMock from 'fetch-mock';
+import fetchMock from 'fetch-mock';
 import { Client, ResolveResponse } from '../..';
 import { ObjectState, DefinedState, RemoteResourceAuthConfig } from '../types';
 import { v4 } from 'uuid';
@@ -136,18 +136,18 @@ describe('Client', () => {
 
   describe('environments', () => {
     it('should make a call to prod server if not other env is specified', async () => {
-      expect(new Client().env.resolverURL).toEqual(env.prod.resolverURL);
+      expect(new Client().env.resolverUrl).toEqual(env.prod.resolverUrl);
     });
 
     it('should make a call to prod server if not other env is specified', () => {
-      expect(new Client(undefined, 'dev').env.resolverURL).toEqual(
-        env.dev.resolverURL,
+      expect(new Client(undefined, 'dev').env.resolverUrl).toEqual(
+        env.dev.resolverUrl,
       );
     });
 
     it('should make a call to prod server if not other env is specified', () => {
-      expect(new Client(undefined, 'staging').env.resolverURL).toEqual(
-        env.staging.resolverURL,
+      expect(new Client(undefined, 'staging').env.resolverUrl).toEqual(
+        env.staging.resolverUrl,
       );
     });
   });
@@ -571,7 +571,7 @@ describe('Client', () => {
     it('should fire a resolved event when a url gets resolved', done => {
       mockResolvedFetchCall();
       const client = new Client();
-      const expectedEvent = resolvedEvent('some.url');
+      const expectedEvent = resolvedEvent('abc-123');
       const mockedHandler = jest.fn().mockImplementation(() => {
         expect(mockedHandler).toBeCalledWith(expectedEvent);
         done();
@@ -583,9 +583,7 @@ describe('Client', () => {
     it('should fire an unresolved analytics event otherwise', done => {
       mockNotFoundFetchCall();
       const client = new Client();
-      const expectedEvent = unresolvedEvent('some.url', {
-        status: 'not-found',
-      });
+      const expectedEvent = unresolvedEvent('not-found');
       const mockedHandler = jest.fn().mockImplementation(() => {
         expect(mockedHandler).toBeCalledWith(expectedEvent);
         done();

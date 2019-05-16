@@ -21,6 +21,7 @@ export default class ThemedRadio extends Component<
       themeMode: value,
     });
   };
+
   render() {
     const { themeMode } = this.state;
     return (

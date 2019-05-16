@@ -1,10 +1,10 @@
-import * as classNames from 'classnames';
+import classNames from 'classnames';
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import { PureComponent } from 'react';
 import { EmojiProvider, OnEmojiProviderChange } from '../../api/EmojiResource';
-import { defaultListLimit } from '../../constants';
-import { toEmojiId } from '../../type-helpers';
+import { defaultListLimit } from '../../util/constants';
+import { toEmojiId } from '../../util/type-helpers';
 import {
   EmojiDescription,
   EmojiSearchResult,

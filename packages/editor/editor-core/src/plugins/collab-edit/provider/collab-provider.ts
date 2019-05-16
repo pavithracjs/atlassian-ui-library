@@ -275,4 +275,12 @@ export class CollabProvider implements CollabEditProvider {
     this.eventEmitter.off(evt, handler);
     return this;
   }
+
+  /**
+   * Unsubscribe from all events emitted by this provider.
+   */
+  unsubscribeAll(evt: CollabEvent) {
+    this.eventEmitter.removeAllListeners(evt);
+    return this;
+  }
 }

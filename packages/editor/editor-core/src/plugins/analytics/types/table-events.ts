@@ -2,7 +2,7 @@ import { TableAEP } from './events';
 import { INPUT_METHOD } from './enums';
 
 //#region Constants
-export const enum TABLE_ACTION {
+export enum TABLE_ACTION {
   DELETED = 'deleted',
   CLEARED = 'cleared',
   MERGED = 'merged',
@@ -11,7 +11,7 @@ export const enum TABLE_ACTION {
   TOGGLED_HEADER_COLUMN = 'toggledHeaderColumn',
   TOGGLED_HEADER_ROW = 'toggledHeaderRow',
   TOGGLED_NUMBER_COLUMN = 'toggledNumberColumn',
-  CHANGED_LAYOUT = 'changedLayout',
+  CHANGED_BREAKOUT_MODE = 'changedBreakoutMode',
   CUT = 'cut',
   COPIED = 'copied',
   ADDED_ROW = 'addedRow',
@@ -20,7 +20,7 @@ export const enum TABLE_ACTION {
   DELETED_COLUMN = 'deletedColumn',
 }
 
-export const enum TABLE_LAYOUT {
+export enum TABLE_BREAKOUT {
   WIDE = 'wide',
   FULL_WIDTH = 'fullWidth',
   NORMAL = 'normal',
@@ -78,11 +78,11 @@ type TableToggleHeaderAEP = TableAEP<
   { newState: boolean } & TotalRowAndColCount
 >;
 
-type TableChangeLayoutAEP = TableAEP<
-  TABLE_ACTION.CHANGED_LAYOUT,
+type TableChangeBreakoutAEP = TableAEP<
+  TABLE_ACTION.CHANGED_BREAKOUT_MODE,
   {
-    newLayout: TABLE_LAYOUT;
-    previousLayout: TABLE_LAYOUT;
+    newBreakoutMode: TABLE_BREAKOUT;
+    previousBreakoutMode: TABLE_BREAKOUT;
   } & TotalRowAndColCount
 >;
 
@@ -119,7 +119,7 @@ export type TableEventPayload =
   | TableMergeSplitAEP
   | TableColorAEP
   | TableToggleHeaderAEP
-  | TableChangeLayoutAEP
+  | TableChangeBreakoutAEP
   | TableCopyAndCutAEP
   | TableAddRowOrColumnAEP
   | TableDeleteRowOrColumnAEP;

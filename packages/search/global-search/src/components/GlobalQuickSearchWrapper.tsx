@@ -1,11 +1,12 @@
 import * as React from 'react';
-import memoizeOne from 'memoize-one';
 import { CancelableEvent } from '@atlaskit/quick-search';
 import HomeQuickSearchContainer from './home/HomeQuickSearchContainer';
 import ConfluenceQuickSearchContainer from './confluence/ConfluenceQuickSearchContainer';
 import JiraQuickSearchContainer from './jira/JiraQuickSearchContainer';
 import configureSearchClients, { Config } from '../api/configureSearchClients';
 import MessagesIntlProvider from './MessagesIntlProvider';
+import { GlobalSearchPreFetchContext } from './PrefetchedResultsProvider';
+import { QuickSearchContext } from '../api/types';
 
 const DEFAULT_NOOP_LOGGER: Logger = {
   safeInfo() {},
@@ -29,6 +30,14 @@ export type Logger = {
 export type ReferralContextIdentifiers = {
   searchReferrerId: string;
   currentContentId: string;
+  currentContainerId?: string;
+};
+
+export type JiraApplicationPermission = {
+  hasCoreAccess: boolean;
+  hasSoftwareAccess: boolean;
+  hasServiceDeskAccess: boolean;
+  hasOpsAccess: boolean;
 };
 
 export type AdvancedSearchEvent = {
@@ -64,7 +73,7 @@ export interface Props {
   /**
    * The context for quick-search determines the UX and what kind of entities the component is searching.
    */
-  context: 'confluence' | 'home' | 'jira';
+  context: QuickSearchContext;
 
   /**
    * For development purposes only: Overrides the URL to the activity service.
@@ -104,21 +113,6 @@ export interface Props {
   referralContextIdentifiers?: ReferralContextIdentifiers;
 
   /**
-   * Indicates if search terms should be send in analytic events when a search is performed.
-   */
-  isSendSearchTermsEnabled?: boolean;
-
-  /**
-   * Indicates whether or not quick nav should be used for people searches.
-   */
-  useQuickNavForPeopleResults?: boolean;
-
-  /**
-   * Indicates whether or not CPUS should be used for people searches.
-   */
-  useCPUSForPeopleResults?: boolean;
-
-  /**
    * Indicates whether to add sessionId to jira result query param
    */
   addSessionIdToJiraResult?: boolean;
@@ -142,6 +136,23 @@ export interface Props {
    * controls where to retrieve prequery results either from aggregator or directly from the product
    */
   enablePreQueryFromAggregator?: boolean;
+
+  /**
+   * A prop to provide additional elements to render on the right of the search bar, e.g. the feedback button.
+   */
+  inputControls?: JSX.Element;
+
+  /*
+   * detemrine jira application permission like software or servicedesk acess
+   * optional because it is passed only for jira
+   */
+  appPermission?: JiraApplicationPermission;
+
+  /**
+   * Determine whether to enable faster search for control (aka 'default').
+   * This is used for Confluence only.
+   */
+  fasterSearchFFEnabled?: boolean;
 }
 
 /**
@@ -151,8 +162,6 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
   static defaultProps = {
     logger: DEFAULT_NOOP_LOGGER,
   };
-  // configureSearchClients is a potentially expensive function that we don't want to invoke on re-renders
-  memoizedConfigureSearchClients = memoizeOne(configureSearchClients);
 
   private makeConfig() {
     const config: Partial<Config> = {};
@@ -191,7 +200,7 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
     } else if (this.props.context === 'home') {
       return HomeQuickSearchContainer;
     } else if (this.props.context === 'jira') {
-      return JiraQuickSearchContainer;
+      return JiraQuickSearchContainer as React.ComponentClass<any>;
     } else {
       // fallback to home if nothing specified
       return HomeQuickSearchContainer;
@@ -231,35 +240,46 @@ export default class GlobalQuickSearchWrapper extends React.Component<Props> {
 
   render() {
     const ContainerComponent = this.getContainerComponent();
-    const searchClients = this.memoizedConfigureSearchClients(
-      this.props.cloudId,
-      this.makeConfig(),
-    );
-    const {
-      linkComponent,
-      isSendSearchTermsEnabled,
-      useQuickNavForPeopleResults,
-      referralContextIdentifiers,
-      useCPUSForPeopleResults,
-      logger,
-      disableJiraPreQueryPeopleSearch,
-      enablePreQueryFromAggregator,
-    } = this.props;
 
     return (
       <MessagesIntlProvider>
-        <ContainerComponent
-          {...searchClients}
-          linkComponent={linkComponent}
-          isSendSearchTermsEnabled={isSendSearchTermsEnabled}
-          useQuickNavForPeopleResults={useQuickNavForPeopleResults}
-          referralContextIdentifiers={referralContextIdentifiers}
-          useCPUSForPeopleResults={useCPUSForPeopleResults}
-          disableJiraPreQueryPeopleSearch={disableJiraPreQueryPeopleSearch}
-          logger={logger}
-          onAdvancedSearch={this.onAdvancedSearch}
-          enablePreQueryFromAggregator={enablePreQueryFromAggregator}
-        />
+        <GlobalSearchPreFetchContext.Consumer>
+          {({ prefetchedResults }) => {
+            const searchClients = configureSearchClients(
+              this.props.cloudId,
+              this.makeConfig(),
+              prefetchedResults,
+            );
+
+            const {
+              linkComponent,
+              referralContextIdentifiers,
+              logger,
+              disableJiraPreQueryPeopleSearch,
+              enablePreQueryFromAggregator,
+              inputControls,
+              appPermission,
+              fasterSearchFFEnabled,
+            } = this.props;
+
+            return (
+              <ContainerComponent
+                {...searchClients}
+                linkComponent={linkComponent}
+                referralContextIdentifiers={referralContextIdentifiers}
+                disableJiraPreQueryPeopleSearch={
+                  disableJiraPreQueryPeopleSearch
+                }
+                logger={logger}
+                onAdvancedSearch={this.onAdvancedSearch}
+                enablePreQueryFromAggregator={enablePreQueryFromAggregator}
+                inputControls={inputControls}
+                appPermission={appPermission}
+                fasterSearchFFEnabled={fasterSearchFFEnabled}
+              />
+            );
+          }}
+        </GlobalSearchPreFetchContext.Consumer>
       </MessagesIntlProvider>
     );
   }

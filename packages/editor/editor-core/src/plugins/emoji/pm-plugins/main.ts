@@ -11,7 +11,7 @@ import {
   isMarkTypeAllowedInCurrentSelection,
   isChromeWithSelectionBug,
 } from '../../../utils';
-import { ReactNodeView } from '../../../nodeviews';
+import { EditorAppearance } from '../../../types';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import emojiNodeView from '../nodeviews/emoji';
 
@@ -104,12 +104,14 @@ export class EmojiState {
       return;
     }
 
-    const newAnchorElement = this.view.dom.querySelector(
-      '[data-emoji-query]',
-    ) as HTMLElement;
-    if (newAnchorElement !== this.anchorElement) {
-      dirty = true;
-      this.anchorElement = newAnchorElement;
+    if (this.queryActive) {
+      const newAnchorElement = this.view.dom.querySelector(
+        'span[data-emoji-query]',
+      ) as HTMLElement;
+      if (newAnchorElement !== this.anchorElement) {
+        dirty = true;
+        this.anchorElement = newAnchorElement;
+      }
     }
 
     if (dirty) {
@@ -134,6 +136,7 @@ export class EmojiState {
           .removeStoredMark(markType),
       );
     }
+    this.notifySubscribers();
     this.onDismiss();
     return true;
   }
@@ -273,6 +276,7 @@ export class EmojiState {
 export function createPlugin(
   portalProviderAPI: PortalProviderAPI,
   providerFactory: ProviderFactory,
+  editorAppearance?: EditorAppearance,
 ) {
   return new Plugin({
     state: {
@@ -286,9 +290,11 @@ export function createPlugin(
     },
     props: {
       nodeViews: {
-        emoji: ReactNodeView.fromComponent(emojiNodeView, portalProviderAPI, {
+        emoji: emojiNodeView(
+          portalProviderAPI,
           providerFactory,
-        }),
+          editorAppearance,
+        ),
       },
       handleDOMEvents: {
         focus(view: EditorView, _event) {

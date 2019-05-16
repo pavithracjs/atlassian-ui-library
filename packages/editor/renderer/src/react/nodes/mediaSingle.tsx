@@ -10,7 +10,7 @@ import {
   ImageLoaderProps,
 } from '@atlaskit/editor-common';
 import { FullPagePadding } from '../../ui/Renderer/style';
-import { RendererAppearance } from '../../ui/Renderer';
+import { RendererAppearance } from '../../ui/Renderer/types';
 import { MediaProps } from './media';
 
 export interface Props {
@@ -62,7 +62,7 @@ export default class MediaSingle extends Component<Props, State> {
     const { props } = this;
 
     const child = React.Children.only(
-      React.Children.toArray(props.children)[0],
+      React.Children.toArray<React.ReactElement>(props.children)[0],
     );
 
     let { width, height, type } = child.props;
@@ -96,19 +96,26 @@ export default class MediaSingle extends Component<Props, State> {
             height: `${cardHeight}px`,
           };
 
+          const isFullWidth = this.props.rendererAppearance === 'full-width';
+
+          const nonFullWidthSize =
+            containerWidth - padding >= akEditorFullPageMaxWidth
+              ? this.props.allowDynamicTextSizing
+                ? mapBreakpointToLayoutMaxWidth(breakpoint)
+                : akEditorFullPageMaxWidth
+              : containerWidth - padding;
+
+          const lineLength = isFullWidth
+            ? containerWidth - padding
+            : nonFullWidthSize;
+
           return (
             <ExtendedUIMediaSingle
               layout={props.layout}
               width={width}
               height={height}
               containerWidth={containerWidth}
-              lineLength={
-                containerWidth - padding >= akEditorFullPageMaxWidth
-                  ? this.props.allowDynamicTextSizing
-                    ? mapBreakpointToLayoutMaxWidth(breakpoint)
-                    : akEditorFullPageMaxWidth
-                  : containerWidth - padding
-              }
+              lineLength={lineLength}
               pctWidth={props.width}
             >
               {React.cloneElement(child, {

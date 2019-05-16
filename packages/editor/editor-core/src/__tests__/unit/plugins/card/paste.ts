@@ -42,6 +42,8 @@ describe('card', () => {
                 'https://www.atlassian.com/s/7xr7xdqto7trhvr/Media%20picker.sketch?dl=0',
               pos: 1,
               appearance: 'inline',
+              compareLinkText: true,
+              source: 'clipboard',
             },
           ],
           provider,

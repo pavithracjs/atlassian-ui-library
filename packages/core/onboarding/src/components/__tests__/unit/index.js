@@ -27,6 +27,7 @@ test('should spotlight different targets', () => {
     state = {
       target: 'target-one',
     };
+
     render() {
       return (
         <SpotlightManager>

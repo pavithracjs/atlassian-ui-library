@@ -1,4 +1,4 @@
-// tslint:disable:no-console
+/* eslint-disable no-console */
 
 import * as React from 'react';
 
@@ -12,7 +12,8 @@ const SAVE_ACTION = () => console.log('Save');
 const CANCEL_ACTION = () => console.log('Cancel');
 const EXPAND_ACTION = () => console.log('Expand');
 
-const analyticsHandler = (actionName, props) => console.log(actionName, props);
+const analyticsHandler = (actionName: string, props: any) =>
+  console.log(actionName, props);
 
 export type Props = {};
 export type State = {

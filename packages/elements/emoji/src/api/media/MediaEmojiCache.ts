@@ -7,7 +7,7 @@ import {
   convertMediaToImageEmoji,
   isMediaRepresentation,
   isPromise,
-} from '../../type-helpers';
+} from '../../util/type-helpers';
 import MediaImageLoader from './MediaImageLoader';
 import debug from '../../util/logger';
 import TokenManager from './TokenManager';

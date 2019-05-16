@@ -1,7 +1,7 @@
 import { of } from 'rxjs/observable/of';
-import { Context, ContextConfig, FileFetcher } from '@atlaskit/media-core';
+import { Context, ContextConfig } from '@atlaskit/media-core';
 
-const getDefaultContextConfig = () => ({
+export const getDefaultContextConfig = () => ({
   authProvider: jest.fn().mockReturnValue(() =>
     Promise.resolve({
       clientId: 'some-client-id',
@@ -25,6 +25,9 @@ export const fakeContext = (
   const getImageMetadata = jest.fn();
   const touchFiles = jest.fn();
   const downloadBinary = jest.fn();
+  const on = jest.fn();
+  const off = jest.fn();
+  const emit = jest.fn();
   const file = {
     getFileState: getFile,
     downloadBinary,
@@ -32,7 +35,8 @@ export const fakeContext = (
     getArtifactURL: jest.fn(),
     touchFiles,
     getCurrentState: jest.fn(),
-  } as FileFetcher;
+    copyFile: jest.fn(),
+  };
   const defaultContext: Context = {
     getImageMetadata,
     getImage,
@@ -40,6 +44,9 @@ export const fakeContext = (
     config,
     collection,
     file,
+    on,
+    off,
+    emit,
   };
 
   const wrappedStubbedContext: any = {};

@@ -14,6 +14,7 @@ import Separator from './Separator';
 import Input from './Input';
 import { ProviderFactory } from '@atlaskit/editor-common';
 import { EditorView } from 'prosemirror-view';
+import { DispatchAnalyticsEvent } from '../../analytics';
 
 const akGridSize = gridSize();
 
@@ -27,6 +28,7 @@ export interface Props {
   className?: string;
   focusEditor?: () => void;
   editorView?: EditorView;
+  dispatchAnalyticsEvent?: DispatchAnalyticsEvent;
 }
 
 const ToolbarContainer = styled.div`
@@ -49,6 +51,7 @@ export default class Toolbar extends Component<Props> {
   render() {
     const {
       items,
+      dispatchAnalyticsEvent,
       dispatchCommand,
       popupsMountPoint,
       popupsBoundariesElement,
@@ -75,13 +78,20 @@ export default class Toolbar extends Component<Props> {
             .map((item, idx) => {
               switch (item.type) {
                 case 'button':
-                  const ButtonIcon = item.icon;
+                  const ButtonIcon = item.icon as React.ComponentClass<any>;
                   return (
                     <Button
+                      className={item.className}
                       key={idx}
                       title={item.title}
                       href={item.href}
-                      icon={<ButtonIcon label={item.title} />}
+                      icon={
+                        item.icon ? (
+                          <ButtonIcon label={item.title} />
+                        ) : (
+                          undefined
+                        )
+                      }
                       appearance={item.appearance}
                       target={item.target}
                       onClick={() => dispatchCommand(item.onClick)}
@@ -89,7 +99,9 @@ export default class Toolbar extends Component<Props> {
                       onMouseLeave={() => dispatchCommand(item.onMouseLeave)}
                       selected={item.selected}
                       disabled={item.disabled}
-                    />
+                    >
+                      {item.showTitle && item.title}
+                    </Button>
                   );
 
                 case 'input':
@@ -106,7 +118,7 @@ export default class Toolbar extends Component<Props> {
                   );
 
                 case 'custom': {
-                  return item.render(editorView, idx);
+                  return item.render(editorView, idx, dispatchAnalyticsEvent);
                 }
 
                 case 'dropdown':

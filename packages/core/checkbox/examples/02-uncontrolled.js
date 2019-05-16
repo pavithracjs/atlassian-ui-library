@@ -10,6 +10,7 @@ export default class UncontrolledExample extends PureComponent<void, State> {
   state = {
     onChangeResult: 'Check & Uncheck to trigger onChange',
   };
+
   onChange = (event: SyntheticEvent<*>) => {
     this.setState({
       onChangeResult: `this.state.isChecked: ${String(

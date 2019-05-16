@@ -10,9 +10,11 @@ import * as React from 'react';
 
 import { shallow, mount } from 'enzyme';
 import { FileDetails } from '@atlaskit/media-core';
-import { AnalyticsListener } from '@atlaskit/analytics-next';
 
-import { UIAnalyticsEventInterface } from '@atlaskit/analytics-next-types';
+import {
+  AnalyticsListener,
+  UIAnalyticsEventInterface,
+} from '@atlaskit/analytics-next';
 import {
   mountWithIntlContext,
   expectToEqual,

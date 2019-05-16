@@ -114,3 +114,5 @@ export * from './enzyme';
 export { compareSelection } from './selection';
 export * from './table';
 export * from './constants';
+export { autoformattingProvider } from './autoformatting-provider';
+export { extensionHandlers } from './extensions';

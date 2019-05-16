@@ -5,11 +5,21 @@ import { analyticsService } from '../../../analytics';
 import { createInputRule } from '../../../utils/input-rules';
 import { Match, LinkMatcher, normalizeUrl } from '../utils';
 import { queueCards } from '../../card/pm-plugins/actions';
+import {
+  addAnalytics,
+  ACTION,
+  ACTION_SUBJECT,
+  INPUT_METHOD,
+  ACTION_SUBJECT_ID,
+  EVENT_TYPE,
+  AnalyticsEventPayload,
+} from '../../analytics';
 
 export function createLinkInputRule(
   regexp: RegExp,
   formatUrl: (url: string[]) => string,
 ): InputRule {
+  // Plain typed text (eg, typing 'www.google.com') should convert to a hyperlink
   return createInputRule(
     regexp,
     (state: EditorState, match, start: number, end: number) => {
@@ -26,21 +36,32 @@ export function createLinkInputRule(
         'atlassian.editor.format.hyperlink.autoformatting',
       );
 
-      const tr = state.tr
-        .addMark(
-          start - (link.input!.length - link.lastIndex),
-          end - (link.input!.length - link.lastIndex),
-          markType,
-        )
-        .insertText(' ');
+      const payload: AnalyticsEventPayload = {
+        action: ACTION.INSERTED,
+        actionSubject: ACTION_SUBJECT.DOCUMENT,
+        actionSubjectId: ACTION_SUBJECT_ID.LINK,
+        attributes: { inputMethod: INPUT_METHOD.AUTO_DETECT },
+        eventType: EVENT_TYPE.TRACK,
+      };
 
-      return queueCards([
+      const tr = queueCards([
         {
           url: link.url,
           pos: start - (link.input!.length - link.lastIndex),
           appearance: 'inline',
+          compareLinkText: true,
+          source: INPUT_METHOD.AUTO_DETECT,
         },
-      ])(tr);
+      ])(
+        state.tr
+          .addMark(
+            start - (link.input!.length - link.lastIndex),
+            end - (link.input!.length - link.lastIndex),
+            markType,
+          )
+          .insertText(' '),
+      );
+      return addAnalytics(tr, payload);
     },
   );
 }
@@ -68,11 +89,19 @@ export function createInputRulePlugin(schema: Schema): Plugin | undefined {
         'atlassian.editor.format.hyperlink.autoformatting',
       );
 
-      return state.tr.replaceWith(
+      const payload: AnalyticsEventPayload = {
+        action: ACTION.INSERTED,
+        actionSubject: ACTION_SUBJECT.DOCUMENT,
+        actionSubjectId: ACTION_SUBJECT_ID.LINK,
+        attributes: { inputMethod: INPUT_METHOD.FORMATTING },
+        eventType: EVENT_TYPE.TRACK,
+      };
+      const tr = state.tr.replaceWith(
         start + prefix.length,
         end,
         schema.text(linkText, [markType]),
       );
+      return addAnalytics(tr, payload);
     },
   );
 

@@ -5,6 +5,7 @@ import { EditorView } from 'prosemirror-view';
 import {
   cardProvider,
   customInsertMenuItems,
+  extensionHandlers,
 } from '@atlaskit/editor-test-helpers';
 
 import { validator, ErrorCallback, ADFEntity } from '@atlaskit/adf-utils';
@@ -20,7 +21,6 @@ import {
   analyticsHandler,
   quickInsertProvider,
 } from '../examples/5-full-page';
-import { extensionHandlers } from './extension-handlers';
 import { Error } from './ErrorReport';
 
 export type Props = {
@@ -82,6 +82,7 @@ export default class KitchenSinkEditor extends React.Component<Props, State> {
           allowDate={true}
           allowLayouts={{
             allowBreakout: true,
+            UNSAFE_addSidebarLayouts: true,
           }}
           allowTextAlignment={true}
           allowTemplatePlaceholders={{ allowInserting: true }}

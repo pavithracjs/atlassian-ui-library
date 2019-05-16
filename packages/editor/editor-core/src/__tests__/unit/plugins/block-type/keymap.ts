@@ -21,7 +21,7 @@ import {
 } from '@atlaskit/editor-test-helpers';
 import { AnalyticsHandler } from '../../../../analytics';
 import { setNodeSelection } from '../../../../utils';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { EditorView } from 'prosemirror-view';
 
 const codeBlockGASV3Payload = {

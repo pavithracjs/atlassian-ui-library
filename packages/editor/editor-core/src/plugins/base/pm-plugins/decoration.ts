@@ -6,10 +6,7 @@ import {
   NodeSelection,
 } from 'prosemirror-state';
 import { Command } from '../../../types';
-import {
-  pluginKey as floatingToolbarPluginKey,
-  getRelevantConfig,
-} from '../../floating-toolbar/index';
+import { pluginKey as floatingToolbarPluginKey } from '../../floating-toolbar/index';
 import { FloatingToolbarConfig } from '../../floating-toolbar/types';
 import { findParentNodeOfType } from 'prosemirror-utils';
 import { Node } from 'prosemirror-model';
@@ -25,15 +22,10 @@ export const hoverDecoration = (
   add: boolean,
   className: string = 'danger',
 ): Command => (state, dispatch) => {
-  const floatingToolbarConfigs:
-    | Array<FloatingToolbarConfig>
+  const config:
+    | FloatingToolbarConfig
     | undefined = floatingToolbarPluginKey.getState(state);
 
-  if (!floatingToolbarConfigs) {
-    return false;
-  }
-
-  const config = getRelevantConfig(state, floatingToolbarConfigs);
   if (!config) {
     return false;
   }
@@ -84,12 +76,23 @@ export const hoverDecoration = (
   return true;
 };
 
+export type DecorationState = {
+  decoration?: Decoration;
+};
+
 export default () => {
   return new Plugin({
     key: decorationStateKey,
     state: {
-      init: () => ({ decorations: undefined }),
-      apply(tr, pluginState) {
+      init: (): DecorationState => ({ decoration: undefined }),
+      apply(tr, pluginState: DecorationState): DecorationState {
+        if (pluginState.decoration) {
+          const mapResult = tr.mapping.mapResult(pluginState.decoration.from);
+          if (mapResult.deleted) {
+            pluginState = { decoration: undefined };
+          }
+        }
+
         const meta = tr.getMeta(decorationStateKey);
         if (!meta) {
           return pluginState;
@@ -98,10 +101,10 @@ export default () => {
         switch (meta.action) {
           case ACTIONS.DECORATION_ADD:
             return {
-              decorations: meta.data,
+              decoration: meta.data,
             };
           case ACTIONS.DECORATION_REMOVE:
-            return { decorations: undefined };
+            return { decoration: undefined };
           default:
             return pluginState;
         }
@@ -111,9 +114,11 @@ export default () => {
     props: {
       decorations(state: EditorState) {
         const { doc } = state;
-        const { decorations } = decorationStateKey.getState(state);
-        if (decorations) {
-          return DecorationSet.create(doc, [decorations]);
+        const { decoration } = decorationStateKey.getState(
+          state,
+        ) as DecorationState;
+        if (decoration) {
+          return DecorationSet.create(doc, [decoration]);
         }
         return null;
       },

@@ -34,7 +34,9 @@ const Checkbox = ({
 
 export default class Image extends Component<{}, { truncate: boolean }> {
   state = { truncate: false };
+
   toggle = () => this.setState(state => ({ truncate: !state.truncate }));
+
   render() {
     const { truncate } = this.state;
 

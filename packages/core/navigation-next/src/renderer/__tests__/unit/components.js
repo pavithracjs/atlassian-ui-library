@@ -317,6 +317,7 @@ describe('navigation-next view renderer', () => {
       componentDidMount() {
         didMountSpy();
       }
+
       render() {
         return null;
       }

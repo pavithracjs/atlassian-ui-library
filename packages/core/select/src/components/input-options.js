@@ -109,9 +109,13 @@ type OptionState = { isActive?: boolean };
 
 class ControlOption extends Component<OptionProps, OptionState> {
   state: OptionState = { isActive: false };
+
   onMouseDown = () => this.setState({ isActive: true });
+
   onMouseUp = () => this.setState({ isActive: false });
+
   onMouseLeave = () => this.setState({ isActive: false });
+
   render() {
     const {
       getStyles,
@@ -152,17 +156,6 @@ const iconWrapperCSS = () => ({
   flexShrink: 0,
   paddingRight: '4px',
 });
-
-/* TODO:
-  to be removed
-  the label of an option in the menu
-  should ideally be something we can customise
-  as part of the react-select component API
-  at the moment we are hardcoding it into
-  the custom input-option components for Radio and Checkbox Select
-  and so this behaviour is not customisable / disableable
-  by users who buy into radio / checkbox select.
-*/
 
 const truncateCSS = () => ({
   textOverflow: 'ellipsis',

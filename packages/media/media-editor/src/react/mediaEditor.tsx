@@ -260,9 +260,9 @@ export class MediaEditor extends React.Component<
             .direction as TextDirection) || defaultTextDirection;
 
         const config = {
-          // tslint:disable-next-line:no-console
+          // eslint-disable-next-line no-console
           onCoreError: (message: string) => {
-            // tslint:disable-next-line
+            // eslint-disable-next-line
             console.error(message);
           },
           shapeParameters,

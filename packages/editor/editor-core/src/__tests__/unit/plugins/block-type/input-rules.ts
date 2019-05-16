@@ -9,14 +9,16 @@ import {
   insertText,
   createEditorFactory,
   p,
+  indentation,
   code,
   hardBreak,
   a as link,
 } from '@atlaskit/editor-test-helpers';
-import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next-types';
+import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import { analyticsService } from '../../../../analytics';
 import codeBlockPlugin from '../../../../plugins/code-block';
 import panelPlugin from '../../../../plugins/panel';
+import indentationPlugin from '../../../../plugins/indentation';
 import listPlugin from '../../../../plugins/lists';
 import {
   AnalyticsEventPayload,
@@ -27,6 +29,7 @@ import {
   INPUT_METHOD,
 } from '../../../../plugins/analytics';
 import { HeadingLevels } from '../../../../plugins/block-type/types';
+import { EditorView } from 'prosemirror-view';
 
 describe('inputrules', () => {
   const createEditor = createEditorFactory();
@@ -38,7 +41,12 @@ describe('inputrules', () => {
     createAnalyticsEvent = jest.fn(() => ({ fire() {} }));
     return createEditor({
       doc,
-      editorPlugins: [listPlugin, codeBlockPlugin(), panelPlugin],
+      editorPlugins: [
+        listPlugin,
+        codeBlockPlugin(),
+        panelPlugin,
+        indentationPlugin,
+      ],
       editorProps: {
         analyticsHandler: trackEvent as any,
         allowAnalyticsGASV3: true,
@@ -267,8 +275,19 @@ describe('inputrules', () => {
       attributes: { inputMethod: 'autoformatting' },
       eventType: 'track',
     };
-    let editorView;
-    let sel;
+    let editorView: EditorView;
+    let sel: number;
+
+    it('should remove indentation and convert "```" to a code block', () => {
+      ({ editorView, sel } = editor(
+        doc(indentation({ level: 3 })(p('{<>}hello', br(), 'world'))),
+      ));
+      insertText(editorView, '```', sel);
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(code_block()('hello\nworld')),
+      );
+    });
 
     describe('typing "```" after text', () => {
       beforeEach(() => {

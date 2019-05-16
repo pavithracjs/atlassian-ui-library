@@ -5,7 +5,7 @@ import { createInputRulePlugin } from './pm-plugins/input-rule';
 import { createKeymapPlugin } from './pm-plugins/keymap';
 import { plugin, stateKey, LinkAction } from './pm-plugins/main';
 import fakeCursorToolbarPlugin from './pm-plugins/fake-cursor-for-toolbar';
-import EditorSuccessIcon from '@atlaskit/icon/glyph/editor/success';
+import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 import {
   addAnalytics,
   ACTION,
@@ -15,6 +15,8 @@ import {
   ACTION_SUBJECT_ID,
 } from '../analytics';
 import { getToolbarConfig } from './Toolbar';
+import { tooltip, addLink } from '../../keymaps';
+import { IconLink } from '../quick-insert/assets';
 
 const hyperlinkPlugin: EditorPlugin = {
   marks() {
@@ -42,10 +44,12 @@ const hyperlinkPlugin: EditorPlugin = {
   pluginsOptions: {
     quickInsert: ({ formatMessage }) => [
       {
-        title: 'Hyperlink',
+        title: formatMessage(messages.link),
+        description: formatMessage(messages.linkDescription),
         keywords: ['url', 'link', 'hyperlink'],
         priority: 1200,
-        icon: () => <EditorSuccessIcon label={'Hyperlink'} />,
+        keyshortcut: tooltip(addLink),
+        icon: () => <IconLink label={formatMessage(messages.link)} />,
         action(insert, state) {
           const pos = state.selection.from;
           const { nodeBefore } = state.selection.$from;
@@ -53,7 +57,7 @@ const hyperlinkPlugin: EditorPlugin = {
             return false;
           }
           const tr = state.tr
-            .setMeta(stateKey, LinkAction.SHOW_INSERT_TOOLBAR)
+            .setMeta(stateKey, { type: LinkAction.SHOW_INSERT_TOOLBAR })
             .delete(pos - nodeBefore.nodeSize, pos);
 
           return addAnalytics(tr, {

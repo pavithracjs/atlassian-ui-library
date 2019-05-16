@@ -1,5 +1,33 @@
 # @atlaskit/adf-utils
 
+## 6.0.5
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/adf-schema@2.5.5
+  - @atlaskit/docs@8.0.0
+
+## 6.0.4
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+- [patch] [0ac39bd2dd](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ac39bd2dd):
+
+  - Bump tslib to 1.9
+
+## 6.0.3
+- [patch] [97e555c168](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/97e555c168):
+
+  - Revert "[ED-5259 - ED-6200] adds defaultMarks on tableNode (pull request #5259)"
+
+## 6.0.2
+- [patch] [b425ea772b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b425ea772b):
+
+  - Revert "ED-5505 add strong as default mark to table header (pull request #5291)"
+
+## 6.0.1
+- [patch] [499f9783d8](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/499f9783d8):
+
+  - [ED-5505] Fix forceContentValidation replacing valid entities to empty array
+
 ## 6.0.0
 - [major] [9d5cc39394](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9d5cc39394):
 

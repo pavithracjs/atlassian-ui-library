@@ -9,10 +9,6 @@ import SearchJiraItem from '../SearchJiraItem';
 import SearchConfluenceItem from '../SearchConfluenceItem';
 import SearchPeopleItem from '../SearchPeopleItem';
 
-export const MAX_PAGES_BLOGS_ATTACHMENTS = 8;
-export const MAX_SPACES = 3;
-export const MAX_PEOPLE = 3;
-
 export interface Props {
   query: string;
   recentResults: Result[];

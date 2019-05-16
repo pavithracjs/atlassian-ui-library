@@ -11,7 +11,7 @@ export interface InlineCardUnauthorizedViewProps {
   /** The icon of the service (e.g. Dropbox/Asana/Google/etc) to display */
   icon?: string;
   /** The optional click handler */
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
   /** What to do when a user hit "Try another account" button */
   onAuthorise?: () => void;
   /** A flag that determines whether the card is selected in edit mode. */
@@ -21,7 +21,7 @@ export interface InlineCardUnauthorizedViewProps {
 export class InlineCardUnauthorizedView extends React.Component<
   InlineCardUnauthorizedViewProps
 > {
-  handleConnectAccount = (event: React.MouseEvent<HTMLButtonElement>) => {
+  handleConnectAccount = (event: React.MouseEvent<HTMLElement>) => {
     const { onAuthorise } = this.props;
     event.preventDefault();
     event.stopPropagation();
@@ -34,11 +34,8 @@ export class InlineCardUnauthorizedView extends React.Component<
       <Frame onClick={onClick} isSelected={isSelected}>
         <IconAndTitleLayout
           icon={icon}
-          title={
-            <span style={{ color: colors.N500 }}>
-              {truncateUrlForErrorView(url)}
-            </span>
-          }
+          title={truncateUrlForErrorView(url)}
+          titleColor={colors.N500}
         />
         {!onAuthorise ? (
           ''

@@ -90,7 +90,10 @@ const mapDispatchToProps = (
     dispatch(revertComment(conversationId, commentId, provider));
   },
 
-  onHighlightComment(commentId: string) {
+  onHighlightComment(
+    event: React.MouseEvent<HTMLAnchorElement>,
+    commentId: string,
+  ) {
     dispatch({ type: HIGHLIGHT_COMMENT, payload: { commentId } });
   },
 
@@ -190,7 +193,7 @@ class ConversationContainer extends React.Component<ContainerProps, any> {
 
     return (
       <Provider store={store}>
-        <ResourcedConversation {...props} localId={localId} />
+        <ResourcedConversation {...props as any} localId={localId} />
       </Provider>
     );
   }

@@ -35,20 +35,24 @@ export default class Example extends Component<Props, State> {
     modalTwoIsVisible: false,
     spotlightIsVisible: false,
   };
+
   toggleModal = () =>
     this.setState(state => ({
       modalIsVisible: !state.modalIsVisible,
     }));
+
   toggleModalTwo = () => {
     this.setState(state => ({
       modalTwoIsVisible: !state.modalTwoIsVisible,
     }));
   };
+
   toggleSpotlight = () => {
     this.setState(state => ({
       spotlightIsVisible: !state.spotlightIsVisible,
     }));
   };
+
   render() {
     const { modalIsVisible, spotlightIsVisible } = this.state;
 

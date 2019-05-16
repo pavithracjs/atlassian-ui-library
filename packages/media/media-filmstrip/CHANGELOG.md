@@ -1,5 +1,145 @@
 # @atlaskit/media-filmstrip
 
+## 34.1.1
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/media-card@63.0.2
+  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-test-helpers@23.0.0
+
+## 34.1.0
+- [minor] [5a49043dac](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5a49043dac):
+
+  - Enable strictPropertyInitialization in tsconfig.base
+
+## 34.0.0
+- [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+
+  - Updates react and react-dom peer dependencies to react@^16.8.0 and react-dom@^16.8.0. To use this package, please ensure you use at least this version of react and react-dom.
+- Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
+  - @atlaskit/media-card@63.0.0
+  - @atlaskit/docs@8.0.0
+  - @atlaskit/button@13.0.0
+  - @atlaskit/checkbox@7.0.0
+  - @atlaskit/field-radio-group@6.0.0
+  - @atlaskit/field-range@7.0.0
+  - @atlaskit/icon@17.0.0
+  - @atlaskit/theme@9.0.0
+  - @atlaskit/media-core@30.0.0
+  - @atlaskit/media-test-helpers@22.0.0
+
+## 33.0.0
+- Updated dependencies [a1192ef860](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a1192ef860):
+  - @atlaskit/media-card@62.0.0
+  - @atlaskit/media-test-helpers@21.4.0
+  - @atlaskit/media-core@29.3.0
+
+## 32.0.0
+- Updated dependencies [e7292ab444](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/e7292ab444):
+  - @atlaskit/media-card@61.0.0
+  - @atlaskit/media-test-helpers@21.3.0
+  - @atlaskit/media-core@29.2.0
+
+## 31.0.5
+- [patch] [0a4ccaafae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0a4ccaafae):
+
+  - Bump tslib
+
+## 31.0.4
+- Updated dependencies [9c0b4744be](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c0b4744be):
+  - @atlaskit/docs@7.0.3
+  - @atlaskit/button@12.0.3
+  - @atlaskit/checkbox@6.0.4
+  - @atlaskit/field-radio-group@5.0.3
+  - @atlaskit/field-range@6.0.4
+  - @atlaskit/icon@16.0.9
+  - @atlaskit/media-card@60.0.3
+  - @atlaskit/theme@8.1.7
+
+## 31.0.3
+- Updated dependencies [1e826b2966](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1e826b2966):
+  - @atlaskit/docs@7.0.2
+  - @atlaskit/checkbox@6.0.3
+  - @atlaskit/field-radio-group@5.0.2
+  - @atlaskit/icon@16.0.8
+  - @atlaskit/theme@8.1.6
+  - @atlaskit/media-card@60.0.1
+  - @atlaskit/media-core@29.1.4
+  - @atlaskit/field-range@6.0.3
+  - @atlaskit/button@12.0.0
+
+## 31.0.2
+- [patch] [0ff405bd0f](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ff405bd0f):
+
+  - Removed CardView and CardViewLoader from public APIs and replaced it with light-weight and stateless CardLoading and CardError components. Handling of external images is now done by Card component itself using ExternalImageIdentifier interface.
+
+  If you’ve been using CardView for loading:
+
+  ```js
+  <CardView
+    status="loading"
+    mediaItemType="file"
+    dimensions={cardDimensions}
+  />
+  ```
+
+  Now you can use new component:
+
+  ```js
+  <CardLoading dimensions={cardDimensions} />
+  ```
+
+  If you were using CardView to show an error
+
+  ```js
+  <CardView
+    status="error"
+    mediaItemType={type}
+    dimensions={cardDimensions}
+  />
+  ```
+
+  Now you can use new component:
+
+  ```js
+  <CardError dimensions={cardDimensions} />
+  ```
+
+  In case you were using CardView to show image with known external URI:
+
+  ```js
+  <CardView
+    status="complete"
+    dataURI={dataURI}
+    metadata={metadata}
+  />
+  ```
+
+  You will have to find a way to switch to using Card component using ExternalImageIdentifier interface:
+
+  ```js
+  <Card
+    identifier={identifier}
+    context={context}
+  />
+  ```
+
+## 31.0.1
+- [patch] [d13fad66df](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/d13fad66df):
+
+  - Enable esModuleInterop for typescript, this allows correct use of default exports
+
+## 31.0.0
+- Updated dependencies [c2c36de22b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c2c36de22b):
+  - @atlaskit/media-card@59.0.0
+  - @atlaskit/media-test-helpers@21.1.0
+  - @atlaskit/media-core@29.1.0
+
+## 30.0.2
+- Updated dependencies [9c316bd8aa](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9c316bd8aa):
+  - @atlaskit/media-core@29.0.2
+  - @atlaskit/media-test-helpers@21.0.3
+  - @atlaskit/media-card@58.0.0
+
 ## 30.0.1
 - [patch] [1bcaa1b991](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcaa1b991):
 

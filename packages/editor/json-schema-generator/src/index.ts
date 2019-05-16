@@ -1,9 +1,9 @@
-/* tslint:disable:no-bitwise */
+/* eslint-disable no-bitwise */
 import * as ts from 'typescript';
 import { writeFileSync } from 'fs';
 import { resolve, join } from 'path';
 import * as prettier from 'prettier';
-import * as mkdirp from 'mkdirp';
+import mkdirp from 'mkdirp';
 
 import JSONSchemaNode, {
   SchemaNode,
@@ -67,7 +67,6 @@ export default (
       if (!isSpecMode()) {
         jsonSchema.markAsUsed(root);
         const outputFileName =
-          // tslint:disable-next-line:triple-equals
           stage != null ? `stage-${stage}.json` : 'full.json';
         writeFileSync(
           join(resolvedOutDir, outputFileName),
@@ -105,7 +104,7 @@ export default (
         });
       }
     })
-    // tslint:disable-next-line:no-console
+    // eslint-disable-next-line no-console
     .catch(console.error);
 
   function waitForTicks() {
@@ -151,7 +150,7 @@ export default (
     }
   }
 
-  function shouldExclude(stage) {
+  function shouldExclude(stage?: string) {
     return (
       (flags.stage === undefined && stage !== undefined) ||
       (flags.stage !== undefined &&

@@ -1,6 +1,6 @@
 {
   "name": "@atlaskit/breadcrumbs",
-  "version": "7.0.2",
+  "version": "8.0.0",
   "description": "A component used for navigation, with each item acting as a link",
   "license": "Apache-2.0",
   "module": "index.js",
@@ -14,29 +14,33 @@
     "Daniel D",
     "Kang C"
   ],
+  "atlaskit": {
+    "name": "Breadcrumbs",
+    "team": "core"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
-    "@atlaskit/analytics-next": "^4.0.2",
-    "@atlaskit/button": "^11.0.5",
-    "@atlaskit/theme": "^8.0.1",
-    "@atlaskit/tooltip": "^13.0.1",
+    "@atlaskit/analytics-next": "^5.0.0",
+    "@atlaskit/button": "^13.0.0",
+    "@atlaskit/theme": "^9.0.0",
+    "@atlaskit/tooltip": "^14.0.0",
     "@babel/runtime": "^7.0.0"
   },
   "peerDependencies": {
-    "react": "^16.4.0",
-    "react-dom": "^16.4.2",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "@atlaskit/build-utils": "^2.0.0",
-    "@atlaskit/docs": "^7.0.1",
-    "@atlaskit/logo": "^10.0.1",
-    "@atlaskit/select": "^8.0.3",
-    "@atlaskit/ssr": "^0.0.1",
-    "@atlaskit/visual-regression": "^0.0.1",
+    "@atlaskit/docs": "^8.0.0",
+    "@atlaskit/logo": "^11.0.0",
+    "@atlaskit/select": "^9.0.0",
+    "@atlaskit/ssr": "^0.1.0",
+    "@atlaskit/visual-regression": "^0.1.0",
     "enzyme": "^3.7.0",
     "jest-in-case": "^1.0.2",
-    "react-dom": "^16.4.2",
+    "react-dom": "^16.8.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2"
   }

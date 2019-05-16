@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import { withTheme } from 'styled-components';
 
 import { PluginKey } from 'prosemirror-state';
@@ -15,6 +15,7 @@ import { GridPluginState, GridType } from './types';
 import { pluginKey as widthPlugin, WidthPluginState } from '../width/index';
 import WithPluginState from '../../ui/WithPluginState';
 import { EventDispatcher, createDispatch } from '../../event-dispatcher';
+import { isFullPage } from '../../utils/is-full-page';
 
 export const stateKey = new PluginKey('gridPlugin');
 export const GRID_SIZE = 12;
@@ -81,7 +82,7 @@ const gutterGridLines = (
   highlights: Highlights,
 ): JSX.Element[] => {
   const gridLines: JSX.Element[] = [];
-  if (appearance !== 'full-page') {
+  if (!isFullPage(appearance)) {
     return gridLines;
   }
 

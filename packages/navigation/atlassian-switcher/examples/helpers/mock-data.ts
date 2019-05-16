@@ -68,6 +68,13 @@ const ORIGINAL_MOCK_DATA: MockData = {
         url: 'https://some-random-instance.atlassian.net/wiki/spaces/CEN',
         iconUrl,
       },
+      {
+        objectId: 'some-id-8',
+        type: 'something-new',
+        name: 'Something new #9',
+        url: 'https://some-random-instance.atlassian.net/wiki/spaces/CEN',
+        iconUrl,
+      },
     ],
   },
   CUSTOM_LINKS_DATA: [
@@ -118,7 +125,12 @@ const ORIGINAL_MOCK_DATA: MockData = {
     },
   },
   USER_PERMISSION_DATA: {
-    permitted: true,
+    manage: {
+      permitted: true,
+    },
+    'add-products': {
+      permitted: true,
+    },
   },
   XFLOW_SETTINGS: {},
 };

@@ -49,6 +49,7 @@ export const inlineExtension: NodeSpec = {
       'data-extension-key': node.attrs.extensionKey,
       'data-text': node.attrs.text,
       'data-parameters': JSON.stringify(node.attrs.parameters),
+      contenteditable: 'false',
     };
     return ['span', attrs];
   },

@@ -10,26 +10,32 @@ import {
   akEditorDeleteBorderSize,
 } from '@atlaskit/editor-common';
 
+export const LAYOUT_OFFSET = 13;
+export const LAYOUT_SECTION_MARGIN = gridSize() - 2;
+
 export const layoutStyles = css`
   .ProseMirror {
     ${columnLayoutSharedStyle} [data-layout-section] {
       position: relative;
-      width: calc(100% + 26px);
+      width: calc(100% + ${LAYOUT_OFFSET * 2}px);
       /* left-padding (12px) + layout-column-border (1px) */
-      left: -13px;
+      left: -${LAYOUT_OFFSET}px;
       margin-top: ${gridSize() - 1}px;
 
       /* Inner cursor located 26px from left */
       & > * {
-        padding: ${gridSize() * 1.5}px;
         flex: 1;
         min-width: 0;
-        border: 1px solid transparent;
+        border: 1px solid ${colors.N40};
         border-radius: 5px;
+
+        > div {
+          padding: ${gridSize() * 1.5}px;
+        }
       }
 
       & > * + * {
-        margin-left: ${gridSize() - 2}px;
+        margin-left: ${LAYOUT_SECTION_MARGIN}px;
       }
 
       @media screen and (max-width: ${gridMediumMaxWidth}px) {
@@ -47,7 +53,7 @@ export const layoutStyles = css`
       }
       /* Shows the border when cursor is inside a layout */
       &.selected > * {
-        border-color: ${colors.N40};
+        border-color: ${colors.N50};
       }
 
       &.selected.danger > [data-layout-column] {

@@ -5,8 +5,9 @@ import {
   ACTION_SUBJECT_ID,
   INPUT_METHOD,
 } from './enums';
+import { InsertSmartLinkAEP } from './smart-links';
 
-export const enum PANEL_TYPE {
+export enum PANEL_TYPE {
   INFO = 'info',
   SUCCESS = 'success',
   NOTE = 'note',
@@ -14,24 +15,24 @@ export const enum PANEL_TYPE {
   ERROR = 'error',
 }
 
-export const enum USER_CONTEXT {
+export enum USER_CONTEXT {
   EDIT = 'edit',
   NEW = 'new',
 }
 
-export const enum LINK_STATUS {
+export enum LINK_STATUS {
   RESOLVED = 'resolved',
   UNRESOLVED = 'unresolved',
 }
 
-export const enum LINK_REPRESENTATION {
+export enum LINK_REPRESENTATION {
   TEXT = 'text',
   INLINE_CARD = 'inlineCard',
   BLOCK_CARD = 'blockCard',
   EMBED = 'embed',
 }
 
-export const enum LINK_RESOURCE {
+export enum LINK_RESOURCE {
   JIRA = 'jiraIssue',
   CONFLUENCE = 'confluencePage',
   BITBUCKET_PR = 'bitbucketPR',
@@ -48,7 +49,7 @@ export const enum LINK_RESOURCE {
   OTHER = 'other',
 }
 
-type InsertAEP<ActionSubjectID, Attributes> = TrackAEP<
+export type InsertAEP<ActionSubjectID, Attributes> = TrackAEP<
   ACTION.INSERTED,
   ACTION_SUBJECT.DOCUMENT,
   ActionSubjectID,
@@ -153,14 +154,16 @@ type InsertStatusAEP = InsertAEP<
   }
 >;
 
+export type InputMethodInsertMedia =
+  | INPUT_METHOD.CLIPBOARD
+  | INPUT_METHOD.PICKER_CLOUD
+  | INPUT_METHOD.DRAG_AND_DROP;
+
 type InsertMediaAEP = InsertAEP<
   ACTION_SUBJECT_ID.MEDIA,
   {
-    inputMethod:
-      | INPUT_METHOD.CLIPBOARD
-      | INPUT_METHOD.PICKER_CLOUD
-      | INPUT_METHOD.DRAG_AND_DROP;
-    fileExtension: string;
+    inputMethod: InputMethodInsertMedia;
+    fileExtension: string | undefined;
   }
 >;
 
@@ -214,4 +217,5 @@ export type InsertEventPayload =
   | InsertStatusAEP
   | InsertMediaAEP
   | InsertLinkAEP
-  | InsertLinkPreviewAEP;
+  | InsertLinkPreviewAEP
+  | InsertSmartLinkAEP;
