@@ -9,10 +9,9 @@
     "./examples/**/*.tsx",
     "./example-helpers/**/*.ts",
     "./example-helpers/**/*.tsx",
-    "./typings/*.d.ts"
-  ],
+    "./typings/*.d.ts",
+    ],
   "compilerOptions": {
-    "baseUrl": "./"
-  },
-  
+    "baseUrl": "./",
+  }  
 }

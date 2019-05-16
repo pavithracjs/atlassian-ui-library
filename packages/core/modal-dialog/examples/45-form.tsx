@@ -38,7 +38,7 @@ export default class AtlaskitFormDemo extends React.Component<{}, State> {
 
     interface ContainerProps {
       children: React.ReactNode;
-      className: string | undefined;
+      className?: string;
     }
 
     return (

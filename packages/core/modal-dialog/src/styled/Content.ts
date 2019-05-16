@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import { colors, gridSize, math, themed } from '@atlaskit/theme';
 import { flexMaxHeightIEFix } from '../utils/flex-max-height-ie-fix';
-import { AppearanceType } from 'src/types';
+import { AppearanceType } from '../types';
 
 // Constants
 // ==============================
@@ -24,7 +24,7 @@ export const wrapperStyles = css`
 
 // Header
 // ==============================
-type HeaderProps = { showKeyline: boolean | undefined };
+type HeaderProps = { showKeyline?: boolean };
 export const Header = styled.header`
   align-items: center;
   display: flex;
@@ -51,7 +51,7 @@ export const Title = styled.h4`
   min-width: 0;
 `;
 
-type TitleTextProps = { isHeadingMultiline: boolean | undefined };
+type TitleTextProps = { isHeadingMultiline?: boolean };
 export const TitleText = styled.span`
   flex: 1 1 auto;
   min-width: 0;
@@ -66,7 +66,8 @@ export const TitleText = styled.span`
     `};
 `;
 
-const iconColor = {
+type iconColorType = { [key in AppearanceType]: string };
+const iconColor: iconColorType = {
   danger: colors.R400,
   warning: colors.Y400,
 };
@@ -103,14 +104,14 @@ export const bodyStyles = (shouldScroll?: boolean) => css`
   }
 `;
 
-type BodyProps = { shouldScroll: boolean | undefined };
+type BodyProps = { shouldScroll?: boolean };
 export const Body = styled.div`
   ${(props: BodyProps) => bodyStyles(props.shouldScroll)}
 `;
 
 // Footer
 // ==============================
-type FooterProps = { showKeyline: boolean | undefined };
+type FooterProps = { showKeyline?: boolean };
 export const Footer = styled.footer`
   align-items: center;
   display: flex;

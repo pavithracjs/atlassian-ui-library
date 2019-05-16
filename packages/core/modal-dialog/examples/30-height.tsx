@@ -22,7 +22,7 @@ export default class ModalDemo extends React.Component<{}, State> {
 
   render() {
     const { isOpen } = this.state;
-    const btn = (name: string | number | undefined) => (
+    const btn = (name?: string | number) => (
       <Button key={name} onClick={() => this.open(name)}>
         {name}
       </Button>

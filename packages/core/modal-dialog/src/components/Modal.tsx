@@ -23,7 +23,7 @@ import {
 import { Animation } from './Animation';
 import Content from './Content';
 import FocusLock from './FocusLock';
-import { Props as OuterProps } from './ModalWrapper';
+import { WrapperProps as OuterProps } from './ModalWrapper';
 
 interface PositionerProps {
   scrollBehavior: void | 'inside' | 'outside';

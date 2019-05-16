@@ -11,9 +11,9 @@ import {
 } from '../types';
 
 import Modal from './Modal';
-import { WidthNames } from 'src/shared-variables';
+import { WidthNames } from '../shared-variables';
 
-export interface Props {
+export interface WrapperProps {
   /**
     Buttons to render in the footer
   */
@@ -125,8 +125,8 @@ interface State {
   modalVisible: boolean;
 }
 
-class ModalWrapper extends React.Component<Props, State> {
-  static defaultProps: Partial<Props> = {
+class ModalWrapper extends React.Component<WrapperProps, State> {
+  static defaultProps: Partial<WrapperProps> = {
     autoFocus: true,
     scrollBehavior: 'inside',
     shouldCloseOnEscapePress: true,
