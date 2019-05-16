@@ -183,9 +183,14 @@ export class JiraQuickSearchContainer extends React.Component<
     onAdvancedSearch(event, entity, query, searchSessionId);
   };
 
-  getPreQueryDisplayedResults = (recentItems: GenericResultMap | null) =>
+  getPreQueryDisplayedResults = (
+    recentItems: GenericResultMap | null,
+    _: ABTest,
+    searchSessionId: string,
+  ) =>
     mapRecentResultsToUIGroups(
       recentItems as JiraResultsMap,
+      searchSessionId,
       this.props.appPermission,
     );
 
@@ -208,6 +213,7 @@ export class JiraQuickSearchContainer extends React.Component<
     recentItems,
     keepPreQueryState,
     searchSessionId,
+    abTest,
   }: SearchResultProps) => {
     const query = latestSearchQuery;
     const {
@@ -281,7 +287,9 @@ export class JiraQuickSearchContainer extends React.Component<
             />
           </BeforePreQueryStateContainer>
         )}
-        getPreQueryGroups={() => this.getPreQueryDisplayedResults(recentItems)}
+        getPreQueryGroups={() =>
+          this.getPreQueryDisplayedResults(recentItems, abTest, searchSessionId)
+        }
         getPostQueryGroups={() =>
           this.getPostQueryDisplayedResults(searchResults, query)
         }

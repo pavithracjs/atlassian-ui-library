@@ -61,6 +61,7 @@ export interface Props {
   getPreQueryDisplayedResults(
     results: GenericResultMap | null,
     abTest: ABTest,
+    searchSessionId: string,
   ): ResultsGroup[];
   /**
    * return displayed groups for post query searches
@@ -75,6 +76,7 @@ export interface Props {
     abTest: ABTest,
     isLoading: boolean,
     inFasterSearchExperiment: boolean,
+    searchSessionId: string,
   ): ResultsGroup[];
 
   createAnalyticsEvent?: CreateAnalyticsEventFn;
@@ -280,7 +282,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
         : 0;
 
       const resultsArray: Result[][] = resultMapToArray(
-        getPreQueryDisplayedResults(recentItems, abTest),
+        getPreQueryDisplayedResults(recentItems, abTest, searchSessionId),
       );
       const eventAttributes: ShownAnalyticsAttributes = {
         ...buildShownEventDetails(...resultsArray),
@@ -332,6 +334,7 @@ export class QuickSearchContainer extends React.Component<Props, State> {
           abTest,
           isLoading,
           isInFasterSearchExperiment(abTest, fasterSearchFFEnabled),
+          searchSessionId,
         ),
       );
       const resultsDetails: ShownAnalyticsAttributes = buildShownEventDetails(

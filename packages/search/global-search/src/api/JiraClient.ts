@@ -1,16 +1,14 @@
 import {
   RequestServiceOptions,
-  utils,
   ServiceConfig,
+  utils,
 } from '@atlaskit/util-service-support';
 import {
-  ResultType,
   AnalyticsType,
-  JiraResult,
   ContentType,
+  JiraResult,
+  ResultType,
 } from '../model/Result';
-import { addJiraResultQueryParams } from './JiraItemMapper';
-import { JiraResultQueryParams } from './types';
 
 const RECENT_ITEMS_PATH: string = 'rest/internal/2/productsearch/recent';
 const PERMISSIONS_PATH: string =
@@ -148,10 +146,14 @@ export default class JiraClientImpl implements JiraClient {
         this.serviceConfig,
         options,
       )) || [];
-    return recentItems
+    const reduced = recentItems
       .filter(group => JiraResponseGroupToContentType.hasOwnProperty(group.id))
-      .map(group => this.recentItemGroupToItems(group, searchSessionId))
+      .map(group => this.recentItemGroupToItems(group))
       .reduce((acc, item) => [...acc, ...item], []);
+
+    console.log(recentItems, reduced);
+
+    return reduced;
   }
 
   public async canSearchUsers(): Promise<boolean> {
@@ -175,40 +177,23 @@ export default class JiraClientImpl implements JiraClient {
     return !!this.canSearchUsersCache;
   }
 
-  private recentItemGroupToItems(
-    group: JiraRecentItemGroup,
-    searchSessionId: string,
-  ) {
+  private recentItemGroupToItems(group: JiraRecentItemGroup) {
     const { id, items } = group;
-    return items.map(item =>
-      this.recentItemToResultItem(item, id, searchSessionId),
-    );
+    return items.map(item => this.recentItemToResultItem(item, id));
   }
   private recentItemToResultItem(
     item: JiraRecentItem,
     jiraGroup: JiraResponseGroup,
-    searchSessionId: string,
   ): JiraResult {
     const containerId = this.getContainerId(item, jiraGroup);
     const contentType = JiraResponseGroupToContentType[jiraGroup];
     const resultId = '' + item.id;
-    const href = this.addSessionIdToJiraResult
-      ? addJiraResultQueryParams(item.url, {
-          searchSessionId,
-          searchContainerId: containerId,
-          searchContentType: contentType.replace(
-            'jira-',
-            '',
-          ) as JiraResultQueryParams['searchContentType'],
-          searchObjectId: resultId,
-        })
-      : item.url;
 
     return {
       resultType: ResultType.JiraObjectResult,
       resultId,
       name: item.title,
-      href,
+      href: item.url,
       analyticsType: AnalyticsType.RecentJira,
       avatarUrl: item.avatarUrl,
       containerId: containerId,
