@@ -7,3 +7,4 @@ export {
   Title as ModalTitle,
 } from './styled/Content';
 export { AppearanceType as ModalAppearances } from './types';
+export { KeyboardOrMouseEvent } from './types';
