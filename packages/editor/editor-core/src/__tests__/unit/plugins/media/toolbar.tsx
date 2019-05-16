@@ -304,7 +304,7 @@ describe('media', () => {
 
         const annotateToolbarComponent = toolbar!.items.find(
           item => item.type === 'custom',
-        ) as FloatingToolbarCustom<Command>;
+        ) as FloatingToolbarCustom;
 
         const annotationToolbar = shallow(annotateToolbarComponent.render(
           editorView,

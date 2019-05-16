@@ -95,7 +95,7 @@ export default class Editor extends React.Component<Props, State> {
     };
   }
 
-  UNSAFE_componentWillUpdate(nextProps: Props, nextState: State) {
+  UNSAFE_componentWillUpdate(_nextProps: Props, nextState: State) {
     if (nextState.isExpanded && !this.state.isExpanded && this.props.onOpen) {
       this.props.onOpen();
     } else if (

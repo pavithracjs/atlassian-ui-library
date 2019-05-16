@@ -32,6 +32,7 @@ export default (
       if (type === 'text/html') {
         return content.html;
       }
+      return;
     },
     types: content.types || [],
     files: content.files || [],

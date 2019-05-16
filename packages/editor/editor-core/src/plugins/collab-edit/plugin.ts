@@ -113,7 +113,7 @@ export const createPlugin = (
         return this.getState(state).decorations;
       },
     },
-    filterTransaction(tr, state) {
+    filterTransaction(tr) {
       // Don't allow transactions that modifies the document before
       // collab-plugin is ready.
       if (!isReady && tr.docChanged) {
@@ -125,7 +125,10 @@ export const createPlugin = (
     view(view) {
       providerFactory.subscribe(
         'collabEditProvider',
-        async (name: string, providerPromise?: Promise<CollabEditProvider>) => {
+        async (
+          _name: string,
+          providerPromise?: Promise<CollabEditProvider>,
+        ) => {
           if (providerPromise) {
             collabEditProvider = await providerPromise;
 
@@ -155,7 +158,7 @@ export const createPlugin = (
                 const newState = state.apply(tr);
                 view.updateState(newState);
               })
-              .on('error', err => {
+              .on('error', () => {
                 // TODO: Handle errors property (ED-2580)
               });
 

@@ -111,7 +111,7 @@ describe('image-upload', () => {
     Object.defineProperties(event, {
       dataTransfer: {
         value: {
-          getData: (type: string) => '',
+          getData: () => '',
           setData: () => {},
           clearData: () => {},
           types: ['Files'],
@@ -146,7 +146,7 @@ describe('image-upload', () => {
   });
 
   it('should insert the external image via command with provider', async () => {
-    const imageUploadHandler: ImageUploadHandler = jest.fn((e, cb) => {
+    const imageUploadHandler: ImageUploadHandler = jest.fn((_e, cb) => {
       cb({
         src: testImgSrc,
       });

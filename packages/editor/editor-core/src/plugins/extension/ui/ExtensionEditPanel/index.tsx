@@ -54,7 +54,7 @@ export default function ExtensionEditPanel(this: any, props: Props) {
           iconBefore={<EditIcon label="Edit extension" />}
         />
         {showLayoutOptions &&
-          extensionIcons.map((toolbarLayoutOption, value) => {
+          extensionIcons.map(toolbarLayoutOption => {
             const { icon: Icon, key, label } = toolbarLayoutOption;
             return (
               <ToolbarButton

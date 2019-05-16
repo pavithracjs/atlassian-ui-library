@@ -68,8 +68,8 @@ describe('nodeviews/mediaSingle', () => {
     const mediaProvider = getFreshMediaProvider();
     const providerFactory = ProviderFactory.create({ mediaProvider });
     pluginState = ({
-      getMediaNodeStateStatus: (id: string) => 'ready',
-      getMediaNodeState: (id: string) => {
+      getMediaNodeStateStatus: () => 'ready',
+      getMediaNodeState: () => {
         return ({ state: 'ready' } as any) as MediaState;
       },
       options: {

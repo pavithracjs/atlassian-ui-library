@@ -1,5 +1,4 @@
 import { keymap } from 'prosemirror-keymap';
-import { Schema } from 'prosemirror-model';
 import { Plugin } from 'prosemirror-state';
 import * as keymaps from '../../../keymaps';
 import { trackAndInvoke } from '../../../analytics';
@@ -12,7 +11,7 @@ import {
 } from '../commands';
 import { INPUT_METHOD } from '../../analytics';
 
-export function keymapPlugin(schema: Schema): Plugin | undefined {
+export function keymapPlugin(): Plugin | undefined {
   const list = {};
 
   keymaps.bindKeymapWithCommand(

@@ -78,7 +78,7 @@ const IFrameExtension = () => {
 };
 
 export const extensionHandlers: ExtensionHandlers = {
-  'com.atlassian.confluence.macro.core': (ext, doc) => {
+  'com.atlassian.confluence.macro.core': ext => {
     const { extensionKey } = ext;
 
     // using any here because most props are going to be injected through the extension handler

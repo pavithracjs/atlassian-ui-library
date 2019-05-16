@@ -114,7 +114,7 @@ function createSingleQuotesRules(
  */
 function getProductRules(): Array<InputRule> {
   const productRuleWithAnalytics = (product: string) =>
-    ruleWithAnalytics((state, match) => ({
+    ruleWithAnalytics((_state, match) => ({
       action: ACTION.SUBSTITUTED,
       actionSubject: ACTION_SUBJECT.TEXT,
       actionSubjectId: ACTION_SUBJECT_ID.PRODUCT_NAME,
@@ -150,7 +150,7 @@ function getSymbolRules() {
     '↔︎': SYMBOL.ARROW_DOUBLE,
   };
   const symbolRuleWithAnalytics = (symbol: string) =>
-    ruleWithAnalytics((state, match) => ({
+    ruleWithAnalytics(() => ({
       action: ACTION.SUBSTITUTED,
       actionSubject: ACTION_SUBJECT.TEXT,
       actionSubjectId: ACTION_SUBJECT_ID.SYMBOL,
@@ -189,7 +189,7 @@ function getPunctuationRules() {
     [PUNC.QUOTE_SINGLE]: PUNC.QUOTE_SINGLE,
   };
   const punctuationRuleWithAnalytics = (punctuation: string) =>
-    ruleWithAnalytics((state, match) => ({
+    ruleWithAnalytics(() => ({
       action: ACTION.SUBSTITUTED,
       actionSubject: ACTION_SUBJECT.TEXT,
       actionSubjectId: ACTION_SUBJECT_ID.PUNC,

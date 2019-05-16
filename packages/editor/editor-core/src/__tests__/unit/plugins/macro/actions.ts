@@ -14,7 +14,7 @@ import { extensionPlugin, macroPlugin } from '../../../../plugins';
 
 const macroProvider: MacroProvider = {
   config: {},
-  openMacroBrowser: node => {
+  openMacroBrowser: () => {
     const attrs: MacroAttributes = {
       type: 'extension',
       attrs: {

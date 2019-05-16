@@ -1,7 +1,6 @@
-import { Node as PMNode } from 'prosemirror-model';
 import { NodeReducer } from './';
 
-const hardBreak: NodeReducer = (node: PMNode) => {
+const hardBreak: NodeReducer = () => {
   return '\n';
 };
 

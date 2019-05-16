@@ -173,7 +173,7 @@ export function removeLink(pos: number): Command {
   return setLinkHref('', pos);
 }
 
-export function editInsertedLink(pos: number): Command {
+export function editInsertedLink(): Command {
   return (state, dispatch) => {
     if (dispatch) {
       dispatch(

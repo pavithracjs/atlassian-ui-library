@@ -74,7 +74,7 @@ describe('@atlaskit/editor-core/test-helper base64fileconverter', () => {
       converterStub.HAS_BASE64_FILE_SUPPORT = true;
 
       const convertStub = sinon.spy(
-        (files: FileList, cb: convertedHandlerCallback) =>
+        (_files: FileList, cb: convertedHandlerCallback) =>
           cb(`data:png;base64,AYAYSAASn`),
       );
       converterStub.convert = convertStub;

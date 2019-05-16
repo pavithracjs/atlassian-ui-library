@@ -136,7 +136,7 @@ export default class ReactNodeView implements NodeView {
 
   update(
     node: PMNode,
-    decorations: Array<Decoration>,
+    _decorations: Array<Decoration>,
     validUpdate: (currentNode: PMNode, newNode: PMNode) => boolean = () => true,
   ) {
     // @see https://github.com/ProseMirror/prosemirror/issues/648
@@ -310,7 +310,7 @@ export class SelectionBasedNodeView extends ReactNodeView {
     return this.isSelectionInsideNode(from, to);
   };
 
-  viewShouldUpdate(nextNode: PMNode) {
+  viewShouldUpdate(_nextNode: PMNode) {
     const {
       state: { selection },
     } = this.view;
@@ -364,7 +364,7 @@ export class SelectionBasedNodeView extends ReactNodeView {
     super.destroy();
   }
 
-  private onSelectionChange = (from: number, to: number) => {
+  private onSelectionChange = () => {
     this.update(this.node, []);
   };
 }

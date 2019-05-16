@@ -35,7 +35,7 @@ const listPlugin: EditorPlugin = {
         name: 'listsInputRule',
         plugin: ({ schema }) => inputRulePlugin(schema),
       },
-      { name: 'listsKeymap', plugin: ({ schema }) => keymapPlugin(schema) },
+      { name: 'listsKeymap', plugin: () => keymapPlugin() },
     ];
   },
 
@@ -106,7 +106,6 @@ const listPlugin: EditorPlugin = {
 
   primaryToolbarComponent({
     editorView,
-    appearance,
     dispatchAnalyticsEvent,
     popupsMountPoint,
     popupsBoundariesElement,

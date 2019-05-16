@@ -10,13 +10,9 @@ import {
 describe('@atlaskit/editor-common popup utils', () => {
   // This test should sit above the mounted, as it relies on untampered offsetParent
   it('should not be valid if the element is not mounted', () => {
-    const position = {
-      top: 10,
-      left: 10,
-    };
     // @ts-ignore
     const element = global.document.createElement('div');
-    expect(validatePosition(position, element)).toBe(false);
+    expect(validatePosition(element)).toBe(false);
   });
 
   describe('mounted', () => {

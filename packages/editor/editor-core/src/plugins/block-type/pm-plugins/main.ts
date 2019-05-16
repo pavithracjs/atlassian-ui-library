@@ -61,6 +61,7 @@ const isBlockTypeSchemaSupported = (
     case PANEL:
       return !!state.schema.nodes.panel;
   }
+  return;
 };
 
 const detectBlockType = (
@@ -73,7 +74,7 @@ const detectBlockType = (
   }
   let blockType: BlockType | undefined;
   const { $from, $to } = state.selection;
-  state.doc.nodesBetween($from.pos, $to.pos, (node, pos) => {
+  state.doc.nodesBetween($from.pos, $to.pos, node => {
     const nodeBlockType = availableBlockTypes.filter(
       blockType => blockType === blockTypeForNode(node, state.schema),
     );
@@ -95,8 +96,8 @@ export const createPlugin = (
 ) => {
   return new Plugin({
     appendTransaction(
-      transactions: Transaction[],
-      oldState: EditorState,
+      _transactions: Transaction[],
+      _oldState: EditorState,
       newState: EditorState,
     ): Transaction | void {
       if (appearance === 'comment') {
@@ -113,7 +114,7 @@ export const createPlugin = (
     },
 
     state: {
-      init(config, state: EditorState) {
+      init(_config, state: EditorState) {
         const availableBlockTypes = TEXT_BLOCK_TYPES.filter(blockType =>
           isBlockTypeSchemaSupported(blockType, state),
         );
@@ -130,9 +131,9 @@ export const createPlugin = (
       },
 
       apply(
-        tr,
+        _tr,
         oldPluginState: BlockTypeState,
-        oldState: EditorState,
+        _oldState: EditorState,
         newState: EditorState,
       ) {
         const newPluginState = {

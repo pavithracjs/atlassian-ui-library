@@ -5,6 +5,6 @@ const css = serializeStyle({
   'font-style': 'italic',
 });
 
-export default function em({ mark, text }: MarkSerializerOpts) {
+export default function em({ text }: MarkSerializerOpts) {
   return createTag('span', { style: css }, text);
 }
