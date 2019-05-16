@@ -13,7 +13,7 @@ function createFixture(props: Partial<Props>) {
     occurrenceKey: '',
     mediaItemType: 'file',
   };
-  const context = {
+  const mediaClient = {
     file: {
       getFileState: () =>
         Observable.of({
@@ -27,7 +27,7 @@ function createFixture(props: Partial<Props>) {
     <List
       items={items}
       defaultSelectedItem={selectedItem}
-      context={context}
+      mediaClient={mediaClient}
       {...props}
     />,
   );

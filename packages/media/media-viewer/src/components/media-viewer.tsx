@@ -34,7 +34,7 @@ export class MediaViewer extends Component<MediaViewerProps, MediaViewerState> {
     const {
       featureFlags,
       onClose,
-      context,
+      mediaClient,
       selectedItem,
       collectionName,
       dataSource,
@@ -63,7 +63,7 @@ export class MediaViewer extends Component<MediaViewerProps, MediaViewerState> {
       };
       return (
         <MediaViewerNextGen
-          context={context}
+          mediaClient={mediaClient}
           selectedItem={identifier}
           onClose={onClose}
           itemSource={itemSource}
@@ -75,7 +75,7 @@ export class MediaViewer extends Component<MediaViewerProps, MediaViewerState> {
         // if integrators pass an external image + collection, we remove the collection and just show the selectedItem
         return (
           <MediaViewerNextGen
-            context={context}
+            mediaClient={mediaClient}
             selectedItem={selectedItem}
             onClose={onClose}
             itemSource={{ kind: 'ARRAY', items: [selectedItem] }}
@@ -96,7 +96,7 @@ export class MediaViewer extends Component<MediaViewerProps, MediaViewerState> {
 
       return (
         <MediaViewerNextGen
-          context={context}
+          mediaClient={mediaClient}
           selectedItem={identifier}
           onClose={onClose}
           itemSource={itemSource}

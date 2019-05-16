@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { Component } from 'react';
 import {
-  createStorybookContext,
+  createStorybookMediaClient,
   imageFileId,
   audioFileId,
 } from '@atlaskit/media-test-helpers';
 import { MediaStore, ItemsPayload } from '../src';
 
-const context = createStorybookContext();
+const mediaClient = createStorybookMediaClient();
 const store = new MediaStore({
-  authProvider: context.config.authProvider,
+  authProvider: mediaClient.config.authProvider,
 });
 
 interface ExampleState {

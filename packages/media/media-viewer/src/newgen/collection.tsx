@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  Context,
+  MediaClient,
   FileIdentifier,
   Identifier,
   isExternalImageIdentifier,
@@ -19,7 +19,7 @@ export type Props = Readonly<{
   showControls?: () => void;
   featureFlags?: MediaViewerFeatureFlags;
   collectionName: string;
-  context: Context;
+  mediaClient: MediaClient;
   pageSize: number;
 }>;
 
@@ -52,7 +52,7 @@ export class Collection extends React.Component<Props, State> {
   render() {
     const {
       defaultSelectedItem,
-      context,
+      mediaClient,
       onClose,
       collectionName,
       showControls,
@@ -70,7 +70,7 @@ export class Collection extends React.Component<Props, State> {
           <List
             items={identifiers}
             defaultSelectedItem={item}
-            context={context}
+            mediaClient={mediaClient}
             onClose={onClose}
             onNavigationChange={this.onNavigationChange}
             showControls={showControls}
@@ -83,8 +83,13 @@ export class Collection extends React.Component<Props, State> {
 
   private init(props: Props) {
     this.setState(initialState);
-    const { collectionName, context, defaultSelectedItem, pageSize } = props;
-    this.subscription = context.collection
+    const {
+      collectionName,
+      mediaClient,
+      defaultSelectedItem,
+      pageSize,
+    } = props;
+    this.subscription = mediaClient.collection
       .getItems(collectionName, { limit: pageSize })
       .subscribe({
         next: items => {
@@ -92,7 +97,7 @@ export class Collection extends React.Component<Props, State> {
             items: Outcome.successful(items),
           });
           if (defaultSelectedItem && this.shouldLoadNext(defaultSelectedItem)) {
-            context.collection.loadNextPage(collectionName, {
+            mediaClient.collection.loadNextPage(collectionName, {
               limit: pageSize,
             });
           }
@@ -114,14 +119,14 @@ export class Collection extends React.Component<Props, State> {
   private needsReset(propsA: Props, propsB: Props) {
     return (
       propsA.collectionName !== propsB.collectionName ||
-      propsA.context !== propsB.context
+      propsA.mediaClient !== propsB.mediaClient
     );
   }
 
   private onNavigationChange = (item: Identifier) => {
-    const { context, collectionName, pageSize } = this.props;
+    const { mediaClient, collectionName, pageSize } = this.props;
     if (this.shouldLoadNext(item)) {
-      context.collection.loadNextPage(collectionName, {
+      mediaClient.collection.loadNextPage(collectionName, {
         limit: pageSize,
       });
     }

@@ -1,10 +1,10 @@
 import { Component, ReactNode } from 'react';
 import {
-  Context,
+  MediaClient,
   FileState,
   FileIdentifier,
   isDifferentIdentifier,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { Subscription } from 'rxjs/Subscription';
 import { MediaStoreGetFileImageParams } from '@atlaskit/media-store';
 
@@ -19,8 +19,8 @@ export interface MediaImageChildrenProps {
 export interface MediaImageProps {
   /** Instance of file identifier */
   identifier: FileIdentifier;
-  /** Instance of Media Context */
-  context: Context;
+  /** Instance of Media MediaClient */
+  mediaClient: MediaClient;
   /** Media API Configuration object */
   apiConfig?: MediaStoreGetFileImageParams;
   /** Render props returning `MediaImageChildrenProps` data structure */
@@ -53,7 +53,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
     identifier: newIdentifier,
     ...otherNewProps
   }: MediaImageProps) {
-    const { apiConfig = {}, identifier, context } = this.props;
+    const { apiConfig = {}, identifier, mediaClient } = this.props;
     const isWidthBigger =
       newApiConfig.width &&
       apiConfig.width &&
@@ -68,7 +68,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
     if (
       (!!newIdentifier && isDifferentIdentifier(newIdentifier, identifier)) ||
       isNewDimensionsBigger ||
-      otherNewProps.context !== context
+      otherNewProps.mediaClient !== mediaClient
     ) {
       this.subscribe({
         identifier: newIdentifier,
@@ -92,7 +92,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
 
   private async subscribe(props: MediaImageProps) {
     const {
-      context,
+      mediaClient,
       identifier: { id, collectionName },
       apiConfig,
     } = props;
@@ -101,7 +101,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
 
     const fileId = await id;
 
-    this.subscription = context.file
+    this.subscription = mediaClient.file
       .getFileState(fileId, { collectionName })
       .subscribe({
         next: async (fileState: FileState) => {
@@ -126,7 +126,7 @@ export class MediaImage extends Component<MediaImageProps, MediaImageState> {
           }
 
           if (fileState.status === 'processed') {
-            const blob = await context.getImage(fileId, {
+            const blob = await mediaClient.getImage(fileId, {
               collection: collectionName,
               ...apiConfig,
             });

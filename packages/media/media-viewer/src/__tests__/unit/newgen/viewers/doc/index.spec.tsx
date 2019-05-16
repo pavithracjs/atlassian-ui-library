@@ -3,7 +3,7 @@ const constructAuthTokenUrlSpy = jest.spyOn(util, 'constructAuthTokenUrl');
 
 import * as React from 'react';
 import { ProcessedFileState } from '@atlaskit/media-client';
-import { createContext } from '../../../_stubs';
+import { createMediaClient } from '../../../_stubs';
 import { Spinner } from '../../../../../newgen/loading';
 import { DocViewer, Props } from '../../../../../newgen/viewers/doc/index';
 import { ErrorMessage, createError } from '../../../../../newgen/error';
@@ -17,13 +17,17 @@ function createFixture(
   item: ProcessedFileState,
   collectionName?: string,
 ) {
-  const context = createContext(undefined as any);
+  const mediaClient = createMediaClient(undefined as any);
   const onClose = jest.fn(() => fetchPromise);
   const el = mountWithIntlContext<Props, BaseState<Content>>(
-    <DocViewer item={item} context={context} collectionName={collectionName} />,
+    <DocViewer
+      item={item}
+      mediaClient={mediaClient}
+      collectionName={collectionName}
+    />,
   );
   (el as any).instance()['fetch'] = jest.fn();
-  return { context, el, onClose };
+  return { mediaClient, el, onClose };
 }
 
 const item: ProcessedFileState = {

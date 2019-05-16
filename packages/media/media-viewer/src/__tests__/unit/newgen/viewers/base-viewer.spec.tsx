@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from '@atlaskit/button';
 import { ProcessedFileState } from '@atlaskit/media-client';
 import { BaseProps, BaseViewer } from '../../../../newgen/viewers/base-viewer';
-import { createContext } from '../../_stubs';
+import { createMediaClient } from '../../_stubs';
 import { Outcome } from '../../../../newgen/domain';
 import {
   createError,
@@ -27,9 +27,9 @@ function createItem(): ProcessedFileState {
 
 function createProps(): BaseProps {
   const item = createItem();
-  const context = createContext();
+  const mediaClient = createMediaClient();
   const collectionName = 'test-collection';
-  return { item, context, collectionName };
+  return { item, mediaClient, collectionName };
 }
 
 function createInitialState() {
@@ -76,9 +76,9 @@ describe('BaseViewer', () => {
     expect(initSpy).toHaveBeenCalledTimes(2);
   });
 
-  it('calls release(), then init() when context was updated', () => {
+  it('calls release(), then init() when mediaClient was updated', () => {
     const { el, initSpy, releaseSpy } = createTestViewer(createProps());
-    el.setProps({ context: createContext() });
+    el.setProps({ mediaClient: createMediaClient() });
     expect(releaseSpy).toHaveBeenCalledTimes(1);
     expect(initSpy).toHaveBeenCalledTimes(2);
   });
@@ -98,7 +98,7 @@ describe('BaseViewer', () => {
   it('resets the component to the initialState when properties were updated', () => {
     const { el } = createTestViewer(createProps());
     el.setState({ content: Outcome.successful('test') });
-    el.setProps({ context: createContext() });
+    el.setProps({ mediaClient: createMediaClient() });
     expect(el.state()).toMatchObject(createInitialState());
   });
 

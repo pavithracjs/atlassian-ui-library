@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  Context,
+  MediaClient,
   FileState,
   Identifier,
   isExternalImageIdentifier,
@@ -41,7 +41,7 @@ import { InteractiveImg } from './viewers/image/interactive-img';
 
 export type Props = Readonly<{
   identifier: Identifier;
-  context: Context;
+  mediaClient: MediaClient;
   featureFlags?: MediaViewerFeatureFlags;
   showControls?: () => void;
   onClose?: () => void;
@@ -127,7 +127,7 @@ export class ItemViewerBase extends React.Component<Props, State> {
     }
 
     const {
-      context,
+      mediaClient,
       identifier,
       featureFlags,
       showControls,
@@ -138,7 +138,7 @@ export class ItemViewerBase extends React.Component<Props, State> {
       ? identifier.collectionName
       : undefined;
     const viewerProps = {
-      context,
+      mediaClient,
       item,
       collectionName,
       onClose,
@@ -219,14 +219,14 @@ export class ItemViewerBase extends React.Component<Props, State> {
   }
 
   private renderDownloadButton(state: FileState, err: MediaViewerError) {
-    const { context, identifier } = this.props;
+    const { mediaClient, identifier } = this.props;
     const collectionName = isFileIdentifier(identifier)
       ? identifier.collectionName
       : undefined;
     return (
       <ErrorViewDownloadButton
         state={state}
-        context={context}
+        mediaClient={mediaClient}
         err={err}
         collectionName={collectionName}
       />
@@ -234,7 +234,7 @@ export class ItemViewerBase extends React.Component<Props, State> {
   }
 
   private async init(props: Props) {
-    const { context, identifier } = props;
+    const { mediaClient, identifier } = props;
 
     if (isExternalImageIdentifier(identifier)) {
       return;
@@ -243,7 +243,7 @@ export class ItemViewerBase extends React.Component<Props, State> {
     const id =
       typeof identifier.id === 'string' ? identifier.id : await identifier.id;
     this.fireAnalytics(mediaFileCommencedEvent(id));
-    this.subscription = context.file
+    this.subscription = mediaClient.file
       .getFileState(id, {
         collectionName: identifier.collectionName,
       })
@@ -272,12 +272,12 @@ export class ItemViewerBase extends React.Component<Props, State> {
     }
   };
 
-  // It's possible that a different identifier or context was passed.
+  // It's possible that a different identifier or mediaClient was passed.
   // We therefore need to reset Media Viewer.
   private needsReset(propsA: Props, propsB: Props) {
     return (
       !deepEqual(propsA.identifier, propsB.identifier) ||
-      propsA.context !== propsB.context
+      propsA.mediaClient !== propsB.mediaClient
     );
   }
 

@@ -5,7 +5,7 @@ import {
   FileGasPayload,
   PackageAttributes,
 } from './index';
-import { FileState, FileStatus } from '@atlaskit/media-core';
+import { FileState, FileStatus } from '@atlaskit/media-client';
 import { MediaViewerError } from '../error';
 
 interface DownloadAttributes extends FileGasPayload {

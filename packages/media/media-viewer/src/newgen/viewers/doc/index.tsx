@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Context, FileState } from '@atlaskit/media-client';
+import { MediaClient, FileState } from '@atlaskit/media-client';
 import { Outcome } from '../../domain';
 import { createError, MediaViewerError } from '../../error';
 import { Spinner } from '../../loading';
@@ -17,7 +17,7 @@ const componentLoader: () => Promise<ComponentClass<RendererProps>> = () =>
   moduleLoader().then(module => module.PDFRenderer);
 
 export type Props = {
-  context: Context;
+  mediaClient: MediaClient;
   item: FileState;
   collectionName?: string;
   onClose?: () => void;
@@ -40,7 +40,7 @@ export class DocViewer extends BaseViewer<string, Props> {
     if (!DocViewer.PDFComponent) {
       await this.loadDocViewer();
     }
-    const { item, context, collectionName } = this.props;
+    const { item, mediaClient, collectionName } = this.props;
 
     if (item.status === 'processed') {
       const pdfArtifactUrl = getArtifactUrl(item.artifacts, 'document.pdf');
@@ -55,7 +55,7 @@ export class DocViewer extends BaseViewer<string, Props> {
       try {
         const src = await constructAuthTokenUrl(
           pdfArtifactUrl,
-          context,
+          mediaClient,
           collectionName,
         );
         this.setState({

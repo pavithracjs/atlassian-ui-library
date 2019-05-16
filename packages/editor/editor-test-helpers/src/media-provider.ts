@@ -10,7 +10,7 @@ import { MediaProvider } from '@atlaskit/editor-core';
 export interface MediaProviderFactoryConfig {
   collectionName?: string;
   dropzoneContainer?: HTMLElement;
-  includeUploadContext?: boolean;
+  includeUploadMediaClientConfig?: boolean;
   includeUserAuthProvider?: boolean;
   useMediaPickerAuthProvider?: boolean;
 }
@@ -24,7 +24,7 @@ export function storyMediaProviderFactory(
 ) {
   const {
     collectionName,
-    includeUploadContext,
+    includeUploadMediaClientConfig,
     includeUserAuthProvider,
     useMediaPickerAuthProvider = true,
   } = mediaProviderFactoryConfig;
@@ -42,7 +42,7 @@ export function storyMediaProviderFactory(
     uploadParams: { collection },
     viewMediaClientConfig: Promise.resolve(mediaClientConfig),
     uploadMediaClientConfig:
-      includeUploadContext === false
+      includeUploadMediaClientConfig === false
         ? undefined
         : Promise.resolve(mediaClientConfig),
   });

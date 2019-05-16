@@ -7,7 +7,7 @@ import {
   fileWithError,
 } from './index.spec';
 import { version as packageVersion } from '../../../../version.json';
-import { ProcessedFileState } from '@atlaskit/media-core';
+import { ProcessedFileState } from '@atlaskit/media-client';
 
 const unsupportedFile: ProcessedFileState = {
   ...processedFile,
@@ -21,7 +21,7 @@ const basePayload = {
   actionSubjectId: 'downloadButton',
 };
 
-const contextPayload = {
+const mediaClientPayload = {
   componentName: 'media-viewer',
   packageName: '@atlaskit/media-viewer',
   packageVersion,
@@ -39,7 +39,7 @@ describe('downloadButtonEvent payload', () => {
       expect(downloadButtonEvent(processedFile)).toEqual({
         ...basePayload,
         attributes: {
-          ...contextPayload,
+          ...mediaClientPayload,
           ...commonFileProperties,
           fileMediatype: 'image',
           fileProcessingStatus: 'processed',
@@ -52,7 +52,7 @@ describe('downloadButtonEvent payload', () => {
       expect(downloadButtonEvent(processingFile)).toEqual({
         ...basePayload,
         attributes: {
-          ...contextPayload,
+          ...mediaClientPayload,
           ...commonFileProperties,
           fileMediatype: 'image',
           fileProcessingStatus: 'processing',
@@ -65,7 +65,7 @@ describe('downloadButtonEvent payload', () => {
       expect(downloadButtonEvent(uploadingFile)).toEqual({
         ...basePayload,
         attributes: {
-          ...contextPayload,
+          ...mediaClientPayload,
           ...commonFileProperties,
           fileMediatype: 'image',
           fileProcessingStatus: 'uploading',
@@ -78,7 +78,7 @@ describe('downloadButtonEvent payload', () => {
       expect(downloadButtonEvent(processingError)).toEqual({
         ...basePayload,
         attributes: {
-          ...contextPayload,
+          ...mediaClientPayload,
           ...commonFileProperties,
           fileId: 'some-id',
           fileMediatype: 'image',
@@ -92,7 +92,7 @@ describe('downloadButtonEvent payload', () => {
       expect(downloadButtonEvent(fileWithError)).toEqual({
         ...basePayload,
         attributes: {
-          ...contextPayload,
+          ...mediaClientPayload,
           fileId: 'some-id',
           fileProcessingStatus: 'error',
         },
@@ -104,7 +104,7 @@ describe('downloadButtonEvent payload', () => {
     expect(downloadButtonEvent(unsupportedFile)).toEqual({
       ...basePayload,
       attributes: {
-        ...contextPayload,
+        ...mediaClientPayload,
         ...commonFileProperties,
         fileMediatype: 'unknown',
         fileProcessingStatus: 'processed',

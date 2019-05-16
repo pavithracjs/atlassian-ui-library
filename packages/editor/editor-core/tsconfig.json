@@ -5,6 +5,7 @@
     "./src/**/*.tsx",
     "./docs/**/*.ts",
     "./docs/**/*.tsx",
+    "./__tests-karma__/**/*.ts",
     "./examples/**/*.ts",
     "./examples/**/*.tsx",
     "./example-helpers/**/*.ts",

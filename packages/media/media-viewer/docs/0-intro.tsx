@@ -11,11 +11,11 @@ MediaViewer is Atlassian's powerful solution for viewing files on the web. It's 
   ${code`
   import { MediaViewer } from '@atlaskit/media-viewer';
   import {
-    createStorybookContext,
+    createStorybookMediaClient,
     defaultCollectionName,
   } from '@atlaskit/media-test-helpers';
 
-  const context = createStorybookContext();
+  const mediaClient = createStorybookMediaClient();
   const selectedItem = {
     id: 'some-valid-id',
     occurrenceKey: '',
@@ -31,7 +31,7 @@ MediaViewer is Atlassian's powerful solution for viewing files on the web. It's 
   export default () => (
     <MediaViewer
       pageSize={pageSize}
-      context={context}
+      mediaClient={mediaClient}
       selectedItem={selectedItem}
       dataSource={dataSource}
       collectionName={defaultCollectionName}
@@ -44,11 +44,11 @@ MediaViewer is Atlassian's powerful solution for viewing files on the web. It's 
   ${code`
   import { MediaViewer } from '@atlaskit/media-viewer';
   import {
-    createStorybookContext,
+    createStorybookMediaClient,
     defaultCollectionName,
   } from '@atlaskit/media-test-helpers';
 
-  const context = createStorybookContext();
+  const mediaClient = createStorybookMediaClient();
 
   const items = [
     {
@@ -76,7 +76,7 @@ MediaViewer is Atlassian's powerful solution for viewing files on the web. It's 
 
   export default () => (
     <MediaViewer
-      context={context}
+      mediaClient={mediaClient}
       selectedItem={selectedItem}
       dataSource={dataSource}
       collectionName={defaultCollectionName}

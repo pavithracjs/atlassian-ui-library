@@ -1,10 +1,11 @@
+import { isClientBasedAuth } from '@atlaskit/media-core';
+
 import {
-  Context,
-  isClientBasedAuth,
+  MediaClient,
   FileIdentifier,
   Identifier,
   isFileIdentifier,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 import { stringify } from 'query-string';
 import { MediaCollectionItem } from '@atlaskit/media-store';
 
@@ -12,10 +13,10 @@ import { MediaCollectionItem } from '@atlaskit/media-store';
 // https://product-fabric.atlassian.net/browse/MSW-869
 export async function constructAuthTokenUrl(
   url: string,
-  context: Context,
+  mediaClient: MediaClient,
   collectionName?: string,
 ): Promise<string> {
-  const auth = await context.config.authProvider({ collectionName });
+  const auth = await mediaClient.config.authProvider({ collectionName });
 
   if (isClientBasedAuth(auth)) {
     return buildClientBasedUrl(

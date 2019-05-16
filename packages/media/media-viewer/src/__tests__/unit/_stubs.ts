@@ -1,13 +1,8 @@
 import * as events from 'events';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs';
-import {
-  Context,
-  ContextConfig,
-  FileItem,
-  Auth,
-  FileState,
-} from '@atlaskit/media-core';
+import { MediaClientConfig, Auth } from '@atlaskit/media-core';
+import { MediaClient, FileItem, FileState } from '@atlaskit/media-client';
 
 export class Stubs {
   static mediaViewer(overrides: any) {
@@ -46,10 +41,10 @@ export class Stubs {
     };
   }
 
-  static context(
-    config: ContextConfig,
+  static mediaClient(
+    config: MediaClientConfig,
     getFileState?: () => Observable<FileState>,
-  ): Partial<Context> {
+  ): Partial<MediaClient> {
     return {
       config,
       file: {
@@ -65,14 +60,14 @@ export class Stubs {
   }
 }
 
-export interface CreateContextOptions {
+export interface CreateMediaClientOptions {
   authPromise?: Promise<Auth>;
   getFileState?: () => Observable<FileState>;
-  config?: ContextConfig;
+  config?: MediaClientConfig;
 }
 
-export const createContext = (options?: CreateContextOptions) => {
-  const defaultOptions: CreateContextOptions = {
+export const createMediaClient = (options?: CreateMediaClientOptions) => {
+  const defaultOptions: CreateMediaClientOptions = {
     authPromise: Promise.resolve<Auth>({
       token: 'some-token',
       clientId: 'some-client-id',
@@ -83,8 +78,11 @@ export const createContext = (options?: CreateContextOptions) => {
   };
   const { authPromise, getFileState, config } = options || defaultOptions;
   const authProvider = jest.fn(() => authPromise);
-  const contextConfig: ContextConfig = {
+  const mediaClientConfig: MediaClientConfig = {
     authProvider,
   };
-  return Stubs.context(config || contextConfig, getFileState) as Context;
+  return Stubs.mediaClient(
+    config || mediaClientConfig,
+    getFileState,
+  ) as MediaClient;
 };

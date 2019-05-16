@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Component, ReactNode } from 'react';
 import {
-  createStorybookContext,
+  createStorybookMediaClient,
   imageFileId,
   genericFileId,
   gifFileId,
@@ -16,7 +16,7 @@ export interface ExampleState {
   fileStates: { [id: string]: FileState };
 }
 
-const context = createStorybookContext();
+const mediaClient = createStorybookMediaClient();
 
 class Example extends Component<{}, ExampleState> {
   state: ExampleState = {
@@ -46,7 +46,7 @@ class Example extends Component<{}, ExampleState> {
   }
 
   fetchItem(id: string, collectionName?: string) {
-    context.file.getFileState(id, { collectionName }).subscribe({
+    mediaClient.file.getFileState(id, { collectionName }).subscribe({
       next: state => {
         const { fileStates } = this.state;
 

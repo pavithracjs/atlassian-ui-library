@@ -16,7 +16,7 @@ import { ProcessedFileState } from '@atlaskit/media-client';
 import {
   awaitError,
   mountWithIntlContext,
-  fakeContext,
+  fakeMediaClient,
 } from '@atlaskit/media-test-helpers';
 import { ImageViewer } from '../../../../../newgen/viewers/image';
 
@@ -35,20 +35,20 @@ const imageItem: ProcessedFileState = {
 };
 
 export function createFixture(response: Promise<Blob>) {
-  const context = fakeContext();
-  (context.getImage as jest.Mock).mockReturnValue(response);
+  const mediaClient = fakeMediaClient();
+  (mediaClient.getImage as jest.Mock).mockReturnValue(response);
   const onClose = jest.fn();
   const onLoaded = jest.fn();
   const el = mountWithIntlContext(
     <ImageViewer
-      context={context}
+      mediaClient={mediaClient}
       item={imageItem}
       collectionName={collectionName}
       onClose={onClose}
       onLoad={onLoaded}
     />,
   );
-  return { context, el, onClose };
+  return { mediaClient, el, onClose };
 }
 
 describe('ImageViewer analytics', () => {

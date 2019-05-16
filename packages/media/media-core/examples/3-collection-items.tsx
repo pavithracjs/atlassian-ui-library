@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { createUserContext } from '@atlaskit/media-test-helpers';
+import { createUserMediaClient } from '@atlaskit/media-test-helpers';
 import { Subscription } from 'rxjs/Subscription';
 import { FileIdentifier } from '..';
 import { Card } from '@atlaskit/media-card';
 import Button from '@atlaskit/button';
 import { CardsWrapper, Header } from '../example-helpers/styled';
 
-const context = createUserContext();
+const mediaClient = createUserMediaClient();
 const collectionName = 'recents';
 export interface ExampleState {
   fileIds: string[];
@@ -43,7 +43,7 @@ class Example extends Component<{}, ExampleState> {
         <Card
           key={id}
           identifier={identifier}
-          context={context}
+          mediaClient={mediaClient}
           dimensions={{
             width: 100,
             height: 50,
@@ -61,24 +61,26 @@ class Example extends Component<{}, ExampleState> {
   }
 
   getItems = () => {
-    this.subscription = context.collection.getItems(collectionName).subscribe({
-      next: items => {
-        const fileIds = items.map(item => item.id);
+    this.subscription = mediaClient.collection
+      .getItems(collectionName)
+      .subscribe({
+        next: items => {
+          const fileIds = items.map(item => item.id);
 
-        this.setState({
-          fileIds,
-        });
-      },
-    });
+          this.setState({
+            fileIds,
+          });
+        },
+      });
   };
 
   fetchNextPage = () => {
-    context.collection.loadNextPage(collectionName);
+    mediaClient.collection.loadNextPage(collectionName);
   };
 
   getFirstPage = () => {
     // We are intentionally creating a new subscription to simulate "new items" case
-    context.collection.getItems(collectionName).subscribe();
+    mediaClient.collection.getItems(collectionName).subscribe();
   };
 
   renderHeader = () => {

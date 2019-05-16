@@ -16,7 +16,7 @@ const analyticsHandler = (actionName: string, props: any) =>
 
 const mediaProvider = storyMediaProviderFactory({
   useMediaPickerAuthProvider: true,
-  includeUploadContext: true,
+  includeUploadMediaClientConfig: true,
   includeUserAuthProvider: true,
   collectionName: 'test',
 });

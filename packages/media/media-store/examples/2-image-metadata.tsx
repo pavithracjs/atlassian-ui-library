@@ -2,21 +2,21 @@ import * as React from 'react';
 import { Component } from 'react';
 import { MediaStore, ImageMetadata } from '../src';
 import {
-  createStorybookContext,
+  createStorybookMediaClient,
   imageFileId,
 } from '@atlaskit/media-test-helpers';
 
 export interface ExampleState {
   metadata?: ImageMetadata;
 }
-const context = createStorybookContext();
+const mediaClient = createStorybookMediaClient();
 
 class Example extends Component<{}, ExampleState> {
   state: ExampleState = {};
 
   async componentDidMount() {
     const store = new MediaStore({
-      authProvider: context.config.authProvider,
+      authProvider: mediaClient.config.authProvider,
     });
     const response = await store.getImageMetadata(imageFileId.id, {
       collection: imageFileId.collectionName,

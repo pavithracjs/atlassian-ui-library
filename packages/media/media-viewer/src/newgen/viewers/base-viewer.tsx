@@ -2,14 +2,14 @@ import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { messages } from '@atlaskit/media-ui';
 import deepEqual from 'deep-equal';
-import { Context, FileState } from '@atlaskit/media-client';
+import { MediaClient, FileState } from '@atlaskit/media-client';
 import { Outcome } from '../domain';
 import ErrorMessage, { MediaViewerError } from '../error';
 import { Spinner } from '../loading';
 import { ErrorViewDownloadButton } from '../download';
 
 export type BaseProps = {
-  context: Context;
+  mediaClient: MediaClient;
   item: FileState;
   collectionName?: string;
 };
@@ -72,11 +72,11 @@ export abstract class BaseViewer<
   }
 
   private renderDownloadButton(err: MediaViewerError) {
-    const { item, context, collectionName } = this.props;
+    const { item, mediaClient, collectionName } = this.props;
     return (
       <ErrorViewDownloadButton
         state={item}
-        context={context}
+        mediaClient={mediaClient}
         err={err}
         collectionName={collectionName}
       />
@@ -86,7 +86,7 @@ export abstract class BaseViewer<
   protected needsReset(propsA: Props, propsB: Props) {
     return (
       !deepEqual(propsA.item, propsB.item) ||
-      propsA.context !== propsB.context ||
+      propsA.mediaClient !== propsB.mediaClient ||
       propsA.collectionName !== propsB.collectionName
     );
   }

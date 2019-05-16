@@ -58,11 +58,11 @@ export default class MediaGroup extends React.Component<
   }
 
   componentDidMount() {
-    this.updateMediaMediaClient();
+    this.updateMediaClient();
   }
 
   componentWillReceiveProps(props: MediaGroupProps) {
-    this.updateMediaMediaClient();
+    this.updateMediaClient();
     this.setMediaItems(props);
   }
 
@@ -78,7 +78,7 @@ export default class MediaGroup extends React.Component<
     return false;
   }
 
-  updateMediaMediaClient() {
+  updateMediaClient() {
     const { viewMediaClient } = this.state;
     const { mediaClient } = this.mediaPluginState;
     if (!viewMediaClient && mediaClient) {
