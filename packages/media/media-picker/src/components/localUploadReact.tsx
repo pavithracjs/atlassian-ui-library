@@ -14,17 +14,6 @@ import { UploadParams } from '../domain/config';
 import { NewUploadServiceImpl } from '../service/newUploadServiceImpl';
 import { LocalUploadConfig } from './types';
 
-/**
- * export class LocalUploadComponentReact<
-  M extends UploadEventPayloadMap = UploadEventPayloadMap
-> extends UploadComponent<M> implements LocalUploadComponentReact {
- */
-
-// export interface LocalUploadComponentReactProps {
-//   context: Context;
-//   config: LocalUploadConfig;
-// }
-
 export type LocalUploadComponentBaseProps = {
   context: Context;
   config: LocalUploadConfig;
@@ -34,15 +23,12 @@ export type LocalUploadComponentBaseProps = {
   onProcessing?: (payload: UploadProcessingEventPayload) => void;
   onEnd?: (payload: UploadEndEventPayload) => void;
   onError?: (payload: UploadErrorEventPayload) => void;
-  // item: FileState;
-  // collectionName?: string;
 };
 
 export class LocalUploadComponentReact<
   Props extends LocalUploadComponentBaseProps
 > extends Component<Props, {}> {
   protected readonly uploadService: UploadService;
-  // protected config: LocalUploadConfig;
   protected uploadComponent = new UploadComponent();
 
   constructor(props: Props) {
@@ -85,7 +71,6 @@ export class LocalUploadComponentReact<
       tenantUploadParams,
       shouldCopyFileToRecents,
     );
-    // this.config = config;
     this.uploadService.on('files-added', this.onFilesAdded);
     this.uploadService.on('file-preview-update', this.onFilePreviewUpdate);
     this.uploadService.on('file-uploading', this.onFileUploading);

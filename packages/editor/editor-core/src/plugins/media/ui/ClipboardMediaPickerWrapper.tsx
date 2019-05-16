@@ -31,7 +31,7 @@ export default class ClipboardMediaPickerWrapper extends React.Component<
   state: State = {};
 
   private handleMediaProvider = async (
-    name: any,
+    _name: string,
     provider?: Promise<MediaProvider>,
   ) => {
     const { mediaState } = this.props;
