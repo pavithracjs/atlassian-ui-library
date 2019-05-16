@@ -1,4 +1,3 @@
-// @flow
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import { uid } from 'react-uid';
