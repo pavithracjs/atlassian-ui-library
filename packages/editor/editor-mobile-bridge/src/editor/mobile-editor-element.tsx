@@ -86,6 +86,7 @@ export default function mobileEditor(props: Props) {
             allowMediaSingle: true,
           }}
           allowLists={true}
+          allowConfluenceInlineComment={true}
           onChange={() => {
             toNativeBridge.updateText(bridge.getContent());
           }}
