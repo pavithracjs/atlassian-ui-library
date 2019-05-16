@@ -6,7 +6,10 @@ import {
   FloatingToolbarSeparator,
   FloatingToolbarItem,
 } from '../../floating-toolbar/types';
-import { MediaSingleLayout } from '../../../../../adf-schema';
+import {
+  MediaSingleLayout,
+  MediaSingleAttributes,
+} from '../../../../../adf-schema';
 import { stateKey, MediaPluginState } from '../pm-plugins/main';
 import { Command } from '../../../types';
 import commonMessages from '../../../messages';
@@ -19,6 +22,7 @@ import FullWidthIcon from '@atlaskit/icon/glyph/editor/media-full-width';
 import EditorAlignImageLeft from '@atlaskit/icon/glyph/editor/align-image-left';
 import EditorAlignImageRight from '@atlaskit/icon/glyph/editor/align-image-right';
 import EditorAlignImageCenter from '@atlaskit/icon/glyph/editor/align-image-center';
+import { alignAttributes } from '../utils/media-single';
 
 type IconMap = Array<
   { value: string; icon: React.ComponentClass<any> } | { value: 'separator' }
@@ -63,14 +67,25 @@ const layoutToMessages: Record<string, any> = {
   'align-start': commonMessages.alignImageLeft,
 };
 
-const makeAlign = (layout: MediaSingleLayout) => {
-  return (state: EditorState) => {
+const makeAlign = (layout: MediaSingleLayout): Command => {
+  return (state, dispatch) => {
     const pluginState: MediaPluginState | undefined = stateKey.getState(state);
-    if (!pluginState) {
+    if (!pluginState || !dispatch) {
       return false;
     }
 
-    return pluginState.align(layout);
+    const { mediaSingle } = state.schema.nodes;
+    const mediaSingleNode = pluginState.selectedMediaContainerNode();
+    if (!mediaSingleNode || mediaSingleNode.type !== mediaSingle) {
+      return false;
+    }
+
+    const newAttrs = alignAttributes(
+      layout,
+      mediaSingleNode.attrs as MediaSingleAttributes,
+    );
+    dispatch(state.tr.setNodeMarkup(state.selection.from, undefined, newAttrs));
+    return true;
   };
 };
 

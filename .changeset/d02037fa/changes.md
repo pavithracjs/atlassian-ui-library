@@ -1,0 +1,1 @@
+- ED-6815: fix resizing images to line length (100% width) after fix for ED-6467
