@@ -281,7 +281,7 @@ describe('Comment', () => {
     });
   });
 
-  describe.skip('delete link', () => {
+  describe('delete link', () => {
     let user;
     let deleteLink: ReactWrapper;
     let onDeleteComment: jest.Mock;
@@ -338,7 +338,30 @@ describe('Comment', () => {
       secondComment.unmount();
     });
 
-    it('should delete the comment when clicked', () => {
+    it('should be shown for comments when user can moderate them', () => {
+      const someUser = MOCK_USERS[2];
+
+      const comment = mount(
+        <Comment
+          {...defaultProps}
+          conversationId={mockComment.conversationId}
+          comment={mockComment}
+          user={someUser}
+          canModerateComment={true}
+        />,
+      );
+
+      const commentDeleteLink = comment
+        .first()
+        .find(CommentAction)
+        // @TODO ED-3521 - Remove the hardcoded string and find by a unique identifier instead
+        .findWhere(item => item.text() === 'Delete')
+        .first();
+
+      expect(commentDeleteLink.length).toEqual(1);
+    });
+
+    it.skip('should delete the comment when clicked', () => {
       deleteLink.simulate('click');
       expect(onDeleteComment).toBeCalledWith(
         mockComment.conversationId,
