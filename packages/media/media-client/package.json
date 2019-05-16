@@ -18,7 +18,6 @@
   },
   "repository": "bitbucket:atlaskit/atlaskit-mk-2",
   "dependencies": {
-    "@types/query-string": "^4.3.1",
     "chunkinator": "^2.0.4",
     "dataloader": "^1.4.0",
     "deep-equal": "^1.0.1",
@@ -38,6 +37,7 @@
     "@atlaskit/media-test-helpers": "^23.0.0",
     "@atlaskit/ssr": "^0.1.0",
     "@types/fetch-mock": "^6.0.3",
+    "@types/query-string": "^4.3.1",
     "@types/uuid-validate": "^0.0.0",
     "fetch-mock": "^6.5.2",
     "react": "^16.8.0",
