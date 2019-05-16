@@ -3,7 +3,6 @@
   "compilerOptions": {
     "declaration": true,
     "outDir": "../../",
-    "rootDir": "../../src",
     "target": "es5",
     "module": "esnext",
     "paths": {}
