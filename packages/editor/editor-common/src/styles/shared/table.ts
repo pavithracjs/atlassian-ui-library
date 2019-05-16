@@ -74,14 +74,13 @@ const tableSharedStyle = css`
       tbody {
         border-bottom: none;
       }
-      th,
-      td {
+      th td {
         background-color: white;
-        font-weight: normal;
       }
       th,
       td {
         min-width: ${tableCellMinWidth}px;
+        font-weight: normal;
         vertical-align: top;
         border: 1px solid ${themed({
           light: akEditorTableBorder,
