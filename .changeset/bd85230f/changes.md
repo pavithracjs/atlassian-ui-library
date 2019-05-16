@@ -1,0 +1,1 @@
+- added aria-label for resizer button for better a11y
