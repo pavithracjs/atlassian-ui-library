@@ -1,19 +1,11 @@
 /** @jsx jsx */
 import { ReactNode } from 'react';
 import { jsx } from '@emotion/core';
-import Lozenge from '../src';
+import Lozenge, { ThemeAppearance } from '../src';
 
 interface ChildrenNode {
   children: ReactNode;
 }
-
-type ThemeAppearance =
-  | 'default'
-  | 'inprogress'
-  | 'moved'
-  | 'new'
-  | 'removed'
-  | 'success';
 
 const Row = ({ children }: ChildrenNode) => (
   <div css={{ display: 'flex' }}>{children}</div>
