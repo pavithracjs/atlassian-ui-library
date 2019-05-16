@@ -1,5 +1,15 @@
 # @atlaskit/editor-core
 
+## 112.1.1
+- [patch] [ad5128f63c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad5128f63c):
+
+  - ED-5844 Refactor media floating toolbar into little pieces
+
+## 112.1.0
+- [minor] [0ed8ea77ab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ed8ea77ab):
+
+  - ED-6049: New hyperlink experience, add text to display in the toolbar, refer spec in the ticket
+
 ## 112.0.3
 - [patch] [74b05d57c4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/74b05d57c4):
 

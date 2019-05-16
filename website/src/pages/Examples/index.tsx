@@ -200,14 +200,14 @@ class ExampleNavigation extends React.Component<ExampleNavigationProps> {
               pkgJSON={config}
               afterDeployError={(error: Error) => this.setState({ error })}
               loadingButton={() => (
-                <NavButton style={{ marginRight: 8 }} type="Submit" disabled>
+                <NavButton style={{ marginRight: 8 }} type="submit" disabled>
                   <CodeSandboxLogo />
                 </NavButton>
               )}
               deployButton={({ isDisabled }: { isDisabled: boolean }) => (
                 <NavButton
                   style={{ marginRight: 8 }}
-                  type="Submit"
+                  type="submit"
                   disabled={isDisabled}
                 >
                   <CodeSandboxLogo />
