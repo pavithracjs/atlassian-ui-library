@@ -1,19 +1,18 @@
-// @flow
-import React, { type Node } from 'react';
+import React, { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 import invariant from 'tiny-invariant';
 import { canUseDOM } from 'exenv';
 
 type Props = {
   /* Children to render in the React Portal. */
-  children: Node,
+  children: ReactNode;
   /* The z-index of the DOM container element. */
-  zIndex: number | string,
+  zIndex: number | string;
 };
 
 type State = {
-  container: ?HTMLElement,
-  portalIsMounted: boolean,
+  container?: HTMLElement;
+  portalIsMounted: boolean;
 };
 
 const createContainer = (zIndex: number | string) => {
