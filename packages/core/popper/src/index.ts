@@ -1,3 +1,2 @@
-// @flow
-export { Manager, Reference, Popper } from './Popper';
-export type { Placement } from './types';
+export { Manager, Reference, Popper, Props as PopperProps } from './Popper';
+export { Placement } from './types';

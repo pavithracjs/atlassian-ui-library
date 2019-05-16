@@ -6,6 +6,7 @@ import { elevation, borderRadius } from '@atlaskit/theme';
 
 import { Manager, Reference, Popper } from '../src';
 
+type PopupProps = { outOfBoundaries: boolean | null };
 const Popup = styled.div`
   background: white;
   border: 2px solid red;
@@ -14,7 +15,7 @@ const Popup = styled.div`
   padding: 8px;
   margin: 2px 0;
   transition: opacity 200ms ease-in-out;
-  opacity: ${p => (p.outOfBoundaries ? 0 : 1)};
+  opacity: ${(p: PopupProps) => (p.outOfBoundaries ? 0 : 1)};
   ${elevation.e300};
 `;
 

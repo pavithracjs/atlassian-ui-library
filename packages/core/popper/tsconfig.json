@@ -11,6 +11,9 @@
     "./example-helpers/**/*.tsx"
   ],
   "compilerOptions": {
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "react-lorem-component": ["typings/react-lorem-component"],
+    }
   }
 }

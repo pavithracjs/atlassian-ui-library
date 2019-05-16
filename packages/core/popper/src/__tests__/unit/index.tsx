@@ -3,7 +3,7 @@ import React from 'react';
 import { Popper as PopperCompo } from '../..';
 
 jest.mock('popper.js', () => {
-  const PopperJS = jest.requireActual('popper.js');
+  const PopperJS = require.requireActual('popper.js');
 
   return class Popper {
     static placements = PopperJS.placements;
@@ -21,7 +21,7 @@ const Content = () => <div className="content">Hello</div>;
 
 const referenceElement = document.createElement('div');
 
-const mountPopper = props =>
+const mountPopper = (props: { referenceElement: HTMLDivElement }) =>
   mount(
     <PopperCompo {...props}>
       {({ ref, style, placement, arrowProps }) => (

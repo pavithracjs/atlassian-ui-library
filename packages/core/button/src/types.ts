@@ -58,6 +58,8 @@ export type OnlyButtonProps = {
   onMouseUp?: React.MouseEventHandler<HTMLElement>;
   /** Handler to be called on focus */
   onFocus?: React.FocusEventHandler<HTMLElement>;
+  /** Refs */
+  ref?: React.Ref<HTMLElement>;
   /** Set the amount of padding in the button */
   spacing?: Spacing;
   /** Pass target down to a link within the button component, if a href is provided */

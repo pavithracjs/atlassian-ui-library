@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
 
@@ -33,9 +33,10 @@ test.skip('should ssr then hydrate popper correctly', async () => {
 
   ReactDOM.hydrate(<Example />, elem);
   // ignore warnings caused by emotion's server-side rendering approach
+  // @ts-ignore
   // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls.filter(
-    ([f, s]) =>
+    ([f, s]: [any, any]) =>
       !(
         f ===
           'Warning: Did not expect server HTML to contain a <%s> in <%s>.' &&
