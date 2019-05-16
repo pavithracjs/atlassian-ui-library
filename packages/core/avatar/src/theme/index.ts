@@ -1,52 +1,53 @@
-// @flow
-
-import { colors, createTheme, gridSize } from '@atlaskit/theme';
-import type { AppearanceType, PresenceType, SizeType } from '../types';
+import { colors, createTheme, gridSize, themed } from '@atlaskit/theme';
+import { AppearanceType, PresenceType, SizeType } from '../types';
 
 type Dimensions = {
-  height: string,
-  width: string,
+  height: string;
+  width: string;
 };
 
 type Layout = {
   // We have to specify all corners as optional because either bottom or top
   // and left or right could be specified.
-  bottom?: string,
-  left?: string,
-  right?: string,
-  top?: string,
+  bottom?: string;
+  left?: string;
+  right?: string;
+  top?: string;
 
   // Must be specified every time.
-  height: string,
-  width: string,
+  height: string;
+  width: string;
 };
 
 type Sizes = {
-  xsmall: number,
-  small: number,
-  medium: number,
-  large: number,
-  xlarge: number,
-  xxlarge: number,
+  xsmall: number;
+  small: number;
+  medium: number;
+  large: number;
+  xlarge: number;
+  xxlarge: number;
 };
 
-type ThemeMode = 'dark' | 'light';
+enum ThemeMode {
+  LIGHT = 'light',
+  DARK = 'dark',
+}
 
 export type ThemeProps = {
-  appearance?: AppearanceType,
-  includeBorderWidth?: boolean,
-  isLoading?: boolean,
-  presence?: PresenceType,
-  size?: SizeType,
-  mode?: ThemeMode,
+  appearance?: AppearanceType;
+  includeBorderWidth?: boolean;
+  isLoading?: boolean;
+  presence?: PresenceType;
+  size?: SizeType;
+  mode?: ThemeMode;
 };
 
 export type ThemeTokens = {
-  backgroundColor: string,
-  borderRadius: string,
-  dimensions: Dimensions,
-  presence: Layout,
-  status: Layout,
+  backgroundColor: string;
+  borderRadius: string;
+  dimensions: Dimensions;
+  presence: Layout;
+  status: Layout;
 };
 
 const gridSizeValue: number = gridSize();
@@ -107,8 +108,8 @@ const SQUARE_ICON_OFFSET: Sizes = {
 };
 
 function getBackgroundColor(props: {
-  isLoading: boolean,
-  mode: ThemeMode,
+  isLoading: boolean;
+  mode: ThemeMode;
 }): string {
   const backgroundColors = {
     light: colors.N40,
@@ -118,21 +119,21 @@ function getBackgroundColor(props: {
 }
 
 function getBorderRadius(props: {
-  appearance: AppearanceType,
-  includeBorderWidth: boolean,
-  size: SizeType,
+  appearance: AppearanceType;
+  includeBorderWidth: boolean;
+  size: SizeType;
 }): string {
   const borderWidth = props.includeBorderWidth ? BORDER_WIDTH[props.size] : 0;
   const borderRadius =
-    props.appearance === 'circle'
+    props.appearance === AppearanceType.CIRCLE
       ? '50%'
       : `${AVATAR_RADIUS[props.size] + borderWidth}px`;
   return borderRadius;
 }
 
 function getDimensions(props: {
-  includeBorderWidth: boolean,
-  size: SizeType,
+  includeBorderWidth: boolean;
+  size: SizeType;
 }): Dimensions {
   const borderWidth: number = props.includeBorderWidth
     ? BORDER_WIDTH[props.size] * 2
@@ -144,11 +145,11 @@ function getDimensions(props: {
 }
 
 const getPresenceLayout = (props: {
-  appearance: AppearanceType,
-  size: SizeType,
+  appearance: AppearanceType;
+  size: SizeType;
 }): Layout => {
   const presencePosition =
-    props.appearance === 'square'
+    props.appearance === AppearanceType.SQUARE
       ? -(BORDER_WIDTH[props.size] * 2)
       : ICON_OFFSET[props.size];
   const presenceSize = ICON_SIZES[props.size];
@@ -162,11 +163,11 @@ const getPresenceLayout = (props: {
 };
 
 const getStatusLayout = (props: {
-  appearance: AppearanceType,
-  size: SizeType,
+  appearance: AppearanceType;
+  size: SizeType;
 }): Layout => {
   const statusPosition =
-    props.appearance === 'square'
+    props.appearance === AppearanceType.SQUARE
       ? SQUARE_ICON_OFFSET[props.size]
       : ICON_OFFSET[props.size];
   const statusSize = ICON_SIZES[props.size];
@@ -180,12 +181,12 @@ const getStatusLayout = (props: {
 };
 
 const propsDefaults = {
-  appearance: 'circle',
+  appearance: AppearanceType.CIRCLE,
   includeBorderWidth: false,
   isLoading: false,
-  mode: 'light',
+  mode: ThemeMode.LIGHT,
   presence: 'offline',
-  size: 'xsmall',
+  size: SizeType.XSMALL,
 };
 
 export const Theme = createTheme<ThemeTokens, ThemeProps>(props => {

@@ -1,5 +1,4 @@
-// @flow
-import { type ComponentType } from 'react';
+import { ComponentType } from 'react';
 
 export function omit(obj: {}, ...keysToOmit: Array<string>) {
   const newObj = { ...obj };
@@ -10,7 +9,7 @@ export function omit(obj: {}, ...keysToOmit: Array<string>) {
   return newObj;
 }
 
-export function getDisplayName(prefix: string, Component: ComponentType<*>) {
+export function getDisplayName(prefix: string, Component: ComponentType<any>) {
   const componentName: string = Component.displayName || Component.name;
 
   return componentName ? `${prefix}(${componentName})` : prefix;
