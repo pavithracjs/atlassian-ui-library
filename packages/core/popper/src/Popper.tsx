@@ -1,18 +1,17 @@
-// @flow
-import React, { Component, type Node } from 'react';
+import React, { Component, Node } from 'react';
 import memoizeOne from 'memoize-one';
 import {
   Popper as ReactPopper,
-  type PopperChildrenProps,
-  type PopperProps,
+  PopperChildrenProps,
+  PopperProps,
 } from 'react-popper';
-import type { Placement } from './types';
+import { Placement } from './types';
 
 export { Manager, Reference } from 'react-popper';
 
-type State = {};
+interface State {};
 
-type Props = {
+interface Props {
   /** Returns the element to be positioned */
   children: PopperChildrenProps => Node,
   /** Formatted like "0, 8px" — how far to offset the Popper from the Reference. Changes automatically based on the placement */
