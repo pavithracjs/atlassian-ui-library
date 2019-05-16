@@ -1,7 +1,7 @@
 import { safeInsert } from 'prosemirror-utils';
 import { Node, Fragment, Slice, Schema } from 'prosemirror-model';
 import { Command } from '../../types';
-import { pluginKey, LayoutState } from './pm-plugins/main';
+import { pluginKey, LayoutState, DEFAULT_LAYOUT } from './pm-plugins/main';
 import { EditorState, Transaction, TextSelection } from 'prosemirror-state';
 import { mapChildren, flatmap } from '../../utils/slice';
 import { isEmptyDocument, getStepRange } from '../../utils';
@@ -59,6 +59,16 @@ export const getPresetLayout = (section: Node): PresetLayout | undefined => {
     case '66.66,33.33':
       return 'two_right_sidebar';
   }
+};
+
+export const getSelectedLayout = (
+  maybeLayoutSection: Node | undefined,
+  current: PresetLayout,
+): PresetLayout => {
+  if (maybeLayoutSection && getPresetLayout(maybeLayoutSection)) {
+    return getPresetLayout(maybeLayoutSection) || current;
+  }
+  return current;
 };
 
 export const createDefaultLayoutSection = (state: EditorState) => {
@@ -215,18 +225,21 @@ export const setPresetLayout = (layout: PresetLayout): Command => (
   return false;
 };
 
-export const fixColumnSizes = (
-  changedTr: Transaction,
-  state: EditorState,
-  presetLayout: PresetLayout,
-) => {
+export const fixColumnSizes = (changedTr: Transaction, state: EditorState) => {
+  const pos = pluginKey.getState(state).pos;
   const { layoutSection } = state.schema.nodes;
   let change;
   const range = getStepRange(changedTr);
-  if (!range) {
+  if (!range || typeof pos !== 'number') {
     return undefined;
   }
 
+  const currentNodeAtPos = state.doc.nodeAt(pos);
+  if (!currentNodeAtPos || currentNodeAtPos.type !== layoutSection) {
+    return undefined;
+  }
+
+  const presetLayout = getSelectedLayout(currentNodeAtPos, DEFAULT_LAYOUT);
   changedTr.doc.nodesBetween(range.from, range.to, (node, pos) => {
     if (node.type === layoutSection) {
       if (presetLayout === getPresetLayout(node)) {
