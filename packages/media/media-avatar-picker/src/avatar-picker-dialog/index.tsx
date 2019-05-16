@@ -173,7 +173,6 @@ export class AvatarPickerDialog extends PureComponent<
           Footer: this.footerContent,
         }}
         onClose={this.props.onCancel}
-        isOpen={true}
       >
         <AvatarPickerViewWrapper>{this.renderBody()}</AvatarPickerViewWrapper>
       </ModalDialog>

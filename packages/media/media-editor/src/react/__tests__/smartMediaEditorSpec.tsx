@@ -13,7 +13,7 @@ import {
   getDefaultContextConfig,
 } from '@atlaskit/media-test-helpers';
 import { Shortcut } from '@atlaskit/media-ui';
-import ModalDialog from '@atlaskit/modal-dialog';
+import ModalDialog, { ModalProps } from '@atlaskit/modal-dialog';
 import Spinner from '@atlaskit/spinner';
 import {
   Context,
@@ -377,7 +377,7 @@ describe('Smart Media Editor', () => {
   });
 
   describe('when changes has been made and cancel is pressed', () => {
-    let modalDialog: ShallowWrapper;
+    let modalDialog: ShallowWrapper<ModalProps>;
 
     beforeEach(async () => {
       await forFileToBeProcessed();
