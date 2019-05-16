@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FileIdentifier } from '@atlaskit/media-core';
+import { FileIdentifier } from '@atlaskit/media-client';
 import { Dimensions, SmartMediaEditor } from '@atlaskit/media-editor';
 import { MediaPluginState } from '../pm-plugins/main';
 
@@ -56,8 +56,8 @@ export default class CustomSmartMediaEditor extends React.Component<Props> {
 
     return (
       fileIdentifier.id !== newFileIdentifier.id ||
-      this.props.mediaState.uploadContext !==
-        nextProps.mediaState.uploadContext ||
+      this.props.mediaState.uploadMediaClient !==
+        nextProps.mediaState.uploadMediaClient ||
       this.props.mediaState.showEditingDialog !==
         nextProps.mediaState.showEditingDialog
     );
@@ -70,11 +70,11 @@ export default class CustomSmartMediaEditor extends React.Component<Props> {
       return null;
     }
 
-    if (mediaState.uploadContext && mediaState.showEditingDialog) {
+    if (mediaState.uploadMediaClient && mediaState.showEditingDialog) {
       return (
         <SmartMediaEditor
           identifier={identifier}
-          context={mediaState.uploadContext}
+          mediaClient={mediaState.uploadMediaClient}
           onUploadStart={this.handleUploadStart}
           onFinish={mediaState.closeMediaEditor}
         />

@@ -27,7 +27,7 @@ import { createDisplayGrid } from '../../../plugins/grid';
 import { EventDispatcher } from '../../../event-dispatcher';
 import { MediaProvider } from '../types';
 import { EditorAppearance } from '../../../types';
-import { Context } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { NodeSelection } from 'prosemirror-state';
 
@@ -47,7 +47,7 @@ export interface MediaSingleNodeProps {
 export interface MediaSingleNodeState {
   width?: number;
   height?: number;
-  viewContext?: Context;
+  viewMediaClient?: MediaClient;
 }
 
 export default class MediaSingleNode extends Component<
@@ -59,7 +59,7 @@ export default class MediaSingleNode extends Component<
   state = {
     height: undefined,
     width: undefined,
-    viewContext: undefined,
+    viewMediaClient: undefined,
   };
 
   constructor(props: MediaSingleNodeProps) {
@@ -72,9 +72,11 @@ export default class MediaSingleNode extends Component<
   async componentDidMount() {
     const mediaProvider = await this.props.mediaProvider;
     if (mediaProvider) {
-      const viewContext = await mediaProvider.viewContext;
+      const viewMediaClient = new MediaClient(
+        await mediaProvider.viewMediaClientConfig,
+      );
       this.setState({
-        viewContext,
+        viewMediaClient,
       });
     }
     const updatedDimensions = await this.getRemoteDimensions();
@@ -118,8 +120,10 @@ export default class MediaSingleNode extends Component<
       };
     }
 
-    const viewContext = await mediaProvider.viewContext;
-    const state = await viewContext.getImageMetadata(id, {
+    const viewMediaClient = new MediaClient(
+      await mediaProvider.viewMediaClientConfig,
+    );
+    const state = await viewMediaClient.getImageMetadata(id, {
       collection,
     });
 
@@ -239,7 +243,7 @@ export default class MediaSingleNode extends Component<
         view={this.props.view}
         getPos={this.props.getPos}
         cardDimensions={cardDimensions}
-        viewContext={this.state.viewContext}
+        viewMediaClient={this.state.viewMediaClient}
         selected={selected()}
         onClick={this.selectMediaSingle}
         onExternalImageLoaded={this.onExternalImageLoaded}
@@ -256,7 +260,7 @@ export default class MediaSingleNode extends Component<
         updateSize={this.updateSize}
         displayGrid={createDisplayGrid(this.props.eventDispatcher)}
         gridSize={12}
-        viewContext={this.state.viewContext}
+        viewMediaClient={this.state.viewMediaClient}
         state={this.props.view.state}
         appearance={this.mediaPluginState.options.appearance}
         selected={this.props.selected()}

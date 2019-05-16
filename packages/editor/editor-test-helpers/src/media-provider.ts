@@ -1,4 +1,4 @@
-import { Context, ContextFactory } from '@atlaskit/media-core';
+import { MediaClientConfig } from '@atlaskit/media-core';
 import {
   defaultCollectionName,
   userAuthProvider,
@@ -29,22 +29,22 @@ export function storyMediaProviderFactory(
     useMediaPickerAuthProvider = true,
   } = mediaProviderFactoryConfig;
   const collection = collectionName || defaultCollectionName;
-  const context = ContextFactory.create({
+  const mediaClientConfig: MediaClientConfig = {
     authProvider: useMediaPickerAuthProvider
       ? mediaPickerAuthProvider()
       : defaultMediaPickerAuthProvider,
     userAuthProvider:
       includeUserAuthProvider === false ? undefined : userAuthProvider,
-  });
+  };
 
   return Promise.resolve<MediaProvider>({
     featureFlags: {},
     uploadParams: { collection },
-    viewContext: Promise.resolve<Context>(context),
-    uploadContext:
+    viewMediaClientConfig: Promise.resolve(mediaClientConfig),
+    uploadMediaClientConfig:
       includeUploadContext === false
         ? undefined
-        : Promise.resolve<Context>(context),
+        : Promise.resolve(mediaClientConfig),
   });
 }
 

@@ -8,7 +8,7 @@ import {
   MediaPluginState,
   stateKey as mediaStateKey,
 } from '../pm-plugins/main';
-import { Context, FileIdentifier } from '@atlaskit/media-core';
+import { MediaClient, FileIdentifier } from '@atlaskit/media-client';
 import { setNodeSelection } from '../../../utils';
 import WithPluginState from '../../../ui/WithPluginState';
 import { stateKey as reactNodeViewStateKey } from '../../../plugins/base/pm-plugins/react-nodeview';
@@ -36,7 +36,7 @@ export type MediaGroupProps = {
 };
 
 export interface MediaGroupState {
-  viewContext?: Context;
+  viewMediaClient?: MediaClient;
 }
 
 export default class MediaGroup extends React.Component<
@@ -47,7 +47,7 @@ export default class MediaGroup extends React.Component<
   private mediaNodes: PMNode[];
 
   state: MediaGroupState = {
-    viewContext: undefined,
+    viewMediaClient: undefined,
   };
 
   constructor(props: MediaGroupProps) {
@@ -58,11 +58,11 @@ export default class MediaGroup extends React.Component<
   }
 
   componentDidMount() {
-    this.updateMediaContext();
+    this.updateMediaMediaClient();
   }
 
   componentWillReceiveProps(props: MediaGroupProps) {
-    this.updateMediaContext();
+    this.updateMediaMediaClient();
     this.setMediaItems(props);
   }
 
@@ -70,7 +70,7 @@ export default class MediaGroup extends React.Component<
     if (
       this.props.selected !== nextProps.selected ||
       this.props.node !== nextProps.node ||
-      this.state.viewContext !== this.mediaPluginState.mediaContext
+      this.state.viewMediaClient !== this.mediaPluginState.mediaClient
     ) {
       return true;
     }
@@ -78,12 +78,12 @@ export default class MediaGroup extends React.Component<
     return false;
   }
 
-  updateMediaContext() {
-    const { viewContext } = this.state;
-    const { mediaContext } = this.mediaPluginState;
-    if (!viewContext && mediaContext) {
+  updateMediaMediaClient() {
+    const { viewMediaClient } = this.state;
+    const { mediaClient } = this.mediaPluginState;
+    if (!viewMediaClient && mediaClient) {
       this.setState({
-        viewContext: mediaContext,
+        viewMediaClient: mediaClient,
       });
     }
   }
@@ -101,7 +101,7 @@ export default class MediaGroup extends React.Component<
   };
 
   renderChildNodes = () => {
-    const { viewContext } = this.state;
+    const { viewMediaClient } = this.state;
     const items = this.mediaNodes.map((item, idx) => {
       const identifier: FileIdentifier = {
         id: item.attrs.id,
@@ -133,7 +133,7 @@ export default class MediaGroup extends React.Component<
       };
     });
 
-    return <Filmstrip items={items} context={viewContext} />;
+    return <Filmstrip items={items} mediaClient={viewMediaClient} />;
   };
 
   render() {

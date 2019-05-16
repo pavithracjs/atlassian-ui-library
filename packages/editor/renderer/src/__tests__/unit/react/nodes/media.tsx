@@ -8,8 +8,7 @@ import { sleep } from '@atlaskit/media-test-helpers';
 import {
   FileIdentifier,
   ExternalImageIdentifier,
-  ContextFactory,
-} from '@atlaskit/media-core';
+} from '@atlaskit/media-client';
 
 import Media from '../../../../react/nodes/media';
 import {
@@ -62,9 +61,9 @@ describe('Media', () => {
       );
       const cardWithoutOnClick = mount(<MediaCard type="file" id="1" />);
 
-      // force media context to be resolved
-      cardWithOnClick.find(MediaCardInternal).setState({ context: {} });
-      cardWithoutOnClick.find(MediaCardInternal).setState({ context: {} });
+      // force media client to be resolved
+      cardWithOnClick.find(MediaCardInternal).setState({ mediaClient: {} });
+      cardWithoutOnClick.find(MediaCardInternal).setState({ mediaClient: {} });
 
       expect(
         cardWithOnClick.find(Card).prop('shouldOpenMediaViewer'),
@@ -80,8 +79,8 @@ describe('Media', () => {
         <MediaCard type="file" id="1" eventHandlers={{ media: { onClick } }} />,
       );
 
-      // force media context to be resolved
-      cardWithOnClick.find(MediaCardInternal).setState({ context: {} });
+      // force media client to be resolved
+      cardWithOnClick.find(MediaCardInternal).setState({ mediaClient: {} });
       const cardComponent = cardWithOnClick.find(Card);
       const event: CardEvent = {
         event: {} as any,
@@ -100,8 +99,8 @@ describe('Media', () => {
         <MediaCard type="file" id="1" eventHandlers={{ media: { onClick } }} />,
       );
 
-      // force media context to be resolved
-      cardWithOnClick.find(MediaCardInternal).setState({ context: {} });
+      // force media client to be resolved
+      cardWithOnClick.find(MediaCardInternal).setState({ mediaClient: {} });
       const cardComponent = cardWithOnClick.find(Card);
       const event: CardEvent = {
         event: {} as any,
@@ -116,9 +115,9 @@ describe('Media', () => {
 
     describe('populates identifier cache for the page context', () => {
       const mediaProvider = {
-        viewContext: ContextFactory.create({
+        viewMediaClientConfig: {
           authProvider: jest.fn(),
-        }),
+        },
       };
 
       const createFileIdentifier = (index = 0): FileIdentifier => ({

@@ -24,7 +24,7 @@ import { stateKey, MediaPluginState } from './pm-plugins/main';
 import { MediaSingleLayout } from '@atlaskit/adf-schema';
 import { Schema } from 'prosemirror-model';
 import { EditorView } from 'prosemirror-view';
-import { Context } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 import Button from '../floating-toolbar/ui/Button';
 import Separator from '../floating-toolbar/ui/Separator';
 import { hoverDecoration } from '../base/pm-plugins/decoration';
@@ -166,7 +166,7 @@ const buildLayoutButtons = (
 };
 
 type AnnotationToolbarProps = {
-  viewContext: Context;
+  viewMediaClient: MediaClient;
   id: string;
   intl: InjectedIntl;
   view?: EditorView;
@@ -182,7 +182,7 @@ export class AnnotationToolbar extends React.Component<AnnotationToolbarProps> {
   }
 
   async checkIsImage() {
-    const state = await this.props.viewContext.file.getCurrentState(
+    const state = await this.props.viewMediaClient.file.getCurrentState(
       this.props.id,
     );
 
@@ -243,7 +243,7 @@ const renderAnnotationButton = (
     return (
       <AnnotationToolbar
         key={idx}
-        viewContext={pluginState.mediaContext!}
+        viewMediaClient={pluginState.mediaClient!}
         id={selectedContainer.firstChild!.attrs.id}
         view={view}
         intl={intl}

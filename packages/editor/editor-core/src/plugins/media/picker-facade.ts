@@ -14,7 +14,7 @@ import {
   isBrowser,
   isImagePreview,
 } from '@atlaskit/media-picker';
-import { Context } from '@atlaskit/media-core';
+import { MediaClient } from '@atlaskit/media-client';
 
 import { ErrorReportingHandler } from '@atlaskit/editor-common';
 
@@ -30,7 +30,7 @@ export type ExtendedComponentConfigs = ComponentConfigs & {
 };
 
 export type PickerFacadeConfig = {
-  context: Context;
+  mediaClient: MediaClient;
   errorReporter: ErrorReportingHandler;
 };
 
@@ -73,7 +73,7 @@ export default class PickerFacade {
     } else {
       picker = this.picker = await this.mediaPickerFactoryClass(
         this.pickerType,
-        this.config.context,
+        this.config.mediaClient,
         this.pickerConfig as any,
       );
     }

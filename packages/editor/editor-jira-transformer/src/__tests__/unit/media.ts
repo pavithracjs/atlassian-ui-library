@@ -77,7 +77,7 @@ describe('JIRATransformer', () => {
   describe('media', () => {
     describe('mediaGroup', () => {
       checkParseEncodeRoundTrips(
-        'thumbnail type (viewContext)',
+        'thumbnail type (viewMediaClient)',
         schema,
         '<p class="mediaGroup"><span class="image-wrap"><a><jira-attachment-thumbnail><img alt="foo.png" src="HOST/file/42/image?token=TOKEN&client=CLIENT_ID&collection=&width=200&height=200&mode=fit" data-attachment-type="thumbnail" data-attachment-name="foo.png" data-media-services-type="file" data-media-services-id="42"></jira-attachment-thumbnail></a></span></p>',
         doc(
@@ -284,7 +284,7 @@ describe('JIRATransformer', () => {
 
     describe('mediaSingle', () => {
       checkParseEncodeRoundTrips(
-        'thumbnail type (viewContext)',
+        'thumbnail type (viewMediaClient)',
         schema,
         '<p class="mediaSingle"><span class="image-wrap"><a><jira-attachment-thumbnail><img alt="foo.png" src="HOST/file/42/image?token=TOKEN&client=CLIENT_ID&collection=&width=200&height=200&mode=fit" data-attachment-type="thumbnail" data-attachment-name="foo.png" data-width="200" data-height="200" data-media-services-type="file" data-media-services-id="42"></jira-attachment-thumbnail></a></span></p>',
         doc(

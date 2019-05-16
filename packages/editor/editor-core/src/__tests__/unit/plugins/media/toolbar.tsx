@@ -277,7 +277,7 @@ describe('media', () => {
     });
 
     describe('image annotation', () => {
-      const mockMediaContext = {
+      const mockMediaClient = {
         file: {
           getCurrentState: jest.fn(() => {
             return Promise.resolve({
@@ -315,13 +315,13 @@ describe('media', () => {
       it('renders an annotate button when an image is selected', async () => {
         const toolbar = shallow(
           <AnnotationToolbar
-            viewContext={mockMediaContext as any}
+            viewMediaClient={mockMediaClient as any}
             id="1234"
             intl={intl}
           />,
         );
 
-        await mockMediaContext.file.getCurrentState();
+        await mockMediaClient.file.getCurrentState();
 
         expect(
           toolbar
@@ -339,14 +339,14 @@ describe('media', () => {
 
         const toolbar = shallow(
           <AnnotationToolbar
-            viewContext={mockMediaContext as any}
+            viewMediaClient={mockMediaClient as any}
             id="1234"
             intl={intl}
             view={editorView}
           />,
         );
 
-        await mockMediaContext.file.getCurrentState();
+        await mockMediaClient.file.getCurrentState();
 
         toolbar.find(Button).simulate('click');
         expect(createAnalyticsEvent).toHaveBeenCalledWith({
