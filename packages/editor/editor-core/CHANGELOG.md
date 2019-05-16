@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.2.1
+- [patch] [3c1c5165b3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3c1c5165b3):
+
+  - ED-6815: fix resizing images to line length (100% width) after fix for ED-6467
+
 ## 112.2.0
 - [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
 
