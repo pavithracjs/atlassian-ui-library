@@ -74,7 +74,7 @@
     "@types/eventemitter2": "^4.1.0",
     "@types/filesize": "^3.2.15",
     "@types/lodash.chunk": "^4.2.3",
-    "@types/react": "^16.4.18",
+    "@types/react": "^16.8.0",
     "@types/react-redux": "^5.0.0",
     "@types/redux": "^3.6.0",
     "enzyme": "^3.7.0",
