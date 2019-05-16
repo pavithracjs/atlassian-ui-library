@@ -1,5 +1,10 @@
 # @atlaskit/conversation
 
+## 15.1.1
+- [patch] [5d840d3b0a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5d840d3b0a):
+
+  - Conversation editor long text wrapping fix
+
 ## 15.1.0
 - [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
 
