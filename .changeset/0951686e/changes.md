@@ -1,0 +1,1 @@
+- Allows to set a canModerateComments prop to allow delete comments by users other than the author of the comment
