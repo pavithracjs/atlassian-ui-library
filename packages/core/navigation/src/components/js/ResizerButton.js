@@ -13,8 +13,7 @@ export default class ResizerButton extends PureComponent<Props> {
   static defaultProps = {
     isPointingRight: false,
     isVisible: false,
-    resizerButtonLabel:
-      'Click or tap to collapse navigation or press the [ (left bracket) key',
+    resizerButtonLabel: 'Expand or collapse the navigation [ (left bracket)',
   };
 
   // Note: we always render the ResizerButtonInner here (instead of returning null immediately
