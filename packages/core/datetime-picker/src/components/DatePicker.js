@@ -2,6 +2,7 @@
 
 import Calendar from '@atlaskit/calendar';
 import CalendarIcon from '@atlaskit/icon/glyph/calendar';
+import CrossIcon from '@atlaskit/icon/glyph/cross';
 import Select, { mergeStyles } from '@atlaskit/select';
 import { borderRadius, colors, layers, elevation } from '@atlaskit/theme';
 import {
@@ -19,12 +20,7 @@ import {
   version as packageVersion,
 } from '../version.json';
 
-import {
-  ClearIndicator,
-  defaultDateFormat,
-  DropdownIndicator,
-  padToTwo,
-} from '../internal';
+import { defaultDateFormat, DropdownIndicator, padToTwo } from '../internal';
 import FixedLayer from '../internal/FixedLayer';
 
 /* eslint-disable react/no-unused-prop-types */
@@ -57,6 +53,8 @@ type Props = {
   onBlur: (e: SyntheticFocusEvent<>) => void,
   /** Called when the value changes. The only argument is an ISO time. */
   onChange: string => void,
+  /** Called when the value is cleared. */
+  onClear: () => void,
   /** Called when the field is focused. */
   onFocus: (e: SyntheticFocusEvent<>) => void,
   /* A function for parsing input characters and transforming them into a Date object. By default uses [date-fn's parse method](https://date-fns.org/v1.29.0/docs/parse) */
@@ -236,6 +234,22 @@ class DatePicker extends Component<Props, State> {
     if (!this.getState().isOpen) this.setState({ isOpen: true });
   };
 
+  onClear = (e: SyntheticFocusEvent<HTMLElement>) => {
+    e.stopPropagation();
+
+    this.setState({
+      inputValue: '',
+      selectedValue: '',
+      view: '',
+    });
+
+    /*
+      TODO: determine if we need this handler. we can probably get away with
+      just calling `onChange` with an empty string
+    */
+    this.props.onClear();
+  };
+
   onSelectBlur = (e: SyntheticFocusEvent<HTMLInputElement>) => {
     this.setState({ isOpen: false });
     this.props.onBlur(e);
@@ -387,7 +401,9 @@ class DatePicker extends Component<Props, State> {
       onCalendarChange: this.onCalendarChange,
       onCalendarSelect: this.onCalendarSelect,
     };
-
+    const ClearIndicator = selectProps.isClearable
+      ? () => <CrossIcon onClick={this.onClear} />
+      : null;
     const { styles: selectStyles = {} } = selectProps;
     const controlStyles =
       appearance === 'subtle' ? this.getSubtleControlStyles(isOpen) : {};
