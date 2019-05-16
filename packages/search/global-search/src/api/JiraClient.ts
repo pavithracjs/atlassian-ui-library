@@ -106,7 +106,6 @@ type JiraMyPermissionsResponse = {
 export default class JiraClientImpl implements JiraClient {
   private serviceConfig: ServiceConfig;
   private cloudId: string;
-  private addSessionIdToJiraResult?: boolean;
   private canSearchUsersCache: boolean | undefined;
 
   constructor(
@@ -116,7 +115,6 @@ export default class JiraClientImpl implements JiraClient {
   ) {
     this.serviceConfig = { url: url };
     this.cloudId = cloudId;
-    this.addSessionIdToJiraResult = addSessionIdToJiraResult;
   }
 
   // Unused, just to mute ts lint
