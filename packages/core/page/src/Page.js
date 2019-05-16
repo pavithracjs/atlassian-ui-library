@@ -106,7 +106,7 @@ export default class Page extends Component<Props, void> {
         <Wrapper>
           {this.props.banner ? (
             <BannerContainer
-              aria-hidden={isBannerOpen}
+              aria-hidden={!isBannerOpen}
               isBannerOpen={isBannerOpen}
               bannerHeight={bannerHeight}
             >
