@@ -1,0 +1,1 @@
+- Fix trigger xflow invoked with incorrect arguments

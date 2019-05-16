@@ -74,16 +74,12 @@ export default class Switcher extends React.Component<SwitcherProps> {
     return this.mountedAt ? Math.round(now() - this.mountedAt) : 0;
   }
 
-  triggerXFlow = (event: any, analyticsEvent: UIAnalyticsEventInterface) => {
-    const { triggerXFlow, suggestedProductLinks } = this.props;
-    if (suggestedProductLinks.length) {
-      triggerXFlow(
-        suggestedProductLinks[0].key,
-        'atlassian-switcher',
-        event,
-        analyticsEvent,
-      );
-    }
+  triggerXFlow = (key: string) => (
+    event: any,
+    analyticsEvent: UIAnalyticsEventInterface,
+  ) => {
+    const { triggerXFlow } = this.props;
+    triggerXFlow(key, 'atlassian-switcher', event, analyticsEvent);
   };
 
   getExpandHref = (hostname: string) => {
@@ -173,7 +169,7 @@ export default class Switcher extends React.Component<SwitcherProps> {
               >
                 <SwitcherItem
                   icon={<item.Icon theme="product" />}
-                  onClick={this.triggerXFlow}
+                  onClick={this.triggerXFlow(item.key)}
                 >
                   {item.label}
                   <TryLozenge>
