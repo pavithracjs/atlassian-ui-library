@@ -1,13 +1,14 @@
 import { keymap } from 'prosemirror-keymap';
 import { Schema, NodeType, Node } from 'prosemirror-model';
 import { Plugin, EditorState, Selection } from 'prosemirror-state';
+import { EditorView } from 'prosemirror-view';
 import * as keymaps from '../../../keymaps';
 import {
   isEmptyNode,
   atTheEndOfDoc,
   isSelectionInsideLastNodeInDocument,
 } from '../../../utils';
-import { Command, CommandDispatch } from '../../../types';
+import { Command, CommandDispatch, EditorAppearance } from '../../../types';
 import { safeInsert } from 'prosemirror-utils';
 import { selectNodeBackward } from 'prosemirror-commands';
 
@@ -49,7 +50,7 @@ function getSibling(
   const index = $from.index($from.depth - 1);
   const grandParent = $from.node($from.depth - 1); // Get GrandParent
 
-  return grandParent.maybeChild(index + sibling);
+  return grandParent ? grandParent.maybeChild(index + sibling) : null;
 }
 
 /**
@@ -199,7 +200,41 @@ const maybeRemoveMediaSingleNode = (schema: Schema): Command => {
   };
 };
 
-export function keymapPlugin(schema: Schema): Plugin {
+const maybeRemoveMediaSingleNodeForMobile: Command = (state, dispatch) => {
+  const { schema, selection, tr } = state;
+  const previousSibling = -1;
+
+  if (
+    dispatch &&
+    isSiblingOfType(selection, schema.nodes.mediaSingle, previousSibling)
+  ) {
+    const mediaSingle = getSibling(selection, previousSibling)!;
+
+    dispatch(
+      tr
+        .delete(
+          selection.$from.pos - mediaSingle.nodeSize - 1,
+          selection.$from.pos - 1,
+        )
+        .setSelection(
+          Selection.near(
+            tr.doc.resolve(
+              tr.mapping.map(selection.$from.pos - mediaSingle.nodeSize - 1),
+            ),
+          ),
+        )
+        .scrollIntoView(),
+    );
+    return true;
+  }
+
+  return false;
+};
+
+export default function keymapPlugin(
+  schema: Schema,
+  appearance?: EditorAppearance,
+): Plugin {
   const list = {};
   const removeMediaSingleCommand = maybeRemoveMediaSingleNode(schema);
 
@@ -209,7 +244,22 @@ export function keymapPlugin(schema: Schema): Plugin {
     list,
   );
 
-  return keymap(list);
-}
+  const plugin = keymap(list);
 
-export default keymapPlugin;
+  if (appearance === 'mobile') {
+    plugin.props.handleDOMEvents = {
+      // ED-6765: workaround for deleting selected mediaSingle on Android as no input event[key=Backspace] is currently emitted
+      beforeinput: (view: EditorView, event: Event): boolean => {
+        const { state, dispatch } = view;
+
+        if ((event as any).inputType !== 'deleteContentBackward') {
+          return false;
+        }
+
+        return maybeRemoveMediaSingleNodeForMobile(state, dispatch);
+      },
+    };
+  }
+
+  return plugin;
+}

@@ -161,7 +161,7 @@ export default class Editor extends React.Component<
   private scheduledKeylineUpdate: number | undefined;
   private contentArea: HTMLElement | undefined;
 
-  stopPropagation = (event: MouseEvent<HTMLDivElement>) =>
+  stopPropagation = (event: MouseEvent<HTMLDivElement, any>) =>
     event.stopPropagation();
 
   scrollContainerRef = (ref: HTMLElement | null) => {
@@ -193,7 +193,10 @@ export default class Editor extends React.Component<
     }
 
     const { scrollTop } = this.scrollContainer;
-    this.setState({ showKeyline: scrollTop > akEditorToolbarKeylineHeight });
+    const showKeyline = scrollTop > akEditorToolbarKeylineHeight;
+    if (showKeyline !== this.state.showKeyline) {
+      this.setState({ showKeyline });
+    }
 
     return false;
   };

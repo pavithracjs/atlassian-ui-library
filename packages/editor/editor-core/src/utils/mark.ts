@@ -14,6 +14,7 @@ export const isMarkAllowedInRange = (
         return false;
       }
       can = node.inlineContent && node.type.allowsMarkType(type);
+      return;
     });
     if (can) {
       return can;

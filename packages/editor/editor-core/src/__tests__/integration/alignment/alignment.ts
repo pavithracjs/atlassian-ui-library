@@ -108,9 +108,16 @@ BrowserTestCase(
       allowTextAlignment: true,
     });
     await alignRight(page);
-    await page.type(editable, ['this is right']);
-    await page.keys('Enter');
-    await page.type(editable, ['this is still right']);
+    await page.click(editable);
+
+    const firstLine = 'this is right';
+    const secondLine = 'this is still right';
+
+    await page.type(editable, firstLine);
+    await page.waitUntilContainsText(editable, firstLine);
+    await page.keys(['Enter']);
+    await page.type(editable, secondLine);
+    await page.waitUntilContainsText(editable, secondLine);
 
     const doc = await page.$eval(editable, getDocFromElement);
     expect(doc).toMatchCustomDocSnapshot(testName);

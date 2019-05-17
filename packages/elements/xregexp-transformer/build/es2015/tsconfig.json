@@ -3,11 +3,13 @@
   "compilerOptions": {
     "declaration": true,
     "outDir": "../../",
-    "rootDir": "../../src",
     "target": "es5",
-    "module": "esnext"
+    "module": "esnext",
+    "paths": {}
   },
   "include": [
-    "../../src/**/*.ts"
+    "../../src/**/*.ts",
+    "../../src/**/*.tsx"
   ],
+  "exclude": ["../../src/**/__tests__/*"]
 }

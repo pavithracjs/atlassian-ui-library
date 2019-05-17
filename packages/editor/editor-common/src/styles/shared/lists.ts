@@ -1,4 +1,5 @@
 import { css } from 'styled-components';
+import { orderedListSelector, bulletListSelector } from '@atlaskit/adf-schema';
 
 export const listsSharedStyles = css`
   /* =============== INDENTATION SPACING ========= */
@@ -7,6 +8,15 @@ export const listsSharedStyles = css`
   ol {
     box-sizing: border-box;
     padding-left: 24px;
+  }
+
+  ${orderedListSelector}, ${bulletListSelector} {
+    /*
+      Ensures list item content adheres to the list's margin instead
+      of filling the entire block row. This is important to allow
+      clicking interactive elements which are floated next to a list.
+    */
+    overflow: hidden;
   }
 
   /* =============== INDENTATION AESTHETICS ========= */

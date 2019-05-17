@@ -36,7 +36,6 @@ export const insertList = (
   listTypeName: string,
   start: number,
   end: number,
-  matchSize: number,
 ) => {
   // To ensure that match is done after HardBreak.
   const { hardBreak } = state.schema.nodes;
@@ -103,15 +102,8 @@ function getBulletListInputRules(schema: Schema): InputRule[] {
 
   const leafNodeAsteriskRule = defaultCreateInputRule(
     new RegExp(`${leafNodeReplacementCharacter}\\s*([\\*\\-]) $`),
-    (state, match, start, end) => {
-      return insertList(
-        state,
-        schema.nodes.bulletList,
-        'bullet',
-        start,
-        end,
-        1,
-      );
+    (state, _match, start, end) => {
+      return insertList(state, schema.nodes.bulletList, 'bullet', start, end);
     },
     true,
   );
@@ -154,14 +146,13 @@ function getOrderedListInputRules(schema: Schema): InputRule[] {
 
   const leafNodeNumberOneRule = defaultCreateInputRule(
     new RegExp(`${leafNodeReplacementCharacter}(1)[\\.\\)] $`),
-    (state, match, start, end) => {
+    (state, _match, start, end) => {
       return insertList(
         state,
         schema.nodes.orderedList,
         'numbered',
         start,
         end,
-        2,
       );
     },
     true,
@@ -187,4 +178,6 @@ export default function inputRulePlugin(schema: Schema): Plugin | undefined {
   if (rules.length !== 0) {
     return inputRules({ rules });
   }
+
+  return;
 }

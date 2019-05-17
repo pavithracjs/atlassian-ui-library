@@ -1,28 +1,17 @@
 import { EditorState, Plugin, PluginKey, Transaction } from 'prosemirror-state';
 import { findParentDomRefOfType } from 'prosemirror-utils';
 import { EditorView, DecorationSet } from 'prosemirror-view';
+
 import { browser } from '@atlaskit/editor-common';
-import { PluginConfig, TablePluginState } from '../types';
 import { Dispatch } from '../../../event-dispatcher';
+import { PortalProviderAPI } from '../../../ui/PortalProvider';
+import { pluginFactory } from '../../../utils/plugin-state-factory';
+
 import { createTableView } from '../nodeviews/table';
 import { createCellView } from '../nodeviews/cell';
-import { EventDispatcher } from '../../../event-dispatcher';
-import { PortalProviderAPI } from '../../../ui/PortalProvider';
-import { setTableRef, clearHoverSelection } from '../actions';
-import {
-  handleSetFocus,
-  handleSetTableRef,
-  handleSetTargetCellPosition,
-  handleClearSelection,
-  handleHoverColumns,
-  handleHoverRows,
-  handleHoverTable,
-  handleDocOrSelectionChanged,
-  handleToggleContextualMenu,
-  handleShowInsertColumnButton,
-  handleShowInsertRowButton,
-  handleHideInsertColumnOrRowButton,
-} from '../action-handlers';
+import { setTableRef, clearHoverSelection } from '../commands';
+import { PluginConfig } from '../types';
+import { handleDocOrSelectionChanged } from '../handlers';
 import {
   handleMouseDown,
   handleMouseOver,
@@ -36,6 +25,7 @@ import {
 import { findControlsHoverDecoration } from '../utils';
 import { fixTables } from '../transforms';
 import { TableCssClassName as ClassName } from '../types';
+import reducer from '../reducer';
 
 export const pluginKey = new PluginKey('tablePlugin');
 
@@ -45,29 +35,35 @@ export const defaultTableSelection = {
   isInDanger: false,
 };
 
-export enum ACTIONS {
-  SET_EDITOR_FOCUS,
-  SET_TABLE_REF,
-  SET_TARGET_CELL_POSITION,
-  CLEAR_HOVER_SELECTION,
-  HOVER_COLUMNS,
-  HOVER_ROWS,
-  HOVER_TABLE,
-  TOGGLE_CONTEXTUAL_MENU,
-  SHOW_INSERT_COLUMN_BUTTON,
-  SHOW_INSERT_ROW_BUTTON,
-  HIDE_INSERT_COLUMN_OR_ROW_BUTTON,
-}
-
 let isBreakoutEnabled: boolean | undefined;
 let wasBreakoutEnabled: boolean | undefined;
 let isDynamicTextSizingEnabled: boolean | undefined;
 let isFullWidthModeEnabled: boolean | undefined;
 
+const { createPluginState, createCommand, getPluginState } = pluginFactory(
+  pluginKey,
+  reducer,
+  {
+    mapping: (tr, pluginState) => {
+      if (tr.docChanged && pluginState.targetCellPosition) {
+        const { pos, deleted } = tr.mapping.mapResult(
+          pluginState.targetCellPosition,
+        );
+        return {
+          ...pluginState,
+          targetCellPosition: deleted ? undefined : pos,
+        };
+      }
+      return pluginState;
+    },
+    onDocChanged: handleDocOrSelectionChanged,
+    onSelectionChanged: handleDocOrSelectionChanged,
+  },
+);
+
 export const createPlugin = (
   dispatch: Dispatch,
   portalProviderAPI: PortalProviderAPI,
-  eventDispatcher: EventDispatcher,
   pluginConfig: PluginConfig,
   isContextMenuEnabled?: boolean,
   dynamicTextSizing?: boolean,
@@ -79,120 +75,18 @@ export const createPlugin = (
   isBreakoutEnabled = breakoutEnabled;
   isDynamicTextSizingEnabled = dynamicTextSizing;
   isFullWidthModeEnabled = fullWidthModeEnabled;
+
+  const state = createPluginState(dispatch, {
+    pluginConfig,
+    insertColumnButtonIndex: undefined,
+    insertRowButtonIndex: undefined,
+    decorationSet: DecorationSet.empty,
+    isFullWidthModeEnabled,
+    ...defaultTableSelection,
+  });
+
   return new Plugin({
-    state: {
-      init: (): TablePluginState => {
-        return {
-          pluginConfig,
-          insertColumnButtonIndex: undefined,
-          insertRowButtonIndex: undefined,
-          decorationSet: DecorationSet.empty,
-          ...defaultTableSelection,
-          isFullWidthModeEnabled,
-        };
-      },
-      apply(
-        tr: Transaction,
-        _pluginState: TablePluginState,
-        _,
-        state: EditorState,
-      ) {
-        const meta = tr.getMeta(pluginKey) || {};
-        const data = meta.data || {};
-        const {
-          editorHasFocus,
-          tableRef,
-          targetCellPosition,
-          hoverDecoration,
-          hoveredColumns,
-          hoveredRows,
-          isInDanger,
-          insertColumnButtonIndex,
-          insertRowButtonIndex,
-        } = data;
-
-        let pluginState = { ..._pluginState };
-
-        if (tr.docChanged && pluginState.targetCellPosition) {
-          const { pos, deleted } = tr.mapping.mapResult(
-            pluginState.targetCellPosition,
-          );
-          pluginState = {
-            ...pluginState,
-            targetCellPosition: deleted ? undefined : pos,
-          };
-        }
-
-        switch (meta.action) {
-          case ACTIONS.SET_EDITOR_FOCUS:
-            return handleSetFocus(editorHasFocus)(pluginState, dispatch);
-
-          case ACTIONS.SET_TABLE_REF:
-            return handleSetTableRef(state, tableRef)(pluginState, dispatch);
-
-          case ACTIONS.SET_TARGET_CELL_POSITION:
-            return handleSetTargetCellPosition(targetCellPosition)(
-              pluginState,
-              dispatch,
-            );
-
-          case ACTIONS.CLEAR_HOVER_SELECTION:
-            return handleClearSelection(pluginState, dispatch);
-
-          case ACTIONS.HOVER_COLUMNS:
-            return handleHoverColumns(
-              state,
-              hoverDecoration,
-              hoveredColumns,
-              isInDanger,
-            )(pluginState, dispatch);
-
-          case ACTIONS.HOVER_ROWS:
-            return handleHoverRows(
-              state,
-              hoverDecoration,
-              hoveredRows,
-              isInDanger,
-            )(pluginState, dispatch);
-
-          case ACTIONS.HOVER_TABLE:
-            return handleHoverTable(
-              state,
-              hoverDecoration,
-              hoveredColumns,
-              hoveredRows,
-              isInDanger,
-            )(pluginState, dispatch);
-
-          case ACTIONS.TOGGLE_CONTEXTUAL_MENU:
-            return handleToggleContextualMenu(pluginState, dispatch);
-
-          case ACTIONS.SHOW_INSERT_COLUMN_BUTTON:
-            return handleShowInsertColumnButton(insertColumnButtonIndex)(
-              pluginState,
-              dispatch,
-            );
-
-          case ACTIONS.SHOW_INSERT_ROW_BUTTON:
-            return handleShowInsertRowButton(insertRowButtonIndex)(
-              pluginState,
-              dispatch,
-            );
-
-          case ACTIONS.HIDE_INSERT_COLUMN_OR_ROW_BUTTON:
-            return handleHideInsertColumnOrRowButton(pluginState, dispatch);
-
-          default:
-            break;
-        }
-
-        if (tr.docChanged || tr.selectionSet) {
-          return handleDocOrSelectionChanged(tr)(pluginState, dispatch);
-        }
-
-        return pluginState;
-      },
-    },
+    state: state,
     key: pluginKey,
     appendTransaction: (
       transactions: Transaction[],
@@ -207,6 +101,7 @@ export const createPlugin = (
       if (transactions.find(tr => tr.docChanged)) {
         return fixTables(newState.tr);
       }
+      return;
     },
     view: (editorView: EditorView) => {
       const domAtPos = editorView.domAtPos.bind(editorView);
@@ -235,10 +130,10 @@ export const createPlugin = (
     props: {
       decorations: state => getPluginState(state).decorationSet,
 
-      handleClick: ({ state, dispatch }, pos, event: MouseEvent) => {
+      handleClick: ({ state, dispatch }, _pos, event: MouseEvent) => {
         const { decorationSet } = getPluginState(state);
         if (findControlsHoverDecoration(decorationSet).length) {
-          clearHoverSelection(state, dispatch);
+          clearHoverSelection()(state, dispatch);
         }
 
         // ED-6069: workaround for Chrome given a regression introduced in prosemirror-view@1.6.8
@@ -284,6 +179,4 @@ export const createPlugin = (
   });
 };
 
-export const getPluginState = (state: EditorState) => {
-  return pluginKey.getState(state);
-};
+export { createCommand, getPluginState };

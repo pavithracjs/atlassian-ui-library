@@ -1,5 +1,30 @@
 # @atlaskit/smart-card
 
+## 11.0.5
+- [patch] [27f666ed85](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/27f666ed85):
+
+  - Fixed example.
+
+## 11.0.4
+- [patch] [94ffb3b638](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/94ffb3b638):
+
+  - check for taskType icon in the json payload
+
+## 11.0.3
+- [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
+
+  - fix for clicking behaviour in view/edit mode for Inline Smart Links.
+
+## 11.0.2
+- [patch] [7e18a6398b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7e18a6398b):
+
+  - improve type safety when defining smart-card environment
+
+## 11.0.1
+- [patch] [b7687b9981](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/b7687b9981):
+
+  - Changed smart link functionality so that it will open in the same tab if clicked.
+
 ## 11.0.0
 - [major] [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
 

@@ -32,7 +32,7 @@ import {
   tablesHaveDifferentNoOfColumns,
   getTableWidth,
 } from '../utils';
-import { autoSizeTable } from '../actions';
+import { autoSizeTable } from '../commands';
 import { WidthPluginState } from '../../width';
 
 /**
@@ -98,7 +98,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
 
     if (allowColumnResizing) {
       /**
-       * We no longer use `containerWidth` as a variable to determine an update for table resizing (avoids unneccesary updates).
+       * We no longer use `containerWidth` as a variable to determine an update for table resizing (avoids unnecessary updates).
        * Instead we use the resize event to only trigger updates when necessary.
        */
       window.addEventListener('resize', this.handleWindowResizeDebounced);
@@ -130,7 +130,7 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
       // Wait for next tick to handle auto sizing, gives the browser time to do layout calc etc.
       this.handleAutoSizeDebounced();
     } else if (this.props.allowColumnResizing && this.table) {
-      // If col widths (e.g. via collab) or number of columns (e.g. delete a columnd) have changed,
+      // If col widths (e.g. via collab) or number of columns (e.g. delete a column) have changed,
       // re-draw colgroup.
       if (
         tablesHaveDifferentColumnWidths(this.props.node, prevProps.node) ||

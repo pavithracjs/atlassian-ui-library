@@ -15,9 +15,9 @@ const [user] = MOCK_USERS;
 
 describe('Conversation', () => {
   const defaultProps = {
-    createAnalyticsEvent: (event: object): AnalyticsEvent => ({
-      update: (attributes: object) => {},
-      fire: (channel: string) => {},
+    createAnalyticsEvent: (): AnalyticsEvent => ({
+      update: () => {},
+      fire: () => {},
       attributes: { foo: 'bar' },
     }),
     sendAnalyticsEvent: () => {},

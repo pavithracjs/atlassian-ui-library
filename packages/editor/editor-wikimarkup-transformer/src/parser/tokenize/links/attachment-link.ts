@@ -9,4 +9,5 @@ export function attachmentLinkResolver(
   if (link.attachmentName) {
     return [getMediaGroupNodeView(schema, link.attachmentName)];
   }
+  return;
 }

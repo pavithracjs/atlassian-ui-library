@@ -175,6 +175,8 @@ export const insertMedia = async (
 
   const existingMediaCards = await browser.$$(mediaCardSelector);
 
+  // wait for media button in toolbar and click it
+  await browser.waitForSelector(openMediaPopup);
   await browser.click(openMediaPopup);
 
   // wait for media item, and select it

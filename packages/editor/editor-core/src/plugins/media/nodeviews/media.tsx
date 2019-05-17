@@ -73,10 +73,7 @@ class MediaNode extends Component<MediaNodeProps, MediaNodeState> {
     this.pluginState = mediaStateKey.getState(view.state);
   }
 
-  shouldComponentUpdate(
-    nextProps: MediaNodeProps & ImageLoaderProps,
-    nextState: MediaNodeState,
-  ) {
+  shouldComponentUpdate(nextProps: MediaNodeProps & ImageLoaderProps) {
     if (
       this.props.selected !== nextProps.selected ||
       this.props.viewContext !== nextProps.viewContext ||

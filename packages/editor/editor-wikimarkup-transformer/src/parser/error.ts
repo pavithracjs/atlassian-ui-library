@@ -1,6 +1,6 @@
 export function error(
   message: string,
-  input: string,
+  _input: string,
   line: number,
   column: number,
 ) {

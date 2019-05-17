@@ -42,7 +42,10 @@ import codeBlockPlugin from '../../../../plugins/code-block';
 import rulePlugin from '../../../../plugins/rule';
 import tablePlugin from '../../../../plugins/table';
 import quickInsertPlugin from '../../../../plugins/quick-insert';
-import { insertMediaAsMediaSingle } from '../../../../plugins/media/utils/media-single';
+import {
+  insertMediaAsMediaSingle,
+  alignAttributes,
+} from '../../../../plugins/media/utils/media-single';
 import { CreateUIAnalyticsEventSignature } from '@atlaskit/analytics-next';
 import {
   temporaryMedia,
@@ -53,7 +56,7 @@ import {
   temporaryFileId,
 } from './_utils';
 import { SmartMediaEditor } from '@atlaskit/media-editor';
-import { MediaAttributes } from '@atlaskit/adf-schema';
+import { MediaAttributes, MediaSingleAttributes } from '@atlaskit/adf-schema';
 import { ReactWrapper } from 'enzyme';
 
 const pdfFile = {
@@ -126,26 +129,6 @@ describe('Media plugin', () => {
 
   afterAll(() => {
     providerFactory.destroy();
-  });
-
-  it('should invoke binary picker when calling insertFileFromDataUrl', async () => {
-    const { pluginState } = editor(doc(p('{<>}')));
-    const provider = await mediaProvider;
-    await provider.uploadContext;
-
-    await waitForAllPickersInitialised(pluginState);
-
-    expect(typeof pluginState.binaryPicker!).toBe('object');
-
-    pluginState.binaryPicker!.upload = jest.fn();
-
-    pluginState.insertFileFromDataUrl(
-      'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
-      'test.gif',
-    );
-
-    expect(pluginState.binaryPicker!.upload as any).toHaveBeenCalledTimes(1);
-    pluginState.destroy();
   });
 
   describe('editor', () => {
@@ -375,7 +358,7 @@ describe('Media plugin', () => {
 
     await waitForAllPickersInitialised(pluginState);
 
-    expect(pluginState.pickers.length).toBe(4);
+    expect(pluginState.pickers.length).toBe(3);
   });
 
   it('should re-use old pickers when new media provider is set', async () => {
@@ -387,7 +370,7 @@ describe('Media plugin', () => {
     await waitForAllPickersInitialised(pluginState);
 
     const pickersAfterMediaProvider1 = pluginState.pickers;
-    expect(pickersAfterMediaProvider1.length).toBe(4);
+    expect(pickersAfterMediaProvider1.length).toBe(3);
 
     await getFreshMediaProvider();
 
@@ -441,7 +424,6 @@ describe('Media plugin', () => {
     await provider.uploadContext;
     await provider.viewContext;
     await waitForAllPickersInitialised(pluginState);
-    expect(typeof pluginState.binaryPicker!).toBe('object');
 
     const testFileData = {
       file: {
@@ -484,7 +466,6 @@ describe('Media plugin', () => {
     await provider.uploadContext;
     await provider.viewContext;
     await waitForAllPickersInitialised(pluginState);
-    expect(typeof pluginState.binaryPicker!).toBe('object');
 
     const testFileData = {
       file: {
@@ -522,7 +503,6 @@ describe('Media plugin', () => {
     await provider.uploadContext;
     await provider.viewContext;
     await waitForAllPickersInitialised(pluginState);
-    expect(typeof pluginState.binaryPicker!).toBe('object');
 
     const testFileData = {
       file: {
@@ -541,43 +521,6 @@ describe('Media plugin', () => {
 
     (pluginState as any).popupPicker!.handleUploadPreviewUpdate(testFileData);
     expect(spy).toHaveBeenCalledWith('atlassian.editor.media.file.popup', {
-      fileMimeType: 'file/test',
-    });
-  });
-
-  it('should trigger analytics events for picking and binary', async () => {
-    const { pluginState } = editor(doc(p('{<>}')));
-    const spy = jest.fn();
-    analyticsService.handler = spy as AnalyticsHandler;
-
-    afterEach(() => {
-      analyticsService.handler = null;
-    });
-
-    const provider = await mediaProvider;
-    await provider.uploadContext;
-    await provider.viewContext;
-    await waitForAllPickersInitialised(pluginState);
-
-    expect(typeof pluginState.binaryPicker!).toBe('object');
-
-    const testFileData = {
-      file: {
-        id: 'test',
-        name: 'test.png',
-        size: 1,
-        type: 'file/test',
-      },
-      preview: {
-        dimensions: {
-          height: 200,
-          width: 200,
-        },
-      },
-    };
-
-    (pluginState as any).binaryPicker!.handleUploadPreviewUpdate(testFileData);
-    expect(spy).toHaveBeenCalledWith('atlassian.editor.media.file.binary', {
       fileMimeType: 'file/test',
     });
   });
@@ -1370,6 +1313,184 @@ describe('Media plugin', () => {
       actionSubjectId: 'cloudPicker',
       attributes: { inputMethod: 'quickInsert' },
       eventType: 'ui',
+    });
+  });
+
+  describe('image layout modes', () => {
+    describe('alignment', () => {
+      describe('100% image', () => {
+        it('maintains width for center layout', () => {
+          const centerNode: MediaSingleAttributes = {
+            width: 100,
+            layout: 'center',
+          };
+          expect(alignAttributes('center', centerNode)).toEqual({
+            width: 100,
+            layout: 'center',
+          });
+        });
+
+        it('resizes to half width on align-start', () => {
+          const centerNode: MediaSingleAttributes = { layout: 'center' };
+          expect(alignAttributes('align-start', centerNode)).toEqual({
+            layout: 'align-start',
+            width: 50,
+          });
+        });
+
+        it('resizes to half width on align-end', () => {
+          const centerNode: MediaSingleAttributes = { layout: 'center' };
+          expect(alignAttributes('align-end', centerNode)).toEqual({
+            layout: 'align-end',
+            width: 50,
+          });
+        });
+
+        it('resizes to half width on wrap-left', () => {
+          const centerNode: MediaSingleAttributes = { layout: 'center' };
+          expect(alignAttributes('wrap-left', centerNode)).toEqual({
+            layout: 'wrap-left',
+            width: 50,
+          });
+        });
+
+        it('resizes to half width on wrap-right', () => {
+          const centerNode: MediaSingleAttributes = { layout: 'center' };
+          expect(alignAttributes('wrap-right', centerNode)).toEqual({
+            layout: 'wrap-right',
+            width: 50,
+          });
+        });
+
+        it('changes layout to wide', () => {
+          const centerNode: MediaSingleAttributes = { layout: 'center' };
+          expect(alignAttributes('wide', centerNode)).toEqual({
+            layout: 'wide',
+          });
+        });
+
+        it('changes layout to full-width', () => {
+          const centerNode: MediaSingleAttributes = { layout: 'center' };
+          expect(alignAttributes('full-width', centerNode)).toEqual({
+            layout: 'full-width',
+          });
+        });
+      });
+
+      describe('50% image', () => {
+        const centerNode: MediaSingleAttributes = {
+          layout: 'center',
+          width: 50,
+        };
+
+        it('maintains width on center', () => {
+          const leftAlignedNode: MediaSingleAttributes = {
+            layout: 'center',
+            width: 50,
+          };
+          expect(alignAttributes('center', leftAlignedNode)).toEqual({
+            layout: 'center',
+            width: 50,
+          });
+        });
+
+        it('maintains width on align-start', () => {
+          expect(alignAttributes('align-start', centerNode)).toEqual({
+            layout: 'align-start',
+            width: 50,
+          });
+        });
+
+        it('maintains width on align-end', () => {
+          expect(alignAttributes('align-end', centerNode)).toEqual({
+            layout: 'align-end',
+            width: 50,
+          });
+        });
+
+        it('maintains width on wrap-left', () => {
+          expect(alignAttributes('wrap-left', centerNode)).toEqual({
+            layout: 'wrap-left',
+            width: 50,
+          });
+        });
+
+        it('maintains width on wrap-right', () => {
+          expect(alignAttributes('wrap-right', centerNode)).toEqual({
+            layout: 'wrap-right',
+            width: 50,
+          });
+        });
+
+        it('changes layout to wide', () => {
+          expect(alignAttributes('wide', centerNode)).toEqual({
+            layout: 'wide',
+            width: 50,
+          });
+        });
+
+        it('changes layout to full-width', () => {
+          expect(alignAttributes('full-width', centerNode)).toEqual({
+            layout: 'full-width',
+            width: 50,
+          });
+        });
+      });
+
+      describe('11-column align-left image', () => {
+        it('changes width to 10-column on centering', () => {
+          const attrs: MediaSingleAttributes = {
+            width: 91.6,
+            layout: 'align-start',
+          };
+
+          expect(alignAttributes('center', attrs)).toEqual({
+            layout: 'center',
+            width: 83.33333333333334,
+          });
+        });
+      });
+
+      describe('unresized image', () => {
+        it('does not apply width if already center', () => {
+          const centerNode: MediaSingleAttributes = { layout: 'center' };
+          expect(alignAttributes('center', centerNode)).toEqual({
+            layout: 'center',
+          });
+        });
+
+        it('resizes to half width on align-start', () => {
+          const centerNode: MediaSingleAttributes = { layout: 'center' };
+          expect(alignAttributes('align-start', centerNode)).toEqual({
+            layout: 'align-start',
+            width: 50,
+          });
+        });
+
+        it('resizes to half width on align-end', () => {
+          const centerNode: MediaSingleAttributes = { layout: 'center' };
+          expect(alignAttributes('align-end', centerNode)).toEqual({
+            layout: 'align-end',
+            width: 50,
+          });
+        });
+
+        it('resizes to half width on wrap-left', () => {
+          const centerNode: MediaSingleAttributes = { layout: 'center' };
+          expect(alignAttributes('wrap-left', centerNode)).toEqual({
+            layout: 'wrap-left',
+            width: 50,
+          });
+        });
+
+        it('resizes to half width on wrap-right', () => {
+          const centerNode: MediaSingleAttributes = { layout: 'center' };
+          expect(alignAttributes('wrap-right', centerNode)).toEqual({
+            layout: 'wrap-right',
+            width: 50,
+          });
+        });
+      });
     });
   });
 });

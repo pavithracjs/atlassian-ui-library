@@ -75,9 +75,12 @@ export const HelpPanelContent = (
   return (
     <>
       <HelpPanelHeader>
-        {formatMessage(messages.help_panel_header)}
+        <HelpPanelHeaderText>
+          {formatMessage(messages.help_panel_header)}
+        </HelpPanelHeaderText>
+        <CloseButton />
       </HelpPanelHeader>
-      {help.defaultContent}
+      <HelpPanelBody>{help.defaultContent}</HelpPanelBody>
     </>
   );
 };

@@ -8,6 +8,66 @@
 const glob = require('glob');
 const pageSelector = '#examples';
 
+function trackers(page /*:any*/) {
+  let requests = new Set();
+  const onStarted = request => requests.add(request);
+  const onFinished = request => requests.delete(request);
+  page.on('request', onStarted);
+  page.on('requestfinished', onFinished);
+  page.on('requestfailed', onFinished);
+
+  return {
+    dispose() {
+      page.removeListener('request', onStarted);
+      page.removeListener('requestfinished', onFinished);
+      page.removeListener('requestfailed', onFinished);
+    },
+
+    inflightRequests() {
+      return Array.from(requests);
+    },
+  };
+}
+
+async function navigateToUrl(
+  page /*:any*/,
+  url /*:string*/,
+  reuseExistingSession /*:boolean*/ = true,
+  failHandler /*:?(error: Error) => void*/ = undefined,
+) {
+  if (reuseExistingSession && page.url() === url) {
+    return;
+  }
+
+  // Disable Webpack's HMR, as it negatively impacts usage of the 'networkidle0' setting.
+  await page.setRequestInterception(true);
+  page.on('request', request => {
+    if (request.url().includes('xhr_streaming')) {
+      console.log('Aborted connection request to webpack xhr_streaming');
+      request.abort();
+    } else {
+      request.continue();
+    }
+  });
+
+  const tracker = trackers(page);
+  if (!failHandler) {
+    failHandler = error => {
+      console.warn('Navigation failed: ' + error.message);
+      console.warn('Trying to navigate to: ' + url);
+      const inflight = tracker.inflightRequests();
+      console.warn(
+        'Waiting on requests:\n' +
+          inflight.map(requests => '  ' + requests.url()).join('\n'),
+      );
+    };
+  }
+
+  // Track requests and log any hanging connections
+  await page.goto(url, { waitUntil: 'networkidle0' }).catch(failHandler);
+  tracker.dispose();
+}
+
 async function disableAllSideEffects(
   page /*: any */,
   allowSideEffects /*: Object */ = {},
@@ -146,7 +206,7 @@ async function waitForLoadedBackgroundImages(
         return Promise.race([
           new Promise((resolve, reject) => setTimeout(reject, raceTimeout)),
           Promise.all(
-            [...bgImageUrlSet].map(
+            Array.from(bgImageUrlSet).map(
               url =>
                 new Promise((resolve, reject) => {
                   const img = new Image();
@@ -164,12 +224,13 @@ async function waitForLoadedBackgroundImages(
     .catch(e => {
       console.warn(
         `waitForLoadedBackgroundImages: Failed to resolve background images within the threshold of ${timeoutMs} milliseconds`,
+        e,
       );
     });
 }
 
 async function takeScreenShot(page /*:any*/, url /*:string*/) {
-  await page.goto(url, { waitUntil: 'networkidle0' });
+  await navigateToUrl(page, url);
   await disableAllAnimations(page);
   await disableAllTransitions(page);
   await disableCaretCursor(page);
@@ -181,6 +242,46 @@ async function takeScreenShot(page /*:any*/, url /*:string*/) {
 async function takeElementScreenShot(page /*:any*/, selector /*:string*/) {
   let element = await page.$(selector);
   return element.screenshot();
+}
+
+/**
+ * Load Example Url
+ *
+ * Useful if a package leverages another package's example and you wish to validate
+ * that it's available.
+ */
+async function loadExampleUrl(
+  page /*:any*/,
+  url /*:string*/,
+  reuseExistingSession /*:boolean*/ = true,
+) {
+  await navigateToUrl(page, url, reuseExistingSession);
+  const errorMessage = await validateExampleLoaded(page);
+
+  if (errorMessage) {
+    // Throw to fail the test up front instead of waiting for a selector timeout.
+    throw new Error(
+      `${errorMessage}. Page loaded with unexpected content: ${url}`,
+    );
+  }
+}
+
+// If the required example isn't available, the page resolves with either
+// an inline error message, or as empty content.
+// Here we check for both scenarios and if discovered we return an error message.
+async function validateExampleLoaded(page /*:any*/) {
+  return await page.evaluate(() => {
+    const doc = document /* as any*/;
+    const renderedContent = doc.querySelector('#examples > div:first-child');
+    if (renderedContent && !renderedContent.children.length) {
+      const message = renderedContent.innerText || '';
+      if (~message.indexOf('does not have an example built for'))
+        return `This example isn't available`;
+    }
+    if (!renderedContent) return `Examples page error`;
+    // It's assumed the example loaded correctly
+    return '';
+  });
 }
 
 // get all examples from the code sync
@@ -222,9 +323,12 @@ module.exports = {
   takeScreenShot,
   takeElementScreenShot,
   getExampleUrl,
+  loadExampleUrl,
+  navigateToUrl,
   disableAllAnimations,
   disableAllTransitions,
   disableCaretCursor,
   disableScrollBehavior,
   disableAllSideEffects,
+  pageSelector,
 };

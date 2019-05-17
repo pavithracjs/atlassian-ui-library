@@ -1,5 +1,189 @@
 # @atlaskit/editor-core
 
+## 112.2.3
+- [patch] [5fd9727f51](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5fd9727f51):
+
+  - Remove duplicate isEmptyNode function from same code path, to prevent compilation errors
+
+## 112.2.2
+- [patch] [dc5b953c49](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dc5b953c49):
+
+  - Fix issue where attempting to fix layouts would reference a stale layout type
+
+## 112.2.1
+- [patch] [3c1c5165b3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3c1c5165b3):
+
+  - ED-6815: fix resizing images to line length (100% width) after fix for ED-6467
+
+## 112.2.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
+## 112.1.1
+- [patch] [ad5128f63c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad5128f63c):
+
+  - ED-5844 Refactor media floating toolbar into little pieces
+
+## 112.1.0
+- [minor] [0ed8ea77ab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ed8ea77ab):
+
+  - ED-6049: New hyperlink experience, add text to display in the toolbar, refer spec in the ticket
+
+## 112.0.3
+- [patch] [74b05d57c4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/74b05d57c4):
+
+  - Fix slowness after "fix regression where multiple cell context menu dropdowns would appear when adding rows"
+
+## 112.0.2
+- [patch] [1f276f95d4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1f276f95d4):
+
+  - ED-6871 Remove unused duplicate functions from table commands
+
+## 112.0.1
+- [patch] [5ad66b6d1a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5ad66b6d1a):
+
+  - [ED-6860] Revert prosemirror-view 1.8.9 bumps, this version was making the cursor typing slowly. this version is recreating all plugins when we use `EditorView.setProps`
+
+## 112.0.0
+- [major] [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
+
+  - Fix typeahead re-rendering when moving mouse
+
+  Breaking change -> TypeAheadItem:
+
+  ```ts
+  export type TypeAheadItemRenderProps = {
+    onClick: () => void;
+
+    // BREAKING CHANGE
+    // onMouseMove -> onHover
+    onHover: () => void;
+
+    isSelected: boolean;
+  };
+
+  export type TypeAheadItem = {
+    /*...*/
+    render?: (
+      props: TypeAheadItemRenderProps,
+    ) => React.ReactElement<TypeAheadItemRenderProps> | null;
+    /*...*/
+  };
+  ```
+
+  Items returned from `QuickInsertProvider#getItems` method that have custom `render` function will now get `onHover` instead of `onMouseMove`.
+
+## 111.1.4
+- [patch] [c5b70ffbdb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/c5b70ffbdb):
+
+  - fix regression where multiple cell context menu dropdowns would appear when adding rows
+
+## 111.1.3
+- [patch] [897c83c32a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/897c83c32a):
+
+  - ED-6849: Prevent the collab plugin from re-initing on a reconfigure, also maintains previous state when reconfiguring
+
+## 111.1.2
+- [patch] [6a52b3d258](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/6a52b3d258):
+
+  - fix for clicking behaviour in view/edit mode for Inline Smart Links.
+
+## 111.1.1
+- [patch] [287036e319](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/287036e319):
+
+  - ED-6765: workaround for mediaSingle deletion on Android
+
+## 111.1.0
+- [minor] [9626153146](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/9626153146):
+
+  - ED-6564: improve typing performance, especially in tables
+
+  Be more selective about when to re-render certain nodes. In particular, only re-render table cells when selecting in/out of them, or their contents change. This applies to:
+
+  * tables
+  * images
+  * emojis
+  * mentions
+  * tasks and decisions
+
+  Also prevents a number of plugins from notifying about status changes when nothing has changed. In particular:
+
+  * breakout
+  * emoji
+  * hyperlink
+  * table
+
+## 111.0.6
+- [patch] [1c88068498](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1c88068498):
+
+  - Fix re-rendering FullPage appearance on every scroll
+
+## 111.0.5
+- [patch] [2b85ca535a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/2b85ca535a):
+
+  - ED-6828: fix smart link selection inside lists
+
+## 111.0.4
+- [patch] [a3264821d0](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a3264821d0):
+
+  - ED-6129 Refactor table plugin state to use pluginFactory
+
+## 111.0.3
+- [patch] [519046cd9b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/519046cd9b):
+
+  - ED-6789: improve table column stacking when resizing columns to the right by going to overflown state only when all resized columns are minWidths
+
+## 111.0.2
+- Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
+  - @atlaskit/editor-test-helpers@9.1.3
+  - @atlaskit/renderer@48.1.1
+  - @atlaskit/media-card@63.0.2
+  - @atlaskit/media-core@30.0.1
+  - @atlaskit/media-editor@35.0.1
+  - @atlaskit/media-filmstrip@34.1.1
+  - @atlaskit/media-picker@42.0.1
+  - @atlaskit/media-test-helpers@23.0.0
+
+## 111.0.1
+- [patch] [58948126ef](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/58948126ef):
+
+  - ED-6073: fix cursor selection and prevent jumping around inline smart links
+
+## 111.0.0
+- [major] [154372926b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/154372926b):
+
+  - Remove insertFileFromDataUrl action
+
+  If you want to upload a dataUrl to media, you should instead use **context.file.upload** from **@atlaskit/media-core**
+
+  ```typescript
+  import {ContextFactory} from '@atlaskit/media-core'
+
+  const mediaContext = ContextFactory.create()
+
+  mediaContext.file.upload({
+    content: 'some-external-url',
+    name: 'some-file-name.png',
+    collection: 'destination-collection'
+  })
+  ```
+
+  For more info check `atlaskit-mk-2/packages/media/media-client/src/client/file-fetcher.ts`
+- Updated dependencies [59cce82fd1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/59cce82fd1):
+  - @atlaskit/media-test-helpers@22.0.1
+  - @atlaskit/media-picker@42.0.0
+
+## 110.4.0
+- [minor] [a8e3fc91ae](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/a8e3fc91ae):
+
+  - Remove react from panel node view
+
+## 110.3.6
+- [patch] [72fc33f8e7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/72fc33f8e7):
+
+  - FS-3243 - Refactor status plugin to use new architecture
+
 ## 110.3.5
 - [patch] [284e2d0b0b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/284e2d0b0b):
 

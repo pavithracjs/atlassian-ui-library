@@ -44,7 +44,7 @@ const doc = {
 };
 
 class MockSerializer implements Serializer<string> {
-  serializeFragment(fragment: any) {
+  serializeFragment(_fragment: any) {
     return 'dummy';
   }
 }

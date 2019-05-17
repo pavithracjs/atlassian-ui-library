@@ -4,15 +4,13 @@ import { createTag, serializeStyle, createTable, TableData } from '../util';
 export const codeBlockStyles = `
 .codeBlock tr:first-child td {
   padding-top: 8px;
-  border-radius: 3px 3px 0 0;
-  -webkit-border-radius: 3px 3px 0 0;
-  -moz-border-radius: 3px 3px 0 0;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 }
 .codeBlock tr:last-child td {
   padding-bottom: 8px;
-  border-radius: 0 0 3px 3px;
-  -webkit-border-radius: 0 0 3px 3px;
-  -moz-border-radius: 0 0 3px 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 `;
 
@@ -56,7 +54,7 @@ const lineNumberTdStyle = {
   'text-align': 'right',
 };
 
-export default function codeBlock({ attrs, text }: NodeSerializerOpts) {
+export default function codeBlock({ text }: NodeSerializerOpts) {
   const codeLines: string[] = (text || '').split('\n');
   const lineMapper = (codeLine: string, index: number): TableData[] => [
     {

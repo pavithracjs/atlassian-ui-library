@@ -49,7 +49,7 @@ const getFreshMediaProvider = () =>
   });
 
 const waitForAllPickersInitialised = async (pluginState: MediaPluginState) => {
-  while (pluginState.pickers.length < 4) {
+  while (pluginState.pickers.length < 3) {
     await new Promise(resolve => resolve());
   }
 };

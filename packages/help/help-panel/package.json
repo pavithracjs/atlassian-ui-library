@@ -1,16 +1,12 @@
 {
   "name": "@atlaskit/help-panel",
-  "version": "0.2.0",
+  "version": "0.5.0",
   "description": "A cross-product help-panel component",
   "license": "Apache-2.0",
-  "main": "dist/es5/index.js",
-  "jsnext:main": "dist/es2015/index.js",
-  "module": "dist/es2015/index.js",
-  "types": "dist/es5/index.d.ts",
+  "module": "index.js",
+  "types": "index.d.ts",
   "atlaskit:src": "src/index.ts",
-  "files": [
-    "dist"
-  ],
+  "sideEffects": false,
   "author": "Atlassian Pty Ltd",
   "maintainers": [
     "Mauro Alvarez"
@@ -32,6 +28,7 @@
     "@atlaskit/section-message": "^3.0.0",
     "@atlaskit/textarea": "^2.0.0",
     "@atlaskit/theme": "^9.0.0",
+    "@atlaskit/help-article": "^0.4.0",
     "exenv": "^1.2.2",
     "lodash.debounce": "^4.0.8",
     "react-transition-group": "^2.2.1",
@@ -51,5 +48,11 @@
     "@atlaskit/page": "^10.0.0",
     "enzyme": "^3.7.0",
     "react-test-renderer": "^16.3.0"
-  }
+  },
+  "keywords": [
+    "atlaskit",
+    "react",
+    "ui",
+    "help"
+  ]
 }

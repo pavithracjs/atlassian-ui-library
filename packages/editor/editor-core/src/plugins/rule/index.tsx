@@ -27,7 +27,7 @@ const rulePlugin: EditorPlugin = {
       },
       {
         name: 'ruleKeymap',
-        plugin: ({ schema }) => keymapPlugin(schema),
+        plugin: () => keymapPlugin(),
       },
     ];
   },

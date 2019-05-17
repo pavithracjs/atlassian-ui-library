@@ -11,7 +11,6 @@ import {
   isDropzone,
   isClipboard,
   isPopup,
-  isBinaryUploader,
   isBrowser,
   isImagePreview,
 } from '@atlaskit/media-picker';
@@ -182,12 +181,6 @@ export default class PickerFacade {
   hide(): void {
     if (isPopup(this.picker)) {
       this.picker.hide();
-    }
-  }
-
-  upload(url: string, fileName: string): void {
-    if (isBinaryUploader(this.picker)) {
-      this.picker.upload(url, fileName);
     }
   }
 

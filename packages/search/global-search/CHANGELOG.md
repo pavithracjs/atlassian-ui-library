@@ -1,5 +1,20 @@
 # @atlaskit/global-search
 
+## 8.6.1
+- [patch] [71f75b2699](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/71f75b2699):
+
+  - Fixed bug with recent item duplication on search
+
+## 8.6.0
+- [minor] [1bcb87f888](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/1bcb87f888):
+
+  - Removing old feature flags from global search
+
+## 8.5.0
+- [minor] [7b604091c7](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7b604091c7):
+
+  - Added support for project affinity for jira in global search
+
 ## 8.4.0
 - [minor] [438313ec7a](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/438313ec7a):
 

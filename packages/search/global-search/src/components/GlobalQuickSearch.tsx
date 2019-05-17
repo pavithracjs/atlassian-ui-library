@@ -57,9 +57,6 @@ export interface State {
  * Presentational component that renders the search input and search results.
  */
 export class GlobalQuickSearch extends React.Component<Props, State> {
-  public static defaultProps: Partial<Props> = {
-    isSendSearchTermsEnabled: false,
-  };
   queryVersion: number = 0;
   resultSelected: boolean = false;
 
@@ -82,18 +79,12 @@ export class GlobalQuickSearch extends React.Component<Props, State> {
   debouncedSearch = debounce(this.doSearch, 350);
 
   doSearch(query: string) {
-    const {
-      onSearch,
-      searchSessionId,
-      createAnalyticsEvent,
-      isSendSearchTermsEnabled,
-    } = this.props;
+    const { onSearch, searchSessionId, createAnalyticsEvent } = this.props;
     onSearch(query.trim(), this.queryVersion);
     fireTextEnteredEvent(
       query,
       searchSessionId,
       this.queryVersion,
-      isSendSearchTermsEnabled,
       createAnalyticsEvent,
     );
     this.queryVersion++;

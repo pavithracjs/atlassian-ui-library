@@ -1,5 +1,10 @@
 # @atlaskit/adf-utils
 
+## 6.1.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
 ## 6.0.5
 - Updated dependencies [7c17b35107](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/7c17b35107):
   - @atlaskit/adf-schema@2.5.5

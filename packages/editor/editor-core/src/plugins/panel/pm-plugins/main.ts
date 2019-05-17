@@ -12,14 +12,6 @@ export type PanelState = {
   toolbarVisible?: boolean | undefined;
 };
 
-export const availablePanelType = [
-  'info',
-  'note',
-  'success',
-  'warning',
-  'error',
-];
-
 export const getPluginState = (state: EditorState): PanelState => {
   return pluginKey.getState(state);
 };
@@ -44,10 +36,7 @@ export type PanelStateSubscriber = (state: PanelState) => any;
 
 export const pluginKey = new PluginKey('panelPlugin');
 
-export const createPlugin = ({
-  portalProviderAPI,
-  dispatch,
-}: PMPluginFactoryParams) =>
+export const createPlugin = ({ dispatch }: PMPluginFactoryParams) =>
   new Plugin({
     state: {
       init() {
@@ -58,8 +47,9 @@ export const createPlugin = ({
         };
       },
       apply(tr, pluginState: PanelState) {
-        const nextPluginState = tr.getMeta(pluginKey);
-        if (nextPluginState) {
+        const maybeNextPluginState = tr.getMeta(pluginKey);
+        if (maybeNextPluginState) {
+          const nextPluginState = { ...pluginState, ...maybeNextPluginState };
           dispatch(pluginKey, nextPluginState);
           return nextPluginState;
         }
@@ -97,12 +87,13 @@ export const createPlugin = ({
           dispatch(pluginKey, {
             ...pluginState,
           });
+          return;
         },
       };
     },
     props: {
       nodeViews: {
-        panel: panelNodeView(portalProviderAPI),
+        panel: panelNodeView(),
       },
       handleDOMEvents: {
         blur(view) {

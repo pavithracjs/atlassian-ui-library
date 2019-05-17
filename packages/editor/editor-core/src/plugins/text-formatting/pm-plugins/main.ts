@@ -1,7 +1,7 @@
 import { toggleMark } from 'prosemirror-commands';
 import { Plugin, PluginKey, EditorState } from 'prosemirror-state';
 import { Dispatch } from '../../../event-dispatcher';
-import { markActive, anyMarkActive, deepEqual } from '../utils';
+import { markActive, anyMarkActive, shallowEqual } from '../utils';
 import { createInlineCodeFromTextInputWithAnalytics } from '../commands/text-formatting';
 import { EditorView } from 'prosemirror-view';
 import * as keymaps from '../../../keymaps';
@@ -90,17 +90,17 @@ const getTextFormattingState = (
 export const plugin = (dispatch: Dispatch) =>
   new Plugin({
     state: {
-      init(config, state: EditorState): TextFormattingState {
+      init(_config, state: EditorState): TextFormattingState {
         return getTextFormattingState(state);
       },
       apply(
-        tr,
+        _tr,
         pluginState: TextFormattingState,
-        oldState,
+        _oldState,
         newState,
       ): TextFormattingState {
         const state = getTextFormattingState(newState);
-        if (!deepEqual(pluginState, state)) {
+        if (!shallowEqual(pluginState, state)) {
           dispatch(pluginKey, state);
           return state;
         }
@@ -114,7 +114,7 @@ export const plugin = (dispatch: Dispatch) =>
         if (event.key === keymaps.moveRight.common) {
           return commands.moveRight()(state, dispatch);
         } else if (event.key === keymaps.moveLeft.common) {
-          return commands.moveLeft(view)(state, dispatch);
+          return commands.moveLeft()(state, dispatch);
         }
         return false;
       },

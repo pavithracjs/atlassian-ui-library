@@ -38,7 +38,7 @@ const floatingToolbarLanguageSelector = 'div[aria-label="Floating Toolbar"]';
   BrowserTestCase(
     `code-block: code block language is preserved after floating toolbar loses and gains focus for ${editor}`,
     { skip: ['ie', 'safari'] },
-    async (client: any, testName: string) => {
+    async (client: any) => {
       const page = await goToEditorTestingExample(client);
 
       await mountEditor(page, {
@@ -68,7 +68,7 @@ const floatingToolbarLanguageSelector = 'div[aria-label="Floating Toolbar"]';
   BrowserTestCase(
     `code-block: code block selected language correctly changes when moving selection directly from one code block to another for ${editor}`,
     { skip: ['ie', 'safari', 'edge'] },
-    async (client: any, testName: string) => {
+    async (client: any) => {
       const page = await goToEditorTestingExample(client);
 
       await mountEditor(page, {

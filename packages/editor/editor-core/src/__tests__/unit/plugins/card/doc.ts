@@ -310,7 +310,7 @@ describe('card', () => {
       test('rejects', async () => {
         const { dispatch } = view;
         provider = new class implements CardProvider {
-          resolve(url: string): Promise<any> {
+          resolve(): Promise<any> {
             return Promise.reject('error').catch(() => {});
           }
         }();

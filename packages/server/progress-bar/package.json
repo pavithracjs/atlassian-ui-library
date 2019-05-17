@@ -11,6 +11,10 @@
   "maintainers": [
     "Artur Yapparov"
   ],
+  "atlaskit": {
+    "name": "Progress Bar",
+    "team": "server"
+  },
   "repository": "https://bitbucket.org/atlassian/atlaskit-mk-2",
   "dependencies": {
     "@atlaskit/theme": "^9.0.0",
