@@ -6,6 +6,9 @@ import { truncateUrlForErrorView } from '../utils';
 import { Frame } from '../Frame';
 import { IconAndTitleLayout } from '../IconAndTitleLayout';
 import { AKIconWrapper } from '../Icon';
+import { messages } from '../../messages';
+import { FormattedMessage } from 'react-intl';
+import { ForbiddenWrapper } from './styled';
 
 export interface InlineCardForbiddenViewProps {
   /** The url to display */
@@ -38,19 +41,20 @@ export class InlineCardForbiddenView extends React.Component<
               <LockIcon label="error" size="small" primaryColor={colors.B400} />
             </AKIconWrapper>
           }
-          title={
-            truncateUrlForErrorView(url) +
-            " - You don't have permissions to view"
-          }
+          title={truncateUrlForErrorView(url)}
           titleColor={colors.N500}
         />
         {!onAuthorise ? (
           ''
         ) : (
           <>
-            {' '}
+            <ForbiddenWrapper>
+              {` - `}
+              <FormattedMessage {...messages.invalid_permissions} />
+              {` - `}
+            </ForbiddenWrapper>
             <Button spacing="none" appearance="link" onClick={this.handleRetry}>
-              Try another account
+              <FormattedMessage {...messages.try_another_account} />
             </Button>
           </>
         )}
