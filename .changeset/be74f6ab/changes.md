@@ -1,0 +1,1 @@
+- ED-6814: fixed rendering mediaSingle without collection

@@ -13,7 +13,7 @@ import {
 BrowserTestCase(
   'currentSelection when no selection',
   // Safari has issues with key events
-  { skip: skip.concat('safari', 'chrome') },
+  { skip: skip.concat('safari') },
   async (client: any, testName: string) => {
     const browser = new Page(client);
     await browser.goto(editor.path);
@@ -34,7 +34,7 @@ BrowserTestCase(
 BrowserTestCase(
   'currentSelection when selection',
   // Safari has issues with key events
-  { skip: skip.concat('safari', 'chrome') },
+  { skip: skip.concat('safari') },
   async (client: any, testName: string) => {
     const browser = new Page(client);
     await browser.goto(editor.path);
@@ -59,7 +59,7 @@ BrowserTestCase(
 BrowserTestCase(
   'currentSelection when cursor is on link',
   // Safari has issues with key events
-  { skip: skip.concat('safari', 'chrome') },
+  { skip: skip.concat('safari') },
   async (client: any, testName: string) => {
     const browser = new Page(client);
     await browser.goto(editor.path);
@@ -87,7 +87,7 @@ BrowserTestCase(
 BrowserTestCase(
   'currentSelection when cursor is selecting a link',
   // Safari has issues with key events
-  { skip: skip.concat('safari', 'chrome') },
+  { skip: skip.concat('safari') },
   async (client: any, testName: string) => {
     const browser = new Page(client);
     await browser.goto(editor.path);
@@ -118,7 +118,7 @@ BrowserTestCase(
 BrowserTestCase(
   'currentSelection when cursor is selecting text and link',
   // Safari has issues with key events
-  { skip: skip.concat('safari', 'chrome') },
+  { skip: skip.concat('safari') },
   async (client: any, testName: string) => {
     const browser = new Page(client);
     await browser.goto(editor.path);
