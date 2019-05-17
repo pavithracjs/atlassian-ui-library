@@ -46,5 +46,5 @@ import { Clipboard } from '@atlaskit/media-picker';
 />
 ```
 
-This is the first component we migrate fully and integrates seemingly with the Editor. Follow up on this ticket to see what will be the next steps on this new API:
+This is the first component we migrate fully and integrates seamlessly with the Editor. Follow up on this ticket to see what will be the next steps on this new API:
 https://product-fabric.atlassian.net/browse/MS-1942
