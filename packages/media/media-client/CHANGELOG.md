@@ -1,5 +1,10 @@
 # @atlaskit/media-client
 
+## 1.1.4
+- [patch] [12aa76d5b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/12aa76d5b5):
+
+  - ED-6814: fixed rendering mediaSingle without collection
+
 ## 1.1.3
 - Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
   - @atlaskit/media-card@63.0.2
