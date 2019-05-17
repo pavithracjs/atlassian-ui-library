@@ -1,1 +1,0 @@
-- Fix issue where multiple layouts in a document copy attributes from one another in an appendTransaction.

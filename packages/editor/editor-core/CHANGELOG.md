@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.2.8
+- [patch] [ab278c83e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab278c83e1):
+
+  - Fix issue where multiple layouts in a document copy attributes from one another in an appendTransaction.
+
 ## 112.2.7
 - [patch] [ed02efdb94](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed02efdb94):
 
