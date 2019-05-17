@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.2.2
+- [patch] [dc5b953c49](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dc5b953c49):
+
+  - Fix issue where attempting to fix layouts would reference a stale layout type
+
 ## 112.2.1
 - [patch] [3c1c5165b3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3c1c5165b3):
 
