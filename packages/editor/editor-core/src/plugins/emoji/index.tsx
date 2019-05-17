@@ -11,7 +11,6 @@ import {
 import { EditorPlugin, Command } from '../../types';
 import { Dispatch } from '../../event-dispatcher';
 import { PortalProviderAPI } from '../../ui/PortalProvider';
-import { ReactNodeView } from '../../nodeviews';
 import { messages } from '../insert-block/ui/ToolbarInsertBlock';
 import { inputRulePlugin as asciiInputRulePlugin } from './pm-plugins/ascii-input-rules';
 import {
@@ -137,7 +136,6 @@ const emojiPlugin: EditorPlugin = {
         );
       },
       selectItem(state, item, insert, { mode }) {
-        console.log({ item });
         const { id = '', type = '', fallback, shortName } = item.emoji;
         const text = fallback || shortName;
         const emojiPluginState = emojiPluginKey.getState(
@@ -166,7 +164,6 @@ const emojiPlugin: EditorPlugin = {
           queryLength: (typeAheadPluginState.query || '').length,
         });
 
-        console.log({ shortName, id, text });
         return addAnalytics(
           insert(
             state.schema.nodes.emoji.createChecked({
@@ -292,9 +289,7 @@ export function emojiPluginFactory(
     } as StateField<EmojiPluginState>,
     props: {
       nodeViews: {
-        emoji: ReactNodeView.fromComponent(emojiNodeView, portalProviderAPI, {
-          providerFactory,
-        }),
+        emoji: emojiNodeView(portalProviderAPI, providerFactory),
       },
     },
     view(editorView) {
@@ -332,6 +327,7 @@ export function emojiPluginFactory(
               );
             break;
         }
+        return;
       };
 
       providerFactory.subscribe('emojiProvider', providerHandler);
