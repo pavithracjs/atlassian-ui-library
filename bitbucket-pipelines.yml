@@ -492,3 +492,18 @@ pipelines:
           caches:
             - node
     
+    # This is to upload ratchet files to S3 on a scheduled basis        
+    push-bundle-size-master-s3:
+      - parallel:
+        - step:
+          name: Bundle size update for core packages
+          script:
+            - source ./build-setup.sh
+            - git merge master --no-edit
+            - bolt install --pure-lockfile
+            - export CHANGED_PACKAGES=$(node build/ci-scripts/get.pkgs.in.team.js core)
+            - yarn measure --updateSnapshot
+          artifacts:
+            - .masterBundleSize/**
+          caches:
+            - node    
