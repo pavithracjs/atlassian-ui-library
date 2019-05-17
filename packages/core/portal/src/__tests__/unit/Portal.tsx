@@ -1,9 +1,8 @@
-// @flow
-import React, { type Node } from 'react';
+import React, { ReactNode } from 'react';
 import { mount } from 'enzyme';
 import Portal from '../..';
 
-const App = ({ children }: { children: Node }) => <div>{children}</div>;
+const App = ({ children }: { children: ReactNode }) => <div>{children}</div>;
 
 const zIndex = (elem: HTMLElement | void) =>
   elem ? parseInt(elem.style.getPropertyValue('z-index'), 10) : 0;
@@ -38,8 +37,10 @@ test('should use z-index to stack nested portals', () => {
     </App>,
   );
   const elements = document.getElementsByClassName('atlaskit-portal');
-  const getElement = text =>
-    [...elements].find(e => e.innerHTML.indexOf(text) > -1);
+  const getElement = (text: string) =>
+    [...((elements as unknown) as Array<HTMLElement>)].find(
+      e => e.innerHTML.indexOf(text) > -1,
+    );
   const front = getElement('front');
   const back = getElement('back');
   expect(zIndex(front)).toBeGreaterThan(zIndex(back));
@@ -58,7 +59,7 @@ test('should use DOM ordering to stack sibiling portals', () => {
   );
   const elements = document.getElementsByClassName('atlaskit-portal');
   expect(elements).toHaveLength(2);
-  const [back, front] = elements;
+  const [back, front] = (elements as unknown) as Array<HTMLElement>;
   expect(zIndex(front)).toEqual(zIndex(back));
   expect(back.nextSibling).toBe(front);
 });
@@ -71,7 +72,9 @@ test('should create a new stacking context', () => {
       </Portal>
     </App>,
   );
-  const container = document.querySelector('body > .atlaskit-portal-container');
+  const container = document.querySelector(
+    'body > .atlaskit-portal-container',
+  ) as HTMLElement;
   expect(container && container.style.getPropertyValue('display')).toBe('flex');
 });
 
@@ -83,7 +86,9 @@ test('should accept a string for zIndex', () => {
       </Portal>
     </App>,
   );
-  const elements = document.getElementsByClassName('atlaskit-portal');
+  const elements = (document.getElementsByClassName(
+    'atlaskit-portal',
+  ) as unknown) as Array<HTMLElement>;
   expect(elements).toHaveLength(1);
   expect(elements[0].style.getPropertyValue('z-index')).toBe('unset');
 });
