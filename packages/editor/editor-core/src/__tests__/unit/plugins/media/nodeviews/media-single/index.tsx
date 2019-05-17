@@ -79,6 +79,7 @@ describe('nodeviews/mediaSingle', () => {
       handleMediaNodeMount: () => {},
       updateElement: jest.fn(),
       updateMediaNodeAttrs: jest.fn(),
+      isMobileUploadCompleted: () => undefined,
     } as any) as MediaPluginState;
 
     getDimensions = (wrapper: ReactWrapper) => (): Promise<any> => {

@@ -9,7 +9,7 @@ import { MediaStore, ItemsPayload } from '../src';
 
 const mediaClient = createStorybookMediaClient();
 const store = new MediaStore({
-  authProvider: mediaClient.mediaClientConfig.authProvider,
+  authProvider: mediaClient.config.authProvider,
 });
 
 interface ExampleState {

@@ -48,6 +48,9 @@ function insertNodesWithOptionalParagraph(nodes: PMNode[]): Command {
   };
 }
 
+export const isMediaSingle = (schema: Schema, fileMimeType?: string) =>
+  !!schema.nodes.mediaSingle && isImage(fileMimeType);
+
 export const insertMediaAsMediaSingle = (
   view: EditorView,
   node: PMNode,
