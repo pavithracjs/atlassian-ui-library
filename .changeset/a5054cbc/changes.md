@@ -1,1 +1,0 @@
-- Fix clipboard component deactivation logic when used in multiple contexts. 
