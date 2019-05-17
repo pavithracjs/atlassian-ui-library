@@ -305,6 +305,7 @@ export function handleCodeBlock(text: string): Command {
     const { codeBlock } = state.schema.nodes;
     if (text && hasParentNodeOfType(codeBlock)(state.selection)) {
       const tr = closeHistory(state.tr);
+      tr.scrollIntoView();
       if (dispatch) {
         dispatch(tr.insertText(text));
       }
@@ -378,6 +379,7 @@ export function handleRichText(slice: Slice): Command {
     if (tr.selection.empty && tr.selection.$from.parent.type === codeBlock) {
       tr.setSelection(TextSelection.near(tr.selection.$from, 1) as Selection);
     }
+    tr.scrollIntoView();
 
     // queue link cards, ignoring any errors
     if (dispatch) {
