@@ -9,10 +9,10 @@ describe('Snapshot Test', () => {
       'core',
       'page-header',
       'BasicExample',
-      // @ts-ignore
+      // @ts-ignore - global usage
       global.__BASEURL__,
     );
-    // @ts-ignore
+    // @ts-ignore - global usage
     const image = await takeScreenShot(global.page, url);
     expect(image).toMatchProdImageSnapshot();
   });

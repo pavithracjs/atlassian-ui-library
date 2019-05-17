@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { getExamplesFor } from '@atlaskit/build-utils/getExamples';
 import { ssr } from '@atlaskit/ssr';
 
-//@ts-ignore
+//@ts-ignore - global usage
 jest.spyOn(global.console, 'error').mockImplementation(() => {});
 
 afterEach(() => {
@@ -20,7 +20,7 @@ test('should ssr then hydrate page-header correctly', async () => {
 
   ReactDOM.hydrate(<Example />, elem);
   // ignore warnings caused by emotion's server-side rendering approach
-  // @ts-ignore
+  // @ts-ignore - mock does not exist on error property
   // eslint-disable-next-line no-console
   const mockCalls = console.error.mock.calls.filter(
     ([f, s]: [any, any]) =>
