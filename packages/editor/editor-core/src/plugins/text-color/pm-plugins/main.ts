@@ -79,7 +79,7 @@ export function createPlugin(
   return new Plugin({
     key: pluginKey,
     state: {
-      init(config, editorState) {
+      init(_config, editorState) {
         return createInitialPluginState(editorState, pluginConfig);
       },
       apply(tr, pluginState, _, newState) {

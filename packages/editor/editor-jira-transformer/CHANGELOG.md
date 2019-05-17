@@ -1,5 +1,10 @@
 # @atlaskit/editor-jira-transformer
 
+## 7.2.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
 ## 7.1.2
 - Updated dependencies [5e4ff01e4c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5e4ff01e4c):
   - @atlaskit/editor-json-transformer@6.0.2

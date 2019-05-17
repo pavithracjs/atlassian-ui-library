@@ -1,5 +1,10 @@
 # @atlaskit/media-test-helpers
 
+## 23.1.0
+- [minor] [12aa76d5b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/12aa76d5b5):
+
+  - ED-6814: fixed rendering mediaSingle without collection
+
 ## 23.0.0
 - [major] [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
 

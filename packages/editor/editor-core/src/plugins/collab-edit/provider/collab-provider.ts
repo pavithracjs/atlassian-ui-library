@@ -50,7 +50,7 @@ export class CollabProvider implements CollabEditProvider {
   /**
    * Send steps from transaction to other participants
    */
-  send(tr: Transaction, oldState: EditorState, newState: EditorState) {
+  send(tr: Transaction, _oldState: EditorState, newState: EditorState) {
     // Ignore transactions without steps
     if (!tr.steps || !tr.steps.length) {
       return;

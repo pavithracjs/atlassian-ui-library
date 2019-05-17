@@ -1,9 +1,9 @@
 import * as React from 'react';
+import { floatingToolbar } from '../../../../plugins/media/toolbar';
 import {
-  floatingToolbar,
-  messages,
   AnnotationToolbar,
-} from '../../../../plugins/media/toolbar';
+  messages as annotateMessages,
+} from '../../../../plugins/media/toolbar/annotation';
 import { IntlProvider } from 'react-intl';
 import {
   createEditorFactory,
@@ -272,7 +272,7 @@ describe('media', () => {
 
       button.onClick(editorView.state, editorView.dispatch);
       expect(editorView.state.doc).toEqualDocument(
-        doc(mediaSingle({ layout: 'align-start' })(temporaryMedia)),
+        doc(mediaSingle({ layout: 'align-start', width: 50 })(temporaryMedia)),
       );
     });
 
@@ -304,7 +304,7 @@ describe('media', () => {
 
         const annotateToolbarComponent = toolbar!.items.find(
           item => item.type === 'custom',
-        ) as FloatingToolbarCustom<Command>;
+        ) as FloatingToolbarCustom;
 
         const annotationToolbar = shallow(annotateToolbarComponent.render(
           editorView,
@@ -328,7 +328,7 @@ describe('media', () => {
             .find(Button)
             .first()
             .prop('title'),
-        ).toEqual(messages.annotate.defaultMessage);
+        ).toEqual(annotateMessages.annotate.defaultMessage);
       });
 
       it('fires analytics when the annotate button is clicked', async () => {

@@ -16,7 +16,7 @@ const DummyContainer = (
 const items: Array<FloatingToolbarItem<Command>> = [
   {
     type: 'custom',
-    render: (view, idx) => DummyContainer,
+    render: () => DummyContainer,
   },
 ];
 

@@ -9,8 +9,9 @@ describe('Snapshot Test: Basic Content', () => {
     await page.setViewport({ width: 1000, height: 1000 });
     await loadFullPageEditorWithAdf(page, adf);
     // Wait for loaded emoji image (contained within ADF)
-    await page.waitForSelector('.emoji-common-emoji-sprite');
-    await waitForLoadedBackgroundImages(page);
+    const emojiSelector = '.emoji-common-emoji-sprite';
+    await page.waitForSelector(emojiSelector);
+    await waitForLoadedBackgroundImages(page, emojiSelector);
     await snapshot(page);
   });
 });

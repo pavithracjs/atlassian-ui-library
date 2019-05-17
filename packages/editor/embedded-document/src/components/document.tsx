@@ -33,6 +33,8 @@ export default class Document extends Component<Props> {
         <WithEditorActions render={actions => renderToolbar(mode, actions)} />
       );
     }
+
+    return;
   }
 
   private renderTitle() {
@@ -41,6 +43,8 @@ export default class Document extends Component<Props> {
     if (renderTitle) {
       return renderTitle(mode, doc);
     }
+
+    return;
   }
 
   private renderEditor() {

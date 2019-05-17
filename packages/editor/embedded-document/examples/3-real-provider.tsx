@@ -26,7 +26,7 @@ const provider = new ServiceProvider({
   },
 });
 
-const renderTitle = (mode: DocumentMode, doc?: any) => {
+const renderTitle = (mode: DocumentMode) => {
   const title = <h1>Page Title</h1>;
   switch (mode) {
     case 'edit':

@@ -105,12 +105,27 @@ class HelpContextProviderImplementation extends React.Component<
     this.state = initialiseHelpData(defaultValues);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const { articleId, isOpen } = this.props;
+
     window.history.pushState = function(
       this: HelpContextProviderImplementation,
     ) {
       PUSH_STATE.apply(window.history, arguments);
     };
+
+    // if the initial value of isOpen is true, fire analytics event and
+    // request the article
+    if (isOpen) {
+      createAndFire({
+        action: 'help-panel-open',
+      })(this.props.createAnalyticsEvent);
+
+      if (articleId) {
+        const article = await this.getArticle(articleId);
+        this.setState({ defaultArticle: article, view: VIEW.ARTICLE });
+      }
+    }
   }
 
   async componentDidUpdate(prevProps: Props) {

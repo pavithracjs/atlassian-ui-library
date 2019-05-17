@@ -1,5 +1,55 @@
 # @atlaskit/editor-core
 
+## 112.2.8
+- [patch] [ab278c83e1](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ab278c83e1):
+
+  - Fix issue where multiple layouts in a document copy attributes from one another in an appendTransaction.
+
+## 112.2.7
+- [patch] [ed02efdb94](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed02efdb94):
+
+  - [ED-6817] Extract the current toggleHeader logic to prosemirror-table 0.8.0
+
+## 112.2.6
+- [patch] [8bdff125fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8bdff125fb):
+
+  - ED-6818 Scroll cursor into view after pasting rich text or text inside a code block
+
+## 112.2.5
+- [patch] [85328a0d76](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85328a0d76):
+
+  - ED-6466: (ED-6599) fix undo with cmd+z after scaling table columns by applying new widths to cells in one go
+
+## 112.2.4
+- [patch] [12aa76d5b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/12aa76d5b5):
+
+  - ED-6814: fixed rendering mediaSingle without collection
+
+## 112.2.3
+- [patch] [5fd9727f51](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5fd9727f51):
+
+  - Remove duplicate isEmptyNode function from same code path, to prevent compilation errors
+
+## 112.2.2
+- [patch] [dc5b953c49](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/dc5b953c49):
+
+  - Fix issue where attempting to fix layouts would reference a stale layout type
+
+## 112.2.1
+- [patch] [3c1c5165b3](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/3c1c5165b3):
+
+  - ED-6815: fix resizing images to line length (100% width) after fix for ED-6467
+
+## 112.2.0
+- [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
+
+  - Use strict tsconfig to compile editor packages
+
+## 112.1.1
+- [patch] [ad5128f63c](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ad5128f63c):
+
+  - ED-5844 Refactor media floating toolbar into little pieces
+
 ## 112.1.0
 - [minor] [0ed8ea77ab](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/0ed8ea77ab):
 

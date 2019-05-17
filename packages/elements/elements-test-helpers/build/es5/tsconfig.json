@@ -2,9 +2,7 @@
   "extends": "../../tsconfig",
   "compilerOptions": {
     "declaration": true,
-    "outDir": "../../dist/es5",
-    "rootDir": "../../src",
-    "lib": [
+    "outDir": "../../dist/es5","lib": [
       "dom",
       "es6"
     ],

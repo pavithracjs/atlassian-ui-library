@@ -36,8 +36,8 @@ export const renderer = {
   placeholder: '#examples', // FIXME lets add something better to renderer
 };
 
+export const clipboardInput = 'textarea[data-id=clipboardInput]';
 export const copyIcon = 'span[aria-label="copy"]';
-export const clipboardInput = '#input';
 
 export const callNativeBridge = async (
   browser: any,

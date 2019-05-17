@@ -172,7 +172,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       selectItem(
         {
           trigger: '/',
-          selectItem: (state, item, insert) => insert('some text'),
+          selectItem: (_state, _item, insert) => insert('some text'),
           getItems: () => [],
         },
         { title: '1' },
@@ -190,7 +190,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       selectItem(
         {
           trigger: '/',
-          selectItem: (state, item, insert) => {
+          selectItem: (state, _item, insert) => {
             const fragment = Fragment.fromArray([
               state.schema.text('text one'),
               state.schema.text('  '),
@@ -253,7 +253,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       selectItem(
         {
           trigger: '/',
-          selectItem: (state, item, replaceWith) =>
+          selectItem: (state, _item, replaceWith) =>
             replaceWith(
               state.schema.nodes.blockquote.createChecked(
                 {},
@@ -281,7 +281,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       selectItem(
         {
           trigger: '/',
-          selectItem: (state, item, replaceWith) =>
+          selectItem: (state, _item, replaceWith) =>
             replaceWith(
               state.schema.nodes.blockquote.createChecked(
                 {},
@@ -360,7 +360,7 @@ describe('typeahead plugin -> commands -> select-item', () => {
       selectItem(
         {
           trigger: '/',
-          selectItem: (state, item, insert) =>
+          selectItem: (state, _item, insert) =>
             insert(
               state.schema.nodes.extension.createChecked({
                 layout: 'full-width',

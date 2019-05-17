@@ -17,6 +17,7 @@ import {
   getParentNodeWidth,
   getLayoutSize,
   insertColgroupFromNode as recreateResizeColsByNode,
+  updateControls,
 } from '../pm-plugins/table-resizing/utils';
 
 import { TablePluginState, TableCssClassName as ClassName } from '../types';
@@ -136,7 +137,9 @@ class TableComponent extends React.Component<ComponentProps, TableState> {
         tablesHaveDifferentColumnWidths(this.props.node, prevProps.node) ||
         tablesHaveDifferentNoOfColumns(this.props.node, prevProps.node)
       ) {
+        const { view } = this.props;
         recreateResizeColsByNode(this.table, this.props.node);
+        updateControls(view.state, view.domAtPos.bind(view));
       }
 
       this.frameId = this.handleTableResizingDebounced(prevProps);

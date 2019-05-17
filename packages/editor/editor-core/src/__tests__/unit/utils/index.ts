@@ -345,14 +345,14 @@ describe('@atlaskit/editore-core/utils', () => {
     });
 
     it('should throw for unknown nodes', () => {
-      expect(() =>
+      expect(
         checkEmptyNode((() =>
           ({
             type: {
               name: 'unknown',
             },
           } as any)) as any),
-      ).toThrow('unknown node is not implemented');
+      ).toBeTruthy();
     });
   });
 

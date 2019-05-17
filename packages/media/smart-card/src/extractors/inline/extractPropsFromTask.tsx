@@ -67,9 +67,12 @@ const buildInlineTaskIcon: BuildInlineTaskProps = json => {
         return { icon: <JiraProblemIcon label={taskLabel} /> };
       case JIRA_CUSTOM_TASK_TYPE:
         return {
-          icon: (json.icon && json.icon.url) || (
-            <DefaultTaskIcon label={json.provider ? json.provider.name : ''} />
-          ),
+          icon: (taskType.icon && taskType.icon.url) ||
+            (json.icon && json.icon.url) || (
+              <DefaultTaskIcon
+                label={json.provider ? json.provider.name : ''}
+              />
+            ),
         };
     }
   }

@@ -69,7 +69,7 @@ export const createPlugin = (dispatch: Dispatch) =>
         return pluginState;
       },
     },
-    view: editorView => {
+    view: () => {
       return {
         update: ({ state, dispatch }) => {
           const { bulletList, orderedList } = state.schema.nodes;

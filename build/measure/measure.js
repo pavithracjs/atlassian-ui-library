@@ -17,6 +17,11 @@ const { buildCacheGroups, createWebpackConfig } = require('./utils/webpack');
 const { prepareForPrint } = require('./utils/print');
 const { printReport } = require('./reporters/console');
 const { printHowToReadStats } = require('./utils/how-to-read-stats');
+const {
+  masterStatsFolder,
+  currentStatsFolder,
+  uploadToS3,
+} = require('./utils/s3-actions');
 
 function webpackCompilerRun(configs) {
   /**
@@ -65,6 +70,16 @@ module.exports = async function main(
     spinner.fail(chalk.red(`File "${filePath}" doesn't exist.`));
     process.exit(1);
   }
+
+  // Add these path to enable to upload data to S3
+  const masterStatsFilePath = path.join(
+    masterStatsFolder,
+    `${packageName}-bundle-size-ratchet.json`,
+  );
+  const currentStatsFilePath = path.join(
+    currentStatsFolder,
+    `${packageName}-bundle-size.json`,
+  );
 
   // Async indicates group's combined size of all code-splitts.
   const mainStatsGroups = [
@@ -201,11 +216,7 @@ module.exports = async function main(
     } catch (e) {}
   }
 
-  // Cleanup measure output directory
-  try {
-    exec(`rm -rf ${measureCompiledOutputPath}`);
-  } catch (e) {}
-
+  // TODO: replace after changes to flow are complete
   const prevStatsPath = path.join(filePath, `bundle-size-ratchet.json`);
 
   let prevStats;
@@ -225,8 +236,15 @@ module.exports = async function main(
     spinner.fail(chalk.red(`Module "${packageName}" has exceeded size limit!`));
   }
 
-  console.log();
+  chalk.cyan(`Writing current build stats to "${currentStatsFilePath}"`),
+    fs.writeFileSync(
+      currentStatsFilePath,
+      JSON.stringify(statsWithDiff, null, 2),
+      'utf8',
+    );
+
   if (isJson) {
+    // Write to file to be uploaded to S3
     return console.log(JSON.stringify(stats, null, 2));
   } else if (!isLint || !passedBundleSizeCheck) {
     printHowToReadStats();
@@ -234,6 +252,21 @@ module.exports = async function main(
   }
 
   if (updateSnapshot) {
+    // Store file into folder for S3
+    console.log('writing to ', masterStatsFilePath);
+    fs.writeFileSync(
+      masterStatsFilePath,
+      JSON.stringify(clearStats(stats), null, 2),
+      'utf8',
+    );
+    if (process.env.CI) {
+      // upload to s3 masterStats
+      uploadToS3(masterStatsFilePath, 'master');
+    }
+  }
+
+  if (updateSnapshot) {
+    // TODO: remove this write once the flow is switched
     fs.writeFileSync(
       prevStatsPath,
       JSON.stringify(clearStats(stats), null, 2),

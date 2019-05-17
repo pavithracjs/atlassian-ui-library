@@ -2,11 +2,7 @@ import * as React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
 import { ImageWrapper } from '../../image-placer/styled';
 
-// mock @atlaskit/media-ui::mockIsImageRemote() ...
-const mockIsImageRemote = jest.fn();
-jest.mock('@atlaskit/media-core', () => ({
-  isImageRemote: mockIsImageRemote,
-}));
+jest.mock('../../image-cropper/isImageRemote');
 
 // ...before importing Image
 import {
@@ -14,6 +10,9 @@ import {
   ImagePlacerImageProps,
   IMAGE_ERRORS,
 } from '../../image-placer/image';
+
+import { isImageRemote } from '../../image-cropper/isImageRemote';
+import { asMock } from '@atlaskit/media-test-helpers';
 
 interface SetupInfo {
   wrapper: ShallowWrapper;
@@ -45,7 +44,7 @@ const setup = (props: Partial<ImagePlacerImageProps> = {}): SetupInfo => {
 describe('Image Placer Image', () => {
   describe('Loading', () => {
     it('should call onError prop if bad url', async () => {
-      mockIsImageRemote.mockImplementation(() => {
+      asMock(isImageRemote).mockImplementation(() => {
         throw new Error();
       });
       const { onError } = setup({ src: 'some-very-bad-url' });
@@ -60,7 +59,7 @@ describe('Image Placer Image', () => {
       };
 
       beforeAll(() => {
-        mockIsImageRemote.mockReturnValue(true);
+        asMock(isImageRemote).mockReturnValue(true);
       });
 
       it('should pass image load event to props', () => {

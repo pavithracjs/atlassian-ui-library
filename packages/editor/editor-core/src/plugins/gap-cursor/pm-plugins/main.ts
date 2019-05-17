@@ -53,7 +53,7 @@ const plugin = new Plugin({
 
     // render gap cursor only when its valid
     createSelectionBetween(
-      view: EditorView,
+      _view: EditorView,
       $anchor: ResolvedPos,
       $head: ResolvedPos,
     ) {

@@ -339,7 +339,7 @@ export default class ReactSerializer implements Serializer<JSX.Element> {
   }
 
   static fromSchema(
-    schema: Schema,
+    _schema: Schema,
     {
       providers,
       eventHandlers,

@@ -18,7 +18,7 @@ export function buildMockPage(type: ConfluenceContentType): RecentPage {
   return {
     available: true,
     contentType: type,
-    id: '123',
+    id: 123,
     lastSeen: 123,
     space: 'Search & Smarts',
     spaceKey: 'abc',

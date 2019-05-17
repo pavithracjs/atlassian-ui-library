@@ -9,6 +9,7 @@ import {
   getBridgeOutput,
 } from '../_utils';
 
+// https://product-fabric.atlassian.net/browse/ED-6877
 BrowserTestCase(
   'currentSelection when no selection',
   // Safari has issues with key events
@@ -82,6 +83,7 @@ BrowserTestCase(
   },
 );
 
+// https://product-fabric.atlassian.net/browse/ED-6877
 BrowserTestCase(
   'currentSelection when cursor is selecting a link',
   // Safari has issues with key events

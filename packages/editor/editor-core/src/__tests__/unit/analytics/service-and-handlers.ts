@@ -1,6 +1,5 @@
 import {
   AnalyticsHandler,
-  AnalyticsProperties,
   detectHandler,
   hermentHandler,
 } from '../../../analytics/handler';
@@ -15,10 +14,7 @@ describe('analytics service', () => {
 
   it('allows setting the handler', () => {
     let eventName;
-    const handler: AnalyticsHandler = (
-      name: string,
-      props?: AnalyticsProperties,
-    ) => {
+    const handler: AnalyticsHandler = (name: string) => {
       eventName = name;
     };
     service.handler = handler;
@@ -28,10 +24,7 @@ describe('analytics service', () => {
 
   it('allows removing the handler', () => {
     let called = false;
-    const handler: AnalyticsHandler = (
-      name: string,
-      props?: AnalyticsProperties,
-    ) => {
+    const handler: AnalyticsHandler = () => {
       called = true;
     };
     service.handler = handler;
