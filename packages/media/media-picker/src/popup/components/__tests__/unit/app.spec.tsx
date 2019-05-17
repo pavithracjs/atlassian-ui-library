@@ -4,13 +4,18 @@ import { createStore, applyMiddleware, Middleware } from 'redux';
 import { Store } from 'react-redux';
 import { AuthProvider } from '@atlaskit/media-core';
 import { MediaClient } from '@atlaskit/media-client';
-import { waitUntil } from '@atlaskit/media-test-helpers';
+import { mountWithIntlContext, waitUntil } from '@atlaskit/media-test-helpers';
 import {
   getComponentClassWithStore,
   mockStore,
 } from '@atlaskit/media-test-helpers';
 import { State } from '../../../domain';
-import ConnectedApp, { App, AppDispatchProps } from '../../app';
+import ConnectedApp, {
+  App,
+  AppDispatchProps,
+  AppProps,
+  AppState,
+} from '../../app';
 import UploadView from '../../views/upload/upload';
 import Browser from '../../views/browser/browser';
 import { fileUploadsStart } from '../../../actions/fileUploadsStart';
@@ -78,7 +83,7 @@ const mockSetTimeout = () => {
 };
 
 const verifyEventHandling = (
-  wrapper: ShallowWrapper | ReactWrapper,
+  wrapper: ShallowWrapper | ReactWrapper<any, any>,
   event: Event,
 ) => {
   let setTimeoutMockHandler;
@@ -270,7 +275,7 @@ describe('App', () => {
       />
     );
 
-    const wrapper = mount(element);
+    const wrapper = mountWithIntlContext<AppProps, AppState>(element);
 
     wrapper.setProps({ isVisible: true });
 
@@ -295,7 +300,7 @@ describe('App', () => {
         {...handlers}
       />
     );
-    const wrapper = mount(element);
+    const wrapper = mountWithIntlContext<AppProps, AppState>(element);
     const instance = wrapper.instance() as App;
     instance.onDragEnter({ length: 3 });
     expect(handlers.onDropzoneDragIn).toBeCalledWith(3);
@@ -413,7 +418,7 @@ describe('Connected App', () => {
     const ConnectedAppWithStore = getComponentClassWithStore(
       ConnectedApp,
     ) as any;
-    const component = mount(
+    const component = mountWithIntlContext<AppProps, AppState>(
       <ConnectedAppWithStore store={store} tenantUploadParams={{}} />,
     );
     component.find(LocalBrowserButton).simulate('click');
