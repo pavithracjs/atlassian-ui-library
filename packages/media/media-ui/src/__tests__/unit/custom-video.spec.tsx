@@ -19,19 +19,22 @@ import simultaneousPlayManager, {
   SimultaneousPlaySubscription,
 } from '../../customMediaPlayer/simultaneousPlayManager';
 
-// Removes errors from JSDOM virtual console
-// Trick taken from https://github.com/jsdom/jsdom/issues/2155
-const mockJSDOMVideosupport = () => {
-  window.HTMLMediaElement.prototype.play = () => {
-    /* do nothing */
-  };
-  window.HTMLMediaElement.prototype.pause = () => {
-    /* do nothing */
-  };
-};
-mockJSDOMVideosupport();
-
 describe('<CustomMediaPlayer />', () => {
+  const HTMLMediaElement_play = HTMLMediaElement.prototype.play;
+  const HTMLMediaElement_pause = HTMLMediaElement.prototype.pause;
+
+  beforeAll(() => {
+    // Removes errors from JSDOM virtual console
+    // Trick taken from https://github.com/jsdom/jsdom/issues/2155
+    HTMLMediaElement.prototype.play = () => Promise.resolve();
+    HTMLMediaElement.prototype.pause = () => Promise.resolve();
+  });
+
+  afterAll(() => {
+    HTMLMediaElement.prototype.play = HTMLMediaElement_play;
+    HTMLMediaElement.prototype.pause = HTMLMediaElement_pause;
+  });
+
   const setup = (props?: Partial<CustomMediaPlayerProps>) => {
     const onChange = jest.fn();
     const component = mount(
@@ -289,7 +292,7 @@ describe('<CustomMediaPlayer />', () => {
       expect(subscription.onPlay).toHaveBeenCalledTimes(1);
     });
 
-    it('should trigger Simultaneous Play onClick if autoplay in ON', () => {
+    it('should trigger Simultaneous Play onClick if autoplay is ON', () => {
       setup({ isAutoPlay: true });
       expect(subscription.onPlay).toHaveBeenCalledTimes(1);
     });

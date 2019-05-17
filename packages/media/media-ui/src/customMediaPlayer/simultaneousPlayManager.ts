@@ -7,7 +7,7 @@ export type SimultaneousPlaySubscription = {
 
 export default class SPM {
   // Simultaneous Play Manager
-  static playersPause = new Map<voidfn, voidfn>();
+  private static playersPause = new Map<voidfn, voidfn>();
 
   static subscribe = (pause: voidfn): SimultaneousPlaySubscription => {
     if (!SPM.playersPause.get(pause)) {
