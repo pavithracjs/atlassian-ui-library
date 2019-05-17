@@ -1,4 +1,3 @@
-// @flow
 import StrideLogo from './Logo';
 import StrideIcon from './Icon';
 import StrideWordmark from './Wordmark';

@@ -9,7 +9,6 @@ describe('Snapshot Test', () => {
     const url = getExampleUrl('core', 'logo', 'basic', global.__BASEURL__);
     // @ts-ignore
     const image = await takeScreenShot(global.page, url);
-    //$FlowFixMe
     expect(image).toMatchProdImageSnapshot();
   });
 });
