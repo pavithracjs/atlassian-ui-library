@@ -1,1 +1,1 @@
-declare module 'fbjs';
+declare module 'fbjs/lib/hyphenateStyleName';
