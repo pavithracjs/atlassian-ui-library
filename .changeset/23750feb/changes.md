@@ -1,0 +1,1 @@
+- Fix issue where attempting to fix layouts would reference a stale layout type
