@@ -1,0 +1,1 @@
+- ED-6818 Scroll cursor into view after pasting rich text or text inside a code block
