@@ -158,7 +158,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
             <Flag
               id={id}
               key={`${id}`}
-              icon={<EmojiIcon label="" />}
+              icon={<EmojiIcon label="Smiley face" />}
               title={`${id + 1}: Whoa a new flag!`}
             />
           ))}
