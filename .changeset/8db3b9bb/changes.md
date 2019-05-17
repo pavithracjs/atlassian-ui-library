@@ -1,1 +1,0 @@
-- Removing unnecessary deps and dev deps in media-core and media-client
