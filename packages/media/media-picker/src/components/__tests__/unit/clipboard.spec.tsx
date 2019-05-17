@@ -117,5 +117,38 @@ describe('Clipboard', () => {
     ).toEqual(LocalFileSource.PastedScreenshot);
   });
 
-  it('should remove event handler only when there are no more clipboard instances left', () => {});
+  it('should remove event handler only when there are no more clipboard instances left', () => {
+    const mockFile = new MockFile();
+
+    const event: any = {
+      clipboardData: {
+        files: [mockFile],
+        types: [],
+      },
+    };
+
+    const anotherClipboard = mount(
+      <ClipboardComponent context={context} config={config} />,
+    );
+    clipboardInstance = anotherClipboard.instance() as ClipboardComponent;
+    const anotherAddFilesWithSourceSpy = jest.spyOn(
+      (clipboardInstance as any).uploadService,
+      'addFilesWithSource',
+    );
+
+    // simulate paste event on document object
+    eventsMap.paste(event);
+
+    // first clipboard event handler is not called because we only call the last subscriber
+    expect(addFilesWithSourceSpy).toHaveBeenCalledTimes(0);
+    // second clipboard event handler is called as expected
+    expect(anotherAddFilesWithSourceSpy).toHaveBeenCalledTimes(1);
+
+    // we unmount second clipboard in order to make the first one "active"
+    anotherClipboard.unmount();
+
+    eventsMap.paste(event);
+
+    expect(addFilesWithSourceSpy).toHaveBeenCalledTimes(1);
+  });
 });
