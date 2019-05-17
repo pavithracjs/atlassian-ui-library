@@ -1,4 +1,3 @@
-// @flow
 import React, { Fragment } from 'react';
 import { colors } from '@atlaskit/theme';
 import styled from 'styled-components';
@@ -29,7 +28,12 @@ const iconVariants = [
   { background: colors.P300, color: colors.Y300 },
 ];
 
-const WrapperDiv = styled.div`
+interface WrapperDivProps {
+  color: string;
+  background: string;
+}
+
+const WrapperDiv = styled.div<WrapperDivProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,7 +45,7 @@ const WrapperDiv = styled.div`
   background: ${props => props.background};
 `;
 /* eslint-disable */
-const Wrapper = props => (
+const Wrapper: React.FC<WrapperDivProps> = props => (
   <Fragment>
     <WrapperDiv {...props}>{props.children}</WrapperDiv>
     <br />

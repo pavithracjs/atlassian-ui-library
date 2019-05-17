@@ -1,11 +1,11 @@
-// @flow
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { Component } from 'react';
+import React, { Component, ComponentType } from 'react';
 import Button, { ButtonGroup } from '@atlaskit/button';
 import RadioGroup from '@atlaskit/field-radio-group';
 import { colors } from '@atlaskit/theme';
 import styled from 'styled-components';
 import * as logos from '../src';
+import { Props as ConstantProps } from '../src/constants';
 
 const Centered = styled.div`
   display: flex;
@@ -17,10 +17,21 @@ const InlineFlex = styled.div`
   display: inline-flex;
 `;
 
-const sizePresets = ['xsmall', 'small', 'medium', 'large', 'xlarge'];
+const sizePresets: ConstantProps['size'][] = [
+  'xsmall',
+  'small',
+  'medium',
+  'large',
+  'xlarge',
+];
 
-const sizeRange = (Logo, colorPresetProps, size, useProps) => {
-  const props = useProps ? colorPresetProps : {};
+const sizeRange = (
+  Logo: ComponentType<ConstantProps>,
+  colorPresetProps: ConstantProps,
+  size: ConstantProps['size'],
+  useProps: boolean,
+) => {
+  const props = useProps ? colorPresetProps : { label: '' };
   return (
     <Centered>
       <Logo size={size} {...props} />
@@ -62,15 +73,13 @@ const colorPresets = [
 type Props = {};
 
 type State = {
-  colorIndex: number,
-  sizeIndex: number,
-  useProps: boolean,
+  colorIndex: number;
+  sizeIndex: number;
+  useProps: boolean;
 };
 
 export default class InteractiveLogo extends Component<Props, State> {
-  state: State;
-
-  state = {
+  state: State = {
     colorIndex: 0,
     sizeIndex: 1,
     useProps: true,

@@ -1,11 +1,17 @@
-// @flow
-import React, { Component } from 'react';
+import React, { Component, ComponentType } from 'react';
 import { AkCodeBlock } from '@atlaskit/code';
 import Select from '@atlaskit/select';
 import styled from 'styled-components';
 import * as Logos from '../src';
+import { Props as ConstantProps } from '../src/constants';
 
-const products = [
+interface Product {
+  label: string;
+  value: string;
+}
+type File = Product;
+
+const products: Product[] = [
   { label: 'Atlassian', value: 'Atlassian' },
   { label: 'Bitbucket', value: 'Bitbucket' },
   { label: 'Confluence', value: 'Confluence' },
@@ -30,7 +36,7 @@ const SelectWrapper = styled.div`
   padding: 20px;
 `;
 
-export default class GetPath extends Component<*, *> {
+export default class GetPath extends Component<any, any> {
   state = {
     selectedProduct: products[0],
     selectedFile: files[0],
@@ -40,7 +46,9 @@ export default class GetPath extends Component<*, *> {
     const { selectedFile, selectedProduct } = this.state;
 
     const name = selectedProduct.value + selectedFile.value;
-    const OurComponent = Logos[name];
+    const OurComponent = (Logos as {
+      [key: string]: ComponentType<ConstantProps>;
+    })[name];
 
     return (
       <div>
@@ -49,14 +57,16 @@ export default class GetPath extends Component<*, *> {
           <Select
             options={products}
             value={selectedProduct}
-            onChange={e => this.setState({ selectedProduct: e })}
+            onChange={(product: Product) =>
+              this.setState({ selectedProduct: product })
+            }
           />
         </SelectWrapper>
         <SelectWrapper>
           <Select
             options={files}
             value={selectedFile}
-            onChange={e => this.setState({ selectedFile: e })}
+            onChange={(file: File) => this.setState({ selectedFile: file })}
           />
         </SelectWrapper>
         <p>This import statement will render the image below:</p>

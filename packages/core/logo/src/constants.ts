@@ -10,8 +10,8 @@ export type Props = {
   /** CSS color to end the gradient/shadow on the icon. Should usually match iconColor to avoid
    * rendering issues in some browsers such as Safari. */
   iconGradientStop?: string;
-  /** Accessible text to be used for screen readers */
-  label: string;
+  /** Accessible text to be used for screen readers (it's optional since DefaultProps contains empty string for it) */
+  label?: string;
 };
 
 export const DefaultProps = {
@@ -19,7 +19,7 @@ export const DefaultProps = {
   textColor: 'currentColor',
   iconGradientStart: 'inherit',
   iconGradientStop: 'inherit',
-  size: 'medium',
+  size: 'medium' as Props['size'],
   label: '',
 };
 
