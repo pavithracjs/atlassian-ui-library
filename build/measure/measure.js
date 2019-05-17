@@ -253,7 +253,6 @@ module.exports = async function main(
 
   if (updateSnapshot) {
     // Store file into folder for S3
-    console.log('writing to ', masterStatsFilePath);
     fs.writeFileSync(
       masterStatsFilePath,
       JSON.stringify(clearStats(stats), null, 2),

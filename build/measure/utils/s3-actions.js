@@ -79,7 +79,6 @@ function uploadToS3(pathToFile, branch) {
 
   const fileName = path.basename(pathToFile);
   const bucketPath = `s3://${BUCKET_NAME}/${branch}/bundleSize/${fileName}`;
-  console.log(`${BUCKET_REGION} put ${pathToFile} ${bucketPath}`);
 
   npmRun.sync(
     `s3-cli --region="${BUCKET_REGION}" put ${pathToFile} ${bucketPath}`,
