@@ -32,13 +32,14 @@ function trackers(page /*:any*/) {
 async function navigateToUrl(
   page /*:any*/,
   url /*:string*/,
-  failHandler /*:?(error: Error) => void*/,
+  reuseExistingSession /*:boolean*/ = true,
+  failHandler /*:?(error: Error) => void*/ = undefined,
 ) {
-  if (page.url() === url) {
+  if (reuseExistingSession && page.url() === url) {
     return;
   }
 
-  // disable webpack, which breaks the 'networkidle0' setting
+  // Disable Webpack's HMR, as it negatively impacts usage of the 'networkidle0' setting.
   await page.setRequestInterception(true);
   page.on('request', request => {
     if (request.url().includes('xhr_streaming')) {
@@ -254,11 +255,7 @@ async function loadExampleUrl(
   url /*:string*/,
   reuseExistingSession /*:boolean*/ = true,
 ) {
-  if (reuseExistingSession) {
-    const currentUrl /*:string*/ = await page.url();
-    if (currentUrl === url) return;
-  }
-  await navigateToUrl(page, url);
+  await navigateToUrl(page, url, reuseExistingSession);
   const errorMessage = await validateExampleLoaded(page);
 
   if (errorMessage) {

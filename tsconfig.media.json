@@ -3,6 +3,8 @@
   "compilerOptions": {
     "noImplicitThis": true,
     "noUnusedLocals": true,
-    "strict": true,
+    "noImplicitReturns": true,
+    "noUnusedParameters": true,
+    "strict": true
   }
 }
