@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.2.6
+- [patch] [8bdff125fb](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/8bdff125fb):
+
+  - ED-6818 Scroll cursor into view after pasting rich text or text inside a code block
+
 ## 112.2.5
 - [patch] [85328a0d76](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85328a0d76):
 
