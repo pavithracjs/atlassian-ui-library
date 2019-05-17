@@ -1,4 +1,3 @@
-//@flow
 import { colors, gridSize, typography } from '@atlaskit/theme';
 import evaluateInner from './utils/evaluate-inner';
 

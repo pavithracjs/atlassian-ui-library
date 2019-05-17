@@ -1,4 +1,3 @@
-//@flow
 import css from './utils/evaluate-inner';
 // Reset
 export default css`
