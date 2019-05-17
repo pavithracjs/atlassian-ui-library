@@ -41,6 +41,9 @@ import {
 } from './fullscreen';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { messages } from '../messages';
+import subscribeSimultaneousPlay, {
+  SimultaneousPlaySubscription,
+} from './simultaneousPlayManager';
 
 export interface CustomMediaPlayerProps {
   readonly type: 'audio' | 'video';
@@ -61,15 +64,30 @@ export interface CustomMediaPlayerState {
 
 export type ToggleButtonAction = () => void;
 
+type CustomMediaPlayerPropsInternal = CustomMediaPlayerProps &
+  InjectedIntlProps;
+
+export type CustomMediaPlayerActions = {
+  play: () => void;
+  pause: () => void;
+};
+
 export class CustomMediaPlayer extends Component<
-  CustomMediaPlayerProps & InjectedIntlProps,
+  CustomMediaPlayerPropsInternal,
   CustomMediaPlayerState
 > {
   videoWrapperRef?: HTMLElement;
+  private actions?: CustomMediaPlayerActions;
+  private simultaneousPlay: SimultaneousPlaySubscription;
 
   state: CustomMediaPlayerState = {
     isFullScreenEnabled: false,
   };
+
+  constructor(props: CustomMediaPlayerPropsInternal) {
+    super(props);
+    this.simultaneousPlay = subscribeSimultaneousPlay(this.pause);
+  }
 
   componentDidMount() {
     document.addEventListener(
@@ -83,6 +101,7 @@ export class CustomMediaPlayer extends Component<
       vendorify('fullscreenchange', false),
       this.onFullScreenChange,
     );
+    this.simultaneousPlay.unsubscribe();
   }
 
   onFullScreenChange = () => {
@@ -94,6 +113,7 @@ export class CustomMediaPlayer extends Component<
         isFullScreenEnabled,
       });
     }
+    if (isFullScreenEnabled) this.simultaneousPlay.onPlay();
   };
 
   onTimeChange = (navigate: NavigateFunction) => (value: number) => {
@@ -197,6 +217,24 @@ export class CustomMediaPlayer extends Component<
     </SpinnerWrapper>
   );
 
+  private setActions(actions: VideoActions): void {
+    // Actions are being sent constantly while the video is playing,
+    // though play and pause functions are always the same objects
+    if (!this.actions) {
+      const { play, pause } = actions;
+      this.actions = { play, pause };
+    }
+  }
+
+  private pause = (): void => {
+    if (this.actions) this.actions.pause();
+  };
+
+  private play = (): void => {
+    if (this.actions) this.actions.play();
+    this.simultaneousPlay.onPlay();
+  };
+
   render() {
     const {
       type,
@@ -207,6 +245,9 @@ export class CustomMediaPlayer extends Component<
       onCanPlay,
       onError,
     } = this.props;
+
+    if (isAutoPlay) this.simultaneousPlay.onPlay();
+
     return (
       <CustomVideoWrapper innerRef={this.saveVideoWrapperRef}>
         <MediaPlayer
@@ -217,6 +258,8 @@ export class CustomMediaPlayer extends Component<
           onError={onError}
         >
           {(video, videoState, actions) => {
+            this.setActions(actions);
+
             const {
               status,
               currentTime,
@@ -230,7 +273,7 @@ export class CustomMediaPlayer extends Component<
             ) : (
               <PlayIcon label={formatMessage(messages.pause)} />
             );
-            const toggleButtonAction = isPlaying ? actions.pause : actions.play;
+            const toggleButtonAction = isPlaying ? this.pause : this.play;
             const button = (
               <MediaButton
                 appearance={'toolbar' as any}
