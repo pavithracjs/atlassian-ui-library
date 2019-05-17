@@ -54,7 +54,7 @@ const lineNumberTdStyle = {
   'text-align': 'right',
 };
 
-export default function codeBlock({ attrs, text }: NodeSerializerOpts) {
+export default function codeBlock({ text }: NodeSerializerOpts) {
   const codeLines: string[] = (text || '').split('\n');
   const lineMapper = (codeLine: string, index: number): TableData[] => [
     {

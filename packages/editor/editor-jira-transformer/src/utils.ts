@@ -366,6 +366,7 @@ export function convert(
       }
     }
   }
+  return;
 }
 
 /*

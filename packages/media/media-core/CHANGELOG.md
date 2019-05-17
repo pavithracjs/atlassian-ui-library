@@ -1,5 +1,10 @@
 # @atlaskit/media-core
 
+## 30.0.2
+- [patch] [af1cbd4ce4](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/af1cbd4ce4):
+
+  - Removing unnecessary deps and dev deps in media-core and media-client
+
 ## 30.0.1
 - Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
   - @atlaskit/media-card@63.0.2

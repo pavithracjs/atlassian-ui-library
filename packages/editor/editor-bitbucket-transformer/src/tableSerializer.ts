@@ -6,7 +6,7 @@ const isHeaderRow = (row: PMNode): boolean =>
 
 const isHeaderRowPresent = (table: PMNode): boolean => {
   let headerRowPresent = false;
-  table.content.forEach((row: PMNode, i: number) => {
+  table.content.forEach((row: PMNode) => {
     if (isHeaderRow(row)) {
       headerRowPresent = true;
     }

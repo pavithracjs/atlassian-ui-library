@@ -24,7 +24,7 @@ const testCollectionName = `media-plugin-mock-collection-${randomId()}`;
 describe('media-common', () => {
   const createEditor = createEditorFactory();
 
-  const editor = (doc: any, uploadErrorHandler?: () => void) =>
+  const editor = (doc: any) =>
     createEditor({
       doc,
       editorPlugins: [mediaPlugin(), mentionsPlugin(), rulePlugin],

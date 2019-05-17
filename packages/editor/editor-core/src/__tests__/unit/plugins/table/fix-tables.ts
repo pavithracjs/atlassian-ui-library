@@ -30,7 +30,7 @@ describe('fix tables', () => {
     } as PluginConfig;
     return createEditor({
       doc,
-      editorPlugins: [tablesPlugin(tableOptions)],
+      editorPlugins: [tablesPlugin()],
       editorProps: {
         allowTables: tableOptions,
       },

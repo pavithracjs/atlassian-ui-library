@@ -55,7 +55,7 @@ describe('@atlaskit/editor-core/ui/Extension', () => {
     const GalleryComponent = () => <div>Gallery Extension</div>;
 
     const extensionHandlers: ExtensionHandlers = {
-      'com.atlassian.confluence.macro.core': (ext, doc) => {
+      'com.atlassian.confluence.macro.core': ext => {
         if (ext.extensionKey === 'gallery') {
           return <GalleryComponent />;
         }
@@ -96,7 +96,7 @@ describe('@atlaskit/editor-core/ui/Extension', () => {
       throw new Error('invalid extension');
     };
     const extensionHandlers: ExtensionHandlers = {
-      'com.atlassian.confluence.macro.core': (ext, doc) => {
+      'com.atlassian.confluence.macro.core': ext => {
         if (ext.extensionKey === 'gallery') {
           expect(invalidExtensions).toThrow('invalid extension');
         }

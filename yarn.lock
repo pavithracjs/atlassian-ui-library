@@ -1577,6 +1577,20 @@
   dependencies:
     "@types/lodash" "*"
 
+"@types/lodash.flow@^3.5.6":
+  version "3.5.6"
+  resolved "https://registry.yarnpkg.com/@types/lodash.flow/-/lodash.flow-3.5.6.tgz#ecbdae376e610313ac6361430f2f59a8dc9a813f"
+  integrity sha512-mpSgC8s1alwO8I5223G//0vSt1BTR395TdxbkprAUgedRaW71Ew9ajSIjk9hsSpWxGki6ExPDnI3zKeJjyeHwQ==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash.property@^4.4.6":
+  version "4.4.6"
+  resolved "https://registry.yarnpkg.com/@types/lodash.property/-/lodash.property-4.4.6.tgz#b8f0860057e00142097893476f9dd5f47da9029c"
+  integrity sha512-OjdP0l0BiDDsqDp8z6OFxYiWjk2qCoCA29rJ5M9Qn/Jir0/KibqDmf7gDDu8pDXJg+sWNJ3fpYTdegBmIwVYTg==
+  dependencies:
+    "@types/lodash" "*"
+
 "@types/lodash.sample@^4.2.4":
   version "4.2.5"
   resolved "https://registry.yarnpkg.com/@types/lodash.sample/-/lodash.sample-4.2.5.tgz#cd9beed7daf60ccc578202d0beacefa5ef51d831"
@@ -1726,9 +1740,9 @@
     "@types/prosemirror-transform" "*"
     "@types/prosemirror-view" "*"
 
-"@types/prosemirror-tables@^0.1.3":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@types/prosemirror-tables/-/prosemirror-tables-0.1.3.tgz#7684761966361a2b6b767272903015e943079726"
+"@types/prosemirror-tables@^0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@types/prosemirror-tables/-/prosemirror-tables-0.8.0.tgz#b31de2f928024608cf20880b9e133f01daa5035a"
   dependencies:
     "@types/prosemirror-model" "*"
     "@types/prosemirror-state" "*"
@@ -11027,7 +11041,7 @@ lodash.flattendeep@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz#fb030917f86a3134e5bc9bec0d69e0013ddfedb2"
 
-lodash.flow@^3.3.0:
+lodash.flow@^3.3.0, lodash.flow@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/lodash.flow/-/lodash.flow-3.5.0.tgz#87bf40292b8cf83e4e8ce1a3ae4209e20071675a"
 
@@ -11132,6 +11146,11 @@ lodash.pluck@^3.1.2:
     lodash._topath "^3.0.0"
     lodash.isarray "^3.0.0"
     lodash.map "^3.0.0"
+
+lodash.property@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/lodash.property/-/lodash.property-4.4.2.tgz#da07124821c6409d025f30db8df851314515bffe"
+  integrity sha1-2gcSSCHGQJ0CXzDbjfhRMUUVv/4=
 
 lodash.reduce@^4.4.0:
   version "4.6.0"
@@ -13979,9 +13998,9 @@ prosemirror-state@>=1.0.0, prosemirror-state@^1.0.0, prosemirror-state@^1.2.2:
     prosemirror-model "^1.0.0"
     prosemirror-transform "^1.0.0"
 
-prosemirror-tables@^0.7.10:
-  version "0.7.10"
-  resolved "https://registry.yarnpkg.com/prosemirror-tables/-/prosemirror-tables-0.7.10.tgz#4b0f623422b4b8f84cdc9c559f8a87579846b3ba"
+prosemirror-tables@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/prosemirror-tables/-/prosemirror-tables-0.8.0.tgz#30d3adb388b3310b47605e615753521a2a4ca77c"
   dependencies:
     prosemirror-keymap "^1.0.0"
     prosemirror-model "^1.0.0"

@@ -18,7 +18,7 @@ export default function Breakout(props: {
 }) {
   return (
     <WidthConsumer>
-      {({ width, breakpoint }) => (
+      {({ width }) => (
         <Wrapper
           data-mode={props.mode}
           style={{ width: calcBreakoutWidth(props.mode, width) }}

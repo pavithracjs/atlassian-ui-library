@@ -15,10 +15,7 @@ import {
   AnalyticsEventPayload,
 } from '../../analytics';
 
-export function createLinkInputRule(
-  regexp: RegExp,
-  formatUrl: (url: string[]) => string,
-): InputRule {
+export function createLinkInputRule(regexp: RegExp): InputRule {
   // Plain typed text (eg, typing 'www.google.com') should convert to a hyperlink
   return createInputRule(
     regexp,
@@ -71,10 +68,7 @@ export function createInputRulePlugin(schema: Schema): Plugin | undefined {
     return;
   }
 
-  const urlWithASpaceRule = createLinkInputRule(
-    new LinkMatcher() as RegExp,
-    match => (match[3] ? match[1] : `https?://${match[1]}`),
-  );
+  const urlWithASpaceRule = createLinkInputRule(new LinkMatcher() as RegExp);
 
   // [something](link) should convert to a hyperlink
   const markdownLinkRule = createInputRule(

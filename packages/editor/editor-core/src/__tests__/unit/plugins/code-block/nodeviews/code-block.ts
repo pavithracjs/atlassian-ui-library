@@ -23,7 +23,7 @@ describe('Code Block - NodeView', () => {
   describe('on initial render', () => {
     it('should render a contentDOM of `code` inside `pre`', () => {
       const node = codeBlock()('this is code');
-      const nodeView = codeBlockNodeView(node, null as any, () => -1);
+      const nodeView = codeBlockNodeView(node);
 
       expect(nodeView.contentDOM.tagName).toBe('CODE');
       expect(nodeView.contentDOM.parentElement!.tagName).toBe('PRE');
@@ -31,7 +31,7 @@ describe('Code Block - NodeView', () => {
 
     it('should render language on contentDOM as `data-language`', () => {
       const node = codeBlock({ language: 'custom' })('this is code');
-      const nodeView = codeBlockNodeView(node, null as any, () => -1);
+      const nodeView = codeBlockNodeView(node);
       expect(nodeView.contentDOM.getAttribute('data-language')).toBe('custom');
     });
   });
@@ -39,13 +39,13 @@ describe('Code Block - NodeView', () => {
   describe('#update', () => {
     it('should update if node is the same', () => {
       const node = codeBlock()('this is code');
-      const nodeView = codeBlockNodeView(node, null as any, () => -1);
+      const nodeView = codeBlockNodeView(node);
       expect(nodeView.update(node)).toBeTruthy();
     });
 
     it('should update line numbers if node has changed', () => {
       const oldNode = codeBlock()('this is code');
-      const nodeView = codeBlockNodeView(oldNode, null as any, () => -1);
+      const nodeView = codeBlockNodeView(oldNode);
       waitForAnimationFrame();
       expect(nodeView.lineNumberGutter.childElementCount).toBe(1);
 
@@ -57,7 +57,7 @@ describe('Code Block - NodeView', () => {
 
     it('should update language on contentDOM if changed', () => {
       const oldNode = codeBlock({ language: 'custom' })('this is code');
-      const nodeView = codeBlockNodeView(oldNode, null as any, () => -1);
+      const nodeView = codeBlockNodeView(oldNode);
       waitForAnimationFrame();
 
       const newNode = codeBlock({ language: 'different' })('this is code');
@@ -72,26 +72,26 @@ describe('Code Block - NodeView', () => {
   describe('line numbers', () => {
     it('should delay updating lineNumbers until the next animation frame', () => {
       const node = codeBlock()('this is code');
-      const nodeView = codeBlockNodeView(node, null as any, () => -1);
+      const nodeView = codeBlockNodeView(node);
       expect(nodeView.lineNumberGutter.childElementCount).toBe(0);
       waitForAnimationFrame();
       expect(nodeView.lineNumberGutter.childElementCount).toBe(1);
     });
     it('should render one spans in lineNumberGutter when node text has no newlines', () => {
       const node = codeBlock()('this is code');
-      const nodeView = codeBlockNodeView(node, null as any, () => -1);
+      const nodeView = codeBlockNodeView(node);
       waitForAnimationFrame();
       expect(nodeView.lineNumberGutter.childElementCount).toBe(1);
     });
     it('should render two spans in lineNumberGutter when node text has one newline', () => {
       const node = codeBlock()('this is code\nwith a newline');
-      const nodeView = codeBlockNodeView(node, null as any, () => -1);
+      const nodeView = codeBlockNodeView(node);
       waitForAnimationFrame();
       expect(nodeView.lineNumberGutter.childElementCount).toBe(2);
     });
     it('should render one span in lineNumberGutter when node has two newline-less text children', () => {
       const node = codeBlock()('this is code', 'and more text');
-      const nodeView = codeBlockNodeView(node, null as any, () => -1);
+      const nodeView = codeBlockNodeView(node);
       waitForAnimationFrame();
       expect(nodeView.lineNumberGutter.childElementCount).toBe(1);
     });
@@ -100,7 +100,7 @@ describe('Code Block - NodeView', () => {
   describe('#ignoreMutation', () => {
     it('should ignore any mutation to the lineNumberGutter dom', () => {
       const node = codeBlock()('this is code');
-      const nodeView = codeBlockNodeView(node, null as any, () => -1);
+      const nodeView = codeBlockNodeView(node);
       waitForAnimationFrame();
 
       const mutation: MutationRecord = {
@@ -110,7 +110,7 @@ describe('Code Block - NodeView', () => {
     });
     it('should ignore mutation when lineNumberGutter children change', () => {
       const node = codeBlock()('this is code');
-      const nodeView = codeBlockNodeView(node, null as any, () => -1);
+      const nodeView = codeBlockNodeView(node);
       waitForAnimationFrame();
 
       const mutation: MutationRecord = {
@@ -120,7 +120,7 @@ describe('Code Block - NodeView', () => {
     });
     it('should not ignore any mutation to the contentDOM', () => {
       const node = codeBlock()('this is code');
-      const nodeView = codeBlockNodeView(node, null as any, () => -1);
+      const nodeView = codeBlockNodeView(node);
       waitForAnimationFrame();
 
       const mutation: MutationRecord = {

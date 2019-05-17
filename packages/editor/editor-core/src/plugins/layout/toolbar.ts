@@ -105,7 +105,7 @@ export const buildToolbar = (
   state: EditorState,
   intl: InjectedIntl,
   pos: number,
-  allowBreakout: boolean,
+  _allowBreakout: boolean,
   addSidebarLayouts: boolean,
 ): FloatingToolbarConfig | undefined => {
   const node = state.doc.nodeAt(pos);
@@ -143,4 +143,5 @@ export const buildToolbar = (
       ],
     };
   }
+  return;
 };

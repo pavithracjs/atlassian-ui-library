@@ -52,7 +52,7 @@ export const createPlugin = ({ dispatch }: PMPluginFactoryParams) =>
       },
     },
     key: pluginKey,
-    view: (view: EditorView) => {
+    view: () => {
       return {
         update: (view: EditorView) => {
           const {
@@ -82,6 +82,7 @@ export const createPlugin = ({ dispatch }: PMPluginFactoryParams) =>
           dispatch(pluginKey, {
             ...pluginState,
           });
+          return;
         },
       };
     },
@@ -90,7 +91,7 @@ export const createPlugin = ({ dispatch }: PMPluginFactoryParams) =>
         codeBlock: codeBlockNodeView,
       },
       handleDOMEvents: {
-        blur(view: EditorView, event) {
+        blur(view: EditorView) {
           const pluginState = getPluginState(view.state);
           if (pluginState.toolbarVisible) {
             setPluginState({

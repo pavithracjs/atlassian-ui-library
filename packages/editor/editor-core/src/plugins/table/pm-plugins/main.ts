@@ -4,7 +4,6 @@ import { EditorView, DecorationSet } from 'prosemirror-view';
 
 import { browser } from '@atlaskit/editor-common';
 import { Dispatch } from '../../../event-dispatcher';
-import { EventDispatcher } from '../../../event-dispatcher';
 import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { pluginFactory } from '../../../utils/plugin-state-factory';
 
@@ -65,7 +64,6 @@ const { createPluginState, createCommand, getPluginState } = pluginFactory(
 export const createPlugin = (
   dispatch: Dispatch,
   portalProviderAPI: PortalProviderAPI,
-  eventDispatcher: EventDispatcher,
   pluginConfig: PluginConfig,
   isContextMenuEnabled?: boolean,
   dynamicTextSizing?: boolean,
@@ -103,6 +101,7 @@ export const createPlugin = (
       if (transactions.find(tr => tr.docChanged)) {
         return fixTables(newState.tr);
       }
+      return;
     },
     view: (editorView: EditorView) => {
       const domAtPos = editorView.domAtPos.bind(editorView);
@@ -131,7 +130,7 @@ export const createPlugin = (
     props: {
       decorations: state => getPluginState(state).decorationSet,
 
-      handleClick: ({ state, dispatch }, pos, event: MouseEvent) => {
+      handleClick: ({ state, dispatch }, _pos, event: MouseEvent) => {
         const { decorationSet } = getPluginState(state);
         if (findControlsHoverDecoration(decorationSet).length) {
           clearHoverSelection()(state, dispatch);

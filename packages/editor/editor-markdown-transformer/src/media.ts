@@ -40,12 +40,7 @@ function createRule() {
    * This is applied before the inline content is parsed, to ensure that the formatting of
    * remaining inline content (bold, links, etc.) is kept intact!
    */
-  return function media(
-    State: MdState,
-    startLine: number,
-    endLine: number,
-    silent?: boolean,
-  ) {
+  return function media(State: MdState) {
     const getUrl = (str: string) => {
       const res = State.md.helpers.parseLinkDestination(
         str,

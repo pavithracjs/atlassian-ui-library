@@ -39,7 +39,7 @@ export class MockMacroProvider implements MacroProvider {
     this.mockExtensionData = mockExtensionData;
   }
 
-  openMacroBrowser(macroNode?: PmNode): Promise<MacroAttributes> {
+  openMacroBrowser(_macroNode?: PmNode): Promise<MacroAttributes> {
     return Promise.resolve(this.mockExtensionData);
   }
 

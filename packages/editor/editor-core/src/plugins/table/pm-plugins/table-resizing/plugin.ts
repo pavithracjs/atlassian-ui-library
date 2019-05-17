@@ -45,7 +45,7 @@ export function createPlugin(
     key: pluginKey,
     state: {
       init: () => new ResizeState(-1, null),
-      apply(tr, pluginState: ResizeState, prevState, state) {
+      apply(tr, pluginState: ResizeState, _prevState, state) {
         const newPluginState = pluginState.apply(tr, state);
 
         if (

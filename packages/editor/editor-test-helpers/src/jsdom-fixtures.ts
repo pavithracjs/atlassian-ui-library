@@ -15,7 +15,7 @@ export class NullSelectionReader {
   }
 
   // Store the current state of the DOM selection.
-  storeDOMState(selection: any) {
+  storeDOMState(_selection: any) {
     this.warnOnce();
   }
 
@@ -26,7 +26,7 @@ export class NullSelectionReader {
   // : (?string) → bool
   // When the DOM selection changes in a notable manner, modify the
   // current selection state to match.
-  readFromDOM(origin: any) {
+  readFromDOM(_origin: any) {
     this.warnOnce();
     return true;
   }
@@ -60,9 +60,9 @@ export default (editorView: any) => {
 
   // Do nothing to update selection
   (editorView as any).setSelection = function(
-    anchor: any,
-    head: any,
-    root: any,
+    _anchor: any,
+    _head: any,
+    _root: any,
   ) {
     warnOnce();
   };

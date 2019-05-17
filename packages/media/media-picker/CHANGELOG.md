@@ -1,5 +1,10 @@
 # @atlaskit/media-picker
 
+## 42.0.2
+- [patch] [168df43047](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/168df43047):
+
+  - Fix clipboard component deactivation logic when used in multiple contexts.
+
 ## 42.0.1
 - Updated dependencies [ed3f034232](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed3f034232):
   - @atlaskit/media-card@63.0.2

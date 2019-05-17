@@ -375,7 +375,7 @@ describe('Renderer - React/Nodes', () => {
         content: [grinEmoji],
       });
 
-      expect(isEmojiDoc(content, {})).toEqual(false);
+      expect(isEmojiDoc(content)).toEqual(false);
     });
   });
 

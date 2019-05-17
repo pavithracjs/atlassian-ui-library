@@ -28,6 +28,7 @@ export const domIndex = function(node: Node | null): number | undefined {
       }
     }
   }
+  return;
 };
 
 export const shallowEqual = (obj1: any, obj2: any) => {
@@ -85,7 +86,7 @@ export const anyMarkActive = (
 const blockStylingIsPresent = (state: EditorState): boolean => {
   let { from, to } = state.selection;
   let isBlockStyling = false;
-  state.doc.nodesBetween(from, to, (node, pos) => {
+  state.doc.nodesBetween(from, to, node => {
     if (FORMATTING_NODE_TYPES.indexOf(node.type.name) !== -1) {
       isBlockStyling = true;
       return false;
