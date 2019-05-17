@@ -41,7 +41,7 @@ import {
 } from './fullscreen';
 import { injectIntl, InjectedIntlProps } from 'react-intl';
 import { messages } from '../messages';
-import subscribeSimultaneousPlay, {
+import simultaneousPlayManager, {
   SimultaneousPlaySubscription,
 } from './simultaneousPlayManager';
 
@@ -86,7 +86,7 @@ export class CustomMediaPlayer extends Component<
 
   constructor(props: CustomMediaPlayerPropsInternal) {
     super(props);
-    this.simultaneousPlay = subscribeSimultaneousPlay(this.pause);
+    this.simultaneousPlay = simultaneousPlayManager.subscribe(this.pause);
   }
 
   componentDidMount() {
@@ -246,7 +246,9 @@ export class CustomMediaPlayer extends Component<
       onError,
     } = this.props;
 
-    if (isAutoPlay) this.simultaneousPlay.onPlay();
+    if (isAutoPlay) {
+      this.simultaneousPlay.onPlay();
+    }
 
     return (
       <CustomVideoWrapper innerRef={this.saveVideoWrapperRef}>

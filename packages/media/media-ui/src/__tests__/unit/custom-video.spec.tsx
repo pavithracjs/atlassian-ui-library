@@ -15,6 +15,21 @@ import { toggleFullscreen } from '../../customMediaPlayer/fullscreen';
 import { TimeRange, TimeRangeProps } from '../../customMediaPlayer/timeRange';
 import { CurrentTime } from '../../customMediaPlayer/styled';
 import { Shortcut } from '../../';
+import simultaneousPlayManager, {
+  SimultaneousPlaySubscription,
+} from '../../customMediaPlayer/simultaneousPlayManager';
+
+// Removes errors from JSDOM virtual console
+// Trick taken from https://github.com/jsdom/jsdom/issues/2155
+const mockJSDOMVideosupport = () => {
+  window.HTMLMediaElement.prototype.play = () => {
+    /* do nothing */
+  };
+  window.HTMLMediaElement.prototype.pause = () => {
+    /* do nothing */
+  };
+};
+mockJSDOMVideosupport();
 
 describe('<CustomMediaPlayer />', () => {
   const setup = (props?: Partial<CustomMediaPlayerProps>) => {
@@ -232,6 +247,51 @@ describe('<CustomMediaPlayer />', () => {
         isAutoPlay: false,
       });
       expect(component.find({ autoPlay: true })).toHaveLength(0);
+    });
+  });
+
+  describe('simultaneous play', () => {
+    let subscription: SimultaneousPlaySubscription;
+    const origSubscribe = simultaneousPlayManager.subscribe;
+
+    beforeEach(() => {
+      subscription = {
+        onPlay: jest.fn(),
+        unsubscribe: jest.fn(),
+      };
+      simultaneousPlayManager.subscribe = jest
+        .fn()
+        .mockReturnValue(subscription);
+    });
+
+    afterAll(() => {
+      simultaneousPlayManager.subscribe = origSubscribe;
+    });
+
+    it('should subscribe to Simultaneous Play Manager', () => {
+      setup();
+      expect(simultaneousPlayManager.subscribe).toBeCalledTimes(1);
+    });
+
+    it('should unsubscribe from Simultaneous Play Manager on unmount', () => {
+      const { component } = setup();
+      component.unmount();
+      expect(subscription.unsubscribe).toBeCalledTimes(1);
+    });
+
+    it('should trigger Simultaneous Play onClick callback when click play button', () => {
+      const { component } = setup({ isAutoPlay: false });
+
+      component
+        .find(Button)
+        .at(0)
+        .simulate('click');
+      expect(subscription.onPlay).toHaveBeenCalledTimes(1);
+    });
+
+    it('should trigger Simultaneous Play onClick callback if autoplay in ON', () => {
+      setup({ isAutoPlay: true });
+      expect(subscription.onPlay).toHaveBeenCalledTimes(1);
     });
   });
 });

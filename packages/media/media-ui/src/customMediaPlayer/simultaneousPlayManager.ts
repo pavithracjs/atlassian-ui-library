@@ -5,25 +5,29 @@ export type SimultaneousPlaySubscription = {
   unsubscribe: voidfn;
 };
 
-const playersPause = new Map<voidfn, voidfn>();
+export default class SPM {
+  // Simultaneous Play Manager
+  static playersPause = new Map<voidfn, voidfn>();
 
-const onPlayerPlay = (pause: voidfn): void => {
-  playersPause.forEach(playerPause => {
-    if (playerPause !== pause) playerPause();
-  });
-};
-
-const unsubscribePlayer = (pause: voidfn) => {
-  playersPause.delete(pause);
-};
-
-export default (pause: voidfn): SimultaneousPlaySubscription => {
-  console.log('me llego esta pause', pause);
-  if (!playersPause.get(pause)) {
-    playersPause.set(pause, pause);
-  }
-  return {
-    onPlay: () => onPlayerPlay(pause),
-    unsubscribe: () => unsubscribePlayer(pause),
+  static subscribe = (pause: voidfn): SimultaneousPlaySubscription => {
+    if (!SPM.playersPause.get(pause)) {
+      SPM.playersPause.set(pause, pause);
+    }
+    return {
+      onPlay: () => SPM.onPlay(pause),
+      unsubscribe: () => SPM.unsubscribe(pause),
+    };
   };
-};
+
+  private static unsubscribe = (pause: voidfn) => {
+    SPM.playersPause.delete(pause);
+  };
+
+  private static onPlay = (pause: voidfn): void => {
+    SPM.playersPause.forEach(playerPause => {
+      if (playerPause !== pause) playerPause();
+    });
+  };
+
+  private constructor() {}
+}
