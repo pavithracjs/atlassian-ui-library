@@ -1,1 +1,0 @@
-- ED-6466: (ED-6599) fix undo with cmd+z after scaling table columns by applying new widths to cells in one go

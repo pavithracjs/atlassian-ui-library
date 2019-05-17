@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.2.5
+- [patch] [85328a0d76](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/85328a0d76):
+
+  - ED-6466: (ED-6599) fix undo with cmd+z after scaling table columns by applying new widths to cells in one go
+
 ## 112.2.4
 - [patch] [12aa76d5b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/12aa76d5b5):
 
