@@ -16,8 +16,12 @@ import {
 } from '@atlaskit/editor-common';
 import { CardEvent } from '@atlaskit/media-card';
 import { findParentNodeOfTypeClosestToPos } from 'prosemirror-utils';
-import { stateKey, MediaPluginState } from '../pm-plugins/main';
+import {
+  stateKey as mediaStateKey,
+  MediaPluginState,
+} from '../pm-plugins/main';
 import { SelectionBasedNodeView } from '../../../nodeviews/ReactNodeView';
+import { ProsemirrorGetPosHandler } from '../../../nodeviews';
 import MediaItem from './media';
 import WithPluginState from '../../../ui/WithPluginState';
 import { pluginKey as widthPluginKey } from '../../width';
@@ -32,12 +36,12 @@ import { PortalProviderAPI } from '../../../ui/PortalProvider';
 import { NodeSelection } from 'prosemirror-state';
 
 export interface MediaSingleNodeProps {
-  node: PMNode;
-  eventDispatcher: EventDispatcher;
   view: EditorView;
+  node: PMNode;
+  getPos: ProsemirrorGetPosHandler;
+  eventDispatcher: EventDispatcher;
   width: number;
   selected: Function;
-  getPos: () => number;
   lineLength: number;
   editorAppearance: EditorAppearance;
   mediaProvider?: Promise<MediaProvider>;
@@ -57,14 +61,14 @@ export default class MediaSingleNode extends Component<
   private mediaPluginState: MediaPluginState;
 
   state = {
-    height: undefined,
     width: undefined,
+    height: undefined,
     viewContext: undefined,
   };
 
   constructor(props: MediaSingleNodeProps) {
     super(props);
-    this.mediaPluginState = stateKey.getState(
+    this.mediaPluginState = mediaStateKey.getState(
       this.props.view.state,
     ) as MediaPluginState;
   }
@@ -233,10 +237,14 @@ export default class MediaSingleNode extends Component<
       pctWidth: mediaSingleWidth,
     };
 
+    const uploadComplete = this.mediaPluginState.isMobileUploadCompleted(
+      childNode.attrs.id,
+    );
+
     const MediaChild = (
       <MediaItem
-        node={childNode}
         view={this.props.view}
+        node={childNode}
         getPos={this.props.getPos}
         cardDimensions={cardDimensions}
         viewContext={this.state.viewContext}
@@ -244,6 +252,7 @@ export default class MediaSingleNode extends Component<
         onClick={this.selectMediaSingle}
         onExternalImageLoaded={this.onExternalImageLoaded}
         editorAppearance={editorAppearance}
+        uploadComplete={uploadComplete}
       />
     );
 
@@ -321,7 +330,7 @@ class MediaSingleNodeView extends SelectionBasedNodeView {
       editorAppearance,
       fullWidthMode,
     } = this.reactComponentProps;
-    const mediaPluginState = stateKey.getState(
+    const mediaPluginState = mediaStateKey.getState(
       this.view.state,
     ) as MediaPluginState;
 

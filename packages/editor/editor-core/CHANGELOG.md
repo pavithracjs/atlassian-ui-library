@@ -1,5 +1,10 @@
 # @atlaskit/editor-core
 
+## 112.2.4
+- [patch] [12aa76d5b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/12aa76d5b5):
+
+  - ED-6814: fixed rendering mediaSingle without collection
+
 ## 112.2.3
 - [patch] [5fd9727f51](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/5fd9727f51):
 
