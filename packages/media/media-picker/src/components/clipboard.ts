@@ -42,10 +42,16 @@ export class ClipboardImpl extends LocalUploadComponent implements Clipboard {
   }
 
   public deactivate(): void {
-    document.removeEventListener('paste', ClipboardImpl.handleEvent);
     const index = ClipboardImpl.instances.indexOf(this);
     if (index > -1) {
       ClipboardImpl.instances.splice(index, 1);
+    } else {
+      /**
+       * We want to remove the handleEvent only when there are no more instances.
+       * Since handleEvent is static, if we remove it right away, and there is still an active instance,
+       * we will loose the clipboard functionality.
+       */
+      document.removeEventListener('paste', ClipboardImpl.handleEvent);
     }
   }
 

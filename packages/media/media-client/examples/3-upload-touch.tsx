@@ -45,7 +45,7 @@ class Example extends React.Component<{}, State> {
       result: null,
     };
     this.store = new MediaStore({
-      authProvider: context.mediaClientConfig.authProvider,
+      authProvider: context.config.authProvider,
     });
   }
 

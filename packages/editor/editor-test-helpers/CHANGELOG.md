@@ -1,5 +1,10 @@
 # @atlaskit/editor-test-helpers
 
+## 9.3.1
+- [patch] [ed02efdb94](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ed02efdb94):
+
+  - [ED-6817] Extract the current toggleHeader logic to prosemirror-table 0.8.0
+
 ## 9.3.0
 - [minor] [79f0ef0601](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/79f0ef0601):
 

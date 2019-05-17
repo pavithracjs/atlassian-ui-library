@@ -1,5 +1,10 @@
 # @atlaskit/datetime-picker
 
+## 8.0.2
+- [patch] [06819642ba](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/06819642ba):
+
+  - Internal refactor and clean up
+
 ## 8.0.1
 - [patch] [21854842b5](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/21854842b5):
 

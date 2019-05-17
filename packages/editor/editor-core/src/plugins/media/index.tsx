@@ -32,6 +32,7 @@ import { IconImages } from '../quick-insert/assets';
 import CustomSmartMediaEditor from './ui/CustomSmartMediaEditor';
 
 export { MediaState, MediaProvider, CustomMediaPicker };
+export { insertMediaSingleNode } from './utils/media-single';
 
 export interface MediaOptions {
   provider?: Promise<MediaProvider>;

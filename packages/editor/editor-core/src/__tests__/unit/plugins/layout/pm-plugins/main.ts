@@ -381,6 +381,10 @@ describe('layout', () => {
             layoutColumn({ width: 55 })(p('Overfl{<>}ow')),
             layoutColumn({ width: 55 })(p('Column')),
           ),
+          layoutSection(
+            layoutColumn({ width: 33.33 })(p('Not Overflow')),
+            layoutColumn({ width: 66.66 })(p('Column')),
+          ),
         ),
       );
 
@@ -389,6 +393,10 @@ describe('layout', () => {
           layoutSection(
             layoutColumn({ width: 50 })(p('Overfl{<>}ow')),
             layoutColumn({ width: 50 })(p('Column')),
+          ),
+          layoutSection(
+            layoutColumn({ width: 33.33 })(p('Not Overflow')),
+            layoutColumn({ width: 66.66 })(p('Column')),
           ),
         ),
       );
@@ -410,6 +418,36 @@ describe('layout', () => {
       const newState = editorView.state.apply(tr);
 
       expect(newState.doc).toEqualDocument(threeColDoc);
+    });
+
+    it(`doesnt change valid layouts on document mount`, () => {
+      const { editorView } = editor(
+        doc(
+          layoutSection(
+            layoutColumn({ width: 25 })(p('Left Sidebar{<>}')),
+            layoutColumn({ width: 50 })(p('Middle')),
+            layoutColumn({ width: 25 })(p('Right Sidebar')),
+          ),
+          layoutSection(
+            layoutColumn({ width: 33.33 })(p('Left sidebar')),
+            layoutColumn({ width: 66.66 })(p('Content')),
+          ),
+        ),
+      );
+
+      expect(editorView.state.doc).toEqualDocument(
+        doc(
+          layoutSection(
+            layoutColumn({ width: 25 })(p('Left Sidebar{<>}')),
+            layoutColumn({ width: 50 })(p('Middle')),
+            layoutColumn({ width: 25 })(p('Right Sidebar')),
+          ),
+          layoutSection(
+            layoutColumn({ width: 33.33 })(p('Left sidebar')),
+            layoutColumn({ width: 66.66 })(p('Content')),
+          ),
+        ),
+      );
     });
   });
 });

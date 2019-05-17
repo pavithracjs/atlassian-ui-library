@@ -1,5 +1,10 @@
 ## 0.1.0
 
+## 0.5.1
+- [patch] [ccacfe8570](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/ccacfe8570):
+
+  - Updated help-article version
+
 ## 0.5.0
 - [minor] [88b9f3568b](https://bitbucket.org/atlassian/atlaskit-mk-2/commits/88b9f3568b):
 
